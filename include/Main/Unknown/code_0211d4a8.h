@@ -10,7 +10,7 @@ extern SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[];
 
 // Fixed-address object read by MoveSelectRaceRuleRowPrevious and MoveSelectRaceRuleRowNext.
 typedef struct Unk027ffc40 {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 field0;
 } Unk027ffc40;
 
 void MoveSelectRaceRuleRowPrevious(void);

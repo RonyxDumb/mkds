@@ -17,7 +17,7 @@ typedef struct NNSSndSeqPlayer {
     /* 2f */ u8 mPrepareFlag;
     /* 30 */ u32 mCommandTag;
     /* 34 */ u16 mSeqType;
-    /* 36 */ u8 mUnk_36[2];
+    /* 36 */ u8 field36[2];
     /* 38 */ u16 mSeqNo;
     /* 3a */ u16 mSeqArcIndex;
     /* 3c */ u8 mPlayerNo;
@@ -25,19 +25,19 @@ typedef struct NNSSndSeqPlayer {
     /* 3e */ s16 mVolume;
     /* 40 */ u8 mInitVolume;
     /* 41 */ u8 mExtVolume;
-    /* 42 */ u8 mUnk_42[2];
+    /* 42 */ u8 field42[2];
 } NNSSndSeqPlayer;
 
 #include "code_0212d214.h"
 
-// Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on mUnk_14, mPlayerNo
+// Memory NNS_SndPlayerCreateHeap gets from NNS_SndHeapAlloc: mHandle is the NNSSndHeap it sets up on field14, mPlayerNo
 // the index of the data_0217d89c element whose heap list receives it.
 typedef struct NNSSndPlayerHeap {
     /* 00 */ u8 mLink[8];
     /* 08 */ NNSSndHeap *mHandle;
     /* 0c */ NNSSndSeqPlayer *mPlayer;
     /* 10 */ u32 mPlayerNo;
-    /* 14 */ u8 mUnk_14[1];
+    /* 14 */ u8 field14[1];
 } NNSSndPlayerHeap;
 
 #include "code_0212c7a0.h" // NNSSndPlayer

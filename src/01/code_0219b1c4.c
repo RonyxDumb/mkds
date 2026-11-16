@@ -8,7 +8,7 @@
 
 void func_ov001_0219b208(Unk0219b250 *a, s32 b, s32 c, s32 d) {
     anim_setAnimWithBlend(a->mNsbcaAnimation, b);
-    a->mNsbcaAnimation->mUnk_08 = c;
+    a->mNsbcaAnimation->field8 = c;
     anim_setLoop(a->mNsbcaAnimation, ((u16) b), (d != 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1));
 }
 
@@ -18,6 +18,6 @@ void func_ov001_0219b1fc(Unk0219b250 *a) {
 
 void func_ov001_0219b1c4(Unk0219b250 *a, s32 b, s32 c, s32 d) {
     anim_setAnimWithBlend(a->mNsbtaAnimation, b);
-    a->mNsbtpAnimation->mUnk_08 = c;
+    a->mNsbtpAnimation->field8 = c;
     anim_setLoop(a->mNsbtaAnimation, ((u16) b), (d != 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1));
 }

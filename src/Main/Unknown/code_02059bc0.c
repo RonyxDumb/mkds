@@ -38,12 +38,12 @@ static inline void func_0205a140_inline(s32 entryIndex, s32 overlayId, u32 start
 void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
     s32 t;
 
-    a->mUnk_0e = 0;
-    t = gStruct217AA14->mUnk_728;
-    a->mUnk_0c = 2;
-    a->mUnk_00 = b;
-    a->mUnk_08 = t + 0x78;
-    a->mUnk_04 = 0x13;
+    a->fieldE = 0;
+    t = gStruct217AA14->field728;
+    a->fieldC = 2;
+    a->field0 = b;
+    a->field8 = t + 0x78;
+    a->field4 = 0x13;
 }
 
 void func_0205a350(void) {
@@ -54,26 +54,26 @@ void func_0205a350(void) {
 
     for (i = 0; i < 4; i++) {
         if (func_0205a50c(i) != 0) {
-            p = &gStruct217AA14->mUnk_104[i].mUnk_68_view;
+            p = &gStruct217AA14->field104[i].mUnk_68_view;
             h = func_0205a4e8(i, i);
-            switch (p->mUnk_0c) {
+            switch (p->fieldC) {
                 case 0:
-                    if (h->mUnk_00_12 == 2) {
+                    if (h->field0_12 == 2) {
                         func_0205a71c(i);
-                        func_0205a4b0(p, h->mUnk_00_7);
+                        func_0205a4b0(p, h->field0_7);
                     }
                     break;
                 case 2:
-                    d = p->mUnk_08 - gStruct217AA14->mUnk_728;
-                    if ((s32) p->mUnk_0e < 100) {
-                        func_0205a7dc(i, d, p->mUnk_00, 2);
-                        p->mUnk_0e = p->mUnk_0e + 1;
+                    d = p->field8 - gStruct217AA14->field728;
+                    if ((s32) p->fieldE < 100) {
+                        func_0205a7dc(i, d, p->field0, 2);
+                        p->fieldE = p->fieldE + 1;
                     } else if (d > 20) {
-                        func_0205a7dc(i, d, p->mUnk_00, 2);
+                        func_0205a7dc(i, d, p->field0, 2);
                     } else {
                         func_0205a7ac(i);
                         if (d <= 0) {
-                            p->mUnk_0c = 3;
+                            p->fieldC = 3;
                         }
                     }
                     break;
@@ -81,8 +81,8 @@ void func_0205a350(void) {
                     func_0205a534(p);
                     break;
                 case 4:
-                    if (h->mUnk_00_12 != 2) {
-                        p->mUnk_0c = 0;
+                    if (h->field0_12 != 2) {
+                        p->fieldC = 0;
                     }
                     break;
             }
@@ -94,9 +94,9 @@ s32 func_0205a310(s32 a) {
     BOOL r;
     Unk0217aa14_104 *e;
 
-    e = &gStruct217AA14->mUnk_104[a];
+    e = &gStruct217AA14->field104[a];
     r = FALSE;
-    if ((u16) (e->mUnk_74 + 0xffff) <= 1) {
+    if ((u16) (e->field74 + 0xffff) <= 1) {
         r = TRUE;
     }
     return r;
@@ -108,11 +108,11 @@ s32 func_0205a2ac(s32 a) {
 
     r = 0x13;
     f = FALSE;
-    if ((u16) (gStruct217AA14->mUnk_104[a].mUnk_74 + 0xffff) <= 1) {
+    if ((u16) (gStruct217AA14->field104[a].field74 + 0xffff) <= 1) {
         f = TRUE;
     }
     if (f == FALSE) {
-        r = gStruct217AA14->mUnk_104[a].mUnk_68;
+        r = gStruct217AA14->field104[a].field68;
     }
     return r;
 }

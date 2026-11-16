@@ -9,20 +9,20 @@
 // Object of kind 0x157 (TownMonte) with the MapObject base: two halfwords at 0xa0 and 0xa2, then three words
 // (tmon_update, tmon_globalInitLogic, tmon_render).
 typedef struct TownMonte {
-    /* 00 */ MapObject mUnk_00;
-// Frame of the .nsbtp animation chosen at random by tmon_globalInitLogic; frames 0 and 1 also set mUnk_a2 to 0x1a7
+    /* 00 */ MapObject field0;
+// Frame of the .nsbtp animation chosen at random by tmon_globalInitLogic; frames 0 and 1 also set fieldA2 to 0x1a7
 // and 0x1a8.
     /* a0 */ u16 mNsbtpFrameIndex;
     /* a2 */ u16 mSoundId;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* a4 */ s32 fieldA4;
+    /* a8 */ s32 fieldA8;
     /* ac */ s32 mMirror;
 } TownMonte;
 
 // Array of object pointers: pointer to the array and the number of entries (tmon_globalInitLogic).
 typedef struct Unk0209f800 {
-    /* 00 */ TownMonte **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ TownMonte **field0;
+    /* 04 */ u16 field4;
 } Unk0209f800;
 
 extern char aChandelier_nsb[];

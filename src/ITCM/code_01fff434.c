@@ -40,16 +40,16 @@ void it_driverUpdateItemStatus(KartItems *p) {
     }
     if (func_02068eac(q) != FALSE) {
         p->mKinokoBoostStarted = FALSE;
-        p->mUnk_208 = FALSE;
+        p->field208 = FALSE;
         return;
     }
     p->mKinokoBoostStarted = FALSE;
-    if (p->mUnk_20c != FALSE) {
-        if (func_01ffc67c(q) == FALSE && !(q->mUnk_48 & 0x10000) && (q->mUnk_44 & KART_44_ON_GROUND)) {
-            p->mUnk_20c = FALSE;
+    if (p->field20C != FALSE) {
+        if (func_01ffc67c(q) == FALSE && !(q->field48 & 0x10000) && (q->field44 & KART_44_ON_GROUND)) {
+            p->field20C = FALSE;
         }
-    } else if (func_01ffc67c(q) != FALSE || (q->mUnk_48 & 0x10000)) {
-        p->mUnk_20c = TRUE;
+    } else if (func_01ffc67c(q) != FALSE || (q->field48 & 0x10000)) {
+        p->field20C = TRUE;
     } else {
         func_01fff524(p);
         p->mFlags |= data_021595d4;
@@ -71,7 +71,7 @@ void it_driverUpdateItemStatus(KartItems *p) {
             SetHeldItem(b, k);
         }
     }
-    if (p->mKartIndex == race_getFrameCounterModulo8() && (r = &p->mUnk_1f0)->mLink != NULL) {
+    if (p->mKartIndex == race_getFrameCounterModulo8() && (r = &p->field1F0)->mLink != NULL) {
         q = p->mKart;
         v = &q->mDrawMatrixPos;
         PickNearestNearbyItemPointLink(r, r, v);
@@ -81,7 +81,7 @@ void it_driverUpdateItemStatus(KartItems *p) {
             FollowItemPointLinksToPos(r, r, v);
         }
     }
-    p->mUnk_208 = FALSE;
+    p->field208 = FALSE;
 }
 
 void func_01fff524(KartItems *p) {

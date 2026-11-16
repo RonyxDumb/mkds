@@ -6,11 +6,11 @@
 // object to func_ov000_021a3668.
 typedef struct GpiBuddyStatus {
     /* 00 */ s32 mIndex;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ void *mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 04 */ s32 field4;
+    /* 08 */ void *field8;
+    /* 0c */ void *fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ s32 field14;
 } GpiBuddyStatus;
 
 // Object behind the pointer whose address GpiWriteDelbuddyAndRemoveBuddy passes to GpiFindProfile; GpiIsProfileEmpty
@@ -19,10 +19,10 @@ typedef struct GpiProfile {
     /* 00 */ u32 mProfileId;
     /* 04 */ u32 mUserId;
     /* 08 */ GpiBuddyStatus *mBuddyStatus;
-    /* 0c */ struct Unk02192e04 *mUnk_0c;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 0c */ struct Unk02192e04 *fieldC;
+    /* 10 */ void *field10;
+    /* 14 */ s32 field14;
+    /* 18 */ void *field18;
 } GpiProfile;
 
 u32 GpiIsProfileEmpty(GpiProfile *a);

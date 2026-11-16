@@ -11,7 +11,7 @@ typedef struct NNSSndPlayer {
     /* 18 */ u32 mPlayableSeqCount;
     /* 1c */ u32 mAllocChBitFlag;
     /* 20 */ u8 mVolume;
-    /* 21 */ u8 mUnk_21[3];
+    /* 21 */ u8 field21[3];
 } NNSSndPlayer;
 
 void NNS_SndPlayerSetAllocatableChannel(u32 index, u32 channels);

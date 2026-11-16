@@ -81,7 +81,7 @@ s32 func_ov000_02194590(GpConnection *a, GpiPeer *b) {
                 GpiAppendBufferString(a, b->mOutputBuffer, data_ov000_021b34e0);
                 GpiAppendBufferString(a, b->mOutputBuffer, r->mNick);
                 GpiAppendBufferString(a, b->mOutputBuffer, data_ov000_021b34e8);
-                GpiAppendBufferString(a, b->mOutputBuffer, e->mUnk_18);
+                GpiAppendBufferString(a, b->mOutputBuffer, e->field18);
                 GpiAppendBufferString(a, b->mOutputBuffer, data_ov000_021b34c8);
                 for (p = r->mPeerList; p != NULL; p = p->mNext) {
                     if (p->mProfileId == b->mProfileId && p != b && p->mState <= 0x67) {
@@ -89,8 +89,8 @@ s32 func_ov000_02194590(GpConnection *a, GpiPeer *b) {
                     }
                 }
                 if (f != FALSE) {
-                    func_ov000_021a3668(e->mUnk_18);
-                    e->mUnk_18 = NULL;
+                    func_ov000_021a3668(e->field18);
+                    e->field18 = NULL;
                     if (GpiIsProfileEmpty(e) != 0) {
                         GpiRemoveProfile(a, e);
                     }
@@ -110,8 +110,8 @@ s32 func_ov000_02194590(GpConnection *a, GpiPeer *b) {
             *w = 0;
             q = b->mInputBuffer;
             if (strncmp(q, data_ov000_021b34f8, 7) == 0) {
-                b->mUnk_14 = b->mUnk_14 + 1;
-                if (b->mUnk_14 > 1) {
+                b->field14 = b->field14 + 1;
+                if (b->field14 > 1) {
                     GpiSetErrorMessage(a, data_ov000_021b3508);
                     return 3;
                 }
@@ -124,7 +124,7 @@ s32 func_ov000_02194590(GpConnection *a, GpiPeer *b) {
                 return 3;
             }
             b->mState = 0x69;
-            b->mUnk_20 = FALSE;
+            b->field20 = FALSE;
             break;
         default:
             __msl_assertion_failed(data_ov000_021b3440, data_ov000_021b333c, NULL, 0x9f);
@@ -199,7 +199,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *a, GpiPeer *b) {
             b->mState = 0x6a;
             return 0;
         }
-        b->mUnk_20 = FALSE;
+        b->field20 = FALSE;
     }
     return 0;
 }
@@ -263,7 +263,7 @@ s32 func_ov000_021941c4(GpConnection *a, GpiPeer *b) {
         return 0;
     }
     if (x > 0) {
-        b->mUnk_10 = func_ov000_0218e320(NULL) + 0x12c;
+        b->field10 = func_ov000_0218e320(NULL) + 0x12c;
     }
     do {
         t = func_ov000_02190618(a, (GpiBuffer *) &b->mInputBuffer, &m, &n, &o);
@@ -280,9 +280,9 @@ s32 func_ov000_021941c4(GpConnection *a, GpiPeer *b) {
                             GpiSetErrorMessage(a, data_ov000_021b3494);
                             return 1;
                         }
-                        s->mUnk_00 = b->mProfileId;
-                        s->mUnk_08 = func_ov000_0218e880((const char *) m);
-                        s->mUnk_04 = func_ov000_0218e320(NULL);
+                        s->field0 = b->mProfileId;
+                        s->field8 = func_ov000_0218e880((const char *) m);
+                        s->field4 = func_ov000_0218e320(NULL);
                         t = GpiQueueCallback(a, p, s, NULL, 2);
                         if (t != 0) {
                             return t;
@@ -320,7 +320,7 @@ s32 GpiPeerUpdate(GpConnection *b, GpiPeer *c) {
         __msl_assertion_failed(data_ov000_021b3468, data_ov000_021b333c, NULL, 0x1d9);
     }
     if (c->mState != 0x69) {
-        if (c->mUnk_04 != 0) {
+        if (c->field4 != 0) {
             a = func_ov000_02194590(b, c);
         } else {
             a = GpiPeerUpdateWaiting(b, c);
@@ -375,8 +375,8 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *f, GpiPeer *g) {
     if (DarrayGetCount(g->mQueuedMessages) != 0) {
         do {
             d = DarrayGetElement(g->mQueuedMessages, 0);
-            if (d->mUnk_10 < 0x64) {
-                func_ov000_0218fbe0(f, g->mProfileId, d->mUnk_10, d->mBuffer + d->mUnk_14);
+            if (d->field10 < 0x64) {
+                func_ov000_0218fbe0(f, g->mProfileId, d->field10, d->mBuffer + d->field14);
             }
             DarrayRemove(g->mQueuedMessages, 0);
         } while (DarrayGetCount(g->mQueuedMessages) != 0);
@@ -421,7 +421,7 @@ s32 GpiUpdatePeers(GpConnection *e) {
     while (b != NULL) {
         c = b->mNext;
         d = GpiPeerUpdate(e, b);
-        if (b->mState == 0x6a || d != 0 || (s32) func_ov000_0218e320(NULL) > b->mUnk_10) {
+        if (b->mState == 0x6a || d != 0 || (s32) func_ov000_0218e320(NULL) > b->field10) {
             GpiPeerRemoveAndWriteQueuedMessages(e, b);
         }
         b = c;
@@ -454,10 +454,10 @@ GpiPeer *GpiPeerCreate(GpConnection *c, u32 d, u32 e) {
     }
     memset(b, 0, 0x40);
     b->mState = 0x64;
-    b->mUnk_04 = e;
+    b->field4 = e;
     b->mSocket = -1;
     b->mProfileId = d;
-    b->mUnk_10 = func_ov000_0218e320(NULL) + 0x12c;
+    b->field10 = func_ov000_0218e320(NULL) + 0x12c;
     b->mNext = a->mPeerList;
     b->mQueuedMessages = DarrayCreate(0x18, 0, (void (*)(void *)) func_ov000_02193f18);
     a->mPeerList = b;
@@ -500,9 +500,9 @@ s32 GpiPeerConnect(GpConnection *param_1, GpiPeer *param_2) {
     p = (u32 *) &b;
     p[0] = 0;
     p[1] = 0;
-    b.mUnk_01 = 2;
-    b.mUnk_04 = a->mBuddyStatus->mUnk_10;
-    b.mUnk_02 = a->mBuddyStatus->mUnk_14;
+    b.field1 = 2;
+    b.field4 = a->mBuddyStatus->field10;
+    b.field2 = a->mBuddyStatus->field14;
     c = func_ov000_0218e4b4(param_2->mSocket, &b, 8);
     if (c == -1) {
         c = func_ov000_0218e368(param_2->mSocket);
@@ -529,7 +529,7 @@ s32 GpiPeerQueueMessage(GpConnection *param_1, GpiPeer *peer, u32 param_3, const
     b = strlen(message);
     {
         Unk02193c74 a = {0};
-        a.mUnk_10 = param_3;
+        a.field10 = param_3;
         c = GpiAppendBufferString(param_1, &a, data_ov000_021b338c);
         if (c != 0) {
             return c;
@@ -550,7 +550,7 @@ s32 GpiPeerQueueMessage(GpConnection *param_1, GpiPeer *peer, u32 param_3, const
         if (c != 0) {
             return c;
         }
-        a.mUnk_14 = a.mBuffer.mLength;
+        a.field14 = a.mBuffer.mLength;
         c = GpiAppendBufferBytes(param_1, &a.mBuffer, message, b);
         if (c != 0) {
             return c;
@@ -560,16 +560,16 @@ s32 GpiPeerQueueMessage(GpConnection *param_1, GpiPeer *peer, u32 param_3, const
             return c;
         }
         DarrayAppend(peer->mQueuedMessages, &a);
-        peer->mUnk_10 = func_ov000_0218e320(NULL) + 0x12c;
+        peer->field10 = func_ov000_0218e320(NULL) + 0x12c;
         return 0;
     }
 }
 
 u32 GpiPeerSendXfer(GpConnection *param_1, GpiPeer *param_2, u32 param_3, GpiTransferId *transferID) {
     char a[0x44];
-    u32 b = transferID->mUnk_04;
-    u32 c = transferID->mUnk_00;
-    u32 d = transferID->mUnk_08;
+    u32 b = transferID->field4;
+    u32 c = transferID->field0;
+    u32 d = transferID->field8;
 
     if (transferID == NULL) {
         __msl_assertion_failed(data_ov000_021b335c, data_ov000_021b333c, NULL, 0x376);
@@ -604,6 +604,6 @@ s32 GpiPeerSendLenMsg(GpConnection *param_1, GpiPeer *peer, const char *param_3,
     if (b != 0) {
         return b;
     }
-    peer->mUnk_10 = func_ov000_0218e320(NULL) + 0x12c;
+    peer->field10 = func_ov000_0218e320(NULL) + 0x12c;
     return 0;
 }

@@ -14,7 +14,7 @@ void rptc_setBulletBillEffectVisibility(s32 kartIndex, s32 shown) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_24.mUnk_00_3 = (shown == 0);
+    effect->field24.field0_3 = (shown == 0);
 }
 
 void rptc_startWallLeafEffect(s32 kartIndex, Vec3 *direction) {
@@ -25,26 +25,26 @@ void rptc_startWallLeafEffect(s32 kartIndex, Vec3 *direction) {
     KartEffects *kartEffects = &rptc_sDriverEffects[kartIndex];
     Unk0201ca6c *effect;
 
-    if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) && kartEffects->mUnk_28 == NULL && kart->mVelocityLength > 0x1000) {
+    if ((kart->field4C & KART_4C_NEAR_PLAYER_RANK) && kartEffects->field28 == NULL && kart->mVelocityLength > 0x1000) {
         effect = ptcm_createEmitter(0x53, kart->mPosSource);
-        effect->mUnk_94 = kart;
-        effect->mUnk_90 = rptc_wallLeafEmitterCallback;
-        kartEffects->mUnk_28 = effect;
+        effect->field94 = kart;
+        effect->field90 = rptc_wallLeafEmitterCallback;
+        kartEffects->field28 = effect;
     }
-    if (kartEffects->mUnk_28 == NULL) {
+    if (kartEffects->field28 == NULL) {
         return;
     }
     effectVelocity.x = ((s64) kart->mEffectVelocity.x * 0xccd) >> 12;
     effectVelocity.y = ((s64) kart->mEffectVelocity.y * 0xccd) >> 12;
     effectVelocity.z = ((s64) kart->mEffectVelocity.z * 0xccd) >> 12;
-    kartEffects->mUnk_28->mUnk_40 = effectVelocity;
+    kartEffects->field28->field40 = effectVelocity;
     VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
-    ptcm_setEmitterPosition(kartEffects->mUnk_28, &effectPos);
+    ptcm_setEmitterPosition(kartEffects->field28, &effectPos);
     directionHalfwords.x = direction->x;
     directionHalfwords.y = direction->y;
     directionHalfwords.z = direction->z;
-    kartEffects->mUnk_28->mUnk_50 = directionHalfwords;
-    kart->mUnk_48 |= 0x400;
+    kartEffects->field28->field50 = directionHalfwords;
+    kart->field48 |= 0x400;
 }
 
 void rptc_wallLeafEmitterCallback(Unk0201ca6c *effect, s32 a) {
@@ -54,15 +54,15 @@ void rptc_wallLeafEmitterCallback(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    kart = effect->mUnk_94;
-    if ((kart->mUnk_48 & 0x400) && (kart->mUnk_44 & 0x80)) {
+    kart = effect->field94;
+    if ((kart->field48 & 0x400) && (kart->field44 & 0x80)) {
         if (kart->mVelocityLength >= 0x1333) {
             return;
         }
     }
     kartEffects = &rptc_sDriverEffects[kart->mIndex];
-    if (effect == kartEffects->mUnk_28) {
-        effect->mUnk_24.mUnk_00_0 = 1;
-        kartEffects->mUnk_28 = NULL;
+    if (effect == kartEffects->field28) {
+        effect->field24.field0_0 = 1;
+        kartEffects->field28 = NULL;
     }
 }

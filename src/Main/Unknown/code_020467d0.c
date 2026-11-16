@@ -113,11 +113,11 @@ void rconf_setDriverConfigNext(int entryIndex, u32 characterIndex, u32 kartIndex
     gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
     gRaceMultiConfig->mNextEntries[entryIndex].mKartIndex = kartIndex;
     gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
-    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_08 = f;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.field8 = f;
     gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
-    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_14 = 0;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.field14 = 0;
     if (f != 3) {
-        gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_14 |= 1;
+        gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.field14 |= 1;
     }
 }
 

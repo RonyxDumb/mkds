@@ -53,7 +53,7 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mRow = 1;
     gWiFiVSSetting->mPendingWiFiState = -1;
     gWiFiVSSetting->mStateFrames = 0;
-    gWiFiVSSetting->mUnk_24 = TRUE;
+    gWiFiVSSetting->field24 = TRUE;
     func_ov000_02180638(0);
     LocateAndQueueWiFiVSSetting();
     InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSONclr, 3);
@@ -87,7 +87,7 @@ void InitWiFiVSSetting(void *heap) {
             for (i = 0; i < 3; i++) {
                 k = 0;
                 if (i == 1) {
-                    gWiFiVSSetting->mSettingIndex = data_ov000_021b05f0[gStruct217B488->mUnk_54];
+                    gWiFiVSSetting->mSettingIndex = data_ov000_021b05f0[gStruct217B488->field54];
                     if (gWiFiVSSetting->mSettingIndex == 0 && !func_ov000_021832f0()) {
                         gWiFiVSSetting->mSettingIndex = 2;
                     }
@@ -282,7 +282,7 @@ void AdvanceWiFiVSSettingState4(void) {
     gWiFiVSSetting->mNextState = 6;
     gWiFiVSSetting->mPendingWiFiState = 1;
     RequestSelectReturnState3WithSound(1);
-    gWiFiVSSetting->mUnk_28 = TRUE;
+    gWiFiVSSetting->field28 = TRUE;
     RequestTxtSystemClose();
     goto end;
 next:
@@ -290,11 +290,11 @@ next:
     if (((u16) v8 != 0 && gWiFiVSSetting->mRow == 2) || v4 == 2) {
         gWiFiVSSetting->mNextState = 5;
         if (gWiFiVSSetting->mRow == 2) {
-            gWiFiVSSetting->mUnk_24 = FALSE;
+            gWiFiVSSetting->field24 = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = 3;
         gWiFiVSSetting->mRow = 2;
-        gStruct217B488->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
+        gStruct217B488->field54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
         if ((u16) (data_0217562a[i].mBits & PAD_KEY_R) != 0) {
             func_ov000_02180638(1);
         }
@@ -303,14 +303,14 @@ next:
     } else if (((u16) v8 != 0 && gWiFiVSSetting->mRow == 0) || v4 == 0) {
         gWiFiVSSetting->mNextState = 5;
         if (gWiFiVSSetting->mRow == 0) {
-            gWiFiVSSetting->mUnk_24 = FALSE;
+            gWiFiVSSetting->field24 = FALSE;
         }
         gWiFiVSSetting->mPendingWiFiState = 14;
         gWiFiVSSetting->mRow = 0;
-        gStruct217B488->mUnk_50 = 0;
+        gStruct217B488->field50 = 0;
         RequestTxtSystemClose();
         sfx_2105AC0(5);
-        gStruct217B488->mUnk_54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
+        gStruct217B488->field54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
         func_0211fe44();
     } else if (v4 == 1) {
         gWiFiVSSetting->mRow = 1;
@@ -377,12 +377,12 @@ void AdvanceWiFiVSSettingState5(void) {
         if (func_ov000_021832f0() != FALSE ||
             (gWiFiVSSetting->mPendingWiFiState == 3 && gWiFiVSSetting->mSettingIndex != 0)) {
             RequestSelectReturnState4();
-            gWiFiVSSetting->mUnk_28 = TRUE;
+            gWiFiVSSetting->field28 = TRUE;
             return;
         }
-        gWiFiVSSetting->mUnk_28 = FALSE;
+        gWiFiVSSetting->field28 = FALSE;
     } else if (gWiFiVSSetting->mStateFrames >= 5) {
-        gWiFiVSSetting->mUnk_24 = TRUE;
+        gWiFiVSSetting->field24 = TRUE;
     }
 }
 
@@ -417,7 +417,7 @@ void AdvanceWiFiVSSettingState6(void) {
     }
     if (gWiFiVSSetting->mStateFrames >= 10 && gWiFiVSSetting->mStateFrames >= 13 &&
         IsTxtSystemState0NoOpenRequest() != 0 &&
-        ((gWiFiVSSetting->mUnk_28 != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
+        ((gWiFiVSSetting->field28 != FALSE && IsSelectReturnState0NoState1Request() != 0) ||
          IsSelectReturnState2NoState3Or4Request() != 0) &&
         GetWiFiNextScene() == -1) {
         if (gWiFiVSSetting->mPendingWiFiState == 14 && func_ov000_021832f0() == FALSE) {
@@ -584,7 +584,7 @@ void func_ov000_02182270(void) {
     s32 k;
     s32 v;
 
-    v = gWiFiVSSetting->mWiFiVSSettingBncl->mUnk_06;
+    v = gWiFiVSSetting->mWiFiVSSettingBncl->field6;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < data_ov000_021b0600[i]; j++) {
             gWiFiVSSetting->mWiFiVSSettingTable[data_ov000_021b060c[i][j]].mOffsetX = gWiFiVSSetting->mRowOffsets[i][0];
@@ -612,7 +612,7 @@ void func_ov000_021821e0(void) {
     BOOL z = FALSE;
 
     for (i = 0; i < 3; i++) {
-        if (i == gWiFiVSSetting->mRow && gWiFiVSSetting->mUnk_24 != FALSE) {
+        if (i == gWiFiVSSetting->mRow && gWiFiVSSetting->field24 != FALSE) {
             gWiFiVSSetting->mWiFiVSSettingTable[data_ov000_021b060c[i][1]].mVisible = 1;
             jn_ui_setLabelColorParam(data_ov000_021b05e8[i], 14, gWiFiVSSetting->mWiFiVSSettingBnll,
                                  gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);

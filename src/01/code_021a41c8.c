@@ -19,7 +19,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
     u8 *p;
     u16 buf[16];
 
-    switch (gEmblem->mUnk_1090) {
+    switch (gEmblem->field1090) {
         case 0:
             switch (a) {
                 case 0x1b:
@@ -40,20 +40,20 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     if (b) {
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0);
                         SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
-                        gEmblem->mUnk_1080 = a - 0x1b;
-                        func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
+                        gEmblem->field1080 = a - 0x1b;
+                        func_ov001_021a63c0(gEmblem->field1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f1);
                     } else {
-                        gEmblem->mUnk_1080 = a - 0x1b;
+                        gEmblem->field1080 = a - 0x1b;
                         func_ov001_021a5df0((gEmblem->mEmblemSLld), a);
-                        func_ov001_021a63c0(gEmblem->mUnk_1080 + 1);
+                        func_ov001_021a63c0(gEmblem->field1080 + 1);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f0);
                     }
                     if (func_ov001_021a639c() == 1) {
                         func_ov001_021a5ab0(gEmblem->mEmblemSLld, func_ov001_021a637c() + 0xe);
                         func_ov001_021a63a8(0);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x2a:
                     if (b) {
@@ -61,7 +61,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     }
                     func_ov001_021a59cc((gEmblem->mEmblemSLld), a);
                     if (b) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->field1094 = 3;
                         return;
                     }
                     break;
@@ -72,7 +72,7 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     func_ov001_021a63a8(0);
                     func_ov001_021a6388(a - 0xe);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x11:
                 case 0x12:
@@ -81,30 +81,30 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                     func_ov001_021a63a8(1);
                     func_ov001_021a6388(a - 0x11);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x14:
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(2);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x15:
                     func_ov001_021a5ab0((gEmblem->mEmblemSLld), a);
                     func_ov001_021a63a8(3);
                     func_ov001_021a6388(0);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f2);
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x16:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4a10;
+                    if (gEmblem->field108C == NULL) {
+                        gEmblem->field108C = func_ov001_021a4a10;
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f3);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->field10B0 = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x17:
                     if (IsEmblemGridChanged()) {
@@ -117,41 +117,41 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
                     }
                     if (b) {
-                        gEmblem->mUnk_1094 = 3;
+                        gEmblem->field1094 = 3;
                         return;
                     }
                     break;
                 case 0x19:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4878;
+                    if (gEmblem->field108C == NULL) {
+                        gEmblem->field108C = func_ov001_021a4878;
                         func_ov001_021a5d00((gEmblem->mEmblemSLld), a);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xc);
-                        gEmblem->mUnk_10b0 = TRUE;
-                        gEmblem->mUnk_10ac = FALSE;
+                        gEmblem->field10B0 = TRUE;
+                        gEmblem->field10AC = FALSE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 0x1a:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4b28;
+                    if (gEmblem->field108C == NULL) {
+                        gEmblem->field108C = func_ov001_021a4b28;
                         func_ov001_021a5c28((gEmblem->mEmblemSLld), a);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->field10B0 = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
             }
             break;
         case 1:
             switch (a) {
                 case 0:
-                    if (gEmblem->mUnk_108c == NULL) {
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
+                    if (gEmblem->field108C == NULL) {
+                        gEmblem->field108C = func_ov001_021a4914;
                         func_ov001_021a5a40((gEmblem->mEmblemTemplateSLld), 1);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xe);
-                        gEmblem->mUnk_10b0 = TRUE;
+                        gEmblem->field10B0 = TRUE;
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
                 case 3:
                 case 4:
@@ -182,33 +182,33 @@ void func_ov001_021a41c8(s32 a, s32 b) {
                 case 0x1d:
                 case 0x1e:
                 case 0x1f:
-                    if (gEmblem->mUnk_108c == NULL) {
+                    if (gEmblem->field108C == NULL) {
                         n = (s32) (GetEmblemGridSide() * GetEmblemGridSide()) / 2;
                         p = (u8 *) gEmblem->mEmblemTemplateBNcgr->mData + (a - 3) * n;
                         buf[0] = 0;
                         buf[1] = (func_ov001_021a63b4() == 1) ? 2 : 1;
                         buf[2] = func_ov001_021a63b4();
-                        SplitBytesIntoNibbles(p, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-                        SetEmblemGridCellsFromTable((gEmblem->mUnk_0c7c), (buf));
+                        SplitBytesIntoNibbles(p, gEmblem->fieldC7C, GetEmblemGridSide());
+                        SetEmblemGridCellsFromTable((gEmblem->fieldC7C), (buf));
                         ClearEmblemGridCopied();
-                        gEmblem->mUnk_108c = func_ov001_021a4914;
+                        gEmblem->field108C = func_ov001_021a4914;
                         func_ov001_021a5d00((gEmblem->mEmblemTemplateSLld), a);
-                        gEmblem->mUnk_1084 = a - 3;
+                        gEmblem->field1084 = a - 3;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1f6);
                     }
-                    gEmblem->mUnk_1094 = 3;
+                    gEmblem->field1094 = 3;
                     return;
             }
             break;
         case 4:
             if (a == 1) {
-                if (gEmblem->mUnk_108c == NULL) {
-                    gEmblem->mUnk_108c = func_ov001_021a4844;
+                if (gEmblem->field108C == NULL) {
+                    gEmblem->field108C = func_ov001_021a4844;
                     func_ov001_021a5d00((gEmblem->mEmblemCameraSLld), a);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xc);
-                    gEmblem->mUnk_10ac = TRUE;
+                    gEmblem->field10AC = TRUE;
                 }
-                gEmblem->mUnk_1094 = 3;
+                gEmblem->field1094 = 3;
             }
             break;
     }

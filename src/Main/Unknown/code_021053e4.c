@@ -65,15 +65,15 @@ MapObject *AllocPooledMapObject(void) {
 }
 
 void ResetPooledMapObject(PooledMapObject *pooledObject) {
-    mobj_setVisible(&pooledObject->mUnk_00);
-    pooledObject->mUnk_00.mAlpha = 0x1f;
-    pooledObject->mUnk_00.mFlags &= ~2;
-    pooledObject->mUnk_00.mFlags &= ~8;
-    pooledObject->mUnk_00.mAlpha = 0x1f;
-    pooledObject->mUnk_00.mScale.x = 0;
-    pooledObject->mUnk_00.mScale.y = 0;
-    pooledObject->mUnk_00.mScale.z = 0;
-    pooledObject->mUnk_a0 = 0;
-    pooledObject->mUnk_a2 = 0;
-    pooledObject->mUnk_a4 = 0x80;
+    mobj_setVisible(&pooledObject->field0);
+    pooledObject->field0.mAlpha = 0x1f;
+    pooledObject->field0.mFlags &= ~2;
+    pooledObject->field0.mFlags &= ~8;
+    pooledObject->field0.mAlpha = 0x1f;
+    pooledObject->field0.mScale.x = 0;
+    pooledObject->field0.mScale.y = 0;
+    pooledObject->field0.mScale.z = 0;
+    pooledObject->fieldA0 = 0;
+    pooledObject->fieldA2 = 0;
+    pooledObject->fieldA4 = 0x80;
 }

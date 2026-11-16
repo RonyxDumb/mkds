@@ -67,30 +67,30 @@ void CreateJb3List(void) {
     b = func_ov003_021cdb6c();
     p = AllocZeroedExpHeapBlock(0x48, 4);
     gJb3List = p;
-    p->mUnk_43 = b->mUnk_f6;
+    p->field43 = b->fieldF6;
     gJb3List->mReturnId = 0xc;
     func_ov003_021c94c8();
     LoadJb3ListFilesAndSetBgCnt();
     if (gJb3ListMode == 0) {
-        func_ov003_021bf43c(0x7c, data_ov003_021d6434[GetLanguageIndex()], b->mUnk_f4 + 1);
+        func_ov003_021bf43c(0x7c, data_ov003_021d6434[GetLanguageIndex()], b->fieldF4 + 1);
     } else {
         func_ov003_021bf43c(0x97, -1, 0);
     }
     func_ov003_021bf5ec(1);
     LoadHlListScr();
     func_ov003_021ccea4(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
-    gJb3List->mUnk_14 = InitBgTextCanvas(0, 1);
+    gJb3List->field14 = InitBgTextCanvas(0, 1);
     for (i = 0; i < 7; i++) {
-        gJb3List->mUnk_18[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6478[0][1]);
+        gJb3List->field18[i] = CreateOamEntryFromNceImage(0, data_ov003_021d6478[0][1]);
     }
-    switch (b->mUnk_00.mUnk_e7) {
+    switch (b->field0.fieldE7) {
         case 1:
-            gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x50);
-            gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
+            gJb3List->field34 = CreateOamEntryFromNceImage(0, 0x50);
+            gJb3List->field34->field4 = (gJb3List->field34->field4 & ~0xc00) | 0xc00;
             break;
         case 2:
-            gJb3List->mUnk_34 = CreateOamEntryFromNceImage(0, 0x51);
-            gJb3List->mUnk_34->mUnk_04 = (gJb3List->mUnk_34->mUnk_04 & ~0xc00) | 0xc00;
+            gJb3List->field34 = CreateOamEntryFromNceImage(0, 0x51);
+            gJb3List->field34->field4 = (gJb3List->field34->field4 & ~0xc00) | 0xc00;
             break;
     }
     gJb3List->mBgOffsetTask = AddTask(1, WriteJb3ListBgOffset, NULL, 0x6e);
@@ -162,7 +162,7 @@ void UpdateJb3ListInput(void) {
     if (s->mScrollTask != 0) {
         return;
     }
-    if (s->mUnk_45 != 0) {
+    if (s->field45 != 0) {
         return;
     }
     if (UpdateJb3ListHit() != 0) {
@@ -174,17 +174,17 @@ void UpdateJb3ListInput(void) {
     }
     if (AreKeysPressed(2) != 0) {
         StartSoundSeq(7);
-        gJb3List->mUnk_40 = 0xd;
+        gJb3List->field40 = 0xd;
         SetUpdateFunction(func_ov003_021c8e80);
         return;
     }
     if (AreKeysPressedOrRepeated(0x200) != 0) {
         if (gJb3ListScrollY == 0x91) {
-            if (gJb3List->mUnk_47 != 0) {
+            if (gJb3List->field47 != 0) {
                 return;
             }
             StartSoundSeq(9);
-            gJb3List->mUnk_47 = 1;
+            gJb3List->field47 = 1;
             return;
         }
         StartSoundSeq(0x13);
@@ -192,16 +192,16 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x200) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->field47 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x100) != 0) {
         if (gJb3ListScrollY == 0) {
-            if (gJb3List->mUnk_47 != 0) {
+            if (gJb3List->field47 != 0) {
                 return;
             }
             StartSoundSeq(9);
-            gJb3List->mUnk_47 = 1;
+            gJb3List->field47 = 1;
             return;
         }
         StartSoundSeq(0x13);
@@ -209,7 +209,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x100) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->field47 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x40) != 0) {
@@ -217,7 +217,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x40) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->field47 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x80) != 0) {
@@ -225,7 +225,7 @@ void UpdateJb3ListInput(void) {
         return;
     }
     if (AreKeysReleased(0x80) != 0) {
-        gJb3List->mUnk_47 = 0;
+        gJb3List->field47 = 0;
         return;
     }
     if (AreKeysPressedOrRepeated(0x20) != 0) {
@@ -279,7 +279,7 @@ void func_ov003_021c90dc(u32 param_1) {
             func_ov003_021c9058(((param_1 - 7) ^ 1) != 0);
             return;
     }
-    gJb3List->mUnk_40 = param_1;
+    gJb3List->field40 = param_1;
     if (param_1 - 0xb <= 1) {
         func_ov003_021c7ec4();
         if (func_ov003_021c7d8c() == 0) {
@@ -309,15 +309,15 @@ void func_ov003_021c9084(u32 param_1) {
     Unk021cd5e0_400 *r;
     BOOL a;
     r = func_ov003_021cdb6c();
-    if (r->mUnk_f5 != param_1) {
+    if (r->fieldF5 != param_1) {
         if (param_1 != 0) {
-            if (gJb3List->mUnk_43 != 0) {
+            if (gJb3List->field43 != 0) {
                 a = TRUE;
             } else {
                 a = FALSE;
             }
         } else {
-            gJb3List->mUnk_43 = r->mUnk_f6;
+            gJb3List->field43 = r->fieldF6;
             a = FALSE;
         }
         func_ov003_021cdb58(param_1);
@@ -329,8 +329,8 @@ void func_ov003_021c9084(u32 param_1) {
 void func_ov003_021c9058(u32 a) {
     Unk021cd5e0_400 *v1;
     v1 = func_ov003_021cdb6c();
-    if (v1->mUnk_f6 != a) {
-        gJb3List->mUnk_43 = (s8) a;
+    if (v1->fieldF6 != a) {
+        gJb3List->field43 = (s8) a;
         func_ov003_021cdb44(a);
         RefreshJb3List();
     }
@@ -346,7 +346,7 @@ void UpdateJb3ListScrollInput(void) {
         }
         switch (func_ov003_021cce60()) {
             case 1:
-                gJb3List->mUnk_45 = 1;
+                gJb3List->field45 = 1;
                 break;
             case 2:
                 if (gJb3List->mScrollTimer != 0) {
@@ -358,7 +358,7 @@ void UpdateJb3ListScrollInput(void) {
                 gJb3List->mScrollTimer = 4;
                 break;
             case 3:
-                gJb3List->mUnk_45 = 0;
+                gJb3List->field45 = 0;
                 gJb3ListScrollY = _s32_div_f(func_ov003_021cce6c() * 0x91, 0x37);
                 StartSoundSeq(0x13);
                 RefreshJb3List();
@@ -375,11 +375,11 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 4:
                 if (gJb3ListScrollY == 0) {
-                    if (gJb3List->mUnk_46 != 0) {
+                    if (gJb3List->field46 != 0) {
                         return;
                     }
                     StartSoundSeq(9);
-                    gJb3List->mUnk_46 = 1;
+                    gJb3List->field46 = 1;
                 } else {
                     StartSoundSeq(0x13);
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYDecrease, NULL, 0x78);
@@ -387,11 +387,11 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 6:
                 if (gJb3ListScrollY == 0x91) {
-                    if (gJb3List->mUnk_46 != 0) {
+                    if (gJb3List->field46 != 0) {
                         return;
                     }
                     StartSoundSeq(9);
-                    gJb3List->mUnk_46 = 1;
+                    gJb3List->field46 = 1;
                 } else {
                     StartSoundSeq(0x13);
                     gJb3List->mScrollTask = AddTask(0, AdvanceJb3ListScrollYIncrease, NULL, 0x78);
@@ -399,7 +399,7 @@ void UpdateJb3ListScrollInput(void) {
                 break;
             case 5:
             case 7:
-                gJb3List->mUnk_46 = 0;
+                gJb3List->field46 = 0;
                 break;
         }
     }
@@ -422,8 +422,8 @@ void func_ov003_021c8e48(void) {
 }
 
 static inline void func_ov003_021c85a0_inline(OamEntry *p, u32 *x, u32 *y) {
-    *x = (p->mUnk_00 & 0x1ff0000) >> 16;
-    *y = p->mUnk_00 & 0xff;
+    *x = (p->field0 & 0x1ff0000) >> 16;
+    *y = p->field0 & 0xff;
 }
 
 void func_ov003_021c8c14(void) {
@@ -439,15 +439,15 @@ void func_ov003_021c8c14(void) {
     RemoveTaskEntryWrapper(0, gJb3List->mIdTimerTask);
     RemoveTaskEntryWrapper(1, gJb3List->mBgOffsetTask);
     for (i = 0; i < 7; i++) {
-        DeleteOamEntry((u32 *) gJb3List->mUnk_18[i]);
+        DeleteOamEntry((u32 *) gJb3List->field18[i]);
     }
-    if (gJb3List->mUnk_34 != NULL) {
-        DeleteOamEntry((u32 *) gJb3List->mUnk_34);
+    if (gJb3List->field34 != NULL) {
+        DeleteOamEntry((u32 *) gJb3List->field34);
     }
     func_ov003_021cce78();
     ReleaseBgTextCanvasOfScreen(0);
     ReleaseSelectionObjectSlots();
-    if (gJb3List->mUnk_40 != 0xc) {
+    if (gJb3List->field40 != 0xc) {
         func_ov003_021bf410();
     }
     func_ov003_021cca10();
@@ -461,7 +461,7 @@ void func_ov003_021c8c14(void) {
     reg_G2_BG0OFS = 0;
     reg_G2_BG2OFS = 0;
     reg_G2_BG2CNT = (reg_G2_BG2CNT & 0x43) | 0xe10;
-    v = gJb3List->mUnk_40;
+    v = gJb3List->field40;
     switch (v) {
         case 0:
         case 1:
@@ -484,15 +484,15 @@ void func_ov003_021c8c14(void) {
             break;
         case 11:
             r = func_ov003_021cdb6c();
-            r->mUnk_00.mUnk_d0 = DWCi_BACKUPlConvMaskCidr(r->mUnk_f0);
-            if (r->mUnk_f5 != 0) {
-                MI_CpuFill8(r->mUnk_00.mUnk_c0, 0, 4);
-                MI_CpuFill8(r->mUnk_00.mUnk_c4, 0, 4);
-                MI_CpuFill8(r->mUnk_f0, 0, 4);
-                r->mUnk_00.mUnk_d0 = 0;
+            r->field0.fieldD0 = DWCi_BACKUPlConvMaskCidr(r->fieldF0);
+            if (r->fieldF5 != 0) {
+                MI_CpuFill8(r->field0.fieldC0, 0, 4);
+                MI_CpuFill8(r->field0.fieldC4, 0, 4);
+                MI_CpuFill8(r->fieldF0, 0, 4);
+                r->field0.fieldD0 = 0;
             }
-            if (r->mUnk_f6 != 0) {
-                MI_CpuFill8(r->mUnk_00.mUnk_c8, 0, 8);
+            if (r->fieldF6 != 0) {
+                MI_CpuFill8(r->field0.fieldC8, 0, 8);
             }
             func_ov003_021c2120(2, 0);
             func_ov003_021c20f8(0, 0);
@@ -507,7 +507,7 @@ void func_ov003_021c8c14(void) {
                 func_ov003_021c2120(2, 1);
                 SetUpdateFunction(CreateAp);
             } else {
-                func_ov003_021cd790((func_ov003_021cdb6c())->mUnk_f4);
+                func_ov003_021cd790((func_ov003_021cdb6c())->fieldF4);
                 func_ov003_021c2120(0, 1);
                 SetUpdateFunction(SetupWay);
             }
@@ -521,7 +521,7 @@ void RefreshJb3List(void) {
     int i;
     int j;
     a = FX_DivS32(gJb3ListScrollY, 0x1d);
-    ClearBgTextCanvas(gJb3List->mUnk_14, 0);
+    ClearBgTextCanvas(gJb3List->field14, 0);
     for (i = 0, j = a; i < 5; i++, j++) {
         PrintJb3ListEntryText(j, i);
     }
@@ -530,7 +530,7 @@ void RefreshJb3List(void) {
         SetupJb3ListEntryCells(a, i);
     }
     func_ov003_021cc9fc();
-    RequestBgTextCanvasUpload(gJb3List->mUnk_14);
+    RequestBgTextCanvasUpload(gJb3List->field14);
     RefreshJb3ListRowPositions();
 }
 
@@ -541,10 +541,10 @@ void PrintJb3ListEntryText(u32 a, int b) {
     r = func_ov003_021cdb6c();
     switch (a) {
         case 0:
-            PrintJb3ListEntryString(r->mUnk_00.mUnk_40, b);
+            PrintJb3ListEntryString(r->field0.field40, b);
             return;
         case 1:
-            switch (r->mUnk_00.mUnk_e6_0) {
+            switch (r->field0.fieldE6_0) {
                 case 0:
                     return;
                 case 1:
@@ -557,7 +557,7 @@ void PrintJb3ListEntryText(u32 a, int b) {
                     x = 0x20;
                     break;
             }
-            if (r->mUnk_00.mUnk_e6_2 == 1) {
+            if (r->field0.fieldE6_2 == 1) {
                 x = _s32_div_f(x, 2);
             }
             MI_CpuFill8(y, 0, 0x21);
@@ -565,28 +565,28 @@ void PrintJb3ListEntryText(u32 a, int b) {
             PrintJb3ListEntryString(y, b);
             return;
         case 3:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c0, b);
+            if (r->fieldF5 == 0) {
+                PrintJb3ListEntryBytes(r->field0.fieldC0, b);
             }
             break;
         case 4:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_f0, b);
+            if (r->fieldF5 == 0) {
+                PrintJb3ListEntryBytes(r->fieldF0, b);
             }
             break;
         case 5:
-            if (r->mUnk_f5 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c4, b);
+            if (r->fieldF5 == 0) {
+                PrintJb3ListEntryBytes(r->field0.fieldC4, b);
             }
             break;
         case 7:
-            if (r->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(r->mUnk_00.mUnk_c8, b);
+            if (r->fieldF6 == 0) {
+                PrintJb3ListEntryBytes(r->field0.fieldC8, b);
             }
             break;
         case 8:
-            if (r->mUnk_f6 == 0) {
-                PrintJb3ListEntryBytes(&r->mUnk_00.mUnk_c8[4], b);
+            if (r->fieldF6 == 0) {
+                PrintJb3ListEntryBytes(&r->field0.fieldC8[4], b);
             }
             break;
     }
@@ -611,7 +611,7 @@ void SetupJb3ListEntryCells(u32 a, int b) {
         case 2:
             z = FALSE;
             y = 0;
-            if (r->mUnk_f5 != 0) {
+            if (r->fieldF5 != 0) {
                 x = 1;
                 w = 4;
             } else {
@@ -630,7 +630,7 @@ void SetupJb3ListEntryCells(u32 a, int b) {
         case 4:
         case 5:
             x = 0;
-            if (r->mUnk_f5 != 0) {
+            if (r->fieldF5 != 0) {
                 y = 2;
             } else {
                 y = x;
@@ -639,11 +639,11 @@ void SetupJb3ListEntryCells(u32 a, int b) {
         case 6:
             z = FALSE;
             y = 0;
-            if (r->mUnk_f6 != 0) {
+            if (r->fieldF6 != 0) {
                 x = 1;
                 w = 4;
             } else {
-                if (r->mUnk_f5 == 0) {
+                if (r->fieldF5 == 0) {
                     y = 2;
                 }
                 x = 2;
@@ -660,7 +660,7 @@ void SetupJb3ListEntryCells(u32 a, int b) {
         case 7:
         case 8:
             x = 0;
-            if (r->mUnk_f6 != 0) {
+            if (r->fieldF6 != 0) {
                 y = 2;
             } else {
                 y = x;
@@ -681,26 +681,26 @@ u32 IsJb3ListIdEnabled(u32 a) {
     v1 = 1;
     switch (a) {
         case 7:
-            if (r->mUnk_f5 == 0) {
+            if (r->fieldF5 == 0) {
                 v1 = 0;
             }
             break;
         case 0:
         case 1:
-            if ((u8) (r->mUnk_00.mUnk_e7 + 0xff) <= 1) {
+            if ((u8) (r->field0.fieldE7 + 0xff) <= 1) {
                 v1 = 0;
             }
             break;
         case 4:
         case 5:
         case 6:
-            if (r->mUnk_f5 != 0) {
+            if (r->fieldF5 != 0) {
                 v1 = 0;
             }
             break;
         case 9:
         case 10:
-            if (r->mUnk_f6 != 0) {
+            if (r->fieldF6 != 0) {
                 v1 = 0;
             }
             break;
@@ -713,28 +713,28 @@ void SetupJb3ListCell(int d, int e, int f) {
     u16 b;
     u32 c;
     OamEntry **p;
-    a[0] = gJb3ListCellRect.mUnk_00;
-    b = data_ov003_021d644c.mUnk_00;
+    a[0] = gJb3ListCellRect.field0;
+    b = data_ov003_021d644c.field0;
     a[1] = b;
     a[2] = b;
-    b = data_ov003_021d6444.mUnk_00;
+    b = data_ov003_021d6444.field0;
     a[3] = b;
     a[4] = b;
-    p = &gJb3List->mUnk_18[f];
+    p = &gJb3List->field18[f];
     if ((u32) (d - 1) <= 1) {
         if (GetJb3ListEntryIndexOfRow(f) == 2) {
-            p = &gJb3List->mUnk_18[5];
+            p = &gJb3List->field18[5];
         } else {
-            p = &gJb3List->mUnk_18[6];
+            p = &gJb3List->field18[6];
         }
     }
     if (data_ov003_021d6478[d][e] != 0) {
         CopyNceImageToOamEntries(0, data_ov003_021d6478[d][e], *p);
         c = (a[d] & 0x1ff) << 16;
-        (*p)->mUnk_00 = c | ((*p)->mUnk_00 & 0xfe00ff00);
-        (*p)->mUnk_04 = ((*p)->mUnk_04 & ~0xc00) | 0xc00;
+        (*p)->field0 = c | ((*p)->field0 & 0xfe00ff00);
+        (*p)->field4 = ((*p)->field4 & ~0xc00) | 0xc00;
     } else {
-        (*p)->mUnk_00 = ((*p)->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        (*p)->field0 = ((*p)->field0 & 0xfe00ff00) | 0x1000000;
     }
 }
 
@@ -765,7 +765,7 @@ void PrintJb3ListEntryString(const u8 *g, int h) {
     if (a <= 0x10) {
         d += 5;
     }
-    DrawCharsCentered(gJb3List->mUnk_14, 0x48, d, 2, 8, f, 1);
+    DrawCharsCentered(gJb3List->field14, 0x48, d, 2, 8, f, 1);
     if (a > 0x10) {
         MI_CpuFill8(f, 0, 0x22);
         e = a - 0x10;
@@ -777,14 +777,14 @@ void PrintJb3ListEntryString(const u8 *g, int h) {
                 f[i] = c;
             }
         }
-        DrawCharsCentered(gJb3List->mUnk_14, 0x48, d + 0xc, 2, 8, f, 1);
+        DrawCharsCentered(gJb3List->field14, 0x48, d + 0xc, 2, 8, f, 1);
     }
 }
 
 void PrintJb3ListEntryBytes(const u8 *b, int c) {
     u16 a[16];
     swprintf(a, 0x10, gDotSeparatedBytesFormat, b[0], b[1], b[2], b[3]);
-    DrawCharsCentered(gJb3List->mUnk_14, 0x5f, c * 0x1d + 8, 2, 7, a, 1);
+    DrawCharsCentered(gJb3List->field14, 0x5f, c * 0x1d + 8, 2, 7, a, 1);
 }
 
 void RefreshJb3ListRowPositions(void) {
@@ -797,32 +797,32 @@ void RefreshJb3ListRowPositions(void) {
     u32 y;
     a = FX_DivS32(gJb3ListScrollY, 0x1d);
     b = 0x34 - FX_ModS32(gJb3ListScrollY, 0x1d);
-    if (gJb3List->mUnk_34 != NULL) {
+    if (gJb3List->field34 != NULL) {
         if (a == 0) {
             x = 0x26;
         } else {
             x = 0x100;
         }
-        gJb3List->mUnk_34->mUnk_00 = ((x & 0x1ff) << 16) | ((gJb3List->mUnk_34->mUnk_00 & 0xfe00ff00) | (b & 0xff));
+        gJb3List->field34->field0 = ((x & 0x1ff) << 16) | ((gJb3List->field34->field0 & 0xfe00ff00) | (b & 0xff));
     }
     for (i = 0, c = b; i < 5; i++, c += 0x1d) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[i], (u32 *) &x, &y);
-        p = gJb3List->mUnk_18[i];
-        p->mUnk_00 = ((x & 0x1ff) << 16) | ((p->mUnk_00 & 0xfe00ff00) | (c & 0xff));
+        func_ov003_021c85a0_inline(gJb3List->field18[i], (u32 *) &x, &y);
+        p = gJb3List->field18[i];
+        p->field0 = ((x & 0x1ff) << 16) | ((p->field0 & 0xfe00ff00) | (c & 0xff));
     }
     if (a <= 2) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[5], &x, (u32 *) &y);
-        gJb3List->mUnk_18[5]->mUnk_00 =
-            ((x & 0x1ff) << 16) | ((gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | ((b + (2 - a) * 0x1d) & 0xff));
+        func_ov003_021c85a0_inline(gJb3List->field18[5], &x, (u32 *) &y);
+        gJb3List->field18[5]->field0 =
+            ((x & 0x1ff) << 16) | ((gJb3List->field18[5]->field0 & 0xfe00ff00) | ((b + (2 - a) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[5]->mUnk_00 = (gJb3List->mUnk_18[5]->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        gJb3List->field18[5]->field0 = (gJb3List->field18[5]->field0 & 0xfe00ff00) | 0x1000000;
     }
     if (a >= 2 && a <= 6) {
-        func_ov003_021c85a0_inline(gJb3List->mUnk_18[6], &x, (u32 *) &y);
-        gJb3List->mUnk_18[6]->mUnk_00 =
-            ((x & 0x1ff) << 16) | ((gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | ((b + (6 - a) * 0x1d) & 0xff));
+        func_ov003_021c85a0_inline(gJb3List->field18[6], &x, (u32 *) &y);
+        gJb3List->field18[6]->field0 =
+            ((x & 0x1ff) << 16) | ((gJb3List->field18[6]->field0 & 0xfe00ff00) | ((b + (6 - a) * 0x1d) & 0xff));
     } else {
-        gJb3List->mUnk_18[6]->mUnk_00 = (gJb3List->mUnk_18[6]->mUnk_00 & 0xfe00ff00) | 0x1000000;
+        gJb3List->field18[6]->field0 = (gJb3List->field18[6]->field0 & 0xfe00ff00) | 0x1000000;
     }
     gJb3List->mBgOffsetPending = 1;
 }
@@ -840,7 +840,7 @@ u32 GetJb3ListHitId(void) {
     c = FX_DivS32(gJb3ListScrollY, 0x1d);
     b = &a;
     a = gJb3ListCellRect;
-    for (d = 0; d < 4; d++, c++, a.mUnk_02 += 0x1d) {
+    for (d = 0; d < 4; d++, c++, a.field2 += 0x1d) {
         if (c != 2 && c != 6) {
             if (IsTouchPressedInOriginSizeRect(b) != 0) {
                 return gJb3ListIdByEntryIndex[c];
@@ -852,12 +852,12 @@ u32 GetJb3ListHitId(void) {
         if (e == 2) {
             a = data_ov003_021d644c;
             d = d * 0x1d;
-            a.mUnk_02 = a.mUnk_02 + d;
+            a.field2 = a.field2 + d;
             if (IsTouchPressedInOriginSizeRect(&a) != 0) {
                 return 2;
             }
             a = data_ov003_021d6444;
-            a.mUnk_02 = a.mUnk_02 + d;
+            a.field2 = a.field2 + d;
             if (IsTouchPressedInOriginSizeRect(&a) != 0) {
                 return 3;
             }
@@ -869,12 +869,12 @@ u32 GetJb3ListHitId(void) {
         if (e == 6) {
             a = data_ov003_021d644c;
             d = d * 0x1d;
-            a.mUnk_02 = a.mUnk_02 + d;
+            a.field2 = a.field2 + d;
             if (IsTouchPressedInOriginSizeRect(&a) != 0) {
                 return 7;
             }
             a = data_ov003_021d6444;
-            a.mUnk_02 = a.mUnk_02 + d;
+            a.field2 = a.field2 + d;
             if (IsTouchPressedInOriginSizeRect(&a) != 0) {
                 return 8;
             }
@@ -977,15 +977,15 @@ void func_ov003_021c81b8(void) {
     Rect b;
     s32 d;
     a = data_ov003_021d73d0;
-    d = a.mUnk_00[gJb3ListSelectedId];
+    d = a.field0[gJb3ListSelectedId];
     if (d >= 3) {
-        PlaceSelectionPair(3, data_ov003_021d64b4[d].mUnk_00, data_ov003_021d64b4[d].mUnk_04,
-                           data_ov003_021d64b4[d].mUnk_02);
+        PlaceSelectionPair(3, data_ov003_021d64b4[d].field0, data_ov003_021d64b4[d].field4,
+                           data_ov003_021d64b4[d].field2);
         return;
     }
     b = data_ov003_021d64b4[d];
-    b.mUnk_02 = b.mUnk_02 + gJb3ListSelectedRow * 0x1d;
-    PlaceSelectionPair(1, b.mUnk_00, b.mUnk_04, b.mUnk_02);
+    b.field2 = b.field2 + gJb3ListSelectedRow * 0x1d;
+    PlaceSelectionPair(1, b.field0, b.field4, b.field2);
 }
 
 void SetJb3ListSelectedIdFromRow(void) {
@@ -999,14 +999,14 @@ void SetJb3ListSelectedIdFromRow(void) {
     b = gJb3ListSelectedRow + FX_DivS32(gJb3ListScrollY, 0x1d);
     switch (b) {
         case 2:
-            if (a->mUnk_f5 != 0) {
+            if (a->fieldF5 != 0) {
                 gJb3ListSelectedId = 2;
             } else {
                 gJb3ListSelectedId = 3;
             }
             break;
         case 6:
-            if (a->mUnk_f6 != 0) {
+            if (a->fieldF6 != 0) {
                 gJb3ListSelectedId = 7;
             } else {
                 gJb3ListSelectedId = 8;
@@ -1032,7 +1032,7 @@ void MoveJb3ListSelection(s32 d) {
     a = func_ov003_021cdb6c();
     b = 0;
     c = gJb3ListSelectedId;
-    if (c == 8 && a->mUnk_f5 == 0) {
+    if (c == 8 && a->fieldF5 == 0) {
         if (d == 0) {
             return;
         }
@@ -1061,11 +1061,11 @@ void MoveJb3ListSelection(s32 d) {
             break;
         case 0xb:
             if (d == 1) {
-                if (gJb3List->mUnk_47 != 0) {
+                if (gJb3List->field47 != 0) {
                     return;
                 }
                 StartSoundSeq(9);
-                gJb3List->mUnk_47 = 1;
+                gJb3List->field47 = 1;
                 return;
             } else if (d == 3) {
                 gJb3ListSelectedId = 0;
@@ -1087,11 +1087,11 @@ void MoveJb3ListSelection(s32 d) {
                 RefreshJb3List();
                 func_ov003_021cce58(0x37);
             } else if (d == 3) {
-                if (gJb3List->mUnk_47 != 0) {
+                if (gJb3List->field47 != 0) {
                     return;
                 }
                 StartSoundSeq(9);
-                gJb3List->mUnk_47 = 1;
+                gJb3List->field47 = 1;
                 return;
             } else if (c == 0xc) {
                 gJb3ListSelectedId = 0xd;
@@ -1189,22 +1189,22 @@ void StartJb3ListIdTimer(void) {
 u32 func_ov003_021c7d8c(void) {
     Unk021cd5e0_400 *a;
     a = func_ov003_021cdb6c();
-    if (a->mUnk_00.mUnk_40[0] == 0) {
+    if (a->field0.field40[0] == 0) {
         return 0;
     }
-    if (a->mUnk_f6 == 0) {
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c8) == 0 && DWC_BACKUPlCheckAddress(&a->mUnk_00.mUnk_c8[4]) == 0) {
+    if (a->fieldF6 == 0) {
+        if (DWC_BACKUPlCheckAddress(a->field0.fieldC8) == 0 && DWC_BACKUPlCheckAddress(&a->field0.fieldC8[4]) == 0) {
             return 0;
         }
     }
-    if (a->mUnk_f5 == 0) {
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c0) == 0) {
+    if (a->fieldF5 == 0) {
+        if (DWC_BACKUPlCheckAddress(a->field0.fieldC0) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckAddress(a->mUnk_00.mUnk_c4) == 0) {
+        if (DWC_BACKUPlCheckAddress(a->field0.fieldC4) == 0) {
             return 0;
         }
-        if (DWC_BACKUPlCheckIp(a->mUnk_00.mUnk_c0, a->mUnk_f0) == 0) {
+        if (DWC_BACKUPlCheckIp(a->field0.fieldC0, a->fieldF0) == 0) {
             return 0;
         }
     }

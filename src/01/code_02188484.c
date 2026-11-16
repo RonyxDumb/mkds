@@ -3,9 +3,9 @@
 
 void SetShadowOffsetYAndScale(Unk02188950 *mapObject, s32 offsetY, s32 scaleXZ) {
     if (offsetY == 0) {
-        mapObject->mUnk_27c = 1;
+        mapObject->field27C = 1;
     } else {
-        mapObject->mUnk_27c = 2;
+        mapObject->field27C = 2;
     }
     mapObject->mShadowOffsetX = mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetY = mapObject->mShadowOffsetTargetY = offsetY;
@@ -20,9 +20,9 @@ void SetShadowOffsetYAndScale(Unk02188950 *mapObject, s32 offsetY, s32 scaleXZ) 
 void SetShadowOffsetYAndScaleTarget(Unk02188950 *mapObject, int offsetY, u32 offsetPerCall, u32 scaleXZ,
                                     u32 scalePerCall) {
     if (offsetY == 0) {
-        mapObject->mUnk_27c = 1;
+        mapObject->field27C = 1;
     } else {
-        mapObject->mUnk_27c = 2;
+        mapObject->field27C = 2;
     }
     mapObject->mShadowOffsetTargetX = 0;
     mapObject->mShadowOffsetTargetY = offsetY;
@@ -48,9 +48,9 @@ void SetCollisionOffsetAndExtent(Unk02188950 *mapObject, s32 offsetY, s32 extent
     mapObject->mCollisionExtent.y = mapObject->mCollisionExtentTargetY = extentY;
     mapObject->mCollisionExtent.z = mapObject->mCollisionExtentTargetZ = extentXZ;
     mapObject->mCollisionExtentPerCall = 0;
-    mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + mapObject->mOffset.x;
-    mapObject->mPosWithOffset.y = mapObject->mUnk_000.mPos.y + mapObject->mOffset.y;
-    mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + mapObject->mOffset.z;
+    mapObject->mPosWithOffset.x = mapObject->field0.mPos.x + mapObject->mOffset.x;
+    mapObject->mPosWithOffset.y = mapObject->field0.mPos.y + mapObject->mOffset.y;
+    mapObject->mPosWithOffset.z = mapObject->field0.mPos.z + mapObject->mOffset.z;
 }
 
 void SetCollisionOffsetAndExtentTarget(Unk02188950 *mapObject, u32 offsetY, u32 offsetPerCall, u32 extentXZ,
@@ -74,8 +74,8 @@ void SetShadowOffsetAndScale(Unk02188950 *mapObject, int offsetX, u32 offsetY, u
                              u32 scaleZ) {
     int *v1;
     int *v2;
-    mapObject->mUnk_27c = 0;
-    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+    mapObject->field27C = 0;
+    if ((mapObject->field0.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
     v2 = &mapObject->mShadowOffsetTargetX;
@@ -102,8 +102,8 @@ void SetShadowOffsetAndScale(Unk02188950 *mapObject, int offsetX, u32 offsetY, u
 
 void SetShadowOffsetAndScaleTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 offsetPerCall,
                                    u32 scaleX, u32 g, u32 scaleZ, u32 scalePerCall) {
-    mapObject->mUnk_27c = 0;
-    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+    mapObject->field27C = 0;
+    if ((mapObject->field0.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
     mapObject->mShadowOffsetTargetX = offsetX;
@@ -124,7 +124,7 @@ void SetCollisionBoxOffsetAndExtent(Unk02188950 *mapObject, int offsetX, int off
     int *v4;
     int *v5;
     mapObject->mCollisionShape = 1;
-    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+    if ((mapObject->field0.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
     v2 = &mapObject->mOffsetTargetX;
@@ -150,15 +150,15 @@ void SetCollisionBoxOffsetAndExtent(Unk02188950 *mapObject, int offsetX, int off
     *v5 = extentZ;
     mapObject->mCollisionExtent.z = *v5;
     mapObject->mCollisionExtentPerCall = 0;
-    mapObject->mPosWithOffset.x = mapObject->mUnk_000.mPos.x + *v1;
-    mapObject->mPosWithOffset.y = mapObject->mUnk_000.mPos.y + *v2;
-    mapObject->mPosWithOffset.z = mapObject->mUnk_000.mPos.z + *v3;
+    mapObject->mPosWithOffset.x = mapObject->field0.mPos.x + *v1;
+    mapObject->mPosWithOffset.y = mapObject->field0.mPos.y + *v2;
+    mapObject->mPosWithOffset.z = mapObject->field0.mPos.z + *v3;
 }
 
 void SetCollisionBoxOffsetAndExtentTarget(Unk02188950 *mapObject, int offsetX, u32 offsetY, u32 offsetZ,
                                           u32 offsetPerCall, u32 extentX, u32 extentY, u32 extentZ, u32 extentPerCall) {
     mapObject->mCollisionShape = 1;
-    if ((mapObject->mUnk_000.mFlags & (0x00000400u)) != 0) {
+    if ((mapObject->field0.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
     mapObject->mOffsetTargetX = offsetX;

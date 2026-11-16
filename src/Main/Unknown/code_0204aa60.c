@@ -91,14 +91,14 @@ RandomState64 *sysdat_getRandom(void) {
     void *random = NULL;
     Unk021759d0 *p = gSystemData;
 
-    switch (p->mUnk_20) {
+    switch (p->field20) {
         case 0:
         case 3:
             random = &p->mRandom;
             break;
         case 1:
         case 2:
-            random = &gStruct217AA00->mUnk_1ee8;
+            random = &gStruct217AA00->field1EE8;
             break;
     }
     return random;

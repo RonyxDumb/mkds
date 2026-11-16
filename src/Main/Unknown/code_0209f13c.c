@@ -23,10 +23,10 @@ void chnd_globalInitLogic(Unk0209f514 *a) {
     if (a == NULL) {
         return;
     }
-    for (i = 0; i < a->mUnk_04 && (o = a->mUnk_00[i]) != NULL; i++) {
+    for (i = 0; i < a->field4 && (o = a->field0[i]) != NULL; i++) {
         r = &gRaceStatus->mLocalRandom;
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
-        o->mUnk_a4 = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
+        o->fieldA4 = (u16) (((u64) (u32) (r->mValue >> 32) * 0x3c) >> 32) + 0x3c;
     }
 }
 
@@ -37,10 +37,10 @@ void chnd_update(void *a, Unk0209f1c8 *b) {
     s32 t;
     s32 n;
 
-    switch (b->mUnk_a8) {
+    switch (b->fieldA8) {
         case 0:
-            if (b->mUnk_a4-- <= 0) {
-                b->mUnk_a8 = 1;
+            if (b->fieldA4-- <= 0) {
+                b->fieldA8 = 1;
             }
             return;
         case 1:
@@ -48,59 +48,59 @@ void chnd_update(void *a, Unk0209f1c8 *b) {
         default:
             return;
     }
-    if (b->mUnk_a0 == 0 || b->mUnk_a0 == 0x7d) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if (b->fieldA0 == 0 || b->fieldA0 == 0x7d) {
+        if ((b->field0.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s1.mSoundId = 0x11a;
-            s1.mPositionSource = &b->mUnk_00.mPos;
-            s1.mUnk_08 = t;
-            s1.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+            s1.mPositionSource = &b->field0.mPos;
+            s1.field8 = t;
+            s1.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
             func_0210b7a8(&s1);
         }
-    } else if (b->mUnk_a0 == 0x46 || b->mUnk_a0 == 0xaf) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    } else if (b->fieldA0 == 0x46 || b->fieldA0 == 0xaf) {
+        if ((b->field0.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s2.mSoundId = 0x11b;
-            s2.mPositionSource = &b->mUnk_00.mPos;
-            s2.mUnk_08 = t;
-            s2.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+            s2.mPositionSource = &b->field0.mPos;
+            s2.field8 = t;
+            s2.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
             func_0210b7a8(&s2);
         }
-    } else if (b->mUnk_a0 == 0xfa) {
-        if ((b->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    } else if (b->fieldA0 == 0xfa) {
+        if ((b->field0.mDistanceSquaredAndFlags & 4) == 0) {
+            if (b->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 t = 2;
-            } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (b->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 t = 3;
             } else {
                 t = 4;
             }
             s3.mSoundId = 0x119;
-            s3.mPositionSource = &b->mUnk_00.mPos;
-            s3.mUnk_08 = t;
-            s3.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
+            s3.mPositionSource = &b->field0.mPos;
+            s3.field8 = t;
+            s3.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
             func_0210b7a8(&s3);
         }
     }
-    n = b->mUnk_a0 + 1;
+    n = b->fieldA0 + 1;
     if (n >= mobj_getModelNsbcaFrameCount(chnd_sModel)) {
         n = 0;
     }
-    b->mUnk_a0 = n;
-    if (b->mUnk_a0 == 0) {
-        b->mUnk_a8 = 0;
+    b->fieldA0 = n;
+    if (b->fieldA0 == 0) {
+        b->fieldA8 = 0;
     }
 }
 
@@ -125,17 +125,17 @@ void rstar_render(void *a, Unk0209f1c8 *b) {
 
     l = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &l, 1);
-    b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
-    b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
-    if (b->mUnk_00.mAngle != 0) {
-        i = b->mUnk_00.mAngle >> 4;
+    b->field0.mMatrix.field0[3].x = b->field0.mPos.x >> 4;
+    b->field0.mMatrix.field0[3].y = b->field0.mPos.y >> 4;
+    b->field0.mMatrix.field0[3].z = b->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &b->field0.mMatrix, 0xc);
+    if (b->field0.mAngle != 0) {
+        i = b->field0.mAngle >> 4;
         MTX_RotY33_(m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
         NNS_G3dGeBufferOP_N(0x1a, m, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
-    mobj_setModelNsbtaFrame(rstar_sModel, b->mUnk_a0);
+    NNS_G3dGeBufferOP_N(0x1b, &b->field0.mScale, 3);
+    mobj_setModelNsbtaFrame(rstar_sModel, b->fieldA0);
     mobj_renderModel(a, rstar_sModel, b);
 }
 
@@ -143,11 +143,11 @@ void rstar_update(void *a, Unk0209f1c8 *b) {
     u16 n;
 
     n = mobj_getModelNsbtaFrameCount(rstar_sModel);
-    b->mUnk_a0 += 1;
-    if (b->mUnk_a0 >= n) {
-        b->mUnk_a0 = 0;
+    b->fieldA0 += 1;
+    if (b->fieldA0 >= n) {
+        b->fieldA0 = 0;
     }
-    b->mUnk_00.mAngle += 0x111;
+    b->field0.mAngle += 0x111;
 }
 
 void *rstar_setupRenderPart(void) {

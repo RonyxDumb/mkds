@@ -8,9 +8,9 @@ typedef struct FSFile FSFile;
 
 // Entry of 0x28 bytes; the table of pointers at the start of the object at 0x440 of gRomArchiveTransfer points to them.
 typedef struct Unk0204bfac_28 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u8 mUnk_08[0x20];
+    /* 00 */ u8 field0[4];
+    /* 04 */ s32 field4;
+    /* 08 */ u8 field8[0x20];
 } Unk0204bfac_28;
 
 // The object at 0x440 of gRomArchiveTransfer as WFS_InitChild and WFSi_OnChildSystemCallback use it: three tables
@@ -19,8 +19,8 @@ typedef struct RomArchiveChildView {
     /* 000 */ Unk0204bfac_28 *mNodeBuffers[16];
     /* 040 */ u32 mBlockBuffers[16];
     /* 080 */ void *mChunkBitmaps[16];
-    /* 0c0 */ Unk0204bfac_28 mUnk_0c0[16];
-    /* 340 */ u8 mUnk_340[0x7bc];
+    /* 0c0 */ Unk0204bfac_28 fieldC0[16];
+    /* 340 */ u8 field340[0x7bc];
     /* afc */ void *mChunkBitmapBuffer;
     /* b00 */ u32 mPositionOffset;
     /* b04 */ u32 mMaxReadSize;
@@ -39,11 +39,11 @@ typedef struct RomArchiveFileNode {
     /* 08c */ s32 mBlockId;
     /* 090 */ s32 mFileStart;
     /* 094 */ u32 mFileLength;
-    /* 098 */ s32 mUnk_098;
-    /* 09c */ s32 mUnk_09c;
-    /* 0a0 */ s32 mUnk_0a0;
+    /* 098 */ s32 field98;
+    /* 09c */ s32 field9C;
+    /* 0a0 */ s32 fieldA0;
     /* 0a4 */ s32 mBufferOffsets[2];
-    /* 0ac */ u8 mUnk_0ac[0x14];
+    /* 0ac */ u8 fieldAC[0x14];
     /* 0c0 */ u8 mBuffers[2][0x400];
 } RomArchiveFileNode;
 
@@ -51,42 +51,42 @@ typedef struct RomArchiveFileNode {
 typedef union Unk0204c320_14 {
     u32 mUnk_w;
     struct {
-        u16 mUnk_14;
-        s16 mUnk_16;
-        s16 mUnk_18;
+        u16 field14;
+        s16 field16;
+        s16 field18;
     } h;
-    RomArchiveParentViewEntry mUnk_0e;
+    RomArchiveParentViewEntry fieldE;
     RomArchiveMessage mUnk_m;
 } Unk0204c320_14;
 
 // Object that WFSi_OnChildSystemCallback and WFSi_OnParentSystemCallback receive.
 typedef struct Unk0204c320 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 mUnk_0c[8];
-    /* 14 */ Unk0204c320_14 mUnk_14;
-    /* 20 */ s16 mUnk_20;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u8 fieldC[8];
+    /* 14 */ Unk0204c320_14 field14;
+    /* 20 */ s16 field20;
 } Unk0204c320;
 
 // Object that WFSi_PortCallback receives.
 typedef struct RomArchivePortMessage {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[6];
-    /* 0c */ const u8 *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[6];
+    /* 0c */ const u8 *fieldC;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
 } RomArchivePortMessage;
 
 typedef struct FSFile FSFile;
 
 // Entries of 0x20 bytes after a count word; WFSi_SendAck reads and rewrites the word at 0x18.
 typedef struct OverlayTableEntry {
-    /* 00 */ u8 mUnk_00[0x18];
+    /* 00 */ u8 field0[0x18];
     /* 18 */ u32 mFileId;
-    /* 1c */ u8 mUnk_1c[4];
+    /* 1c */ u8 field1C[4];
 } OverlayTableEntry;
 
 void WFSi_NotifyBusy(void);

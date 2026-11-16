@@ -11,9 +11,9 @@ typedef struct WLMenuMessage {
     /* 034 */ u16 mScreenMap[0x300];
     /* 634 */ void *mCommonMessages;
     /* 638 */ struct Bmg *mMBChildMessages;
-    /* 63c */ u8 mUnk_63c[4];
+    /* 63c */ u8 field63C[4];
     /* 640 */ s32 mBg3Offset;
-    /* 644 */ u8 mUnk_644[8];
+    /* 644 */ u8 field644[8];
     /* 64c */ s32 mState;
     /* 650 */ void *mHeap;
 } WLMenuMessage;

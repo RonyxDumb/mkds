@@ -60,41 +60,41 @@
 // Reset hook of the bomb kind.
 void itbomb_initInstance(ItemBomb *bomb) {
     u32 initialDistanceSquared;
-    MTX_Identity43_((MtxFx43 *) bomb->mUnk_13c);
-    sm_init(bomb->mUnk_184, (UnkFunc *const *) &itbomb_sStates, 4, bomb);
-    sm_gotoState(bomb->mUnk_184, 0);
+    MTX_Identity43_((MtxFx43 *) bomb->field13C);
+    sm_init(bomb->field184, (UnkFunc *const *) &itbomb_sStates, 4, bomb);
+    sm_gotoState(bomb->field184, 0);
     bomb->mTimer = 300;
-    bomb->mUnk_174 = 0;
+    bomb->field174 = 0;
     initialDistanceSquared = 0x05f592e1u;
     bomb->mNearestKartIndex = 8;
     bomb->mNearestKartDistanceSquared = initialDistanceSquared;
-    bomb->mUnk_180 = 0;
-    bomb->mUnk_16c = FALSE;
+    bomb->field180 = 0;
+    bomb->field16C = FALSE;
     bomb->mVisible = TRUE;
     bomb->mPooledMapObject = NULL;
 }
 
 s32 itbomb_20FE268(ItemInUse *inUse, ItemBomb *bomb) {
     func_020f9114(bomb);
-    bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f3c;
-    bomb->mUnk_134 = (s32) (((s64) inUse->mKartVelocityLength * 0x1ec) >> 12) + 0x333;
-    if (bomb->mUnk_134 > 0xccd) {
-        bomb->mUnk_134 = 0xccd;
+    bomb->field0.mItemObject.field78 |= data_02159f3c;
+    bomb->field134 = (s32) (((s64) inUse->mKartVelocityLength * 0x1ec) >> 12) + 0x333;
+    if (bomb->field134 > 0xccd) {
+        bomb->field134 = 0xccd;
     }
     if (inUse->mKartItems->mFlags & 0x20) {
-        ThrowBouncingItem(&bomb->mUnk_000, inUse, 2, 0, 0x7800, 0x5000, 0x219a);
+        ThrowBouncingItem(&bomb->field0, inUse, 2, 0, 0x7800, 0x5000, 0x219a);
         bomb->mTimer = 0x5a;
-        bomb->mUnk_130 = 0;
-        return bomb->mUnk_130;
+        bomb->field130 = 0;
+        return bomb->field130;
     }
     if (inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
-        ThrowBouncingItem(&bomb->mUnk_000, inUse, 3, 1, 0x9800, 0x5000, 0x59a);
+        ThrowBouncingItem(&bomb->field0, inUse, 3, 1, 0x9800, 0x5000, 0x59a);
     } else {
-        ThrowBouncingItem(&bomb->mUnk_000, inUse, 3, 1, 0x6000, 0x5000, 0x59a);
+        ThrowBouncingItem(&bomb->field0, inUse, 3, 1, 0x6000, 0x5000, 0x59a);
     }
-    sfx_21090C4(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
-    bomb->mUnk_130 = 1;
-    return bomb->mUnk_130;
+    sfx_21090C4(&bomb->field0.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    bomb->field130 = 1;
+    return bomb->field130;
 }
 
 u32 func_020fe264(u32 value) {
@@ -104,27 +104,27 @@ u32 func_020fe264(u32 value) {
 void itbomb_20FE16C(ItemBomb *bomb) {
     s32 v;
 
-    if (bomb->mUnk_130 != 0) {
-        AdvanceBouncingItem(&bomb->mUnk_000, 0x385, 0xff8, 0x733, (u32 *) &v);
+    if (bomb->field130 != 0) {
+        AdvanceBouncingItem(&bomb->field0, 0x385, 0xff8, 0x733, (u32 *) &v);
     } else {
-        AdvanceBouncingItem(&bomb->mUnk_000, 0x47b, 0xf91, bomb->mUnk_134, (u32 *) &v);
+        AdvanceBouncingItem(&bomb->field0, 0x47b, 0xf91, bomb->field134, (u32 *) &v);
     }
-    if (bomb->mUnk_000.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
+    if (bomb->field0.mItemObject.mFlags & KART_ITEMS_THROW_FORWARD) {
         it_20F91FC(bomb, 0xe5);
     }
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x8) == 0) {
+    if ((bomb->field0.mItemObject.mFlags & 0x8) == 0) {
         return;
     }
-    if (bomb->mUnk_000.mItemObject.mFlags & 0x3) {
+    if (bomb->field0.mItemObject.mFlags & 0x3) {
         return;
     }
-    if (bomb->mUnk_130 != 0) {
-        bomb->mUnk_000.mItemObject.mVelocity.y *= 2;
+    if (bomb->field130 != 0) {
+        bomb->field0.mItemObject.mVelocity.y *= 2;
     }
-    StopSound(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda);
-    StartRestingItemObject(&bomb->mUnk_000.mItemObject, &v);
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
+    StopSound(&bomb->field0.mItemObject.mSoundSource, 0xda);
+    StartRestingItemObject(&bomb->field0.mItemObject, &v);
+    if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+        bomb->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     bomb->mNextState = 1;
     bomb->mNextStateRequested = 1;
@@ -137,15 +137,15 @@ u32 func_020fe168(u32 value) {
 void itbomb_20FE120(ItemBomb *bomb) {
     u32 flags;
 
-    flags = bomb->mUnk_000.mItemObject.mFlags;
+    flags = bomb->field0.mItemObject.mFlags;
     if (flags & 0x8000) {
-        AdvanceRestingItemObject(&bomb->mUnk_000.mItemObject);
+        AdvanceRestingItemObject(&bomb->field0.mItemObject);
         return;
     }
     if (flags & 0x4000) {
-        AdvanceFallingItemObject(&bomb->mUnk_000.mItemObject);
+        AdvanceFallingItemObject(&bomb->field0.mItemObject);
         bomb->mTimer = 0x5a;
-        bomb->mUnk_174 = 0;
+        bomb->field174 = 0;
     }
 }
 
@@ -153,11 +153,11 @@ void itbomb_20FE00C(ItemBomb *bomb) {
     NNSSndSeqPlayer **seqPlayerPointer;
     ModelEffect *modelEffect;
 
-    bomb->mUnk_000.mItemObject.mFlags |= 0x800000;
-    bomb->mUnk_000.mItemObject.mUnk_100 = 0;
-    bomb->mUnk_000.mItemObject.mScale = data_02159f30;
+    bomb->field0.mItemObject.mFlags |= 0x800000;
+    bomb->field0.mItemObject.field100 = 0;
+    bomb->field0.mItemObject.mScale = data_02159f30;
     bomb->mModelEffect =
-        expl_spawnEffect(0, &bomb->mUnk_000.mItemObject.mPos, func_020f9160(&bomb->mUnk_000.mItemObject) == 0 ? 1 : 0);
+        expl_spawnEffect(0, &bomb->field0.mItemObject.mPos, func_020f9160(&bomb->field0.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
         s32 *t;
@@ -170,7 +170,7 @@ void itbomb_20FE00C(ItemBomb *bomb) {
     it_20F91FC(bomb, 0xe4);
     if (data_0217c780 & 1) {
         seqPlayerPointer = sp_acquireElement(sound_getPoolById(0));
-        if (SoundHandle_217D084.mUnk_0c != 0) {
+        if (SoundHandle_217D084.fieldC != 0) {
             if (seqPlayerPointer[0] != NULL) {
                 NNS_SndPlayerStopSeq(seqPlayerPointer, 0);
             }
@@ -180,7 +180,7 @@ void itbomb_20FE00C(ItemBomb *bomb) {
             NNS_SndArcPlayerStartSeqArc(seqPlayerPointer, 0, 0xe0);
         }
     }
-    cam_tryImpactShakePlayerCamera(bomb->mUnk_000.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+    cam_tryImpactShakePlayerCamera(bomb->field0.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
 void itbomb_20FDF64(ItemBomb *bomb) {
@@ -188,20 +188,20 @@ void itbomb_20FDF64(ItemBomb *bomb) {
 
     stateFrames = bomb->mStateFrames;
     if (GrowItemObjectScale(bomb, data_0217bd50, data_0217bd54) != 0) {
-        func_020f9fa8(&bomb->mUnk_000.mItemObject);
+        func_020f9fa8(&bomb->field0.mItemObject);
     }
     if (stateFrames < 0x16) {
         return;
     }
     if (stateFrames == 0x16) {
-        bomb->mUnk_16c = TRUE;
+        bomb->field16C = TRUE;
     } else if (stateFrames == 0x2a) {
         FreeItemObjectCollisionSlot((s32) bomb);
     }
     if (stateFrames <= 0x55) {
         return;
     }
-    it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+    it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
 }
 
 void AdvanceItemBombNearestKart(ItemBomb *bomb) {
@@ -219,7 +219,7 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
         return;
     }
     skippedKartIndex =
-        (bomb->mUnk_000.mItemObject.mUnk_78 & 0x8000) == 0 ? (u16) (bomb->mUnk_000.mItemObject.mUnk_78 & ~0xff00) : 8;
+        (bomb->field0.mItemObject.field78 & 0x8000) == 0 ? (u16) (bomb->field0.mItemObject.field78 & ~0xff00) : 8;
     if (candidateKartIndex == skippedKartIndex) {
         return;
     }
@@ -229,16 +229,16 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
     }
     if (bomb->mNearestKartDistanceSquared < 8) {
         driver_getPosition(&kartPosition, bomb->mNearestKartIndex);
-        deltaX = (bomb->mUnk_000.mItemObject.mPos.x - kartPosition.x) >> 12;
-        deltaY = (bomb->mUnk_000.mItemObject.mPos.y - kartPosition.y) >> 12;
-        deltaZ = (bomb->mUnk_000.mItemObject.mPos.z - kartPosition.z) >> 12;
+        deltaX = (bomb->field0.mItemObject.mPos.x - kartPosition.x) >> 12;
+        deltaY = (bomb->field0.mItemObject.mPos.y - kartPosition.y) >> 12;
+        deltaZ = (bomb->field0.mItemObject.mPos.z - kartPosition.z) >> 12;
         distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
         bomb->mNearestKartDistanceSquared = distanceSquared;
     }
     kartPosition = kart->mDrawMatrixPos;
-    deltaX = (bomb->mUnk_000.mItemObject.mPos.x - kartPosition.x) >> 12;
-    deltaY = (bomb->mUnk_000.mItemObject.mPos.y - kartPosition.y) >> 12;
-    deltaZ = (bomb->mUnk_000.mItemObject.mPos.z - kartPosition.z) >> 12;
+    deltaX = (bomb->field0.mItemObject.mPos.x - kartPosition.x) >> 12;
+    deltaY = (bomb->field0.mItemObject.mPos.y - kartPosition.y) >> 12;
+    deltaZ = (bomb->field0.mItemObject.mPos.z - kartPosition.z) >> 12;
     distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
     if (distanceSquared < bomb->mNearestKartDistanceSquared) {
         bomb->mNearestKartIndex = candidateKartIndex;
@@ -270,45 +270,45 @@ void ClampItemBombTimerByDistance(ItemBomb *bomb) {
     }
     if (bomb->mTimer > 4) {
         bomb->mTimer = 4;
-        bomb->mUnk_174 = 3;
+        bomb->field174 = 3;
     }
 }
 
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, PooledMapObject *pooledMapObject) {
     PooledMapObject *mapObjectToPark;
 
-    bombAlias->mUnk_000.mItemObject.mDistanceSquaredAndFlags |= data_02159f2c;
-    sm_execute(&bomb->mUnk_184);
-    if (pooledMapObject->mUnk_00.mFlags & 0x100) {
+    bombAlias->field0.mItemObject.mDistanceSquaredAndFlags |= data_02159f2c;
+    sm_execute(&bomb->field184);
+    if (pooledMapObject->field0.mFlags & 0x100) {
         bomb->mPooledMapObject = NULL;
-        it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+        it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
         return;
     }
-    if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
-        pooledMapObject->mUnk_00.mPos = bombAlias->mUnk_000.mItemObject.mPos;
-        pooledMapObject->mUnk_00.mPos.y += bomb->mMapObjectOffsetY - bombAlias->mUnk_000.mItemObject.mUnk_dc;
+    if ((bombAlias->field0.mItemObject.mFlags & 0x8000) == 0) {
+        pooledMapObject->field0.mPos = bombAlias->field0.mItemObject.mPos;
+        pooledMapObject->field0.mPos.y += bomb->mMapObjectOffsetY - bombAlias->field0.mItemObject.fieldDC;
     }
     if (bomb->mTimer <= 0) {
-        if ((bombAlias->mUnk_000.mItemObject.mFlags & 0x8000) == 0) {
+        if ((bombAlias->field0.mItemObject.mFlags & 0x8000) == 0) {
             return;
         }
         bomb->mPooledMapObject = NULL;
-        it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+        it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
         return;
     }
     bomb->mTimer--;
-    if (bomb->mTimer < pooledMapObject->mUnk_00.mAlpha) {
-        pooledMapObject->mUnk_00.mAlpha = bomb->mTimer;
+    if (bomb->mTimer < pooledMapObject->field0.mAlpha) {
+        pooledMapObject->field0.mAlpha = bomb->mTimer;
     }
     if (bomb->mTimer < 0x10) {
-        pooledMapObject->mUnk_00.mFlags |= data_02159f18;
+        pooledMapObject->field0.mFlags |= data_02159f18;
     }
     if (bomb->mTimer == 0) {
         mapObjectToPark = bomb->mPooledMapObject;
-        mapObjectToPark->mUnk_00.mFlags &= ~1;
-        mobj_setInvisible(&mapObjectToPark->mUnk_00);
+        mapObjectToPark->field0.mFlags &= ~1;
+        mobj_setInvisible(&mapObjectToPark->field0);
         bomb->mPooledMapObject = NULL;
-        it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+        it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
     }
 }
 
@@ -317,39 +317,39 @@ void AdvanceItemBomb(ItemBomb *bomb) {
         AdvanceItemBombWithMapObject(bomb, bomb, bomb->mPooledMapObject);
         return;
     }
-    sm_execute(&bomb->mUnk_184);
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x80000) || bomb->mTimer < 0) {
-        func_020f7104(&bomb->mUnk_000.mItemObject, 1);
+    sm_execute(&bomb->field184);
+    if ((bomb->field0.mItemObject.mFlags & 0x80000) || bomb->mTimer < 0) {
+        func_020f7104(&bomb->field0.mItemObject, 1);
     }
     bomb->mTimer--;
-    if (bomb->mUnk_180 > 0) {
-        bomb->mUnk_180--;
+    if (bomb->field180 > 0) {
+        bomb->field180--;
         if (bomb->mTimer == 0) {
             bomb->mTimer = 0x10;
         }
     }
-    if (bomb->mUnk_000.mBouncesRemaining >= 3) {
+    if (bomb->field0.mBouncesRemaining >= 3) {
         return;
     }
-    if (bomb->mUnk_130 == 0 && bomb->mUnk_000.mBouncesRemaining >= 2) {
+    if (bomb->field130 == 0 && bomb->field0.mBouncesRemaining >= 2) {
         return;
     }
-    if ((bomb->mUnk_000.mItemObject.mUnk_78 & 0x8000) == 0) {
+    if ((bomb->field0.mItemObject.field78 & 0x8000) == 0) {
         AdvanceItemBombNearestKart(bomb);
-        if (bomb->mUnk_180 == 0) {
+        if (bomb->field180 == 0) {
             ClampItemBombTimerByDistance(bomb);
         }
     }
     if (bomb->mTimer >= 0xd2) {
         return;
     }
-    bomb->mUnk_174--;
-    if (bomb->mUnk_174 > 0) {
+    bomb->field174--;
+    if (bomb->field174 > 0) {
         return;
     }
-    bomb->mUnk_174 = bomb->mTimer >> 2;
-    if (bomb->mUnk_174 < 8) {
-        bomb->mUnk_174 = 8;
+    bomb->field174 = bomb->mTimer >> 2;
+    if (bomb->field174 < 8) {
+        bomb->field174 = 8;
     }
 }
 
@@ -357,30 +357,30 @@ void *itbomb_20FDA50(void *cursor, ItemBomb *bomb, void *toData) {
     void *nextCursor;
 
     if (bomb != NULL && toData != NULL) {
-        func_020ff1b8(bomb->mUnk_130, &bomb->mUnk_000.mItemObject.mVelocity.y);
+        func_020ff1b8(bomb->field130, &bomb->field0.mItemObject.mVelocity.y);
     }
     nextCursor = CopyItemObjectData(cursor, bomb, toData);
-    nextCursor = func_020fefe8(nextCursor, bomb != NULL ? &bomb->mUnk_134 : 0, toData);
+    nextCursor = func_020fefe8(nextCursor, bomb != NULL ? &bomb->field134 : 0, toData);
     if (bomb != NULL && toData == NULL) {
-        func_020ff1a0(bomb->mUnk_000.mItemObject.mVelocity.y, &bomb->mUnk_130);
+        func_020ff1a0(bomb->field0.mItemObject.mVelocity.y, &bomb->field130);
     }
     if (bomb != NULL && toData != NULL) {
-        return func_020fe8ac(bomb->mUnk_000.mItemObject.mKind);
+        return func_020fe8ac(bomb->field0.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void itbomb_20FD9D8(ItemBomb *bomb) {
     func_020f8e78(bomb);
-    StartItemObjectBouncing(&bomb->mUnk_000, bomb->mUnk_130 != 0 ? 3 : 2);
-    sm_init(&bomb->mUnk_184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
-    if (!(bomb->mUnk_000.mItemObject.mFlags & 0x10000000)) {
+    StartItemObjectBouncing(&bomb->field0, bomb->field130 != 0 ? 3 : 2);
+    sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
+    if (!(bomb->field0.mItemObject.mFlags & 0x10000000)) {
         return;
     }
-    if (bomb->mUnk_130 == 0) {
+    if (bomb->field130 == 0) {
         return;
     }
-    sfx_21090C4(&bomb->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    sfx_21090C4(&bomb->field0.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 void itbomb_20FD938(ItemBomb *bomb, Vec3 *a, NsbmdModel *model) {
@@ -388,48 +388,48 @@ void itbomb_20FD938(ItemBomb *bomb, Vec3 *a, NsbmdModel *model) {
         return;
     }
     if (bomb->mState != 2) {
-        if (bomb->mUnk_174 != 0 && bomb->mUnk_174 < 6) {
+        if (bomb->field174 != 0 && bomb->field174 < 6) {
             model->mFrameIndex = 1;
         } else {
             model->mFrameIndex = 0;
         }
-        DrawItemObjectModel(&bomb->mUnk_000.mItemObject, model, a);
+        DrawItemObjectModel(&bomb->field0.mItemObject, model, a);
         return;
     }
     if (bomb->mModelEffect == NULL) {
         return;
     }
-    bomb->mModelEffect->mVisible = (bomb->mUnk_000.mItemObject.mFlags & 0x10000) == 0;
+    bomb->mModelEffect->mVisible = (bomb->field0.mItemObject.mFlags & 0x10000) == 0;
 }
 
 int itbomb_20FD8B0(ItemBomb *bomb) {
     if (bomb->mState != 2) {
-        sm_init(&bomb->mUnk_184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
+        sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
         bomb->mNextState = 2;
         bomb->mNextStateRequested = 1;
-        if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-            bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
+        if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+            bomb->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
         }
-        bomb->mUnk_000.mItemObject.mFlags &= ~0x8000;
-        bomb->mUnk_000.mItemObject.mFlags |= 0x80000;
-        bomb->mUnk_000.mItemObject.mUnk_78 &= ~0x4000;
+        bomb->field0.mItemObject.mFlags &= ~0x8000;
+        bomb->field0.mItemObject.mFlags |= 0x80000;
+        bomb->field0.mItemObject.field78 &= ~0x4000;
     }
     return 1;
 }
 
 void itbomb_20FD83C(ItemBomb *bomb) {
-    if (bomb->mUnk_000.mItemObject.mFlags & 0x80000) {
+    if (bomb->field0.mItemObject.mFlags & 0x80000) {
         return;
     }
-    sm_init(&bomb->mUnk_184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
+    sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
+    if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+        bomb->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     bomb->mNextState = 1;
     bomb->mNextStateRequested = 1;
-    bomb->mUnk_180 = 0x10e;
-    bomb->mUnk_130 = 0;
-    bomb->mUnk_000.mBouncesRemaining = 0;
+    bomb->field180 = 0x10e;
+    bomb->field130 = 0;
+    bomb->field0.mBouncesRemaining = 0;
 }
 
 // Release hook of the bomb kind: parks its map object, if it has one.
@@ -465,7 +465,7 @@ ItemBomb *func_020fd7a4(int index) {
     u32 flags;
 
     bomb = (ItemBomb *) it_sItemsets[9].mObjects[index];
-    flags = bomb->mUnk_000.mItemObject.mFlags;
+    flags = bomb->field0.mItemObject.mFlags;
     if ((flags & 0x8000) && (flags & 0x180000) == 0 && bomb->mState != 3 && bomb->mPooledMapObject == NULL) {
         return bomb;
     }
@@ -476,14 +476,14 @@ void func_020fd754(void *object) {
     ItemBomb *bomb;
 
     bomb = object;
-    bomb->mUnk_000.mItemObject.mFlags &= ~0x8000;
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        bomb->mUnk_000.mItemObject.mAdvance = NULL;
+    bomb->field0.mItemObject.mFlags &= ~0x8000;
+    if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+        bomb->field0.mItemObject.mAdvance = NULL;
     }
     FreeItemObjectCollisionSlot((s32) bomb);
     bomb->mVisible = FALSE;
-    sm_gotoState(&bomb->mUnk_184, 3);
-    bomb->mUnk_174 = 0;
+    sm_gotoState(&bomb->field184, 3);
+    bomb->field174 = 0;
 }
 
 void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
@@ -497,27 +497,27 @@ void func_020fd684(void *object, Vec3 *d, Vec3 *f) {
     b = f;
     if (bomb->mPooledMapObject == NULL) {
         bomb->mVisible = TRUE;
-        light_setToKclColor(&bomb->mUnk_000.mItemObject.mColorBlend, 1);
+        light_setToKclColor(&bomb->field0.mItemObject.mColorBlend, 1);
     }
     if (a != NULL) {
-        bomb->mUnk_000.mItemObject.mNormal = *a;
-        bomb->mUnk_000.mItemObject.mFlags |= 0x80;
+        bomb->field0.mItemObject.mNormal = *a;
+        bomb->field0.mItemObject.mFlags |= 0x80;
     }
     if (b == NULL) {
         return;
     }
-    bomb->mUnk_000.mItemObject.mPos = *b;
-    VEC_Subtract(&bomb->mUnk_000.mItemObject.mPos, &bomb->mUnk_000.mItemObject.mPrevPos,
-                 &bomb->mUnk_000.mItemObject.mVelocity);
+    bomb->field0.mItemObject.mPos = *b;
+    VEC_Subtract(&bomb->field0.mItemObject.mPos, &bomb->field0.mItemObject.mPrevPos,
+                 &bomb->field0.mItemObject.mVelocity);
     if (bomb->mPooledMapObject == NULL) {
         return;
     }
-    bomb->mPooledMapObject->mUnk_00.mPos = *b;
-    bomb->mPooledMapObject->mUnk_00.mPos.y += bomb->mMapObjectOffsetY;
+    bomb->mPooledMapObject->field0.mPos = *b;
+    bomb->mPooledMapObject->field0.mPos.y += bomb->mMapObjectOffsetY;
     pooledMapObject = bomb->mPooledMapObject;
-    pooledMapObject->mUnk_00.mFlags &= ~2;
-    pooledMapObject->mUnk_00.mFlags &= ~8;
-    pooledMapObject->mUnk_00.mAlpha = 0x1f;
+    pooledMapObject->field0.mFlags &= ~2;
+    pooledMapObject->field0.mFlags &= ~8;
+    pooledMapObject->field0.mAlpha = 0x1f;
 }
 
 void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
@@ -526,34 +526,34 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
 
     bomb = *bombSlot;
     pooledMapObject = bomb->mPooledMapObject;
-    bomb->mUnk_000.mItemObject.mUnk_78 |= data_02159f28;
+    bomb->field0.mItemObject.field78 |= data_02159f28;
     if (pooledMapObject == NULL) {
         CreateItemObjectCollisionSlot(bomb);
         bomb->mVisible = TRUE;
     }
     func_020f9114(bomb);
-    sm_init(&bomb->mUnk_184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
-    sm_gotoState(&bomb->mUnk_184, 0);
+    sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
+    sm_gotoState(&bomb->field184, 0);
     bomb->mTimer = 0x12c;
-    bomb->mUnk_174 = 0;
+    bomb->field174 = 0;
     bomb->mNearestKartIndex = 8;
     bomb->mNearestKartDistanceSquared = 0x5f592e1;
-    bomb->mUnk_180 = 0;
-    bomb->mUnk_16c = FALSE;
-    bomb->mUnk_134 = 0xccd;
+    bomb->field180 = 0;
+    bomb->field16C = FALSE;
+    bomb->field134 = 0xccd;
     bomb->mTimer = timerStart;
-    bomb->mUnk_130 = 1;
-    InitBouncingItem(&bomb->mUnk_000, 3, v);
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        bomb->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
+    bomb->field130 = 1;
+    InitBouncingItem(&bomb->field0, 3, v);
+    if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+        bomb->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     if (pooledMapObject != NULL) {
-        pooledMapObject->mUnk_00.mFlags &= ~2;
-        pooledMapObject->mUnk_00.mFlags &= ~8;
-        pooledMapObject->mUnk_00.mAlpha = 0x1f;
-        pooledMapObject->mUnk_00.mFlags &= ~4;
-        if (pooledMapObject->mUnk_00.mKind != MAP_OBJECT_KIND_KURIBO) {
-            pooledMapObject->mUnk_00.mFlags &= ~1;
+        pooledMapObject->field0.mFlags &= ~2;
+        pooledMapObject->field0.mFlags &= ~8;
+        pooledMapObject->field0.mAlpha = 0x1f;
+        pooledMapObject->field0.mFlags &= ~4;
+        if (pooledMapObject->field0.mKind != MAP_OBJECT_KIND_KURIBO) {
+            pooledMapObject->field0.mFlags &= ~1;
         }
     }
     *bombSlot = NULL;
@@ -571,15 +571,15 @@ void ReleaseItemBomb(void **bombSlot) {
     PooledMapObject *pooledMapObject;
 
     bomb = *bombSlot;
-    sm_gotoState(&bomb->mUnk_184, 0);
+    sm_gotoState(&bomb->field184, 0);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
-        pooledMapObject->mUnk_00.mFlags &= ~1;
-        mobj_setInvisible(&pooledMapObject->mUnk_00);
+        pooledMapObject->field0.mFlags &= ~1;
+        mobj_setInvisible(&pooledMapObject->field0);
         bomb->mPooledMapObject = NULL;
-        it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+        it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
     } else {
-        it_itemsetDestroyItem(it_sItemsets + bomb->mUnk_000.mItemObject.mKind, &bomb->mUnk_000.mItemObject);
+        it_itemsetDestroyItem(it_sItemsets + bomb->field0.mItemObject.mKind, &bomb->field0.mItemObject);
     }
     *bombSlot = NULL;
 }
@@ -591,13 +591,13 @@ void *itbomb_20FD428(void) {
     if (bomb == NULL) {
         return NULL;
     }
-    if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        bomb->mUnk_000.mItemObject.mAdvance = NULL;
+    if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+        bomb->field0.mItemObject.mAdvance = NULL;
     }
     FreeItemObjectCollisionSlot((s32) bomb);
     bomb->mVisible = FALSE;
-    sm_gotoState(&bomb->mUnk_184, 3);
-    bomb->mUnk_174 = 0;
+    sm_gotoState(&bomb->field184, 3);
+    bomb->field174 = 0;
     return bomb;
 }
 
@@ -610,22 +610,22 @@ void *itbomb_20FD338(void *mapObject, s32 offsetY) {
     if (bomb == NULL) {
         bomb = NULL;
     } else {
-        if ((bomb->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-            bomb->mUnk_000.mItemObject.mAdvance = NULL;
+        if ((bomb->field0.mItemObject.mFlags & 0x180000) == 0) {
+            bomb->field0.mItemObject.mAdvance = NULL;
         }
         FreeItemObjectCollisionSlot((s32) bomb);
         bomb->mVisible = FALSE;
-        sm_gotoState(&bomb->mUnk_184, 3);
-        bomb->mUnk_174 = 0;
+        sm_gotoState(&bomb->field184, 3);
+        bomb->field174 = 0;
     }
     if (bomb == NULL) {
         return NULL;
     }
-    mobj_setVisible(&pooledMapObject->mUnk_00);
-    pooledMapObject->mUnk_00.mFlags |= data_02159f18;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f1c;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f20;
-    pooledMapObject->mUnk_00.mFlags |= data_02159f24;
+    mobj_setVisible(&pooledMapObject->field0);
+    pooledMapObject->field0.mFlags |= data_02159f18;
+    pooledMapObject->field0.mFlags |= data_02159f1c;
+    pooledMapObject->field0.mFlags |= data_02159f20;
+    pooledMapObject->field0.mFlags |= data_02159f24;
     bomb->mPooledMapObject = pooledMapObject;
     bomb->mMapObjectOffsetY = offsetY;
     return bomb;
@@ -633,8 +633,8 @@ void *itbomb_20FD338(void *mapObject, s32 offsetY) {
 
 Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateFrames;
-    *scaledScaleZ = ((s64) bomb->mUnk_000.mItemObject.mScale.z * data_0217bd48) >> 12;
-    return &bomb->mUnk_000.mItemObject.mPos;
+    *scaledScaleZ = ((s64) bomb->field0.mItemObject.mScale.z * data_0217bd48) >> 12;
+    return &bomb->field0.mItemObject.mPos;
 }
 
 #pragma thumb on
@@ -645,7 +645,7 @@ void itbomb_load(void) {
     data_0217bd50 = 0x18006;
     data_0217bd48 = FX_Div(0x1000, 0x18006);
     data_0217bd54 = 0x2148;
-    data_0217bd58 = ((s64) data_0217bd50 * it_sItemParams[9].mUnk_6c) >> 12;
+    data_0217bd58 = ((s64) data_0217bd50 * it_sItemParams[9].field6C) >> 12;
     data_0217bd58 >>= 12;
     data_0217bd58 *= data_0217bd58;
     engineIndex = gRaceMultiConfig->mEngineIndex;

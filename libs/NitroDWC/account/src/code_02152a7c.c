@@ -6,21 +6,21 @@
 
 void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
     enum { K0 } shift = K0;
-    DWCi_Acc_SetMaskBits(&loginid->mUnk_00, useridHi, shift, 0x7ff);
-    loginid->mUnk_04 = useridLo;
+    DWCi_Acc_SetMaskBits(&loginid->field0, useridHi, shift, 0x7ff);
+    loginid->field4 = useridLo;
 }
 
 void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
-    loginid->mUnk_08 = playerid;
+    loginid->field8 = playerid;
 }
 
 void DWCi_Acc_SetFriendKey(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi) {
-    data->mUnk_04 = friendkeyLo;
-    data->mUnk_08 = friendkeyHi;
+    data->field4 = friendkeyLo;
+    data->field8 = friendkeyHi;
 }
 
 void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId) {
-    data->mUnk_04 = gsProfileId;
+    data->field4 = gsProfileId;
 }
 
 #pragma thumb off

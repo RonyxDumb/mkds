@@ -15,7 +15,7 @@ static inline u32 func_02050080_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 u32 func_020501b0(u32 entryIndex) {
@@ -27,13 +27,13 @@ u32 func_020501b0(u32 entryIndex) {
     if (entryIndex >= 4) {
         return 0;
     }
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
         entryValid = result;
         if (func_02050080_inline() != 2) {
             entryValid = 0;
         } else if (*(u16 *) 0x027ffc40 == 2) {
             entryValid = 0;
-        } else if (gStruct217AA00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+        } else if (gStruct217AA00->fieldAC[entryIndex].fieldDC_0 != 0) {
             entryValid = 1;
         }
         if (entryValid != 0) {
@@ -41,16 +41,16 @@ u32 func_020501b0(u32 entryIndex) {
             result = 1;
         }
     } else {
-        gStruct217AA00->mUnk_043b = 0;
-        gStruct217AA00->mUnk_0438 = 0;
-        entry = &gStruct217AA00->mUnk_00ac[entryIndex];
-        gStruct217AA00->mUnk_0436 &= ~1;
-        if (entry->mUnk_dc_0 != 0) {
-            MI_CpuCopy8(entry, gStruct217AA00->mUnk_0024, 0xc0);
-            DC_StoreRange(gStruct217AA00->mUnk_0024, 0xc0);
+        gStruct217AA00->field43B = 0;
+        gStruct217AA00->field438 = 0;
+        entry = &gStruct217AA00->fieldAC[entryIndex];
+        gStruct217AA00->field436 &= ~1;
+        if (entry->fieldDC_0 != 0) {
+            MI_CpuCopy8(entry, gStruct217AA00->field24, 0xc0);
+            DC_StoreRange(gStruct217AA00->field24, 0xc0);
             q = gStruct217AA00;
-            *(Unk0217aa00_42c *) &q->mUnk_042c = entry->mUnk_c0_42c;
-            q->mUnk_043c = entry->mUnk_dc_1;
+            *(Unk0217aa00_42c *) &q->field42C = entry->mUnk_c0_42c;
+            q->field43C = entry->fieldDC_1;
             result = 1;
         }
     }
@@ -63,7 +63,7 @@ void func_02050080(void) {
     u16 participantCount;
 
     proceed = FALSE;
-    if (func_02050080_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_02050080_inline() != 0 && gStruct217AA00->field4 != 13) {
         proceed = TRUE;
     }
     if (proceed == FALSE) {
@@ -73,16 +73,16 @@ void func_02050080(void) {
     participantCount = 0;
     for (; index < 8; index++) {
         if ((gStruct217AA00->mParticipantMask & (1 << index)) != 0) {
-            gStruct217AA00->mUnk_1e52[index].mEntryIndex = participantCount;
-            gStruct217AA00->mUnk_1e8c[participantCount] = index;
+            gStruct217AA00->field1E52[index].mEntryIndex = participantCount;
+            gStruct217AA00->field1E8C[participantCount] = index;
             gStruct217AA00->mParticipantIndices[participantCount] = index;
             participantCount++;
         } else {
-            gStruct217AA00->mUnk_1e52[index].mEntryIndex = 0xffff;
+            gStruct217AA00->field1E52[index].mEntryIndex = 0xffff;
         }
     }
     for (; participantCount < 8; participantCount++) {
-        gStruct217AA00->mUnk_1e8c[participantCount] = 0xffff;
+        gStruct217AA00->field1E8C[participantCount] = 0xffff;
         gStruct217AA00->mParticipantIndices[participantCount] = 0xffff;
     }
     if (scproc_getCurrentScene() == 2) {

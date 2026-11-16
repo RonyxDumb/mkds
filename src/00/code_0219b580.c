@@ -70,34 +70,34 @@ void InitWiFiConnection(void *a, void *b, s32 c, const char *d, const char *e, s
     gWiFiConnection->mSocket = NULL;
     gWiFiConnection->mResultCallback = WiFiGt2ResultCallback;
     gWiFiConnection->mDataCallback = WiFiGt2DataCallback;
-    gWiFiConnection->mUnk_0c = (s32(*)()) func_ov000_0219b27c;
+    gWiFiConnection->fieldC = (s32(*)()) func_ov000_0219b27c;
     gWiFiConnection->mElapsedTimeCallback = WiFiGt2ElapsedTimeCallback;
     gWiFiConnection->mSendBufferSize = f == 0 ? 0x2000 : f;
     gWiFiConnection->mReceiveBufferSize = g == 0 ? 0x2000 : g;
     gWiFiConnection->mGpConnection.mGpiConnection = NULL;
-    gWiFiConnection->mUnk_20 = b;
+    gWiFiConnection->field20 = b;
     gWiFiConnection->mState = 0;
     gWiFiConnection->mPrevState = 0;
     gWiFiConnection->mOwnIndex = 0;
-    gWiFiConnection->mUnk_2d = 0;
-    gWiFiConnection->mUnk_2e = 0;
+    gWiFiConnection->field2D = 0;
+    gWiFiConnection->field2E = 0;
     gWiFiConnection->mProfileId = 0;
     gWiFiConnection->mGameName = data_ov000_021b4e84;
-    gWiFiConnection->mUnk_58 = data_ov000_021b4f84;
+    gWiFiConnection->field58 = data_ov000_021b4f84;
     gWiFiConnection->mLoginCallback = NULL;
     gWiFiConnection->mLoginCallbackArg = 0;
     gWiFiConnection->mBuddySyncCallback = NULL;
     gWiFiConnection->mBuddySyncCallbackArg = NULL;
     gWiFiConnection->mMatchingCallback = NULL;
     gWiFiConnection->mMatchingCallbackArg = NULL;
-    gWiFiConnection->mUnk_74 = NULL;
-    gWiFiConnection->mUnk_78 = NULL;
-    gWiFiConnection->mUnk_7c = NULL;
-    gWiFiConnection->mUnk_80 = NULL;
+    gWiFiConnection->field74 = NULL;
+    gWiFiConnection->field78 = NULL;
+    gWiFiConnection->field7C = NULL;
+    gWiFiConnection->field80 = NULL;
     func_ov000_0219b964();
     InitWiFiLogin(&gWiFiConnection->mLogin, b, &gWiFiConnection->mGpConnection, c, ((DWCAccUserData *) b)->mGamecode,
                   WiFiLoginCallback, NULL);
-    InitBuddySync(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->mUnk_34, h, i);
+    InitBuddySync(&gWiFiConnection->mBuddySync, &gWiFiConnection->mGpConnection, gWiFiConnection->field34, h, i);
     InitMatching(&gWiFiConnection->mMatching, &gWiFiConnection->mGpConnection, &gWiFiConnection->mSocket,
                  &gWiFiConnection->mResultCallback, data_ov000_021b4e84, data_ov000_021b4f84, h, i);
     InitWiFiMessageLayer(&gWiFiConnection->mMessageLayer);
@@ -121,11 +121,11 @@ void InitWiFiConnection(void *a, void *b, s32 c, const char *d, const char *e, s
 // gWiFiConnection. Called on failure, leave and logout paths.
 void ReleaseWiFiConnection(void) {
     if (gWiFiConnection != NULL) {
-        if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            func_ov000_021a47ac(gWiFiConnection->mMatching.mUnk_10);
-            gWiFiConnection->mMatching.mUnk_10 = NULL;
+        if (gWiFiConnection->mMatching.field10 != NULL) {
+            func_ov000_021a47ac(gWiFiConnection->mMatching.field10);
+            gWiFiConnection->mMatching.field10 = NULL;
         }
-        gWiFiConnection->mMatching.mUnk_18 = 0;
+        gWiFiConnection->mMatching.field18 = 0;
         if (gWiFiConnection->mMatching.mServerList != NULL) {
             func_ov000_0218b64c(gWiFiConnection->mMatching.mServerList);
             gWiFiConnection->mMatching.mServerList = NULL;
@@ -241,23 +241,23 @@ void UpdateWiFiConnection(void) {
             }
             break;
     }
-    if (gWiFiConnection->mMatching.mUnk_18 == 1) {
-        if (gWiFiConnection->mMatching.mUnk_10 != NULL) {
-            func_ov000_021a47ac(gWiFiConnection->mMatching.mUnk_10);
-            gWiFiConnection->mMatching.mUnk_10 = NULL;
+    if (gWiFiConnection->mMatching.field18 == 1) {
+        if (gWiFiConnection->mMatching.field10 != NULL) {
+            func_ov000_021a47ac(gWiFiConnection->mMatching.field10);
+            gWiFiConnection->mMatching.field10 = NULL;
         }
-        gWiFiConnection->mMatching.mUnk_18 = 0;
+        gWiFiConnection->mMatching.field18 = 0;
     }
 }
 
-// Also stores a and b into the login object (mLogin.mUnk_10 / mUnk_14).
+// Also stores a and b into the login object (mLogin.field10 / field14).
 void StartWiFiLogin(u32 a, u32 b, void (*c)(s32 a), u32 d) {
     if (func_ov000_0219c39c() == 0) {
         if (gWiFiConnection->mState == 0) {
             gWiFiConnection->mLoginCallback = c;
             gWiFiConnection->mLoginCallbackArg = d;
-            gWiFiConnection->mLogin.mUnk_10 = a;
-            gWiFiConnection->mLogin.mUnk_14 = b;
+            gWiFiConnection->mLogin.field10 = a;
+            gWiFiConnection->mLogin.field14 = b;
             if (func_ov000_021a3810() != 4) {
                 ReportWiFiLoginError(2, -60010);
                 return;
@@ -285,13 +285,13 @@ BOOL StartWiFiBuddySync(const s8 *a, void (*b)(s32, s32), void *c, void (*d)(u32
         } else {
             n = 0x1f;
         }
-        MI_CpuCopy8(a, p->mUnk_34, n);
+        MI_CpuCopy8(a, p->field34, n);
     }
-    gWiFiConnection->mUnk_34[n] = 0;
+    gWiFiConnection->field34[n] = 0;
     gWiFiConnection->mBuddySyncCallback = b;
     gWiFiConnection->mBuddySyncCallbackArg = c;
     SetWiFiConnectionState(4);
-    StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.mUnk_14c,
+    StartBuddySync((s32) gWiFiConnection->mLogin.mAuthToken, gWiFiConnection->mLogin.field14C,
                    (void (*)(s32, u8, void *)) WiFiBuddySyncCallback, NULL, (void (*)(s32, u8, void *, void *)) d, e,
                    (void (*)(s32, s32, void *)) f, g);
     return TRUE;
@@ -362,9 +362,9 @@ s32 func_ov000_0219bbfc(void) {
         SetWiFiConnectionState(3);
         return 1;
     }
-    p->mUnk_2d = 1;
+    p->field2D = 1;
     func_ov000_021988e8(gWiFiConnection->mSocket);
-    gWiFiConnection->mUnk_2d = 0;
+    gWiFiConnection->field2D = 0;
     return 0;
 }
 
@@ -696,7 +696,7 @@ void WiFiMatchingCallback(u32 a, u32 b, u32 c, u32 d, u32 e) {
     h = gWiFiConnection;
     if (h->mMatching.mMode == 2 || h->mMatching.mMode == 3) {
         h = gWiFiConnection;
-        h->mUnk_74(a, b, c, d, e, h->mUnk_78);
+        h->field74(a, b, c, d, e, h->field78);
     } else {
         h->mMatchingCallback(a, b, h->mMatchingCallbackArg);
     }

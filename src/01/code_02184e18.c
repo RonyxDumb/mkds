@@ -2,25 +2,25 @@
 #include "01/code_02184f7c.h"
 
 void func_ov001_02184f40(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x0000020fu);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x0000020fu);
     ReleaseEffects(mapObject);
     StartEffectAtRowHeight(mapObject, 0x000008cdu, 0, 0x0000119au, 0x00000413u, 0);
 }
 
 void func_ov001_02184f04(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x0000020fu);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x0000020fu);
     ReleaseEffects(mapObject);
     StartEffectAtRowHeight(mapObject, 0xfffff733u, 0, 0x0000119au, 0x00000413u, 0);
 }
 
 void func_ov001_02184ec8(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x0000020fu);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x0000020fu);
     ReleaseEffects(mapObject);
     StartEffectAtRowHeight(mapObject, 0xfffff000u, 0, 0x00001333u, 0x00000444u, 0);
 }
 
 void func_ov001_02184e8c(Unk02188950 *mapObject) {
-    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x0000020fu);
+    mobj_emitSfxFromEmitter2(&mapObject->field0, 0x0000020fu);
     ReleaseEffects(mapObject);
     StartEffectAtRowHeight(mapObject, 0x00001000u, 0, 0x00001333u, 0x00000444u, 0);
 }

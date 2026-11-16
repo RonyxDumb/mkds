@@ -8,7 +8,7 @@ typedef struct DWCAuthWiFiId {
     /* 00 */ u64 mUId;
     /* 08 */ u64 mNotAttestedId;
     /* 10 */ u32 mFlag;
-    /* 14 */ u32 mUnk_14;
+    /* 14 */ u32 field14;
 } DWCAuthWiFiId;
 
 extern const u8 data_0216172c[];

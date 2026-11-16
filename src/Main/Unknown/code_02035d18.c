@@ -19,11 +19,11 @@
 #include "00/code_02181f98.h"
 
 void func_02036058(u32 value) {
-    gStruct217B488->mUnk_04 = value;
+    gStruct217B488->field4 = value;
 }
 
 void func_02036044(u32 value) {
-    gStruct217B488->mUnk_08 = value;
+    gStruct217B488->field8 = value;
 }
 
 #pragma thumb on
@@ -142,7 +142,7 @@ s32 func_02035e64(u32 sceneNumbers) {
 #pragma thumb off
 
 u32 func_02035e44(void) {
-    return gStruct217AA00->mUnk_0457 != 0;
+    return gStruct217AA00->field457 != 0;
 }
 
 void func_02035e38(void) {

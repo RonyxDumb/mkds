@@ -52,16 +52,16 @@ void ghost_create(void *heap) {
     dc_setBg3Config(displaySettings + 0x70, 2, 0, 0, 0, 0xf, 0);
     dc_setDisplayConfig(displaySettings);
     ghost_loadFiles();
-    arg.mUnk_00 = 1;
-    arg.mUnk_04 = m2d_getFont(1);
-    arg.mUnk_08 = 1;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = 0;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = 1;
-    arg.mUnk_20 = 1;
-    arg.mUnk_24 = 0;
+    arg.field0 = 1;
+    arg.field4 = m2d_getFont(1);
+    arg.field8 = 1;
+    arg.fieldC = 1;
+    arg.field10 = 0;
+    arg.field14 = 0;
+    arg.field18 = NULL;
+    arg.field1C = 1;
+    arg.field20 = 1;
+    arg.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &arg);
     SetTxtSystemMode(1);
@@ -149,7 +149,7 @@ void ghost_finish(void) {
 
 void ghost_vblank(void) {
     gmenu_vblank();
-    sGhostSceneState->mCurrentCallbacks->mUnk_0c();
+    sGhostSceneState->mCurrentCallbacks->fieldC();
     oam_applyBuffers(sGhostSceneState, sGhostSceneState->mSubOam);
 }
 
@@ -162,22 +162,22 @@ void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *
     u16 timeText[10];
     u16 terminatedName[11];
     CellFileSet *cellFileSet;
-    cellFileSet = &fileSets->mUnk_038;
-    jn_ui_212426C(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
-                  jn_msg_getMessage(fileSets->mUnk_058, mutil2_getCourseNameCommonMsgId(courseId)), fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable);
+    cellFileSet = &fileSets->field38;
+    jn_ui_212426C(0, labelRows[0][0], fileSets->field0.mLabelLayout,
+                  jn_msg_getMessage(fileSets->field58, mutil2_getCourseNameCommonMsgId(courseId)), fileSets->field0.mCellLayout,
+                  fileSets->field0.mCellTable);
     mutil2_timeToString((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
-    jn_ui_2124224(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText, fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable, 7);
+    jn_ui_2124224(0, labelRows[1][0], fileSets->field0.mLabelLayout, timeText, fileSets->field0.mCellLayout,
+                  fileSets->field0.mCellTable, 7);
     MIi_CpuCopy16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
-    jn_ui_212426C(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName, fileSets->mUnk_000.mCellLayout,
-                  fileSets->mUnk_000.mCellTable);
-    QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->mUnk_038.mChars, cellFileSet->mPalette,
-                                  cellFileSet->mCellLayout, 0, labelRows[0][3], fileSets->mUnk_000.mCells,
-                                  fileSets->mUnk_000.mCellLayout);
-    kic_putIconInLayout(kartIndex, fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout, labelRows[1][3],
-                  GetCellPaletteIndex(labelRows[1][3], fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout), 0);
+    jn_ui_212426C(0, labelRows[2][0], fileSets->field0.mLabelLayout, terminatedName, fileSets->field0.mCellLayout,
+                  fileSets->field0.mCellTable);
+    QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->field38.mChars, cellFileSet->mPalette,
+                                  cellFileSet->mCellLayout, 0, labelRows[0][3], fileSets->field0.mCells,
+                                  fileSets->field0.mCellLayout);
+    kic_putIconInLayout(kartIndex, fileSets->field0.mCells, fileSets->field0.mCellLayout, labelRows[1][3],
+                  GetCellPaletteIndex(labelRows[1][3], fileSets->field0.mCells, fileSets->field0.mCellLayout), 0);
 }
 
 #pragma thumb off

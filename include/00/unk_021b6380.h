@@ -3,32 +3,32 @@
 #include "types.h"
 
 typedef struct Unk021b6434 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[6];
-    /* 0a */ u16 mUnk_0a;
+    /* 00 */ u32 field0;
+    /* 04 */ u8 field4[6];
+    /* 0a */ u16 fieldA;
 } Unk021b6434;
 
 typedef struct Unk021b69dc {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c[8];
-    /* 1c */ u16 mUnk_1c[8];
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u8 *mUnk_30;
-    /* 34 */ u8 *mUnk_34;
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 fieldC[8];
+    /* 1c */ u16 field1C[8];
+    /* 2c */ u32 field2C;
+    /* 30 */ u8 *field30;
+    /* 34 */ u8 *field34;
 } Unk021b69dc;
 
 typedef struct Unk021b6494 {
-    /* 00 */ u8 mUnk_00[0x3c];
+    /* 00 */ u8 field0[0x3c];
     /* 3c */ u32 mReceiveBufferSize;
     /* 40 */ u8 *mReceiveBuffer;
-    /* 44 */ u8 mUnk_44[4];
+    /* 44 */ u8 field44[4];
     /* 48 */ u32 mSendBufferSize;
     /* 4c */ u8 *mSendBuffer;
-    /* 50 */ u8 mUnk_50[0x14];
+    /* 50 */ u8 field50[0x14];
 } Unk021b6494;
 
 extern u64 data_ov000_021b63e0[3];

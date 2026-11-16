@@ -8,29 +8,29 @@ void func_ov000_021885ec(void) {
     void *q;
 
     p = (Unk021884e4 *) func_ov000_02188584(1);
-    if ((p->mUnk_08 & 0x10) != 0) {
+    if ((p->field8 & 0x10) != 0) {
         q = (void *) func_ov000_02188584(0x10);
-        p->mUnk_08 &= ~0x10;
-        p->mUnk_04(0x10, q, 0xd18);
+        p->field8 &= ~0x10;
+        p->field4(0x10, q, 0xd18);
     }
-    if ((p->mUnk_08 & 8) != 0) {
+    if ((p->field8 & 8) != 0) {
         q = (void *) func_ov000_02188584(8);
-        p->mUnk_08 &= ~8;
-        p->mUnk_04(8, q, 0xc);
+        p->field8 &= ~8;
+        p->field4(8, q, 0xc);
     }
-    if ((p->mUnk_08 & 4) != 0) {
+    if ((p->field8 & 4) != 0) {
         q = (void *) func_ov000_02188584(4);
-        p->mUnk_08 &= ~4;
-        p->mUnk_04(4, q, 0x58);
+        p->field8 &= ~4;
+        p->field4(4, q, 0x58);
     }
-    if ((p->mUnk_08 & 2) != 0) {
+    if ((p->field8 & 2) != 0) {
         q = (void *) func_ov000_02188584(2);
-        p->mUnk_08 &= ~2;
-        p->mUnk_04(2, q, 0x2300);
+        p->field8 &= ~2;
+        p->field4(2, q, 0x2300);
     }
-    if ((p->mUnk_08 & 1) != 0) {
-        p->mUnk_08 &= ~1;
-        p->mUnk_04(1, p, 0x18);
+    if ((p->field8 & 1) != 0) {
+        p->field8 &= ~1;
+        p->field4(1, p, 0x18);
     }
 }
 
@@ -59,13 +59,13 @@ void func_ov000_02188534(u8 a) {
 
     p = (Unk021884e4 *) func_ov000_02188584(1);
     q = (Unk02188408 *) func_ov000_02188584(0x10);
-    p->mUnk_09 = a;
+    p->field9 = a;
     if (a < 0x10) {
-        if (a > p->mUnk_16) {
-            p->mUnk_16 = a;
+        if (a > p->field16) {
+            p->field16 = a;
             if (a > 7) {
-                p->mUnk_15 = func_ov000_021884d8(q->mUnk_d0d);
-                p->mUnk_14 = q->mUnk_444[q->mUnk_d13].mUnk_00;
+                p->field15 = func_ov000_021884d8(q->fieldD0D);
+                p->field14 = q->field444[q->fieldD13].field0;
             }
         }
     }
@@ -73,7 +73,7 @@ void func_ov000_02188534(u8 a) {
 
 u8 func_ov000_02188528(void) {
     u32 value0;
-    value0 = data_ov000_021b4d10->mUnk_09;
+    value0 = data_ov000_021b4d10->field9;
     return value0;
 }
 
@@ -92,12 +92,12 @@ void func_ov000_02188508(u32 arg0) {
 
 u32 func_ov000_021884fc(void) {
     u32 value0;
-    value0 = data_ov000_021b4d10->mUnk_0c;
+    value0 = data_ov000_021b4d10->fieldC;
     return value0;
 }
 
 void func_ov000_021884e4(u8 value) {
-    data_ov000_021b4d10->mUnk_17 = func_ov000_021884d8(value);
+    data_ov000_021b4d10->field17 = func_ov000_021884d8(value);
 }
 
 u8 func_ov000_021884d8(u8 value) {

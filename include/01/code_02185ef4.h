@@ -15,7 +15,7 @@ typedef struct MissionGateObject {
     /* 0a0 */ MapObject *mNegativeSideObject;
     /* 0a4 */ MapObject *mPositiveSideObject;
     /* 0a8 */ u16 mNsbmaFrameIndex;
-    /* 0aa */ u8 mUnk_0aa[0x2];
+    /* 0aa */ u8 fieldAA[0x2];
     /* 0ac */ s32 mState;
 } MissionGateObject;
 

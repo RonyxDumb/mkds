@@ -5,9 +5,9 @@
 
 // Stack object of CreateEditKeyboard.
 typedef struct Unk021c0d2c {
-    /* 00 */ u16 mUnk_00[4];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u16 mUnk_0c[2];
+    /* 00 */ u16 field0[4];
+    /* 08 */ u32 field8;
+    /* 0c */ u16 fieldC[2];
 } Unk021c0d2c;
 
 void ChangeEditKeyboardHighlight(int keyIndex);

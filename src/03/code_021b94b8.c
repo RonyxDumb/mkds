@@ -19,27 +19,27 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst) {
     int mode;
     dst->mEssidLength = src->mSsidLength;
     MIi_CpuCopy16(src->mSsid, dst->mEssid, 0x20);
-    dst->mUnk_24 = src->mUnk_36;
-    MIi_CpuCopy16(&src->mAddress, dst->mUnk_30, 6);
+    dst->field24 = src->field36;
+    MIi_CpuCopy16(&src->mAddress, dst->field30, 6);
     count = 0;
     for (i = 0; i < 12; i++) {
-        if (src->mUnk_30 & gMaskCodeTable[i].mMask) {
+        if (src->field30 & gMaskCodeTable[i].mMask) {
             dst->mCodes[count] = gMaskCodeTable[i].mCode;
-            if (src->mUnk_2e & gMaskCodeTable[i].mMask) {
+            if (src->field2E & gMaskCodeTable[i].mMask) {
                 dst->mCodes[count] |= 0x80;
             }
             count++;
         }
     }
     dst->mCodeCount = count;
-    dst->mUnk_4c = src->mUnk_32;
+    dst->field4C = src->field32;
     mode = src->mFlags & 3;
     if (mode == 1) {
-        dst->mUnk_50 = 1;
+        dst->field50 = 1;
     } else if (mode == 2) {
-        dst->mUnk_50 = 2;
+        dst->field50 = 2;
     } else {
-        dst->mUnk_50 = 0;
+        dst->field50 = 0;
     }
 }
 
@@ -271,9 +271,9 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     OSAlarm timer;
     done = FALSE;
     result = -1;
-    if (request->mUnk_24 == FALSE) {
+    if (request->field24 == FALSE) {
         flags = 0x80000;
-    } else if (request->mUnk_24 == TRUE) {
+    } else if (request->field24 == TRUE) {
         flags = 0xc0000;
     }
     MI_CpuFill8(&data_ov003_021d8a4c, 0, 0x60);
@@ -286,7 +286,7 @@ s32 RunEssidMelcoRequest(EssidMelcoRequest *request, EssidEntryList *out) {
     } else {
         return -1;
     }
-    data_ov003_021d8a4c.mUnk_01 = 0;
+    data_ov003_021d8a4c.field1 = 0;
     MI_CpuCopy8(request->mMelcoBytes, data_ov003_021d8a4c.mMelcoBytes, request->mMelcoLength);
     func_ov000_021a6894();
     if (func_ov003_021baaac(NULL, request->mEssid, request->mEssidLength, 0x30bffe) != 0) {
@@ -557,7 +557,7 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
         return -1;
     }
     FillBytes(&info, 0, 8);
-    info.mUnk_01 = 2;
+    info.field1 = 2;
     info.mAddress = SwapBytes32(0xc0a80b65);
     info.mPort = func_ov003_021b7c94(0x5790);
     if (func_ov003_021b7cec(gSocketDescriptor, &info, 8) < 0) {
@@ -569,8 +569,8 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
     while (1) {
         buffer = gRequestPacketBuffer;
         FillBytes(&buf, 0, 0x14);
-        buf.mUnk_10 = 0xc0a80b65;
-        buf.mUnk_00 = 0xc0a80b01;
+        buf.field10 = 0xc0a80b65;
+        buf.field0 = 0xc0a80b01;
         while (1) {
             if (mode == 1 && gRequestState.mAddressApplied != 1) {
                 if (gSocketDescriptor != -1) {
@@ -674,7 +674,7 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
                     return -1;
                 }
                 FillBytes(&info, 0, 8);
-                info.mUnk_01 = 2;
+                info.field1 = 2;
                 info.mAddress = SwapBytes32(addr);
                 info.mPort = func_ov003_021b7c94(0x5790);
                 if (func_ov003_021b7cec(gSocketDescriptor, &info, 8) < 0) {
@@ -693,7 +693,7 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
             func_ov003_021b7ba8(&set);
             func_ov003_021b7ba0(gSocketDescriptor, &set);
             wait.mSeconds = timeout / 1000;
-            wait.mUnk_04 = timeout % 1000 * 1000;
+            wait.field4 = timeout % 1000 * 1000;
             if (func_ov003_021b7d1c(gSocketDescriptor + 1, &set, NULL, NULL, &wait) > 0) {
                 break;
             }
@@ -815,7 +815,7 @@ s32 func_ov003_021b9570(ValueRecordsRequest *req) {
                     return -1;
                 }
                 FillBytes(&info, 0, 8);
-                info.mUnk_01 = 2;
+                info.field1 = 2;
                 info.mAddress = SwapBytes32(addr);
                 info.mPort = func_ov003_021b7c94(0x5790);
                 if (func_ov003_021b7cec(gSocketDescriptor, &info, 8) < 0) {

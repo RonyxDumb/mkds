@@ -6,11 +6,11 @@ typedef struct Unk0201ea30 Unk0201ea30;
 
 // 0x40-byte entry that mutil2_setElementPositionFromBnll and mutil2_setElementPositionFromBncl fill.
 typedef struct Unk02025bb4Entry {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ u8 mUnk_10[0x30];
+    /* 00 */ u8 field0[8];
+    /* 08 */ u32 field8;
+    /* 0c */ s16 fieldC;
+    /* 0e */ s16 fieldE;
+    /* 10 */ u8 field10[0x30];
 } Unk02025bb4Entry;
 
 void RectTableSetEntryXY(int id, int x, int y, Unk0201ea30 *graphics);

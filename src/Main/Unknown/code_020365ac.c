@@ -46,7 +46,7 @@ void mkds_restoreIrqs(void) {
 void initSdk(void) {
     OS_DisableMainExArena();
     OS_Init();
-    gMainHeap.mUnk_00 = 0;
+    gMainHeap.field0 = 0;
     OS_InitTick();
     OS_InitAlarm();
     FX_Init();
@@ -86,7 +86,7 @@ void mkds_init(void) {
     arenaLo = OS_GetArenaLo(0);
     gMainHeap.mHeap = heap_create(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
     proc_init(&sMainProcess, 0);
-    gMainHeap.mUnk_10 = aMainproc;
+    gMainHeap.field10 = aMainproc;
     func_020394cc();
 }
 

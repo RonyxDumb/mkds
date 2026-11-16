@@ -12,7 +12,7 @@ typedef void (*Unk021425e8Func)(Unk021425e8 *);
 typedef struct Unk02142aa8 {
     /* 000 */ void *mWM7;
     /* 004 */ struct Unk02142988 *mStatusArea;
-    /* 008 */ u32 mUnk_008;
+    /* 008 */ u32 field8;
     // Command request area; the command functions fill it in and WMi_SendCommand copies it for a command with no words.
     /* 00c */ u16 *mRequestArea;
     // Message area for replies; WmReceiveFifo does not mark it free after handling.
@@ -28,33 +28,33 @@ typedef struct Unk02142aa8 {
 // Wireless status area written by the other processor; WM_ReadStatus copies 0x7bc bytes of it.
 typedef struct Unk02142988 {
     /* 000 */ u16 mState;
-    /* 002 */ u8 mUnk_002[2];
-    /* 004 */ void *mUnk_004;
-    /* 008 */ u8 mUnk_008[4];
+    /* 002 */ u8 field2[2];
+    /* 004 */ void *field4;
+    /* 008 */ u8 field8[4];
     /* 00c */ u32 mMpFlag;
     /* 010 */ u32 mDcfFlag;
-    /* 014 */ u8 mUnk_014[0x32];
+    /* 014 */ u8 field14[0x32];
     /* 046 */ u16 mMpRecvBufSize;
-    /* 048 */ u8 mUnk_048[8];
+    /* 048 */ u8 field48[8];
     /* 050 */ void *mMpSendBuf;
-    /* 054 */ u8 mUnk_054[0x32];
+    /* 054 */ u8 field54[0x32];
     /* 086 */ u16 mMpReadyBitmap;
-    /* 088 */ u8 mUnk_088[0x30];
+    /* 088 */ u8 field88[0x30];
     /* 0b8 */ u16 mLinkLevel;
-    /* 0ba */ u8 mUnk_0ba[8];
+    /* 0ba */ u8 fieldBA[8];
     /* 0c2 */ u16 mPwrMgtMode;
-    /* 0c4 */ u8 mUnk_0c4[0x30];
-    /* 0f4 */ u16 mUnk_0f4;
-    /* 0f6 */ u8 mUnk_0f6[0x88];
+    /* 0c4 */ u8 fieldC4[0x30];
+    /* 0f4 */ u16 fieldF4;
+    /* 0f6 */ u8 fieldF6[0x88];
     // Bit n is set while child n is connected.
     /* 17e */ u16 mConnectedChildren;
-    /* 180 */ u8 mUnk_180[4];
+    /* 180 */ u8 field180[4];
     // This station's number: 0 for the parent.
     /* 184 */ u16 mOwnMemberIndex;
-    /* 186 */ u8 mUnk_186[8];
+    /* 186 */ u8 field186[8];
     /* 18e */ u16 mMpMaxSendSize;
     /* 190 */ u16 mMpMaxRecvSize;
-    /* 192 */ u8 mUnk_192[0x62a];
+    /* 192 */ u8 field192[0x62a];
 } Unk02142988;
 
 // Message the other processor passes to WmReceiveFifo and to the callbacks.
@@ -63,78 +63,78 @@ struct Unk021425e8 {
     /* 00 */ u16 mCommand;
     // 0 on success, otherwise an error number.
     /* 02 */ u16 mResultCode;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
     /* 08 */ union {
         struct {
-            void *mUnk_08;
-            void *mUnk_0c;
+            void *field8;
+            void *fieldC;
         };
         struct {
-            u16 mUnk_08_0;
-            u16 mUnk_08_2;
+            u16 field8_0;
+            u16 field8_2;
         };
         struct {
             u8 mUnk_08_b[2];
-            u8 mUnk_0a[6];
+            u8 fieldA[6];
         };
     };
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14[6];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ void *mUnk_1c;
-    /* 20 */ u16 mUnk_20;
-    /* 22 */ u8 mUnk_22[2];
-    /* 24 */ u8 mUnk_24[0x12];
-    /* 36 */ u16 mUnk_36;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
+    /* 14 */ u8 field14[6];
+    /* 1a */ u16 field1A;
+    /* 1c */ void *field1C;
+    /* 20 */ u16 field20;
+    /* 22 */ u8 field22[2];
+    /* 24 */ u8 field24[0x12];
+    /* 36 */ u16 field36;
     /* 38 */ struct {
-        u32 mUnk_00[0x20];
-    } mUnk_38;
+        u32 field0[0x20];
+    } field38;
 };
 
-// Result of WM_GetOtherElements: mUnk_00 counts the filled entries of mUnk_04.
+// Result of WM_GetOtherElements: field0 counts the filled entries of field4.
 typedef struct WMOtherElements {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 field0;
     /* 04 */ struct {
-        /* 00 */ u8 mUnk_00;
-        /* 01 */ u8 mUnk_01;
-        /* 04 */ const u8 *mUnk_04;
-    } mUnk_04[16];
+        /* 00 */ u8 field0;
+        /* 01 */ u8 field1;
+        /* 04 */ const u8 *field4;
+    } field4[16];
 } WMOtherElements;
 
-// Header of the MP receive buffer: mUnk_04 is the number of records, mUnk_06 the size of each, and the records start at
-// mUnk_0a.
+// Header of the MP receive buffer: field4 is the number of records, field6 the size of each, and the records start at
+// fieldA.
 typedef struct Unk021432ac {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[2];
-    /* 0a */ u8 mUnk_0a[1];
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u8 field8[2];
+    /* 0a */ u8 fieldA[1];
 } Unk021432ac;
 
 // Request WM_StartConnectEx writes into the request area.
 typedef struct Unk021437d8 {
     /* 00 */ u16 mApiid;
-    /* 02 */ u8 mUnk_02[2];
+    /* 02 */ u8 field2[2];
     /* 04 */ u16 *mPInfo;
     /* 08 */ u8 mSsid[0x18];
     /* 20 */ u32 mPowerSave;
-    /* 24 */ u8 mUnk_24[2];
+    /* 24 */ u8 field24[2];
     /* 26 */ u16 mAuthMode;
 } Unk021437d8;
 
 // Scan parameters of WM_StartScanEx.
 typedef struct Unk021438f0 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u8 mUnk_0a[6];
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14[0x20];
-    /* 34 */ u16 mUnk_34;
+    /* 00 */ void *field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u8 fieldA[6];
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
+    /* 14 */ u8 field14[0x20];
+    /* 34 */ u16 field34;
 } Unk021438f0;
 
 // Request WM_StartScanEx writes into the request area.
@@ -153,10 +153,10 @@ typedef struct Unk021438f0_0c {
 
 // Scan parameters of WM_StartScan.
 typedef struct Unk02143a78 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08[6];
+    /* 00 */ void *field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u8 field8[6];
 } Unk02143a78;
 
 // Request WM_StartScan writes into the request area.
@@ -170,20 +170,20 @@ typedef struct Unk02143a78_0c {
 
 // Parent parameters of WM_SetParentParameter.
 typedef struct Unk02143c30 {
-    /* 00 */ struct Unk0217aa00_24_50 *mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[6];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u8 mUnk_12[2];
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u8 mUnk_16[2];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u8 mUnk_1a[0x18];
-    /* 32 */ u16 mUnk_32;
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u16 mUnk_36;
+    /* 00 */ struct Unk0217aa00_24_50 *field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[6];
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
+    /* 10 */ u16 field10;
+    /* 12 */ u8 field12[2];
+    /* 14 */ u16 field14;
+    /* 16 */ u8 field16[2];
+    /* 18 */ u16 field18;
+    /* 1a */ u8 field1A[0x18];
+    /* 32 */ u16 field32;
+    /* 34 */ u16 field34;
+    /* 36 */ u16 field36;
 } Unk02143c30;
 
 s32 WM_StartDCF(Unk021425e8Func callback, void *recvBuf, u16 recvBufSize);

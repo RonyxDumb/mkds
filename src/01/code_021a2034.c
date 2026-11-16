@@ -21,14 +21,14 @@ void func_ov001_021a2300(Unk021a2300 *p) {
 
     if (p != NULL) {
         i = 0;
-        while (i < p->mUnk_04 && (o = p->mUnk_00[i]) != NULL) {
+        while (i < p->field4 && (o = p->field0[i]) != NULL) {
             d = gRaceStatus;
             b = &d->mLocalRandom;
             b->mValue = (s64) b->mMultiplier * (s64) b->mValue + b->mIncrement;
-            o->mUnk_a0 = (u16) (((s64) (b->mValue >> 32) * 0x46) >> 32);
-            o->mUnk_02 &= ~2;
-            o->mUnk_02 &= ~8;
-            o->mUnk_66 = 0x1f;
+            o->fieldA0 = (u16) (((s64) (b->mValue >> 32) * 0x46) >> 32);
+            o->field2 &= ~2;
+            o->field2 &= ~8;
+            o->field66 = 0x1f;
             i++;
         }
     }
@@ -38,14 +38,14 @@ void func_ov001_021a2284(void *p0, Unk021a2048 *p1) {
     RaceProgress *d;
     RandomState64 *b;
 
-    p1->mUnk_a0 -= 1;
-    if (p1->mUnk_a0 < 0) {
+    p1->fieldA0 -= 1;
+    if (p1->fieldA0 < 0) {
         d = gRaceStatus;
         b = &d->mLocalRandom;
         b->mValue = (s64) b->mMultiplier * (s64) b->mValue + b->mIncrement;
-        p1->mUnk_a0 = (u16) (((s64) (b->mValue >> 32) * 0x46) >> 32) + 0x46;
-        if (!(p1->mUnk_02 & 0x12)) {
-            ptcm_createEmitter(0x435, &p1->mUnk_04);
+        p1->fieldA0 = (u16) (((s64) (b->mValue >> 32) * 0x46) >> 32) + 0x46;
+        if (!(p1->field2 & 0x12)) {
+            ptcm_createEmitter(0x435, &p1->field4);
         }
     }
 }
@@ -56,7 +56,7 @@ void *func_ov001_021a226c(void) {
 
 void ComputePointAheadOfCamera(Unk021a2048 *o, Camera *g, Vec3 *out) {
     out->x = g->mPos.x + (s32) (((s64) g->mForward.x * 0x58000) >> 12);
-    out->y = o->mUnk_04.y;
+    out->y = o->field4.y;
     out->z = g->mPos.z + (s32) (((s64) g->mForward.z * 0x58000) >> 12);
 }
 
@@ -65,10 +65,10 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1) {
     Vec3 v = {0, 0, 0};
 
     g = race_getCamera();
-    switch (p1->mUnk_a0) {
+    switch (p1->fieldA0) {
         case 0:
-            p1->mUnk_a0 = 1;
-            switch (p1->mUnk_9c->mUnk_28) {
+            p1->fieldA0 = 1;
+            switch (p1->field9C->field28) {
                 case 0:
                     ptcm_createEmitter(0x400, &v);
                     ptcm_createEmitter(0x3ff, &v);
@@ -82,7 +82,7 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1) {
                     ptcm_createEmitter(0x409, &v);
                     ptcm_createEmitter(0x40a, &v);
                     ptcm_createEmitter(0x40b, &v);
-                    p1->mUnk_a4 = ptcm_createEmitter(0x42f, &g->mPos);
+                    p1->fieldA4 = ptcm_createEmitter(0x42f, &g->mPos);
                     break;
                 case 1:
                     break;
@@ -96,20 +96,20 @@ void func_ov001_021a2048(void *p0, Unk021a2048 *p1) {
                     ptcm_createEmitter(0x43e, &v);
                     ptcm_createEmitter(0x43f, &v);
                     ComputePointAheadOfCamera(p1, g, &v);
-                    p1->mUnk_a4 = ptcm_createEmitter(0x437, &v);
+                    p1->fieldA4 = ptcm_createEmitter(0x437, &v);
                     break;
             }
             break;
         case 1:
-            switch (p1->mUnk_9c->mUnk_28) {
+            switch (p1->field9C->field28) {
                 case 0:
-                    ptcm_setEmitterPosition(p1->mUnk_a4, &g->mPos);
+                    ptcm_setEmitterPosition(p1->fieldA4, &g->mPos);
                     break;
                 case 1:
                     break;
                 case 2:
                     ComputePointAheadOfCamera(p1, g, &v);
-                    ptcm_setEmitterPosition(p1->mUnk_a4, &v);
+                    ptcm_setEmitterPosition(p1->fieldA4, &v);
                     break;
             }
             break;

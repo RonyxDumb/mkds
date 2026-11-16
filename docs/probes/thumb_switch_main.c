@@ -3,12 +3,12 @@
 
 typedef struct {
     char pad0[0xc8];
-    int mUnk_c8;
+    int fieldC8;
 } Obj02029930;
 
 typedef struct {
     char pad0[0x10];
-    int mUnk_10;
+    int field10;
 } Obj0217a9e0;
 
 extern int data_02153274[];
@@ -20,7 +20,7 @@ void func_02050e60(int arg);
 // PROBE: func_02025e60 main 0x02025e60
 int func_02025e60(int idx) {
     int result = -1;
-    switch (func_02029930()->mUnk_c8) {
+    switch (func_02029930()->fieldC8) {
         case 0:
         case 1:
         case 3:
@@ -44,7 +44,7 @@ void RepeatedScanCallback(int arg) {
             func_02050e60(5);
             break;
         case 3:
-            data_0217a9e0->mUnk_10 = 0;
+            data_0217a9e0->field10 = 0;
             break;
     }
 }

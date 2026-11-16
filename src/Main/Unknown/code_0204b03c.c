@@ -35,12 +35,12 @@ BOOL savc_lockCardBackup(void) {
 void savc_handleError(s32 errorCode) {
     BOOL f;
     f = TRUE;
-    switch (gSaveCore->mUnk_00) {
+    switch (gSaveCore->field0) {
         case 1:
         case 2:
             f = FALSE;
     }
-    gSaveCore->mUnk_00 = 4;
+    gSaveCore->field0 = 4;
     gSaveCore->mErrorCode = errorCode;
     switch (gSaveCore->mErrorCode) {
         case 0:
@@ -214,7 +214,7 @@ BOOL savc_decryptBlock(u32 *cursor, u32 byteCount, u32 expectedFirstWord) {
 #pragma thumb off
 
 void wlmenu_init(void) {
-    if (gSystemData->mUnk_20 == 3) {
+    if (gSystemData->field20 == 3) {
         overlay_unload();
         overlay_beginLoad(0);
         overlay_finishLoad();

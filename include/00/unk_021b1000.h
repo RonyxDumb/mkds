@@ -3,14 +3,14 @@
 #include "types.h"
 
 typedef struct Unk021b4cb4 {
-    /* 00 */ char *mUnk_00;
-    /* 04 */ BOOL mUnk_04;
-    /* 08 */ char *mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ void *(*mUnk_10)();
-    /* 14 */ void (*mUnk_14)();
-    /* 18 */ BOOL mUnk_18;
-    /* 1c */ s32 mUnk_1c;
+    /* 00 */ char *field0;
+    /* 04 */ BOOL field4;
+    /* 08 */ char *field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ void *(*field10)();
+    /* 14 */ void (*field14)();
+    /* 18 */ BOOL field18;
+    /* 1c */ s32 field1C;
 } Unk021b4cb4;
 
 // Objects whose layout isn't known yet.

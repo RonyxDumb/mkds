@@ -47,10 +47,10 @@ extern s32 trl_sSizeDecreaseSpeed;
 // Object at trl_sTexParams.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
-    /* 04 */ u8 mUnk_04[0x14];
+    /* 04 */ u8 field4[0x14];
     /* 18 */ u32 mPlttBase;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
 } PosStripTexture;
 
 extern PosStripTexture trl_sTexParams;

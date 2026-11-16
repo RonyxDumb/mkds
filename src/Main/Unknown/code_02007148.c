@@ -13,16 +13,16 @@ void func_02007154(u32 entryIndex) {
     if (entry->mEntryUsed == 0) {
         return;
     }
-    if (entry->mUnk_1d4c == 0) {
+    if (entry->field1D4C == 0) {
         return;
     }
-    current = entry->mUnk_1d48;
-    rangeStart = entry->mUnk_1d4a;
+    current = entry->field1D48;
+    rangeStart = entry->field1D4A;
     if (rangeStart <= current && current <= rangeStart + 2) {
-        entry->mUnk_1d48 = current + 1;
+        entry->field1D48 = current + 1;
         return;
     }
-    entry->mUnk_1d48 = rangeStart;
+    entry->field1D48 = rangeStart;
 }
 
 u32 GetLargerValue(u32 first, u32 second) {

@@ -15,10 +15,10 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d,
     if (MB_FakeGetParentBssDesc(entryIndex, (struct ScanBlockView *) scanBlock) == 0) {
         return 0;
     }
-    scanBlock->mUnk_3c = 0x10;
-    scanBlock->mUnk_4a = 0;
-    scanBlock->mUnk_4c = c;
-    scanBlock->mUnk_4e = d;
+    scanBlock->field3C = 0x10;
+    scanBlock->field4A = 0;
+    scanBlock->field4C = c;
+    scanBlock->field4E = d;
     bit8 = 0;
     if (f != 0) {
         bit8 = 8;
@@ -28,7 +28,7 @@ u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d,
     } else {
         bit4 = 0;
     }
-    scanBlock->mUnk_4b = bit4 | bit8 | 1;
+    scanBlock->field4B = bit4 | bit8 | 1;
     return 1;
 }
 

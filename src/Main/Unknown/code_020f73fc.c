@@ -31,7 +31,7 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
     if (item->mFlags & 0x80000) {
         return;
     }
-    soundId = mapObject ? mapObject->mKindData->mUnk_28 : -1;
+    soundId = mapObject ? mapObject->mKindData->field28 : -1;
     switch (hitType) {
         case 1:
             if (item->mFlags & 0x1000) {
@@ -81,7 +81,7 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
             break;
         case 2:
             if (item->mFlags & 0x1000) {
-                RemoveItemInUseObject(&(it_sDriverItemStatus)[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
+                RemoveItemInUseObject(&(it_sDriverItemStatus)[(u16) (item->field78 & ~0xff00)].mItemInUse, item);
             }
             n = 0;
             if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
@@ -130,10 +130,10 @@ void func_020f7658(ItemObject *item, s32 c) {
 
     if (!(item->mFlags & 0x8000000)) {
         if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mUnk_78 & 0xf00) {
+            if (item->field78 & 0xf00) {
                 return;
             }
-            item->mUnk_78 |= data_02159b74;
+            item->field78 |= data_02159b74;
             item->mAdvance = NULL;
             return;
         }
@@ -141,17 +141,17 @@ void func_020f7658(ItemObject *item, s32 c) {
             return;
         }
         kind = item->mKind;
-        if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+        if (it_sItemParams[kind].field40 == 0 && !(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceItemObjectReleaseTimer;
         }
         item->mFlags |= 0x100002;
         return;
     }
     if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mUnk_78 & 0xf00) {
+        if (item->field78 & 0xf00) {
             started = FALSE;
         } else {
-            item->mUnk_78 |= data_02159b74;
+            item->field78 |= data_02159b74;
             item->mAdvance = NULL;
             started = TRUE;
         }
@@ -160,7 +160,7 @@ void func_020f7658(ItemObject *item, s32 c) {
             started = FALSE;
         } else {
             kind = item->mKind;
-            if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+            if (it_sItemParams[kind].field40 == 0 && !(item->mFlags & 0x180000)) {
                 item->mAdvance = AdvanceItemObjectReleaseTimer;
             }
             item->mFlags |= 0x100002;
@@ -183,7 +183,7 @@ void StartItemObjectReleaseTimer(ItemObject *item) {
         return;
     }
     kind = item->mKind;
-    if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+    if (it_sItemParams[kind].field40 == 0 && !(item->mFlags & 0x180000)) {
         item->mAdvance = AdvanceItemObjectReleaseTimer;
     }
     item->mFlags |= 0x100002;
@@ -208,10 +208,10 @@ void func_020f7430(ItemObject *item, s32 c) {
 
     if (!(item->mFlags & 0x8000000)) {
         if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-            if (item->mUnk_78 & 0xf00) {
+            if (item->field78 & 0xf00) {
                 return;
             }
-            item->mUnk_78 |= data_02159b70;
+            item->field78 |= data_02159b70;
             item->mAdvance = NULL;
             return;
         }
@@ -225,10 +225,10 @@ void func_020f7430(ItemObject *item, s32 c) {
         return;
     }
     if ((item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mUnk_78 & 0xf00) {
+        if (item->field78 & 0xf00) {
             started = FALSE;
         } else {
-            item->mUnk_78 |= data_02159b70;
+            item->field78 |= data_02159b70;
             item->mAdvance = NULL;
             started = TRUE;
         }

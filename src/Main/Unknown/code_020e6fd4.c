@@ -104,7 +104,7 @@ void jg_init(void) {
     jg_sTargetDriverId = gRaceMultiConfig->mEntryIndex;
     kart = driver_getById(jg_sTargetDriverId);
     jg_sTargetDriver = kart;
-    jg_sLight = &kart->mKartModelsEntry->mUnk_040;
+    jg_sLight = &kart->mKartModelsEntry->field40;
     gJgTargetPos.x = 0;
     gJgTargetPos.y = 0;
     gJgTargetPos.z = 0;
@@ -129,7 +129,7 @@ void jg_init(void) {
     data_0217b8f0 = flag;
     data_0217b8bc = flag;
     data_0217b894 = 0;
-    if (gMapData->mSettings->mUnk_04 != 0) {
+    if (gMapData->mSettings->field4 != 0) {
         flag = FALSE;
     }
     data_0217b8f8 = flag;
@@ -184,7 +184,7 @@ void jg_init(void) {
     }
     data_0217b9dc.mSoundId = 0x101;
     data_0217b9dc.mPositionSource = &gJgPos;
-    data_0217b9dc.mUnk_08 = 1;
+    data_0217b9dc.field8 = 1;
     sm_init(&jg_sStateMachine, (UnkFunc *const *) jg_sStates, 7, NULL);
     sm_gotoState(&jg_sStateMachine, 0);
 }
@@ -206,10 +206,10 @@ void jg_load(void) {
     }
     bbm_initFromNsbmd(&jg_sMainModel, arc_getSceneArcFile(aJg_main_nsbmd), arc_getSceneArcFile(aJg_main_nsbtp), 0);
     bbm_setDefaultMatParams(&jg_sMainModel);
-    jg_sMainModel.mUnk_14 |= 0xc0;
+    jg_sMainModel.field14 |= 0xc0;
     bbm_initFromNsbmd(&jg_sCloudModel, arc_getSceneArcFile(aJg_cloud_nsbmd), NULL, 0);
     bbm_setDefaultMatParams(&jg_sCloudModel);
-    jg_sCloudModel.mUnk_14 |= 0xc0;
+    jg_sCloudModel.field14 |= 0xc0;
     data_0217b8a4 = heap_alloc(heap, 0x78);
     data_0217b8a8 = heap_alloc(heap, 0x78);
     data_0217b8a0 = heap_alloc(heap, 0x78);
@@ -230,27 +230,27 @@ void jg_load(void) {
     gJgTableIndex = 0;
     n = 2;
     for (j = n, sourceRow = data_0216c324, kindRow = data_0217bb08; j < 4; j++) {
-        if (sourceRow->mUnk_00 != NULL) {
+        if (sourceRow->field0 != NULL) {
             kindRow->mModel = heap_alloc(heap, 0x6c);
-            file = arc_getSceneArcFile(sourceRow->mUnk_00);
+            file = arc_getSceneArcFile(sourceRow->field0);
             model_initFromNsbmd(kindRow->mModel, file);
             model_setPolyIdLightFlagsEmi(kindRow->mModel, 0x3f, n, 0x294a);
             model_setCullMode(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
         }
-        if (sourceRow->mUnk_04 != NULL) {
+        if (sourceRow->field4 != NULL) {
             kindRow->mNsbcaAnimation = heap_alloc(heap, 0x38);
             anim_20EA514(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
-                                          arc_getSceneArcFile(sourceRow->mUnk_04));
+                                          arc_getSceneArcFile(sourceRow->field4));
             anim_setLoop(kindRow->mNsbcaAnimation, 0, 1);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
-        if (sourceRow->mUnk_08 != NULL) {
+        if (sourceRow->field8 != NULL) {
             kindRow->mNsbmaAnimation = heap_alloc(heap, 0x38);
             anim_20EA514(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
-                                          arc_getSceneArcFile(sourceRow->mUnk_08));
+                                          arc_getSceneArcFile(sourceRow->field8));
             anim_setLoop(kindRow->mNsbmaAnimation, 0, 1);
         } else {
             kindRow->mNsbmaAnimation = NULL;
@@ -260,10 +260,10 @@ void jg_load(void) {
     }
     bbm_createFromNsbmd((NsbmdModel **) gJgKindRowLapModels, arc_getSceneArcFile(aLap_count_nsbm), arc_getSceneArcFile(aLap_count_nsbt), 0);
     bbm_setDefaultMatParams(gJgKindRows[0].mLapModel);
-    gJgKindRows[0].mLapModel->mUnk_14 |= 0xc0;
+    gJgKindRows[0].mLapModel->field14 |= 0xc0;
     bbm_createFromNsbmd((NsbmdModel **) data_0217bb04, arc_getSceneArcFile(aLap_final_nsbm), 0, 0);
     bbm_setDefaultMatParams(gJgKindRows[1].mLapModel);
-    gJgKindRows[1].mLapModel->mUnk_14 |= 0xc0;
+    gJgKindRows[1].mLapModel->field14 |= 0xc0;
 }
 #pragma thumb off
 
@@ -313,22 +313,22 @@ void fwdst_globalInitLogic(void) {
 
         object = ((MapObjectList *) fwdst_sLogicPart)->mMapObjects[i];
         tableIndex = object->mTableIndex;
-        (*(Vec3 ***) fwdst_sPositions)[tableIndex] = &object->mUnk_00.mPos;
+        (*(Vec3 ***) fwdst_sPositions)[tableIndex] = &object->field0.mPos;
         fwdst_sCCDependentSettings[tableIndex] = object->mEntryValue;
     }
 }
 
 void fwdst_init(Unk020e730c *object, struct CourseMapRow *courseRow) {
-    object->mTableIndex = courseRow->mUnk_28;
+    object->mTableIndex = courseRow->field28;
     switch (gRaceMultiConfig->mEngineIndex) {
         case 0:
-            object->mEntryValue = courseRow->mUnk_2a;
+            object->mEntryValue = courseRow->field2A;
             break;
         case 1:
-            object->mEntryValue = courseRow->mUnk_2c;
+            object->mEntryValue = courseRow->field2C;
             break;
         case 2:
-            object->mEntryValue = courseRow->mUnk_2e;
+            object->mEntryValue = courseRow->field2E;
             break;
     }
 }
@@ -396,7 +396,7 @@ void mobj_logicPartExecute(MapObjectList *list) {
         };
         return;
     }
-    if (list->mUnk_18 == 2) {
+    if (list->field18 == 2) {
         s32 i;
 
         for (i = 0; i < count; i++) {
@@ -404,7 +404,7 @@ void mobj_logicPartExecute(MapObjectList *list) {
             if ((object->mFlags & 4) == 0) {
                 previousPos = object->mPos;
                 callback(list, object);
-                VEC_Subtract(&object->mPos, &previousPos, &object->mUnk_10);
+                VEC_Subtract(&object->mPos, &previousPos, &object->field10);
                 if (object->mSound != NULL) {
                     mobj_logicPartUpdateSoundEmitter(object);
                 }
@@ -436,9 +436,9 @@ void mobj_logicPartExecuteThunderLogic(MapObjectList *list) {
     s32 (*callback)(MapObject *, void *, void *, void *);
 
     count = list->mMapObjectCount;
-    callback = list->mUnk_1c;
+    callback = list->field1C;
     objects = list->mMapObjects;
-    callbackArgs[0] = list->mUnk_20;
+    callbackArgs[0] = list->field20;
     callbackArgs[1] = 0;
     if (callback == NULL) {
         return;

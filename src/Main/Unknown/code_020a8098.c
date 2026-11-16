@@ -19,9 +19,9 @@ void sanbo_kill(Sanbo *p) {
         r = mobj_getRng1();
         r->mValue = (s64) r->mMultiplier * (s64) r->mValue + r->mIncrement;
         v1 = ((u64) (u32) (r->mValue >> 32) * 0x10000) >> 32;
-        p->mPieces[i].mPos.x = p->mUnk_000.mPos.x;
-        p->mPieces[i].mPos.y = p->mUnk_000.mPos.y + i * 0x14000;
-        p->mPieces[i].mPos.z = p->mUnk_000.mPos.z;
+        p->mPieces[i].mPos.x = p->field0.mPos.x;
+        p->mPieces[i].mPos.y = p->field0.mPos.y + i * 0x14000;
+        p->mPieces[i].mPos.z = p->field0.mPos.z;
         p->mPieces[i].mVelocity.x = ((s64) FX_SinCosTable_[(v1 >> 4) * 2] * 0x2000) >> 12;
         p->mPieces[i].mVelocity.y = 0x4000;
         p->mPieces[i].mVelocity.z = ((s64) FX_SinCosTable_[(v1 >> 4) * 2 + 1] * 0x2000) >> 12;

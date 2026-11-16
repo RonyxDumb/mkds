@@ -173,7 +173,7 @@ void r2d_updateItemSpinner(void) {
                 }
                 if ((data_0217c780 & 1) != 0) {
                     entryHandle = sp_acquireElement(sound_getPoolById(0));
-                    if (SoundHandle_217D084.mUnk_0c != 0) {
+                    if (SoundHandle_217D084.fieldC != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -192,7 +192,7 @@ void r2d_updateItemSpinner(void) {
                 }
                 if ((data_0217c780 & 1) != 0) {
                     entryHandle = sp_acquireElement(sound_getPoolById(0));
-                    if (SoundHandle_217D084.mUnk_0c != 0) {
+                    if (SoundHandle_217D084.fieldC != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -213,7 +213,7 @@ void r2d_updateItemSpinner(void) {
             startSeqNo = 0x1c4;
         }
         if ((data_0217c780 & 1) != 0) {
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*sndHandle != NULL) {
                     NNS_SndPlayerStopSeq(sndHandle, 0);
                 }
@@ -415,10 +415,10 @@ void r2d_renderItemSpinner(RaceHudOamBuffer *oamBuffer) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
         }
         matrixOams = &oamBuffer->mOams[matrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix[3] >> 4;
+        matrixOams[0].field0[3] = matrix[0] >> 4;
+        matrixOams[1].field0[3] = matrix[1] >> 4;
+        matrixOams[2].field0[3] = matrix[2] >> 4;
+        matrixOams[3].field0[3] = matrix[3] >> 4;
     }
     cell = r2d_getRaceMCell(0xb);
     lastPos[0] = 0x18000;
@@ -586,10 +586,10 @@ void r2d_20B9DFC(RaceHudOamBuffer *oamBuffer) {
                                               cell, NULL, onesPos, 0, 1);
                 }
             } else {
-                if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus != 2) {
+                if (gRaceStatus->field0[Race_GetPlayerId()].mStatus != 2) {
                     return;
                 }
-                if ((driver_getById(Race_GetPlayerId())->mUnk_7c & 0x402000) == 0) {
+                if ((driver_getById(Race_GetPlayerId())->field7C & 0x402000) == 0) {
                     return;
                 }
                 cell = r2d_getRaceBattleMCell(0xc);

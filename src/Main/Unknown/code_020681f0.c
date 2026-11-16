@@ -61,7 +61,7 @@ void func_02068b98(Kart *kart) {
     s32 scaleIndex;
     Vec3 *collisionCenter;
 
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if ((kartBits & 0x40) != 0) {
         if ((kartBits & 0x40000) == 0) {
             return;
@@ -70,7 +70,7 @@ void func_02068b98(Kart *kart) {
             return;
         }
     }
-    c = kart->mUnk_3c8;
+    c = kart->field3C8;
     if (c >= 0x19 || (kartBits & KART_7C_ENTRY_KIND_2) != 0) {
         winnerDecidedAndEndReached = FALSE;
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
@@ -78,11 +78,11 @@ void func_02068b98(Kart *kart) {
                 winnerDecidedAndEndReached = TRUE;
             }
         }
-        kart->mUnk_7c = kart->mUnk_7c | 0x40;
-        bitsPointer = &kart->mUnk_7c;
+        kart->field7C = kart->field7C | 0x40;
+        bitsPointer = &kart->field7C;
         currentBits = *bitsPointer;
         if ((currentBits & 0x800006) == 0 && winnerDecidedAndEndReached == FALSE && (currentBits & 0x40000) != 0) {
-            if (kart->mUnk_3c8 >= 0xb9) {
+            if (kart->field3C8 >= 0xb9) {
                 *bitsPointer = *bitsPointer | 0x80000;
                 func_02063ad0(kart);
                 collisionCenter = gRaceMultiConfig->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
@@ -90,30 +90,30 @@ void func_02068b98(Kart *kart) {
                     kart->mCollisionSlot =
                         col_createColEntry(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
                 }
-                if (kart->mUnk_2ca == -1) {
+                if (kart->field2CA == -1) {
                     c = kart->mPhysicalParam->mRadius;
-                    kart->mUnk_2ca = col_createColEntry(&kart->mUnk_1f0, (s64) c << 15 >> 12, 0x800, kart);
+                    kart->field2CA = col_createColEntry(&kart->field1F0, (s64) c << 15 >> 12, 0x800, kart);
                 }
-                bitsPointerAgain = &kart->mUnk_7c;
-                kart->mUnk_7c = kart->mUnk_7c & 0xdfffff9f;
-                kart->mUnk_7c = kart->mUnk_7c | 0x400000;
-                if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+                bitsPointerAgain = &kart->field7C;
+                kart->field7C = kart->field7C & 0xdfffff9f;
+                kart->field7C = kart->field7C | 0x400000;
+                if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
                     *bitsPointerAgain = *bitsPointerAgain | 0x1000000;
                 }
-                if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-                    kart->mUnk_7c = kart->mUnk_7c | 0x4000;
+                if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+                    kart->field7C = kart->field7C | 0x4000;
                 } else {
-                    kart->mUnk_7c = kart->mUnk_7c | 0x8000;
+                    kart->field7C = kart->field7C | 0x8000;
                 }
                 func_02104f84(kart->mIndex);
-                if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+                if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
                     func_0210fb10();
                 }
                 func_0210ab30(kart);
                 return;
             }
             if ((currentBits & 1) != 0) {
-                c = kart->mUnk_3c8;
+                c = kart->field3C8;
                 if (c == 0x70) {
                     dce_2055A94();
                 } else if (c == 0x73) {
@@ -121,7 +121,7 @@ void func_02068b98(Kart *kart) {
                     func_0210fb54();
                 }
             }
-            kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
+            kart->field3C8 = kart->field3C8 + 1;
             return;
         }
         kart->mPos.x = 0x1000000;
@@ -137,15 +137,15 @@ void func_02068b98(Kart *kart) {
         kart->mScale.y = (s64) kart->mScaleBase.y * kart->mScaleFactor.y >> 12;
         kart->mScale.z = (s64) kart->mScaleBase.z * kart->mScaleFactor.z >> 12;
         kart->mScale.y = (s64) kart->mScaleYFactor * kart->mScale.y >> 12;
-        kart->mUnk_3c8 = kart->mUnk_3c8 + 1;
+        kart->field3C8 = kart->field3C8 + 1;
     }
 }
 
 void driver_killForMg(Kart *kart) {
-    if ((kart->mUnk_7c & 0x40000) != 0) {
+    if ((kart->field7C & 0x40000) != 0) {
         return;
     }
-    kart->mUnk_7c = kart->mUnk_7c | 0x40000;
+    kart->field7C = kart->field7C | 0x40000;
     func_02068ec0(kart, 0);
 }
 
@@ -158,12 +158,12 @@ void driver_2068A64(Kart *kart, s32 b, s32 c) {
     s32 *f;
     s32 currentAnimation;
 
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if ((kartBits & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         modelsEntry = kart->mKartModelsEntry;
         faceFrame = FALSE;
         f = &modelsEntry->mTurnFrameOffset;
-        currentAnimation = modelsEntry->mCharacterAnimation->mUnk_1a;
+        currentAnimation = modelsEntry->mCharacterAnimation->field1A;
         changeAnimation = TRUE;
         if (f[5] != 0) {
             if (currentAnimation != 0) {
@@ -175,7 +175,7 @@ void driver_2068A64(Kart *kart, s32 b, s32 c) {
             b = 1;
             faceFrame = TRUE;
         } else {
-            currentBits = kart->mUnk_7c;
+            currentBits = kart->field7C;
             if ((currentBits & 0x10000) != 0) {
                 if (currentAnimation == b) {
                     changeAnimation = FALSE;
@@ -203,11 +203,11 @@ void driver_2068A64(Kart *kart, s32 b, s32 c) {
 }
 
 void func_02068a10(Kart *kart) {
-    if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
+    if ((kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         driver_setAnimation(kart, 1, 0);
         driver_setFaceExpression(kart->mKartModelsEntry, 1);
     }
-    if ((kart->mUnk_48 & 0x840) != 0) {
+    if ((kart->field48 & 0x840) != 0) {
         return;
     }
     sfx_emitDriverVoice(kart, kart->mSoundIndex, 0);
@@ -222,12 +222,12 @@ void func_020688a0(Kart *kart) {
     u32 kartBits;
     u32 d;
 
-    if ((kart->mUnk_7c & 0x10000000) != 0) {
+    if ((kart->field7C & 0x10000000) != 0) {
         return;
     }
-    kart->mUnk_7c = kart->mUnk_7c | 0x10000008;
-    kart->mUnk_48 = kart->mUnk_48 | 0x2000;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    kart->field7C = kart->field7C | 0x10000008;
+    kart->field48 = kart->field48 | 0x2000;
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         if (rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex) != 0) {
             endKind = gRaceStatus->mEntryEndKind;
         } else {
@@ -245,11 +245,11 @@ void func_020688a0(Kart *kart) {
             case 5:
             case 6:
             default:
-                if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+                if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
                     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         mgcnt_killDriver(kart->mIndex);
                     }
-                    kart->mUnk_7c = kart->mUnk_7c | 0x20000;
+                    kart->field7C = kart->field7C | 0x20000;
                     driver_2068A64(kart, 3, 1);
                 }
                 break;
@@ -258,7 +258,7 @@ void func_020688a0(Kart *kart) {
             mgcnt_tryFinish();
         }
     }
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if ((kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
@@ -283,22 +283,22 @@ void func_02068640(Kart *kart, s32 b) {
     u32 i;
     vu32 *bitsPointer;
 
-    if ((kart->mUnk_7c & 0x100000) != 0) {
+    if ((kart->field7C & 0x100000) != 0) {
         return;
     }
     func_020fa9e4();
     if (b != 0) {
-        kart->mUnk_7c = kart->mUnk_7c | 0x2000000;
+        kart->field7C = kart->field7C | 0x2000000;
     }
-    kart->mUnk_7c = kart->mUnk_7c | 0x100100;
-    kart->mUnk_7c = kart->mUnk_7c | 8;
-    kart->mUnk_48 = kart->mUnk_48 | 0x2000;
-    kart->mUnk_7c = kart->mUnk_7c & 0xffbf1fff;
-    if ((kart->mUnk_7c & 0x20) != 0) {
+    kart->field7C = kart->field7C | 0x100100;
+    kart->field7C = kart->field7C | 8;
+    kart->field48 = kart->field48 | 0x2000;
+    kart->field7C = kart->field7C & 0xffbf1fff;
+    if ((kart->field7C & 0x20) != 0) {
         mdat_getStartPosition(&startPos, &startAngles, kart->mIndex);
         kart->mHeadingAngle = (u32) (startAngles.y * 0xb6) >> 12;
         qrtn_fromAxisAngle(&driverCore_sUpVec, kart->mHeadingAngle, &kart->mUnk_e0_m);
-        qrtn_toMtx43(&kart->mUnk_120, &kart->mUnk_e0_m);
+        qrtn_toMtx43(&kart->field120, &kart->mUnk_e0_m);
         driver_getShadowZDirection(kart, &forward);
         driver_2072B94(kart, &startPos, &forward, NULL);
         collisionCenter = gRaceMultiConfig->mMode == 5 ? &kart->mPointAlongUp : &kart->mCollisionCenter;
@@ -306,23 +306,23 @@ void func_02068640(Kart *kart, s32 b) {
             kart->mCollisionSlot =
                 col_createColEntry(collisionCenter, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
         }
-        if (kart->mUnk_2ca == -1) {
+        if (kart->field2CA == -1) {
             radius = kart->mPhysicalParam->mRadius;
-            kart->mUnk_2ca = col_createColEntry(&kart->mUnk_1f0, (s64) radius << 15 >> 12, 0x800, kart);
+            kart->field2CA = col_createColEntry(&kart->field1F0, (s64) radius << 15 >> 12, 0x800, kart);
         }
-        kart->mUnk_7c = kart->mUnk_7c | 0x80;
-        kart->mUnk_7c = kart->mUnk_7c & ~0x60;
+        kart->field7C = kart->field7C | 0x80;
+        kart->field7C = kart->field7C & ~0x60;
         kart->mScale = driverCore_sZeroVec;
     }
-    bitsPointer = &kart->mUnk_7c;
-    kart->mUnk_7c = kart->mUnk_7c & ~0x80;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    bitsPointer = &kart->field7C;
+    kart->field7C = kart->field7C & ~0x80;
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         *bitsPointer = *bitsPointer | 0x40;
     } else {
         cam_2075EB8();
     }
     driver_2068494(kart, 0, b);
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if ((kartBits & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE || gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             i = 1;
@@ -334,7 +334,7 @@ void func_02068640(Kart *kart, s32 b) {
             func_021112fc(i);
         }
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
     func_0210ab48(kart->mSoundIndex, b);
@@ -347,15 +347,15 @@ void driver_2068494(Kart *kart, s32 b, s32 c) {
     CourseMap *courseMap;
 
     savedForwardSpeed = kart->mForwardSpeed;
-    d.mUnk_04 = kart->mPos;
+    d.field4 = kart->mPos;
     if (b != 0) {
         courseMap = gMapData;
-        if (courseMap->mUnk_3c == NULL) {
+        if (courseMap->field3C == NULL) {
             hasCourseData = FALSE;
         } else {
-            d.mUnk_10 = courseMap->mUnk_3c->mUnk_00;
-            d.mUnk_1c = courseMap->mUnk_3c->mUnk_0c;
-            d.mUnk_00 = courseMap->mUnk_3c->mUnk_1a;
+            d.field10 = courseMap->field3C->field0;
+            d.field1C = courseMap->field3C->fieldC;
+            d.field0 = courseMap->field3C->field1A;
             hasCourseData = TRUE;
         }
         if (hasCourseData == FALSE) {
@@ -365,31 +365,31 @@ void driver_2068494(Kart *kart, s32 b, s32 c) {
     driver_reset(kart);
     chkrt_applyKartCrsMat(kart->mKartModelsEntry);
     kart->mSlotFunctions[1](kart);
-    kart->mUnk_7c = kart->mUnk_7c & ~0xe000;
+    kart->field7C = kart->field7C & ~0xe000;
     cspl_killSplashes(kart->mIndex);
     driver_initToNkmPos(kart, b);
     kart->mPos.y = kart->mPos.y - 0x1000;
     if (b != 0) {
-        if (d.mUnk_00 != 0) {
+        if (d.field0 != 0) {
             kart->mForwardSpeed = savedForwardSpeed;
-            kart->mUnk_48 = kart->mUnk_48 | 0x2000;
+            kart->field48 = kart->field48 | 0x2000;
         }
     }
-    kart->mUnk_44 = kart->mUnk_44 | KART_44_ON_GROUND;
-    if ((kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0) {
+    kart->field44 = kart->field44 | KART_44_ON_GROUND;
+    if ((kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0) {
         if (c != 0) {
-            kart->mUnk_7c = kart->mUnk_7c | 0x10000;
+            kart->field7C = kart->field7C | 0x10000;
             driver_2068A64(kart, 2, 1);
         } else {
-            kart->mUnk_7c = kart->mUnk_7c | 0x20000;
+            kart->field7C = kart->field7C | 0x20000;
             driver_2068A64(kart, 3, 1);
         }
     }
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-        VEC_Subtract(&kart->mPos, &d.mUnk_04, &d.mUnk_28);
-        mgcnt_applyForceToDriverBalloons(kart->mIndex, (s32) &d.mUnk_28);
+        VEC_Subtract(&kart->mPos, &d.field4, &d.field28);
+        mgcnt_applyForceToDriverBalloons(kart->mIndex, (s32) &d.field28);
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) == 0) {
         return;
     }
     dce_fadeOutToBlack(0);
@@ -404,7 +404,7 @@ void driver_setDriftLeftRightCount(Kart *kart, s32 charge) {
         return;
     }
     turnEffects = dptc_getControllerForDriver(kart->mIndex);
-    dptc_emitBlueSparks(turnEffects, (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
+    dptc_emitBlueSparks(turnEffects, (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
     sfx_21090C4(&kart->mSoundSource, 0xd2, 0x7f, 0);
 }
 
@@ -415,7 +415,7 @@ void driver_handleDriftingPhases(Kart *kart) {
     u32 pressedBits;
     enum { K0 } entryIndex;
 
-    if ((kart->mUnk_7c & 0x402) == 0) {
+    if ((kart->field7C & 0x402) == 0) {
         if (kart->mDriftCharge >= 3) {
             return;
         }
@@ -438,7 +438,7 @@ void driver_handleDriftingPhases(Kart *kart) {
                 kart->mTurnCountTimer = 10;
                 if (kart->mDriftCharge == 2) {
                     turnEffects = dptc_getControllerForDriver(kart->mIndex);
-                    dptc_emitBlueSparks(turnEffects, (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
+                    dptc_emitBlueSparks(turnEffects, (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
                     sfx_21090C4(&kart->mSoundSource, 0xd2, 0x7f, 0);
                 }
             }
@@ -453,7 +453,7 @@ void driver_handleDriftingPhases(Kart *kart) {
                     if (kart->mDriftCharge == 2) {
                         turnEffects = dptc_getControllerForDriver(kart->mIndex);
                         dptc_emitBlueSparks(turnEffects,
-                                               (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
+                                               (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
                         sfx_21090C4(&kart->mSoundSource, 0xd2, 0x7f, 0);
                     }
                 }
@@ -470,10 +470,10 @@ void driver_handleDriftingPhases(Kart *kart) {
         return;
     }
     turnEffects = dptc_getControllerForDriver(kart->mIndex);
-    if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) != 0) {
+    if ((kart->field4C & KART_4C_NEAR_PLAYER_RANK) != 0) {
         dptc_stopDustClouds(turnEffects);
         dptc_208C520(turnEffects);
-        dptc_emitRedSparks(turnEffects, (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
+        dptc_emitRedSparks(turnEffects, (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) != 0 ? 1 : 0);
     } else {
         dptc_208C534(dptc_getControllerForDriver(kart->mIndex));
     }

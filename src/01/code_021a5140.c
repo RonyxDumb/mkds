@@ -31,18 +31,18 @@ void InitEmblem(void) {
 
     gEmblem = heap_alloc(proc_getHeap(proc_getCurrent()), 0x10c0);
     InitDisplaySettingsDesc(&unk);
-    unk.mUnk_00[3] = 1;
+    unk.field0[3] = 1;
     unk.mMainBgMode = 0;
-    unk.mUnk_0a = 1;
-    unk.mUnk_00[1] = 0x11;
-    unk.mUnk_0e[4] = 3;
-    unk.mUnk_0e[5] = 0x10;
-    unk.mUnk_0e[0] = 0x20;
-    unk.mUnk_0e[1] = 0x40;
+    unk.fieldA = 1;
+    unk.field0[1] = 0x11;
+    unk.fieldE[4] = 3;
+    unk.fieldE[5] = 0x10;
+    unk.fieldE[0] = 0x20;
+    unk.fieldE[1] = 0x40;
     unk.mSubBgMode = 1;
-    unk.mUnk_00[2] = 0x10;
-    unk.mUnk_0e[7] = 4;
-    unk.mUnk_0e[8] = 8;
+    unk.field0[2] = 0x10;
+    unk.fieldE[7] = 4;
+    unk.fieldE[8] = 8;
     dc_setDisplayConfig(dc_createDisplayConfig(proc_getHeap(proc_getCurrent()), &unk));
     g2du_unpackPaletteData(&gEmblem->mEmblemMONclr, (arc_getSceneArcFile("emblem_m_o.NCLR")));
     g2du_unpackCharacterData(&gEmblem->mEmblemMONcgr, (arc_getSceneArcFile("emblem_m_o.NCGR")));
@@ -77,15 +77,15 @@ void InitEmblem(void) {
     CreateEmblemInput();
     func_02078c58(proc_getHeap(proc_getCurrent()));
     echoi_init();
-    oam_clearResetBuffers(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
+    oam_clearResetBuffers(&gEmblem->field0, &gEmblem->field404);
     func_ov001_021a6238(0x40, 0x10, 0x20, 0x80, 0x10);
     p = gSaveData->mEmblemRecord;
     if (p->mFilled) {
-        MI_CpuCopy8(p->mEmblemData, gEmblem->mUnk_087c, 0x200);
-        SplitBytesIntoNibbleTiles(gEmblem->mUnk_087c, gEmblem->mUnk_0c7c, GetEmblemGridSide());
-        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        MI_CpuCopy8(p->mEmblemData, gEmblem->field87C, 0x200);
+        SplitBytesIntoNibbleTiles(gEmblem->field87C, gEmblem->fieldC7C, GetEmblemGridSide());
+        SetEmblemGridCells(gEmblem->fieldC7C);
         SwapEmblemGridCells();
-        SetEmblemGridCells(gEmblem->mUnk_0c7c);
+        SetEmblemGridCells(gEmblem->fieldC7C);
         ResetEmblemGridChanges();
     }
     func_ov001_021a63cc(2);
@@ -130,7 +130,7 @@ void InitEmblem(void) {
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 25), -32, -20, 32, 20);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemSLld, 26), -32, -20, 32, 20);
     SetLldEntryBounds(GetLldEntry(gEmblem->mEmblemTemplateSLld, 1), -52, -15, 52, 15);
-    gEmblem->mUnk_10ac = TRUE;
-    gEmblem->mUnk_10b0 = FALSE;
-    gEmblem->mUnk_10bc = 6;
+    gEmblem->field10AC = TRUE;
+    gEmblem->field10B0 = FALSE;
+    gEmblem->field10BC = 6;
 }

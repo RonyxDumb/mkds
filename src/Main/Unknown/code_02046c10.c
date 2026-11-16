@@ -27,7 +27,7 @@ void spi_startMicAutoSampling(void *heap) {
     mic_initAutoSampling(gSpiData->mMicBuffer);
     mic_startAutoSampling(gSpiData->mMicBuffer);
     gSpiData->mMicAutoSampling = 1;
-    gSpiData->mUnk_30_2 = 0;
+    gSpiData->field30_2 = 0;
     gSpiData->mMicOverThreshold = 0;
 }
 
@@ -48,7 +48,7 @@ void spi_stopMicAutoSampling(void) {
     mic_stopAutoSampling(gSpiData->mMicBuffer);
     gSpiData->mMicBuffer = NULL;
     gSpiData->mMicAutoSampling = 0;
-    gSpiData->mUnk_30_2 = 0;
+    gSpiData->field30_2 = 0;
 }
 
 void spi_handlePreSleep(void) {
@@ -58,10 +58,10 @@ void spi_handlePreSleep(void) {
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
-    if (touchMicInput->mUnk_30_2 == 0) {
+    if (touchMicInput->field30_2 == 0) {
         mic_handlePreSleep(touchMicInput->mMicBuffer);
     }
-    gSpiData->mUnk_30_2 = 1;
+    gSpiData->field30_2 = 1;
 }
 
 void spi_handlePostSleep(void) {
@@ -71,10 +71,10 @@ void spi_handlePostSleep(void) {
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
-    if (touchMicInput->mUnk_30_2) {
+    if (touchMicInput->field30_2) {
         mic_handlePostSleep(touchMicInput->mMicBuffer);
     }
-    gSpiData->mUnk_30_2 = 0;
+    gSpiData->field30_2 = 0;
 }
 
 void spi_update(void) {
@@ -116,7 +116,7 @@ void spi_updateTpMic(InputSlotPair *pair, s32 b, s32 c) {
         }
     }
     if (gSpiData->mMicAutoSampling) {
-        pair->mUnk_12[0] = c;
+        pair->field12[0] = c;
     }
 }
 

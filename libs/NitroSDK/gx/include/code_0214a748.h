@@ -5,22 +5,22 @@
 
 // Sixteen words written by G3i_OrthoW_ and G3i_FrustumW_.
 typedef struct Unk0214ad4c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ s32 field24;
+    /* 28 */ s32 field28;
+    /* 2c */ s32 field2C;
+    /* 30 */ s32 field30;
+    /* 34 */ s32 field34;
+    /* 38 */ s32 field38;
+    /* 3c */ s32 field3C;
 } Unk0214ad4c;
 
 void G3X_SetFogTable(const void *fogTable);

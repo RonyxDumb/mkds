@@ -7,7 +7,7 @@
 // DigitCharsToDouble (DigitCharsToDouble copies it as a whole).
 typedef struct DigitRecord {
     /* 00 */ u8 mNegative;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 field1;
     /* 02 */ s16 mExponent;
     /* 04 */ u8 mDigitCount;
     /* 05 */ char mDigits[32];
@@ -15,7 +15,7 @@ typedef struct DigitRecord {
 
 // First argument of DoubleToDigitChars (reads mDigitCount).
 typedef struct Unk02140c28 {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 field0;
     /* 02 */ s16 mDigitCount;
 } Unk02140c28;
 

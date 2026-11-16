@@ -41,9 +41,9 @@ void SetupJb5Move(void) {
     c[0] = 0;
     MIi_CpuClear16(c[0], &c[1], 0x16);
     MIi_CpuCopy16(a + 2, &c[1], a[1] * 2);
-    DrawCanvasTextRect(b, data_ov003_021d6380.mUnk_00, data_ov003_021d6380.mUnk_02,
-                       data_ov003_021d6380.mUnk_04 - data_ov003_021d6380.mUnk_00,
-                       data_ov003_021d6380.mUnk_06 - data_ov003_021d6380.mUnk_02, 2, 0x480, &c[1]);
+    DrawCanvasTextRect(b, data_ov003_021d6380.field0, data_ov003_021d6380.field2,
+                       data_ov003_021d6380.field4 - data_ov003_021d6380.field0,
+                       data_ov003_021d6380.field6 - data_ov003_021d6380.field2, 2, 0x480, &c[1]);
     RequestBgTextCanvasUpload(b);
     func_ov003_021c27d0(func_ov003_021c4ad4);
     SetUpdateFunction(func_ov003_021c4cb0);

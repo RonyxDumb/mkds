@@ -6,13 +6,13 @@
 // 0x24-byte entry: the word at 0x00 and the halfword at 0x08 are tested by DrawKartNameTagTexture and
 // UploadTextureAndPalette, the words at 0x1c and 0x20 are passed to the function given to DrawKartNameTagTexture.
 typedef struct TexPlttEntry {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ s32 mTexByteCount;
     /* 08 */ u16 mPlttByteCount;
-    /* 0a */ u8 mUnk_0a[2];
+    /* 0a */ u8 fieldA[2];
     /* 0c */ void *mTexData;
     /* 10 */ void *mPlttData;
-    /* 14 */ u8 mUnk_14[4];
+    /* 14 */ u8 field14[4];
     /* 18 */ u32 mPlttOffset;
     /* 1c */ s32 mTexWidthFixed;
     /* 20 */ s32 mTexHeightFixed;
@@ -27,9 +27,9 @@ typedef struct KartNameTagTexPlttEntries {
 typedef struct KartNameTag {
     /* 00 */ Vec3 mPos;
     /* 0c */ u16 mKartIndex;
-    /* 0e */ u8 mUnk_0e[2];
-    /* 10 */ BOOL mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 0e */ u8 fieldE[2];
+    /* 10 */ BOOL field10;
+    /* 14 */ s32 field14;
     /* 18 */ BOOL mFadeStopped;
     /* 1c */ KartNameTagTexPlttEntries *mTexPlttEntries;
     /* 20 */ s16 mFadeLevelPerCall;

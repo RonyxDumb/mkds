@@ -93,14 +93,14 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiQueueErrorCallback(a, 3, 1);
                 return 3;
             }
-            p1->mUnk_08 = func_ov000_021a3690(strlen(c) + 1);
-            if (p1->mUnk_08 == NULL) {
+            p1->field8 = func_ov000_021a3690(strlen(c) + 1);
+            if (p1->field8 == NULL) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
-            strcpy(p1->mUnk_08, c);
-            p1->mUnk_00 = y;
-            p1->mUnk_04 = z;
+            strcpy(p1->field8, c);
+            p1->field0 = y;
+            p1->field4 = z;
             r = GpiQueueCallback(a, s1, p1, NULL, 2);
             if (r != 0) {
                 return r;
@@ -129,11 +129,11 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiQueueErrorCallback(a, 3, 1);
                 return 3;
             }
-            func_ov000_021a3668(p->mUnk_10);
-            p->mUnk_10 = NULL;
+            func_ov000_021a3668(p->field10);
+            p->field10 = NULL;
             q += 8;
-            p->mUnk_10 = func_ov000_0218e880(q);
-            p->mUnk_14++;
+            p->field10 = func_ov000_0218e880(q);
+            p->field14++;
             s4 = o->mCallbacks[1];
             if (s4.mCallback == NULL) {
                 break;
@@ -143,9 +143,9 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
-            GpiCopyString(p2->mUnk_008, c, 0x401);
-            p2->mUnk_000 = y;
-            p2->mUnk_004 = z;
+            GpiCopyString(p2->field8, c, 0x401);
+            p2->field0 = y;
+            p2->field4 = z;
             r = GpiQueueCallback(a, s4, p2, NULL, 6);
             if (r != 0) {
                 return r;
@@ -181,38 +181,38 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiQueueErrorCallback(a, 3, 1);
                 return 3;
             }
-            t->mUnk_04 = StrtolBase10(e);
-            func_ov000_021a3668(t->mUnk_08);
-            t->mUnk_08 = NULL;
+            t->field4 = StrtolBase10(e);
+            func_ov000_021a3668(t->field8);
+            t->field8 = NULL;
             if (GpiGetValue(c, data_ov000_021b2834, d, 0x100) == FALSE) {
                 d[0] = 0;
             }
-            t->mUnk_08 = func_ov000_0218e880(d);
-            if (t->mUnk_08 == NULL) {
+            t->field8 = func_ov000_0218e880(d);
+            if (t->field8 == NULL) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
-            func_ov000_021a3668(t->mUnk_0c);
-            t->mUnk_0c = NULL;
+            func_ov000_021a3668(t->fieldC);
+            t->fieldC = NULL;
             if (GpiGetValue(c, data_ov000_021b283c, d, 0x100) == FALSE) {
                 d[0] = 0;
             }
-            t->mUnk_0c = func_ov000_0218e880(d);
-            if (t->mUnk_0c == NULL) {
+            t->fieldC = func_ov000_0218e880(d);
+            if (t->fieldC == NULL) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
             if (GpiGetValue(c, data_ov000_021b2844, e, 0x10) == FALSE) {
-                t->mUnk_10 = 0;
+                t->field10 = 0;
             } else {
-                t->mUnk_10 = (((u32) StrtolBase10(e) >> 24) & 0xff) | (((u32) StrtolBase10(e) >> 8) & 0xff00) |
+                t->field10 = (((u32) StrtolBase10(e) >> 24) & 0xff) | (((u32) StrtolBase10(e) >> 8) & 0xff00) |
                              ((StrtolBase10(e) << 8) & 0xff0000) | ((StrtolBase10(e) << 24) & 0xff000000);
             }
             if (GpiGetValue(c, data_ov000_021b284c, e, 0x10) == FALSE) {
-                t->mUnk_14 = 0;
+                t->field14 = 0;
             } else {
                 h = StrtolBase10(e);
-                t->mUnk_14 = (u16) (((h >> 8) & 0xff) | ((h << 8) & 0xff00));
+                t->field14 = (u16) (((h >> 8) & 0xff) | ((h << 8) & 0xff00));
             }
             s3 = o->mCallbacks[2];
             if (s3.mCallback == NULL) {
@@ -223,9 +223,9 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
-            p1->mUnk_00 = y;
-            p1->mUnk_08 = (void *) t->mIndex;
-            p1->mUnk_04 = z;
+            p1->field0 = y;
+            p1->field8 = (void *) t->mIndex;
+            p1->field4 = z;
             r = GpiQueueCallback(a, s3, p1, NULL, 5);
             if (r != 0) {
                 return r;
@@ -264,9 +264,9 @@ s32 func_ov000_0218fca8(GpConnection *a, char *b) {
                 GpiSetErrorMessage(a, data_ov000_021b2814);
                 return 1;
             }
-            p3->mUnk_000 = y;
-            p3->mUnk_004 = n;
-            strcpy(p3->mUnk_008, d);
+            p3->field0 = y;
+            p3->field4 = n;
+            strcpy(p3->field8, d);
             r = GpiQueueCallback(a, s2, p3, NULL, 0);
             if (r != 0) {
                 return r;
@@ -307,14 +307,14 @@ u32 func_ov000_0218fb3c(GpConnection *a, s32 b, s32 c, const char *d) {
     u32 r;
     n = func_ov000_02193f2c(a, b);
     if (n == NULL) {
-        if (GpiFindProfile(a, b, &e) == 0 || e->mBuddyStatus == NULL || e->mBuddyStatus->mUnk_14 == 0) {
+        if (GpiFindProfile(a, b, &e) == 0 || e->mBuddyStatus == NULL || e->mBuddyStatus->field14 == 0) {
             return func_ov000_0218fbe0(a, b, c, d);
         }
         n = GpiPeerCreate(a, b, 1);
         if (n == NULL) {
             return 1;
         }
-        if (e->mUnk_18 == NULL) {
+        if (e->field18 == NULL) {
             r = func_ov000_02193e70(a, n);
             if (r != 0) {
                 return r;
@@ -342,16 +342,16 @@ u32 func_ov000_0218faac(GpConnection *a, u32 b) {
         GpiSetErrorMessage(a, data_ov000_021b273c);
         return 2;
     }
-    if (e->mUnk_10 == NULL) {
+    if (e->field10 == NULL) {
         GpiSetErrorMessage(a, data_ov000_021b273c);
         return 2;
     }
     r = func_ov000_02190548(a, e);
     if (r == 0) {
-        e->mUnk_14--;
-        if (o->mUnk_100 == 0 && e->mUnk_14 <= 0) {
-            func_ov000_021a3668(e->mUnk_10);
-            e->mUnk_10 = NULL;
+        e->field14--;
+        if (o->field100 == 0 && e->field14 <= 0) {
+            func_ov000_021a3668(e->field10);
+            e->field10 = NULL;
             if (GpiIsProfileEmpty(e) != 0) {
                 GpiRemoveProfile(a, e);
             }
@@ -362,8 +362,8 @@ u32 func_ov000_0218faac(GpConnection *a, u32 b) {
 }
 
 s32 GpiDecrementBuddyIndexAbove(void *unused, Unk0218fa98 *object, s32 minimum) {
-    if (object->mUnk_08 != NULL && *object->mUnk_08 > minimum) {
-        --*object->mUnk_08;
+    if (object->field8 != NULL && *object->field8 > minimum) {
+        --*object->field8;
     }
     return 1;
 }
@@ -389,10 +389,10 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *p, u32 b) {
         if (n < 0) {
             __msl_assertion_failed(data_ov000_021b2780, data_ov000_021b278c, NULL, 0x1fd);
         }
-        func_ov000_021a3668(e->mBuddyStatus->mUnk_08);
-        e->mBuddyStatus->mUnk_08 = NULL;
-        func_ov000_021a3668(e->mBuddyStatus->mUnk_0c);
-        e->mBuddyStatus->mUnk_0c = NULL;
+        func_ov000_021a3668(e->mBuddyStatus->field8);
+        e->mBuddyStatus->field8 = NULL;
+        func_ov000_021a3668(e->mBuddyStatus->fieldC);
+        e->mBuddyStatus->fieldC = NULL;
         func_ov000_021a3668(e->mBuddyStatus);
         e->mBuddyStatus = NULL;
         if (GpiIsProfileEmpty(e) != 0) {

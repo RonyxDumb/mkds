@@ -20,27 +20,27 @@ typedef struct MemberRowCellIndices {
 
 // 8-byte entries of the table at data_02153554.
 typedef struct Unk02153554 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
+    /* 04 */ s16 field4;
     /* 06 */ s16 mRectEntryId;
 } Unk02153554;
 
 // 8-byte entries at 0x90 of SelectCharacter, filled from data_021535b4.
 typedef struct Unk021535b4 {
     /* 00 */ s32 mCharacterIndex;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 field4;
 } Unk021535b4;
 
 // 4-byte entries of the table at Sequence_Array.
 typedef struct SoundRow {
-    /* 00 */ u8 mUnk_00[4];
+    /* 00 */ u8 field0[4];
 } SoundRow;
 
 // 4-byte entries of the tables at data_021534bc, data_021534dc, data_02153500 and data_02153528.
 typedef struct Unk021534bc {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
 } Unk021534bc;
 
 extern LabelMessageRow gMemberGroupLabelMessageRows[];
@@ -78,9 +78,9 @@ extern s32 data_02153274[];
 
 // 12-byte entries of data_021537f4: a halfword value and a word at 8.
 typedef struct Unk021537f4 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u8 mUnk_02[6];
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s16 field0;
+    /* 02 */ u8 field2[6];
+    /* 08 */ s32 field8;
 } Unk021537f4;
 
 extern u16 data_021537dc[];
@@ -95,11 +95,11 @@ extern u8 data_021530f8[4][4][2];
 extern u16 gMultiSelectNSRowCellIndices[][3];
 
 typedef struct Unk02153d2c {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ s16 field6;
+    /* 08 */ s32 field8;
 } Unk02153d2c;
 
 extern Unk02153d2c gMultiSelectNSLabelMessageRows[];
@@ -115,7 +115,7 @@ extern u16 data_02153d46[][2];
 extern u16 gMultiSelectMemberCountCellIndices[];
 extern s16 data_02153dbc[];
 
-// Tables of four u16, written to mUnk_084 of SelectCharacter.
+// Tables of four u16, written to field84 of SelectCharacter.
 extern u16 data_02153614[4];
 extern u16 data_0215361c[4];
 extern u16 data_02153624[4];

@@ -166,13 +166,13 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
                         mission = &gRaceMultiConfig->mUnk_28_view;
                         s = FALSE;
                         if (mission->mMissionTableValue == 4) {
-                            output->mUnk_00[1] = 0x2a;
+                            output->field0[1] = 0x2a;
                             s = TRUE;
                         }
                         if (s == FALSE) {
                             switch (mission->mMissionKind) {
                                 case 1:
-                                    output->mUnk_00[1] = 0x2c;
+                                    output->field0[1] = 0x2c;
                                     break;
                                 case 2:
                                 case 3:
@@ -184,19 +184,19 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
                         switch (mission->mMissionTableValue) {
                             case 9:
                             case 10:
-                                output->mUnk_00[2] = 0x25;
+                                output->field0[2] = 0x25;
                                 break;
                             case 0x32:
-                                output->mUnk_00[2] = 0x26;
+                                output->field0[2] = 0x26;
                                 break;
                             case 0x15:
-                                output->mUnk_00[2] = 0x27;
+                                output->field0[2] = 0x27;
                                 break;
                             case 0x33:
-                                output->mUnk_00[2] = 0x28;
+                                output->field0[2] = 0x28;
                                 break;
                             case 0x11:
-                                output->mUnk_00[2] = 0x29;
+                                output->field0[2] = 0x29;
                                 break;
                             case 0x31:
                                 break;
@@ -205,7 +205,7 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
                                 break;
                         }
                         if (t != FALSE) {
-                            output->mUnk_00[3] = 0x22;
+                            output->field0[3] = 0x22;
                         }
                     }
                     break;
@@ -238,7 +238,7 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
                         *output = Sequence_Array[rowIndex];
                         rowWritten = TRUE;
                         GetSequenceTableIndexAndData(gRaceMultiConfig->mCourseId, &courseRow);
-                        output->mUnk_00[2] = courseRow.mUnk_00[2];
+                        output->field0[2] = courseRow.field0[2];
                     }
                     break;
                 case 4:
@@ -272,7 +272,7 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
             rowIndex = 0x29;
             *output = Sequence_Array[rowIndex];
             rowWritten = TRUE;
-            output->mUnk_00[1] = snd_getResultSceneSeqId();
+            output->field0[1] = snd_getResultSceneSeqId();
             break;
         case 8:
             rowIndex = 0x2f;
@@ -294,9 +294,9 @@ u32 scene_getMusicData(s32 sceneNumber, void *outputPointer) {
             *output = Sequence_Array[rowIndex];
             rowWritten = TRUE;
             if (data_0217d060 != NULL) {
-                output->mUnk_00[1] = 0xff;
-                output->mUnk_00[2] = 0xff;
-                output->mUnk_00[3] = 0xff;
+                output->field0[1] = 0xff;
+                output->field0[2] = 0xff;
+                output->field0[3] = 0xff;
             }
             break;
         case 15:

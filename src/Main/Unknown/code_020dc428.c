@@ -78,21 +78,21 @@ MapObjectList *wanwan_setupLogicPart(void) {
 void wanwan_render(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha) {
     MtxFx43 shadowMatrix;
 
-    if (wanwan->mUnk_00.mStateMachine.mState == 4) {
+    if (wanwan->field0.mStateMachine.mState == 4) {
         if (rchoi_getIsRacePaused() == 0) {
-            wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-            wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
+            wanwan->field0.mPos.x += wanwan->field0.field10.x;
+            wanwan->field0.mPos.z += wanwan->field0.field10.z;
         }
     }
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].x = wanwan->mUnk_00.mPos.x >> 4;
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
-    wanwan->mUnk_00.mMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
-    model2_renderModel(wanwan_sModel, &wanwan->mUnk_00.mMatrix, &wanwan->mUnk_00.mScale, maxAlpha);
-    qtrn_toMtx33(&shadowMatrix, &wanwan->mUnk_d4);
-    shadowMatrix.mUnk_00[3].x = wanwan->mUnk_00.mPos.x >> 4;
-    shadowMatrix.mUnk_00[3].y = wanwan->mUnk_00.mPos.y >> 4;
-    shadowMatrix.mUnk_00[3].z = wanwan->mUnk_00.mPos.z >> 4;
-    model2_renderShadowModel(wanwan_sShadowModel, &shadowMatrix, &wanwan->mUnk_00.mScale, maxAlpha);
+    wanwan->field0.mMatrix.field0[3].x = wanwan->field0.mPos.x >> 4;
+    wanwan->field0.mMatrix.field0[3].y = wanwan->field0.mPos.y >> 4;
+    wanwan->field0.mMatrix.field0[3].z = wanwan->field0.mPos.z >> 4;
+    model2_renderModel(wanwan_sModel, &wanwan->field0.mMatrix, &wanwan->field0.mScale, maxAlpha);
+    qtrn_toMtx33(&shadowMatrix, &wanwan->fieldD4);
+    shadowMatrix.field0[3].x = wanwan->field0.mPos.x >> 4;
+    shadowMatrix.field0[3].y = wanwan->field0.mPos.y >> 4;
+    shadowMatrix.field0[3].z = wanwan->field0.mPos.z >> 4;
+    model2_renderShadowModel(wanwan_sShadowModel, &shadowMatrix, &wanwan->field0.mScale, maxAlpha);
 }
 
 void wanwan_update(void *unused, Wanwan *wanwan) {
@@ -111,33 +111,33 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
     s32 t;
     s32 y;
 
-    h = wanwan->mUnk_b0;
-    sm_execute(&wanwan->mUnk_00.mStateMachine);
-    wanwan->mUnk_00.mUnk_10.y -= 0x400;
-    wanwan->mUnk_00.mPos.y += wanwan->mUnk_00.mUnk_10.y;
+    h = wanwan->fieldB0;
+    sm_execute(&wanwan->field0.mStateMachine);
+    wanwan->field0.field10.y -= 0x400;
+    wanwan->field0.mPos.y += wanwan->field0.field10.y;
     k = FALSE;
-    probePos.x = wanwan->mUnk_00.mPos.x;
-    probePos.y = wanwan->mUnk_00.mPos.y + wanwan->mUnk_f4 + 0x5000;
-    probePos.z = wanwan->mUnk_00.mPos.z;
+    probePos.x = wanwan->field0.mPos.x;
+    probePos.y = wanwan->field0.mPos.y + wanwan->fieldF4 + 0x5000;
+    probePos.z = wanwan->field0.mPos.z;
     if (h == 0) {
-        correction.y = wanwan->mUnk_ac + 0xd000 - probePos.y;
+        correction.y = wanwan->fieldAC + 0xd000 - probePos.y;
         if (correction.y > 0) {
             k = TRUE;
             correction.x = 0;
             correction.z = 0;
-            if (wanwan->mUnk_fc != 0) {
-                if (!(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+            if (wanwan->fieldFC != 0) {
+                if (!(wanwan->field0.mDistanceSquaredAndFlags & 4)) {
+                    if (wanwan->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                         y = 2;
-                    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                    } else if (wanwan->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                         y = 3;
                     } else {
                         y = 4;
                     }
                     c.mSoundId = 0x1a1;
-                    c.mPositionSource = &wanwan->mUnk_00.mPos;
-                    c.mUnk_08 = y;
-                    c.mDistanceSquared = mobj_calcXZCamDist(&wanwan->mUnk_00.mPos);
+                    c.mPositionSource = &wanwan->field0.mPos;
+                    c.field8 = y;
+                    c.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
                     func_0210b7a8(&c);
                 }
             }
@@ -146,19 +146,19 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
         if (col_collide(&probePos, NULL, 0, 0xd000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL,
                           NULL, NULL, NULL) != 0) {
             k = TRUE;
-            if (wanwan->mUnk_fc != 0) {
-                if (!(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4)) {
-                    if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+            if (wanwan->fieldFC != 0) {
+                if (!(wanwan->field0.mDistanceSquaredAndFlags & 4)) {
+                    if (wanwan->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                         y = 2;
-                    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                    } else if (wanwan->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                         y = 3;
                     } else {
                         y = 4;
                     }
                     d.mSoundId = 0x1df;
-                    d.mPositionSource = &wanwan->mUnk_00.mPos;
-                    d.mUnk_08 = y;
-                    d.mDistanceSquared = mobj_calcXZCamDist(&wanwan->mUnk_00.mPos);
+                    d.mPositionSource = &wanwan->field0.mPos;
+                    d.field8 = y;
+                    d.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
                     func_0210b7a8(&d);
                 }
             }
@@ -166,21 +166,21 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
     }
     if (k != FALSE) {
         k = TRUE;
-        if (wanwan->mUnk_00.mStateMachine.mState == 2) {
-            if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x78) {
+        if (wanwan->field0.mStateMachine.mState == 2) {
+            if (wanwan->field0.mStateMachine.mStateFrames < 0x78) {
                 k = FALSE;
             }
         }
-        wanwan->mUnk_00.mPos.y += correction.y;
-        if (wanwan->mUnk_fc != 0 || k != FALSE) {
-            if (wanwan->mUnk_fc != 0) {
-                x = wanwan->mFollower.mUnk_00.mToEntry->mPos.x;
-                z = wanwan->mFollower.mUnk_00.mToEntry->mPos.z;
+        wanwan->field0.mPos.y += correction.y;
+        if (wanwan->fieldFC != 0 || k != FALSE) {
+            if (wanwan->fieldFC != 0) {
+                x = wanwan->mFollower.field0.mToEntry->mPos.x;
+                z = wanwan->mFollower.field0.mToEntry->mPos.z;
             } else {
-                x = wanwan->mCurvePoints[2]->x - wanwan->mUnk_00.mPos.x;
-                z = wanwan->mCurvePoints[2]->z - wanwan->mUnk_00.mPos.z;
+                x = wanwan->mCurvePoints[2]->x - wanwan->field0.mPos.x;
+                z = wanwan->mCurvePoints[2]->z - wanwan->field0.mPos.z;
             }
-            t = ((s64) (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * x + (s64) wanwan->mUnk_00.mUnk_10.z * z) >> 12)
+            t = ((s64) (s32) (((s64) wanwan->field0.field10.x * x + (s64) wanwan->field0.field10.z * z) >> 12)
                  << 9) >>
                 12;
             if (t > 0x3000) {
@@ -188,45 +188,45 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
             } else if (t < 0x2800) {
                 t = 0x2800;
             }
-            wanwan->mUnk_00.mUnk_10.y = t;
-        } else if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mUnk_00.mUnk_10.y = 0x2000;
-            wanwan->mUnk_e8 += 0x1000;
+            wanwan->field0.field10.y = t;
+        } else if (wanwan->fieldE8 == 0xd000) {
+            wanwan->field0.field10.y = 0x2000;
+            wanwan->fieldE8 += 0x1000;
         } else {
-            wanwan->mUnk_00.mUnk_10.y = 0;
+            wanwan->field0.field10.y = 0;
         }
         if (h != 0) {
             if (surfaceFlags & 0x1e34ef) {
-                t = ((s64) wanwan->mUnk_00.mUnk_10.x * surfaceNormal.x +
-                     (s64) wanwan->mUnk_00.mUnk_10.z * surfaceNormal.z) >>
+                t = ((s64) wanwan->field0.field10.x * surfaceNormal.x +
+                     (s64) wanwan->field0.field10.z * surfaceNormal.z) >>
                     12;
                 if (t < 0) {
-                    wanwan->mUnk_00.mUnk_10.y += (s32) (((s64) -t * 0x14cd) >> 12);
+                    wanwan->field0.field10.y += (s32) (((s64) -t * 0x14cd) >> 12);
                 }
-                qrtn_fromForwardVec(&surfaceNormal, &wanwan->mUnk_c4);
+                qrtn_fromForwardVec(&surfaceNormal, &wanwan->fieldC4);
             }
         }
-        if (wanwan->mUnk_fc == 0 && !(wanwan->mUnk_00.mDistanceSquaredAndFlags & 4) && k != FALSE) {
+        if (wanwan->fieldFC == 0 && !(wanwan->field0.mDistanceSquaredAndFlags & 4) && k != FALSE) {
             b = data_0216bedc;
-            b.mPositionSource = &wanwan->mUnk_00.mPos;
-            b.mDistanceSquared = wanwan->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
+            b.mPositionSource = &wanwan->field0.mPos;
+            b.mDistanceSquared = wanwan->field0.mDistanceSquaredAndFlags & ~0xc000001f;
             func_0210b7a8(&b);
         }
     }
     if (h != 0) {
-        qrtn_20D7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &targetOrientation);
+        qrtn_20D7938(&wanwan->fieldC4, &wanwan->fieldD4, &targetOrientation);
     }
-    wanwan->mUnk_e4 = wanwan->mUnk_e4 + ((-wanwan->mUnk_00.mUnk_10.y >> 1) - wanwan->mUnk_e4 >> 4);
+    wanwan->fieldE4 = wanwan->fieldE4 + ((-wanwan->field0.field10.y >> 1) - wanwan->fieldE4 >> 4);
     if (h != 0) {
-        Quaternion_Rotate_20D788C(&targetOrientation, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4),
+        Quaternion_Rotate_20D788C(&targetOrientation, (u16) (wanwan->fieldE8 + wanwan->fieldE4),
                                        &targetOrientation);
     } else {
-        Quaternion_Rotate_20D76A8(&wanwan->mUnk_d4, (u16) (wanwan->mUnk_e8 + wanwan->mUnk_e4), &targetOrientation);
+        Quaternion_Rotate_20D76A8(&wanwan->fieldD4, (u16) (wanwan->fieldE8 + wanwan->fieldE4), &targetOrientation);
     }
-    qrtn_slerp(&wanwan->mUnk_b4, &targetOrientation, &wanwan->mUnk_b4, wanwan->mUnk_ec);
-    qtrn_normalize(&wanwan->mUnk_b4, &wanwan->mUnk_b4);
-    qtrn_toMtx33(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
-    if (wanwan->mUnk_00.mPos.y >= 0) {
+    qrtn_slerp(&wanwan->fieldB4, &targetOrientation, &wanwan->fieldB4, wanwan->fieldEC);
+    qtrn_normalize(&wanwan->fieldB4, &wanwan->fieldB4);
+    qtrn_toMtx33(&wanwan->field0.mMatrix, &wanwan->fieldB4);
+    if (wanwan->field0.mPos.y >= 0) {
         return;
     }
     wanwan_20DBF7C(wanwan);
@@ -234,10 +234,10 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
 
 u8 wanwan_onDriverCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
     if (*b == 1) {
-        if (wanwan->mUnk_00.mStateMachine.mState != 2 || wanwan->mUnk_00.mUnk_10.y < 0x4000) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 2;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
-            mobj_tryDestroyByDriver(&wanwan->mUnk_00, kart);
+        if (wanwan->field0.mStateMachine.mState != 2 || wanwan->field0.field10.y < 0x4000) {
+            wanwan->field0.mStateMachine.mNextState = 2;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
+            mobj_tryDestroyByDriver(&wanwan->field0, kart);
         }
     }
     return *c;
@@ -245,9 +245,9 @@ u8 wanwan_onDriverCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
 
 u8 wanwan_onItemCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
     if (*b == 1) {
-        if (wanwan->mUnk_00.mStateMachine.mState != 2 || wanwan->mUnk_00.mUnk_10.y < 0x4000) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 2;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+        if (wanwan->field0.mStateMachine.mState != 2 || wanwan->field0.field10.y < 0x4000) {
+            wanwan->field0.mStateMachine.mNextState = 2;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
         }
     }
     return *c;
@@ -257,18 +257,18 @@ u8 wanwan_onItemCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c) {
 void wanwan_state0Init(Wanwan *wanwan) {
     Vec3 *savedPoint;
 
-    wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->fieldE8 = 0x555;
+    wanwan->fieldEC = 0x1c2;
+    wanwan->mChainObject->fieldA8 = 0x599;
     savedPoint = wanwan->mCurvePoints[0];
     wanwan->mCurvePoints[0] = NULL;
-    *wanwan->mCurvePoints[1] = wanwan->mUnk_00.mPos;
+    *wanwan->mCurvePoints[1] = wanwan->field0.mPos;
     *wanwan->mCurvePoints[2] = *wanwan->mCurvePoints[1];
-    wanwan->mCurvePoints[2]->x += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[2].x * wanwan->mUnk_f0) >> 12);
-    wanwan->mCurvePoints[2]->z += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[2].z * wanwan->mUnk_f0) >> 12);
+    wanwan->mCurvePoints[2]->x += (s32) (((s64) wanwan->field0.mMatrix.field0[2].x * wanwan->fieldF0) >> 12);
+    wanwan->mCurvePoints[2]->z += (s32) (((s64) wanwan->field0.mMatrix.field0[2].z * wanwan->fieldF0) >> 12);
     *wanwan->mCurvePoints[3] = *wanwan->mCurvePoints[2];
-    wanwan->mCurvePoints[3]->x += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[0].x * wanwan->mUnk_f0) >> 12);
-    wanwan->mCurvePoints[3]->z += (s32) (((s64) wanwan->mUnk_00.mMatrix.mUnk_00[0].z * wanwan->mUnk_f0) >> 12);
+    wanwan->mCurvePoints[3]->x += (s32) (((s64) wanwan->field0.mMatrix.field0[0].x * wanwan->fieldF0) >> 12);
+    wanwan->mCurvePoints[3]->z += (s32) (((s64) wanwan->field0.mMatrix.field0[0].z * wanwan->fieldF0) >> 12);
     func_020d7d18(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints, 0x1000);
     wanwan->mCurvePoints[0] = savedPoint;
 }
@@ -297,8 +297,8 @@ void wanwan_state0Update(Wanwan *wanwan) {
     u32 angleIndex;
     u16 kartIndex;
 
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
+    wanwan->field0.field10.x = wanwan->field0.mPos.x;
+    wanwan->field0.field10.z = wanwan->field0.mPos.z;
     if (pwex_20D849C(&wanwan->mSegmentProgress) != FALSE) {
         lastStepX = wanwan->mCurvePoints[3]->x - wanwan->mCurvePoints[2]->x;
         lastStepZ = wanwan->mCurvePoints[3]->z - wanwan->mCurvePoints[2]->z;
@@ -306,7 +306,7 @@ void wanwan_state0Update(Wanwan *wanwan) {
             attemptCount = 0;
             candidate = wanwan->mCurvePoints[0];
             while (1) {
-                a = wanwan->mUnk_f8;
+                a = wanwan->fieldF8;
                 random = mobj_getRng1();
                 n = a - 0x2d000;
                 if (n == 0) {
@@ -354,33 +354,33 @@ void wanwan_state0Update(Wanwan *wanwan) {
             wanwan->mCurvePoints[3] = candidate;
         } while (func_020d7c84(&wanwan->mSegmentProgress, 1, wanwan->mCurvePoints) != FALSE);
     }
-    pwex_interpolateXZ(&wanwan->mSegmentProgress, &wanwan->mUnk_00.mPos);
-    if (!(wanwan->mUnk_00.mFlags & 0x800)) {
+    pwex_interpolateXZ(&wanwan->mSegmentProgress, &wanwan->field0.mPos);
+    if (!(wanwan->field0.mFlags & 0x800)) {
         kartIndex = race_getFrameCounterModuloDriverCount();
         kart = driver_getById(kartIndex);
         if (func_0206c0e0(kart) == FALSE) {
-            e = wanwan->mUnk_1dc;
+            e = wanwan->field1DC;
             if ((s64) (kart->mPos.x - wanwan->mCenterPos.x) * (kart->mPos.x - wanwan->mCenterPos.x) +
                     (s64) (kart->mPos.z - wanwan->mCenterPos.z) * (kart->mPos.z - wanwan->mCenterPos.z) <
                 (s64) e * e) {
                 wanwan->mKartPos = &driver_getById(kartIndex)->mPos;
                 wanwan->mKartVelocity = &driver_getById(kartIndex)->mVelocity;
-                wanwan->mUnk_00.mStateMachine.mNextState = 1;
-                wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+                wanwan->field0.mStateMachine.mNextState = 1;
+                wanwan->field0.mStateMachine.mNextStateRequested = 1;
             }
         }
     }
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
-    if (func_020dccc8_inline(&wanwan->mUnk_00.mUnk_10) >= 0x10) {
+    wanwan->field0.field10.x = wanwan->field0.mPos.x - wanwan->field0.field10.x;
+    wanwan->field0.field10.z = wanwan->field0.mPos.z - wanwan->field0.field10.z;
+    if (func_020dccc8_inline(&wanwan->field0.field10) >= 0x10) {
         qrtn_fromYAngle(
-            (u16) (((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
+            (u16) (((s64) FX_Atan2(wanwan->field0.field10.x, wanwan->field0.field10.z) * 0x28be60db9391LL +
                     0x80000000000LL) >>
                    44),
-            &wanwan->mUnk_d4);
+            &wanwan->fieldD4);
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x40) {
-        wanwan->mUnk_ec += 0x1c;
+    if (wanwan->field0.mStateMachine.mStateFrames < 0x40) {
+        wanwan->fieldEC += 0x1c;
     }
 }
 
@@ -388,25 +388,25 @@ void wanwan_state1Init(Wanwan *wanwan) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
-    wanwan->mUnk_e8 = 0x2000;
-    wanwan->mUnk_ec = 0x1c2;
-    wanwan->mUnk_1e0 = wanwan->mUnk_00.mPos;
-    wanwan->mChainObject->mUnk_a8 = 0x219;
-    wanwan->mUnk_1f8 = 0;
-    if (wanwan->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    wanwan->fieldE8 = 0x2000;
+    wanwan->fieldEC = 0x1c2;
+    wanwan->field1E0 = wanwan->field0.mPos;
+    wanwan->mChainObject->fieldA8 = 0x219;
+    wanwan->field1F8 = 0;
+    if (wanwan->field0.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if (wanwan->field0.mFarDistanceSquared == gSfxParams[2].field20) {
         falloffIndex = 2;
-    } else if (wanwan->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+    } else if (wanwan->field0.mFarDistanceSquared == gSfxParams[3].field20) {
         falloffIndex = 3;
     } else {
         falloffIndex = 4;
     }
     soundRequest.mSoundId = 0x12c;
-    soundRequest.mPositionSource = &wanwan->mUnk_00.mPos;
-    soundRequest.mUnk_08 = falloffIndex;
-    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&wanwan->mUnk_00.mPos);
+    soundRequest.mPositionSource = &wanwan->field0.mPos;
+    soundRequest.field8 = falloffIndex;
+    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
     func_0210b7a8(&soundRequest);
 }
 
@@ -417,8 +417,8 @@ void wanwan_state1Update(Wanwan *wanwan) {
     s32 k;
     s32 m;
 
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames > wanwan->mUnk_1f8) {
-        VEC_Subtract(wanwan->mKartPos, &wanwan->mUnk_00.mPos, &a);
+    if (wanwan->field0.mStateMachine.mStateFrames > wanwan->field1F8) {
+        VEC_Subtract(wanwan->mKartPos, &wanwan->field0.mPos, &a);
         t = ((s64) wanwan->mKartVelocity->x * a.z - (s64) wanwan->mKartVelocity->z * a.x) >> 12;
         t = -t >> 12;
         if (t < 0) {
@@ -430,8 +430,8 @@ void wanwan_state1Update(Wanwan *wanwan) {
         VEC_Add(&predictedPos, wanwan->mKartPos, &predictedPos);
         VEC_Subtract(&predictedPos, &wanwan->mCenterPos, &a);
         m = vec_normalizeXZFast(&a, &a);
-        if (m > wanwan->mUnk_f0) {
-            m -= wanwan->mUnk_f0 >> 1;
+        if (m > wanwan->fieldF0) {
+            m -= wanwan->fieldF0 >> 1;
         }
         if (m > wanwan->mMaxRadius) {
             m = wanwan->mMaxRadius;
@@ -439,106 +439,106 @@ void wanwan_state1Update(Wanwan *wanwan) {
         a.x = ((s64) a.x * m) >> 12;
         a.y = ((s64) a.y * m) >> 12;
         a.z = ((s64) a.z * m) >> 12;
-        VEC_Add(&a, &wanwan->mCenterPos, &wanwan->mUnk_1e0);
-        wanwan->mUnk_1f8 += 0xb4;
+        VEC_Add(&a, &wanwan->mCenterPos, &wanwan->field1E0);
+        wanwan->field1F8 += 0xb4;
     }
-    VEC_Subtract(&wanwan->mUnk_1e0, &wanwan->mUnk_00.mPos, &a);
-    wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) a.x << 5) >> 12);
-    wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) a.z << 5) >> 12);
-    if (func_020dccc8_inline(&wanwan->mUnk_00.mUnk_10) >= 0x40000000) {
-        wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * 0x4cc) >> 12);
-        wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * 0x4cc) >> 12);
+    VEC_Subtract(&wanwan->field1E0, &wanwan->field0.mPos, &a);
+    wanwan->field0.field10.x += (s32) (((s64) a.x << 5) >> 12);
+    wanwan->field0.field10.z += (s32) (((s64) a.z << 5) >> 12);
+    if (func_020dccc8_inline(&wanwan->field0.field10) >= 0x40000000) {
+        wanwan->field0.field10.x -= (s32) (((s64) wanwan->field0.field10.x * 0x4cc) >> 12);
+        wanwan->field0.field10.z -= (s32) (((s64) wanwan->field0.field10.z * 0x4cc) >> 12);
     }
-    if (func_020dccc8_inline(&a) < (s64) (wanwan->mUnk_f0 >> 1) * (wanwan->mUnk_f0 >> 1)) {
-        wanwan->mUnk_00.mUnk_10.x >>= 1;
-        wanwan->mUnk_00.mUnk_10.z >>= 1;
+    if (func_020dccc8_inline(&a) < (s64) (wanwan->fieldF0 >> 1) * (wanwan->fieldF0 >> 1)) {
+        wanwan->field0.field10.x >>= 1;
+        wanwan->field0.field10.z >>= 1;
     } else {
         qrtn_fromYAngle((u16) (((s64) FX_Atan2(a.x, a.z) * 0x28be60db9391LL + 0x80000000000LL) >> 44),
-                                   &wanwan->mUnk_d4);
+                                   &wanwan->fieldD4);
     }
-    t = ((s64) wanwan->mUnk_00.mUnk_10.x * a.z) >> 12;
-    t -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * a.x) >> 12);
+    t = ((s64) wanwan->field0.field10.x * a.z) >> 12;
+    t -= (s32) (((s64) wanwan->field0.field10.z * a.x) >> 12);
     if (((s64) a.x * a.x + (s64) a.z * a.z) * 10 < (s64) t * t) {
-        wanwan->mUnk_00.mUnk_10.x >>= 1;
-        wanwan->mUnk_00.mUnk_10.z >>= 1;
+        wanwan->field0.field10.x >>= 1;
+        wanwan->field0.field10.z >>= 1;
     }
-    wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-    wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
-    VEC_Subtract(&wanwan->mUnk_00.mPos, &wanwan->mCenterPos, &a);
+    wanwan->field0.mPos.x += wanwan->field0.field10.x;
+    wanwan->field0.mPos.z += wanwan->field0.field10.z;
+    VEC_Subtract(&wanwan->field0.mPos, &wanwan->mCenterPos, &a);
     if ((s64) a.x * a.x + (s64) a.z * a.z >= (s64) wanwan->mMaxRadius * wanwan->mMaxRadius) {
         vec_normalizeXZFast(&a, &a);
-        wanwan->mUnk_00.mPos.x = wanwan->mCenterPos.x + (s32) (((s64) a.x * wanwan->mMaxRadius) >> 12);
-        wanwan->mUnk_00.mPos.z = wanwan->mCenterPos.z + (s32) (((s64) a.z * wanwan->mMaxRadius) >> 12);
-        k = ((s64) wanwan->mUnk_00.mUnk_10.x * a.x) >> 12;
-        m = ((s64) wanwan->mUnk_00.mUnk_10.z * a.z) >> 12;
+        wanwan->field0.mPos.x = wanwan->mCenterPos.x + (s32) (((s64) a.x * wanwan->mMaxRadius) >> 12);
+        wanwan->field0.mPos.z = wanwan->mCenterPos.z + (s32) (((s64) a.z * wanwan->mMaxRadius) >> 12);
+        k = ((s64) wanwan->field0.field10.x * a.x) >> 12;
+        m = ((s64) wanwan->field0.field10.z * a.z) >> 12;
         if (k + m > 0) {
-            wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) k * a.x) >> 12);
-            wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) m * a.z) >> 12);
+            wanwan->field0.field10.x -= (s32) (((s64) k * a.x) >> 12);
+            wanwan->field0.field10.z -= (s32) (((s64) m * a.z) >> 12);
         }
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mUnk_00.mStateMachine.mNextState = 3;
-        wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (wanwan->field0.mStateMachine.mStateFrames >= 0xb4) {
+        wanwan->field0.mStateMachine.mNextState = 3;
+        wanwan->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void wanwan_state2Init(Wanwan *wanwan) {
-    wanwan->mUnk_e8 = 0xd000;
-    wanwan->mUnk_ec = 0x1c2;
-    if (wanwan->mUnk_fc == 0) {
-        wanwan->mChainObject->mUnk_a8 = 0x219;
+    wanwan->fieldE8 = 0xd000;
+    wanwan->fieldEC = 0x1c2;
+    if (wanwan->fieldFC == 0) {
+        wanwan->mChainObject->fieldA8 = 0x219;
     }
-    wanwan->mUnk_00.mUnk_10.y = 0x8000;
+    wanwan->field0.field10.y = 0x8000;
 }
 
 void wanwan_state2Update(Wanwan *wanwan) {
     const Vec3 *velocity;
 
-    if (wanwan->mUnk_fc != 0) {
-        wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
-        wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
+    if (wanwan->fieldFC != 0) {
+        wanwan->field0.field10.x = wanwan->field0.mPos.x;
+        wanwan->field0.field10.z = wanwan->field0.mPos.z;
         pwex_update(&wanwan->mFollower);
-        pw_calcCurrentPointXZ(&wanwan->mFollower.mUnk_00, &wanwan->mUnk_00.mPos);
-        wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
-        wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
-        velocity = &wanwan->mUnk_00.mUnk_10;
+        pw_calcCurrentPointXZ(&wanwan->mFollower.field0, &wanwan->field0.mPos);
+        wanwan->field0.field10.x = wanwan->field0.mPos.x - wanwan->field0.field10.x;
+        wanwan->field0.field10.z = wanwan->field0.mPos.z - wanwan->field0.field10.z;
+        velocity = &wanwan->field0.field10;
         if ((s64) velocity->x * velocity->x + (s64) velocity->z * velocity->z >= 0x10) {
             qrtn_fromYAngle(
-                (u16) (((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL +
+                (u16) (((s64) FX_Atan2(wanwan->field0.field10.x, wanwan->field0.field10.z) * 0x28be60db9391LL +
                         0x80000000000LL) >>
                        44),
-                &wanwan->mUnk_d4);
+                &wanwan->fieldD4);
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x40) {
-            wanwan->mUnk_ec += 0x1c;
+        if (wanwan->field0.mStateMachine.mStateFrames < 0x40) {
+            wanwan->fieldEC += 0x1c;
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0x28) {
-            wanwan->mUnk_e8 += 0x200;
+        if (wanwan->field0.mStateMachine.mStateFrames >= 0x28) {
+            wanwan->fieldE8 += 0x200;
         } else {
-            wanwan->mUnk_00.mUnk_10.y -= 0x266;
+            wanwan->field0.field10.y -= 0x266;
         }
-        if (wanwan->mUnk_e8 > 0x10555) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 5;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+        if (wanwan->fieldE8 > 0x10555) {
+            wanwan->field0.mStateMachine.mNextState = 5;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
         }
     } else {
-        if (wanwan->mUnk_e8 == 0xd000) {
-            wanwan->mUnk_00.mUnk_10.y -= 0x19a;
+        if (wanwan->fieldE8 == 0xd000) {
+            wanwan->field0.field10.y -= 0x19a;
         }
-        if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0x78) {
-            wanwan->mUnk_e8 += 0x100;
+        if (wanwan->field0.mStateMachine.mStateFrames >= 0x78) {
+            wanwan->fieldE8 += 0x100;
         }
-        if (wanwan->mUnk_e8 > 0x10555) {
-            wanwan->mUnk_00.mStateMachine.mNextState = 3;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+        if (wanwan->fieldE8 > 0x10555) {
+            wanwan->field0.mStateMachine.mNextState = 3;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
         }
     }
 }
 
 void wanwan_state3Init(Wanwan *wanwan) {
-    wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->fieldE8 = 0x555;
+    wanwan->fieldEC = 0x1c2;
+    wanwan->mChainObject->fieldA8 = 0x599;
 }
 
 static inline s64 func_020dc474_inline(const Vec3 *vector) {
@@ -549,35 +549,35 @@ void wanwan_state3Update(Wanwan *wanwan) {
     Vec3 toCenter;
     s32 radius;
 
-    radius = wanwan->mUnk_1fc;
-    if ((s64) (wanwan->mUnk_00.mPos.x - wanwan->mCenterPos.x) * (wanwan->mUnk_00.mPos.x - wanwan->mCenterPos.x) +
-            (s64) (wanwan->mUnk_00.mPos.z - wanwan->mCenterPos.z) * (wanwan->mUnk_00.mPos.z - wanwan->mCenterPos.z) >=
+    radius = wanwan->field1FC;
+    if ((s64) (wanwan->field0.mPos.x - wanwan->mCenterPos.x) * (wanwan->field0.mPos.x - wanwan->mCenterPos.x) +
+            (s64) (wanwan->field0.mPos.z - wanwan->mCenterPos.z) * (wanwan->field0.mPos.z - wanwan->mCenterPos.z) >=
         (s64) radius * radius) {
-        VEC_Subtract(&wanwan->mCenterPos, &wanwan->mUnk_00.mPos, &toCenter);
-        wanwan->mUnk_00.mUnk_10.x += (s32) (((s64) toCenter.x << 2) >> 12);
-        wanwan->mUnk_00.mUnk_10.z += (s32) (((s64) toCenter.z << 2) >> 12);
-        if (func_020dc474_inline(&wanwan->mUnk_00.mUnk_10) >= 0x1000000) {
-            wanwan->mUnk_00.mUnk_10.x -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.x * 0x199) >> 12);
-            wanwan->mUnk_00.mUnk_10.z -= (s32) (((s64) wanwan->mUnk_00.mUnk_10.z * 0x199) >> 12);
+        VEC_Subtract(&wanwan->mCenterPos, &wanwan->field0.mPos, &toCenter);
+        wanwan->field0.field10.x += (s32) (((s64) toCenter.x << 2) >> 12);
+        wanwan->field0.field10.z += (s32) (((s64) toCenter.z << 2) >> 12);
+        if (func_020dc474_inline(&wanwan->field0.field10) >= 0x1000000) {
+            wanwan->field0.field10.x -= (s32) (((s64) wanwan->field0.field10.x * 0x199) >> 12);
+            wanwan->field0.field10.z -= (s32) (((s64) wanwan->field0.field10.z * 0x199) >> 12);
         }
-        wanwan->mUnk_00.mPos.x += wanwan->mUnk_00.mUnk_10.x;
-        wanwan->mUnk_00.mPos.z += wanwan->mUnk_00.mUnk_10.z;
+        wanwan->field0.mPos.x += wanwan->field0.field10.x;
+        wanwan->field0.mPos.z += wanwan->field0.field10.z;
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames >= 0xb4) {
-        wanwan->mUnk_00.mStateMachine.mNextState = 0;
-        wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (wanwan->field0.mStateMachine.mStateFrames >= 0xb4) {
+        wanwan->field0.mStateMachine.mNextState = 0;
+        wanwan->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void wanwan_state4Init(Wanwan *wanwan) {
-    wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
-    wanwan->mChainObject->mUnk_a8 = 0x599;
+    wanwan->fieldE8 = 0x555;
+    wanwan->fieldEC = 0x1c2;
+    wanwan->mChainObject->fieldA8 = 0x599;
 }
 
 void wanwan_state4Update(Wanwan *wanwan) {}
 
 void wanwan_state5Init(Wanwan *wanwan) {
-    wanwan->mUnk_e8 = 0x555;
-    wanwan->mUnk_ec = 0x1c2;
+    wanwan->fieldE8 = 0x555;
+    wanwan->fieldEC = 0x1c2;
 }

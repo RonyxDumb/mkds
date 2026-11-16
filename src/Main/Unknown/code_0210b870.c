@@ -71,10 +71,10 @@ void func_0210b924(void *position, s32 distanceSquared) {
 
     request = &requestCopy;
     *request = data_0216ca48;
-    request->mUnk_04 = position;
-    request->mUnk_0c = distanceSquared;
+    request->field4 = position;
+    request->fieldC = distanceSquared;
     if (data_0217c780 & 1) {
-        sfx_210BF24(0, request->mUnk_00, (u32) request->mUnk_04, request);
+        sfx_210BF24(0, request->field0, (u32) request->field4, request);
     }
 }
 

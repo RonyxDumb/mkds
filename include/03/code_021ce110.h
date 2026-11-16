@@ -7,20 +7,20 @@
 
 // Entry of the table at offset 0x1300 of the object at data_ov003_021da280.
 typedef struct Unk021ce4d4_1300 {
-    /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u8 mUnk_06;
+    /* 00 */ u8 field0[6];
+    /* 06 */ u8 field6;
 } Unk021ce4d4_1300;
 
 // Object at data_ov003_021da280, as far as func_ov003_021ce4d4 uses it.
 typedef struct Unk021ce4d4 {
-    /* 0000 */ u8 mUnk_0000[0x1300];
-    /* 1300 */ Unk021ce4d4_1300 mUnk_1300[0x10];
-    /* 1370 */ void (*mUnk_1370)(s32);
-    /* 1374 */ u8 mUnk_1374[0x800];
-    /* 1b74 */ u32 mUnk_1b74[2];
-    /* 1b7c */ u32 mUnk_1b7c;
-    /* 1b80 */ u8 mUnk_1b80[2];
-    /* 1b82 */ u8 mUnk_1b82;
+    /* 0000 */ u8 field0[0x1300];
+    /* 1300 */ Unk021ce4d4_1300 field1300[0x10];
+    /* 1370 */ void (*field1370)(s32);
+    /* 1374 */ u8 field1374[0x800];
+    /* 1b74 */ u32 field1B74[2];
+    /* 1b7c */ u32 field1B7C;
+    /* 1b80 */ u8 field1B80[2];
+    /* 1b82 */ u8 field1B82;
 } Unk021ce4d4;
 
 extern u8 data_ov003_021d6688[][5];

@@ -11,16 +11,16 @@ void pw_reverse(GroupFollower *follower) {
 void pwex_init(GroupFollowerWithSpeeds *follower, u16 entryIndex, s32 forward) {
     s32 entryValue;
     s32 speed;
-    pw_init(&follower->mUnk_00, entryIndex, forward);
-    entryValue = follower->mUnk_00.mFromEntry->mUnk_0e;
+    pw_init(&follower->field0, entryIndex, forward);
+    entryValue = follower->field0.mFromEntry->fieldE;
     follower->mFromSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
-    follower->mUnk_30 = follower->mFromSpeed;
-    entryValue = follower->mUnk_00.mToEntry->mUnk_0e;
+    follower->field30 = follower->mFromSpeed;
+    entryValue = follower->field0.mToEntry->fieldE;
     follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
-    speed = follower->mUnk_30;
-    follower->mUnk_00.mSpeed = speed;
-    follower->mUnk_00.mProgressStep =
-        ((s64) speed * follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
+    speed = follower->field30;
+    follower->field0.mSpeed = speed;
+    follower->field0.mProgressStep =
+        ((s64) speed * follower->field0.mPath->mSegments[follower->field0.mSegmentIndex].mInverseProgressLength) >>
         12;
 }
 
@@ -29,33 +29,33 @@ s32 pwex_update(GroupFollowerWithSpeeds *follower) {
     s32 entryValue;
     s32 blend;
     s32 speed;
-    crossedEnd = pw_update(&follower->mUnk_00);
+    crossedEnd = pw_update(&follower->field0);
     if (crossedEnd != 0) {
         follower->mFromSpeed = follower->mToSpeed;
-        entryValue = follower->mUnk_00.mToEntry->mUnk_0e;
+        entryValue = follower->field0.mToEntry->fieldE;
         follower->mToSpeed = entryValue != 0 ? follower->mSpeedPerEntryUnit * entryValue : follower->mDefaultSpeed;
     }
     if (follower->mFromSpeed != follower->mToSpeed) {
-        blend = pw_getProgress(&follower->mUnk_00);
+        blend = pw_getProgress(&follower->field0);
         speed = (s32) (((s64) follower->mFromSpeed * (0x1000 - blend)) >> 12) +
                 (s32) (((s64) follower->mToSpeed * blend) >> 12);
-        follower->mUnk_00.mSpeed = speed;
-        follower->mUnk_00.mProgressStep =
+        follower->field0.mSpeed = speed;
+        follower->field0.mProgressStep =
             ((s64) speed *
-             follower->mUnk_00.mPath->mSegments[follower->mUnk_00.mSegmentIndex].mInverseProgressLength) >>
+             follower->field0.mPath->mSegments[follower->field0.mSegmentIndex].mInverseProgressLength) >>
             12;
     }
     return crossedEnd;
 }
 
 void pwex_20D84C0(SegmentProgress *segmentProgress, s32 a) {
-    s32 inverseLength = segmentProgress->mUnk_00.mInverseProgressLength;
-    segmentProgress->mUnk_54 = a;
+    s32 inverseLength = segmentProgress->field0.mInverseProgressLength;
+    segmentProgress->field54 = a;
     a = inverseLength != 0 ? (s32) (((s64) a * inverseLength) >> 12) : 0x1000000;
-    segmentProgress->mUnk_58 = a;
+    segmentProgress->field58 = a;
 }
 
 BOOL pwex_20D849C(SegmentProgress *segmentProgress) {
-    segmentProgress->mUnk_5c = segmentProgress->mUnk_5c + segmentProgress->mUnk_58;
-    return segmentProgress->mUnk_5c >= 0x1000000;
+    segmentProgress->field5C = segmentProgress->field5C + segmentProgress->field58;
+    return segmentProgress->field5C >= 0x1000000;
 }

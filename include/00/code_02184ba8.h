@@ -14,10 +14,10 @@ struct Nclr;
 typedef struct WiFiAikotoba {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* 08 */ s32 mUnk_08;
+    /* 08 */ s32 field8;
     /* 0c */ s32 mStateFrames;
     /* 10 */ s32 mPendingWiFiState;
-    /* 14 */ BOOL mUnk_14;
+    /* 14 */ BOOL field14;
     /* 18 */ void *mHeap;
     // Table of cells built from the Bncl by jn_ui_initLayout.
     /* 1c */ LayoutTableEntry *mWiFiAikotobaTable;

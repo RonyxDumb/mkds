@@ -148,7 +148,7 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
         if ((s64) normal->x * normal->x + (s64) normal->y * normal->y + (s64) normal->z * normal->z >= 0x10) {
             vec_normalize(normal, normal);
         }
-        if (vec_dotProduct(normal, &item->mUnk_108) > 0x800) {
+        if (vec_dotProduct(normal, &item->field108) > 0x800) {
             item->mVelocity.z = ((s64) normal->z * 0x14cd) >> 12;
             item->mVelocity.x = ((s64) normal->x * 0x14cd) >> 12;
         }
@@ -169,9 +169,9 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     random = &gRaceStatus->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
-    item->mUnk_108.z = FX_SinCosTable_[angleIndex * 2 + 1];
-    item->mUnk_108.x = FX_SinCosTable_[angleIndex * 2];
-    item->mVelocity.z = ((s64) item->mUnk_108.z * 0x14cd) >> 12;
-    item->mVelocity.x = ((s64) item->mUnk_108.x * 0x14cd) >> 12;
+    item->field108.z = FX_SinCosTable_[angleIndex * 2 + 1];
+    item->field108.x = FX_SinCosTable_[angleIndex * 2];
+    item->mVelocity.z = ((s64) item->field108.z * 0x14cd) >> 12;
+    item->mVelocity.x = ((s64) item->field108.x * 0x14cd) >> 12;
     item->mFlags |= 0x2000000;
 }

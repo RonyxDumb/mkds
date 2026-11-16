@@ -22,10 +22,10 @@
 #include "00/GameSpy/gt2Utility.h"
 
 typedef struct Unk0219a430Addr {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk0219a430Addr;
 
 void func_ov000_0219a5dc(Gt2Connection **a) {
@@ -69,9 +69,9 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     }
     memset(f, 0, 0x44);
     f->mDescriptor = -1;
-    f->mUnk_3c = d;
+    f->field3C = d;
     f->mSendBufferSize = c;
-    f->mUnk_24 = (void (*)(Gt2Socket *)) e;
+    f->field24 = (void (*)(Gt2Socket *)) e;
     f->mConnections = HashtableCreate(4, 0x20, 2, (s32(*)(void *, s32)) & func_ov000_0219a604,
                                       (s32(*)(void *, void *)) & func_ov000_0219a5e8, NULL);
     if (f->mConnections == NULL) {
@@ -94,9 +94,9 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     p = (u32 *) &g;
     p[0] = 0;
     p[1] = 0;
-    g.mUnk_01 = 2;
-    g.mUnk_04 = h;
-    g.mUnk_02 = ((i >> 8) & 0xff) | ((i << 8) & 0xff00);
+    g.field1 = 2;
+    g.field4 = h;
+    g.field2 = ((i >> 8) & 0xff) | ((i << 8) & 0xff00);
     if (func_ov000_0218e4e4(f->mDescriptor, &g, 8) == -1) {
         func_ov000_0218e53c(f->mDescriptor);
         HashtableDelete(f->mConnections);
@@ -106,8 +106,8 @@ u32 CreateSocket(Gt2Socket **a, const char *b, u32 c, u32 d, u32 e) {
     }
     j = 8;
     func_ov000_0218e394(f->mDescriptor, &g, (u32 *) &j);
-    f->mAddress = g.mUnk_04;
-    f->mPort = ((g.mUnk_02 >> 8) & 0xff) | ((g.mUnk_02 << 8) & 0xff00);
+    f->mAddress = g.field4;
+    f->mPort = ((g.field2 >> 8) & 0xff) | ((g.field2 << 8) & 0xff00);
     *a = f;
     return 0;
 }

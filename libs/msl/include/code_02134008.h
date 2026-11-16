@@ -12,7 +12,7 @@ typedef WordPair (*Unk02134008Func)(WordPair a, WordPair b, u32 c);
 
 // Returned by GetFloatTrapTable; FloatTrapDispatch calls one of the function pointers at 0x04-0x14.
 typedef struct FloatTrapTable {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ Unk02134008Func mHandlers[5];
 } FloatTrapTable;
 

@@ -4,11 +4,11 @@
 
 // 12-byte entries of the table at data_02153918.
 typedef struct Unk02153918 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ s16 field6;
+    /* 08 */ s32 field8;
 } Unk02153918;
 
 u32 func_0202578c(u32 a);

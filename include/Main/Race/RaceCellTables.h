@@ -4,8 +4,8 @@
 
 // Object behind member 0x04 of the elements of the tables of RaceNcerNclrNcgrTables: a halfword at 0x04.
 typedef struct Unk020b6e00 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
 } Unk020b6e00;
 
 s32 r2d_getSubDriverItemCellIdx(s32 kartIndex, s32 b);

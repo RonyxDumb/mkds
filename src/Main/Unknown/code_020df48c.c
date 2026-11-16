@@ -32,18 +32,18 @@ void efbub_loadModel(void) {
 }
 
 void efbub_init(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    sm_init(&bubble->mUnk_00.mStateMachine, efbub_sStates, 2, bubble);
-    bubble->mUnk_a0 = row->mUnk_28;
-    bubble->mUnk_ac = bubble->mUnk_00.mPos.y;
-    bubble->mUnk_a4 = bubble->mUnk_00.mPos.y - 0x10000;
-    bubble->mUnk_00.mUnk_10.x = 0;
-    bubble->mUnk_00.mUnk_10.y = 0;
-    bubble->mUnk_00.mUnk_10.z = 0;
-    bubble->mUnk_a8 = 0;
-    bubble->mUnk_00.mStateMachine.mNextState = 0;
-    bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    oshd_setParams(&bubble->mUnk_b0, &bubble->mUnk_00.mPos, ((s64) bubble->mUnk_00.mScale.x * 0x18000) >> 12, 0xd);
-    bubble->mUnk_00.mFlags |= data_02158740;
+    sm_init(&bubble->field0.mStateMachine, efbub_sStates, 2, bubble);
+    bubble->fieldA0 = row->field28;
+    bubble->fieldAC = bubble->field0.mPos.y;
+    bubble->fieldA4 = bubble->field0.mPos.y - 0x10000;
+    bubble->field0.field10.x = 0;
+    bubble->field0.field10.y = 0;
+    bubble->field0.field10.z = 0;
+    bubble->fieldA8 = 0;
+    bubble->field0.mStateMachine.mNextState = 0;
+    bubble->field0.mStateMachine.mNextStateRequested = 1;
+    oshd_setParams(&bubble->fieldB0, &bubble->field0.mPos, ((s64) bubble->field0.mScale.x * 0x18000) >> 12, 0xd);
+    bubble->field0.mFlags |= data_02158740;
 }
 #pragma thumb off
 
@@ -75,23 +75,23 @@ void mibox_globalPreUpdate(void) {
 }
 
 void mibox_update(void *unused, ItemBox *itemBox) {
-    if (itemBox->mFollower.mUnk_00.mGroupIndex != 0xffff) {
+    if (itemBox->mFollower.field0.mGroupIndex != 0xffff) {
         if (pwex_update(&itemBox->mFollower) != 0) {
-            if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_10 != 0) {
+            if (itemBox->mFollower.field0.mFromEntry->field10 != 0) {
                 pwex_init(&itemBox->mFollower, 0, 1);
             }
         }
-        pw_calcCurrentPointXYZ(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
-        if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mUnk_00.mToEntry->mUnk_0d != 0) {
-            itemBox->mUnk_000.mFlags |= data_021586d4;
+        pw_calcCurrentPointXYZ(&itemBox->mFollower.field0, &itemBox->field0.mPos);
+        if (itemBox->mFollower.field0.mFromEntry->fieldD != 0 && itemBox->mFollower.field0.mToEntry->fieldD != 0) {
+            itemBox->field0.mFlags |= data_021586d4;
         } else {
-            itemBox->mUnk_000.mFlags &= ~0x20;
+            itemBox->field0.mFlags &= ~0x20;
         }
-        itemBox->mUnk_000.mPos.y += data_0217b754;
-        itemBox->mUnk_000.mPos.y += 0x10000;
+        itemBox->field0.mPos.y += data_0217b754;
+        itemBox->field0.mPos.y += 0x10000;
     }
-    if (itemBox->mUnk_0b0 == 0) {
-        oshd_setPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
+    if (itemBox->fieldB0 == 0) {
+        oshd_setPositionXZ(&itemBox->fieldB4, &itemBox->field0.mPos);
     }
     ibox_update(unused, itemBox);
 }

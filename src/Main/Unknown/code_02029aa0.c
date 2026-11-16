@@ -83,23 +83,23 @@ void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
     if (gpres_sState->mCupRankIndex < 0) {
         gpres_sState->mCupRankIndex = 0;
     }
-    gpres_sState->mUnk_44 = gStruct217B488->mUnk_80;
+    gpres_sState->field44 = gStruct217B488->field80;
     race_initG3d();
     displaySettings = dc_createDisplayConfig(heap, data_021547f0);
     dc_setBg1Config(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
     dc_setBg3Config(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
     dc_setBg3Config(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     dc_setDisplayConfig(displaySettings);
-    config.mUnk_00 = 1;
-    config.mUnk_04 = m2d_getFont(1);
-    config.mUnk_08 = 0;
-    config.mUnk_0c = 1;
-    config.mUnk_10 = 0;
-    config.mUnk_14 = 0;
-    config.mUnk_18 = NULL;
-    config.mUnk_1c = 0;
-    config.mUnk_20 = 0;
-    config.mUnk_24 = 0;
+    config.field0 = 1;
+    config.field4 = m2d_getFont(1);
+    config.field8 = 0;
+    config.fieldC = 1;
+    config.field10 = 0;
+    config.field14 = 0;
+    config.field18 = NULL;
+    config.field1C = 0;
+    config.field20 = 0;
+    config.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &config);
     mutil2_initUnpackBgGraphics(0, &mainScreenMapFileSet, aResults_gp_m_b, aResults_gp_m_0, aResults_gp_m1_, 1,
@@ -127,7 +127,7 @@ void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
         mainFileSet->mCellTable[gCupRankCellIndexTable[i]].mVisible = cellFlag;
     }
     for (i = 0; i < 8; i++) {
-        if (i == gpres_sState->mUnk_44) {
+        if (i == gpres_sState->field44) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
@@ -163,14 +163,14 @@ void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
     }
     message = jn_msg_getMessage(gpres_sState->mCommonMessages, gpres_sCCModeStringIds[gStruct217B488->mEngineIndex]);
     for (j = 0; j < 2; j++) {
-        jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+        jn_ui_212426C(1, data_02153918[labelTableIndex].field0, subFileSet->mLabelLayout, message,
                       subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     if (gStruct217B488->mMirrorMode != 0) {
         message = jn_msg_getMessage(gpres_sState->mCommonMessages, 0x71);
         for (j = 0; j < 2; j++) {
-            jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+            jn_ui_212426C(1, data_02153918[labelTableIndex].field0, subFileSet->mLabelLayout, message,
                           subFileSet->mCellLayout, subFileSet->mCellTable);
             labelTableIndex++;
         }
@@ -180,15 +180,15 @@ void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
         message = jn_msg_getMessage(gpres_sState->mCommonMessages,
                               mutil2_getCourseNameCommonMsgId(gpres_sCupCourses[gpres_sState->mCupIndex][courseIndex]));
-        jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+        jn_ui_212426C(1, data_02153918[labelTableIndex].field0, subFileSet->mLabelLayout, message,
                       subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     for (j = 0; j < 4; j++) {
         gpres_getCourseTimeAsString(timeText, j);
-        jn_ui_2124224(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, timeText,
+        jn_ui_2124224(1, data_02153918[labelTableIndex].field0, subFileSet->mLabelLayout, timeText,
                       subFileSet->mCellLayout, subFileSet->mCellTable, 7);
-        jn_ui_2124224(1, data_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout, timeText,
+        jn_ui_2124224(1, data_02153918[labelTableIndex + 4].field0, subFileSet->mLabelLayout, timeText,
                       subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         labelTableIndex++;
     }
@@ -200,7 +200,7 @@ void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
     race_initResManagement();
     trophy_init(gpres_sState->mCupIndex, (u16) gpres_sState->mCupRankIndex);
     i = -1;
-    switch (gpres_sState->mUnk_44) {
+    switch (gpres_sState->field44) {
         case 5:
             i = 0x1e;
             break;

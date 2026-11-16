@@ -29,5 +29,5 @@ void menu_MI_CpuClearFast(void *destination, u32 size) {
 }
 
 u32 menu_sysdat_getOverlay(void) {
-    return (gSystemData->mUnk_20);
+    return (gSystemData->field20);
 }

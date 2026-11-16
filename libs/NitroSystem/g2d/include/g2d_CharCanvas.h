@@ -12,30 +12,30 @@ typedef struct NNSG2dGlyph {
 } NNSG2dGlyph;
 
 // 0x20-byte object set up by NNS_G2dCharCanvasInitForOBJ1D and NNS_G2dCharCanvasInitForBG: a buffer of 8 x 8 blocks of
-// mUnk_0c * 8 bytes and the functions that draw into it.
+// fieldC * 8 bytes and the functions that draw into it.
 typedef struct Unk02023374 {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ u8 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ void (*mUnk_14)(struct Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *);
-    /* 18 */ void (*mUnk_18)(struct Unk02023374 *, u32);
-    /* 1c */ void (*mUnk_1c)(struct Unk02023374 *, u32, s32, s32, s32, s32);
+    /* 00 */ u8 *field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ u8 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ void (*field14)(struct Unk02023374 *, Unk02022aa8 *, s32, s32, u32, NNSG2dGlyph *);
+    /* 18 */ void (*field18)(struct Unk02023374 *, u32);
+    /* 1c */ void (*field1C)(struct Unk02023374 *, u32, s32, s32, s32, s32);
 } Unk02023374;
 
 // Argument of LetterChar, built on the stack by DrawGlyph1D and DrawGlyphLine.
 typedef struct Unk02023d84 {
-    /* 00 */ u32 *mUnk_00;
-    /* 04 */ u8 *mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
+    /* 00 */ u32 *field0;
+    /* 04 */ u8 *field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ u32 field24;
 } Unk02023d84;
 
 void InitCharCanvas(Unk02023374 *a, void *b, s32 c, s32 d, u32 e,

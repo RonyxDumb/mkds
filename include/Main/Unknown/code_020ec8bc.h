@@ -9,13 +9,13 @@
 // PickNextItemPointLink fills, the SegmentPoints at 0x170, the words at 0x214 and 0x218 and the ItemPointLinkRef at
 // 0x21c.
 typedef struct LinkFollowingItemObject {
-    /* 000 */ DirectedItemObject mUnk_000;
+    /* 000 */ DirectedItemObject field0;
     /* 168 */ ItemPointLinkRef mTargetLink;
     /* 170 */ SegmentPoints mSegmentPoints;
     /* 214 */ s32 mRampTimer;
-    /* 218 */ s32 mUnk_218;
+    /* 218 */ s32 field218;
     /* 21c */ ItemPointLinkRef mPreviousLink;
-    /* 224 */ s32 mUnk_224;
+    /* 224 */ s32 field224;
 } LinkFollowingItemObject;
 
 void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32 rampWeightPerCount, s32 c,

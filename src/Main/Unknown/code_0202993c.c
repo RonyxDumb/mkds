@@ -30,7 +30,7 @@ void menu_initRaceConfig(void) {
         menu_sRaceConfig->mEntries[entryIndex].mKartIndex = -1;
         menu_sRaceConfig->mEntries[entryIndex].mPlayerKind = 4;
         menu_sRaceConfig->mEntries[entryIndex].mTeamIndex = -1;
-        menu_sRaceConfig->mEntries[entryIndex].mUnk_10 = 3;
+        menu_sRaceConfig->mEntries[entryIndex].field10 = 3;
     }
     menu_sRaceConfig->mMissionTableRow = 1;
     menu_sRaceConfig->mMissionTableColumn = 1;

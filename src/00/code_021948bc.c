@@ -5,10 +5,10 @@ u32 func_ov000_021948bc(u32 a, int b, Unk0219488cArg *c) {
     int v1;
     u32 *v2;
     v2 = *(u32 **) (b + 0xc);
-    if (((v2 != NULL) && (v1 = strcmp(c->mUnk_00, (const char *) (*v2)), v1 == 0)) &&
-        (v1 = strcmp(c->mUnk_04, (const char *) (v2[2])), v1 == 0)) {
-        *c->mUnk_08 = (void *) b;
-        c->mUnk_0c = TRUE;
+    if (((v2 != NULL) && (v1 = strcmp(c->field0, (const char *) (*v2)), v1 == 0)) &&
+        (v1 = strcmp(c->field4, (const char *) (v2[2])), v1 == 0)) {
+        *c->field8 = (void *) b;
+        c->fieldC = TRUE;
         return 0;
     }
     return 1;

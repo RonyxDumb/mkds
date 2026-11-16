@@ -37,17 +37,17 @@ typedef struct WMDataSharingInfo {
 typedef struct Unk02144920 {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 *mUnk_0c;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14[6];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ WMDataSharingInfo *mUnk_1c;
-    /* 20 */ WMDataSharingInfo *mUnk_20;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 *fieldC;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
+    /* 14 */ u8 field14[6];
+    /* 1a */ u16 field1A;
+    /* 1c */ WMDataSharingInfo *field1C;
+    /* 20 */ WMDataSharingInfo *field20;
 } Unk02144920;
 
 u8 *WmGetSharedDataAddress(WMDataSharingInfo *dsInfo, u32 aidBitmap, u8 *receiveBuf, u32 aid);

@@ -7,7 +7,7 @@
 typedef struct CARDiCommandArg {
     /* 00 */ u32 mResult;
     /* 04 */ s32 mType;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 field8;
     /* 0c */ u32 mSrc;
     /* 10 */ u32 mDst;
     /* 14 */ u32 mLen;
@@ -18,12 +18,12 @@ typedef struct CARDiCommandArg {
     /* 28 */ u32 mProgramPage;
     /* 2c */ u32 mWritePage;
     /* 30 */ u32 mWritePageTotal;
-    /* 34 */ u32 mUnk_34;
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c;
+    /* 34 */ u32 field34;
+    /* 38 */ u32 field38;
+    /* 3c */ u32 field3C;
 } CARDiCommandArg;
 
-// 0x620 bytes at gAccessState; mThread is started with the 0x400 bytes at mUnk_220 as its stack.
+// 0x620 bytes at gAccessState; mThread is started with the 0x400 bytes at field220 as its stack.
 typedef struct CARDiCommon {
     /* 000 */ CARDiCommandArg *mCmd;
     /* 004 */ s32 mCommand;
@@ -42,14 +42,14 @@ typedef struct CARDiCommon {
     /* 03c */ u32 mCallbackArg;
     /* 040 */ void (*mTaskFunc)(struct CARDiCommon *);
     /* 044 */ OSThread mThread;
-    /* 0fc */ u8 mUnk_fc[8];
+    /* 0fc */ u8 fieldFC[8];
     /* 104 */ OSThread *mCurTh;
     /* 108 */ u32 mPriority;
     /* 10c */ OSThreadQueue mBusyQ;
     /* 114 */ vu32 mFlag;
-    /* 118 */ u8 mUnk_118[8];
+    /* 118 */ u8 field118[8];
     /* 120 */ u8 mBackupCachePageBuf[0x100];
-    /* 220 */ u8 mUnk_220[0x400];
+    /* 220 */ u8 field220[0x400];
 } CARDiCommon;
 
 // The ROM read state: the page reader, the control word, the page held in the cache buffer and the cache buffer.
@@ -57,7 +57,7 @@ typedef struct CARDRomStat {
     /* 00 */ void (*mReadFunc)(struct CARDRomStat *);
     /* 04 */ u32 mCtrl;
     /* 08 */ u32 mCachePage;
-    /* 0c */ u8 mUnk_0c[0x14];
+    /* 0c */ u8 fieldC[0x14];
     /* 20 */ u32 mCacheBuf[0x80];
 } CARDRomStat;
 

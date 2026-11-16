@@ -91,7 +91,7 @@ void AdvanceSelectRaceRuleState8(void) {
     rowsOffsetY = selectRaceRule->mOffsetY + c;
     returnOffsetY = -LookupSelectReturnState4Bg2Offset(selectRaceRule->mStateFrames);
     gSelectRaceRule->mBg3Offset = rowsOffsetY;
-    c = gSelectRaceRule->mBncl->mUnk_06;
+    c = gSelectRaceRule->mBncl->field6;
     for (i = 0; i < 5; i++) {
         for (j = 0; j < 2; j++) {
             gSelectRaceRule->mTable[data_0215cd88[i][j]].mOffsetY = rowsOffsetY;
@@ -113,7 +113,7 @@ void AdvanceSelectRaceRuleState8(void) {
             gSelectRaceRule->mTable[data_0215ccac[i][j]].mOffsetY = rowsOffsetY;
         }
     }
-    if (gSystemData->mUnk_20 != 2) {
+    if (gSystemData->field20 != 2) {
         gSelectRaceRule->mTable[40].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[41].mOffsetY = returnOffsetY;
         gSelectRaceRule->mTable[c + 13].mOffsetY = returnOffsetY;
@@ -130,7 +130,7 @@ void AdvanceSelectRaceRuleState8(void) {
 
 void func_0211a964(s32 labelIndex) {
     s32 tableIndex;
-    tableIndex = gSelectRaceRule->mBncl->mUnk_06 + labelIndex;
+    tableIndex = gSelectRaceRule->mBncl->field6 + labelIndex;
     gSelectRaceRule->mTable[tableIndex].mOffsetY++;
     jn_ui_setLabelColorParam(labelIndex, 1, gSelectRaceRule->mBnll, gSelectRaceRule->mTable, gSelectRaceRule->mBncl);
     jn_ui_renderElement(tableIndex, gSelectRaceRule->mBncl, gSelectRaceRule->mNcer, gSelectRaceRule->mBnll,
@@ -141,7 +141,7 @@ void func_0211a964(s32 labelIndex) {
 
 void func_0211a908(s32 row) {
     if (row == 3) {
-        if (gSystemData->mUnk_20 != 2) {
+        if (gSystemData->field20 != 2) {
             func_0211a964(data_0215cd4e[row * 2]);
         }
         func_0211a964(10);
@@ -188,7 +188,7 @@ s32 AdvanceSelectRaceRule(void) {
             AdvanceSelectRaceRuleState8();
             break;
     }
-    if (gSystemData->mUnk_20 == 2) {
+    if (gSystemData->field20 == 2) {
         wait_update();
     }
     switch (gSelectRaceRule->mRowValues[4]) {
@@ -201,7 +201,7 @@ s32 AdvanceSelectRaceRule(void) {
             break;
     }
     AdvancePlayerEntryList();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         AdvancePaletteBlend();
     }
     AdvanceSelectRaceRuleHighlight();
@@ -238,7 +238,7 @@ void LoadSelectCupCourseData(void) {
     Ncgr *bgChars = NULL;
     Nscr *screenMap = NULL;
     Nclr *bgPalette = NULL;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         g2du_unpackCharacterDataBG(&bgChars, arc_getSceneArcFile(data_0216d894));
         g2du_unpackPaletteData(&bgPalette, arc_getSceneArcFile(data_0216d88c));
         g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(data_0216d8a4));
@@ -263,7 +263,7 @@ void LocateAndQueueSelectCupCourse(void) {
     Nscr *fixedScreenMap = NULL;
     Nclr *fixedPalette = NULL;
     u16 *courseCellPaletteData;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         gSelectCupCourse->mSelectCupMBnbl = arc_getSceneArcFile(data_0216d864);
         return;
     }
@@ -279,7 +279,7 @@ void LocateAndQueueSelectCupCourse(void) {
     g2du_getCharacterDataBG(&fixedChars, arc_getSceneArcFile(data_0216d874));
     g2du_getPaletteData(&fixedPalette, arc_getSceneArcFile(data_0216d854));
     g2du_getScreenData(&fixedScreenMap, arc_getSceneArcFile(data_0216d858));
-    gSelectCupCourse->mUnk_24 = heap_alloc(gSelectCupCourse->mHeap, 0x800);
+    gSelectCupCourse->field24 = heap_alloc(gSelectCupCourse->mHeap, 0x800);
     if (gSelectCupCourse->mMode == 0) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = arc_getSceneArcFile(data_0216d880);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = arc_getSceneArcFile(data_0216d89c);
@@ -300,12 +300,12 @@ void LocateAndQueueSelectCupCourse(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, modeChars->mData, modeChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xf, 0, modePalette->mData, 0x140);
     NNS_GfdRegisterNewVramTransferTask(8, 0, modeScreenMap->mData, modeScreenMap->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupCourse->field24, 0x800);
     if (menu_getPrevState() != 0x18 && menu_getPrevState() != 0xc) {
         NNS_GfdRegisterNewVramTransferTask(0x17, 0, fixedChars->mData, fixedChars->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0x1f, 0, fixedPalette->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(0x1b, 0, fixedScreenMap->mData, fixedScreenMap->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->mUnk_24, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupCourse->field24, 0x800);
     }
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, courseCellChars->mData, courseCellChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, courseCellPalette->mData, 0x1a0);
@@ -319,9 +319,9 @@ void SetupSelectCupCourseObjects(void) {
     u32 courseEntryCount;
     u32 cupEntryCount;
     SelectCupCourse *selectCupCourse;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
-        cupEntryCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
+        courseEntryCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->field6;
+        cupEntryCount = gSelectCupCourse->mSelectCupMBncl->field6;
         for (i = 0; i < 8; i++) {
             gSelectCupCourse->mSelectCupMTable[data_0215cacc[i]].mVisible = 0;
         }
@@ -398,9 +398,9 @@ void SetupSelectCupCourseObjects(void) {
 
 void AdvanceSelectCupCourseHighlight(void) {
     s32 i;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         for (i = 0; i < 4; i++) {
-            if (gSelectCupCourse->mIndex == i && gSelectCupCourse->mUnk_54 != FALSE) {
+            if (gSelectCupCourse->mIndex == i && gSelectCupCourse->field54 != FALSE) {
                 gSelectCupCourse->mSelectCupMTable[data_0215caa4[i]].mVisible = 1;
                 jn_ui_setLabelColorParam(data_0215cab4[i], 0xe, gSelectCupCourse->mSelectCupMBnll,
                                      gSelectCupCourse->mSelectCupMTable, gSelectCupCourse->mSelectCupMBncl);
@@ -417,7 +417,7 @@ void RefreshSelectCupCourseForIndex(void) {
     SelectCupCourse *selectCupCourse;
     u32 recordTime;
     u8 timeText[0x24];
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         selectCupCourse = gSelectCupCourse;
         jn_ui_212426C(0, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll,
                       jn_msg_getMessage(gSelectCupCourse->mCommonMessages,

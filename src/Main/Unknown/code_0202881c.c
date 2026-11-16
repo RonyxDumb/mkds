@@ -3,12 +3,12 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 u32 func_02028850(void) {
-    return (gStruct217AA00->mUnk_0004);
+    return (gStruct217AA00->field4);
 }
 
 void func_02028824(u8 a) {
     if (func_02028850() == 8) {
-        gStruct217AA00->mUnk_15f7 = a;
+        gStruct217AA00->field15F7 = a;
     }
 }
 

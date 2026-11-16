@@ -60,14 +60,14 @@ void mpicn_updateExplosionIcon(void) {
             if (lmap_20B5AE8(
                     bombPosition, &mpicn_sExplosionIcon->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 mpicn_sExplosionIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x63);
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0c =
+                mpicn_sExplosionIcon->mCells[cellCount].fieldC =
                     m2d_isPointOnLowerMap(bombPosition) != 0 ? 2 : 3;
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_10 = bombStateFrames;
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
+                mpicn_sExplosionIcon->mCells[cellCount].field10 = bombStateFrames;
+                mpicn_sExplosionIcon->mCells[cellCount].fieldE = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
                     y = mutil_interpolate(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
-                mpicn_sExplosionIcon->mUnk_0c[cellCount].mUnk_00 = y;
+                mpicn_sExplosionIcon->fieldC[cellCount].field0 = y;
                 cellCount++;
             }
         }
@@ -82,14 +82,14 @@ void mpicn_updateExplosionIcon(void) {
             if (lmap_20B5AE8(
                     kouraPosition, &mpicn_sExplosionIcon->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 mpicn_sExplosionIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x64);
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0c =
+                mpicn_sExplosionIcon->mCells[cellCount].fieldC =
                     m2d_isPointOnLowerMap(kouraPosition) != 0 ? 2 : 3;
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_10 = kouraStateFrames;
-                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
+                mpicn_sExplosionIcon->mCells[cellCount].field10 = kouraStateFrames;
+                mpicn_sExplosionIcon->mCells[cellCount].fieldE = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
                     y2 = mutil_interpolate(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
-                mpicn_sExplosionIcon->mUnk_0c[cellCount].mUnk_00 = y2;
+                mpicn_sExplosionIcon->fieldC[cellCount].field0 = y2;
                 cellCount++;
             }
         }

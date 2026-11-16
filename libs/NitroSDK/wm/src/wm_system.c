@@ -223,23 +223,23 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                 handler(callback);
             }
         } else if (callback->mCommand == 0x82) {
-            if (data_0217eed4->mPortCallbacks[callback->mUnk_06] != 0) {
-                callback->mUnk_1c = data_0217eed4->mPortCallbackArgs[callback->mUnk_06];
-                DC_InvalidateRange(callback->mUnk_08, data_0217eed4->mStatusArea->mMpRecvBufSize);
-                data_0217eed4->mPortCallbacks[callback->mUnk_06](callback);
+            if (data_0217eed4->mPortCallbacks[callback->field6] != 0) {
+                callback->field1C = data_0217eed4->mPortCallbackArgs[callback->field6];
+                DC_InvalidateRange(callback->field8, data_0217eed4->mStatusArea->mMpRecvBufSize);
+                data_0217eed4->mPortCallbacks[callback->field6](callback);
             }
         } else if (callback->mCommand == 0x81) {
             callback->mCommand = 0xf;
-            handler = callback->mUnk_1c;
+            handler = callback->field1C;
             if (handler != 0) {
                 handler(callback);
             }
         }
     } else {
         if (callback->mCommand == 0xe) {
-            if ((u16) (callback->mUnk_04 + 0xfff5) <= 1) {
+            if ((u16) (callback->field4 + 0xfff5) <= 1) {
                 if (callback->mResultCode == 0) {
-                    DC_InvalidateRange(callback->mUnk_08, data_0217eed4->mStatusArea->mMpRecvBufSize);
+                    DC_InvalidateRange(callback->field8, data_0217eed4->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
@@ -264,37 +264,37 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             if (command == 8) {
                 peerAddress = (u8 *) callback + 0xa;
                 peerName = (u8 *) callback + 0x14;
-                stateCode = *(u16 *) &callback->mUnk_08;
-                memberIndex = callback->mUnk_10;
+                stateCode = *(u16 *) &callback->field8;
+                memberIndex = callback->field10;
                 ownIndex = 0;
             } else if (command == 0xc) {
                 memberIndex = 0;
-                stateCode = *(u16 *) &callback->mUnk_08;
-                ownIndex = callback->mUnk_10;
+                stateCode = *(u16 *) &callback->field8;
+                ownIndex = callback->field10;
                 peerName = 0;
                 peerAddress = (u8 *) callback + 0xa;
             }
             if (stateCode == 7 || stateCode == 9) {
                 data_0217ef20.mCommand = 0x82;
                 data_0217ef20.mResultCode = 0;
-                data_0217ef20.mUnk_04 = stateCode;
-                data_0217ef20.mUnk_08 = 0;
-                data_0217ef20.mUnk_0c = 0;
-                data_0217ef20.mUnk_10 = 0;
-                data_0217ef20.mUnk_12 = memberIndex;
-                data_0217ef20.mUnk_20 = ownIndex;
-                data_0217ef20.mUnk_1a = 0xffff;
-                MI_CpuCopy8(peerAddress, data_0217ef20.mUnk_14, 6);
+                data_0217ef20.field4 = stateCode;
+                data_0217ef20.field8 = 0;
+                data_0217ef20.fieldC = 0;
+                data_0217ef20.field10 = 0;
+                data_0217ef20.field12 = memberIndex;
+                data_0217ef20.field20 = ownIndex;
+                data_0217ef20.field1A = 0xffff;
+                MI_CpuCopy8(peerAddress, data_0217ef20.field14, 6);
                 if (peerName != 0) {
-                    MIi_CpuCopy16(peerName, data_0217ef20.mUnk_24, 0x18);
+                    MIi_CpuCopy16(peerName, data_0217ef20.field24, 0x18);
                 } else {
                     zero = 0;
-                    MIi_CpuClear16(zero, data_0217ef20.mUnk_24, 0x18);
+                    MIi_CpuClear16(zero, data_0217ef20.field24, 0x18);
                 }
                 for (port = 0; port < 16; port++) {
-                    data_0217ef20.mUnk_06 = port;
+                    data_0217ef20.field6 = port;
                     if (data_0217eed4->mPortCallbacks[port] != 0) {
-                        data_0217ef20.mUnk_1c = data_0217eed4->mPortCallbackArgs[port];
+                        data_0217ef20.field1C = data_0217eed4->mPortCallbackArgs[port];
                         data_0217eed4->mPortCallbacks[port](&data_0217ef20);
                     }
                 }

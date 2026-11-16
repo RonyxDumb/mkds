@@ -9,23 +9,23 @@ typedef struct SceneNumbers SceneNumbers;
 
 // Object func_0203bf04 reads: the first 0x30 bytes and the 0xdcc bytes from 0x30.
 typedef struct GhostRecordView {
-    /* 000 */ u8 mUnk_000[0x30];
-    /* 030 */ u8 mUnk_030[0xdcc];
+    /* 000 */ u8 field0[0x30];
+    /* 030 */ u8 field30[0xdcc];
 } GhostRecordView;
 
 // Object func_0203bf04 fills: a word at 0x08, two bits at 0x2f, 0x200 bytes at 0x30 and 0xdcc bytes from 0x230.
 typedef struct SlotGhostBufferView {
-    /* 000 */ u8 mUnk_000[0x8];
-    /* 008 */ u32 mUnk_008;
-    /* 00c */ u8 mUnk_00c[0x23];
+    /* 000 */ u8 field0[0x8];
+    /* 008 */ u32 field8;
+    /* 00c */ u8 fieldC[0x23];
     /* 02f */ union {
-        u8 mUnk_02f;
+        u8 field2F;
         struct {
-            u8 mUnk_02f_0 : 2;
+            u8 field2F_0 : 2;
         };
     };
-    /* 030 */ u8 mUnk_030[0x200];
-    /* 230 */ u8 mUnk_230[0xdcc];
+    /* 030 */ u8 field30[0x200];
+    /* 230 */ u8 field230[0xdcc];
 } SlotGhostBufferView;
 
 void SetGivenKart(u8 *rawPicks, u32 entryIndex, u32 kartIndex);

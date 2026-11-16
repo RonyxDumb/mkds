@@ -51,9 +51,9 @@ void func_02029758(void) {
     for (packedIndex = 0; packedIndex < 4; packedIndex++) {
         if (GetKartMaskBitOfPackedIndex(packedIndex) != 0) {
             index = GetIndexOfPackedIndex(packedIndex);
-            gStruct217B488->mUnk_20[index].mCharacterIndex = menu_sRaceConfig->mEntries[packedIndex].mCharacterIndex;
-            gStruct217B488->mUnk_20[index].mKartIndex = menu_sRaceConfig->mEntries[packedIndex].mKartIndex;
-            gStruct217B488->mUnk_20[index].mPlayerKind = menu_sRaceConfig->mEntries[packedIndex].mPlayerKind;
+            gStruct217B488->field20[index].mCharacterIndex = menu_sRaceConfig->mEntries[packedIndex].mCharacterIndex;
+            gStruct217B488->field20[index].mKartIndex = menu_sRaceConfig->mEntries[packedIndex].mKartIndex;
+            gStruct217B488->field20[index].mPlayerKind = menu_sRaceConfig->mEntries[packedIndex].mPlayerKind;
         }
     }
 }
@@ -64,9 +64,9 @@ void func_020296f4(void) {
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {
             packedIndex = GetPackedIndex(index);
-            menu_sRaceConfig->mEntries[packedIndex].mCharacterIndex = gStruct217B488->mUnk_20[index].mCharacterIndex;
-            menu_sRaceConfig->mEntries[packedIndex].mKartIndex = gStruct217B488->mUnk_20[index].mKartIndex;
-            menu_sRaceConfig->mEntries[packedIndex].mPlayerKind = gStruct217B488->mUnk_20[index].mPlayerKind;
+            menu_sRaceConfig->mEntries[packedIndex].mCharacterIndex = gStruct217B488->field20[index].mCharacterIndex;
+            menu_sRaceConfig->mEntries[packedIndex].mKartIndex = gStruct217B488->field20[index].mKartIndex;
+            menu_sRaceConfig->mEntries[packedIndex].mPlayerKind = gStruct217B488->field20[index].mPlayerKind;
         }
     }
 }

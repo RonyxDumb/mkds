@@ -30,16 +30,16 @@ typedef struct HttpBuffer {
 // Object at p + 0x118 of an Http.
 typedef struct Http118 {
     /* 000 */ u8 pad_000[0x7d4];
-    /* 7d4 */ char *mUnk_7d4;
+    /* 7d4 */ char *field7D4;
     /* 7d8 */ u8 pad_7d8[0xc];
-    /* 7e4 */ u32 (*mUnk_7e4)(u32);
+    /* 7e4 */ u32 (*field7E4)(u32);
     /* 7e8 */ u8 pad_7e8[0x1c];
 } Http118;
 
 // Object at p + 0xb4 of an Http.
 typedef struct HttpB4 {
     /* 00 */ u8 pad_00[0xc];
-    /* 0c */ Http118 *mUnk_0c;
+    /* 0c */ Http118 *fieldC;
     /* 10 */ u8 pad_10[0x2c];
     /* 3c */ u32 mReceiveBufferSize;
     /* 40 */ void *mReceiveBuffer;
@@ -49,32 +49,32 @@ typedef struct HttpB4 {
     /* 50 */ u8 pad_50[0x14];
 } HttpB4;
 
-// 0x1a60 bytes; the stack of its thread ends at mUnk_1a60. mUnk_04 holds the setup it was created with; its allocate
+// 0x1a60 bytes; the stack of its thread ends at field1A60. field4 holds the setup it was created with; its allocate
 // and free functions allocate and release the memory of the buffers.
 typedef struct Http {
-    /* 000 */ u8 mUnk_00;
-    /* 004 */ Unk021b4cb4 mUnk_04;
+    /* 000 */ u8 field0;
+    /* 004 */ Unk021b4cb4 field4;
     /* 024 */ s32 mResult;
-    /* 028 */ char mUnk_028[0x80];
+    /* 028 */ char field28[0x80];
     /* 0a8 */ char *mHost;
     /* 0ac */ char *mPath;
     /* 0b0 */ BOOL mUseHttps;
-    /* 0b4 */ HttpB4 mUnk_b4;
-    /* 118 */ Http118 mUnk_118;
+    /* 0b4 */ HttpB4 fieldB4;
+    /* 118 */ Http118 field118;
     /* 91c */ void *mLowReceiveBuffer;
     /* 920 */ void *mLowSendBuffer;
     /* 924 */ s32 mPairCount;
     /* 928 */ HttpBuffer mSendBuffer;
     /* 938 */ HttpBuffer mReceiveBuffer;
-    /* 948 */ OSMutex mUnk_948;
+    /* 948 */ OSMutex field948;
     /* 960 */ s32 mContentLength;
     /* 964 */ const char *mBodyStart;
     /* 968 */ OSThread mThread;
     /* a20 */ u8 pad_a20[8];
-    /* a28 */ OSMutex mUnk_a28;
-    /* a40 */ BOOL mUnk_a40;
+    /* a28 */ OSMutex fieldA28;
+    /* a40 */ BOOL fieldA40;
     /* a44 */ u8 pad_a44[0x101c];
-    /* 1a60 */ u8 mUnk_1a60[];
+    /* 1a60 */ u8 field1A60[];
 } Http;
 
 u32 GrowHttpBuffer(Http *a, HttpBuffer *b, int c);
@@ -83,7 +83,7 @@ u32 InitHttpBuffer(Http *a, HttpBuffer *b, int c);
 
 #include "00/code_02186d04.h"
 
-// Written into DWCAuth at 0x1cc; mUnk_24 and mUnk_28 allocate and release the 0x13e0 bytes of the object and the
+// Written into DWCAuth at 0x1cc; field24 and field28 allocate and release the 0x13e0 bytes of the object and the
 // buffers.
 typedef struct AuthCreateParams {
     /* 00 */ char mIngamesn[0x15];
@@ -95,9 +95,9 @@ typedef struct AuthCreateParams {
 
 // 0x13e0 bytes, held in gAuth; the stack of its thread is the last 0x1000 bytes.
 typedef struct DWCAuth {
-    /* 000 */ u32 mUnk_000;
+    /* 000 */ u32 field0;
     /* 004 */ s32 mError;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 field8;
     /* 00c */ char mRetcode[4];
     /* 010 */ char mDatetime[0xf];
     /* 01f */ char mLocator[0x33];
@@ -105,7 +105,7 @@ typedef struct DWCAuth {
     /* 17f */ char mChallenge[9];
     /* 188 */ char mCookie[0x41];
     /* 1c9 */ u8 pad_1c9[3];
-    /* 1cc */ AuthCreateParams mUnk_1cc;
+    /* 1cc */ AuthCreateParams field1CC;
     /* 1f8 */ DWCHttpLabelValue mHttpLabelvalue[0x20];
     /* 2f8 */ Http *mHttp;
     /* 2fc */ OSThread mThread;
@@ -118,13 +118,13 @@ typedef struct DWCAuth {
 
 // Some of the locals of DWCi_Auth_Prepare_FirstPost.
 typedef struct Unk02185984Data {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[6];
-    /* 08 */ u8 mUnk_08[6];
-    /* 0e */ char mUnk_0e[5];
-    /* 13 */ char mUnk_13[3];
-    /* 16 */ char mUnk_16[5];
-    /* 1b */ char mUnk_1b[4];
+    /* 00 */ u16 field0;
+    /* 02 */ u8 field2[6];
+    /* 08 */ u8 field8[6];
+    /* 0e */ char fieldE[5];
+    /* 13 */ char field13[3];
+    /* 16 */ char field16[5];
+    /* 1b */ char field1B[4];
 } Unk02185984Data;
 
 #include "00/code_021ad734.h"

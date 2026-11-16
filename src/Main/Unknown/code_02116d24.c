@@ -22,11 +22,11 @@ void wait_update(void) {
             sWaitData->mFrameIndex = 0;
         }
         sWaitData->mFrameIndexFrames = 0;
-        jn_ui_fillPlaceholder(wait_sFrameBnclIndex[sWaitData->mFrameIndex], sWaitData->mNcer, sWaitData->mNcgr, sWaitData->mBncl, sWaitData->mUnk_20,
+        jn_ui_fillPlaceholder(wait_sFrameBnclIndex[sWaitData->mFrameIndex], sWaitData->mNcer, sWaitData->mNcgr, sWaitData->mBncl, sWaitData->field20,
                        sWaitData->mDestinationBnclIndex, sWaitData->mDestinationNcer, sWaitData->mDestinationBncl);
         p = sWaitData;
         q = p->mNclr->mData;
-        switch (p->mUnk_20) {
+        switch (p->field20) {
             case 0:
                 NNS_GfdRegisterNewVramTransferTask(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
                 break;

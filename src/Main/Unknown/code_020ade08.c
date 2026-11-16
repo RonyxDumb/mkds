@@ -160,11 +160,11 @@ u16 mutil_checkKeys(u32 slotIndex, u32 mask) {
 #pragma thumb off
 
 u32 func_020ae3f4(void) {
-    return (gSystemData->mUnk_20);
+    return (gSystemData->field20);
 }
 
 u32 func_020ae3d8(void) {
-    return ((u32) &gStruct217AA00->mUnk_1ee8);
+    return ((u32) &gStruct217AA00->field1EE8);
 }
 
 #pragma thumb on

@@ -50,8 +50,8 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
     BOOL e;
 
     v2 = driverCore_sUpVec;
-    b1 = (p->mUnk_44 & 0x100000) ? 1 : 0;
-    b2 = (p->mUnk_48 & 0x200000) ? 1 : 0;
+    b1 = (p->field44 & 0x100000) ? 1 : 0;
+    b2 = (p->field48 & 0x200000) ? 1 : 0;
     *a = p->mGroundNormal;
     if (driver_handleFallBelow0(p) != FALSE) {
         return;
@@ -60,7 +60,7 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
                       p->mCollisionSlot, &v1, &v5, &v2, &f, (u32 *) &v3, (s32 *) &v4, &h, &w) != 0) {
         m = f & 0x1e34ef;
         VEC_Add(&p->mPos, &v1, &p->mPos);
-        light_interpolateToKclColor(&p->mKartModelsEntry->mUnk_040, (f & 0x3c000000) >> 26, p->mVelocityLength);
+        light_interpolateToKclColor(&p->mKartModelsEntry->field40, (f & 0x3c000000) >> 26, p->mVelocityLength);
         driver_updateMap2DShadowFlag(p, f);
         func_0206f694(p, f, &v4, h);
         if (f & 0x200300) {
@@ -75,15 +75,15 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
                 p->mPrevHitVelocity.y -= (s32) (((s64) v5.y * d) >> 12);
                 p->mPrevHitVelocity.z -= (s32) (((s64) v5.z * d) >> 12);
             }
-            p->mUnk_4da = 3;
-            if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0 || (p->mUnk_44 & 0x4000000)) {
+            p->field4DA = 3;
+            if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0 || (p->field44 & 0x4000000)) {
                 n = 0;
                 if ((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z >= 0x10) {
                     n = vec_normalize(&v3, &v6);
                 }
                 if (n != 0) {
                     k = 0x802;
-                    if (p->mUnk_44 & 0x4000000) {
+                    if (p->field44 & 0x4000000) {
                         k *= 3;
                     }
                     v6.x = -v6.x;
@@ -92,64 +92,64 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
                     v6.x = ((s64) v6.x * k) >> 12;
                     v6.y = ((s64) v6.y * k) >> 12;
                     v6.z = ((s64) v6.z * k) >> 12;
-                    p->mUnk_374 = v6;
-                    p->mUnk_374.y = -0x19a;
+                    p->field374 = v6;
+                    p->field374.y = -0x19a;
                 }
-                p->mUnk_44 |= 0x200;
+                p->field44 |= 0x200;
             } else {
-                p->mUnk_374 = driverCore_sZeroVec;
-                p->mUnk_44 &= ~0x200;
+                p->field374 = driverCore_sZeroVec;
+                p->field44 &= ~0x200;
             }
         } else {
-            p->mUnk_44 &= ~0x80;
-            if (p->mUnk_4da > 0) {
-                p->mUnk_4da--;
+            p->field44 &= ~0x80;
+            if (p->field4DA > 0) {
+                p->field4DA--;
             }
         }
         if (f & 0x8c10) {
-            if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && (f & 0x10)) {
+            if ((p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && (f & 0x10)) {
                 if (b2 == 0) {
                     sfx_handleSoundTrigger((u16) ((col_findResponsePrismAttribute(0x10) & 0xe0) >> 5));
                 }
-                p->mUnk_48 |= 0x200000;
+                p->field48 |= 0x200000;
             }
             if (f & 0x8c00) {
-                if (!(f & 0x400) || !(p->mUnk_44 & 0x80) || (f & 0x800)) {
+                if (!(f & 0x400) || !(p->field44 & 0x80) || (f & 0x800)) {
                     driver_handleOobFallCannonPipe(p, f);
                 }
             }
         }
         if (f & 0x400000) {
             func_020efc74(&(it_sDriverItemStatus)[p->mIndex], (u16) ((col_findResponsePrismAttribute(0x400000) & 0xe0) >> 5));
-            if (p->mUnk_4c & 0x10000000) {
-                kill_recalculateRoute(&p->mUnk_538.mKillerCursor,
-                                        (Unk02080b1c_00 *) (it_sDriverItemStatus)[p->mIndex].mUnk_1f0.mLink);
+            if (p->field4C & 0x10000000) {
+                kill_recalculateRoute(&p->field538.mKillerCursor,
+                                        (Unk02080b1c_00 *) (it_sDriverItemStatus)[p->mIndex].field1F0.mLink);
             }
-            if ((p->mUnk_7c & 2) && (f & 0x400000) && p->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
+            if ((p->field7C & 2) && (f & 0x400000) && p->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
                 enmy_recalculateRoute(p->mAi);
             }
         }
         if (m != 0) {
             *a = v5;
             if ((s64) a->x * a->x + (s64) a->y * a->y + (s64) a->z * a->z >= 0x10) {
-                p->mUnk_48 &= ~0x10000000;
-                p->mUnk_3e8 = 0;
+                p->field48 &= ~0x10000000;
+                p->field3E8 = 0;
                 driver_handleFloorCollision(p);
-                if ((f & 0x20000) && !(p->mUnk_4c & 0x10000040) && !(p->mUnk_7c & 0x402000)) {
-                    p->mUnk_4c |= 0x40000000;
-                    p->mUnk_4d8 = (col_findResponsePrismAttribute(0x20000) & 0xe0) >> 5;
+                if ((f & 0x20000) && !(p->field4C & 0x10000040) && !(p->field7C & 0x402000)) {
+                    p->field4C |= 0x40000000;
+                    p->field4D8 = (col_findResponsePrismAttribute(0x20000) & 0xe0) >> 5;
                 } else {
-                    p->mUnk_4c &= ~0x40000000;
+                    p->field4C &= ~0x40000000;
                 }
                 AdvanceKartQuaternionBlendFactor(p, a);
                 if (p->mVerticalSpeed < 0) {
-                    p->mVerticalSpeed = (p->mUnk_48 & 1) ? -0x2b9 : -0xd9d;
+                    p->mVerticalSpeed = (p->field48 & 1) ? -0x2b9 : -0xd9d;
                 }
                 driver_206EDAC(p, a);
                 if (f & 0x80000000) {
-                    p->mUnk_1fc.y = 0;
+                    p->field1FC.y = 0;
                 }
-                p->mUnk_44 |= KART_44_ON_GROUND;
+                p->field44 |= KART_44_ON_GROUND;
                 if (p->mForwardSpeed != 0 || TryHoldKartStill(p, f, &w) == FALSE) {
                     func_01ff9cb0(p);
                     if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0) {
@@ -159,7 +159,7 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
                         }
                         if (n != 0) {
                             k = 0x802;
-                            if (p->mUnk_44 & 0x4000000) {
+                            if (p->field44 & 0x4000000) {
                                 k *= 3;
                             }
                             v7.x = -v7.x;
@@ -168,13 +168,13 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
                             v7.x = ((s64) v7.x * k) >> 12;
                             v7.y = ((s64) v7.y * k) >> 12;
                             v7.z = ((s64) v7.z * k) >> 12;
-                            p->mUnk_374 = v7;
-                            p->mUnk_374.y = -0x19a;
+                            p->field374 = v7;
+                            p->field374.y = -0x19a;
                         }
-                        p->mUnk_44 |= 0x200;
+                        p->field44 |= 0x200;
                     } else {
-                        p->mUnk_374 = driverCore_sZeroVec;
-                        p->mUnk_44 &= ~0x200;
+                        p->field374 = driverCore_sZeroVec;
+                        p->field44 &= ~0x200;
                     }
                 }
             }
@@ -190,16 +190,16 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
     if (mobj_getHasDiveableWater()) {
         driver_handleWaterDive(p);
     }
-    if ((p->mUnk_4c & 0x40000000) && p->mState == KART_STATE_NORMAL) {
+    if ((p->field4C & 0x40000000) && p->mState == KART_STATE_NORMAL) {
         driver_handleFallsWater(p, a, b1);
     }
-    p->mUnk_274 = ((s64) p->mUnk_274 * 0xf33) >> 12;
-    t = p->mUnk_274;
+    p->field274 = ((s64) p->field274 * 0xf33) >> 12;
+    t = p->field274;
     if ((t > 0 ? t : -t) < 0x29) {
-        p->mUnk_274 = 0;
+        p->field274 = 0;
     }
     UpdateKartAirborne(p);
-    if (!(p->mUnk_4c & 0x20)) {
+    if (!(p->field4C & 0x20)) {
         return;
     }
     p->mYRotationAngleSum += p->mYRotationAnglePerFrame;
@@ -211,10 +211,10 @@ void driver_handleCollision(Kart *p, Vec3 *a) {
     } else {
         p->mYRotationAngle += p->mYRotationAnglePerFrame;
     }
-    p->mUnk_4c |= 2;
+    p->field4C |= 2;
     if (e == FALSE) {
         return;
     }
     p->mYRotationAngle = 0;
-    p->mUnk_4c &= ~0x20;
+    p->field4C &= ~0x20;
 }

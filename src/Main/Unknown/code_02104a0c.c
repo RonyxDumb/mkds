@@ -65,11 +65,11 @@ void CreatePooledMapObjects(void) {
     }
     gPooledMapObjects = heap_alloc(proc_getHeap(proc_getCurrent()), gPooledMapObjectCount * 4);
     buf = data_0215a6cc;
-    gPooledMapObjectRow.mUnk_00 = buf;
+    gPooledMapObjectRow.field0 = buf;
     data_0217c73c = buf;
     data_0217c748 = data_0215a6c0;
     gPooledMapObjectRow.mKind = 0x6f;
-    gPooledMapObjectRow.mUnk_2e = 1;
+    gPooledMapObjectRow.field2E = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {
         gPooledMapObjects[i] = mobj_createObjectFromObji(&gPooledMapObjectRow, 0x6f);
     }
@@ -121,7 +121,7 @@ void UpdateBouncingItemBoxTimers(void) {
             gBouncingItemBoxTimerRunning[i] = 0;
             if (i == gRaceMultiConfig->mEntryIndex && (data_0217c780 & 1)) {
                 sndHandle = sp_acquireElement(sound_getPoolById(0));
-                if (SoundHandle_217D084.mUnk_0c != 0) {
+                if (SoundHandle_217D084.fieldC != 0) {
                     if (sndHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(sndHandle, 0);
                     }
@@ -150,15 +150,15 @@ void func_02104f84(s32 kartIndex) {
 
 void StartBouncingItemBox(BouncingItemBox *box) {
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 1;
+        (box->mPooledMapObject)->fieldB0 = 1;
     }
-    if ((box->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        box->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
+    if ((box->field0.mItemObject.mFlags & 0x180000) == 0) {
+        box->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemBox;
     }
 }
 
 void ReleaseBouncingItemBox(BouncingItemBox *box) {
-    u16 kartIndex = box->mUnk_000.mItemObject.mUnk_78 & ~0xff00;
+    u16 kartIndex = box->field0.mItemObject.field78 & ~0xff00;
     if ((s32) gBouncingItemBoxTimers[kartIndex] > 0) {
         gBouncingItemBoxTimerRunning[kartIndex] = 1;
     }
@@ -166,17 +166,17 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
 }
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {
-    ibox_handleBreak(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
+    ibox_handleBreak(&box->field0.mItemObject.mPos, a, 0, (box->field0.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00) == gRaceMultiConfig->mEntryIndex;
+    box->mKartIsEntry = (u16) (box->field0.mItemObject.field78 & ~0xff00) == gRaceMultiConfig->mEntryIndex;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 2;
+        (box->mPooledMapObject)->fieldB0 = 2;
     }
-    gBouncingItemBoxTimers[(u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00)] = 0x258;
+    gBouncingItemBoxTimers[(u16) (box->field0.mItemObject.field78 & ~0xff00)] = 0x258;
 }
 
 void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
@@ -184,37 +184,37 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
     PooledMapObject *mapObject = box->mPooledMapObject;
     s32 scaleRatio;
     if (box->mKartIsEntry != 0) {
-        VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12, &itemInUse->mKartOrientation.mUnk_0c,
-                    &box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos);
+        VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * -28877) >> 12, &itemInUse->mKartOrientation.fieldC,
+                    &box->field0.mItemObject.mPos, &box->mMapObjectPos);
         scaleRatio = box->mScaleRatio;
-        scale.x = ((s64) box->mUnk_000.mItemObject.mScale.x * scaleRatio) >> 12;
-        scale.y = ((s64) box->mUnk_000.mItemObject.mScale.y * scaleRatio) >> 12;
-        scale.z = ((s64) box->mUnk_000.mItemObject.mScale.z * scaleRatio) >> 12;
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
+        scale.x = ((s64) box->field0.mItemObject.mScale.x * scaleRatio) >> 12;
+        scale.y = ((s64) box->field0.mItemObject.mScale.y * scaleRatio) >> 12;
+        scale.z = ((s64) box->field0.mItemObject.mScale.z * scaleRatio) >> 12;
+        SetPooledMapObjectFromItem(mapObject, box->field0.mItemObject.mAlpha, &scale);
     } else {
-        box->mMapObjectPos = box->mUnk_000.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &box->mUnk_000.mItemObject.mScale);
+        box->mMapObjectPos = box->field0.mItemObject.mPos;
+        SetPooledMapObjectFromItem(mapObject, box->field0.mItemObject.mAlpha, &box->field0.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     func_020f9114(box);
-    box->mUnk_000.mItemObject.mUnk_78 |= data_0215a584;
+    box->field0.mItemObject.field78 |= data_0215a584;
     if (box->mKartIsEntry != 0) {
-        (box->mPooledMapObject)->mUnk_b0 = 1;
+        (box->mPooledMapObject)->fieldB0 = 1;
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
-        ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        sfx_21090C4(&box->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        ThrowBouncingItem(&box->field0, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
+        sfx_21090C4(&box->field0.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {
-        ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
+        ThrowBouncingItem(&box->field0, itemInUse, 0, 0, 0x4000, 0x3000, 0x59a);
         if (itemInUse->mKartVelocityLength < 0x1000) {
-            box->mUnk_000.mItemObject.mVelocity.x = 0;
-            box->mUnk_000.mItemObject.mVelocity.y = 0;
-            box->mUnk_000.mItemObject.mVelocity.z = 0;
+            box->field0.mItemObject.mVelocity.x = 0;
+            box->field0.mItemObject.mVelocity.y = 0;
+            box->field0.mItemObject.mVelocity.z = 0;
         }
         box->mThrownForward = 0;
         return box->mThrownForward;
@@ -230,43 +230,43 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     s32 scaleRatio;
     s32 kartIsEntry;
     PooledMapObject *mapObject;
-    if ((box->mUnk_000.mItemObject.mFlags & 0x180000) != 0) {
-        if ((box->mUnk_000.mItemObject.mFlags & 0x80000) != 0) {
-            func_020f6e58(&box->mUnk_000.mItemObject);
-        } else if ((box->mUnk_000.mItemObject.mFlags & 0x100000) != 0) {
-            AdvanceItemObjectReleaseTimer(&box->mUnk_000.mItemObject);
+    if ((box->field0.mItemObject.mFlags & 0x180000) != 0) {
+        if ((box->field0.mItemObject.mFlags & 0x80000) != 0) {
+            func_020f6e58(&box->field0.mItemObject);
+        } else if ((box->field0.mItemObject.mFlags & 0x100000) != 0) {
+            AdvanceItemObjectReleaseTimer(&box->field0.mItemObject);
         }
-    } else if ((box->mUnk_000.mItemObject.mFlags & 0x8000) != 0) {
+    } else if ((box->field0.mItemObject.mFlags & 0x8000) != 0) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
-            kartIndex = box->mUnk_000.mItemObject.mUnk_78 & ~0xff00;
+            kartIndex = box->field0.mItemObject.field78 & ~0xff00;
             v = gBouncingItemBoxTimers[kartIndex] - 0x3c;
-            if (v < box->mUnk_000.mItemObject.mAlpha) {
-                box->mUnk_000.mItemObject.mAlpha = v;
+            if (v < box->field0.mItemObject.mAlpha) {
+                box->field0.mItemObject.mAlpha = v;
             }
             if (v < 0xa) {
                 FreeItemObjectCollisionSlot((s32) box);
                 if (v == 0) {
-                    it_itemsetDestroyItem(&it_sItemsets[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
+                    it_itemsetDestroyItem(&it_sItemsets[box->field0.mItemObject.mKind], &box->field0.mItemObject);
                     return;
                 }
             }
             gBouncingItemBoxTimers[kartIndex]--;
         }
-        AdvanceRestingItemObject(&box->mUnk_000.mItemObject);
-    } else if ((box->mUnk_000.mItemObject.mFlags & 0x4000) != 0) {
-        AdvanceFallingItemObject(&box->mUnk_000.mItemObject);
+        AdvanceRestingItemObject(&box->field0.mItemObject);
+    } else if ((box->field0.mItemObject.mFlags & 0x4000) != 0) {
+        AdvanceFallingItemObject(&box->field0.mItemObject);
     } else {
         if (box->mThrownForward != 0) {
-            AdvanceBouncingItem(&box->mUnk_000, 0x1ec, 0xfec, 0, &buf);
+            AdvanceBouncingItem(&box->field0, 0x1ec, 0xfec, 0, &buf);
         } else {
-            AdvanceBouncingItem(&box->mUnk_000, 0x2e1, 0xf85, 0, &buf);
+            AdvanceBouncingItem(&box->field0, 0x2e1, 0xf85, 0, &buf);
         }
-        if ((box->mUnk_000.mItemObject.mFlags & 8) != 0 && (box->mUnk_000.mItemObject.mFlags & 3) == 0) {
+        if ((box->field0.mItemObject.mFlags & 8) != 0 && (box->field0.mItemObject.mFlags & 3) == 0) {
             if (box->mThrownForward != 0) {
-                box->mUnk_000.mItemObject.mVelocity.y <<= 1;
+                box->field0.mItemObject.mVelocity.y <<= 1;
             }
-            StopSound(&box->mUnk_000.mItemObject.mSoundSource, 0xda);
-            StartRestingItemObject(&box->mUnk_000.mItemObject, &buf);
+            StopSound(&box->field0.mItemObject.mSoundSource, 0xda);
+            StartRestingItemObject(&box->field0.mItemObject, &buf);
         }
     }
     kartIsEntry = box->mKartIsEntry;
@@ -274,16 +274,16 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     if (kartIsEntry != 0 && box->mScaleRatio < 0x1000) {
         box->mScaleRatio += 0xcd;
         scaleRatio = box->mScaleRatio;
-        scale.x = ((s64) box->mUnk_000.mItemObject.mScale.x * scaleRatio) >> 12;
-        scale.y = ((s64) box->mUnk_000.mItemObject.mScale.y * scaleRatio) >> 12;
-        scale.z = ((s64) box->mUnk_000.mItemObject.mScale.z * scaleRatio) >> 12;
-        VEC_Subtract(&box->mUnk_000.mItemObject.mPos, &box->mMapObjectPos, &offset);
+        scale.x = ((s64) box->field0.mItemObject.mScale.x * scaleRatio) >> 12;
+        scale.y = ((s64) box->field0.mItemObject.mScale.y * scaleRatio) >> 12;
+        scale.z = ((s64) box->field0.mItemObject.mScale.z * scaleRatio) >> 12;
+        VEC_Subtract(&box->field0.mItemObject.mPos, &box->mMapObjectPos, &offset);
         VEC_MultAdd(((s64) box->mScaleRatio * box->mScaleRatio) >> 12, &offset, &box->mMapObjectPos,
                     &box->mMapObjectPos);
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &scale);
+        SetPooledMapObjectFromItem(mapObject, box->field0.mItemObject.mAlpha, &scale);
     } else {
-        box->mMapObjectPos = box->mUnk_000.mItemObject.mPos;
-        SetPooledMapObjectFromItem(mapObject, box->mUnk_000.mItemObject.mAlpha, &box->mUnk_000.mItemObject.mScale);
+        box->mMapObjectPos = box->field0.mItemObject.mPos;
+        SetPooledMapObjectFromItem(mapObject, box->field0.mItemObject.mAlpha, &box->field0.mItemObject.mScale);
     }
     AdvancePooledMapObject(mapObject);
 }

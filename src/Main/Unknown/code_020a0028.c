@@ -23,20 +23,20 @@ void aship_render(void *a, Airship *airship) {
 
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    w.y = (airship->mUnk_a0 + airship->mWobbleOffset) >> 4;
+    w.y = (airship->fieldA0 + airship->mWobbleOffset) >> 4;
     w.x = 0;
     w.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &w, 3);
-    airship->mUnk_00.mMatrix.mUnk_00[3].x = airship->mUnk_00.mPos.x >> 4;
-    airship->mUnk_00.mMatrix.mUnk_00[3].y = airship->mUnk_00.mPos.y >> 4;
-    airship->mUnk_00.mMatrix.mUnk_00[3].z = airship->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &airship->mUnk_00.mMatrix, 0xc);
-    if (airship->mUnk_00.mAngle != 0) {
-        MTX_RotY33_(rotationMatrix, FX_SinCosTable_[((airship->mUnk_00.mAngle >> 4) << 1)],
-                    FX_SinCosTable_[((airship->mUnk_00.mAngle >> 4) << 1) + 1]);
+    airship->field0.mMatrix.field0[3].x = airship->field0.mPos.x >> 4;
+    airship->field0.mMatrix.field0[3].y = airship->field0.mPos.y >> 4;
+    airship->field0.mMatrix.field0[3].z = airship->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &airship->field0.mMatrix, 0xc);
+    if (airship->field0.mAngle != 0) {
+        MTX_RotY33_(rotationMatrix, FX_SinCosTable_[((airship->field0.mAngle >> 4) << 1)],
+                    FX_SinCosTable_[((airship->field0.mAngle >> 4) << 1) + 1]);
         NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &airship->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &airship->field0.mScale, 3);
     mobj_renderModel(a, aship_sModel, airship);
 }
 
@@ -50,23 +50,23 @@ void aship_globalLogicInit(AirshipObjectList *list) {
         return;
     }
     z = FALSE;
-    for (i = 0; i < list->mUnk_04 && (airship = list->mUnk_00[i]) != NULL; i++) {
-        pw_initFromObject(&airship->mUnk_c8, airship->mUnk_00.mCourseMapRow, z);
-        airship->mUnk_a4 = (airship->mUnk_00.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
-        v = airship->mUnk_a4;
-        airship->mUnk_c8.mSpeed = v;
-        airship->mUnk_c8.mProgressStep =
-            ((s64) v * airship->mUnk_c8.mPath->mSegments[airship->mUnk_c8.mSegmentIndex].mInverseProgressLength) >> 12;
-        airship->mUnk_a0 = airship->mUnk_00.mPos.y;
-        pw_20D8BF8_XYZ(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
-        airship->mUnk_a0 = airship->mUnk_a0 - airship->mUnk_00.mPos.y;
+    for (i = 0; i < list->field4 && (airship = list->field0[i]) != NULL; i++) {
+        pw_initFromObject(&airship->fieldC8, airship->field0.mCourseMapRow, z);
+        airship->fieldA4 = (airship->field0.mCourseMapRow->field28 * 0x5000L) / 100;
+        v = airship->fieldA4;
+        airship->fieldC8.mSpeed = v;
+        airship->fieldC8.mProgressStep =
+            ((s64) v * airship->fieldC8.mPath->mSegments[airship->fieldC8.mSegmentIndex].mInverseProgressLength) >> 12;
+        airship->fieldA0 = airship->field0.mPos.y;
+        pw_20D8BF8_XYZ(&airship->fieldC8, &airship->field0.mPos, &airship->field0.field10);
+        airship->fieldA0 = airship->fieldA0 - airship->field0.mPos.y;
         airship->mWobbleAngle = 0;
         airship->mWobbleMid = 0;
         airship->mWobbleAmplitude = 0x50000;
         airship->mWobbleAmplitudePerFrame = 0;
         airship->mWobbleAnglePerFrame = 0xb6;
-        airship->mUnk_c4 = 0;
-        if (airship->mUnk_00.mCourseMapRow->mUnk_2a != 0) {
+        airship->fieldC4 = 0;
+        if (airship->field0.mCourseMapRow->field2A != 0) {
             airship->mState = 0;
         } else {
             airship->mState = 2;

@@ -18,7 +18,7 @@
 #pragma thumb on
 
 void func_0202941c(s32 a) {
-    if (gSelectKart->mUnk_104 != FALSE) {
+    if (gSelectKart->field104 != FALSE) {
         func_0202b7c0(a);
     }
 }
@@ -30,22 +30,22 @@ void func_02029330(void) {
     Unk02174e50_24 *p;
     if (func_020280dc() == 0) {
         d = gSelectKart;
-        a = func_02025da4(d->mUnk_098, d->mCharacterIndex, d->mKartIndex);
-        b = func_02025df4(gSelectKart->mUnk_098, gSelectKart->mCharacterIndex);
+        a = func_02025da4(d->field98, d->mCharacterIndex, d->mKartIndex);
+        b = func_02025df4(gSelectKart->field98, gSelectKart->mCharacterIndex);
         d = gSelectKart;
-        if (d->mUnk_104 != FALSE) {
+        if (d->field104 != FALSE) {
             WriteKartPositionAndCount(a, b);
         } else {
             p = &d->mSelectCharacterGpMParts;
-            p->mUnk_18[5].mVisible = (a >= 10);
-            func_02025c48(5, a / 10 % 10 + 10, p->mUnk_0c);
-            func_02025c48(6, a % 10 + 10, p->mUnk_0c);
+            p->field18[5].mVisible = (a >= 10);
+            func_02025c48(5, a / 10 % 10 + 10, p->fieldC);
+            func_02025c48(6, a % 10 + 10, p->fieldC);
             if (b >= 10) {
-                func_02025c48(8, b / 10 % 10 + 20, p->mUnk_0c);
-                func_02025c48(9, b % 10 + 20, p->mUnk_0c);
+                func_02025c48(8, b / 10 % 10 + 20, p->fieldC);
+                func_02025c48(9, b % 10 + 20, p->fieldC);
             } else {
-                p->mUnk_18[9].mVisible = 0;
-                func_02025c48(8, b % 10 + 20, p->mUnk_0c);
+                p->field18[9].mVisible = 0;
+                func_02025c48(8, b % 10 + 20, p->fieldC);
             }
         }
     }
@@ -59,7 +59,7 @@ void MoveSelectKartNext(void) {
         index = 0;
     }
     while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mUnk_098, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+        if (IsKartAppearWithinLimit(d->field98, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {
@@ -80,7 +80,7 @@ void MoveSelectKartPrev(void) {
         index = 0x23;
     }
     while (d = gSelectKart, index != d->mKartTableIndex) {
-        if (IsKartAppearWithinLimit(d->mUnk_098, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
+        if (IsKartAppearWithinLimit(d->field98, d->mCharacterIndex, GetKartIndexAtTableIndex(index)) != 0) {
             gSelectKart->mKartTableIndex = index;
             gSelectKart->mKartIndex = GetKartIndexAtTableIndex(gSelectKart->mKartTableIndex);
         } else {

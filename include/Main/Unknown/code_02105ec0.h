@@ -7,48 +7,48 @@ typedef struct NNSSndSeqPlayer NNSSndSeqPlayer;
 
 // 0x08-byte entries behind data_0216c860.
 typedef struct Unk0216c860 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
 } Unk0216c860;
 
 extern Unk0216c860 data_0216c860[];
 
 // Object behind data_0216c7e0.
 typedef struct Unk0216c7e0 {
-    /* 00 */ u32 mUnk_00[4];
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 00 */ u32 field0[4];
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
 } Unk0216c7e0;
 
 extern Unk0216c7e0 data_0216c7e0;
 
 // Object behind sLoadedCharacterSounds.
 typedef struct Unk0216c7d8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u16 field0;
+    /* 02 */ u8 field2[2];
+    /* 04 */ u32 field4;
 } Unk0216c7d8;
 
 extern Unk0216c7d8 sLoadedCharacterSounds;
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct Unk021073ec {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2;
 } Unk021073ec;
 
 // Object behind data_0217c7f0.
 typedef struct Unk0217c7f0 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
+    /* 00 */ u32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
 } Unk0217c7f0;
 
 extern Unk0217c7f0 data_0217c7f0;
@@ -74,18 +74,18 @@ typedef struct SoundHandleEntry {
 typedef struct SceneSoundState {
     /* 00 */ u32 mRaceFrames;
     /* 04 */ u32 mSceneFrames;
-    /* 08 */ NNSSndSeqPlayer *mUnk_08;
+    /* 08 */ NNSSndSeqPlayer *field8;
     /* 0c */ u32 mRaceState;
     /* 10 */ u32 mOnLastLap;
     /* 14 */ u8 mLapCount;
     /* 15 */ u8 mLapsDone;
-    /* 16 */ u8 mUnk_16;
-    /* 17 */ u8 mUnk_17;
+    /* 16 */ u8 field16;
+    /* 17 */ u8 field17;
     /* 18 */ u8 mRankIndex;
     /* 19 */ u8 mRankIndexAtSeq;
-    /* 1a */ u8 mUnk_1a[2];
+    /* 1a */ u8 field1A[2];
     /* 1c */ s32 mRankSeqFrames;
-    /* 20 */ u32 mUnk_20;
+    /* 20 */ u32 field20;
 } SceneSoundState;
 
 extern SceneSoundState gSceneSoundState;

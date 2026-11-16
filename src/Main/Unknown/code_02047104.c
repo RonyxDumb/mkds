@@ -43,7 +43,7 @@
 void arc_getResultSceneArcPath(char *path) {
     const char *suffix;
 
-    if (gStruct217B488->mUnk_78 == 1) {
+    if (gStruct217B488->field78 == 1) {
         suffix = aDl;
     } else {
         suffix = data_0216510c;
@@ -55,7 +55,7 @@ void arc_getLocalizedResultSceneArcPath(char *path) {
     const char *suffix;
     u32 languageCode;
 
-    if (gStruct217B488->mUnk_78 == 1) {
+    if (gStruct217B488->field78 == 1) {
         suffix = aDl_0;
     } else {
         suffix = data_021650e4;
@@ -109,12 +109,12 @@ void arc_loadArchiveForScene(int slotIndex, int sceneNumber) {
     s32 h;
 
     bufferData = NULL;
-    if (gArcData->mUnk_00[slotIndex].mLoaded != 0) {
+    if (gArcData->field0[slotIndex].mLoaded != 0) {
         return;
     }
     uncompressSource = sArcDefs[slotIndex].mUncompressSource;
-    f = sArcDefs[slotIndex].mUnk_10;
-    g = sArcDefs[slotIndex].mUnk_14;
+    f = sArcDefs[slotIndex].field10;
+    g = sArcDefs[slotIndex].field14;
     h = sArcDefs[slotIndex].mBufferIndex;
     if (h != -1) {
         bufferData = gArcData->mBuffers[h].mData;
@@ -151,7 +151,7 @@ void arc_loadArchiveForScene(int slotIndex, int sceneNumber) {
                     arc_getSceneArcPath(path, sSceneDefs[sceneNumber].mName);
                     break;
             }
-            g = sSceneDefs[sceneNumber].mUnk_04;
+            g = sSceneDefs[sceneNumber].field4;
             break;
         case 9:
             switch (sceneNumber) {
@@ -217,20 +217,20 @@ void arc_loadArchive(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
-    request = &gArcData->mUnk_8c8;
+    request = &gArcData->field8C8;
     strncpy((char *) request->mPath, path, 0x80);
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
     request->mData = data;
-    request->mUnk_90 = e;
+    request->field90 = e;
     request->mUncompressSource = uncompressSource;
-    request->mUnk_9c = g;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    request->field9C = g;
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
                 bufferIndex = sArcDefs[slotIndex].mBufferIndex;
                 if (bufferIndex != -1) {
-                    gArcData->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                    gArcData->mBuffers[bufferIndex].field8_31 = 1;
                 }
                 arc_loadArchiveFromMem();
             } else {
@@ -255,7 +255,7 @@ void arc_loadArchiveFromFile(void) {
     u32 uncompressedSize;
     s32 bytesRead;
 
-    request = &gArcData->mUnk_8c8;
+    request = &gArcData->field8C8;
     FS_InitFile(&file);
     if (FS_OpenFile(&file, request->mPath) == 0) {
         return;
@@ -267,7 +267,7 @@ void arc_loadArchiveFromFile(void) {
     if (uncompressedSize > 0x200000) {
         return;
     }
-    if (request->mUnk_90 != 0) {
+    if (request->field90 != 0) {
         request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, -0x20);
     } else {
         request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, 0x20);
@@ -287,9 +287,9 @@ void arc_loadArchiveFromMem(void) {
     ArchiveLoadRequest *request;
     u32 uncompressedSize;
 
-    request = &gArcData->mUnk_8c8;
+    request = &gArcData->field8C8;
     uncompressedSize = *request->mSourceData >> 8;
-    if (request->mUnk_90 != 0) {
+    if (request->field90 != 0) {
         request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, -0x20);
     } else {
         request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, 0x20);
@@ -303,8 +303,8 @@ void arc_mountArchive(void) {
     ArchiveLoadRequest *request;
     ArchiveSlot *slot;
 
-    request = &gArcData->mUnk_8c8;
-    slot = &gArcData->mUnk_00[request->mSlotIndex];
+    request = &gArcData->field8C8;
+    slot = &gArcData->field0[request->mSlotIndex];
     if (request->mData != NULL) {
         if (NNS_FndMountArchive(&slot->mArchive, (const u8 *) sArcNames[request->mSlotIndex], request->mData) !=
             0) {
@@ -319,27 +319,27 @@ void arc_unloadArchive(int slotIndex) {
     s32 bufferIndex;
 
     shouldFree = TRUE;
-    if (gArcData->mUnk_00[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
-        NNS_FndUnmountArchive(&gArcData->mUnk_00[slotIndex].mArchive.mUnk_00);
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (gArcData->field0[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
+        NNS_FndUnmountArchive(&gArcData->field0[slotIndex].mArchive.field0);
+        if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
             bufferIndex = sArcDefs[slotIndex].mBufferIndex;
             if (bufferIndex != -1 && gArcData->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
             } else {
-                gArcData->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                gArcData->mBuffers[bufferIndex].field8_31 = 1;
             }
         }
         if (shouldFree != FALSE) {
-            heap_free(proc_getHeap(proc_getCurrent()), gArcData->mUnk_00[slotIndex].mData);
+            heap_free(proc_getHeap(proc_getCurrent()), gArcData->field0[slotIndex].mData);
         }
-        gArcData->mUnk_00[slotIndex].mLoaded = 0;
-        gArcData->mUnk_00[slotIndex].mData = 0;
+        gArcData->field0[slotIndex].mLoaded = 0;
+        gArcData->field0[slotIndex].mData = 0;
         NNS_FndGetTotalFreeSizeForExpHeap(proc_getHeap(proc_getCurrent()));
     }
 }
 
 void arc_loadArchivesForScene(s32 sceneNumber) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sceneNumber == 6 && gStruct217B488->mUnk_74 == 0) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 && sceneNumber == 6 && gStruct217B488->field74 == 0) {
     } else {
         arc_loadArchiveForScene(1, sceneNumber);
     }
@@ -383,13 +383,13 @@ void arc_loadArchivesForScene(s32 sceneNumber) {
             arc_loadArchiveForScene(16, sceneNumber);
             break;
         case 4:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
                 arc_loadArchiveForScene(5, sceneNumber);
                 arc_loadArchiveForScene(16, sceneNumber);
             }
             break;
         case 6:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
                 arc_loadArchiveForScene(5, sceneNumber);
                 arc_loadArchiveForScene(16, sceneNumber);
             }
@@ -448,25 +448,25 @@ void *arc_get2dArcFile(const char *path) {
     void *file;
 
     file = NULL;
-    if (gArcData->mUnk_7d8 != 0) {
+    if (gArcData->field7D8 != 0) {
         file = arc_getArchiveFile(sArcNames[17], path);
     }
-    if (file == NULL && gArcData->mUnk_768 != 0) {
+    if (file == NULL && gArcData->field768 != 0) {
         file = arc_getArchiveFile(sArcNames[16], path);
     }
-    if (file == NULL && gArcData->mUnk_6f8 != 0) {
+    if (file == NULL && gArcData->field6F8 != 0) {
         file = arc_getArchiveFile(sArcNames[15], path);
     }
-    if (file == NULL && gArcData->mUnk_688 != 0) {
+    if (file == NULL && gArcData->field688 != 0) {
         file = arc_getArchiveFile(sArcNames[14], path);
     }
-    if (file == NULL && gArcData->mUnk_8b8 != 0) {
+    if (file == NULL && gArcData->field8B8 != 0) {
         file = arc_getArchiveFile(sArcNames[19], path);
     }
-    if (file == NULL && gArcData->mUnk_148 != 0) {
+    if (file == NULL && gArcData->field148 != 0) {
         file = arc_getArchiveFile(sArcNames[2], path);
     }
-    if (file == NULL && gArcData->mUnk_d8 != 0) {
+    if (file == NULL && gArcData->fieldD8 != 0) {
         file = arc_getArchiveFile(sArcNames[1], path);
     }
     return file;
@@ -476,14 +476,14 @@ void *arc_getSceneArcFile(const char *path) {
     void *file;
 
     file = arc_getArchiveFile(sArcNames[5], path);
-    if (file == NULL && gArcData->mUnk_458 != 0) {
+    if (file == NULL && gArcData->field458 != 0) {
         file = arc_getArchiveFile(sArcNames[9], path);
     }
     if (scproc_getCurrentScene() == 2) {
-        if (file == NULL && gArcData->mUnk_538 != 0) {
+        if (file == NULL && gArcData->field538 != 0) {
             file = arc_getArchiveFile(sArcNames[11], path);
         }
-        if (file == NULL && gArcData->mUnk_5a8 != 0) {
+        if (file == NULL && gArcData->field5A8 != 0) {
             file = arc_getArchiveFile(sArcNames[12], path);
         }
     }
@@ -520,13 +520,13 @@ void *arc_getKartModelArcFile(const char *path) {
     if (((currentSceneNumber == 1) || (currentSceneNumber == 3)) || (currentSceneNumber == 0xc)) {
         file = arc_getArchiveFile(sArcNames[10], path);
     } else {
-        if (gArcData->mUnk_308 != 0) {
+        if (gArcData->field308 != 0) {
             file = arc_getArchiveFile(sArcNames[6], path);
         }
-        if ((file == NULL) && (gArcData->mUnk_378 != 0)) {
+        if ((file == NULL) && (gArcData->field378 != 0)) {
             file = arc_getArchiveFile(sArcNames[7], path);
         }
-        if ((file == NULL) && (gArcData->mUnk_3e8 != 0)) {
+        if ((file == NULL) && (gArcData->field3E8 != 0)) {
             file = arc_getArchiveFile(sArcNames[8], path);
         }
     }
@@ -554,7 +554,7 @@ void *arc_getKartModelArcFileCopy(const char *path) {
         }
         file = arc_loadFileToHeap(fullPath, 8);
     } else {
-        if (gArcData->mUnk_00[6].mLoaded != 0) {
+        if (gArcData->field0[6].mLoaded != 0) {
             archiveName = sArcNames[6];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, aSS_2, archiveName, path);
@@ -563,7 +563,7 @@ void *arc_getKartModelArcFileCopy(const char *path) {
             }
             file = arc_loadFileToHeap(fullPath, 8);
         }
-        if (file == NULL && gArcData->mUnk_00[7].mLoaded != 0) {
+        if (file == NULL && gArcData->field0[7].mLoaded != 0) {
             archiveName = sArcNames[7];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, aSS_4, archiveName, path);
@@ -572,7 +572,7 @@ void *arc_getKartModelArcFileCopy(const char *path) {
             }
             file = arc_loadFileToHeap(fullPath, 8);
         }
-        if (file == NULL && gArcData->mUnk_00[8].mLoaded != 0) {
+        if (file == NULL && gArcData->field0[8].mLoaded != 0) {
             archiveName = sArcNames[8];
             if (path[0] == '/') {
                 OS_SNPrintf(fullPath, 0x80, aSS_6, archiveName, path);
@@ -641,10 +641,10 @@ void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncomp
     ArchiveBuffer *buffer = &gArcData->mBuffers[bufferIndex];
     buffer->mHeap = heap;
     buffer->mData = NULL;
-    buffer->mUnk_08_0 = c << 10;
+    buffer->field8_0 = c << 10;
     buffer->mUncompress = uncompress;
-    buffer->mUnk_08_30 = e;
-    buffer->mUnk_08_31 = 1;
+    buffer->field8_30 = e;
+    buffer->field8_31 = 1;
 }
 
 #pragma thumb off
@@ -665,9 +665,9 @@ void InitArchiveBuffers(NNSiFndHeapHead *a, NNSiFndHeapHead *courseBufferHeap, N
     InitArchiveBuffer(courseBufferHeap, 7, 200, 0, 1);
     InitArchiveBuffer(a, 8, 0x46, 1, 0);
     InitArchiveBuffer(a, 0xd, 0x1e, 0, 0);
-    gArcData->mUnk_a78 = a;
+    gArcData->fieldA78 = a;
     gArcData->mCourseBufferHeap = courseBufferHeap;
-    gArcData->mUnk_a80 = c;
+    gArcData->fieldA80 = c;
 }
 
 void func_020474e4(void) {
@@ -683,8 +683,8 @@ void func_020474e4(void) {
 
 void RequestArchiveLoad(const void *path, s32 bufferIndex) {
     ArchiveBuffer *buffer = &gArcData->mBuffers[bufferIndex];
-    AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mUnk_08_0, buffer->mUncompress);
-    buffer->mUnk_08_31 = 1;
+    AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->field8_0, buffer->mUncompress);
+    buffer->field8_31 = 1;
 }
 
 #pragma thumb off
@@ -701,7 +701,7 @@ void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
 
 void func_020473e4(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArcData->fieldA80, 3);
     RequestArchiveLoad(aDataKartmode_4, 0xb);
     RequestArchiveLoad(aDataKartmode_5, 0xc);
     RequestArchiveLoad(aDataSceneMen_1, 0);
@@ -714,7 +714,7 @@ void func_020473e4(void) {
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArcData->fieldA80, 3);
     RequestArchiveLoad(aDataSceneMenud, 0);
     RequestArchiveLoadWithLanguage(aDataSceneMen_0, 1);
 }
@@ -726,7 +726,7 @@ void RequestMenuDLArchives(void) {
 void RequestRaceArchives(void *courseId, void *b) {
     char path[128];
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArcData->fieldA80, 3);
     RequestArchiveLoad(aDataSceneRace_, 2);
     RequestArchiveLoadWithLanguage(aDataSceneRac_0, 3);
     if (b == (void *) 3) {
@@ -736,13 +736,13 @@ void RequestRaceArchives(void *courseId, void *b) {
         RequestArchiveLoad(aDataSceneRac_3, 4);
         RequestArchiveLoadWithLanguage(aDataSceneRac_4, 5);
     }
-    gArcData->mUnk_a74 = b;
+    gArcData->fieldA74 = b;
     NNS_FndFreeToFrmHeap(gArcData->mCourseBufferHeap, 3);
     arc_getCourseArcPath(path, (s32) courseId, 0);
     RequestArchiveLoad(path, 6);
     arc_getCourseArcPath(path, (s32) courseId, 1);
     RequestArchiveLoad(path, 7);
-    gArcData->mUnk_a70 = courseId;
+    gArcData->fieldA70 = courseId;
 }
 
 #pragma thumb off
@@ -751,7 +751,7 @@ void RequestRaceArchives(void *courseId, void *b) {
 
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    NNS_FndFreeToFrmHeap(gArcData->fieldA80, 3);
     RequestArchiveLoad(aDataSceneResul, 0xe);
     RequestArchiveLoadWithLanguage(aDataSceneRes_0, 0xf);
 }
@@ -764,13 +764,13 @@ void arc_2047274(void) {
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        *OFFSET_PTR(u32, &gArcData->mBuffers[0].mUnk_08, i * 12) &= 0x7fffffff;
+        *OFFSET_PTR(u32, &gArcData->mBuffers[0].field8, i * 12) &= 0x7fffffff;
     }
 }
 
 s32 arc_isCourseTexAvailable(void) {
     if (*(vu16 *) 0x027ffc40 == 2) {
-        return gArcData->mBuffers[7].mUnk_08 >> 31;
+        return gArcData->mBuffers[7].field8 >> 31;
     }
     return 1;
 }
@@ -779,7 +779,7 @@ s32 arc_isCourseTexAvailable(void) {
 void arc_resizeMainEffectArc(u8 *a, u32 b) {
     u8 *block;
 
-    block = gArcData->mUnk_84c;
+    block = gArcData->field84C;
     NNS_FndResizeForMBlockExpHeap(proc_getHeap(proc_getCurrent()), block, b + (a - block));
 }
 
@@ -788,12 +788,12 @@ void arc_loadStatic2D(void *heap) {
     void *data;
 
     uncompressedSize = *s2d_getArcData() >> 8;
-    gArcData->mUnk_8b8 = 0;
+    gArcData->field8B8 = 0;
     data = heap_allocEx(heap, uncompressedSize, 0x20);
     arc_decompressLZ(s2d_getArcData(), data, uncompressedSize);
-    NNS_FndMountArchive(&gArcData->mUnk_850, (const u8 *) sArcNames[19], data);
-    gArcData->mUnk_8bc = data;
-    gArcData->mUnk_8b8 = 1;
+    NNS_FndMountArchive(&gArcData->field850, (const u8 *) sArcNames[19], data);
+    gArcData->field8BC = data;
+    gArcData->field8B8 = 1;
     s2d_init(heap);
 }
 
@@ -813,7 +813,7 @@ void spi_init(void *heap) {
     gSpiData = heap_alloc(heap, 0x40);
     gSpiData->mTouchAutoSampling = 0;
     gSpiData->mMicAutoSampling = 0;
-    gSpiData->mUnk_30_2 = 0;
+    gSpiData->field30_2 = 0;
     gSpiData->mMicOverThreshold = 0;
     gSpiData->mMicBuffer = NULL;
     mic_init();

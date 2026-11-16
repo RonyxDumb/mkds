@@ -81,18 +81,18 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     if (p->mAgeFrames == 1 && (p->mFlags & 0x8000000) && !(p->mFlags & 0x10000000)) {
         func_020f0d04(p);
     }
-    if (p->mUnk_114 <= 5) {
-        p->mUnk_114 += 1;
+    if (p->field114 <= 5) {
+        p->field114 += 1;
     }
-    if (p->mUnk_116 <= 5) {
-        p->mUnk_116 += 1;
+    if (p->field116 <= 5) {
+        p->field116 += 1;
     }
     if (!(p->mFlags & 0x8000)) {
         p->mCollisionBits = 0;
     }
     if (!(p->mFlags & 0x800000)) {
-        if (p->mUnk_100 == 0) {
-            if (GrowItemObjectScale(p, a->mUnk_2c, 0x2e1) != 0) {
+        if (p->field100 == 0) {
+            if (GrowItemObjectScale(p, a->field2C, 0x2e1) != 0) {
                 RefreshItemObjectScale(p);
             } else {
                 goto L_a20;
@@ -100,11 +100,11 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         } else {
         L_a20:
             if (p->mFlags & 0xc000) {
-                r = GrowItemObjectScale(p, a->mUnk_30, 0x19a);
+                r = GrowItemObjectScale(p, a->field30, 0x19a);
                 if (func_020f9dc8(p) == 0 && r != 0) {
                     RefreshItemObjectScale(p);
                 }
-            } else if (GrowItemObjectScale(p, a->mUnk_30, a->mUnk_34) != 0) {
+            } else if (GrowItemObjectScale(p, a->field30, a->field34) != 0) {
                 RefreshItemObjectScale(p);
             }
         }
@@ -142,17 +142,17 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         light_interpolateToKclColor(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x5000);
     }
     if (v & 0x1e34ef) {
-        p->mUnk_114 = 0;
+        p->field114 = 0;
         if (v & 0x1000000) {
-            p->mUnk_116 = 0;
+            p->field116 = 0;
         }
         if (v & 0x80400) {
             if (v & 0x400) {
-                if (p->mUnk_118 == 0) {
+                if (p->field118 == 0) {
                     if (p->mFlags & 0x8000) {
-                        p->mUnk_118 = 0xb4;
+                        p->field118 = 0xb4;
                     } else {
-                        p->mUnk_118 = 2;
+                        p->field118 = 2;
                     }
                 }
             }
@@ -165,16 +165,16 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
             p->mFlags &= ~0x40000000;
         }
     }
-    if (p->mUnk_118 != 0 && !(p->mFlags & 0x180000)) {
-        p->mUnk_118 -= 1;
-        if (p->mUnk_118 == 0) {
+    if (p->field118 != 0 && !(p->mFlags & 0x180000)) {
+        p->field118 -= 1;
+        if (p->field118 == 0) {
             func_020f9b0c(p);
         }
     }
     if (p->mPos.y < 0 && p->mKind != 0xb && p->mKind != 0xa) {
         func_020f7658(p, 1);
     }
-    if (p->mUnk_114 < 5) {
+    if (p->field114 < 5) {
         p->mFlags &= ~0x20000;
     } else {
         p->mFlags |= 0x20000;
@@ -182,14 +182,14 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
             func_020eac20(&p->mNormal, 0xcd);
         }
     }
-    if (p->mUnk_116 < 5) {
+    if (p->field116 < 5) {
         p->mFlags |= 0x40000;
     } else {
         p->mFlags &= ~0x40000;
     }
     k = p->mKind;
-    m = it_sItemParams[k].mUnk_60;
-    p->mDistanceSquaredAndFlags = a->mUnk_28(p->mUnk_d0, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
+    m = it_sItemParams[k].field60;
+    p->mDistanceSquaredAndFlags = a->field28(p->fieldD0, p->mRadius * m, a->field38, a->field3C, 0x1f);
     if (p->mDistanceSquaredAndFlags & 3) {
         p->mFlags |= 0x10000;
     } else {
@@ -200,13 +200,13 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     }
     p->mPrevPos = p->mPos;
     p->mAgeFrames += 1;
-    if (p->mUnk_78 & 0x4000) {
-        if (p->mUnk_78 & 0x2000) {
+    if (p->field78 & 0x4000) {
+        if (p->field78 & 0x2000) {
             if (p->mAgeFrames > 4 && !(p->mFlags & 0x20000)) {
-                p->mUnk_78 &= ~0x4000;
+                p->field78 &= ~0x4000;
             }
         } else if (p->mAgeFrames > 0x1e) {
-            p->mUnk_78 &= ~0x4000;
+            p->field78 &= ~0x4000;
         }
     }
     return FALSE;

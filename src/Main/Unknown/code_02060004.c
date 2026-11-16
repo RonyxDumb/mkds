@@ -173,7 +173,7 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     MI_CpuFill8(&buddyRecord, 0, 0x24);
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
-    if (gStruct217D384->mUnk_0008.mState != 0) {
+    if (gStruct217D384->field8.mState != 0) {
         RemoveBuddyEntry((u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12);
     } else {
         MI_CpuFill8((u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12, 0, 0xc);
@@ -216,7 +216,7 @@ void MergeBuddyRecords(u8 keptIndex, u8 mergedIndex) {
     }
     combinedRecord.mFilled = 1;
     combinedRecord.mNotYetBuddy = 0;
-    combinedRecord.mUnk_22_2 = keptRecord.mUnk_22_2;
+    combinedRecord.field22_2 = keptRecord.field22_2;
     combinedRecord.mFlagged = keptRecord.mFlagged == 1 || mergedRecord.mFlagged == 1;
     SetBuddyRecord(keptIndex, &combinedRecord);
     MI_CpuFill8(&mergedRecord, 0, 0x24);
@@ -302,7 +302,7 @@ s32 savd_getCupRank(s32 cup, s32 engineClass) {
 
     savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
-        return timeRecord.mUnk_1e;
+        return timeRecord.field1E;
     }
     return 9;
 }

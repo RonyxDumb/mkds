@@ -13,8 +13,8 @@
 #include "Main/Unknown/code_02147000.h"
 
 void func_ov001_02187c88(Unk02188950 *mapObject, s32 b, const Vec3 *offset) {
-    mapObject->mUnk_2e4 = b;
-    mapObject->mUnk_2f4 = *offset;
+    mapObject->field2E4 = b;
+    mapObject->field2F4 = *offset;
     mapObject->mNsbmd->mAnimatedModel->mPtrUser = mapObject;
     NNS_G3dRenderObjSetCallBack(mapObject->mNsbmd->mAnimatedModel, func_ov001_02187d14, 0, 6, 3);
 }

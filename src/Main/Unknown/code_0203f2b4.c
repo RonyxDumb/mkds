@@ -16,5 +16,5 @@ BOOL rstat_rconf_isDriverValidAndNoEnemy(u32 a) {
 }
 
 BOOL rstat_203F2B4(u32 a) {
-    return gRaceStatus->mUnk_000[a].mStatus == 4;
+    return gRaceStatus->field0[a].mStatus == 4;
 }

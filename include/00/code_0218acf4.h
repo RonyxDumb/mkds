@@ -6,15 +6,15 @@ typedef struct SbServer SbServer;
 typedef struct Unk0218a9bc Unk0218a9bc;
 
 typedef struct Unk021b2148 {
-    /* 00 */ u8 mUnk_00[13];
+    /* 00 */ u8 field0[13];
 } Unk021b2148;
 
 typedef struct Unk021b2158 {
-    /* 0 */ u8 mUnk_00[8];
+    /* 0 */ u8 field0[8];
 } Unk021b2158;
 
 typedef struct Unk0218ad44 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 field0[4];
 } Unk0218ad44;
 
 

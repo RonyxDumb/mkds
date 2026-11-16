@@ -8,7 +8,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 title_savd_getNksyOffs31Bit0(void) {
-    return gSaveData->mFirstBlock->mUnk_31_0 != 0;
+    return gSaveData->mFirstBlock->field31_0 != 0;
 }
 
 #pragma optimize_for_size on

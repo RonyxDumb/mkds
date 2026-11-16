@@ -49,16 +49,16 @@ void InitWLMenuScene(void *heap) {
     func_0202f4ac(displaySettings, 2, 0, 0, 0, 0xf, 6);
     dc_setDisplayConfig(displaySettings);
     if (func_0202f19c() == 0) {
-        v1.mUnk_00 = 1;
-        v1.mUnk_04 = m2d_getFont(1);
-        v1.mUnk_08 = 0;
-        v1.mUnk_0c = 1;
-        v1.mUnk_10 = 0;
-        v1.mUnk_14 = 0;
-        v1.mUnk_18 = NULL;
-        v1.mUnk_1c = 1;
-        v1.mUnk_20 = func_0202f498() == 0;
-        v1.mUnk_24 = 0;
+        v1.field0 = 1;
+        v1.field4 = m2d_getFont(1);
+        v1.field8 = 0;
+        v1.fieldC = 1;
+        v1.field10 = 0;
+        v1.field14 = 0;
+        v1.field18 = NULL;
+        v1.field1C = 1;
+        v1.field20 = func_0202f498() == 0;
+        v1.field24 = 0;
         gmenu_unpackData();
         gmenu_init(heap, &v1);
     }
@@ -91,7 +91,7 @@ void InitWLMenuScene(void *heap) {
     oam_clearResetBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
     func_0202f478(0x10);
     func_0202f454(0x10);
-    gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
+    gWLMenuScene->mCurrentCallbacks->field0(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
 void AdvanceWLMenuScene(void *a) {
@@ -102,11 +102,11 @@ void AdvanceWLMenuScene(void *a) {
         previousCallbacks = gWLMenuScene->mCurrentCallbacks;
         gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[callbacksIndex];
         gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
-        previousCallbacks->mUnk_08();
-        gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
+        previousCallbacks->field8();
+        gWLMenuScene->mCurrentCallbacks->field0(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
     } else {
         oam_resetBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
-        callbacksIndex = gWLMenuScene->mCurrentCallbacks->mUnk_04(a);
+        callbacksIndex = gWLMenuScene->mCurrentCallbacks->field4(a);
         if (callbacksIndex != -1) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
@@ -124,7 +124,7 @@ void AdvanceWLMenuScene(void *a) {
 
 void EndMultiplayerMenu(void) {
     int v1;
-    gWLMenuScene->mCurrentCallbacks->mUnk_08();
+    gWLMenuScene->mCurrentCallbacks->field8();
     v1 = func_0202f19c();
     if (v1 == 0) {
         gmenu_finish();
@@ -154,12 +154,12 @@ void func_0202f160(void) {
     if (v1 == 0) {
         gmenu_vblank();
     }
-    gWLMenuScene->mCurrentCallbacks->mUnk_0c();
+    gWLMenuScene->mCurrentCallbacks->fieldC();
     oam_applyBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
 Unk02174e4c_818 *func_0202f14c(void) {
-    return &gWLMenuScene->mUnk_818;
+    return &gWLMenuScene->field818;
 }
 
 #pragma thumb off

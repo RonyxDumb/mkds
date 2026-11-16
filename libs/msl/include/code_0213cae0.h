@@ -15,7 +15,7 @@ typedef struct FormatWideSpec {
     /* 04 */ u8 mArgKind;
     /* 06 */ u16 mSpecChar;
     /* 08 */ s32 mMinLength;
-    /* 0c */ s32 mUnk_0c;
+    /* 0c */ s32 fieldC;
 } FormatWideSpec;
 
 // u16 table indexed by characters below 0x80; FormatWideParseSpec tests bit 3, FormatWideDouble bit 9.

@@ -6,18 +6,18 @@
 
 // Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.
 typedef struct Dram {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
-    /* a2 */ u16 mUnk_a2;
-    /* a4 */ u16 mUnk_a4;
-    /* a6 */ u16 mUnk_a6;
-    /* a8 */ s16 mUnk_a8;
-    /* aa */ u8 mUnk_aa[2];
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ s32 mUnk_b0;
-    /* b4 */ s16 mUnk_b4[3];
-    /* ba */ u8 mUnk_ba[2];
-    /* bc */ s32 mUnk_bc;
+    /* 00 */ MapObject field0;
+    /* a0 */ u16 fieldA0;
+    /* a2 */ u16 fieldA2;
+    /* a4 */ u16 fieldA4;
+    /* a6 */ u16 fieldA6;
+    /* a8 */ s16 fieldA8;
+    /* aa */ u8 fieldAA[2];
+    /* ac */ s32 fieldAC;
+    /* b0 */ s32 fieldB0;
+    /* b4 */ s16 fieldB4[3];
+    /* ba */ u8 fieldBA[2];
+    /* bc */ s32 fieldBC;
 } Dram;
 
 void dram_spinStopStateUpdate(Dram *dram);

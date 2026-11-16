@@ -39,46 +39,46 @@ void bridge_loadModel(void) {
     file = mobj_getMapObjFile(aBridge_nsbmd);
     model2_createFromNsbmd(&bridge_sModel, file, NULL);
     CreateModelAnimation(0, bridge_sModel, &bridge_sNsbcaAnim, file, mobj_getMapObjFile(aBridge_nsbca));
-    ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->mUnk_2c = anim_getAnimLength(bridge_sNsbcaAnim);
+    ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->field2C = anim_getAnimLength(bridge_sNsbcaAnim);
     model_setPolyIdLightFlagsEmi(bridge_sModel, 0x3f, 2, 0x294a);
     dcol_setModel(*(void **) bridge_sRenderPart, bridge_sModel);
 }
 
 void bridge_init(Bridge *bridge, struct CourseMapRow *courseRow) {
-    bridge->mUnk_0e8 = bridge->mUnk_000.mPos;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    bridge->mUnk_0c4 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    bridge->mUnk_124.x = 0;
-    bridge->mUnk_124.y = 0;
-    bridge->mUnk_124.z = 0;
-    bridge->mUnk_130 = 1;
-    bridge->mUnk_144 = ((courseRow->mUnk_28 * 0x10000) / 0x168) >> 1;
-    bridge->mUnk_146 = (0x10000 / courseRow->mUnk_2a) >> 1;
-    bridge->mUnk_14c = courseRow->mUnk_2c;
-    bridge->mUnk_14e = courseRow->mUnk_2e;
-    bridge->mUnk_150 = 0;
-    bridge->mUnk_148 = 0;
+    bridge->fieldE8 = bridge->field0.mPos;
+    bridge->fieldA0 = *(Unk020e38a0_28 *) &bridge->field0.mMatrix;
+    bridge->fieldC4 = *(Unk020e38a0_28 *) &bridge->field0.mMatrix;
+    bridge->field124.x = 0;
+    bridge->field124.y = 0;
+    bridge->field124.z = 0;
+    bridge->field130 = 1;
+    bridge->field144 = ((courseRow->field28 * 0x10000) / 0x168) >> 1;
+    bridge->field146 = (0x10000 / courseRow->field2A) >> 1;
+    bridge->field14C = courseRow->field2C;
+    bridge->field14E = courseRow->field2E;
+    bridge->field150 = 0;
+    bridge->field148 = 0;
     if (gRaceMultiConfig->mMode == 5) {
-        bridge->mUnk_146 = 0;
-        bridge->mUnk_148 = ((courseRow->mUnk_30 * 0x10000) / 0x168) >> 1;
+        bridge->field146 = 0;
+        bridge->field148 = ((courseRow->field30 * 0x10000) / 0x168) >> 1;
     }
-    bridge->mUnk_100 = ((s64) bridge->mUnk_000.mScale.x * 0x5a000) >> 12;
-    bridge->mUnk_104 = (s32) (((s64) bridge->mUnk_000.mScale.y * 0x1e000) >> 12) >> 1;
-    bridge->mUnk_108 = ((s64) bridge->mUnk_000.mScale.z * 0x15e000) >> 12;
-    bridge->mUnk_10c = ((s64) bridge->mUnk_000.mScale.z * 0x32000) >> 12;
-    bridge->mUnk_110 = 0;
-    bridge->mUnk_114.x = 1;
-    bridge->mUnk_114.y = 0;
-    bridge->mUnk_114.z = 1;
-    bridge->mUnk_120 = 0x800;
-    bridge->mUnk_134 = 0;
-    bridge->mUnk_138 = 0;
-    bridge->mUnk_000.mFlags |= data_02158c88;
-    bridge->mUnk_000.mFlags &= ~2;
-    bridge->mUnk_000.mFlags &= ~8;
-    bridge->mUnk_000.mAlpha = 0x1f;
-    if (courseRow->mUnk_0c.y < 0) {
-        mobj_initSoundEmitterForObjectSfxParam4(&bridge->mUnk_000);
+    bridge->field100 = ((s64) bridge->field0.mScale.x * 0x5a000) >> 12;
+    bridge->field104 = (s32) (((s64) bridge->field0.mScale.y * 0x1e000) >> 12) >> 1;
+    bridge->field108 = ((s64) bridge->field0.mScale.z * 0x15e000) >> 12;
+    bridge->field10C = ((s64) bridge->field0.mScale.z * 0x32000) >> 12;
+    bridge->field110 = 0;
+    bridge->field114.x = 1;
+    bridge->field114.y = 0;
+    bridge->field114.z = 1;
+    bridge->field120 = 0x800;
+    bridge->field134 = 0;
+    bridge->field138 = 0;
+    bridge->field0.mFlags |= data_02158c88;
+    bridge->field0.mFlags &= ~2;
+    bridge->field0.mFlags &= ~8;
+    bridge->field0.mAlpha = 0x1f;
+    if (courseRow->fieldC.y < 0) {
+        mobj_initSoundEmitterForObjectSfxParam4(&bridge->field0);
     }
 }
 
@@ -129,23 +129,23 @@ void choro_applyMainMaterial(void) {
 void choro_renderMain(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha) {
     MtxFx43 *matrix;
 
-    switch (choropu->mUnk_000.mStateMachine.mState) {
+    switch (choropu->field0.mStateMachine.mState) {
         case 4:
             gChoropu->mFrameIndex = 1;
-            matrix = bbm_getBillboardAtPos(&choropu->mUnk_000.mPos);
-            bbm_renderTransformedScaled(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            matrix = bbm_getBillboardAtPos(&choropu->field0.mPos);
+            bbm_renderTransformedScaled(gChoropu, matrix, &choropu->field0.mScale, 0, alpha);
             break;
         case 5:
             break;
         case 6:
         case 7:
             gChoropu->mFrameIndex = 1;
-            matrix = bbm_getBillboardAtPos(&choropu->mUnk_000.mPos);
-            bbm_renderTransformedRotatedScaled(gChoropu, matrix, choropu->mUnk_0b4.mUnk_04, &choropu->mUnk_000.mScale, 0, alpha);
+            matrix = bbm_getBillboardAtPos(&choropu->field0.mPos);
+            bbm_renderTransformedRotatedScaled(gChoropu, matrix, choropu->fieldB4.field4, &choropu->field0.mScale, 0, alpha);
             break;
         default:
             gChoropu->mFrameIndex = 0;
-            matrix = bbm_getBillboardAtPos(&choropu->mUnk_000.mPos);
-            bbm_renderTransformedScaled(gChoropu, matrix, &choropu->mUnk_000.mScale, 0, alpha);
+            matrix = bbm_getBillboardAtPos(&choropu->field0.mPos);
+            bbm_renderTransformedScaled(gChoropu, matrix, &choropu->field0.mScale, 0, alpha);
     }
 }

@@ -41,9 +41,9 @@ void func_ov000_0218583c(void) {
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
-        if (gStruct217B488->mUnk_6c != FALSE) {
+        if (gStruct217B488->field6C != FALSE) {
             p = gSaveData->mFirstBlock;
-            a = p->mUnk_34[5];
+            a = p->field34[5];
             b = gStruct217D384->mKartCountCopy - 1;
             if (b > 0) {
                 if (a < b) {
@@ -52,7 +52,7 @@ void func_ov000_0218583c(void) {
                     a -= b;
                 }
             }
-            p->mUnk_34[5] = a;
+            p->field34[5] = a;
             savd_flushNksy();
             bgwkr_waitForCompletion();
             if (gSaveCore->mBackupEnabled != 0) {
@@ -67,7 +67,7 @@ void func_ov000_02185818(void) {
     v1 = mbright_isFadedIn();
     if (v1 != 0) {
         RequestWiFiState(2);
-        gStruct217B488->mUnk_1c = 1;
+        gStruct217B488->field1C = 1;
     }
 }
 

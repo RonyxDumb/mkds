@@ -9,8 +9,8 @@
 // 0xb04 bytes: a signed byte at 0x00 and, from 0x04, an EmblemBlockData.
 typedef struct EmblemBlock {
     /* 00 */ s8 mBlockIndex;
-    /* 01 */ u8 mUnk_01[3];
-    /* 04 */ EmblemBlockData mUnk_04;
+    /* 01 */ u8 field1[3];
+    /* 04 */ EmblemBlockData field4;
 } EmblemBlock;
 
 void area_initMissionRivalPassAreas(void *heap);

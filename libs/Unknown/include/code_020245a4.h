@@ -6,16 +6,16 @@
 
 // Bit reader: a pointer to the next byte, the number of unread bits of the current byte at 4 and the byte at 5.
 typedef struct Unk020247fc {
-    /* 00 */ u8 *mUnk_00;
-    /* 04 */ s8 mUnk_04;
-    /* 05 */ u8 mUnk_05;
+    /* 00 */ u8 *field0;
+    /* 04 */ s8 field4;
+    /* 05 */ u8 field5;
 } Unk020247fc;
 
 // Body of a part of an Unk02021f9c, which starts 8 bytes after the part: words from 04 are offsets from the start of
 // the Unk02021f9c, relocated by func_020245a4.
 typedef struct Unk020245a4_08 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u32 mUnk_04[4];
+    /* 00 */ u8 field0[4];
+    /* 04 */ u32 field4[4];
 } Unk020245a4_08;
 
 void func_020245a4(Unk02021f9c *a);

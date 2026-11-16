@@ -16,7 +16,7 @@ void func_ov001_021a23f4(void) {
 
 BOOL func_ov001_021a23c8(void) {
     func_ov001_021a2a40();
-    if (gEmblem->mUnk_1090 == 0xc) {
+    if (gEmblem->field1090 == 0xc) {
         return TRUE;
     }
     return FALSE;
@@ -31,5 +31,5 @@ u16 *func_ov001_021a23ac(void) {
 }
 
 u8 *func_ov001_021a2398(void) {
-    return gEmblem->mUnk_087c;
+    return gEmblem->field87C;
 }

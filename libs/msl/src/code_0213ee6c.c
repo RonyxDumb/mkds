@@ -7,7 +7,7 @@
 #include "code_0214177c.h"
 #include "Main/Unknown/code_02130000.h"
 
-// 1 when a and b have the same mUnk_02 and the same digits (missing digits count as 0), or both have mUnk_05[0] == 0.
+// 1 when a and b have the same field2 and the same digits (missing digits count as 0), or both have field5[0] == 0.
 int DigitsEqual(const DigitRecord *a, const DigitRecord *b) {
     int i;
     int m;
@@ -46,7 +46,7 @@ int DigitsEqual(const DigitRecord *a, const DigitRecord *b) {
     return 0;
 }
 
-// 1 when a is less than b: compares mUnk_05[0] == 0 first, then mUnk_02, then the digits from mUnk_05[0] on.
+// 1 when a is less than b: compares field5[0] == 0 first, then field2, then the digits from field5[0] on.
 int DigitsLess(const DigitRecord *a, const DigitRecord *b) {
     int i;
     int m;
@@ -91,7 +91,7 @@ int DigitsLess(const DigitRecord *a, const DigitRecord *b) {
     return a->mExponent < b->mExponent;
 }
 
-// Copies b to a; if c->mUnk_05[0] is not 0, subtracts c's digits from a's, shifted by mUnk_02, and then drops leading
+// Copies b to a; if c->field5[0] is not 0, subtracts c's digits from a's, shifted by field2, and then drops leading
 // and trailing zero digits.
 void DigitsSubtract(DigitRecord *a, const DigitRecord *b, const DigitRecord *c) {
     int n;
@@ -216,7 +216,7 @@ done:
     a->mDigitCount = t - p + 1;
 }
 
-// Fills out from the double v: mUnk_00 is the sign bit. A zero v gives one digit 0; an all-ones exponent gives one
+// Fills out from the double v: field0 is the sign bit. A zero v gives one digit 0; an all-ones exponent gives one
 // digit, 0x4e when the mantissa bits are not all 0, else 0x49. Otherwise the digits come from DigitsFromU64 and
 // DigitsPowerOfTwo, combined by DigitsMultiply.
 void DoubleToDigits(DigitRecord *out, double v) {
@@ -308,8 +308,8 @@ void DoubleToDigits(DigitRecord *out, double v) {
     out->mNegative = sign;
 }
 
-// Calls DoubleToDigits on b, then raises mUnk_04 to n (a->mUnk_02, at most 32) by appending 0 entries to mUnk_05,
-// lowers b->mUnk_02 by mUnk_04 - 1 and adds 0x30 to every entry. Does nothing more when mUnk_05[0] is above 9.
+// Calls DoubleToDigits on b, then raises field4 to n (a->field2, at most 32) by appending 0 entries to field5,
+// lowers b->field2 by field4 - 1 and adds 0x30 to every entry. Does nothing more when field5[0] is above 9.
 void DoubleToDigitChars(Unk02140c28 *a, double v, DigitRecord *b) {
     int n;
     int i;

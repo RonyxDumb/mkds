@@ -46,20 +46,20 @@ static inline void func_020919e8_inline_3(Unk020919e8 *p, s32 n) {
     Unk0210b7a8 s;
     s32 v;
 
-    if (p->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (p->field0.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (p->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if (p->field0.mFarDistanceSquared == gSfxParams[2].field20) {
         v = 2;
-    } else if (p->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+    } else if (p->field0.mFarDistanceSquared == gSfxParams[3].field20) {
         v = 3;
     } else {
         v = 4;
     }
     s.mSoundId = n;
-    s.mPositionSource = &p->mUnk_00.mPos;
-    s.mUnk_08 = v;
-    s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_00.mPos);
+    s.mPositionSource = &p->field0.mPos;
+    s.field8 = v;
+    s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
     func_0210b7a8(&s);
 }
 
@@ -71,14 +71,14 @@ void kan64_loadModel(void *a) {
 void kan64_render(void *a, Unk020919e8 *p) {
     s32 w;
 
-    mobj_setModelNsbcaFrame(kan64_sModel, p->mUnk_a0);
+    mobj_setModelNsbcaFrame(kan64_sModel, p->fieldA0);
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    p->mUnk_00.mMatrix.mUnk_00[3].x = p->mUnk_00.mPos.x >> 4;
-    p->mUnk_00.mMatrix.mUnk_00[3].y = p->mUnk_00.mPos.y >> 4;
-    p->mUnk_00.mMatrix.mUnk_00[3].z = p->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &p->mUnk_00.mMatrix, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
+    p->field0.mMatrix.field0[3].x = p->field0.mPos.x >> 4;
+    p->field0.mMatrix.field0[3].y = p->field0.mPos.y >> 4;
+    p->field0.mMatrix.field0[3].z = p->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &p->field0.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &p->field0.mScale, 3);
     mobj_renderModel(a, kan64_sModel, p);
 }
 
@@ -90,8 +90,8 @@ void kan64_globalInitLogic(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (p = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (p->mUnk_00.mFlags & 0x800) {
-            p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+        if (p->field0.mFlags & 0x800) {
+            p->fieldA4 = (u16) (func_020919e8_inline_2(25) + 200);
         }
     }
 }
@@ -141,10 +141,10 @@ static inline BOOL func_020919e8_inline_4(Unk020919e8 *p, s32 k) {
             continue;
         }
         kart = driver_getById((u16) i);
-        if (func_020919e8_inline_5(&kart->mPos, &p->mUnk_00.mPos) >= 0x225510000000LL) {
+        if (func_020919e8_inline_5(&kart->mPos, &p->field0.mPos) >= 0x225510000000LL) {
             continue;
         }
-        d = FX_Atan2Idx(kart->mPos.x - p->mUnk_00.mPos.x, kart->mPos.z - p->mUnk_00.mPos.z) - k;
+        d = FX_Atan2Idx(kart->mPos.x - p->field0.mPos.x, kart->mPos.z - p->field0.mPos.z) - k;
         if (d < -0x1f40) {
             continue;
         }
@@ -174,22 +174,22 @@ void kan64_update(void *a, Unk020919e8 *p) {
     Vec3 basabasaPos;
     Vec3 basabasaVelocity;
 
-    switch (p->mUnk_ac) {
+    switch (p->fieldAC) {
         case 0:
             if (race_getCameraField250() == 2) {
-                p->mUnk_ac = 1;
+                p->fieldAC = 1;
                 return;
             }
-            if (p->mUnk_00.mFlags & 0x800) {
-                if (p->mUnk_a4-- <= 0) {
-                    p->mUnk_a4 = 8;
-                    p->mUnk_ac = 1;
+            if (p->field0.mFlags & 0x800) {
+                if (p->fieldA4-- <= 0) {
+                    p->fieldA4 = 8;
+                    p->fieldAC = 1;
                 }
                 return;
             }
-            if (func_020919e8_inline_4(p, p->mUnk_00.mAngle) != FALSE) {
-                p->mUnk_a4 = 8;
-                p->mUnk_ac = 1;
+            if (func_020919e8_inline_4(p, p->field0.mAngle) != FALSE) {
+                p->fieldA4 = 8;
+                p->fieldAC = 1;
             }
             return;
         case 1:
@@ -197,41 +197,41 @@ void kan64_update(void *a, Unk020919e8 *p) {
         default:
             return;
     }
-    if (p->mUnk_a0 == 10) {
+    if (p->fieldA0 == 10) {
         for (i = 0; i < 3; i++) {
-            func_020919e8_inline_6(&basabasaPos, p->mUnk_00.mPos.x, p->mUnk_00.mPos.y + 0x19000, p->mUnk_00.mPos.z);
-            k = p->mUnk_00.mAngle;
+            func_020919e8_inline_6(&basabasaPos, p->field0.mPos.x, p->field0.mPos.y + 0x19000, p->field0.mPos.z);
+            k = p->field0.mAngle;
             horizontalSpeed = kan64_mobj_getRandom32(mobj_getRng1(), 0x1000) + 0x800;
             k = k - 0x3e8 + func_02046524(mobj_getRng1(), 0x7d0);
             basabasaVelocity.x = kan64_FX_TRUNC_MUL(horizontalSpeed, kan64_FX_SinIdx(k));
             basabasaVelocity.y = kan64_mobj_getRandom32(mobj_getRng1(), 0x400) + 0x2200;
             basabasaVelocity.z = kan64_FX_TRUNC_MUL(horizontalSpeed, kan64_FX_CosIdx(k));
-            if (i == 0 && p->mUnk_a8 == 0) {
+            if (i == 0 && p->fieldA8 == 0) {
                 basa_spawn(0x50, &basabasaPos, &basabasaVelocity, 0x28, 1, i == 0 ? 3 : 0);
             } else {
                 basa_spawn(0x50, &basabasaPos, &basabasaVelocity, 0x28, 0, i == 0 ? 3 : 0);
             }
         }
-        p->mUnk_a8 += 1;
-        if (p->mUnk_a8 >= 3) {
-            p->mUnk_a8 = 0;
+        p->fieldA8 += 1;
+        if (p->fieldA8 >= 3) {
+            p->fieldA8 = 0;
         }
     }
-    nextFrameIndex = p->mUnk_a0 + 1;
+    nextFrameIndex = p->fieldA0 + 1;
     if (nextFrameIndex >= mobj_getModelNsbcaFrameCount(kan64_sModel)) {
         nextFrameIndex = 0;
     }
-    p->mUnk_a0 = nextFrameIndex;
-    if (p->mUnk_a0 == 0) {
-        if (p->mUnk_a4-- <= 0) {
-            p->mUnk_a8 = 0;
-            p->mUnk_ac = 0;
-            if (p->mUnk_00.mFlags & 0x800) {
-                p->mUnk_a4 = (u16) (func_020919e8_inline_2(25) + 200);
+    p->fieldA0 = nextFrameIndex;
+    if (p->fieldA0 == 0) {
+        if (p->fieldA4-- <= 0) {
+            p->fieldA8 = 0;
+            p->fieldAC = 0;
+            if (p->field0.mFlags & 0x800) {
+                p->fieldA4 = (u16) (func_020919e8_inline_2(25) + 200);
             }
         }
     }
-    if (p->mUnk_a0 != 0) {
+    if (p->fieldA0 != 0) {
         return;
     }
     func_020919e8_inline_3(p, 0x188);
@@ -259,9 +259,9 @@ void cow_render(void *a, Unk020919e8 *b) {
 
     w = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&b->mUnk_00.mPos), 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
-    mobj_setModelNsbtpFrame(cow_sModel, b->mUnk_00.mCourseMapRow->mUnk_28);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&b->field0.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->field0.mScale, 3);
+    mobj_setModelNsbtpFrame(cow_sModel, b->field0.mCourseMapRow->field28);
     mobj_renderModel(a, cow_sModel, b);
 }
 

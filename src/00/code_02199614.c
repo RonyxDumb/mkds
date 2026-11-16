@@ -34,7 +34,7 @@ u32 func_ov000_021996fc(Gt2Connection *a, u32 b, const u8 *c, s32 d) {
     if (func_ov000_02199ec8(a, f) == 0) {
         return 0;
     }
-    if (e == a->mUnk_66) {
+    if (e == a->field66) {
         func_ov000_021997f8(a);
         if (func_ov000_02199a0c(a, b, c + 7, d - 7) == 0) {
             return 0;
@@ -44,7 +44,7 @@ u32 func_ov000_021996fc(Gt2Connection *a, u32 b, const u8 *c, s32 d) {
         }
         return 0;
     }
-    if (func_ov000_0219a014(e, a->mUnk_66) < 0) {
+    if (func_ov000_0219a014(e, a->field66) < 0) {
         func_ov000_021997f8(a);
         return 1;
     }
@@ -87,10 +87,10 @@ u32 func_ov000_02199614(Gt2Connection *a, const u8 *b, s32 c) {
         }
         return 0;
     }
-    f = DarrayGetCount(a->mUnk_60);
+    f = DarrayGetCount(a->field60);
     for (i = 0; i < f; i++) {
-        g = DarrayGetElement(a->mUnk_60, i);
-        if (func_ov000_0219a014(g->mUnk_08, d) >= 0 && func_ov000_0219a014(g->mUnk_08, e) <= 0) {
+        g = DarrayGetElement(a->field60, i);
+        if (func_ov000_0219a014(g->field8, d) >= 0 && func_ov000_0219a014(g->field8, e) <= 0) {
             if (func_ov000_02198af4(a, (Unk02198af4 *) g) == FALSE) {
                 return 0;
             }

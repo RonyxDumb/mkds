@@ -152,10 +152,10 @@ void *ptcm_createEmitter(u32 effectId, const Vec3 *position) {
     emitterPosition.z = position->z >> 4;
     emitter = spa_createEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->field20->field0->field54 & 0x80) {
+            emitter->field80_16 = 1;
+        } else if (emitter->field20->field0->field54 & 0x40) {
+            emitter->field80_16 = 2;
         }
     }
     return emitter;
@@ -189,7 +189,7 @@ void ptcm_killEmitterDirectSafe(Unk0201ca6c **emitterSlot) {
 
 void ptcm_killEmitter(void **emitterSlot) {
     Unk0201ca6c *effect = *emitterSlot;
-    effect->mUnk_24.mUnk_00_0 = 1;
+    effect->field24.field0_0 = 1;
     *emitterSlot = NULL;
 }
 
@@ -201,10 +201,10 @@ Unk0201ca6c *ptcm_createFogOffEmitter(s32 resourceId, Vec3 *position) {
     emitterPosition.z = position->z >> 4;
     emitter = spa_createEmitter(ptcm_sRaceEffectFogOffParticleSet, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->field20->field0->field54 & 0x80) {
+            emitter->field80_16 = 1;
+        } else if (emitter->field20->field0->field54 & 0x40) {
+            emitter->field80_16 = 2;
         }
     }
     return emitter;
@@ -215,9 +215,9 @@ void ptcm_setEmitterPosition(void *effectHandle, const Vec3 *position) {
     s32 positionX = position->x;
     s32 positionY = position->y;
     s32 positionZ = position->z;
-    emitter->mUnk_28.x = (positionX >> 4) + emitter->mUnk_20->mUnk_00->mUnk_04.x;
-    emitter->mUnk_28.y = (positionY >> 4) + emitter->mUnk_20->mUnk_00->mUnk_04.y;
-    emitter->mUnk_28.z = (positionZ >> 4) + emitter->mUnk_20->mUnk_00->mUnk_04.z;
+    emitter->field28.x = (positionX >> 4) + emitter->field20->field0->field4.x;
+    emitter->field28.y = (positionY >> 4) + emitter->field20->field0->field4.y;
+    emitter->field28.z = (positionZ >> 4) + emitter->field20->field0->field4.z;
 }
 
 void *ptcm_208B498(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale) {
@@ -231,10 +231,10 @@ void *ptcm_208B498(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScal
     emitterPosition.z = position->z >> 4;
     emitter = spa_createEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
-        if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
-            emitter->mUnk_80_16 = 1;
-        } else if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x40) {
-            emitter->mUnk_80_16 = 2;
+        if (emitter->field20->field0->field54 & 0x80) {
+            emitter->field80_16 = 1;
+        } else if (emitter->field20->field0->field54 & 0x40) {
+            emitter->field80_16 = 2;
         }
     }
     if (emitter != NULL) {
@@ -242,7 +242,7 @@ void *ptcm_208B498(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScal
         velocity.x = ((s64) velocity.x * velocityScale) >> 12;
         velocity.y = ((s64) velocity.y * velocityScale) >> 12;
         velocity.z = ((s64) velocity.z * velocityScale) >> 12;
-        emitter->mUnk_40 = velocity;
+        emitter->field40 = velocity;
     }
     return emitter;
 }

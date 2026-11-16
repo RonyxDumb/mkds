@@ -12,10 +12,10 @@ void pad_init(InputSlot *slot) {
     slot->mRepeatDelayLimit = 0x14u;
     slot->mRepeatIntervalLimit = 0x8u;
     slot->mHoldLong = 0x0u;
-    slot->mUnk_14 = 0x0u;
+    slot->field14 = 0x0u;
     slot->mHoldStartTick = 0;
-    slot->mUnk_20 = 0x0u;
-    slot->mUnk_24 = 0x0u;
+    slot->field20 = 0x0u;
+    slot->field24 = 0x0u;
 }
 
 void pad_clear(InputSlot *slot) {

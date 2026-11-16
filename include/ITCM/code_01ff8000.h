@@ -8,10 +8,10 @@ typedef struct Unk02170500_04 Unk02170500_04;
 typedef struct Unk02170500 Unk02170500;
 typedef struct NNSG3dAnmObj NNSG3dAnmObj;
 
-// Command buffer: the number of words stored from mUnk_04, then the words.
+// Command buffer: the number of words stored from field4, then the words.
 typedef struct Unk01ff9048 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04[1];
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4[1];
 } Unk01ff9048;
 
 void OS_IrqHandler(void);

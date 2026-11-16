@@ -4,9 +4,9 @@
 
 void func_ov000_021997f8(Gt2Connection *a) {
     u32 v1;
-    if (a->mUnk_90 == 0) {
-        a->mUnk_90 = 1;
+    if (a->field90 == 0) {
+        a->field90 = 1;
         v1 = func_ov000_0218e8c4();
-        a->mUnk_94 = v1;
+        a->field94 = v1;
     }
 }

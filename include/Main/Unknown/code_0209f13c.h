@@ -7,17 +7,17 @@
 // Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (rstar_update, rstar_render,
 // chnd_update, chnd_globalInitLogic).
 typedef struct Unk0209f1c8 {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ u16 mUnk_a0;
-    /* a2 */ u16 mUnk_a2;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
+    /* 00 */ MapObject field0;
+    /* a0 */ u16 fieldA0;
+    /* a2 */ u16 fieldA2;
+    /* a4 */ s32 fieldA4;
+    /* a8 */ s32 fieldA8;
 } Unk0209f1c8;
 
 // Array of object pointers: pointer to the array and the number of entries (chnd_globalInitLogic).
 typedef struct Unk0209f514 {
-    /* 00 */ Unk0209f1c8 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ Unk0209f1c8 **field0;
+    /* 04 */ u16 field4;
 } Unk0209f514;
 
 extern char aRainstar_nsbmd[];

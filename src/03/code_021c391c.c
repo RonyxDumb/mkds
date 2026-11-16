@@ -48,10 +48,10 @@ void SetupOptMenu(void) {
     func_ov003_021bf43c(0x88, -1, 0);
     data_ov003_021da1b8 = CreateOamEntryFromNceImage(0, 0x5b);
     a = data_ov003_021da1b8;
-    a->mUnk_00 =
-        ((data_ov003_021d634c[0] & 0x1ff) << 16) | ((a->mUnk_00 & 0xfe00ff00) | (data_ov003_021d634c[1] & 0xff));
+    a->field0 =
+        ((data_ov003_021d634c[0] & 0x1ff) << 16) | ((a->field0 & 0xfe00ff00) | (data_ov003_021d634c[1] & 0xff));
     a = data_ov003_021da1b8;
-    a->mUnk_04 = (a->mUnk_04 & 0xfffff3ff) | 0xc00;
+    a->field4 = (a->field4 & 0xfffff3ff) | 0xc00;
     PlaceSelectionCorners(
         gOptMenuSelectionLeft[gOptMenuSelectedIndex * 4], gOptMenuSelectionRight[gOptMenuSelectedIndex * 4],
         gOptMenuSelectionTop[gOptMenuSelectedIndex * 4], gOptMenuSelectionBottom[gOptMenuSelectedIndex * 4]);
@@ -70,8 +70,8 @@ void LoadOptMenuFilesAndSetBgCnt(void) {
     ybBgOption1NclName = gYbBgOption1NclName;
     LoadFileToVram(gJbBgOptionNcgName, GX_LoadBG2Char);
     LoadFileToVram(gJb5OptMenuNscName, GX_LoadBG2Scr);
-    gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.mUnk_00), NULL, 4);
-    palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.mUnk_00), NULL, 4);
+    gYbBgOption1Ncl = LoadFile(BuildFilePathWithLanguage(ybBgOption1NclName.field0), NULL, 4);
+    palette = LoadFile(BuildFilePathWithLanguage(ybBgOptionNclName.field0), NULL, 4);
     DWCi_BM_GetWiFiInfo(&wifiInfo);
     if (wifiInfo.mAttestedUserId == 0) {
         copyFrom = palette + 0xc0;

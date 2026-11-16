@@ -5,7 +5,7 @@
 #include "registers.h"
 
 u32 scene_getState(void) {
-    return (scene_sSceneState->mUnk_10c);
+    return (scene_sSceneState->field10C);
 }
 
 u32 scene_PAD_DetectFold(void) {

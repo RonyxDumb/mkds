@@ -5,12 +5,12 @@
 s32 func_ov000_0219488c(GpConnection *a, const char *b, const char *c, void **d) {
     Unk0219488cArg e;
 
-    e.mUnk_00 = b;
-    e.mUnk_04 = c;
-    e.mUnk_08 = d;
-    e.mUnk_0c = FALSE;
+    e.field0 = b;
+    e.field4 = c;
+    e.field8 = d;
+    e.fieldC = FALSE;
     GpiForEachProfileWhileNonZero(a, func_ov000_021948bc, &e);
-    if (e.mUnk_0c == FALSE) {
+    if (e.fieldC == FALSE) {
         *d = NULL;
     }
     return 0;

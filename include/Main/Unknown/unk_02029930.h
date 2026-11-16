@@ -4,15 +4,15 @@
 
 // 0x2c-byte rows of the table at member 0xf8 of RaceSetupCopy.
 typedef struct MissionFileRow {
-    /* 00 */ u8 mUnk_00[6];
+    /* 00 */ u8 field0[6];
     /* 06 */ u8 mMissionTableValue;
     /* 07 */ u8 mMissionKind[0x1];
     /* 08 */ u8 mCourseId;
     /* 09 */ u8 mEngineIndex;
     /* 0a */ u8 mCharacterIndex0;
     /* 0b */ u8 mKartIndex0;
-    /* 0c */ u8 mUnk_0c[0x10];
-    /* 1c */ u16 mUnk_1c;
+    /* 0c */ u8 fieldC[0x10];
+    /* 1c */ u16 field1C;
     /* 1e */ u8 mCharacterIndex1;
     /* 1f */ u8 mKartIndex1;
     /* 20 */ u8 mMissionRunStem[0xc];

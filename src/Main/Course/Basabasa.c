@@ -45,24 +45,24 @@ u8 basa_onDriverCollide(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
     kartBit = 1 << kart->mIndex;
     r = *d;
     if ((basabasa->mHitKartMask & kartBit) == 0) {
-        VEC_Subtract(&kart->mPos, &basabasa->mUnk_00.mPos, &offsetToKart);
-        k = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * offsetToKart.x +
-             (s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * offsetToKart.z) >>
+        VEC_Subtract(&kart->mPos, &basabasa->field0.mPos, &offsetToKart);
+        k = ((s64) basabasa->field0.mMatrix.field0[2].x * offsetToKart.x +
+             (s64) basabasa->field0.mMatrix.field0[2].z * offsetToKart.z) >>
             12;
-        x = offsetToKart.x - (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * k) >> 12);
-        z = offsetToKart.z - (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * k) >> 12);
+        x = offsetToKart.x - (s32) (((s64) basabasa->field0.mMatrix.field0[2].x * k) >> 12);
+        z = offsetToKart.z - (s32) (((s64) basabasa->field0.mMatrix.field0[2].z * k) >> 12);
         lengthSquared = (s64) x * x + (s64) u.y * u.y + (s64) z * z;
         u.x = x;
         u.z = z;
         if (lengthSquared < 0x10) {
-            basabasa->mUnk_00.mUnk_10.x = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.y = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].y * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.z = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x1333) >> 12;
+            basabasa->field0.field10.x = ((s64) basabasa->field0.mMatrix.field0[2].x * 0x1333) >> 12;
+            basabasa->field0.field10.y = ((s64) basabasa->field0.mMatrix.field0[2].y * 0x1333) >> 12;
+            basabasa->field0.field10.z = ((s64) basabasa->field0.mMatrix.field0[2].z * 0x1333) >> 12;
         } else {
             vec_normalize(&u, &u);
-            basabasa->mUnk_00.mUnk_10.x = ((s64) u.x * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.y = ((s64) u.y * 0x1333) >> 12;
-            basabasa->mUnk_00.mUnk_10.z = ((s64) u.z * 0x1333) >> 12;
+            basabasa->field0.field10.x = ((s64) u.x * 0x1333) >> 12;
+            basabasa->field0.field10.y = ((s64) u.y * 0x1333) >> 12;
+            basabasa->field0.field10.z = ((s64) u.z * 0x1333) >> 12;
         }
         basabasa->mHitKartMask |= kartBit;
     }
@@ -83,10 +83,10 @@ void basa_render(void *a, Basabasa *basabasa) {
     s32 rotationMatrix[9];
     s32 drawAngle;
 
-    drawAngle = 0x1fe0 - basabasa->mUnk_c4;
+    drawAngle = 0x1fe0 - basabasa->fieldC4;
     s = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&basabasa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&basabasa->field0.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
         MTX_RotZ33_(rotationMatrix, FX_SinCosTable_[((u16) -drawAngle >> 4) * 2],
                     FX_SinCosTable_[((u16) -drawAngle >> 4) * 2 + 1]);
@@ -95,7 +95,7 @@ void basa_render(void *a, Basabasa *basabasa) {
                     FX_SinCosTable_[((u16) drawAngle >> 4) * 2 + 1]);
     }
     NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
-    NNS_G3dGeBufferOP_N(0x1b, &basabasa->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &basabasa->field0.mScale, 3);
     mobj_setModelNsbtpFrame(basa_sModel, basabasa->mNsbtpFrameIndex);
     mobj_renderModel(a, basa_sModel, basabasa);
 }
@@ -103,13 +103,13 @@ void basa_render(void *a, Basabasa *basabasa) {
 void basa_update(void *a, Basabasa *basabasa) {
     s32 nextFrameIndex;
 
-    basabasa->mUnk_c4 += basabasa->mUnk_c8;
-    basabasa->mUnk_c8 += 0x3c;
-    if (basabasa->mUnk_c4 == 0) {
-        basabasa->mUnk_c4 += basabasa->mUnk_c8;
-        basabasa->mUnk_c8 += 0x3c;
-    } else if (basabasa->mUnk_c4 >= 0x1fe0) {
-        basabasa->mUnk_c8 = 0x3c - basabasa->mUnk_c8;
+    basabasa->fieldC4 += basabasa->fieldC8;
+    basabasa->fieldC8 += 0x3c;
+    if (basabasa->fieldC4 == 0) {
+        basabasa->fieldC4 += basabasa->fieldC8;
+        basabasa->fieldC8 += 0x3c;
+    } else if (basabasa->fieldC4 >= 0x1fe0) {
+        basabasa->fieldC8 = 0x3c - basabasa->fieldC8;
         basabasa->mRotateZNegated = basabasa->mRotateZNegated == 0;
     }
     switch (basabasa->mState) {
@@ -117,41 +117,41 @@ void basa_update(void *a, Basabasa *basabasa) {
             if (basabasa->mDelayTimer-- > 0) {
                 break;
             }
-            basabasa->mUnk_00.mFlags &= ~1;
-            basabasa->mUnk_00.mFlags &= ~2;
-            basabasa->mUnk_00.mFlags &= ~8;
-            basabasa->mUnk_00.mAlpha = 0x1f;
-            basabasa->mVelocity.x += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x19a) >> 12);
+            basabasa->field0.mFlags &= ~1;
+            basabasa->field0.mFlags &= ~2;
+            basabasa->field0.mFlags &= ~8;
+            basabasa->field0.mAlpha = 0x1f;
+            basabasa->mVelocity.x += (s32) (((s64) basabasa->field0.mMatrix.field0[2].x * 0x19a) >> 12);
             basabasa->mVelocity.y += -0x19a;
-            basabasa->mVelocity.z += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x19a) >> 12);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            basabasa->mVelocity.z += (s32) (((s64) basabasa->field0.mMatrix.field0[2].z * 0x19a) >> 12);
+            VEC_Add(&basabasa->field0.mPos, &basabasa->mVelocity, &basabasa->field0.mPos);
             if (basabasa->mState0Timer-- <= 0) {
                 basabasa->mState = 1;
             }
             break;
         case 1:
-            basabasa->mVelocity.x += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0x19a) >> 12);
+            basabasa->mVelocity.x += (s32) (((s64) basabasa->field0.mMatrix.field0[2].x * 0x19a) >> 12);
             basabasa->mVelocity.y += 0x19a;
-            basabasa->mVelocity.z += (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x19a) >> 12);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            basabasa->mVelocity.z += (s32) (((s64) basabasa->field0.mMatrix.field0[2].z * 0x19a) >> 12);
+            VEC_Add(&basabasa->field0.mPos, &basabasa->mVelocity, &basabasa->field0.mPos);
             if (basabasa->mVelocity.y > 0) {
                 basabasa->mVelocity.y = 0;
                 basabasa->mState = 2;
             }
             break;
         case 2:
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
+            VEC_Add(&basabasa->field0.mPos, &basabasa->mVelocity, &basabasa->field0.mPos);
             if (basabasa->mState2Timer-- <= 0) {
                 basabasa->mState = 3;
             }
             break;
         case 3:
-            basabasa->mVelocity.x -= (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].x * 0xcd) >> 12);
+            basabasa->mVelocity.x -= (s32) (((s64) basabasa->field0.mMatrix.field0[2].x * 0xcd) >> 12);
             basabasa->mVelocity.y += 0x1000;
-            basabasa->mVelocity.z -= (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0xcd) >> 12);
-            VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
-            if (basabasa->mUnk_00.mPos.y >= 0x1b8000) {
-                mobj_setInvisible(&basabasa->mUnk_00);
+            basabasa->mVelocity.z -= (s32) (((s64) basabasa->field0.mMatrix.field0[2].z * 0xcd) >> 12);
+            VEC_Add(&basabasa->field0.mPos, &basabasa->mVelocity, &basabasa->field0.mPos);
+            if (basabasa->field0.mPos.y >= 0x1b8000) {
+                mobj_setInvisible(&basabasa->field0);
             }
             break;
     }
@@ -166,7 +166,7 @@ void basa_update(void *a, Basabasa *basabasa) {
     if (basabasa->mSoundRequested == 0) {
         return;
     }
-    mobj_emitSfxFromEmitter(&basabasa->mUnk_00, 0x165);
+    mobj_emitSfxFromEmitter(&basabasa->field0, 0x165);
 }
 
 void basa_setupConfig(void) {
@@ -219,11 +219,11 @@ void basa_spawn(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity,
     if (basabasa == NULL) {
         return;
     }
-    basabasa->mUnk_00.mFlags |= data_02156460;
-    basabasa->mUnk_00.mFlags |= data_02156464;
-    basabasa->mUnk_00.mFlags |= data_02156468;
+    basabasa->field0.mFlags |= data_02156460;
+    basabasa->field0.mFlags |= data_02156464;
+    basabasa->field0.mFlags |= data_02156468;
     basabasa->mSoundRequested = soundRequested;
-    basabasa->mUnk_c0 = f;
+    basabasa->fieldC0 = f;
     mapObjectRandom = mobj_getRng1();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
@@ -233,7 +233,7 @@ void basa_spawn(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity,
     n = (state2TimerBase << 12) >> 16;
     w = func_0209219c_inline(n);
     basabasa->mState2Timer = state2TimerBase + w;
-    basabasa->mUnk_00.mPos = *startPos;
+    basabasa->field0.mPos = *startPos;
     basabasa->mVelocity = *velocity;
     basabasa->mState = 0;
     basabasa->mHitKartMask = 0;

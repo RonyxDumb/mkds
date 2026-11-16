@@ -16,7 +16,7 @@ void mobj_setScale(MapObject *mapObject, Vec3 *scale) {
     mapObject->mScale.x = scale->x;
     mapObject->mScale.y = scale->y;
     mapObject->mScale.z = scale->z;
-    mapObject->mExtent.x = (s64) mapObject->mKindData->mUnk_0c * mapObject->mScale.x >> 12;
+    mapObject->mExtent.x = (s64) mapObject->mKindData->fieldC * mapObject->mScale.x >> 12;
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -33,7 +33,7 @@ void mobj_setScale(MapObject *mapObject, Vec3 *scale) {
         }
         col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, a);
     }
-    mapObject->mExtent.y = (s64) mapObject->mKindData->mUnk_10 * mapObject->mScale.y >> 12;
+    mapObject->mExtent.y = (s64) mapObject->mKindData->field10 * mapObject->mScale.y >> 12;
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -50,7 +50,7 @@ void mobj_setScale(MapObject *mapObject, Vec3 *scale) {
         }
         col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, a);
     }
-    mapObject->mExtent.z = (s64) mapObject->mKindData->mUnk_14 * mapObject->mScale.z >> 12;
+    mapObject->mExtent.z = (s64) mapObject->mKindData->field14 * mapObject->mScale.z >> 12;
     if (mapObject->mCollisionSlotIndex >= 0) {
         switch (mapObject->mKindData->mShapeKind) {
             case 3:
@@ -69,7 +69,7 @@ void mobj_setScale(MapObject *mapObject, Vec3 *scale) {
     }
     a = mapObject->mScale.x;
     kindData = mapObject->mKindData;
-    kindViewRadius = kindData->mUnk_2c;
+    kindViewRadius = kindData->field2C;
     if (a < mapObject->mScale.y) {
         a = mapObject->mScale.y;
     }
@@ -104,7 +104,7 @@ void mobj_setSizeX(MapObject *mapObject, s32 baseSize) {
 void mobj_initSoundEmitterForObjectSfxParam2(MapObject *mapObject) {
     mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSfxParams[2].mUnk_20;
+    mapObject->mFarDistanceSquared = gSfxParams[2].field20;
     sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
@@ -114,18 +114,18 @@ void mobj_initSoundEmitterForObjectSfxParam2(MapObject *mapObject) {
 SoundDistanceSquaredChange *mobj_initSoundEmitterExForObjectSfxParam2(MapObject *mapObject) {
     mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x60);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSfxParams[2].mUnk_20;
+    mapObject->mFarDistanceSquared = gSfxParams[2].field20;
     sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }
-    return &mapObject->mSound->mUnk_44;
+    return &mapObject->mSound->field44;
 }
 
 void mobj_initSoundEmitterForObjectSfxParam3(MapObject *mapObject) {
     mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 3, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSfxParams[3].mUnk_20;
+    mapObject->mFarDistanceSquared = gSfxParams[3].field20;
     sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
@@ -135,7 +135,7 @@ void mobj_initSoundEmitterForObjectSfxParam3(MapObject *mapObject) {
 void mobj_initSoundEmitterForObjectSfxParam4(MapObject *mapObject) {
     mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 4, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSfxParams[4].mUnk_20;
+    mapObject->mFarDistanceSquared = gSfxParams[4].field20;
     sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);

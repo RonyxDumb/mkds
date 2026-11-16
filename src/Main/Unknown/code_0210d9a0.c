@@ -15,13 +15,13 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
             if (modeHolder->mMode != 0) {
                 sfx_stopAll(0);
                 sfx_stopAllSfxStandalone(0);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, 0);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_0c, 0);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerStopSeq(modeHolder->mUnk_18, 0);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->field10, 0);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->fieldC, 0);
+                if (modeHolder->field18 != NULL) {
+                    NNS_SndPlayerStopSeq(modeHolder->field18, 0);
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->field10 = 0;
+                modeHolder->fieldC = 0;
             }
             break;
         case 1:
@@ -30,14 +30,14 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                 sfx_stopAllSfxStandalone(0);
                 if (modeHolder->mMode == 5) {
                     fadeSteps = sound_getFadeFrameCount();
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0x7f, fadeSteps);
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0x7f, fadeSteps);
-                    if (modeHolder->mUnk_18 != NULL) {
-                        NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeSteps);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->fieldC, 0x7f, fadeSteps);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->field10, 0x7f, fadeSteps);
+                    if (modeHolder->field18 != NULL) {
+                        NNS_SndPlayerMoveVolume(modeHolder->field18, 0x7f, fadeSteps);
                     }
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 1;
+                modeHolder->field10 = 0;
+                modeHolder->fieldC = 1;
             }
             break;
         case 2:
@@ -46,48 +46,48 @@ void SetSoundMode(SoundModeHolder *modeHolder, u32 newMode) {
                     u32 fadeStepsNow;
 
                     fadeStepsNow = sound_getFadeFrameCount();
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0x7f, fadeStepsNow);
-                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0x7f, fadeStepsNow);
-                    if (modeHolder->mUnk_18 != NULL) {
-                        NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0x7f, fadeStepsNow);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->fieldC, 0x7f, fadeStepsNow);
+                    NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->field10, 0x7f, fadeStepsNow);
+                    if (modeHolder->field18 != NULL) {
+                        NNS_SndPlayerMoveVolume(modeHolder->field18, 0x7f, fadeStepsNow);
                     }
                     sfx_moveVolume(0x7f, fadeSteps);
                 }
-                modeHolder->mUnk_10 = 1;
-                modeHolder->mUnk_0c = 1;
+                modeHolder->field10 = 1;
+                modeHolder->fieldC = 1;
             }
             break;
         case 3:
             if (modeHolder->mMode != 3) {
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->field10 = 0;
+                modeHolder->fieldC = 0;
                 sfx_stopAll(5);
                 sfx_stopAllSfxStandalone(5);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, 5);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->field10, 5);
             }
             break;
         case 4:
             if (modeHolder->mMode != 4) {
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->field10 = 0;
+                modeHolder->fieldC = 0;
                 sfx_stopAll(fadeSteps);
                 sfx_stopAllSfxStandalone(fadeSteps);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_10, fadeSteps);
-                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->mUnk_0c, fadeSteps);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerStopSeq(modeHolder->mUnk_18, fadeSteps);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->field10, fadeSteps);
+                NNS_SndPlayerStopSeq(&modeHolder->mScenePlayers->fieldC, fadeSteps);
+                if (modeHolder->field18 != NULL) {
+                    NNS_SndPlayerStopSeq(modeHolder->field18, fadeSteps);
                 }
             }
             break;
         case 5:
             if (modeHolder->mMode != 5) {
-                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_0c, 0, fadeSteps);
-                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->mUnk_10, 0, fadeSteps);
-                if (modeHolder->mUnk_18 != NULL) {
-                    NNS_SndPlayerMoveVolume(modeHolder->mUnk_18, 0, fadeSteps);
+                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->fieldC, 0, fadeSteps);
+                NNS_SndPlayerMoveVolume(&modeHolder->mScenePlayers->field10, 0, fadeSteps);
+                if (modeHolder->field18 != NULL) {
+                    NNS_SndPlayerMoveVolume(modeHolder->field18, 0, fadeSteps);
                 }
-                modeHolder->mUnk_10 = 0;
-                modeHolder->mUnk_0c = 0;
+                modeHolder->field10 = 0;
+                modeHolder->fieldC = 0;
                 sfx_moveVolume(0, fadeSteps);
                 modeHolder->mSavedMode = modeHolder->mMode;
             }

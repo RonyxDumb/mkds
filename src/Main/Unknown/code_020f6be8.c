@@ -24,13 +24,13 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
         return 2;
     }
     if (c == 0 && (item->mFlags & 0x8000000) && !(item->mFlags & 0x10000000) && !(item->mFlags & 0x20000000)) {
-        if (item->mUnk_78 & 0xf00) {
+        if (item->field78 & 0xf00) {
             return 2;
         }
         if (b == 0) {
-            item->mUnk_78 |= data_02159b6c;
+            item->field78 |= data_02159b6c;
         } else {
-            item->mUnk_78 |= data_02159b68;
+            item->field78 |= data_02159b68;
             FreeItemObjectCollisionSlot((s32) item);
         }
         item->mAdvance = NULL;
@@ -39,8 +39,8 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     if (b == 0) {
         kind = item->mKind;
         kindInfo = &it_sItemParams[kind];
-        if (kindInfo->mUnk_34 != NULL) {
-            r = kindInfo->mUnk_34(item);
+        if (kindInfo->field34 != NULL) {
+            r = kindInfo->field34(item);
             if (r == 0) {
                 return 2;
             }
@@ -50,19 +50,19 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
         }
     }
     if (b != 0) {
-        item->mUnk_108.y = 0x266;
+        item->field108.y = 0x266;
     } else {
-        item->mUnk_108.y = 0x333;
+        item->field108.y = 0x333;
         if (!(item->mFlags & 0x8000)) {
-            item->mUnk_108.y += (s32) (((s64) VEC_Mag(velocity) * 0x15c) >> 12);
-            if (item->mUnk_108.y > 0x5c3) {
-                item->mUnk_108.y = 0x5c3;
+            item->field108.y += (s32) (((s64) VEC_Mag(velocity) * 0x15c) >> 12);
+            if (item->field108.y > 0x5c3) {
+                item->field108.y = 0x5c3;
             }
         }
     }
     kind = item->mKind;
     kindInfo = &it_sItemParams[kind];
-    if (kindInfo->mUnk_40 == 0) {
+    if (kindInfo->field40 == 0) {
         item->mAdvance = func_020f6e58;
     }
     item->mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) func_020f6be4;
@@ -78,9 +78,9 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     FreeItemObjectCollisionSlot((s32) item);
     r = vec_dotProduct(velocity, bbm_getBillboardRightVec());
     if (r > 1) {
-        item->mUnk_108.x = 1;
+        item->field108.x = 1;
     } else {
-        item->mUnk_108.x = 0;
+        item->field108.x = 0;
     }
     return 0;
 }
@@ -136,7 +136,7 @@ void func_020f6fc4(void *objectParam, s32 b) {
     result = func_020f7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        it_20F91FC(item, it_sItemParams[kind].mUnk_94);
+        it_20F91FC(item, it_sItemParams[kind].field94);
     }
     if (result != 0) {
         return;
@@ -160,7 +160,7 @@ void func_020f6f10(ItemObject *item, s32 b, s32 c) {
     result = func_020f7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        it_20F91FC(item, it_sItemParams[kind].mUnk_98);
+        it_20F91FC(item, it_sItemParams[kind].field98);
     }
     if (result != 0) {
         return;
@@ -181,7 +181,7 @@ void func_020f6e58(ItemObject *item) {
     Vec3 direction;
 
     vec_crossProduct(&item->mNormal, bbm_getBillboardForwardVec(), &direction);
-    VEC_MultAdd(item->mUnk_108.x != 0 ? item->mUnk_108.y : -item->mUnk_108.y, &direction, &item->mNormal,
+    VEC_MultAdd(item->field108.x != 0 ? item->field108.y : -item->field108.y, &direction, &item->mNormal,
                 &item->mNormal);
     item->mFlags |= 0x80;
     item->mVelocity.y -= 0x400;

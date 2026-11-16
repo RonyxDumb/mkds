@@ -36,9 +36,9 @@ void FSi_ReadTable(Unk02003ad8 *param, void *dst, u32 len) {
     s32 result;
     u32 enabled;
 
-    archive = param->mUnk_00;
+    archive = param->field0;
     archive->mFlag |= 0x200;
-    result = archive->mTable(archive, dst, param->mUnk_04, len);
+    result = archive->mTable(archive, dst, param->field4, len);
     switch (result) {
         case 0:
         case 1:
@@ -54,16 +54,16 @@ void FSi_ReadTable(Unk02003ad8 *param, void *dst, u32 len) {
             OS_RestoreInterrupts(enabled);
             break;
     }
-    param->mUnk_04 += len;
+    param->field4 += len;
 }
 
 // Moves a directory file to the directory with the given number.
 s32 FSi_SeekDirDirect(FSFile *dir, u32 id) {
     dir->mStat |= 4;
-    dir->mArg.h.mUnk_00 = dir->mArc;
-    dir->mArg.w.mUnk_08 = 0;
-    dir->mArg.h.mUnk_06 = 0;
-    dir->mArg.h.mUnk_04 = id;
+    dir->mArg.h.field0 = dir->mArc;
+    dir->mArg.w.field8 = 0;
+    dir->mArg.h.field6 = 0;
+    dir->mArg.h.field4 = id;
     return FSi_TranslateCommand(dir, 2);
 }
 
@@ -74,11 +74,11 @@ s32 FSi_ReadFileCommand(FSFile *file) {
     u32 pos;
     u32 len;
 
-    pos = file->mUnk_2c;
-    len = file->mArg.p.mUnk_08;
+    pos = file->field2C;
+    len = file->mArg.p.field8;
     archive = file->mArc;
-    dst = file->mArg.p.mUnk_00;
-    file->mUnk_2c = pos + len;
+    dst = file->mArg.p.field0;
+    file->field2C = pos + len;
     return archive->mRead(archive, dst, pos, len);
 }
 
@@ -89,11 +89,11 @@ s32 FSi_WriteFileCommand(FSFile *file) {
     u32 pos;
     u32 len;
 
-    pos = file->mUnk_2c;
-    len = file->mArg.p.mUnk_08;
+    pos = file->field2C;
+    len = file->mArg.p.field8;
     archive = file->mArc;
-    src = file->mArg.p.mUnk_00;
-    file->mUnk_2c = pos + len;
+    src = file->mArg.p.field0;
+    file->field2C = pos + len;
     return archive->mWrite(archive, src, pos, len);
 }
 
@@ -106,15 +106,15 @@ s32 FSi_SeekDirCommand(FSFile *dir) {
 
     archive = dir->mArc;
     arg = &dir->mArg;
-    readParam.mUnk_00 = archive;
-    readParam.mUnk_04 = archive->mFnt + arg->h.mUnk_04 * 8;
+    readParam.field0 = archive;
+    readParam.field4 = archive->mFnt + arg->h.field4 * 8;
     FSi_ReadTable(&readParam, &tableEntry, 8);
     dir->mProp = *arg;
-    if (arg->h.mUnk_06 == 0 && arg->h.mUnk_08 == 0) {
-        dir->mProp.h.mUnk_06 = tableEntry.mUnk_04;
-        dir->mProp.h.mUnk_08 = archive->mFnt + tableEntry.mUnk_00;
+    if (arg->h.field6 == 0 && arg->h.field8 == 0) {
+        dir->mProp.h.field6 = tableEntry.field4;
+        dir->mProp.h.field8 = archive->mFnt + tableEntry.field0;
     }
-    dir->mUnk_2c = tableEntry.mUnk_06 & 0xfff;
+    dir->field2C = tableEntry.field6 & 0xfff;
     return 0;
 }
 
@@ -125,33 +125,33 @@ s32 FSi_ReadDirCommand(FSFile *dir) {
     u16 parent;
     Unk02003ad8 readParam;
 
-    entry = dir->mArg.e.mUnk_00;
-    readParam.mUnk_00 = dir->mArc;
-    readParam.mUnk_04 = dir->mProp.w.mUnk_08;
+    entry = dir->mArg.e.field0;
+    readParam.field0 = dir->mArc;
+    readParam.field4 = dir->mProp.w.field8;
     FSi_ReadTable(&readParam, &header, 1);
-    entry->mUnk_10 = header & 0x7f;
-    entry->mUnk_0c = (header >> 7) & 1;
-    if (entry->mUnk_10 == 0) {
+    entry->field10 = header & 0x7f;
+    entry->fieldC = (header >> 7) & 1;
+    if (entry->field10 == 0) {
         return 1;
     }
-    if (dir->mArg.w.mUnk_04 != 0) {
-        readParam.mUnk_04 += entry->mUnk_10;
+    if (dir->mArg.w.field4 != 0) {
+        readParam.field4 += entry->field10;
     } else {
-        FSi_ReadTable(&readParam, entry->mUnk_14, entry->mUnk_10);
-        entry->mUnk_14[entry->mUnk_10] = 0;
+        FSi_ReadTable(&readParam, entry->field14, entry->field10);
+        entry->field14[entry->field10] = 0;
     }
-    if (entry->mUnk_0c != 0) {
+    if (entry->fieldC != 0) {
         FSi_ReadTable(&readParam, &parent, 2);
-        entry->mUnk_00.h.mUnk_00 = dir->mArc;
-        entry->mUnk_00.h.mUnk_04 = parent & 0xfff;
-        entry->mUnk_00.h.mUnk_06 = 0;
-        entry->mUnk_00.w.mUnk_08 = 0;
+        entry->field0.h.field0 = dir->mArc;
+        entry->field0.h.field4 = parent & 0xfff;
+        entry->field0.h.field6 = 0;
+        entry->field0.w.field8 = 0;
     } else {
-        entry->mUnk_00.h.mUnk_00 = dir->mArc;
-        entry->mUnk_00.w.mUnk_04 = dir->mProp.h.mUnk_06;
-        dir->mProp.h.mUnk_06++;
+        entry->field0.h.field0 = dir->mArc;
+        entry->field0.w.field4 = dir->mProp.h.field6;
+        dir->mProp.h.field6++;
     }
-    dir->mProp.w.mUnk_08 = readParam.mUnk_04;
+    dir->mProp.w.field8 = readParam.field4;
     return 0;
 }
 
@@ -195,8 +195,8 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                     goto next;
                 }
                 if ((nameLen == 2) & (path[1] == 0x2e)) {
-                    if (dir->mProp.h.mUnk_04 != 0) {
-                        FSi_SeekDirDirect(dir, dir->mUnk_2c);
+                    if (dir->mProp.h.field4 != 0) {
+                        FSi_SeekDirDirect(dir, dir->field2C);
                     }
                     path += 2;
                     goto next;
@@ -205,16 +205,16 @@ s32 FSi_FindPathCommand(FSFile *dir) {
             if (nameLen > 0x7f) {
                 return 1;
             }
-            dir->mArg.e.mUnk_00 = &entry;
-            dir->mArg.w.mUnk_04 = 0;
+            dir->mArg.e.field0 = &entry;
+            dir->mArg.w.field4 = 0;
             do {
                 if (FSi_TranslateCommand(dir, 3) != 0) {
                     return 1;
                 }
-            } while (isDirName != entry.mUnk_0c || nameLen != entry.mUnk_10 ||
-                     FSi_StrNICmp(path, entry.mUnk_14, nameLen) != 0);
+            } while (isDirName != entry.fieldC || nameLen != entry.field10 ||
+                     FSi_StrNICmp(path, entry.field14, nameLen) != 0);
             if (isDirName != 0) {
-                dir->mArg = entry.mUnk_00;
+                dir->mArg = entry.field0;
                 path += nameLen;
                 FSi_TranslateCommand(dir, 2);
             } else {
@@ -222,7 +222,7 @@ s32 FSi_FindPathCommand(FSFile *dir) {
                     return 1;
                 }
                 result = dir->mResult;
-                result->d.mUnk_00 = entry.mUnk_00.d.mUnk_00;
+                result->d.field0 = entry.field0.d.field0;
                 return 0;
             }
         next:
@@ -259,12 +259,12 @@ s32 FSi_GetPathCommand(FSFile *file) {
     FS_InitFile(&tmp);
     tmp.mArc = file->mArc;
     if (((file->mStat & 0x20) ? 1 : 0) != 0) {
-        dirId = file->mProp.h.mUnk_04;
+        dirId = file->mProp.h.field4;
         fileId = 0x10000;
     } else {
-        fileId = file->mProp.w.mUnk_00;
-        if (arg->b.mUnk_08 != 0) {
-            dirId = arg->b.mUnk_0a;
+        fileId = file->mProp.w.field0;
+        if (arg->b.field8 != 0) {
+            dirId = arg->b.fieldA;
         } else {
             i = 0;
             dirCount = 0;
@@ -272,14 +272,14 @@ s32 FSi_GetPathCommand(FSFile *file) {
             do {
                 FSi_SeekDirDirect(&tmp, i);
                 if (i == 0) {
-                    dirCount = tmp.mUnk_2c;
+                    dirCount = tmp.field2C;
                 }
-                tmp.mArg.e.mUnk_00 = &entry;
-                tmp.mArg.w.mUnk_04 = 1;
+                tmp.mArg.e.field0 = &entry;
+                tmp.mArg.w.field4 = 1;
                 if (FSi_TranslateCommand(&tmp, 3) == 0) {
                     do {
-                        if (entry.mUnk_0c == 0 && entry.mUnk_00.w.mUnk_04 == fileId) {
-                            dirId = tmp.mProp.h.mUnk_04;
+                        if (entry.fieldC == 0 && entry.field0.w.field4 == fileId) {
+                            dirId = tmp.mProp.h.field4;
                             break;
                         }
                     } while (FSi_TranslateCommand(&tmp, 3) == 0);
@@ -292,10 +292,10 @@ s32 FSi_GetPathCommand(FSFile *file) {
         }
     }
     if (dirId == 0x10000) {
-        arg->b.mUnk_08 = 0;
+        arg->b.field8 = 0;
         return 1;
     }
-    if (arg->b.mUnk_08 == 0) {
+    if (arg->b.field8 == 0) {
         totalLen = 0;
         if (archive->mName <= 0xff) {
             totalLen += 1;
@@ -306,35 +306,35 @@ s32 FSi_GetPathCommand(FSFile *file) {
         }
         totalLen += 2;
         if (fileId != 0x10000) {
-            totalLen += entry.mUnk_10;
+            totalLen += entry.field10;
         }
         parent = dirId;
         if (parent != 0) {
             FSi_SeekDirDirect(&tmp, parent);
             do {
-                FSi_SeekDirDirect(&tmp, tmp.mUnk_2c);
-                tmp.mArg.e.mUnk_00 = &entry;
-                tmp.mArg.w.mUnk_04 = 1;
+                FSi_SeekDirDirect(&tmp, tmp.field2C);
+                tmp.mArg.e.field0 = &entry;
+                tmp.mArg.w.field4 = 1;
                 if (FSi_TranslateCommand(&tmp, 3) == 0) {
                     do {
-                        if (entry.mUnk_0c != 0 && entry.mUnk_00.h.mUnk_04 == parent) {
-                            totalLen += entry.mUnk_10 + 1;
+                        if (entry.fieldC != 0 && entry.field0.h.field4 == parent) {
+                            totalLen += entry.field10 + 1;
                             break;
                         }
                     } while (FSi_TranslateCommand(&tmp, 3) == 0);
                 }
-                parent = tmp.mProp.h.mUnk_04;
+                parent = tmp.mProp.h.field4;
             } while (parent != 0);
         }
-        arg->b.mUnk_08 = totalLen + 1;
-        arg->b.mUnk_0a = dirId;
+        arg->b.field8 = totalLen + 1;
+        arg->b.fieldA = dirId;
     }
-    buf = arg->b.mUnk_00;
+    buf = arg->b.field0;
     if (buf == 0) {
         return 0;
     }
-    len = arg->b.mUnk_08;
-    if (arg->b.mUnk_04 < len) {
+    len = arg->b.field8;
+    if (arg->b.field4 < len) {
         return 1;
     }
     off = 0;
@@ -350,17 +350,17 @@ s32 FSi_GetPathCommand(FSFile *file) {
     MI_CpuCopy8(":/", buf + off, 2);
     FSi_SeekDirDirect(&tmp, dirId);
     if (fileId != 0x10000) {
-        tmp.mArg.e.mUnk_00 = &entry;
-        tmp.mArg.w.mUnk_04 = 0;
+        tmp.mArg.e.field0 = &entry;
+        tmp.mArg.w.field4 = 0;
         if (FSi_TranslateCommand(&tmp, 3) == 0) {
             do {
-                if (entry.mUnk_0c == 0 && entry.mUnk_00.w.mUnk_04 == fileId) {
+                if (entry.fieldC == 0 && entry.field0.w.field4 == fileId) {
                     break;
                 }
             } while (FSi_TranslateCommand(&tmp, 3) == 0);
         }
-        n = entry.mUnk_10 + 1;
-        MI_CpuCopy8(entry.mUnk_14, buf + len - n, n);
+        n = entry.field10 + 1;
+        MI_CpuCopy8(entry.field14, buf + len - n, n);
         len -= n;
     } else {
         *(buf + len - 1) = 0;
@@ -368,22 +368,22 @@ s32 FSi_GetPathCommand(FSFile *file) {
     }
     if (dirId != 0) {
         do {
-            FSi_SeekDirDirect(&tmp, tmp.mUnk_2c);
-            tmp.mArg.e.mUnk_00 = &entry;
-            tmp.mArg.w.mUnk_04 = 0;
+            FSi_SeekDirDirect(&tmp, tmp.field2C);
+            tmp.mArg.e.field0 = &entry;
+            tmp.mArg.w.field4 = 0;
             *(buf + len - 1) = 0x2f;
             len--;
             if (FSi_TranslateCommand(&tmp, 3) == 0) {
                 do {
-                    if (entry.mUnk_0c != 0 && entry.mUnk_00.h.mUnk_04 == dirId) {
-                        n = entry.mUnk_10;
-                        MI_CpuCopy8(entry.mUnk_14, buf + len - n, n);
+                    if (entry.fieldC != 0 && entry.field0.h.field4 == dirId) {
+                        n = entry.field10;
+                        MI_CpuCopy8(entry.field14, buf + len - n, n);
                         len -= n;
                         break;
                     }
                 } while (FSi_TranslateCommand(&tmp, 3) == 0);
             }
-            dirId = tmp.mProp.h.mUnk_04;
+            dirId = tmp.mProp.h.field4;
         } while (dirId != 0);
     }
     return 0;
@@ -398,26 +398,26 @@ s32 FSi_OpenFileFastCommand(FSFile *file) {
     Unk02003ad8 readParam;
 
     archive = file->mArc;
-    index = file->mArg.w.mUnk_04;
+    index = file->mArg.w.field4;
     offset = index << 3;
     if (offset >= archive->mFatSize) {
         return 1;
     }
-    readParam.mUnk_00 = archive;
-    readParam.mUnk_04 = archive->mFat + offset;
+    readParam.field0 = archive;
+    readParam.field4 = archive->mFat + offset;
     FSi_ReadTable(&readParam, &range, 8);
-    file->mArg.w.mUnk_00 = range.mUnk_00;
-    file->mArg.w.mUnk_04 = range.mUnk_04;
-    file->mArg.w.mUnk_08 = index;
+    file->mArg.w.field0 = range.field0;
+    file->mArg.w.field4 = range.field4;
+    file->mArg.w.field8 = index;
     return FSi_TranslateCommand(file, 7);
 }
 
 // Open command by byte range: sets the file range and position.
 s32 FSi_OpenFileDirectCommand(FSFile *file) {
-    file->mProp.w.mUnk_04 = file->mArg.w.mUnk_00;
-    file->mUnk_2c = file->mArg.w.mUnk_00;
-    file->mProp.w.mUnk_08 = file->mArg.w.mUnk_04;
-    file->mProp.w.mUnk_00 = file->mArg.w.mUnk_08;
+    file->mProp.w.field4 = file->mArg.w.field0;
+    file->field2C = file->mArg.w.field0;
+    file->mProp.w.field8 = file->mArg.w.field4;
+    file->mProp.w.field0 = file->mArg.w.field8;
     return 0;
 }
 

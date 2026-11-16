@@ -22,7 +22,7 @@ void savd_readNkfe(EmblemBlockData *blockData, s32 blockIndex) {
     s32 blockOffset = blockIndex * 0xb00;
     if (gSaveCore->mBackupEnabled != 0) {
         gSaveCore->mReadTarget = blockData;
-        gSaveCore->mUnk_5c = -1;
+        gSaveCore->field5C = -1;
         savc_readWithBackup(blockOffset + 0x2b00, blockOffset + 0x33a00, gSaveCore->mBuffer, 0xb00,
                                  CopyBackupReadToBlock, 0x45464b4e, 0);
     }

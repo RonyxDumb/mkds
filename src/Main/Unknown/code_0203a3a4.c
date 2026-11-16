@@ -157,7 +157,7 @@ void racesc_init(void) {
     arc_setHeapGroupId(8);
     mirrorMode = gRaceMultiConfig->mMirrorMode;
     if (mirrorMode == 0 && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        if ((gRaceMultiConfig->mUnk_044 & 0x10) != 0) {
+        if ((gRaceMultiConfig->field44 & 0x10) != 0) {
             mirrorMode = 1;
         }
     }
@@ -174,8 +174,8 @@ void racesc_init(void) {
             }
             if (sessionHeapCreated != FALSE) {
                 StateMachine *p;
-                session->mUnk_1f38 = TRUE;
-                p = &gStruct217D384->mUnk_0008;
+                session->field1F38 = TRUE;
+                p = &gStruct217D384->field8;
                 p->mNextState = 5;
                 p->mNextStateRequested = 1;
             }
@@ -202,8 +202,8 @@ void racesc_finalize(void) {
         }
         if (sessionHeapCreated != FALSE) {
             StateMachine *p;
-            session->mUnk_1f38 = FALSE;
-            p = &gStruct217D384->mUnk_0008;
+            session->field1F38 = FALSE;
+            p = &gStruct217D384->field8;
             p->mNextState = 4;
             p->mNextStateRequested = 1;
         }
@@ -289,13 +289,13 @@ u32 race_race_getCurrentRaceMode(void) {
 }
 
 void race_sysdat_setActivatedRaceMenuOption(u32 pickedValue) {
-    gSystemData->mUnk_44 = pickedValue;
+    gSystemData->field44 = pickedValue;
 }
 
 // Turns the value picked on the choice screen into the next scene and the settings that go with it.
 void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
     s32 nextScene;
-    gStruct217B488->mUnk_08 = 0;
+    gStruct217B488->field8 = 0;
     nextScene = -1;
     switch (pickedValue) {
         case 10:
@@ -312,22 +312,22 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                 if (q == NULL) {
                     t = 0;
                 } else {
-                    t = q->mUnk_0000;
+                    t = q->field0;
                 }
                 if (t != 0) {
-                    if (q->mUnk_0004 != 0xd) {
+                    if (q->field4 != 0xd) {
                         f = 1;
                     }
                 }
                 if (f != 0) {
-                    if (gSystemData->mUnk_1c_2 != 0) {
+                    if (gSystemData->field1C_2 != 0) {
                         nextScene = 6;
-                        gStruct217B488->mUnk_74 = 3;
+                        gStruct217B488->field74 = 3;
                     } else {
                         nextScene = 1;
                     }
-                    gStruct217B488->mUnk_08 = 4;
-                    gStruct217B488->mUnk_04 = 1;
+                    gStruct217B488->field8 = 4;
+                    gStruct217B488->field4 = 1;
                 } else {
                     nextScene = 0;
                 }
@@ -336,7 +336,7 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                 }
             } else {
                 nextScene = 0xc;
-                gStruct217B488->mUnk_1c = 0;
+                gStruct217B488->field1C = 0;
             }
             break;
         case 1:
@@ -356,50 +356,50 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                     break;
                 case MODE_VS:
                     if (func_02045914() != 0) {
-                        if (gSystemData->mUnk_1c_2 == 0) {
+                        if (gSystemData->field1C_2 == 0) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            gStruct217B488->mUnk_74 = 1;
+                            gStruct217B488->field74 = 1;
                         }
                     } else {
                         if (gRaceMultiConfig->mCourseListMode == 0) {
-                            gStruct217B488->mUnk_08 = 2;
+                            gStruct217B488->field8 = 2;
                         }
-                        if (gSystemData->mUnk_1c_2 == 0) {
+                        if (gSystemData->field1C_2 == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            gStruct217B488->mUnk_74 = 3;
+                            gStruct217B488->field74 = 3;
                         }
                     }
                     break;
                 case 5:
                     if (race_2045874() != FALSE) {
                         nextScene = 0xc;
-                        gStruct217B488->mUnk_1c = 3;
+                        gStruct217B488->field1C = 3;
                     } else {
                         nextScene = 0xa;
-                        gStruct217B488->mUnk_1c = 2;
+                        gStruct217B488->field1C = 2;
                     }
                     break;
                 case MODE_BATTLE:
                     if (func_020458cc() != 0) {
-                        if (gSystemData->mUnk_1c_2 == 0) {
+                        if (gSystemData->field1C_2 == 0) {
                             nextScene = 2;
                         } else {
                             nextScene = 6;
-                            gStruct217B488->mUnk_74 = 1;
+                            gStruct217B488->field74 = 1;
                         }
                     } else {
                         if (gRaceMultiConfig->mCourseListMode == 0) {
-                            gStruct217B488->mUnk_08 = 2;
+                            gStruct217B488->field8 = 2;
                         }
-                        if (gSystemData->mUnk_1c_2 == 0) {
+                        if (gSystemData->field1C_2 == 0) {
                             nextScene = 1;
                         } else {
                             nextScene = 6;
-                            gStruct217B488->mUnk_74 = 3;
+                            gStruct217B488->field74 = 3;
                         }
                     }
                     break;
@@ -419,9 +419,9 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                     break;
                 case MODE_BATTLE:
                 case MODE_VS:
-                    if (gSystemData->mUnk_1c_2 != 0) {
+                    if (gSystemData->field1C_2 != 0) {
                         nextScene = 6;
-                        gStruct217B488->mUnk_74 = 2;
+                        gStruct217B488->field74 = 2;
                     } else {
                         nextScene = 0xa;
                     }
@@ -430,14 +430,14 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
             break;
         case 5:
             nextScene = 1;
-            gStruct217B488->mUnk_08 = nextScene;
+            gStruct217B488->field8 = nextScene;
             break;
         case 4:
-            gStruct217B488->mUnk_08 = 2;
+            gStruct217B488->field8 = 2;
             nextScene = 1;
             break;
         case 6:
-            gStruct217B488->mUnk_08 = 3;
+            gStruct217B488->field8 = 3;
             nextScene = 1;
             break;
     }
@@ -452,9 +452,9 @@ u32 race_race_getCurrentDisplayMode(void) {
 
 void race_sysdat_setDemoRaceWasCanceled(u32 a) {
     if (a != 0) {
-        gSystemData->mUnk_50 |= 1;
+        gSystemData->field50 |= 1;
     } else {
-        gSystemData->mUnk_50 &= ~1;
+        gSystemData->field50 &= ~1;
     }
 }
 

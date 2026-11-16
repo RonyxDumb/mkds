@@ -10,7 +10,7 @@ typedef struct ItemFBox ItemFBox;
 typedef struct ItemDataRecord {
     /* 00 */ u8 mData[0x14];
     /* 14 */ u32 mKind;
-    /* 18 */ u32 mUnk_18;
+    /* 18 */ u32 field18;
     /* 1c */ u32 mRaceUpdateFramesStamp;
 } ItemDataRecord;
 

@@ -14,8 +14,8 @@
 
 #pragma thumb on
 void epipe_init(Unk020e43a8 *pipe) {
-    pipe->mUnk_00.mPos.y += (s32) (((s64) pipe->mUnk_00.mScale.y * 0xd000) >> 12);
-    rdmo_initParams(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
+    pipe->field0.mPos.y += (s32) (((s64) pipe->field0.mScale.y * 0xd000) >> 12);
+    rdmo_initParams(pipe, pipe->field0.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
     rdmo_initStateMachine(pipe);
 }
 #pragma thumb off
@@ -56,8 +56,8 @@ void wwchn_update(void *unused, WanwanChainObject *chainObject) {
 
     wanwan = chainObject->mWanwan;
     if (chainObject->mHasKui == FALSE) {
-        chainObject->mPos = wanwan->mUnk_00.mPos;
+        chainObject->mPos = wanwan->field0.mPos;
     }
-    VEC_MultAdd(-wanwan->mUnk_f0, &wanwan->mUnk_00.mMatrix.mUnk_00[2], &wanwan->mUnk_00.mPos, &endPoint);
-    UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->mUnk_00.mUnk_10);
+    VEC_MultAdd(-wanwan->fieldF0, &wanwan->field0.mMatrix.field0[2], &wanwan->field0.mPos, &endPoint);
+    UpdateWanwanChainPoints(&chainObject->mChain, &endPoint, &wanwan->field0.field10);
 }

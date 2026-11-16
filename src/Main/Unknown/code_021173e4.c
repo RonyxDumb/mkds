@@ -88,7 +88,7 @@ void LoadCupSelectionMenuOAM(void) {
     SelectCupGrid *grid;
 
     if (*(vu16 *) 0x027ffc40 != 2) {
-        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->mUnk_06;
+        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->field6;
         for (i = 0; i < 4; i++) {
             CupSelectionMenuInfoPointer->mSelectCupMTable[data_0215c7d0[i]].mVisible = 0;
             CupSelectionMenuInfoPointer->mSelectCupMTable[mainCellCount + data_0215c7d8[i]].mVisible = 1;
@@ -132,7 +132,7 @@ void UpdateSelectCupGridCupCells(void) {
                 CupSelectionMenuInfoPointer->mSelectCupSTable[cellIndices[3]].mVisible = 1;
                 CupSelectionMenuInfoPointer->mSelectCupSTable[cellIndices[5]].mVisible = 1;
             } else {
-                if (CupSelectionMenuInfoPointer->mIndex == i && CupSelectionMenuInfoPointer->mUnk_68 != FALSE) {
+                if (CupSelectionMenuInfoPointer->mIndex == i && CupSelectionMenuInfoPointer->field68 != FALSE) {
                     CupSelectionMenuInfoPointer->mSelectCupSTable[cellIndices[2]].mVisible = 1;
                 } else {
                     CupSelectionMenuInfoPointer->mSelectCupSTable[cellIndices[1]].mVisible = 1;
@@ -249,7 +249,7 @@ void AdvanceSelectCupGridIndexChange(void) {
             CupSelectionMenuInfoPointer->mShownIndex = CupSelectionMenuInfoPointer->mIndex;
             UpdateCourseNames();
         } else if (*(vu16 *) 0x027ffc40 != 2) {
-            mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->mUnk_06;
+            mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->field6;
             offsetY = LookupIndexChangeOffset(7 - CupSelectionMenuInfoPointer->mIndexChangeTimer, 1);
             CupSelectionMenuInfoPointer->mBg0Offset = offsetY;
             CupSelectionMenuInfoPointer->mSelectCupMTable[19].mOffsetY = offsetY;
@@ -318,7 +318,7 @@ void RequestSelectCupGridState0(void) {
     CupSelectionMenuInfoPointer->mNextState = 0;
     CupSelectionMenuInfoPointer->mStateFrames = 0;
     if (*(vu16 *) 0x027ffc40 != 2) {
-        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->mUnk_06;
+        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->field6;
         if (menu_getPrevState() == 0x18 || menu_getPrevState() == 0xc) {
             offsetY = 0;
             CupSelectionMenuInfoPointer->mBg0Offset = offsetY;
@@ -486,7 +486,7 @@ void SPM_LoadCupSelectionMenu(void *heap, void *mainOam, void *subOam, s32 mode)
     CupSelectionMenuInfoPointer->mHeap = heap;
     CupSelectionMenuInfoPointer->mState = 0;
     CupSelectionMenuInfoPointer->mIndex = data_0215c8fc[SPM_GetSelectedCup()];
-    CupSelectionMenuInfoPointer->mUnk_68 = TRUE;
+    CupSelectionMenuInfoPointer->field68 = TRUE;
     CupSelectionMenuInfoPointer->mIndexChangeTimer = 0;
     CupSelectionMenuInfoPointer->mMode = mode;
     CupSelectionMenuInfoPointer->mShownIndex = CupSelectionMenuInfoPointer->mIndex;
@@ -529,7 +529,7 @@ void SPM_LoadCupSelectionMenu(void *heap, void *mainOam, void *subOam, s32 mode)
     UpdateCourseNames();
     RequestSelectCupGridState0();
     heap_adjustSubFrmHeap(CupSelectionMenuInfoPointer->mHeap);
-    if (gSystemData->mUnk_20 == 2) {
+    if (gSystemData->field20 == 2) {
         ClearSelectReturnDisplayBitOn();
     }
 }
@@ -575,7 +575,7 @@ void AdvanceSelectCupGridState1(void) {
 
     CupSelectionMenuInfoPointer->mStateFrames = CupSelectionMenuInfoPointer->mStateFrames + 1;
     if (*(vu16 *) 0x027ffc40 != 2) {
-        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->mUnk_06;
+        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->field6;
         offsetX = mutil_interpolate(1, 0xe0, 0, CupSelectionMenuInfoPointer->mStateFrames, 0xa);
         offsetY = mutil_interpolate(1, -192, 0, CupSelectionMenuInfoPointer->mStateFrames, 0xa);
         if (menu_getPrevState() != 0x18 && menu_getPrevState() != 0xc) {
@@ -698,7 +698,7 @@ L1:
         case 2:
         case 3:
         case 4:
-            if (gStruct217B488->mUnk_08 == 2 || gStruct217B488->mUnk_08 == 3) {
+            if (gStruct217B488->field8 == 2 || gStruct217B488->field8 == 3) {
                 RequestSelectCupGridState8();
                 if (*(vu16 *) 0x027ffc40 == 2) {
                     gmenu_setSeqArcIndex(-1);
@@ -729,7 +729,7 @@ L2:
             return;
         }
         if (CupSelectionMenuInfoPointer->mIndex == touchedCupIndex) {
-            CupSelectionMenuInfoPointer->mUnk_68 = FALSE;
+            CupSelectionMenuInfoPointer->field68 = FALSE;
         }
         CupSelectionMenuInfoPointer->mIndex = touchedCupIndex;
         RequestSelectCupGridState4();
@@ -737,7 +737,7 @@ L2:
     }
     if ((u16) (q->mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupGridState4();
-        CupSelectionMenuInfoPointer->mUnk_68 = FALSE;
+        CupSelectionMenuInfoPointer->field68 = FALSE;
         return;
     }
     if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
@@ -799,7 +799,7 @@ void AdvanceSelectCupGridState4(void) {
     AdvanceSelectCupGridIndexChange();
     AdvanceSelectCupGridShownCourse();
     if (CupSelectionMenuInfoPointer->mStateFrames == 5) {
-        CupSelectionMenuInfoPointer->mUnk_68 = TRUE;
+        CupSelectionMenuInfoPointer->field68 = TRUE;
     }
     CupSelectionMenuInfoPointer->mStateFrames = CupSelectionMenuInfoPointer->mStateFrames + 1;
     if (CupSelectionMenuInfoPointer->mStateFrames >= 10 && IsSelectCupGridIndexChangeRunning() == 0) {
@@ -930,7 +930,7 @@ void AdvanceSelectCupGridState11(void) {
 
     CupSelectionMenuInfoPointer->mStateFrames = CupSelectionMenuInfoPointer->mStateFrames + 1;
     if (*(vu16 *) 0x027ffc40 != 2) {
-        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->mUnk_06;
+        mainCellCount = CupSelectionMenuInfoPointer->mSelectCupMBncl->field6;
         offsetX = mutil_interpolate(1, 0, 0xe0, CupSelectionMenuInfoPointer->mStateFrames, 0xa);
         offsetY = mutil_interpolate(1, 0, -192, CupSelectionMenuInfoPointer->mStateFrames, 0xa);
         if (CupSelectionMenuInfoPointer->mResult == 2 || CupSelectionMenuInfoPointer->mResult == 3 || CupSelectionMenuInfoPointer->mMode == 0) {

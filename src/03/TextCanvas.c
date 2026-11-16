@@ -59,7 +59,7 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
 
     canvas->mAreaWidth = areaWidth;
     canvas->mAreaHeight = areaHeight;
-    canvas->mUnk_30 = CreateObjCharRange(screen, areaWidth * areaHeight, fromFront, &charName);
+    canvas->field30 = CreateObjCharRange(screen, areaWidth * areaHeight, fromFront, &charName);
     canvas->mCharName = charName;
     *entryCount = NNSi_G2dCalcRequiredOBJ(areaWidth, areaHeight);
     if (screen == 1) {
@@ -69,12 +69,12 @@ ObjTextCanvas *CreateObjTextCanvas(u32 screen, u16 areaWidth, u16 areaHeight, s3
     }
     charBase += charName << 7;
     NNS_G2dCharCanvasInitForOBJ1D(canvas, (void *) charBase, areaWidth, areaHeight, 4);
-    canvas->mUnk_18(canvas, 0);
+    canvas->field18(canvas, 0);
     font = &gTextCanvases->mFonts[fontIndex];
-    canvas->mUnk_20 = canvas;
-    canvas->mUnk_24 = font;
-    canvas->mUnk_28 = 1;
-    canvas->mUnk_2c = 1;
+    canvas->field20 = canvas;
+    canvas->field24 = font;
+    canvas->field28 = 1;
+    canvas->field2C = 1;
     return canvas;
 }
 
@@ -103,10 +103,10 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     }
     NNS_G2dCharCanvasInitForBG(canvas, canvas->mChars, areaWidth, areaHeight, 4);
     font = (u8 *) gTextCanvases->mFonts + fontIndex * 12;
-    canvas->mUnk_20.mCharCanvas = canvas;
-    canvas->mUnk_20.mFont = font;
-    canvas->mUnk_20.mCharSpacing = 1;
-    canvas->mUnk_20.mLineSpacing = 1;
+    canvas->field20.mCharCanvas = canvas;
+    canvas->field20.mFont = font;
+    canvas->field20.mCharSpacing = 1;
+    canvas->field20.mLineSpacing = 1;
     if (screen == 1) {
         screenBase = G2S_GetBG0ScrPtr();
     } else {
@@ -181,10 +181,10 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
         font = gTextCanvases->mFonts + fontIndex;
         glyphIndex = NNS_G2dFontFindGlyphIndex(font, *text);
         if (glyphIndex == 0xffff) {
-            glyphIndex = font->mUnk_00->mUnk_02;
+            glyphIndex = font->field0->field2;
         }
         widths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
-        if (font->mUnk_08 != 0) {
+        if (font->field8 != 0) {
             charWidth = widths->mLeft + widths->mGlyphWidth;
         } else {
             charWidth = widths->mCharWidth;
@@ -197,11 +197,11 @@ void DrawCharsCentered(void *canvas, s32 xPos, u32 yPos, u32 color, s32 cellWidt
 
 void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32 height, u32 color, u32 flags,
                         void *text) {
-    NNSi_G2dTextCanvasDrawTextRect(&canvas->mUnk_20, xPos, yPos, width, height, color, flags, text);
+    NNSi_G2dTextCanvasDrawTextRect(&canvas->field20, xPos, yPos, width, height, color, flags, text);
 }
 
 void ClearBgTextCanvas(BgTextCanvas *canvas, u32 color) {
-    canvas->mUnk_00.mUnk_18(&canvas->mUnk_00, color);
+    canvas->field0.field18(&canvas->field0, color);
 }
 
 void ArrangeObjTextCanvasRange(ObjTextCanvas *canvas, s32 xPos, s32 yPos, OamRange *range, s32 f) {

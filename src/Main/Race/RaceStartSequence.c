@@ -75,7 +75,7 @@ void UpdateRaceStartSequence(void) {
         return;
     }
     if (gRaceMultiConfig->mMode == 5) {
-        if ((gStruct217AA14->mUnk_75c & 2) == 0) {
+        if ((gStruct217AA14->field75C & 2) == 0) {
             return;
         }
         sequence->mCounting = TRUE;
@@ -101,7 +101,7 @@ void UpdateRaceStartSequenceSounds(void) {
     if (frames == 0 || frames == 60 || frames == 120) {
         if (data_0217c780 & 1) {
             seqPlayer = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
@@ -115,7 +115,7 @@ void UpdateRaceStartSequenceSounds(void) {
     if (frames == 175) {
         if (data_0217c780 & 1) {
             seqPlayer = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }

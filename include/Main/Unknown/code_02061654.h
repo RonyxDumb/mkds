@@ -61,6 +61,6 @@ void race_initResManagement(void);
 void race_initState(void);
 void race_init(void);
 unsigned int race_isAwardStaffRoll(void);
-// Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.mUnk_00c, which other code also uses to tell
+// Returns Race.mUseChainCameras: 1 for the kinds 3 to 5 of RaceSetup.fieldC, which other code also uses to tell
 // those kinds apart; changes nothing.
 unsigned int race_isCamAnimMode(void);

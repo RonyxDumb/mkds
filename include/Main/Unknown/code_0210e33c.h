@@ -6,8 +6,8 @@
 // Three words, at 0, 4 and 8: LoadSoundSet, IsSoundSetLoaded and ReleaseSoundSet take one by value.
 typedef struct SoundSet {
     /* 00 */ u32 mSeqId;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
 } SoundSet;
 
 // Object data_0217c7b4, which sound_getSeqHeapState returns: an SoundSet at 0 and a word at 0xc that

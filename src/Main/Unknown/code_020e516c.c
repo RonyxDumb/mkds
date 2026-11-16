@@ -21,11 +21,11 @@
 
 void oshd_applyMaterial(void) {
     u32 value;
-    value = oshd_sModelMat->mUnk_01c;
+    value = oshd_sModelMat->field1C;
     NNS_G3dGeBufferOP_N(0x2b, &value, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->field14, 1);
+    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->field4, 1);
+    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->field8, 1);
 }
 
 void oshd_render(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
@@ -45,12 +45,12 @@ void oshd_render(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
         threeWords[2] = firstWord;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = oshd_sModelMat->mUnk_00c;
-    alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
+    word = oshd_sModelMat->fieldC;
+    alpha = alpha < shadow->field30 ? alpha : shadow->field30;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
     NNS_G3dGeBufferOP_N(0x29, &word, 1);
-    NNS_G3dGeSendDL(&oshd_sModelShp->mUnk_000[oshd_sModelShp->mUnk_008], oshd_sModelShp->mUnk_00c);
+    NNS_G3dGeSendDL(&oshd_sModelShp->field0[oshd_sModelShp->field8], oshd_sModelShp->fieldC);
 }
 
 void oshd_renderMat(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
@@ -59,11 +59,11 @@ void oshd_renderMat(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alp
     u32 b;
     u32 threeWords[3];
 
-    x = oshd_sModelMat->mUnk_01c;
+    x = oshd_sModelMat->field1C;
     NNS_G3dGeBufferOP_N(0x2b, &x, 1);
-    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->mUnk_014, 1);
-    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->mUnk_004, 1);
-    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->mUnk_008, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->field14, 1);
+    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->field4, 1);
+    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->field8, 1);
     b = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &b, 1);
     NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
@@ -75,21 +75,21 @@ void oshd_renderMat(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alp
         threeWords[2] = wordCopy;
         NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = oshd_sModelMat->mUnk_00c;
-    alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
+    word = oshd_sModelMat->fieldC;
+    alpha = alpha < shadow->field30 ? alpha : shadow->field30;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
     NNS_G3dGeBufferOP_N(0x29, &word, 1);
-    NNS_G3dGeSendDL(&oshd_sModelShp->mUnk_000[oshd_sModelShp->mUnk_008], oshd_sModelShp->mUnk_00c);
+    NNS_G3dGeSendDL(&oshd_sModelShp->field0[oshd_sModelShp->field8], oshd_sModelShp->fieldC);
 }
 
 void oshd_renderJgShadowTransformed(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
-    oshd_sJgModel->mUnk_06e = c < d ? c : d;
+    oshd_sJgModel->field6E = c < d ? c : d;
     DrawShadowWithMatrix(oshd_sJgModel, matrix, scale);
 }
 
 void oshd_renderJgShadow(u32 a, u32 b) {
-    oshd_sJgModel->mUnk_06e = a < b ? a : b;
+    oshd_sJgModel->field6E = a < b ? a : b;
     func_0207ad88(oshd_sJgModel);
 }
 
@@ -103,12 +103,12 @@ void oshd_init(void) {
     model2_createFromNsbmd((void **) &oshd_sModel, mobj_getSharedMapObjFile(aObj_shadow_nsb), NULL);
     model_setPolygonId(oshd_sModel, 0x3f);
     model_setLightEnableFlag(oshd_sModel, 0);
-    a = oshd_sModel->mUnk_004;
-    b = (Unk020e52bc_8 *) &a->mUnk_000[a->mUnk_008];
-    oshd_sModelMat = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];
-    a = oshd_sModel->mUnk_004;
-    c = (Unk020e52bc_c *) &a->mUnk_000[a->mUnk_00c];
-    oshd_sModelShp = (Unk020e54e4 *) &c->mUnk_000[((u32 *) &c->mUnk_000[c->mUnk_006])[1]];
+    a = oshd_sModel->field4;
+    b = (Unk020e52bc_8 *) &a->field0[a->field8];
+    oshd_sModelMat = (Unk020e53ac *) &b->field0[((u32 *) &b->field0[b->fieldA])[2]];
+    a = oshd_sModel->field4;
+    c = (Unk020e52bc_c *) &a->field0[a->fieldC];
+    oshd_sModelShp = (Unk020e54e4 *) &c->field0[((u32 *) &c->field0[c->field6])[1]];
     if (gRaceMultiConfig->mRaceKind != RACE_KIND_STAFF_ROLL) {
         model2_createShadowFromNsbmd((void **) &oshd_sJgModel, arc_getSceneArcFile(aJg_shadow_nsbm), 0x3f);
     }
@@ -131,22 +131,22 @@ s32 oshd_setParams(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
         qrtn_fromForwardVec(&direction, &rotation);
         qtrn_toMtx33(shadow, &rotation);
         scaleTenth = scale / 10;
-        shadowCopy->mUnk_000[0] = ((s64) shadowCopy->mUnk_000[0] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[1] = ((s64) shadowCopy->mUnk_000[1] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[2] = ((s64) shadowCopy->mUnk_000[2] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[3] = ((s64) shadowCopy->mUnk_000[3] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[4] = ((s64) shadowCopy->mUnk_000[4] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[5] = ((s64) shadowCopy->mUnk_000[5] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[6] = ((s64) shadowCopy->mUnk_000[6] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[7] = ((s64) shadowCopy->mUnk_000[7] * scaleTenth) >> 12;
-        shadowCopy->mUnk_000[8] = ((s64) shadowCopy->mUnk_000[8] * scaleTenth) >> 12;
+        shadowCopy->field0[0] = ((s64) shadowCopy->field0[0] * scaleTenth) >> 12;
+        shadowCopy->field0[1] = ((s64) shadowCopy->field0[1] * scaleTenth) >> 12;
+        shadowCopy->field0[2] = ((s64) shadowCopy->field0[2] * scaleTenth) >> 12;
+        shadowCopy->field0[3] = ((s64) shadowCopy->field0[3] * scaleTenth) >> 12;
+        shadowCopy->field0[4] = ((s64) shadowCopy->field0[4] * scaleTenth) >> 12;
+        shadowCopy->field0[5] = ((s64) shadowCopy->field0[5] * scaleTenth) >> 12;
+        shadowCopy->field0[6] = ((s64) shadowCopy->field0[6] * scaleTenth) >> 12;
+        shadowCopy->field0[7] = ((s64) shadowCopy->field0[7] * scaleTenth) >> 12;
+        shadowCopy->field0[8] = ((s64) shadowCopy->field0[8] * scaleTenth) >> 12;
     } else {
         MTX_Identity33_(shadow);
     }
-    shadowCopy->mUnk_000[9] = raisedPosition.x >> 4;
-    shadowCopy->mUnk_000[10] = raisedPosition.y >> 4;
-    shadowCopy->mUnk_000[11] = raisedPosition.z >> 4;
-    shadowCopy->mUnk_030 = alphaCap;
+    shadowCopy->field0[9] = raisedPosition.x >> 4;
+    shadowCopy->field0[10] = raisedPosition.y >> 4;
+    shadowCopy->field0[11] = raisedPosition.z >> 4;
+    shadowCopy->field30 = alphaCap;
     return hit;
 }
 

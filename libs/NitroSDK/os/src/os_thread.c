@@ -166,8 +166,8 @@ void OS_InitThread(void) {
     *(u32 *) data_0217002c.mStackTop = 0x7bf9dd5b;
     data_0217002c.mJoinQueue.mTail = 0;
     data_0217002c.mJoinQueue.mHead = 0;
-    data_0216ff5c.mUnk_00 = 0;
-    data_0216ff5c.mUnk_02 = 0;
+    data_0216ff5c.field0 = 0;
+    data_0216ff5c.field2 = 0;
     *(ThreadSystem **) 0x027fffa0 = &data_0216ff5c;
     OS_SetSwitchThreadCallback(0);
     OS_CreateThread(&data_0216ff6c, OSi_IdleThreadProc, 0, (u8 *) &data_021701b4, 0xc8, 0x1f);
@@ -198,8 +198,8 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, u8 *stac
     thread->mJoinQueue.mTail = 0;
     thread->mJoinQueue.mHead = thread->mJoinQueue.mTail;
     ThreadInitContext(thread, func, (u32) stack - 4);
-    thread->mUnk_04 = arg;
-    thread->mUnk_3c = OS_ExitThread;
+    thread->field4 = arg;
+    thread->field3C = OS_ExitThread;
     fill = 0;
     MIi_CpuClear32(fill, stackTop + 4, stackSize - 8);
     OS_SetThreadDestructor(thread, 0);
@@ -220,8 +220,8 @@ void OS_ExitThread(void) {
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
     if (data_0216ff44 != 0) {
         ThreadInitContext(thread, OSi_ExitThread, data_0216ff44);
-        thread->mUnk_04 = arg;
-        thread->mUnk_00 = thread->mUnk_00 | 0x80;
+        thread->field4 = arg;
+        thread->field0 = thread->field0 | 0x80;
         thread->mState = 1;
         OS_LoadContext(thread);
     } else {
@@ -372,8 +372,8 @@ void OSi_RescheduleThread(void) {
     if (data_0216ff48 != 0) {
         return;
     }
-    if (system->mUnk_02 != 0 || OS_GetProcMode() == 0x12) {
-        system->mUnk_00 = 1;
+    if (system->field2 != 0 || OS_GetProcMode() == 0x12) {
+        system->field0 = 1;
         return;
     }
     current = *data_0216ff54;

@@ -30,19 +30,19 @@ typedef struct HttpsState {
     // The entry in use, or NULL; may be data_ov000_021b6198, which is not in the table.
     /* 000 */ HttpsEntry *mEntry;
     /* 004 */ u8 mReusedEntry;
-    /* 005 */ u8 mUnk_005;
+    /* 005 */ u8 field5;
     /* 006 */ u16 mCommonValue;
     /* 008 */ u8 mKind1Block[0x20];
     /* 028 */ u8 mKind2Block[0x20];
     /* 048 */ u8 mDerivedBytes[0x48];
     /* 090 */ u8 *mSendDigestBytes;
     /* 094 */ u8 *mSendKeyStreamBytes;
-    /* 098 */ u8 *mUnk_098;
+    /* 098 */ u8 *field98;
     /* 09c */ u8 mSendKeyStreamState[0x104];
     /* 1a0 */ u8 mSendRecordCount[8];
     /* 1a8 */ u8 *mReceiveDigestBytes;
     /* 1ac */ u8 *mReceiveKeyStreamBytes;
-    /* 1b0 */ u8 *mUnk_1b0;
+    /* 1b0 */ u8 *field1B0;
     /* 1b4 */ u8 mReceiveKeyStreamState[0x104];
     /* 2b8 */ u8 mReceiveRecordCount[8];
     /* 2c0 */ Hash20Context mMessageHash20;
@@ -56,7 +56,7 @@ typedef struct HttpsState {
     /* 42c */ s32 mDigestKind;
     // Table position (1 or 2) stored by ParseTaggedItem for the first item of a list; -1 when none was stored, which
     // makes the flags carry 4.
-    /* 430 */ s32 mUnk_430;
+    /* 430 */ s32 field430;
     /* 434 */ u8 *mDigestStart;
     /* 438 */ u8 *mDigestEnd;
     /* 43c */ u8 mRangeDigest[0x14];
@@ -74,7 +74,7 @@ typedef struct HttpsState {
     /* 583 */ u8 mDateInRange;
     /* 584 */ s8 mAuthorityName[0x100];
     // Text items seen after the dates, joined with ', '; written, never read.
-    /* 684 */ s8 mUnk_684[0x100];
+    /* 684 */ s8 field684[0x100];
     /* 784 */ s8 mHostPattern[0x50];
     /* 7d4 */ s8 *mHost;
     /* 7d8 */ u8 *mItemBytes;
@@ -84,7 +84,7 @@ typedef struct HttpsState {
     // Pointer to the table of authority records.
     /* 7e8 */ u32 mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
-    /* 7f0 */ Unk021aa880 *mUnk_7f0;
+    /* 7f0 */ Unk021aa880 *field7F0;
     /* 7f4 */ ItemList *mItemList;
     /* 7f8 */ u8 *mReceivedBlock;
     /* 7fc */ u32 mReceivedBlockEnd;

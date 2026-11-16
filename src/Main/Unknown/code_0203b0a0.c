@@ -26,9 +26,9 @@
 #include "Main/Kart/KartTimes.h"
 
 void race_addTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum) {
-    u16 milliseconds = firstTime->mMillisecond + secondTime->mUnk_00;
-    u16 minutes = firstTime->mMinute + secondTime->mUnk_02;
-    u16 seconds = firstTime->mSecond + secondTime->mUnk_03;
+    u16 milliseconds = firstTime->mMillisecond + secondTime->field0;
+    u16 minutes = firstTime->mMinute + secondTime->field2;
+    u16 seconds = firstTime->mSecond + secondTime->field3;
     u16 carry = milliseconds / 1000;
     if (carry != 0) {
         seconds += carry;
@@ -58,10 +58,10 @@ void race_createNkgpEntry(TimeRecord *record) {
     }
     record->mCharacterIndex = gStruct217B488->mCharacterIndex;
     record->mKartIndex = gStruct217B488->mKartIndex;
-    record->mUnk_1b = 0;
+    record->field1B = 0;
     record->mCupRank = race_sPlaceToTrophyTable[gStruct217B488->mCupRankIndex];
     record->mTotalPoints = gStruct217B488->mTotalPoints;
-    record->mUnk_1e = gStruct217B488->mUnk_80;
+    record->field1E = gStruct217B488->field80;
     record->mFilled = 1;
 }
 
@@ -80,10 +80,10 @@ BOOL race_isNkgpBetter(TimeRecord *storedRecord, TimeRecord *newRecord) {
     if (storedRecord->mCupRank < newRecord->mCupRank) {
         return FALSE;
     }
-    if (storedRecord->mUnk_1e < newRecord->mUnk_1e) {
+    if (storedRecord->field1E < newRecord->field1E) {
         return TRUE;
     }
-    if (storedRecord->mUnk_1e > newRecord->mUnk_1e) {
+    if (storedRecord->field1E > newRecord->field1E) {
         return FALSE;
     }
     if (storedRecord->mTotalPoints < newRecord->mTotalPoints) {
@@ -156,21 +156,21 @@ u32 race_saveMrResult(void) {
 }
 
 void func_0203b1fc(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState16ForNextRace();
 }
 
 void func_0203b1c8(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState18();
 }
 
 void func_0203b194(void *heap) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         InitBlockEntries(heap, 1);
     }
     RequestMPState21();
@@ -180,12 +180,12 @@ void func_0203b0f8(void *heap) {
     void *bannerFile = NULL;
     s32 t;
     u32 f;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         InitBlockEntries(heap, 1);
     } else {
         bannerFile = arc_getSceneArcFile(aBanner_bmg);
     }
-    t = gSystemData->mUnk_20;
+    t = gSystemData->field20;
     f = 1;
     if (t != 1 && t != 2) {
         f = 0;

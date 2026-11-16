@@ -65,17 +65,17 @@
 #pragma thumb on
 
 void choro_init(Unk020e1e98 *choropu, struct CourseMapRow *courseRow) {
-    sm_init(&choropu->mUnk_000.mStateMachine, (UnkFunc *const *) choro_sStates, 8, choropu);
-    choropu->mUnk_0a8 = choropu->mUnk_000.mPos.y;
-    choropu->mUnk_0ac = choropu->mUnk_000.mPos.y - 0x12000;
-    choropu->mUnk_0b0 = choropu->mUnk_000.mPos.y - 0x18000;
-    choropu->mUnk_0a4 = courseRow->mUnk_28;
-    choropu->mUnk_0a0 = courseRow->mUnk_2a;
-    choropu->mUnk_000.mStateMachine.mNextState = 0;
-    choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    oshd_setParams(&choropu->mUnk_0b4.mUnk_08, &choropu->mUnk_000.mPos,
-                        ((s64) choropu->mUnk_000.mScale.x * 0x1b000) >> 12, 0x1e);
-    choropu->mUnk_000.mFlags |= data_02158b7c;
+    sm_init(&choropu->field0.mStateMachine, (UnkFunc *const *) choro_sStates, 8, choropu);
+    choropu->fieldA8 = choropu->field0.mPos.y;
+    choropu->fieldAC = choropu->field0.mPos.y - 0x12000;
+    choropu->fieldB0 = choropu->field0.mPos.y - 0x18000;
+    choropu->fieldA4 = courseRow->field28;
+    choropu->fieldA0 = courseRow->field2A;
+    choropu->field0.mStateMachine.mNextState = 0;
+    choropu->field0.mStateMachine.mNextStateRequested = 1;
+    oshd_setParams(&choropu->fieldB4.field8, &choropu->field0.mPos,
+                        ((s64) choropu->field0.mScale.x * 0x1b000) >> 12, 0x1e);
+    choropu->field0.mFlags |= data_02158b7c;
 }
 
 #pragma thumb off
@@ -123,14 +123,14 @@ void traf_globalPreRender(Unk020e20a8 *drawList) {
     u16 entryIndex;
 
     entryIndex = gRaceMultiConfig->mEntryIndex;
-    if (drawList->mUnk_038 == FALSE) {
+    if (drawList->field38 == FALSE) {
         return;
     }
     if (entryIndex < 8) {
-        GetItemPointLinkDirection((u32) it_sDriverItemStatus[entryIndex].mUnk_1f0.mLink, (u32) &drawList->mUnk_02c);
-        drawList->mUnk_03c = vec_dotProduct(&drawList->mUnk_02c, bbm_getBillboardForwardVec()) < 0;
+        GetItemPointLinkDirection((u32) it_sDriverItemStatus[entryIndex].field1F0.mLink, (u32) &drawList->field2C);
+        drawList->field3C = vec_dotProduct(&drawList->field2C, bbm_getBillboardForwardVec()) < 0;
     } else {
-        drawList->mUnk_03c = FALSE;
+        drawList->field3C = FALSE;
     }
 }
 
@@ -148,10 +148,10 @@ void traf_render(Unk020e20a8 *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha) 
     s32 x;
     s32 y;
 
-    if (drawList->mUnk_03c != FALSE) {
-        dotAxis2 = vec_dotProduct(&vehicle->mUnk_000.mMatrix.mUnk_00[2], &drawList->mUnk_02c);
-        v = vehicle->mUnk_000.mCourseMapRow->mUnk_2e;
-        w = vehicle->mUnk_0d8.mFromEntry->mUnk_12;
+    if (drawList->field3C != FALSE) {
+        dotAxis2 = vec_dotProduct(&vehicle->field0.mMatrix.field0[2], &drawList->field2C);
+        v = vehicle->field0.mCourseMapRow->field2E;
+        w = vehicle->fieldD8.mFromEntry->field12;
         if (v == 0) {
             dotAxis2 = -dotAxis2;
         }
@@ -159,39 +159,39 @@ void traf_render(Unk020e20a8 *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha) 
             return;
         }
     }
-    f = (s32) (vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && rstat_getUncontrollable() == 0;
+    f = (s32) (vehicle->field0.mDistanceSquaredAndFlags & 0x3FFFFFE0) > 0x77A10 && rstat_getUncontrollable() == 0;
     if (!f) {
-        if (vehicle->mUnk_128 != 0) {
-            shadowPosition = vehicle->mUnk_0fe > 0xF ? &vehicle->mUnk_144 : &vehicle->mUnk_000.mPos;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].x = shadowPosition->x >> 4;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].y = shadowPosition->y >> 4;
-            vehicle->mUnk_000.mMatrix.mUnk_00[3].z = shadowPosition->z >> 4;
-            model2_renderShadowModel((void *) vehicle->mUnk_128, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
+        if (vehicle->field128 != 0) {
+            shadowPosition = vehicle->fieldFE > 0xF ? &vehicle->field144 : &vehicle->field0.mPos;
+            vehicle->field0.mMatrix.field0[3].x = shadowPosition->x >> 4;
+            vehicle->field0.mMatrix.field0[3].y = shadowPosition->y >> 4;
+            vehicle->field0.mMatrix.field0[3].z = shadowPosition->z >> 4;
+            model2_renderShadowModel((void *) vehicle->field128, &vehicle->field0.mMatrix, &vehicle->field0.mScale,
                                    alpha);
         }
     }
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].x = vehicle->mUnk_000.mPos.x >> 4;
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].y = vehicle->mUnk_000.mPos.y >> 4;
-    vehicle->mUnk_000.mMatrix.mUnk_00[3].z = vehicle->mUnk_000.mPos.z >> 4;
-    animation = vehicle->mUnk_12c;
+    vehicle->field0.mMatrix.field0[3].x = vehicle->field0.mPos.x >> 4;
+    vehicle->field0.mMatrix.field0[3].y = vehicle->field0.mPos.y >> 4;
+    vehicle->field0.mMatrix.field0[3].z = vehicle->field0.mPos.z >> 4;
+    animation = vehicle->field12C;
     if (animation != NULL) {
-        animation->mUnk_0c = vehicle->mUnk_130 << 12;
-        *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
+        animation->fieldC = vehicle->field130 << 12;
+        *animation->field1C[animation->field1A] = animation->fieldC;
     }
-    light_apply(&vehicle->mUnk_132);
-    model2_renderModel((void *) vehicle->mUnk_124, &vehicle->mUnk_000.mMatrix, &vehicle->mUnk_000.mScale,
+    light_apply(&vehicle->field132);
+    model2_renderModel((void *) vehicle->field124, &vehicle->field0.mMatrix, &vehicle->field0.mScale,
                                    alpha);
     if (f) {
         return;
     }
-    angleIndex = vehicle->mUnk_10c >> 4;
+    angleIndex = vehicle->field10C >> 4;
     anglePairs = FX_SinCosTable_;
-    x = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2] + 0x800) >> 12;
-    y = ((s64) vehicle->mUnk_110 * anglePairs[angleIndex * 2 + 1] + 0x800) >> 12;
+    x = ((s64) vehicle->field110 * anglePairs[angleIndex * 2] + 0x800) >> 12;
+    y = ((s64) vehicle->field110 * anglePairs[angleIndex * 2 + 1] + 0x800) >> 12;
     MTX_RotX43_(tireMatrix, x, y);
-    tireMatrix[0] = vehicle->mUnk_100[0];
-    tireMatrix[10] = vehicle->mUnk_100[1];
-    tireMatrix[11] = vehicle->mUnk_100[2];
+    tireMatrix[0] = vehicle->field100[0];
+    tireMatrix[10] = vehicle->field100[1];
+    tireMatrix[11] = vehicle->field100[2];
     NNS_G3dGeBufferOP_N(0x11, NULL, 0);
     NNS_G3dGeBufferOP_N(0x19, tireMatrix, 0xc);
     model_render(traf_sCarTireModel);
@@ -207,7 +207,7 @@ static inline s64 func_020e2630_inline(const Vec3 *v) {
 }
 
 static inline s16 func_020e2630_inline2(Unk020e1e98 *b) {
-    return b->mUnk_0fe;
+    return b->fieldFE;
 }
 
 void traf_update(u32 a, Unk020e1e98 *vehicle) {
@@ -220,103 +220,103 @@ void traf_update(u32 a, Unk020e1e98 *vehicle) {
     Vec3 u;
     Vec3 testPosition;
 
-    if (vehicle->mUnk_0fe > 0xf) {
+    if (vehicle->fieldFE > 0xf) {
         f = 1;
         f = (s32) f;
     } else {
         f = 0;
     }
-    previousPosition = vehicle->mUnk_000.mPos;
-    pw_update(&vehicle->mUnk_0d8);
+    previousPosition = vehicle->field0.mPos;
+    pw_update(&vehicle->fieldD8);
     if (!f) {
-        pw_calcCurrentPointXZLinearY(&vehicle->mUnk_0d8, &vehicle->mUnk_000.mPos);
-        VEC_Subtract(&vehicle->mUnk_000.mPos, &previousPosition, &vehicle->mUnk_000.mUnk_10);
+        pw_calcCurrentPointXZLinearY(&vehicle->fieldD8, &vehicle->field0.mPos);
+        VEC_Subtract(&vehicle->field0.mPos, &previousPosition, &vehicle->field0.field10);
     } else {
-        pw_calcCurrentPointXZLinearY(&vehicle->mUnk_0d8, &vehicle->mUnk_144);
-        vehicle->mUnk_000.mPos.x = vehicle->mUnk_144.x;
-        vehicle->mUnk_000.mUnk_10.y -= 0x59a;
-        vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + vehicle->mUnk_000.mUnk_10.y;
-        vehicle->mUnk_000.mPos.z = vehicle->mUnk_144.z;
-        vehicle->mUnk_000.mUnk_10.x = vehicle->mUnk_000.mPos.x - previousPosition.x;
-        vehicle->mUnk_000.mUnk_10.z = vehicle->mUnk_000.mPos.z - previousPosition.z;
+        pw_calcCurrentPointXZLinearY(&vehicle->fieldD8, &vehicle->field144);
+        vehicle->field0.mPos.x = vehicle->field144.x;
+        vehicle->field0.field10.y -= 0x59a;
+        vehicle->field0.mPos.y = vehicle->field0.mPos.y + vehicle->field0.field10.y;
+        vehicle->field0.mPos.z = vehicle->field144.z;
+        vehicle->field0.field10.x = vehicle->field0.mPos.x - previousPosition.x;
+        vehicle->field0.field10.z = vehicle->field0.mPos.z - previousPosition.z;
     }
-    if (f || (vehicle->mUnk_0d4 & 7) == race_getFrameCounterModulo8()) {
-        testPosition.x = vehicle->mUnk_000.mPos.x;
-        testPosition.y = vehicle->mUnk_000.mPos.y + (f ? 0xf000 : 0);
-        testPosition.z = vehicle->mUnk_000.mPos.z;
+    if (f || (vehicle->fieldD4 & 7) == race_getFrameCounterModulo8()) {
+        testPosition.x = vehicle->field0.mPos.x;
+        testPosition.y = vehicle->field0.mPos.y + (f ? 0xf000 : 0);
+        testPosition.z = vehicle->field0.mPos.z;
         u = testPosition;
         if (col_collide(&u, NULL, 0, 0xf000, 8, -2, out, &u, NULL, &hitFlags, NULL, NULL, NULL, NULL) != 0) {
             if (hitFlags & 0x1e34ef) {
-                qrtn_fromForwardVec(&u, &vehicle->mUnk_0b4);
-                light_interpolateToKclColor(&vehicle->mUnk_132, (hitFlags & 0x3c000000) >> 26, 0x5000);
-                if (vehicle->mUnk_0fe != 0 && vehicle->mUnk_000.mUnk_10.y < 0) {
-                    if (vehicle->mUnk_000.mFlags & 1) {
-                        vehicle->mUnk_000.mFlags &= ~1;
-                        vehicle->mUnk_000.mUnk_10.y = -(s32) (((s64) vehicle->mUnk_000.mUnk_10.y *
-                                                               (0x733 + ((vehicle->mUnk_114.y - 0x14000) >> 9))) >>
+                qrtn_fromForwardVec(&u, &vehicle->fieldB4);
+                light_interpolateToKclColor(&vehicle->field132, (hitFlags & 0x3c000000) >> 26, 0x5000);
+                if (vehicle->fieldFE != 0 && vehicle->field0.field10.y < 0) {
+                    if (vehicle->field0.mFlags & 1) {
+                        vehicle->field0.mFlags &= ~1;
+                        vehicle->field0.field10.y = -(s32) (((s64) vehicle->field0.field10.y *
+                                                               (0x733 + ((vehicle->field114.y - 0x14000) >> 9))) >>
                                                               12);
-                        vehicle->mUnk_0c4 = -vehicle->mUnk_0c4;
-                        vehicle->mUnk_0c8 = -vehicle->mUnk_0c8;
-                        vehicle->mUnk_0cc = -vehicle->mUnk_0cc;
-                        qrtn_slerp(&vehicle->mUnk_0c4, &vehicle->mUnk_0b4, &vehicle->mUnk_0c4,
+                        vehicle->fieldC4 = -vehicle->fieldC4;
+                        vehicle->fieldC8 = -vehicle->fieldC8;
+                        vehicle->fieldCC = -vehicle->fieldCC;
+                        qrtn_slerp(&vehicle->fieldC4, &vehicle->fieldB4, &vehicle->fieldC4,
                                                         0x8cd);
-                        vehicle->mUnk_152 = 0x320;
-                        mobj_emitSfxFromEmitter2(&vehicle->mUnk_000, vehicle->mUnk_160);
+                        vehicle->field152 = 0x320;
+                        mobj_emitSfxFromEmitter2(&vehicle->field0, vehicle->field160);
                     } else if (f && vehicle != NULL) {
-                        vehicle->mUnk_0fe = 0xf;
-                        vehicle->mUnk_000.mUnk_10.y = 0;
-                        vehicle->mUnk_152 = 0x258;
+                        vehicle->fieldFE = 0xf;
+                        vehicle->field0.field10.y = 0;
+                        vehicle->field152 = 0x258;
                     }
                 }
             }
             if ((hitFlags & 0x214300) && f) {
-                vehicle->mUnk_000.mPos.y = vehicle->mUnk_000.mPos.y + out[1];
-                vehicle->mUnk_000.mUnk_10.y = 0;
+                vehicle->field0.mPos.y = vehicle->field0.mPos.y + out[1];
+                vehicle->field0.field10.y = 0;
             }
         }
     }
     switch (f) {
         default:
-            if (vehicle->mUnk_000.mUnk_10.y < 0) {
-                vehicle->mUnk_152 = ((s64) (-vehicle->mUnk_000.mUnk_10.y) * 0xc) >> 12;
-                baseRotation = &vehicle->mUnk_0b4;
+            if (vehicle->field0.field10.y < 0) {
+                vehicle->field152 = ((s64) (-vehicle->field0.field10.y) * 0xc) >> 12;
+                baseRotation = &vehicle->fieldB4;
             } else {
-                baseRotation = &vehicle->mUnk_0c4;
+                baseRotation = &vehicle->fieldC4;
             }
             break;
 
         case 0:
             if (func_020e2630_inline2(vehicle) != 0) {
-                vehicle->mUnk_0fe--;
-                if (vehicle->mUnk_0fe == 0) {
-                    vehicle->mUnk_152 = vehicle->mUnk_150;
+                vehicle->fieldFE--;
+                if (vehicle->fieldFE == 0) {
+                    vehicle->field152 = vehicle->field150;
                 } else {
-                    baseRotation = &vehicle->mUnk_0b4;
+                    baseRotation = &vehicle->fieldB4;
                 }
             }
             break;
     }
 
-    if (func_020e2630_inline(&vehicle->mUnk_000.mUnk_10) < 0x10) {
-        targetRotation = vehicle->mUnk_0b4;
+    if (func_020e2630_inline(&vehicle->field0.field10) < 0x10) {
+        targetRotation = vehicle->fieldB4;
     } else {
-        vehicle->mUnk_000.mAngle =
-            (s16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28BE60DB9391 +
+        vehicle->field0.mAngle =
+            (s16) (((s64) FX_Atan2(vehicle->field0.field10.x, vehicle->field0.field10.z) * 0x28BE60DB9391 +
                     0x80000000000) >>
                    44);
-        if (vehicle->mUnk_0fe == 0) {
-            baseRotation = &vehicle->mUnk_0b4;
+        if (vehicle->fieldFE == 0) {
+            baseRotation = &vehicle->fieldB4;
         }
-        func_020d79b0(baseRotation, vehicle->mUnk_000.mAngle, &targetRotation);
+        func_020d79b0(baseRotation, vehicle->field0.mAngle, &targetRotation);
     }
-    qrtn_slerp(&vehicle->mUnk_0a4, &targetRotation, &vehicle->mUnk_0a4, vehicle->mUnk_152);
-    qtrn_toMtx33(&vehicle->mUnk_000.mMatrix.mUnk_00[0].x, &vehicle->mUnk_0a4);
-    vehicle->mUnk_10c += 0x600;
-    if (vehicle->mUnk_000.mDistanceSquaredAndFlags & 8) {
-        AdvanceSoundDistanceSquaredChange(vehicle->mUnk_158, vehicle->mUnk_000.mDistanceSquaredAndFlags & 0x3FFFFFE0);
+    qrtn_slerp(&vehicle->fieldA4, &targetRotation, &vehicle->fieldA4, vehicle->field152);
+    qtrn_toMtx33(&vehicle->field0.mMatrix.field0[0].x, &vehicle->fieldA4);
+    vehicle->field10C += 0x600;
+    if (vehicle->field0.mDistanceSquaredAndFlags & 8) {
+        AdvanceSoundDistanceSquaredChange(vehicle->field158, vehicle->field0.mDistanceSquaredAndFlags & 0x3FFFFFE0);
     }
-    mobj_emitSfxFromEmitter(&vehicle->mUnk_000, vehicle->mUnk_15c);
-    if (vehicle->mUnk_000.mPos.y < 0) {
+    mobj_emitSfxFromEmitter(&vehicle->field0, vehicle->field15C);
+    if (vehicle->field0.mPos.y < 0) {
         traf_20E1E98(vehicle);
     }
 }
@@ -327,41 +327,41 @@ void traf_20E24D0(Unk020e1e98 *vehicle, Vec3 *hitterPosition) {
     s32 dotAxis2;
     s32 upwardSpeed;
 
-    c = vehicle->mUnk_000.mPos;
+    c = vehicle->field0.mPos;
     VEC_Subtract(&c, hitterPosition, &c);
-    dotAxis0 = vec_dotProduct(&vehicle->mUnk_000.mMatrix.mUnk_00[0], &c);
-    dotAxis2 = vec_dotProduct(&vehicle->mUnk_000.mMatrix.mUnk_00[2], &c);
-    c.x = (dotAxis0 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[0].x : -vehicle->mUnk_000.mMatrix.mUnk_00[0].x) * 2;
-    c.x += dotAxis2 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[2].x : -vehicle->mUnk_000.mMatrix.mUnk_00[2].x;
-    c.z = (dotAxis0 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[0].z : -vehicle->mUnk_000.mMatrix.mUnk_00[0].z) * 2;
-    c.z += dotAxis2 > 0 ? vehicle->mUnk_000.mMatrix.mUnk_00[2].z : -vehicle->mUnk_000.mMatrix.mUnk_00[2].z;
-    c.y = ((vehicle->mUnk_114.y - 0x14000) >> 4) + 0x2000;
+    dotAxis0 = vec_dotProduct(&vehicle->field0.mMatrix.field0[0], &c);
+    dotAxis2 = vec_dotProduct(&vehicle->field0.mMatrix.field0[2], &c);
+    c.x = (dotAxis0 > 0 ? vehicle->field0.mMatrix.field0[0].x : -vehicle->field0.mMatrix.field0[0].x) * 2;
+    c.x += dotAxis2 > 0 ? vehicle->field0.mMatrix.field0[2].x : -vehicle->field0.mMatrix.field0[2].x;
+    c.z = (dotAxis0 > 0 ? vehicle->field0.mMatrix.field0[0].z : -vehicle->field0.mMatrix.field0[0].z) * 2;
+    c.z += dotAxis2 > 0 ? vehicle->field0.mMatrix.field0[2].z : -vehicle->field0.mMatrix.field0[2].z;
+    c.y = ((vehicle->field114.y - 0x14000) >> 4) + 0x2000;
     if ((s64) c.x * c.x + (s64) c.y * c.y + (s64) c.z * c.z >= 0x10) {
         vec_normalize(&c, &c);
     }
-    qrtn_fromForwardVec(&c, &vehicle->mUnk_0c4);
-    vehicle->mUnk_152 = 0x384;
-    if (vehicle->mUnk_0fe > 0xf || vehicle->mUnk_000.mUnk_10.y <= 0) {
+    qrtn_fromForwardVec(&c, &vehicle->fieldC4);
+    vehicle->field152 = 0x384;
+    if (vehicle->fieldFE > 0xf || vehicle->field0.field10.y <= 0) {
         upwardSpeed = 0;
     } else {
-        upwardSpeed = vehicle->mUnk_000.mUnk_10.y;
+        upwardSpeed = vehicle->field0.field10.y;
     }
-    vehicle->mUnk_000.mUnk_10.y = upwardSpeed + 0x7000;
-    vehicle->mUnk_000.mFlags |= *(const u16 *) data_02158a50;
-    vehicle->mUnk_0fe = 0x14;
+    vehicle->field0.field10.y = upwardSpeed + 0x7000;
+    vehicle->field0.mFlags |= *(const u16 *) data_02158a50;
+    vehicle->fieldFE = 0x14;
 }
 
 u8 traf_onDriverCollide(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d) {
     if (*c == 1) {
         traf_20E24D0(vehicle, &kart->mPos);
-        mobj_tryDestroyByDriver(&vehicle->mUnk_000, kart);
+        mobj_tryDestroyByDriver(&vehicle->field0, kart);
     }
     return *d;
 }
 
 u8 traf_onItemCollide(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d) {
     if (*c == 1) {
-        traf_20E24D0(vehicle, &itemObject->mUnk_050);
+        traf_20E24D0(vehicle, &itemObject->field50);
     }
     return *d;
 }
@@ -373,18 +373,18 @@ void traf_collide(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Ve
     s32 y;
     s32 z;
 
-    z = vehicle->mUnk_114.z;
-    y = vehicle->mUnk_114.y;
-    x = vehicle->mUnk_114.x;
+    z = vehicle->field114.z;
+    y = vehicle->field114.y;
+    x = vehicle->field114.x;
     e.x = x;
     e.y = y;
     e.z = z;
-    z = vehicle->mUnk_120;
-    x = vehicle->mUnk_114.x;
+    z = vehicle->field120;
+    x = vehicle->field114.x;
     f.x = x;
     f.y = 0;
     f.z = z;
-    col_collideSphereBox(sphereCenter, &vehicle->mUnk_000.mPos, &vehicle->mUnk_000.mMatrix.mUnk_00[0], &e, &f,
+    col_collideSphereBox(sphereCenter, &vehicle->field0.mPos, &vehicle->field0.mMatrix.field0[0], &e, &f,
                                  sphereRadius, overlapOffset);
 }
 
@@ -405,20 +405,20 @@ void traf_prepareRoutes(Unk0217b79c *updateList) {
     s16 w;
     float f;
 
-    count = updateList->mUnk_04;
-    vehicleCursor = updateList->mUnk_00;
+    count = updateList->field4;
+    vehicleCursor = updateList->field0;
     seenGroupMask = 0;
     z = 0;
     for (index = 0; index < count; index++) {
         vehicle = *vehicleCursor;
-        groupIndex = vehicle->mUnk_000.mCourseMapRow->mUnk_26;
-        vehicle->mUnk_0d4 = index;
+        groupIndex = vehicle->field0.mCourseMapRow->field26;
+        vehicle->fieldD4 = index;
         if ((seenGroupMask & (1 << groupIndex)) == 0) {
             entryCount = gMapData->mEntryGroups[groupIndex].mEntryCount;
             seenGroupMask |= 1 << groupIndex;
             for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
                 entry = mdat_getPathPoint(groupIndex, entryIndex);
-                v = entry->mUnk_0e;
+                v = entry->fieldE;
                 if (v != 0) {
                     if (v > 0) {
                         f = 0.5f + (v << 12);
@@ -429,8 +429,8 @@ void traf_prepareRoutes(Unk0217b79c *updateList) {
                 } else {
                     w = 0x2000;
                 }
-                entry->mUnk_12 = w;
-                entry->mUnk_0e = z;
+                entry->field12 = w;
+                entry->fieldE = z;
             }
         }
         vehicleCursor++;
@@ -456,9 +456,9 @@ void traf_loadModels(Unk020e20a8 *drawList) {
 
     carFile = mobj_getMapObjFile(aCar_a_nsbmd);
     truckFile = mobj_getMapObjFile(aTruck_a_nsbmd);
-    drawList->mUnk_038 =
+    drawList->field38 =
         gRaceMultiConfig->mMode != MODE_MISSION_RUN && rstat_getUncontrollable() == 0 && (u16) gRaceMultiConfig->mEntryIndex < 8;
-    drawList->mUnk_03c = FALSE;
+    drawList->field3C = FALSE;
     model2_createFromNsbmd(&traf_sCarModel, carFile, NULL);
     model2_createFromNsbmd(&traf_sTruckModel, truckFile, NULL);
     model2_createFromNsbmd(&traf_sBusModel, mobj_getMapObjFile(aBus_a_nsbmd), NULL);
@@ -469,115 +469,115 @@ void traf_loadModels(Unk020e20a8 *drawList) {
     CreateModelAnimation(2, traf_sCarModel, &traf_sCarNsbtpAnim, carFile, mobj_getMapObjFile(aCar_a_nsbtp));
     CreateModelAnimation(2, traf_sTruckModel, &traf_sTruckNsbtpAnim, truckFile, mobj_getMapObjFile(aTruck_a_nsbtp));
     model_setPolyIdLightFlagsEmi(traf_sCarModel, 0x3f, 2, 0x294a);
-    for (carMaterialIndex = 0, carModel = ((Unk0217b7a0 *) traf_sCarModel)->mUnk_04; carMaterialIndex < carModel->mInfo.mNumMat;
+    for (carMaterialIndex = 0, carModel = ((Unk0217b7a0 *) traf_sCarModel)->field4; carMaterialIndex < carModel->mInfo.mNumMat;
          carMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(carModel, carMaterialIndex, 7);
     }
     model_setPolyIdLightFlagsEmi(traf_sTruckModel, 0x3f, 2, 0x294a);
-    for (truckMaterialIndex = 0, truckModel = ((Unk0217b7a0 *) traf_sTruckModel)->mUnk_04;
+    for (truckMaterialIndex = 0, truckModel = ((Unk0217b7a0 *) traf_sTruckModel)->field4;
          truckMaterialIndex < truckModel->mInfo.mNumMat; truckMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(truckModel, truckMaterialIndex, 7);
     }
     model_setPolyIdLightFlagsEmi(traf_sBusModel, 0x3f, 2, 0x294a);
-    for (busMaterialIndex = 0, busModel = ((Unk0217b7a0 *) traf_sBusModel)->mUnk_04; busMaterialIndex < busModel->mInfo.mNumMat;
+    for (busMaterialIndex = 0, busModel = ((Unk0217b7a0 *) traf_sBusModel)->field4; busMaterialIndex < busModel->mInfo.mNumMat;
          busMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(busModel, busMaterialIndex, 7);
     }
     model_setPolyIdLightFlagsEmi(traf_sCarTireModel, 0x3f, 2, 0x294a);
-    for (tireMaterialIndex = 0, tireModel = ((Unk0217b7a0 *) traf_sCarTireModel)->mUnk_04;
+    for (tireMaterialIndex = 0, tireModel = ((Unk0217b7a0 *) traf_sCarTireModel)->field4;
          tireMaterialIndex < tireModel->mInfo.mNumMat; tireMaterialIndex++) {
         NNS_G3dMdlSetMdlPolygonID(tireModel, tireMaterialIndex, 7);
     }
     model_setLightEnableFlag(traf_sCarTireModel, 0);
-    count = data_0217b79c->mUnk_04;
+    count = data_0217b79c->field4;
     for (index = 0; index < count; index++) {
-        vehicle = data_0217b79c->mUnk_00[index];
-        q = vehicle->mUnk_154->mUnk_20;
-        vehicle->mUnk_124 = q != NULL ? *q : 0;
-        q = vehicle->mUnk_154->mUnk_24;
-        vehicle->mUnk_128 = q != NULL ? *q : 0;
-        animationSlot = vehicle->mUnk_154->mUnk_28;
-        vehicle->mUnk_12c = animationSlot != NULL ? *animationSlot : 0;
+        vehicle = data_0217b79c->field0[index];
+        q = vehicle->field154->field20;
+        vehicle->field124 = q != NULL ? *q : 0;
+        q = vehicle->field154->field24;
+        vehicle->field128 = q != NULL ? *q : 0;
+        animationSlot = vehicle->field154->field28;
+        vehicle->field12C = animationSlot != NULL ? *animationSlot : 0;
     }
 }
 
 void traf_init(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    vehicle->mUnk_154 = kindInfo;
-    pw_initFromObject(&vehicle->mUnk_0d8, courseRow, (s16) courseRow->mUnk_28 * 0x3000 / 100);
-    vehicle->mUnk_0fc = courseRow->mUnk_2a;
-    vehicle->mUnk_130 = courseRow->mUnk_2c;
-    vehicle->mUnk_0a0 = mdat_getPathPoint(courseRow->mUnk_26, vehicle->mUnk_0fc)->mPos.y;
-    vehicle->mUnk_114.x = ((s64) kindInfo->mUnk_00 * vehicle->mUnk_000.mScale.x) >> 12;
-    vehicle->mUnk_114.y = ((s64) kindInfo->mUnk_04 * vehicle->mUnk_000.mScale.y) >> 12;
-    vehicle->mUnk_114.z = ((s64) kindInfo->mUnk_08 * vehicle->mUnk_000.mScale.z) >> 12;
-    vehicle->mUnk_120 = ((s64) kindInfo->mUnk_0c * vehicle->mUnk_000.mScale.z) >> 12;
-    vehicle->mUnk_152 = (u32) ((s16) courseRow->mUnk_28 * 0xfa) / 100;
-    vehicle->mUnk_150 = vehicle->mUnk_152;
-    vehicle->mUnk_100[0] = kindInfo->mUnk_10;
-    vehicle->mUnk_100[1] = kindInfo->mUnk_14 >> 4;
-    vehicle->mUnk_100[2] = kindInfo->mUnk_18 >> 4;
-    vehicle->mUnk_110 = kindInfo->mUnk_1c;
+    vehicle->field154 = kindInfo;
+    pw_initFromObject(&vehicle->fieldD8, courseRow, (s16) courseRow->field28 * 0x3000 / 100);
+    vehicle->fieldFC = courseRow->field2A;
+    vehicle->field130 = courseRow->field2C;
+    vehicle->fieldA0 = mdat_getPathPoint(courseRow->field26, vehicle->fieldFC)->mPos.y;
+    vehicle->field114.x = ((s64) kindInfo->field0 * vehicle->field0.mScale.x) >> 12;
+    vehicle->field114.y = ((s64) kindInfo->field4 * vehicle->field0.mScale.y) >> 12;
+    vehicle->field114.z = ((s64) kindInfo->field8 * vehicle->field0.mScale.z) >> 12;
+    vehicle->field120 = ((s64) kindInfo->fieldC * vehicle->field0.mScale.z) >> 12;
+    vehicle->field152 = (u32) ((s16) courseRow->field28 * 0xfa) / 100;
+    vehicle->field150 = vehicle->field152;
+    vehicle->field100[0] = kindInfo->field10;
+    vehicle->field100[1] = kindInfo->field14 >> 4;
+    vehicle->field100[2] = kindInfo->field18 >> 4;
+    vehicle->field110 = kindInfo->field1C;
     traf_20E1E98(vehicle);
-    vehicle->mUnk_15c = kindInfo->mUnk_2c;
-    vehicle->mUnk_158 = mobj_initSoundEmitterExForObjectSfxParam2(&vehicle->mUnk_000);
-    sfx_210B850(vehicle->mUnk_158);
-    vehicle->mUnk_000.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6ec;
-    vehicle->mUnk_160 = kindInfo->mUnk_30;
+    vehicle->field15C = kindInfo->field2C;
+    vehicle->field158 = mobj_initSoundEmitterExForObjectSfxParam2(&vehicle->field0);
+    sfx_210B850(vehicle->field158);
+    vehicle->field0.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6ec;
+    vehicle->field160 = kindInfo->field30;
 }
 
 void traf_20E1E98(Unk020e1e98 *vehicle) {
-    pw_init(&vehicle->mUnk_0d8, vehicle->mUnk_0fc, 1);
-    pw_20D8B18_XZ(&vehicle->mUnk_0d8, &vehicle->mUnk_000.mPos, &vehicle->mUnk_000.mUnk_10);
-    vehicle->mUnk_000.mPos.y = vehicle->mUnk_0a0;
-    vehicle->mUnk_000.mUnk_10.y = 0;
-    vehicle->mUnk_0b4 = *(const Unk020e1e98_0b4 *) data_0216c044;
-    func_020d79b0(&vehicle->mUnk_0b4,
-                  (u16) (((s64) FX_Atan2(vehicle->mUnk_000.mUnk_10.x, vehicle->mUnk_000.mUnk_10.z) * 0x28be60db9391 +
+    pw_init(&vehicle->fieldD8, vehicle->fieldFC, 1);
+    pw_20D8B18_XZ(&vehicle->fieldD8, &vehicle->field0.mPos, &vehicle->field0.field10);
+    vehicle->field0.mPos.y = vehicle->fieldA0;
+    vehicle->field0.field10.y = 0;
+    vehicle->fieldB4 = *(const Unk020e1e98_0b4 *) data_0216c044;
+    func_020d79b0(&vehicle->fieldB4,
+                  (u16) (((s64) FX_Atan2(vehicle->field0.field10.x, vehicle->field0.field10.z) * 0x28be60db9391 +
                           0x80000000000) >>
                          44),
-                  &vehicle->mUnk_0a4);
-    qtrn_toMtx33(&vehicle->mUnk_000.mMatrix.mUnk_00[0].x, &vehicle->mUnk_0a4);
-    vehicle->mUnk_0fe = 0;
-    vehicle->mUnk_152 = vehicle->mUnk_150;
-    vehicle->mUnk_10c = 0;
-    light_init(&vehicle->mUnk_132, 1);
+                  &vehicle->fieldA4);
+    qtrn_toMtx33(&vehicle->field0.mMatrix.field0[0].x, &vehicle->fieldA4);
+    vehicle->fieldFE = 0;
+    vehicle->field152 = vehicle->field150;
+    vehicle->field10C = 0;
+    light_init(&vehicle->field132, 1);
 }
 
 #pragma thumb off
 
 void dcol_render(Unk020e1dc0 *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32)) {
     s32 index;
-    s32 count = list->mUnk_04;
+    s32 count = list->field4;
 
     for (index = 0; index < count; index++) {
-        Unk020e3ef4 *mapObject = list->mUnk_00[index];
+        Unk020e3ef4 *mapObject = list->field0[index];
 
-        if ((mapObject->mUnk_000.mFlags & 0x12) == 0 && mapObject->mUnk_000.mAlpha != 0) {
-            drawObject(mapObject, viewMatrix, mapObject->mUnk_000.mAlpha);
+        if ((mapObject->field0.mFlags & 0x12) == 0 && mapObject->field0.mAlpha != 0) {
+            drawObject(mapObject, viewMatrix, mapObject->field0.mAlpha);
         }
     }
 }
 
 void dcol_commonRender(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha) {
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].x = mapObject->mUnk_000.mPos.x >> 4;
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].y = mapObject->mUnk_000.mPos.y >> 4;
-    mapObject->mUnk_000.mMatrix.mUnk_00[3].z = mapObject->mUnk_000.mPos.z >> 4;
-    model2_renderModel(mapObject->mModel, &mapObject->mUnk_000.mMatrix, &mapObject->mUnk_000.mScale.x,
+    mapObject->field0.mMatrix.field0[3].x = mapObject->field0.mPos.x >> 4;
+    mapObject->field0.mMatrix.field0[3].y = mapObject->field0.mPos.y >> 4;
+    mapObject->field0.mMatrix.field0[3].z = mapObject->field0.mPos.z >> 4;
+    model2_renderModel(mapObject->mModel, &mapObject->field0.mMatrix, &mapObject->field0.mScale.x,
                                    alpha);
 }
 
 void dcol_setModel(Unk020e1dc0 *list, void *model) {
     s32 index;
-    s32 count = list->mUnk_04;
+    s32 count = list->field4;
 
     for (index = 0; index < count; index++) {
-        list->mUnk_00[index]->mModel = model;
+        list->field0[index]->mModel = model;
     }
 }
 
 s32 dcol_collide(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
                   Vec3 *g, u16 *h, Vec3 *i, u16 *j) {
-    switch (object->mUnk_134) {
+    switch (object->field134) {
         case 0:
             return dcol_collideBox(object, sphereCenter, sphereRadius, d, e, f, g, h, i, j);
         case 1:
@@ -601,7 +601,7 @@ void dcol_20E1A80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c 
         } else {
             t = -h->y;
         }
-        if (t > object->mUnk_120) {
+        if (t > object->field120) {
             q = TRUE;
         }
     }
@@ -612,37 +612,37 @@ void dcol_20E1A80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c 
     u.y = ((s64) u.y * b) >> 12;
     u.z = ((s64) u.z * b) >> 12;
     if (q) {
-        n = object->mUnk_114.z != 0 && (d & 8) ? 0x12 : 0;
+        n = object->field114.z != 0 && (d & 8) ? 0x12 : 0;
         *f = n;
         s = i;
     } else {
         *f = 8;
         s = j;
     }
-    if (c >= s->mUnk_18) {
-        s->mUnk_18 = c;
+    if (c >= s->field18) {
+        s->field18 = c;
         if (d & e) {
-            s->mUnk_1c = *h;
+            s->field1C = *h;
         } else {
-            s->mUnk_1c.x = -h->x;
-            s->mUnk_1c.y = -h->y;
-            s->mUnk_1c.z = -h->z;
+            s->field1C.x = -h->x;
+            s->field1C.y = -h->y;
+            s->field1C.z = -h->z;
         }
     }
-    if (u.x > s->mUnk_00) {
-        s->mUnk_00 = u.x;
-    } else if (u.x < s->mUnk_0c) {
-        s->mUnk_0c = u.x;
+    if (u.x > s->field0) {
+        s->field0 = u.x;
+    } else if (u.x < s->fieldC) {
+        s->fieldC = u.x;
     }
-    if (u.y > s->mUnk_04) {
-        s->mUnk_04 = u.y;
-    } else if (u.y < s->mUnk_10) {
-        s->mUnk_10 = u.y;
+    if (u.y > s->field4) {
+        s->field4 = u.y;
+    } else if (u.y < s->field10) {
+        s->field10 = u.y;
     }
-    if (u.z > s->mUnk_08) {
-        s->mUnk_08 = u.z;
-    } else if (u.z < s->mUnk_14) {
-        s->mUnk_14 = u.z;
+    if (u.z > s->field8) {
+        s->field8 = u.z;
+    } else if (u.z < s->field14) {
+        s->field14 = u.z;
     }
     if (k != NULL) {
         if (d & e) {
@@ -685,7 +685,7 @@ BOOL dcol_20E16DC(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i
         k = FALSE;
         if (i != 0) {
             t = (d & e) ? m->y : -m->y;
-            if (t > object->mUnk_120) {
+            if (t > object->field120) {
                 k = TRUE;
             }
         }
@@ -693,7 +693,7 @@ BOOL dcol_20E16DC(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i
             k = FALSE;
             if (j != 0) {
                 t = (d & f) ? n->y : -n->y;
-                if (t > object->mUnk_120) {
+                if (t > object->field120) {
                     k = TRUE;
                 }
             }
@@ -736,7 +736,7 @@ BOOL dcol_20E16DC(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i
         c = a;
     }
     if (u) {
-        if (object->mUnk_114.z != 0 && (d & 8)) {
+        if (object->field114.z != 0 && (d & 8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -747,27 +747,27 @@ BOOL dcol_20E16DC(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i
         *g = 8;
         x = p;
     }
-    if (c >= x->mUnk_18) {
-        x->mUnk_18 = c;
-        x->mUnk_1c = tmp;
+    if (c >= x->field18) {
+        x->field18 = c;
+        x->field1C = tmp;
     }
     z.x <<= 10;
     z.y <<= 10;
     z.z <<= 10;
-    if (z.x > x->mUnk_00) {
-        x->mUnk_00 = z.x;
-    } else if (z.x < x->mUnk_0c) {
-        x->mUnk_0c = z.x;
+    if (z.x > x->field0) {
+        x->field0 = z.x;
+    } else if (z.x < x->fieldC) {
+        x->fieldC = z.x;
     }
-    if (z.y > x->mUnk_04) {
-        x->mUnk_04 = z.y;
-    } else if (z.y < x->mUnk_10) {
-        x->mUnk_10 = z.y;
+    if (z.y > x->field4) {
+        x->field4 = z.y;
+    } else if (z.y < x->field10) {
+        x->field10 = z.y;
     }
-    if (z.z > x->mUnk_08) {
-        x->mUnk_08 = z.z;
-    } else if (z.z < x->mUnk_14) {
-        x->mUnk_14 = z.z;
+    if (z.z > x->field8) {
+        x->field8 = z.z;
+    } else if (z.z < x->field14) {
+        x->field14 = z.z;
     }
     if (q != NULL) {
         y.x = -y.x;
@@ -805,87 +805,87 @@ BOOL dcol_collideBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, 
     s32 t;
 
     n = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_0f4, &v);
-    f6 = vec_dotProduct(&v, &object->mUnk_028);
+    VEC_Subtract(sphereCenter, &object->fieldF4, &v);
+    f6 = vec_dotProduct(&v, &object->field28);
     if (f6 > 0) {
-        if (f6 > object->mUnk_100 + sphereRadius) {
+        if (f6 > object->field100 + sphereRadius) {
             return FALSE;
         }
-        if (f6 > object->mUnk_100) {
+        if (f6 > object->field100) {
             n |= 0xa00;
         } else {
             n |= 0x900;
         }
     } else {
-        if (f6 < -(object->mUnk_100 + sphereRadius)) {
+        if (f6 < -(object->field100 + sphereRadius)) {
             return FALSE;
         }
-        if (f6 < -object->mUnk_100) {
+        if (f6 < -object->field100) {
             n |= 0x600;
         } else {
             n |= 0x500;
         }
     }
-    f5 = vec_dotProduct(&v, &object->mUnk_034);
+    f5 = vec_dotProduct(&v, &object->field34);
     if (f5 > 0) {
-        if (f5 > object->mUnk_104 + sphereRadius) {
+        if (f5 > object->field104 + sphereRadius) {
             return FALSE;
         }
-        if (f5 > object->mUnk_104) {
+        if (f5 > object->field104) {
             n |= 0xa0;
         } else {
             n |= 0x90;
         }
     } else {
-        if (f5 < -(object->mUnk_104 + sphereRadius)) {
+        if (f5 < -(object->field104 + sphereRadius)) {
             return FALSE;
         }
-        if (f5 < -object->mUnk_104) {
+        if (f5 < -object->field104) {
             n |= 0x60;
         } else {
             n |= 0x50;
         }
     }
-    f4 = vec_dotProduct(&v, &object->mUnk_040);
+    f4 = vec_dotProduct(&v, &object->field40);
     if (f4 > 0) {
-        if (f4 > object->mUnk_108 + sphereRadius) {
+        if (f4 > object->field108 + sphereRadius) {
             return FALSE;
         }
-        if (f4 > object->mUnk_108) {
+        if (f4 > object->field108) {
             n |= 0xa;
         } else {
             n |= 0x9;
         }
     } else {
-        if (f4 < -(object->mUnk_10c + sphereRadius)) {
+        if (f4 < -(object->field10C + sphereRadius)) {
             return FALSE;
         }
-        if (f4 < -object->mUnk_10c) {
+        if (f4 < -object->field10C) {
             n |= 0x6;
         } else {
             n |= 0x5;
         }
     }
-    if ((d & 4) && object->mUnk_13c != 0) {
+    if ((d & 4) && object->field13C != 0) {
         return FALSE;
     }
     if (n & 0x100) {
         if (n & 0x10) {
             if (n & 0x8) {
-                f4 = (object->mUnk_108 + sphereRadius) - f4;
+                f4 = (object->field108 + sphereRadius) - f4;
             } else {
-                f4 = -(object->mUnk_10c + sphereRadius) - f4;
+                f4 = -(object->field10C + sphereRadius) - f4;
             }
             if (n & 0x1) {
                 if (n & 0x800) {
-                    k6 = (object->mUnk_100 + sphereRadius) - f6;
+                    k6 = (object->field100 + sphereRadius) - f6;
                 } else {
-                    k6 = -(object->mUnk_100 + sphereRadius) - f6;
+                    k6 = -(object->field100 + sphereRadius) - f6;
                 }
                 if (n & 0x80) {
-                    k5 = (object->mUnk_104 + sphereRadius) - f5;
+                    k5 = (object->field104 + sphereRadius) - f5;
                 } else {
-                    k5 = -(object->mUnk_104 + sphereRadius) - f5;
+                    k5 = -(object->field104 + sphereRadius) - f5;
                 }
                 m6 = k6 > 0 ? k6 : -k6;
                 m5 = k5 > 0 ? k5 : -k5;
@@ -896,9 +896,9 @@ BOOL dcol_collideBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, 
             goto call_8;
         }
         if (n & 0x80) {
-            k5 = (object->mUnk_104 + sphereRadius) - f5;
+            k5 = (object->field104 + sphereRadius) - f5;
         } else {
-            k5 = -(object->mUnk_104 + sphereRadius) - f5;
+            k5 = -(object->field104 + sphereRadius) - f5;
         }
         if (!(n & 0x1)) {
             goto call_80_8;
@@ -907,9 +907,9 @@ BOOL dcol_collideBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, 
         goto call_80;
     }
     if (n & 0x800) {
-        k6 = (object->mUnk_100 + sphereRadius) - f6;
+        k6 = (object->field100 + sphereRadius) - f6;
     } else {
-        k6 = -(object->mUnk_100 + sphereRadius) - f6;
+        k6 = -(object->field100 + sphereRadius) - f6;
     }
     if (n & 0x10) {
         if (!(n & 0x1)) {
@@ -923,15 +923,15 @@ BOOL dcol_collideBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, 
         goto call_800_80;
     }
 call_800:
-    dcol_20E1A80(sphereRadius, k6, m6, n, 0x800, g, object->mUnk_110, object, sphereCenter, &object->mUnk_028, o, p, q,
+    dcol_20E1A80(sphereRadius, k6, m6, n, 0x800, g, object->field110, object, sphereCenter, &object->field28, o, p, q,
                   r, s);
     return TRUE;
 call_80:
-    dcol_20E1A80(sphereRadius, k5, m5, n, 0x80, g, object->mUnk_114.x, object, sphereCenter, &object->mUnk_034, o, p,
+    dcol_20E1A80(sphereRadius, k5, m5, n, 0x80, g, object->field114.x, object, sphereCenter, &object->field34, o, p,
                   q, r, s);
     return TRUE;
 call_8:
-    dcol_20E1A80(sphereRadius, f4, m4, n, 8, g, object->mUnk_114.y, object, sphereCenter, &object->mUnk_040, o, p, q,
+    dcol_20E1A80(sphereRadius, f4, m4, n, 8, g, object->field114.y, object, sphereCenter, &object->field40, o, p, q,
                   r, s);
     return TRUE;
 smallest:
@@ -947,60 +947,60 @@ smallest:
     goto call_80;
 call_800_80:
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->field100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->field100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->field104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->field104;
     }
-    return dcol_20E16DC(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->mUnk_110, object->mUnk_114.x, object,
-                         sphereCenter, &object->mUnk_028, &object->mUnk_034, o, p, q, r, s);
+    return dcol_20E16DC(sphereRadius, f6, f5, n, 0x800, 0x80, g, d, object->field110, object->field114.x, object,
+                         sphereCenter, &object->field28, &object->field34, o, p, q, r, s);
 call_80_8:
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->field104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->field104;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->field108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->field10C;
     }
-    return dcol_20E16DC(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->mUnk_114.x, object->mUnk_114.y, object,
-                         sphereCenter, &object->mUnk_034, &object->mUnk_040, o, p, q, r, s);
+    return dcol_20E16DC(sphereRadius, f5, f4, n, 0x80, 0x8, g, d, object->field114.x, object->field114.y, object,
+                         sphereCenter, &object->field34, &object->field40, o, p, q, r, s);
 call_8_800:
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->field108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->field10C;
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->field100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->field100;
     }
-    return dcol_20E16DC(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->mUnk_114.y, object->mUnk_110, object,
-                         sphereCenter, &object->mUnk_040, &object->mUnk_028, o, p, q, r, s);
+    return dcol_20E16DC(sphereRadius, f4, f6, n, 8, 0x800, g, d, object->field114.y, object->field110, object,
+                         sphereCenter, &object->field40, &object->field28, o, p, q, r, s);
 rest:
     u = FALSE;
     if ((d & 0x60) == 0) {
         e = TRUE;
         y = TRUE;
         h = FALSE;
-        if (object->mUnk_110 != 0) {
-            t = (n & 0x800) ? object->mUnk_028.y : -object->mUnk_028.y;
-            if (t > object->mUnk_120) {
+        if (object->field110 != 0) {
+            t = (n & 0x800) ? object->field28.y : -object->field28.y;
+            if (t > object->field120) {
                 h = TRUE;
             }
         }
         if (h == FALSE) {
             h = FALSE;
-            if (object->mUnk_114.x != 0) {
-                t = (n & 0x80) ? object->mUnk_034.y : -object->mUnk_034.y;
-                if (t > object->mUnk_120) {
+            if (object->field114.x != 0) {
+                t = (n & 0x80) ? object->field34.y : -object->field34.y;
+                if (t > object->field120) {
                     h = TRUE;
                 }
             }
@@ -1010,9 +1010,9 @@ rest:
         }
         if (y == FALSE) {
             k5 = 0;
-            if (object->mUnk_114.y != 0) {
-                t = (n & 0x8) ? object->mUnk_040.y : -object->mUnk_040.y;
-                if (t > object->mUnk_120) {
+            if (object->field114.y != 0) {
+                t = (n & 0x8) ? object->field40.y : -object->field40.y;
+                if (t > object->field120) {
                     k5 = 1;
                 }
             }
@@ -1025,30 +1025,30 @@ rest:
         }
     }
     if (n & 0x800) {
-        f6 = f6 - object->mUnk_100;
+        f6 = f6 - object->field100;
     } else {
-        f6 = f6 + object->mUnk_100;
+        f6 = f6 + object->field100;
     }
     if (n & 0x80) {
-        f5 = f5 - object->mUnk_104;
+        f5 = f5 - object->field104;
     } else {
-        f5 = f5 + object->mUnk_104;
+        f5 = f5 + object->field104;
     }
     if (n & 0x8) {
-        f4 = f4 - object->mUnk_108;
+        f4 = f4 - object->field108;
     } else {
-        f4 = f4 + object->mUnk_10c;
+        f4 = f4 + object->field10C;
     }
-    v.x = ((s64) object->mUnk_028.x * f6) >> 12;
-    v.y = ((s64) object->mUnk_028.y * f6) >> 12;
-    v.z = ((s64) object->mUnk_028.z * f6) >> 12;
-    w.x = ((s64) object->mUnk_034.x * f5) >> 12;
-    w.y = ((s64) object->mUnk_034.y * f5) >> 12;
-    w.z = ((s64) object->mUnk_034.z * f5) >> 12;
+    v.x = ((s64) object->field28.x * f6) >> 12;
+    v.y = ((s64) object->field28.y * f6) >> 12;
+    v.z = ((s64) object->field28.z * f6) >> 12;
+    w.x = ((s64) object->field34.x * f5) >> 12;
+    w.y = ((s64) object->field34.y * f5) >> 12;
+    w.z = ((s64) object->field34.z * f5) >> 12;
     VEC_Add(&w, &v, &v);
-    w.x = ((s64) object->mUnk_040.x * f4) >> 12;
-    w.y = ((s64) object->mUnk_040.y * f4) >> 12;
-    w.z = ((s64) object->mUnk_040.z * f4) >> 12;
+    w.x = ((s64) object->field40.x * f4) >> 12;
+    w.y = ((s64) object->field40.y * f4) >> 12;
+    w.z = ((s64) object->field40.z * f4) >> 12;
     VEC_Add(&w, &v, &v);
     v.x <<= 10;
     v.y <<= 10;
@@ -1067,13 +1067,13 @@ rest:
         VEC_Subtract(&tmp, &v, &tmp);
         sphereRadius = VEC_Mag(&tmp);
     } else {
-        w = object->mUnk_034;
+        w = object->field34;
         tmp.x = ((s64) w.x * sphereRadius) >> 12;
         tmp.y = ((s64) w.y * sphereRadius) >> 12;
         tmp.z = ((s64) w.z * sphereRadius) >> 12;
     }
     if (u) {
-        if (object->mUnk_114.z != 0 && (n & 0x8)) {
+        if (object->field114.z != 0 && (n & 0x8)) {
             *g = 0x1e;
             x = p;
         } else {
@@ -1084,27 +1084,27 @@ rest:
         *g = 8;
         x = p;
     }
-    if (sphereRadius >= x->mUnk_18) {
-        x->mUnk_18 = sphereRadius;
-        x->mUnk_1c = w;
+    if (sphereRadius >= x->field18) {
+        x->field18 = sphereRadius;
+        x->field1C = w;
     }
     tmp.x <<= 10;
     tmp.y <<= 10;
     tmp.z <<= 10;
-    if (tmp.x > x->mUnk_00) {
-        x->mUnk_00 = tmp.x;
-    } else if (tmp.x < x->mUnk_0c) {
-        x->mUnk_0c = tmp.x;
+    if (tmp.x > x->field0) {
+        x->field0 = tmp.x;
+    } else if (tmp.x < x->fieldC) {
+        x->fieldC = tmp.x;
     }
-    if (tmp.y > x->mUnk_04) {
-        x->mUnk_04 = tmp.y;
-    } else if (tmp.y < x->mUnk_10) {
-        x->mUnk_10 = tmp.y;
+    if (tmp.y > x->field4) {
+        x->field4 = tmp.y;
+    } else if (tmp.y < x->field10) {
+        x->field10 = tmp.y;
     }
-    if (tmp.z > x->mUnk_08) {
-        x->mUnk_08 = tmp.z;
-    } else if (tmp.z < x->mUnk_14) {
-        x->mUnk_14 = tmp.z;
+    if (tmp.z > x->field8) {
+        x->field8 = tmp.z;
+    } else if (tmp.z < x->field14) {
+        x->field14 = tmp.z;
     }
     if (q != NULL) {
         v.x = -v.x;
@@ -1134,34 +1134,34 @@ BOOL dcol_collideCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRad
     s32 n;
 
     fl = 0;
-    VEC_Subtract(sphereCenter, &object->mUnk_0f4, &v);
-    x = vec_dotProduct(&v, &object->mUnk_028);
-    y = vec_dotProduct(&v, &object->mUnk_040);
+    VEC_Subtract(sphereCenter, &object->fieldF4, &v);
+    x = vec_dotProduct(&v, &object->field28);
+    y = vec_dotProduct(&v, &object->field40);
     sq = (s64) x * x + (s64) y * y;
-    t = object->mUnk_100 + sphereRadius;
+    t = object->field100 + sphereRadius;
     if ((s64) t * t < sq) {
         return FALSE;
     }
-    if ((s64) object->mUnk_100 * object->mUnk_100 < sq) {
+    if ((s64) object->field100 * object->field100 < sq) {
         fl |= data_021588e8;
     } else {
         fl |= data_021588ec;
     }
-    n = vec_dotProduct(&v, &object->mUnk_034);
+    n = vec_dotProduct(&v, &object->field34);
     if (n > 0) {
-        if (n > object->mUnk_104 + sphereRadius) {
+        if (n > object->field104 + sphereRadius) {
             return FALSE;
         }
-        if (n > object->mUnk_104) {
+        if (n > object->field104) {
             fl |= 0xa0;
         } else {
             fl |= 0x90;
         }
     } else {
-        if (n < -(object->mUnk_104 + sphereRadius)) {
+        if (n < -(object->field104 + sphereRadius)) {
             return FALSE;
         }
-        if (n < -object->mUnk_104) {
+        if (n < -object->field104) {
             fl |= 0x60;
         } else {
             fl |= 0x50;
@@ -1169,9 +1169,9 @@ BOOL dcol_collideCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRad
     }
     if (fl & 0x1000) {
         if (fl & 0x80) {
-            n = object->mUnk_104 + sphereRadius - n;
+            n = object->field104 + sphereRadius - n;
         } else {
-            n = -(object->mUnk_104 + sphereRadius) - n;
+            n = -(object->field104 + sphereRadius) - n;
         }
         if (n > 0) {
             d0 = n;
@@ -1189,10 +1189,10 @@ BOOL dcol_collideCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRad
         if (x == 0) {
             w = data_021588f0;
         } else {
-            w.x = ((s64) object->mUnk_028.x * v.x) >> 12;
-            w.y = ((s64) object->mUnk_028.y * v.x) >> 12;
-            w.z = ((s64) object->mUnk_028.z * v.x) >> 12;
-            VEC_MultAdd(v.z, &object->mUnk_040, &w, &w);
+            w.x = ((s64) object->field28.x * v.x) >> 12;
+            w.y = ((s64) object->field28.y * v.x) >> 12;
+            w.z = ((s64) object->field28.z * v.x) >> 12;
+            VEC_MultAdd(v.z, &object->field40, &w, &w);
         }
         goto cmp;
     }
@@ -1204,31 +1204,31 @@ BOOL dcol_collideCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRad
     if (x == 0) {
         w = data_021588fc;
     } else {
-        w.x = ((s64) object->mUnk_028.x * v.x) >> 12;
-        w.y = ((s64) object->mUnk_028.y * v.x) >> 12;
-        w.z = ((s64) object->mUnk_028.z * v.x) >> 12;
-        VEC_MultAdd(v.z, &object->mUnk_040, &w, &w);
+        w.x = ((s64) object->field28.x * v.x) >> 12;
+        w.y = ((s64) object->field28.y * v.x) >> 12;
+        w.z = ((s64) object->field28.z * v.x) >> 12;
+        VEC_MultAdd(v.z, &object->field40, &w, &w);
     }
     if (fl & 0x10) {
         goto apply3000;
     }
     goto tail;
 apply80:
-    dcol_20E1A80(sphereRadius, n, d0, fl, 0x80, g, object->mUnk_114.x, object, sphereCenter, &object->mUnk_034, o, p,
+    dcol_20E1A80(sphereRadius, n, d0, fl, 0x80, g, object->field114.x, object, sphereCenter, &object->field34, o, p,
                   q, r, s);
     return TRUE;
 apply3000:
-    dcol_20E1A80(sphereRadius, k, x, fl, 0x3000, g, object->mUnk_110, object, sphereCenter, &w, o, p, q, r, s);
+    dcol_20E1A80(sphereRadius, k, x, fl, 0x3000, g, object->field110, object, sphereCenter, &w, o, p, q, r, s);
     return TRUE;
 tail:
-    x = x - object->mUnk_100;
+    x = x - object->field100;
     if (fl & 0x80) {
-        n = n - object->mUnk_104;
+        n = n - object->field104;
     } else {
-        n = n + object->mUnk_104;
+        n = n + object->field104;
     }
-    return dcol_20E16DC(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->mUnk_110, object->mUnk_114.x, object,
-                         sphereCenter, &w, &object->mUnk_034, o, p, q, r, s);
+    return dcol_20E16DC(sphereRadius, x, n, fl, 0x3000, 0x80, g, d, object->field110, object->field114.x, object,
+                         sphereCenter, &w, &object->field34, o, p, q, r, s);
 cmp:
     if (k < d0) {
         goto apply3000;
@@ -1240,16 +1240,16 @@ void dcol_20E0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e)
     Vec3 offset;
 
     if (d != NULL) {
-        d->x = -object->mUnk_010.x;
-        d->y = -object->mUnk_010.y;
-        d->z = -object->mUnk_010.z;
+        d->x = -object->field10.x;
+        d->y = -object->field10.y;
+        d->z = -object->field10.z;
         VEC_Subtract(position, &object->mPos, &offset);
-        VEC_MultAdd(vec_dotProduct(&offset, &object->mUnk_028), &object->mUnk_0a0, d, d);
-        VEC_MultAdd(vec_dotProduct(&offset, &object->mUnk_034), &object->mUnk_0ac, d, d);
-        VEC_MultAdd(vec_dotProduct(&offset, &object->mUnk_040), &object->mUnk_0b8, d, d);
+        VEC_MultAdd(vec_dotProduct(&offset, &object->field28), &object->fieldA0, d, d);
+        VEC_MultAdd(vec_dotProduct(&offset, &object->field34), &object->fieldAC, d, d);
+        VEC_MultAdd(vec_dotProduct(&offset, &object->field40), &object->fieldB8, d, d);
         VEC_Subtract(&offset, d, d);
     }
     if (e != NULL) {
-        *e = vec_dotProduct(&object->mUnk_124, c);
+        *e = vec_dotProduct(&object->field124, c);
     }
 }

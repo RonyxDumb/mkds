@@ -57,15 +57,15 @@ void sysdat_initSystemData(void) {
 
     OS_GetOwnerInfo(&ownerInfo);
     MI_CpuFill8(gSystemData->mOwnerText, 0, 0x14);
-    gSystemData->mOwnerCharCount = ownerInfo.mUnk_18;
-    MI_CpuCopy8(ownerInfo.mUnk_04, gSystemData->mOwnerText, gSystemData->mOwnerCharCount << 1);
-    gSystemData->mUnk_40 = ownerInfo.mUnk_01;
+    gSystemData->mOwnerCharCount = ownerInfo.field18;
+    MI_CpuCopy8(ownerInfo.field4, gSystemData->mOwnerText, gSystemData->mOwnerCharCount << 1);
+    gSystemData->field40 = ownerInfo.field1;
 #ifdef version_EUR
-    gSystemData->mUnk_00 = 2;
+    gSystemData->field0 = 2;
 #else
-    gSystemData->mUnk_00 = 1;
+    gSystemData->field0 = 1;
 #endif
-    switch (ownerInfo.mUnk_00) {
+    switch (ownerInfo.field0) {
         case 1:
             gSystemData->mLanguageIndex = 1;
             break;
@@ -85,21 +85,21 @@ void sysdat_initSystemData(void) {
             gSystemData->mLanguageIndex = 1;
             break;
     }
-    gSystemData->mUnk_20 = 0;
-    gSystemData->mUnk_28 = -1;
-    gSystemData->mUnk_44 = -1;
+    gSystemData->field20 = 0;
+    gSystemData->field28 = -1;
+    gSystemData->field44 = -1;
     gSystemData->mSoundSetSeqPlaying = 0;
     gSystemData->mSoundSetPlayerInitialized = 0;
-    gSystemData->mUnk_58 = 0;
-    gSystemData->mUnk_5c = 0;
+    gSystemData->field58 = 0;
+    gSystemData->field5C = 0;
     NNS_G3dGeUseFastDma(0);
-    gSystemData->mUnk_1c_3 = 0;
-    gSystemData->mUnk_54 = FALSE;
-    gSystemData->mUnk_50 = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        gSystemData->mUnk_1c_2 = 1;
+    gSystemData->field1C_3 = 0;
+    gSystemData->field54 = FALSE;
+    gSystemData->field50 = 0;
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
+        gSystemData->field1C_2 = 1;
     } else {
-        gSystemData->mUnk_1c_2 = 0;
+        gSystemData->field1C_2 = 0;
     }
     firstTick = OS_GetTick();
     secondTick = OS_GetTick();

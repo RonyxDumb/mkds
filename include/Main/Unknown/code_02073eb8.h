@@ -13,14 +13,14 @@ typedef struct Camera Camera;
 // ends in some kinds, angles or a kart index in others), blend steps, a kind (mKind), a duration (mFrameCount), the
 // next entry (mNextIndex).
 typedef struct CourseMapCamera {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ Vec3 mUnk_18;
-    /* 24 */ Vec3 mUnk_24;
-    /* 30 */ u8 mUnk_30[0x2];
+    /* 00 */ Vec3 field0;
+    /* 0c */ u8 fieldC[0xc];
+    /* 18 */ Vec3 field18;
+    /* 24 */ Vec3 field24;
+    /* 30 */ u8 field30[0x2];
     /* 32 */ s16 mHalfFovPairFirst;
     /* 34 */ s16 mHalfFovPairSecond;
-    /* 36 */ u8 mUnk_36[0x2];
+    /* 36 */ u8 field36[0x2];
     /* 38 */ s16 mHalfFovPairFirstEnd;
     /* 3a */ s16 mHalfFovPairSecondEnd;
     /* 3c */ s16 mFovBlendPerFrame;
@@ -28,7 +28,7 @@ typedef struct CourseMapCamera {
     // CourseMap slots cc / d0 / d4).
     /* 3e */ u16 mKind;
     /* 40 */ u16 mEntryGroupIndex;
-    // Added to the position curve's parameter each call (0x1000 = one segment); also copied into Unk02077750.mUnk_7c,
+    // Added to the position curve's parameter each call (0x1000 = one segment); also copied into Unk02077750.field7C,
     // which nothing reads.
     /* 42 */ s16 mPosCurvePerFrame;
     /* 44 */ u16 mLookAtBlendPerFrame;
@@ -57,13 +57,13 @@ void cam_setPlayerCameraPosRot(const Vec3 *kartPos, void *quaternion);
 // Moves the chase camera position a toward the position goal behind the Kart: adds the Kart's movement of the last
 // frame, eases to the goal (follow distance behind the direction f, plus the Kart and collision offsets and
 // mPosGoalYOffset), keeps mHeldHeight while mHeightHold is set, then puts a at mFollowDistance times
-// mFollowDistanceScale from e (the Kart position). With bit 0x1000 of the Kart's mUnk_48 set it only adds the Kart's
-// movement times mKartMoveScale, and nothing at all while bit 0x4000000 of its mUnk_4c is also set.
+// mFollowDistanceScale from e (the Kart position). With bit 0x1000 of the Kart's field48 set it only adds the Kart's
+// movement times mKartMoveScale, and nothing at all while bit 0x4000000 of its field4C is also set.
 void cam_20741A0(Vec3 *pos, Vec3 *posOffset, Camera *camera, Kart *kart, Vec3 *kartPos, const Vec3 *forward,
                           s32 collisionShorten);
-// Moves the chase camera look-at a toward the Kart position: x and z at once, y eased. b is the eased offset (mUnk_0b4
+// Moves the chase camera look-at a toward the Kart position: x and z at once, y eased. b is the eased offset (fieldB4
 // of the Camera) and *c the lowering (mLookAtLowering): raised by 0x1000 per call up to 0xa000 while bit 0x10000 of the
-// Kart's mUnk_48 is set, else decayed. Takes the three Camera members by pointer, not the Camera.
+// Kart's field48 is set, else decayed. Takes the three Camera members by pointer, not the Camera.
 void cam_20745D4(Vec3 *lookAt, Vec3 *lookAtOffset, s32 *lookAtLowering, Kart *kart, s32 scaledHopHeight,
                              s32 lookAtHeight);
 void cam_20747F4(s32 hold);
@@ -74,7 +74,7 @@ Camera *cam_getIntroCamera(void);
 Camera *cam_getReplayCamera(void);
 // Returns the chase camera (cam_sPlayerCamera).
 Camera *cam_getPlayerCamera(void);
-// Sets mLookAt between the entry's first point (mUnk_18) and second point (mUnk_24) by mLookAtBlend, which grows by the
+// Sets mLookAt between the entry's first point (field18) and second point (field24) by mLookAtBlend, which grows by the
 // entry's mLookAtBlendPerFrame up to 0x1000; without a step it copies the first point.
 void cam_updateCameTarget(Camera *camera);
 // Entry kind 3: moves mPos along the entry's curve (cam_updateCameRoutePos), blends mLookAt (cam_updateCameTarget),
@@ -85,26 +85,26 @@ void cam_updateCameByRoute(Camera *camera);
 void cam_updateCameRoutePos(Camera *camera, s32 paramPerFrame);
 void cam_updateStaffRollCamera(Camera *camera);
 // Entry kinds 5 and 6 (the angle entries of CourseMapCamera.mKind): puts the Camera around the followed Kart from the
-// entry's angles (mUnk_18.x, mUnk_18.y, mUnk_24.x, mUnk_24.y: degrees converted to 0x10000 per turn) and distance
-// (mUnk_18.z), lowers the position and look-at by the Kart's mUnk_2bc, pushes mPos out of walls except in modes 2 and 4
+// entry's angles (field18.x, field18.y, field24.x, field24.y: degrees converted to 0x10000 per turn) and distance
+// (field18.z), lowers the position and look-at by the Kart's field2BC, pushes mPos out of walls except in modes 2 and 4
 // of gRaceMultiConfig->mMode, then updates the view.
 void cam_2074E6C(Camera *camera);
 // Entry kind 1: moves mPos along the entry's curve (cam_updateCameRoutePos), points mLookAt at the followed Kart (raised
-// by 0x6000; when gRaceMultiConfig->mUnk_00c is 5 the Kart comes from the entry's mUnk_24.z and the raise from its
-// mUnk_18.y) and updates the view.
+// by 0x6000; when gRaceMultiConfig->fieldC is 5 the Kart comes from the entry's field24.z and the raise from its
+// field18.y) and updates the view.
 void cam_updateCameByRouteAndDriver(Camera *camera);
 // Does nothing while mCourseMapCamera is NULL. Otherwise runs the entry (cam_updateCame), counts
 // mCourseMapCameraFrames and, when it reaches the entry's mFrameCount, starts the entry at mNextIndex (sets
-// gRaceStatus->mUnk_4d0 when there is none). For cam_sIntroCameraTop with mFrustumShift 1 it also starts the next entry
+// gRaceStatus->field4D0 when there is none). For cam_sIntroCameraTop with mFrustumShift 1 it also starts the next entry
 // of cam_sIntroCameraBottom. race_update reaches it once a frame, only while race_sState->mUseChainCameras is non-zero.
 void cam_updateIntroCam(Camera *camera);
 // Steps cam_sIntroCameraTop (cam_updateIntroCam), updates its view, stores it in cam_sIntroCamera and returns its view
-// matrix. race_update calls it when gRaceMultiConfig->mUnk_00c is 4.
+// matrix. race_update calls it when gRaceMultiConfig->fieldC is 4.
 MtxFx43 *cam_updateIntroCamSingle(void);
 // Sets mFrustumShift of the two chain cameras (1 and 2 while the second's entry is of kind 4, else 0) and steps the
 // first. Then it copies the first's field of view pair, mPos and mLookAt into the second (shift 2) or steps the second.
 // It updates the view of the first on even frames and of the second on odd frames, stores that camera in
-// cam_sIntroCamera and returns its view matrix. race_update calls it when gRaceMultiConfig->mUnk_00c is 3 or 5.
+// cam_sIntroCamera and returns its view matrix. race_update calls it when gRaceMultiConfig->fieldC is 3 or 5.
 MtxFx43 *cam_updateIntroCamDouble(void);
 // As cam_2075EB8 for CourseMap.mFirstKind8EntryInMode4, setting mKind8EntryRunning.
 void cam_setupMissionFinishCamera(void);
@@ -126,19 +126,19 @@ u32 cam_2075CF0(void);
 void cam_2075D08(s32 hold);
 // Does nothing when CourseMap.mFirstKind6Entry is NULL. Otherwise sets mKind6EntryRunning and makes that entry the
 // current entry of cam_sReplayCamera (fresh mFovBlend, field of view pair and mShakeKind), sets up its mPosCurve (and
-// mUnk_1d0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
+// field1D0 in mode 2), advances the local random once when the entry Kart has ended and sets gCameraEntryChanged.
 void cam_2075EB8(void);
-// Eases mPosGoalYOffset toward 0 or, while bit 0x10 of the Kart's mUnk_44 or bit 0x10000 of its mUnk_48 is set, toward
-// a multiple of the y of c (the Kart's forward vector times mFollowDirectionSign); while bit 0x40000000 of mUnk_48 is
+// Eases mPosGoalYOffset toward 0 or, while bit 0x10 of the Kart's field44 or bit 0x10000 of its field48 is set, toward
+// a multiple of the y of c (the Kart's forward vector times mFollowDirectionSign); while bit 0x40000000 of field48 is
 // set it eases toward 0 at once.
 void cam_2075FE0(Camera *camera, Kart *kart, Vec3 *forward);
 // Tests the camera's path from mPrevPos to mPos against the course collision. On a hit it sets mPosGoalCollisionOffset
 // and mCollisionOffsetLengthGoal or moves mPos out directly; it always eases mCollisionOffsetLength toward its goal.
-// Also sets mUnk_254, mUnk_258 and mUnk_25c and clears data_0217aca0.
+// Also sets field254, field258 and field25C and clears data_0217aca0.
 void cam_applyPlayerCamCollision(Camera *camera, Kart *kart, Vec3 *forward);
 // One frame of the chase camera (cam_sPlayerCamera) following Kart b: eases the field of view, the look-at, the position
 // goal and the position toward the Kart, then runs the collision test and the wobble. With bit 0x20 of the Kart's
-// mUnk_7c set it only updates mViewPosYOffset, and only while water is present. race_update does not call it while
+// field7C set it only updates mViewPosYOffset, and only while water is present. race_update does not call it while
 // race_sState->mUseChainCameras is non-zero.
 void cam_updatePlayerCamera(Camera *camera, Kart *kart);
 void cam_resetPlayerCamera(void);

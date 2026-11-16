@@ -66,7 +66,7 @@ u32 func_ov003_021c2938(void) {
             if (CopyExchangeResult(&exchangeResult) != 1) {
                 OS_Terminate();
             }
-            if (exchangeResult.mKind >= 0 && exchangeResult.mKind <= 3 && exchangeResult.mUnk_24 == 1) {
+            if (exchangeResult.mKind >= 0 && exchangeResult.mKind <= 3 && exchangeResult.field24 == 1) {
                 return 3;
             }
             return 5;

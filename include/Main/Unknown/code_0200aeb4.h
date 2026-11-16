@@ -7,7 +7,7 @@
 typedef struct WorkerTask {
     /* 00 */ struct WorkerTask *mNext;
     /* 04 */ union {
-        u32 mUnk_04;
+        u32 field4;
         struct {
             u32 mInUse : 1;
             u32 mPriority : 31;
@@ -20,7 +20,7 @@ typedef struct WorkerTask {
 // What ctrdgi_task_work points to: the OSThread, then the first and the last object of the list.
 typedef struct WorkerQueue {
     /* 00 */ OSThread mThread;
-    /* b8 */ u8 mUnk_b8[8];
+    /* b8 */ u8 fieldB8[8];
     /* c0 */ WorkerTask *volatile mFirstTask;
     /* c4 */ WorkerTask mStopTask;
 } WorkerQueue;

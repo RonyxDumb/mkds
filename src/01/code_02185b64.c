@@ -35,23 +35,23 @@ void mgat_init(MissionGateObject *missionGateObject) {
 
     mobj_setDirectionFromFloor(missionGateObject);
     missionGateObject->mMapObject.mAngle =
-        (missionGateObject->mMapObject.mCourseMapRow->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
+        (missionGateObject->mMapObject.mCourseMapRow->fieldC.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
     MTX_RotY33_(mtx, FX_SinCosTable_[(missionGateObject->mMapObject.mAngle >> 4) * 2],
                 FX_SinCosTable_[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
-    MTX_Concat33(mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x,
-                 &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x);
+    MTX_Concat33(mtx, &missionGateObject->mMapObject.mMatrix.field0[0].x,
+                 &missionGateObject->mMapObject.mMatrix.field0[0].x);
     sideExtentX = (missionGateObject->mMapObject.mScale.x * 0xA000LL) >> 12;
     sideExtentY = (missionGateObject->mMapObject.mScale.y * 0xF000LL) >> 12;
-    saved = missionGateObject->mMapObject.mCourseMapRow->mUnk_28;
-    missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = 0x12;
+    saved = missionGateObject->mMapObject.mCourseMapRow->field28;
+    missionGateObject->mMapObject.mCourseMapRow->field28 = 0x12;
     missionGateObject->mNegativeSideObject = mobj_createSubObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mPositiveSideObject = mobj_createSubObject(&missionGateObject->mMapObject, 0x66);
-    missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = saved;
+    missionGateObject->mMapObject.mCourseMapRow->field28 = saved;
     VEC_MultAdd(-(missionGateObject->mMapObject.mExtent.x + sideExtentX),
-                &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
+                &missionGateObject->mMapObject.mMatrix.field0[0], &missionGateObject->mMapObject.mPos,
                 &missionGateObject->mNegativeSideObject->mPos);
     VEC_MultAdd(missionGateObject->mMapObject.mExtent.x + sideExtentX,
-                &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
+                &missionGateObject->mMapObject.mMatrix.field0[0], &missionGateObject->mMapObject.mPos,
                 &missionGateObject->mPositiveSideObject->mPos);
     mobj_setSizeX(missionGateObject->mNegativeSideObject, sideExtentX);
     mobj_setSizeX(missionGateObject->mPositiveSideObject, sideExtentX);
@@ -63,7 +63,7 @@ u32 mgat_onDriverCollide(MissionGateObject *missionGateObject, Kart *kart, u8 *e
     u32 a = *e;
     u32 b = *f;
 
-    if ((kart->mUnk_48 & 0x200) != 0 ||
+    if ((kart->field48 & 0x200) != 0 ||
         (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead(kart->mIndex) : 0) != FALSE) {
         return 0;
     }
@@ -90,12 +90,12 @@ void mgat_render(void *mapObjectList, MissionGateObject *missionGateObject) {
 
     buf = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &buf, 1);
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].x = missionGateObject->mMapObject.mPos.x >> 4;
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].y = missionGateObject->mMapObject.mPos.y >> 4;
-    missionGateObject->mMapObject.mMatrix.mUnk_00[3].z = missionGateObject->mMapObject.mPos.z >> 4;
+    missionGateObject->mMapObject.mMatrix.field0[3].x = missionGateObject->mMapObject.mPos.x >> 4;
+    missionGateObject->mMapObject.mMatrix.field0[3].y = missionGateObject->mMapObject.mPos.y >> 4;
+    missionGateObject->mMapObject.mMatrix.field0[3].z = missionGateObject->mMapObject.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
     NNS_G3dGeBufferOP_N(0x1b, &missionGateObject->mMapObject.mScale, 3);
-    mobj_setModelNsbtpFrame(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mUnk_28);
+    mobj_setModelNsbtpFrame(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->field28);
     mobj_setModelNsbmaFrame(gMissionGate, missionGateObject->mNsbmaFrameIndex);
     mobj_renderModel(mapObjectList, gMissionGate, missionGateObject);
 }
@@ -107,7 +107,7 @@ void mgat_globalInitLogic(MissionGateList *missionGateList) {
     if (missionGateList) {
         for (i = 0; i < missionGateList->mObjectCount && (missionGateObject = missionGateList->mObjects[i]) != NULL;
              i++) {
-            if (missionGateObject->mMapObject.mCourseMapRow->mUnk_28 != 0) {
+            if (missionGateObject->mMapObject.mCourseMapRow->field28 != 0) {
                 missionGateObject->mMapObject.mFlags |= data_ov001_021a6580;
                 missionGateObject->mState = 0;
             } else {
@@ -124,7 +124,7 @@ void mgat_update(void *a, MissionGateObject *missionGateObject) {
     switch (missionGateObject->mState) {
         case 0:
             count = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getCurrentValue() : 0;
-            if (count >= missionGateObject->mMapObject.mCourseMapRow->mUnk_28 - 1) {
+            if (count >= missionGateObject->mMapObject.mCourseMapRow->field28 - 1) {
                 missionGateObject->mMapObject.mFlags &= ~1;
                 missionGateObject->mState = 1;
             }

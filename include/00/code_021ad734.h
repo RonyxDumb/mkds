@@ -16,43 +16,43 @@ typedef struct OSThread OSThread;
 
 // Frame start: two addresses and a type word.
 typedef struct Unk021ae3a4 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mUnk_0c;
+    /* 00 */ u8 field0[0xc];
+    /* 0c */ u16 fieldC;
 } Unk021ae3a4;
 
 typedef struct Unk021ae3f0 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04;
-    /* 05 */ u8 mUnk_05;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4;
+    /* 05 */ u8 field5;
+    /* 06 */ u16 field6;
+    /* 08 */ u8 field8;
+    /* 09 */ u8 field9;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
 } Unk021ae3f0;
 
 typedef struct Unk021ae724 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
 } Unk021ae724;
 
 typedef struct Unk021ae87c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d;
-    /* 0e */ u16 mUnk_0e;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u8 fieldC;
+    /* 0d */ u8 fieldD;
+    /* 0e */ u16 fieldE;
     /* 10 */ u8 pad_10[4];
 } Unk021ae87c;
 
@@ -60,24 +60,24 @@ typedef struct Unk021ae3f0 Unk021ae3f0;
 typedef struct Unk021ae87c Unk021ae87c;
 
 typedef struct Unk021af1e4 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
 } Unk021af1e4;
 
 typedef struct Unk021af3e8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08[3];
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12[3];
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ u16 mUnk_1a;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8[3];
+    /* 0e */ u16 fieldE;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12[3];
+    /* 18 */ u16 field18;
+    /* 1a */ u16 field1A;
 } Unk021af3e8;
 
 typedef struct Unk021a998c Unk021a998c;
@@ -85,27 +85,27 @@ typedef struct Unk021b6434 Unk021b6434;
 
 // Frame built by func_ov000_021afc5c.
 typedef struct Unk021afc5c {
-    /* 00 */ u8 mUnk_00[6];
-    /* 06 */ u8 mUnk_06[6];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u8 mUnk_0e;
-    /* 0f */ u8 mUnk_0f;
-    /* 10 */ u8 mUnk_10;
-    /* 11 */ u8 mUnk_11;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u8 mUnk_14;
-    /* 15 */ u8 mUnk_15;
-    /* 16 */ u8 mUnk_16[6];
-    /* 1c */ u16 mUnk_1c;
-    /* 1e */ u16 mUnk_1e;
-    /* 20 */ u8 mUnk_20[6];
-    /* 26 */ u16 mUnk_26;
-    /* 28 */ u16 mUnk_28;
+    /* 00 */ u8 field0[6];
+    /* 06 */ u8 field6[6];
+    /* 0c */ u16 fieldC;
+    /* 0e */ u8 fieldE;
+    /* 0f */ u8 fieldF;
+    /* 10 */ u8 field10;
+    /* 11 */ u8 field11;
+    /* 12 */ u16 field12;
+    /* 14 */ u8 field14;
+    /* 15 */ u8 field15;
+    /* 16 */ u8 field16[6];
+    /* 1c */ u16 field1C;
+    /* 1e */ u16 field1E;
+    /* 20 */ u8 field20[6];
+    /* 26 */ u16 field26;
+    /* 28 */ u16 field28;
 } Unk021afc5c;
 
 typedef struct Unk021b0138 {
     /* 00 */ u8 pad_00[0xc];
-    /* 0c */ u8 mUnk_0c[8];
+    /* 0c */ u8 fieldC[8];
 } Unk021b0138;
 
 extern void (*data_ov000_021b6384)(void);
@@ -117,10 +117,10 @@ extern void (*data_ov000_021b6384)(void);
 typedef struct Unk021b69dc Unk021b69dc;
 typedef struct Unk021b5fa8 Unk021b5fa8;
 
-// Object linked from OSThread.mUnk_a4.
+// Object linked from OSThread.fieldA4.
 typedef struct Unk021b04f8 {
     /* 00 */ OSThread *mThread;
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 field4;
     /* 08 */ u8 mState;
 } Unk021b04f8;
 

@@ -4,10 +4,10 @@
 #include "tp.h"
 
 typedef struct Rect {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
 } Rect;
 
 typedef struct KeyTouchInput {

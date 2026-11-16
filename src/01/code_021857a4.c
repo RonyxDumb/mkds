@@ -174,11 +174,11 @@ void menu_state23Vblank(void) {
 
 #pragma thumb off
 void func_ov001_021858b4(s32 value) {
-    gStruct217B488->mUnk_08 = value;
+    gStruct217B488->field8 = value;
 }
 
 void func_ov001_021858a0(s32 value) {
-    gStruct217B488->mUnk_04 = value;
+    gStruct217B488->field4 = value;
 }
 #pragma thumb on
 

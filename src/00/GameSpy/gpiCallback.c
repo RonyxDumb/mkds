@@ -52,10 +52,10 @@ void GpiQueueErrorCallback(GpConnection *a, s32 result, s32 fatal) {
     if (e.mCallback != NULL) {
         f = func_ov000_021a3690(0x10);
         if (f != NULL) {
-            f->mUnk_00 = result;
-            f->mUnk_0c = fatal;
-            f->mUnk_04 = iconnection->mErrorNumber;
-            f->mUnk_08 = iconnection;
+            f->field0 = result;
+            f->fieldC = fatal;
+            f->field4 = iconnection->mErrorNumber;
+            f->field8 = iconnection;
         }
         GpiQueueCallback(a, e, f, NULL, 1);
     }
@@ -74,11 +74,11 @@ u32 GpiQueueCallback(GpConnection *a, GpiCallback b, void *c, GpiOperation *d, s
     g->mCallback = b;
     g->mArg = c;
     if (d != NULL) {
-        g->mUnk_10 = d->mId;
+        g->field10 = d->mId;
     } else {
-        g->mUnk_10 = 0;
+        g->field10 = 0;
     }
-    g->mUnk_0c = e;
+    g->fieldC = e;
     g->mNext = NULL;
     if (f->mCallbackQueueHead == NULL) {
         f->mCallbackQueueHead = g;
@@ -101,48 +101,48 @@ void GpiCallAndFreeCallback(GpConnection *a, GpiQueuedCallback *data) {
     if (data->mArg == NULL) {
         __msl_assertion_failed(data_ov000_021b2a68, data_ov000_021b2a58, NULL, 0x6f);
     }
-    data->mCallback.mCallback(a, data->mArg, data->mCallback.mUnk_04);
-    if (data->mUnk_0c == 2) {
+    data->mCallback.mCallback(a, data->mArg, data->mCallback.field4);
+    if (data->fieldC == 2) {
         c = data->mArg;
-        func_ov000_021a3668(c->mUnk_08);
+        func_ov000_021a3668(c->field8);
         c = data->mArg;
-        c->mUnk_08 = NULL;
-    } else if (data->mUnk_0c == 3) {
+        c->field8 = NULL;
+    } else if (data->fieldC == 3) {
         e = data->mArg;
-        for (d = 0; d < e->mUnk_38; d++) {
-            func_ov000_021a3668(e->mUnk_3c[d]);
-            e->mUnk_3c[d] = NULL;
-            func_ov000_021a3668(e->mUnk_40[d]);
-            e->mUnk_40[d] = NULL;
+        for (d = 0; d < e->field38; d++) {
+            func_ov000_021a3668(e->field3C[d]);
+            e->field3C[d] = NULL;
+            func_ov000_021a3668(e->field40[d]);
+            e->field40[d] = NULL;
         }
-        func_ov000_021a3668(e->mUnk_3c);
-        e->mUnk_3c = NULL;
-        func_ov000_021a3668(e->mUnk_40);
-        e->mUnk_40 = NULL;
-    } else if (data->mUnk_0c == 4) {
+        func_ov000_021a3668(e->field3C);
+        e->field3C = NULL;
+        func_ov000_021a3668(e->field40);
+        e->field40 = NULL;
+    } else if (data->fieldC == 4) {
         c = data->mArg;
-        func_ov000_021a3668(c->mUnk_0c);
-        c->mUnk_0c = NULL;
-    } else if (data->mUnk_0c == 7) {
+        func_ov000_021a3668(c->fieldC);
+        c->fieldC = NULL;
+    } else if (data->fieldC == 7) {
         c = data->mArg;
-        if (c->mUnk_10 != NULL) {
-            func_ov000_021a3668(c->mUnk_10);
-            c->mUnk_10 = NULL;
+        if (c->field10 != NULL) {
+            func_ov000_021a3668(c->field10);
+            c->field10 = NULL;
         }
-    } else if (data->mUnk_0c == 8) {
+    } else if (data->fieldC == 8) {
         c = data->mArg;
-        if (c->mUnk_08 != NULL) {
-            func_ov000_021a3668(c->mUnk_08);
-            c->mUnk_08 = NULL;
+        if (c->field8 != NULL) {
+            func_ov000_021a3668(c->field8);
+            c->field8 = NULL;
         }
-    } else if (data->mUnk_0c == 9) {
+    } else if (data->fieldC == 9) {
         Unk02190da0Data *f = data->mArg;
-        for (d = 0; d < f->mUnk_04; d++) {
-            func_ov000_021a3668(f->mUnk_08[d]);
-            f->mUnk_08[d] = NULL;
+        for (d = 0; d < f->field4; d++) {
+            func_ov000_021a3668(f->field8[d]);
+            f->field8[d] = NULL;
         }
-        func_ov000_021a3668(f->mUnk_08);
-        f->mUnk_08 = NULL;
+        func_ov000_021a3668(f->field8);
+        f->field8 = NULL;
     }
     func_ov000_021a3668(data->mArg);
     data->mArg = NULL;
@@ -167,7 +167,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *a, s32 b) {
         if (g != NULL) {
             do {
                 GpiQueuedCallback *h = g->mNext;
-                if (g->mUnk_10 == b || g->mUnk_0c == 1) {
+                if (g->field10 == b || g->fieldC == 1) {
                     if (f != NULL) {
                         f->mNext = h;
                     } else {

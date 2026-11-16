@@ -50,10 +50,10 @@ void AdvanceWiFiVSCourseSelectState(void) {
         b = gStruct217D384->mKartCount;
         menu_getRaceConfig()->mKartCount = b;
         func_020297bc();
-        if ((u32) gStruct217B488->mUnk_1c <= 2) {
+        if ((u32) gStruct217B488->field1C <= 2) {
             rconf_2045ED0();
             func_020612b0();
-            gStruct217B488->mUnk_6c = TRUE;
+            gStruct217B488->field6C = TRUE;
         }
         func_02029758();
         SetWiFiNextScene(2);

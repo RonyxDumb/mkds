@@ -45,60 +45,60 @@ void bbm_initFromModel(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *r
     void *t;
     enum { K0 } k;
 
-    a = model->mUnk_004;
-    b = OFFSET_PTR(Unk020e52bc_8, a->mUnk_000, a->mUnk_008);
-    d = OFFSET_PTR(Unk020e53ac, b->mUnk_000, ((u32 *) &b->mUnk_000[b->mUnk_00a])[2]);
-    c = OFFSET_PTR(Unk020e52bc_c, a->mUnk_000, a->mUnk_00c);
-    e = OFFSET_PTR(Unk020e54e4, c->mUnk_000, ((u32 *) &c->mUnk_000[c->mUnk_006])[1]);
-    record->mUnk_00 = &e->mUnk_000[e->mUnk_008];
-    record->mUnk_04 = e->mUnk_00c;
-    record->mUnk_08 = model->mUnk_004->mUnk_01c;
-    record->mUnk_0c = d->mUnk_004;
-    record->mUnk_10 = d->mUnk_008;
-    record->mUnk_14 = d->mUnk_00c & 0xfffffff0;
+    a = model->field4;
+    b = OFFSET_PTR(Unk020e52bc_8, a->field0, a->field8);
+    d = OFFSET_PTR(Unk020e53ac, b->field0, ((u32 *) &b->field0[b->fieldA])[2]);
+    c = OFFSET_PTR(Unk020e52bc_c, a->field0, a->fieldC);
+    e = OFFSET_PTR(Unk020e54e4, c->field0, ((u32 *) &c->field0[c->field6])[1]);
+    record->field0 = &e->field0[e->field8];
+    record->field4 = e->fieldC;
+    record->field8 = model->field4->field1C;
+    record->fieldC = d->field4;
+    record->field10 = d->field8;
+    record->field14 = d->fieldC & 0xfffffff0;
     record->mFrameIndex = 0;
     if (animation != NULL) {
-        x.mUnk_00 = d->mUnk_014;
+        x.field0 = d->field14;
         frameCount = anim_getAnimLength(animation) >> 12;
         record->mFrameCount = frameCount;
         t = proc_getHeap(proc_getCurrent());
-        record->mUnk_1c = heap_alloc(t, frameCount * 4);
+        record->field1C = heap_alloc(t, frameCount * 4);
         t = proc_getHeap(proc_getCurrent());
-        record->mUnk_20 = heap_alloc(t, frameCount * 4);
+        record->field20 = heap_alloc(t, frameCount * 4);
         frame = 0;
         if (frame < frameCount) {
             k = 0xc00f0000;
-            x.mUnk_00 &= k;
-            x.mUnk_04 = 0;
+            x.field0 &= k;
+            x.field4 = 0;
             do {
-                animation->mUnk_00c = frame << 12;
-                animation->mUnk_1c[animation->mUnk_1a]->mFrame = animation->mUnk_00c;
-                NNSi_G3dAnmCalcNsBtp(&x.mUnk_08, animation->mUnk_1c[0], x.mUnk_04);
-                record->mUnk_1c[frame] = x.mUnk_08.mUnk_10 & 0x3ff0ffff;
-                record->mUnk_1c[frame] |= x.mUnk_00;
-                record->mUnk_20[frame] = x.mUnk_08.mUnk_14;
+                animation->fieldC = frame << 12;
+                animation->field1C[animation->field1A]->mFrame = animation->fieldC;
+                NNSi_G3dAnmCalcNsBtp(&x.field8, animation->field1C[0], x.field4);
+                record->field1C[frame] = x.field8.field10 & 0x3ff0ffff;
+                record->field1C[frame] |= x.field0;
+                record->field20[frame] = x.field8.field14;
                 frame++;
             } while (frame < frameCount);
         }
     } else {
         record->mFrameCount = 1;
-        record->mUnk_1c = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
-        record->mUnk_20 = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
-        record->mUnk_1c[0] = d->mUnk_014;
-        record->mUnk_20[0] = d->mUnk_01c;
+        record->field1C = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
+        record->field20 = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
+        record->field1C[0] = d->field14;
+        record->field20[0] = d->field1C;
     }
 }
 
 void bbm_initFromNsbmd(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
-    record->mUnk_24 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
-    model_initFromNsbmd(record->mUnk_24, nsbmdFile);
+    record->field24 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
+    model_initFromNsbmd(record->field24, nsbmdFile);
     if (nsbtpFile != NULL) {
-        record->mUnk_28 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
-        anim_20EA514(2, record->mUnk_24, record->mUnk_28, nsbmdFile, nsbtpFile);
+        record->field28 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+        anim_20EA514(2, record->field24, record->field28, nsbmdFile, nsbtpFile);
     } else {
-        record->mUnk_28 = NULL;
+        record->field28 = NULL;
     }
-    bbm_initFromModel(record->mUnk_24, record->mUnk_28, record);
+    bbm_initFromModel(record->field24, record->field28, record);
 }
 
 void bbm_createFromNsbmd(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
@@ -134,11 +134,11 @@ Unk020e59e4 *pend_setupLogicPart(void) {
 }
 
 void pend_render(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha) {
-    pendulum->mUnk_4c.x = pendulum->mUnk_bc.x >> 4;
-    pendulum->mUnk_4c.y = pendulum->mUnk_bc.y >> 4;
-    pendulum->mUnk_4c.z = pendulum->mUnk_bc.z >> 4;
-    model2_renderModel(pend_sModel, &pendulum->mUnk_28, &pendulum->mUnk_1c, alpha);
-    model2_renderShadowModel(pend_sShadowModel, &pendulum->mUnk_c8, &pendulum->mUnk_1c, alpha);
+    pendulum->field4C.x = pendulum->fieldBC.x >> 4;
+    pendulum->field4C.y = pendulum->fieldBC.y >> 4;
+    pendulum->field4C.z = pendulum->fieldBC.z >> 4;
+    model2_renderModel(pend_sModel, &pendulum->field28, &pendulum->field1C, alpha);
+    model2_renderShadowModel(pend_sShadowModel, &pendulum->fieldC8, &pendulum->field1C, alpha);
 }
 
 void pend_update(u32 param_1, PendulumObject *pendulum) {
@@ -148,34 +148,34 @@ void pend_update(u32 param_1, PendulumObject *pendulum) {
     u16 swingAngle;
     s32 falloffIndex;
 
-    previousAngle = pendulum->mUnk_100;
-    pendulum->mUnk_100 = previousAngle + pendulum->mUnk_fe;
-    swingAngle = ((s64) (s32) pendulum->mUnk_fc * FX_SinCosTable_[(pendulum->mUnk_100 >> 4) * 2]) >> 12;
-    if ((previousAngle < 0x58f0 && pendulum->mUnk_100 >= 0x58f0) ||
-        (previousAngle < 0xd8f0 && pendulum->mUnk_100 >= 0xd8f0)) {
-        if ((pendulum->mUnk_78 & 4) == 0) {
-            if (pendulum->mUnk_70 == gSfxParams[2].mUnk_20) {
+    previousAngle = pendulum->field100;
+    pendulum->field100 = previousAngle + pendulum->fieldFE;
+    swingAngle = ((s64) (s32) pendulum->fieldFC * FX_SinCosTable_[(pendulum->field100 >> 4) * 2]) >> 12;
+    if ((previousAngle < 0x58f0 && pendulum->field100 >= 0x58f0) ||
+        (previousAngle < 0xd8f0 && pendulum->field100 >= 0xd8f0)) {
+        if ((pendulum->field78 & 4) == 0) {
+            if (pendulum->field70 == gSfxParams[2].field20) {
                 falloffIndex = 2;
-            } else if (pendulum->mUnk_70 == gSfxParams[3].mUnk_20) {
+            } else if (pendulum->field70 == gSfxParams[3].field20) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;
             }
             soundRequest.mSoundId = 0x173;
-            soundRequest.mPositionSource = &pendulum->mUnk_04;
-            soundRequest.mUnk_08 = falloffIndex;
-            soundRequest.mDistanceSquared = mobj_calcXZCamDist(&pendulum->mUnk_04);
+            soundRequest.mPositionSource = &pendulum->field4;
+            soundRequest.field8 = falloffIndex;
+            soundRequest.mDistanceSquared = mobj_calcXZCamDist(&pendulum->field4);
             func_0210b7a8(&soundRequest);
         }
     }
-    Quaternion_Rotate_20D7734(pendulum->mUnk_a0, swingAngle, swingRotation);
-    qtrn_toMtx33(&pendulum->mUnk_28, swingRotation);
-    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mUnk_28.mUnk_0c, &pendulum->mUnk_bc, &pendulum->mUnk_04);
-    pendulum->mUnk_ec.x = pendulum->mUnk_04.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mUnk_04.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mUnk_04.z >> 4;
-    VEC_Subtract(&pendulum->mUnk_04, &pendulum->mUnk_b0, &pendulum->mUnk_10);
-    pendulum->mUnk_b0 = pendulum->mUnk_04;
+    Quaternion_Rotate_20D7734(pendulum->fieldA0, swingAngle, swingRotation);
+    qtrn_toMtx33(&pendulum->field28, swingRotation);
+    VEC_MultAdd(-pendulum->fieldF8, &pendulum->field28.fieldC, &pendulum->fieldBC, &pendulum->field4);
+    pendulum->fieldEC.x = pendulum->field4.x >> 4;
+    pendulum->fieldEC.y = pendulum->field4.y >> 4;
+    pendulum->fieldEC.z = pendulum->field4.z >> 4;
+    VEC_Subtract(&pendulum->field4, &pendulum->fieldB0, &pendulum->field10);
+    pendulum->fieldB0 = pendulum->field4;
 }
 
 BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out) {
@@ -185,20 +185,20 @@ BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius
     s32 d;
     s64 distanceSquared;
 
-    VEC_Subtract(sphereCenter, &pendulum->mUnk_04, &v);
-    axisDistance = vec_dotProduct(&v, &pendulum->mUnk_28.mUnk_18);
+    VEC_Subtract(sphereCenter, &pendulum->field4, &v);
+    axisDistance = vec_dotProduct(&v, &pendulum->field28.field18);
     if (axisDistance > 0) {
-        t = pendulum->mUnk_108 + sphereRadius - axisDistance;
+        t = pendulum->field108 + sphereRadius - axisDistance;
         if (t < 0) {
             return FALSE;
         }
     } else {
-        t = -(pendulum->mUnk_108 + sphereRadius) - axisDistance;
+        t = -(pendulum->field108 + sphereRadius) - axisDistance;
         if (t > 0) {
             return FALSE;
         }
     }
-    d = sphereRadius + pendulum->mUnk_104;
+    d = sphereRadius + pendulum->field104;
     distanceSquared = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
     if (distanceSquared < (s64) d * d) {
         reg_CP_SQRTCNT = 1;
@@ -210,10 +210,10 @@ BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius
         return FALSE;
     }
     if ((t > 0 ? t : -t) < d) {
-        out->x = ((s64) pendulum->mUnk_28.mUnk_18.x * t) >> 12;
-        out->y = ((s64) pendulum->mUnk_28.mUnk_18.y * t) >> 12;
-        out->z = ((s64) pendulum->mUnk_28.mUnk_18.z * t) >> 12;
-        pendulum->mUnk_10c = FALSE;
+        out->x = ((s64) pendulum->field28.field18.x * t) >> 12;
+        out->y = ((s64) pendulum->field28.field18.y * t) >> 12;
+        out->z = ((s64) pendulum->field28.field18.z * t) >> 12;
+        pendulum->field10C = FALSE;
     } else {
         if (v.y < 0) {
             v.y = 0;
@@ -225,7 +225,7 @@ BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius
         out->x = ((s64) v.x * d) >> 12;
         out->y = ((s64) v.y * d) >> 12;
         out->z = ((s64) v.z * d) >> 12;
-        pendulum->mUnk_10c = TRUE;
+        pendulum->field10C = TRUE;
     }
     return TRUE;
 }
@@ -241,25 +241,25 @@ void pend_loadModels(void) {
 void pend_init(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     s32 m;
 
-    pendulum->mUnk_5c = ((s64) pendulum->mUnk_98->mUnk_10 * courseRow->mUnk_20) >> 12;
-    qtrn_fromEulerAngles(&courseRow->mUnk_0c, pendulum->mUnk_a0);
-    pendulum->mUnk_c8 = pendulum->mUnk_28;
-    pendulum->mUnk_f8 = ((s64) pendulum->mUnk_1c.y * 0x1f4000) >> 12;
-    pendulum->mUnk_100 = 0;
-    pendulum->mUnk_bc.x = courseRow->mUnk_00.x;
-    pendulum->mUnk_bc.y = courseRow->mUnk_00.y;
-    pendulum->mUnk_bc.z = courseRow->mUnk_00.z;
-    VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mUnk_28.mUnk_0c, &pendulum->mUnk_bc, &pendulum->mUnk_04);
-    pendulum->mUnk_b0 = pendulum->mUnk_04;
-    pendulum->mUnk_ec.x = pendulum->mUnk_04.x >> 4;
-    pendulum->mUnk_ec.y = pendulum->mUnk_04.y >> 4;
-    pendulum->mUnk_ec.z = pendulum->mUnk_04.z >> 4;
-    m = courseRow->mUnk_2a;
-    pendulum->mUnk_fe = 0x640000u / (u32) courseRow->mUnk_28 / 0xf0u;
-    pendulum->mUnk_fc = (u32) (m * 0x1111) / 0x64u;
-    pendulum->mUnk_104 = ((s64) pendulum->mUnk_1c.x * 0x64000) >> 12;
-    pendulum->mUnk_108 = ((s64) pendulum->mUnk_1c.z * 0x32000) >> 12;
-    pendulum->mUnk_10c = FALSE;
+    pendulum->field5C = ((s64) pendulum->field98->field10 * courseRow->field20) >> 12;
+    qtrn_fromEulerAngles(&courseRow->fieldC, pendulum->fieldA0);
+    pendulum->fieldC8 = pendulum->field28;
+    pendulum->fieldF8 = ((s64) pendulum->field1C.y * 0x1f4000) >> 12;
+    pendulum->field100 = 0;
+    pendulum->fieldBC.x = courseRow->field0.x;
+    pendulum->fieldBC.y = courseRow->field0.y;
+    pendulum->fieldBC.z = courseRow->field0.z;
+    VEC_MultAdd(-pendulum->fieldF8, &pendulum->field28.fieldC, &pendulum->fieldBC, &pendulum->field4);
+    pendulum->fieldB0 = pendulum->field4;
+    pendulum->fieldEC.x = pendulum->field4.x >> 4;
+    pendulum->fieldEC.y = pendulum->field4.y >> 4;
+    pendulum->fieldEC.z = pendulum->field4.z >> 4;
+    m = courseRow->field2A;
+    pendulum->fieldFE = 0x640000u / (u32) courseRow->field28 / 0xf0u;
+    pendulum->fieldFC = (u32) (m * 0x1111) / 0x64u;
+    pendulum->field104 = ((s64) pendulum->field1C.x * 0x64000) >> 12;
+    pendulum->field108 = ((s64) pendulum->field1C.z * 0x32000) >> 12;
+    pendulum->field10C = FALSE;
 }
 
 #pragma thumb off

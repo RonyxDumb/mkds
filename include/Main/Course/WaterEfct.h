@@ -40,13 +40,13 @@ typedef struct WaterEfct {
 
 // Prefix view (0x68 bytes) of MapObject, held by gWaterObject.
 typedef struct Unk020da384 {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0x56];
-    /* 66 */ u16 mUnk_66;
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[0x56];
+    /* 66 */ u16 field66;
 } Unk020da384;
 
 // The course water: two models (the files ..._waterA and ..._waterC, Yoshi has no A) circling a map object's x/z while
@@ -63,7 +63,7 @@ typedef struct Water {
     // Z of model A: mCenterZ + mModelARadius * the second value of the pair for mCircleAngle; see mModelAX.
     /* 08 */ s32 mModelAZ;
     // X of model C (the model of mModelCFile, letter C from ..._waterC): mCenterX + mModelCRadius * the first pair
-    // value for mCircleAngle - mModelCAngleOffset; its y is mUnk_10 (copy of mHeight).
+    // value for mCircleAngle - mModelCAngleOffset; its y is field10 (copy of mHeight).
     /* 0c */ s32 mModelCX;
     // y of model C: every write copies mHeight (code_020d94dc.c:79, :110, :200), the only reads are the translation y
     // of model C in water_render (code_020d94dc.c:165, :170); it is only ever set from mHeight.
@@ -101,29 +101,29 @@ typedef struct Water {
     // Counts up one per water_update call in states 1 and 3, zeroed when the state is entered, compared with
     // mHighHoldFrameCount / mLowHoldFrameCount.
     /* 38 */ u16 mHoldFrames;
-    /* 3a */ u16 mUnk_3a;
+    /* 3a */ u16 field3A;
     // 0x10000 per turn: the angle of the circle model A moves on (model C uses it minus mModelCAngleOffset); advances
     // every water_update call by mCircleAnglePerFrame.
     /* 3c */ u16 mCircleAngle;
-    /* 3e */ u16 mUnk_3e;
+    /* 3e */ u16 field3E;
     // mHeightAnglePerFrame / 4, added to mCircleAngle every water_update call.
     /* 40 */ u16 mCircleAnglePerFrame;
-    /* 42 */ u8 mUnk_42[2];
+    /* 42 */ u8 field42[2];
     // Radius of the circle of model A.
     /* 44 */ s32 mModelARadius;
     // Radius of the circle of model C.
     /* 48 */ s32 mModelCRadius;
-    /* 4c */ s32 mUnk_4c;
+    /* 4c */ s32 field4C;
     // Model C's angle is mCircleAngle minus this (0x7fff or 0x4e20 in the creators); one write, one read.
     /* 50 */ u16 mModelCAngleOffset;
-    /* 52 */ u16 mUnk_52;
+    /* 52 */ u16 field52;
     // A creator argument that is 1 in all five creators; water_render draws A then C when it is non-zero and C then A when
     // it is 0, which the shipped creators never do.
     /* 54 */ s32 mDrawModelAFirst;
     /* 58 */ u16 mModelAAlpha;
     /* 5a */ u16 mModelCMaterialAlpha;
-    /* 5c */ u16 mUnk_5c;
-    /* 5e */ u8 mUnk_5e[2];
+    /* 5c */ u16 field5C;
+    /* 5e */ u8 field5E[2];
     // Pointer mobj_getMapObjFile returned for ..._waterA.nsbmd, NULL for Yoshi; every use of model A tests it.
     /* 60 */ void *mModelAFile;
     // Pointer mobj_getMapObjFile returned for ..._waterC.nsbmd; never NULL in the five creators.
@@ -131,9 +131,9 @@ typedef struct Water {
     /* 68 */ Nsbmd mModelA;
     /* d4 */ Nsbmd mModelC;
     /* 140 */ MtxFx43 mDrawMatrix;
-    /* 170 */ s32 mUnk_170;
+    /* 170 */ s32 field170;
     // The file MapObj/water_efct.nsbmd as arc_getCourseArcFile returned it (a pointer to the whole file, not a built model
-    // object), loaded by water_initWater; the getter returns it when mUnk_170 is
+    // object), loaded by water_initWater; the getter returns it when field170 is
     // non-zero and no WaterEfct exists.
     /* 174 */ void *mEfctNsbmdFile;
     // The file MapObj/water_efct.nsbca (whole file), loaded by water_initWater; see mEfctNsbmdFile.
@@ -144,7 +144,7 @@ typedef struct Water {
 
 // Object allocated by water_setupSplashCollision; 0x40 bytes.
 typedef struct Unk020d9de0 {
-    /* 00 */ s32 mUnk_00[0x10];
+    /* 00 */ s32 field0[0x10];
 } Unk020d9de0;
 
 void water_initWater(Unk020da384 *mapObject, void *unused, UnkFunc *createWater);

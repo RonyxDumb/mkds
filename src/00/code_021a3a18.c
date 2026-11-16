@@ -34,41 +34,41 @@ s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char
         o = *a;
     }
     srand(func_ov000_0218e8c4());
-    strcpy((char *) o->mUnk_004, d);
-    strcpy((char *) o->mUnk_044, e);
-    o->mUnk_0c0 = c;
+    strcpy((char *) o->field4, d);
+    strcpy((char *) o->field44, e);
+    o->fieldC0 = c;
     r = 0;
-    o->mUnk_0ac = 0;
-    o->mUnk_0b0 = 0;
-    o->mUnk_000 = b;
-    o->mUnk_0b8 = 1;
-    o->mUnk_10c = n;
-    o->mUnk_088 = h;
-    o->mUnk_08c = i;
-    o->mUnk_090 = j;
-    o->mUnk_094 = k;
-    o->mUnk_098 = l;
-    o->mUnk_09c = m;
-    o->mUnk_0a0 = 0;
-    o->mUnk_0a4 = 0;
-    o->mUnk_0d4 = 0;
-    o->mUnk_0bc = f;
-    o->mUnk_0c4 = FALSE;
-    o->mUnk_0c8 = g;
-    o->mUnk_104 = 0;
-    o->mUnk_108 = 0;
-    o->mUnk_0a8 = NULL;
-    o->mUnk_0b4 = FALSE;
+    o->fieldAC = 0;
+    o->fieldB0 = 0;
+    o->field0 = b;
+    o->fieldB8 = 1;
+    o->field10C = n;
+    o->field88 = h;
+    o->field8C = i;
+    o->field90 = j;
+    o->field94 = k;
+    o->field98 = l;
+    o->field9C = m;
+    o->fieldA0 = 0;
+    o->fieldA4 = 0;
+    o->fieldD4 = 0;
+    o->fieldBC = f;
+    o->fieldC4 = FALSE;
+    o->fieldC8 = g;
+    o->field104 = 0;
+    o->field108 = 0;
+    o->fieldA8 = NULL;
+    o->fieldB4 = FALSE;
     do {
-        o->mUnk_084[r] = (s32) rand() % 0xff;
+        o->field84[r] = (s32) rand() % 0xff;
         r++;
     } while (r < 4);
     r = 0;
     do {
-        o->mUnk_0d8[r] = -1;
+        o->fieldD8[r] = -1;
         r++;
     } while (r < 10);
-    o->mUnk_100 = 0;
+    o->field100 = 0;
     if (data_ov000_021b5df8 == 0) {
         func_ov000_021a46d4();
     }
@@ -77,7 +77,7 @@ s32 func_ov000_021a4a08(Unk021a4a08 **a, s32 b, s32 c, const char *d, const char
         if (s == 0) {
             sprintf(p, data_ov000_021b4464, d);
         }
-        t = func_ov000_021a4654(s != 0 ? data_ov000_021b5e10 : p, 0x6cfc, &o->mUnk_0cc, NULL);
+        t = func_ov000_021a4654(s != 0 ? data_ov000_021b5e10 : p, 0x6cfc, &o->fieldCC, NULL);
     } else {
         t = 1;
     }
@@ -91,14 +91,14 @@ void func_ov000_021a49f4(Unk021a4a08 *a, UnkFunc *b) {
     if (a == NULL) {
         a = data_ov000_021b426c;
     }
-    a->mUnk_0a0 = b;
+    a->fieldA0 = b;
 }
 
 void func_ov000_021a49e0(Unk021a4a08 *a, UnkFunc *b) {
     if (a == NULL) {
         a = data_ov000_021b426c;
     }
-    a->mUnk_0a4 = b;
+    a->fieldA4 = b;
 }
 
 void func_ov000_021a49cc(void *a, void (*b)(void *, u16)) {
@@ -112,7 +112,7 @@ void func_ov000_021a49a0(Unk021a4a08 *a) {
     if (a == NULL) {
         a = data_ov000_021b426c;
     }
-    if (a->mUnk_0bc != 0) {
+    if (a->fieldBC != 0) {
         func_ov000_021a4868(a);
     }
     func_ov000_021a4940(a);
@@ -125,15 +125,15 @@ void func_ov000_021a4940(Unk021a4a08 *a) {
     s32 e;
 
     c = 8;
-    if (a->mUnk_0c4 != FALSE && func_ov000_0218e668(a->mUnk_000) != 0) {
+    if (a->fieldC4 != FALSE && func_ov000_0218e668(a->field0) != 0) {
         d = 0;
         do {
-            e = func_ov000_0218e438(a->mUnk_000, data_ov000_021b5e50, 0xff, d, b, &c);
+            e = func_ov000_0218e438(a->field0, data_ov000_021b5e50, 0xff, d, b, &c);
             if (e != ~d) {
                 data_ov000_021b5e50[e] = d;
                 func_ov000_021a3c14((Unk021a3a18 *) a, data_ov000_021b5e50, e, b);
             }
-        } while (func_ov000_0218e668(a->mUnk_000) != 0);
+        } while (func_ov000_0218e668(a->field0) != 0);
     }
 }
 
@@ -142,22 +142,22 @@ void func_ov000_021a4868(Unk021a4a08 *a) {
     s32 c;
 
     b = func_ov000_0218e8c4();
-    if (a->mUnk_000 != -1) {
-        c = a->mUnk_0b8;
-        if (c > 0 && b - a->mUnk_0ac > 10000) {
+    if (a->field0 != -1) {
+        c = a->fieldB8;
+        if (c > 0 && b - a->fieldAC > 10000) {
             if (c >= 4) {
-                a->mUnk_0b8 = 0;
-                a->mUnk_09c(5, data_ov000_021b442c, a->mUnk_10c);
+                a->fieldB8 = 0;
+                a->field9C(5, data_ov000_021b442c, a->field10C);
                 return;
             }
             func_ov000_021a3a18((Unk021a3a18 *) a, 3);
-            a->mUnk_0b8 = a->mUnk_0b8 + 1;
-        } else if (a->mUnk_0b4 != FALSE && b - a->mUnk_0ac > 10000) {
+            a->fieldB8 = a->fieldB8 + 1;
+        } else if (a->fieldB4 != FALSE && b - a->fieldAC > 10000) {
             func_ov000_021a3a18((Unk021a3a18 *) a, 1);
-        } else if (b - a->mUnk_0ac > 60000 || a->mUnk_0ac == 0 || b < a->mUnk_0ac) {
+        } else if (b - a->fieldAC > 60000 || a->fieldAC == 0 || b < a->fieldAC) {
             func_ov000_021a3a18((Unk021a3a18 *) a, 0);
         }
-        if (b - a->mUnk_0b0 > 20000) {
+        if (b - a->fieldB0 > 20000) {
             func_ov000_021a3bbc((Unk021a3a18 *) a);
         }
     }
@@ -168,14 +168,14 @@ void func_ov000_021a4818(Unk021a4a08 *a) {
     if (a == NULL) {
         a = data_ov000_021b426c;
     }
-    if (a->mUnk_0bc != 0) {
+    if (a->fieldBC != 0) {
         v1 = func_ov000_0218e8c4();
-        if ((v1 - a->mUnk_0ac) < (0x00002710u)) {
-            a->mUnk_0b4 = TRUE;
+        if ((v1 - a->fieldAC) < (0x00002710u)) {
+            a->fieldB4 = TRUE;
             return;
         }
         func_ov000_021a3a18((Unk021a3a18 *) a, 1);
-        a->mUnk_0b4 = FALSE;
+        a->fieldB4 = FALSE;
     }
 }
 
@@ -183,15 +183,15 @@ void func_ov000_021a47ac(Unk021a4a08 *a) {
     if (a == NULL) {
         a = data_ov000_021b426c;
     }
-    if (a->mUnk_0bc != 0) {
+    if (a->fieldBC != 0) {
         func_ov000_021a3a18((Unk021a3a18 *) a, 2);
     }
-    if (a->mUnk_000 != -1 && a->mUnk_0c4 != FALSE) {
-        func_ov000_0218e53c(a->mUnk_000);
+    if (a->field0 != -1 && a->fieldC4 != FALSE) {
+        func_ov000_0218e53c(a->field0);
     }
-    a->mUnk_000 = -1;
-    a->mUnk_0ac = 0;
-    if (a->mUnk_0c4 != FALSE) {
+    a->field0 = -1;
+    a->fieldAC = 0;
+    if (a->fieldC4 != FALSE) {
         func_ov000_0218e8b4();
     }
     if (a != &data_ov000_021b4278) {
@@ -201,10 +201,10 @@ void func_ov000_021a47ac(Unk021a4a08 *a) {
 
 void func_ov000_021a4784(MatchingKeyIds *a, int b) {
     int v1;
-    v1 = a->mUnk_100;
+    v1 = a->field100;
     if (((v1 < 0xfe) && (1 <= b)) && (b <= 254)) {
-        a->mUnk_100 = v1 + 1;
-        a->mUnk_000[v1] = (s8) b;
+        a->field100 = v1 + 1;
+        a->field0[v1] = (s8) b;
     }
 }
 
@@ -224,14 +224,14 @@ void func_ov000_021a471c(Unk021a471c *a, const char *b) {
     s32 d;
 
     c = strlen(b) + 1;
-    d = 0x800 - a->mUnk_800;
+    d = 0x800 - a->field800;
     if (c > d) {
         c = d;
     }
     if (c != 0) {
-        memcpy(&a->mUnk_000[a->mUnk_800], b, c);
-        a->mUnk_800 += c;
-        a->mUnk_000[a->mUnk_800 - 1] = 0;
+        memcpy(&a->field0[a->field800], b, c);
+        a->field800 += c;
+        a->field0[a->field800 - 1] = 0;
     }
 }
 
@@ -245,7 +245,7 @@ void func_ov000_021a46d4(void) {
         data_ov000_021b5df8 = 0;
         d = (Unk021a46d4 *) data_ov000_021b5dfc;
         for (; data_ov000_021b5df8 < 5; data_ov000_021b5df8++) {
-            b = (Unk021a46d4 *) a->mUnk_0c[data_ov000_021b5df8];
+            b = (Unk021a46d4 *) a->fieldC[data_ov000_021b5df8];
             if (b == NULL) {
                 break;
             }
@@ -258,20 +258,20 @@ BOOL func_ov000_021a4654(const char *a, u32 b, Unk021a4654 *c, Unk021a8f84 **d) 
     Unk021a8f84 *e;
 
     e = NULL;
-    c->mUnk_01 = 2;
-    c->mUnk_02 = func_ov000_021a4654_inline(b);
+    c->field1 = 2;
+    c->field2 = func_ov000_021a4654_inline(b);
     if (a == NULL) {
-        c->mUnk_04 = 0;
+        c->field4 = 0;
     } else {
-        c->mUnk_04 = func_ov000_0218e374((u32) a);
+        c->field4 = func_ov000_0218e374((u32) a);
     }
-    if (c->mUnk_04 == -1) {
+    if (c->field4 == -1) {
         if (strcmp(a, data_ov000_021b4418) != 0) {
             e = func_ov000_021a8f84(a);
             if (e == NULL) {
                 return FALSE;
             }
-            c->mUnk_04 = **e->mUnk_0c;
+            c->field4 = **e->fieldC;
         }
     }
     if (d != NULL) {
@@ -412,9 +412,9 @@ void func_ov000_021a4418(Unk021a4a08 *a, Unk021a471c *b, const char *c, s32 d) {
 
     if (d >= 1 && d <= 0x41 && ((s8 *) c)[d - 1] == 0) {
         strcpy((char *) e, c);
-        func_ov000_021a44a0(a->mUnk_044, strlen((const char *) a->mUnk_044), e, d - 1);
-        func_ov000_021a4578(e, d - 1, &b->mUnk_000[b->mUnk_800]);
-        b->mUnk_800 += strlen((const char *) &b->mUnk_000[b->mUnk_800]) + 1;
+        func_ov000_021a44a0(a->field44, strlen((const char *) a->field44), e, d - 1);
+        func_ov000_021a4578(e, d - 1, &b->field0[b->field800]);
+        b->field800 += strlen((const char *) &b->field0[b->field800]) + 1;
     }
 }
 
@@ -427,10 +427,10 @@ void func_ov000_021a438c(Unk021a4a08 *a, const char *b) {
     e = d;
     c = (c << 24 & 0xff000000) | ((c << 8 & 0xff0000) | ((c >> 24 & 0xff) | (c >> 8 & 0xff00)));
     if (c != 0 && e != 0) {
-        if (a->mUnk_104 != c || a->mUnk_108 != e) {
-            a->mUnk_104 = c;
-            a->mUnk_108 = e;
-            a->mUnk_0a8(c, e, a->mUnk_10c);
+        if (a->field104 != c || a->field108 != e) {
+            a->field104 = c;
+            a->field108 = e;
+            a->fieldA8(c, e, a->field10C);
         }
     }
 }
@@ -450,30 +450,30 @@ void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 
     u8 *q;
     u8 *r;
 
-    f.mUnk_100 = 0;
+    f.field100 = 0;
     if (d == 0) {
         return;
     }
     if ((u32) (c - 1) <= 1) {
-        if ((u32) (0x800 - b->mUnk_800) < 2) {
+        if ((u32) (0x800 - b->field800) < 2) {
             return;
         }
-        i = a->mUnk_098(c, a->mUnk_10c);
+        i = a->field98(c, a->field10C);
         g = i;
         h = (g >> 8 & 0xff) | (g << 8 & 0xff00);
-        r = &b->mUnk_000[b->mUnk_800];
+        r = &b->field0[b->field800];
         q = (u8 *) &h;
         r[0] = q[0];
         r[1] = q[1];
-        b->mUnk_800 += 2;
+        b->field800 += 2;
     } else {
         i = 1;
     }
     if (d == 0xff) {
-        a->mUnk_094(c, &f, a->mUnk_10c);
+        a->field94(c, &f, a->field10C);
         l = 0;
-        if (f.mUnk_100 > 0) {
-            o = f.mUnk_000;
+        if (f.field100 > 0) {
+            o = f.field0;
             do {
                 p = data_ov000_021b45bc[*o];
                 if (p == NULL) {
@@ -481,22 +481,22 @@ void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 
                 }
                 func_ov000_021a471c(b, p);
                 if (c == 0) {
-                    k = b->mUnk_800;
-                    a->mUnk_088(*o, b, a->mUnk_10c);
-                    if (k == b->mUnk_800) {
+                    k = b->field800;
+                    a->field88(*o, b, a->field10C);
+                    if (k == b->field800) {
                         func_ov000_021a471c(b, data_ov000_021b4400);
                     }
                 }
                 o++;
                 l++;
-            } while (l < f.mUnk_100);
+            } while (l < f.field100);
         }
-        if (0x800 - b->mUnk_800 < 1) {
+        if (0x800 - b->field800 < 1) {
             return;
         }
-        b->mUnk_000[b->mUnk_800++] = 0;
-        d = f.mUnk_100;
-        e = f.mUnk_000;
+        b->field0[b->field800++] = 0;
+        d = f.field100;
+        e = f.field0;
         if (c == 0) {
             return;
         }
@@ -508,15 +508,15 @@ void func_ov000_021a41dc(Unk021a4a08 *a, Unk021a471c *b, s32 c, s32 d, const u8 
             n = m;
             if (d > 0) {
                 do {
-                    k = b->mUnk_800;
+                    k = b->field800;
                     if (c == 0) {
-                        a->mUnk_088(e[n], b, a->mUnk_10c);
+                        a->field88(e[n], b, a->field10C);
                     } else if (c == 1) {
-                        a->mUnk_08c(e[n], j, b, a->mUnk_10c);
+                        a->field8C(e[n], j, b, a->field10C);
                     } else if (c == 2) {
-                        a->mUnk_090(e[n], j, b, a->mUnk_10c);
+                        a->field90(e[n], j, b, a->field10C);
                     }
-                    if (k == b->mUnk_800) {
+                    if (k == b->field800) {
                         func_ov000_021a471c(b, data_ov000_021b4400);
                     }
                     n++;
@@ -586,16 +586,16 @@ void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c) {
     const char *k;
     u8 *l;
 
-    d.mUnk_100 = 0;
+    d.field100 = 0;
     if ((u32) (c - 1) <= 1) {
-        f = a->mUnk_098(c, a->mUnk_10c);
+        f = a->field98(c, a->field10C);
     } else {
         f = 1;
     }
-    a->mUnk_094(c, &d, a->mUnk_10c);
+    a->field94(c, &d, a->field10C);
     h = 0;
-    if (d.mUnk_100 > 0) {
-        l = d.mUnk_000;
+    if (d.field100 > 0) {
+        l = d.field0;
         i = h;
         do {
             k = data_ov000_021b45bc[*l];
@@ -604,48 +604,48 @@ void func_ov000_021a3fc8(Unk021a4a08 *a, Unk021a471c *b, s32 c) {
             }
             if (c == 0) {
                 func_ov000_021a471c(b, k);
-                b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
-                g = b->mUnk_800;
-                a->mUnk_088(*l, b, a->mUnk_10c);
-                if (g == b->mUnk_800) {
+                b->field0[b->field800 - 1] = 0x5c;
+                g = b->field800;
+                a->field88(*l, b, a->field10C);
+                if (g == b->field800) {
                     func_ov000_021a471c(b, data_ov000_021b4400);
                 }
-                b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
+                b->field0[b->field800 - 1] = 0x5c;
             } else {
                 j = i;
                 if (f > 0) {
                     do {
                         sprintf(e, data_ov000_021b4404, k, j);
                         func_ov000_021a471c(b, e);
-                        b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
-                        g = b->mUnk_800;
+                        b->field0[b->field800 - 1] = 0x5c;
+                        g = b->field800;
                         if (c == 1) {
-                            a->mUnk_08c(*l, j, b, a->mUnk_10c);
+                            a->field8C(*l, j, b, a->field10C);
                         } else if (c == 2) {
-                            a->mUnk_090(*l, j, b, a->mUnk_10c);
+                            a->field90(*l, j, b, a->field10C);
                         }
-                        if (g == b->mUnk_800) {
+                        if (g == b->field800) {
                             func_ov000_021a471c(b, data_ov000_021b4400);
                         }
-                        b->mUnk_000[b->mUnk_800 - 1] = 0x5c;
+                        b->field0[b->field800 - 1] = 0x5c;
                         j++;
                     } while (j < f);
                 }
             }
             l++;
             h++;
-        } while (h < d.mUnk_100);
+        } while (h < d.field100);
     }
 }
 
 void func_ov000_021a3f78(Unk021a4a08 *a, Unk021a471c *b) {
-    b->mUnk_800 = 1;
-    b->mUnk_000[0] = 0x5c;
+    b->field800 = 1;
+    b->field0[0] = 0x5c;
     func_ov000_021a3fc8(a, b, 0);
     func_ov000_021a3fc8(a, b, 1);
     func_ov000_021a3fc8(a, b, 2);
     func_ov000_021a471c(b, data_ov000_021b43e4);
-    b->mUnk_800 = b->mUnk_800 + -1;
+    b->field800 = b->field800 + -1;
 }
 
 void func_ov000_021a3eb0(Unk021a3a18 *a, u8 *b, s32 c) {
@@ -657,7 +657,7 @@ void func_ov000_021a3eb0(Unk021a3a18 *a, u8 *b, s32 c) {
     u8 *t;
     if (c >= 10) {
         for (i = 0; i < 6; i++) {
-            if (s.mUnk_00[i] != b[i]) {
+            if (s.field0[i] != b[i]) {
                 k = FALSE;
                 break;
             }
@@ -672,12 +672,12 @@ void func_ov000_021a3eb0(Unk021a3a18 *a, u8 *b, s32 c) {
         t[1] = p[1];
         t[2] = p[2];
         t[3] = p[3];
-        if (a->mUnk_a0 != NULL) {
-            a->mUnk_a0(((x << 24) & 0xff000000) | (((x << 8) & 0xff0000) | (((x >> 24) & 0xff) | ((x >> 8) & 0xff00))),
-                       a->mUnk_10c);
+        if (a->fieldA0 != NULL) {
+            a->fieldA0(((x << 24) & 0xff000000) | (((x << 8) & 0xff0000) | (((x >> 24) & 0xff) | ((x >> 8) & 0xff00))),
+                       a->field10C);
         }
-    } else if (a->mUnk_a4 != NULL) {
-        a->mUnk_a4((s8 *) b, c, a->mUnk_10c);
+    } else if (a->fieldA4 != NULL) {
+        a->fieldA4((s8 *) b, c, a->field10C);
     }
 }
 
@@ -687,15 +687,15 @@ u32 func_ov000_021a3e5c(Unk021a3a18 *a, int b) {
     int *v4;
     v1 = 0;
     do {
-        if (b == a->mUnk_d8[v1]) {
+        if (b == a->fieldD8[v1]) {
             return 1;
         }
         v1 = v1 + 1;
     } while (v1 < 10);
-    v2 = (a->mUnk_100 + 1) % (10);
-    v4 = &a->mUnk_100;
+    v2 = (a->field100 + 1) % (10);
+    v4 = &a->field100;
     *v4 = v2;
-    a->mUnk_d8[*v4] = b;
+    a->fieldD8[*v4] = b;
     return 0;
 }
 
@@ -705,24 +705,24 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
     s32 i;
     s8 *p5;
     s8 *p6;
-    k.mUnk_800 = 0;
+    k.field800 = 0;
     if (a == NULL) {
         a = (Unk021a3a18 *) data_ov000_021b426c;
     }
     if (b[0] == 0x3b) {
-        if (a->mUnk_d4 != NULL) {
-            a->mUnk_d4(b, c, d);
+        if (a->fieldD4 != NULL) {
+            a->fieldD4(b, c, d);
             return;
         }
     } else if (b[0] == 0x5c) {
         func_ov000_021a3f78((Unk021a4a08 *) a, (Unk021a471c *) &k);
-        func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);
+        func_ov000_0218e3e4(a->field0, &k, k.field800, 0, d, 8);
         return;
     } else if (c >= 7) {
         if ((u8) b[0] == 0xfe) {
             if ((u8) b[1] == 0xfd) {
-                if (a->mUnk_b8 > 0) {
-                    a->mUnk_b8 = 0;
+                if (a->fieldB8 > 0) {
+                    a->fieldB8 = 0;
                 }
                 t = b[2];
                 p5 = b + 3;
@@ -734,7 +734,7 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                         func_ov000_021a412c((Unk021a4a08 *) a, (Unk021a471c *) &k, (u8 *) p6, c);
                         break;
                     case 1:
-                        if (c >= 13 && a->mUnk_a8 != 0) {
+                        if (c >= 13 && a->fieldA8 != 0) {
                             func_ov000_021a438c((Unk021a4a08 *) a, (const char *) (p6 + c - 13));
                         }
                         func_ov000_021a4418((Unk021a4a08 *) a, (Unk021a471c *) &k, (const char *) p6, c);
@@ -743,37 +743,37 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                         if (c > 0x20) {
                             c = 0x20;
                         }
-                        k.mUnk_000[0] = 5;
-                        memcpy(&k.mUnk_000[k.mUnk_800], p6, c);
-                        k.mUnk_800 += c;
+                        k.field0[0] = 5;
+                        memcpy(&k.field0[k.field800], p6, c);
+                        k.field800 += c;
                         break;
                     case 4:
-                        if (a->mUnk_b8 == -1) {
+                        if (a->fieldB8 == -1) {
                             return;
                         }
                         for (i = 0; i < 4; i++) {
-                            if (p5[i] != a->mUnk_84[i]) {
+                            if (p5[i] != a->field84[i]) {
                                 return;
                             }
                         }
                         if (c < 2) {
                             return;
                         }
-                        a->mUnk_b8 = -1;
-                        a->mUnk_9c(p6[0], (u8 *) (p6 + 1), a->mUnk_10c);
+                        a->fieldB8 = -1;
+                        a->field9C(p6[0], (u8 *) (p6 + 1), a->field10C);
                         return;
                     case 6:
                         for (i = 0; i < 4; i++) {
-                            if (p5[i] != a->mUnk_84[i]) {
+                            if (p5[i] != a->field84[i]) {
                                 return;
                             }
                         }
                         if (c < 4) {
                             return;
                         }
-                        k.mUnk_000[0] = 7;
-                        __memcpy(&k.mUnk_000[k.mUnk_800], p6, 4);
-                        k.mUnk_800 += 4;
+                        k.field0[0] = 7;
+                        __memcpy(&k.field0[k.field800], p6, 4);
+                        k.field800 += 4;
                         __memcpy(&i, p6, 4);
                         if (func_ov000_021a3e5c(a, i) == 0) {
                             func_ov000_021a3eb0(a, (u8 *) (p6 + 4), c - 4);
@@ -786,7 +786,7 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
                     default:
                         return;
                 }
-                func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, d, 8);
+                func_ov000_0218e3e4(a->field0, &k, k.field800, 0, d, 8);
             }
         }
     }
@@ -794,48 +794,48 @@ void func_ov000_021a3c14(Unk021a3a18 *a, s8 *b, s32 c, void *d) {
 
 void func_ov000_021a3bbc(Unk021a3a18 *a) {
     Unk021a4480 k;
-    k.mUnk_800 = 0;
-    func_ov000_021a4480((u32) &k, 8, (u32) a->mUnk_84);
-    func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, a->mUnk_cc, 8);
-    a->mUnk_b0 = func_ov000_0218e8c4();
+    k.field800 = 0;
+    func_ov000_021a4480((u32) &k, 8, (u32) a->field84);
+    func_ov000_0218e3e4(a->field0, &k, k.field800, 0, a->fieldCC, 8);
+    a->fieldB0 = func_ov000_0218e8c4();
 }
 
 void func_ov000_021a3a18(Unk021a3a18 *a, s32 b) {
     Unk021a4480 k;
     char t[0x14];
     s32 i;
-    k.mUnk_800 = 0;
-    func_ov000_021a4480((u32) &k, 3, (u32) a->mUnk_84);
+    k.field800 = 0;
+    func_ov000_021a4480((u32) &k, 3, (u32) a->field84);
     for (i = 0; i < data_ov000_021b5df8; i++) {
         sprintf(t, data_ov000_021b4388, i);
         func_ov000_021a471c((Unk021a471c *) &k, t);
         func_ov000_021a471c((Unk021a471c *) &k, func_ov000_021a8c6c(((Unk021b5dfc *) data_ov000_021b5dfc)[i]));
     }
     func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b4394);
-    func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_c0);
+    func_ov000_021a4760((Unk021a471c *) &k, a->fieldC0);
     func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43a0);
-    func_ov000_021a471c((Unk021a471c *) &k, a->mUnk_c8 != 0 ? data_ov000_021b43a8 : data_ov000_021b43ac);
+    func_ov000_021a471c((Unk021a471c *) &k, a->fieldC8 != 0 ? data_ov000_021b43a8 : data_ov000_021b43ac);
     if (b != 0) {
         func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43b0);
         func_ov000_021a4760((Unk021a471c *) &k, b);
     }
     func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43c0);
-    func_ov000_021a471c((Unk021a471c *) &k, a->mUnk_04);
-    if (a->mUnk_a8 != 0) {
+    func_ov000_021a471c((Unk021a471c *) &k, a->field4);
+    if (a->fieldA8 != 0) {
         func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43cc);
-        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_104);
+        func_ov000_021a4760((Unk021a471c *) &k, a->field104);
         func_ov000_021a471c((Unk021a471c *) &k, data_ov000_021b43d8);
-        func_ov000_021a4760((Unk021a471c *) &k, a->mUnk_108);
+        func_ov000_021a4760((Unk021a471c *) &k, a->field108);
     }
     if (b != 2) {
         func_ov000_021a41a0((Unk021a4a08 *) a, (Unk021a471c *) &k, 0xff, NULL, 0xff, NULL, 0xff, NULL);
-    } else if (0x800 - k.mUnk_800 >= 1) {
-        k.mUnk_000[k.mUnk_800++] = 0;
+    } else if (0x800 - k.field800 >= 1) {
+        k.field0[k.field800++] = 0;
     }
-    func_ov000_0218e3e4(a->mUnk_00, &k, k.mUnk_800, 0, a->mUnk_cc, 8);
-    a->mUnk_ac = func_ov000_0218e8c4();
-    a->mUnk_b0 = a->mUnk_ac;
+    func_ov000_0218e3e4(a->field0, &k, k.field800, 0, a->fieldCC, 8);
+    a->fieldAC = func_ov000_0218e8c4();
+    a->fieldB0 = a->fieldAC;
     if (b != 0) {
-        a->mUnk_b4 = 0;
+        a->fieldB4 = 0;
     }
 }

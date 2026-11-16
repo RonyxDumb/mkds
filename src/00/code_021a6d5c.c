@@ -58,13 +58,13 @@ s32 func_ov000_021a918c(s32 v1, s32 v2, s32 v3) {
 
 s32 func_ov000_021a916c(s32 v1, const void *v2) {
     const Unk021a8e18 *a = v2;
-    u16 b = ((a->mUnk_02 >> 8) & 0xff) | ((a->mUnk_02 << 8) & 0xff00);
+    u16 b = ((a->field2 >> 8) & 0xff) | ((a->field2 << 8) & 0xff00);
     return func_ov000_021a7824((Unk021a6fa8 *) v1, b);
 }
 
 s32 func_ov000_021a911c(Unk021a6fa8 *a, Unk021a8e18 *b) {
-    u32 c = b->mUnk_04;
-    u16 d = ((b->mUnk_02 >> 8) & 0xff) | ((b->mUnk_02 << 8) & 0xff00);
+    u32 c = b->field4;
+    u16 d = ((b->field2 >> 8) & 0xff) | ((b->field2 << 8) & 0xff00);
     u32 e = ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00)));
     return func_ov000_021a7748(a, d, (u16 *) e);
 }
@@ -82,8 +82,8 @@ s32 func_ov000_021a90a0(s32 v1, void *v2, s32 v3, s32 v4, void *v5) {
     s32 d = func_ov000_021a7de0(v1, v2, v3, (u32) &b, &c, v4);
     if (d >= 0 && v5 != NULL) {
         a = v5;
-        a->mUnk_02 = ((b >> 8) & 0xff) | ((b << 8) & 0xff00);
-        a->mUnk_04 = ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00)));
+        a->field2 = ((b >> 8) & 0xff) | ((b << 8) & 0xff00);
+        a->field4 = ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00)));
     }
     return d;
 }
@@ -99,9 +99,9 @@ s32 func_ov000_021a9018(s32 v1, void *v2, s32 v3, s32 v4, void *v5) {
     u16 b;
     u32 c;
     if (a != NULL) {
-        b = ((a->mUnk_02 >> 8) & 0xff) | ((a->mUnk_02 << 8) & 0xff00);
-        c = ((a->mUnk_04 << 24) & 0xff000000) |
-            (((a->mUnk_04 << 8) & 0xff0000) | (((a->mUnk_04 >> 24) & 0xff) | ((a->mUnk_04 >> 8) & 0xff00)));
+        b = ((a->field2 >> 8) & 0xff) | ((a->field2 << 8) & 0xff00);
+        c = ((a->field4 << 24) & 0xff000000) |
+            (((a->field4 << 8) & 0xff0000) | (((a->field4 >> 24) & 0xff) | ((a->field4 >> 8) & 0xff00)));
     } else {
         b = 0;
         c = 0;
@@ -123,11 +123,11 @@ Unk021a8f84 *func_ov000_021a8f84(const char *a) {
         return NULL;
     }
     STD_CopyLStringZeroFill((char *) data_ov000_021b6078, a, 0x101);
-    data_ov000_021b6020.mUnk_00 = (u8 *) data_ov000_021b6078;
-    data_ov000_021b6020.mUnk_04 = NULL;
-    data_ov000_021b6020.mUnk_08 = 2;
-    data_ov000_021b6020.mUnk_0a = 4;
-    data_ov000_021b6020.mUnk_0c = data_ov000_021b6018;
+    data_ov000_021b6020.field0 = (u8 *) data_ov000_021b6078;
+    data_ov000_021b6020.field4 = NULL;
+    data_ov000_021b6020.field8 = 2;
+    data_ov000_021b6020.fieldA = 4;
+    data_ov000_021b6020.fieldC = data_ov000_021b6018;
     data_ov000_021b6018[0] = &data_ov000_021b600c;
     data_ov000_021b6018[1] = NULL;
     data_ov000_021b600c =
@@ -146,18 +146,18 @@ u32 func_ov000_021a8f0c(u32 f, void *g) {
     }
     c = func_ov000_021a8830();
     if (a != NULL) {
-        d = a->mUnk_74;
+        d = a->field74;
     } else {
         d = 0;
     }
     if (c == 0) {
         d = 0;
     }
-    b->mUnk_00 = 8;
-    b->mUnk_01 = 2;
+    b->field0 = 8;
+    b->field1 = 2;
     e = d;
-    b->mUnk_02 = ((e >> 8) & 0xff) | ((e << 8) & 0xff00);
-    b->mUnk_04 = ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00)));
+    b->field2 = ((e >> 8) & 0xff) | ((e << 8) & 0xff00);
+    b->field4 = ((c << 24) & 0xff000000) | (((c << 8) & 0xff0000) | (((c >> 24) & 0xff) | ((c >> 8) & 0xff00)));
     return 0;
 }
 
@@ -224,8 +224,8 @@ s32 func_ov000_021a8e18(Unk021a6fa8 *a, Unk021a8e18 *b, s32 f) {
     u32 d;
     s32 e = func_ov000_021a7534(a, &c, &d);
     if (e >= 0) {
-        b->mUnk_02 = ((c >> 8) & 0xff) | ((c << 8) & 0xff00);
-        b->mUnk_04 = ((d << 24) & 0xff000000) | (((d << 8) & 0xff0000) | (((d >> 24) & 0xff) | ((d >> 8) & 0xff00)));
+        b->field2 = ((c >> 8) & 0xff) | ((c << 8) & 0xff00);
+        b->field4 = ((d << 24) & 0xff000000) | (((d << 8) & 0xff0000) | (((d >> 24) & 0xff) | ((d >> 8) & 0xff00)));
     }
     return e;
 }
@@ -236,15 +236,15 @@ s32 func_ov000_021a8dd8(Unk021a6fa8 *a, s32 b, u32 c) {
     }
     switch (b) {
         case 3:
-            if (a->mUnk_72 == 1) {
+            if (a->field72 == 1) {
                 return 0;
             }
             return 4;
         case 4:
             if (c & 4) {
-                a->mUnk_72 = 0;
+                a->field72 = 0;
             } else {
-                a->mUnk_72 = 1;
+                a->field72 = 1;
             }
             break;
     }
@@ -269,29 +269,29 @@ void func_ov000_021a8d98(int a) {
 
 s32 func_ov000_021a8c94(void *b) {
     Unk021a8c94 *a = b;
-    data_ov000_021b6040.mUnk_00 = a->mUnk_0c == 1 ? 1 : 0;
-    data_ov000_021b6040.mUnk_04 =
-        ((a->mUnk_10[0] << 24) & 0xff000000) |
-        (((a->mUnk_10[0] << 8) & 0xff0000) | (((a->mUnk_10[0] >> 24) & 0xff) | ((a->mUnk_10[0] >> 8) & 0xff00)));
-    data_ov000_021b6040.mUnk_08 =
-        ((a->mUnk_10[1] << 24) & 0xff000000) |
-        (((a->mUnk_10[1] << 8) & 0xff0000) | (((a->mUnk_10[1] >> 24) & 0xff) | ((a->mUnk_10[1] >> 8) & 0xff00)));
-    data_ov000_021b6040.mUnk_0c =
-        ((a->mUnk_10[2] << 24) & 0xff000000) |
-        (((a->mUnk_10[2] << 8) & 0xff0000) | (((a->mUnk_10[2] >> 24) & 0xff) | ((a->mUnk_10[2] >> 8) & 0xff00)));
-    data_ov000_021b6040.mUnk_10 =
-        ((a->mUnk_10[3] << 24) & 0xff000000) |
-        (((a->mUnk_10[3] << 8) & 0xff0000) | (((a->mUnk_10[3] >> 24) & 0xff) | ((a->mUnk_10[3] >> 8) & 0xff00)));
-    data_ov000_021b6040.mUnk_14 =
-        ((a->mUnk_10[4] << 24) & 0xff000000) |
-        (((a->mUnk_10[4] << 8) & 0xff0000) | (((a->mUnk_10[4] >> 24) & 0xff) | ((a->mUnk_10[4] >> 8) & 0xff00)));
-    data_ov000_021b6040.mUnk_18 = func_ov000_021a8db8;
-    data_ov000_021b6040.mUnk_1c = (void (*)(void *)) func_ov000_021a8d98;
-    data_ov000_021b6014 = a->mUnk_04;
-    *(void **) data_ov000_021b6010 = a->mUnk_08;
-    data_ov000_021b6040.mUnk_20 = 0x40;
-    data_ov000_021b6040.mUnk_30 = a->mUnk_2c;
-    data_ov000_021b6040.mUnk_34 = a->mUnk_30;
+    data_ov000_021b6040.field0 = a->fieldC == 1 ? 1 : 0;
+    data_ov000_021b6040.field4 =
+        ((a->field10[0] << 24) & 0xff000000) |
+        (((a->field10[0] << 8) & 0xff0000) | (((a->field10[0] >> 24) & 0xff) | ((a->field10[0] >> 8) & 0xff00)));
+    data_ov000_021b6040.field8 =
+        ((a->field10[1] << 24) & 0xff000000) |
+        (((a->field10[1] << 8) & 0xff0000) | (((a->field10[1] >> 24) & 0xff) | ((a->field10[1] >> 8) & 0xff00)));
+    data_ov000_021b6040.fieldC =
+        ((a->field10[2] << 24) & 0xff000000) |
+        (((a->field10[2] << 8) & 0xff0000) | (((a->field10[2] >> 24) & 0xff) | ((a->field10[2] >> 8) & 0xff00)));
+    data_ov000_021b6040.field10 =
+        ((a->field10[3] << 24) & 0xff000000) |
+        (((a->field10[3] << 8) & 0xff0000) | (((a->field10[3] >> 24) & 0xff) | ((a->field10[3] >> 8) & 0xff00)));
+    data_ov000_021b6040.field14 =
+        ((a->field10[4] << 24) & 0xff000000) |
+        (((a->field10[4] << 8) & 0xff0000) | (((a->field10[4] >> 24) & 0xff) | ((a->field10[4] >> 8) & 0xff00)));
+    data_ov000_021b6040.field18 = func_ov000_021a8db8;
+    data_ov000_021b6040.field1C = (void (*)(void *)) func_ov000_021a8d98;
+    data_ov000_021b6014 = a->field4;
+    *(void **) data_ov000_021b6010 = a->field8;
+    data_ov000_021b6040.field20 = 0x40;
+    data_ov000_021b6040.field30 = a->field2C;
+    data_ov000_021b6040.field34 = a->field30;
     return func_ov000_021a6ee4(&data_ov000_021b6040);
 }
 
@@ -345,12 +345,12 @@ s32 func_ov000_021a8b20(void *a, s32 b, s64 c) {
         d = a;
         e = 0;
         for (f = 0; f < b; f++) {
-            g = d->mUnk_04 | 0xe0;
-            g &= func_ov000_021a8994(d->mUnk_00);
+            g = d->field4 | 0xe0;
+            g &= func_ov000_021a8994(d->field0);
             if (g != 0) {
                 e++;
             }
-            d->mUnk_06 = g;
+            d->field6 = g;
             d++;
         }
         if (e > 0) {
@@ -456,10 +456,10 @@ u32 func_ov000_021a8994(Unk021a6fa8 *a) {
     if (func_ov000_021a8a80(a) != 0) {
         b |= 0x80;
     } else {
-        if ((v->mUnk_70 & 0x40) != 0) {
+        if ((v->field70 & 0x40) != 0) {
             b |= 0x20;
         }
-        if (a->mUnk_73 == 1 || (v->mUnk_70 & 4) != 0) {
+        if (a->field73 == 1 || (v->field70 & 4) != 0) {
             c = OS_DisableInterrupts();
             if (aMgSelect_battle_stage_m_00_nscr_0(a) > 0) {
                 b |= 1;
@@ -470,14 +470,14 @@ u32 func_ov000_021a8994(Unk021a6fa8 *a) {
             OS_RestoreInterrupts(c);
         }
         d = TRUE;
-        if (a->mUnk_73 != 0 && a->mUnk_73 != 4) {
+        if (a->field73 != 0 && a->field73 != 4) {
             d = FALSE;
         }
         if (d != FALSE) {
-            if ((v->mUnk_70 & 4) != 0 && a->mState != 4 && (b & 1) == 0) {
-                v->mUnk_70 &= ~6;
+            if ((v->field70 & 4) != 0 && a->mState != 4 && (b & 1) == 0) {
+                v->field70 &= ~6;
             }
-            if ((v->mUnk_70 & 2) == 0 && (v->mUnk_70 & 4) == 0) {
+            if ((v->field70 & 2) == 0 && (v->field70 & 4) == 0) {
                 b |= 0x40;
             }
         }
@@ -492,13 +492,13 @@ s32 aMgSelect_battle_stage_m_00_nscr_0(Unk021a6fa8 *a) {
     v2 = a->mReceiveBlock;
     v1 = 0;
     if (v2 != NULL) {
-        v3 = a->mUnk_73;
+        v3 = a->field73;
         if (v3 == 1) {
-            if (v2->mUnk_104 != NULL) {
-                v1 = v2->mUnk_104->mUnk_04;
+            if (v2->field104 != NULL) {
+                v1 = v2->field104->field4;
             }
         } else if ((v3 == 0) || (v3 == 4)) {
-            v1 = a->mReceiveBufferLength - v2->mUnk_f8;
+            v1 = a->mReceiveBufferLength - v2->fieldF8;
         }
     }
     return v1;
@@ -511,7 +511,7 @@ s32 func_ov000_021a88e4(const char *a) {
     if (a == NULL) {
         return 0;
     }
-    c = data_ov000_021b5f94->mUnk_18(0x1154);
+    c = data_ov000_021b5f94->field18(0x1154);
     if (c == NULL) {
         return 0;
     }
@@ -523,7 +523,7 @@ s32 func_ov000_021a88e4(const char *a) {
     func_ov000_021ae304(&b);
     d = func_ov000_021acef8(a);
     func_ov000_021ae2f4();
-    data_ov000_021b5f94->mUnk_1c(c);
+    data_ov000_021b5f94->field1C(c);
     return d;
 }
 
@@ -580,8 +580,8 @@ s32 func_ov000_021a87bc(void) {
     if (a >= 0) {
         func_ov000_021b026c();
         func_ov000_021b02b0(NULL);
-        if (data_ov000_021b5f94->mUnk_28 == NULL) {
-            data_ov000_021b5f94->mUnk_1c(data_ov000_021b5fa8.mUnk_1c);
+        if (data_ov000_021b5f94->field28 == NULL) {
+            data_ov000_021b5f94->field1C(data_ov000_021b5fa8.field1C);
         }
         data_ov000_021b5f94 = NULL;
     }
@@ -598,7 +598,7 @@ s32 func_ov000_021a8740(void) {
         if (a != NULL) {
             b = data_ov000_021b5fa4;
             do {
-                if (a != b && (a->mUnk_70 & 0x10) == 0) {
+                if (a != b && (a->field70 & 0x10) == 0) {
                     break;
                 }
                 a = a->mNext;
@@ -653,7 +653,7 @@ u32 aOptionHensyuMe(Unk021a6fa8 *a) {
 
 static inline s32 func_ov000_021a7c4c_inline(Unk021a6fa8 *a) {
     BOOL b = TRUE;
-    if (a->mUnk_73 != 0 && a->mUnk_73 != 4) {
+    if (a->field73 != 0 && a->field73 != 4) {
         b = FALSE;
     }
     return b;
@@ -662,7 +662,7 @@ static inline s32 func_ov000_021a7c4c_inline(Unk021a6fa8 *a) {
 static inline s32 func_ov000_021a7de0_inline(Unk021a6fa8 *a) {
     BOOL b = FALSE;
     if (a != NULL) {
-        b = (a->mUnk_70 & 1) != 0;
+        b = (a->field70 & 1) != 0;
     }
     return b;
 }
@@ -684,31 +684,31 @@ s32 func_ov000_021a8604(s32 param_1) {
     if (func_ov000_021a7de0_inline(a) == 0) {
         return -0x27;
     }
-    if ((v->mUnk_70 & 0x10) != 0) {
+    if ((v->field70 & 0x10) != 0) {
         return -0x1a;
     }
-    v->mUnk_70 |= 0x18;
+    v->field70 |= 0x18;
     if (func_ov000_021a7c4c_inline(a) != 0) {
-        func_ov000_021a7008(&a->mSendBlock->mUnk_00, NULL);
+        func_ov000_021a7008(&a->mSendBlock->field0, NULL);
     }
     c = func_ov000_021a7064(func_ov000_021a8580, a, 1);
-    c->mUnk_0d = 0;
+    c->fieldD = 0;
     return func_ov000_021a6f84(a, c);
 }
 
 s32 func_ov000_021a8580(Unk021a7064 *a) {
-    Unk021a6fa8 *b = a->mUnk_04;
+    Unk021a6fa8 *b = a->field4;
     void *c;
     u32 d;
     if (func_ov000_021a7c4c_inline(b) != 0) {
-        OS_JoinThread(&b->mSendBlock->mUnk_00.mUnk_20);
+        OS_JoinThread(&b->mSendBlock->field0.field20);
         func_ov000_021ae094();
         func_ov000_021ae048();
         func_ov000_021ae258();
     }
     func_ov000_021ae2f4();
-    b->mUnk_70 &= ~6;
-    if (b->mUnk_73 == 2) {
+    b->field70 &= ~6;
+    if (b->field73 == 2) {
         c = b->mSendBlock;
     } else {
         c = b->mReceiveBlock;
@@ -718,7 +718,7 @@ s32 func_ov000_021a8580(Unk021a7064 *a) {
     func_ov000_021a8ae8(b);
     aMgSelect_battle_stage_s_nce_ncer_0(b);
     OS_RestoreInterrupts(d);
-    b->mUnk_70 |= 0x20;
+    b->field70 |= 0x20;
     return 0;
 }
 
@@ -727,29 +727,29 @@ void func_ov000_021a84c4(Unk021a6fa8 *a) {
     Unk021a78a4 *c;
     u32 d;
     if (a != NULL) {
-        a->mUnk_70 = 0;
+        a->field70 = 0;
         if (func_ov000_021a7c4c_inline(a) != 0) {
-            func_ov000_021a8454(&a->mSendBlock->mUnk_00);
-            func_ov000_021a8454(&a->mReceiveBlock->mUnk_00);
-        } else if (a->mUnk_73 == 1) {
-            b = a->mReceiveBlock->mUnk_104;
+            func_ov000_021a8454(&a->mSendBlock->field0);
+            func_ov000_021a8454(&a->mReceiveBlock->field0);
+        } else if (a->field73 == 1) {
+            b = a->mReceiveBlock->field104;
             while (b != NULL) {
-                c = b->mUnk_00;
-                data_ov000_021b5f94->mUnk_1c(b);
+                c = b->field0;
+                data_ov000_021b5f94->field1C(b);
                 b = c;
             }
-            a->mReceiveBlock->mUnk_108 = 0;
-            a->mReceiveBlock->mUnk_100 = NULL;
-            a->mReceiveBlock->mUnk_104 = NULL;
-            OS_WakeupThread(&a->mReceiveBlock->mUnk_10c);
-            func_ov000_021a8454(&a->mReceiveBlock->mUnk_00);
-        } else if (a->mUnk_73 == 2) {
-            func_ov000_021a8454(&a->mSendBlock->mUnk_00);
+            a->mReceiveBlock->field108 = 0;
+            a->mReceiveBlock->field100 = NULL;
+            a->mReceiveBlock->field104 = NULL;
+            OS_WakeupThread(&a->mReceiveBlock->field10C);
+            func_ov000_021a8454(&a->mReceiveBlock->field0);
+        } else if (a->field73 == 2) {
+            func_ov000_021a8454(&a->mSendBlock->field0);
         }
         d = OS_DisableInterrupts();
         func_ov000_021a8ae8(a);
         func_ov000_021a8aa8(a);
-        data_ov000_021b5f94->mUnk_1c(a);
+        data_ov000_021b5f94->field1C(a);
         OS_RestoreInterrupts(d);
     }
 }
@@ -758,18 +758,18 @@ void func_ov000_021a8454(Unk021a7154 *a) {
     Unk021a7064 *b;
     u32 c;
     if (a != NULL) {
-        OS_JoinThread(&a->mUnk_20);
+        OS_JoinThread(&a->field20);
         c = OS_DisableInterrupts();
         OS_DisableScheduler();
-        if (OS_ReceiveMessage(&a->mUnk_00, (void **) &b, 0) != 0) {
+        if (OS_ReceiveMessage(&a->field0, (void **) &b, 0) != 0) {
             do {
                 if (b != NULL) {
-                    if (b->mUnk_08 != NULL) {
-                        OS_SendMessage(b->mUnk_08, (void *) -11, 0);
+                    if (b->field8 != NULL) {
+                        OS_SendMessage(b->field8, (void *) -11, 0);
                     }
                     func_ov000_021a7048(b);
                 }
-            } while (OS_ReceiveMessage(&a->mUnk_00, (void **) &b, 0) != 0);
+            } while (OS_ReceiveMessage(&a->field0, (void **) &b, 0) != 0);
         }
         OS_EnableScheduler();
         OS_RestoreInterrupts(c);
@@ -797,23 +797,23 @@ s32 func_ov000_021a836c(s32 param_1) {
     if (func_ov000_021a7de0_inline(a) == 0) {
         return -0x27;
     }
-    if ((v->mUnk_70 & 4) == 0 || (v->mUnk_70 & 8) != 0) {
+    if ((v->field70 & 4) == 0 || (v->field70 & 8) != 0) {
         return -0x38;
     }
-    v->mUnk_70 |= 8;
+    v->field70 |= 8;
     b = a->mSendBlock;
-    if (b != NULL && b->mUnk_10c != NULL) {
-        c = func_ov000_021a7064(func_ov000_021a8344, b->mUnk_10c, a->mUnk_72);
+    if (b != NULL && b->field10C != NULL) {
+        c = func_ov000_021a7064(func_ov000_021a8344, b->field10C, a->field72);
         if (c == NULL) {
             return -0x21;
         }
-        return func_ov000_021a6fa8(b->mUnk_10c, c);
+        return func_ov000_021a6fa8(b->field10C, c);
     }
     return 0;
 }
 
 s32 func_ov000_021a8344(Unk021a7064 *a) {
-    if (func_ov000_021a7c4c_inline(a->mUnk_04) != 0) {
+    if (func_ov000_021a7c4c_inline(a->field4) != 0) {
         func_ov000_021ae094();
     }
     return 0;
@@ -833,22 +833,22 @@ u32 func_ov000_021a8268(u32 a, void *b, u32 c, u16 d, u32 e, u32 f) {
         return -0x27;
     }
     if (func_ov000_021a7c4c_inline(g) != 0) {
-        if ((v->mUnk_70 & 4) == 0 || (v->mUnk_70 & 8) != 0) {
+        if ((v->field70 & 4) == 0 || (v->field70 & 8) != 0) {
             return -0x38;
         }
     }
     h = g->mSendBlock;
-    if ((f & 4) != 0 || g->mUnk_72 == 0) {
-        if (OS_TryLockMutex(&h->mUnk_00.mUnk_e0) == 0) {
+    if ((f & 4) != 0 || g->field72 == 0) {
+        if (OS_TryLockMutex(&h->field0.fieldE0) == 0) {
             return -6;
         }
         i = FALSE;
     } else {
-        OS_LockMutex(&h->mUnk_00.mUnk_e0);
+        OS_LockMutex(&h->field0.fieldE0);
         i = TRUE;
     }
     j = func_ov000_021a81a8(g, b, c, d, (u16 *) e, i);
-    OS_UnlockMutex(&h->mUnk_00.mUnk_e0);
+    OS_UnlockMutex(&h->field0.fieldE0);
     return j;
 }
 
@@ -858,8 +858,8 @@ s32 func_ov000_021a81a8(Unk021a6fa8 *a, u8 *b, s32 c, u16 d, u16 *e, s32 f) {
     s32 i;
     u32 j;
     g = 0;
-    h = a->mSendBlock->mUnk_10c->mSendBuffer.mSize;
-    if (a->mUnk_73 == 1) {
+    h = a->mSendBlock->field10C->mSendBuffer.mSize;
+    if (a->field73 == 1) {
         h -= 0x2a;
         if (c > h) {
             return -0x23;
@@ -905,14 +905,14 @@ s32 func_ov000_021a813c(Unk021a6fa8 *a, s32 b, s32 c, u32 *d, s32 e) {
             if (g >= b) {
                 g = b;
             }
-            *d = f->mUnk_100;
+            *d = f->field100;
             break;
         }
         if (e == 0) {
             g = 0;
             break;
         }
-        OS_SleepThread((OSThreadQueue *) &f->mUnk_104);
+        OS_SleepThread((OSThreadQueue *) &f->field104);
     }
     OS_RestoreInterrupts(h);
     return g;
@@ -920,9 +920,9 @@ s32 func_ov000_021a813c(Unk021a6fa8 *a, s32 b, s32 c, u32 *d, s32 e) {
 
 s32 func_ov000_021a8118(Unk021a6fa8 *a) {
     Unk021a722a *b = a->mSendBlock;
-    s32 c = b->mUnk_f8.mSize;
-    s32 d = b->mUnk_100;
-    d = b->mUnk_102 - d - 1;
+    s32 c = b->fieldF8.mSize;
+    s32 d = b->field100;
+    d = b->field102 - d - 1;
     if (d < 0) {
         d += c;
     }
@@ -936,49 +936,49 @@ s32 func_ov000_021a8014(Unk021a6fa8 *a, u8 *b, s32 c, s32 d, u16 e, u16 *f, s32 
     u8 *k;
     s32 l;
     s32 m;
-    i = (Unk021a7eec *) func_ov000_021a7064(func_ov000_021a7f48, h->mUnk_10c, g);
+    i = (Unk021a7eec *) func_ov000_021a7064(func_ov000_021a7f48, h->field10C, g);
     if (i == NULL) {
         return -0x21;
     }
-    i->mUnk_0d = 0;
+    i->fieldD = 0;
     j = 0;
-    k = h->mUnk_f8.mStart;
-    l = h->mUnk_f8.mSize;
+    k = h->fieldF8.mStart;
+    l = h->fieldF8.mSize;
     m = d + c;
     if (m < l) {
-        i->mUnk_10 = k + d;
-        i->mUnk_14 = c;
-        i->mUnk_18 = (u8 *) j;
-        i->mUnk_1c = j;
+        i->field10 = k + d;
+        i->field14 = c;
+        i->field18 = (u8 *) j;
+        i->field1C = j;
         d = m;
     } else {
-        i->mUnk_10 = k + d;
-        i->mUnk_14 = l - d;
-        i->mUnk_18 = k;
-        i->mUnk_1c = c - i->mUnk_14;
-        d = i->mUnk_1c;
-        MI_CpuCopy8(b + i->mUnk_14, i->mUnk_18, d);
+        i->field10 = k + d;
+        i->field14 = l - d;
+        i->field18 = k;
+        i->field1C = c - i->field14;
+        d = i->field1C;
+        MI_CpuCopy8(b + i->field14, i->field18, d);
     }
-    MI_CpuCopy8(b, i->mUnk_10, i->mUnk_14);
-    i->mUnk_20 = d;
-    h->mUnk_100 = i->mUnk_20;
-    if (a->mUnk_73 == 1) {
-        if (a->mUnk_74 == 0) {
-            a->mUnk_74 = func_ov000_021ae340();
-            a->mUnk_0a = a->mUnk_74;
+    MI_CpuCopy8(b, i->field10, i->field14);
+    i->field20 = d;
+    h->field100 = i->field20;
+    if (a->field73 == 1) {
+        if (a->field74 == 0) {
+            a->field74 = func_ov000_021ae340();
+            a->fieldA = a->field74;
         }
-        i->mUnk_24 = a->mUnk_74;
-        if (a->mUnk_78 == NULL || f != NULL) {
-            i->mUnk_28 = f;
-            i->mUnk_26 = e;
+        i->field24 = a->field74;
+        if (a->field78 == NULL || f != NULL) {
+            i->field28 = f;
+            i->field26 = e;
         } else {
-            i->mUnk_28 = a->mUnk_78;
-            i->mUnk_26 = a->mUnk_76;
+            i->field28 = a->field78;
+            i->field26 = a->field76;
         }
     } else {
-        i->mUnk_28 = NULL;
+        i->field28 = NULL;
     }
-    if (func_ov000_021a6fa8(h->mUnk_10c, i) != 0) {
+    if (func_ov000_021a6fa8(h->field10C, i) != 0) {
         c = 0;
     }
     return c;
@@ -986,16 +986,16 @@ s32 func_ov000_021a8014(Unk021a6fa8 *a, u8 *b, s32 c, s32 d, u16 e, u16 *f, s32 
 
 s32 func_ov000_021a7f48(Unk021a7064 *param_1) {
     Unk021a7eec *a = (Unk021a7eec *) param_1;
-    Unk021a6fa8 *b = a->mUnk_04;
+    Unk021a6fa8 *b = a->field4;
     Unk021a722a *c = b->mSendBlock;
     s32 e;
     u8 *f;
     s32 d = 0;
     s32 g;
     s32 h;
-    if (func_ov000_021a7c4c_inline(b) == 0 || (b->mUnk_70 & 4) != 0) {
-        if (a->mUnk_28 != NULL) {
-            func_ov000_021ae290(a->mUnk_24, a->mUnk_26, (s32) a->mUnk_28);
+    if (func_ov000_021a7c4c_inline(b) == 0 || (b->field70 & 4) != 0) {
+        if (a->field28 != NULL) {
+            func_ov000_021ae290(a->field24, a->field26, (s32) a->field28);
         }
         if (func_ov000_021a7c4c_inline(b) != 0) {
             e = 0x36;
@@ -1012,7 +1012,7 @@ s32 func_ov000_021a7f48(Unk021a7064 *param_1) {
             h = func_ov000_021adbf4(f, h);
             if (h <= 0) {
                 if (func_ov000_021a7c4c_inline(b) != 0) {
-                    b->mUnk_70 &= ~0xe;
+                    b->field70 &= ~0xe;
                 }
                 d = -0x4c;
                 break;
@@ -1022,14 +1022,14 @@ s32 func_ov000_021a7f48(Unk021a7064 *param_1) {
     } else {
         d = -0x4c;
     }
-    c->mUnk_102 = a->mUnk_20;
-    OS_WakeupThread((OSThreadQueue *) &c->mUnk_104);
+    c->field102 = a->field20;
+    OS_WakeupThread((OSThreadQueue *) &c->field104);
     return d;
 }
 
 s32 func_ov000_021a7eec(const void *a, s32 b, Unk021a7eec *c) {
-    s32 d = c->mUnk_14;
-    s32 e = c->mUnk_1c;
+    s32 d = c->field14;
+    s32 e = c->field1C;
     if (d > b) {
         d = b;
         e = 0;
@@ -1037,14 +1037,14 @@ s32 func_ov000_021a7eec(const void *a, s32 b, Unk021a7eec *c) {
         e = b - d;
     }
     if (d > 0) {
-        MI_CpuCopy8(c->mUnk_10, a, d);
-        c->mUnk_10 += d;
-        c->mUnk_14 -= d;
+        MI_CpuCopy8(c->field10, a, d);
+        c->field10 += d;
+        c->field14 -= d;
     }
     if (e > 0) {
-        MI_CpuCopy8(c->mUnk_18, (u8 *) a + d, e);
-        c->mUnk_18 += e;
-        c->mUnk_1c -= e;
+        MI_CpuCopy8(c->field18, (u8 *) a + d, e);
+        c->field18 += e;
+        c->field1C -= e;
     }
     return d + e;
 }
@@ -1058,8 +1058,8 @@ u32 func_ov000_021a7de0(u32 a, void *b, u32 c, u32 d, u32 *e, u32 f) {
     if (func_ov000_021a8a80(g) != 0) {
         return -0x1c;
     }
-    if ((f & 4) != 0 || g->mUnk_72 == 0) {
-        if (g->mUnk_73 == 4) {
+    if ((f & 4) != 0 || g->field72 == 0) {
+        if (g->field73 == 4) {
             return -0x1c;
         }
         i = 0;
@@ -1073,20 +1073,20 @@ u32 func_ov000_021a7de0(u32 a, void *b, u32 c, u32 d, u32 *e, u32 f) {
         return -0x27;
     }
     if (func_ov000_021a7c4c_inline(g) != 0) {
-        if ((v->mUnk_70 & 4) == 0 || (v->mUnk_70 & 8) != 0) {
+        if ((v->field70 & 4) == 0 || (v->field70 & 8) != 0) {
             return -0x38;
         }
     }
     h = g->mReceiveBlock;
     if (i == 0) {
-        if (OS_TryLockMutex(&h->mUnk_00.mUnk_e0) == 0) {
+        if (OS_TryLockMutex(&h->field0.fieldE0) == 0) {
             return -6;
         }
     } else {
-        OS_LockMutex(&h->mUnk_00.mUnk_e0);
+        OS_LockMutex(&h->field0.fieldE0);
     }
     i = func_ov000_021a7d68(g, b, c, (u16 *) d, e, i, f);
-    OS_UnlockMutex(&h->mUnk_00.mUnk_e0);
+    OS_UnlockMutex(&h->field0.fieldE0);
     return i;
 }
 
@@ -1101,10 +1101,10 @@ s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s
         k = FALSE;
     }
     if (k != FALSE) {
-        i = h->mUnk_fe;
-        h->mUnk_fe = 1;
+        i = h->fieldFE;
+        h->fieldFE = 1;
     }
-    if (a->mUnk_73 == 1) {
+    if (a->field73 == 1) {
         j = func_ov000_021a797c(a, b, c, d, e, f);
     } else {
         j = func_ov000_021a7d14(a, b, c, d, e, f);
@@ -1113,14 +1113,14 @@ s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s
         }
     }
     if (k != FALSE) {
-        h->mUnk_fe = i;
+        h->fieldFE = i;
     }
     return j;
 }
 
 s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     s32 g;
-    if (a->mUnk_73 == 4) {
+    if (a->field73 == 4) {
         return aSh_circle_ns_2(a, (u32) b, c, (u32) d, (u32) e);
     }
     g = gHanachanBodyPartMObjDef(a, b, c, d, e);
@@ -1150,8 +1150,8 @@ s32 gHanachanBodyPartMObjDef(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
                 k = c;
             }
             MI_CpuCopy8(j, b, c);
-            if (a->mReceiveBlock->mUnk_fe == 0) {
-                a->mReceiveBlock->mUnk_f8 = a->mReceiveBlock->mUnk_f8 + k;
+            if (a->mReceiveBlock->fieldFE == 0) {
+                a->mReceiveBlock->fieldF8 = a->mReceiveBlock->fieldF8 + k;
             }
         }
     } else {
@@ -1160,15 +1160,15 @@ s32 gHanachanBodyPartMObjDef(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
         } else {
             k = -0x1c;
         }
-        a->mUnk_70 &= ~6;
+        a->field70 &= ~6;
     }
     if (k >= 0) {
         if (d != NULL && e != NULL) {
             *d = g[1];
             *e = i;
         }
-        if (a->mUnk_74 == 0) {
-            a->mUnk_74 = g[0];
+        if (a->field74 == 0) {
+            a->field74 = g[0];
         }
     }
     OS_RestoreInterrupts(f);
@@ -1177,13 +1177,13 @@ s32 gHanachanBodyPartMObjDef(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
 
 u8 *func_ov000_021a7bfc(Unk021a6fa8 *a, s32 *b, u16 *c, u16 *d, u32 *e) {
     Unk021a71c0 *f = a->mReceiveBlock;
-    Unk021a6fa8 *g = f->mUnk_00.mUnk_20.mUnk_a4[0];
-    s32 h = f->mUnk_f8;
+    Unk021a6fa8 *g = f->field0.field20.fieldA4[0];
+    s32 h = f->fieldF8;
     s32 i = g->mReceiveBufferLength - h;
     if (i >= 0) {
-        *c = g->mUnk_0a;
-        *d = g->mUnk_18;
-        *e = g->mUnk_1c;
+        *c = g->fieldA;
+        *d = g->field18;
+        *e = g->field1C;
         *b = i;
         if (i == 0 && g->mState != 4) {
             return NULL;
@@ -1215,13 +1215,13 @@ s32 aSh_circle_ns_2(Unk021a6fa8 *p0, u32 p1, u32 p2, u32 p3, u32 p4) {
 
 s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
     Unk021a7af0 *a = (Unk021a7af0 *) param_1;
-    Unk021a6fa8 *b = a->mUnk_04;
+    Unk021a6fa8 *b = a->field4;
     Unk021a71c0 *c = b->mReceiveBlock;
-    u8 *d = a->mUnk_10;
-    u32 e = a->mUnk_14;
-    u16 *f = a->mUnk_18;
-    u32 *g = a->mUnk_1c;
-    s32 h = c->mUnk_f8;
+    u8 *d = a->field10;
+    u32 e = a->field14;
+    u16 *f = a->field18;
+    u32 *g = a->field1C;
+    s32 h = c->fieldF8;
     const u8 *i;
     s32 j;
     BOOL k;
@@ -1234,7 +1234,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
             break;
         }
         k = TRUE;
-        if (b->mUnk_73 != 0 && b->mUnk_73 != 4) {
+        if (b->field73 != 0 && b->field73 != 4) {
             k = FALSE;
         }
         if (k != FALSE && b->mState != 4) {
@@ -1243,7 +1243,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
         }
         OS_Sleep(10);
     }
-    if (b->mUnk_73 == 4) {
+    if (b->field73 == 4) {
         if (i == NULL) {
             return 0;
         }
@@ -1262,7 +1262,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
     if (h <= 0) {
         return h;
     }
-    if (c->mUnk_f8 >= c->mUnk_fc) {
+    if (c->fieldF8 >= c->fieldFC) {
         func_ov000_021a7a6c(b);
     }
     return h;
@@ -1271,7 +1271,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
 static inline s32 func_ov000_021a797c_inline(Unk021a6fa8 *a) {
     BOOL b = FALSE;
     if (a != NULL) {
-        b = (a->mUnk_70 & 1) != 0;
+        b = (a->field70 & 1) != 0;
     }
     return b;
 }
@@ -1279,7 +1279,7 @@ static inline s32 func_ov000_021a797c_inline(Unk021a6fa8 *a) {
 s32 func_ov000_021a7aa8(Unk021a6fa8 *a) {
     Unk021a71c0 *b = a->mReceiveBlock;
     Unk021a7064 *c;
-    if (b->mUnk_f8 < b->mUnk_fc) {
+    if (b->fieldF8 < b->fieldFC) {
         return 0;
     }
     c = func_ov000_021a7064(func_ov000_021a7a9c, a, 0);
@@ -1290,15 +1290,15 @@ s32 func_ov000_021a7aa8(Unk021a6fa8 *a) {
 }
 
 s32 func_ov000_021a7a9c(Unk021a7064 *a) {
-    return func_ov000_021a7a6c(a->mUnk_04);
+    return func_ov000_021a7a6c(a->field4);
 }
 
 s32 func_ov000_021a7a6c(Unk021a6fa8 *a) {
     Unk021a71c0 *b = a->mReceiveBlock;
     u32 c = OS_DisableInterrupts();
-    s32 d = b->mUnk_f8;
+    s32 d = b->fieldF8;
     if (d != 0) {
-        b->mUnk_f8 = 0;
+        b->fieldF8 = 0;
         func_ov000_021adf00(d);
     }
     OS_RestoreInterrupts(c);
@@ -1310,40 +1310,40 @@ s32 func_ov000_021a797c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     u32 i;
     s32 g;
     Unk021a78a4 *j;
-    *(Unk021a78a4 *volatile *) &h->mUnk_104;
+    *(Unk021a78a4 *volatile *) &h->field104;
     i = OS_DisableInterrupts();
-    j = h->mUnk_104;
+    j = h->field104;
     while (j == NULL) {
         if (f == 0) {
             g = -6;
             break;
         }
-        OS_SleepThread(&h->mUnk_10c);
+        OS_SleepThread(&h->field10C);
         if (func_ov000_021a8a80(a) != 0 || func_ov000_021a797c_inline(a) == 0) {
             g = -0x38;
             break;
         }
-        j = h->mUnk_104;
+        j = h->field104;
     }
     if (j != NULL) {
-        if (c > j->mUnk_04) {
-            c = j->mUnk_04;
+        if (c > j->field4) {
+            c = j->field4;
         }
-        MI_CpuCopy8(j->mUnk_0c, b, c);
+        MI_CpuCopy8(j->fieldC, b, c);
         if (d != NULL) {
-            *d = j->mUnk_06;
+            *d = j->field6;
         }
         if (e != NULL) {
-            *e = j->mUnk_08;
+            *e = j->field8;
         }
-        g = j->mUnk_04;
-        if (h->mUnk_fe == 0) {
-            h->mUnk_104 = j->mUnk_00;
-            if (j->mUnk_00 == NULL) {
-                h->mUnk_100 = NULL;
+        g = j->field4;
+        if (h->fieldFE == 0) {
+            h->field104 = j->field0;
+            if (j->field0 == NULL) {
+                h->field100 = NULL;
             }
-            data_ov000_021b5f94->mUnk_1c(j);
-            h->mUnk_108 -= g;
+            data_ov000_021b5f94->field1C(j);
+            h->field108 -= g;
         }
     }
     OS_RestoreInterrupts(i);
@@ -1353,26 +1353,26 @@ s32 func_ov000_021a797c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
 s32 func_ov000_021a78a4(void *param_1, u32 param_2, Unk021a6fa8 *param_3) {
     Unk021a71c0 *d = param_3->mReceiveBlock;
     u32 e = OS_DisableInterrupts();
-    if (d->mUnk_10a >= d->mUnk_108 + param_2) {
-        Unk021a78a4 *f = data_ov000_021b5f94->mUnk_18(param_2 + 0xc);
+    if (d->field10A >= d->field108 + param_2) {
+        Unk021a78a4 *f = data_ov000_021b5f94->field18(param_2 + 0xc);
         if (f != NULL) {
-            d->mUnk_108 += param_2;
-            f->mUnk_00 = NULL;
-            f->mUnk_04 = param_2;
-            f->mUnk_06 = param_3->mUnk_18;
-            f->mUnk_08 = param_3->mUnk_1c;
-            MI_CpuCopy8(param_1, f->mUnk_0c, param_2);
-            if (param_3->mUnk_74 == 0) {
-                param_3->mUnk_74 = param_3->mUnk_0a;
+            d->field108 += param_2;
+            f->field0 = NULL;
+            f->field4 = param_2;
+            f->field6 = param_3->field18;
+            f->field8 = param_3->field1C;
+            MI_CpuCopy8(param_1, f->fieldC, param_2);
+            if (param_3->field74 == 0) {
+                param_3->field74 = param_3->fieldA;
             }
-            param_3->mUnk_18 = param_3->mUnk_1a;
-            param_3->mUnk_1c = param_3->mUnk_20;
-            if (((const Unk021a71c0 *) d)->mUnk_100 != NULL) {
-                d->mUnk_100->mUnk_00 = f;
+            param_3->field18 = param_3->field1A;
+            param_3->field1C = param_3->field20;
+            if (((const Unk021a71c0 *) d)->field100 != NULL) {
+                d->field100->field0 = f;
             }
-            d->mUnk_100 = f;
-            if (d->mUnk_104 == NULL) {
-                d->mUnk_104 = f;
+            d->field100 = f;
+            if (d->field104 == NULL) {
+                d->field104 = f;
             }
         } else {
             data_ov000_021b5ffc[0]++;
@@ -1380,7 +1380,7 @@ s32 func_ov000_021a78a4(void *param_1, u32 param_2, Unk021a6fa8 *param_3) {
     } else {
         data_ov000_021b5ffc[1]++;
     }
-    OS_WakeupThread(&d->mUnk_10c);
+    OS_WakeupThread(&d->field10C);
     OS_RestoreInterrupts(e);
     return 1;
 }
@@ -1392,16 +1392,16 @@ s32 func_ov000_021a7824(Unk021a6fa8 *param_1, u16 param_2) {
     }
     a = FALSE;
     if (param_1 != NULL) {
-        a = (param_1->mUnk_70 & 1) != 0;
+        a = (param_1->field70 & 1) != 0;
     }
     if (a == FALSE) {
         return -39;
     }
-    if (param_1->mUnk_70 & 2) {
+    if (param_1->field70 & 2) {
         return -7;
     }
-    param_1->mUnk_74 = param_2;
-    if (param_1->mUnk_73 == 1) {
+    param_1->field74 = param_2;
+    if (param_1->field73 == 1) {
         return func_ov000_021a76f4(param_1);
     }
     return 0;
@@ -1412,57 +1412,57 @@ s32 func_ov000_021a7748(Unk021a6fa8 *param_1, u16 param_2, u16 *param_3) {
     BOOL b;
     volatile Unk021a6fa8 *v = param_1;
 
-    if (func_ov000_021a8a80(param_1) != 0 || (v->mUnk_70 & 8)) {
+    if (func_ov000_021a8a80(param_1) != 0 || (v->field70 & 8)) {
         return -28;
     }
     b = FALSE;
     if (param_1 != NULL) {
-        b = (param_1->mUnk_70 & 1) != 0;
+        b = (param_1->field70 & 1) != 0;
     }
     if (b == FALSE) {
         return -39;
     }
     b = TRUE;
-    if (param_1->mUnk_73 != 0 && param_1->mUnk_73 != 4) {
+    if (param_1->field73 != 0 && param_1->field73 != 4) {
         b = FALSE;
     }
     if (b != FALSE) {
-        if (v->mUnk_70 & 4) {
-            if (param_1->mUnk_72 == 1) {
+        if (v->field70 & 4) {
+            if (param_1->field72 == 1) {
                 return -30;
             }
             return 0;
         }
-        if (v->mUnk_70 & 2) {
-            if (v->mUnk_70 & 0x40) {
+        if (v->field70 & 2) {
+            if (v->field70 & 0x40) {
                 return param_1->mEntryResult;
             }
             return data_ov000_021b49b4;
         }
-        param_1->mUnk_76 = param_2;
-        param_1->mUnk_78 = param_3;
+        param_1->field76 = param_2;
+        param_1->field78 = param_3;
         a = func_ov000_021a76f4(param_1);
-        if (param_1->mUnk_72 == 1) {
+        if (param_1->field72 == 1) {
             return a;
         }
         return -26;
     }
-    param_1->mUnk_76 = param_2;
-    param_1->mUnk_78 = param_3;
+    param_1->field76 = param_2;
+    param_1->field78 = param_3;
     return 0;
 }
 
 s32 func_ov000_021a76f4(Unk021a6fa8 *param_1) {
     Unk021a7064 *a;
 
-    a = func_ov000_021a7064(func_ov000_021a7680, param_1, param_1->mUnk_72);
+    a = func_ov000_021a7064(func_ov000_021a7680, param_1, param_1->field72);
     if (a == NULL) {
         return -33;
     }
-    a->mUnk_10 = param_1->mUnk_74;
-    a->mUnk_12 = param_1->mUnk_76;
-    a->mUnk_14 = param_1->mUnk_78;
-    param_1->mUnk_70 |= 2;
+    a->field10 = param_1->field74;
+    a->field12 = param_1->field76;
+    a->field14 = param_1->field78;
+    param_1->field70 |= 2;
     return func_ov000_021a6fb4(param_1, a);
 }
 
@@ -1471,21 +1471,21 @@ s32 func_ov000_021a7680(Unk021a7064 *param_1) {
     Unk021a71c0 *b;
     s32 c;
 
-    a = param_1->mUnk_04;
+    a = param_1->field4;
     c = 0;
     b = a->mReceiveBlock;
-    OS_LockMutex(&b->mUnk_00.mUnk_e0);
-    func_ov000_021ae290(param_1->mUnk_10, param_1->mUnk_12, (s32) param_1->mUnk_14);
-    b->mUnk_f8 = 0;
-    if (param_1->mUnk_0c == 0 || param_1->mUnk_0c == 4) {
+    OS_LockMutex(&b->field0.fieldE0);
+    func_ov000_021ae290(param_1->field10, param_1->field12, (s32) param_1->field14);
+    b->fieldF8 = 0;
+    if (param_1->fieldC == 0 || param_1->fieldC == 4) {
         c = func_ov000_021ae134();
     }
-    OS_UnlockMutex(&b->mUnk_00.mUnk_e0);
+    OS_UnlockMutex(&b->field0.fieldE0);
     if (c != 0) {
-        a->mUnk_70 |= 0x40;
+        a->field70 |= 0x40;
         return -76;
     }
-    a->mUnk_70 |= 4;
+    a->field70 |= 4;
     return 0;
 }
 
@@ -1498,22 +1498,22 @@ s32 func_ov000_021a75f8(s32 param_1) {
     }
     b = FALSE;
     if (a != NULL) {
-        b = (a->mUnk_70 & 1) != 0;
+        b = (a->field70 & 1) != 0;
     }
     if (b == FALSE) {
         return -39;
     }
-    if (a->mUnk_70 & 2) {
+    if (a->field70 & 2) {
         return -28;
     }
     b = TRUE;
-    if (a->mUnk_73 != 0 && a->mUnk_73 != 4) {
+    if (a->field73 != 0 && a->field73 != 4) {
         b = FALSE;
     }
     if (b == FALSE) {
         return -28;
     }
-    if (a->mUnk_72 == 1) {
+    if (a->field72 == 1) {
         return 0;
     }
     return -6;
@@ -1529,29 +1529,29 @@ s32 func_ov000_021a7534(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     }
     b = FALSE;
     if (param_1 != NULL) {
-        b = (param_1->mUnk_70 & 1) != 0;
+        b = (param_1->field70 & 1) != 0;
     }
     if (b == FALSE) {
         return -39;
     }
-    if (param_1->mUnk_70 & 2) {
+    if (param_1->field70 & 2) {
         return -28;
     }
     b = TRUE;
-    if (param_1->mUnk_73 != 0 && param_1->mUnk_73 != 4) {
+    if (param_1->field73 != 0 && param_1->field73 != 4) {
         b = FALSE;
     }
     if (b == FALSE) {
         return -28;
     }
-    if (param_1->mUnk_72 != 1) {
+    if (param_1->field72 != 1) {
         return -6;
     }
     a = func_ov000_021a73d8(&data_ov000_021b49b8);
     if (a < 0) {
         return a;
     }
-    c = func_ov000_021a7824((Unk021a6fa8 *) a, param_1->mUnk_74);
+    c = func_ov000_021a7824((Unk021a6fa8 *) a, param_1->field74);
     if (c < 0) {
         return c;
     }
@@ -1572,32 +1572,32 @@ s32 func_ov000_021a7468(Unk021a6fa8 *param_1, u16 *param_2, u32 *param_3) {
     }
     b = FALSE;
     if (param_1 != NULL) {
-        b = (param_1->mUnk_70 & 1) != 0;
+        b = (param_1->field70 & 1) != 0;
     }
     if (b == FALSE) {
         return -39;
     }
-    if (param_1->mUnk_70 & 2) {
+    if (param_1->field70 & 2) {
         return -28;
     }
     b = TRUE;
-    if (param_1->mUnk_73 != 0 && param_1->mUnk_73 != 4) {
+    if (param_1->field73 != 0 && param_1->field73 != 4) {
         b = FALSE;
     }
     if (b == FALSE) {
         return -28;
     }
-    if (param_1->mUnk_72 != 1) {
+    if (param_1->field72 != 1) {
         return -6;
     }
-    if (param_1->mUnk_74 == 0) {
+    if (param_1->field74 == 0) {
         return -28;
     }
-    a = func_ov000_021a7064(func_ov000_021a740c, param_1, param_1->mUnk_72);
-    a->mUnk_10 = param_1->mUnk_74;
-    a->mUnk_14 = param_2;
-    a->mUnk_18 = param_3;
-    param_1->mUnk_70 |= 2;
+    a = func_ov000_021a7064(func_ov000_021a740c, param_1, param_1->field72);
+    a->field10 = param_1->field74;
+    a->field14 = param_2;
+    a->field18 = param_3;
+    param_1->field70 |= 2;
     return func_ov000_021a6fb4(param_1, a);
 }
 
@@ -1608,17 +1608,17 @@ s32 func_ov000_021a740c(Unk021a7064 *param_1) {
     u32 d;
     u32 e;
 
-    a = param_1->mUnk_04;
+    a = param_1->field4;
     b = a->mReceiveBlock;
-    OS_LockMutex(&b->mUnk_00.mUnk_e0);
-    func_ov000_021ae290(param_1->mUnk_10, 0, 0);
+    OS_LockMutex(&b->field0.fieldE0);
+    func_ov000_021ae290(param_1->field10, 0, 0);
     func_ov000_021ae1e4();
-    b->mUnk_f8 = 0;
+    b->fieldF8 = 0;
     e = func_ov000_021ae100(&c, &d);
-    *param_1->mUnk_14 = c;
-    *param_1->mUnk_18 = e;
-    a->mUnk_70 |= 4;
-    OS_UnlockMutex(&b->mUnk_00.mUnk_e0);
+    *param_1->field14 = c;
+    *param_1->field18 = e;
+    a->field70 |= 4;
+    OS_UnlockMutex(&b->field0.fieldE0);
     return 0;
 }
 
@@ -1638,13 +1638,13 @@ s32 func_ov000_021a7378(Unk021a7064 *param_1) {
     Unk021a6fa8 *a;
     Unk021a7154 *b;
 
-    a = param_1->mUnk_04;
+    a = param_1->field4;
     func_ov000_021ae304(a);
-    b = &a->mSendBlock->mUnk_00;
-    switch (a->mUnk_73) {
+    b = &a->mSendBlock->field0;
+    switch (a->field73) {
         case 0:
         case 4:
-            func_ov000_021ae244(&b->mUnk_20);
+            func_ov000_021ae244(&b->field20);
             func_ov000_021ae270();
             break;
         case 1:
@@ -1658,7 +1658,7 @@ s32 func_ov000_021a7378(Unk021a7064 *param_1) {
         case 3:
             break;
     }
-    a->mUnk_70 = 1;
+    a->field70 = 1;
     return 0;
 }
 
@@ -1669,7 +1669,7 @@ Unk021a6fa8 *func_ov000_021a732c(Unk021b49b8 *param_1) {
 
     a = func_ov000_021a72c4(param_1);
     b = OS_DisableInterrupts();
-    c = data_ov000_021b5f94->mUnk_18(a);
+    c = data_ov000_021b5f94->field18(a);
     if (c != NULL) {
         MI_CpuFill8(c, 0, a);
         func_ov000_021a71c0(c, param_1);
@@ -1682,18 +1682,18 @@ Unk021a6fa8 *func_ov000_021a732c(Unk021b49b8 *param_1) {
 s32 func_ov000_021a72c4(Unk021b49b8 *param_1) {
     s32 a = 0x80;
 
-    if (param_1->mUnk_02 != 0) {
+    if (param_1->field2 != 0) {
         a += 0x114;
-        a += func_ov000_021a8a54(param_1->mUnk_02);
-        a += func_ov000_021a8a54(param_1->mUnk_08);
-        a += func_ov000_021a72a4(&param_1->mUnk_10);
+        a += func_ov000_021a8a54(param_1->field2);
+        a += func_ov000_021a8a54(param_1->field8);
+        a += func_ov000_021a72a4(&param_1->field10);
     }
-    if (param_1->mUnk_06 != 0) {
+    if (param_1->field6 != 0) {
         a += 0x110;
-        a += func_ov000_021a8a54(param_1->mUnk_06);
-        a += func_ov000_021a8a54(param_1->mUnk_0a);
-        a += func_ov000_021a8a54(param_1->mUnk_0c);
-        a += func_ov000_021a72a4(&param_1->mUnk_14);
+        a += func_ov000_021a8a54(param_1->field6);
+        a += func_ov000_021a8a54(param_1->fieldA);
+        a += func_ov000_021a8a54(param_1->fieldC);
+        a += func_ov000_021a72a4(&param_1->field14);
     }
     return a;
 }
@@ -1701,8 +1701,8 @@ s32 func_ov000_021a72c4(Unk021b49b8 *param_1) {
 int func_ov000_021a72a4(Unk021a72a4 *a) {
     int v1;
     int v2;
-    v1 = func_ov000_021a8a54(a->mUnk_03 << 2);
-    v2 = func_ov000_021a8a54(a->mUnk_00);
+    v1 = func_ov000_021a8a54(a->field3 << 2);
+    v2 = func_ov000_021a8a54(a->field0);
     return v1 + v2;
 }
 
@@ -1711,30 +1711,30 @@ u8 *func_ov000_021a71c0(Unk021a6fa8 *d, Unk021b49b8 *e) {
     Unk021a71c0 *b;
     Unk021a722a *c;
 
-    d->mUnk_73 = e->mUnk_00;
-    d->mUnk_72 = e->mUnk_01;
-    a = (u8 *) &d->mUnk_80;
-    if (e->mUnk_02 != 0) {
-        b = &d->mUnk_80;
+    d->field73 = e->field0;
+    d->field72 = e->field1;
+    a = (u8 *) &d->field80;
+    if (e->field2 != 0) {
+        b = &d->field80;
         d->mReceiveBlock = b;
-        b->mUnk_fc = e->mUnk_04;
-        a = func_ov000_021a7154(b->mUnk_114, &b->mUnk_00, &e->mUnk_10);
-        a = func_ov000_021a71a4(a, &d->mReceiveBuffer, e->mUnk_02);
-        a = func_ov000_021a71a4(a, &d->mUnk_50, e->mUnk_08);
-        b->mUnk_10a = e->mUnk_0e;
-        b->mUnk_10c.mTail = NULL;
-        b->mUnk_10c.mHead = b->mUnk_10c.mTail;
+        b->fieldFC = e->field4;
+        a = func_ov000_021a7154(b->field114, &b->field0, &e->field10);
+        a = func_ov000_021a71a4(a, &d->mReceiveBuffer, e->field2);
+        a = func_ov000_021a71a4(a, &d->field50, e->field8);
+        b->field10A = e->fieldE;
+        b->field10C.mTail = NULL;
+        b->field10C.mHead = b->field10C.mTail;
     }
-    if (e->mUnk_06 != 0) {
+    if (e->field6 != 0) {
         c = (Unk021a722a *) a;
         d->mSendBlock = c;
-        c->mUnk_10c = d;
-        a = func_ov000_021a7154(c->mUnk_110, &c->mUnk_00, &e->mUnk_14);
-        a = func_ov000_021a71a4(a, &d->mSendBuffer, e->mUnk_06);
-        a = func_ov000_021a71a4(a, &d->mUnk_58, e->mUnk_0a);
-        a = func_ov000_021a71a4(a, &c->mUnk_f8, e->mUnk_0c);
-        c->mUnk_108 = 0;
-        c->mUnk_104 = c->mUnk_108;
+        c->field10C = d;
+        a = func_ov000_021a7154(c->field110, &c->field0, &e->field14);
+        a = func_ov000_021a71a4(a, &d->mSendBuffer, e->field6);
+        a = func_ov000_021a71a4(a, &d->field58, e->fieldA);
+        a = func_ov000_021a71a4(a, &c->fieldF8, e->fieldC);
+        c->field108 = 0;
+        c->field104 = c->field108;
     } else {
         d->mSendBlock = data_ov000_021b5fa4->mSendBlock;
     }
@@ -1756,10 +1756,10 @@ u8 *func_ov000_021a7154(u8 *b, Unk021a7154 *c, Unk021a72a4 *d) {
     u8 *a;
 
     a = b + func_ov000_021a72a4(d);
-    OS_InitMessageQueue(&c->mUnk_00, (void **) b, d->mUnk_03);
-    OS_InitMutex(&c->mUnk_e0);
-    OS_CreateThread(&c->mUnk_20, func_ov000_021a6f18, c, a, d->mUnk_00, d->mUnk_02);
-    OS_WakeupThreadDirect(&c->mUnk_20);
+    OS_InitMessageQueue(&c->field0, (void **) b, d->field3);
+    OS_InitMutex(&c->fieldE0);
+    OS_CreateThread(&c->field20, func_ov000_021a6f18, c, a, d->field0, d->field2);
+    OS_WakeupThreadDirect(&c->field20);
     return a;
 }
 
@@ -1771,7 +1771,7 @@ s32 func_ov000_021a70ec(s32 e) {
 
     a = (e * 4 + 3) & ~3;
     d = (e * 0x2c + 3) & ~3;
-    b = data_ov000_021b5f94->mUnk_18(d + a);
+    b = data_ov000_021b5f94->field18(d + a);
     if (b == NULL) {
         return -1;
     }
@@ -1792,7 +1792,7 @@ s32 func_ov000_021a70b0(void) {
     if (data_ov000_021b5fdc.mCount < data_ov000_021b5fdc.mCapacity) {
         return -1;
     }
-    data_ov000_021b5f94->mUnk_1c(data_ov000_021b5fd8);
+    data_ov000_021b5f94->field1C(data_ov000_021b5fd8);
     data_ov000_021b5fd8 = NULL;
     return 0;
 }
@@ -1812,10 +1812,10 @@ Unk021a7064 *func_ov000_021a7064(Unk021a7064Func b, Unk021a6fa8 *c, s32 d) {
 
     a = func_ov000_021a7088(d);
     if (a != NULL) {
-        a->mUnk_00 = b;
-        a->mUnk_04 = c;
-        a->mUnk_0d = d;
-        a->mUnk_0c = c->mUnk_73;
+        a->field0 = b;
+        a->field4 = c;
+        a->fieldD = d;
+        a->fieldC = c->field73;
     }
     return a;
 }
@@ -1829,7 +1829,7 @@ void func_ov000_021a7048(Unk021a7064 *a) {
 s32 func_ov000_021a7008(Unk021a7154 *b, Unk021a7064 *c) {
     s32 a;
 
-    a = OS_SendMessage(&b->mUnk_00, c, c != NULL ? c->mUnk_0d : 1);
+    a = OS_SendMessage(&b->field0, c, c != NULL ? c->fieldD : 1);
     if (a == 0) {
         func_ov000_021a7048(c);
     }
@@ -1844,12 +1844,12 @@ s32 func_ov000_021a6fc0(Unk021a7154 *d, Unk021a7064 *e) {
     void *b;
     OSMessageQueue c;
 
-    if (e->mUnk_0d == 0) {
-        e->mUnk_08 = NULL;
+    if (e->fieldD == 0) {
+        e->field8 = NULL;
         a = func_ov000_021a7008(d, e);
     } else {
         OS_InitMessageQueue(&c, &b, 1);
-        e->mUnk_08 = &c;
+        e->field8 = &c;
         func_ov000_021a7008(d, e);
         OS_ReceiveMessage(&c, (void **) &a, 1);
     }
@@ -1857,18 +1857,18 @@ s32 func_ov000_021a6fc0(Unk021a7154 *d, Unk021a7064 *e) {
 }
 
 s32 func_ov000_021a6fb4(Unk021a6fa8 *a, Unk021a7064 *b) {
-    return func_ov000_021a6fc0(&a->mReceiveBlock->mUnk_00, b);
+    return func_ov000_021a6fc0(&a->mReceiveBlock->field0, b);
 }
 
 s32 func_ov000_021a6fa8(Unk021a6fa8 *object, void *request) {
-    return func_ov000_021a6fc0(&object->mSendBlock->mUnk_00, request);
+    return func_ov000_021a6fc0(&object->mSendBlock->field0, request);
 }
 
 s32 func_ov000_021a6f84(Unk021a6fa8 *param_1, Unk021a7064 *param_2) {
     if (param_1->mReceiveBlock != NULL) {
-        return func_ov000_021a6fc0(&param_1->mReceiveBlock->mUnk_00, param_2);
+        return func_ov000_021a6fc0(&param_1->mReceiveBlock->field0, param_2);
     }
-    return func_ov000_021a6fc0(&param_1->mSendBlock->mUnk_00, param_2);
+    return func_ov000_021a6fc0(&param_1->mSendBlock->field0, param_2);
 }
 
 void func_ov000_021a6f18(void *param_1) {
@@ -1882,15 +1882,15 @@ void func_ov000_021a6f18(void *param_1) {
         if (b == NULL) {
             return;
         }
-        c = b->mUnk_00(b);
+        c = b->field0(b);
         d = OS_DisableInterrupts();
         OS_DisableScheduler();
         OS_ReceiveMessage(a, NULL, 0);
-        if (b->mUnk_04 != NULL) {
-            b->mUnk_04->mEntryResult = c;
+        if (b->field4 != NULL) {
+            b->field4->mEntryResult = c;
         }
-        if (b->mUnk_08 != NULL) {
-            OS_SendMessage(b->mUnk_08, (void *) c, 0);
+        if (b->field8 != NULL) {
+            OS_SendMessage(b->field8, (void *) c, 0);
         }
         func_ov000_021a7048(b);
         OS_EnableScheduler();
@@ -1912,7 +1912,7 @@ s32 func_ov000_021a6ee4(Unk021b5f94 *param_1) {
 s32 func_ov000_021a6eb4(void) {
     s32 a;
 
-    a = func_ov000_021a70ec(data_ov000_021b5f94->mUnk_20);
+    a = func_ov000_021a70ec(data_ov000_021b5f94->field20);
     if (a >= 0) {
         data_ov000_021b5fa4 = (Unk021a6fa8 *) func_ov000_021a73d8(&data_ov000_021b49d0);
     }
@@ -1926,45 +1926,45 @@ void func_ov000_021a6db0(void) {
     s32 d;
 
     MI_CpuFill8(a, 0, 0x30);
-    a->mUnk_04 = b->mUnk_18;
-    a->mUnk_08 = b->mUnk_1c;
-    a->mUnk_10 = func_ov000_021a6d40;
-    a->mUnk_14 = 0;
-    a->mUnk_18 = 0;
-    a->mUnk_2c = *(u32 *) data_ov000_021b5f98;
-    if (b->mUnk_24 != 0) {
-        a->mUnk_20 = b->mUnk_24;
+    a->field4 = b->field18;
+    a->field8 = b->field1C;
+    a->field10 = func_ov000_021a6d40;
+    a->field14 = 0;
+    a->field18 = 0;
+    a->field2C = *(u32 *) data_ov000_021b5f98;
+    if (b->field24 != 0) {
+        a->field20 = b->field24;
     } else {
-        a->mUnk_20 = 0x4000;
+        a->field20 = 0x4000;
     }
-    if (b->mUnk_28 != NULL) {
-        a->mUnk_1c = b->mUnk_28;
+    if (b->field28 != NULL) {
+        a->field1C = b->field28;
     } else {
-        a->mUnk_1c = data_ov000_021b5f94->mUnk_18(a->mUnk_20);
+        a->field1C = data_ov000_021b5f94->field18(a->field20);
     }
-    c = b->mUnk_30;
+    c = b->field30;
     if (c == 0) {
         c = 0x240;
     }
-    d = b->mUnk_34;
+    d = b->field34;
     if (d == 0) {
         d = 0x10c0;
     }
-    a->mUnk_24 = c - 0x28;
-    data_ov000_021b49b8.mUnk_02 = d;
-    data_ov000_021b49b8.mUnk_04 = d / 2;
+    a->field24 = c - 0x28;
+    data_ov000_021b49b8.field2 = d;
+    data_ov000_021b49b8.field4 = d / 2;
     data_ov000_021b63b4 = 0;
-    if (b->mUnk_00 != 0) {
+    if (b->field0 != 0) {
         data_ov000_021b5fa0 = 1;
-        a->mUnk_00 = 0;
-        a->mUnk_0c = func_ov000_021a6d5c;
-        a->mUnk_28 = data_ov000_021b5f9c;
+        a->field0 = 0;
+        a->fieldC = func_ov000_021a6d5c;
+        a->field28 = data_ov000_021b5f9c;
     } else {
         data_ov000_021b5fa0 = 0;
-        a->mUnk_00 = 1;
-        a->mUnk_0c = func_ov000_021a6d6c;
+        a->field0 = 1;
+        a->fieldC = func_ov000_021a6d6c;
     }
-    c = b->mUnk_2c;
+    c = b->field2C;
     if (c == 0) {
         c = 0xb;
     }
@@ -1977,11 +1977,11 @@ void func_ov000_021a6db0(void) {
 void func_ov000_021a6d6c(void) {
     Unk021b5f94 *a = data_ov000_021b5f94;
 
-    data_ov000_021b63b4 = a->mUnk_04;
-    data_ov000_021b6380 = a->mUnk_08;
-    data_ov000_021b639c = a->mUnk_0c;
-    data_ov000_021b63d8[0] = a->mUnk_10;
-    data_ov000_021b63d8[1] = a->mUnk_14;
+    data_ov000_021b63b4 = a->field4;
+    data_ov000_021b6380 = a->field8;
+    data_ov000_021b639c = a->fieldC;
+    data_ov000_021b63d8[0] = a->field10;
+    data_ov000_021b63d8[1] = a->field14;
     data_ov000_021b5fa0 |= 2;
 }
 

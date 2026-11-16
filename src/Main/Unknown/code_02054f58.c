@@ -16,12 +16,12 @@ static inline u32 func_02055030_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_02055030_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_02055030_inline() != 0 && gStruct217AA00->field4 != 13) {
         r = TRUE;
     }
     return r;
@@ -29,7 +29,7 @@ static inline s32 func_02055030_inline2(void) {
 
 static inline s32 func_02055030_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_02055030_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -37,7 +37,7 @@ static inline s32 func_02055030_inline3(void) {
 
 static inline s32 func_02055030_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055030_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_02055030_inline3() && gStruct217AA00->field8 != 9) {
         r = TRUE;
     }
     return r;
@@ -48,7 +48,7 @@ s32 func_02055564(s32 a) {
 
     status = 0;
     if (gStruct217AA00->mRequestPending != 0) {
-        if (gStruct217AA00->mUnk_000c == 7 && gStruct217AA00->mUnk_043b == 1) {
+        if (gStruct217AA00->fieldC == 7 && gStruct217AA00->field43B == 1) {
             if (func_020501b0(a) == 0) {
                 func_02050e60(5);
             }
@@ -58,7 +58,7 @@ s32 func_02055564(s32 a) {
     if (func_02055030_inline4()) {
         return 3;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 7:
             EndScan();
             break;
@@ -68,7 +68,7 @@ s32 func_02055564(s32 a) {
         case 2:
         case 10:
             if (gStruct217AA00->mOwnIndex == 0xffff) {
-                if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+                if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
                     func_02050e60(5);
                     return 3;
                 }
@@ -78,7 +78,7 @@ s32 func_02055564(s32 a) {
             }
             break;
         case 11:
-            gStruct217AA00->mUnk_0004 = 6;
+            gStruct217AA00->field4 = 6;
             func_02059878();
             status = 1;
             break;
@@ -90,15 +90,15 @@ s32 func_020554e4(void) {
     if (gStruct217AA00->mRequestPending != 0) {
         return 0;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 11:
-            if (gStruct217AA00->mUnk_008b & 8) {
+            if (gStruct217AA00->field8B & 8) {
                 SetGameInfo();
             }
             break;
         case 15:
-            gStruct217AA00->mUnk_008b &= ~8;
-            gStruct217AA00->mUnk_000c = 11;
+            gStruct217AA00->field8B &= ~8;
+            gStruct217AA00->fieldC = 11;
             break;
     }
     return 0;
@@ -112,14 +112,14 @@ void func_02055340(void) {
     if (!func_02055030_inline2()) {
         return;
     }
-    switch (gStruct217AA00->mUnk_0004) {
+    switch (gStruct217AA00->field4) {
         case 7:
         case 8:
         case 9:
             if (UpdateDataSharing() == FALSE) {
-                gStruct217AA00->mUnk_0454 |= 0x10;
+                gStruct217AA00->field454 |= 0x10;
             }
-            if (gStruct217AA00->mUnk_0004 != 9) {
+            if (gStruct217AA00->field4 != 9) {
                 return;
             }
             if (func_02055030_inline() != 1) {
@@ -128,23 +128,23 @@ void func_02055340(void) {
             func_02001000();
             break;
         case 2:
-            childMask = gStruct217AA00->mUnk_0044.mChildMask;
+            childMask = gStruct217AA00->field44.mChildMask;
             participantMask = childMask | 1;
-            if (gStruct217AA00->mUnk_0044.mUnk_3e >= 8) {
-                gStruct217AA00->mUnk_0044.mUnk_3e++;
-                if ((s32) gStruct217AA00->mUnk_0044.mUnk_3e > 0x2c) {
-                    gStruct217AA00->mUnk_0044.mUnk_3e = 0;
+            if (gStruct217AA00->field44.field3E >= 8) {
+                gStruct217AA00->field44.field3E++;
+                if ((s32) gStruct217AA00->field44.field3E > 0x2c) {
+                    gStruct217AA00->field44.field3E = 0;
                 }
                 return;
             }
-            participantIndex = gStruct217AA00->mUnk_0044.mUnk_3e % 8;
+            participantIndex = gStruct217AA00->field44.field3E % 8;
             if (participantMask & (1 << participantIndex)) {
                 if (func_020504a4(participantIndex, childMask) == FALSE) {
                     return;
                 }
-                gStruct217AA00->mUnk_0044.mUnk_3e++;
+                gStruct217AA00->field44.field3E++;
             } else {
-                gStruct217AA00->mUnk_0044.mUnk_3e++;
+                gStruct217AA00->field44.field3E++;
             }
             break;
     }
@@ -154,11 +154,11 @@ s32 AdvanceConnectionEnd(void) {
     BOOL finished;
 
     finished = FALSE;
-    if (gStruct217AA00->mUnk_0004 == 0) {
-        gStruct217AA00->mUnk_0454 &= ~0x80;
+    if (gStruct217AA00->field4 == 0) {
+        gStruct217AA00->field454 &= ~0x80;
         return 1;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 0x1d:
         case 0x1e:
             StartRequestEndScan();
@@ -180,8 +180,8 @@ s32 AdvanceConnectionEnd(void) {
             gStruct217AA00->mRequestPending = 0;
             break;
     }
-    if (gStruct217AA00->mRequestPending != 0 && gStruct217AA00->mUnk_000c == 7 && gStruct217AA00->mUnk_043b == 1) {
-        gStruct217AA00->mUnk_043b = 0;
+    if (gStruct217AA00->mRequestPending != 0 && gStruct217AA00->fieldC == 7 && gStruct217AA00->field43B == 1) {
+        gStruct217AA00->field43B = 0;
     }
     if (gStruct217AA00->mRequestPending != 0) {
         return 0;
@@ -189,18 +189,18 @@ s32 AdvanceConnectionEnd(void) {
     if (func_02055030_inline4()) {
         return 3;
     }
-    switch (gStruct217AA00->mUnk_000c) {
+    switch (gStruct217AA00->fieldC) {
         case 38:
             End();
             break;
         case 21:
-            gStruct217AA00->mUnk_000c = 0;
+            gStruct217AA00->fieldC = 0;
             break;
         case 0:
             ClearParticipantBits();
-            gStruct217AA00->mUnk_0004 = 0;
+            gStruct217AA00->field4 = 0;
             finished = TRUE;
-            gStruct217AA00->mUnk_0454 &= ~0x80;
+            gStruct217AA00->field454 &= ~0x80;
             break;
         case 1:
         case 2:
@@ -284,7 +284,7 @@ s32 func_02054f58(void) {
     status = 0;
     result = AdvanceConnectionEnd();
     if (result == 3) {
-        switch (gStruct217AA00->mUnk_000c) {
+        switch (gStruct217AA00->fieldC) {
             case 0x16:
             case 0x17:
             case 0x18:
@@ -312,7 +312,7 @@ s32 func_02054f58(void) {
                 func_020533a0();
                 break;
         }
-        gStruct217AA00->mUnk_0008 = 9;
+        gStruct217AA00->field8 = 9;
     } else {
         status = result;
     }

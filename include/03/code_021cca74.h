@@ -4,18 +4,18 @@
 
 typedef struct Unk021cca74 {
     /* 00 */ struct OamRange *mResource;
-    /* 04 */ u8 mUnk_04[8];
-    /* 0c */ u32 mUnk_0c;
+    /* 04 */ u8 field4[8];
+    /* 0c */ u32 fieldC;
     /* 10 */ u16 mX;
     /* 12 */ u16 mY;
-    /* 14 */ u16 mUnk_14[2];
-    /* 18 */ u8 mUnk_18;
-    /* 19 */ u8 mUnk_19;
+    /* 14 */ u16 field14[2];
+    /* 18 */ u8 field18;
+    /* 19 */ u8 field19;
     /* 1a */ u8 mOffset;
-    /* 1b */ u8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c;
-    /* 1d */ u8 mUnk_1d;
-    /* 1e */ u8 mUnk_1e;
+    /* 1b */ u8 field1B;
+    /* 1c */ u8 field1C;
+    /* 1d */ u8 field1D;
+    /* 1e */ u8 field1E;
 } Unk021cca74;
 
 void func_ov003_021cca74(s32 offset);

@@ -5,7 +5,7 @@
 // An emblem's 0x200 bytes of pixels and a byte that is 1 once the pixels are filled in.
 typedef struct EmblemData {
     /* 000 */ u8 mPixels[0x200];
-    /* 200 */ u8 mUnk_200;
+    /* 200 */ u8 field200;
 } EmblemData;
 
 void BuildRecordList(void);

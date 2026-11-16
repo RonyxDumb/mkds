@@ -6,8 +6,8 @@ typedef struct Sman Sman;
 typedef struct Kart Kart;
 
 typedef struct Unk0209188c {
-    /* 00 */ u8 mUnk_00[0x2];
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u8 field0[0x2];
+    /* 02 */ u16 field2;
 } Unk0209188c;
 
 u8 sman_onItemCollide(Sman *sman, u32 b, unsigned char *c, u8 *d);

@@ -6,14 +6,14 @@ void irec_startRecording(KeyRecording *record) {
     if (record->mBuffer == NULL) {
         return;
     }
-    if (record->mUnk_0c == FALSE) {
+    if (record->fieldC == FALSE) {
         if (record->mBuffer != NULL) {
             MI_CpuFill8(record->mBuffer, 0, 0xdcc);
         }
-        record->mUnk_0c = TRUE;
+        record->fieldC = TRUE;
     }
-    record->mBuffer->mUnk_00 = 0;
-    record->mUnk_0c = FALSE;
+    record->mBuffer->field0 = 0;
+    record->fieldC = FALSE;
     record->mPairIndex = 0;
     record->mRepeatCount = 0;
     record->mStatus = 1;

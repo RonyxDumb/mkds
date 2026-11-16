@@ -64,7 +64,7 @@ BOOL func_01ffa41c(Kart *p, u32 a, Vec3 *b) {
         }
     }
     if (t == FALSE) {
-        if (!(p->mUnk_44 & 0x4000000)) {
+        if (!(p->field44 & 0x4000000)) {
             r = FALSE;
         }
     }
@@ -89,8 +89,8 @@ BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
 }
 
 void driver_1FFA350(Kart *p, u32 a) {
-    p->mUnk_44 = p->mUnk_44 & ~a;
-    p->mUnk_208->mUnk_00 = FALSE;
+    p->field44 = p->field44 & ~a;
+    p->field208->field0 = FALSE;
     p->mSurfaceGroup = -1;
     rptc_killDriverEffects_copy(p);
 }
@@ -101,19 +101,19 @@ BOOL driver_handleFallBelow0(Kart *p) {
     u32 r;
 
     if (p->mPos.y < 0) {
-        if (!(p->mUnk_7c & 0x400) && !(p->mUnk_48 & 0x800)) {
-            p->mUnk_48 = p->mUnk_48 | 0x800;
+        if (!(p->field7C & 0x400) && !(p->field48 & 0x800)) {
+            p->field48 = p->field48 | 0x800;
             i = p->mIndex;
             if (gRaceMultiConfig->mMode == MODE_BATTLE) {
                 r = mdat_getRespawnId(0);
             } else {
-                r = mdat_getRespawnId(gRaceStatus->mUnk_000[i].mCheckpoint);
+                r = mdat_getRespawnId(gRaceStatus->field0[i].mCheckpoint);
             }
             p->mRespawnSlot = r;
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
                 if (gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
                     q = sp_acquireElement(sound_getPoolById(0));
-                    if (SoundHandle_217D084.mUnk_0c != 0) {
+                    if (SoundHandle_217D084.fieldC != 0) {
                         if (*(u32 *) q != 0) {
                             NNS_SndPlayerStopSeq(q, 0);
                         }
@@ -127,8 +127,8 @@ BOOL driver_handleFallBelow0(Kart *p) {
         }
         return TRUE;
     }
-    p->mUnk_44 = p->mUnk_44 & 0xbbceffff;
-    p->mUnk_48 = p->mUnk_48 & 0xff9ffbfe;
+    p->field44 = p->field44 & 0xbbceffff;
+    p->field48 = p->field48 & 0xff9ffbfe;
     return FALSE;
 }
 
@@ -136,7 +136,7 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     s32 d = vec_dotProduct(&p->mGroundNormal, a);
     s32 m;
 
-    if (p->mUnk_48 & 1) {
+    if (p->field48 & 1) {
         m = 0x4cd;
     } else {
         m = 0x1ec;
@@ -145,9 +145,9 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
         d = 0;
     }
     if (d >= 0xe66) {
-        if (p->mUnk_44 & 0x1000) {
-            if (p->mUnk_208->mUnk_00 == FALSE && p->mUnk_1fc.x == 0 && p->mUnk_1fc.y == 0 && p->mUnk_1fc.z == 0 &&
-                p->mUnk_4d0 > 100) {
+        if (p->field44 & 0x1000) {
+            if (p->field208->field0 == FALSE && p->field1FC.x == 0 && p->field1FC.y == 0 && p->field1FC.z == 0 &&
+                p->field4D0 > 100) {
                 p->mQuaternionBlendFactor = 0;
                 return;
             }
@@ -164,19 +164,19 @@ void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
     }
 }
 
-// Counts mAirborneFrames, also clears mUnk_234, sets or clears bit 0x4000 and stores mLastGroundY. Not run while the
+// Counts mAirborneFrames, also clears field234, sets or clears bit 0x4000 and stores mLastGroundY. Not run while the
 // kart is below y = 0.
 void UpdateKartAirborne(Kart *p) {
-    if (p->mUnk_44 & KART_44_ON_GROUND) {
+    if (p->field44 & KART_44_ON_GROUND) {
         p->mAirborneFrames = 0;
         p->mAirTiltAngle = 0;
-        p->mUnk_44 = p->mUnk_44 & ~0x4000;
+        p->field44 = p->field44 & ~0x4000;
         p->mLastGroundY = p->mPos.y;
         return;
     }
     p->mAirborneFrames = p->mAirborneFrames + 1;
     if (p->mAirborneFrames > 5) {
-        p->mUnk_44 = p->mUnk_44 | 0x4000;
+        p->field44 = p->field44 | 0x4000;
     }
 }
 
@@ -184,7 +184,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     Vec4 v;
     u32 t;
 
-    p->mUnk_3f8 = 0x1000;
+    p->field3F8 = 0x1000;
     if (p->mAirborneFrames > 5) {
         p->mQuaternionBlendFactor = 0xf6;
         func_02070484(p, &p->mUnk_100_q);
@@ -194,7 +194,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     qrtn_lerp(&p->mUnk_f0_q, &p->mUnk_100_q, &p->mUnk_f0_q, p->mQuaternionBlendFactor);
     qrtn_fromAxisAngle(&driverCore_sUpVec, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
     qrtn_mult(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
-    if (p->mUnk_44 & 2) {
+    if (p->field44 & 2) {
         if (p->mHopSpeed > 0) {
             p->mHopTiltAngle = 0x9c4 - (u16) ((s64) p->mHopHeight * 500 >> 12);
             if (p->mHopTiltAngle > 0x6a4) {
@@ -232,16 +232,16 @@ void driver_handleFloorCollision(Kart *p) {
     } else {
         p->mSpeedLimitFactor = b + (s32) (((s64) (a - b) * 0x4cd + 0x800) >> 12);
     }
-    if (p->mUnk_4c & 0x10000040) {
+    if (p->field4C & 0x10000040) {
         c = 0;
     } else {
         c = k;
     }
-    p->mTurnedForwardEaseFactor = p->mPhysicalParam->mUnk_38[c];
-    if (p->mUnk_48 & 0x40000000) {
-        if (p->mUnk_44 & KART_44_ON_GROUND) {
+    p->mTurnedForwardEaseFactor = p->mPhysicalParam->field38[c];
+    if (p->field48 & 0x40000000) {
+        if (p->field44 & KART_44_ON_GROUND) {
             if (k != 0xb) {
-                p->mUnk_48 = p->mUnk_48 & ~0x40000000;
+                p->field48 = p->field48 & ~0x40000000;
             }
         }
     }
@@ -253,73 +253,73 @@ void driver_handleSpecialBoosts(Kart *p) {
     s32 d;
     enum { K0 } j;
 
-    if (p->mUnk_48 & KART_48_MINI_TURBO) {
+    if (p->field48 & KART_48_MINI_TURBO) {
         p->mMiniTurboTimer = p->mMiniTurboTimer - 1;
         if (p->mMiniTurboTimer <= 0) {
-            p->mUnk_48 = p->mUnk_48 & ~KART_48_MINI_TURBO;
+            p->field48 = p->field48 & ~KART_48_MINI_TURBO;
             p->mMiniTurboTimer = 0;
         }
     }
-    if (p->mUnk_48 & 0x100000) {
-        p->mUnk_538.mUnk_00 = p->mUnk_538.mUnk_00 - 1;
-        if (p->mUnk_538.mUnk_00 <= 0) {
-            p->mUnk_48 = p->mUnk_48 & ~0x20100000;
-            p->mUnk_538.mUnk_00 = 0;
+    if (p->field48 & 0x100000) {
+        p->field538.field0 = p->field538.field0 - 1;
+        if (p->field538.field0 <= 0) {
+            p->field48 = p->field48 & ~0x20100000;
+            p->field538.field0 = 0;
         }
     }
-    if (!(p->mUnk_44 & 0x1000000) && !(p->mUnk_7c & 0x400)) {
+    if (!(p->field44 & 0x1000000) && !(p->field7C & 0x400)) {
         driver_handleStartBoost(p);
     }
-    if (!(p->mUnk_4c & 0x400)) {
+    if (!(p->field4C & 0x400)) {
         return;
     }
     r = race_getFrameCounter();
-    if (p->mUnk_410 == 0) {
+    if (p->field410 == 0) {
         j = p->mEntryIndex;
         if ((u16) (gInputUnits[j].mPressedBits & PAD_KEY_A) != 0) {
-            p->mUnk_410 = r;
+            p->field410 = r;
         }
     }
-    if (p->mUnk_40c == 0) {
+    if (p->field40C == 0) {
         return;
     }
-    if (p->mUnk_410 == 0) {
+    if (p->field410 == 0) {
         return;
     }
-    d = p->mUnk_410 - p->mUnk_40c;
+    d = p->field410 - p->field40C;
     if (d <= 0) {
         d = -d;
     }
     if (d <= 2) {
         driver_addBoost(p, KART_BOOST_RESPAWN, 10);
     }
-    p->mUnk_4c = p->mUnk_4c & ~0x400;
+    p->field4C = p->field4C & ~0x400;
 }
 
 void func_01ff9cb0(Kart *p) {
-    if (!(p->mUnk_4c & 2)) {
+    if (!(p->field4C & 2)) {
         if (race_getState() == 1) {
             func_01ffc9e8(p, 0);
         }
     }
-    p->mUnk_44 = p->mUnk_44 & ~0x1000;
-    if (p->mUnk_208->mUnk_00 == FALSE) {
+    p->field44 = p->field44 & ~0x1000;
+    if (p->field208->field0 == FALSE) {
         return;
     }
-    func_020e0538((Unk020e04b0 *) p->mUnk_208, &p->mPos);
-    p->mUnk_208->mUnk_00 = FALSE;
+    func_020e0538((Unk020e04b0 *) p->field208, &p->mPos);
+    p->field208->field0 = FALSE;
 }
 
 void driver_updateMap2DShadowFlag(Kart *p, u32 a) {
     u32 b = a & 0x1000000;
 
-    if (b != p->mUnk_4c0) {
-        p->mUnk_4c0 = b;
+    if (b != p->field4C0) {
+        p->field4C0 = b;
     }
 }
 
 void AdvanceKartHop(Kart *p) {
-    if (!(p->mUnk_44 & 4)) {
+    if (!(p->field44 & 4)) {
         return;
     }
     p->mHopSpeed = p->mHopSpeed + p->mGravity;
@@ -327,7 +327,7 @@ void AdvanceKartHop(Kart *p) {
     if (p->mHopHeight < 0) {
         p->mHopHeight = 0;
         p->mHopSpeed = 0;
-        p->mUnk_44 = p->mUnk_44 & ~0x804;
+        p->field44 = p->field44 & ~0x804;
     }
 }
 
@@ -336,7 +336,7 @@ void driver_updateDriftEffects(Kart *p) {
     KartEffects *b;
     u32 f;
 
-    if (p->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
+    if (p->field4C & KART_4C_NEAR_PLAYER_RANK) {
         a = dptc_getControllerForDriver(p->mIndex);
         b = rptc_getEffectControllerForDriver(p->mIndex);
         dptc_updateContRedSparks(a, p);
@@ -347,7 +347,7 @@ void driver_updateDriftEffects(Kart *p) {
         dptc_208C534(dptc_getControllerForDriver(p->mIndex));
     }
     p->mEffectVelocity = p->mVelocity;
-    f = p->mUnk_44;
+    f = p->field44;
     if (f & KART_44_ON_GROUND) {
         if (!(f & 0x1000)) {
             p->mEffectVelocity.y = p->mEffectVelocity.y - p->mVerticalSpeed;
@@ -360,7 +360,7 @@ void driver_updateDriftEffects(Kart *p) {
 
 void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *a) {
     BOOL r;
-    u32 w = a->mUnk_00;
+    u32 w = a->field0;
 
     r = FALSE;
     if ((w & 4) == 0) {
@@ -368,62 +368,62 @@ void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *a) {
     }
     if ((w & 0x20) && !(w & 8)) {
         if (r) {
-            NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &a->field4C, 3);
             r = FALSE;
         }
-        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_10, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &a->field10, 3);
     }
-    if (!(a->mUnk_00 & 2)) {
+    if (!(a->field0 & 2)) {
         if (r) {
-            NNS_G3dGeBufferOP_N(0x19, &a->mUnk_28, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, &a->field28, 0xc);
         } else {
-            NNS_G3dGeBufferOP_N(0x1a, &a->mUnk_28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &a->field28, 9);
         }
     } else if (r) {
-        NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &a->field4C, 3);
     }
-    if (!(a->mUnk_00 & 1)) {
-        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_04, 3);
+    if (!(a->field0 & 1)) {
+        NNS_G3dGeBufferOP_N(0x1b, &a->field4, 3);
     }
 }
 
 void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
-    u8 t = c->mUnk_03;
+    u8 t = c->field3;
     u32 i;
 
     if (d & 4) {
-        a->mUnk_00 |= 1;
+        a->field0 |= 1;
         if (t & 2) {
-            i = c->mUnk_01;
-            data_02170500->mUnk_c4[i >> 5] |= 1 << (i & 0x1f);
+            i = c->field1;
+            data_02170500->fieldC4[i >> 5] |= 1 << (i & 0x1f);
         }
     } else {
-        a->mUnk_04.x = b->mUnk_00.x;
-        a->mUnk_04.y = b->mUnk_00.y;
-        a->mUnk_04.z = b->mUnk_00.z;
+        a->field4.x = b->field0.x;
+        a->field4.y = b->field0.y;
+        a->field4.z = b->field0.z;
         if (t & 2) {
-            i = c->mUnk_01;
-            data_02170500->mUnk_c4[i >> 5] &= ~(1 << (i & 0x1f));
-            data_02171310[i].mUnk_00.x = b->mUnk_0c.x;
-            data_02171310[i].mUnk_00.y = b->mUnk_0c.y;
-            data_02171310[i].mUnk_00.z = b->mUnk_0c.z;
+            i = c->field1;
+            data_02170500->fieldC4[i >> 5] &= ~(1 << (i & 0x1f));
+            data_02171310[i].field0.x = b->fieldC.x;
+            data_02171310[i].field0.y = b->fieldC.y;
+            data_02171310[i].field0.z = b->fieldC.z;
         }
     }
     if (t & 1) {
-        i = c->mUnk_02;
-        a->mUnk_00 |= 0x20;
-        if (data_02170500->mUnk_c4[i >> 5] & (1 << (i & 0x1f))) {
-            a->mUnk_00 |= 8;
+        i = c->field2;
+        a->field0 |= 0x20;
+        if (data_02170500->fieldC4[i >> 5] & (1 << (i & 0x1f))) {
+            a->field0 |= 8;
         } else {
-            a->mUnk_10 = data_02171310[i].mUnk_00;
+            a->field10 = data_02171310[i].field0;
         }
     }
-    a->mUnk_00 |= 0x10;
+    a->field0 |= 0x10;
 }
 
 void texmtxCalc_flag_(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
+    s32 w = b->field2C << 12;
+    s32 h = b->field2E << 12;
     s32 k22;
     s32 k18;
     s32 k20;
@@ -434,62 +434,62 @@ void texmtxCalc_flag_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     s32 f;
 
     FX_DivAsync(h, w);
-    k22 = b->mUnk_22;
-    k18 = b->mUnk_18;
-    k20 = b->mUnk_20;
-    v1 = b->mUnk_1c;
+    k22 = b->field22;
+    k18 = b->field18;
+    k20 = b->field20;
+    v1 = b->field1C;
     d = (s64) k18 * k20 >> 12;
     c = (s64) k18 * k22 >> 12;
     e = (s64) v1 * k20 >> 12;
     f = (s64) v1 * k22 >> 12;
-    a->mUnk_00 = c;
-    a->mUnk_14 = f;
-    a->mUnk_04 = -e * FX_GetDivResult() >> 12;
+    a->field0 = c;
+    a->field14 = f;
+    a->field4 = -e * FX_GetDivResult() >> 12;
     FX_DivAsync(w, h);
-    a->mUnk_30 = (b->mUnk_2c * (b->mUnk_18 - (d + c)) << 3) - b->mUnk_2c * (s32) ((s64) b->mUnk_18 * b->mUnk_24 >> 8);
-    a->mUnk_34 =
-        b->mUnk_2e * (s32) ((s64) b->mUnk_1c * b->mUnk_28 >> 8) + (b->mUnk_2e * (e - f - b->mUnk_1c + 0x2000) << 3);
-    a->mUnk_10 = d * FX_GetDivResult() >> 12;
+    a->field30 = (b->field2C * (b->field18 - (d + c)) << 3) - b->field2C * (s32) ((s64) b->field18 * b->field24 >> 8);
+    a->field34 =
+        b->field2E * (s32) ((s64) b->field1C * b->field28 >> 8) + (b->field2E * (e - f - b->field1C + 0x2000) << 3);
+    a->field10 = d * FX_GetDivResult() >> 12;
 }
 
 void texmtxCalc_flagS_(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
+    s32 w = b->field2C << 12;
+    s32 h = b->field2E << 12;
     s32 t;
 
     FX_DivAsync(h, w);
-    a->mUnk_00 = b->mUnk_22;
-    a->mUnk_14 = b->mUnk_22;
-    a->mUnk_04 = -b->mUnk_20 * FX_GetDivResult() >> 12;
+    a->field0 = b->field22;
+    a->field14 = b->field22;
+    a->field4 = -b->field20 * FX_GetDivResult() >> 12;
     FX_DivAsync(w, h);
-    t = b->mUnk_20 + b->mUnk_22;
-    a->mUnk_30 = (b->mUnk_2c * (-t + 0x1000) << 3) - (b->mUnk_24 * b->mUnk_2c << 4);
-    a->mUnk_34 = (b->mUnk_2e * (b->mUnk_20 - b->mUnk_22 + 0x1000) << 3) + (b->mUnk_28 * b->mUnk_2e << 4);
-    a->mUnk_10 = b->mUnk_20 * FX_GetDivResult() >> 12;
+    t = b->field20 + b->field22;
+    a->field30 = (b->field2C * (-t + 0x1000) << 3) - (b->field24 * b->field2C << 4);
+    a->field34 = (b->field2E * (b->field20 - b->field22 + 0x1000) << 3) + (b->field28 * b->field2E << 4);
+    a->field10 = b->field20 * FX_GetDivResult() >> 12;
 }
 
 void texmtxCalc_flagR_(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    a->mUnk_00 = b->mUnk_18;
-    a->mUnk_14 = b->mUnk_1c;
-    a->mUnk_04 = 0;
-    a->mUnk_30 = b->mUnk_2c * -(s32) ((s64) b->mUnk_18 * b->mUnk_24 >> 8);
-    a->mUnk_34 =
-        b->mUnk_2e * (s32) ((s64) b->mUnk_1c * b->mUnk_28 >> 8) + (b->mUnk_2e * (b->mUnk_1c * -2 + 0x2000) << 3);
-    a->mUnk_10 = 0;
+    a->field0 = b->field18;
+    a->field14 = b->field1C;
+    a->field4 = 0;
+    a->field30 = b->field2C * -(s32) ((s64) b->field18 * b->field24 >> 8);
+    a->field34 =
+        b->field2E * (s32) ((s64) b->field1C * b->field28 >> 8) + (b->field2E * (b->field1C * -2 + 0x2000) << 3);
+    a->field10 = 0;
 }
 
 void texmtxCalc_flagRS_(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    a->mUnk_00 = 0x1000;
-    a->mUnk_14 = 0x1000;
-    a->mUnk_04 = 0;
-    a->mUnk_30 = -(b->mUnk_24 * b->mUnk_2c) << 4;
-    a->mUnk_34 = b->mUnk_28 * b->mUnk_2e << 4;
-    a->mUnk_10 = 0;
+    a->field0 = 0x1000;
+    a->field14 = 0x1000;
+    a->field4 = 0;
+    a->field30 = -(b->field24 * b->field2C) << 4;
+    a->field34 = b->field28 * b->field2E << 4;
+    a->field10 = 0;
 }
 
 void texmtxCalc_flagT_(Unk01ff9598_A *a, Unk01ff9598 *b) {
-    s32 w = b->mUnk_2c << 12;
-    s32 h = b->mUnk_2e << 12;
+    s32 w = b->field2C << 12;
+    s32 h = b->field2E << 12;
     s32 k22;
     s32 k18;
     s32 k20;
@@ -500,19 +500,19 @@ void texmtxCalc_flagT_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     s32 f;
 
     FX_DivAsync(h, w);
-    k22 = b->mUnk_22;
-    k18 = b->mUnk_18;
-    k20 = b->mUnk_20;
-    v1 = b->mUnk_1c;
+    k22 = b->field22;
+    k18 = b->field18;
+    k20 = b->field20;
+    v1 = b->field1C;
     d = (s64) k18 * k20 >> 12;
     c = (s64) k18 * k22 >> 12;
     e = (s64) v1 * k20 >> 12;
     f = (s64) v1 * k22 >> 12;
-    a->mUnk_00 = c;
-    a->mUnk_14 = f;
-    a->mUnk_04 = -e * FX_GetDivResult() >> 12;
+    a->field0 = c;
+    a->field14 = f;
+    a->field4 = -e * FX_GetDivResult() >> 12;
     FX_DivAsync(w, h);
-    a->mUnk_30 = b->mUnk_2c * (b->mUnk_18 - (d + c)) << 3;
-    a->mUnk_34 = b->mUnk_2e * (e - f - b->mUnk_1c + 0x2000) << 3;
-    a->mUnk_10 = d * FX_GetDivResult() >> 12;
+    a->field30 = b->field2C * (b->field18 - (d + c)) << 3;
+    a->field34 = b->field2E * (e - f - b->field1C + 0x2000) << 3;
+    a->field10 = d * FX_GetDivResult() >> 12;
 }

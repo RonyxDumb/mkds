@@ -11,38 +11,38 @@ extern Nsbmd *wbox_sModel;
 
 // Second argument of wbox_init, wbox_onItemCollide and wbox_onDriverCollide.
 typedef struct Unk020eb498 {
-    /* 000 */ Vec3 mUnk_000;
-    /* 00c */ u8 mUnk_00c[4];
-    /* 010 */ s32 mUnk_010;
-    /* 014 */ u8 mUnk_014[0x14];
-    /* 028 */ s16 mUnk_028;
-    /* 02a */ s16 mUnk_02a;
-    /* 02c */ u8 mUnk_02c[0x30];
-    /* 05c */ Vec3 mUnk_05c;
-    /* 068 */ u8 mUnk_068[0xc];
-    /* 074 */ u16 mUnk_074;
-    /* 076 */ u8 mUnk_076[0x2e];
-    /* 0a4 */ Vec3 mUnk_0a4;
-    /* 0b0 */ u8 mUnk_0b0[0x1ec];
-    /* 29c */ s32 mUnk_29c;
-    /* 2a0 */ u8 mUnk_2a0[4];
-    /* 2a4 */ s32 mUnk_2a4;
+    /* 000 */ Vec3 field0;
+    /* 00c */ u8 fieldC[4];
+    /* 010 */ s32 field10;
+    /* 014 */ u8 field14[0x14];
+    /* 028 */ s16 field28;
+    /* 02a */ s16 field2A;
+    /* 02c */ u8 field2C[0x30];
+    /* 05c */ Vec3 field5C;
+    /* 068 */ u8 field68[0xc];
+    /* 074 */ u16 field74;
+    /* 076 */ u8 field76[0x2e];
+    /* 0a4 */ Vec3 fieldA4;
+    /* 0b0 */ u8 fieldB0[0x1ec];
+    /* 29c */ s32 field29C;
+    /* 2a0 */ u8 field2A0[4];
+    /* 2a4 */ s32 field2A4;
 } Unk020eb498;
 
 // Objects read by func_020ea670.
 typedef struct Unk020ea670_08 {
-    /* 000 */ u8 mUnk_000[8];
-    /* 008 */ u32 mUnk_008;
+    /* 000 */ u8 field0[8];
+    /* 008 */ u32 field8;
 } Unk020ea670_08;
 
 typedef struct Unk020ea670_0a {
-    /* 000 */ u8 mUnk_000[10];
-    /* 00a */ u16 mUnk_00a;
+    /* 000 */ u8 field0[10];
+    /* 00a */ u16 fieldA;
 } Unk020ea670_0a;
 
 typedef struct Unk020ea670_0c {
-    /* 000 */ u8 mUnk_000[12];
-    /* 00c */ u32 mUnk_00c;
+    /* 000 */ u8 field0[12];
+    /* 00c */ u32 fieldC;
 } Unk020ea670_0c;
 
 // Sphere (centre param_1, radius param_7) against the cylinder at param_2 whose axes are the rows of param_3; returns 0

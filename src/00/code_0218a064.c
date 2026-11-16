@@ -9,24 +9,24 @@ void func_ov000_0218a064(const u32 *a, Unk02188ec0 *v1, Unk0218a064 *v2) {
     Unk02188db0 *e;
 
     MI_CpuCopy8(data_ov000_021b0738, v2, 0x58);
-    v2->mUnk_04 = a[0];
-    v2->mUnk_08 = a[1];
-    if (v1->mUnk_d0d < 6) {
-        e = &v1->mUnk_000[func_ov000_021884d8(v1->mUnk_d0d)];
-        if (e->mUnk_c0[0] != 0) {
-            v2->mUnk_0c = 0;
-            v2->mUnk_10 = func_ov000_0218a018(e->mUnk_c0);
-            v2->mUnk_14 = func_ov000_02189fd0(e->mUnk_d0);
-            v2->mUnk_18 = func_ov000_0218a018(e->mUnk_c4);
-            v2->mUnk_1c = func_ov000_0218a018(e->mUnk_c8);
-            v2->mUnk_20 = func_ov000_0218a018(e->mUnk_cc);
+    v2->field4 = a[0];
+    v2->field8 = a[1];
+    if (v1->fieldD0D < 6) {
+        e = &v1->field0[func_ov000_021884d8(v1->fieldD0D)];
+        if (e->fieldC0[0] != 0) {
+            v2->fieldC = 0;
+            v2->field10 = func_ov000_0218a018(e->fieldC0);
+            v2->field14 = func_ov000_02189fd0(e->fieldD0);
+            v2->field18 = func_ov000_0218a018(e->fieldC4);
+            v2->field1C = func_ov000_0218a018(e->fieldC8);
+            v2->field20 = func_ov000_0218a018(e->fieldCC);
         } else {
-            v2->mUnk_0c = 1;
-            v2->mUnk_10 = 0;
-            v2->mUnk_14 = 0;
-            v2->mUnk_18 = 0;
-            v2->mUnk_1c = 0;
-            v2->mUnk_20 = 0;
+            v2->fieldC = 1;
+            v2->field10 = 0;
+            v2->field14 = 0;
+            v2->field18 = 0;
+            v2->field1C = 0;
+            v2->field20 = 0;
         }
     }
 }

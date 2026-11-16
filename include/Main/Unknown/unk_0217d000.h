@@ -27,12 +27,12 @@ typedef struct PaletteBlend {
     /* 00 */ s32 mCycleFrames;
     /* 04 */ BOOL mStopped;
     /* 08 */ u8 mPaletteIndex;
-    /* 09 */ u8 mUnk_09;
+    /* 09 */ u8 field9;
     /* 0a */ u16 mPalette[5];
     /* 14 */ u16 mFromColors[4];
     /* 1c */ u16 mToColors[4];
-    /* 24 */ u16 mUnk_24[3];
-    /* 2a */ u8 mUnk_2a[2];
+    /* 24 */ u16 field24[3];
+    /* 2a */ u8 field2A[2];
     /* 2c */ PaletteColorFields mBlendFrom[4];
     /* 5c */ PaletteColorFields mBlendTo[4];
     /* 8c */ BOOL mFirstBlend;
@@ -68,7 +68,7 @@ typedef struct Wait {
     /* 14 */ struct Unk0201ea30 *mDestinationBncl;
     /* 18 */ u32 mDestinationBnclIndex;
     /* 1c */ u16 mPaletteIndex;
-    /* 20 */ s32 mUnk_20;
+    /* 20 */ s32 field20;
     /* 24 */ u16 mFrameIndex;
     /* 28 */ s32 mFrameIndexFrames;
 } Wait;
@@ -93,7 +93,7 @@ typedef struct RecordVSErase {
     /* 40 */ s32 mTransientDrawn;
     /* 44 */ struct Bmg *mCommonMessages;
     /* 48 */ struct Bmg *mRecordMessages;
-    /* 4c */ void *mUnk_4c;
+    /* 4c */ void *field4C;
     /* 50 */ void *mHeap;
     /* 54 */ s32 mState;
     /* 58 */ s32 mNextState;
@@ -108,13 +108,13 @@ typedef struct RecordVSErase {
     /* 78 */ s32 mPageDecrement;
     /* 7c */ s32 mIndexChangeTimer;
     /* 80 */ s16 mShownIndex;
-    /* 82 */ u8 mUnk_82[2];
+    /* 82 */ u8 field82[2];
     /* 84 */ u32 mErased;
     /* 88 */ struct EmblemData *mEmblem;
     /* 8c */ void *mEmblemConverted;
     /* 90 */ s32 mOffsetTimers[2];
-    /* 98 */ BOOL mUnk_98;
-    /* 9c */ BOOL mUnk_9c;
+    /* 98 */ BOOL field98;
+    /* 9c */ BOOL field9C;
     /* a0 */ s32 mNextScreen;
 } RecordVSErase;
 
@@ -134,14 +134,14 @@ typedef struct CupMark {
 
 // Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
 typedef struct ScenePlayers {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
-    /* 0c */ NNSSndSeqPlayer *mUnk_0c;
-    /* 10 */ NNSSndSeqPlayer *mUnk_10;
+    /* 00 */ s32 field0;
+    /* 04 */ void *field4;
+    /* 08 */ u8 field8;
+    /* 09 */ u8 field9;
+    /* 0a */ u8 fieldA;
+    /* 0b */ u8 fieldB;
+    /* 0c */ NNSSndSeqPlayer *fieldC;
+    /* 10 */ NNSSndSeqPlayer *field10;
 } ScenePlayers;
 
 // Object at SoundHandle_217D084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
@@ -149,18 +149,18 @@ typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
     /* 08 */ u32 mSavedMode;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ NNSSndSeqPlayer **mUnk_18;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ NNSSndSeqPlayer **field18;
 } SoundModeHolder;
 
-// Object at data_0217d32c (0x10 bytes); mUnk_08 points to a row of six words.
+// Object at data_0217d32c (0x10 bytes); field8 points to a row of six words.
 typedef struct Unk0217d32c {
     /* 00 */ s32 mLoadedIndex;
     /* 04 */ NNSSndHeap *mSeqHeap;
     /* 08 */ u32 *mSeqRow;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ u32 fieldC;
 } Unk0217d32c;
 
 // Object behind gRecordVS.
@@ -210,14 +210,14 @@ typedef struct RecordVS {
     // mIndex the page text was last built for: PrintRecordVSShownRecord builds the text of the record mShownIndex, and
     // AdvanceRecordVSIndexChange starts mIndexChangeTimer when mIndex differs from it.
     /* 74 */ s16 mShownIndex;
-    /* 76 */ u8 mUnk_76[2];
+    /* 76 */ u8 field76[2];
     /* 78 */ struct EmblemData *mEmblem;
     /* 7c */ void *mEmblemConverted;
     /* 80 */ s32 mOffsetTimers[2];
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
+    /* 88 */ BOOL field88;
+    /* 8c */ BOOL field8C;
     // Screen to request when the exit ends; 6 sets the next scene instead.
-    /* 90 */ s32 mUnk_90;
+    /* 90 */ s32 field90;
 } RecordVS;
 
 // Object behind CupSelectionMenuInfoPointer: the screen that picks one of eight cups, laid out as two rows of four (a direction key
@@ -234,7 +234,7 @@ typedef struct SelectCupGrid {
     /* 14 */ Unk0201ea30 *mSelectCupSBnbl;
     /* 18 */ LayoutTableEntry *mSelectCupMTable;
     /* 1c */ LayoutTableEntry *mSelectCupSTable;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ void *field20;
     /* 24 */ struct Bmg *mCommonMessages;
     /* 28 */ struct Bmg *mMenuMessages;
     /* 2c */ void *mHeap;
@@ -249,7 +249,7 @@ typedef struct SelectCupGrid {
     // GetSelectCupGridCupEnabled; a disabled cup shows its other cells, plays the error sound when touched and is
     // skipped by the direction keys.
     /* 48 */ s32 mCupsEnabled[8];
-    /* 68 */ BOOL mUnk_68;
+    /* 68 */ BOOL field68;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupGridIndexChange sets 7 when mIndex differs from
     // mShownIndex, rebuilds the cells at 7 and moves them while it runs; IsSelectCupGridIndexChangeRunning tells
     // whether it is non-zero.
@@ -264,7 +264,7 @@ typedef struct SelectCupGrid {
     // TTCoursePicOrder[mIndex]; AdvanceSelectCupGrid also shows the cell of that position differently from the
     // other three.
     /* 78 */ s16 mShownCourseIndex;
-    /* 7a */ u8 mUnk_7a[2];
+    /* 7a */ u8 field7A[2];
     // Set when the cup picture was asked for; AdvanceSelectCupGrid queues its data once it is ready.
     /* 7c */ BOOL mCupPicturePending;
     /* 80 */ void *mMainOam;
@@ -289,7 +289,7 @@ typedef struct SelectCupCourse {
     // *(vu16
     // *) 0x027ffc40 != 2
     /* 20 */ LayoutTableEntry *mSelectCupMTable;
-    /* 24 */ void *mUnk_24;
+    /* 24 */ void *field24;
     /* 28 */ struct Bmg *mCommonMessages;
     /* 2c */ void *mGhostMessages;
     /* 30 */ void *mHeap;
@@ -299,10 +299,10 @@ typedef struct SelectCupCourse {
     /* 40 */ s32 mMode;
     /* 44 */ s32 mBg0Offset;
     /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the NitroMain engine's */
-    /* 4c */ u8 mUnk_4c[4];
+    /* 4c */ u8 field4C[4];
     /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is TTCourseOrder[row][mIndex] */
-    /* 52 */ u8 mUnk_52[2];
-    /* 54 */ BOOL mUnk_54;
+    /* 52 */ u8 field52[2];
+    /* 54 */ BOOL field54;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
     // mShownIndex, rebuilds the page through RefreshSelectCupCourseForIndex at 7 and moves the objects while it runs;
     // IsSelectCupCourseIndexChangeRunning tells whether it is non-zero.
@@ -310,7 +310,7 @@ typedef struct SelectCupCourse {
     // mIndex the page was last built for: AdvanceSelectCupCourseIndexChange copies mIndex here when
     // RefreshSelectCupCourseForIndex rebuilds the page, and starts mIndexChangeTimer when mIndex differs from it.
     /* 5c */ s16 mShownIndex;
-    /* 5e */ u8 mUnk_5e[2];
+    /* 5e */ u8 field5E[2];
     // Set when the cup picture was asked for; the step queues its data once it is ready.
     /* 60 */ BOOL mCupPicturePending;
     /* 64 */ void *mMainOam;
@@ -338,7 +338,7 @@ typedef struct SelectRaceRule {
     // Messages of rule.bmg.
     /* 1c */ struct Bmg *mRuleMessages;
     /* 20 */ struct Nscr *mNscr; /* multi_simple_s (mMode == 3) or s_menu, two files */
-    /* 24 */ void *mUnk_24;
+    /* 24 */ void *field24;
     /* 28 */ void *mHeap;
     /* 2c */ s32 mMode;
     /* 30 */ s32 mState;
@@ -349,11 +349,11 @@ typedef struct SelectRaceRule {
     /* 3c */ s16 mRowChangeTimers[5][2];
     // Same shape for row 3 ([0][0] count down, [0][1] count up) and row 4 ([1][0] and [1][1] by the team a player lands
     // in).
-    /* 50 */ s16 mUnk_50[2][2];
+    /* 50 */ s16 field50[2][2];
     // Vertical shift in lines of the whole layout, 0 or -0x1c by mode; added to the positions of the objects and taken
     // off the touch y.
     /* 58 */ s16 mOffsetY;
-    /* 5a */ u8 mUnk_5a[0x02];
+    /* 5a */ u8 field5A[0x02];
     // Offset stored negated into the sub engine's BG3 offset register.
     /* 5c */ s32 mBg3Offset;
     // Row (0 to 4) the highlight is on; the value of row n is mRowValues[n].
@@ -368,7 +368,7 @@ typedef struct SelectRaceRule {
     /* 80 */ s32 mPrevOnButton;
     // Set to 0 when the button is pressed while it is already highlighted, back to 1 five calls into state 4; decides
     // which of the button's two objects shows.
-    /* 84 */ u32 mUnk_84;
+    /* 84 */ u32 field84;
     // Count of the win option of row 3, kept from 1 to 10.
     /* 88 */ s16 mWinCount;
     // Count of the race option of row 3, kept from 1 to 0x20.
@@ -379,7 +379,7 @@ typedef struct SelectRaceRule {
     /* ac */ u16 mTeamHumanCounts[2];
     // Per team: how many of the entries after the first ones are in it; counted into a team's size only while row 1 is
     // not 0.
-    /* b0 */ u16 mUnk_b0[2];
+    /* b0 */ u16 fieldB0[2];
     /* b4 */ void *mOamList;
     // Result AdvanceSelectRaceRule returns in state 8 once the state has run 10 calls: 1 or 2; 0 until set.
     /* b8 */ vu32 mResult;
@@ -397,7 +397,7 @@ typedef struct TrophyIcon {
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct Unk02021dc8 *mNcer;
     /* 04 */ Unk0201ea30 *mBncl;
-    /* 08 */ u8 mUnk_08[0x4];
+    /* 08 */ u8 field8[0x4];
     /* 0c */ struct Unk0201ea30 *mBnll;
     /* 10 */ LayoutTableEntry *mTable;
     /* 14 */ void *mCommonMessages;
@@ -445,7 +445,7 @@ typedef struct SelectCupM {
     /* 14 */ struct Unk0201ea30 *mSubBnll;
     /* 18 */ LayoutTableEntry *mMainTable;
     /* 1c */ LayoutTableEntry *mSubTable;
-    /* 20 */ void *mUnk_20;
+    /* 20 */ void *field20;
     /* 24 */ struct Bmg *mCommonMessages;
     /* 28 */ void *mHeap;
     /* 2c */ s32 mState;
@@ -454,31 +454,31 @@ typedef struct SelectCupM {
     /* 38 */ BOOL mCupPicturePending;
     /* 3c */ s32 mBg0Offset;
     /* 40 */ s32 mBg3Offset;
-    /* 44 */ u8 mUnk_44[0x04];
-    /* 48 */ void *mUnk_48;
-    /* 4c */ void *mUnk_4c;
-    /* 50 */ s32 mUnk_50;
+    /* 44 */ u8 field44[0x04];
+    /* 48 */ void *field48;
+    /* 4c */ void *field4C;
+    /* 50 */ s32 field50;
 } SelectCupM;
 
 // One slot number of the table.
 typedef struct RecordListEntry {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 field0;
 } RecordListEntry;
 
 // The used slots in display order, with the emblem block and the emblem2.bin picture.
 typedef struct RecordList {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ RecordListEntry *mUnk_04;
+    /* 00 */ u16 field0;
+    /* 02 */ u8 field2[2];
+    /* 04 */ RecordListEntry *field4;
     /* 08 */ struct EmblemBlock *mEmblemBlock;
-    /* 0c */ void *mUnk_0c;
+    /* 0c */ void *fieldC;
 } RecordList;
 
 // Object behind gmenu_sGlobalMenuContext: 0x814 bytes allocated by gmenu_init.
 typedef struct Unk0217d3ec {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
-    /* 008 */ BOOL mUnk_08;
+    /* 008 */ BOOL field8;
     /* 00c */ s32 mBackScreenKind;
     /* 010 */ u16 mBackScreenSNscrCopy[0x400];
     /* 810 */ s32 mSubCharOffset;
@@ -486,17 +486,17 @@ typedef struct Unk0217d3ec {
 
 // Objects of 0x20 bytes set up by NNS_G2dCharCanvasInitForBG; the word at 0x18 is called with the object and a value.
 typedef struct CharCanvas {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ void (*mUnk_18)(struct CharCanvas *, s32);
-    /* 1c */ u32 mUnk_1c;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ void (*field18)(struct CharCanvas *, s32);
+    /* 1c */ u32 field1C;
 } CharCanvas;
 
 // Objects of 0x10 bytes passed first to jn_ui_drawFormattedTextRect; member 0x00 points to one CharCanvas.
 typedef struct Unk0217d3f0_2178 {
-    /* 00 */ CharCanvas *mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ CharCanvas *field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
 } Unk0217d3f0_2178;
 
 // Object behind gTxtSystem: 0x2278 bytes allocated by gmenu_initUnknown.
@@ -532,13 +532,13 @@ typedef struct TxtSystem {
     /* 2088 */ u32 mBlendEv1[2];
     /* 2090 */ u32 mBlendEv2[2];
     /* 2098 */ CharCanvas mCharCanvases[7];
-    /* 2178 */ Unk0217d3f0_2178 mUnk_2178[7];
+    /* 2178 */ Unk0217d3f0_2178 field2178[7];
     /* 21e8 */ void *mCharBuffers[7];
     /* 2204 */ u32 mCanvasInUse[7];
     /* 2220 */ u32 mCanvasFileCharIndex[7];
     /* 223c */ u32 mB01CharIndex[2];
-    /* 2244 */ u16 mUnk_2244;
-    /* 2246 */ u16 mUnk_2246;
+    /* 2244 */ u16 field2244;
+    /* 2246 */ u16 field2246;
     /* 2248 */ u32 mMode;
     /* 224c */ u32 mInputAccepted;
     /* 2250 */ s32 mInputSoundId;
@@ -563,7 +563,7 @@ typedef struct SelectChoises {
     /* 82c */ u32 mToggleOnFirstTile;
     /* 830 */ u32 mToggleOffFirstTile;
     /* 834 */ CharCanvas mCharCanvases[2];
-    /* 874 */ Unk0217d3f0_2178 mUnk_874[2];
+    /* 874 */ Unk0217d3f0_2178 field874[2];
     /* 894 */ u8 *mCharBuffers[2];
     /* 89c */ s32 mFirstTileIndex;
     /* 8a0 */ u32 mUseCharBuffers;
@@ -591,15 +591,15 @@ typedef struct SelectReturn {
 // Records of 8 bytes: 0x80 of them start an OamList, and two are at member 0x10c of LinkLevelIcons
 // (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
 typedef struct Unk0217d3fc_00_00 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u8 mUnk_06[2];
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u8 field6[2];
 } Unk0217d3fc_00_00;
 
 // Object behind sNicknameOamBuffers: 0x808 bytes allocated by nicknameEditor_onCreate, two OamLists.
 typedef struct Unk0217d3fc {
-    /* 000 */ OamList mUnk_00;
-    /* 404 */ OamList mUnk_404;
+    /* 000 */ OamList field0;
+    /* 404 */ OamList field404;
 } Unk0217d3fc;
 
 // Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
@@ -608,13 +608,13 @@ typedef struct Unk0217d400_2c {
     /* 00 */ union {
         u16 mChars[12];
         struct {
-            /* 00 */ u16 mUnk_00_0[8];
-            /* 10 */ s32 mUnk_10;
-            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mUnk_2c only: in
+            /* 00 */ u16 field0_0[8];
+            /* 10 */ s32 field10;
+            // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.field2C only: in
             // element 0 these bytes are character 10 of the text.
             /* 14 */ s16 mMode;
             // Scene to run when the keyboard ends, -1 until set, read by nickname_getField72 through the raw offset
-            // 114; element 2 of Keyboard.mUnk_2c only: in element 0 these bytes are character 11 of the text.
+            // 114; element 2 of Keyboard.field2C only: in element 0 these bytes are character 11 of the text.
             /* 16 */ s16 mNextScene;
         };
     };
@@ -638,14 +638,14 @@ typedef struct Keyboard {
     // only while GetTxtSystemDone or IsTxtSystemState0NoOpenRequest returns non-zero; zeroed by the handler that
     // leaves; the slide states hold it at 0xf.
     /* 28 */ s32 mStateFrames;
-    /* 2c */ Unk0217d400_2c mUnk_2c[3];
+    /* 2c */ Unk0217d400_2c field2C[3];
     // Object tables of the keyboard, indexed by kind and by the buffer they are drawn to.
     /* 74 */ LayoutTableEntry *mTables[2][2];
     // Vertical shift in lines of the whole screen (0xc0 = slid out of view, 0 = in place); also stored negated into the
     // vertical half of the sub engine's BG3 offset.
     /* 84 */ s16 mOffsetY;
     /* 86 */ s16 mTextOffsetY[2][2];
-    /* 8e */ u8 mUnk_8e[2];
+    /* 8e */ u8 field8E[2];
     /* 90 */ struct Unk02021dc8 *mNcer;
     /* 94 */ struct Ncgr *mNcgr;
     /* 98 */ struct Nclr *mNclr;
@@ -660,12 +660,12 @@ typedef struct Keyboard {
 
 // Elements of 0x20 bytes at member 0x14 of Ncgr.
 typedef struct CharTile {
-    /* 00 */ u8 mUnk_00[0x20];
+    /* 00 */ u8 field0[0x20];
 } CharTile;
 
 typedef struct Unk0217d404_28 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
 } Unk0217d404_28;
 
 // Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
@@ -674,10 +674,10 @@ typedef struct LinkLevelIcons {
     /* 014 */ s32 mIconKind[2];
     /* 01c */ s32 mIconLevel[2];
     /* 024 */ s32 mCycleFrames;
-    /* 028 */ Unk0217d404_28 mUnk_028[2];
+    /* 028 */ Unk0217d404_28 field28[2];
     /* 038 */ OamList *mOamList;
-    /* 03c */ u8 mUnk_03c[0x20];
-    /* 05c */ u8 mUnk_05c[0x60];
+    /* 03c */ u8 field3C[0x20];
+    /* 05c */ u8 field5C[0x60];
     /* 0bc */ CharTile *mIconChars[5][4];
     /* 10c */ Unk0217d3fc_00_00 mOamRecords[2];
 } LinkLevelIcons;
@@ -715,13 +715,13 @@ typedef struct StaffRollText {
     /* 014 */ s32 mScrollYRemaining;
     /* 018 */ u8 *mTextPosition;
     /* 01c */ s8 mCharSpacing;
-    /* 01d */ u8 mUnk_01d[3];
+    /* 01d */ u8 field1D[3];
     /* 020 */ u8 mCharCanvas[0x20];
     /* 040 */ TextCanvas mTextCanvas;
     /* 050 */ u8 mCharBuffer[0x800];
-    /* 850 */ s8 mUnk_850;
-    /* 851 */ u8 mUnk_851[3];
-    /* 854 */ s32 mUnk_854;
+    /* 850 */ s8 field850;
+    /* 851 */ u8 field851[3];
+    /* 854 */ s32 field854;
     /* 858 */ void *mHeap;
 } StaffRollText;
 

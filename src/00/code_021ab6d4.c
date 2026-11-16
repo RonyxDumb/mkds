@@ -34,10 +34,10 @@ void func_ov000_021ab7e8(Unk021ab728 *a, const u8 *b) {
     u32 s;
     u32 i;
     s32 j;
-    p = a->mUnk_00;
-    q = a->mUnk_04;
-    r = a->mUnk_08;
-    s = a->mUnk_0c;
+    p = a->field0;
+    q = a->field4;
+    r = a->field8;
+    s = a->fieldC;
     func_ov000_021abc04(w, b, 0x40);
     i = 0;
     for (j = 0; j < 4; j++) {
@@ -84,49 +84,49 @@ void func_ov000_021ab7e8(Unk021ab728 *a, const u8 *b) {
         q = r + ((q << 21) | (q >> 11));
         i += 4;
     }
-    a->mUnk_00 += p;
-    a->mUnk_04 += q;
-    a->mUnk_08 += r;
-    a->mUnk_0c += s;
+    a->field0 += p;
+    a->field4 += q;
+    a->field8 += r;
+    a->fieldC += s;
 }
 
 void func_ov000_021ab7b4(Unk021ab728 *a) {
     MI_CpuFill8(a, 0, 0x58);
-    a->mUnk_00 = (0x67452301u);
-    a->mUnk_04 = (0xefcdab89u);
-    a->mUnk_08 = (0x98badcfeu);
-    a->mUnk_0c = (0x10325476u);
+    a->field0 = (0x67452301u);
+    a->field4 = (0xefcdab89u);
+    a->field8 = (0x98badcfeu);
+    a->fieldC = (0x10325476u);
 }
 
 void func_ov000_021ab728(void *f, const u8 *b, u32 c) {
     Unk021ab728 *a = f;
     u32 d;
     u32 e;
-    d = (a->mUnk_10 >> 3) & 0x3f;
-    a->mUnk_10 += c << 3;
-    if (a->mUnk_10 < (c << 3)) {
-        a->mUnk_14++;
+    d = (a->field10 >> 3) & 0x3f;
+    a->field10 += c << 3;
+    if (a->field10 < (c << 3)) {
+        a->field14++;
     }
-    a->mUnk_14 += c >> 29;
+    a->field14 += c >> 29;
     e = 64 - d;
     if (c >= e) {
-        MI_CpuCopy8(b, &a->mUnk_18[d], e);
+        MI_CpuCopy8(b, &a->field18[d], e);
         d = 0;
-        func_ov000_021ab7e8(a, a->mUnk_18);
+        func_ov000_021ab7e8(a, a->field18);
         for (; e + 63 < c; e += 64) {
             func_ov000_021ab7e8(a, b + e);
         }
     } else {
         e = 0;
     }
-    MI_CpuCopy8(b + e, &a->mUnk_18[d], c - e);
+    MI_CpuCopy8(b + e, &a->field18[d], c - e);
 }
 
 void func_ov000_021ab6d4(Unk021ab728 *a, u8 *b) {
     int v1;
     int v2;
-    func_ov000_021abc14((u32) b, (u32) &a->mUnk_10, 8);
-    v1 = a->mUnk_10 >> 3 & 0x3f;
+    func_ov000_021abc14((u32) b, (u32) &a->field10, 8);
+    v1 = a->field10 >> 3 & 0x3f;
     if (v1 < 0x38) {
         v2 = 0x38 - v1;
     } else {

@@ -43,14 +43,14 @@ void InitWiFiAikotoba(void *a) {
     switch (b) {
         case 1:
         case 11:
-            gWiFiAikotoba->mUnk_08 = 0;
+            gWiFiAikotoba->field8 = 0;
             break;
         case 9:
-            gWiFiAikotoba->mUnk_08 = 1;
+            gWiFiAikotoba->field8 = 1;
             break;
     }
     gWiFiAikotoba->mStateFrames = 0;
-    gWiFiAikotoba->mUnk_14 = TRUE;
+    gWiFiAikotoba->field14 = TRUE;
     LocateAndUploadWiFiAikotoba();
     for (i = 0; i < 2; i++) {
         jn_ui_setCellIsTranslucent(data_ov000_021b06c0[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer, gWiFiAikotoba->mWiFiAikotobaBncl);
@@ -181,19 +181,19 @@ next:
     e = gInputUnits[i].mPressedBits & PAD_KEY_A;
     if ((u16) e != 0 || a <= 1) {
         p = gWiFiAikotoba;
-        f = p->mUnk_08;
+        f = p->field8;
         if ((u16) e == 0) {
             switch (a) {
                 case 0:
-                    p->mUnk_08 = 0;
+                    p->field8 = 0;
                     break;
                 case 1:
-                    p->mUnk_08 = 1;
+                    p->field8 = 1;
                     break;
             }
         }
         gWiFiAikotoba->mNextState = 4;
-        switch (gWiFiAikotoba->mUnk_08) {
+        switch (gWiFiAikotoba->field8) {
             case 0:
                 gWiFiAikotoba->mPendingWiFiState = 11;
                 break;
@@ -201,19 +201,19 @@ next:
                 gWiFiAikotoba->mPendingWiFiState = 9;
                 break;
         }
-        if (gWiFiAikotoba->mUnk_08 == f) {
-            gWiFiAikotoba->mUnk_14 = FALSE;
+        if (gWiFiAikotoba->field8 == f) {
+            gWiFiAikotoba->field14 = FALSE;
         }
         sfx_2105AC0(5);
         return;
     }
-    if (mutil_checkKeys(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mUnk_08 > 0) {
-        gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 - 1;
+    if (mutil_checkKeys(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->field8 > 0) {
+        gWiFiAikotoba->field8 = gWiFiAikotoba->field8 - 1;
         sfx_2105AC0(0);
         return;
     }
-    if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mUnk_08 < 1) {
-        gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 + 1;
+    if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->field8 < 1) {
+        gWiFiAikotoba->field8 = gWiFiAikotoba->field8 + 1;
         sfx_2105AC0(0);
     }
 }
@@ -227,7 +227,7 @@ void AdvanceWiFiAikotobaState4(void) {
         }
         gWiFiAikotoba->mStateFrames = 0;
     } else if (gWiFiAikotoba->mStateFrames >= 5) {
-        gWiFiAikotoba->mUnk_14 = TRUE;
+        gWiFiAikotoba->field14 = TRUE;
     }
 }
 
@@ -294,7 +294,7 @@ void AdvanceWiFiAikotobaState7(void) {
             if (GetWiFiNextScene() == -1) {
                 SetWiFiNextScene(8);
             }
-            gStruct217B488->mUnk_50 = 1;
+            gStruct217B488->field50 = 1;
             return;
         }
         gWiFiAikotoba->mNextState = 1;
@@ -310,7 +310,7 @@ void func_ov000_02184c74(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        if (i == gWiFiAikotoba->mUnk_08 && gWiFiAikotoba->mUnk_14 != FALSE) {
+        if (i == gWiFiAikotoba->field8 && gWiFiAikotoba->field14 != FALSE) {
             gWiFiAikotoba->mWiFiAikotobaTable[data_ov000_021b06c4[i]].mVisible = 1;
             jn_ui_setCellCparam(data_ov000_021b06bc[i], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);

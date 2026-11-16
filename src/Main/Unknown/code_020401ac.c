@@ -14,15 +14,15 @@
 
 PointLink *mdat_getNextMgEnemyPointForWarpPipe(u32 key) {
     return &gMapData
-                ->mBattlePointLinks[gMapData->mKeyedPlacements[gMapData->mKeyedPlacementIndexByKey[key]].mUnk_18];
+                ->mBattlePointLinks[gMapData->mKeyedPlacements[gMapData->mKeyedPlacementIndexByKey[key]].field18];
 }
 
 s32 rstat_rotCompare(const UnkPair020b502c *first, const UnkPair020b502c *second) {
-    return ((s64) first->mUnk_00 * second->mUnk_00 + (s64) first->mUnk_04 * second->mUnk_04 + 0x800) >> 12;
+    return ((s64) first->field0 * second->field0 + (s64) first->field4 * second->field4 + 0x800) >> 12;
 }
 
 s64 rstat_getProgressByTrigPos(const UnkPair020b502c *first, const UnkPair020b502c *second) {
-    return ((s64) first->mUnk_00 * second->mUnk_00 + (s64) first->mUnk_04 * second->mUnk_04 + 0x800) >> 12;
+    return ((s64) first->field0 * second->field0 + (s64) first->field4 * second->field4 + 0x800) >> 12;
 }
 
 static inline s32 func_02040bc0_inline(s8 entryIndex) {
@@ -48,7 +48,7 @@ BOOL rstat_calcUncontrollableRaceDisplayMode(void) {
     switch (gRaceMultiConfig->mMode) {
         case MODE_MISSION_RUN:
             ended = FALSE;
-            switch (gRaceStatus->mUnk_000[(u16) entryIndex].mStatus) {
+            switch (gRaceStatus->field0[(u16) entryIndex].mStatus) {
                 case 1:
                 case 2:
                 case 3:
@@ -68,7 +68,7 @@ BOOL rstat_calcUncontrollableRaceDisplayMode(void) {
             return result;
         default:
             ended = FALSE;
-            switch (gRaceStatus->mUnk_000[(u16) entryIndex].mStatus) {
+            switch (gRaceStatus->field0[(u16) entryIndex].mStatus) {
                 case 1:
                 case 2:
                 case 3:
@@ -88,32 +88,32 @@ void rstat_calculateSkillRankPointsGp(RaceProgressScoreTerms *scoreTerms, s32 ka
     RaceProgressKart *raceProgressKart = &raceProgress->mKarts[kartIndex];
     RankTimeGp *rankTimeGpFile = raceProgress->mRankTimeGpFile;
 
-    if (raceProgress->mUnk_000[0].mRankTime == 0) {
-        scoreTerms->mUnk_00 = 0;
+    if (raceProgress->field0[0].mRankTime == 0) {
+        scoreTerms->field0 = 0;
     } else {
-        scoreTerms->mUnk_00 = (FX_Div(rankTimeGpFile->mUnk_0a * (raceProgress->mUnk_000[0].mRankTime -
-                                                                 raceProgress->mUnk_000[0].mElapsedFrames),
-                                      raceProgress->mUnk_000[0].mRankTime) +
+        scoreTerms->field0 = (FX_Div(rankTimeGpFile->fieldA * (raceProgress->field0[0].mRankTime -
+                                                                 raceProgress->field0[0].mElapsedFrames),
+                                      raceProgress->field0[0].mRankTime) +
                                0x800) >>
                               12;
     }
-    scoreTerms->mUnk_04 = (rankTimeGpFile->mUnk_0c * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
-                                                            gRaceStatus->mUnk_000[0].mRankTime << 12)) >>
+    scoreTerms->field4 = (rankTimeGpFile->fieldC * FX_Div(raceProgressKart->mFirstPlaceFrames << 12,
+                                                            gRaceStatus->field0[0].mRankTime << 12)) >>
                           12;
-    if (entryKartCounters->mUnk_00 != 0) {
-        scoreTerms->mUnk_08 = rankTimeGpFile->mUnk_0e;
+    if (entryKartCounters->field0 != 0) {
+        scoreTerms->field8 = rankTimeGpFile->fieldE;
     } else {
-        scoreTerms->mUnk_08 = 0;
+        scoreTerms->field8 = 0;
     }
-    scoreTerms->mUnk_0c = rankTimeGpFile->mUnk_10 * entryKartCounters->mUnk_04;
-    scoreTerms->mUnk_10 = rankTimeGpFile->mUnk_12 * entryKartCounters->mUnk_08;
-    scoreTerms->mUnk_14 = -((u32) (entryKartCounters->mUnk_0c * FX_Inv(rankTimeGpFile->mUnk_14 << 12)) >> 12);
-    scoreTerms->mUnk_18 = entryKartCounters->mUnk_10 * -rankTimeGpFile->mUnk_16;
-    scoreTerms->mUnk_1c = entryKartCounters->mUnk_14 * -rankTimeGpFile->mUnk_18;
-    scoreTerms->mUnk_20 = entryKartCounters->mUnk_18 * -rankTimeGpFile->mUnk_1a;
+    scoreTerms->fieldC = rankTimeGpFile->field10 * entryKartCounters->field4;
+    scoreTerms->field10 = rankTimeGpFile->field12 * entryKartCounters->field8;
+    scoreTerms->field14 = -((u32) (entryKartCounters->fieldC * FX_Inv(rankTimeGpFile->field14 << 12)) >> 12);
+    scoreTerms->field18 = entryKartCounters->field10 * -rankTimeGpFile->field16;
+    scoreTerms->field1C = entryKartCounters->field14 * -rankTimeGpFile->field18;
+    scoreTerms->field20 = entryKartCounters->field18 * -rankTimeGpFile->field1A;
 }
 
-// Sum of the nine score terms (also saved in gRaceStatus->mUnk_500), clamped to -9999..9999; 0 unless kart a is the
+// Sum of the nine score terms (also saved in gRaceStatus->field500), clamped to -9999..9999; 0 unless kart a is the
 // local entry in Grand Prix or Mission Run.
 s16 rstat_calculateSkillRankPoints(s32 kartIndex) {
     RaceProgressScoreTerms scoreTerms;
@@ -124,7 +124,7 @@ s16 rstat_calculateSkillRankPoints(s32 kartIndex) {
     s32 score;
     u8 *missionSettings;
 
-    if ((raceProgress->mUnk_000[kartIndex].mFlags & 1) == 0) {
+    if ((raceProgress->field0[kartIndex].mFlags & 1) == 0) {
         return 0;
     }
     raceSetup = gRaceMultiConfig;
@@ -135,27 +135,27 @@ s16 rstat_calculateSkillRankPoints(s32 kartIndex) {
         case MODE_MISSION_RUN:
             missionSettings = (u8 *) raceSetup + 0x28;
             entryKartCounters = driver_getPlayerStatistics();
-            scoreTerms.mUnk_00 = FX_Div(*(s16 *) (missionSettings + 4) * (*(u16 *) (missionSettings + 2) -
-                                                                          raceProgress->mUnk_000[0].mElapsedFrames)
+            scoreTerms.field0 = FX_Div(*(s16 *) (missionSettings + 4) * (*(u16 *) (missionSettings + 2) -
+                                                                          raceProgress->field0[0].mElapsedFrames)
                                             << 12,
                                         0x3e8000) >>
                                  12;
-            scoreTerms.mUnk_04 = 0;
-            scoreTerms.mUnk_08 = 0;
-            scoreTerms.mUnk_0c = 0;
-            scoreTerms.mUnk_10 = entryKartCounters->mUnk_08 * -5;
-            scoreTerms.mUnk_14 = 0;
-            scoreTerms.mUnk_18 = entryKartCounters->mUnk_10 * -5;
-            scoreTerms.mUnk_1c = entryKartCounters->mUnk_14 * -10;
-            scoreTerms.mUnk_20 = entryKartCounters->mUnk_18 * -20;
+            scoreTerms.field4 = 0;
+            scoreTerms.field8 = 0;
+            scoreTerms.fieldC = 0;
+            scoreTerms.field10 = entryKartCounters->field8 * -5;
+            scoreTerms.field14 = 0;
+            scoreTerms.field18 = entryKartCounters->field10 * -5;
+            scoreTerms.field1C = entryKartCounters->field14 * -10;
+            scoreTerms.field20 = entryKartCounters->field18 * -20;
             break;
         default:
             return 0;
     }
     *savedScoreTerms = scoreTerms;
-    score = savedScoreTerms->mUnk_00 + savedScoreTerms->mUnk_04 + savedScoreTerms->mUnk_08 + savedScoreTerms->mUnk_0c +
-            savedScoreTerms->mUnk_10 + savedScoreTerms->mUnk_14 + savedScoreTerms->mUnk_18 + savedScoreTerms->mUnk_1c +
-            savedScoreTerms->mUnk_20;
+    score = savedScoreTerms->field0 + savedScoreTerms->field4 + savedScoreTerms->field8 + savedScoreTerms->fieldC +
+            savedScoreTerms->field10 + savedScoreTerms->field14 + savedScoreTerms->field18 + savedScoreTerms->field1C +
+            savedScoreTerms->field20;
     if (score < -9999) {
         score = -9999;
     }
@@ -181,7 +181,7 @@ void rstat_initDriverStatus(RaceProgressKart *raceProgressKart, s32 kartIndex) {
         raceProgressKart->mCheckpoint = firstEntry + route->mEntryCount - 1;
     }
     raceProgressKart->mLapFrames = 0;
-    raceProgressKart->mUnk_08 = 0;
+    raceProgressKart->field8 = 0;
     raceProgressKart->mFinishTimeMs = 0;
     raceProgressKart->mHighestLap = 1;
     raceProgressKart->mLap = 0;
@@ -189,29 +189,29 @@ void rstat_initDriverStatus(RaceProgressKart *raceProgressKart, s32 kartIndex) {
     raceProgressKart->mFlags = 0;
     raceProgressKart->mInOrderCheckpointNumber = gMapData->mNumberedCheckpointCount - 1;
     raceProgressKart->mCheckpointNumber = gMapData->mNumberedCheckpointCount - 1;
-    raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf0) | (((u16) kartIndex & 0xf) << 4);
+    raceProgressKart->field3C = (raceProgressKart->field3C & ~0xf0) | (((u16) kartIndex & 0xf) << 4);
     raceProgressKart->mRaceProgress = 0;
     raceProgressKart->mLapProgress = 0;
     raceProgressKart->mScore = 0;
     raceProgressKart->mFirstPlaceFrames = 0;
     raceProgressKart->mCheckpointProgress = 0;
-    raceProgressKart->mUnk_3c = raceProgressKart->mUnk_3c & ~0x300;
+    raceProgressKart->field3C = raceProgressKart->field3C & ~0x300;
     lapTime = raceProgressKart->mLapTimes;
     for (i = 0; i < 5; i++) {
-        rstat_calculateTime(&lapTime->mUnk_02, &lapTime->mUnk_03, &lapTime->mUnk_00, 0,
-                        gRaceStatus->mUnk_000[0].mElapsedFrames);
+        rstat_calculateTime(&lapTime->field2, &lapTime->field3, &lapTime->field0, 0,
+                        gRaceStatus->field0[0].mElapsedFrames);
         lapTime++;
     }
-    rstat_calculateTime(&raceProgressKart->mLapTimes[5].mUnk_02, &raceProgressKart->mLapTimes[5].mUnk_03,
-                    &raceProgressKart->mLapTimes[5].mUnk_00, 0, gRaceStatus->mUnk_000[0].mElapsedFrames);
+    rstat_calculateTime(&raceProgressKart->mLapTimes[5].field2, &raceProgressKart->mLapTimes[5].field3,
+                    &raceProgressKart->mLapTimes[5].field0, 0, gRaceStatus->field0[0].mElapsedFrames);
     if (kartIndex == gRaceMultiConfig->mEntryIndex) {
         raceProgressKart->mFlags = raceProgressKart->mFlags | 1;
     }
-    raceProgressKart->mUnk_3c = (raceProgressKart->mUnk_3c & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
+    raceProgressKart->field3C = (raceProgressKart->field3C & ~0xf) | ((u16) (kartIndex + 1) & 0xf);
 }
 
 static inline u32 func_020401ac_inline(ConnectionWork *p) {
-    return p == NULL ? 0 : p->mUnk_0000;
+    return p == NULL ? 0 : p->field0;
 }
 
 static inline void func_020401ac_inline2(Unk0217561c_000 *q) {
@@ -220,7 +220,7 @@ static inline void func_020401ac_inline2(Unk0217561c_000 *q) {
 }
 
 static inline void func_020401ac_inline3(Unk0217aa1c_144_00 *time, u32 frames) {
-    rstat_calculateTime(&time->mUnk_02, &time->mUnk_03, &time->mUnk_00, 0, frames);
+    rstat_calculateTime(&time->field2, &time->field3, &time->field0, 0, frames);
 }
 
 static inline void func_020401ac_inline4(RandomState64 *randomState64, u32 seed) {
@@ -254,11 +254,11 @@ void rstat_init2(void) {
     CourseMapRoute *route;
     CourseMapCheckpoint *checkpoint;
 
-    func_020401ac_inline2(&gRaceStatus->mUnk_000[0]);
-    func_020401ac_inline3(&gRaceStatus->mUnk_000[0].mUnk_08_view, gRaceStatus->mUnk_000[0].mElapsedFrames);
+    func_020401ac_inline2(&gRaceStatus->field0[0]);
+    func_020401ac_inline3(&gRaceStatus->field0[0].mUnk_08_view, gRaceStatus->field0[0].mElapsedFrames);
     f = FALSE;
-    gRaceStatus->mUnk_000[0].mFinishedCount = 0;
-    gRaceStatus->mUnk_000[0].mRemovedCount = 0;
+    gRaceStatus->field0[0].mFinishedCount = 0;
+    gRaceStatus->field0[0].mRemovedCount = 0;
     gRaceStatus->mRaceDone = 0;
     switch (gRaceMultiConfig->mRaceKind) {
         case RACE_KIND_DEMO:
@@ -272,7 +272,7 @@ void rstat_init2(void) {
             }
             break;
     }
-    gRaceStatus->mUnk_4f0 = f;
+    gRaceStatus->field4F0 = f;
     gRaceStatus->mEntryEndKind = 6;
     gRaceStatus->mTimeCountsDown = FALSE;
     gRaceStatus->mTimeLimitFrameCount = 0;
@@ -298,7 +298,7 @@ void rstat_init2(void) {
     }
     switch (gRaceMultiConfig->mRaceKind) {
         case 2:
-            seed = gRaceMultiConfig->mUnk_05c;
+            seed = gRaceMultiConfig->field5C;
             break;
         case RACE_KIND_AWARD:
             seed = 0xc240793;
@@ -321,12 +321,12 @@ void rstat_init2(void) {
                     p = gStruct217AA00;
                     v = 0;
                     if (func_020401ac_inline(p) != 0) {
-                        if (p->mUnk_0004 != 0xd) {
+                        if (p->field4 != 0xd) {
                             v = 1;
                         }
                     }
                     if (v != 0) {
-                        seed = p->mUnk_1eb0;
+                        seed = p->field1EB0;
                     } else {
                         a = OS_GetTick();
                         seed = (a << 16) + OS_GetTick();
@@ -337,7 +337,7 @@ void rstat_init2(void) {
     }
     func_020401ac_inline4(&gRaceStatus->mRandom, seed);
     gRaceStatus->mSeed = seed;
-    gRaceMultiConfig->mNextHeader.mUnk_5c = seed;
+    gRaceMultiConfig->mNextHeader.field5C = seed;
     a = OS_GetTick();
     c = OS_GetTick();
     d = OS_GetTick();

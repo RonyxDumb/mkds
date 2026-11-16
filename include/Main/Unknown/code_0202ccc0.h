@@ -4,8 +4,8 @@
 
 // Argument of gsend_render: a halfword is set at 4.
 typedef struct Unk0202cdf4 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
 } Unk0202cdf4;
 
 void gsend_vblank(void);

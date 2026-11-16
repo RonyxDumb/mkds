@@ -6,9 +6,9 @@
 
 // Object of the list mobj_getLogicPartForObjectId(0x6b): the shared MapObject part, then three words.
 typedef struct Unk020a6cb4 {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject field0;
     /* a0 */ BOOL mHasShine;
-    /* a4 */ BOOL mUnk_a4;
+    /* a4 */ BOOL fieldA4;
     /* a8 */ s32 mShineStartFrames;
 } Unk020a6cb4;
 

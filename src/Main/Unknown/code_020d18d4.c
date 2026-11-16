@@ -61,10 +61,10 @@ void r2d_20D1DE8(RaceHudOamBuffer *oamBuffer, s32 startFrames) {
         gRaceMNumberPair->mMatrixIndex = oam_getAffineId(oamBuffer);
         matrix = gRaceMNumberPair->mCellMatrix;
         matrixOams = &oamBuffer->mOams[gRaceMNumberPair->mMatrixIndex * 4];
-        matrixOams[0].mUnk_00[3] = matrix[0] >> 4;
-        matrixOams[1].mUnk_00[3] = matrix[1] >> 4;
-        matrixOams[2].mUnk_00[3] = matrix[2] >> 4;
-        matrixOams[3].mUnk_00[3] = matrix[3] >> 4;
+        matrixOams[0].field0[3] = matrix[0] >> 4;
+        matrixOams[1].field0[3] = matrix[1] >> 4;
+        matrixOams[2].field0[3] = matrix[2] >> 4;
+        matrixOams[3].field0[3] = matrix[3] >> 4;
         gRaceMNumberPair->mCellMatrix[3] = gRaceMNumberPair->mScale;
         gRaceMNumberPair->mCellMatrix[0] = gRaceMNumberPair->mCellMatrix[3];
         gRaceMNumberPair->mCellMatrix[2] = 0;

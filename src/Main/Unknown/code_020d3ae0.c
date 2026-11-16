@@ -73,7 +73,7 @@ void mobj_updateCameraVectors(Unk020d4f94 *viewMatrix) {
     s32 buf[10];
 
     MTX_Transpose33_(viewMatrix, buf);
-    MTX_MultVec33(&viewMatrix->mUnk_24, buf, &gViewFrustum.mCameraPos);
+    MTX_MultVec33(&viewMatrix->field24, buf, &gViewFrustum.mCameraPos);
     gViewFrustum.mCameraPos.x = -gViewFrustum.mCameraPos.x;
     gViewFrustum.mCameraPos.y = -gViewFrustum.mCameraPos.y;
     gViewFrustum.mCameraPos.z = -gViewFrustum.mCameraPos.z;
@@ -83,10 +83,10 @@ void mobj_updateCameraVectors(Unk020d4f94 *viewMatrix) {
     gViewFrustum.mViewDirection.x = -buf[6];
     gViewFrustum.mViewDirection.y = -buf[7];
     gViewFrustum.mViewDirection.z = -buf[8];
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_20, buf, &gViewFrustum.mUnk_20);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_2c, buf, &gViewFrustum.mUnk_2c);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_38, buf, &gViewFrustum.mUnk_38);
-    MTX_MultVec33(&gViewFrustumBeforeRotation.mUnk_44, buf, &gViewFrustum.mUnk_44);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.field20, buf, &gViewFrustum.field20);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.field2C, buf, &gViewFrustum.field2C);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.field38, buf, &gViewFrustum.field38);
+    MTX_MultVec33(&gViewFrustumBeforeRotation.field44, buf, &gViewFrustum.field44);
     if (gViewFrustum.mViewTestRefreshRequested != FALSE) {
         gViewFrustum.mViewTestRefreshRequested = FALSE;
         gViewFrustum.mViewTestRefreshPending = TRUE;
@@ -151,8 +151,8 @@ BOOL mobj_isInaudible(MapObject *mapObject) {
         return TRUE;
     }
     cameraHeightAboveObject = gViewFrustum.mCameraPos.y - mapObject->mPos.y;
-    if (mapObject->mKindData->mUnk_3c < cameraHeightAboveObject &&
-        cameraHeightAboveObject < mapObject->mKindData->mUnk_38) {
+    if (mapObject->mKindData->field3C < cameraHeightAboveObject &&
+        cameraHeightAboveObject < mapObject->mKindData->field38) {
         return FALSE;
     }
     return TRUE;
@@ -169,7 +169,7 @@ BOOL mobj_calcInaudible(MapObject *mapObject, s32 distanceSquared) {
     }
     kindData = mapObject->mKindData;
     heightAboveCamera = (position->y - gViewFrustum.mCameraPos.y) >> 12;
-    if (heightAboveCamera < kindData->mUnk_3c || kindData->mUnk_38 < heightAboveCamera) {
+    if (heightAboveCamera < kindData->field3C || kindData->field38 < heightAboveCamera) {
         return TRUE;
     }
     return (driver_getClipAreaMask() & mapObject->mDigitMask) != 0;
@@ -191,11 +191,11 @@ void mobj_renderRenderPart(MapObjectList *list, MtxFx43 *viewMatrix) {
 
     forEachObject = list->mForEachObject;
     objectCount = list->mMapObjectCount;
-    objects = list->mUnk_24;
+    objects = list->field24;
     if (forEachObject == NULL) {
         return;
     }
-    if (list->mUnk_1c != NULL) {
+    if (list->field1C != NULL) {
         lastObject = NULL;
         for (i = 0; i < objectCount; i++) {
             mapObject = objects[i];
@@ -242,54 +242,54 @@ void mobj_setFrustum(s32 a, s32 b, s32 c, s32 d, s32 nearDistance, s32 farDistan
     gViewFrustumBeforeRotation.mFar = farDistance << 4;
     gViewFrustum.mFar = farDistance << 4;
 
-    gViewFrustumBeforeRotation.mUnk_20.x = nearDistance;
-    gViewFrustumBeforeRotation.mUnk_20.y = 0;
-    gViewFrustumBeforeRotation.mUnk_20.z = -c;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_20.z * gViewFrustumBeforeRotation.mUnk_20.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_20.x * gViewFrustumBeforeRotation.mUnk_20.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_20.y * gViewFrustumBeforeRotation.mUnk_20.y) >=
+    gViewFrustumBeforeRotation.field20.x = nearDistance;
+    gViewFrustumBeforeRotation.field20.y = 0;
+    gViewFrustumBeforeRotation.field20.z = -c;
+    if ((s64) gViewFrustumBeforeRotation.field20.z * gViewFrustumBeforeRotation.field20.z +
+            ((s64) gViewFrustumBeforeRotation.field20.x * gViewFrustumBeforeRotation.field20.x +
+             (s64) gViewFrustumBeforeRotation.field20.y * gViewFrustumBeforeRotation.field20.y) >=
         0x10) {
-        vec_normalize(&gViewFrustumBeforeRotation.mUnk_20, &gViewFrustumBeforeRotation.mUnk_20);
+        vec_normalize(&gViewFrustumBeforeRotation.field20, &gViewFrustumBeforeRotation.field20);
     }
     if (gRaceMultiConfig->mMirrorMode != 0) {
-        gViewFrustumBeforeRotation.mUnk_20.x = -gViewFrustumBeforeRotation.mUnk_20.x;
-        gViewFrustumBeforeRotation.mUnk_20.y = -gViewFrustumBeforeRotation.mUnk_20.y;
-        gViewFrustumBeforeRotation.mUnk_20.z = -gViewFrustumBeforeRotation.mUnk_20.z;
+        gViewFrustumBeforeRotation.field20.x = -gViewFrustumBeforeRotation.field20.x;
+        gViewFrustumBeforeRotation.field20.y = -gViewFrustumBeforeRotation.field20.y;
+        gViewFrustumBeforeRotation.field20.z = -gViewFrustumBeforeRotation.field20.z;
     }
 
-    gViewFrustumBeforeRotation.mUnk_2c.x = -nearDistance;
-    gViewFrustumBeforeRotation.mUnk_2c.y = 0;
-    gViewFrustumBeforeRotation.mUnk_2c.z = d;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_2c.z * gViewFrustumBeforeRotation.mUnk_2c.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_2c.x * gViewFrustumBeforeRotation.mUnk_2c.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_2c.y * gViewFrustumBeforeRotation.mUnk_2c.y) >=
+    gViewFrustumBeforeRotation.field2C.x = -nearDistance;
+    gViewFrustumBeforeRotation.field2C.y = 0;
+    gViewFrustumBeforeRotation.field2C.z = d;
+    if ((s64) gViewFrustumBeforeRotation.field2C.z * gViewFrustumBeforeRotation.field2C.z +
+            ((s64) gViewFrustumBeforeRotation.field2C.x * gViewFrustumBeforeRotation.field2C.x +
+             (s64) gViewFrustumBeforeRotation.field2C.y * gViewFrustumBeforeRotation.field2C.y) >=
         0x10) {
-        vec_normalize(&gViewFrustumBeforeRotation.mUnk_2c, &gViewFrustumBeforeRotation.mUnk_2c);
+        vec_normalize(&gViewFrustumBeforeRotation.field2C, &gViewFrustumBeforeRotation.field2C);
     }
     if (gRaceMultiConfig->mMirrorMode != 0) {
-        gViewFrustumBeforeRotation.mUnk_2c.x = -gViewFrustumBeforeRotation.mUnk_2c.x;
-        gViewFrustumBeforeRotation.mUnk_2c.y = -gViewFrustumBeforeRotation.mUnk_2c.y;
-        gViewFrustumBeforeRotation.mUnk_2c.z = -gViewFrustumBeforeRotation.mUnk_2c.z;
+        gViewFrustumBeforeRotation.field2C.x = -gViewFrustumBeforeRotation.field2C.x;
+        gViewFrustumBeforeRotation.field2C.y = -gViewFrustumBeforeRotation.field2C.y;
+        gViewFrustumBeforeRotation.field2C.z = -gViewFrustumBeforeRotation.field2C.z;
     }
 
-    gViewFrustumBeforeRotation.mUnk_38.x = 0;
-    gViewFrustumBeforeRotation.mUnk_38.y = -nearDistance;
-    gViewFrustumBeforeRotation.mUnk_38.z = a;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_38.z * gViewFrustumBeforeRotation.mUnk_38.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_38.x * gViewFrustumBeforeRotation.mUnk_38.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_38.y * gViewFrustumBeforeRotation.mUnk_38.y) >=
+    gViewFrustumBeforeRotation.field38.x = 0;
+    gViewFrustumBeforeRotation.field38.y = -nearDistance;
+    gViewFrustumBeforeRotation.field38.z = a;
+    if ((s64) gViewFrustumBeforeRotation.field38.z * gViewFrustumBeforeRotation.field38.z +
+            ((s64) gViewFrustumBeforeRotation.field38.x * gViewFrustumBeforeRotation.field38.x +
+             (s64) gViewFrustumBeforeRotation.field38.y * gViewFrustumBeforeRotation.field38.y) >=
         0x10) {
-        vec_normalize(&gViewFrustumBeforeRotation.mUnk_38, &gViewFrustumBeforeRotation.mUnk_38);
+        vec_normalize(&gViewFrustumBeforeRotation.field38, &gViewFrustumBeforeRotation.field38);
     }
 
-    gViewFrustumBeforeRotation.mUnk_44.x = 0;
-    gViewFrustumBeforeRotation.mUnk_44.y = nearDistance;
-    gViewFrustumBeforeRotation.mUnk_44.z = -b;
-    if ((s64) gViewFrustumBeforeRotation.mUnk_44.z * gViewFrustumBeforeRotation.mUnk_44.z +
-            ((s64) gViewFrustumBeforeRotation.mUnk_44.x * gViewFrustumBeforeRotation.mUnk_44.x +
-             (s64) gViewFrustumBeforeRotation.mUnk_44.y * gViewFrustumBeforeRotation.mUnk_44.y) >=
+    gViewFrustumBeforeRotation.field44.x = 0;
+    gViewFrustumBeforeRotation.field44.y = nearDistance;
+    gViewFrustumBeforeRotation.field44.z = -b;
+    if ((s64) gViewFrustumBeforeRotation.field44.z * gViewFrustumBeforeRotation.field44.z +
+            ((s64) gViewFrustumBeforeRotation.field44.x * gViewFrustumBeforeRotation.field44.x +
+             (s64) gViewFrustumBeforeRotation.field44.y * gViewFrustumBeforeRotation.field44.y) >=
         0x10) {
-        vec_normalize(&gViewFrustumBeforeRotation.mUnk_44, &gViewFrustumBeforeRotation.mUnk_44);
+        vec_normalize(&gViewFrustumBeforeRotation.field44, &gViewFrustumBeforeRotation.field44);
     }
 }
 #pragma thumb off
@@ -336,13 +336,13 @@ void mobj_renderPartSetThisPointer(void *listSlot) {
 void mobj_renderPartCreateAlphaSortList(MapObjectList *list) {
     s32 i;
 
-    if (list->mUnk_1c != NULL) {
-        list->mUnk_24 = heap_alloc(proc_getHeap(proc_getCurrent()), list->mMapObjectCount * 4);
+    if (list->field1C != NULL) {
+        list->field24 = heap_alloc(proc_getHeap(proc_getCurrent()), list->mMapObjectCount * 4);
         for (i = 0; i < list->mMapObjectCount; i++) {
-            list->mUnk_24[i] = list->mMapObjects[i];
+            list->field24[i] = list->mMapObjects[i];
         }
     } else {
-        list->mUnk_24 = list->mMapObjects;
+        list->field24 = list->mMapObjects;
     }
 }
 #pragma thumb off
@@ -524,8 +524,8 @@ void mobj_renderAll(Camera *view) {
         water_render(gMObjWaterState, viewMatrix);
     }
     i = 0;
-    firstPassCount = gMapObjState->mUnk_12a;
-    lists = gMapObjState->mUnk_068;
+    firstPassCount = gMapObjState->field12A;
+    lists = gMapObjState->field68;
     for (; i < firstPassCount; i++) {
         list = lists[i];
         light_applyDefault();
@@ -539,8 +539,8 @@ void mobj_renderAll(Camera *view) {
     }
     bbm_restoreCameraMtx();
     j = 0;
-    secondPassCount = gMapObjState->mUnk_12c;
-    lists = gMapObjState->mUnk_0c8;
+    secondPassCount = gMapObjState->field12C;
+    lists = gMapObjState->fieldC8;
     for (; j < secondPassCount; j++) {
         list = lists[j];
         if (list->mBeforeObjects != NULL) {
@@ -560,10 +560,10 @@ void mobj_renderDColObjects(Camera *view) {
     if (gMapObjState->mHasKoopaBlock != 0) {
         kblock_renderAll(viewMatrix);
     }
-    if (gMapObjState->mUnk_180 != 0) {
+    if (gMapObjState->field180 != 0) {
         rotcyl_renderAll(viewMatrix);
     }
-    if (gMapObjState->mUnk_184 != 0) {
+    if (gMapObjState->field184 != 0) {
         bridge_renderAll(viewMatrix);
     }
 }
@@ -581,7 +581,7 @@ s32 mobj_collideDriver(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     Vec3 *foundVector;
 
     centre = *position;
-    kartFlagSet = (kart->mUnk_48 & 0x8000000) != 0;
+    kartFlagSet = (kart->field48 & 0x8000000) != 0;
     radius = kart->mRadius;
     itemEffect = kart->mItemEffect;
     foundVector = mobj_sQueryPushbacks;
@@ -725,11 +725,11 @@ BOOL mobj_sphereCollide(Vec3 *position, s32 radius, MapObject *mapObject, Vec3 *
             col_collidePointSpheroid(position, &mapObject->mPos, combinedRadius, combinedHeight, overlapOffset);
             return TRUE;
         case 3:
-            return col_collideSphereCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return col_collideSphereCylinder(position, &mapObject->mPos, &mapObject->mMatrix.field0[0],
                                                      mapObject->mExtent.x, mapObject->mExtent.y, mapObject->mExtent.y,
                                                      radius, overlapOffset) != 0;
         case 4:
-            return col_collideSphereBox(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return col_collideSphereBox(position, &mapObject->mPos, &mapObject->mMatrix.field0[0],
                                                 &mapObject->mExtent, &mapObject->mExtent, radius, overlapOffset) != 0;
         case 0:
             return FALSE;
@@ -749,7 +749,7 @@ BOOL mobj_getHasWater(void) {
 }
 
 // y minus mHeight of gMObjWaterState (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
-// camera; it does not look at mUnk_170 or WaterEfct.
+// camera; it does not look at field170 or WaterEfct.
 s32 mobj_getWaterPlaneDistance2(s32 y) {
     return gMObjWaterState != NULL ? y - gMObjWaterState->mHeight : 0x270f000;
 }
@@ -770,17 +770,17 @@ u32 mobj_getHasDiveableWater(void) {
     if (gMObjWaterState == NULL) {
         return result;
     }
-    if (gMObjWaterState->mUnk_170 != 0) {
+    if (gMObjWaterState->field170 != 0) {
         result = 1;
     }
     return result;
 }
 
-// Y minus mHeight when the Water exists and mUnk_170 is non-zero (mini stage 3, beach), else y minus WaterEfct.mHeight,
+// Y minus mHeight when the Water exists and field170 is non-zero (mini stage 3, beach), else y minus WaterEfct.mHeight,
 // else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps, the kart sound and the
 // overlay-1 objects.
 s32 mobj_getWaterPlaneDistance1(s32 y) {
-    if (gMObjWaterState != NULL && gMObjWaterState->mUnk_170 != 0) {
+    if (gMObjWaterState != NULL && gMObjWaterState->field170 != 0) {
         return y - gMObjWaterState->mHeight;
     }
     return gMObjSplashState != NULL ? y - gMObjSplashState->mHeight : 0x270f000;
@@ -812,7 +812,7 @@ void mobj_executeAllThunderLogic(void) {
 }
 
 s32 mobj_collideAsItem(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
-    return mobj_collideAsItemDirect(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
+    return mobj_collideAsItemDirect(&mapObject->mPos, &mapObject->field10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
                          itemKind, hitOffset);
 }
 
@@ -897,7 +897,7 @@ void mobj_activateObjsAfterCountdown(void) {
 
 #pragma thumb on
 
-// Stores the mask of the nonzero decimal digits of a (bit d for digit d) in mUnk_74; a of 10000 or more first sets flag
+// Stores the mask of the nonzero decimal digits of a (bit d for digit d) in field74; a of 10000 or more first sets flag
 // 0x80 in mFlags and loses the 10000.
 void mobj_parseObjiFlags(s32 number, MapObject *mapObject) {
     int limit;

@@ -6,7 +6,7 @@
 #pragma thumb on
 void menu_gotoState(s32 screenNumber, s32 nextScreenNumber) {
     gMenuSceneState->mFramesSinceScreenSwitch = 0;
-    gMenuSceneState->mUnk_004 = 1;
+    gMenuSceneState->field4 = 1;
     gMenuSceneState->mPreviousScreenNumber = gMenuSceneState->mScreenNumber;
     gMenuSceneState->mScreenNumber = screenNumber;
     gMenuSceneState->mNextScreenNumber = nextScreenNumber;

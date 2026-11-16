@@ -16,7 +16,7 @@ typedef struct OptionStateCallbacks {
     /* 00 */ void (*mInit)(void *);
     /* 04 */ UnkFunc *mRelease;
     /* 08 */ UnkFunc *mAdvance;
-    /* 0c */ UnkFunc *mUnk_0c;
+    /* 0c */ UnkFunc *fieldC;
 } OptionStateCallbacks;
 
 extern const OptionStateCallbacks gOptionTopMenuCallbacks;
@@ -33,8 +33,8 @@ typedef struct OptionHensyuMenu {
     /* option state passed to RequestOptionState (0, 3, 5 or 6); no initial store, set by the input handler (state
        3); also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
-    /* 14 */ BOOL mUnk_14;
-    /* 18 */ void *mUnk_18;
+    /* 14 */ BOOL field14;
+    /* 18 */ void *field18;
     // one 0x40-byte record per cell of the Bncl member, built by jn_ui_initLayout
     /* 1c */ LayoutTableEntry *mOptionHensyuMenuSTable;
     /* 20 */ struct Unk02021dc8 *mOptionHensyuMenuSNcer;
@@ -51,10 +51,10 @@ typedef struct OptionStates {
     /* 08 */ s32 mState;
     /* 0c */ s32 mNextState;
     /* 10 */ s32 mPrevState;
-    /* 14 */ s16 mUnk_14;
-    /* 16 */ u8 mUnk_16[2];
+    /* 14 */ s16 field14;
+    /* 16 */ u8 field16[2];
     /* 18 */ OptionStateCallbacks mCallbacks;
-    /* 28 */ void *mUnk_28;
+    /* 28 */ void *field28;
 } OptionStates;
 
 typedef struct MissionRunData {
@@ -65,10 +65,10 @@ typedef struct MissionRunData {
     /* 0a */ u16 mPendingDrop;
     /* 0c */ u16 mPendingBossTransfer;
     /* 0e */ u16 mTimer;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u16 mUnk_12;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
+    /* 10 */ u16 field10;
+    /* 12 */ u16 field12;
+    /* 14 */ u16 field14;
+    /* 16 */ u16 field16;
     /* 18 */ UnkFunc *mCountUpCallback;
     /* 1c */ UnkFunc *mDropCallback;
     /* 20 */ UnkFunc *mBossTransferCallback;
@@ -89,7 +89,7 @@ typedef struct EmblemGrid {
     /* 0c */ BOOL mCopied;
     /* 10 */ s32 mChanged;
     /* 14 */ s32 mSwapped;
-    /* 18 */ u16 *mUnk_18;
+    /* 18 */ u16 *field18;
     /* 1c */ u8 *mBuffers[5];
 } EmblemGrid;
 
@@ -100,13 +100,13 @@ typedef struct SelectBattleStage {
     /* 0008 */ s32 mIndex;
     /* 000c */ s32 mStateFrames;
     /* 0010 */ s32 mOffsetTimer;
-    /* 0014 */ s32 mUnk_14;
-    /* 0018 */ s32 mUnk_18;
+    /* 0014 */ s32 field14;
+    /* 0018 */ s32 field18;
     /* 001c */ s32 mOffset;
-    /* 0020 */ BOOL mUnk_20;
+    /* 0020 */ BOOL field20;
     /* 0024 */ s32 mResult;
     /* 0028 */ s32 mPendingResult;
-    /* 002c */ BOOL mUnk_2c;
+    /* 002c */ BOOL field2C;
     /* 0030 */ u16 mSelectBattleStageMNscrCopy[64][32];
     /* 1030 */ void *mHeap;
     /* 1034 */ LayoutTableEntry *mSelectBattleStageTables[2];
@@ -119,15 +119,15 @@ typedef struct SelectBattleStage {
     /* 105c */ void *mSelectBattleStageBnbls[2];
     /* 1064 */ void *mSelectBattleStageBnlls[2];
     /* 106c */ Nscr *mSelectBattleStageMNscrs[3];
-    /* 1078 */ void *mUnk_1078;
-    /* 107c */ void *mUnk_107c;
+    /* 1078 */ void *field1078;
+    /* 107c */ void *field107C;
     /* 1080 */ struct Bmg *mMenuMessages;
     /* 1084 */ struct Bmg *mCommonMessages;
 } SelectBattleStage;
 
 // Object that test_init allocates and gTestScene points to.
 typedef struct TestScene {
-    /* 0000 */ s32 mUnk_0000;
+    /* 0000 */ s32 field0;
     /* 0004 */ s32 mState;
     /* 0008 */ s32 mStateChanged;
     /* 000c */ void *mFonts[3];
@@ -162,25 +162,25 @@ extern u16 gShadowScaleToggle;
 extern SelectBattleStage *gSelectBattleStage;
 // One pair of halfwords of the object behind gOptionEmbremSelect.
 typedef struct Unk021a9bfc_18 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
 } Unk021a9bfc_18;
 
 // Object behind gOptionEmbremSelect.
 typedef struct OptionEmbremSelect {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
     /* 14 */ s32 mStateFrames;
-    /* 18 */ Unk021a9bfc_18 mUnk_18[2];
+    /* 18 */ Unk021a9bfc_18 field18[2];
     /* 20 */ s32 mNextOptionState;
-    /* 24 */ BOOL mUnk_24;
-    // Set to 6 by a press; counts down to 0 only while mUnk_08 == 1. 6 - timer indexes a table through func_020adc64
+    /* 24 */ BOOL field24;
+    // Set to 6 by a press; counts down to 0 only while field8 == 1. 6 - timer indexes a table through func_020adc64
     // (a displacement that returns to 0); [0] is subtracted from a row member, [1] added to one.
     /* 28 */ s32 mOffsetTimers[2];
-    /* 30 */ void *mUnk_30;
+    /* 30 */ void *field30;
     /* 34 */ LayoutTableEntry *mOptionEmbremSelectSTable;
     /* 38 */ struct Unk02021dc8 *mOptionEmbremSelectSNcer;
     /* 3c */ Ncgr *mOptionEmbremSelectSNcgr;
@@ -230,15 +230,15 @@ typedef struct TimeAttackTopMenu {
     /* 08 */ void *mTimeAttackTopMenuSBnbl;
     // one 0x40-byte record per cell of the Bncl member, built by jn_ui_initLayout
     /* 0c */ LayoutTableEntry *mTimeAttackTopMenuSTable;
-    /* 10 */ void *mUnk_10;
+    /* 10 */ void *field10;
     /* 14 */ void *mHeap;
     /* 18 */ s32 mState;
     /* 1c */ s32 mNextState;
     /* 20 */ s32 mStateFrames; /* counted only in states 0, 1, 4, 5; zeroed by the next-state setter */
     /* 24 */ s32 mBg0Offset;
     /* 28 */ s32 mIndex;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ s32 mUnk_30;
+    /* 2c */ void *field2C;
+    /* 30 */ s32 field30;
     /* 34 */ s32 mResult;
 } TimeAttackTopMenu;
 

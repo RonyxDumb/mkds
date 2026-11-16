@@ -19,5 +19,5 @@ void func_ov001_02188da4(Unk02188950 *mapObject, UnkFunc *callback) {
     if (callback == NULL) {
         callback = (UnkFunc *) func_ov001_02188e88;
     }
-    mapObject->mUnk_230 = callback;
+    mapObject->field230 = callback;
 }

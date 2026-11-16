@@ -27,7 +27,7 @@ u32 MB_RegisterFile(void *rangeTable, Unk02008188 *source) {
         return 0;
     }
     for (i = 0; i < 0x10; i++) {
-        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->mUnk_1d40 == rangeTable) {
+        if ((OFFSET_PTR(Unk0216fdac, work, i * 0x5d4))->field1D40 == rangeTable) {
             OS_RestoreInterrupts(savedInterrupts);
             return 0;
         }
@@ -41,27 +41,27 @@ u32 MB_RegisterFile(void *rangeTable, Unk02008188 *source) {
         return 0;
     }
     entryOffset = entryIndex * 0x5d4;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d40 = rangeTable;
-    record = (Unk020082b4 *) (data_0216fdac->mUnk_1788 + entryOffset);
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D40 = rangeTable;
+    record = (Unk020082b4 *) (data_0216fdac->field1788 + entryOffset);
     MBi_MakeDownloadFileInfo(record, source);
-    MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mUnk_c4, 0x20);
-    if (MBi_MakeBlockInfoTable((ChunkTable *) (data_0216fdac->mUnk_1d2c + entryOffset), record) == 0) {
+    MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->fieldC4, 0x20);
+    if (MBi_MakeBlockInfoTable((ChunkTable *) (data_0216fdac->field1D2C + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
-    func_02009828((GameInfoEntry *) (data_0216fdac->mUnk_1788 + 0xe4 + entryOffset), rangeTable,
-                  (const u8 *) &data_0216fdac->mUnk_1300);
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d21 = entryIndex;
-    AppendGameInfoEntry((GameInfoEntry *) (data_0216fdac->mUnk_1788 + 0xe4 + entryOffset));
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d1f = data_0216fc30++;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d4e = 1;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d44 = source;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54 = &source->mUnk_1e8;
-    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d58 = source->mUnk_258;
-    if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54->mUnk_30[3].mUnk_0c != 0) {
+    func_02009828((GameInfoEntry *) (data_0216fdac->field1788 + 0xe4 + entryOffset), rangeTable,
+                  (const u8 *) &data_0216fdac->field1300);
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D21 = entryIndex;
+    AppendGameInfoEntry((GameInfoEntry *) (data_0216fdac->field1788 + 0xe4 + entryOffset));
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D1F = data_0216fc30++;
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D4E = 1;
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D44 = source;
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D54 = &source->field1E8;
+    (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D58 = source->field258;
+    if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->field1D54->field30[3].fieldC != 0) {
         if (CTRDGi_IsTaskAvailable() == 0) {
-            CTRDGi_InitTaskInfo(data_0216fdac->mUnk_7ce0);
-            CTRDGi_InitTaskThread(&data_0216fdac->mUnk_74e0, 0x800);
+            CTRDGi_InitTaskInfo(data_0216fdac->field7CE0);
+            CTRDGi_InitTaskThread(&data_0216fdac->field74E0, 0x800);
         }
     }
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mEntryUsed = 1;
@@ -77,17 +77,17 @@ void MBi_MakeDownloadFileInfo(Unk020082b4 *record, Unk02008188 *source) {
     Unk020082b4_0c *range;
     s32 i;
     nextAddress = 0x022c0000;
-    headerTail = source->mUnk_160;
-    record->mUnk_00 = source->mUnk_024;
-    record->mUnk_04 = source->mUnk_034;
-    range = record->mUnk_0c;
+    headerTail = source->field160;
+    record->field0 = source->field24;
+    record->field4 = source->field34;
+    range = record->fieldC;
     kinds = data_02152bc0;
     for (i = 0; i < 3; i++) {
         MBi_SetSegmentInfo(source, kinds, range, &nextAddress);
         range++;
         kinds++;
     }
-    MI_CpuCopy8(headerTail, record->mUnk_3c, 0x88);
+    MI_CpuCopy8(headerTail, record->field3C, 0x88);
 }
 
 void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u32 *nextAddress) {
@@ -97,13 +97,13 @@ void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *rang
     u32 end;
     switch (*kindWord) {
         case 0:
-            pair = source->mUnk_028;
-            if (source->mUnk_028[0] >= 0x02000000 && source->mUnk_028[0] < 0x022c0000 &&
-                source->mUnk_028[0] + pair[1] <= 0x022c0000) {
-                range->mUnk_08 = pair[1];
-                range->mUnk_04 = pair[0];
-                range->mUnk_00 = range->mUnk_04;
-                range->mUnk_0c &= ~1;
+            pair = source->field28;
+            if (source->field28[0] >= 0x02000000 && source->field28[0] < 0x022c0000 &&
+                source->field28[0] + pair[1] <= 0x022c0000) {
+                range->field8 = pair[1];
+                range->field4 = pair[0];
+                range->field0 = range->field4;
+                range->fieldC &= ~1;
                 return;
             }
             OS_Terminate();
@@ -111,9 +111,9 @@ void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *rang
         case 1:
             outOfBounds = 0;
             useNextAddress = 0;
-            pair = source->mUnk_038;
-            end = source->mUnk_038[0] + pair[1];
-            if (source->mUnk_038[0] >= 0x02000000 && source->mUnk_038[0] < 0x023fe800) {
+            pair = source->field38;
+            end = source->field38[0] + pair[1];
+            if (source->field38[0] >= 0x02000000 && source->field38[0] < 0x023fe800) {
                 if (end > 0x02300000) {
                     if (end < 0x023fe800 && pair[1] <= 0x40000) {
                         useNextAddress = 1;
@@ -121,7 +121,7 @@ void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *rang
                         outOfBounds = 1;
                     }
                 }
-            } else if (source->mUnk_038[0] >= 0x037f8000 && source->mUnk_038[0] < 0x0380f000) {
+            } else if (source->field38[0] >= 0x037f8000 && source->field38[0] < 0x0380f000) {
                 if (end <= 0x0380f000) {
                     useNextAddress = 1;
                 } else {
@@ -133,21 +133,21 @@ void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *rang
             if (outOfBounds == 1) {
                 OS_Terminate();
             }
-            range->mUnk_08 = pair[1];
-            range->mUnk_04 = pair[0];
+            range->field8 = pair[1];
+            range->field4 = pair[0];
             if (useNextAddress == 0) {
-                range->mUnk_00 = range->mUnk_04;
+                range->field0 = range->field4;
             } else {
-                range->mUnk_00 = *nextAddress;
-                *nextAddress = *nextAddress + range->mUnk_08;
+                range->field0 = *nextAddress;
+                *nextAddress = *nextAddress + range->field8;
             }
-            range->mUnk_0c = (range->mUnk_0c & ~1) | 1;
+            range->fieldC = (range->fieldC & ~1) | 1;
             return;
         case 2:
-            range->mUnk_08 = 0x160;
-            range->mUnk_04 = 0x027ffe00;
-            range->mUnk_00 = range->mUnk_04;
-            range->mUnk_0c &= ~1;
+            range->field8 = 0x160;
+            range->field4 = 0x027ffe00;
+            range->field0 = range->field4;
+            range->fieldC &= ~1;
             return;
     }
 }
@@ -162,26 +162,26 @@ u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, Unk020082b4 *record) {
     u8 i;
     Unk020082b4_0c *range;
     u16 *chunkStarts;
-    chunkStarts = chunkTable->mUnk_0c;
+    chunkStarts = chunkTable->fieldC;
     offset = 0;
     if (record == NULL) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
-        chunkTable->mUnk_00[i] = offset;
-        offset += record->mUnk_0c[i].mUnk_08;
+        chunkTable->field0[i] = offset;
+        offset += record->fieldC[i].field8;
     }
     chunkStarts[0] = 0;
     for (i = 0; i < 3; i++) {
-        range = &record->mUnk_0c[i];
-        nextChunk = chunkStarts[i] + (u16) ((range->mUnk_08 + data_0216fdac->mUnk_1318 - 1) / data_0216fdac->mUnk_1318);
-        if (IsAbleToLoad(i, range->mUnk_04, range->mUnk_08) == 0) {
+        range = &record->fieldC[i];
+        nextChunk = chunkStarts[i] + (u16) ((range->field8 + data_0216fdac->field1318 - 1) / data_0216fdac->field1318);
+        if (IsAbleToLoad(i, range->field4, range->field8) == 0) {
             return 0;
         }
         if (i < 2) {
             chunkStarts[i + 1] = nextChunk;
         } else {
-            chunkTable->mUnk_0c[3] = nextChunk;
+            chunkTable->fieldC[3] = nextChunk;
         }
     }
     return 1;
@@ -195,26 +195,26 @@ BOOL MBi_get_blockinfo(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     s8 i;
     chunkTable = b;
     record = d;
-    if (chunk >= chunkTable->mUnk_0c[3]) {
+    if (chunk >= chunkTable->fieldC[3]) {
         return FALSE;
     }
     for (i = 2; i >= 0; i--) {
-        if (chunk >= chunkTable->mUnk_0c[i]) {
+        if (chunk >= chunkTable->fieldC[i]) {
             break;
         }
     }
     if (i < 0) {
         return FALSE;
     }
-    offset = (chunk - chunkTable->mUnk_0c[i]) * func_0200806c_inline()->mUnk_1318;
-    range = &record->mUnk_0c[i];
-    result->mUnk_04 = range->mUnk_08 - offset;
-    if (result->mUnk_04 > data_0216fdac->mUnk_1318) {
-        result->mUnk_04 = data_0216fdac->mUnk_1318;
+    offset = (chunk - chunkTable->fieldC[i]) * func_0200806c_inline()->field1318;
+    range = &record->fieldC[i];
+    result->field4 = range->field8 - offset;
+    if (result->field4 > data_0216fdac->field1318) {
+        result->field4 = data_0216fdac->field1318;
     }
-    result->mUnk_08 = offset + chunkTable->mUnk_00[i];
-    result->mUnk_00 = offset + range->mUnk_00;
-    result->mUnk_0c = i;
+    result->field8 = offset + chunkTable->field0[i];
+    result->field0 = offset + range->field0;
+    result->fieldC = i;
     return TRUE;
 }
 
@@ -282,12 +282,12 @@ void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e) {
     u32 v2;
     u16 *p = (u16 *) 0x027ffc40;
     MI_CpuCopy8(*p == 2 ? (void *) (p + 1) : (void *) 0, record, 0x3c);
-    record->mUnk_3c = 0x10;
-    record->mUnk_44 = record->mUnk_0c | (record->mUnk_0e << 16);
-    record->mUnk_48 = record->mUnk_10;
-    record->mUnk_4a = 0;
-    record->mUnk_4c = b;
-    record->mUnk_4e = c;
+    record->field3C = 0x10;
+    record->field44 = record->fieldC | (record->fieldE << 16);
+    record->field48 = record->field10;
+    record->field4A = 0;
+    record->field4C = b;
+    record->field4E = c;
     v1 = 0;
     if (e != 0) {
         v1 = 8;
@@ -297,7 +297,7 @@ void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e) {
     } else {
         v2 = 0;
     }
-    record->mUnk_4b = v2 | v1 | 1;
+    record->field4B = v2 | v1 | 1;
 }
 
 #pragma thumb off

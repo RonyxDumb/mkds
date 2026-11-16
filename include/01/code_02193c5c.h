@@ -16,10 +16,10 @@ typedef struct OptionTopMenu {
     /* option state passed to RequestOptionState (1, 2 or 4); no initial store, set by the input handler (state 3,
        also state 9), not set for entry 2 (dialog path); also tested inside the screen */
     /* 10 */ s32 mNextOptionState;
-    /* 14 */ BOOL mUnk_14;
+    /* 14 */ BOOL field14;
     /* stored to reg_G2_BG0OFS without negation (the other mBg0Offset members are stored negated) */
     /* 18 */ s32 mBg0Offset;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ void *field1C;
     // one 0x40-byte record per cell of the Bncl member, built by jn_ui_initLayout
     /* 20 */ LayoutTableEntry *mOptionTopMenuSTable;
     /* 24 */ struct Unk02021dc8 *mOptionTopMenuSNcer;
@@ -33,8 +33,8 @@ typedef struct OptionTopMenu {
 
 // Object behind RecordGpx.mPlayerCharacterMONclr.
 typedef struct Unk021a9bd8_40 {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u8 *mUnk_0c;
+    /* 00 */ u8 field0[0xc];
+    /* 0c */ u8 *fieldC;
 } Unk021a9bd8_40;
 
 // Object behind gRecordGpx.
@@ -42,7 +42,7 @@ typedef struct RecordGpx {
     /* 00 */ Ncgr *mRecordGpxMNcgr;
     /* 04 */ struct Unk02021dc8 *mRecordGpxMNcer;
     /* 08 */ Unk0201ea30 *mRecordGpxMBncl;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ u8 fieldC[4];
     /* 10 */ Unk0201ea30 *mRecordGpxMBnll;
     /* 14 */ Ncgr *mRecordGpxSNcgr;
     /* 18 */ struct Unk02021dc8 *mRecordGpxSNcer;
@@ -68,18 +68,18 @@ typedef struct RecordGpx {
     /* 68 */ s32 mStateFrames;
     // The register receives the negation of this value in its upper half-word.
     /* 6c */ s32 mBg0Offset;
-    // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; the Y half is mUnk_74 (also the y
+    // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; the Y half is field74 (also the y
     // of the S cells)
     /* 70 */ s32 mBg3OffsetX;
     /* 74 */ s32 mBg3OffsetY;
     /* 78 */ s32 mIndex;
-    /* 7c */ s32 mUnk_7c;
+    /* 7c */ s32 field7C;
     // Set to 6, counted down while above 0; the row member is set to -func_020adc64(6 - timer) for [0] and
     // +func_020adc64(6 - timer) for [1] (stored, not added).
     /* 80 */ s32 mOffsetTimers[2];
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 88 */ BOOL field88;
+    /* 8c */ BOOL field8C;
+    /* 90 */ s32 field90;
 } RecordGpx;
 
 extern u8 data_ov001_021a65f0[][4];

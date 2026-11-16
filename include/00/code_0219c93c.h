@@ -19,14 +19,14 @@ typedef struct WiFiLogin {
     // Game id 0x4d6 (InitWiFiConnection's fourth parameter): given to GpInitialize, which stores it as
     // GpiConnection.mProductId (code_0218f848.c:31) and writes it after '\productid\' (code_02190ff8.c:261).
     /* 08 */ u32 mProductId;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
     // Set by InitWiFiLogin (WiFiLoginCallback). Called with (error kind, 0, arg) by ReportWiFiLoginError and with (0,
     // profile id, arg) when state 2 succeeds.
     /* 18 */ void (*mResultCallback)();
     /* 1c */ void *mResultCallbackArg;
-    /* 20 */ DWCAccUserData *mUnk_20;
+    /* 20 */ DWCAccUserData *field20;
     /* 24 */ u8 pad_24[4];
     // Http (0x1a60 bytes; declared void *) of the running request: made by StartWiFiLoginRequest, freed when the reply
     // or an error ends the request and by ReleaseWiFiLogin.
@@ -40,18 +40,18 @@ typedef struct WiFiLogin {
     /* 34 */ BOOL mConnectPending;
     // OS_GetTick reading when the GP connect started; (ticks << 6) / 0x82ea is ms, limit 60000 ms (UpdateWiFiLogin).
     /* 38 */ u64 mConnectStartTime;
-    /* 40 */ DWCAccFriendData mUnk_40;
+    /* 40 */ DWCAccFriendData field40;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which
     // GpiWriteLogin writes after '\authtoken\' (code_02190ff8.c:233-234); also passed to StartBuddySync (stats login).
-    // The reply's second string (mUnk_14c) is the password substitute the library hashes (code_02190ff8.c:206-211), not
+    // The reply's second string (field14C) is the password substitute the library hashes (code_02190ff8.c:206-211), not
     // the library's '\challenge\' (a random string the library makes, :204, :229-230).
     /* 4c */ char mAuthToken[0x100];
     // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: GpiStartConnect copies it to
-    // q->mUnk_1c2 and GpiWriteLogin hashes it where it would hash the password (code_02190ff8.c:206-211). Not the
+    // q->field1C2 and GpiWriteLogin hashes it where it would hash the password (code_02190ff8.c:206-211). Not the
     // library's \challenge\ value.
-    /* 14c */ char mUnk_14c[0x100];
-    /* 24c */ char mUnk_24c[9];
-    /* 255 */ char mUnk_255[0xf];
+    /* 14c */ char field14C[0x100];
+    /* 24c */ char field24C[9];
+    /* 255 */ char field255[0xf];
 } WiFiLogin;
 
 // Points at WiFiConnection.mLogin: set by InitWiFiLogin (once per login), set to 0 by ReleaseWiFiLogin.

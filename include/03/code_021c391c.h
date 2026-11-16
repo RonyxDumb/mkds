@@ -6,11 +6,11 @@ typedef struct OamEntry OamEntry;
 typedef struct Rect Rect;
 
 typedef struct Unk021d70f8 {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 field0[0x16];
 } Unk021d70f8;
 
 typedef struct Unk021d7110 {
-    /* 00 */ u8 mUnk_00[0x17];
+    /* 00 */ u8 field0[0x17];
 } Unk021d7110;
 
 extern u8 data_ov003_021d6348[];

@@ -8,17 +8,17 @@
 // Object of wwchn_init: a vector at 0x04, a vector at 0x1c, a word at 0x68, the Wanwan it was set up from at
 // 0xa0, an WanwanChain at 0xa4 and a word at 0xf4.
 typedef struct WanwanChainObject {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
     /* 04 */ Vec3 mPos;
-    /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ Vec3 mUnk_1c;
-    /* 28 */ u8 mUnk_28[0x40];
-    /* 68 */ s32 mUnk_68;
-    /* 6c */ u8 mUnk_6c[0x34];
+    /* 10 */ u8 field10[0xc];
+    /* 1c */ Vec3 field1C;
+    /* 28 */ u8 field28[0x40];
+    /* 68 */ s32 field68;
+    /* 6c */ u8 field6C[0x34];
     /* a0 */ Wanwan *mWanwan;
     /* a4 */ WanwanChain mChain;
-    /* f0 */ u8 mUnk_f0[4];
+    /* f0 */ u8 fieldF0[4];
     /* f4 */ BOOL mHasKui;
 } WanwanChainObject;
 

@@ -8,38 +8,38 @@ typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ EntryRecord *mEntry;
     /* 08 */ u8 *mScanBuffer;
-    /* 0c */ u32 mUnk_0c;
+    /* 0c */ u32 fieldC;
 } ScanEntryArgs;
 
 // Block the callback behind mScanCallback receives from MBFi_ScanErrorCallback.
 typedef struct ScanErrorArgs {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
 } ScanErrorArgs;
 
 #include "code_02142eac.h"
 
 typedef struct ScanConnectWork {
-    /* 0000 */ u8 mUnk_0000[0x20];
+    /* 0000 */ u8 field0[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
     /* 04a0 */ u8 mMessageBuffer[0x20];
     /* 04c0 */ u8 mScanBuffer[0xc0];
     /* 0580 */ Unk02143a78 mScanParams;
-    /* 0590 */ u8 mUnk_0590[0x10];
+    /* 0590 */ u8 field590[0x10];
     /* 05a0 */ u8 mMPLink[0x24];
-    /* 05c4 */ u8 mUnk_05c4[0x18];
+    /* 05c4 */ u8 field5C4[0x18];
     /* 05dc */ void (*mScanCallback)(u32, void *);
     /* 05e0 */ void (*mStateCallback)(u32, void *);
-    /* 05e4 */ u32 mUnk_05e4;
-    /* 05e8 */ u8 mUnk_05e8[0x5ee - 0x5e8];
-    /* 05ee */ u16 mUnk_05ee;
-    /* 05f0 */ u8 mUnk_05f0[0x5ef8 - 0x5f0];
+    /* 05e4 */ u32 field5E4;
+    /* 05e8 */ u8 field5E8[0x5ee - 0x5e8];
+    /* 05ee */ u16 field5EE;
+    /* 05f0 */ u8 field5F0[0x5ef8 - 0x5f0];
     /* 5ef8 */ u32 mRepeatScan;
     /* 5efc */ u32 mEndScanRequested;
     /* 5f00 */ u32 mUseScanBssid;
     /* 5f04 */ u32 mEndRequested;
-    /* 5f08 */ u32 mUnk_5f08;
-    /* 5f0c */ u16 mUnk_5f0c;
+    /* 5f08 */ u32 field5F08;
+    /* 5f0c */ u16 field5F0C;
     /* 5f0e */ u16 mState;
 } ScanConnectWork;
 
@@ -47,19 +47,19 @@ typedef struct MPLink {
     /* 00 */ UnkFunc *mCallback;
     /* 04 */ void *mSendBuffer;
     /* 08 */ u8 *mReceiveBuffer;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ u8 fieldC[4];
     /* 10 */ u16 mSendBufferSize;
     /* 12 */ u16 mReceiveBufferSize;
-    /* 14 */ u16 mUnk_14;
-    /* 16 */ u16 mUnk_16;
-    /* 18 */ u16 mUnk_18;
+    /* 14 */ u16 field14;
+    /* 16 */ u16 field16;
+    /* 18 */ u16 field18;
     /* 1a */ u16 mMPStarted;
     /* 1c */ u16 mResetting;
-    /* 1e */ u16 mUnk_1e;
+    /* 1e */ u16 field1E;
     /* 20 */ u16 mDataQueued;
 } MPLink;
 
-// Two halfwords that are passed on to the function at mUnk_00 of an MPLink.
+// Two halfwords that are passed on to the function at field0 of an MPLink.
 typedef struct CommandResult {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;

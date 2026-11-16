@@ -8,17 +8,17 @@ typedef struct StadiumEmitters {
     /* 00 */ Vec3 mDirections[6];
     /* 48 */ Unk0201ca6c *mEmitters[6];
     /* 60 */ s16 mEmitterTimer;
-    /* 62 */ u8 mUnk_62[2];
+    /* 62 */ u8 field62[2];
 } StadiumEmitters;
 
 // Two halfwords at data_021660f8.
 typedef struct Unk021660f8 {
-    s16 mUnk_00[2];
+    s16 field0[2];
 } Unk021660f8;
 
 // Twenty-four halfwords at data_02166108.
 typedef struct Unk02166108 {
-    s16 mUnk_00[24];
+    s16 field0[24];
 } Unk02166108;
 
 // Function stored at ptcm_sGetParticleSetByIdFunc: writes a word to the first argument and returns the object.

@@ -43,7 +43,7 @@ void CreateEmblemGrid(s32 side, s32 scrSide, s32 tableCount) {
     gEmblemGrid->mScrSide = scrSide;
     gEmblemGrid->mTableCount = tableCount;
     heap = proc_getHeap(proc_getCurrent());
-    gEmblemGrid->mUnk_18 = heap_allocEx(heap, gEmblemGrid->mTableCount * 2, 0x20);
+    gEmblemGrid->field18 = heap_allocEx(heap, gEmblemGrid->mTableCount * 2, 0x20);
     heap = proc_getHeap(proc_getCurrent());
     gEmblemGrid->mBuffers[0] = heap_allocEx(heap, gEmblemGrid->mScrSide / 8 * (gEmblemGrid->mScrSide / 8), 0x20);
     MI_CpuFill8(gEmblemGrid->mBuffers[0], gEmblemGrid->mSide / 8 * gEmblemGrid->mSide / 8,

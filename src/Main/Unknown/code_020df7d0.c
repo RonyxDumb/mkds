@@ -7,25 +7,25 @@
 #include "Main/Unknown/code_020df85c.h"
 
 void efbub_waitStateInit(MapObjectFlagsView *bubble) {
-    bubble->mUnk_02 |= data_0215877c;
-    bubble->mUnk_02 |= data_02158780;
+    bubble->field2 |= data_0215877c;
+    bubble->field2 |= data_02158780;
 }
 
 void efbub_waitStateUpdate(MkdEfBubbleObject *bubble) {
-    if (bubble->mUnk_00.mStateMachine.mStateFrames >= bubble->mUnk_a0) {
-        bubble->mUnk_00.mStateMachine.mNextState = 0;
-        bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (bubble->field0.mStateMachine.mStateFrames >= bubble->fieldA0) {
+        bubble->field0.mStateMachine.mNextState = 0;
+        bubble->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 u8 efbub_onDriverCollide(MkdEfBubbleObject *bubble, Unk020dea50_1 *kart, void *unused, u8 *d) {
     u32 kartBit;
 
-    kartBit = (1 << kart->mUnk_74) & 0xff;
-    if ((bubble->mUnk_e4 & kartBit) == 0) {
-        if (mobj_tryDestroyByDriver(&bubble->mUnk_00, (Kart *) kart) != 0) {
-            bubble->mUnk_00.mDistanceSquaredAndFlags |= data_02158778;
-            bubble->mUnk_e4 |= kartBit;
+    kartBit = (1 << kart->field74) & 0xff;
+    if ((bubble->fieldE4 & kartBit) == 0) {
+        if (mobj_tryDestroyByDriver(&bubble->field0, (Kart *) kart) != 0) {
+            bubble->field0.mDistanceSquaredAndFlags |= data_02158778;
+            bubble->fieldE4 |= kartBit;
         }
     }
     return *d;

@@ -8,7 +8,7 @@
 typedef struct RaceNclrNcgr {
     /* 00 */ Nclr *mNclr;
     /* 04 */ Ncgr *mNcgr;
-    /* 08 */ u8 mUnk_08[8];
+    /* 08 */ u8 field8[8];
 } RaceNclrNcgr;
 
 // 0x88c bytes, allocated by InitRaceNcerNclrNcgrTables; the pointer to it is held in gRaceNcerNclrNcgrTables.

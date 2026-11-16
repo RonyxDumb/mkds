@@ -11,69 +11,69 @@
 // 0xc0-byte record: the first 0x3c bytes are taken from 0x027ffc42 when the halfword at 0x027ffc40 is 2 (or from
 // address 0); the halfwords at 0x4c and 0x4e and the bytes from 0x4a are set by func_02007ec4 and MB_FakeReadParentBssDesc.
 typedef struct ScanBlock {
-    /* 00 */ u8 mUnk_00[0xc];
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u8 mUnk_12[0x2a];
-    /* 3c */ u16 mUnk_3c;
-    /* 3e */ u8 mUnk_3e[2];
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u8 mUnk_42[2];
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u16 mUnk_48;
-    /* 4a */ u8 mUnk_4a;
-    /* 4b */ u8 mUnk_4b;
-    /* 4c */ u16 mUnk_4c;
-    /* 4e */ u16 mUnk_4e;
-    /* 50 */ u8 mUnk_50[0x70];
+    /* 00 */ u8 field0[0xc];
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
+    /* 10 */ u16 field10;
+    /* 12 */ u8 field12[0x2a];
+    /* 3c */ u16 field3C;
+    /* 3e */ u8 field3E[2];
+    /* 40 */ u16 field40;
+    /* 42 */ u8 field42[2];
+    /* 44 */ u32 field44;
+    /* 48 */ u16 field48;
+    /* 4a */ u8 field4A;
+    /* 4b */ u8 field4B;
+    /* 4c */ u16 field4C;
+    /* 4e */ u16 field4E;
+    /* 50 */ u8 field50[0x70];
 } ScanBlock;
 
 // Filled by MBi_get_blockinfo.
 typedef struct Unk020072c0_buf {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c;
-    /* 0d */ u8 mUnk_0d[3];
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u8 fieldC;
+    /* 0d */ u8 fieldD[3];
 } Unk020072c0_buf;
 
 // 0x14 bytes at 0x1d2c of an entry of Unk0216fdac: three words, then four halfwords.
 typedef struct ChunkTable {
-    /* 00 */ u32 mUnk_00[3];
-    /* 0c */ u16 mUnk_0c[4];
+    /* 00 */ u32 field0[3];
+    /* 0c */ u16 fieldC[4];
 } ChunkTable;
 
 // 0x10-byte entry of Unk020082b4.
 typedef struct Unk020082b4_0c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
 } Unk020082b4_0c;
 
 // 0xe4-byte object that MBi_MakeDownloadFileInfo sets up at 0x1788 of an entry of Unk0216fdac.
 typedef struct Unk020082b4 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u8 mUnk_08[4];
-    /* 0c */ Unk020082b4_0c mUnk_0c[3];
-    /* 3c */ u8 mUnk_3c[0x88];
-    /* c4 */ u8 mUnk_c4[0x20];
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u8 field8[4];
+    /* 0c */ Unk020082b4_0c fieldC[3];
+    /* 3c */ u8 field3C[0x88];
+    /* c4 */ u8 fieldC4[0x20];
 } Unk020082b4;
 
 // Object MB_RegisterFile and MBi_MakeDownloadFileInfo read; the DataRangeTable at 0x1e8 and the words at 0x258 go to the entry.
 typedef struct Unk02008188 {
-    /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ u32 mUnk_024;
-    /* 028 */ u32 mUnk_028[2];
-    /* 030 */ u8 mUnk_030[4];
-    /* 034 */ u32 mUnk_034;
-    /* 038 */ u32 mUnk_038[2];
-    /* 040 */ u8 mUnk_040[0x120];
-    /* 160 */ u8 mUnk_160[0x88];
-    /* 1e8 */ DataRangeTable mUnk_1e8;
-    /* 258 */ u32 mUnk_258[1];
+    /* 000 */ u8 field0[0x24];
+    /* 024 */ u32 field24;
+    /* 028 */ u32 field28[2];
+    /* 030 */ u8 field30[4];
+    /* 034 */ u32 field34;
+    /* 038 */ u32 field38[2];
+    /* 040 */ u8 field40[0x120];
+    /* 160 */ u8 field160[0x88];
+    /* 1e8 */ DataRangeTable field1E8;
+    /* 258 */ u32 field258[1];
 } Unk02008188;
 
 void func_02007ec4(ScanBlock *record, u16 b, u16 c, u32 d, u32 e);

@@ -7,15 +7,15 @@
 void struct217B488_reset(void) {
     struct217B488_MI_CpuClearFast(gStruct217B488, 0x130);
     gStruct217B488->mTitleBlendDone = 0;
-    gStruct217B488->mUnk_04 = 0;
-    gStruct217B488->mUnk_08 = 0;
+    gStruct217B488->field4 = 0;
+    gStruct217B488->field8 = 0;
     gStruct217B488->mGhostSceneInitialCallbacksIndex = 0;
-    gStruct217B488->mUnk_10 = 0;
-    gStruct217B488->mUnk_14 = 0;
-    gStruct217B488->mUnk_1c = 0;
-    gStruct217B488->mUnk_54 = 0;
-    gStruct217B488->mUnk_58 = FALSE;
-    gStruct217B488->mUnk_70 = 0;
+    gStruct217B488->field10 = 0;
+    gStruct217B488->field14 = 0;
+    gStruct217B488->field1C = 0;
+    gStruct217B488->field54 = 0;
+    gStruct217B488->field58 = FALSE;
+    gStruct217B488->field70 = 0;
 }
 
 #pragma thumb off

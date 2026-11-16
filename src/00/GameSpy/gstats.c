@@ -211,8 +211,8 @@ void func_ov000_02197594(s32 a, s32 b, s32 c, UnkFunc *d, s32 e) {
     s8 g[0x100];
     s32 h;
     data_ov000_021b3b30 = data_ov000_021b3b98;
-    func_ov000_021971ec(f.mUnk_00, 0x23);
-    h = sprintf((char *) g, (const char *) f.mUnk_00, b, c, a);
+    func_ov000_021971ec(f.field0, 0x23);
+    h = sprintf((char *) g, (const char *) f.field0, b, c, a);
     func_ov000_02196f8c(g, h, a, d, e);
 }
 

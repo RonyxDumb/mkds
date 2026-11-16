@@ -17,7 +17,7 @@ s32 echoi_moveCursor(s32 step) {
     if (echoi_sState->mShown != 0) {
         choisesCount = echoi_sState->mChoisesCount;
         if (step != 0) {
-            echoi_sState->mUnk_24 = 0;
+            echoi_sState->field24 = 0;
             sfx_2105AC0(0);
         }
         echoi_sState->mChoisesIndex = (previousIndex + step + choisesCount) % choisesCount;
@@ -53,7 +53,7 @@ s32 echoi_handleTouch(void) {
                     echoi_sState->mChoisesIndex = j;
                     echoi_moveCursor(zeroStep);
                 } else {
-                    echoi_sState->mUnk_10 = TRUE;
+                    echoi_sState->field10 = TRUE;
                 }
                 switch (echoi_sState->mChoisesIndex) {
                     case 0:
@@ -76,10 +76,10 @@ s32 echoi_handleTouch(void) {
 void echoi_resetSelectedOption(void) {
     echoi_sState->mResult = -1;
     echoi_sState->mChoisesIndex = 0;
-    echoi_sState->mUnk_24 = 0;
-    echoi_sState->mUnk_10 = FALSE;
-    echoi_sState->mUnk_14 = 0;
-    echoi_sState->mUnk_18 = 0;
+    echoi_sState->field24 = 0;
+    echoi_sState->field10 = FALSE;
+    echoi_sState->field14 = 0;
+    echoi_sState->field18 = 0;
 }
 
 void echoi_renderOptionBar(u16 *mapData, s32 column, s32 row) {
@@ -112,9 +112,9 @@ void echoi_renderSelection(s32 choiceIndex) {
     choisesCount = emblemChoises->mChoisesCount;
     mapData = emblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
-        if (emblemChoises->mUnk_10 == FALSE || emblemChoises->mUnk_14 >= 5) {
+        if (emblemChoises->field10 == FALSE || emblemChoises->field14 >= 5) {
             firstRow = 13 - choisesCount * 2 + choiceIndex * 4;
-            if (emblemChoises->mUnk_24 < 0x1e) {
+            if (emblemChoises->field24 < 0x1e) {
                 m2d_setCharMapCharName2d(mapData, 2, firstRow, 1, 1, 0x21);
                 m2d_setCharMapCharName2d(mapData, 2, firstRow + 1, 1, 1, 0x41);
             }

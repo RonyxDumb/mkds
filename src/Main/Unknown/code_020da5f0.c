@@ -35,30 +35,30 @@
 #include "Main/Unknown/code_020daf0c.h"
 
 void kuribo_routeIdleStateInit(Kuribo *kuribo) {
-    kuribo->mUnk_c4 = 0x1000u;
-    kuribo->mUnk_c8 = 0x0u;
+    kuribo->fieldC4 = 0x1000u;
+    kuribo->fieldC8 = 0x0u;
 }
 
 void kuribo_routeIdleStateUpdate(Kuribo *kuribo) {
-    if (kuribo->mUnk_f0 >= 0xa && (kuribo->mUnk_f0 < 0x14 || kuribo->mUnk_f0 >= 0x1e)) {
-        pw_update(&kuribo->mUnk_cc);
+    if (kuribo->fieldF0 >= 0xa && (kuribo->fieldF0 < 0x14 || kuribo->fieldF0 >= 0x1e)) {
+        pw_update(&kuribo->fieldCC);
     }
-    pw_calcCurrentPointXYZ(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
-    if (kuribo->mUnk_c4 == 0x1000 && kuribo->mUnk_c8 == 0) {
+    pw_calcCurrentPointXYZ(&kuribo->fieldCC, &kuribo->field0.mPos);
+    if (kuribo->fieldC4 == 0x1000 && kuribo->fieldC8 == 0) {
         return;
     }
-    kuribo->mUnk_c8 += (s32) (((s64) (0x1000 - kuribo->mUnk_c4) * 0x200) >> 12);
-    kuribo->mUnk_c8 = ((s64) kuribo->mUnk_c8 * 0xd99) >> 12;
-    kuribo->mUnk_c4 += kuribo->mUnk_c8;
-    if (kuribo->mUnk_c4 > 0xfd7 && kuribo->mUnk_c4 < 0x1029 && kuribo->mUnk_c8 > -0x29 && kuribo->mUnk_c8 < 0x29) {
-        kuribo->mUnk_c4 = 0x1000;
-        kuribo->mUnk_c8 = 0;
+    kuribo->fieldC8 += (s32) (((s64) (0x1000 - kuribo->fieldC4) * 0x200) >> 12);
+    kuribo->fieldC8 = ((s64) kuribo->fieldC8 * 0xd99) >> 12;
+    kuribo->fieldC4 += kuribo->fieldC8;
+    if (kuribo->fieldC4 > 0xfd7 && kuribo->fieldC4 < 0x1029 && kuribo->fieldC8 > -0x29 && kuribo->fieldC8 < 0x29) {
+        kuribo->fieldC4 = 0x1000;
+        kuribo->fieldC8 = 0;
     }
 }
 
 void kuribo_groundRoamIdleStateInit(Kuribo *kuribo) {
-    kuribo->mUnk_c4 = 0x1000u;
-    kuribo->mUnk_c8 = 0x0u;
+    kuribo->fieldC4 = 0x1000u;
+    kuribo->fieldC8 = 0x0u;
 }
 
 void kuribo_groundRoamIdleStateUpdate(Kuribo *kuribo) {
@@ -66,43 +66,43 @@ void kuribo_groundRoamIdleStateUpdate(Kuribo *kuribo) {
     Vec3 probePos;
     Vec3 correction;
     Vec3 surfaceNormal;
-    if (kuribo->mUnk_f0 < 0xa || (kuribo->mUnk_f0 >= 0x14 && kuribo->mUnk_f0 < 0x1e)) {
-        if (kuribo->mUnk_f0 == 0 || kuribo->mUnk_f0 == 0x14) {
-            kuribo->mUnk_102--;
-            if (kuribo->mUnk_102 < 0) {
-                kuribo->mUnk_102 = 3;
-                kuribo->mUnk_104 = kuribo->mUnk_104 == 0;
+    if (kuribo->fieldF0 < 0xa || (kuribo->fieldF0 >= 0x14 && kuribo->fieldF0 < 0x1e)) {
+        if (kuribo->fieldF0 == 0 || kuribo->fieldF0 == 0x14) {
+            kuribo->field102--;
+            if (kuribo->field102 < 0) {
+                kuribo->field102 = 3;
+                kuribo->field104 = kuribo->field104 == 0;
             }
         }
     }
-    kuribo->mUnk_00.mUnk_10.y -= 0x400;
-    kuribo->mUnk_00.mPos.y += kuribo->mUnk_00.mUnk_10.y;
-    probePos = kuribo->mUnk_00.mPos;
+    kuribo->field0.field10.y -= 0x400;
+    kuribo->field0.mPos.y += kuribo->field0.field10.y;
+    probePos = kuribo->field0.mPos;
     probePos.y += 0xa000;
     if (col_collide(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL, NULL,
                       NULL, NULL) != 0) {
-        VEC_Add(&kuribo->mUnk_00.mPos, &correction, &kuribo->mUnk_00.mPos);
-        kuribo->mUnk_00.mUnk_10.y = 0;
+        VEC_Add(&kuribo->field0.mPos, &correction, &kuribo->field0.mPos);
+        kuribo->field0.field10.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {
-            qrtn_fromForwardVec(&surfaceNormal, &kuribo->mUnk_b4);
-            kuribo->mUnk_00.mFlags &= ~1;
+            qrtn_fromForwardVec(&surfaceNormal, &kuribo->fieldB4);
+            kuribo->field0.mFlags &= ~1;
         }
     }
-    qrtn_slerp(&kuribo->mUnk_a4, &kuribo->mUnk_b4, &kuribo->mUnk_a4, kuribo->mUnk_f8);
-    if (kuribo->mUnk_f8 > 0xb4) {
-        kuribo->mUnk_f8 = 0xb4;
+    qrtn_slerp(&kuribo->fieldA4, &kuribo->fieldB4, &kuribo->fieldA4, kuribo->fieldF8);
+    if (kuribo->fieldF8 > 0xb4) {
+        kuribo->fieldF8 = 0xb4;
     }
 }
 
 void kuribo_hitGrowStateInit(Kuribo *kuribo) {
-    kuribo->mUnk_00.mFlags = (((kuribo->mUnk_00.mFlags)) | ((kuribo_sSomeFlag)));
+    kuribo->field0.mFlags = (((kuribo->field0.mFlags)) | ((kuribo_sSomeFlag)));
 }
 
 void kuribo_hitGrowStateUpdate(Kuribo *kuribo) {
-    kuribo->mUnk_c4 = ((s64) kuribo->mUnk_c4 * 0x1266) >> 12;
-    if (kuribo->mUnk_c4 > 0x1800) {
-        kuribo->mUnk_00.mStateMachine.mNextState = 3;
-        kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    kuribo->fieldC4 = ((s64) kuribo->fieldC4 * 0x1266) >> 12;
+    if (kuribo->fieldC4 > 0x1800) {
+        kuribo->field0.mStateMachine.mNextState = 3;
+        kuribo->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -111,10 +111,10 @@ u32 kuribo_hitShrinkStateInit(u32 value) {
 }
 
 void kuribo_hitShrinkStateUpdate(Kuribo *kuribo) {
-    kuribo->mUnk_c4 = ((s64) kuribo->mUnk_c4 * 0xd99) >> 12;
-    if (kuribo->mUnk_c4 < 0x333) {
-        kuribo->mUnk_00.mStateMachine.mNextState = 4;
-        kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    kuribo->fieldC4 = ((s64) kuribo->fieldC4 * 0xd99) >> 12;
+    if (kuribo->fieldC4 < 0x333) {
+        kuribo->field0.mStateMachine.mNextState = 4;
+        kuribo->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -123,47 +123,47 @@ u32 kuribo_deadStateInit(u32 value) {
 }
 
 void kuribo_deadStateUpdate(Kuribo *kuribo) {
-    if (kuribo->mUnk_fc != 0) {
-        if (kuribo->mUnk_00.mStateMachine.mStateFrames > 0x12c) {
-            kuribo->mUnk_00.mStateMachine.mNextState = 5;
-            kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (kuribo->fieldFC != 0) {
+        if (kuribo->field0.mStateMachine.mStateFrames > 0x12c) {
+            kuribo->field0.mStateMachine.mNextState = 5;
+            kuribo->field0.mStateMachine.mNextStateRequested = 1;
         }
         return;
     }
-    kuribo->mUnk_100--;
-    if (kuribo->mUnk_100 == 0) {
-        mobj_setInvisible(&kuribo->mUnk_00);
+    kuribo->field100--;
+    if (kuribo->field100 == 0) {
+        mobj_setInvisible(&kuribo->field0);
     }
 }
 
 void kuribo_reappearStateInit(Kuribo *kuribo) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
-    if ((kuribo->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if ((kuribo->field0.mDistanceSquaredAndFlags & 4) == 0) {
+        if (kuribo->field0.mFarDistanceSquared == gSfxParams[2].field20) {
             falloffIndex = 2;
-        } else if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+        } else if (kuribo->field0.mFarDistanceSquared == gSfxParams[3].field20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x183;
-        soundRequest.mPositionSource = &kuribo->mUnk_00.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->mUnk_00.mPos);
+        soundRequest.mPositionSource = &kuribo->field0.mPos;
+        soundRequest.field8 = falloffIndex;
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->field0.mPos);
         func_0210b7a8(&soundRequest);
     }
-    kuribo->mUnk_00.mFlags &= ~1;
-    kuribo->mUnk_c8 = 0;
+    kuribo->field0.mFlags &= ~1;
+    kuribo->fieldC8 = 0;
 }
 
 void kuribo_reappearStateUpdate(Kuribo *kuribo) {
-    kuribo->mUnk_c8 += (s32) (((s64) (0x1000 - kuribo->mUnk_c4) * 0x200) >> 12);
-    kuribo->mUnk_c8 = ((s64) kuribo->mUnk_c8 * 0xd99) >> 12;
-    kuribo->mUnk_c4 += kuribo->mUnk_c8;
-    if (kuribo->mUnk_00.mStateMachine.mStateFrames > 0x3c) {
-        kuribo->mUnk_00.mStateMachine.mNextState = 0;
-        kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    kuribo->fieldC8 += (s32) (((s64) (0x1000 - kuribo->fieldC4) * 0x200) >> 12);
+    kuribo->fieldC8 = ((s64) kuribo->fieldC8 * 0xd99) >> 12;
+    kuribo->fieldC4 += kuribo->fieldC8;
+    if (kuribo->field0.mStateMachine.mStateFrames > 0x3c) {
+        kuribo->field0.mStateMachine.mNextState = 0;
+        kuribo->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -171,10 +171,10 @@ void kuribo_handleShroomSpawn(Kuribo *kuribo, Vec3 *hitVector) {
     Vec3 launchDirection;
     ItemObject *itemObject;
     s32 d;
-    if (kuribo->mUnk_00.mCourseMapRow == NULL || kuribo->mUnk_00.mCourseMapRow->mUnk_2c != 0) {
+    if (kuribo->field0.mCourseMapRow == NULL || kuribo->field0.mCourseMapRow->field2C != 0) {
         return;
     }
-    VEC_Subtract(&kuribo->mUnk_cc.mFromEntry->mPos, &kuribo->mUnk_cc.mToEntry->mPos, &launchDirection);
+    VEC_Subtract(&kuribo->fieldCC.mFromEntry->mPos, &kuribo->fieldCC.mToEntry->mPos, &launchDirection);
     if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
             (s64) launchDirection.z * launchDirection.z >=
         0x10) {
@@ -194,7 +194,7 @@ void kuribo_handleShroomSpawn(Kuribo *kuribo, Vec3 *hitVector) {
         0x10) {
         vec_normalize(&launchDirection, &launchDirection);
     }
-    itemObject = it_spawnItem(3, 8, &kuribo->mUnk_00.mPos, &kuribo_sUpVec);
+    itemObject = it_spawnItem(3, 8, &kuribo->field0.mPos, &kuribo_sUpVec);
     if (itemObject == NULL) {
         return;
     }
@@ -207,27 +207,27 @@ void kuribo_handleShroomSpawn(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mVelocity.z = ((s64) launchDirection.z * d) >> 12;
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
-    it_startThrowAnim(itemObject, 0, &kuribo->mUnk_00.mPos, hitVector, &kuribo_sUpVec);
+    it_startThrowAnim(itemObject, 0, &kuribo->field0.mPos, hitVector, &kuribo_sUpVec);
 }
 
 u32 kuribo_onDriverCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
     switch (*b) {
         case 0:
-            if (kuribo->mUnk_c4 == 0x1000) {
-                if (kuribo->mUnk_c8 == 0) {
-                    kuribo->mUnk_c8 = ((s64) kart->mVelocityLength * 0x52) >> 12;
+            if (kuribo->fieldC4 == 0x1000) {
+                if (kuribo->fieldC8 == 0) {
+                    kuribo->fieldC8 = ((s64) kart->mVelocityLength * 0x52) >> 12;
                 }
             }
             break;
         case 1:
-            if (kuribo->mUnk_00.mStateMachine.mState == 0 || kuribo->mUnk_00.mStateMachine.mState == 5 ||
-                kuribo->mUnk_00.mStateMachine.mState == 1) {
-                kuribo->mUnk_00.mStateMachine.mNextState = 2;
-                kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+            if (kuribo->field0.mStateMachine.mState == 0 || kuribo->field0.mStateMachine.mState == 5 ||
+                kuribo->field0.mStateMachine.mState == 1) {
+                kuribo->field0.mStateMachine.mNextState = 2;
+                kuribo->field0.mStateMachine.mNextStateRequested = 1;
                 mobj_driverEmitSfx2(&kart->mSoundSource, 0x185);
-                mobj_tryDestroyByDriver(&kuribo->mUnk_00, kart);
+                mobj_tryDestroyByDriver(&kuribo->field0, kart);
                 kuribo_handleShroomSpawn(kuribo, &kart->mVelocity);
-                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | kuribo_sSomeFlag;
+                kuribo->field0.mFlags = kuribo->field0.mFlags | kuribo_sSomeFlag;
             }
             break;
     }
@@ -237,22 +237,22 @@ u32 kuribo_onDriverCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
 u32 kuribo_onItemCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
     switch (*b) {
         case 0:
-            if (kuribo->mUnk_c4 == 0x1000) {
-                if (kuribo->mUnk_c8 == 0) {
-                    kuribo->mUnk_c8 = 0x19a;
+            if (kuribo->fieldC4 == 0x1000) {
+                if (kuribo->fieldC8 == 0) {
+                    kuribo->fieldC8 = 0x19a;
                 }
             }
             break;
         case 1:
-            if (kuribo->mUnk_00.mStateMachine.mState == 0 || kuribo->mUnk_00.mStateMachine.mState == 5 ||
-                kuribo->mUnk_00.mStateMachine.mState == 1) {
-                kuribo->mUnk_00.mStateMachine.mNextState = 2;
-                kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
+            if (kuribo->field0.mStateMachine.mState == 0 || kuribo->field0.mStateMachine.mState == 5 ||
+                kuribo->field0.mStateMachine.mState == 1) {
+                kuribo->field0.mStateMachine.mNextState = 2;
+                kuribo->field0.mStateMachine.mNextStateRequested = 1;
                 it_emitMissionParticles(kart);
                 if (kart != NULL) {
                     kuribo_handleShroomSpawn(kuribo, &kart->mSignedTurnedForward);
                 }
-                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | kuribo_sSomeFlag;
+                kuribo->field0.mFlags = kuribo->field0.mFlags | kuribo_sSomeFlag;
             }
             break;
     }
@@ -260,13 +260,13 @@ u32 kuribo_onItemCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
 }
 
 void kuribo_resetRoaming(Kuribo *kuribo) {
-    kuribo->mUnk_f8 = 0x1000;
-    kuribo->mUnk_a4 = data_02158140;
-    kuribo->mUnk_b4 = data_02158150;
-    sm_gotoState(&kuribo->mUnk_00.mStateMachine, 1);
-    kuribo->mUnk_00.mUnk_10.x = 0;
-    kuribo->mUnk_00.mUnk_10.y = 0;
-    kuribo->mUnk_00.mUnk_10.z = 0;
+    kuribo->fieldF8 = 0x1000;
+    kuribo->fieldA4 = data_02158140;
+    kuribo->fieldB4 = data_02158150;
+    sm_gotoState(&kuribo->field0.mStateMachine, 1);
+    kuribo->field0.field10.x = 0;
+    kuribo->field0.field10.y = 0;
+    kuribo->field0.field10.z = 0;
 }
 
 #pragma thumb on

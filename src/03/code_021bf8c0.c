@@ -29,8 +29,8 @@
 #include "registers.h"
 
 static inline void func_ov003_021bfbd0_inline(OamEntry *object, u32 *x, u32 *y) {
-    *x = (object->mUnk_00 & 0x1ff0000) >> 16;
-    *y = object->mUnk_00 & 0xff;
+    *x = (object->field0 & 0x1ff0000) >> 16;
+    *y = object->field0 & 0xff;
 }
 
 void func_ov003_021c0318(void) {
@@ -124,22 +124,22 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     keyIndex = row * 12;
     for (i = 0; i < keyCounts[(u32) row]; i++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->field0 = key->field0 & 0xc1fffcff;
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mUnk_00 =
-            ((data_ov003_021d5fb0[keyIndex][0] & 0x1ff) << 16) | ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->field0 =
+            ((data_ov003_021d5fb0[keyIndex][0] & 0x1ff) << 16) | ((key->field0 & 0xfe00ff00) | (yPos & 0xff));
     }
     if (row < 4) {
         ArrangeObjTextCanvasRange(gEditKeyboard->mRowTexts[page][row], data_ov003_021d5fb0[row * 12][0], yPos,
-                                  gEditKeyboard->mUnk_104[row], 2);
+                                  gEditKeyboard->field104[row], 2);
     }
     extraKeyIndex = FX_ModS32(row + 3, 4);
     for (i = 0; i < extraKeyCounts[(u32) row]; i++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xc1fffcff;
+        key->field0 = key->field0 & 0xc1fffcff;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mUnk_00 =
-            ((data_ov003_021d5f90[extraKeyIndex][0] & 0x1ff) << 16) | ((key->mUnk_00 & 0xfe00ff00) | (yPos & 0xff));
+        key->field0 =
+            ((data_ov003_021d5f90[extraKeyIndex][0] & 0x1ff) << 16) | ((key->field0 & 0xfe00ff00) | (yPos & 0xff));
     }
     for (i = 0; i < row4KeyCounts[(u32) row]; i++) {
         SetOamRangeEffect(gEditKeyboard->mRow4Keys[i], -1, 0, 0);
@@ -181,15 +181,15 @@ void SetEditKeyboardKeyHighlight(int keyIndex, int highlight) {
     }
     if (keyIndex < 0x2f) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (data_ov003_021d5f60[highlight] << 12);
+        key->field0 = key->field0 & 0xfffff3ff;
+        key->field4 = (key->field4 & 0xffff0fff) | (data_ov003_021d5f60[highlight] << 12);
         return;
     }
     extraKeyIndex = keyIndex - 0x2f;
     if (extraKeyIndex < 4) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mUnk_00 = key->mUnk_00 & 0xfffff3ff;
-        key->mUnk_04 = (key->mUnk_04 & 0xffff0fff) | (data_ov003_021d5f60[highlight] << 12);
+        key->field0 = key->field0 & 0xfffff3ff;
+        key->field4 = (key->field4 & 0xffff0fff) | (data_ov003_021d5f60[highlight] << 12);
         return;
     }
     func_ov003_021d1890(gEditKeyboard->mRow4Keys[keyIndex - 0x33], -1, 0, data_ov003_021d5f64[highlight]);
@@ -229,21 +229,21 @@ void MoveEditKeyboardCursor(int direction) {
     previousKeyIndex = gEditKeyboard->mCursorKeyIndex;
     gEditKeyboard->mCursorKeyIndex = data_ov003_021d6140[previousKeyIndex][direction];
     if (gEditKeyboard->mCursorKeyIndex == 0x2e && direction == 3) {
-        gEditKeyboard->mUnk_120 = previousKeyIndex;
+        gEditKeyboard->field120 = previousKeyIndex;
     } else if (gEditKeyboard->mCursorKeyIndex == 0x33 && (direction == 1 || direction == 3)) {
-        gEditKeyboard->mUnk_120 = previousKeyIndex;
+        gEditKeyboard->field120 = previousKeyIndex;
     } else if (gEditKeyboard->mCursorKeyIndex == 0x34 && (direction == 1 || direction == 3)) {
         if (previousKeyIndex != 0x2e) {
-            gEditKeyboard->mUnk_120 = previousKeyIndex;
+            gEditKeyboard->field120 = previousKeyIndex;
         }
     } else if (gEditKeyboard->mCursorKeyIndex == -1) {
-        if (gEditKeyboard->mUnk_120 == 0x23 || gEditKeyboard->mUnk_120 == 0x32) {
+        if (gEditKeyboard->field120 == 0x23 || gEditKeyboard->field120 == 0x32) {
             gEditKeyboard->mCursorKeyIndex = 0x23;
         } else {
             gEditKeyboard->mCursorKeyIndex = 0x22;
         }
     } else if (gEditKeyboard->mCursorKeyIndex == -2) {
-        switch (gEditKeyboard->mUnk_120) {
+        switch (gEditKeyboard->field120) {
             case 0:
             case 0x31:
                 gEditKeyboard->mCursorKeyIndex = 0x31;
@@ -269,7 +269,7 @@ void MoveEditKeyboardCursor(int direction) {
                 break;
         }
     } else if (gEditKeyboard->mCursorKeyIndex == -3) {
-        switch (gEditKeyboard->mUnk_120) {
+        switch (gEditKeyboard->field120) {
             case 6:
             case 0x29:
                 gEditKeyboard->mCursorKeyIndex = 0x29;
@@ -297,7 +297,7 @@ void MoveEditKeyboardCursor(int direction) {
                 break;
         }
     } else if (gEditKeyboard->mCursorKeyIndex == -4) {
-        switch (gEditKeyboard->mUnk_120) {
+        switch (gEditKeyboard->field120) {
             case 0:
             case 0x31:
                 gEditKeyboard->mCursorKeyIndex = 0;
@@ -323,7 +323,7 @@ void MoveEditKeyboardCursor(int direction) {
                 break;
         }
     } else if (gEditKeyboard->mCursorKeyIndex == -5) {
-        switch (gEditKeyboard->mUnk_120) {
+        switch (gEditKeyboard->field120) {
             case 6:
             case 0x29:
                 gEditKeyboard->mCursorKeyIndex = 6;
@@ -420,7 +420,7 @@ void ReleaseEditKeyboard(u32 task) {
         for (j = 0; j < 4; j++) {
             DeleteObjTextCanvas(gEditKeyboard->mRowTexts[i][j]);
             if (i == 0) {
-                DeleteOamRange(gEditKeyboard->mUnk_104[j]);
+                DeleteOamRange(gEditKeyboard->field104[j]);
             }
         }
     }
@@ -439,11 +439,11 @@ void ReleaseEditKeyboard(u32 task) {
 void CreateLinkLevel(int row) {
     if (gLinkLevel == NULL) {
         gLinkLevel = AllocExpHeapBlock(0xc, 4);
-        gLinkLevel->mUnk_08 = row;
-        gLinkLevel->mUnk_00 = CreateOamEntryFromNceImage(0, data_ov003_021d5f58[row][0]);
-        gLinkLevel->mUnk_00->mUnk_00 = ((data_ov003_021d5f54[0] & 0x1ff) << 16) |
-                                       ((gLinkLevel->mUnk_00->mUnk_00 & 0xfe00ff00) | (data_ov003_021d5f54[1] & 0xff));
-        gLinkLevel->mUnk_00->mUnk_04 = (gLinkLevel->mUnk_00->mUnk_04 & 0xfffff3ff) | 0x800;
+        gLinkLevel->field8 = row;
+        gLinkLevel->field0 = CreateOamEntryFromNceImage(0, data_ov003_021d5f58[row][0]);
+        gLinkLevel->field0->field0 = ((data_ov003_021d5f54[0] & 0x1ff) << 16) |
+                                       ((gLinkLevel->field0->field0 & 0xfe00ff00) | (data_ov003_021d5f54[1] & 0xff));
+        gLinkLevel->field0->field4 = (gLinkLevel->field0->field4 & 0xfffff3ff) | 0x800;
         gLinkLevel->mTask = AddTask(0, UpdateLinkLevel, NULL, 0x78);
     }
 }
@@ -451,7 +451,7 @@ void CreateLinkLevel(int row) {
 void ReleaseLinkLevel(void) {
     if (gLinkLevel != NULL) {
         RemoveTaskEntryWrapper(0, gLinkLevel->mTask);
-        DeleteOamEntry((u32 *) gLinkLevel->mUnk_00);
+        DeleteOamEntry((u32 *) gLinkLevel->field0);
         FreeExpHeapBlockAndClearPointer(&gLinkLevel);
     }
 }
@@ -467,10 +467,10 @@ void UpdateLinkLevel(void) {
     }
     reg_OS_IME;
     reg_OS_IME = savedIme;
-    CopyNceImageToOamEntries(0, data_ov003_021d5f58[gLinkLevel->mUnk_08][linkLevel], gLinkLevel->mUnk_00);
-    gLinkLevel->mUnk_00->mUnk_00 = ((data_ov003_021d5f54[0] & 0x1ff) << 16) |
-                                   ((gLinkLevel->mUnk_00->mUnk_00 & 0xfe00ff00) | (data_ov003_021d5f54[1] & 0xff));
-    gLinkLevel->mUnk_00->mUnk_04 = (gLinkLevel->mUnk_00->mUnk_04 & 0xfffff3ff) | 0x800;
+    CopyNceImageToOamEntries(0, data_ov003_021d5f58[gLinkLevel->field8][linkLevel], gLinkLevel->field0);
+    gLinkLevel->field0->field0 = ((data_ov003_021d5f54[0] & 0x1ff) << 16) |
+                                   ((gLinkLevel->field0->field0 & 0xfe00ff00) | (data_ov003_021d5f54[1] & 0xff));
+    gLinkLevel->field0->field4 = (gLinkLevel->field0->field4 & 0xfffff3ff) | 0x800;
 }
 
 void InitHlScr(void) {

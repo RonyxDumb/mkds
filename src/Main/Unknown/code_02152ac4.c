@@ -4,7 +4,7 @@
 #pragma thumb on
 
 u32 DWCi_Acc_GetPlayerId(const DWCAccFriendData *friendData) {
-    return friendData->mUnk_08;
+    return friendData->field8;
 }
 
 #pragma thumb off

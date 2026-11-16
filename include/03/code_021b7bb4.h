@@ -28,28 +28,28 @@ typedef struct PayloadRecord {
 } PayloadRecord;
 
 typedef struct PacketHeader {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
     /* 06 */ u16 mKind;
-    /* 08 */ u16 mUnk_08;
+    /* 08 */ u16 field8;
     /* 0a */ u16 mPayloadLength;
     /* 0c */ u16 mFlags;
     /* 0e */ s8 mPayloadCrc;
-    /* 0f */ s8 mUnk_0f;
+    /* 0f */ s8 fieldF;
     /* 10 */ u8 mTag[8];
 } PacketHeader;
 
 typedef struct OutgoingPacketItem {
     /* 00 */ s8 mType;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 field1;
     /* 02 */ u16 mLength;
     /* 04 */ u16 mNextOffset;
     /* 06 */ u8 mValue[1];
 } OutgoingPacketItem;
 
 typedef struct ItemContainer {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 field0;
     /* 01 */ u8 pad_01;
     /* 02 */ u16 mLength;
     /* 04 */ u8 mItems[1];
@@ -108,7 +108,7 @@ typedef struct Packet {
     /* 0a */ u16 mPayloadLength;
     /* 0c */ u16 mFlags;
     /* 0e */ u8 mPayloadCrc;
-    /* 0f */ u8 mUnk_0f;
+    /* 0f */ u8 fieldF;
     /* 10 */ PacketTag mTag;
     /* 18 */ u8 mPayload[1];
 } Packet;

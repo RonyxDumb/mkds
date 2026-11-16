@@ -65,7 +65,7 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
     Vec3 g;
     KartFollowEffectIds e;
 
-    if (kart->mUnk_7c & 0x400) {
+    if (kart->field7C & 0x400) {
         return;
     }
     if (collisionFlags & 0x8000) {
@@ -78,23 +78,23 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
             driver_pipeTeleport(kart, b);
             return;
         }
-        kart->mUnk_48 |= 0x10000;
+        kart->field48 |= 0x10000;
         driver_cannonLaunch(kart, 0);
         return;
     }
-    if (!(kart->mUnk_48 & 0x800)) {
-        kart->mUnk_48 |= 0x800;
+    if (!(kart->field48 & 0x800)) {
+        kart->field48 |= 0x800;
         kartIndex = kart->mIndex;
         if (gRaceMultiConfig->mMode == MODE_BATTLE) {
             respawnSlot = mdat_getRespawnId(0);
         } else {
-            respawnSlot = mdat_getRespawnId(gRaceStatus->mUnk_000[kartIndex].mCheckpoint);
+            respawnSlot = mdat_getRespawnId(gRaceStatus->field0[kartIndex].mCheckpoint);
         }
         kart->mRespawnSlot = respawnSlot;
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW &&
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW &&
             (data_0217c780 & 1)) {
             soundHandleEntry = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (soundHandleEntry[0] != NULL) {
                     NNS_SndPlayerStopSeq(soundHandleEntry, 0);
                 }
@@ -108,32 +108,32 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
     if (!(collisionFlags & 0xc00)) {
         return;
     }
-    if (kart->mUnk_48 & 0x1000) {
+    if (kart->field48 & 0x1000) {
         return;
     }
     r2d_hideMapPathForDriver(kart->mIndex);
-    kart->mUnk_48 |= 0x41000;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->field48 |= 0x41000;
+    kart->field48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->field538.field0 = 0;
     kart->mMiniTurboTimer = 0;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (!(kart->field4C & 0x10000000) && !(kart->field48 & 0x4000000)) {
             cam_resetPlayerCameraTargetFov();
         }
         dce_stopBlur();
     }
-    if (kart->mUnk_4c & 0x10000000) {
-        kart->mUnk_4c &= ~0x10000000;
+    if (kart->field4C & 0x10000000) {
+        kart->field4C &= ~0x10000000;
         func_0210515c(kart->mIndex);
-        if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+        if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
         kart->mRadiusFactor = 0x1000;
         kart->mSurfaceGroup = -1;
         f = 0;
         kart->mItemEffect = 0;
-        if (kart->mKartModelsEntry->mUnk_058 == 0) {
+        if (kart->mKartModelsEntry->field58 == 0) {
             e = gKartFollowEffectIds;
             for (f = 0; f < 3; f++) {
                 rptc_2081F10(ptcm_createEmitter(e.mEffectIds[f], &kart->mPos), kart->mIndex, 0x14);
@@ -145,30 +145,30 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
     func_020f00f0(&(it_sDriverItemStatus)[kart->mIndex]);
     if (collisionFlags & 0x400) {
         b = col_findResponsePrismAttribute(0x400);
-        kart->mUnk_48 |= 0x2000;
+        kart->field48 |= 0x2000;
         if ((u16) ((b & 0xe0) >> 5) == 4) {
-            kart->mUnk_48 |= 0x800000;
+            kart->field48 |= 0x800000;
         }
         return;
     }
     b = (u16) ((col_findResponsePrismAttribute(0x800) & 0xe0) >> 5);
-    kart->mUnk_4bc = kart->mUnk_3f8;
-    kart->mUnk_4c |= 0x200000;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    kart->field4BC = kart->field3F8;
+    kart->field4C |= 0x200000;
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         cam_2075D08(1);
     }
     if ((u16) (b + 0xffff) <= 1) {
         g = kart->mPos;
         if (b == 1) {
-            kart->mUnk_48 |= 0x800000;
+            kart->field48 |= 0x800000;
             b = 0xce;
         } else {
-            kart->mUnk_48 |= 0x1000000;
+            kart->field48 |= 0x1000000;
             b = 0x15d;
         }
         g.y = kart->mPos.y - mobj_getWaterPlaneDistance1(kart->mPos.y);
-        expl_spawnSplash(&g, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
-        kart->mUnk_4c |= 0x4000000;
+        expl_spawnSplash(&g, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
+        kart->field4C |= 0x4000000;
         sfx_21090C4(&kart->mSoundSource, b, 0x7f, 0);
         kart->mGravity = 0;
     }
@@ -182,7 +182,7 @@ void driver_handleWaterDive(Kart *kart) {
     Vec3 waterSurfacePoint;
 
     heightAboveWater = mobj_getWaterPlaneDistance1(kart->mPos.y);
-    if (heightAboveWater < 0 && !(kart->mUnk_4c & 0x4000000)) {
+    if (heightAboveWater < 0 && !(kart->field4C & 0x4000000)) {
         b = FALSE;
         scaledFactorPerDepth = ((s64) kart->mSpeedLimitFactorPerDepth * kart->mScale.z) >> 12;
         kart->mSpeedLimitFactor = (s32) (((s64) scaledFactorPerDepth * heightAboveWater) >> 12) + 0x1000;
@@ -195,13 +195,13 @@ void driver_handleWaterDive(Kart *kart) {
             mobj_getWaterPlaneDistance1(kart->mPrevPos.y) > -0xa000 && kart->mVelocity.y < -0x2000) {
             waterSurfacePoint = kart->mPos;
             waterSurfacePoint.y = kart->mPos.y - heightAboveWater;
-            expl_spawnSplash(&waterSurfacePoint, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
+            expl_spawnSplash(&waterSurfacePoint, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0);
             b = FALSE;
         }
         if (b != FALSE) {
             return;
         }
-        if (kart->mUnk_4c & 0x4000000) {
+        if (kart->field4C & 0x4000000) {
             return;
         }
         rptc_2083EC4(kart);
@@ -222,8 +222,8 @@ void driver_handleStartBoost(Kart *kart) {
     Unk02165608 g;
     Unk02165608 h;
 
-    if (kart->mUnk_48 & 2) {
-        a = kart->mUnk_4d4;
+    if (kart->field48 & 2) {
+        a = kart->field4D4;
         if (a < 0) {
             b = 0x52;
         } else if (a > 0x1000) {
@@ -232,36 +232,36 @@ void driver_handleStartBoost(Kart *kart) {
             b = FX_Div(0x4a, 0x1000);
             b = 0x52 - (s32) (((s64) b * a) >> 12);
         }
-        kart->mUnk_4d4 = kart->mUnk_4d4 + b;
-        if (kart->mUnk_4d4 > 0x1000) {
-            kart->mUnk_4d4 = 0x1000;
+        kart->field4D4 = kart->field4D4 + b;
+        if (kart->field4D4 > 0x1000) {
+            kart->field4D4 = 0x1000;
         }
     } else {
-        kart->mUnk_4d4 = ((s64) kart->mUnk_4d4 * 0xf5c) >> 12;
+        kart->field4D4 = ((s64) kart->field4D4 * 0xf5c) >> 12;
     }
-    if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
+    if (!(kart->field4C & KART_4C_HEADING_SWING)) {
         if (GetRaceStartSequenceFrames() - 0xaf > 0) {
-            kart->mUnk_44 |= 0x1000000;
+            kart->field44 |= 0x1000000;
         }
     }
     if (GetRaceStartSequenceFrames() - 0xaf == 0) {
-        if (kart->mUnk_7c & 2) {
+        if (kart->field7C & 2) {
             if (func_0208c180(kart->mAi) != 0) {
-                if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-                    kart->mUnk_4c |= KART_4C_HEADING_SWING;
+                if (!(kart->field4C & KART_4C_HEADING_SWING)) {
+                    kart->field4C |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     driver_2068A64(kart, 1, 1);
                     g = data_02165608;
-                    bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+                    bits7c = kart->field7C;
+                    if ((bits7c & 0x10) && kart->mKartModelsEntry->field58 == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                            VEC_MultAdd(g.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
+                            VEC_MultAdd(g.field0[kart->mKartModelsEntry->mKartIndex] << 4, &kart->field138,
                                         &kart->mPos, &e);
                             ptcm_createEmitterNoUpdateSkip(0x72, &e, kart, func_0206c1ac);
                             ptcm_createEmitterNoUpdateSkip(0x73, &e, kart, func_0206c1ac);
                         }
                     }
-                    if (!(kart->mUnk_48 & 0x840)) {
+                    if (!(kart->field48 & 0x840)) {
                         sfx_emitDriverVoice(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
@@ -270,36 +270,36 @@ void driver_handleStartBoost(Kart *kart) {
             } else if (GetKartAiBoostsAtRaceStart(kart->mAi) != 0) {
                 d = GetKartAiRaceStartBoostChoice(kart->mAi);
                 kart->mRaceStartFrameCount = driver_sStartBoostFrameCount[d - 1];
-                kart->mUnk_44 |= 0x1800000;
+                kart->field44 |= 0x1800000;
                 driver_addBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
-                if (!(kart->mUnk_48 & 0x840)) {
+                if (!(kart->field48 & 0x840)) {
                     sfx_emitDriverVoice(kart, kart->mSoundIndex, 5);
                 }
-                kart->mUnk_48 |= 0x8000;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    driver_getPlayerStatistics()->mUnk_00 = 1;
+                kart->field48 |= 0x8000;
+                if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                    driver_getPlayerStatistics()->field0 = 1;
                 } else {
                     sfx_21090C4(&kart->mSoundSource, 0xa1, 0x7f, 0);
                 }
             }
-        } else if (kart->mUnk_48 & 2) {
-            c = kart->mUnk_4d4;
+        } else if (kart->field48 & 2) {
+            c = kart->field4D4;
             if (c > 0xf34) {
-                if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-                    kart->mUnk_4c |= KART_4C_HEADING_SWING;
+                if (!(kart->field4C & KART_4C_HEADING_SWING)) {
+                    kart->field4C |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;
                     driver_2068A64(kart, 1, 1);
                     h = data_02165608;
-                    bits7c = kart->mUnk_7c;
-                    if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
+                    bits7c = kart->field7C;
+                    if ((bits7c & 0x10) && kart->mKartModelsEntry->field58 == 0) {
                         if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                            VEC_MultAdd(h.mUnk_00[kart->mKartModelsEntry->mKartIndex] << 4, &kart->mUnk_138,
+                            VEC_MultAdd(h.field0[kart->mKartModelsEntry->mKartIndex] << 4, &kart->field138,
                                         &kart->mPos, &f);
                             ptcm_createEmitterNoUpdateSkip(0x72, &f, kart, func_0206c1ac);
                             ptcm_createEmitterNoUpdateSkip(0x73, &f, kart, func_0206c1ac);
                         }
                     }
-                    if (!(kart->mUnk_48 & 0x840)) {
+                    if (!(kart->field48 & 0x840)) {
                         sfx_emitDriverVoice(kart, kart->mSoundIndex, 3);
                     }
                     StartKartModelScaleAnimation(kart, 1);
@@ -317,25 +317,25 @@ void driver_handleStartBoost(Kart *kart) {
                     d = 4;
                 }
                 kart->mRaceStartFrameCount = driver_sStartBoostFrameCount[d - 1];
-                kart->mUnk_44 |= 0x1800000;
+                kart->field44 |= 0x1800000;
                 driver_addBoost(kart, KART_BOOST_RACE_START, (s16) kart->mRaceStartFrameCount);
-                if (!(kart->mUnk_48 & 0x840)) {
+                if (!(kart->field48 & 0x840)) {
                     sfx_emitDriverVoice(kart, kart->mSoundIndex, 5);
                 }
-                kart->mUnk_48 |= 0x8000;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    driver_getPlayerStatistics()->mUnk_00 = 1;
+                kart->field48 |= 0x8000;
+                if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                    driver_getPlayerStatistics()->field0 = 1;
                 } else {
                     sfx_21090C4(&kart->mSoundSource, 0xa1, 0x7f, 0);
                 }
             }
         }
-        kart->mUnk_230 = driver_1FFB0CC;
-        if (!(kart->mUnk_4c & KART_4C_HEADING_SWING)) {
-            kart->mUnk_44 |= 0x1000000;
+        kart->field230 = driver_1FFB0CC;
+        if (!(kart->field4C & KART_4C_HEADING_SWING)) {
+            kart->field44 |= 0x1000000;
         }
     }
-    kart->mUnk_4e8 = kart->mUnk_4d4 + 0x1000;
+    kart->field4E8 = kart->field4D4 + 0x1000;
 }
 
 void driver_handleFallsWater(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet) {
@@ -345,10 +345,10 @@ void driver_handleFallsWater(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet
     Vec3 f;
     Vec3 g;
 
-    mapObjectPosition = fwdst_getPosition((u16) kart->mUnk_4d8);
-    limit = fwdst_getCCDependentSetting((u16) kart->mUnk_4d8) * 150;
+    mapObjectPosition = fwdst_getPosition((u16) kart->field4D8);
+    limit = fwdst_getCCDependentSetting((u16) kart->field4D8) * 150;
     step = 0x333;
-    if (kart->mUnk_7c & 2) {
+    if (kart->field7C & 2) {
         limit >>= 1;
         step >>= 1;
     }
@@ -357,13 +357,13 @@ void driver_handleFallsWater(Kart *kart, Vec3 *groundNormal, s32 bit100000WasSet
         vec_crossProduct(groundNormal, &g, &f);
         vec_crossProduct(&f, groundNormal, &g);
         if (!((s64) g.x * g.x + (s64) g.y * g.y + (s64) g.z * g.z < 0x10)) {
-            vec_normalize(&g, &kart->mUnk_268);
+            vec_normalize(&g, &kart->field268);
         }
     }
-    kart->mUnk_44 |= 0x100000;
-    kart->mUnk_274 = kart->mUnk_274 + step;
-    if (kart->mUnk_274 > limit) {
-        kart->mUnk_274 = limit;
+    kart->field44 |= 0x100000;
+    kart->field274 = kart->field274 + step;
+    if (kart->field274 > limit) {
+        kart->field274 = limit;
     }
 }
 
@@ -372,29 +372,29 @@ void func_0206f694(Kart *kart, u32 collisionFlags, Vec3 *b, s32 headingDelta) {
     Vec3 e;
 
     if (collisionFlags & 0x40000000) {
-        kart->mUnk_44 |= 0x40000;
+        kart->field44 |= 0x40000;
         kart->mHeadingAngle += headingDelta;
     } else if (collisionFlags & 0x1e34ef) {
-        kart->mUnk_1fc.y = 0;
+        kart->field1FC.y = 0;
     }
     if (b->x | b->y | b->z) {
-        VEC_Subtract(b, &kart->mUnk_1fc, &d);
+        VEC_Subtract(b, &kart->field1FC, &d);
         if ((s64) d.x * d.x + (s64) d.y * d.y + (s64) d.z * d.z < 0x1000000) {
-            kart->mUnk_1fc = *b;
+            kart->field1FC = *b;
         } else {
-            VEC_MultAdd(0x199, &d, &kart->mUnk_1fc, &kart->mUnk_1fc);
+            VEC_MultAdd(0x199, &d, &kart->field1FC, &kart->field1FC);
         }
-        kart->mVerticalSpeed = kart->mVerticalSpeed + kart->mUnk_1fc.y;
-        kart->mUnk_1fc.y = 0;
+        kart->mVerticalSpeed = kart->mVerticalSpeed + kart->field1FC.y;
+        kart->field1FC.y = 0;
     } else {
         e = data_02165554;
-        kart->mUnk_1fc.x = ((s64) kart->mUnk_1fc.x * e.x) >> 12;
-        kart->mUnk_1fc.y = ((s64) kart->mUnk_1fc.y * e.y) >> 12;
-        kart->mUnk_1fc.z = ((s64) kart->mUnk_1fc.z * e.z) >> 12;
-        if ((s64) kart->mUnk_1fc.x * kart->mUnk_1fc.x + (s64) kart->mUnk_1fc.y * kart->mUnk_1fc.y +
-                (s64) kart->mUnk_1fc.z * kart->mUnk_1fc.z <
+        kart->field1FC.x = ((s64) kart->field1FC.x * e.x) >> 12;
+        kart->field1FC.y = ((s64) kart->field1FC.y * e.y) >> 12;
+        kart->field1FC.z = ((s64) kart->field1FC.z * e.z) >> 12;
+        if ((s64) kart->field1FC.x * kart->field1FC.x + (s64) kart->field1FC.y * kart->field1FC.y +
+                (s64) kart->field1FC.z * kart->field1FC.z <
             0xa429) {
-            kart->mUnk_1fc = driverCore_sZeroVec;
+            kart->field1FC = driverCore_sZeroVec;
         }
     }
 }
@@ -410,10 +410,10 @@ void driver_handleWallCollision(Kart *kart, u32 collisionFlags, Vec3 *contactNor
         baseSpeedLimitHitFactor = 0xccd;
     }
     hitValue = col_findResponsePrismAttribute(0x214300);
-    HandleWalls(kart, contactNormal, (kart->mUnk_44 & 0x80) != 0, baseSpeedLimitHitFactor,
+    HandleWalls(kart, contactNormal, (kart->field44 & 0x80) != 0, baseSpeedLimitHitFactor,
                   (s32) (hitValue & 0x1f00) >> 8, ((hitValue & 0xe0) << 11) >> 16, 2);
-    kart->mUnk_44 |= 0x80;
-    kart->mUnk_250 = *contactNormal;
+    kart->field44 |= 0x80;
+    kart->field250 = *contactNormal;
     if (kart->mState == KART_STATE_LAUNCH_DOUBLE_FLIP && contactNormal->y < -0x800 && kart->mVerticalSpeed > 0) {
         kart->mVerticalSpeed = -kart->mVerticalSpeed;
     }
@@ -422,7 +422,7 @@ void driver_handleWallCollision(Kart *kart, u32 collisionFlags, Vec3 *contactNor
         d = -d;
     }
     if (d > 0x3e8) {
-        kart->mUnk_44 |= 0x40000000;
+        kart->field44 |= 0x40000000;
     }
     if (!(collisionFlags & 0x2000000)) {
         return;
@@ -431,7 +431,7 @@ void driver_handleWallCollision(Kart *kart, u32 collisionFlags, Vec3 *contactNor
         return;
     }
     if (collisionFlags & 0x10000) {
-        kart->mUnk_44 |= 0x4000000;
+        kart->field44 |= 0x4000000;
     }
 }
 
@@ -463,11 +463,11 @@ s32 HandleWalls(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedL
     k = ((s64) baseSpeedLimitHitFactor * i) >> 12;
     kart->mPrevHitVelocity.z = kart->mPrevHitVelocity.z - (s32) (((s64) contactNormal->z * g) >> 12);
     kart->mSpeedLimitHitFactor = k;
-    if (vec_dotProduct(&kart->mUnk_1fc, contactNormal) < -0x800) {
-        kart->mUnk_1fc = driverCore_sZeroVec;
+    if (vec_dotProduct(&kart->field1FC, contactNormal) < -0x800) {
+        kart->field1FC = driverCore_sZeroVec;
     }
     if (wasTouching == 0) {
-        h = vec_dotProduct(&kart->mUnk_138, contactNormal);
+        h = vec_dotProduct(&kart->field138, contactNormal);
         j = TRUE;
         g = VEC_DotProduct(contactNormal, &kart->mVelocity);
         m.x = ((s64) contactNormal->x * g) >> 12;
@@ -479,19 +479,19 @@ s32 HandleWalls(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedL
         kart->mTurnCountTimer = 0;
         kart->mHeadingAnglePerFrame = 0;
         if (kart->mVelocityLength > 0x1800) {
-            if (!(kart->mUnk_48 & KART_48_BOOST) && (m.x != 0 || m.y != 0 || m.z != 0) &&
+            if (!(kart->field48 & KART_48_BOOST) && (m.x != 0 || m.y != 0 || m.z != 0) &&
                 baseSpeedLimitHitFactor != 0x1000) {
                 BounceVelocityOffSurface(&m, contactNormal, 0, 0x4cd, 0, &m);
                 kart->mHitVelocity.x = m.x;
                 kart->mHitVelocity.z = m.z;
                 kart->mVerticalSpeed = kart->mVerticalSpeed + m.y;
             }
-            if (kart->mUnk_4da <= 0) {
+            if (kart->field4DA <= 0) {
                 if (d >= 0) {
                     sfx_emitWallSfx(kart, 0, d, e, 0);
                 }
-                if (f == 2 && e != 5 && kart->mKartModelsEntry->mUnk_058 == 0) {
-                    k = kart->mUnk_7c;
+                if (f == 2 && e != 5 && kart->mKartModelsEntry->field58 == 0) {
+                    k = kart->field7C;
                     g = 0;
                     if (!(k & 1) && (k & 0x402000)) {
                         g = 1;
@@ -499,11 +499,11 @@ s32 HandleWalls(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedL
                     if (g == 0) {
                         n = kart->mPos;
                         g = 0x800;
-                        if (kart->mUnk_4c & 0x10000) {
+                        if (kart->field4C & 0x10000) {
                             g = 0x4cd;
                         }
                         VEC_MultAdd(-kart->mRadius, contactNormal, &kart->mPos, &n);
-                        VEC_MultAdd(((s64) kart->mScale.y * (g << 4) + 0x800) >> 12, &kart->mUnk_12c, &n, &n);
+                        VEC_MultAdd(((s64) kart->mScale.y * (g << 4) + 0x800) >> 12, &kart->field12C, &n, &n);
                         ptcm_createEmitterNoUpdateSkip(0x3b, &n, kart, func_0206c488);
                     }
                 }
@@ -513,12 +513,12 @@ s32 HandleWalls(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedL
         if (h > 0) {
             kart->mSpeedLimitHitFactor = 0x4cd;
             if (kart->mSurfaceGroup != 0xb && kart->mSurfaceGroup != 8) {
-                kart->mUnk_48 &= 0xdfe77fdf;
+                kart->field48 &= 0xdfe77fdf;
                 kart->mBoostTimer = 0;
-                kart->mUnk_538.mUnk_00 = 0;
+                kart->field538.field0 = 0;
                 kart->mMiniTurboTimer = 0;
-                if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                    if (!(kart->mUnk_4c & 0x10000000) && !(kart->mUnk_48 & 0x4000000)) {
+                if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                    if (!(kart->field4C & 0x10000000) && !(kart->field48 & 0x4000000)) {
                         cam_resetPlayerCameraTargetFov();
                     }
                     dce_stopBlur();
@@ -536,14 +536,14 @@ s32 HandleWalls(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseSpeedL
             if (kart->mVelocityLength > 0x1800 && k > 0x19a) {
                 l = ((s32) (((s64) kart->mVelocityLength * k) >> 12) >> 12) * 30;
                 vec_crossProduct(&kart->mSignedTurnedForward, contactNormal, &o);
-                if (vec_dotProduct(&o, &kart->mUnk_12c) < 0) {
+                if (vec_dotProduct(&o, &kart->field12C) < 0) {
                     l = l * -1;
                 }
                 kart->mHeadingAnglePerFrame = l;
             }
         }
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mVelocityLength > 0x3000 && f == 2) {
-            driver_getPlayerStatistics()->mUnk_10++;
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mVelocityLength > 0x3000 && f == 2) {
+            driver_getPlayerStatistics()->field10++;
         }
         kart->mTurnAngle = 0;
     } else if (e == 4) {

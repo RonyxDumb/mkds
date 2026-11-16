@@ -55,7 +55,7 @@ void func_ov001_02188b2c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mAngleState = 4;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mUnk_1a0 = d;
+    mapObject->field1A0 = d;
     mapObject->mMoveAngleMode = 1;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -71,14 +71,14 @@ void func_ov001_02188adc(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
-    mapObject->mUnk_1c4 = f;
+    mapObject->field1C4 = f;
 }
 
 void func_ov001_02188a8c(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 anglePerCallIncrement) {
     mapObject->mAngleState = 5;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mUnk_1a0 = 0;
+    mapObject->field1A0 = 0;
     mapObject->mMoveAngleMode = 0;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -99,7 +99,7 @@ void func_ov001_02188a30(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mAngleState = angleState;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mUnk_1a0 = 0;
+    mapObject->field1A0 = 0;
     mapObject->mMoveAngleMode = 2;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
@@ -110,7 +110,7 @@ void func_ov001_021889ec(Unk02188950 *mapObject, s32 anglePerCallTarget, s32 ang
     mapObject->mAngleState = 2;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mUnk_1a0 = 0;
+    mapObject->field1A0 = 0;
     mapObject->mMoveAngleMode = 2;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;

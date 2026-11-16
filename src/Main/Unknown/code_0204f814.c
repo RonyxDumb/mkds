@@ -16,14 +16,14 @@ static inline u32 func_0204f814_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline u32 func_0204ff14_inline(ConnectionWork *p) {
     if (p == NULL) {
         return 0;
     }
-    return p->mUnk_0000;
+    return p->field0;
 }
 
 u16 func_0204ffe8(u32 participantIndex) {
@@ -31,14 +31,14 @@ u16 func_0204ffe8(u32 participantIndex) {
     u32 result;
 
     stateMatches = FALSE;
-    switch (gStruct217AA00->mUnk_0004) {
+    switch (gStruct217AA00->field4) {
         case 8:
         case 9:
             stateMatches = TRUE;
             break;
     }
     if (stateMatches != FALSE) {
-        result = gStruct217AA00->mUnk_15c8[participantIndex].mUnk_00_0;
+        result = gStruct217AA00->field15C8[participantIndex].field0_0;
     } else {
         result = 0;
     }
@@ -49,7 +49,7 @@ BOOL func_0204ffbc(void) {
     BOOL result;
 
     result = FALSE;
-    switch (gStruct217AA00->mUnk_0004) {
+    switch (gStruct217AA00->field4) {
         case 8:
         case 9:
             result = TRUE;
@@ -70,9 +70,9 @@ BOOL func_0204ff14(u16 entryIndex, void *destination) {
     if (*(u16 *) 0x027ffc40 == 2) {
         return FALSE;
     }
-    if (t->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    if (t->fieldAC[entryIndex].fieldDC_0 != 0) {
         if (destination != NULL) {
-            MI_CpuCopy8(t->mUnk_00ac[entryIndex].mUnk_c6, destination, 0x14);
+            MI_CpuCopy8(t->fieldAC[entryIndex].fieldC6, destination, 0x14);
         }
         result = TRUE;
     }
@@ -89,11 +89,11 @@ BOOL func_0204fe90(u16 entryIndex) {
         entryValid = FALSE;
     } else if (*(u16 *) 0x027ffc40 == 2) {
         entryValid = FALSE;
-    } else if (gStruct217AA00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    } else if (gStruct217AA00->fieldAC[entryIndex].fieldDC_0 != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        if (gStruct217AA00->mUnk_00ac[entryIndex].mUnk_dc_5 != 0) {
+        if (gStruct217AA00->fieldAC[entryIndex].fieldDC_5 != 0) {
             result = TRUE;
         }
     }
@@ -110,11 +110,11 @@ s32 func_0204fe1c(u16 entryIndex) {
         entryValid = FALSE;
     } else if (*(u16 *) 0x027ffc40 == 2) {
         entryValid = FALSE;
-    } else if (gStruct217AA00->mUnk_00ac[entryIndex].mUnk_dc_0 != 0) {
+    } else if (gStruct217AA00->fieldAC[entryIndex].fieldDC_0 != 0) {
         entryValid = TRUE;
     }
     if (entryValid != FALSE) {
-        result = gStruct217AA00->mUnk_00ac[entryIndex].mUnk_da;
+        result = gStruct217AA00->fieldAC[entryIndex].fieldDA;
     }
     return result;
 }
@@ -127,26 +127,26 @@ BOOL func_0204fcec(u16 entryIndex, void *destination) {
     switch (func_0204f814_inline()) {
         case 1:
             result = FALSE;
-            if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+            if ((gStruct217AA00->field454 & 0x40) != 0) {
                 p = func_02007e38(entryIndex);
-                if ((gStruct217AA00->mUnk_1696 & (1 << entryIndex)) != 0 && p != NULL) {
+                if ((gStruct217AA00->field1696 & (1 << entryIndex)) != 0 && p != NULL) {
                     if (destination != NULL) {
                         MI_CpuCopy8((u8 *) p + 2, destination, 0x14);
                     }
                     result = TRUE;
                 }
-            } else if ((gStruct217AA00->mUnk_0044.mChildMask & (1 << entryIndex)) != 0) {
+            } else if ((gStruct217AA00->field44.mChildMask & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gStruct217AA00->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gStruct217AA00->field45C[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
             break;
         case 2:
             result = FALSE;
-            if ((gStruct217AA00->mUnk_043d & (1 << entryIndex)) != 0) {
+            if ((gStruct217AA00->field43D & (1 << entryIndex)) != 0) {
                 if (destination != NULL) {
-                    MI_CpuCopy8(&gStruct217AA00->mUnk_045c[entryIndex], destination, 0x14);
+                    MI_CpuCopy8(&gStruct217AA00->field45C[entryIndex], destination, 0x14);
                 }
                 result = TRUE;
             }
@@ -166,17 +166,17 @@ void FillParentParameter(s32 a) {
 
     parentParameter = gStruct217AA00->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gStruct217AA00->mUnk_0044.mUnk_38;
-    gameInfo->mUnk_0e.mUnk_07_0 = 0;
-    gameInfo->mUnk_0e.mKartIndex = 0;
+    gameInfo = gStruct217AA00->field44.field38;
+    gameInfo->fieldE.field7_0 = 0;
+    gameInfo->fieldE.mKartIndex = 0;
     gameInfo->mCharacterIndex = 0;
     gameInfo->mCupCourseIndex = 0;
     gameInfo->mMinute = 0;
     gameInfo->mSecond = 0;
     gameInfo->mMillisecond = 0;
-    gameInfo->mUnk_0e.mUnk_06_0 = 0;
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
-        parentParameter->mUnk_0c = (gStruct217AA00->mUnk_1690 + 7) & 0x7fff;
+    gameInfo->fieldE.field6_0 = 0;
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
+        parentParameter->fieldC = (gStruct217AA00->field1690 + 7) & 0x7fff;
     } else {
         GetTime(&time);
         hour = time.mHour;
@@ -187,14 +187,14 @@ void FillParentParameter(s32 a) {
         generatorState = OS_GetTickLo() | seconds << 16;
         generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
         highWord = generatorState >> 32;
-        parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+        parentParameter->fieldC = (u16) (highWord * 0x10000 >> 32) | 0x8000;
     }
-    parentParameter->mUnk_32 = gStruct217AA00->mUnk_0088;
-    parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gStruct217AA00->mUnk_0044.mUnk_38;
-    parentParameter->mUnk_04 = 0x1c;
-    parentParameter->mUnk_10 = 7;
-    parentParameter->mUnk_0e = a != 0 ? 1 : 0;
+    parentParameter->field32 = gStruct217AA00->field88;
+    parentParameter->field18 = WM_GetDispersionBeaconPeriod();
+    parentParameter->field0 = gStruct217AA00->field44.field38;
+    parentParameter->field4 = 0x1c;
+    parentParameter->field10 = 7;
+    parentParameter->fieldE = a != 0 ? 1 : 0;
 }
 
 void FillGhostParentParameter(GhostRecord *ghostRecord) {
@@ -208,10 +208,10 @@ void FillGhostParentParameter(GhostRecord *ghostRecord) {
 
     parentParameter = gStruct217AA00->mParentParameter;
     MIi_CpuCopy32(data_02154788, parentParameter, 0x40);
-    gameInfo = gStruct217AA00->mUnk_0044.mUnk_38;
-    gameInfo->mUnk_0e.mUnk_07_0 = 1;
+    gameInfo = gStruct217AA00->field44.field38;
+    gameInfo->fieldE.field7_0 = 1;
     MI_CpuCopy8(ghostRecord->mName, gameInfo, 0x14);
-    gameInfo->mUnk_0e.mKartIndex = ghostRecord->mKartIndex;
+    gameInfo->fieldE.mKartIndex = ghostRecord->mKartIndex;
     gameInfo->mCharacterIndex = ghostRecord->mCharacterIndex;
     gameInfo->mCupCourseIndex = (u8) rconf_getCourseNumber(ghostRecord->mCourseId);
     gameInfo->mMinute = ghostRecord->mMinute;
@@ -226,14 +226,14 @@ void FillGhostParentParameter(GhostRecord *ghostRecord) {
     generatorState = OS_GetTickLo() | seconds << 16;
     generatorState = generatorState * 0x5d588b656c078965ull + 0x269ec3;
     highWord = generatorState >> 32;
-    parentParameter->mUnk_0c = (u16) (highWord * 0x10000 >> 32) | 0x8000;
-    parentParameter->mUnk_32 = gStruct217AA00->mUnk_0088;
-    parentParameter->mUnk_18 = WM_GetDispersionBeaconPeriod();
-    parentParameter->mUnk_00 = gStruct217AA00->mUnk_0044.mUnk_38;
-    parentParameter->mUnk_04 = 0x1c;
-    parentParameter->mUnk_10 = 1;
-    parentParameter->mUnk_34 = 0x1b6;
-    parentParameter->mUnk_36 = 0x2e;
+    parentParameter->fieldC = (u16) (highWord * 0x10000 >> 32) | 0x8000;
+    parentParameter->field32 = gStruct217AA00->field88;
+    parentParameter->field18 = WM_GetDispersionBeaconPeriod();
+    parentParameter->field0 = gStruct217AA00->field44.field38;
+    parentParameter->field4 = 0x1c;
+    parentParameter->field10 = 1;
+    parentParameter->field34 = 0x1b6;
+    parentParameter->field36 = 0x2e;
 }
 
 void func_0204f8a0(u8 a) {
@@ -241,7 +241,7 @@ void func_0204f8a0(u8 a) {
     BOOL allowed;
 
     proceed = FALSE;
-    if ((gStruct217AA00->mUnk_0454 & 0x40) != 0) {
+    if ((gStruct217AA00->field454 & 0x40) != 0) {
         allowed = TRUE;
         if (func_0204f814_inline() != 1) {
             if (*(u16 *) 0x027ffc40 != 2) {
@@ -270,17 +270,17 @@ void func_0204f814(void) {
     lowestIndex = -1;
     lowest = 0x7fff;
     for (index = 1; index < 14; index++) {
-        value = gStruct217AA00->mUnk_008c[index];
+        value = gStruct217AA00->field8C[index];
         if (value != -1 && value < lowest) {
             lowest = value;
             lowestIndex = index;
         }
     }
     if (lowestIndex != -1) {
-        gStruct217AA00->mUnk_0088 = lowestIndex;
+        gStruct217AA00->field88 = lowestIndex;
         return;
     }
-    gStruct217AA00->mUnk_0088 = -1;
-    gStruct217AA00->mUnk_0008 = 3;
+    gStruct217AA00->field88 = -1;
+    gStruct217AA00->field8 = 3;
     gStruct217AA00->mRequestPending = 0;
 }

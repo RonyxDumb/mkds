@@ -4,10 +4,10 @@
 
 // Block filled by GpiOpenSearchSocket.
 typedef struct Unk021962d4Addr {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u16 field2;
+    /* 04 */ u32 field4;
 } Unk021962d4Addr;
 
 #include "00/GameSpy/gpiBuddy.h"

@@ -220,7 +220,7 @@ void func_ov003_021ca5b0(void) {
         ClearDispcntBits(0, 0x15);
         if ((*(u8 *) &data_ov003_021da228) != 1) {
             func_ov003_021cd27c();
-            func_ov003_021cd790(func_ov003_021cdb6c()->mUnk_f4);
+            func_ov003_021cd790(func_ov003_021cdb6c()->fieldF4);
             func_ov003_021c2120(2, 1);
             SetUpdateFunction(SetupWay);
             return;

@@ -12,7 +12,7 @@ typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;
     /* 1c */ TimeDigits mLapTimes[5];
 // Counts 0 to 15; picks mCellIndexAdd by quarters.
-    /* a8 */ s32 mUnk_a8;
+    /* a8 */ s32 fieldA8;
 // Added to the cell number of a time row: 0, 0xd or 0x1a.
     /* ac */ s32 mCellIndexAdd;
 } RaceGoalTimes;

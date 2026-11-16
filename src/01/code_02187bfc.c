@@ -17,7 +17,7 @@ void func_ov001_02187bfc(Unk02188950 *mapObject, Vec3 *velocity, s32 timer) {
     s32 *zeroWords;
 
     if (mapObject->mItemBomb != NULL) {
-        if (((ItemBomb *) mapObject->mItemBomb)->mUnk_000.mItemObject.mPos.y < 0x64000) {
+        if (((ItemBomb *) mapObject->mItemBomb)->field0.mItemObject.mPos.y < 0x64000) {
             ReleaseItemBomb(&mapObject->mItemBomb);
         } else if (velocity != NULL) {
             func_020fd540(&mapObject->mItemBomb, velocity, timer);

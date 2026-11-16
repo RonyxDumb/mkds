@@ -8,28 +8,28 @@
 
 // Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (aship_render, aship_globalLogicInit).
 typedef struct Airship {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
+    /* 00 */ MapObject field0;
+    /* a0 */ s32 fieldA0;
+    /* a4 */ s32 fieldA4;
     /* a8 */ s16 mWobbleAngle;
-    /* aa */ u8 mUnk_aa[2];
+    /* aa */ u8 fieldAA[2];
     /* ac */ s32 mWobbleOffset;
-    /* b0 */ s32 mUnk_b0;
+    /* b0 */ s32 fieldB0;
     /* b4 */ s32 mWobbleMid;
     /* b8 */ s32 mWobbleAmplitude;
     /* bc */ u32 mWobbleAmplitudePerFrame;
     /* c0 */ s32 mWobbleAnglePerFrame;
-    /* c4 */ s32 mUnk_c4;
-    /* c8 */ GroupFollower mUnk_c8;
+    /* c4 */ s32 fieldC4;
+    /* c8 */ GroupFollower fieldC8;
     /* State number of this kind's own per-frame switch in aship_update; this object does not use
-       MapObject.mUnk_80's state machine; also written by the group pre-step */
+       MapObject.field80's state machine; also written by the group pre-step */
     /* ec */ s32 mState;
 } Airship;
 
 // Array of object pointers: pointer to the array and the number of entries (aship_globalLogicInit).
 typedef struct AirshipObjectList {
-    /* 00 */ Airship **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ Airship **field0;
+    /* 04 */ u16 field4;
 } AirshipObjectList;
 
 void aship_loadModel(void *a);

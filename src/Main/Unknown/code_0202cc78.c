@@ -4,14 +4,14 @@
 #pragma thumb on
 
 s32 GetTimerTensCellIndex(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return 0x38;
     }
     return 0x39;
 }
 
 s32 GetTimerOnesCellIndex(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return 0x39;
     }
     return 0x3a;

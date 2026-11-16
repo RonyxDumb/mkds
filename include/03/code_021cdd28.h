@@ -5,16 +5,16 @@
 typedef struct TaskEntry TaskEntry;
 
 typedef struct Unk021cdd48_66a8 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
 } Unk021cdd48_66a8;
 
 typedef struct OamRange OamRange;
 
 typedef struct Unk021ce0f0 {
-    /* 00 */ OamRange *mUnk_00[5];
+    /* 00 */ OamRange *field0[5];
     /* 14 */ u32 mTask;
-    /* 18 */ u8 mUnk_18;
+    /* 18 */ u8 field18;
 } Unk021ce0f0;
 
 extern Unk021cdd48_66a8 data_ov003_021d66a8[];

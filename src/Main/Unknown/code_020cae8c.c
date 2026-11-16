@@ -15,7 +15,7 @@ void menu_modeSelectSelectedOutEffectStateRender(void) {
     s32 framesSinceSwitch;
 
     framesSinceSwitch = menu_getFrameCounter();
-    gMenuSceneState->mUnk_938 = mutil_getButtonOutEffectOffset(framesSinceSwitch);
+    gMenuSceneState->field938 = mutil_getButtonOutEffectOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
         menu_gotoState(2, nextScreenAndModeTable[gMenuSceneState->mSinglePlaySelectModeIndex][0]);
         menu_initRaceConfig();

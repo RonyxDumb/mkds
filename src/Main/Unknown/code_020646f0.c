@@ -40,15 +40,15 @@ void driver_initToNkmPos(Kart *kart, s32 b) {
         }
     } else {
         courseMap = gMapData;
-        if (courseMap->mUnk_3c != NULL) {
+        if (courseMap->field3C != NULL) {
             n = &kart->mPos;
             if (n != NULL) {
-                *n = courseMap->mUnk_3c->mUnk_00;
+                *n = courseMap->field3C->field0;
             }
-            startRotation = courseMap->mUnk_3c->mUnk_0c;
+            startRotation = courseMap->field3C->fieldC;
         }
     }
-    if ((kart->mUnk_7c & 0x600) != 0) {
+    if ((kart->field7C & 0x600) != 0) {
         j = kart->mPos.x >> 10;
         k = kart->mPos.y >> 10;
         l = kart->mPos.z >> 10;
@@ -71,24 +71,24 @@ void driver_initToNkmPos(Kart *kart, s32 b) {
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;
     qrtn_fromAxisAngle(&data_02154a3c, kart->mHeadingAngle, &kart->mUnk_e0_m);
     kart->mUnk_110_q = kart->mUnk_e0_m;
-    qrtn_toMtx43(&kart->mUnk_120, &kart->mUnk_110_q);
+    qrtn_toMtx43(&kart->field120, &kart->mUnk_110_q);
     kart->mUnk_150_m = kart->mUnk_120_m;
     kart->mPrevPos = kart->mPos;
     kart->mDrawMatrixPos = kart->mPrevPos;
-    kart->mUnk_174.x = kart->mDrawMatrixPos.x;
-    kart->mUnk_174.y = kart->mDrawMatrixPos.y;
-    kart->mUnk_174.z = kart->mDrawMatrixPos.z;
+    kart->field174.x = kart->mDrawMatrixPos.x;
+    kart->field174.y = kart->mDrawMatrixPos.y;
+    kart->field174.z = kart->mDrawMatrixPos.z;
     rotationMatrix = &kart->mUnk_120_m;
-    kart->mForward.x = rotationMatrix->mUnk_00[2].x;
-    kart->mForward.y = rotationMatrix->mUnk_00[2].y;
-    kart->mForward.z = rotationMatrix->mUnk_00[2].z;
+    kart->mForward.x = rotationMatrix->field0[2].x;
+    kart->mForward.y = rotationMatrix->field0[2].y;
+    kart->mForward.z = rotationMatrix->field0[2].z;
     kart->mTurnedForward = kart->mForward;
     kart->mDrawMatrix = &kart->mUnk_150_m;
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
     if (characterAnimation == NULL) {
         return;
     }
-    if (characterAnimation->mUnk_18 != 0) {
-        characterAnimation->mUnk_0c = kart->mKartModelsEntry->mMiddleFrame;
+    if (characterAnimation->field18 != 0) {
+        characterAnimation->fieldC = kart->mKartModelsEntry->mMiddleFrame;
     }
 }

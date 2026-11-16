@@ -55,15 +55,15 @@ u8 sanbo_onDriverCollide(Sanbo *p, Kart *a, u8 *b, u8 *c) {
     d = *c;
     if (*b == 1) {
         sanbo_kill(p);
-        p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e4;
-        p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e8;
-        mobj_tryDestroyByDriver(&p->mUnk_000, a);
+        p->field0.mFlags = p->field0.mFlags | data_021567e4;
+        p->field0.mFlags = p->field0.mFlags | data_021567e8;
+        mobj_tryDestroyByDriver(&p->field0, a);
     } else {
         if (p->mFastWobbleTimer == 0) {
             s.mSoundId = 0x193;
-            s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
-            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
+            s.mPositionSource = &p->field0.mPos;
+            s.field8 = 2;
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
         }
@@ -79,14 +79,14 @@ u8 sanbo_onItemCollide(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
     d = *c;
     if (*b == 1) {
         sanbo_kill(p);
-        p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e4;
-        p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e8;
+        p->field0.mFlags = p->field0.mFlags | data_021567e4;
+        p->field0.mFlags = p->field0.mFlags | data_021567e8;
     } else {
         if (p->mFastWobbleTimer == 0) {
             s.mSoundId = 0x193;
-            s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
-            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
+            s.mPositionSource = &p->field0.mPos;
+            s.field8 = 2;
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
         }
@@ -127,7 +127,7 @@ void sanbo_render(void *a, Sanbo *p) {
     switch (p->mState) {
         case 0:
         case 1:
-            NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mUnk_000.mPos), 12);
+            NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->field0.mPos), 12);
             f0[0] = 0;
             f0[1] = 0xa00;
             f0[2] = 0;
@@ -162,7 +162,7 @@ void sanbo_render(void *a, Sanbo *p) {
                 f2[2] = 0;
                 NNS_G3dGeBufferOP_N(0x1c, f2, 3);
                 NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mPieces[i].mPos), 12);
-                if ((p->mUnk_000.mFlags & 0x12) == 0 && p->mPieces[i].mRotateZAngle != 0) {
+                if ((p->field0.mFlags & 0x12) == 0 && p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
                     MTX_RotZ33_(m1, FX_SinCosTable_[k], FX_SinCosTable_[k + 1]);
                     NNS_G3dGeBufferOP_N(0x1a, m1, 9);
@@ -187,7 +187,7 @@ void sanbo_render(void *a, Sanbo *p) {
             for (i = 0; i < p->mPieceCount; i++) {
                 w2 = 0x1e;
                 NNS_G3dGeBufferOP_N(0x14, &w2, 1);
-                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mUnk_000.mPos), 12);
+                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->field0.mPos), 12);
                 f3[2] = 0x80;
                 f3[0] = 0;
                 f3[1] = (i * 0x14000 + 0xa000) >> 4;
@@ -220,7 +220,7 @@ void sanbo_globalLogicInit(MapObjectList *l) {
         return;
     }
     for (i = 0; i < l->mMapObjectCount && (o = l->mMapObjects[i]) != NULL; i++) {
-        o->mPathSpeed = (o->mUnk_000.mCourseMapRow->mUnk_28 << 12) / 100;
+        o->mPathSpeed = (o->field0.mCourseMapRow->field28 << 12) / 100;
         o->mPieceCount = 4;
         for (j = 0; j < o->mPieceCount; j++) {
             o->mPieces[j].mWobbleAngle = 0;
@@ -228,7 +228,7 @@ void sanbo_globalLogicInit(MapObjectList *l) {
             o->mPieces[j].mWobbleAmplitude = 0x71c;
             o->mPieces[j].mWobbleAmplitudePerFrame = 0;
             o->mPieces[j].mWobbleAnglePerFrame = 0x2d8;
-            o->mPieces[j].mUnk_38 = 0;
+            o->mPieces[j].field38 = 0;
             o->mPieces[j].mDrawScale = 0x1000;
             o->mPieces[j].mRotateZAngle = 0;
             o->mPieces[j].mWobbleDelayTimer = j * 0x14;
@@ -259,25 +259,25 @@ void sanbo_update(void *a, Sanbo *p) {
         p->mFollower.mProgressStep =
             (s64) t * p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength >> 12;
         if (pw_update(&p->mFollower) != FALSE) {
-            p->mPathWaitTimer = (u16) p->mFollower.mFromEntry->mUnk_0e;
+            p->mPathWaitTimer = (u16) p->mFollower.mFromEntry->fieldE;
         } else {
             p->mPathWaitTimer = 0;
         }
         if (p->mFollower.mPath->mWraps != 0) {
-            pw_20D8BF8_XYZ(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
+            pw_20D8BF8_XYZ(&p->mFollower, &p->field0.mPos, &p->field0.field10);
         } else {
-            pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
+            pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->field0.mPos, &p->field0.field10);
         }
     } else {
         p->mFollower.mSpeed = 0;
         p->mFollower.mProgressStep = 0;
-        p->mUnk_000.mUnk_10.x = 0;
-        p->mUnk_000.mUnk_10.y = 0;
-        p->mUnk_000.mUnk_10.z = 0;
+        p->field0.field10.x = 0;
+        p->field0.field10.y = 0;
+        p->field0.field10.z = 0;
     }
     switch (p->mState) {
         case 0:
-            if ((p->mUnk_000.mFlags & 0x12) != 0) {
+            if ((p->field0.mFlags & 0x12) != 0) {
                 return;
             }
             for (i = 0; i < p->mPieceCount; i++) {
@@ -291,11 +291,11 @@ void sanbo_update(void *a, Sanbo *p) {
                 if (p->mPieces[i].mWobbleDelayTimer-- <= 0) {
                     p->mPieces[i].mWobbleDelayTimer = 0;
                     p->mPieces[i].mWobbleAngle = p->mPieces[i].mWobbleAngle + p->mPieces[i].mWobbleAnglePerFrame;
-                    p->mPieces[i].mUnk_24 =
+                    p->mPieces[i].field24 =
                         p->mPieces[i].mWobbleMid +
                         sanbo_FX_MulInline(p->mPieces[i].mWobbleAmplitude, sanbo_FX_SinIdx(p->mPieces[i].mWobbleAngle)) -
                         p->mPieces[i].mWobbleValue;
-                    p->mPieces[i].mWobbleValue = p->mPieces[i].mWobbleValue + p->mPieces[i].mUnk_24;
+                    p->mPieces[i].mWobbleValue = p->mPieces[i].mWobbleValue + p->mPieces[i].field24;
                     t = p->mPieces[i].mWobbleAmplitude;
                     if (t > 0) {
                         v = t + p->mPieces[i].mWobbleAmplitudePerFrame;
@@ -312,13 +312,13 @@ void sanbo_update(void *a, Sanbo *p) {
                     }
                     t = p->mPieces[i].mWobbleAnglePerFrame;
                     if (t > 0) {
-                        v = t + p->mPieces[i].mUnk_38;
+                        v = t + p->mPieces[i].field38;
                         if (v <= 0) {
                             v = 0;
                         }
                         p->mPieces[i].mWobbleAnglePerFrame = v;
                     } else if (t < 0) {
-                        v = t + p->mPieces[i].mUnk_38;
+                        v = t + p->mPieces[i].field38;
                         if (v >= 0) {
                             v = 0;
                         }
@@ -342,9 +342,9 @@ void sanbo_update(void *a, Sanbo *p) {
                 return;
             }
             s.mSoundId = 0x194;
-            s.mPositionSource = &p->mUnk_000.mPos;
-            s.mUnk_08 = 2;
-            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
+            s.mPositionSource = &p->field0.mPos;
+            s.field8 = 2;
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
             break;
@@ -357,12 +357,12 @@ void sanbo_update(void *a, Sanbo *p) {
                     p->mPieces[j].mVelocity.y = p->mPieces[j].mVelocity.y - 0x400;
                 }
             }
-            if ((p->mUnk_000.mFlags & 0x12) == 0) {
+            if ((p->field0.mFlags & 0x12) == 0) {
                 for (m = 0; m < p->mPieceCount; m++) {
                     p->mPieces[m].mRotateZAngle = p->mPieces[m].mRotateZAngle + p->mPieces[m].mRotateZAnglePerFrame;
                 }
             }
-            if (p->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
+            if (p->field0.mCourseMapRow->field2A != 0) {
                 return;
             }
             if (p->mState2Timer-- > 0) {
@@ -376,8 +376,8 @@ void sanbo_update(void *a, Sanbo *p) {
             }
             p->mPieceCount = 1;
             p->mState = 3;
-            p->mUnk_000.mFlags = p->mUnk_000.mFlags & ~1;
-            p->mUnk_000.mFlags = p->mUnk_000.mFlags & ~8;
+            p->field0.mFlags = p->field0.mFlags & ~1;
+            p->field0.mFlags = p->field0.mFlags & ~8;
             break;
         case 3:
             p->mPieces[p->mPieceCount - 1].mDrawScale = p->mPieces[p->mPieceCount - 1].mDrawScale + 0xcd;

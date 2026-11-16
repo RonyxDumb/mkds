@@ -9,20 +9,20 @@
 
 // Object found through the pointers at 0x10 of an Unk021ccf30.
 typedef struct Unk021ccf30_10 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u8 mUnk_04[6];
-    /* 0a */ u8 mUnk_0a[2];
-    /* 0c */ u8 mUnk_0c[0x20];
-    /* 2c */ u16 mUnk_2c;
-    /* 2e */ u8 mUnk_2e[0xe];
-    /* 3c */ u16 mUnk_3c;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u8 field4[6];
+    /* 0a */ u8 fieldA[2];
+    /* 0c */ u8 fieldC[0x20];
+    /* 2c */ u16 field2C;
+    /* 2e */ u8 field2E[0xe];
+    /* 3c */ u16 field3C;
 } Unk021ccf30_10;
 
 typedef struct Unk021ccf30 {
-    /* 00 */ u8 mUnk_00[0xe];
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ Unk021ccf30_10 *mUnk_10[0x10];
-    /* 50 */ u16 mUnk_50[0x10];
+    /* 00 */ u8 field0[0xe];
+    /* 0e */ u16 fieldE;
+    /* 10 */ Unk021ccf30_10 *field10[0x10];
+    /* 50 */ u16 field50[0x10];
 } Unk021ccf30;
 
 extern u8 data_ov003_021d662c[];

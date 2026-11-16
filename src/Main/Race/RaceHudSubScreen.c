@@ -65,7 +65,7 @@ void mpicn_updateCrabIcon(void) {
             if (lmap_20B5AE8(&object->mPos, &mpicn_sCrabIcon->mCells[cellCount].mDrawPos,
                                                 v, 1, 1)) {
                 mpicn_sCrabIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x8a);
-                mpicn_sCrabIcon->mCells[cellCount].mUnk_0c = 2;
+                mpicn_sCrabIcon->mCells[cellCount].fieldC = 2;
                 cellCount++;
             }
         }
@@ -131,13 +131,13 @@ void mpicn_updateItemIcon(void) {
                             position, &mpicn_sItemIcon->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
                         if (object->mAlpha > 0) {
                             v = ((ItemTeresa *) object)->mOffsetY;
-                            mpicn_sItemIcon->mCells[cellCount].mDrawPos.mUnk_04 -=
+                            mpicn_sItemIcon->mCells[cellCount].mDrawPos.field4 -=
                                 0x88 * v / getFrameRate();
-                            if (mpicn_sItemIcon->mCells[cellCount].mDrawPos.mUnk_04 > 0) {
+                            if (mpicn_sItemIcon->mCells[cellCount].mDrawPos.field4 > 0) {
                                 mpicn_sItemIcon->mCells[cellCount].mCell = cell;
-                                mpicn_sItemIcon->mCells[cellCount].mUnk_0c =
+                                mpicn_sItemIcon->mCells[cellCount].fieldC =
                                     m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
-                                mpicn_sItemIcon->mCells[cellCount].mUnk_0e = 0;
+                                mpicn_sItemIcon->mCells[cellCount].fieldE = 0;
                                 cellCount++;
                             }
                         }
@@ -149,9 +149,9 @@ void mpicn_updateItemIcon(void) {
                             position, &mpicn_sItemIcon->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
                         if (mobj_20D3D10(position->y) == 0) {
                             mpicn_sItemIcon->mCells[cellCount].mCell = cell;
-                            mpicn_sItemIcon->mCells[cellCount].mUnk_0c =
+                            mpicn_sItemIcon->mCells[cellCount].fieldC =
                                 m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
-                            mpicn_sItemIcon->mCells[cellCount].mUnk_0e =
+                            mpicn_sItemIcon->mCells[cellCount].fieldE =
                                 (object->mFlags & 0x40000) != 0 ? 1 : 0;
                             cellCount++;
                         }
@@ -163,9 +163,9 @@ void mpicn_updateItemIcon(void) {
                             position, &mpicn_sItemIcon->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
                         if (mobj_20D3D10(position->y) == 0) {
                             mpicn_sItemIcon->mCells[cellCount].mCell = cell;
-                            mpicn_sItemIcon->mCells[cellCount].mUnk_0c =
+                            mpicn_sItemIcon->mCells[cellCount].fieldC =
                                 m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
-                            mpicn_sItemIcon->mCells[cellCount].mUnk_0e =
+                            mpicn_sItemIcon->mCells[cellCount].fieldE =
                                 (object->mFlags & 0x40000) != 0 ? 1 : 0;
                             cellCount++;
                         }
@@ -185,20 +185,20 @@ s32 mpicn_createDriverIcon(void) {
     s32 i;
 
     gRaceHudSubScreenKarts = heap_alloc(proc_getHeap(proc_getCurrent()), 0x194);
-    mpicn_20C0BA8(&gRaceHudSubScreenKarts->mUnk_190, 0x18);
+    mpicn_20C0BA8(&gRaceHudSubScreenKarts->field190, 0x18);
     for (i = 0; i < 8; i++) {
-        gRaceHudSubScreenKarts->mUnk_000[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_020[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00 = 0;
-        gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04 = 0;
-        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_130[i] = 0;
+        gRaceHudSubScreenKarts->field0[i] = 0;
+        gRaceHudSubScreenKarts->field20[i] = 0;
+        gRaceHudSubScreenKarts->field60[i].field0 = 0;
+        gRaceHudSubScreenKarts->field60[i].field4 = 0;
+        gRaceHudSubScreenKarts->field100[i] = 0;
+        gRaceHudSubScreenKarts->field130[i] = 0;
     }
     return 1;
 }
 
 void mpicn_destroyDriverIcon(void) {
-    mpicn_destroyMObjIcon(&gRaceHudSubScreenKarts->mUnk_190);
+    mpicn_destroyMObjIcon(&gRaceHudSubScreenKarts->field190);
     gRaceHudSubScreenKarts = NULL;
 }
 
@@ -223,31 +223,31 @@ void mpicn_updateDriverIcon(void) {
 
     a = mpicn_20C0DB0();
     for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
-        gRaceHudSubScreenKarts->mUnk_000[i] = 0;
-        gRaceHudSubScreenKarts->mUnk_130[i] = i;
+        gRaceHudSubScreenKarts->field0[i] = 0;
+        gRaceHudSubScreenKarts->field130[i] = i;
         sortKeys[i] = rstat_getPlace(i & 0xff);
     }
     switch (r2d_getMapMode()) {
         case 0:
             for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
-                RefreshGlobalMapPosition(i, &gRaceHudSubScreenKarts->mUnk_060[i]);
-                screenX = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00;
-                screenY = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04;
+                RefreshGlobalMapPosition(i, &gRaceHudSubScreenKarts->field60[i]);
+                screenX = gRaceHudSubScreenKarts->field60[i].field0;
+                screenY = gRaceHudSubScreenKarts->field60[i].field4;
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
-                    gRaceHudSubScreenKarts->mUnk_000[i] = 1;
+                    gRaceHudSubScreenKarts->field0[i] = 1;
                     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK &&
                         gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST) {
-                        gRaceHudSubScreenKarts->mUnk_040[i] = 1;
+                        gRaceHudSubScreenKarts->field40[i] = 1;
                     } else {
-                        gRaceHudSubScreenKarts->mUnk_040[i] = 0;
+                        gRaceHudSubScreenKarts->field40[i] = 0;
                     }
-                    driver_getScale(&gRaceHudSubScreenKarts->mUnk_0a0[i], i);
+                    driver_getScale(&gRaceHudSubScreenKarts->fieldA0[i], i);
                     if (driver_getById(i)->mState != KART_STATE_NORMAL) {
-                        gRaceHudSubScreenKarts->mUnk_110[i]++;
-                        gRaceHudSubScreenKarts->mUnk_100[i] = (gRaceHudSubScreenKarts->mUnk_110[i] << 12) % 0x10000;
+                        gRaceHudSubScreenKarts->field110[i]++;
+                        gRaceHudSubScreenKarts->field100[i] = (gRaceHudSubScreenKarts->field110[i] << 12) % 0x10000;
                     } else {
-                        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-                        gRaceHudSubScreenKarts->mUnk_110[i] = 0;
+                        gRaceHudSubScreenKarts->field100[i] = 0;
+                        gRaceHudSubScreenKarts->field110[i] = 0;
                     }
                 }
             }
@@ -255,28 +255,28 @@ void mpicn_updateDriverIcon(void) {
         case 1:
         case 2:
         case 3:
-            gRaceHudSubScreenKarts->mUnk_190->mCellCount = 0;
+            gRaceHudSubScreenKarts->field190->mCellCount = 0;
             for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
                 driver_getPosition(&kartPosition, i & 0xff);
-                ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->mUnk_060[i], a);
-                screenX = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_00;
-                screenY = gRaceHudSubScreenKarts->mUnk_060[i].mUnk_04;
+                ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->field60[i], a);
+                screenX = gRaceHudSubScreenKarts->field60[i].field0;
+                screenY = gRaceHudSubScreenKarts->field60[i].field4;
                 if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
-                    gRaceHudSubScreenKarts->mUnk_000[i] = 1;
-                    gRaceHudSubScreenKarts->mUnk_040[i] = func_020b4dc4(i);
-                    driver_getScale(&gRaceHudSubScreenKarts->mUnk_0a0[i], i);
+                    gRaceHudSubScreenKarts->field0[i] = 1;
+                    gRaceHudSubScreenKarts->field40[i] = func_020b4dc4(i);
+                    driver_getScale(&gRaceHudSubScreenKarts->fieldA0[i], i);
                     if (driver_getById(i)->mState != KART_STATE_NORMAL) {
-                        gRaceHudSubScreenKarts->mUnk_110[i]++;
-                        gRaceHudSubScreenKarts->mUnk_100[i] = (gRaceHudSubScreenKarts->mUnk_110[i] << 12) % 0x10000;
+                        gRaceHudSubScreenKarts->field110[i]++;
+                        gRaceHudSubScreenKarts->field100[i] = (gRaceHudSubScreenKarts->field110[i] << 12) % 0x10000;
                     } else {
-                        gRaceHudSubScreenKarts->mUnk_100[i] = 0;
-                        gRaceHudSubScreenKarts->mUnk_110[i] = 0;
+                        gRaceHudSubScreenKarts->field100[i] = 0;
+                        gRaceHudSubScreenKarts->field110[i] = 0;
                     }
-                    gRaceHudSubScreenKarts->mUnk_150[i] = m2d_isPointOnLowerMap(&kartPosition) != 0 ? 2 : 3;
+                    gRaceHudSubScreenKarts->field150[i] = m2d_isPointOnLowerMap(&kartPosition) != 0 ? 2 : 3;
                     itemInUse = &it_sDriverItemStatus[i].mItemInUse;
                     objects = itemInUse->mObjects;
                     objectCount = itemInUse->mObjectCount;
-                    cellCount = gRaceHudSubScreenKarts->mUnk_190->mCellCount;
+                    cellCount = gRaceHudSubScreenKarts->field190->mCellCount;
                     b = mpicn_20C0DB0();
                     for (j = 0; j < objectCount; j++) {
                         object = objects[j];
@@ -290,69 +290,69 @@ void mpicn_updateDriverIcon(void) {
                             ComputePointAlongLine(&t, &kartPosition, position);
                             w = t;
                             if (lmap_20B5AE8(
-                                    &w, &gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mDrawPos, b, 0, 1) !=
+                                    &w, &gRaceHudSubScreenKarts->field190->mCells[cellCount].mDrawPos, b, 0, 1) !=
                                 FALSE) {
                                 switch (object->mKind) {
                                     case 0:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x4c);
                                         break;
                                     case 1:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x4d);
                                         break;
                                     case 2:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x4b);
                                         break;
                                     case 5:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x56);
                                         break;
                                     case 9:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x55);
                                         break;
                                     case 7:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x54);
                                         break;
                                     case 8:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x4e);
                                         break;
                                     default:
-                                        gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mCell =
+                                        gRaceHudSubScreenKarts->field190->mCells[cellCount].mCell =
                                             r2d_getRaceSCell(0x4c);
                                         break;
                                 }
-                                gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mUnk_0c =
+                                gRaceHudSubScreenKarts->field190->mCells[cellCount].fieldC =
                                     m2d_isPointOnLowerMap(&w) != 0 ? 2 : 3;
-                                gRaceHudSubScreenKarts->mUnk_190->mCells[cellCount].mUnk_0e =
+                                gRaceHudSubScreenKarts->field190->mCells[cellCount].fieldE =
                                     (object->mFlags & 0x40000) != 0 ? 1 : 0;
                                 cellCount++;
                             }
                         }
                     }
-                    gRaceHudSubScreenKarts->mUnk_190->mCellCount = cellCount;
+                    gRaceHudSubScreenKarts->field190->mCellCount = cellCount;
                 }
             }
             break;
     }
     for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
         if (driver_getCollisionMode(i) == 1) {
-            gRaceHudSubScreenKarts->mUnk_170[i]++;
+            gRaceHudSubScreenKarts->field170[i]++;
         } else {
-            gRaceHudSubScreenKarts->mUnk_170[i] = 0;
+            gRaceHudSubScreenKarts->field170[i] = 0;
         }
-        if (i != Race_GetPlayerId() && (driver_getById(i)->mUnk_7c & 0x402000) != 0) {
-            gRaceHudSubScreenKarts->mUnk_020[i] = 1;
+        if (i != Race_GetPlayerId() && (driver_getById(i)->field7C & 0x402000) != 0) {
+            gRaceHudSubScreenKarts->field20[i] = 1;
         } else {
-            gRaceHudSubScreenKarts->mUnk_020[i] = 0;
+            gRaceHudSubScreenKarts->field20[i] = 0;
         }
     }
     for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
-        if (gRaceHudSubScreenKarts->mUnk_040[i] == 0) {
+        if (gRaceHudSubScreenKarts->field40[i] == 0) {
             sortKeys[i] -= 0x20;
         }
         if (i == Race_GetPlayerId()) {
@@ -362,7 +362,7 @@ void mpicn_updateDriverIcon(void) {
     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         return;
     }
-    SortIndicesByKey(gRaceHudSubScreenKarts->mUnk_130, sortKeys, gRaceMultiConfig->mKartCount);
+    SortIndicesByKey(gRaceHudSubScreenKarts->field130, sortKeys, gRaceMultiConfig->mKartCount);
 }
 
 static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0_c *cell, s32 *matrix, s32 x, s32 y,
@@ -378,10 +378,10 @@ static inline void func_020c8dbc_inline(RaceHudOamBuffer *oamBuffer, Unk020224e0
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, cell, matrix, position, v, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (s != -1) {
-            oam->mUnk_0a = s;
+            oam->fieldA = s;
         }
         if (g != -1) {
-            oam->mUnk_0e = g;
+            oam->fieldE = g;
         }
         oam++;
     }
@@ -410,8 +410,8 @@ static inline void func_020c8dbc_inline3(RaceHudOamBuffer *oamBuffer, s32 kartIn
         offsetX = (s16) FX_SinCosTable_[angleIndex * 2 + 1] * 11 >> 12;
         offsetY = (s16) FX_SinCosTable_[angleIndex * 2] * 11 >> 12;
         cell = r2d_getRaceSCell(frame % 12 < 6 ? 93 + j * 2 : 94 + j * 2);
-        func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00 + offsetX,
-                              gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04 + offsetY);
+        func_020c8dbc_inline2(oamBuffer, cell, gRaceHudSubScreenKarts->field60[kartIndex].field0 + offsetX,
+                              gRaceHudSubScreenKarts->field60[kartIndex].field4 + offsetY);
     }
 }
 
@@ -434,28 +434,28 @@ void mpicn_renderDriverIcon(RaceHudOamBuffer *oamBuffer) {
     switch (r2d_getMapMode()) {
         case 0:
             for (drawOrderIndex = 0; drawOrderIndex < gRaceMultiConfig->mKartCount; drawOrderIndex++) {
-                kartIndex = gRaceHudSubScreenKarts->mUnk_130[drawOrderIndex];
-                if (gRaceHudSubScreenKarts->mUnk_000[kartIndex] != 0) {
-                    f = gRaceHudSubScreenKarts->mUnk_040[kartIndex];
-                    if (gRaceHudSubScreenKarts->mUnk_020[kartIndex] == 0) {
-                        if (gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y != 0x1000 ||
-                            gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
+                kartIndex = gRaceHudSubScreenKarts->field130[drawOrderIndex];
+                if (gRaceHudSubScreenKarts->field0[kartIndex] != 0) {
+                    f = gRaceHudSubScreenKarts->field40[kartIndex];
+                    if (gRaceHudSubScreenKarts->field20[kartIndex] == 0) {
+                        if (gRaceHudSubScreenKarts->fieldA0[kartIndex].y != 0x1000 ||
+                            gRaceHudSubScreenKarts->field110[kartIndex] != 0) {
                             rotationSlot = oam_getAffineId(oamBuffer);
                             lmap_rotScaleMtx22(rotationMatrix,
-                                                             gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y,
-                                                             gRaceHudSubScreenKarts->mUnk_100[kartIndex]);
+                                                             gRaceHudSubScreenKarts->fieldA0[kartIndex].y,
+                                                             gRaceHudSubScreenKarts->field100[kartIndex]);
                             if (driver_getCollisionMode((u16) kartIndex) == 3) {
                                 cell = r2d_getRaceSCell(0x10);
                             } else {
                                 cell = r2d_getRaceSCell(kartIndex);
                             }
                             func_020c8dbc_inline(
-                                oamBuffer, cell, rotationMatrix, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00,
-                                gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04, rotationSlot, f != 0 ? 1 : -1, -1);
-                            oamBuffer->mMatrices[rotationSlot].mUnk_06 = rotationMatrix[0] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_0e = rotationMatrix[1] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_16 = rotationMatrix[2] >> 4;
-                            oamBuffer->mMatrices[rotationSlot].mUnk_1e = rotationMatrix[3] >> 4;
+                                oamBuffer, cell, rotationMatrix, gRaceHudSubScreenKarts->field60[kartIndex].field0,
+                                gRaceHudSubScreenKarts->field60[kartIndex].field4, rotationSlot, f != 0 ? 1 : -1, -1);
+                            oamBuffer->mMatrices[rotationSlot].field6 = rotationMatrix[0] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].fieldE = rotationMatrix[1] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].field16 = rotationMatrix[2] >> 4;
+                            oamBuffer->mMatrices[rotationSlot].field1E = rotationMatrix[3] >> 4;
                         } else {
                             if (driver_getCollisionMode((u16) kartIndex) == 3) {
                                 cell = r2d_getRaceSCell(0x10);
@@ -463,12 +463,12 @@ void mpicn_renderDriverIcon(RaceHudOamBuffer *oamBuffer) {
                                 cell = r2d_getRaceSCell(kartIndex);
                             }
                             func_020c8dbc_inline(
-                                oamBuffer, cell, NULL, gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00,
-                                gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04, 0, f != 0 ? 1 : -1, -1);
+                                oamBuffer, cell, NULL, gRaceHudSubScreenKarts->field60[kartIndex].field0,
+                                gRaceHudSubScreenKarts->field60[kartIndex].field4, 0, f != 0 ? 1 : -1, -1);
                         }
                     }
-                    if (gRaceHudSubScreenKarts->mUnk_170[kartIndex] != 0) {
-                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->mUnk_170[kartIndex]);
+                    if (gRaceHudSubScreenKarts->field170[kartIndex] != 0) {
+                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->field170[kartIndex]);
                     }
                 }
             }
@@ -478,33 +478,33 @@ void mpicn_renderDriverIcon(RaceHudOamBuffer *oamBuffer) {
         case 3:
             a = mpicn_getMinPriority();
             for (drawOrderIndex = 0; drawOrderIndex < gRaceMultiConfig->mKartCount; drawOrderIndex++) {
-                kartIndex = gRaceHudSubScreenKarts->mUnk_130[drawOrderIndex];
-                g = gRaceHudSubScreenKarts->mUnk_150[kartIndex];
-                if (gRaceHudSubScreenKarts->mUnk_000[kartIndex] != 0 && a <= g) {
-                    if (gRaceHudSubScreenKarts->mUnk_020[kartIndex] == 0) {
-                        screenX = gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_00;
-                        screenY = gRaceHudSubScreenKarts->mUnk_060[kartIndex].mUnk_04;
-                        b = gRaceHudSubScreenKarts->mUnk_040[kartIndex];
-                        if (gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y != 0x1000 ||
-                            gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
+                kartIndex = gRaceHudSubScreenKarts->field130[drawOrderIndex];
+                g = gRaceHudSubScreenKarts->field150[kartIndex];
+                if (gRaceHudSubScreenKarts->field0[kartIndex] != 0 && a <= g) {
+                    if (gRaceHudSubScreenKarts->field20[kartIndex] == 0) {
+                        screenX = gRaceHudSubScreenKarts->field60[kartIndex].field0;
+                        screenY = gRaceHudSubScreenKarts->field60[kartIndex].field4;
+                        b = gRaceHudSubScreenKarts->field40[kartIndex];
+                        if (gRaceHudSubScreenKarts->fieldA0[kartIndex].y != 0x1000 ||
+                            gRaceHudSubScreenKarts->field110[kartIndex] != 0) {
                             n = oam_getAffineId(oamBuffer);
-                            if (gRaceHudSubScreenKarts->mUnk_110[kartIndex] != 0) {
-                                angle = gRaceHudSubScreenKarts->mUnk_100[kartIndex] +
+                            if (gRaceHudSubScreenKarts->field110[kartIndex] != 0) {
+                                angle = gRaceHudSubScreenKarts->field100[kartIndex] +
                                         m2d_20B6368();
                             } else {
                                 angle = 0;
                             }
-                            lmap_rotScaleMtx22(r1, gRaceHudSubScreenKarts->mUnk_0a0[kartIndex].y, angle);
+                            lmap_rotScaleMtx22(r1, gRaceHudSubScreenKarts->fieldA0[kartIndex].y, angle);
                             if (driver_getCollisionMode((u16) kartIndex) == 3) {
                                 cell = r2d_getRaceSCell(0x10);
                             } else {
                                 cell = r2d_getRaceSCell(kartIndex);
                             }
                             func_020c8dbc_inline(oamBuffer, cell, r1, screenX, screenY, n, b != 0 ? 1 : -1, g);
-                            oamBuffer->mMatrices[n].mUnk_06 = r1[0] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_0e = r1[1] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_16 = r1[2] >> 4;
-                            oamBuffer->mMatrices[n].mUnk_1e = r1[3] >> 4;
+                            oamBuffer->mMatrices[n].field6 = r1[0] >> 4;
+                            oamBuffer->mMatrices[n].fieldE = r1[1] >> 4;
+                            oamBuffer->mMatrices[n].field16 = r1[2] >> 4;
+                            oamBuffer->mMatrices[n].field1E = r1[3] >> 4;
                         } else {
                             if (driver_getCollisionMode((u16) kartIndex) == 3) {
                                 cell = r2d_getRaceSCell(0x10);
@@ -514,12 +514,12 @@ void mpicn_renderDriverIcon(RaceHudOamBuffer *oamBuffer) {
                             func_020c8dbc_inline(oamBuffer, cell, NULL, screenX, screenY, 0, b != 0 ? 1 : -1, g);
                         }
                     }
-                    if (gRaceHudSubScreenKarts->mUnk_170[kartIndex] != 0) {
-                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->mUnk_170[kartIndex]);
+                    if (gRaceHudSubScreenKarts->field170[kartIndex] != 0) {
+                        func_020c8dbc_inline3(oamBuffer, kartIndex, gRaceHudSubScreenKarts->field170[kartIndex]);
                     }
                 }
             }
-            mpicn_renderMObjIcon(oamBuffer, gRaceHudSubScreenKarts->mUnk_190, 0);
+            mpicn_renderMObjIcon(oamBuffer, gRaceHudSubScreenKarts->field190, 0);
             break;
     }
 }
@@ -538,7 +538,7 @@ BOOL mpicn_createSecondHandIcon(void) {
     }
     mpicn_sSecondHandIcon = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     mpicn_sSecondHandIcon->mObjects = mobj_renderPartGetInstanceList(kindEntry);
-    mpicn_sSecondHandIcon->mUnk_04 = objectCount;
+    mpicn_sSecondHandIcon->field4 = objectCount;
     mpicn_sSecondHandIcon->mObjectCount = objectCount;
     return TRUE;
 }
@@ -565,10 +565,10 @@ void mpicn_updateSecondHandIcon(void) {
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sSecondHandIcon->mObjectCount; i++) {
         object = mpicn_sSecondHandIcon->mObjects[i];
-        extentZ = object->mUnk_000.mExtent.z;
-        position = &object->mUnk_000.mPos;
-        deltaX = (s64) object->mUnk_000.mMatrix.mUnk_00[2].x * extentZ >> 12;
-        deltaZ = (s64) object->mUnk_000.mMatrix.mUnk_00[2].z * extentZ >> 12;
+        extentZ = object->field0.mExtent.z;
+        position = &object->field0.mPos;
+        deltaX = (s64) object->field0.mMatrix.field0[2].x * extentZ >> 12;
+        deltaZ = (s64) object->field0.mMatrix.field0[2].z * extentZ >> 12;
         if (gRaceMultiConfig->mMirrorMode != 0) {
             mpicn_sSecondHandIcon->mAngles[i] = FX_Atan2Idx(-deltaZ, deltaX) + 0x8000;
         } else {
@@ -577,7 +577,7 @@ void mpicn_updateSecondHandIcon(void) {
         lmap_20B5AE8(position, &mpicn_sSecondHandIcon->mDrawPositions[i], a, 0, 0);
         endPosition.x = position->x + deltaX;
         endPosition.z = position->z + deltaZ;
-        lmap_20B5AE8(&endPosition, &mpicn_sSecondHandIcon->mUnk_2c[i], a, 0, 0);
+        lmap_20B5AE8(&endPosition, &mpicn_sSecondHandIcon->field2C[i], a, 0, 0);
     }
 }
 
@@ -623,7 +623,7 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
     s32 drawPosition1[2];
 
     a = mpicn_getMinPriority();
-    if (mpicn_sSecondHandIcon->mUnk_04 <= 0) {
+    if (mpicn_sSecondHandIcon->field4 <= 0) {
         return;
     }
     if (a == 0) {
@@ -634,8 +634,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
         }
         rotationSlot0 = oam_getAffineId(oamBuffer);
         lmap_rotMtx22(rotationMatrix, angle0);
-        screenX0 = mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_00;
-        screenY0 = mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_04;
+        screenX0 = mpicn_sSecondHandIcon->field2C[0].field0;
+        screenY0 = mpicn_sSecondHandIcon->field2C[0].field4;
         if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
             cell = r2d_getRaceSCell(156);
             endPosition0[0] = screenX0 << 12;
@@ -645,12 +645,12 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
                                       rotationMatrix, endPosition0, rotationSlot0, 1);
         }
         trailDeltaX0 =
-            mpicn_sSecondHandIcon->mDrawPositions[0].mUnk_00 - mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_00;
+            mpicn_sSecondHandIcon->mDrawPositions[0].field0 - mpicn_sSecondHandIcon->field2C[0].field0;
         trailDeltaY0 =
-            mpicn_sSecondHandIcon->mDrawPositions[0].mUnk_04 - mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_04;
+            mpicn_sSecondHandIcon->mDrawPositions[0].field4 - mpicn_sSecondHandIcon->field2C[0].field4;
         for (trailStep0 = 0, trailSumX0 = 0, trailSumY0 = 0; trailStep0 < 3; trailStep0++) {
-            screenX0 = mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_00 + (trailSumX0 + trailDeltaX0) / 4;
-            screenY0 = mpicn_sSecondHandIcon->mUnk_2c[0].mUnk_04 + (trailSumY0 + trailDeltaY0) / 4;
+            screenX0 = mpicn_sSecondHandIcon->field2C[0].field0 + (trailSumX0 + trailDeltaX0) / 4;
+            screenY0 = mpicn_sSecondHandIcon->field2C[0].field4 + (trailSumY0 + trailDeltaY0) / 4;
             if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
                 cell = r2d_getRaceSCell(155);
                 middlePosition0[0] = screenX0 << 12;
@@ -662,8 +662,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
             trailSumX0 += trailDeltaX0;
             trailSumY0 += trailDeltaY0;
         }
-        screenX0 = mpicn_sSecondHandIcon->mDrawPositions[0].mUnk_00;
-        screenY0 = mpicn_sSecondHandIcon->mDrawPositions[0].mUnk_04;
+        screenX0 = mpicn_sSecondHandIcon->mDrawPositions[0].field0;
+        screenY0 = mpicn_sSecondHandIcon->mDrawPositions[0].field4;
         if (screenX0 > -32 && screenX0 < 288 && screenY0 > -32 && screenY0 < 224) {
             cell = r2d_getRaceSCell(154);
             drawPosition0[0] = screenX0 << 12;
@@ -672,10 +672,10 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       rotationMatrix, drawPosition0, rotationSlot0, 1);
         }
-        oamBuffer->mMatrices[rotationSlot0].mUnk_06 = rotationMatrix[0] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_0e = rotationMatrix[1] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_16 = rotationMatrix[2] >> 4;
-        oamBuffer->mMatrices[rotationSlot0].mUnk_1e = rotationMatrix[3] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].field6 = rotationMatrix[0] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].fieldE = rotationMatrix[1] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].field16 = rotationMatrix[2] >> 4;
+        oamBuffer->mMatrices[rotationSlot0].field1E = rotationMatrix[3] >> 4;
     }
     if (mpicn_sSecondHandIcon->mObjectCount == 3 && a == 0) {
         if (gRaceMultiConfig->mMirrorMode != 0) {
@@ -685,8 +685,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
         }
         rotationSlot2 = oam_getAffineId(oamBuffer);
         lmap_rotMtx22(rotationMatrix, angle2);
-        screenX2 = mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_00;
-        screenY2 = mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_04;
+        screenX2 = mpicn_sSecondHandIcon->field2C[2].field0;
+        screenY2 = mpicn_sSecondHandIcon->field2C[2].field4;
         if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
             cell = r2d_getRaceSCell(156);
             endPosition2[0] = screenX2 << 12;
@@ -696,12 +696,12 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
                                       rotationMatrix, endPosition2, rotationSlot2, 1);
         }
         trailDeltaX2 =
-            mpicn_sSecondHandIcon->mDrawPositions[2].mUnk_00 - mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_00;
+            mpicn_sSecondHandIcon->mDrawPositions[2].field0 - mpicn_sSecondHandIcon->field2C[2].field0;
         trailDeltaY2 =
-            mpicn_sSecondHandIcon->mDrawPositions[2].mUnk_04 - mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_04;
+            mpicn_sSecondHandIcon->mDrawPositions[2].field4 - mpicn_sSecondHandIcon->field2C[2].field4;
         for (trailStep2 = 0, trailSumX2 = 0, trailSumY2 = 0; trailStep2 < 2; trailStep2++) {
-            screenX2 = mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_00 + (trailSumX2 + trailDeltaX2) / 3;
-            screenY2 = mpicn_sSecondHandIcon->mUnk_2c[2].mUnk_04 + (trailSumY2 + trailDeltaY2) / 3;
+            screenX2 = mpicn_sSecondHandIcon->field2C[2].field0 + (trailSumX2 + trailDeltaX2) / 3;
+            screenY2 = mpicn_sSecondHandIcon->field2C[2].field4 + (trailSumY2 + trailDeltaY2) / 3;
             if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
                 cell = r2d_getRaceSCell(155);
                 middlePosition2[0] = screenX2 << 12;
@@ -713,8 +713,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
             trailSumX2 += trailDeltaX2;
             trailSumY2 += trailDeltaY2;
         }
-        screenX2 = mpicn_sSecondHandIcon->mDrawPositions[2].mUnk_00;
-        screenY2 = mpicn_sSecondHandIcon->mDrawPositions[2].mUnk_04;
+        screenX2 = mpicn_sSecondHandIcon->mDrawPositions[2].field0;
+        screenY2 = mpicn_sSecondHandIcon->mDrawPositions[2].field4;
         if (screenX2 > -32 && screenX2 < 288 && screenY2 > -32 && screenY2 < 224) {
             cell = r2d_getRaceSCell(154);
             drawPosition2[0] = screenX2 << 12;
@@ -723,10 +723,10 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
                 NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                       rotationMatrix, drawPosition2, rotationSlot2, 1);
         }
-        oamBuffer->mMatrices[rotationSlot2].mUnk_06 = rotationMatrix[0] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_0e = rotationMatrix[1] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_16 = rotationMatrix[2] >> 4;
-        oamBuffer->mMatrices[rotationSlot2].mUnk_1e = rotationMatrix[3] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].field6 = rotationMatrix[0] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].fieldE = rotationMatrix[1] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].field16 = rotationMatrix[2] >> 4;
+        oamBuffer->mMatrices[rotationSlot2].field1E = rotationMatrix[3] >> 4;
     }
     if (gRaceMultiConfig->mMirrorMode != 0) {
         angle1 = mpicn_sSecondHandIcon->mAngles[1] - m2d_20B6368();
@@ -735,8 +735,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
     }
     rotationSlot1 = oam_getAffineId(oamBuffer);
     lmap_rotMtx22(rotationMatrix, angle1);
-    screenX1 = mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_00;
-    screenY1 = mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_04;
+    screenX1 = mpicn_sSecondHandIcon->field2C[1].field0;
+    screenY1 = mpicn_sSecondHandIcon->field2C[1].field4;
     if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
         cell = r2d_getRaceSCell(159);
         endPosition1[0] = screenX1 << 12;
@@ -746,12 +746,12 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
                                   rotationMatrix, endPosition1, rotationSlot1, 1);
     }
     trailDeltaX1 =
-        mpicn_sSecondHandIcon->mDrawPositions[1].mUnk_00 - mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_00;
+        mpicn_sSecondHandIcon->mDrawPositions[1].field0 - mpicn_sSecondHandIcon->field2C[1].field0;
     trailDeltaY1 =
-        mpicn_sSecondHandIcon->mDrawPositions[1].mUnk_04 - mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_04;
+        mpicn_sSecondHandIcon->mDrawPositions[1].field4 - mpicn_sSecondHandIcon->field2C[1].field4;
     for (trailStep1 = 0, trailSumX1 = 0, trailSumY1 = 0; trailStep1 < 3; trailStep1++) {
-        screenX1 = mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_00 + (trailSumX1 + trailDeltaX1) / 4;
-        screenY1 = mpicn_sSecondHandIcon->mUnk_2c[1].mUnk_04 + (trailSumY1 + trailDeltaY1) / 4;
+        screenX1 = mpicn_sSecondHandIcon->field2C[1].field0 + (trailSumX1 + trailDeltaX1) / 4;
+        screenY1 = mpicn_sSecondHandIcon->field2C[1].field4 + (trailSumY1 + trailDeltaY1) / 4;
         if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
             cell = r2d_getRaceSCell(158);
             middlePosition1[0] = screenX1 << 12;
@@ -763,8 +763,8 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
         trailSumX1 += trailDeltaX1;
         trailSumY1 += trailDeltaY1;
     }
-    screenX1 = mpicn_sSecondHandIcon->mDrawPositions[1].mUnk_00;
-    screenY1 = mpicn_sSecondHandIcon->mDrawPositions[1].mUnk_04;
+    screenX1 = mpicn_sSecondHandIcon->mDrawPositions[1].field0;
+    screenY1 = mpicn_sSecondHandIcon->mDrawPositions[1].field4;
     if (screenX1 > -16 && screenX1 < 272 && screenY1 > -16 && screenY1 < 208) {
         cell = r2d_getRaceSCell(157);
         drawPosition1[0] = screenX1 << 12;
@@ -773,10 +773,10 @@ void mpicn_renderSecondHandIcon(RaceHudOamBuffer *oamBuffer) {
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
                                   rotationMatrix, drawPosition1, rotationSlot1, 1);
     }
-    oamBuffer->mMatrices[rotationSlot1].mUnk_06 = rotationMatrix[0] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_0e = rotationMatrix[1] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_16 = rotationMatrix[2] >> 4;
-    oamBuffer->mMatrices[rotationSlot1].mUnk_1e = rotationMatrix[3] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].field6 = rotationMatrix[0] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].fieldE = rotationMatrix[1] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].field16 = rotationMatrix[2] >> 4;
+    oamBuffer->mMatrices[rotationSlot1].field1E = rotationMatrix[3] >> 4;
 }
 
 BOOL mpicn_createCarTruckBusIcon(void) {
@@ -810,14 +810,14 @@ void mpicn_updateCarTruckBusIcon(void) {
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sCarTruckBusIcon->mObjectCount; i++) {
         object = (Unk020e1e98 *) mpicn_sCarTruckBusIcon->mObjects[i];
-        position = &object->mUnk_000.mPos;
-        if (lmap_20B5AE8(&object->mUnk_000.mPos,
+        position = &object->field0.mPos;
+        if (lmap_20B5AE8(&object->field0.mPos,
                                             &mpicn_sCarTruckBusIcon->mCells[cellCount].mDrawPos, a, 1, 1) != FALSE) {
-            kind = object->mUnk_000.mKind;
-            angle = object->mUnk_000.mAngle;
+            kind = object->field0.mKind;
+            angle = object->field0.mAngle;
             switch (kind) {
                 case MAP_OBJECT_KIND_CAR_A:
-                    mpicn_sCarTruckBusIcon->mCells[cellCount].mCell = r2d_getRaceSCell(object->mUnk_130 + 0x95);
+                    mpicn_sCarTruckBusIcon->mCells[cellCount].mCell = r2d_getRaceSCell(object->field130 + 0x95);
                     break;
                 case MAP_OBJECT_KIND_BUS_A:
                     mpicn_sCarTruckBusIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x93);
@@ -826,9 +826,9 @@ void mpicn_updateCarTruckBusIcon(void) {
                     mpicn_sCarTruckBusIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x94);
                     break;
             }
-            mpicn_sCarTruckBusIcon->mCells[cellCount].mUnk_0c =
+            mpicn_sCarTruckBusIcon->mCells[cellCount].fieldC =
                 m2d_isPointOnLowerMap((Vec3 *) &position) != 0 ? 2 : 3;
-            mpicn_sCarTruckBusIcon->mCells[cellCount].mUnk_10 = angle;
+            mpicn_sCarTruckBusIcon->mCells[cellCount].field10 = angle;
             cellCount++;
         }
     }
@@ -859,7 +859,7 @@ void mpicn_updateKoopaBlockIcon(void) {
                                             &mpicn_sKoopaBlockIcon->mCells[cellCount].mDrawPos, a, 1,
                                             0) != FALSE) {
             mpicn_sKoopaBlockIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x25);
-            mpicn_sKoopaBlockIcon->mCells[cellCount].mUnk_0c = 2;
+            mpicn_sKoopaBlockIcon->mCells[cellCount].fieldC = 2;
             cellCount++;
         }
     }
@@ -889,25 +889,25 @@ void mpicn_updateChoropuIcon(void) {
     cellCount = 0;
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sChoropuIcon->mObjectCount; i++) {
-        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sChoropuIcon->mUnk_0c[i]) != FALSE) {
+        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sChoropuIcon->fieldC[i]) != FALSE) {
             object = mpicn_sChoropuIcon->mObjects[i];
             if (lmap_20B5AE8(
                     &object->mPos, &mpicn_sChoropuIcon->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
-                height = object->mPos.y - object->mUnk_a8;
+                height = object->mPos.y - object->fieldA8;
                 if (height >= -0x9000) {
                     isPositiveHeight = height > 0 ? 1 : 0;
                     mpicn_sChoropuIcon->mCells[cellCount].mCell =
                         r2d_getRaceSCell(isPositiveHeight != 0 ? 0xa7 : 0xa8);
-                    mpicn_sChoropuIcon->mCells[cellCount].mUnk_0c = isPositiveHeight != 0 ? 1 : 2;
+                    mpicn_sChoropuIcon->mCells[cellCount].fieldC = isPositiveHeight != 0 ? 1 : 2;
                     mpicn_sChoropuIcon->mCells[cellCount + 1].mDrawPos =
                         mpicn_sChoropuIcon->mCells[cellCount].mDrawPos;
                     mpicn_sChoropuIcon->mCells[cellCount + 1].mCell = r2d_getRaceSCell(0xa9);
-                    mpicn_sChoropuIcon->mCells[cellCount + 1].mUnk_0c = 2;
+                    mpicn_sChoropuIcon->mCells[cellCount + 1].fieldC = 2;
                     cellCount += 2;
-                    mpicn_sChoropuIcon->mCells[cellCount - 2].mDrawPos.mUnk_04 -= height >> 14;
+                    mpicn_sChoropuIcon->mCells[cellCount - 2].mDrawPos.field4 -= height >> 14;
                 } else {
                     mpicn_sChoropuIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xa9);
-                    mpicn_sChoropuIcon->mCells[cellCount].mUnk_0c = 2;
+                    mpicn_sChoropuIcon->mCells[cellCount].fieldC = 2;
                     cellCount++;
                 }
             }
@@ -937,13 +937,13 @@ void mpicn_updatePukupukuIcon(void) {
     cellCount = 0;
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sPukupukuIcon->mObjectCount; i++) {
-        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sPukupukuIcon->mUnk_0c[i]) != FALSE) {
+        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sPukupukuIcon->fieldC[i]) != FALSE) {
             object = mpicn_sPukupukuIcon->mObjects[i];
             if ((object->mFlags & 2) == 0) {
                 if (lmap_20B5AE8(
                         &object->mPos, &mpicn_sPukupukuIcon->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
                     mpicn_sPukupukuIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x89);
-                    mpicn_sPukupukuIcon->mCells[cellCount].mUnk_0c = 2;
+                    mpicn_sPukupukuIcon->mCells[cellCount].fieldC = 2;
                     cellCount++;
                 }
             }
@@ -976,7 +976,7 @@ void mpicn_updateMoveTreeIcon(void) {
                                             &mpicn_sMoveTreeIcon->mCells[cellCount].mDrawPos, a, 1,
                                             1) != FALSE) {
             mpicn_sMoveTreeIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x8b);
-            mpicn_sMoveTreeIcon->mCells[cellCount].mUnk_0c = 2;
+            mpicn_sMoveTreeIcon->mCells[cellCount].fieldC = 2;
             cellCount++;
         }
     }
@@ -1004,13 +1004,13 @@ void mpicn_updateSmanIcon(void) {
     cellCount = 0;
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sSmanIcon->mObjectCount; i++) {
-        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sSmanIcon->mUnk_0c[i]) != FALSE) {
+        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sSmanIcon->fieldC[i]) != FALSE) {
             object = mpicn_sSmanIcon->mObjects[i];
             if ((object->mFlags & 1) == 0) {
                 if (lmap_20B5AE8(
                         &object->mPos, &mpicn_sSmanIcon->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
                     mpicn_sSmanIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x98);
-                    mpicn_sSmanIcon->mCells[cellCount].mUnk_0c = 2;
+                    mpicn_sSmanIcon->mCells[cellCount].fieldC = 2;
                     cellCount++;
                 }
             }
@@ -1041,19 +1041,19 @@ void mpicn_updateDossunIcon(void) {
     cellCount = 0;
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sDossunIcon->mObjectCount; i++) {
-        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sDossunIcon->mUnk_0c[i]) != FALSE) {
+        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sDossunIcon->fieldC[i]) != FALSE) {
             object = mpicn_sDossunIcon->mObjects[i];
             if (lmap_20B5AE8(
                     &object->mPos, &mpicn_sDossunIcon->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
                 mpicn_sDossunIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xaf);
-                mpicn_sDossunIcon->mCells[cellCount].mUnk_0c = 1;
+                mpicn_sDossunIcon->mCells[cellCount].fieldC = 1;
                 mpicn_sDossunIcon->mCells[cellCount + 1].mDrawPos =
                     mpicn_sDossunIcon->mCells[(u32) cellCount].mDrawPos;
                 mpicn_sDossunIcon->mCells[cellCount + 1].mCell = r2d_getRaceSCell(0xb0);
-                mpicn_sDossunIcon->mCells[cellCount + 1].mUnk_0c = 2;
+                mpicn_sDossunIcon->mCells[cellCount + 1].fieldC = 2;
                 cellCount += 2;
                 offset = dossun_getMapElevation((Dossun *) object) * 16 >> 12;
-                mpicn_sDossunIcon->mCells[cellCount - 2].mDrawPos.mUnk_04 -= offset;
+                mpicn_sDossunIcon->mCells[cellCount - 2].mDrawPos.field4 -= offset;
             }
         }
     }
@@ -1094,7 +1094,7 @@ void mpicn_updateWanwanIcon(void) {
                                             &mpicn_sWanwanIcon->mCells[cellCount].mDrawPos, a, 1,
                                             0) != FALSE) {
             mpicn_sWanwanIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xac);
-            mpicn_sWanwanIcon->mCells[cellCount].mUnk_0c = 1;
+            mpicn_sWanwanIcon->mCells[cellCount].fieldC = 1;
             cellCount++;
         }
     }
@@ -1123,14 +1123,14 @@ void mpicn_updateEarthenPipeIcon(void) {
     cellCount = 0;
     a = mpicn_20C0DB0();
     for (i = 0; i < mpicn_sEarthenPipeIcon->mObjectCount; i++) {
-        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sEarthenPipeIcon->mUnk_0c[i]) != FALSE) {
+        if (IsRaceHudSubScreenPairNearCenter(&mpicn_sEarthenPipeIcon->fieldC[i]) != FALSE) {
             object = mpicn_sEarthenPipeIcon->mObjects[i];
             if ((object->mFlags & 1) == 0) {
                 position = &object->mPos;
                 if (lmap_20B5AE8(
                         position, &mpicn_sEarthenPipeIcon->mCells[cellCount].mDrawPos, a, 0, 0) != FALSE) {
                     mpicn_sEarthenPipeIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x8c);
-                    mpicn_sEarthenPipeIcon->mCells[cellCount].mUnk_0c =
+                    mpicn_sEarthenPipeIcon->mCells[cellCount].fieldC =
                         m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
                     cellCount++;
                 }

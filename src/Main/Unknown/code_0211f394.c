@@ -49,7 +49,7 @@ void RequestSelectRaceRuleWaitState0(void) {
 
     gSelectRaceRuleWait->mNextState = 0;
     gSelectRaceRuleWait->mStateFrames = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->field6;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0xc0;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = 0xc0;
 }
@@ -64,7 +64,7 @@ void RequestSelectRaceRuleWaitState2(void) {
 
     gSelectRaceRuleWait->mNextState = 2;
     gSelectRaceRuleWait->mStateFrames = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->field6;
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = 0;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = 0;
 }
@@ -88,7 +88,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     jn_ui_212426C(1, 0xe, gSelectRaceRuleWait->mBnll, jn_msg_getMessage(selectRaceRuleWait->mCommonMessages, 0x79),
                   selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
     i = 0;
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->field6;
     for (; i < cellEntryCount; i++) {
         gSelectRaceRuleWait->mTable[i].mVisible = 0;
     }
@@ -116,7 +116,7 @@ void AdvanceSelectRaceRuleWaitState0(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->field6;
     gSelectRaceRuleWait->mStateFrames++;
     offsetY = mutil_interpolate(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
@@ -130,7 +130,7 @@ void AdvanceSelectRaceRuleWaitState2(void) {
     u16 cellEntryCount;
     s16 offsetY;
 
-    cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
+    cellEntryCount = gSelectRaceRuleWait->mBncl->field6;
     gSelectRaceRuleWait->mStateFrames++;
     offsetY = mutil_interpolate(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;

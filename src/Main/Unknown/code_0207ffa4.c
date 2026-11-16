@@ -35,7 +35,7 @@
 void rptc_startSlipstreamBeginEffect(Kart *kart) {
     Unk0201ca6c *effect;
 
-    if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
+    if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
     }
     if (rptc_sDriverSlipstreamBeginEmitters[kart->mIndex] != NULL) {
@@ -43,9 +43,9 @@ void rptc_startSlipstreamBeginEffect(Kart *kart) {
     }
     rptc_sDriverSlipstreamBeginEmitters[kart->mIndex] = ptcm_createEmitter(0x80, &rptc_sEmitterPos);
     effect = rptc_sDriverSlipstreamBeginEmitters[kart->mIndex];
-    effect->mUnk_98_24 = kart->mIndex;
-    effect->mUnk_94 = 0;
-    effect->mUnk_90 = AdvanceKartAheadEffect;
+    effect->field98_24 = kart->mIndex;
+    effect->field94 = 0;
+    effect->field90 = AdvanceKartAheadEffect;
 }
 
 void rptc_stopSlipstreamBeginEffect(Kart *kart) {
@@ -54,9 +54,9 @@ void rptc_stopSlipstreamBeginEffect(Kart *kart) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_98_16 = 0;
-    effect->mUnk_98_8 = 3;
-    effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
+    effect->field98_16 = 0;
+    effect->field98_8 = 3;
+    effect->field90 = AdvanceKartAheadEffectWithLimit;
     rptc_sDriverSlipstreamBeginEmitters[kart->mIndex] = NULL;
 }
 
@@ -76,9 +76,9 @@ void rptc_startSlipstreamEffect(Kart *kart) {
     }
     rptc_sDriverSlipstreamEmitters[kart->mIndex] = ptcm_createEmitter(0x7f, &rptc_sEmitterPos);
     effect = rptc_sDriverSlipstreamEmitters[kart->mIndex];
-    effect->mUnk_98_24 = kart->mIndex;
-    effect->mUnk_94 = (void *) 1;
-    effect->mUnk_90 = AdvanceKartAheadEffect;
+    effect->field98_24 = kart->mIndex;
+    effect->field94 = (void *) 1;
+    effect->field90 = AdvanceKartAheadEffect;
 }
 
 void rptc_stopSlipstreamEffect(Kart *kart) {
@@ -87,9 +87,9 @@ void rptc_stopSlipstreamEffect(Kart *kart) {
     if (effect == NULL) {
         return;
     }
-    effect->mUnk_98_16 = 0;
-    effect->mUnk_98_8 = 5;
-    effect->mUnk_90 = AdvanceKartAheadEffectWithLimit;
+    effect->field98_16 = 0;
+    effect->field98_8 = 5;
+    effect->field90 = AdvanceKartAheadEffectWithLimit;
     rptc_sDriverSlipstreamEmitters[kart->mIndex] = NULL;
 }
 
@@ -102,7 +102,7 @@ void rptc_stopSlipstreamEffectDirect(Kart *kart) {
 }
 
 void func_02080e88(Unk0201ca6c *effect, Kart *kart) {
-    effect->mUnk_6c = (s16) kart->mScale.z;
+    effect->field6C = (s16) kart->mScale.z;
 }
 
 BOOL mepo_isPointInMepo(LinkCursor *linkCursor, Vec3 *position) {
@@ -110,8 +110,8 @@ BOOL mepo_isPointInMepo(LinkCursor *linkCursor, Vec3 *position) {
     s32 radius;
     BOOL result = FALSE;
 
-    radius = linkCursor->mLink->mUnk_24;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, position, &offset);
+    radius = linkCursor->mLink->field24;
+    VEC_Subtract(linkCursor->mLink->field20, position, &offset);
     offset.y = result;
     if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z < (s64) radius * radius) {
         result = TRUE;
@@ -121,7 +121,7 @@ BOOL mepo_isPointInMepo(LinkCursor *linkCursor, Vec3 *position) {
 
 BOOL mepo_2080DBC(LinkCursor *linkCursor, Vec3 *position) {
     Vec3 offset;
-    Vec3 *linkPosition = linkCursor->mLink->mUnk_20;
+    Vec3 *linkPosition = linkCursor->mLink->field20;
     BOOL result = FALSE;
 
     if (linkCursor->mDirection.x != 0 || linkCursor->mDirection.y != 0 || linkCursor->mDirection.z != 0) {
@@ -135,30 +135,30 @@ BOOL mepo_2080DBC(LinkCursor *linkCursor, Vec3 *position) {
 
 void epoi_2080D34(Unk02080d34 *racePointLinkCursor, u16 kartIndex) {
     racePointLinkCursor->mLinkCursor.mLink = gMapData->mRaceRoute0FirstLink;
-    racePointLinkCursor->mLinkCursor.mPreviousLink = racePointLinkCursor->mLinkCursor.mLink->mUnk_0c;
+    racePointLinkCursor->mLinkCursor.mPreviousLink = racePointLinkCursor->mLinkCursor.mLink->fieldC;
     racePointLinkCursor->mLinkCursor.mDirection = data_021557ec;
-    VEC_Subtract(racePointLinkCursor->mLinkCursor.mLink->mUnk_18,
-                 racePointLinkCursor->mLinkCursor.mPreviousLink->mUnk_18, &racePointLinkCursor->mLinkCursor.mDirection);
+    VEC_Subtract(racePointLinkCursor->mLinkCursor.mLink->field18,
+                 racePointLinkCursor->mLinkCursor.mPreviousLink->field18, &racePointLinkCursor->mLinkCursor.mDirection);
     vec_normalize(&racePointLinkCursor->mLinkCursor.mDirection,
                                        &racePointLinkCursor->mLinkCursor.mDirection);
     racePointLinkCursor->mLinkCursor.mRequestedLink = NULL;
-    racePointLinkCursor->mLinkCursor.mUnk_18 = FALSE;
+    racePointLinkCursor->mLinkCursor.field18 = FALSE;
     racePointLinkCursor->mKartIndex = kartIndex;
-    racePointLinkCursor->mUnk_1e = 0;
+    racePointLinkCursor->field1E = 0;
 }
 
 void epoi_2080CD0(LinkCursor *linkCursor, PointLink *pointLink) {
     linkCursor->mLink = pointLink;
-    linkCursor->mPreviousLink = linkCursor->mLink->mUnk_0c;
+    linkCursor->mPreviousLink = linkCursor->mLink->fieldC;
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->field18 = FALSE;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_18, linkCursor->mPreviousLink->mUnk_18, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->field18, linkCursor->mPreviousLink->field18, &linkCursor->mDirection);
     vec_normalize(&linkCursor->mDirection, &linkCursor->mDirection);
 }
 
 s16 epoi_getDriftSetting(LinkCursor *linkCursor) {
-    return *(s16 *) linkCursor->mLink->mUnk_20;
+    return *(s16 *) linkCursor->mLink->field20;
 }
 
 BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position) {
@@ -168,8 +168,8 @@ BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position)
     Unk02080b1c_00 *link = pointLinkCursor->mLink;
 
     result = FALSE;
-    radius = link->mUnk_1c;
-    VEC_Subtract(link->mUnk_18, position, &offset);
+    radius = link->field1C;
+    VEC_Subtract(link->field18, position, &offset);
     offset.y = result;
     if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z < (s64) radius * radius) {
         result = TRUE;
@@ -180,7 +180,7 @@ BOOL IsWithinPointLinkDistance(PointLinkCursor *pointLinkCursor, Vec3 *position)
 BOOL IsPastPointLink(PointLinkCursor *pointLinkCursor, Vec3 *position) {
     Vec3 offset;
     BOOL result;
-    Vec3 *linkPosition = pointLinkCursor->mLink->mUnk_18;
+    Vec3 *linkPosition = pointLinkCursor->mLink->field18;
 
     result = FALSE;
     if (pointLinkCursor->mDirection.x != 0 || pointLinkCursor->mDirection.y != 0 ||
@@ -199,7 +199,7 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
     u32 randomValue;
     RandomState64 *kartAiRandom;
 
-    if (!(driver_getById(pointLinkCursor->mKartIndex)->mUnk_4c & 0x10000000)) {
+    if (!(driver_getById(pointLinkCursor->mKartIndex)->field4C & 0x10000000)) {
         nextLinkCount = pointLinkCursor->mLink->mNextCount;
         if (nextLinkCount > 1) {
             kartAiRandom = GetKartAiRandom();
@@ -215,8 +215,8 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
         }
     }
     pointLinkCursor->mPreviousLink = pointLinkCursor->mLink;
-    pointLinkCursor->mLink = pointLinkCursor->mLink->mUnk_00[nextIndex];
-    VEC_Subtract(pointLinkCursor->mLink->mUnk_18, pointLinkCursor->mPreviousLink->mUnk_18,
+    pointLinkCursor->mLink = pointLinkCursor->mLink->field0[nextIndex];
+    VEC_Subtract(pointLinkCursor->mLink->field18, pointLinkCursor->mPreviousLink->field18,
                  &pointLinkCursor->mDirection);
     vec_normalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
@@ -224,14 +224,14 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
 void AdvancePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
     linkCursor->mPreviousLink = linkCursor->mLink;
     linkCursor->mLink = pointLink;
-    VEC_Subtract(linkCursor->mLink->mUnk_18, linkCursor->mPreviousLink->mUnk_18, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->field18, linkCursor->mPreviousLink->field18, &linkCursor->mDirection);
     vec_normalize(&linkCursor->mDirection, &linkCursor->mDirection);
 }
 
 void SetRequestedLinkToPreviousIfNone(LinkCursor *linkCursor) {
     if (linkCursor->mRequestedLink == NULL) {
         linkCursor->mRequestedLink = linkCursor->mPreviousLink;
-        linkCursor->mUnk_18 = FALSE;
+        linkCursor->field18 = FALSE;
     }
 }
 
@@ -265,7 +265,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     }
     for (candidateIndex = 0; candidateIndex < 3; candidateIndex++) {
         if (nearestLinks[candidateIndex] != NULL) {
-            VEC_Subtract(nearestLinks[candidateIndex]->mUnk_20, position, &directionToLink);
+            VEC_Subtract(nearestLinks[candidateIndex]->field20, position, &directionToLink);
             if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
                     (s64) directionToLink.z * directionToLink.z >=
                 0x10) {
@@ -282,7 +282,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     linkCursor->mPreviousLink = bestLink;
     linkCursor->mDirection = data_021557ec;
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->field18 = FALSE;
 }
 
 void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
@@ -290,7 +290,7 @@ void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) 
     linkCursor->mLink = linkCursor->mPreviousLink;
     linkCursor->mDirection = data_021557ec;
     linkCursor->mRequestedLink = NULL;
-    linkCursor->mUnk_18 = FALSE;
+    linkCursor->field18 = FALSE;
 }
 
 void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *direction, u16 kartIndex,
@@ -352,7 +352,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 if (linkCursor->mPreviousLink == ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex]) {
                     continue;
                 }
-                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mUnk_20, &driver_getById(kartIndex)->mPos,
+                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->field20, &driver_getById(kartIndex)->mPos,
                              &directionToLink);
                 if ((s64) directionToLink.x * directionToLink.x + (s64) directionToLink.y * directionToLink.y +
                         (s64) directionToLink.z * directionToLink.z >=
@@ -375,7 +375,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
             }
         } else if (targetKartIndex != -1) {
             n1 = (u16) n1;
-            if (driver_getById(targetKartIndex)->mUnk_4c & 0x40) {
+            if (driver_getById(targetKartIndex)->field4C & 0x40) {
                 v3 = TRUE;
             } else {
                 v3 = FALSE;
@@ -392,7 +392,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 if (linkCursor->mPreviousLink == ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex]) {
                     continue;
                 }
-                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->mUnk_20, &driver_getById(kartIndex)->mPos,
+                VEC_Subtract(linkCursor->mLink->mLinks[linkIndex]->field20, &driver_getById(kartIndex)->mPos,
                              &directionToCandidateLink);
                 if ((s64) directionToCandidateLink.x * directionToCandidateLink.x +
                         (s64) directionToCandidateLink.y * directionToCandidateLink.y +
@@ -426,7 +426,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
         } else {
             for (linkIndex = 0; linkIndex < linkCursor->mLink->mLinkCount; linkIndex++) {
                 if (linkCursor->mPreviousLink != ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex] &&
-                    !(linkCursor->mLink->mUnk_2e & (1 << (u8) linkIndex))) {
+                    !(linkCursor->mLink->field2E & (1 << (u8) linkIndex))) {
                     v4[n0] = ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex];
                     n0++;
                     n1 = 1;
@@ -436,7 +436,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 chosenIndex = 0;
                 if (n0 > 1) {
                     for (pairIndex = 0; pairIndex < 2; pairIndex++) {
-                        VEC_Subtract(v4[pairIndex]->mUnk_20, linkCursor->mLink->mUnk_20,
+                        VEC_Subtract(v4[pairIndex]->field20, linkCursor->mLink->field20,
                                      &directionsToCandidates[pairIndex]);
                         if ((s64) directionsToCandidates[pairIndex].x * directionsToCandidates[pairIndex].x +
                                 (s64) directionsToCandidates[pairIndex].y * directionsToCandidates[pairIndex].y +
@@ -456,13 +456,13 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
             } else {
                 for (linkIndex = 0; linkIndex < ((const PointLink *) linkCursor->mLink)->mLinkCount; linkIndex++) {
                     if (linkCursor->mPreviousLink != ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex] &&
-                        (linkCursor->mLink->mUnk_2e & (1 << (u8) linkIndex))) {
+                        (linkCursor->mLink->field2E & (1 << (u8) linkIndex))) {
                         neighborLinkDirection = data_021557ec;
                         neighborLink = linkCursor->mLink->mLinks[linkIndex];
                         for (neighborLinkIndex = 0; neighborLinkIndex < neighborLink->mLinkCount; neighborLinkIndex++) {
-                            if (!(neighborLink->mUnk_2e & (1 << neighborLinkIndex)) &&
+                            if (!(neighborLink->field2E & (1 << neighborLinkIndex)) &&
                                 ((const LinkCursor *) linkCursor)->mLink != neighborLink->mLinks[neighborLinkIndex]) {
-                                VEC_Subtract(neighborLink->mLinks[neighborLinkIndex]->mUnk_20, neighborLink->mUnk_20,
+                                VEC_Subtract(neighborLink->mLinks[neighborLinkIndex]->field20, neighborLink->field20,
                                              &neighborLinkDirection);
                                 if ((s64) neighborLinkDirection.x * (s64) neighborLinkDirection.x +
                                         (s64) neighborLinkDirection.y * (s64) neighborLinkDirection.y +
@@ -514,7 +514,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
     linkCursor->mLink = nextLink;
     linkCursor->mPreviousLink = currentLink;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, linkCursor->mPreviousLink->mUnk_20, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->field20, linkCursor->mPreviousLink->field20, &linkCursor->mDirection);
     if ((s64) linkCursor->mDirection.x * linkCursor->mDirection.x +
             (s64) linkCursor->mDirection.y * linkCursor->mDirection.y +
             (s64) linkCursor->mDirection.z * linkCursor->mDirection.z >=
@@ -525,7 +525,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
 
 s32 GetBattlePointLinkSpeedLimit(LinkCursor *linkCursor) {
     s32 result = 0;
-    s16 unscaledSpeedLimit = *linkCursor->mLink->mUnk_28;
+    s16 unscaledSpeedLimit = *linkCursor->mLink->field28;
 
     if (unscaledSpeedLimit != 0) {
         result = ((s64) unscaledSpeedLimit * 0x28f5c) >> 12;
@@ -537,7 +537,7 @@ void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink
     linkCursor->mPreviousLink = linkCursor->mLink;
     linkCursor->mLink = pointLink;
     linkCursor->mDirection = data_021557ec;
-    VEC_Subtract(linkCursor->mLink->mUnk_20, linkCursor->mPreviousLink->mUnk_20, &linkCursor->mDirection);
+    VEC_Subtract(linkCursor->mLink->field20, linkCursor->mPreviousLink->field20, &linkCursor->mDirection);
     if ((s64) linkCursor->mDirection.x * linkCursor->mDirection.x +
             (s64) linkCursor->mDirection.y * linkCursor->mDirection.y +
             (s64) linkCursor->mDirection.z * linkCursor->mDirection.z >=
@@ -549,10 +549,10 @@ void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink
 void SetupPointLinkCursor(PointLinkCursor *cursor, u32 kartIndex, Unk02080b1c_00 *link) {
     cursor->mDirection = data_021557ec;
     cursor->mPreviousLink = link;
-    cursor->mLink = cursor->mPreviousLink->mUnk_00[0];
-    VEC_Subtract(cursor->mLink->mUnk_18, cursor->mPreviousLink->mUnk_18, &cursor->mDirection);
+    cursor->mLink = cursor->mPreviousLink->field0[0];
+    VEC_Subtract(cursor->mLink->field18, cursor->mPreviousLink->field18, &cursor->mDirection);
     vec_normalize(&cursor->mDirection, &cursor->mDirection);
-    cursor->mUnk_14 = 0;
-    cursor->mUnk_18 = 0;
+    cursor->field14 = 0;
+    cursor->field18 = 0;
     cursor->mKartIndex = kartIndex;
 }

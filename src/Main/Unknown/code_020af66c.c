@@ -152,17 +152,17 @@ void r2d_vblank(void) {
     if (r2d_sStatus->mEnabled == FALSE) {
         return;
     }
-    if (r2d_sStatus->mUnk_840 != FALSE) {
+    if (r2d_sStatus->field840 != FALSE) {
         GXS_LoadBG0Char(rchoi_getCharData()->mData, 0, 0x3000);
-        r2d_sStatus->mUnk_840 = FALSE;
+        r2d_sStatus->field840 = FALSE;
         GX_LoadOBJPltt(r2d_getGraphics(1)->mNclr->mData, 0, r2d_getGraphics(1)->mNclr->mDataSize);
         GX_LoadOBJ(r2d_getGraphics(1)->mNcgr->mData, 0, 0x4000);
-        r2d_sStatus->mUnk_848 = 1;
-        r2d_sStatus->mUnk_844 = 1;
+        r2d_sStatus->field848 = 1;
+        r2d_sStatus->field844 = 1;
         reg_GX_DISPCNT &= ~0xe000;
-    } else if (r2d_sStatus->mUnk_844 != 0) {
+    } else if (r2d_sStatus->field844 != 0) {
         if (rchoi_getIsRacePaused() == 0) {
-            if (r2d_sStatus->mUnk_844++ >= r2d_sStatus->mUnk_850) {
+            if (r2d_sStatus->field844++ >= r2d_sStatus->field850) {
                 if (gRaceMultiConfig->mMode == MODE_GRAND_PRIX && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
                     w = (reg_GX_DISPCNT & 0x1f00) >> 8;
                     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | ((w | 8) << 8);
@@ -174,15 +174,15 @@ void r2d_vblank(void) {
                     GX_LoadBG3Scr(r2d_sStatus->mNscrs[1]->mData, 0, 0x600);
                     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 8, 0x27, 5, 9);
                 }
-                r2d_sStatus->mUnk_844 = 0;
-                r2d_sStatus->mUnk_84c = 1;
+                r2d_sStatus->field844 = 0;
+                r2d_sStatus->field84C = 1;
             }
         }
     }
     v = gRaceMultiConfig->mMode;
-    if (v == MODE_GRAND_PRIX && r2d_sStatus->mUnk_84c != 0) {
+    if (v == MODE_GRAND_PRIX && r2d_sStatus->field84C != 0) {
         reg_G2_BG3OFS = 0x01ff0000 & (mutil_interpolate(1, -64, 0, GetRaceGoalMUpdateFrames(), 20) << 16);
-    } else if (v == MODE_MISSION_RUN && r2d_sStatus->mUnk_84c != 0) {
+    } else if (v == MODE_MISSION_RUN && r2d_sStatus->field84C != 0) {
         GXS_LoadBG0Char(rchoi_getCharData()->mData, 0, 0x3000);
         GXS_LoadBG0Scr(rchoi_getMapData(), 0, 0x600);
     }
@@ -217,10 +217,10 @@ void r2d_vblank(void) {
                 reg_G2S_DB_BG0CNT &= ~0x40;
                 reg_G2S_DB_BG0CNT = (reg_G2S_DB_BG0CNT & 0x43) | 0x10c;
                 InitSubScreenGraphicsMode0();
-                GXS_LoadBGPltt(GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mData, 0,
-                               GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mDataSize);
-                GXS_LoadBG1Char(GetRaceGoalSBPaletteAndChars(0)->mUnk_04->mData, 0,
-                                GetRaceGoalSBPaletteAndChars(0)->mUnk_04->mDataSize);
+                GXS_LoadBGPltt(GetRaceGoalSBPaletteAndChars(0)->field0->mData, 0,
+                               GetRaceGoalSBPaletteAndChars(0)->field0->mDataSize);
+                GXS_LoadBG1Char(GetRaceGoalSBPaletteAndChars(0)->field4->mData, 0,
+                                GetRaceGoalSBPaletteAndChars(0)->field4->mDataSize);
                 GXS_LoadOBJPltt(r2d_getGraphics(7)->mNclr->mData, 0, 0x80);
                 GXS_LoadOBJ(r2d_getGraphics(7)->mNcgr->mData, 0, 0x4000);
                 GXS_LoadBG0Char(rchoi_getCharData()->mData, 0, 0x3000);
@@ -242,13 +242,13 @@ void r2d_vblank(void) {
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 GXS_LoadOBJPltt(r2d_getGraphics(6)->mNclr->mData, 0, r2d_getGraphics(6)->mNclr->mDataSize);
             }
-            G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, r2d_sStatus->mUnk_858[0].mUnk_00, r2d_sStatus->mUnk_858[0].mUnk_10,
-                              r2d_sStatus->mUnk_858[0].mUnk_14, r2d_sStatus->mUnk_858[0].mUnk_18,
-                              r2d_sStatus->mUnk_858[0].mUnk_1c);
+            G2x_SetBGyAffine_(&reg_G2S_DB_BG2PA, r2d_sStatus->field858[0].field0, r2d_sStatus->field858[0].field10,
+                              r2d_sStatus->field858[0].field14, r2d_sStatus->field858[0].field18,
+                              r2d_sStatus->field858[0].field1C);
             if (IsCourseWithMap2DLocal3() != 0) {
-                G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, r2d_sStatus->mUnk_858[1].mUnk_00, r2d_sStatus->mUnk_858[1].mUnk_10,
-                                  r2d_sStatus->mUnk_858[1].mUnk_14, r2d_sStatus->mUnk_858[1].mUnk_18,
-                                  r2d_sStatus->mUnk_858[1].mUnk_1c);
+                G2x_SetBGyAffine_(&reg_G2S_DB_BG3PA, r2d_sStatus->field858[1].field0, r2d_sStatus->field858[1].field10,
+                                  r2d_sStatus->field858[1].field14, r2d_sStatus->field858[1].field18,
+                                  r2d_sStatus->field858[1].field1C);
             }
             UpdateRaceHudSubScreenBgPalette((RaceHudSubScreenBgPalette *) &data_0217b34c[0x100]);
             if (IsCourseWithMap2DLocal3() != 0) {
@@ -394,13 +394,13 @@ void r2d_init(void) {
     r2d_sStatus->mSubScreenState = 1;
     r2d_sStatus->mSubScreenEnabled = FALSE;
     r2d_sStatus->mSubScreenState5LoadPending = FALSE;
-    r2d_sStatus->mUnk_838 = FALSE;
-    r2d_sStatus->mUnk_83c = FALSE;
-    r2d_sStatus->mUnk_840 = FALSE;
-    r2d_sStatus->mUnk_844 = 0;
-    r2d_sStatus->mUnk_848 = 0;
-    r2d_sStatus->mUnk_84c = 0;
-    r2d_sStatus->mUnk_850 = 0;
+    r2d_sStatus->field838 = FALSE;
+    r2d_sStatus->field83C = FALSE;
+    r2d_sStatus->field840 = FALSE;
+    r2d_sStatus->field844 = 0;
+    r2d_sStatus->field848 = 0;
+    r2d_sStatus->field84C = 0;
+    r2d_sStatus->field850 = 0;
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         switch (gRaceMultiConfig->mCourseId) {
             case COURSE_ID_MINI_STAGE3:
@@ -438,8 +438,8 @@ void r2d_init(void) {
         r2d_sStatus->mUseTimeDifference = 0;
     }
     r2d_sStatus->mStepHasRun = 0;
-    r2d_sStatus->mUnk_90c = FALSE;
-    r2d_sStatus->mUnk_910 = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? IsMissionRunRecordFilled() : 0;
+    r2d_sStatus->field90C = FALSE;
+    r2d_sStatus->field910 = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? IsMissionRunRecordFilled() : 0;
     MI_DmaFill32(3, r2d_sStatus->mMainOam, 0xc0, 0x400);
     MI_DmaFill32(3, r2d_sStatus->mSubOam, 0xc0, 0x400);
     g2du_unpackPaletteData(&r2d_sStatus->mNclrs[0], m2d_getSceneArcFile("race_m_b.NCLR"));
@@ -461,7 +461,7 @@ void r2d_init(void) {
     DC_FlushRange(rchoi_getPalData()->mData, 0x200);
     for (i = 0; i < 0x20; i++) {
         paletteColor = rchoi_getPalData()->mData[i + 0xe0];
-        GetRaceGoalSBPaletteAndChars(0)->mUnk_00->mData[i + 0xe0] = paletteColor;
+        GetRaceGoalSBPaletteAndChars(0)->field0->mData[i + 0xe0] = paletteColor;
     }
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 0x3f, 6, 10);
     if (gRaceMultiConfig->mMode == MODE_GRAND_PRIX) {
@@ -483,7 +483,7 @@ void r2d_init(void) {
     ResetRaceStartSequenceFrames();
     ResetRaceEndFrames();
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        gStruct217B488->mUnk_10 = 0;
+        gStruct217B488->field10 = 0;
     }
 }
 

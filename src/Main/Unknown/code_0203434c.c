@@ -107,18 +107,18 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
     result = -1;
     rectIndex = -1;
     subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
-    interp_update(&sGhostReceiveState->mUnk_194);
+    interp_update(&sGhostReceiveState->field194);
     switch (sGhostReceiveState->mState) {
         case 0:
             if (mbright_isFadedIn() == 0) {
                 RequestSelectReturnState1();
                 func_02035378();
-                interp_setState(&sGhostReceiveState->mUnk_194, 0);
+                interp_setState(&sGhostReceiveState->field194, 0);
                 sGhostReceiveState->mState = 1;
             }
             break;
         case 1:
-            if (sGhostReceiveState->mUnk_194.mState == 1) {
+            if (sGhostReceiveState->field194.mState == 1) {
                 sGhostReceiveState->mState = 2;
             } else {
                 func_02034fec();
@@ -134,7 +134,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                     sGhostReceiveState->mState = 5;
                     break;
                 case 0:
-                    if (sGhostReceiveState->mUnk_18c != FALSE) {
+                    if (sGhostReceiveState->field18C != FALSE) {
                         break;
                     }
                     if (IsTxtSystemState0NoOpenRequest() != 0) {
@@ -146,14 +146,14 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                         if (TryGetScanGhostInfo(i, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
                                                 &ghostRecordInfo.mMinute, &ghostRecordInfo.mSecond,
                                                 &ghostRecordInfo.mMillisecond)) {
-                            ghostRecordInfo.mUnk_18[1] = idBytes[0];
-                            ghostRecordInfo.mUnk_18[0] = idBytes[1];
-                            ghostRecordInfo.mUnk_18[2] = idBytes[2];
+                            ghostRecordInfo.field18[1] = idBytes[0];
+                            ghostRecordInfo.field18[0] = idBytes[1];
+                            ghostRecordInfo.field18[2] = idBytes[2];
                             sGhostReceiveState->mFilledCount++;
                             if (sGhostReceiveState->mGhostInfoEntries[i].mFilled == FALSE ||
                                 AreGhostRecordInfosDifferent(&sGhostReceiveState->mGhostInfoEntries[i].mInfo,
                                                              &ghostRecordInfo) != FALSE) {
-                                courseMessageIndex = mutil2_getCourseNameGhostMsgId(ghostRecordInfo.mUnk_18[2]);
+                                courseMessageIndex = mutil2_getCourseNameGhostMsgId(ghostRecordInfo.field18[2]);
                                 ghostRecordInfo.mName[10] = 0;
                                 jn_ui_212426C(1, data_02164254[i][0], subCellFileSet->mLabelLayout, &ghostRecordInfo,
                                               subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
@@ -197,7 +197,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                         sGhostReceiveState->mSelectedIndex = rectIndex;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        sGhostReceiveState->mUnk_18c = TRUE;
+                        sGhostReceiveState->field18C = TRUE;
                         sGhostReceiveState->mStateFrames = 0;
                         sGhostReceiveState->mState = 3;
                     } else if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
@@ -206,7 +206,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                         func_02035228(0);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        sGhostReceiveState->mUnk_18c = TRUE;
+                        sGhostReceiveState->field18C = TRUE;
                         sGhostReceiveState->mStateFrames = 0;
                         sGhostReceiveState->mState = 3;
                     } else if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_B) != 0 ||
@@ -249,7 +249,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                     func_0204ece0(sGhostReceiveState->mSelectedIndex);
                 } else {
                     RequestSelectReturnState1();
-                    sGhostReceiveState->mUnk_18c = FALSE;
+                    sGhostReceiveState->field18C = FALSE;
                 }
                 RequestTxtSystemClose();
                 sGhostReceiveState->mState = 2;
@@ -286,7 +286,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
         case 12:
             if (func_02054f58() == 1) {
                 LEDBlink_Wireless();
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
@@ -295,9 +295,9 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             break;
         case 8:
             if (DoesAnySlotGhostMatchCourse(
-                    sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]) != 0) {
+                    sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.field18[2]) != 0) {
                 courseMessageIndex =
-                    mutil2_getCourseNameGhostMsgId(sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]);
+                    mutil2_getCourseNameGhostMsgId(sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.field18[2]);
                 message = jn_msg_getMessage(sGhostReceiveState->mGhostMessages, 0x55);
                 buttonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 0);
                 secondButtonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 1);
@@ -310,10 +310,10 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 RequestTxtSystemClose();
                 sGhostReceiveState->mNextCallbacksIndex = 2;
                 sGhostReceiveState->mState = 13;
-                interp_setState(&sGhostReceiveState->mUnk_194, 2);
+                interp_setState(&sGhostReceiveState->field194, 2);
             } else {
                 sGhostReceiveState->mGhostSlot = FindUnfilledGhostSlot();
-                ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                ((Unk0202ddd8 *) GetSlotGhostBuffer())->field8_0 = 1;
                 savd_storeDownloadGhost((u8) sGhostReceiveState->mGhostSlot, GetSlotGhostBuffer());
                 NNS_SndArcSetCurrent(&SDATFile);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
@@ -331,8 +331,8 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 RequestTxtSystemClose();
                 if (GetTxtSystemSelectedIndex() == 0) {
                     sGhostReceiveState->mGhostSlot = FindSlotGhostForCourse(
-                        sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]);
-                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
+                        sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.field18[2]);
+                    ((Unk0202ddd8 *) GetSlotGhostBuffer())->field8_0 = 1;
                     savd_storeDownloadGhost((u8) sGhostReceiveState->mGhostSlot, GetSlotGhostBuffer());
                     sGhostReceiveState->mState = 11;
                 } else {
@@ -370,7 +370,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             break;
         case 14:
             if (GetTxtSystemDone() != 0) {
-                gStruct217B488->mUnk_08 = 5;
+                gStruct217B488->field8 = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
@@ -378,7 +378,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             }
             break;
         case 13:
-            if (sGhostReceiveState->mUnk_194.mState == 3) {
+            if (sGhostReceiveState->field194.mState == 3) {
                 result = sGhostReceiveState->mNextCallbacksIndex;
                 sGhostReceiveState->mState = 16;
             } else {
@@ -391,7 +391,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
     for (i = 0; i < 2; i++) {
         cellFileSet = &sGhostReceiveState->mCellFileSets[i];
         jn_ui_renderElements(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
-                        sGhostReceiveState->mUnk_024[i], cellFileSet->mCellTable);
+                        sGhostReceiveState->field24[i], cellFileSet->mCellTable);
     }
     return result;
 }

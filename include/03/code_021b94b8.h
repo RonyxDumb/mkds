@@ -24,7 +24,7 @@ typedef struct ValueRecordsRequest {
     /* 10e */ s16 mReceiveTimeoutMs;
     /* 110 */ u8 mMacAddress[6];
     /* 116 */ u8 mResultCode;
-    /* 117 */ u8 mUnk_117;
+    /* 117 */ u8 field117;
 } ValueRecordsRequest;
 
 typedef struct RequestState {
@@ -44,14 +44,14 @@ typedef struct RawEntry RawEntry;
 typedef struct EssidEntry {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
-    /* 24 */ u32 mUnk_24;
+    /* 24 */ u32 field24;
     /* 28 */ u8 pad_28[8];
-    /* 30 */ u8 mUnk_30[6];
+    /* 30 */ u8 field30[6];
     /* 36 */ u8 pad_36[2];
     /* 38 */ u32 mCodeCount;
     /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
-    /* 4c */ u32 mUnk_4c;
-    /* 50 */ u32 mUnk_50;
+    /* 4c */ u32 field4C;
+    /* 50 */ u32 field50;
 } EssidEntry;
 
 typedef struct EssidEntryList {
@@ -63,7 +63,7 @@ typedef struct EssidEntryList {
 typedef struct EssidMelcoRequest {
     /* 00 */ u32 mEssidLength;
     /* 04 */ u8 mEssid[0x20];
-    /* 24 */ BOOL mUnk_24;
+    /* 24 */ BOOL field24;
     /* 28 */ s32 mMelcoLength;
     /* 2c */ u8 mMelcoBytes[0x10];
 } EssidMelcoRequest;
@@ -76,7 +76,7 @@ typedef struct MaskCodeEntry {
 
 typedef struct MelcoBlock {
     /* 00 */ u8 mLengthKind;
-    /* 01 */ u8 mUnk_01;
+    /* 01 */ u8 field1;
     /* 02 */ u8 mMelcoBytes[0x5e];
 } MelcoBlock;
 
@@ -87,14 +87,14 @@ typedef struct RetryLimit {
 
 typedef struct WaitTimeout {
     /* 0 */ s32 mSeconds;
-    /* 4 */ s32 mUnk_04;
+    /* 4 */ s32 field4;
 } WaitTimeout;
 
 typedef struct Unk021b7cec {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk021b7cec;
 
 typedef struct PacketTag {
@@ -103,9 +103,9 @@ typedef struct PacketTag {
 } PacketTag;
 
 typedef struct Unk021b86e4 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ u8 pad_04[0xc];
-    /* 10 */ u32 mUnk_10;
+    /* 10 */ u32 field10;
 } Unk021b86e4;
 
 typedef struct PacketBuffer {

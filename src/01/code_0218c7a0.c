@@ -70,19 +70,19 @@ void func_ov001_0218d2c4(Unk02188950 *a) {
     Unk0210b7a8 local;
 
     func_ov001_02187218(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_070, a->mPrm->mUnk_074);
+    StartAnimationNoEndCallback(a, a->mPrm->field70, a->mPrm->field74);
     mobj_setModelNsbtpFrame(a->mNsbmd, 0);
     list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->field4 && (p = list->field0[i]) != NULL; i++) {
             func_ov001_02187218(p, 1, NULL);
-            StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
+            StartAnimationNoEndCallback(p, p->mPrm->field70, p->mPrm->field74);
             mobj_setModelNsbtpFrame((p->mNsbmd), 0);
         }
     }
     local = data_ov001_021a7c08;
-    local.mPositionSource = &a->mUnk_000.mPos;
-    local.mDistanceSquared = mobj_calcXZCamDist(&a->mUnk_000.mPos);
+    local.mPositionSource = &a->field0.mPos;
+    local.mDistanceSquared = mobj_calcXZCamDist(&a->field0.mPos);
     func_0210b734(&local, func_02108e7c());
 }
 
@@ -94,7 +94,7 @@ void func_ov001_0218d280(void) {
     func_ov001_021882b8();
     list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
-        for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < list->field4 && (p = list->field0[i]) != NULL; i++) {
             func_ov001_0218dadc(p);
             func_ov001_0218dabc(p);
         }
@@ -112,29 +112,29 @@ s32 func_ov001_0218d264(Unk02188950 *a) {
 
 void func_ov001_0218d23c(Unk02188950 *a) {
     func_ov001_02187218(a, 8, func_ov001_0218d264);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(a, a->mPrm->field64, a->mPrm->field68);
 }
 
 void func_ov001_0218d214(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d23c);
+    StartAnimationWithEndCallback(a, a->mPrm->field58, a->mPrm->field5C, &func_ov001_0218d23c);
 }
 
 void func_ov001_0218d1e0(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d214);
+    StartAnimationNoEndCallback(a, a->mPrm->field4C, a->mPrm->field50);
+    StartStateFrameCountCallback(a, a->mPrm->field54, &func_ov001_0218d214);
 }
 
 void func_ov001_0218d1bc(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(a, a->mPrm->field40, a->mPrm->field44);
 }
 
 void func_ov001_0218d188(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d1bc);
+    StartAnimationNoEndCallback(a, a->mPrm->field34, a->mPrm->field38);
+    StartStateFrameCountCallback(a, a->mPrm->field3C, &func_ov001_0218d1bc);
 }
 
 s32 func_ov001_0218d16c(Unk02188950 *a) {
@@ -164,35 +164,35 @@ s32 func_ov001_0218d0fc(Unk02188950 *a) {
 
 void func_ov001_0218d0d4(Unk02188950 *a) {
     func_ov001_02187218(a, 8, func_ov001_0218d16c);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
+    StartAnimationNoEndCallback(a, a->mPrm->field64, a->mPrm->field68);
 }
 
 void func_ov001_0218d0a8(Unk02188950 *a) {
     func_ov001_02187218(a, 8, func_ov001_0218d0fc);
-    StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, &func_ov001_0218d0d4);
+    StartAnimationWithEndCallback(a, a->mPrm->field58, a->mPrm->field5C, &func_ov001_0218d0d4);
 }
 
 void func_ov001_0218d074(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
+    StartAnimationNoEndCallback(a, a->mPrm->field4C, a->mPrm->field50);
+    StartStateFrameCountCallback(a, a->mPrm->field54, &func_ov001_0218d0a8);
 }
 
 void func_ov001_0218d050(Unk02188950 *a) {
     func_ov001_02187218(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_040, a->mPrm->mUnk_044);
+    StartAnimationNoEndCallback(a, a->mPrm->field40, a->mPrm->field44);
 }
 
 void func_ov001_0218d01c(Unk02188950 *a) {
     func_ov001_02187218(a, 8, (s32(*)(Unk02188950 *))(0));
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_034, a->mPrm->mUnk_038);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, &func_ov001_0218d050);
+    StartAnimationNoEndCallback(a, a->mPrm->field34, a->mPrm->field38);
+    StartStateFrameCountCallback(a, a->mPrm->field3C, &func_ov001_0218d050);
 }
 
 void func_ov001_0218cfe8(Unk02188950 *a) {
     func_ov001_02187218(a, 8, NULL);
-    StartAnimationNoEndCallback(a, a->mPrm->mUnk_064, a->mPrm->mUnk_068);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, &func_ov001_0218d0a8);
+    StartAnimationNoEndCallback(a, a->mPrm->field64, a->mPrm->field68);
+    StartStateFrameCountCallback(a, a->mPrm->field54, &func_ov001_0218d0a8);
 }
 
 void InitHanachanObjects(Unk0218d87c *a) {
@@ -200,8 +200,8 @@ void InitHanachanObjects(Unk0218d87c *a) {
     Unk02188950 *p;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
-            p->mUnk_2c4 = TRUE;
+        for (i = 0; i < a->field4 && (p = a->field0[i]) != NULL; i++) {
+            p->field2C4 = TRUE;
             if (race_isCamAnimMode() != 0) {
                 func_ov001_0218d188(p);
             } else {
@@ -238,9 +238,9 @@ void UpdateHanachan(u32 a, Unk02188950 *b) {
             func_ov001_0218d3ec(b);
         }
     }
-    if (mobj_collideAsItemDirect(&b->mPosWithOffset, &b->mUnk_000.mUnk_10, b->mPrm->mUnk_100, b->mUnk_000.mCollisionSlotIndex, 9,
+    if (mobj_collideAsItemDirect(&b->mPosWithOffset, &b->field0.field10, b->mPrm->field100, b->field0.mCollisionSlotIndex, 9,
                       NULL) == 2) {
-        mobj_emitSfxFromEmitter2(&b->mUnk_000, 0x253);
+        mobj_emitSfxFromEmitter2(&b->field0, 0x253);
     }
     boss_update(a, b);
 }
@@ -250,7 +250,7 @@ void func_ov001_0218ce90(Unk0218d87c *a) {
     Unk02188950 *p;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->field4 && (p = a->field0[i]) != NULL; i++) {
             if (race_isCamAnimMode() != 0) {
                 func_ov001_0218d01c(p);
             } else if (i == 0) {
@@ -266,10 +266,10 @@ void func_ov001_0218ce30(u32 a, Unk02188950 *b) {
     int v1;
     func_ov001_0218dc20(b);
     func_ov001_0218dba8(b);
-    v1 = mobj_collideAsItemDirect(&b->mPosWithOffset, &b->mUnk_000.mUnk_10, b->mPrm->mUnk_100, b->mUnk_000.mCollisionSlotIndex, 9,
+    v1 = mobj_collideAsItemDirect(&b->mPosWithOffset, &b->field0.field10, b->mPrm->field100, b->field0.mCollisionSlotIndex, 9,
                        NULL);
     if (v1 == 2) {
-        mobj_emitSfxFromEmitter2(&b->mUnk_000, 0x253);
+        mobj_emitSfxFromEmitter2(&b->field0, 0x253);
     }
     boss_update(a, b);
 }
@@ -280,58 +280,58 @@ void hchan_initHead(Unk02188950 *e) {
     Unk02188950 *c;
     Unk02188950 *d;
 
-    a = (Unk02188950 *) mobj_createSubObject(&e->mUnk_000, 0x1fe);
-    b = (Unk02188950 *) mobj_createSubObject(&e->mUnk_000, 0x1fe);
-    c = (Unk02188950 *) mobj_createSubObject(&e->mUnk_000, 0x1fe);
-    d = (Unk02188950 *) mobj_createSubObject(&e->mUnk_000, 0x1fe);
-    a->mUnk_0a4 = (struct Unk0218dabc *) e;
-    b->mUnk_0a4 = (struct Unk0218dabc *) a;
-    c->mUnk_0a4 = (struct Unk0218dabc *) b;
-    d->mUnk_0a4 = (struct Unk0218dabc *) c;
-    e->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
-    InitSoundSource(&e->mUnk_000.mSound->mSoundSource, 0xd, &e->mUnk_000.mPos);
-    e->mUnk_000.mFarDistanceSquared = data_0217cbec[0x1d];
+    a = (Unk02188950 *) mobj_createSubObject(&e->field0, 0x1fe);
+    b = (Unk02188950 *) mobj_createSubObject(&e->field0, 0x1fe);
+    c = (Unk02188950 *) mobj_createSubObject(&e->field0, 0x1fe);
+    d = (Unk02188950 *) mobj_createSubObject(&e->field0, 0x1fe);
+    a->fieldA4 = (struct Unk0218dabc *) e;
+    b->fieldA4 = (struct Unk0218dabc *) a;
+    c->fieldA4 = (struct Unk0218dabc *) b;
+    d->fieldA4 = (struct Unk0218dabc *) c;
+    e->field0.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
+    InitSoundSource(&e->field0.mSound->mSoundSource, 0xd, &e->field0.mPos);
+    e->field0.mFarDistanceSquared = data_0217cbec[0x1d];
 }
 
 void hchan_initBody(Unk02188950 *a) {
-    a->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
-    InitSoundSource(&a->mUnk_000.mSound->mSoundSource, 0xd, &a->mUnk_000.mPos);
-    a->mUnk_000.mFarDistanceSquared = data_0217cbec[0x1d];
+    a->field0.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
+    InitSoundSource(&a->field0.mSound->mSoundSource, 0xd, &a->field0.mPos);
+    a->field0.mFarDistanceSquared = data_0217cbec[0x1d];
 }
 
 void func_ov001_0218cbdc(Unk02188950 *a, MissionRunPrm *b) {
     s32 r4;
     s32 diff;
 
-    if (b->mUnk_29c == 1) {
+    if (b->field29C == 1) {
         if (a->mTimer > 0) {
-            a->mUnk_2d8 = 0xc;
+            a->field2D8 = 0xc;
         } else {
             r4 = a->mMoveAngle;
-            diff = (u16) (FX_Atan2Idx(b->mUnk_080 - a->mUnk_000.mPos.x, b->mUnk_088 - a->mUnk_000.mPos.z) - r4);
+            diff = (u16) (FX_Atan2Idx(b->field80 - a->field0.mPos.x, b->field88 - a->field0.mPos.z) - r4);
             if (diff > 0x8000) {
                 diff -= 0x10000;
             }
             if (diff > 0) {
-                a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_0fc * FX_SinCosTable_[(((u16) r4 + 0x4000) >> 4) * 2]) >> 12;
-                a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z =
-                    ((s64) a->mPrm->mUnk_0fc * FX_SinCosTable_[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]) >> 12;
+                a->field0.field10.x = ((s64) a->mPrm->fieldFC * FX_SinCosTable_[(((u16) r4 + 0x4000) >> 4) * 2]) >> 12;
+                a->field0.field10.y = 0;
+                a->field0.field10.z =
+                    ((s64) a->mPrm->fieldFC * FX_SinCosTable_[(((u16) a->mMoveAngle + 0x4000) >> 4) * 2 + 1]) >> 12;
             } else {
-                a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_0fc * FX_SinCosTable_[(((u16) r4 - 0x4000) >> 4) * 2]) >> 12;
-                a->mUnk_000.mUnk_10.y = 0;
-                a->mUnk_000.mUnk_10.z =
-                    ((s64) a->mPrm->mUnk_0fc * FX_SinCosTable_[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]) >> 12;
+                a->field0.field10.x = ((s64) a->mPrm->fieldFC * FX_SinCosTable_[(((u16) r4 - 0x4000) >> 4) * 2]) >> 12;
+                a->field0.field10.y = 0;
+                a->field0.field10.z =
+                    ((s64) a->mPrm->fieldFC * FX_SinCosTable_[(((u16) a->mMoveAngle - 0x4000) >> 4) * 2 + 1]) >> 12;
             }
-            a->mUnk_2d8 = 0xc;
-            cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-            a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
+            a->field2D8 = 0xc;
+            cam_tryImpactShakePlayerCamera(a->field0.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+            a->field0.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
             mobj_driverEmitSfx2(b, 0x252);
         }
     } else {
-        a->mUnk_2d8 = 0xa;
-        cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-        a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
+        a->field2D8 = 0xa;
+        cam_tryImpactShakePlayerCamera(a->field0.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+        a->field0.mDistanceSquaredAndFlags |= data_ov001_021a65ac;
         mobj_driverEmitSfx2(b, 0x251);
     }
     SetKartCollisionCallback(a, func_ov001_0218cbdc);
@@ -342,18 +342,18 @@ void LoadHanachan(Unk0218d87c *a) {
     s32 i;
 
     if (a != NULL) {
-        for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
+        for (i = 0; i < a->field4 && (obj = a->field0[i]) != NULL; i++) {
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             boss_21870E4(a, obj, aHanachan_nsbmd, aHanachan_nsbca, aHanachan_prm);
             LoadMissionRunMapObjectShadow(a, obj, aSh_circle_ns_3);
             LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, aHanachan_nsbtp);
-            SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_008, obj->mPrm->mUnk_00c, obj->mPrm->mUnk_00c);
+            SetCollisionOffsetAndExtent(obj, obj->mPrm->field8, obj->mPrm->fieldC, obj->mPrm->fieldC);
             SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
             SetKartCollisionCallback(obj, func_ov001_0218cbdc);
             SetItemCollisionCallback(obj, func_ov001_0218dd9c);
-            obj->mUnk_0a8 = obj->mPrm->mUnk_12c;
+            obj->fieldA8 = obj->mPrm->field12C;
         }
     }
 }
@@ -374,7 +374,7 @@ void LoadHanachan_1234(Unk0218d87c *d) {
         src = NULL;
     }
 
-    obj = d->mUnk_00[0];
+    obj = d->field0[0];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
@@ -383,13 +383,13 @@ void LoadHanachan_1234(Unk0218d87c *d) {
     boss_21870E4(d, obj, aHanachan_1_n_1, NULL, NULL);
     func_ov001_0219b28c(obj->mNsbmd, a);
     func_ov001_0219b25c(obj->mNsbmd, c);
-    obj->mUnk_0a8 = 1;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0dc, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    obj->fieldA8 = 1;
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->fieldDC, obj->mPrm->fieldC, src->mPrm->fieldC);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[1];
+    obj = d->field0[1];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
@@ -398,13 +398,13 @@ void LoadHanachan_1234(Unk0218d87c *d) {
     boss_21870E4(d, obj, aHanachan_2_n_0, NULL, NULL);
     func_ov001_0219b28c(obj->mNsbmd, b);
     func_ov001_0219b25c(obj->mNsbmd, c);
-    obj->mUnk_0a8 = 2;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0e4, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    obj->fieldA8 = 2;
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->fieldE4, obj->mPrm->fieldC, src->mPrm->fieldC);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[2];
+    obj = d->field0[2];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
@@ -413,13 +413,13 @@ void LoadHanachan_1234(Unk0218d87c *d) {
     boss_21870E4(d, obj, aHanachan_3_nsb, NULL, NULL);
     func_ov001_0219b28c(obj->mNsbmd, a);
     func_ov001_0219b25c(obj->mNsbmd, c);
-    obj->mUnk_0a8 = 3;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0ec, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    obj->fieldA8 = 3;
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->fieldEC, obj->mPrm->fieldC, src->mPrm->fieldC);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xc000);
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);
 
-    obj = d->mUnk_00[3];
+    obj = d->field0[3];
     obj->mPrm = src->mPrm;
     obj->mShadowNsbmd = src->mShadowNsbmd;
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
@@ -428,8 +428,8 @@ void LoadHanachan_1234(Unk0218d87c *d) {
     boss_21870E4(d, obj, aHanachan_4_nsb, NULL, NULL);
     func_ov001_0219b28c(obj->mNsbmd, b);
     func_ov001_0219b25c(obj->mNsbmd, c);
-    obj->mUnk_0a8 = 4;
-    SetCollisionOffsetAndExtent(obj, obj->mPrm->mUnk_0f4, obj->mPrm->mUnk_00c, src->mPrm->mUnk_00c);
+    obj->fieldA8 = 4;
+    SetCollisionOffsetAndExtent(obj, obj->mPrm->fieldF4, obj->mPrm->fieldC, src->mPrm->fieldC);
     SetShadowOffsetYAndScale(obj, 0x5000, 0xd000);
     SetKartCollisionCallback(obj, func_ov001_0218cbdc);
     SetItemCollisionCallback(obj, func_ov001_0218dd9c);

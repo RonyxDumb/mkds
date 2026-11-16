@@ -10,8 +10,8 @@ void DrawCanvasText(unsigned int canvas, unsigned int xPos, unsigned int yPos, u
 
 // 0x38-byte object; InitBgTextCanvas sets it up.
 typedef struct BgTextCanvas {
-    /* 00 */ Unk02023374 mUnk_00;
-    /* 20 */ TextCanvas mUnk_20;
+    /* 00 */ Unk02023374 field0;
+    /* 20 */ TextCanvas field20;
     /* 30 */ u8 *mChars;
     /* 34 */ u32 mUploadTask;
 } BgTextCanvas;
@@ -24,14 +24,14 @@ void DrawCanvasTextRect(BgTextCanvas *canvas, s32 xPos, s32 yPos, s32 width, s32
 #include "03/code_021d2fa0.h"
 
 typedef struct ObjTextCanvas {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ void (*mUnk_18)(struct ObjTextCanvas *a, u32 b);
-    /* 1c */ u8 mUnk_1c[4];
-    /* 20 */ struct ObjTextCanvas *mUnk_20;
-    /* 24 */ void *mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ ObjCharRange *mUnk_30;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ void (*field18)(struct ObjTextCanvas *a, u32 b);
+    /* 1c */ u8 field1C[4];
+    /* 20 */ struct ObjTextCanvas *field20;
+    /* 24 */ void *field24;
+    /* 28 */ s32 field28;
+    /* 2c */ s32 field2C;
+    /* 30 */ ObjCharRange *field30;
     /* 34 */ u16 mCharName;
     /* 36 */ u8 mAreaWidth;
     /* 37 */ u8 mAreaHeight;

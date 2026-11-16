@@ -4,7 +4,7 @@
 
 // The two words at data_021634a8.
 typedef struct Unk021634a8 {
-    /* 00 */ u32 mUnk_00[2];
+    /* 00 */ u32 field0[2];
 } Unk021634a8;
 
 extern Unk021634a8 data_021634a8;

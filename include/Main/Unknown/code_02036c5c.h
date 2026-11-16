@@ -7,7 +7,7 @@ typedef struct Bg23CntFields {
     /* 00 */ u16 mBgCntLow2;
     /* 02 */ u16 mBgCntBit6;
     /* 04 */ u16 mBgCntVal14;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 field6;
     /* 08 */ u16 mBgCntVal8;
     /* 0a */ u16 mBgCntVal2;
 } Bg23CntFields;
@@ -30,7 +30,7 @@ typedef struct DisplayBgRecords {
     /* 08 */ u16 mBg0CntVal8;
     /* 0a */ u16 mBg0CntVal2;
     /* 0c */ u16 mBg0CntVal13;
-    /* 0e */ u16 mUnk_0e;
+    /* 0e */ u16 fieldE;
     /* 10 */ u16 mBg1CntLow2;
     /* 12 */ u16 mBg1CntBit6;
     /* 14 */ u16 mBg1CntVal14;
@@ -38,32 +38,32 @@ typedef struct DisplayBgRecords {
     /* 18 */ u16 mBg1CntVal8;
     /* 1a */ u16 mBg1CntVal2;
     /* 1c */ u16 mBg1CntVal13;
-    /* 1e */ u16 mUnk_1e;
+    /* 1e */ u16 field1E;
     /* 20 */ u32 mBg2Mode;
     /* 24 */ u16 mBg2CntLow2;
     /* 26 */ u16 mBg2CntBit6;
     /* 28 */ u16 mBg2CntVal14;
-    /* 2a */ u16 mUnk_2a;
+    /* 2a */ u16 field2A;
     /* 2c */ u16 mBg2CntVal8;
     /* 2e */ u16 mBg2CntVal2;
     /* 30 */ u32 mBg3Mode;
     /* 34 */ u16 mBg3CntLow2;
     /* 36 */ u16 mBg3CntBit6;
     /* 38 */ u16 mBg3CntVal14;
-    /* 3a */ u16 mUnk_3a;
+    /* 3a */ u16 field3A;
     /* 3c */ u16 mBg3CntVal8;
     /* 3e */ u16 mBg3CntVal2;
-    /* 40 */ u16 mUnk_40;
-    /* 42 */ u16 mUnk_42;
+    /* 40 */ u16 field40;
+    /* 42 */ u16 field42;
 } DisplayBgRecords;
 
 // The 0x28 bytes initializeDisplayConfigFromBaseConfig copies to the start of an DisplaySettings.
 typedef struct DisplaySettingsDesc {
-    /* 00 */ u16 mUnk_00[4];
+    /* 00 */ u16 field0[4];
     /* 08 */ u16 mMainBgMode;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 fieldA;
     /* 0c */ u16 mSubBgMode;
-    /* 0e */ u16 mUnk_0e[13];
+    /* 0e */ u16 fieldE[13];
 } DisplaySettingsDesc;
 
 // Two of these sit at gBottomMasterBright and gTopMasterBright; updateMasterBright steps one.
@@ -73,7 +73,7 @@ typedef struct BrightnessFade {
     /* 04 */ s16 mFadeFrames;
     /* 06 */ s16 mFadeFrameCount;
     /* 08 */ s16 mBrightness;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 fieldA;
 } BrightnessFade;
 
 extern BrightnessFade gBottomMasterBright;

@@ -7,11 +7,11 @@ typedef struct Unk021a8ab8 Unk021a8ab8;
 
 // The 0x64 bytes func_ov000_021a88e4 hands to func_ov000_021ae304: two blocks of a size and a start address.
 typedef struct Unk021a88e4 {
-    /* 00 */ u8 mUnk_00[0x3c];
+    /* 00 */ u8 field0[0x3c];
     /* 3c */ SizedBuffer mReceiveBuffer;
-    /* 44 */ u8 mUnk_44[4];
+    /* 44 */ u8 field44[4];
     /* 48 */ SizedBuffer mSendBuffer;
-    /* 50 */ u8 mUnk_50[0x14];
+    /* 50 */ u8 field50[0x14];
 } Unk021a88e4;
 
 s32 func_ov000_021a88a8(u32 a);

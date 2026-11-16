@@ -5,10 +5,10 @@
 
 // Tag in a run of halfwords: 0x1a, a byte (the number of bytes), a byte (1) and a halfword (0xff).
 typedef struct Unk0212513c {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u8 mUnk_02;
-    /* 03 */ u8 mUnk_03;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u16 field0;
+    /* 02 */ u8 field2;
+    /* 03 */ u8 field3;
+    /* 04 */ u16 field4;
 } Unk0212513c;
 
 // Tag that formatMeasureText and drawText read through the pointer they pass to the function at member 4 of
@@ -17,7 +17,7 @@ typedef struct TextTag {
     /* 00 */ u8 mSize;
     /* 01 */ u8 mKind;
     /* 02 */ u16 mVariant;
-    /* 04 */ u8 mUnk_04;
+    /* 04 */ u8 field4;
 } TextTag;
 
 // 1 when the halfword is in 0x30..0x39 or 0xff10..0xff19, or is 0x2d; else 0.

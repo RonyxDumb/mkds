@@ -20,14 +20,14 @@ void sfx_initEmitter2(SoundSource *source, u32 positionSource) {
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
     startFunction = (void *) sfx_startSeqArcEx;
-    source->mUnk_38 = 1;
+    source->field38 = 1;
     trackParamsFunction = (void *) sfx_updateVolumePitch;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = 3;
-    list_initLink((u32 *) source->mUnk_1c);
+    list_initLink((u32 *) source->field1C);
     list_initLink((u32 *) source);
     list_append(&sfx_sActiveEmitterList, source);
 }
@@ -85,12 +85,12 @@ void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
     PlayingSound *sound;
     NNSFndList *sourceList;
 
-    if (SoundHandle_217D084.mUnk_10 == 0) {
+    if (SoundHandle_217D084.field10 == 0) {
         return;
     }
     sound = sp_acquireElement(&sfx_sSfxPool);
     sfx_stopSfxStandalone(sound, 0);
-    sourceList = sound->mUnk_10;
+    sourceList = sound->field10;
     if (sourceList != NULL) {
         list_remove(sourceList, (u8 *) sound);
         sfx_updateEmitterStatus((SoundSource *) (sourceList - 1));
@@ -100,7 +100,7 @@ void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
 }
 
 u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
-    if (SoundHandle_217D084.mUnk_10 == 0) {
+    if (SoundHandle_217D084.field10 == 0) {
         return seqArcNo;
     }
     return func_0210bcf4(seqArcNo, soundId, positionSource, handle, request);
@@ -137,18 +137,18 @@ u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer
     }
     params.mSource = NULL;
     params.mPositionSource = positionSource;
-    params.mUnk_20 = request;
+    params.field20 = request;
     params.mVolume = 0;
-    params.mUnk_1c = 0;
+    params.field1C = 0;
     params.mPan = 0;
     if (positionSource == 0) {
         params.mDistance = 0;
         params.mVolume = 0x7f;
-        params.mUnk_1c = 0x7f;
+        params.field1C = 0x7f;
         params.mPan = 0;
     } else {
         params.mDistance = data_0217d018(&params);
-        params.mUnk_1c = params.mVolume = sfx_sCalcVolumeFunc(&params);
+        params.field1C = params.mVolume = sfx_sCalcVolumeFunc(&params);
         params.mPan = sfx_sCalcPanFunc(&params);
     }
     if (params.mVolume <= 0) {
@@ -157,7 +157,7 @@ u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer
         }
         return NNS_SndPlayerStopSeq(handle, 0);
     }
-    volumeForPriority = params.mUnk_1c;
+    volumeForPriority = params.field1C;
     priority = volumeForPriority + (NNS_SndArcGetSeqArcParam(seqArcNo, soundId)->mPlayerPrio - 0x40);
     if (priority > 0) {
         if (priority >= 0x7f) {

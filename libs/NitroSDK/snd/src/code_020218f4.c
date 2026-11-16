@@ -11,7 +11,7 @@ void *SND_GetWaveDataAddress(Unk02021968 *waveArc, u32 index) {
     u8 *address;
 
     SNDi_LockMutex();
-    entry = waveArc->mUnk_3c[index];
+    entry = waveArc->field3C[index];
     if (entry != 0) {
         address = (u8 *) entry;
         if (entry < 0x2000000) {

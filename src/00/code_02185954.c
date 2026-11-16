@@ -41,7 +41,7 @@ u32 InitHttpBuffer(Http *a, HttpBuffer *b, int c) {
     if (c == 0) {
         return 0;
     }
-    b->mStart = a->mUnk_04.mUnk_10(gHttpBufferName, c);
+    b->mStart = a->field4.field10(gHttpBufferName, c);
     if (b->mStart == NULL) {
         return 0;
     }
@@ -53,7 +53,7 @@ u32 InitHttpBuffer(Http *a, HttpBuffer *b, int c) {
 
 void FreeHttpBuffer(Http *a, HttpBuffer *b) {
     if (b->mStart != NULL) {
-        a->mUnk_04.mUnk_14(gHttpBufferName, b->mStart, 0);
+        a->field4.field14(gHttpBufferName, b->mStart, 0);
     }
     MI_CpuFill8(b, 0, 0x10);
 }
@@ -63,12 +63,12 @@ u32 GrowHttpBuffer(Http *a, HttpBuffer *b, int c) {
     if (c <= 0) {
         return 0;
     }
-    v1 = a->mUnk_04.mUnk_10(NULL, b->mSize + c);
+    v1 = a->field4.field10(NULL, b->mSize + c);
     if (v1 == NULL) {
         return 0;
     }
     MI_CpuCopy8(b->mStart, v1, b->mSize);
-    a->mUnk_04.mUnk_14(NULL, b->mStart, 0);
+    a->field4.field14(NULL, b->mStart, 0);
     if (v1 == NULL) {
         return 0;
     }
@@ -84,16 +84,16 @@ BOOL DWCi_Http_SetHostinfo(Http *a, const char *b) {
     if (strlen(b) >= 0x80) {
         return FALSE;
     }
-    strncpy(a->mUnk_028, b, 0x80);
-    if (strlen(b) != strlen(a->mUnk_028)) {
+    strncpy(a->field28, b, 0x80);
+    if (strlen(b) != strlen(a->field28)) {
         return FALSE;
     }
-    p = strstr(a->mUnk_028, data_ov000_021b1268);
+    p = strstr(a->field28, data_ov000_021b1268);
     if (p != NULL) {
-        a->mHost = a->mUnk_028 + 7;
+        a->mHost = a->field28 + 7;
         a->mUseHttps = FALSE;
     } else {
-        p = strstr(a->mUnk_028, data_ov000_021b1270);
+        p = strstr(a->field28, data_ov000_021b1270);
         if (p == NULL) {
             return FALSE;
         }
@@ -239,7 +239,7 @@ BOOL DWC_Http_GetRawResult(DWCHttpLabelValue *a, s32 b, const char *c, char *d, 
 }
 
 void func_ov000_02186628(const void *a) {
-    data_ov000_021b1040.mUnk_00 = a;
+    data_ov000_021b1040.field0 = a;
 }
 
 s32 DWC_Auth_Create(AuthCreateParams *a, Http *b) {
@@ -254,13 +254,13 @@ s32 DWC_Auth_Create(AuthCreateParams *a, Http *b) {
     gAuth = c;
     MI_CpuFill8(c, 0, 0x13e0);
     gAuth->mHttp = b;
-    MI_CpuFill8(&gAuth->mUnk_008, 0, 0x1c4);
-    gAuth->mUnk_008 = -1;
-    gAuth->mUnk_1cc = *a;
-    gAuth->mUnk_1cc.mIngamesn[0x14] = 0;
-    gAuth->mUnk_1cc.mGsbrcd[0xb] = 0;
-    data_ov000_021b1040.mUnk_10 = a->mAlloc;
-    data_ov000_021b1040.mUnk_14 = a->mFree;
+    MI_CpuFill8(&gAuth->field8, 0, 0x1c4);
+    gAuth->field8 = -1;
+    gAuth->field1CC = *a;
+    gAuth->field1CC.mIngamesn[0x14] = 0;
+    gAuth->field1CC.mGsbrcd[0xb] = 0;
+    data_ov000_021b1040.field10 = a->mAlloc;
+    data_ov000_021b1040.field14 = a->mFree;
     gAuth->mError = DWCi_Auth_Start(1);
     if (gAuth->mError == 0) {
         DWCi_Auth_StartThread();
@@ -297,7 +297,7 @@ void DWC_Auth_Destroy(void) {
         if (gAuth->mHttp != NULL) {
             ReleaseHttp(gAuth->mHttp);
         }
-        gAuth->mUnk_1cc.mFree(gAuthFreeName, gAuth, 0);
+        gAuth->field1CC.mFree(gAuthFreeName, gAuth, 0);
         gAuth = NULL;
     }
 }
@@ -324,7 +324,7 @@ void func_ov000_0218635c(s32 *a) {
     if (gAuth == NULL) {
         MI_CpuFill8(a, 0, 0x1c4);
     }
-    MI_CpuCopy8(&gAuth->mUnk_008, a, 0x1c4);
+    MI_CpuCopy8(&gAuth->field8, a, 0x1c4);
     b = *a;
     if (b >= 0) {
         if (b < 0x4e20 || b >= 0x7530) {
@@ -336,8 +336,8 @@ void func_ov000_0218635c(s32 *a) {
 }
 
 s32 DWCi_Auth_Start(s32 a) {
-    if (strcmp(data_ov000_021b1040.mUnk_00, data_ov000_021b1020) != 0) {
-        data_ov000_021b1040.mUnk_18 = TRUE;
+    if (strcmp(data_ov000_021b1040.field0, data_ov000_021b1020) != 0) {
+        data_ov000_021b1040.field18 = TRUE;
     }
     if (DWC_Http_Create(gAuth->mHttp, &data_ov000_021b1040) != 0) {
         return 4;
@@ -345,7 +345,7 @@ s32 DWCi_Auth_Start(s32 a) {
     if (a == 1) {
         DWCi_BM_GetWiFiInfo(&data_ov000_021b4c94);
     }
-    gAuth->mError = DWCi_Auth_Prepare_FirstPost(gAuth->mHttp, gAuth->mUnk_1cc.mGsbrcd, gAuth->mUnk_1cc.mIngamesn,
+    gAuth->mError = DWCi_Auth_Prepare_FirstPost(gAuth->mHttp, gAuth->field1CC.mGsbrcd, gAuth->field1CC.mIngamesn,
                                                 gAuth->mHttpLabelvalue, 0x20, 0);
     if (gAuth->mError != 0) {
         return 4;
@@ -373,7 +373,7 @@ void DWCi_Auth_Thread(void *param_1) {
             OS_JoinThread(&i->mHttp->mThread);
         }
         if (gAuth->mHttp->mResult != 8) {
-            gAuth->mUnk_008 = -0x4e84;
+            gAuth->field8 = -0x4e84;
             if (gAuth->mHttp->mResult == 7) {
                 menu_ta_characterSelectStateRender(0x13);
                 return;
@@ -397,7 +397,7 @@ void DWCi_Auth_Thread(void *param_1) {
                 case 0xf:
                     if (a >= 2) {
                         menu_ta_characterSelectStateRender(0xf);
-                        gAuth->mUnk_008 = -gAuth->mUnk_008;
+                        gAuth->field8 = -gAuth->field8;
                         return;
                     }
                     a++;
@@ -405,7 +405,7 @@ void DWCi_Auth_Thread(void *param_1) {
                     break;
                 default:
                     if (a >= 2) {
-                        gAuth->mUnk_008 = -gAuth->mUnk_008;
+                        gAuth->field8 = -gAuth->field8;
                         menu_ta_characterSelectStateRender(f);
                         return;
                     }
@@ -419,7 +419,7 @@ void DWCi_Auth_Thread(void *param_1) {
         while (h < 5000) {
             OS_LockMutex(&gAuth->mMutex);
             if (gAuth->mAbort == TRUE) {
-                gAuth->mUnk_008 = -0x4e84;
+                gAuth->field8 = -0x4e84;
                 OS_UnlockMutex(&gAuth->mMutex);
                 menu_ta_characterSelectStateRender(0x13);
                 return;
@@ -432,7 +432,7 @@ void DWCi_Auth_Thread(void *param_1) {
         OS_LockMutex(&gAuth->mMutex);
         gAuth->mError = DWCi_Auth_Start(b);
         if (gAuth->mError != 0) {
-            gAuth->mUnk_008 = -0x4e84;
+            gAuth->field8 = -0x4e84;
             OS_UnlockMutex(&gAuth->mMutex);
             return;
         }
@@ -445,52 +445,52 @@ s32 func_ov000_02185ef4(void) {
     const char *b;
     void *c;
     if (DWC_Http_ParseResult(gAuth->mHttpLabelvalue, 0x20, 0, gAuth->mHttp->mReceiveBuffer.mStart) != TRUE) {
-        gAuth->mUnk_008 = 0x4e84;
+        gAuth->field8 = 0x4e84;
         return 0xd;
     }
     if (DWCi_Auth_FillResult() != 0) {
         return 0xd;
     }
     a = gAuth;
-    if (a->mUnk_008 < 0x4e84) {
-        if (a->mUnk_008 == 0x4e22) {
+    if (a->field8 < 0x4e84) {
+        if (a->field8 == 0x4e22) {
             b = gBmworkName;
-            c = a->mUnk_1cc.mAlloc(b, 0x71f);
+            c = a->field1CC.mAlloc(b, 0x71f);
             if (c == NULL) {
-                gAuth->mUnk_008 = 0x4e84;
+                gAuth->field8 = 0x4e84;
                 return 2;
             }
             if (DWCi_AUTH_UpDateWiFiID(&data_ov000_021b4c94, (u8 *) (((u32) c + 0x1f) & ~0x1f)) != 1) {
-                gAuth->mUnk_1cc.mFree(b, c, 0);
-                gAuth->mUnk_008 = 0x4e84;
+                gAuth->field1CC.mFree(b, c, 0);
+                gAuth->field8 = 0x4e84;
                 return 0xe;
             }
-            gAuth->mUnk_1cc.mFree(b, c, 0);
+            gAuth->field1CC.mFree(b, c, 0);
         }
         return 0x14;
     }
-    switch (a->mUnk_008) {
+    switch (a->field8) {
         case 0x4e88:
             if (DWCi_AUTH_RemakeWiFiID(&data_ov000_021b4c94) == 0) {
-                gAuth->mUnk_008 = 0x4e88;
+                gAuth->field8 = 0x4e88;
                 return 0xe;
             }
-            gAuth->mUnk_008 = 0x4e88;
+            gAuth->field8 = 0x4e88;
             return 0xf;
         case 0x4e8c:
             b = gBmworkName;
-            c = a->mUnk_1cc.mAlloc(b, 0x71f);
+            c = a->field1CC.mAlloc(b, 0x71f);
             if (c == NULL) {
-                gAuth->mUnk_008 = 0x4e8c;
+                gAuth->field8 = 0x4e8c;
                 return 2;
             }
             if (DWCi_AUTH_MakeWiFiID(((u32) c + 0x1f) & ~0x1f) != 1) {
-                gAuth->mUnk_1cc.mFree(b, c, 0);
-                gAuth->mUnk_008 = 0x4e8c;
+                gAuth->field1CC.mFree(b, c, 0);
+                gAuth->field8 = 0x4e8c;
                 return 0xe;
             }
-            gAuth->mUnk_1cc.mFree(b, c, 0);
-            gAuth->mUnk_008 = 0x4e8c;
+            gAuth->field1CC.mFree(b, c, 0);
+            gAuth->field8 = 0x4e8c;
             return 0x10;
     }
     return 0x11;
@@ -503,25 +503,25 @@ s32 DWCi_Auth_FillResult(void) {
     c = NULL;
     b = StrtolBase10(DWC_Http_GetResult(gAuth->mHttpLabelvalue, 0x20, gHttpresultPairName2));
     if (gLibErrorCode == 0x22) {
-        gAuth->mUnk_008 = 0x4e85;
+        gAuth->field8 = 0x4e85;
         return 0xb;
     }
     if (b != 200) {
-        gAuth->mUnk_008 = b + 0x59d8;
+        gAuth->field8 = b + 0x59d8;
         return 0x11;
     }
     d = gAuth;
     if (DWC_Http_GetBase64DecodedResult(d->mHttpLabelvalue, 0x20, gReturncdPairName, d->mRetcode, 4) <= 0) {
-        gAuth->mUnk_008 = 0x4e85;
+        gAuth->field8 = 0x4e85;
         return 0xd;
     }
     b = strtol(gAuth->mRetcode, &c, 10);
     d = gAuth;
     if (c != d->mRetcode + strlen(d->mRetcode)) {
-        d->mUnk_008 = 0x4e85;
+        d->field8 = 0x4e85;
         return 0xb;
     }
-    d->mUnk_008 = b + 0x4e20;
+    d->field8 = b + 0x4e20;
     if (b < 100) {
         gAuth->mToken[0] = 0;
         gAuth->mLocator[0] = 0;
@@ -558,7 +558,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLa
     s32 k;
     s32 m;
     char *n;
-    OS_GetMacAddress(g.mUnk_02);
+    OS_GetMacAddress(g.field2);
     OS_GetOwnerInfo(&y);
     if (RTC_GetDate(&o) != 0 || RTC_GetTime(&p) != 0) {
         return 5;
@@ -569,30 +569,30 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLa
         OS_RestoreInterrupts(h);
         return 3;
     }
-    MI_CpuCopy8(i, g.mUnk_08, 6);
+    MI_CpuCopy8(i, g.field8, 6);
     MI_CpuFill8(v, 0, 0x21);
     j = func_ov000_021a6abc((u16 *) &g);
     if (j == NULL) {
         OS_RestoreInterrupts(h);
         return 3;
     }
-    MI_CpuCopy8(j, v, g.mUnk_00);
+    MI_CpuCopy8(j, v, g.field0);
     OS_RestoreInterrupts(h);
-    MI_CpuCopy8((const void *) 0x27ffe0c, g.mUnk_0e, 4);
-    g.mUnk_0e[4] = 0;
-    MI_CpuCopy8((const void *) 0x27ffe10, g.mUnk_13, 2);
-    g.mUnk_13[2] = 0;
-    l = g.mUnk_02;
+    MI_CpuCopy8((const void *) 0x27ffe0c, g.fieldE, 4);
+    g.fieldE[4] = 0;
+    MI_CpuCopy8((const void *) 0x27ffe10, g.field13, 2);
+    g.field13[2] = 0;
+    l = g.field2;
     for (k = 0; k < 6; l++, k++) {
         OS_SPrintf(&r[k * 2], data_ov000_021b1060, *l);
     }
     r[12] = 0;
-    if (y.mUnk_00 > 6) {
-        y.mUnk_00 = 1;
+    if (y.field0 > 6) {
+        y.field0 = 1;
     }
-    OS_SNPrintf(g.mUnk_16, 5, data_ov000_021b1068, y.mUnk_02, y.mUnk_03);
+    OS_SNPrintf(g.field16, 5, data_ov000_021b1068, y.field2, y.field3);
     OS_SNPrintf(s, 0xd, data_ov000_021b1074, o.mYear, o.mMonth, o.mDay, p.mHour, p.mMinute, p.mSecond);
-    MI_CpuCopy8(y.mUnk_04, t, 0x14);
+    MI_CpuCopy8(y.field4, t, 0x14);
     t[0x14] = 0;
     MI_CpuFill8(&q, 0, 0xc);
     q.mEntries = d;
@@ -620,25 +620,25 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLa
         OS_SNPrintf(x, 0xe, data_ov000_021b10d0, data_ov000_021b4c94.mNotAttestedId);
     }
     DWCi_Http_AddResult(&q, gUseridPairName, x);
-    OS_SNPrintf(g.mUnk_1b, 4, data_ov000_021b10e0, data_ov000_021b4c94.mPass);
-    DWCi_Http_AddResult(&q, gPasswdPairName, g.mUnk_1b);
-    OS_SNPrintf(u, 0xd, data_ov000_021b10f0, g.mUnk_08[0], g.mUnk_08[1], g.mUnk_08[2], g.mUnk_08[3], g.mUnk_08[4],
-                g.mUnk_08[5]);
+    OS_SNPrintf(g.field1B, 4, data_ov000_021b10e0, data_ov000_021b4c94.mPass);
+    DWCi_Http_AddResult(&q, gPasswdPairName, g.field1B);
+    OS_SNPrintf(u, 0xd, data_ov000_021b10f0, g.field8[0], g.field8[1], g.field8[2], g.field8[3], g.field8[4],
+                g.field8[5]);
     OS_SNPrintf(w, 0xd, data_ov000_021b110c, 0);
     func_ov000_0218a67c(v, &w[3]);
-    DWCi_Http_AddResult(&q, gGamecdPairName, g.mUnk_0e);
-    DWCi_Http_AddResult(&q, gMakercdPairName, g.mUnk_13);
+    DWCi_Http_AddResult(&q, gGamecdPairName, g.fieldE);
+    DWCi_Http_AddResult(&q, gMakercdPairName, g.field13);
     DWCi_Http_AddResult(&q, gUnitcdPairName, gUnitcdPairValue);
     DWCi_Http_AddResult(&q, gMacadrPairName, r);
-    DWCi_Http_AddResult(&q, gLangPairName, data_ov000_021b1004[y.mUnk_00]);
-    DWCi_Http_AddResult(&q, gBirthPairName, g.mUnk_16);
+    DWCi_Http_AddResult(&q, gLangPairName, data_ov000_021b1004[y.field0]);
+    DWCi_Http_AddResult(&q, gBirthPairName, g.field16);
     DWCi_Http_AddResult(&q, gDevtimePairName, s);
     DWCi_Http_AddResult(&q, gBssidPairName, u);
     DWCi_Http_AddResult(&q, gApinfoPairName, w);
     if (DWC_Http_Add_HeaderItem(a, gUserAgentHeaderName, gUserAgentHeaderValue) != FALSE) {
         return 7;
     }
-    if (DWC_Http_Add_HeaderItem(a, gHttpXGamecdHeaderName, g.mUnk_0e) != FALSE) {
+    if (DWC_Http_Add_HeaderItem(a, gHttpXGamecdHeaderName, g.fieldE) != FALSE) {
         return 7;
     }
     for (m = 0; d->mFirst != NULL; d++, m++) {

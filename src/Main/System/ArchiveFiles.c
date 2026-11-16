@@ -24,11 +24,11 @@ void arc_init(void *heap) {
     s32 index;
 
     gArcData = heap_alloc(heap, 0xa84);
-    gArcData->mUnk_8c8.mReadBuffer = heap_allocEx(heap, 0x400, 0x20);
+    gArcData->field8C8.mReadBuffer = heap_allocEx(heap, 0x400, 0x20);
     for (index = 0; index < 20; index++) {
-        gArcData->mUnk_00[index].mLoaded = 0;
+        gArcData->field0[index].mLoaded = 0;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         gArcData->mFileTableSize = FS_TryLoadTable(0, 0);
         gArcData->mFileTable = heap_alloc(heap, gArcData->mFileTableSize);
         FS_TryLoadTable((u32) gArcData->mFileTable, gArcData->mFileTableSize);
@@ -36,8 +36,8 @@ void arc_init(void *heap) {
     for (index = 0; index < 16; index++) {
         arc_initSomething(index);
     }
-    gArcData->mUnk_a70 = NULL;
-    gArcData->mUnk_a78 = NULL;
+    gArcData->fieldA70 = NULL;
+    gArcData->fieldA78 = NULL;
     gArcData->mCourseBufferHeap = NULL;
     FS_InitFile(&gArcData->mFile);
 }
@@ -50,7 +50,7 @@ int arc_readFileToEnd(const char *path, void *buffer, u32 maxSize) {
     FS_InitFile(&file);
     opened = FS_OpenFile(&file, (const u8 *) path);
     if (opened != 0) {
-        size = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+        size = file.mProp.p.field8 - file.mProp.p.field4;
         if (maxSize != 0 && size > maxSize) {
             opened = 0;
         } else {
@@ -70,7 +70,7 @@ u32 arc_readFile(void *path, void *buffer, u32 size) {
     FS_InitFile(&file);
     opened = FS_OpenFile(&file, path);
     if (opened != 0) {
-        if (size <= (file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04)) {
+        if (size <= (file.mProp.p.field8 - file.mProp.p.field4)) {
             if (FS_ReadFile(&file, buffer, size) < 0) {
                 opened = 0;
             }
@@ -95,7 +95,7 @@ u32 arc_loadFile(char *path, NNSiFndHeapHead *heap, void **outData) {
     }
     opened = FS_OpenFile(file, (const u8 *) path);
     if (opened != 0) {
-        size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
+        size = file->mProp.p.field8 - file->mProp.p.field4;
         data = heap_alloc(heap, size);
         *outData = data;
         if (data == NULL) {
@@ -129,7 +129,7 @@ void *arc_loadFileToHeap(const char *path, s32 alignment) {
     FS_InitFile(&file);
     opened = FS_OpenFile(&file, (const u8 *) path);
     if (opened != 0) {
-        size = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+        size = file.mProp.p.field8 - file.mProp.p.field4;
         data = heap_allocEx(proc_getHeap(proc_getCurrent()), size, alignment);
         DC_StoreRange(data, size);
         if (data == NULL) {
@@ -154,7 +154,7 @@ void arc_getCourseArcPath(char *path, s32 courseId, s32 useTexture) {
     const char *dSuffix;
 
     d = FALSE;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sCourseDefs[courseId].mUnk_04 == 1) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 && sCourseDefs[courseId].field4 == 1) {
         d = TRUE;
     }
     if (useTexture != 0) {
@@ -167,14 +167,14 @@ void arc_getCourseArcPath(char *path, s32 courseId, s32 useTexture) {
     } else {
         dSuffix = data_02165170;
     }
-    OS_SNPrintf(path, 0x80, aDataCourseSSS_, sCourseDefs[courseId].mUnk_00, dSuffix, textureSuffix);
+    OS_SNPrintf(path, 0x80, aDataCourseSSS_, sCourseDefs[courseId].field0, dSuffix, textureSuffix);
 }
 
 u32 arc_getLocalizationPostfix(void) {
     s32 languageIndex;
 
     languageIndex = gSystemData->mLanguageIndex;
-    if (gSystemData->mUnk_00 == 2 && languageIndex == 1) {
+    if (gSystemData->field0 == 2 && languageIndex == 1) {
         languageIndex += 5;
     }
     return ((u32 *) sLocalizationNames)[languageIndex];
@@ -186,8 +186,8 @@ u32 arc_getLocalizationPostfix(void) {
 
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
-    languageIndex = gStruct217AA00->mUnk_043c;
-    if ((gSystemData->mUnk_00 == 2) && (((s32 *) gSystemData)[1] == 1)) {
+    languageIndex = gStruct217AA00->field43C;
+    if ((gSystemData->field0 == 2) && (((s32 *) gSystemData)[1] == 1)) {
         languageIndex = languageIndex + 5;
     }
     return ((u32 *) &sLocalizationNames)[languageIndex];

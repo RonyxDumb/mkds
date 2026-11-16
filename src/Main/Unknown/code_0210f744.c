@@ -155,23 +155,23 @@ void func_02110698(void) {
 s32 StepValueTowardTarget(Unk0217c7f0 *a, s32 target) {
     s32 currentValue;
     s32 nextValue;
-    currentValue = a->mUnk_04 >> 12;
+    currentValue = a->field4 >> 12;
     if (target == currentValue) {
         return -1;
     }
     if (currentValue <= target) {
-        nextValue = a->mUnk_04 + a->mUnk_00;
+        nextValue = a->field4 + a->field0;
         if ((nextValue >> 12) > target) {
             nextValue = target << 12;
         }
     } else {
-        nextValue = a->mUnk_04 - a->mUnk_00;
+        nextValue = a->field4 - a->field0;
         if ((nextValue >> 12) < target) {
             nextValue = target << 12;
         }
     }
-    a->mUnk_04 = nextValue;
-    return a->mUnk_04 >> 12;
+    a->field4 = nextValue;
+    return a->field4 >> 12;
 }
 
 void InitSoundRequestQueues(void) {
@@ -416,7 +416,7 @@ void func_0211003c(u32 soundId, NNSSndSeqPlayer **handle) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (SoundHandle_217D084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.fieldC == 0) {
         return;
     }
     if (*handle != NULL) {

@@ -70,7 +70,7 @@
 #include "registers.h"
 
 u32 func_020c5dc4(void) {
-    return (gRaceGoalM->mUnk_00);
+    return (gRaceGoalM->field0);
 }
 
 u32 GetRaceGoalMUpdateFrames(void) {
@@ -79,7 +79,7 @@ u32 GetRaceGoalMUpdateFrames(void) {
 
 void InitRaceGoalM(void) {
     gRaceGoalM = heap_alloc(proc_getHeap(proc_getCurrent()), 0x1c);
-    gRaceGoalM->mUnk_00 = 1;
+    gRaceGoalM->field0 = 1;
     gRaceGoalM->mUpdateFrames = 0;
     gRaceGoalM->mRankIndex = 0;
     gRaceGoalM->mPointsGained = 0;
@@ -87,13 +87,13 @@ void InitRaceGoalM(void) {
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         if (GetMissionRecordValue(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? gRaceMultiConfig->mMissionTableRow : -1,
                                   gRaceMultiConfig->mMode == MODE_MISSION_RUN ? gRaceMultiConfig->mMissionTableColumn : -1,
-                                  &gRaceGoalM->mUnk_14) == 0) {
-            gRaceGoalM->mUnk_14 = 9;
+                                  &gRaceGoalM->field14) == 0) {
+            gRaceGoalM->field14 = 9;
         }
     } else {
-        gRaceGoalM->mUnk_14 = 9;
+        gRaceGoalM->field14 = 9;
     }
-    gRaceGoalM->mUnk_18 = 9;
+    gRaceGoalM->field18 = 9;
 }
 
 u32 ClearRaceGoalMPointer(void) {
@@ -116,8 +116,8 @@ void UpdateRaceGoalM(void) {
 
     frame = gRaceGoalM->mUpdateFrames;
     followedKartIndex = Race_GetPlayerId();
-    if (gRaceStatus->mUnk_000[followedKartIndex].mStatus == 1 || gRaceStatus->mRaceDone != 0) {
-        gRaceGoalM->mUnk_00 = 0;
+    if (gRaceStatus->field0[followedKartIndex].mStatus == 1 || gRaceStatus->mRaceDone != 0) {
+        gRaceGoalM->field0 = 0;
     }
     if (func_020b1d0c() == 0) {
         return;
@@ -141,12 +141,12 @@ void UpdateRaceGoalM(void) {
             a = record->mTotalPoints;
             gRaceGoalM->mPointsGained = a - rres_getTotalRankPoints(Race_GetPlayerId());
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->field0 = 1;
             }
             break;
         case MODE_TIME_ATTACK:
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->field0 = 1;
             }
             break;
         case MODE_VS:
@@ -159,18 +159,18 @@ void UpdateRaceGoalM(void) {
             }
             gRaceGoalM->mFirstPlaceKartIndex = i;
             if (frame > 0x14) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->field0 = 1;
             }
             break;
         case MODE_MISSION_RUN:
             if (rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex) != 0 ? gRaceStatus->mEntryEndKind : 6) {
-                gRaceGoalM->mUnk_18 = 9;
+                gRaceGoalM->field18 = 9;
             } else {
-                gRaceGoalM->mUnk_18 = rres_calculateMrRank();
+                gRaceGoalM->field18 = rres_calculateMrRank();
             }
             if ((rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex) != 0 ? gRaceStatus->mEntryEndKind : 6) == 0) {
                 if (frame == 1) {
-                    switch (gRaceGoalM->mUnk_18) {
+                    switch (gRaceGoalM->field18) {
                         case 0:
                         case 1:
                         case 2:
@@ -188,14 +188,14 @@ void UpdateRaceGoalM(void) {
                             break;
                     }
                 } else if (frame > 0x1e) {
-                    gRaceGoalM->mUnk_00 = 1;
+                    gRaceGoalM->field0 = 1;
                 }
             } else if (frame > 0x4b) {
-                gRaceGoalM->mUnk_00 = 1;
+                gRaceGoalM->field0 = 1;
             }
             break;
         default:
-            gRaceGoalM->mUnk_00 = 1;
+            gRaceGoalM->field0 = 1;
             break;
     }
 }
@@ -291,7 +291,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 
     n = gRaceGoalM->mUpdateFrames;
     offsetY = mutil_interpolate(1, -0x80, 0, n, 0x14);
-    if (gRaceGoalM->mUnk_14 != 9 && gRaceGoalM->mUnk_18 > gRaceGoalM->mUnk_14 && n >= 0x1e) {
+    if (gRaceGoalM->field14 != 9 && gRaceGoalM->field18 > gRaceGoalM->field14 && n >= 0x1e) {
         blinkFrame = n - 10;
         if (blinkFrame < 0x54) {
             n = blinkFrame % 12;
@@ -300,7 +300,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
             }
         }
     }
-    switch (gRaceGoalM->mUnk_18) {
+    switch (gRaceGoalM->field18) {
         case 0:
             cellIndex = 7;
             break;
@@ -326,7 +326,7 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
             cellIndex = 0;
             break;
     }
-    if (gRaceGoalM->mUnk_18 >= 8) {
+    if (gRaceGoalM->field18 >= 8) {
         return;
     }
     cell = r2d_getRaceGoalMrMCell(cellIndex);
@@ -339,11 +339,11 @@ void DrawRaceGoalMMissionRun(RaceHudOamBuffer *oamBuffer) {
 
 void InitRaceLinkLevel(void) {
     gRaceLinkLevel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x14);
-    gRaceLinkLevel->mUnk_00 = 0;
-    gRaceLinkLevel->mUnk_04 = 0;
-    gRaceLinkLevel->mUnk_08 = 0;
-    gRaceLinkLevel->mUnk_0c = 0;
-    gRaceLinkLevel->mUnk_10 = 0;
+    gRaceLinkLevel->field0 = 0;
+    gRaceLinkLevel->field4 = 0;
+    gRaceLinkLevel->field8 = 0;
+    gRaceLinkLevel->fieldC = 0;
+    gRaceLinkLevel->field10 = 0;
 }
 
 u32 ClearRaceLinkLevelPointer(void) {
@@ -359,28 +359,28 @@ void UpdateRaceLinkLevel(void) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (gSystemData->mUnk_20 == 0) {
+    if (gSystemData->field20 == 0) {
         return;
     }
     if (gRaceMultiConfig->mMode == 5) {
-        gRaceLinkLevel->mUnk_04 = func_021205e8();
-        gRaceLinkLevel->mUnk_0c = gRaceLinkLevel->mUnk_10;
-        gRaceLinkLevel->mUnk_10 = func_0212a8d0();
-        if (gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_0c == 0) {
+        gRaceLinkLevel->field4 = func_021205e8();
+        gRaceLinkLevel->fieldC = gRaceLinkLevel->field10;
+        gRaceLinkLevel->field10 = func_0212a8d0();
+        if (gRaceLinkLevel->field10 != 0 && gRaceLinkLevel->fieldC == 0) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x26);
         }
-        if (gRaceLinkLevel->mUnk_10 != 0) {
-            gRaceLinkLevel->mUnk_08++;
-            if (gRaceLinkLevel->mUnk_08 >= 0x78) {
-                gRaceLinkLevel->mUnk_08 = 0;
+        if (gRaceLinkLevel->field10 != 0) {
+            gRaceLinkLevel->field8++;
+            if (gRaceLinkLevel->field8 >= 0x78) {
+                gRaceLinkLevel->field8 = 0;
             }
         } else {
-            gRaceLinkLevel->mUnk_08 = 0;
-            gRaceLinkLevel->mUnk_0c = 0;
-            gRaceLinkLevel->mUnk_10 = 0;
+            gRaceLinkLevel->field8 = 0;
+            gRaceLinkLevel->fieldC = 0;
+            gRaceLinkLevel->field10 = 0;
         }
     } else {
-        gRaceLinkLevel->mUnk_00 = gStruct217AA00->mUnk_0004 == 0 ? 0 : WM_GetLinkLevel();
+        gRaceLinkLevel->field0 = gStruct217AA00->field4 == 0 ? 0 : WM_GetLinkLevel();
     }
 }
 
@@ -391,21 +391,21 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
     if (gRaceLinkLevel == NULL) {
         return;
     }
-    if (gSystemData->mUnk_20 != 0) {
+    if (gSystemData->field20 != 0) {
         if (func_020b1d20() == 0) {
             if (gRaceMultiConfig->mMode == 5) {
-                levelCell = r2d_getRaceMCell(gRaceLinkLevel->mUnk_04 + 0x28);
+                levelCell = r2d_getRaceMCell(gRaceLinkLevel->field4 + 0x28);
             } else {
-                levelCell = r2d_getRaceMCell(gRaceLinkLevel->mUnk_00 + 0x28);
+                levelCell = r2d_getRaceMCell(gRaceLinkLevel->field0 + 0x28);
             }
         } else {
             if (gRaceMultiConfig->mMode == 5) {
-                levelCell = r2d_getRaceGoalMCell(gRaceLinkLevel->mUnk_04 + 0x3c);
+                levelCell = r2d_getRaceGoalMCell(gRaceLinkLevel->field4 + 0x3c);
             } else {
-                levelCell = r2d_getRaceGoalMCell(gRaceLinkLevel->mUnk_00 + 0x3c);
+                levelCell = r2d_getRaceGoalMCell(gRaceLinkLevel->field0 + 0x3c);
             }
         }
-        if (gRaceMultiConfig->mMode == 5 && gRaceLinkLevel->mUnk_10 != 0 && gRaceLinkLevel->mUnk_08 < 0x69) {
+        if (gRaceMultiConfig->mMode == 5 && gRaceLinkLevel->field10 != 0 && gRaceLinkLevel->field8 < 0x69) {
             if (func_020b1d20() != 0) {
                 extraCell = r2d_getRaceGoalMCell(0x42);
             } else {
@@ -426,8 +426,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, levelCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-            oam->mUnk_0a = 2;
-            oam->mUnk_0e = 1;
+            oam->fieldA = 2;
+            oam->fieldE = 1;
         }
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xb8000;
@@ -448,8 +448,8 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams((GXOamAttr *) oam, 0x80 - oamIndex, extraCell, NULL, firstPosition, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
-            oam->mUnk_0a = 2;
-            oam->mUnk_0e = 1;
+            oam->fieldA = 2;
+            oam->fieldE = 1;
         }
         secondPosition[0] = 0xf8000;
         secondPosition[1] = 0xa7000;
@@ -488,7 +488,7 @@ void cint_init(void) {
     cint_sStatus = heap_alloc(proc_getHeap(proc_getCurrent()), 0x41c);
     for (i = 0; i < 0x80; i++) {
         RaceHudOamBits *e = &cint_sStatus->mMainOam.mOamBits[i];
-        e->mUnk_0a = 3;
+        e->fieldA = 3;
     }
     cint_sStatus->mUpdateFrames = 0;
     g2du_unpackPaletteData(&cint_sStatus->mRaceStartGpMONclr, m2d_getSceneArcFile("race_start_gp_m_o.NCLR"));
@@ -574,8 +574,8 @@ void r2d_showMapPathForDriver(s32 kartIndex) {
     for (i = 0; i < 0x28; i++) {
         r2d_sMapPath->mSamples[kartIndex][i].mKind = 0;
     }
-    for (j = 0; j < r2d_sMapPath->mUnk_790[kartIndex].mUnk_00; j++) {
-        r2d_sMapPath->mUnk_790[kartIndex].mUnk_34[j] = 0x28;
+    for (j = 0; j < r2d_sMapPath->field790[kartIndex].field0; j++) {
+        r2d_sMapPath->field790[kartIndex].field34[j] = 0x28;
     }
     r2d_sMapPath->mKartVisible[kartIndex] = 1;
 }
@@ -601,18 +601,18 @@ void r2d_initMapPath(void) {
             r2d_sMapPath->mSamples[a][j].mPos = position;
             r2d_sMapPath->mSamples[a][j].mAngle = angle;
             r2d_sMapPath->mSamples[a][j].mKind = 0;
-            r2d_sMapPath->mSamples[a][j].mUnk_14 = 3;
+            r2d_sMapPath->mSamples[a][j].field14 = 3;
         }
     }
     a = 0;
     if (a < gRaceMultiConfig->mKartCount) {
         Vec3 zeroVector = gVec3Zero;
         do {
-            r2d_sMapPath->mUnk_790[a].mUnk_00 = 0;
+            r2d_sMapPath->field790[a].field0 = 0;
             for (j = 0; j < 3; j++) {
-                r2d_sMapPath->mUnk_790[a].mUnk_04[j] = zeroVector;
-                r2d_sMapPath->mUnk_790[a].mUnk_34[j] = -1;
-                r2d_sMapPath->mUnk_790[a].mUnk_28[j] = 3;
+                r2d_sMapPath->field790[a].field4[j] = zeroVector;
+                r2d_sMapPath->field790[a].field34[j] = -1;
+                r2d_sMapPath->field790[a].field28[j] = 3;
             }
             a++;
         } while (a < gRaceMultiConfig->mKartCount);
@@ -620,10 +620,10 @@ void r2d_initMapPath(void) {
     for (a = 0; a < 16; a++) {
         s32 pairFirst = FX_SinCosTable_[((u16) (a * 0x10000 / 16) >> 4) * 2];
         s32 pairSecond = FX_SinCosTable_[((u16) (a * 0x10000 / 16) >> 4) * 2 + 1];
-        r2d_sMapPath->mRotations[a].mUnk_00 = pairSecond;
-        r2d_sMapPath->mRotations[a].mUnk_04 = pairFirst;
-        r2d_sMapPath->mRotations[a].mUnk_08 = -pairFirst;
-        r2d_sMapPath->mRotations[a].mUnk_0c = pairSecond;
+        r2d_sMapPath->mRotations[a].field0 = pairSecond;
+        r2d_sMapPath->mRotations[a].field4 = pairFirst;
+        r2d_sMapPath->mRotations[a].field8 = -pairFirst;
+        r2d_sMapPath->mRotations[a].fieldC = pairSecond;
     }
 }
 
@@ -654,20 +654,20 @@ void r2d_updateMapPath(void) {
     }
     for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
         if ((it_sDriverItemStatus)[i].mKinokoBoostStarted != FALSE) {
-            count = r2d_sMapPath->mUnk_790[i].mUnk_00;
-            r2d_sMapPath->mUnk_790[i].mUnk_00 = count + 1;
-            ((void (*)(Vec3 *, s32)) GetKartPosFromPosSourceCopy)(&r2d_sMapPath->mUnk_790[i].mUnk_04[count], i);
-            r2d_sMapPath->mUnk_790[i].mUnk_28[count] =
-                m2d_isPointOnLowerMap(&r2d_sMapPath->mUnk_790[i].mUnk_04[count]) != 0 ? 2 : 3;
+            count = r2d_sMapPath->field790[i].field0;
+            r2d_sMapPath->field790[i].field0 = count + 1;
+            ((void (*)(Vec3 *, s32)) GetKartPosFromPosSourceCopy)(&r2d_sMapPath->field790[i].field4[count], i);
+            r2d_sMapPath->field790[i].field28[count] =
+                m2d_isPointOnLowerMap(&r2d_sMapPath->field790[i].field4[count]) != 0 ? 2 : 3;
         }
     }
     r2d_sMapPath->mSampleFrames++;
     if (r2d_sMapPath->mSampleFrames > 0xf) {
         r2d_sMapPath->mSampleFrames = 0;
         for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
-            for (j = 0; j < r2d_sMapPath->mUnk_790[i].mUnk_00; j = j + 1) {
-                if (r2d_sMapPath->mUnk_790[i].mUnk_34[j] < 0x28) {
-                    r2d_sMapPath->mUnk_790[i].mUnk_34[j]++;
+            for (j = 0; j < r2d_sMapPath->field790[i].field0; j = j + 1) {
+                if (r2d_sMapPath->field790[i].field34[j] < 0x28) {
+                    r2d_sMapPath->field790[i].field34[j]++;
                 }
             }
         }
@@ -680,12 +680,12 @@ void r2d_updateMapPath(void) {
                 positions->mSamples[i][j] = positions->mSamples[i][j - 1];
             }
             GetKartPosFromPosSourceCopy(&r2d_sMapPath->mSamples[i][0].mPos, i);
-            r2d_sMapPath->mSamples[i][0].mUnk_14 =
+            r2d_sMapPath->mSamples[i][0].field14 =
                 m2d_isPointOnLowerMap(&r2d_sMapPath->mSamples[i][0].mPos) != 0 ? 2 : 3;
             r2d_sMapPath->mSamples[i][0].mAngle = m2d_20B6338(i);
-            if ((kart->mUnk_44 & 0xa) != 0) {
+            if ((kart->field44 & 0xa) != 0) {
                 r2d_sMapPath->mSamples[i][0].mKind = 2;
-            } else if ((kart->mUnk_48 & 0x80020) != 0) {
+            } else if ((kart->field48 & 0x80020) != 0) {
                 r2d_sMapPath->mSamples[i][0].mKind = 3;
             } else {
                 r2d_sMapPath->mSamples[i][0].mKind = 1;
@@ -738,21 +738,21 @@ void r2d_renderMapPath(RaceHudOamBuffer *oamBuffer) {
     for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
         if (r2d_sMapPath->mKartVisible[i] != 0) {
             if (gRaceStatus->mRaceDone == 0) {
-                for (j = 0; j < r2d_sMapPath->mUnk_790[i].mUnk_00; j++) {
-                    if (r2d_sMapPath->mUnk_790[i].mUnk_34[j] < 0x28) {
-                        if (lmap_20B5AE8(&r2d_sMapPath->mUnk_790[i].mUnk_04[j], &trailPosition,
+                for (j = 0; j < r2d_sMapPath->field790[i].field0; j++) {
+                    if (r2d_sMapPath->field790[i].field34[j] < 0x28) {
+                        if (lmap_20B5AE8(&r2d_sMapPath->field790[i].field4[j], &trailPosition,
                                                             s, 1, 1) != FALSE) {
-                            m = r2d_sMapPath->mUnk_790[i].mUnk_28[j];
+                            m = r2d_sMapPath->field790[i].field28[j];
                             trailCell = r2d_getRaceSCell(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
-                            trailCellPosition[0] = trailPosition.mUnk_00 << 12;
-                            trailCellPosition[1] = trailPosition.mUnk_04 << 12;
+                            trailCellPosition[0] = trailPosition.field0 << 12;
+                            trailCellPosition[1] = trailPosition.field4 << 12;
                             trailOam = &oamBuffer->mOamBits[trailOamIndex];
                             oamBuffer->mOamCount += NNS_G2dMakeCellToOams((GXOamAttr *) trailOam, 0x80 - trailOamIndex,
                                                                           trailCell, NULL, trailCellPosition, 0, 1);
                             for (; trailOamIndex < oamBuffer->mOamCount; trailOamIndex++, trailOam++) {
                                 if (m != -1) {
-                                    trailOam->mUnk_0e = m;
+                                    trailOam->fieldE = m;
                                 }
                             }
                         }
@@ -780,21 +780,21 @@ void r2d_renderMapPath(RaceHudOamBuffer *oamBuffer) {
                             break;
                     }
                     if (sampleCell != NULL) {
-                        h = r2d_sMapPath->mSamples[i][j].mUnk_14;
+                        h = r2d_sMapPath->mSamples[i][j].field14;
                         sampleOamIndex = oamBuffer->mOamCount;
-                        sampleCellPosition[0] = samplePosition.mUnk_00 << 12;
-                        sampleCellPosition[1] = samplePosition.mUnk_04 << 12;
+                        sampleCellPosition[0] = samplePosition.field0 << 12;
+                        sampleCellPosition[1] = samplePosition.field4 << 12;
                         sampleOam = &oamBuffer->mOamBits[sampleOamIndex];
                         oamBuffer->mOamCount +=
                             NNS_G2dMakeCellToOams((GXOamAttr *) sampleOam, 0x80 - sampleOamIndex, sampleCell,
-                                                  &r2d_sMapPath->mRotations[rotationIndex].mUnk_00,
+                                                  &r2d_sMapPath->mRotations[rotationIndex].field0,
                                                   sampleCellPosition, rotationIndex + firstRotationSlot, 1);
                         for (; sampleOamIndex < oamBuffer->mOamCount; sampleOamIndex++, sampleOam++) {
                             if ((i != 0 ? 1 : -1) != -1) {
-                                sampleOam->mUnk_0a = i != 0 ? 1 : -1;
+                                sampleOam->fieldA = i != 0 ? 1 : -1;
                             }
                             if (h != -1) {
-                                sampleOam->mUnk_0e = h;
+                                sampleOam->fieldE = h;
                             }
                         }
                     }
@@ -804,9 +804,9 @@ void r2d_renderMapPath(RaceHudOamBuffer *oamBuffer) {
     }
     for (i = 0; i < 16; i++) {
         Matrix2x2 *rotation = &r2d_sMapPath->mRotations[i];
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_06 = rotation->mUnk_00 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_0e = rotation->mUnk_04 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_16 = rotation->mUnk_08 >> 4;
-        (oamBuffer->mMatrices + firstRotationSlot)[i].mUnk_1e = rotation->mUnk_0c >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].field6 = rotation->field0 >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].fieldE = rotation->field4 >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].field16 = rotation->field8 >> 4;
+        (oamBuffer->mMatrices + firstRotationSlot)[i].field1E = rotation->fieldC >> 4;
     }
 }

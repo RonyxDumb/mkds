@@ -65,7 +65,7 @@ void sound_startSeq(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
 }
 
 void func_0210d7ac(void) {
-    if (data_0217d070.mUnk_00 != 0) {
+    if (data_0217d070.field0 != 0) {
         func_0210d73c(&data_0217d070);
     }
     NNS_SndMain();
@@ -73,10 +73,10 @@ void func_0210d7ac(void) {
 
 void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
     SetupSoundMode(&SoundHandle_217D084, scenePlayers, 0);
-    *(Unk021073ec *) &scenePlayers->mUnk_09 = d;
-    scenePlayers->mUnk_04 = sceneSoundState;
-    scenePlayers->mUnk_08 = c;
-    NNS_SndHandleInit(&scenePlayers->mUnk_0c);
-    NNS_SndHandleInit(&scenePlayers->mUnk_10);
-    scenePlayers->mUnk_00 = 1;
+    *(Unk021073ec *) &scenePlayers->field9 = d;
+    scenePlayers->field4 = sceneSoundState;
+    scenePlayers->field8 = c;
+    NNS_SndHandleInit(&scenePlayers->fieldC);
+    NNS_SndHandleInit(&scenePlayers->field10);
+    scenePlayers->field0 = 1;
 }

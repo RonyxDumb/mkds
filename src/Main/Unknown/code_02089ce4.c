@@ -4,7 +4,7 @@
 void SetupBattleKartAiSpeedLimit(KartAiSpeedLimit *speedLimit, KartAi *kartAi) {
     speedLimit->mBaseSpeedLimit = kartAi->mKart->mPhysicalParam->mBaseSpeedLimit;
     speedLimit->mSpeedLimit = speedLimit->mBaseSpeedLimit;
-    speedLimit->mUnk_08 = 0x5000;
-    speedLimit->mUnk_0c = FALSE;
+    speedLimit->field8 = 0x5000;
+    speedLimit->fieldC = FALSE;
     speedLimit->mTurnSpeedLimit = 0;
 }

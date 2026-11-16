@@ -8,9 +8,9 @@ typedef struct GpConnection GpConnection;
 
 // Message block: word at 0 and string pointer at 8.
 typedef struct Unk0219b4b4 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ u8 pad_04[4];
-    /* 08 */ char *mUnk_08;
+    /* 08 */ char *field8;
 } Unk0219b4b4;
 
 Unk0219b1d4 *func_ov000_0219b1f8(u32 a);

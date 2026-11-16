@@ -5,14 +5,14 @@
 
 // List of objects: an array of pointers and its length.
 typedef struct Unk0218fa78 {
-    /* 00 */ Unk02188950 **mUnk_00;
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ Unk02188950 **field0;
+    /* 04 */ u16 field4;
 } Unk0218fa78;
 
 // Offsets 0x50..0x5b of the object are a position.
 typedef struct Unk0218fd20 {
-    /* 00 */ u8 mUnk_00[0x50];
-    /* 50 */ Vec3 mUnk_50;
+    /* 00 */ u8 field0[0x50];
+    /* 50 */ Vec3 field50;
 } Unk0218fd20;
 
 #include "01/code_02185ef4.h"

@@ -6,16 +6,16 @@
 
 // Node of the list at 0x80 of a ParticipantKartRecordState: a halfword at 0x08 and an ParticipantKartRecord at 0x0c.
 typedef struct ParticipantKartRecordNode {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ s16 mApplyTimer;
-    /* 0a */ u8 mUnk_0a[2];
+    /* 0a */ u8 fieldA[2];
     /* 0c */ ParticipantKartRecord mRecord;
 } ParticipantKartRecordNode;
 
 // Table of 0x5c-byte entries; the code writes the word at 0x00.
 typedef struct Unk02175664 {
     /* 00 */ s32 mSourceKind;
-    /* 04 */ u8 mUnk_04[0x58];
+    /* 04 */ u8 field4[0x58];
 } Unk02175664;
 
 typedef struct KartSurfaceSoundIds {
@@ -52,27 +52,27 @@ u32 IsKartTurnEffectsActive(Kart *kart);
 // 0x1000 instead of an entry of mSurfaceSpeedLimitFactors.
 s32 driver_handleOobCollision(Kart *kart);
 // Surface kind 19 (entry 19 of driver_sHandleFloorCollisionFuncs): unless mSurfaceGroup is already 0xb and bit 0x80000000 of
-// mUnk_44 is clear it runs driver_addBoost and, for the selected kart, calls sfx_21090C4 with 0x1b9; otherwise it sets
-// mUnk_238 to 0x3c. Then it sets bits 0x40000001 of mUnk_48, runs rptc_killDriverEffects_copy and returns surface group 0xb.
+// field44 is clear it runs driver_addBoost and, for the selected kart, calls sfx_21090C4 with 0x1b9; otherwise it sets
+// field238 to 0x3c. Then it sets bits 0x40000001 of field48, runs rptc_killDriverEffects_copy and returns surface group 0xb.
 s32 driver_handleLoopingCollision(Kart *kart);
 // Surface kind 17 (entry 17 of driver_sHandleFloorCollisionFuncs): passes the entry that gKartSurfaceKind17Effects gives for
 // mSurfaceVariant to rptc_collisionParticleRender and returns surface group 0xa.
 s32 driver_handleFallsWaterCollision(Kart *kart);
-// Surface kind 15 (entry 15 of driver_sHandleFloorCollisionFuncs): runs rptc_collisionParticleRender with 0; while bit 0x10000 of mUnk_48
+// Surface kind 15 (entry 15 of driver_sHandleFloorCollisionFuncs): runs rptc_collisionParticleRender with 0; while bit 0x10000 of field48
 // is clear it then runs driver_pipeTeleport with mSurfaceVariant when RaceSetup.mMode is MODE_BATTLE or
 // MODE_MISSION_RUN, and in the other modes sets that bit and runs driver_cannonLaunch with 0. Returns surface group 9.
 s32 driver_handleCannonCollision(Kart *kart);
-// Surface kind 18 (entry 18 of driver_sHandleFloorCollisionFuncs): the body of kind 7, followed by setting bit 0x400000 of mUnk_48;
+// Surface kind 18 (entry 18 of driver_sHandleFloorCollisionFuncs): the body of kind 7, followed by setting bit 0x400000 of field48;
 // returns surface group 8.
 s32 driver_handleBoostPad2Collision(Kart *kart);
-// Surface kind 12 (entry 12 of driver_sHandleFloorCollisionFuncs): sets bit 0x10000000 of mUnk_48, sets mVerticalSpeed from
-// gKartSurfaceKind12VerticalSpeeds and mUnk_4c4 from data_0216559c by mSurfaceVariant, runs rptc_killDriverEffects_copy and
-// returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup was not already 8 or bit 0x80000000 of mUnk_44 is
+// Surface kind 12 (entry 12 of driver_sHandleFloorCollisionFuncs): sets bit 0x10000000 of field48, sets mVerticalSpeed from
+// gKartSurfaceKind12VerticalSpeeds and field4C4 from data_0216559c by mSurfaceVariant, runs rptc_killDriverEffects_copy and
+// returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup was not already 8 or bit 0x80000000 of field44 is
 // set, it first calls sfx_21090C4 with 0x15e.
 s32 driver_handleJumpPadCollision(Kart *kart);
-// Surface kind 7 (entry 7 of driver_sHandleFloorCollisionFuncs): unless mSurfaceGroup is already 8 and bit 0x80000000 of mUnk_44 is
+// Surface kind 7 (entry 7 of driver_sHandleFloorCollisionFuncs): unless mSurfaceGroup is already 8 and bit 0x80000000 of field44 is
 // clear it runs driver_addBoost and, for the selected kart with mSurfaceVariant above 0, calls sfx_21090C4 with the id
-// that gKartSurfaceSoundIds gives for mSurfaceVariant minus 1; otherwise it sets mUnk_238 to 0x3c. Then it runs
+// that gKartSurfaceSoundIds gives for mSurfaceVariant minus 1; otherwise it sets field238 to 0x3c. Then it runs
 // rptc_killDriverEffects_copy and returns surface group 8.
 s32 driver_handleBoostPadCollision(Kart *kart);
 // Surface kind 6 (entry 6 of driver_sHandleFloorCollisionFuncs): passes the entry that gKartSurfaceKind6Effects gives for
@@ -96,20 +96,20 @@ s32 driver_handleSlippery1Collision(Kart *kart);
 s32 driver_handleStickyCollision(Kart *kart);
 s32 driver_handleDefaultFloorCollision(Kart *kart);
 // Collision response 11 of driver_sColReactionInitTable (indexed by the value mobj_handleDriverCollision returns for the kart
-// and the map object): when driver_startDossunFlatEffect holds for the kart, mUnk_44c of the kart is not the object and the kart is
+// and the map object): when driver_startDossunFlatEffect holds for the kart, field44C of the kart is not the object and the kart is
 // the selected kart, increments the counter of the record driver_getPlayerStatistics returns. Stores 0 through the second
 // parameter and returns 0.
 s32 driver_initDossunSmashReaction(Kart *kart, s32 *output, s32 mapObject);
 // Collision response 14 of driver_sColReactionInitTable (indexed by the value mobj_handleDriverCollision returns for the kart
-// and the map object): stores 0xc through the second parameter, clears bits of mUnk_48 with the mask 0xdfe77fdf, zeroes
-// mUnk_238, the mUnk_00 member of mUnk_538 and mUnk_23c, for the selected kart calls cam_resetPlayerCameraTargetFov unless
-// bit 0x10000000 of mUnk_4c or bit 0x4000000 of mUnk_48 is set and then runs dce_stopBlur, then runs driver_tryStartSpinOut
+// and the map object): stores 0xc through the second parameter, clears bits of field48 with the mask 0xdfe77fdf, zeroes
+// field238, the field0 member of field538 and field23C, for the selected kart calls cam_resetPlayerCameraTargetFov unless
+// bit 0x10000000 of field4C or bit 0x4000000 of field48 is set and then runs dce_stopBlur, then runs driver_tryStartSpinOut
 // with 1 and, when that succeeds, rptc_startElectricEffect with the kart index. Returns 5.
 s32 driver_initSingleSpinElectricityReaction(Kart *kart, s32 *output);
 // Collision response 13 of driver_sColReactionInitTable (indexed by the value mobj_handleDriverCollision returns for the kart
-// and the map object): stores 0xc through the second parameter, clears bits of mUnk_48 with the mask 0xdfe77fdf, zeroes
-// mUnk_238, the mUnk_00 member of mUnk_538 and mUnk_23c, for the selected kart calls cam_resetPlayerCameraTargetFov unless
-// bit 0x10000000 of mUnk_4c or bit 0x4000000 of mUnk_48 is set and then runs dce_stopBlur, and sets mForwardSpeed
+// and the map object): stores 0xc through the second parameter, clears bits of field48 with the mask 0xdfe77fdf, zeroes
+// field238, the field0 member of field538 and field23C, for the selected kart calls cam_resetPlayerCameraTargetFov unless
+// bit 0x10000000 of field4C or bit 0x4000000 of field48 is set and then runs dce_stopBlur, and sets mForwardSpeed
 // to 0. Returns 5.
 s32 driver_initReaction13(Kart *kart, s32 *output);
 // Declared here until the code that defines them is decompiled.

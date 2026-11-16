@@ -43,13 +43,13 @@ SceneCallbacks nicknameEditor_vtable = {
 #pragma thumb on
 void nicknameEditor_afterDraw(void) {
     nickname_vblank();
-    oam_applyBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
+    oam_applyBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->field404);
 }
 
 void nicknameEditor_onDraw(s16 *sceneNumbers) {
-    oam_resetBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
+    oam_resetBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->field404);
     nickname_render();
-    oam_prepareBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
+    oam_prepareBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->field404);
     if (sceneNumbers != NULL) {
         if (nickname_getField72() != -1) {
             sceneNumbers[2] = nickname_getField72();
@@ -67,11 +67,11 @@ s32 keyboard_run(void *sceneNumbers) {
 #pragma thumb on
 
 OamList *nickname_getMainOamBuf(void) {
-    return &sNicknameOamBuffers->mUnk_00;
+    return &sNicknameOamBuffers->field0;
 }
 
 OamList *nickname_getSubOamBuf(void) {
-    return &sNicknameOamBuffers->mUnk_404;
+    return &sNicknameOamBuffers->field404;
 }
 
 #pragma thumb off

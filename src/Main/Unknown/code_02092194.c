@@ -2,5 +2,5 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 basa_getMapIconType(struct Unk0217b498_00 *object) {
-    return object->mUnk_c0;
+    return object->fieldC0;
 }

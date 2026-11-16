@@ -11,7 +11,7 @@ typedef struct TaskEntry {
     /* 0c */ u32 mArg;
     /* 10 */ u8 mPriority;
     /* 11 */ u8 mFreesArg;
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 field12[2];
 } TaskEntry;
 
 typedef struct TaskList {

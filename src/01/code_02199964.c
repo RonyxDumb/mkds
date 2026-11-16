@@ -23,7 +23,7 @@ void InitOptionHensyuMenu(void *heap) {
     s32 j;
     void *a;
     gOptionHensyuMenu = heap_alloc(heap, 0x34);
-    gOptionHensyuMenu->mUnk_18 = heap;
+    gOptionHensyuMenu->field18 = heap;
     gOptionHensyuMenu->mState = 0;
     gOptionHensyuMenu->mNextState = 0;
     switch (GetOptionPrevState()) {
@@ -37,7 +37,7 @@ void InitOptionHensyuMenu(void *heap) {
             break;
     }
     gOptionHensyuMenu->mStateFrames = 0;
-    gOptionHensyuMenu->mUnk_14 = TRUE;
+    gOptionHensyuMenu->field14 = TRUE;
     LocateAndQueueOptionHensyuMenu();
     for (i = 0; i < 2; i++) {
         jn_ui_setCellIsTranslucent(data_ov001_021a6a84[i], 1, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
@@ -191,12 +191,12 @@ void AdvanceOptionHensyuMenuState3(void) {
                     p->mNextOptionState = 3;
                 } else {
                     p->mNextOptionState = 6;
-                    gStruct217B488->mUnk_18 = FALSE;
+                    gStruct217B488->field18 = FALSE;
                 }
                 break;
         }
         if (gOptionHensyuMenu->mIndex == oldv) {
-            gOptionHensyuMenu->mUnk_14 = FALSE;
+            gOptionHensyuMenu->field14 = FALSE;
         }
         sfx_2105AC0(5);
         return;
@@ -225,7 +225,7 @@ void AdvanceOptionHensyuMenuState4(void) {
             RequestSelectReturnState4();
         }
     } else if (gOptionHensyuMenu->mStateFrames >= 5) {
-        gOptionHensyuMenu->mUnk_14 = TRUE;
+        gOptionHensyuMenu->field14 = TRUE;
     }
 }
 
@@ -268,7 +268,7 @@ void AdvanceOptionHensyuMenuState5(void) {
 void func_ov001_02199a20(void) {
     s32 i;
     for (i = 0; i < 2; i++) {
-        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->mUnk_14 != FALSE) {
+        if (i == gOptionHensyuMenu->mIndex && gOptionHensyuMenu->field14 != FALSE) {
             gOptionHensyuMenu->mOptionHensyuMenuSTable[data_ov001_021a6a88[i]].mVisible = 1;
             jn_ui_setCellCparam(data_ov001_021a6a80[i], 0xe, gOptionHensyuMenu->mOptionHensyuMenuSNcer,
                                 gOptionHensyuMenu->mOptionHensyuMenuSBncl);

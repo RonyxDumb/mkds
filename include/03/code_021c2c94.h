@@ -6,11 +6,11 @@
 typedef struct Rect Rect;
 
 typedef struct Unk021d6fd0 {
-    /* 0 */ u8 mUnk_00[2];
+    /* 0 */ u8 field0[2];
 } Unk021d6fd0;
 
 typedef struct Unk021d6fd4 {
-    /* 00 */ u8 mUnk_00[0x16];
+    /* 00 */ u8 field0[0x16];
 } Unk021d6fd4;
 
 extern Rect gJb2MenuRects[];

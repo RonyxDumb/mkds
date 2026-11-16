@@ -3,7 +3,7 @@
 
 u16 func_ov001_02188220(Unk02188950 *mapObject) {
     s32 counter;
-    counter = mapObject->mUnk_0ac;
+    counter = mapObject->fieldAC;
     if (counter < 0) {
         counter = -counter;
     }
@@ -11,5 +11,5 @@ u16 func_ov001_02188220(Unk02188950 *mapObject) {
 }
 
 void func_ov001_02188218(Unk02188950 *mapObject, s32 b) {
-    mapObject->mUnk_0b4 = b;
+    mapObject->fieldB4 = b;
 }

@@ -101,9 +101,9 @@ void bres_init(void *heap, s32 b, s32 c) {
 
     bres_sState = heap_alloc(heap, 0x154);
     MemFillWordsByBlock_inline(bres_sState, 0x154);
-    bres_sState->mUnk_0b8[0] = b;
-    bres_sState->mUnk_0b8[1] = c;
-    bres_sState->mMode = gSystemData->mUnk_20;
+    bres_sState->fieldB8[0] = b;
+    bres_sState->fieldB8[1] = c;
+    bres_sState->mMode = gSystemData->field20;
     if (bres_sState->mMode == 3) {
         SetupWiFiSession(3);
     }
@@ -115,16 +115,16 @@ void bres_init(void *heap, s32 b, s32 c) {
     dc_setBg3Config(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
     dc_setBg3Config(displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
     dc_setDisplayConfig(displaySettings);
-    v.mUnk_00 = 0;
-    v.mUnk_04 = NULL;
-    v.mUnk_08 = 0;
-    v.mUnk_0c = 0;
-    v.mUnk_10 = 0;
-    v.mUnk_14 = 1;
-    v.mUnk_18 = m2d_getFont(2);
-    v.mUnk_1c = 0;
-    v.mUnk_20 = 0;
-    v.mUnk_24 = 0;
+    v.field0 = 0;
+    v.field4 = NULL;
+    v.field8 = 0;
+    v.fieldC = 0;
+    v.field10 = 0;
+    v.field14 = 1;
+    v.field18 = m2d_getFont(2);
+    v.field1C = 0;
+    v.field20 = 0;
+    v.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &v);
     race_initResManagement();
@@ -139,7 +139,7 @@ void bres_init(void *heap, s32 b, s32 c) {
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
             bres_sState->mOwnEntryIndex =
-                gStruct217AA00->mUnk_1e52[(u16) (gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0)]
+                gStruct217AA00->field1E52[(u16) (gStruct217AA00->field0 == 2 ? gStruct217AA00->mOwnIndex : 0)]
                     .mEntryIndex;
             bres_sState->mKartCount = gRaceMultiConfig->mKartCount;
             bres_sState->mState = 0;
@@ -158,26 +158,26 @@ void bres_init(void *heap, s32 b, s32 c) {
         k = 0;
         switch (gRaceMultiConfig->mRuleKind) {
             case 1:
-                j = func_02032f94_inline_2(0)->mUnk_02;
-                k = func_02032f94_inline_2(1)->mUnk_02;
+                j = func_02032f94_inline_2(0)->field2;
+                k = func_02032f94_inline_2(1)->field2;
                 break;
             case 2:
-                j = func_02032f94_inline_3()->mTeams[0].mUnk_00;
-                k = func_02032f94_inline_3()->mTeams[1].mUnk_00;
+                j = func_02032f94_inline_3()->mTeams[0].field0;
+                k = func_02032f94_inline_3()->mTeams[1].field0;
                 break;
         }
         if (j == k) {
-            bres_sState->mUnk_0d4 = bres_sState->mKartCount;
+            bres_sState->fieldD4 = bres_sState->mKartCount;
             bres_sState->mFileSetKind = 2;
         } else if (j > k) {
-            bres_sState->mUnk_0d4 = gRaceMultiConfig->mTeamKartCounts[0];
+            bres_sState->fieldD4 = gRaceMultiConfig->mTeamKartCounts[0];
             bres_sState->mFileSetKind = 3;
         } else if (k > j) {
-            bres_sState->mUnk_0d4 = gRaceMultiConfig->mTeamKartCounts[1];
+            bres_sState->fieldD4 = gRaceMultiConfig->mTeamKartCounts[1];
             bres_sState->mFileSetKind = 4;
         }
     } else if (bres_2033E24() != 0) {
-        bres_sState->mUnk_0d4 = bres_sState->mKartCount;
+        bres_sState->fieldD4 = bres_sState->mKartCount;
         bres_sState->mFileSetKind = 2;
     } else if (bres_sState->mEntries[bres_sState->mOwnEntryIndex].mRank == 0) {
         bres_sState->mFileSetKind = 0;
@@ -186,8 +186,8 @@ void bres_init(void *heap, s32 b, s32 c) {
     }
     mutil2_loadPortraits(1, &bres_sState->mCellFileSets[2]);
     mutil2_loadPortraits(0, &bres_sState->mCellFileSets[3]);
-    bres_sState->mUnk_0c0 = m2d_getPortraitShyGuyONclr(1);
-    bres_sState->mUnk_0c4 = m2d_getPortraitShyGuyONclr(0);
+    bres_sState->fieldC0 = m2d_getPortraitShyGuyONclr(1);
+    bres_sState->fieldC4 = m2d_getPortraitShyGuyONclr(0);
     screenMapFileSet = &bres_sState->mScreenMapFileSets[0];
     mutil2_loadUnpackBgGraphics(screenMapFileSet, data_02153f80[bres_sState->mFileSetKind][0],
                          data_02153f84[bres_sState->mFileSetKind][0], data_02153f8c[bres_sState->mFileSetKind][0],
@@ -219,7 +219,7 @@ void bres_init(void *heap, s32 b, s32 c) {
             break;
     }
     cellLayout = mainCellFileSet->mCellLayout;
-    for (i = 0; i < cellLayout->mUnk_06; i++) {
+    for (i = 0; i < cellLayout->field6; i++) {
         jn_ui_getBnclElement(mainCellFileSet->mCellLayout, i);
     }
     screenMapFileSet = &bres_sState->mScreenMapFileSets[1];
@@ -237,10 +237,10 @@ void bres_init(void *heap, s32 b, s32 c) {
     GXS_LoadOBJ(((Ncgr *) results->mCellFileSets[1].mChars)->mData, 0,
                 ((Ncgr *) results->mCellFileSets[1].mChars)->mDataSize);
     GXS_LoadOBJPltt(((Nclr *) subCellFileSet->mPalette)->mData, 0, ((Nclr *) subCellFileSet->mPalette)->mDataSize);
-    for (i = 0; i < subCellFileSet->mLabelLayout->mUnk_06; i++) {
+    for (i = 0; i < subCellFileSet->mLabelLayout->field6; i++) {
         remainingObjSize -= mutil2_initLabel(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }
-    for (i = 0; i < subCellFileSet->mCellLayout->mUnk_06; i++) {
+    for (i = 0; i < subCellFileSet->mCellLayout->field6; i++) {
         jn_ui_setCellPriority(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
     }
     for (i = 0; i < 8; i++) {
@@ -405,14 +405,14 @@ void bres_update(SceneNumbersView *sceneNumbers) {
                     if (GetSelectChoisesDone() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                if (gSystemData->mUnk_1c_2 != 0) {
-                                    gStruct217B488->mUnk_74 = 3;
-                                    gStruct217B488->mUnk_08 = 4;
+                                if (gSystemData->field1C_2 != 0) {
+                                    gStruct217B488->field74 = 3;
+                                    gStruct217B488->field8 = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;
                                     }
                                 } else {
-                                    gStruct217B488->mUnk_08 = 4;
+                                    gStruct217B488->field8 = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 1;
                                     }
@@ -420,7 +420,7 @@ void bres_update(SceneNumbersView *sceneNumbers) {
                                 bres_sState->mState = 7;
                                 break;
                             case 1:
-                                gStruct217AA00->mUnk_0454 = gStruct217AA00->mUnk_0454 | 0x80;
+                                gStruct217AA00->field454 = gStruct217AA00->field454 | 0x80;
                                 bres_sState->mState = 6;
                                 break;
                             case -1:
@@ -439,7 +439,7 @@ void bres_update(SceneNumbersView *sceneNumbers) {
                                 break;
                             case 1:
                                 func_02121dec(0);
-                                gStruct217B488->mUnk_1c = 1;
+                                gStruct217B488->field1C = 1;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
                                 }
@@ -458,10 +458,10 @@ void bres_update(SceneNumbersView *sceneNumbers) {
             if (func_02121c78() != 0) {
                 switch (func_02121c78()) {
                     case 1:
-                        gStruct217B488->mUnk_1c = 2;
+                        gStruct217B488->field1C = 2;
                         break;
                     case 2:
-                        gStruct217B488->mUnk_1c = 1;
+                        gStruct217B488->field1C = 1;
                         break;
                 }
                 if (sceneNumbers != NULL) {
@@ -483,16 +483,16 @@ void bres_update(SceneNumbersView *sceneNumbers) {
     trophy_render();
     for (i = 0; i < 2; i++) {
         jn_ui_renderElements(bres_sState->mCellFileSets[i].mCellLayout, bres_sState->mCellFileSets[i].mCells,
-                        bres_sState->mCellFileSets[i].mLabelLayout, (void *) bres_sState->mUnk_0b8[i],
+                        bres_sState->mCellFileSets[i].mLabelLayout, (void *) bres_sState->fieldB8[i],
                         bres_sState->mCellFileSets[i].mCellTable);
     }
-    cellCount = subCellFileSet->mCellLayout->mUnk_06;
+    cellCount = subCellFileSet->mCellLayout->field6;
     for (i = 0; i < 8; i++) {
         subCellFileSet->mCellTable[i + cellCount].mOffsetY = subCellFileSet->mCellTable[i + cellCount].mOffsetY + 1;
         jn_ui_setLabelColorParam(i, 0xe, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
         jn_ui_renderElement(i + cellCount, subCellFileSet->mCellLayout, subCellFileSet->mCells,
-                             subCellFileSet->mLabelLayout, (void *) bres_sState->mUnk_0b8[1],
+                             subCellFileSet->mLabelLayout, (void *) bres_sState->fieldB8[1],
                              subCellFileSet->mCellTable);
         jn_ui_setLabelColorParam(i, 0xf, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
@@ -502,7 +502,7 @@ void bres_update(SceneNumbersView *sceneNumbers) {
 }
 
 void bres_finalize(void) {
-    gStruct217B488->mUnk_04 = 1;
+    gStruct217B488->field4 = 1;
     gmenu_finish();
 }
 

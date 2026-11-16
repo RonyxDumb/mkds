@@ -69,9 +69,9 @@ void mpicn_updateIwanteLIcon(void) {
                     entryIndex = (object->mFlags & 0x400) ? 0xc7 : 0xc5;
                 }
                 mpicn_sIwanteLIcon->mCells[cellCount].mCell = r2d_getRaceSCell(entryIndex);
-                mpicn_sIwanteLIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-                mpicn_sIwanteLIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                mpicn_sIwanteLIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sIwanteLIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+                mpicn_sIwanteLIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+                mpicn_sIwanteLIcon->mCells[cellCount].field10 = object->mAngle;
                 cellCount++;
             }
         }
@@ -119,9 +119,9 @@ void mpicn_updateKurikingIcon(void) {
                 }
                 DC_FlushRange(r2d_getGraphics(6)->mNclr->mData, r2d_getGraphics(6)->mNclr->mDataSize);
                 mpicn_sKurikingIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
-                mpicn_sKurikingIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-                mpicn_sKurikingIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                mpicn_sKurikingIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sKurikingIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+                mpicn_sKurikingIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+                mpicn_sKurikingIcon->mCells[cellCount].field10 = object->mAngle;
                 cellCount++;
             }
         }
@@ -170,9 +170,9 @@ void mpicn_updateBombKingIcon(void) {
         if (lmap_20B5AE8(position, &mpicn_sBombKingIcon->mCells[cellCount].mDrawPos, unk,
                                             1, 1)) {
             mpicn_sBombKingIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
-            mpicn_sBombKingIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-            mpicn_sBombKingIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-            mpicn_sBombKingIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sBombKingIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+            mpicn_sBombKingIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+            mpicn_sBombKingIcon->mCells[cellCount].field10 = object->mAngle;
             cellCount++;
         }
     }
@@ -209,9 +209,9 @@ void mpicn_updateBossDonketuIcon(void) {
         if (lmap_20B5AE8(position, &mpicn_sBossDonketuIcon->mCells[cellCount].mDrawPos,
                                             unk, 1, 1)) {
             mpicn_sBossDonketuIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
-            mpicn_sBossDonketuIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-            mpicn_sBossDonketuIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-            mpicn_sBossDonketuIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sBossDonketuIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+            mpicn_sBossDonketuIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+            mpicn_sBossDonketuIcon->mCells[cellCount].field10 = object->mAngle;
             cellCount++;
         }
     }
@@ -245,9 +245,9 @@ void mpicn_updateStopSignIcon(void) {
         if (lmap_20B5AE8(position, &mpicn_sStopSignIcon->mCells[cellCount].mDrawPos, unk,
                                             1, 1)) {
             mpicn_sStopSignIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x5b);
-            mpicn_sStopSignIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-            mpicn_sStopSignIcon->mCells[cellCount].mUnk_0e = 0;
-            mpicn_sStopSignIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sStopSignIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+            mpicn_sStopSignIcon->mCells[cellCount].fieldE = 0;
+            mpicn_sStopSignIcon->mCells[cellCount].field10 = object->mAngle;
             cellCount++;
         }
     }
@@ -282,9 +282,9 @@ void mpicn_updateMissionGateIcon(void) {
                                             unk, 1, 1)) {
             mpicn_sMissionGateIcon->mCells[cellCount].mCell =
                 r2d_getRaceSCell(func_ov001_02185b50((MissionGateObject *) object) ? 0x5a : 0x59);
-            mpicn_sMissionGateIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-            mpicn_sMissionGateIcon->mCells[cellCount].mUnk_0e = 0;
-            mpicn_sMissionGateIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sMissionGateIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+            mpicn_sMissionGateIcon->mCells[cellCount].fieldE = 0;
+            mpicn_sMissionGateIcon->mCells[cellCount].field10 = object->mAngle;
             cellCount++;
         }
     }
@@ -322,9 +322,9 @@ void mpicn_updateHanachanIcon(void) {
                                             1, 1)) {
             mpicn_sHanachanIcon->mCells[cellCount].mCell =
                 r2d_getRaceSCell(GetMapObjectNsbtpFrameIndex((Unk02188950 *) object) >= 2 ? 0xc6 : 0xc5);
-            mpicn_sHanachanIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) ? 2 : 3;
-            mpicn_sHanachanIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-            mpicn_sHanachanIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sHanachanIcon->mCells[cellCount].fieldC = m2d_isPointOnLowerMap(position) ? 2 : 3;
+            mpicn_sHanachanIcon->mCells[cellCount].fieldE = object->mFlags & 0x20;
+            mpicn_sHanachanIcon->mCells[cellCount].field10 = object->mAngle;
             cellCount++;
         }
     }

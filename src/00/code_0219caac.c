@@ -16,8 +16,8 @@ void InitWiFiLogin(WiFiLogin *a, DWCAccUserData *b, GpConnection *c, u32 d, u32 
     gWiFiLogin->mGpConnection = c;
     gWiFiLogin->mState = 0;
     gWiFiLogin->mProductId = d;
-    gWiFiLogin->mUnk_0c = e;
+    gWiFiLogin->fieldC = e;
     gWiFiLogin->mResultCallback = f;
     gWiFiLogin->mResultCallbackArg = g;
-    gWiFiLogin->mUnk_20 = b;
+    gWiFiLogin->field20 = b;
 }

@@ -30,16 +30,16 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         fifo = &reg_G3_MTX_LOAD_4x4;
     }
     if (mtx != 0) {
-        mtx->mUnk_04 = 0;
-        mtx->mUnk_08 = 0;
-        mtx->mUnk_0c = 0;
-        mtx->mUnk_10 = 0;
-        mtx->mUnk_18 = 0;
-        mtx->mUnk_1c = 0;
-        mtx->mUnk_2c = -scaleW;
-        mtx->mUnk_30 = 0;
-        mtx->mUnk_34 = 0;
-        mtx->mUnk_3c = 0;
+        mtx->field4 = 0;
+        mtx->field8 = 0;
+        mtx->fieldC = 0;
+        mtx->field10 = 0;
+        mtx->field18 = 0;
+        mtx->field1C = 0;
+        mtx->field2C = -scaleW;
+        mtx->field30 = 0;
+        mtx->field34 = 0;
+        mtx->field3C = 0;
     }
     dblNear = nearPlane << 1;
     invWidth = FX_GetDivResultFx64c();
@@ -56,7 +56,7 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00 = m00;
+        mtx->field0 = m00;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -72,7 +72,7 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_14 = m11;
+        mtx->field14 = m11;
     }
     {
         s32 sumLR = right + left;
@@ -84,8 +84,8 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
             *fifo = m21;
         }
         if (mtx != 0) {
-            mtx->mUnk_20 = m20;
-            mtx->mUnk_24 = m21;
+            mtx->field20 = m20;
+            mtx->field24 = m21;
         }
     }
     invDepth = FX_GetDivResultFx64c();
@@ -104,8 +104,8 @@ void G3i_FrustumW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_28 = m22;
-        mtx->mUnk_38 = m32;
+        mtx->field28 = m22;
+        mtx->field38 = m32;
     }
 }
 
@@ -127,16 +127,16 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         fifo = &reg_G3_MTX_LOAD_4x4;
     }
     if (mtx != 0) {
-        mtx->mUnk_04 = 0;
-        mtx->mUnk_08 = 0;
-        mtx->mUnk_0c = 0;
-        mtx->mUnk_10 = 0;
-        mtx->mUnk_18 = 0;
-        mtx->mUnk_1c = 0;
-        mtx->mUnk_20 = 0;
-        mtx->mUnk_24 = 0;
-        mtx->mUnk_2c = 0;
-        mtx->mUnk_3c = scaleW;
+        mtx->field4 = 0;
+        mtx->field8 = 0;
+        mtx->fieldC = 0;
+        mtx->field10 = 0;
+        mtx->field18 = 0;
+        mtx->field1C = 0;
+        mtx->field20 = 0;
+        mtx->field24 = 0;
+        mtx->field2C = 0;
+        mtx->field3C = scaleW;
     }
     invWidth = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -153,7 +153,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_00 = m00;
+        mtx->field0 = m00;
     }
     invHeight = FX_GetDivResultFx64c();
     reg_CP_DIV_NUMER = 0x100000000000ULL;
@@ -170,7 +170,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_14 = m11;
+        mtx->field14 = m11;
     }
     invDepth = FX_GetDivResultFx64c();
     if (scaleW != 0x1000) {
@@ -182,7 +182,7 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
         *fifo = 0;
     }
     if (mtx != 0) {
-        mtx->mUnk_28 = m22;
+        mtx->field28 = m22;
     }
     {
         s32 negSumLR = -(right + left);
@@ -198,9 +198,9 @@ void G3i_OrthoW_(s32 top, s32 bottom, s32 left, s32 right, s32 nearPlane, s32 fa
             *fifo = scaleW;
         }
         if (mtx != 0) {
-            mtx->mUnk_30 = m30;
-            mtx->mUnk_34 = m31;
-            mtx->mUnk_38 = m32;
+            mtx->field30 = m30;
+            mtx->field34 = m31;
+            mtx->field38 = m32;
         }
     }
 }
@@ -245,18 +245,18 @@ void G3i_LookAt_(const Vec3 *camPos, const Vec3 *camUp, const Vec3 *target, int 
         *fifo = transZ;
     }
     if (mtx != 0) {
-        mtx->mUnk_00[0].x = right.x;
-        mtx->mUnk_00[0].y = up.x;
-        mtx->mUnk_00[0].z = look.x;
-        mtx->mUnk_00[1].x = right.y;
-        mtx->mUnk_00[1].y = up.y;
-        mtx->mUnk_00[1].z = look.y;
-        mtx->mUnk_00[2].x = right.z;
-        mtx->mUnk_00[2].y = up.z;
-        mtx->mUnk_00[2].z = look.z;
-        mtx->mUnk_00[3].x = transX;
-        mtx->mUnk_00[3].y = transY;
-        mtx->mUnk_00[3].z = transZ;
+        mtx->field0[0].x = right.x;
+        mtx->field0[0].y = up.x;
+        mtx->field0[0].z = look.x;
+        mtx->field0[1].x = right.y;
+        mtx->field0[1].y = up.y;
+        mtx->field0[1].z = look.y;
+        mtx->field0[2].x = right.z;
+        mtx->field0[2].y = up.z;
+        mtx->field0[2].z = look.z;
+        mtx->field0[3].x = transX;
+        mtx->field0[3].y = transY;
+        mtx->field0[3].z = transZ;
     }
 }
 

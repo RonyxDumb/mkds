@@ -109,7 +109,7 @@ void SetupRecordGpxValues(s32 a) {
     jn_ui_fillPlaceholder(data_ov001_021a66e4[k], (gRecordGpx->mPlayerCharacterMNcer), (gRecordGpx->mPlayerCharacterMNcgr),
                    (gRecordGpx->mPlayerCharacterMBncl), 1, data_ov001_021a6674[a][0], (gRecordGpx->mRecordGpxSNcer),
                    (gRecordGpx->mRecordGpxSBncl));
-    p = gRecordGpx->mPlayerCharacterMONclr->mUnk_0c;
+    p = gRecordGpx->mPlayerCharacterMONclr->fieldC;
     NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a6684[a] << 5,
                     p + (GetCellPaletteIndex(data_ov001_021a66e4[k], (gRecordGpx->mPlayerCharacterMNcer),
                                              (gRecordGpx->mPlayerCharacterMBncl))
@@ -119,7 +119,7 @@ void SetupRecordGpxValues(s32 a) {
     gRecordGpx->mRecordGpxSTable[data_ov001_021a6674[a][1]].mVisible = 1;
     kic_putIconInLayout(k, gRecordGpx->mRecordGpxSNcer, gRecordGpx->mRecordGpxSBncl, data_ov001_021a6674[a][1],
                   data_ov001_021a668c[a], 1);
-    count = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    count = gRecordGpx->mRecordGpxSBncl->field6;
     savd_getCupTotalRaceTime(data_ov001_021a6740[gRecordGpx->mIndex], data_ov001_021a6694[a], &value);
     FormatTimeAscii(&value, buf);
     gRecordGpx->mRecordGpxSTable[count + data_ov001_021a6614[a]].mVisible = 1;
@@ -207,7 +207,7 @@ void SetupRecordGpx(void) {
     void *p;
     u8 v;
 
-    n = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    n = gRecordGpx->mRecordGpxSBncl->field6;
     if (func_ov001_02194d04(gRecordGpx->mIndex) != 0) {
         NNS_GfdRegisterNewVramTransferTask(0x1b, 0x3c6, OFFSET_PTR(u8, gRecordGpx->mRecordGpxSNscr, 0xc) + 0x3c6, 0x134);
         gRecordGpx->mRecordGpxSTable[data_ov001_021a6654[3]].mVisible = 1;
@@ -310,8 +310,8 @@ void func_ov001_02194a50(void) {
     gRecordGpx->mStateFrames = 0;
     gRecordGpx->mBg0Offset = ~0xbf;
     gRecordGpx->mBg3OffsetX = ~0xff;
-    count0 = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    count1 = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    count0 = gRecordGpx->mRecordGpxMBncl->field6;
+    count1 = gRecordGpx->mRecordGpxSBncl->field6;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = 0x100;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = 0x100;
     gRecordGpx->mRecordGpxMTable[count0].mOffsetX = 0x100;
@@ -371,7 +371,7 @@ void RequestRecordGpxState3(void) {
 void func_ov001_021949d4(void) {
     gRecordGpx->mNextState = 4;
     gRecordGpx->mStateFrames = 0;
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->field7C) {
         case 0:
             func_ov001_02194d48();
             break;
@@ -412,9 +412,9 @@ void InitRecordGpx(void *heap) {
     gRecordGpx->mHeap = heap;
     gRecordGpx->mState = 0;
     gRecordGpx->mIndex = 0;
-    gRecordGpx->mUnk_7c = 0;
-    gRecordGpx->mUnk_88 = FALSE;
-    gRecordGpx->mUnk_8c = FALSE;
+    gRecordGpx->field7C = 0;
+    gRecordGpx->field88 = FALSE;
+    gRecordGpx->field8C = FALSE;
     for (i = 0; i < 2; i++) {
         gRecordGpx->mOffsetTimers[i] = 0;
     }
@@ -486,8 +486,8 @@ void AdvanceRecordGpxState1(void) {
     gRecordGpx->mStateFrames++;
     v = mutil_interpolate(1, 0x100, 0, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->field6;
+    b = gRecordGpx->mRecordGpxSBncl->field6;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -545,10 +545,10 @@ void AdvanceRecordGpxState2(void) {
         b = jn_ui_checkTouch(gRecordGpx->mRecordGpxSBnbl, gInputUnits[idx].mPairX, gInputUnits[idx].mPairY);
     }
     if (a != 0) {
-        gRecordGpx->mUnk_88 = FALSE;
+        gRecordGpx->field88 = FALSE;
     }
     if (a != 1) {
-        gRecordGpx->mUnk_8c = FALSE;
+        gRecordGpx->field8C = FALSE;
     }
     if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_B) == 0) {
         x3 = FALSE;
@@ -565,24 +565,24 @@ void AdvanceRecordGpxState2(void) {
         }
     }
     RequestRecordGpxState5();
-    gRecordGpx->mUnk_90 = 0;
+    gRecordGpx->field90 = 0;
     RequestSelectReturnState3WithSound(0);
     return;
 next:
-    if ((a == 0 && gRecordGpx->mUnk_88 != FALSE) || (b == 0 && gRecordGpx->mUnk_88 == FALSE) ||
+    if ((a == 0 && gRecordGpx->field88 != FALSE) || (b == 0 && gRecordGpx->field88 == FALSE) ||
         (u16) (gInputUnits[idx].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordGpx->mUnk_7c = 1;
+        gRecordGpx->field7C = 1;
         gRecordGpx->mOffsetTimers[0] = 6;
-        gRecordGpx->mUnk_88 = TRUE;
+        gRecordGpx->field88 = TRUE;
         RequestRecordGpxState3();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
         return;
     }
-    if ((a == 1 && gRecordGpx->mUnk_8c != FALSE) || (b == 1 && gRecordGpx->mUnk_8c == FALSE) ||
+    if ((a == 1 && gRecordGpx->field8C != FALSE) || (b == 1 && gRecordGpx->field8C == FALSE) ||
         (u16) (gInputUnits[idx].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordGpx->mUnk_7c = 0;
+        gRecordGpx->field7C = 0;
         gRecordGpx->mOffsetTimers[1] = 6;
-        gRecordGpx->mUnk_8c = TRUE;
+        gRecordGpx->field8C = TRUE;
         RequestRecordGpxState3();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
     }
@@ -597,7 +597,7 @@ void AdvanceRecordGpxState3(void) {
     s16 x = 0;
 
     AdvanceRecordGpxOffsetTimers();
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->field7C) {
         case 0:
             x = -256;
             break;
@@ -608,8 +608,8 @@ void AdvanceRecordGpxState3(void) {
     gRecordGpx->mStateFrames++;
     v = mutil_interpolate(1, 0, x, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->field6;
+    b = gRecordGpx->mRecordGpxSBncl->field6;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -644,7 +644,7 @@ void AdvanceRecordGpxState4(void) {
     s16 x = 0;
 
     AdvanceRecordGpxOffsetTimers();
-    switch (gRecordGpx->mUnk_7c) {
+    switch (gRecordGpx->field7C) {
         case 0:
             x = 0x100;
             break;
@@ -655,8 +655,8 @@ void AdvanceRecordGpxState4(void) {
     gRecordGpx->mStateFrames++;
     v = mutil_interpolate(1, x, 0, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->field6;
+    b = gRecordGpx->mRecordGpxSBncl->field6;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -692,8 +692,8 @@ void AdvanceRecordGpxState5(void) {
     gRecordGpx->mStateFrames++;
     v = mutil_interpolate(1, 0, 0x100, gRecordGpx->mStateFrames, 10);
     gRecordGpx->mBg3OffsetX = v;
-    a = gRecordGpx->mRecordGpxMBncl->mUnk_06;
-    b = gRecordGpx->mRecordGpxSBncl->mUnk_06;
+    a = gRecordGpx->mRecordGpxMBncl->field6;
+    b = gRecordGpx->mRecordGpxSBncl->field6;
     gRecordGpx->mRecordGpxMTable[0].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[1].mOffsetX = v;
     gRecordGpx->mRecordGpxMTable[a].mOffsetX = v;
@@ -725,7 +725,7 @@ void AdvanceRecordGpxState6(void) {
     gRecordGpx->mStateFrames++;
     gRecordGpx->mBg0Offset = mutil_interpolate(1, 0, -192, gRecordGpx->mStateFrames, 10);
     if (gRecordGpx->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordGpx->mUnk_90);
+        RequestRecordScreen(gRecordGpx->field90);
     }
 }
 

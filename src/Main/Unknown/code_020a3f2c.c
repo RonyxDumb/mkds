@@ -80,7 +80,7 @@ void shine_init(MapObject *p) {
     p->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&p->mSound->mSoundSource, 0xb, &p->mPos);
     func_0210bae8(&p->mSound->mSoundSource);
-    p->mFarDistanceSquared = gSfxParams[0xb].mUnk_20;
+    p->mFarDistanceSquared = gSfxParams[0xb].field20;
 }
 
 u32 shine_onDriverCollide(Shine16 *p, Kart *o, u8 *a, u8 *b) {
@@ -92,36 +92,36 @@ u32 shine_onDriverCollide(Shine16 *p, Kart *o, u8 *a, u8 *b) {
 
     v1 = *a;
     v2 = *b;
-    if (o->mState != KART_STATE_NORMAL || (o->mUnk_48 & 0x200) != 0 || mgcnt_isDriverDead(o->mIndex) != FALSE) {
+    if (o->mState != KART_STATE_NORMAL || (o->field48 & 0x200) != 0 || mgcnt_isDriverDead(o->mIndex) != FALSE) {
         return 0;
     }
     if (v1 == 1) {
-        if ((o->mUnk_4c & 0x400000) != 0) {
+        if ((o->field4C & 0x400000) != 0) {
             return v2;
         }
         if (p->mPickupTimer > 0) {
             return v2;
         }
-        p->mUnk_00.mFlags |= data_021567a0;
+        p->field0.mFlags |= data_021567a0;
         p->mPickupTimer = 0x19;
-        p->mUnk_00.mPos.x = o->mPos.x;
-        p->mUnk_00.mPos.y = o->mPos.y + mgcnt_20A23A0(o) + 0x7800;
-        p->mUnk_00.mPos.z = o->mPos.z;
+        p->field0.mPos.x = o->mPos.x;
+        p->field0.mPos.y = o->mPos.y + mgcnt_20A23A0(o) + 0x7800;
+        p->field0.mPos.z = o->mPos.z;
         p->mHeightAboveKart = 0;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0x3000;
-        p->mUnk_00.mUnk_10.z = 0;
+        p->field0.field10.x = 0;
+        p->field0.field10.y = 0x3000;
+        p->field0.field10.z = 0;
         p->mDrawScale = 0;
         p->mState = 2;
         p->mKartIndex = o->mIndex;
-        p->mUnk_ca = o->mIndex;
+        p->fieldCA = o->mIndex;
         mgcnt_updateDriverBalloonShineInventoryCount(o->mIndex, 1);
         mgcnt_updateDriverBalloonShineCount(o->mIndex, 1);
         r = o->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
         c = mgcnt_getMaxOwnedShineCount();
         n = mgcnt_getDriverBalloonShineCount(o->mIndex);
-        func_0210b98c(p->mUnk_00.mSound, snd_getShineLoseSfxId(0, r, c, n));
-        p->mEffect = ptcm_createEmitter(0x7d, &p->mUnk_00.mPos);
+        func_0210b98c(p->field0.mSound, snd_getShineLoseSfxId(0, r, c, n));
+        p->mEffect = ptcm_createEmitter(0x7d, &p->field0.mPos);
         p->mEffectTimer = 0xe;
     }
     return v2;
@@ -146,7 +146,7 @@ void shine_renderShine(void *a, Shine16 *p) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->field0.mPos), 0xc);
     n = p->mDrawScale;
     if (n != 0x1000) {
         s.x = n;
@@ -154,7 +154,7 @@ void shine_renderShine(void *a, Shine16 *p) {
         s.z = n;
         NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &p->field0.mScale, 3);
     mobj_setModelFlip(shine_sShineModel, p->mMirror, 0);
     mobj_setModelNsbtpFrame(shine_sShineModel, p->mNsbtpFrameIndex);
     mobj_renderModel(a, shine_sShineModel, p);
@@ -194,7 +194,7 @@ void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->field0.mPos), 0xc);
     n = p->mDrawScale;
     if (n < 0x1000) {
         s.x = n;
@@ -202,7 +202,7 @@ void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
         s.z = n;
         NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &p->field0.mScale, 3);
     x = data_021567a4[data_0217b220] >> 4;
     MTX_RotY33_(m, FX_SinCosTable_[x * 2 + 1], FX_SinCosTable_[x * 2]);
     NNS_G3dGeBufferOP_N(0x1a, m, 9);
@@ -232,9 +232,9 @@ void shine_update(void *a, Shine16 *p) {
 
     switch (p->mState) {
         case 0:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 1;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -249,23 +249,23 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mPos.y > p->mFloorY) {
+            p->field0.field10.y -= 0x19a;
+            VEC_Add(&p->field0.mPos, &p->field0.field10, &p->field0.mPos);
+            if (p->field0.mPos.y > p->mFloorY) {
                 return;
             }
-            p->mUnk_00.mPos.y = p->mFloorY;
-            p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * -0x333) >> 12;
-            if (p->mUnk_00.mUnk_10.y < 0x1000) {
-                p->mUnk_00.mUnk_10.y = 0;
+            p->field0.mPos.y = p->mFloorY;
+            p->field0.field10.y = ((s64) p->field0.field10.y * -0x333) >> 12;
+            if (p->field0.field10.y < 0x1000) {
+                p->field0.field10.y = 0;
                 p->mState = 1;
             }
-            func_0210b98c(p->mUnk_00.mSound, 0x139);
+            func_0210b98c(p->field0.mSound, 0x139);
             return;
         case 1:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 1;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -280,12 +280,12 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            func_0210ba38(p->mUnk_00.mSound, 0x14e);
+            func_0210ba38(p->field0.mSound, 0x14e);
             return;
         case 6:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 4;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -301,7 +301,7 @@ void shine_update(void *a, Shine16 *p) {
                 return;
             }
             p->mDrawScale = 0;
-            mobj_setInvisible(&p->mUnk_00);
+            mobj_setInvisible(&p->field0);
             mgcnt_updateCollectableShineCount(-1);
             if (p->mSpawnObjectIndex < 0) {
                 return;
@@ -309,9 +309,9 @@ void shine_update(void *a, Shine16 *p) {
             func_020a6cb4(p->mSpawnObjectIndex);
             return;
         case 2:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 4;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -323,16 +323,16 @@ void shine_update(void *a, Shine16 *p) {
                 }
             }
             v = driver_getById(p->mKartIndex);
-            p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(v) + 0x7800);
-            p->mUnk_00.mUnk_10.y -= 0x333;
+            p->mHeightAboveKart += p->field0.field10.y;
+            p->field0.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
+            p->field0.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(v) + 0x7800);
+            p->field0.field10.y -= 0x333;
             if (p->mPickupTimer-- <= 0) {
                 p->mPickupTimer = 0;
                 p->mDrawScale -= 0x19a;
                 if (p->mDrawScale <= 0) {
                     p->mDrawScale = 0;
-                    mobj_setInvisible(&p->mUnk_00);
+                    mobj_setInvisible(&p->field0);
                     mgcnt_updateCollectableShineCount(-1);
                     if (p->mSpawnObjectIndex >= 0) {
                         func_020a6cb4(p->mSpawnObjectIndex);
@@ -350,7 +350,7 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mEffect == NULL) {
                 return;
             }
-            ptcm_setEmitterPosition(p->mEffect, &p->mUnk_00.mPos);
+            ptcm_setEmitterPosition(p->mEffect, &p->field0.mPos);
             p->mEffectTimer--;
             if (p->mEffectTimer >= 0) {
                 return;
@@ -358,9 +358,9 @@ void shine_update(void *a, Shine16 *p) {
             ptcm_killEmitter(&p->mEffect);
             return;
         case 3:
-            p->mUnk_b4 += 4;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 4;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -378,67 +378,67 @@ void shine_update(void *a, Shine16 *p) {
                     n = -n;
                 }
                 if (n < 0x14000) {
-                    x = (q->mPos.x - mgcnt_getDriverPosition(p->mUnk_ca)->x) >> 12;
-                    z = (q->mPos.z - mgcnt_getDriverPosition(p->mUnk_ca)->z) >> 12;
+                    x = (q->mPos.x - mgcnt_getDriverPosition(p->fieldCA)->x) >> 12;
+                    z = (q->mPos.z - mgcnt_getDriverPosition(p->fieldCA)->z) >> 12;
                     n = x * x + z * z;
-                    if (p->mUnk_ca == p->mKartIndex) {
-                        if (n < 0x9c400 && n > p->mUnk_d8) {
-                            p->mUnk_d8 = n;
-                            p->mUnk_cc.x = q->mPos.x;
-                            p->mUnk_cc.y = q->mPos.y;
-                            p->mUnk_cc.z = q->mPos.z;
-                            p->mUnk_dc++;
+                    if (p->fieldCA == p->mKartIndex) {
+                        if (n < 0x9c400 && n > p->fieldD8) {
+                            p->fieldD8 = n;
+                            p->fieldCC.x = q->mPos.x;
+                            p->fieldCC.y = q->mPos.y;
+                            p->fieldCC.z = q->mPos.z;
+                            p->fieldDC++;
                         }
                     } else {
-                        if (n < 0x9c400 && n < p->mUnk_d8) {
-                            p->mUnk_d8 = n;
-                            p->mUnk_cc.x = q->mPos.x;
-                            p->mUnk_cc.y = q->mPos.y;
-                            p->mUnk_cc.z = q->mPos.z;
-                            p->mUnk_dc++;
+                        if (n < 0x9c400 && n < p->fieldD8) {
+                            p->fieldD8 = n;
+                            p->fieldCC.x = q->mPos.x;
+                            p->fieldCC.y = q->mPos.y;
+                            p->fieldCC.z = q->mPos.z;
+                            p->fieldDC++;
                         }
                     }
                 }
             }
-            p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(driver_getById(p->mKartIndex)) + 0x7800);
-            p->mUnk_00.mUnk_10.y -= 0x52;
+            p->mHeightAboveKart += p->field0.field10.y;
+            p->field0.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
+            p->field0.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(driver_getById(p->mKartIndex)) + 0x7800);
+            p->field0.field10.y -= 0x52;
             p->mDrawScale += 0x19a;
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            if (p->mUnk_00.mUnk_10.y > 0) {
+            if (p->field0.field10.y > 0) {
                 return;
             }
-            if (p->mUnk_dc > 0) {
+            if (p->fieldDC > 0) {
                 g = &gRaceStatus->mRandom;
                 g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
                 r = ((u64) (u32) (g->mValue >> 32) * 0x10000) >> 32;
                 g = &gRaceStatus->mRandom;
                 g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
                 s = ((u64) (u32) (g->mValue >> 32) * 0x14000) >> 32;
-                x = p->mUnk_cc.x + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2]) >> 12) - p->mUnk_00.mPos.x;
-                z = p->mUnk_cc.z + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2 + 1]) >> 12) - p->mUnk_00.mPos.z;
+                x = p->fieldCC.x + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2]) >> 12) - p->field0.mPos.x;
+                z = p->fieldCC.z + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2 + 1]) >> 12) - p->field0.mPos.z;
                 p->mState = 4;
-                p->mUnk_00.mUnk_10.x = ((s64) x * 0x25) >> 12;
-                p->mUnk_00.mUnk_10.y = 0x5000;
-                p->mUnk_00.mUnk_10.z = ((s64) z * 0x25) >> 12;
+                p->field0.field10.x = ((s64) x * 0x25) >> 12;
+                p->field0.field10.y = 0x5000;
+                p->field0.field10.z = ((s64) z * 0x25) >> 12;
                 p->mDrawScale = 0x1000;
-                p->mUnk_00.mFlags &= ~1;
+                p->field0.mFlags &= ~1;
                 return;
             }
             p->mState = 5;
-            p->mUnk_00.mUnk_10.x = 0;
-            p->mUnk_00.mUnk_10.y = 0x5000;
-            p->mUnk_00.mUnk_10.z = 0;
+            p->field0.field10.x = 0;
+            p->field0.field10.y = 0x5000;
+            p->field0.field10.z = 0;
             p->mDrawScale = 0x1000;
-            p->mUnk_00.mFlags &= ~1;
+            p->field0.mFlags &= ~1;
             return;
         case 5:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 1;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -453,18 +453,18 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mUnk_10.y >= 0) {
+            p->field0.field10.y -= 0x19a;
+            VEC_Add(&p->field0.mPos, &p->field0.field10, &p->field0.mPos);
+            if (p->field0.field10.y >= 0) {
                 return;
             }
             p->mState = 6;
-            p->mUnk_00.mFlags |= data_021567a0;
+            p->field0.mFlags |= data_021567a0;
             return;
         case 4:
-            p->mUnk_b4 += 1;
-            if (p->mUnk_b4 >= 3) {
-                p->mUnk_b4 -= 3;
+            p->fieldB4 += 1;
+            if (p->fieldB4 >= 3) {
+                p->fieldB4 -= 3;
                 p->mNsbtpFrameIndex++;
                 if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
                     p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
@@ -479,67 +479,67 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            p->mUnk_00.mUnk_10.y -= 0x19a;
-            VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
-            if (p->mUnk_00.mUnk_10.y < 0 && p->mUnk_00.mPos.y <= p->mUnk_cc.y + p->mUnk_00.mExtent.x) {
-                if (mobj_collideAsItem(&p->mUnk_00, 0, &b)) {
-                    t = p->mUnk_00.mUnk_10.y;
-                    VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
-                    func_020ea94c(&p->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);
-                    p->mUnk_00.mUnk_10.y = 0;
-                    if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x +
-                            (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
-                            (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
+            p->field0.field10.y -= 0x19a;
+            VEC_Add(&p->field0.mPos, &p->field0.field10, &p->field0.mPos);
+            if (p->field0.field10.y < 0 && p->field0.mPos.y <= p->fieldCC.y + p->field0.mExtent.x) {
+                if (mobj_collideAsItem(&p->field0, 0, &b)) {
+                    t = p->field0.field10.y;
+                    VEC_Add(&p->field0.mPos, &b, &p->field0.mPos);
+                    func_020ea94c(&p->field0.field10, &b, 0x1000, 0x1000, 0x800, &p->field0.field10);
+                    p->field0.field10.y = 0;
+                    if ((s64) p->field0.field10.x * p->field0.field10.x +
+                            (s64) p->field0.field10.y * p->field0.field10.y +
+                            (s64) p->field0.field10.z * p->field0.field10.z >=
                         0x10) {
-                        vec_normalize(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                        vec_normalize(&p->field0.field10, &p->field0.field10);
                     }
-                    p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x1000) >> 12;
-                    p->mUnk_00.mUnk_10.y = t;
+                    p->field0.field10.x = ((s64) p->field0.field10.x * 0x1000) >> 12;
+                    p->field0.field10.y = ((s64) p->field0.field10.y * 0x1000) >> 12;
+                    p->field0.field10.z = ((s64) p->field0.field10.z * 0x1000) >> 12;
+                    p->field0.field10.y = t;
                 }
-                c.x = p->mUnk_00.mPos.x;
-                c.y = p->mUnk_00.mExtent.x + (p->mUnk_00.mPos.y - 0x14000);
-                c.z = p->mUnk_00.mPos.z;
-                if (col_collide(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e.x, &f, NULL, NULL, NULL, NULL)) {
-                    VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
+                c.x = p->field0.mPos.x;
+                c.y = p->field0.mExtent.x + (p->field0.mPos.y - 0x14000);
+                c.z = p->field0.mPos.z;
+                if (col_collide(&c, NULL, 0, p->field0.mExtent.x, 8, -2, &b, &d, &e.x, &f, NULL, NULL, NULL, NULL)) {
+                    VEC_Add(&p->field0.mPos, &b, &p->field0.mPos);
                     if (f & 0x214300) {
-                        t = p->mUnk_00.mUnk_10.y;
-                        BounceVelocityOffSurface(&p->mUnk_00.mUnk_10, &e, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);
-                        p->mUnk_00.mUnk_10.y = 0;
-                        if ((s64) p->mUnk_00.mUnk_10.x * p->mUnk_00.mUnk_10.x +
-                                (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
-                                (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
+                        t = p->field0.field10.y;
+                        BounceVelocityOffSurface(&p->field0.field10, &e, 0x1000, 0x1000, 0x800, &p->field0.field10);
+                        p->field0.field10.y = 0;
+                        if ((s64) p->field0.field10.x * p->field0.field10.x +
+                                (s64) p->field0.field10.y * p->field0.field10.y +
+                                (s64) p->field0.field10.z * p->field0.field10.z >=
                             0x10) {
-                            vec_normalize(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                            vec_normalize(&p->field0.field10, &p->field0.field10);
                         }
-                        p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x1000) >> 12;
-                        p->mUnk_00.mUnk_10.y = t;
+                        p->field0.field10.x = ((s64) p->field0.field10.x * 0x1000) >> 12;
+                        p->field0.field10.y = ((s64) p->field0.field10.y * 0x1000) >> 12;
+                        p->field0.field10.z = ((s64) p->field0.field10.z * 0x1000) >> 12;
+                        p->field0.field10.y = t;
                     }
                     if (f & 0x1e34ef) {
-                        p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x19a) >> 12;
-                        p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * -0x333) >> 12;
-                        p->mUnk_00.mUnk_10.z = ((s64) p->mUnk_00.mUnk_10.z * 0x19a) >> 12;
-                        if (p->mUnk_00.mUnk_10.y < 0x1000) {
-                            p->mUnk_00.mUnk_10.y = 0;
+                        p->field0.field10.x = ((s64) p->field0.field10.x * 0x19a) >> 12;
+                        p->field0.field10.y = ((s64) p->field0.field10.y * -0x333) >> 12;
+                        p->field0.field10.z = ((s64) p->field0.field10.z * 0x19a) >> 12;
+                        if (p->field0.field10.y < 0x1000) {
+                            p->field0.field10.y = 0;
                             p->mState = 1;
                         }
-                        func_0210b98c(p->mUnk_00.mSound, 0x139);
+                        func_0210b98c(p->field0.mSound, 0x139);
                     }
                     if (f & 0x1000000) {
-                        p->mUnk_00.mFlags |= data_021567ac;
+                        p->field0.mFlags |= data_021567ac;
                     } else {
-                        p->mUnk_00.mFlags &= ~0x20;
+                        p->field0.mFlags &= ~0x20;
                     }
                 }
             }
-            if (p->mUnk_00.mPos.y >= 0) {
+            if (p->field0.mPos.y >= 0) {
                 return;
             }
             p->mState = 6;
-            p->mUnk_00.mFlags |= data_021567a0;
+            p->field0.mFlags |= data_021567a0;
             return;
     }
 }
@@ -548,8 +548,8 @@ void shine_setupCollision(void) {
     MapObjectKindData *p;
 
     p = mobj_createConfig(shine_onDriverCollide, NULL, NULL, 1, 0);
-    p->mUnk_38 = 0x190000;
-    p->mUnk_3c = -0x190000;
+    p->field38 = 0x190000;
+    p->field3C = -0x190000;
 }
 
 void *shine_setupShineRenderPart(void) {
@@ -590,22 +590,22 @@ void shine_spawn(Vec3 *a, s32 b, s32 c) {
         return;
     }
     if (c != 0) {
-        p->mUnk_00.mPos.x = a->x;
-        p->mUnk_00.mPos.y = a->y + 0x32000;
-        p->mUnk_00.mPos.z = a->z;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0x2800;
-        p->mUnk_00.mUnk_10.z = 0;
+        p->field0.mPos.x = a->x;
+        p->field0.mPos.y = a->y + 0x32000;
+        p->field0.mPos.z = a->z;
+        p->field0.field10.x = 0;
+        p->field0.field10.y = 0x2800;
+        p->field0.field10.z = 0;
         p->mHeightAboveKart = 0;
         p->mFloorY = a->y + 0x14000;
         p->mState = 0;
     } else {
-        p->mUnk_00.mPos.x = a->x;
-        p->mUnk_00.mPos.y = a->y + 0x14000;
-        p->mUnk_00.mPos.z = a->z;
-        p->mUnk_00.mUnk_10.x = 0;
-        p->mUnk_00.mUnk_10.y = 0;
-        p->mUnk_00.mUnk_10.z = 0;
+        p->field0.mPos.x = a->x;
+        p->field0.mPos.y = a->y + 0x14000;
+        p->field0.mPos.z = a->z;
+        p->field0.field10.x = 0;
+        p->field0.field10.y = 0;
+        p->field0.field10.z = 0;
         p->mHeightAboveKart = 0;
         p->mFloorY = 0;
         p->mState = 1;
@@ -613,10 +613,10 @@ void shine_spawn(Vec3 *a, s32 b, s32 c) {
     p->mDrawScale = 0;
     p->mPickupTimer = 0;
     p->mSpawnObjectIndex = b;
-    p->mUnk_00.mFlags &= ~1;
-    p->mUnk_00.mFlags &= ~0x20;
+    p->field0.mFlags &= ~1;
+    p->field0.mFlags &= ~0x20;
     mgcnt_updateCollectableShineCount(1);
-    func_0210b98c(p->mUnk_00.mSound, 0x138);
+    func_0210b98c(p->field0.mSound, 0x138);
 }
 
 void shine_driverLostSpawn(Kart *a, Kart *b) {
@@ -629,34 +629,34 @@ void shine_driverLostSpawn(Kart *a, Kart *b) {
     if (p == NULL) {
         return;
     }
-    p->mUnk_00.mFlags = p->mUnk_00.mFlags | data_021567a0;
-    p->mUnk_00.mFlags &= ~0x20;
-    p->mUnk_00.mPos.x = a->mPos.x;
-    p->mUnk_00.mPos.y = a->mPos.y;
-    p->mUnk_00.mPos.z = a->mPos.z;
-    p->mUnk_00.mUnk_10.x = 0;
-    p->mUnk_00.mUnk_10.y = 0x1000;
-    p->mUnk_00.mUnk_10.z = 0;
+    p->field0.mFlags = p->field0.mFlags | data_021567a0;
+    p->field0.mFlags &= ~0x20;
+    p->field0.mPos.x = a->mPos.x;
+    p->field0.mPos.y = a->mPos.y;
+    p->field0.mPos.z = a->mPos.z;
+    p->field0.field10.x = 0;
+    p->field0.field10.y = 0x1000;
+    p->field0.field10.z = 0;
     p->mKartIndex = a->mIndex;
-    p->mUnk_ca = b->mIndex;
+    p->fieldCA = b->mIndex;
     p->mHeightAboveKart = 0;
     p->mFloorY = 0;
     p->mDrawScale = 0;
     p->mPickupTimer = 0;
     p->mState = 3;
-    p->mUnk_cc = b->mPos;
+    p->fieldCC = b->mPos;
     if (b == a) {
-        p->mUnk_d8 = 0;
+        p->fieldD8 = 0;
     } else {
-        p->mUnk_d8 = 0x9c400;
+        p->fieldD8 = 0x9c400;
     }
-    p->mUnk_dc = 0;
+    p->fieldDC = 0;
     p->mSpawnObjectIndex = -1;
     mgcnt_updateCollectableShineCount(1);
     r = a->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
     c = mgcnt_getMaxOwnedShineCount();
     n = mgcnt_getDriverBalloonShineCount(a->mIndex);
-    func_0210b98c(p->mUnk_00.mSound, snd_getShineLoseSfxId(1, r, c, n));
+    func_0210b98c(p->field0.mSound, snd_getShineLoseSfxId(1, r, c, n));
 }
 
 BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
@@ -689,10 +689,10 @@ BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
                 v.x = o->mPos.x;
                 v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
                 v.z = o->mPos.z;
-                l->mUnk_00.mFlags &= ~4;
-                l->mUnk_00.mFlags &= ~2;
-                l->mUnk_00.mFlags &= ~8;
-                l->mUnk_00.mAlpha = 0x1f;
+                l->field0.mFlags &= ~4;
+                l->field0.mFlags &= ~2;
+                l->field0.mFlags &= ~8;
+                l->field0.mAlpha = 0x1f;
                 func_020a2ebc(l, &v);
             }
             mobj_driverEmitSfx2(o, 0x153);
@@ -802,7 +802,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
     if (a == gRaceMultiConfig->mEntryIndex || b == gRaceMultiConfig->mEntryIndex) {
         s.mSoundId = 0x14f;
         s.mPositionSource = NULL;
-        s.mUnk_08 = 2;
+        s.field8 = 2;
         s.mDistanceSquared = mobj_calcXZCamDist(NULL);
         func_0210b7a8(&s);
     }
@@ -837,10 +837,10 @@ BOOL blncnt_loseBalloonOnDamage(u16 a, u16 b) {
             v.x = o->mPos.x;
             v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
             v.z = o->mPos.z;
-            l->mUnk_00.mFlags &= ~4;
-            l->mUnk_00.mFlags &= ~2;
-            l->mUnk_00.mFlags &= ~8;
-            l->mUnk_00.mAlpha = 0x1f;
+            l->field0.mFlags &= ~4;
+            l->field0.mFlags &= ~2;
+            l->field0.mFlags &= ~8;
+            l->field0.mAlpha = 0x1f;
             func_020a2ebc(l, &v);
         }
         mobj_driverEmitSfx2(o, 0x153);
@@ -907,9 +907,9 @@ void blncnt_applyForceToDriverBalloons(u16 a, Vec3 *b) {
     }
     do {
         p = e->mBalloons[i];
-        p->mUnk_00.mPos.x += b->x;
-        p->mUnk_00.mPos.y += b->y;
-        p->mUnk_00.mPos.z += b->z;
+        p->field0.mPos.x += b->x;
+        p->field0.mPos.y += b->y;
+        p->field0.mPos.z += b->z;
         i++;
     } while (i < n);
 }
@@ -936,8 +936,8 @@ void blncnt_init(Unk020a3fa8 *a) {
         }
         for (i = 0; i < n; i++) {
             p = &a->mKartBalloons[i];
-            if (a->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
-                p->mBalloonNsbtpFrameIndex = a->mUnk_000.mCourseMapRow->mUnk_2c;
+            if (a->field0.mCourseMapRow->field2C != 0) {
+                p->mBalloonNsbtpFrameIndex = a->field0.mCourseMapRow->field2C;
             } else {
                 switch (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
                     case 0:
@@ -970,7 +970,7 @@ void blncnt_init(Unk020a3fa8 *a) {
         mgcnt_setOnEndFunc(blncnt_onMgEnd);
         mgcnt_setApplyForceToDriverBalloonsFunc((void (*)(s32, s32)) blncnt_applyForceToDriverBalloons);
     } else {
-        mobj_setInvisible(&a->mUnk_000);
+        mobj_setInvisible(&a->field0);
     }
 }
 
@@ -1001,9 +1001,9 @@ void blncnt_update(void *b, Unk020a3fa8 *c) {
             KartBalloons *kartBalloons = &c->mKartBalloons[i];
             driver_getById((u16) i);
             kartBalloons->mState = 1;
-            if (c->mUnk_000.mCourseMapRow->mUnk_28 != 0 || c->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
-                kartBalloons->mRemainingSpawnCount = c->mUnk_000.mCourseMapRow->mUnk_28;
-                mgcnt_updateDriverBalloonShineInventoryCount(i, c->mUnk_000.mCourseMapRow->mUnk_28 + c->mUnk_000.mCourseMapRow->mUnk_2a);
+            if (c->field0.mCourseMapRow->field28 != 0 || c->field0.mCourseMapRow->field2A != 0) {
+                kartBalloons->mRemainingSpawnCount = c->field0.mCourseMapRow->field28;
+                mgcnt_updateDriverBalloonShineInventoryCount(i, c->field0.mCourseMapRow->field28 + c->field0.mCourseMapRow->field2A);
             } else {
                 kartBalloons->mRemainingSpawnCount = 1;
                 mgcnt_updateDriverBalloonShineInventoryCount(i, 5);
@@ -1120,41 +1120,41 @@ void blncnt_update(void *b, Unk020a3fa8 *c) {
             if (mgcnt_getDriverMicInflatingCounter(i) > 0 || mgcnt_getDriverKeyInflating(i) > 0) {
                 s = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 600 : 300;
                 d = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 200 : 100;
-                kartBalloons->mUnk_08 += kartBalloons->mUnk_0c;
-                if (kartBalloons->mUnk_08 >= 0) {
-                    if (kartBalloons->mUnk_0c < 0) {
-                        kartBalloons->mUnk_0c = -s;
+                kartBalloons->field8 += kartBalloons->fieldC;
+                if (kartBalloons->field8 >= 0) {
+                    if (kartBalloons->fieldC < 0) {
+                        kartBalloons->fieldC = -s;
                     } else {
-                        kartBalloons->mUnk_0c -= d;
+                        kartBalloons->fieldC -= d;
                     }
                 } else {
-                    if (kartBalloons->mUnk_0c >= 0) {
-                        kartBalloons->mUnk_0c = s;
+                    if (kartBalloons->fieldC >= 0) {
+                        kartBalloons->fieldC = s;
                     } else {
-                        kartBalloons->mUnk_0c += d;
+                        kartBalloons->fieldC += d;
                     }
                 }
             } else {
                 s = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 600 : 300;
-                if (kartBalloons->mUnk_08 >= 0) {
-                    kartBalloons->mUnk_08 = kartBalloons->mUnk_08 < s ? 0 : kartBalloons->mUnk_08 - s;
+                if (kartBalloons->field8 >= 0) {
+                    kartBalloons->field8 = kartBalloons->field8 < s ? 0 : kartBalloons->field8 - s;
                 } else {
-                    kartBalloons->mUnk_08 = kartBalloons->mUnk_08 > -s ? 0 : kartBalloons->mUnk_08 + s;
+                    kartBalloons->field8 = kartBalloons->field8 > -s ? 0 : kartBalloons->field8 + s;
                 }
             }
             balloonCount = mgcnt_getDriverBalloonShineCount(i) + (mgcnt_getDriverIsInflating(i) != 0 ? 1 : 0);
             for (j = 0; j < balloonCount; j++) {
                 Balloon *balloon = kartBalloons->mBalloons[j];
-                a = kartBalloons->mUnk_08 + c->mBalloonOffsets[balloonCount - 1][j];
+                a = kartBalloons->field8 + c->mBalloonOffsets[balloonCount - 1][j];
                 if (a != 0) {
-                    q = &kart->mUnk_150;
+                    q = &kart->field150;
                     t.x = ((s64) q->x * a) >> 12;
                     t.y = ((s64) q->y * a) >> 12;
                     t.z = ((s64) q->z * a) >> 12;
                     blln_addVelocity(balloon, &t);
                 }
                 if ((j & 1) == 1) {
-                    q = &kart->mUnk_168;
+                    q = &kart->field168;
                     t2.x = ((s64) q->x * -0xcd) >> 12;
                     t2.y = ((s64) q->y * -0xcd) >> 12;
                     t2.z = ((s64) q->z * -0xcd) >> 12;
@@ -1163,10 +1163,10 @@ void blncnt_update(void *b, Unk020a3fa8 *c) {
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
                 blln_setDriverId(balloon, i);
                 blln_setSubBalloons(balloon, 1, NULL);
-                balloon->mUnk_00.mFlags &= ~4;
-                balloon->mUnk_00.mFlags &= ~2;
-                balloon->mUnk_00.mFlags &= ~8;
-                balloon->mUnk_00.mAlpha = 0x1f;
+                balloon->field0.mFlags &= ~4;
+                balloon->field0.mFlags &= ~2;
+                balloon->field0.mFlags &= ~8;
+                balloon->field0.mAlpha = 0x1f;
             }
         } else {
             balloonCount = mgcnt_getDriverBalloonShineCount(i) + (mgcnt_getDriverIsInflating(i) != 0 ? 1 : 0);
@@ -1176,15 +1176,15 @@ void blncnt_update(void *b, Unk020a3fa8 *c) {
                 blln_setDriverId(balloon, i);
                 if (j == 0) {
                     blln_setSubBalloons(balloon, balloonCount, kartBalloons->mBalloons);
-                    balloon->mUnk_00.mFlags &= ~4;
-                    balloon->mUnk_00.mFlags &= ~2;
-                    balloon->mUnk_00.mFlags &= ~8;
-                    balloon->mUnk_00.mAlpha = 0x1f;
+                    balloon->field0.mFlags &= ~4;
+                    balloon->field0.mFlags &= ~2;
+                    balloon->field0.mFlags &= ~8;
+                    balloon->field0.mAlpha = 0x1f;
                 } else {
                     blln_setSubBalloons(balloon, 0, NULL);
-                    balloon->mUnk_00.mFlags |= data_02156794;
-                    balloon->mUnk_00.mFlags |= data_02156798;
-                    balloon->mUnk_00.mFlags |= data_0215679c;
+                    balloon->field0.mFlags |= data_02156794;
+                    balloon->field0.mFlags |= data_02156798;
+                    balloon->field0.mFlags |= data_0215679c;
                 }
             }
         }

@@ -26,9 +26,9 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
     memset(p.mGpiConnection, 0, 0x490);
     p.mGpiConnection->mErrorMessage[0] = 0;
     p.mGpiConnection->mErrorNumber = 0;
-    p.mGpiConnection->mUnk_100 = 1;
-    p.mGpiConnection->mUnk_104 = FALSE;
-    p.mGpiConnection->mUnk_108 = 0;
+    p.mGpiConnection->field100 = 1;
+    p.mGpiConnection->field104 = FALSE;
+    p.mGpiConnection->field108 = 0;
     p.mGpiConnection->mFirewall = FALSE;
     p.mGpiConnection->mProductId = b;
     p.mGpiConnection->mNamespaceId = c;
@@ -37,12 +37,12 @@ u32 GpiInitialize(GpConnection *a, s32 b, s32 c) {
         p.mGpiConnection = NULL;
         return 1;
     }
-    p.mGpiConnection->mUnk_420 = 0;
+    p.mGpiConnection->field420 = 0;
     for (i = 0; i < 6; i++) {
         p.mGpiConnection->mCallbacks[i].mCallback = NULL;
-        p.mGpiConnection->mCallbacks[i].mUnk_04 = 0;
+        p.mGpiConnection->mCallbacks[i].field4 = 0;
     }
-    p.mGpiConnection->mUnk_460 = NULL;
+    p.mGpiConnection->field460 = NULL;
     func_ov000_0219690c(&p, data_ov000_021b2718);
     r = GpiResetConnection(&p);
     if (r != 0) {

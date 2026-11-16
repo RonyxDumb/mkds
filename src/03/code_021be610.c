@@ -32,7 +32,7 @@ void ReleaseSlideButtons(u32 task) {
             DeleteOamRange(data_ov003_021da108->mButtons[i]);
         }
     }
-    DeleteOamRange(data_ov003_021da108->mUnk_08);
+    DeleteOamRange(data_ov003_021da108->field8);
     FreeExpHeapBlockAndClearPointer(&data_ov003_021da108);
 }
 
@@ -73,22 +73,22 @@ void func_ov003_021beef8(int index) {
 
     object = AllocZeroedExpHeapBlock(0xc, 4);
     data_ov003_021da104 = object;
-    object->mUnk_08 = index;
-    data_ov003_021da104->mUnk_04 = CreateOamEntryFromNceImage(0, 0x47);
-    innerObject = data_ov003_021da104->mUnk_04;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xfffff3ff) | 0x400;
-    innerObject = data_ov003_021da104->mUnk_04;
-    innerObject->mUnk_00 = innerObject->mUnk_00 & 0xfffff3ff;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xffff0fff) | (data_ov003_021d5ebc[index] << 12);
-    innerObject = data_ov003_021da104->mUnk_04;
-    innerObject->mUnk_00 = ((data_ov003_021d5ec0[0] & 0x1ff) << 16) |
-                           ((innerObject->mUnk_00 & 0xfe00ff00) | (data_ov003_021d5ec0[1] & 0xff));
-    data_ov003_021da104->mUnk_00 = AddTask(1, func_ov003_021bee24, NULL, 0x78);
+    object->field8 = index;
+    data_ov003_021da104->field4 = CreateOamEntryFromNceImage(0, 0x47);
+    innerObject = data_ov003_021da104->field4;
+    innerObject->field4 = (innerObject->field4 & 0xfffff3ff) | 0x400;
+    innerObject = data_ov003_021da104->field4;
+    innerObject->field0 = innerObject->field0 & 0xfffff3ff;
+    innerObject->field4 = (innerObject->field4 & 0xffff0fff) | (data_ov003_021d5ebc[index] << 12);
+    innerObject = data_ov003_021da104->field4;
+    innerObject->field0 = ((data_ov003_021d5ec0[0] & 0x1ff) << 16) |
+                           ((innerObject->field0 & 0xfe00ff00) | (data_ov003_021d5ec0[1] & 0xff));
+    data_ov003_021da104->field0 = AddTask(1, func_ov003_021bee24, NULL, 0x78);
 }
 
 void func_ov003_021beecc(void) {
-    RemoveTaskEntryWrapper(1, data_ov003_021da104->mUnk_00);
-    DeleteOamEntry((u32 *) data_ov003_021da104->mUnk_04);
+    RemoveTaskEntryWrapper(1, data_ov003_021da104->field0);
+    DeleteOamEntry((u32 *) data_ov003_021da104->field4);
     FreeExpHeapBlockAndClearPointer(&data_ov003_021da104);
 }
 
@@ -97,28 +97,28 @@ void func_ov003_021bee24(void) {
     OamEntry *innerObject;
     u32 c;
 
-    data_ov003_021da104->mUnk_09 = FX_ModS32(data_ov003_021da104->mUnk_09 + 1, 0x28);
-    c = FX_DivS32(data_ov003_021da104->mUnk_09, 5) + 0x47;
-    CopyNceImageToOamEntries(0, c, data_ov003_021da104->mUnk_04);
-    innerObject = data_ov003_021da104->mUnk_04;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xfffff3ff) | 0x400;
+    data_ov003_021da104->field9 = FX_ModS32(data_ov003_021da104->field9 + 1, 0x28);
+    c = FX_DivS32(data_ov003_021da104->field9, 5) + 0x47;
+    CopyNceImageToOamEntries(0, c, data_ov003_021da104->field4);
+    innerObject = data_ov003_021da104->field4;
+    innerObject->field4 = (innerObject->field4 & 0xfffff3ff) | 0x400;
     object = data_ov003_021da104;
-    c = data_ov003_021d5ebc[object->mUnk_08];
-    innerObject = object->mUnk_04;
-    innerObject->mUnk_00 = innerObject->mUnk_00 & 0xfffff3ff;
-    innerObject->mUnk_04 = (innerObject->mUnk_04 & 0xffff0fff) | (c << 12);
-    innerObject = data_ov003_021da104->mUnk_04;
-    innerObject->mUnk_00 = ((data_ov003_021d5ec0[0] & 0x1ff) << 16) |
-                           ((innerObject->mUnk_00 & 0xfe00ff00) | (data_ov003_021d5ec0[1] & 0xff));
+    c = data_ov003_021d5ebc[object->field8];
+    innerObject = object->field4;
+    innerObject->field0 = innerObject->field0 & 0xfffff3ff;
+    innerObject->field4 = (innerObject->field4 & 0xffff0fff) | (c << 12);
+    innerObject = data_ov003_021da104->field4;
+    innerObject->field0 = ((data_ov003_021d5ec0[0] & 0x1ff) << 16) |
+                           ((innerObject->field0 & 0xfe00ff00) | (data_ov003_021d5ec0[1] & 0xff));
 }
 
 void func_ov003_021bea3c(Unk021bea3c *message) {
     if (message == NULL) {
         return;
     }
-    switch (message->mUnk_00) {
+    switch (message->field0) {
         case 1:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 4) {
                     data_ov003_021d8bfc = 3;
                     if (data_ov003_021d8c50 != NULL) {
@@ -149,7 +149,7 @@ void func_ov003_021bea3c(Unk021bea3c *message) {
             }
             break;
         case 3:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 6) {
                     data_ov003_021d8bfc = 5;
                     if (data_ov003_021d8c50 != NULL) {
@@ -164,7 +164,7 @@ void func_ov003_021bea3c(Unk021bea3c *message) {
             }
             break;
         case 5:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 8) {
                     data_ov003_021d8bfc = 7;
                     if (data_ov003_021d8c50 != NULL) {
@@ -179,7 +179,7 @@ void func_ov003_021bea3c(Unk021bea3c *message) {
             }
             break;
         case 4:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 4) {
                     data_ov003_021d8bfc = 3;
                     if (data_ov003_021d8c50 != NULL) {
@@ -218,7 +218,7 @@ void func_ov003_021bea3c(Unk021bea3c *message) {
             }
             break;
         case 6:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 4) {
                     data_ov003_021d8bfc = 3;
                     if (data_ov003_021d8c50 != NULL) {
@@ -259,7 +259,7 @@ void func_ov003_021bea3c(Unk021bea3c *message) {
             }
             break;
         case 2:
-            if (message->mUnk_02 == 0) {
+            if (message->field2 == 0) {
                 if (data_ov003_021d8bfc == 2) {
                     func_ov000_021a6428();
                     data_ov003_021d8bfc = 0;
@@ -478,10 +478,10 @@ BOOL func_ov003_021be610(void (*callback)(u32, u32), void *buffer, u32 size) {
     cursor = (cursor + 0x231f) & ~0x1f;
     data_ov003_021d8c1c = (Unk021a5e84 *) cursor;
     cursor = (cursor + 0xdf) & ~0x1f;
-    alignedBlock->mUnk_04 = (u8 *) cursor;
-    data_ov003_021d8bd8->mUnk_08 = (u32) buffer + size - (u32) data_ov003_021d8bd8->mUnk_04;
-    data_ov003_021d8bd8->mUnk_0c = 0;
-    data_ov003_021d8bd8->mUnk_00 = 3;
+    alignedBlock->field4 = (u8 *) cursor;
+    data_ov003_021d8bd8->field8 = (u32) buffer + size - (u32) data_ov003_021d8bd8->field4;
+    data_ov003_021d8bd8->fieldC = 0;
+    data_ov003_021d8bd8->field0 = 3;
     data_ov003_021d8c50 = (UnkFunc *) callback;
     if (data_ov003_021d8bfc == 0) {
         if (func_ov000_021a6470(data_ov003_021d8c0c, 0x2300) != 0) {

@@ -8,7 +8,7 @@
 
 u32 func_ov000_02189714(Unk02188ee0 *a) {
     int v1;
-    v1 = strncmp((const char *) a->mUnk_0c, data_ov000_021b06f0, 8);
+    v1 = strncmp((const char *) a->fieldC, data_ov000_021b06f0, 8);
     if (v1 == 0) {
         return 8;
     }
@@ -19,13 +19,13 @@ u8 func_ov000_021896c4(Unk02188ec0 *v1) {
     u8 n;
     Unk02188ec0_300 *c;
 
-    c = v1->mUnk_300;
+    c = v1->field300;
     n = func_ov000_0218954c(v1);
     c += n;
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 6) {
-        MI_CpuCopy8(data_ov000_021b06f0, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 8;
+    if (v1->fieldD0C == 0 || v1->fieldD0C == 6) {
+        MI_CpuCopy8(data_ov000_021b06f0, c->field4, 8);
+        c->field3 = 8;
+        c->field1 = 8;
         n++;
     }
     return n;
@@ -35,27 +35,27 @@ u8 func_ov000_02189614(Unk02188ec0 *v1) {
     u8 n;
     Unk02188ec0_300 *c;
 
-    c = v1->mUnk_300;
+    c = v1->field300;
     n = func_ov000_0218954c(v1);
     c += n;
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 4) {
-        MI_CpuCopy8(data_ov000_021b20d0, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 6;
+    if (v1->fieldD0C == 0 || v1->fieldD0C == 4) {
+        MI_CpuCopy8(data_ov000_021b20d0, c->field4, 8);
+        c->field3 = 8;
+        c->field1 = 6;
         n++;
         c++;
     }
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 7) {
-        MI_CpuCopy8(data_ov000_021b06e8, c->mUnk_04, 8);
-        c->mUnk_03 = 8;
-        c->mUnk_01 = 9;
+    if (v1->fieldD0C == 0 || v1->fieldD0C == 7) {
+        MI_CpuCopy8(data_ov000_021b06e8, c->field4, 8);
+        c->field3 = 8;
+        c->field1 = 9;
         n++;
         c++;
     }
-    if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == 8) {
-        MI_CpuCopy8(data_ov000_021b06f8, c->mUnk_04, 0xb);
-        c->mUnk_03 = 0xb;
-        c->mUnk_01 = 10;
+    if (v1->fieldD0C == 0 || v1->fieldD0C == 8) {
+        MI_CpuCopy8(data_ov000_021b06f8, c->field4, 0xb);
+        c->field3 = 0xb;
+        c->field1 = 10;
         n++;
     }
     return n;
@@ -70,20 +70,20 @@ u8 func_ov000_0218954c(Unk02188ec0 *v1) {
     Unk02188ec0_300 *c;
 
     n = 0;
-    e = v1->mUnk_000;
-    c = v1->mUnk_300;
+    e = v1->field0;
+    c = v1->field300;
     for (i = 0; i < 3; e++, i++) {
-        if (v1->mUnk_d0c == 0 || v1->mUnk_d0c == i + 1) {
-            if (e->mUnk_e7 != 0xff) {
+        if (v1->fieldD0C == 0 || v1->fieldD0C == i + 1) {
+            if (e->fieldE7 != 0xff) {
                 for (j = 0; j < 0x20; j++) {
-                    if (e->mUnk_40[j] == 0) {
+                    if (e->field40[j] == 0) {
                         break;
                     }
-                    c->mUnk_04[j] = e->mUnk_40[j];
+                    c->field4[j] = e->field40[j];
                 }
                 if (j != 0) {
-                    c->mUnk_03 = j;
-                    c->mUnk_01 = i;
+                    c->field3 = j;
+                    c->field1 = i;
                     v2 = TRUE;
                 } else {
                     v2 = FALSE;
@@ -92,16 +92,16 @@ u8 func_ov000_0218954c(Unk02188ec0 *v1) {
                     n++;
                     c++;
                 }
-                if (e->mUnk_e7 == 1) {
+                if (e->fieldE7 == 1) {
                     for (j = 0; j < 0x20; j++) {
-                        if (e->mUnk_60[j] == 0) {
+                        if (e->field60[j] == 0) {
                             break;
                         }
-                        c->mUnk_04[j] = e->mUnk_60[j];
+                        c->field4[j] = e->field60[j];
                     }
                     if (j != 0) {
-                        c->mUnk_03 = j;
-                        c->mUnk_01 = i + 3;
+                        c->field3 = j;
+                        c->field1 = i + 3;
                         v2 = TRUE;
                     } else {
                         v2 = FALSE;
@@ -127,15 +127,15 @@ u8 func_ov000_021894e4(s32 a, Unk02188ec0_444 *b, Unk02188ec0_300 *c, Unk02188ee
         if (i >= 9) {
             break;
         }
-        if (b->mUnk_00 == 0 && d->mUnk_36 != b->mUnk_03) {
+        if (b->field0 == 0 && d->field36 != b->field3) {
             for (j = 0; j < 0x20; j++) {
-                if (d->mUnk_0c[j] == 0) {
+                if (d->fieldC[j] == 0) {
                     break;
                 }
-                c->mUnk_04[j] = d->mUnk_0c[j];
+                c->field4[j] = d->fieldC[j];
             }
-            c->mUnk_03 = j;
-            c->mUnk_02 = d->mUnk_36 - 1;
+            c->field3 = j;
+            c->field2 = d->field36 - 1;
             c++;
             n++;
         }

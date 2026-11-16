@@ -56,73 +56,73 @@ u32 GpiUnpackDate(u32 *a, s32 b, u32 *c, u32 *d, u32 *e) {
 }
 
 void func_ov000_0219338c(Unk02192e04 *a, Unk0219338c *b) {
-    if (a->mUnk_00[0] != NULL) {
-        GpiCopyString(b->mUnk_008, a->mUnk_00[0], 0x1f);
+    if (a->field0[0] != NULL) {
+        GpiCopyString(b->field8, a->field0[0], 0x1f);
     } else {
-        b->mUnk_008[0] = 0;
+        b->field8[0] = 0;
     }
-    if (a->mUnk_00[1] != NULL) {
-        GpiCopyString(b->mUnk_027, a->mUnk_00[1], 0x15);
+    if (a->field0[1] != NULL) {
+        GpiCopyString(b->field27, a->field0[1], 0x15);
     } else {
-        b->mUnk_027[0] = 0;
+        b->field27[0] = 0;
     }
-    if (a->mUnk_00[2] != NULL) {
-        GpiCopyString(b->mUnk_03c, a->mUnk_00[2], 0x33);
+    if (a->field0[2] != NULL) {
+        GpiCopyString(b->field3C, a->field0[2], 0x33);
     } else {
-        b->mUnk_03c[0] = 0;
+        b->field3C[0] = 0;
     }
-    if (a->mUnk_00[3] != NULL) {
-        GpiCopyString(b->mUnk_06f, a->mUnk_00[3], 0x1f);
+    if (a->field0[3] != NULL) {
+        GpiCopyString(b->field6F, a->field0[3], 0x1f);
     } else {
-        b->mUnk_06f[0] = 0;
+        b->field6F[0] = 0;
     }
-    if (a->mUnk_00[4] != NULL) {
-        GpiCopyString(b->mUnk_08e, a->mUnk_00[4], 0x1f);
+    if (a->field0[4] != NULL) {
+        GpiCopyString(b->field8E, a->field0[4], 0x1f);
     } else {
-        b->mUnk_08e[0] = 0;
+        b->field8E[0] = 0;
     }
-    if (a->mUnk_00[5] != NULL) {
-        GpiCopyString(b->mUnk_0ad, a->mUnk_00[5], 0x4c);
+    if (a->field0[5] != NULL) {
+        GpiCopyString(b->fieldAD, a->field0[5], 0x4c);
     } else {
-        b->mUnk_0ad[0] = 0;
+        b->fieldAD[0] = 0;
     }
-    b->mUnk_0fc = a->mUnk_18;
-    GpiCopyString(b->mUnk_100, a->mUnk_1c, 0xb);
-    GpiCopyString(b->mUnk_10b, a->mUnk_27, 3);
-    b->mUnk_110 = a->mUnk_2c;
-    b->mUnk_114 = a->mUnk_30;
-    if (a->mUnk_34 != NULL) {
-        GpiCopyString(b->mUnk_118, a->mUnk_34, 0x80);
+    b->fieldFC = a->field18;
+    GpiCopyString(b->field100, a->field1C, 0xb);
+    GpiCopyString(b->field10B, a->field27, 3);
+    b->field110 = a->field2C;
+    b->field114 = a->field30;
+    if (a->field34 != NULL) {
+        GpiCopyString(b->field118, a->field34, 0x80);
     } else {
-        b->mUnk_118[0] = 0;
+        b->field118[0] = 0;
     }
-    b->mUnk_198 = a->mUnk_b4;
-    b->mUnk_19c = a->mUnk_b8;
-    b->mUnk_1a0 = a->mUnk_bc;
-    b->mUnk_1a4 = a->mUnk_c0;
-    b->mUnk_1a8 = a->mUnk_c4;
-    if (a->mUnk_c8 != NULL) {
-        GpiCopyString(b->mUnk_1ac, a->mUnk_c8, 0x33);
+    b->field198 = a->fieldB4;
+    b->field19C = a->fieldB8;
+    b->field1A0 = a->fieldBC;
+    b->field1A4 = a->fieldC0;
+    b->field1A8 = a->fieldC4;
+    if (a->fieldC8 != NULL) {
+        GpiCopyString(b->field1AC, a->fieldC8, 0x33);
     } else {
-        b->mUnk_1ac[0] = 0;
+        b->field1AC[0] = 0;
     }
-    b->mUnk_0fc = a->mUnk_18;
-    b->mUnk_110 = a->mUnk_2c;
-    b->mUnk_114 = a->mUnk_30;
-    b->mUnk_198 = a->mUnk_b4;
-    b->mUnk_19c = a->mUnk_b8;
-    b->mUnk_1a0 = a->mUnk_bc;
-    b->mUnk_1a4 = a->mUnk_c0;
-    b->mUnk_1a8 = a->mUnk_c4;
-    b->mUnk_1e0 = a->mUnk_cc[0];
-    b->mUnk_1e4 = a->mUnk_cc[1];
-    b->mUnk_1e8 = a->mUnk_cc[2];
-    b->mUnk_1ec = a->mUnk_cc[3];
-    b->mUnk_1f0 = a->mUnk_cc[4];
-    b->mUnk_1f4 = a->mUnk_cc[5];
-    b->mUnk_1f8 = a->mUnk_cc[6];
-    b->mUnk_1fc = a->mUnk_cc[7];
-    b->mUnk_200 = a->mUnk_cc[8];
+    b->fieldFC = a->field18;
+    b->field110 = a->field2C;
+    b->field114 = a->field30;
+    b->field198 = a->fieldB4;
+    b->field19C = a->fieldB8;
+    b->field1A0 = a->fieldBC;
+    b->field1A4 = a->fieldC0;
+    b->field1A8 = a->fieldC4;
+    b->field1E0 = a->fieldCC[0];
+    b->field1E4 = a->fieldCC[1];
+    b->field1E8 = a->fieldCC[2];
+    b->field1EC = a->fieldCC[3];
+    b->field1F0 = a->fieldCC[4];
+    b->field1F4 = a->fieldCC[5];
+    b->field1F8 = a->fieldCC[6];
+    b->field1FC = a->fieldCC[7];
+    b->field200 = a->fieldCC[8];
 }
 
 s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t) {
@@ -164,133 +164,133 @@ s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t) {
     {
         Unk02192e04 k = {0};
         char m[0x4c];
-        k.mUnk_00[0] = e;
-        k.mUnk_00[1] = f;
-        k.mUnk_00[2] = g;
-        k.mUnk_00[3] = h;
-        k.mUnk_00[4] = i;
-        k.mUnk_00[5] = m;
-        k.mUnk_c8 = j;
-        if (GpiGetValue(t, data_ov000_021b2fcc, k.mUnk_00[0], 0x1f) == FALSE) {
-            k.mUnk_00[0][0] = 0;
+        k.field0[0] = e;
+        k.field0[1] = f;
+        k.field0[2] = g;
+        k.field0[3] = h;
+        k.field0[4] = i;
+        k.field0[5] = m;
+        k.fieldC8 = j;
+        if (GpiGetValue(t, data_ov000_021b2fcc, k.field0[0], 0x1f) == FALSE) {
+            k.field0[0][0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b2fd4, k.mUnk_00[1], 0x15) == FALSE) {
-            k.mUnk_00[1][0] = 0;
+        if (GpiGetValue(t, data_ov000_021b2fd4, k.field0[1], 0x15) == FALSE) {
+            k.field0[1][0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b2fe4, k.mUnk_00[2], 0x33) == FALSE) {
-            k.mUnk_00[2][0] = 0;
+        if (GpiGetValue(t, data_ov000_021b2fe4, k.field0[2], 0x33) == FALSE) {
+            k.field0[2][0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b2ff8, k.mUnk_00[3], 0x1f) == FALSE) {
-            k.mUnk_00[3][0] = 0;
+        if (GpiGetValue(t, data_ov000_021b2ff8, k.field0[3], 0x1f) == FALSE) {
+            k.field0[3][0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b3004, k.mUnk_00[4], 0x1f) == FALSE) {
-            k.mUnk_00[4][0] = 0;
+        if (GpiGetValue(t, data_ov000_021b3004, k.field0[4], 0x1f) == FALSE) {
+            k.field0[4][0] = 0;
         }
         if (GpiGetValue(t, data_ov000_021b3064, d, 0x40) == FALSE) {
-            k.mUnk_18 = -1;
+            k.field18 = -1;
         } else {
-            k.mUnk_18 = StrtolBase10(d);
+            k.field18 = StrtolBase10(d);
         }
-        if (GpiGetValue(t, data_ov000_021b3010, k.mUnk_00[5], 0x4c) == FALSE) {
-            k.mUnk_00[5][0] = 0;
+        if (GpiGetValue(t, data_ov000_021b3010, k.field0[5], 0x4c) == FALSE) {
+            k.field0[5][0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b301c, k.mUnk_1c, 0xb) == FALSE) {
-            k.mUnk_1c[0] = 0;
+        if (GpiGetValue(t, data_ov000_021b301c, k.field1C, 0xb) == FALSE) {
+            k.field1C[0] = 0;
         }
-        if (GpiGetValue(t, data_ov000_021b3040, k.mUnk_27, 3) == FALSE) {
-            k.mUnk_27[0] = 0;
+        if (GpiGetValue(t, data_ov000_021b3040, k.field27, 3) == FALSE) {
+            k.field27[0] = 0;
         }
         if (GpiGetValue(t, data_ov000_021b3204, d, 0x40) == FALSE) {
-            k.mUnk_2c = 0;
+            k.field2C = 0;
         } else {
-            k.mUnk_2c = atof(d);
+            k.field2C = atof(d);
         }
         if (GpiGetValue(t, data_ov000_021b320c, d, 0x40) == FALSE) {
-            k.mUnk_30 = 0;
+            k.field30 = 0;
         } else {
-            k.mUnk_30 = atof(d);
+            k.field30 = atof(d);
         }
-        if (GpiGetValue(t, data_ov000_021b3214, k.mUnk_34, 0x80) == FALSE) {
-            k.mUnk_34[0] = 0;
+        if (GpiGetValue(t, data_ov000_021b3214, k.field34, 0x80) == FALSE) {
+            k.field34[0] = 0;
         }
         if (GpiGetValue(t, data_ov000_021b2fb0, d, 0x40) == FALSE) {
-            k.mUnk_b4 = 0;
-            k.mUnk_b8 = 0;
-            k.mUnk_bc = 0;
+            k.fieldB4 = 0;
+            k.fieldB8 = 0;
+            k.fieldBC = 0;
         } else {
-            o = GpiUnpackDate((u32 *) r, StrtolBase10(d), &k.mUnk_b4, &k.mUnk_b8, &k.mUnk_bc);
+            o = GpiUnpackDate((u32 *) r, StrtolBase10(d), &k.fieldB4, &k.fieldB8, &k.fieldBC);
             if (o != 0) {
                 return o;
             }
         }
         if (GpiGetValue(t, data_ov000_021b305c, d, 0x40) == FALSE) {
-            k.mUnk_c0 = 0x502;
+            k.fieldC0 = 0x502;
         } else if ((s8) d[0] == 0x30) {
-            k.mUnk_c0 = 0x500;
+            k.fieldC0 = 0x500;
         } else if ((s8) d[0] == 0x31) {
-            k.mUnk_c0 = 0x501;
+            k.fieldC0 = 0x501;
         } else {
-            k.mUnk_c0 = 0x502;
+            k.fieldC0 = 0x502;
         }
         if (GpiGetValue(t, data_ov000_021b321c, d, 0x40) == FALSE) {
-            k.mUnk_c4 = -1;
+            k.fieldC4 = -1;
         } else {
-            k.mUnk_c4 = StrtolBase10(d);
+            k.fieldC4 = StrtolBase10(d);
         }
-        if (GpiGetValue(t, data_ov000_021b30a4, k.mUnk_c8, 0x33) == FALSE) {
-            k.mUnk_c8[0] = 0;
+        if (GpiGetValue(t, data_ov000_021b30a4, k.fieldC8, 0x33) == FALSE) {
+            k.fieldC8[0] = 0;
         }
         if (GpiGetValue(t, data_ov000_021b30ac, d, 0x40) == FALSE) {
-            k.mUnk_cc[0] = 0;
+            k.fieldCC[0] = 0;
         } else {
-            k.mUnk_cc[0] = StrtolBase10(d);
+            k.fieldCC[0] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30b4, d, 0x40) == FALSE) {
-            k.mUnk_cc[1] = 0;
+            k.fieldCC[1] = 0;
         } else {
-            k.mUnk_cc[1] = StrtolBase10(d);
+            k.fieldCC[1] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30bc, d, 0x40) == FALSE) {
-            k.mUnk_cc[2] = 0;
+            k.fieldCC[2] = 0;
         } else {
-            k.mUnk_cc[2] = StrtolBase10(d);
+            k.fieldCC[2] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30c4, d, 0x40) == FALSE) {
-            k.mUnk_cc[3] = 0;
+            k.fieldCC[3] = 0;
         } else {
-            k.mUnk_cc[3] = StrtolBase10(d);
+            k.fieldCC[3] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30cc, d, 0x40) == FALSE) {
-            k.mUnk_cc[4] = 0;
+            k.fieldCC[4] = 0;
         } else {
-            k.mUnk_cc[4] = StrtolBase10(d);
+            k.fieldCC[4] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30d4, d, 0x40) == FALSE) {
-            k.mUnk_cc[5] = 0;
+            k.fieldCC[5] = 0;
         } else {
-            k.mUnk_cc[5] = StrtolBase10(d);
+            k.fieldCC[5] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b30dc, d, 0x40) == FALSE) {
-            k.mUnk_cc[6] = 0;
+            k.fieldCC[6] = 0;
         } else {
-            k.mUnk_cc[6] = StrtolBase10(d);
+            k.fieldCC[6] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b3224, d, 0x40) == FALSE) {
-            k.mUnk_cc[7] = 0;
+            k.fieldCC[7] = 0;
         } else {
-            k.mUnk_cc[7] = StrtolBase10(d);
+            k.fieldCC[7] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b322c, d, 0x40) == FALSE) {
-            k.mUnk_cc[8] = 0;
+            k.fieldCC[8] = 0;
         } else {
-            k.mUnk_cc[8] = StrtolBase10(d);
+            k.fieldCC[8] = StrtolBase10(d);
         }
         if (GpiGetValue(t, data_ov000_021b3234, d, 0x40) == FALSE) {
             GpiSetError(r, 1, data_ov000_021b31b8);
             GpiQueueErrorCallback(r, 3, 1);
             return 3;
         }
-        p = a->mUnk_100;
+        p = a->field100;
         q = a->mPeerList;
         while (q != NULL) {
             if (q->mProfileId == profileid && q->mState == 0x65) {
@@ -302,18 +302,18 @@ s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t) {
             }
             q = q->mNext;
         }
-        if (b == NULL && a->mUnk_100 != 0) {
+        if (b == NULL && a->field100 != 0) {
             b = GpiFindOrAddProfile(r, profileid);
         }
         if (p != 0) {
-            func_ov000_021a3668(b->mUnk_18);
-            b->mUnk_18 = NULL;
-            b->mUnk_18 = func_ov000_0218e880(d);
+            func_ov000_021a3668(b->field18);
+            b->field18 = NULL;
+            b->field18 = func_ov000_0218e880(d);
         }
-        if (a->mUnk_100 != 0) {
+        if (a->field100 != 0) {
             func_ov000_0219218c(r, (Unk021919ac_node *) b, (Unk021919ac_f0 *) &k);
         }
-        c = s->mUnk_0c;
+        c = s->fieldC;
         if (c.mCallback != NULL) {
             l = func_ov000_021a3690(0x204);
             if (l == NULL) {
@@ -321,8 +321,8 @@ s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t) {
                 return 1;
             }
             func_ov000_0219338c(&k, l);
-            l->mUnk_000 = 0;
-            l->mUnk_004 = profileid;
+            l->field0 = 0;
+            l->field4 = profileid;
             o = GpiQueueCallback(r, c, l, s, 0);
             if (o != 0) {
                 return o;
@@ -824,20 +824,20 @@ u32 func_ov000_0219222c(GpConnection *p, u32 a, s32 b, u32 c, u32 d, u32 e) {
     if (b == 1) {
         f = TRUE;
     }
-    if (o->mUnk_100 == 0) {
+    if (o->field100 == 0) {
         f = FALSE;
     }
-    if (d != 0 && f != FALSE && GpiFindProfile(p, a, &x) != 0 && x->mUnk_0c != 0) {
+    if (d != 0 && f != FALSE && GpiFindProfile(p, a, &x) != 0 && x->fieldC != 0) {
         m = func_ov000_021a3690(0x204);
         if (m == NULL) {
             GpiSetErrorMessage(p, data_ov000_021b2f58);
             return 1;
         }
-        func_ov000_0219338c(x->mUnk_0c, (Unk0219338c *) m);
-        m->mUnk_000 = 0;
-        m->mUnk_004 = a;
+        func_ov000_0219338c(x->fieldC, (Unk0219338c *) m);
+        m->field0 = 0;
+        m->field4 = a;
         w.mCallback = (void (*)(void *, void *, u32)) d;
-        w.mUnk_04 = e;
+        w.field4 = e;
         r = GpiCreateOperation(p, 2, 0, (s32 *) &n, 1, d, e);
         if (r != 0) {
             return r;
@@ -869,22 +869,22 @@ u32 func_ov000_0219222c(GpConnection *p, u32 a, s32 b, u32 c, u32 d, u32 e) {
 }
 
 u32 func_ov000_0219218c(GpConnection *p, Unk021919ac_node *n, Unk021919ac_f0 *a) {
-    if (p->mGpiConnection->mUnk_100 == 0) {
+    if (p->mGpiConnection->field100 == 0) {
         return 1;
     }
     func_ov000_0219210c(n);
-    n->mUnk_0c = func_ov000_021a3690(0xf0);
-    if (n->mUnk_0c != NULL) {
-        *n->mUnk_0c = *a;
-        n->mUnk_0c->mUnk_00[0] = func_ov000_0218e880(a->mUnk_00[0]);
-        n->mUnk_0c->mUnk_00[1] = func_ov000_0218e880(a->mUnk_00[1]);
-        n->mUnk_0c->mUnk_00[2] = func_ov000_0218e880(a->mUnk_00[2]);
-        n->mUnk_0c->mUnk_00[3] = func_ov000_0218e880(a->mUnk_00[3]);
-        n->mUnk_0c->mUnk_00[4] = func_ov000_0218e880(a->mUnk_00[4]);
-        n->mUnk_0c->mUnk_00[5] = func_ov000_0218e880(a->mUnk_00[5]);
-        n->mUnk_0c->mUnk_c8 = func_ov000_0218e880(a->mUnk_c8);
+    n->fieldC = func_ov000_021a3690(0xf0);
+    if (n->fieldC != NULL) {
+        *n->fieldC = *a;
+        n->fieldC->field0[0] = func_ov000_0218e880(a->field0[0]);
+        n->fieldC->field0[1] = func_ov000_0218e880(a->field0[1]);
+        n->fieldC->field0[2] = func_ov000_0218e880(a->field0[2]);
+        n->fieldC->field0[3] = func_ov000_0218e880(a->field0[3]);
+        n->fieldC->field0[4] = func_ov000_0218e880(a->field0[4]);
+        n->fieldC->field0[5] = func_ov000_0218e880(a->field0[5]);
+        n->fieldC->fieldC8 = func_ov000_0218e880(a->fieldC8);
     }
-    if (n->mUnk_0c != NULL) {
+    if (n->fieldC != NULL) {
         return 1;
     }
     return 0;

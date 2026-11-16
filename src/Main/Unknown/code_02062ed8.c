@@ -40,7 +40,7 @@ static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd 
 
 void func_02063880(Kart *kart) {
     AdvanceKartCollision(kart);
-    if ((gStruct217AA14->mUnk_75c & 2) != 0) {
+    if ((gStruct217AA14->field75C & 2) != 0) {
         func_020636f8(kart);
     }
     func_020641f0(kart);
@@ -50,10 +50,10 @@ void func_02063830(Kart *kart) {
     if (driver_getCheckMissionEndArea() != 0) {
         rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
-    if ((kart->mUnk_4c & 0x1000) != 0) {
+    if ((kart->field4C & 0x1000) != 0) {
         func_0206d138(kart);
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    kart->field4C = kart->field4C & ~0x1000;
     driver_1FFCC50(kart);
 }
 
@@ -61,10 +61,10 @@ void func_020637e0(Kart *kart) {
     if (driver_getCheckMissionEndArea() != 0) {
         rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
-    if ((kart->mUnk_4c & 0x1000) != 0) {
+    if ((kart->field4C & 0x1000) != 0) {
         func_0206d138(kart);
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
+    kart->field4C = kart->field4C & ~0x1000;
     func_020651fc(kart);
 }
 
@@ -78,21 +78,21 @@ void func_020636f8(Kart *kart) {
     Unk0217aa14_754_04 *recordBase;
     Unk020636f8_B *record;
 
-    recordBase = &gStruct217AA14->mUnk_754->mUnk_04;
+    recordBase = &gStruct217AA14->field754->field4;
     record = OFFSET_PTR(Unk020636f8_B, recordBase, 8);
-    b = kart->mUnk_514;
-    record->mUnk_00 = kart->mPos.x >> 10;
-    record->mUnk_02 = (kart->mPos.y - kart->mHopHeight) >> 10;
-    record->mUnk_04 = kart->mPos.z >> 10;
-    record->mUnk_06 = kart->mForwardSpeed >> 2;
-    record->mUnk_0a = kart->mHeadingAngle;
-    record->mUnk_10 = kart->mUnk_44;
-    record->mUnk_10 =
-        record->mUnk_10 | (((b->mPushDirection.x >> 6) & 0xff) << 24 | ((b->mPushDirection.y >> 6) & 0xff) << 16 |
+    b = kart->field514;
+    record->field0 = kart->mPos.x >> 10;
+    record->field2 = (kart->mPos.y - kart->mHopHeight) >> 10;
+    record->field4 = kart->mPos.z >> 10;
+    record->field6 = kart->mForwardSpeed >> 2;
+    record->fieldA = kart->mHeadingAngle;
+    record->field10 = kart->field44;
+    record->field10 =
+        record->field10 | (((b->mPushDirection.x >> 6) & 0xff) << 24 | ((b->mPushDirection.y >> 6) & 0xff) << 16 |
                            ((b->mPushDirection.z >> 6) & 0xff) << 8);
-    record->mUnk_14 = kart->mUnk_48;
-    record->mUnk_0c = b->mUnk_2c;
-    record->mUnk_08 = kart->mTurnAngle;
+    record->field14 = kart->field48;
+    record->fieldC = b->field2C;
+    record->field8 = kart->mTurnAngle;
 }
 
 // Also sets the matrix and the per-course flags (CreateCourseModels would be the verb for just finding and building).

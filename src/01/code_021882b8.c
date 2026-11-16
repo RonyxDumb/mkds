@@ -25,7 +25,7 @@ void func_ov001_021882b8(void) {
             table = mobj_getLogicPartForObjectId(0x1ff);
             func_ov001_02188e88(obj);
             obj->mGravityEnabled = FALSE;
-            obj->mUnk_2b8 = 3;
+            obj->field2B8 = 3;
             obj->mSpeed = obj->mSpeedTarget = obj->mSpeedPerCall = 0;
             obj->mAngleState = 0;
             obj->mAnglePerCall = obj->mAnglePerCallTarget = obj->mAnglePerCallIncrement = 0;
@@ -34,14 +34,14 @@ void func_ov001_021882b8(void) {
             obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
             obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
             obj->mAlphaLimitPerCall = 0;
-            if (i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) < table->mUnk_04) {
-                obj->mUnk_000.mPos =
-                    table->mUnk_00[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
-                        ->mUnk_000.mCourseMapRow->mUnk_00;
+            if (i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) < table->field4) {
+                obj->field0.mPos =
+                    table->field0[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
+                        ->field0.mCourseMapRow->field0;
                 obj->mAngle =
                     (u16) (((s64) table
-                                    ->mUnk_00[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
-                                    ->mUnk_000.mCourseMapRow->mUnk_0c.y *
+                                    ->field0[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
+                                    ->field0.mCourseMapRow->fieldC.y *
                                 0xb60b60b60bLL +
                             0x80000000000LL) >>
                            44);

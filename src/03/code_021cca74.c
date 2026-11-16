@@ -18,7 +18,7 @@ u8 func_ov003_021cce6c(void) {
 }
 
 u8 func_ov003_021cce60(void) {
-    return data_ov003_021da268->mUnk_1d;
+    return data_ov003_021da268->field1D;
 }
 
 void func_ov003_021cce58(s32 offset) {
@@ -26,27 +26,27 @@ void func_ov003_021cce58(s32 offset) {
 }
 
 void func_ov003_021cce48(void) {
-    data_ov003_021da268->mUnk_1e = 0;
+    data_ov003_021da268->field1E = 0;
 }
 
 void func_ov003_021cce38(void) {
-    data_ov003_021da268->mUnk_1e = 1;
+    data_ov003_021da268->field1E = 1;
 }
 
 void func_ov003_021ccd18(void) {
-    data_ov003_021da268->mUnk_1d = 0;
-    switch (data_ov003_021da268->mUnk_1c) {
+    data_ov003_021da268->field1D = 0;
+    switch (data_ov003_021da268->field1C) {
         case 0:
-            if (data_ov003_021da268->mUnk_1e == 0) {
+            if (data_ov003_021da268->field1E == 0) {
                 switch (func_ov003_021ccb50()) {
                     case 1:
-                        if (data_ov003_021da268->mUnk_1b != 0) {
+                        if (data_ov003_021da268->field1B != 0) {
                             StartSoundSeq(0x16);
                             SetSoundSeqVolume(0);
-                            data_ov003_021da268->mUnk_1d = 1;
-                            GetTouchPoint(data_ov003_021da268->mUnk_14);
-                            data_ov003_021da268->mUnk_18 = data_ov003_021da268->mOffset;
-                            data_ov003_021da268->mUnk_1c = 1;
+                            data_ov003_021da268->field1D = 1;
+                            GetTouchPoint(data_ov003_021da268->field14);
+                            data_ov003_021da268->field18 = data_ov003_021da268->mOffset;
+                            data_ov003_021da268->field1C = 1;
                         }
                         break;
                     case 2:
@@ -66,16 +66,16 @@ void func_ov003_021ccd18(void) {
             break;
         case 2:
             if (func_ov003_021ccb1c(2) != 2) {
-                data_ov003_021da268->mUnk_1d = 5;
-                data_ov003_021da268->mUnk_1c = 0;
+                data_ov003_021da268->field1D = 5;
+                data_ov003_021da268->field1C = 0;
             } else if (func_ov003_021ccb50() == 2) {
                 func_ov003_021ccc08(2);
             }
             break;
         case 3:
             if (func_ov003_021ccb1c(3) != 3) {
-                data_ov003_021da268->mUnk_1d = 7;
-                data_ov003_021da268->mUnk_1c = 0;
+                data_ov003_021da268->field1D = 7;
+                data_ov003_021da268->field1C = 0;
             } else if (func_ov003_021ccb50() == 3) {
                 func_ov003_021ccc08(3);
             }
@@ -90,24 +90,24 @@ void func_ov003_021ccc90(void) {
     if (IsTouchDownInRect(&data_ov003_021d67e8) != 0) {
         GetTouchPoint(a);
         if (a[0] >= data_ov003_021da268->mX - 0x1e) {
-            b = data_ov003_021da268->mUnk_18 + (a[1] - data_ov003_021da268->mUnk_14[1]);
+            b = data_ov003_021da268->field18 + (a[1] - data_ov003_021da268->field14[1]);
             if (b < 0) {
                 b = 0;
             } else {
-                c = data_ov003_021da268->mUnk_19 - data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
+                c = data_ov003_021da268->field19 - data_ov003_021d6630[data_ov003_021da268->field1B];
                 if (b >= c) {
                     b = c;
                 }
             }
             func_ov003_021ccc24(b);
             func_ov003_021cca74(b);
-            data_ov003_021da268->mUnk_1d = 2;
+            data_ov003_021da268->field1D = 2;
             return;
         }
     }
     StopSoundSeq();
-    data_ov003_021da268->mUnk_1c = 0;
-    data_ov003_021da268->mUnk_1d = 3;
+    data_ov003_021da268->field1C = 0;
+    data_ov003_021da268->field1D = 3;
 }
 
 void func_ov003_021ccc24(s32 param_1) {
@@ -137,13 +137,13 @@ void func_ov003_021ccc24(s32 param_1) {
 
 void func_ov003_021ccc08(int a) {
     u8 v1;
-    data_ov003_021da268->mUnk_1c = (s8) a;
+    data_ov003_021da268->field1C = (s8) a;
     if (a == 2) {
         v1 = 4;
     } else {
         v1 = 6;
     }
-    data_ov003_021da268->mUnk_1d = v1;
+    data_ov003_021da268->field1D = v1;
 }
 
 void func_ov003_021ccbbc(void) {
@@ -152,18 +152,18 @@ void func_ov003_021ccbbc(void) {
     s32 c;
     s32 d;
     GetTouchPoint(a);
-    b = data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
+    b = data_ov003_021d6630[data_ov003_021da268->field1B];
     c = a[1] - data_ov003_021da268->mY - (b >> 1);
     if (c < 0) {
         c = 0;
     } else {
-        d = data_ov003_021da268->mUnk_19 - b;
+        d = data_ov003_021da268->field19 - b;
         if (c >= d) {
             c = d;
         }
     }
     func_ov003_021cca74(c);
-    data_ov003_021da268->mUnk_1d = 3;
+    data_ov003_021da268->field1D = 3;
 }
 
 int func_ov003_021ccb50(void) {
@@ -214,19 +214,19 @@ void func_ov003_021cca9c(s32 a, u16 *b) {
     switch (a) {
         case 1:
             b[1] = data_ov003_021da268->mY + data_ov003_021da268->mOffset;
-            b[3] = b[1] + data_ov003_021d6630[data_ov003_021da268->mUnk_1b];
+            b[3] = b[1] + data_ov003_021d6630[data_ov003_021da268->field1B];
             break;
         case 2:
             b[1] = data_ov003_021da268->mY - 0xd;
             b[3] = data_ov003_021da268->mY;
             break;
         case 3:
-            b[1] = data_ov003_021da268->mY + data_ov003_021da268->mUnk_19;
+            b[1] = data_ov003_021da268->mY + data_ov003_021da268->field19;
             b[3] = b[1] + 0xd;
             break;
         case 4:
             b[1] = data_ov003_021da268->mY;
-            b[3] = b[1] + data_ov003_021da268->mUnk_19;
+            b[3] = b[1] + data_ov003_021da268->field19;
             break;
     }
 }

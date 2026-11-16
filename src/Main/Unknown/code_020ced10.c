@@ -39,7 +39,7 @@ void mpicn_updatePakkunFireIcon(void) {
             if (lmap_20B5AE8(&object->mPos, &mpicn_sPakkunFireIcon->mCells[cellCount].mDrawPos, v, 1, 1) !=
                 FALSE) {
                 mpicn_sPakkunFireIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xa4);
-                mpicn_sPakkunFireIcon->mCells[cellCount].mUnk_0c = 2;
+                mpicn_sPakkunFireIcon->mCells[cellCount].fieldC = 2;
                 cellCount++;
             }
         }

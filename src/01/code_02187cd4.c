@@ -6,8 +6,8 @@
 
 void func_ov001_02187cd4(Unk02188950 *mapObject, u32 b) {
     Unk0219b250 **nsbmdPointer;
-    mapObject->mUnk_2e4 = b;
-    mapObject->mUnk_27c = 3;
+    mapObject->field2E4 = b;
+    mapObject->field27C = 3;
     nsbmdPointer = &mapObject->mNsbmd;
     (*nsbmdPointer)->mAnimatedModel->mPtrUser = mapObject;
     NNS_G3dRenderObjSetCallBack((*nsbmdPointer)->mAnimatedModel, func_ov001_02187d14, 0, 6, (u8) 3);

@@ -13,15 +13,15 @@ typedef struct CourseModels {
     /* 00 */ Nsbmd *mNsbmd;
     // NULL when '/course_model_V.nsbmd' is absent; drawn before the NitroMain model under the other projection argument.
     /* 04 */ Nsbmd *mVNsbmd;
-    /* 08 */ u8 mUnk_08[0xc];
+    /* 08 */ u8 field8[0xc];
     /* 14 */ s32 mNsbtpFrameIndex;
-    /* 18 */ u8 mUnk_18[8];
+    /* 18 */ u8 field18[8];
     /* 20 */ u16 mNsbtpAnmObjCount;
-    /* 22 */ u8 mUnk_22[0x36];
+    /* 22 */ u8 field22[0x36];
     /* 58 */ u16 mNsbtaAnmObjCount;
-    /* 5a */ u8 mUnk_5a[0x36];
+    /* 5a */ u8 field5A[0x36];
     /* 90 */ u16 mVNsbtaAnmObjCount;
-    /* 92 */ u8 mUnk_92[0x4e];
+    /* 92 */ u8 field92[0x4e];
     /* e0 */ BOOL mRestoreFogEnableFlags;
     /* e4 */ u64 mSavedFogEnableFlags;
     /* ec */ BOOL mRestoreVFogEnableFlags;
@@ -30,15 +30,15 @@ typedef struct CourseModels {
 
 // What func_020636f8 writes from 0x08 of the Unk0217aa14_754_04 it points to.
 typedef struct Unk020636f8_B {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ s16 mUnk_06;
-    /* 08 */ s16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
+    /* 04 */ s16 field4;
+    /* 06 */ s16 field6;
+    /* 08 */ s16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
 } Unk020636f8_B;
 
 extern CourseModels crsmdl_sState;

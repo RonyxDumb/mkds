@@ -73,12 +73,12 @@ void UpdateRaceTimeDigits(void) {
     }
     if (minute == 0 && ((second == 5 && millisecond == 0) || second < 5) &&
         gRaceTimeDigits->mLastSecondsReached[0] == 0) {
-        if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus != 2) {
+        if (gRaceStatus->field0[Race_GetPlayerId()].mStatus != 2) {
             SetStemSet(2);
         }
         if ((data_0217c780 & 1) != 0) {
             entryHandle = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -96,7 +96,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[1] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -114,7 +114,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[2] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -132,7 +132,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[3] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -150,7 +150,7 @@ void UpdateRaceTimeDigits(void) {
         gRaceTimeDigits->mLastSecondsReached[4] == 0) {
         if ((data_0217c780 & 1) != 0) {
             entryHandle = sp_acquireElement(sound_getPoolById(0));
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*entryHandle != NULL) {
                     NNS_SndPlayerStopSeq(entryHandle, 0);
                 }
@@ -200,7 +200,7 @@ void DrawRaceTimeDigits(RaceHudOamBuffer *oamBuffer) {
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus == 3) {
+    if (gRaceStatus->field0[Race_GetPlayerId()].mStatus == 3) {
         return;
     }
     if (hasLapTime != 0) {

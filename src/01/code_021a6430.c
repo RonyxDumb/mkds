@@ -57,7 +57,7 @@ void QueueMissionRunBossIcon(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s
     }
     p = gMissionRunBossIcon;
     jn_ui_fillPlaceholder(data_ov001_021a7664[a], p->mNcer, p->mNcgr, p->mBncl, flagG, e, (c), (d));
-    dst = gMissionRunBossIcon->mNclr->mUnk_0c;
+    dst = gMissionRunBossIcon->mNclr->fieldC;
     if (flagB != 0) {
         v1 = data_ov001_021a7674[a];
     } else {

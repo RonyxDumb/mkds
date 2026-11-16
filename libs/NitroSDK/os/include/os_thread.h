@@ -8,25 +8,25 @@
 // The thread control block. The threads are linked through OSThread.mNext from data_0216ff5c.mListHead in increasing
 // OSThread.mPriority; OS_CreateThread sets one up.
 typedef struct OSThread {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
-    /* 20 */ u32 mUnk_20;
-    /* 24 */ u32 mUnk_24;
-    /* 28 */ u32 mUnk_28;
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u32 mUnk_30;
-    /* 34 */ u32 mUnk_34;
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ void (*mUnk_3c)(void);
-    /* 40 */ u32 mUnk_40;
-    /* 44 */ u32 mUnk_44;
-    /* 48 */ u8 mUnk_48[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
+    /* 00 */ u32 field0;
+    /* 04 */ void *field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
+    /* 20 */ u32 field20;
+    /* 24 */ u32 field24;
+    /* 28 */ u32 field28;
+    /* 2c */ u32 field2C;
+    /* 30 */ u32 field30;
+    /* 34 */ u32 field34;
+    /* 38 */ u32 field38;
+    /* 3c */ void (*field3C)(void);
+    /* 40 */ u32 field40;
+    /* 44 */ u32 field44;
+    /* 48 */ u8 field48[0x1c]; // its address goes to the functions called by OS_SaveContext and OS_LoadContext
     /* 64 */ u32 mState; // 0 waiting, 1 ready, 2 terminated
     /* 68 */ struct OSThread *mNext;
     // The id OSi_GetUnusedThreadId gives (0 for the first thread); the game tests it against 0 and the C library code
@@ -43,7 +43,7 @@ typedef struct OSThread {
     /* 94 */ u8 *mStackBottom;
     /* 98 */ u32 mStackWarningOffset;
     /* 9c */ OSThreadQueue mJoinQueue;
-    /* a4 */ void *mUnk_a4[3];
+    /* a4 */ void *fieldA4[3];
     // The alarm of the OS_Sleep call the thread is in, 0 otherwise; OS_CreateThread and OSi_SleepAlarmCallback set it
     // to 0, OS_Sleep sets it, OSi_CancelThreadAlarmForSleep cancels it.
     /* b0 */ OSAlarm *mAlarmForSleep;
@@ -56,8 +56,8 @@ typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
 // Object at data_0216ff5c; OS_InitThread stores the address of mCurrentThread in data_0216ff54.
 typedef struct ThreadSystem {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
     /* 04 */ OSThread *mCurrentThread;
     /* 08 */ OSThread *mListHead;
     /* 0c */ OSSwitchThreadCallback mSwitchCallback;

@@ -5,16 +5,16 @@
 
 // One point of a strip: its height, the frames since it was added and its position (the position shifted right by 4).
 typedef struct PosStripPoint {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ s32 mHeight;
     /* 0c */ u16 mSinceAddedFrames;
-    /* 0e */ u8 mUnk_0e[2];
+    /* 0e */ u8 fieldE[2];
     /* 10 */ Vec3 mPos;
 } PosStripPoint;
 
 // A strip: a list of points that follows a position; the draw joins neighbouring points with quads.
 typedef struct PosStrip {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ NNSFndList mPoints;
     /* 14 */ const Vec3 *mFollowedPos;
     /* 18 */ u32 mStopped;

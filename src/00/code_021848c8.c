@@ -29,9 +29,9 @@ void InitWiFiSelectCharacterState(void *a) {
     c = test_run();
     menucs_init(a, 2, b, c);
     SetLinkLevelIconEnabled(1, 1);
-    gStruct217B488->mUnk_6c = FALSE;
+    gStruct217B488->field6C = FALSE;
     for (i = 0; i < 4; i++) {
-        gStruct217B488->mUnk_5c[i] = 0;
+        gStruct217B488->field5C[i] = 0;
     }
 }
 

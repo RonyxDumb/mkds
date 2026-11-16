@@ -11,16 +11,16 @@ struct GpConnection;
 // List at 0x428 of GpiConnection: the object and the number of entries added to it.
 typedef struct Unk0218f960_428 {
     /* 00 */ struct Hashtable *mTable;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 field4;
 } Unk0218f960_428;
 
 // Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
 // GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
 typedef struct GpiConnection {
     /* 000 */ char mErrorMessage[0x100];
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ BOOL mUnk_104;
-    /* 108 */ u32 mUnk_108;
+    /* 100 */ s32 field100;
+    /* 104 */ BOOL field104;
+    /* 108 */ u32 field108;
     /* 10c */ BOOL mFirewall;
     /* 110 */ char mNick[0x1f];
     /* 12f */ s8 mUniquenick[0x15];
@@ -35,7 +35,7 @@ typedef struct GpiConnection {
     /* 1dc */ char *mInputBuffer;
     /* 1e0 */ s32 mInputBufferCapacity;
     /* 1e4 */ s32 mInputBufferLength;
-    /* 1e8 */ s32 mUnk_1e8;
+    /* 1e8 */ s32 field1E8;
     /* 1ec */ void *mCommandBuffer;
     /* 1f0 */ s32 mCommandBufferCapacity;
     /* 1f4 */ GpiBuffer mOutputBuffer;
@@ -48,7 +48,7 @@ typedef struct GpiConnection {
     /* 318 */ char mLocationString[0x100];
     /* 418 */ u32 mErrorNumber;
     /* 41c */ BOOL mFatal;
-    /* 420 */ s32 mUnk_420;
+    /* 420 */ s32 field420;
     /* 424 */ GpiOperation *mOperationList;
     /* 428 */ Unk0218f960_428 mProfileList;
     /* 430 */ s32 mBuddyCount;
@@ -58,16 +58,16 @@ typedef struct GpiConnection {
     /* 440 */ void *mUpdateproBuffer;
     /* 444 */ s32 mUpdateproBufferCapacity;
     /* 448 */ s32 mUpdateproBufferLength;
-    /* 44c */ s32 mUnk_44c;
+    /* 44c */ s32 field44C;
     /* 450 */ void *mUpdateuiBuffer;
     /* 454 */ s32 mUpdateuiBufferCapacity;
     /* 458 */ s32 mUpdateuiBufferLength;
-    /* 45c */ s32 mUnk_45c;
-    /* 460 */ void *mUnk_460;
-    /* 464 */ u8 mUnk_464[8];
+    /* 45c */ s32 field45C;
+    /* 460 */ void *field460;
+    /* 464 */ u8 field464[8];
     /* 46c */ s32 mProductId;
     /* 470 */ s32 mNamespaceId;
-    /* 474 */ s8 mUnk_474[0x19];
+    /* 474 */ s8 field474[0x19];
 } GpiConnection;
 
 // Object passed to GpiWriteDelbuddyAndRemoveBuddy as its first argument.
@@ -77,30 +77,30 @@ typedef struct GpConnection {
 
 typedef struct Unk0218fa98 {
     /* 00 */ u8 pad_00[8];
-    /* 08 */ s32 *mUnk_08;
+    /* 08 */ s32 *field8;
 } Unk0218fa98;
 
 typedef struct GpConnection GpConnection;
 
 // Object func_ov000_0218fca8 allocates with 0xc bytes and passes to GpiQueueCallback.
 typedef struct Unk0218fca8 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ void *field8;
 } Unk0218fca8;
 
 // Object func_ov000_0218fca8 allocates with 0x40c bytes and passes to GpiQueueCallback.
 typedef struct Unk0218fca8_40c {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x404];
+    /* 000 */ s32 field0;
+    /* 004 */ s32 field4;
+    /* 008 */ char field8[0x404];
 } Unk0218fca8_40c;
 
 // Object func_ov000_0218fca8 allocates with 0x108 bytes and passes to GpiQueueCallback.
 typedef struct Unk0218fca8_108 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ s32 mUnk_004;
-    /* 008 */ char mUnk_008[0x100];
+    /* 000 */ s32 field0;
+    /* 004 */ s32 field4;
+    /* 008 */ char field8[0x100];
 } Unk0218fca8_108;
 
 extern char data_ov000_021b27d8[];

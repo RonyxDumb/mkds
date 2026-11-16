@@ -75,10 +75,10 @@ u32 func_ov000_0219958c(Gt2Connection *a, u8 *b, s32 c) {
 }
 
 u32 func_ov000_02199554(Gt2Connection *a) {
-    if (a->mUnk_0c == 7) {
+    if (a->fieldC == 7) {
         return 1;
     }
-    if (func_ov000_02199fb0(a, 2, a->mUnk_0c == 6 ? K0 : K1) == 0) {
+    if (func_ov000_02199fb0(a, 2, a->fieldC == 6 ? K0 : K1) == 0) {
         return 0;
     }
     return 1;
@@ -118,7 +118,7 @@ u32 func_ov000_021992d4(Gt2Socket *a, u8 *b, s32 c, u32 d, u32 e) {
     BOOL h;
     s32 i;
     f = FindConnection(a, d, e);
-    if (a->mUnk_2c != NULL) {
+    if (a->field2C != NULL) {
         if (func_ov000_02197f28(a, f, d, e, 0, (s32) b, c, 0) == 0) {
             return 0;
         }
@@ -156,7 +156,7 @@ u32 func_ov000_021992d4(Gt2Socket *a, u8 *b, s32 c, u32 d, u32 e) {
         }
     }
     k = f;
-    if (k->mUnk_0c == 7) {
+    if (k->fieldC == 7) {
         if (h == FALSE || b[2] != 0x68) {
             if (func_ov000_02198b8c(k) == 0) {
                 return 0;
@@ -198,7 +198,7 @@ u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c) {
     Gt2Connection *v1;
     int v2;
     v1 = FindConnection(a, b, c);
-    if (a->mUnk_2c != NULL) {
+    if (a->field2C != NULL) {
         v2 = func_ov000_02197f28(a, v1, b, c, 1, 0, 0, 0);
         if (v2 == 0) {
             return 0;
@@ -207,7 +207,7 @@ u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c) {
     if (v1 == NULL) {
         return 1;
     }
-    if (v1->mUnk_0c == 0) {
+    if (v1->fieldC == 0) {
         if ((v1->mTimeSinceCreateLimit == 0) ||
             (v2 = func_ov000_0218e8c4(), (v2 - v1->mCreateTime) < v1->mTimeSinceCreateLimit)) {
             return 1;
@@ -226,10 +226,10 @@ u32 func_ov000_0219922c(Gt2Socket *a, u32 b, u32 c) {
 }
 
 typedef struct Unk0219914cHeader {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk0219914cHeader;
 
 u32 func_ov000_0219914c(Gt2Socket *a) {
@@ -244,8 +244,8 @@ u32 func_ov000_0219914c(Gt2Socket *a) {
         if (r == -1) {
             e = func_ov000_0218e368(a->mDescriptor);
             if (e == -15) {
-                if (func_ov000_0219922c(a, h.mUnk_04,
-                                        (u16) (((h.mUnk_02 >> 8) & 0xff) | ((h.mUnk_02 << 8) & 0xff00))) == 0) {
+                if (func_ov000_0219922c(a, h.field4,
+                                        (u16) (((h.field2 >> 8) & 0xff) | ((h.field2 << 8) & 0xff00))) == 0) {
                     return 0;
                 }
             } else if (e != -35) {
@@ -253,8 +253,8 @@ u32 func_ov000_0219914c(Gt2Socket *a) {
                 return 0;
             }
         } else {
-            if (func_ov000_021992d4(a, v1, r, h.mUnk_04,
-                                    (u16) (((h.mUnk_02 >> 8) & 0xff) | ((h.mUnk_02 << 8) & 0xff00))) == 0) {
+            if (func_ov000_021992d4(a, v1, r, h.field4,
+                                    (u16) (((h.field2 >> 8) & 0xff) | ((h.field2 << 8) & 0xff00))) == 0) {
                 return 0;
             }
         }
@@ -265,13 +265,13 @@ u32 func_ov000_0219914c(Gt2Socket *a) {
 u32 func_ov000_021990f8(Gt2Connection *a, u16 b, s32 c) {
     Unk021990f8Entry d = {0, 0, 0, {0, 0}, 0};
     s32 e;
-    d.mUnk_00 = a->mSendBuffer.mLength;
-    d.mUnk_04 = c;
-    d.mUnk_08 = b;
-    d.mUnk_0c = func_ov000_0218e8c4();
-    e = DarrayGetCount(a->mUnk_60);
-    DarrayAppend(a->mUnk_60, &d);
-    if (e + 1 == DarrayGetCount(a->mUnk_60)) {
+    d.field0 = a->mSendBuffer.mLength;
+    d.field4 = c;
+    d.field8 = b;
+    d.fieldC = func_ov000_0218e8c4();
+    e = DarrayGetCount(a->field60);
+    DarrayAppend(a->field60, &d);
+    if (e + 1 == DarrayGetCount(a->field60)) {
         return 1;
     }
     return 0;
@@ -285,7 +285,7 @@ BOOL func_ov000_0219903c(Gt2Connection *a, u32 b, int c, int *d) {
         *d = 1;
         return TRUE;
     }
-    if (func_ov000_021990f8(a, a->mUnk_64, c) == 0) {
+    if (func_ov000_021990f8(a, a->field64, c) == 0) {
         if (func_ov000_02199f80(a) == 0) {
             return FALSE;
         }
@@ -294,8 +294,8 @@ BOOL func_ov000_0219903c(Gt2Connection *a, u32 b, int c, int *d) {
     }
     AppendBufferBytes(&a->mSendBuffer, data_ov000_021b3fa4, 2);
     AppendBufferByte(&a->mSendBuffer, b);
-    AppendBufferU16(&a->mSendBuffer, a->mUnk_64++);
-    AppendBufferU16(&a->mSendBuffer, a->mUnk_66);
+    AppendBufferU16(&a->mSendBuffer, a->field64++);
+    AppendBufferU16(&a->mSendBuffer, a->field66);
     *d = 0;
     return TRUE;
 }

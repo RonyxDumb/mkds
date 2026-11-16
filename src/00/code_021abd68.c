@@ -18,11 +18,11 @@ void func_ov000_021abd68(Hash20Context *a, const u8 *b) {
     u32 t;
     u32 i;
     s32 j;
-    p = a->mUnk_00;
-    q = a->mUnk_04;
-    r = a->mUnk_08;
-    s = a->mUnk_0c;
-    t = a->mUnk_10;
+    p = a->field0;
+    q = a->field4;
+    r = a->field8;
+    s = a->fieldC;
+    t = a->field10;
     func_ov000_021ac34c(w, b, 0x40);
     i = 0;
     for (j = 0; j < 3; j++) {
@@ -94,9 +94,9 @@ void func_ov000_021abd68(Hash20Context *a, const u8 *b) {
         r = (r << 30) | (r >> 2);
         i += 1;
     }
-    a->mUnk_00 += p;
-    a->mUnk_04 += q;
-    a->mUnk_08 += r;
-    a->mUnk_0c += s;
-    a->mUnk_10 += t;
+    a->field0 += p;
+    a->field4 += q;
+    a->field8 += r;
+    a->fieldC += s;
+    a->field10 += t;
 }

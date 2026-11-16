@@ -21,7 +21,7 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
     v.mHash = 0;
     v.mArgKind = 0;
     v.mMinLength = 0;
-    v.mUnk_0c = 0;
+    v.fieldC = 0;
     s = p + 1;
     c = *s;
     if (c == '%') {
@@ -85,14 +85,14 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
         c = *++s;
         if (c == '*') {
             *b += 4;
-            v.mUnk_0c = ((int *) *b)[-1];
-            if (v.mUnk_0c < 0) {
+            v.fieldC = ((int *) *b)[-1];
+            if (v.fieldC < 0) {
                 v.mHasDot = 0;
             }
             c = *++s;
         } else {
             while ((c < 0 || c >= 0x80) ? 0 : (data_0215d284[c] & 8)) {
-                v.mUnk_0c = v.mUnk_0c * 10 + (c - '0');
+                v.fieldC = v.fieldC * 10 + (c - '0');
                 c = *++s;
             }
         }
@@ -143,7 +143,7 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
             if (v.mArgKind == 8) {
                 v.mSpecChar = 0xff;
             } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 1;
+                v.fieldC = 1;
             } else if (v.mPadKind == 2) {
                 v.mPadKind = 1;
             }
@@ -153,13 +153,13 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
             if (v.mArgKind == 2 || v.mArgKind == 4 || v.mArgKind == 5 || v.mArgKind == 6 || v.mArgKind == 7) {
                 v.mSpecChar = 0xff;
             } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 6;
+                v.fieldC = 6;
             }
             break;
         case 'a':
         case 'A':
             if (v.mHasDot == 0) {
-                v.mUnk_0c = 0xd;
+                v.fieldC = 0xd;
             }
             if (v.mArgKind == 2 || v.mArgKind == 4 || v.mArgKind == 5 || v.mArgKind == 6 || v.mArgKind == 7 ||
                 v.mArgKind == 1) {
@@ -168,8 +168,8 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
             break;
         case 'g':
         case 'G':
-            if (v.mUnk_0c == 0) {
-                v.mUnk_0c = 1;
+            if (v.fieldC == 0) {
+                v.fieldC = 1;
             }
         case 'e':
         case 'E':
@@ -177,14 +177,14 @@ const char *FormatParseSpec(const char *p, char **b, FormatSpec *buf) {
                 v.mArgKind == 1) {
                 v.mSpecChar = 0xff;
             } else if (v.mHasDot == 0) {
-                v.mUnk_0c = 6;
+                v.fieldC = 6;
             }
             break;
         case 'p':
             v.mSpecChar = 'x';
             v.mHash = 1;
             v.mArgKind = 3;
-            v.mUnk_0c = 8;
+            v.fieldC = 8;
             break;
         case 'c':
             if (v.mArgKind == 3) {
@@ -225,7 +225,7 @@ char *FormatInt32(unsigned long v, char *end, FormatSpec spec) {
     int prec;
     u8 conv;
 
-    prec = spec.mUnk_0c;
+    prec = spec.fieldC;
     alt = spec.mHash;
     conv = spec.mSpecChar;
     width = spec.mMinLength;
@@ -319,7 +319,7 @@ char *FormatInt64(u64 v, char *end, FormatSpec spec) {
     int ch;
     int d;
 
-    w = spec.mUnk_0c;
+    w = spec.fieldC;
     alt = spec.mHash;
     ch = spec.mSpecChar;
     wid = spec.mMinLength;
@@ -418,14 +418,14 @@ char *FormatDoubleHex(double x, char *buf, FormatSpec e) {
     int j;
     int k;
 
-    n = e.mUnk_0c;
+    n = e.fieldC;
     c = e.mSpecChar;
     f = e.mHash;
     s = e.mSignKind;
     if (n > 0x1fd) {
         return 0;
     }
-    a.mUnk_00 = 0;
+    a.field0 = 0;
     a.mDigitCount = 0x20;
     DoubleToDigitChars(&a, x, &r);
     if (0.0 == fabs(x)) {
@@ -474,7 +474,7 @@ char *FormatDoubleHex(double x, char *buf, FormatSpec e) {
     b.mHasDot = 0;
     b.mHash = 0;
     b.mArgKind = 0;
-    b.mUnk_0c = 1;
+    b.fieldC = 1;
     b.mMinLength = 0;
     b.mSpecChar = 'd';
     w = (u8 *) &x;
@@ -610,10 +610,10 @@ char *FormatDouble(double v, char *buf, FormatSpec f) {
     int c;
 
     a = f.mSpecChar;
-    b = f.mUnk_0c;
+    b = f.fieldC;
     h = f.mHash;
     g = f.mSignKind;
-    m.mUnk_00 = 0;
+    m.field0 = 0;
     m.mDigitCount = 0x20;
     DoubleToDigitChars(&m, v, &d);
     q = d.mDigits + d.mDigitCount;
@@ -950,11 +950,11 @@ int FormatWithPutFunc(void *(*f)(void *, const char *, u32), void *a, const char
                 }
                 if (e.mHash != 0) {
                     m = *p++;
-                    if (e.mHasDot != 0 && m > e.mUnk_0c) {
-                        m = e.mUnk_0c;
+                    if (e.mHasDot != 0 && m > e.fieldC) {
+                        m = e.fieldC;
                     }
                 } else if (e.mHasDot != 0) {
-                    m = e.mUnk_0c;
+                    m = e.fieldC;
                     q = memchr(p, 0, m);
                     if (q != 0) {
                         m = q - p;

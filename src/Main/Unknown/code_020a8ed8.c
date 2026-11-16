@@ -41,13 +41,13 @@ u32 ibal_globalInitShadow(u32 p0) {
 void ibal_renderShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     u32 shadowAlphaCap;
 
-    if (ironBall->mUnk_12c == 0) {
+    if (ironBall->field12C == 0) {
         return;
     }
-    if (((s32) ironBall->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
+    if (((s32) ironBall->field0.mDistanceSquaredAndFlags & 0x3fffffe0) >= 1000000) {
         return;
     }
-    shadowAlphaCap = ironBall->mShadowMatrix.mUnk_030;
+    shadowAlphaCap = ironBall->mShadowMatrix.field30;
     if (shadowAlphaCap == 0) {
         return;
     }
@@ -79,28 +79,28 @@ void ibal_globalLogicInit(MapObjectList *mapObjectList) {
     c = data_021567f0;
     a = data_021567f4;
     for (i = 0; i < mapObjectList->mMapObjectCount && (ironBall = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        ironBall->mUnk_000.mFlags |= b;
-        ironBall->mUnk_000.mFlags |= c;
-        ironBall->mUnk_000.mFlags |= a;
-        ironBall->mUnk_0b4 = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0xa000L) / 100;
-        ironBall->mUnk_0b8 = (ironBall->mUnk_000.mCourseMapRow->mUnk_28 * 0x5000L) / 100;
-        ironBall->mPathSpeed = ironBall->mUnk_0b4;
-        ironBall->mUnk_11c = ironBall->mUnk_000.mCourseMapRow->mUnk_00;
-        ironBall->mUnk_000.mPos = ironBall->mUnk_11c;
-        ironBall->mUnk_11c.y += 0x1000;
-        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1,
+        ironBall->field0.mFlags |= b;
+        ironBall->field0.mFlags |= c;
+        ironBall->field0.mFlags |= a;
+        ironBall->fieldB4 = (ironBall->field0.mCourseMapRow->field28 * 0xa000L) / 100;
+        ironBall->fieldB8 = (ironBall->field0.mCourseMapRow->field28 * 0x5000L) / 100;
+        ironBall->mPathSpeed = ironBall->fieldB4;
+        ironBall->field11C = ironBall->field0.mCourseMapRow->field0;
+        ironBall->field0.mPos = ironBall->field11C;
+        ironBall->field11C.y += 0x1000;
+        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->field11C, ironBall->field0.mExtent.x << 1,
                             shadowAlphaCap);
-        mobj_setDirectionFromFloor(&ironBall->mUnk_000);
-        pw_initFromObject(&ironBall->mFollower, ironBall->mUnk_000.mCourseMapRow, z0);
-        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
-        VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
-                    &ironBall->mUnk_000.mPos);
-        if (ironBall->mUnk_000.mFlags & 0x800) {
-            ironBall->mTimer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2a;
+        mobj_setDirectionFromFloor(&ironBall->field0);
+        pw_initFromObject(&ironBall->mFollower, ironBall->field0.mCourseMapRow, z0);
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+        ironBall->field11C.y += 0x1000;
+        VEC_MultAdd(ironBall->field0.mExtent.x, &ironBall->field0.mMatrix.field0[1], &ironBall->field11C,
+                    &ironBall->field0.mPos);
+        if (ironBall->field0.mFlags & 0x800) {
+            ironBall->mTimer = (u16) ironBall->field0.mCourseMapRow->field2A;
             ironBall->mState = z2;
         } else {
-            ironBall->mNextStartLap = (ironBall->mUnk_000.mCourseMapRow->mUnk_2a + 0x176f) / 6000 + 1;
+            ironBall->mNextStartLap = (ironBall->field0.mCourseMapRow->field2A + 0x176f) / 6000 + 1;
             ironBall->mState = z1;
         }
     }
@@ -122,12 +122,12 @@ void ibal_update(void *a, IronBall *ironBall) {
     }
     switch (ironBall->mState) {
         case 0:
-            if (ironBall->mUnk_000.mFlags & 0x800) {
+            if (ironBall->field0.mFlags & 0x800) {
                 if (ironBall->mTimer-- > 0) {
                     return;
                 }
-                ironBall->mTimer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2c;
-                ironBall->mState1Timer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2e;
+                ironBall->mTimer = (u16) ironBall->field0.mCourseMapRow->field2C;
+                ironBall->mState1Timer = (u16) ironBall->field0.mCourseMapRow->field2E;
                 pw_init(&ironBall->mFollower, 0, 1);
                 ironBall->mState = 1;
                 return;
@@ -145,7 +145,7 @@ void ibal_update(void *a, IronBall *ironBall) {
                 return;
             }
             ironBall->mNextStartLap = ironBall->mNextStartLap + 1;
-            ironBall->mState1Timer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2e;
+            ironBall->mState1Timer = (u16) ironBall->field0.mCourseMapRow->field2E;
             pw_init(&ironBall->mFollower, 0, 1);
             ironBall->mState = 1;
             return;
@@ -154,10 +154,10 @@ void ibal_update(void *a, IronBall *ironBall) {
             if (ironBall->mState1Timer > 0) {
                 return;
             }
-            ironBall->mUnk_000.mFlags &= ~1;
-            ironBall->mUnk_000.mFlags &= ~2;
-            ironBall->mUnk_000.mFlags &= ~8;
-            ironBall->mUnk_000.mAlpha = 0x1f;
+            ironBall->field0.mFlags &= ~1;
+            ironBall->field0.mFlags &= ~2;
+            ironBall->field0.mFlags &= ~8;
+            ironBall->field0.mAlpha = 0x1f;
             ironBall->mState = 2;
             return;
         case 2:
@@ -165,8 +165,8 @@ void ibal_update(void *a, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(driver_getClipAreaMask() & ironBall->mUnk_128) && !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
-        func_0210b874(ironBall->mUnk_000.mSound, ironBall->mPathSpeed);
+    if (!(driver_getClipAreaMask() & ironBall->field128) && !(ironBall->field0.mDistanceSquaredAndFlags & 4)) {
+        func_0210b874(ironBall->field0.mSound, ironBall->mPathSpeed);
     }
     v = ironBall->mPathSpeed;
     ironBall->mFollower.mSpeed = v;
@@ -176,80 +176,80 @@ void ibal_update(void *a, IronBall *ironBall) {
     if (pw_update(&ironBall->mFollower) != FALSE) {
         fromEntry = ironBall->mFollower.mFromEntry;
         if (ironBall->mFollower.mForward == 0) {
-            if (fromEntry->mUnk_10 >= 0) {
-                pw_init(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+            if (fromEntry->field10 >= 0) {
+                pw_init(&ironBall->mFollower, fromEntry->field10, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
-            } else if (ironBall->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
+            } else if (ironBall->field0.mCourseMapRow->field2C != 0) {
                 pw_init(&ironBall->mFollower, 0, 1);
-                ironBall->mUnk_000.mFlags |= data_021567ec;
-                ironBall->mUnk_000.mFlags |= data_021567f0;
-                ironBall->mUnk_000.mFlags |= data_021567f4;
+                ironBall->field0.mFlags |= data_021567ec;
+                ironBall->field0.mFlags |= data_021567f0;
+                ironBall->field0.mFlags |= data_021567f4;
                 ironBall->mState = 0;
                 return;
             } else {
-                mobj_setInvisible(&ironBall->mUnk_000);
+                mobj_setInvisible(&ironBall->field0);
                 return;
             }
-        } else if (fromEntry->mUnk_10 >= 0) {
+        } else if (fromEntry->field10 >= 0) {
             mapObjectRandom = mobj_getRng1();
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             randomNumber = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 5) >> 32;
             if (randomNumber != 0) {
-                pw_init(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+                pw_init(&ironBall->mFollower, fromEntry->field10, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
             }
         }
-        v = fromEntry->mUnk_0e;
+        v = fromEntry->fieldE;
         if ((u16) v <= 1) {
-            ironBall->mPathSpeed = ironBall->mUnk_0b4;
-            ironBall->mUnk_12c = 0;
+            ironBall->mPathSpeed = ironBall->fieldB4;
+            ironBall->field12C = 0;
         } else if ((u16) (s16) (v - 2) <= 1) {
-            ironBall->mPathSpeed = ironBall->mUnk_0b8;
-            ironBall->mUnk_12c = 2;
+            ironBall->mPathSpeed = ironBall->fieldB8;
+            ironBall->field12C = 2;
         } else if (v == 10) {
             ironBall->mPathSpeed = 0x8000;
-            ironBall->mUnk_12c = 2;
-            ironBall->mHeightOffset = ironBall->mUnk_11c.y;
-            pw_init(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-            ironBall->mUnk_11c.y += 0x1000;
-            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
+            ironBall->field12C = 2;
+            ironBall->mHeightOffset = ironBall->field11C.y;
+            pw_init(&ironBall->mFollower, fromEntry->fieldC + 1, 1);
+            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+            ironBall->field11C.y += 0x1000;
+            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->field11C.y;
             ironBall->mHeightSpeed = 0xa000;
         } else if (v == 11) {
             ironBall->mPathSpeed = 0x5000;
-            ironBall->mUnk_12c = 2;
-            ironBall->mHeightOffset = ironBall->mUnk_11c.y;
-            pw_init(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-            ironBall->mUnk_11c.y += 0x1000;
-            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
+            ironBall->field12C = 2;
+            ironBall->mHeightOffset = ironBall->field11C.y;
+            pw_init(&ironBall->mFollower, fromEntry->fieldC + 1, 1);
+            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+            ironBall->field11C.y += 0x1000;
+            ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->field11C.y;
             ironBall->mHeightSpeed = -0x3000;
         } else if (v >= 100) {
-            ironBall->mUnk_11c = fromEntry->mPos;
-            ironBall->mUnk_000.mUnk_10.x = 0;
-            ironBall->mUnk_000.mUnk_10.y = 0;
-            ironBall->mUnk_000.mUnk_10.z = 0;
-            n = ((const CourseMapGroupEntry *) fromEntry)->mUnk_0e;
+            ironBall->field11C = fromEntry->mPos;
+            ironBall->field0.field10.x = 0;
+            ironBall->field0.field10.y = 0;
+            ironBall->field0.field10.z = 0;
+            n = ((const CourseMapGroupEntry *) fromEntry)->fieldE;
             if (n < 200) {
                 bnd_handleBallHit(n - 100);
                 ironBall->mPathSpeed = 0xf000;
-                ironBall->mUnk_12c = 1;
+                ironBall->field12C = 1;
             } else if (n < 300) {
                 t = n - 200;
-                if (n != ironBall->mFollower.mToEntry->mUnk_0e) {
+                if (n != ironBall->mFollower.mToEntry->fieldE) {
                     ironBall->mPathSpeed = 0x1e000;
                 } else {
                     flip_handleBallHit(t);
                 }
-                ironBall->mUnk_12c = 1;
+                ironBall->field12C = 1;
             }
         }
     }
-    if (ironBall->mFollower.mFromEntry->mUnk_0d != 0 && ironBall->mFollower.mToEntry->mUnk_0d != 0) {
-        ironBall->mUnk_000.mFlags |= data_021567f8;
+    if (ironBall->mFollower.mFromEntry->fieldD != 0 && ironBall->mFollower.mToEntry->fieldD != 0) {
+        ironBall->field0.mFlags |= data_021567f8;
     } else {
-        ironBall->mUnk_000.mFlags &= ~0x20;
+        ironBall->field0.mFlags &= ~0x20;
     }
     if (ironBall->mHeightOffset > 0 || ironBall->mHeightSpeed != 0) {
         ironBall->mHeightSpeed -= 0x1000;
@@ -258,35 +258,35 @@ void ibal_update(void *a, IronBall *ironBall) {
             ironBall->mHeightSpeed = ((s64) ironBall->mHeightSpeed * -0x800) >> 12;
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
-            } else if (!(driver_getClipAreaMask() & ironBall->mUnk_128) &&
-                       !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
-                func_0210b8bc(ironBall->mUnk_000.mSound, ironBall->mHeightSpeed);
+            } else if (!(driver_getClipAreaMask() & ironBall->field128) &&
+                       !(ironBall->field0.mDistanceSquaredAndFlags & 4)) {
+                func_0210b8bc(ironBall->field0.mSound, ironBall->mHeightSpeed);
             }
             ironBall->mHeightOffset = ironBall->mHeightSpeed;
         }
     }
-    v = ironBall->mFollower.mFromEntry->mUnk_0e;
+    v = ironBall->mFollower.mFromEntry->fieldE;
     if (v >= 100) {
-        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+        ironBall->field11C.y += 0x1000;
         w = ironBall->mPathSpeed - 410;
         if (w <= 0xa000) {
             w = 0xa000;
         }
         ironBall->mPathSpeed = w;
     } else if ((u16) (s16) (v - 10) <= 1) {
-        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+        ironBall->field11C.y += 0x1000;
     } else if (v == 0 || v == 2) {
-        pw_20D8BF8_XYZ(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        pw_20D8BF8_XYZ(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+        ironBall->field11C.y += 0x1000;
     } else {
-        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
-        ironBall->mUnk_11c.y += 0x1000;
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->field11C, &ironBall->field0.field10);
+        ironBall->field11C.y += 0x1000;
     }
-    VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
-                &ironBall->mUnk_000.mPos);
-    ironBall->mUnk_000.mPos.y = ironBall->mUnk_000.mPos.y + ironBall->mHeightOffset;
+    VEC_MultAdd(ironBall->field0.mExtent.x, &ironBall->field0.mMatrix.field0[1], &ironBall->field11C,
+                &ironBall->field0.mPos);
+    ironBall->field0.mPos.y = ironBall->field0.mPos.y + ironBall->mHeightOffset;
     if (ironBall->mRotateZAngle < 0) {
         if (ironBall->mRotateZAngle == -1) {
             v = 0x38e;
@@ -301,13 +301,13 @@ void ibal_update(void *a, IronBall *ironBall) {
         }
     }
     ironBall->mRotateZAngle = v;
-    if (ironBall->mUnk_12c == 2) {
-        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1, 0x1c);
-        ironBall->mUnk_11c.y += 0x1000;
-        ironBall->mUnk_12c = 1;
+    if (ironBall->field12C == 2) {
+        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->field11C, ironBall->field0.mExtent.x << 1, 0x1c);
+        ironBall->field11C.y += 0x1000;
+        ironBall->field12C = 1;
     }
-    if (ironBall->mUnk_12c != 0) {
-        if (((s32) ironBall->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) < 1000000) {
+    if (ironBall->field12C != 0) {
+        if (((s32) ironBall->field0.mDistanceSquaredAndFlags & 0x3fffffe0) < 1000000) {
             w = (ironBall->mHeightOffset >> 14) - 7;
             if (w < 0) {
                 v = 0x1c;
@@ -316,12 +316,12 @@ void ibal_update(void *a, IronBall *ironBall) {
             } else {
                 v = 0;
             }
-            ironBall->mShadowMatrix.mUnk_030 = v;
-            oshd_setPosition(&ironBall->mShadowMatrix, &ironBall->mUnk_11c);
+            ironBall->mShadowMatrix.field30 = v;
+            oshd_setPosition(&ironBall->mShadowMatrix, &ironBall->field11C);
         }
-        ironBall->mUnk_000.mFlags &= ~1;
+        ironBall->field0.mFlags &= ~1;
     } else {
-        ironBall->mUnk_000.mFlags |= data_021567ec;
+        ironBall->field0.mFlags |= data_021567ec;
     }
 }
 
@@ -329,8 +329,8 @@ void ibal_setupConfig(void) {
     MapObjectKindData *mapObjectKindData;
 
     mapObjectKindData = mobj_createConfig(ibal_onDriverCollide, NULL, NULL, 1, 1);
-    mapObjectKindData->mUnk_38 = 0x190000;
-    mapObjectKindData->mUnk_3c = -0x1f4000;
+    mapObjectKindData->field38 = 0x190000;
+    mapObjectKindData->field3C = -0x1f4000;
 }
 
 void *ibal_setupShadowRenderPart(void) {
@@ -367,7 +367,7 @@ void mobj0008_20A8ED8(Unk020a826c_a0 *soundPart, Vec3 *position) {
                 soundPart->mSourcePos.x = position->x + (s32) (((s64) FX_SinCosTable_[n] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
                 soundPart->mSourcePos.z = position->z + (s32) (((s64) FX_SinCosTable_[n + 1] * 0x5dc000) >> 12);
-                soundPart->mUnk_20 = FALSE;
+                soundPart->field20 = FALSE;
             } else if (currentCamera->mPos.z > position->z && currentCamera->mPos.y < position->y - 0x32000) {
                 soundPart->mSourcePos.x = position->x + (s32) (((s64) FX_SinCosTable_[0] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
@@ -378,12 +378,12 @@ void mobj0008_20A8ED8(Unk020a826c_a0 *soundPart, Vec3 *position) {
                     n = v;
                 }
                 soundPart->mSourcePos.x = n;
-                soundPart->mUnk_20 = TRUE;
+                soundPart->field20 = TRUE;
             } else {
                 soundPart->mSourcePos.x = position->x + (s32) (((s64) data_0215feb4[0x54] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
                 soundPart->mSourcePos.z = position->z + (s32) (((s64) data_0215feb4[0x55] * 0x5dc000) >> 12);
-                soundPart->mUnk_20 = FALSE;
+                soundPart->field20 = FALSE;
             }
             break;
         case COURSE_ID_MARIO:
@@ -403,9 +403,9 @@ void mobj0008_20A8ED8(Unk020a826c_a0 *soundPart, Vec3 *position) {
             soundPart->mSourcePos.y = position->y;
             soundPart->mSourcePos.z = position->z;
             if (currentCamera->mPos.x < position->x) {
-                soundPart->mUnk_20 = TRUE;
+                soundPart->field20 = TRUE;
             } else {
-                soundPart->mUnk_20 = FALSE;
+                soundPart->field20 = FALSE;
             }
             break;
     }

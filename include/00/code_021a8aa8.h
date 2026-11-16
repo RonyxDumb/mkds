@@ -5,29 +5,29 @@
 
 // One entry of the array func_ov000_021a8b20 takes: an object, the bits asked for and the bits found.
 typedef struct Unk021a8b20 {
-    /* 00 */ Unk021a6fa8 *mUnk_00;
-    /* 04 */ s16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ Unk021a6fa8 *field0;
+    /* 04 */ s16 field4;
+    /* 06 */ u16 field6;
 } Unk021a8b20;
 
 typedef struct Unk021a8c94 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ void *(*mUnk_04)(u32 a, u32 b);
-    /* 08 */ void (*mUnk_08)(u32 a, void *b, u32 c);
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u32 mUnk_10[5];
-    /* 24 */ u8 mUnk_24[8];
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
+    /* 00 */ u8 field0[4];
+    /* 04 */ void *(*field4)(u32 a, u32 b);
+    /* 08 */ void (*field8)(u32 a, void *b, u32 c);
+    /* 0c */ s32 fieldC;
+    /* 10 */ u32 field10[5];
+    /* 24 */ u8 field24[8];
+    /* 2c */ s32 field2C;
+    /* 30 */ s32 field30;
 } Unk021a8c94;
 
 extern void *(*data_ov000_021b6014)(u32 a, u32 b);
 
 typedef struct Unk021a8e18 {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk021a8e18;
 
 #include "00/types_021a8ab8.h"

@@ -134,7 +134,7 @@ void mrcnt_update(void) {
     MissionRunData *missionRunData;
 
     kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
-    if ((kart->mUnk_48 & 0x200) == 0) {
+    if ((kart->field48 & 0x200) == 0) {
         missionRunData = mrcnt_sMissionRunController;
         missionRunData->mPrevKartPos = missionRunData->mKartPos;
         missionRunData->mPrevKartHeadingAngle = missionRunData->mKartHeadingAngle;
@@ -204,10 +204,10 @@ void mrcnt_update(void) {
 }
 
 void func_ov001_02181844(u16 a, u16 b, u16 c, u16 d) {
-    mrcnt_sMissionRunController->mUnk_10 = a;
-    mrcnt_sMissionRunController->mUnk_12 = b;
-    mrcnt_sMissionRunController->mUnk_14 = c;
-    mrcnt_sMissionRunController->mUnk_16 = d;
+    mrcnt_sMissionRunController->field10 = a;
+    mrcnt_sMissionRunController->field12 = b;
+    mrcnt_sMissionRunController->field14 = c;
+    mrcnt_sMissionRunController->field16 = d;
 }
 
 s32 GetMissionRunTimer(void) {
@@ -244,13 +244,13 @@ void mrcnt_notifyMObjDamage(s32 b) {
     RaceSetup *raceSetup = gRaceMultiConfig;
     u32 missionKind = raceSetup->mMissionKind;
     if (missionKind == 3 || missionKind == 7 || missionKind == 0) {
-        u32 a = raceSetup->mUnk_3c;
-        if (a == 0 && raceSetup->mUnk_3e == 0 && raceSetup->mUnk_40 == 0 && raceSetup->mUnk_42 == 0 && b > 400 &&
+        u32 a = raceSetup->field3C;
+        if (a == 0 && raceSetup->field3E == 0 && raceSetup->field40 == 0 && raceSetup->field42 == 0 && b > 400 &&
             b < 500) {
             mrcnt_increaseValue();
             return;
         }
-        if (b == a || b == raceSetup->mUnk_3e || b == raceSetup->mUnk_40 || b == raceSetup->mUnk_42) {
+        if (b == a || b == raceSetup->field3E || b == raceSetup->field40 || b == raceSetup->field42) {
             mrcnt_increaseValue();
         }
     }
@@ -282,7 +282,7 @@ BOOL func_ov001_021816b4(void) {
     list = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_BALLOON);
     if (list != NULL) {
         for (i = 0; i < list->mObjectCount && (balloon = list->mObjects[i]) != NULL; i++) {
-            if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
+            if ((balloon->field0.mFlags & 0x100) == 0) {
                 return TRUE;
             }
         }
@@ -336,11 +336,11 @@ void mrcnt_collectCoins(s32 stepCount) {
             return;
         }
         if (mrcnt_sMissionRunController->mTimer == 0) {
-            mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->mUnk_10;
+            mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->field10;
         } else {
-            mrcnt_sMissionRunController->mTimer += mrcnt_sMissionRunController->mUnk_14;
-            if (mrcnt_sMissionRunController->mTimer > mrcnt_sMissionRunController->mUnk_12) {
-                mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->mUnk_12;
+            mrcnt_sMissionRunController->mTimer += mrcnt_sMissionRunController->field14;
+            if (mrcnt_sMissionRunController->mTimer > mrcnt_sMissionRunController->field12) {
+                mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->field12;
             }
         }
     }
@@ -359,11 +359,11 @@ void mrcnt_regainStolenCoins(s32 stepCount) {
             return;
         }
         if (mrcnt_sMissionRunController->mTimer == 0) {
-            mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->mUnk_10;
+            mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->field10;
         } else {
-            mrcnt_sMissionRunController->mTimer += mrcnt_sMissionRunController->mUnk_16;
-            if (mrcnt_sMissionRunController->mTimer > mrcnt_sMissionRunController->mUnk_12) {
-                mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->mUnk_12;
+            mrcnt_sMissionRunController->mTimer += mrcnt_sMissionRunController->field16;
+            if (mrcnt_sMissionRunController->mTimer > mrcnt_sMissionRunController->field12) {
+                mrcnt_sMissionRunController->mTimer = mrcnt_sMissionRunController->field12;
             }
         }
     }

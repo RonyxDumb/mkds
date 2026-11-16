@@ -37,8 +37,8 @@ void driver_initField514(Kart *kart, void *heap);
 void ResetKart(Kart *kart);
 void func_02072600(Kart *kart);
 void driver_initPhysicalParams(Kart *kart);
-// Slot 7 of Kart.mSlotFunctions, never called: when bit 0x20 of mUnk_7c is set, resets the Kart at its course start
-// placement, creates its collision objects if it has none and sets bit 0x80 of mUnk_7c while clearing 0x60.
+// Slot 7 of Kart.mSlotFunctions, never called: when bit 0x20 of field7C is set, resets the Kart at its course start
+// placement, creates its collision objects if it has none and sets bit 0x80 of field7C while clearing 0x60.
 void ResetKartToStartPlacement(Kart *kart);
 void driver_reset(Kart *kart);
 void driver_2072B94(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link);

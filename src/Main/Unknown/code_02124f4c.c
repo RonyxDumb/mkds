@@ -74,13 +74,13 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
     lineIndex = 0;
     charSpacing = textCanvas->mCharSpacing;
     font = textCanvas->mFont;
-    lineHeight = textCanvas->mLineSpacing + font->mUnk_00->mUnk_01;
+    lineHeight = textCanvas->mLineSpacing + font->field0->field1;
     readPointer = text;
     writePointer = expandedText;
     *maxWidth = ~lineIndex;
     *lineWidths = lineIndex;
-    *textHeight = font->mUnk_00->mUnk_01;
-    charCode = font->mUnk_04(&readPointer);
+    *textHeight = font->field0->field1;
+    charCode = font->field4(&readPointer);
     if (charCode != 0) {
         lineWidthPointer = lineWidths;
         fixedAdvanceWithSpacing = fixedAdvance + charSpacing;
@@ -103,7 +103,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                                         if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(ch))) {
                                             glyphIndex = NNS_G2dFontFindGlyphIndex(font, ch);
                                             if (glyphIndex == 0xffff) {
-                                                glyphIndex = font->mUnk_00->mUnk_02;
+                                                glyphIndex = font->field0->field2;
                                             }
                                             charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -121,7 +121,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                                         (fixedDigitsOnly != 0 && !func_021253f8_inline(buf1[i1]))) {
                                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, buf1[i1]);
                                         if (glyphIndex == 0xffff) {
-                                            glyphIndex = font->mUnk_00->mUnk_02;
+                                            glyphIndex = font->field0->field2;
                                         }
                                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -139,7 +139,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                                         if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(ch))) {
                                             glyphIndex = NNS_G2dFontFindGlyphIndex(font, ch);
                                             if (glyphIndex == 0xffff) {
-                                                glyphIndex = font->mUnk_00->mUnk_02;
+                                                glyphIndex = font->field0->field2;
                                             }
                                             charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                             *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -157,7 +157,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                                         (fixedDigitsOnly != 0 && !func_021253f8_inline(buf2[i2]))) {
                                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, buf2[i2]);
                                         if (glyphIndex == 0xffff) {
-                                            glyphIndex = font->mUnk_00->mUnk_02;
+                                            glyphIndex = font->field0->field2;
                                         }
                                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                                         *lineWidthPointer += charWidths->mCharWidth + charSpacing;
@@ -194,7 +194,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                     if (fixedAdvance == -1 || (fixedDigitsOnly != 0 && !func_021253f8_inline(charCode))) {
                         glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                         if (glyphIndex == 0xffff) {
-                            glyphIndex = font->mUnk_00->mUnk_02;
+                            glyphIndex = font->field0->field2;
                         }
                         charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                         *lineWidthPointer += charWidths->mCharWidth + r7;
@@ -203,7 +203,7 @@ void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidt
                     }
                 }
             }
-        } while ((charCode = font->mUnk_04(&readPointer)) != 0);
+        } while ((charCode = font->field4(&readPointer)) != 0);
     }
     *writePointer = 0;
     if (*maxWidth < lineWidths[lineIndex]) {
@@ -251,7 +251,7 @@ void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 t
     y = top;
     charSpacing = textCanvas->mCharSpacing;
     font = textCanvas->mFont;
-    lineAdvance = textCanvas->mLineSpacing + font->mUnk_00->mUnk_01;
+    lineAdvance = textCanvas->mLineSpacing + font->field0->field1;
     readPointer = text;
     x += GetTextLineOffset(alignFlags, lineAlign, width, textWidth, *lineWidths);
     if (x < 0) {
@@ -265,7 +265,7 @@ void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 t
     if (y < 0) {
         return;
     }
-    charCode = font->mUnk_04(&readPointer);
+    charCode = font->field4(&readPointer);
     if (charCode == 0) {
         return;
     }
@@ -277,7 +277,7 @@ void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 t
             variant = ((TextTag *) readPointer)->mVariant;
             kind = ((TextTag *) readPointer)->mKind;
             if (kind == 0xff && variant == 0) {
-                colorValue = ((TextTag *) readPointer)->mUnk_04;
+                colorValue = ((TextTag *) readPointer)->field4;
                 if (o != 0) {
                     if (colorValue == 0) {
                         color = 2;
@@ -306,7 +306,7 @@ void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 t
             } else {
                 glyphIndex = NNS_G2dFontFindGlyphIndex(font, charCode);
                 if (glyphIndex == 0xffff) {
-                    glyphIndex = font->mUnk_00->mUnk_02;
+                    glyphIndex = font->field0->field2;
                 }
                 charWidths = NNS_G2dFontGetCharWidthsFromIndex(font, glyphIndex);
                 x += (fixedAdvance - charWidths->mCharWidth) >> 1;
@@ -319,7 +319,7 @@ void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 t
             }
             x += charSpacing;
         }
-    } while ((charCode = font->mUnk_04(&readPointer)) != 0);
+    } while ((charCode = font->field4(&readPointer)) != 0);
 }
 
 void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d) {
@@ -329,23 +329,23 @@ void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u3
     u16 halfword;
 
     length = 0;
-    while (*message != 0x1a || ((Unk0212513c *) message)->mUnk_03 != 1 || ((Unk0212513c *) message)->mUnk_04 != 0xff) {
+    while (*message != 0x1a || ((Unk0212513c *) message)->field3 != 1 || ((Unk0212513c *) message)->field4 != 0xff) {
         formattedText[length] = *message;
         length++;
         message++;
     }
-    message += ((Unk0212513c *) message)->mUnk_02 >> 1;
+    message += ((Unk0212513c *) message)->field2 >> 1;
     if (*insertText != 0) {
         writePointer = formattedText + length;
         do {
-            *writePointer++ = ((Unk0212513c *) insertText)->mUnk_00;
+            *writePointer++ = ((Unk0212513c *) insertText)->field0;
             length++;
             insertText++;
         } while (*insertText != 0);
     }
     while ((halfword = *message) != 0) {
         if (halfword == 0x1a) {
-            tagSize = ((Unk0212513c *) message)->mUnk_02;
+            tagSize = ((Unk0212513c *) message)->field2;
             MIi_CpuCopy16(message, formattedText + length, tagSize);
             message += tagSize >> 1;
             length += tagSize >> 1;

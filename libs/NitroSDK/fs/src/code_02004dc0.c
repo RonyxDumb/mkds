@@ -33,8 +33,8 @@ u32 data_0216176c = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
-    if (info->mUnk_1c.b[3] & 1) {
-        return info->mUnk_1c.f.mUnk_00_0;
+    if (info->field1C.b[3] & 1) {
+        return info->field1C.f.field0_0;
     }
     return info->mRamSize;
 }
@@ -96,8 +96,8 @@ u32 FSi_LoadOverlayInfoCore(FSOverlayInfo *info, u32 selector, u32 index, FSArch
     if (FS_OpenFileFast(&file, fileID) == 0) {
         return 0;
     }
-    info->mUnk_24 = file.mProp.p.mUnk_04;
-    info->mUnk_28 = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+    info->field24 = file.mProp.p.field4;
+    info->field28 = file.mProp.p.field8 - file.mProp.p.field4;
     FS_CloseFile(&file);
     return 1;
 }
@@ -115,26 +115,26 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     } else {
         table = &data_0216f364;
     }
-    if (table->mUnk_00 != 0) {
-        if (index * 32 >= table->mUnk_04) {
+    if (table->field0 != 0) {
+        if (index * 32 >= table->field4) {
             return 0;
         }
-        MI_CpuCopy8(table->mUnk_00 + index * 32, info, 0x20);
+        MI_CpuCopy8(table->field0 + index * 32, info, 0x20);
         info->mTarget = selector;
         FS_InitFile(&file);
         FS_GetOverlayFileID(&fileID, info);
         if (FS_OpenFileFast(&file, fileID) == 0) {
             return 0;
         }
-        info->mUnk_24 = file.mProp.p.mUnk_04;
-        info->mUnk_28 = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
+        info->field24 = file.mProp.p.field4;
+        info->field28 = file.mProp.p.field8 - file.mProp.p.field4;
         FS_CloseFile(&file);
         return 1;
     }
     region0 = (Unk02005704 *) 0x27ffe50;
     region1 = (Unk02005704 *) 0x27ffe58;
-    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->mUnk_00, region0->mUnk_04,
-                                   region1->mUnk_00, region1->mUnk_04);
+    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->field0, region0->field4,
+                                   region1->field0, region1->field4);
 }
 
 // Starts reading an overlay image without waiting; the file stays open until the read ends.
@@ -204,7 +204,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     size = FSi_GetOverlayBinarySize(info);
     if (*(u16 *) 0x27ffc40 == 2) {
         verified = 0;
-        if (info->mUnk_1c.b[3] & 2) {
+        if (info->field1C.b[3] & 2) {
             if (info->mId < ((u8 *) &data_0216f340 - (u8 *) OverlaySignatures) / 20) {
                 verified = FSi_CompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
             }
@@ -215,7 +215,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
             return;
         }
     }
-    if (info->mUnk_1c.b[3] & 1) {
+    if (info->field1C.b[3] & 1) {
         func_02000934(info->mRamAddress + size);
     }
     DC_FlushRange(info->mRamAddress, info->mRamSize);
@@ -257,12 +257,12 @@ void FS_EndOverlay(FSOverlayInfo *info) {
         cur = base;
         if (base != 0) {
             do {
-                arg = cur->mUnk_08;
-                next = cur->mUnk_00;
-                funcAddr = (u32) cur->mUnk_04;
+                arg = cur->field8;
+                next = cur->field0;
+                funcAddr = (u32) cur->field4;
                 if ((arg == 0 && funcAddr >= low && funcAddr < high) || ((u32) arg >= low && (u32) arg < high)) {
                     if (removedLast != 0) {
-                        removedLast->mUnk_00 = cur;
+                        removedLast->field0 = cur;
                     } else {
                         first = cur;
                     }
@@ -270,10 +270,10 @@ void FS_EndOverlay(FSOverlayInfo *info) {
                         data_0217eeb0 = next;
                         base = next;
                     }
-                    cur->mUnk_00 = 0;
+                    cur->field0 = 0;
                     removedLast = cur;
                     if (prev != 0) {
-                        prev->mUnk_00 = next;
+                        prev->field0 = next;
                     }
                 } else {
                     prev = cur;
@@ -286,9 +286,9 @@ void FS_EndOverlay(FSOverlayInfo *info) {
             return;
         }
         do {
-            next = first->mUnk_00;
-            if (first->mUnk_04 != 0) {
-                first->mUnk_04(first->mUnk_08);
+            next = first->field0;
+            if (first->field4 != 0) {
+                first->field4(first->field8);
             }
             first = next;
         } while (first != 0);
@@ -340,8 +340,8 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
         table = &data_0216f364;
     }
     saved = OS_DisableInterrupts();
-    table->mUnk_00 = data;
-    table->mUnk_04 = size;
+    table->field0 = data;
+    table->field4 = size;
     OS_RestoreInterrupts(saved);
 }
 
@@ -393,18 +393,18 @@ void FSi_InitRom(u32 dmaNo) {
 
     data_0216f358 = dmaNo;
     data_0216f354 = OS_GetLockID();
-    data_0216f35c.mUnk_00 = 0;
-    data_0216f35c.mUnk_04 = 0;
-    data_0216f364.mUnk_00 = 0;
-    data_0216f364.mUnk_04 = 0;
+    data_0216f35c.field0 = 0;
+    data_0216f35c.field4 = 0;
+    data_0216f364.field0 = 0;
+    data_0216f364.field4 = 0;
     CARD_Init();
     FS_InitArchive(&data_0216f36c);
     FS_RegisterArchiveName(&data_0216f36c, data_02161764, 3);
     if (*(u16 *) 0x27ffc40 == 2) {
-        data_0216f35c.mUnk_00 = (u8 *) -1;
-        data_0216f35c.mUnk_04 = 0;
-        data_0216f364.mUnk_00 = (u8 *) -1;
-        data_0216f364.mUnk_04 = 0;
+        data_0216f35c.field0 = (u8 *) -1;
+        data_0216f35c.field4 = 0;
+        data_0216f364.field0 = (u8 *) -1;
+        data_0216f364.field4 = 0;
         FS_SetArchiveProc(&data_0216f36c, FSi_EmptyArchiveProc, -1);
         FS_LoadArchive(&data_0216f36c, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
         return;
@@ -412,20 +412,20 @@ void FSi_InitRom(u32 dmaNo) {
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
     FS_SetArchiveProc(&data_0216f36c, FSi_RomArchiveProc, 0x602);
-    if (((Unk02005704 *) fntRegion)->mUnk_00 == (u8 *) -1) {
+    if (((Unk02005704 *) fntRegion)->field0 == (u8 *) -1) {
         return;
     }
-    if (((Unk02005704 *) fntRegion)->mUnk_00 == 0) {
+    if (((Unk02005704 *) fntRegion)->field0 == 0) {
         return;
     }
-    if (((Unk02005704 *) fatRegion)->mUnk_00 == (u8 *) -1) {
+    if (((Unk02005704 *) fatRegion)->field0 == (u8 *) -1) {
         return;
     }
-    if (((Unk02005704 *) fatRegion)->mUnk_00 == 0) {
+    if (((Unk02005704 *) fatRegion)->field0 == 0) {
         return;
     }
-    FS_LoadArchive(&data_0216f36c, 0, (u32) ((Unk02005704 *) fatRegion)->mUnk_00, ((Unk02005704 *) fatRegion)->mUnk_04,
-                   (u32) ((Unk02005704 *) fntRegion)->mUnk_00, ((Unk02005704 *) fntRegion)->mUnk_04,
+    FS_LoadArchive(&data_0216f36c, 0, (u32) ((Unk02005704 *) fatRegion)->field0, ((Unk02005704 *) fatRegion)->field4,
+                   (u32) ((Unk02005704 *) fntRegion)->field0, ((Unk02005704 *) fntRegion)->field4,
                    FSi_ReadRomCallback, FSi_WriteDummyCallback);
 }
 

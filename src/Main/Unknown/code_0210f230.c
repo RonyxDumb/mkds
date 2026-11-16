@@ -54,7 +54,7 @@ void sfx_initSoundTriggers(u32 a) {
         for (; j < 2; j++) {
             w = (j == 0 ? 0x1000 : 0x2000);
             for (i = 0; i < 8; i++) {
-                if (sfx_sSoundTriggerSfxIds[v].mUnk_00[i] == w) {
+                if (sfx_sSoundTriggerSfxIds[v].field0[i] == w) {
                     sfx_initSoundTriggerVolumeState(&sfx_sSoundTriggerVolumeStates[j], 0, i);
                     break;
                 }
@@ -65,8 +65,8 @@ void sfx_initSoundTriggers(u32 a) {
     if (v == 1 && gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         t = 3;
     }
-    sfx_sSoundTriggerVolumeStates[0].mUnk_04 = t;
-    sfx_sSoundTriggerVolumeStates[0].mUnk_00 = t;
+    sfx_sSoundTriggerVolumeStates[0].field4 = t;
+    sfx_sSoundTriggerVolumeStates[0].field0 = t;
 }
 
 void sfx_handleSoundTrigger(s32 a) {
@@ -75,7 +75,7 @@ void sfx_handleSoundTrigger(s32 a) {
     u16 entryIndex;
     NNSSndSeqPlayer **handle;
 
-    tableValue = sfx_sSoundTriggerSfxIds[sfx_sSoundTriggerSetId].mUnk_00[a];
+    tableValue = sfx_sSoundTriggerSfxIds[sfx_sSoundTriggerSetId].field0[a];
     lowBits = tableValue & 0xfff;
     switch (sfx_sSoundTriggerSetId) {
         case 3:
@@ -99,7 +99,7 @@ void sfx_handleSoundTrigger(s32 a) {
         if ((data_0217c780 & 1) == 0) {
             return;
         }
-        if (SoundHandle_217D084.mUnk_0c == 0) {
+        if (SoundHandle_217D084.fieldC == 0) {
             return;
         }
         if (*handle != NULL) {
@@ -115,9 +115,9 @@ void sfx_handleSoundTrigger(s32 a) {
         return;
     }
     entryIndex = ((tableValue & 0xf000) >> 12) - 1;
-    a = a - data_0217d1c8[entryIndex].mUnk_00;
-    data_0217d1c4[entryIndex].mUnk_00 = sfx_sSoundTriggerVolumeStates[entryIndex].mUnk_00;
-    sfx_sSoundTriggerVolumeStates[entryIndex].mUnk_00 = a;
+    a = a - data_0217d1c8[entryIndex].field0;
+    data_0217d1c4[entryIndex].field0 = sfx_sSoundTriggerVolumeStates[entryIndex].field0;
+    sfx_sSoundTriggerVolumeStates[entryIndex].field0 = a;
 }
 
 u32 sfx_updateSoundTriggerVolumeAtStart(s32 a, u32 soundId) {
@@ -131,17 +131,17 @@ u32 sfx_updateSoundTriggerVolumeAtStart(s32 a, u32 soundId) {
     } else {
         handle = GetSndHandleSlot(0xb);
     }
-    v = sfx_sSoundTriggerVolumeStates[a].mUnk_00;
+    v = sfx_sSoundTriggerVolumeStates[a].field0;
     if (v == 0) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[a].field0[v - 1];
         ok = 1;
     }
     if (ok != 0) {
         if ((data_0217c780 & 1) != 0) {
-            if (SoundHandle_217D084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.fieldC != 0) {
                 if (*handle != NULL) {
                     NNS_SndPlayerStopSeq(handle, 0);
                 }
@@ -169,18 +169,18 @@ u32 sfx_updateSoundTriggerVolumeContinuous(u32 a, u32 soundId) {
     } else {
         handle = GetSndHandleSlot(0xb);
     }
-    v = sfx_sSoundTriggerVolumeStates[a].mUnk_00;
+    v = sfx_sSoundTriggerVolumeStates[a].field0;
     if (v == 0) {
         trackVolume = 0;
         ok = 0;
     } else {
-        trackVolume = data_0217d1cc[a].mUnk_00[v - 1];
+        trackVolume = data_0217d1cc[a].field0[v - 1];
         ok = 1;
     }
     if (ok != 0) {
         if (*handle == NULL) {
             if ((data_0217c780 & 1) != 0) {
-                if (SoundHandle_217D084.mUnk_0c != 0) {
+                if (SoundHandle_217D084.fieldC != 0) {
                     if (*handle != NULL) {
                         NNS_SndPlayerStopSeq(handle, 0);
                     }
@@ -191,7 +191,7 @@ u32 sfx_updateSoundTriggerVolumeContinuous(u32 a, u32 soundId) {
                 }
             }
             SetSndHandleTrackVolume(handle, trackVolume);
-        } else if (*handle != NULL && data_0217d1c4[a].mUnk_00 != v) {
+        } else if (*handle != NULL && data_0217d1c4[a].field0 != v) {
             SetSndHandleTrackVolume(handle, trackVolume);
         }
     } else {

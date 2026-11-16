@@ -29,7 +29,7 @@
 #include "code_02148538.h"
 
 void flip_init(Flipper *flipper) {
-    flipper->mUnk_00.mFlags = flipper->mUnk_00.mFlags | data_0215658c;
+    flipper->field0.mFlags = flipper->field0.mFlags | data_0215658c;
     mobj_setDirectionFromFloor(flipper);
 }
 
@@ -42,71 +42,71 @@ u32 flip_onDriverCollide(Flipper *flipper, Kart *kart, void *b, u8 *c) {
     Vec3 *e;
 
     v = *c;
-    t = (flipper->mState == 2 || flipper->mState == 5) && flipper->mUnk_a0 > 0;
+    t = (flipper->mState == 2 || flipper->mState == 5) && flipper->fieldA0 > 0;
     if (t) {
         s = -0x19a;
-    } else if ((flipper->mState == 3 || flipper->mState == 6) && flipper->mUnk_a0 < 0) {
+    } else if ((flipper->mState == 3 || flipper->mState == 6) && flipper->fieldA0 < 0) {
         s = 0x19a;
     } else {
         s = 0;
     }
     if (s != 0) {
-        if (flipper->mUnk_ed4[kart->mIndex] != 0) {
-            flipper->mUnk_00.mUnk_10.x = 0;
-            flipper->mUnk_00.mUnk_10.y = 0;
-            flipper->mUnk_00.mUnk_10.z = 0;
+        if (flipper->fieldED4[kart->mIndex] != 0) {
+            flipper->field0.field10.x = 0;
+            flipper->field0.field10.y = 0;
+            flipper->field0.field10.z = 0;
         } else {
-            VEC_Subtract(&kart->mPos, &flipper->mUnk_00.mPos, &offset);
+            VEC_Subtract(&kart->mPos, &flipper->field0.mPos, &offset);
             f = VEC_Mag(&offset);
-            e = &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[2];
+            e = &flipper->fieldA8[flipper->fieldEC0].field0[2];
             f = ((s64) f * s) >> 12;
-            flipper->mUnk_00.mUnk_10.x = ((s64) e->x * f) >> 12;
-            flipper->mUnk_00.mUnk_10.y = ((s64) e->y * f) >> 12;
-            flipper->mUnk_00.mUnk_10.z = ((s64) e->z * f) >> 12;
-            flipper->mUnk_00.mDistanceSquaredAndFlags = flipper->mUnk_00.mDistanceSquaredAndFlags | data_02156588;
+            flipper->field0.field10.x = ((s64) e->x * f) >> 12;
+            flipper->field0.field10.y = ((s64) e->y * f) >> 12;
+            flipper->field0.field10.z = ((s64) e->z * f) >> 12;
+            flipper->field0.mDistanceSquaredAndFlags = flipper->field0.mDistanceSquaredAndFlags | data_02156588;
             mobj_driverEmitSfx2(kart, 0x1d1);
         }
-        if (flipper->mUnk_ec8 != 0) {
+        if (flipper->fieldEC8 != 0) {
             return 0xe;
         }
         return 0xc;
     }
-    flipper->mUnk_00.mUnk_10.x = 0;
-    flipper->mUnk_00.mUnk_10.y = 0;
-    flipper->mUnk_00.mUnk_10.z = 0;
+    flipper->field0.field10.x = 0;
+    flipper->field0.field10.y = 0;
+    flipper->field0.field10.z = 0;
     return v;
 }
 
 u32 flip_collide(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
     s32 r;
 
-    flipper->mUnk_a0 = 0;
+    flipper->fieldA0 = 0;
     if (col_collideSphereBox(
-            sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+            sphereCenter, &flipper->field0.mPos, &flipper->fieldA8[flipper->fieldEC0].field0[0],
             &data_0215650c[flipper->mMirror], &data_0215653c[flipper->mMirror], b, NULL) != 0) {
         r = col_collideSphereBox(
-            sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+            sphereCenter, &flipper->field0.mPos, &flipper->fieldA8[flipper->fieldEC0].field0[0],
             &data_02156554[flipper->mMirror], &data_021564dc[flipper->mMirror], b, pushOut);
         if (r == 4 || flipper->mState == 2) {
-            flipper->mUnk_a0 = 1;
+            flipper->fieldA0 = 1;
         } else if (flipper->mState == 3) {
-            flipper->mUnk_a0 = -1;
+            flipper->fieldA0 = -1;
         }
     } else {
         if (col_collideSphereBox(
-                sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
+                sphereCenter, &flipper->field0.mPos, &flipper->fieldA8[flipper->fieldEC0].field0[0],
                 &data_021564c4[flipper->mMirror], &data_02156524[flipper->mMirror], b, NULL) != 0) {
             r = col_collideSphereBox(
-                sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mUnk_00[0],
+                sphereCenter, &flipper->field0.mPos, &flipper->field648[flipper->fieldEC0].field0[0],
                 &data_0215656c[flipper->mMirror], &data_021564f4[flipper->mMirror], b, pushOut);
             if (r == 4 || flipper->mState == 3) {
-                flipper->mUnk_a0 = -1;
+                flipper->fieldA0 = -1;
             } else if (flipper->mState == 2) {
-                flipper->mUnk_a0 = 1;
+                flipper->fieldA0 = 1;
             }
         } else {
-            r = col_collideSphereCylinder(sphereCenter, &flipper->mUnk_00.mPos,
-                                                  &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0], 0x32000, 0x3c000, 0,
+            r = col_collideSphereCylinder(sphereCenter, &flipper->field0.mPos,
+                                                  &flipper->fieldA8[flipper->fieldEC0].field0[0], 0x32000, 0x3c000, 0,
                                                   b, pushOut);
         }
     }
@@ -126,12 +126,12 @@ void flip_render(void *a, Flipper *flipper) {
 
     v = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &v, 1);
-    matrix = &flipper->mUnk_a8[flipper->mUnk_ec0];
-    matrix->mUnk_00[3].x = flipper->mUnk_00.mPos.x >> 4;
-    matrix->mUnk_00[3].y = flipper->mUnk_00.mPos.y >> 4;
-    matrix->mUnk_00[3].z = flipper->mUnk_00.mPos.z >> 4;
+    matrix = &flipper->fieldA8[flipper->fieldEC0];
+    matrix->field0[3].x = flipper->field0.mPos.x >> 4;
+    matrix->field0[3].y = flipper->field0.mPos.y >> 4;
+    matrix->field0[3].z = flipper->field0.mPos.z >> 4;
     NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
-    NNS_G3dGeBufferOP_N(0x1b, &flipper->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &flipper->field0.mScale, 3);
     mobj_setModelFlip(flip_sModel, flipper->mMirror, 0);
     s = flip_sModel->mAnimations[1];
     s->mFrameIndex = flipper->mNsbtpFrameIndex << 12;
@@ -159,27 +159,27 @@ void flip_globalLogicInit(MapObjectList *mapObjectList) {
     }
     v1 = data_0215653c[0].x;
     for (i = 0; i < mapObjectList->mMapObjectCount && (flipper = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        switch (flipper->mUnk_00.mCourseMapRow->mUnk_28) {
+        switch (flipper->field0.mCourseMapRow->field28) {
             case 0:
                 flipper->mMirror = 0;
-                flipper->mUnk_00.mFlags &= ~0x400;
-                flipper->mUnk_00.mAngle = 0x2000;
+                flipper->field0.mFlags &= ~0x400;
+                flipper->field0.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
                 MTX_RotY33_(m2, data_02160fb4[0x74], data_02160fb4[0x75]);
                 break;
             case 1:
                 flipper->mMirror = 1;
-                flipper->mUnk_00.mFlags |= data_02156584;
-                flipper->mUnk_00.mAngle = 0x2000;
+                flipper->field0.mFlags |= data_02156584;
+                flipper->field0.mAngle = 0x2000;
                 flipper->mState1Timer = 0x1e;
                 MTX_RotY33_(m2, data_0215d8b4[10], data_0215d8b4[11]);
                 break;
         }
-        flipper->mUnk_ec8 = 0;
+        flipper->fieldEC8 = 0;
         if (flipper->mMirror == 0) {
-            e = flipper->mUnk_00.mAngle;
+            e = flipper->field0.mAngle;
         } else {
-            e = -flipper->mUnk_00.mAngle;
+            e = -flipper->field0.mAngle;
         }
         for (j = 0; j < 30; j++) {
             if (flipper->mMirror == 0) {
@@ -190,26 +190,26 @@ void flip_globalLogicInit(MapObjectList *mapObjectList) {
             e = e - d;
             k = (u16) e >> 4;
             MTX_RotY33_(m1, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
-            q = &flipper->mUnk_a8[j];
-            MTX_Concat33(m1, &flipper->mUnk_00.mMatrix.mUnk_00[0].x, &q->mUnk_00[0].x);
-            MTX_Concat33(m2, &q->mUnk_00[0].x, &flipper->mUnk_648[j].mUnk_00[0].x);
-            flipper->mUnk_be8[j].x = flipper->mUnk_00.mPos.x >> 4;
-            flipper->mUnk_be8[j].y = flipper->mUnk_00.mPos.y >> 4;
-            flipper->mUnk_be8[j].z = flipper->mUnk_00.mPos.z >> 4;
+            q = &flipper->fieldA8[j];
+            MTX_Concat33(m1, &flipper->field0.mMatrix.field0[0].x, &q->field0[0].x);
+            MTX_Concat33(m2, &q->field0[0].x, &flipper->field648[j].field0[0].x);
+            flipper->fieldBE8[j].x = flipper->field0.mPos.x >> 4;
+            flipper->fieldBE8[j].y = flipper->field0.mPos.y >> 4;
+            flipper->fieldBE8[j].z = flipper->field0.mPos.z >> 4;
             if (flipper->mMirror == 0) {
                 k = (u16) (-e + FX_Atan2Idx(-2, -10)) >> 4;
-                flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x + (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
-                flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
-                flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z + (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
+                flipper->fieldD50[j].x =
+                    (flipper->field0.mPos.x + (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
+                flipper->fieldD50[j].y = flipper->field0.mPos.y >> 4;
+                flipper->fieldD50[j].z =
+                    (flipper->field0.mPos.z + (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
             } else {
                 k = (u16) (-e - FX_Atan2Idx(-2, -10)) >> 4;
-                flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x - (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
-                flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
-                flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z - (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
+                flipper->fieldD50[j].x =
+                    (flipper->field0.mPos.x - (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
+                flipper->fieldD50[j].y = flipper->field0.mPos.y >> 4;
+                flipper->fieldD50[j].z =
+                    (flipper->field0.mPos.z - (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
             }
         }
     }
@@ -222,43 +222,43 @@ void flip_update(void *a, Flipper *flipper) {
     u32 r;
     s32 w;
 
-    flipper->mUnk_ebc = flipper->mUnk_ebc - (flipper->mUnk_ebc > 0);
+    flipper->fieldEBC = flipper->fieldEBC - (flipper->fieldEBC > 0);
     switch (flipper->mState) {
         case 0:
-            flipper->mUnk_ed0 = ptcm_createEmitter(0x5f, &flipper->mUnk_00.mPos);
+            flipper->fieldED0 = ptcm_createEmitter(0x5f, &flipper->field0.mPos);
             flipper->mState = 1;
             break;
         case 1:
-            if (flipper->mUnk_ebc != 0) {
+            if (flipper->fieldEBC != 0) {
                 flipper->mState = 4;
             } else {
                 flipper->mState1Timer = flipper->mState1Timer - 1;
                 if (flipper->mState1Timer <= 0) {
-                    flipper->mUnk_ec0 = 0;
+                    flipper->fieldEC0 = 0;
                     flipper->mState = 2;
                 }
             }
-            flipper->mUnk_ec8 = 0;
+            flipper->fieldEC8 = 0;
             break;
         case 2:
-            flipper->mUnk_00.mAngle -= 0x16c;
-            flipper->mUnk_ec0 = flipper->mUnk_ec0 + 1;
-            if (flipper->mUnk_ec0 >= 0x1d) {
-                flipper->mUnk_ec0 = 0x1d;
+            flipper->field0.mAngle -= 0x16c;
+            flipper->fieldEC0 = flipper->fieldEC0 + 1;
+            if (flipper->fieldEC0 >= 0x1d) {
+                flipper->fieldEC0 = 0x1d;
                 flipper->mState = 3;
             }
-            flipper->mUnk_ec8 = 1;
+            flipper->fieldEC8 = 1;
             break;
         case 3:
-            flipper->mUnk_00.mAngle += 0x16c;
-            if (flipper->mUnk_ec0 >= 0xf) {
-                flipper->mUnk_ec8 = 1;
+            flipper->field0.mAngle += 0x16c;
+            if (flipper->fieldEC0 >= 0xf) {
+                flipper->fieldEC8 = 1;
             } else {
-                flipper->mUnk_ec8 = 0;
+                flipper->fieldEC8 = 0;
             }
-            flipper->mUnk_ec0 = flipper->mUnk_ec0 - 1;
-            if (flipper->mUnk_ec0 <= 0) {
-                flipper->mUnk_ec0 = 0;
+            flipper->fieldEC0 = flipper->fieldEC0 - 1;
+            if (flipper->fieldEC0 <= 0) {
+                flipper->fieldEC0 = 0;
                 mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
@@ -268,31 +268,31 @@ void flip_update(void *a, Flipper *flipper) {
             }
             break;
         case 4:
-            if (flipper->mUnk_ebc <= 0) {
-                flipper->mUnk_ec0 = 0;
+            if (flipper->fieldEBC <= 0) {
+                flipper->fieldEC0 = 0;
                 flipper->mState = 5;
             }
-            flipper->mUnk_ec8 = 0;
+            flipper->fieldEC8 = 0;
             break;
         case 5:
-            flipper->mUnk_00.mAngle -= 0x2d8;
-            flipper->mUnk_ec0 = flipper->mUnk_ec0 + 2;
-            if (flipper->mUnk_ec0 >= 0x1c) {
-                flipper->mUnk_ec0 = 0x1c;
+            flipper->field0.mAngle -= 0x2d8;
+            flipper->fieldEC0 = flipper->fieldEC0 + 2;
+            if (flipper->fieldEC0 >= 0x1c) {
+                flipper->fieldEC0 = 0x1c;
                 flipper->mState = 6;
             }
-            flipper->mUnk_ec8 = 1;
+            flipper->fieldEC8 = 1;
             break;
         case 6:
-            flipper->mUnk_00.mAngle += 0x2d8;
-            if (flipper->mUnk_ec0 >= 0xf) {
-                flipper->mUnk_ec8 = 1;
+            flipper->field0.mAngle += 0x2d8;
+            if (flipper->fieldEC0 >= 0xf) {
+                flipper->fieldEC8 = 1;
             } else {
-                flipper->mUnk_ec8 = 0;
+                flipper->fieldEC8 = 0;
             }
-            flipper->mUnk_ec0 = flipper->mUnk_ec0 - 2;
-            if (flipper->mUnk_ec0 <= 0) {
-                flipper->mUnk_ec0 = 0;
+            flipper->fieldEC0 = flipper->fieldEC0 - 2;
+            if (flipper->fieldEC0 <= 0) {
+                flipper->fieldEC0 = 0;
                 mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
@@ -302,7 +302,7 @@ void flip_update(void *a, Flipper *flipper) {
             }
             break;
     }
-    if (flipper->mUnk_ec8 != 0 && (flipper->mUnk_00.mFlags & 0x12) == 0) {
+    if (flipper->fieldEC8 != 0 && (flipper->field0.mFlags & 0x12) == 0) {
         w = flipper->mNsbtpFrameIndex + 1;
         if (w >= mobj_getModelNsbtpFrameCount(flip_sModel)) {
             w = 1;
@@ -313,18 +313,18 @@ void flip_update(void *a, Flipper *flipper) {
             w = 1;
         }
         flipper->mNsbtaFrameIndex = w;
-        flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 0;
-        spa_setCylinderEmitterDirection(flipper->mUnk_ed0, &flipper->mUnk_be8[flipper->mUnk_ec0],
-                                      &flipper->mUnk_d50[flipper->mUnk_ec0]);
+        flipper->fieldED0->field24.field0_1 = 0;
+        spa_setCylinderEmitterDirection(flipper->fieldED0, &flipper->fieldBE8[flipper->fieldEC0],
+                                      &flipper->fieldD50[flipper->fieldEC0]);
     } else {
         flipper->mNsbtpFrameIndex = 0;
         flipper->mNsbtaFrameIndex = 0;
-        flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 1;
+        flipper->fieldED0->field24.field0_1 = 1;
     }
     kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
-        if (flipper->mUnk_ed4[i] > 0) {
-            flipper->mUnk_ed4[i] = flipper->mUnk_ed4[i] - 1;
+        if (flipper->fieldED4[i] > 0) {
+            flipper->fieldED4[i] = flipper->fieldED4[i] - 1;
         }
     }
 }

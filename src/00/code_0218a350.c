@@ -22,11 +22,11 @@ void func_ov000_0218a5b0(const u8 *a, u8 *b) {
         k = (u8) i;
         l = k;
         v = b[i];
-        while (t.mUnk_00[l] != 0xff) {
-            p = &t.mUnk_00[l];
-            l = t.mUnk_00[l];
+        while (t.field0[l] != 0xff) {
+            p = &t.field0[l];
+            l = t.field0[l];
             w = b[l];
-            b[t.mUnk_00[k]] = v;
+            b[t.field0[k]] = v;
             k = l;
             *p = 0xff;
             v = w;

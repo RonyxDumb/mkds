@@ -8,13 +8,13 @@
 
 // 0x1c-byte elements from 0x24 of MultiSelectMember; the buffer at 0x18 holds 0x40-byte elements.
 typedef struct Unk02174e58_24 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ Nclr *mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ Unk0201ea30 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ Unk0201ea30 *mUnk_14;
-    /* 18 */ LayoutTableEntry *mUnk_18;
+    /* 00 */ u8 field0[4];
+    /* 04 */ Nclr *field4;
+    /* 08 */ void *field8;
+    /* 0c */ Unk0201ea30 *fieldC;
+    /* 10 */ Unk0201ea30 *field10;
+    /* 14 */ Unk0201ea30 *field14;
+    /* 18 */ LayoutTableEntry *field18;
 } Unk02174e58_24;
 
 // 0xc-byte elements from 0xe0 of MultiSelectMember.
@@ -27,22 +27,22 @@ typedef struct MultiSelectMemberRow {
 
 // 0x154 bytes.
 typedef struct MultiSelectMember {
-    /* 00 */ u8 mUnk_00[0x24];
+    /* 00 */ u8 field0[0x24];
     /* 24 */ Unk02174e58_24 mCellFileSets[2];
     /* 5c */ void *mMainOam;
     /* 60 */ void *mSubOam;
     /* 64 */ Bmg *mBannerMessages;
     /* 68 */ Bmg *mCommonMessages;
-    /* 6c */ s32 mUnk_6c;
-    /* 70 */ s32 mUnk_70;
+    /* 6c */ s32 field6C;
+    /* 70 */ s32 field70;
     /* 74 */ s32 mChildCount;
-    /* 78 */ BOOL mUnk_78;
-    /* 7c */ BOOL mUnk_7c;
-    /* 80 */ BOOL mUnk_80;
-    /* 84 */ s32 mUnk_84;
-    /* 88 */ BOOL mUnk_88;
-    /* 8c */ BOOL mUnk_8c;
-    /* 90 */ s32 mUnk_90;
+    /* 78 */ BOOL field78;
+    /* 7c */ BOOL field7C;
+    /* 80 */ BOOL field80;
+    /* 84 */ s32 field84;
+    /* 88 */ BOOL field88;
+    /* 8c */ BOOL field8C;
+    /* 90 */ s32 field90;
     /* 94 */ s32 mState;
     /* 98 */ s32 mState2Frames;
     /* 9c */ s32 mTimer;
@@ -50,15 +50,15 @@ typedef struct MultiSelectMember {
     /* e0 */ MultiSelectMemberRow mRows[8];
     /* 140 */ s32 mCycleIndex;
     /* 144 */ s32 mCycleFrames;
-    /* 148 */ BOOL mUnk_148;
-    /* 14c */ s32 mUnk_14c;
+    /* 148 */ BOOL field148;
+    /* 14c */ s32 field14C;
     /* 150 */ void *mHeap;
 } MultiSelectMember;
 
 // Object whose u16 at 4 func_02030b18 and func_02030ea4 set.
 typedef struct Unk02030b18 {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ u16 mUnk_04;
+    /* 00 */ u8 field0[4];
+    /* 04 */ u16 field4;
 } Unk02030b18;
 
 #include "Main/Unknown/unk_02174000.h"

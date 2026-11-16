@@ -13,27 +13,27 @@
 #include "Main/Unknown/code_0209bef0.h"
 
 void func_ov001_0218dd9c(Unk02188950 *a) {
-    a->mUnk_2e0 = 0;
+    a->field2E0 = 0;
     SetItemCollisionCallback(a, func_ov001_0218dd9c);
 }
 
 void func_ov001_0218dd50(Unk02188950 *a) {
     if (func_ov001_02188220(a) >= 2) {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x248);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x248);
     } else if (func_ov001_02188220(a) >= 1) {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x249);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x249);
     } else {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24a);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x24a);
     }
 }
 
 void func_ov001_0218dd04(Unk02188950 *a) {
     if (func_ov001_02188220(a) >= 2) {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x248);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x248);
     } else if (func_ov001_02188220(a) >= 1) {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x249);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x249);
     } else {
-        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24a);
+        mobj_emitSfxFromEmitter2(&a->field0, 0x24a);
     }
 }
 

@@ -45,11 +45,11 @@ void nsk1_render(void *a, NsKiller1 *nsKiller1) {
 
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->mUnk_00.mScale, 3);
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].x = nsKiller1->mUnk_00.mPos.x >> 4;
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].y = nsKiller1->mUnk_00.mPos.y >> 4;
-    nsKiller1->mUnk_00.mMatrix.mUnk_00[3].z = nsKiller1->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &nsKiller1->mUnk_00.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller1->field0.mScale, 3);
+    nsKiller1->field0.mMatrix.field0[3].x = nsKiller1->field0.mPos.x >> 4;
+    nsKiller1->field0.mMatrix.field0[3].y = nsKiller1->field0.mPos.y >> 4;
+    nsKiller1->field0.mMatrix.field0[3].z = nsKiller1->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &nsKiller1->field0.mMatrix, 12);
     mobj_renderModel(a, nsk1_sModel, nsKiller1);
 }
 
@@ -85,15 +85,15 @@ void nsk1_update(void *a, NsKiller1 *nsKiller1) {
                 nsKiller1->mStateTimer = 0x2d;
                 nsKiller1->mState = 2;
             }
-            GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mUnk_00.mPos);
+            GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->field0.mPos);
             break;
         case 2:
             if (nsKiller1->mStateTimer == 0x2d) {
-                if ((nsKiller1->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
+                if ((nsKiller1->field0.mDistanceSquaredAndFlags & 4) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     s = data_0216676c;
-                    s.mPositionSource = &nsKiller1->mUnk_00.mPos;
-                    s.mDistanceSquared = mobj_calcXZCamDist(&nsKiller1->mUnk_00.mPos);
+                    s.mPositionSource = &nsKiller1->field0.mPos;
+                    s.mDistanceSquared = mobj_calcXZCamDist(&nsKiller1->field0.mPos);
                     func_0210b708(&s, GetSndHandleSlot(8));
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
@@ -103,11 +103,11 @@ void nsk1_update(void *a, NsKiller1 *nsKiller1) {
             nsKiller1->mStateTimer--;
             break;
         case 3:
-            nsk2_spawn(&nsKiller1->mUnk_00.mPos, &nsKiller1->mUnk_00.mMatrix.mUnk_00[2], nsKiller1->mUnk_00.mAngle);
-            if ((nsKiller1->mUnk_00.mFlags & 0x12) == 0) {
-                ptcm_createEmitter(0x4b, &nsKiller1->mUnk_00.mPos);
-                ptcm_createEmitter(0x4c, &nsKiller1->mUnk_00.mPos);
-                ptcm_createEmitter(0x4d, &nsKiller1->mUnk_00.mPos);
+            nsk2_spawn(&nsKiller1->field0.mPos, &nsKiller1->field0.mMatrix.field0[2], nsKiller1->field0.mAngle);
+            if ((nsKiller1->field0.mFlags & 0x12) == 0) {
+                ptcm_createEmitter(0x4b, &nsKiller1->field0.mPos);
+                ptcm_createEmitter(0x4c, &nsKiller1->field0.mPos);
+                ptcm_createEmitter(0x4d, &nsKiller1->field0.mPos);
             }
             nsKiller1->mStateTimer = 0x4b;
             nsKiller1->mState = 0;
@@ -124,11 +124,11 @@ void nsk1_setupLogicPart(void) {
 }
 
 void nsk2_init(NsKiller2 *nsKiller2) {
-    nsKiller2->mUnk_00.mFlags |= data_021564b4;
-    mobj_setInvisible(&nsKiller2->mUnk_00);
-    nsKiller2->mSoundDistanceSquaredChange = mobj_initSoundEmitterExForObjectSfxParam2(&nsKiller2->mUnk_00);
+    nsKiller2->field0.mFlags |= data_021564b4;
+    mobj_setInvisible(&nsKiller2->field0);
+    nsKiller2->mSoundDistanceSquaredChange = mobj_initSoundEmitterExForObjectSfxParam2(&nsKiller2->field0);
     sfx_210B850(nsKiller2->mSoundDistanceSquaredChange);
-    nsKiller2->mUnk_00.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6b4;
+    nsKiller2->field0.mSound->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a6b4;
 }
 
 u8 nsk2_onDriverCollide(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
@@ -140,15 +140,15 @@ u8 nsk2_onDriverCollide(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d) {
     if (x == 1) {
         nsKiller2->mParkTimer = 0x78;
         nsKiller2->mMode = 1;
-        nsKiller2->mUnk_00.mUnk_10.x = ((s64) nsKiller2->mUnk_00.mUnk_10.x << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.y = ((s64) nsKiller2->mUnk_00.mUnk_10.y << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.z = ((s64) nsKiller2->mUnk_00.mUnk_10.z << 10) >> 12;
-        nsKiller2->mUnk_00.mUnk_10.y = 0x4000;
-        nsKiller2->mUnk_00.mFlags |= data_021564ac;
+        nsKiller2->field0.field10.x = ((s64) nsKiller2->field0.field10.x << 10) >> 12;
+        nsKiller2->field0.field10.y = ((s64) nsKiller2->field0.field10.y << 10) >> 12;
+        nsKiller2->field0.field10.z = ((s64) nsKiller2->field0.field10.z << 10) >> 12;
+        nsKiller2->field0.field10.y = 0x4000;
+        nsKiller2->field0.mFlags |= data_021564ac;
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
-            nsKiller2->mUnk_00.mDistanceSquaredAndFlags |= data_021564b0;
+            nsKiller2->field0.mDistanceSquaredAndFlags |= data_021564b0;
         }
-        mobj_tryDestroyByDriver(&nsKiller2->mUnk_00, kart);
+        mobj_tryDestroyByDriver(&nsKiller2->field0, kart);
     }
     return v;
 }
@@ -169,45 +169,45 @@ void nsk2_render(void *a, NsKiller2 *nsKiller2) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&nsKiller2->mUnk_00.mPos), 12);
-    angleIndex = nsKiller2->mUnk_00.mAngle >> 4;
+    NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&nsKiller2->field0.mPos), 12);
+    angleIndex = nsKiller2->field0.mAngle >> 4;
     MTX_RotY33_(rotationMatrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
-    NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &nsKiller2->field0.mScale, 3);
     mobj_renderModel(a, nsk2_sShadowModel, nsKiller2);
     mobj_renderModel(a, nsk2_sModel, nsKiller2);
 }
 
 void nsk2_update(void *a, NsKiller2 *nsKiller2) {
-    if ((driver_getClipAreaMask() & nsKiller2->mUnk_00.mDigitMask) != 0) {
-        nsKiller2->mUnk_00.mFlags |= data_021564a8;
+    if ((driver_getClipAreaMask() & nsKiller2->field0.mDigitMask) != 0) {
+        nsKiller2->field0.mFlags |= data_021564a8;
     } else {
-        nsKiller2->mUnk_00.mFlags &= ~2;
+        nsKiller2->field0.mFlags &= ~2;
     }
     switch (nsKiller2->mMode) {
         case 0:
             if (nsKiller2->mParkTimer-- > 0) {
-                if ((nsKiller2->mUnk_00.mFlags & 2) == 0 && (nsKiller2->mUnk_00.mDistanceSquaredAndFlags & 8) != 0) {
+                if ((nsKiller2->field0.mFlags & 2) == 0 && (nsKiller2->field0.mDistanceSquaredAndFlags & 8) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      nsKiller2->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f);
+                                                      nsKiller2->field0.mDistanceSquaredAndFlags & ~0xc000001f);
                 } else {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      mobj_calcXZCamDist(&nsKiller2->mUnk_00.mPos));
+                                                      mobj_calcXZCamDist(&nsKiller2->field0.mPos));
                 }
-                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+                VEC_Add(&nsKiller2->field0.mPos, &nsKiller2->field0.field10, &nsKiller2->field0.mPos);
                 if (nsKiller2->mParkTimer < 0x24e) {
-                    mobj_emitSfxFromEmitter(&nsKiller2->mUnk_00, 0x17d);
+                    mobj_emitSfxFromEmitter(&nsKiller2->field0, 0x17d);
                 }
             } else {
-                mobj_setInvisible(&nsKiller2->mUnk_00);
+                mobj_setInvisible(&nsKiller2->field0);
             }
             break;
         case 1:
             if (nsKiller2->mParkTimer-- > 0) {
-                nsKiller2->mUnk_00.mUnk_10.y -= 0x400;
-                VEC_Add(&nsKiller2->mUnk_00.mPos, &nsKiller2->mUnk_00.mUnk_10, &nsKiller2->mUnk_00.mPos);
+                nsKiller2->field0.field10.y -= 0x400;
+                VEC_Add(&nsKiller2->field0.mPos, &nsKiller2->field0.field10, &nsKiller2->field0.mPos);
             } else {
-                mobj_setInvisible(&nsKiller2->mUnk_00);
+                mobj_setInvisible(&nsKiller2->field0);
             }
             break;
     }
@@ -217,8 +217,8 @@ void nsk2_setupConfig(void) {
     MapObjectKindData *o;
 
     o = mobj_createConfigEx(nsk2_onDriverCollide, NULL, NULL, 1, 1, 0x17b);
-    o->mUnk_38 = 0x32000;
-    o->mUnk_3c = -0x64000;
+    o->field38 = 0x32000;
+    o->field3C = -0x64000;
 }
 
 void nsk2_setupRenderPart(void) {
@@ -238,15 +238,15 @@ void nsk2_spawn(Vec3 *startPos, Vec3 *b, u16 angle) {
         return;
     }
     nsKiller2->mParkTimer = 600;
-    nsKiller2->mUnk_00.mPos.x = startPos->x;
-    nsKiller2->mUnk_00.mPos.y = startPos->y + 0x2a000;
-    nsKiller2->mUnk_00.mPos.z = startPos->z;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].x = b->x;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].y = 0;
-    nsKiller2->mUnk_00.mMatrix.mUnk_00[2].z = b->z;
-    nsKiller2->mUnk_00.mUnk_10.x = ((s64) b->x * 0x6000) >> 12;
-    nsKiller2->mUnk_00.mUnk_10.y = 0;
-    nsKiller2->mUnk_00.mUnk_10.z = ((s64) b->z * 0x6000) >> 12;
-    nsKiller2->mUnk_00.mAngle = angle;
+    nsKiller2->field0.mPos.x = startPos->x;
+    nsKiller2->field0.mPos.y = startPos->y + 0x2a000;
+    nsKiller2->field0.mPos.z = startPos->z;
+    nsKiller2->field0.mMatrix.field0[2].x = b->x;
+    nsKiller2->field0.mMatrix.field0[2].y = 0;
+    nsKiller2->field0.mMatrix.field0[2].z = b->z;
+    nsKiller2->field0.field10.x = ((s64) b->x * 0x6000) >> 12;
+    nsKiller2->field0.field10.y = 0;
+    nsKiller2->field0.field10.z = ((s64) b->z * 0x6000) >> 12;
+    nsKiller2->field0.mAngle = angle;
     nsKiller2->mMode = 0;
 }

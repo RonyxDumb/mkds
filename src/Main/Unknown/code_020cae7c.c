@@ -4,7 +4,7 @@
 #pragma thumb on
 void menu_returnTitleStateRender(Unk020cadf4 *a) {
     if (a != NULL) {
-        a->mUnk_04 = 0;
+        a->field4 = 0;
     }
 }
 #pragma thumb off

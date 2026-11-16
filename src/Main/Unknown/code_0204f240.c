@@ -19,15 +19,15 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
                 gStruct217AA00->mBlockEntries[i].mBuffer = gStruct217AA00->mCompressedBuffer;
                 gStruct217AA00->mBlockEntries[i].mUncompressedBuffer = 0;
                 gStruct217AA00->mBlockEntries[i].mUncompressPending = 1;
-                gStruct217AA00->mBlockEntries[i].mUnk_84_0 = value;
+                gStruct217AA00->mBlockEntries[i].field84_0 = value;
             } else {
                 gStruct217AA00->mBlockEntries[i].mBuffer = 0;
                 gStruct217AA00->mBlockEntries[i].mUncompressedBuffer = 0;
                 gStruct217AA00->mBlockEntries[i].mUncompressPending = 0;
-                gStruct217AA00->mBlockEntries[i].mUnk_84_0 = value;
+                gStruct217AA00->mBlockEntries[i].field84_0 = value;
             }
             gStruct217AA00->mBlockEntries[i].mHeap = heap;
-            gStruct217AA00->mBlockEntries[i].mUnk_84_30 = 1;
+            gStruct217AA00->mBlockEntries[i].field84_30 = 1;
             gStruct217AA00->mBlockEntries[i].mDataOutput = dataOutput;
             return;
         }
@@ -35,22 +35,22 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
 }
 
 void StartParentSideBlockTransfer(void) {
-    gStruct217AA00->mUnk_000c = 0x28;
+    gStruct217AA00->fieldC = 0x28;
     gStruct217AA00->mRequestPending = 1;
     StartParentBlockTransfer(0x192, 0xe, ParentBlockTransferCallback);
     gStruct217AA00->mSendTimer = 0;
-    gStruct217AA00->mUnk_1e44 &= ~1;
-    gStruct217AA00->mUnk_0454 |= 0x200;
+    gStruct217AA00->field1E44 &= ~1;
+    gStruct217AA00->field454 |= 0x200;
     gStruct217AA00->mRequestPending = 0;
 }
 
 void StartChildSideBlockTransfer(void) {
-    gStruct217AA00->mUnk_000c = 0x29;
+    gStruct217AA00->fieldC = 0x29;
     gStruct217AA00->mRequestPending = 1;
     WBT_InitChild(ChildBlockTransferCallback);
     gStruct217AA00->mSendTimer = 0;
-    gStruct217AA00->mUnk_1e44 &= ~1;
-    gStruct217AA00->mUnk_0454 |= 0x200;
+    gStruct217AA00->field1E44 &= ~1;
+    gStruct217AA00->field454 |= 0x200;
     gStruct217AA00->mRequestPending = 0;
 }
 
@@ -76,19 +76,19 @@ void InitBlockEntries(void *heap, s32 mode) {
         view->mBlockEntries[i].mBuffer = NULL;
         view->mBlockEntries[i].mUncompressedBuffer = NULL;
         view->mBlockEntries[i].mUncompressPending = 0;
-        view->mBlockEntries[i].mUnk_84_0 = 0;
+        view->mBlockEntries[i].field84_0 = 0;
     }
-    view->mUnk_660 = mode;
-    view->mUnk_798 = FALSE;
-    view->mUnk_79c = FALSE;
+    view->field660 = mode;
+    view->field798 = FALSE;
+    view->field79C = FALSE;
     view->mGhostBlockCount = 0;
-    view->mUnk_7a2 = 0;
-    view->mUnk_7a4 = 0;
-    view->mUnk_7a5 = -1;
-    view->mUnk_7a6 = 0;
-    view->mUnk_6b4 = 0;
+    view->field7A2 = 0;
+    view->field7A4 = 0;
+    view->field7A5 = -1;
+    view->field7A6 = 0;
+    view->field6B4 = 0;
     view->mNextLoadIndex = 0;
-    view->mUnk_66a = -1;
+    view->field66A = -1;
     view->mCompressedBuffer = NULL;
     if (mode == 2) {
         func_0204f33c(heap);

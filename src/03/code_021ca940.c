@@ -132,7 +132,7 @@ void func_ov003_021caeb8(void) {
             switch (GetMode()) {
                 case 0:
                     StartSoundSeq(7);
-                    gAp->mUnk_1d = 2;
+                    gAp->field1D = 2;
                     break;
                 case 1:
                     DisableButtonTouch();
@@ -141,7 +141,7 @@ void func_ov003_021caeb8(void) {
             }
             break;
         case 1:
-            gAp->mUnk_1d = 1;
+            gAp->field1D = 1;
             s = gApSelectedIndex[0];
             if (s >= 4) {
                 a = s - 4;
@@ -170,7 +170,7 @@ void func_ov003_021caeb8(void) {
 }
 
 void func_ov003_021cae88(void) {
-    if (gAp->mUnk_1d == 2) {
+    if (gAp->field1D == 2) {
         func_ov003_021ce0c4();
     }
     DisableButtonTouch();
@@ -180,8 +180,8 @@ void func_ov003_021cae88(void) {
 
 void func_ov003_021cae28(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0) {
-        if (gAp->mUnk_1d == 1) {
-            if (gApSelectedIndex[0] == 3 || func_ov003_021cdb6c()->mUnk_00.mUnk_e7 != 0xff) {
+        if (gAp->field1D == 1) {
+            if (gApSelectedIndex[0] == 3 || func_ov003_021cdb6c()->field0.fieldE7 != 0xff) {
                 StartSlideButtonsOut();
             }
         }
@@ -196,13 +196,13 @@ void func_ov003_021cacfc(void) {
     if (IsBlendBrightnessFadeSlotBusy(1) == 0 && IsBlendBrightnessFadeSlotBusy(0) == 0 && func_ov003_021cdd28() != 0 &&
         func_ov003_021bf2f0() != 0) {
         for (i = 0; i < 3; i++) {
-            if (gAp->mUnk_04[i] != NULL) {
-                DeleteOamRange(gAp->mUnk_04[i]);
+            if (gAp->field4[i] != NULL) {
+                DeleteOamRange(gAp->field4[i]);
             }
         }
         for (i = 0; i < 3; i++) {
-            if (gAp->mUnk_10[i] != NULL) {
-                DeleteOamRange(gAp->mUnk_10[i]);
+            if (gAp->field10[i] != NULL) {
+                DeleteOamRange(gAp->field10[i]);
             }
         }
         ReleaseSelectionObjectSlots();
@@ -211,7 +211,7 @@ void func_ov003_021cacfc(void) {
         LoadFileToVram(gYbObjMainNclName5, GX_LoadOBJPltt);
         ClearDispcntBits(1, 1);
         ClearDispcntBits(0, 0x14);
-        if (gAp->mUnk_1d == 2) {
+        if (gAp->field1D == 2) {
             func_ov003_021c2120(0, 0);
             SetUpdateFunction(SetupJb2Menu);
         } else {
@@ -220,7 +220,7 @@ void func_ov003_021cacfc(void) {
                 case 1:
                 case 2:
                     func_ov003_021c2120(2, 0);
-                    if (func_ov003_021cdb6c()->mUnk_00.mUnk_e7 == 0xff) {
+                    if (func_ov003_021cdb6c()->field0.fieldE7 == 0xff) {
                         SetUpdateFunction(SetupWay);
                     } else {
                         func_ov003_021c20f8(0, 0);
@@ -241,11 +241,11 @@ void func_ov003_021cacfc(void) {
 void func_ov003_021caca8(void) {
     u8 a = gApSelectedIndex[0];
     if (a < 4) {
-        PlaceSelectionCorners(data_ov003_021d6540[a].mUnk_00, data_ov003_021d6540[a].mUnk_04,
-                              data_ov003_021d6540[a].mUnk_02, data_ov003_021d6540[a].mUnk_06);
+        PlaceSelectionCorners(data_ov003_021d6540[a].field0, data_ov003_021d6540[a].field4,
+                              data_ov003_021d6540[a].field2, data_ov003_021d6540[a].field6);
     } else {
-        PlaceSelectionPair(0, data_ov003_021d6540[a].mUnk_00, data_ov003_021d6540[a].mUnk_04,
-                           data_ov003_021d6540[a].mUnk_02);
+        PlaceSelectionPair(0, data_ov003_021d6540[a].field0, data_ov003_021d6540[a].field4,
+                           data_ov003_021d6540[a].field2);
     }
 }
 
@@ -253,7 +253,7 @@ void MoveApSelection(int a) {
     u32 b = 1;
     switch (gApSelectedIndex[0]) {
         case 0:
-            gAp->mUnk_1c = 0;
+            gAp->field1C = 0;
             if (a == 0) {
                 gApSelectedIndex[0] = 2;
             } else if (a == 2) {
@@ -265,7 +265,7 @@ void MoveApSelection(int a) {
             }
             break;
         case 1:
-            gAp->mUnk_1c = 1;
+            gAp->field1C = 1;
             if (a == 0) {
                 gApSelectedIndex[0] = 0;
             } else if (a == 2) {
@@ -277,7 +277,7 @@ void MoveApSelection(int a) {
             }
             break;
         case 2:
-            gAp->mUnk_1c = 2;
+            gAp->field1C = 2;
             if (a == 0) {
                 gApSelectedIndex[0] = 1;
             } else if (a == 2) {
@@ -289,7 +289,7 @@ void MoveApSelection(int a) {
             }
             break;
         case 3: {
-            u8 c = gAp->mUnk_1c;
+            u8 c = gAp->field1C;
             s32 d = c + 4;
             if (a == 1) {
                 gApSelectedIndex[0] = d;
@@ -301,7 +301,7 @@ void MoveApSelection(int a) {
             break;
         }
         case 4:
-            gAp->mUnk_1c = 0;
+            gAp->field1C = 0;
             if (a == 0) {
                 gApSelectedIndex[0] = 6;
             } else if (a == 2) {
@@ -313,7 +313,7 @@ void MoveApSelection(int a) {
             }
             break;
         case 5:
-            gAp->mUnk_1c = 1;
+            gAp->field1C = 1;
             if (a == 0) {
                 gApSelectedIndex[0] = 4;
             } else if (a == 2) {
@@ -325,7 +325,7 @@ void MoveApSelection(int a) {
             }
             break;
         case 6:
-            gAp->mUnk_1c = 2;
+            gAp->field1C = 2;
             if (a == 0) {
                 gApSelectedIndex[0] = 5;
             } else if (a == 2) {
@@ -345,9 +345,9 @@ void MoveApSelection(int a) {
 
 void func_ov003_021caae0(void) {
     s32 a = gApSelectedIndex[0] - 4;
-    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->mUnk_10[a], 0));
-    SetOamRangePosition(gAp->mUnk_10[a], -1, data_ov003_021d64f0[a + 3].mUnk_00, data_ov003_021d64f0[a + 3].mUnk_02);
-    func_ov003_021d1790(gAp->mUnk_10[a], -1, 3);
+    CopyNceImageToOamEntries(0, 0x32, GetOamRangeEntry(gAp->field10[a], 0));
+    SetOamRangePosition(gAp->field10[a], -1, data_ov003_021d64f0[a + 3].field0, data_ov003_021d64f0[a + 3].field2);
+    func_ov003_021d1790(gAp->field10[a], -1, 3);
 }
 
 void func_ov003_021ca9e8(void) {
@@ -356,18 +356,18 @@ void func_ov003_021ca9e8(void) {
         case 1:
             StartSoundSeq(0xe);
             func_ov003_021cd4ac(a);
-            CopyNceImageToOamEntries(0, data_ov003_021d64e4[3], GetOamRangeEntry(gAp->mUnk_04[a], 0));
-            SetOamRangePosition(gAp->mUnk_04[a], -1, data_ov003_021d64f0[a].mUnk_00, data_ov003_021d64f0[a].mUnk_02);
-            func_ov003_021d1790(gAp->mUnk_04[a], -1, 3);
-            DeleteOamRange(gAp->mUnk_10[a]);
-            gAp->mUnk_10[a] = NULL;
+            CopyNceImageToOamEntries(0, data_ov003_021d64e4[3], GetOamRangeEntry(gAp->field4[a], 0));
+            SetOamRangePosition(gAp->field4[a], -1, data_ov003_021d64f0[a].field0, data_ov003_021d64f0[a].field2);
+            func_ov003_021d1790(gAp->field4[a], -1, 3);
+            DeleteOamRange(gAp->field10[a]);
+            gAp->field10[a] = NULL;
             break;
         case 0:
             StartSoundSeq(7);
-            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->mUnk_10[a], 0));
-            SetOamRangePosition(gAp->mUnk_10[a], -1, data_ov003_021d64f0[a + 3].mUnk_00,
-                                data_ov003_021d64f0[a + 3].mUnk_02);
-            func_ov003_021d1790(gAp->mUnk_10[a], -1, 3);
+            CopyNceImageToOamEntries(0, 0x11, GetOamRangeEntry(gAp->field10[a], 0));
+            SetOamRangePosition(gAp->field10[a], -1, data_ov003_021d64f0[a + 3].field0,
+                                data_ov003_021d64f0[a + 3].field2);
+            func_ov003_021d1790(gAp->field10[a], -1, 3);
             break;
         default:
             return;
@@ -392,14 +392,14 @@ void func_ov003_021ca940(void) {
     a = data_ov003_021d75c0;
     b = data_ov003_021d75c4;
     if (*(u8 *) &gApSelectedIndex <= 3) {
-        func_ov003_021cc948(gAp->mYbBgStep11Ncl, a.mUnk_00[*(u8 *) &gApSelectedIndex],
-                            a.mUnk_00[*(u8 *) &gApSelectedIndex]);
+        func_ov003_021cc948(gAp->mYbBgStep11Ncl, a.field0[*(u8 *) &gApSelectedIndex],
+                            a.field0[*(u8 *) &gApSelectedIndex]);
         if (*(u8 *) &gApSelectedIndex != 3) {
             c = func_ov003_021cd844(*(u8 *) &gApSelectedIndex);
             if (c > 2) {
                 c = 3;
             }
-            func_ov003_021d1890(gAp->mUnk_04[*(u8 *) &gApSelectedIndex], -1, 0, b.mUnk_00[c]);
+            func_ov003_021d1890(gAp->field4[*(u8 *) &gApSelectedIndex], -1, 0, b.field0[c]);
         }
     }
 }

@@ -17,7 +17,7 @@ typedef struct ChunkReceiveState {
 // Entry of BlockTransfer; 0x68 bytes.
 typedef struct BlockTransferEntry {
 // 1 at rest; 2 while a parsed request waits for its reply.
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 field0;
     /* 01 */ u8 mPacketKind;
     /* 02 */ u8 mRequestId;
     /* 03 */ u8 mLastCallbackId;
@@ -25,12 +25,12 @@ typedef struct BlockTransferEntry {
     /* 06 */ s16 mPacketSendChunkSize;
     /* 08 */ u16 mIndexMask;
     /* 0a */ s16 mBlockCount;
-    /* 0c */ u8 mUnk_0c;
+    /* 0c */ u8 fieldC;
     /* 0d */ u8 mByteCount;
-    /* 0e */ u8 mUnk_0e[2];
+    /* 0e */ u8 fieldE[2];
     /* 10 */ u32 mBlockId;
     /* 14 */ u32 mChunkIndex;
-    /* 18 */ u8 mUnk_18[8];
+    /* 18 */ u8 field18[8];
     /* 20 */ u8 *mPayload;
     /* 24 */ ChunkReceiveState mReceive;
 } BlockTransferEntry;
@@ -49,9 +49,9 @@ typedef struct BlockTransferRecord {
     /* 10 */ void (*mCallback)(struct BlockTransferRecord *);
 // In mCallbackRecord, words 0x14 to 0x1c carry what the callback code brings: counts and chunk sizes, a block id
 // and chunk, or up to 9 bytes with their length at 0x1d.
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c[16];
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C[16];
     /* 5c */ void *mChunkBitmaps[16];
 } BlockTransferRecord;
 

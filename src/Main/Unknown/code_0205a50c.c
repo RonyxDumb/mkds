@@ -5,7 +5,7 @@ s32 func_0205a50c(s32 bitIndex) {
     BOOL isSet;
 
     isSet = TRUE;
-    if (!(gStruct217AA14->mUnk_749 & (1 << bitIndex))) {
+    if (!(gStruct217AA14->field749 & (1 << bitIndex))) {
         isSet = FALSE;
     }
     return isSet;

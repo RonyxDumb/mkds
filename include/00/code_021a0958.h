@@ -13,7 +13,7 @@ typedef struct MatchingSignatureText {
 // The 0x14-byte header SendMatchingCommandToAddress sends in front of the values.
 typedef struct MatchingSendHeader {
     /* 00 */ char mSignature[4];
-    /* 04 */ u32 mUnk_04;
+    /* 04 */ u32 field4;
     /* 08 */ u8 mCommand;
     /* 09 */ u8 mValuesSize;
     /* 0a */ u16 mPort;
@@ -21,12 +21,12 @@ typedef struct MatchingSendHeader {
     /* 10 */ u32 mProfileId;
 } MatchingSendHeader;
 
-// The twelve bytes at WiFiMatching.mUnk_18c.
+// The twelve bytes at WiFiMatching.field18C.
 typedef struct Unk021a0c30 {
-    /* 00 */ u8 mUnk_00;
+    /* 00 */ u8 field0;
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
-    /* 08 */ u32 mUnk_08;
+    /* 08 */ u32 field8;
 } Unk021a0c30;
 
 s32 CopyNthSlashField(char *out, const char *text, s32 index);

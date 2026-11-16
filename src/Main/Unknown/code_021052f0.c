@@ -11,28 +11,28 @@ void ParkPooledMapObject(u32 pooledMapObject) {
 }
 
 void SetPooledMapObjectFromItem(PooledMapObject *object, s32 alpha, Vec3 *scale) {
-    object->mUnk_00.mPos = *object->mUnk_fc;
+    object->field0.mPos = *object->fieldFC;
     if (alpha < 1) {
         alpha = 1;
     }
-    object->mUnk_00.mAlpha = alpha;
-    object->mUnk_00.mScale.x = ((s64) scale->x * 0x666) >> 12;
-    object->mUnk_00.mScale.y = ((s64) scale->y * 0x666) >> 12;
-    object->mUnk_00.mScale.z = ((s64) scale->z * 0x666) >> 12;
+    object->field0.mAlpha = alpha;
+    object->field0.mScale.x = ((s64) scale->x * 0x666) >> 12;
+    object->field0.mScale.y = ((s64) scale->y * 0x666) >> 12;
+    object->field0.mScale.z = ((s64) scale->z * 0x666) >> 12;
 }
 
 void AdvancePooledMapObject(PooledMapObject *object) {
-    object->mUnk_a0 = object->mUnk_a0 + 1;
-    if (object->mUnk_a0 >= 0x12c) {
-        object->mUnk_a0 = 0;
+    object->fieldA0 = object->fieldA0 + 1;
+    if (object->fieldA0 >= 0x12c) {
+        object->fieldA0 = 0;
     }
-    object->mUnk_a2 = object->mUnk_a2 + 1;
-    if (object->mUnk_a2 >= 0x82) {
-        object->mUnk_a2 = 0;
+    object->fieldA2 = object->fieldA2 + 1;
+    if (object->fieldA2 >= 0x82) {
+        object->fieldA2 = 0;
     }
 }
 
 void SetPooledMapObjectCallback(PooledMapObject *object, void *callback, ItemFBox *owner) {
-    object->mUnk_100 = callback;
-    object->mUnk_104 = owner;
+    object->field100 = callback;
+    object->field104 = owner;
 }

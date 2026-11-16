@@ -16,8 +16,8 @@ u32 mbp_204EA3C(void) {
     result = 0;
     size = MB_GetSegmentLength(NULL);
     if ((0x00010000u) <= size) {
-        v2 = MB_ReadSegment(NULL, gStruct217AA00->mUnk_1658, gStruct217AA00->mUnk_168c);
-        if ((v2 != 0) && (v2 = MB_RegisterFile(sMBGameRegistry, gStruct217AA00->mUnk_1658), v2 != 0)) {
+        v2 = MB_ReadSegment(NULL, gStruct217AA00->field1658, gStruct217AA00->field168C);
+        if ((v2 != 0) && (v2 = MB_RegisterFile(sMBGameRegistry, gStruct217AA00->field1658), v2 != 0)) {
             result = 1;
         }
     }

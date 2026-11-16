@@ -53,7 +53,7 @@ void ClearWiFiStateCallbacks(void) {
     gWiFiStates->mCallbacks.mInit = NULL;
     gWiFiStates->mCallbacks.mRelease = NULL;
     gWiFiStates->mCallbacks.mAdvance = NULL;
-    gWiFiStates->mCallbacks.mUnk_0c = NULL;
+    gWiFiStates->mCallbacks.fieldC = NULL;
 }
 
 void LoadWiFiMenuSceneData(void) {
@@ -90,20 +90,20 @@ void InitWiFiStates(void *heap, s32 b) {
     StateMachine *q;
     gWiFiStates = heap_alloc(heap, 0x3c);
     gWiFiStates->mHeap = heap;
-    gWiFiStates->mUnk_14 = 0;
+    gWiFiStates->field14 = 0;
     menu_createRaceConfig(heap);
-    gWiFiStates->mUnk_2c = func_02125028(heap);
+    gWiFiStates->field2C = func_02125028(heap);
     InitLinkLevelIcons(heap, func_ov000_021804f4());
-    c.mUnk_00 = TRUE;
-    c.mUnk_04 = m2d_getFont(1);
-    c.mUnk_08 = 0;
-    c.mUnk_0c = 0;
-    c.mUnk_10 = 0;
-    c.mUnk_14 = FALSE;
-    c.mUnk_18 = NULL;
-    c.mUnk_1c = TRUE;
-    c.mUnk_20 = TRUE;
-    c.mUnk_24 = 1;
+    c.field0 = TRUE;
+    c.field4 = m2d_getFont(1);
+    c.field8 = 0;
+    c.fieldC = 0;
+    c.field10 = 0;
+    c.field14 = FALSE;
+    c.field18 = NULL;
+    c.field1C = TRUE;
+    c.field20 = TRUE;
+    c.field24 = 1;
     gmenu_unpackData();
     gmenu_init(heap, &c);
     LoadWiFiMenuSceneData();
@@ -115,9 +115,9 @@ void InitWiFiStates(void *heap, s32 b) {
     gWiFiStates->mStateHeap = heap_createSubExpHeap(heap);
     ClearWiFiStateCallbacks();
     gWiFiStates->mNextScene = -1;
-    if (gStruct217B488->mUnk_58 != FALSE) {
+    if (gStruct217B488->field58 != FALSE) {
         b = 0;
-        gStruct217B488->mUnk_58 = FALSE;
+        gStruct217B488->field58 = FALSE;
     }
     switch (b) {
         case 0:
@@ -125,7 +125,7 @@ void InitWiFiStates(void *heap, s32 b) {
             gWiFiStates->mState = 1;
             RegisterWiFiTopMenuCallbacks();
             func_021204d0();
-            gStruct217B488->mUnk_1c = 0;
+            gStruct217B488->field1C = 0;
             break;
         case 12:
             gWiFiStates->mPrevState = 13;
@@ -134,13 +134,13 @@ void InitWiFiStates(void *heap, s32 b) {
             break;
         case 2:
         case 10:
-            switch (gStruct217B488->mUnk_1c) {
+            switch (gStruct217B488->field1C) {
                 case 0:
                     gWiFiStates->mState = 1;
                     RegisterWiFiTopMenuCallbacks();
                     break;
                 case 1:
-                    q = &gStruct217D384->mUnk_0008;
+                    q = &gStruct217D384->field8;
                     q->mNextState = 2;
                     q->mNextStateRequested = 1;
                     gWiFiStates->mState = 2;
@@ -165,7 +165,7 @@ void InitWiFiStates(void *heap, s32 b) {
             RegisterWiFiAikotobaCallbacks();
             break;
         case 8:
-            switch (gStruct217B488->mUnk_50) {
+            switch (gStruct217B488->field50) {
                 case 0:
                     gWiFiStates->mPrevState = 14;
                     gWiFiStates->mState = 2;
@@ -181,7 +181,7 @@ void InitWiFiStates(void *heap, s32 b) {
     }
     gWiFiStates->mNextState = -1;
     gWiFiStates->mCallbacks.mInit(gWiFiStates->mStateHeap);
-    gStruct217B488->mUnk_78 = 1;
+    gStruct217B488->field78 = 1;
 }
 
 void ReleaseWiFiStates(void) {
@@ -245,15 +245,15 @@ void AdvanceWiFiStates(void) {
     }
     gmenu_render();
     AdvanceLinkLevelIcons();
-    gWiFiStates->mUnk_14++;
-    if (gWiFiStates->mUnk_14 > 0) {
-        gWiFiStates->mUnk_14 = 0;
+    gWiFiStates->field14++;
+    if (gWiFiStates->field14 > 0) {
+        gWiFiStates->field14 = 0;
     }
 }
 
 void func_ov000_02180704(void) {
-    if (gWiFiStates->mCallbacks.mUnk_0c != NULL) {
-        gWiFiStates->mCallbacks.mUnk_0c();
+    if (gWiFiStates->mCallbacks.fieldC != NULL) {
+        gWiFiStates->mCallbacks.fieldC();
     }
     gmenu_vblank();
 }
@@ -282,7 +282,7 @@ void SetWiFiNextScene(u32 p0) {
 }
 
 u32 func_ov000_021806a0(void) {
-    if (0 <= gWiFiStates->mUnk_14) {
+    if (0 <= gWiFiStates->field14) {
         return TRUE;
     }
     return FALSE;
@@ -317,7 +317,7 @@ void SetWiFiVSSettingIndex(u32 settingIndex) {
 
 s32 func_ov000_02180644(void) {
     u32 value0;
-    value0 = gWiFiStates->mUnk_34;
+    value0 = gWiFiStates->field34;
     return value0;
 }
 
@@ -325,7 +325,7 @@ void func_ov000_02180638(s32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     value1 = (u32) &gWiFiStates;
-    gWiFiStates->mUnk_34 = value0;
+    gWiFiStates->field34 = value0;
 }
 
 BOOL func_ov000_02180608(void) {
@@ -333,7 +333,7 @@ BOOL func_ov000_02180608(void) {
     if (gWiFiStates != NULL && gWiFiStates->mState == 0) {
         valid = FALSE;
     }
-    if (gStruct217D384->mUnk_0008.mState == 0 && valid != FALSE) {
+    if (gStruct217D384->field8.mState == 0 && valid != FALSE) {
         return TRUE;
     }
     return FALSE;

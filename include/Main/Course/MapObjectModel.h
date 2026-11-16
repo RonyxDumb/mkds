@@ -8,16 +8,16 @@
 
 // The draw group (MapObjectList), not the bundle: the creators' first argument; they store 1 or 2 at 0x18.
 typedef struct Unk0209bc74_a {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ s32 mUnk_18;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ s32 field18;
 } Unk0209bc74_a;
 
 // Three words written to the start of the objects of mobj_loadTexAnimBillboardModel, mobj_loadBillboardModel,
 // mobj_loadShadowModel and mobj_loadModel.
 typedef struct Unk0209bc74_00 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
 } Unk0209bc74_00;
 
 // The model bundle of one map object kind: one per kind (the global g<Stem> that Create<Stem> stores), shared by every

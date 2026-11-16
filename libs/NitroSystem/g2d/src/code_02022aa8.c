@@ -142,11 +142,11 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 x, s32 y, 
         objY = y + (oy << heightShift) * 8;
         for (colIdx = 0; colIdx < numX; colIdx++) {
             objX = (x + (colIdx << widthShift) * 8) & 0x1ff;
-            pObj->mUnk_00 = (pObj->mUnk_00 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
-            pObj->mUnk_00 = (pObj->mUnk_00 & 0x3fff3fff) | shape;
-            pObj->mUnk_04 = (pObj->mUnk_04 & -0x400) | charName;
+            pObj->field0 = (pObj->field0 & 0xfe00ff00) | (objY & 0xff) | (objX << 16);
+            pObj->field0 = (pObj->field0 & 0x3fff3fff) | shape;
+            pObj->field4 = (pObj->field4 & -0x400) | charName;
             charName += charNameStep;
-            pObj->mUnk_00 = (pObj->mUnk_00 & ~0x2000) | (color << 13);
+            pObj->field0 = (pObj->field0 & ~0x2000) | (color << 13);
             pObj++;
         }
     }
@@ -181,25 +181,25 @@ u32 GetGlyphIndex(Unk02022dd8 *pMap, u32 code) {
     Unk02022dd8_s *scan;
 
     index = 0xffff;
-    switch (pMap->mUnk_04) {
+    switch (pMap->field4) {
         case 0:
-            index = (u16) (pMap->mUnk_0c.mUnk_00 + (code - pMap->mUnk_00));
+            index = (u16) (pMap->fieldC.field0 + (code - pMap->field0));
             break;
         case 1:
-            index = (OFFSET_PTR(u16, pMap, 0xc))[code - pMap->mUnk_00];
+            index = (OFFSET_PTR(u16, pMap, 0xc))[code - pMap->field0];
             break;
         case 2:
-            scan = &pMap->mUnk_0c;
-            first = scan->mUnk_02;
-            last = first + (scan->mUnk_00 - 1);
+            scan = &pMap->fieldC;
+            first = scan->field2;
+            last = first + (scan->field0 - 1);
             while (first <= last) {
                 middle = first + (last - first) / 2;
-                if (middle->mUnk_00 < code) {
+                if (middle->field0 < code) {
                     first = middle + 1;
-                } else if (code < middle->mUnk_00) {
+                } else if (code < middle->field0) {
                     last = middle - 1;
                 } else {
-                    index = middle->mUnk_02;
+                    index = middle->field2;
                     break;
                 }
             }
@@ -212,28 +212,28 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
     u32 result;
     u32 encoding;
 
-    result = func_0202469c(pNftrFile, &pFont->mUnk_00);
-    encoding = pFont->mUnk_00->mUnk_07;
-    pFont->mUnk_08 = result - 1;
-    pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
-    pFont->mUnk_04 = data_021530e8[encoding];
+    result = func_0202469c(pNftrFile, &pFont->field0);
+    encoding = pFont->field0->field7;
+    pFont->field8 = result - 1;
+    pFont->fieldA = pFont->field8 != 0 ? 2 : 3;
+    pFont->field4 = data_021530e8[encoding];
 }
 
 void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
-    pFont->mUnk_08 = func_0202469c(pNftrFile, &pFont->mUnk_00) - 1;
-    pFont->mUnk_0a = pFont->mUnk_08 != 0 ? 2 : 3;
-    pFont->mUnk_04 = CharReadHalfword;
+    pFont->field8 = func_0202469c(pNftrFile, &pFont->field0) - 1;
+    pFont->fieldA = pFont->field8 != 0 ? 2 : 3;
+    pFont->field4 = CharReadHalfword;
 }
 
 u32 NNS_G2dFontFindGlyphIndex(Unk02022aa8 *pFont, u32 code) {
     Unk02022dd8 *charMap;
 
-    charMap = pFont->mUnk_00->mUnk_10;
+    charMap = pFont->field0->field10;
     while (charMap != 0) {
-        if (charMap->mUnk_00 <= code && code <= charMap->mUnk_02) {
+        if (charMap->field0 <= code && code <= charMap->field2) {
             return GetGlyphIndex(charMap, code);
         }
-        charMap = charMap->mUnk_08;
+        charMap = charMap->field8;
     }
     return 0xffff;
 }
@@ -242,15 +242,15 @@ NNSG2dCharWidths *NNS_G2dFontGetCharWidthsFromIndex(Unk02022aa8 *pFont, u32 idx)
     Unk02022c80_n *pRange;
     Unk02022ce4 *pRes;
 
-    pRes = pFont->mUnk_00;
-    pRange = pRes->mUnk_0c;
+    pRes = pFont->field0;
+    pRange = pRes->fieldC;
     while (pRange != 0) {
-        if (pRange->mUnk_00 <= idx && idx <= pRange->mUnk_02) {
-            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->mUnk_0a * (idx - pRange->mUnk_00));
+        if (pRange->field0 <= idx && idx <= pRange->field2) {
+            return (NNSG2dCharWidths *) ((u8 *) pRange + 8 + pFont->fieldA * (idx - pRange->field0));
         }
-        pRange = pRange->mUnk_04;
+        pRange = pRange->field4;
     }
-    return &pRes->mUnk_04;
+    return &pRes->field4;
 }
 
 s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPos) {
@@ -262,7 +262,7 @@ s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPo
     NNSG2dCharWidths *pWidths;
     s32 charWidth;
 
-    readChar = pFont->mUnk_04;
+    readChar = pFont->field4;
     width = 0;
     code = readChar(&pos);
     while (code != 0) {
@@ -271,10 +271,10 @@ s32 NNSi_G2dFontGetStringWidth(Unk02022aa8 *pFont, s32 hSpace, u8 *str, u8 **pPo
         }
         glyph = NNS_G2dFontFindGlyphIndex(pFont, code);
         if (glyph == 0xffff) {
-            glyph = pFont->mUnk_00->mUnk_02;
+            glyph = pFont->field0->field2;
         }
         pWidths = NNS_G2dFontGetCharWidthsFromIndex(pFont, glyph);
-        if (pFont->mUnk_08 != 0) {
+        if (pFont->field8 != 0) {
             charWidth = pWidths->mLeft + pWidths->mGlyphWidth;
         } else {
             charWidth = pWidths->mCharWidth;
@@ -298,7 +298,7 @@ s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
     Unk02022aa8_f *readChar;
     u16 code;
 
-    readChar = pFont->mUnk_04;
+    readChar = pFont->field4;
     lines = 1;
     code = readChar(&pos);
     while (code != 0) {
@@ -307,7 +307,7 @@ s32 NNSi_G2dFontGetTextHeight(Unk02022aa8 *pFont, s32 vSpace, u8 *txt) {
         }
         code = readChar(&pos);
     }
-    return lines * (vSpace + pFont->mUnk_00->mUnk_01) - vSpace;
+    return lines * (vSpace + pFont->field0->field1) - vSpace;
 }
 
 void NNSi_G2dFontGetTextRect(Unk02022b10 *pRect, Unk02022aa8 *pFont, s32 hSpace, s32 vSpace, u8 *txt) {
@@ -318,11 +318,11 @@ void NNSi_G2dFontGetTextRect(Unk02022b10 *pRect, Unk02022aa8 *pFont, s32 hSpace,
     lines = 1;
     while (txt != 0) {
         width = NNSi_G2dFontGetStringWidth(pFont, hSpace, txt, &txt);
-        if (width > rect.mUnk_00) {
-            rect.mUnk_00 = width;
+        if (width > rect.field0) {
+            rect.field0 = width;
         }
         lines++;
     }
-    rect.mUnk_04 = (lines - 1) * (vSpace + pFont->mUnk_00->mUnk_01) - vSpace;
+    rect.field4 = (lines - 1) * (vSpace + pFont->field0->field1) - vSpace;
     *pRect = rect;
 }

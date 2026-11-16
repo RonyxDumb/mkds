@@ -23,7 +23,7 @@ void savd_init(void *heap) {
     savd_initSections(1);
     gSaveData->mFailedBlockBits = 0;
     gSaveData->mReadStatus = 0;
-    gSaveData->mUnk_44 &= ~1;
+    gSaveData->field44 &= ~1;
     gSaveData->mBusy = 0;
 }
 

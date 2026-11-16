@@ -24,10 +24,10 @@ void func_020f1150(int object, int kartIndex) {
 
 void SetItemKouraRKartItems(ItemKouraR *item, int kartIndex) {
     item->mKartItems = &it_sDriverItemStatus[kartIndex];
-    item->mUnk_238 = 0;
+    item->field238 = 0;
 }
 
 void func_020f1104(ItemKouraR *item) {
-    VEC_Add(&item->mUnk_22c, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity, &item->mUnk_000.mUnk_000.mUnk_000.mVelocity);
+    VEC_Add(&item->field22C, &item->field0.field0.field0.mVelocity, &item->field0.field0.field0.mVelocity);
     func_020f29e8(item);
 }

@@ -51,12 +51,12 @@
 
 s32 driver_initReaction13(Kart *kart, s32 *output) {
     *output = 0xc;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->field48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->field538.field0 = 0;
     kart->mMiniTurboTimer = 0;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if ((kart->field4C & 0x10000000) == 0 && (kart->field48 & 0x4000000) == 0) {
             cam_resetPlayerCameraTargetFov();
         }
         dce_stopBlur();
@@ -67,12 +67,12 @@ s32 driver_initReaction13(Kart *kart, s32 *output) {
 
 s32 driver_initSingleSpinElectricityReaction(Kart *kart, s32 *output) {
     *output = 0xc;
-    kart->mUnk_48 &= 0xdfe77fdf;
+    kart->field48 &= 0xdfe77fdf;
     kart->mBoostTimer = 0;
-    kart->mUnk_538.mUnk_00 = 0;
+    kart->field538.field0 = 0;
     kart->mMiniTurboTimer = 0;
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        if ((kart->mUnk_4c & 0x10000000) == 0 && (kart->mUnk_48 & 0x4000000) == 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if ((kart->field4C & 0x10000000) == 0 && (kart->field48 & 0x4000000) == 0) {
             cam_resetPlayerCameraTargetFov();
         }
         dce_stopBlur();
@@ -84,9 +84,9 @@ s32 driver_initSingleSpinElectricityReaction(Kart *kart, s32 *output) {
 }
 
 s32 driver_initDossunSmashReaction(Kart *kart, s32 *output, s32 mapObject) {
-    if (driver_startDossunFlatEffect(kart) != FALSE && kart->mUnk_44c != (struct MapObject *) mapObject &&
-        (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        driver_getPlayerStatistics()->mUnk_14++;
+    if (driver_startDossunFlatEffect(kart) != FALSE && kart->field44C != (struct MapObject *) mapObject &&
+        (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        driver_getPlayerStatistics()->field14++;
     }
     *output = 0;
     return 0;
@@ -134,10 +134,10 @@ s32 driver_handleBoostPadCollision(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->field44 & 0x80000000) != 0) {
         driver_addBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
         soundIds = gKartSurfaceSoundIds;
-        if (kart->mSurfaceVariant > 0 && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if (kart->mSurfaceVariant > 0 && (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
             sound = sfx_21090C4(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -151,14 +151,14 @@ s32 driver_handleBoostPadCollision(Kart *kart) {
 }
 
 s32 driver_handleJumpPadCollision(Kart *kart) {
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->field44 & 0x80000000) != 0) {
         if (gRaceMultiConfig->mCourseId == COURSE_ID_OLD_KOOPA_AGB || gRaceMultiConfig->mCourseId == COURSE_ID_OLD_SKY_AGB) {
             sfx_21090C4(&kart->mSoundSource, 0x15e, 0x7f, 0);
         }
     }
-    kart->mUnk_48 = kart->mUnk_48 | 0x10000000;
+    kart->field48 = kart->field48 | 0x10000000;
     kart->mVerticalSpeed = gKartSurfaceKind12VerticalSpeeds[kart->mSurfaceVariant];
-    kart->mUnk_4c4 = data_0216559c[kart->mSurfaceVariant];
+    kart->field4C4 = data_0216559c[kart->mSurfaceVariant];
     rptc_killDriverEffects_copy(kart);
     return 8;
 }
@@ -167,10 +167,10 @@ s32 driver_handleBoostPad2Collision(Kart *kart) {
     KartSurfaceSoundIds soundIds;
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 8 || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 8 || (kart->field44 & 0x80000000) != 0) {
         driver_addBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
         soundIds = gKartSurfaceSoundIds;
-        if (kart->mSurfaceVariant > 0 && (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if (kart->mSurfaceVariant > 0 && (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
             sound = sfx_21090C4(&kart->mSoundSource, soundIds.mSoundIds[kart->mSurfaceVariant - 1], 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -180,7 +180,7 @@ s32 driver_handleBoostPad2Collision(Kart *kart) {
         kart->mBoostTimer = 0x3c;
     }
     rptc_killDriverEffects_copy(kart);
-    kart->mUnk_48 = kart->mUnk_48 | 0x400000;
+    kart->field48 = kart->field48 | 0x400000;
     return 8;
 }
 
@@ -188,12 +188,12 @@ s32 driver_handleCannonCollision(Kart *kart) {
     u16 surfaceVariant;
 
     rptc_collisionParticleRender(0, kart);
-    if ((kart->mUnk_48 & 0x10000) == 0) {
+    if ((kart->field48 & 0x10000) == 0) {
         surfaceVariant = kart->mSurfaceVariant;
         if (gRaceMultiConfig->mMode == MODE_BATTLE || gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             driver_pipeTeleport(kart, surfaceVariant);
         } else {
-            kart->mUnk_48 = kart->mUnk_48 | 0x10000;
+            kart->field48 = kart->field48 | 0x10000;
             driver_cannonLaunch(kart, 0);
         }
     }
@@ -208,9 +208,9 @@ s32 driver_handleFallsWaterCollision(Kart *kart) {
 s32 driver_handleLoopingCollision(Kart *kart) {
     PlayingSound *sound;
 
-    if (kart->mSurfaceGroup != 0xb || (kart->mUnk_44 & 0x80000000) != 0) {
+    if (kart->mSurfaceGroup != 0xb || (kart->field44 & 0x80000000) != 0) {
         driver_addBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x3c);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
             sound = sfx_21090C4(&kart->mSoundSource, 0x1b9, 0x7f, 0);
             if (sound != NULL) {
                 sound->mFlags = sound->mFlags | 0x10;
@@ -219,7 +219,7 @@ s32 driver_handleLoopingCollision(Kart *kart) {
     } else {
         kart->mBoostTimer = 0x3c;
     }
-    kart->mUnk_48 = kart->mUnk_48 | 0x40000001;
+    kart->field48 = kart->field48 | 0x40000001;
     rptc_killDriverEffects_copy(kart);
     return 0xb;
 }
@@ -247,7 +247,7 @@ void driver_updateEnemy(Kart *kart) {
     Kart *entryKart;
     u32 kartBits;
 
-    kartBits = kart->mUnk_7c;
+    kartBits = kart->field7C;
     if ((kartBits & 2) == 0) {
         return;
     }
@@ -273,9 +273,9 @@ void driver_updateEnemy(Kart *kart) {
     offset.y = offset.y >> 12;
     offset.z = offset.z >> 12;
     if (offset.x * offset.x + offset.y * offset.y + offset.z * offset.z > 0x271000) {
-        kart->mUnk_48 = kart->mUnk_48 | 0x8000000;
+        kart->field48 = kart->field48 | 0x8000000;
     } else {
-        kart->mUnk_48 = kart->mUnk_48 & ~0x8000000;
+        kart->field48 = kart->field48 & ~0x8000000;
     }
 }
 
@@ -290,11 +290,11 @@ void func_02066fe0(Kart *kart) {
     KartItemEffectState *effectState;
     u32 g;
 
-    if ((kart->mUnk_7c & 0x1000) != 0) {
+    if ((kart->field7C & 0x1000) != 0) {
         return;
     }
-    kart->mUnk_7c = kart->mUnk_7c | 0x1000;
-    if ((kart->mUnk_7c & 0x400) == 0) {
+    kart->field7C = kart->field7C | 0x1000;
+    if ((kart->field7C & 0x400) == 0) {
         courseMap = gMapData;
         if ((courseMap->mRaceRouteCount != 0 || courseMap->mBattleRouteCount != 0) && rstat_hasDriverFinished(kart->mIndex) != 0) {
             raceSetup = gRaceMultiConfig;
@@ -305,33 +305,33 @@ void func_02066fe0(Kart *kart) {
                 c = 1;
             }
             if (c != 0) {
-                c = kart->mUnk_7c;
+                c = kart->field7C;
                 if ((c & 6) == 0 && (c & 8) == 0) {
                     data_02175664[kart->mEntryIndex].mSourceKind = 3;
-                    if (gRaceStatus->mUnk_000[kart->mIndex].mStatus == 1) {
+                    if (gRaceStatus->field0[kart->mIndex].mStatus == 1) {
                         enmy_init(kart->mAi, kart->mIndex);
-                        kart->mUnk_7c = kart->mUnk_7c | 2;
-                        if ((kart->mUnk_7c & 2) != 0) {
+                        kart->field7C = kart->field7C | 2;
+                        if ((kart->field7C & 2) != 0) {
                             for (i = 0; i < 12; i++) {
                                 if (i != 0) {
-                                    kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[i] << 2;
-                                    if (kart->mPhysicalParam->mUnk_38[i] > kart->mPhysicalParam->mUnk_38[0]) {
-                                        kart->mPhysicalParam->mUnk_38[i] = kart->mPhysicalParam->mUnk_38[0];
+                                    kart->mPhysicalParam->field38[i] = kart->mPhysicalParam->field38[i] << 2;
+                                    if (kart->mPhysicalParam->field38[i] > kart->mPhysicalParam->field38[0]) {
+                                        kart->mPhysicalParam->field38[i] = kart->mPhysicalParam->field38[0];
                                     }
                                 }
                             }
                         }
                     } else {
-                        kart->mUnk_7c = kart->mUnk_7c | 8;
+                        kart->field7C = kart->field7C | 8;
                     }
                 }
-            } else if (raceSetup->mRuleKind == 1 && gRaceStatus->mUnk_000[kart->mIndex].mStatus != 1) {
-                kart->mUnk_7c = kart->mUnk_7c | 0x200000;
+            } else if (raceSetup->mRuleKind == 1 && gRaceStatus->field0[kart->mIndex].mStatus != 1) {
+                kart->field7C = kart->field7C | 0x200000;
             } else if (raceSetup->mMode == MODE_MISSION_RUN) {
-                kart->mUnk_7c = kart->mUnk_7c | 0x200000;
-                kart->mUnk_48 = kart->mUnk_48 | 0x2000;
+                kart->field7C = kart->field7C | 0x200000;
+                kart->field48 = kart->field48 | 0x2000;
             }
-            if ((kart->mUnk_7c & KART_7C_ENTRY_KIND_2) != 0) {
+            if ((kart->field7C & KART_7C_ENTRY_KIND_2) != 0) {
                 func_02068ec0(kart, 0);
             }
         }
@@ -339,31 +339,31 @@ void func_02066fe0(Kart *kart) {
     StartKartWinOrLoseAnimation(kart);
     cspl_killSplashes(kart->mIndex);
     rptc_stopRainbowEffectDirect(kart->mIndex);
-    if ((kart->mUnk_4c & 0x40) != 0) {
-        kart->mUnk_4c = kart->mUnk_4c & ~0x40;
+    if ((kart->field4C & 0x40) != 0) {
+        kart->field4C = kart->field4C & ~0x40;
         driver_disableStarToonMode(kart);
         kart->mItemEffect = 0;
         rptc_stopRainbowEffect(kart->mIndex);
         driver_2068A64(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0 && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
             snd_stopStarMusic();
         }
-        if ((kart->mUnk_4c & 0x2000) != 0) {
+        if ((kart->field4C & 0x2000) != 0) {
             driver_enableSlipStreamToonMode(kart);
         }
     }
-    effectState = &kart->mUnk_538;
-    if ((kart->mUnk_4c & 0x10000000) != 0 && effectState->mKillerEnding == FALSE) {
+    effectState = &kart->field538;
+    if ((kart->field4C & 0x10000000) != 0 && effectState->mKillerEnding == FALSE) {
         effectState->mKillerEnding = TRUE;
-        if ((kart->mUnk_7c & 0x200) != 0) {
-            kart->mUnk_514->mUnk_2c ^= 0x200000;
+        if ((kart->field7C & 0x200) != 0) {
+            kart->field514->field2C ^= 0x200000;
         }
     }
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
+    if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
         race_20617D8();
         raceSetup = gRaceMultiConfig;
         if (raceSetup->mMode != MODE_GRAND_PRIX && raceSetup->mMode != MODE_TIME_ATTACK &&
-            ((raceSetup->mRuleKind == 1 && gRaceStatus->mUnk_000[kart->mIndex].mStatus != 1) ||
+            ((raceSetup->mRuleKind == 1 && gRaceStatus->field0[kart->mIndex].mStatus != 1) ||
              ((i = raceSetup->mKartCount) > 1 && (c = rstat_getPlace(kart->mIndex), c == i)))) {
             cam_2075CF0();
         } else {
@@ -371,7 +371,7 @@ void func_02066fe0(Kart *kart) {
             rptc_2081F30();
         }
     } else if (gRaceMultiConfig->mMode == MODE_VS || gRaceMultiConfig->mMode == 5) {
-        if (gRaceStatus->mUnk_000[kart->mIndex].mStatus == 1) {
+        if (gRaceStatus->field0[kart->mIndex].mStatus == 1) {
             framesSinceEntryEnd = 0;
             if (race_20617A8((u32 *) &framesSinceEntryEnd) != 0 &&
                 (u32) framesSinceEntryEnd > 0xb4) {
@@ -407,7 +407,7 @@ void func_02066fe0(Kart *kart) {
         return;
     }
     d = func_02110fb8(rstat_getPlace(kart->mIndex));
-    if ((kart->mUnk_48 & 0x840) != 0) {
+    if ((kart->field48 & 0x840) != 0) {
         return;
     }
     sfx_emitDriverVoice(kart, kart->mSoundIndex, d);
@@ -425,7 +425,7 @@ void AdvanceKartWobble(Kart *kart) {
     if (kart->mWobbleAmplitude > 0) {
         kart->mWobbleAmplitude = (s64) kart->mWobbleAmplitude * gKartWobbleAmplitudeDecay + 0x800 >> 12;
         kart->mWobbleAmplitude = kart->mWobbleAmplitude - 0x64;
-        if ((kart->mUnk_44 & KART_44_ON_GROUND) == 0 ||
+        if ((kart->field44 & KART_44_ON_GROUND) == 0 ||
             (kart->mForwardSpeed > 0 ? kart->mForwardSpeed : -kart->mForwardSpeed) < 0x3000) {
             kart->mWobbleAmplitude = (s64) kart->mWobbleAmplitude * 0xe66 + 0x800 >> 12;
         }
@@ -444,7 +444,7 @@ void AdvanceKartWobble(Kart *kart) {
     if ((kart->mWobbleEasedAmplitude > 0 ? kart->mWobbleEasedAmplitude : -kart->mWobbleEasedAmplitude) >= 0x29) {
         return;
     }
-    kart->mUnk_4c = kart->mUnk_4c & ~0x2000000;
+    kart->field4C = kart->field4C & ~0x2000000;
     kart->mWobbleAngle = 0;
     kart->mWobbleSine = 0;
     kart->mWobbleAmplitude = 0;
@@ -464,15 +464,15 @@ void func_02066ac0(Kart *kart) {
     ParticipantKartRecordNode *pendingNode;
     ParticipantKartRecordNode *nextNode;
 
-    state = kart->mUnk_514;
+    state = kart->field514;
     appliedNow = 0;
     h = func_0205b954(((u8 *) gStruct217AA18)[kart->mIndex & 0xff]);
-    state->mUnk_24 = race_getState() == 1 ? 0x333 : appliedNow;
-    if (h > state->mUnk_20) {
+    state->field24 = race_getState() == 1 ? 0x333 : appliedNow;
+    if (h > state->field20) {
         entry = func_0205b978(((u8 *) gStruct217AA18)[kart->mIndex & 0xff], h);
-        record = entry != NULL ? (ParticipantKartRecord *) entry->mUnk_08 : 0;
+        record = entry != NULL ? (ParticipantKartRecord *) entry->field8 : 0;
         if (record != NULL) {
-            difference = gStruct217AA14->mUnk_728 - h;
+            difference = gStruct217AA14->field728 - h;
             if (difference < 0) {
                 negatedDifference = -difference;
                 node = NNS_FndGetNthListObject(&state->mFreeRecords, 0);
@@ -482,7 +482,7 @@ void func_02066ac0(Kart *kart) {
                     node->mApplyTimer = negatedDifference + 1;
                     NNS_FndAppendListObject(&state->mPendingRecords, node);
                 }
-                stateAgain = kart->mUnk_514;
+                stateAgain = kart->field514;
                 stateAgain->mEasedTurnAngle =
                     stateAgain->mEasedTurnAngle +
                     (s32) ((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800 >> 12);
@@ -495,15 +495,15 @@ void func_02066ac0(Kart *kart) {
                 appliedNow = 1;
             }
         }
-        state->mUnk_20 = h;
+        state->field20 = h;
     } else {
-        stateAgain = kart->mUnk_514;
+        stateAgain = kart->field514;
         stateAgain->mEasedTurnAngle =
             stateAgain->mEasedTurnAngle +
             (s32) ((s64) (stateAgain->mTargetTurnAngle - stateAgain->mEasedTurnAngle) * 0x333 + 0x800 >> 12);
         kart->mTurnAngle = stateAgain->mEasedTurnAngle;
     }
-    stateAgain = kart->mUnk_514;
+    stateAgain = kart->field514;
     pendingNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, NULL);
     while (pendingNode != NULL) {
         nextNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, pendingNode);
@@ -521,26 +521,26 @@ void func_02066ac0(Kart *kart) {
         }
         pendingNode = NNS_FndGetNextListObject(&stateAgain->mPendingRecords, pendingNode);
     }
-    if ((kart->mUnk_514->mUnk_44 & 2) != 0) {
+    if ((kart->field514->field44 & 2) != 0) {
         input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_A);
     }
-    if ((kart->mUnk_514->mUnk_44 & 4) != 0) {
+    if ((kart->field514->field44 & 4) != 0) {
         input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_B);
     }
-    if ((kart->mUnk_514->mUnk_44 & 8) != 0) {
+    if ((kart->field514->field44 & 8) != 0) {
         input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_LEFT);
     }
-    if ((kart->mUnk_514->mUnk_44 & 0x10) != 0) {
+    if ((kart->field514->field44 & 0x10) != 0) {
         input_pressVirtualPadKeys(kart->mEntryIndex, PAD_KEY_RIGHT);
     }
-    if ((kart->mUnk_514->mUnk_44 & 1) != 0) {
-        kart->mUnk_44 = kart->mUnk_44 | KART_44_ON_GROUND;
+    if ((kart->field514->field44 & 1) != 0) {
+        kart->field44 = kart->field44 | KART_44_ON_GROUND;
     }
-    if ((kart->mUnk_514->mUnk_44 & 0x20) != 0) {
+    if ((kart->field514->field44 & 0x20) != 0) {
         kart->mBoostTimer = 3;
-        kart->mUnk_48 = kart->mUnk_48 | KART_48_BOOST;
+        kart->field48 = kart->field48 | KART_48_BOOST;
     } else {
         kart->mBoostTimer = 0;
-        kart->mUnk_48 = kart->mUnk_48 & ~KART_48_BOOST;
+        kart->field48 = kart->field48 & ~KART_48_BOOST;
     }
 }

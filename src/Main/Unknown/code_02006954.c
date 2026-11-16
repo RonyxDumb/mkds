@@ -123,7 +123,7 @@ BOOL TryGetBlockReceiveProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkC
     ChunkReceiveState *receive;
     transfer = WBTi_GetCommandParameter();
     receive = &transfer->mEntries[entryIndex].mReceive;
-    if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.mUnk_14 == blockId) {
+    if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.field14 == blockId) {
         *chunkCountOut = receive->mChunkCount;
         *receivedChunkCountOut = receive->mReceivedChunkCount;
         return TRUE;
@@ -180,11 +180,11 @@ s32 WBT_RegisterBlock(BlockListNode *node, u32 blockId, const void *info, u8 *da
     node->mNext = NULL;
     node->mId = blockId;
     node->mSize = size;
-    node->mUnk_30 = f;
+    node->field30 = f;
     if (info != NULL) {
-        MI_CpuCopy8(info, node->mUnk_08, 0x20);
+        MI_CpuCopy8(info, node->field8, 0x20);
     } else {
-        MI_CpuFill8(node->mUnk_08, 0, 0x20);
+        MI_CpuFill8(node->field8, 0, 0x20);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return 1;
@@ -230,9 +230,9 @@ u32 RequestBlockNode(u16 indexMask, u32 blockIdOrPosition, const void *buffers,
     request.mKind = 6;
     request.mIndexMask = indexMask;
     request.mCallback = callback;
-    request.mUnk_14 = blockIdOrPosition;
-    request.mUnk_18 = 0x28;
-    MIi_CpuCopy32(buffers, &request.mUnk_1c, 0x40);
+    request.field14 = blockIdOrPosition;
+    request.field18 = 0x28;
+    MIi_CpuCopy32(buffers, &request.field1C, 0x40);
     return TrySetNextRequest(&request);
 }
 
@@ -242,9 +242,9 @@ u32 RequestBlockData(u16 indexMask, u32 blockId, const void *buffers, u32 blockS
     request.mKind = 4;
     request.mIndexMask = indexMask;
     request.mCallback = callback;
-    request.mUnk_14 = blockId;
-    request.mUnk_18 = blockSize;
-    MIi_CpuCopy32(buffers, &request.mUnk_1c, 0x40);
+    request.field14 = blockId;
+    request.field18 = blockSize;
+    MIi_CpuCopy32(buffers, &request.field1C, 0x40);
     MIi_CpuCopy32(chunkBitmaps, &request.mChunkBitmaps, 0x40);
     return TrySetNextRequest(&request);
 }
@@ -259,7 +259,7 @@ u32 RequestSendBytes(u16 indexMask, const void *bytes, s32 byteCount, void (*cal
     requestPointer = &request;
     requestPointer->mIndexMask = indexMask;
     requestPointer->mCallback = (void (*)(BlockTransferRecord *)) callback;
-    MI_CpuCopy8(bytes, &requestPointer->mUnk_14, byteCount);
+    MI_CpuCopy8(bytes, &requestPointer->field14, byteCount);
     *((u8 *) requestPointer + 0x1d) = byteCount;
     return TrySetNextRequest(&request);
 }

@@ -47,18 +47,18 @@ void oam_prepareBuffers(void *mainOam, void *subOam) {
         usedEntryCount = mainOamList->mOamCount;
         DC_FlushRange(mainOamList, 0x400);
         for (i = 0; i < 0x80 - usedEntryCount; i++) {
-            mainOamList->mUnk_00[usedEntryCount + i].mUnk_00 =
-                (mainOamList->mUnk_00[usedEntryCount + i].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            mainOamList->mUnk_00[usedEntryCount + i].mUnk_00_0 = 0xe0;
+            mainOamList->field0[usedEntryCount + i].field0 =
+                (mainOamList->field0[usedEntryCount + i].field0 & 0xfe00ffff) | 0x1800000;
+            mainOamList->field0[usedEntryCount + i].field0_0 = 0xe0;
         }
     }
     if (subOamList != NULL) {
         usedEntryCount = subOamList->mOamCount;
         DC_FlushRange(subOamList, 0x400);
         for (i = 0; i < 0x80 - usedEntryCount; i++) {
-            subOamList->mUnk_00[usedEntryCount + i].mUnk_00 =
-                (subOamList->mUnk_00[usedEntryCount + i].mUnk_00 & 0xfe00ffff) | 0x1800000;
-            subOamList->mUnk_00[usedEntryCount + i].mUnk_00_0 = 0xe0;
+            subOamList->field0[usedEntryCount + i].field0 =
+                (subOamList->field0[usedEntryCount + i].field0 & 0xfe00ffff) | 0x1800000;
+            subOamList->field0[usedEntryCount + i].field0_0 = 0xe0;
         }
     }
 }

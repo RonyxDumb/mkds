@@ -63,19 +63,19 @@ void logo_create(void *heap) {
     logo_loadBg(&logo_sLogoState->mMainBg, 1, aLogo_r_ninte_1, aLogo_r_ninte_2, aLogo_r_nintend);
     logo_loadBg(&logo_sLogoState->mSubBg, 0, aAllrightsres_1, aAllrightsres_2, aAllrightsreser);
     sm_init(&logo_sLogoState->mStateMachine, logo_sStates, 12, NULL);
-    logo_sLogoState->mUnk_2c_0 = 0;
+    logo_sLogoState->field2C_0 = 0;
     logo_sLogoState->mState0Frames = 0;
     logo_sLogoState->mCommonMessages = arc_get2dArcFile(aCommon_bmg);
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = m2d_getFont(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = FALSE;
-    arg.mUnk_20 = FALSE;
-    arg.mUnk_24 = 0;
-    arg.mUnk_0c = 1;
+    arg.field0 = TRUE;
+    arg.field4 = m2d_getFont(1);
+    arg.field8 = 0;
+    arg.field10 = 0;
+    arg.field14 = FALSE;
+    arg.field18 = NULL;
+    arg.field1C = FALSE;
+    arg.field20 = FALSE;
+    arg.field24 = 0;
+    arg.fieldC = 1;
     gmenu_unpackData();
     gmenu_init(heap, &arg);
 }
@@ -124,7 +124,7 @@ void logo_render(SceneNumbersView *sceneNumbers) {
 
 void logo_fadeInStateInit(void) {
     savd_loadAsync();
-    logo_sLogoState->mUnk_2c_1 = 0;
+    logo_sLogoState->field2C_1 = 0;
 }
 
 void logo_fadeInStateUpdate(void) {
@@ -140,5 +140,5 @@ void logo_fadeInStateUpdate(void) {
     if ((gInputUnits[slotIndex].mBits & 0xf03) != 0xf03) {
         return;
     }
-    logo_sLogoState->mUnk_2c_0 = 1;
+    logo_sLogoState->field2C_0 = 1;
 }

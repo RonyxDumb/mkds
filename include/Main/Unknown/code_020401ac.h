@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-// Writes mNextHeader.mUnk_5c; shuffles the respawn slots in mode 2.
+// Writes mNextHeader.field5C; shuffles the respawn slots in mode 2.
 void rstat_init2(void);
 void rstat_initDriverStatus(RaceProgressKart *raceProgressKart, s32 kartIndex);
 s16 rstat_calculateSkillRankPoints(s32 kartIndex);

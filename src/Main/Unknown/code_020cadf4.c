@@ -8,10 +8,10 @@
 void menu_gotoRaceStateRender(Unk020cadf4 *a) {
     if (a != NULL) {
         if (menu_sysdat_getOverlayRelatedNum() != 0 && menu_sysdat_getIsMBChild() != 0) {
-            a->mUnk_04 = 6;
+            a->field4 = 6;
             func_020cae24(1);
         } else {
-            a->mUnk_04 = 2;
+            a->field4 = 2;
         }
     }
 }

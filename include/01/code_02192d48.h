@@ -4,16 +4,16 @@
 #include "ITCM/code_01ff9000.h"
 
 typedef struct StopSignObject {
-    /* 00 */ u8 mUnk_00[4];
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0xc];
-    /* 1c */ u8 mUnk_1c[0xc];
-    /* 28 */ u8 mUnk_28[0x24];
-    /* 4c */ s32 mUnk_4c;
-    /* 50 */ s32 mUnk_50;
-    /* 54 */ s32 mUnk_54;
+    /* 00 */ u8 field0[4];
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[0xc];
+    /* 1c */ u8 field1C[0xc];
+    /* 28 */ u8 field28[0x24];
+    /* 4c */ s32 field4C;
+    /* 50 */ s32 field50;
+    /* 54 */ s32 field54;
 } StopSignObject;
 
 #include "01/code_021928c8.h"

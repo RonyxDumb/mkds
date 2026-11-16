@@ -9,32 +9,32 @@
 struct MapObject;
 struct CourseMapRow;
 
-// Object behind MapObject.mUnk_94, passed to SetSoundSourceFlagBit (which reads its halfword at 0x34).
+// Object behind MapObject.field94, passed to SetSoundSourceFlagBit (which reads its halfword at 0x34).
 typedef struct MapObjectSound {
     // Sound source of the map object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
-    /* 44 */ SoundDistanceSquaredChange mUnk_44;
-    /* 54 */ u8 mUnk_54[0xc];
+    /* 44 */ SoundDistanceSquaredChange field44;
+    /* 54 */ u8 field54[0xc];
 } MapObjectSound;
 
 // Object behind MapObject.mKindData; kinds whose rows point at the same record share it.
 typedef struct MapObjectKindData {
-    /* 00 */ s32 (*mUnk_00)(struct MapObject *e, void *a, s32 *b, s32 *c);
-    /* 04 */ s32 (*mUnk_04)(struct MapObject *e, void *a, void *b, void *c);
+    /* 00 */ s32 (*field0)(struct MapObject *e, void *a, s32 *b, s32 *c);
+    /* 04 */ s32 (*field4)(struct MapObject *e, void *a, void *b, void *c);
     /* 08 */ s32 mShapeKind;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
     /* 18 */ s32 (*mSphereHitTest)(struct MapObject *a, Vec3 *b, s32 c, Vec3 *d);
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ s32 mUnk_24;
-    /* 28 */ s32 mUnk_28;
-    /* 2c */ s32 mUnk_2c;
-    /* 30 */ s32 mUnk_30;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ s32 mUnk_3c;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
+    /* 24 */ s32 field24;
+    /* 28 */ s32 field28;
+    /* 2c */ s32 field2C;
+    /* 30 */ s32 field30;
+    /* 34 */ s32 field34;
+    /* 38 */ s32 field38;
+    /* 3c */ s32 field3C;
 } MapObjectKindData;
 
 // Element object up to 0xa0, which every kind shares: mobj_logicPartExecute and mobj_logicPartUpdateSoundEmitter read 0x78 and 0x94 of every
@@ -45,7 +45,7 @@ typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
     /* 04 */ Vec3 mPos;
-    /* 10 */ Vec3 mUnk_10;
+    /* 10 */ Vec3 field10;
     /* 1c */ Vec3 mScale;
     /* 28 */ MtxFx43 mMatrix;
     // Size of the collision shape along the object's local axes: the kind's size times mScale (a few kinds set a
@@ -65,7 +65,7 @@ typedef struct MapObject {
     /* 68 */ s32 mViewRadius;
     // Horizontal distance from the camera, plus mViewRadius, beyond which the view test sets mDistanceSquaredAndFlags
     // bit 0 (the object fades out). The kind's value, capped by the course settings, and 0x270f000 when the game
-    // record's mUnk_00c is 3.
+    // record's fieldC is 3.
     /* 6c */ s32 mDrawDistance;
     // Squared horizontal distance from the camera beyond which the view test sets mDistanceSquaredAndFlags bit 2.
     // Copied from the word at 0x20 of a volume curve of gSfxParams (curve 2 at creation); the kinds compare it with
@@ -98,7 +98,7 @@ typedef struct MapObject {
 
 // Object of fwdst_init and fwdst_globalInitLogic: two u16s after the shared part.
 typedef struct Unk020e730c {
-    /* 00 */ MapObject mUnk_00;
+    /* 00 */ MapObject field0;
     /* a0 */ u16 mTableIndex;
     /* a2 */ u16 mEntryValue;
 } Unk020e730c;
@@ -108,15 +108,15 @@ typedef struct Unk020e730c {
 typedef struct MapObjectList {
     /* 00 */ void **mMapObjects;
     /* 04 */ u16 mMapObjectCount;
-    /* 06 */ u8 mUnk_06[2];
+    /* 06 */ u8 field6[2];
     /* 08 */ void (*mInit)(struct MapObjectList *p);
     /* 0c */ void (*mBeforeObjects)(struct MapObjectList *p);
     /* 10 */ UnkFunc *mForEachObject;
     /* 14 */ void (*mAfterObjects)(struct MapObjectList *p);
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 (*mUnk_1c)(MapObject *e, void *a, void *b, void *c);
-    /* 20 */ s32 mUnk_20;
-    /* 24 */ void **mUnk_24;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 (*field1C)(MapObject *e, void *a, void *b, void *c);
+    /* 20 */ s32 field20;
+    /* 24 */ void **field24;
 } MapObjectList;
 
 typedef struct NsbmdModel NsbmdModel;
@@ -125,15 +125,15 @@ typedef struct Unk0210b7a8 Unk0210b7a8;
 
 // 0x40-byte block that fwdst_setupConfig takes from data_02159370.
 typedef struct Unk020e7410 {
-    /* 00 */ u32 mUnk_00[0x10];
+    /* 00 */ u32 field0[0x10];
 } Unk020e7410;
 
 // Source rows read by the second loop of jg_load, 0x0c bytes each; a
 // row's non-zero words are names looked up by arc_getSceneArcFile.
 typedef struct Unk0216c324 {
-    /* 00 */ const char *mUnk_00;
-    /* 04 */ const char *mUnk_04;
-    /* 08 */ const char *mUnk_08;
+    /* 00 */ const char *field0;
+    /* 04 */ const char *field4;
+    /* 08 */ const char *field8;
 } Unk0216c324;
 
 // A row of gJgKindRows, by LukituObject: rows 2 and 3 hold a model and one animation, rows 0 and 1 only mLapModel.

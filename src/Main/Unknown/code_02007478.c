@@ -21,7 +21,7 @@ u32 func_020074d8(void) {
     child = 1;
     work = data_0216fdac;
     for (; child <= 15; child++) {
-        if (work->mUnk_14e8[child - 1] == 5) {
+        if (work->field14E8[child - 1] == 5) {
             v2[work->mChildEntryIndex[child - 1]]++;
         }
     }
@@ -40,15 +40,15 @@ u32 func_020074d8(void) {
     }
     data_02161784 = v4;
     for (child = 1; child <= 15; child++) {
-        if (work->mUnk_14e8[child - 1] == 5 && v4 == work->mChildEntryIndex[child - 1]) {
+        if (work->field14E8[child - 1] == 5 && v4 == work->mChildEntryIndex[child - 1]) {
             childMask |= 1 << child;
         }
     }
-    message.mUnk_00 = 3;
-    message.mUnk_02 = v4;
+    message.field0 = 3;
+    message.field2 = v4;
     v9 = WriteParentMessage((u8 *) &message, (u8 *) work);
     if (v9 != NULL) {
-        MI_CpuCopy8(data_0216fdac->mUnk_1788 + v4 * 0x5d4, v9, 0xe4);
+        MI_CpuCopy8(data_0216fdac->field1788 + v4 * 0x5d4, v9, 0xe4);
     }
     return MBi_BlockHeaderEnd(0xea, childMask, *(u32 *) &data_0216fdac);
 }
@@ -62,14 +62,14 @@ void LoadDataRange(DataRangeLoadJob *job) {
     table = job->mDataRangeTable;
     FS_InitFile(&file);
     offset = range->mOffset;
-    if (FS_OpenFileDirect(&file, FS_FindArchive(table->mUnk_10, table->mUnk_14), offset, offset + range->mSize, -1) !=
+    if (FS_OpenFileDirect(&file, FS_FindArchive(table->field10, table->field14), offset, offset + range->mSize, -1) !=
         0) {
         if (range->mSize == FS_ReadFile(&file, range->mData, range->mSize)) {
-            range->mUnk_0c = 2;
+            range->fieldC = 2;
         }
         FS_CloseFile(&file);
     }
-    if (range->mUnk_0c != 2) {
+    if (range->fieldC != 2) {
         OS_Terminate();
     }
 }

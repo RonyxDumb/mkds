@@ -34,7 +34,7 @@ u8 mtree_onDriverCollide(MoveTree *moveTree, Kart *kart, u8 *c, u8 *d) {
 
     v = *d;
     if (moveTree->mState <= 1) {
-        moveTree->mUnk_a4 = 30;
+        moveTree->fieldA4 = 30;
     }
     return v;
 }
@@ -50,19 +50,19 @@ void mtree_render(void *a, MoveTree *moveTree, u32 c, u32 d) {
 
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&moveTree->mUnk_00.mPos), 12);
-    NNS_G3dGeBufferOP_N(0x1b, &moveTree->mUnk_00.mScale, 3);
-    if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&moveTree->field0.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x1b, &moveTree->field0.mScale, 3);
+    if ((s32) (moveTree->field0.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
         mobj_setModelNsbcaFrame(mtree_sModel, moveTree->mNsbcaFrameIndex);
         mobj_renderModel(a, mtree_sModel, moveTree);
     } else {
         mobj_renderModel1Mat1Shp(a, mtree_sModel, moveTree);
     }
-    if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
+    if ((s32) (moveTree->field0.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
         return;
     }
-    oshd_setPositionXZ(&moveTree->mUnk_dc, &moveTree->mUnk_00.mPos);
-    oshd_renderMat(&moveTree->mUnk_dc, NULL, c, d);
+    oshd_setPositionXZ(&moveTree->fieldDC, &moveTree->field0.mPos);
+    oshd_renderMat(&moveTree->fieldDC, NULL, c, d);
 }
 
 void mtree_globalLogicInit(MapObjectList *mapObjectList) {
@@ -73,8 +73,8 @@ void mtree_globalLogicInit(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (moveTree = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        moveTree->mUnk_a8 = (moveTree->mUnk_00.mCourseMapRow->mUnk_28 << 12) / 100;
-        oshd_setParams(&moveTree->mUnk_dc, &moveTree->mUnk_00.mPos, 0x54666, 14);
+        moveTree->fieldA8 = (moveTree->field0.mCourseMapRow->field28 << 12) / 100;
+        oshd_setParams(&moveTree->fieldDC, &moveTree->field0.mPos, 0x54666, 14);
     }
 }
 
@@ -91,10 +91,10 @@ void mtree_update(void *a, MoveTree *moveTree) {
             if (moveTree->mState0Timer-- <= 0) {
                 moveTree->mState = 1;
             }
-            if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            if ((s32) (moveTree->field0.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
-            if (moveTree->mUnk_a4-- > 0) {
+            if (moveTree->fieldA4-- > 0) {
                 moveTree->mNsbcaFrameStep = 2;
                 moveTree->mNsbcaFrameIndex += moveTree->mNsbcaFrameStep;
                 if (moveTree->mNsbcaFrameIndex >= mobj_getModelNsbcaFrameCount(mtree_sModel)) {
@@ -112,38 +112,38 @@ void mtree_update(void *a, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mUnk_00.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->field0.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+            if (moveTree->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 k = 2;
-            } else if (moveTree->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (moveTree->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s1.mSoundId = 0x11f;
-            s1.mPositionSource = &moveTree->mUnk_00.mPos;
-            s1.mUnk_08 = k;
-            s1.mDistanceSquared = mobj_calcXZCamDist(&moveTree->mUnk_00.mPos);
+            s1.mPositionSource = &moveTree->field0.mPos;
+            s1.field8 = k;
+            s1.mDistanceSquared = mobj_calcXZCamDist(&moveTree->field0.mPos);
             func_0210b7a8(&s1);
             break;
         case 1:
-            speed = moveTree->mUnk_a8;
+            speed = moveTree->fieldA8;
             moveTree->mFollower.mSpeed = speed;
             moveTree->mFollower.mProgressStep =
                 ((s64) speed *
                  moveTree->mFollower.mPath->mSegments[moveTree->mFollower.mSegmentIndex].mInverseProgressLength) >>
                 12;
             if (pw_update(&moveTree->mFollower) != FALSE) {
-                moveTree->mState0Timer = (u16) moveTree->mFollower.mFromEntry->mUnk_0e;
+                moveTree->mState0Timer = (u16) moveTree->mFollower.mFromEntry->fieldE;
                 moveTree->mState = 0;
             }
-            GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->mUnk_00.mPos);
-            if ((s32) (moveTree->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->field0.mPos);
+            if ((s32) (moveTree->field0.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
                 return;
             }
-            if (moveTree->mUnk_a4-- > 0) {
+            if (moveTree->fieldA4-- > 0) {
                 moveTree->mNsbcaFrameStep = 2;
             } else {
                 moveTree->mNsbcaFrameStep = 1;
@@ -155,20 +155,20 @@ void mtree_update(void *a, MoveTree *moveTree) {
             if (moveTree->mNsbcaFrameIndex != 0 && moveTree->mNsbcaFrameIndex != 0x1e) {
                 return;
             }
-            if ((moveTree->mUnk_00.mDistanceSquaredAndFlags & 4) != 0) {
+            if ((moveTree->field0.mDistanceSquaredAndFlags & 4) != 0) {
                 return;
             }
-            if (moveTree->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+            if (moveTree->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                 k = 2;
-            } else if (moveTree->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+            } else if (moveTree->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                 k = 3;
             } else {
                 k = 4;
             }
             s2.mSoundId = 0x11f;
-            s2.mPositionSource = &moveTree->mUnk_00.mPos;
-            s2.mUnk_08 = k;
-            s2.mDistanceSquared = mobj_calcXZCamDist(&moveTree->mUnk_00.mPos);
+            s2.mPositionSource = &moveTree->field0.mPos;
+            s2.field8 = k;
+            s2.mDistanceSquared = mobj_calcXZCamDist(&moveTree->field0.mPos);
             func_0210b7a8(&s2);
     }
 }
@@ -202,13 +202,13 @@ void baku_render(void *a, Bakubaku *bakubaku) {
     }
     t = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &t, 1);
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].x = bakubaku->mUnk_00.mPos.x >> 4;
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].y = bakubaku->mUnk_00.mPos.y >> 4;
-    bakubaku->mUnk_00.mMatrix.mUnk_00[3].z = bakubaku->mUnk_00.mPos.z >> 4;
-    NNS_G3dGeBufferOP_N(0x19, &bakubaku->mUnk_00.mMatrix, 12);
-    NNS_G3dGeBufferOP_N(0x1b, &bakubaku->mUnk_00.mScale, 3);
+    bakubaku->field0.mMatrix.field0[3].x = bakubaku->field0.mPos.x >> 4;
+    bakubaku->field0.mMatrix.field0[3].y = bakubaku->field0.mPos.y >> 4;
+    bakubaku->field0.mMatrix.field0[3].z = bakubaku->field0.mPos.z >> 4;
+    NNS_G3dGeBufferOP_N(0x19, &bakubaku->field0.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x1b, &bakubaku->field0.mScale, 3);
     mobj_renderModel(a, baku_sShadowModel, bakubaku);
-    i = (u16) (u32) FX_Atan2Idx(-bakubaku->mUnk_00.mUnk_10.y, 0xc000) >> 4;
+    i = (u16) (u32) FX_Atan2Idx(-bakubaku->field0.field10.y, 0xc000) >> 4;
     MTX_RotX33_(m, FX_SinCosTable_[i * 2], FX_SinCosTable_[i * 2 + 1]);
     NNS_G3dGeBufferOP_N(0x1a, m, 9);
     mobj_renderModel(a, baku_sModel, bakubaku);
@@ -222,8 +222,8 @@ void baku_globalLogicInit(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (bakubaku = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        VEC_MultAdd(0x320000, &bakubaku->mUnk_00.mMatrix.mUnk_00[2], &bakubaku->mUnk_00.mCourseMapRow->mUnk_00,
-                    &bakubaku->mUnk_a4);
+        VEC_MultAdd(0x320000, &bakubaku->field0.mMatrix.field0[2], &bakubaku->field0.mCourseMapRow->field0,
+                    &bakubaku->fieldA4);
     }
 }
 
@@ -241,53 +241,53 @@ void baku_update(void *a, Bakubaku *bakubaku) {
             if (race_getCameraField250() != 2) {
                 kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
                 kartPos = &kart->mPos;
-                deltaX = kartPos->x - bakubaku->mUnk_a4.x;
-                deltaZ = kartPos->z - bakubaku->mUnk_a4.z;
+                deltaX = kartPos->x - bakubaku->fieldA4.x;
+                deltaZ = kartPos->z - bakubaku->fieldA4.z;
                 distanceSquared = (s64) deltaX * deltaX + (s64) deltaZ * deltaZ;
                 if (distanceSquared >= (s64) 0x9c4 << 32) {
                     return;
                 }
             }
-            bakubaku->mUnk_00.mPos.x = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.x;
-            bakubaku->mUnk_00.mPos.y = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y - 0x32000;
-            bakubaku->mUnk_00.mPos.z = bakubaku->mUnk_00.mCourseMapRow->mUnk_00.z;
-            bakubaku->mUnk_00.mUnk_10.x = ((s64) bakubaku->mUnk_00.mMatrix.mUnk_00[2].x * 0xc000) >> 12;
-            bakubaku->mUnk_00.mUnk_10.y = 0xc000;
-            bakubaku->mUnk_00.mUnk_10.z = ((s64) bakubaku->mUnk_00.mMatrix.mUnk_00[2].z * 0xc000) >> 12;
+            bakubaku->field0.mPos.x = bakubaku->field0.mCourseMapRow->field0.x;
+            bakubaku->field0.mPos.y = bakubaku->field0.mCourseMapRow->field0.y - 0x32000;
+            bakubaku->field0.mPos.z = bakubaku->field0.mCourseMapRow->field0.z;
+            bakubaku->field0.field10.x = ((s64) bakubaku->field0.mMatrix.field0[2].x * 0xc000) >> 12;
+            bakubaku->field0.field10.y = 0xc000;
+            bakubaku->field0.field10.z = ((s64) bakubaku->field0.mMatrix.field0[2].z * 0xc000) >> 12;
             bakubaku->mState = 1;
             break;
         case 1:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y < bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y) {
+            bakubaku->field0.field10.y -= 0x400;
+            VEC_Add(&bakubaku->field0.mPos, &bakubaku->field0.field10, &bakubaku->field0.mPos);
+            if (bakubaku->field0.mPos.y < bakubaku->field0.mCourseMapRow->field0.y) {
                 return;
             }
-            expl_spawnEffect(3, &bakubaku->mUnk_00.mPos, 1);
+            expl_spawnEffect(3, &bakubaku->field0.mPos, 1);
             s1.mSoundId = 0x186;
-            s1.mPositionSource = &bakubaku->mUnk_00.mPos;
-            s1.mUnk_08 = 4;
-            s1.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->mUnk_00.mPos);
+            s1.mPositionSource = &bakubaku->field0.mPos;
+            s1.field8 = 4;
+            s1.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->field0.mPos);
             func_0210b7a8(&s1);
             bakubaku->mState = 2;
             break;
         case 2:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y > bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y) {
+            bakubaku->field0.field10.y -= 0x400;
+            VEC_Add(&bakubaku->field0.mPos, &bakubaku->field0.field10, &bakubaku->field0.mPos);
+            if (bakubaku->field0.mPos.y > bakubaku->field0.mCourseMapRow->field0.y) {
                 return;
             }
-            expl_spawnEffect(3, &bakubaku->mUnk_00.mPos, 1);
+            expl_spawnEffect(3, &bakubaku->field0.mPos, 1);
             s2.mSoundId = 0x187;
-            s2.mPositionSource = &bakubaku->mUnk_00.mPos;
-            s2.mUnk_08 = 2;
-            s2.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->mUnk_00.mPos);
+            s2.mPositionSource = &bakubaku->field0.mPos;
+            s2.field8 = 2;
+            s2.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->field0.mPos);
             func_0210b7a8(&s2);
             bakubaku->mState = 3;
             break;
         case 3:
-            bakubaku->mUnk_00.mUnk_10.y -= 0x400;
-            VEC_Add(&bakubaku->mUnk_00.mPos, &bakubaku->mUnk_00.mUnk_10, &bakubaku->mUnk_00.mPos);
-            if (bakubaku->mUnk_00.mPos.y <= bakubaku->mUnk_00.mCourseMapRow->mUnk_00.y - 0x32000) {
+            bakubaku->field0.field10.y -= 0x400;
+            VEC_Add(&bakubaku->field0.mPos, &bakubaku->field0.field10, &bakubaku->field0.mPos);
+            if (bakubaku->field0.mPos.y <= bakubaku->field0.mCourseMapRow->field0.y - 0x32000) {
                 bakubaku->mState4Timer = 0x708;
                 bakubaku->mState = 4;
             }

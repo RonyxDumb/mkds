@@ -113,15 +113,15 @@ void func_ov003_021cbaa0(void) {
     MIi_CpuCopy32(data_ov003_021d6620, &b, 0xc);
     func_ov003_021c20dc(NULL, &a);
     if (a == 2) {
-        b.mUnk_0a = 4;
+        b.fieldA = 4;
     } else {
-        b.mUnk_0a = c->mUnk_f4 + 1;
+        b.fieldA = c->fieldF4 + 1;
     }
     if (func_ov000_02188868(&b) == 0) {
         OS_Terminate();
     }
     if (a == 0) {
-        func_ov000_021886fc(c->mUnk_f4, c);
+        func_ov000_021886fc(c->fieldF4, c);
     }
     AddTask(0, func_ov003_021cb8f0, NULL, 0x78);
 }
@@ -172,8 +172,8 @@ void func_ov003_021cb9c8(void) {
 void func_ov003_021cb948(void) {
     Unk021cd5e0 *a = func_ov003_021cd4dc();
     if (func_ov000_02188720() != 0) {
-        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->mUnk_000[0].mUnk_f0, 0xe);
-        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->mUnk_000[1].mUnk_f0, 0xe);
+        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->field0[0].fieldF0, 0xe);
+        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->field0[1].fieldF0, 0xe);
         func_ov003_021beecc();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);

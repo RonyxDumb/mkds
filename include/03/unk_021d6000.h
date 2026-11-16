@@ -12,18 +12,18 @@ typedef struct Bytes7 {
 
 // Entry of data_ov003_021d64f0, two halfwords.
 typedef struct Unk021d64f0 {
-    /* 0 */ u16 mUnk_00;
-    /* 2 */ u16 mUnk_02;
+    /* 0 */ u16 field0;
+    /* 2 */ u16 field2;
 } Unk021d64f0;
 
 // Four bytes moved as one value.
 typedef struct Unk021d6974 {
-    /* 0 */ u8 mUnk_00[4];
+    /* 0 */ u8 field0[4];
 } Unk021d6974;
 
 // 0x44 bytes moved as one value.
 typedef struct Unk021d66d0 {
-    /* 00 */ u32 mUnk_00[0x11];
+    /* 00 */ u32 field0[0x11];
 } Unk021d66d0;
 
 // Objects whose layout isn't known yet.

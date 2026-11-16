@@ -22,7 +22,7 @@ void func_0205ae8c(u32 kartIndex) {
     g = gStruct217AA18;
     p = gStruct217AA14;
     participantIndex = g->mParticipantOfKart[(u8) kartIndex];
-    rank = p->mUnk_104[participantIndex].mRank;
+    rank = p->field104[participantIndex].mRank;
     if (participantIndex < 0) {
         return;
     }
@@ -30,11 +30,11 @@ void func_0205ae8c(u32 kartIndex) {
     for (otherKartIndex = 0; otherKartIndex < (s32) gRaceMultiConfig->mKartCount; otherKartIndex++) {
         if (otherKartIndex != kartIndex) {
             otherParticipantIndex = g->mParticipantOfKart[otherKartIndex];
-            otherRank = p->mUnk_104[otherParticipantIndex].mRank;
+            otherRank = p->field104[otherParticipantIndex].mRank;
             if (otherParticipantIndex >= 0 && otherRank < rank) {
                 f = 0;
-                if ((p->mUnk_0fc & (1 << (u8) otherParticipantIndex)) != 0 &&
-                    (p->mUnk_749 & (1 << (u8) otherParticipantIndex)) == 0) {
+                if ((p->fieldFC & (1 << (u8) otherParticipantIndex)) != 0 &&
+                    (p->field749 & (1 << (u8) otherParticipantIndex)) == 0) {
                     f = 1;
                 }
                 if (f != 0) {
@@ -43,7 +43,7 @@ void func_0205ae8c(u32 kartIndex) {
             }
         }
     }
-    p->mUnk_104[participantIndex].mRank = rank;
+    p->field104[participantIndex].mRank = rank;
 }
 
 void ResetItemDataSlots(void) {
@@ -53,31 +53,31 @@ void ResetItemDataSlots(void) {
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
         for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-            slot = &gStruct217AA14->mUnk_3e4[slotIndex][participantIndex];
-            slot->mUnk_08 = 0;
-            slot->mUnk_00 = 0;
+            slot = &gStruct217AA14->field3E4[slotIndex][participantIndex];
+            slot->field8 = 0;
+            slot->field0 = 0;
             slot->mItemKind = 15;
             slot->mMessageKind = 0;
             slot->mDataSize = 0;
             MI_CpuFill8(slot->mData, 0, 20);
-            gStruct217AA14->mUnk_6e4[slotIndex][participantIndex] = 0;
+            gStruct217AA14->field6E4[slotIndex][participantIndex] = 0;
         }
-        slot = &gStruct217AA14->mUnk_324[slotIndex];
-        slot->mUnk_08 = 0;
-        slot->mUnk_00 = 0;
+        slot = &gStruct217AA14->field324[slotIndex];
+        slot->field8 = 0;
+        slot->field0 = 0;
         slot->mItemKind = 15;
         slot->mMessageKind = 0;
         slot->mDataSize = 0;
         MI_CpuFill8(slot->mData, 0, 20);
     }
-    gStruct217AA14->mUnk_724 = 0x30;
+    gStruct217AA14->field724 = 0x30;
 }
 
 BOOL IsAnyItemDataSlotFree(void) {
     u16 slotIndex;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        if (gStruct217AA14->mUnk_324[slotIndex].mUnk_08 == 0) {
+        if (gStruct217AA14->field324[slotIndex].field8 == 0) {
             return TRUE;
         }
     }
@@ -94,18 +94,18 @@ void func_0205ac38(void) {
     u8 headerByte;
 
     usedSize = 0;
-    q = (void *) &gStruct217AA14->mUnk_754->mUnk_04;
-    headerCursor = q->mUnk_28;
+    q = (void *) &gStruct217AA14->field754->field4;
+    headerCursor = q->field28;
     dataCursor = headerCursor + 16;
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &gStruct217AA14->mUnk_324[slotIndex];
-        if (slot->mUnk_08 == 0 || slot->mUnk_08 == 2 || slot->mItemKind == 15) {
+        slot = &gStruct217AA14->field324[slotIndex];
+        if (slot->field8 == 0 || slot->field8 == 2 || slot->mItemKind == 15) {
             headerByte = 15;
         } else {
             headerByte = (slot->mItemKind & 0x1f) | ((slot->mMessageKind << 5) & 0xe0);
         }
         *headerCursor++ = headerByte;
-        switch (slot->mUnk_08) {
+        switch (slot->field8) {
             case 0:
                 break;
             case 1:
@@ -119,7 +119,7 @@ void func_0205ac38(void) {
                 break;
         }
     }
-    gStruct217AA14->mUnk_724 = 0x30 - usedSize;
+    gStruct217AA14->field724 = 0x30 - usedSize;
 }
 
 void ExpireItemDataSlots(void) {
@@ -127,17 +127,17 @@ void ExpireItemDataSlots(void) {
     ItemDataSlot *slot;
 
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        slot = &gStruct217AA14->mUnk_324[slotIndex];
+        slot = &gStruct217AA14->field324[slotIndex];
         if (slot->mItemKind == 15) {
             continue;
         }
-        switch (slot->mUnk_08) {
+        switch (slot->field8) {
             case 0:
                 break;
             case 2:
-                if (slot->mUnk_00 + 30 < (u32) gStruct217AA14->mUnk_728) {
-                    slot->mUnk_08 = 0;
-                    slot->mUnk_00 = 0;
+                if (slot->field0 + 30 < (u32) gStruct217AA14->field728) {
+                    slot->field8 = 0;
+                    slot->field0 = 0;
                     slot->mItemKind = 15;
                     slot->mMessageKind = 0;
                     slot->mDataSize = 0;
@@ -145,8 +145,8 @@ void ExpireItemDataSlots(void) {
                 }
                 break;
             case 1:
-                if (slot->mUnk_00 < (u32) gStruct217AA14->mUnk_728) {
-                    slot->mUnk_08 = 2;
+                if (slot->field0 < (u32) gStruct217AA14->field728) {
+                    slot->field8 = 2;
                 }
                 break;
         }
@@ -162,13 +162,13 @@ void func_0205aa60(void) {
     u8 headerByte;
 
     for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-        if (participantIndex != func_ov000_0219bb50() && (gStruct217AA14->mUnk_749 & (1 << participantIndex)) != 0 &&
-            gStruct217AA14->mUnk_104[participantIndex].mUnk_86_0 != 0) {
-            headerCursor = (u8 *) &gStruct217AA14->mUnk_104[participantIndex] + 0x28;
+        if (participantIndex != func_ov000_0219bb50() && (gStruct217AA14->field749 & (1 << participantIndex)) != 0 &&
+            gStruct217AA14->field104[participantIndex].field86_0 != 0) {
+            headerCursor = (u8 *) &gStruct217AA14->field104[participantIndex] + 0x28;
             dataCursor = headerCursor + 16;
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
                 headerByte = *headerCursor++;
-                slot = &gStruct217AA14->mUnk_3e4[slotIndex][participantIndex];
+                slot = &gStruct217AA14->field3E4[slotIndex][participantIndex];
                 slot->mItemKind = headerByte & 0x1f;
                 slot->mMessageKind = (headerByte & 0xe0) >> 5;
                 if (slot->mItemKind == 15) {
@@ -194,12 +194,12 @@ void ProcessOtherParticipantItemData(void) {
     u8 *data;
 
     for (participantIndex = 0; participantIndex < 4; participantIndex++) {
-        if (participantIndex != func_ov000_0219bb50() && (gStruct217AA14->mUnk_749 & (1 << participantIndex)) != 0 &&
-            gStruct217AA14->mUnk_104[participantIndex].mUnk_86_0 != 0) {
+        if (participantIndex != func_ov000_0219bb50() && (gStruct217AA14->field749 & (1 << participantIndex)) != 0 &&
+            gStruct217AA14->field104[participantIndex].field86_0 != 0) {
             for (slotIndex = 0; slotIndex < 16; slotIndex++) {
                 p = gStruct217AA14;
-                slot = &p->mUnk_3e4[slotIndex][participantIndex];
-                handledFlag = &p->mUnk_6e4[slotIndex][participantIndex];
+                slot = &p->field3E4[slotIndex][participantIndex];
+                handledFlag = &p->field6E4[slotIndex][participantIndex];
                 if (slot->mItemKind == 15) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {

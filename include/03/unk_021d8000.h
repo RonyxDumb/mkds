@@ -26,7 +26,7 @@ typedef struct Words16 {
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
     /* 20 */ s32 mKind;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 field24;
     /* 28 */ u8 mValueBytes[4][0x20];
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;
@@ -36,29 +36,29 @@ typedef struct Kind5Record {
     /* 00 */ char mText[0x2c];
     /* 2c */ u32 mItem202Value;
     /* 30 */ s32 mItem205Value;
-    /* 34 */ u8 mUnk_34[0x28];
+    /* 34 */ u8 field34[0x28];
     /* 5c */ s32 mStoreValuesAsHex;
 } Kind5Record;
 
 // 0x48 bytes.
 typedef struct Kind5Item20a {
     /* 00 */ Words16 mBytes;
-    /* 40 */ u32 mUnk_40[2];
+    /* 40 */ u32 field40[2];
 } Kind5Item20a;
 
 // Entry of the list at gRawEntries, 0xc0 bytes.
 typedef struct RawEntry {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
     /* 04 */ MacAddress mAddress;
     /* 0a */ u16 mSsidLength;
     /* 0c */ u8 mSsid[0x20];
     /* 2c */ u16 mFlags;
-    /* 2e */ u16 mUnk_2e;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u16 mUnk_32;
-    /* 34 */ u16 mUnk_34;
-    /* 36 */ u16 mUnk_36;
+    /* 2e */ u16 field2E;
+    /* 30 */ u16 field30;
+    /* 32 */ u16 field32;
+    /* 34 */ u16 field34;
+    /* 36 */ u16 field36;
     /* 38 */ u8 pad_38[0x88];
 } RawEntry;
 

@@ -7,39 +7,39 @@
 
 // Block of eleven words.
 typedef struct Unk020e039c {
-    /* 00 */ u32 mUnk_00[11];
+    /* 00 */ u32 field0[11];
 } Unk020e039c;
 
 // Object of kind 0xcc (Bridge) that bridge_init fills. Its draw callback bridge_render is typed Unk020e3ef4 (the family
 // layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by dcol_setModel, lies inside
-// mUnk_13c.
+// field13C.
 typedef struct Bridge {
-    /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
-    /* 0c4 */ Unk020e38a0_28 mUnk_0c4;
-    /* 0e8 */ Vec3 mUnk_0e8;
-    /* 0f4 */ Vec3 mUnk_0f4;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
-    /* 10c */ s32 mUnk_10c;
-    /* 110 */ s32 mUnk_110;
-    /* 114 */ Vec3 mUnk_114;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ Vec3 mUnk_124;
-    /* 130 */ s32 mUnk_130;
-    /* 134 */ s32 mUnk_134;
-    /* 138 */ s32 mUnk_138;
-    /* 13c */ u8 mUnk_13c[0x8];
-    /* 144 */ u16 mUnk_144;
-    /* 146 */ u16 mUnk_146;
-    /* 148 */ u16 mUnk_148;
-    /* 14a */ u16 mUnk_14a;
-    /* 14c */ u16 mUnk_14c;
-    /* 14e */ u16 mUnk_14e;
-    /* 150 */ u16 mUnk_150;
-    /* 152 */ u8 mUnk_152[0x2];
-    /* 154 */ s32 mUnk_154;
+    /* 000 */ MapObject field0;
+    /* 0a0 */ Unk020e38a0_28 fieldA0;
+    /* 0c4 */ Unk020e38a0_28 fieldC4;
+    /* 0e8 */ Vec3 fieldE8;
+    /* 0f4 */ Vec3 fieldF4;
+    /* 100 */ s32 field100;
+    /* 104 */ s32 field104;
+    /* 108 */ s32 field108;
+    /* 10c */ s32 field10C;
+    /* 110 */ s32 field110;
+    /* 114 */ Vec3 field114;
+    /* 120 */ s32 field120;
+    /* 124 */ Vec3 field124;
+    /* 130 */ s32 field130;
+    /* 134 */ s32 field134;
+    /* 138 */ s32 field138;
+    /* 13c */ u8 field13C[0x8];
+    /* 144 */ u16 field144;
+    /* 146 */ u16 field146;
+    /* 148 */ u16 field148;
+    /* 14a */ u16 field14A;
+    /* 14c */ u16 field14C;
+    /* 14e */ u16 field14E;
+    /* 150 */ u16 field150;
+    /* 152 */ u8 field152[0x2];
+    /* 154 */ s32 field154;
 } Bridge;
 
 BOOL bridge_isBridge(u32 kind);

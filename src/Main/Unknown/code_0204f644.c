@@ -50,7 +50,7 @@ BOOL LoadPendingFiles(void) {
     FS_InitFile(file);
     if (FS_OpenFile(file, q) != 0) {
         q = gStruct217AA00;
-        size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
+        size = file->mProp.p.field8 - file->mProp.p.field4;
         buffer = ((ConnectionWork *) q)->mBlockEntries[nextIndex].mBuffer;
         if (buffer == NULL) {
             buffer = heap_allocEx(gStruct217AA00->mBlockEntries[nextIndex].mHeap, size, 0x20);

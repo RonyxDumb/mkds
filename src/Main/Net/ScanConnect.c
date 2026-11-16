@@ -23,7 +23,7 @@ u32 MBi_WMSetBuffer(u32 arg0) {
     value1 = 0u;
     *(u32 *) ((value0) + 12u) = value1;
     gMPLink->mMPStarted = value1;
-    gMPLink->mUnk_1e = value1;
+    gMPLink->field1E = value1;
     gMPLink->mDataQueued = value1;
     gMPLink->mResetting = value1;
     value0 = *(const u32 *) ((value2) + 0u);
@@ -58,10 +58,10 @@ void MBi_WMStartConnect(u8 *scanBuffer) {
     gMPLink->mResetting = 0;
     gMPLink->mSendBufferSize = (*OFFSET_PTR(u16, scanBuffer, 0x4e) + 0x21) & ~0x1f;
     gMPLink->mReceiveBufferSize = ((*OFFSET_PTR(u16, scanBuffer, 0x4c) + 0x55) & ~0x1f) * 2;
-    gMPLink->mUnk_14 = *OFFSET_PTR(u16, scanBuffer, 0x4c);
-    gMPLink->mUnk_16 = *OFFSET_PTR(u16, scanBuffer, 0x4e);
-    gMPLink->mUnk_18 = gMPLink->mUnk_14 - 6;
-    SetupPieceSizes(gMPLink->mUnk_16);
+    gMPLink->field14 = *OFFSET_PTR(u16, scanBuffer, 0x4c);
+    gMPLink->field16 = *OFFSET_PTR(u16, scanBuffer, 0x4e);
+    gMPLink->field18 = gMPLink->field14 - 6;
+    SetupPieceSizes(gMPLink->field16);
     r = WM_StartConnectEx(ScanConnectStartConnectCallback, (u16 *) scanBuffer, NULL, 1, 0);
     if (r != 2) {
         if (gMPLink->mCallback != NULL) {
@@ -76,7 +76,7 @@ void ScanConnectStartConnectCallback(Unk021425e8 *a) {
             gMPLink->mCallback(11, a);
         }
     } else {
-        switch (a->mUnk_08_0) {
+        switch (a->field8_0) {
             case 0:
             case 1:
             case 2:
@@ -147,11 +147,11 @@ void ScanConnectStartMPCallback(Unk021425e8 *a) {
             }
         }
     } else {
-        switch (a->mUnk_04) {
+        switch (a->field4) {
             case 10:
                 gMPLink->mMPStarted = 1;
                 gMPLink->mDataQueued = 0;
-                gMPLink->mUnk_1e = 0;
+                gMPLink->field1E = 0;
                 if (gMPLink->mCallback != NULL) {
                     gMPLink->mCallback(20, 0);
                 }
@@ -259,7 +259,7 @@ u32 IsMPReadyToQueueData(void) {
 
 void PortCallback(Unk021425e8 *a) {
     if (a->mResultCode == 0) {
-        switch (a->mUnk_04) {
+        switch (a->field4) {
             case 7:
             case 9:
                 break;
@@ -317,8 +317,8 @@ void MB_FakeInit(ScanConnectWork *a, void *b) {
         MI_CpuFill8(a, 0, 0x5f20);
         mbf_work = a;
         a->mState = 0;
-        MI_CpuCopy8(b, mbf_work->mUnk_05c4, 0x16);
-        MBi_SetBeaconRecvStatusBuffer(mbf_work->mUnk_05e8);
+        MI_CpuCopy8(b, mbf_work->field5C4, 0x16);
+        MBi_SetBeaconRecvStatusBuffer(mbf_work->field5E8);
         MB_InitRecvGameInfoStatus();
         MBi_SetScanLockFunc((UnkFunc *) MBFi_ScanLock, (UnkFunc *) MBFi_ScanUnlock);
     }
@@ -412,12 +412,12 @@ void MBFi_CommChangeChildState(u32 state, void *b) {
 
 void MB_FakeStartScanParent(UnkFunc *callback, u32 b) {
     mbf_work->mScanCallback = callback;
-    mbf_work->mUnk_05e4 = b;
-    mbf_work->mScanParams.mUnk_04 = 0;
-    mbf_work->mScanParams.mUnk_00 = mbf_work->mScanBuffer;
+    mbf_work->field5E4 = b;
+    mbf_work->mScanParams.field4 = 0;
+    mbf_work->mScanParams.field0 = mbf_work->mScanBuffer;
     mbf_work->mRepeatScan = 1;
     mbf_work->mUseScanBssid = 0;
-    mbf_work->mUnk_05ee = 0;
+    mbf_work->field5EE = 0;
     MBFi_StateInStartScan();
 }
 
@@ -432,9 +432,9 @@ void MBFi_StateInStartScan(void) {
     u8 *q;
     d = mbf_work;
     if (d->mUseScanBssid != 0) {
-        d->mScanParams.mUnk_06 = 0xdc;
+        d->mScanParams.field6 = 0xdc;
     } else {
-        p = d->mScanParams.mUnk_08;
+        p = d->mScanParams.field8;
         q = gDefaultScanBssid;
         p[0] = q[0];
         p[1] = q[1];
@@ -442,14 +442,14 @@ void MBFi_StateInStartScan(void) {
         p[3] = q[3];
         p[4] = q[4];
         p[5] = q[5];
-        mbf_work->mScanParams.mUnk_06 = 10;
+        mbf_work->mScanParams.field6 = 10;
         if (RotateChannel() == 0) {
             MBFi_ScanErrorCallback(0x1e, 0);
             return;
         }
     }
-    if (mbf_work->mScanParams.mUnk_04 == 0) {
-        mbf_work->mScanParams.mUnk_04 = 1;
+    if (mbf_work->mScanParams.field4 == 0) {
+        mbf_work->mScanParams.field4 = 1;
     }
     r = WM_StartScan(MBFi_StateOutStartScanParent, &mbf_work->mScanParams);
     if (r != 2) {
@@ -462,13 +462,13 @@ void MBFi_StateOutStartScanParent(Unk021425e8 *a) {
         MBFi_ScanErrorCallback(0xa, a->mResultCode);
         return;
     }
-    switch (a->mUnk_08_0) {
+    switch (a->field8_0) {
         case 3:
             break;
         case 5:
-            if (a->mUnk_38.mUnk_00[1] == mbf_work->mUnk_05e4) {
+            if (a->field38.field0[1] == mbf_work->field5E4) {
                 DC_InvalidateRange(mbf_work->mScanBuffer, 0xc0);
-                MB_RecvGameInfoBeacon(MBFi_CommBeaconRecvCallback, a->mUnk_12, (ScanBlock *) mbf_work->mScanBuffer);
+                MB_RecvGameInfoBeacon(MBFi_CommBeaconRecvCallback, a->field12, (ScanBlock *) mbf_work->mScanBuffer);
                 MB_CountGameInfoLifetime(MBFi_CommBeaconRecvCallback, 1);
             }
         case 4:
@@ -505,8 +505,8 @@ void MBFi_ScanCallback(u32 a, EntryRecord *entry, u32 entryIndex) {
 void MBFi_ScanErrorCallback(u16 a, u16 b) {
     ScanErrorArgs v;
     if (mbf_work->mScanCallback != NULL) {
-        v.mUnk_00 = a;
-        v.mUnk_02 = b;
+        v.field0 = a;
+        v.field2 = b;
         mbf_work->mScanCallback(2, &v);
     }
 }
@@ -514,7 +514,7 @@ void MBFi_ScanErrorCallback(u16 a, u16 b) {
 void MBFi_ScanLock(const u8 *a) {
     u8 *p;
     mbf_work->mUseScanBssid = 1;
-    p = mbf_work->mScanParams.mUnk_08;
+    p = mbf_work->mScanParams.field8;
     p[0] = a[0];
     p[1] = a[1];
     p[2] = a[2];
@@ -562,13 +562,13 @@ u32 RotateChannel(void) {
     if (a == 0x8000 || a == 0) {
         return 0;
     }
-    mbf_work->mScanParams.mUnk_04++;
+    mbf_work->mScanParams.field4++;
     do {
-        mbf_work->mScanParams.mUnk_04++;
-        if (mbf_work->mScanParams.mUnk_04 > 0x10) {
-            mbf_work->mScanParams.mUnk_04 = 1;
+        mbf_work->mScanParams.field4++;
+        if (mbf_work->mScanParams.field4 > 0x10) {
+            mbf_work->mScanParams.field4 = 1;
         }
-    } while ((a & (1 << (mbf_work->mScanParams.mUnk_04 - 1))) == 0);
+    } while ((a & (1 << (mbf_work->mScanParams.field4 - 1))) == 0);
     return 1;
 }
 

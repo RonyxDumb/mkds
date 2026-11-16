@@ -5,7 +5,7 @@
 
 // Nine words.
 typedef struct MtxFx33 {
-    /* 00 */ s32 mUnk_00[9];
+    /* 00 */ s32 field0[9];
 } MtxFx33;
 
 void MTX_MultVec33(const Vec3 *vec, const s32 *m, Vec3 *dst);

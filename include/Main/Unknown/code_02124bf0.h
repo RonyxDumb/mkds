@@ -7,13 +7,13 @@
 // 0x20 bytes: four 8-byte entries (the table behind OamList is indexed in 8-byte steps by renderElement and in
 // 0x20-byte steps for the groups of four it fills).
 typedef struct Unk02124c70_00 {
-    /* 00 */ GXOamAttr mUnk_00[4];
+    /* 00 */ GXOamAttr field0[4];
 } Unk02124c70_00;
 
 // 0x404 bytes: 0x20 groups of four 8-byte entries, then two halfwords (renderElement adds the return value of
-// NNS_G2dMakeCellToOams to mUnk_400; oam_getAffineCount returns mUnk_402).
+// NNS_G2dMakeCellToOams to field400; oam_getAffineCount returns field402).
 typedef struct OamList {
-    /* 000 */ Unk02124c70_00 mUnk_000[0x20];
+    /* 000 */ Unk02124c70_00 field0[0x20];
     /* 400 */ u16 mOamCount;
     /* 402 */ u16 mMatrixCount;
 } OamList;

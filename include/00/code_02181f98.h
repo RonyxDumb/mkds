@@ -31,9 +31,9 @@ typedef struct WiFiVSSetting {
     /* 0010 */ s32 mStateFrames;
     /* 0014 */ s16 mRowOffsets[3][2];
     /* 0020 */ s32 mPendingWiFiState;
-    /* 0024 */ BOOL mUnk_24;
-    /* 0028 */ BOOL mUnk_28;
-    // Count down from 6 only while mUnk_08 == 1; a press sets them to 6. Nothing fires at 0: the cell flag and offset
+    /* 0024 */ BOOL field24;
+    /* 0028 */ BOOL field28;
+    // Count down from 6 only while field8 == 1; a press sets them to 6. Nothing fires at 0: the cell flag and offset
     // they drive stop there.
     /* 002c */ s32 mIndexDecrementTimer;
     /* 0030 */ s32 mIndexIncrementTimer;
@@ -56,21 +56,21 @@ typedef struct WiFiVSSetting {
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
-    /* 0008 */ s32 mUnk_08;
-    /* 000c */ s32 mUnk_0c;
+    /* 0008 */ s32 field8;
+    /* 000c */ s32 fieldC;
     /* 0010 */ s16 mOffset;
-    /* 0012 */ s16 mUnk_12[3];
-    /* 0018 */ s16 mUnk_18[4];
+    /* 0012 */ s16 field12[3];
+    /* 0018 */ s16 field18[4];
     /* 0020 */ s32 mPendingWiFiState;
-    /* 0024 */ s32 mUnk_24[3];
+    /* 0024 */ s32 field24[3];
     // mKartCount - 1: participants other than the own index.
     /* 0030 */ s32 mOtherCount;
     // Session indices of those participants (u8[3]); they index mPlayerRecords through the getters.
     /* 0034 */ u8 mOtherIndices[3];
     /* 0037 */ u8 pad_37;
-    /* 0038 */ s32 mUnk_38;
-    /* 003c */ BOOL mUnk_3c;
-    /* 0040 */ BOOL mUnk_40;
+    /* 0038 */ s32 field38;
+    /* 003c */ BOOL field3C;
+    /* 0040 */ BOOL field40;
     /* 0044 */ s32 mCurrentOtherIndex;
     /* 0048 */ s32 mBlendFrames;
     /* 004c */ u16 mBlendedColors[5];
@@ -82,7 +82,7 @@ typedef struct WiFiVSMatching {
     // Table of cells built from the Bncl / Bnll by jn_ui_initLayout.
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
     /* 10d8 */ u8 mOtherEmblems[3][0x200];
-    /* 16d8 */ s32 mUnk_16d8[3];
+    /* 16d8 */ s32 field16D8[3];
     /* 16e4 */ struct Unk02021dc8 *mWiFiVSMatchingSNcer;
     /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
     /* 16ec */ Nclr *mWiFiVSMatchingSONclr;
@@ -104,25 +104,25 @@ typedef struct Unk0217b488_20 {
 // Object behind gStruct217B488, 0x130 bytes (struct217B488_init allocates it).
 typedef struct Unk0217b488 {
     /* 000 */ s32 mTitleBlendDone;
-    /* 004 */ s32 mUnk_04;
-    /* 008 */ s32 mUnk_08;
+    /* 004 */ s32 field4;
+    /* 008 */ s32 field8;
     /* 00c */ s32 mGhostSceneInitialCallbacksIndex;
-    /* 010 */ s32 mUnk_10;
-    /* 014 */ s32 mUnk_14;
-    /* 018 */ BOOL mUnk_18;
-    /* 01c */ s32 mUnk_1c;
-    /* 020 */ Unk0217b488_20 mUnk_20[4];
-    /* 050 */ s32 mUnk_50;
-    /* 054 */ u8 mUnk_54;
-    /* 055 */ u8 mUnk_55[0x3];
-    /* 058 */ BOOL mUnk_58;
-    /* 05c */ s32 mUnk_5c[4];
-    /* 06c */ BOOL mUnk_6c;
-    /* 070 */ s32 mUnk_70;
-    /* 074 */ s32 mUnk_74;
-    /* 078 */ s32 mUnk_78;
+    /* 010 */ s32 field10;
+    /* 014 */ s32 field14;
+    /* 018 */ BOOL field18;
+    /* 01c */ s32 field1C;
+    /* 020 */ Unk0217b488_20 field20[4];
+    /* 050 */ s32 field50;
+    /* 054 */ u8 field54;
+    /* 055 */ u8 field55[0x3];
+    /* 058 */ BOOL field58;
+    /* 05c */ s32 field5C[4];
+    /* 06c */ BOOL field6C;
+    /* 070 */ s32 field70;
+    /* 074 */ s32 field74;
+    /* 078 */ s32 field78;
     /* 07c */ s32 mCupRankIndex;
-    /* 080 */ s32 mUnk_80;
+    /* 080 */ s32 field80;
     /* 084 */ s32 mCupIndex;
     /* 088 */ s32 mEngineIndex;
     /* 08c */ s32 mMirrorMode;
@@ -130,18 +130,18 @@ typedef struct Unk0217b488 {
     /* 094 */ s32 mKartIndex;
     /* 098 */ Unk0217aa1c_144_00 mCourseTimes[4];
     /* 0a8 */ u16 mTotalPoints;
-    /* 0aa */ u8 mUnk_aa[0x2];
-    /* 0ac */ s32 mUnk_ac[8];
-    /* 0cc */ s32 mUnk_cc[8];
-    /* 0ec */ s32 mUnk_ec[4];
-    /* 0fc */ u8 mUnk_fc[0x10];
+    /* 0aa */ u8 fieldAA[0x2];
+    /* 0ac */ s32 fieldAC[8];
+    /* 0cc */ s32 fieldCC[8];
+    /* 0ec */ s32 fieldEC[4];
+    /* 0fc */ u8 fieldFC[0x10];
     /* 10c */ volatile s32 mShuffledIndices[8];
     /* 12c */ s32 mIndicesShuffled;
 } Unk0217b488;
 
 // 0x10-byte object at member 0x1f20 of WiFiSession.
 typedef struct WiFiSessionLogin {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ u8 field0[0xc];
     /* 0c */ s32 mStep;
 } WiFiSessionLogin;
 
@@ -152,15 +152,15 @@ typedef struct Unk0217d384_1d00 {
     /* 08 */ u8 mFromIndex;
     /* 09 */ u8 mToIndex;
     /* 0a */ u8 mKartMask;
-    /* 0b */ u8 mUnk_0b;
+    /* 0b */ u8 fieldB;
     /* 0c */ s32 mCharacterIndices[4];
     /* 1c */ s32 mKartIndices[4];
     /* 2c */ s32 mTalliedCourseId;
     /* 30 */ s32 mCharacterIndex;
     /* 34 */ s32 mKartIndex;
     /* 38 */ s32 mPickedCourseId;
-    /* 3c */ u8 mUnk_3c[0x4];
-    /* 40 */ s32 mUnk_40;
+    /* 3c */ u8 field3C[0x4];
+    /* 40 */ s32 field40;
 } Unk0217d384_1d00;
 
 // 0x244-byte elements of the table at member 0x21c of WiFiSession.
@@ -171,27 +171,27 @@ typedef struct WiFiPlayerRecord {
     /* 009 */ u8 mToIndex;
     // The sender's mKartMask; written, not read through this struct.
     /* 00a */ u8 mKartMask;
-    /* 00b */ u8 mUnk_00b;
+    /* 00b */ u8 fieldB;
     /* 00c */ u8 mName[0x14];
     /* 020 */ u8 mEmblem[0x200];
-    /* 220 */ u8 mUnk_220;
-    /* 221 */ u8 mUnk_221[0x1];
+    /* 220 */ u8 field220;
+    /* 221 */ u8 field221[0x1];
     /* 222 */ s16 mElo;
-    /* 224 */ u8 mUnk_224[0x10];
+    /* 224 */ u8 field224[0x10];
     /* 234 */ u8 mRegion : 4;
-    /* 235 */ u8 mUnk_235;
-    /* 236 */ u8 mUnk_236[0x2];
-    /* 238 */ s32 mUnk_238;
-    /* 23c */ s32 mUnk_23c;
+    /* 235 */ u8 field235;
+    /* 236 */ u8 field236[0x2];
+    /* 238 */ s32 field238;
+    /* 23c */ s32 field23C;
     /* 240 */ s32 mSeed;
 } WiFiPlayerRecord;
 
 // 8-byte object at member 0x18e0 of WiFiSession.
 typedef struct Unk0217d384_18e0 {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
-    /* 02 */ u8 mUnk_02[2];
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
+    /* 02 */ u8 field2[2];
+    /* 04 */ s32 field4;
 } Unk0217d384_18e0;
 
 // 0x18-byte elements of the table at member 0x18ec of WiFiSession.
@@ -203,7 +203,7 @@ typedef struct KartKey {
 } KartKey;
 
 // Online session object behind gStruct217D384: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
-// 0x027ffc40 is 2) and never freed. mUnk_0008 is its state machine, 7 states each with an (enter, update) pair in
+// 0x027ffc40 is 2) and never freed. field8 is its state machine, 7 states each with an (enter, update) pair in
 // data_0216e21c: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
 // (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running; its own
 // heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and picks, and
@@ -211,44 +211,44 @@ typedef struct KartKey {
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;
-    /* 0008 */ StateMachine mUnk_0008;
-    /* 001c */ u8 mUnk_001c[4][0x80];
+    /* 0008 */ StateMachine field8;
+    /* 001c */ u8 field1C[4][0x80];
     // One 0x244-byte record per index: a 12-byte message header, then the player's name (0x14 bytes) and emblem
     // (0x200), elo, region and seed. The own element is sent (kind 1), the others are received into.
     /* 021c */ WiFiPlayerRecord mPlayerRecords[4];
     /* 0b2c */ u8 mConnection[0xdb4];
-    /* 18e0 */ Unk0217d384_18e0 mUnk_18e0;
+    /* 18e0 */ Unk0217d384_18e0 field18E0;
     /* 18e8 */ s32 mStartStatus;
     /* 18ec */ KartKey mKeys[4];
-    /* 194c */ u8 mUnk_194c;
+    /* 194c */ u8 field194C;
     /* 194d */ u8 mStatus4BuddyCount;
-    /* 194e */ u8 mUnk_194e;
-    /* 194f */ u8 mUnk_194f;
+    /* 194e */ u8 field194E;
+    /* 194f */ u8 field194F;
     /* 1950 */ s32 mStep;
     /* 1954 */ RandomState64 mRandom;
-    /* 196c */ u8 mUnk_196c[0x14];
+    /* 196c */ u8 field196C[0x14];
     // Calls of the step function in the current step; zeroed by every normal step change and by the timeout
     // (changes to step 11 that are not timeouts leave it as is).
     /* 1980 */ s32 mStepFrames;
     // Per kart: zeroed by the callback for that kart, counted up each step for every other kart in mKartMask; above
     // 300 it sets the kart's bit in mKartRemoveMask (while 2 < mStep < 9).
     /* 1984 */ s32 mSinceCallbackFrames[4];
-    /* 1994 */ u8 mUnk_1994[0x5];
-    /* 1999 */ u8 mUnk_1999;
-    /* 199a */ u8 mUnk_199a[0x10];
+    /* 1994 */ u8 field1994[0x5];
+    /* 1999 */ u8 field1999;
+    /* 199a */ u8 field199A[0x10];
     // Bit i: index i asked for our record (kind 0 message); the send step sends the record and clears the bit.
     /* 19aa */ u8 mSendRecordMask;
     // Bit i: the message of the current step has arrived from index i (kinds 3 and 5 set 0xff); zeroed at every step
     // change.
     /* 19ab */ u8 mReceivedMask;
-    /* 19ac */ u8 mUnk_19ac;
-    /* 19ad */ u8 mUnk_19ad;
-    /* 19ae */ u8 mUnk_19ae[2];
+    /* 19ac */ u8 field19AC;
+    /* 19ad */ u8 field19AD;
+    /* 19ae */ u8 field19AE[2];
     /* 19b0 */ u8 mUserData[0x20];
-    /* 19d0 */ s32 mUnk_19d0;
-    /* 19d4 */ s32 mUnk_19d4;
-    /* 19d8 */ u8 mUnk_19d8[0x14];
-    /* 19ec */ u32 mUnk_19ec;
+    /* 19d0 */ s32 field19D0;
+    /* 19d4 */ s32 field19D4;
+    /* 19d8 */ u8 field19D8[0x14];
+    /* 19ec */ u32 field19EC;
     // 0x3c saved buddy entries (12 bytes each), loaded from the save at login and written back; their GP status is
     // polled one per frame.
     /* 19f0 */ DWCAccFriendData mBuddies[0x3c];
@@ -256,20 +256,20 @@ typedef struct WiFiSession {
     /* 1cc0 */ u8 mBuddyStatuses[0x3c];
     /* 1cfc */ BOOL mBuddiesChanged;
     // 0x44-byte buffers the net layer receives the kind 0..9 messages into (posted at code_02122b14.c:75, :99 and re-
-    // posted by the receive callback). The 0x244 profile records (mPlayerRecords) and mUnk_001c (0x80 bytes,
+    // posted by the receive callback). The 0x244 profile records (mPlayerRecords) and field1C (0x80 bytes,
     // code_02122b14.c:498) are also posted as receive buffers.
     /* 1d00 */ Unk0217d384_1d00 mReceiveBuffers[4];
     /* 1e10 */ Unk0217d384_1d00 mIndexMessages[4];
     /* 1f20 */ WiFiSessionLogin mLogin;
     /* 1f30 */ BOOL mHeapCreated;
-    /* 1f34 */ BOOL mUnk_1f34;
-    /* 1f38 */ BOOL mUnk_1f38;
-    /* 1f3c */ s32 mUnk_1f3c;
-    /* 1f40 */ s32 mUnk_1f40;
-    /* 1f44 */ s32 mUnk_1f44;
-    /* 1f48 */ s32 mUnk_1f48;
-    /* 1f4c */ u8 mUnk_1f4c;
-    /* 1f4d */ u8 mUnk_1f4d;
+    /* 1f34 */ BOOL field1F34;
+    /* 1f38 */ BOOL field1F38;
+    /* 1f3c */ s32 field1F3C;
+    /* 1f40 */ s32 field1F40;
+    /* 1f44 */ s32 field1F44;
+    /* 1f48 */ s32 field1F48;
+    /* 1f4c */ u8 field1F4C;
+    /* 1f4d */ u8 field1F4D;
     // Per index: its place among the indices set in mKartMask (-1 if absent); ResetWiFiSession zeroes it to 0.
     /* 1f4e */ s8 mPackedIndices[4];
     /* 1f52 */ u8 mKartCount;

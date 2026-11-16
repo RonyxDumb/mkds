@@ -28,11 +28,11 @@ void InitOamRanges(void) {
     gOamRanges = AllocZeroedExpHeapBlock(0x450, 4);
     for (i = 0; i < 2; i++) {
         gOamRanges[i].mFreeRanges = CreateFilledPointerStack(0x20, &gOamRanges[i], 0x10);
-        gOamRanges[i].mUnk_220 = CreateNodeList();
+        gOamRanges[i].field220 = CreateNodeList();
         gOamRanges[i].mListStart.mEntries = GetOamBufferEntry(i, 0x40);
         gOamRanges[i].mListEnd.mEntries = GetOamBufferEntry(i, 0x7f) + 1;
-        AddNodeToListFront(gOamRanges[i].mUnk_220, &gOamRanges[i].mListStart);
-        AddNodeToListBack(gOamRanges[i].mUnk_220, &gOamRanges[i].mListEnd);
+        AddNodeToListFront(gOamRanges[i].field220, &gOamRanges[i].mListStart);
+        AddNodeToListBack(gOamRanges[i].field220, &gOamRanges[i].mListEnd);
     }
 }
 
@@ -40,7 +40,7 @@ void ReleaseOamRanges(void) {
     s32 i;
 
     for (i = 0; i < 2; i++) {
-        func_ov003_021d2eb8(gOamRanges[i].mUnk_220);
+        func_ov003_021d2eb8(gOamRanges[i].field220);
         func_ov003_021d1d4c(gOamRanges[i].mFreeRanges);
     }
     FreeExpHeapBlockAndClearPointer(&gOamRanges);
@@ -101,7 +101,7 @@ void DeleteOamRange(OamRange *range) {
     s32 i;
 
     for (i = 0; i < range->mEntryCount; i++, entries++) {
-        entries->mUnk_00 = (entries->mUnk_00 & 0xc1fffcff) | 0x200;
+        entries->field0 = (entries->field0 & 0xc1fffcff) | 0x200;
     }
     RemoveNodeFromList((u32) range);
     if (range >= (OamRange *) &gOamRanges[1]) {

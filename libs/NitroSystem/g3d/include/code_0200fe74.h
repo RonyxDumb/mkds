@@ -8,14 +8,14 @@ u32 OsCountZeroBits(u32 bitmap);
 
 // Filled by OS_GetLowEntropyData.
 typedef struct Unk0201000c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
 } Unk0201000c;
 
 typedef struct NNSG3dResMdlSet {

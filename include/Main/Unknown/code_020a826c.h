@@ -10,19 +10,19 @@
 // the value at 0x1c, 0x0c holds mobj_calcXZCamDist's result for the vector at 0x10, 0x24 is set to 0, 1
 // or 2 (mobj0008_updateInstanceLogic); mobj0008_20A8ED8 writes the vector at 0x10 and the word at 0x20.
 typedef struct Unk020a826c_a0 {
-    /* 00 */ Unk0210b7a8 mUnk_00;
+    /* 00 */ Unk0210b7a8 field0;
     /* 10 */ Vec3 mSourcePos;
     /* 1c */ NNSSndSeqPlayer **mSndHandleSlot;
-    /* 20 */ BOOL mUnk_20;
-    /* 24 */ s32 mUnk_24;
+    /* 20 */ BOOL field20;
+    /* 24 */ s32 field24;
 } Unk020a826c_a0;
 
 // Object of mobj0008_updateInstanceLogic: the shared MapObject part, two Unk020a826c_a0 and a value at 0xf0 (0 to 6) that
 // selects what mobj0008_updateInstanceLogic does.
 typedef struct Unk020a826c {
-    /* 000 */ MapObject mUnk_000;
-    /* 0a0 */ Unk020a826c_a0 mUnk_0a0;
-    /* 0c8 */ Unk020a826c_a0 mUnk_0c8;
+    /* 000 */ MapObject field0;
+    /* 0a0 */ Unk020a826c_a0 fieldA0;
+    /* 0c8 */ Unk020a826c_a0 fieldC8;
     /* 0f0 */ s32 mState;
 } Unk020a826c;
 

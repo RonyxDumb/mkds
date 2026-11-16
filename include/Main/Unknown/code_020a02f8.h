@@ -6,8 +6,8 @@
 
 // Object with the MapObject base at 0x00 (bsfx_update, bsfx_globalLogicInit, bsfx_init).
 typedef struct Unk020a0318 {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
+    /* 00 */ MapObject field0;
+    /* a0 */ s32 fieldA0;
     /* a4 */ s32 mDistanceVolumeFixed12;
     // Radius in whole units; the inner half-radius test uses w / 2 without the << 12.
     /* a8 */ s32 mRadius;

@@ -27,35 +27,35 @@ typedef struct FSFileID {
 // (FS_SeekFile, FSi_ReadFileCore, FSi_ReadFileCommand).
 typedef union Unk02003024U {
     struct {
-        /* 00 */ u32 mUnk_00;
-        /* 04 */ u32 mUnk_04;
-        /* 08 */ u32 mUnk_08;
+        /* 00 */ u32 field0;
+        /* 04 */ u32 field4;
+        /* 08 */ u32 field8;
     } w;
     struct {
-        /* 00 */ FSFileID mUnk_00;
-        /* 08 */ u32 mUnk_08;
+        /* 00 */ FSFileID field0;
+        /* 08 */ u32 field8;
     } d;
     struct {
-        /* 00 */ FSArchive *mUnk_00;
-        /* 04 */ u16 mUnk_04;
-        /* 06 */ u16 mUnk_06;
-        /* 08 */ u32 mUnk_08;
+        /* 00 */ FSArchive *field0;
+        /* 04 */ u16 field4;
+        /* 06 */ u16 field6;
+        /* 08 */ u32 field8;
     } h;
     struct {
-        /* 00 */ struct Unk02003670 *mUnk_00;
-        /* 04 */ u32 mUnk_04;
-        /* 08 */ u32 mUnk_08;
+        /* 00 */ struct Unk02003670 *field0;
+        /* 04 */ u32 field4;
+        /* 08 */ u32 field8;
     } e;
     struct {
-        /* 00 */ u8 *mUnk_00;
-        /* 04 */ u32 mUnk_04;
-        /* 08 */ u16 mUnk_08;
-        /* 0a */ u16 mUnk_0a;
+        /* 00 */ u8 *field0;
+        /* 04 */ u32 field4;
+        /* 08 */ u16 field8;
+        /* 0a */ u16 fieldA;
     } b;
     struct {
-        /* 00 */ void *mUnk_00;
-        /* 04 */ s32 mUnk_04;
-        /* 08 */ s32 mUnk_08;
+        /* 00 */ void *field0;
+        /* 04 */ s32 field4;
+        /* 08 */ s32 field8;
     } p;
 } Unk02003024U;
 
@@ -74,7 +74,7 @@ typedef struct FSFile {
     /* 14 */ s32 mError; // set from a return value in FSi_TranslateCommand and FSi_ReleaseCommand
     /* 18 */ OSThreadQueue mQueue;
     /* 20 */ Unk02003024U mProp;
-    /* 2c */ u32 mUnk_2c;
+    /* 2c */ u32 field2C;
     /* 30 */ Unk02003024U mArg;
     /* 3c */ const u8 *mPath;
     /* 40 */ u32 mFindDirectory;
@@ -117,30 +117,30 @@ s32 FSi_CloseFileCommand(FSFile *file);
 
 // Two words FSi_OpenFileFastCommand reads into FSFile.mArg.
 typedef struct Unk02003234 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
 } Unk02003234;
 
-// FSi_ReadTable passes mUnk_04 to FSArchive.mTable of mUnk_00 and adds the count to it.
+// FSi_ReadTable passes field4 to FSArchive.mTable of field0 and adds the count to it.
 typedef struct Unk02003ad8 {
-    /* 00 */ FSArchive *mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ FSArchive *field0;
+    /* 04 */ u32 field4;
 } Unk02003ad8;
 
 // Eight bytes read by FSi_SeekDirCommand.
 typedef struct Unk0200399c {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
 } Unk0200399c;
 
 // Entry read by FSi_FindPathCommand, FSi_ReadDirCommand and FSi_GetPathCommand: a Unk02003024U, then a flag, a length
 // and the bytes.
 typedef struct Unk02003670 {
-    /* 00 */ Unk02003024U mUnk_00;
-    /* 0c */ u32 mUnk_0c;
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ u8 mUnk_14[0x80];
+    /* 00 */ Unk02003024U field0;
+    /* 0c */ u32 fieldC;
+    /* 10 */ u32 field10;
+    /* 14 */ u8 field14[0x80];
 } Unk02003670;
 
 s32 FSi_OpenFileFastCommand(FSFile *file);

@@ -38,18 +38,18 @@ static inline s32 func_0206dbf8_inline(Kart *kart) {
     int v;
     u32 bits4c;
 
-    bits4c = kart->mUnk_4c;
+    bits4c = kart->field4C;
     if (bits4c & 0x400000) {
         c = FALSE;
-    } else if (kart->mUnk_7c & 0x200) {
-        if (kart->mState == KART_STATE_NORMAL && !(kart->mUnk_48 & 0x1800) && !(bits4c & 0x10000040)) {
+    } else if (kart->field7C & 0x200) {
+        if (kart->mState == KART_STATE_NORMAL && !(kart->field48 & 0x1800) && !(bits4c & 0x10000040)) {
             c = TRUE;
         } else {
             c = FALSE;
         }
     } else {
         t = TRUE;
-        if (!(bits4c & 0x10000040) && !(kart->mUnk_48 & 0x1800)) {
+        if (!(bits4c & 0x10000040) && !(kart->field48 & 0x1800)) {
             u = FALSE;
             v = kart->mState;
             if (v != KART_STATE_NORMAL && v != KART_STATE_1 && v != KART_STATE_SPIN) {
@@ -74,31 +74,31 @@ BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v) {
     if (canStart != 0) {
         driver_startBackwardFlip(hitKart, v, 1);
         sfx_21090C4(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
-        if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mUnk_2c ^= 0x80;
+        if (hitKart->field7C & 0x200) {
+            hitKart->field514->field2C ^= 0x80;
         }
         r = TRUE;
-        w = starKart->mUnk_7c & 0x200;
+        w = starKart->field7C & 0x200;
         if (w != 0) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x200;
+                        starKart->field514->field2C ^= 0x200;
                     }
                     break;
                 case 1:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x400;
+                        starKart->field514->field2C ^= 0x400;
                     }
                     break;
                 case 2:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x800;
+                        starKart->field514->field2C ^= 0x800;
                     }
                     break;
                 case 3:
                     if (w) {
-                        starKart->mUnk_514->mUnk_2c ^= 0x1000;
+                        starKart->field514->field2C ^= 0x1000;
                     }
                     break;
             }
@@ -118,41 +118,41 @@ BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart) {
     r = FALSE;
     canStart = func_0206dbf8_inline(hitKart);
     if (canStart != 0) {
-        a = killerKart->mUnk_120;
+        a = killerKart->field120;
         VEC_Subtract(&hitKart->mPos, &killerKart->mPos, &b);
-        VEC_CrossProduct(&killerKart->mUnk_138, &b, &v1);
-        if (VEC_DotProduct(&v1, &killerKart->mUnk_12c) < 0) {
+        VEC_CrossProduct(&killerKart->field138, &b, &v1);
+        if (VEC_DotProduct(&v1, &killerKart->field12C) < 0) {
             a.x = -a.x;
             a.y = -a.y;
             a.z = -a.z;
         }
         driver_startDoubleBackwardFlip(hitKart, &a, 1);
         sfx_21090C4(&hitKart->mSoundSource, 0xe8, 0x7f, 0);
-        if (hitKart->mUnk_7c & 0x200) {
-            hitKart->mUnk_514->mUnk_2c ^= 0x80;
+        if (hitKart->field7C & 0x200) {
+            hitKart->field514->field2C ^= 0x80;
         }
         r = TRUE;
-        w = killerKart->mUnk_7c & 0x200;
+        w = killerKart->field7C & 0x200;
         if (w != 0) {
             switch (hitKart->mIndex) {
                 case 0:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x400000;
+                        killerKart->field514->field2C ^= 0x400000;
                     }
                     break;
                 case 1:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x800000;
+                        killerKart->field514->field2C ^= 0x800000;
                     }
                     break;
                 case 2:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x1000000;
+                        killerKart->field514->field2C ^= 0x1000000;
                     }
                     break;
                 case 3:
                     if (w) {
-                        killerKart->mUnk_514->mUnk_2c ^= 0x2000000;
+                        killerKart->field514->field2C ^= 0x2000000;
                     }
                     break;
             }
@@ -182,7 +182,7 @@ void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c,
     a = pushingKart->mPhysicalParam->mWeight + pushingKart->mCharPhysicalParam[1];
     b = pushedKart->mPhysicalParam->mWeight + pushedKart->mCharPhysicalParam[1];
     v2 = pushingKart->mVelocityLengthRatio;
-    if (pushingKart->mUnk_7c & 0x600) {
+    if (pushingKart->field7C & 0x600) {
         if (v2 > 4.8828125e-05f) {
             v2 = 0x333;
         }
@@ -194,17 +194,17 @@ void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c,
             v2 = 0x333;
         }
     }
-    t = pushingKart->mUnk_4c & KART_4C_THUNDER_SHRINK;
+    t = pushingKart->field4C & KART_4C_THUNDER_SHRINK;
     if (t) {
         a >>= 3;
     }
     if (t) {
         b >>= 3;
     }
-    if (pushingKart->mUnk_48 & 0x100000) {
+    if (pushingKart->field48 & 0x100000) {
         a <<= 1;
     }
-    if (pushedKart->mUnk_48 & 0x100000) {
+    if (pushedKart->field48 & 0x100000) {
         a >>= 2;
     }
     t = FX_Div(a, b);
@@ -214,7 +214,7 @@ void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c,
     b = ((s64) a * t) >> 12;
     v2 = ((s64) b * v2) >> 12;
     d = pushedKart->mTurnedForward;
-    if (pushedKart->mUnk_44 & 0x100) {
+    if (pushedKart->field44 & 0x100) {
         d.x = -d.x;
         d.y = -d.y;
         d.z = -d.z;
@@ -261,7 +261,7 @@ void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c,
     if (v10.y < 0) {
         v2 = v2 * v5;
     }
-    if (pushedKart->mKartModelsEntry->mUnk_058 != 0) {
+    if (pushedKart->mKartModelsEntry->field58 != 0) {
         return;
     }
     t = pushedKart->mForwardSpeed;
@@ -276,7 +276,7 @@ void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c,
     } else {
         t = -v2;
     }
-    pushedKart->mUnk_4c |= 0x2000000;
+    pushedKart->field4C |= 0x2000000;
     if (t <= pushedKart->mWobbleAmplitude) {
         return;
     }
@@ -298,46 +298,46 @@ void driver_handleSlipstream(Kart *kart) {
 
     distance = 0;
     v1 = FALSE;
-    ComputeKartPointAlongUp(&kart->mUnk_1f0, kart->mUnk_510, 0x400, kart);
-    VEC_MultAdd(((s64) kart->mRadius * -0x4000) >> 12, &kart->mTurnedForward, &kart->mUnk_1f0, &kart->mUnk_1f0);
-    if (kart->mIndex == race_getFrameCounterModulo8() && !(kart->mUnk_4c & 0x10002000)) {
+    ComputeKartPointAlongUp(&kart->field1F0, kart->field510, 0x400, kart);
+    VEC_MultAdd(((s64) kart->mRadius * -0x4000) >> 12, &kart->mTurnedForward, &kart->field1F0, &kart->field1F0);
+    if (kart->mIndex == race_getFrameCounterModulo8() && !(kart->field4C & 0x10002000)) {
         if (kart->mVelocityLength > 0x4000 && kart->mState == KART_STATE_NORMAL) {
             for (i = 0; i < gColQueryResultCount; i++) {
                 otherKart = gColQueryResultObjects[i];
                 if (otherKart->mVelocityLength >= 0x2000 && (gColQueryResultFlags[i] & 0x800) &&
-                    otherKart != kart && !(otherKart->mUnk_7c & 0x402000)) {
+                    otherKart != kart && !(otherKart->field7C & 0x402000)) {
                     VEC_Subtract(&otherKart->mPos, &kart->mPos, &offset);
                     distance = VEC_Mag(&offset);
                     if (vec_dotProduct(&otherKart->mTurnedForward, &offset) >
                         (s32) (((s64) distance * 0xe7f) >> 12)) {
                         v1 = TRUE;
-                        kart->mUnk_538.mUnk_08++;
+                        kart->field538.field8++;
                         break;
                     }
                 }
             }
         }
-        if (!(kart->mUnk_7c & 0x400)) {
+        if (!(kart->field7C & 0x400)) {
             if (v1 != FALSE) {
-                kart->mUnk_4c |= 0x4000;
+                kart->field4C |= 0x4000;
                 rptc_startSlipstreamBeginEffect(kart);
-                if (kart->mUnk_538.mUnk_08 > 0xf && distance < 0x3c000) {
+                if (kart->field538.field8 > 0xf && distance < 0x3c000) {
                     driver_startSlipstream(kart);
                 }
             } else {
-                kart->mUnk_538.mUnk_08 = 0;
-                kart->mUnk_4c &= ~0x4000;
-                if (!(kart->mUnk_4c & 0x2000)) {
-                    kart->mUnk_d8 = 0x1000;
+                kart->field538.field8 = 0;
+                kart->field4C &= ~0x4000;
+                if (!(kart->field4C & 0x2000)) {
+                    kart->fieldD8 = 0x1000;
                 }
                 rptc_stopSlipstreamBeginEffect(kart);
             }
         }
     }
-    if (kart->mUnk_4c & 0x4000) {
-        kart->mUnk_d8 += 7;
-        if (kart->mUnk_d8 > 0x1333) {
-            kart->mUnk_d8 = 0x1333;
+    if (kart->field4C & 0x4000) {
+        kart->fieldD8 += 7;
+        if (kart->fieldD8 > 0x1333) {
+            kart->fieldD8 = 0x1333;
         }
     }
 }
@@ -350,16 +350,16 @@ void driver_handleItems(Kart *kart) {
     u32 t;
     u32 f;
 
-    if (kart->mUnk_7c & 0x400400) {
+    if (kart->field7C & 0x400400) {
         return;
     }
     if (it_20FA4C8(kart) == 0) {
         return;
     }
-    if (kart->mUnk_7c & 0x402020) {
+    if (kart->field7C & 0x402020) {
         return;
     }
-    if (kart->mUnk_4c & 0x800) {
+    if (kart->field4C & 0x800) {
         return;
     }
     itemObject = GetCollidedItemObject(0);
@@ -372,7 +372,7 @@ void driver_handleItems(Kart *kart) {
             break;
         case 2:
             r = driver_tryStartSpinOut(kart, 1, r);
-            if (r != 0 && kart->mKartModelsEntry->mUnk_058 == 0) {
+            if (r != 0 && kart->mKartModelsEntry->field58 == 0) {
                 ptcm_createEmitter(0xc, &kart->mPos);
                 ptcm_createEmitter(0xd, &kart->mPos);
                 ptcm_createEmitter(0xe, &kart->mPos);
@@ -381,8 +381,8 @@ void driver_handleItems(Kart *kart) {
         case 3:
             // r is still 0 here, KART_BOOST_ITEM_OR_SURFACE.
             driver_addBoost(kart, r, 0x5a);
-            kart->mUnk_48 |= 0x100000;
-            kart->mUnk_538.mUnk_00 = 0x5a;
+            kart->field48 |= 0x100000;
+            kart->field538.field0 = 0x5a;
             if (gRaceMultiConfig->mMode == MODE_BATTLE) {
                 mgcnt_20A1DDC(kart->mIndex);
             }
@@ -398,7 +398,7 @@ void driver_handleItems(Kart *kart) {
             }
             break;
         case 9:
-            if (((ItemKouraW *) itemObject)->mUnk_16c != 0) {
+            if (((ItemKouraW *) itemObject)->field16C != 0) {
                 r = driver_tryStartSpinOut(kart, 2, r);
             } else {
                 r = driver_tryThrowUp(kart);
@@ -408,10 +408,10 @@ void driver_handleItems(Kart *kart) {
             i = r;
             race_startDarkening();
             StartEffectsAtOtherKarts(kart->mIndex);
-            t = kart->mUnk_7c & 0x200;
+            t = kart->field7C & 0x200;
             if (t) {
                 if (t) {
-                    kart->mUnk_514->mUnk_2c ^= 0x4000;
+                    kart->field514->field2C ^= 0x4000;
                 }
             } else {
                 while (i < gRaceMultiConfig->mKartCount) {
@@ -435,15 +435,15 @@ void driver_handleItems(Kart *kart) {
     if (func_020f9880(itemObject) == 0) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000040) {
-        if (itemObject->mUnk_128 & (u8) (1 << kart->mIndex)) {
+    if (kart->field4C & 0x10000040) {
+        if (itemObject->field128 & (u8) (1 << kart->mIndex)) {
             return;
         }
-        itemObject->mUnk_128 |= (u8) (1 << kart->mIndex);
+        itemObject->field128 |= (u8) (1 << kart->mIndex);
         sfx_21090C4(&kart->mSoundSource, 0xe9, 0x7f, 0);
         return;
     }
-    i = (u16) ((itemObject->mUnk_78 & 0x8000) == 0 ? (u16) (itemObject->mUnk_78 & ~0xff00) : 8);
+    i = (u16) ((itemObject->field78 & 0x8000) == 0 ? (u16) (itemObject->field78 & ~0xff00) : 8);
     if (i >= gRaceMultiConfig->mKartCount) {
         return;
     }
@@ -452,27 +452,27 @@ void driver_handleItems(Kart *kart) {
         if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
             driver_notifyItemHit(i);
         }
-        if (!(ownerKart->mUnk_48 & 0x840)) {
+        if (!(ownerKart->field48 & 0x840)) {
             sfx_emitDriverVoice(ownerKart, ownerKart->mSoundIndex, 8);
         }
-        f = ownerKart->mUnk_7c;
+        f = ownerKart->field7C;
         if ((f & 0x10) && !(f & 0x30000)) {
             driver_setAnimation(ownerKart, 2, 0);
         }
     }
-    if (kart->mUnk_7c & 0x200) {
-        kart->mUnk_514->mUnk_2c &= ~0x60000000;
-        kart->mUnk_514->mUnk_2c |= (i & 3) << 0x1d;
+    if (kart->field7C & 0x200) {
+        kart->field514->field2C &= ~0x60000000;
+        kart->field514->field2C |= (i & 3) << 0x1d;
     }
 }
 
 void func_0206d138(Kart *kart) {
     u32 f;
 
-    if (!(kart->mUnk_48 & 0x840)) {
+    if (!(kart->field48 & 0x840)) {
         sfx_emitDriverVoice(kart, kart->mSoundIndex, 8);
     }
-    f = kart->mUnk_7c;
+    f = kart->field7C;
     if (!(f & 0x10)) {
         return;
     }
@@ -490,25 +490,25 @@ void driver_addBoost(Kart *kart, KartBoostKind boostKind, int boostFrames) {
     if (kart->mState != KART_STATE_NORMAL) {
         return;
     }
-    d = kart->mUnk_48 & 0x1000;
+    d = kart->field48 & 0x1000;
     if (d) {
         return;
     }
-    if (kart->mUnk_4c & 0x10000000) {
+    if (kart->field4C & 0x10000000) {
         return;
     }
-    kart->mUnk_48 |= KART_48_BOOST;
+    kart->field48 |= KART_48_BOOST;
     currentTimer = kart->mBoostTimer;
     if (boostFrames > currentTimer) {
         kart->mBoostTimer = boostFrames;
     }
     if (boostKind != KART_BOOST_MINI_TURBO && boostKind != KART_BOOST_RESPAWN) {
-        kart->mUnk_48 |= 0x20000000;
+        kart->field48 |= 0x20000000;
     }
     StopKartSoundWhileRequested(kart);
     c = ~0x8000;
-    kart->mUnk_48 &= c;
-    if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+    kart->field48 &= c;
+    if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!boostKind) {
             f = 0;
         } else {

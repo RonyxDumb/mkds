@@ -25,7 +25,7 @@ void mic_initAutoSampling(MicBuffer *micBuffer) {
         PM_SetAmpAsync(1);
         mic_sInitialized = 1;
     }
-    micBuffer->mUnk_41c = 0;
+    micBuffer->field41C = 0;
     for (i = 0; i < 0x400; i++) {
         micBuffer->mSamples[i] = 0;
     }

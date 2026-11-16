@@ -9,9 +9,9 @@ void func_020a2ebc(Balloon *balloon, Vec3 *position) {
     if (position == NULL) {
         return;
     }
-    balloon->mUnk_00.mPos.x = position->x;
-    balloon->mUnk_00.mPos.y = position->y + 0xf666;
-    balloon->mUnk_00.mPos.z = position->z;
+    balloon->field0.mPos.x = position->x;
+    balloon->field0.mPos.y = position->y + 0xf666;
+    balloon->field0.mPos.z = position->z;
 }
 
 // Copies the two vectors into mTargetPos and mTargetVelocity.

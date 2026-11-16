@@ -5,7 +5,7 @@
 
 void pad_update(u32 keys, InputSlot *slot) {
     u16 maskedBits;
-    if (slot->mUnk_20 != 0) {
+    if (slot->field20 != 0) {
         WriteKeyBitsToStream(keys);
     }
     slot->mPressedBits = keys & (keys ^ slot->mBits);
@@ -45,7 +45,7 @@ void pad_update(u32 keys, InputSlot *slot) {
             break;
     }
     maskedBits = slot->mBits & 0x30c;
-    if (slot->mUnk_14 != 0 && maskedBits == 0x30c) {
+    if (slot->field14 != 0 && maskedBits == 0x30c) {
         if (slot->mPressedBits & 0x30c) {
             slot->mHoldStartTick = OS_GetTick();
             slot->mHoldLong = 0;
@@ -60,7 +60,7 @@ void pad_update(u32 keys, InputSlot *slot) {
         return;
     }
     if (maskedBits != 0x30c) {
-        slot->mUnk_14 = 1;
+        slot->field14 = 1;
     }
     slot->mHoldLong = 0;
 }

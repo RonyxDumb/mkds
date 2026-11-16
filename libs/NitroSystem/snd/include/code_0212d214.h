@@ -15,10 +15,10 @@ typedef struct NNSSndSeqParam {
 
 // 12-byte records at 0x20 of Unk0212f788; NNSi_SndSeqArcGetSeqInfo returns one unless its first word is -1.
 typedef struct Unk0212f788 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c; // number of records
-    /* 20 */ u32 mUnk_20[3];
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C; // number of records
+    /* 20 */ u32 field20[3];
 } Unk0212f788;
 
 // File table entry: offset and size in the archive file, and the address it is loaded at.
@@ -172,36 +172,36 @@ typedef struct NNSSndHeapBlock {
 
 // Position in the entries of an Unk02021968, set by SND_GetFirstInstDataPos and advanced by SND_GetNextInstData.
 typedef struct Unk02021bc8 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
 } Unk02021bc8;
 
 // Record SND_GetNextInstData writes.
 typedef struct Unk020219f0 {
-    /* 00 */ u8 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
+    /* 00 */ u8 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
 } Unk020219f0;
 
 // Entry of 8 bytes in the table at 0x18 of an Unk02021968: SND_DestroyWaveArc clears the entries of a chain linked
-// through mUnk_04, SND_DestroyBank and SND_AssignWaveArc move entries between the chains of two objects.
+// through field4, SND_DestroyBank and SND_AssignWaveArc move entries between the chains of two objects.
 typedef struct Unk02021be8 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ struct Unk02021be8 *mUnk_04;
+    /* 00 */ void *field0;
+    /* 04 */ struct Unk02021be8 *field4;
 } Unk02021be8;
 
-// Object with two tables of mUnk_38 words from 0x3c. SND_GetWaveDataAddress and SND_SetWaveDataAddress read and write
-// the first; LoadSingleWave reads the second, whose words b and b + 1 bound a block (the last block ends at mUnk_08).
+// Object with two tables of field38 words from 0x3c. SND_GetWaveDataAddress and SND_SetWaveDataAddress read and write
+// the first; LoadSingleWave reads the second, whose words b and b + 1 bound a block (the last block ends at field8).
 typedef struct Unk02021968 {
-    /* 00 */ u8 mUnk_00[8];
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u8 mUnk_0c[0xc];
-    /* 18 */ Unk02021be8 mUnk_18[4];
-    /* 38 */ u32 mUnk_38;
-    /* 3c */ u32 mUnk_3c[1];
+    /* 00 */ u8 field0[8];
+    /* 08 */ u32 field8;
+    /* 0c */ u8 fieldC[0xc];
+    /* 18 */ Unk02021be8 field18[4];
+    /* 38 */ u32 field38;
+    /* 3c */ u32 field3C[1];
 } Unk02021968;
 
 void NNS_SndHeapLoadState(NNSSndHeap *heap, s32 level);

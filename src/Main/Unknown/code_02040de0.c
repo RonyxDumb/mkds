@@ -33,7 +33,7 @@ void mdat_calculateStartPosition(Vec3 *outPos, Vec3 *outRotation, s32 key, s32 f
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gMapData->mSettings->mUnk_04 != 0) {
+    if (gMapData->mSettings->field4 != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
     if (gMapData->mStartPlacementCount > 1) {
@@ -47,29 +47,29 @@ void mdat_calculateStartPosition(Vec3 *outPos, Vec3 *outRotation, s32 key, s32 f
     } else {
         placement = gMapData->mStartPlacements;
     }
-    angleX = (placement->mUnk_0c.x >> 12) * 0xb6;
-    angleY = (placement->mUnk_0c.y >> 12) * 0xb6;
-    angleZ = (placement->mUnk_0c.z >> 12) * 0xb6;
+    angleX = (placement->fieldC.x >> 12) * 0xb6;
+    angleY = (placement->fieldC.y >> 12) * 0xb6;
+    angleZ = (placement->fieldC.z >> 12) * 0xb6;
     MTX_RotX43_((s32 *) &rotationMatrixX, FX_SinCosTable_[(angleX >> 4) * 2], FX_SinCosTable_[(angleX >> 4) * 2 + 1]);
     MTX_RotY43_(&rotationMatrixY, FX_SinCosTable_[(angleY >> 4) * 2], FX_SinCosTable_[(angleY >> 4) * 2 + 1]);
     MTX_RotZ43_((s32 *) &rotationMatrixZ, FX_SinCosTable_[(angleZ >> 4) * 2], FX_SinCosTable_[(angleZ >> 4) * 2 + 1]);
     MTX_Concat43(&rotationMatrixX, &rotationMatrixZ, &rotationMatrix);
     MTX_Concat43(&rotationMatrixY, &rotationMatrix, &rotationMatrix);
-    negatedFirstAxisX = -rotationMatrix.mUnk_00[0].x;
-    negatedFirstAxisY = -rotationMatrix.mUnk_00[0].y;
-    negatedFirstAxisZ = -rotationMatrix.mUnk_00[0].z;
-    negatedThirdAxisX = -rotationMatrix.mUnk_00[2].x;
-    negatedThirdAxisY = -rotationMatrix.mUnk_00[2].y;
-    negatedThirdAxisZ = -rotationMatrix.mUnk_00[2].z;
+    negatedFirstAxisX = -rotationMatrix.field0[0].x;
+    negatedFirstAxisY = -rotationMatrix.field0[0].y;
+    negatedFirstAxisZ = -rotationMatrix.field0[0].z;
+    negatedThirdAxisX = -rotationMatrix.field0[2].x;
+    negatedThirdAxisY = -rotationMatrix.field0[2].y;
+    negatedThirdAxisZ = -rotationMatrix.field0[2].z;
     outPos->x = placement->mPos.x + (s32) (((s64) negatedFirstAxisX * firstAxisOffset + 0x800) >> 12) +
                 (s32) (((s64) negatedThirdAxisX * thirdAxisOffset + 0x800) >> 12);
     outPos->y = placement->mPos.y + (s32) (((s64) negatedFirstAxisY * firstAxisOffset + 0x800) >> 12) +
                 (s32) (((s64) negatedThirdAxisY * thirdAxisOffset + 0x800) >> 12);
     outPos->z = placement->mPos.z + (s32) (((s64) negatedFirstAxisZ * firstAxisOffset + 0x800) >> 12) +
                 (s32) (((s64) negatedThirdAxisZ * thirdAxisOffset + 0x800) >> 12);
-    outRotation->x = placement->mUnk_0c.x;
-    outRotation->y = placement->mUnk_0c.y;
-    outRotation->z = placement->mUnk_0c.z;
+    outRotation->x = placement->fieldC.x;
+    outRotation->y = placement->fieldC.y;
+    outRotation->z = placement->fieldC.z;
 }
 
 // Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
@@ -214,7 +214,7 @@ s32 mdat_isInsideMissionEndArea(Vec3 *pos, s32 *outFlag) {
                     break;
             }
             if (inside != 0) {
-                if ((s16) shape->mUnk_3c == 0) {
+                if ((s16) shape->field3C == 0) {
                     *outFlag = 1;
                 } else {
                     *outFlag = 0;
@@ -397,9 +397,9 @@ void *mdat_getRespawnData(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
         outPos->x = respawn->mPos.x;
         outPos->y = respawn->mPos.y;
         outPos->z = respawn->mPos.z;
-        outRotation->x = respawn->mUnk_0c.x;
-        outRotation->y = respawn->mUnk_0c.y;
-        outRotation->z = respawn->mUnk_0c.z;
+        outRotation->x = respawn->fieldC.x;
+        outRotation->y = respawn->fieldC.y;
+        outRotation->z = respawn->fieldC.z;
         pointIndex = respawn->mPointIndex;
     }
     if (pointIndex == -1) {
@@ -429,9 +429,9 @@ PointLink *mdat_getMgRespawnData(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
         outPos->x = respawn->mPos.x;
         outPos->y = respawn->mPos.y;
         outPos->z = respawn->mPos.z;
-        outRotation->x = respawn->mUnk_0c.x;
-        outRotation->y = respawn->mUnk_0c.y;
-        outRotation->z = respawn->mUnk_0c.z;
+        outRotation->x = respawn->fieldC.x;
+        outRotation->y = respawn->fieldC.y;
+        outRotation->z = respawn->fieldC.z;
         pointIndex = respawn->mPointIndex;
     }
     if (pointIndex == -1) {
@@ -467,8 +467,8 @@ s32 mdat_isDriverInClipArea(s32 kartIndex, u32 listIndex) {
 
     node = gMapData->mKind3ShapeLists[listIndex];
     driver_getPosition(&kartPos, kartIndex);
-    for (; found == FALSE && node != NULL; node = node->mUnk_04) {
-        shape = node->mUnk_00;
+    for (; found == FALSE && node != NULL; node = node->field4) {
+        shape = node->field0;
         inside = 0;
         switch (shape->mShapeKind) {
             case 0:

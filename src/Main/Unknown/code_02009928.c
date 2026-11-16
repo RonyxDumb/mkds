@@ -29,16 +29,16 @@ void AddDataRange(DataRangeTable *table, u32 offset, u32 size, u8 *data, u32 val
     u32 savedInterrupts;
     DataRange *range;
     savedInterrupts = OS_DisableInterrupts();
-    range = table->mUnk_30;
+    range = table->field30;
     for (;;) {
-        if (range >= table->mUnk_30 + 4) {
+        if (range >= table->field30 + 4) {
             OS_Terminate();
         }
-        if (range->mUnk_0c == 0) {
+        if (range->fieldC == 0) {
             range->mOffset = offset;
             range->mSize = size;
             range->mData = data;
-            range->mUnk_0c = value;
+            range->fieldC = value;
             break;
         }
         range++;
@@ -53,13 +53,13 @@ u32 CopyFromDataRanges(DataRangeTable *table, u32 offset, void *destination, u32
     s32 offsetInRange;
     found = 0;
     savedInterrupts = OS_DisableInterrupts();
-    for (range = table->mUnk_30; range < table->mUnk_30 + 4; range++) {
-        if (range->mUnk_0c >= 2) {
+    for (range = table->field30; range < table->field30 + 4; range++) {
+        if (range->fieldC >= 2) {
             offsetInRange = offset - range->mOffset;
             if (offsetInRange >= 0 && offsetInRange + byteCount <= range->mSize) {
                 MI_CpuCopy8(range->mData + offsetInRange, destination, byteCount);
                 found = 1;
-                table->mUnk_00 = found;
+                table->field0 = found;
                 break;
             }
         }
@@ -79,11 +79,11 @@ u32 AdvanceScanChannel(Unk02143a78 *scanParams) {
         return 0;
     }
     i = 0;
-    currentChannel = scanParams->mUnk_04;
+    currentChannel = scanParams->field4;
     candidate = currentChannel;
     for (; i < 16;) {
         if ((allowedMask & (1 << (candidate - 1))) != 0 && currentChannel != candidate) {
-            scanParams->mUnk_04 = candidate;
+            scanParams->field4 = candidate;
             break;
         }
         i++;
@@ -172,7 +172,7 @@ void ParentCallback(Unk021425e8 *result) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->field8_0) {
                 case 0:
                     gWirelessWork->mConnectedAids = 0;
                     gWirelessWork->mMPStarted = 0;
@@ -181,12 +181,12 @@ void ParentCallback(Unk021425e8 *result) {
                     if (gWirelessWork->mResetting == 1) {
                         return;
                     }
-                    gWirelessWork->mConnectedAids |= 1 << result->mUnk_10;
+                    gWirelessWork->mConnectedAids |= 1 << result->field10;
                     gWirelessWork->mCallback(0, result);
-                    if (gWirelessWork->mMPStarted == 0 && data_0216fdac->mUnk_131c == 0) {
-                        data_0216fdac->mUnk_131c = 1;
+                    if (gWirelessWork->mMPStarted == 0 && data_0216fdac->field131C == 0) {
+                        data_0216fdac->field131C = 1;
                         x = 1;
-                        if (gWirelessWork->mUnk_52c != 0) {
+                        if (gWirelessWork->field52C != 0) {
                             x = 0;
                         }
                         ReportCommandError(0xe,
@@ -201,7 +201,7 @@ void ParentCallback(Unk021425e8 *result) {
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
                 case 9:
-                    gWirelessWork->mConnectedAids &= ~(1 << result->mUnk_10);
+                    gWirelessWork->mConnectedAids &= ~(1 << result->field10);
                     gWirelessWork->mCallback(1, result);
                     return;
                 case 2:
@@ -215,14 +215,14 @@ void ParentCallback(Unk021425e8 *result) {
                     return;
             }
         case 14:
-            data_0216fdac->mUnk_131c = 0;
-            switch (result->mUnk_04) {
+            data_0216fdac->field131C = 0;
+            switch (result->field4) {
                 case 10:
                     gWirelessWork->mMPStarted = 1;
                     gWirelessWork->mCallback(0x19, NULL);
                     return;
                 case 11:
-                    gWirelessWork->mCallback(3, result->mUnk_08);
+                    gWirelessWork->mCallback(3, result->field8);
                     return;
                 default:
                     gWirelessWork->mCallback(0x100, result);
@@ -230,10 +230,10 @@ void ParentCallback(Unk021425e8 *result) {
             }
         case 15:
             parentWork = data_0216fdac;
-            if (parentWork->mUnk_74c8 != 0) {
+            if (parentWork->field74C8 != 0) {
                 nonZeroCount = 0;
                 for (i = 0; i < 15; i++) {
-                    if (parentWork->mUnk_14e8[i] != 0) {
+                    if (parentWork->field14E8[i] != 0) {
                         nonZeroCount++;
                         if (nonZeroCount >= 2) {
                             break;
@@ -258,7 +258,7 @@ void ParentCallback(Unk021425e8 *result) {
             gWirelessWork->mCallback(0x19, NULL);
             return;
         case 1:
-            if (data_0216fdac->mUnk_1320 == 0) {
+            if (data_0216fdac->field1320 == 0) {
                 if (result->mResultCode != 0) {
                     gWirelessWork->mResetting = 0;
                     gWirelessWork->mCallback(0x100, result);
@@ -277,17 +277,17 @@ void ParentCallback(Unk021425e8 *result) {
                 gWirelessWork->mCallback(0x100, result);
                 return;
             }
-            gWirelessWork->mUnk_50d = 0;
-            data_0216fdac->mUnk_1316 = 0;
+            gWirelessWork->field50D = 0;
+            data_0216fdac->field1316 = 0;
             gWirelessWork->mCallback(0x11, result);
             return;
         case 13:
             if (result->mResultCode == 0) {
-                gWirelessWork->mConnectedAids &= ~result->mUnk_08_2;
+                gWirelessWork->mConnectedAids &= ~result->field8_2;
             }
             return;
         case 0x80:
-            switch (result->mUnk_04) {
+            switch (result->field4) {
                 case 0x10:
                     gWirelessWork->mCallback(0x1d, result);
                     return;
@@ -315,9 +315,9 @@ void ParentCallback(Unk021425e8 *result) {
 
 void ChildPortCallback(Unk021425e8 *result) {
     if (result->mResultCode == 0) {
-        if (result->mUnk_04 == 7) {
-        } else if (result->mUnk_04 == 9) {
-        } else if (result->mUnk_04 == 0x15) {
+        if (result->field4 == 7) {
+        } else if (result->field4 == 9) {
+        } else if (result->field4 == 0x15) {
             gWirelessWork->mCallback(9, result);
         }
     }
@@ -348,21 +348,21 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            gScanParams.mUnk_00 = work->mScanBuffer;
-            if (gScanParams.mUnk_04 == 0) {
-                gScanParams.mUnk_04 = 1;
+            gScanParams.field0 = work->mScanBuffer;
+            if (gScanParams.field4 == 0) {
+                gScanParams.field4 = 1;
             }
-            if (gScanParams.mUnk_06 == 0) {
-                gScanParams.mUnk_06 = 0xc8;
+            if (gScanParams.field6 == 0) {
+                gScanParams.field6 = 0xc8;
             }
-            gScanParams.mUnk_08[0] = 0xff;
-            gScanParams.mUnk_08[1] = 0xff;
-            gScanParams.mUnk_08[2] = 0xff;
-            gScanParams.mUnk_08[3] = 0xff;
-            gScanParams.mUnk_08[4] = 0xff;
-            gScanParams.mUnk_08[5] = 0xff;
+            gScanParams.field8[0] = 0xff;
+            gScanParams.field8[1] = 0xff;
+            gScanParams.field8[2] = 0xff;
+            gScanParams.field8[3] = 0xff;
+            gScanParams.field8[4] = 0xff;
+            gScanParams.field8[5] = 0xff;
             work->mRepeatScan = 1;
-            work->mUnk_5e8 = 1;
+            work->field5E8 = 1;
             ReportCommandError(0xa, WM_StartScan(ChildCallback, &gScanParams));
             return;
         case 10:
@@ -370,7 +370,7 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->field8_0) {
                 case 3:
                     return;
                 case 5:
@@ -379,16 +379,16 @@ void ChildCallback(Unk021425e8 *result) {
                     entryCount = work->mScanEntryCount;
                     if (entryCount > 0) {
                         entry = (ScanEntry *) entries;
-                        c = result->mUnk_0a[0];
+                        c = result->fieldA[0];
                         do {
-                            if (c == entry->mMessage.mUnk_0a[0] && result->mUnk_0a[1] == entry->mMessage.mUnk_0a[1] &&
-                                result->mUnk_0a[2] == entry->mMessage.mUnk_0a[2] &&
-                                result->mUnk_0a[3] == entry->mMessage.mUnk_0a[3] &&
-                                result->mUnk_0a[4] == entry->mMessage.mUnk_0a[4] &&
-                                result->mUnk_0a[5] == entry->mMessage.mUnk_0a[5]) {
+                            if (c == entry->mMessage.fieldA[0] && result->fieldA[1] == entry->mMessage.fieldA[1] &&
+                                result->fieldA[2] == entry->mMessage.fieldA[2] &&
+                                result->fieldA[3] == entry->mMessage.fieldA[3] &&
+                                result->fieldA[4] == entry->mMessage.fieldA[4] &&
+                                result->fieldA[5] == entry->mMessage.fieldA[5]) {
                                 entryOffset = i * 0x180;
-                                ((ScanEntry *) (entries + entryOffset))->mMessage.mUnk_36 = result->mUnk_36;
-                                ((ScanEntry *) (entries + (s32) entryOffset))->mMessage.mUnk_38 = result->mUnk_38;
+                                ((ScanEntry *) (entries + entryOffset))->mMessage.field36 = result->field36;
+                                ((ScanEntry *) (entries + (s32) entryOffset))->mMessage.field38 = result->field38;
                                 DC_InvalidateRange((ScanEntry *) ((u8 *) work->mScanEntries + entryOffset), 0xc0);
                                 MI_DmaCopy16(gWirelessDmaNo, work->mScanBuffer,
                                              (ScanEntry *) ((u8 *) work->mScanEntries + entryOffset), 0xc0);
@@ -413,7 +413,7 @@ void ChildCallback(Unk021425e8 *result) {
                     if (work->mRepeatScan == 0) {
                         return;
                     }
-                    if (work->mUnk_5e8 != 0) {
+                    if (work->field5E8 != 0) {
                         if (AdvanceScanChannel(&gScanParams) == 0) {
                             RequestWirelessReset();
                         }
@@ -425,7 +425,7 @@ void ChildCallback(Unk021425e8 *result) {
                     if (work->mRepeatScan == 0) {
                         return;
                     }
-                    if (work->mUnk_5e8 != 0) {
+                    if (work->field5E8 != 0) {
                         if (AdvanceScanChannel(&gScanParams) == 0) {
                             RequestWirelessReset();
                         }
@@ -441,7 +441,7 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            ReportCommandError(0xc, WM_StartConnectEx(ChildCallback, work->mUnk_520, NULL, 1, 0));
+            ReportCommandError(0xc, WM_StartConnectEx(ChildCallback, work->field520, NULL, 1, 0));
             return;
         case 12:
             if (result->mResultCode != 0) {
@@ -449,13 +449,13 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0xb, result);
                 return;
             }
-            switch (result->mUnk_08_0) {
+            switch (result->field8_0) {
                 case 6:
                     work->mConnectedAids = 0;
                     work->mMPStarted = 1;
                     return;
                 case 7:
-                    work->mUnk_5e2 = result->mUnk_08_2;
+                    work->field5E2 = result->field8_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
                     if (WM_SetIndCallback(1, (UnkFunc *) ChildPortCallback, NULL) != 0) {
@@ -463,7 +463,7 @@ void ChildCallback(Unk021425e8 *result) {
                     }
                     ReportCommandError(0xe, WM_StartMPEx(ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,
                                                          work->mSendBuffer, work->mSendBufferSize,
-                                                         work->mUnk_52c == 0 ? 1 : 0, 0, 0, 0, 1, 1));
+                                                         work->field52C == 0 ? 1 : 0, 0, 0, 0, 1, 1));
                     return;
                 case 9:
                     work->mCallback(10, result);
@@ -475,7 +475,7 @@ void ChildCallback(Unk021425e8 *result) {
                     return;
             }
         case 14:
-            switch (result->mUnk_04) {
+            switch (result->field4) {
                 case 10:
                     work->mMPStarted = 1;
                     if (IsMPReadyToSendData() == 0) {
@@ -517,8 +517,8 @@ void ChildCallback(Unk021425e8 *result) {
                 work->mCallback(0x100, result);
                 return;
             }
-            work->mUnk_50d = 0;
-            data_0216fdac->mUnk_1316 = 0;
+            work->field50D = 0;
+            data_0216fdac->field1316 = 0;
             work->mCallback(0x11, result);
             return;
         case 21:
@@ -528,7 +528,7 @@ void ChildCallback(Unk021425e8 *result) {
             work->mCallback(0x19, NULL);
             return;
         case 0x80:
-            switch (result->mUnk_04) {
+            switch (result->field4) {
                 case 0x16:
                     OS_Terminate();
                     break;
@@ -564,7 +564,7 @@ s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo
     vu32 clearValue32;
     s32 i;
     u16 *w;
-    if (data_0216fdac != NULL && data_0216fdac->mUnk_1316 != 0) {
+    if (data_0216fdac != NULL && data_0216fdac->field1316 != 0) {
         return 2;
     }
     wirelessWork = (WirelessWork *) (((u32) buffer + 0x1f) & ~0x1f);
@@ -580,12 +580,12 @@ s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo
     MIi_CpuClear32(clearValue32, wirelessWork, 0x1e00);
     clearValue16 = 0;
     MIi_CpuClear16(clearValue16, parentWork, 0x1340);
-    w = wirelessWork->mUnk_530;
-    for (i = 0; i < b->mUnk_01; i++) {
-        *w = b->mUnk_02[i];
+    w = wirelessWork->field530;
+    for (i = 0; i < b->field1; i++) {
+        *w = b->field2[i];
         w++;
     }
-    w = wirelessWork->mUnk_538;
+    w = wirelessWork->field538;
     for (i = 0; i < 16; i++) {
         if (*data_021617a0 == 0) {
             break;
@@ -593,28 +593,28 @@ s32 InitWirelessWork(void *buffer, Unk02009ff4 *b, u32 ggid, u32 tgid, u32 dmaNo
         *w = *data_021617a0++;
         w++;
     }
-    MI_CpuCopy8(b, &parentWork->mUnk_1300, 0x16);
-    if (b->mUnk_01 < 10) {
-        parentWork->mUnk_1300.mUnk_02[b->mUnk_01] = 0;
+    MI_CpuCopy8(b, &parentWork->field1300, 0x16);
+    if (b->field1 < 10) {
+        parentWork->field1300.field2[b->field1] = 0;
     }
     wirelessWork->mSendDataSize = 0x100;
     wirelessWork->mReceiveDataSize = 8;
     wirelessWork->mSendBufferSize = 0;
     wirelessWork->mReceiveBufferSize = 0;
-    wirelessWork->mUnk_52c = 1;
-    wirelessWork->mReceiveBuffer = parentWork->mUnk_0000 + 0x400;
-    wirelessWork->mUnk_00e = 1;
-    wirelessWork->mUnk_012 = 0;
-    wirelessWork->mUnk_016 = 1;
-    wirelessWork->mUnk_014 = 0;
+    wirelessWork->field52C = 1;
+    wirelessWork->mReceiveBuffer = parentWork->field0 + 0x400;
+    wirelessWork->fieldE = 1;
+    wirelessWork->field12 = 0;
+    wirelessWork->field16 = 1;
+    wirelessWork->field14 = 0;
     wirelessWork->mGgid = ggid;
     wirelessWork->mTgid = tgid;
     wirelessWork->mBeaconPeriod = GetBeaconDispersion() + 0xc8;
     wirelessWork->mMaxChildren = 0xf;
     wirelessWork->mDataQueued = 0;
-    wirelessWork->mUnk_50d = 0;
-    parentWork->mUnk_1316 = 1;
-    parentWork->mUnk_131c = 0;
+    wirelessWork->field50D = 0;
+    parentWork->field1316 = 1;
+    parentWork->field131C = 0;
     OS_RestoreInterrupts(savedInterrupts);
     return 0;
 }
@@ -639,7 +639,7 @@ u32 IsMPSizeValid(u32 sendDataSize, u32 receiveDataSize, u32 maxChildren) {
 u32 SetMPLimits(u32 sendDataSize, u32 maxChildren) {
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
-    if (gWirelessWork->mUnk_50d != 0) {
+    if (gWirelessWork->field50D != 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -658,9 +658,9 @@ s32 StartWirelessInitialize(void) {
     gWirelessWork->mMPStarted = 0;
     gWirelessWork->mConnectedAids = 0;
     gWirelessWork->mResetting = 0;
-    gWirelessWork->mUnk_538[8] = 0;
+    gWirelessWork->field538[8] = 0;
     SetMaxChannelTime(10);
-    if (data_0216fdac->mUnk_1320 == 0) {
+    if (data_0216fdac->field1320 == 0) {
         s32 result;
         do {
             result = WM_Initialize(gWMSysBuf, gWirelessWork->mCommandCallback, gWirelessDmaNo);
@@ -669,11 +669,11 @@ s32 StartWirelessInitialize(void) {
             return 8;
         }
         WM_SetIndCallback(gWirelessWork->mCommandCallback);
-        gWirelessWork->mUnk_50d = 1;
+        gWirelessWork->field50D = 1;
         return 0;
     }
     WM_SetIndCallback(gWirelessWork->mCommandCallback);
-    gWirelessWork->mUnk_50d = 1;
+    gWirelessWork->field50D = 1;
     func_0200ad00();
     return 0;
 }
@@ -692,37 +692,37 @@ s32 StartParentOnChannel(u16 channel) {
     gWMSysBuf = (void *) (((u32) parentWork + 0x7d1f) & ~0x1f);
     v4 = (s32) parentWork->mCallback;
     clearValues[0] = 0;
-    MIi_CpuClear16(clearValues[0], parentWork->mUnk_1340, 0x69c0);
+    MIi_CpuClear16(clearValues[0], parentWork->field1340, 0x69c0);
     SetCallback((UnkFunc *) v4);
-    data_0216fdac->mUnk_1318 = gWirelessWork->mSendDataSize - 6;
+    data_0216fdac->field1318 = gWirelessWork->mSendDataSize - 6;
     SetupPieceSizes(gWirelessWork->mReceiveDataSize);
-    SetupPieceBuffer((u32) data_0216fdac->mUnk_1538);
+    SetupPieceBuffer((u32) data_0216fdac->field1538);
     for (i = 0; i < 15; i++) {
-        data_0216fdac->mUnk_14e8[i] = 0;
+        data_0216fdac->field14E8[i] = 0;
         data_0216fdac->mChildEntryIndex[i] = -1;
     }
     data_0216fdac->mEntryCount = 0;
     clearValues[1] = 0;
-    MIi_CpuClear16(clearValues[1], data_0216fdac->mUnk_1788, 0x5d40);
-    MI_CpuFill8(data_0216fdac->mUnk_1754, 0, 0x1e);
+    MIi_CpuClear16(clearValues[1], data_0216fdac->field1788, 0x5d40);
+    MI_CpuFill8(data_0216fdac->field1754, 0, 0x1e);
     gWirelessWork->mMode = 1;
     gWirelessWork->mCallback = func_020079c4;
     gWirelessWork->mCommandCallback = ParentCallback;
-    gWirelessWork->mUnk_034 = gWirelessWork->mSendDataSize;
+    gWirelessWork->field34 = gWirelessWork->mSendDataSize;
     wirelessWork = gWirelessWork;
-    wirelessWork->mSendBufferSize = (wirelessWork->mUnk_034 + 0x23) & ~0x1f;
-    gWirelessWork->mUnk_036 = gWirelessWork->mReceiveDataSize;
+    wirelessWork->mSendBufferSize = (wirelessWork->field34 + 0x23) & ~0x1f;
+    gWirelessWork->field36 = gWirelessWork->mReceiveDataSize;
     wirelessWork = gWirelessWork;
-    wirelessWork->mReceiveBufferSize = (((wirelessWork->mUnk_036 + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
+    wirelessWork->mReceiveBufferSize = (((wirelessWork->field36 + 0xe) * 0xf + 0x29) & ~0x1f) << 1;
     InitGameInfoList();
     v4 = StartWirelessInitialize();
     OS_RestoreInterrupts(savedInterrupts);
-    data_0216fdac->mUnk_74c8 = PXI_IsCallbackReady(0xf, 1);
+    data_0216fdac->field74C8 = PXI_IsCallbackReady(0xf, 1);
     return v4;
 }
 
 s32 func_02009cc8(u16 channel) {
-    data_0216fdac->mUnk_1320 = 1;
+    data_0216fdac->field1320 = 1;
     return StartParentOnChannel(channel);
 }
 
@@ -783,7 +783,7 @@ u32 RequestWirelessReset(void) {
 void func_02009c04(void) {
     u32 savedInterrupts;
     savedInterrupts = ((s64) OS_DisableInterrupts());
-    if (data_0216fdac->mUnk_1320 == 0) {
+    if (data_0216fdac->field1320 == 0) {
         OS_Terminate();
     }
     RequestWirelessReset();
@@ -802,27 +802,27 @@ void DisconnectChild(u32 childIndex) {
     WM_Disconnect(ParentCallback, childIndex);
     if (childIndex != 0 && childIndex < 16) {
         slot = childIndex - 1;
-        data_0216fdac->mUnk_148a[slot] = 0;
-        MI_CpuFill8(data_0216fdac->mUnk_14a8 + slot, 0, 4);
-        MI_CpuFill8(data_0216fdac->mUnk_1340 + slot * 0x16, 0, 0x16);
+        data_0216fdac->field148A[slot] = 0;
+        MI_CpuFill8(data_0216fdac->field14A8 + slot, 0, 4);
+        MI_CpuFill8(data_0216fdac->field1340 + slot * 0x16, 0, 0x16);
         ClearChildPieces(childIndex);
         v2 = 0;
-        data_0216fdac->mUnk_1754[slot] = v2;
+        data_0216fdac->field1754[slot] = v2;
         entryIndex = data_0216fdac->mChildEntryIndex[slot];
         v2 = ~v2;
         if (entryIndex != v2) {
             childBit = 1 << childIndex;
             entryIndex = (u8) entryIndex;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d4e &= ~childBit;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d50 |= childBit;
+            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->field1D4E &= ~childBit;
+            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->field1D50 |= childBit;
             data_0216fdac->mChildEntryIndex[childIndex - 1] = v2;
-            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->mUnk_1d4c &= ~childBit;
+            ((Unk0216fdac *) ((u8 *) data_0216fdac + entryIndex * 0x5d4))->field1D4C &= ~childBit;
         }
-        if ((data_0216fdac->mUnk_1536 & (1 << childIndex)) != 0) {
-            data_0216fdac->mUnk_1535--;
-            data_0216fdac->mUnk_1536 &= ~(1 << childIndex);
+        if ((data_0216fdac->field1536 & (1 << childIndex)) != 0) {
+            data_0216fdac->field1535--;
+            data_0216fdac->field1536 &= ~(1 << childIndex);
         }
-        data_0216fdac->mUnk_14e8[slot] = 0;
+        data_0216fdac->field14E8[slot] = 0;
     }
 }
 
@@ -832,7 +832,7 @@ void DisconnectChild(u32 childIndex) {
 void SetMaxChannelTime(u32 maxChannelTime) {
     u32 value0 = maxChannelTime;
     u32 value1;
-    gScanParams.mUnk_06 = value0;
+    gScanParams.field6 = value0;
 }
 #pragma thumb off
 
@@ -859,7 +859,7 @@ int MBw_SendMP(void *data, u32 size, u32 childMask) {
     }
     switch (work->mMode) {
         case 1:
-            if (work->mUnk_52c == 0) {
+            if (work->field52C == 0) {
                 v2 = 0x3e8;
             } else {
                 v2 = 0;
@@ -909,22 +909,22 @@ u8 GetGameInfoAttr(void) {
     u32 bit4;
     u32 bit8;
     work = gWirelessWork;
-    if (work->mUnk_012 != 0) {
+    if (work->field12 != 0) {
         bit2 = 2;
     } else {
         bit2 = 0;
     }
-    if (work->mUnk_00e != 0) {
+    if (work->fieldE != 0) {
         bit1 = 1;
     } else {
         bit1 = 0;
     }
-    if (work->mUnk_014 != 0) {
+    if (work->field14 != 0) {
         bit4 = 4;
     } else {
         bit4 = 0;
     }
-    if (work->mUnk_016 != 0) {
+    if (work->field16 != 0) {
         bit8 = 8;
     } else {
         bit8 = 0;
@@ -937,7 +937,7 @@ u8 GetGameInfoAttr(void) {
 #pragma thumb on
 
 u32 func_02009958(void) {
-    if (gWirelessWork->mUnk_50d == 1) {
+    if (gWirelessWork->field50D == 1) {
         return 1;
     }
     return 0;

@@ -80,7 +80,7 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
                 f = (distanceLimit << 12) - 0.5f;
             }
             z = 0;
-            y = a->mUnk_00.mPos.y;
+            y = a->field0.mPos.y;
             x = 0;
             distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
             angle = func_020951b4(GetRaceLocalRandom());
@@ -89,7 +89,7 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
             position.z = z + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetCosIdx(angle));
             tesa_spawn(&position);
         }
-        a->mUnk_a8 = func_020952dc_inline((u16) timerLimit);
+        a->fieldA8 = func_020952dc_inline((u16) timerLimit);
     }
 }
 
@@ -101,7 +101,7 @@ void tsacnt_globalLogicInit(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (o = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        o->mUnk_a0 = (u16) func_02095228_inline(&gRaceStatus->mLocalRandom, 0xf);
+        o->fieldA0 = (u16) func_02095228_inline(&gRaceStatus->mLocalRandom, 0xf);
     }
 }
 
@@ -144,35 +144,35 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
     Vec3 position;
     Vec3 *kartPos;
 
-    t = o->mUnk_a0;
-    o->mUnk_a0 = t - 1;
+    t = o->fieldA0;
+    o->fieldA0 = t - 1;
     if (t <= 0) {
-        o->mUnk_a0 = 0xf;
-        c = o->mUnk_00.mCourseMapRow->mUnk_28;
+        o->fieldA0 = 0xf;
+        c = o->field0.mCourseMapRow->field28;
         kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
         e = c << 12;
         kartPos = &kart->mPos;
-        deltaX = kartPos->x - o->mUnk_00.mPos.x;
-        deltaZ = kartPos->z - o->mUnk_00.mPos.z;
+        deltaX = kartPos->x - o->field0.mPos.x;
+        deltaZ = kartPos->z - o->field0.mPos.z;
         if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) e * e) {
-            o->mUnk_a4 = TRUE;
+            o->fieldA4 = TRUE;
         } else {
-            o->mUnk_a4 = FALSE;
+            o->fieldA4 = FALSE;
         }
     }
-    switch (o->mUnk_ac) {
+    switch (o->fieldAC) {
         case 0:
             k = FALSE;
             if (race_getCameraField250() == 2) {
-                for (i = 0; i < o->mUnk_00.mCourseMapRow->mUnk_2a; i++) {
-                    if (o->mUnk_00.mCourseMapRow->mUnk_28 > 0) {
-                        f = 0.5f + (o->mUnk_00.mCourseMapRow->mUnk_28 << 12);
+                for (i = 0; i < o->field0.mCourseMapRow->field2A; i++) {
+                    if (o->field0.mCourseMapRow->field28 > 0) {
+                        f = 0.5f + (o->field0.mCourseMapRow->field28 << 12);
                     } else {
-                        f = (o->mUnk_00.mCourseMapRow->mUnk_28 << 12) - 0.5f;
+                        f = (o->field0.mCourseMapRow->field28 << 12) - 0.5f;
                     }
-                    z = o->mUnk_00.mPos.z;
-                    y = o->mUnk_00.mPos.y;
-                    x = o->mUnk_00.mPos.x;
+                    z = o->field0.mPos.z;
+                    y = o->field0.mPos.y;
+                    x = o->field0.mPos.x;
                     distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
                     angle = func_020951b4(GetRaceLocalRandom());
                     position.x = x + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetSinIdx(angle));
@@ -181,12 +181,12 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
                     tesa_spawn(&position);
                 }
             }
-            o->mUnk_ac = 1;
+            o->fieldAC = 1;
         case 1:
             if (race_getCameraField250() == 2) {
                 break;
             }
-            if (o->mUnk_a4 == FALSE) {
+            if (o->fieldA4 == FALSE) {
                 break;
             }
             if (race_getCameraField250() != 0) {
@@ -194,15 +194,15 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
             } else {
                 func_020952dc(o, 6, 4, 0xa, 0x14);
             }
-            o->mUnk_ac = 2;
+            o->fieldAC = 2;
             break;
         case 2:
-            t = o->mUnk_a8;
-            o->mUnk_a8 = t - 1;
+            t = o->fieldA8;
+            o->fieldA8 = t - 1;
             if (t > 0) {
                 break;
             }
-            if (o->mUnk_a4 != FALSE) {
+            if (o->fieldA4 != FALSE) {
                 if (race_getCameraField250() != 0) {
                     func_020952dc(o, 0x1e, 1, 0x1f4, 4);
                 } else {
@@ -210,7 +210,7 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
                 }
             } else {
                 tesa_20946B8();
-                o->mUnk_ac = 1;
+                o->fieldAC = 1;
             }
             break;
     }

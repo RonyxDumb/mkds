@@ -38,9 +38,9 @@ void title_gotoSelectedVblank(void) {}
 #pragma thumb off
 
 void title_sysdat_setOverlayRelatedNum(u32 p0) {
-    gSystemData->mUnk_20 = p0;
+    gSystemData->field20 = p0;
 }
 
 void title_struct217B488_setField74(u32 p0) {
-    gStruct217B488->mUnk_74 = p0;
+    gStruct217B488->field74 = p0;
 }

@@ -4,19 +4,19 @@
 
 typedef struct Unk021da194 {
     /* 00000 */ u8 pad_00000[0x1e280];
-    /* 1e280 */ u8 mUnk_1e280[0x18];
+    /* 1e280 */ u8 field1E280[0x18];
     /* 1e298 */ void (*mCallback)(s32 a);
     /* 1e29c */ u32 mStepTask;
-    /* 1e2a0 */ u8 mUnk_1e2a0;
-    /* 1e2a1 */ u8 mUnk_1e2a1;
+    /* 1e2a0 */ u8 field1E2A0;
+    /* 1e2a1 */ u8 field1E2A1;
 } Unk021da194;
 
 typedef struct Unk021d6e24 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ void *mUnk_04;
-    /* 08 */ void *mUnk_08;
+    /* 00 */ void *field0;
+    /* 04 */ void *field4;
+    /* 08 */ void *field8;
     /* 0c */ u8 pad_0c[0xc];
-    /* 18 */ u8 mUnk_18;
+    /* 18 */ u8 field18;
     /* 19 */ u8 pad_19[3];
 } Unk021d6e24;
 

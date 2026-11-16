@@ -17,13 +17,13 @@
 
 // Object behind data_ov001_021a9be4.
 typedef struct Unk021a9be4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ void *mUnk_08;
-    /* 0c */ s16 mUnk_0c;
-    /* 0e */ s16 mUnk_0e;
-    /* 10 */ void *mUnk_10;
-    /* 14 */ struct Bmg *mUnk_14;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ void *field8;
+    /* 0c */ s16 fieldC;
+    /* 0e */ s16 fieldE;
+    /* 10 */ void *field10;
+    /* 14 */ struct Bmg *field14;
 } Unk021a9be4;
 
 int func_ov001_0219853c(void);

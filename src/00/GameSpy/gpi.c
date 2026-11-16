@@ -53,7 +53,7 @@ u32 GpiResetConnection(GpConnection *a) {
     o->mConnectSocket = -1;
     o->mConnectState = 0;
     o->mInputBufferLength = 0;
-    o->mUnk_1e8 = 0;
+    o->field1E8 = 0;
     o->mInputBufferCapacity = 0;
     func_ov000_021a3668(o->mInputBuffer);
     o->mInputBuffer = NULL;
@@ -69,13 +69,13 @@ u32 GpiResetConnection(GpConnection *a) {
     o->mOutputBuffer.mBuffer = NULL;
     o->mOutputBuffer.mBuffer = NULL;
     o->mUpdateproBufferLength = 0;
-    o->mUnk_44c = 0;
+    o->field44C = 0;
     o->mUpdateproBufferCapacity = 0;
     func_ov000_021a3668(o->mUpdateproBuffer);
     o->mUpdateproBuffer = NULL;
     o->mUpdateproBuffer = NULL;
     o->mUpdateuiBufferLength = 0;
-    o->mUnk_45c = 0;
+    o->field45C = 0;
     o->mUpdateuiBufferCapacity = 0;
     func_ov000_021a3668(o->mUpdateuiBuffer);
     o->mUpdateuiBuffer = NULL;
@@ -219,7 +219,7 @@ int GpiUpdateConnection(void *a, int b) {
         } while (t != FALSE);
         if (r != 0) {
             if (GpiFindOperation(p, &n, 1) != FALSE) {
-                n->mUnk_1c = 4;
+                n->field1C = 4;
             } else {
                 __msl_assertion_failed(data_ov000_021b2628, data_ov000_021b2620, NULL, 0x1db);
             }
@@ -239,7 +239,7 @@ int GpiUpdateConnection(void *a, int b) {
     n = o->mOperationList;
     if (n != NULL) {
         do {
-            if (n->mUnk_1c != 0) {
+            if (n->field1C != 0) {
                 GpiQueueOperationCallback(p, n);
                 m = n;
                 n = n->mNext;
@@ -280,7 +280,7 @@ u32 GpUpdate(GpConnection *a) {
     if (a == NULL || (o = a->mGpiConnection) == NULL) {
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         return 0;
     }
     return GpiUpdateConnection(a, 0);
@@ -296,7 +296,7 @@ u32 func_ov000_0218f21c(GpConnection *a, s32 b, void (*c)(void *a, void *b, u32 
         return 2;
     }
     o->mCallbacks[b].mCallback = c;
-    o->mCallbacks[b].mUnk_04 = d;
+    o->mCallbacks[b].field4 = d;
     return 0;
 }
 
@@ -315,7 +315,7 @@ u32 func_ov000_0218f15c(GpConnection *a, s8 *b, s8 *c, s32 d, s32 e, Unk0218f15c
         GpiSetErrorMessage(a, data_ov000_021b242c);
         return 2;
     }
-    if (o->mUnk_108 != 0) {
+    if (o->field108 != 0) {
         Unk0218f15cArg h = {0};
         f(a, &h, g);
         return 0;

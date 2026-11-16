@@ -26,15 +26,15 @@ void jn_ui_setElementAffine(LayoutTableEntry *entry, s32 angle, s32 scale) {
     s32 cosine;
     s32 sine;
     pairIndex = (angle >> 4) * 2;
-    dividedValues = entry->mUnk_14;
+    dividedValues = entry->field14;
     matrix = entry->mMatrix;
     inverseScale = FX_Div(0x1000, scale);
     cosine = FX_SinCosTable_[pairIndex + 1];
-    entry->mUnk_14[0] = ((s64) cosine * inverseScale) >> 12;
+    entry->field14[0] = ((s64) cosine * inverseScale) >> 12;
     sine = FX_SinCosTable_[pairIndex];
     dividedValues[1] = ((s64) sine * inverseScale) >> 12;
     dividedValues[2] = -dividedValues[1];
-    dividedValues[3] = entry->mUnk_14[0];
+    dividedValues[3] = entry->field14[0];
     MTX_Rot22_(matrix, sine, cosine);
     entry->mMatrix[0] = FX_MulFunc(entry->mMatrix[0], scale);
     matrix[1] = FX_MulFunc(matrix[1], scale);
@@ -48,7 +48,7 @@ BOOL jn_ui_getCellIsTranslucent(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cell
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    if ((cellData->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+    if ((cellData->field4->field0 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
     return FALSE;
@@ -62,11 +62,11 @@ void jn_ui_setCellIsTranslucent(u32 index, s32 value, Unk02021dc8 *cells, Unk020
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_00 &= ~0xc00;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field0 &= ~0xc00;
         if (value != 0) {
-            oamEntry->mUnk_00 |= 0x400;
+            oamEntry->field0 |= 0x400;
         }
         oamEntry++;
     }
@@ -78,7 +78,7 @@ u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return (cellData->mUnk_04->mUnk_04 & 0xf000) >> 12;
+    return (cellData->field4->field4 & 0xf000) >> 12;
 }
 
 void jn_ui_setCellCparam(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
@@ -89,10 +89,10 @@ void jn_ui_setCellCparam(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk020
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_04 &= ~0xf000;
-        oamEntry->mUnk_04 |= paletteIndex << 12;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field4 &= ~0xf000;
+        oamEntry->field4 |= paletteIndex << 12;
         oamEntry++;
     }
 }
@@ -103,7 +103,7 @@ u8 jn_ui_getCellPriority(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout)
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return (cellData->mUnk_04->mUnk_04 & 0xc00) >> 10;
+    return (cellData->field4->field4 & 0xc00) >> 10;
 }
 
 void jn_ui_setCellPriority(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
@@ -114,10 +114,10 @@ void jn_ui_setCellPriority(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_04 &= ~0xc00;
-        oamEntry->mUnk_04 |= value << 10;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field4 &= ~0xc00;
+        oamEntry->field4 |= value << 10;
         oamEntry++;
     }
 }
@@ -128,7 +128,7 @@ u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout) {
     cellEntry = (CellLayoutEntry *) (cellLayout + 1);
     cellEntry += index;
     cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
-    return cellData->mUnk_04->mUnk_04 & 0x3ff;
+    return cellData->field4->field4 & 0x3ff;
 }
 
 void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette, Unk0201ea30 *cellLayout,
@@ -159,18 +159,18 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
     destCellEntry = (CellLayoutEntry *) (destCellLayout + 1);
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->field0;
     for (k = 0; k < 16; k++) {
         usedPalettes[k] = 0;
     }
     for (j = 0; j < oamCount; j++) {
-        w = cellData->mUnk_04[j].mUnk_04;
-        destCharOffset = (destCellData->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[j];
-        y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
+        w = cellData->field4[j].field4;
+        destCharOffset = (destCellData->field4[j].field4 & 0x3ff) << 5;
+        oamEntry = &cellData->field4[j];
+        y = (((u32) oamEntry->field2 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->field4[j].field0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[y])[x * 4] << 5;
-        charsSource = chars->mUnk_14 + ((w & 0x3ff) << 5);
+        charsSource = chars->field14 + ((w & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
@@ -179,8 +179,8 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
         }
         paletteIndex = (w & 0xf000) >> 12;
         usedPalettes[paletteIndex] = 1;
-        destCellData->mUnk_04[j].mUnk_04 &= ~0xf000;
-        destCellData->mUnk_04[j].mUnk_04 |= paletteIndex << 12;
+        destCellData->field4[j].field4 &= ~0xf000;
+        destCellData->field4[j].field4 |= paletteIndex << 12;
     }
     runStart = 0;
     runLength = 0;
@@ -189,7 +189,7 @@ void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk02124
             runLength++;
         } else if (runLength > 0) {
             runStart <<= 5;
-            paletteSource = palette->mUnk_0c + runStart;
+            paletteSource = palette->fieldC + runStart;
             runBytes = runLength << 5;
             if (queueSelector == 0) {
                 NNS_GfdRegisterNewVramTransferTask(0xe, runStart, paletteSource, runBytes);
@@ -225,14 +225,14 @@ void jn_ui_fillPlaceholder(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     i = 0;
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->field0;
     for (; i < oamCount; i++) {
-        destCharOffset = (destCellData->mUnk_04[i].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[i];
-        t = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) cellData->mUnk_04[i].mUnk_00 & 0xc000) >> 14;
+        destCharOffset = (destCellData->field4[i].field4 & 0x3ff) << 5;
+        oamEntry = &cellData->field4[i];
+        t = (((u32) oamEntry->field2 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->field4[i].field0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[t])[x * 4] << 5;
-        charsSource = ((Unk0212463c_c *) chars)->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = ((Unk0212463c_c *) chars)->field14 + ((oamEntry->field4 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
@@ -267,14 +267,14 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c 
     destCellEntry += destIndex;
     destCellData = NNS_G2dGetCellDataByIdx(destCells, (u16) destCellEntry->mCellIndex);
     j = 0;
-    oamCount = cellData->mUnk_00;
+    oamCount = cellData->field0;
     for (; j < oamCount; j++) {
-        destCharOffset = (destCellData->mUnk_04[j].mUnk_04 & 0x3ff) << 5;
-        oamEntry = &cellData->mUnk_04[j];
-        y = (((u32) oamEntry->mUnk_02 << 16) & 0xc0000000) >> 30;
-        x = ((u32) cellData->mUnk_04[j].mUnk_00 & 0xc000) >> 14;
+        destCharOffset = (destCellData->field4[j].field4 & 0x3ff) << 5;
+        oamEntry = &cellData->field4[j];
+        y = (((u32) oamEntry->field2 << 16) & 0xc0000000) >> 30;
+        x = ((u32) cellData->field4[j].field0 & 0xc000) >> 14;
         charBytes = (&data_0215d024[y])[x * 4] << 5;
-        charsSource = chars->mUnk_14 + ((oamEntry->mUnk_04 & 0x3ff) << 5);
+        charsSource = chars->field14 + ((oamEntry->field4 & 0x3ff) << 5);
         DC_FlushRange(charsSource, charBytes);
         if (queueSelector == 0) {
             NNS_GfdRegisterNewVramTransferTask(0x13, destCharOffset, charsSource, charBytes);
@@ -282,8 +282,8 @@ void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c 
             NNS_GfdRegisterNewVramTransferTask(0x23, destCharOffset, charsSource, charBytes);
         }
     }
-    destPaletteOffset = (((u32) destCellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5;
-    paletteSource = palette->mUnk_0c + ((((u32) cellData->mUnk_04->mUnk_04 & 0xf000) >> 12) << 5);
+    destPaletteOffset = (((u32) destCellData->field4->field4 & 0xf000) >> 12) << 5;
+    paletteSource = palette->fieldC + ((((u32) cellData->field4->field4 & 0xf000) >> 12) << 5);
     if (queueSelector == 0) {
         queueCommand = 0xe;
     } else {
@@ -311,7 +311,7 @@ s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
     s32 sb;
     s32 cellEntryCount;
     void *font;
-    cellEntryCount = cellLayout->mUnk_06;
+    cellEntryCount = cellLayout->field6;
     table[entryIndex].mLabelIndex = labelIndex;
     canvas = heap_alloc(heap, 0x48);
     table[cellEntryCount + labelIndex].mLabelCanvas = canvas;
@@ -319,20 +319,20 @@ s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
     widthBlocks = ((width - 1) >> 3) + 1;
     heightBlocks = ((height - 1) >> 3) + 1;
     blockCount = widthBlocks * heightBlocks;
-    canvas->mUnk_20.mUnk_14 = blockCount << 5;
-    canvas->mUnk_20.mUnk_18 = ((j - 0x100) >> 5) - blockCount;
-    canvas->mUnk_20.mUnk_10 = heap_alloc(heap, canvas->mUnk_20.mUnk_14);
-    NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->mUnk_20.mUnk_10, widthBlocks, heightBlocks, 4);
-    canvas->mUnk_18(canvas, 0);
-    sb = labelEntry->mUnk_05;
-    sa = labelEntry->mUnk_04;
-    font = m2d_getFont(labelEntry->mUnk_06_12);
-    canvas->mUnk_20.mCharCanvas = canvas;
-    canvas->mUnk_20.mFont = font;
-    canvas->mUnk_20.mCharSpacing = sa;
-    canvas->mUnk_20.mLineSpacing = sb;
-    canvas->mUnk_20.mUnk_1c = width;
-    canvas->mUnk_20.mUnk_20 = height;
+    canvas->field20.field14 = blockCount << 5;
+    canvas->field20.field18 = ((j - 0x100) >> 5) - blockCount;
+    canvas->field20.field10 = heap_alloc(heap, canvas->field20.field14);
+    NNS_G2dCharCanvasInitForOBJ1D(canvas, canvas->field20.field10, widthBlocks, heightBlocks, 4);
+    canvas->field18(canvas, 0);
+    sb = labelEntry->field5;
+    sa = labelEntry->field4;
+    font = m2d_getFont(labelEntry->field6_12);
+    canvas->field20.mCharCanvas = canvas;
+    canvas->field20.mFont = font;
+    canvas->field20.mCharSpacing = sa;
+    canvas->field20.mLineSpacing = sb;
+    canvas->field20.field1C = width;
+    canvas->field20.field20 = height;
     m = 0;
     n = 0;
     if (entryIndex < cellEntryCount) {
@@ -343,7 +343,7 @@ s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
         u = jn_ui_getLabelPriority(entryIndex, labelLayout, table, cellLayout);
         v = jn_ui_getLabelIsTranslucent(entryIndex, labelLayout, table, cellLayout);
     }
-    switch (labelEntry->mUnk_00.mUnk_00_12) {
+    switch (labelEntry->field0.field0_12) {
         case 1:
             m = -(widthBlocks << 2);
             break;
@@ -351,7 +351,7 @@ s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
             m = -(widthBlocks << 3);
             break;
     }
-    switch (labelEntry->mUnk_02.mUnk_00_12) {
+    switch (labelEntry->field2.field0_12) {
         case 1:
             n = -(heightBlocks << 2);
             break;
@@ -359,34 +359,34 @@ s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 wi
             n = -(heightBlocks << 3);
             break;
     }
-    oamCount = NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, m, n, 0, canvas->mUnk_20.mUnk_18, 0);
+    oamCount = NNS_G2dArrangeOBJ1D(oamBuffer, widthBlocks, heightBlocks, m, n, 0, canvas->field20.field18, 0);
     cellData = heap_alloc(heap, oamCount * 6 + 0x10);
-    cellData->mUnk_00 = oamCount;
-    cellData->mUnk_02 = 0;
-    cellData->mUnk_04 = (Unk020224e0_s *) (cellData + 1);
-    cellData->mUnk_08 = widthBlocks << 2;
-    cellData->mUnk_0a = heightBlocks << 2;
-    cellData->mUnk_0c = -widthBlocks << 2;
-    cellData->mUnk_0e = -heightBlocks << 2;
+    cellData->field0 = oamCount;
+    cellData->field2 = 0;
+    cellData->field4 = (Unk020224e0_s *) (cellData + 1);
+    cellData->field8 = widthBlocks << 2;
+    cellData->fieldA = heightBlocks << 2;
+    cellData->fieldC = -widthBlocks << 2;
+    cellData->fieldE = -heightBlocks << 2;
     for (k = 0; k < oamCount; k++) {
-        oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xc00) | (u * 0x400);
+        oamBuffer[k].field4 = (oamBuffer[k].field4 & ~0xc00) | (u * 0x400);
         if (v != 0) {
-            m = labelEntry->mUnk_06_8;
-            oamBuffer[k].mUnk_00 = (oamBuffer[k].mUnk_00 & ~0xc00) | 0x400;
-            oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
+            m = labelEntry->field6_8;
+            oamBuffer[k].field0 = (oamBuffer[k].field0 & ~0xc00) | 0x400;
+            oamBuffer[k].field4 = (oamBuffer[k].field4 & ~0xf000) | (m * 0x1000);
         } else {
-            m = labelEntry->mUnk_06_8;
-            oamBuffer[k].mUnk_00 &= ~0xc00;
-            oamBuffer[k].mUnk_04 = (oamBuffer[k].mUnk_04 & ~0xf000) | (m * 0x1000);
+            m = labelEntry->field6_8;
+            oamBuffer[k].field0 &= ~0xc00;
+            oamBuffer[k].field4 = (oamBuffer[k].field4 & ~0xf000) | (m * 0x1000);
         }
-        oamBuffer[k].mUnk_00 &= ~0x1000;
-        oamBuffer[k].mUnk_00 &= 0xc1fffcff;
-        cellData->mUnk_04[k].mUnk_00 = oamBuffer[k].mUnk_00_0;
-        cellData->mUnk_04[k].mUnk_02 = oamBuffer[k].mUnk_00_2;
-        cellData->mUnk_04[k].mUnk_04 = oamBuffer[k].mUnk_04;
+        oamBuffer[k].field0 &= ~0x1000;
+        oamBuffer[k].field0 &= 0xc1fffcff;
+        cellData->field4[k].field0 = oamBuffer[k].field0_0;
+        cellData->field4[k].field2 = oamBuffer[k].field0_2;
+        cellData->field4[k].field4 = oamBuffer[k].field4;
     }
-    canvas->mUnk_44 = cellData;
-    return canvas->mUnk_20.mUnk_14;
+    canvas->field44 = cellData;
+    return canvas->field20.field14;
 }
 
 // Clears the character canvas of entry b, draws the string d into it and queues its upload.
@@ -405,38 +405,38 @@ void jn_ui_212428C(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, 
     s32 destOffset;
     s32 charBytes;
     labelEntry = jn_ui_getBnllElement(labelLayout, labelIndex);
-    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
-    canvasWidth = canvas->mUnk_20.mUnk_1c;
-    canvasHeight = canvas->mUnk_20.mUnk_20;
+    canvas = (table + cellLayout->field6 + labelIndex)->mLabelCanvas;
+    canvasWidth = canvas->field20.field1C;
+    canvasHeight = canvas->field20.field20;
     alignedWidth = ((canvasWidth - 1) >> 3) + 1 << 3;
     alignedHeight = ((canvasHeight - 1) >> 3) + 1 << 3;
     flags = 0;
     offsetX = 0;
     offsetY = 0;
-    if (labelEntry->mUnk_00.mUnk_00_12 == 0) {
+    if (labelEntry->field0.field0_12 == 0) {
         flags |= 0x200;
-    } else if (labelEntry->mUnk_00.mUnk_00_12 == 1) {
+    } else if (labelEntry->field0.field0_12 == 1) {
         flags |= 0x400;
         offsetX = (alignedWidth - canvasWidth) >> 1;
-    } else if (labelEntry->mUnk_00.mUnk_00_12 == 2) {
+    } else if (labelEntry->field0.field0_12 == 2) {
         flags |= 0x800;
         offsetX = alignedWidth - canvasWidth;
     }
-    if (labelEntry->mUnk_02.mUnk_00_12 == 0) {
+    if (labelEntry->field2.field0_12 == 0) {
         flags |= 0x40;
-    } else if (labelEntry->mUnk_02.mUnk_00_12 == 1) {
+    } else if (labelEntry->field2.field0_12 == 1) {
         flags |= 0x80;
         offsetY = (alignedHeight - canvasHeight) >> 1;
-    } else if (labelEntry->mUnk_02.mUnk_00_12 == 2) {
+    } else if (labelEntry->field2.field0_12 == 2) {
         flags |= 0x100;
         offsetY = alignedHeight - canvasHeight;
     }
-    canvas->mUnk_18(canvas, 0);
-    jn_ui_drawFormattedTextRectMonospace(&canvas->mUnk_20, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->mUnk_06_0, flags,
-                  labelEntry->mUnk_00.mUnk_00_14, text, g, h);
-    chars = canvas->mUnk_20.mUnk_10;
-    destOffset = canvas->mUnk_20.mUnk_18 << 5;
-    charBytes = canvas->mUnk_20.mUnk_14;
+    canvas->field18(canvas, 0);
+    jn_ui_drawFormattedTextRectMonospace(&canvas->field20, offsetX, offsetY, canvasWidth, canvasHeight, labelEntry->field6_0, flags,
+                  labelEntry->field0.field0_14, text, g, h);
+    chars = canvas->field20.field10;
+    destOffset = canvas->field20.field18 << 5;
+    charBytes = canvas->field20.field14;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
         NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
@@ -468,11 +468,11 @@ void jn_ui_21241C0(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, 
     s32 destOffset;
     s32 charBytes;
     jn_ui_getBnllElement(labelLayout, labelIndex);
-    canvas = (table + cellLayout->mUnk_06 + labelIndex)->mLabelCanvas;
-    canvas->mUnk_18(canvas, 0);
-    chars = canvas->mUnk_20.mUnk_10;
-    destOffset = canvas->mUnk_20.mUnk_18 << 5;
-    charBytes = canvas->mUnk_20.mUnk_14;
+    canvas = (table + cellLayout->field6 + labelIndex)->mLabelCanvas;
+    canvas->field18(canvas, 0);
+    chars = canvas->field20.field10;
+    destOffset = canvas->field20.field18 << 5;
+    charBytes = canvas->field20.field14;
     DC_FlushRange(chars, charBytes);
     if (queueSelector == 0) {
         NNS_GfdRegisterNewVramTransferTask(0x13, destOffset, chars, charBytes);
@@ -485,8 +485,8 @@ BOOL jn_ui_getLabelIsTranslucent(s32 labelIndex, void *b, LayoutTableEntry *tabl
     LayoutTableEntry *entry;
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
-    if ((labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_00 & 0xc00) >> 10 == 1) {
+    labelTableEntry = entry + cellLayout->field6;
+    if ((labelTableEntry->mLabelCanvas->field44->field4->field0 & 0xc00) >> 10 == 1) {
         return TRUE;
     }
     return FALSE;
@@ -500,13 +500,13 @@ void jn_ui_setLabelIsTranslucent(u32 labelIndex, u32 value, Unk0201ea30 *labelLa
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_00 &= ~0xc00;
+    labelTableEntry = entry + cellLayout->field6;
+    cellData = labelTableEntry->mLabelCanvas->field44;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field0 &= ~0xc00;
         if (value != 0) {
-            oamEntry->mUnk_00 |= 0x400;
+            oamEntry->field0 |= 0x400;
         }
         oamEntry++;
     }
@@ -520,12 +520,12 @@ void jn_ui_setLabelColorParam(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labe
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_04 &= ~0xf000;
-        oamEntry->mUnk_04 |= paletteIndex << 12;
+    labelTableEntry = entry + cellLayout->field6;
+    cellData = labelTableEntry->mLabelCanvas->field44;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field4 &= ~0xf000;
+        oamEntry->field4 |= paletteIndex << 12;
         oamEntry++;
     }
 }
@@ -534,8 +534,8 @@ u8 jn_ui_getLabelPriority(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0
     LayoutTableEntry *entry;
     LayoutTableEntry *labelTableEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
-    return (labelTableEntry->mLabelCanvas->mUnk_44->mUnk_04->mUnk_04 & 0xc00) >> 10;
+    labelTableEntry = entry + cellLayout->field6;
+    return (labelTableEntry->mLabelCanvas->field44->field4->field4 & 0xc00) >> 10;
 }
 
 void jn_ui_setLabelPriority(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
@@ -546,12 +546,12 @@ void jn_ui_setLabelPriority(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout,
     Unk020224e0_c *cellData;
     Unk020224e0_s *oamEntry;
     entry = table + labelIndex;
-    labelTableEntry = entry + cellLayout->mUnk_06;
-    cellData = labelTableEntry->mLabelCanvas->mUnk_44;
-    oamEntry = cellData->mUnk_04;
-    for (i = 0; i < cellData->mUnk_00; i++) {
-        oamEntry->mUnk_04 &= ~0xc00;
-        oamEntry->mUnk_04 |= value << 10;
+    labelTableEntry = entry + cellLayout->field6;
+    cellData = labelTableEntry->mLabelCanvas->field44;
+    oamEntry = cellData->field4;
+    for (i = 0; i < cellData->field0; i++) {
+        oamEntry->field4 &= ~0xc00;
+        oamEntry->field4 |= value << 10;
         oamEntry++;
     }
 }

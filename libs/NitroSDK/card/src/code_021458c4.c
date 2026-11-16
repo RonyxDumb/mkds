@@ -219,16 +219,16 @@ void CARDi_IdentifyBackupCore(s32 type) {
             case 0x40000:
                 p->mWritePage = 0x18b;
                 p->mWritePageTotal = 0x127f;
-                p->mUnk_3c = 0x127f;
-                p->mUnk_38 = 0x13435;
-                p->mUnk_34 = 0x13435;
+                p->field3C = 0x127f;
+                p->field38 = 0x13435;
+                p->field34 = 0x13435;
                 break;
             case 0x80000:
             case 0x100000:
                 p->mWritePage = 0x18b;
                 p->mWritePageTotal = 0;
-                p->mUnk_3c = 0x127f;
-                p->mUnk_38 = 0x13435;
+                p->field3C = 0x127f;
+                p->field38 = 0x13435;
                 break;
             default:
                 goto fail;

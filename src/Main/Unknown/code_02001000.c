@@ -3,18 +3,18 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_0200104c(void) {
-    gStruct217AA00->mUnk_0004 = 2;
-    gStruct217AA00->mUnk_0044.mUnk_3e = 0;
-    gStruct217AA00->mUnk_008b &= ~8;
+    gStruct217AA00->field4 = 2;
+    gStruct217AA00->field44.field3E = 0;
+    gStruct217AA00->field8B &= ~8;
 }
 
 void func_02001000(void) {
     u8 v1;
-    v1 = gStruct217AA00->mUnk_008a;
+    v1 = gStruct217AA00->field8A;
     if (v1 == 0) {
         return;
     }
-    if (QueueMPDataHalfwordAndWord(7, gStruct217AA00->mUnk_0044.mChildMask, v1) == FALSE) {
+    if (QueueMPDataHalfwordAndWord(7, gStruct217AA00->field44.mChildMask, v1) == FALSE) {
         return;
     }
     DisconnectChildren(v1);

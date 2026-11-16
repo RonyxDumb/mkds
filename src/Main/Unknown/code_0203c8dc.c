@@ -12,10 +12,10 @@ void rstat_initInputRecorders(void) {
         InputSlot *inputSlot = &gInputUnits[gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mIndex];
         if (inputSlot->mSourceKind != 1) {
             if (inputSlot->mSourceKind == 2) {
-                irec_startRecording((KeyRecording *) &inputSlot->mUnk_28);
+                irec_startRecording((KeyRecording *) &inputSlot->field28);
             }
         } else {
-            irec_startPlayback((KeyRecording *) &inputSlot->mUnk_28);
+            irec_startPlayback((KeyRecording *) &inputSlot->field28);
         }
     }
 }
@@ -23,15 +23,15 @@ void rstat_initInputRecorders(void) {
 void rstat_getLapTime(u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     Unk0217aa1c_144_00 *clockTime;
 
-    clockTime = &gRaceStatus->mUnk_000[0].mUnk_08_view;
-    *outMinute = clockTime->mUnk_02;
-    *outSecond = clockTime->mUnk_03;
-    *outMillisecond = clockTime->mUnk_00;
+    clockTime = &gRaceStatus->field0[0].mUnk_08_view;
+    *outMinute = clockTime->field2;
+    *outSecond = clockTime->field3;
+    *outMillisecond = clockTime->field0;
 }
 
 u32 rstat_getPlace(u32 kartIndex) {
     if (gRaceMultiConfig->mMode == 5) {
-        return gStruct217AA14->mUnk_104[gStruct217AA18->mParticipantOfKart[kartIndex & 0xff]].mRank;
+        return gStruct217AA14->field104[gStruct217AA18->mParticipantOfKart[kartIndex & 0xff]].mRank;
     }
     return gRaceStatus->mKarts[kartIndex].mRank;
 }

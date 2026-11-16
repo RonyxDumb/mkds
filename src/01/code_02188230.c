@@ -6,10 +6,10 @@
 BOOL func_ov001_02188230(Unk02188950 *mapObject) {
     s32 limit;
 
-    mapObject->mUnk_0ac--;
-    limit = -mapObject->mPrm->mUnk_000;
-    if (mapObject->mUnk_0ac <= limit) {
-        mapObject->mUnk_0ac = limit;
+    mapObject->fieldAC--;
+    limit = -mapObject->mPrm->field0;
+    if (mapObject->fieldAC <= limit) {
+        mapObject->fieldAC = limit;
         return TRUE;
     }
     return FALSE;

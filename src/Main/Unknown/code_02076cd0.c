@@ -107,7 +107,7 @@ void cam_setupRaceParams(void) {
     gCameraEntryChanged = 1;
     i = gEntryCameraUpdateRan = 0;
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        i = gRaceMultiConfig->mUnk_036;
+        i = gRaceMultiConfig->field36;
         i = (u16) i;
     } else {
         i = (u16) i;
@@ -161,7 +161,7 @@ void cam_20777AC(u32 followedKartIndex) {
                 }
             }
             cam_sMgIntroCamCount = kind7EntryCount;
-            cam_sReplayCamera->mUnk_21c = heap_alloc(heap, kind7EntryCount * 0x88);
+            cam_sReplayCamera->field21C = heap_alloc(heap, kind7EntryCount * 0x88);
             courseMapCamera = cam_sReplayCamera->mCourseMapCamera;
             m = 0;
             listIndex = 0;
@@ -173,13 +173,13 @@ void cam_20777AC(u32 followedKartIndex) {
                     }
                 }
                 if (courseMapCamera->mKind == 7) {
-                    cam_2077750(&cam_sReplayCamera->mUnk_21c[listIndex], courseMapCamera);
+                    cam_2077750(&cam_sReplayCamera->field21C[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            cam_sReplayCamera->mUnk_220 = cam_sReplayCamera->mUnk_21c;
-            cam_sReplayCamera->mUnk_224 = 0;
+            cam_sReplayCamera->field220 = cam_sReplayCamera->field21C;
+            cam_sReplayCamera->field224 = 0;
             cam_sReplayCamera->mKind = 3;
             gCameraEntryChanged = 1;
         }
@@ -189,14 +189,14 @@ void cam_20777AC(u32 followedKartIndex) {
 void cam_2077750(Unk02077750 *a, CourseMapCamera *courseMapCamera) {
     CourseMapEntryGroup *entryGroup = &gMapData->mEntryGroups[courseMapCamera->mEntryGroupIndex];
 
-    a->mUnk_7c = courseMapCamera->mPosCurvePerFrame;
-    a->mUnk_7e = 2;
-    a->mUnk_00 = courseMapCamera;
-    a->mUnk_80 = 0;
-    a->mUnk_84 = 0;
+    a->field7C = courseMapCamera->mPosCurvePerFrame;
+    a->field7E = 2;
+    a->field0 = courseMapCamera;
+    a->field80 = 0;
+    a->field84 = 0;
     if (entryGroup->mEntryCount >= 4) {
-        camr_initRouteStat(&a->mUnk_04, courseMapCamera);
-        camr_initRouteStatReversed(&a->mUnk_40, courseMapCamera);
+        camr_initRouteStat(&a->field4, courseMapCamera);
+        camr_initRouteStatReversed(&a->field40, courseMapCamera);
     }
 }
 
@@ -264,7 +264,7 @@ void cam_init(Camera *camera) {
     camera->mHalfFovPairSecond = FX_SinCosTable_[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
     camera->mAspectRatio = 0x1555;
     camera->mNear = 0x400;
-    camera->mUnk_08c = 0x640000;
+    camera->field8C = 0x640000;
     camera->mFar = gMapData->mSettings->mCameraFar;
     if (camera->mFar < 0x1000) {
         camera->mFar = 0x640000;
@@ -279,12 +279,12 @@ void cam_init(Camera *camera) {
     camera->mBaseUp = worldUp;
     camera->mHeldHeight = 0;
     camera->mLookAtHeight = cam_sMaxTargetElevation;
-    camera->mUnk_0d8 = 1;
+    camera->fieldD8 = 1;
     camera->mFollowDistance = cam_sCameraDistance;
-    camera->mUnk_0e0 = camera->mFollowDistance;
+    camera->fieldE0 = camera->mFollowDistance;
     camera->mLookAtLowering = 0;
     camera->mFollowDistanceScale = 0x1000;
-    camera->mUnk_0ec = 0;
+    camera->fieldEC = 0;
     camera->mFollowDirectionSign = 0x1000;
     camera->mShakeLookAtOffsetGoal = zero;
     camera->mShakePosOffsetGoal = zero;
@@ -300,7 +300,7 @@ void cam_init(Camera *camera) {
     camera->mCollisionOffsetLength = 0;
     camera->mViewPosYOffset = 0;
     camera->mWobbling = FALSE;
-    camera->mUnk_144 = 0;
+    camera->field144 = 0;
     camera->mWobblePerFrame = 0;
     camera->mWobbleDirection = 1;
     camera->mWobbleDecay = 0;
@@ -318,18 +318,18 @@ void cam_init(Camera *camera) {
     camera->mKind = 0;
     camera->mPosGoalKartOffset = zero;
     camera->mPosGoalCollisionOffset = zero;
-    camera->mUnk_254 = 3;
-    camera->mUnk_258 = FALSE;
-    camera->mUnk_25c = FALSE;
+    camera->field254 = 3;
+    camera->field258 = FALSE;
+    camera->field25C = FALSE;
     camera->mSavedKartForward = zero;
-    camera->mUnk_0a8 = zero;
-    camera->mUnk_0b4 = zero;
+    camera->fieldA8 = zero;
+    camera->fieldB4 = zero;
     camera->mSideDistanceSign = gRaceMultiConfig->mMirrorMode ? -1 : 1;
-    camera->mUnk_21c = NULL;
-    camera->mUnk_220 = NULL;
-    camera->mUnk_20c = 0;
-    camera->mUnk_20e = 0;
-    camera->mUnk_224 = 0;
+    camera->field21C = NULL;
+    camera->field220 = NULL;
+    camera->field20C = 0;
+    camera->field20E = 0;
+    camera->field224 = 0;
     camera->mKartMoveScale = 0x1000;
 }
 
@@ -371,7 +371,7 @@ void cam_updateFrustum(Camera *camera) {
     }
     camera->mFrustumRight = -camera->mFrustumLeft;
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
-        staffRollShift = ((s64) camera->mFrustumTop * camera->mCourseMapCamera->mUnk_00.y + 0x800) >> 12;
+        staffRollShift = ((s64) camera->mFrustumTop * camera->mCourseMapCamera->field0.y + 0x800) >> 12;
         camera->mFrustumBottom += staffRollShift;
         camera->mFrustumTop += staffRollShift;
     }

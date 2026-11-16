@@ -5,8 +5,8 @@
 // Two words filled by CTRDGi_LockByProcessor and CTRDGi_ChangeLatestAccessCycle and read back by
 // CTRDGi_UnlockByProcessor and CTRDGi_RestoreAccessCycle.
 typedef struct Unk0200c4a4 {
-    /* 00 */ vs32 mUnk_00;
-    /* 04 */ vs32 mUnk_04;
+    /* 00 */ vs32 field0;
+    /* 04 */ vs32 field4;
 } Unk0200c4a4;
 
 // Two halfwords at the start of the first object this file defines.
@@ -20,18 +20,18 @@ typedef struct Unk0216fe04 {
 
 // 0x40 bytes that CTRDGi_InitModuleInfo flushes and fills with a copy, then reads fields from.
 typedef struct Unk0216fea0 {
-    /* 00 */ u8 mUnk_00[0x2c];
-    /* 2c */ u32 mUnk_2c;
-    /* 30 */ u16 mUnk_30;
-    /* 32 */ u8 mUnk_32[3];
-    /* 35 */ u8 mUnk_35[3];
-    /* 38 */ u8 mUnk_38[6];
-    /* 3e */ u16 mUnk_3e;
+    /* 00 */ u8 field0[0x2c];
+    /* 2c */ u32 field2C;
+    /* 30 */ u16 field30;
+    /* 32 */ u8 field32[3];
+    /* 35 */ u8 field35[3];
+    /* 38 */ u8 field38[6];
+    /* 3e */ u16 field3E;
 } Unk0216fea0;
 
 typedef struct Unk0216fe20 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u8 mUnk_04[0x7c];
+    /* 00 */ u32 field0;
+    /* 04 */ u8 field4[0x7c];
     // The 0x40 bytes copied from 0x08000080; CTRDGi_InitModuleInfo reads the fields at +0x2c, +0x30, +0x35 and
     // +0x3e of it into the record.
     /* 80 */ Unk0216fea0 mHeaderTailCopy;
@@ -42,11 +42,11 @@ typedef struct Unk027ffc30 {
     // Written by CTRDGi_InitModuleInfo from +0xbe of the copy; CTRDG_IsExisting returns 0 when it is 0xffff and
     // compares it with the window.
     /* 00 */ u16 mIdHalfword;
-    /* 02 */ u8 mUnk_02[3];
-    /* 05 */ u8 mUnk_05_0 : 1;
-    u8 mUnk_05_1 : 1;
-    u8 mUnk_05_2 : 6;
-    /* 06 */ u16 mUnk_06;
+    /* 02 */ u8 field2[3];
+    /* 05 */ u8 field5_0 : 1;
+    u8 field5_1 : 1;
+    u8 field5_2 : 6;
+    /* 06 */ u16 field6;
     // Written by CTRDGi_InitModuleInfo from +0xac of the copy; CTRDG_IsExisting compares it with the word at
     // 0x080000ac.
     /* 08 */ u32 mIdWord;
@@ -54,14 +54,14 @@ typedef struct Unk027ffc30 {
 
 // Fixed-address object read by CTRDG_IsExisting.
 typedef struct Unk08000000 {
-    /* 00 */ u8 mUnk_00[0xac];
+    /* 00 */ u8 field0[0xac];
     // The word at 0x080000ac; CTRDG_IsExisting compares it with the word of the record at +8.
     /* ac */ u32 mIdWord;
-    /* b0 */ u8 mUnk_b0[2];
+    /* b0 */ u8 fieldB0[2];
     // The byte at 0x080000b2; CTRDG_IsExisting compares it with 0x96 to choose which halfword it compares with the
     // record.
     /* b2 */ u8 mIdSelector;
-    /* b3 */ u8 mUnk_b3[0xb];
+    /* b3 */ u8 fieldB3[0xb];
     // The halfword at 0x080000be; CTRDG_IsExisting compares it with the record's halfword at +0 when mIdSelector is
     // 0x96.
     /* be */ u16 mIdHalfword;

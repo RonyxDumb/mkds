@@ -38,52 +38,52 @@ void kuribo_init(Kuribo *kuribo, CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     Vec3 *zeroedVector;
     Unk020e005c_080 *stateMachine;
-    kuribo->mUnk_100 = 0x1f;
+    kuribo->field100 = 0x1f;
     if (row != NULL) {
-        pw_initFromObject(&kuribo->mUnk_cc, row, (row->mUnk_28 << 11) / 100);
-        startEntry = mdat_getPathPoint(row->mUnk_26, row->mUnk_2e);
-        kuribo->mUnk_a0 = startEntry->mPos.y;
-        kuribo->mUnk_f8 = row->mUnk_28 * 0xb4 / 100;
-        kuribo->mUnk_fc = row->mUnk_2a == 0;
-        sm_init(&kuribo->mUnk_00.mStateMachine, kuribo_sStates, 6, kuribo);
-        pw_init(&kuribo->mUnk_cc, kuribo->mUnk_00.mCourseMapRow->mUnk_2e, 1);
-        pw_calcCurrentPointXZ(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
-        kuribo->mUnk_00.mPos.y = kuribo->mUnk_a0;
-        zeroedVector = &kuribo->mUnk_00.mUnk_10;
+        pw_initFromObject(&kuribo->fieldCC, row, (row->field28 << 11) / 100);
+        startEntry = mdat_getPathPoint(row->field26, row->field2E);
+        kuribo->fieldA0 = startEntry->mPos.y;
+        kuribo->fieldF8 = row->field28 * 0xb4 / 100;
+        kuribo->fieldFC = row->field2A == 0;
+        sm_init(&kuribo->field0.mStateMachine, kuribo_sStates, 6, kuribo);
+        pw_init(&kuribo->fieldCC, kuribo->field0.mCourseMapRow->field2E, 1);
+        pw_calcCurrentPointXZ(&kuribo->fieldCC, &kuribo->field0.mPos);
+        kuribo->field0.mPos.y = kuribo->fieldA0;
+        zeroedVector = &kuribo->field0.field10;
         zeroedVector->x = 0;
         zeroedVector->y = 0;
         zeroedVector->z = 0;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
-            kuribo->mUnk_a4 = identityA;
+            kuribo->fieldA4 = identityA;
         }
         {
             Quaternion identityB = {0, 0, 0, 0x1000};
-            kuribo->mUnk_b4 = identityB;
+            kuribo->fieldB4 = identityB;
         }
-        kuribo->mUnk_f0 = 0;
-        kuribo->mUnk_f4 = 0;
-        stateMachine = &kuribo->mUnk_00.mStateMachine;
+        kuribo->fieldF0 = 0;
+        kuribo->fieldF4 = 0;
+        stateMachine = &kuribo->field0.mStateMachine;
         stateMachine->mNextState = 0;
         stateMachine->mNextStateRequested = 1;
     } else {
-        kuribo->mUnk_cc.mGroupIndex = 0xffff;
-        kuribo->mUnk_a0 = 0;
-        kuribo->mUnk_fc = 0;
-        sm_init(&kuribo->mUnk_00.mStateMachine, kuribo_sStates, 6, kuribo);
-        kuribo->mUnk_f8 = 0x1000;
+        kuribo->fieldCC.mGroupIndex = 0xffff;
+        kuribo->fieldA0 = 0;
+        kuribo->fieldFC = 0;
+        sm_init(&kuribo->field0.mStateMachine, kuribo_sStates, 6, kuribo);
+        kuribo->fieldF8 = 0x1000;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
-            kuribo->mUnk_a4 = identityA;
+            kuribo->fieldA4 = identityA;
         }
         {
             Quaternion identityB = {0, 0, 0, 0x1000};
-            kuribo->mUnk_b4 = identityB;
+            kuribo->fieldB4 = identityB;
         }
-        sm_gotoState(&kuribo->mUnk_00.mStateMachine, 1);
-        kuribo->mUnk_00.mUnk_10.x = 0;
-        kuribo->mUnk_00.mUnk_10.y = 0;
-        kuribo->mUnk_00.mUnk_10.z = 0;
+        sm_gotoState(&kuribo->field0.mStateMachine, 1);
+        kuribo->field0.field10.x = 0;
+        kuribo->field0.field10.y = 0;
+        kuribo->field0.field10.z = 0;
     }
 }
 

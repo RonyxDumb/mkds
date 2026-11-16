@@ -21,11 +21,11 @@ typedef struct LogoScene {
     /* 0c */ Bg1Files mSubBg;
     /* 18 */ StateMachine mStateMachine;
     /* 2c */ union {
-        s32 mUnk_2c;
+        s32 field2C;
         struct {
 // Set to 1 when A, B, X, Y, L and R are held together in state 0, and stays set.
-            s32 mUnk_2c_0 : 1;
-            u32 mUnk_2c_1 : 1;
+            s32 field2C_0 : 1;
+            u32 field2C_1 : 1;
         };
     };
     /* 30 */ s32 mState0Frames;

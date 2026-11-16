@@ -23,7 +23,7 @@ void IncrementEntryGroupIndex(Unk02188950 *mapObject, s32 groupSpan) {
     s32 firstGroupIndex;
     s32 nextGroupIndex;
 
-    firstGroupIndex = mapObject->mUnk_000.mCourseMapRow->mUnk_26;
+    firstGroupIndex = mapObject->field0.mCourseMapRow->field26;
     nextGroupIndex = mapObject->mEntryGroupIndex + 1;
     if (nextGroupIndex >= firstGroupIndex + groupSpan) {
         nextGroupIndex = firstGroupIndex;
@@ -38,9 +38,9 @@ void *StartItemBombWithParkedItemBox(u16 a) {
     parkedMapObject = FindParkedMapObject(0xc9);
     if (parkedMapObject != NULL) {
         func_020de9ec(parkedMapObject);
-        parkedMapObject->mUnk_0f2 = a;
-        parkedMapObject->mUnk_0f4 = a;
-        parkedMapObject->mUnk_0ac = 1;
+        parkedMapObject->fieldF2 = a;
+        parkedMapObject->fieldF4 = a;
+        parkedMapObject->fieldAC = 1;
         return itbomb_20FD338(parkedMapObject, 0xa000);
     }
     return NULL;
@@ -65,20 +65,20 @@ void func_ov001_02187d14(NNSG3dRS *renderState) {
     Camera *currentCamera;
 
     mapObject = renderState->mRenderObj->mPtrUser;
-    if (renderState->mC[1] == mapObject->mUnk_2e4) {
+    if (renderState->mC[1] == mapObject->field2E4) {
         currentCamera = race_getCamera();
         NNS_G3dGetCurrentMtx(&currentMatrix, NULL);
         MTX_Inverse43(&currentCamera->mViewMatrix, &inverseViewMatrix);
         MTX_Concat43(&currentMatrix, &inverseViewMatrix, &currentMatrix);
-        mapObject->mUnk_2e8.x = currentMatrix.mUnk_00[3].x << 4;
-        mapObject->mUnk_2e8.y = currentMatrix.mUnk_00[3].y << 4;
-        mapObject->mUnk_2e8.z = currentMatrix.mUnk_00[3].z << 4;
+        mapObject->field2E8.x = currentMatrix.field0[3].x << 4;
+        mapObject->field2E8.y = currentMatrix.field0[3].y << 4;
+        mapObject->field2E8.z = currentMatrix.field0[3].z << 4;
         if (mapObject->mItemBomb != NULL) {
-            bombPosition = mapObject->mUnk_2e8;
-            VEC_MultAdd(mapObject->mUnk_2f4.x, &currentMatrix.mUnk_00[0], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.y, &currentMatrix.mUnk_00[1], &bombPosition, &bombPosition);
-            VEC_MultAdd(mapObject->mUnk_2f4.z, &currentMatrix.mUnk_00[2], &bombPosition, &bombPosition);
-            func_020fd684(mapObject->mItemBomb, &currentMatrix.mUnk_00[0], &bombPosition);
+            bombPosition = mapObject->field2E8;
+            VEC_MultAdd(mapObject->field2F4.x, &currentMatrix.field0[0], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->field2F4.y, &currentMatrix.field0[1], &bombPosition, &bombPosition);
+            VEC_MultAdd(mapObject->field2F4.z, &currentMatrix.field0[2], &bombPosition, &bombPosition);
+            func_020fd684(mapObject->mItemBomb, &currentMatrix.field0[0], &bombPosition);
         }
     }
 }

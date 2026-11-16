@@ -3,8 +3,8 @@
 #include "types.h"
 
 typedef struct Unk020e4dec {
-    /* 00 */ u8 mUnk_00[0xac];
-    /* ac */ u16 mUnk_ac;
+    /* 00 */ u8 field0[0xac];
+    /* ac */ u16 fieldAC;
 } Unk020e4dec;
 
 void puku_state0Init(Unk020e4dec *pukupuku);

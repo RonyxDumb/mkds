@@ -54,8 +54,8 @@ void baspw_globalInitLogic(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (p = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        if (p->mUnk_00.mFlags & 0x800) {
-            p->mUnk_a4 = (u16) (func_02092b5c_inline_2(25) + 200);
+        if (p->field0.mFlags & 0x800) {
+            p->fieldA4 = (u16) (func_02092b5c_inline_2(25) + 200);
         }
     }
 }
@@ -85,10 +85,10 @@ static inline BOOL func_02092b5c_inline_3(Unk020919e8 *p, s32 k) {
             continue;
         }
         kart = driver_getById((u16) i);
-        if (func_02092b5c_inline_4(&kart->mPos, &p->mUnk_00.mPos) >= 0x15f900000000LL) {
+        if (func_02092b5c_inline_4(&kart->mPos, &p->field0.mPos) >= 0x15f900000000LL) {
             continue;
         }
-        d = FX_Atan2Idx(kart->mPos.x - p->mUnk_00.mPos.x, kart->mPos.z - p->mUnk_00.mPos.z) - k;
+        d = FX_Atan2Idx(kart->mPos.x - p->field0.mPos.x, kart->mPos.z - p->field0.mPos.z) - k;
         if (d < -0x1f40) {
             continue;
         }
@@ -125,22 +125,22 @@ void baspw_update(void *a, Unk020919e8 *p) {
     Vec3 basabasaPos;
     Vec3 basabasaVelocity;
 
-    switch (p->mUnk_ac) {
+    switch (p->fieldAC) {
         case 0:
             if (race_getCameraField250() == 2) {
-                p->mUnk_ac = 1;
+                p->fieldAC = 1;
                 return;
             }
-            if (p->mUnk_00.mFlags & 0x800) {
-                if (p->mUnk_a4-- <= 0) {
-                    p->mUnk_a4 = 4;
-                    p->mUnk_ac = 1;
+            if (p->field0.mFlags & 0x800) {
+                if (p->fieldA4-- <= 0) {
+                    p->fieldA4 = 4;
+                    p->fieldAC = 1;
                 }
                 return;
             }
-            if (func_02092b5c_inline_3(p, p->mUnk_00.mAngle) != FALSE) {
-                p->mUnk_a4 = 4;
-                p->mUnk_ac = 1;
+            if (func_02092b5c_inline_3(p, p->field0.mAngle) != FALSE) {
+                p->fieldA4 = 4;
+                p->fieldAC = 1;
             }
             return;
         case 1:
@@ -148,41 +148,41 @@ void baspw_update(void *a, Unk020919e8 *p) {
         default:
             return;
     }
-    if (p->mUnk_a0 == 0x14) {
+    if (p->fieldA0 == 0x14) {
         for (i = 0; i < 2; i++) {
-            func_02092b5c_inline_5(&basabasaPos, p->mUnk_00.mPos.x, p->mUnk_00.mPos.y + 0x23000, p->mUnk_00.mPos.z);
-            k = p->mUnk_00.mAngle;
+            func_02092b5c_inline_5(&basabasaPos, p->field0.mPos.x, p->field0.mPos.y + 0x23000, p->field0.mPos.z);
+            k = p->field0.mAngle;
             horizontalSpeed = kan64_mobj_getRandom32(mobj_getRng1(), 0x1000) + 0x2000;
             k = k - 0xbb8 + func_02046524(mobj_getRng1(), 0x1770);
             basabasaVelocity.x = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_SinIdx(k));
             basabasaVelocity.y = kan64_mobj_getRandom32(mobj_getRng1(), 0x400) - 0xa00;
             basabasaVelocity.z = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_CosIdx(k));
-            if (i == 0 && p->mUnk_a8 == 0) {
+            if (i == 0 && p->fieldA8 == 0) {
                 basa_spawn(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 1, i == 0 ? 2 : 0);
             } else {
                 basa_spawn(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 0, i == 0 ? 2 : 0);
             }
         }
-        p->mUnk_a8 += 1;
-        if (p->mUnk_a8 >= 3) {
-            p->mUnk_a8 = 0;
+        p->fieldA8 += 1;
+        if (p->fieldA8 >= 3) {
+            p->fieldA8 = 0;
         }
     }
-    n = p->mUnk_a0 + 1;
+    n = p->fieldA0 + 1;
     if (n >= 0x32) {
         n = 0;
     }
-    p->mUnk_a0 = n;
-    if (p->mUnk_a0 != 0) {
+    p->fieldA0 = n;
+    if (p->fieldA0 != 0) {
         return;
     }
-    if (p->mUnk_a4-- > 0) {
+    if (p->fieldA4-- > 0) {
         return;
     }
-    p->mUnk_a8 = 0;
-    p->mUnk_ac = 0;
-    if (p->mUnk_00.mFlags & 0x800) {
-        p->mUnk_a4 = (u16) (func_02092b5c_inline_2(25) + 200);
+    p->fieldA8 = 0;
+    p->fieldAC = 0;
+    if (p->field0.mFlags & 0x800) {
+        p->fieldA4 = (u16) (func_02092b5c_inline_2(25) + 200);
     }
 }
 

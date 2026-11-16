@@ -25,16 +25,16 @@ s32 func_ov000_02188408(void) {
     u8 n;
 
     s = data_ov000_021b4d00;
-    k = s->mUnk_470[0].mUnk_04;
-    i = s->mUnk_d13;
+    k = s->field470[0].field4;
+    i = s->fieldD13;
     k += i * 0xc0;
-    if (s->mUnk_d0d >= 6) {
+    if (s->fieldD0D >= 6) {
         return 1;
     }
-    for (j = 0, n = s->mUnk_d12; j < n; j++) {
+    for (j = 0, n = s->fieldD12; j < n; j++) {
         if (j != i) {
-            if (s->mUnk_444[j].mUnk_01 < 6) {
-                if (strncmp(k, s->mUnk_470[j].mUnk_04, s->mUnk_470[j].mUnk_0a) == 0) {
+            if (s->field444[j].field1 < 6) {
+                if (strncmp(k, s->field470[j].field4, s->field470[j].fieldA) == 0) {
                     return 2;
                 }
             }
@@ -175,7 +175,7 @@ u32 DWC_Netcheck_Create(Unk02188114 *p) {
         return 4;
     }
     MI_CpuFill8(gNetcheck, 0, 0x1200);
-    gNetcheck->mUnk_04 = -99999;
+    gNetcheck->field4 = -99999;
     gNetcheck->mParam = *p;
     if (gHttp != NULL) {
         return 4;
@@ -212,7 +212,7 @@ void DWC_Netcheck_Destroy(void) {
 
 void DWCi_Netcheck_StartThread(void) {
     if (gNetcheck->mThread.mId == 0 || OS_IsThreadTerminated(&gNetcheck->mThread) != 0) {
-        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck, gNetcheck->mUnk_1200,
+        OS_CreateThread(&gNetcheck->mThread, (void (*)(void *)) DWCi_Netcheck_Thread, gNetcheck, gNetcheck->field1200,
                         0x1000, 0x10);
         OS_WakeupThreadDirect(&gNetcheck->mThread);
     }

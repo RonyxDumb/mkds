@@ -4,21 +4,21 @@
 
 // Row of the array at 0x00 of the object behind gMapData.
 typedef struct CourseMapRow {
-    /* 00 */ Vec3 mUnk_00;
-    /* 0c */ Vec3 mUnk_0c;
-    /* 18 */ Vec3 mUnk_18;
+    /* 00 */ Vec3 field0;
+    /* 0c */ Vec3 fieldC;
+    /* 18 */ Vec3 field18;
     /* 24 */ u16 mKind;
-    /* 26 */ s16 mUnk_26;
-    /* 28 */ s16 mUnk_28;
-    /* 2a */ s16 mUnk_2a;
-    /* 2c */ s16 mUnk_2c;
-    /* 2e */ s16 mUnk_2e;
-    /* 30 */ s16 mUnk_30;
-    /* 32 */ s16 mUnk_32;
-    /* 34 */ s16 mUnk_34;
-    /* 36 */ s16 mUnk_36;
-    /* 38 */ u16 mUnk_38;
-    /* 3a */ u8 mUnk_3a[2];
+    /* 26 */ s16 field26;
+    /* 28 */ s16 field28;
+    /* 2a */ s16 field2A;
+    /* 2c */ s16 field2C;
+    /* 2e */ s16 field2E;
+    /* 30 */ s16 field30;
+    /* 32 */ s16 field32;
+    /* 34 */ s16 field34;
+    /* 36 */ s16 field36;
+    /* 38 */ u16 field38;
+    /* 3a */ u8 field3A[2];
 } CourseMapRow;
 
 #include "Main/Unknown/code_020f36d8.h"
@@ -26,8 +26,8 @@ typedef struct CourseMapRow {
 
 // Object bbm_getBillboardMtx returns: a vector at 0x18.
 typedef struct Unk020e6b38 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ Vec3 mUnk_18;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ Vec3 field18;
 } Unk020e6b38;
 
 // Stack object of itkraw_20FB038: the two vectors vec_normalize and
@@ -35,59 +35,59 @@ typedef struct Unk020e6b38 {
 typedef struct DirectionQuaternion {
     /* 00 */ Vec3 mDirection;
     /* 0c */ Vec3 mQuaternion;
-    /* 18 */ u8 mUnk_18[8];
+    /* 18 */ u8 field18[8];
 } DirectionQuaternion;
 
 // Object of item kind 5, element of it_sItemsets[5].
 typedef struct ItemKouraW {
-    /* 000 */ ItemObject mUnk_000;
-    /* 12c */ u8 mUnk_12c[4];
+    /* 000 */ ItemObject field0;
+    /* 12c */ u8 field12C[4];
     /* 130 */ u32 mDirection;
-    /* 134 */ u8 mUnk_134[0x2c];
-    /* 160 */ s32 mUnk_160;
-    /* 164 */ u8 mUnk_164[4];
+    /* 134 */ u8 field134[0x2c];
+    /* 160 */ s32 field160;
+    /* 164 */ u8 field164[4];
     /* 168 */ ItemPointLink *mTargetLink;
-    /* 16c */ s32 mUnk_16c;
-    /* 170 */ u32 mUnk_170;
-    /* 174 */ u8 mUnk_174[0xa8];
+    /* 16c */ s32 field16C;
+    /* 170 */ u32 field170;
+    /* 174 */ u8 field174[0xa8];
     /* 21c */ s32 mPreviousLink;
-    /* 220 */ u8 mUnk_220[8];
+    /* 220 */ u8 field220[8];
     /* 228 */ struct KartItems *mKartItems;
-    /* 22c */ Vec3 mUnk_22c;
-    /* 238 */ Vec3 mUnk_238;
-    /* 244 */ Vec3 mUnk_244;
-    /* 250 */ Vec3 mUnk_250;
+    /* 22c */ Vec3 field22C;
+    /* 238 */ Vec3 field238;
+    /* 244 */ Vec3 field244;
+    /* 250 */ Vec3 field250;
     /* 25c */ s32 mAngle;
-    /* 260 */ s32 mUnk_260;
-    /* 264 */ s32 mUnk_264;
+    /* 260 */ s32 field260;
+    /* 264 */ s32 field264;
     /* 268 */ u16 mDrawOffsetAngle;
-    /* 26a */ u8 mUnk_26a[2];
+    /* 26a */ u8 field26A[2];
     /* 26c */ struct PosStrip *mPosStrip;
     /* 270 */ s32 mSoundId;
     /* 274 */ u16 mRank;
     /* 276 */ u16 mRankKartIndex;
-    /* 278 */ s32 mUnk_278;
-    /* 27c */ s32 mUnk_27c;
+    /* 278 */ s32 field278;
+    /* 27c */ s32 field27C;
     /* 280 */ u16 mKartMask;
-    /* 282 */ u8 mUnk_282[2];
-    /* 284 */ s32 mUnk_284;
-    /* 288 */ u16 mUnk_288;
-    /* 28a */ u8 mUnk_28a[2];
-    /* 28c */ Vec3 mUnk_28c;
-    /* 298 */ Vec3 mUnk_298;
-    /* 2a4 */ Vec3 mUnk_2a4;
+    /* 282 */ u8 field282[2];
+    /* 284 */ s32 field284;
+    /* 288 */ u16 field288;
+    /* 28a */ u8 field28A[2];
+    /* 28c */ Vec3 field28C;
+    /* 298 */ Vec3 field298;
+    /* 2a4 */ Vec3 field2A4;
     /* 2b0 */ struct ModelEffect *mModelEffect;
-    /* 2b4 */ u8 mUnk_2b4[0x30];
+    /* 2b4 */ u8 field2B4[0x30];
     /* 2e4 */ s32 mHitSpinsKart;
-    /* 2e8 */ u8 mUnk_2e8[4];
+    /* 2e8 */ u8 field2E8[4];
     /* 2ec */ u32 mStateFrames;
-    /* 2f0 */ u8 mUnk_2f0[6];
+    /* 2f0 */ u8 field2F0[6];
     /* 2f6 */ u16 mState;
     /* 2f8 */ u16 mNextState;
     /* 2fa */ u16 mNextStateRequested;
-    /* 2fc */ s32 mUnk_2fc;
-    /* 300 */ SoundDistanceSquaredChange mUnk_300;
-    /* 310 */ u8 mUnk_310[0xc];
+    /* 2fc */ s32 field2FC;
+    /* 300 */ SoundDistanceSquaredChange field300;
+    /* 310 */ u8 field310[0xc];
 } ItemKouraW;
 
 typedef struct ItemKouraW ItemKouraW;
@@ -118,7 +118,7 @@ struct ItemObject *GetCollidedItemObject(u32 index);
 s32 it_20FA4C8(Kart *kart);
 void StartItemSlotForKart(s32 kartIndex, s32 param_2, s32 param_3);
 void it_renderAll(void *a);
-// Per-frame item step: mode-5 sync, the object pools whose mUnk_14 is set, every kart's record, the item timers, two
+// Per-frame item step: mode-5 sync, the object pools whose field14 is set, every kart's record, the item timers, two
 // map-object steps
 void it_updateAll(void);
 void func_020fa9e4(void);

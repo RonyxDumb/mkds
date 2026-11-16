@@ -44,42 +44,42 @@
 
 void obpak_render(u32 a, Unk020e43a8 *obPakkunSf, u32 c, u16 alpha) {
     MtxFx43 *matrix;
-    obpak_sModel->mFrameIndex = ((*(u16 *) &obPakkunSf->mUnk_a0.mUnk_18.x & 0x10) >> 4);
-    if (obPakkunSf->mUnk_00.mStateMachine.mState == 0) {
-        matrix = bbm_getYBillboardAtPos(&obPakkunSf->mUnk_00.mPos);
-        bbm_renderTransformedScaled(obpak_sModel, matrix, &obPakkunSf->mUnk_00.mScale, 0, alpha);
+    obpak_sModel->mFrameIndex = ((*(u16 *) &obPakkunSf->fieldA0.field18.x & 0x10) >> 4);
+    if (obPakkunSf->field0.mStateMachine.mState == 0) {
+        matrix = bbm_getYBillboardAtPos(&obPakkunSf->field0.mPos);
+        bbm_renderTransformedScaled(obpak_sModel, matrix, &obPakkunSf->field0.mScale, 0, alpha);
         return;
     }
-    matrix = bbm_getYBillboardAtPos(&obPakkunSf->mUnk_00.mPos);
-    bbm_renderTransformedRotatedScaled(obpak_sModel, matrix, *(u16 *) &obPakkunSf->mUnk_a0.mUnk_0c.x, &obPakkunSf->mUnk_00.mScale, 0, alpha);
+    matrix = bbm_getYBillboardAtPos(&obPakkunSf->field0.mPos);
+    bbm_renderTransformedRotatedScaled(obpak_sModel, matrix, *(u16 *) &obPakkunSf->fieldA0.fieldC.x, &obPakkunSf->field0.mScale, 0, alpha);
 }
 
 void obpak_update(u32 a, Unk020e43a8 *obPakkunSf) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
-    *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 = *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 + 1;
-    if ((*(u16 *) &obPakkunSf->mUnk_a0.mUnk_18 & 0x1f) == 0 &&
-        (obPakkunSf->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (obPakkunSf->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    *(u16 *) &obPakkunSf->fieldA0.field18 = *(u16 *) &obPakkunSf->fieldA0.field18 + 1;
+    if ((*(u16 *) &obPakkunSf->fieldA0.field18 & 0x1f) == 0 &&
+        (obPakkunSf->field0.mDistanceSquaredAndFlags & 4) == 0) {
+        if (obPakkunSf->field0.mFarDistanceSquared == gSfxParams[2].field20) {
             falloffIndex = 2;
-        } else if (obPakkunSf->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+        } else if (obPakkunSf->field0.mFarDistanceSquared == gSfxParams[3].field20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
         }
         soundRequest.mSoundId = 0x163;
-        soundRequest.mPositionSource = &obPakkunSf->mUnk_00.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&obPakkunSf->mUnk_00.mPos);
+        soundRequest.mPositionSource = &obPakkunSf->field0.mPos;
+        soundRequest.field8 = falloffIndex;
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&obPakkunSf->field0.mPos);
         func_0210b7a8(&soundRequest);
     }
-    sm_execute(&obPakkunSf->mUnk_00.mStateMachine);
+    sm_execute(&obPakkunSf->field0.mStateMachine);
 }
 
 u8 obpak_onDriverCollide(Unk020e43a8 *obPakkunSf, void *kart, u8 *b, u8 *c) {
     if (rdmo_onDriverCollide(obPakkunSf, kart, b) != FALSE) {
-        mobj_tryDestroyByDriver(&obPakkunSf->mUnk_00, kart);
+        mobj_tryDestroyByDriver(&obPakkunSf->field0, kart);
     }
     return *c;
 }
@@ -105,10 +105,10 @@ void obpak_loadModel(void) {
 #pragma thumb on
 
 void obpak_init(Unk020e43a8 *obPakkunSf) {
-    obPakkunSf->mUnk_00.mPos.y =
-        obPakkunSf->mUnk_00.mPos.y + (s32) (((s64) obPakkunSf->mUnk_00.mScale.y * 0xa000) >> 12);
-    *(u16 *) &obPakkunSf->mUnk_a0.mUnk_18.x = 0;
-    rdmo_initParams(obPakkunSf, obPakkunSf->mUnk_00.mPos.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
+    obPakkunSf->field0.mPos.y =
+        obPakkunSf->field0.mPos.y + (s32) (((s64) obPakkunSf->field0.mScale.y * 0xa000) >> 12);
+    *(u16 *) &obPakkunSf->fieldA0.field18.x = 0;
+    rdmo_initParams(obPakkunSf, obPakkunSf->field0.mPos.y - 0x18000, 0x400, 0x800, 0x4000, 0x1800);
     rdmo_initStateMachine(obPakkunSf);
 }
 
@@ -140,29 +140,29 @@ Unk020e59e4 *shand_setupLogicPart(void) {
 }
 
 void shand_render(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha) {
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].x = secondHand->mUnk_00.mPos.x >> 4;
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].y = secondHand->mUnk_00.mPos.y >> 4;
-    secondHand->mUnk_00.mMatrix.mUnk_00[3].z = secondHand->mUnk_00.mPos.z >> 4;
-    model2_renderModel(shand_sModel, &secondHand->mUnk_00.mMatrix, &secondHand->mUnk_00.mScale, alpha);
+    secondHand->field0.mMatrix.field0[3].x = secondHand->field0.mPos.x >> 4;
+    secondHand->field0.mMatrix.field0[3].y = secondHand->field0.mPos.y >> 4;
+    secondHand->field0.mMatrix.field0[3].z = secondHand->field0.mPos.z >> 4;
+    model2_renderModel(shand_sModel, &secondHand->field0.mMatrix, &secondHand->field0.mScale, alpha);
 }
 
 void shand_update(u32 a, Unk020e43a8 *secondHand) {
-    sm_execute(&secondHand->mUnk_00.mStateMachine);
-    Quaternion_Rotate_20D77E0(&secondHand->mUnk_a0.mUnk_0c.y, secondHand->mUnk_00.mAngle, &secondHand->mUnk_a0);
-    qtrn_toMtx33(&secondHand->mUnk_00.mMatrix, &secondHand->mUnk_a0);
+    sm_execute(&secondHand->field0.mStateMachine);
+    Quaternion_Rotate_20D77E0(&secondHand->fieldA0.fieldC.y, secondHand->field0.mAngle, &secondHand->fieldA0);
+    qtrn_toMtx33(&secondHand->field0.mMatrix, &secondHand->fieldA0);
 }
 
 void shand_accelerateStateInit(Unk020e58b8 *secondHand) {
-    secondHand->mUnk_c8 = 0x0u;
+    secondHand->fieldC8 = 0x0u;
 }
 
 void shand_accelerateStateUpdate(Unk020e43a8 *secondHand) {
-    secondHand->mUnk_c8 = secondHand->mUnk_c8 + secondHand->mUnk_cc;
-    secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *(u16 *) &secondHand->mUnk_a0.mUnk_18.z) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 1;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    secondHand->fieldC8 = secondHand->fieldC8 + secondHand->fieldCC;
+    secondHand->field0.mAngle =
+        secondHand->field0.mAngle + (s16) (((s64) secondHand->fieldC8 * secondHand->fieldC6) >> 12);
+    if (secondHand->field0.mStateMachine.mStateFrames > *(u16 *) &secondHand->fieldA0.field18.z) {
+        secondHand->field0.mStateMachine.mNextState = 1;
+        secondHand->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -171,28 +171,28 @@ u32 shand_moveStateInit(u32 value) {
 }
 
 void shand_moveStateUpdate(Unk020e43a8 *secondHand) {
-    secondHand->mUnk_00.mAngle = secondHand->mUnk_00.mAngle + secondHand->mUnk_c6;
-    if (*((u16 *) &secondHand->mUnk_a0.mUnk_18.z + 1) == 0) {
+    secondHand->field0.mAngle = secondHand->field0.mAngle + secondHand->fieldC6;
+    if (*((u16 *) &secondHand->fieldA0.field18.z + 1) == 0) {
         return;
     }
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *((u16 *) &secondHand->mUnk_a0.mUnk_18.z + 1)) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 2;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (secondHand->field0.mStateMachine.mStateFrames > *((u16 *) &secondHand->fieldA0.field18.z + 1)) {
+        secondHand->field0.mStateMachine.mNextState = 2;
+        secondHand->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void shand_decelerateStateInit(Unk020e58b8 *secondHand) {
-    secondHand->mUnk_c8 = 0x4000u;
+    secondHand->fieldC8 = 0x4000u;
 }
 
 void shand_decelerateStateUpdate(Unk020e43a8 *secondHand) {
-    secondHand->mUnk_c8 = secondHand->mUnk_c8 - secondHand->mUnk_cc;
-    secondHand->mUnk_00.mAngle =
-        secondHand->mUnk_00.mAngle + (s16) (((s64) secondHand->mUnk_c8 * secondHand->mUnk_c6) >> 12);
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > *(u16 *) &secondHand->mUnk_a0.mUnk_18.z) {
-        secondHand->mUnk_c6 = -secondHand->mUnk_c6;
-        secondHand->mUnk_00.mStateMachine.mNextState = 3;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    secondHand->fieldC8 = secondHand->fieldC8 - secondHand->fieldCC;
+    secondHand->field0.mAngle =
+        secondHand->field0.mAngle + (s16) (((s64) secondHand->fieldC8 * secondHand->fieldC6) >> 12);
+    if (secondHand->field0.mStateMachine.mStateFrames > *(u16 *) &secondHand->fieldA0.field18.z) {
+        secondHand->fieldC6 = -secondHand->fieldC6;
+        secondHand->field0.mStateMachine.mNextState = 3;
+        secondHand->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -201,18 +201,18 @@ u32 shand_waitStateInit(u32 value) {
 }
 
 void shand_waitStateUpdate(Unk020e43a8 *secondHand) {
-    if (secondHand->mUnk_00.mStateMachine.mStateFrames > secondHand->mUnk_c4) {
-        secondHand->mUnk_00.mStateMachine.mNextState = 0;
-        secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (secondHand->field0.mStateMachine.mStateFrames > secondHand->fieldC4) {
+        secondHand->field0.mStateMachine.mNextState = 0;
+        secondHand->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 s32 shand_onDriverCollide(Unk020e43a8 *secondHand, KartItemEffectView *kart, s32 a, u8 *b) {
     u32 x;
 
-    x = kart->mUnk_29c;
+    x = kart->field29C;
     if (x == 1 || x == 3) {
-        secondHand->mUnk_00.mDistanceSquaredAndFlags |= data_021590e8;
+        secondHand->field0.mDistanceSquaredAndFlags |= data_021590e8;
     }
     return *b;
 }
@@ -225,12 +225,12 @@ void shand_collide(Unk020e43a8 *secondHand, Vec3 *sphereCenter, s32 sphereRadius
     Vec3 s;
     s32 y;
 
-    y = secondHand->mUnk_00.mExtent.y;
-    s.x = secondHand->mUnk_00.mExtent.x;
+    y = secondHand->field0.mExtent.y;
+    s.x = secondHand->field0.mExtent.x;
     s.y = y;
     s.z = 0;
-    col_collideSphereBox(sphereCenter, &secondHand->mUnk_00.mPos, &secondHand->mUnk_00.mMatrix.mUnk_00[0],
-                                 &secondHand->mUnk_00.mExtent, &s, sphereRadius, overlapOffset);
+    col_collideSphereBox(sphereCenter, &secondHand->field0.mPos, &secondHand->field0.mMatrix.field0[0],
+                                 &secondHand->field0.mExtent, &s, sphereRadius, overlapOffset);
 }
 
 #pragma thumb on
@@ -241,27 +241,27 @@ void shand_loadModel(void) {
 }
 
 void shand_init(Unk020e43a8 *secondHand, Unk020e5684 *courseRow) {
-    secondHand->mUnk_00.mExtent.y = ((s64) secondHand->mUnk_00.mScale.x * 0x4b000) >> 12;
-    sm_init(&secondHand->mUnk_00.mStateMachine, (UnkFunc *const *) shand_sStates, 4, secondHand);
-    qtrn_fromEulerAngles(&courseRow->mUnk_0c, (u32 *) &secondHand->mUnk_a0.mUnk_00);
-    *(Quaternion *) &secondHand->mUnk_a0.mUnk_0c.y = *(Quaternion *) &secondHand->mUnk_a0.mUnk_00;
-    *(s16 *) &secondHand->mUnk_a0.mUnk_18.z = courseRow->mUnk_2c;
-    *((s16 *) &secondHand->mUnk_a0.mUnk_18.z + 1) = courseRow->mUnk_2a;
-    secondHand->mUnk_c4 = courseRow->mUnk_2e;
-    secondHand->mUnk_c6 = (courseRow->mUnk_28 << 7) / 0x64;
-    if (courseRow->mUnk_30 != 0) {
-        secondHand->mUnk_c6 = -secondHand->mUnk_c6;
+    secondHand->field0.mExtent.y = ((s64) secondHand->field0.mScale.x * 0x4b000) >> 12;
+    sm_init(&secondHand->field0.mStateMachine, (UnkFunc *const *) shand_sStates, 4, secondHand);
+    qtrn_fromEulerAngles(&courseRow->fieldC, (u32 *) &secondHand->fieldA0.field0);
+    *(Quaternion *) &secondHand->fieldA0.fieldC.y = *(Quaternion *) &secondHand->fieldA0.field0;
+    *(s16 *) &secondHand->fieldA0.field18.z = courseRow->field2C;
+    *((s16 *) &secondHand->fieldA0.field18.z + 1) = courseRow->field2A;
+    secondHand->fieldC4 = courseRow->field2E;
+    secondHand->fieldC6 = (courseRow->field28 << 7) / 0x64;
+    if (courseRow->field30 != 0) {
+        secondHand->fieldC6 = -secondHand->fieldC6;
     }
-    secondHand->mUnk_00.mAngle = 0;
-    if (*(u16 *) &secondHand->mUnk_a0.mUnk_18.z != 0) {
-        secondHand->mUnk_cc = 0x1000 / *(u16 *) &secondHand->mUnk_a0.mUnk_18.z;
+    secondHand->field0.mAngle = 0;
+    if (*(u16 *) &secondHand->fieldA0.field18.z != 0) {
+        secondHand->fieldCC = 0x1000 / *(u16 *) &secondHand->fieldA0.field18.z;
     } else {
-        secondHand->mUnk_cc = 0;
+        secondHand->fieldCC = 0;
     }
-    secondHand->mUnk_c8 = 0;
-    secondHand->mUnk_00.mStateMachine.mNextState = 0;
-    secondHand->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    secondHand->mUnk_00.mFlags |= data_021590b0;
+    secondHand->fieldC8 = 0;
+    secondHand->field0.mStateMachine.mNextState = 0;
+    secondHand->field0.mStateMachine.mNextStateRequested = 1;
+    secondHand->field0.mFlags |= data_021590b0;
 }
 
 #pragma thumb off

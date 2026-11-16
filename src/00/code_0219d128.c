@@ -52,11 +52,11 @@ void InitBuddySync(WiFiBuddySync *a, struct GpConnection *b, char *c, DWCAccFrie
     gWiFiBuddySync->mBuddies = d;
     gWiFiBuddySync->mSyncIndex = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
-    gWiFiBuddySync->mUnk_1e = 0;
+    gWiFiBuddySync->field1E = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mPendingStatsRequestCount = 0;
-    gWiFiBuddySync->mUnk_24 = 0;
-    gWiFiBuddySync->mUnk_28 = c;
+    gWiFiBuddySync->field24 = 0;
+    gWiFiBuddySync->field28 = c;
     gWiFiBuddySync->mResultCallback = NULL;
     gWiFiBuddySync->mResultCallbackArg = NULL;
     gWiFiBuddySync->mBuddyStatusCallback = NULL;
@@ -65,8 +65,8 @@ void InitBuddySync(WiFiBuddySync *a, struct GpConnection *b, char *c, DWCAccFrie
     gWiFiBuddySync->mEntryMergedCallbackArg = NULL;
     gWiFiBuddySync->mBuddyChangedCallback = NULL;
     gWiFiBuddySync->mBuddyChangedCallbackArg = NULL;
-    gWiFiBuddySync->mUnk_4c = NULL;
-    gWiFiBuddySync->mUnk_50 = 0;
+    gWiFiBuddySync->field4C = NULL;
+    gWiFiBuddySync->field50 = 0;
 }
 
 // Also the only pump of the GP connection: every call in states 3 to 6 reaches func_ov000_0219d49c, which calls
@@ -89,12 +89,12 @@ void UpdateBuddySync(void) {
         if (ReportBuddySyncGpResult(func_ov000_0219d49c()) != 0) {
             return;
         }
-        if (gWiFiBuddySync->mBuddies != NULL && gWiFiBuddySync->mUnk_1e != 3 && gWiFiBuddySync->mPollCount > 7) {
-            if (gWiFiBuddySync->mUnk_1e <= 1) {
+        if (gWiFiBuddySync->mBuddies != NULL && gWiFiBuddySync->field1E != 3 && gWiFiBuddySync->mPollCount > 7) {
+            if (gWiFiBuddySync->field1E <= 1) {
                 func_ov000_0219d2e8(gWiFiBuddySync->mBuddies, gWiFiBuddySync->mBuddyEntryCount);
             }
             if (gWiFiBuddySync->mSyncIndex >= gWiFiBuddySync->mBuddyEntryCount) {
-                gWiFiBuddySync->mUnk_1e = 3;
+                gWiFiBuddySync->field1E = 3;
                 gWiFiBuddySync->mCompletedParts++;
             }
         }
@@ -119,10 +119,10 @@ void StartBuddySync(s32 a, const char *b, void (*c)(s32, u8, void *), void *d, v
     gWiFiBuddySync->mEntryMergedCallbackArg = h;
     i = 0;
     gWiFiBuddySync->mBuddiesChanged = 0;
-    gWiFiBuddySync->mUnk_1e = 0;
+    gWiFiBuddySync->field1E = 0;
     gWiFiBuddySync->mCompletedParts = 0;
     gWiFiBuddySync->mState = 1;
-    if (((s8 *) gWiFiBuddySync->mUnk_28)[i] != 0) {
+    if (((s8 *) gWiFiBuddySync->field28)[i] != 0) {
         j = i;
         for (; i < 5; i++) {
             k = GstatsConnect(j);
@@ -184,7 +184,7 @@ void WiFiGpBuddyStatusCallback(struct GpConnection *a, s32 *b) {
         if (d != -1) {
             GpGetBuddyStatus(a, b[2], &c);
             e = gWiFiBuddySync;
-            e->mBuddyStatusCallback(d, c.mUnk_004, c.mUnk_108, e->mBuddyStatusCallbackArg);
+            e->mBuddyStatusCallback(d, c.field4, c.field108, e->mBuddyStatusCallbackArg);
         }
     }
 }
@@ -252,9 +252,9 @@ void func_ov000_0219d504(s32 a) {
     }
     if (gWiFiBuddySync->mBuddyStatusCallback != NULL) {
         WiFiBuddySync *c;
-        u8 d = func_ov000_0219daa8(&gWiFiBuddySync->mBuddies[a], b.mUnk_108);
+        u8 d = func_ov000_0219daa8(&gWiFiBuddySync->mBuddies[a], b.field108);
         c = gWiFiBuddySync;
-        c->mBuddyStatusCallback(a, d, b.mUnk_108, c->mBuddyStatusCallbackArg);
+        c->mBuddyStatusCallback(a, d, b.field108, c->mBuddyStatusCallbackArg);
     }
 }
 
@@ -286,14 +286,14 @@ void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
     char e[0x18];
     GpBuddyStatus f;
     s32 g;
-    if (gWiFiBuddySync->mUnk_1e == 0) {
+    if (gWiFiBuddySync->field1E == 0) {
         ReportBuddySyncGpResult(GpGetBuddyCount(gWiFiBuddySync->mGpConnection, &c));
         for (d = 0; d < c; d++) {
             ReportBuddySyncGpResult(GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, d, &f));
             for (i = 0; i < b; i++) {
-                if (f.mUnk_000 == GetBuddyEntryProfileId(i)) {
+                if (f.field0 == GetBuddyEntryProfileId(i)) {
                     if (DWC_IsBuddyFriendData((DWCAccFriendData *) a + i) == 0) {
-                        DWC_SetGsProfileId(&a[i], f.mUnk_000);
+                        DWC_SetGsProfileId(&a[i], f.field0);
                         DWCi_SetBuddyFriendData(&a[i]);
                         gWiFiBuddySync->mBuddiesChanged = 1;
                     }
@@ -301,12 +301,12 @@ void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
                 }
             }
             if (i == b) {
-                ReportBuddySyncGpResult(func_ov000_0218eb44(gWiFiBuddySync->mGpConnection, f.mUnk_000));
+                ReportBuddySyncGpResult(func_ov000_0218eb44(gWiFiBuddySync->mGpConnection, f.field0));
                 c--;
                 d--;
             }
         }
-        gWiFiBuddySync->mUnk_1e = 1;
+        gWiFiBuddySync->field1E = 1;
     }
     for (; gWiFiBuddySync->mSyncIndex < b; gWiFiBuddySync->mSyncIndex++) {
         g = GetBuddyEntryProfileId(gWiFiBuddySync->mSyncIndex);
@@ -322,7 +322,7 @@ void func_ov000_0219d2e8(DWCAccFriendData *a, s32 b) {
             DWC_LoginIdToUserName(func_ov000_0219c9c4(), &a[gWiFiBuddySync->mSyncIndex], e);
             func_ov000_0218f0a8(gWiFiBuddySync->mGpConnection, NULL, NULL, NULL, NULL, (s8 *) e, 0, 0,
                                 (Unk0218f0a8Cb) func_ov000_0219ce48, gWiFiBuddySync->mSyncIndex);
-            gWiFiBuddySync->mUnk_1e = 2;
+            gWiFiBuddySync->field1E = 2;
             return;
         }
     }
@@ -408,11 +408,11 @@ s32 func_ov000_0219d14c(DWCAccFriendData *a, s32 b, s32 c) {
     return l;
 }
 
-// Sends the GP add-buddy request for a profile id (GpWriteAddbuddy with mUnk_28 as the reason text) and runs the
+// Sends the GP add-buddy request for a profile id (GpWriteAddbuddy with field28 as the reason text) and runs the
 // error check; the buddy exists only once the other side authorizes.
 u32 AddBuddy(u32 a) {
     u32 v1;
-    v1 = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, a, gWiFiBuddySync->mUnk_28);
+    v1 = GpWriteAddbuddy(gWiFiBuddySync->mGpConnection, a, gWiFiBuddySync->field28);
     ReportBuddySyncGpResult(v1);
     return v1;
 }

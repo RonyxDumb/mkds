@@ -22,7 +22,7 @@ Unk027ffc40 *func_020ce7ac(void) {
 }
 
 u32 func_020ce784(void) {
-    return func_020ce7ac()->mUnk_00 == 2 ? 1 : 0;
+    return func_020ce7ac()->field0 == 2 ? 1 : 0;
 }
 
 u32 func_020ce778(void) {

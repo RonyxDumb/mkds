@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void title_vblank(void) {
-    sTitleSceneState->mStateHandlers[sTitleSceneState->mState].mUnk_00();
+    sTitleSceneState->mStateHandlers[sTitleSceneState->mState].field0();
     sTitleSceneState->mStateChanged = FALSE;
     gmenu_vblank();
     oam_applyBuffers(&sTitleSceneState->mMainOam, &sTitleSceneState->mSubOam);

@@ -34,12 +34,12 @@ static inline void func_020446e0_inline(s32 f, u32 teamIndex, s32 playerKind, u3
 static inline Unk0217aa00_45c *func_02045084_inline(ConnectionWork *q, s32 entryIndex) {
     u16 participantIndex;
 
-    participantIndex = q->mUnk_1e8c[entryIndex];
-    return participantIndex == 0xffff ? 0 : &q->mUnk_045c[participantIndex];
+    participantIndex = q->field1E8C[entryIndex];
+    return participantIndex == 0xffff ? 0 : &q->field45C[participantIndex];
 }
 
 static inline BOOL func_02045084_inline2(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return TRUE;
     }
     return FALSE;
@@ -62,10 +62,10 @@ void rconf_reset(void) {
     MI_CpuFill8(&gRaceMultiConfig->mNextHeader.mMissionFileRow, 0, 0x2c);
     gRaceMultiConfig->mNextHeader.mMissionTableRow = -1;
     gRaceMultiConfig->mNextHeader.mMissionTableColumn = -1;
-    gRaceMultiConfig->mNextHeader.mUnk_56[0] = 0;
+    gRaceMultiConfig->mNextHeader.field56[0] = 0;
     gRaceMultiConfig->mNextHeader.mMirrorMode = 0;
     gRaceMultiConfig->mNextHeader.mUseTeams = 0;
-    gRaceMultiConfig->mNextHeader.mUnk_5c = 0;
+    gRaceMultiConfig->mNextHeader.field5C = 0;
     gRaceMultiConfig->mNextHeader.mCourseNumber = 1;
     gRaceMultiConfig->mNextHeader.mEntryIndex = -1;
     gRaceMultiConfig->mNextHeader.mFollowedKartIndex = 0;
@@ -75,26 +75,26 @@ void rconf_reset(void) {
         gRaceMultiConfig->mNextEntries[i].mKartIndex = i * 3;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mKind = i == 0 ? PLAYER_KIND_HUMAN : PLAYER_KIND_CPU;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mTeamIndex = -1;
-        gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_08 = 3;
+        gRaceMultiConfig->mNextEntries[i].mPlayer.field8 = 3;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mIndex = i;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mGhostRecordIndex = 3;
-        gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_14 = 0;
+        gRaceMultiConfig->mNextEntries[i].mPlayer.field14 = 0;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mName = NULL;
-        gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_24 = 0;
-        gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_25 = gSystemData->mUnk_00;
+        gRaceMultiConfig->mNextEntries[i].mPlayer.field24 = 0;
+        gRaceMultiConfig->mNextEntries[i].mPlayer.field25 = gSystemData->field0;
         gRaceMultiConfig->mNextEntries[i].mPlayer.mEmblemData = NULL;
-        gRaceMultiConfig->mNextEntries[i].mPlayer.mUnk_20 = 0;
+        gRaceMultiConfig->mNextEntries[i].mPlayer.field20 = 0;
     }
-    gRaceMultiConfig->mNextEntries[7].mPlayer.mUnk_08 = 0;
-    gRaceMultiConfig->mNextEntries[6].mPlayer.mUnk_08 = 1;
+    gRaceMultiConfig->mNextEntries[7].mPlayer.field8 = 0;
+    gRaceMultiConfig->mNextEntries[6].mPlayer.field8 = 1;
     gRaceMultiConfig->mKartCount = 0;
     gRaceMultiConfig->mHumanAndPeerKartCount = 0;
     for (i = 0; i < 2; i++) {
         gRaceMultiConfig->mTeamKartCounts[i] = 0;
     }
-    gRaceMultiConfig->mUnk_3d4 = 0;
+    gRaceMultiConfig->field3D4 = 0;
     for (i = 0; i < 2; i++) {
-        gRaceMultiConfig->mUnk_3d5[i] = -1;
+        gRaceMultiConfig->field3D5[i] = -1;
     }
     gRaceMultiConfig->mCourseCount = 0;
     for (i = 0; i < 0x21; i++) {
@@ -134,13 +134,13 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     p = gSaveData;
     nameSlot = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mName;
     emblemDataSlot = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mEmblemData;
-    b2 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mUnk_24;
-    b3 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mUnk_25;
-    b4 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mUnk_26;
-    b5 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mUnk_20;
+    b2 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.field24;
+    b3 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.field25;
+    b4 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.field26;
+    b5 = &gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.field20;
     f = FALSE;
     if (p->mEmblemRecord->mFilled != 0) {
-        f = p->mFirstBlock->mUnk_31_3 == 0;
+        f = p->mFirstBlock->field31_3 == 0;
     }
     if (f != FALSE) {
         g = TRUE;
@@ -151,13 +151,13 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
     *emblemDataSlot = NULL;
     *b2 = 0;
     *b5 = 0;
-    *b3 = gSystemData->mUnk_00;
+    *b3 = gSystemData->field0;
     *b4 = 0;
     if (entryIndex == gRaceMultiConfig->mEntryIndex) {
         *nameSlot = &gSaveData->mFirstBlock->mPlayerName;
         *emblemDataSlot = &gSaveData->mEmblemRecord->mEmblemData;
         *b2 = g != FALSE ? 1 : 0;
-        *b3 = gSystemData->mUnk_00;
+        *b3 = gSystemData->field0;
         *b4 = func_02056208();
         return;
     }
@@ -165,7 +165,7 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
         case PLAYER_KIND_HUMAN:
             q = gStruct217AA00;
             t = FALSE;
-            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+            if ((q == NULL ? 0 : q->field0) != 0 && q->field4 != 13) {
                 t = TRUE;
             }
             if (t == FALSE) {
@@ -175,14 +175,14 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                 return;
             }
             *nameSlot = func_02045084_inline(q, entryIndex);
-            *emblemDataSlot = &func_02045084_inline(gStruct217AA00, entryIndex)->mUnk_014;
-            *b2 = func_02045084_inline(gStruct217AA00, entryIndex)->mUnk_214;
-            *b3 = func_02045084_inline(gStruct217AA00, entryIndex)->mUnk_228_0;
+            *emblemDataSlot = &func_02045084_inline(gStruct217AA00, entryIndex)->field14;
+            *b2 = func_02045084_inline(gStruct217AA00, entryIndex)->field214;
+            *b3 = func_02045084_inline(gStruct217AA00, entryIndex)->field228_0;
             *b5 =
-                func_02045084_inline2() || (gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[entryIndex])) != 0
+                func_02045084_inline2() || (gStruct217AA00->field457 & (1 << gStruct217AA00->field1E8C[entryIndex])) != 0
                     ? 0
-                    : (s32) &func_02045084_inline(gStruct217AA00, entryIndex)->mUnk_218;
-            *b4 = func_02045084_inline(gStruct217AA00, entryIndex)->mUnk_229;
+                    : (s32) &func_02045084_inline(gStruct217AA00, entryIndex)->field218;
+            *b4 = func_02045084_inline(gStruct217AA00, entryIndex)->field229;
             break;
         case PLAYER_KIND_GHOST:
             switch (gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mGhostRecordIndex) {
@@ -190,21 +190,21 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
                     *nameSlot = &gSaveData->mGhostRecords[0]->mName;
                     *emblemDataSlot = &gSaveData->mEmblemRecord->mEmblemData;
                     *b2 = g != FALSE ? 1 : 0;
-                    *b3 = gSaveData->mGhostRecords[0]->mUnk_08_2;
+                    *b3 = gSaveData->mGhostRecords[0]->field8_2;
                     *b4 = 0;
                     break;
                 case 1:
                     *nameSlot = &gSaveData->mGhostRecords[1]->mName;
-                    *emblemDataSlot = &gSaveData->mGhostRecords[1]->mUnk_30;
-                    *b2 = gSaveData->mGhostRecords[1]->mUnk_08_1;
-                    *b3 = gSaveData->mGhostRecords[1]->mUnk_08_2;
-                    *b4 = gSaveData->mGhostRecords[1]->mUnk_2f_0;
+                    *emblemDataSlot = &gSaveData->mGhostRecords[1]->field30;
+                    *b2 = gSaveData->mGhostRecords[1]->field8_1;
+                    *b3 = gSaveData->mGhostRecords[1]->field8_2;
+                    *b4 = gSaveData->mGhostRecords[1]->field2F_0;
                     break;
                 case 2:
                     *nameSlot = &gSaveData->mGhostRecords[2]->mName;
-                    *emblemDataSlot = &gSaveData->mGhostRecords[2]->mUnk_30;
+                    *emblemDataSlot = &gSaveData->mGhostRecords[2]->field30;
                     *b2 = 1;
-                    *b3 = gSaveData->mGhostRecords[2]->mUnk_08_2;
+                    *b3 = gSaveData->mGhostRecords[2]->field8_2;
                     *b4 = 1;
                     break;
             }
@@ -231,15 +231,15 @@ void func_02044fc0(void) {
 
     n = 0;
     for (j = 0; j < 2; j++) {
-        gRaceMultiConfig->mUnk_3d5[j] = -1;
+        gRaceMultiConfig->field3D5[j] = -1;
     }
     for (j = 0; j < gRaceMultiConfig->mKartCount; j++) {
-        if ((gRaceMultiConfig->mCurrentEntries[(u16) j].mPlayer.mUnk_14 & 1) != 0) {
-            gRaceMultiConfig->mUnk_3d5[(u8) gRaceMultiConfig->mCurrentEntries[j].mPlayer.mUnk_08] = j;
+        if ((gRaceMultiConfig->mCurrentEntries[(u16) j].mPlayer.field14 & 1) != 0) {
+            gRaceMultiConfig->field3D5[(u8) gRaceMultiConfig->mCurrentEntries[j].mPlayer.field8] = j;
             n++;
         }
     }
-    gRaceMultiConfig->mUnk_3d4 = n;
+    gRaceMultiConfig->field3D4 = n;
 }
 
 BOOL rconf_loadPersonalGhost(s32 courseId, s32 entryIndex) {
@@ -255,7 +255,7 @@ BOOL rconf_loadPersonalGhost(s32 courseId, s32 entryIndex) {
     if (ghostRecord->mFilled == 1) {
         rconf_setDriverConfigNext(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = result;
-        MI_CpuCopy8(ghostRecord->mUnk_30, data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(ghostRecord->field30, data_02175650[entryIndex].mBuffer, 0xdcc);
         result = TRUE;
         savd_getGhostTime(0, &gRaceMultiConfig->mGhostTime);
         for (i = 1; i <= 5; i++) {
@@ -278,7 +278,7 @@ s32 rconf_loadDownloadGhost(s32 courseId, s32 entryIndex) {
     if (filled != 0) {
         rconf_setDriverConfigNext(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 1;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(&ghostRecord->field30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
         savd_getGhostTime(1, &gRaceMultiConfig->mGhostTime);
         for (i = 1; i <= 5; i++) {
             savd_getGhostLapTime(1, i, &gRaceMultiConfig->mGhostLapTimes[i - 1]);
@@ -300,7 +300,7 @@ BOOL rconf_loadStaffGhost(s32 courseId, s32 entryIndex) {
     if (ghostRecord != NULL && ghostRecord->mFilled == 1) {
         rconf_setDriverConfigNext(entryIndex, ghostRecord->mCharacterIndex, ghostRecord->mKartIndex, PLAYER_KIND_GHOST, -1, 3);
         gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = 2;
-        MI_CpuCopy8(&ghostRecord->mUnk_30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
+        MI_CpuCopy8(&ghostRecord->field30[0x200], data_02175650[entryIndex].mBuffer, 0xdcc);
         savd_getGhostTimeDirect(ghostRecord, &gRaceMultiConfig->mGhostTime);
         for (i = 1; i <= 5; i++) {
             savd_getGhostLapTimeDirect(ghostRecord, i, &gRaceMultiConfig->mGhostLapTimes[i - 1]);
@@ -391,11 +391,11 @@ void rconf_setupNext(void) {
             }
             q = gStruct217AA00;
             f = FALSE;
-            if ((q == NULL ? 0 : q->mUnk_0000) != 0 && q->mUnk_0004 != 13) {
+            if ((q == NULL ? 0 : q->field0) != 0 && q->field4 != 13) {
                 f = TRUE;
             }
             if (f != FALSE) {
-                entryIndex = q->mUnk_1e52[(u16) (q->mUnk_0000 == 2 ? q->mOwnIndex : 0)].mEntryIndex;
+                entryIndex = q->field1E52[(u16) (q->field0 == 2 ? q->mOwnIndex : 0)].mEntryIndex;
             }
             gRaceMultiConfig->mNextHeader.mEntryIndex = entryIndex;
             gRaceMultiConfig->mNextHeader.mFollowedKartIndex = entryIndex;
@@ -464,7 +464,7 @@ void func_020446e0(void) {
             }
             break;
         case MODE_BATTLE:
-            if (gSystemData->mUnk_1c_2 != 0) {
+            if (gSystemData->field1C_2 != 0) {
                 gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
             } else {
                 gRaceMultiConfig->mNextHeader.mRaceKind = 4;

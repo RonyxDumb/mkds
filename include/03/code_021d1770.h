@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-// 8-byte object at index i of OamRange.mUnk_08: GetOamRangeEntryPosition reads bits 16-24 and bits 0-7 of its word
+// 8-byte object at index i of OamRange.field8: GetOamRangeEntryPosition reads bits 16-24 and bits 0-7 of its word
 // at 0x00.
 typedef struct OamEntry {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
+    /* 00 */ u32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
 } OamEntry;
 
 // Object passed to GetOamRangeEntryPosition: a pointer at 0x08 to OamEntry objects, indexed by its second

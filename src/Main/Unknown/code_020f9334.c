@@ -62,36 +62,36 @@ void it_initInstance(ItemObject *item, s32 kind) {
     reset = it_sItemParams[kind].mReset;
     item->mKind = kind;
     item->mFlags = 0;
-    item->mUnk_7a = 0;
+    item->field7A = 0;
     item->mScale.x = 0;
     item->mScale.y = 0;
     item->mScale.z = 0;
-    item->mUnk_100 = 0;
-    item->mUnk_dc = 0x7b;
+    item->field100 = 0;
+    item->fieldDC = 0x7b;
     item->mRadius = 0x7b;
     item->mAlpha = 0x1f;
     item->mCollisionBits = 0;
-    item->mUnk_118 = 0;
-    item->mUnk_114 = 5;
+    item->field118 = 0;
+    item->field114 = 5;
     item->mBounce = NULL;
-    item->mUnk_d0 = &item->mPos;
+    item->fieldD0 = &item->mPos;
     item->mCollisionSlotIndex = -1;
-    item->mUnk_104->mUnk_00 = NULL;
+    item->field104->field0 = NULL;
     if (gRaceMultiConfig->mMode == 5) {
         item->mFlags |= 0x8000000;
     }
-    item->mUnk_78 |= data_02159cac;
+    item->field78 |= data_02159cac;
     light_init(&item->mColorBlend, 1);
-    item->mUnk_90 = NULL;
+    item->field90 = NULL;
     if (reset != NULL) {
         reset(item);
     }
-    item->mUnk_128 = 0;
+    item->field128 = 0;
 }
 
 void it_20F99B8(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos) {
     item->mPos = *pos;
-    item->mUnk_78 = ownerAndFlags;
+    item->field78 = ownerAndFlags;
     it_initInstance(item, kind);
     if ((item->mFlags & 0x8000000) == 0) {
         return;
@@ -126,11 +126,11 @@ void it_20F98A0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, u16 *colorBl
         light_init(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
-    item->mUnk_116 = param_5 != 0 ? 0 : 5;
+    item->field116 = param_5 != 0 ? 0 : 5;
 }
 
 s32 func_020f9880(ItemObject *item) {
-    return it_sItemParams[item->mKind].mUnk_84;
+    return it_sItemParams[item->mKind].field84;
 }
 
 BOOL it_20F97E0(ItemObject *item, Kart *kart) {
@@ -138,7 +138,7 @@ BOOL it_20F97E0(ItemObject *item, Kart *kart) {
     s32 hitRadius;
 
     if (item->mCollisionSlotIndex == -1 ||
-        kart->mIndex == (u16) ((item->mUnk_78 & 0x4000) != 0 ? (u16) (item->mUnk_78 & ~0xff00) : 8)) {
+        kart->mIndex == (u16) ((item->field78 & 0x4000) != 0 ? (u16) (item->field78 & ~0xff00) : 8)) {
         return FALSE;
     }
     hitRadius = kart->mRadius + item->mRadius;
@@ -173,7 +173,7 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
         return;
     }
     if ((other->mFlags & 0x8000) == 0) {
-        if (item->mUnk_48 > other->mUnk_48) {
+        if (item->field48 > other->field48) {
             return;
         }
     }
@@ -232,8 +232,8 @@ void it_20F944C(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            it_20F77F8(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
-            item->mUnk_78 &= ~0x4000;
+            it_20F77F8(item, 1, &a, &mapObject->field10, reportedMapObject);
+            item->field78 &= ~0x4000;
             return;
         case 2:
             if (b == 1 || (mapObject->mDistanceSquaredAndFlags & 0x80000000) != 0) {
@@ -243,7 +243,7 @@ void it_20F944C(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            it_20F77F8(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
+            it_20F77F8(item, 2, &mapObject->mPos, &mapObject->field10, reportedMapObject);
             return;
     }
 }
@@ -258,13 +258,13 @@ void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed,
 
     collisionBits = 0;
     z = pos->z;
-    y = pos->y - item->mUnk_dc;
+    y = pos->y - item->fieldDC;
     x = pos->x;
     lowerPos.x = x;
     lowerPos.y = y;
     lowerPos.z = z;
 
-    col_collide(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
+    col_collide(&lowerPos, pos, 0, item->fieldDC >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
                   &collisionBits, NULL, NULL, NULL, NULL);
     if ((collisionBits & 0x1e34ef) != 0 || (item->mCollisionBits & 0x80000) != 0) {
         if ((item->mFlags & 0x4000000) != 0) {

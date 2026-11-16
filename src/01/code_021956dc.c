@@ -63,10 +63,10 @@ void LocateAndQueueRecordTAtt(void) {
     gRecordTAtt->mRecordTAttSBncl = arc_getSceneArcFile(gRecordTAttSBnclName);
     gRecordTAtt->mRecordTAttSBnbl = arc_getSceneArcFile(gRecordTAttSBnblName);
     gRecordTAtt->mRecordTAttSBnll = arc_getSceneArcFile(gRecordTAttSBnllName);
-    gRecordTAtt->mUnk_28 = m2d_getPortraitNceNcgr(0);
-    gRecordTAtt->mUnk_2c = m2d_getPortraitNceNcer(0);
-    gRecordTAtt->mUnk_30 = m2d_getPortraitONclr(0);
-    gRecordTAtt->mUnk_34 = m2d_getPortraitBncl(0);
+    gRecordTAtt->field28 = m2d_getPortraitNceNcgr(0);
+    gRecordTAtt->field2C = m2d_getPortraitNceNcer(0);
+    gRecordTAtt->field30 = m2d_getPortraitONclr(0);
+    gRecordTAtt->field34 = m2d_getPortraitBncl(0);
     g2du_getCharacterDataBG(&l4, arc_getSceneArcFile(gRecordTAttMBNcgrName));
     g2du_getScreenData(&lc, arc_getSceneArcFile(gRecordTAttMNscrName));
     g2du_getScreenData(&l10, arc_getSceneArcFile(gRecordTAttMScoreNscrName));
@@ -109,17 +109,17 @@ void func_ov001_021975f4(u16 a) {
         index = data_ov001_021a6850[0][0];
         gRecordTAtt->mRecordTAttMTable[index].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, index,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->field2C, gRecordTAtt->field28, gRecordTAtt->field34, 0, index,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
+        palette = (u8 *) ((Nclr *) gRecordTAtt->field30)->mData;
         NNS_GfdRegisterNewVramTransferTask(0xe, data_ov001_021a683c[0] << 5,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->field2C, gRecordTAtt->field34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6850[0][1];
         gRecordTAtt->mRecordTAttMTable[slot].mVisible = 1;
         kic_putIconInLayout(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, slot,
                       data_ov001_021a683c[5], 0);
-        cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttMBncl->field6;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[0];
@@ -141,17 +141,17 @@ void func_ov001_021975f4(u16 a) {
         index = data_ov001_021a6850[a][0];
         gRecordTAtt->mRecordTAttSTable[index].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 1, index,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->field2C, gRecordTAtt->field28, gRecordTAtt->field34, 1, index,
                        gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
+        palette = (u8 *) ((Nclr *) gRecordTAtt->field30)->mData;
         NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a683c[a] << 5,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->field2C, gRecordTAtt->field34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6852[a][0];
         gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
         kic_putIconInLayout(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
                       data_ov001_021a6846[a], 1);
-        cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttSBncl->field6;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[a];
@@ -174,7 +174,7 @@ void func_ov001_0219750c(u16 a) {
     if (a == 0) {
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][0]].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][1]].mVisible = 0;
-        cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttMBncl->field6;
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a67d4[0]].mVisible = 1;
         jn_ui_2124224(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
                       gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
@@ -182,7 +182,7 @@ void func_ov001_0219750c(u16 a) {
     } else {
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6850[a][0]].mVisible = 0;
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6852[a][0]].mVisible = 0;
-        cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+        cnt = gRecordTAtt->mRecordTAttSBncl->field6;
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a67d4[a]].mVisible = 1;
         jn_ui_2124224(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
                       gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
@@ -211,16 +211,16 @@ void func_ov001_021972f4(void) {
             func_ov001_0219750c(i);
         }
     }
-    cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+    cnt = gRecordTAtt->mRecordTAttMBncl->field6;
     if (IsTimeRecordFilled(data_ov001_021a6900[gRecordTAtt->mIndex], 5)) {
         result = GetTimeRecordCharacterIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, 5,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->field2C, gRecordTAtt->field28, gRecordTAtt->field34, 0, 5,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
-        palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
+        palette = (u8 *) ((Nclr *) gRecordTAtt->field30)->mData;
         NNS_GfdRegisterNewVramTransferTask(0xe, 0x80,
-                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
+                        palette + (GetCellPaletteIndex(tile, gRecordTAtt->field2C, gRecordTAtt->field34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 1;
         kic_putIconInLayout(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, 6, 6, 0);
@@ -290,8 +290,8 @@ void func_ov001_02197058(void) {
     gRecordTAtt->mBg1OffsetX = -256;
     gRecordTAtt->mBg1OffsetY = -192;
     gRecordTAtt->mBg3OffsetX = -256;
-    n = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    m = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    n = gRecordTAtt->mRecordTAttMBncl->field6;
+    m = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = -192;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = 0x100;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = 0x100;
@@ -334,7 +334,7 @@ void func_ov001_0219703c(void) {
 void func_ov001_02197024(void) {
     gRecordTAtt->mNextState = 2;
     gRecordTAtt->mStateFrames = 0;
-    gRecordTAtt->mUnk_74 = FALSE;
+    gRecordTAtt->field74 = FALSE;
 }
 
 // Requests state 3.
@@ -346,7 +346,7 @@ void RequestRecordTAttState3(void) {
 void func_ov001_02196fd8(void) {
     gRecordTAtt->mNextState = 4;
     gRecordTAtt->mStateFrames = 0;
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->field70) {
         case 0:
             func_ov001_021972b4();
             break;
@@ -477,11 +477,11 @@ void RequestRecordTAttState17(void) {
 void func_ov001_02196cd0(void) {
     s32 i;
 
-    gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c4[0]].mOffsetX = -func_020adc64(6 - gRecordTAtt->mUnk_78[0]);
-    gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c4[1]].mOffsetX = func_020adc64(6 - gRecordTAtt->mUnk_78[1]);
+    gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c4[0]].mOffsetX = -func_020adc64(6 - gRecordTAtt->field78[0]);
+    gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c4[1]].mOffsetX = func_020adc64(6 - gRecordTAtt->field78[1]);
     for (i = 0; i < 2; i++) {
-        if (gRecordTAtt->mUnk_78[i] > 0) {
-            gRecordTAtt->mUnk_78[i]--;
+        if (gRecordTAtt->field78[i] > 0) {
+            gRecordTAtt->field78[i]--;
             gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c0[i]].mVisible = 0;
             gRecordTAtt->mRecordTAttSTable[data_ov001_021a67c4[i]].mVisible = 1;
         } else {
@@ -498,17 +498,17 @@ BOOL func_ov001_02196c4c(void) {
     m = gInputUnits[idx].mPressedBits;
     if (m != 0) {
         if (data_ov001_021a681c[0] == (data_ov001_021a681c[0] | m)) {
-            gRecordTAtt->mUnk_80 = 1;
-            gRecordTAtt->mUnk_84 = FALSE;
-        } else if (data_ov001_021a681c[gRecordTAtt->mUnk_80] == (data_ov001_021a681c[gRecordTAtt->mUnk_80] | m)) {
-            gRecordTAtt->mUnk_80++;
-            gRecordTAtt->mUnk_84 = FALSE;
-            if (gRecordTAtt->mUnk_80 >= 6) {
-                gRecordTAtt->mUnk_80 = 0;
+            gRecordTAtt->field80 = 1;
+            gRecordTAtt->field84 = FALSE;
+        } else if (data_ov001_021a681c[gRecordTAtt->field80] == (data_ov001_021a681c[gRecordTAtt->field80] | m)) {
+            gRecordTAtt->field80++;
+            gRecordTAtt->field84 = FALSE;
+            if (gRecordTAtt->field80 >= 6) {
+                gRecordTAtt->field80 = 0;
                 return TRUE;
             }
         } else {
-            gRecordTAtt->mUnk_80 = 0;
+            gRecordTAtt->field80 = 0;
         }
     }
     return FALSE;
@@ -528,15 +528,15 @@ void InitRecordTAtt(void *heap) {
     (reg_G2S_DB_BG1CNT) = ((reg_G2S_DB_BG1CNT) & 0x43) | 0x1018;
     (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & 0x43) | 0x5810;
     gRecordTAtt = heap_alloc(heap, 0x94);
-    gRecordTAtt->mUnk_4c = heap;
+    gRecordTAtt->field4C = heap;
     gRecordTAtt->mState = 0;
     gRecordTAtt->mIndex = 0;
-    gRecordTAtt->mUnk_70 = 0;
-    gRecordTAtt->mUnk_74 = FALSE;
-    gRecordTAtt->mUnk_88 = FALSE;
-    gRecordTAtt->mUnk_8c = FALSE;
+    gRecordTAtt->field70 = 0;
+    gRecordTAtt->field74 = FALSE;
+    gRecordTAtt->field88 = FALSE;
+    gRecordTAtt->field8C = FALSE;
     for (i = 0; i < 2; i++) {
-        gRecordTAtt->mUnk_78[i] = 0;
+        gRecordTAtt->field78[i] = 0;
     }
     LocateAndQueueRecordTAtt();
     kic_initForGhost(heap);
@@ -612,8 +612,8 @@ void AdvanceRecordTAttState1(void) {
     v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->field6;
+    y = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -681,10 +681,10 @@ void AdvanceRecordTAttState2(void) {
                                     gInputUnits[idx].mPairY);
     }
     if (a != 0) {
-        gRecordTAtt->mUnk_88 = FALSE;
+        gRecordTAtt->field88 = FALSE;
     }
     if (a != 1) {
-        gRecordTAtt->mUnk_8c = FALSE;
+        gRecordTAtt->field8C = FALSE;
     }
     if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_B) == 0) {
         x = FALSE;
@@ -702,24 +702,24 @@ void AdvanceRecordTAttState2(void) {
         }
     }
     RequestRecordTAttState5();
-    gRecordTAtt->mUnk_90 = 0;
+    gRecordTAtt->field90 = 0;
     RequestSelectReturnState3WithSound(0);
     goto done;
 other:
     if (b == 2 || (u16) (gInputUnits[idx].mPressedBits & PAD_KEY_X) != 0) {
         func_ov001_02196f80();
-    } else if ((a == 0 && gRecordTAtt->mUnk_88 != FALSE) || (b == 0 && gRecordTAtt->mUnk_88 == FALSE) ||
+    } else if ((a == 0 && gRecordTAtt->field88 != FALSE) || (b == 0 && gRecordTAtt->field88 == FALSE) ||
                (u16) (gInputUnits[idx].mBits & PAD_KEY_LEFT) != 0) {
-        gRecordTAtt->mUnk_70 = 1;
-        gRecordTAtt->mUnk_78[0] = 6;
-        gRecordTAtt->mUnk_88 = TRUE;
+        gRecordTAtt->field70 = 1;
+        gRecordTAtt->field78[0] = 6;
+        gRecordTAtt->field88 = TRUE;
         RequestRecordTAttState3();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-    } else if ((a == 1 && gRecordTAtt->mUnk_8c != FALSE) || (b == 1 && gRecordTAtt->mUnk_8c == FALSE) ||
+    } else if ((a == 1 && gRecordTAtt->field8C != FALSE) || (b == 1 && gRecordTAtt->field8C == FALSE) ||
                (u16) (gInputUnits[idx].mBits & PAD_KEY_RIGHT) != 0) {
-        gRecordTAtt->mUnk_70 = 0;
-        gRecordTAtt->mUnk_78[1] = 6;
-        gRecordTAtt->mUnk_8c = TRUE;
+        gRecordTAtt->field70 = 0;
+        gRecordTAtt->field78[1] = 6;
+        gRecordTAtt->field8C = TRUE;
         RequestRecordTAttState3();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
     }
@@ -741,7 +741,7 @@ void AdvanceRecordTAttState3(void) {
 
     k = 0;
     func_ov001_02196cd0();
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->field70) {
         case 0:
             k = -0x100;
             break;
@@ -753,8 +753,8 @@ void AdvanceRecordTAttState3(void) {
     v = mutil_interpolate(1, 0, k, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->field6;
+    y = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -790,7 +790,7 @@ void AdvanceRecordTAttState4(void) {
 
     k = 0;
     func_ov001_02196cd0();
-    switch (gRecordTAtt->mUnk_70) {
+    switch (gRecordTAtt->field70) {
         case 0:
             k = 0x100;
             break;
@@ -802,8 +802,8 @@ void AdvanceRecordTAttState4(void) {
     v = mutil_interpolate(1, k, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->field6;
+    y = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -840,8 +840,8 @@ void AdvanceRecordTAttState5(void) {
     v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
-    y = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttMBncl->field6;
+    y = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
     gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -882,7 +882,7 @@ void AdvanceRecordTAttState6(void) {
     gRecordTAtt->mBg1OffsetY = v;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = v;
     if (gRecordTAtt->mStateFrames >= 10) {
-        RequestRecordScreen(gRecordTAtt->mUnk_90);
+        RequestRecordScreen(gRecordTAtt->field90);
     }
 }
 
@@ -892,7 +892,7 @@ void AdvanceRecordTAttState7(void) {
 
     gRecordTAtt->mStateFrames++;
     v = mutil_getButtonOutEffectOffset(gRecordTAtt->mStateFrames);
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = v;
@@ -911,7 +911,7 @@ void AdvanceRecordTAttState8(void) {
     gRecordTAtt->mStateFrames++;
     v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -953,7 +953,7 @@ void AdvanceRecordTAttState10(void) {
                     CARD_WaitBackupAsync();
                 }
             }
-            gRecordTAtt->mUnk_74 = TRUE;
+            gRecordTAtt->field74 = TRUE;
         }
         func_ov001_02196e88();
     }
@@ -964,10 +964,10 @@ void AdvanceRecordTAttState11(void) {
     u16 w;
 
     gRecordTAtt->mStateFrames++;
-    if (gRecordTAtt->mUnk_74 != FALSE) {
+    if (gRecordTAtt->field74 != FALSE) {
         v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
         gRecordTAtt->mBg1OffsetX = v;
-        w = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        w = gRecordTAtt->mRecordTAttMBncl->field6;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -996,11 +996,11 @@ void AdvanceRecordTAttState12(void) {
 
     gRecordTAtt->mStateFrames++;
     v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
-    if (gRecordTAtt->mUnk_74 != FALSE) {
+    if (gRecordTAtt->field74 != FALSE) {
         u16 w;
 
         gRecordTAtt->mBg1OffsetX = v;
-        w = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
+        w = gRecordTAtt->mRecordTAttMBncl->field6;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[1].mOffsetX = v;
         gRecordTAtt->mRecordTAttMTable[2].mOffsetX = v;
@@ -1015,7 +1015,7 @@ void AdvanceRecordTAttState12(void) {
         gRecordTAtt->mRecordTAttMTable[w + 4].mOffsetX = v;
     }
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -1049,7 +1049,7 @@ void AdvanceRecordTAttState13(void) {
     gRecordTAtt->mStateFrames++;
     v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    x = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
@@ -1123,7 +1123,7 @@ void AdvanceRecordTAttState17(void) {
     gRecordTAtt->mStateFrames++;
     v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
-    m = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
+    m = gRecordTAtt->mRecordTAttSBncl->field6;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[16].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;

@@ -39,12 +39,12 @@ static inline u32 func_0204984c_inline(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return gStruct217AA00->mUnk_0000;
+    return gStruct217AA00->field0;
 }
 
 static inline s32 func_0204984c_inline2(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
+    if (func_0204984c_inline() != 0 && gStruct217AA00->field4 != 13) {
         result = TRUE;
     }
     return result;
@@ -52,7 +52,7 @@ static inline s32 func_0204984c_inline2(void) {
 
 static inline s32 func_0204984c_inline3(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
+    if (func_0204984c_inline2() && !(gStruct217AA00->field454 & 0x80)) {
         result = TRUE;
     }
     return result;
@@ -60,7 +60,7 @@ static inline s32 func_0204984c_inline3(void) {
 
 static inline s32 func_0204984c_inline4(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && (gStruct217AA00->mUnk_0454 & 0x10)) {
+    if (func_0204984c_inline3() && (gStruct217AA00->field454 & 0x10)) {
         result = TRUE;
     }
     return result;
@@ -68,7 +68,7 @@ static inline s32 func_0204984c_inline4(void) {
 
 static inline s32 func_0204984c_inline5(void) {
     BOOL result = FALSE;
-    if (gStruct217AA14 != NULL && (gStruct217AA14->mUnk_75c & 0x10)) {
+    if (gStruct217AA14 != NULL && (gStruct217AA14->field75C & 0x10)) {
         result = TRUE;
     }
     return result;
@@ -98,7 +98,7 @@ static inline s32 func_0204984c_inline8(void) {
 
 static inline s32 func_0204984c_inline9(void) {
     BOOL result = FALSE;
-    if (func_0204984c_inline3() && gStruct217AA00->mUnk_0008 != 9) {
+    if (func_0204984c_inline3() && gStruct217AA00->field8 != 9) {
         result = TRUE;
     }
     return result;
@@ -120,14 +120,14 @@ static inline void func_02049e38_inline(SceneNumbers *sceneNumbers) {
 }
 
 s16 scene_getFadeInLength(void) {
-    if (scene_sSceneState->mUnk_10c == 6) {
+    if (scene_sSceneState->field10C == 6) {
         return -1;
     }
     return scene_sSceneState->mSceneCallbacks.mFadeToClearFrameCount;
 }
 
 u32 scene_getFadeOutLength(void) {
-    if (scene_sSceneState->mUnk_10c == 6) {
+    if (scene_sSceneState->field10C == 6) {
         return -1;
     }
     return scene_sSceneState->mSceneCallbacks.mFadeToFadedFrameCount;
@@ -234,15 +234,15 @@ void scene_threadMain(void *arg) {
         if (func_0204984c_inline6()) {
             sessionHeapCreated = TRUE;
         }
-        OpenMessageScreen(scene_sSceneState->mUnk_118, scene_sSceneState->mUnk_11c);
+        OpenMessageScreen(scene_sSceneState->field118, scene_sSceneState->field11C);
         sound_stopSeqAll();
-        if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+        if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
             func_02108d00();
         } else {
             func_02108c80();
         }
         if (sessionHeapCreated != FALSE) {
-            switch (scene_sSceneState->mUnk_118) {
+            switch (scene_sSceneState->field118) {
                 case 1:
                 case 2:
                 case 3:
@@ -301,8 +301,8 @@ void scene_displayError(void) {
     if (gCurDisplayConfig != NULL) {
         hasDisplaySettings = TRUE;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        OpenMessageScreen(scene_sSceneState->mUnk_118, scene_sSceneState->mUnk_11c);
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
+        OpenMessageScreen(scene_sSceneState->field118, scene_sSceneState->field11C);
     }
     func_02039478();
     ReadKeysIntoInputSlot();
@@ -310,11 +310,11 @@ void scene_displayError(void) {
     if (func_0204984c_inline6()) {
         sessionHeapCreated = TRUE;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        OpenMessageScreen(scene_sSceneState->mUnk_118, scene_sSceneState->mUnk_11c);
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
+        OpenMessageScreen(scene_sSceneState->field118, scene_sSceneState->field11C);
     }
     sound_stopSeqAll();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         func_02108d00();
     } else {
         func_02108c80();
@@ -323,7 +323,7 @@ void scene_displayError(void) {
     PM_DeletePostSleepCallback(&scene_sSceneState->mPostSleepCallback);
     PM_SetLCDPower(1);
     if (sessionHeapCreated != FALSE) {
-        switch (scene_sSceneState->mUnk_118) {
+        switch (scene_sSceneState->field118) {
             case 1:
             case 2:
             case 3:
@@ -344,7 +344,7 @@ void scene_displayError(void) {
             f = e;
         } else {
             e = TRUE;
-            f = gStruct217D384->mUnk_0008.mState == 0;
+            f = gStruct217D384->field8.mState == 0;
         }
         if (f != 0 && ((*(vu16 *) 0x027fffa8 & 0x8000) >> 15)) {
             PM_GoSleepMode(12, 0, 0);
@@ -374,7 +374,7 @@ void scene_reportErrorIntern(s32 kind) {
     hasDisplaySettings = gCurDisplayConfig != NULL;
     switch (kind) {
         case 0:
-            if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+            if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
                 c = TRUE;
             }
             break;
@@ -391,8 +391,8 @@ void scene_reportErrorIntern(s32 kind) {
             c = FALSE;
             break;
     }
-    scene_sSceneState->mUnk_118 = kind;
-    scene_sSceneState->mUnk_11c = c;
+    scene_sSceneState->field118 = kind;
+    scene_sSceneState->field11C = c;
     scene_displayError();
     StopSceneSounds();
     if (gSystemData->mSoundSetSeqPlaying) {
@@ -443,10 +443,10 @@ void scene_postSleepCallback(void) {
 void scene_init(void *heap) {
     scene_sSceneState = heap_alloc(heap, 0x124);
     scene_sSceneState->mThreadStack = heap_allocEx(heap, 0x400, 0x20);
-    scene_sSceneState->mUnk_10c = 6;
+    scene_sSceneState->field10C = 6;
     scene_sSceneState->mLcdOff = FALSE;
-    scene_sSceneState->mUnk_118 = -1;
-    scene_sSceneState->mUnk_11c = 0;
+    scene_sSceneState->field118 = -1;
+    scene_sSceneState->field11C = 0;
     func_02049c3c_inline(&scene_sSceneState->mThreadQueue);
     OS_CreateThread(&scene_sSceneState->mThread, (void (*)(void *)) scene_threadMain, NULL,
                     (u8 *) scene_sSceneState->mThreadStack + 0x400, 0x400, 15);
@@ -470,9 +470,9 @@ u32 scene_areUpdatesSuspended(void) {
 }
 
 BOOL scene_isSleepAllowed(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204984c_inline2() ||
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 || func_0204984c_inline2() ||
         (scproc_getCurrentScene() == 12 && func_ov000_02180600() == FALSE) ||
-        (scproc_getCurrentScene() != 12 && gStruct217D384->mUnk_0008.mState != 0) || scproc_getCurrentScene() == 13 ||
+        (scproc_getCurrentScene() != 12 && gStruct217D384->field8.mState != 0) || scproc_getCurrentScene() == 13 ||
         scproc_getCurrentScene() == 6) {
         return FALSE;
     }
@@ -482,9 +482,9 @@ BOOL scene_isSleepAllowed(void) {
 u32 scene_isResetProhibited(void) {
     s32 v;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204984c_inline2() || scproc_getCurrentScene() == 6 ||
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2 || func_0204984c_inline2() || scproc_getCurrentScene() == 6 ||
         scproc_getCurrentScene() == 13 || (scproc_getCurrentScene() == 12 && func_ov000_02180608() == FALSE) ||
-        (scproc_getCurrentScene() != 12 && gStruct217D384->mUnk_0008.mState != 0)) {
+        (scproc_getCurrentScene() != 12 && gStruct217D384->field8.mState != 0)) {
         return 1;
     }
     switch (scproc_getCurrentScene()) {
@@ -530,7 +530,7 @@ s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b) {
     } else if (b != 0 && func_0204984c_inline9()) {
         scene_reportErrorIntern(0);
         result = TRUE;
-        gStruct217AA00->mUnk_0008 = 9;
+        gStruct217AA00->field8 = 9;
     } else {
         func_02055340();
     }

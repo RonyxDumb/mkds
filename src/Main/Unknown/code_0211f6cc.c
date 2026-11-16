@@ -30,10 +30,10 @@
 #include "code_021522a0.h"
 
 void func_0211fef4(u32 fromIndex, void *message, u32 size) {
-    if (gStruct217D384->mUnk_0008.mState != 5) {
+    if (gStruct217D384->field8.mState != 5) {
         return;
     }
-    if (gStruct217D384->mUnk_1f38 == FALSE) {
+    if (gStruct217D384->field1F38 == FALSE) {
         return;
     }
     if (DoesMessageHeaderMatch(message, size, fromIndex, func_ov000_0219bb50()) != FALSE) {
@@ -57,7 +57,7 @@ void func_0211fe44(void) {
 void RequestWiFiSessionLogin(void) {
     StateMachine *stateMachine;
 
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 1;
     stateMachine->mNextStateRequested = 1;
 }
@@ -69,14 +69,14 @@ void func_0211fe18(void) {
 u32 func_0211fda8(void) {
     StateMachine *stateMachine;
 
-    if (gStruct217D384->mUnk_0008.mState == 0) {
+    if (gStruct217D384->field8.mState == 0) {
         return 1;
     }
     if (func_ov000_021a377c() == FALSE) {
         return 0;
     }
     ResetWiFiSession();
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
     return 1;
@@ -99,7 +99,7 @@ void func_0211fd28(void) {
     ReleaseWiFiConnection();
     func_ov000_021a37dc();
     ResetWiFiSession();
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -129,8 +129,8 @@ void SetupWiFiSessionLogin(void) {
     session = gStruct217D384;
     InitWiFiConnection(&session->mConnection, &session->mUserData, 0x4d6, "mariokartds", "yeJ3x8", 0, 0,
                        &session->mBuddies[0], 0x3c);
-    gStruct217D384->mUnk_1f44 = 0;
-    gStruct217D384->mUnk_1f48 = 0;
+    gStruct217D384->field1F44 = 0;
+    gStruct217D384->field1F48 = 0;
     gStruct217D384->mLogin.mStep = 1;
 }
 
@@ -145,7 +145,7 @@ void func_0211fa70(void) {
             gStruct217D384->mLogin.mStep = 2;
             break;
         case 7:
-            gStruct217D384->mUnk_1f44 = func_ov000_0219c3cc(&gStruct217D384->mUnk_1f48);
+            gStruct217D384->field1F44 = func_ov000_0219c3cc(&gStruct217D384->field1F48);
             ReleaseWiFiConnection();
             func_ov000_021a37dc();
             gStruct217D384->mLogin.mStep = 7;

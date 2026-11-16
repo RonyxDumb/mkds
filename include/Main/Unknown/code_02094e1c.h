@@ -6,11 +6,11 @@
 
 // Object of 0xb0 bytes: the MapObject it starts with, then four words.
 typedef struct Unk02094e8c {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ BOOL mUnk_a4;
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
+    /* 00 */ MapObject field0;
+    /* a0 */ s32 fieldA0;
+    /* a4 */ BOOL fieldA4;
+    /* a8 */ s32 fieldA8;
+    /* ac */ s32 fieldAC;
 } Unk02094e8c;
 
 #include "Main/Unknown/code_020d22c0.h"

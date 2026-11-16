@@ -7,7 +7,7 @@ typedef struct ItemTeresa ItemTeresa;
 
 // Row of the table behind data_0215a190.
 typedef struct Unk0215a190 {
-    /* 00 */ u8 mUnk_00[0xc];
+    /* 00 */ u8 field0[0xc];
 } Unk0215a190;
 
 extern Unk0215a190 data_0215a190[];

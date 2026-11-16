@@ -30,25 +30,25 @@ void func_ov001_021987d4(void *heap, s16 a) {
     Unk02125de0Arg arg;
 
     data_ov001_021a9be4 = heap_alloc(heap, 0x18);
-    data_ov001_021a9be4->mUnk_08 = heap;
-    data_ov001_021a9be4->mUnk_10 = func_021250b0(heap);
-    arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = m2d_getFont(1);
-    arg.mUnk_08 = 0;
-    arg.mUnk_0c = 1;
-    arg.mUnk_10 = 0;
-    arg.mUnk_14 = FALSE;
-    arg.mUnk_18 = NULL;
-    arg.mUnk_1c = TRUE;
-    arg.mUnk_20 = TRUE;
-    arg.mUnk_24 = 0;
+    data_ov001_021a9be4->field8 = heap;
+    data_ov001_021a9be4->field10 = func_021250b0(heap);
+    arg.field0 = TRUE;
+    arg.field4 = m2d_getFont(1);
+    arg.field8 = 0;
+    arg.fieldC = 1;
+    arg.field10 = 0;
+    arg.field14 = FALSE;
+    arg.field18 = NULL;
+    arg.field1C = TRUE;
+    arg.field20 = TRUE;
+    arg.field24 = 0;
     gmenu_unpackData();
     gmenu_init(heap, &arg);
-    data_ov001_021a9be4->mUnk_0c = a;
-    data_ov001_021a9be4->mUnk_0e = -1;
-    data_ov001_021a9be4->mUnk_00 = 0;
-    data_ov001_021a9be4->mUnk_04 = data_ov001_021a9be4->mUnk_00;
-    data_ov001_021a9be4->mUnk_14 = arc_get2dArcFile("common.bmg");
+    data_ov001_021a9be4->fieldC = a;
+    data_ov001_021a9be4->fieldE = -1;
+    data_ov001_021a9be4->field0 = 0;
+    data_ov001_021a9be4->field4 = data_ov001_021a9be4->field0;
+    data_ov001_021a9be4->field14 = arc_get2dArcFile("common.bmg");
 }
 
 void func_ov001_021987bc(void) {
@@ -61,10 +61,10 @@ void func_ov001_02198768(void) {
     void *b;
     void *c;
     if (mbright_isFadedIn() != 0) {
-        data_ov001_021a9be4->mUnk_04 = 1;
-        a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0xc);
-        b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
-        c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
+        data_ov001_021a9be4->field4 = 1;
+        a = jn_msg_getMessage(data_ov001_021a9be4->field14, 0xc);
+        b = jn_msg_getMessage(data_ov001_021a9be4->field14, 0);
+        c = jn_msg_getMessage(data_ov001_021a9be4->field14, 1);
         SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
     }
 }
@@ -79,13 +79,13 @@ void func_ov001_021986e8(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            data_ov001_021a9be4->mUnk_04 = 2;
-            a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0xd);
-            b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
-            c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
+            data_ov001_021a9be4->field4 = 2;
+            a = jn_msg_getMessage(data_ov001_021a9be4->field14, 0xd);
+            b = jn_msg_getMessage(data_ov001_021a9be4->field14, 0);
+            c = jn_msg_getMessage(data_ov001_021a9be4->field14, 1);
             SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
         } else {
-            data_ov001_021a9be4->mUnk_0e = 0xe;
+            data_ov001_021a9be4->fieldE = 0xe;
         }
     }
 }
@@ -102,17 +102,17 @@ void func_ov001_02198624(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             d = gSystemData->mOwnerText;
-            gSaveData->mFirstBlock->mUnk_31_0 = 1;
+            gSaveData->mFirstBlock->field31_0 = 1;
             MI_CpuFill8(gSaveData->mFirstBlock->mPlayerName, 0, 0x14);
             MI_CpuCopy8(d, gSaveData->mFirstBlock->mPlayerName, 0x14);
             savd_flushNksy();
-            data_ov001_021a9be4->mUnk_04 = 3;
-            a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0x13);
-            b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
-            c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
+            data_ov001_021a9be4->field4 = 3;
+            a = jn_msg_getMessage(data_ov001_021a9be4->field14, 0x13);
+            b = jn_msg_getMessage(data_ov001_021a9be4->field14, 0);
+            c = jn_msg_getMessage(data_ov001_021a9be4->field14, 1);
             SetupTxtSystemSubTextTwoButtons(a, b, c, 1);
         } else {
-            data_ov001_021a9be4->mUnk_0e = 0xe;
+            data_ov001_021a9be4->fieldE = 0xe;
         }
     }
 }
@@ -135,9 +135,9 @@ void func_ov001_021985b0(void) {
         }
         if (v == 0) {
             if (GetTxtSystemSelectedIndex() == 0) {
-                data_ov001_021a9be4->mUnk_0e = 3;
+                data_ov001_021a9be4->fieldE = 3;
             } else {
-                data_ov001_021a9be4->mUnk_0e = 0;
+                data_ov001_021a9be4->fieldE = 0;
             }
         }
     }
@@ -145,8 +145,8 @@ void func_ov001_021985b0(void) {
 
 void func_ov001_02198554(void) {
     gmenu_render();
-    data_ov001_021a9be4->mUnk_00 = data_ov001_021a9be4->mUnk_04;
-    switch (data_ov001_021a9be4->mUnk_00) {
+    data_ov001_021a9be4->field0 = data_ov001_021a9be4->field4;
+    switch (data_ov001_021a9be4->field0) {
         case 0:
             func_ov001_02198768();
             break;
@@ -167,5 +167,5 @@ void func_ov001_0219854c(void) {
 }
 
 int func_ov001_0219853c(void) {
-    return data_ov001_021a9be4->mUnk_0e;
+    return data_ov001_021a9be4->fieldE;
 }

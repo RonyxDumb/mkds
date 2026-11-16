@@ -31,11 +31,11 @@ void rstat_updateTime(void) {
     t = 0;
     p = gRaceStatus;
     q = p;
-    if (p->mUnk_000[0].mClockEnabled != 0) {
+    if (p->field0[0].mClockEnabled != 0) {
         h = p->mTimeLimitFrameCount;
         l = 0x57e40;
         f = FALSE;
-        e = p->mUnk_000[0].mElapsedFrames;
+        e = p->field0[0].mElapsedFrames;
         if (h != 0) {
             l = h;
             f = TRUE;
@@ -44,7 +44,7 @@ void rstat_updateTime(void) {
             k = gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()];
             if (k >= 0) {
                 g = FALSE;
-                switch (gRaceStatus->mUnk_000[(u8) k].mStatus) {
+                switch (gRaceStatus->field0[(u8) k].mStatus) {
                     case 1:
                     case 2:
                     case 3:
@@ -80,13 +80,13 @@ void rstat_updateTime(void) {
         } else if (f != FALSE) {
             t = 1;
         }
-        p->mUnk_000[0].mElapsedFrames = e;
+        p->field0[0].mElapsedFrames = e;
         for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
-            v = gRaceStatus->mUnk_000[i].mLapFrames;
+            v = gRaceStatus->field0[i].mLapFrames;
             if (v <= 0x57e40) {
                 v++;
             }
-            gRaceStatus->mUnk_000[i].mLapFrames = v;
+            gRaceStatus->field0[i].mLapFrames = v;
         }
         if (t != 0) {
             switch (gRaceMultiConfig->mMode) {
@@ -100,7 +100,7 @@ void rstat_updateTime(void) {
                 case MODE_BATTLE:
                     if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_SHINE) {
                         gRaceStatus->mTimeLimitFrameCount = mgcnt_handleShineRunnersTimeUp() * 0x3c;
-                        p->mUnk_000[0].mElapsedFrames = 0;
+                        p->field0[0].mElapsedFrames = 0;
                     }
                     break;
             }
@@ -110,16 +110,16 @@ void rstat_updateTime(void) {
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         t = -(s16) (u16) (r->mValue >> 32 >> 20);
     }
-    c = &q->mUnk_000[0].mUnk_08;
-    rstat_calculateTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->mUnk_000[0].mElapsedFrames);
+    c = &q->field0[0].field8;
+    rstat_calculateTime((u8 *) c + 2, (u8 *) c + 3, c, t, p->field0[0].mElapsedFrames);
 }
 
 BOOL rstat_isInsideCpoiQuad(const Vec3 *a, const CourseMapCheckpoint *b, const CourseMapCheckpoint *c) {
     volatile UnkPair020b502c p;
     s32 d;
 
-    p.mUnk_00 = a->x;
-    p.mUnk_04 = a->z;
+    p.field0 = a->x;
+    p.field4 = a->z;
     if ((s32) (((s64) ((b->mPointAZ - c->mPointAZ) >> 4) * ((a->x - c->mPointAX) >> 4) + 0x800) >> 12) -
             (s32) (((s64) ((b->mPointAX - c->mPointAX) >> 4) * ((a->z - c->mPointAZ) >> 4) + 0x800) >> 12) <
         0) {
@@ -146,12 +146,12 @@ s32 rstat_getProgressInCpoiQuad(const Vec3 *a, u16 b, u16 c) {
     if (rstat_isInsideCpoiQuad(a, q, r) == FALSE) {
         return -0x1000;
     }
-    l[0].mUnk_00 = a->x - q->mPointBX;
-    l[0].mUnk_04 = a->z - q->mPointBZ;
-    l[1].mUnk_00 = a->x - r->mPointAX;
-    l[1].mUnk_04 = a->z - r->mPointAZ;
-    l[2].mUnk_00 = -r->mDirection.mUnk_00;
-    l[2].mUnk_04 = -r->mDirection.mUnk_04;
+    l[0].field0 = a->x - q->mPointBX;
+    l[0].field4 = a->z - q->mPointBZ;
+    l[1].field0 = a->x - r->mPointAX;
+    l[1].field4 = a->z - r->mPointAZ;
+    l[2].field0 = -r->mDirection.field0;
+    l[2].field4 = -r->mDirection.field4;
     x = rstat_getProgressByTrigPos(&l[0], &q->mDirection);
     y = x + rstat_getProgressByTrigPos(&l[1], &l[2]);
     if (x > 0x7fffffff || y > 0x7fffffff || x < -0x80000000LL || y < -0x80000000LL) {
@@ -174,7 +174,7 @@ BOOL rstat_isLeavingCpoiQuad(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e)
     w = e >> 5;
     m = 1 << (e & 0x1f);
     r = FALSE;
-    t = gMapData->mCheckpoints[e].mUnk_1c;
+    t = gMapData->mCheckpoints[e].field1C;
     f = a->mCheckpointTestedBits[w];
     if ((f & m) != 0) {
         return FALSE;
@@ -186,11 +186,11 @@ BOOL rstat_isLeavingCpoiQuad(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e)
             if (k != -1) {
                 *b = rstat_getProgressInCpoiQuad(c, e, gMapData->mCheckpointRoutes[(u16) k].mFirstEntry);
                 if (*b >= -2 && *b <= 0x1002) {
-                    if ((gMapData->mCheckpoints[e].mUnk_23 & 1) != 0) {
+                    if ((gMapData->mCheckpoints[e].field23 & 1) != 0) {
                         if (gRaceMultiConfig->mMode == 5) {
                             *b = 0x1000 - (func_ov000_0219bb50() + 1) * 0x190;
                         } else {
-                            *b = 0x1000 - ((u32) (a->mUnk_3c << 28) >> 28) * 0x190;
+                            *b = 0x1000 - ((u32) (a->field3C << 28) >> 28) * 0x190;
                         }
                     }
                     r = TRUE;
@@ -201,8 +201,8 @@ BOOL rstat_isLeavingCpoiQuad(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e)
     } else {
         *b = rstat_getProgressInCpoiQuad(c, e, e + 1);
         if (*b >= -2 && *b <= 0x1002) {
-            if ((gMapData->mCheckpoints[e].mUnk_23 & 1) != 0) {
-                *b = 0x1000 - ((u32) (a->mUnk_3c << 28) >> 28) * 0x190;
+            if ((gMapData->mCheckpoints[e].field23 & 1) != 0) {
+                *b = 0x1000 - ((u32) (a->field3C << 28) >> 28) * 0x190;
             }
             if (*b < 0) {
                 *b = 0;
@@ -224,7 +224,7 @@ s16 rstat_getNextCpoiId(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 
     s16 r;
     CourseMapRoute *p;
 
-    t = gMapData->mCheckpoints[e].mUnk_1c;
+    t = gMapData->mCheckpoints[e].field1C;
     if (rstat_isLeavingCpoiQuad(a, b, c, d, e) != 0) {
         return e;
     }
@@ -255,7 +255,7 @@ s16 rstat_getPrevCpoiId(RaceProgressKart *a, s32 *b, Vec3 *c, u16 d, u16 e, s32 
     s16 r;
     CourseMapRoute *p;
 
-    t = gMapData->mCheckpoints[e].mUnk_1e;
+    t = gMapData->mCheckpoints[e].field1E;
     if (rstat_isLeavingCpoiQuad(a, b, c, d, e) != 0) {
         return e;
     }
@@ -347,9 +347,9 @@ void rstat_addTimes(const Unk0217aa1c_144_00 *a, const Unk0217aa1c_144_00 *b, Un
     s16 x;
     s16 z;
 
-    y = a->mUnk_02 + b->mUnk_02;
-    x = a->mUnk_00 + b->mUnk_00;
-    z = a->mUnk_03 + b->mUnk_03;
+    y = a->field2 + b->field2;
+    x = a->field0 + b->field0;
+    z = a->field3 + b->field3;
     if (x > 999) {
         x -= 1000;
         z++;
@@ -363,9 +363,9 @@ void rstat_addTimes(const Unk0217aa1c_144_00 *a, const Unk0217aa1c_144_00 *b, Un
         x = 999;
         z = 59;
     }
-    c->mUnk_02 = y;
-    c->mUnk_03 = z;
-    c->mUnk_00 = x;
+    c->field2 = y;
+    c->field3 = z;
+    c->field0 = x;
 }
 
 void rstat_handleLapTime(RaceProgressKart *a, s32 b) {
@@ -381,14 +381,14 @@ void rstat_handleLapTime(RaceProgressKart *a, s32 b) {
     u16 k;
     s16 t;
 
-    t = gMapData->mCheckpoints->mUnk_1c;
+    t = gMapData->mCheckpoints->field1C;
     e = a->mLapTimes;
     i = 0;
     if (a->mLap <= 1) {
         return;
     }
-    driver_getPosition(&u, (u32) (a->mUnk_3c << 24) >> 28);
-    driver_getKartChassisPosition(&v, (u32) (a->mUnk_3c << 24) >> 28);
+    driver_getPosition(&u, (u32) (a->field3C << 24) >> 28);
+    driver_getKartChassisPosition(&v, (u32) (a->field3C << 24) >> 28);
     VEC_Subtract(&u, &v, &w);
     w.x = (s64) w.x * -240 >> 12;
     w.y = (s64) w.y * -240 >> 12;
@@ -403,18 +403,18 @@ void rstat_handleLapTime(RaceProgressKart *a, s32 b) {
         VEC_Add(&p, &w, &p);
         i++;
     } while (n > 0 && i < 0x11);
-    rstat_calculateTime(&e[a->mLap - 2].mUnk_02, &e[a->mLap - 2].mUnk_03, &e[a->mLap - 2].mUnk_00, -i * 0xf0,
+    rstat_calculateTime(&e[a->mLap - 2].field2, &e[a->mLap - 2].field3, &e[a->mLap - 2].field0, -i * 0xf0,
                     a->mLapFrames);
     a->mLapFrames = 0;
     q = &e[5];
-    q->mUnk_02 = 0;
-    q->mUnk_03 = 0;
-    e[5].mUnk_00 = 0;
+    q->field2 = 0;
+    q->field3 = 0;
+    e[5].field0 = 0;
     for (j = 0; j < a->mLap - 1; j++) {
         rstat_addTimes(&e[j], q, q);
     }
     if (b != 0) {
         return;
     }
-    a->mFinishTimeMs = (q->mUnk_02 * 60 + q->mUnk_03) * 1000 + q->mUnk_00;
+    a->mFinishTimeMs = (q->field2 * 60 + q->field3) * 1000 + q->field0;
 }

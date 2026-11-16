@@ -8,34 +8,34 @@
 // Seven words at 0x24 of MultiSelectMemberGroup, passed by address to mutil2_loadLayout, mutil2_initLayout and
 // mutil2_initLabel.
 typedef struct Unk02174e50_24 {
-    /* 00 */ void *mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ struct Unk02021dc8 *mUnk_08;
-    /* 0c */ struct Unk0201ea30 *mUnk_0c;
-    /* 10 */ Unk0201ea30 *mUnk_10;
-    /* 14 */ struct Unk0201ea30 *mUnk_14;
-    /* 18 */ LayoutTableEntry *mUnk_18;
+    /* 00 */ void *field0;
+    /* 04 */ s32 field4;
+    /* 08 */ struct Unk02021dc8 *field8;
+    /* 0c */ struct Unk0201ea30 *fieldC;
+    /* 10 */ Unk0201ea30 *field10;
+    /* 14 */ struct Unk0201ea30 *field14;
+    /* 18 */ LayoutTableEntry *field18;
 } Unk02174e50_24;
 
 // 12-byte entries at 0x58 of MultiSelectMemberGroup.
 typedef struct Unk02174e50_58 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
 } Unk02174e50_58;
 
 // 0xa8 bytes.
 typedef struct MultiSelectMemberGroup {
-    /* 00 */ u8 mUnk_00[0x24];
+    /* 00 */ u8 field0[0x24];
     /* 24 */ Unk02174e50_24 mGroupSParts;
-    /* 40 */ void *mUnk_40;
+    /* 40 */ void *field40;
     /* 44 */ void *mOamList;
     /* 48 */ s32 mSelectedIndex;
     /* 4c */ s32 mState;
-    /* 50 */ s32 mUnk_50;
+    /* 50 */ s32 field50;
     /* 54 */ s32 mNextCallbacksIndex;
-    /* 58 */ Unk02174e50_58 mUnk_58[4];
-    /* 88 */ BOOL mUnk_88;
+    /* 58 */ Unk02174e50_58 field58[4];
+    /* 88 */ BOOL field88;
     /* 8c */ s32 mBg3OffsetFrames;
     /* 90 */ s32 mBg3Offset;
     /* 94 */ s32 mEntriesClearFrames;
@@ -58,7 +58,7 @@ typedef struct MultiSelectNS {
     /* 10 */ void *mBnbl;
     /* 14 */ Unk0201ea30 *mBnll;
     /* 18 */ LayoutTableEntry *mCellTable;
-    /* 1c */ void *mUnk_1c;
+    /* 1c */ void *field1C;
     /* 20 */ void *mOamList;
     /* 24 */ void *mBannerMessages;
     /* 28 */ s32 mIndex;

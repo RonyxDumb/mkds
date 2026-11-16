@@ -50,7 +50,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
         gStruct217D384->mStepFrames = 0;
         step = gStruct217D384->mStep;
         if (step == 0 || step == 1 || step == 2) {
-            gStruct217D384->mUnk_194e = 1;
+            gStruct217D384->field194E = 1;
             func_ov000_021a2ccc();
             func_ov000_0219bbfc();
             gStruct217D384->mStep = 11;
@@ -58,7 +58,7 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
             if (step == 9 || step == 10) {
                 return TRUE;
             }
-            gStruct217D384->mUnk_19ad = 1;
+            gStruct217D384->field19AD = 1;
             func_ov000_021a2ccc();
             func_ov000_0219bbfc();
             gStruct217D384->mStep = 11;
@@ -115,7 +115,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             if (gStruct217D384->mStep != 3) {
                 return;
             }
-            if (message->mUnk_40 == 0) {
+            if (message->field40 == 0) {
                 return;
             }
             MI_CpuCopy8(&gStruct217D384->mReceiveBuffers[fromIndex], &gStruct217D384->mIndexMessages[fromIndex], 0x44);

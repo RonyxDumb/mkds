@@ -14,20 +14,20 @@
 // Argument of func_ov000_02188868: the first two words go to the Unk021884e4 and the Unk02188114 it sets up, the
 // bytes at 8 to 0xb to the object at data_ov000_021b4d00.
 typedef struct Unk02188868 {
-    /* 00 */ void *(*mUnk_00)();
-    /* 04 */ void (*mUnk_04)();
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
-    /* 0a */ u8 mUnk_0a;
-    /* 0b */ u8 mUnk_0b;
+    /* 00 */ void *(*field0)();
+    /* 04 */ void (*field4)();
+    /* 08 */ u8 field8;
+    /* 09 */ u8 field9;
+    /* 0a */ u8 fieldA;
+    /* 0b */ u8 fieldB;
 } Unk02188868;
 
 // Argument of func_ov000_02188d78.
 typedef struct Unk02188d78 {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
-    /* 04 */ Unk02188408Entry0xc0 *mUnk_04;
-    /* 08 */ s32 mUnk_08;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
+    /* 04 */ Unk02188408Entry0xc0 *field4;
+    /* 08 */ s32 field8;
 } Unk02188d78;
 
 static inline void func_0214d018_inline(void *p, u32 n) {

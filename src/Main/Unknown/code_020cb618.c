@@ -148,14 +148,14 @@ void menu_initSubMenu(void) {
             case 14:
             case 16:
             case SCREEN_SELECT_BATTLE_STAGE:
-                gMenuSceneState->mUnk_958 = FALSE;
-                gMenuSceneState->mUnk_95c = FALSE;
+                gMenuSceneState->field958 = FALSE;
+                gMenuSceneState->field95C = FALSE;
                 break;
             case 8:
             case 15:
                 if (menu_getPrevState() == 0xe) {
-                    gMenuSceneState->mUnk_958 = FALSE;
-                    gMenuSceneState->mUnk_95c = FALSE;
+                    gMenuSceneState->field958 = FALSE;
+                    gMenuSceneState->field95C = FALSE;
                 }
                 break;
         }

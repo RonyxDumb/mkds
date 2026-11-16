@@ -11,13 +11,13 @@
 int driver_initSingleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (driver_tryStartSpinOut(p, 1, 0)) {
-            if (p->mKartModelsEntry->mUnk_058 == 0) {
+            if (p->mKartModelsEntry->field58 == 0) {
                 ptcm_createEmitter(0xc, &p->mPos);
                 ptcm_createEmitter(0xd, &p->mPos);
                 ptcm_createEmitter(0xe, &p->mPos);
             }
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                driver_getPlayerStatistics()->mUnk_14++;
+            if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                driver_getPlayerStatistics()->field14++;
             }
         }
         *a = 3;
@@ -30,13 +30,13 @@ int driver_initSingleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
 int driver_initDoubleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (driver_tryStartSpinOut(p, 2, 0)) {
-            if (p->mKartModelsEntry->mUnk_058 == 0) {
+            if (p->mKartModelsEntry->field58 == 0) {
                 ptcm_createEmitter(0xc, &p->mPos);
                 ptcm_createEmitter(0xd, &p->mPos);
                 ptcm_createEmitter(0xe, &p->mPos);
             }
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                driver_getPlayerStatistics()->mUnk_14++;
+            if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                driver_getPlayerStatistics()->field14++;
             }
         }
         *a = 4;
@@ -49,8 +49,8 @@ int driver_initDoubleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
 int driver_initDoubleSpinOutWaterReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
         if (driver_tryStartSpinOut(p, 2, 0)) {
-            if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                driver_getPlayerStatistics()->mUnk_14++;
+            if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+                driver_getPlayerStatistics()->field14++;
             }
             rptc_startWaterEffect(p->mIndex);
         }
@@ -63,11 +63,11 @@ int driver_initDoubleSpinOutWaterReaction(Kart *p, s32 *a, MapObject *c) {
 
 int driver_initDoubleSpinOutFireReaction(Kart *p, s32 *a) {
     if (driver_tryStartSpinOut(p, 2, 0)) {
-        if (p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
+        if (p->field7C & KART_7C_MODELS_ENTRY_008_SET) {
             rptc_2081E3C(ptcm_createEmitter(0x4f, &p->mPos), p->mIndex, 0x46);
         }
-        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            driver_getPlayerStatistics()->mUnk_14++;
+        if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            driver_getPlayerStatistics()->field14++;
         }
     }
     *a = 5;
@@ -76,10 +76,10 @@ int driver_initDoubleSpinOutFireReaction(Kart *p, s32 *a) {
 
 int driver_initForwardFlipReaction(Kart *p, s32 *a) {
     if (driver_tryStartForwardFlip(p)) {
-        if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            driver_getPlayerStatistics()->mUnk_14++;
+        if (p->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
+            driver_getPlayerStatistics()->field14++;
         }
-        p->mUnk_48 |= 0x20000;
+        p->field48 |= 0x20000;
     }
     *a = 7;
     return 2;

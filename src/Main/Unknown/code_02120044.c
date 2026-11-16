@@ -132,11 +132,11 @@ void func_02120150(void) {
     if (hasHeap == FALSE) {
         return;
     }
-    session->mUnk_1f3c++;
-    if (gStruct217D384->mUnk_0008.mState != 5) {
+    session->field1F3C++;
+    if (gStruct217D384->field8.mState != 5) {
         return;
     }
-    if (gStruct217D384->mUnk_1f38 == FALSE) {
+    if (gStruct217D384->field1F38 == FALSE) {
         return;
     }
     func_0205ccec();
@@ -152,7 +152,7 @@ void UpdateWiFiSessionState1(void) {
     if (UpdateWiFiSessionLogin() == 0) {
         return;
     }
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 2;
     stateMachine->mNextStateRequested = 1;
 }
@@ -167,7 +167,7 @@ void UpdateWiFiSessionState3(void) {
     if (IsKartKeysStartStatus3() == FALSE) {
         return;
     }
-    stateMachine = &gStruct217D384->mUnk_0008;
+    stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 4;
     stateMachine->mNextStateRequested = 1;
 }
@@ -184,8 +184,8 @@ void EnterWiFiSessionState5(void) {
     func_ov000_021a3250(func_0211ff74);
     func_ov000_021a323c(func_0211fef4);
     p = gStruct217AA14;
-    p->mUnk_010 = 1;
-    p->mUnk_012 = 1;
+    p->field10 = 1;
+    p->field12 = 1;
 }
 
 void UpdateWiFiSessionState5(void) {

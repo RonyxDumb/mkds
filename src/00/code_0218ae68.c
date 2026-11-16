@@ -5,23 +5,23 @@ u32 func_ov000_0218ae68(Unk0218ae68 *a, SbServer *b) {
     SbServer *d;
     SbServer *c;
     c = NULL;
-    d = a->mUnk_00;
+    d = a->field0;
     while (d != NULL) {
         if (d == b) {
             if (c != NULL) {
-                c->mUnk_20 = d->mUnk_20;
+                c->field20 = d->field20;
             }
-            if (a->mUnk_00 == d) {
-                a->mUnk_00 = d->mUnk_20;
+            if (a->field0 == d) {
+                a->field0 = d->field20;
             }
-            if (a->mUnk_04 == d) {
-                a->mUnk_04 = c;
+            if (a->field4 == d) {
+                a->field4 = c;
             }
-            a->mUnk_08--;
+            a->field8--;
             return 1;
         }
         c = d;
-        d = d->mUnk_20;
+        d = d->field20;
     }
     return 0;
 }

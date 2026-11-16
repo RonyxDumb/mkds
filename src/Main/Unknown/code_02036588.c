@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02036588.h"
 
 void proc_init(HeapCall *call, u32 func) {
-    call->mUnk_00 = 0;
+    call->field0 = 0;
     call->mFunc = func;
     call->mAfterFunc = 0;
     call->mParent = NULL;

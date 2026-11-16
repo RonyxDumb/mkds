@@ -88,24 +88,24 @@ s32 savd_getGhostTime(s32 ghostRecordIndex, MinuteSecondMillisecondTime *finishT
 }
 
 void FillPlayerRecord(Unk0217aa00_45c *a) {
-    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, a->mUnk_000, 0x14);
-    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->mUnk_31_3 == 0) {
-        a->mUnk_214 = 1;
-        MI_CpuCopy8(gSaveData->mEmblemRecord->mEmblemData, &a->mUnk_014, 0x200);
+    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, a->field0, 0x14);
+    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->field31_3 == 0) {
+        a->field214 = 1;
+        MI_CpuCopy8(gSaveData->mEmblemRecord->mEmblemData, &a->field14, 0x200);
     } else {
-        a->mUnk_214 = 0;
-        MI_CpuFill8(&a->mUnk_014, 0, 0x200);
+        a->field214 = 0;
+        MI_CpuFill8(&a->field14, 0, 0x200);
     }
     MI_CpuCopy8(gSaveData->mFirstBlock->mFlags, a->mBits, 4);
-    a->mUnk_228_0 = gSystemData->mUnk_00;
-    a->mUnk_228_4 = gSystemData->mLanguageIndex;
-    a->mUnk_216 = gSaveData->mFirstBlock->mElo;
-    a->mUnk_229 = func_02056208();
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        MI_CpuFill8(&a->mUnk_218, 0, 0xc);
+    a->field228_0 = gSystemData->field0;
+    a->field228_4 = gSystemData->mLanguageIndex;
+    a->field216 = gSaveData->mFirstBlock->mElo;
+    a->field229 = func_02056208();
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
+        MI_CpuFill8(&a->field218, 0, 0xc);
     } else {
         DWC_CreateExchangeToken((DWCAccUserData *) gSaveData->mFirstBlock->mUserData,
-                                (DWCAccFriendData *) &a->mUnk_218);
+                                (DWCAccFriendData *) &a->field218);
     }
 }
 

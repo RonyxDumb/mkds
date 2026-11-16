@@ -40,9 +40,9 @@ void items_initItemParams(void) {
         if (v != 0) {
             v = ((u32(*)(void)) v)();
         } else {
-            v = gSfxParams[1].mUnk_20;
+            v = gSfxParams[1].field20;
         }
-        it_sItemParams[i].mUnk_a4 = v;
+        it_sItemParams[i].fieldA4 = v;
     }
     m = gRaceMultiConfig->mMode;
     switch (m) {
@@ -51,7 +51,7 @@ void items_initItemParams(void) {
             break;
         case MODE_MISSION_RUN:
             for (j = 0; j < 0xe; j++) {
-                it_sItemParams[j].mLimit = it_sItemParams[j].mUnk_08;
+                it_sItemParams[j].mLimit = it_sItemParams[j].field8;
             }
             break;
         case 5:
@@ -67,7 +67,7 @@ void ComputeItemKindObjectCounts(void) {
     s32 n;
 
     for (i = 0; i < 0xe; i++) {
-        it_sItemParams[i].mUnk_10 = it_sItemParams[i].mLimit - 1;
+        it_sItemParams[i].field10 = it_sItemParams[i].mLimit - 1;
         a[i] = 1;
     }
     for (j = 0; j < 0x12; j++) {
@@ -80,8 +80,8 @@ void ComputeItemKindObjectCounts(void) {
         }
     }
     for (i = 0; i < 0xe; i++) {
-        it_sItemParams[i].mUnk_10 = it_sItemParams[i].mUnk_10 + a[i];
-        it_sItemParams[i].mObjectCount = it_sItemParams[i].mUnk_10;
+        it_sItemParams[i].field10 = it_sItemParams[i].field10 + a[i];
+        it_sItemParams[i].mObjectCount = it_sItemParams[i].field10;
     }
     if (gRaceMultiConfig->mMode == 5) {
         for (i = 0; i < 0xe; i++) {

@@ -10,7 +10,7 @@ typedef struct Hash20State {
     /* 18 */ u32 mBitCountHigh;
     /* 1c */ int mBufferLen;
     /* 20 */ u8 mBlock[0x40];
-    /* 60 */ u8 mUnk_60[8];
+    /* 60 */ u8 field60[8];
 } Hash20State;
 
 typedef struct Hash20State Hash20State;

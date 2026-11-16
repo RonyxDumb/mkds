@@ -131,7 +131,7 @@ void title_setupStates(void) {
     s32 i;
 
     for (i = 0; i < 7; i++) {
-        sTitleSceneState->mStateHandlers[i].mUnk_00 = sTitleSceneStates[i].mUnk_00;
+        sTitleSceneState->mStateHandlers[i].field0 = sTitleSceneStates[i].field0;
         sTitleSceneState->mStateHandlers[i].mUpdate = sTitleSceneStates[i].mUpdate;
     }
 }

@@ -26,7 +26,7 @@
 #include "Main/Unknown/unk_02165000.h"
 
 typedef struct RomTableHeader {
-    u8 mUnk_00[0x40];
+    u8 field0[0x40];
     u32 mFntOffset;
     u32 mFntSize;
     u32 mFatOffset;
@@ -43,7 +43,7 @@ s32 WFSi_RomArchiveProc(FSFile *file, u32 command) {
             if (gRomArchiveTransfer.mState != 2) {
                 return 5;
             }
-            if (file->mArg.p.mUnk_08 == 0) {
+            if (file->mArg.p.field8 == 0) {
                 return 0;
             }
             WFSi_ReadRequest(file);
@@ -90,8 +90,8 @@ void WFSi_LoadTables(FSFile *file, s32 appendOverlays) {
         positionOffset = 0;
         header = (RomTableHeader *) 0x027ffe00;
     } else {
-        i = file->mUnk_2c - file->mProp.w.mUnk_04;
-        imageOffset = i + file->mProp.w.mUnk_04;
+        i = file->field2C - file->mProp.w.field4;
+        imageOffset = i + file->mProp.w.field4;
         header = &fileHeader;
         positionOffset = imageOffset;
         FS_ReadFile(file, header, 0x60);
@@ -106,19 +106,19 @@ void WFSi_LoadTables(FSFile *file, s32 appendOverlays) {
         tables[0] = *(Unk02005704 *) 0x027ffe48;
         tables[1] = *(Unk02005704 *) 0x027ffe40;
         positionOffset = 0;
-        tables[2].mUnk_00 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
-        tables[2].mUnk_04 = header->mOverlayTable0Size;
-        tables[3].mUnk_00 = (u8 *) (header->mOverlayTable1Offset + imageOffset);
-        tables[3].mUnk_04 = header->mOverlayTable1Size;
+        tables[2].field0 = (u8 *) (header->mOverlayTable0Offset + imageOffset);
+        tables[2].field4 = header->mOverlayTable0Size;
+        tables[3].field0 = (u8 *) (header->mOverlayTable1Offset + imageOffset);
+        tables[3].field4 = header->mOverlayTable1Size;
     }
     blockSize = blockSize + 4;
     for (i = 0; i < 4; i++) {
-        paddedSizes[i] = (tables[i].mUnk_04 + 0x1f) & ~0x1f;
+        paddedSizes[i] = (tables[i].field4 + 0x1f) & ~0x1f;
         blockSize = blockSize + (paddedSizes[i] + 4);
     }
     if (appendOverlayEntries != 0) {
         for (i = 2; i < 4; i++) {
-            v13 = (((tables[i].mUnk_04 >> 5) << 3) + 0x1f) & ~0x1f;
+            v13 = (((tables[i].field4 >> 5) << 3) + 0x1f) & ~0x1f;
             paddedSizes[0] = paddedSizes[0] + v13;
             blockSize = blockSize + v13;
         }
@@ -136,8 +136,8 @@ void WFSi_LoadTables(FSFile *file, s32 appendOverlays) {
         for (j = 0; j < 4; j++) {
             tablePointers[j] = cursor;
             q = tablePointers[j];
-            *q = tables[j].mUnk_04;
-            FS_SeekFile(&romFile, positionOffset + (u32) tables[j].mUnk_00, origin);
+            *q = tables[j].field4;
+            FS_SeekFile(&romFile, positionOffset + (u32) tables[j].field0, origin);
             FS_ReadFile(&romFile, q + 1, *q);
             cursor = OFFSET_PTR(u32, cursor, (paddedSizes[j] + 4));
         }
@@ -188,14 +188,14 @@ u32 WFSi_ReplaceRomArchive(u32 *block) {
     FS_SetArchiveProc(archive, WFSi_RomArchiveProc, -1);
     positionOffset = *block++;
     for (i = 0; i < 4; i++) {
-        tables[i].mUnk_00 = (u8 *) (block + 1);
-        tables[i].mUnk_04 = *block;
-        block = (u32 *) (tables[i].mUnk_00 + ((tables[i].mUnk_04 + 0x1f) & ~0x1f));
+        tables[i].field0 = (u8 *) (block + 1);
+        tables[i].field4 = *block;
+        block = (u32 *) (tables[i].field0 + ((tables[i].field4 + 0x1f) & ~0x1f));
     }
-    FS_LoadArchive(archive, NULL, (u32) tables[0].mUnk_00, tables[0].mUnk_04, (u32) tables[1].mUnk_00,
-                   tables[1].mUnk_04, WFSi_ReadRomCallback, WFSi_WriteRomCallback);
-    FS_AttachOverlayTable(0, tables[2].mUnk_00, tables[2].mUnk_04);
-    FS_AttachOverlayTable(1, tables[3].mUnk_00, tables[3].mUnk_04);
+    FS_LoadArchive(archive, NULL, (u32) tables[0].field0, tables[0].field4, (u32) tables[1].field0,
+                   tables[1].field4, WFSi_ReadRomCallback, WFSi_WriteRomCallback);
+    FS_AttachOverlayTable(0, tables[2].field0, tables[2].field4);
+    FS_AttachOverlayTable(1, tables[3].field0, tables[3].field4);
     return positionOffset;
 }
 
@@ -208,7 +208,7 @@ void WFSi_OnSendMessageDone(void) {
     if (transfer->mIsParent == 0) {
         return;
     }
-    transfer->mUnk_0440.mMessageSendPending = FALSE;
+    transfer->field440.mMessageSendPending = FALSE;
     WFSi_SendAck();
 }
 
@@ -234,37 +234,37 @@ void WFSi_SendAck(void) {
     if (view->mMessageSendPending != FALSE) {
         return;
     }
-    view->mUnk_46cc = view->mUnk_46cc & view->mUnk_46d8;
-    view->mUnk_46d0 = view->mUnk_46d0 & view->mUnk_46d8;
-    view->mUnk_46dc = view->mUnk_46dc & view->mUnk_46d8;
-    view->mUnk_46e8 = view->mUnk_46e8 & view->mUnk_46d8;
-    if (view->mUnk_46e0 != FALSE && view->mUnk_46e4 == 0) {
-        g = view->mUnk_46ec;
+    view->field46CC = view->field46CC & view->field46D8;
+    view->field46D0 = view->field46D0 & view->field46D8;
+    view->field46DC = view->field46DC & view->field46D8;
+    view->field46E8 = view->field46E8 & view->field46D8;
+    if (view->field46E0 != FALSE && view->field46E4 == 0) {
+        g = view->field46EC;
         childPacketSize = gRomArchiveTransfer.mChildPacketSize;
-        view->mUnk_46e0 = FALSE;
+        view->field46E0 = FALSE;
         gRomArchiveTransfer.mParentPacketSize = g;
         TrySetChunkSizes(g, childPacketSize);
-        g = view->mUnk_46e8;
+        g = view->field46E8;
         if (g == 0) {
             return;
         }
         sizeMessage.mKind = 1;
-        sizeMessage.mUnk_00_8 = 0;
-        sizeMessage.mUnk_04 = 0;
+        sizeMessage.field0_8 = 0;
+        sizeMessage.field4 = 0;
         sizeMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
         sizeMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
         if (RequestSendBytes(g, &sizeMessage, 9, WFSi_OnSendMessageDone) == 0) {
             return;
         }
         view->mMessageSendPending = TRUE;
-        view->mUnk_46e8 = 0;
+        view->field46E8 = 0;
         return;
     }
-    sendMask = view->mUnk_46cc;
+    sendMask = view->field46CC;
     if (sendMask == 0) {
         return;
     }
-    v5 = view->mUnk_46d0;
+    v5 = view->field46D0;
     firstEntry = NULL;
     if (v5 != 0 && v5 == (v5 & sendMask)) {
         v6 = TRUE;
@@ -276,7 +276,7 @@ void WFSi_SendAck(void) {
     } else {
         sendMask = sendMask & ~v5;
     }
-    entry = view->mUnk_0000;
+    entry = view->field0;
     for (i = 0;; entry++, i++) {
         v7 = 1 << i;
         if (v7 > sendMask) {
@@ -285,39 +285,39 @@ void WFSi_SendAck(void) {
         if ((v7 & sendMask) != 0) {
             if (firstEntry == NULL) {
                 firstEntry = entry;
-            } else if (firstEntry->mUnk_00_0 != entry->mUnk_00_0 || firstEntry->mUnk_04 != entry->mUnk_04) {
+            } else if (firstEntry->field0_0 != entry->field0_0 || firstEntry->field4 != entry->field4) {
                 sendMask = sendMask & ~v7;
             }
         }
     }
     if (v6 != FALSE) {
         if (sendMask != v5) {
-            view->mUnk_46d0 = 0;
+            view->field46D0 = 0;
         }
     }
     if (firstEntry == NULL) {
         return;
     }
-    switch (firstEntry->mUnk_00_0) {
+    switch (firstEntry->field0_0) {
         case 0:
-            firstEntry->mUnk_00_0 = 1;
+            firstEntry->field0_0 = 1;
             break;
         case 2:
-            firstEntry->mUnk_00_0 = 3;
-            view->mUnk_46dc = view->mUnk_46dc & ~sendMask;
+            firstEntry->field0_0 = 3;
+            view->field46DC = view->field46DC & ~sendMask;
             break;
     }
-    blockId = *(volatile s32 *) &firstEntry->mUnk_04;
-    replyMessage.mKind = (u8) firstEntry->mUnk_00_0;
-    replyMessage.mUnk_04 = blockId;
-    replyMessage.mUnk_00_8 = 1;
+    blockId = *(volatile s32 *) &firstEntry->field4;
+    replyMessage.mKind = (u8) firstEntry->field0_0;
+    replyMessage.field4 = blockId;
+    replyMessage.field0_8 = 1;
     replyMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     replyMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
     if (RequestSendBytes(sendMask, &replyMessage, 9, WFSi_OnSendMessageDone) == 0) {
         return;
     }
     view->mMessageSendPending = TRUE;
-    view->mUnk_46cc = view->mUnk_46cc & ~sendMask;
+    view->field46CC = view->field46CC & ~sendMask;
 }
 
 void WFSi_SendOpenAck(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c) {
@@ -332,23 +332,23 @@ void WFSi_SendOpenAck(RomArchiveParentView *view, RomArchiveFileNode *node, s32 
     if (gRomArchiveTransfer.mState != 0) {
         pendingMask = node->mPendingChildMask;
         node->mPendingChildMask = 0;
-        view->mUnk_46cc = view->mUnk_46cc | pendingMask;
+        view->field46CC = view->field46CC | pendingMask;
         if (node->mChildCount <= 0) {
-            length = node->mFile.mProp.w.mUnk_08 - node->mFile.mProp.w.mUnk_04;
+            length = node->mFile.mProp.w.field8 - node->mFile.mProp.w.field4;
             blockId = node->mBlockId;
             WBT_RegisterBlock(&node->mBlockNode, blockId, data_0215470c, length <= 0x400u ? node->mBuffers[0] : 0, length,
                      0);
             WFSi_MoveList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
         }
-        entry = view->mUnk_0000;
+        entry = view->field0;
         for (index = 0;; index++) {
             if ((1 << index) > pendingMask) {
                 break;
             }
             if (((1 << index) & pendingMask) != 0) {
                 node->mChildCount = node->mChildCount + 1;
-                entry->mUnk_04 = node->mBlockId;
+                entry->field4 = node->mBlockId;
             }
             entry++;
         }
@@ -386,7 +386,7 @@ void WFSi_MoveList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, R
 void WFSi_FromBusyToFree(RomArchiveParentView *view, RomArchiveFileNode *node) {
     WFSi_MoveList(&view->mPendingHead, &view->mFreeHead, node);
     node->mState = 0;
-    view->mUnk_46e4 = view->mUnk_46e4 - 1;
+    view->field46E4 = view->field46E4 - 1;
 }
 
 void WFSi_ReadRequest(FSFile *file) {
@@ -400,7 +400,7 @@ void WFSi_ReadRequest(FSFile *file) {
     u32 allocInterrupts;
     s32 requestedLength;
 
-    readLength = file->mArg.p.mUnk_08;
+    readLength = file->mArg.p.field8;
     childView = (RomArchiveChildView *) &data_02176300;
     if (readLength < 0) {
         readLength = childView->mMaxReadSize;
@@ -424,10 +424,10 @@ void WFSi_ReadRequest(FSFile *file) {
         childView->mChunkBitmaps[0] = childView->mChunkBitmapBuffer;
     }
     gRomArchiveTransfer.mPendingFile = file;
-    requestedLength = *(volatile s32 *) &file->mArg.p.mUnk_08;
-    message.mUnk_04 = childView->mPositionOffset + file->mUnk_2c;
+    requestedLength = *(volatile s32 *) &file->mArg.p.field8;
+    message.field4 = childView->mPositionOffset + file->field2C;
     message.mKind = 0;
-    message.mUnk_00_8 = requestedLength;
+    message.field0_8 = requestedLength;
     message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
     if (RequestSendBytes(1, &message, 9, WFSi_OnSendMessageDone) != 0) {
@@ -447,7 +447,7 @@ void WFSi_SetMPData(void) {
     if (transfer->mState == 0) {
         return;
     }
-    transfer->mUnk_0004 = TRUE;
+    transfer->field4 = TRUE;
     WFSi_SendAck();
     transfer = &gRomArchiveTransfer;
     isParent = transfer->mIsParent;
@@ -456,7 +456,7 @@ void WFSi_SetMPData(void) {
     } else {
         packetSize = transfer->mChildPacketSize;
     }
-    if (transfer->mUnk_0004 == FALSE) {
+    if (transfer->field4 == FALSE) {
         return;
     }
     buffer = transfer->mPacketBuffer;
@@ -467,7 +467,7 @@ void WFSi_SetMPData(void) {
     }
     transfer->mSendPending =
         WM_SetMPDataToPortEx(WFSi_SetMPData, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
-    transfer->mUnk_0004 = gRomArchiveTransfer.mSendPending == FALSE;
+    transfer->field4 = gRomArchiveTransfer.mSendPending == FALSE;
 }
 
 void WFSi_PortCallback(RomArchivePortMessage *message) {
@@ -486,7 +486,7 @@ void WFSi_PortCallback(RomArchivePortMessage *message) {
     if (transfer->mState == 0) {
         return;
     }
-    switch (message->mUnk_04) {
+    switch (message->field4) {
         case 7:
             isParent = transfer->mIsParent;
             if (isParent == 0) {
@@ -500,7 +500,7 @@ void WFSi_PortCallback(RomArchivePortMessage *message) {
             } else {
                 packetSize = transfer->mChildPacketSize;
             }
-            if (transfer->mUnk_0004 == FALSE) {
+            if (transfer->field4 == FALSE) {
                 return;
             }
             buffer = transfer->mPacketBuffer;
@@ -511,20 +511,20 @@ void WFSi_PortCallback(RomArchivePortMessage *message) {
             }
             transfer->mSendPending =
                 WM_SetMPDataToPortEx(WFSi_SetMPData, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
-            transfer->mUnk_0004 = gRomArchiveTransfer.mSendPending == FALSE;
+            transfer->field4 = gRomArchiveTransfer.mSendPending == FALSE;
             return;
         case 9:
             if (transfer->mIsParent == 0) {
                 return;
             }
-            view->mUnk_46d8 = view->mUnk_46d8 & ~(1 << message->mUnk_12);
+            view->field46D8 = view->field46D8 & ~(1 << message->field12);
             return;
         case 21:
-            data = message->mUnk_0c;
-            dataLength = message->mUnk_10;
+            data = message->fieldC;
+            dataLength = message->field10;
             if (transfer->mIsParent != 0) {
-                fromIndex = message->mUnk_12;
-                view->mUnk_46d8 = view->mUnk_46d8 | (1 << fromIndex);
+                fromIndex = message->field12;
+                view->field46D8 = view->field46D8 | (1 << fromIndex);
                 WBT_MpParentRecvHook(data, dataLength, fromIndex);
             } else {
                 WBT_MpChildRecvHook(data, dataLength);
@@ -558,41 +558,41 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
     s32 blockId;
     s32 v17;
 
-    fromIndex = WBT_AidbitmapToAid(record->mUnk_0a);
-    if (record->mUnk_00 != 0xc) {
+    fromIndex = WBT_AidbitmapToAid(record->fieldA);
+    if (record->field0 != 0xc) {
         return;
     }
-    switch (record->mUnk_04) {
+    switch (record->field4) {
         case 2:
             break;
         case 8:
             break;
         case 10:
             view = &data_02176300;
-            payload = &record->mUnk_14;
-            view->mUnk_0000[fromIndex] = payload->mUnk_0e;
-            switch (record->mUnk_14.mUnk_m.mKind) {
+            payload = &record->field14;
+            view->field0[fromIndex] = payload->fieldE;
+            switch (record->field14.mUnk_m.mKind) {
                 case 0:
-                    fileLength = record->mUnk_14.mUnk_m.mUnk_00_8;
-                    v5 = (record->mUnk_14.mUnk_m.mPacketSizeHigh << 8) | payload->mUnk_m.mPacketSizeLow;
-                    v7 = payload->mUnk_m.mUnk_04;
-                    if (view->mUnk_46e0 != FALSE || v5 != gRomArchiveTransfer.mParentPacketSize) {
-                        view->mUnk_46e0 = TRUE;
-                        view->mUnk_46e8 = view->mUnk_46e8 | (1 << fromIndex);
-                        view->mUnk_46dc = view->mUnk_46dc | (1 << fromIndex);
+                    fileLength = record->field14.mUnk_m.field0_8;
+                    v5 = (record->field14.mUnk_m.mPacketSizeHigh << 8) | payload->mUnk_m.mPacketSizeLow;
+                    v7 = payload->mUnk_m.field4;
+                    if (view->field46E0 != FALSE || v5 != gRomArchiveTransfer.mParentPacketSize) {
+                        view->field46E0 = TRUE;
+                        view->field46E8 = view->field46E8 | (1 << fromIndex);
+                        view->field46DC = view->field46DC | (1 << fromIndex);
                         return;
                     }
                     for (foundNode = view->mActiveHead; foundNode != NULL; foundNode = foundNode->mNext) {
-                        if (foundNode->mState == 2 && v7 == foundNode->mFile.mProp.w.mUnk_04) {
+                        if (foundNode->mState == 2 && v7 == foundNode->mFile.mProp.w.field4) {
                             file = &foundNode->mFile;
-                            if (fileLength == file->mProp.w.mUnk_08 - file->mProp.w.mUnk_04) {
+                            if (fileLength == file->mProp.w.field8 - file->mProp.w.field4) {
                                 break;
                             }
                         }
                     }
                     if (foundNode != NULL) {
-                        view->mUnk_46cc = view->mUnk_46cc | (1 << fromIndex);
-                        view->mUnk_0000[fromIndex].mUnk_04 = foundNode->mBlockId;
+                        view->field46CC = view->field46CC | (1 << fromIndex);
+                        view->field0[fromIndex].field4 = foundNode->mBlockId;
                         foundNode->mChildCount = foundNode->mChildCount + 1;
                     } else {
                         for (queuedNode = view->mPendingHead; queuedNode != NULL; queuedNode = queuedNode->mNext) {
@@ -605,7 +605,7 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
                             queuedNode = view->mFreeHead;
                             WFSi_MoveList(&view->mFreeHead, &view->mPendingHead, queuedNode);
                             queuedNode->mState = 1;
-                            view->mUnk_46e4 = view->mUnk_46e4 + 1;
+                            view->field46E4 = view->field46E4 + 1;
                             queuedNode->mChildCount = 0;
                             queuedNode->mFileStart = v7;
                             queuedNode->mFileLength = fileLength;
@@ -613,12 +613,12 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
                         }
                         queuedNode->mPendingChildMask = queuedNode->mPendingChildMask | (1 << fromIndex);
                     }
-                    view->mUnk_46dc = view->mUnk_46dc | (1 << fromIndex);
+                    view->field46DC = view->field46DC | (1 << fromIndex);
                     return;
                 case 2:
                     savedInterrupts = OS_DisableInterrupts();
-                    view->mUnk_46cc = view->mUnk_46cc | (1 << fromIndex);
-                    blockId = payload->mUnk_m.mUnk_04;
+                    view->field46CC = view->field46CC | (1 << fromIndex);
+                    blockId = payload->mUnk_m.field4;
                     for (activeNode = view->mActiveHead; activeNode != NULL; activeNode = activeNode->mNext) {
                         if (activeNode->mState == 2 && activeNode->mBlockNode.mId == blockId) {
                             break;
@@ -628,7 +628,7 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
                         activeNode->mChildCount = activeNode->mChildCount - 1;
                         if (activeNode->mChildCount <= 0) {
                             activeNode->mPendingChildMask = 0;
-                            WBT_UnregisterBlock(payload->mUnk_m.mUnk_04);
+                            WBT_UnregisterBlock(payload->mUnk_m.field4);
                             WFSi_MoveList(&view->mActiveHead, &view->mPendingHead, activeNode);
                             activeNode->mState = 3;
                             WFSi_NotifyBusy();
@@ -639,10 +639,10 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
             }
             return;
         case 13:
-            q = &record->mUnk_14;
+            q = &record->field14;
             v5 = q->mUnk_w;
-            q->mUnk_0e.mUnk_08 = 0;
-            for (node = data_02179ec0.mUnk_b04; node != NULL; node = node->mNext) {
+            q->fieldE.field8 = 0;
+            for (node = data_02179ec0.fieldB04; node != NULL; node = node->mNext) {
                 if (node->mState == 2 && node->mBlockNode.mId == v5) {
                     break;
                 }
@@ -650,18 +650,18 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
             if (node == NULL) {
                 return;
             }
-            v8 = ((Unk0204c320 *) ((u8 *) q - 0x14))->mUnk_20;
-            v9 = node->mUnk_098;
-            v10 = q->mUnk_0e.mUnk_04;
-            if (node->mUnk_09c != 2) {
+            v8 = ((Unk0204c320 *) ((u8 *) q - 0x14))->field20;
+            v9 = node->field98;
+            v10 = q->fieldE.field4;
+            if (node->field9C != 2) {
                 v17 = (node->mFile.mStat & 1) != 0 ? 1 : 0;
                 if (v17 == 0) {
-                    node->mUnk_09c = 2;
+                    node->field9C = 2;
                 }
             }
             v11 = v8 * v9;
-            node->mUnk_098 = v10;
-            v13 = node->mUnk_09c;
+            node->field98 = v10;
+            v13 = node->field9C;
             for (v7 = 0; v7 < 2; v7++) {
                 if (v7 == v13) {
                     continue;
@@ -673,11 +673,11 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
                 if (v14 + v8 > 0x400) {
                     continue;
                 }
-                q->mUnk_0e.mUnk_04 = v9;
-                q->mUnk_0e.mUnk_08 = (node->mBuffers[v7] + v14);
+                q->fieldE.field4 = v9;
+                q->fieldE.field8 = (node->mBuffers[v7] + v14);
                 break;
             }
-            if (node->mUnk_09c != 2) {
+            if (node->field9C != 2) {
                 return;
             }
             v11 = v8 * v10;
@@ -693,15 +693,15 @@ void WFSi_OnParentSystemCallback(Unk0204c320 *record) {
             if (j < 2) {
                 return;
             }
-            k = node->mUnk_0a0;
+            k = node->fieldA0;
             do {
                 k++;
                 if (k >= 2) {
                     k = 0;
                 }
             } while (k == v7);
-            node->mUnk_0a0 = k;
-            node->mUnk_09c = k;
+            node->fieldA0 = k;
+            node->field9C = k;
             node->mBufferOffsets[k] = v11 & -0x200;
             FS_SeekFile(&node->mFile, v11 & -0x200, 0);
             FS_ReadFileAsync(&node->mFile, node->mBuffers[k], 0x400);
@@ -724,15 +724,15 @@ void WFSi_OnChildSystemCallback(Unk0204c320 *record) {
     u32 allocInterrupts;
     void *newBuffer;
 
-    fromIndex = WBT_AidbitmapToAid(record->mUnk_0a);
+    fromIndex = WBT_AidbitmapToAid(record->fieldA);
     childView = (RomArchiveChildView *) &data_02176300;
-    switch (record->mUnk_00) {
+    switch (record->field0) {
         case 2:
-            if (record->mUnk_08 != 0) {
+            if (record->field8 != 0) {
                 return;
             }
-            gRomArchiveTransfer.mParentPacketSize = record->mUnk_14.h.mUnk_16 + 0xe;
-            gRomArchiveTransfer.mChildPacketSize = record->mUnk_14.h.mUnk_18 + 0xe;
+            gRomArchiveTransfer.mParentPacketSize = record->field14.h.field16 + 0xe;
+            gRomArchiveTransfer.mChildPacketSize = record->field14.h.field18 + 0xe;
             if (gRomArchiveTransfer.mArchiveBlock == NULL) {
                 RequestBlockNode(1, 0, childView, (void (*)(BlockTransferRecord *)) WFSi_OnChildSystemCallback);
                 return;
@@ -762,7 +762,7 @@ void WFSi_OnChildSystemCallback(Unk0204c320 *record) {
             WFSi_ReadRequest(gRomArchiveTransfer.mPendingFile);
             return;
         case 6:
-            v2 = childView->mNodeBuffers[fromIndex]->mUnk_04;
+            v2 = childView->mNodeBuffers[fromIndex]->field4;
             gRomArchiveTransfer.mArchiveBlockSize = v2;
             savedInterrupts = OS_DisableInterrupts();
             buffer = gRomArchiveTransfer.mAllocFunc(gRomArchiveTransfer.mAllocFuncArg, v2, NULL);
@@ -795,7 +795,7 @@ void WFSi_OnChildSystemCallback(Unk0204c320 *record) {
                              childView->mChunkBitmaps, (void (*)(BlockTransferRecord *)) WFSi_OnChildSystemCallback);
             return;
         case 4:
-            if (record->mUnk_08 != 0) {
+            if (record->field8 != 0) {
                 return;
             }
             if (gRomArchiveTransfer.mState != 2) {
@@ -808,9 +808,9 @@ void WFSi_OnChildSystemCallback(Unk0204c320 *record) {
                 gRomArchiveTransfer.mStateCallback(0);
                 return;
             }
-            message.mUnk_04 = childView->mFileBlockId;
+            message.field4 = childView->mFileBlockId;
             message.mKind = 2;
-            message.mUnk_00_8 = 1;
+            message.field0_8 = 1;
             message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
             message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
             if (RequestSendBytes(1, &message, 9, WFSi_OnSendMessageDone) != 0) {
@@ -819,27 +819,27 @@ void WFSi_OnChildSystemCallback(Unk0204c320 *record) {
             OS_Terminate();
             return;
         case 12:
-            if (record->mUnk_04 != 0xa) {
+            if (record->field4 != 0xa) {
                 return;
             }
-            received = &record->mUnk_14.mUnk_m;
+            received = &record->field14.mUnk_m;
             switch (received->mKind) {
                 case 1:
-                    if (received->mUnk_00_8 == 0) {
+                    if (received->field0_8 == 0) {
                         RequestBlockCount(1, (void (*)(BlockTransferRecord *)) WFSi_OnChildSystemCallback);
                         return;
                     }
-                    childView->mFileBlockId = received->mUnk_04;
-                    childView->mBlockBuffers[fromIndex] = gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_00;
+                    childView->mFileBlockId = received->field4;
+                    childView->mBlockBuffers[fromIndex] = gRomArchiveTransfer.mPendingFile->mArg.w.field0;
                     RequestBlockData(1, childView->mFileBlockId, childView->mBlockBuffers,
-                                     gRomArchiveTransfer.mPendingFile->mArg.w.mUnk_08, childView->mChunkBitmaps,
+                                     gRomArchiveTransfer.mPendingFile->mArg.w.field8, childView->mChunkBitmaps,
                                      (void (*)(BlockTransferRecord *)) WFSi_OnChildSystemCallback);
                     return;
                 case 3:
                     file = gRomArchiveTransfer.mPendingFile;
                     archive = file->mArc;
                     gRomArchiveTransfer.mPendingFile = NULL;
-                    file->mUnk_2c = file->mUnk_2c + file->mArg.w.mUnk_08;
+                    file->field2C = file->field2C + file->mArg.w.field8;
                     FS_NotifyArchiveAsyncEnd(archive, 0);
                     return;
             }
@@ -855,7 +855,7 @@ void WFSi_InitCommon(u32 port, void (*stateCallback)(s32 port),
     FS_Init(-1);
     narrowedPort = port;
     transfer->mPort = narrowedPort;
-    transfer->mUnk_0004 = FALSE;
+    transfer->field4 = FALSE;
     transfer->mSendPending = FALSE;
     transfer->mState = 0;
     transfer->mStateCallback = stateCallback;
@@ -906,18 +906,18 @@ void WFS_InitParent(u32 port, void (*stateCallback)(s32 port),
         } while (node + 1 < (RomArchiveFileNode *) &view->mFreeHead);
     }
     node->mNext = NULL;
-    view->mUnk_46d0 = 0;
-    view->mUnk_46cc = 0;
+    view->field46D0 = 0;
+    view->field46CC = 0;
     view->mMessageSendPending = FALSE;
     view->mActiveHead = NULL;
     view->mPendingHead = NULL;
     transfer->mParentPacketSize = parentPacketSize;
-    view->mUnk_46d8 = 1;
-    view->mUnk_46dc = 0;
-    view->mUnk_46e0 = FALSE;
-    view->mUnk_46e8 = 0;
-    view->mUnk_46e4 = 0;
-    view->mUnk_46ec = transfer->mParentPacketSize;
+    view->field46D8 = 1;
+    view->field46DC = 0;
+    view->field46E0 = FALSE;
+    view->field46E8 = 0;
+    view->field46E4 = 0;
+    view->field46EC = transfer->mParentPacketSize;
     DC_FlushRange(view, 0x46f0);
     DC_WaitWriteBufferEmpty();
     StartParentBlockTransfer(transfer->mParentPacketSize, transfer->mChildPacketSize,
@@ -955,7 +955,7 @@ void WFS_InitChild(u32 port, void (*stateCallback)(s32 port),
     DC_FlushRange(view, 0xb0c);
     DC_WaitWriteBufferEmpty();
     for (i = 0; i < 16; i++) {
-        view->mNodeBuffers[i] = &view->mUnk_0c0[i];
+        view->mNodeBuffers[i] = &view->fieldC0[i];
         view->mBlockBuffers[i] = 0;
         view->mChunkBitmaps[i] = NULL;
     }
@@ -993,11 +993,11 @@ void WFS_Start(void) {
     u16 packetSize;
     u16 builtSize;
     s32 isParent;
-    gRomArchiveTransfer.mUnk_0004 = TRUE;
+    gRomArchiveTransfer.field4 = TRUE;
     if (gRomArchiveTransfer.mIsParent == 0) {
         childView = (Unk021762e0 *) &data_02176300;
-        WM_ReadStatus(childView->mUnk_0340);
-        SetOwnIndex(childView->mUnk_04c4);
+        WM_ReadStatus(childView->field340);
+        SetOwnIndex(childView->field4C4);
         RequestBlockCount(1, (void (*)(BlockTransferRecord *)) WFSi_OnChildSystemCallback);
     } else {
         gRomArchiveTransfer.mState = 2;
@@ -1012,7 +1012,7 @@ void WFS_Start(void) {
     } else {
         packetSize = transfer->mChildPacketSize;
     }
-    if (transfer->mUnk_0004 == FALSE) {
+    if (transfer->field4 == FALSE) {
         return;
     }
     buffer = transfer->mPacketBuffer;
@@ -1023,7 +1023,7 @@ void WFS_Start(void) {
     }
     transfer->mSendPending =
         WM_SetMPDataToPortEx(WFSi_SetMPData, NULL, buffer, builtSize, 0xffff, transfer->mPort, 3) == 2;
-    transfer->mUnk_0004 = gRomArchiveTransfer.mSendPending == FALSE;
+    transfer->field4 = gRomArchiveTransfer.mSendPending == FALSE;
 }
 
 void WFS_End(void) {
@@ -1043,13 +1043,13 @@ void WFS_End(void) {
         }
         transfer->mState = 0;
         if (gRomArchiveTransfer.mIsParent == 0) {
-            view = &transfer->mUnk_0440;
+            view = &transfer->field440;
             if (transfer->mPendingFile != NULL) {
                 archive = transfer->mPendingFile->mArc;
                 transfer->mPendingFile = NULL;
                 FS_NotifyArchiveAsyncEnd(archive, 5);
             }
-            func_0204bcec_inline(&gRomArchiveTransfer, view->mUnk_0afc);
+            func_0204bcec_inline(&gRomArchiveTransfer, view->fieldAFC);
         } else {
             WFSi_EndTaskThread();
         }
@@ -1075,7 +1075,7 @@ u32 WFS_EnableSync(u32 value) {
     value0 = OS_DisableInterrupts();
     value1 = &data_02179ec0;
     valueWithoutBit0 = (savedValue) & ~(1u);
-    data_02179ec0.mUnk_b10 = valueWithoutBit0;
+    data_02179ec0.fieldB10 = valueWithoutBit0;
     value0 = OS_RestoreInterrupts(value0);
     return value0;
 }

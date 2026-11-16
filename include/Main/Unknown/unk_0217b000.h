@@ -33,50 +33,50 @@ struct KartBalloons;
 
 // Element of 0x14 bytes of the table behind gBoxRotations.
 typedef struct BoxRotation {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
 } BoxRotation;
 
 // Element of 8 bytes of the table behind gQuestionRotations.
 typedef struct QuestionRotation {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
 } QuestionRotation;
 
 // UnkPair020b502c of code_020b502c.h is this type.
 typedef struct Unk0217b498_0c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
 } Unk0217b498_0c;
 
 typedef struct RaceHudSubScreenCell {
     /* 00 */ Unk0217b498_0c mDrawPos;
     /* 08 */ struct Unk020224e0_c *mCell;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
-    /* 10 */ u16 mUnk_10;
-    /* 12 */ u8 mUnk_12[2];
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
+    /* 10 */ u16 field10;
+    /* 12 */ u8 field12[2];
 } RaceHudSubScreenCell;
 
 typedef struct Unk0217b498_00 {
-    /* 00 */ u8 mUnk_00[2];
+    /* 00 */ u8 field0[2];
     /* 02 */ u16 mFlags;
     /* 04 */ Vec3 mPos;
-    /* 10 */ u8 mUnk_10[0xc];
+    /* 10 */ u8 field10[0xc];
     /* 1c */ s32 mScaleX;
-    /* 20 */ u8 mUnk_20[0x5e];
+    /* 20 */ u8 field20[0x5e];
     /* 7e */ u16 mAngle;
-    /* 80 */ u8 mUnk_80[0x28];
-    /* a8 */ s32 mUnk_a8;
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ s32 mUnk_b0;
-    /* b4 */ s32 mUnk_b4;
-    /* b8 */ u16 mUnk_b8;
-    /* ba */ u8 mUnk_ba[6];
-    /* c0 */ u16 mUnk_c0;
+    /* 80 */ u8 field80[0x28];
+    /* a8 */ s32 fieldA8;
+    /* ac */ s32 fieldAC;
+    /* b0 */ s32 fieldB0;
+    /* b4 */ s32 fieldB4;
+    /* b8 */ u16 fieldB8;
+    /* ba */ u8 fieldBA[6];
+    /* c0 */ u16 fieldC0;
 } Unk0217b498_00;
 
 // Shared by the mpicn_sItemboxIcon..mpicn_sFireball2Icon lists and the ov001 pointers.
@@ -84,49 +84,49 @@ typedef struct RaceHudSubScreenCells {
     /* 00 */ Unk0217b498_00 **mObjects;
     /* 04 */ s32 mCellCount;
     /* 08 */ s32 mObjectCount;
-    /* 0c */ Unk0217b498_0c *mUnk_0c;
+    /* 0c */ Unk0217b498_0c *fieldC;
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
-// Halfwords from 0x02 of Unk0217b490 read by UpdateRaceHudSubScreenBgPalette when gRaceMultiConfig->mUnk_00 is 0x20: six, two
+// Halfwords from 0x02 of Unk0217b490 read by UpdateRaceHudSubScreenBgPalette when gRaceMultiConfig->field0 is 0x20: six, two
 // rows of three and two.
 typedef struct Unk0217b490_02_03 {
-    /* 00 */ u16 mUnk_00[6];
-    /* 0c */ u16 mUnk_0c[2][3];
-    /* 18 */ u16 mUnk_18[2];
+    /* 00 */ u16 field0[6];
+    /* 0c */ u16 fieldC[2][3];
+    /* 18 */ u16 field18[2];
 } Unk0217b490_02_03;
 
 // The halfwords from 0x02 of Unk0217b490 as UpdateRaceHudSubScreenBgPalette and func_020cfca4 index them for the values
-// of gRaceMultiConfig->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
+// of gRaceMultiConfig->field0: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
 // Unk0217b490_02_03 (0x20).
 typedef union Unk0217b490_02 {
-    u16 mUnk_00[0x15];
-    u16 mUnk_01[9][3];
-    u16 mUnk_02[5][4];
-    Unk0217b490_02_03 mUnk_03;
+    u16 field0[0x15];
+    u16 field1[9][3];
+    u16 field2[5][4];
+    Unk0217b490_02_03 field3;
 } Unk0217b490_02;
 
 // Object behind data_0217b490, 0x38 bytes (allocated by func_020cffa0).
 typedef struct Unk0217b490 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ Unk0217b490_02 mUnk_02;
+    /* 00 */ u16 field0;
+    /* 02 */ Unk0217b490_02 field2;
 } Unk0217b490;
 
 // Pair of numbers "course number, course count" drawn on the NitroMain screen before start-sequence frame 0xb4, only in mode
-// 5 and in mode 3 with gRaceMultiConfig->mUnk_1c == 2 (r2d_renderRaceNumber), one record behind gRaceMNumberPair (0x28
-// bytes, r2d_initRaceNumber); mUnk_08 .. mUnk_20 are the slide-in animation state. mUnk_18 points into mUnk_08.
+// 5 and in mode 3 with gRaceMultiConfig->field1C == 2 (r2d_renderRaceNumber), one record behind gRaceMNumberPair (0x28
+// bytes, r2d_initRaceNumber); field8 .. field20 are the slide-in animation state. field18 points into field8.
 typedef struct RaceMNumberPair {
     // Copy of gRaceMultiConfig->mCourseNumber taken in r2d_initRaceNumber.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in mode 5, gRaceMultiConfig->mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
-    // drawn). mUnk_3d8 has another meaning (score threshold) in mode 2 and for mUnk_1c == 1; this member never copies
+    // Number of courses of the run: 4 in mode 5, gRaceMultiConfig->field3D8 in mode 3 with field1C == 2, else 0 (not
+    // drawn). field3D8 has another meaning (score threshold) in mode 2 and for field1C == 1; this member never copies
     // that one.
     /* 04 */ s32 mCourseCount;
     /* 08 */ s32 mScaleMatrix[4];
     /* 18 */ s32 *mCellMatrix;
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
-    /* 22 */ u8 mUnk_22[2];
+    /* 22 */ u8 field22[2];
     // X added to every sprite of the pair: 0, or eased by mutil_interpolate (r2d_20D1DE8) for the slide-in.
     /* 24 */ s32 mOffsetX;
 } RaceMNumberPair;
@@ -139,10 +139,10 @@ typedef struct ViewFrustum {
     /* 04 */ s32 mFar;
     /* 08 */ Vec3 mCameraPos;
     /* 14 */ Vec3 mViewDirection;
-    /* 20 */ Vec3 mUnk_20;
-    /* 2c */ Vec3 mUnk_2c;
-    /* 38 */ Vec3 mUnk_38;
-    /* 44 */ Vec3 mUnk_44;
+    /* 20 */ Vec3 field20;
+    /* 2c */ Vec3 field2C;
+    /* 38 */ Vec3 field38;
+    /* 44 */ Vec3 field44;
     /* 50 */ BOOL mViewTestRefreshRequested;
     /* 54 */ BOOL mViewTestRefreshPending;
 } ViewFrustum;
@@ -151,19 +151,19 @@ typedef struct ViewFrustum {
 // 0x0c.
 typedef struct EmblemChoises {
     /* 00 */ s32 mShown;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 field4;
     /* 08 */ BOOL mGraphicsUploadRequested;
-    /* 0c */ UnkFunc *mUnk_0c;
-    /* 10 */ BOOL mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
+    /* 0c */ UnkFunc *fieldC;
+    /* 10 */ BOOL field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
     /* 1c */ s32 mResult;
     /* 20 */ s32 mChoisesIndex;
-    /* 24 */ s32 mUnk_24;
+    /* 24 */ s32 field24;
     /* 28 */ s32 mChoisesCount;
-    /* 2c */ void *mUnk_2c;
-    /* 30 */ CharCanvas mUnk_30;
-    /* 50 */ TextCanvas mUnk_50;
+    /* 2c */ void *field2C;
+    /* 30 */ CharCanvas field30;
+    /* 50 */ TextCanvas field50;
     /* 60 */ struct Nclr *mChoisesSBNclr;
     /* 64 */ struct Ncgr *mChoisesSBNcgr;
     /* 68 */ struct Nscr *mChoisesS3Nscr;
@@ -171,14 +171,14 @@ typedef struct EmblemChoises {
 
 // 16-byte rows of the table behind mobj_sGrpconfTbl (mobj_createObject reads the halfwords).
 typedef struct GrpconfTblRow {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
-    /* 0c */ u16 mUnk_0c;
-    /* 0e */ u16 mUnk_0e;
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
+    /* 0c */ u16 fieldC;
+    /* 0e */ u16 fieldE;
 } GrpconfTblRow;
 
 extern void *poo_sHoleModel;
@@ -228,7 +228,7 @@ typedef struct ModelEffects {
     /* 0c */ NNSFndList mFreeLists[5];
     /* 48 */ struct ModelEffect **mObjects[5];
     /* 5c */ u16 mNextPolygonId;
-    /* 5e */ u8 mUnk_5e[2];
+    /* 5e */ u8 field5E[2];
 } ModelEffects;
 
 extern ModelEffects *expl_sState;
@@ -260,18 +260,18 @@ extern void *sman_sTopModel;
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
     /* 00 */ u16 mTimer;
-    /* 02 */ s16 mUnk_02;
+    /* 02 */ s16 field2;
     /* 04 */ u16 mColor;
-    /* 06 */ u8 mUnk_06[2];
+    /* 06 */ u8 field6[2];
     /* 08 */ BOOL mEnabled;
-    /* 0c */ u8 mUnk_0c[4];
+    /* 0c */ u8 fieldC[4];
 } TimedQuad;
 
 // Object behind rwrd_sState, 0x79c bytes.
 typedef struct StemSets {
     // Entries 0 to 7 are the sets; entry 8 is a copy of the one shown.
     /* 000 */ StemSet *mSets[9];
-    /* 024 */ u8 mUnk_024[0x718];
+    /* 024 */ u8 field24[0x718];
     // Index of the set rwrd_render draws; 9 means none.
     /* 73c */ s32 mShownIndex;
     /* 740 */ u16 mShownFrames;
@@ -289,17 +289,17 @@ extern void *chnd_sModel;
 // last position, and the hit tracking of the kart (those members keep their address names). Slots past the kart count
 // are unused: status 2, count -1.
 typedef struct KartStanding {
-    /* 00 */ BOOL mUnk_00;
-    /* 04 */ BOOL mUnk_04;
+    /* 00 */ BOOL field0;
+    /* 04 */ BOOL field4;
     // 0 in play, 1 just eliminated (the update calls the kart handler once and sets 2), 2 eliminated and handled;
     // unused slots start at 2. Only compared, never switched on.
     /* 08 */ s32 mEliminationStatus;
     // Copy of the kart's position, refreshed every update while the kart's count is above 0 and no winner is decided.
     /* 0c */ Vec3 mPos;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ BOOL mUnk_20;
-    /* 24 */ s32 mUnk_24[8];
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ BOOL field20;
+    /* 24 */ s32 field24[8];
     /* 44 */ u16 mHitByKartIndex;
     // Id of the side the kart plays for: the entry's team index 0 gives 1, 1 gives 3, any other value gives the kart's
     // own index; an unused slot gets the kart count. The winner test compares it between the karts still in play.
@@ -307,15 +307,15 @@ typedef struct KartStanding {
     // Position in the order by count, 0 = first. Starts as the kart's own index; a count step swaps it with neighbours
     // (karts still in play stay ahead of eliminated ones).
     /* 48 */ u16 mRankIndex;
-    /* 4a */ u8 mUnk_4a[2];
-    // The kart's count: balloons held where the balloon object exists (mode 2 with RaceSetup.mUnk_18 == 0, and mode
-    // 4), shines held in the shine mode (mode 2 with mUnk_18 == 1). -1 for an unused slot and for a kart eliminated in
+    /* 4a */ u8 field4A[2];
+    // The kart's count: balloons held where the balloon object exists (mode 2 with RaceSetup.field18 == 0, and mode
+    // 4), shines held in the shine mode (mode 2 with field18 == 1). -1 for an unused slot and for a kart eliminated in
     // mode 2; 0 at the start; changed in steps of +1 / -1. The rank order is sorted by it.
     /* 4c */ s32 mBalloonOrShineCount;
     /* 50 */ u16 mBalloonsLeftToMake;
-    /* 52 */ u8 mUnk_52[0x12];
-    /* 64 */ s32 mUnk_64;
-    /* 68 */ s32 mUnk_68;
+    /* 52 */ u8 field52[0x12];
+    /* 64 */ s32 field64;
+    /* 68 */ s32 field68;
     /* 6c */ s32 mInflatingBalloon;
 } KartStanding;
 
@@ -342,7 +342,7 @@ typedef struct Standings {
     // Called when mEndTimer runs out and by the mode 4 end step. Set by the balloon object, the shine mode and the
     // overlay 1 objects.
     /* 390 */ void (*mEndCallback)(void);
-    /* 394 */ u8 mUnk_394[8];
+    /* 394 */ u8 field394[8];
     // Called in Battle with the kart index and the address of a Vec3 when a kart is placed or pushed: the position
     // change of a kart set to a checkpoint position, the position change in driver_2068494, and the push vector of a map
     // object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
@@ -352,9 +352,9 @@ typedef struct Standings {
     // spawner stops placing at 3. Parking every shine at once, as the shine mode's end callback does, does not
     // subtract.
     /* 3a0 */ u16 mShineCount;
-    /* 3a2 */ u16 mUnk_3a2;
-    /* 3a4 */ u16 mUnk_3a4;
-    /* 3a6 */ u8 mUnk_3a6[2];
+    /* 3a2 */ u16 field3A2;
+    /* 3a4 */ u16 field3A4;
+    /* 3a6 */ u8 field3A6[2];
     // Frames left before mEndCallback runs once a winner is decided: mode 2 stores 0x5a and counts it down; at 0 it
     // becomes -1 and the callback runs. A value below 0 means the end is reached. Mode 4 stores 0 and ends through the
     // race-progress end step, which sets -1 and runs the callback.
@@ -369,8 +369,8 @@ typedef struct Standings {
     // play has the id of the rank 0 kart. In mode 4 the ids are kart indices (it is compared with the local entry
     // index).
     /* 3b4 */ s32 mWinnerTeamId;
-    /* 3b8 */ u16 mUnk_3b8;
-    /* 3ba */ u8 mUnk_3ba[2];
+    /* 3b8 */ u16 field3B8;
+    /* 3ba */ u8 field3BA[2];
     // Pointer to entry 0 of the kind 0x69 object's KartBalloons array; set once by blncnt_init.
     /* 3bc */ struct KartBalloons *mKartBalloons;
 } Standings;
@@ -393,7 +393,7 @@ typedef struct KeyboardRect {
 struct Ncgr;
 struct KeyboardKeys;
 
-// Set up by SetupKeyboardLayout (at 0x1c of KeyboardKeys, which mUnk_2c then points to); mUnk_08 is called with the
+// Set up by SetupKeyboardLayout (at 0x1c of KeyboardKeys, which field2C then points to); field8 is called with the
 // KeyboardKeys (AsciiLayoutCallback is one).
 typedef struct KeyboardLayout {
     /* 00 */ KeyboardRect *mRects;
@@ -408,7 +408,7 @@ typedef struct RepeatCounter {
     /* 00 */ u16 mRepeatFrames;
     /* 02 */ u16 mFirstFireFrame;
     /* 04 */ u16 mRepeatFireFrame;
-    /* 06 */ u16 mUnk_06;
+    /* 06 */ u16 field6;
 } RepeatCounter;
 
 // Object at gKeyboardKeyRepeat: an RepeatCounter followed by two halfwords (KBD_UpdatePadRepeat,
@@ -436,7 +436,7 @@ typedef struct KeyboardKeys {
     /* 40 */ u16 mChosenKeyId;
     /* 42 */ u16 mToggledKeyId;
     /* 44 */ KeyboardRect *mCursorRect;
-    /* 48 */ u8 mUnk_48[4];
+    /* 48 */ u8 field48[4];
     /* 4c */ u16 (*mCursorCallback)(s32, u16);
     /* 50 */ s32 (*mKeyCallback)(u32, s32);
 } KeyboardKeys;
@@ -449,18 +449,18 @@ extern KeyboardLayout data_0217b294;
 extern RepeatCounter data_0217b2ac;
 // Object at gKeyboardInput, 0x28 bytes (KBD_UpdatePadTpInputValue updates it, KBD_ClearPadTpInput clears it).
 typedef struct KeyboardInput {
-    /* 00 */ s32 mUnk_00;
+    /* 00 */ s32 field0;
     /* 04 */ u16 mKeysPressed;
     /* 06 */ u16 mKeysDown;
     /* 08 */ u16 mKeysReleased;
-    /* 0a */ u16 mUnk_0a;
+    /* 0a */ u16 fieldA;
     /* 0c */ u16 mPrevSample[4];
     /* 14 */ u16 mLastTouchX;
     /* 16 */ u16 mLastTouchY;
-    /* 18 */ s32 mUnk_18;
+    /* 18 */ s32 field18;
     /* 1c */ s32 mTouchStatus;
     /* 20 */ u16 mTouchDown;
-    /* 22 */ u16 mUnk_22;
+    /* 22 */ u16 field22;
     /* 24 */ BOOL mTouchEnabled;
 } KeyboardInput;
 
@@ -486,12 +486,12 @@ typedef struct KeyboardTextEntry {
     /* 08 */ s32 mBg2CharSize;
     /* 0c */ s32 mBg2ScrSize;
     /* 10 */ struct Ncgr *mNcgrs[5];
-    /* 24 */ struct Ncgr *mUnk_24;
+    /* 24 */ struct Ncgr *field24;
     /* 28 */ void *mKbds[6];
     /* 40 */ u16 *mText;
     /* 44 */ u16 mTextCapacity;
     /* 46 */ u16 mTextIndex;
-    /* 48 */ u16 mUnk_48;
+    /* 48 */ u16 field48;
     /* 4a */ u16 mTextLimit;
     /* 4c */ s32 mLayoutIndex;
     /* 50 */ s32 mOffsetX;
@@ -510,7 +510,7 @@ extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
 extern void *sblln_sModel;
 typedef struct TitleStateHandlers {
-    /* 00 */ UnkFunc *mUnk_00;
+    /* 00 */ UnkFunc *field0;
     /* 04 */ void (*mUpdate)(s32);
 } TitleStateHandlers;
 
@@ -561,19 +561,19 @@ extern u8 data_0217b344[];
 extern u16 *data_0217b34c;
 // 0x20 bytes: four words, then four more words.
 typedef struct Unk0217b350_858 {
-    /* 00 */ s32 mUnk_00[4];
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
+    /* 00 */ s32 field0[4];
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
 } Unk0217b350_858;
 
 // On-screen display of the race, one record behind r2d_sStatus (0x914 bytes, allocated by r2d_init on the scene heap,
 // set NULL by the release slot func_020af86c, never freed). It holds the two 0x400-byte sprite entry buffers the
-// element draws append to (mUnk_004 for the NitroMain screen, mSubOam for the sub screen, copied to 0x07000000 /
+// element draws append to (field4 for the NitroMain screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
-// 5 and 6 of gRaceMultiConfig->mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
+// 5 and 6 of gRaceMultiConfig->fieldC (the scene slots run RaceStartGp / EndingStaffRoll there).
 // Words from 0x828 to 0x910 are read and written by func_020aeb7c. The pointers at 0x80c to 0x824 are written through
 // g2du_unpackPaletteData, g2du_unpackCharacterDataBG and g2du_unpackScreenData.
 typedef struct RaceHud {
@@ -601,15 +601,15 @@ typedef struct RaceHud {
     /* 830 */ BOOL mSubScreenState5LoadPending;
     // Set when the state-6 page is requested; the upload loads its graphics once and clears it.
     /* 834 */ BOOL mSubScreenState6LoadPending;
-    /* 838 */ BOOL mUnk_838;
-    /* 83c */ BOOL mUnk_83c;
-    /* 840 */ BOOL mUnk_840;
-    /* 844 */ s32 mUnk_844;
-    /* 848 */ s32 mUnk_848;
-    /* 84c */ s32 mUnk_84c;
-    /* 850 */ s32 mUnk_850;
+    /* 838 */ BOOL field838;
+    /* 83c */ BOOL field83C;
+    /* 840 */ BOOL field840;
+    /* 844 */ s32 field844;
+    /* 848 */ s32 field848;
+    /* 84c */ s32 field84C;
+    /* 850 */ s32 field850;
     /* 854 */ s32 mSubScreenCourseScale;
-    /* 858 */ Unk0217b350_858 mUnk_858[2];
+    /* 858 */ Unk0217b350_858 field858[2];
     // FALSE from r2d_init until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
     // again); the step, the draw, the page choice and the upload slot return at once while FALSE.
     /* 898 */ BOOL mEnabled;
@@ -629,8 +629,8 @@ typedef struct RaceHud {
     /* 8ec */ TimeDigits mTimeDifferenceDigits;
     // 1 once the per-frame step has run.
     /* 908 */ s32 mStepHasRun;
-    /* 90c */ BOOL mUnk_90c;
-    /* 910 */ s32 mUnk_910;
+    /* 90c */ BOOL field90C;
+    /* 910 */ s32 field910;
 } RaceHud;
 
 extern RaceHud *r2d_sStatus;
@@ -661,19 +661,19 @@ typedef struct RaceRankList {
     /* 0c0 */ s32 mBalloonOrShineCounts[8];
     /* 0e0 */ s32 mSlideX;
     /* 0e4 */ u16 mOamMatrixIndex;
-    /* 0e6 */ u8 mUnk_0e6[2];
+    /* 0e6 */ u8 fieldE6[2];
     /* 0e8 */ s32 mMatrix[4];
     /* 0f8 */ u16 mMoveFrames;
-    /* 0fa */ u8 mUnk_0fa[2];
+    /* 0fa */ u8 fieldFA[2];
     /* 0fc */ RaceRankListItemInUse mItemsInUse[8];
 } RaceRankList;
 
 extern RaceRankList *gRaceRankList;
 // Object behind mpicn_sIconData, 0x25c bytes, allocated by mpicn_init.
 typedef struct RaceHudSubScreenCellGroups {
-    /* 000 */ u16 mUnk_000;
+    /* 000 */ u16 field0;
     /* 004 */ s32 mScale;
-    /* 008 */ s32 mUnk_008;
+    /* 008 */ s32 field8;
     /* 00c */ s32 mGroupCount;
     /* 010 */ void (*mClearFunctions[49])(void);
     /* 0d4 */ void (*mUpdateFunctions[49])(void);
@@ -689,11 +689,11 @@ typedef struct RaceGoalS {
     /* 0060 */ s32 mPreviousRowKartIndex[8];
     /* 0080 */ s32 mRankComparison[8];
     /* 00a0 */ s32 mOffsetX;
-    /* 00a4 */ s32 mUnk_00a4;
+    /* 00a4 */ s32 fieldA4;
     /* 00a8 */ s32 mHiddenRowCount;
     /* 00ac */ void *mUpdate;
     /* 00b0 */ s32 mUpdateFrames;
-    /* 00b4 */ s32 mUnk_00b4;
+    /* 00b4 */ s32 fieldB4;
     /* 00b8 */ struct Nclr *mRaceGoalSBNclr;
     /* 00bc */ struct Ncgr *mRaceGoalSBNcgr;
     /* 00c0 */ struct Nscr *mRaceGoalSNscrs[6];
@@ -838,25 +838,25 @@ extern RaceTimeDigits *gRaceTimeDigits;
 typedef struct RaceTaPositionSample {
     /* 00 */ Vec3 mPos;
     /* 0c */ u16 mAngle;
-    /* 0e */ u8 mUnk_0e[2];
+    /* 0e */ u8 fieldE[2];
     /* 10 */ s32 mKind;
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 field14;
 } RaceTaPositionSample;
 
 // 0x40-byte elements of the table at member 0x790 of RaceTaPositions.
 typedef struct Unk0217b3e4_790 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ Vec3 mUnk_04[3];
-    /* 28 */ s32 mUnk_28[3];
-    /* 34 */ s32 mUnk_34[3];
+    /* 00 */ s32 field0;
+    /* 04 */ Vec3 field4[3];
+    /* 28 */ s32 field28[3];
+    /* 34 */ s32 field34[3];
 } Unk0217b3e4_790;
 
 // 0x10-byte elements of the table at member 0x810 of RaceTaPositions.
 typedef struct Matrix2x2 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
 } Matrix2x2;
 
 // Object behind r2d_sMapPath, 0x910 bytes, allocated by r2d_initMapPath.
@@ -865,18 +865,18 @@ typedef struct RaceTaPositions {
     /* 004 */ s32 mKartVisible[2];
     /* 00c */ s32 mSampleFrames;
     /* 010 */ RaceTaPositionSample mSamples[2][0x28];
-    /* 790 */ Unk0217b3e4_790 mUnk_790[2];
+    /* 790 */ Unk0217b3e4_790 field790[2];
     /* 810 */ Matrix2x2 mRotations[16];
 } RaceTaPositions;
 
 extern RaceTaPositions *r2d_sMapPath;
 // Object behind gRaceLinkLevel.
 typedef struct Unk0217b3ec {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ s32 mUnk_10;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ s32 field10;
 } Unk0217b3ec;
 
 extern Unk0217b3ec *gRaceLinkLevel;
@@ -885,28 +885,28 @@ extern Unk0217b3ec *gRaceLapNumber;
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
     /* 00 */ struct Unk020e1e98 **mObjects;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 field4;
     /* 08 */ s32 mObjectCount;
     /* 0c */ u16 mAngles[3];
-    /* 12 */ u8 mUnk_12[2];
+    /* 12 */ u8 field12[2];
     /* 14 */ Unk0217b498_0c mDrawPositions[3];
-    /* 2c */ Unk0217b498_0c mUnk_2c[3];
+    /* 2c */ Unk0217b498_0c field2C[3];
 } RaceHudSubScreenSecondHand;
 
 // Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by mpicn_createDriverIcon: arrays of eight entries
 // and an RaceHudSubScreenCells pointer at 0x190.
 typedef struct RaceHudSubScreenKarts {
-    /* 000 */ s32 mUnk_000[8];
-    /* 020 */ s32 mUnk_020[8];
-    /* 040 */ s32 mUnk_040[8];
-    /* 060 */ Unk0217b498_0c mUnk_060[8];
-    /* 0a0 */ Vec3 mUnk_0a0[8];
-    /* 100 */ u16 mUnk_100[8];
-    /* 110 */ s32 mUnk_110[8];
-    /* 130 */ s32 mUnk_130[8];
-    /* 150 */ s32 mUnk_150[8];
-    /* 170 */ s32 mUnk_170[8];
-    /* 190 */ RaceHudSubScreenCells *mUnk_190;
+    /* 000 */ s32 field0[8];
+    /* 020 */ s32 field20[8];
+    /* 040 */ s32 field40[8];
+    /* 060 */ Unk0217b498_0c field60[8];
+    /* 0a0 */ Vec3 fieldA0[8];
+    /* 100 */ u16 field100[8];
+    /* 110 */ s32 field110[8];
+    /* 130 */ s32 field130[8];
+    /* 150 */ s32 field150[8];
+    /* 170 */ s32 field170[8];
+    /* 190 */ RaceHudSubScreenCells *field190;
 } RaceHudSubScreenKarts;
 
 extern RaceHudSubScreenSecondHand *mpicn_sSecondHandIcon;
@@ -940,13 +940,13 @@ extern u16 *gCharTablePair1[2];
 typedef struct KeyboardCanvas {
     /* 00 */ struct Unk02022aa8 *mFont;
     /* 04 */ void *mBg2Char;
-    /* 08 */ void *mUnk_08;
+    /* 08 */ void *field8;
     /* 0c */ u16 *mBg2Scr;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
-    /* 18 */ s32 mUnk_18;
-    /* 1c */ s32 mUnk_1c;
-    /* 20 */ s32 mUnk_20;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
+    /* 18 */ s32 field18;
+    /* 1c */ s32 field1C;
+    /* 20 */ s32 field20;
 } KeyboardCanvas;
 
 extern KeyboardCanvas gKeyboardCanvas;
@@ -1014,7 +1014,7 @@ extern s32 data_0217b900;
 
 // The Jg's state machine record, seen only through its state halfword at 0xe.
 typedef struct Unk0217b9ec {
-    /* 000 */ u8 mUnk_000[0xe];
+    /* 000 */ u8 field0[0xe];
     /* 00e */ u16 mState;
 } Unk0217b9ec;
 

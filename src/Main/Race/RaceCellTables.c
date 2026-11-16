@@ -839,29 +839,29 @@ void r2d_loadMapIconGraphics(u16 *palette, void *chars) {
     for (i = 0; i < (s32) gRaceMultiConfig->mKartCount; i++) {
         GetEntryCharacterAndPalette(i, &characterIndex, &paletteIndex);
         m2d_copyTiles2d(transferCharData, characterIndex << 1, 0, 2, 2, chars, i << 1, 0);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[i]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[i]->field4;
+        oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
     }
     for (j = 0; j < (s32) gRaceMultiConfig->mKartCount; j++) {
         GetEntryCharacterAndPalette(j, &characterIndex, &paletteIndex);
         m2d_copyTiles2d(transferCharData, characterIndex << 1, 2, 2, 2, chars, (j << 1) + 0x10, 0);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[j + 8]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[j]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
-        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[j]->mUnk_04;
-        oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[j + 8]->field4;
+        oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[j]->field4;
+        oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
+        oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[j]->field4;
+        oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
         if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
-            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 7]->mUnk_04;
-            oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 7]->field4;
+            oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
         }
     }
     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         for (j = 0; j < 6; j++) {
             GetTimeRecordCharacterAndPalette(j, &characterIndex, &paletteIndex);
             m2d_copyTiles2d(transferCharData, characterIndex << 1, 2, 2, 2, chars, ((j + 2) << 1) + 0x10, 0);
-            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 8]->mUnk_04;
-            oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
+            oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 8]->field4;
+            oamEntry->field4 = (oamEntry->field4 & 0xfff) + (paletteIndex << 12);
         }
     }
     for (k = 0; k < (s32) gRaceMultiConfig->mKartCount; k++) {

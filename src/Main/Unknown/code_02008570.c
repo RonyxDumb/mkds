@@ -13,7 +13,7 @@
 #pragma thumb on
 
 static inline u32 func_02008570_inline(Unk02008570Header *a) {
-    u32 b = a->mUnk_80;
+    u32 b = a->field80;
     if (b == 0) {
         b = 0x01000000;
     }
@@ -48,7 +48,7 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
         v3 += 0x160;
         remaining -= 0x160;
         if (activeFile != NULL) {
-            basePosition = activeFile->mUnk_2c - activeFile->mProp.w.mUnk_04;
+            basePosition = activeFile->field2C - activeFile->mProp.w.field4;
             if (FS_ReadFile(activeFile, header, 0x160) < 0x160) {
                 remaining = 0;
             }
@@ -59,9 +59,9 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             FS_InitFile(&openedFile);
             FS_OpenFileDirect(&openedFile, FS_FindArchive(aRom_3, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
-            basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
+            basePosition = openedFile.field2C - openedFile.mProp.w.field4;
             MI_CpuCopy8((const void *) 0x027ffe00, header, 0x160);
-            header->mUnk_60 |= 0x00406000;
+            header->field60 |= 0x00406000;
         }
         if (remaining >= 0x88) {
             FS_SeekFile(activeFile, basePosition + seekOffset, 0);
@@ -82,34 +82,34 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             while (v10 < 3 && arcBytes[v10] != 0) {
                 v10++;
             }
-            MI_CpuCopy8(arcBytes, rangeTable->mUnk_10, v10);
-            rangeTable->mUnk_14 = v10;
+            MI_CpuCopy8(arcBytes, rangeTable->field10, v10);
+            rangeTable->field14 = v10;
         } else {
             remaining = 0;
         }
         if (remaining >= 0x10) {
             v6 = (u32 *) v3;
             v6[0] = 0;
-            v6[1] = header->mUnk_20 + (basePosition + activeFile->mProp.w.mUnk_04);
-            v6[2] = header->mUnk_30 + (basePosition + activeFile->mProp.w.mUnk_04);
+            v6[1] = header->field20 + (basePosition + activeFile->mProp.w.field4);
+            v6[2] = header->field30 + (basePosition + activeFile->mProp.w.field4);
             v3 += 0x10;
             remaining -= 0x10;
         } else {
             remaining = 0;
         }
-        v8 = header->mUnk_2c + header->mUnk_3c;
+        v8 = header->field2C + header->field3C;
         if (remaining >= v8) {
-            v10 = activeFile->mProp.w.mUnk_04;
+            v10 = activeFile->mProp.w.field4;
             FS_SeekFile(activeFile, v6[1] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mUnk_2c);
-            AddDataRange(rangeTable, v6[1], header->mUnk_2c, v3, 3);
-            v3 += header->mUnk_2c;
+            FS_ReadFile(activeFile, v3, header->field2C);
+            AddDataRange(rangeTable, v6[1], header->field2C, v3, 3);
+            v3 += header->field2C;
             FS_SeekFile(activeFile, v6[2] - v10, 0);
-            FS_ReadFile(activeFile, v3, header->mUnk_3c);
-            AddDataRange(rangeTable, v6[2], header->mUnk_3c, v3, 3);
+            FS_ReadFile(activeFile, v3, header->field3C);
+            AddDataRange(rangeTable, v6[2], header->field3C, v3, 3);
             result = TRUE;
         } else if (remaining >= 0xcc00) {
-            v10 = activeFile->mProp.w.mUnk_04;
+            v10 = activeFile->mProp.w.field4;
             v8 = v6[1];
             FS_SeekFile(activeFile, v8 - v10, 0);
             FS_ReadFile(activeFile, v3, 0x4400);
@@ -127,17 +127,17 @@ int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
             FS_CloseFile(&openedFile);
             if (result != FALSE) {
                 v6 = data_02161788;
-                v14[0] = header->mUnk_20;
-                v14[1] = header->mUnk_28 - header->mUnk_20;
-                v14[2] = (u32) rangeTable->mUnk_30[1].mData - header->mUnk_20;
+                v14[0] = header->field20;
+                v14[1] = header->field28 - header->field20;
+                v14[2] = (u32) rangeTable->field30[1].mData - header->field20;
                 v14[3] = bufferSize;
                 MBi_ReadSegmentHeader(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
                     MBi_ReadSegmentHeader(v14, v6[0], v6[0] + v6[1], 0);
                     v6 += 2;
                 }
-                v3 = rangeTable->mUnk_30[1].mData;
-                v3 += (u32) AutoloadCallback - header->mUnk_28;
+                v3 = rangeTable->field30[1].mData;
+                v3 += (u32) AutoloadCallback - header->field28;
                 *(u32 *) v3 = 0xe12fff1e;
             }
         }

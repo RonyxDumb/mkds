@@ -30,26 +30,26 @@ void gmenu_init(void *heap, Unk02125de0Arg *config) {
     gmenu_sGlobalMenuContext->mSubCharOffset = 0x5800;
     gmenu_sGlobalMenuContext->mUseTxtSystem = FALSE;
     gmenu_sGlobalMenuContext->mUseSelectChoises = FALSE;
-    gmenu_sGlobalMenuContext->mUnk_08 = FALSE;
-    if (config->mUnk_00 != FALSE) {
-        txtConfig.mFont = (u32) config->mUnk_04;
-        txtConfig.mUseCanvas1 = config->mUnk_08;
-        txtConfig.mUseCanvas2 = config->mUnk_0c;
-        txtConfig.mUseCanvas3 = config->mUnk_10;
+    gmenu_sGlobalMenuContext->field8 = FALSE;
+    if (config->field0 != FALSE) {
+        txtConfig.mFont = (u32) config->field4;
+        txtConfig.mUseCanvas1 = config->field8;
+        txtConfig.mUseCanvas2 = config->fieldC;
+        txtConfig.mUseCanvas3 = config->field10;
         txtConfig.mSubCharOffset = gmenu_sGlobalMenuContext->mSubCharOffset;
         gmenu_sGlobalMenuContext->mUseTxtSystem = TRUE;
         gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initUnknown(heap, &txtConfig);
     }
-    if (config->mUnk_14 != FALSE) {
+    if (config->field14 != FALSE) {
         gmenu_sGlobalMenuContext->mUseSelectChoises = TRUE;
-        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initSelectChoises(heap, config->mUnk_18, gmenu_sGlobalMenuContext->mSubCharOffset);
+        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initSelectChoises(heap, config->field18, gmenu_sGlobalMenuContext->mSubCharOffset);
     }
-    if (config->mUnk_1c != FALSE) {
-        gmenu_sGlobalMenuContext->mUnk_08 = TRUE;
+    if (config->field1C != FALSE) {
+        gmenu_sGlobalMenuContext->field8 = TRUE;
         gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initSelectReturn(heap, gmenu_sGlobalMenuContext->mSubCharOffset);
     }
-    if (config->mUnk_20 != FALSE) {
-        gmenu_sGlobalMenuContext->mBackScreenKind = config->mUnk_24;
+    if (config->field20 != FALSE) {
+        gmenu_sGlobalMenuContext->mBackScreenKind = config->field24;
         gmenu_setupHWForBackground();
         gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_loadBackground(gmenu_sGlobalMenuContext->mSubCharOffset);
     }
@@ -66,7 +66,7 @@ void gmenu_finish(void) {
     if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
         gmenu_finishSelectChoises();
     }
-    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+    if (gmenu_sGlobalMenuContext->field8 != FALSE) {
         gmenu_finishSelectReturn();
     }
     *&gmenu_sGlobalMenuContext = NULL;
@@ -98,7 +98,7 @@ const char *gBackScreenSNscrNames[1] = {aBack_screen_s_bg_00_nscr};
 void gmenu_unpackData(void) {
     LoadedPartPointer loadedPartPointer;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_getSceneArcFile("txt_system_b_00.ncgr"));
         g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_getSceneArcFile("txt_system_bg_00.nscr"));
         g2du_unpackPaletteData(&loadedPartPointer.mNclr, arc_getSceneArcFile("txt_system_b_00.nclr"));
@@ -160,7 +160,7 @@ s32 gmenu_loadBackground(s32 subCharOffset) {
     nclrMSize = (0xe - gBackScreenMNclrStarts[indexM]) << 5;
     nclrSOffset = gBackScreenSNclrStarts[indexS] << 5;
     nclrSSize = (0xc - gBackScreenSNclrStarts[indexS]) << 5;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         g2du_getCharacterDataBG(&ncgrM, arc_getSceneArcFile("common/select_race_rule_s_b.NCGR"));
         g2du_unpackScreenData(&nscrM, arc_getSceneArcFile("common/select_race_rule_download_bg_m.NSCR"));
         g2du_getPaletteData(&nclrM, arc_getSceneArcFile("common/select_race_rule_s_b.NCLR"));
@@ -214,7 +214,7 @@ void gmenu_render(void) {
     if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
         gmenu_21279A0();
     }
-    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+    if (gmenu_sGlobalMenuContext->field8 != FALSE) {
         gmenu_2128458();
     }
 }
@@ -226,7 +226,7 @@ void gmenu_vblank(void) {
     if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
         WriteSelectChoisesRegisters();
     }
-    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+    if (gmenu_sGlobalMenuContext->field8 != FALSE) {
         gmenu_updateSelectReturn();
     }
 }

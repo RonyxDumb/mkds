@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02156000.h"
 
 void sman_init(Unk0209188c *mapObject) {
-    mapObject->mUnk_02 = (((mapObject->mUnk_02)) | ((data_0215645c)));
+    mapObject->field2 = (((mapObject->field2)) | ((data_0215645c)));
 }
 
 u8 sman_onDriverCollide(Sman *sman, Kart *kart, u8 *c, u8 *d) {

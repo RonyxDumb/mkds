@@ -61,13 +61,13 @@ void dram_render(void *a, Dram *dram, void *c, s32 maxAlpha) {
     MtxFx43 *matrix;
     s32 angleIndex;
 
-    matrix = &dram->mUnk_00.mMatrix;
-    angleIndex = (u16) (-(s32) dram->mUnk_a6) >> 4;
+    matrix = &dram->field0.mMatrix;
+    angleIndex = (u16) (-(s32) dram->fieldA6) >> 4;
     MTX_RotX33_((s32 *) matrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
-    matrix->mUnk_00[3].x = dram->mUnk_00.mPos.x >> 4;
-    matrix->mUnk_00[3].y = dram->mUnk_00.mPos.y >> 4;
-    matrix->mUnk_00[3].z = dram->mUnk_00.mPos.z >> 4;
-    model2_renderModel(dram_sModel, matrix, &dram->mUnk_00.mScale, maxAlpha);
+    matrix->field0[3].x = dram->field0.mPos.x >> 4;
+    matrix->field0[3].y = dram->field0.mPos.y >> 4;
+    matrix->field0[3].z = dram->field0.mPos.z >> 4;
+    model2_renderModel(dram_sModel, matrix, &dram->field0.mScale, maxAlpha);
 }
 
 void dram_globalPreUpdate(MapObjectList *list) {
@@ -82,7 +82,7 @@ void dram_globalPreUpdate(MapObjectList *list) {
     dramObjects = list->mMapObjects;
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
-        if (dram->mUnk_00.mStateMachine.mState != 1) {
+        if (dram->field0.mStateMachine.mState != 1) {
             return;
         }
     }
@@ -92,9 +92,9 @@ void dram_globalPreUpdate(MapObjectList *list) {
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
         row = (u16 *) dram_sSpeedPermutationTable[rowIndex];
-        dram->mUnk_a8 = dram->mUnk_b4[row[index]];
-        dram->mUnk_00.mStateMachine.mNextState = 0;
-        dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+        dram->fieldA8 = dram->fieldB4[row[index]];
+        dram->field0.mStateMachine.mNextState = 0;
+        dram->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -111,22 +111,22 @@ u32 dram_waitStateInit(u32 value) {
 }
 
 void dram_waitStateUpdate(Dram *dram) {
-    if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a4) {
-        dram->mUnk_00.mStateMachine.mNextState = 2;
-        dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (dram->field0.mStateMachine.mStateFrames > dram->fieldA4) {
+        dram->field0.mStateMachine.mNextState = 2;
+        dram->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void dram_spinStartStateInit(Unk020ffd94 *dram) {
-    dram->mUnk_ac = 0x0u;
+    dram->fieldAC = 0x0u;
 }
 
 void dram_spinStartStateUpdate(Dram *dram) {
-    dram->mUnk_ac += dram->mUnk_b0;
-    dram->mUnk_a6 += (s16) ((s32) (((s64) dram->mUnk_ac * dram->mUnk_a8) >> 12));
-    if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a0) {
-        dram->mUnk_00.mStateMachine.mNextState = 3;
-        dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    dram->fieldAC += dram->fieldB0;
+    dram->fieldA6 += (s16) ((s32) (((s64) dram->fieldAC * dram->fieldA8) >> 12));
+    if (dram->field0.mStateMachine.mStateFrames > dram->fieldA0) {
+        dram->field0.mStateMachine.mNextState = 3;
+        dram->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -135,40 +135,40 @@ u32 dram_spinningStateInit(u32 value) {
 }
 
 void dram_spinningStateUpdate(Dram *dram) {
-    dram->mUnk_a6 += dram->mUnk_a8;
-    if (dram->mUnk_a2 == 0) {
+    dram->fieldA6 += dram->fieldA8;
+    if (dram->fieldA2 == 0) {
         return;
     }
-    if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a2) {
-        dram->mUnk_00.mStateMachine.mNextState = 4;
-        dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    if (dram->field0.mStateMachine.mStateFrames > dram->fieldA2) {
+        dram->field0.mStateMachine.mNextState = 4;
+        dram->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void dram_spinStopStateInit(Unk020ffcf8 *dram) {
-    dram->mUnk_ac = 0x1000u;
+    dram->fieldAC = 0x1000u;
 }
 
 void dram_spinStopStateUpdate(Dram *dram) {
     s16 angleStep;
 
-    dram->mUnk_ac -= dram->mUnk_b0;
-    angleStep = (s32) (((s64) dram->mUnk_ac * dram->mUnk_a8) >> 12);
+    dram->fieldAC -= dram->fieldB0;
+    angleStep = (s32) (((s64) dram->fieldAC * dram->fieldA8) >> 12);
     if (angleStep <= 0x96) {
         angleStep = 0x96;
     }
-    dram->mUnk_a6 += angleStep;
-    if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a0) {
-        dram->mUnk_00.mStateMachine.mNextState = 5;
-        dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
+    dram->fieldA6 += angleStep;
+    if (dram->field0.mStateMachine.mStateFrames > dram->fieldA0) {
+        dram->field0.mStateMachine.mNextState = 5;
+        dram->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void dram_alignStateInit(Dram *dram) {
     s32 angle;
 
-    angle = dram->mUnk_a6;
-    dram->mUnk_bc = 0x1999 - angle % 0x1999;
+    angle = dram->fieldA6;
+    dram->fieldBC = 0x1999 - angle % 0x1999;
 }
 
 // Raw stores of 1 at +0x90 and +0x92 are mNextState and mNextStateRequested (MapObject +0x80 + 0x10 / 0x12): it asks

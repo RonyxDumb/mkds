@@ -6,16 +6,16 @@ typedef struct OamEntry OamEntry;
 
 // 0xc bytes allocated by func_ov003_021beef8.
 typedef struct Unk021da104 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ OamEntry *mUnk_04;
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
+    /* 00 */ u32 field0;
+    /* 04 */ OamEntry *field4;
+    /* 08 */ u8 field8;
+    /* 09 */ u8 field9;
 } Unk021da104;
 
 // Message passed to func_ov003_021bea3c.
 typedef struct Unk021bea3c {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ s16 mUnk_02;
+    /* 00 */ s16 field0;
+    /* 02 */ s16 field2;
 } Unk021bea3c;
 
 extern Unk021da104 *data_ov003_021da104;

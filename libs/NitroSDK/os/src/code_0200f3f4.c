@@ -23,7 +23,7 @@ void OS_InitException(void) {
     p = (Unk0200f4f0 *) 0x027e3000;
     if (OSi_DebuggerHandler == 0 || (OS_GetConsoleType() & 0x40000000) == 0) {
         *(UnkFunc **) 0x027ffd9c = (UnkFunc *) OSi_ExceptionHandler;
-        p->mUnk_fdc = (UnkFunc *) OSi_ExceptionHandler;
+        p->fieldFDC = (UnkFunc *) OSi_ExceptionHandler;
     }
     OSi_UserExceptionHandler = 0;
 }

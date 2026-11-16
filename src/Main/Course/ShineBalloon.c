@@ -54,25 +54,25 @@ void sblln_render(void *a, ShineBalloonObject *b) {
     s32 t;
     s32 v5;
 
-    if (b->mUnk_ac->mVisible == 0) {
+    if (b->fieldAC->mVisible == 0) {
         return;
     }
     s0 = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &s0, 1);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_00.mPos), 0xc);
-    v2.y = mgcnt_20A23A0(b->mUnk_ac) >> 4;
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->field0.mPos), 0xc);
+    v2.y = mgcnt_20A23A0(b->fieldAC) >> 4;
     v2.x = 0;
     v2.z = 0;
     NNS_G3dGeBufferOP_N(0x1c, &v2, 3);
-    t = b->mUnk_a0;
+    t = b->fieldA0;
     if (t != 0x1000) {
         v3.x = t;
         v3.y = t;
         v3.z = t;
         NNS_G3dGeBufferOP_N(0x1b, &v3, 3);
     }
-    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
-    VEC_Subtract(&b->mUnk_00.mPos, &race_getCamera()->mPos, &v1);
+    NNS_G3dGeBufferOP_N(0x1b, &b->field0.mScale, 3);
+    VEC_Subtract(&b->field0.mPos, &race_getCamera()->mPos, &v1);
     v5 = VEC_Mag(&v1);
     v4.x = v5;
     v4.y = v5;
@@ -84,54 +84,54 @@ void sblln_render(void *a, ShineBalloonObject *b) {
 void sblln_update(void *a, ShineBalloonObject *b) {
     switch (b->mState) {
         case 0:
-            if (mgcnt_getDriverBalloonShineCount(b->mUnk_ac->mIndex) == 0) {
+            if (mgcnt_getDriverBalloonShineCount(b->fieldAC->mIndex) == 0) {
                 return;
             }
             b->mTimer = 0x1e;
-            b->mUnk_a4 = 0x19;
+            b->fieldA4 = 0x19;
             b->mState = 1;
-            b->mUnk_00.mFlags &= ~2;
-            b->mUnk_00.mFlags &= ~8;
-            b->mUnk_00.mAlpha = 0x1f;
+            b->field0.mFlags &= ~2;
+            b->field0.mFlags &= ~8;
+            b->field0.mAlpha = 0x1f;
             break;
         case 1:
             if (b->mTimer-- > 0) {
                 return;
             }
             b->mTimer = 0;
-            b->mUnk_a0 += b->mUnk_a4;
-            b->mUnk_a4 -= 4;
-            if (b->mUnk_a4 < 0) {
-                if (b->mUnk_a0 <= 0x4a) {
-                    b->mUnk_a0 = 0x4a;
+            b->fieldA0 += b->fieldA4;
+            b->fieldA4 -= 4;
+            if (b->fieldA4 < 0) {
+                if (b->fieldA0 <= 0x4a) {
+                    b->fieldA0 = 0x4a;
                     b->mState = 2;
                 }
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->field0.mPos = b->fieldAC->mPos;
             break;
         case 2:
-            if (mgcnt_getDriverBalloonShineCount(b->mUnk_ac->mIndex) == 0) {
+            if (mgcnt_getDriverBalloonShineCount(b->fieldAC->mIndex) == 0) {
                 b->mTimer = 0x1e;
-                b->mUnk_a4 = 8;
+                b->fieldA4 = 8;
                 b->mState = 3;
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->field0.mPos = b->fieldAC->mPos;
             break;
         case 3:
             if (b->mTimer-- <= 0) {
                 b->mTimer = 0;
-                b->mUnk_a0 += b->mUnk_a4;
-                b->mUnk_a4 -= 4;
-                if (b->mUnk_a4 < 0) {
-                    if (b->mUnk_a0 <= 0) {
-                        b->mUnk_a0 = 0;
+                b->fieldA0 += b->fieldA4;
+                b->fieldA4 -= 4;
+                if (b->fieldA4 < 0) {
+                    if (b->fieldA0 <= 0) {
+                        b->fieldA0 = 0;
                         b->mState = 0;
-                        b->mUnk_00.mFlags |= data_02156838;
-                        b->mUnk_00.mFlags |= data_0215683c;
+                        b->field0.mFlags |= data_02156838;
+                        b->field0.mFlags |= data_0215683c;
                     }
                 }
             }
-            b->mUnk_00.mPos = b->mUnk_ac->mPos;
+            b->field0.mPos = b->fieldAC->mPos;
             break;
     }
 }
@@ -155,15 +155,15 @@ void sblln_spawn(Kart *a) {
     if (o == NULL) {
         return;
     }
-    o->mUnk_00.mPos.x = 0;
-    o->mUnk_00.mPos.y = 0;
-    o->mUnk_00.mPos.z = 0;
-    o->mUnk_00.mUnk_10.x = 0;
-    o->mUnk_00.mUnk_10.y = 0;
-    o->mUnk_00.mUnk_10.z = 0;
-    o->mUnk_ac = a;
-    o->mUnk_a0 = 0;
-    o->mUnk_a4 = 0;
+    o->field0.mPos.x = 0;
+    o->field0.mPos.y = 0;
+    o->field0.mPos.z = 0;
+    o->field0.field10.x = 0;
+    o->field0.field10.y = 0;
+    o->field0.field10.z = 0;
+    o->fieldAC = a;
+    o->fieldA0 = 0;
+    o->fieldA4 = 0;
     o->mTimer = 0;
     o->mState = 0;
 }

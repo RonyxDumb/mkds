@@ -12,7 +12,7 @@ s32 qrtn_lookAt(Vec4 *a, const Vec3 *b, const Vec3 *c);
 // Writes to c the quaternion of a rotation about the axis a by the angle b (0x10000 per turn): a scaled by the sine of
 // half the angle in x, y, z and the cosine of half the angle in w.
 void qrtn_fromAxisAngle(const Vec3 *a, s32 b, Vec4 *c);
-// Adds to the heading of the CPU Kart (three ways; returns at once in some states) and sets mUnk_48 bit 8 or 0x10.
+// Adds to the heading of the CPU Kart (three ways; returns at once in some states) and sets field48 bit 8 or 0x10.
 void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b);
 // Squared x and z distance to the camera ORed with the view test bits, checking two frustum planes.
 s32 mobj_calcVisibilityFlags3d(Vec3 *a, s32 b, s32 c, s32 d, u16 e);

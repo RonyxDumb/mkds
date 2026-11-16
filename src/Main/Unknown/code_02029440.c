@@ -136,11 +136,11 @@ void SetPlayerKind(u16 entryIndex, u32 playerKind) {
 }
 
 void func_020294c0(u16 entryIndex, u32 b) {
-    menu_sRaceConfig->mEntries[entryIndex].mUnk_10 = b;
+    menu_sRaceConfig->mEntries[entryIndex].field10 = b;
 }
 
 void func_020294ac(u16 entryIndex, u32 b) {
-    menu_sRaceConfig->mEntries[entryIndex].mUnk_14 = b;
+    menu_sRaceConfig->mEntries[entryIndex].field14 = b;
 }
 
 #pragma thumb off
@@ -148,7 +148,7 @@ void func_020294ac(u16 entryIndex, u32 b) {
 #pragma thumb on
 
 void SPM_SetTTGhost(u32 p0) {
-    menu_sRaceConfig->mUnk_e0 = p0;
+    menu_sRaceConfig->fieldE0 = p0;
 }
 
 void SPM_SetMissionLevel(u32 missionTableRow) {

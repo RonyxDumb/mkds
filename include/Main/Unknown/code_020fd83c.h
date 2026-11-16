@@ -10,21 +10,21 @@ struct ModelEffect;
 
 // Object of item kind 9, element of it_sItemsets[9].
 typedef struct ItemBomb {
-    /* 000 */ BouncingItemObject mUnk_000;
-    /* 130 */ s32 mUnk_130;
-    /* 134 */ s32 mUnk_134;
+    /* 000 */ BouncingItemObject field0;
+    /* 130 */ s32 field130;
+    /* 134 */ s32 field134;
     /* 138 */ struct ModelEffect *mModelEffect;
-    /* 13c */ u8 mUnk_13c[0x30];
-    /* 16c */ BOOL mUnk_16c;
+    /* 13c */ u8 field13C[0x30];
+    /* 16c */ BOOL field16C;
     /* 170 */ s32 mTimer;
-    /* 174 */ s32 mUnk_174;
+    /* 174 */ s32 field174;
     /* 178 */ u16 mNearestKartIndex;
-    /* 17a */ u8 mUnk_17a[2];
+    /* 17a */ u8 field17A[2];
     /* 17c */ s32 mNearestKartDistanceSquared;
-    /* 180 */ s32 mUnk_180;
-    /* 184 */ u8 mUnk_184[4];
+    /* 180 */ s32 field180;
+    /* 184 */ u8 field184[4];
     /* 188 */ s32 mStateFrames;
-    /* 18c */ u8 mUnk_18c[6];
+    /* 18c */ u8 field18C[6];
     /* 192 */ u16 mState;
     /* 194 */ u16 mNextState;
     /* 196 */ u16 mNextStateRequested;

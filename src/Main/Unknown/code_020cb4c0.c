@@ -22,17 +22,17 @@ void menu_render(u32 a) {
 
     if (scene_areUpdatesSuspended() == 0) {
         if (menu_sysdat_getOverlayRelatedNum() == 1 || menu_sysdat_getOverlayRelatedNum() == 2) {
-            if (gMenuSceneState->mUnk_958 == FALSE) {
+            if (gMenuSceneState->field958 == FALSE) {
                 if (StartDataSharingSync() != 1) {
                     return;
                 }
-                gMenuSceneState->mUnk_958 = TRUE;
+                gMenuSceneState->field958 = TRUE;
             }
-            if (gMenuSceneState->mUnk_95c == FALSE) {
+            if (gMenuSceneState->field95C == FALSE) {
                 if (FinishDataSharingSync() != 1) {
                     return;
                 }
-                gMenuSceneState->mUnk_95c = TRUE;
+                gMenuSceneState->field95C = TRUE;
             }
         }
         oam_resetBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
@@ -46,7 +46,7 @@ void menu_render(u32 a) {
             menu = gMenuSceneState;
             screenNumber = menu->mScreenNumber;
             menu->mScreenCallbacks[screenNumber].mUpdate(a);
-            if (gMenuSceneState->mUnk_004 != 0) {
+            if (gMenuSceneState->field4 != 0) {
                 menu_destroySubMenu();
                 menu_initSubMenu();
             }
@@ -62,7 +62,7 @@ void menu_render(u32 a) {
 void func_020cb4c0(void) {
     if (scene_areUpdatesSuspended() == 0) {
         if (menu_sysdat_getOverlayRelatedNum() == 1 || menu_sysdat_getOverlayRelatedNum() == 2) {
-            if (gMenuSceneState->mUnk_958 == FALSE || gMenuSceneState->mUnk_95c == FALSE) {
+            if (gMenuSceneState->field958 == FALSE || gMenuSceneState->field95C == FALSE) {
                 return;
             }
         }

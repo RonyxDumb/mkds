@@ -33,8 +33,8 @@
 
 // Address and byte-swapped port built by WiFiUnmatchedDataCallback and handed on with the data.
 typedef struct UnmatchedDataAddress {
-    /* 00 */ u8 mUnk_00;
-    /* 01 */ u8 mUnk_01;
+    /* 00 */ u8 field0;
+    /* 01 */ u8 field1;
     /* 02 */ u16 mPort;
     /* 04 */ u32 mAddress;
 } UnmatchedDataAddress;

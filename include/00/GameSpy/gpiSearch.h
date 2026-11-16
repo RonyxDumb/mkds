@@ -5,67 +5,67 @@
 
 // 0xac-byte array element GpiUpdateSearch fills.
 typedef struct Unk02194cac_ac {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ char mUnk_04[0x1f];
-    /* 23 */ char mUnk_23[0x15];
-    /* 38 */ char mUnk_38[0x1f];
-    /* 57 */ char mUnk_57[0x1f];
-    /* 76 */ char mUnk_76[0x36];
+    /* 00 */ s32 field0;
+    /* 04 */ char field4[0x1f];
+    /* 23 */ char field23[0x15];
+    /* 38 */ char field38[0x1f];
+    /* 57 */ char field57[0x1f];
+    /* 76 */ char field76[0x36];
 } Unk02194cac_ac;
 
 // 0x128-byte array element GpiUpdateSearch fills.
 typedef struct Unk02194cac_128 {
-    /* 000 */ s32 mUnk_000;
-    /* 004 */ char mUnk_004[0x20];
-    /* 024 */ s32 mUnk_024;
-    /* 028 */ char mUnk_028[0x100];
+    /* 000 */ s32 field0;
+    /* 004 */ char field4[0x20];
+    /* 024 */ s32 field24;
+    /* 028 */ char field28[0x100];
 } Unk02194cac_128;
 
 // 0x10-byte local of GpiUpdateSearch passed to GpiCallback.mCallback.
 typedef struct Unk02194cac_10 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk02194cac_ac *mUnk_0c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ Unk02194cac_ac *fieldC;
 } Unk02194cac_10;
 
 // Objects GpiUpdateSearch allocates and passes to GpiQueueCallback.
 typedef struct Unk02194cac_08 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
 } Unk02194cac_08;
 
 typedef struct Unk02194cac_0c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ Unk02194cac_ac *mUnk_08;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ Unk02194cac_ac *field8;
 } Unk02194cac_0c;
 
 typedef struct Unk02194cac_0c2 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ char **mUnk_08;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ char **field8;
 } Unk02194cac_0c2;
 
 typedef struct Unk02194cac_102 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ s32 mUnk_04;
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ Unk02194cac_128 *mUnk_0c;
+    /* 00 */ s32 field0;
+    /* 04 */ s32 field4;
+    /* 08 */ s32 field8;
+    /* 0c */ Unk02194cac_128 *fieldC;
 } Unk02194cac_102;
 
 typedef struct Unk02194cac_3c {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ char mUnk_04[0x34];
-    /* 38 */ BOOL mUnk_38;
+    /* 00 */ s32 field0;
+    /* 04 */ char field4[0x34];
+    /* 38 */ BOOL field38;
 } Unk02194cac_3c;
 
 typedef struct Unk02194cac_44 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ char mUnk_04[0x34];
-    /* 38 */ s32 mUnk_38;
-    /* 3c */ char **mUnk_3c;
-    /* 40 */ char **mUnk_40;
+    /* 00 */ s32 field0;
+    /* 04 */ char field4[0x34];
+    /* 38 */ s32 field38;
+    /* 3c */ char **field3C;
+    /* 40 */ char **field40;
 } Unk02194cac_44;
 
 extern char data_ov000_021b35b8[];

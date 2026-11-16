@@ -3,19 +3,19 @@
 #include "types.h"
 
 typedef struct Unk021b5df4 {
-    /* 00 */ s32 mUnk_00;
-    /* 04 */ u16 mUnk_04;
-    /* 06 */ u16 mUnk_06;
-    /* 08 */ u16 mUnk_08;
-    /* 0a */ u16 mUnk_0a;
+    /* 00 */ s32 field0;
+    /* 04 */ u16 field4;
+    /* 06 */ u16 field6;
+    /* 08 */ u16 field8;
+    /* 0a */ u16 fieldA;
 } Unk021b5df4;
 
 // Local of func_ov000_021a3910, filled with zeros and then with two function addresses and two bytes.
 typedef struct Unk021a3910 {
-    /* 00 */ void *(*mUnk_00)(u32 a, u32 b);
-    /* 04 */ void (*mUnk_04)(u32 a, u32 b, u32 c);
-    /* 08 */ u8 mUnk_08;
-    /* 09 */ u8 mUnk_09;
+    /* 00 */ void *(*field0)(u32 a, u32 b);
+    /* 04 */ void (*field4)(u32 a, u32 b, u32 c);
+    /* 08 */ u8 field8;
+    /* 09 */ u8 field9;
     /* 0a */ u8 pad_0a[2];
 } Unk021a3910;
 

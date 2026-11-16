@@ -100,7 +100,7 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectNS = heap_alloc(heap, 0x40);
     func_0203091c(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
-    gMultiSelectNS->mUnk_1c = scene;
+    gMultiSelectNS->field1C = scene;
     gMultiSelectNS->mOamList = oamList;
     gMultiSelectNS->mBannerMessages = arc_getSceneArcFile(aBanner_bmg_1);
     gMultiSelectNS->mOffset = -0xc0;
@@ -115,13 +115,13 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     jn_ui_initLayout(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
     for (i = 0; i < 2; i++) {
         labelMessageRow = &gMultiSelectNSLabelMessageRows[i];
-        labelIndex = labelMessageRow->mUnk_00;
+        labelIndex = labelMessageRow->field0;
         subObjSizeLeft -=
-            jn_ui_initLabel(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,
-                            labelMessageRow->mUnk_04, labelMessageRow->mUnk_06, multiSelectNS->mNcer,
+            jn_ui_initLabel(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->field2,
+                            labelMessageRow->field4, labelMessageRow->field6, multiSelectNS->mNcer,
                             multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
         jn_ui_212426C(1, labelIndex, multiSelectNS->mBnll,
-                      jn_msg_getMessage(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08), multiSelectNS->mBncl,
+                      jn_msg_getMessage(gMultiSelectNS->mBannerMessages, labelMessageRow->field8), multiSelectNS->mBncl,
                       multiSelectNS->mCellTable);
     }
     NNS_GfdRegisterNewVramTransferTask(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);

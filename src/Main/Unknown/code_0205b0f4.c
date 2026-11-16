@@ -60,7 +60,7 @@ void ResetParticipantKartMap(void) {
         gStruct217AA18->mParticipantOfKart[index] = -1;
         gStruct217AA18->mKartOfParticipant[index] = -1;
     }
-    gStruct217AA18->mUnk_05 = 0;
+    gStruct217AA18->field5 = 0;
 }
 
 void SetParticipantKartMapFromMask(u32 participantMask) {
@@ -75,7 +75,7 @@ void SetParticipantKartMapFromMask(u32 participantMask) {
             kart++;
         }
     }
-    gStruct217AA18->mUnk_04 = participantMask;
+    gStruct217AA18->field4 = participantMask;
     while (kart < 4) {
         gStruct217AA18->mParticipantOfKart[kart] = -1;
         kart++;
@@ -88,13 +88,13 @@ static inline BOOL func_0205c98c_inline(void) {
     Unk0217aa14_754_04 *q;
 
     p = gStruct217AA14;
-    q = &p->mUnk_754->mUnk_04;
+    q = &p->field754->field4;
     for (participant = 0; participant < 4; participant++) {
-        if (p->mUnk_014[participant].mUnk_30 != FALSE) {
-            MI_CpuCopy8(&p->mUnk_014[participant], q, 0x28);
-            *(u64 *) &q->mUnk_0c[2] = OS_GetTick();
+        if (p->field14[participant].field30 != FALSE) {
+            MI_CpuCopy8(&p->field14[participant], q, 0x28);
+            *(u64 *) &q->fieldC[2] = OS_GetTick();
             if (func_0205c340(participant, 0, 0x28) != 0) {
-                gStruct217AA14->mUnk_014[participant].mUnk_30 = FALSE;
+                gStruct217AA14->field14[participant].field30 = FALSE;
             } else {
                 MI_CpuFill8(q, 0, 0x28);
             }
@@ -116,41 +116,41 @@ void func_0205cd24(void *heap) {
         return;
     }
     gStruct217AA14 = heap_alloc(heap, 0x760);
-    gStruct217AA14->mUnk_754 = heap_allocEx(heap, 0x6c, 0x20);
+    gStruct217AA14->field754 = heap_allocEx(heap, 0x6c, 0x20);
     for (i = 0; i < 16; i++) {
-        gStruct217AA14->mUnk_324[i].mData = heap_allocEx(heap, 20, 32);
+        gStruct217AA14->field324[i].mData = heap_allocEx(heap, 20, 32);
         for (j = 0; j < 4; j++) {
-            gStruct217AA14->mUnk_3e4[i][j].mData = heap_allocEx(heap, 20, 32);
+            gStruct217AA14->field3E4[i][j].mData = heap_allocEx(heap, 20, 32);
         }
     }
-    gStruct217AA14->mUnk_0fc = gStruct217AA18->mUnk_04;
-    MI_CpuFill8(gStruct217AA14->mUnk_754, 0, 0x6c);
+    gStruct217AA14->fieldFC = gStruct217AA18->field4;
+    MI_CpuFill8(gStruct217AA14->field754, 0, 0x6c);
     for (n = 0; n < 4; n++) {
-        MI_CpuFill8(&gStruct217AA14->mUnk_104[n], 0, 0x68);
-        gStruct217AA14->mUnk_104[n].mUnk_86_0 = 0;
+        MI_CpuFill8(&gStruct217AA14->field104[n], 0, 0x68);
+        gStruct217AA14->field104[n].field86_0 = 0;
     }
-    k = gStruct217AA14->mUnk_0fc;
-    gStruct217AA14->mUnk_748 = 0;
-    gStruct217AA14->mUnk_749 = k;
+    k = gStruct217AA14->fieldFC;
+    gStruct217AA14->field748 = 0;
+    gStruct217AA14->field749 = k;
     for (k = 0; k < 4; k++) {
-        gStruct217AA14->mUnk_74a[k] = 0;
-        gStruct217AA14->mUnk_740[k] = 0;
+        gStruct217AA14->field74A[k] = 0;
+        gStruct217AA14->field740[k] = 0;
     }
     ResetItemDataSlots();
     func_0205a6b4();
-    gStruct217AA14->mUnk_75c |= 1;
-    gStruct217AA14->mUnk_75c |= 0x40;
+    gStruct217AA14->field75C |= 1;
+    gStruct217AA14->field75C |= 0x40;
     p = gStruct217AA14;
-    p->mUnk_010 = 0;
-    p->mUnk_012 = 1;
-    gStruct217AA14->mUnk_758 = 0;
+    p->field10 = 0;
+    p->field12 = 1;
+    gStruct217AA14->field758 = 0;
     for (m = 0; m < 4; m++) {
         j = gStruct217AA18->mKartOfParticipant[m];
-        gStruct217AA14->mUnk_104[m].mUnk_80 = 0;
+        gStruct217AA14->field104[m].field80 = 0;
         if (j >= 0) {
-            gStruct217AA14->mUnk_104[m].mRank = rres_getPlace((u8) j);
+            gStruct217AA14->field104[m].mRank = rres_getPlace((u8) j);
         } else {
-            gStruct217AA14->mUnk_104[m].mRank = 0;
+            gStruct217AA14->field104[m].mRank = 0;
         }
     }
     sm_init(gStruct217AA14, data_02165388, 6, NULL);
@@ -163,10 +163,10 @@ void func_0205ccec(void) {
     if (p == NULL) {
         return;
     }
-    switch (p->mUnk_00e) {
+    switch (p->fieldE) {
         case 4:
         case 5:
-            p->mUnk_728++;
+            p->field728++;
             break;
     }
 }
@@ -177,7 +177,7 @@ void func_0205cbe4(void) {
     Unk0217aa14 *b;
 
     for (participant = 0; participant < 4; participant++) {
-        e = &gStruct217AA14->mUnk_014[participant].mUnk_04;
+        e = &gStruct217AA14->field14[participant].field4;
         e[0] = 0;
         e[1] = 0;
         e[2] = 0;
@@ -188,21 +188,21 @@ void func_0205cbe4(void) {
         e[7] = 0;
         e[8] = 0;
         b = gStruct217AA14;
-        b->mUnk_014[participant].mUnk_28 = 0;
-        b->mUnk_014[participant].mUnk_2c = 0;
-        b->mUnk_014[participant].mUnk_34 = 0;
-        gStruct217AA14->mUnk_014[participant].mUnk_35 = 0;
-        gStruct217AA14->mUnk_014[participant].mUnk_36 = 0;
+        b->field14[participant].field28 = 0;
+        b->field14[participant].field2C = 0;
+        b->field14[participant].field34 = 0;
+        gStruct217AA14->field14[participant].field35 = 0;
+        gStruct217AA14->field14[participant].field36 = 0;
     }
-    gStruct217AA14->mUnk_0f8 = 0;
-    gStruct217AA14->mUnk_0fb = 0;
-    gStruct217AA14->mUnk_0fd = 0;
-    gStruct217AA14->mUnk_0f4 = 0;
-    gStruct217AA14->mUnk_736 = 0x7f;
-    gStruct217AA14->mUnk_758 = 1;
-    gStruct217AA14->mUnk_75c &= ~2;
-    gStruct217AA14->mUnk_75c |= 0x80;
-    gStruct217AA14->mUnk_75c &= ~0x10;
+    gStruct217AA14->fieldF8 = 0;
+    gStruct217AA14->fieldFB = 0;
+    gStruct217AA14->fieldFD = 0;
+    gStruct217AA14->fieldF4 = 0;
+    gStruct217AA14->field736 = 0x7f;
+    gStruct217AA14->field758 = 1;
+    gStruct217AA14->field75C &= ~2;
+    gStruct217AA14->field75C |= 0x80;
+    gStruct217AA14->field75C &= ~0x10;
 }
 
 void func_0205c98c(void) {
@@ -216,51 +216,51 @@ void func_0205c98c(void) {
 
     mask = 0;
     for (participant = 0; participant < 4; participant++) {
-        if (participant == func_ov000_0219bb50() || gStruct217AA14->mUnk_014[participant].mUnk_34 >= 12) {
+        if (participant == func_ov000_0219bb50() || gStruct217AA14->field14[participant].field34 >= 12) {
             mask = mask | (1 << participant);
         }
     }
     p = gStruct217AA14;
-    if (p->mUnk_749 == (p->mUnk_749 & mask)) {
-        p->mUnk_0fb = mask;
+    if (p->field749 == (p->field749 & mask)) {
+        p->fieldFB = mask;
         p = gStruct217AA14;
-        p->mUnk_010 = 2;
-        p->mUnk_012 = 1;
+        p->field10 = 2;
+        p->field12 = 1;
     }
     if (func_0205c98c_inline() != FALSE) {
         return;
     }
     p = gStruct217AA14;
-    k = p->mUnk_0f8;
+    k = p->fieldF8;
     if (k < 4) {
         b = k;
-        if ((p->mUnk_749 & (1 << b)) != 0 && b != func_ov000_0219bb50()) {
+        if ((p->field749 & (1 << b)) != 0 && b != func_ov000_0219bb50()) {
             p = gStruct217AA14;
-            if (p->mUnk_014[b].mUnk_34 < 12) {
-                r = p->mUnk_754;
-                q = &r->mUnk_04;
-                r->mUnk_04.mUnk_00_h = func_ov000_0219bb50();
-                *(u64 *) &q->mUnk_04 = OS_GetTick();
-                q->mUnk_0c[0] = 0;
-                q->mUnk_0c[1] = 0;
-                q->mUnk_0c[2] = 0;
-                q->mUnk_0c[3] = 0;
-                q->mUnk_0c[4] = 0;
-                *(u32 *) &q->mUnk_20[0] = 0;
+            if (p->field14[b].field34 < 12) {
+                r = p->field754;
+                q = &r->field4;
+                r->field4.mUnk_00_h = func_ov000_0219bb50();
+                *(u64 *) &q->field4 = OS_GetTick();
+                q->fieldC[0] = 0;
+                q->fieldC[1] = 0;
+                q->fieldC[2] = 0;
+                q->fieldC[3] = 0;
+                q->fieldC[4] = 0;
+                *(u32 *) &q->field20[0] = 0;
                 func_0205c340(b, 0, 0x28);
             } else {
-                if (p->mUnk_014[b].mUnk_36 == 0) {
+                if (p->field14[b].field36 == 0) {
                     func_0205c340(b, 5, 0);
                 }
-                gStruct217AA14->mUnk_014[b].mUnk_36++;
-                if (gStruct217AA14->mUnk_014[b].mUnk_36 > 4) {
-                    gStruct217AA14->mUnk_014[b].mUnk_36 = 0;
+                gStruct217AA14->field14[b].field36++;
+                if (gStruct217AA14->field14[b].field36 > 4) {
+                    gStruct217AA14->field14[b].field36 = 0;
                 }
             }
         }
-        gStruct217AA14->mUnk_0f8++;
+        gStruct217AA14->fieldF8++;
     } else {
-        p->mUnk_0f8 = 0;
+        p->fieldF8 = 0;
     }
 }
 
@@ -270,17 +270,17 @@ void func_0205c898(void) {
     u8 n;
     u64 x;
 
-    gStruct217AA14->mUnk_0fa = 1 << func_ov000_0219bb50();
-    gStruct217AA14->mUnk_736 = 0x7f;
-    gStruct217AA14->mUnk_0f8 = 0;
+    gStruct217AA14->fieldFA = 1 << func_ov000_0219bb50();
+    gStruct217AA14->field736 = 0x7f;
+    gStruct217AA14->fieldF8 = 0;
     for (participant = 0; participant < 4; participant++) {
         p = gStruct217AA14;
-        n = p->mUnk_014[participant].mUnk_34;
-        x = *(u64 *) &p->mUnk_014[participant].mUnk_28;
+        n = p->field14[participant].field34;
+        x = *(u64 *) &p->field14[participant].field28;
         if (n == 0) {
-            p->mUnk_104[participant].mUnk_84 = 0;
+            p->field104[participant].field84 = 0;
         } else {
-            p->mUnk_104[participant].mUnk_84 = (x / n * 64 / 0x82ea + 32) / 33;
+            p->field104[participant].field84 = (x / n * 64 / 0x82ea + 32) / 33;
         }
     }
 }
@@ -296,7 +296,7 @@ void func_0205c800(u16 a, void (*callback)(u32)) {
         if (participant >= 4) {
             participant = participant - 4;
         }
-        if (participant != func_ov000_0219bb50() && (gStruct217AA14->mUnk_749 & (1 << (u8) participant)) != 0) {
+        if (participant != func_ov000_0219bb50() && (gStruct217AA14->field749 & (1 << (u8) participant)) != 0) {
             nextParticipant = participant;
             break;
         }
@@ -313,9 +313,9 @@ void func_0205c7a0(u32 participant) {
         return;
     }
     index = participant;
-    if (gStruct217AA14->mUnk_749 & (1 << index)) {
+    if (gStruct217AA14->field749 & (1 << index)) {
         if (func_0205c340(index, 1, 8) != 0) {
-            gStruct217AA14->mUnk_0f8 = index;
+            gStruct217AA14->fieldF8 = index;
         }
     }
 }
@@ -326,13 +326,13 @@ void func_0205c6b0(void) {
     Unk0217aa14_754_04 *q;
 
     p = gStruct217AA14;
-    q = &p->mUnk_754->mUnk_04;
+    q = &p->field754->field4;
     for (participant = 0; participant < 4; participant++) {
-        if (p->mUnk_014[participant].mUnk_30 != FALSE) {
-            MI_CpuCopy8(&p->mUnk_014[participant], q, 0x28);
-            *(u64 *) &q->mUnk_0c[2] = OS_GetTick();
+        if (p->field14[participant].field30 != FALSE) {
+            MI_CpuCopy8(&p->field14[participant], q, 0x28);
+            *(u64 *) &q->fieldC[2] = OS_GetTick();
             if (func_0205c340(participant, 0, 0x28) != 0) {
-                gStruct217AA14->mUnk_014[participant].mUnk_30 = FALSE;
+                gStruct217AA14->field14[participant].field30 = FALSE;
             } else {
                 MI_CpuFill8(q, 0, 0x28);
             }
@@ -340,66 +340,66 @@ void func_0205c6b0(void) {
         }
     }
     p = gStruct217AA14;
-    if (p->mUnk_749 == (p->mUnk_749 & p->mUnk_0fa)) {
-        p->mUnk_010 = 3;
-        p->mUnk_012 = 1;
+    if (p->field749 == (p->field749 & p->fieldFA)) {
+        p->field10 = 3;
+        p->field12 = 1;
         return;
     }
-    func_0205c800(p->mUnk_0f8, func_0205c7a0);
+    func_0205c800(p->fieldF8, func_0205c7a0);
 }
 
 void func_0205c684(void) {
-    gStruct217AA14->mUnk_736 = 0xf0;
-    gStruct217AA14->mUnk_734 = 0;
+    gStruct217AA14->field736 = 0xf0;
+    gStruct217AA14->field734 = 0;
 }
 
 void func_0205c610(u32 participant) {
     Unk0217aa14_754 *q;
     Unk0217aa14_754_04 *r;
 
-    q = gStruct217AA14->mUnk_754;
-    r = &q->mUnk_04;
-    r->mUnk_00_h = gStruct217AA14->mUnk_736 - gStruct217AA14->mUnk_104[participant].mUnk_84;
-    r->mUnk_04_b[0] = gStruct217AA14->mUnk_0fb;
+    q = gStruct217AA14->field754;
+    r = &q->field4;
+    r->mUnk_00_h = gStruct217AA14->field736 - gStruct217AA14->field104[participant].field84;
+    r->mUnk_04_b[0] = gStruct217AA14->fieldFB;
     if (func_0205c340(participant, 2, 8) != 0) {
-        gStruct217AA14->mUnk_734 = participant;
+        gStruct217AA14->field734 = participant;
     }
 }
 
 void func_0205c594(void) {
     Unk0217aa14 *p;
 
-    gStruct217AA14->mUnk_736 = gStruct217AA14->mUnk_736 - 1;
-    if (gStruct217AA14->mUnk_736 <= 0) {
-        gStruct217AA14->mUnk_736 = -1;
+    gStruct217AA14->field736 = gStruct217AA14->field736 - 1;
+    if (gStruct217AA14->field736 <= 0) {
+        gStruct217AA14->field736 = -1;
         p = gStruct217AA14;
-        p->mUnk_010 = 4;
-        p->mUnk_012 = 1;
+        p->field10 = 4;
+        p->field12 = 1;
         return;
     }
-    func_0205c800(gStruct217AA14->mUnk_734, func_0205c610);
+    func_0205c800(gStruct217AA14->field734, func_0205c610);
 }
 
 void func_0205c470(void) {
     u8 participant;
 
-    gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c | 2;
-    gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c & ~0x20;
-    gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c & ~0x200;
-    gStruct217AA14->mUnk_728 = 0;
-    gStruct217AA14->mUnk_73a = 0;
-    gStruct217AA14->mUnk_73d = 0;
-    gStruct217AA14->mUnk_73b = 0;
-    gStruct217AA14->mUnk_73e = 0;
-    gStruct217AA14->mUnk_72c = FALSE;
-    gStruct217AA14->mUnk_738 = 0;
-    gStruct217AA14->mUnk_758 = 2;
-    MI_CpuFill8(gStruct217AA14->mUnk_754, 0, 0x6c);
+    gStruct217AA14->field75C = gStruct217AA14->field75C | 2;
+    gStruct217AA14->field75C = gStruct217AA14->field75C & ~0x20;
+    gStruct217AA14->field75C = gStruct217AA14->field75C & ~0x200;
+    gStruct217AA14->field728 = 0;
+    gStruct217AA14->field73A = 0;
+    gStruct217AA14->field73D = 0;
+    gStruct217AA14->field73B = 0;
+    gStruct217AA14->field73E = 0;
+    gStruct217AA14->field72C = FALSE;
+    gStruct217AA14->field738 = 0;
+    gStruct217AA14->field758 = 2;
+    MI_CpuFill8(gStruct217AA14->field754, 0, 0x6c);
     for (participant = 0; participant < 4; participant++) {
-        if ((gStruct217AA14->mUnk_0fc & (1 << participant)) != 0 &&
-            (gStruct217AA14->mUnk_749 & (1 << participant)) == 0) {
+        if ((gStruct217AA14->fieldFC & (1 << participant)) != 0 &&
+            (gStruct217AA14->field749 & (1 << participant)) == 0) {
             if (gStruct217AA18->mKartOfParticipant[participant] >= 0) {
-                gStruct217AA14->mUnk_104[participant].mUnk_80 =
+                gStruct217AA14->field104[participant].field80 =
                     (rres_getPlace((u8) gStruct217AA18->mKartOfParticipant[participant]) - 1) | 0x700000;
             }
         }
@@ -411,22 +411,22 @@ int func_0205c340(u8 participant, u32 b, int dataSize) {
     int r;
 
     r = 1;
-    if ((gStruct217AA14->mUnk_75c & 4) != 0) {
+    if ((gStruct217AA14->field75C & 4) != 0) {
         return 0;
     }
     if (participant != func_ov000_0219bb50()) {
         r = dataSize + 4;
-        packet = (Unk0205b504 *) gStruct217AA14->mUnk_754;
-        gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c | 4;
-        packet->mUnk_00_0 = func_ov000_0219bb50();
-        packet->mUnk_00_2 = participant;
-        packet->mUnk_00_4 = b;
-        packet->mUnk_01 = gStruct217AA14->mUnk_758;
-        packet->mUnk_02_0 = gStruct217AA14->mUnk_748;
+        packet = (Unk0205b504 *) gStruct217AA14->field754;
+        gStruct217AA14->field75C = gStruct217AA14->field75C | 4;
+        packet->field0_0 = func_ov000_0219bb50();
+        packet->field0_2 = participant;
+        packet->field0_4 = b;
+        packet->field1 = gStruct217AA14->field758;
+        packet->field2_0 = gStruct217AA14->field748;
         DC_StoreRange(packet, r);
         r = func_02120340(participant, packet, r, func_0211ff74);
         if (r == 0) {
-            gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c & ~4;
+            gStruct217AA14->field75C = gStruct217AA14->field75C & ~4;
         }
     }
     return r;
@@ -439,9 +439,9 @@ void func_0205c234(s32 dataSize) {
     u8 t;
 
     sentCount = 0;
-    t = gStruct217AA14->mUnk_73a;
+    t = gStruct217AA14->field73A;
     if ((t & 1) == 0) {
-        gStruct217AA14->mUnk_73a = t + 1;
+        gStruct217AA14->field73A = t + 1;
         return;
     }
     participant = t >> 1;
@@ -450,7 +450,7 @@ void func_0205c234(s32 dataSize) {
         j = j + 4;
     }
     while (sentCount < 1 && participant != j) {
-        if (participant != func_ov000_0219bb50() && (gStruct217AA14->mUnk_749 & (1 << participant)) != 0) {
+        if (participant != func_ov000_0219bb50() && (gStruct217AA14->field749 & (1 << participant)) != 0) {
             if (func_0205c340(participant, 3, dataSize) != 0) {
                 participant = participant + 1;
                 if (participant >= 4) {
@@ -470,7 +470,7 @@ void func_0205c234(s32 dataSize) {
             }
         }
     }
-    gStruct217AA14->mUnk_73a = participant << 1;
+    gStruct217AA14->field73A = participant << 1;
 }
 
 void func_0205be0c(void) {
@@ -503,20 +503,20 @@ void func_0205be0c(void) {
         participantOrder[participant] = participant;
         d = gStruct217AA14;
         participantBit = 1 << participant;
-        t = d->mUnk_749 & participantBit;
+        t = d->field749 & participantBit;
         if (t != 0) {
             q = 0;
-            if ((d->mUnk_0fc & participantBit) != 0) {
+            if ((d->fieldFC & participantBit) != 0) {
                 q = t == 0;
             }
             if (q != 0) {
-                a[participant] = d->mUnk_104[participant].mUnk_80 & 0x3fffff;
+                a[participant] = d->field104[participant].field80 & 0x3fffff;
             } else {
                 if (participant == func_ov000_0219bb50()) {
                     f = func_0205afa8();
-                    g = gStruct217AA14->mUnk_73e;
+                    g = gStruct217AA14->field73E;
                 } else {
-                    f = gStruct217AA14->mUnk_104[participant].mUnk_04;
+                    f = gStruct217AA14->field104[participant].field4;
                     g = (u8) ((f & 0x7800000) >> 23);
                 }
                 x = x & g;
@@ -528,10 +528,10 @@ void func_0205be0c(void) {
                 }
                 if (f != 0) {
                     if ((u8) ((f & 0x400000) >> 22) == 0) {
-                        gStruct217AA14->mUnk_73e = gStruct217AA14->mUnk_73e | participantBit;
+                        gStruct217AA14->field73E = gStruct217AA14->field73E | participantBit;
                     }
-                    gStruct217AA14->mUnk_104[participant].mUnk_80 = f;
-                    a[participant] = gStruct217AA14->mUnk_104[participant].mUnk_80 & 0x3fffff;
+                    gStruct217AA14->field104[participant].field80 = f;
+                    a[participant] = gStruct217AA14->field104[participant].field80 & 0x3fffff;
                 }
             }
         }
@@ -540,11 +540,11 @@ void func_0205be0c(void) {
         d = gStruct217AA14;
         participantBit = 1 << participant;
         kart = *(u8 *) &gStruct217AA18->mKartOfParticipant[participant];
-        u = d->mUnk_104[participant].mUnk_80;
-        t = d->mUnk_749 & participantBit;
+        u = d->field104[participant].field80;
+        t = d->field749 & participantBit;
         if (t != 0) {
             q = 0;
-            if ((d->mUnk_0fc & participantBit) != 0) {
+            if ((d->fieldFC & participantBit) != 0) {
                 q = t == 0;
             }
             if (q == 0 && (x & participantBit) != 0 && rstat_hasDriverFinished(kart) == 0) {
@@ -568,12 +568,12 @@ void func_0205be0c(void) {
         participant = participantOrder[j];
         z = 0;
         d = gStruct217AA14;
-        r = d->mUnk_0fc;
+        r = d->fieldFC;
         if ((r & (1 << participant)) != 0) {
-            if ((u8) (((u32) d->mUnk_104[participant].mUnk_80 & 0x400000) >> 22) == 0) {
+            if ((u8) (((u32) d->field104[participant].field80 & 0x400000) >> 22) == 0) {
                 z = j + 1;
                 for (m = j; m >= 0; m--) {
-                    if ((u8) (((u32) d->mUnk_104[participantOrder[m]].mUnk_80 & 0x400000) >> 22) != 0) {
+                    if ((u8) (((u32) d->field104[participantOrder[m]].field80 & 0x400000) >> 22) != 0) {
                         z = z - 1;
                     }
                 }
@@ -581,12 +581,12 @@ void func_0205be0c(void) {
                 u16 w;
 
                 w = gStruct217AA18->mKartOfParticipant[participant];
-                c = gRaceStatus->mUnk_000[w].mUnk_50_0;
+                c = gRaceStatus->field0[w].field50_0;
                 z = c;
                 for (p = 0; p < 4; p++) {
                     u32 e;
 
-                    if ((u8) (((u32) d->mUnk_104[p].mUnk_80 & 0x400000) >> 22) == 0) {
+                    if ((u8) (((u32) d->field104[p].field80 & 0x400000) >> 22) == 0) {
                         e = 1;
                     } else {
                         e = 0;
@@ -597,15 +597,15 @@ void func_0205be0c(void) {
 
                         o = gStruct217AA18->mKartOfParticipant[p];
                         o = (u16) o;
-                        v = gRaceStatus->mUnk_000[o].mUnk_50_0;
-                        if (gRaceStatus->mUnk_000[o].mStatus != 4 && e != 0 && v > c) {
+                        v = gRaceStatus->field0[o].field50_0;
+                        if (gRaceStatus->field0[o].mStatus != 4 && e != 0 && v > c) {
                             z = z + 1;
                         }
                     }
                 }
             }
         }
-        d->mUnk_104[participant].mRank = z;
+        d->field104[participant].mRank = z;
     }
 }
 
@@ -619,45 +619,45 @@ void func_0205bc08(void) {
     func_0205a908();
     func_0205a350();
     p = gStruct217AA14;
-    q = p->mUnk_754;
-    r = &q->mUnk_04;
-    recordSize = 0x68 - p->mUnk_724;
-    q->mUnk_04.mUnk_00_0 = p->mUnk_728;
+    q = p->field754;
+    r = &q->field4;
+    recordSize = 0x68 - p->field724;
+    q->field4.field0_0 = p->field728;
     r->mUnk_00_b[3] = recordSize;
     if (gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()] < 0) {
-        r->mUnk_04 = 0;
+        r->field4 = 0;
     } else {
         w = func_0205afa8();
-        r->mUnk_04 = w | ((gStruct217AA14->mUnk_73e << 23) & 0x7800000);
+        r->field4 = w | ((gStruct217AA14->field73E << 23) & 0x7800000);
     }
     func_0205c234(recordSize);
     func_0205be0c();
     if (rstat_hasDriverFinished(*(u8 *) &gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()]) == 0 &&
-        (gStruct217AA14->mUnk_75c & 0x200) == 0) {
+        (gStruct217AA14->field75C & 0x200) == 0) {
         if (data_0217562a[input_getDirectInputUnitId()].mBits == 0) {
-            gStruct217AA14->mUnk_738 = gStruct217AA14->mUnk_738 + 1;
-            if (gStruct217AA14->mUnk_738 > 0x708) {
-                gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c | 0x200;
+            gStruct217AA14->field738 = gStruct217AA14->field738 + 1;
+            if (gStruct217AA14->field738 > 0x708) {
+                gStruct217AA14->field75C = gStruct217AA14->field75C | 0x200;
                 func_021208e8(1);
             }
         } else {
-            gStruct217AA14->mUnk_738 = 0;
+            gStruct217AA14->field738 = 0;
         }
     }
-    if (gStruct217AA14->mUnk_758 == 2) {
+    if (gStruct217AA14->field758 == 2) {
         switch (rchoi_getActivatedOption()) {
             case 2:
             case 7:
-                gStruct217AA14->mUnk_758 = 4;
+                gStruct217AA14->field758 = 4;
                 p = gStruct217AA14;
-                p->mUnk_010 = 5;
-                p->mUnk_012 = 1;
+                p->field10 = 5;
+                p->field12 = 1;
                 break;
             case 9:
-                gStruct217AA14->mUnk_758 = 3;
+                gStruct217AA14->field758 = 3;
                 p = gStruct217AA14;
-                p->mUnk_010 = 5;
-                p->mUnk_012 = 1;
+                p->field10 = 5;
+                p->field12 = 1;
                 break;
         }
     }
@@ -681,11 +681,11 @@ u32 func_0205bba8(void) {
 
     p = gStruct217AA14;
     result = 0;
-    if (p->mUnk_758 != 3) {
-        if (p->mUnk_758 != 5) {
+    if (p->field758 != 3) {
+        if (p->field758 != 5) {
             return result;
         }
-        if ((p->mUnk_75c & 0x100) != 0) {
+        if ((p->field75C & 0x100) != 0) {
             result = 2;
         }
         return result;
@@ -703,38 +703,38 @@ void func_0205ba60(void) {
     a = 0;
     b = 0;
     p = gStruct217AA14;
-    switch (p->mUnk_758) {
+    switch (p->field758) {
         case 3:
         case 4:
             for (participant = 0; participant < 4; participant++) {
                 v1 = 1 << participant;
-                if ((gStruct217AA14->mUnk_749 & v1) != 0 && participant != func_ov000_0219bb50()) {
-                    if (gStruct217AA14->mUnk_74e[participant] != 4 && gStruct217AA14->mUnk_74e[participant] != 5) {
+                if ((gStruct217AA14->field749 & v1) != 0 && participant != func_ov000_0219bb50()) {
+                    if (gStruct217AA14->field74E[participant] != 4 && gStruct217AA14->field74E[participant] != 5) {
                         a = a | v1;
                     }
                 }
             }
             if (a == 0) {
-                gStruct217AA14->mUnk_758 = 5;
+                gStruct217AA14->field758 = 5;
             }
             break;
         case 5:
             for (a = 0; a < 4; a++) {
                 v1 = 1 << a;
-                if ((p->mUnk_749 & v1) != 0 && p->mUnk_74e[a] == 5) {
+                if ((p->field749 & v1) != 0 && p->field74E[a] == 5) {
                     b = b | v1;
                 }
             }
-            if ((p->mUnk_749 & ~b) == 0) {
-                p->mUnk_75c = p->mUnk_75c | 0x100;
+            if ((p->field749 & ~b) == 0) {
+                p->field75C = p->field75C | 0x100;
             }
-            if ((gStruct217AA14->mUnk_749 | ~b) != 0) {
-                gStruct217AA14->mUnk_75c = gStruct217AA14->mUnk_75c | 0x100;
+            if ((gStruct217AA14->field749 | ~b) != 0) {
+                gStruct217AA14->field75C = gStruct217AA14->field75C | 0x100;
             }
             break;
     }
-    if ((gStruct217AA14->mUnk_749 & ~b) == 0) {
-        gStruct217AA14->mUnk_758 = 5;
+    if ((gStruct217AA14->field749 & ~b) == 0) {
+        gStruct217AA14->field758 = 5;
     }
 }
 
@@ -748,16 +748,16 @@ void func_0205b9a8(void) {
     func_0205a908();
     func_0205a350();
     p = gStruct217AA14;
-    q = p->mUnk_754;
-    r = &q->mUnk_04;
-    recordSize = 0x68 - p->mUnk_724;
-    q->mUnk_04.mUnk_00_0 = p->mUnk_728;
+    q = p->field754;
+    r = &q->field4;
+    recordSize = 0x68 - p->field724;
+    q->field4.field0_0 = p->field728;
     r->mUnk_00_b[3] = recordSize;
     if (gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()] < 0) {
-        r->mUnk_04 = 0;
+        r->field4 = 0;
     } else {
         t = func_0205afa8();
-        r->mUnk_04 = t | ((gStruct217AA14->mUnk_73e << 23) & 0x7800000);
+        r->field4 = t | ((gStruct217AA14->field73E << 23) & 0x7800000);
     }
     func_0205c234(recordSize);
     func_0205be0c();
@@ -767,15 +767,15 @@ void func_0205b9a8(void) {
 Unk0217aa14_104 *func_0205b978(s32 participant, u32 b) {
     Unk0217aa14_104 *entry;
 
-    entry = &gStruct217AA14->mUnk_104[participant];
-    if (b != entry->mUnk_00_0) {
+    entry = &gStruct217AA14->field104[participant];
+    if (b != entry->field0_0) {
         return NULL;
     }
     return entry;
 }
 
 s32 func_0205b954(s32 participant) {
-    return gStruct217AA14->mUnk_104[participant].mUnk_00_0;
+    return gStruct217AA14->field104[participant].field0_0;
 }
 
 void func_0205b824(const u64 *ticks, s32 participant) {
@@ -785,20 +785,20 @@ void func_0205b824(const u64 *ticks, s32 participant) {
     BOOL f;
 
     p = gStruct217AA14;
-    n = p->mUnk_014[participant].mUnk_34;
+    n = p->field14[participant].field34;
     if (n >= 12) {
         return;
     }
     if (n != 0) {
         d = (ticks[3] - ticks[0]) - (ticks[2] - ticks[1]);
         if (d * 64 / 0x82ea < 1000) {
-            *(u64 *) &p->mUnk_014[participant].mUnk_28 += d;
+            *(u64 *) &p->field14[participant].field28 += d;
             f = TRUE;
         } else {
             f = FALSE;
-            gStruct217AA14->mUnk_014[participant].mUnk_35++;
-            if (gStruct217AA14->mUnk_014[participant].mUnk_35 > 0x40) {
-                gStruct217AA14->mUnk_748 |= 1 << participant;
+            gStruct217AA14->field14[participant].field35++;
+            if (gStruct217AA14->field14[participant].field35 > 0x40) {
+                gStruct217AA14->field748 |= 1 << participant;
             }
         }
     } else {
@@ -807,7 +807,7 @@ void func_0205b824(const u64 *ticks, s32 participant) {
     if (f != FALSE) {
         n = n + 1;
     }
-    gStruct217AA14->mUnk_014[participant].mUnk_34 = n;
+    gStruct217AA14->field14[participant].field34 = n;
 }
 
 void func_0205b778(u32 a, Unk0205b504 *packet, u32 c) {
@@ -819,21 +819,21 @@ void func_0205b778(u32 a, Unk0205b504 *packet, u32 c) {
     u8 n;
     u32 x;
 
-    participant = packet->mUnk_00_0;
+    participant = packet->field0_0;
     p = gStruct217AA14;
-    s = packet->mUnk_04.mUnk_00_b;
-    y = packet->mUnk_04.mUnk_00_0;
-    x = p->mUnk_104[participant].mUnk_00_0;
-    entry = &p->mUnk_104[participant];
+    s = packet->field4.mUnk_00_b;
+    y = packet->field4.field0_0;
+    x = p->field104[participant].field0_0;
+    entry = &p->field104[participant];
     n = s[3];
-    if (p->mUnk_00e != 4 && p->mUnk_00e != 5) {
+    if (p->fieldE != 4 && p->fieldE != 5) {
         return;
     }
     if (x != 0 && x >= y) {
         return;
     }
-    if (p->mUnk_104[participant].mUnk_86_0 == 0) {
-        p->mUnk_104[participant].mUnk_86_0 = 1;
+    if (p->field104[participant].field86_0 == 0) {
+        p->field104[participant].field86_0 = 1;
     }
     MI_CpuCopy8(s, entry, n);
 }
@@ -846,13 +846,13 @@ void func_0205b6bc(u32 a, Unk0205b504 *packet, u32 c) {
     s16 d;
     u32 participantBit;
 
-    x = packet->mUnk_04.mUnk_00_s;
+    x = packet->field4.mUnk_00_s;
     p = gStruct217AA14;
-    v = p->mUnk_736;
-    if (p->mUnk_00e == 2) {
-        participantBit = 1 << packet->mUnk_00_0;
-        if ((p->mUnk_0fa & participantBit) == 0) {
-            p->mUnk_0fa |= participantBit;
+    v = p->field736;
+    if (p->fieldE == 2) {
+        participantBit = 1 << packet->field0_0;
+        if ((p->fieldFA & participantBit) == 0) {
+            p->fieldFA |= participantBit;
         }
         return;
     }
@@ -865,9 +865,9 @@ void func_0205b6bc(u32 a, Unk0205b504 *packet, u32 c) {
     } else if (d < 0) {
         d = (d - 1) >> 1;
     }
-    t = (d << 11) + (gStruct217AA14->mUnk_0f4 >> 1);
-    gStruct217AA14->mUnk_0f4 = t;
-    gStruct217AA14->mUnk_736 += (s16) ((t + 0x800) >> 12);
+    t = (d << 11) + (gStruct217AA14->fieldF4 >> 1);
+    gStruct217AA14->fieldF4 = t;
+    gStruct217AA14->field736 += (s16) ((t + 0x800) >> 12);
 }
 
 void func_0205b504(u32 a, Unk0205b504 *packet, u32 c, u32 d) {
@@ -883,35 +883,35 @@ void func_0205b504(u32 a, Unk0205b504 *packet, u32 c, u32 d) {
     if (p == NULL) {
         return;
     }
-    participant = packet->mUnk_00_0;
-    if ((p->mUnk_749 & (1 << participant)) == 0) {
+    participant = packet->field0_0;
+    if ((p->field749 & (1 << participant)) == 0) {
         return;
     }
-    p->mUnk_740[participant] = 0;
-    gStruct217AA14->mUnk_74a[packet->mUnk_00_0] = packet->mUnk_02_0;
-    gStruct217AA14->mUnk_74e[packet->mUnk_00_0] = packet->mUnk_01;
-    switch (((volatile Unk0205b504 *) packet)->mUnk_00_4) {
+    p->field740[participant] = 0;
+    gStruct217AA14->field74A[packet->field0_0] = packet->field2_0;
+    gStruct217AA14->field74E[packet->field0_0] = packet->field1;
+    switch (((volatile Unk0205b504 *) packet)->field0_4) {
         case 0:
-            m = &packet->mUnk_04;
-            i = packet->mUnk_00_0;
+            m = &packet->field4;
+            i = packet->field0_0;
             ownParticipant = func_ov000_0219bb50();
-            if (m->mUnk_00 == ownParticipant) {
-                m->mUnk_04[3] = OS_GetTick();
-                func_0205b824(m->mUnk_04, i);
+            if (m->field0 == ownParticipant) {
+                m->field4[3] = OS_GetTick();
+                func_0205b824(m->field4, i);
                 return;
             }
-            if (m->mUnk_00 >= 4) {
+            if (m->field0 >= 4) {
                 return;
             }
-            e = &gStruct217AA14->mUnk_014[i];
+            e = &gStruct217AA14->field14[i];
             MI_CpuCopy8(m, e, 0x28);
             t = OS_GetTick();
-            e->mUnk_0c = t;
-            e->mUnk_10 = t >> 32;
-            gStruct217AA14->mUnk_014[i].mUnk_30 = TRUE;
+            e->fieldC = t;
+            e->field10 = t >> 32;
+            gStruct217AA14->field14[i].field30 = TRUE;
             break;
         case 1:
-            gStruct217AA14->mUnk_0fa = gStruct217AA14->mUnk_0fa | (1 << packet->mUnk_00_0);
+            gStruct217AA14->fieldFA = gStruct217AA14->fieldFA | (1 << packet->field0_0);
             break;
         case 2:
             func_0205b6bc(a, packet, c);
@@ -965,11 +965,11 @@ void func_0205b32c(void) {
             }
             eloDifference = elos[otherParticipant] - elos[participant];
             for (v3 = 0; v3 < 9; v3++) {
-                if (eloDifference > data_021548e0[v3].mUnk_00) {
+                if (eloDifference > data_021548e0[v3].field0) {
                     if (k != 0) {
-                        eloChange = data_021548e0[v3].mUnk_02;
+                        eloChange = data_021548e0[v3].field2;
                     } else {
-                        eloChange = data_021548e0[v3].mUnk_03;
+                        eloChange = data_021548e0[v3].field3;
                     }
                     break;
                 }
@@ -999,24 +999,24 @@ void func_0205b0f4(void) {
 
     for (participant = 0; participant < 4; participant++) {
         participantBit = 1 << participant;
-        if ((gStruct217AA14->mUnk_749 & participantBit) != 0 && participant != func_ov000_0219bb50() &&
-            (gStruct217AA14->mUnk_748 & participantBit) == 0) {
+        if ((gStruct217AA14->field749 & participantBit) != 0 && participant != func_ov000_0219bb50() &&
+            (gStruct217AA14->field748 & participantBit) == 0) {
             v2 = 300;
-            if (gStruct217AA14->mUnk_014[participant].mUnk_34 == 0) {
+            if (gStruct217AA14->field14[participant].field34 == 0) {
                 v2 = 600;
             }
-            gStruct217AA14->mUnk_740[participant]++;
-            if (gStruct217AA14->mUnk_740[participant] > v2) {
-                gStruct217AA14->mUnk_748 |= participantBit;
+            gStruct217AA14->field740[participant]++;
+            if (gStruct217AA14->field740[participant] > v2) {
+                gStruct217AA14->field748 |= participantBit;
             }
         }
     }
-    a = gStruct217AA14->mUnk_748;
+    a = gStruct217AA14->field748;
     for (participant = 0; participant < 4; participant++) {
-        if ((gStruct217AA14->mUnk_749 & (1 << participant)) != 0) {
+        if ((gStruct217AA14->field749 & (1 << participant)) != 0) {
             if (participant != func_ov000_0219bb50()) {
-                if ((gStruct217AA14->mUnk_748 & (1 << participant)) == 0) {
-                    t = gStruct217AA14->mUnk_74a[participant] | (1u << participant);
+                if ((gStruct217AA14->field748 & (1 << participant)) == 0) {
+                    t = gStruct217AA14->field74A[participant] | (1u << participant);
                     a = a & t;
                 }
             }
@@ -1027,18 +1027,18 @@ void func_0205b0f4(void) {
     }
     for (participant = 0; participant < 4; participant++) {
         participantBit = 1 << participant;
-        if ((a & participantBit) != 0 && (gStruct217AA14->mUnk_749 & participantBit) != 0 &&
+        if ((a & participantBit) != 0 && (gStruct217AA14->field749 & participantBit) != 0 &&
             gStruct217AA18->mKartOfParticipant[participant] != -1) {
             rstat_203C2E4(gStruct217AA18->mKartOfParticipant[participant]);
-            gStruct217AA14->mUnk_749 = gStruct217AA14->mUnk_749 & ~participantBit;
+            gStruct217AA14->field749 = gStruct217AA14->field749 & ~participantBit;
         }
     }
-    if (MATH_CountPopulation(gStruct217AA14->mUnk_749) > 1) {
+    if (MATH_CountPopulation(gStruct217AA14->field749) > 1) {
         return;
     }
-    v = gStruct217D384->mUnk_0008.mState;
+    v = gStruct217D384->field8.mState;
     q = gSaveData->mFirstBlock;
-    n = q->mUnk_34[5];
+    n = q->field34[5];
     if (v != 0) {
         s8 c = gStruct217D384->mKartCountCopy - 1;
         if (c > 0) {
@@ -1048,7 +1048,7 @@ void func_0205b0f4(void) {
                 n = n - c;
             }
         }
-        q->mUnk_34[5] = n;
+        q->field34[5] = n;
         savd_flushNksy();
         bgwkr_waitForCompletion();
         if (gSaveCore->mBackupEnabled != 0) {

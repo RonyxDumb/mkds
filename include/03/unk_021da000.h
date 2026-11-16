@@ -22,19 +22,19 @@ typedef struct Jb3List {
     /* 04 */ u8 mIdTimer[4];
     /* 08 */ u16 *mJb3ListBackNsc;
     /* 0c */ void *mYbBgStep2NclFiles[2];
-    /* 14 */ BgTextCanvas *mUnk_14;
-    /* 18 */ OamEntry *mUnk_18[7];
-    /* 34 */ OamEntry *mUnk_34;
+    /* 14 */ BgTextCanvas *field14;
+    /* 18 */ OamEntry *field18[7];
+    /* 34 */ OamEntry *field34;
     /* 38 */ u32 mScrollTask;
     /* 3c */ u32 mBgOffsetTask;
-    /* 40 */ u8 mUnk_40;
+    /* 40 */ u8 field40;
     /* 41 */ u8 mScrollTimer;
     /* 42 */ u8 mReturnId;
-    /* 43 */ u8 mUnk_43;
+    /* 43 */ u8 field43;
     /* 44 */ u8 mBgOffsetPending;
-    /* 45 */ u8 mUnk_45;
-    /* 46 */ u8 mUnk_46;
-    /* 47 */ u8 mUnk_47;
+    /* 45 */ u8 field45;
+    /* 46 */ u8 field46;
+    /* 47 */ u8 field47;
 } Jb3List;
 
 // Objects whose layout isn't known yet.
@@ -45,9 +45,9 @@ extern u8 data_ov003_021da10c;
 extern OamRange **gSelectionObjects;
 // Object behind gLinkLevel.
 typedef struct LinkLevel {
-    /* 00 */ OamEntry *mUnk_00;
+    /* 00 */ OamEntry *field0;
     /* 04 */ u32 mTask;
-    /* 08 */ s8 mUnk_08;
+    /* 08 */ s8 field8;
 } LinkLevel;
 
 extern LinkLevel *gLinkLevel;
@@ -58,14 +58,14 @@ typedef struct EditKeyboard {
     /* 030 */ OamEntry *mKeys[0x2f];
     /* 0ec */ OamEntry *mExtraKeys[4];
     /* 0fc */ OamRange *mRow4Keys[2];
-    /* 104 */ void *mUnk_104[4];
+    /* 104 */ void *field104[4];
     /* 114 */ OamRange *mCursor;
     /* 118 */ TaskEntry *mStepTask;
     /* 11c */ u8 mInput;
     /* 11d */ u8 mPage;
     /* 11e */ s8 mPressedKeyIndex;
     /* 11f */ s8 mHighlightedKeyIndex;
-    /* 120 */ s8 mUnk_120;
+    /* 120 */ s8 field120;
     /* 121 */ s8 mCursorKeyIndex;
     /* 122 */ u8 mRepeatCalls;
     /* 123 */ u8 mRemoveCharEnabled;
@@ -142,17 +142,17 @@ extern Unk021da280 *data_ov003_021da280;
 // Object behind data_ov003_021da284: func_ov003_021ceaf8 passes 0x00 to GetOamRangeEntryPosition and reads the byte at
 // 0x1e; func_ov003_021cef80 reads the byte at 0x1b.
 typedef struct Unk021da284 {
-    /* 00 */ OamRange *mUnk_00;
-    /* 04 */ OamRange *mUnk_04;
-    /* 08 */ OamRange *mUnk_08[2];
-    /* 10 */ void *mUnk_10;
-    /* 14 */ u32 mUnk_14;
-    /* 18 */ u16 mUnk_18;
-    /* 1a */ s8 mUnk_1a;
-    /* 1b */ s8 mUnk_1b;
-    /* 1c */ u8 mUnk_1c;
-    /* 1d */ u8 mUnk_1d;
-    /* 1e */ u8 mUnk_1e;
+    /* 00 */ OamRange *field0;
+    /* 04 */ OamRange *field4;
+    /* 08 */ OamRange *field8[2];
+    /* 10 */ void *field10;
+    /* 14 */ u32 field14;
+    /* 18 */ u16 field18;
+    /* 1a */ s8 field1A;
+    /* 1b */ s8 field1B;
+    /* 1c */ u8 field1C;
+    /* 1d */ u8 field1D;
+    /* 1e */ u8 field1E;
 } Unk021da284;
 
 extern Unk021da284 *data_ov003_021da284;
@@ -160,46 +160,46 @@ extern Unk021cf260 *data_ov003_021da288;
 extern u16 *data_ov003_021da28c[];
 extern UnkFunc *data_ov003_021da2a4;
 typedef struct Unk021da2ac_100 {
-    /* 00 */ u16 mUnk_00;
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[0x40];
+    /* 00 */ u16 field0;
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4[0x40];
 } Unk021da2ac_100;
 
 // Object behind data_ov003_021da2ac.
 typedef struct Unk021da2ac {
     /* 000 */ u8 pad_000[0x100];
-    /* 100 */ Unk021da2ac_100 mUnk_100[2];
+    /* 100 */ Unk021da2ac_100 field100[2];
     /* 188 */ u8 pad_188[0x78];
-    /* 200 */ u16 mUnk_200;
-    /* 202 */ u16 mUnk_202;
-    /* 204 */ u32 mUnk_204;
-    /* 208 */ u32 mUnk_208[16];
+    /* 200 */ u16 field200;
+    /* 202 */ u16 field202;
+    /* 204 */ u32 field204;
+    /* 208 */ u32 field208[16];
     /* 248 */ u8 pad_248[0x400];
-    /* 648 */ u16 mUnk_648;
-    /* 64a */ u16 mUnk_64a;
-    /* 64c */ u8 mUnk_64c[0x404];
-    /* a50 */ u8 mUnk_a50[0x40];
-    /* a90 */ u8 mUnk_a90;
-    /* a91 */ u8 mUnk_a91;
-    /* a92 */ u8 mUnk_a92;
-    /* a93 */ u8 mUnk_a93;
-    /* a94 */ u32 mUnk_a94;
-    /* a98 */ u32 mUnk_a98;
-    /* a9c */ u32 mUnk_a9c;
-    /* aa0 */ u8 *mUnk_aa0[2];
-    /* aa8 */ u8 mUnk_aa8[4];
-    /* aac */ u8 mUnk_aac;
-    /* aad */ u8 mUnk_aad[3];
-    /* ab0 */ Unk021da2ac_100 *mUnk_ab0;
-    /* ab4 */ u32 mUnk_ab4;
-    /* ab8 */ u32 mUnk_ab8;
-    /* abc */ u32 mUnk_abc;
-    /* ac0 */ u32 mUnk_ac0;
-    /* ac4 */ u32 mUnk_ac4;
-    /* ac8 */ u32 mUnk_ac8;
-    /* acc */ u8 mUnk_acc;
-    /* acd */ u8 mUnk_acd[0x33];
-    /* b00 */ u8 mUnk_b00[4];
+    /* 648 */ u16 field648;
+    /* 64a */ u16 field64A;
+    /* 64c */ u8 field64C[0x404];
+    /* a50 */ u8 fieldA50[0x40];
+    /* a90 */ u8 fieldA90;
+    /* a91 */ u8 fieldA91;
+    /* a92 */ u8 fieldA92;
+    /* a93 */ u8 fieldA93;
+    /* a94 */ u32 fieldA94;
+    /* a98 */ u32 fieldA98;
+    /* a9c */ u32 fieldA9C;
+    /* aa0 */ u8 *fieldAA0[2];
+    /* aa8 */ u8 fieldAA8[4];
+    /* aac */ u8 fieldAAC;
+    /* aad */ u8 fieldAAD[3];
+    /* ab0 */ Unk021da2ac_100 *fieldAB0;
+    /* ab4 */ u32 fieldAB4;
+    /* ab8 */ u32 fieldAB8;
+    /* abc */ u32 fieldABC;
+    /* ac0 */ u32 fieldAC0;
+    /* ac4 */ u32 fieldAC4;
+    /* ac8 */ u32 fieldAC8;
+    /* acc */ u8 fieldACC;
+    /* acd */ u8 fieldACD[0x33];
+    /* b00 */ u8 fieldB00[4];
 } Unk021da2ac;
 
 extern Unk021da2ac *data_ov003_021da2ac;
@@ -207,11 +207,11 @@ extern Unk021da2ac *data_ov003_021da2ac;
 // and a halfword at 0xe4.
 typedef struct DwcArchive {
     /* 00 */ void *mTables;
-    /* 04 */ void *mUnk_04[0x20];
-    /* 84 */ PointerStack *mUnk_84;
+    /* 04 */ void *field4[0x20];
+    /* 84 */ PointerStack *field84;
     /* 88 */ FSArchive mArchive;
     /* e4 */ u16 mLockId;
-    /* e6 */ u8 mUnk_e6[2];
+    /* e6 */ u8 fieldE6[2];
 } DwcArchive;
 
 extern DwcArchive *gDwcArchive;
@@ -221,7 +221,7 @@ typedef struct OamRanges {
     /* 000 */ OamRange mRanges[0x20];
     /* 200 */ OamRange mListStart;
     /* 210 */ OamRange mListEnd;
-    /* 220 */ void *mUnk_220;
+    /* 220 */ void *field220;
     /* 224 */ PointerStack *mFreeRanges;
 } OamRanges;
 
@@ -229,7 +229,7 @@ extern OamRanges *gOamRanges;
 // Eight-byte records at the start of a resource: a number at 0x00 and the offset of a table at 0x04.
 typedef struct NceImage {
     /* 00 */ u16 mEntryCount;
-    /* 02 */ u16 mUnk_02;
+    /* 02 */ u16 field2;
     /* 04 */ u32 mEntriesOffset;
 } NceImage;
 

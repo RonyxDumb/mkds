@@ -7,7 +7,7 @@
 void sfx_210CC3C(SoundSource *source);
 u32 sfx_updateEmitter(SoundSource *source);
 // sfx_21090C4 for any kind: starts sound c of kind b at volume d on the source a and returns its PlayingSound; e is
-// stored in the mUnk_14 member of the entry. Returns NULL when the mUnk_10 member of SoundHandle_217D084 is 0 or the source
+// stored in the field14 member of the entry. Returns NULL when the field10 member of SoundHandle_217D084 is 0 or the source
 // is not enabled. Unlike sfx_21090C4 it does not test data_0217c780.
 PlayingSound *sfx_emitSfx(SoundSource *source, u32 seqArcNo, u32 soundId, u32 volume, s16 pitch);
 // StartSoundWhileRequested for any kind: starts sound c of kind b on the source a, or refreshes it when it was already

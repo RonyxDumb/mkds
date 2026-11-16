@@ -64,21 +64,21 @@ static inline s64 func_020dc354_inline(const Vec3 *vector) {
 }
 
 void wanwan_state5Update(Wanwan *wanwan) {
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
+    wanwan->field0.field10.x = wanwan->field0.mPos.x;
+    wanwan->field0.field10.z = wanwan->field0.mPos.z;
     pwex_update(&wanwan->mFollower);
-    pw_calcCurrentPointXZ(&wanwan->mFollower.mUnk_00, &wanwan->mUnk_00.mPos);
-    wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
-    wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
-    if (func_020dc354_inline(&wanwan->mUnk_00.mUnk_10) >= 0x10) {
+    pw_calcCurrentPointXZ(&wanwan->mFollower.field0, &wanwan->field0.mPos);
+    wanwan->field0.field10.x = wanwan->field0.mPos.x - wanwan->field0.field10.x;
+    wanwan->field0.field10.z = wanwan->field0.mPos.z - wanwan->field0.field10.z;
+    if (func_020dc354_inline(&wanwan->field0.field10) >= 0x10) {
         qrtn_fromYAngle(
-            (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
+            (u16) ((((s64) FX_Atan2(wanwan->field0.field10.x, wanwan->field0.field10.z) * 0x28be60db9391LL) +
                     0x80000000000LL) >>
                    44),
-            &wanwan->mUnk_d4);
+            &wanwan->fieldD4);
     }
-    if (wanwan->mUnk_00.mStateMachine.mStateFrames < 0x40) {
-        wanwan->mUnk_ec = wanwan->mUnk_ec + 0x1c;
+    if (wanwan->field0.mStateMachine.mStateFrames < 0x40) {
+        wanwan->fieldEC = wanwan->fieldEC + 0x1c;
     }
 }
 
@@ -92,81 +92,81 @@ void wanwan_loadModels(void) {
 
 #pragma thumb on
 void wanwan_initFixed(Wanwan *wanwan, CourseMapRow *row) {
-    wanwan->mCenterPos = row->mUnk_00;
-    wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
-    wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
-    wanwan->mUnk_f8 = (row->mUnk_28 * 0x3000) >> 2;
-    wanwan->mUnk_1dc = row->mUnk_2a << 12;
-    wanwan->mMaxRadius = row->mUnk_28 << 12;
-    wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
-    wanwan->mUnk_fc = 0;
-    wanwan->mUnk_b0 = 0;
-    wanwan->mChainObject = (Unk020dc474_1d8 *) mobj_createSubObject(&wanwan->mUnk_00, 0x197);
-    wanwan->mUnk_ac = wanwan->mCenterPos.y;
-    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
-    sm_init(&wanwan->mUnk_00.mStateMachine, wanwan_sStates, 6, wanwan);
-    sm_gotoState(&wanwan->mUnk_00.mStateMachine, 0);
-    wanwan->mUnk_200 = wanwan->mUnk_00.mMatrix.mUnk_00[2];
+    wanwan->mCenterPos = row->field0;
+    wanwan->fieldF0 = ((s64) wanwan->field0.mScale.y * 0x1e000) >> 12;
+    wanwan->fieldF4 = 0xf000 - wanwan->fieldF0;
+    wanwan->fieldF8 = (row->field28 * 0x3000) >> 2;
+    wanwan->field1DC = row->field2A << 12;
+    wanwan->mMaxRadius = row->field28 << 12;
+    wanwan->field1FC = wanwan->fieldF8 - (wanwan->fieldF0 << 1);
+    wanwan->fieldFC = 0;
+    wanwan->fieldB0 = 0;
+    wanwan->mChainObject = (Unk020dc474_1d8 *) mobj_createSubObject(&wanwan->field0, 0x197);
+    wanwan->fieldAC = wanwan->mCenterPos.y;
+    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->fieldF0;
+    sm_init(&wanwan->field0.mStateMachine, wanwan_sStates, 6, wanwan);
+    sm_gotoState(&wanwan->field0.mStateMachine, 0);
+    wanwan->field200 = wanwan->field0.mMatrix.field0[2];
     wanwan_20DBF7C(wanwan);
-    wanwan->mUnk_1fa = col_createColEntry(&wanwan->mUnk_00.mPos, wanwan->mMaxRadius, 0x400, wanwan);
-    wanwan->mUnk_00.mFarDistanceSquared = gSfxParams[4].mUnk_20;
+    wanwan->field1FA = col_createColEntry(&wanwan->field0.mPos, wanwan->mMaxRadius, 0x400, wanwan);
+    wanwan->field0.mFarDistanceSquared = gSfxParams[4].field20;
 }
 #pragma thumb off
 
 #pragma thumb on
 void wanwan_initMoving(Wanwan *wanwan, CourseMapRow *row) {
-    wanwan->mCenterPos = row->mUnk_00;
-    wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
-    wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
-    wanwan->mUnk_fc = 1;
-    wanwan->mUnk_b0 = row->mUnk_2a;
-    wanwan->mUnk_ac = wanwan->mCenterPos.y;
-    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
-    sm_init(&wanwan->mUnk_00.mStateMachine, wanwan_sStates, 6, wanwan);
-    sm_gotoState(&wanwan->mUnk_00.mStateMachine, 5);
-    pwex_initFromObject(&wanwan->mFollower, row, data_02158908, row->mUnk_28);
+    wanwan->mCenterPos = row->field0;
+    wanwan->fieldF0 = ((s64) wanwan->field0.mScale.y * 0x1e000) >> 12;
+    wanwan->fieldF4 = 0xf000 - wanwan->fieldF0;
+    wanwan->fieldFC = 1;
+    wanwan->fieldB0 = row->field2A;
+    wanwan->fieldAC = wanwan->mCenterPos.y;
+    wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->fieldF0;
+    sm_init(&wanwan->field0.mStateMachine, wanwan_sStates, 6, wanwan);
+    sm_gotoState(&wanwan->field0.mStateMachine, 5);
+    pwex_initFromObject(&wanwan->mFollower, row, data_02158908, row->field28);
     wanwan_20DBF7C(wanwan);
 }
 #pragma thumb off
 
 #pragma thumb on
 void wanwan_20DBF7C(Wanwan *wanwan) {
-    wanwan->mUnk_00.mPos = wanwan->mCenterPos;
-    wanwan->mUnk_00.mUnk_10.x = 0;
-    wanwan->mUnk_00.mUnk_10.y = 0;
-    wanwan->mUnk_00.mUnk_10.z = 0;
-    wanwan->mUnk_c4 = data_0216beec;
+    wanwan->field0.mPos = wanwan->mCenterPos;
+    wanwan->field0.field10.x = 0;
+    wanwan->field0.field10.y = 0;
+    wanwan->field0.field10.z = 0;
+    wanwan->fieldC4 = data_0216beec;
     qrtn_fromYAngle(
-        (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
+        (u16) ((((s64) FX_Atan2(wanwan->field0.field10.x, wanwan->field0.field10.z) * 0x28be60db9391LL) +
                 0x80000000000LL) >>
                44),
-        &wanwan->mUnk_d4);
-    qrtn_20D7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &wanwan->mUnk_b4);
-    qtrn_toMtx33(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
-    wanwan->mUnk_e4 = 0;
-    if (wanwan->mUnk_fc == 0) {
+        &wanwan->fieldD4);
+    qrtn_20D7938(&wanwan->fieldC4, &wanwan->fieldD4, &wanwan->fieldB4);
+    qtrn_toMtx33(&wanwan->field0.mMatrix, &wanwan->fieldB4);
+    wanwan->fieldE4 = 0;
+    if (wanwan->fieldFC == 0) {
         ResetWanwanChainPoints((WanwanChainObject *) wanwan->mChainObject);
     }
-    if (wanwan->mUnk_fc == 0) {
+    if (wanwan->fieldFC == 0) {
         wanwan->mCurvePoints[0] = &wanwan->mCurvePointValues[0];
         wanwan->mCurvePoints[1] = &wanwan->mCurvePointValues[1];
         wanwan->mCurvePoints[2] = &wanwan->mCurvePointValues[2];
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
         if (gRaceMultiConfig->mRaceKind == RACE_KIND_START_GP) {
-            VEC_MultAdd(0xf000, &wanwan->mUnk_200, &wanwan->mUnk_00.mPos, &wanwan->mUnk_00.mPos);
-            wanwan->mUnk_00.mUnk_10.x = ((s64) wanwan->mUnk_200.x * 0x400) >> 12;
-            wanwan->mUnk_00.mUnk_10.y = ((s64) wanwan->mUnk_200.y * 0x400) >> 12;
-            wanwan->mUnk_00.mUnk_10.z = ((s64) wanwan->mUnk_200.z * 0x400) >> 12;
+            VEC_MultAdd(0xf000, &wanwan->field200, &wanwan->field0.mPos, &wanwan->field0.mPos);
+            wanwan->field0.field10.x = ((s64) wanwan->field200.x * 0x400) >> 12;
+            wanwan->field0.field10.y = ((s64) wanwan->field200.y * 0x400) >> 12;
+            wanwan->field0.field10.z = ((s64) wanwan->field200.z * 0x400) >> 12;
             qrtn_fromYAngle(
-                (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
+                (u16) ((((s64) FX_Atan2(wanwan->field0.field10.x, wanwan->field0.field10.z) * 0x28be60db9391LL) +
                         0x80000000000LL) >>
                        44),
-                &wanwan->mUnk_d4);
-            wanwan->mUnk_00.mStateMachine.mNextState = 4;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+                &wanwan->fieldD4);
+            wanwan->field0.mStateMachine.mNextState = 4;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
         } else {
-            wanwan->mUnk_00.mStateMachine.mNextState = 0;
-            wanwan->mUnk_00.mStateMachine.mNextStateRequested = 1;
+            wanwan->field0.mStateMachine.mNextState = 0;
+            wanwan->field0.mStateMachine.mNextStateRequested = 1;
         }
     }
 }

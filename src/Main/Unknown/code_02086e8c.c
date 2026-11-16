@@ -77,8 +77,8 @@ void InitKartNameTagsAndDistanceOrder(void) {
         isGrandPrix = FALSE;
     }
     data_0217aed0 = heap_alloc(heap, 0x194);
-    data_0217aed0->mUnk_184 = 0;
-    data_0217aed0->mUnk_188 = NULL;
+    data_0217aed0->field184 = 0;
+    data_0217aed0->field188 = NULL;
     if (race_isAwardStaffRoll() != 0) {
         data_0217aed0->mNameTagCount = 0;
     } else if (isGrandPrix == FALSE) {
@@ -106,7 +106,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
     gKartDistanceLimitsSquared = &data_02155a48;
     driver_loadEmblems();
     for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
-        data_0217aed0->mUnk_024[i] = i;
+        data_0217aed0->field24[i] = i;
         data_0217aed0->mKartIndicesByDistanceAlongView[i] = i;
         data_0217aed0->mKartIndicesByDistance[i] = i;
         data_0217aed0->mAlongViewOrderOffset[i] = 0;
@@ -163,8 +163,8 @@ void InitKartNameTag(KartNameTag *kartObject, u16 kartIndex, void *heap) {
     kartObject->mTexPlttEntries->mEntries[1] = data_02165a34;
     kartObject->mTexPlttEntries->mEntries[2] = data_02165a10;
     kartObject->mTexPlttEntries->mEntries[3] = data_02165a58;
-    kartObject->mUnk_10 = TRUE;
-    kartObject->mUnk_14 = 0;
+    kartObject->field10 = TRUE;
+    kartObject->field14 = 0;
     kartObject->mFadeStopped = TRUE;
     kartObject->mAlpha = 0;
     kartObject->mKartPaletteColor = 0x7fff;
@@ -177,8 +177,8 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
     u16 texWidthBits;
     s32 texWidth;
     s32 texHeight;
-    texHeightBits = texPlttEntry->mUnk_00 >> 23 & 7;
-    texWidthBits = texPlttEntry->mUnk_00 >> 20 & 7;
+    texHeightBits = texPlttEntry->field0 >> 23 & 7;
+    texWidthBits = texPlttEntry->field0 >> 20 & 7;
     switch (texWidthBits) {
         case 0:
             texWidth = 8;
@@ -237,13 +237,13 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
 
 u16 GetKartPaletteColor(int kartIndex) {
     if (gRaceMultiConfig->mMode == 5) {
-        return data_02155a2c[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mUnk_25];
+        return data_02155a2c[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field25];
     }
     if (gRaceMultiConfig->mUseTeams != 0) {
         return data_02155a28[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
     if (chkrt_getCharKart(kartIndex)->mCharacterIndex == 0xc) {
-        return chkrt_getHeyhoPaletteRow(kartIndex)->mUnk_04;
+        return chkrt_getHeyhoPaletteRow(kartIndex)->field4;
     }
     return data_02155a64[kartIndex];
 }
@@ -269,7 +269,7 @@ void func_020872a4(void) {
         fourthTexPltt = &texPlttEntries->mEntries[3];
         texPlttEntries->mEntries[0].mTexByteCount = 0x200;
         texPlttEntries->mEntries[0].mPlttByteCount = 0x20;
-        texPlttEntries->mEntries[0].mPlttData = data_0217aed0->mUnk_188;
+        texPlttEntries->mEntries[0].mPlttData = data_0217aed0->field188;
         kartObject->mKartPaletteColor = GetKartPaletteColor(kartObject->mKartIndex);
         SetupKartEmblemTexture(&texPlttEntries->mEntries[0], kartObject->mKartIndex);
         SetupKartEntryNameTexture(entryNameTexPltt, kartObject->mKartIndex);
@@ -352,10 +352,10 @@ void func_020870ec(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 highNibble;
     u8 lowNibble;
     texPlttEntryAlias = texPlttEntry;
-    if (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mUnk_26 != 0) {
+    if (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field26 != 0) {
         pixels = data_0217aecc;
         nibbleLimit = 7;
-        switch (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mUnk_26) {
+        switch (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field26) {
             case 2:
                 nibbleLimit = 4;
                 break;
@@ -396,7 +396,7 @@ void driver_loadEmblems(void) {
     for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
         data_0217aed0->mEmblemTex[i] = NULL;
         data_0217aed0->mEmblemPltt[i] = NULL;
-        if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mUnk_24 == 0 || gRaceMultiConfig->mUseTeams != 0) {
+        if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.field24 == 0 || gRaceMultiConfig->mUseTeams != 0) {
             if (gRaceMultiConfig->mUseTeams != 0) {
                 path = cklcr_getTeamEmblemPath(gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex == 1 ? 1 : 0);
             } else {
@@ -456,13 +456,13 @@ void driver_setupEmblem(u32 kartIndex, void *texData, void *plttData) {
 void UploadTextureAndPalette(TexPlttEntry *texPlttEntry) {
     u16 v;
     u32 texOffset;
-    v = texPlttEntry->mUnk_00 >> 26 & 7;
+    v = texPlttEntry->field0 >> 26 & 7;
     texOffset = (NNS_GfdDefaultFuncAllocTexVram(texPlttEntry->mTexByteCount, 0, 0) & 0xffff) << 3;
-    texPlttEntry->mUnk_00 = texPlttEntry->mUnk_00 & 0xffff0000;
+    texPlttEntry->field0 = texPlttEntry->field0 & 0xffff0000;
     GX_BeginLoadTex();
     GX_LoadTex(texPlttEntry->mTexData, texOffset, texPlttEntry->mTexByteCount);
     GX_EndLoadTex();
-    texPlttEntry->mUnk_00 = texPlttEntry->mUnk_00 | (texOffset >> 3 & 0xffff);
+    texPlttEntry->field0 = texPlttEntry->field0 | (texOffset >> 3 & 0xffff);
     if (texPlttEntry->mPlttByteCount != 0) {
         texPlttEntry->mPlttOffset = (NNS_GfdDefaultFuncAllocPlttVram(texPlttEntry->mPlttByteCount, v == 2, 0) & 0xffff) << 3;
         GX_BeginLoadTexPltt();

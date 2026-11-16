@@ -80,8 +80,8 @@ s32 func_0203023c(void) {
     selectedIndex = gMultiSelectMemberGroup->mSelectedIndex;
     if (selectedIndex != 4) {
         memberChecksPass = FALSE;
-        if (gMultiSelectMemberGroup->mUnk_58[selectedIndex].mUnk_00 != 0 &&
-            gMultiSelectMemberGroup->mUnk_58[selectedIndex].mUnk_08 < 7) {
+        if (gMultiSelectMemberGroup->field58[selectedIndex].field0 != 0 &&
+            gMultiSelectMemberGroup->field58[selectedIndex].field8 < 7) {
             memberChecksPass = TRUE;
         }
         if (memberChecksPass == FALSE) {
@@ -97,9 +97,9 @@ void SetMemberGroupCellTableOffsetY(void) {
     Unk02174e50_24 *cellFileSet;
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    entryCount = *OFFSET_PTR(u16, cellFileSet->mUnk_0c, 6) + *OFFSET_PTR(u16, cellFileSet->mUnk_14, 6);
+    entryCount = *OFFSET_PTR(u16, cellFileSet->fieldC, 6) + *OFFSET_PTR(u16, cellFileSet->field14, 6);
     for (i = 0; i < entryCount; i++) {
-        cellFileSet->mUnk_18[i].mOffsetY = gMultiSelectMemberGroup->mBg3Offset;
+        cellFileSet->field18[i].mOffsetY = gMultiSelectMemberGroup->mBg3Offset;
     }
 }
 
@@ -127,44 +127,44 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
             rowSelected = 1;
         }
         x = *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x58);
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[0]].mVisible = rowSelected;
+        cellFileSet->field18[rowCellIndices->mCellIndices[0]].mVisible = rowSelected;
         if (rowSelected == 0) {
             rowNotSelected = 1;
         } else {
             rowNotSelected = 0;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[0x18 / 2]].mVisible = rowNotSelected;
+        cellFileSet->field18[rowCellIndices->mCellIndices[0x18 / 2]].mVisible = rowNotSelected;
         for (j = 1; j < 12; j++) {
-            cellFileSet->mUnk_18[rowCellIndices->mCellIndices[j]].mVisible = rowSelected & x;
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 12)[j]].mVisible = rowNotSelected & x;
+            cellFileSet->field18[rowCellIndices->mCellIndices[j]].mVisible = rowSelected & x;
+            cellFileSet->field18[(rowCellIndices->mCellIndices + 12)[j]].mVisible = rowNotSelected & x;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[1]].mVisible &=
+        cellFileSet->field18[rowCellIndices->mCellIndices[1]].mVisible &=
             *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[13]].mVisible &=
+        cellFileSet->field18[rowCellIndices->mCellIndices[13]].mVisible &=
             *(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c);
         if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
             y = TRUE;
         } else {
             y = FALSE;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[2]].mVisible &= y;
+        cellFileSet->field18[rowCellIndices->mCellIndices[2]].mVisible &= y;
         if (*(s32 *) ((u8 *) gMultiSelectMemberGroup + entryOffset + 0x5c) == 0) {
             y = TRUE;
         } else {
             y = FALSE;
         }
-        cellFileSet->mUnk_18[rowCellIndices->mCellIndices[14]].mVisible &= y;
+        cellFileSet->field18[rowCellIndices->mCellIndices[14]].mVisible &= y;
         for (j = 0; j < 8; j++) {
             if (j == *(s32 *) (entryOffset + (s32) gMultiSelectMemberGroup + 0x60)) {
                 z = TRUE;
             } else {
                 z = FALSE;
             }
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 4)[j]].mVisible &= z;
-            cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 16)[j]].mVisible &= z;
+            cellFileSet->field18[(rowCellIndices->mCellIndices + 4)[j]].mVisible &= z;
+            cellFileSet->field18[(rowCellIndices->mCellIndices + 16)[j]].mVisible &= z;
         }
-        jn_ui_setLabelColorParam(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14,
-                             cellFileSet->mUnk_18, cellFileSet->mUnk_0c);
+        jn_ui_setLabelColorParam(rowCellIndices->mLabelIndex, valueTable.field0[rowSelected], cellFileSet->field14,
+                             cellFileSet->field18, cellFileSet->fieldC);
         entryOffset += 0xc;
         rowCellIndices = OFFSET_PTR(MemberRowCellIndices, rowCellIndices, 0x32);
         i++;
@@ -174,15 +174,15 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
     } else {
         rowSelected = 0;
     }
-    cellFileSet->mUnk_18[89].mVisible = rowSelected;
+    cellFileSet->field18[89].mVisible = rowSelected;
     if (rowSelected == 0) {
         rowNotSelected = 1;
     } else {
         rowNotSelected = 0;
     }
-    cellFileSet->mUnk_18[88].mVisible = rowNotSelected;
-    jn_ui_setLabelColorParam(4, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14, cellFileSet->mUnk_18,
-                         cellFileSet->mUnk_0c);
+    cellFileSet->field18[88].mVisible = rowNotSelected;
+    jn_ui_setLabelColorParam(4, valueTable.field0[rowSelected], cellFileSet->field14, cellFileSet->field18,
+                         cellFileSet->fieldC);
 }
 
 #pragma thumb off
@@ -208,61 +208,61 @@ void func_0202fd2c(void) {
 
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     changed = 0;
-    switch (gMultiSelectMemberGroup->mUnk_50) {
+    switch (gMultiSelectMemberGroup->field50) {
         case 0:
             if (func_0205579c(0, 0) == 1) {
-                gMultiSelectMemberGroup->mUnk_50 = 1;
+                gMultiSelectMemberGroup->field50 = 1;
             }
             return;
         case 1:
-            if (gMultiSelectMemberGroup->mUnk_88 != FALSE) {
+            if (gMultiSelectMemberGroup->field88 != FALSE) {
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4) {
                     for (i = 0; i < 4; i++) {
-                        if (func_0204ff14(i, &func_0202f14c()->mUnk_04[i]) != 0) {
-                            func_0202f14c()->mUnk_04[i].mUnk_14 = 0;
+                        if (func_0204ff14(i, &func_0202f14c()->field4[i]) != 0) {
+                            func_0202f14c()->field4[i].field14 = 0;
                         } else {
-                            func_0202f764_inline(&func_0202f14c()->mUnk_04[i], 0x16);
+                            func_0202f764_inline(&func_0202f14c()->field4[i], 0x16);
                         }
                     }
                     if (func_0204ff14(gMultiSelectMemberGroup->mSelectedIndex, NULL) != 0) {
-                        func_0202f14c()->mUnk_00 = gMultiSelectMemberGroup->mSelectedIndex;
+                        func_0202f14c()->field0 = gMultiSelectMemberGroup->mSelectedIndex;
                         gMultiSelectMemberGroup->mNextCallbacksIndex = 3;
-                        gMultiSelectMemberGroup->mUnk_50 = 0xb;
+                        gMultiSelectMemberGroup->field50 = 0xb;
                         return;
                     }
-                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mUnk_00 = 0;
+                    gMultiSelectMemberGroup->field58[gMultiSelectMemberGroup->mSelectedIndex].field0 = 0;
                     return;
                 }
                 gMultiSelectMemberGroup->mNextCallbacksIndex = 1;
-                gMultiSelectMemberGroup->mUnk_50 = 5;
+                gMultiSelectMemberGroup->field50 = 5;
                 return;
             }
             if (gMultiSelectMemberGroup->mState != 1) {
                 return;
             }
             for (i = 0; i < 4; i++) {
-                oldWord0 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_00;
-                oldWord8 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_08;
-                oldWord4 = gMultiSelectMemberGroup->mUnk_58[i].mUnk_04;
+                oldWord0 = gMultiSelectMemberGroup->field58[i].field0;
+                oldWord8 = gMultiSelectMemberGroup->field58[i].field8;
+                oldWord4 = gMultiSelectMemberGroup->field58[i].field4;
                 func_0202f764_inline(&entry, 0x16);
-                gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 = func_0204ff14(i, &entry);
-                if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
-                    entry.mUnk_14 = 0;
-                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14, &entry,
-                                  cellFileSet->mUnk_0c, cellFileSet->mUnk_18);
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = func_0204fe1c(i);
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = func_0204fe90(i);
+                gMultiSelectMemberGroup->field58[i].field0 = func_0204ff14(i, &entry);
+                if (gMultiSelectMemberGroup->field58[i].field0 != 0) {
+                    entry.field14 = 0;
+                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->field14, &entry,
+                                  cellFileSet->fieldC, cellFileSet->field18);
+                    gMultiSelectMemberGroup->field58[i].field8 = func_0204fe1c(i);
+                    gMultiSelectMemberGroup->field58[i].field4 = func_0204fe90(i);
                 } else {
-                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14,
-                                  jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mUnk_0c,
-                                  cellFileSet->mUnk_18);
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = 0;
-                    gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = 0;
+                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->field14,
+                                  jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->fieldC,
+                                  cellFileSet->field18);
+                    gMultiSelectMemberGroup->field58[i].field8 = 0;
+                    gMultiSelectMemberGroup->field58[i].field4 = 0;
                 }
-                if (oldWord0 == 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
+                if (oldWord0 == 0 && gMultiSelectMemberGroup->field58[i].field0 != 0) {
                     isNewEntry = TRUE;
                     for (j = 0; j < 4; j++) {
-                        if (wcsncmp(entry.mUnk_00, func_0202f14c()->mUnk_04[j].mUnk_00, 0xb) == 0) {
+                        if (wcsncmp(entry.field0, func_0202f14c()->field4[j].field0, 0xb) == 0) {
                             isNewEntry = FALSE;
                         }
                     }
@@ -271,14 +271,14 @@ void func_0202fd2c(void) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
                         NNS_SndArcSetCurrent(&gSdatFileSndArc);
                     }
-                } else if (oldWord0 != 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 == 0) {
+                } else if (oldWord0 != 0 && gMultiSelectMemberGroup->field58[i].field0 == 0) {
                     NNS_SndArcSetCurrent(&SDATFile);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                     NNS_SndArcSetCurrent(&gSdatFileSndArc);
                 }
-                changed |= oldWord0 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 ? 1 : 0;
-                changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 ? 1 : 0;
-                changed |= oldWord4 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 ? 1 : 0;
+                changed |= oldWord0 != gMultiSelectMemberGroup->field58[i].field0 ? 1 : 0;
+                changed |= oldWord8 != gMultiSelectMemberGroup->field58[i].field8 ? 1 : 0;
+                changed |= oldWord4 != gMultiSelectMemberGroup->field58[i].field4 ? 1 : 0;
             }
             if (changed != 0) {
                 RefreshMultiSelectMemberGroup(1);
@@ -287,7 +287,7 @@ void func_0202fd2c(void) {
         case 5:
         case 8:
             if (func_02054f58() == 1) {
-                gMultiSelectMemberGroup->mUnk_50 = 0xb;
+                gMultiSelectMemberGroup->field50 = 0xb;
             }
             return;
     }
@@ -305,7 +305,7 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     gMultiSelectMemberGroup = heap_alloc(heap, 0xa8);
     MemFillWordsByBlock_inline(gMultiSelectMemberGroup, 0xa8);
     gMultiSelectMemberGroup->mHeap = heap;
-    gMultiSelectMemberGroup->mUnk_40 = scene;
+    gMultiSelectMemberGroup->field40 = scene;
     gMultiSelectMemberGroup->mOamList = oamList;
     gMultiSelectMemberGroup->mBannerMessages = arc_getSceneArcFile(aBanner_bmg_2);
     gMultiSelectMemberGroup->mState = 0;
@@ -326,12 +326,12 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
         } else {
             text = jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
         }
-        jn_ui_212426C(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mUnk_14, text, cellFileSet->mUnk_0c,
-                      cellFileSet->mUnk_18);
+        jn_ui_212426C(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->field14, text, cellFileSet->fieldC,
+                      cellFileSet->field18);
     }
     RefreshMultiSelectMemberGroup(1);
     gmenu_setSeqArcIndex(0xf);
-    gSystemData->mUnk_20 = 2;
+    gSystemData->field20 = 2;
     heap_adjustSubFrmHeap(gMultiSelectMemberGroup->mHeap);
 }
 
@@ -356,7 +356,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
         if (gMultiSelectMemberGroup->mEntriesClearFrames > 0x78) {
             for (i = 0; i < 4; i++) {
-                func_0202f764_inline(&func_0202f14c()->mUnk_04[i], 0x16);
+                func_0202f764_inline(&func_0202f14c()->field4[i], 0x16);
             }
             gMultiSelectMemberGroup->mEntriesCleared = TRUE;
         }
@@ -400,20 +400,20 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                 pairX = gInputUnits[slotIndex].mPairX;
                 pairY = gInputUnits[slotIndex].mPairY;
                 touchInReturnRect = gmenu_checkSelectReturnTouch(pairX, pairY);
-                rectIndex = jn_ui_checkTouch(cellFileSet->mUnk_10, pairX, pairY);
+                rectIndex = jn_ui_checkTouch(cellFileSet->field10, pairX, pairY);
             }
             v = gInputUnits[slotIndex].mPressedBits;
             if ((u16) (v & PAD_KEY_A) != 0) {
                 if (func_0203023c() != 0) {
-                    gMultiSelectMemberGroup->mUnk_88 = TRUE;
+                    gMultiSelectMemberGroup->field88 = TRUE;
                     gMultiSelectMemberGroup->mState = 2;
                     gMultiSelectMemberGroup->mState2Frames = 0;
                     RefreshMultiSelectMemberGroup(0);
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
                     } else {
-                        if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) == 2) {
-                            gStruct217AA00->mUnk_0436 |= 1;
+                        if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0) == 2) {
+                            gStruct217AA00->field436 |= 1;
                         }
                         NNS_SndArcSetCurrent(&SDATFile);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
@@ -448,13 +448,13 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                 gMultiSelectMemberGroup->mState2Frames = 0;
                 gMultiSelectMemberGroup->mState = 2;
                 gMultiSelectMemberGroup->mSelectedIndex = 4;
-                gMultiSelectMemberGroup->mUnk_88 = TRUE;
+                gMultiSelectMemberGroup->field88 = TRUE;
             } else {
                 for (i = 0; i < 4; i++) {
                     if (IsRectInMemberRow(rectIndex, i) != 0) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != i ? 1 : 0;
-                        if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0 &&
-                            gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 < 7) {
+                        if (gMultiSelectMemberGroup->field58[i].field0 != 0 &&
+                            gMultiSelectMemberGroup->field58[i].field8 < 7) {
                             NNS_SndArcSetCurrent(&SDATFile);
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
                             NNS_SndArcSetCurrent(&gSdatFileSndArc);
@@ -462,7 +462,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                             RefreshMultiSelectMemberGroup(selectionChanged);
                             gMultiSelectMemberGroup->mState2Frames = 0;
                             gMultiSelectMemberGroup->mState = 2;
-                            gMultiSelectMemberGroup->mUnk_88 = TRUE;
+                            gMultiSelectMemberGroup->field88 = TRUE;
                         } else {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4f);
                         }
@@ -476,7 +476,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                 gMultiSelectMemberGroup->mState2Frames = 0;
                 RefreshMultiSelectMemberGroup(1);
                 if (gMultiSelectMemberGroup->mSelectedIndex < 4 &&
-                    gMultiSelectMemberGroup->mUnk_58[gMultiSelectMemberGroup->mSelectedIndex].mUnk_00 == 0) {
+                    gMultiSelectMemberGroup->field58[gMultiSelectMemberGroup->mSelectedIndex].field0 == 0) {
                     gMultiSelectMemberGroup->mState = 1;
                 } else {
                     gMultiSelectMemberGroup->mState = 3;
@@ -497,14 +497,14 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
             SetMemberGroupCellTableOffsetY();
             break;
         case 4:
-            if (gMultiSelectMemberGroup->mUnk_50 == 0xb) {
+            if (gMultiSelectMemberGroup->field50 == 0xb) {
                 result = gMultiSelectMemberGroup->mNextCallbacksIndex;
             }
             break;
     }
     if (gMultiSelectMemberGroup->mState != 4) {
-        jn_ui_renderElements(cellFileSet->mUnk_0c, cellFileSet->mUnk_08, cellFileSet->mUnk_14,
-                        gMultiSelectMemberGroup->mOamList, cellFileSet->mUnk_18);
+        jn_ui_renderElements(cellFileSet->fieldC, cellFileSet->field8, cellFileSet->field14,
+                        gMultiSelectMemberGroup->mOamList, cellFileSet->field18);
     }
     return result;
 }

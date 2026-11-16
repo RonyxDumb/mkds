@@ -101,8 +101,8 @@ void mobj_setModelLightMask(void *a, u32 light) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0xf;
-        nsbmdModel->mUnk_14 |= light;
+        nsbmdModel->field14 &= ~0xf;
+        nsbmdModel->field14 |= light;
     }
     if (mapObjectModel->mAnimatedModel == NULL) {
         return;
@@ -115,8 +115,8 @@ void mobj_setModelAlpha(void *a, u16 alpha) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0x1f0000;
-        nsbmdModel->mUnk_14 |= alpha << 16;
+        nsbmdModel->field14 &= ~0x1f0000;
+        nsbmdModel->field14 |= alpha << 16;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(mapObjectModel->mAnimatedModel->mResMdl, alpha);
@@ -133,8 +133,8 @@ void mobj_setModelPolygonIdAll(void *a, u32 polygonId) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mUnk_14 &= ~0x3f000000;
-        nsbmdModel->mUnk_14 |= polygonId << 24;
+        nsbmdModel->field14 &= ~0x3f000000;
+        nsbmdModel->field14 |= polygonId << 24;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlPolygonIDAll(mapObjectModel->mAnimatedModel->mResMdl, polygonId);
@@ -159,9 +159,9 @@ void mobj_setModelFogEnableFlag(void *a, u32 fogEnabled) {
 
     if (nsbmdModel != NULL) {
         if (fogEnabled != 0) {
-            nsbmdModel->mUnk_14 |= 0x8000;
+            nsbmdModel->field14 |= 0x8000;
         } else {
-            nsbmdModel->mUnk_14 &= ~0x8000;
+            nsbmdModel->field14 &= ~0x8000;
         }
     }
     if (mapObjectModel->mAnimatedModel == NULL) {
@@ -179,11 +179,11 @@ void mobj_setModelFlip(void *a, s32 b, s32 c) {
         nsbmdModel = mapObjectModel->mNsbmdModel;
         mirrored = b != 0 || c != 0 ? 1 : 0;
         if (mirrored ^ gRaceMultiConfig->mMirrorMode) {
-            nsbmdModel->mUnk_14 &= ~0x80;
-            mapObjectModel->mNsbmdModel->mUnk_14 |= 0x40;
+            nsbmdModel->field14 &= ~0x80;
+            mapObjectModel->mNsbmdModel->field14 |= 0x40;
         } else {
-            nsbmdModel->mUnk_14 |= 0x80;
-            mapObjectModel->mNsbmdModel->mUnk_14 &= ~0x40;
+            nsbmdModel->field14 |= 0x80;
+            mapObjectModel->mNsbmdModel->field14 &= ~0x40;
         }
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
@@ -194,8 +194,8 @@ void mobj_setModelFlip(void *a, s32 b, s32 c) {
             model_setCullMode(mapObjectModel->mAnimatedModel, 2);
         }
     }
-    mapObjectModel->mScale.mUnk_00 = b != 0 ? -0x1000 : 0x1000;
-    mapObjectModel->mScale.mUnk_04 = c != 0 ? -0x1000 : 0x1000;
+    mapObjectModel->mScale.field0 = b != 0 ? -0x1000 : 0x1000;
+    mapObjectModel->mScale.field4 = c != 0 ? -0x1000 : 0x1000;
 }
 
 // Sets the current frame of slot 0 in 20.12 fixed point (the track frame follows).

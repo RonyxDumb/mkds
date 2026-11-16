@@ -34,11 +34,11 @@ void coin_renderShadow(void *f, Coin *coin, void *h, u32 l) {
     Vec3 scale;
     Vec3 d;
 
-    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mUnk_000.mFlags & 1) == 0 &&
-        (s32) (coin->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
-        b.x = coin->mUnk_000.mPos.x;
-        b.y = coin->mUnk_000.mPos.y - 0x16000;
-        b.z = coin->mUnk_000.mPos.z;
+    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->field0.mFlags & 1) == 0 &&
+        (s32) (coin->field0.mDistanceSquaredAndFlags & 0x3fffffe0) < 0x3d090) {
+        b.x = coin->field0.mPos.x;
+        b.y = coin->field0.mPos.y - 0x16000;
+        b.z = coin->field0.mPos.z;
         a = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, &a, 1);
         NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&b), 0xc);
@@ -49,7 +49,7 @@ void coin_renderShadow(void *f, Coin *coin, void *h, u32 l) {
             scale.z = scaleFactor;
             NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
-        NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &coin->field0.mScale, 3);
         MTX_RotY33_(m, FX_SinCosTable_[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
                     FX_SinCosTable_[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2]);
         NNS_G3dGeBufferOP_N(0x1a, m, 9);

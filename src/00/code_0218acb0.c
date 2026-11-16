@@ -8,17 +8,17 @@
 #include "00/GameSpy/nonport.h"
 
 void func_ov000_0218acf0(MatchingServerList *a, u32 b) {
-    a->mUnk_000.mUnk_28 = b;
+    a->field0.field28 = b;
 }
 
 void func_ov000_0218acd8(MatchingServerList *a) {
-    func_ov000_0218ae5c(&a->mUnk_000.mUnk_14);
-    func_ov000_0218ae5c(&a->mUnk_000.mUnk_08);
+    func_ov000_0218ae5c(&a->field0.field14);
+    func_ov000_0218ae5c(&a->field0.field8);
 }
 
 void func_ov000_0218acb0(MatchingServerList *p) {
-    func_ov000_0218e53c(p->mUnk_000.mUnk_20);
-    p->mUnk_000.mUnk_20 = 0xffffffff;
-    func_ov000_0218ae5c(&p->mUnk_000.mUnk_14);
-    func_ov000_0218ae5c(&p->mUnk_000.mUnk_08);
+    func_ov000_0218e53c(p->field0.field20);
+    p->field0.field20 = 0xffffffff;
+    func_ov000_0218ae5c(&p->field0.field14);
+    func_ov000_0218ae5c(&p->field0.field8);
 }

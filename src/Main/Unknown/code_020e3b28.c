@@ -25,9 +25,9 @@
 #pragma thumb off
 
 void rotcyl_state3Update(Unk020e3ef4 *object) {
-    if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_148) {
-        object->mUnk_000.mStateMachine.mNextState = 0;
-        object->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (object->field0.mStateMachine.mStateFrames > object->field148) {
+        object->field0.mStateMachine.mNextState = 0;
+        object->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -62,12 +62,12 @@ void rotcyl_loadModels(Unk020e1dc0 *list) {
     for (modelIndex = 0; modelIndex < 5; modelIndex++) {
         modelLoaded[modelIndex] = 0;
     }
-    objectCount = list->mUnk_04;
+    objectCount = list->field4;
     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
-        object = list->mUnk_00[objectIndex];
-        loadedFlagSlot = &modelLoaded[object->mUnk_158];
-        if (modelLoaded[object->mUnk_158] == 0) {
-            switch (object->mUnk_158) {
+        object = list->field0[objectIndex];
+        loadedFlagSlot = &modelLoaded[object->field158];
+        if (modelLoaded[object->field158] == 0) {
+            switch (object->field158) {
                 case 0:
                     model2_createFromNsbmd(&gTestCylinder, mobj_getMapObjFile(aTest_cylinder_), NULL);
                     model_setPolyIdLightFlagsEmi(gTestCylinder, 0x3f, 2, 0x294a);
@@ -92,10 +92,10 @@ void rotcyl_loadModels(Unk020e1dc0 *list) {
             *loadedFlagSlot = 1;
         }
     }
-    l = list->mUnk_04;
+    l = list->field4;
     for (j = 0; j < l; j++) {
-        object = list->mUnk_00[j];
-        switch (object->mUnk_158) {
+        object = list->field0[j];
+        switch (object->field158) {
             case 0:
                 object->mModel = gTestCylinder;
                 break;
@@ -125,21 +125,21 @@ void rotcyl_globalLogicInit(Unk020e1dc0 *list) {
     Vec3 offset;
     Unk020e3ef4 **objects;
 
-    objects = list->mUnk_00;
+    objects = list->field0;
     previousIndex = -1;
     z = 0;
     z2 = 0;
-    count = list->mUnk_04;
+    count = list->field4;
     for (index = 0; index < count; index++) {
         object = objects[index];
-        if (object->mUnk_000.mKind == 0xcb) {
+        if (object->field0.mKind == 0xcb) {
             if (previousIndex < 0) {
-                object->mUnk_138 = z;
+                object->field138 = z;
             } else {
-                VEC_Subtract(&objects[previousIndex]->mUnk_000.mPos, &object->mUnk_000.mPos, &offset);
+                VEC_Subtract(&objects[previousIndex]->field0.mPos, &object->field0.mPos, &offset);
                 offset.y = z2;
-                object->mUnk_154 = VEC_Mag(&offset);
-                object->mUnk_154 -= objects[previousIndex]->mUnk_000.mExtent.x;
+                object->field154 = VEC_Mag(&offset);
+                object->field154 -= objects[previousIndex]->field0.mExtent.x;
             }
             previousIndex = index;
         }
@@ -147,58 +147,58 @@ void rotcyl_globalLogicInit(Unk020e1dc0 *list) {
 }
 
 void rotcyl_init(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    sm_init(&object->mUnk_000.mStateMachine, (UnkFunc *const *) rotobj_sStates, 4, object);
-    object->mUnk_0e8 = object->mUnk_000.mPos;
-    object->mUnk_0a0 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
-    object->mUnk_0c4 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
-    object->mUnk_124.x = 0;
-    object->mUnk_124.y = 0;
-    object->mUnk_124.z = 0;
-    object->mUnk_130 = kindInfo->mUnk_00 != 0 ? 0 : 1;
-    object->mUnk_144 = courseRow->mUnk_2c;
-    object->mUnk_146 = courseRow->mUnk_2a;
-    object->mUnk_148 = courseRow->mUnk_2e;
-    object->mUnk_14a = courseRow->mUnk_28 * 0x80 / 100;
-    if (courseRow->mUnk_30 != 0) {
-        object->mUnk_14a = -object->mUnk_14a;
+    sm_init(&object->field0.mStateMachine, (UnkFunc *const *) rotobj_sStates, 4, object);
+    object->fieldE8 = object->field0.mPos;
+    object->fieldA0 = *(Unk020e38a0_28 *) &object->field0.mMatrix;
+    object->fieldC4 = *(Unk020e38a0_28 *) &object->field0.mMatrix;
+    object->field124.x = 0;
+    object->field124.y = 0;
+    object->field124.z = 0;
+    object->field130 = kindInfo->field0 != 0 ? 0 : 1;
+    object->field144 = courseRow->field2C;
+    object->field146 = courseRow->field2A;
+    object->field148 = courseRow->field2E;
+    object->field14A = courseRow->field28 * 0x80 / 100;
+    if (courseRow->field30 != 0) {
+        object->field14A = -object->field14A;
     }
-    object->mUnk_000.mAngle = 0;
-    if (object->mUnk_144 != 0) {
-        object->mUnk_150 = 0x1000 / object->mUnk_144;
+    object->field0.mAngle = 0;
+    if (object->field144 != 0) {
+        object->field150 = 0x1000 / object->field144;
     } else {
-        object->mUnk_150 = 0;
+        object->field150 = 0;
     }
-    object->mUnk_14c = 0;
-    object->mUnk_100 = ((s64) kindInfo->mUnk_04 * object->mUnk_000.mScale.x) >> 12;
-    object->mUnk_104 = (s32) (((s64) kindInfo->mUnk_08 * object->mUnk_000.mScale.y) >> 12) >> 1;
-    if (kindInfo->mUnk_00 != 0) {
-        object->mUnk_110 = FALSE;
-        object->mUnk_114.x = 1;
+    object->field14C = 0;
+    object->field100 = ((s64) kindInfo->field4 * object->field0.mScale.x) >> 12;
+    object->field104 = (s32) (((s64) kindInfo->field8 * object->field0.mScale.y) >> 12) >> 1;
+    if (kindInfo->field0 != 0) {
+        object->field110 = FALSE;
+        object->field114.x = 1;
     } else {
-        object->mUnk_110 = TRUE;
-        object->mUnk_114.x = 0;
+        object->field110 = TRUE;
+        object->field114.x = 0;
     }
-    object->mUnk_114.z = 0;
-    object->mUnk_120 = kindInfo->mUnk_10;
-    object->mUnk_134 = 1;
-    object->mUnk_138 = kindInfo->mUnk_14;
-    object->mUnk_000.mFlags |= data_02158d58;
-    object->mUnk_000.mStateMachine.mNextState = 0;
-    object->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    object->mUnk_158 = kindInfo->mUnk_0c;
-    if (object->mUnk_158 == 1 && courseRow->mUnk_32 == 0) {
-        object->mUnk_158 = 2;
+    object->field114.z = 0;
+    object->field120 = kindInfo->field10;
+    object->field134 = 1;
+    object->field138 = kindInfo->field14;
+    object->field0.mFlags |= data_02158d58;
+    object->field0.mStateMachine.mNextState = 0;
+    object->field0.mStateMachine.mNextStateRequested = 1;
+    object->field158 = kindInfo->fieldC;
+    if (object->field158 == 1 && courseRow->field32 == 0) {
+        object->field158 = 2;
     }
-    object->mUnk_000.mFlags &= ~2;
-    object->mUnk_000.mFlags &= ~8;
-    object->mUnk_000.mAlpha = 0x1f;
-    if (kindInfo->mUnk_0c == 0) {
-        object->mUnk_15c = courseRow->mUnk_0c.x > 0 ? 0x175 : 0x176;
+    object->field0.mFlags &= ~2;
+    object->field0.mFlags &= ~8;
+    object->field0.mAlpha = 0x1f;
+    if (kindInfo->fieldC == 0) {
+        object->field15C = courseRow->fieldC.x > 0 ? 0x175 : 0x176;
     } else {
-        object->mUnk_15c = kindInfo->mUnk_18;
+        object->field15C = kindInfo->field18;
     }
-    if (object->mUnk_15c != -1) {
-        mobj_initSoundEmitterForObjectSfxParam3(&object->mUnk_000);
+    if (object->field15C != -1) {
+        mobj_initSoundEmitterForObjectSfxParam3(&object->field0);
     }
 }
 
@@ -238,58 +238,58 @@ void bridge_update(s32 a, Bridge *bridge) {
     u16 x;
     u16 y;
 
-    sine = FX_SinCosTable_[(bridge->mUnk_148 >> 4) * 2];
-    x = bridge->mUnk_144 + (s32) (((s64) sine * bridge->mUnk_144) >> 12);
+    sine = FX_SinCosTable_[(bridge->field148 >> 4) * 2];
+    x = bridge->field144 + (s32) (((s64) sine * bridge->field144) >> 12);
     y = 0x10000 - x;
-    angleDelta = y - bridge->mUnk_14a;
+    angleDelta = y - bridge->field14A;
     if (angleDelta > 0x8000) {
         angleDelta -= 0x10000;
     }
     if (angleDelta < -0x8000) {
         angleDelta += 0x10000;
     }
-    bridge->mUnk_124.x = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].x * angleDelta) >> 12;
-    bridge->mUnk_124.y = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].y * angleDelta) >> 12;
-    bridge->mUnk_124.z = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
-    bridge->mUnk_14a = y;
-    bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    MTX_RotX33_((s32 *) &bridge->mUnk_000.mMatrix, FX_SinCosTable_[(y >> 4) * 2], FX_SinCosTable_[(y >> 4) * 2 + 1]);
-    MTX_Concat33((const s32 *) &bridge->mUnk_000.mMatrix, (const s32 *) &bridge->mUnk_0c4,
-                 (s32 *) &bridge->mUnk_000.mMatrix);
-    VEC_MultAdd(-bridge->mUnk_104, &bridge->mUnk_000.mMatrix.mUnk_00[1], &bridge->mUnk_000.mPos, &bridge->mUnk_0f4);
-    if (bridge->mUnk_150 != 0) {
-        bridge->mUnk_150--;
+    bridge->field124.x = ((s64) bridge->field0.mMatrix.field0[0].x * angleDelta) >> 12;
+    bridge->field124.y = ((s64) bridge->field0.mMatrix.field0[0].y * angleDelta) >> 12;
+    bridge->field124.z = ((s64) bridge->field0.mMatrix.field0[0].z * angleDelta) >> 12;
+    bridge->field14A = y;
+    bridge->fieldA0 = *(Unk020e38a0_28 *) &bridge->field0.mMatrix;
+    MTX_RotX33_((s32 *) &bridge->field0.mMatrix, FX_SinCosTable_[(y >> 4) * 2], FX_SinCosTable_[(y >> 4) * 2 + 1]);
+    MTX_Concat33((const s32 *) &bridge->field0.mMatrix, (const s32 *) &bridge->fieldC4,
+                 (s32 *) &bridge->field0.mMatrix);
+    VEC_MultAdd(-bridge->field104, &bridge->field0.mMatrix.field0[1], &bridge->field0.mPos, &bridge->fieldF4);
+    if (bridge->field150 != 0) {
+        bridge->field150--;
         return;
     }
-    if (bridge->mUnk_000.mSound != NULL) {
-        mobj_emitSfxFromEmitter(&bridge->mUnk_000, 0x189);
+    if (bridge->field0.mSound != NULL) {
+        mobj_emitSfxFromEmitter(&bridge->field0, 0x189);
     }
-    bridge->mUnk_148 += bridge->mUnk_146;
-    if (bridge->mUnk_148 >= 0x4000 && bridge->mUnk_148 < bridge->mUnk_146 + 0x4000) {
-        bridge->mUnk_150 = bridge->mUnk_14c;
-    } else if (bridge->mUnk_148 >= 0xc000 && bridge->mUnk_148 < bridge->mUnk_146 + 0xc000) {
-        bridge->mUnk_150 = bridge->mUnk_14e;
+    bridge->field148 += bridge->field146;
+    if (bridge->field148 >= 0x4000 && bridge->field148 < bridge->field146 + 0x4000) {
+        bridge->field150 = bridge->field14C;
+    } else if (bridge->field148 >= 0xc000 && bridge->field148 < bridge->field146 + 0xc000) {
+        bridge->field150 = bridge->field14E;
     }
-    y = 0x10000 - bridge->mUnk_14a;
-    bridge->mUnk_154 = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mUnk_14a) * 0x1680000) + 0x80000) >> 20) << 1;
-    if (bridge->mUnk_154 > ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->mUnk_2c) {
-        bridge->mUnk_154 = ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->mUnk_2c;
+    y = 0x10000 - bridge->field14A;
+    bridge->field154 = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->field14A) * 0x1680000) + 0x80000) >> 20) << 1;
+    if (bridge->field154 > ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->field2C) {
+        bridge->field154 = ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->field2C;
     }
-    if (bridge->mUnk_154 < 0) {
-        bridge->mUnk_154 = 0;
+    if (bridge->field154 < 0) {
+        bridge->field154 = 0;
     }
 }
 
 void bridge_render(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
     Unk020e1e98_12c *animation;
 
-    object->mUnk_000.mMatrix.mUnk_00[3].x = object->mUnk_000.mPos.x >> 4;
-    object->mUnk_000.mMatrix.mUnk_00[3].y = object->mUnk_000.mPos.y >> 4;
-    object->mUnk_000.mMatrix.mUnk_00[3].z = object->mUnk_000.mPos.z >> 4;
+    object->field0.mMatrix.field0[3].x = object->field0.mPos.x >> 4;
+    object->field0.mMatrix.field0[3].y = object->field0.mPos.y >> 4;
+    object->field0.mMatrix.field0[3].z = object->field0.mPos.z >> 4;
     animation = bridge_sNsbcaAnim;
-    animation->mUnk_0c = object->mUnk_154;
-    *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
-    model2_renderModel(object->mModel, &object->mUnk_000.mMatrix, &object->mUnk_000.mScale.x, alpha);
+    animation->fieldC = object->field154;
+    *animation->field1C[animation->field1A] = animation->fieldC;
+    model2_renderModel(object->mModel, &object->field0.mMatrix, &object->field0.mScale.x, alpha);
 }
 
 void bridge_renderAll(void *viewMatrix) {

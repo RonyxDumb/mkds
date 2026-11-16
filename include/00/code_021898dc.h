@@ -6,10 +6,10 @@
 
 // Four words handed to func_ov000_021a629c by func_ov000_02189f00.
 typedef struct Unk02189f00 {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ u32 mUnk_08;
-    /* 0c */ u32 mUnk_0c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ u32 field8;
+    /* 0c */ u32 fieldC;
 } Unk02189f00;
 
 // Declared here until the code that defines them is decompiled.

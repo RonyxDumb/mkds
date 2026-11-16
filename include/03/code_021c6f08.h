@@ -6,21 +6,21 @@ typedef struct BgTextCanvas BgTextCanvas;
 typedef struct Unk021da1f8_04 Unk021da1f8_04;
 
 typedef struct EditAddr {
-    /* 00 */ BgTextCanvas *mUnk_00;
-    /* 04 */ Unk021da1f8_04 *mUnk_04;
+    /* 00 */ BgTextCanvas *field0;
+    /* 04 */ Unk021da1f8_04 *field4;
     /* 08 */ u8 mText[0xc];
     /* 14 */ u8 mGroupIndex;
-    /* 15 */ u8 mUnk_15;
+    /* 15 */ u8 field15;
 } EditAddr;
 
 // Five functions called with the object at 0x08.
 typedef struct Unk021d7324 {
-    /* 00 */ void (*mUnk_00[5])(u8 *);
+    /* 00 */ void (*field0[5])(u8 *);
 } Unk021d7324;
 
 // Five functions called with the object at 0x08.
 typedef struct Unk021d7310 {
-    /* 00 */ void (*mUnk_00[5])(u8 *);
+    /* 00 */ void (*field0[5])(u8 *);
 } Unk021d7310;
 
 extern u16 data_ov003_021d63f8[];

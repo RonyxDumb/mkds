@@ -54,8 +54,8 @@ void rstat_203C2E4(u16 a) {
         u32 v;
         s32 i;
         o = p->mRank;
-        v = (u16) (gRaceMultiConfig->mKartCount - gRaceStatus->mUnk_000[0].mRemovedCount);
-        p->mRank = gRaceMultiConfig->mKartCount - gRaceStatus->mUnk_000[0].mRemovedCount;
+        v = (u16) (gRaceMultiConfig->mKartCount - gRaceStatus->field0[0].mRemovedCount);
+        p->mRank = gRaceMultiConfig->mKartCount - gRaceStatus->field0[0].mRemovedCount;
         for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
             RaceProgressKart *q = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], i * 0x8c);
             if (i != a) {
@@ -65,7 +65,7 @@ void rstat_203C2E4(u16 a) {
                 }
             }
         }
-        gRaceStatus->mUnk_000[0].mRemovedCount++;
+        gRaceStatus->field0[0].mRemovedCount++;
     }
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         mgcnt_killDriver(a);
@@ -96,7 +96,7 @@ void rstat_203C2E4(u16 a) {
 BOOL rstat_isDriverInFinalLap(u16 a) {
     BOOL f = FALSE;
     BOOL r;
-    switch (gRaceStatus->mUnk_000[a].mStatus) {
+    switch (gRaceStatus->field0[a].mStatus) {
         case 1:
         case 2:
         case 3:
@@ -105,7 +105,7 @@ BOOL rstat_isDriverInFinalLap(u16 a) {
     }
     r = f == FALSE;
     if (r != FALSE) {
-        r = rconf_getLapCount() == gRaceStatus->mUnk_000[a].mLap;
+        r = rconf_getLapCount() == gRaceStatus->field0[a].mLap;
     }
     return r != FALSE;
 }

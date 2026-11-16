@@ -10,24 +10,24 @@
 
 // Object at 0xe8 and 0xec of MkdEfBubbleObject: a word at 0x24.
 typedef struct Unk020df6c8_e8 {
-    /* 00 */ u8 mUnk_00[0x24];
-    /* 24 */ u32 mUnk_24;
+    /* 00 */ u8 field0[0x24];
+    /* 24 */ u32 field24;
 } Unk020df6c8_e8;
 
 // Object of at least 0xf4 bytes, made by mobj_createObject and filled in by efbub_init.
 typedef struct MkdEfBubbleObject {
-    /* 00 */ MapObject mUnk_00;
-    /* a0 */ s32 mUnk_a0;
-    /* a4 */ s32 mUnk_a4;
-    /* a8 */ u16 mUnk_a8;
-    /* aa */ u8 mUnk_aa[2];
-    /* ac */ s32 mUnk_ac;
-    /* b0 */ ShadowMatrix mUnk_b0;
-    /* e4 */ u8 mUnk_e4;
-    /* e5 */ u8 mUnk_e5[3];
-    /* e8 */ Unk020df6c8_e8 *mUnk_e8;
-    /* ec */ Unk020df6c8_e8 *mUnk_ec;
-    /* f0 */ s32 mUnk_f0;
+    /* 00 */ MapObject field0;
+    /* a0 */ s32 fieldA0;
+    /* a4 */ s32 fieldA4;
+    /* a8 */ u16 fieldA8;
+    /* aa */ u8 fieldAA[2];
+    /* ac */ s32 fieldAC;
+    /* b0 */ ShadowMatrix fieldB0;
+    /* e4 */ u8 fieldE4;
+    /* e5 */ u8 fieldE5[3];
+    /* e8 */ Unk020df6c8_e8 *fieldE8;
+    /* ec */ Unk020df6c8_e8 *fieldEC;
+    /* f0 */ s32 fieldF0;
 } MkdEfBubbleObject;
 
 void efbub_loadModel(void);

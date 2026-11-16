@@ -14,16 +14,16 @@ typedef struct ArchiveSlotInfo {
     /* 00 */ const char *mPath;
     /* 04 */ s32 mNextSlot;
     /* 08 */ s8 mBufferIndex;
-    /* 09 */ u8 mUnk_09[0x3];
+    /* 09 */ u8 field9[0x3];
     /* 0c */ s32 mUncompressSource;
-    /* 10 */ s32 mUnk_10;
-    /* 14 */ s32 mUnk_14;
+    /* 10 */ s32 field10;
+    /* 14 */ s32 field14;
 } ArchiveSlotInfo;
 
 // 8-byte entries of a string and a number.
 typedef struct SceneName {
     /* 00 */ const char *mName;
-    /* 04 */ s32 mUnk_04;
+    /* 04 */ s32 field4;
 } SceneName;
 
 #include "Main/Unknown/unk_02175000.h"

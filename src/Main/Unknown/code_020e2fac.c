@@ -43,7 +43,7 @@ void choro_applyShadowMaterial(void) {
 }
 
 void choro_renderShadow(void *a, Unk020e1e98 *choropu, u32 c, u32 alpha) {
-    oshd_render(&choropu->mUnk_0b4.mUnk_08, NULL, 0, alpha);
+    oshd_render(&choropu->fieldB4.field8, NULL, 0, alpha);
 }
 
 void choro_update(u32 arg0, u32 object) {
@@ -55,124 +55,124 @@ void choro_update(u32 arg0, u32 object) {
 }
 
 void choro_state0Init(Unk020e35a0 *choropu) {
-    choropu->mUnk_08 = choropu->mUnk_ac;
-    choropu->mUnk_14 = 0x0u;
-    choropu->mUnk_02 |= data_02158bb8;
-    choropu->mUnk_02 |= data_02158bb4;
+    choropu->field8 = choropu->fieldAC;
+    choropu->field14 = 0x0u;
+    choropu->field2 |= data_02158bb8;
+    choropu->field2 |= data_02158bb4;
 }
 
 void choro_state0Update(Unk020e1e98 *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mUnk_0a0) {
-        choropu->mUnk_000.mStateMachine.mNextState = 1;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->field0.mStateMachine.mStateFrames >= choropu->fieldA0) {
+        choropu->field0.mStateMachine.mNextState = 1;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void choro_state1Init(Unk020e3538 *choropu) {
-    choropu->mUnk_08 = choropu->mUnk_ac;
-    choropu->mUnk_14 = 0x1000u;
-    choropu->mUnk_b8 = 0x0u;
-    choropu->mUnk_02 |= data_02158bb8;
-    choropu->mUnk_02 |= data_02158bb4;
+    choropu->field8 = choropu->fieldAC;
+    choropu->field14 = 0x1000u;
+    choropu->fieldB8 = 0x0u;
+    choropu->field2 |= data_02158bb8;
+    choropu->field2 |= data_02158bb4;
 }
 
 void choro_state1Update(Unk020e1e98 *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y > choropu->mUnk_0ac + 0x11199) {
-        choropu->mUnk_000.mPos.y = choropu->mUnk_0ac + 0x11199;
-        choropu->mUnk_000.mStateMachine.mNextState = 2;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->field0.mPos.y = choropu->field0.mPos.y + choropu->field0.field10.y;
+    if (choropu->field0.mPos.y > choropu->fieldAC + 0x11199) {
+        choropu->field0.mPos.y = choropu->fieldAC + 0x11199;
+        choropu->field0.mStateMachine.mNextState = 2;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void choro_state2Init(Unk020e34ec *choropu) {
-    choropu->mUnk_14 = 0x0u;
+    choropu->field14 = 0x0u;
 }
 
 void choro_state2Update(Unk020e1e98 *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= 0x14) {
-        choropu->mUnk_000.mStateMachine.mNextState = 3;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->field0.mStateMachine.mStateFrames >= 0x14) {
+        choropu->field0.mStateMachine.mNextState = 3;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void choro_state3Init(Unk020e34c0 *choropu) {
-    choropu->mUnk_14 = ((0x0u) - (0x1000u));
+    choropu->field14 = ((0x0u) - (0x1000u));
 }
 
 void choro_state3Update(Unk020e1e98 *choropu) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y >= choropu->mUnk_0ac) {
+    choropu->field0.mPos.y = choropu->field0.mPos.y + choropu->field0.field10.y;
+    if (choropu->field0.mPos.y >= choropu->fieldAC) {
         return;
     }
-    if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x4) == 0) {
-        falloffIndex = choropu->mUnk_000.mFarDistanceSquared == gSfxParams[2].mUnk_20
+    if ((choropu->field0.mDistanceSquaredAndFlags & 0x4) == 0) {
+        falloffIndex = choropu->field0.mFarDistanceSquared == gSfxParams[2].field20
                            ? 2
-                           : (choropu->mUnk_000.mFarDistanceSquared == gSfxParams[3].mUnk_20 ? 3 : 4);
+                           : (choropu->field0.mFarDistanceSquared == gSfxParams[3].field20 ? 3 : 4);
         soundRequest.mSoundId = 0x128;
-        soundRequest.mPositionSource = &choropu->mUnk_000.mPos;
-        soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&choropu->mUnk_000.mPos);
+        soundRequest.mPositionSource = &choropu->field0.mPos;
+        soundRequest.field8 = falloffIndex;
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&choropu->field0.mPos);
         func_0210b7a8(&soundRequest);
     }
-    choropu->mUnk_000.mStateMachine.mNextState = 4;
-    choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->field0.mStateMachine.mNextState = 4;
+    choropu->field0.mStateMachine.mNextStateRequested = 1;
 }
 
 void choro_state4Init(Unk020e1e98 *choropu) {
-    choropu->mUnk_000.mPos.y = choropu->mUnk_0ac;
-    choropu->mUnk_000.mUnk_10.y = 0x4800;
-    choropu->mUnk_000.mFlags &= ~0x1;
-    if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x3) != 0) {
+    choropu->field0.mPos.y = choropu->fieldAC;
+    choropu->field0.field10.y = 0x4800;
+    choropu->field0.mFlags &= ~0x1;
+    if ((choropu->field0.mDistanceSquaredAndFlags & 0x3) != 0) {
         if (rstat_getUncontrollable() == 0) {
             return;
         }
     }
-    ptcm_createEmitter(0x30, &choropu->mUnk_000.mCourseMapRow->mUnk_00);
+    ptcm_createEmitter(0x30, &choropu->field0.mCourseMapRow->field0);
 }
 
 void choro_state4Update(Unk020e1e98 *choropu) {
-    choropu->mUnk_000.mUnk_10.y -= 0x266;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
-        choropu->mUnk_000.mStateMachine.mNextState = 5;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->field0.field10.y -= 0x266;
+    choropu->field0.mPos.y = choropu->field0.mPos.y + choropu->field0.field10.y;
+    if (choropu->field0.mPos.y < choropu->fieldB0) {
+        choropu->field0.mStateMachine.mNextState = 5;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 // Same body as choro_state0Init; this is the enter slot of state 5.
 void choro_state5Init(Unk020e3338 *choropu) {
-    choropu->mUnk_08 = choropu->mUnk_ac;
-    choropu->mUnk_14 = 0x0u;
-    choropu->mUnk_02 |= data_02158bb8;
-    choropu->mUnk_02 |= data_02158bb4;
+    choropu->field8 = choropu->fieldAC;
+    choropu->field14 = 0x0u;
+    choropu->field2 |= data_02158bb8;
+    choropu->field2 |= data_02158bb4;
 }
 
 void choro_state5Update(Unk020e1e98 *choropu) {
-    if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mUnk_0a4) {
-        choropu->mUnk_000.mStateMachine.mNextState = 1;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    if (choropu->field0.mStateMachine.mStateFrames >= choropu->fieldA4) {
+        choropu->field0.mStateMachine.mNextState = 1;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
 void choro_state6Init(Unk020e1e98 *choropu) {
-    choropu->mUnk_000.mFlags = (((choropu->mUnk_000.mFlags)) | ((data_02158bb4)));
+    choropu->field0.mFlags = (((choropu->field0.mFlags)) | ((data_02158bb4)));
 }
 
 void choro_state6Update(Unk020e1e98 *choropu) {
-    if (choropu->mUnk_0b4.mUnk_00 != 0) {
-        choropu->mUnk_0b4.mUnk_04 += 0x400;
+    if (choropu->fieldB4.field0 != 0) {
+        choropu->fieldB4.field4 += 0x400;
     } else {
-        choropu->mUnk_0b4.mUnk_04 -= 0x400;
+        choropu->fieldB4.field4 -= 0x400;
     }
-    choropu->mUnk_000.mUnk_10.y -= 0x400;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
-        choropu->mUnk_000.mStateMachine.mNextState = 5;
-        choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
+    choropu->field0.field10.y -= 0x400;
+    choropu->field0.mPos.y = choropu->field0.mPos.y + choropu->field0.field10.y;
+    if (choropu->field0.mPos.y < choropu->fieldB0) {
+        choropu->field0.mStateMachine.mNextState = 5;
+        choropu->field0.mStateMachine.mNextStateRequested = 1;
     }
 }
 
@@ -181,18 +181,18 @@ u32 choro_state7Init(u32 value) {
 }
 
 void choro_state7Update(Unk020e1e98 *choropu) {
-    choropu->mUnk_000.mUnk_10.y -= 0x266;
-    choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
-    if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
-        Unk020e005c_080 *stateMachine = &choropu->mUnk_000.mStateMachine;
+    choropu->field0.field10.y -= 0x266;
+    choropu->field0.mPos.y = choropu->field0.mPos.y + choropu->field0.field10.y;
+    if (choropu->field0.mPos.y < choropu->fieldB0) {
+        Unk020e005c_080 *stateMachine = &choropu->field0.mStateMachine;
 
         stateMachine->mNextState = 5;
         stateMachine->mNextStateRequested = 1;
     }
-    if (choropu->mUnk_0b4.mUnk_00 != 0) {
-        choropu->mUnk_0b4.mUnk_04 += 0x400;
+    if (choropu->fieldB4.field0 != 0) {
+        choropu->fieldB4.field4 += 0x400;
     } else {
-        choropu->mUnk_0b4.mUnk_04 -= 0x400;
+        choropu->fieldB4.field4 -= 0x400;
     }
 }
 
@@ -205,25 +205,25 @@ u8 choro_onDriverCollide(Unk020e1e98 *choropu, Kart *kart, u8 *c, u8 *d) {
             if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return d[0];
             }
-            if (choropu->mUnk_000.mStateMachine.mState == 7) {
+            if (choropu->field0.mStateMachine.mState == 7) {
                 return d[0];
             }
-            choropu->mUnk_000.mStateMachine.mNextState = 7;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            mobj_tryDestroyByDriver(&choropu->mUnk_000, kart);
+            choropu->field0.mStateMachine.mNextState = 7;
+            choropu->field0.mStateMachine.mNextStateRequested = 1;
+            mobj_tryDestroyByDriver(&choropu->field0, kart);
             break;
         case 1:
-            VEC_Subtract(&choropu->mUnk_000.mPos, &kart->mPos, &offsetFromKart);
+            VEC_Subtract(&choropu->field0.mPos, &kart->mPos, &offsetFromKart);
             if ((s64) offsetFromKart.z * kart->mVelocity.x - (s64) offsetFromKart.x * kart->mVelocity.z < 0) {
-                choropu->mUnk_0b4.mUnk_00 = 1;
+                choropu->fieldB4.field0 = 1;
             } else {
-                choropu->mUnk_0b4.mUnk_00 = 0;
+                choropu->fieldB4.field0 = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
-            mobj_tryDestroyByDriver(&choropu->mUnk_000, kart);
+            choropu->field0.field10.y = 0x4000;
+            choropu->field0.mStateMachine.mNextState = 6;
+            choropu->field0.mStateMachine.mNextStateRequested = 1;
+            choropu->field0.mFlags |= data_02158bb4;
+            mobj_tryDestroyByDriver(&choropu->field0, kart);
             break;
     }
     return d[0];
@@ -236,28 +236,28 @@ u8 choro_onItemCollide(Unk020e1e98 *choropu, Unk020e246c *itemObject, u8 *c, u8 
 
     if (c[0] == 1) {
         if (itemObject != NULL) {
-            VEC_Subtract(&choropu->mUnk_000.mPos, &itemObject->mUnk_050, &offsetFromItem);
-            if ((s64) offsetFromItem.z * itemObject->mUnk_05c - (s64) offsetFromItem.x * itemObject->mUnk_064 < 0) {
-                choropu->mUnk_0b4.mUnk_00 = 1;
+            VEC_Subtract(&choropu->field0.mPos, &itemObject->field50, &offsetFromItem);
+            if ((s64) offsetFromItem.z * itemObject->field5C - (s64) offsetFromItem.x * itemObject->field64 < 0) {
+                choropu->fieldB4.field0 = 1;
             } else {
-                choropu->mUnk_0b4.mUnk_00 = 0;
+                choropu->fieldB4.field0 = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
+            choropu->field0.field10.y = 0x4000;
+            choropu->field0.mStateMachine.mNextState = 6;
+            choropu->field0.mStateMachine.mNextStateRequested = 1;
+            choropu->field0.mFlags |= data_02158bb4;
             it_emitMissionParticles(itemObject);
         } else {
-            VEC_Subtract(&choropu->mUnk_000.mPos, &choropu->mUnk_000.mPos, &offset);
+            VEC_Subtract(&choropu->field0.mPos, &choropu->field0.mPos, &offset);
             if ((s64) offset.z * data_02158c7c.x - (s64) offset.x * data_02158c7c.z < 0) {
-                choropu->mUnk_0b4.mUnk_00 = 1;
+                choropu->fieldB4.field0 = 1;
             } else {
-                choropu->mUnk_0b4.mUnk_00 = 0;
+                choropu->fieldB4.field0 = 0;
             }
-            choropu->mUnk_000.mUnk_10.y = 0x4000;
-            choropu->mUnk_000.mStateMachine.mNextState = 6;
-            choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            choropu->mUnk_000.mFlags |= data_02158bb4;
+            choropu->field0.field10.y = 0x4000;
+            choropu->field0.mStateMachine.mNextState = 6;
+            choropu->field0.mStateMachine.mNextStateRequested = 1;
+            choropu->field0.mFlags |= data_02158bb4;
         }
     }
     return d[0];

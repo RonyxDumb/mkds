@@ -3,7 +3,7 @@
 #include "types.h"
 
 typedef struct Unk02194828 {
-    /* 00 */ u8 mUnk_00[8];
+    /* 00 */ u8 field0[8];
     /* 08 */ u32 *mValue;
 } Unk02194828;
 

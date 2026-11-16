@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020a2e4c.h"
 
 void func_020a2e68(Balloon *balloon) {
-    balloon->mUnk_e0 = 0;
+    balloon->fieldE0 = 0;
 }
 
 // Returns mScaleFactor.

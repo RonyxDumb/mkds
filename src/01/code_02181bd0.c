@@ -40,22 +40,22 @@ Unk0219b250 *coin_sModel;
 
 void coin_initForCollect(Coin *coin, Kart *kart) {
     coin->mTimer = 0x1e;
-    coin->mUnk_000.mPos.x = kart->mPos.x;
-    coin->mUnk_000.mPos.y = kart->mPos.y + 0xc000;
-    coin->mUnk_000.mPos.z = kart->mPos.z;
-    coin->mUnk_000.mUnk_10.y = 0x3000;
+    coin->field0.mPos.x = kart->mPos.x;
+    coin->field0.mPos.y = kart->mPos.y + 0xc000;
+    coin->field0.mPos.z = kart->mPos.z;
+    coin->field0.field10.y = 0x3000;
     coin->mState = 1;
     coin->mScaleFactor = 0x99a;
     coin->mModelAlpha = 0x1f;
-    coin->mUnk_000.mFlags = coin->mUnk_000.mFlags | data_ov001_021a6574;
-    coin->mEffect = ptcm_createEmitter(0x3f5, &coin->mUnk_000.mPos);
+    coin->field0.mFlags = coin->field0.mFlags | data_ov001_021a6574;
+    coin->mEffect = ptcm_createEmitter(0x3f5, &coin->field0.mPos);
     coin->mEffectTimer = 0xd;
 }
 
 void coin_updateAnim(Coin *coin, s32 b) {
-    coin->mUnk_0a8 += b;
-    if (coin->mUnk_0a8 >= 5) {
-        coin->mUnk_0a8 -= 5;
+    coin->fieldA8 += b;
+    if (coin->fieldA8 >= 5) {
+        coin->fieldA8 -= 5;
         coin->mNsbtpFrameIndex += 1;
         if (coin->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(coin_sModel)) {
             coin->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(coin_sModel);
@@ -94,17 +94,17 @@ void coin_handleLose(void) {
         coin->mState = 3;
         coin->mScaleFactor = 0x99a;
         coin->mModelAlpha = 0x10;
-        coin->mUnk_000.mPos.x = kart->mPos.x;
-        coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
-        coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mUnk_10.x = kart->mVelocity.x + (s32) (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2]) >> 12);
-        coin->mUnk_000.mUnk_10.y = kart->mVelocity.y + 0x4000;
-        coin->mUnk_000.mUnk_10.z =
+        coin->field0.mPos.x = kart->mPos.x;
+        coin->field0.mPos.y = kart->mPos.y + 0x1a000;
+        coin->field0.mPos.z = kart->mPos.z;
+        coin->field0.field10.x = kart->mVelocity.x + (s32) (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2]) >> 12);
+        coin->field0.field10.y = kart->mVelocity.y + 0x4000;
+        coin->field0.field10.z =
             kart->mVelocity.z + (s32) (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2 + 1]) >> 12);
-        coin->mUnk_000.mFlags &= ~1;
+        coin->field0.mFlags &= ~1;
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
-        soundArg.mUnk_08 = 2;
+        soundArg.field8 = 2;
         soundArg.mDistanceSquared = mobj_calcXZCamDist(NULL);
         func_0210b7a8(&soundArg);
     }
@@ -141,16 +141,16 @@ void coin_handleSteal(void) {
             }
             targetObject = GetMissionRunMapObject(kartCount);
         }
-        coin->mTargetPos = &targetObject->mUnk_000.mPos;
-        coin->mUnk_000.mPos.x = kart->mPos.x;
-        coin->mUnk_000.mPos.y = kart->mPos.y + 0x1a000;
-        coin->mUnk_000.mPos.z = kart->mPos.z;
-        coin->mUnk_000.mUnk_10.x = (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2]) >> 12);
-        coin->mUnk_000.mUnk_10.y = 0x4000;
-        coin->mUnk_000.mUnk_10.z = (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2 + 1]) >> 12);
+        coin->mTargetPos = &targetObject->field0.mPos;
+        coin->field0.mPos.x = kart->mPos.x;
+        coin->field0.mPos.y = kart->mPos.y + 0x1a000;
+        coin->field0.mPos.z = kart->mPos.z;
+        coin->field0.field10.x = (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2]) >> 12);
+        coin->field0.field10.y = 0x4000;
+        coin->field0.field10.z = (((s64) speed * FX_SinCosTable_[(angle >> 4) * 2 + 1]) >> 12);
         soundArg.mSoundId = 0x1d9;
         soundArg.mPositionSource = NULL;
-        soundArg.mUnk_08 = 2;
+        soundArg.field8 = 2;
         soundArg.mDistanceSquared = mobj_calcXZCamDist(NULL);
         func_0210b7a8(&soundArg);
     }
@@ -191,16 +191,16 @@ void func_ov001_02182a3c(s32 a) {
                                                  gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)
                                            : 0) +
                                       4);
-                        coin->mUnk_000.mPos.x = coin->mTargetPos->x;
-                        coin->mUnk_000.mPos.y = coin->mTargetPos->y;
-                        coin->mUnk_000.mPos.z = coin->mTargetPos->z;
-                        coin->mUnk_000.mUnk_10.x = 0;
-                        coin->mUnk_000.mUnk_10.y = 0x4cd;
-                        coin->mUnk_000.mUnk_10.z = 0;
+                        coin->field0.mPos.x = coin->mTargetPos->x;
+                        coin->field0.mPos.y = coin->mTargetPos->y;
+                        coin->field0.mPos.z = coin->mTargetPos->z;
+                        coin->field0.field10.x = 0;
+                        coin->field0.field10.y = 0x4cd;
+                        coin->field0.field10.z = 0;
                         tableIndex = (angle >> 4) * 2;
-                        coin->mUnk_0ec.x = ((s64) FX_SinCosTable_[tableIndex] * 0x14000) >> 12;
-                        coin->mUnk_0ec.y = -0xa000;
-                        coin->mUnk_0ec.z = ((s64) FX_SinCosTable_[tableIndex + 1] * 0x14000) >> 12;
+                        coin->fieldEC.x = ((s64) FX_SinCosTable_[tableIndex] * 0x14000) >> 12;
+                        coin->fieldEC.y = -0xa000;
+                        coin->fieldEC.z = ((s64) FX_SinCosTable_[tableIndex + 1] * 0x14000) >> 12;
                     }
                 } else {
                     if (coin->mTargetPos != NULL) {
@@ -229,8 +229,8 @@ void func_ov001_021829ac(s32 a) {
                 }
                 count++;
                 if (count <= a) {
-                    if ((coin->mUnk_000.mFlags & 0x100) == 0) {
-                        mobj_setInvisible(&coin->mUnk_000);
+                    if ((coin->field0.mFlags & 0x100) == 0) {
+                        mobj_setInvisible(&coin->field0);
                     }
                     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         mrcnt_regainStolenCoins(1);
@@ -250,16 +250,16 @@ void func_ov001_021828f0(void) {
     coinList = mobj_getLogicPartForObjectId(0x68);
     if (coinList != NULL) {
         for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
-            if (coin->mState == 0 && (coin->mUnk_000.mFlags & 0x100) == 0) {
-                coin->mUnk_000.mUnk_10.y = 0x5000;
+            if (coin->mState == 0 && (coin->field0.mFlags & 0x100) == 0) {
+                coin->field0.field10.y = 0x5000;
                 coin->mModelAlpha = 0x32;
                 coin->mState = 8;
-                coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                coin->field0.mFlags |= data_ov001_021a6574;
             }
         }
     }
     sndHandleSlot = GetSndHandleSlot(2);
-    if ((data_0217c780 & 1) && SoundHandle_217D084.mUnk_0c != 0) {
+    if ((data_0217c780 & 1) && SoundHandle_217D084.fieldC != 0) {
         if (*sndHandleSlot != 0) {
             NNS_SndPlayerStopSeq(sndHandleSlot, 0);
         }
@@ -279,23 +279,23 @@ void func_ov001_021827f0(void) {
     coinList = mobj_getLogicPartForObjectId(0x68);
     if (coinList != NULL) {
         for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
-            if (coin->mState == 9 && (coin->mUnk_000.mFlags & 0x100) == 0) {
-                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
-                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xa000;
-                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mUnk_00.z;
-                coin->mUnk_000.mUnk_10.x = 0;
-                coin->mUnk_000.mUnk_10.y = 0x5000;
-                coin->mUnk_000.mUnk_10.z = 0;
-                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xe000;
+            if (coin->mState == 9 && (coin->field0.mFlags & 0x100) == 0) {
+                coin->field0.mPos.x = coin->field0.mCourseMapRow->field0.x;
+                coin->field0.mPos.y = coin->field0.mCourseMapRow->field0.y + 0xa000;
+                coin->field0.mPos.z = coin->field0.mCourseMapRow->field0.z;
+                coin->field0.field10.x = 0;
+                coin->field0.field10.y = 0x5000;
+                coin->field0.field10.z = 0;
+                coin->mBounceY = coin->field0.mCourseMapRow->field0.y + 0xe000;
                 coin->mState = 2;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
-                coin->mUnk_000.mFlags &= ~1;
+                coin->field0.mFlags &= ~1;
             }
         }
     }
     sndHandleSlot = GetSndHandleSlot(2);
-    if ((data_0217c780 & 1) && SoundHandle_217D084.mUnk_0c != 0) {
+    if ((data_0217c780 & 1) && SoundHandle_217D084.fieldC != 0) {
         if (*sndHandleSlot != 0) {
             NNS_SndPlayerStopSeq(sndHandleSlot, 0);
         }
@@ -322,12 +322,12 @@ u8 coin_onDriverCollide(Coin *coin, Kart *kart, u8 *e, u8 *f) {
     u8 a = *e;
     u8 b = *f;
 
-    if (kart->mUnk_48 & 0x200) {
+    if (kart->field48 & 0x200) {
         return 0;
     }
     if (a == 1) {
         if (coin->mState != 3 && coin->mState != 5 && coin->mState != 6) {
-            mobj_setInvisible(&coin->mUnk_000);
+            mobj_setInvisible(&coin->field0);
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 mrcnt_collectCoins(1);
             }
@@ -342,7 +342,7 @@ void coin_loadModel(Unk0219b478 *a) {
     mobj_setModelPolygonIdAll(coin_sModel, 0x3f);
     mobj_setModelLightMask(coin_sModel, 2);
     model_setEmi(coin_sModel->mAnimatedModel, 0x294a);
-    a->mUnk_1c = 1;
+    a->field1C = 1;
 }
 
 void coin_render(void *b, Coin *coin) {
@@ -354,7 +354,7 @@ void coin_render(void *b, Coin *coin) {
     if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0) {
         a = 0x1e;
         NNS_G3dGeBufferOP_N(0x14, (&a), 1);
-        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coin->mUnk_000.mPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coin->field0.mPos), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor != 0x1000) {
             scale.x = scaleFactor;
@@ -362,7 +362,7 @@ void coin_render(void *b, Coin *coin) {
             scale.z = scaleFactor;
             NNS_G3dGeBufferOP_N(0x1b, (&scale), 3);
         }
-        NNS_G3dGeBufferOP_N(0x1b, (&coin->mUnk_000.mScale), 3);
+        NNS_G3dGeBufferOP_N(0x1b, (&coin->field0.mScale), 3);
         mobj_setModelPolygonIdAll(coin_sModel, mobj_getCyclicPolygonId());
         alpha = coin->mModelAlpha;
         if (alpha >= 0x1f) {
@@ -382,12 +382,12 @@ void coin_globalLogicInit(CoinList *coinList) {
 
     if (coinList != NULL) {
         for (i = 0; i < coinList->mObjectCount && (coin = coinList->mObjects[i]) != NULL; i++) {
-            coin->mUnk_0d8 = coin->mUnk_000.mCourseMapRow->mUnk_00;
-            coin->mUnk_000.mPos = coin->mUnk_0d8;
-            coin->mUnk_000.mPos.y = coin->mUnk_000.mPos.y + 0xe000;
-            if (coin->mUnk_000.mCourseMapRow->mUnk_26 >= 0) {
-                pw_initFromObject(&coin->mFollower, coin->mUnk_000.mCourseMapRow, 0);
-                speed = (coin->mUnk_000.mCourseMapRow->mUnk_28 << 12) / 100;
+            coin->fieldD8 = coin->field0.mCourseMapRow->field0;
+            coin->field0.mPos = coin->fieldD8;
+            coin->field0.mPos.y = coin->field0.mPos.y + 0xe000;
+            if (coin->field0.mCourseMapRow->field26 >= 0) {
+                pw_initFromObject(&coin->mFollower, coin->field0.mCourseMapRow, 0);
+                speed = (coin->field0.mCourseMapRow->field28 << 12) / 100;
                 coin->mFollower.mSpeed = speed;
                 coin->mFollower.mProgressStep =
                     ((s64) speed *
@@ -397,7 +397,7 @@ void coin_globalLogicInit(CoinList *coinList) {
                 coin->mFollower.mGroupIndex = 0xffff;
             }
             coin->mScaleFactor = 0x1000;
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2a == 0) {
+            if (coin->field0.mCourseMapRow->field2A == 0) {
                 coin->mModelAlpha = 0x1f;
             } else {
                 coin->mModelAlpha = 0;
@@ -418,19 +418,19 @@ void coin_update(void *a, Coin *coin) {
             }
             coin->mModelAlpha = n;
             coin_updateAnim(coin, 1);
-            coin->mUnk_000.mUnk_10.y -= 0x333;
-            VEC_Add(&coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10, &coin->mUnk_000.mPos);
-            if (coin->mUnk_000.mPos.y <= coin->mBounceY) {
-                coin->mUnk_000.mPos.y = coin->mBounceY;
-                if (coin->mUnk_000.mUnk_10.y <= 0) {
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * -0x800) >> 12;
-                    if (coin->mUnk_000.mUnk_10.y < 0x1000) {
-                        coin->mUnk_000.mUnk_10.x = 0;
-                        coin->mUnk_000.mUnk_10.y = 0;
-                        coin->mUnk_000.mUnk_10.z = 0;
+            coin->field0.field10.y -= 0x333;
+            VEC_Add(&coin->field0.mPos, &coin->field0.field10, &coin->field0.mPos);
+            if (coin->field0.mPos.y <= coin->mBounceY) {
+                coin->field0.mPos.y = coin->mBounceY;
+                if (coin->field0.field10.y <= 0) {
+                    coin->field0.field10.y = ((s64) coin->field0.field10.y * -0x800) >> 12;
+                    if (coin->field0.field10.y < 0x1000) {
+                        coin->field0.field10.x = 0;
+                        coin->field0.field10.y = 0;
+                        coin->field0.field10.z = 0;
                         coin->mState = 0;
                     }
-                    mobj_20D2600(0x1d8, &coin->mUnk_000.mPos, 2);
+                    mobj_20D2600(0x1d8, &coin->field0.mPos, 2);
                 }
             }
             break;
@@ -444,20 +444,20 @@ void coin_update(void *a, Coin *coin) {
             coin_updateAnim(coin, 1);
             if (coin->mFollower.mGroupIndex != 0xffff) {
                 pw_update(&coin->mFollower);
-                pw_20D8BF8_XYZ(&coin->mFollower, &coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10);
-                coin->mUnk_000.mPos.y += 0xe000;
-                coin->mUnk_0d8 = coin->mUnk_000.mPos;
+                pw_20D8BF8_XYZ(&coin->mFollower, &coin->field0.mPos, &coin->field0.field10);
+                coin->field0.mPos.y += 0xe000;
+                coin->fieldD8 = coin->field0.mPos;
             } else {
-                coin->mUnk_000.mUnk_10.x = 0;
-                coin->mUnk_000.mUnk_10.y = 0;
-                coin->mUnk_000.mUnk_10.z = 0;
+                coin->field0.field10.x = 0;
+                coin->field0.field10.y = 0;
+                coin->field0.field10.z = 0;
             }
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
-                radius = coin->mUnk_000.mCourseMapRow->mUnk_2a;
+            if (coin->field0.mCourseMapRow->field2A != 0) {
+                radius = coin->field0.mCourseMapRow->field2A;
                 for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
                     kartPos = &driver_getById((u16) i)->mPos;
-                    dx = kartPos->x - coin->mUnk_000.mPos.x;
-                    dz = kartPos->z - coin->mUnk_000.mPos.z;
+                    dx = kartPos->x - coin->field0.mPos.x;
+                    dz = kartPos->z - coin->field0.mPos.z;
                     if ((s64) dx * dx + (s64) dz * dz < (s64) (radius << 12) * (radius << 12)) {
                         found = TRUE;
                         goto checked;
@@ -486,8 +486,8 @@ void coin_update(void *a, Coin *coin) {
             }
             coin->mModelAlpha = n;
             coin_updateAnim(coin, 4);
-            coin->mUnk_000.mPos.y += coin->mUnk_000.mUnk_10.y;
-            coin->mUnk_000.mUnk_10.y -= 0x333;
+            coin->field0.mPos.y += coin->field0.field10.y;
+            coin->field0.field10.y -= 0x333;
             if (coin->mModelAlpha == 0) {
                 coin->mState = 9;
             }
@@ -501,17 +501,17 @@ void coin_update(void *a, Coin *coin) {
             coin->mModelAlpha = n;
             coin_updateAnim(coin, 4);
             kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
-            coin->mUnk_000.mPos.x = kart->mPos.x;
-            coin->mUnk_000.mPos.y += coin->mUnk_000.mUnk_10.y;
-            coin->mUnk_000.mPos.z = kart->mPos.z;
-            coin->mUnk_000.mUnk_10.y -= 0x333;
+            coin->field0.mPos.x = kart->mPos.x;
+            coin->field0.mPos.y += coin->field0.field10.y;
+            coin->field0.mPos.z = kart->mPos.z;
+            coin->field0.field10.y -= 0x333;
             if (coin->mTimer-- <= 0) {
-                mobj_setInvisible(&coin->mUnk_000);
+                mobj_setInvisible(&coin->field0);
             } else if (coin->mTimer == 3) {
                 rptc_2081F10(ptcm_createEmitter(0x3f4, &kart->mPos), kart->mIndex, 0x18);
             }
             if (coin->mEffect != NULL) {
-                ptcm_setEmitterPosition(coin->mEffect, &coin->mUnk_000.mPos);
+                ptcm_setEmitterPosition(coin->mEffect, &coin->field0.mPos);
                 if (coin->mEffectTimer-- < 0) {
                     ptcm_killEmitter(&coin->mEffect);
                 }
@@ -536,84 +536,84 @@ void coin_update(void *a, Coin *coin) {
                 }
             }
             coin_updateAnim(coin, 1);
-            coin->mUnk_000.mUnk_10.y -= 0x333;
-            VEC_Add(&coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10, &coin->mUnk_000.mPos);
-            pos.x = coin->mUnk_000.mPos.x;
-            pos.y = coin->mUnk_000.mExtent.x + (coin->mUnk_000.mPos.y - 0xe000);
-            pos.z = coin->mUnk_000.mPos.z;
-            if (mobj_collideAsItemDirect(&pos, &coin->mUnk_000.mUnk_10, coin->mUnk_000.mExtent.x,
-                              coin->mUnk_000.mCollisionSlotIndex, 2, &delta) != 0) {
-                VEC_Add(&coin->mUnk_000.mPos, &delta, &coin->mUnk_000.mPos);
+            coin->field0.field10.y -= 0x333;
+            VEC_Add(&coin->field0.mPos, &coin->field0.field10, &coin->field0.mPos);
+            pos.x = coin->field0.mPos.x;
+            pos.y = coin->field0.mExtent.x + (coin->field0.mPos.y - 0xe000);
+            pos.z = coin->field0.mPos.z;
+            if (mobj_collideAsItemDirect(&pos, &coin->field0.field10, coin->field0.mExtent.x,
+                              coin->field0.mCollisionSlotIndex, 2, &delta) != 0) {
+                VEC_Add(&coin->field0.mPos, &delta, &coin->field0.mPos);
                 if ((s64) delta.x * delta.x + (s64) delta.y * delta.y + (s64) delta.z * delta.z >= 0x10) {
-                    vec_normalize(&delta, &coin->mUnk_000.mUnk_10);
+                    vec_normalize(&delta, &coin->field0.field10);
                 }
-                coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_000.mUnk_10.x * 0x1400) >> 12;
-                coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * 0x1400) >> 12;
-                coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_000.mUnk_10.z * 0x1400) >> 12;
+                coin->field0.field10.x = ((s64) coin->field0.field10.x * 0x1400) >> 12;
+                coin->field0.field10.y = ((s64) coin->field0.field10.y * 0x1400) >> 12;
+                coin->field0.field10.z = ((s64) coin->field0.field10.z * 0x1400) >> 12;
             }
-            if (col_collide(&pos, NULL, 0, coin->mUnk_000.mExtent.x, 1, coin->mUnk_000.mCollisionSlotIndex, &delta,
+            if (col_collide(&pos, NULL, 0, coin->field0.mExtent.x, 1, coin->field0.mCollisionSlotIndex, &delta,
                               &out1, &out2, &flags, NULL, NULL, NULL, NULL) != 0) {
-                VEC_Add(&coin->mUnk_000.mPos, &delta, &coin->mUnk_000.mPos);
+                VEC_Add(&coin->field0.mPos, &delta, &coin->field0.mPos);
                 if (flags & 0x214300) {
-                    BounceVelocityOffSurface(&coin->mUnk_000.mUnk_10, &out2, 0x1000, 0x1000, 0xc00,
-                                             &coin->mUnk_000.mUnk_10);
-                    if ((s64) coin->mUnk_000.mUnk_10.x * coin->mUnk_000.mUnk_10.x +
-                            (s64) coin->mUnk_000.mUnk_10.y * coin->mUnk_000.mUnk_10.y +
-                            (s64) coin->mUnk_000.mUnk_10.z * coin->mUnk_000.mUnk_10.z >=
+                    BounceVelocityOffSurface(&coin->field0.field10, &out2, 0x1000, 0x1000, 0xc00,
+                                             &coin->field0.field10);
+                    if ((s64) coin->field0.field10.x * coin->field0.field10.x +
+                            (s64) coin->field0.field10.y * coin->field0.field10.y +
+                            (s64) coin->field0.field10.z * coin->field0.field10.z >=
                         0x10) {
-                        vec_normalize(&coin->mUnk_000.mUnk_10, &coin->mUnk_000.mUnk_10);
+                        vec_normalize(&coin->field0.field10, &coin->field0.field10);
                     }
-                    coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_000.mUnk_10.x * 0x1400) >> 12;
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * 0x1400) >> 12;
-                    coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_000.mUnk_10.z * 0x1400) >> 12;
+                    coin->field0.field10.x = ((s64) coin->field0.field10.x * 0x1400) >> 12;
+                    coin->field0.field10.y = ((s64) coin->field0.field10.y * 0x1400) >> 12;
+                    coin->field0.field10.z = ((s64) coin->field0.field10.z * 0x1400) >> 12;
                 }
-                if ((flags & 0x1e34ef) && coin->mUnk_000.mUnk_10.y <= 0) {
-                    coin->mUnk_000.mUnk_10.y = ((s64) coin->mUnk_000.mUnk_10.y * -0x800) >> 12;
-                    if (coin->mUnk_000.mUnk_10.y < 0x1000) {
-                        coin->mUnk_000.mUnk_10.x = 0;
-                        coin->mUnk_000.mUnk_10.y = 0;
-                        coin->mUnk_000.mUnk_10.z = 0;
+                if ((flags & 0x1e34ef) && coin->field0.field10.y <= 0) {
+                    coin->field0.field10.y = ((s64) coin->field0.field10.y * -0x800) >> 12;
+                    if (coin->field0.field10.y < 0x1000) {
+                        coin->field0.field10.x = 0;
+                        coin->field0.field10.y = 0;
+                        coin->field0.field10.z = 0;
                         coin->mState = 0;
                     }
-                    mobj_20D2600(0x1d8, &coin->mUnk_000.mPos, 2);
+                    mobj_20D2600(0x1d8, &coin->field0.mPos, 2);
                 }
-                if ((flags & 0x800) || coin->mUnk_000.mPos.y < 0) {
+                if ((flags & 0x800) || coin->field0.mPos.y < 0) {
                     coin->mState = 4;
                 }
             }
-            coin->mUnk_0d8.x = coin->mUnk_000.mPos.x;
-            coin->mUnk_0d8.z = coin->mUnk_000.mPos.z;
+            coin->fieldD8.x = coin->field0.mPos.x;
+            coin->fieldD8.z = coin->field0.mPos.z;
             break;
         }
         case 4:
             coin_updateAnim(coin, 1);
-            coin->mUnk_000.mUnk_10.y -= 0x333;
-            VEC_Add(&coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10, &coin->mUnk_000.mPos);
+            coin->field0.field10.y -= 0x333;
+            VEC_Add(&coin->field0.mPos, &coin->field0.field10, &coin->field0.mPos);
             n = coin->mModelAlpha - 1;
             if (n > 0) {
                 coin->mModelAlpha = n;
                 break;
             }
-            if (coin->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
+            if (coin->field0.mCourseMapRow->field2C != 0) {
                 coin->mState = 7;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
-                coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                coin->field0.mFlags |= data_ov001_021a6574;
                 if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                     mrcnt_updateStolenCoinCount(1);
                 }
             } else {
-                coin->mUnk_000.mPos.x = coin->mUnk_000.mCourseMapRow->mUnk_00.x;
-                coin->mUnk_000.mPos.y = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0x64000;
-                coin->mUnk_000.mPos.z = coin->mUnk_000.mCourseMapRow->mUnk_00.z;
-                coin->mUnk_000.mUnk_10.x = 0;
-                coin->mUnk_000.mUnk_10.y = 0;
-                coin->mUnk_000.mUnk_10.z = 0;
-                coin->mBounceY = coin->mUnk_000.mCourseMapRow->mUnk_00.y + 0xe000;
+                coin->field0.mPos.x = coin->field0.mCourseMapRow->field0.x;
+                coin->field0.mPos.y = coin->field0.mCourseMapRow->field0.y + 0x64000;
+                coin->field0.mPos.z = coin->field0.mCourseMapRow->field0.z;
+                coin->field0.field10.x = 0;
+                coin->field0.field10.y = 0;
+                coin->field0.field10.z = 0;
+                coin->mBounceY = coin->field0.mCourseMapRow->field0.y + 0xe000;
                 coin->mState = 2;
                 coin->mScaleFactor = 0x1000;
                 coin->mModelAlpha = 0;
-                coin->mUnk_000.mFlags &= ~1;
+                coin->field0.mFlags &= ~1;
             }
             break;
         case 5:
@@ -629,9 +629,9 @@ void coin_update(void *a, Coin *coin) {
                 }
             }
             coin_updateAnim(coin, 1);
-            coin->mUnk_000.mUnk_10.y -= 0x333;
-            VEC_Add(&coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10, &coin->mUnk_000.mPos);
-            if (coin->mUnk_000.mUnk_10.y <= 0) {
+            coin->field0.field10.y -= 0x333;
+            VEC_Add(&coin->field0.mPos, &coin->field0.field10, &coin->field0.mPos);
+            if (coin->field0.field10.y <= 0) {
                 coin->mState = 6;
             }
             break;
@@ -643,22 +643,22 @@ void coin_update(void *a, Coin *coin) {
                 }
             }
             coin_updateAnim(coin, 1);
-            if (coin->mUnk_000.mPos.x < coin->mTargetPos->x) {
-                coin->mUnk_000.mUnk_10.x += 0x400;
-            } else if (coin->mUnk_000.mPos.x > coin->mTargetPos->x) {
-                coin->mUnk_000.mUnk_10.x -= 0x400;
+            if (coin->field0.mPos.x < coin->mTargetPos->x) {
+                coin->field0.field10.x += 0x400;
+            } else if (coin->field0.mPos.x > coin->mTargetPos->x) {
+                coin->field0.field10.x -= 0x400;
             }
-            if (coin->mUnk_000.mPos.y < coin->mTargetPos->y) {
-                coin->mUnk_000.mUnk_10.y += 0x400;
-            } else if (coin->mUnk_000.mPos.y > coin->mTargetPos->y) {
-                coin->mUnk_000.mUnk_10.y -= 0x400;
+            if (coin->field0.mPos.y < coin->mTargetPos->y) {
+                coin->field0.field10.y += 0x400;
+            } else if (coin->field0.mPos.y > coin->mTargetPos->y) {
+                coin->field0.field10.y -= 0x400;
             }
-            if (coin->mUnk_000.mPos.z < coin->mTargetPos->z) {
-                coin->mUnk_000.mUnk_10.z += 0x400;
-            } else if (coin->mUnk_000.mPos.z > coin->mTargetPos->z) {
-                coin->mUnk_000.mUnk_10.z -= 0x400;
+            if (coin->field0.mPos.z < coin->mTargetPos->z) {
+                coin->field0.field10.z += 0x400;
+            } else if (coin->field0.mPos.z > coin->mTargetPos->z) {
+                coin->field0.field10.z -= 0x400;
             }
-            VEC_Add(&coin->mUnk_000.mPos, &coin->mUnk_000.mUnk_10, &coin->mUnk_000.mPos);
+            VEC_Add(&coin->field0.mPos, &coin->field0.field10, &coin->field0.mPos);
             if (coin->mTimer-- <= 0) {
                 coin->mTimer = 0;
                 n = coin->mModelAlpha - 1;
@@ -671,7 +671,7 @@ void coin_update(void *a, Coin *coin) {
                     coin->mScaleFactor = 0x1000;
                     coin->mModelAlpha = 0;
                     coin->mTargetPos = NULL;
-                    coin->mUnk_000.mFlags |= data_ov001_021a6574;
+                    coin->field0.mFlags |= data_ov001_021a6574;
                 }
             }
             break;
@@ -691,17 +691,17 @@ void coin_update(void *a, Coin *coin) {
             }
             if (coin->mModelAlpha != 0 && coin->mTargetPos != NULL) {
                 coin_updateAnim(coin, 1);
-                coin->mUnk_000.mUnk_10.y -= 0x14;
-                VEC_Add(&coin->mUnk_0ec, &coin->mUnk_000.mUnk_10, &coin->mUnk_0ec);
-                VEC_Add(&coin->mUnk_0ec, coin->mTargetPos, &coin->mUnk_000.mPos);
-                if ((s64) ((const Vec3 *) &coin->mUnk_0ec)->x * ((const Vec3 *) &coin->mUnk_0ec)->x +
-                        (s64) ((const Vec3 *) &coin->mUnk_0ec)->z * ((const Vec3 *) &coin->mUnk_0ec)->z >=
+                coin->field0.field10.y -= 0x14;
+                VEC_Add(&coin->fieldEC, &coin->field0.field10, &coin->fieldEC);
+                VEC_Add(&coin->fieldEC, coin->mTargetPos, &coin->field0.mPos);
+                if ((s64) ((const Vec3 *) &coin->fieldEC)->x * ((const Vec3 *) &coin->fieldEC)->x +
+                        (s64) ((const Vec3 *) &coin->fieldEC)->z * ((const Vec3 *) &coin->fieldEC)->z >=
                     0x190000000LL) {
-                    coin->mUnk_000.mUnk_10.x = ((s64) coin->mUnk_0ec.x * -0x14) >> 12;
-                    coin->mUnk_000.mUnk_10.z = ((s64) coin->mUnk_0ec.z * -0x14) >> 12;
+                    coin->field0.field10.x = ((s64) coin->fieldEC.x * -0x14) >> 12;
+                    coin->field0.field10.z = ((s64) coin->fieldEC.z * -0x14) >> 12;
                 }
-                if (coin->mUnk_0ec.y < -0xa000) {
-                    coin->mUnk_000.mUnk_10.y = 0x4cd;
+                if (coin->fieldEC.y < -0xa000) {
+                    coin->field0.field10.y = 0x4cd;
                 }
             }
             break;

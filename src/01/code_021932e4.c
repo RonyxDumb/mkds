@@ -28,7 +28,7 @@ void InitOptionTopMenu(void *heap) {
     s32 j;
 
     gOptionTopMenu = heap_alloc(heap, 0x40);
-    gOptionTopMenu->mUnk_1c = heap;
+    gOptionTopMenu->field1C = heap;
     gOptionTopMenu->mState = 0;
     gOptionTopMenu->mNextState = 0;
     switch (GetOptionPrevState()) {
@@ -41,7 +41,7 @@ void InitOptionTopMenu(void *heap) {
             break;
     }
     gOptionTopMenu->mStateFrames = 0;
-    gOptionTopMenu->mUnk_14 = TRUE;
+    gOptionTopMenu->field14 = TRUE;
     gOptionTopMenu->mOptionMessages = arc_getSceneArcFile(aOptionBmg);
     gOptionTopMenu->mCommonMessages = arc_get2dArcFile(aCommonBmg);
     if (GetOptionPrevState() == 1) {
@@ -204,7 +204,7 @@ void AdvanceOptionTopMenuState3(void) {
                 break;
         }
         if (gOptionTopMenu->mIndex == old) {
-            gOptionTopMenu->mUnk_14 = FALSE;
+            gOptionTopMenu->field14 = FALSE;
         }
         sfx_2105AC0(5);
     } else if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
@@ -231,7 +231,7 @@ void AdvanceOptionTopMenuState4(void) {
             RequestSelectReturnState4();
         }
     } else if (gOptionTopMenu->mStateFrames >= 5) {
-        gOptionTopMenu->mUnk_14 = TRUE;
+        gOptionTopMenu->field14 = TRUE;
     }
 }
 
@@ -350,7 +350,7 @@ void func_ov001_021933dc(void) {
     BOOL zero = FALSE;
 
     for (i = 0; i < 3; i++) {
-        if (i == gOptionTopMenu->mIndex && gOptionTopMenu->mUnk_14 != FALSE) {
+        if (i == gOptionTopMenu->mIndex && gOptionTopMenu->field14 != FALSE) {
             gOptionTopMenu->mOptionTopMenuSTable[data_ov001_021a65e0[i]].mVisible = 1;
             jn_ui_setCellCparam(data_ov001_021a65d8[i], 14, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);

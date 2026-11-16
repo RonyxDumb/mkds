@@ -7,20 +7,20 @@
 // Object of 0x38 bytes whose first 0x24 bytes are an GroupFollower (pwex_update,
 // pwex_init, pw_reverse).
 typedef struct GroupFollowerWithSpeeds {
-    /* 00 */ GroupFollower mUnk_00;
+    /* 00 */ GroupFollower field0;
     /* 24 */ s32 mSpeedPerEntryUnit;
     /* 28 */ s32 mDefaultSpeed;
     /* 2c */ s32 mFromSpeed;
-    /* 30 */ s32 mUnk_30;
+    /* 30 */ s32 field30;
     /* 34 */ s32 mToSpeed;
 } GroupFollowerWithSpeeds;
 
 // An Segment (pw_setupPoint and pw_interpolateXZLinearY), then three words.
 typedef struct SegmentProgress {
-    /* 00 */ Segment mUnk_00;
-    /* 54 */ s32 mUnk_54;
-    /* 58 */ s32 mUnk_58;
-    /* 5c */ s32 mUnk_5c;
+    /* 00 */ Segment field0;
+    /* 54 */ s32 field54;
+    /* 58 */ s32 field58;
+    /* 5c */ s32 field5C;
 } SegmentProgress;
 
 void pw_reverse(GroupFollower *follower);

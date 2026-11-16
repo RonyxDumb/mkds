@@ -62,17 +62,17 @@ void col_update(void) {
             pb = &v1[y->mOtherEndIndex];
             pa->mOtherEndIndex++;
             pb->mOtherEndIndex--;
-            col_sColEntries[pa->mUnk_01].mHighEndIndex++;
-            col_sColEntries[pb->mUnk_01].mHighEndIndex--;
-            if (x->mUnk_01 == y->mOtherEndIndex) {
-                t = x->mUnk_01;
+            col_sColEntries[pa->field1].mHighEndIndex++;
+            col_sColEntries[pb->field1].mHighEndIndex--;
+            if (x->field1 == y->mOtherEndIndex) {
+                t = x->field1;
                 do {
                     t++;
                 } while (col_sSegLeftEndpoints[t].mOtherEndIndex < k);
-                x->mUnk_01 = t;
+                x->field1 = t;
             }
-            if (y->mUnk_01 > x->mOtherEndIndex) {
-                y->mUnk_01 = x->mOtherEndIndex;
+            if (y->field1 > x->mOtherEndIndex) {
+                y->field1 = x->mOtherEndIndex;
             }
             k--;
         }
@@ -85,16 +85,16 @@ void col_update(void) {
             *(u32 *) y = w;
             col_sSegRightEndpoints[x->mOtherEndIndex].mOtherEndIndex++;
             col_sSegRightEndpoints[y->mOtherEndIndex].mOtherEndIndex--;
-            col_sColEntries[x->mUnk_01].mLowEndIndex++;
-            col_sColEntries[y->mUnk_01].mLowEndIndex--;
+            col_sColEntries[x->field1].mLowEndIndex++;
+            col_sColEntries[y->field1].mLowEndIndex--;
             if (x->mOtherEndIndex > y->mOtherEndIndex) {
-                for (n = x->mOtherEndIndex; n > y->mOtherEndIndex && col_sSegRightEndpoints[n].mUnk_01 == k - 1; n--) {
-                    col_sSegRightEndpoints[n].mUnk_01++;
+                for (n = x->mOtherEndIndex; n > y->mOtherEndIndex && col_sSegRightEndpoints[n].field1 == k - 1; n--) {
+                    col_sSegRightEndpoints[n].field1++;
                 }
             } else {
                 n = y->mOtherEndIndex;
-                while (n > x->mOtherEndIndex && col_sSegRightEndpoints[n].mUnk_01 == k) {
-                    col_sSegRightEndpoints[n--].mUnk_01--;
+                while (n > x->mOtherEndIndex && col_sSegRightEndpoints[n].field1 == k) {
+                    col_sSegRightEndpoints[n--].field1--;
                 }
             }
             k--;
@@ -153,19 +153,19 @@ void col_queryByColEntry(s32 a, s32 b) {
         q++;
     }
     h = (s16) q;
-    i = x[p].mUnk_01;
+    i = x[p].field1;
     l = i;
     if (h < l) {
         return;
     }
     for (;;) {
         if (col_sSegLeftEndpoints[h].mOtherEndIndex >= p && h != u) {
-            o = &col_sColEntries[col_sSegLeftEndpoints[h].mUnk_01];
+            o = &col_sColEntries[col_sSegLeftEndpoints[h].field1];
             g = o->mFlags;
             if (o->mHighZ < f || o->mLowZ > d || !(g & b) || (g & 0x200)) {
                 goto next;
             }
-            gColQueryResultEntryIds[gColQueryResultCount] = col_sSegLeftEndpoints[h].mUnk_01;
+            gColQueryResultEntryIds[gColQueryResultCount] = col_sSegLeftEndpoints[h].field1;
             gColQueryResultFlags[gColQueryResultCount] = g;
             gColQueryResultObjects[gColQueryResultCount] = o->mObject;
             gColQueryResultCount++;
@@ -212,24 +212,24 @@ s32 mobj_calcVisibilityFlags2d(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
         gViewFrustum.mNear - b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_20.x + y * gViewFrustum.mUnk_20.y + z * gViewFrustum.mUnk_20.z > b) {
+    if (x * gViewFrustum.field20.x + y * gViewFrustum.field20.y + z * gViewFrustum.field20.z > b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_2c.x + y * gViewFrustum.mUnk_2c.y + z * gViewFrustum.mUnk_2c.z > b) {
+    if (x * gViewFrustum.field2C.x + y * gViewFrustum.field2C.y + z * gViewFrustum.field2C.z > b) {
         return r | 2;
     }
-    if (x * gViewFrustum.mUnk_38.x + y * gViewFrustum.mUnk_38.y + z * gViewFrustum.mUnk_38.z > b) {
+    if (x * gViewFrustum.field38.x + y * gViewFrustum.field38.y + z * gViewFrustum.field38.z > b) {
         return r | 2;
     }
-    g = x * gViewFrustum.mUnk_44.x;
-    if (z * gViewFrustum.mUnk_44.z + (y * gViewFrustum.mUnk_44.y + g) > b) {
+    g = x * gViewFrustum.field44.x;
+    if (z * gViewFrustum.field44.z + (y * gViewFrustum.field44.y + g) > b) {
         r |= 2;
     }
     return r;
 }
 
 static inline s32 func_01ffd648_inline(ViewFrustum *g) {
-    return g->mUnk_20.y;
+    return g->field20.y;
 }
 
 s32 mobj_calcVisibilityFlags3d(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
@@ -254,10 +254,10 @@ s32 mobj_calcVisibilityFlags3d(Vec3 *a, s32 b, s32 c, s32 d, u16 e) {
     }
     v.y = (a->y - gViewFrustum.mCameraPos.y) >> 12;
     h = ((const Vec3 *) &v)->x;
-    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.mUnk_20.x + v.z * gViewFrustum.mUnk_20.z > b) {
+    if (v.y * func_01ffd648_inline(&gViewFrustum) + v.x * gViewFrustum.field20.x + v.z * gViewFrustum.field20.z > b) {
         return r | 2;
     }
-    if (h * gViewFrustum.mUnk_2c.x + v.y * gViewFrustum.mUnk_2c.y + v.z * gViewFrustum.mUnk_2c.z > b) {
+    if (h * gViewFrustum.field2C.x + v.y * gViewFrustum.field2C.y + v.z * gViewFrustum.field2C.z > b) {
         r |= 2;
     }
     return r;
@@ -287,21 +287,21 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
     if (q->mState != KART_STATE_NORMAL) {
         return;
     }
-    if (q->mUnk_44 & 2) {
+    if (q->field44 & 2) {
         return;
     }
-    if (q->mUnk_4c & 0x10000000) {
+    if (q->field4C & 0x10000000) {
         return;
     }
     r = FALSE;
     enmy_getTargetPosDir(&v0, &v1, p);
-    if (p->mUnk_a8 == 1) {
-        u = &q->mUnk_12c;
+    if (p->fieldA8 == 1) {
+        u = &q->field12C;
         d = VEC_DotProduct(u, &v1);
         v5.x = v1.x - (s32) (((s64) u->x * d) >> 12);
         v5.y = v1.y - (s32) (((s64) u->y * d) >> 12);
         v5.z = v1.z - (s32) (((s64) u->z * d) >> 12);
-        if (vec_dotProduct(&q->mUnk_138, &v5) > -0x333) {
+        if (vec_dotProduct(&q->field138, &v5) > -0x333) {
             enmy_getTargetPosDir(&v2, &v3, p);
             o = p->mKart;
             r = TRUE;
@@ -337,24 +337,24 @@ void AdvanceKartAiHeading(struct KartAi *p, Vec3 *a, Vec3 *b) {
              12);
         r = TRUE;
     }
-    if ((q->mUnk_4c & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->mUnk_44 & KART_44_ON_GROUND) &&
-        !(q->mUnk_48 & 0x8020) && q->mVelocityLength > 0x3000 && p->mUnk_90 != 2 && p->mUnk_a8 == 0) {
-        p->mUnk_c8 += 0x44c;
-        p->mUnk_ca = ((s64) FX_SinCosTable_[(p->mUnk_c8 >> 4) * 2] * 0xfa + 0x800) >> 12;
-        q->mHeadingAngle += (s16) p->mUnk_ca * p->mUnk_cc;
+    if ((q->field4C & 0x8000000) && p->mTurnAngleDegrees < 0x46000 && (q->field44 & KART_44_ON_GROUND) &&
+        !(q->field48 & 0x8020) && q->mVelocityLength > 0x3000 && p->field90 != 2 && p->fieldA8 == 0) {
+        p->fieldC8 += 0x44c;
+        p->fieldCA = ((s64) FX_SinCosTable_[(p->fieldC8 >> 4) * 2] * 0xfa + 0x800) >> 12;
+        q->mHeadingAngle += (s16) p->fieldCA * p->fieldCC;
         r = TRUE;
     } else {
-        p->mUnk_ca = 0;
-        p->mUnk_c8 = 0;
+        p->fieldCA = 0;
+        p->fieldC8 = 0;
     }
 end:
     if (r == FALSE) {
         return;
     }
     if (g > 0) {
-        q->mUnk_48 |= KART_48_TURN_LEFT;
+        q->field48 |= KART_48_TURN_LEFT;
     } else {
-        q->mUnk_48 |= KART_48_TURN_RIGHT;
+        q->field48 |= KART_48_TURN_RIGHT;
     }
 }
 

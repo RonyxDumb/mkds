@@ -15,8 +15,8 @@ struct KartAiItemUseEntry;
 typedef struct PosCurve {
     /* 00 */ Vec3 mPoints[4];
     /* 30 */ s32 mParam;
-    /* 34 */ s32 mUnk_34;
-    /* 38 */ s32 mUnk_38;
+    /* 34 */ s32 field34;
+    /* 38 */ s32 field38;
 } PosCurve;
 
 struct KartAi;

@@ -6,14 +6,14 @@
 
 // Object at Unk0219b250.mNsbcaAnimation and mNsbtpAnimation (a 0x38-byte allocation).
 typedef struct ModelAnimationView {
-    /* 00 */ u8 mUnk_00[2];
-    /* 02 */ u16 mUnk_02;
-    /* 04 */ u8 mUnk_04[4];
-    /* 08 */ s32 mUnk_08;
-    /* 0c */ s32 mUnk_0c;
-    /* 10 */ u8 mUnk_10[0xa];
-    /* 1a */ u16 mUnk_1a;
-    /* 1c */ s32 **mUnk_1c;
+    /* 00 */ u8 field0[2];
+    /* 02 */ u16 field2;
+    /* 04 */ u8 field4[4];
+    /* 08 */ s32 field8;
+    /* 0c */ s32 fieldC;
+    /* 10 */ u8 field10[0xa];
+    /* 1a */ u16 field1A;
+    /* 1c */ s32 **field1C;
 } ModelAnimationView;
 
 // Object behind Unk02188950.mNsbmd: the 0x2c-byte allocation made by LoadMapObjectModelAnimated and
@@ -41,9 +41,9 @@ typedef struct Unk0219b250 {
 
 // First argument of LoadMapObjectModelAnimated and LoadMapObjectModelShadow.
 typedef struct Unk0219b478 {
-    /* 00 */ u8 mUnk_00[0x18];
-    /* 18 */ u32 mUnk_18;
-    /* 1c */ u32 mUnk_1c;
+    /* 00 */ u8 field0[0x18];
+    /* 18 */ u32 field18;
+    /* 1c */ u32 field1C;
 } Unk0219b478;
 
 void func_ov001_0219b250(Unk0219b250 *p0);

@@ -17,16 +17,16 @@
 #define PLAYER_ENTRY_LIST_KART 1
 #define PLAYER_ENTRY_LIST_RACE_RULE 2
 
-// One entry of mEntries: character, kart, team and player kind; mUnk_10 is passed on as rconf_setDriverConfigNext's sixth
+// One entry of mEntries: character, kart, team and player kind; field10 is passed on as rconf_setDriverConfigNext's sixth
 // argument. 0x18-byte elements of the table at member 0 of RaceSetupCopy.
 typedef struct RaceSetupCopyEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
     /* 08 */ s32 mPlayerKind;
     /* 0c */ s32 mTeamIndex;
-    /* 10 */ s32 mUnk_10;
+    /* 10 */ s32 field10;
     // 1 where the entry's kart index is stored, 0 where the entry is cleared and on copy-in.
-    /* 14 */ s32 mUnk_14;
+    /* 14 */ s32 field14;
 } RaceSetupCopyEntry;
 
 // Copy of the race setup that the screens edit: filled from the current half of gRaceMultiConfig (or from the Wi-Fi
@@ -44,21 +44,21 @@ typedef struct RaceSetupCopy {
     /* d4 */ s32 mEngineIndex;
     /* d8 */ s32 mMirrorMode;
     /* dc */ s32 mUseTeams;
-    /* e0 */ s32 mUnk_e0;
+    /* e0 */ s32 fieldE0;
     /* e4 */ s32 mBattleKind;
     /* e8 */ u16 mCourseCount;
-    /* ea */ u8 mUnk_ea[2];
+    /* ea */ u8 fieldEA[2];
     /* ec */ s32 mRuleKind;
     /* f0 */ s32 mCourseListMode;
     /* f4 */ u8 *mMissionFile;
     /* f8 */ MissionFileRow *mMissionFileRows;
     /* fc */ s8 mMissionTableRow;
     /* fd */ s8 mMissionTableColumn;
-    /* fe */ u8 mUnk_fe[6];
+    /* fe */ u8 fieldFE[6];
     // Set by SetMissionFileRowIndex from the mission table cell value minus 1: a 0-based position in mMissionFileRows.
     /* 104 */ u16 mMissionFileRowIndex;
-    /* 106 */ u8 mUnk_106[2];
-    /* 108 */ s32 mUnk_108;
+    /* 106 */ u8 field106[2];
+    /* 108 */ s32 field108;
     /* 10c */ u8 mEntryIndex;
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
@@ -67,19 +67,19 @@ extern RaceSetupCopy *menu_sRaceConfig;
 
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
-    /* 000 */ u8 mUnk_000[0x24];
-    // The 0x24-byte record of mutil2_initBgGraphics starts here and runs into mUnk_040.
+    /* 000 */ u8 field0[0x24];
+    // The 0x24-byte record of mutil2_initBgGraphics starts here and runs into field40.
     /* 024 */ Unk02174e50_24 mSelectKartSBParts;
-    /* 040 */ u8 mUnk_040[8];
+    /* 040 */ u8 field40[8];
     /* 048 */ Unk02174e50_24 mSelectCharacterGpMParts;
     /* 064 */ Unk02174e50_24 mSelectKartSParts;
-    /* 080 */ void *mUnk_080;
-    /* 084 */ void *mUnk_084;
+    /* 080 */ void *field80;
+    /* 084 */ void *field84;
     /* 088 */ struct Bmg *mKartSelectMessages;
     /* 08c */ void *mHeap;
     /* 090 */ s32 mStateFrames; /* counts only in states 3, 4 and 6 */
     /* 094 */ s32 mState;
-    /* 098 */ KartAppear *mUnk_098;
+    /* 098 */ KartAppear *field98;
     // Position of the kart in the table gKartIndexTable that the player steps through; mKartIndex is the kart at that
     // position, -1 when the kart is not in the table.
     /* 09c */ s32 mKartTableIndex;
@@ -90,12 +90,12 @@ typedef struct SelectKart {
     /* ac */ Interpolation mInterpolations[5];
     /* 0fc */ s32 mMode;
     /* 100 */ s32 mResult;
-    /* 104 */ BOOL mUnk_104;
+    /* 104 */ BOOL field104;
     /* 108 */ BOOL mTouchHeld;
     /* 10c */ s32 mTouchHeldFrames;
     /* 110 */ s32 mTouchRect;
-    /* 114 */ u16 mUnk_114;
-    /* 116 */ u8 mUnk_116[2];
+    /* 114 */ u16 field114;
+    /* 116 */ u8 field116[2];
 } SelectKart;
 
 extern SelectKart *gSelectKart;
@@ -132,30 +132,30 @@ typedef struct CellFileSet {
 // Object behind gPlayerEntryList.
 // Object behind sMenuCsState.
 typedef struct SelectCharacter {
-    /* 000 */ CellFileSet mUnk_000;
-    /* 01c */ CellFileSet mUnk_01c;
-    /* 038 */ CellFileSet mUnk_038;
+    /* 000 */ CellFileSet field0;
+    /* 01c */ CellFileSet field1C;
+    /* 038 */ CellFileSet field38;
     /* 054 */ void *mMainOam;
-    /* 058 */ void *mUnk_058;
+    /* 058 */ void *field58;
     /* 05c */ void *mHeap;
-    /* 060 */ s32 mUnk_060;
-    /* 064 */ s32 mUnk_064;
-    /* 068 */ s32 mUnk_068;
-    /* 06c */ s32 mUnk_06c;
-    /* 070 */ s32 mUnk_070;
-    /* 074 */ u16 mUnk_074;
-    /* 076 */ u8 mUnk_076[2];
+    /* 060 */ s32 field60;
+    /* 064 */ s32 field64;
+    /* 068 */ s32 field68;
+    /* 06c */ s32 field6C;
+    /* 070 */ s32 field70;
+    /* 074 */ u16 field74;
+    /* 076 */ u8 field76[2];
     /* 078 */ s32 mEntryIndex;
-    /* 07c */ s32 mUnk_07c;
-    /* 080 */ s32 mUnk_080;
+    /* 07c */ s32 field7C;
+    /* 080 */ s32 field80;
     // Row to move to on up, down, right and left; 0xffff means stay on the row.
     /* 84 */ s16 mTableIndexByKey[4];
-    /* 08c */ s32 mUnk_08c;
-    /* 090 */ Unk021535b4 mUnk_090[12];
+    /* 08c */ s32 field8C;
+    /* 090 */ Unk021535b4 field90[12];
     /* 0f0 */ s32 mCharacterIndex;
     /* 0f4 */ s32 mKartIndex;
     /* f8 */ Interpolation mInterpolations[3];
-    /* 128 */ BOOL mUnk_128;
+    /* 128 */ BOOL field128;
 } SelectCharacter;
 
 extern SelectCharacter *sMenuCsState;
@@ -170,14 +170,14 @@ typedef struct PlayerEntryList {
     /* 044 */ s32 mEntryIndex;
     /* 048 */ s32 mPlayerCount;
     /* 04c */ PlayerEntryRow mEntries[8];
-    /* 1ac */ s32 mUnk_1ac[4];
-    /* 1bc */ s32 mUnk_1bc[8];
-    /* 1dc */ s32 mUnk_1dc[8];
+    /* 1ac */ s32 field1AC[4];
+    /* 1bc */ s32 field1BC[8];
+    /* 1dc */ s32 field1DC[8];
     /* 1fc */ BOOL mSetupRequested;
     /* 200 */ s32 mTimerEnabled;
     /* 204 */ s32 mUseTeams;
-    /* 208 */ s32 mUnk_208;
-    /* 20c */ BOOL mUnk_20c;
+    /* 208 */ s32 field208;
+    /* 20c */ BOOL field20C;
     /* 210 */ Interpolation mInterpolations[4];
     /* 250 */ s32 mMode;
     /* 254 */ s32 mScreenKind; // PLAYER_ENTRY_LIST_CHARACTER / _KART / _RACE_RULE
@@ -203,14 +203,14 @@ typedef struct ResultsBattleEntry {
 typedef struct ResultsBattle {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ CellFileSet mCellFileSets[4];
-    /* 0b8 */ s32 mUnk_0b8[2];
-    /* 0c0 */ Nclr *mUnk_0c0;
-    /* 0c4 */ Nclr *mUnk_0c4;
+    /* 0b8 */ s32 fieldB8[2];
+    /* 0c0 */ Nclr *fieldC0;
+    /* 0c4 */ Nclr *fieldC4;
     /* 0c8 */ struct Bmg *mCommonMessages;
     /* 0cc */ u16 mTimerDigitCellBase;
     /* 0ce */ u16 mTimerTensCell;
     /* 0d0 */ s32 mOwnEntryIndex;
-    /* 0d4 */ s32 mUnk_0d4;
+    /* 0d4 */ s32 fieldD4;
     /* 0d8 */ s32 mKartCount;
     /* 0dc */ s32 mFileSetKind;
     /* 0e0 */ s32 mMode;
@@ -227,8 +227,8 @@ extern ResultsBattle *bres_sState;
 // TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
 typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
-    /* 16 */ u8 mUnk_16[2];
-    /* 18 */ s32 mUnk_18[3];
+    /* 16 */ u8 field16[2];
+    /* 18 */ s32 field18[3];
     /* 24 */ u16 mMillisecond;
     /* 26 */ u8 mMinute;
     /* 27 */ u8 mSecond;
@@ -243,10 +243,10 @@ typedef struct GhostInfoEntry {
 
 // Object behind sGhostReceiveState.
 typedef struct Unk02174e64 {
-    /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ void *mUnk_024[2];
+    /* 000 */ u8 field0[0x24];
+    /* 024 */ void *field24[2];
     /* 02c */ CellFileSet mCellFileSets[2];
-    /* 064 */ u8 mUnk_064[0x1c];
+    /* 064 */ u8 field64[0x1c];
     /* 080 */ s32 mSelectedIndex;
     /* 084 */ Bmg *mCommonMessages;
     /* 088 */ Bmg *mGhostMessages;
@@ -255,9 +255,9 @@ typedef struct Unk02174e64 {
     /* 094 */ s32 mState;
     /* 098 */ s32 mNextCallbacksIndex;
     /* 09c */ GhostInfoEntry mGhostInfoEntries[4];
-    /* 18c */ BOOL mUnk_18c;
+    /* 18c */ BOOL field18C;
     /* 190 */ s32 mFilledCount;
-    /* 194 */ Interpolation mUnk_194;
+    /* 194 */ Interpolation field194;
     /* 1a4 */ void *mHeap;
 } Unk02174e64;
 
@@ -268,22 +268,22 @@ extern struct ResultScene *result_sState;
 extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 // 0x20 bytes, then the word at 0x44 the code addresses 0xc past.
 typedef struct Unk02174e40_24 {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u8 *mUnk_20;
+    /* 00 */ u8 field0[0x20];
+    /* 20 */ u8 *field20;
 } Unk02174e40_24;
 
 // 0xe0 bytes.
 typedef struct TimeAttackGhostSend {
-    /* 000 */ u8 mUnk_000[0x24];
-    /* 024 */ Unk02174e40_24 mUnk_024;
+    /* 000 */ u8 field0[0x24];
+    /* 024 */ Unk02174e40_24 field24;
     /* 048 */ void *mOamLists[2];
-    /* 050 */ CellFileSet mUnk_050[3];
+    /* 050 */ CellFileSet field50[3];
     /* 0a4 */ s32 mSelectedIndex;
     /* 0a8 */ Bmg *mCommonMessages;
     /* 0ac */ Bmg *mGhostMessages;
     /* 0b0 */ s32 mState;
-    /* 0b4 */ s32 mUnk_0b4;
-    /* 0b8 */ u8 mUnk_0b8[0x14];
+    /* 0b4 */ s32 fieldB4;
+    /* 0b8 */ u8 fieldB8[0x14];
     /* 0cc */ Interpolation mInterpolation;
     /* 0dc */ void *mHeap;
 } TimeAttackGhostSend;
@@ -298,7 +298,7 @@ typedef struct GhostSceneCallbacks {
     /* 00 */ void (*mInit)(void *a, struct GhostScene *b, void *c);
     /* 04 */ s32 (*mAdvance)(u32 a);
     /* 08 */ void (*mRelease)(void);
-    /* 0c */ void (*mUnk_0c)(void);
+    /* 0c */ void (*fieldC)(void);
 } GhostSceneCallbacks;
 
 // Object behind sGhostSceneState, 0x8dc bytes.
@@ -340,8 +340,8 @@ typedef struct ScrollList {
     /* 024 */ s32 mPickedVisibleRow;
     /* 028 */ void (*mCallback)(int a, int b, int c, int d);
     /* 02c */ u16 mCursorEntry;
-    /* 02e */ u16 mUnk_02e;
-    /* 030 */ s32 mUnk_030;
+    /* 02e */ u16 field2E;
+    /* 030 */ s32 field30;
     /* 034 */ s32 mRowCount;
     // Counts down: 10 calls for a pick, mScrollFrameCount calls for a scroll.
     /* 038 */ s32 mTimer;
@@ -374,17 +374,17 @@ struct MultiSelectMember;
 extern struct MultiSelectMember *gMultiSelectMember;
 // Object behind data_02174e68, 0xa8 bytes.
 typedef struct Unk02174e68 {
-    /* 00 */ u8 mUnk_00[0x20];
-    /* 20 */ u8 *mUnk_20;
-    /* 24 */ void *mUnk_24[2];
+    /* 00 */ u8 field0[0x20];
+    /* 20 */ u8 *field20;
+    /* 24 */ void *field24[2];
     /* 2c */ CellFileSet mCellFileSets[2];
-    /* 64 */ u8 mUnk_64[0x1c];
+    /* 64 */ u8 field64[0x1c];
     /* 80 */ s32 mSelectedIndex;
     /* 84 */ Bmg *mCommonMessages;
     /* 88 */ Bmg *mGhostMessages;
     /* 8c */ s32 mState;
-    /* 90 */ Interpolation mUnk_90;
-    /* a0 */ BOOL mUnk_a0;
+    /* 90 */ Interpolation field90;
+    /* a0 */ BOOL fieldA0;
     /* a4 */ void *mHeap;
 } Unk02174e68;
 
@@ -393,14 +393,14 @@ struct WLMenuMessage;
 extern struct WLMenuMessage *gWLMenuMessage;
 extern HeapCall *sCurProcess;
 
-// Object at gMainHeap: mUnk_0c is the pointer getMainHeapHandle returns; mUnk_10 overlaps the first member of
+// Object at gMainHeap: fieldC is the pointer getMainHeapHandle returns; field10 overlaps the first member of
 // sMainProcess.
 typedef struct Unk02174e78 {
-    /* 00 */ u32 mUnk_00;
+    /* 00 */ u32 field0;
     /* 04 */ u32 mArm9TextStart;
     /* 08 */ void *mArenaLo;
     /* 0c */ void *mHeap;
-    /* 10 */ const char *mUnk_10;
+    /* 10 */ const char *field10;
 } Unk02174e78;
 
 extern Unk02174e78 gMainHeap;

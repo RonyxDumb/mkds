@@ -34,7 +34,7 @@
 u32 flip_handleBallHit(u32 a) {
     Flipper *flipper;
     flipper = mobj_getInstanceByIdx(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_FLIPPER), a);
-    flipper->mUnk_ebc = 0xaa;
+    flipper->fieldEBC = 0xaa;
     return 1;
 }
 
@@ -55,133 +55,133 @@ u32 poo_onDriverCollide(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c) {
     if (v2 == 3 || v2 == 4) {
         itemEffect = kart->mItemEffect;
         if (itemEffect != 1) {
-            if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
-                coverPooHole->mUnk_00.mUnk_10.x = 0;
-                coverPooHole->mUnk_00.mUnk_10.y = 0x3800;
-                coverPooHole->mUnk_00.mUnk_10.z = 0;
+            if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->fieldA0 > 0x7800)) {
+                coverPooHole->field0.field10.x = 0;
+                coverPooHole->field0.field10.y = 0x3800;
+                coverPooHole->field0.field10.z = 0;
                 return v3;
             }
         }
-        if ((((const CoverPooHole *) coverPooHole)->mUnk_108 & kartMask) == 0) {
+        if ((((const CoverPooHole *) coverPooHole)->field108 & kartMask) == 0) {
             state = coverPooHole->mState;
             if (state == 0 || state == 3) {
-                coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
+                coverPooHole->field108 = coverPooHole->field108 | kartMask;
                 if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
-                    if ((coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                    if ((coverPooHole->field0.mDistanceSquaredAndFlags & 4) == 0) {
+                        if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s.mSoundId = 0x16e;
-                        s.mPositionSource = &coverPooHole->mUnk_00.mPos;
-                        s.mUnk_08 = t;
-                        s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
+                        s.mPositionSource = &coverPooHole->field0.mPos;
+                        s.field8 = t;
+                        s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
                         func_0210b7a8(&s);
                     }
                 }
-                coverPooHole->mUnk_00.mDistanceSquaredAndFlags =
-                    coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564bc;
+                coverPooHole->field0.mDistanceSquaredAndFlags =
+                    coverPooHole->field0.mDistanceSquaredAndFlags | data_021564bc;
                 return 0;
             }
-            if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->mUnk_a0 > 0x7800) || state == 1)) {
-                coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
-                    coverPooHole->mUnk_104 = 1;
-                    coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-                    coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
-                    coverPooHole->mUnk_bc = 0x4000;
-                    coverPooHole->mUnk_c0 = 0x1333;
-                    coverPooHole->mUnk_c4 = 0;
-                    coverPooHole->mUnk_d0 = 0;
-                    coverPooHole->mUnk_d4 = 0x2000;
-                    coverPooHole->mUnk_d8 = -0x40;
-                    coverPooHole->mUnk_dc = 0x200;
-                    coverPooHole->mUnk_e0 = 0;
-                    coverPooHole->mUnk_e4 = 0;
-                    coverPooHole->mUnk_f0 = 0;
-                    coverPooHole->mUnk_f4 = 0x1000;
-                    coverPooHole->mUnk_f8 = -0x30;
-                    coverPooHole->mUnk_fc = 0x800;
-                    coverPooHole->mUnk_100 = 0x100;
-                    mobj_tryDestroyByDriver(&coverPooHole->mUnk_00, kart);
+            if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->fieldA0 > 0x7800) || state == 1)) {
+                coverPooHole->field108 = coverPooHole->field108 | kartMask;
+                if ((coverPooHole->field0.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
+                    coverPooHole->field104 = 1;
+                    coverPooHole->fieldB4 = coverPooHole->fieldA0;
+                    coverPooHole->fieldB8 = coverPooHole->fieldA4;
+                    coverPooHole->fieldBC = 0x4000;
+                    coverPooHole->fieldC0 = 0x1333;
+                    coverPooHole->fieldC4 = 0;
+                    coverPooHole->fieldD0 = 0;
+                    coverPooHole->fieldD4 = 0x2000;
+                    coverPooHole->fieldD8 = -0x40;
+                    coverPooHole->fieldDC = 0x200;
+                    coverPooHole->fieldE0 = 0;
+                    coverPooHole->fieldE4 = 0;
+                    coverPooHole->fieldF0 = 0;
+                    coverPooHole->fieldF4 = 0x1000;
+                    coverPooHole->fieldF8 = -0x30;
+                    coverPooHole->fieldFC = 0x800;
+                    coverPooHole->field100 = 0x100;
+                    mobj_tryDestroyByDriver(&coverPooHole->field0, kart);
                     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-                        effectPosition.x = (coverPooHole->mUnk_00.mPos.x + kart->mPos.x) >> 1;
-                        effectPosition.y = (coverPooHole->mUnk_00.mPos.y + kart->mPos.y) >> 1;
-                        effectPosition.z = (coverPooHole->mUnk_00.mPos.z + kart->mPos.z) >> 1;
+                        effectPosition.x = (coverPooHole->field0.mPos.x + kart->mPos.x) >> 1;
+                        effectPosition.y = (coverPooHole->field0.mPos.y + kart->mPos.y) >> 1;
+                        effectPosition.z = (coverPooHole->field0.mPos.z + kart->mPos.z) >> 1;
                         ptcm_createEmitter(0x442, &effectPosition);
                         ptcm_createEmitter(0x443, &effectPosition);
                         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-                            mrcnt_notifyMObjDamage(coverPooHole->mUnk_00.mKind);
+                            mrcnt_notifyMObjDamage(coverPooHole->field0.mKind);
                         }
                     }
                 }
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0) {
+                if ((coverPooHole->field0.mFlags & 0x800) == 0) {
                     if (coverPooHole->mState == 1) {
                         coverPooHole->mState = 6;
                     } else if (coverPooHole->mState == 4) {
                         coverPooHole->mState = 7;
                     }
                 }
-                coverPooHole->mUnk_00.mUnk_10.x = 0;
-                coverPooHole->mUnk_00.mUnk_10.y = 0;
-                coverPooHole->mUnk_00.mUnk_10.z = 0;
+                coverPooHole->field0.field10.x = 0;
+                coverPooHole->field0.field10.y = 0;
+                coverPooHole->field0.field10.z = 0;
                 return v3;
             }
             if (state == 1) {
-                coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
-                    coverPooHole->mUnk_104 = 1;
-                    coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-                    coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
-                    coverPooHole->mUnk_bc = 0;
-                    coverPooHole->mUnk_c0 = 0;
-                    coverPooHole->mUnk_c4 = 0;
-                    coverPooHole->mUnk_d0 = 0;
-                    coverPooHole->mUnk_d4 = 0x2000;
-                    coverPooHole->mUnk_d8 = -0x40;
-                    coverPooHole->mUnk_dc = 0x200;
-                    coverPooHole->mUnk_e0 = 0;
-                    coverPooHole->mUnk_e4 = 0;
-                    coverPooHole->mUnk_f0 = 0;
-                    coverPooHole->mUnk_f4 = 0x1000;
-                    coverPooHole->mUnk_f8 = -0x30;
-                    coverPooHole->mUnk_fc = 0x800;
-                    coverPooHole->mUnk_100 = 0x100;
-                    coverPooHole->mUnk_00.mDistanceSquaredAndFlags =
-                        coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564bc;
-                    if ((coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+                coverPooHole->field108 = coverPooHole->field108 | kartMask;
+                if ((coverPooHole->field0.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
+                    coverPooHole->field104 = 1;
+                    coverPooHole->fieldB4 = coverPooHole->fieldA0;
+                    coverPooHole->fieldB8 = coverPooHole->fieldA4;
+                    coverPooHole->fieldBC = 0;
+                    coverPooHole->fieldC0 = 0;
+                    coverPooHole->fieldC4 = 0;
+                    coverPooHole->fieldD0 = 0;
+                    coverPooHole->fieldD4 = 0x2000;
+                    coverPooHole->fieldD8 = -0x40;
+                    coverPooHole->fieldDC = 0x200;
+                    coverPooHole->fieldE0 = 0;
+                    coverPooHole->fieldE4 = 0;
+                    coverPooHole->fieldF0 = 0;
+                    coverPooHole->fieldF4 = 0x1000;
+                    coverPooHole->fieldF8 = -0x30;
+                    coverPooHole->fieldFC = 0x800;
+                    coverPooHole->field100 = 0x100;
+                    coverPooHole->field0.mDistanceSquaredAndFlags =
+                        coverPooHole->field0.mDistanceSquaredAndFlags | data_021564bc;
+                    if ((coverPooHole->field0.mDistanceSquaredAndFlags & 4) == 0) {
+                        if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[2].field20) {
                             t = 2;
-                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+                        } else if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[3].field20) {
                             t = 3;
                         } else {
                             t = 4;
                         }
                         s2.mSoundId = 0x16f;
-                        s2.mPositionSource = &coverPooHole->mUnk_00.mPos;
-                        s2.mUnk_08 = t;
-                        s2.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
+                        s2.mPositionSource = &coverPooHole->field0.mPos;
+                        s2.field8 = t;
+                        s2.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
                         func_0210b7a8(&s2);
                     }
                 }
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0) {
+                if ((coverPooHole->field0.mFlags & 0x800) == 0) {
                     coverPooHole->mState = 6;
                 }
-                coverPooHole->mUnk_00.mUnk_10.x = ((s64) kart->mVelocity.x * -0x4cd) >> 12;
-                coverPooHole->mUnk_00.mUnk_10.y = ((s64) kart->mVelocity.y * -0x4cd) >> 12;
-                coverPooHole->mUnk_00.mUnk_10.z = ((s64) kart->mVelocity.z * -0x4cd) >> 12;
-                coverPooHole->mUnk_00.mUnk_10.y = 0x3800;
+                coverPooHole->field0.field10.x = ((s64) kart->mVelocity.x * -0x4cd) >> 12;
+                coverPooHole->field0.field10.y = ((s64) kart->mVelocity.y * -0x4cd) >> 12;
+                coverPooHole->field0.field10.z = ((s64) kart->mVelocity.z * -0x4cd) >> 12;
+                coverPooHole->field0.field10.y = 0x3800;
                 return 12;
             }
         }
     }
-    coverPooHole->mUnk_00.mDistanceSquaredAndFlags = coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564bc;
-    coverPooHole->mUnk_00.mUnk_10.x = 0;
-    coverPooHole->mUnk_00.mUnk_10.y = 0;
-    coverPooHole->mUnk_00.mUnk_10.z = 0;
+    coverPooHole->field0.mDistanceSquaredAndFlags = coverPooHole->field0.mDistanceSquaredAndFlags | data_021564bc;
+    coverPooHole->field0.field10.x = 0;
+    coverPooHole->field0.field10.y = 0;
+    coverPooHole->field0.field10.z = 0;
     return 0;
 }
 
@@ -192,28 +192,28 @@ u32 poo_onItemCollide(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c) {
         return 0;
     }
     if (v1 == 2) {
-        coverPooHole->mUnk_104 = 1;
-        coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
-        coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
-        coverPooHole->mUnk_bc = 0x4000;
-        coverPooHole->mUnk_c0 = 0x1333;
-        coverPooHole->mUnk_00.mUnk_10.x = 0;
-        coverPooHole->mUnk_00.mUnk_10.y = 0;
-        coverPooHole->mUnk_00.mUnk_10.z = 0;
-        coverPooHole->mUnk_c4 = 0;
-        coverPooHole->mUnk_d0 = 0;
-        coverPooHole->mUnk_d4 = 0x2000;
-        coverPooHole->mUnk_d8 = -0x40;
-        coverPooHole->mUnk_dc = 0x200;
-        coverPooHole->mUnk_e0 = 0;
-        coverPooHole->mUnk_e4 = 0;
-        coverPooHole->mUnk_f0 = 0;
-        coverPooHole->mUnk_f4 = 0x1000;
-        coverPooHole->mUnk_f8 = -0x30;
-        coverPooHole->mUnk_fc = 0x800;
-        coverPooHole->mUnk_100 = 0x100;
-        coverPooHole->mUnk_00.mDistanceSquaredAndFlags = coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564b8;
-        if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0) {
+        coverPooHole->field104 = 1;
+        coverPooHole->fieldB4 = coverPooHole->fieldA0;
+        coverPooHole->fieldB8 = coverPooHole->fieldA4;
+        coverPooHole->fieldBC = 0x4000;
+        coverPooHole->fieldC0 = 0x1333;
+        coverPooHole->field0.field10.x = 0;
+        coverPooHole->field0.field10.y = 0;
+        coverPooHole->field0.field10.z = 0;
+        coverPooHole->fieldC4 = 0;
+        coverPooHole->fieldD0 = 0;
+        coverPooHole->fieldD4 = 0x2000;
+        coverPooHole->fieldD8 = -0x40;
+        coverPooHole->fieldDC = 0x200;
+        coverPooHole->fieldE0 = 0;
+        coverPooHole->fieldE4 = 0;
+        coverPooHole->fieldF0 = 0;
+        coverPooHole->fieldF4 = 0x1000;
+        coverPooHole->fieldF8 = -0x30;
+        coverPooHole->fieldFC = 0x800;
+        coverPooHole->field100 = 0x100;
+        coverPooHole->field0.mDistanceSquaredAndFlags = coverPooHole->field0.mDistanceSquaredAndFlags | data_021564b8;
+        if ((coverPooHole->field0.mFlags & 0x800) == 0) {
             coverPooHole->mState = 7;
         }
     }
@@ -224,12 +224,12 @@ u32 poo_onItemCollide(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c) {
 BOOL poo_collide(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut) {
     Vec3 offset;
     s32 d;
-    VEC_Subtract(position, &coverPooHole->mUnk_00.mPos, &offset);
-    if (offset.y >= coverPooHole->mUnk_a0 + radius) {
+    VEC_Subtract(position, &coverPooHole->field0.mPos, &offset);
+    if (offset.y >= coverPooHole->fieldA0 + radius) {
         return FALSE;
     }
     d = VEC_Mag(&offset);
-    if (d >= coverPooHole->mUnk_00.mExtent.x + radius) {
+    if (d >= coverPooHole->field0.mExtent.x + radius) {
         return FALSE;
     }
     if (coverPooHole->mState == 1) {
@@ -238,11 +238,11 @@ BOOL poo_collide(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, V
         pushOut->z = 0;
         return TRUE;
     }
-    if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
+    if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->fieldA0 > 0x7800)) {
         if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
             vec_normalize(&offset, &offset);
         }
-        d = coverPooHole->mUnk_00.mExtent.x + radius - d;
+        d = coverPooHole->field0.mExtent.x + radius - d;
         pushOut->x = ((s64) offset.x * d) >> 12;
         pushOut->y = ((s64) offset.y * d) >> 12;
         pushOut->z = ((s64) offset.z * d) >> 12;
@@ -281,11 +281,11 @@ void poo_render(void *a, CoverPooHole *coverPooHole) {
     w0 = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &w0, 1);
     NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-    f0[1] = coverPooHole->mUnk_a8 >> 4;
+    f0[1] = coverPooHole->fieldA8 >> 4;
     f0[0] = 0;
     f0[2] = 0;
     NNS_G3dGeBufferOP_N(0x1c, f0, 3);
-    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->field0.mPos), 12);
     mobj_bbModelApplyMaterial(a, poo_sHoleModel);
     mobj_renderModel(a, poo_sHoleModel, coverPooHole);
     w1 = 1;
@@ -304,39 +304,39 @@ void poo_render(void *a, CoverPooHole *coverPooHole) {
     }
     if (coverPooHole->mState != 0) {
         NNS_G3dGeBufferOP_N(0x11, NULL, 0);
-        if (coverPooHole->mUnk_104 != 0) {
-            t = coverPooHole->mUnk_b8 >> 4;
+        if (coverPooHole->field104 != 0) {
+            t = coverPooHole->fieldB8 >> 4;
             f1[0] = 0;
             f1[1] = t;
             f1[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, f1, 3);
         } else {
-            t = coverPooHole->mUnk_a4 >> 4;
+            t = coverPooHole->fieldA4 >> 4;
             f2[0] = 0;
             f2[1] = t;
             f2[2] = 0;
             NNS_G3dGeBufferOP_N(0x1c, f2, 3);
         }
-        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->field0.mPos), 12);
         mobj_bbModelApplyMaterial(a, poo_sPooModel);
         mobj_renderModel(a, poo_sPooModel, coverPooHole);
         w2 = 1;
         NNS_G3dGeBufferOP_N(0x12, &w2, 1);
     }
-    if (coverPooHole->mUnk_104 == 1) {
+    if (coverPooHole->field104 == 1) {
         goto L;
     }
-    if (coverPooHole->mUnk_104 == 2) {
+    if (coverPooHole->field104 == 2) {
     L:
-        e = coverPooHole->mUnk_c8;
-        k = ((u16) coverPooHole->mUnk_e8 >> 4) * 2;
+        e = coverPooHole->fieldC8;
+        k = ((u16) coverPooHole->fieldE8 >> 4) * 2;
         v1 = FX_SinCosTable_[k];
         r = ((s64) v1 * 0x7000) >> 12;
         if (r <= 0) {
             r = -r;
         }
-        t = coverPooHole->mUnk_b4 + r;
-        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+        t = coverPooHole->fieldB4 + r;
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->field0.mPos), 12);
         f3[1] = t >> 4;
         f3[0] = 0;
         f3[2] = 0;
@@ -347,12 +347,12 @@ void poo_render(void *a, CoverPooHole *coverPooHole) {
         MTX_RotZ33_(m, v1, FX_SinCosTable_[k + 1]);
         NNS_G3dGeBufferOP_N(0x1a, m, 9);
     } else {
-        t = coverPooHole->mUnk_a0 >> 4;
+        t = coverPooHole->fieldA0 >> 4;
         f4[0] = 0;
         f4[1] = t;
         f4[2] = 0;
         NNS_G3dGeBufferOP_N(0x1c, f4, 3);
-        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->field0.mPos), 12);
     }
     mobj_bbModelApplyMaterial(a, poo_sCoverModel);
     mobj_renderModel(a, poo_sCoverModel, coverPooHole);
@@ -366,20 +366,20 @@ void poo_globalLogicInit(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (coverPooHole = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        coverPooHole->mUnk_a8 = 0x1000;
+        coverPooHole->fieldA8 = 0x1000;
         mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        coverPooHole->mTimer = (u16) (coverPooHole->mUnk_00.mCourseMapRow->mUnk_28 +
+        coverPooHole->mTimer = (u16) (coverPooHole->field0.mCourseMapRow->field28 +
                                       (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
         } else {
             coverPooHole->mState = 0;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
         }
     }
 }
@@ -404,123 +404,123 @@ static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundI
     Unk0210b7a8 s;
     s32 v;
 
-    if (coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) {
+    if (coverPooHole->field0.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
+    if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[2].field20) {
         v = 2;
-    } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
+    } else if (coverPooHole->field0.mFarDistanceSquared == gSfxParams[3].field20) {
         v = 3;
     } else {
         v = 4;
     }
     s.mSoundId = soundId;
-    s.mPositionSource = &coverPooHole->mUnk_00.mPos;
-    s.mUnk_08 = v;
-    s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
+    s.mPositionSource = &coverPooHole->field0.mPos;
+    s.field8 = v;
+    s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
     func_0210b7a8(&s);
 }
 
 void poo_update(void *a, CoverPooHole *coverPooHole) {
     s32 v;
 
-    coverPooHole->mUnk_00.mUnk_10.y = 0;
-    switch (coverPooHole->mUnk_104) {
+    coverPooHole->field0.field10.y = 0;
+    switch (coverPooHole->field104) {
         case 0:
             break;
         case 1:
-            coverPooHole->mUnk_b8 += coverPooHole->mUnk_c0;
-            coverPooHole->mUnk_c0 -= 0x800;
-            if (coverPooHole->mUnk_b4 >= 0x2000) {
-                coverPooHole->mUnk_b4 += coverPooHole->mUnk_bc;
-                coverPooHole->mUnk_bc -= 0x19a;
+            coverPooHole->fieldB8 += coverPooHole->fieldC0;
+            coverPooHole->fieldC0 -= 0x800;
+            if (coverPooHole->fieldB4 >= 0x2000) {
+                coverPooHole->fieldB4 += coverPooHole->fieldBC;
+                coverPooHole->fieldBC -= 0x19a;
             } else {
-                coverPooHole->mUnk_b4 = 0x2000;
-                coverPooHole->mUnk_104 = 2;
+                coverPooHole->fieldB4 = 0x2000;
+                coverPooHole->field104 = 2;
                 func_02095fec_inline_2(coverPooHole, 0x16c);
             }
             break;
         case 2:
-            if (coverPooHole->mUnk_b8 >= 0x2000) {
-                coverPooHole->mUnk_b8 += coverPooHole->mUnk_c0;
-                coverPooHole->mUnk_c0 -= 0x800;
+            if (coverPooHole->fieldB8 >= 0x2000) {
+                coverPooHole->fieldB8 += coverPooHole->fieldC0;
+                coverPooHole->fieldC0 -= 0x800;
             }
-            coverPooHole->mUnk_c4 += coverPooHole->mUnk_dc;
-            coverPooHole->mUnk_cc = coverPooHole->mUnk_d0 +
-                                    poo_FX_MulInline(coverPooHole->mUnk_d4, poo_FX_SinIdx(coverPooHole->mUnk_c4)) -
-                                    coverPooHole->mUnk_c8;
-            coverPooHole->mUnk_c8 += coverPooHole->mUnk_cc;
-            if (coverPooHole->mUnk_d4 > 0) {
-                v = coverPooHole->mUnk_d4 + coverPooHole->mUnk_d8;
+            coverPooHole->fieldC4 += coverPooHole->fieldDC;
+            coverPooHole->fieldCC = coverPooHole->fieldD0 +
+                                    poo_FX_MulInline(coverPooHole->fieldD4, poo_FX_SinIdx(coverPooHole->fieldC4)) -
+                                    coverPooHole->fieldC8;
+            coverPooHole->fieldC8 += coverPooHole->fieldCC;
+            if (coverPooHole->fieldD4 > 0) {
+                v = coverPooHole->fieldD4 + coverPooHole->fieldD8;
                 if (v <= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_d4 = v;
-            } else if (coverPooHole->mUnk_d4 < 0) {
-                v = coverPooHole->mUnk_d4 + coverPooHole->mUnk_d8;
+                coverPooHole->fieldD4 = v;
+            } else if (coverPooHole->fieldD4 < 0) {
+                v = coverPooHole->fieldD4 + coverPooHole->fieldD8;
                 if (v >= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_d4 = v;
+                coverPooHole->fieldD4 = v;
             }
-            if (coverPooHole->mUnk_dc > 0) {
-                v = coverPooHole->mUnk_dc + coverPooHole->mUnk_e0;
+            if (coverPooHole->fieldDC > 0) {
+                v = coverPooHole->fieldDC + coverPooHole->fieldE0;
                 if (v <= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_dc = v;
-            } else if (coverPooHole->mUnk_dc < 0) {
-                v = coverPooHole->mUnk_dc + coverPooHole->mUnk_e0;
+                coverPooHole->fieldDC = v;
+            } else if (coverPooHole->fieldDC < 0) {
+                v = coverPooHole->fieldDC + coverPooHole->fieldE0;
                 if (v >= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_dc = v;
+                coverPooHole->fieldDC = v;
             }
-            coverPooHole->mUnk_e4 += coverPooHole->mUnk_fc;
-            coverPooHole->mUnk_ec = coverPooHole->mUnk_f0 +
-                                    poo_FX_MulInline(coverPooHole->mUnk_f4, poo_FX_SinIdx(coverPooHole->mUnk_e4)) -
-                                    coverPooHole->mUnk_e8;
-            coverPooHole->mUnk_e8 += coverPooHole->mUnk_ec;
-            if (coverPooHole->mUnk_f4 > 0) {
-                v = coverPooHole->mUnk_f4 + coverPooHole->mUnk_f8;
+            coverPooHole->fieldE4 += coverPooHole->fieldFC;
+            coverPooHole->fieldEC = coverPooHole->fieldF0 +
+                                    poo_FX_MulInline(coverPooHole->fieldF4, poo_FX_SinIdx(coverPooHole->fieldE4)) -
+                                    coverPooHole->fieldE8;
+            coverPooHole->fieldE8 += coverPooHole->fieldEC;
+            if (coverPooHole->fieldF4 > 0) {
+                v = coverPooHole->fieldF4 + coverPooHole->fieldF8;
                 if (v <= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_f4 = v;
-            } else if (coverPooHole->mUnk_f4 < 0) {
-                v = coverPooHole->mUnk_f4 + coverPooHole->mUnk_f8;
+                coverPooHole->fieldF4 = v;
+            } else if (coverPooHole->fieldF4 < 0) {
+                v = coverPooHole->fieldF4 + coverPooHole->fieldF8;
                 if (v >= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_f4 = v;
+                coverPooHole->fieldF4 = v;
             }
-            if (coverPooHole->mUnk_fc > 0) {
-                v = coverPooHole->mUnk_fc + coverPooHole->mUnk_100;
+            if (coverPooHole->fieldFC > 0) {
+                v = coverPooHole->fieldFC + coverPooHole->field100;
                 if (v <= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_fc = v;
-            } else if (coverPooHole->mUnk_fc < 0) {
-                v = coverPooHole->mUnk_fc + coverPooHole->mUnk_100;
+                coverPooHole->fieldFC = v;
+            } else if (coverPooHole->fieldFC < 0) {
+                v = coverPooHole->fieldFC + coverPooHole->field100;
                 if (v >= 0) {
                     v = 0;
                 }
-                coverPooHole->mUnk_fc = v;
+                coverPooHole->fieldFC = v;
             }
-            if (coverPooHole->mUnk_f4 == 0 && coverPooHole->mState != 2 && coverPooHole->mState != 5) {
-                coverPooHole->mUnk_104 = 0;
+            if (coverPooHole->fieldF4 == 0 && coverPooHole->mState != 2 && coverPooHole->mState != 5) {
+                coverPooHole->field104 = 0;
             }
             break;
     }
-    if ((coverPooHole->mState == 6 || coverPooHole->mState == 7) && coverPooHole->mUnk_104 == 0) {
+    if ((coverPooHole->mState == 6 || coverPooHole->mState == 7) && coverPooHole->field104 == 0) {
         if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
         } else {
             coverPooHole->mState = 0;
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
         }
     }
     switch (coverPooHole->mState) {
@@ -530,82 +530,82 @@ void poo_update(void *a, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mTimer = (u16) (func_02095fec_inline(30) + 30);
             coverPooHole->mState = 1;
-            coverPooHole->mUnk_104 = 0;
-            coverPooHole->mUnk_108 = 0;
+            coverPooHole->field104 = 0;
+            coverPooHole->field108 = 0;
             func_02095fec_inline_2(coverPooHole, 0x1d3);
             break;
         case 1:
-            if (coverPooHole->mUnk_a0 < 0x7800) {
-                coverPooHole->mUnk_a0 += 0x400;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->fieldA0 < 0x7800) {
+                coverPooHole->fieldA0 += 0x400;
+                coverPooHole->fieldA4 = coverPooHole->fieldA0 - 0xf000;
                 return;
             }
             if (coverPooHole->mTimer-- > 0) {
-                coverPooHole->mUnk_a0 = 0x7800;
-                coverPooHole->mUnk_a4 = -0x7800;
+                coverPooHole->fieldA0 = 0x7800;
+                coverPooHole->fieldA4 = -0x7800;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x7800;
-            coverPooHole->mUnk_a4 = -0x7800;
+            coverPooHole->fieldA0 = 0x7800;
+            coverPooHole->fieldA4 = -0x7800;
             coverPooHole->mState = 2;
             break;
         case 2:
-            if (coverPooHole->mUnk_a0 > 0x2000) {
-                coverPooHole->mUnk_a0 -= 0x400;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->fieldA0 > 0x2000) {
+                coverPooHole->fieldA0 -= 0x400;
+                coverPooHole->fieldA4 = coverPooHole->fieldA0 - 0xf000;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
             coverPooHole->mTimer = (u16) (func_02095fec_inline(15) + 15);
             coverPooHole->mState = 3;
-            coverPooHole->mUnk_108 = 0;
+            coverPooHole->field108 = 0;
             func_02095fec_inline_2(coverPooHole, 0x1d4);
             break;
         case 3:
             if (coverPooHole->mTimer-- > 0) {
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x2000;
-            coverPooHole->mUnk_a4 = -0xd000;
+            coverPooHole->fieldA0 = 0x2000;
+            coverPooHole->fieldA4 = -0xd000;
             coverPooHole->mTimer = (u16) (func_02095fec_inline(90) + 90);
             coverPooHole->mState = 4;
-            coverPooHole->mUnk_104 = 0;
-            coverPooHole->mUnk_108 = 0;
+            coverPooHole->field104 = 0;
+            coverPooHole->field108 = 0;
             func_02095fec_inline_2(coverPooHole, 0x1d3);
             break;
         case 4:
-            if (coverPooHole->mUnk_a0 < 0x124cd) {
-                coverPooHole->mUnk_a0 += 0xc00;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->fieldA0 < 0x124cd) {
+                coverPooHole->fieldA0 += 0xc00;
+                coverPooHole->fieldA4 = coverPooHole->fieldA0 - 0xf000;
                 return;
             }
             if (coverPooHole->mTimer-- > 0) {
-                coverPooHole->mUnk_a0 = 0x124cd;
-                coverPooHole->mUnk_a4 = 0x34cd;
+                coverPooHole->fieldA0 = 0x124cd;
+                coverPooHole->fieldA4 = 0x34cd;
                 return;
             }
-            coverPooHole->mUnk_a0 = 0x124cd;
-            coverPooHole->mUnk_a4 = 0x34cd;
+            coverPooHole->fieldA0 = 0x124cd;
+            coverPooHole->fieldA4 = 0x34cd;
             coverPooHole->mState = 5;
             break;
         case 5:
-            if (coverPooHole->mUnk_a0 > 0x2000) {
-                coverPooHole->mUnk_a0 -= 0xc00;
-                coverPooHole->mUnk_a4 = coverPooHole->mUnk_a0 - 0xf000;
+            if (coverPooHole->fieldA0 > 0x2000) {
+                coverPooHole->fieldA0 -= 0xc00;
+                coverPooHole->fieldA4 = coverPooHole->fieldA0 - 0xf000;
                 return;
             }
-            coverPooHole->mTimer = (u16) (coverPooHole->mUnk_00.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
+            coverPooHole->mTimer = (u16) (coverPooHole->field0.mCourseMapRow->field28 + func_02095fec_inline(60) - 30);
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;
-                coverPooHole->mUnk_a0 = 0x2000;
-                coverPooHole->mUnk_a4 = -0xd000;
+                coverPooHole->fieldA0 = 0x2000;
+                coverPooHole->fieldA4 = -0xd000;
             } else {
                 coverPooHole->mState = 0;
-                coverPooHole->mUnk_a0 = 0x2000;
-                coverPooHole->mUnk_a4 = -0xd000;
+                coverPooHole->fieldA0 = 0x2000;
+                coverPooHole->fieldA4 = -0xd000;
             }
-            coverPooHole->mUnk_108 = 0;
+            coverPooHole->field108 = 0;
             func_02095fec_inline_2(coverPooHole, 0x1d4);
             break;
     }
@@ -615,7 +615,7 @@ void poo_setupConfig(void) {
     MapObjectKindData *o;
     o = mobj_createConfigEx(poo_onDriverCollide, poo_onItemCollide, poo_collide, 0, 1,
                       0x16d);
-    o->mUnk_28 = 0x1b0;
+    o->field28 = 0x1b0;
 }
 
 void *poo_setupRenderPart(void) {
@@ -627,7 +627,7 @@ void *poo_setupLogicPart(void) {
 }
 
 BOOL poo_2095F38(Unk0217b498_00 *a) {
-    if (a->mUnk_b0 == 1 || a->mUnk_b0 == 4) {
+    if (a->fieldB0 == 1 || a->fieldB0 == 4) {
         return TRUE;
     }
     return FALSE;

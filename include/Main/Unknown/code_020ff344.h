@@ -12,34 +12,34 @@
 
 // Object of func_020ff97c: 0x144 bytes.
 typedef struct Unk020ff97c {
-    /* 000 */ MapObject mUnk_00;
-    /* 0a0 */ MtxFx33 mUnk_a0;
-    /* 0c4 */ u8 mUnk_c4[0x24];
-    /* 0e8 */ Vec3 mUnk_e8;
-    /* 0f4 */ Vec3 mUnk_f4;
-    /* 100 */ s32 mUnk_100;
-    /* 104 */ s32 mUnk_104;
-    /* 108 */ s32 mUnk_108;
-    /* 10c */ s32 mUnk_10c;
-    /* 110 */ s32 mUnk_110;
-    /* 114 */ s32 mUnk_114;
-    /* 118 */ s32 mUnk_118;
-    /* 11c */ s32 mUnk_11c;
-    /* 120 */ s32 mUnk_120;
-    /* 124 */ s32 mUnk_124;
-    /* 128 */ s32 mUnk_128;
-    /* 12c */ s32 mUnk_12c;
-    /* 130 */ s32 mUnk_130;
-    /* 134 */ s32 mUnk_134;
-    /* 138 */ s32 mUnk_138;
-    /* 13c */ s32 mUnk_13c;
-    /* 140 */ u8 mUnk_140[4];
+    /* 000 */ MapObject field0;
+    /* 0a0 */ MtxFx33 fieldA0;
+    /* 0c4 */ u8 fieldC4[0x24];
+    /* 0e8 */ Vec3 fieldE8;
+    /* 0f4 */ Vec3 fieldF4;
+    /* 100 */ s32 field100;
+    /* 104 */ s32 field104;
+    /* 108 */ s32 field108;
+    /* 10c */ s32 field10C;
+    /* 110 */ s32 field110;
+    /* 114 */ s32 field114;
+    /* 118 */ s32 field118;
+    /* 11c */ s32 field11C;
+    /* 120 */ s32 field120;
+    /* 124 */ s32 field124;
+    /* 128 */ s32 field128;
+    /* 12c */ s32 field12C;
+    /* 130 */ s32 field130;
+    /* 134 */ s32 field134;
+    /* 138 */ s32 field138;
+    /* 13c */ s32 field13C;
+    /* 140 */ u8 field140[4];
 } Unk020ff97c;
 
 // Object of item kind 7, element of it_sItemsets[7].
 typedef struct ItemFBox {
-    /* 000 */ BouncingItemObject mUnk_000;
-    /* 130 */ Vec3 mUnk_130;
+    /* 000 */ BouncingItemObject field0;
+    /* 130 */ Vec3 field130;
     /* 13c */ s32 mThrownForward;
     /* 140 */ PooledMapObject *mPooledMapObject;
 } ItemFBox;

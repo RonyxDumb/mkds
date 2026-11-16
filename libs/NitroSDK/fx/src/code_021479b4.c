@@ -15,7 +15,7 @@ void MTX_Concat44(const s32 *a, const s32 *b, s32 *ab) {
 
     result = ab;
     if (result == b) {
-        result = tmp.mUnk_00;
+        result = tmp.field0;
     }
     x0 = a[0];
     x1 = a[1];
@@ -61,7 +61,7 @@ void MTX_Concat44(const s32 *a, const s32 *b, s32 *ab) {
     result[13] = ((s64) x0 * b[1] + (s64) x1 * b[5] + (s64) x2 * b[9] + (s64) x3 * b[13]) >> 12;
     result[12] = ((s64) x0 * b[0] + (s64) x1 * b[4] + (s64) x2 * b[8] + (s64) x3 * b[12]) >> 12;
     result[15] = ((s64) x0 * b[3] + (s64) x1 * b[7] + (s64) x2 * b[11] + (s64) x3 * b[15]) >> 12;
-    if (result == tmp.mUnk_00) {
+    if (result == tmp.field0) {
         *(MtxFx44 *) ab = tmp;
     }
 }

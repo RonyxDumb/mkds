@@ -19,8 +19,8 @@ void func_ov000_0219a06c(Gt2Socket *a) {
 }
 
 void func_ov000_0219a044(Gt2Socket *a) {
-    if (a->mUnk_18 == FALSE) {
-        a->mUnk_18 = TRUE;
+    if (a->field18 == FALSE) {
+        a->field18 = TRUE;
         func_ov000_021988e8(a);
         if (func_ov000_02198448(a) != FALSE) {
             DeleteSocket(a);

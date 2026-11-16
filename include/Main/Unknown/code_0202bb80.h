@@ -8,22 +8,22 @@ typedef struct PlayerEntryList PlayerEntryList;
 // 6-byte elements of the table behind gEntryCellIndices: three indices into the arrays at member 0x18 of
 // CellFileSet.
 typedef struct EntryCellIndices {
-    /* 00 */ u16 mUnk_00;
+    /* 00 */ u16 field0;
     /* 02 */ u16 mCharacterCellIndex;
     /* 04 */ u16 mKartCellIndex;
 } EntryCellIndices;
 
 // 8-byte elements of the table behind gEntryLabelTextRows.
 typedef struct EntryLabelTextRow {
-    /* 00 */ s16 mUnk_00;
-    /* 02 */ u8 mUnk_02[6];
+    /* 00 */ s16 field0;
+    /* 02 */ u8 field2[6];
 } EntryLabelTextRow;
 
 // What the first member of PlayerEntryList points to.
 typedef struct Unk02174e3c_00 {
-    /* 00 */ u8 mUnk_00[0x10];
-    /* 10 */ u32 mUnk_10;
-    /* 14 */ void *mUnk_14;
+    /* 00 */ u8 field0[0x10];
+    /* 10 */ u32 field10;
+    /* 14 */ void *field14;
 } Unk02174e3c_00;
 
 extern u16 gTitleCellIndices[];

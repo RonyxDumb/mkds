@@ -30,7 +30,7 @@ void menu_modeSelectStateRender(s32 a) {
         if (func_020cb1f4(v, PAD_KEY_A)) {
             menu_gotoState(3, 0x1f);
             func_020cb1cc(5);
-            gMenuSceneState->mUnk_934 = TRUE;
+            gMenuSceneState->field934 = TRUE;
         } else if (func_020cb1f4(v, PAD_KEY_B)) {
             menu_gotoState(2, 0x1b);
             RequestSelectReturnState3WithSound(1);
@@ -50,7 +50,7 @@ void menu_modeSelectStateRender(s32 a) {
             previousSelected = menu->mSinglePlaySelectModeIndex;
             if (touchedIndex != -1) {
                 if (previousSelected == touchedIndex) {
-                    menu->mUnk_934 = TRUE;
+                    menu->field934 = TRUE;
                 }
                 gMenuSceneState->mSinglePlaySelectModeIndex = touchedIndex;
                 menu_gotoState(3, 0x1f);

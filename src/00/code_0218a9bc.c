@@ -14,9 +14,9 @@ void func_ov000_0218aa14(Unk0218a9bc *p, s32 q) {
     s8 v2[0x800];
     a = 8;
     if (q != 0) {
-        s = p->mUnk_24;
+        s = p->field24;
     } else {
-        s = p->mUnk_20;
+        s = p->field20;
     }
     while (func_ov000_0218e668(s) != 0) {
         n = func_ov000_0218e438(s, v2, 0x7ff, 0, &v1, &a);
@@ -24,17 +24,17 @@ void func_ov000_0218aa14(Unk0218a9bc *p, s32 q) {
             break;
         }
         v2[n] = 0;
-        for (e = p->mUnk_08.mUnk_00; e != NULL; e = e->mUnk_20) {
-            if ((q != 0 && (e->mUnk_15 & 8) != 0 && e->mUnk_10 == v1.mUnk_04) ||
-                (e->mUnk_00 == v1.mUnk_04 && (e->mUnk_04 == v1.mUnk_02 || q != 0)) ||
-                (e->mUnk_00 == p->mUnk_28 && (e->mUnk_15 & 2) != 0 && e->mUnk_08 == v1.mUnk_04 &&
-                 e->mUnk_0c == v1.mUnk_02)) {
+        for (e = p->field8.field0; e != NULL; e = e->field20) {
+            if ((q != 0 && (e->field15 & 8) != 0 && e->field10 == v1.field4) ||
+                (e->field0 == v1.field4 && (e->field4 == v1.field2 || q != 0)) ||
+                (e->field0 == p->field28 && (e->field15 & 2) != 0 && e->field8 == v1.field4 &&
+                 e->fieldC == v1.field2)) {
                 if (q != 0) {
                     if (func_ov000_0218ab14(p, e, v2, n) != 0) {
                         break;
                     }
                 } else {
-                    if (p->mUnk_00 == 1) {
+                    if (p->field0 == 1) {
                         func_ov000_0218ab90(p, e, v2, n);
                     } else {
                         func_ov000_0218ab18(p, e, v2, n);
@@ -50,16 +50,16 @@ void func_ov000_0218a9bc(Unk0218a9bc *p) {
     u32 a;
     SbServer *e;
     a = func_ov000_0218e8c4();
-    e = p->mUnk_08.mUnk_00;
+    e = p->field8.field0;
     while (e != NULL) {
         if (a <= e->mPing + 0x9c4) {
             break;
         }
-        e->mUnk_15 |= 0x10;
-        p->mUnk_08.mUnk_00->mPing = 0x9c4;
-        p->mUnk_08.mUnk_00->mUnk_15 &= 0xd3;
-        p->mUnk_44(p, 1, p->mUnk_08.mUnk_00, p->mUnk_48);
-        func_ov000_0218aea4(&p->mUnk_08);
-        e = p->mUnk_08.mUnk_00;
+        e->field15 |= 0x10;
+        p->field8.field0->mPing = 0x9c4;
+        p->field8.field0->field15 &= 0xd3;
+        p->field44(p, 1, p->field8.field0, p->field48);
+        func_ov000_0218aea4(&p->field8);
+        e = p->field8.field0;
     }
 }

@@ -23,12 +23,12 @@ void func_ov000_021988a4(Unk0219887c *connection, void *b) {
     if (connection == NULL) {
         __msl_assertion_failed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x19c);
     }
-    connection->mUnk_40 = b;
+    connection->field40 = b;
 }
 
 u8 *func_ov000_0219887c(Unk0219887c *object) {
     if (object == NULL) {
         __msl_assertion_failed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x1a3);
     }
-    return object->mUnk_40;
+    return object->field40;
 }

@@ -57,7 +57,7 @@ void LocateAndQueueSelectCupM(void) {
     h = NULL;
     i = NULL;
     j = NULL;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
     g2du_getCharacterDataBG(&e, arc_getSceneArcFile(gSelectCupMBNcgrName3));
@@ -66,7 +66,7 @@ void LocateAndQueueSelectCupM(void) {
     g2du_getCharacterDataBG(&h, arc_getSceneArcFile(gSelectCupMBNcgrName3));
     g2du_getPaletteData(&j, arc_getSceneArcFile(gSelectCupMBNclrName3));
     g2du_getScreenData(&i, arc_getSceneArcFile(gSelectCupMNscrName3));
-    gSelectCupM->mUnk_20 = heap_alloc(gSelectCupM->mHeap, 0x800);
+    gSelectCupM->field20 = heap_alloc(gSelectCupM->mHeap, 0x800);
     gSelectCupM->mMainBncl = arc_getSceneArcFile(gSelectCupMBnclName3);
     gSelectCupM->mMainBnll = arc_getSceneArcFile(gSelectCupMBnllName3);
     g2du_getCharacterData(&a, arc_getSceneArcFile(gSelectCupMNcgrName3));
@@ -82,13 +82,13 @@ void LocateAndQueueSelectCupM(void) {
         NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(8, 0, f->mData, f->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->field20, 0x800);
     }
     if (!(menu_getPrevState() == 0x19 || menu_getPrevState() == 0xd)) {
         NNS_GfdRegisterNewVramTransferTask(0x17, 0, h->mData, h->mDataSize);
         NNS_GfdRegisterNewVramTransferTask(0x1f, 0, j->mData, 0x140);
         NNS_GfdRegisterNewVramTransferTask(0x1b, 0, i->mData, i->mDataSize);
-        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->mUnk_20, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->field20, 0x800);
     }
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
@@ -107,11 +107,11 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     s32 m;
     s32 a;
 
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
-    c = gSelectCupM->mMainBncl->mUnk_06;
-    d = gSelectCupM->mSubBncl->mUnk_06;
+    c = gSelectCupM->mMainBncl->field6;
+    d = gSelectCupM->mSubBncl->field6;
     v = FALSE;
     for (i = 0; i < 8; i++) {
         gSelectCupM->mMainTable[data_0215cf1c[i]].mVisible = v;
@@ -167,11 +167,11 @@ void StartSelectCupMState0(void) {
 
     gSelectCupM->mNextState = 0;
     gSelectCupM->mStateFrames = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
-    c = gSelectCupM->mMainBncl->mUnk_06;
-    d = gSelectCupM->mSubBncl->mUnk_06;
+    c = gSelectCupM->mMainBncl->field6;
+    d = gSelectCupM->mSubBncl->field6;
     gSelectCupM->mBg0Offset = 0;
     gSelectCupM->mMainTable[20].mOffsetY = 0;
     gSelectCupM->mMainTable[19].mOffsetY = 0;
@@ -207,11 +207,11 @@ void StartSelectCupMState1(void) {
 
     gSelectCupM->mNextState = 1;
     gSelectCupM->mStateFrames = 0;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
-    c = gSelectCupM->mMainBncl->mUnk_06;
-    d = gSelectCupM->mSubBncl->mUnk_06;
+    c = gSelectCupM->mMainBncl->field6;
+    d = gSelectCupM->mSubBncl->field6;
     gSelectCupM->mBg0Offset = 0xc0;
     gSelectCupM->mMainTable[20].mOffsetY = 0xc0;
     gSelectCupM->mMainTable[19].mOffsetY = 0xc0;
@@ -253,9 +253,9 @@ void InitSelectCupM(void *a, void *b, void *c) {
     gSelectCupM = heap_alloc(p, 0x54);
     gSelectCupM->mHeap = p;
     gSelectCupM->mCupPicturePending = FALSE;
-    gSelectCupM->mUnk_48 = b;
-    gSelectCupM->mUnk_4c = c;
-    gSelectCupM->mUnk_50 = 0;
+    gSelectCupM->field48 = b;
+    gSelectCupM->field4C = c;
+    gSelectCupM->field50 = 0;
     if (menu_getPrevState() == 0x19 || menu_getPrevState() == 0xd) {
         gSelectCupM->mState = 1;
     } else {
@@ -263,7 +263,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
     }
     LocateAndQueueSelectCupM();
     gSelectCupM->mCommonMessages = arc_get2dArcFile(aCommon_bmg_24);
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         jn_ui_initLayout(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
         jn_ui_initLayout(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         m = 0x8000;
@@ -280,7 +280,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
         }
         CreateSelectCupNameM(gSelectCupM->mHeap);
     } else {
-        InitSelectRaceRuleWait(gSelectCupM->mHeap, gSelectCupM->mUnk_4c);
+        InitSelectRaceRuleWait(gSelectCupM->mHeap, gSelectCupM->field4C);
         func_0211f380();
     }
     InitSelectCupMCellsAndRequestCupPicture();
@@ -293,7 +293,7 @@ void InitSelectCupM(void *a, void *b, void *c) {
 }
 
 void ReleaseSelectCupM(void) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         ClearSelectCupNameMPointer();
     } else {
         func_0211f498();
@@ -310,12 +310,12 @@ void AdvanceSelectCupMState0(void) {
     u16 d;
 
     gSelectCupM->mStateFrames++;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
     a = mutil_interpolate(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
     b = mutil_interpolate(1, ~0xbf, ~0x1f, gSelectCupM->mStateFrames, 0xa);
-    c = gSelectCupM->mMainBncl->mUnk_06;
+    c = gSelectCupM->mMainBncl->field6;
     gSelectCupM->mBg0Offset = a;
     gSelectCupM->mMainTable[20].mOffsetY = a;
     gSelectCupM->mMainTable[19].mOffsetY = a;
@@ -329,7 +329,7 @@ void AdvanceSelectCupMState0(void) {
         gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = a;
         gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = a;
     }
-    d = gSelectCupM->mSubBncl->mUnk_06;
+    d = gSelectCupM->mSubBncl->field6;
     gSelectCupM->mBg3Offset = b;
     gSelectCupM->mSubTable[20].mOffsetY = b;
     gSelectCupM->mSubTable[19].mOffsetY = b;
@@ -353,12 +353,12 @@ void AdvanceSelectCupMState1(void) {
     u16 d;
 
     gSelectCupM->mStateFrames++;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return;
     }
     a = mutil_interpolate(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
     b = mutil_interpolate(1, ~0x1f, ~0xbf, gSelectCupM->mStateFrames, 0xa);
-    c = gSelectCupM->mMainBncl->mUnk_06;
+    c = gSelectCupM->mMainBncl->field6;
     gSelectCupM->mBg0Offset = a;
     gSelectCupM->mMainTable[20].mOffsetY = a;
     gSelectCupM->mMainTable[19].mOffsetY = a;
@@ -372,7 +372,7 @@ void AdvanceSelectCupMState1(void) {
         gSelectCupM->mMainTable[data_0215cf04[i]].mOffsetY = a;
         gSelectCupM->mMainTable[c + data_0215cf0c[i]].mOffsetY = a;
     }
-    d = gSelectCupM->mSubBncl->mUnk_06;
+    d = gSelectCupM->mSubBncl->field6;
     gSelectCupM->mBg3Offset = b;
     gSelectCupM->mSubTable[20].mOffsetY = b;
     gSelectCupM->mSubTable[19].mOffsetY = b;
@@ -404,7 +404,7 @@ s32 AdvanceSelectCupM(void) {
             AdvanceSelectCupMState1();
             break;
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
+    if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
         if (gSelectCupM->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
             p = GetCupPictureNscrData();
             NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
@@ -424,9 +424,9 @@ s32 AdvanceSelectCupM(void) {
             }
             gSelectCupM->mCupPicturePending = FALSE;
         }
-        jn_ui_renderElements(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->mUnk_48,
+        jn_ui_renderElements(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->field48,
                         gSelectCupM->mMainTable);
-        jn_ui_renderElements(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->mUnk_4c,
+        jn_ui_renderElements(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->field4C,
                         gSelectCupM->mSubTable);
     } else {
         AdvanceSelectRaceRuleWait();

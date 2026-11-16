@@ -14,9 +14,9 @@ void arc_initSomething(int bufferIndex) {
     ArchiveBuffer *buffer;
     buffer = &gArcData->mBuffers[bufferIndex];
     buffer->mHeap = NULL;
-    buffer->mUnk_08 = buffer->mUnk_08 & (0xe0000000u);
-    buffer->mUnk_08 = buffer->mUnk_08 | (0x20000000u);
-    buffer->mUnk_08 = buffer->mUnk_08 & (0xbfffffffu);
+    buffer->field8 = buffer->field8 & (0xe0000000u);
+    buffer->field8 = buffer->field8 | (0x20000000u);
+    buffer->field8 = buffer->field8 & (0xbfffffffu);
 }
 
 #pragma thumb off

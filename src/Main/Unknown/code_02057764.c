@@ -20,7 +20,7 @@ void savd_writeNkfl(void *block) {
 void savd_readNkfl(void *block) {
     if (gSaveCore->mBackupEnabled != 0) {
         gSaveCore->mReadTarget = block;
-        gSaveCore->mUnk_5c = -1;
+        gSaveCore->field5C = -1;
         savc_readWithBackup(0x1f00, 0x32e00, gSaveCore->mBuffer, 0xc00, CopyBackupReadToBlock, 0x4c464b4e, 0);
     }
 }

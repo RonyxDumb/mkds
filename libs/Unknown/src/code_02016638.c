@@ -184,5 +184,5 @@ void CallQueueRunEntry(CallQueueEntry *p) {
 
     f = data_02152c54[p->mFuncIndex];
     DC_FlushRange(p->mSource, p->mSize);
-    f(p->mSource, p->mUnk_08, p->mSize);
+    f(p->mSource, p->field8, p->mSize);
 }

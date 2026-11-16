@@ -48,12 +48,12 @@ void func_020612b0(void) {
 
     gStruct217D384->mKartCountCopy = gStruct217D384->mKartCount;
     firstBlock = gSaveData->mFirstBlock;
-    total = firstBlock->mUnk_34[5] + (u8) (gStruct217D384->mKartCountCopy - 1);
+    total = firstBlock->field34[5] + (u8) (gStruct217D384->mKartCountCopy - 1);
     limit = data_021653e4 + 3;
     if (total > limit) {
         total = limit;
     }
-    gSaveData->mFirstBlock->mUnk_34[5] = total;
+    gSaveData->mFirstBlock->field34[5] = total;
     savd_writeNksy(gSaveData->mFirstBlock);
     if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
@@ -227,7 +227,7 @@ s32 AddOrUpdateBuddyRecord(u8 *friendDataList, void *name, u8 *friendData, s32 n
         buddyRecord.mNotYetBuddy = 0;
     }
     MI_CpuCopy8(name, buddyRecord.mName, 0x14);
-    buddyRecord.mUnk_22_2 = e != 0;
+    buddyRecord.field22_2 = e != 0;
     buddyRecord.mFilled = 1;
     SetBuddyRecord(slot, &buddyRecord);
     return slotIndex;

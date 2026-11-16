@@ -4,7 +4,7 @@
 #pragma thumb on
 
 u64 DWCi_Acc_GetFriendKey(const DWCAccFriendData *data) {
-    return (u64) data->mUnk_08 << 32 | data->mUnk_04;
+    return (u64) data->field8 << 32 | data->field4;
 }
 
 #pragma thumb off

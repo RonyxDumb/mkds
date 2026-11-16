@@ -82,14 +82,14 @@ u8 *func_ov000_021ad240(u8 *a) {
 
 s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
     struct {
-        /* 00 */ u32 mUnk_00;
-        /* 04 */ u16 mUnk_04;
-        /* 06 */ u16 mUnk_06;
-        /* 08 */ u16 mUnk_08;
-        /* 0a */ u16 mUnk_0a;
-        /* 0c */ u16 mUnk_0c;
-        /* 0e */ u16 mUnk_0e;
-        /* 10 */ u8 mUnk_10[0x30];
+        /* 00 */ u32 field0;
+        /* 04 */ u16 field4;
+        /* 06 */ u16 field6;
+        /* 08 */ u16 field8;
+        /* 0a */ u16 fieldA;
+        /* 0c */ u16 fieldC;
+        /* 0e */ u16 fieldE;
+        /* 10 */ u8 field10[0x30];
     } v;
     u8 *q;
     u8 *p;
@@ -103,43 +103,43 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
     u16 j;
     u32 k;
 
-    v.mUnk_04 = (c >> 8) | (c << 8);
+    v.field4 = (c >> 8) | (c << 8);
     if (b == 1) {
-        v.mUnk_06 = 1;
+        v.field6 = 1;
     } else {
-        v.mUnk_06 = 0x1001;
+        v.field6 = 0x1001;
     }
-    v.mUnk_08 = 0x100;
-    v.mUnk_0a = 0;
-    v.mUnk_0c = 0;
-    v.mUnk_0e = 0;
-    p = v.mUnk_10;
+    v.field8 = 0x100;
+    v.fieldA = 0;
+    v.fieldC = 0;
+    v.fieldE = 0;
+    p = v.field10;
     q = p + 1;
-    v.mUnk_00 = 0;
+    v.field0 = 0;
     d = *a++;
     while (d != 0) {
         if (d != '.') {
-            if (q - (u8 *) &v.mUnk_04 >= 0x3c) {
+            if (q - (u8 *) &v.field4 >= 0x3c) {
                 return -1;
             }
             *q = d;
             q++;
-            v.mUnk_00++;
+            v.field0++;
         } else {
-            *p = v.mUnk_00;
+            *p = v.field0;
             p = q;
             q++;
-            v.mUnk_00 = 0;
+            v.field0 = 0;
         }
         d = *a++;
     }
-    *p = v.mUnk_00;
+    *p = v.field0;
     q[0] = 0;
     q[1] = b >> 8;
     q[2] = b;
     q[3] = 0;
     q[4] = 1;
-    func_ov000_021adbf4((u8 *) &v.mUnk_04, q + 5 - (u8 *) &v.mUnk_04);
+    func_ov000_021adbf4((u8 *) &v.field4, q + 5 - (u8 *) &v.field4);
     e = 0;
     g = OS_GetTick() >> 16;
     f = -1;
@@ -148,13 +148,13 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
             func_ov000_021b04d4();
             continue;
         }
-        r = func_ov000_021adf78(&v.mUnk_00);
-        if (v.mUnk_00 > 0xc && c == (u16) ((*(u16 *) r >> 8) | (*(u16 *) r << 8))) {
+        r = func_ov000_021adf78(&v.field0);
+        if (v.field0 > 0xc && c == (u16) ((*(u16 *) r >> 8) | (*(u16 *) r << 8))) {
             k = r[3] & 0xf;
             if (k == 3) {
                 e = f;
             } else if (k == 0) {
-                p = r + v.mUnk_00;
+                p = r + v.field0;
                 i = r[4] << 8 | r[5];
                 r += 12;
                 h = i;
@@ -174,7 +174,7 @@ s32 func_ov000_021ad0a4(const char *a, u32 b, s32 c) {
                 }
             }
         }
-        func_ov000_021adf00(v.mUnk_00);
+        func_ov000_021adf00(v.field0);
     }
     return e;
 }

@@ -57,7 +57,7 @@ void LocateAndQueueRecordTopMenu(void) {
     g2du_getCharacterDataBG(&e, arc_getSceneArcFile(gRecordTopMenuMBNcgrName));
     g2du_getPaletteData(&f, arc_getSceneArcFile(gRecordTopMenuMBNclrName));
     g2du_getScreenData(&g, arc_getSceneArcFile(gRecordTopMenuMNscrName));
-    gRecordTopMenu->mUnk_28 = heap_alloc(gRecordTopMenu->mHeap, 0x800);
+    gRecordTopMenu->field28 = heap_alloc(gRecordTopMenu->mHeap, 0x800);
     gRecordTopMenu->mRecordTopMenuMBncl = arc_getSceneArcFile(gRecordTopMenuMBnclName);
     gRecordTopMenu->mRecordTopMenuMBnll = arc_getSceneArcFile(gRecordTopMenuMBnllName);
     g2du_getCharacterData(&a, arc_getSceneArcFile(gRecordTopMenuMNcgrName));
@@ -72,7 +72,7 @@ void LocateAndQueueRecordTopMenu(void) {
     NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(15, 0, f->mData, 0x60);
     NNS_GfdRegisterNewVramTransferTask(8, 0, g->mData, g->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->field28, 0x800);
     NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(14, 0, b->mData, 0x1a0);
     NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, q + 0xe0, 0x40);
@@ -101,7 +101,7 @@ void ResetRecordTopMenu(void) {
     gRecordTopMenu->mNextState = 0;
     gRecordTopMenu->mStateFrames = 0;
     gRecordTopMenu->mBg0Offset = ~0xbf;
-    n = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    n = gRecordTopMenu->mRecordTopMenuMBncl->field6;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = ~0xbf;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = ~0xbf;
     gRecordTopMenu->mRecordTopMenuMTable[n].mOffsetY = ~0xbf;
@@ -168,7 +168,7 @@ void RequestRecordTopMenuState7(void) {
 void RequestRecordTopMenuState8(void) {
     gRecordTopMenu->mNextState = 8;
     gRecordTopMenu->mStateFrames = 0;
-    SetupTxtSystemSubText(jn_msg_getMessage(gRecordTopMenu->mUnk_20, 0x76));
+    SetupTxtSystemSubText(jn_msg_getMessage(gRecordTopMenu->field20, 0x76));
 }
 
 void RequestRecordTopMenuState9(void) {
@@ -271,7 +271,7 @@ void InitRecordTopMenu(void *heap) {
     jn_ui_initLayout(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
                     &gRecordTopMenu->mRecordTopMenuMTable);
     jn_ui_initLayout(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
-    gRecordTopMenu->mUnk_20 = arc_get2dArcFile("common.bmg");
+    gRecordTopMenu->field20 = arc_get2dArcFile("common.bmg");
     gRecordTopMenu->mRecordMessages = arc_getSceneArcFile("record.bmg");
     rem = 0x8000;
     rem -=
@@ -280,7 +280,7 @@ void InitRecordTopMenu(void *heap) {
     jn_ui_212426C(0, 0, gRecordTopMenu->mRecordTopMenuMBnll, jn_msg_getMessage(gRecordTopMenu->mRecordMessages, 9),
                   gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     x = 1;
-    base = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    base = gRecordTopMenu->mRecordTopMenuMBncl->field6;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             rem -= jn_ui_initLabel(heap, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
@@ -296,12 +296,12 @@ void InitRecordTopMenu(void *heap) {
                       gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
     pp = &gSaveData->mFirstBlock;
-    scores[1][0] = (*pp)->mUnk_34[0];
-    scores[2][0] = (*pp)->mUnk_34[1];
-    scores[1][1] = (*pp)->mUnk_34[2];
-    scores[2][1] = (*pp)->mUnk_34[3];
-    scores[1][2] = (*pp)->mUnk_34[4];
-    scores[2][2] = (*pp)->mUnk_34[5];
+    scores[1][0] = (*pp)->field34[0];
+    scores[2][0] = (*pp)->field34[1];
+    scores[1][1] = (*pp)->field34[2];
+    scores[2][1] = (*pp)->field34[3];
+    scores[1][2] = (*pp)->field34[4];
+    scores[2][2] = (*pp)->field34[5];
     for (i = 1; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             if (scores[i][j] > 9999) {
@@ -350,7 +350,7 @@ void AdvanceRecordTopMenuState1(void) {
     a = mutil_interpolate(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
     b = mutil_interpolate(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    idx = gRecordTopMenu->mRecordTopMenuMBncl->field6;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;
@@ -440,7 +440,7 @@ void AdvanceRecordTopMenuState4(void) {
     }
     gmenu_setSeqArcIndex(15);
     RequestRecordTopMenuState6();
-    gRecordTopMenu->mUnk_44 = 5;
+    gRecordTopMenu->field44 = 5;
     RequestSelectReturnState3WithSound(1);
     return;
 skip:
@@ -491,7 +491,7 @@ void AdvanceRecordTopMenuState5(void) {
             RequestRecordTopMenuState7();
             return;
         }
-        gRecordTopMenu->mUnk_44 = data_ov001_021a6ad8[gRecordTopMenu->mIndex];
+        gRecordTopMenu->field44 = data_ov001_021a6ad8[gRecordTopMenu->mIndex];
         RequestRecordTopMenuState6();
     }
 }
@@ -504,14 +504,14 @@ void AdvanceRecordTopMenuState6(void) {
     u16 *p;
     s32 idx;
 
-    if (GetRecordNextScene() == -1 && gRecordTopMenu->mUnk_44 == 5) {
+    if (GetRecordNextScene() == -1 && gRecordTopMenu->field44 == 5) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
     a = mutil_interpolate(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
     b = mutil_interpolate(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
-    idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
+    idx = gRecordTopMenu->mRecordTopMenuMBncl->field6;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[1].mOffsetY = b;
     gRecordTopMenu->mRecordTopMenuMTable[idx].mOffsetY = b;
@@ -531,7 +531,7 @@ void AdvanceRecordTopMenuState6(void) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6aa4[i]].mOffsetX = a;
     }
     if (gRecordTopMenu->mStateFrames >= 10 && GetRecordNextScene() == -1) {
-        RequestRecordScreen(gRecordTopMenu->mUnk_44);
+        RequestRecordScreen(gRecordTopMenu->field44);
     }
 }
 

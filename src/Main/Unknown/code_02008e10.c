@@ -14,11 +14,11 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
     for (; i < 0x10; i++) {
         u32 entryBit = 1 << i;
         usedMask = entryTable->mUsedMask;
-        if ((usedMask & entryBit) != 0 && entry->mUnk_4b8 == gReceivedGameInfo->mUnk_00 &&
+        if ((usedMask & entryBit) != 0 && entry->field4B8 == gReceivedGameInfo->field0 &&
             entry->mBssid[0] == scanBlock[4] && entry->mBssid[1] == scanBlock[5] && entry->mBssid[2] == scanBlock[6] &&
             entry->mBssid[3] == scanBlock[7] && entry->mBssid[4] == scanBlock[8] && entry->mBssid[5] == scanBlock[9] &&
-            gReceivedGameInfo->mUnk_04_2 == entryTable->mEntries[i].mUnk_4b5) {
-            if ((entryTable->mUnk_04 & entryBit) == 0) {
+            gReceivedGameInfo->field4_2 == entryTable->mEntries[i].field4B5) {
+            if ((entryTable->field4 & entryBit) == 0) {
                 SetScanBssidFromEntry(i);
             }
             return i;
@@ -31,7 +31,7 @@ s32 FindOrAddEntry(const u8 *scanBlock, EntryCallbackFunc callback) {
         u32 entryBit = 1 << i;
         if ((usedMask & entryBit) == 0) {
             MIi_CpuCopy16(scanBlock, entryTable->mEntries[i].mScanBuffer, 0xc0);
-            gEntryTable->mEntries[i].mUnk_4b3 = gReceivedGameInfo->mUnk_05;
+            gEntryTable->mEntries[i].field4B3 = gReceivedGameInfo->field5;
             gEntryTable->mUsedMask |= (u16) entryBit;
             SetScanBssidFromEntry(i);
             return i;
@@ -47,12 +47,12 @@ void func_02008ff0(u32 entryIndex, EntryCallbackFunc callback) {
     EntryRecord *entry;
     u32 entryBit;
     entry = &gEntryTable->mEntries[entryIndex];
-    if (entry->mUnk_580 == entry->mUnk_584 && entry->mUnk_580 != 0 && entry->mUnk_35a != 0 &&
-        entry->mUnk_588 == entry->mUnk_35a) {
+    if (entry->field580 == entry->field584 && entry->field580 != 0 && entry->field35A != 0 &&
+        entry->field588 == entry->field35A) {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mUnk_04 & entryBit) == 0) {
-            gEntryTable->mUnk_04 |= entryBit;
-            gEntryTable->mUnk_02 |= entryBit;
+        if ((gEntryTable->field4 & entryBit) == 0) {
+            gEntryTable->field4 |= entryBit;
+            gEntryTable->field2 |= entryBit;
             ClearScanBssid();
             if (callback != NULL) {
                 callback(1, entry, entryIndex);
@@ -60,8 +60,8 @@ void func_02008ff0(u32 entryIndex, EntryCallbackFunc callback) {
         }
     } else {
         entryBit = 1 << entryIndex;
-        if ((gEntryTable->mUnk_04 & entryBit) != 0) {
-            gEntryTable->mUnk_04 ^= entryBit;
+        if ((gEntryTable->field4 & entryBit) != 0) {
+            gEntryTable->field4 ^= entryBit;
             if (callback != NULL) {
                 callback(2, entry, entryIndex);
             }
@@ -80,13 +80,13 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 b) {
         EntryRecord *entry = OFFSET_PTR(EntryRecord, gEntryTable->mEntries, entryOffset);
         u16 entryBit = 1 << i;
         if (gEntryTable->mUsedMask & entryBit) {
-            entry->mTimer -= gEntryTable->mUnk_0c;
+            entry->mTimer -= gEntryTable->fieldC;
             if (entry->mTimer < 0) {
                 entry->mTimer = 0;
-                if ((gEntryTable->mUnk_04 & entryBit) != 0 && callback != NULL) {
+                if ((gEntryTable->field4 & entryBit) != 0 && callback != NULL) {
                     callback(3, NULL, i);
                 }
-                if ((gEntryTable->mUnk_06 & entryBit) != 0) {
+                if ((gEntryTable->field6 & entryBit) != 0) {
                     stopFollowing = 1;
                 }
                 gEntryTable->mUsedMask &= ~entryBit;
@@ -95,21 +95,21 @@ void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 b) {
         }
         entryOffset += sizeof(EntryRecord);
     }
-    if (gEntryTable->mUnk_06 != 0 && gEntryTable->mUnk_08 > 0) {
-        gEntryTable->mUnk_08 -= gEntryTable->mUnk_0c;
-        if (gEntryTable->mUnk_08 < 0) {
+    if (gEntryTable->field6 != 0 && gEntryTable->field8 > 0) {
+        gEntryTable->field8 -= gEntryTable->fieldC;
+        if (gEntryTable->field8 < 0) {
             stopFollowing = 1;
         } else if (b == 0) {
-            gEntryTable->mUnk_0a++;
-            if (gEntryTable->mUnk_0a > 4) {
+            gEntryTable->fieldA++;
+            if (gEntryTable->fieldA > 4) {
                 stopFollowing = 1;
             }
         } else {
-            gEntryTable->mUnk_0a = 0;
+            gEntryTable->fieldA = 0;
         }
     }
     if (stopFollowing != 0) {
-        gEntryTable->mUnk_08 = 0;
+        gEntryTable->field8 = 0;
         ClearScanBssid();
     }
 }
@@ -132,11 +132,11 @@ void UpdateEntryFromScan(u8 *scanBlock, u32 entryIndex, u32 c) {
     }
     entry->mLastSequence = gReceivedGameInfo->mSequence;
     entry->mTimer = 0x1771;
-    entry->mUnk_4b8 = gReceivedGameInfo->mUnk_00;
-    entry->mUnk_4b5 = gReceivedGameInfo->mUnk_04_2;
-    entry->mUnk_58c = c;
-    func_020091e0((u16 *) entry->mScanBuffer, entry->mUnk_4b8);
-    if (gReceivedGameInfo->mUnk_04 == 2) {
+    entry->field4B8 = gReceivedGameInfo->field0;
+    entry->field4B5 = gReceivedGameInfo->field4_2;
+    entry->field58C = c;
+    func_020091e0((u16 *) entry->mScanBuffer, entry->field4B8);
+    if (gReceivedGameInfo->field4 == 2) {
         func_02008aa0(entryIndex);
     } else {
         func_02008c08(entryIndex);

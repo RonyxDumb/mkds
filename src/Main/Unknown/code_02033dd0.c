@@ -22,7 +22,7 @@ void func_02034244(void) {
     s32 negatedOffset;
     s32 e;
 
-    offset = interp_interpolate(&sGhostReceiveState->mUnk_194);
+    offset = interp_interpolate(&sGhostReceiveState->field194);
     reg_G2_BG0OFS = (offset << 16) & 0x1ff0000;
     negatedOffset = -offset;
     reg_G2S_DB_BG3OFS = (negatedOffset << 16) & 0x1ff0000;
@@ -169,7 +169,7 @@ void bres_2033E6C(void) {
         }
     } else if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         for (k = 0; k < bres_sState->mKartCount; k++) {
-            bres_sState->mEntries[k].mOrderIndex = gStruct217B488->mUnk_ec[k];
+            bres_sState->mEntries[k].mOrderIndex = gStruct217B488->fieldEC[k];
         }
     } else {
         for (k = 0; k < bres_sState->mKartCount; k++) {

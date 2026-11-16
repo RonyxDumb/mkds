@@ -6,11 +6,11 @@ typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 
 // Command word and the 18 words sent with it: a mode, a 4x4 matrix and a trailing value.
 typedef struct Unk01ff9320_buf {
-    /* 00 */ u32 mUnk_00;
-    /* 04 */ u32 mUnk_04;
-    /* 08 */ s32 mUnk_08[16];
-    /* 48 */ u32 mUnk_48;
-    /* 4c */ u32 mUnk_4c;
+    /* 00 */ u32 field0;
+    /* 04 */ u32 field4;
+    /* 08 */ s32 field8[16];
+    /* 48 */ u32 field48;
+    /* 4c */ u32 field4C;
 } Unk01ff9320_buf;
 
 typedef void (*Unk01ff9320_Fn)(s32 *, NNSG3dMatAnmResult *);

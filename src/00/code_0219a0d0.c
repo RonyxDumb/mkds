@@ -24,10 +24,10 @@
 #include "code_021382a8.h"
 
 typedef struct Unk0219a110Addr {
-    /* 0 */ u8 mUnk_00;
-    /* 1 */ u8 mUnk_01;
-    /* 2 */ u16 mUnk_02;
-    /* 4 */ u32 mUnk_04;
+    /* 0 */ u8 field0;
+    /* 1 */ u8 field1;
+    /* 2 */ u16 field2;
+    /* 4 */ u32 field4;
 } Unk0219a110Addr;
 
 u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
@@ -43,17 +43,17 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
         e->mSocket = a;
         e->mCreateTime = func_ov000_0218e8c4();
         e->mLastSendTime = e->mCreateTime;
-        e->mUnk_64 = 0;
-        e->mUnk_66 = 0;
-        if (InitBuffer(&e->mUnk_44, a->mUnk_3c) != 0 && InitBuffer(&e->mSendBuffer, a->mSendBufferSize) != 0) {
-            e->mUnk_5c = DarrayCreate(0x10, 0x40, NULL);
-            if (e->mUnk_5c != NULL) {
-                e->mUnk_60 = DarrayCreate(0x10, 0x40, NULL);
-                if (e->mUnk_60 != NULL) {
-                    e->mUnk_98 = DarrayCreate(4, 2, NULL);
-                    if (e->mUnk_98 != NULL) {
-                        e->mUnk_9c = DarrayCreate(4, 2, NULL);
-                        if (e->mUnk_9c != NULL) {
+        e->field64 = 0;
+        e->field66 = 0;
+        if (InitBuffer(&e->field44, a->field3C) != 0 && InitBuffer(&e->mSendBuffer, a->mSendBufferSize) != 0) {
+            e->field5C = DarrayCreate(0x10, 0x40, NULL);
+            if (e->field5C != NULL) {
+                e->field60 = DarrayCreate(0x10, 0x40, NULL);
+                if (e->field60 != NULL) {
+                    e->field98 = DarrayCreate(4, 2, NULL);
+                    if (e->field98 != NULL) {
+                        e->field9C = DarrayCreate(4, 2, NULL);
+                        if (e->field9C != NULL) {
                             HashtableSet(a->mConnections, &e);
                             *b = FindConnection(a, c, d);
                             if (*b != NULL) {
@@ -66,19 +66,19 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
         }
     }
     if (e != NULL) {
-        func_ov000_021a3668(e->mUnk_44.mData);
+        func_ov000_021a3668(e->field44.mData);
         func_ov000_021a3668(e->mSendBuffer.mData);
-        if (e->mUnk_5c != NULL) {
-            DarrayDelete(e->mUnk_5c);
+        if (e->field5C != NULL) {
+            DarrayDelete(e->field5C);
         }
-        if (e->mUnk_60 != NULL) {
-            DarrayDelete(e->mUnk_60);
+        if (e->field60 != NULL) {
+            DarrayDelete(e->field60);
         }
-        if (e->mUnk_98 != NULL) {
-            DarrayDelete(e->mUnk_98);
+        if (e->field98 != NULL) {
+            DarrayDelete(e->field98);
         }
-        if (e->mUnk_9c != NULL) {
-            DarrayDelete(e->mUnk_9c);
+        if (e->field9C != NULL) {
+            DarrayDelete(e->field9C);
         }
         func_ov000_021a3668(e);
     }
@@ -88,8 +88,8 @@ u32 CreateConnection(Gt2Socket *a, Gt2Connection **b, u32 c, u32 d) {
 void func_ov000_0219a220(Gt2Connection *a) {
     s32 b;
     s32 c;
-    if (a->mUnk_14 == FALSE && a->mUnk_24 == 0) {
-        if (a->mUnk_0c == 7) {
+    if (a->field14 == FALSE && a->field24 == 0) {
+        if (a->fieldC == 7) {
             b = DarrayGetCount(a->mSocket->mConnectionsToFree);
             for (c = 0; c < b; c++) {
                 if (a == *(Gt2Connection **) DarrayGetElement(a->mSocket->mConnectionsToFree, c)) {
@@ -113,9 +113,9 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
     {
         Unk0219a110Addr b = {0, 0, 0, 0};
         Unk0219a110Addr *p = &b;
-        p->mUnk_01 = 2;
-        p->mUnk_04 = d;
-        p->mUnk_02 = ((f >> 8) & 0xff) | ((f << 8) & 0xff00);
+        p->field1 = 2;
+        p->field4 = d;
+        p->field2 = ((f >> 8) & 0xff) | ((f << 8) & 0xff00);
         if (func_ov000_0218e3e4(a->mDescriptor, (void *) g, h, 0, &b, 8) == -1) {
             e = func_ov000_0218e368(a->mDescriptor);
             if (e == -15) {
@@ -140,10 +140,10 @@ u32 func_ov000_0219a110(u32 *c, u32 d, int f, u32 g, u32 h) {
 u32 func_ov000_0219a0d0(Gt2Connection **a, u32 *b) {
     Gt2Connection *c = *a;
     u32 d = *b;
-    if (c->mUnk_0c != 7 && func_ov000_02198584(c, d) == 0) {
+    if (c->fieldC != 7 && func_ov000_02198584(c, d) == 0) {
         return 0;
     }
-    if (c->mUnk_0c == 7 && c->mUnk_14 == FALSE && c->mUnk_24 == 0) {
+    if (c->fieldC == 7 && c->field14 == FALSE && c->field24 == 0) {
         func_ov000_0219a220(c);
     }
     return 1;

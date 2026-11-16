@@ -239,14 +239,14 @@ BOOL sound_loadCharacterSounds(s32 bankMask) {
     if (bankMask == 0) {
         return TRUE;
     }
-    if (sLoadedCharacterSounds.mUnk_04 != 0xff00 && sLoadedCharacterSounds.mUnk_00 == bankMask) {
+    if (sLoadedCharacterSounds.field4 != 0xff00 && sLoadedCharacterSounds.field0 == bankMask) {
         return TRUE;
     }
     NNS_SndHeapClear(snd_sDriverVoiceHeap);
-    sLoadedCharacterSounds.mUnk_04 = 0xff00;
-    sLoadedCharacterSounds.mUnk_00 = 0;
-    sLoadedCharacterSounds.mUnk_00 = bankMask;
-    sLoadedCharacterSounds.mUnk_04 = 0xfe00;
+    sLoadedCharacterSounds.field4 = 0xff00;
+    sLoadedCharacterSounds.field0 = 0;
+    sLoadedCharacterSounds.field0 = bankMask;
+    sLoadedCharacterSounds.field4 = 0xfe00;
     if (loadCharacterSoundsInternal(bankMask) == FALSE) {
         return FALSE;
     }
@@ -413,12 +413,12 @@ void sound_loadSdat(void *buffer, u32 b, u32 c) {
     NNS_SndSetMasterVolume(0x7f);
     NNS_SndSetMonoFlag(0);
     sound_setFadeFrameCount(0x1e);
-    data_0217c7f0.mUnk_1c = FX_Div(0x7f000, 0x46000);
-    data_0217c7f0.mUnk_20 = FX_Div(0x7f000, 0x3c000);
-    data_0217c7f0.mUnk_14 = 0xff;
-    data_0217c7f0.mUnk_18 = 0x7f;
-    data_0217c7f0.mUnk_00 = data_0217c7f0.mUnk_1c;
-    data_0217c7f0.mUnk_04 = 0;
+    data_0217c7f0.field1C = FX_Div(0x7f000, 0x46000);
+    data_0217c7f0.field20 = FX_Div(0x7f000, 0x3c000);
+    data_0217c7f0.field14 = 0xff;
+    data_0217c7f0.field18 = 0x7f;
+    data_0217c7f0.field0 = data_0217c7f0.field1C;
+    data_0217c7f0.field4 = 0;
     sfx_210912C();
     data_0217c780 = 0;
     InitSoundPitchSwing();
@@ -430,7 +430,7 @@ void sound_main(void) {
     BOOL v;
     NNSSndSeqPlayer *seqPlayer;
 
-    if (data_0217d070.mUnk_00 != 0) {
+    if (data_0217d070.field0 != 0) {
         UpdateSceneSoundState();
     }
     func_0210fa28();
@@ -525,119 +525,119 @@ void InitSceneSounds(s32 e) {
                     SetSeqVariableEnabled(1, 1);
                     break;
                 case COURSE_ID_MANSION:
-                    csfx_setWallOverride(0x15, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    csfx_setWallOverride(0x8, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    csfx_setWallOverride(0x9, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    csfx_setWallOverride(0xd, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    csfx_setWallOverride(0xe, data_0216c860[0].mUnk_04, &data_0216c860[0]);
-                    csfx_setWallOverride(0x10, data_0216c860[0].mUnk_04, &data_0216c860[0]);
+                    csfx_setWallOverride(0x15, data_0216c860[0].field4, &data_0216c860[0]);
+                    csfx_setWallOverride(0x8, data_0216c860[0].field4, &data_0216c860[0]);
+                    csfx_setWallOverride(0x9, data_0216c860[0].field4, &data_0216c860[0]);
+                    csfx_setWallOverride(0xd, data_0216c860[0].field4, &data_0216c860[0]);
+                    csfx_setWallOverride(0xe, data_0216c860[0].field4, &data_0216c860[0]);
+                    csfx_setWallOverride(0x10, data_0216c860[0].field4, &data_0216c860[0]);
                     break;
                 case COURSE_ID_PINBALL:
-                    csfx_setWallOverride(0x15, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    csfx_setWallOverride(0x8, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    csfx_setWallOverride(0x9, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    csfx_setWallOverride(0xd, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    csfx_setWallOverride(0xe, data_0216c860[1].mUnk_04, &data_0216c860[1]);
-                    csfx_setWallOverride(0x10, data_0216c860[1].mUnk_04, &data_0216c860[1]);
+                    csfx_setWallOverride(0x15, data_0216c860[1].field4, &data_0216c860[1]);
+                    csfx_setWallOverride(0x8, data_0216c860[1].field4, &data_0216c860[1]);
+                    csfx_setWallOverride(0x9, data_0216c860[1].field4, &data_0216c860[1]);
+                    csfx_setWallOverride(0xd, data_0216c860[1].field4, &data_0216c860[1]);
+                    csfx_setWallOverride(0xe, data_0216c860[1].field4, &data_0216c860[1]);
+                    csfx_setWallOverride(0x10, data_0216c860[1].field4, &data_0216c860[1]);
                     break;
                 case COURSE_ID_RIDGE:
-                    csfx_setWallOverride(0x15, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    csfx_setWallOverride(0x8, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    csfx_setWallOverride(0x9, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    csfx_setWallOverride(0xd, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    csfx_setWallOverride(0xe, data_0216c860[2].mUnk_04, &data_0216c860[2]);
-                    csfx_setWallOverride(0x10, data_0216c860[2].mUnk_04, &data_0216c860[2]);
+                    csfx_setWallOverride(0x15, data_0216c860[2].field4, &data_0216c860[2]);
+                    csfx_setWallOverride(0x8, data_0216c860[2].field4, &data_0216c860[2]);
+                    csfx_setWallOverride(0x9, data_0216c860[2].field4, &data_0216c860[2]);
+                    csfx_setWallOverride(0xd, data_0216c860[2].field4, &data_0216c860[2]);
+                    csfx_setWallOverride(0xe, data_0216c860[2].field4, &data_0216c860[2]);
+                    csfx_setWallOverride(0x10, data_0216c860[2].field4, &data_0216c860[2]);
                     break;
                 case COURSE_ID_SNOW:
-                    csfx_setWallOverride(0x15, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    csfx_setWallOverride(0x8, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    csfx_setWallOverride(0x9, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    csfx_setWallOverride(0xd, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    csfx_setWallOverride(0xe, data_0216c860[3].mUnk_04, &data_0216c860[3]);
-                    csfx_setWallOverride(0x10, data_0216c860[3].mUnk_04, &data_0216c860[3]);
+                    csfx_setWallOverride(0x15, data_0216c860[3].field4, &data_0216c860[3]);
+                    csfx_setWallOverride(0x8, data_0216c860[3].field4, &data_0216c860[3]);
+                    csfx_setWallOverride(0x9, data_0216c860[3].field4, &data_0216c860[3]);
+                    csfx_setWallOverride(0xd, data_0216c860[3].field4, &data_0216c860[3]);
+                    csfx_setWallOverride(0xe, data_0216c860[3].field4, &data_0216c860[3]);
+                    csfx_setWallOverride(0x10, data_0216c860[3].field4, &data_0216c860[3]);
                     break;
                 case COURSE_ID_CLOCK:
-                    csfx_setWallOverride(0x15, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    csfx_setWallOverride(0x8, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    csfx_setWallOverride(0x9, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    csfx_setWallOverride(0xd, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    csfx_setWallOverride(0xe, data_0216c860[4].mUnk_04, &data_0216c860[4]);
-                    csfx_setWallOverride(0x10, data_0216c860[4].mUnk_04, &data_0216c860[4]);
+                    csfx_setWallOverride(0x15, data_0216c860[4].field4, &data_0216c860[4]);
+                    csfx_setWallOverride(0x8, data_0216c860[4].field4, &data_0216c860[4]);
+                    csfx_setWallOverride(0x9, data_0216c860[4].field4, &data_0216c860[4]);
+                    csfx_setWallOverride(0xd, data_0216c860[4].field4, &data_0216c860[4]);
+                    csfx_setWallOverride(0xe, data_0216c860[4].field4, &data_0216c860[4]);
+                    csfx_setWallOverride(0x10, data_0216c860[4].field4, &data_0216c860[4]);
                     break;
                 case COURSE_ID_AIRSHIP:
-                    csfx_setWallOverride(0x15, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    csfx_setWallOverride(0x8, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    csfx_setWallOverride(0x9, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    csfx_setWallOverride(0xd, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    csfx_setWallOverride(0xe, data_0216c860[5].mUnk_04, &data_0216c860[5]);
-                    csfx_setWallOverride(0x10, data_0216c860[5].mUnk_04, &data_0216c860[5]);
+                    csfx_setWallOverride(0x15, data_0216c860[5].field4, &data_0216c860[5]);
+                    csfx_setWallOverride(0x8, data_0216c860[5].field4, &data_0216c860[5]);
+                    csfx_setWallOverride(0x9, data_0216c860[5].field4, &data_0216c860[5]);
+                    csfx_setWallOverride(0xd, data_0216c860[5].field4, &data_0216c860[5]);
+                    csfx_setWallOverride(0xe, data_0216c860[5].field4, &data_0216c860[5]);
+                    csfx_setWallOverride(0x10, data_0216c860[5].field4, &data_0216c860[5]);
                     break;
                 case COURSE_ID_STADIUM:
-                    csfx_setWallOverride(0x15, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    csfx_setWallOverride(0x8, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    csfx_setWallOverride(0x9, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    csfx_setWallOverride(0xd, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    csfx_setWallOverride(0xe, data_0216c860[6].mUnk_04, &data_0216c860[6]);
-                    csfx_setWallOverride(0x10, data_0216c860[6].mUnk_04, &data_0216c860[6]);
+                    csfx_setWallOverride(0x15, data_0216c860[6].field4, &data_0216c860[6]);
+                    csfx_setWallOverride(0x8, data_0216c860[6].field4, &data_0216c860[6]);
+                    csfx_setWallOverride(0x9, data_0216c860[6].field4, &data_0216c860[6]);
+                    csfx_setWallOverride(0xd, data_0216c860[6].field4, &data_0216c860[6]);
+                    csfx_setWallOverride(0xe, data_0216c860[6].field4, &data_0216c860[6]);
+                    csfx_setWallOverride(0x10, data_0216c860[6].field4, &data_0216c860[6]);
                     break;
                 case COURSE_ID_GARDEN:
-                    csfx_setWallOverride(0x15, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    csfx_setWallOverride(0x8, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    csfx_setWallOverride(0x9, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    csfx_setWallOverride(0xd, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    csfx_setWallOverride(0xe, data_0216c860[7].mUnk_04, &data_0216c860[7]);
-                    csfx_setWallOverride(0x10, data_0216c860[7].mUnk_04, &data_0216c860[7]);
+                    csfx_setWallOverride(0x15, data_0216c860[7].field4, &data_0216c860[7]);
+                    csfx_setWallOverride(0x8, data_0216c860[7].field4, &data_0216c860[7]);
+                    csfx_setWallOverride(0x9, data_0216c860[7].field4, &data_0216c860[7]);
+                    csfx_setWallOverride(0xd, data_0216c860[7].field4, &data_0216c860[7]);
+                    csfx_setWallOverride(0xe, data_0216c860[7].field4, &data_0216c860[7]);
+                    csfx_setWallOverride(0x10, data_0216c860[7].field4, &data_0216c860[7]);
                     break;
                 case COURSE_ID_KOOPA:
-                    csfx_setWallOverride(0x15, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    csfx_setWallOverride(0x8, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    csfx_setWallOverride(0x9, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    csfx_setWallOverride(0xd, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    csfx_setWallOverride(0xe, data_0216c860[8].mUnk_04, &data_0216c860[8]);
-                    csfx_setWallOverride(0x10, data_0216c860[8].mUnk_04, &data_0216c860[8]);
+                    csfx_setWallOverride(0x15, data_0216c860[8].field4, &data_0216c860[8]);
+                    csfx_setWallOverride(0x8, data_0216c860[8].field4, &data_0216c860[8]);
+                    csfx_setWallOverride(0x9, data_0216c860[8].field4, &data_0216c860[8]);
+                    csfx_setWallOverride(0xd, data_0216c860[8].field4, &data_0216c860[8]);
+                    csfx_setWallOverride(0xe, data_0216c860[8].field4, &data_0216c860[8]);
+                    csfx_setWallOverride(0x10, data_0216c860[8].field4, &data_0216c860[8]);
                     break;
                 case COURSE_ID_OLD_BABY_GC:
-                    csfx_setWallOverride(0x15, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    csfx_setWallOverride(0x8, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    csfx_setWallOverride(0x9, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    csfx_setWallOverride(0xd, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    csfx_setWallOverride(0xe, data_0216c860[9].mUnk_04, &data_0216c860[9]);
-                    csfx_setWallOverride(0x10, data_0216c860[9].mUnk_04, &data_0216c860[9]);
+                    csfx_setWallOverride(0x15, data_0216c860[9].field4, &data_0216c860[9]);
+                    csfx_setWallOverride(0x8, data_0216c860[9].field4, &data_0216c860[9]);
+                    csfx_setWallOverride(0x9, data_0216c860[9].field4, &data_0216c860[9]);
+                    csfx_setWallOverride(0xd, data_0216c860[9].field4, &data_0216c860[9]);
+                    csfx_setWallOverride(0xe, data_0216c860[9].field4, &data_0216c860[9]);
+                    csfx_setWallOverride(0x10, data_0216c860[9].field4, &data_0216c860[9]);
                     break;
                 case COURSE_ID_OLD_KINOKO_GC:
-                    csfx_setWallOverride(0x15, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    csfx_setWallOverride(0x8, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    csfx_setWallOverride(0x9, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    csfx_setWallOverride(0xd, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    csfx_setWallOverride(0xe, data_0216c860[10].mUnk_04, &data_0216c860[10]);
-                    csfx_setWallOverride(0x10, data_0216c860[10].mUnk_04, &data_0216c860[10]);
+                    csfx_setWallOverride(0x15, data_0216c860[10].field4, &data_0216c860[10]);
+                    csfx_setWallOverride(0x8, data_0216c860[10].field4, &data_0216c860[10]);
+                    csfx_setWallOverride(0x9, data_0216c860[10].field4, &data_0216c860[10]);
+                    csfx_setWallOverride(0xd, data_0216c860[10].field4, &data_0216c860[10]);
+                    csfx_setWallOverride(0xe, data_0216c860[10].field4, &data_0216c860[10]);
+                    csfx_setWallOverride(0x10, data_0216c860[10].field4, &data_0216c860[10]);
                     break;
                 case COURSE_ID_OLD_HYUDORO_64:
-                    csfx_setWallOverride(0x15, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    csfx_setWallOverride(0x8, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    csfx_setWallOverride(0x9, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    csfx_setWallOverride(0xd, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    csfx_setWallOverride(0xe, data_0216c860[11].mUnk_04, &data_0216c860[11]);
-                    csfx_setWallOverride(0x10, data_0216c860[11].mUnk_04, &data_0216c860[11]);
+                    csfx_setWallOverride(0x15, data_0216c860[11].field4, &data_0216c860[11]);
+                    csfx_setWallOverride(0x8, data_0216c860[11].field4, &data_0216c860[11]);
+                    csfx_setWallOverride(0x9, data_0216c860[11].field4, &data_0216c860[11]);
+                    csfx_setWallOverride(0xd, data_0216c860[11].field4, &data_0216c860[11]);
+                    csfx_setWallOverride(0xe, data_0216c860[11].field4, &data_0216c860[11]);
+                    csfx_setWallOverride(0x10, data_0216c860[11].field4, &data_0216c860[11]);
                     break;
                 case COURSE_ID_MINI_STAGE4:
-                    csfx_setWallOverride(0x15, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    csfx_setWallOverride(0x8, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    csfx_setWallOverride(0x9, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    csfx_setWallOverride(0xd, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    csfx_setWallOverride(0xe, data_0216c860[12].mUnk_04, &data_0216c860[12]);
-                    csfx_setWallOverride(0x10, data_0216c860[12].mUnk_04, &data_0216c860[12]);
+                    csfx_setWallOverride(0x15, data_0216c860[12].field4, &data_0216c860[12]);
+                    csfx_setWallOverride(0x8, data_0216c860[12].field4, &data_0216c860[12]);
+                    csfx_setWallOverride(0x9, data_0216c860[12].field4, &data_0216c860[12]);
+                    csfx_setWallOverride(0xd, data_0216c860[12].field4, &data_0216c860[12]);
+                    csfx_setWallOverride(0xe, data_0216c860[12].field4, &data_0216c860[12]);
+                    csfx_setWallOverride(0x10, data_0216c860[12].field4, &data_0216c860[12]);
                     break;
                 case COURSE_ID_OLD_LUIGI_AGB:
-                    csfx_setFloorOverride(data_0216c7e0.mUnk_10, data_0216c7e0.mUnk_14, &data_0216c7e0);
+                    csfx_setFloorOverride(data_0216c7e0.field10, data_0216c7e0.field14, &data_0216c7e0);
                     break;
                 case COURSE_ID_MR_STAGE3:
-                    csfx_setWallOverride(0x15, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    csfx_setWallOverride(0x8, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    csfx_setWallOverride(0x9, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    csfx_setWallOverride(0xd, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    csfx_setWallOverride(0xe, data_0216c860[13].mUnk_04, &data_0216c860[13]);
-                    csfx_setWallOverride(0x10, data_0216c860[13].mUnk_04, &data_0216c860[13]);
+                    csfx_setWallOverride(0x15, data_0216c860[13].field4, &data_0216c860[13]);
+                    csfx_setWallOverride(0x8, data_0216c860[13].field4, &data_0216c860[13]);
+                    csfx_setWallOverride(0x9, data_0216c860[13].field4, &data_0216c860[13]);
+                    csfx_setWallOverride(0xd, data_0216c860[13].field4, &data_0216c860[13]);
+                    csfx_setWallOverride(0xe, data_0216c860[13].field4, &data_0216c860[13]);
+                    csfx_setWallOverride(0x10, data_0216c860[13].field4, &data_0216c860[13]);
                     if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
                         func_021104dc(1);
                     }
@@ -688,16 +688,16 @@ void InitSceneSounds(s32 e) {
         case 1:
             if (*(vu16 *) 0x027ffc40 != 2) {
                 p = gSndHeapHandle;
-                if (sLoadedCharacterSounds.mUnk_04 == 0xff00 || sLoadedCharacterSounds.mUnk_00 != 0xffff) {
+                if (sLoadedCharacterSounds.field4 == 0xff00 || sLoadedCharacterSounds.field0 != 0xffff) {
                     NNS_SndHeapClear(snd_sDriverVoiceHeap);
-                    sLoadedCharacterSounds.mUnk_04 = 0xff00;
-                    sLoadedCharacterSounds.mUnk_00 = 0;
+                    sLoadedCharacterSounds.field4 = 0xff00;
+                    sLoadedCharacterSounds.field0 = 0;
                     gSndHeapHandle = snd_sDriverVoiceHeap;
                     if (NNS_SndArcLoadBank(0x2c, snd_sDriverVoiceHeap) != 0) {
                         if (NNS_SndArcLoadSeqArc(3, gSndHeapHandle) != 0) {
                             gSndHeapHandle = p;
-                            sLoadedCharacterSounds.mUnk_00 = 0xffff;
-                            sLoadedCharacterSounds.mUnk_04 = 0xfe00;
+                            sLoadedCharacterSounds.field0 = 0xffff;
+                            sLoadedCharacterSounds.field4 = 0xfe00;
                         }
                     }
                 }
@@ -705,16 +705,16 @@ void InitSceneSounds(s32 e) {
             { break; }
         case 0xc:
             p = gSndHeapHandle;
-            if (sLoadedCharacterSounds.mUnk_04 == 0xff00 || sLoadedCharacterSounds.mUnk_00 != 0xffff) {
+            if (sLoadedCharacterSounds.field4 == 0xff00 || sLoadedCharacterSounds.field0 != 0xffff) {
                 NNS_SndHeapClear(snd_sDriverVoiceHeap);
-                sLoadedCharacterSounds.mUnk_04 = 0xff00;
-                sLoadedCharacterSounds.mUnk_00 = 0;
+                sLoadedCharacterSounds.field4 = 0xff00;
+                sLoadedCharacterSounds.field0 = 0;
                 gSndHeapHandle = snd_sDriverVoiceHeap;
                 if (NNS_SndArcLoadBank(0x2c, snd_sDriverVoiceHeap) != 0) {
                     if (NNS_SndArcLoadSeqArc(3, gSndHeapHandle) != 0) {
                         gSndHeapHandle = p;
-                        sLoadedCharacterSounds.mUnk_00 = 0xffff;
-                        sLoadedCharacterSounds.mUnk_04 = 0xfe00;
+                        sLoadedCharacterSounds.field0 = 0xffff;
+                        sLoadedCharacterSounds.field4 = 0xfe00;
                     }
                 }
             }
@@ -722,9 +722,9 @@ void InitSceneSounds(s32 e) {
         case 0:
             break;
     }
-    s.mUnk_00 = 0xff;
-    s.mUnk_01 = buf.mUnk_00[0];
-    s.mUnk_02 = buf.mUnk_00[1];
+    s.field0 = 0xff;
+    s.field1 = buf.field0[0];
+    s.field2 = buf.field0[1];
     func_021103c0();
     InitSceneSoundState(c & 0xff, s, &gSceneSoundState);
     sfx_210912C();
@@ -748,26 +748,26 @@ void InitSceneSounds(s32 e) {
     if (scproc_getCurrentScene() != 1) {
         return;
     }
-    if (gStruct217B488->mUnk_08 == 3) {
-        data_0217d070.mUnk_0a = 0xff;
+    if (gStruct217B488->field8 == 3) {
+        data_0217d070.fieldA = 0xff;
     }
 }
 
 void InitSceneSoundState(u32 a, Unk021073ec b, SceneSoundState *c) {
     c->mLapsDone = 0;
-    NNS_SndHandleInit(&c->mUnk_08);
-    c->mUnk_16 = 0;
+    NNS_SndHandleInit(&c->field8);
+    c->field16 = 0;
     c->mOnLastLap = 0;
-    c->mUnk_17 = 0;
+    c->field17 = 0;
     c->mRaceFrames = 0;
     c->mSceneFrames = 0;
     c->mRaceState = 0;
     c->mRankIndex = 0xff;
     c->mRankIndexAtSeq = 0xff;
     c->mRankSeqFrames = -1;
-    c->mUnk_20 = 0;
+    c->field20 = 0;
     func_0210d740(&data_0217d070, c, a, b);
-    SoundHandle_217D084.mUnk_18 = &sound_sStarMusicHandle;
+    SoundHandle_217D084.field18 = &sound_sStarMusicHandle;
     SetSoundMode(&SoundHandle_217D084, 0);
 }
 
@@ -789,10 +789,10 @@ void snd_handleRaceStart(void) {
     data_0217c780 = 0;
     func_02109178((u32) &data_0217c780);
     b = 0;
-    data_0217c7f0.mUnk_04 = 0;
-    data_0217c7f0.mUnk_0c = 0x7f;
-    data_0217c7f0.mUnk_10 = 0x7f;
-    data_0217c7f0.mUnk_08 = 0;
+    data_0217c7f0.field4 = 0;
+    data_0217c7f0.fieldC = 0x7f;
+    data_0217c7f0.field10 = 0x7f;
+    data_0217c7f0.field8 = 0;
     if (scproc_getCurrentScene() == 2) {
         c = gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL || gRaceMultiConfig->mRaceKind == 2;
         if (c != 0) {
@@ -838,7 +838,7 @@ void snd_handleRaceStart(void) {
             NNS_SndPlayerStopSeq(&data_0217c854, 0);
             p = &data_0217c854;
             if ((data_0217c780 & 1) != 0) {
-                if (SoundHandle_217D084.mUnk_0c != 0) {
+                if (SoundHandle_217D084.fieldC != 0) {
                     if (*p != NULL) {
                         NNS_SndPlayerStopSeq(p, 0);
                     }
@@ -874,7 +874,7 @@ void snd_handleRaceStart(void) {
                     }
                     NNS_SndArcSetCurrent(n);
                 }
-                data_0217c7f0.mUnk_04 = 0x7f000;
+                data_0217c7f0.field4 = 0x7f000;
                 SetSoundMode(&SoundHandle_217D084, 3);
                 data_0217c780 = 0;
             }
@@ -893,7 +893,7 @@ void snd_handleRaceStart(void) {
                 }
                 NNS_SndArcSetCurrent(n);
             }
-            data_0217c7f0.mUnk_04 = 0x7f000;
+            data_0217c7f0.field4 = 0x7f000;
             SetSoundMode(&SoundHandle_217D084, 2);
             data_0217c780 = 0;
         }
@@ -907,7 +907,7 @@ void StartRaceSounds(void) {
 
     gSceneSoundState.mRaceState = 1;
     MKDS_SND_210D65C(&data_0217d070);
-    data_0217c7f0.mUnk_08 = 1;
+    data_0217c7f0.field8 = 1;
     if (data_0217c7b0 != 0) {
         NNS_SndPlayerStopSeq(&data_0217c854, 0x14);
     }
@@ -921,7 +921,7 @@ void StartRaceSounds(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (SoundHandle_217D084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.fieldC == 0) {
         return;
     }
     if (*handle != NULL) {
@@ -937,8 +937,8 @@ void snd_startStarMusic(void) {
     if (gSceneSoundState.mRaceState != 1) {
         return;
     }
-    gSceneSoundState.mUnk_17 = 1;
-    if ((gSceneSoundState.mUnk_16 & 1) != 0) {
+    gSceneSoundState.field17 = 1;
+    if ((gSceneSoundState.field16 & 1) != 0) {
         data_0217c7a8 = 1;
         return;
     }
@@ -958,7 +958,7 @@ void snd_stopStarMusic(void) {
         }
         data_0217c78c = 0;
     }
-    gSceneSoundState.mUnk_17 = 0;
+    gSceneSoundState.field17 = 0;
 }
 
 void EndRaceSounds(void) {
@@ -980,7 +980,7 @@ void EndRaceSounds(void) {
         }
         data_0217c78c = 0;
     }
-    gSceneSoundState.mUnk_17 = 0;
+    gSceneSoundState.field17 = 0;
     if (SoundHandle_217D084.mMode == 2) {
         SetSoundMode(&SoundHandle_217D084, 3);
     }
@@ -1013,14 +1013,14 @@ void snd_handleLapChange(void) {
     if (gSceneSoundState.mLapsDone == gSceneSoundState.mLapCount) {
         b = TRUE;
     } else if (gSceneSoundState.mLapsDone == gSceneSoundState.mLapCount - 1) {
-        gSceneSoundState.mUnk_16 = 1;
+        gSceneSoundState.field16 = 1;
         gSceneSoundState.mOnLastLap = 1;
         func_0210d590(&data_0217d070, 0);
-        if (gSceneSoundState.mUnk_08 != NULL) {
+        if (gSceneSoundState.field8 != NULL) {
             NNS_SndPlayerSetTrackMute(&sound_sStarMusicHandle, 0xffff, 1);
         }
         MKDS_SND_210D614(&data_0217d070, 0x3e, NULL);
-        gSceneSoundState.mUnk_16 = 1;
+        gSceneSoundState.field16 = 1;
     }
     if (gRaceMultiConfig->mCourseId != COURSE_ID_STADIUM) {
         return;
@@ -1035,7 +1035,7 @@ void snd_handleLapChange(void) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (SoundHandle_217D084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.fieldC == 0) {
         return;
     }
     if (*p != NULL) {
@@ -1112,7 +1112,7 @@ void snd_handlePositionChangeSfx(u32 a) {
                 NNS_SndPlayerStopSeq(&data_0217c854, 0);
                 q = &data_0217c854;
                 if (data_0217c780 & 1) {
-                    if (SoundHandle_217D084.mUnk_0c != 0) {
+                    if (SoundHandle_217D084.fieldC != 0) {
                         if (*q != NULL) {
                             NNS_SndPlayerStopSeq(q, 0);
                         }
@@ -1147,9 +1147,9 @@ void snd_2106580(void) {
                 NNS_SndPlayerSetVolume(&data_0217d07c, gVolumeFade.mVolume >> 12);
             }
             q = &data_0217c7f0;
-            i = q->mUnk_08;
+            i = q->field8;
             if (i == 1) {
-                q->mUnk_00 = data_0217c80c[i];
+                q->field0 = data_0217c80c[i];
                 a = StepValueTowardTarget(q, data_0217c7fc[i]);
                 if (a != -1) {
                     b = data_0217c804[i];
@@ -1190,19 +1190,19 @@ void snd_2106580(void) {
                 gSceneSoundState.mRankSeqFrames = -1;
             }
         }
-        if (gSceneSoundState.mUnk_16 == 1 && v[0] == NULL) {
-            gSceneSoundState.mUnk_16 = 0;
-            if (data_0217c7a8 != 0 && gSceneSoundState.mUnk_17 == 1) {
+        if (gSceneSoundState.field16 == 1 && v[0] == NULL) {
+            gSceneSoundState.field16 = 0;
+            if (data_0217c7a8 != 0 && gSceneSoundState.field17 == 1) {
                 if (gSceneSoundState.mRaceState == 1) {
-                    gSceneSoundState.mUnk_17 = 1;
-                    if ((gSceneSoundState.mUnk_16 & 1) == 0) {
+                    gSceneSoundState.field17 = 1;
+                    if ((gSceneSoundState.field16 & 1) == 0) {
                         NNS_SndPlayerSetTrackMute(&data_0217d07c, 0xffff, 1);
                         MKDS_SND_210D614(&data_0217d070, 0x49, &sound_sStarMusicHandle);
                     }
                 }
                 data_0217c7a8 = 0;
                 data_0217c78c = 1;
-            } else if (gSceneSoundState.mUnk_08 != NULL) {
+            } else if (gSceneSoundState.field8 != NULL) {
                 NNS_SndPlayerSetTrackMute(&sound_sStarMusicHandle, 0xffff, 0);
                 data_0217c78c = 1;
             } else if (gSceneSoundState.mRaceState == 1) {
@@ -1316,7 +1316,7 @@ void snd_handleIntroAmbiance(void) {
     if ((data_0217c780 & 2) == 0) {
         return;
     }
-    if (SoundHandle_217D084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.fieldC == 0) {
         return;
     }
     if (*p != NULL) {
@@ -1337,9 +1337,9 @@ void UpdateSceneSoundState(void) {
     struct NNSSndArc *p;
 
     q = &data_0217c7f0;
-    i = q->mUnk_08;
+    i = q->field8;
     if (i == 0) {
-        q->mUnk_00 = data_0217c80c[i];
+        q->field0 = data_0217c80c[i];
         a = StepValueTowardTarget(q, data_0217c7fc[i]);
         if (a != -1) {
             b = data_0217c804[i];
@@ -1392,8 +1392,8 @@ void StopSceneSounds(void) {
     if (*(vu16 *) 0x027ffc40 == 2 && scproc_getCurrentScene() == 6) {
         return;
     }
-    data_0217c7f0.mUnk_0c = 0;
-    data_0217c7f0.mUnk_08 = 0;
+    data_0217c7f0.fieldC = 0;
+    data_0217c7f0.field8 = 0;
     func_0210d58c(&data_0217d070);
     SetSoundMode(&SoundHandle_217D084, 4);
     for (i = 0; i < 12; i++) {
@@ -1418,8 +1418,8 @@ void StopSceneSoundsAtOnce(void) {
     if (*(vu16 *) 0x027ffc40 == 2 && scproc_getCurrentScene() == 6) {
         return;
     }
-    data_0217c7f0.mUnk_0c = 0;
-    data_0217c7f0.mUnk_08 = 0;
+    data_0217c7f0.fieldC = 0;
+    data_0217c7f0.field8 = 0;
     func_0210d570(&data_0217d070, 1);
     SetSoundMode(&SoundHandle_217D084, 0);
     for (i = 0; i < 12; i++) {
@@ -1451,7 +1451,7 @@ void sfx_handleRacePause(void) {
     Unk0217c7c4 *playerTable;
 
     savedFadeSteps = sound_getFadeFrameCount();
-    gSceneSoundState.mUnk_20 = 1;
+    gSceneSoundState.field20 = 1;
     sound_setFadeFrameCount(0xa);
     if (data_0217c7ac != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c7ac, 0);
@@ -1461,8 +1461,8 @@ void sfx_handleRacePause(void) {
         return;
     }
     SetSoundMode(&SoundHandle_217D084, 5);
-    if (gSceneSoundState.mUnk_16 == 1) {
-        gSceneSoundState.mUnk_16 = 3;
+    if (gSceneSoundState.field16 == 1) {
+        gSceneSoundState.field16 = 3;
     }
     handleCursor = data_0217c838;
     for (i = 0; i < 0xc; i++) {
@@ -1488,7 +1488,7 @@ void sfx_handleRaceContinue(void) {
     Unk0217c7c4 *playerTable;
 
     savedFadeSteps = sound_getFadeFrameCount();
-    gSceneSoundState.mUnk_20 = 0;
+    gSceneSoundState.field20 = 0;
     sound_setFadeFrameCount(0xa);
     if (data_0217c7ac != NULL) {
         NNS_SndPlayerStopSeq(&data_0217c7ac, 0);
@@ -1498,8 +1498,8 @@ void sfx_handleRaceContinue(void) {
         return;
     }
     RestoreSavedSoundMode(&SoundHandle_217D084);
-    if (gSceneSoundState.mUnk_16 == 3) {
-        gSceneSoundState.mUnk_16 = 1;
+    if (gSceneSoundState.field16 == 3) {
+        gSceneSoundState.field16 = 1;
     }
     handleCursor = data_0217c838;
     for (i = 0; i < 0xc; i++) {
@@ -1583,7 +1583,7 @@ void MKDS_SND_PlayTwinkelSound(u32 a) {
 }
 
 void func_021059e0(void) {
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.fieldC != NULL) {
         return;
     }
     if (data_0217c838[1] != NULL) {
@@ -1606,7 +1606,7 @@ void func_0210593c(u32 a) {
     if (a != 4) {
         return;
     }
-    if (data_0217d070.mUnk_0c != NULL) {
+    if (data_0217d070.fieldC != NULL) {
         return;
     }
     MKDS_SND_210D5C0(&data_0217d070);
@@ -1663,7 +1663,7 @@ void func_021055b0(s32 a) {
     u32 f;
     s32 n;
     if (data_0217c784 == 0) {
-        if (data_0217d070.mUnk_0c != NULL) {
+        if (data_0217d070.fieldC != NULL) {
             return;
         }
         MKDS_SND_210D5C0(&data_0217d070);
