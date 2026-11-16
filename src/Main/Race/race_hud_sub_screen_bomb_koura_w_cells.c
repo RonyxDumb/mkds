@@ -355,8 +355,8 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         bomb = objects[objectIndex];
-        if (IsItemBombExploding(bomb) != FALSE) {
-            bombPosition = GetItemBombExplodeInfo((ItemBomb *) bomb, &bombStateFrames, &bombValue);
+        if (IsItemBombGrowing(bomb) != FALSE) {
+            bombPosition = GetItemBombGrowInfo((ItemBomb *) bomb, &bombStateFrames, &bombValue);
             if (ComputeRaceHudSubScreenPosition(bombPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
@@ -379,8 +379,8 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     objects = pool->mObjects;
     for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
         kouraW = objects[objectIndex];
-        if (IsItemKouraWBurst((ItemKouraW *) kouraW) != FALSE) {
-            kouraPosition = GetItemKouraWBurstInfo((ItemKouraW *) kouraW, &kouraStateFrames, &kouraValue);
+        if (IsItemKouraWGrowing((ItemKouraW *) kouraW) != FALSE) {
+            kouraPosition = GetItemKouraWGrowInfo((ItemKouraW *) kouraW, &kouraStateFrames, &kouraValue);
             if (ComputeRaceHudSubScreenPosition(kouraPosition,
                                                 &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {

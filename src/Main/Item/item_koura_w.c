@@ -106,7 +106,7 @@ const ItemKind gItemKindKouraW = {0x31c,
                                   (void (*)(ItemObject *)) AdvanceItemKouraW,
                                   (void (*)(void *, void *, void *)) DrawItemKouraW,
                                   ComputeTwoPlaneViewTest,
-                                  (s32(*)(void *)) RequestItemKouraWBurst,
+                                  (s32(*)(void *)) RequestItemKouraWGrow,
                                   NULL,
                                   NULL,
                                   0,
@@ -144,7 +144,7 @@ StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {
     {EnterItemKouraWCircleTarget, UpdateItemKouraWCircleTarget},
     {EnterItemKouraWRise, UpdateItemKouraWRise},
     {EnterItemKouraWFall, UpdateItemKouraWFall},
-    {EnterItemKouraWBurst, UpdateItemKouraWBurst}};
+    {EnterItemKouraWGrow, UpdateItemKouraWGrow}};
 Nsbmd *gKouraW;
 s32 gKouraWBurstScaleStep;
 s32 gKouraWBurstInverseLimit;
@@ -767,7 +767,7 @@ void UpdateItemKouraWFall(void *stateObject) {
     }
 }
 
-void EnterItemKouraWBurst(void *stateObject) {
+void EnterItemKouraWGrow(void *stateObject) {
     ItemKouraW *item = stateObject;
     NNSSndSeqPlayer **sndHandle;
     struct ModelEffect *effect;
@@ -803,7 +803,7 @@ void EnterItemKouraWBurst(void *stateObject) {
         item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemKouraWBurst(void *stateObject) {
+void UpdateItemKouraWGrow(void *stateObject) {
     ItemKouraW *item = stateObject;
     u32 stateFrames;
 
@@ -972,7 +972,7 @@ void DrawItemKouraW(ItemKouraW *item, Vec3 *viewAxis, s32 model) {
 }
 
 // Asks for state 7 unless the object is already in it; returns 1.
-s32 RequestItemKouraWBurst(ItemKouraW *item) {
+s32 RequestItemKouraWGrow(ItemKouraW *item) {
     if (item->mStateMachine.mState != ITEM_KOURA_W_STATE_BURST) {
         InitStateMachine(&item->mStateMachine, gItemKouraWStateTable, ITEM_KOURA_W_STATE_COUNT, item);
         item->mStateMachine.mNextState = ITEM_KOURA_W_STATE_BURST;
@@ -989,11 +989,11 @@ s32 RequestItemKouraWBurst(ItemKouraW *item) {
     return 1;
 }
 
-BOOL IsItemKouraWBurst(ItemKouraW *item) {
+BOOL IsItemKouraWGrowing(ItemKouraW *item) {
     return item->mStateMachine.mState == ITEM_KOURA_W_STATE_BURST;
 }
 
-Vec3 *GetItemKouraWBurstInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
+Vec3 *GetItemKouraWGrowInfo(ItemKouraW *item, s32 *stateFrames, s32 *scaleRatio) {
     *stateFrames = item->mStateMachine.mStateFrames;
     *scaleRatio = MUL_FIXED12_NO_ROUND(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mScale.z,
                                        gKouraWBurstInverseLimit);

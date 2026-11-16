@@ -24,11 +24,11 @@ ItemBomb *GetRestingItemBomb(int index);
 void ParkItemBomb(void *object);
 void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position);
 void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart);
-BOOL IsItemBombExploding(ItemObject *object);
+BOOL IsItemBombGrowing(ItemObject *object);
 void ReleaseItemBomb(void **bombSlot);
 void *StartItemBomb(void);
 void *StartItemBombWithMapObject(void *mapObject, s32 offsetY);
-Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
+Vec3 *GetItemBombGrowInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
 void SetupItemBombKind(void);
 
 unsigned int GetItemBombActiveCount(void);
@@ -37,7 +37,7 @@ void ParkItemBombMapObject(ItemBomb *bomb);
 
 struct ModelEffect;
 
-// ItemBomb.mTimer counts down to the explosion (its expiry reaches RequestItemBombExplode through the kind's fade-out
+// ItemBomb.mTimer counts down to the explosion (its expiry reaches RequestItemBombGrow through the kind's fade-out
 // callback). It starts at ITEM_BOMB_FUSE_FRAMES, at ITEM_BOMB_SHORT_FUSE_FRAMES for a bomb dropped with the down key or
 // one that starts falling again, and at the timerStart argument of ThrowItemBombFromSlot. While mTimerEndBlockTimer is
 // above 0 a timer that reaches 0 becomes ITEM_BOMB_END_BLOCK_FUSE_FRAMES; below ITEM_BOMB_FLASH_START_FRAMES the model
@@ -90,7 +90,7 @@ typedef struct ItemBomb {
 } ItemBomb;
 
 void RequestItemBombRest(ItemBomb *bomb);
-int RequestItemBombExplode(ItemBomb *bomb);
+int RequestItemBombGrow(ItemBomb *bomb);
 void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model);
 void InitItemBombFromData(ItemBomb *bomb);
 void *CopyItemBombData(void *cursor, ItemBomb *bomb, void *toData);
@@ -98,8 +98,8 @@ void AdvanceItemBomb(ItemBomb *bomb);
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *pooledMapObject);
 void ClampItemBombTimerByDistance(ItemBomb *bomb);
 void AdvanceItemBombNearestKart(ItemBomb *bomb);
-void UpdateItemBombExplode(void *stateObject);
-void EnterItemBombExplode(void *stateObject);
+void UpdateItemBombGrow(void *stateObject);
+void EnterItemBombGrow(void *stateObject);
 void UpdateItemBombRest(void *stateObject);
 
 void ItemBombRestNop(void *stateObject);

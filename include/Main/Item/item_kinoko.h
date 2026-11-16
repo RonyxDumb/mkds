@@ -95,10 +95,10 @@ BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex);
 void InitItemKouraRFromData(ItemKouraR *kouraR);
 void *CopyItemKouraRData(void *buffer, ItemKouraR *kouraR, void *toBuffer);
 void StartTargetKartSoundOnOwnItemHit(void *kouraParam, s32 hitType, ItemObject *otherParam);
-void UpdateItemKouraRGlideToKartVelocity(void *stateObject);
+void UpdateItemKouraRGlide(void *stateObject);
 void UpdateItemKouraRCloseIn(void *stateObject);
-void UpdateItemKouraRHoming(void *stateObject);
-void EnterItemKouraRHoming(void *stateObject);
+void UpdateItemKouraRSteerToKart(void *stateObject);
+void EnterItemKouraRSteerToKart(void *stateObject);
 s32 InitItemKouraR(ItemInUse *itemInUse, ItemKouraR *kouraR);
 void DeflectItemKouraROnHit(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal);
 void StartItemKouraRSound(void *kouraParam, s32 unused);
@@ -126,7 +126,7 @@ void EnterItemKouraRFollowLink(void *stateObject);
 
 void UpdateItemKouraRSeekAfterThrow(void *stateObject);
 
-void RequestItemKouraRHomingForKart(ItemKouraR *kouraR, u32 kartIndex);
+void RequestItemKouraRSteerToKart(ItemKouraR *kouraR, u32 kartIndex);
 
 void UpdateItemKouraRStraight(void *stateObject);
 

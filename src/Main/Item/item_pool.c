@@ -389,7 +389,7 @@ BOOL SetItemObjectKartFromPacket(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_R) {
-            RequestItemKouraRHomingForKart((ItemKouraR *) object, value);
+            RequestItemKouraRSteerToKart((ItemKouraR *) object, value);
         }
         if (pool->mKind == ITEM_OBJECT_KIND_KOURA_W) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);

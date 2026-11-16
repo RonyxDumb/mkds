@@ -684,7 +684,7 @@ void SetBombKingEffectScale(ParticleEmitter *emitter) {
 
 void BombKingItemBounceCallback(MissionRunMapObject *mapObject, ItemObject *itemObject) {
     if (itemObject->mKind == ITEM_OBJECT_KIND_BOMB) {
-        if (IsItemBombExploding(itemObject) == FALSE) {
+        if (IsItemBombGrowing(itemObject) == FALSE) {
             StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, SetBombKingEffectScale);
         }
     }

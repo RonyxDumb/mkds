@@ -70,7 +70,7 @@ const Vec3 gItemBombExplodeStartScale = {0x1000, 0x1000, 0x1000};
 const u16 gItemBombDisabledFlag = 1;
 StateCallbacks gItemBombStateTable[4] = {{ItemBombBounceNop, UpdateItemBombBounce},
                                          {ItemBombRestNop, UpdateItemBombRest},
-                                         {EnterItemBombExplode, UpdateItemBombExplode},
+                                         {EnterItemBombGrow, UpdateItemBombGrow},
                                          {NULL, NULL}};
 const u16 gItemBombSkipListCallbackFlag = 8;
 const u16 gItemBombNoUpdateListFlag = 4;
@@ -174,7 +174,7 @@ void UpdateItemBombRest(void *stateObject) {
     }
 }
 
-void EnterItemBombExplode(void *stateObject) {
+void EnterItemBombGrow(void *stateObject) {
     ItemBomb *bomb = stateObject;
     NNSSndSeqPlayer **seqPlayerPointer;
     ModelEffect *modelEffect;
@@ -210,7 +210,7 @@ void EnterItemBombExplode(void *stateObject) {
     StartCameraWobbleAtDistance(bomb->mBouncingItemObject.mItemObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
 }
 
-void UpdateItemBombExplode(void *stateObject) {
+void UpdateItemBombGrow(void *stateObject) {
     ItemBomb *bomb = stateObject;
     s32 stateFrames;
 
@@ -438,7 +438,7 @@ void DrawItemBomb(ItemBomb *bomb, Vec3 *viewAxis, NsbmdModel *model) {
     bomb->mModelEffect->mVisible = (bomb->mBouncingItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_OUT_OF_VIEW) == 0;
 }
 
-int RequestItemBombExplode(ItemBomb *bomb) {
+int RequestItemBombGrow(ItemBomb *bomb) {
     if (bomb->mStateMachine.mState != ITEM_BOMB_STATE_EXPLODE) {
         InitStateMachine(&bomb->mStateMachine, gItemBombStateTable, 4, bomb);
         bomb->mStateMachine.mNextState = ITEM_BOMB_STATE_EXPLODE;
@@ -584,7 +584,7 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
     *bombSlot = NULL;
 }
 
-BOOL IsItemBombExploding(ItemObject *object) {
+BOOL IsItemBombGrowing(ItemObject *object) {
     ItemBomb *bomb;
 
     bomb = (ItemBomb *) object;
@@ -658,7 +658,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
     return bomb;
 }
 
-Vec3 *GetItemBombExplodeInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
+Vec3 *GetItemBombGrowInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
     *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombExplodeInverseLimit);
     return &bomb->mBouncingItemObject.mItemObject.mPos;

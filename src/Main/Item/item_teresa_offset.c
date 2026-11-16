@@ -135,7 +135,7 @@ static inline u32 ItemTeresaNextRandomBelow_inline(RandomState64 *random, u32 ra
     return ((random->mValue >> 32) * range) >> 32;
 }
 
-static inline s32 IsItemTeresaTargetKart_inline(KartItems *kartItems, RaceSetup *raceSetup, s32 teamIndex,
+static inline s32 IsItemTeresaCandidateKart_inline(KartItems *kartItems, RaceSetup *raceSetup, s32 teamIndex,
                                                 u16 kartIndex) {
     KartItems *entry;
     Kart *kart;
@@ -199,7 +199,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
                 kartIndex = GetKartAtRank(rankAhead);
-                if (IsItemTeresaTargetKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
+                if (IsItemTeresaCandidateKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
                     cumulativeWeights[candidateCount] = weightSum;
@@ -210,7 +210,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
                 kartIndex = GetKartAtRank(rankBehind);
-                if (IsItemTeresaTargetKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
+                if (IsItemTeresaCandidateKart_inline(kartItems, raceSetup, teamIndex, kartIndex) != 0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
                     cumulativeWeights[candidateCount] = weightSum;
@@ -227,7 +227,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             if (rankBehind < kartCount) {
                 rankBehind = (u16) (rankBehind + 1);
                 kartIndex = GetKartAtRank(rankBehind);
-                if (IsItemTeresaTargetKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
+                if (IsItemTeresaCandidateKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;
@@ -239,7 +239,7 @@ void PickItemTeresaKartByRank(ItemTeresa *teresa, s32 teamIndex) {
             if (rankAhead > 1) {
                 rankAhead = (u16) (rankAhead - 1);
                 kartIndex = GetKartAtRank(rankAhead);
-                if (IsItemTeresaTargetKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
+                if (IsItemTeresaCandidateKart_inline(kartItemsBehindFirst, raceSetupBehindFirst, teamIndex, kartIndex) !=
                     0) {
                     weightSum = weightSum + *weightCursor;
                     candidateKarts[candidateCount] = kartIndex;

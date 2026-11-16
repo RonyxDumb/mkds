@@ -73,9 +73,9 @@ StateCallbacks gItemKouraRStateTable[7] = {{NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRStraight},
                                            {NULL, UpdateItemKouraRSeekAfterThrow},
                                            {EnterItemKouraRFollowLink, UpdateItemKouraRFollowLink},
-                                           {EnterItemKouraRHoming, UpdateItemKouraRHoming},
+                                           {EnterItemKouraRSteerToKart, UpdateItemKouraRSteerToKart},
                                            {NULL, UpdateItemKouraRCloseIn},
-                                           {NULL, UpdateItemKouraRGlideToKartVelocity}};
+                                           {NULL, UpdateItemKouraRGlide}};
 
 const ItemInfo gItemInfoKouraR = {1, 1, 1, 1, 0, 1, NULL};
 
@@ -217,7 +217,7 @@ void UpdateItemKouraRStraight(void *stateObject) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void RequestItemKouraRHomingForKart(ItemKouraR *kouraR, u32 kartIndex) {
+void RequestItemKouraRSteerToKart(ItemKouraR *kouraR, u32 kartIndex) {
     u32 value = kartIndex;
     u32 minusOne;
     u32 collisionSlotIndex;
@@ -350,7 +350,7 @@ void UpdateItemKouraRFollowLink(void *stateObject) {
     }
 }
 
-void EnterItemKouraRHoming(void *stateObject) {
+void EnterItemKouraRSteerToKart(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mBounce =
         (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemKouraROnHit;
@@ -358,7 +358,7 @@ void EnterItemKouraRHoming(void *stateObject) {
 
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
 // one of the four SteerItemKouraRToKart calls, and stores the 0x24c/0x24e halfwords it picks.
-void UpdateItemKouraRHoming(void *stateObject) {
+void UpdateItemKouraRSteerToKart(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     KartItems *kartItems;
     Kart *kart;
@@ -444,7 +444,7 @@ void UpdateItemKouraRCloseIn(void *stateObject) {
 }
 
 // Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.
-void UpdateItemKouraRGlideToKartVelocity(void *stateObject) {
+void UpdateItemKouraRGlide(void *stateObject) {
     ItemKouraR *kouraR = stateObject;
     AdvanceItemObjectMotion(&kouraR->mLinkFollowingItemObject.mDirectedItemObject, 0xc000);
     if (kouraR->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mFlags & ITEM_OBJECT_FLAG_FADE_OUT_STARTED) {
