@@ -66,8 +66,8 @@ void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
     } else {
         command.mCommand = TEX_MTX_COMMAND_MULT;
     }
-    command.mMtxModeTex = G3D_MTX_MODE_TEXTURE;
-    command.mMtxModePosVec = G3D_MTX_MODE_POS_VEC;
+    command.mMtxModeTex = TARGET_MATRIX_TEXTURE;
+    command.mMtxModePosVec = TARGET_MATRIX_POS_VEC;
     command.mMatrix.mRows[3].z = 0;
     command.mMatrix.mRows[2].wComponent = 0;
     command.mMatrix.mRows[2].z = 0;

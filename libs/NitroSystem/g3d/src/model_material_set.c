@@ -118,7 +118,7 @@ void NNS_G3dMdlSetMdlCullMode(NNSG3dResMdl *mdl, u32 matId, u32 cullMode) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_CULL_MODE_MASK) | (cullMode << 6);
+    data->mPolyAttr = (data->mPolyAttr & ~MATERIAL_POLY_CULL_MASK) | (cullMode << 6);
 }
 
 // Sets the polygon ID of one material.
@@ -130,7 +130,7 @@ void NNS_G3dMdlSetMdlPolygonID(NNSG3dResMdl *mdl, u32 matId, u32 polygonId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_POLYGON_ID_MASK) | (polygonId << 24);
+    data->mPolyAttr = (data->mPolyAttr & ~MATERIAL_POLY_ID_MASK) | (polygonId << 24);
 }
 
 // Sets the alpha of one material.
@@ -142,7 +142,7 @@ void NNS_G3dMdlSetMdlAlpha(NNSG3dResMdl *mdl, u32 matId, u32 alpha) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    data->mPolyAttr = (data->mPolyAttr & ~G3D_POLY_ATTR_ALPHA_MASK) | (alpha << 16);
+    data->mPolyAttr = (data->mPolyAttr & ~MATERIAL_POLY_ALPHA_MASK) | (alpha << 16);
 }
 
 // Turns fog on or off for one material.
@@ -155,9 +155,9 @@ void NNS_G3dMdlSetMdlFogEnableFlag(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
     if (flag != 0) {
-        data->mPolyAttr |= G3D_POLY_ATTR_FOG;
+        data->mPolyAttr |= MATERIAL_POLY_FOG_BIT;
     } else {
-        data->mPolyAttr &= ~G3D_POLY_ATTR_FOG;
+        data->mPolyAttr &= ~MATERIAL_POLY_FOG_BIT;
     }
 }
 
@@ -171,9 +171,9 @@ void NNS_G3dMdlSetMdlXLDepthUpdate(NNSG3dResMdl *mdl, u32 matId, s32 flag) {
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
     if (flag != 0) {
-        data->mPolyAttr |= G3D_POLY_ATTR_XL_DEPTH_UPDATE;
+        data->mPolyAttr |= MATERIAL_POLY_TRANSLUCENT_DEPTH_BIT;
     } else {
-        data->mPolyAttr &= ~G3D_POLY_ATTR_XL_DEPTH_UPDATE;
+        data->mPolyAttr &= ~MATERIAL_POLY_TRANSLUCENT_DEPTH_BIT;
     }
 }
 
@@ -186,7 +186,7 @@ u32 NNS_G3dMdlGetMdlCullMode(NNSG3dResMdl *mdl, u32 matId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    return (data->mPolyAttr & G3D_POLY_ATTR_CULL_MODE_MASK) >> 6;
+    return (data->mPolyAttr & MATERIAL_POLY_CULL_MASK) >> 6;
 }
 
 // Returns the polygon ID of one material.
@@ -198,7 +198,7 @@ u32 NNS_G3dMdlGetMdlPolygonID(NNSG3dResMdl *mdl, u32 matId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    return (data->mPolyAttr & G3D_POLY_ATTR_POLYGON_ID_MASK) >> 24;
+    return (data->mPolyAttr & MATERIAL_POLY_ID_MASK) >> 24;
 }
 
 // Returns the alpha of one material.
@@ -210,7 +210,7 @@ u32 NNS_G3dMdlGetMdlAlpha(NNSG3dResMdl *mdl, u32 matId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    return (data->mPolyAttr & G3D_POLY_ATTR_ALPHA_MASK) >> 16;
+    return (data->mPolyAttr & MATERIAL_POLY_ALPHA_MASK) >> 16;
 }
 
 // Returns whether fog is on for one material.
@@ -222,7 +222,7 @@ u32 NNS_G3dMdlGetMdlFogEnableFlag(NNSG3dResMdl *mdl, u32 matId) {
     mat = OFFSET_PTR(NNSG3dResMat, mdl, mdl->mOfsMat);
     entries = OFFSET_PTR(NNSG3dResDictEntryHeader, &mat->mDict, mat->mDict.mOfsEntry);
     data = OFFSET_PTR(NNSG3dResMatData, mat, *(u32 *) (entries->mData + entries->mSizeUnit * matId));
-    return data->mPolyAttr & G3D_POLY_ATTR_FOG;
+    return data->mPolyAttr & MATERIAL_POLY_FOG_BIT;
 }
 
 // Sets the diffuse color of every material.
@@ -342,7 +342,7 @@ void NNS_G3dGetCurrentMtx(MtxFx43 *pos, void *vec) {
         }
     }
     reg_G3_MTX_POP = 1;
-    reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
 }
 
 // Initializes the geometry engine and the global state.
@@ -393,7 +393,7 @@ s32 NNS_G3dResDefaultSetup(NNSG3dResFileHeader *file) {
                 }
                 if (plttKey != 0) {
                     plttKey = NNS_GfdDefaultFuncAllocPlttVram(plttKey,
-                                                              tex->mTex4x4Info.mFlag & G3D_TEX_4X4_FLAG_PLTT_4COLOR, 0);
+                                                              tex->mTex4x4Info.mFlag & TEX4X4_PALETTE_FOUR_COLOR, 0);
                     if (plttKey == 0) {
                         plttOk = 0;
                     }

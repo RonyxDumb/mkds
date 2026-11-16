@@ -336,7 +336,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     reg_G3_DIF_AMB = 0x42100000;
     reg_G3_MTX_MODE = 0;
     G3_LoadMtx44(&gKartNameTagProjection);
-    reg_G3_MTX_MODE = G3D_MTX_MODE_TEXTURE;
+    reg_G3_MTX_MODE = TARGET_MATRIX_TEXTURE;
     reg_G3_MTX_IDENTITY = 0;
     for (sortIndex = gRaceSetup->mKartCount - 1; sortIndex >= 0; sortIndex--) {
         kartObject = gKartNameTags->mNameTagByKart[gKartNameTags->mKartIndicesByDistanceAlongView[sortIndex]];
@@ -425,7 +425,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     quadMatrix.mRows[2].y = 0;
     quadMatrix.mRows[2].x = 0;
     reg_G3_POLYGON_ATTR = (GetKartNameTagPolygonIdBits(kartObject) | 0xc0) | (alpha << 16);
-    reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     G3_LoadMtx43(&quadMatrix);
     reg_G3_BEGIN_VTXS = 1;
     reg_G3_COLOR = COLOR15_WHITE;

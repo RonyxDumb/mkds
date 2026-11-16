@@ -381,17 +381,17 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     u32 resultFlags = jntAnmResult->mFlag;
 
     translationPending = FALSE;
-    if ((resultFlags & G3D_JNT_ANM_TRANS_IS_IDENTITY) == 0) {
+    if ((resultFlags & JOINT_RESULT_NO_MOVE) == 0) {
         translationPending = TRUE;
     }
-    if ((resultFlags & G3D_JNT_ANM_PARENT_INV_SCALE) && !(resultFlags & G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY)) {
+    if ((resultFlags & JOINT_RESULT_EX0_PARENT_INVERSE) && !(resultFlags & JOINT_RESULT_NO_SCALE_EX0)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mTrans, 3);
             translationPending = FALSE;
         }
         NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mScaleEx0, 3);
     }
-    if (!(jntAnmResult->mFlag & G3D_JNT_ANM_ROT_IS_IDENTITY)) {
+    if (!(jntAnmResult->mFlag & JOINT_RESULT_NO_ROT)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x19, &jntAnmResult->mRot, 0xc);
         } else {
@@ -400,7 +400,7 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     } else if (translationPending) {
         NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mTrans, 3);
     }
-    if (!(jntAnmResult->mFlag & G3D_JNT_ANM_SCALE_IS_IDENTITY)) {
+    if (!(jntAnmResult->mFlag & JOINT_RESULT_NO_SCALE)) {
         NNS_G3dGeBufferOP_N(0x1b, &jntAnmResult->mScale, 3);
     }
 }
@@ -411,7 +411,7 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
     u32 nodeIndex;
 
     if (srtFlags & 4) {
-        jntAnmResult->mFlag |= G3D_JNT_ANM_SCALE_IS_IDENTITY;
+        jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE;
         if (optionFlags & 2) {
             nodeIndex = command->mNodeDescIndex;
             NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] |= 1 << (nodeIndex & 0x1f);
@@ -430,14 +430,14 @@ void NNSi_G3dGetJointScaleMaya(NNSG3dJntAnmResult *jntAnmResult, JointScaleValue
     }
     if (optionFlags & 1) {
         nodeIndex = command->mParentId;
-        jntAnmResult->mFlag |= G3D_JNT_ANM_PARENT_INV_SCALE;
+        jntAnmResult->mFlag |= JOINT_RESULT_EX0_PARENT_INVERSE;
         if (NNS_G3dRS->mIsScaleCacheOne[nodeIndex >> 5] & (1 << (nodeIndex & 0x1f))) {
-            jntAnmResult->mFlag |= G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY;
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE_EX0;
         } else {
             jntAnmResult->mScaleEx0 = NNS_G3dRSOnGlb.mScaleCache[nodeIndex].mInvScale;
         }
     }
-    jntAnmResult->mFlag |= G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY;
+    jntAnmResult->mFlag |= JOINT_RESULT_NO_SCALE_EX1;
 }
 
 void texmtxCalc_flag_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {

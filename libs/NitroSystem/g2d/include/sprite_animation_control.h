@@ -15,15 +15,15 @@ typedef struct NNSG2dSRTControl {
 } NNSG2dSRTControl;
 
 // Values of NNSG2dCallBackFunctor.mType: when mFunc is called.
-#define G2D_CALLBACK_NONE 0
-#define G2D_CALLBACK_AT_SEQUENCE_END 1
-#define G2D_CALLBACK_AT_FRAME 2
-#define G2D_CALLBACK_EVERY_FRAME 3
+#define CELL_ANIM_CALLBACK_OFF 0
+#define CELL_ANIM_CALLBACK_ON_END 1
+#define CELL_ANIM_CALLBACK_ON_FRAME_INDEX 2
+#define CELL_ANIM_CALLBACK_EACH_FRAME 3
 
 // Bits of NNSG2dSRTControl.mSRTEnableFlag: which of the values were set.
-#define G2D_SRT_ENABLE_SCALE 2
-#define G2D_SRT_ENABLE_ROT_Z 4
-#define G2D_SRT_ENABLE_TRANS 8
+#define CELL_XFORM_SET_SCALE 2
+#define CELL_XFORM_SET_ROT_Z 4
+#define CELL_XFORM_SET_MOVE 8
 
 typedef void (*NNSG2dAnmCallBackPtr)(u32 data, s32 currentFrame);
 

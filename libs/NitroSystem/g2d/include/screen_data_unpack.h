@@ -3,7 +3,7 @@
 #include "types.h"
 
 // Value of NNSG2dBinaryFileHeader.mSignature of a font file.
-#define G2D_FONT_SIGNATURE 0x4e465452
+#define FONT_FILE_MAGIC 0x4e465452
 
 // The header of a G2D binary file: signature, byte order, version, size, header size and block count.
 typedef struct NNSG2dBinaryFileHeader {

@@ -134,7 +134,7 @@ void G3dDrawInternal_(NNSG3dRS *renderState, NNSG3dRenderObj *renderObj) {
     renderState->mFuncTexMtx = NNS_G3dSendTexSRT_FuncArray[renderObj->mResMdl->mInfo.mTexMtxMode];
     renderState->mPosScale = renderObj->mResMdl->mInfo.mPosScale;
     renderState->mInvPosScale = renderObj->mResMdl->mInfo.mInvPosScale;
-    if (renderObj->mCbFunc != 0 && renderObj->mCbCmd < G3D_CALLBACK_VECTOR_COUNT) {
+    if (renderObj->mCbFunc != 0 && renderObj->mCbCmd < RENDER_CALLBACK_SLOT_COUNT) {
         renderState->mCbVecFunc[renderObj->mCbCmd] = renderObj->mCbFunc;
         renderState->mCbVecTiming[renderObj->mCbCmd] = renderObj->mCbTiming;
     }
@@ -322,7 +322,7 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     dictBase = resMat + 4;
     entrySize = *(u16 *) (dictBase + *(u16 *) (resMat + 0xa));
     if (*(u16 *) (resMat + *(u32 *) (dictBase + *(u16 *) (resMat + 0xa) + entrySize * materialIndex + 4) + 0x1e) &
-        G3D_MAT_FLAG_CLEAR_ALPHA) {
+        MATERIAL_DROP_ALPHA) {
         result->mFlag |= MAT_RESULT_CLEAR_ALPHA;
     }
     matFlags = matData->mFlag;
@@ -335,23 +335,23 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
     result->mPrmTexImage = matData->mTexImageParam;
     result->mPrmTexPltt = matData->mTexPlttBase;
     matFlags = matData->mFlag;
-    if (matFlags & G3D_MAT_FLAG_HAS_TEX_MTX) {
+    if (matFlags & MATERIAL_HAS_TEX_MATRIX) {
         texMtxData = (u32 *) matData->mTexMtxData;
-        if (!(matFlags & G3D_MAT_FLAG_NO_TEX_SCALE)) {
+        if (!(matFlags & MATERIAL_TEX_SCALE_OMITTED)) {
             result->mScaleST[0] = texMtxData[0];
             result->mScaleST[1] = texMtxData[1];
             texMtxData += 2;
         } else {
             result->mFlag |= MAT_RESULT_TEX_UNIT_SCALE;
         }
-        if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_ROT)) {
+        if (!(matData->mFlag & MATERIAL_TEX_ROT_OMITTED)) {
             result->mSinCosR[0] = ((s16 *) texMtxData)[0];
             result->mSinCosR[1] = ((s16 *) texMtxData)[1];
             texMtxData = (u32 *) ((s16 *) texMtxData + 2);
         } else {
             result->mFlag |= MAT_RESULT_TEX_NO_ROTATION;
         }
-        if (!(matData->mFlag & G3D_MAT_FLAG_NO_TEX_TRANS)) {
+        if (!(matData->mFlag & MATERIAL_TEX_MOVE_OMITTED)) {
             result->mTransST[0] = texMtxData[0];
             result->mTransST[1] = texMtxData[1];
         } else {
@@ -372,9 +372,9 @@ void NNSi_G3dFuncSbc_MAT_InternalDefault(NNSG3dRS *renderState, u32 option, cons
 done:
     renderState->mMatAnmResult = result;
     matAnm = renderState->mMatAnmResult;
-    if (matAnm->mPrmPolygonAttr & G3D_POLY_ATTR_ALPHA_MASK) {
+    if (matAnm->mPrmPolygonAttr & MATERIAL_POLY_ALPHA_MASK) {
         if (matAnm->mFlag & MAT_RESULT_CLEAR_ALPHA) {
-            matAnm->mPrmPolygonAttr &= ~G3D_POLY_ATTR_ALPHA_MASK;
+            matAnm->mPrmPolygonAttr &= ~MATERIAL_POLY_ALPHA_MASK;
         }
         renderState->mFlag &= ~RENDER_STATE_NO_ALPHA;
         if (!(renderState->mFlag & RENDER_STATE_NO_GE_COMMANDS)) {
@@ -536,32 +536,32 @@ void NNSi_G3dFuncSbc_NODEDESC(NNSG3dRS *renderState, u32 option) {
         nodeData = resNodeInfo + *(u32 *) (resNodeInfo + *(u16 *) (resNodeInfo + 6) + entrySize * nodeDescIndex + 4);
         nodeHeader = (u16 *) nodeData;
         dataPointer = OFFSET_PTR(u16, nodeData, 4);
-        if (!(*nodeHeader & G3D_NODE_TRANS_IDENTITY)) {
+        if (!(*nodeHeader & NODE_DATA_MOVE_OMITTED)) {
             jntAnmResult->mTrans.x = ((s32 *) dataPointer)[0];
             jntAnmResult->mTrans.y = ((s32 *) dataPointer)[1];
             jntAnmResult->mTrans.z = ((s32 *) dataPointer)[2];
             dataPointer += 6;
         } else {
-            jntAnmResult->mFlag |= G3D_JNT_ANM_TRANS_IS_IDENTITY;
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_MOVE;
         }
         flags = *nodeHeader;
-        if (flags & G3D_NODE_ROT_IDENTITY) {
-            jntAnmResult->mFlag |= G3D_JNT_ANM_ROT_IS_IDENTITY;
-        } else if (flags & G3D_NODE_ROT_PIVOT) {
-            pivotIndex = (flags & G3D_NODE_ROT_PIVOT_MASK) >> 4;
+        if (flags & NODE_DATA_ROT_OMITTED) {
+            jntAnmResult->mFlag |= JOINT_RESULT_NO_ROT;
+        } else if (flags & NODE_DATA_ROT_TWO_VALUES) {
+            pivotIndex = (flags & NODE_DATA_ROT_FIXED_INDEX_MASK) >> 4;
             secondValue = ((s16 *) dataPointer)[1];
             firstValue = ((s16 *) dataPointer)[0];
             MI_Zero36B(&jntAnmResult->mRot);
             dataPointer += 2;
-            pivotValue = (*nodeHeader & G3D_NODE_ROT_PIVOT_NEGATIVE) ? -0x1000 : 0x1000;
+            pivotValue = (*nodeHeader & NODE_DATA_ROT_FIXED_NEGATIVE) ? -0x1000 : 0x1000;
             jntAnmResult->mRot.mElements[pivotIndex] = pivotValue;
             jntAnmResult->mRot.mElements[pivotUtil_[pivotIndex][0]] = firstValue;
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][1])[pivotIndex][0]] = secondValue;
-            if (*nodeHeader & G3D_NODE_ROT_NEGATE_SECOND) {
+            if (*nodeHeader & NODE_DATA_ROT_FLIP_SECOND) {
                 secondValue = -secondValue;
             }
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][2])[pivotIndex][0]] = secondValue;
-            if (*nodeHeader & G3D_NODE_ROT_NEGATE_FIRST) {
+            if (*nodeHeader & NODE_DATA_ROT_FLIP_FIRST) {
                 firstValue = -firstValue;
             }
             jntAnmResult->mRot.mElements[((const u8 (*)[4]) &pivotUtil_[0][3])[pivotIndex][0]] = firstValue;

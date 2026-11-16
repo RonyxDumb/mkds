@@ -105,17 +105,17 @@ void SetTexParamaters_(const NNSG3dResTex *pTex, const u32 *pTexName, NNSG3dMatA
 
     texEntry = NNS_G3dGetResDataByName(&pTex->mDict, pTexName);
     imageParam = pResult->mPrmTexImage;
-    if ((texEntry->mTexImageParam & G3D_TEX_IMAGE_FORMAT_MASK) != G3D_TEX_IMAGE_FORMAT_4X4) {
-        keyOffset = pTex->mTexInfo.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
+    if ((texEntry->mTexImageParam & TEX_PARAM_FORMAT_MASK) != TEX_PARAM_FORMAT_COMPRESSED) {
+        keyOffset = pTex->mTexInfo.mVramKey & VRAM_HANDLE_OFFSET_MASK;
     } else {
-        keyOffset = pTex->mTex4x4Info.mVramKey & G3D_VRAM_KEY_OFFSET_MASK;
+        keyOffset = pTex->mTex4x4Info.mVramKey & VRAM_HANDLE_OFFSET_MASK;
     }
-    pResult->mPrmTexImage = imageParam & G3D_TEX_IMAGE_KEEP_MASK;
+    pResult->mPrmTexImage = imageParam & TEX_PARAM_KEEP_MASK;
     pResult->mPrmTexImage = pResult->mPrmTexImage | (texEntry->mTexImageParam + keyOffset);
-    pResult->mOrigWidth = texEntry->mExtraParam & G3D_TEX_EXTRA_WIDTH_MASK;
-    pResult->mOrigHeight = (texEntry->mExtraParam & G3D_TEX_EXTRA_HEIGHT_MASK) >> 11;
-    width = texEntry->mExtraParam & G3D_TEX_EXTRA_WIDTH_MASK;
-    height = G3D_TEX_EXTRA_WIDTH_MASK & (texEntry->mExtraParam >> 11);
+    pResult->mOrigWidth = texEntry->mExtraParam & TEX_SIZE_FIELD_MASK;
+    pResult->mOrigHeight = (texEntry->mExtraParam & TEX_SIZE_HEIGHT_MASK) >> 11;
+    width = texEntry->mExtraParam & TEX_SIZE_FIELD_MASK;
+    height = TEX_SIZE_FIELD_MASK & (texEntry->mExtraParam >> 11);
     if (width == pResult->mOrigWidth) {
         width = 0x1000;
     } else {
@@ -152,7 +152,7 @@ void NNSi_G3dAnmCalcNsBtp(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     patAnim = pAnmObj->mResAnm;
     frameEntry = NNSi_G3dGetTexPatAnmFV(patAnim, (u16) dataIdx, (u32) (pAnmObj->mFrame << 4) >> 16);
     SetTexParamaters_(pAnmObj->mResTex, NNSi_G3dGetTexPatAnmTexNameByIdx(patAnim, frameEntry->mIdTex), pResult);
-    if (frameEntry->mIdPltt == G3D_PATTERN_NO_PALETTE) {
+    if (frameEntry->mIdPltt == TEX_PATTERN_KEEP_PALETTE) {
         return;
     }
     SetPlttParamaters_(pAnmObj->mResTex, NNSi_G3dGetTexPatAnmPlttNameByIdx(patAnim, frameEntry->mIdPltt), pResult);
@@ -357,8 +357,8 @@ void NNSi_G3dAnmObjInitNsBta(NNSG3dAnmObj *pAnmObj, void *pResAnm, const NNSG3dR
 
 void NNSi_G3dAnmCalcNsBta(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmObj, u32 dataIdx) {
     GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, FROM_FIXED12(pAnmObj->mFrame), pResult);
-    pResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
-    pResult->mPrmTexImage |= G3D_TEX_GEN_TEXCOORD;
+    pResult->mPrmTexImage &= ~TEXCOORD_SOURCE_MASK;
+    pResult->mPrmTexImage |= TEXCOORD_SOURCE_MODEL;
     pResult->mFlag |= MAT_RESULT_TEX_MATRIX_SET;
 }
 
@@ -502,7 +502,7 @@ void NNSi_G3dAnmCalcNsBma(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     colorValue = GetMatColAnmValue_(colorAnim, colorData->mEmission, frame);
     pResult->mPrmMatColor1 = (pResult->mPrmMatColor1 & 0x8000) |
                              GetMatColAnmValue_(colorAnim, colorData->mSpecular, frame) | (colorValue << 16);
-    pResult->mPrmPolygonAttr = (pResult->mPrmPolygonAttr & ~G3D_POLY_ATTR_ALPHA_MASK) |
+    pResult->mPrmPolygonAttr = (pResult->mPrmPolygonAttr & ~MATERIAL_POLY_ALPHA_MASK) |
                                (GetMatColAnmuAlphaValue_(colorAnim, colorData->mPolygonAlpha, frame) << 16);
 }
 
@@ -551,8 +551,8 @@ void getMdlTrans_(NNSG3dJntAnmResult *out) {
     nodeInfo = rs->mResNodeInfo;
     table = (u8 *) nodeInfo + nodeInfo->mOfsEntry;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
-    if (node->mFlag & G3D_NODE_TRANS_IDENTITY) {
-        out->mFlag |= G3D_JNT_ANM_TRANS_IS_IDENTITY;
+    if (node->mFlag & NODE_DATA_MOVE_OMITTED) {
+        out->mFlag |= JOINT_RESULT_NO_MOVE;
         return;
     }
     src = (const u32 *) node->mTransRotData;
@@ -605,23 +605,23 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
     table = (u8 *) nodeInfo + nodeInfo->mOfsEntry;
     node = OFFSET_PTR(NNSG3dResNodeData, nodeInfo, *(u32 *) (table + *(u16 *) table * rs->mC[1] + 4));
     vals = node->mTransRotData;
-    if (!(node->mFlag & G3D_NODE_TRANS_IDENTITY)) {
+    if (!(node->mFlag & NODE_DATA_MOVE_OMITTED)) {
         vals += 6;
     }
-    if (!(node->mFlag & G3D_NODE_ROT_IDENTITY)) {
-        if (node->mFlag & G3D_NODE_ROT_PIVOT) {
-            pivot = (node->mFlag & G3D_NODE_ROT_PIVOT_MASK) >> 4;
+    if (!(node->mFlag & NODE_DATA_ROT_OMITTED)) {
+        if (node->mFlag & NODE_DATA_ROT_TWO_VALUES) {
+            pivot = (node->mFlag & NODE_DATA_ROT_FIXED_INDEX_MASK) >> 4;
             first = vals[0];
             second = vals[1];
             MI_Zero36B(&out->mRot);
-            out->mRot.mElements[pivot] = (node->mFlag & G3D_NODE_ROT_PIVOT_NEGATIVE) ? -0x1000 : 0x1000;
+            out->mRot.mElements[pivot] = (node->mFlag & NODE_DATA_ROT_FIXED_NEGATIVE) ? -0x1000 : 0x1000;
             out->mRot.mElements[gRotPivotIndices[pivot][0]] = first;
             out->mRot.mElements[gRotPivotIndices[pivot][1]] = second;
-            if (node->mFlag & G3D_NODE_ROT_NEGATE_SECOND) {
+            if (node->mFlag & NODE_DATA_ROT_FLIP_SECOND) {
                 second = -second;
             }
             out->mRot.mElements[gRotPivotIndices[pivot][2]] = second;
-            if (node->mFlag & G3D_NODE_ROT_NEGATE_FIRST) {
+            if (node->mFlag & NODE_DATA_ROT_FLIP_FIRST) {
                 first = -first;
             }
             out->mRot.mElements[gRotPivotIndices[pivot][3]] = first;
@@ -637,7 +637,7 @@ void getMdlRot_(NNSG3dJntAnmResult *out) {
             out->mRot.mElements[8] = vals[7];
         }
     } else {
-        out->mFlag |= G3D_JNT_ANM_ROT_IS_IDENTITY;
+        out->mFlag |= JOINT_RESULT_NO_ROT;
     }
 }
 
@@ -658,10 +658,10 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
     tag = OFFSET_PTR(const u32, jntAnm, jntAnm->mTagOffsets[node]);
     flags = tag[0];
     if (flags & 1) {
-        out->mFlag = G3D_JNT_ANM_SRT_IS_IDENTITY;
+        out->mFlag = JOINT_RESULT_NO_SRT;
     } else {
         cursor = tag + 1;
-        if ((frame & FIXED12_FRACTION_MASK) && (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_BLEND)) {
+        if ((frame & FIXED12_FRACTION_MASK) && (jntAnm->mFlag & JOINT_ANIM_BLEND_FRAMES)) {
             interp = 1;
         } else {
             interp = 0;
@@ -699,7 +699,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 out->mTrans.z = *cursor++;
             }
         } else if (flags & 2) {
-            out->mFlag |= G3D_JNT_ANM_TRANS_IS_IDENTITY;
+            out->mFlag |= JOINT_RESULT_NO_MOVE;
         } else {
             getMdlTrans_(out);
         }
@@ -727,7 +727,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 cursor += 1;
             }
         } else if (flags & 0x40) {
-            out->mFlag |= G3D_JNT_ANM_ROT_IS_IDENTITY;
+            out->mFlag |= JOINT_RESULT_NO_ROT;
         } else {
             getMdlRot_(out);
         }
@@ -769,13 +769,13 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
                 scaleOut[1][2] = cursor[5];
             }
         } else if (flags & 0x200) {
-            out->mFlag |= G3D_JNT_ANM_SCALE_IS_IDENTITY;
+            out->mFlag |= JOINT_RESULT_NO_SCALE;
         } else {
             getMdlScale_(out);
             return;
         }
     }
-    NNS_G3dRS->mFuncJntScale(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & G3D_JNT_ANM_SCALE_IS_IDENTITY) ? 4 : 0);
+    NNS_G3dRS->mFuncJntScale(out, scaleOut, NNS_G3dRS->mC, (out->mFlag & JOINT_RESULT_NO_SCALE) ? 4 : 0);
 }
 
 void getTransData_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm *jntAnm) {
@@ -876,7 +876,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
                 frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
-        if (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_LOOPS) {
+        if (jntAnm->mFlag & JOINT_ANIM_WRAP_AROUND) {
             stepBits = frame & FIXED12_FRACTION_MASK;
             if (info & 0x20000000) {
                 sample0 = ((const s16 *) values)[frameIndex];
@@ -1047,7 +1047,7 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
                 frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
-        if (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_LOOPS) {
+        if (jntAnm->mFlag & JOINT_ANIM_WRAP_AROUND) {
             nextIndex = 0;
             goto last;
         }
@@ -1273,7 +1273,7 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
                 frameIndex = (frameIndex & 3) + (frameIndex >> 2);
             }
         }
-        if (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_LOOPS) {
+        if (jntAnm->mFlag & JOINT_ANIM_WRAP_AROUND) {
             nextIndex = 0;
             goto interp1;
         }

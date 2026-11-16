@@ -167,11 +167,11 @@ void ApplyLldEntryFrameCommand(LldEntry *entry, s32 frameOrCommand) {
     NNSG2dCellAnimation *cellAnim = &entry->mCellAnim;
 
     if (frameOrCommand == -1) {
-        cellAnim->mOverriddenPlayMode = G2D_PLAY_MODE_FORWARD_LOOP;
+        cellAnim->mOverriddenPlayMode = CELL_ANIM_PLAY_REPEAT;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -2) {
         NNS_G2dResetAnimCtrlState(cellAnim);
-        cellAnim->mOverriddenPlayMode = G2D_PLAY_MODE_FORWARD;
+        cellAnim->mOverriddenPlayMode = CELL_ANIM_PLAY_ONCE;
         entry->mCellAnim.mActive = TRUE;
     } else if (frameOrCommand == -3) {
         entry->mCellAnim.mActive = FALSE;

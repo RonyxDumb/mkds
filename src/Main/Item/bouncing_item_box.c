@@ -315,9 +315,9 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
     G3_LoadMtx44(&gOrthoQuadMatrix);
-    reg_G3_MTX_MODE = G3D_MTX_MODE_TEXTURE;
+    reg_G3_MTX_MODE = TARGET_MATRIX_TEXTURE;
     reg_G3_MTX_IDENTITY = 0;
-    reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
+    reg_G3_MTX_MODE = TARGET_MATRIX_POS_VEC;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_SCALE = 0x64000;
     reg_G3_MTX_SCALE = 0x64000;

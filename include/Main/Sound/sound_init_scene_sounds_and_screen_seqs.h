@@ -202,7 +202,7 @@ typedef struct VolumeFade {
 
 // Values of gSndHeapSizeKind and of the heapSizeKind arguments (CreateSndHeaps, InitSound, GetSndHeapsBufferSize,
 // GetSndInitBufferSize).
-typedef enum { SND_HEAP_SIZE_LARGE = 0, SND_HEAP_SIZE_MEDIUM = 1, SND_HEAP_SIZE_SMALL = 2 } SndHeapSizeKind;
+typedef enum { SOUND_HEAP_SIZE_LARGE = 0, SOUND_HEAP_SIZE_MEDIUM = 1, SOUND_HEAP_SIZE_SMALL = 2 } SndHeapSizeKind;
 
 BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
 BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);

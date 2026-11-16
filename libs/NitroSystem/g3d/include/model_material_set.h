@@ -33,7 +33,7 @@ typedef struct NNSG3dResDictTreeNode {
 
 // Dictionaries below this many entries are searched one name after the other, dictionaries of this many entries or more
 // through the tree.
-#define G3D_DICT_LINEAR_SEARCH_LIMIT 0x10
+#define NAME_TABLE_SCAN_BELOW_COUNT 0x10
 
 typedef struct NNSG3dResDict {
     /* 00 */ u8 mRevision;
@@ -67,30 +67,30 @@ typedef struct NNSG3dResMat {
 // Bits of NNSG3dResMatData.mFlag. The three NO_TEX bits say that the scale, rotation or translation part is left out of
 // the words at mTexMtxData; HAS_EXTRA_MTX says that 16 more words follow those parts (only the environment map and
 // projection map commands read them).
-#define G3D_MAT_FLAG_HAS_TEX_MTX 0x1
-#define G3D_MAT_FLAG_NO_TEX_SCALE 0x2
-#define G3D_MAT_FLAG_NO_TEX_ROT 0x4
-#define G3D_MAT_FLAG_NO_TEX_TRANS 0x8
-#define G3D_MAT_FLAG_CLEAR_ALPHA 0x20
-#define G3D_MAT_FLAG_HAS_EXTRA_MTX 0x2000
+#define MATERIAL_HAS_TEX_MATRIX 0x1
+#define MATERIAL_TEX_SCALE_OMITTED 0x2
+#define MATERIAL_TEX_ROT_OMITTED 0x4
+#define MATERIAL_TEX_MOVE_OMITTED 0x8
+#define MATERIAL_DROP_ALPHA 0x20
+#define MATERIAL_HAS_EXTRA_MATRIX 0x2000
 
 // Polygon attribute fields of NNSG3dResMatData.mPolyAttr, fields of the texture image word (mTexImageParam,
 // mPrmTexImage), of mExtraParam and of the VRAM keys (mVramKey).
-#define G3D_POLY_ATTR_ALPHA_MASK 0x1f0000
-#define G3D_POLY_ATTR_FOG 0x8000
-#define G3D_POLY_ATTR_XL_DEPTH_UPDATE 0x800
-#define G3D_POLY_ATTR_CULL_MODE_MASK 0xc0
-#define G3D_POLY_ATTR_POLYGON_ID_MASK 0x3f000000
-#define G3D_TEX_IMAGE_FORMAT_MASK 0x1c000000
-#define G3D_TEX_IMAGE_FORMAT_4X4 0x14000000
-#define G3D_TEX_IMAGE_KEEP_MASK 0xc00f0000
-#define G3D_TEX_GEN_MASK 0xc0000000
-#define G3D_TEX_GEN_TEXCOORD 0x40000000
-#define G3D_TEX_GEN_ENV_MAP 0x80000000
-#define G3D_TEX_GEN_PROJ_MAP 0xc0000000
-#define G3D_TEX_EXTRA_WIDTH_MASK 0x7ff
-#define G3D_TEX_EXTRA_HEIGHT_MASK 0x3ff800
-#define G3D_VRAM_KEY_OFFSET_MASK 0xffff
+#define MATERIAL_POLY_ALPHA_MASK 0x1f0000
+#define MATERIAL_POLY_FOG_BIT 0x8000
+#define MATERIAL_POLY_TRANSLUCENT_DEPTH_BIT 0x800
+#define MATERIAL_POLY_CULL_MASK 0xc0
+#define MATERIAL_POLY_ID_MASK 0x3f000000
+#define TEX_PARAM_FORMAT_MASK 0x1c000000
+#define TEX_PARAM_FORMAT_COMPRESSED 0x14000000
+#define TEX_PARAM_KEEP_MASK 0xc00f0000
+#define TEXCOORD_SOURCE_MASK 0xc0000000
+#define TEXCOORD_SOURCE_MODEL 0x40000000
+#define TEXCOORD_SOURCE_ENVIRONMENT 0x80000000
+#define TEXCOORD_SOURCE_PROJECTION 0xc0000000
+#define TEX_SIZE_FIELD_MASK 0x7ff
+#define TEX_SIZE_HEIGHT_MASK 0x3ff800
+#define VRAM_HANDLE_OFFSET_MASK 0xffff
 
 typedef struct NNSG3dResMatData {
     /* 00 */ u16 mItemTag;

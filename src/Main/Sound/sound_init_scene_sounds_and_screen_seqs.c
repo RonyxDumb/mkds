@@ -234,7 +234,7 @@ BOOL LoadSndBanksAndWaveArcs(s32 bankMask) {
 
     savedHeap = gCurrentSndHeap;
     gCurrentSndHeap = gSndHeap;
-    if (gSndHeapSizeKind != SND_HEAP_SIZE_SMALL) {
+    if (gSndHeapSizeKind != SOUND_HEAP_SIZE_SMALL) {
         NNS_SndArcLoadBank(1, gSndHeap);
     }
     for (bankIndex = 0; bankIndex < 0xd; bankIndex++) {
@@ -303,13 +303,13 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
 
     gSndHeapSizeKind = heapSizeKind;
     switch (heapSizeKind) {
-        case SND_HEAP_SIZE_LARGE:
+        case SOUND_HEAP_SIZE_LARGE:
             soundHeapSize = 0x36f3c;
             break;
-        case SND_HEAP_SIZE_MEDIUM:
+        case SOUND_HEAP_SIZE_MEDIUM:
             soundHeapSize = 0x26a08;
             break;
-        case SND_HEAP_SIZE_SMALL:
+        case SOUND_HEAP_SIZE_SMALL:
             soundHeapSize = 0x25a5c;
             break;
     }
@@ -320,41 +320,41 @@ void CreateSndHeaps(u32 heapSizeKind, u32 buffer) {
     gCurrentSndHeap = NULL;
     buffer = buffer + soundHeapSize;
     switch (heapSizeKind) {
-        case SND_HEAP_SIZE_LARGE:
+        case SOUND_HEAP_SIZE_LARGE:
             seqRowHeapSize = 0x6580;
             break;
-        case SND_HEAP_SIZE_MEDIUM:
+        case SOUND_HEAP_SIZE_MEDIUM:
             seqRowHeapSize = 0x35a0;
             break;
-        case SND_HEAP_SIZE_SMALL:
+        case SOUND_HEAP_SIZE_SMALL:
             seqRowHeapSize = 0x35a0;
             break;
     }
     CreateSeqRowHeap((void *) buffer, seqRowHeapSize);
     gSeqRowSndHeap = (NNSSndHeap *) buffer;
     value = buffer + seqRowHeapSize;
-    currentHeapSize = (heapSizeKind == SND_HEAP_SIZE_LARGE ? 0xc8000 : 0xaf000) -
-                      (heapSizeKind == SND_HEAP_SIZE_SMALL ? 0xaf000 : 0xc400);
+    currentHeapSize = (heapSizeKind == SOUND_HEAP_SIZE_LARGE ? 0xc8000 : 0xaf000) -
+                      (heapSizeKind == SOUND_HEAP_SIZE_SMALL ? 0xaf000 : 0xc400);
     switch (heapSizeKind) {
-        case SND_HEAP_SIZE_LARGE:
+        case SOUND_HEAP_SIZE_LARGE:
             soundHeapSizeCopy = 0x36f3c;
             break;
-        case SND_HEAP_SIZE_MEDIUM:
+        case SOUND_HEAP_SIZE_MEDIUM:
             soundHeapSizeCopy = 0x26a08;
             break;
-        case SND_HEAP_SIZE_SMALL:
+        case SOUND_HEAP_SIZE_SMALL:
             soundHeapSizeCopy = 0x25a5c;
             break;
     }
     seqRowHeapSizeCopy = 0;
     switch (heapSizeKind) {
-        case SND_HEAP_SIZE_LARGE:
+        case SOUND_HEAP_SIZE_LARGE:
             seqRowHeapSizeCopy = 0x6580;
             break;
-        case SND_HEAP_SIZE_MEDIUM:
+        case SOUND_HEAP_SIZE_MEDIUM:
             seqRowHeapSizeCopy = 0x35a0;
             break;
-        case SND_HEAP_SIZE_SMALL:
+        case SOUND_HEAP_SIZE_SMALL:
             seqRowHeapSizeCopy = 0x35a0;
             break;
     }
@@ -375,32 +375,32 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
 
     gSeqZeroLoopOn = 0;
     if (useFileArchive == 0) {
-        heapSizeKind = SND_HEAP_SIZE_SMALL;
+        heapSizeKind = SOUND_HEAP_SIZE_SMALL;
         switch (heapSizeKind) {
-            case SND_HEAP_SIZE_LARGE:
+            case SOUND_HEAP_SIZE_LARGE:
                 soundHeapSize = 0x36f3c;
                 break;
-            case SND_HEAP_SIZE_MEDIUM:
+            case SOUND_HEAP_SIZE_MEDIUM:
                 soundHeapSize = 0x26a08;
                 break;
-            case SND_HEAP_SIZE_SMALL:
+            case SOUND_HEAP_SIZE_SMALL:
                 soundHeapSize = 0x25a5c;
                 break;
         }
         seqRowHeapSize = 0;
         switch (heapSizeKind) {
-            case SND_HEAP_SIZE_LARGE:
+            case SOUND_HEAP_SIZE_LARGE:
                 seqRowHeapSize = 0x6580;
                 break;
-            case SND_HEAP_SIZE_MEDIUM:
+            case SOUND_HEAP_SIZE_MEDIUM:
                 seqRowHeapSize = 0x35a0;
                 break;
-            case SND_HEAP_SIZE_SMALL:
+            case SOUND_HEAP_SIZE_SMALL:
                 seqRowHeapSize = 0x35a0;
                 break;
         }
         bufferSize = bufferSize - soundHeapSize;
-        gSndHeapSizeKind = SND_HEAP_SIZE_SMALL;
+        gSndHeapSizeKind = SOUND_HEAP_SIZE_SMALL;
         bufferSize = bufferSize - seqRowHeapSize;
     }
     InitSoundSystem(buffer, bufferSize, useFileArchive != 0 ? gSoundDataSdatPath : 0);
