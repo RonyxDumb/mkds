@@ -55,36 +55,22 @@ void ShowKeyboardTextIndexObject(void);
 void ShowKeyboardDisabledButtonObjects(void);
 void ShowKeyboardCursorButtonObjects(void);
 void PrintKeyboardTextChars(void);
-// Handler of KEYBOARD_STATE_ASK_EMBLEM.
 void AdvanceKeyboardAskEmblem(void);
-// Handler of KEYBOARD_STATE_WAIT_BACKUP.
 void AdvanceKeyboardWaitBackup(void);
-// Handler of KEYBOARD_STATE_SHOW_SAVING.
 void AdvanceKeyboardShowSaving(void);
-// Handler of KEYBOARD_STATE_ANSWER_CONFIRM.
 void AdvanceKeyboardAnswerConfirm(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_CONFIRM.
 void AdvanceKeyboardSlideInConfirm(void);
-// Handler of KEYBOARD_STATE_SLIDE_OUT_NAME.
 void AdvanceKeyboardSlideOutName(void);
-// Handler of KEYBOARD_STATE_ENTER_NAME.
 void AdvanceKeyboardEnterName(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_NAME.
 void AdvanceKeyboardSlideInName(void);
 void UpdateKeyboardNameButtons(void);
 
-// Handler of KEYBOARD_STATE_WAIT_FADE_NAME.
 void AdvanceKeyboardWaitFadeName(void);
-// Handler of KEYBOARD_STATE_SHOW_FRIEND_KEY_ERROR.
 void AdvanceKeyboardShowFriendKeyError(void);
-// Handler of KEYBOARD_STATE_SLIDE_OUT_FRIEND_KEY.
 void AdvanceKeyboardSlideOutFriendKey(void);
-// Handler of KEYBOARD_STATE_ENTER_FRIEND_KEY.
 void AdvanceKeyboardEnterFriendKey(void);
-// Handler of KEYBOARD_STATE_SLIDE_IN_FRIEND_KEY.
 void AdvanceKeyboardSlideInFriendKey(void);
 void UpdateKeyboardFriendKeyButtons(void);
-// Handler of KEYBOARD_STATE_WAIT_FADE_FRIEND_KEY.
 void AdvanceKeyboardWaitFadeFriendKey(void);
 void InitKeyboardDisplay(void);
 

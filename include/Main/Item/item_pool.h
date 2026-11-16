@@ -91,7 +91,6 @@ typedef struct KartItems {
     /* 02c */ s32 mSlotFinalScrollFrameShift;
     // Record of the held item (HeldItem: item at 0, 0x13 = none, uses left at 8)
     /* 030 */ HeldItem mHeldItem;
-    // The item in use. (replaces the three-line comment above mItemInUse)
     // Record of the item in use (ItemInUse: object kind at 0, 0xf = none; item index at 4; use state at 8; Kart at
     // 0x10; three object pointers at 0x14)
     /* 058 */ ItemInUse mItemInUse;
