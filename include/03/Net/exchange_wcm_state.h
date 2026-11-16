@@ -7,7 +7,8 @@ typedef void (*ExchangeEventCallback)(u32 event, u32 arg);
 
 typedef struct RawEntry RawEntry;
 
-// Values of gExchangeWcmState, the request the exchange WCM layer is waiting on.
+// Values of gExchangeWcmState and gEssidWcmState: where the WCM layer is in starting up, searching, connecting and
+// cleaning up.
 #define EXCHANGE_WCM_STATE_STOPPED 0
 #define EXCHANGE_WCM_STATE_INITIALIZED 1
 #define EXCHANGE_WCM_STATE_CLEANING_UP 2
@@ -18,7 +19,8 @@ typedef struct RawEntry RawEntry;
 #define EXCHANGE_WCM_STATE_CONNECTED 7
 #define EXCHANGE_WCM_STATE_CONNECT_PENDING 8
 
-// Event numbers the WCM notice callback passes to ExchangeEventCallback (and the alarms queue).
+// Event numbers passed to ExchangeEventCallback: the WCM notice callback passes most of them; CONNECT_TIMEOUT and
+// SEARCH_TIMEOUT are queued by alarms.
 #define EXCHANGE_EVENT_UNEXPECTED_NOTICE 1
 #define EXCHANGE_EVENT_CHAINED_REQUEST_FAILED 2
 #define EXCHANGE_EVENT_LINK_TERMINATED 3

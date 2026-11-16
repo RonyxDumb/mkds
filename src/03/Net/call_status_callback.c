@@ -45,7 +45,8 @@ u8 gFirstKey[0x10];
 u32 gEvents[4];
 OSMutex gAllocMutex;
 
-// Asks the thread to stop, waits for it to end, frees its stack and shuts the lower layer down.
+// If the thread was started: asks it to stop, waits for it, frees its stack and reports a changed status; then, if the
+// Wi-Fi layer was set up, releases it and returns that result (-10 otherwise).
 s32 StopExchange(void) {
     s32 oldStatus;
     if (gThreadStarted != 0) {

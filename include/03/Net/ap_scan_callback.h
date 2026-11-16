@@ -7,7 +7,8 @@
 #include "03/Menu/wifi_menu_shared.h"
 #include "wireless_link_control.h"
 
-// The result of an access point scan: the error code, state, channel list and the found devices with their link levels.
+// The result of a wireless scan: the error code, state, channel list, the count of found devices and the found devices
+// with their link levels.
 typedef struct WMStartScanExCallback {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mErrcode;
@@ -24,8 +25,8 @@ typedef struct WMStartScanExCallback {
 void StoreApScanEntries(WMStartScanExCallback *scanResult);
 void ApScanCallback(WirelessMessage *message);
 
-// Bit of WMBssDesc.mCapaInfo that is set for a network with encryption, and the ids of the beacon elements that mark
-// a security element.
+// Bit of WMBssDesc.mCapaInfo that is set when a WEP key is needed, the element id matched whatever its body, and the
+// element id matched only when its body starts with gOtherElementPrefix.
 #define AP_SCAN_CAPA_INFO_ENCRYPTED 0x10
 #define AP_SCAN_ELEMENT_ID_SECURITY 0x30
 #define AP_SCAN_ELEMENT_ID_VENDOR 0xdd

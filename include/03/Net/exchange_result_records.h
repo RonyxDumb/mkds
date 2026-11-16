@@ -28,7 +28,7 @@ enum {
     EXCHANGE_RESULT_KIND_WORDS_B,
 };
 
-// A result of the exchange: its text, kind and four value strings.
+// A result of the exchange: its text, kind, item 205 value, four value byte arrays and the item 20a words.
 typedef struct ExchangeResult {
     /* 00 */ char mText[0x20];
     /* 20 */ s32 mKind;
@@ -37,8 +37,8 @@ typedef struct ExchangeResult {
     /* a8 */ Words16 mItem20aWords;
 } ExchangeResult;
 
-// Values of ExchangeResultRecord.mItem202Value: what the record carries. 2 and 3 (bare) carry words and set the result
-// kind to 4 and 5.
+// Values of ExchangeResultRecord.mItem202Value: what the record carries. WORDS_A and WORDS_B carry words and set the
+// result kind to WORDS_A and WORDS_B.
 enum {
     KIND5_ITEM202_NONE,
     KIND5_ITEM202_VALUE_TEXTS,

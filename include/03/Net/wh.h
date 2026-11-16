@@ -19,16 +19,16 @@ enum {
     WIRELESS_CONNECT_MODE_END_MP_FIRST_ALTERNATE = 5,
 };
 
-// Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the busy ratio (a percentage
-// of 100 at most) that channel search starts from.
+// Buffer sizes and the largest parent and child data sizes StartWhParentConnect sets, and the value
+// StartWhChannelSearch starts mLowestBusyRatio from.
 #define WH_RECEIVE_BUFFER_SIZE 0x180
 #define WH_SEND_BUFFER_SIZE 0xe0
 #define WH_PARENT_MAX_SIZE 0xd0
 #define WH_CHILD_MAX_SIZE 0x44
 #define WH_BUSY_RATIO_NOT_MEASURED 0x65
 
-// Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when a call that
-// starts the next step fails.
+// Values of WhWork.mState. Names 0 to 9 come from the state name table; 10 has no name and is set when initialize,
+// reset start or end fails.
 enum {
     WH_STATE_STOP,
     WH_STATE_IDLE,
@@ -43,7 +43,8 @@ enum {
     WH_STATE_FAILED,
 };
 
-// The Wi-Fi host work: its parent parameters, state, connect mode and callback, connected mask and channel choice.
+// The wireless link work (gWhWork): its parent parameters, state, connect mode and callback, connected mask and channel
+// choice.
 typedef struct WhWork {
     /* 0000 */ ParentParameter mParentParameter;
     /* 0038 */ u8 pad_38[8];

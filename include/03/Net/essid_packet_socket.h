@@ -14,7 +14,7 @@ typedef struct SocketAddress SocketAddress;
 typedef struct PacketTag PacketTag;
 typedef struct SendPacketScratch SendPacketScratch;
 
-// The byte table permuted by key bytes and xored with data: its two indices, the table and its entry count.
+// The state of a byte stream made from a table that key bytes permute: its two indices, the table and its entry count.
 typedef struct KeyStreamState {
     /* 00 */ u32 mIndex;
     /* 04 */ u32 mSwapIndex;
@@ -22,7 +22,7 @@ typedef struct KeyStreamState {
     /* 0c */ u32 mTableCount;
 } KeyStreamState;
 
-// A payload record: its length, two key bytes and the bytes.
+// A payload when the packet flags ask for the key stream: its length, two key bytes and the xored bytes.
 typedef struct PayloadRecord {
     /* 00 */ u16 mLength;
     /* 02 */ u8 mKeyPrefix[2];
@@ -59,7 +59,8 @@ typedef struct ItemContainer {
     /* 04 */ u8 mItems[1];
 } ItemContainer;
 
-// The packet header values read from or written to a packet: payload check byte, length, flags and tag.
+// The payload check byte, payload length, flags and tag that SendItemChainPacket collects for the header of the packet
+// it sends.
 typedef struct PacketFieldValues {
     /* 00 */ s8 mPayloadCrc;
     /* 02 */ s16 mPayloadLength;

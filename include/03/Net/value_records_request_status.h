@@ -9,7 +9,7 @@ typedef struct ValueRecordsRequestItem {
     /* 004 */ u8 mItemBytes[0x100];
 } ValueRecordsRequestItem;
 
-// Stack object of InitValueRecordsRequest.
+// A clear value and an item built on the stack, then copied into the request's mItem.
 typedef struct ValueRecordsRequestView {
     /* 000 */ u16 mClearValue;
     /* 002 */ ValueRecordsRequestItem mItem;

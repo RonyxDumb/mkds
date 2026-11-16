@@ -679,7 +679,8 @@ s32 CheckBytesInRange0x20To0x7f(const u8 *bytes, s32 count) {
     return 0;
 }
 
-// Returns 0 when exactly one entry with bit 0 of mMode holds the gEssidAossString bytes, 4 for several, 5 for none.
+// Returns 0 when exactly one of the first 0x40 entries with bit 0 of mMode has an essid equal to gEssidAossString, 4
+// when several do, 5 when none does or the list is empty.
 s32 CheckSingleEssidAossEntry(EssidEntryList *entryList) {
     s32 count;
     s32 result;
@@ -908,7 +909,8 @@ s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pac
     return -1;
 }
 
-// Checks the tag against the saved bytes; when mFlags & 0xf is set, xors the payload back in place.
+// Unmixes the tag with the key string and checks it against the saved tag bytes (a kind 0x1000 packet saves it); when
+// mFlags & 0xf is set, xors the payload with the key stream, checks its CRC and copies it back over the record.
 s32 CheckPacketAndXorPayload(Packet *packet) {
     PayloadRecord *payload;
     u8 tag[8];
@@ -1171,7 +1173,8 @@ s32 CopyFirstItemValueIfSlotBytes(PacketItem *container, u8 *output) {
     return 0;
 }
 
-// Skips to the top-level item of type gItemTypesToFind[a], then stores its sub-items by type.
+// Skips top-level items until one has type gItemTypesToFind[index], then parses its sub-items by type into parsedItems
+// and slots and adds the found record bits to gRequestState.mFoundRecordMask.
 s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedItems *parsedItems, u8 *slots) {
     u32 foundMask;
     s32 itemSize;
@@ -1247,7 +1250,8 @@ s32 IsKeyStreamFlagSet(u32 flags) {
     return result;
 }
 
-// Reports state 2, 3 or 5 and sends the packet of kind 0x1000, 0x2000 or 0x3000 for mode 0, 1 or 2.
+// Reports state 2, 3 or 5 and sends the packet of kind 0x1000, 0x2000 or 0x3000 for mode 0, 1 or 2; any other mode
+// returns -1.
 s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 descriptor) {
     switch (mode) {
         case ESSID_REQUEST_STEP_ITEM_CHAIN:
@@ -1465,7 +1469,8 @@ s32 XorBytesWithKeyStreamAndCheckCrc(const u8 *src, u8 *dst, s32 length, u32 exp
     return 0;
 }
 
-// Fills the table with 0..n-1, then permutes it using the key bytes.
+// Fills the table with each entry's index as a byte, then permutes it with swaps driven by the key bytes (repeated as
+// needed).
 void InitKeyStream(KeyStreamState *state, const u8 *key, u32 keyLength, u32 count) {
     u8 *table;
     u32 index;
@@ -1556,7 +1561,8 @@ void InitCrcTable(s32 unused, u32 *table) {
     }
 }
 
-// Two passes of xor-ing the second half with key bytes and swapping the halves.
+// Two passes: xor the second half with each position xor a key byte (the key start moves on by the pass number), then
+// swap the halves.
 s32 XorAndSwapBytesWithKey(u8 *buffer, s32 size, const s8 *key, s32 keyLength) {
     s8 *keyHalf;
     u8 *scratch;
@@ -1769,7 +1775,8 @@ int GetStringLength(const void *string) {
     return length;
 }
 
-// Multiply-add generator, seeded from the clock on the first call; returns a value below 0x7fff.
+// Multiply-add generator, seeded on the first call from the clock time (seed 0 if the clock read fails); returns a
+// value below 0x7fff.
 u16 NextRandomValue(void) {
     s32 seed;
     RTCTime time;

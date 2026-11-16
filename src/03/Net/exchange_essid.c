@@ -1010,8 +1010,9 @@ void DisconnectExchangeAndStopSockets(void) {
     }
 }
 
-// Finds an entry of current that is not secured and was secured in previous, else a six-asterisk entry that is clear
-// in current but not in previous; stores its index.
+// Finds an entry of current with mEncrypted 0 that matches a previous entry (same name prefix, same first four address
+// bytes) with a different mEncrypted, else an unencrypted six-asterisk entry in current when previous has none; stores
+// its index.
 s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
     BOOL result;
@@ -1100,8 +1101,10 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
     return result;
 }
 
-// Repeats the entry search up to 30 times until FindEntryWithEncryptionRemoved reports one; stores its index, name and
-// address.
+// Searches up to 30 rounds, comparing each round's entry list with the previous round's, until
+// FindEntryWithEncryptionRemoved reports an entry (not asked while gExchangeStatus is EXCHANGE_STATUS_STARTED) or the
+// timeout or a stop request ends it; stores its index, name and address in gSelectedEntryIndex, gSelectedEntryName and
+// gSelectedEntryAddress.
 s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
     s32 result;
     s32 round;
@@ -1659,8 +1662,9 @@ BOOL ParseHexText(u8 *output, const s8 *text, s32 length) {
     return TRUE;
 }
 
-// Builds gExchangeResult from the result packet items; returns 1, or -7 for a value text of the wrong length, a zero
-// item 0x205 value or an unknown item 0x202 value.
+// Builds gExchangeResult from gExchangeResultItems; returns 1, or -7 for an unknown item 0x202 value; for the
+// value-texts one also for a zero item 0x205 value or a value text that is not empty, a WEP key size or twice one
+// (hex).
 s32 FillExchangeResultFromItems(void) {
     s32 result;
     s32 valueIndex;

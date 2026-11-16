@@ -3,8 +3,7 @@
 #include "types.h"
 #include "wireless_link_control.h"
 
-// Values of ApScanEntry.mCapaLevel: no privacy bit, the privacy bit, or the privacy bit plus a security element in the
-// beacon.
+// Values of ApScanEntry.mCapaLevel: bit clear, bit set, or bit set and a matching element found in the other elements.
 #define AP_CAPA_LEVEL_OPEN 0
 #define AP_CAPA_LEVEL_ENCRYPTED 1
 #define AP_CAPA_LEVEL_SECURITY_ELEMENT 2

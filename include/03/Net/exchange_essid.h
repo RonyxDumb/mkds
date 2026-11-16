@@ -20,7 +20,7 @@ typedef struct HashContext {
     /* 18 */ u8 mBuffer[0x40];
 } HashContext;
 
-// Value of the third item of the first reply packet.
+// Value of item 3 of the first reply packet: seven bytes.
 typedef struct ExchangeIndexBytes {
     /* 0 */ u8 mBytes[7];
 } ExchangeIndexBytes;
@@ -30,7 +30,7 @@ typedef struct SecondKeyPart {
     /* 0 */ u8 mBytes[8];
 } SecondKeyPart;
 
-// The five, thirteen and sixteen byte WEP keys of an exchanged entry.
+// A five byte WEP key.
 typedef struct WepKey5 {
     /* 0 */ u8 mBytes[5];
 } WepKey5;
@@ -51,7 +51,8 @@ typedef struct WepKey16 {
 #include "thread_scheduler.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 
-// UDP port the exchange packets are sent to and received on.
+// UDP port field value the exchange packets are sent to and received on, in the byte order SOC_Bind and SOC_SendTo
+// swap.
 #define EXCHANGE_SOCKET_PORT 0x1e6
 
 // Values of gExchangeState, the steps of RunExchange.
@@ -69,7 +70,7 @@ typedef struct WepKey16 {
 // Bit of RawEntry.mFlags that is set for an entry with encryption.
 #define RAW_ENTRY_FLAG_ENCRYPTED 0x10
 
-// First byte of a one-character SSID that stands for no name.
+// First byte of a one-character SSID that is never matched (a zero byte is skipped too).
 #define EXCHANGE_SSID_BLANK_CHAR 0x20
 
 // Eight bytes passed by address.
@@ -80,7 +81,7 @@ typedef struct SocketAddress {
     /* 4 */ u32 mAddress;
 } SocketAddress;
 
-// A short record of one found access point: SSID and its length, address and whether it is encrypted.
+// A short record of one found access point: SSID and its length, address and whether bit 4 of its flags is set.
 typedef struct EntrySummary {
     /* 00 */ u32 mSsidLength;
     /* 04 */ char mSsid[0x20];
@@ -89,7 +90,7 @@ typedef struct EntrySummary {
     /* 2e */ u16 mEncrypted;
 } EntrySummary;
 
-// A list of entry summaries: the count and the summaries.
+// A list of short records of found access points: the count and the records.
 typedef struct EntrySummaryList {
     /* 0 */ u32 mCount;
     /* 4 */ EntrySummary mEntries[1];
