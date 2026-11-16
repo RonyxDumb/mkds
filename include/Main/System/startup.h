@@ -12,5 +12,4 @@ void InitStartupLibraries(void);
 void EnableVBlankIrq(void);
 void VBlankIrqHandler(void);
 
-// Objects whose layout isn't known yet.
 extern struct DisplaySettings *gDisplaySettings;

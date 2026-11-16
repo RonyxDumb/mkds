@@ -228,11 +228,9 @@ extern u32 gWlanPutPnt;
 extern u32 CPSGatewayIp;
 extern u32 CPSMyIp;
 extern OSThread *gReceiverThread;
-// Objects whose layout isn't known yet.
 extern u8 *gWlanBuf;
 extern u32 gWlanBufLen;
 extern u32 gWlanGetPnt;
-// Objects whose layout isn't known yet.
 extern u8 gTmpBuf[58];
 extern CPSSoc gTmpSoc;
 extern OSThread gScavengerThread;

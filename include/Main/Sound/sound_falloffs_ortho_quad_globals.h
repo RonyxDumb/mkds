@@ -42,7 +42,6 @@ typedef struct SoundFalloff {
 // Volume curves by sound source number (SoundSource.mFalloffIndex); filled by InitSoundFalloffs.
 extern SoundFalloff gSoundFalloffs[16];
 
-// Objects whose layout isn't known yet.
 extern NNSSndSeqPlayer *gMatchingEntrySeqHandle;
 
 extern u32 gMissionRunSelMode;

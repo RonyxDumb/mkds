@@ -15,7 +15,6 @@ typedef struct NNSG3dVisAnmResult NNSG3dVisAnmResult;
 
 typedef struct Vec3s16 Vec3s16;
 
-// Objects whose layout isn't known yet.
 
 extern u32 (*NNS_GfdDefaultFuncAllocTexVram)(s32 szByte, s32 is4x4comp, s32 opt);
 

@@ -4,7 +4,6 @@
 #include "multiboot_piece_buffers.h"
 #include "Main/Net/wireless_block_transfer.h"
 
-// Objects whose layout isn't known yet.
 
 extern u32 wbt_initialize_flag;
 

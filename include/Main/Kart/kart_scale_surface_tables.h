@@ -3,7 +3,6 @@
 
 typedef struct Kart Kart;
 
-// Objects whose layout isn't known yet.
 
 // The 16 scene functions, indexed by scene number; the names are in gSceneNames.
 extern const u32 gSceneFuncs[16];

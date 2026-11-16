@@ -9,7 +9,6 @@
 #include "power_management_commands.h"
 #include "Main/Sound/sound_seq.h"
 
-// Objects whose layout isn't known yet.
 
 extern void *gRaceDisplaySettingsDescs[7];
 

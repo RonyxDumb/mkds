@@ -17,6 +17,5 @@ typedef struct MkdEfBubbleUpdateList {
 
 extern const u32 gMkdEfBubbleHitFlag;
 
-// Objects whose layout isn't known yet.
 extern const u16 gKuriboFlag;
 extern const u16 gRotaryFlag;

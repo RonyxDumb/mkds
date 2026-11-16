@@ -26,7 +26,6 @@
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
 
-// Objects whose layout isn't known yet.
 // The first block of the backup: the player name, flags, Elo, sound mode, ghost and emblem bits, totals and user data.
 typedef struct BackupFirstBlock {
     /* 00 */ u8 mUnk_00[0xc];

@@ -122,7 +122,6 @@ extern void (*gStartSoundSeqArcTable[1])(NNSSndSeqPlayer **handle, u32 seqArcNo,
 extern u32 gSoundSourceUpdatePass[1];
 extern u32 (*gSoundDistanceFunction)(SoundParams *);
 extern u32 gSoundSourceCountThisPass[1];
-// Objects whose layout isn't known yet.
 extern s32 (*gSoundVolumeFunction)(SoundParams *);
 extern s32 (*gSoundPanFunction)(SoundParams *);
 extern u32 gExpireWhileRequestedSounds;

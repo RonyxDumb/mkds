@@ -52,7 +52,6 @@ typedef struct EndingScene {
     /* 46c */ struct Bmg *mCommonMessages;
 } EndingScene;
 
-// Objects whose layout isn't known yet.
 // States of MissionRunLVsel.mState and mNextState.
 enum {
     MISSION_RUN_LVSEL_STATE_WAIT_FADE,

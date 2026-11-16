@@ -78,7 +78,6 @@ void EnterWoodbox1Broken(void *stateObject);
 void AdvanceWoodbox1(u32 unused, Woodbox1 *woodbox);
 
 extern const u16 gWoodbox1SecondFlag;
-// Objects whose layout isn't known yet.
 extern const u16 gWoodbox1Flag;
 extern const u16 gWoodbox1ThirdFlag;
 extern s32 gSavedModelAlpha;

@@ -13,7 +13,6 @@ extern const s32 gEmblemSubBg3AffineMatrix[4];
 extern const s32 gEmblemButtonLldEntries[12];
 extern const s32 gEmblemTemplateScreenColorEntries[16];
 extern const s32 gEmblemRPressButtonCursorIndices[4];
-// Objects whose layout isn't known yet.
 extern const s32 gEmblemColorLldEntries[16];
 extern const s32 gEmblemTemplateLldEntries[29];
 extern const s32 gEmblemButtonCursorVerticalMoves[3][12];

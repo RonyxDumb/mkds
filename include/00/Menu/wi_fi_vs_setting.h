@@ -528,11 +528,9 @@ void LocateAndQueueWiFiVSSetting(void);
 void ReleaseWiFiVSSetting(void);
 BOOL HasBuddyRecords(void);
 
-// Objects whose layout isn't known yet.
 extern const u8 gWiFiVSSettingTimerTableIndices[3][2];
 extern const u8 gWiFiVSSettingLabelIndices[3];
 extern const u8 gWiFiVSSettingOffsetTableIndices[3][9];
-// Objects whose layout isn't known yet.
 extern const s32 gWiFiVSSettingOffsetCellCounts[3];
 extern const u8 gWiFiVSSettingKartTypes[4];
 extern const u8 gWiFiVSSettingIndexByKartType[5];

@@ -88,9 +88,7 @@ void InitWiFiTopMenu(void *heap);
 
 extern const u8 gWiFiTopMenuSTableIndices[3];
 extern const u8 gWiFiTopMenuCellIndices[3];
-// Objects whose layout isn't known yet.
 extern const u8 gWiFiTopMenuXluCellIndices[3];
-// Objects whose layout isn't known yet.
 extern const s32 gWiFiTopMenuOffsetCellCounts[3];
 extern const u8 gWiFiTopMenuOffsetTableIndices[3][5];
 extern WiFiStateCallbacks gWiFiTopMenuCallbacks;

@@ -97,7 +97,6 @@ extern const s16 gRecordVSRectRowIndices[10];
 extern const u16 gRecordVSFriendKeyLabelHeights[12];
 extern const u16 gRecordVSRowLabelIndices[6];
 extern const u16 gRecordVSRowLabelWidths[6];
-// Objects whose layout isn't known yet.
 extern char *gRecordVSMBnclName;
 extern char *gRecordVSMNscrName;
 extern char *gRecordVSMBNclrName;

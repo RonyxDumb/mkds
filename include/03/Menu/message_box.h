@@ -47,6 +47,5 @@ extern const u16 gMessageBoxButtonPositions[5][2][2];
 extern const u16 gMessageBoxTextOffset[2];
 extern const u8 gMessageBoxImageIds[6];
 extern const u16 gMessageBoxButtonSizes[5][2];
-// Objects whose layout isn't known yet.
 extern MessageBoxWindowFlags gMessageBoxWindowExtraBitFlags;
 extern struct MessageBox *gMessageBox;

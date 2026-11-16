@@ -191,7 +191,6 @@ typedef struct GrpconfTblRow {
     /* 0e */ u16 mExtentZ;
 } GrpconfTblRow;
 
-// Objects whose layout isn't known yet.
 struct SPLManager;
 struct KartAi;
 struct KartAiItemUse;

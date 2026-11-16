@@ -155,7 +155,6 @@ typedef struct RecordGpx {
 #include "Main/System/result_archive_path.h"
 
 extern RecordGpx *gRecordGpx;
-// Objects whose layout isn't known yet.
 extern RecordScreenCallbacks gRecordGpxCallbacks;
 
 void RegisterRecordGpxCallbacks(void);

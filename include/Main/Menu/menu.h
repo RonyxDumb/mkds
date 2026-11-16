@@ -42,5 +42,4 @@ void SetSubBg3RecordParams(DisplaySettings *displaySettings, u32 cntLow2, u32 cn
 void MenuGX_SetOBJVRamModeChar(u32 bits);
 void MenuGXS_SetOBJVRamModeChar(u32 bits);
 
-// Objects whose layout isn't known yet.
 extern const u8 gMenuDisplaySettingsDesc[40];

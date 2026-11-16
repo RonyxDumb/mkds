@@ -101,7 +101,6 @@ extern const Rect gJb3ListFixedRects[3];
 extern u16 gDotSeparatedBytesFormat[15];
 extern const u8 gJb3ListCellImageIds[5][3];
 extern const u16 gJb3ListBackNscOffsets[9];
-// Objects whose layout isn't known yet.
 extern const s8 gJb3ListDigitColumns[6];
 
 extern u8 gJb3ListSelectedId;

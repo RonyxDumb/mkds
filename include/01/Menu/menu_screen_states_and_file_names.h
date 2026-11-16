@@ -189,7 +189,6 @@ typedef struct TestScene {
     /* 60a8 */ u16 mScreenMap[0x300];
 } TestScene;
 
-// Objects whose layout isn't known yet.
 extern const char *gMissionRunMSselMNcgrName;
 extern const char *gMissionRunMSselSONclrName;
 extern const char *gMissionRunMSselSBnllName;

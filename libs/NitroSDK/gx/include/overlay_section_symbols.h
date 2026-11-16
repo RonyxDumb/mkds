@@ -1,7 +1,6 @@
 #pragma once
 #include "types.h"
 
-// Objects whose layout isn't known yet.
 extern u32 gNvramEntriesOffset;
 
 extern u8 gPackedWiFiInfo[];

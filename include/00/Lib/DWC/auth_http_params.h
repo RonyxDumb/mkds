@@ -19,7 +19,6 @@ typedef struct DWCHttpParam {
 #define NETCHECK_HTTP_TIMEOUT_MILLIS 20000
 #define NETCHECK_HTTP_LONG_TIMEOUT_MILLIS 40000
 
-// Objects whose layout isn't known yet.
 extern char *gLangPairValues[7];
 extern DWCHttpParam DWCauthhttpparam;
 

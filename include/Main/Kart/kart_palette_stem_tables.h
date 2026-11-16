@@ -1,7 +1,6 @@
 #pragma once
 #include "types.h"
 
-// Objects whose layout isn't known yet.
 extern const Vec3 gKartModelMenuReferenceAxis;
 
 struct Vec4;

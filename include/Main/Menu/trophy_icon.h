@@ -17,6 +17,5 @@ extern char *gTrophyIconBnclName;
 extern char *gTrophyIconNclrName;
 extern const u16 gTrophyIconNclrStarts[4];
 extern const u16 gTrophyIconBnclIndices[8];
-// Objects whose layout isn't known yet.
 extern char *gTrophyIconNcgrName;
 extern struct TrophyIcon *gTrophyIcon;

@@ -39,7 +39,6 @@ typedef struct Jb3List {
     /* 47 */ u8 mKeyLimitSoundPlayed;
 } Jb3List;
 
-// Objects whose layout isn't known yet.
 typedef struct UsbScan UsbScan;
 typedef struct MultiBootParent MultiBootParent;
 // A link level icon: its OAM entry, task and image row.

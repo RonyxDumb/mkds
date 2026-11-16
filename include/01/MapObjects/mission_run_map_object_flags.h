@@ -2,7 +2,6 @@
 
 #include "types.h"
 
-// Objects whose layout isn't known yet.
 extern const u16 gCoinHiddenFlag;
 extern const u16 gMissionGateMapObjectFlag;
 extern const u32 gMapObjectBelowZeroCollisionBit;

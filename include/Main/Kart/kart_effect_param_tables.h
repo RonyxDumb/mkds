@@ -11,7 +11,7 @@
 #include "Main/Sound/sound_seq.h"
 #include "Main/Kart/kart_name_tags.h"
 
-// Objects whose layout isn't known yet.
+// How QueueMPDataToPort sends: the done callback, the largest data size, the port and its priority.
 typedef struct QueueMPDataToPortParams {
     /* 00 */ void (*mCallback)();
     /* 04 */ u16 mMaxDataSize;
