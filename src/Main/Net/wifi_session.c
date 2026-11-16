@@ -44,7 +44,7 @@ StateCallbacks gWiFiSessionStateTable[7] = {
     {0, 0},
     {EnterWiFiSessionLogin, UpdateWiFiSessionLoginState},
     {0, 0},
-    {EnterWiFiSessionSearch, UpdateWiFiSessionSearch},
+    {EnterWiFiSessionMatching, UpdateWiFiSessionMatching},
     {EnterWiFiSessionExchangeNop, UpdateWiFiSessionExchange},
     {EnterWiFiSessionRace, UpdateWiFiSessionRace},
     {0, UpdateWiFiSessionUnusedNop},

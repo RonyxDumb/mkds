@@ -105,7 +105,7 @@ void EnterMPLoadDlArchives(void *stateObject) {
 
 #pragma thumb on
 
-void UpdateMPLoadDlArchives(void *stateObject) {
+void UpdateMPLoadDLArchives(void *stateObject) {
     int result;
     MPStateMachine *stateMachine;
     result = AdvanceMainAndMenuDLArchives();

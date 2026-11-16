@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/System/backup_net_camera_work.h"
 
-s32 IsScanBlockGameInfoMatch(WMBssDesc *bssDesc);
+s32 IsScanGameInfoMatch(WMBssDesc *bssDesc);

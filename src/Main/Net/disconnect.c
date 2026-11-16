@@ -328,7 +328,7 @@ static inline void MPDataRequestMPState(u16 nextState) {
     stateMachine->mStateMachine.mNextStateRequested = 1;
 }
 
-static inline void SetGroupSendMaskIfMultibootSetup(u8 groupSendMask) {
+static inline void SetRomArchiveGroupSendMaskIfMultibootSetupParent(u8 groupSendMask) {
     u32 shouldSend = 0;
     u32 isAllowed;
 
@@ -374,7 +374,7 @@ static inline void RemoveChildrenInMask(u16 removeMask) {
     if ((gConnectionWork->mFlags & CONNECTION_FLAG_ROM_ARCHIVE_TRANSFER) == 0) {
         return;
     }
-    SetGroupSendMaskIfMultibootSetup(gConnectionWork->mGroupSendMask);
+    SetRomArchiveGroupSendMaskIfMultibootSetupParent(gConnectionWork->mGroupSendMask);
 }
 
 void RemoveChild(u32 aid) {

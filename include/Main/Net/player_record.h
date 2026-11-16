@@ -14,8 +14,8 @@ void EnterWiFiSessionExchangeNop(void *stateObject);
 void AdvanceWiFiSessionOnIrq(void);
 void EnterWiFiSessionLogin(void *stateObject);
 void UpdateWiFiSessionLoginState(void *stateObject);
-void EnterWiFiSessionSearch(void *stateObject);
-void UpdateWiFiSessionSearch(void *stateObject);
+void EnterWiFiSessionMatching(void *stateObject);
+void UpdateWiFiSessionMatching(void *stateObject);
 
 u8 GetPlayerRecordLowestGrandPrixValue(int index);
 void SetPlayerRecordElo(int index, s16 elo);

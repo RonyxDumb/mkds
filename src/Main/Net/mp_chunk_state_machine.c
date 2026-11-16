@@ -25,7 +25,7 @@
 StateCallbacks gMPStateTable[MP_STATE_COUNT] = {{EnterMPFillOwnRecord, UpdateMPFillOwnRecord},
                                                 {NULL, UpdateMPWaitRomArchive},
                                                 {EnterMPLoadOverlay, UpdateMPLoadOverlay},
-                                                {EnterMPLoadDlArchives, UpdateMPLoadDlArchives},
+                                                {EnterMPLoadDlArchives, UpdateMPLoadDLArchives},
                                                 {EnterMPLoadSoundData, UpdateMPLoadSoundData},
                                                 {EnterMPSendParticipantMask, UpdateMPSendParticipantMask},
                                                 {NULL, UpdateMPSendGroupSendMask},

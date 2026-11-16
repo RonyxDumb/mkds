@@ -259,7 +259,7 @@ void StartScanCallback(WirelessMessage *event) {
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gConnectionWork->mState == CONNECTION_STATE_ENDED) {
                     hostAid = event->mAid;
-                    if (IsScanBlockGameInfoMatch(&scanBuffer) != 0) {
+                    if (IsScanGameInfoMatch(&scanBuffer) != 0) {
                         gConnectionWork->mMatchingHostFound = 1;
                         gConnectionWork->mMatchingHostAid = hostAid;
                         gConnectionWork->mUnk_1ed6 = 0;
