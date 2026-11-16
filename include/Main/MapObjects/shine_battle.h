@@ -21,7 +21,8 @@
 
 #define SHINE_BATTLE_START_FRAMES 0x5a
 
-// The shine battle map object: whether a shine is held, the random pick skip and the shine start frames.
+// The shine battle map object: whether a shine was started at it, whether the random pick skips it, and the frames
+// counted before the next shine start.
 typedef struct ShineBattle {
     /* 00 */ MapObject mMapObject;
     /* a0 */ BOOL mHasShine;
