@@ -185,10 +185,10 @@ void InitGhostScene(void *heap) {
         (reg_GXS_DB_DISPCNT & ~(REG_GXS_DB_DISPCNT_EXOBJ_CH_MASK | REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK)) |
         REG_GXS_DB_DISPCNT_OBJMAP_CH_MASK;
     switch (gMenuShared->mGhostSceneInitialCallbacksIndex) {
-        case 0:
+        case GHOST_SCENE_CALLBACKS_SEND:
             gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_SEND;
             break;
-        case 1:
+        case GHOST_SCENE_CALLBACKS_GET_SCAN:
             gGhostScene->mRequestedCallbacksIndex = GHOST_SCENE_CALLBACKS_GET_SCAN;
             break;
     }
