@@ -219,7 +219,7 @@ s32 SendFinishPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 SendWantedMaskPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 SendItemChainPacket(SendPacketScratch *buf, PacketTag *list, s32 descriptor);
 s32 ReportStateAndSendPacketForMode(s32 mode, SendPacketScratch *buf, PacketTag *list, s32 id);
-s32 IsKeyStreamFlagSet(u32 value);
+s32 IsKeyStreamAcceptedBitSet(u32 value);
 s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedItems *parsedItems, u8 *slots);
 s32 CopyFirstItemValueIfSlotBytes(PacketItem *container, u8 *output);
 s32 ParseSingleValueItems(PacketItem *container, SingleValueRecord *record);

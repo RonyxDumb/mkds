@@ -823,7 +823,7 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
         (*attempts)++;
         return mode;
     }
-    gKeyStreamAccepted = IsKeyStreamFlagSet(SwapBytes16(packet->mFlags));
+    gKeyStreamAccepted = IsKeyStreamAcceptedBitSet(SwapBytes16(packet->mFlags));
     *attempts = 0;
     return 1;
 }
@@ -1242,7 +1242,7 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
     return 0;
 }
 
-s32 IsKeyStreamFlagSet(u32 flags) {
+s32 IsKeyStreamAcceptedBitSet(u32 flags) {
     BOOL result = FALSE;
     if (flags & 0x10) {
         result = TRUE;

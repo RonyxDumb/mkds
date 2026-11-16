@@ -1013,7 +1013,7 @@ void DisconnectExchangeAndStopSockets(void) {
 // Finds an entry of current with mBit4Set 0 that matches a previous entry (same name prefix, same first four address
 // bytes) with a different mBit4Set, else an unencrypted six-asterisk entry in current when previous has none; stores
 // its index.
-s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
+s32 FindEntryWithBit4NewlyCleared(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
     BOOL result;
     BOOL currentHasUnencryptedSixAsterisks;
@@ -1102,10 +1102,10 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
 }
 
 // Searches up to 30 rounds, comparing each round's entry list with the previous round's, until
-// FindEntryWithEncryptionRemoved reports an entry (not asked while gExchangeStatus is EXCHANGE_STATUS_STARTED) or the
+// FindEntryWithBit4NewlyCleared reports an entry (not asked while gExchangeStatus is EXCHANGE_STATUS_STARTED) or the
 // timeout or a stop request ends it; stores its index, name and address in gSelectedEntryIndex, gSelectedEntryName and
 // gSelectedEntryAddress.
-s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
+s32 SearchEntriesAndStoreEntryWithBit4NewlyCleared(void) {
     s32 result;
     s32 round;
     s32 copied;
@@ -1230,7 +1230,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
         }
         currentList->mCount = result;
         if (gExchangeStatus != EXCHANGE_STATUS_STARTED) {
-            index = FindEntryWithEncryptionRemoved(currentList, previousList, &changedIndex);
+            index = FindEntryWithBit4NewlyCleared(currentList, previousList, &changedIndex);
             if (index != 0) {
                 entry = &currentList->mEntries[changedIndex];
                 gSelectedEntryIndex = changedIndex;
@@ -1767,7 +1767,7 @@ s32 RunExchange(void) {
         OS_Sleep(500);
         switch (gExchangeState) {
             case EXCHANGE_STEP_SEARCH_ENTRY:
-                result = SearchEntriesAndStoreEntryWithEncryptionRemoved();
+                result = SearchEntriesAndStoreEntryWithBit4NewlyCleared();
                 if (result != 1) {
                     done = TRUE;
                 } else {
