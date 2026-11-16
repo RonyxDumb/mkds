@@ -112,8 +112,8 @@ void InitGraphics(void) {
     volatile u32 *displayControl;
     volatile u16 *powerControl;
     GX_VBlankIntr(0);
-    GX_SetBankForBG(1);
-    GX_SetBankForOBJ(2);
+    GX_SetBankForBG(VRAM_BANK_A);
+    GX_SetBankForOBJ(VRAM_BANK_B);
     GX_SetGraphicsMode(GX_DISPMODE_GRAPHICS, GX_BGMODE_0, GX_BG0_AS_2D);
     displayControl = &reg_GX_DISPCNT;
     *displayControl = *displayControl & 0xffffe0ff;
@@ -128,8 +128,8 @@ void InitGraphics(void) {
     reg_G2_BG2OFS = 0;
     reg_G2_BG3OFS = 0;
     G2x_SetBlendBrightness_(&reg_G2_BLDCNT, 0x3f, 0x10);
-    GX_SetBankForSubBG(0x80);
-    GX_SetBankForSubOBJ(0x100);
+    GX_SetBankForSubBG(VRAM_BANK_H);
+    GX_SetBankForSubOBJ(VRAM_BANK_I);
     GXS_SetGraphicsMode(GX_BGMODE_0);
     displayControl = &reg_GXS_DB_DISPCNT;
     *displayControl = *displayControl & 0xffffe0ff;

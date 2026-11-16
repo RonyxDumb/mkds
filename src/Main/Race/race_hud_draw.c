@@ -636,7 +636,7 @@ void InitMap2D(void) {
     if (IsCourseWithMap2DLocal3()) {
         GXS_LoadBG3Scr(nscrs[3]->mData, 0, nscrs[3]->mDataSize);
     }
-    GX_SetBankForSubBGExtPltt(0x80);
+    GX_SetBankForSubBGExtPltt(VRAM_BANK_H);
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(nclrs[2]->mData, 0x4000, 0x200);
     GXS_LoadBGExtPltt(nclrs[2]->mData, 0x6000, 0x200);
@@ -696,7 +696,7 @@ void SetupRaceHudScreens(void) {
     GXS_LoadBG3Scr(GetRaceGoalSNscr(2)->mData, 0, GetRaceGoalSNscr(2)->mDataSize);
     GXS_LoadBGPltt(gRaceHudSubScreenPalettes + 0x100, 0, 0x200);
     CopyRaceHudSubScreenBgColors();
-    GX_SetBankForSubBGExtPltt(0x80);
+    GX_SetBankForSubBGExtPltt(VRAM_BANK_H);
     GXS_BeginLoadBGExtPltt();
     GXS_LoadBGExtPltt(gRaceHudSubScreenPalettes + 0x100, 0x4000, 0x200);
     GXS_LoadBGExtPltt(gRaceHudSubScreenPalettes + 0x100, 0x6000, 0x200);

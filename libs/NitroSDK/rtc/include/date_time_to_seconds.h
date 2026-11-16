@@ -3,8 +3,8 @@
 #include "types.h"
 #include "clock_chip_access.h" // RTCDate, RTCTime
 
-// Limits RTC_ConvertDateToDay accepts: years count from 0 to 99, months 1 to 12, days 1 to 31. A leap year is a year
-// whose low two bits are clear, and its extra day counts from the month after February.
+// Limits RTC_ConvertDateToDay accepts: years 0 to 99, months 1 to 12, days 1 to 31 and a weekday below RTC_WEEK_MAX. A
+// leap year has its low two bits clear, and its extra day counts from the month after February.
 #define CLOCK_YEAR_COUNT 100
 #define CLOCK_MONTH_MAX 12
 #define CLOCK_DAY_MAX 31

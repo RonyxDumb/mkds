@@ -199,16 +199,16 @@ void ToggleDispCapBanks(void) {
     if (gDispCap->mFlags & DISP_CAP_FLAG_BANK_SWAPPED) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x1000;
-        GX_SetBankForLCDC(4);
-        GX_SetBankForSubOBJ(8);
+        GX_SetBankForLCDC(VRAM_BANK_C);
+        GX_SetBankForSubOBJ(VRAM_BANK_D);
         gDispCap->mFlags &= ~DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 2;
         powerBit = 1;
     } else {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~REG_GXS_DB_DISPCNT_DISPLAY_MASK) | 0x400;
-        GX_SetBankForSubBG(4);
-        GX_SetBankForLCDC(8);
+        GX_SetBankForSubBG(VRAM_BANK_C);
+        GX_SetBankForLCDC(VRAM_BANK_D);
         gDispCap->mFlags |= DISP_CAP_FLAG_BANK_SWAPPED;
         captureBits = 3;
         powerBit = 0;

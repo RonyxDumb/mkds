@@ -101,7 +101,7 @@ void WvrCallback(u32 state, s32 errorCode) {
 void ClearLcdcBankAndStartWvrAndWait(void) {
     if (gWvrState.mState != WIRELESS_VRAM_STATE_STARTED && gWvrState.mState != WIRELESS_VRAM_STATE_UNUSED) {
         gWvrState.mState = WIRELESS_VRAM_STATE_BUSY;
-        GX_SetBankForLCDC(8);
+        GX_SetBankForLCDC(VRAM_BANK_D);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
         if (WVR_StartUpAsync(8, WvrCallback, WIRELESS_VRAM_STATE_STARTED) != 1) {
