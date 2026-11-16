@@ -138,7 +138,7 @@ extern const u16 gSelectGhostSLabelHeights[5];
 extern char *gSelectGhostSBNcgrName;
 extern const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT];
 extern const u16 gSelectGhostSLabelWidths[5];
-extern const u16 gSelectGhostMenuMessageIndices[4];
+extern const u16 gSelectGhostMenuMessageIndices[SELECT_GHOST_KIND_COUNT];
 extern char *gSelectGhostSelectCupCourseTaMBnclName;
 extern char *gSelectGhostSelectCupCourseTaMBnllName;
 extern char *gSelectGhostSelectCupCourseMNcerName;

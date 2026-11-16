@@ -28,7 +28,7 @@ void DeleteOamEntry(OamEntry *entry) {
     OamBuffers *buffers;
     s32 screen = 0;
 
-    entry->mAttr01 = (entry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+    entry->mAttr01 = (entry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
     buffers = gOamBuffers;
     if ((u32) entry >= (u32) buffers + 0x400) {
         screen = 1;

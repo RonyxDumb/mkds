@@ -188,7 +188,7 @@ void UpdateEditInput(void) {
                 StartSoundSeq(9);
             }
             gEdit->mOamEntry->mAttr01 =
-                (gEdit->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+                (gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
             SetUpdateFunction(StartEditClose);
             return;
         case 0:
@@ -344,7 +344,7 @@ void UpdateEditMessageClose(void) {
     s32 secondaryPairFirst;
     if (IsMessageBoxOpen() == 0) {
         if (gEdit->mResult == EDIT_RESULT_CANCELED) {
-            gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+            gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
             SetUpdateFunction(UpdateEditFadeIn);
             return;
         }
@@ -410,7 +410,7 @@ void UpdateEditInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & (0xc1fffcffu);
+        gEdit->mOamEntry->mAttr01 = gEdit->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         SetUpdateFunction(UpdateEditFadeIn);
     }
 }

@@ -171,7 +171,7 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     keyIndex = row * 12;
     for (rowKeyIndex = 0; rowKeyIndex < keyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditKeyboard->mKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditKeyboard->mKeys[keyIndex];
         key->mAttr01 = ((gEditKeyboardKeyPositions[keyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
@@ -183,7 +183,7 @@ void SetEditKeyboardRowY(u32 page, s32 row, u32 yPos) {
     extraKeyIndex = FX_ModS32(row + 3, 4);
     for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditKeyboard->mExtraKeys[extraKeyIndex];
         key->mAttr01 = ((gEditKeyboardExtraKeyPositions[extraKeyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));

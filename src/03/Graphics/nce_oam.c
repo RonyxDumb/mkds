@@ -141,7 +141,7 @@ void DeleteOamRange(OamRange *range) {
     s32 entryIndex;
 
     for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++, entries++) {
-        entries->mAttr01 = (entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+        entries->mAttr01 = (entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
     }
     RemoveNodeFromList(range);
     if (range >= &gOamRanges[1].mRanges[0]) {
@@ -171,18 +171,20 @@ void SetOamRangeEffect(OamRange *range, s32 index, u32 effect, u32 affineIndex) 
         if (effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX && effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS) {
             u32 word = entries[index].mAttr01;
 
-            entries[index].mAttr01 = (word & 0xc1fffcff) | effect;
+            entries[index].mAttr01 = (word & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect;
         } else {
             u32 word = entries[index].mAttr01;
 
-            entries[index].mAttr01 = (affineIndex << 25) | ((word & 0xc1fffcff) | effect);
+            entries[index].mAttr01 =
+                (affineIndex << 25) | ((word & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect);
         }
     } else {
         for (entryIndex = 0; entryIndex < range->mEntryCount; entryIndex++) {
             if (effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX && effect != OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS) {
-                entries->mAttr01 = (entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | effect;
+                entries->mAttr01 = (entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect;
             } else {
-                entries->mAttr01 = (affineIndex << 25) | ((entries->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | effect);
+                entries->mAttr01 = (affineIndex << 25)
+                    | ((entries->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | effect);
             }
             entries++;
         }

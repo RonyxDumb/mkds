@@ -56,8 +56,9 @@ u32 StartBlendBrightnessFade(s32 kind, s32 screen, u32 plane, u16 frameCount) {
     return 1;
 }
 
-u8 gBlendBrightnessFadeGapByte[1];
-u8 gBlendBrightnessFadeGapBytes[8];
+// Nothing reads or writes these.
+u8 gBlendBrightnessFadeUnusedByte[1];
+u8 gBlendBrightnessFadeUnusedBytes[8];
 
 void AdvanceBlendBrightnessFade(TaskEntry *task, void *arg) {
     BlendBrightnessFadeSlot *slot = arg;

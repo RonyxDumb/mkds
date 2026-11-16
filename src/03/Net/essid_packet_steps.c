@@ -116,7 +116,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     EssidMelcoRequest melcoRequest;
     SendPacketScratch sendScratch;
 
-    step = 0;
+    step = ESSID_REQUEST_STEP_ITEM_CHAIN;
     attempts = step;
     addr = step;
     FillBytes(tags, 0, sizeof(tags));
@@ -404,7 +404,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
             goto cleanup;
         }
         if (step != nextStep) {
-            if (nextStep == 2) {
+            if (nextStep == ESSID_REQUEST_STEP_FINISH) {
                 if (gSocketDescriptor != -1) {
                     CloseSocket(gSocketDescriptor);
                 }
@@ -507,9 +507,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         }
         step = nextStep;
         if (attempts > limits.mCount) {
-            if (nextStep == 0) {
+            if (nextStep == ESSID_REQUEST_STEP_ITEM_CHAIN) {
                 SetErrorCode(ESSID_ERROR_NO_VALID_REPLY_ITEM_CHAIN);
-            } else if (nextStep == 1) {
+            } else if (nextStep == ESSID_REQUEST_STEP_WANTED_MASK) {
                 SetErrorCode(ESSID_ERROR_NO_VALID_REPLY_WANTED_MASK);
             } else {
                 SetErrorCode(ESSID_ERROR_NO_VALID_REPLY_FINISH);
@@ -825,7 +825,7 @@ s32 AdvanceStepForItemChainReply(s32 mode, PacketBuffer *buffer, s32 *attempts, 
     }
     gUseKeyStream = IsKeyStreamAcceptedBitSet(SwapBytes16(packet->mFlags));
     *attempts = 0;
-    return 1;
+    return ESSID_REQUEST_STEP_WANTED_MASK;
 }
 
 s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
@@ -868,7 +868,7 @@ s32 AdvanceStepForRecordsReply(s32 mode, PacketBuffer *buffer, s32 *attempts, Pa
         return mode;
     }
     *attempts = 0;
-    return 2;
+    return ESSID_REQUEST_STEP_FINISH;
 }
 
 s32 AdvanceStepForFinishReply(s32 mode, PacketBuffer *buffer, s32 *attempts, PacketTag *list) {
@@ -1210,19 +1210,19 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
         switch (item->mType) {
             case GROUP_SUB_ITEM_WEP_KEYS_5_BYTES:
                 result = ParseFourValueItems(item, &parsed->mFourValueRecord0);
-                foundMask |= 1;
+                foundMask |= VALUE_RECORD_MASK_KEY_SET_FIRST;
                 break;
             case GROUP_SUB_ITEM_WEP_KEYS_13_BYTES:
                 result = ParseFourValueItems(item, &parsed->mFourValueRecord1);
-                foundMask |= 2;
+                foundMask |= VALUE_RECORD_MASK_KEY_SET_SECOND;
                 break;
             case GROUP_SUB_ITEM_SINGLE_VALUE_RECORD0:
                 result = ParseSingleValueItems(item, &parsed->mSingleValueRecord0);
-                foundMask |= 4;
+                foundMask |= VALUE_RECORD_MASK_SINGLE_VALUE_FIRST;
                 break;
             case GROUP_SUB_ITEM_SINGLE_VALUE_RECORD1:
                 result = ParseSingleValueItems(item, &parsed->mSingleValueRecord1);
-                foundMask |= 8;
+                foundMask |= VALUE_RECORD_MASK_SINGLE_VALUE_SECOND;
                 break;
             case GROUP_SUB_ITEM_SLOT_BYTES:
                 result = CopyFirstItemValueIfSlotBytes(item, slotBytes);

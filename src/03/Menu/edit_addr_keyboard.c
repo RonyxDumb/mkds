@@ -70,7 +70,8 @@ void CreateEditAddrKeyboard(void) {
     for (index = 0; index < 10; index++) {
         gEditAddrKeyboard->mDigitKeys[index] = CreateOamEntryFromNceImage(0, 0x36);
         gEditAddrKeyboard->mDigitKeys[index]->mAttr01 =
-            (gEditAddrKeyboard->mDigitKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+            (gEditAddrKeyboard->mDigitKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditAddrKeyboard->mDigitKeys[index]->mAttr2 =
             (gEditAddrKeyboard->mDigitKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
@@ -78,7 +79,8 @@ void CreateEditAddrKeyboard(void) {
         gEditAddrKeyboard->mExtraKeys[index] =
             CreateOamEntryFromNceImage(0, gEditAddrKeyboardExtraKeyImages[index]);
         gEditAddrKeyboard->mExtraKeys[index]->mAttr01 =
-            (gEditAddrKeyboard->mExtraKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+            (gEditAddrKeyboard->mExtraKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditAddrKeyboard->mExtraKeys[index]->mAttr2 =
             (gEditAddrKeyboard->mExtraKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
@@ -452,7 +454,7 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     keyIndex = row * 3;
     for (rowKeyIndex = 0; rowKeyIndex < digitKeyCounts.mCounts[(u32) row]; rowKeyIndex++, keyIndex++) {
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditAddrKeyboard->mDigitKeys[keyIndex];
         key->mAttr01 = ((gEditAddrKeyboardDigitKeyPositions[keyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));
@@ -463,7 +465,7 @@ void SetEditAddrKeyboardRowY(int row, u32 yPos) {
     }
     for (rowKeyIndex = 0; rowKeyIndex < extraKeyCounts.mCounts[(u32) row]; rowKeyIndex++) {
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
-        key->mAttr01 = key->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+        key->mAttr01 = key->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         key = gEditAddrKeyboard->mExtraKeys[rowKeyIndex];
         key->mAttr01 = ((gEditAddrKeyboardExtraKeyPositions[rowKeyIndex][0] & 0x1ff) << 16) |
                        ((key->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (yPos & 0xff));

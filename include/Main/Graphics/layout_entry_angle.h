@@ -62,12 +62,13 @@ typedef struct LayoutTableEntry {
 } LayoutTableEntry;
 
 // Bit fields of the OAM words the layout cell and label code reads and rewrites: object mode and shape in the first
-// halfword, priority, palette and first char in the third; the mode bits of attr0 select translucent drawing. priority and palette in the last.
+// halfword, priority, palette and first char in the third; the mode bits of attr0 select translucent drawing.
 #define LAYOUT_OAM_MODE_MASK 0xc00
 #define LAYOUT_OAM_MODE_TRANSLUCENT 0x400
 #define LAYOUT_OAM_SHAPE_MASK 0xc000
 #define LAYOUT_OAM_PRIORITY_MASK 0xc00
 #define LAYOUT_OAM_PALETTE_MASK 0xf000
+#define LAYOUT_OAM_CHAR_NAME_MASK 0x3ff
 
 // 8-byte elements InitLabelCanvas fills and copies into NNSG2dCellOAMAttrData elements.
 typedef struct OamAttrEntry {

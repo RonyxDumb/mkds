@@ -63,14 +63,16 @@ void CreateEditKeyboard(void) {
     for (index = 0; index < 0x2f; index++) {
         gEditKeyboard->mKeys[index] = CreateOamEntryFromNceImage(0, 0x34);
         gEditKeyboard->mKeys[index]->mAttr01 =
-            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+            (gEditKeyboard->mKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mKeys[index]->mAttr2 =
             (gEditKeyboard->mKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }
     for (index = 0; index < 4; index++) {
         gEditKeyboard->mExtraKeys[index] = CreateOamEntryFromNceImage(0, gEditKeyboardExtraKeyImages[index]);
         gEditKeyboard->mExtraKeys[index]->mAttr01 =
-            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+            (gEditKeyboard->mExtraKeys[index]->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK)
+                | OAM_ENTRY_EFFECT_HIDDEN;
         gEditKeyboard->mExtraKeys[index]->mAttr2 =
             (gEditKeyboard->mExtraKeys[index]->mAttr2 & OAM_ENTRY_NOT_PRIORITY_MASK) | 0xc00;
     }

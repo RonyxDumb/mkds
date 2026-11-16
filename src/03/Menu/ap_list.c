@@ -29,6 +29,7 @@
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/Graphics/dispcnt_window.h"
 #include "03/Graphics/oam_buffer_entries.h"
+#include "Main/Graphics/layout_entry_angle.h"
 #include "03/Graphics/text_canvas.h"
 #include "03/System/exp_heap.h"
 #include "03/Menu/wifi_menu_strings.h"
@@ -133,11 +134,11 @@ void CreateApListRowObjects(void) {
     }
     for (imageIndex = 0; imageIndex < 3; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowLeftImageIndices[imageIndex], gApList->mRowLeftOamEntries[0]);
-        gApList->mRowLeftTiles[imageIndex] = gApList->mRowLeftOamEntries[0]->mAttr2 & OAM_ATTR2_TILE_MASK;
+        gApList->mRowLeftTiles[imageIndex] = gApList->mRowLeftOamEntries[0]->mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK;
     }
     for (imageIndex = 0; imageIndex < 4; imageIndex++) {
         CopyNceImageToOamEntries(0, gApListRowRightImageIndices[imageIndex], gApList->mRowRightOamEntries[0]);
-        gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & OAM_ATTR2_TILE_MASK;
+        gApList->mRowRightTiles[imageIndex] = gApList->mRowRightOamEntries[0]->mAttr2 & LAYOUT_OAM_CHAR_NAME_MASK;
     }
     for (rowIndex = 0; rowIndex < rowCount; rowIndex++) {
         OamEntry *oamEntry;
@@ -518,10 +519,12 @@ void SetApListRowTiles(int entryIndex, int rowSlot) {
     if (entryIndex < gApList->mEntryCount) {
         oamEntry = gApList->mRowLeftOamEntries[rowSlot];
         oamEntry->mAttr2 =
-            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowLeftTiles[gApList->mEntries[entryIndex].mCapaLevel];
+            (oamEntry->mAttr2 & ~LAYOUT_OAM_CHAR_NAME_MASK)
+                | gApList->mRowLeftTiles[gApList->mEntries[entryIndex].mCapaLevel];
         oamEntry = gApList->mRowRightOamEntries[rowSlot];
         oamEntry->mAttr2 =
-            (oamEntry->mAttr2 & ~0x3ff) | gApList->mRowRightTiles[gApList->mEntries[entryIndex].mLinkLevel];
+            (oamEntry->mAttr2 & ~LAYOUT_OAM_CHAR_NAME_MASK)
+                | gApList->mRowRightTiles[gApList->mEntries[entryIndex].mLinkLevel];
     }
 }
 

@@ -6,14 +6,14 @@
 #define OAM_ENTRY_Y_POSITION_MASK 0xff
 #define OAM_ENTRY_X_POSITION_MASK 0x1ff0000
 #define OAM_ENTRY_NOT_POSITION_MASK 0xfe00ff00
-#define OAM_ATTR01_NOT_EFFECT_MASK 0xc1fffcff
+// Keeps everything but the effect bits and the affine index.
+#define OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK 0xc1fffcff
 #define OAM_ENTRY_NOT_MODE_MASK 0xfffff3ff
 #define OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX 0x100
 #define OAM_ENTRY_EFFECT_HIDDEN 0x200
 #define OAM_ENTRY_EFFECT_TAKES_AFFINE_INDEX_BOTH_BITS 0x300
 
 // Bits of OamEntry.mAttr2.
-#define OAM_ATTR2_TILE_MASK 0x3ff
 #define OAM_ENTRY_NOT_PRIORITY_MASK 0xfffff3ff
 #define OAM_ENTRY_NOT_PALETTE_MASK 0xffff0fff
 

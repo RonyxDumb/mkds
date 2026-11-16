@@ -43,7 +43,7 @@ const u16 gSelectGhostSLabelHeights[5] = {0xd, 0xd, 0xd, 0xd, 0xf};
 char *gSelectGhostSBNcgrName = "ta/select_ghost_s_b.ncgr";
 const u32 gSelectGhostRecordKinds[SELECT_GHOST_KIND_COUNT] = {4, 0, 1, 2};
 const u16 gSelectGhostSLabelWidths[5] = {0x3c, 0x50, 0x82, 0xba, 0xba};
-const u16 gSelectGhostMenuMessageIndices[4] = {0xa, 0xb, 0xc, 0xd};
+const u16 gSelectGhostMenuMessageIndices[SELECT_GHOST_KIND_COUNT] = {0xa, 0xb, 0xc, 0xd};
 char *gSelectGhostSelectCupCourseTaMBnclName = "common/select_cup_course_ta_m.bncl";
 char *gSelectGhostSelectCupCourseTaMBnllName = "common/select_cup_course_ta_m.bnll";
 char *gSelectGhostSelectCupCourseMNcerName = "common/select_cup_course_m.nce.ncer";
@@ -411,7 +411,7 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
     ResetPaletteBlendCycle();
     SetupSelectGhostCupCells();
     ResetSelectGhost();
-    for (index = 3; index >= 0; index--) {
+    for (index = SELECT_GHOST_KIND_COUNT - 1; index >= 0; index--) {
         if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[index]) != 0) {
             gSelectGhost->mIndex = index;
             break;
@@ -469,7 +469,7 @@ void AdvanceSelectGhostReturnSlideIn(void) {
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = returnOffsetY;
     gSelectGhost->mSelectGhostSTable[subLayoutCount + 5].mOffsetY = returnOffsetY;
-    if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
+    if (gSelectGhost->mStateFrames >= SELECT_RETURN_SLIDE_STEPS) {
         RequestSelectGhostInput();
     }
 }

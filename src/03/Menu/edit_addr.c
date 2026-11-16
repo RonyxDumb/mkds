@@ -224,7 +224,7 @@ void UpdateEditAddrInput(void) {
             }
             gEditAddr->mGroupIndex = EDIT_ADDR_LAST_GROUP;
             gEditAddr->mOamEntry->mAttr01 =
-                (gEditAddr->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
+                (gEditAddr->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK) | OAM_ENTRY_EFFECT_HIDDEN;
             PlaceEditAddrGroupOam();
             WriteEditAddrGroupPadding();
             SetUpdateFunction(StartEditAddrClose);
@@ -422,7 +422,7 @@ void UpdateEditAddrMessageClose(void) {
     storeFuncs = gEditAddrStoreFuncs;
     if (IsMessageBoxOpen() == 0) {
         if (gEditAddr->mResult == EDIT_RESULT_CANCELED) {
-            gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & OAM_ATTR01_NOT_EFFECT_MASK;
+            gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
             SetUpdateFunction(UpdateEditAddrFadeIn);
             return;
         }
@@ -541,7 +541,7 @@ void UpdateEditAddrInvalidMessageClose(void) {
     int messageOpen;
     messageOpen = IsMessageBoxOpen();
     if (messageOpen == 0) {
-        gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & (0xc1fffcffu);
+        gEditAddr->mOamEntry->mAttr01 = gEditAddr->mOamEntry->mAttr01 & OAM_ENTRY_NOT_EFFECT_AND_AFFINE_INDEX_MASK;
         SetUpdateFunction(UpdateEditAddrFadeIn);
     }
 }
