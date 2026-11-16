@@ -81,7 +81,7 @@ void *memmove(void *dst, const void *src, u32 count);
 void *memcpy(void *dst, const void *src, u32 count);
 void MemsetBody(u8 *dst, int fill, u32 count);
 
-// 12 bytes. Filled by vsnprintf and read by FormatPutBuffer: output buffer, its length, and the count written.
+// The output target of vsnprintf: the buffer, its size and the count written.
 typedef struct FormatPutTarget {
     /* 00 */ char *mBuffer;
     /* 04 */ u32 mSize;

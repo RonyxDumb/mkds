@@ -39,9 +39,7 @@ enum {
 #define FORMAT_WIDE_FLOAT_DEFAULT_PRECISION 6
 #define FORMAT_WIDE_POINTER_DIGITS 8
 
-// 16 bytes. Filled by FormatWideParseSpec from the text after a '%', read by FormatWideWithPutFunc and passed by value
-// (one word in r3, three on the stack) to FormatWideDouble, FormatWideInt64 and FormatWideInt32. Byte 0x05 is never
-// accessed.
+// A parsed wide format conversion: padding, sign and dot flags, argument kind, spec character, width and precision.
 typedef struct FormatWideSpec {
     /* 00 */ u8 mPadKind;
     /* 01 */ u8 mSignKind;

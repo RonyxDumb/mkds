@@ -9,9 +9,7 @@
 #define DOUBLE_EXPONENT_MASK 0x7ff00000
 #define DOUBLE_HIGH_MANTISSA_MASK 0xfffff
 
-// 0x26 bytes. Filled by DoubleToDigitChars (which caps mDigitCount at 32) and DigitsFromString (at most 32 bytes);
-// mDigitCount counts the bytes used in mDigits. Read by FormatRoundDigitChars, FormatWideRoundDigitChars and
-// DigitCharsToDouble (DigitCharsToDouble copies it as a whole).
+// The decimal digits of a double: the sign, exponent, digit count and digits, filled by DoubleToDigitChars.
 typedef struct DigitRecord {
     /* 00 */ u8 mNegative;
     /* 01 */ u8 mUnk_01;

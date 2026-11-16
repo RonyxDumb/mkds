@@ -27,7 +27,7 @@ enum {
     PARTICLE_TEXTURE_FORMAT_COMPRESSED = 5
 };
 
-// Word at ParticleTexture 0x0c and ParticleTextureHeader 0x04.
+// The image parameter word of a particle texture: format, size, wrap, transparency and shared texture index.
 typedef struct ParticleTextureParam {
     /* 00 */ u32 mFormat : 4;
     /* 00 */ u32 mSizeS : 4;
@@ -40,7 +40,7 @@ typedef struct ParticleTextureParam {
     /* 00 */ u32 mUnk_00_26 : 6;
 } ParticleTextureParam;
 
-// Header of an entry of the table at SPLManager 0x2c.
+// The header of a particle texture entry: the image parameter, texture and palette sizes and the block size.
 typedef struct ParticleTextureHeader {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ ParticleTextureParam mImageParam;

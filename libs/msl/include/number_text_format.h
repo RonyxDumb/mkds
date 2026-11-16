@@ -42,8 +42,7 @@ enum {
 #define FORMAT_HEX_FLOAT_DEFAULT_PRECISION 0xd
 #define FORMAT_POINTER_DIGITS 8
 
-// 16 bytes. Filled by FormatParseSpec; FormatWithPutFunc passes it by value (moved as four words) to
-// FormatDouble, FormatDoubleHex, FormatInt64 and FormatInt32.
+// A parsed format conversion: padding, sign, dot and hash flags, argument kind, spec character, width and precision.
 typedef struct FormatSpec {
     /* 00 */ u8 mPadKind;
     /* 01 */ u8 mSignKind;

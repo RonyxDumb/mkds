@@ -4,7 +4,7 @@
 #include "model_material_set.h" // MtxFx43
 #include "fixed_vector_math.h"
 
-// Linked through mNext/mPrev; on the lists at ParticleEmitter 0x08 and 0x14 and SPLManager 0x1c.
+// A particle, linked through mNext and mPrev, with its offset, velocity, angle, life and age.
 typedef struct ParticleInstance {
     /* 00 */ struct ParticleInstance *mNext;
     /* 04 */ struct ParticleInstance *mPrev;
@@ -278,7 +278,7 @@ struct ParticleResource {
     /* 1c */ u16 mBehaviorCount;
 };
 
-// The four bytes at ParticleEmitter 0x98, read by the side and follow effects.
+// The emitter state read by the side and follow effects: velocity factor index, counting flag, step count, side index.
 typedef struct EmitterCallbackBytes {
     /* 00 */ u8 mVelocityFactorIndex;
     /* 01 */ u8 mCounting;

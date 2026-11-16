@@ -24,8 +24,7 @@ enum {
 // ScanSpec.mSpecChar value for a conversion that cannot be scanned.
 #define SCAN_SPEC_INVALID 0xff
 
-// 0x28 bytes. Filled by ScanParseSpec from the text at its first argument, starting from a local copy with every
-// byte zero and mMaxLength = 0x7fffffff; ScanWithSourceFunc reads mCharSet one bit per byte value.
+// A parsed scan conversion: the star and max length flags, argument kind, spec character and the character set.
 typedef struct ScanSpec {
     /* 00 */ u8 mStar;
     /* 01 */ u8 mHasMaxLength;

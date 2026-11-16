@@ -2,8 +2,7 @@
 
 #include "types.h"
 
-// 12 bytes. Filled by vswprintf and read by FormatPutWideBuffer: output buffer, its length in u16 units, and the
-// count written.
+// The output target of vswprintf: the wide buffer, its size and the count written.
 typedef struct FormatPutWideTarget {
     /* 00 */ u16 *mBuffer;
     /* 04 */ u32 mSize;
