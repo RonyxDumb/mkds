@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// Build information block of the startup code (see build_info_block.c).
+// Build information block (see build_info_block.c): nine words the startup code reads and the version strings mBackup,
+// mDwc, mWifi, mSsl and mCps.
 typedef struct BuildInfoLayout {
     // Start and end of the block list, the source of the copied words, then the start of the range of words to clear
     // and its end.
