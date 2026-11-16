@@ -384,7 +384,7 @@ void NNSi_G3dSendJointSRTMaya(NNSG3dJntAnmResult *jntAnmResult) {
     if ((resultFlags & G3D_JNT_ANM_TRANS_IS_IDENTITY) == 0) {
         translationPending = TRUE;
     }
-    if ((resultFlags & 0x20) && !(resultFlags & G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY)) {
+    if ((resultFlags & G3D_JNT_ANM_PARENT_INV_SCALE) && !(resultFlags & G3D_JNT_ANM_SCALE_EX0_IS_IDENTITY)) {
         if (translationPending) {
             NNS_G3dGeBufferOP_N(0x1c, &jntAnmResult->mTrans, 3);
             translationPending = FALSE;
