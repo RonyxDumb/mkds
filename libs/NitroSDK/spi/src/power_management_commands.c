@@ -249,24 +249,24 @@ u32 PM_SetBackLightAsync(u32 target, u32 sw, PMCallback callback, void *arg) {
 
     utilityCommand = 0;
     if (target == 0) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 6;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 7;
         }
     } else if (target == 1) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 4;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 5;
         }
     } else if (target == 2) {
-        if (sw == 1) {
+        if (sw == POWER_SWITCH_ON) {
             utilityCommand = 8;
         }
-        if (sw == 0) {
+        if (sw == POWER_SWITCH_OFF) {
             utilityCommand = 9;
         }
     }
@@ -434,7 +434,7 @@ void PM_GoSleepMode(u32 trigger, u32 logic, u32 keyPattern) {
 // (waiting for it when isSync is nonzero). Off: stores the counter for that guard. Returns 1 when done.
 BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
-        case 1:
+        case POWER_SWITCH_ON:
             if (skip == 0) {
                 if (SYSTEM_WORK->mVblankCount - PMi_LCDCount <= 7) {
                     return 0;
@@ -449,7 +449,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             }
             reg_GX_POWCNT |= 1;
             break;
-        case 0:
+        case POWER_SWITCH_OFF:
             reg_GX_POWCNT &= ~1;
             PMi_LCDCount = SYSTEM_WORK->mVblankCount;
             if (led != 0) {
@@ -467,8 +467,8 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
 // Anything but 1 counts as 0. Switches the screens on or off with no LED change; returns 0 when the turn-on guard of
 // PMi_SetLCDPower refuses.
 BOOL PM_SetLCDPower(u32 sw) {
-    if (sw != 1) {
-        sw = 0;
+    if (sw != POWER_SWITCH_ON) {
+        sw = POWER_SWITCH_OFF;
     }
     return PMi_SetLCDPower(sw, 0, 0, 1);
 }

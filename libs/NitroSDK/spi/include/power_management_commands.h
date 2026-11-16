@@ -2,6 +2,10 @@
 
 #include "types.h"
 
+// Values of the sw argument of the power and backlight commands.
+#define POWER_SWITCH_OFF 0
+#define POWER_SWITCH_ON 1
+
 typedef struct OSMutex OSMutex;
 
 typedef void (*PMCallback)(u32 result, void *arg);
