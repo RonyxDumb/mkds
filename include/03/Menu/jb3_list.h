@@ -37,7 +37,7 @@ typedef struct Rect Rect;
 #define JB3_ENTRY_DNS_FIRST 7
 #define JB3_ENTRY_DNS_SECOND 8
 
-// Frames a dragged scroll bar waits between redraws, and frames a hit IP or DNS choice stays highlighted.
+// Frames a dragged scroll bar waits between redraws, and frames a touched IP or DNS choice stays pressed.
 #define JB3_LIST_SCROLL_TIMER_FRAMES 4
 #define JB3_LIST_ID_PRESSED_FRAMES 0x14
 

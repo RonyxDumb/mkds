@@ -9,7 +9,7 @@ typedef struct OamEntry OamEntry;
 // Index of the last of the four three-digit groups of the address text.
 #define EDIT_ADDR_LAST_GROUP 3
 
-// The address entry keyboard state: its canvas, cursor object, entered address text, digit group and result.
+// The address entry screen: its canvas, cursor object, entered address text, digit group and result.
 typedef struct EditAddr {
     /* 00 */ BgTextCanvas *mBgTextCanvas;
     /* 04 */ OamEntry *mOamEntry;

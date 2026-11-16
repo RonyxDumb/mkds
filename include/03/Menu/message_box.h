@@ -6,14 +6,16 @@
 
 typedef struct TaskEntry TaskEntry;
 
-// MessageBox.mKind of the box that closes by itself, the frames it stays up, and the frames the close waits.
+// MessageBox.mKind of the box that closes by itself, the frames it stays up before closing, and the frames every close
+// waits before the box slides out.
 #define MESSAGE_BOX_KIND_TIMED 5
 #define MESSAGE_BOX_TIMED_FRAMES 0x78
 #define MESSAGE_BOX_CLOSE_WAIT_FRAMES 8
 
 typedef struct OamRange OamRange;
 
-// Window in/out bits by message box kind.
+// Per MessageBox.mKind: the extraBitFlag CreateMessageBox gives WriteWinInOutBits for window 1 (non-zero adds the extra
+// bit).
 typedef struct MessageBoxWindowFlags {
     /* 0 */ u8 mFlagsByKind[6];
 } MessageBoxWindowFlags;

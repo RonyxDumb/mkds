@@ -5,11 +5,13 @@
 #include "03/System/tasks.h"
 #include "03/Net/exchange_wcm_state.h"
 
-// Frames the slide buttons wait before they take touch input, and frames the button reset waits.
+// Calls of AdvanceSlideButtonsWait before the buttons take touch input, and calls of AdvanceButtonReset before the
+// pressed button is restored.
 #define SLIDE_BUTTONS_WAIT_FRAMES 4
 #define SLIDE_BUTTONS_RESET_WAIT_FRAMES 0x10
 
-// The slide buttons: two button objects, the slide range, step and reset tasks, and the pressed result.
+// The slide buttons: two button objects, the slide range, step and reset tasks, mStepFrames, mButtonResult, mKind and
+// the mTouchDisabled and mSlidingOut flags.
 typedef struct SlideButtons {
     /* 00 */ OamRange *mButtons[2];
     /* 08 */ OamRange *mSlideRange;

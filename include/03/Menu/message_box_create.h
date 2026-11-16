@@ -4,8 +4,7 @@
 
 typedef struct OamRange OamRange;
 
-// K&R on purpose: message_box_create.c calls WriteWinRect with a u8 array, and the typed header of this function
-// declares it with u16 *.
+// K&R on purpose: this declaration is deliberately not the typed one in 03/Graphics/dispcnt_window.h.
 void WriteWinInOutBits();
 
 void CloseMessageBox(void);

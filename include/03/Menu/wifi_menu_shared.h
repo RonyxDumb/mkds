@@ -18,7 +18,8 @@
 #include "03/System/tasks.h"
 #include "03/System/touch_key_input.h"
 
-// The list of Wi-Fi ids: its text canvas, cell objects, scroll tasks, chosen and return id and scroll bar flags.
+// The list of the fields of the access point work copy (SSID, WEP key, IP, netmask, gateway, DNS): its text canvas,
+// cell objects, scroll, background offset and id timer tasks, id timers, chosen and return id and scroll bar flags.
 typedef struct Jb3List {
     /* 00 */ TaskEntry *mIdTimerTask;
     /* 04 */ u8 mIdTimer[4];
@@ -62,7 +63,8 @@ enum {
     EDIT_KEY_BOTTOM_RIGHT,
 };
 // Values of EditKeyboard.mPage, and of EditKeyboard.mInput besides the characters (NOT_READY until the keyboard slid
-// in), the number of calls a held remove key waits before it repeats, the text glyph of a space and the longest text.
+// in), the number of calls a held remove key waits before its first repeat (later ones wait 7 fewer), the text glyph of
+// a space and the longest text.
 #define EDIT_KEYBOARD_PAGE_MAIN 0
 #define EDIT_KEYBOARD_PAGE1 1
 #define EDIT_KEYBOARD_PAGE2 2
@@ -82,7 +84,8 @@ enum {
     EDIT_KEY_DOWN_FROM_BOTTOM_RIGHT = -5,
 };
 
-// The text entry keyboard: its key objects, cursor, step task, current page and the pressed and highlighted keys.
+// The text entry keyboard: its key objects, cursor, step task, mInput, current page, the pressed, highlighted, previous
+// and cursor keys, mRepeatCalls and the mRemoveCharEnabled and mAddCharEnabled flags.
 typedef struct EditKeyboard {
     /* 000 */ void *mRowTexts[3][4];
     /* 030 */ OamEntry *mKeys[0x2f];
@@ -121,7 +124,8 @@ struct ApStore;
 struct SoundData;
 struct MenuPairObjects;
 extern UsbScan *gUsbScan;
-// The on-screen message box: its box, text and button OAM ranges, its task and the result the player chose.
+// The on-screen message box: its box, text and button OAM ranges, text canvas, task, mKind, the timed and close wait
+// counters and mResult (-2 unset, -1 none yet, else the button index).
 typedef struct MessageBox {
     /* 00 */ OamRange *mBox;
     /* 04 */ OamRange *mText;
@@ -200,7 +204,8 @@ typedef struct ChildWaitSharedEntry {
     /* 04 */ u8 mPayload[0x40];
 } ChildWaitSharedEntry;
 
-// The child wait session: its shared entries, block number, channel, state, handshake and multiboot game registry.
+// The session view of the child wait session: its shared entries, block number, channel, state, handshake and multiboot
+// game registry.
 typedef struct ChildWaitSessionView {
     /* 000 */ ChildWaitSharedEntry mSendEntryStorage;
     /* 044 */ u8 pad_44[0xbc];
@@ -247,7 +252,7 @@ static inline ChildWaitSharedEntry *GetChildWaitSharedEntry(ChildWaitSessionView
     return &session->mSharedEntries[entryIndex];
 }
 
-// An FSArchive for the Wi-Fi files with a stack of 32 pointers and the lock id.
+// An FSArchive named dwc, loaded from rom:/dwc/utility.bin, with its tables, a stack of 32 pointers and the lock id.
 typedef struct DwcArchive {
     /* 00 */ void *mTables;
     /* 04 */ void *mStackStorage[0x20];
@@ -257,7 +262,8 @@ typedef struct DwcArchive {
     /* e6 */ u8 mUnk_e6[2];
 } DwcArchive;
 
-// The pool of OamRange objects: 32 ranges, the start and end of the list in use and the stack of free ranges.
+// The OamRange objects of one screen (gOamRanges holds two): 32 ranges, the start and end nodes of the list of ranges
+// in use, the node list and the stack of free ranges.
 typedef struct OamRanges {
     /* 000 */ OamRange mRanges[0x20];
     /* 200 */ OamRange mListStart;
@@ -266,7 +272,8 @@ typedef struct OamRanges {
     /* 224 */ PointerStack *mFreeRanges;
 } OamRanges;
 
-// The header of an NCE image file: the number of entries and the offset of their table.
+// One image of an NCE file: the number of its OAM entries and the offset of the entry data; the file starts with one of
+// these per image index.
 typedef struct NceImage {
     /* 00 */ u16 mEntryCount;
     /* 02 */ u16 mUnk_02;

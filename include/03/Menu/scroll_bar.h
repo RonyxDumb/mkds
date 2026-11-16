@@ -34,7 +34,8 @@ enum {
     SCROLL_BAR_EVENT_ARROW_DOWN_RELEASED,
 };
 
-// A scroll bar: its screen objects, position, drag start, thumb offset, state and pending event.
+// A scroll bar: its screen object, step task, position, drag start, track length, size, thumb offset, state, event of
+// the last step and input flag.
 typedef struct ScrollBar {
     /* 00 */ struct OamRange *mResource;
     /* 04 */ u8 mUnk_04[8];
