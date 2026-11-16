@@ -117,7 +117,7 @@ typedef struct KartItemEffectState {
 // participant kart.
 typedef struct ParticipantKartRecordState {
     /* 00 */ Vec3 mSmoothedPos;
-    /* 0c */ u16 mHeadingAngleAtReset;
+    /* 0c */ u16 mHeadingAngleAtInit;
     /* 0e */ u16 mSmoothedHeadingAngle;
     /* 10 */ Vec3 mSmoothedDrawPos;
     /* 1c */ s32 mUnk_1c;

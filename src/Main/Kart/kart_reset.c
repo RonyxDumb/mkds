@@ -632,7 +632,7 @@ void InitParticipantKartRecordState(Kart *kart, void *heap) {
     recordState->mSmoothedPos = kart->mPos;
     recordState->mSmoothedDrawPos = recordState->mSmoothedPos;
     recordState->mSmoothedHeadingAngle = kart->mHeadingAngle;
-    recordState->mHeadingAngleAtReset = recordState->mSmoothedHeadingAngle;
+    recordState->mHeadingAngleAtInit = recordState->mSmoothedHeadingAngle;
     recordState->mUnk_1c = 0;
     recordState->mLastSyncCount = 0;
     recordState->mPosBlendFactor = 0;

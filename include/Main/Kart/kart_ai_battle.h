@@ -46,7 +46,7 @@ typedef struct KartAiRaceSpeedLimit {
     /* 14 */ s32 mRank;
     /* 18 */ s32 mSpeedLimitReduced;
     /* 1c */ s32 mTableIndex;
-    /* 20 */ s32 mTableIndexCopy;
+    /* 20 */ s32 mTableIndexOrRank;
     /* 24 */ s32 mProgressGapLimit;
     /* 28 */ s32 mHeadingSwingAtRaceStart;
     /* 2c */ s32 mBoostsAtRaceStart;
