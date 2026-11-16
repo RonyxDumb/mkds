@@ -411,10 +411,10 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             if (shine16->mTargetPickCount > 0) {
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-                randomAngle = ((u64) (u32) (randomState->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
+                randomAngle = RANDOM_BELOW_U64(randomState, ANGLE_FULL_TURN);
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-                randomRadius = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;
+                randomRadius = RANDOM_BELOW_U64(randomState, 0x14000);
                 deltaX = shine16->mTargetPos.x + MUL_FIXED12_NO_ROUND(randomRadius, FX_SinIdx(randomAngle)) -
                          shine16->mMapObject.mPos.x;
                 deltaZ = shine16->mTargetPos.z + MUL_FIXED12_NO_ROUND(randomRadius, FX_CosIdx(randomAngle)) -

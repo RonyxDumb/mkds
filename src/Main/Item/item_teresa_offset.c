@@ -130,9 +130,9 @@ void ResetItemTeresa(ItemTeresa *teresa) {
 static inline u32 ItemTeresaNextRandomBelow_inline(RandomState64 *random, u32 range) {
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     if (range == 0) {
-        return random->mValue >> 32;
+        return RANDOM_HIGH32(random);
     }
-    return ((random->mValue >> 32) * range) >> 32;
+    return RANDOM_BELOW(random, range);
 }
 
 static inline s32 IsItemTeresaCandidateKart_inline(KartItems *kartItems, RaceSetup *raceSetup, s32 teamIndex,
@@ -280,7 +280,7 @@ void PickItemTeresaKartBattle(ItemTeresa *teresa, s32 teamIndex) {
     random = &raceProgress->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     raceSetup = gRaceSetup;
-    rowIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 8) >> 32);
+    rowIndex = (u16) RANDOM_BELOW_U64(random, 8);
     endIndex = rowIndex + 8;
     kartCount = raceSetup->mKartCount;
     skippedKartIndex = (u16) ((teresa->mItemObject.mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0

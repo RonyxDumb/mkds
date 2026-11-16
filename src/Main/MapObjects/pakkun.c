@@ -149,7 +149,7 @@ static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
-        return (u16) ((mapObjectRandom->mValue >> 32) * 0x10000 >> 32);
+        return (u16) RANDOM_BELOW(mapObjectRandom, 0x10000);
     }
     mapObjectRandom = GetMapObjectRandom();
     limitU16 = (u16) limit;
@@ -159,9 +159,9 @@ static inline u32 PakkunMapObjectRandomBelowU16(u32 limit) {
         mapObjectRandom->mValue =
             mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
         if (limitU16 == 0) {
-            value = mapObjectRandom->mValue >> 32;
+            value = RANDOM_HIGH32(mapObjectRandom);
         } else {
-            value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
+            value = RANDOM_BELOW(mapObjectRandom, limitU16);
         }
     }
     return (u16) value;

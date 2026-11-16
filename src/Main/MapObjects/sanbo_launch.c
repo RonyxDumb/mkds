@@ -22,7 +22,7 @@ void StartSanboLaunch(Sanbo *sanbo) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        randomAngle = ((u64) (u32) (mapObjectRandom->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
+        randomAngle = RANDOM_BELOW_U64(mapObjectRandom, ANGLE_FULL_TURN);
         sanbo->mPieces[pieceIndex].mPos.x = sanbo->mMapObject.mPos.x;
         sanbo->mPieces[pieceIndex].mPos.y = sanbo->mMapObject.mPos.y + pieceIndex * 0x14000;
         sanbo->mPieces[pieceIndex].mPos.z = sanbo->mMapObject.mPos.z;
@@ -32,7 +32,7 @@ void StartSanboLaunch(Sanbo *sanbo) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        randomBit = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 2) >> 32;
+        randomBit = RANDOM_BELOW_U64(mapObjectRandom, 2);
         sanbo->mPieces[pieceIndex].mRotateZAnglePerFrame = (randomBit != 0 ? 1 : -1) * 0xaab;
     }
     sanbo->mLaunchWaitTimer = SANBO_LAUNCH_WAIT_FRAMES;

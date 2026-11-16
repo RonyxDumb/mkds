@@ -35,9 +35,9 @@ void InitTeresaSpawner(TeresaSpawner *mapObject) {
 static inline u16 TeresaSpawnerNextRandomBelow(RandomState64 *randomState64, u32 limit) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
@@ -47,7 +47,7 @@ static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
     if (limit == 0x10000) {
         randomState64 = &gRaceProgress->mLocalRandom;
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-        return (randomState64->mValue >> 32) * 0x10000 >> 32;
+        return RANDOM_BELOW(randomState64, 0x10000);
     }
     randomState64 = &gRaceProgress->mLocalRandom;
     limitU16 = (u16) limit;
@@ -56,9 +56,9 @@ static inline u16 TeresaSpawnerLocalRandomBelowU16(u32 limit) {
     } else {
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         if (limitU16 == 0) {
-            value = randomState64->mValue >> 32;
+            value = RANDOM_HIGH32(randomState64);
         } else {
-            value = ((randomState64->mValue >> 32) * limitU16) >> 32;
+            value = RANDOM_BELOW(randomState64, limitU16);
         }
     }
     return value;
@@ -118,7 +118,7 @@ RandomState64 *GetRaceLocalRandom(void) {
 
 u16 NextRandomU16(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return ((randomState64->mValue >> 32) * 0x10000) >> 32;
+    return RANDOM_BELOW(randomState64, 0x10000);
 }
 
 s16 TeresaSpawnerFX_SinIdx(s32 angle) {

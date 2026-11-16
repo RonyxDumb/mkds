@@ -331,15 +331,15 @@ void UpdateWanwanRoam(void *stateObject) {
                 } else {
                     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                     if (radiusRange == 0) {
-                        radiusExtra = (u32) (random->mValue >> 32);
+                        radiusExtra = (u32) RANDOM_HIGH32(random);
                     } else {
-                        radiusExtra = (u32) (((u64) (random->mValue >> 32) * (u64) radiusRange) >> 32);
+                        radiusExtra = (u32) (((u64) RANDOM_HIGH32(random) * (u64) radiusRange) >> 32);
                     }
                 }
                 random = GetMapObjectRandom();
                 radius = radiusExtra + 0x2d000;
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-                angleIndex = (u16) (((random->mValue >> 32) * 0x10000) >> 32) >> 4;
+                angleIndex = (u16) RANDOM_BELOW(random, 0x10000) >> 4;
                 attemptCount++;
                 candidate->x = wanwan->mCenterPos.x + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2], radius);
                 candidate->z = wanwan->mCenterPos.z + MUL_FIXED12_NO_ROUND(FX_SinCosTable_[angleIndex * 2 + 1], radius);

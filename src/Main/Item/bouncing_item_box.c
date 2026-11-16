@@ -204,7 +204,7 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
         RandomState64 *random = &gRaceProgress->mLocalRandom;
 
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        quad->mPickedCornerIndex = (u16) (((u64) (u32) (random->mValue >> 32) * 6) >> 32);
+        quad->mPickedCornerIndex = (u16) RANDOM_BELOW_U64(random, 6);
     }
 }
 
@@ -398,15 +398,15 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    value = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+    value = (s32) (u16) RANDOM_BELOW_U64(random, 0x10000);
     cosResult = SIN_OF_ANGLE(value);
     sinResult = COS_OF_ANGLE(value);
     if (overlap != 0) {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        value = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;
+        value = (s16) RANDOM_BELOW_U64(random, 0xcd) + 0x800;
     } else {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        value = 0xa66 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x52) >> 32);
+        value = 0xa66 + (s16) RANDOM_BELOW_U64(random, 0x52);
     }
     value = (s16) value;
     if (gOrthoQuadUseCreamEffect != 0) {
@@ -466,25 +466,25 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     for (cellIndex = 0, placedCount = 0; cellIndex < 0x10 && placedCount < count; cellIndex++) {
         if (gOrthoQuadUseCreamEffect != 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
+            startPair.mHalf.mX = (s16) RANDOM_BELOW_U64(random, 0x1000) * 2;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
+            startPair.mHalf.mY = (s16) RANDOM_BELOW_U64(random, 0xc00) * 2;
         } else if (gOrthoQuadCount == 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
+            startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x1000);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mX =
-                startPair.mHalf.mX + (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32);
+                startPair.mHalf.mX + (s16) RANDOM_BELOW_U64(random, 0x1000);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32;
+            startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0xc00);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mY =
-                startPair.mHalf.mY + (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32);
+                startPair.mHalf.mY + (s16) RANDOM_BELOW_U64(random, 0xc00);
         } else {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mX = ((u64) (u32) (random->mValue >> 32) * 0x2000) >> 32;
+            startPair.mHalf.mX = RANDOM_BELOW_U64(random, 0x2000);
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            startPair.mHalf.mY = ((u64) (u32) (random->mValue >> 32) * 0x1800) >> 32;
+            startPair.mHalf.mY = RANDOM_BELOW_U64(random, 0x1800);
         }
         column = startPair.mHalf.mX >> 10;
         row = startPair.mHalf.mY >> 10;
@@ -730,7 +730,7 @@ void SetupItemGessoKarts(ItemGesso *gesso) {
             random = &raceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             gesso->mOrthoQuadCounts[candidateIndex] =
-                (u16) (((random->mValue >> 32) * ITEM_GESSO_MAX_QUADS_PER_KART) >> 32) + 1;
+                (u16) RANDOM_BELOW(random, ITEM_GESSO_MAX_QUADS_PER_KART) + 1;
         }
     } else {
         rank = 1;

@@ -72,7 +72,7 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
             mapObjectRandom = GetMapObjectRandom();
             mapObjectRandom->mValue =
                 (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-            pickedIndex = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+            pickedIndex = RANDOM_BELOW_U64(mapObjectRandom, 0x10000);
         } else {
             mapObjectRandom = GetMapObjectRandom();
             if ((u16) range == 0) {
@@ -82,9 +82,9 @@ BOOL TryStartShine16AtRandomObject(MapObjectList *mapObjectList) {
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 rangeLow = (u16) range;
                 if (rangeLow == 0) {
-                    randomValue = mapObjectRandom->mValue >> 32;
+                    randomValue = RANDOM_HIGH32(mapObjectRandom);
                 } else {
-                    randomValue = ((mapObjectRandom->mValue >> 32) * rangeLow) >> 32;
+                    randomValue = RANDOM_BELOW(mapObjectRandom, rangeLow);
                 }
             }
             pickedIndex = randomValue;

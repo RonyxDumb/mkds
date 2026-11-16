@@ -186,7 +186,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
             }
             randomState64 = &gRaceProgress->mLocalRandom;
             randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-            picture->mWaitFrames = (u16) (((randomState64->mValue >> 32) * 0x78) >> 32) + 0x3c;
+            picture->mWaitFrames = (u16) RANDOM_BELOW(randomState64, 0x78) + 0x3c;
             picture->mState = PICTURE_STATE_WAIT;
             break;
     }

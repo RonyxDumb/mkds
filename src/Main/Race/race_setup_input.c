@@ -78,9 +78,9 @@ static inline u32 BuildCourseListNextRandomBelowU16(RandomState64 *randomState64
     } else {
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         if (limit == 0) {
-            result = randomState64->mValue >> 32;
+            result = RANDOM_HIGH32(randomState64);
         } else {
-            result = ((randomState64->mValue >> 32) * limit) >> 32;
+            result = RANDOM_BELOW(randomState64, limit);
         }
     }
     return (u16) result;
@@ -154,9 +154,9 @@ u32 NextRandomBelowU16(RandomState64 *randomState64, u32 limit) {
     } else {
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         if (limit == 0) {
-            result = randomState64->mValue >> 32;
+            result = RANDOM_HIGH32(randomState64);
         } else {
-            result = ((randomState64->mValue >> 32) * limit) >> 32;
+            result = RANDOM_BELOW(randomState64, limit);
         }
     }
     return (u16) result;

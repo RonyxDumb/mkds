@@ -90,7 +90,7 @@ void PickDramAngleChoices(MapObjectList *list) {
     }
     random = GetMapObjectRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    rowIndex = ((u64) (u32) (random->mValue >> 32) * 6) >> 32;
+    rowIndex = RANDOM_BELOW_U64(random, 6);
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
         row = gDramAngleChoiceRows[rowIndex];

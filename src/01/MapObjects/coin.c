@@ -150,10 +150,10 @@ void StartCoinDrop(void) {
     if (coin != NULL) {
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32);
+        angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
+        speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_DROP;
         coin->mScaleFactor = COIN_SCALE_START;
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
@@ -187,10 +187,10 @@ void StartCoinBossTransfer(void) {
     if (coin != NULL) {
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32);
+        angle = (u16) RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
+        speed = (u32) RANDOM_BELOW_U64(random, 0x800) + 0x800;
         coin->mState = COIN_STATE_TRANSFER_RISE;
         coin->mScaleFactor = COIN_SCALE_START;
         coin->mModelAlpha = COIN_LEAVE_KART_ALPHA;
@@ -244,7 +244,7 @@ void SetBossCoinShownCount(s32 shownCount) {
                     if (coin->mTargetPos == NULL) {
                         random = GetMapObjectRandom();
                         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-                        angle = ((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
+                        angle = RANDOM_BELOW_U64(random, ANGLE_FULL_TURN);
                         coin->mScaleFactor = COIN_SCALE_FULL;
                         coin->mModelAlpha = 0;
                         coin->mTargetPos =

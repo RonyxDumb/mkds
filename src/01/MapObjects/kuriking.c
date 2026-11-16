@@ -252,7 +252,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
     if (firstRange == 0x10000) {
         random = GetMapObjectRandom();
         random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
-        firstResult = (random->mValue >> 32) * 0x10000 >> 32;
+        firstResult = RANDOM_BELOW(random, 0x10000);
     } else {
         random = GetMapObjectRandom();
         if ((u16) firstRange == 0) {
@@ -261,9 +261,9 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
             random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
             firstRangeLow = (u16) firstRange;
             if (firstRangeLow == 0) {
-                firstScaledDraw = random->mValue >> 32;
+                firstScaledDraw = RANDOM_HIGH32(random);
             } else {
-                firstScaledDraw = ((s64) (random->mValue >> 32) * firstRangeLow) >> 32;
+                firstScaledDraw = RANDOM_BELOW_S64(random, firstRangeLow);
             }
         }
         firstResult = firstScaledDraw;
@@ -273,7 +273,7 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
         if (secondRange == 0x10000) {
             random = GetMapObjectRandom();
             random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
-            secondResult = (random->mValue >> 32) * 0x10000 >> 32;
+            secondResult = RANDOM_BELOW(random, 0x10000);
         } else {
             random = GetMapObjectRandom();
             if ((u16) secondRange == 0) {
@@ -282,9 +282,9 @@ void ThrowBombsAndKinoko(MissionRunMapObject *mapObject) {
                 random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
                 secondRangeLow = (u16) secondRange;
                 if (secondRangeLow == 0) {
-                    secondScaledDraw = random->mValue >> 32;
+                    secondScaledDraw = RANDOM_HIGH32(random);
                 } else {
-                    secondScaledDraw = ((s64) (random->mValue >> 32) * secondRangeLow) >> 32;
+                    secondScaledDraw = RANDOM_BELOW_S64(random, secondRangeLow);
                 }
             }
             secondResult = secondScaledDraw;

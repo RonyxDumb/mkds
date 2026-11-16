@@ -40,7 +40,7 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
     if (limit == 0x10000) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+        return RANDOM_BELOW(mapObjectRandom, 0x10000);
     } else {
         mapObjectRandom = GetMapObjectRandom();
         limitU16 = (u16) limit;
@@ -50,9 +50,9 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             if (limitU16 == 0) {
-                value = mapObjectRandom->mValue >> 32;
+                value = RANDOM_HIGH32(mapObjectRandom);
             } else {
-                value = ((mapObjectRandom->mValue >> 32) * limitU16) >> 32;
+                value = RANDOM_BELOW(mapObjectRandom, limitU16);
             }
         }
     }
@@ -238,7 +238,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
         townMonte->mNsbtpFrameIndex = TownMonteMapObjectRandomBelowU16(nsbtpFrameCount);
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        count = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
+        count = RANDOM_BELOW(mapObjectRandom, 0x1a);
         for (index = 0; index < count; index++) {
             AdvanceTownMonteBounce(townMonte);
         }
@@ -251,7 +251,7 @@ void InitTownMonteObjects(MapObjectList *mapObjectList) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-                townMonte->mSoundId = (u16) (((mapObjectRandom->mValue >> 32) * 2) >> 32) != 0
+                townMonte->mSoundId = (u16) RANDOM_BELOW(mapObjectRandom, 2) != 0
                                           ? TOWN_MONTE_SOUND_FIRST
                                           : TOWN_MONTE_SOUND_SECOND;
             }

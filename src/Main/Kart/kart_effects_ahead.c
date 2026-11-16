@@ -203,8 +203,8 @@ void AdvancePointLinkCursor(PointLinkCursor *pointLinkCursor) {
             } else {
                 kartAiRandom->mValue =
                     (s64) kartAiRandom->mMultiplier * (s64) kartAiRandom->mValue + kartAiRandom->mIncrement;
-                randomValue = (nextLinkCount == 0) ? (u32) (kartAiRandom->mValue >> 32)
-                                                   : (u32) (((kartAiRandom->mValue >> 32) * (u32) nextLinkCount) >> 32);
+                randomValue = (nextLinkCount == 0) ? (u32) RANDOM_HIGH32(kartAiRandom)
+                                                   : (u32) RANDOM_BELOW(kartAiRandom, (u32) nextLinkCount);
             }
             nextIndex = randomValue;
         }
@@ -491,9 +491,9 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                         kartAiRandom->mValue =
                             kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
                         if (candidateCount == 0) {
-                            randomValue = kartAiRandom->mValue >> 32;
+                            randomValue = RANDOM_HIGH32(kartAiRandom);
                         } else {
-                            randomValue = ((kartAiRandom->mValue >> 32) * (u32) candidateCount) >> 32;
+                            randomValue = RANDOM_BELOW(kartAiRandom, (u32) candidateCount);
                         }
                     }
                     shineCount = randomValue;

@@ -167,9 +167,9 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
 static inline u32 TakeHeldItemObjects_inline(RandomState64 *generator, u32 range) {
     generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
     if (range == 0) {
-        return generator->mValue >> 32;
+        return RANDOM_HIGH32(generator);
     } else {
-        return ((generator->mValue >> 32) * range) >> 32;
+        return RANDOM_BELOW(generator, range);
     }
 }
 
@@ -684,7 +684,7 @@ void InitItemPointLinkDirections(void) {
 
 static inline u32 ThrowBouncingItem_inline(RandomState64 *generator, u32 range) {
     generator->mValue = generator->mMultiplier * generator->mValue + generator->mIncrement;
-    return ((u64) (u32) (generator->mValue >> 32) * range) >> 32;
+    return RANDOM_BELOW_U64(generator, range);
 }
 
 // Gives a bouncing item its start velocity and position from the kart; c is 1 to throw forward.

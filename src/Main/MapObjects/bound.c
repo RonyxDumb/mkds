@@ -80,7 +80,7 @@ MapObjectKindDescriptor gBerryKindDescriptor = {0,
 
 static inline u32 CollideKartWithBound_inline(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
-    return randomState64->mValue >> 32;
+    return RANDOM_HIGH32(randomState64);
 }
 
 void InitBound(Bound *bound) {

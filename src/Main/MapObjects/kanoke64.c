@@ -60,7 +60,7 @@ static inline u32 MapObjectRandomBelow(u32 limit) {
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return ((mapObjectRandom->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline u16 MapObjectRandomBelowU16(u32 limit) {
@@ -68,7 +68,7 @@ static inline u16 MapObjectRandomBelowU16(u32 limit) {
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
+    return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline void StartKanoke64Sound(Kanoke64 *kanoke64, s32 soundId) {
@@ -135,9 +135,9 @@ u32 NextRandomBelow(RandomState64 *randomState64, u32 limit) {
     }
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 s16 Kanoke64FX_SinIdx(s32 angle) {

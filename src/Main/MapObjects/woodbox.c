@@ -196,7 +196,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     }
     raceRandom = GetRaceRandom();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
-    if (woodbox->mItemChancePercent <= (u16) (((u64) (u32) (raceRandom->mValue >> 32) * 100) >> 32)) {
+    if (woodbox->mItemChancePercent <= (u16) RANDOM_BELOW_U64(raceRandom, 100)) {
         return;
     }
     if (woodbox->mItemRowHandle == 0) {
@@ -215,7 +215,7 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     raceRandom = GetRaceRandom();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     spawnDistance =
-        ((s64) (s32) ((u32) (((u64) (u32) (raceRandom->mValue >> 32) * 0x1800) >> 32) + 0x119a) << 12) >> 12;
+        ((s64) (s32) ((u32) RANDOM_BELOW_U64(raceRandom, 0x1800) + 0x119a) << 12) >> 12;
     raceRandom = GetRaceRandom();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     itemObject->mVelocity = *velocity;

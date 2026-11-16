@@ -73,9 +73,9 @@ u32 PickRandomCupIndex(RandomState64 *random) {
     } else {
         random->mValue = _ll_mul(random->mMultiplier, random->mValue) + random->mIncrement;
         if (passingCupCount == 0) {
-            randomPosition = random->mValue >> 32;
+            randomPosition = RANDOM_HIGH32(random);
         } else {
-            randomPosition = (u64) (u32) (random->mValue >> 32) * (u32) passingCupCount >> 32;
+            randomPosition = RANDOM_BELOW_U64(random, (u32) passingCupCount);
         }
     }
     pickedPosition = randomPosition;

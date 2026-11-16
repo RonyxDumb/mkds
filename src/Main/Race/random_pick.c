@@ -74,9 +74,9 @@ void PickRandomKarts(CharacterKartPicks *picks) {
             } else {
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 if (candidateCount == 0) {
-                    pick = random->mValue >> 32;
+                    pick = RANDOM_HIGH32(random);
                 } else {
-                    pick = ((random->mValue >> 32) * candidateCount) >> 32;
+                    pick = RANDOM_BELOW(random, candidateCount);
                 }
             }
             seen = 0;
@@ -173,9 +173,9 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
             } else {
                 random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
                 if (availableCount == 0) {
-                    pick = random->mValue >> 32;
+                    pick = RANDOM_HIGH32(random);
                 } else {
-                    pick = ((random->mValue >> 32) * availableCount) >> 32;
+                    pick = RANDOM_BELOW(random, availableCount);
                 }
             }
             for (candidate = 0; candidate < 0xd && pickedCharacter == -1; candidate++) {

@@ -480,8 +480,8 @@ BOOL PickSelectRaceRuleCpuEntry(u16 *entryOut) {
             randomState->mValue =
                 randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
             *entryOut = GetSelectRaceRuleHumanCount() +
-                        (cpuCount == 0 ? (u32) (randomState->mValue >> 32)
-                                       : (u32) (((s64) (u32) (randomState->mValue >> 32) * (s64) cpuCount) >> 32));
+                        (cpuCount == 0 ? (u32) RANDOM_HIGH32(randomState)
+                                       : (u32) (((s64) (u32) RANDOM_HIGH32(randomState) * (s64) cpuCount) >> 32));
             break;
     }
     return TRUE;
@@ -554,7 +554,7 @@ void AssignSelectRaceRuleHumanTeams(void) {
                 randomState = &gConnectionWork->mRandomState;
                 randomState->mValue =
                     randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
-                team = ((u64) (u32) (randomState->mValue >> 32) * 2) >> 32;
+                team = RANDOM_BELOW_U64(randomState, 2);
                 break;
         }
         if (humanCount / 2 <= gSelectRaceRule->mTeamHumanCounts[team]) {
@@ -586,7 +586,7 @@ void AssignSelectRaceRuleNonHumanTeams(void) {
                 randomState = &gConnectionWork->mRandomState;
                 randomState->mValue =
                     randomState->mIncrement + (u64) ((s64) randomState->mMultiplier * (s64) randomState->mValue);
-                team = ((u64) (u32) (randomState->mValue >> 32) * 2) >> 32;
+                team = RANDOM_BELOW_U64(randomState, 2);
                 break;
         }
         if (GetSelectRaceRuleTeamPlayerCount(team) >= 4) {

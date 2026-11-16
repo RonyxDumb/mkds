@@ -388,7 +388,7 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         coverPooHole->mTimer = (u16) (coverPooHole->mMapObject.mCourseMapRow->mSettings[0] +
-                                      (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
+                                      (u16) RANDOM_BELOW_U64(mapObjectRandom, 60) - 30);
         if (gRaceSetup->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = COVER_POO_HOLE_STATE_WAIT_TALL;
             coverPooHole->mCoverHeight = COVER_POO_HOLE_REST_HEIGHT;
@@ -414,7 +414,7 @@ static inline u16 CoverPooHoleMapObjectRandomBelowU16(u32 limit) {
 
     mapObjectRandom = GetMapObjectRandom();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-    return (u32) (((mapObjectRandom->mValue >> 32) * limit) >> 32);
+    return (u32) RANDOM_BELOW(mapObjectRandom, limit);
 }
 
 static inline void StartCoverPooHoleSound(CoverPooHole *coverPooHole, s32 soundId) {

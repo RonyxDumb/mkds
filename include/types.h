@@ -66,6 +66,15 @@ typedef s32 BOOL;
 #define CROSS2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                         \
     (((s64) (leftFirst) * (rightFirst) - (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
 
+// The upper 32 bits of a random generator state.
+#define RANDOM_HIGH32(random) ((random)->mValue >> 32)
+// The top 16 bits of a random generator state, as a u16.
+#define RANDOM_HIGH16(random) ((u16) ((RANDOM_HIGH32(random) << 16) >> 32))
+// A random number below max (the draw times max, keeping the top half); the forms differ in how the draw is cast.
+#define RANDOM_BELOW(random, max) ((RANDOM_HIGH32(random) * (max)) >> 32)
+#define RANDOM_BELOW_S64(random, max) (((s64) RANDOM_HIGH32(random) * (max)) >> 32)
+#define RANDOM_BELOW_U64(random, max) (((u64) (u32) RANDOM_HIGH32(random) * (max)) >> 32)
+
 // 16-bit angles: a full turn is 0x10000.
 #define ANGLE_EIGHTH_TURN 0x2000
 #define ANGLE_QUARTER_TURN 0x4000

@@ -34,9 +34,9 @@ KartPhysicalParamTable *gKartPhysicalParamTable;
 static inline u32 StadiumEmittersNextRandomBelow(RandomState64 *randomState, u32 limit) {
     randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
     if (limit == 0) {
-        return randomState->mValue >> 32;
+        return RANDOM_HIGH32(randomState);
     }
-    return ((randomState->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState, limit);
 }
 
 // Ids from 1000 up belong to the second manager (Mission Run); the id inside the manager goes to *a.

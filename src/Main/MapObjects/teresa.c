@@ -255,9 +255,9 @@ void ClearTeresaTimers(void) {
 static inline u32 TeresaNextRandomBelow(RandomState64 *randomState64, u32 limit) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     if (limit == 0) {
-        return randomState64->mValue >> 32;
+        return RANDOM_HIGH32(randomState64);
     }
-    return ((randomState64->mValue >> 32) * limit) >> 32;
+    return RANDOM_BELOW(randomState64, limit);
 }
 
 static inline void SetTeresaWobble(TeresaWobble *teresaWobble, u16 angle, s32 mid, s32 amplitude, s32 amplitudePerFrame,

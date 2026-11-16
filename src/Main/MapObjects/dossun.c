@@ -177,7 +177,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
         } else {
             random = &gRaceProgress->mRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * KURIBO_WALK_CYCLE_FRAMES) >> 32;
+            kuribo->mFrameIndex = RANDOM_BELOW_U64(random, KURIBO_WALK_CYCLE_FRAMES);
             kuribo->mFrameRandomized = 1;
         }
     }

@@ -379,9 +379,9 @@ void TallyPickedCourse(void) {
     } else {
         randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
         if (tiedCount == 0) {
-            tieIndex = randomState->mValue >> 32;
+            tieIndex = RANDOM_HIGH32(randomState);
         } else {
-            tieIndex = ((randomState->mValue >> 32) * (u32) tiedCount) >> 32;
+            tieIndex = RANDOM_BELOW(randomState, (u32) tiedCount);
         }
     }
     talliedCourseId = tiedCourses[(u16) tieIndex];
