@@ -213,10 +213,10 @@ typedef struct InputSlotAtNoPairCount {
     /* 02 */ u8 mRest[0x5a];
 } InputSlotAtNoPairCount;
 
-// Slot 7 from mSourceKind on: mNextBits is the mBits of slot 8.
+// Slot 7 from mSourceKind on: mPadOrParticipantBits is the mBits of slot 8.
 typedef struct PadOrParticipantSlotBitsView {
     /* 00 */ u8 mUnk_00[0x22];
-    /* 22 */ volatile u16 mNextBits;
+    /* 22 */ volatile u16 mPadOrParticipantBits;
 } PadOrParticipantSlotBitsView;
 
 // Slot 8 (INPUT_SLOT_PAD_OR_PARTICIPANT) from mWritesKeyBits on: mPair is the mPair of that slot.
