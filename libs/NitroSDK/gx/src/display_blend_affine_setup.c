@@ -1,14 +1,14 @@
 #include "display_blend_affine_setup.h"
 
-void G2x_SetBGyAffine_(vu16 *reg, const s32 *mtx, s32 centerX, s32 centerY, s32 startX, s32 startY) {
+void G2x_SetBGyAffine_(vu16 *reg, const s32 *mtx, s32 centerX, s32 centerY, s32 x1, s32 y1) {
     vu32 *words = (vu32 *) reg; // the block is written as 32-bit words: PA|PB, PC|PD, X, Y
     s32 affineX;
     s32 affineY;
 
     words[0] = (u16) (s16) (mtx[0] >> 4) | ((u16) (s16) (mtx[1] >> 4) << 16);
     words[1] = (u16) (s16) (mtx[2] >> 4) | ((u16) (s16) (mtx[3] >> 4) << 16);
-    affineX = mtx[0] * (startX - centerX) + mtx[1] * (startY - centerY) + TO_FIXED12(centerX);
-    affineY = mtx[2] * (startX - centerX) + mtx[3] * (startY - centerY) + TO_FIXED12(centerY);
+    affineX = mtx[0] * (x1 - centerX) + mtx[1] * (y1 - centerY) + TO_FIXED12(centerX);
+    affineY = mtx[2] * (x1 - centerX) + mtx[3] * (y1 - centerY) + TO_FIXED12(centerY);
     words[2] = affineX >> 4;
     words[3] = affineY >> 4;
 }
