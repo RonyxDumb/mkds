@@ -6,7 +6,8 @@ typedef struct BuddyRecord BuddyRecord;
 
 typedef struct TimeRecord TimeRecord;
 
-// The kart appear file: a header and the rows of values that tell which karts a character may use.
+// The kart appear file: a header and the rows of values (one row per kart, one value per character) that tell which
+// karts a character may use: a value of 0 never, a larger one only up to the appear limit.
 typedef struct KartAppearFile {
     /* 00 */ u8 mUnk_00[6];
     /* 06 */ u8 mValues[1][13];
@@ -30,7 +31,8 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
 #define BUDDY_RECORD_MATCH_WIFI_RACE 2
 // Courses at the start of a Wi-Fi race series (RaceSetup.mCourseNumber 1 to this) that add no buddy record.
 #define WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT 3
-// The latest date the oldest-record search can see, as year, month and day.
+// The date the oldest-record search starts from, as year, month and day; only records dated earlier than it can be
+// picked.
 #define BUDDY_RECORD_LATEST_YEAR 100
 #define BUDDY_RECORD_LATEST_MONTH 12
 #define BUDDY_RECORD_LATEST_DAY 31

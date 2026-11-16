@@ -5,7 +5,8 @@
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Menu/record_list.h"
 
-// Five emblems of the saved data: mBlockIndex (emblem number / 5, -1 for none) and the saved mBlockData.
+// Five emblems of the saved data: mBlockIndex (buddy index / 5 of the loaded block, -1 when no block is loaded) and the
+// saved mBlockData.
 typedef struct EmblemBlock {
     /* 00 */ s8 mBlockIndex;
     /* 01 */ u8 mUnk_01[3];

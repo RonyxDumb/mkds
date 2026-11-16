@@ -4,13 +4,13 @@
 
 typedef struct MissionRecord MissionRecord;
 
-// Two bytes: a flag and a value.
+// The unpacked MissionRecord: mFilled and mValue, one byte each.
 typedef struct UnpackedMissionRecord {
     /* 00 */ u8 mFilled;
     /* 01 */ u8 mValue;
 } UnpackedMissionRecord;
 
-// Two bytes and a halfword that GetKartFinishTime and GetKartLapTime fill.
+// A kart time, mMinute, mSecond and mMillisecond, that GetKartFinishTime and GetKartLapTime fill.
 typedef struct KartTime {
     /* 00 */ u8 mMinute;
     /* 01 */ u8 mSecond;
