@@ -565,7 +565,7 @@ static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 s
     MIi_CpuClearFast(fillValueCopy, destination, size);
 }
 
-// Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of q.
+// Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of cnt.
 static inline void SetBg01PriorityAndMosaic(vu16 *cntReg, Bg01Cnt *cnt) {
     *cntReg = (*cntReg & ~3) | cnt->mBgCntLow2;
     if (cnt->mBgCntMosaic != 0) {
@@ -575,17 +575,17 @@ static inline void SetBg01PriorityAndMosaic(vu16 *cntReg, Bg01Cnt *cnt) {
     }
 }
 
-// Sets bits 4, 20 and 21 of the word register r.
+// Replaces bits 4, 20 and 21 of the word register reg with bits.
 static inline void SetDispcntObjVRamModeChar(vu32 *reg, DisplayRegisterField bits) {
     *reg = (*reg & 0xffcfffef) | bits;
 }
 
-// Sets bits 5, 6 and 22 of the word at 0x04000000.
+// Replaces bits 5, 6 and 22 of reg_GX_DISPCNT with bits.
 static inline void DisplayGX_SetOBJVRamModeBmp(DisplayRegisterField bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffbfff9f) | bits;
 }
 
-// Sets bits 5 and 6 of the word at 0x04001000.
+// Replaces bits 5 and 6 of reg_GXS_DB_DISPCNT with bits.
 static inline void DisplayGXS_SetOBJVRamModeBmp(DisplayRegisterField bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x60) | bits;
 }

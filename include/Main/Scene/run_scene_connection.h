@@ -16,14 +16,15 @@ typedef struct SceneNumbers {
     // Number of the scene being run: the index of gSceneFuncs and of the scene-name table
     // gSceneNames.
     /* 02 */ s16 mScene;
-    // Scene to run next, -1 until set. Written by the update slots (also through the other typedef
-    // views and as a[2]) and by RunScene when the scene ends;
-    // read by RunScene and RunScenes.
+    // Scene to run next, -1 until set. Written by the scene update slots and by RunScene when the scene ends; read by
+    // RunScene and RunScenes.
     /* 04 */ s16 mNextScene;
 } SceneNumbers;
 
-// Runs one scene to its end: loads the scene's archives from a.mScene (LoadArchiveSlotsForScene), generic
-// set-up, mInit once, a wait loop without slots, the update loop (mUpdate, then slot 0x0c, every
-// frame) until a slot sets a.mNextScene or GetVolatileHalfwordIndex39 is non-zero, the fade-out loop, a wait
-// loop, mRelease once, generic tear-down.
+// Runs one scene to its end: loads the archives of sceneNumbers->mScene (LoadArchiveSlotsForScene), generic set-up,
+// mInit once, a loop without slots until FinishDataSharingSync returns 1, the update loop (mUpdate, then mPostUpdate,
+// every pass) until sceneNumbers->mNextScene is set or the held-key value of GetVolatileHalfwordIndex39 is non-zero
+// (read as 0 when IsVolatileHalfwordIndex39Ignored), the fade-out loop (mUpdate and mPostUpdate with sceneNumbers
+// NULL), a loop that ends the connection (only when leaving for scene 0 or on that exit value), mRelease once, generic
+// tear-down. A disconnect message in either loop jumps straight to the end step.
 void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks);

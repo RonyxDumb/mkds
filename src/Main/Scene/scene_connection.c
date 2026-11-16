@@ -167,7 +167,9 @@ s32 TryGetSceneSoundSetSeqId(s32 sceneNumber, s32 *seqId) {
     return result;
 }
 
-// On scenes 2 to 15 it also starts the stepped stop itself and returns FALSE when GetStaffRollEndedEarly is non-zero.
+// Returns FALSE when the scene sound set sequence keeps playing into the next scene: title to race, nickname to
+// keyboard, keyboard to emblem or option, option to emblem or keyboard, emblem to option, race to title or ending.
+// Going from the race to the ending also starts the stepped stop itself when GetStaffRollEndedEarly is non-zero.
 s32 ShouldEndSceneSoundSet(s32 scene, s32 nextScene) {
     BOOL result = TRUE;
 

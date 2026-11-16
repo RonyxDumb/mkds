@@ -9,8 +9,9 @@
 #include "power_management_commands.h" // PMSleepCallbackInfo
 #include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // SoundSetPlayer
 
-// Values of StartupWork.mLanguageIndex and of the language field of the owner info; they match the file name suffixes
-// (_fr, _ge, _it, _es) of the language files, 0 and 1 share the files without a suffix.
+// Values of StartupWork.mLanguageIndex and of the language field of the owner info (startup turns JAPANESE and unknown
+// values into ENGLISH). gLanguageCodes gives the file name suffix of each: ja, us, fr, ge, it, es; English in the
+// Europe region takes the second us (index 6).
 enum {
     LANGUAGE_UNSUFFIXED,
     LANGUAGE_ENGLISH,
@@ -20,14 +21,17 @@ enum {
     LANGUAGE_SPANISH,
 };
 
-// Values of StartupWork.mRegion; FormatDate writes the date in the order of each (year first, month first, day first).
+// Values of StartupWork.mRegion (also copied into the player and ghost records). FormatDate writes the date year first
+// (JAPAN), month first (USA) or day first (EUROPE, with dots for German); GetLanguageCode takes the second us for
+// English in EUROPE; the keyboard starts on kana for JAPAN.
 enum {
     REGION_JAPAN,
     REGION_AMERICA,
     REGION_EUROPE,
 };
 
-// Value of StartupWork.mConnectionKind.
+// Values of StartupWork.mConnectionKind; ConnectionWork.mConnectionKind and ResultsBattle.mMode are compared with them
+// too.
 #define CONNECTION_KIND_NONE 0
 #define CONNECTION_KIND_MEMBER_SELECT 1 // set by the member select screen
 #define CONNECTION_KIND_WL_MENU 2 // set by the title entry of the WL menu and by the member group screen
@@ -70,19 +74,19 @@ typedef struct StartupWork {
 // Bit of StartupWork.mUnk_1c: set while the 3D engine uses fast DMA (NNS_G3dGeUseFastDma(1)), cleared with it.
 #define STARTUP_FLAG_FAST_DMA 8
 
-// The callbacks of one scene (an entry of gSceneFuncs): mInit once, mUpdate every frame, mRelease once.
+// The callbacks one scene function (an entry of gSceneFuncs) hands to RunScene: mInit once, mUpdate every frame,
+// mRelease once.
 typedef struct SceneCallbacks {
-    // Called once before the scene's frames with the scene numbers. Allocates the scene's objects
-    // from the scene heap (the heap of RunScenes' frame, destroyed when the scene ends).
+    // Called once before the scene's frames with the scene numbers. Allocates the scene's objects from the scene heap
+    // (the heap RunHeapCall creates for the scene function, destroyed when it returns).
     /* 00 */ void (*mInit)();
-    // One per-frame step, called every pass of the update loops and of the fade-out loop (then with
-    // a == NULL), with the scene numbers and mSceneFrames. A second per-frame slot (0x0c) runs
-    // after it. Scenes write their next scene into a.mNextScene here; the Menu scene does not
-    // (RunScene ends it).
+    // One per-frame step, called every pass of the update loop and of the fade-out loop (then with sceneNumbers NULL),
+    // with the scene numbers and mSceneFrames. mPostUpdate runs after it. Scenes write their next scene into
+    // sceneNumbers->mNextScene here.
     /* 04 */ void (*mUpdate)();
-    // Called once after the loops. Calls the scene's undo functions and clears the scene's globals;
-    // it frees nothing by itself except in the WiFi scene (the heap of ReleasePlayerEntryList): the scene
-    // heap is destroyed by the caller. The Race slot also writes a save block in kind 6.
+    // Called once after the loops, with the scene numbers: undoes what mInit set up. The scene heap is destroyed when
+    // the scene function returns (RunHeapCall). The Race slot also writes a backup block in kind 6 (staff roll) when
+    // its flag is not yet set.
     /* 08 */ void (*mRelease)();
     /* 0c */ void (*mPostUpdate)();
     /* 10 */ void (*mPreSleep)(void);
@@ -101,7 +105,7 @@ typedef struct SceneCallbacks {
 
 #define SCENE_RUN_STEP_FADE_OUT 3
 
-#define SCENE_RUN_STEP_CARD_PULLED_OUT 4 // loop while the card is pulled out
+#define SCENE_RUN_STEP_CARD_PULLED_OUT 4 // loop that ends the connection and waits for the backup access to finish
 
 #define SCENE_RUN_STEP_RELEASE 5
 
@@ -124,14 +128,13 @@ typedef struct SceneRunState {
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
-    // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at the start of each);
-    // not counted while RunSceneIsDataSharingIncomplete is true (mode 5 with a flag, or the
-    // gConnectionWork flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
-    // thresholds 0x5a ...).
+    // mSceneFrames counts the passes of RunScene's update loop and fade-out loop, not while
+    // RunSceneIsDataSharingIncomplete is true, and is handed to the scene's update and post-update callbacks.
+    // mPassCount counts every pass of the sync-wait, update and fade-out loops and is never read.
     /* 0e4 */ s32 mSceneFrames;
     /* 0e8 */ s32 mPassCount;
-    // Copy of the running scene's SceneCallbacks, written once by RunScene; slots 0x10 / 0x14 and
-    // the fade lengths are read from it.
+    // Copy of the running scene's SceneCallbacks that RunScene makes when it starts; mPreSleep, mPostSleep and the two
+    // fade frame counts are read from it.
     /* 0ec */ SceneCallbacks mSceneCallbacks;
     /* 10c */ s32 mRunStep;
     /* 110 */ BOOL mLcdOff;
@@ -141,7 +144,8 @@ typedef struct SceneRunState {
     /* 120 */ s8 mNextScene;
 } SceneRunState;
 
-// DisplaySettings.mFrameFlags: the frame was finished and waited for; the frame took more than one vblank.
+// DisplaySettings.mFrameFlags: FINISHED is set when a frame's wait ends and cleared at each vblank; SPANNED_VBLANK is
+// set when a vblank came before the next frame finished (the frame took more than one vblank).
 #define DISPLAY_FRAME_FLAG_FINISHED 1
 #define DISPLAY_FRAME_FLAG_SPANNED_VBLANK 2
 // G3xParams.mClearColor of a 3D scene.
@@ -189,16 +193,19 @@ typedef struct DisplaySettings {
     /* d8 */ u8 mFrameFlags;
 } DisplaySettings;
 
-// Set from the start of a race; recording and playback slots read keys only while set.
+// Set by StartRaceInput and cleared by StopRaceInput; in the race scene the key-recording, recorded-pad and participant
+// slots read keys only while set.
 #define INPUT_STATE_READ_RACE_KEYS 2
 
-// Set while the pause menu is open during a race; the input slots stop updating.
+// Set while the ChoisesS list is open during a race (GetChoisesSOpenDuringRace); slots with the
+// INPUT_SOURCE_KEY_RECORDING_PLAYBACK, INPUT_SOURCE_PAD_RECORDED, requested-bits or INPUT_SOURCE_PARTICIPANT source
+// skip their key update meanwhile.
 #define INPUT_STATE_OPEN_DURING_RACE 1
 
 // Set when a scene ends; the input slots then update with no keys.
 #define INPUT_STATE_NO_KEYS 8
 
-// Bit of InputState.mFlags: the left and right keys are swapped (mirror mode).
+// Bit of InputState.mFlags: the left and right keys of the pad and participant inputs are swapped (mirror mode).
 #define INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED 4
 
 // The current input: the pad keys, flags and the participant position.
@@ -233,7 +240,7 @@ typedef struct ArchiveSlot {
     /* 6c */ void *mData;
 } ArchiveSlot;
 
-// A request to load an archive file: mPath, source, read buffer, slot, heap end and uncompress flags, buffer size.
+// A request to load an archive file: mPath, source, read buffer, slot, heap end and uncompress flags.
 typedef struct ArchiveLoadRequest {
     /* 00 */ u8 mPath[0x80];
     /* 80 */ u32 *mSourceData;
@@ -277,7 +284,6 @@ typedef struct FileReadThread {
 
 extern FileReadThread gFileReadThread;
 
-// Object at gWvrState: a word and a function pointer.
 // Values of WvrState.mState.
 #define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
 
@@ -285,9 +291,9 @@ extern FileReadThread gFileReadThread;
 
 #define BANK_SHARE_CHANGING 2 // set while an async start or terminate is running
 
-#define BANK_SHARE_INACTIVE_UNUSED 3 // handled like INACTIVE; nothing writes it
+#define BANK_SHARE_INACTIVE_UNUSED 3 // nothing writes it (the SDK hands back only 0 and 1); the bank functions and StopWvrAndWait treat it like STOPPED, ClearLcdcBankAndStartWvrAndWait like STARTED
 
-// The state of the wireless bank share and the callback it calls.
+// The state of the wireless driver start and stop (WVR_StartUpAsync, WVR_TerminateAsync) and the callback it calls.
 typedef struct WvrState {
     /* 00 */ volatile s32 mState;
     /* 04 */ s32 (*mCallback)();
@@ -305,9 +311,9 @@ typedef struct UnreadHalfwordGroups {
     /* 0e */ u16 mUnk_0e;
 } UnreadHalfwordGroups;
 
-// Values of RomArchiveMessage.mKind and RomArchiveParentViewEntry.mKind. The child sends REQUEST (word 04 and value 24
-// name the file part) and RELEASE (word 04 is the block id); the parent answers with REPLY (the block id, or value 24
-// of 0 to ask for a new sync) and RELEASE_REPLY.
+// Values of RomArchiveMessage.mKind and RomArchiveParentViewEntry.mKind. The child sends REQUEST (mFileStartOrBlockId
+// is the file start, mLength its length) and RELEASE (mFileStartOrBlockId is the block id); the parent answers with
+// REPLY (the block id with mLength 1, or mLength 0 to ask for a new sync) and RELEASE_REPLY.
 enum {
     ROM_ARCHIVE_MESSAGE_REQUEST,
     ROM_ARCHIVE_MESSAGE_REPLY,
@@ -315,7 +321,7 @@ enum {
     ROM_ARCHIVE_MESSAGE_RELEASE_REPLY
 };
 
-// One block slot of a ROM archive parent: mKind, mBlockId and mBlockData.
+// One child's entry in the ROM archive parent's table: mKind, mBlockId and mBlockData.
 typedef struct RomArchiveParentViewEntry {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mUnk_00_4 : 28;
@@ -323,8 +329,8 @@ typedef struct RomArchiveParentViewEntry {
     /* 08 */ u8 *mBlockData;
 } RomArchiveParentViewEntry;
 
-// Nine bytes that SendRomArchiveMessage builds on the stack and passes to WBT_PutUserData: two four-bit parts, a
-// 24-bit part, a word and a byte.
+// The nine-byte message of mKind, mPacketSizeHigh, mValue24, mWord04 and mPacketSizeLow that the parent and the child
+// pass to WBT_PutUserData.
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mPacketSizeHigh : 4;
@@ -337,7 +343,8 @@ struct RomArchiveFileNode;
 
 struct FSFile;
 
-// The parent side of a ROM archive transfer: block entries, chunk bitmap, node lists and the send and request masks.
+// The parent side of a ROM archive transfer: per-child entries, node lists and the send and request masks (the child
+// side reads the same memory as RomArchiveChildView).
 typedef struct RomArchiveParentView {
     /* 0000 */ RomArchiveParentViewEntry mEntries[32];
     /* 0180 */ u8 mUnk_0180[0x97c];
@@ -361,7 +368,8 @@ typedef struct RomArchiveParentView {
     /* 46f0 */ u8 mUnk_46f0[0x10];
 } RomArchiveParentView;
 
-// Object at gRomArchiveTransfer.
+// The ROM archive transfer over the wireless link: mIsParent, mState, the packet sizes, the archive block and
+// mParentView.
 typedef struct RomArchiveTransfer {
     /* 0000 */ u32 mIsParent;
     /* 0004 */ BOOL mSendAllowed;
