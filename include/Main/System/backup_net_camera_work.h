@@ -390,7 +390,7 @@ typedef struct BlockEntry {
 // Files a parent can hold pending for transfer (BlockEntry elements of mBlockEntries).
 #define CONNECTION_BLOCK_ENTRY_COUNT 12
 
-// The block transfer state of a connection: mBlockEntries, mMode, mNextLoadIndex, mCompressedBuffer and ghost block count.
+// The block transfer state of a connection: mBlockEntries, mMode, mNextLoadIndex, mCompressedBuffer, ghost count.
 typedef struct BlockTransferView {
     /* 000 */ BlockEntry mBlockEntries[CONNECTION_BLOCK_ENTRY_COUNT];
     /* 660 */ s32 mMode;
@@ -1124,7 +1124,7 @@ typedef struct SlotResultSyncState {
     /* 16 */ u8 mUnk_16[0xa];
 } SlotResultSyncState;
 
-// The sync entry of one participant: header and progress words, kart record, slot results, item data and round trip average.
+// The sync entry of one participant: header and progress words, kart record, slot results, item data, round trip.
 typedef struct WiFiRaceSyncEntry {
     /* 00 */ union {
         s32 mHeaderWord;

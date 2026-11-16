@@ -61,7 +61,7 @@ typedef struct GameInfoList {
     /* 12 */ u8 mUnk_12[2];
 } GameInfoList;
 
-// The beacon block describing the game a multiboot parent offers: ggid, sequence numbers, player flag, members, user data.
+// The beacon block describing the game a multiboot parent offers: ggid, sequence numbers, players and user data.
 typedef struct GameInfoBlock {
     /* 00 */ u32 mGgid;
     /* 04 */ union {
