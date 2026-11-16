@@ -2,5 +2,50 @@
     .bss        start:0x01ffffa0 end:0x01ffffa0 kind:bss align:32
 
 // provisional: file name and boundaries
-src/ITCM/code_01ffdee4.c:
+src/ITCM/model_draw_and_irq_handler.c:
+    complete
+    .text       start:0x01ff8000 end:0x01ff9300
+
+src/ITCM/texture_matrix_calc.c:
+    complete
+    .text       start:0x01ff9300 end:0x01ff9598
+
+src/ITCM/kart_ground_contact.c:
+    complete
+    .text       start:0x01ff9598 end:0x01ffa4b4
+
+src/ITCM/kart_speed.c:
+    complete
+    .text       start:0x01ffad14 end:0x01ffb130
+
+src/ITCM/kart_velocity.c:
+    complete
+    .text       start:0x01ffb130 end:0x01ffb930
+
+src/ITCM/kart_motion.c:
+    complete
+    .text       start:0x01ffba68 end:0x01ffcf7c
+
+src/ITCM/kart_with_course.c:
+    complete
+    .text       start:0x01ffa4b4 end:0x01ffad14
+
+src/ITCM/kart_gravity.c:
+    complete
+    .text       start:0x01ffb930 end:0x01ffba68
+
+src/ITCM/collision_slots.c:
+    complete
+    .text       start:0x01ffcf7c end:0x01ffdee4
+
+src/ITCM/sphere_collision.c:
+    complete
     .text       start:0x01ffdee4 end:0x01fff434
+
+src/ITCM/dma_transfer.c:
+    complete
+    .text       start:0x01fff95c end:0x01ffff88
+
+src/ITCM/kart_items_update.c:
+    complete
+    .text       start:0x01fff434 end:0x01fff95c

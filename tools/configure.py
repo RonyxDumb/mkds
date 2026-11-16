@@ -24,6 +24,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from project import (CC_FLAGS, DECOMP_ME_COMPILER, DSD_INIT_FLAGS, GAME, LD_FLAGS, MWASM_VERSION,  # noqa: E402
                      MWCC_VERSION, PATH_COMPILERS, REFERENCE_VERSION, VERSION, VERSIONS, source_flags)
+from expand_incbin import select_version  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 os.chdir(ROOT)
@@ -151,7 +152,7 @@ w(f"rule protos\n  command = {PY} tools/check_protos.py --one $out $basefile.d -
   f"{' '.join('-i ' + d for d in include_dirs)} -prefix ../tools/protos_prefix.h -d version_{ver.upper()} -MD -c $in "
   f"-o $outdir\n"
   f"  depfile = $basefile.d\n  deps = gcc\n  description = PROTOS $in\n")
-w(f"rule expand_incbin\n  command = {PY} tools/expand_incbin.py $in $out\n  description = EXPAND $in\n")
+w(f"rule expand_incbin\n  command = {PY} tools/expand_incbin.py $in $out --version {ver}\n  description = EXPAND $in\n")
 w(f"rule mwasm\n  command = {WINE} {ASM} -proc arm5TE $in -o $out\n  description = MWASM $in\n")
 w(f"rule mwld\n  command = {WINE} {LD} {' '.join(LD_FLAGS)} @$objects $lcf -o $out\n  description = LINK $out\n")
 w(f"rule disassemble\n  command = {DSD} dis -c $config -a $outdir --ual && touch $out\n  description = DIS\n")
@@ -206,7 +207,9 @@ for src in sources:
     if src.suffix == ".s":
         # .incbin data (filler from the extracted ROM) is expanded into a copy under build/ first: the assembler
         # reads .incbin input as text and rewrites lone 0x0a bytes. The included files are dependencies.
-        incbins = sorted(set(re.findall(r'^\s*\.incbin\s+"([^"]+)"', src.read_text(), re.M)))
+        # only this version's #ifdef branch is assembled, so only its files are read
+        text = "\n".join(select_version(src.read_text().splitlines(), ver))
+        incbins = sorted(set(re.findall(r'^\s*\.incbin\s+"([^"]+)"', text, re.M)))
         asm_src = str(src)
         if incbins:
             asm_src = str(build_dir / src)

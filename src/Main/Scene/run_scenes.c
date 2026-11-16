@@ -173,7 +173,11 @@ static inline void LoadOverlayAndRunDWCUtility(void *utilityWork, void *overlayI
         if (languageIndex < 6) {
             languageValue = gDWCUtilityLanguageTable[languageIndex];
         }
+#ifdef version_EUR
+        RunMainLoop(utilityWork, languageValue, 0);
+#else
         RunMainLoop(utilityWork, languageValue, 0x20);
+#endif
         EnableVBlankIrq();
         FS_UnloadOverlay(0, (u32) overlayId);
     }
