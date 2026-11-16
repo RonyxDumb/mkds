@@ -15,7 +15,7 @@
 #define RACE_GOAL_TIMES_CELL_SET_SECOND 0xd
 #define RACE_GOAL_TIMES_CELL_SET_THIRD 0x1a
 
-// The goal time display: the finish time and the five lap times, with the record flash frame and cell index.
+// The goal time display: the finish time, the five lap times, the new record cycle frame and the cell index add.
 typedef struct RaceGoalTimes {
     /* 00 */ TimeDigits mFinishTime;
     /* 1c */ TimeDigits mLapTimes[5];
@@ -49,6 +49,6 @@ extern struct RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
 
 extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
 
-// The fireball cells of the goal times count their frames up to this value and show the first half below the half.
+// The Fireball2 sub screen cells count mObjectPairs mSecond up to this value and take the first cell below the half.
 #define RACE_GOAL_TIMES_FIREBALL_CYCLE_FRAMES 0x14
 #define RACE_GOAL_TIMES_FIREBALL_HALF_FRAMES 10

@@ -29,7 +29,8 @@ void AssignResultsBattleTeamOrderByScore(void);
 void AssignResultsBattleTeamOrder(void);
 void WriteGhostGetScanRegisters(void);
 
-// The files the main screens load, one row per result (victory, lose, draw, VS blue, VS red).
+// One row per RESULTS_BATTLE_FILES_* kind (victory, lose, draw, VS blue, VS red): the file names the main screen loads;
+// mBnllName is NULL in the last three rows.
 typedef struct ResultsBattleVictoryFileNames {
     /* 00 */ const char *mBNcgrName;
     /* 04 */ const char *mBNclrName;
@@ -45,9 +46,11 @@ typedef struct ResultsBattleVictoryFileNames {
 extern const u16 gResultsBattleSubLabelCanvasEntries[16][4];
 extern const u8 gResultsBattleRankZeroLabelTextRows[64];
 extern const u16 gResultsBattleTeamFirstCellIndices[8];
-// Halfwords the first three functions index with a count minus one or two.
+// Cell index of the first icon for each count: SetupResultsBattleKartIcons indexes gResultsBattleKartFirstCellIndices
+// with the kart count minus 2, SetupResultsBattleTeamIcons indexes gResultsBattleTeamFirstCellIndices with the count
+// minus 1.
 extern const u16 gResultsBattleKartFirstCellIndices[8];
-// 8-byte entries.
+// 8-byte rows for SetupLabelCanvas, one per label; SetupResultsBattleOwnEntry steps through them by 8.
 extern const u8 gResultsBattleOwnEntryLabelTextRows[8];
 extern struct ResultsBattle *gResultsBattle;
 

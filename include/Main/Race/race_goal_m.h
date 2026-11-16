@@ -37,14 +37,17 @@ void ClearRaceStartGpPointer(void);
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-// RaceGoalM.mMissionRecordValue and mComputedMissionRecordValue when there is no value (no record saved, or the entry
-// kart did not finish).
+// MISSION_RECORD_VALUE_NONE: no value. For RaceGoalM.mMissionRecordValue: no record saved, or a mode other than
+// MODE_MISSION_RUN. For mComputedMissionRecordValue: at init, or when the entry kart has not ended with
+// RACE_END_KIND_GOAL (not ended yet, or ended by another kind).
 #define MISSION_RECORD_VALUE_NONE 9
 
-// The mission goal: its ready flag, update frames, rank, points gained, first place kart and the mission record values.
+// The goal screen of the main screen: its ready flag, update frames, rank, points gained (Grand Prix), first place kart
+// (Versus, Wi-Fi) and the mission record values (Mission Run).
 typedef struct RaceGoalM {
-// 0 once the followed kart has status 1 or the race is done, until mUpdateFrames passes 0x14 (0x1e or 0x4b by the
-// entry end kind in Mission Run); 1 at init.
+// 1 at init; set to 0 while the followed kart has status GOAL_REACHED or the race is done, and to 1 again once
+// mUpdateFrames is above 0x14 (Grand Prix, Time Attack, Versus, WiFi), above 0x1e after a goal end or above 0x4b
+// otherwise (Mission Run), at once in the other modes; UpdateRaceGoalM returns first while IsRaceHudGoalMEnabled is 0.
     /* 00 */ s32 mReady;
     /* 04 */ s32 mUpdateFrames;
     /* 08 */ s32 mRankIndex;
@@ -74,9 +77,9 @@ extern struct RaceGoalM *gRaceGoalM;
 extern struct RaceStartGp *gRaceStartGp;
 extern struct RaceLinkLevel *gRaceLinkLevel;
 
-// RaceGoalM.mComputedMissionRecordValue (0 to 7, higher is better): the three best values start a sequence; a value of
-// the count or more has no cell. The friend-on frame count restarts at the first limit and the friend cell shows below
-// the second.
+// RaceGoalM.mComputedMissionRecordValue (the cells cover 0 to 7, higher is better): at frame 1 the three best values
+// start a sound sequence; a value of the count or more has no cell. The friend-on frame count restarts at
+// RACE_LINK_FRIEND_ON_CYCLE_FRAMES and the friend cell shows below RACE_LINK_FRIEND_ON_SHOWN_FRAMES.
 #define MISSION_RECORD_VALUE_THIRD_BEST 5
 #define MISSION_RECORD_VALUE_SECOND_BEST 6
 #define MISSION_RECORD_VALUE_BEST 7

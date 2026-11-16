@@ -138,8 +138,8 @@ u32 IsRaceAwardOrStaffRoll(void) {
     return (gRace->mIsAwardOrStaffRoll);
 }
 
-// Builds the race world and gRace. Not part of it: the screen and 3D engine set-up (Init3dEngine, called before), the
-// net and the HUD, which are in the scene slot InitRaceScene.
+// Builds the race world and gRace: karts, course, cameras, items, effects, the WiFi race sync, toon table and fog. The
+// screen and 3D engine set-up (Init3dEngine) and the HUD are in InitRaceScene, which calls this.
 void InitRace(void) {
     void *heap;
     u16 texBankMask;
@@ -298,8 +298,9 @@ void Init3dEngine(void) {
 }
 
 // Advances the race one frame. Skipped while IsDataSharingIncomplete or IsInputOpenDuringRace refuse (the draw is not),
-// and in kind 6 for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the
-// scene slot UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
+// and in RACE_KIND_STAFF_ROLL for the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race
+// state are in the scene slot UpdateRaceScene, which calls this; its fade-out loop also runs it with sceneNumbers ==
+// NULL.
 void UpdateRace(void) {
     void *viewMatrix;
 
@@ -410,8 +411,9 @@ void UpdateRace(void) {
     }
 }
 
-// Draws the 3D scene and writes the fog registers when the fade state changes; advances no game value. Has its own gate
-// in the scene slot; the HUD draw is in the scene slot too.
+// Draws the 3D scene: sets the fog every frame while the fade fog steps, or once when mFadeFog changed, then draws the
+// world, effects, strips, stem sets, name tags (not with chain cameras) and ortho quads, and counts mDrawFrames.
+// UpdateRaceScene gates it and draws the HUD.
 void DrawRace(void) {
     if (gFadeFogStepping != 0) {
         G3X_SetFog(1, 0, gCourseFogSlope, gFadeFogOffset);
@@ -541,8 +543,8 @@ u32 GetRaceUpdateFramesMod2(void) {
     return (gRace->mUpdateFramesMod2);
 }
 
-// Also writes the fog color register directly, sets the fog offset and table through G3X_SetFog and
-// G3X_SetFogTable, and resets the fade state.
+// Builds the course fog table by mFogTableMode and, when the course has fog, writes the fog color register directly and
+// sets the fog through G3X_SetFog and G3X_SetFogTable (else G3X_SetFog turns fog off); it also resets the fade state.
 void InitRaceFog(void) {
     u32 fogCurve[32];
     u16 index;
@@ -686,7 +688,7 @@ u32 GetCurrentCameraKind(void) {
     return (gCurrentCamera->mKind);
 }
 
-// The camera used this frame: gCurrentCamera.
+// The camera UpdateRace last chose: the chain, entry or chase camera (the chase camera until the first update).
 Camera *GetCurrentCamera(void) {
     return gCurrentCamera;
 }

@@ -9,7 +9,8 @@ void HoldRaceNewRecordTa(void);
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-// The time-attack record handling of a race: compares the run with the saved records and shows the new-record page.
+// The time-attack record handling of a race: compares the run with the saved records, stores new records and the ghost,
+// and shows the new-record page.
 typedef struct RaceNewRecordTa {
     /* 00 */ void (*mUpdate)(void);
     /* 04 */ s32 mUpdateFrames;
@@ -24,8 +25,8 @@ typedef struct RaceNewRecordTa {
     // shown in a sixth row: the best lap time.
     /* 1c */ TimeRecord mRecords[6];
     /* dc */ s32 mRunning;
-    // X of the whole page: -0x100 at allocation, eased to 0 over 0x14 frames by SlideInRaceNewRecordTa, added to every
-    // sprite and row x in the draw.
+    // X offset of everything DrawRaceNewRecordTa draws: -0x100 at allocation, eased to 0 over 0x14 frames by
+    // SlideInRaceNewRecordTa, added to the x of the header, each row and its cells (the sixth row gets one more).
     /* e0 */ s32 mOffsetX;
     /* e4 */ s32 mCycleFrames;
 } RaceNewRecordTa;
@@ -50,6 +51,6 @@ unsigned int GetRaceNewRecordTaBestLapNumber(void);
 
 extern struct RaceNewRecordTa *gRaceNewRecordTa;
 
-// Frames of the new record cycle, and the digit value that shows no digit.
+// Frames of the new record cycle, and the digit value drawn for every digit of a record whose mFilled is 0.
 #define RACE_NEW_RECORD_TA_CYCLE_FRAMES 0x18
 #define RACE_NEW_RECORD_TA_BLANK_DIGIT 0xb

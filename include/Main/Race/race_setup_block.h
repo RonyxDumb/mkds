@@ -7,18 +7,19 @@ typedef struct MicBuffer MicBuffer;
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-// A time as three parts, minute, second and millisecond; IsTimeLessThanStaffGhostTime sums them in milliseconds.
+// A time as three parts: mMinute, mSecond and mMillisecond.
 typedef struct MinuteSecondMillisecondTime {
     /* 00 */ u16 mMillisecond;
     /* 02 */ u8 mMinute;
     /* 03 */ u8 mSecond;
 } MinuteSecondMillisecondTime;
 
-// What drives an entry's kart: the player, the game's CPU, a recorded ghost, a player on another console, or nothing.
+// What drives an entry's kart: the player, the game's CPU, a recorded ghost, a participant of the WiFi session, or
+// nothing.
 typedef enum { PLAYER_KIND_HUMAN, PLAYER_KIND_CPU, PLAYER_KIND_GHOST, PLAYER_KIND_PEER, PLAYER_KIND_NONE } PlayerKind;
 
-// Values of the mGhostRecordIndex members: the saved record a ghost entry is read from. NONE is set on entries that are
-// not ghosts.
+// Values of the mGhostRecordIndex members: the saved record the ghost comes from. NONE is set on entries that are not
+// ghosts. The header member also receives GHOST_RECORD_KIND values (0, 1, 2 and 4) from the ghost select screen.
 typedef enum {
     GHOST_RECORD_INDEX_COURSE,
     GHOST_RECORD_INDEX_FIRST_SLOT,
@@ -40,7 +41,7 @@ enum {
 #define KART_ENTRY_LISTED_CPU_FLAG 1
 // KartEntryPlayer.mListedCpuSlot of an entry that fills no listed CPU slot.
 #define KART_ENTRY_LISTED_CPU_SLOT_NONE 3
-// Courses in a cup; KartEntry.mCourseNumber counts them from 1.
+// Courses in a cup; RaceSetup.mCourseNumber and RaceSetupHeader.mCourseNumber count them from 1.
 #define COURSES_PER_CUP 4
 
 // The player of a kart entry: kind, team, index, name, emblem, friend data and region.
@@ -89,9 +90,7 @@ typedef struct KartEntry {
     /* 08 */ KartEntryPlayer mPlayer;
 } KartEntry;
 
-// Values of the mMode member of RaceSetup and of RaceSetupHeader. The member is set
-// when the race is confirmed and is 0 in the menus before that.
-// Grand Prix (also the value in the menus before a race is confirmed): stored as the next mode.
+// Values of the mMode member of RaceSetup and of RaceSetupHeader.
 #define MODE_GRAND_PRIX 0
 
 // Time attack: the end handling below is not run in this mode.
@@ -122,23 +121,21 @@ typedef struct KartEntry {
 // WiFi race: the WiFi session and the synced ranks are read only in this mode.
 #define MODE_WIFI 5
 
-// Values of the mCourseId member of RaceSetup and of RaceSetupHeader, and of the course id stored in the race
-// Values of the mRaceKind member of RaceSetup and of RaceSetupHeader.
-// Normal race.
+// Values of the mRaceKind member of RaceSetup and of RaceSetupHeader: the kind of race scene.
 #define RACE_KIND_NORMAL 0
 
 // Demo race that SetNextDemoRace sets up from the title screen.
 #define RACE_KIND_DEMO 1
 
-// Replay of the race just finished: the REPLAY entry of the end-of-race menu sets it (SetNextSceneFromPickedValue case
-// 8).
+// Replay of the race just finished: the CHOISES_S_PICK_REPLAY pick sets it (SetNextSceneFromPickedValue).
 #define RACE_KIND_REPLAY 2
 
 // Start scene: it creates RaceStartGp instead of the race HUD; set before each Grand Prix course and for mission
 // column 9.
 #define RACE_KIND_START_GP 3
 
-// Offline Battle stage fly-over: it creates RaceStartBattle; the kind is 0 once the race starts.
+// Battle start scene: it creates RaceStartBattle in addition to the race HUD; set for a Battle that is not versus and
+// not multi simple; the kind is 0 once the scene ends.
 #define RACE_KIND_START_BATTLE 4
 
 // Award scene: the course is COURSE_ID_AWARD.
@@ -147,11 +144,9 @@ typedef struct KartEntry {
 // Staff roll: the course is COURSE_ID_STAFFROLL or COURSE_ID_STAFFROLLTRUE.
 #define RACE_KIND_STAFF_ROLL 6
 
-// setup. The value is the row of the course name table gCourseArchiveNames (8 byte rows, the string pointer first):
-// BuildCourseArchivePath formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
-// that row's string without a trailing "_course", upper-cased, and the comment after it quotes the row index and the
-// string. Only the values that occur at a compare, case label or store of the member are defined;
-// the other rows stay literals.
+// Values of the mCourseId member of RaceSetup and of RaceSetupHeader, and of the course id stored in the race setup.
+// The value is the row of the course name table gCourseArchiveNames (8 byte rows, the string pointer first): ... (rest
+// unchanged)
 #define COURSE_ID_OLD_YOSHI_GC 1  // row 1: "old_yoshi_gc"
 
 #define COURSE_ID_OLD_BABY_GC 9  // row 9: "old_baby_gc"
@@ -244,11 +239,11 @@ typedef struct KartEntry {
 
 #define COURSE_ID_STAFFROLLTRUE 0x36  // row 54: "StaffRollTrue"
 
-// The 0x68 bytes at 0x1e8 of the object behind gRaceSetup.
 // Values of the mBattleKind member of RaceSetup and of RaceSetupHeader.
 typedef enum { BATTLE_KIND_BALLOON, BATTLE_KIND_SHINE } BattleKind;
 
-// Values of the mEngineIndex member, slowest to fastest: the base speed limit scales by 0xb33, 0xd9a, 0x1000.
+// Values of the mEngineIndex member, slowest to fastest: InitKartPhysicalParams scales mBaseSpeedLimit by 0xb33, 0xd9a,
+// 0x1000 (0x1000 for every class in the Award and StaffRoll scenes).
 typedef enum { ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST } EngineClass;
 
 // Values of the mRuleKind member: how a multiplayer race series is scored and ends. WIN_COUNT counts wins (the menu's
@@ -289,24 +284,31 @@ typedef struct RaceSetupHeader {
 // Mission run kinds (MissionSettings.mMissionKind): what finishes the mission and what the count tracks.
 // Counts a kart entering the finish shape of the course map; also counts the map objects of the mission.
 #define MISSION_KIND_COUNT_SHAPE_ENTRIES 0
-// Counts through the pending count-up from the coin and boss transfers; has its own count sound.
+// Counts through the pending count-up that coin pickups and the coins the boss holds add to
+// (AddMissionRunPendingCountUp, AddMissionRunPendingCountUpFromBoss); has its own count sound.
 #define MISSION_KIND_COUNT_PENDING_WITH_SEQ 1
 // Lap race without a count.
 #define MISSION_KIND_LAPS 2
 // Counts the map objects hit (the mission map object kinds).
 #define MISSION_KIND_COUNT_MAP_OBJECTS 3
-// Lap race that also counts the mini-turbos of the followed kart against the count limit.
+// Lap race that counts the mini-turbos of the selected kart: finishing the laps fails unless the count reaches the
+// count limit.
 #define MISSION_KIND_LAPS_MINI_TURBO_COUNT 4
-// Counts through the pending count-up from the coin and boss transfers.
+// Counts through the pending count-up that coin pickups and the coins the boss holds add to
+// (AddMissionRunPendingCountUp, AddMissionRunPendingCountUpFromBoss).
 #define MISSION_KIND_COUNT_PENDING 5
-// Lap race that fails unless the kart finishes in first place.
+// Lap race with no time countdown that ends once a kart has finished; a kart that completes the laps fails unless its
+// rank is 1.
 #define MISSION_KIND_LAPS_FIRST_PLACE 6
-// Counts the hits of the mission map objects.
+// Counts each hit of a mission map object (IncrementHitCountAndCheckLimit), and also the map objects of the mission
+// kinds like MISSION_KIND_COUNT_MAP_OBJECTS.
 #define MISSION_KIND_COUNT_HITS 7
-// Lap race like MISSION_KIND_LAPS that the lap progress of a kart (race_progress_kart) skips.
+// Shown as a lap race (lap number, lap time difference, race end sound), but completing the laps does not finish it:
+// CompleteRaceProgressKartLap skips its mission finish for this kind.
 #define MISSION_KIND_LAPS_NO_LAP_PROGRESS 10
 
-// Values of MissionSettings.mMissionTableValue: the Mission Run mission number. All but Garden have a boss map object.
+// Values of MissionSettings.mMissionTableValue: the Mission Run mission number (GetMissionTableValue), named by the
+// boss of the mission.
 enum {
     MISSION_NUMBER_GARDEN = 4,
     MISSION_NUMBER_DONKETU = 9,
@@ -334,7 +336,8 @@ typedef struct MissionSettings {
 
 #define CPU_DIFFICULTY_NORMAL 2
 
-// Difficulty of the CPU karts, the value of the CPU KART row (RaceSetup.mUnk_014 and the setup copy); 0 is not named.
+// Values of RaceSetup.mCpuDifficulty and the setup copy's: the difficulty of the CPU karts, picked on the race rule row
+// SELECT_RACE_RULE_ROW_CPU_DIFFICULTY; 0 is not named.
 #define CPU_DIFFICULTY_EASY 1
 
 // A race setup header with its eight kart entries; RaceSetup holds the current one and the next one.
@@ -343,7 +346,8 @@ typedef struct RaceSetupBlock {
     KartEntry mEntries[8];
 } RaceSetupBlock;
 
-// The setup of a race: course, cup, mode, race kind, engine, CPU difficulty, battle kind and rule kind.
+// The setup of a race: the current and next header (course, cup, mode, race kind, engine, CPU difficulty, battle kind,
+// rule kind) with their eight kart entries each, the kart counts and the course list.
 typedef struct RaceSetup {
     union {
         RaceSetupBlock mCurrent;
@@ -351,8 +355,8 @@ typedef struct RaceSetup {
             /* 00 */ s32 mCourseId;
             /* 004 */ s32 mCupIndex;
             /* 08 */ s32 mMode;
-            // Which kind of race scene this is (RACE_KIND_*): the display table and the scene code are chosen by it.
-            // RACE_KIND_REPLAY is 2; the value 4 is RACE_KIND_START_BATTLE.
+            // Which kind of race scene this is (RACE_KIND_*): the display settings table and the scene code are chosen
+            // by it.
             /* 00c */ u32 mRaceKind;
             /* 010 */ s32 mEngineIndex;
             /* 014 */ s32 mCpuDifficulty;
@@ -435,7 +439,8 @@ static inline void SetListedCpuEntryIndex(u8 listedCpuSlot, s8 entryIndex) {
     gRaceSetup->mListedCpuEntryIndices[listedCpuSlot] = entryIndex;
 }
 
-// The touch and microphone input: touch samples, the calibrated point, the sampling flags and the microphone buffer.
+// The touch and microphone input: touch samples, the calibrated point, the touch and microphone sampling flags, the
+// microphone pre-sleep and over-threshold flags, and the microphone buffer.
 typedef struct TouchMicInput {
     /* 00 */ TPData mAutoSamples[5];
     /* 28 */ TPData mCalibratedPoint;

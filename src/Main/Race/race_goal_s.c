@@ -29,7 +29,7 @@
 #include "Main/Race/race_goal_s_rows.h"
 #include "Main/Save/ghost_record_file.h"
 
-// Object not known yet; it only sets the order of the tables below
+// Not read or written anywhere else in the code.
 u8 gRaceGoalSOrderPad[12];
 
 void WriteRaceGoalSRowTiles(s32 row, s32 style) {

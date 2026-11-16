@@ -15,7 +15,7 @@ s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMilli
                           MinuteSecondMillisecondTime *difference);
 void StartRaceHudLapTimeDisplay(void);
 
-// Largest lap time difference shown: 99 minutes, 59 seconds and 999 milliseconds.
+// Largest time difference shown: 99 minutes, 59 seconds and 999 milliseconds.
 #define RACE_HUD_LAP_TIME_MAX_MINUTE 99
 #define RACE_HUD_LAP_TIME_MAX_SECOND 59
 #define RACE_HUD_LAP_TIME_MAX_MILLISECOND 999

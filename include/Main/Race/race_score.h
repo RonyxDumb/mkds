@@ -12,7 +12,8 @@
 #include "Main/Race/race_hud_sub_screen_projection.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 
-// Writes mNextHeader.mSeed; shuffles the respawn slots in mode 2.
+// Sets up gRaceProgress (clock, counts, time limit, karts, random generators, lap progress), writes
+// RaceSetup.mNextHeader.mSeed; in MODE_BATTLE also shuffles the respawn slots and picks mStartPlacementOffset.
 void InitRaceProgress(void);
 void InitRaceProgressKart(RaceProgressKart *raceProgressKart, s32 kartIndex);
 s16 ComputeRaceProgressKartScore(s32 kartIndex);

@@ -52,7 +52,9 @@ void ResetRaceStartSequenceFrames(void) {
     gRaceStartSequence->mSequenceFrames = -0x78;
 }
 
-// Per-frame step from UpdateRaceHud: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+// Per-frame step from UpdateRaceHud: waits for the start sync, then counts mSequenceFrames; at -1 it calls
+// StartRaceInput, at 180 StartRaceSounds and StartRace. The countdown sounds are in UpdateRaceStartSequenceSounds (from
+// DrawRaceHud).
 void UpdateRaceStartSequence(void) {
     RaceStartSequence *sequence = gRaceStartSequence;
     s32 frames;

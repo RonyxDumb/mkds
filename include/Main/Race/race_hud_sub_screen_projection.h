@@ -32,13 +32,14 @@
 // CourseMapCheckpoint.mNumber: none.
 #define COURSE_MAP_CHECKPOINT_NO_NUMBER -1
 
-// Bit 0 of CourseMapCheckpoint.mFlags: the progress of a kart in it is lowered by a step per kart slot.
+// Bit 0 of CourseMapCheckpoint.mFlags: the progress of a kart in it is set to 0x1000 minus 0x190 per kart slot (per
+// Wi-Fi player number in Wi-Fi mode).
 #define COURSE_MAP_CHECKPOINT_FLAG_STAGGER 0x1
 
 // Unused entry of CourseMap.mRespawnIndexBySlot.
 #define COURSE_MAP_RESPAWN_SLOT_NONE 0xffff
 
-// Object returned by GetCourseMapSubScreenView.
+// The course map view of the sub screen: the position it centres on and its angle in degrees (mPos, mAngleDegrees).
 typedef struct {
     /* 00 */ Vec3 mPos;
     /* 0c */ u8 mUnk_0c[4];
@@ -52,16 +53,17 @@ typedef struct CourseMapEntryGroup {
     /* 02 */ u16 mEntryCount;
 } CourseMapEntryGroup;
 
-// Per-course values of CourseMap.mSettings: fog, four colors, the lap count or battle time, start and limit values.
+// Per-course values of CourseMap.mSettings: fog, the course color, four colors, the lap count or battle time, whether
+// the start side is flipped, and the map object draw distance and camera far distances.
 typedef struct CourseMapSettings {
     /* 00 */ u8 mUnk_00[2];
     // Lap count; in battle mode the same halfword is the time limit in seconds (times 60 frames into
-    // RaceProgress.mTimeLimitFrameCount when RaceSetup.mUnk_18 is 1).
+    // RaceProgress.mTimeLimitFrameCount when RaceSetup.mBattleKind is BATTLE_KIND_SHINE).
     /* 02 */ u16 mLapCountOrBattleSeconds;
     /* 04 */ u8 mStartSideFlipped;
     /* 05 */ u8 mFogEnabled;
-    // 0, 1 or 2: which of three formulas fills the 32-entry table (8 words) loaded to 0x04000360 (next to
-    // reg_G3X_FOG_COLOR and reg_G3X_FOG_OFFSET); other values leave it unfilled.
+    // 0, 1 or 2 when mFogEnabled is set: which of three formulas InitRaceFog uses to fill the 32-entry fog table (8
+    // words, gCourseFogTable); other values leave it unfilled.
     /* 06 */ u8 mFogTableMode;
     /* 07 */ u8 mFogSlope;
     /* 08 */ u8 mUnk_08[8];
@@ -82,7 +84,8 @@ typedef struct CourseMapSettings {
     /* 24 */ s32 mCameraFar;
 } CourseMapSettings;
 
-// A shape of the course map: its position, scale, three axes and kind, and the point link or camera it refers to.
+// A shape of the course map: its position, scale, three axes, box or cylinder form, kind and kind value, and the point
+// link, camera or increase limit it refers to.
 typedef struct CourseMapShape {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mScale;
@@ -110,7 +113,8 @@ typedef struct {
     /* 10 */ s16 mValues[4];
 } CourseMapPoint;
 
-// A battle point link: the links to other point links, a point with its radius and values, and the route link mask.
+// A battle point link: up to eight links to neighbouring point links and their count, a point with its radius and
+// values, and the route link mask.
 typedef struct PointLink {
     /* 00 */ struct PointLink *mLinks[3];
     /* 0c */ struct PointLink *mUnk_0c;
@@ -127,7 +131,7 @@ typedef struct PointLink {
 
 struct CourseMapRow;
 
-// A position, rotation, node index and key where a kart is put (CourseMap.mStartPlacements and mKeyedPlacements).
+// A position, rotation, point index and key where a kart is put (CourseMap.mStartPlacements and mKeyedPlacements).
 typedef struct CourseMapPlacement {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mRotation;
@@ -340,8 +344,8 @@ typedef struct CourseMap {
     /* 9c */ u16 mLapProgressBaseMax;
     /* 9e */ u8 mUnk_9e[2];
     // One 0x28-byte link per race point (up to three next and three previous links, a pointer to the point, two
-    // values), built from mRacePoints and mRaceRoutes; read by FindCourseMapPointLinkShapeRacePointLink,
-    // GetCourseMapRespawnRacePointLink and the kart follower set-up (InitRacePointLinkCursor).
+    // values), built from mRacePoints and mRaceRoutes; read by FindCourseMapPointLinkShapeRacePointLink and
+    // GetCourseMapRespawnRacePointLink.
     /* a0 */ RacePointLink *mRacePointLinks;
     // Link of the first point of mRaceRoutes[0].
     /* a4 */ RacePointLink *mRaceRoute0FirstLink;
@@ -391,10 +395,12 @@ typedef struct CourseMap {
 // Scrolling of the map view: a direction key moves mScrollPosition by the step and sets mScrollTimer to the start.
 #define RACE_HUD_SUB_SCREEN_SCROLL_STEP 0xa000
 #define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START 600
-// The scroll timer counts down from the start value; at this value the view starts to follow the kart.
+// The scroll timer counts down from the start value; when it would go below this value it is held here while the view
+// moves one step per call toward the followed kart, and it is set to 0 on arrival.
 #define RACE_HUD_SUB_SCREEN_SCROLL_TIMER_FOLLOW 300
 
-// How the course maps onto the sub screen: centers, angle pairs, scaled ranges and the scroll timer.
+// How the course maps onto the sub screen: centers, angle pairs, the kart icons, course and bg3 min and max with their
+// inverses, and the scroll position and timer.
 typedef struct RaceHudSubScreenProjection {
     /* 00 */ IntPair mCenter;
     /* 08 */ s32 mCenterRemainderX;

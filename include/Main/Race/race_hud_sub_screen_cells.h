@@ -9,7 +9,7 @@ void DrawRaceHudSubScreenCellGroups(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceHudSubScreenCellGroups(void);
 void ClearRaceHudSubScreenCellGroups(void);
 
-// The 49 entries of gRaceHudSubScreenCellGroupFunctions.
+// One entry of gRaceHudSubScreenCellGroupFunctions: the create, clear, update and draw functions of a cell group.
 typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 00 */ s32 (*mCreate)(void);
     /* 04 */ void (*mClear)(void);
@@ -41,14 +41,14 @@ typedef struct RaceHudOamBits {
 
 // Number of OAM entries in a RaceHudOamBuffer.
 #define RACE_HUD_OAM_COUNT 0x80
-// Bits 10 and 11 of the first word of an OAM entry hold the object mode (the item cells use the object window mode as
-// a mask); the same bits of the second word hold the priority.
+// Bits 10 and 11 of the first word of an OAM entry hold the object mode (DrawRaceItemSlot and DrawRaceModeCount set the
+// object window mode); the same bits of the second word hold the priority.
 #define RACE_HUD_OAM_MODE_MASK 0xc00
 #define RACE_HUD_OAM_MODE_OBJ_WINDOW 0x800
 #define RACE_HUD_OAM_PRIORITY_MASK 0xc00
 #define RACE_HUD_OAM_PRIORITY_1 0x400
 
-// The OAM buffer the race HUD draw functions fill: the OAM entries or affine matrices and their counts.
+// An OAM buffer: the OAM entries or affine matrices and their counts; the race HUD draw functions fill it.
 typedef struct RaceHudOamBuffer {
     union {
         /* 000 */ GXOamAttr mOams[RACE_HUD_OAM_COUNT];

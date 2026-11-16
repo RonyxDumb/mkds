@@ -25,5 +25,5 @@ void ResetCupRecords(void);
 
 void CreateCupRecords(void *heap);
 
-// Largest total of Grand Prix points a kart keeps in a cup record.
+// Largest total of points in a cup record, for a kart or a team.
 #define CUP_RECORD_TOTAL_POINTS_MAX 9999

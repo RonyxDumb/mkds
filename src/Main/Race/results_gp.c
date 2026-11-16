@@ -244,8 +244,8 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     }
 }
 
-// Draws the Grand Prix results; after a delay and a button press or touch, shows each pending secret message, then
-// picks the next scene.
+// Draws the Grand Prix results; once mStateFrames reaches the frame limit, an A press or a new touch shows one pending
+// secret message, and when none is left it picks the next scene (title, or the staff roll race).
 void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;

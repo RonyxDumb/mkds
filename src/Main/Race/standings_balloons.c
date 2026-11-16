@@ -373,9 +373,10 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     }
 }
 
-// Takes one kart out of play: runs the kart-eliminated callback, sets its status to 1, in mode 2 sets its count to -1,
-// re-sorts the ranks and starts the mode's out handling of the kart (mode 2: a kart handler call; mode 4: two bits in
-// the kart's words).
+// Takes one kart out of play: calls the kart-eliminated callback and sets its status to KART_STANDING_JUST_ELIMINATED;
+// in MODE_BATTLE it also sets mBalloonOrShineCount to -1 and mBalloonsLeftToMake to 0. For a kart below mKartCount it
+// then moves the kart toward the last rank, and calls StartBattleKartRemoval in MODE_BATTLE or sets
+// KART_DRIVE_SLOWING_STOP and KART_ENTRY_ENDED in MODE_MISSION_RUN.
 void EliminateKart(u16 kartIndex) {
     Kart *kart;
 
@@ -683,7 +684,7 @@ void AddBalloonsLeftToMake(u16 kartIndex, s32 amount) {
     gStandings->mKarts[kartIndex].mBalloonsLeftToMake += amount;
 }
 
-// TRUE when the kart's elimination status is not 0.
+// TRUE when the kart's mEliminationStatus is not KART_STANDING_IN_PLAY.
 BOOL IsKartEliminated(int kartIndex) {
     if (gStandings->mKarts[kartIndex].mEliminationStatus != KART_STANDING_IN_PLAY) {
         return TRUE;
@@ -722,7 +723,7 @@ BOOL IsKartOnWinningTeamAtEnd(s32 kartIndex) {
     return result;
 }
 
-// Returns the address of the kart's saved position (mKarts[i].mPos), not its rank.
+// Returns the address of the position Standings keeps for the kart (mKarts[kartIndex].mPos).
 Vec3 *GetKartStandingPos(int kartIndex) {
     return &gStandings->mKarts[kartIndex].mPos;
 }
@@ -743,8 +744,9 @@ CourseMapPoint *MoveToRandomForwardBattlePoint(void) {
     return &gCourseMap->mBattlePoints[gStandings->mBattlePointIndex];
 }
 
-// Allocates the Standings object and fills every entry (rank = own index, side id, status, count; the real karts first,
-// then the unused slots) and sets the winner to -1. Called from InitRace in modes 2 and 4.
+// Allocates the Standings object and sets every entry (rank = own index, team id, elimination status, counts; the real
+// karts first, then the unused slots, which start eliminated) and the winner to -1. Called from InitRace in MODE_BATTLE
+// and MODE_MISSION_RUN.
 void InitStandings(void) {
     s32 kartIndex;
     KartStanding *kartStanding;

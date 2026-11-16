@@ -8,8 +8,9 @@
 // Object not known yet; it only sets the order of the tables below
 const u8 gRaceHudSubScreenMinMaxOrderPad[1] = {1};
 
-// Copies the name of row rowIndex (0 is the player of current entry 0, otherwise course record rowIndex - 1) into
-// nameOut; the whole 10 characters when copyFullLength is non-zero, else only as many as fit the width.
+// Copies the name of row rowIndex into nameOut, which is cleared first and stays empty when the row has no name: row 0
+// is the player of current entry 0 when that player is human, ghost or peer, otherwise course record rowIndex - 1 when
+// the course has one; the whole 10 characters when copyFullLength is non-zero, else only as many as fit the width.
 void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) {
     u32 length;
     BOOL isHumanGhostOrPeer;
@@ -58,7 +59,8 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
     wcsncpy(nameOut, name, length);
 }
 
-// The part of the rectangle that the kart icons sub screen shows at x 0x78..0xf8, y 0x28..0xc0 of the 256 x 192 screen.
+// Min and max of the part of the first..second rectangle the kart icons are drawn in: 15/32 to 31/32 of its x extent
+// and 5/24 to 24/24 of its z extent.
 void ComputeRaceHudSubScreenKartIconsMinMax(IntPair *outFirst, IntPair *outSecond, s32 firstX, s32 firstZ, s16 secondX,
                                             s16 secondZ) {
     outFirst->mFirst = TO_FIXED12(firstX) + (secondX - firstX) * 0xf000 / 32;

@@ -3,8 +3,8 @@
 #include "types.h"
 #include "model_material_set.h" // MtxFx22
 #include "Main/Graphics/font_and_player_character.h" // Nscr, Ncgr, Nclr
-#include "animation_data_unpack.h" // NNSG2dCellDataBank
-#include "screen_data_unpack.h" // NNSG2dBinaryFileHeader
+#include "animation_data_unpack.h" // AnimBank, NNSG2dCellDataBank
+#include "screen_data_unpack.h" // FindPartByTag, NNS_G2dGetUnpackedScreenData
 
 void LocateNscr(Nscr **out, void *file);
 void LoadNscrData(Nscr **out, void *file);

@@ -454,7 +454,7 @@ void LoadStaffGhostTime(void *heap) {
     LoadFileIntoHeap("/data/Ghost/staff_ghost_time.bin", heap, (void **) &gStaffGhostTime);
 }
 
-// TRUE when the time is smaller than entry a - 1 of the staff ghost times.
+// TRUE when the time in milliseconds is below staff ghost time entryNumber - 1.
 BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, MinuteSecondMillisecondTime *time) {
     return TIME_TO_MS(time->mMinute, time->mSecond, time->mMillisecond) < gStaffGhostTime[entryNumber - 1];
 }
@@ -483,8 +483,9 @@ BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor) {
     return AdvanceKartKillerEndCount(kartKillerCursor);
 }
 
-// Holds the kart at a fixed speed, steers it toward the point link ahead, and moves the cursor on once the kart is past
-// that link or close to it.
+// Holds the kart at KART_KILLER_STAFF_FORWARD_SPEED; when it is past the point link ahead (or, except with
+// KART_DRIVE_BOOST_SURFACE_HELD on surface variant 1, within its distance) it moves the cursor on, otherwise it steers
+// toward the link.
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     Kart *kart;
     Vec3 position;
@@ -578,7 +579,8 @@ BOOL AdvanceKartKillerEndCount(KartKillerCursor *kartKillerCursor) {
     return limitReached;
 }
 
-// Stores one of three sets of battle item entry tables and callbacks; any value other than 1 or 2 takes the third set.
+// Stores the battle item entry tables and item callbacks for RaceSetup.mCpuDifficulty: easy and normal each have their
+// own, every other value gets the hard set.
 void SetupBattleItemEntries(void) {
     switch (gRaceSetup->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:

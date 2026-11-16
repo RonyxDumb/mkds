@@ -94,7 +94,8 @@ void ClearRaceRankListPointer(void) {
     gRaceRankList = NULL;
 }
 
-// Every 0x1c calls it re-reads each kart's rank and slides its row from the old rank slot to the new one.
+// After the start sequence passes 0x168 frames, and not in time attack or mission run: every 0x1c calls it re-reads
+// each kart's rank, and every call moves each row from its old rank slot toward the new one.
 void UpdateRaceRankList(void) {
     RaceRankListPos slotPositions[9] = {{0x1b, 0xf},  {0x1b, 0xf},  {0x1b, 0x26}, {0x1b, 0x3d}, {0x1b, 0x54},
                                         {0x1b, 0x6b}, {0x1b, 0x82}, {0x1b, 0x99}, {0x1b, 0xb0}};
@@ -210,7 +211,9 @@ void DrawRaceRankList(RaceHudOamBuffer *oamBuffer) {
     oams[3].mAttrs[3] = matrix->mElements[3] >> 4;
 }
 
-// Returns the cell index beside the kart (0xc9 = none): cell 0x24 or 0x25, the item just used, the held item or 0x16.
+// Returns the race_s.NCER cell drawn next to the kart's icon (0xc9 = none): 0x25 removed kart, 0x24 ended kart (battle:
+// winning team), else the item in use (cells 0x11 to 0x13 for item index 5 by object count, none in its off blink
+// frames), the shown item, or 0x16 while the item slot spins.
 u32 GetRaceRankListSNcerIndex(u16 kartIndex) {
     u32 cellIndex;
     RaceRankList *rankList;

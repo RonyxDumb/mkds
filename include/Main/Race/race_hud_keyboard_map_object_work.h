@@ -62,20 +62,22 @@ typedef struct BoxRotation {
 #define BOX_ROTATION_COUNT 0x12c
 #define QUESTION_ROTATION_COUNT 0x82
 
-// The rotation of the question mark of an item box: its cosine and sine.
+// The rotation of the question model of an item box: its cosine and sine.
 typedef struct QuestionRotation {
     /* 00 */ s32 mCosine;
     /* 04 */ s32 mSine;
 } QuestionRotation;
 
-// Two s32 values, used for the screen positions of the race HUD.
+// Two s32 values (mFirst, mSecond): HUD draw positions, checkpoint x and z, and the scale and frame count pairs of the
+// sub screen cells.
 typedef struct IntPair {
     /* 00 */ s32 mFirst;
     /* 04 */ s32 mSecond;
 } IntPair;
 
-// Values of RaceHudSubScreenCell.mPriority (the OAM priority, lower draws in front). The cells of the box objects take
-// MIDDLE when their position is outside the box and BACK when it is inside.
+// Values of RaceHudSubScreenCell.mPriority, stored as the OAM priority of the cell. Cells placed by their position take
+// 2 when IsPositionOutsideBox holds and 3 when it does not; while the followed kart is inside the box only cells of
+// priority 3 are drawn (mMinDrawValue).
 #define RACE_HUD_PRIORITY_FRONT 1
 #define RACE_HUD_PRIORITY_MIDDLE 2
 #define RACE_HUD_PRIORITY_BACK 3
@@ -90,12 +92,14 @@ typedef struct RaceHudSubScreenCell {
     /* 12 */ u8 mUnk_12[2];
 } RaceHudSubScreenCell;
 
-// Shared by the gRaceHudSubScreenItemBoxCells..gRaceHudSubScreenFireball2Cells lists and the ov001 pointers.
+// Used by every gRaceHudSubScreen<Name>Cells list, made by CreateRaceHudSubScreenCells or
+// CreateRaceHudSubScreenCellsWithCount.
 typedef struct RaceHudSubScreenCells {
     /* 00 */ MapObject **mObjects;
     /* 04 */ s32 mCellCount;
     /* 08 */ s32 mObjectCount;
-    // One pair per object: its course position, or in the scaled lists a scale and a frame counter.
+    // One pair per object: its course position, or in the scaled lists the scale in mFirst; the burner and fireball
+    // lists also count frames in mSecond of pair 0.
     /* 0c */ IntPair *mObjectPairs;
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
@@ -107,7 +111,8 @@ typedef struct RaceHudSubScreenKoopaBgColors {
     /* 18 */ u16 mKoopaBlockColors[2];
 } RaceHudSubScreenKoopaBgColors;
 
-// The sub screen background colors of every course, indexed for gRaceSetup.mCourseId.
+// The sub screen background colors of the course, one layout chosen by gRaceSetup.mCourseId: frame colors, gear colors,
+// a color list or the Koopa colors.
 typedef union RaceHudSubScreenBgColorSets {
     u16 mColorList[0x15];
     u16 mFrameColors[9][3];
@@ -121,11 +126,12 @@ typedef struct RaceHudSubScreenBgColors {
     /* 02 */ RaceHudSubScreenBgColorSets mColors;
 } RaceHudSubScreenBgColors;
 
-// The course number and course count pair drawn on the main screen before the race start (gRaceMNumberPair).
+// The course number and course count pair drawn on the main screen during the race start in a Wi-Fi race and in a
+// Versus race with the race count rule (gRaceMNumberPair).
 typedef struct RaceMNumberPair {
     // Copy of gRaceSetup.mCourseNumber taken in InitRaceMNumberPair.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in a Wi-Fi race, gRaceSetup.mCourseCount in a VS race with the race count
+    // Number of courses of the race series: 4 in a Wi-Fi race, gRaceSetup.mCourseCount in a VS race with the race count
     // rule, else 0 (not drawn).
     /* 04 */ s32 mCourseCount;
     /* 08 */ MtxFx22 mScaleMatrix;
@@ -133,8 +139,8 @@ typedef struct RaceMNumberPair {
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
     /* 22 */ u8 mUnk_22[2];
-    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (SetRaceMNumberPairAnimation) for the
-    // slide-in.
+    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (SetRaceMNumberPairAnimation) from 0 to 0x80
+    // for the slide to the right after frame 0x78 of the start sequence.
     /* 24 */ s32 mOffsetX;
 } RaceMNumberPair;
 
@@ -155,7 +161,8 @@ typedef struct ViewFrustum {
 } ViewFrustum;
 
 // Values of EmblemChoises.mChoisesIndex and of a picked mResult: the first goes back to editing, the second writes the
-// emblem to the save data and leaves, the third leaves without writing.
+// emblem to the save data and leaves, the third leaves without writing. mResult is also -1 (nothing picked) and -2
+// (closed with B or START, handled like the first).
 enum { EMBLEM_CHOISE_BACK, EMBLEM_CHOISE_SAVE, EMBLEM_CHOISE_DISCARD };
 
 // The emblem choice screen: mShown, the pick and close frame counts, mResult, mChoisesCount entries and their graphics.
@@ -179,7 +186,7 @@ typedef struct EmblemChoises {
     /* 68 */ struct Nscr *mChoisesS3Nscr;
 } EmblemChoises;
 
-// One row of the group config table: a map object kind with its view test and radius, draw distance and shape extents.
+// One row of the MapObj/grpconf.tbl table: a map object kind, view test and radius, draw distance, shape extents.
 typedef struct GrpconfTblRow {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mViewTestKind;
@@ -209,7 +216,8 @@ struct ModelEffect;
 #define MODEL_EFFECT_POLYGON_ID_FIRST 10
 #define MODEL_EFFECT_POLYGON_ID_LAST 13
 
-// The ModelEffect pools: an active list, one free list per kind, and the next polygon id (first to last, then around).
+// The ModelEffect pools: an active list, one free list and one object array per kind, and the next polygon id (first to
+// last, then around).
 typedef struct ModelEffects {
     /* 00 */ NNSFndList mActiveList;
     /* 0c */ NNSFndList mFreeLists[5];
@@ -230,7 +238,7 @@ typedef struct PosStrips {
 // TimedQuad.mColor: white as a 15-bit color.
 #define TIMED_QUAD_COLOR_WHITE 0x7fff
 
-// A quad with a countdown timer, alpha and 15-bit color that is drawn while it is enabled.
+// A quad with a countdown timer, alpha and 15-bit color, updated and drawn (in a normal race) while mEnabled.
 typedef struct TimedQuad {
     /* 00 */ s16 mTimer;
     /* 02 */ s16 mAlpha;
@@ -240,7 +248,7 @@ typedef struct TimedQuad {
     /* 0c */ u8 mUnk_0c[4];
 } TimedQuad;
 
-// The stem sets: nine sets (the last a copy of the one shown), the shown index and frames, a matrix and a timed quad.
+// The stem sets: eight sets and an entry for the one shown, the shown index and frames, a matrix and a timed quad.
 typedef struct StemSets {
     // Entries 0 to 7 are the sets; entry 8 is a copy of the one shown.
     /* 000 */ StemSet *mSets[9];
@@ -266,10 +274,12 @@ typedef struct StemSets {
 typedef struct KartStanding {
     /* 00 */ BOOL mNotNormalOrFlaggedSeen;
     /* 04 */ BOOL mObjectsSkipSeen;
-    // 0 in play, 1 just eliminated (the update calls the kart handler once and sets 2), 2 eliminated and handled;
-    // unused slots start at 2. Only compared, never switched on.
+    // 0 in play, 1 just eliminated (UpdateStandings queues the kart's own sound with QueueKartOwnSoundIndex, except for
+    // the entry kart once a winner is decided, and sets 2), 2 eliminated and handled; unused slots start at 2;
+    // EliminateKartsUntilWinnerDecided also sets 2 directly. Only compared, never switched on.
     /* 08 */ s32 mEliminationStatus;
-    // Copy of the kart's position, refreshed every update while the kart's count is above 0 and no winner is decided.
+    // Copy of the kart's position, refreshed every update while the kart's count is above 0, it is not just eliminated
+    // and no winner is decided.
     /* 0c */ Vec3 mPos;
     /* 18 */ s32 mNotNormalEndPending;
     /* 1c */ s32 mObjectsSkipEndPending;
@@ -279,13 +289,14 @@ typedef struct KartStanding {
     // Id of the side the kart plays for: the entry's team index 0 gives 1, 1 gives 3, any other value gives the kart's
     // own index; an unused slot gets the kart count. The winner test compares it between the karts still in play.
     /* 46 */ u16 mTeamId;
-    // Position in the order by count, 0 = first. Starts as the kart's own index; a count step swaps it with neighbours
-    // (karts still in play stay ahead of eliminated ones).
+    // Position in the order, 0 = first. Starts as the kart's own index; AddBalloonOrShineCountAndMoveRank and
+    // EliminateKart move the kart past karts with a lower count, and karts still in play stay ahead of eliminated ones.
     /* 48 */ u16 mRankIndex;
     /* 4a */ u8 mUnk_4a[2];
-    // The kart's count: balloons held where the balloon object exists (mode 2 with RaceSetup.mUnk_18 == 0, and mode
-    // 4), shines held in the shine mode (mode 2 with mUnk_18 == 1). -1 for an unused slot and for a kart eliminated in
-    // mode 2; 0 at the start; changed in steps of +1 / -1. The rank order is sorted by it.
+    // The kart's count: balloons held where the balloon object exists (MODE_BATTLE with BATTLE_KIND_BALLOON, and
+    // MODE_MISSION_RUN), shines held in the shine battle (MODE_BATTLE with BATTLE_KIND_SHINE). -1 for an unused slot
+    // and for a kart eliminated in MODE_BATTLE; 0 at the start; changed in steps of +1 / -1. The rank order is sorted
+    // by it.
     /* 4c */ s32 mBalloonOrShineCount;
     /* 50 */ u16 mBalloonsLeftToMake;
     /* 52 */ u8 mUnk_52[0x12];
@@ -298,47 +309,51 @@ typedef struct KartStanding {
 typedef struct Standings {
     // One KartStanding per kart index; the entries past the kart count are unused slots.
     /* 000 */ KartStanding mKarts[8];
-    // Called when a kart touches another kart in Battle and only the other kart has attacked, with the hit kart index
-    // and the other kart index; set by the balloon object, its result is returned to the collision code.
+    // Called by CallKartCollisionCallbacks in Battle with the hit kart index and the other kart index when the other
+    // kart has KART_DRIVE_KINOKO_BOOST and has not hit it before, the hit kart is not guarded, and the two karts are
+    // not hitting each other; set by the balloon object, its result is returned to the collision code.
     /* 380 */ s32 (*mKartHitByKartCallback)(s32, s32);
-    // Called when two karts touch in Battle and both have attacked, with both kart indices; set by the balloon object.
+    // Called by CallKartCollisionCallbacks in Battle with both kart indices when both karts have
+    // KART_DRIVE_KINOKO_BOOST, neither is guarded and neither has hit the other before; set by the balloon object.
     /* 384 */ void (*mKartsHitEachOtherCallback)(s32, s32);
     // Called with the hit kart index and the index of the kart that hit it (8 when none) when a hit of the kart ends,
     // and for a kart that hit itself; set by the balloon object and the shine mode, which take a balloon or shine from
-    // the first kart.
+    // the hit kart.
     /* 388 */ s32 (*mKartHitCallback)(u16, u16);
     // Called with the kart index at the start of an elimination. Set by the balloon object (releases the kart's
-    // balloons) and by the shine mode (drops the kart's shines).
+    // balloons, in MODE_BATTLE only) and by the shine mode (drops one of the kart's shines).
     /* 38c */ void (*mKartEliminatedCallback)(u16);
-    // Called when mEndTimer runs out and by the mode 4 end step. Set by the balloon object, the shine mode and the
-    // overlay 1 objects.
+    // Called when mEndTimer runs out and by FinishStandings in MODE_MISSION_RUN. Set by the balloon object, the shine
+    // mode and the overlay 1 mission objects.
     /* 390 */ void (*mEndCallback)(void);
     /* 394 */ u8 mUnk_394[8];
-    // Called in Battle with the kart index and the address of a Vec3 when a kart is placed or pushed: the position
-    // change of a kart set to a checkpoint position, the position change in ResetKartAtRaceEnd, and the push vector of
-    // a map object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
-    // balloons.
+    // Called in Battle with the kart index and the address of a Vec3 when a kart is moved: the position change of
+    // PlaceKartAtKeyedPlacement, the position change in ResetKartAtRaceEnd, and the mPosStep of a Bound, Cream or Berry
+    // that a kart hit (CollideKartWithBound); set by the balloon object, which adds that Vec3 to the positions of the
+    // kart's balloons.
     /* 39c */ void (*mKartOffsetCallback)(u16, Vec3 *);
-    // Number of Shine16 objects placed and not yet finished: AddShineCount changes it (+1 placed, -1 finished); the
-    // spawner stops placing at 3. Parking every shine at once, as the shine mode's end callback does, does not
-    // subtract.
+    // Number of Shine16 objects started and not yet finished: AddShineCount changes it (+1 when one is placed on the
+    // course or released from a hit kart, -1 when one finishes); UpdateShineBattle stops placing at 3. Parking every
+    // shine at once, as the shine mode's end callback does, does not subtract.
     /* 3a0 */ u16 mShineCount;
     /* 3a2 */ u16 mTimeLimitSeconds;
     /* 3a4 */ u16 mTimeLimitIndex;
     /* 3a6 */ u8 mUnk_3a6[2];
-    // Frames left before mEndCallback runs once a winner is decided: mode 2 stores 0x5a and counts it down; at 0 it
-    // becomes -1 and the callback runs. A value below 0 means the end is reached. Mode 4 stores 0 and ends through the
-    // race-progress end step, which sets -1 and runs the callback.
+    // Frames left before mEndCallback runs once a winner is decided: MODE_BATTLE stores STANDINGS_END_FRAMES and
+    // UpdateStandings counts it down; at 0 it becomes -1 and the callback runs. A value below 0 means the end is
+    // reached. MODE_MISSION_RUN stores 0 and ends through FinishStandings (called by the race-progress end step), which
+    // sets -1 and runs the callback.
     /* 3a8 */ s32 mEndTimer;
-    // Highest KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort (the two functions that
-    // swap ranks recompute it; AddBalloonOrShineCountAndMoveRank, which adds to a count, does not).
+    // Highest KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort: MoveKartTowardFirstRank
+    // and MoveKartTowardLastRank recompute it, and AddBalloonOrShineCountAndMoveRank calls one of them whenever its
+    // amount is not 0.
     /* 3ac */ s32 mHighestBalloonOrShineCount;
     // Lowest non-negative KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort; 0xffff when no
     // kart has a non-negative count.
     /* 3b0 */ s32 mLowestBalloonOrShineCount;
-    // Side id (KartStanding.mTeamId) of the winning side, -1 until a winner is decided. Set once every kart still in
-    // play has the id of the rank 0 kart. In mode 4 the ids are kart indices (it is compared with the local entry
-    // index).
+    // Team id (KartStanding.mTeamId) of the winning team, -1 until a winner is decided. Set once every kart still in
+    // play has the id of the rank 0 kart. In MODE_MISSION_RUN the ids are kart indices (it is compared with the local
+    // entry index).
     /* 3b4 */ s32 mWinnerTeamId;
     /* 3b8 */ u16 mBattlePointIndex;
     /* 3ba */ u8 mUnk_3ba[2];
@@ -346,13 +361,14 @@ typedef struct Standings {
     /* 3bc */ struct KartBalloons *mKartBalloons;
 } Standings;
 
-// The Standings object, allocated by InitStandings in modes 2 and 4.
+// The Standings object, allocated by InitStandings in MODE_BATTLE and MODE_MISSION_RUN.
 extern Standings *gStandings;
 
 static inline KartStanding *GetStandingsKart(u16 kartIndex) {
     return &gStandings->mKarts[kartIndex];
 }
-// 8-byte entries of the tables KeyboardKeys points to (FindKeyboardRectByValue returns one).
+// One key rectangle of a keyboard layout: its position and size, the offset to the next rect of the same key
+// (mNextRectOffset) and its key id.
 typedef struct KeyboardRect {
     /* 00 */ u8 mX;
     /* 01 */ u8 mY;
@@ -378,7 +394,7 @@ static inline KeyboardRect *GetKeyboardLayoutRect(KeyboardLayout *layout, u32 re
     return &layout->mRects[rectIndex];
 }
 
-// A key repeat counter: mRepeatFrames counts against the first and repeat fire frames, mFired marks a repeat.
+// A key repeat counter: mRepeatFrames counts against the first and repeat fire frames, mFired is set at either.
 typedef struct RepeatCounter {
     /* 00 */ u16 mRepeatFrames;
     /* 02 */ u16 mFirstFireFrame;
@@ -386,8 +402,8 @@ typedef struct RepeatCounter {
     /* 06 */ u16 mFired;
 } RepeatCounter;
 
-// Object at gKeyboardKeyRepeat: an RepeatCounter followed by two halfwords (AdvanceKeyboardKeyRepeat,
-// SetupKeyboardKeyRepeat).
+// The keyboard key repeat: a RepeatCounter (mCounter), the key bits that can repeat (mKeyMask) and the key bits now
+// repeating (mRepeatKeys).
 typedef struct KeyboardKeyRepeat {
     /* 00 */ RepeatCounter mCounter;
     /* 08 */ u16 mKeyMask;
@@ -485,7 +501,8 @@ typedef struct TitleStateHandlers {
 struct LayoutTableEntry;
 struct LayoutEntryTable;
 
-// Entries of the title menu in row order; all but the first are named after the scene each one starts (SCENE_*).
+// Values of TitleScene.mSelectedIndex, in the order of the scenes they start (SCENE_MENU_1, SCENE_WL_MENU,
+// SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD); Option and Record share the last row.
 enum {
     TITLE_ENTRY_FIRST,
     TITLE_ENTRY_WL_MENU,
@@ -494,16 +511,17 @@ enum {
     TITLE_ENTRY_RECORD,
 };
 
-// x offset of the title cells while they are off screen, and the TitleScene.mNextState that names no state.
+// x offset of the title cells at the slide in start and slide out end, and the mNextState that names no state.
 #define TITLE_OFFSCREEN_X 0xf8
 #define TITLE_NEXT_STATE_NONE 8
 
-// TitleScene.mState, in the order of gTitleStateHandlers.
+// TitleScene.mState, mPrevState and mNextState values, in the order of gTitleStateHandlers.
 #define TITLE_STATE_BLEND_IN 0
 #define TITLE_STATE_SLIDE_IN 1
 #define TITLE_STATE_MENU_INPUT 2
 #define TITLE_STATE_SLIDE_OUT 3
-// The pressed entry moves for 10 frames, then the table slides out.
+// The pressed entry (not Option or Record) moves by TitleScene.mSelectedOffset for 10 frames, then the table slides
+// out.
 #define TITLE_STATE_SELECT_PRESS 4
 #define TITLE_STATE_LEAVE 5
 #define TITLE_STATE_REQUEST_NICKNAME_SCENE 6
@@ -521,8 +539,7 @@ typedef struct TitleScene {
     /* 050 */ BOOL mBlendDone;
     /* 054 */ s32 mSelectedIndex;
     /* 058 */ BOOL mStartedOnSelected;
-    // TRUE when the title cursor goes to the record entry rather than the option entry when it leaves the Wi-Fi menu
-    // entry.
+    // TRUE when a move down from the Wi-Fi menu entry or up from the first entry goes to record, not option.
     /* 05c */ BOOL mPreferRecordEntry;
     /* 060 */ s16 mSelectedOffset;
     /* 064 */ s32 mBlendFrames;
@@ -549,7 +566,7 @@ typedef struct TitleScene {
 
 extern TitleScene *gTitleScene;
 extern u64 gLastTick;
-// The affine matrix, center and offset of the sub screen background.
+// The affine matrix, center and start position (mX1, mY1) of the sub screen background.
 typedef struct RaceHudSubScreenBgAffine {
     /* 00 */ s32 mMatrix0;
     /* 04 */ s32 mMatrix1;
@@ -562,9 +579,9 @@ typedef struct RaceHudSubScreenBgAffine {
 } RaceHudSubScreenBgAffine;
 
 // Values of RaceHud.mSubScreenState: the pages of the sub screen. The first four show the course from above: the kart
-// icons placed over the whole course, the map turning with the camera or kart heading, the map with north fixed that
-// scrolls, and the map placed by the course map sub screen view. The goal pages list the finished karts or the teams;
-// the last is the new-record page.
+// icons placed over the whole course, the map turning with the camera angle, the map with a fixed angle that scrolls,
+// and the map placed by the course map sub screen view. The goal pages list the finished karts or the teams; the last
+// is the new-record page.
 typedef enum {
     RACE_HUD_SUB_SCREEN_KART_ICONS,
     RACE_HUD_SUB_SCREEN_MAP_TURNING,
@@ -577,9 +594,9 @@ typedef enum {
 
 // The race's on-screen display (gRaceHud): the sprite entry buffers, loaded graphics and the sub screen page state.
 typedef struct RaceHud {
-    // Calls of the step UpdateRaceHud that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
-    // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
-    // GetRaceHudUpdateFrames (value / 32).
+    // Calls of UpdateRaceHud that get past the START_GP, AWARD and STAFF_ROLL kinds and the mEnabled test; wraps to 0
+    // at RACE_HUD_UPDATE_FRAMES_WRAP. UploadRaceHud scrolls the KART_ICONS page by value / 6 and GetRaceHudUpdateFrames
+    // (value / 32) is read by UpdateRaceHudSubScreenBg3CenterByFrames.
     /* 000 */ s32 mUpdateFrames;
     /* 004 */ RaceHudOamBuffer mMainOam;
     /* 408 */ RaceHudOamBuffer mSubOam;
@@ -593,9 +610,9 @@ typedef struct RaceHud {
     /* 828 */ s32 mSubScreenState;
     // Gate of the sub screen's page update and page upload.
     /* 82c */ BOOL mSubScreenEnabled;
-    // Set when the goal teams page is requested; the upload loads its graphics once and clears it.
+    // Set when the goal teams page is requested; the upload copies its graphics once and clears it.
     /* 830 */ BOOL mSubScreenGoalTeamsLoadPending;
-    // Set when the new record page is requested; the upload loads its graphics once and clears it.
+    // Set when the new record page is requested; the upload copies its graphics once and clears it.
     /* 834 */ BOOL mSubScreenNewRecordLoadPending;
     /* 838 */ BOOL mRaceGoalSShown;
     /* 83c */ BOOL mGoalMStarted;
@@ -613,12 +630,11 @@ typedef struct RaceHud {
     /* 8bc */ s32 mRemovedSoundPlayed[8];
     /* 8dc */ s32 mShowLapTime;
     /* 8e0 */ s32 mShowLapTimeFrames;
-    // Set once in InitRaceHud: 1 only in mode 1 with more than one kart; gates StartRaceHudLapTimeDisplay (the
-    // computation) and the draw of the time difference.
+    // Set once in InitRaceHud: 1 only in MODE_TIME_ATTACK with more than one kart; gates StartRaceHudLapTimeDisplay
+    // (the computation) and the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
-    // ComputeTimeDifference's return: non-zero when the entry's summed lap times (GetKartLapTime) are >= the summed
-    // reference times (gRaceSetup.mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
-    // minus is not named.
+    // ComputeTimeDifference's return: non-zero when the followed kart's summed lap times (GetKartLapTime) are >= the
+    // summed ghost lap times (gRaceSetup.mGhostLapTimes); the draw picks the sign cell by it.
     /* 8e8 */ s32 mTimeDifferenceSign;
     // The difference as seven digits (SplitTimeDigits), written by StartRaceHudLapTimeDisplay, read through
     // GetRaceHudTimeDifference by the draw.
@@ -631,7 +647,7 @@ typedef struct RaceHud {
 
 struct ChoisesS;
 struct RaceNcerNclrNcgrTables;
-// 8-byte elements at the start of RaceRankList.
+// An x and y position (mX, mY) of a row of the race rank list.
 typedef struct RaceRankListPos {
     /* 00 */ s32 mX;
     /* 04 */ s32 mY;
@@ -673,8 +689,10 @@ typedef struct RaceHudSubScreenCellGroups {
 } RaceHudSubScreenCellGroups;
 
 // Values of RaceGoalS.mOffsetState: the panel offset slides in (ENTER), stays (HOLD) and slides out (LEAVE); FIRST,
-// SECOND and LAST are the three stages, each drawn with its own cell (LAST blinks); LAST is also reached directly from
-// LEAVE_FIRST when the wifi pick is locked. LEAVE_END is the slide out before HIDDEN.
+// SECOND and LAST are the three stages, each drawn with its own cell (LAST blinks). FIRST ends when the rows are hidden
+// or the wifi pick is locked, SECOND only when the wifi pick is locked; LAST is also reached directly from LEAVE_FIRST
+// when the wifi pick is locked. START goes to HIDDEN unless mUpdate is SlideInRaceGoalS. LEAVE_END (from FIRST when
+// mUpdate is SlideOutRaceGoalS) is the slide out before HIDDEN.
 enum {
     RACE_GOAL_S_OFFSET_START,
     RACE_GOAL_S_OFFSET_ENTER_FIRST,
@@ -689,8 +707,9 @@ enum {
     RACE_GOAL_S_OFFSET_HIDDEN,
 };
 
-// Phases of RaceGoalS: A ends a phase once ROWS_PHASE_FRAMES frames have passed. Hiding or showing the rows changes one
-// row every ROW_STEP_FRAMES frames and starts the sequence with the id FIRST plus the row index.
+// Phases of RaceGoalS: pressing A ends a phase once PHASE_FRAMES frames have passed (HideRaceGoalSRows also ends by
+// itself at that frame). Hiding or showing the rows changes one row every ROW_STEP_FRAMES frames and plays the sound
+// sequence with the id FIRST plus the row index; CountUpRaceGoalSNumbers adds 1 to each shown number at the same rate.
 #define RACE_GOAL_S_HIDE_ROW_SEQ_FIRST 0x32
 #define RACE_GOAL_S_SHOW_ROW_SEQ_FIRST 0x2a
 #define RACE_GOAL_S_ROW_STEP_FRAMES 5
@@ -708,7 +727,7 @@ enum {
 #define RACE_GOAL_S_SLIDE_FRAMES 0x14
 #define RACE_GOAL_S_SLIDE_OFFSET 0x100
 
-// The race results list: the visible rows with their shown numbers and kart indexes, the update function and maps.
+// The race results list: row visibility, shown numbers, kart indexes, update function, graphics and screen maps.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];
     /* 0020 */ s32 mShownNumbers[8];
@@ -733,7 +752,7 @@ typedef struct RaceGoalS {
 extern RaceGoalS *gRaceGoalS;
 extern struct MenuScene *gMenuScene;
 // The same pointer as gWaterEfct, stored by SetCourseWaterEfct (the last call of CreateWaterEfct) and set to NULL in
-// InitMapObjects; the water_efct getters and the level getter read this one.
+// InitMapObjects; the three water_efct file getters, GetHeightAboveWaterOrEfct and IsFarBelowWaterEfct read this one.
 extern WaterEfct *gCourseWaterEfct;
 extern Vec3 *gFoundMapObjectVectors;
 extern s32 gMapObjectsTimeAttackOrWiFi;
@@ -763,8 +782,8 @@ typedef struct RaceModeCount {
         u16 mNumberHalves[2];
     };
     /* 04 */ s32 mMissionRunCountLimit;
-    // 1 from init; cleared by DrawRaceModeCount once the time attack key recording is full; IsRaceKeyRecordingNotFull
-    // reads it.
+    // 1 from init; cleared by DrawRaceModeCount in MODE_TIME_ATTACK once gInputSlots[0] is INPUT_SOURCE_PAD_RECORDED
+    // and its key recording is full; IsRaceKeyRecordingNotFull reads it.
     /* 08 */ BOOL mKeyRecordingNotFull;
 } RaceModeCount;
 
@@ -861,7 +880,7 @@ typedef struct RaceHudSubScreenSecondHand {
     /* 2c */ IntPair mEndPositions[3];
 } RaceHudSubScreenSecondHand;
 
-// The kart markers of the race sub screen: per kart visibility, position, scale, angle, draw order and mCells.
+// The kart icons of the race HUD sub screen: per kart visibility, position, scale, angle, draw order and mCells.
 typedef struct RaceHudSubScreenKarts {
     /* 000 */ s32 mVisible[8];
     /* 020 */ s32 mSpriteHidden[8];
@@ -922,7 +941,7 @@ extern s32 gJgKind;
 #define JG_KIND_LAP_COUNT 0
 #define JG_KIND_LAP_FINAL 1
 #define JG_KIND_REVERSE 2
-#define JG_KIND_FLAG 3 // shown after the player finishes
+#define JG_KIND_FLAG 3 // shown when the entry kart has reached the goal (not in mission run mode)
 #define JG_KIND_NONE 4
 extern s32 gJgSnapUntilPushFlip;
 extern s32 gJgAgainstCheckpointFrames;
@@ -993,7 +1012,8 @@ extern s32 gJgArriveHeightOffset;
 extern s32 gJgLeaveHeightOffset;
 extern s32 gJgLeaveSpeed;
 extern s32 gJgVelocityFactorX;
-// Copy of the kart's position, y minus the kart's hop height (state 4 stores it without that).
+// Copy of the kart's position, y minus the kart's hop height (JG_STATE_FOLLOW_KART stores it without that, only while
+// gJgStateCounter is 0).
 extern Vec3 gJgKartPos;
 extern Vec3 gJgNoModelOffset;
 extern Vec3 gJgLapOffset;
@@ -1009,8 +1029,8 @@ extern s32 gJgOffsetX;
 extern s32 gJgFarFromKart;
 extern u32 gJgCourseHitBits;
 extern s32 gGessoBlockTimer;
-// Items the spin may show after a roll with a forced row: the items with a non-zero weight in that row plus the one
-// picked. Written by PickItem, cleared by CreateItemSlotTables.
+// Number of items in gItemSlotPossibleItems: the items with a non-zero weight in some row of
+// gItemSlotHumanGhostPeerTable or gItemSlotCpuTable. Set by CreateItemSlotTables.
 extern u16 gItemSlotPossibleItemCount;
 // Length of gItemSlotSpinItems; 0 means the spin uses gItemSlotPossibleItems.
 extern u16 gItemSlotSpinItemCount;

@@ -31,9 +31,9 @@ static inline GhostRecordHead *GetGhostRecordSetSlotHead(u8 slotIndex) {
     return &gGhostRecordSet->mSlotGhostRecords[slotIndex].mHead;
 }
 
-// Kinds of ghost record the functions of this file take: the record of the course, the record of the selected slot, the
-// record of the ghost file, and the kind with no record of its own in the set (the getters read nothing for it; reading
-// it loads the course record only).
+// Kinds of ghost record the functions of this file take: the record of the course, the record of the slot found for
+// this course, the record of the ghost file, and a kind outside the set (always selectable; the getters read nothing
+// for it and reading it loads the course record only).
 #define GHOST_RECORD_KIND_COURSE 0
 #define GHOST_RECORD_KIND_SLOT 1
 #define GHOST_RECORD_KIND_GHOST_FILE 2

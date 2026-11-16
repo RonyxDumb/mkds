@@ -149,7 +149,8 @@ const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
      gResultsBattleVsRedONclrName, gResultsBattleVsRedBnclName, NULL}};
 ResultsBattle *gResultsBattle;
 
-// Reads the table of gCupRecords, a row chosen by one call and a column by another.
+// Returns the address of the current course's result for a kart entry in gCupRecords->mKartResults (row
+// GetCourseIndexInCup, column the low byte of entryIndex).
 static inline KartCourseResult *ResultsBattleGetKartCourseResult(u32 entryIndex) {
     return &gCupRecords->mKartResults[GetCourseIndexInCup()][GetLowByte(entryIndex)];
 }

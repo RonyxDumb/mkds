@@ -10,7 +10,8 @@ void CreateCupRecords(void *heap) {
     gCupRecords = HeapAlloc(heap, sizeof(CupRecords));
 }
 
-// Zeroes the ten-byte records of the eight karts in the four courses and the team points and win counts.
+// Zeroes every kart's course result and each team's total points and win count in the four courses, zeroes mScore, and
+// sets mConnectionActive from whether a connection is active.
 void ResetCupRecords(void) {
     CupRecords *cupRecords;
     s32 course;
@@ -56,7 +57,9 @@ u8 GetCourseIndexInCup(void) {
     return (gRaceSetup->mCourseNumber - 1) % 4;
 }
 
-// Stores rank and points; the total adds the previous course's (max 9999), rank 1 raises the win count (max 99).
+// Stores rank and points; the total is the previous course's total plus the points (max 9999), and the win count is the
+// previous course's plus one for rank 1 (max 99). Battle, VS and WiFi take the fourth course as previous on the first
+// course; the other modes start from 0.
 void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     RaceSetup *raceSetup;
     s8 totalsCourse, winsCourse;
@@ -187,7 +190,8 @@ void SetCupWinningTeam(s32 team) {
     teamsForClear[otherTeam].mWinning = 0;
 }
 
-// Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
+// Stores each team's win count (the previous course's, plus one for the winning team, max 99) and the sum of its karts'
+// total points in this course (max 9999).
 void SetTeamWinCountsAndPoints(s32 winningTeam) {
     s32 team;
     u16 kart, points;
@@ -232,7 +236,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
     }
 }
 
-// Zero outside Grand Prix, VS and mode 5.
+// The kart's mCupRank in this course in Grand Prix, VS and WiFi; zero in the other modes.
 s32 GetKartCupRank(u16 kart) {
     s32 mode;
     KartCourseResult *record;
@@ -260,7 +264,7 @@ s32 GetCupWinningTeam(void) {
     return winningTeam;
 }
 
-// 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
+// The previous course's total points; 0 on the first course, except that battle, VS and WiFi use the fourth course.
 u16 GetKartPreviousTotalPoints(u32 kart) {
     s32 mode;
     s8 previousCourse;
@@ -296,7 +300,8 @@ u8 GetKartPreviousWinCount(u32 kart) {
     return gCupRecords->mKartResults[previousCourse][(u8) kart].mWinCount;
 }
 
-// The previous course's rank in Grand Prix, VS and mode 5 (VS and mode 5 wrap); else the kart count minus the index.
+// The previous course's rank in Grand Prix, VS and WiFi (VS and WiFi wrap to the fourth course); the kart count minus
+// the index in the other modes, on the first Grand Prix course, or when that rank is 0.
 u8 GetKartStartRank(u32 kart) {
     RaceSetup *raceSetup;
     s32 mode;
