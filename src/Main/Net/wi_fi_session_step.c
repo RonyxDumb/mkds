@@ -139,7 +139,7 @@ s32 UpdateWiFiSessionStep(void) {
         case WIFI_SESSION_STEP_EXCHANGE_RECORDS:
             AdvanceWiFiSessionStep0();
             break;
-        case WIFI_SESSION_STEP_EXCHANGE_SEEDS:
+        case WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT:
             AdvanceWiFiSessionStep1();
             break;
         case WIFI_SESSION_STEP_WAIT_BACKUP:
@@ -271,7 +271,7 @@ void AdvanceWiFiSessionStep0(void) {
     gWiFiSession->mSendRecordMask = 0;
     gWiFiSession->mReceivedMask = 0;
     gWiFiSession->mStepFrames = 0;
-    gWiFiSession->mStep = WIFI_SESSION_STEP_EXCHANGE_SEEDS;
+    gWiFiSession->mStep = WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT;
 }
 
 void AdvanceWiFiSessionStep1(void) {
@@ -511,7 +511,7 @@ void AdvanceWiFiSessionStep9(void) {
     }
     gWiFiSession->mSendRecordMask = 0;
     gWiFiSession->mReceivedMask = 0;
-    gWiFiSession->mStep = WIFI_SESSION_STEP_READY;
+    gWiFiSession->mStep = WIFI_SESSION_STEP_VERIFY_DONE;
     gWiFiSession->mStepFrames = 0;
 }
 

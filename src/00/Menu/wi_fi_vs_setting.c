@@ -104,8 +104,8 @@ void InitWiFiVSSetting(void *heap) {
                 messageColumn = 0;
                 if (index == 1) {
                     gWiFiVSSetting->mSettingIndex = gWiFiVSSettingIndexByKartType[gMenuShared->mWiFiVSSettingKartType];
-                    if (gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_BUDDIES && !HasBuddyRecords()) {
-                        gWiFiVSSetting->mSettingIndex = WIFI_VS_SETTING_INDEX_NO_BUDDY_DEFAULT;
+                    if (gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_FRIENDS && !HasBuddyRecords()) {
+                        gWiFiVSSetting->mSettingIndex = WIFI_VS_SETTING_INDEX_REGION;
                     }
                     messageColumn = gWiFiVSSetting->mSettingIndex;
                 }
@@ -405,7 +405,7 @@ void AdvanceWiFiVSSettingPressButton(void) {
         gWiFiVSSetting->mStateFrames = 0;
         RequestTxtSystemClose();
         if (HasBuddyRecords() != FALSE || (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING &&
-                                           gWiFiVSSetting->mSettingIndex != WIFI_VS_SETTING_INDEX_BUDDIES)) {
+                                           gWiFiVSSetting->mSettingIndex != WIFI_VS_SETTING_INDEX_FRIENDS)) {
             RequestSelectReturnSlideOut();
             gWiFiVSSetting->mSelectReturnPending = TRUE;
             return;
@@ -462,7 +462,7 @@ void AdvanceWiFiVSSettingSlideOut(void) {
             return;
         }
         if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_VS_MATCHING &&
-            gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_BUDDIES && HasBuddyRecords() == FALSE) {
+            gWiFiVSSetting->mSettingIndex == WIFI_VS_SETTING_INDEX_FRIENDS && HasBuddyRecords() == FALSE) {
             gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_NO_BUDDY_SETTING_TEXT;
             gWiFiVSSetting->mPendingWiFiState = WIFI_STATE_NONE;
             SetupTxtSystemMainText(GetBmgEntry(gWiFiVSSetting->mWiFiMessages, 14));
@@ -589,7 +589,7 @@ void AdvanceWiFiVSSettingWaitDisconnectingText(void) {
         ReleaseWiFiConnectionWrapper();
     }
     if (gWiFiVSSetting->mConnectionReleased != FALSE && UpdateWiFiSessionRelease() != 0 &&
-        gWiFiVSSetting->mStateFrames > WIFI_VS_SETTING_DISCONNECT_MIN_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
+        gWiFiVSSetting->mStateFrames > WIFI_VS_SETTING_DISCONNECT_WAIT_FRAMES && IsTxtSystemOpenNoCloseRequest() != 0) {
         void *bmgEntry;
 
         gWiFiVSSetting->mNextState = WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT;

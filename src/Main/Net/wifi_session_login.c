@@ -163,7 +163,7 @@ u32 UpdateWiFiSessionLogin(void) {
                 gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_FAILED;
             }
             DWC_SetBuddyFriendCallback(BuddyChangedCallback, NULL);
-            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_UPDATE_BUDDIES;
+            gWiFiSession->mLogin.mStep = WIFI_LOGIN_STEP_WAIT_BUDDY_UPDATE;
             break;
         case WIFI_LOGIN_STEP_LOGIN_FAILED:
             DWC_ShutdownFriendsMatch();

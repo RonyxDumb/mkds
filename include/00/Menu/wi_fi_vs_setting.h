@@ -43,8 +43,8 @@ enum {
 
 // WiFiVSSetting.mSettingIndex runs from 0, the setting that needs buddy records, to LAST and wraps; without buddy
 // records the selector starts at NO_BUDDY_DEFAULT.
-#define WIFI_VS_SETTING_INDEX_BUDDIES 0
-#define WIFI_VS_SETTING_INDEX_NO_BUDDY_DEFAULT 2
+#define WIFI_VS_SETTING_INDEX_FRIENDS 0
+#define WIFI_VS_SETTING_INDEX_REGION 2
 #define WIFI_VS_SETTING_INDEX_LAST 3
 
 // Frames the cell rows take to slide in or out (x offset between 0 and OFFSET_HIDDEN), the return button's delay and
@@ -57,7 +57,7 @@ enum {
 #define WIFI_VS_SETTING_PRESS_FRAMES 10
 #define WIFI_VS_SETTING_PRESS_HIGHLIGHT_FRAMES 5
 #define WIFI_VS_SETTING_INDEX_TIMER_FRAMES 6
-#define WIFI_VS_SETTING_DISCONNECT_MIN_FRAMES 90
+#define WIFI_VS_SETTING_DISCONNECT_WAIT_FRAMES 90
 
 // Allocated by InitWiFiVSSetting and held in gWiFiVSSetting.
 typedef struct WiFiVSSetting {
@@ -93,7 +93,7 @@ typedef struct WiFiVSSetting {
 enum {
     WIFI_VS_MATCHING_STATE_SLIDE_IN,
     WIFI_VS_MATCHING_STATE_WAIT_MATCHING,
-    WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN,
+    WIFI_VS_MATCHING_STATE_EMBLEM_SHRINK,
     WIFI_VS_MATCHING_STATE_WAIT_PLAYER_LIST_TEXT,
     WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER,
     WIFI_VS_MATCHING_STATE_PAUSE_BETWEEN_OTHERS,
@@ -110,11 +110,11 @@ enum {
 // the emblem for EMBLEM_SCALE_FRAMES, which ends the state.
 #define WIFI_VS_MATCHING_SLIDE_FRAMES 10
 #define WIFI_VS_MATCHING_OFFSET_HIDDEN 0x100
-#define WIFI_VS_MATCHING_RESULT_WAIT_FRAMES 0x78
+#define WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES 0x78
 #define WIFI_VS_MATCHING_BLINK_CYCLE_FRAMES 0x50
 #define WIFI_VS_MATCHING_BLEND_CYCLE_FRAMES 0x3c
-#define WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES 0x14
-#define WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES 0x28
+#define WIFI_VS_MATCHING_EMBLEM_SHRINK_FRAMES 0x14
+#define WIFI_VS_MATCHING_PAUSE_BEFORE_OTHERS_FRAMES 0x28
 #define WIFI_VS_MATCHING_PAUSE_FRAMES 0x50
 #define WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES 0x1e
 #define WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES 0x28
@@ -232,7 +232,7 @@ typedef enum WiFiSessionState {
 // Values of WiFiSession.mStep: the exchange steps, named after what the step's message carries.
 typedef enum WiFiSessionStep {
     WIFI_SESSION_STEP_EXCHANGE_RECORDS = 0,
-    WIFI_SESSION_STEP_EXCHANGE_SEEDS = 1, // sums the seeds into mRandom and starts the emblem copy
+    WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT = 1, // sums the seeds into mRandom and starts the emblem copy
     WIFI_SESSION_STEP_WAIT_BACKUP = 2, // waits until the backup is idle
     WIFI_SESSION_STEP_EXCHANGE_CONTINUE_CHOICES = 3,
     WIFI_SESSION_STEP_CONFIRM_CONTINUE = 4, // ends the session when one kart is left
@@ -241,7 +241,7 @@ typedef enum WiFiSessionStep {
     WIFI_SESSION_STEP_EXCHANGE_COURSE_PICKS = 7,
     WIFI_SESSION_STEP_EXCHANGE_COURSE_MASKS = 8, // then tallies the course
     WIFI_SESSION_STEP_VERIFY_RESULT = 9,
-    WIFI_SESSION_STEP_READY = 10,
+    WIFI_SESSION_STEP_VERIFY_DONE = 10,
     WIFI_SESSION_STEP_LEAVING = 11, // connections are being closed
     WIFI_SESSION_STEP_ENDED = 12,
 } WiFiSessionStep;
@@ -269,7 +269,7 @@ typedef enum WiFiSessionMessageKind {
 
 // Results of GetWiFiSessionContinueResult.
 #define WIFI_CONTINUE_RESULT_NOT_SETTLED 0
-#define WIFI_CONTINUE_RESULT_KARTS_LEFT 1 // more than one kart is left
+#define WIFI_CONTINUE_RESULT_KARTS_REMAINING 1 // more than one kart is left
 #define WIFI_CONTINUE_RESULT_ENDED 2 // one kart left or the run ended
 
 // Indices of WiFiSession.mKeys, named after the key strings registered for the matching.
@@ -314,10 +314,10 @@ typedef enum WiFiDisconnectKind {
 } WiFiDisconnectKind;
 
 // Values of WiFiSession.mErrorKind (what DWC_GetLastError returned) that the session code tells apart.
-#define WIFI_ERROR_KIND_MATCHING_CLOSED 3
-#define WIFI_ERROR_KIND_HTTP_CLOSED 4
-#define WIFI_ERROR_KIND_LINK_DROPPED 6
-#define WIFI_ERROR_KIND_UNRECOVERABLE 7
+#define WIFI_ERROR_KIND_UNAVAILABLE 3
+#define WIFI_ERROR_KIND_TEMPORARILY_UNAVAILABLE 4
+#define WIFI_ERROR_KIND_NETWORK 6
+#define WIFI_ERROR_KIND_TOO_FEW_BUDDIES 7
 
 // Values of the mode argument of SetupWiFiSession.
 typedef enum WiFiSessionSetup {
@@ -349,7 +349,7 @@ enum {
     WIFI_LOGIN_STEP_WAIT_INET = 1,
     WIFI_LOGIN_STEP_WAIT_LOGIN = 2,
     WIFI_LOGIN_STEP_WAIT_BACKUP = 3,
-    WIFI_LOGIN_STEP_UPDATE_BUDDIES = 4,
+    WIFI_LOGIN_STEP_WAIT_BUDDY_UPDATE = 4,
     WIFI_LOGIN_STEP_DONE = 5,
     WIFI_LOGIN_STEP_LOGIN_FAILED = 6,
     WIFI_LOGIN_STEP_FAILED = 7,

@@ -1099,7 +1099,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
         case RESULTS_BATTLE_STATE_WAIT_WIFI_CONTINUE:
             if (GetWiFiSessionContinueResult() != 0) {
                 switch (GetWiFiSessionContinueResult()) {
-                    case WIFI_CONTINUE_RESULT_KARTS_LEFT:
+                    case WIFI_CONTINUE_RESULT_KARTS_REMAINING:
                         gMenuShared->mWiFiMenuStartKind = WIFI_MENU_START_SELECT_CHARACTER;
                         break;
                     case WIFI_CONTINUE_RESULT_ENDED:

@@ -86,14 +86,14 @@ BOOL UpdateWiFiSessionStepTimeout(u32 limit) {
     if (frames > limit) {
         gWiFiSession->mStepFrames = 0;
         step = gWiFiSession->mStep;
-        if (step == WIFI_SESSION_STEP_EXCHANGE_RECORDS || step == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
+        if (step == WIFI_SESSION_STEP_EXCHANGE_RECORDS || step == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT ||
             step == WIFI_SESSION_STEP_WAIT_BACKUP) {
             gWiFiSession->mEarlyStepTimedOut = TRUE;
             DWC_RegisterMatchingStatus();
             DWC_CloseAllConnectionsHard();
             gWiFiSession->mStep = WIFI_SESSION_STEP_LEAVING;
         } else {
-            if (step == WIFI_SESSION_STEP_VERIFY_RESULT || step == WIFI_SESSION_STEP_READY) {
+            if (step == WIFI_SESSION_STEP_VERIFY_RESULT || step == WIFI_SESSION_STEP_VERIFY_DONE) {
                 return TRUE;
             }
             gWiFiSession->mConnectionLost = TRUE;
@@ -147,7 +147,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             DWC_SetRecvBuffer(fromIndex, &gWiFiSession->mReceiveBuffers[fromIndex], sizeof(WiFiSessionMessage));
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 BIT_SET(gWiFiSession->mReceivedMask, fromIndex);
             }
             break;
@@ -174,7 +174,7 @@ void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 MI_CpuCopy8(&gWiFiSession->mReceiveBuffers[fromIndex], &gWiFiSession->mIndexMessages[fromIndex],
                             sizeof(WiFiSessionMessage));
                 gWiFiSession->mReceivedMask = WIFI_SESSION_ALL_RECEIVED;
@@ -315,7 +315,7 @@ BOOL IsWiFiSessionStep10Reached(void) {
     WiFiSession *session = gWiFiSession;
     s32 step = session->mStep;
 
-    if (step < WIFI_SESSION_STEP_READY) {
+    if (step < WIFI_SESSION_STEP_VERIFY_DONE) {
         if (session->mConnectionLost != TRUE || step != WIFI_SESSION_STEP_ENDED) {
             result = FALSE;
         }
@@ -330,7 +330,7 @@ s32 GetWiFiSessionContinueResult(void) {
     step = gWiFiSession->mStep;
     if (step >= WIFI_SESSION_STEP_EXCHANGE_PICKS) {
         if (gWiFiSession->mKartCount > 1) {
-            return WIFI_CONTINUE_RESULT_KARTS_LEFT;
+            return WIFI_CONTINUE_RESULT_KARTS_REMAINING;
         }
         return WIFI_CONTINUE_RESULT_ENDED;
     }
@@ -444,7 +444,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
     switch (kind) {
         case WIFI_SESSION_MESSAGE_RECORD_REQUEST:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 return TRUE;
             }
             break;
@@ -455,7 +455,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
             break;
         case WIFI_SESSION_MESSAGE_RECORDS_SENT:
             if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS ||
-                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS) {
+                gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT) {
                 return TRUE;
             }
             break;
@@ -472,7 +472,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
             }
             break;
         case WIFI_SESSION_MESSAGE_PICKS:
-            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_SEEDS ||
+            if (gWiFiSession->mStep == WIFI_SESSION_STEP_EXCHANGE_RECORDS_SENT ||
                 (u32) (gWiFiSession->mStep - WIFI_SESSION_STEP_CONFIRM_CONTINUE) <=
                     WIFI_SESSION_STEP_EXCHANGE_PICK_MASKS - WIFI_SESSION_STEP_CONFIRM_CONTINUE) {
                 return TRUE;
@@ -672,7 +672,7 @@ void RequestWiFiSessionMatching(u32 kartType, s32 useTimeLimit, s32 unused) {
 
 s32 CheckWiFiMatchingResult(void) {
     if ((gWiFiSession->mEarlyStepTimedOut != 0 && DWC_GetNumConnectionHost() <= 1) ||
-        gWiFiSession->mErrorKind == WIFI_ERROR_KIND_UNRECOVERABLE) {
+        gWiFiSession->mErrorKind == WIFI_ERROR_KIND_TOO_FEW_BUDDIES) {
         return -1;
     }
     return IsWiFiStep5ReachedNoDisconnect() != FALSE;
@@ -909,8 +909,8 @@ u32 CheckWiFiSessionDisconnect(void) {
     session = gWiFiSession;
     if (session->mStateMachine.mState != WIFI_SESSION_STATE_OFF) {
         errorKind = session->mErrorKind;
-        if (errorKind == WIFI_ERROR_KIND_LINK_DROPPED || errorKind == WIFI_ERROR_KIND_MATCHING_CLOSED ||
-            errorKind == WIFI_ERROR_KIND_HTTP_CLOSED || errorKind == 0xb) {
+        if (errorKind == WIFI_ERROR_KIND_NETWORK || errorKind == WIFI_ERROR_KIND_UNAVAILABLE ||
+            errorKind == WIFI_ERROR_KIND_TEMPORARILY_UNAVAILABLE || errorKind == 0xb) {
             return WIFI_DISCONNECT_ERROR;
         }
         if (session->mDisconnectKind == WIFI_DISCONNECT_OPPONENT_LEFT) {

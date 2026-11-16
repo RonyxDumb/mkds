@@ -331,7 +331,7 @@ void AdvanceWiFiTopMenuWaitChoice(void) {
         queryResult = GetTxtSystemSelectedIndex();
         if (queryResult == 0) {
             ReleaseWiFiSession();
-            gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE;
+            gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_WAIT_NOT_LOGGED_IN_THEN_TITLE;
             return;
         }
         gWiFiTopMenu->mNextState = WIFI_TOP_MENU_STATE_SLIDE_IN;
@@ -425,7 +425,7 @@ void AdvanceWiFiTopMenu(void) {
         case WIFI_TOP_MENU_STATE_WAIT_CHOICE:
             AdvanceWiFiTopMenuWaitChoice();
             break;
-        case WIFI_TOP_MENU_STATE_WAIT_NEXT_SCENE:
+        case WIFI_TOP_MENU_STATE_WAIT_NOT_LOGGED_IN_THEN_TITLE:
             AdvanceWiFiTopMenuWaitNextScene();
             break;
         case WIFI_TOP_MENU_STATE_WAIT_MESSAGE:

@@ -315,8 +315,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
     u8 *emblemDestination;
     s32 otherSlot;
 
-    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_RESULT_WAIT_FRAMES) {
-        gWiFiVSMatching->mStateFrames = WIFI_VS_MATCHING_RESULT_WAIT_FRAMES;
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES) {
+        gWiFiVSMatching->mStateFrames = WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES;
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (IsWiFiSessionMatchingActive() != FALSE) {
@@ -357,7 +357,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         StopBothSeqHandles();
         return;
     }
-    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_RESULT_WAIT_FRAMES &&
+    if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_FAILED_RESULT_MIN_FRAMES &&
         CheckWiFiMatchingResult() == -1) {
         PrintWiFiVSMatchingNoOpponents();
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_NO_OPPONENTS_BACK;
@@ -425,7 +425,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
         for (otherIndex = 0; otherIndex < gWiFiVSMatching->mOtherCount; otherIndex++) {
             gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingOtherCellIndices[otherIndex]].mVisible = 1;
         }
-        gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN;
+        gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_EMBLEM_SHRINK;
         RequestSelectReturnSlideOut();
         RequestTxtSystemClose();
         RequestPlayerEntryListSetup();
@@ -470,8 +470,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
 
 void AdvanceWiFiVSMatchingEmblemShrink(void) {
     s32 frame = gWiFiVSMatching->mStateFrames;
-    u16 angle = (frame << 16) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES;
-    s32 scale = ((0x13 - frame) * 0xf33) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES + 0xcd;
+    u16 angle = (frame << 16) / WIFI_VS_MATCHING_EMBLEM_SHRINK_FRAMES;
+    s32 scale = ((0x13 - frame) * 0xf33) / WIFI_VS_MATCHING_EMBLEM_SHRINK_FRAMES + 0xcd;
     s32 otherIndex;
     Nclr *emblemPalette;
 
@@ -480,7 +480,7 @@ void AdvanceWiFiVSMatchingEmblemShrink(void) {
             &gWiFiVSMatching->mWiFiVSMatchingTable[gWiFiVSMatchingEmblemCellIndices[otherIndex]], angle, scale);
     }
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_EMBLEM_SHRINK_FRAMES) {
         if (IsTxtSystemClosedNoOpenRequest() != 0) {
             emblemPalette = GetEmblemSBNclr();
             for (otherIndex = 0; otherIndex < 3; otherIndex++) {
@@ -511,7 +511,7 @@ void AdvanceWiFiVSMatchingEmblemShrink(void) {
 
 void AdvanceWiFiVSMatchingPauseBeforeOthers(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
-    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES) {
+    if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_PAUSE_BEFORE_OTHERS_FRAMES) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
         gWiFiVSMatching->mStateFrames = 0;
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x20b);
@@ -755,7 +755,7 @@ void AdvanceWiFiVSMatching(void) {
         case WIFI_VS_MATCHING_STATE_WAIT_MATCHING:
             AdvanceWiFiVSMatchingWaitMatching();
             break;
-        case WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN:
+        case WIFI_VS_MATCHING_STATE_EMBLEM_SHRINK:
             AdvanceWiFiVSMatchingEmblemShrink();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_PLAYER_LIST_TEXT:
