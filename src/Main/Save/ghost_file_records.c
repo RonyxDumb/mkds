@@ -194,9 +194,9 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     }
     oldestIndex = -1;
     if (slotIndex == -1) {
-        oldestDate.mYear = BUDDY_RECORD_LATEST_YEAR;
-        oldestDate.mMonth = BUDDY_RECORD_LATEST_MONTH;
-        oldestDate.mDay = BUDDY_RECORD_LATEST_DAY;
+        oldestDate.mYear = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_YEAR;
+        oldestDate.mMonth = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH;
+        oldestDate.mDay = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY;
         for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;

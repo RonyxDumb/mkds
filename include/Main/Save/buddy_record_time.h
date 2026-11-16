@@ -33,9 +33,9 @@ static inline u8 GetTimeRecordChar(u8 charIndex) {
 #define WIFI_BUDDY_RECORD_SKIPPED_COURSE_COUNT 3
 // The date the oldest-record search starts from, as year, month and day; only records dated earlier than it can be
 // picked.
-#define BUDDY_RECORD_LATEST_YEAR 100
-#define BUDDY_RECORD_LATEST_MONTH 12
-#define BUDDY_RECORD_LATEST_DAY 31
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_YEAR 100
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH 12
+#define BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY 31
 
 // MissionRecord values that ComputeMissionRecordValue gives for a cup score of 70 or more, 90 or more and 100 or more
 // (cup_records.c:379-387); the values 5 to 7 are the top tiers.
