@@ -95,8 +95,8 @@ s32 FSi_WriteFileCommand(FSFile *file) {
     return archive->mWrite(archive, src, pos, len);
 }
 
-// Directory seek command: reads the directory table entry for the directory in FSFile.mArg and sets FSFile.mProp and
-// mParentId from it.
+// Directory seek command: copies FSFile.mArg to mProp, taking mProp's index and position from the directory table entry
+// only when both are 0, and sets mParentId from it.
 s32 FSi_SeekDirCommand(FSFile *dir) {
     FSArchive *archive;
     FileCommandData *arg;

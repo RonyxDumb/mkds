@@ -21,7 +21,7 @@ typedef struct FSFileID {
 
 // A 12-byte area that FSFile.mProp, FSFile.mArg and the lookups through FSFile.mResult read in a different layout for
 // each command: h directory position, d file id, e directory entry, b path buffer, w three words, p pointer and two
-// positions.
+// sizes or positions.
 typedef union FileCommandData {
     struct {
         /* 00 */ u32 mUnk_00;
