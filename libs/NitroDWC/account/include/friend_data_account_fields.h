@@ -21,12 +21,12 @@ typedef struct DWCAccFriendData {
     /* 00 */ u32 mIdData;
     union {
         struct {
-            /* 04 */ u32 mUserIdLo;
+            /* 04 */ u32 mUserIdLo32;
             /* 08 */ u32 mPlayerId;
         };
         struct {
-            /* 04 */ u32 mFriendKeyLo;
-            /* 08 */ u32 mFriendKeyHi;
+            /* 04 */ u32 mFriendKeyLo32;
+            /* 08 */ u32 mFriendKeyHi32;
         };
         /* 04 */ u32 mGsProfileId;
     };

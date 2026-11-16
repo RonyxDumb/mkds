@@ -15,7 +15,7 @@
 #pragma thumb on
 
 u64 DWCi_Acc_GetFriendKey(const DWCAccFriendData *data) {
-    return (u64) data->mFriendKeyHi << 32 | data->mFriendKeyLo;
+    return (u64) data->mFriendKeyHi32 << 32 | data->mFriendKeyLo32;
 }
 
 #pragma thumb off
@@ -33,7 +33,7 @@ u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData) {
 void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
     enum { SHIFT_NONE } shift = SHIFT_NONE;
     DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, 0x7ff);
-    loginid->mUserIdLo = useridLo;
+    loginid->mUserIdLo32 = useridLo;
 }
 
 void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
@@ -41,8 +41,8 @@ void DWCi_Acc_SetPlayerId(DWCAccFriendData *loginid, u32 playerid) {
 }
 
 void DWCi_Acc_SetFriendKey(DWCAccFriendData *data, u32 friendkeyLo, u32 friendkeyHi) {
-    data->mFriendKeyLo = friendkeyLo;
-    data->mFriendKeyHi = friendkeyHi;
+    data->mFriendKeyLo32 = friendkeyLo;
+    data->mFriendKeyHi32 = friendkeyHi;
 }
 
 void DWCi_Acc_SetGsProfileId(DWCAccFriendData *data, u32 gsProfileId) {
