@@ -19,7 +19,7 @@ enum {
 // One item use entry of the kart AI: the handler, which bits follow, and the timer base and random limit.
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-// 0: item bits only; 1: then the bit 0x40 (PAD_KEY_DIRECTION_UP); 2: then the bit 0x80.
+// 0: item bits only; 1: then PAD_KEY_DIRECTION_UP; 2: then PAD_KEY_DIRECTION_DOWN (middle places only).
     /* 04 */ s32 mThenBitKind;
     /* 08 */ u16 mTimerBase;
     /* 0a */ u16 mTimerRandomLimit;

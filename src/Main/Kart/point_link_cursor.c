@@ -1505,7 +1505,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         RequestItemBitsByKartRank(itemUse, kartAi);
     }
 }
-// First place sends the bit 0x80, last place PAD_KEY_DIRECTION_UP, the places between follow mThenBitKind.
+// Sends ITEM_BITS; first place then sends PAD_KEY_DIRECTION_DOWN, last place PAD_KEY_DIRECTION_UP, others mThenBitKind.
 void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     s32 rank;
@@ -1931,7 +1931,7 @@ void ClearKartAiItemUse(KartAiItemUse *itemUse) {
 }
 
 // On the call whose kart index matches the race frame count mod 8, runs the entry function or sends ITEM_BITS; on
-// the other calls sends the pending bit 0x40 (PAD_KEY_DIRECTION_UP) or 0x80.
+// the other calls sends pending PAD_KEY_DIRECTION_UP or PAD_KEY_DIRECTION_DOWN; ITEM_BITS too if mItemBitsEveryCall.
 void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     u16 kartIndex;
     KartItems *kartItems;

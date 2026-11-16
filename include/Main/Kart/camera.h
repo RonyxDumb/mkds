@@ -110,7 +110,7 @@ void UpdateCameraPosCurveLookAtKart(Camera *camera);
 // gRaceProgress.mCameraChainEnded when there is none). For gFirstChainCamera with mFrustumShift
 // CAMERA_FRUSTUM_SHIFT_UP it also starts the next entry of gSecondChainCamera. UpdateRace reaches it only while
 // gRace.mUseChainCameras is non-zero: once a frame for gFirstChainCamera, and for gSecondChainCamera too in
-// UpdateChainCameraPair unless its mFrustumShift is 2.
+// UpdateChainCameraPair unless its mFrustumShift is CAMERA_FRUSTUM_SHIFT_DOWN.
 void UpdateCameraEntry(Camera *camera);
 // Steps gFirstChainCamera (UpdateCameraEntry), updates its view, stores it in gCurrentChainCamera and returns its view
 // matrix. UpdateRace calls it when gRaceSetup.mRaceKind is 4.

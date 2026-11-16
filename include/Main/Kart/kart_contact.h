@@ -13,10 +13,10 @@ void AdvanceKartRaceStartBoost(Kart *kart);
 void ApplyKartWaterDepth(Kart *kart);
 void StartKartRespawnWait(Kart *kart, u32 collisionFlags);
 
-// Kart.mVelocityLength limits at the first contact of ApplyKartContact (all tests are "above"): the BOUNCE one bounces
-// the velocity off the surface unless a boost runs and plays the surface sound; the HEADING_ANGLE one lets the contact
-// set mHeadingAnglePerFrame (both branches); the GRAZE_HEADING one is the extra limit of the second branch; the COUNT
-// one counts the contact for the selected kart on surface kind 2.
+// Kart.mVelocityLength limits at the first contact of ApplyKartContact (all tests are "above"): BOUNCE gates the bounce
+// off the surface (no boost, a non-zero normal velocity, hit factor not 1) and, once mCourseHitTimer is 0 or less, the
+// surface sound and the model bump; HEADING_ANGLE lets the contact set mHeadingAnglePerFrame (hit factor not 1);
+// GRAZE_HEADING is the extra limit of the second branch; COUNT counts the contact of the selected kart when value is 2.
 #define KART_CONTACT_BOUNCE_MIN_SPEED 0x1800
 #define KART_CONTACT_HEADING_ANGLE_MIN_SPEED 0x2000
 #define KART_CONTACT_GRAZE_HEADING_MIN_SPEED 0x1800
