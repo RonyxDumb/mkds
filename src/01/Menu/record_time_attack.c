@@ -293,7 +293,7 @@ other:
         RequestRecordTAttPressButton();
     } else if ((touchedRect == 0 && gRecordTAtt->mLeftRepeat != FALSE) ||
                (touchBeganRect == 0 && gRecordTAtt->mLeftRepeat == FALSE) ||
-               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
+               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordTAtt->mOffsetTimers[0] = RECORD_TATT_OFFSET_TIMER_FRAMES;
         gRecordTAtt->mLeftRepeat = TRUE;
@@ -301,7 +301,7 @@ other:
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
     } else if ((touchedRect == 1 && gRecordTAtt->mRightRepeat != FALSE) ||
                (touchBeganRect == 1 && gRecordTAtt->mRightRepeat == FALSE) ||
-               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+               (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         gRecordTAtt->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordTAtt->mOffsetTimers[1] = RECORD_TATT_OFFSET_TIMER_FRAMES;
         gRecordTAtt->mRightRepeat = TRUE;

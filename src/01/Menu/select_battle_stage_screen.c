@@ -331,7 +331,7 @@ next:
         StartSoundOncePerFrame(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gSelectBattleStage->mIndex--;
         if (gSelectBattleStage->mIndex < 0) {
             gSelectBattleStage->mIndex = SELECT_BATTLE_STAGE_COUNT - 1;
@@ -340,7 +340,7 @@ next:
         StartSoundOncePerFrame(0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         gSelectBattleStage->mIndex++;
         if (gSelectBattleStage->mIndex >= SELECT_BATTLE_STAGE_COUNT) {
             gSelectBattleStage->mIndex = 0;

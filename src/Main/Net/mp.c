@@ -75,7 +75,7 @@ void StoreReceivedPlayerNameByState(const void *data, u8 aid, s32 playerIndex, s
     s32 playerBit;
 
     state = gConnectionWork->mState;
-    if (state != CONNECTION_STATE_GATHERING) {
+    if (state != CONNECTION_STATE_SETUP) {
         StoreReceivedPlayerName(data, playerIndex, keepMask);
         return;
     }

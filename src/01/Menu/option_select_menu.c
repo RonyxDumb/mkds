@@ -335,20 +335,20 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_LOCATE_FRIEND;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         StartSoundOncePerFrame(1);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gOptionSelectMenu->mIndex--;
         if (gOptionSelectMenu->mIndex < 0) {
             gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_OK;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
                                                             (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
         if (gOptionSelectMenu->mIndex > OPTION_SELECT_ROW_OK) {
             gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
         }
         StartSoundOncePerFrame(0);
-    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {
@@ -356,9 +356,9 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         } else {
             StartSoundOncePerFrame(1);
         }
-    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
             gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = OPTION_SELECT_OFFSET_TIMER_FRAMES;
         }
         if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_SOUND) {

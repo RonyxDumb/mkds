@@ -829,7 +829,7 @@ void AdvanceRecordVSEraseBrowse(void) {
     }
     if ((downRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 5 && gRecordVSErase->mPageDecrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -845,7 +845,7 @@ void AdvanceRecordVSEraseBrowse(void) {
     }
     if ((downRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat != FALSE) ||
         (pressedRectIndex == 6 && gRecordVSErase->mPageIncrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
         }
@@ -890,11 +890,11 @@ void AdvanceRecordVSEraseBrowse(void) {
             }
             return;
         }
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             DecrementRecordVSEraseIndex();
             return;
         }
-        if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             IncrementRecordVSEraseIndex();
         }
     }

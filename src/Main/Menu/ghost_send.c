@@ -371,7 +371,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -421,7 +421,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
                     if (keyB != 0 || returnTouched != 0) {
                         gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                         if (sceneNumbers != NULL) {
-                            sceneNumbers->mNextScene = SCENE_MENU_1;
+                            sceneNumbers->mNextScene = SCENE_MENU;
                         }
                         gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
                         RequestSelectReturnPressWithSound(0);
@@ -500,7 +500,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -523,7 +523,7 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }

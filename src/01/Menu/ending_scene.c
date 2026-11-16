@@ -221,7 +221,7 @@ void AdvanceEndingSceneWaitInput(void) {
     gEndingScene->mStateFrames++;
     if (gEndingScene->mStateFrames > gEndingSceneStateTable[gEndingScene->mState]) {
         gEndingScene->mStateFrames = gEndingSceneStateTable[gEndingScene->mState];
-        keyPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER;
+        keyPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEYS_A_B_X_Y_SELECT_START;
         if (keyPressed == 0) {
             touchBegan = FALSE;
             recentlyLost = FALSE;

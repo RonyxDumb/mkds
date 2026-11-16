@@ -68,7 +68,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
         case CONNECTION_STEP_STOPPING_SEARCH:
             StartConnect(NULL, NULL, NULL, NonMultiBootResetOwnIndex, NULL);
             break;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
         case CONNECTION_STEP_JOINING:
             if (gConnectionWork->mOwnIndex == CONNECTION_OWN_INDEX_NONE) {
                 if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
@@ -80,7 +80,7 @@ s32 AdvanceNonMultiBootConnect(s32 entryIndex) {
                 StartMP();
             }
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             gConnectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
             status = 1;
@@ -94,14 +94,14 @@ s32 AdvanceGameInfoOnChildChange(void) {
         return 0;
     }
     switch (gConnectionWork->mStep) {
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             if (gConnectionWork->mStatusFlags & CONNECTION_STATUS_CHILDREN_CHANGED) {
                 SetGameInfo();
             }
             break;
-        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_SETTING_GAME_INFO:
             gConnectionWork->mStatusFlags &= ~CONNECTION_STATUS_CHILDREN_CHANGED;
-            gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+            gConnectionWork->mStep = CONNECTION_STEP_STARTING_MP;
             break;
     }
     return 0;
@@ -207,13 +207,13 @@ s32 AdvanceConnectionEnd(void) {
             gConnectionWork->mFlags &= ~CONNECTION_FLAG_ENDING;
             break;
         case CONNECTION_STEP_STARTING_UP:
-        case CONNECTION_STEP_RESTARTING:
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_RESETTING:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
         case CONNECTION_STEP_CHECKING_CHANNELS:
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
         case CONNECTION_STEP_STOPPING_SEARCH:
-        case CONNECTION_STEP_CLOSING_HOST:
-        case CONNECTION_STEP_LEAVING:
+        case CONNECTION_STEP_ENDING_PARENT:
+        case CONNECTION_STEP_DISCONNECTING:
         case CONNECTION_STEP_MULTIBOOT_END_TO_IDLE:
         case CONNECTION_STEP_SCAN_CONNECT_CLOSE:
         case CONNECTION_STEP_SCAN_CONNECT_CLOSED:
@@ -224,16 +224,16 @@ s32 AdvanceConnectionEnd(void) {
         case CONNECTION_STEP_SEARCHING_UNUSED:
             EndScan();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
-        case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
-        case CONNECTION_STEP_REGISTERING_ENTRY:
+        case CONNECTION_STEP_STARTING_MP:
+        case CONNECTION_STEP_SETTING_MP_FREQUENCY:
+        case CONNECTION_STEP_SETTING_ENTRY:
         case CONNECTION_STEP_STOPPING_SHARING:
             EndMP();
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
         case CONNECTION_STEP_JOINING:
-        case CONNECTION_STEP_DROPPING_CHILDREN:
-        case CONNECTION_STEP_STOPPING_EXCHANGE:
+        case CONNECTION_STEP_DISCONNECTING_CHILDREN:
+        case CONNECTION_STEP_STOPPING_MP:
             switch (ConnectGetConnectionMode()) {
                 case CONNECTION_MODE_PARENT:
                     EndParent();
@@ -244,7 +244,7 @@ s32 AdvanceConnectionEnd(void) {
             }
             break;
         case CONNECTION_STEP_STARTING_SHARING:
-        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_SETTING_GAME_INFO:
         case CONNECTION_STEP_ROM_ARCHIVE_SEND:
             EndDataSharing();
             break;

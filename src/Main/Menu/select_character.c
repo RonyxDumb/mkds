@@ -1027,25 +1027,25 @@ int AdvanceSelectCharacter(void) {
                            (u16) (keyBits & PAD_KEY_B) != 0) {
                     StartSelectCharacterReturn();
                 } else {
-                    if (GetNewOrRepeatBits(inputSlot, PAD_KEY_UP) != 0) {
+                    if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_UP) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[0];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DOWN) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_DOWN) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[1];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_RIGHT) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_RIGHT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[2];
                         if (targetTableIndex != -1) {
                             selectCharacterReload->mTableIndex = targetTableIndex;
                         }
-                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_LEFT) != 0) {
+                    } else if (GetNewOrRepeatBits(inputSlot, PAD_KEY_DIRECTION_LEFT) != 0) {
                         selectCharacterReload = gSelectCharacter;
                         targetTableIndex = selectCharacterReload->mTableIndexByKey[3];
                         if (targetTableIndex != -1) {

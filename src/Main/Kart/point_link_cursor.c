@@ -1955,7 +1955,7 @@ void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi
             itemUse->mThrowForwardPending = 0;
         }
     } else if (itemUse->mThrowBehindPending != 0) {
-        RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_DOWN);
+        RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_DIRECTION_DOWN);
         itemUse->mThrowBehindTimer--;
         if (itemUse->mThrowBehindTimer <= 0) {
             itemUse->mThrowBehindPending = 0;

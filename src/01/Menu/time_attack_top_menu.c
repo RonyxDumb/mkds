@@ -316,7 +316,7 @@ next:
         }
         RequestTimeAttackTopMenuPress();
     } else {
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex--;
             if (gTimeAttackTopMenu->mIndex < 0) {
@@ -324,7 +324,7 @@ next:
             }
             ShowTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
             gTimeAttackTopMenu->mIndex++;
             if (gTimeAttackTopMenu->mIndex >= TIME_ATTACK_TOP_ROW_COUNT) {

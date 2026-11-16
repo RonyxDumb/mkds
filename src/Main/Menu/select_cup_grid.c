@@ -783,7 +783,7 @@ checkCupTouch:
         gSelectCupGrid->mHighlightShown = FALSE;
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         releasedFlag = gSelectCupGrid->mIndex;
         pressedFlag = gSelectCupGridUpOffsets[releasedFlag];
         if (pressedFlag != 0) {
@@ -796,7 +796,7 @@ checkCupTouch:
                 }
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         releasedFlag = gSelectCupGrid->mIndex;
         pressedFlag = gSelectCupGridDownOffsets[releasedFlag];
         if (pressedFlag != 0) {
@@ -809,7 +809,7 @@ checkCupTouch:
                 }
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         releasedFlag = gSelectCupGrid->mIndex;
         pressedFlag = gSelectCupGridLeftOffsets[releasedFlag];
         if (pressedFlag != 0) {
@@ -822,7 +822,7 @@ checkCupTouch:
                 }
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         releasedFlag = gSelectCupGrid->mIndex;
         pressedFlag = gSelectCupGridRightOffsets[releasedFlag];
         if (pressedFlag != 0) {

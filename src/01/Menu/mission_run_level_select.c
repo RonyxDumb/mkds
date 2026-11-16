@@ -504,7 +504,7 @@ next:
         RequestMissionRunLVselHoldChosen();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselUpIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -513,7 +513,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselDownIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -522,7 +522,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         if (gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselLeftIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
@@ -531,7 +531,7 @@ next:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
             }
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex] != 0) {
             targetIndex = gMissionRunLVsel->mIndex + gMissionRunLVselRightIndexOffsets[gMissionRunLVsel->mIndex];
             if (IsMissionRunLVselLevelReached(targetIndex) != 0) {

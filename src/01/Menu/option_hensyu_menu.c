@@ -211,14 +211,14 @@ void AdvanceOptionHensyuMenuSelect(void) {
         StartSoundOncePerFrame(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (gOptionHensyuMenu->mIndex > 0) {
             gOptionHensyuMenu->mIndex--;
             StartSoundOncePerFrame(0);
             return;
         }
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gOptionHensyuMenu->mIndex < 1) {
             gOptionHensyuMenu->mIndex++;
             StartSoundOncePerFrame(0);

@@ -64,11 +64,11 @@ static inline s32 HasSharingRecordSyncToggleBit(SharingReceiveRecord *receiveRec
     BOOL result = FALSE;
     u8 toggleBits = receiveRecord->mFlags;
     if (gConnectionWork->mSyncToggle == 0) {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_A) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO) {
             result = TRUE;
         }
     } else {
-        if (toggleBits & SHARING_RECORD_FLAG_SYNC_PHASE_B) {
+        if (toggleBits & SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE) {
             result = TRUE;
         }
     }
@@ -87,8 +87,8 @@ static inline s32 AreChildSharingRecordsSynced(DataSharing *dataSharing, Sharing
                 result = FALSE;
                 childIndex = 8;
             } else {
-                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_PHASE_A
-                                                              : SHARING_RECORD_FLAG_SYNC_PHASE_B;
+                toggleBit = gConnectionWork->mSyncToggle == 0 ? SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO
+                                                              : SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
                 if ((toggleBit & receiveRecords[childIndex].mFlags) == 0) {
                     result = FALSE;
                     childIndex = 8;
@@ -135,21 +135,21 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
             Initialize();
             break;
         case CONNECTION_STEP_STARTING_UP:
-            gConnectionWork->mState = CONNECTION_STATE_GATHERING;
+            gConnectionWork->mState = CONNECTION_STATE_SETUP;
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
             if (isParent != 0) {
                 SetLifeTime(0x28);
             } else {
                 StartScan(0, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
             MeasureChannel(0);
             break;
         case CONNECTION_STEP_CHECKING_CHANNELS:
@@ -157,10 +157,10 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
             FillGhostParentParameter(ghostRecord);
             SetParentParameter();
             break;
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
             StartParent(NULL);
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
             StartMPWithBuffers();
             break;
         case CONNECTION_STEP_SEARCHING:
@@ -177,7 +177,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
             gConnectionWork->mMPSetupActive = 1;
             StartMPWithBuffers();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             if (isParent != 0) {
                 StartParentSideBlockTransfer();
             } else {
@@ -240,7 +240,7 @@ void UpdateConnectionSendTimer(void) {
     s32 receivedChunkCount;
     s32 chunkCount;
 
-    if (gConnectionWork->mState != CONNECTION_STATE_GATHERING) {
+    if (gConnectionWork->mState != CONNECTION_STATE_SETUP) {
         return;
     }
     if (gConnectionWork->mStep == CONNECTION_STEP_BLOCK_DATA_REQUEST) {

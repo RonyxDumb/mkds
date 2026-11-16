@@ -787,7 +787,7 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                     gMenuShared->mRaceSetupRequested = 1;
                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     if (sceneNumbers != NULL) {
-                        sceneNumbers->mNextScene = SCENE_MENU_1;
+                        sceneNumbers->mNextScene = SCENE_MENU;
                     }
                     gMultiSelectMember->mStartPressedFrames = 0;
                     gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
@@ -912,7 +912,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                     case CONNECTION_STATE_SYNCED:
                     case CONNECTION_STATE_SYNCED_RACE:
                     case CONNECTION_STATE_ENTRY_EXCHANGE:
-                    case CONNECTION_STATE_GATHERING:
+                    case CONNECTION_STATE_SETUP:
                         flag = TRUE;
                         break;
                     default:
@@ -935,7 +935,7 @@ s32 AdvanceMultiSelectMemberNoKeyStart(SceneNumbers *sceneNumbers) {
                 gMenuShared->mRaceSetupRequested = 1;
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gMultiSelectMember->mState = MULTI_SELECT_MEMBER_STATE_SCENE_REQUESTED;
             } else if (started == 0) {

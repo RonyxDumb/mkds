@@ -158,11 +158,11 @@ void UpdateMPFillOwnRecord(void *stateObject) {
         return;
     }
     switch (gConnectionWork->mStep) {
-        case CONNECTION_STEP_STARTING_EXCHANGE:
-        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_STARTING_MP:
+        case CONNECTION_STEP_SETTING_GAME_INFO:
             SetEntry(0);
             return;
-        case CONNECTION_STEP_REGISTERING_ENTRY:
+        case CONNECTION_STEP_SETTING_ENTRY:
             MPStatesRequestMPState(MP_STATE_START_EXCHANGE);
             break;
     }

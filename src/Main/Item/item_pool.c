@@ -647,7 +647,7 @@ BOOL TryAddKartItemFlags(KartItems *kartItems) {
         kartItems->mFlags |= gKartItemsThrowForwardBit;
     }
     entryIndex = kartItems->mEntryIndex;
-    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DOWN;
+    padBits = gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_DOWN;
     if (padBits != 0) {
         kartItems->mFlags |= gKartItemsDownBit;
     }
@@ -1005,7 +1005,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
             kartItems->mFlags |= gItemInUseThrowForwardBit;
         }
         entryIndex = kartItems->mEntryIndex;
-        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DOWN) != 0) {
+        if ((u16) (gInputSlots[entryIndex].mBits & PAD_KEY_DIRECTION_DOWN) != 0) {
             kartItems->mFlags |= gItemInUseDownBit;
         }
         StartLastItemInUseObjectAndInit(itemInUse, 1);

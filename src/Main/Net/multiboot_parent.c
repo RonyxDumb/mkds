@@ -33,7 +33,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case CONNECTION_STEP_JOINING:
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
+            if (gConnectionWork->mStepWaitFrames > CONNECTION_CONNECT_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
                 return 3;
             }
@@ -44,7 +44,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY: {
             s32 scanEntryIndex;
             connectionWork->mStepWaitFrames = connectionWork->mStepWaitFrames + 1;
-            if (gConnectionWork->mStepWaitFrames > CONNECTION_JOIN_TIMEOUT_FRAMES) {
+            if (gConnectionWork->mStepWaitFrames > CONNECTION_CONNECT_TIMEOUT_FRAMES) {
                 SetRequestErrorCode(CONNECTION_ERROR_CONNECT_FAILED);
             } else {
                 scanEntryIndex = FindScanEntryIndex(entryIndex);
@@ -98,7 +98,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
             break;
         case CONNECTION_STEP_STARTING_UP:
             connectionWork->mStepWaitFrames = 0;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
             if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
                 ReadMultiBootParentBssDesc();
             } else {
@@ -122,7 +122,7 @@ s32 AdvanceScanConnect(u16 entryIndex) {
         case CONNECTION_STEP_JOINING:
             StartMP();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             connectionWork->mState = CONNECTION_STATE_CONNECTED;
             InitMPStateMachine();
             result = 1;
@@ -198,7 +198,7 @@ s32 AdvanceMultiBootParent(void) {
         case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             SetLifeTime(0x14);
             break;
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
             FillParentParameter(1);
             SetParentParameter();
             break;
@@ -207,16 +207,16 @@ s32 AdvanceMultiBootParent(void) {
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
             StartParent(NULL);
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
             gConnectionWork->mMultiBootChildMask = CompactMaskBits(gConnectionWork->mMultiBootChildMask);
             gConnectionWork->mStepWaitFrames = 0;
             StartMP();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
-        case CONNECTION_STEP_PUBLISHING_GAME_INFO:
+        case CONNECTION_STEP_STARTING_MP:
+        case CONNECTION_STEP_SETTING_GAME_INFO:
             if (AdvanceChildMaskCovered() != 0) {
                 InitMPStateMachine();
                 result = TRUE;

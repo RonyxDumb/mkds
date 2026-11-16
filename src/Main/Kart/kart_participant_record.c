@@ -1848,7 +1848,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
         }
         entryIndex = kart->mEntryIndex;
         pressedBits = gInputSlots[entryIndex].mPressedBits;
-        if ((u16) (pressedBits & PAD_KEY_LEFT) != 0) {
+        if ((u16) (pressedBits & PAD_KEY_DIRECTION_LEFT) != 0) {
             leftTurnCounts = &kart->mLeftTurnCount;
             if (kart->mAwayTurnCounter == leftTurnCounts) {
                 if (leftTurnCounts[1] == leftTurnCounts[0]) {
@@ -1866,7 +1866,7 @@ void AdvanceKartDriftCharge(Kart *kart) {
                     StartSound(&kart->mSoundSource, 0xd2, SOUND_VOLUME_MAX, 0);
                 }
             }
-        } else if ((u16) (pressedBits & PAD_KEY_RIGHT) != 0) {
+        } else if ((u16) (pressedBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
             rightTurnCounts = &kart->mRightTurnCount;
             if (kart->mTowardTurnCounter == rightTurnCounts) {
                 leftTurnCounts = &kart->mLeftTurnCount;
@@ -2617,10 +2617,10 @@ void AdvanceParticipantKartRecords(Kart *kart) {
         RequestBits(kart->mEntryIndex, PAD_KEY_B);
     }
     if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_TURN_LEFT) != 0) {
-        RequestBits(kart->mEntryIndex, PAD_KEY_LEFT);
+        RequestBits(kart->mEntryIndex, PAD_KEY_DIRECTION_LEFT);
     }
     if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_TURN_RIGHT) != 0) {
-        RequestBits(kart->mEntryIndex, PAD_KEY_RIGHT);
+        RequestBits(kart->mEntryIndex, PAD_KEY_DIRECTION_RIGHT);
     }
     if ((kart->mParticipantRecordData->mRecordBits & KART_DRIVE_ON_BOOST_SURFACE) != 0) {
         kart->mMotionFlags = kart->mMotionFlags | KART_MOTION_ON_GROUND;

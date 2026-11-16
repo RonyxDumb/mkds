@@ -123,11 +123,11 @@ void StepDataSharing(void) {
     role = gConnectionWork == NULL ? CONNECTION_MODE_NONE : gConnectionWork->mConnectionMode;
     if (role != CONNECTION_MODE_PARENT || (gConnectionWork->mStatusFlags & CONNECTION_STATUS_SHARING_SYNCED) != 0) {
         if (gConnectionWork->mSyncToggle == 0) {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_A;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_B;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
         } else {
-            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_PHASE_B;
-            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_PHASE_A;
+            sendData->mFlags |= SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE;
+            sendData->mFlags &= ~SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO;
         }
     }
     sendData->mMicOverThreshold = gTouchMicInput->mMicOverThreshold;
@@ -302,7 +302,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
+    gConnectionWork->mStep = CONNECTION_STEP_RESETTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
@@ -332,7 +332,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_RESTARTING;
+    gConnectionWork->mStep = CONNECTION_STEP_RESETTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
@@ -350,7 +350,7 @@ void StopConnection(void) {
         EndWbtStep();
         return;
     }
-    SetStepAndRequestPending(CONNECTION_STEP_RESTARTING);
+    SetStepAndRequestPending(CONNECTION_STEP_RESETTING);
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }
@@ -368,7 +368,7 @@ void ResetCallback(WirelessMessage *event) {
 }
 
 void SetLifeTime(s32 camLifeTime) {
-    gConnectionWork->mStep = CONNECTION_STEP_SETTING_TIMEOUT;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_LIFE_TIME;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetLifeTime(SetLifeTimeCallback, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
         StopConnection();
@@ -576,7 +576,7 @@ u16 ComputeParentTgid(u32 unusedValue) {
 // the call is not accepted.
 void SetParentParameter(void) {
     gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
-    gConnectionWork->mStep = CONNECTION_STEP_CONFIGURING_HOST;
+    gConnectionWork->mStep = CONNECTION_STEP_SETTING_PARENT_PARAMETER;
     gConnectionWork->mRequestPending = 1;
     if (WM_SetParentParameter(SetParentParameterCallback, gConnectionWork->mParentParameter) != 2) {
         StopConnection();
@@ -594,7 +594,7 @@ void StartParent(WirelessMessageCallback callback) {
     if (callback == NULL) {
         callback = StartParentCallback;
     }
-    gConnectionWork->mStep = CONNECTION_STEP_OPENING_HOST;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_PARENT;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
         StopConnection();

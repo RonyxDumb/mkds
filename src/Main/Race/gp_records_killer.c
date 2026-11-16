@@ -532,9 +532,9 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     targetHeadingAngle = kart->mHeadingAngle + (s16) MUL_FIXED12_ROUNDED(angleToLinkDegrees, 0xb6);
     entryIndex = *(volatile s32 *) &kart->mEntryIndex;
     padBits = gInputSlots[entryIndex].mBits;
-    if ((u16) (padBits & PAD_KEY_LEFT) != 0) {
+    if ((u16) (padBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle + 0xa0;
-    } else if ((u16) (padBits & PAD_KEY_RIGHT) != 0) {
+    } else if ((u16) (padBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         kart->mHeadingAngle = kart->mHeadingAngle - 0xa0;
     }
     angleDifference = targetHeadingAngle - kart->mHeadingAngle;

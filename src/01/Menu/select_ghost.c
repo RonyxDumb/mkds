@@ -542,11 +542,11 @@ next:
         RequestSelectGhostPress();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         DecrementSelectGhostIndex();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         IncrementSelectGhostIndex();
     }
 }

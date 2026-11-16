@@ -219,13 +219,13 @@ void AdvanceOptionTopMenuInput(void) {
             gOptionTopMenu->mHighlightVisible = FALSE;
         }
         StartSoundOncePerFrame(5);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gOptionTopMenu->mIndex--;
         if (gOptionTopMenu->mIndex < 0) {
             gOptionTopMenu->mIndex = OPTION_TOP_ROW_RESET_BACKUP;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         gOptionTopMenu->mIndex++;
         if (gOptionTopMenu->mIndex > OPTION_TOP_ROW_RESET_BACKUP) {
             gOptionTopMenu->mIndex = OPTION_TOP_ROW_SETTINGS;

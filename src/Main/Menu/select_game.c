@@ -341,7 +341,7 @@ s32 AdvanceSelectGame(void) {
                     SetSelectGameRowCellsVisible(0);
                 }
                 RequestSelectReturnPressWithSound(0);
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
                 if (gSelectGame->mSelectedIndex == 0) {
                     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = gSelectGame->mTableCount - 1;
@@ -349,7 +349,7 @@ s32 AdvanceSelectGame(void) {
                 } else {
                     gSelectGame->mSelectedIndex = gSelectGame->mSelectedIndex - 1;
                 }
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
                 if (gSelectGame->mSelectedIndex == gSelectGame->mTableCount - 1) {
                     if (gSelectGame->mMode == SELECT_GAME_MODE_CONNECTION) {
                         gSelectGame->mSelectedIndex = 0;

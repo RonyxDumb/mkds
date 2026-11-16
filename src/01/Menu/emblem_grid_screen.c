@@ -56,10 +56,10 @@ void AdvanceEmblemGridScreen(void) {
         horizontalStep = 0;
         verticalStep = 0;
         targetStep = 0;
-        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
-        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
-        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
-        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
+        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) ? -1 : 0;
+        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) ? 1 : 0;
+        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) ? -1 : 0;
+        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) ? 1 : 0;
         targetStep += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
         targetStep += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
 

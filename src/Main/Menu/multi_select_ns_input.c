@@ -137,11 +137,11 @@ s32 AdvanceMultiSelectNS(void) {
                 gMultiSelectNS->mNextCallbacksIndex = WL_MENU_CALLBACKS_MEMBER_GROUP;
                 gMultiSelectNS->mState = MULTI_SELECT_NS_STATE_SLIDE_OUT;
                 RequestSelectReturnPressWithSound(0);
-            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_UP) != 0 && gMultiSelectNS->mIndex > 0) {
+            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0 && gMultiSelectNS->mIndex > 0) {
                 gMultiSelectNS->mIndex--;
                 RefreshMultiSelectNS(1);
                 MultiSelectNSStartSeqArcWrapper(0);
-            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_DOWN) != 0 && gMultiSelectNS->mIndex < 1) {
+            } else if (MultiSelectNSGetNewBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0 && gMultiSelectNS->mIndex < 1) {
                 gMultiSelectNS->mIndex++;
                 RefreshMultiSelectNS(1);
                 MultiSelectNSStartSeqArcWrapper(0);

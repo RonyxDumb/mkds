@@ -480,11 +480,11 @@ skip:
         if (pressedKeyBits != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuRowPress();
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             DecrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             IncrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);

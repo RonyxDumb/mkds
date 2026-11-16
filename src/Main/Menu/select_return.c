@@ -677,7 +677,7 @@ void AdvanceSelectChoisesChoose(void) {
             }
             return;
         }
-        if ((u16) (keys & PAD_KEY_UP) != 0 && gSelectChoises->mIndex == 1) {
+        if ((u16) (keys & PAD_KEY_DIRECTION_UP) != 0 && gSelectChoises->mIndex == 1) {
             gSelectChoises->mIndex = 0;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {
@@ -685,7 +685,7 @@ void AdvanceSelectChoisesChoose(void) {
             }
             return;
         }
-        if ((u16) (keys & PAD_KEY_DOWN) != 0 && gSelectChoises->mIndex == 0) {
+        if ((u16) (keys & PAD_KEY_DIRECTION_DOWN) != 0 && gSelectChoises->mIndex == 0) {
             gSelectChoises->mIndex = 1;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {

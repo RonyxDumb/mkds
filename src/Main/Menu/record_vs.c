@@ -255,7 +255,7 @@ void AdvanceRecordVSBrowse(void) {
 skipReturnPress:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -271,7 +271,7 @@ skipReturnPress:
     }
     if ((downRectIndex == 11 && gRecordVS->mPageIncrementRepeat != FALSE) ||
         (pressedRectIndex == 11 && gRecordVS->mPageIncrementRepeat == FALSE) ||
-        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (IsRecordVSIndexChangeRunning() != 0) {
             return;
         }
@@ -316,11 +316,11 @@ skipReturnPress:
         ToggleRecordVSRowFlag(gRecordVS->mIndex);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         DecrementRecordVSIndex();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         IncrementRecordVSIndex();
     }
 }

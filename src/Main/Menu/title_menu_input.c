@@ -46,7 +46,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
             SetTitleState(TITLE_STATE_SELECT_PRESS, 8);
             StartTitleSelectedSound();
             gTitleScene->mStartedOnSelected = TRUE;
-        } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_DIRECTION_LEFT | PAD_KEY_DIRECTION_RIGHT)) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_OPTION:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_RECORD;
@@ -60,7 +60,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
                     break;
             }
             gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
                     if (gTitleScene->mPreferRecordEntry != FALSE) {
@@ -82,7 +82,7 @@ void UpdateTitleMenuInput(SceneNumbers *sceneNumbers) {
             }
             StartSoundOncePerFrame(0);
             gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0) {
             switch (gTitleScene->mSelectedIndex) {
                 case TITLE_ENTRY_FIRST:
                     gTitleScene->mSelectedIndex = TITLE_ENTRY_WL_MENU;

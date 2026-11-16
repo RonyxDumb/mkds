@@ -253,9 +253,9 @@ void UpdateEmblemChoises(void) {
             gEmblemChoises->mCloseFrames = 1;
             StartEmblemChoisesSound(0x10);
         }
-        if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_UP)) {
+        if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DIRECTION_UP)) {
             MoveEmblemChoisesIndex(-1);
-        } else if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DOWN)) {
+        } else if (EmblemChoisesGetNewBits(GetEmblemChoisesInputSlot(), PAD_KEY_DIRECTION_DOWN)) {
             MoveEmblemChoisesIndex(1);
         }
     }

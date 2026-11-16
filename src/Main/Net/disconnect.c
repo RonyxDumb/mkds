@@ -41,7 +41,7 @@ static inline u32 DisconnectGetConnectionMode(void) {
 }
 
 void DisconnectChildren(u32 aidBitmap) {
-    gConnectionWork->mStep = CONNECTION_STEP_DROPPING_CHILDREN;
+    gConnectionWork->mStep = CONNECTION_STEP_DISCONNECTING_CHILDREN;
     gConnectionWork->mRequestPending = 1;
     if (WM_DisconnectChildren(DisconnectChildrenCallback, aidBitmap) != 7) {
         return;
@@ -85,7 +85,7 @@ void EndDataSharing(void) {
 }
 
 void EndMP(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_EXCHANGE;
+    gConnectionWork->mStep = CONNECTION_STEP_STOPPING_MP;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndMP(EndMPCallback) == 2) {
         return;
@@ -103,13 +103,13 @@ void EndMPCallback(WirelessMessage *event) {
         return;
     }
     connection = gConnectionWork;
-    if (connection->mState == CONNECTION_STATE_GATHERING) {
+    if (connection->mState == CONNECTION_STATE_SETUP) {
         connection->mState = CONNECTION_STATE_MP_ENDING;
     }
 }
 
 void EndParent(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_CLOSING_HOST;
+    gConnectionWork->mStep = CONNECTION_STEP_ENDING_PARENT;
     gConnectionWork->mRequestPending = 1;
     if (WM_EndParent(EndParentCallback) == 2) {
         return;
@@ -140,7 +140,7 @@ void Disconnect(void) {
                  childIndex++, child++) {
                 if (child->mAid != CHILD_ENTRY_NO_AID) {
                     gConnectionWork->mChildren.mDisconnectingIndex = childIndex;
-                    gConnectionWork->mStep = CONNECTION_STEP_LEAVING;
+                    gConnectionWork->mStep = CONNECTION_STEP_DISCONNECTING;
                     gConnectionWork->mRequestPending = 1;
                     result = WM_Disconnect(DisconnectCallback, child->mAid);
                     break;
@@ -148,7 +148,7 @@ void Disconnect(void) {
             }
             break;
         case CONNECTION_MODE_CHILD:
-            gConnectionWork->mStep = CONNECTION_STEP_LEAVING;
+            gConnectionWork->mStep = CONNECTION_STEP_DISCONNECTING;
             gConnectionWork->mRequestPending = 1;
             result = WM_Disconnect(DisconnectCallback, 0);
             break;
@@ -160,7 +160,7 @@ void Disconnect(void) {
             break;
         case WIRELESS_RESULT_OCCUPIED:
             if (DisconnectGetConnectionMode() == CONNECTION_MODE_CHILD) {
-                gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECTING;
+                gConnectionWork->mOperationFlags |= CONNECTION_OPERATION_DISCONNECT_OCCUPIED;
             }
             break;
         default:
@@ -188,14 +188,14 @@ void DisconnectCallback(WirelessMessage *event) {
                     gConnectionWork->mChildren.mDisconnectingIndex = -1;
                     break;
                 case CONNECTION_MODE_CHILD:
-                    gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
+                    gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECT_OCCUPIED;
                     ResetConnectionData();
                     break;
             }
             break;
         case WIRELESS_RESULT_REFUSED:
-            if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_DISCONNECTING) != 0) {
-                gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECTING;
+            if ((gConnectionWork->mOperationFlags & CONNECTION_OPERATION_DISCONNECT_OCCUPIED) != 0) {
+                gConnectionWork->mOperationFlags &= ~CONNECTION_OPERATION_DISCONNECT_OCCUPIED;
                 ResetConnectionData();
                 gConnectionWork->mRequestPending = 0;
             } else {
@@ -259,7 +259,7 @@ void End(void) {
         EndWbtStep();
         return;
     }
-    connection->mStep = CONNECTION_STEP_RESTARTING;
+    connection->mStep = CONNECTION_STEP_RESETTING;
     gConnectionWork->mRequestPending = 1;
     if (WM_Reset(ResetCallback) == 2) {
         return;
@@ -277,7 +277,7 @@ void End(void) {
         EndWbtStep();
         return;
     }
-    SetStepAndRequestPending(CONNECTION_STEP_RESTARTING);
+    SetStepAndRequestPending(CONNECTION_STEP_RESETTING);
     if (WM_Reset(ResetCallback) == 2) {
         return;
     }

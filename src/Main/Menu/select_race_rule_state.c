@@ -1949,15 +1949,15 @@ chain:
             gSelectRaceRule->mOnButton = 0;
             IncrementSelectRaceRuleCourseCount();
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         MoveSelectRaceRuleRowPrevious();
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         MoveSelectRaceRuleRowNext();
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         if (gSelectRaceRule->mOnButton == 0) {
             MoveSelectRaceRuleValuePrevious(1);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (gSelectRaceRule->mOnButton == 0) {
             MoveSelectRaceRuleValueNext(1);
         }

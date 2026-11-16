@@ -142,7 +142,7 @@ void UpdateLogoReadBackup(void *stateObject) {
         stateMachine->mNextStateRequested = 1;
     }
     slotIndex = GetPadInputSlot();
-    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_FACE_AND_SHOULDER) != PAD_KEYS_FACE_AND_SHOULDER) {
+    if ((gInputSlots[slotIndex].mBits & PAD_KEYS_A_B_X_Y_L_R) != PAD_KEYS_A_B_X_Y_L_R) {
         return;
     }
     gLogoScene->mResetBackupRequested = 1;

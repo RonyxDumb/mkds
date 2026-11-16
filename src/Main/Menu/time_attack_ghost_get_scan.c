@@ -1023,13 +1023,13 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                     } else if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                         gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_END_CONNECTION_LEAVE;
                         RequestSelectReturnPressWithSound(0);
-                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {
+                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_UP)) {
                         if (gTimeAttackGhostGetScan->mFilledCount == 2) {
                             MoveSelectedGhostUp(0);
                         } else if (gTimeAttackGhostGetScan->mFilledCount > 2) {
                             MoveSelectedGhostUp(1);
                         }
-                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN)) {
+                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_DOWN)) {
                         if (gTimeAttackGhostGetScan->mFilledCount == 2) {
                             MoveSelectedGhostDown(0);
                         } else if (gTimeAttackGhostGetScan->mFilledCount > 2) {
@@ -1098,7 +1098,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }
@@ -1186,7 +1186,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
                 if (sceneNumbers != NULL) {
-                    sceneNumbers->mNextScene = SCENE_MENU_1;
+                    sceneNumbers->mNextScene = SCENE_MENU;
                 }
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_DONE;
             }

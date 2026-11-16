@@ -309,7 +309,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
         case SCENE_WIFI_MENU:
             rowIndex = 0x2d;
             break;
-        case SCENE_MENU_4:
+        case SCENE_SECOND_MENU:
             rowIndex = 0x33;
             break;
         case SCENE_TEST:
@@ -322,7 +322,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                 rowIndex = 0x2e;
             }
             break;
-        case SCENE_MENU_1:
+        case SCENE_MENU:
             rowIndex = 0x32;
             break;
         case SCENE_RESULT:

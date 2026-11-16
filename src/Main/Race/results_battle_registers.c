@@ -1013,7 +1013,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
                         if (sceneNumbers != NULL) {
-                            sceneNumbers->mNextScene = SCENE_MENU_1;
+                            sceneNumbers->mNextScene = SCENE_MENU;
                         }
                         gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                     }
@@ -1056,7 +1056,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 } else {
                                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                                     if (sceneNumbers != NULL) {
-                                        sceneNumbers->mNextScene = SCENE_MENU_1;
+                                        sceneNumbers->mNextScene = SCENE_MENU;
                                     }
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;

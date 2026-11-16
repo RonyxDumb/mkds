@@ -34,7 +34,7 @@ typedef struct KartAiItemUse {
     /* 0c */ s32 mHeldItemSeen;
 // While non-zero, the item bits are requested on every call.
     /* 10 */ s32 mItemBitsEveryCall;
-// While set, AdvanceItemBitRequests requests PAD_KEY_UP on its calls that do not run the entry function;
+// While set, AdvanceItemBitRequests requests PAD_KEY_DIRECTION_UP on its calls that do not run the entry function;
 // mThrowForwardTimer (set to KART_AI_THROW_TIMER_FRAMES) counts those calls down.
     /* 14 */ s32 mThrowForwardPending;
 // ITEM_THROW_FORWARD_BIT is pending; mThrowBehindTimer (set to KART_AI_THROW_TIMER_FRAMES) counts those calls down.

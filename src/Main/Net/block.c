@@ -101,7 +101,7 @@ void SetWbtOwnAidFromConnection(void) {
 }
 
 void StartMPWithBuffers(void) {
-    gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+    gConnectionWork->mStep = CONNECTION_STEP_STARTING_MP;
     gConnectionWork->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gConnectionWork->mMPReceiveBuffer, gConnectionWork->mMPReceiveBufferSize,
                      gConnectionWork->mMPSendBuffer, gConnectionWork->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {

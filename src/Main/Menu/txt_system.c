@@ -525,7 +525,7 @@ void AdvanceTxtSystemOpen(void) {
     return;
 L:
     if (buttonCount == 2) {
-        if ((u16) (keys & PAD_KEY_LEFT) != 0 && txtSystem->mSelectedIndex == 1) {
+        if ((u16) (keys & PAD_KEY_DIRECTION_LEFT) != 0 && txtSystem->mSelectedIndex == 1) {
             txtSystem->mSelectedIndex = 0;
             QueueTxtSystemButtonColors();
             StartSoundOncePerFrame(0);

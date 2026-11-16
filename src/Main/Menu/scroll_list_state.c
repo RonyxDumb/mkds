@@ -146,13 +146,13 @@ void AdvanceScrollListInput(void) {
             gScrollList->mTouchHeld = FALSE;
         }
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP) != 0 ||
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0 ||
         gScrollList->mTouchRectIndex == gScrollList->mUpRectIndex) {
         gScrollList->mUpHeldFrames = gScrollList->mUpHeldFrames + 1;
     } else {
         gScrollList->mUpHeldFrames = 0;
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0 ||
         gScrollList->mTouchRectIndex == gScrollList->mDownRectIndex) {
         gScrollList->mDownHeldFrames = gScrollList->mDownHeldFrames + 1;
     } else {
@@ -321,7 +321,7 @@ void AdvanceScrollListIdle(void) {
         CallScrollListCallback(0, -1, -1, rowChanged != FALSE ? GetScrollListSelectedSlot() : -1);
         return;
     }
-    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_UP) != 0 ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0 ||
          gScrollList->mPressedRectIndex == gScrollList->mUpRectIndex ||
          gScrollList->mUpHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow > 0) {
@@ -344,7 +344,7 @@ void AdvanceScrollListIdle(void) {
         ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DOWN) != 0 ||
+    if ((ScrollListGetNewBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0 ||
          gScrollList->mPressedRectIndex == gScrollList->mDownRectIndex ||
          gScrollList->mDownHeldFrames > gScrollList->mScrollFrameCount) &&
         gScrollList->mSelectedRow < gScrollList->mRowCount - 1) {
@@ -370,7 +370,7 @@ void AdvanceScrollListIdle(void) {
         ScrollListStartSeqArcWrapper(3);
         return;
     }
-    if (ScrollListGetDownBits(slotIndex, PAD_KEY_UP | PAD_KEY_DOWN) == 0 &&
+    if (ScrollListGetDownBits(slotIndex, PAD_KEY_DIRECTION_UP | PAD_KEY_DIRECTION_DOWN) == 0 &&
         gScrollList->mTouchRectIndex != gScrollList->mUpRectIndex &&
         gScrollList->mTouchRectIndex != gScrollList->mDownRectIndex) {
         gScrollList->mHeldMoveCount = 0;

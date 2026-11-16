@@ -1377,11 +1377,11 @@ void UpdateInputSlots(void) {
                             slotKeys = padKeys;
                             if (flags & 4) {
                                 slotKeys = padKeys & 0xffcf;
-                                if (padKeys & PAD_KEY_LEFT) {
-                                    slotKeys |= PAD_KEY_RIGHT;
+                                if (padKeys & PAD_KEY_DIRECTION_LEFT) {
+                                    slotKeys |= PAD_KEY_DIRECTION_RIGHT;
                                 }
-                                if (padKeys & PAD_KEY_RIGHT) {
-                                    slotKeys |= PAD_KEY_LEFT;
+                                if (padKeys & PAD_KEY_DIRECTION_RIGHT) {
+                                    slotKeys |= PAD_KEY_DIRECTION_LEFT;
                                 }
                             }
                             AppendKeysToKeyRecording(&inputSlot->mKeyRecording, slotKeys);
@@ -1414,11 +1414,11 @@ void UpdateInputSlots(void) {
                             slotKeys = GetParticipantPadKeys(GetParticipantIndex(slotIndex));
                             if (gInputState->mFlags & INPUT_STATE_FLAG_LEFT_RIGHT_SWAPPED) {
                                 keys = slotKeys & 0xffcf;
-                                if (slotKeys & PAD_KEY_LEFT) {
-                                    keys |= PAD_KEY_RIGHT;
+                                if (slotKeys & PAD_KEY_DIRECTION_LEFT) {
+                                    keys |= PAD_KEY_DIRECTION_RIGHT;
                                 }
-                                if (slotKeys & PAD_KEY_RIGHT) {
-                                    keys |= PAD_KEY_LEFT;
+                                if (slotKeys & PAD_KEY_DIRECTION_RIGHT) {
+                                    keys |= PAD_KEY_DIRECTION_LEFT;
                                 }
                                 slotKeys = keys;
                             }

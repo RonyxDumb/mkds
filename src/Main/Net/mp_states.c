@@ -223,10 +223,10 @@ void EnterMPStartExchange(void *stateObject) {
 void UpdateMPStartExchange(void *stateObject) {
     if (gConnectionWork->mRequestPending == 0) {
         switch (gConnectionWork->mStep) {
-            case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
-                gConnectionWork->mStep = CONNECTION_STEP_STARTING_EXCHANGE;
+            case CONNECTION_STEP_SETTING_MP_FREQUENCY:
+                gConnectionWork->mStep = CONNECTION_STEP_STARTING_MP;
                 break;
-            case CONNECTION_STEP_STARTING_EXCHANGE:
+            case CONNECTION_STEP_STARTING_MP:
                 MPStatesRequestMPState(MP_STATE_EXCHANGE_OWN_RECORDS);
                 break;
             default:
@@ -410,7 +410,7 @@ void EnterMPSendRomArchive(void *stateObject) {
 void UpdateMPSendRomArchive(void *stateObject) {
     if (gConnectionWork->mRequestPending == 0) {
         switch (gConnectionWork->mStep) {
-            case CONNECTION_STEP_STARTING_EXCHANGE:
+            case CONNECTION_STEP_STARTING_MP:
                 StartRomArchiveSend();
                 break;
             case CONNECTION_STEP_ROM_ARCHIVE_SEND:
@@ -481,7 +481,7 @@ void UpdateMPStartDataSharing(void *stateObject) {
         return;
     }
     switch (gConnectionWork->mStep) {
-        case CONNECTION_STEP_SETTING_EXCHANGE_RATE:
+        case CONNECTION_STEP_SETTING_MP_FREQUENCY:
         case CONNECTION_STEP_ROM_ARCHIVE_SEND:
         case CONNECTION_STEP_CHILD_ARCHIVE_SYNC:
             StartDataSharing();

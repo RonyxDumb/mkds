@@ -197,7 +197,7 @@ void FillParentParameter(s32 flag) {
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
+    parentParameter->mUserGameInfoLength = USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = CHILD_LIST_MAX_CHILDREN;
     parentParameter->mEntryFlag = flag != 0 ? 1 : 0;
 }
@@ -235,7 +235,7 @@ void FillGhostParentParameter(GhostRecordHead *ghostRecord) {
     parentParameter->mChannel = gConnectionWork->mParentChannel;
     parentParameter->mBeaconPeriod = WM_GetDispersionBeaconPeriod();
     parentParameter->mUserGameInfo = gConnectionWork->mChildren.mGameInfo;
-    parentParameter->mUserGameInfoLength = SCAN_USER_GAME_INFO_BYTES;
+    parentParameter->mUserGameInfoLength = USER_GAME_INFO_BYTES;
     parentParameter->mMaxEntry = 1;
     parentParameter->mParentMaxSize = CONNECTION_PARENT_MAX_SIZE;
     parentParameter->mChildMaxSize = CONNECTION_CHILD_MAX_SIZE;

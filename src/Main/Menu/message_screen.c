@@ -250,7 +250,7 @@ void InitLinkLevelIcons(void *heap, void *oamList) {
         gLinkLevelIcons->mIconEnabled[index] = 0;
     }
     switch (GetCurrentSceneNumber()) {
-        case SCENE_MENU_1:
+        case SCENE_MENU:
             if ((u32) (gStartupWork->mConnectionKind - CONNECTION_KIND_MEMBER_SELECT) <=
                 CONNECTION_KIND_WL_MENU - CONNECTION_KIND_MEMBER_SELECT) {
                 gLinkLevelIcons->mIconEnabled[LINK_LEVEL_ICON_WIRELESS] = 1;

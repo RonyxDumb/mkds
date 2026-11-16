@@ -783,7 +783,7 @@ void InitSceneSounds(s32 unused) {
                 }
             }
             { break; }
-        case SCENE_MENU_1:
+        case SCENE_MENU:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 savedHeap = gCurrentSndHeap;
                 if (gLoadedSoundBanks.mLoadMarker == LOADED_SOUND_BANKS_NONE ||
@@ -835,7 +835,7 @@ void InitSceneSounds(s32 unused) {
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LoadSceneSoundSet(soundRow, 0);
     }
-    if (currentSceneNumber != SCENE_MENU_1) {
+    if (currentSceneNumber != SCENE_MENU) {
         return;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -845,7 +845,7 @@ void InitSceneSounds(s32 unused) {
         return;
     }
     gSndHeapSavedState[0] = NNS_SndHeapSaveState(gCurrentSndHeap);
-    if (GetCurrentSceneNumber() != SCENE_MENU_1) {
+    if (GetCurrentSceneNumber() != SCENE_MENU) {
         return;
     }
     if (gMenuShared->mMenuEntryKind == MENU_ENTRY_MISSION_SELECT) {
@@ -1472,7 +1472,7 @@ void UpdateSceneSoundState(void) {
         if (gSceneSoundState.mSceneFrames == SCENE_LOGO_SEQ_STOP_FRAMES) {
             NNS_SndPlayerStopSeq(&gScenePlayers.mSeqPlayer, 0x1b);
         }
-    } else if (GetCurrentSceneNumber() == SCENE_MENU_1 || GetCurrentSceneNumber() == SCENE_WIFI_MENU) {
+    } else if (GetCurrentSceneNumber() == SCENE_MENU || GetCurrentSceneNumber() == SCENE_WIFI_MENU) {
         if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
             UpdateSeqQueue();
         }

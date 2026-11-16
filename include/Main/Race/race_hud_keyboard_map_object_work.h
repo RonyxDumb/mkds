@@ -501,7 +501,7 @@ typedef struct TitleStateHandlers {
 struct LayoutTableEntry;
 struct LayoutEntryTable;
 
-// Values of TitleScene.mSelectedIndex, in the order of the scenes they start (SCENE_MENU_1, SCENE_WL_MENU,
+// Values of TitleScene.mSelectedIndex, in the order of the scenes they start (SCENE_MENU, SCENE_WL_MENU,
 // SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD); Option and Record share the last row.
 enum {
     TITLE_ENTRY_FIRST,

@@ -207,19 +207,19 @@ void AdvanceOptionEmbremSelectSelect(void) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
             StartSoundOncePerFrame(1);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gOptionEmbremSelect->mSelectedRow > 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0 && gOptionEmbremSelect->mSelectedRow > 0) {
             gOptionEmbremSelect->mSelectedRow--;
             StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gOptionEmbremSelect->mSelectedRow < 1) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0 && gOptionEmbremSelect->mSelectedRow < 1) {
             gOptionEmbremSelect->mSelectedRow++;
             StartSoundOncePerFrame(0);
-        } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+        } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice--;
             gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             StartSoundOncePerFrame(1);
-        } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+        } else if (gOptionEmbremSelect->mSelectedRow == 1 && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
             gOptionEmbremSelect->mEmblemOffChoice++;
-            if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+            if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
                 gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             }
             StartSoundOncePerFrame(1);

@@ -287,7 +287,7 @@ void AdvanceRecordGpxSelect(void) {
 next:
     if ((touchedRect == 0 && gRecordGpx->mLeftRepeat != FALSE) ||
         (touchBeganRect == 0 && gRecordGpx->mLeftRepeat == FALSE) ||
-        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_LEFT) != 0) {
+        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_LEFT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_PREVIOUS;
         gRecordGpx->mOffsetTimers[0] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mLeftRepeat = TRUE;
@@ -297,7 +297,7 @@ next:
     }
     if ((touchedRect == 1 && gRecordGpx->mRightRepeat != FALSE) ||
         (touchBeganRect == 1 && gRecordGpx->mRightRepeat == FALSE) ||
-        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_RIGHT) != 0) {
+        (u16) (gInputSlots[slotIndex].mBits & PAD_KEY_DIRECTION_RIGHT) != 0) {
         gRecordGpx->mIndexMoveDirection = RECORD_INDEX_MOVE_NEXT;
         gRecordGpx->mOffsetTimers[1] = RECORD_GPX_OFFSET_TIMER_FRAMES;
         gRecordGpx->mRightRepeat = TRUE;

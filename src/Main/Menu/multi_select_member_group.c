@@ -471,14 +471,14 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                 }
                 gMultiSelectMemberGroup->mState = MULTI_SELECT_MEMBER_GROUP_STATE_SLIDE_OUT;
                 RequestSelectReturnPressWithSound(1);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_UP) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex--;
                 if (gMultiSelectMemberGroup->mSelectedIndex < 0) {
                     gMultiSelectMemberGroup->mSelectedIndex = MULTI_SELECT_MEMBER_GROUP_RETURN_ROW;
                 }
                 RefreshMultiSelectMemberGroup(1);
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DIRECTION_DOWN) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex++;
                 if (gMultiSelectMemberGroup->mSelectedIndex > MULTI_SELECT_MEMBER_GROUP_RETURN_ROW) {
                     gMultiSelectMemberGroup->mSelectedIndex = 0;

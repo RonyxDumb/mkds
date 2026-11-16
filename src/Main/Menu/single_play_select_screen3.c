@@ -31,11 +31,11 @@ void UpdateSinglePlaySelectInput(s32 inputEnabled) {
         } else if (MenuGetNewBits(value, PAD_KEY_B)) {
             SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT, 0x1b);
             RequestSelectReturnPressWithSound(1);
-        } else if (GetNewOrRepeatBits(value, PAD_KEY_UP)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_DIRECTION_UP)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
             StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(value, PAD_KEY_DOWN)) {
+        } else if (GetNewOrRepeatBits(value, PAD_KEY_DIRECTION_DOWN)) {
             menu = gMenuScene;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
             StartSoundOncePerFrame(0);

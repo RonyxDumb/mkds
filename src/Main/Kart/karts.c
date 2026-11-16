@@ -1770,23 +1770,23 @@ void AdvanceKartModelMenuInput(void) {
     GetSndHandleSlot(2);
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     buttons = gInputSlots[inputSlot].mBits;
-    if ((u16) (buttons & PAD_KEY_RIGHT) != 0) {
+    if ((u16) (buttons & PAD_KEY_DIRECTION_RIGHT) != 0) {
         view->mYawAngle += 0x1c2;
         yawChanged = TRUE;
-    } else if ((u16) (buttons & PAD_KEY_LEFT) != 0) {
+    } else if ((u16) (buttons & PAD_KEY_DIRECTION_LEFT) != 0) {
         view->mYawAngle -= 0x1c2;
         yawChanged = TRUE;
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     buttons = gInputSlots[inputSlot].mBits;
-    if ((u16) (buttons & PAD_KEY_DOWN) != 0) {
+    if ((u16) (buttons & PAD_KEY_DIRECTION_DOWN) != 0) {
         view->mTiltAngle += 0x1c2;
         if (view->mTiltAngle > KART_MODEL_MENU_TILT_DOWN_MAX) {
             view->mTiltAngle = KART_MODEL_MENU_TILT_DOWN_MAX;
         } else {
             changed = 1;
         }
-    } else if ((u16) (buttons & PAD_KEY_UP) != 0) {
+    } else if ((u16) (buttons & PAD_KEY_DIRECTION_UP) != 0) {
         view->mTiltAngle -= 0x1c2;
         if (view->mTiltAngle < -KART_MODEL_MENU_TILT_UP_MAX) {
             view->mTiltAngle = -KART_MODEL_MENU_TILT_UP_MAX;

@@ -303,7 +303,7 @@ u32 ShouldEndStaffRoll(u32 sceneFrames) {
     result = 0;
     if (IsBackupFlagSet(flagIndex) != 0 && sceneFrames > 0xb4) {
         InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-        if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_NO_DIRECTION_OR_SHOULDER) != 0 ||
+        if ((u16) (gInputSlots[slotIndex].mBits & PAD_KEYS_A_B_X_Y_SELECT_START) != 0 ||
             IsPadOrParticipantPairPresentOrRecentlyLost() != 0) {
             result = 1;
         }
@@ -351,7 +351,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                         nextScene = SCENE_WL_MENU;
                         gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
                     } else {
-                        nextScene = SCENE_MENU_1;
+                        nextScene = SCENE_MENU;
                     }
                     gMenuShared->mMenuEntryKind = MENU_ENTRY_SELECT_GAME;
                     gMenuShared->mRaceSetupRequested = 1;
@@ -394,7 +394,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = SCENE_MENU_1;
+                            nextScene = SCENE_MENU;
                         } else {
                             nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
@@ -423,7 +423,7 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
                             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
                         }
                         if (gStartupWork->mMultiSimple == 0) {
-                            nextScene = SCENE_MENU_1;
+                            nextScene = SCENE_MENU;
                         } else {
                             nextScene = SCENE_WL_MENU;
                             gMenuShared->mWLMenuKind = WL_MENU_KIND_TO_MENU;
@@ -456,16 +456,16 @@ void SetNextSceneFromPickedValue(SceneNumbers *sceneNumbers, u32 pickedValue) {
             }
             break;
         case CHOISES_S_PICK_CHANGE_CHARACTERS:
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             gMenuShared->mMenuEntryKind = MENU_ENTRY_CHARACTER_SELECT;
             break;
         case CHOISES_S_PICK_CHANGE_COURSE:
             gMenuShared->mMenuEntryKind = MENU_ENTRY_COURSE_SELECT;
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             break;
         case CHOISES_S_PICK_SELECT_MISSION:
             gMenuShared->mMenuEntryKind = MENU_ENTRY_MISSION_SELECT;
-            nextScene = SCENE_MENU_1;
+            nextScene = SCENE_MENU;
             break;
     }
     if (nextScene != -1) {

@@ -65,7 +65,7 @@ void SeekKeyStream(u32 count, u32 origin) {
     u8 *newPosition;
     u8 *start;
     switch (origin) {
-        case KEY_STREAM_SEEK_END:
+        case KEY_STREAM_SEEK_HIGHEST_WRITTEN:
             newPosition = gKeyStream.mHighestWritten - count * elementSize;
             break;
         case KEY_STREAM_SEEK_START:

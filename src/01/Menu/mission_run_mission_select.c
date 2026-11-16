@@ -788,7 +788,7 @@ skip:
         RequestMissionRunMSselPressMission();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP)) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP)) {
         current = gMissionRunMSsel->mIndex;
         delta = gMissionRunMSselUpSteps[current];
         if (delta == 0) {
@@ -803,7 +803,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN)) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN)) {
         current = gMissionRunMSsel->mIndex;
         delta = gMissionRunMSselDownSteps[current];
         if (delta == 0) {
@@ -818,7 +818,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_LEFT)) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT)) {
         current = gMissionRunMSsel->mIndex;
         delta = gMissionRunMSselLeftSteps[current];
         if (delta == 0) {
@@ -833,7 +833,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT)) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT)) {
         current = gMissionRunMSsel->mIndex;
         delta = gMissionRunMSselRightSteps[current];
         if (delta == 0) {

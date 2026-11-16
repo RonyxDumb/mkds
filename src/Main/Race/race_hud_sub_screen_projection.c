@@ -465,7 +465,7 @@ void UpdateRaceHudSubScreenScroll(void) {
     Vec3 dir;
 
     GetRaceHudSubScreenScrollLimits(&scrollMin, &scrollMax);
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_LEFT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_LEFT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x < scrollMin.mFirst) {
@@ -476,7 +476,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_RIGHT) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.x += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.x > scrollMax.mFirst) {
@@ -487,7 +487,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_UP) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z -= RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z < scrollMin.mSecond) {
@@ -498,7 +498,7 @@ void UpdateRaceHudSubScreenScroll(void) {
         }
         gRaceHudSubScreenProjection->mScrollTimer = RACE_HUD_SUB_SCREEN_SCROLL_TIMER_START;
     }
-    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DOWN) != 0) {
+    if (RaceHudSubScreenGetDownBits(GetPadInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
         if (gRaceHudSubScreenProjection->mScrollTimer != 0) {
             gRaceHudSubScreenProjection->mScrollPosition.z += RACE_HUD_SUB_SCREEN_SCROLL_STEP;
             if (gRaceHudSubScreenProjection->mScrollPosition.z > scrollMax.mSecond) {

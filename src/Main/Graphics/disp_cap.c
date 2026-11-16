@@ -371,7 +371,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
         case CONNECTION_STEP_STARTING_UP:
             StartRomArchiveTransfer();
             break;
-        case CONNECTION_STEP_RESTARTING:
+        case CONNECTION_STEP_RESETTING:
         case CONNECTION_STEP_ROM_ARCHIVE_TRANSFER:
             if (isParent != 0) {
                 SetLifeTime(0x14);
@@ -381,7 +381,7 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
                 StartScan(1, NULL, NULL);
             }
             break;
-        case CONNECTION_STEP_SETTING_TIMEOUT:
+        case CONNECTION_STEP_SETTING_LIFE_TIME:
             MeasureChannel(0);
             break;
         case CONNECTION_STEP_CHECKING_CHANNELS:
@@ -389,13 +389,13 @@ s32 AdvanceNonMultiBootSetup(s32 isParent) {
             FillParentParameter(1);
             SetParentParameter();
             break;
-        case CONNECTION_STEP_CONFIGURING_HOST:
+        case CONNECTION_STEP_SETTING_PARENT_PARAMETER:
             StartParent(NULL);
             break;
-        case CONNECTION_STEP_OPENING_HOST:
+        case CONNECTION_STEP_STARTING_PARENT:
             StartMP();
             break;
-        case CONNECTION_STEP_STARTING_EXCHANGE:
+        case CONNECTION_STEP_STARTING_MP:
             gConnectionWork->mState = CONNECTION_STATE_MULTIBOOT_PARENT_READY;
             gConnectionWork->mChildren.mNameSendIndex = 0;
             result = TRUE;

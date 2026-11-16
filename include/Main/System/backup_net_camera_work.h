@@ -479,8 +479,8 @@ typedef struct ScanStateView {
 // SharingReceiveRecord.mFlags bits (SharingSendRecord.mFlags when sent): the sync toggle bit of the sender (the first
 // when ConnectionWork.mSyncToggle is 0, else the second; a parent sets one only once CONNECTION_STATUS_SHARING_SYNCED
 // is set), and the fade flag a parent sets in the synced race state from DispCap.mFlags.
-#define SHARING_RECORD_FLAG_SYNC_PHASE_A 1
-#define SHARING_RECORD_FLAG_SYNC_PHASE_B 2
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_ZERO 1
+#define SHARING_RECORD_FLAG_SYNC_TOGGLE_ONE 2
 #define SHARING_RECORD_FLAG_DISP_CAP_FADE 4
 
 // A received sharing record: the pad keys, touch point, left participant mask, send byte and flags.
@@ -588,7 +588,7 @@ typedef struct MultiBootStateView {
 // ConnectionWork.mFlags: the connection is being ended; cleared when the end finishes.
 #define CONNECTION_FLAG_ENDING 0x80
 // ConnectionWork.mOperationFlags: a disconnect is running.
-#define CONNECTION_OPERATION_DISCONNECTING 2
+#define CONNECTION_OPERATION_DISCONNECT_OCCUPIED 2
 // ConnectionWork.mOperationFlags: a scan is running.
 #define CONNECTION_OPERATION_SCANNING 1
 // ConnectionWork.mStatusFlags: data sharing sync finished.
@@ -610,7 +610,7 @@ typedef struct MultiBootStateView {
 #define CONNECTION_GAME_GROUP_ID 0x25
 // WMBssDesc.mGameInfoLength that covers WMGameInfo.mGgid, and the exact mUserGameInfoLength of this game's beacons.
 #define SCAN_GAME_INFO_LENGTH_WITH_GROUP_ID 8
-#define SCAN_USER_GAME_INFO_BYTES 0x1c
+#define USER_GAME_INFO_BYTES 0x1c
 // WMGameInfo.mAttribute bits: the parent accepts entries, and it is a multiboot parent.
 #define BEACON_ATTRIBUTE_ENTRY_OPEN 1
 #define BEACON_ATTRIBUTE_MULTIBOOT 2
@@ -632,7 +632,7 @@ typedef struct MultiBootStateView {
 #define SCAN_REMEMBERED_KEY_HELD 0xf
 // Frames a multiboot join may take (ConnectionWork.mStepWaitFrames) before it fails; frames the close step waits;
 // frames the parent waits for the children it expects.
-#define CONNECTION_JOIN_TIMEOUT_FRAMES 0x4b0
+#define CONNECTION_CONNECT_TIMEOUT_FRAMES 0x4b0
 #define CONNECTION_CLOSE_WAIT_FRAMES 0x3c
 #define CONNECTION_CHILDREN_WAIT_FRAMES 0x708
 // Frames a child waits before its record exchange: fixed, and for a multiboot child the shortest wait and the spread
@@ -650,7 +650,7 @@ typedef struct MultiBootStateView {
 #define CONNECTION_CHILD_MAX_SIZE 0x2e
 // Table value for no participant: stored in mParticipantPosByIndex[].mEntryIndex for an absent participant and in
 // mParticipantIndexByPos and mParticipantIndices behind the last participant.
-#define PARTICIPANT_POSITION_NONE 0xffff
+#define PARTICIPANT_NONE 0xffff
 // Value of every byte of a scan BSSID filter that matches any host.
 #define CONNECTION_BSSID_ANY_BYTE 0xff
 // ConnectionWork.mOwnIndex until the link callback stores mOwnAid in it.
@@ -674,25 +674,25 @@ typedef struct MultiBootStateView {
 typedef enum ConnectionStep {
     CONNECTION_STEP_NOTHING = 0, // nothing in flight
     CONNECTION_STEP_STARTING_UP = 1,
-    CONNECTION_STEP_RESTARTING = 2,
-    CONNECTION_STEP_SETTING_TIMEOUT = 3,
+    CONNECTION_STEP_RESETTING = 2,
+    CONNECTION_STEP_SETTING_LIFE_TIME = 3,
     CONNECTION_STEP_CHECKING_CHANNELS = 4,
-    CONNECTION_STEP_CONFIGURING_HOST = 5,
-    CONNECTION_STEP_OPENING_HOST = 6,
+    CONNECTION_STEP_SETTING_PARENT_PARAMETER = 5,
+    CONNECTION_STEP_STARTING_PARENT = 6,
     CONNECTION_STEP_SEARCHING = 7,
     CONNECTION_STEP_SEARCHING_UNUSED = 8, // never set
     CONNECTION_STEP_STOPPING_SEARCH = 9,
     CONNECTION_STEP_JOINING = 10,
-    CONNECTION_STEP_STARTING_EXCHANGE = 11,
-    CONNECTION_STEP_SETTING_EXCHANGE_RATE = 12,
-    CONNECTION_STEP_REGISTERING_ENTRY = 13,
+    CONNECTION_STEP_STARTING_MP = 11,
+    CONNECTION_STEP_SETTING_MP_FREQUENCY = 12,
+    CONNECTION_STEP_SETTING_ENTRY = 13,
     CONNECTION_STEP_STARTING_SHARING = 14,
-    CONNECTION_STEP_PUBLISHING_GAME_INFO = 15,
-    CONNECTION_STEP_DROPPING_CHILDREN = 16,
+    CONNECTION_STEP_SETTING_GAME_INFO = 15,
+    CONNECTION_STEP_DISCONNECTING_CHILDREN = 16,
     CONNECTION_STEP_STOPPING_SHARING = 17,
-    CONNECTION_STEP_STOPPING_EXCHANGE = 18,
-    CONNECTION_STEP_CLOSING_HOST = 19,
-    CONNECTION_STEP_LEAVING = 20,
+    CONNECTION_STEP_STOPPING_MP = 18,
+    CONNECTION_STEP_ENDING_PARENT = 19,
+    CONNECTION_STEP_DISCONNECTING = 20,
     CONNECTION_STEP_SHUTTING_DOWN = 21,
     CONNECTION_STEP_MULTIBOOT_START_PARENT = 22,
     CONNECTION_STEP_MULTIBOOT_UNUSED = 23, // never set
@@ -727,14 +727,14 @@ typedef enum ConnectionState {
     CONNECTION_STATE_STARTING = 1,
     CONNECTION_STATE_MULTIBOOT_PARENT_READY = 2,
     CONNECTION_STATE_MULTIBOOT_SCAN_READY = 3,
-    CONNECTION_STATE_SETUP_SPARE = 4, // never set
+    CONNECTION_STATE_UNUSED = 4, // never set
     CONNECTION_STATE_MULTIBOOT_PARENT_ACTIVE = 5,
     CONNECTION_STATE_CONNECTED = 6,
     CONNECTION_STATE_SYNC_WAIT = 7,
     CONNECTION_STATE_SYNCED = 8,
     CONNECTION_STATE_SYNCED_RACE = 9,
     CONNECTION_STATE_ENTRY_EXCHANGE = 10,
-    CONNECTION_STATE_GATHERING = 11,
+    CONNECTION_STATE_SETUP = 11,
     CONNECTION_STATE_MP_ENDING = 12,
     CONNECTION_STATE_ENDED = 13,
 } ConnectionState;
@@ -1040,7 +1040,7 @@ typedef struct OverlayLoader {
 #define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B 0x40
 #define WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED 0x80
 #define WIFI_RACE_SYNC_FLAG_SENDING 0x4
-#define WIFI_RACE_SYNC_FLAG_PEERS_SYNCED 0x100
+#define WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN 0x100
 #define WIFI_RACE_SYNC_FLAG_IDLE_DISCONNECT_SENT 0x200
 // Limits that are exceeded: frames without pad input (counted only while the own kart has not ended) before the idle
 // disconnect, calls without a packet before a peer counts as dropped (600 while it has no sample), and rejected probe
@@ -1096,7 +1096,7 @@ typedef struct OverlayLoader {
 // Sync frames a result is sent for, the sends counted before only the frame count decides, and the frames left at or
 // below which the sending stops.
 #define SLOT_RESULT_SYNC_SEND_FRAMES 0x78
-#define SLOT_RESULT_SYNC_MAX_SENDS 100
+#define SLOT_RESULT_SYNC_SEND_COUNT_LIMIT 100
 #define SLOT_RESULT_SYNC_CLEAR_FRAMES 20
 
 // The sync state of one peer: probe and reply send and receive ticks, mRoundTripTotal, mProbePending, the sample counts
@@ -1236,7 +1236,7 @@ typedef struct WiFiRaceSyncSendBuffer {
 // in PICKED_NEXT or ALL_PEERS_PICKED, then becomes ALL_PEERS_PICKED.
 enum {
     WIFI_RACE_SHARED_STATE_IDLE,
-    WIFI_RACE_SHARED_STATE_PROBING,
+    WIFI_RACE_SHARED_STATE_BEFORE_RACE,
     WIFI_RACE_SHARED_STATE_RACING,
     WIFI_RACE_SHARED_STATE_PICKED_QUIT,
     WIFI_RACE_SHARED_STATE_PICKED_NEXT,

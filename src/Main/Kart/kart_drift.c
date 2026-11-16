@@ -1406,11 +1406,11 @@ int TryTurnKartAtLowSpeed(Kart *kart) {
         pending = FALSE;
         entryIndex = kart->mEntryIndex;
         bits = gInputSlots[entryIndex].mBits;
-        if ((u16) (bits & PAD_KEY_LEFT)) {
+        if ((u16) (bits & PAD_KEY_DIRECTION_LEFT)) {
             dir = TRUE;
             kart->mTurnDirection = -1;
             delta = 500;
-        } else if ((u16) (bits & PAD_KEY_RIGHT)) {
+        } else if ((u16) (bits & PAD_KEY_DIRECTION_RIGHT)) {
             dir = TRUE;
             kart->mTurnDirection = 1;
             delta = -500;

@@ -106,7 +106,7 @@ void AdvanceSelectCupCoursePickCourse(void) {
         gSelectCupCourse->mHighlightShown = FALSE;
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gSelectCupCourse->mIndex = gSelectCupCourse->mIndex - 1;
         if (gSelectCupCourse->mIndex < 0) {
             gSelectCupCourse->mIndex = 3;
@@ -116,7 +116,7 @@ void AdvanceSelectCupCoursePickCourse(void) {
         }
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         gSelectCupCourse->mIndex = gSelectCupCourse->mIndex + 1;
         if (gSelectCupCourse->mIndex >= 4) {
             gSelectCupCourse->mIndex = 0;

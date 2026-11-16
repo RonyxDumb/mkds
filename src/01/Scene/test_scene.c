@@ -177,11 +177,11 @@ void DrawTestScene(void) {
         } else if (gTestScene->mState == TEST_SCENE_STATE_CHAR_TABLE_2) {
             canvasIndex = 2;
         }
-        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_LEFT) != 0) {
+        if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_DIRECTION_LEFT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 8) % 9;
             ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;
-        } else if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_RIGHT) != 0) {
+        } else if (GetInputSlotNewBitsByIndex(slotIndex, PAD_KEY_DIRECTION_RIGHT) != 0) {
             gTestSceneCharTableIndex = (gTestSceneCharTableIndex + 1) % 9;
             ClearCharCanvas(gTestScene->mCharCanvases[canvasIndex], 0);
             moved = TRUE;

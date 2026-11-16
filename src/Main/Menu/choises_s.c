@@ -576,9 +576,9 @@ void UpdateChoisesS(void) {
                         RaiseSndHandleVolumes();
                         gChoisesS->mCloseFrames = 1;
                     }
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
                     MoveChoisesSSelectedValue(-1);
-                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
+                } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
                     MoveChoisesSSelectedValue(1);
                 }
             }
@@ -608,9 +608,9 @@ void UpdateChoisesS(void) {
                     RaiseSndHandleVolumes();
                     gChoisesS->mCloseFrames = 1;
                 }
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_UP) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_UP) != 0) {
                 MoveChoisesSSelectedValue(-1);
-            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DOWN) != 0) {
+            } else if (GetNewOrRepeatBits(GetChoisesSInputSlot(), PAD_KEY_DIRECTION_DOWN) != 0) {
                 MoveChoisesSSelectedValue(1);
             }
         }

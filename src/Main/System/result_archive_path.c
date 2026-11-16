@@ -375,7 +375,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                 case SCENE_RACE:
                     bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE].mData;
                     break;
-                case SCENE_MENU_1:
+                case SCENE_MENU:
                     bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL].mData;
                     break;
                 case SCENE_RESULT:
@@ -404,7 +404,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
                 case SCENE_RACE:
                     bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_RACE_LANGUAGE].mData;
                     break;
-                case SCENE_MENU_1:
+                case SCENE_MENU:
                     bufferData = gArchiveSlots->mBuffers[ARCHIVE_BUFFER_MENU_DL_LANGUAGE].mData;
                     break;
                 case SCENE_RESULT:
@@ -591,7 +591,7 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
         LoadArchiveSlotForScene(ARCHIVE_SLOT_MAIN_2D, sceneNumber);
     }
     switch (sceneNumber) {
-        case SCENE_MENU_1:
+        case SCENE_MENU:
         case SCENE_WIFI_MENU:
             LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
             LoadArchiveSlotForScene(ARCHIVE_SLOT_CHARACTER_KART_SELECT, sceneNumber);
@@ -629,7 +629,7 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
             LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
             LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
             break;
-        case SCENE_MENU_4:
+        case SCENE_SECOND_MENU:
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 LoadArchiveSlotForScene(ARCHIVE_SLOT_SCENE, sceneNumber);
                 LoadArchiveSlotForScene(ARCHIVE_SLOT_GENERAL_MENU, sceneNumber);
@@ -764,7 +764,7 @@ void *FindKartModelFile(const char *path) {
     void *file;
     file = NULL;
     currentSceneNumber = GetCurrentSceneNumber();
-    if (((currentSceneNumber == SCENE_MENU_1) || (currentSceneNumber == SCENE_EMBLEM)) ||
+    if (((currentSceneNumber == SCENE_MENU) || (currentSceneNumber == SCENE_EMBLEM)) ||
         (currentSceneNumber == SCENE_WIFI_MENU)) {
         file = FindArchiveFile(gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU], path);
     } else {
@@ -793,7 +793,7 @@ void *LoadKartModelFile(const char *path) {
 
     file = NULL;
     currentSceneNumber = GetCurrentSceneNumber();
-    if (currentSceneNumber == SCENE_MENU_1 || currentSceneNumber == SCENE_EMBLEM ||
+    if (currentSceneNumber == SCENE_MENU || currentSceneNumber == SCENE_EMBLEM ||
         currentSceneNumber == SCENE_WIFI_MENU) {
         archiveName = gArchiveNames[ARCHIVE_SLOT_KART_MODEL_MENU];
         if (path[0] == '/') {

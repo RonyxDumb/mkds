@@ -210,7 +210,7 @@ void EnterWiFiRaceSyncProbe(void *stateObject) {
     gWiFiRaceSync->mUnk_0fd = 0;
     gWiFiRaceSync->mCountdownSmoothedDifference = 0;
     gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
-    gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PROBING;
+    gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_BEFORE_RACE;
     gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_IN_RACE;
     gWiFiRaceSync->mFlags |= WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED;
     gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE;
@@ -691,7 +691,7 @@ void UpdateWiFiRaceSyncRace(void *stateObject) {
 }
 
 void EnterWiFiRaceSyncAfterChoice(void *stateObject) {
-    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
+    gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN;
 }
 
 u32 GetWiFiRaceSyncPickedValue(void) {
@@ -704,7 +704,7 @@ u32 GetWiFiRaceSyncPickedValue(void) {
         if (wiFiRaceSync->mSharedState != WIFI_RACE_SHARED_STATE_ALL_PEERS_PICKED) {
             return result;
         }
-        if ((wiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_PEERS_SYNCED) != 0) {
+        if ((wiFiRaceSync->mFlags & WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN) != 0) {
             result = 2;
         }
         return result;
@@ -747,10 +747,10 @@ void UpdateWiFiRaceSyncSharedState(void) {
                 }
             }
             if ((sync->mParticipantMask & ~allPeersPickedMask) == 0) {
-                sync->mFlags = sync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
+                sync->mFlags = sync->mFlags | WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN;
             }
             if ((gWiFiRaceSync->mParticipantMask | ~allPeersPickedMask) != 0) {
-                gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_PEERS_SYNCED;
+                gWiFiRaceSync->mFlags = gWiFiRaceSync->mFlags | WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN;
             }
             break;
     }

@@ -8,7 +8,7 @@
 #pragma thumb on
 
 void UpdateTitleLeave(SceneNumbers *sceneNumbers) {
-    s16 nextScenes[5] = {SCENE_MENU_1, SCENE_WL_MENU, SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD};
+    s16 nextScenes[5] = {SCENE_MENU, SCENE_WL_MENU, SCENE_WIFI_MENU, SCENE_OPTION, SCENE_RECORD};
 
     if (sceneNumbers != NULL) {
         switch (gTitleScene->mSelectedIndex) {

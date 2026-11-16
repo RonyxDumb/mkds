@@ -66,7 +66,7 @@ void UpdateSlotResultSyncs(void) {
                     break;
                 case SLOT_RESULT_SYNC_STATE_SENDING:
                     remainingFrames = syncState->mEndSyncFrame - gWiFiRaceSync->mSyncFrames;
-                    if ((s32) syncState->mSendCount < SLOT_RESULT_SYNC_MAX_SENDS) {
+                    if ((s32) syncState->mSendCount < SLOT_RESULT_SYNC_SEND_COUNT_LIMIT) {
                         SetSendSlotResultSync(participantIndex, remainingFrames, syncState->mItemInfoIndex,
                                               SLOT_RESULT_SYNC_STATE_SENDING);
                         syncState->mSendCount = syncState->mSendCount + 1;

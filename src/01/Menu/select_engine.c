@@ -484,7 +484,7 @@ next:
         RequestSelectEnginePress();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -498,7 +498,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -512,7 +512,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;
@@ -526,7 +526,7 @@ next:
             selectEngine->mIndex = currentIndex + value;
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0);
         }
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         if (IsBackupFlagSet(0x10) != 0) {
             currentIndex = gSelectEngine->mIndex;
             selectEngine = gSelectEngine;

@@ -237,13 +237,13 @@ next:
         }
         StartSoundOncePerFrame(5);
     } else {
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
             gWiFiTopMenu->mIndex--;
             if (gWiFiTopMenu->mIndex < 0) {
                 gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_WIFI_MENU;
             }
             StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0) {
             gWiFiTopMenu->mIndex++;
             if (gWiFiTopMenu->mIndex > WIFI_TOP_MENU_ITEM_WIFI_MENU) {
                 gWiFiTopMenu->mIndex = WIFI_TOP_MENU_ITEM_VS;

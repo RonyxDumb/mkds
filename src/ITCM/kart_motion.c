@@ -296,7 +296,7 @@ void AdvanceKartInputAndTurn(Kart *kart) {
             if (kart->mEffectFlags & KART_EFFECT_KILLER) {
                 entryIndex = kart->mEntryIndex;
                 gInputSlots[entryIndex].mBitMask =
-                    PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_LEFT | PAD_KEY_RIGHT | PAD_KEY_SELECT;
+                    PAD_KEY_Y | PAD_KEY_X | PAD_KEY_L | PAD_KEY_DIRECTION_LEFT | PAD_KEY_DIRECTION_RIGHT | PAD_KEY_SELECT;
             }
             if (kart->mDriveFlags & KART_DRIVE_RESPAWN_LANDING) {
                 entryIndex = kart->mEntryIndex;
@@ -332,9 +332,9 @@ void AdvanceKartInputAndTurn(Kart *kart) {
     UpdateKartInputFlags(kart);
     entryIndex = kart->mEntryIndex;
     turnApplied = gInputSlots[entryIndex].mBits;
-    if ((u16) (turnApplied & PAD_KEY_LEFT)) {
+    if ((u16) (turnApplied & PAD_KEY_DIRECTION_LEFT)) {
         kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
-    } else if ((u16) (turnApplied & PAD_KEY_RIGHT)) {
+    } else if ((u16) (turnApplied & PAD_KEY_DIRECTION_RIGHT)) {
         kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
     }
     kart->mMotionFlags |= KART_MOTION_ON_GROUND;
@@ -433,9 +433,9 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
         kart->mHeadingAngle = kart->mHeadingAngle - magnitude;
         entryIndex = kart->mEntryIndex;
         keyBits = gInputSlots[entryIndex].mBits;
-        if ((u16) (keyBits & PAD_KEY_LEFT)) {
+        if ((u16) (keyBits & PAD_KEY_DIRECTION_LEFT)) {
             kart->mDriveFlags |= KART_DRIVE_TURN_LEFT;
-        } else if ((u16) (keyBits & PAD_KEY_RIGHT)) {
+        } else if ((u16) (keyBits & PAD_KEY_DIRECTION_RIGHT)) {
             kart->mDriveFlags |= KART_DRIVE_TURN_RIGHT;
         }
         return 1;
@@ -443,12 +443,12 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     if (!(motionFlags & KART_MOTION_ON_GROUND)) {
         entryIndex = kart->mEntryIndex;
         keyBits = gInputSlots[entryIndex].mBits;
-        if ((u16) (keyBits & PAD_KEY_UP)) {
+        if ((u16) (keyBits & PAD_KEY_DIRECTION_UP)) {
             kart->mAirTiltAngle += 0x96;
             if (kart->mAirTiltAngle > KART_AIR_TILT_LIMIT) {
                 kart->mAirTiltAngle = KART_AIR_TILT_LIMIT;
             }
-        } else if ((u16) (keyBits & PAD_KEY_DOWN)) {
+        } else if ((u16) (keyBits & PAD_KEY_DIRECTION_DOWN)) {
             kart->mAirTiltAngle -= 0x12c;
             if (kart->mAirTiltAngle < -0x157c) {
                 kart->mAirTiltAngle = -0x157c;
@@ -466,10 +466,10 @@ s32 ApplyKartTurnInput(Kart *kart, s32 lowSpeedTurn) {
     }
     entryIndex = kart->mEntryIndex;
     keyBits = gInputSlots[entryIndex].mBits;
-    if ((u16) (keyBits & PAD_KEY_LEFT)) {
+    if ((u16) (keyBits & PAD_KEY_DIRECTION_LEFT)) {
         turned = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(kart, turnRate, turnSign, 1, airborne,
                                                                            KART_DRIVE_TURN_LEFT);
-    } else if ((u16) (keyBits & PAD_KEY_RIGHT)) {
+    } else if ((u16) (keyBits & PAD_KEY_DIRECTION_RIGHT)) {
         turned = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(kart, turnRate, turnSign, -1, airborne,
                                                                            KART_DRIVE_TURN_RIGHT);
     }

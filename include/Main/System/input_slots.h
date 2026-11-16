@@ -4,19 +4,19 @@
 
 #define PAD_KEY_B 0x2
 
-#define PAD_KEY_DOWN 0x80
+#define PAD_KEY_DIRECTION_DOWN 0x80
 
 #define PAD_KEY_L 0x200
 
-#define PAD_KEY_LEFT 0x20
+#define PAD_KEY_DIRECTION_LEFT 0x20
 
 #define PAD_KEY_R 0x100
 
-#define PAD_KEY_RIGHT 0x10
+#define PAD_KEY_DIRECTION_RIGHT 0x10
 
 #define PAD_KEY_START 0x8
 
-#define PAD_KEY_UP 0x40
+#define PAD_KEY_DIRECTION_UP 0x40
 
 #define PAD_KEY_X 0x400
 
@@ -29,11 +29,11 @@
 #define PAD_KEY_SELECT 0x4
 
 // A, B, X, Y, Select and Start: every key except the four direction keys, L and R.
-#define PAD_KEYS_NO_DIRECTION_OR_SHOULDER \
+#define PAD_KEYS_A_B_X_Y_SELECT_START \
     (PAD_KEY_A | PAD_KEY_B | PAD_KEY_SELECT | PAD_KEY_START | PAD_KEY_X | PAD_KEY_Y)
 
 // A, B, X, Y, L and R.
-#define PAD_KEYS_FACE_AND_SHOULDER (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
+#define PAD_KEYS_A_B_X_Y_L_R (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
 
 // L, R, Select and Start.
 #define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)

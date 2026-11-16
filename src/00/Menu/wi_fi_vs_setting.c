@@ -346,26 +346,26 @@ next:
         gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_SETTING;
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;
         StartSoundOncePerFrame(1);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_UP) != 0) {
         gWiFiVSSetting->mRow = gWiFiVSSetting->mRow - 1;
         if (gWiFiVSSetting->mRow < 0) {
             gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_MATCHING;
         }
         StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING &&
+    } else if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_DOWN) != 0 || (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING &&
                                                             (u16) (inputSlot->mPressedBits & PAD_KEY_A) != 0)) {
         gWiFiVSSetting->mRow = gWiFiVSSetting->mRow + 1;
         if (gWiFiVSSetting->mRow > WIFI_VS_SETTING_ROW_MATCHING) {
             gWiFiVSSetting->mRow = WIFI_VS_SETTING_ROW_BUDDY_LIST;
         }
         StartSoundOncePerFrame(0);
-    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_LEFT) != 0) {
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex - 1;
         gWiFiVSSetting->mIndexDecrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         StartSoundOncePerFrame(1);
-    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_SETTING && GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;
-        if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+        if (GetNewOrRepeatBits(8, PAD_KEY_DIRECTION_RIGHT) != 0) {
             gWiFiVSSetting->mIndexIncrementTimer = WIFI_VS_SETTING_INDEX_TIMER_FRAMES;
         }
         StartSoundOncePerFrame(1);

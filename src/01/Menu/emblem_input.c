@@ -93,7 +93,7 @@ void AdvanceEmblemInput(void) {
     } else {
         gEmblemInput->mStillCallCount = 0;
     }
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_LEFT;
+    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DIRECTION_LEFT;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -103,7 +103,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mLeftKeyRepeatCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_RIGHT;
+    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DIRECTION_RIGHT;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -113,7 +113,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mRightKeyRepeatCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_UP;
+    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DIRECTION_UP;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -123,7 +123,7 @@ void AdvanceEmblemInput(void) {
         }
     }
     gEmblemInput->mUpKeyRepeatCount = heldCount;
-    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DOWN;
+    bitHeld = gEmblemInputSlotView->mNextBits & PAD_KEY_DIRECTION_DOWN;
     if (bitHeld == 0) {
         heldCount = 0;
     } else {
@@ -233,13 +233,13 @@ u16 GetEmblemInputBits(u16 mask) {
 
 BOOL IsEmblemInputRepeat(int mask) {
     switch (mask) {
-        case PAD_KEY_LEFT:
+        case PAD_KEY_DIRECTION_LEFT:
             return gEmblemInput->mLeftKeyRepeatCount == 1 || gEmblemInput->mLeftKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_RIGHT:
+        case PAD_KEY_DIRECTION_RIGHT:
             return gEmblemInput->mRightKeyRepeatCount == 1 || gEmblemInput->mRightKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_UP:
+        case PAD_KEY_DIRECTION_UP:
             return gEmblemInput->mUpKeyRepeatCount == 1 || gEmblemInput->mUpKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
-        case PAD_KEY_DOWN:
+        case PAD_KEY_DIRECTION_DOWN:
             return gEmblemInput->mDownKeyRepeatCount == 1 || gEmblemInput->mDownKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;
         case PAD_KEY_A:
             return gEmblemInput->mAKeyRepeatCount == 1 || gEmblemInput->mAKeyRepeatCount == EMBLEM_INPUT_REPEAT_CALLS;

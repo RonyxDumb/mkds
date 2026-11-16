@@ -614,12 +614,12 @@ int AdvanceSelectKart(void) {
                     value = 0;
                 }
                 RequestSelectReturnPressWithSound(value);
-            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_DIRECTION_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_RIGHT;
                 selectKartParts->mCellTable[1].mVisible = 0;
                 selectKartParts->mCellTable[3].mVisible = 1;
-            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
+            } else if (GetNewOrRepeatBits(padInputSlot, PAD_KEY_DIRECTION_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
                 gSelectKart->mSlidingCellIndex = SELECT_KART_SLIDING_CELL_LEFT;
                 selectKartParts->mCellTable[0].mVisible = 0;
