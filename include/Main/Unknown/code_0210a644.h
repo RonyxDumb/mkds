@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void func_0210a644(Kart *kart);
+void StructMQRacerEntry_SomeFn_29(Kart *kart);

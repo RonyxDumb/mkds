@@ -4,4 +4,4 @@
 
 typedef struct MapObjectList MapObjectList;
 
-s32 func_02100094(MapObjectList *list);
+s32 sub_2100094(MapObjectList *list);

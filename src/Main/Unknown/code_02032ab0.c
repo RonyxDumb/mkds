@@ -471,7 +471,7 @@ void bres_update(SceneNumbersView *sceneNumbers) {
             }
             break;
         case 6:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0;
                 }

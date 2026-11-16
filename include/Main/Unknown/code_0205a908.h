@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0205a908(void);
+void sub_205A908(void);

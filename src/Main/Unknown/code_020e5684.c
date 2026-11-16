@@ -72,7 +72,7 @@ void obpak_update(u32 a, Unk020e43a8 *obPakkunSf) {
         soundRequest.mPositionSource = &obPakkunSf->field0.mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&obPakkunSf->field0.mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
     }
     sm_execute(&obPakkunSf->field0.mStateMachine);
 }

@@ -50,7 +50,7 @@ static inline void func_0203d568_b_inline(void) {
         for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
             if (gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
                 (gStruct217AA00->mParticipantMask & (1 << gStruct217AA00->field1E8C[entryIndex])) == 0) {
-                func_0204451c(entryIndex);
+                sub_204451C(entryIndex);
             }
         }
     }
@@ -154,7 +154,7 @@ void rstat_handleLapChange(RaceProgressKart *kart) {
     rstat_handleLapTime(kart, kart->mLap > rconf_getLapCount());
     kart->mHighestLap = kart->mLap;
     if ((kart->mFlags & 1) != 0) {
-        func_020b1a34();
+        sub_20B1A34();
     }
     f = FALSE;
     if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
@@ -443,9 +443,9 @@ void rstat_handleCheckPoints(void) {
         if ((s->mFlags & 8) != 0) {
             s->mFlags &= ~8;
             if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
-                func_0207a828(s->mIndex);
+                StructMQRacerEntry_SomeFn_21_ById(s->mIndex);
                 if ((s->mFlags & 1) != 0) {
-                    func_02110cc8(0);
+                    MaybePlayCrowdAmbientNoise(0);
                 }
             }
         }

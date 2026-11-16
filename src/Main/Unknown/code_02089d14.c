@@ -282,7 +282,7 @@ void rwrd_render(void) {
     }
 }
 
-u32 func_02089f9c(u32 value) {
+u32 nullsub_7(u32 value) {
     return value;
 }
 

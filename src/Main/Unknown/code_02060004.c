@@ -318,7 +318,7 @@ BOOL savd_getCupTotalRaceTime(s32 cup, s32 engineClass, void *timeOut) {
     return TRUE;
 }
 
-BOOL func_02060268(s32 courseId) {
+BOOL CourseTimeTrialRecordsEmpty(s32 courseId) {
     u8 recordIndex;
     BOOL noRecords;
     s32 cupCourseIndex;

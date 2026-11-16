@@ -55,7 +55,7 @@ void func_02028e00(void *destination, u32 size) {
     func_02028e14(destination, 0, size);
 }
 
-u16 func_02028dd4(void) {
+u16 sub_2028DD4(void) {
     int index;
     if (gStruct217AA00->field0 == 2) {
         index = gStruct217AA00->mOwnIndex;
@@ -71,7 +71,7 @@ u32 GetParticipantEntryIndex(u32 participantIndex) {
 
 u32 GetOwnEntryIndex(void) {
     u32 value0;
-    value0 = func_02028dd4();
+    value0 = sub_2028DD4();
     value0 = GetParticipantEntryIndex(value0);
     return value0;
 }

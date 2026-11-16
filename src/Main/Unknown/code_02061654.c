@@ -138,7 +138,7 @@ void race_init(void) {
     arc_switchCourseTexToSceneRace();
     arc_setHeapGroupId(7);
     rstat_init(heap);
-    func_0205cd24(heap);
+    InitializeGlobalAA(heap);
     arc_setHeapGroupId(2);
     col_loadCourseCollision();
     arc_setHeapGroupId(8);
@@ -220,7 +220,7 @@ void race_initState(void) {
     race_sState->mUpdateFramesLimitReached = FALSE;
     race_sState->mUpdateFramesUnlimited = FALSE;
     race_sState->mUpdateFramesAtEntryEnd = 0;
-    lightVector = data_021653f0;
+    lightVector = g_SomeTDVector;
     race_sState->mLightVectorX = lightVector.x;
     race_sState->mLightVectorY = lightVector.y;
     race_sState->mLightVectorZ = lightVector.z;
@@ -346,7 +346,7 @@ void race_update(void) {
     rwrd_update();
     rstat_update();
     UpdateKartSoundDistancesSquared();
-    func_0208677c();
+    sub_208677C();
     if (gRaceMultiConfig->mMode == 5) {
         if (race_sState->mUpdateFramesUnlimited == FALSE) {
             if (race_sState->mUpdateFramesLimitReached == FALSE) {

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020c3da0(void);
+unsigned int sub_20C3DA0(void);

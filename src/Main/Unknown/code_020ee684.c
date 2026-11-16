@@ -148,7 +148,7 @@ found:
     }
 }
 
-void func_020f0e2c(ItemPool *pool, ItemObject *object) {
+void sub_20F0E2C(ItemPool *pool, ItemObject *object) {
     s32 i;
     s32 n;
     ItemObject **objects;
@@ -191,12 +191,12 @@ void func_020f0d04(ItemObject *object) {
     if ((object->field78 & 0xf00) != 0) {
         data = func_020fe4c0(data, object, 1);
         func_020fe4c0(data, object, 0);
-        func_020fe4b4(object);
+        sub_20FE4B4(object);
         if (object->field78 & 0x800) {
-            func_020f70f0(object);
+            sub_20F70F0(object);
         }
         if (object->field78 & 0x400) {
-            func_020f705c(object);
+            sub_20F705C(object);
         }
         if (object->field78 & 0x200) {
             StartItemObjectReleaseTimer(object);
@@ -213,7 +213,7 @@ void func_020f0d04(ItemObject *object) {
     object->mFlags |= 0x20000000;
 }
 
-void func_020f0b00(ItemPool *pool, s32 a, void *data, s32 c) {
+void sub_20F0B00(ItemPool *pool, s32 a, void *data, s32 c) {
     ItemObject *object;
     s32 takenIndex;
     s32 scanIndex;
@@ -258,7 +258,7 @@ found:
         it_sItemParams[kind].mStart(object);
     }
     if (c != 0) {
-        initFunc = func_020fe4b4;
+        initFunc = sub_20FE4B4;
     } else {
         kind = object->mKind;
         initFunc = it_sItemParams[kind].mInitFromData;
@@ -267,10 +267,10 @@ found:
     object->mFlags |= 0x20000000;
     if (c != 0) {
         if (object->field78 & 0x800) {
-            func_020f70f0(object);
+            sub_20F70F0(object);
         }
         if (object->field78 & 0x400) {
-            func_020f705c(object);
+            sub_20F705C(object);
         }
         if (object->field78 & 0x200) {
             StartItemObjectReleaseTimer(object);
@@ -290,7 +290,7 @@ found:
     }
 }
 
-s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId) {
+s32 sub_20F0950(ItemPool *pool, s32 eventByte, s32 objectId) {
     enum { K0 } k;
     s32 i;
     ItemObject *object;
@@ -331,34 +331,34 @@ s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId) {
         }
         switch (k) {
             case 0:
-                func_020f7104(object, z0);
+                sub_20F7104(object, z0);
                 break;
             case 1:
-                func_020f7070(object, z1);
+                sub_20F7070(object, z1);
                 break;
             case 2:
-                func_020f6fc4(object, z2);
+                sub_20F6FC4(object, z2);
                 break;
             case 3:
                 if (pool->mKind == 1) {
-                    if (func_020f5324(object, eventValue) == 0) {
+                    if (sub_20F5324(object, eventValue) == 0) {
                         break;
                     }
                 }
-                func_020f6f10(object, z3, eventValue);
+                sub_20F6F10(object, z3, eventValue);
                 break;
             case 4:
-                func_020f7658(object, z4);
+                sub_20F7658(object, z4);
                 break;
             case 5:
-                func_020f7430(object, z5);
+                sub_20F7430(object, z5);
                 break;
         }
     }
     return found;
 }
 
-s32 func_020f0898(ItemPool *pool, u8 *packet) {
+s32 sub_20F0898(ItemPool *pool, u8 *packet) {
     s32 objectId;
     s32 i;
     s32 activeCount;
@@ -380,19 +380,19 @@ s32 func_020f0898(ItemPool *pool, u8 *packet) {
         found = TRUE;
         value = packet[2];
         if (pool->mKind == 1) {
-            func_020f5cc4(object, value);
+            sub_20F5CC4(object, value);
         }
         if (pool->mKind == 5) {
             SetItemKouraWKartItemsAndStateIfNone((ItemKouraW *) object, value);
         }
         if (pool->mKind == 0xb) {
-            func_021003e8((ItemTeresa *) object, value, packet[3]);
+            sub_21003E8((ItemTeresa *) object, value, packet[3]);
         }
     }
     return found;
 }
 
-void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
+void sub_20F0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
     enum { K0 } kind;
 
     switch (messageKind) {
@@ -404,34 +404,34 @@ void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
             if (packet[1] == 0xff) {
                 return;
             }
-            func_020f0b00(pool, b, packet, 0);
+            sub_20F0B00(pool, b, packet, 0);
             if (pool->mKind == 6) {
-                func_020f82e8(0);
+                sub_20F82E8(0);
             }
             if (pool->mKind == 0xa) {
-                func_020f82a4(0);
+                sub_20F82A4(0);
             }
             return;
         case 1:
-            func_020f0b00(pool, b, packet, 1);
+            sub_20F0B00(pool, b, packet, 1);
             return;
         case 2:
-            if (func_020f0950(pool, packet[2], packet[1]) != 0) {
+            if (sub_20F0950(pool, packet[2], packet[1]) != 0) {
                 return;
             }
             break;
         case 3:
-            if (func_020f0898(pool, packet) != 0) {
+            if (sub_20F0898(pool, packet) != 0) {
                 return;
             }
             break;
         default:
             return;
     }
-    func_020fe56c(pool->mKind, messageKind, b, packet, d);
+    sub_20FE56C(pool->mKind, messageKind, b, packet, d);
 }
 
-void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) {
+void sub_20F0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) {
     ItemObject *previous;
     ItemObject *current;
     s32 j;
@@ -445,8 +445,8 @@ void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) 
         if ((previous->mFlags & 0x180000) != 0) {
             goto next;
         }
-        if (func_020f9c08(previous) != 0) {
-            if (func_020f9c08(current) == 0) {
+        if (sub_20F9C08(previous) != 0) {
+            if (sub_20F9C08(current) == 0) {
                 goto next;
             }
             j = 0;
@@ -461,7 +461,7 @@ void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step) 
                 }
                 j++;
             } while (j < 0xd);
-        } else if (func_020f9c08(current) != 0) {
+        } else if (sub_20F9C08(current) != 0) {
             objects[pairIndex - 1] = current;
             objects[pairIndex] = previous;
         }
@@ -496,13 +496,13 @@ void UpdateItemPool(ItemPool *pool) {
         m = pool->field18;
         if ((frameMod8 = race_getFrameCounterModulo8()) == 0) {
             if (pool->mLimit - pool->mReservedCount < 1 && pool->mActiveCount > 0) {
-                func_020f9ba8(pool->mObjects[0]);
+                sub_20F9BA8(pool->mObjects[0]);
             }
         } else {
             if (pool->mKind == 2) {
                 m -= 3;
             }
-            func_020f0684(objects, frameMod8, m, 7);
+            sub_20F0684(objects, frameMod8, m, 7);
         }
     }
     if (gRaceMultiConfig->mMode != 5) {
@@ -644,7 +644,7 @@ BOOL func_020f0154(KartItems *kartItems) {
     return TRUE;
 }
 
-void func_020f00f0(KartItems *kartItems) {
+void sub_20F00F0(KartItems *kartItems) {
     if ((kartItems->mKart->field7C & 0x400) != 0) {
         return;
     }
@@ -716,7 +716,7 @@ void it_dropDriverItem(KartItems *kartItems) {
     StartItemInUseObjectCountdown(&kartItems->mItemInUse);
 }
 
-void func_020efea4(KartItems *kartItems) {
+void sub_20EFEA4(KartItems *kartItems) {
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
         return;
     }
@@ -736,7 +736,7 @@ void func_020efea4(KartItems *kartItems) {
     StartItemInUseObjectCountdown(&kartItems->mItemInUse);
 }
 
-BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
+BOOL sub_20EFD84(KartItems *kartItems, s32 itemInfoIndex) {
     HeldItem *heldItem;
     ItemPool *pool;
     enum { K0 } objectKind;
@@ -768,7 +768,7 @@ BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
     return heldItem->mItemInfoIndex == 0x13;
 }
 
-void func_020efd1c(KartItems *kartItems, ItemObject *object) {
+void sub_20EFD1C(KartItems *kartItems, ItemObject *object) {
     Kart *kart;
     Vec3 *axis;
 
@@ -778,7 +778,7 @@ void func_020efd1c(KartItems *kartItems, ItemObject *object) {
     } else {
         axis = &data_021595d8;
     }
-    it_20F98A0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->field40, func_0206c0a8(kart));
+    it_20F98A0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->field40, StructMQRacerEntry_SomeFn_71(kart));
     if ((kart->field48 & 1) != 0) {
         object->mFlags |= 0x40000000;
     }
@@ -829,7 +829,7 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
 #pragma thumb off
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
     it_itemsetAddItem(&it_sItemsets[object->mKind], object);
-    func_020efd1c(itemInUse->mKartItems, object);
+    sub_20EFD1C(itemInUse->mKartItems, object);
     object->mFlags &= ~0x1000;
 }
 
@@ -854,7 +854,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
         it_sItemParams[object->mKind].mViewTest(object->fieldD0, object->mRadius << 1, it_sItemParams[object->mKind].field5C,
                                             it_sItemParams[object->mKind].fieldA4, 0x1f);
     if (object->mFlags & 0x400000) {
-        func_020f90bc(object);
+        sub_20F90BC(object);
     }
     advanceFunc = it_sItemParams[object->mKind].mAdvance;
     if ((object->mFlags & 0x180000) == 0) {

@@ -78,7 +78,7 @@ static inline RaceSetup *func_02043f28_inline(void) {
     return gRaceMultiConfig;
 }
 
-void func_0204451c(u32 entryIndex) {
+void sub_204451C(u32 entryIndex) {
     s32 f;
     RaceSetup *raceSetup;
 
@@ -167,7 +167,7 @@ void func_0204419c(u32 courseId, u32 b) {
     }
 }
 
-void func_02044060(u32 courseId) {
+void LoadStaffGhost(u32 courseId) {
     GhostRecord *ghostRecord;
     char path[0x80];
 
@@ -196,7 +196,7 @@ void func_02044060(u32 courseId) {
     ghostRecord->mFilled = 0;
 }
 
-void func_02043fb0(u32 courseId) {
+void sub_2043FB0(u32 courseId) {
     gSaveData->mGhostRecords[1]->mFilled = 0;
     gSaveData->mGhostRecords[2]->mFilled = 0;
     gSaveData->mGhostRecords[0]->mFilled = 0;
@@ -219,9 +219,9 @@ void rconf_loadCharacterSounds(u32 a) {
     i = 0;
     for (; i < (u32) (raceSetup = func_02043f28_inline())->mKartCount; i++) {
         if (a != 0) {
-            r |= data_021540ec[raceSetup->mCurrentEntries[i].mCharacterIndex];
+            r |= g_CharacterMaskTable[raceSetup->mCurrentEntries[i].mCharacterIndex];
         } else {
-            r |= data_021540ec[raceSetup->mNextEntries[i].mCharacterIndex];
+            r |= g_CharacterMaskTable[raceSetup->mNextEntries[i].mCharacterIndex];
         }
     }
     sound_loadCharacterSounds(r);
@@ -346,7 +346,7 @@ void input_update(void) {
     b = y;
     k = gSpiData->mMicOverThreshold;
     if (func_02043648_inline(gStruct217AA00) != 0) {
-        a = func_0204ffe8(GetParticipantIndex(input_sPadData->field8));
+        a = sub_204FFE8(GetParticipantIndex(input_sPadData->field8));
         b = *(u16 *) &gStruct217AA00->mUnk_15bc_view.fieldC[GetParticipantIndex(input_sPadData->field8)].field0[2];
         GetParticipantIndex(input_sPadData->field8);
     }
@@ -416,7 +416,7 @@ void input_update(void) {
                 case 4:
                     if (f == 0) {
                         if (c != 0) {
-                            slotKeys = func_0204ffe8(GetParticipantIndex(slotIndex));
+                            slotKeys = sub_204FFE8(GetParticipantIndex(slotIndex));
                             if (input_sPadData->mFlags & 4) {
                                 t = slotKeys & 0xffcf;
                                 if (slotKeys & PAD_KEY_LEFT) {

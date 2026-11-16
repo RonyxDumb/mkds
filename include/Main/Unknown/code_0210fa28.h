@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_0210fa28(void);
+u32 sub_210FA28(void);

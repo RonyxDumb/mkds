@@ -1900,7 +1900,7 @@ void func_ov000_021a6f18(void *param_1) {
 }
 
 s32 func_ov000_021a6ee4(Unk021b5f94 *param_1) {
-    func_02000b44(0x2000bbc);
+    Os_ReferSymbol(0x2000bbc);
     if (data_ov000_021b5f94 != NULL) {
         return 0;
     }

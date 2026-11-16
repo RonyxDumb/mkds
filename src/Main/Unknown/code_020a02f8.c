@@ -188,13 +188,13 @@ s32 mgcnt_handleDriverDriverCollide(s32 firstKartIndex, s32 secondKartIndex) {
             if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
                 f4 = mgcnt_sMinigameController->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
                 if ((firstKart->field4C & 0x400000) == 0) {
-                    func_0206c17c(firstKart);
+                    StructMQRacerEntry_SomeFn_30(firstKart);
                 }
             }
         } else if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
             f4 = mgcnt_sMinigameController->mKartHitByKartCallback(firstKartIndex, secondKartIndex);
             if ((firstKart->field4C & 0x400000) == 0) {
-                func_0206c17c(firstKart);
+                StructMQRacerEntry_SomeFn_30(firstKart);
             }
         }
         return f4;
@@ -205,13 +205,13 @@ s32 mgcnt_handleDriverDriverCollide(s32 firstKartIndex, s32 secondKartIndex) {
             if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
                 f4 = mgcnt_sMinigameController->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
                 if ((secondKart->field4C & 0x400000) == 0) {
-                    func_0206c17c(secondKart);
+                    StructMQRacerEntry_SomeFn_30(secondKart);
                 }
             }
         } else if (mgcnt_sMinigameController->mKartHitByKartCallback != NULL) {
             f4 = mgcnt_sMinigameController->mKartHitByKartCallback(secondKartIndex, firstKartIndex);
             if ((secondKart->field4C & 0x400000) == 0) {
-                func_0206c17c(secondKart);
+                StructMQRacerEntry_SomeFn_30(secondKart);
             }
         }
         return f4;
@@ -862,7 +862,7 @@ void mgcnt_update(void) {
                     kartStanding->field4 = FALSE;
                     kartStanding->field1C = 0;
                     if ((kart->field4C & 0x400000) == 0) {
-                        func_0206c17c(kart);
+                        StructMQRacerEntry_SomeFn_30(kart);
                     }
                 }
                 if (kartStanding->field1C == 0) {
@@ -885,7 +885,7 @@ void mgcnt_update(void) {
                     if (kartStanding->field20 == FALSE) {
                         kartStanding->field18 = 0;
                         if ((kart->field4C & 0x400000) == 0) {
-                            func_0206c17c(kart);
+                            StructMQRacerEntry_SomeFn_30(kart);
                         }
                     } else {
                         kartStanding->field20 = FALSE;
@@ -1016,7 +1016,7 @@ void bsfx_update(void *mapObjectList, Unk020a0318 *mapObject) {
                 slot8Request.mPositionSource = NULL;
                 slot8Request.field8 = 4;
                 slot8Request.mDistanceSquared = mobj_calcXZCamDist(NULL);
-                func_0210b760(&slot8Request, sndHandleSlot);
+                sub_210B760(&slot8Request, sndHandleSlot);
                 randomState = &gRaceStatus->mLocalRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 mapObject->mSoundTimer = (u16) (((u64) (u32) (randomState->mValue >> 32) * 0x3c) >> 32) + 0x78;
@@ -1041,7 +1041,7 @@ void bsfx_update(void *mapObjectList, Unk020a0318 *mapObject) {
             slot9Request.mPositionSource = NULL;
             slot9Request.field8 = 4;
             slot9Request.mDistanceSquared = mobj_calcXZCamDist(NULL);
-            func_0210b760(&slot9Request, sndHandleSlot);
+            sub_210B760(&slot9Request, sndHandleSlot);
         }
     }
     if (*GetSndHandleSlot(9) == NULL) {

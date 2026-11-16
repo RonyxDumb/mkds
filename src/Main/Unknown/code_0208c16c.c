@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0208c16c.h"
 #include "Main/Unknown/code_020888b4.h"
 
-u32 func_0208c180(KartAi *kartAi) {
+u32 sub_208C180(KartAi *kartAi) {
     return kartAi->fieldE8.field28;
 }
 

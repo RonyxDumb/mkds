@@ -2,10 +2,10 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-u32 func_020cef08(void) {
+u32 sub_20CEF08(void) {
     return (gSystemData->field20);
 }
 
-RandomState64 *func_020ceeec(void) {
+RandomState64 *sub_20CEEEC(void) {
     return &gStruct217AA00->field1EE8;
 }

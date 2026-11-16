@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_0210bafc.h"
 #include "code_02147cd8.h"
 
-u32 func_020250a8(void) {
+u32 sub_20250A8(void) {
     u32 quotient;
     u32 divisor;
 
@@ -79,7 +79,7 @@ void func_02024fc0(Kart *kart, KartSound *soundRecord) {
                              (clampedValue << 4) >> 16);
 }
 
-s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
+s32 sub_2024EEC(KartSound *soundRecord, s32 b, s32 c) {
     s32 currentValue;
     s32 previousTarget;
     s32 step;
@@ -123,7 +123,7 @@ s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c) {
     return b;
 }
 
-void func_02024a88(Kart *kart) {
+void sub_2024A88(Kart *kart) {
     KartSound *soundRecord;
     s32 f;
     s32 g;
@@ -164,14 +164,14 @@ void func_02024a88(Kart *kart) {
                 } else {
                     i = ((s64) h * 0x580000 + 0x800) >> 12;
                 }
-                g = func_02024eec((KartSound *) &kart->field450, i, 0);
+                g = sub_2024EEC((KartSound *) &kart->field450, i, 0);
                 soundRecord->field4 = 0x7f;
                 soundRecord->field0 = soundRecord->field44;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
                                 (void (*)(void *, int)) func_02024fc0, kart, (s32) soundRecord);
             } else {
                 i = ((s64) h * 0x480000 + 0x800) >> 12;
-                g = func_02024eec((KartSound *) &kart->field450, i, 0);
+                g = sub_2024EEC((KartSound *) &kart->field450, i, 0);
                 soundRecord->field4 = 0x46;
                 soundRecord->field0 = soundRecord->field44;
                 AddSoundRequest(&data_0217d274, GetKartCameraDistanceSquared(kart->mIndex),
@@ -207,7 +207,7 @@ void func_02024a88(Kart *kart) {
         } else {
             i = ((s64) soundRecord->field1C * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->field450, i, aboveSpeedLimit);
+        g = sub_2024EEC((KartSound *) &kart->field450, i, aboveSpeedLimit);
         soundRecord->field4 = 0x7f;
         if (soundRecord->field14 == 0) {
             soundRecord->field0 = kart->mVelocityLengthRatio < 0x333 ? soundRecord->field64 : soundRecord->field60;
@@ -220,7 +220,7 @@ void func_02024a88(Kart *kart) {
         } else {
             i = ((s64) soundRecord->field20 * velocityLength + 0x800) >> 12;
         }
-        g = func_02024eec((KartSound *) &kart->field450, i, aboveSpeedLimit);
+        g = sub_2024EEC((KartSound *) &kart->field450, i, aboveSpeedLimit);
         soundRecord->field4 = 0x32;
         if (kart->mVelocityLengthRatio < 0x19a) {
             soundRecord->field0 = soundRecord->field58;

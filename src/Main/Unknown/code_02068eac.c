@@ -168,9 +168,9 @@ void driver_resetScaleEffects(Kart *kart) {
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
         if (kart->mIndex == gRaceMultiConfig->mEntryIndex) {
-            func_0210fa74(0);
+            sub_210FA74(0);
         }
-        func_0210a664(kart);
+        sub_210A664(kart);
     }
     kart->mScale.x = 0x1000;
     kart->mScale.y = 0x1000;
@@ -233,7 +233,7 @@ void driver_startStarInvincibility(Kart *kart) {
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        sub_210FA40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->field4C & 0x8000000) {
         kart->field4C &= ~0x8020000;
@@ -294,7 +294,7 @@ void driver_startTeresaEffect(Kart *kart) {
                                      chkrt_getKartCrsMatAmbient());
         }
     }
-    func_0210fa40(1, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+    sub_210FA40(1, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         kart->field7C |= 0x4000;
     } else {
@@ -357,7 +357,7 @@ void driver_updateTeresaEffect(Kart *kart) {
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        sub_210FA40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         return;
@@ -400,7 +400,7 @@ void driver_startKillerMode(Kart *kart) {
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        sub_210FA40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->field4C & 0x8000000) {
         kart->field4C &= ~0x8020000;
@@ -459,7 +459,7 @@ void driver_updateKillerMode(Kart *kart) {
     effectState = &kart->field538;
     effectState->mKillerFrames++;
     if (!(kart->field7C & 0x400)) {
-        if (func_0209081c(&effectState->mKillerCursor) != 0) {
+        if (sub_209081C(&effectState->mKillerCursor) != 0) {
             effectStateAgain = &kart->field538;
             if ((kart->field4C & 0x10000000) && effectStateAgain->mKillerEnding == FALSE) {
                 effectStateAgain->mKillerEnding = TRUE;
@@ -476,7 +476,7 @@ void driver_updateKillerMode(Kart *kart) {
             return;
         }
         kart->field4C &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        sub_210515C(kart->mIndex);
         if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
@@ -618,12 +618,12 @@ void driver_startSlipstream(Kart *kart) {
     }
 }
 
-void func_02069044(Kart *kart) {
-    func_02068ec0(kart, 1);
+void StructMQRacerEntry_SomeFn_34(Kart *kart) {
+    StructMQRacerEntry_SomeFn_35(kart, 1);
     kart->field7C |= 0x800000;
 }
 
-s32 func_02068ec0(Kart *kart, s32 a) {
+s32 StructMQRacerEntry_SomeFn_35(Kart *kart, s32 a) {
     BOOL removed;
     u32 kartBits;
     NNSSndSeqPlayer **seqPlayerHandle;
@@ -673,6 +673,6 @@ s32 func_02068ec0(Kart *kart, s32 a) {
     return removed;
 }
 
-BOOL func_02068eac(Kart *kart) {
+BOOL StructMQRacerEntry_HasFlags0x60(Kart *kart) {
     return (kart->field7C & 0x60) != 0;
 }

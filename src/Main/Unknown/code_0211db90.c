@@ -22,21 +22,21 @@ void LoadSelectRaceRuleAndWaitData(void) {
     bgChars = NULL;
     screenMap = NULL;
     bgPalette[0] = NULL;
-    sceneFile = arc_getSceneArcFile(data_0216dbe4);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_b_ncgr);
     g2du_unpackCharacterDataBG(&bgChars, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbf0);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_menu_nscr);
     g2du_unpackScreenData(&screenMap, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbd8);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_b_nclr);
     g2du_unpackPaletteData(bgPalette, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dc08);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_multi_simple_s_b_ncgr);
     g2du_unpackCharacterDataBG(&bgChars, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbdc);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_multi_simple_s_nscr);
     g2du_unpackScreenData(&screenMap, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbf8);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_nce_ncgr);
     g2du_unpackCharacterData(&cellChars, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dc04);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_nce_ncer);
     g2du_unpackCellBankData(&cells, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbec);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_o_nclr);
     g2du_unpackPaletteData(&cellPalette, sceneFile);
     wait_unpackData();
 }
@@ -50,9 +50,9 @@ void LocateAndQueueSelectRaceRule(void) {
     bgChars = NULL;
     bgPalette = NULL;
     if (gSelectRaceRule->mMode == 3) {
-        sceneFile = arc_getSceneArcFile(data_0216dc08);
+        sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_multi_simple_s_b_ncgr);
         g2du_getCharacterDataBG(&bgChars, sceneFile);
-        sceneFile = arc_getSceneArcFile(data_0216dbdc);
+        sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_multi_simple_s_nscr);
         g2du_getScreenData(&gSelectRaceRule->mNscr, sceneFile);
         sceneFile = arc_getSceneArcFile(data_0216dbe0);
         gSelectRaceRule->mBncl = sceneFile;
@@ -61,9 +61,9 @@ void LocateAndQueueSelectRaceRule(void) {
         sceneFile = arc_getSceneArcFile(data_0216dbfc);
         gSelectRaceRule->mBnll = sceneFile;
     } else {
-        sceneFile = arc_getSceneArcFile(data_0216dbe4);
+        sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_b_ncgr);
         g2du_getCharacterDataBG(&bgChars, sceneFile);
-        sceneFile = arc_getSceneArcFile(data_0216dbf0);
+        sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_menu_nscr);
         g2du_getScreenData(&gSelectRaceRule->mNscr, sceneFile);
         sceneFile = arc_getSceneArcFile(data_0216dbf4);
         gSelectRaceRule->mBncl = sceneFile;
@@ -72,15 +72,15 @@ void LocateAndQueueSelectRaceRule(void) {
         sceneFile = arc_getSceneArcFile(data_0216dbe8);
         gSelectRaceRule->mBnll = sceneFile;
     }
-    sceneFile = arc_getSceneArcFile(data_0216dbd8);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_b_nclr);
     g2du_getPaletteData(&bgPalette, sceneFile);
     sceneFile = heap_alloc(gSelectRaceRule->mHeap, (0x00000800u));
     gSelectRaceRule->field24 = sceneFile;
-    sceneFile = arc_getSceneArcFile(data_0216dbf8);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_nce_ncgr);
     g2du_getCharacterData(&cellChars, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dc04);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_nce_ncer);
     g2du_getCellBankData(&gSelectRaceRule->mNcer, sceneFile);
-    sceneFile = arc_getSceneArcFile(data_0216dbec);
+    sceneFile = arc_getSceneArcFile(g_str_common_select_race_rule_s_o_nclr);
     g2du_getPaletteData(&gSelectRaceRule->mNclr, sceneFile);
     NNS_GfdRegisterNewVramTransferTask(0x14, 0, bgChars->mData, bgChars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);

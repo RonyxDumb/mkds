@@ -92,7 +92,7 @@ s32 func_02058dc0(void (*callback)(void)) {
         case 3:
             if (gBgWkrState->mRunRequested == 0) {
                 if (gStruct217AA00->field164F != 0) {
-                    func_02050e60(7);
+                    sub_2050E60(7);
                 } else {
                     gStruct217AA00->field1E34 = 5;
                 }
@@ -123,7 +123,7 @@ s32 func_02058cac(void) {
     ownIndex = ((const ConnectionWork *) gStruct217AA00)->field0 == 2 ? gStruct217AA00->mOwnIndex : 0;
     if (ownIndex == 0xffff && func_02058b38_inline() == 2) {
         if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
-            func_02050e60(0);
+            sub_2050E60(0);
             return 3;
         }
         return 2;
@@ -131,7 +131,7 @@ s32 func_02058cac(void) {
     sm_execute(&gStruct217AA00->field1608);
     if (!func_02058cac_inline4()) {
         if (func_02058b38_inline() == 1 && gStruct217AA00->field44.mChildCount == 0) {
-            func_02050e60(7);
+            sub_2050E60(7);
         }
     }
     if (gStruct217AA00->field1608.mState == 0xf) {

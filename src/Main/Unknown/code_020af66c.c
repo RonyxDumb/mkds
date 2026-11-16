@@ -369,7 +369,7 @@ void r2d_init(void) {
     InitRaceEnd();
     m2d_init();
     InitRaceNcerNclrNcgrTables();
-    func_020cffa0();
+    SomeAlloc();
     if (gRaceMultiConfig->mRaceKind == 4) {
         r2d_initBattleIntro();
     }
@@ -637,7 +637,7 @@ void map2d_load(void) {
     DC_FlushRange(data_0217b34c + 0x100, 0x200);
 }
 
-void func_020af99c(void) {
+void sub_20AF99C(void) {
     u32 raceKind;
     u16 w;
 
@@ -676,7 +676,7 @@ void func_020af99c(void) {
     GXS_LoadBG2Scr(GetRaceGoalSNscr(1)->mData, 0, GetRaceGoalSNscr(1)->mDataSize);
     GXS_LoadBG3Scr(GetRaceGoalSNscr(2)->mData, 0, GetRaceGoalSNscr(2)->mDataSize);
     GXS_LoadBGPltt(data_0217b34c + 0x100, 0, 0x200);
-    func_020cfca4();
+    sub_20CFCA4();
     GX_SetBankForSubBGExtPltt(0x80);
     GXS_BeginLoadBGExtPltt();
     GX_LoadOBJExtPltt(data_0217b34c + 0x100, 0x4000, 0x200);
@@ -693,7 +693,7 @@ void func_020af99c(void) {
     r2d_sStatus->mEnabled = TRUE;
 }
 
-void func_020af86c(void) {
+void sub_20AF86C(void) {
     u32 raceKind;
 
     raceKind = gRaceMultiConfig->mRaceKind;

@@ -5,5 +5,5 @@
 void map2d_load(void);
 
 void race_update2d(void);
-void func_020af86c(void);
-void func_020af99c(void);
+void sub_20AF86C(void);
+void sub_20AF99C(void);

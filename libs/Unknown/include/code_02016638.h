@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// 16 bytes: an index into data_02152c54 and three words passed to the function it selects.
+// 16 bytes: an index into g_TEQSubFnList and three words passed to the function it selects.
 typedef struct CallQueueEntry {
     /* 00 */ u32 mFuncIndex;
     /* 04 */ const void *mSource;
@@ -12,7 +12,7 @@ typedef struct CallQueueEntry {
 
 typedef struct CallQueueEntry CallQueueEntry;
 
-// Object at data_02173220: a pointer to an array of CallQueueEntry, its length at 04, two indices at 08 and 0a that
+// Object at g_GlobalTEQ: a pointer to an array of CallQueueEntry, its length at 04, two indices at 08 and 0a that
 // CallQueueNextIndex advances modulo the length, and a count at 0c (CallQueueIsFull compares it with the length,
 // CallQueueIsEmpty tests it for zero).
 typedef struct CallQueue {

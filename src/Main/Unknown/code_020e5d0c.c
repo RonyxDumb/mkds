@@ -165,7 +165,7 @@ void pend_update(u32 param_1, PendulumObject *pendulum) {
             soundRequest.mPositionSource = &pendulum->field4;
             soundRequest.field8 = falloffIndex;
             soundRequest.mDistanceSquared = mobj_calcXZCamDist(&pendulum->field4);
-            func_0210b7a8(&soundRequest);
+            sub_210B7A8(&soundRequest);
         }
     }
     Quaternion_Rotate_20D7734(pendulum->fieldA0, swingAngle, swingRotation);

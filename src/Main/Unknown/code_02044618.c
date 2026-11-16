@@ -217,15 +217,15 @@ void SetCurrentEntryPlayer(s32 entryIndex) {
             v = x;
             *nameSlot = GetPlayerRecordName(v);
             *emblemDataSlot = GetPlayerRecordEmblem(v);
-            *b2 = func_02120278(v);
+            *b2 = GetSomeBTKUseCustomEmblemFlag(v);
             *b3 = GetPlayerRecordRegion(v);
-            *b5 = func_021202f0(v);
-            *b4 = func_021201e4(v);
+            *b5 = GetSomeBTKFriendCode(v);
+            *b4 = GetWorstRankStarValue(v);
             break;
     }
 }
 
-void func_02044fc0(void) {
+void sub_2044FC0(void) {
     u8 n;
     s8 j;
 
@@ -403,13 +403,13 @@ void rconf_setupNext(void) {
     }
     *(RaceSetupBlock *) gRaceMultiConfig = *(RaceSetupBlock *) &gRaceMultiConfig->mNextHeader;
     RefreshRaceSetupKartCounts(entryCount);
-    func_02044fc0();
+    sub_2044FC0();
     for (n = 0; n < 8; n++) {
         SetCurrentEntryPlayer(n);
     }
 }
 
-void func_020446e0(void) {
+void Scene_Menu2_FinalizeImpl(void) {
     u8 i;
     u32 tableIndex;
     u8 cupIndex;

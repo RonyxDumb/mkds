@@ -122,7 +122,7 @@ void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse
     follower->field224 = 0;
 }
 
-BOOL func_020ed0f4(LinkFollowingItemObject *follower) {
+BOOL sub_20ED0F4(LinkFollowingItemObject *follower) {
     Vec3 vectors[6];
     Vec3 *direction;
     Vec3 *pos;
@@ -156,7 +156,7 @@ BOOL func_020ed0f4(LinkFollowingItemObject *follower) {
     return FALSE;
 }
 
-void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c) {
+void sub_20ECE1C(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c) {
     Vec3 toLink;
     Vec3 *direction;
     Vec3 *surfaceDirection;
@@ -216,11 +216,11 @@ void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targe
     }
     s = 0x1000 - follower->mRampTimer * follower->field218;
     n = (follower->field224 != 0) ? 0x266 : 0x148;
-    func_020eacc0(direction, ((u64) ((s64) n * s)) >> 12, &toLink, &toLink);
+    sub_20EACC0(direction, ((u64) ((s64) n * s)) >> 12, &toLink, &toLink);
     SetItemObjectDirection(follower, &toLink);
 }
 
-void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e) {
+void sub_20EC9C0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e) {
     SegmentPoints *segmentPoints;
     Vec3 *pos;
     Vec3 *velocity;
@@ -305,12 +305,12 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
             velocity->x = ((u64) ((s64) velocity->x * 0x23d)) >> 12;
             velocity->y = ((u64) ((s64) velocity->y * 0x23d)) >> 12;
             velocity->z = ((u64) ((s64) velocity->z * 0x23d)) >> 12;
-            func_020f6fc4(follower, 1);
+            sub_20F6FC4(follower, 1);
             return;
         }
         if (follower->field0.field0.mCollisionBits & 0x8000) {
             if (follower->field0.field0.mKind != 5) {
-                func_020f7070(follower, 1);
+                sub_20F7070(follower, 1);
                 return;
             }
         }
@@ -323,9 +323,9 @@ void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speed
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
                               s32 d) {
     if (follower->mRampTimer >= 0) {
-        func_020ece1c(follower, targetSpeed, targetKartIndex, d);
+        sub_20ECE1C(follower, targetSpeed, targetKartIndex, d);
         if (follower->mRampTimer == 0) {
-            if (func_020ed0f4(follower) != FALSE) {
+            if (sub_20ED0F4(follower) != FALSE) {
                 follower->mRampTimer = -1;
             }
             return;
@@ -337,7 +337,7 @@ void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed
         }
         follower->mRampTimer -= 1;
     } else {
-        func_020ec9c0(follower, targetSpeed, speedEase, targetKartIndex, d);
+        sub_20EC9C0(follower, targetSpeed, speedEase, targetKartIndex, d);
     }
 }
 

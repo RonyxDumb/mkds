@@ -125,7 +125,7 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
     }
     if (kart->field4C & 0x10000000) {
         kart->field4C &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        sub_210515C(kart->mIndex);
         if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
@@ -142,7 +142,7 @@ void driver_handleOobFallCannonPipe(Kart *kart, u32 collisionFlags) {
         rptc_stopBulletBillEffect(kart->mIndex);
         sfx_21090C4(&kart->mSoundSource, 0xfd, 0x7f, 0);
     }
-    func_020f00f0(&(it_sDriverItemStatus)[kart->mIndex]);
+    sub_20F00F0(&(it_sDriverItemStatus)[kart->mIndex]);
     if (collisionFlags & 0x400) {
         b = col_findResponsePrismAttribute(0x400);
         kart->field48 |= 0x2000;
@@ -246,7 +246,7 @@ void driver_handleStartBoost(Kart *kart) {
     }
     if (GetRaceStartSequenceFrames() - 0xaf == 0) {
         if (kart->field7C & 2) {
-            if (func_0208c180(kart->mAi) != 0) {
+            if (sub_208C180(kart->mAi) != 0) {
                 if (!(kart->field4C & KART_4C_HEADING_SWING)) {
                     kart->field4C |= KART_4C_HEADING_SWING;
                     kart->mRaceStartFrameCount = 0x78;

@@ -313,7 +313,7 @@ typedef struct RaceProgress {
     // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by rstat_finishMission. No
     // init write (zero from the allocation).
     /* 4fa */ u16 mFramesSinceFinish;
-    // Calls of the end step, counted while func_0207a218 returns non-zero, since the selected entry ended without the
+    // Calls of the end step, counted while sub_207A218 returns non-zero, since the selected entry ended without the
     // goal; the step waits for 0x3c and then takes the entry out.
     /* 4fc */ u16 mFramesSinceFailure;
     /* 4fe */ u16 field4FE;
@@ -350,7 +350,7 @@ typedef struct ItemKind {
     // View test, the same function type the map objects use: position, radius, draw distance, far distance squared,
     // alpha.
     /* 30 */ s32 (*mViewTest)(Vec3 *, s32, s32, s32, u16);
-    // Called with the object by func_020f7184 when its second argument is 0; returns 0 to end the call with 2, 1 to end
+    // Called with the object by sub_20F7184 when its second argument is 0; returns 0 to end the call with 2, 1 to end
     // it with 0, anything else lets it continue.
     /* 34 */ UnkWordFunc *field34;
     // Called with the object after it_itemsetAddItem and it_startThrowAnim have set it up from a kart; the entries that exist
@@ -361,13 +361,13 @@ typedef struct ItemKind {
     /* 40 */ s32 field40;
     /* 44 */ s32 field44;
     // Copies the object's fields into the byte buffer (third argument non-zero) or back from it (zero); after a write
-    // it also stamps the frame count and hands the buffer on (func_020fe8ac); with no object and no buffer it returns
+    // it also stamps the frame count and hands the buffer on (sub_20FE8AC); with no object and no buffer it returns
     // the byte count.
     /* 48 */ void *(*mCopyData)(void *, void *, s32);
     // Byte count that mCopyData copies after the first byte of its record.
     /* 4c */ s32 mDataSize;
     // Called with the object right after a buffer was read into it (see mCopyData); every entry starts with
-    // func_020f8e78.
+    // sub_20F8E78.
     /* 50 */ void (*mInitFromData)(void *);
     /* 54 */ s32 field54;
     // Returns the kind's far distance squared; when NULL the value of gSfxParams[1].field20 is used.

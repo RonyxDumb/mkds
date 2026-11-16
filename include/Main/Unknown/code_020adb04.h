@@ -7,8 +7,8 @@ typedef struct Unk02022aa8 Unk02022aa8;
 
 void title_setupStates(void);
 BOOL func_020adb34(void);
-s32 func_020adbc4(void);
-s32 func_020adbe4(void);
+s32 GetCurrentMissionLevelStage(void);
+s32 GetCurrentMissionLevel(void);
 BOOL IsMissionRunRecordFilled(void);
 BOOL IsTimeLessThan(MinuteSecondMillisecondTime *firstTime, MinuteSecondMillisecondTime *secondTime);
 s16 func_020adc64(s32 index);

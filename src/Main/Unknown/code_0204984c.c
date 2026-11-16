@@ -133,8 +133,8 @@ u32 scene_getFadeOutLength(void) {
     return scene_sSceneState->mSceneCallbacks.mFadeToFadedFrameCount;
 }
 
-void func_0204a4d8(void) {
-    func_02120150();
+void DisplayConfig_VblankFn(void) {
+    DisplayConfig_VblankFnImpl();
 }
 
 s32 scene_getSceneMusicOverride(s32 sceneNumber, s32 *b) {
@@ -228,7 +228,7 @@ void scene_threadMain(void *arg) {
         if (gCurDisplayConfig != NULL) {
             hasDisplaySettings = TRUE;
         }
-        func_02039478();
+        InitializeGlobalG_2();
         ReadKeysIntoInputSlot();
         VBlankIntrWait();
         if (func_0204984c_inline6()) {
@@ -237,9 +237,9 @@ void scene_threadMain(void *arg) {
         OpenMessageScreen(scene_sSceneState->field118, scene_sSceneState->field11C);
         sound_stopSeqAll();
         if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
-            func_02108d00();
+            sub_2108D00();
         } else {
-            func_02108c80();
+            sub_2108C80();
         }
         if (sessionHeapCreated != FALSE) {
             switch (scene_sSceneState->field118) {
@@ -248,7 +248,7 @@ void scene_threadMain(void *arg) {
                 case 3:
                 case 4:
                 case 5:
-                    func_0211fd28();
+                    OnSomeMultiplayError();
                     break;
             }
         }
@@ -256,7 +256,7 @@ void scene_threadMain(void *arg) {
             if (hasDisplaySettings != FALSE) {
                 dc_handleStartOfFrame();
             }
-            d = sessionHeapCreated == FALSE ? func_02054f58() == 1 : 1;
+            d = sessionHeapCreated == FALSE ? sub_2054F58() == 1 : 1;
             sound_main();
             VBlankIntrWait();
             if (hasDisplaySettings != FALSE) {
@@ -304,7 +304,7 @@ void scene_displayError(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         OpenMessageScreen(scene_sSceneState->field118, scene_sSceneState->field11C);
     }
-    func_02039478();
+    InitializeGlobalG_2();
     ReadKeysIntoInputSlot();
     VBlankIntrWait();
     if (func_0204984c_inline6()) {
@@ -315,9 +315,9 @@ void scene_displayError(void) {
     }
     sound_stopSeqAll();
     if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
-        func_02108d00();
+        sub_2108D00();
     } else {
-        func_02108c80();
+        sub_2108C80();
     }
     PM_DeletePreSleepCallback(&scene_sSceneState->mPreSleepCallback);
     PM_DeletePostSleepCallback(&scene_sSceneState->mPostSleepCallback);
@@ -329,7 +329,7 @@ void scene_displayError(void) {
             case 3:
             case 4:
             case 5:
-                func_0211fd28();
+                OnSomeMultiplayError();
                 break;
         }
     }
@@ -340,7 +340,7 @@ void scene_displayError(void) {
             dc_handleStartOfFrame();
         }
         if (sessionHeapCreated == FALSE) {
-            e = func_02054f58() == 1;
+            e = sub_2054F58() == 1;
             f = e;
         } else {
             e = TRUE;
@@ -419,7 +419,7 @@ void scene_preSleepCallback(void *arg) {
 
     do {
         dc_handleStartOfFrame();
-        b = func_02054f58() != 1;
+        b = sub_2054F58() != 1;
         c = func_0204984c_inline8();
         if (b == FALSE && c == 0) {
             done = TRUE;
@@ -504,13 +504,13 @@ void scene_reportError(s32 kind) {
     scene_reportErrorIntern(kind);
 }
 
-s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b) {
+s32 sub_204984C(SceneNumbers *sceneNumbers, s32 b) {
     BOOL result;
     s32 v;
 
     result = FALSE;
     if (func_0204984c_inline6()) {
-        v = func_02120644();
+        v = sub_2120644();
         if (b != 0 && v != 0) {
             switch (v) {
                 case 1:
@@ -532,7 +532,7 @@ s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b) {
         result = TRUE;
         gStruct217AA00->field8 = 9;
     } else {
-        func_02055340();
+        sub_2055340();
     }
     return result;
 }

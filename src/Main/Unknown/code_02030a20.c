@@ -318,7 +318,7 @@ void func_02031960(void) {
                 gMultiSelectMember->field7C = FALSE;
                 gMultiSelectMember->field70 = 7;
             } else {
-                func_020554e4();
+                sub_20554E4();
             }
             break;
         case 3:
@@ -354,7 +354,7 @@ void func_02031960(void) {
             break;
         case 7:
         case 8:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 gMultiSelectMember->field70 = 11;
             }
             break;
@@ -430,7 +430,7 @@ void func_020317a0(void) {
             break;
         case 7:
         case 8:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 gMultiSelectMember->field70 = 11;
             }
             break;

@@ -11,7 +11,7 @@ typedef struct Unk02153918 {
     /* 08 */ s32 field8;
 } Unk02153918;
 
-u32 func_0202578c(u32 a);
+u32 sub_202578C(u32 a);
 void mutil2_initUnpackBgGraphics(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) );
 void mutil2_loadUnpackBgGraphics(void *fileSetPointer, const char *charsName, const char *paletteName,

@@ -225,7 +225,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         b->mInit(a);
     }
     arc_2047274();
-    gCurDisplayConfig->mIrqCallback = func_0204a4d8;
+    gCurDisplayConfig->mIrqCallback = DisplayConfig_VblankFn;
     sysdat_startSeq();
     snd_handleRaceStart();
     dc_enableDisplay();
@@ -236,7 +236,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         sound_main();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, scene_sSceneState->field10C != 4);
+        r = sub_204984C(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = scene_sSceneState->mNextScene;
@@ -258,7 +258,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         sound_main();
         v = func_020487fc_inline8();
         func_020487fc_inline9(b);
-        r = func_0204984c(a, scene_sSceneState->field10C != 4);
+        r = sub_204984C(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
         if (r) {
             a->mNextScene = scene_sSceneState->mNextScene;
@@ -298,7 +298,7 @@ void scene_runScene(SceneNumbers *a, const SceneCallbacks *b) {
         sound_main();
         func_020487fc_inline8();
         func_020487fc_inline9(b);
-        func_0204984c(a, scene_sSceneState->field10C != 4);
+        sub_204984C(a, scene_sSceneState->field10C != 4);
         NNS_GfdDoVramTransfer();
         if (b->fieldC != NULL) {
             b->fieldC(0, scene_sSceneState->mSceneFrames);
@@ -322,12 +322,12 @@ end:
             sound_main();
             func_020487fc_inline8();
             func_020487fc_inline9(b);
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 if (!func_020487fc_inline14()) {
                     c = TRUE;
                 }
             }
-            func_0204984c(a, scene_sSceneState->field10C != 4);
+            sub_204984C(a, scene_sSceneState->field10C != 4);
             NNS_GfdDoVramTransfer();
             UpdateWiFiSession();
             dc_handleEndOfFrame();
@@ -339,7 +339,7 @@ end:
         gStruct217AA00->field454 &= ~4;
     }
     StartDataSharingSync();
-    func_02055340();
+    sub_2055340();
     if (b->mRelease != NULL) {
         b->mRelease(a);
     }

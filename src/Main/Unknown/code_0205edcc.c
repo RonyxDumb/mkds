@@ -12,7 +12,7 @@ void WriteBackupBuddyRecords(void) {
     savd_writeNkfl((void *) value0);
 }
 
-void func_0205edcc(void) {
+void SaveFriendList(void) {
     u32 value0;
     value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + (0));

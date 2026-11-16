@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/unk_0217c000.h"
 
-void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e04b0 *link) {
+void sub_20E0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e04b0 *link) {
     Vec3 offset;
     s32 f;
     s32 g;
@@ -51,7 +51,7 @@ void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e0
     link->field0 = object;
 }
 
-void func_020e0538(Unk020e04b0 *link, Vec3 *outPosition) {
+void sub_20E0538(Unk020e04b0 *link, Vec3 *outPosition) {
     Unk020e005c *object = link->field0;
 
     if (object == NULL) {
@@ -61,7 +61,7 @@ void func_020e0538(Unk020e04b0 *link, Vec3 *outPosition) {
     VEC_Add(&object->mPos, outPosition, outPosition);
 }
 
-BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
+BOOL sub_20E04B0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
     Unk020e005c *object = link->field0;
 
     if (object != NULL) {
@@ -77,7 +77,7 @@ BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity) {
     return FALSE;
 }
 
-s32 func_020e0448(Unk020e0448 *link) {
+s32 sub_20E0448(Unk020e0448 *link) {
     Unk020e3ef4 *object = link->field0;
     s64 horizontalDistanceSquared;
     s64 limitSquared;
@@ -139,7 +139,7 @@ void kblock_update(void *a0, Unk020e005c *koopaBlock) {
         soundRequest.mPositionSource = &koopaBlock->mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&koopaBlock->mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
         return;
     }
     if (pw_update(follower) != FALSE) {

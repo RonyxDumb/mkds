@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020a2e4c.h"
 
-void func_020a2e68(Balloon *balloon) {
+void sub_20A2E68(Balloon *balloon) {
     balloon->fieldE0 = 0;
 }
 

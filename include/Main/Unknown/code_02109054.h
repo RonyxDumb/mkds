@@ -17,4 +17,4 @@ PlayingSound *StartSoundWhileRequested(SoundSource *source, u32 soundId, u32 vol
 // Stops the first started sound with id a on the source p without a fade. A sound the library has not started yet is
 // not stopped.
 void StopSound(SoundSource *source, u32 soundId);
-void func_02109054(SoundSource *source);
+void sub_2109054(SoundSource *source);

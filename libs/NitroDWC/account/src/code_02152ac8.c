@@ -12,7 +12,7 @@ u32 DWC_Init(u8 *work) {
     s32 result;
 
     created = 0;
-    func_02000b44(0x2000b88);
+    Os_ReferSymbol(0x2000b88);
     result = DWC_BM_Init(work);
     if (DWC_Auth_CheckWiFiIDNeedCreate() != 0) {
         WriteNewWiFiInfoToNvram((u32) work);

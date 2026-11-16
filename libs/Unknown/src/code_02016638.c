@@ -182,7 +182,7 @@ void DoTransfer2dObjCharSub(const void *pSrc, u32 offset, u32 szByte) {
 void CallQueueRunEntry(CallQueueEntry *p) {
     void (*f)(const void *, u32, u32);
 
-    f = data_02152c54[p->mFuncIndex];
+    f = g_TEQSubFnList[p->mFuncIndex];
     DC_FlushRange(p->mSource, p->mSize);
     f(p->mSource, p->field8, p->mSize);
 }

@@ -32,7 +32,7 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
         item->field22C.y = -item->field22C.y;
         item->field22C.z = -item->field22C.z;
     }
-    if (func_0206c0b0(kart) == FALSE) {
+    if (StructMQRacerEntry_SomeFn_64(kart) == FALSE) {
         item->field244 = kart->mDrawMatrixPos;
     }
     VEC_MultAdd(0x14ffa, &item->field22C, &item->field244, &v);
@@ -67,7 +67,7 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     s32 offsetZ;
 
     kart = driver_getById(kartIndex);
-    if (func_0206c0b0(kart) != FALSE) {
+    if (StructMQRacerEntry_SomeFn_64(kart) != FALSE) {
         return FALSE;
     }
     kartItems = &(it_sDriverItemStatus)[kartIndex];

@@ -732,5 +732,5 @@ void itgsso_21031F4(ItemGesso *gesso) {
     }
     gesso->mVisible = TRUE;
     gesso->mKart = driver_getById(entryIndex);
-    func_020f8e3c((u32) gesso->mKart, 0xf3);
+    sub_20F8E3C((u32) gesso->mKart, 0xf3);
 }

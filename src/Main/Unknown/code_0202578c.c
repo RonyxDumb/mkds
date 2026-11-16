@@ -171,7 +171,7 @@ void mutil2_initUnpackBgGraphics(u32 a, void *fileSetPointer, const char *charsN
 
 #pragma thumb off
 
-u32 func_0202578c(u32 a) {
+u32 sub_202578C(u32 a) {
     u32 result = 3;
     switch (a) {
         case 0:

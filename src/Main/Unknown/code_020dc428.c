@@ -138,7 +138,7 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
                     c.mPositionSource = &wanwan->field0.mPos;
                     c.field8 = y;
                     c.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
-                    func_0210b7a8(&c);
+                    sub_210B7A8(&c);
                 }
             }
         }
@@ -159,7 +159,7 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
                     d.mPositionSource = &wanwan->field0.mPos;
                     d.field8 = y;
                     d.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
-                    func_0210b7a8(&d);
+                    sub_210B7A8(&d);
                 }
             }
         }
@@ -210,7 +210,7 @@ void wanwan_update(void *unused, Wanwan *wanwan) {
             b = data_0216bedc;
             b.mPositionSource = &wanwan->field0.mPos;
             b.mDistanceSquared = wanwan->field0.mDistanceSquaredAndFlags & ~0xc000001f;
-            func_0210b7a8(&b);
+            sub_210B7A8(&b);
         }
     }
     if (h != 0) {
@@ -358,7 +358,7 @@ void wanwan_state0Update(Wanwan *wanwan) {
     if (!(wanwan->field0.mFlags & 0x800)) {
         kartIndex = race_getFrameCounterModuloDriverCount();
         kart = driver_getById(kartIndex);
-        if (func_0206c0e0(kart) == FALSE) {
+        if (StructMQRacerEntry_SomeFn_86(kart) == FALSE) {
             e = wanwan->field1DC;
             if ((s64) (kart->mPos.x - wanwan->mCenterPos.x) * (kart->mPos.x - wanwan->mCenterPos.x) +
                     (s64) (kart->mPos.z - wanwan->mCenterPos.z) * (kart->mPos.z - wanwan->mCenterPos.z) <
@@ -407,7 +407,7 @@ void wanwan_state1Init(Wanwan *wanwan) {
     soundRequest.mPositionSource = &wanwan->field0.mPos;
     soundRequest.field8 = falloffIndex;
     soundRequest.mDistanceSquared = mobj_calcXZCamDist(&wanwan->field0.mPos);
-    func_0210b7a8(&soundRequest);
+    sub_210B7A8(&soundRequest);
 }
 
 void wanwan_state1Update(Wanwan *wanwan) {

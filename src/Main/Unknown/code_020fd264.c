@@ -75,7 +75,7 @@ void itbomb_initInstance(ItemBomb *bomb) {
 }
 
 s32 itbomb_20FE268(ItemInUse *inUse, ItemBomb *bomb) {
-    func_020f9114(bomb);
+    sub_20F9114(bomb);
     bomb->field0.mItemObject.field78 |= data_02159f3c;
     bomb->field134 = (s32) (((s64) inUse->mKartVelocityLength * 0x1ec) >> 12) + 0x333;
     if (bomb->field134 > 0xccd) {
@@ -157,7 +157,7 @@ void itbomb_20FE00C(ItemBomb *bomb) {
     bomb->field0.mItemObject.field100 = 0;
     bomb->field0.mItemObject.mScale = data_02159f30;
     bomb->mModelEffect =
-        expl_spawnEffect(0, &bomb->field0.mItemObject.mPos, func_020f9160(&bomb->field0.mItemObject) == 0 ? 1 : 0);
+        expl_spawnEffect(0, &bomb->field0.mItemObject.mPos, sub_20F9160(&bomb->field0.mItemObject) == 0 ? 1 : 0);
     modelEffect = bomb->mModelEffect;
     if (modelEffect != NULL) {
         s32 *t;
@@ -188,7 +188,7 @@ void itbomb_20FDF64(ItemBomb *bomb) {
 
     stateFrames = bomb->mStateFrames;
     if (GrowItemObjectScale(bomb, data_0217bd50, data_0217bd54) != 0) {
-        func_020f9fa8(&bomb->field0.mItemObject);
+        sub_20F9FA8(&bomb->field0.mItemObject);
     }
     if (stateFrames < 0x16) {
         return;
@@ -224,7 +224,7 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
         return;
     }
     kart = driver_getById(candidateKartIndex);
-    if (func_0206c0e0(kart) != 0) {
+    if (StructMQRacerEntry_SomeFn_86(kart) != 0) {
         return;
     }
     if (bomb->mNearestKartDistanceSquared < 8) {
@@ -319,7 +319,7 @@ void AdvanceItemBomb(ItemBomb *bomb) {
     }
     sm_execute(&bomb->field184);
     if ((bomb->field0.mItemObject.mFlags & 0x80000) || bomb->mTimer < 0) {
-        func_020f7104(&bomb->field0.mItemObject, 1);
+        sub_20F7104(&bomb->field0.mItemObject, 1);
     }
     bomb->mTimer--;
     if (bomb->field180 > 0) {
@@ -365,13 +365,13 @@ void *itbomb_20FDA50(void *cursor, ItemBomb *bomb, void *toData) {
         func_020ff1a0(bomb->field0.mItemObject.mVelocity.y, &bomb->field130);
     }
     if (bomb != NULL && toData != NULL) {
-        return func_020fe8ac(bomb->field0.mItemObject.mKind);
+        return sub_20FE8AC(bomb->field0.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void itbomb_20FD9D8(ItemBomb *bomb) {
-    func_020f8e78(bomb);
+    sub_20F8E78(bomb);
     StartItemObjectBouncing(&bomb->field0, bomb->field130 != 0 ? 3 : 2);
     sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
     if (!(bomb->field0.mItemObject.mFlags & 0x10000000)) {
@@ -531,7 +531,7 @@ void func_020fd540(void **bombSlot, Vec3 *v, s32 timerStart) {
         CreateItemObjectCollisionSlot(bomb);
         bomb->mVisible = TRUE;
     }
-    func_020f9114(bomb);
+    sub_20F9114(bomb);
     sm_init(&bomb->field184, (UnkFunc *const *) itbomb_sStates, 4, bomb);
     sm_gotoState(&bomb->field184, 0);
     bomb->mTimer = 0x12c;
@@ -631,7 +631,7 @@ void *itbomb_20FD338(void *mapObject, s32 offsetY) {
     return bomb;
 }
 
-Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
+Vec3 *sub_20FD308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateFrames;
     *scaledScaleZ = ((s64) bomb->field0.mItemObject.mScale.z * data_0217bd48) >> 12;
     return &bomb->field0.mItemObject.mPos;

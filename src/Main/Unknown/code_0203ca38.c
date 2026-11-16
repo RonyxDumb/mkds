@@ -111,9 +111,9 @@ void rstat_storeRaceResults(void) {
                         gRaceStatus->field0[kartIndex].mStatus = 2;
                     }
                 }
-                func_02068640(driver_getById(kartIndex), e);
+                StructMQRacerEntry_SomeFn_25(driver_getById(kartIndex), e);
             }
-            func_02110cc8(0);
+            MaybePlayCrowdAmbientNoise(0);
             break;
         }
     }
@@ -230,25 +230,25 @@ void rstat_handleMissionMode(void) {
             if (gRaceStatus->mFramesSinceFinish <= gRaceMultiConfig->mFinishWaitFrameCount) {
                 return;
             }
-            func_020688a0(driver_getById((u16) entryIndex));
-            func_0207a828(func_0203cd14_inline(entryIndex));
+            StructMQRacerEntry_SomeFn_15(driver_getById((u16) entryIndex));
+            StructMQRacerEntry_SomeFn_21_ById(func_0203cd14_inline(entryIndex));
             RequestRaceEndStemSet();
-            func_02110cc8(0);
+            MaybePlayCrowdAmbientNoise(0);
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 mgcnt_forceEnd();
             }
             kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartOffset);
             kart->mFlags &= ~0x10;
         } else if ((kart->mFlags & 0x20) != 0) {
-            if (func_0207a218() != 0) {
+            if (sub_207A218() != 0) {
                 gRaceStatus->mFramesSinceFailure++;
             }
             if (gRaceStatus->mFramesSinceFailure <= 0x3c) {
                 return;
             }
-            func_020688a0(driver_getById(entryIndex));
-            func_0207a828((u16) entryIndex);
-            func_02110cc8(0);
+            StructMQRacerEntry_SomeFn_15(driver_getById(entryIndex));
+            StructMQRacerEntry_SomeFn_21_ById((u16) entryIndex);
+            MaybePlayCrowdAmbientNoise(0);
             if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 mgcnt_forceEnd();
             }

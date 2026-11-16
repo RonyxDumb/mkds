@@ -5,8 +5,8 @@
 
 s32 func_02055730(u16 a);
 s32 func_0205579c(s32 a, s32 b);
-s32 func_02055808(s32 a);
-void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask);
+s32 sub_2055808(s32 a);
+void sub_20559EC(const void *entryName, s32 entryIndex, s32 keepMask);
 // Scene function of scproc_sSceneTable[8] (scene 'Record' in sSceneDefs): copies the callbacks and calls
 // scene_runScene. Returns 0.
 s32 record_run(SceneNumbers *sceneNumbers);

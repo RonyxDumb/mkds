@@ -248,7 +248,7 @@ s32 driver_handlePlaceChanges(Kart *p) {
 }
 
 void func_01ffc920(Kart *p) {
-    func_02024a88(p);
+    sub_2024A88(p);
 }
 
 void AdvanceKartCollisionTimer(Kart *p) {
@@ -535,7 +535,7 @@ void SetKartPrevCollisionCenter(Kart *p) {
     VEC_MultAdd(p->mRadius + 0x400, &p->field15C, &p->mDrawMatrixPos, &p->mPrevCollisionCenter);
 }
 
-// Called once per step of the driving states (driver_1FFCC50, func_020651fc); also writes fieldDC in five branches.
+// Called once per step of the driving states (driver_1FFCC50, StructMQRacerEntry_SomeFn_90); also writes fieldDC in five branches.
 void UpdateKartSpeedLimitGoal(Kart *p) {
     s32 *q;
     u32 f;

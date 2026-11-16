@@ -106,7 +106,7 @@ void coin_handleLose(void) {
         soundArg.mPositionSource = NULL;
         soundArg.field8 = 2;
         soundArg.mDistanceSquared = mobj_calcXZCamDist(NULL);
-        func_0210b7a8(&soundArg);
+        sub_210B7A8(&soundArg);
     }
 }
 
@@ -152,7 +152,7 @@ void coin_handleSteal(void) {
         soundArg.mPositionSource = NULL;
         soundArg.field8 = 2;
         soundArg.mDistanceSquared = mobj_calcXZCamDist(NULL);
-        func_0210b7a8(&soundArg);
+        sub_210B7A8(&soundArg);
     }
 }
 

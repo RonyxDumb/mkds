@@ -274,7 +274,7 @@ void ittrsa_2101D18(Unk02101d18 *inUse, ItemTeresa *teresa) {
 
     kart = inUse->field10;
     driver_startTeresaEffect(kart);
-    func_020f8e3c((u32) kart, 0xf6);
+    sub_20F8E3C((u32) kart, 0xf6);
     SetActiveItem(inUse->fieldC, 0x10);
     light_init(&teresa->field0.mColorBlend, 1);
     if (inUse->fieldC->mFlags & 0x20) {
@@ -306,7 +306,7 @@ void ittrsa_2101C84(ItemTeresa *teresa) {
     VEC_Add(kartDrawMatrixPos, &offset, &teresa->field0.mDrawPos);
 }
 
-void func_02101964(ItemTeresa *teresa, s32 a) {
+void sub_2101964(ItemTeresa *teresa, s32 a) {
     Kart *kart;
     Vec3 *position;
     Camera *camera;
@@ -332,7 +332,7 @@ void func_02101964(ItemTeresa *teresa, s32 a) {
     if (m != FALSE) {
         if (teresa->field144 == FALSE && (teresa->field0.mFlags & 0x8000000) && teresa->field24C != FALSE) {
             teresa->field144 = TRUE;
-            func_020fe694(0xb, teresa->field0.mId, 1, teresa->mState & 0xff);
+            sub_20FE694(0xb, teresa->field0.mId, 1, teresa->mState & 0xff);
         } else {
             teresa->field144 = TRUE;
         }
@@ -399,7 +399,7 @@ void EnterItemTeresaState0(ItemTeresa *teresa) {
     }
 }
 
-void func_0210174c(ItemTeresa *teresa) {
+void sub_210174C(ItemTeresa *teresa) {
     Vec3 v;
     Vec3 s;
     Vec3 *q;
@@ -432,7 +432,7 @@ void func_0210174c(ItemTeresa *teresa) {
     VEC_MultAdd(0x4f6, &s, (Vec3 *) &teresa->mOffsetX, (Vec3 *) &teresa->mOffsetX);
 }
 
-BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
+BOOL sub_2101618(ItemTeresa *teresa, s32 a, s32 nextState) {
     s32 stateFrames;
     s32 fadeStartFrame;
     s32 fadeStep;
@@ -441,7 +441,7 @@ BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
     if (teresa->field15C != FALSE) {
         fadeStartFrame = -7;
         fadeStep = race_getFrameCounterModulo8() > 2;
-        func_0210174c(teresa);
+        sub_210174C(teresa);
     } else {
         if (nextState < 7) {
             teresa->mOffsetVelocityY += 0x133;
@@ -458,7 +458,7 @@ BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
         }
         teresa->mOffsetY += teresa->mOffsetVelocityY;
     }
-    func_02101964(teresa, a);
+    sub_2101964(teresa, a);
     if (stateFrames > fadeStartFrame) {
         if (teresa->field0.mAlpha > 0) {
             teresa->field0.mAlpha -= fadeStep;
@@ -478,13 +478,13 @@ BOOL func_02101618(ItemTeresa *teresa, s32 a, s32 nextState) {
     return FALSE;
 }
 
-s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
+s32 sub_21014A0(ItemTeresa *teresa, s32 a, s32 nextState) {
     s32 stateFrames;
     u16 factor;
 
     stateFrames = teresa->mStateFrames;
     if (teresa->field15C != FALSE) {
-        func_0210174c(teresa);
+        sub_210174C(teresa);
     } else if (teresa->field26C != FALSE) {
         factor = gItemTeresaFrameScales[stateFrames];
         teresa->mOffsetX = ((s64) teresa->mOffsetX * factor) >> 12;
@@ -496,7 +496,7 @@ s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
         teresa->mOffsetX = ((s64) teresa->mOffsetX * factor) >> 12;
         teresa->mOffsetZ = ((s64) teresa->mOffsetZ * factor) >> 12;
     }
-    func_02101964(teresa, a);
+    sub_2101964(teresa, a);
     if (stateFrames > 7) {
         if (teresa->field0.mAlpha < 0x1f) {
             teresa->field0.mAlpha += 6;
@@ -520,7 +520,7 @@ s32 func_021014a0(ItemTeresa *teresa, s32 a, s32 nextState) {
 }
 
 void UpdateItemTeresaState0(ItemTeresa *teresa) {
-    func_02101618(teresa, 0, (teresa->field0.mFlags & 0x8000000) ? 1 : 2);
+    sub_2101618(teresa, 0, (teresa->field0.mFlags & 0x8000000) ? 1 : 2);
     if (!(teresa->field0.mFlags & 0x8000000)) {
         return;
     }
@@ -544,7 +544,7 @@ void EnterItemTeresaState1(ItemTeresa *teresa) {
         return;
     }
     PickItemTeresaKartByRank(teresa, -1);
-    func_020fe694(0xb, teresa->field0.mId, 0, teresa->mPickedKartIndex & 0xff);
+    sub_20FE694(0xb, teresa->field0.mId, 0, teresa->mPickedKartIndex & 0xff);
     teresa->field250 = teresa->mPickedKartIndex;
     teresa->field24C = FALSE;
 }
@@ -600,7 +600,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
         teresa->mKartDrawMatrixPos = teresa->mKart->mDrawMatrixPos;
         teresa->mKartVelocity = teresa->mKart->mVelocity;
         teresa->field144 = FALSE;
-        func_020f8e3c((u32) teresa->mKart, 0xf4);
+        sub_20F8E3C((u32) teresa->mKart, 0xf4);
         if (teresa->mKart->field48 & 1) {
             teresa->field0.fieldD0 = &teresa->field0.mDrawPos;
         }
@@ -613,7 +613,7 @@ void EnterItemTeresaState2(ItemTeresa *teresa) {
     teresa->mStallFrames = 0;
 }
 
-s32 func_02101014(ItemTeresa *teresa) {
+s32 sub_2101014(ItemTeresa *teresa) {
     KartItems *pickedKartItems;
     Kart *kart;
     HeldItem *heldItem;
@@ -646,11 +646,11 @@ s32 func_02101014(ItemTeresa *teresa) {
     if (teresa->field0.mFlags & 0x8000000) {
         teresa->mItemInfoIndex = heldItem->mItemInfoIndex;
         teresa->mItemCount = heldItem->mObjectCount;
-        func_0205a5b0(((u8 *) gStruct217AA18)[teresa->mPickedKartIndex & 0xff]);
+        sub_205A5B0(((u8 *) gStruct217AA18)[teresa->mPickedKartIndex & 0xff]);
     } else {
         it_stealSlotItem(heldItem, &teresa->mItemInfoIndex, &teresa->mItemCount);
     }
-    func_02068a10(kart);
+    StructMQRacerEntry_SomeFn_10(kart);
     itemInfoIndex = teresa->mItemInfoIndex;
     return it_sItemConfigs[itemInfoIndex].mObjectKind;
 }
@@ -666,14 +666,14 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
             teresa->mNextStateRequested = 1;
         }
     } else {
-        framesLeft = 0x28 - func_021014a0(teresa, 1, 3);
+        framesLeft = 0x28 - sub_21014A0(teresa, 1, 3);
         if (teresa->mItemObjectKind == 0xe) {
             if (teresa->field24C != FALSE) {
                 if (framesLeft == 0xa) {
-                    teresa->mItemObjectKind = func_02101014(teresa);
+                    teresa->mItemObjectKind = sub_2101014(teresa);
                     teresa->mItemModelAlpha = 0;
                     if (teresa->field0.mFlags & 0x8000000) {
-                        func_020fe694(0xb, teresa->field0.mId, 2,
+                        sub_20FE694(0xb, teresa->field0.mId, 2,
                                       ((teresa->mItemInfoIndex << 2) | teresa->mItemCount) & 0xff);
                     }
                 }
@@ -687,7 +687,7 @@ void UpdateItemTeresaState2(ItemTeresa *teresa) {
                         teresa->mItemObjectKind = 0xf;
                     } else {
                         teresa->mItemObjectKind = it_sItemConfigs[teresa->mItemInfoIndex].mObjectKind;
-                        func_0205a5b0(((u8 *) gStruct217AA18)[teresa->mPickedKartIndex & 0xff]);
+                        sub_205A5B0(((u8 *) gStruct217AA18)[teresa->mPickedKartIndex & 0xff]);
                     }
                     teresa->mItemModelAlpha = 0;
                     k = TRUE;
@@ -741,7 +741,7 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         }
         teresa->mOffsetVelocityY += teresa->field19C;
         teresa->mOffsetY += teresa->mOffsetVelocityY;
-        func_02101964(teresa, 1);
+        sub_2101964(teresa, 1);
         if (teresa->field19C >= 0 && teresa->mOffsetVelocityY >= teresa->field1A0) {
             return;
         }
@@ -759,11 +759,11 @@ void UpdateItemTeresaState3(ItemTeresa *teresa) {
         if (teresa->mOffsetVelocityY >= -teresa->field19C) {
             return;
         }
-        func_020f8e3c((u32) teresa->mKart, 0xf5);
+        sub_20F8E3C((u32) teresa->mKart, 0xf5);
     } else {
         teresa->mOffsetX += teresa->mOffsetVelocityX;
         teresa->mOffsetZ += teresa->mOffsetVelocityZ;
-        func_02101618(teresa, 1, (teresa->field0.mFlags & 0x8000000) ? 4 : 5);
+        sub_2101618(teresa, 1, (teresa->field0.mFlags & 0x8000000) ? 4 : 5);
         if (!(teresa->field0.mFlags & 0x8000000)) {
             return;
         }
@@ -831,7 +831,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         } else {
             teresa->field144 = TRUE;
             if (teresa->field0.mFlags & 0x8000000) {
-                func_020fe694(0xb, teresa->field0.mId, 1, 5);
+                sub_20FE694(0xb, teresa->field0.mId, 1, 5);
             }
             teresa->mOffsetX = 0;
             teresa->mOffsetZ = 0;
@@ -846,7 +846,7 @@ void EnterItemTeresaState5(ItemTeresa *teresa) {
         teresa->mOffsetY = teresa->mSavedOffsetY;
     }
     if (teresa->field144 == FALSE) {
-        func_020f8e3c((u32) teresa->mKart, 0xf7);
+        sub_20F8E3C((u32) teresa->mKart, 0xf7);
     }
     teresa->mStallFrames = 0;
     positionFunction = (teresa->mKart->field48 & 1) ? SetItemTeresaPosPointerToDrawPos : func_02100b54;
@@ -870,10 +870,10 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
     if (teresa->field24C != FALSE && ownerKartItems->mActiveItem != 0x10 && teresa->mItemCount != -0x40) {
         teresa->field144 = TRUE;
         if (teresa->field0.mFlags & 0x8000000) {
-            func_020fe694(0xb, teresa->field0.mId, 1, 5);
+            sub_20FE694(0xb, teresa->field0.mId, 1, 5);
         }
     } else {
-        framesLeft = 0x28 - func_021014a0(teresa, teresa->field15C == FALSE ? 1 : 0, 6);
+        framesLeft = 0x28 - sub_21014A0(teresa, teresa->field15C == FALSE ? 1 : 0, 6);
         if (framesLeft < 7) {
             if (teresa->mItemModelAlpha > 0) {
                 teresa->mItemModelAlpha -= 5;
@@ -912,13 +912,13 @@ void UpdateItemTeresaState5(ItemTeresa *teresa) {
                     teresa->mItemInfoIndex = 0x13;
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;
-                    func_020f8e3c((u32) ownerKartItems->mKart, 0xf8);
+                    sub_20F8E3C((u32) ownerKartItems->mKart, 0xf8);
                 } else {
                     teresa->mItemCount = -0x40;
                     teresa->mItemObjectKind = 0xe;
                 }
                 if ((teresa->field0.mFlags & 0x8000000) && teresa->field24C != FALSE) {
-                    func_020fe694(
+                    sub_20FE694(
                         0xb, teresa->field0.mId, 3,
                         ((ownerKartItems->mHeldItem.mItemInfoIndex << 2) | ownerKartItems->mHeldItem.mObjectCount) &
                             0xff);
@@ -930,7 +930,7 @@ skip:
     if (teresa->field15C == FALSE && teresa->field144 != FALSE) {
         startOffsetX = teresa->mOffsetX;
         startOffsetZ = teresa->mOffsetZ;
-        func_021014a0(teresa, 1, 6);
+        sub_21014A0(teresa, 1, 6);
         teresa->mOffsetVelocityX = teresa->mOffsetX - startOffsetX;
         teresa->mOffsetVelocityZ = teresa->mOffsetZ - startOffsetZ;
         teresa->mNextState = 6;
@@ -975,7 +975,7 @@ void UpdateItemTeresaState6(ItemTeresa *teresa) {
             teresa->mItemModelAlpha += 8;
         }
     }
-    if (func_02101618(teresa, teresa->field15C == FALSE ? 1 : 0, 7) != FALSE) {
+    if (sub_2101618(teresa, teresa->field15C == FALSE ? 1 : 0, 7) != FALSE) {
         if (hasItem != FALSE) {
             if ((teresa->field0.field78 & 0x8000) == 0) {
                 ownerKartIndex = (u16) (teresa->field0.field78 & ~0xff00);
@@ -1031,13 +1031,13 @@ void ittrsa_21004C4(void *cursor, ItemTeresa *teresa, void *toData) {
     if (toData == NULL) {
         return;
     }
-    func_020fe8ac(teresa->field0.mKind);
+    sub_20FE8AC(teresa->field0.mKind);
 }
 
 void ittrsa_210045C(ItemTeresa *teresa) {
     int ownerKartIndex;
 
-    func_020f8e78(teresa);
+    sub_20F8E78(teresa);
     light_init(&teresa->field0.mColorBlend, 1);
     sm_gotoState(teresa->field12C, 0);
     if ((teresa->field0.field78 & 0x8000) == 0) {
@@ -1048,7 +1048,7 @@ void ittrsa_210045C(ItemTeresa *teresa) {
     SetActiveItem(&it_sDriverItemStatus[(u16) ownerKartIndex], 0x10);
 }
 
-void func_021003e8(ItemTeresa *teresa, u32 sel, s32 value) {
+void sub_21003E8(ItemTeresa *teresa, u32 sel, s32 value) {
     switch (sel) {
         case 0:
             teresa->field250 = value;
@@ -1139,5 +1139,5 @@ void ittrsa_21001AC(ItemTeresa *teresa, s32 c, NsbmdModel *model) {
     drawAlpha = teresa->field0.mAlpha;
     model->field14 = model->field14 & ~0x1f0000;
     model->field14 = model->field14 | (drawAlpha << 16);
-    func_020ed588(&teresa->field0, model);
+    sub_20ED588(&teresa->field0, model);
 }

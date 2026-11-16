@@ -2,7 +2,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020c3db4(void) {
+u32 sub_20C3DB4(void) {
     u32 v = r2d_sResults->fieldB4;
     RaceSetup *setup = gRaceMultiConfig;
 

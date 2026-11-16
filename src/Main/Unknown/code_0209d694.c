@@ -108,7 +108,7 @@ void sfsn_update(void *a, SunFireball *sunFireball) {
                 soundRequest.mPositionSource = &sunFireball->field0.mPos;
                 soundRequest.field8 = 2;
                 soundRequest.mDistanceSquared = mobj_calcXZCamDist(&sunFireball->field0.mPos);
-                func_0210b7a8(&soundRequest);
+                sub_210B7A8(&soundRequest);
             }
             break;
         case 1:

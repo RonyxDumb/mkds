@@ -66,7 +66,7 @@ void UpdateMPState5(void) {
         } else {
             waitFrames = gStruct217AA00->field1608.field14;
             if (waitFrames > 0xe10) {
-                func_02050e60(7);
+                sub_2050E60(7);
                 return;
             }
             gStruct217AA00->field1608.field14 = waitFrames + 1;
@@ -239,7 +239,7 @@ void UpdateMPState7(void) {
                 func_020587d8_inline(8);
                 break;
             default:
-                func_02050e60(2);
+                sub_2050E60(2);
                 break;
         }
     }
@@ -468,7 +468,7 @@ void UpdateMPState11(void) {
             b = gStruct217AA00->field162A;
             c = b & (1 << a);
             if (c != 0) {
-                if (func_020504a4(a, b) != FALSE) {
+                if (sub_20504A4(a, b) != FALSE) {
                     gStruct217AA00->field164E++;
                 }
             } else {

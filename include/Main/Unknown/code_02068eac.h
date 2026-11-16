@@ -4,9 +4,9 @@
 
 typedef struct Kart Kart;
 
-BOOL func_02068eac(Kart *kart);
-s32 func_02068ec0(Kart *kart, s32 a);
-void func_02069044(Kart *kart);
+BOOL StructMQRacerEntry_HasFlags0x60(Kart *kart);
+s32 StructMQRacerEntry_SomeFn_35(Kart *kart, s32 a);
+void StructMQRacerEntry_SomeFn_34(Kart *kart);
 void driver_startSlipstream(Kart *kart);
 void driver_updateGessoInk(Kart *kart);
 void driver_startGessoInk(Kart *kart, u32 orthoQuadCount);

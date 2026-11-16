@@ -204,7 +204,7 @@ typedef struct KartKey {
 
 // Online session object behind gStruct217D384: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
 // 0x027ffc40 is 2) and never freed. field8 is its state machine, 7 states each with an (enter, update) pair in
-// data_0216e21c: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
+// g_GlobalB_E7FnList: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
 // (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running; its own
 // heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and picks, and
 // the roster (mKartMask, mKartCount) read by the matching screens and the race.

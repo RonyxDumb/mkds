@@ -97,7 +97,7 @@ u32 BitStreamReadBits(Unk020247fc *a, s32 b) {
     return r & (0xff >> (8 - b));
 }
 
-u32 func_0202469c(Unk02021f9c *a, Unk02022ce4 **b) {
+u32 NFTR_Process(Unk02021f9c *a, Unk02022ce4 **b) {
     u32 r;
     Unk02021fd0 *p;
 
@@ -108,7 +108,7 @@ u32 func_0202469c(Unk02021f9c *a, Unk02022ce4 **b) {
     } else {
         OS_Terminate();
     }
-    func_020245a4(a);
+    NFTR_MakeAbsoluteOffsets(a);
     p = FindPartByTag(a, 0x46494e46);
     if (p == 0) {
         *b = 0;
@@ -122,7 +122,7 @@ u32 func_0202469c(Unk02021f9c *a, Unk02022ce4 **b) {
     return r + 1;
 }
 
-void func_020245a4(Unk02021f9c *a) {
+void NFTR_MakeAbsoluteOffsets(Unk02021f9c *a) {
     Unk02021fd0 *p;
     s32 i;
     Unk020245a4_08 *q;

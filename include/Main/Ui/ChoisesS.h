@@ -68,7 +68,7 @@ unsigned int rchoi_sysdat_getOverlayRelatedNum(void);
 u32 rchoi_shouldPauseRaceDuringMenu(void);
 
 unsigned int GetRaceDone(void);
-void func_020b2a60(unsigned int p0);
+void SetB488_B6(unsigned int p0);
 
 typedef struct InputSlotPair InputSlotPair;
 

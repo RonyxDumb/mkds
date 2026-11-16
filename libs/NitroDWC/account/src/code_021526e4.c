@@ -51,7 +51,7 @@ void DWCi_Acc_LoginIdToUserName(const DWCAccFriendData *loginid, u32 gamecode, c
 
     DWCi_Acc_U64ToString32(DWCi_Acc_GetUserId(loginid), 0x2b, userid);
     DWCi_Acc_U64ToString32(GetFriendDataPlayerId(loginid), 0x20, playerid);
-    OS_SNPrintf(username, 0x15, data_0216f2a0, userid, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
+    OS_SNPrintf(username, 0x15, g_Format_SCCCCS, userid, (u8) (gamecode >> 24), (u8) (gamecode >> 16),
                 (u8) (gamecode >> 8), (u8) gamecode, playerid);
 }
 

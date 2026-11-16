@@ -15,5 +15,5 @@ u32 func_02028074(u32 bits);
 void ReleaseSelectKart(void);
 u32 func_020280dc(void);
 u32 func_020280e8(void);
-u16 *func_02028110(void);
+u16 *sub_2028110(void);
 unsigned int func_0202811c(void);

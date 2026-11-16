@@ -176,7 +176,7 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     if (other->mKind != 1) {
         return;
     }
-    func_020f5614(other, m, object);
+    sub_20F5614(other, m, object);
 }
 
 void UpdateItemInUseObjects(ItemInUse *itemInUse) {
@@ -191,8 +191,8 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
 
     objects = itemInUse->mObjects;
     objectCount = itemInUse->mObjectCount;
-    a = func_0206c0a8(itemInUse->mKart);
-    b = func_0206c094(itemInUse->mKart);
+    a = StructMQRacerEntry_SomeFn_71(itemInUse->mKart);
+    b = StructMQRacerEntry_SomeFn_83(itemInUse->mKart);
     for (i = 0; i < objectCount; i++) {
         object = objects[i];
         object->mAgeFrames = object->mAgeFrames + 1;
@@ -218,7 +218,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
     for (j = objectCount - 1; j >= 0; j--) {
         object = objects[j];
         if (object->mCollisionSlotIndex == -1) {
-            if (func_020f91e0(object) != FALSE) {
+            if (sub_20F91E0(object) != FALSE) {
                 idx = object->mKind;
                 if (it_sItemParams[idx].field68 != 0) {
                     CreateItemObjectCollisionSlot(object);

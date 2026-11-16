@@ -5,5 +5,5 @@
 #include "code_0212bcac.h"
 
 void StopSndHandleSeq(NNSSndSeqPlayer **handle, u32 fadeSteps);
-void func_0211003c(u32 soundId, NNSSndSeqPlayer **handle);
-void func_0210fb88(SeqPlayerControl *control, NNSSndSeqPlayer **handle);
+void sub_211003C(u32 soundId, NNSSndSeqPlayer **handle);
+void sub_210FB88(SeqPlayerControl *control, NNSSndSeqPlayer **handle);

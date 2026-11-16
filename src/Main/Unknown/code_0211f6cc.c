@@ -42,7 +42,7 @@ void func_0211fef4(u32 fromIndex, void *message, u32 size) {
     func_0205b504(fromIndex, message, size, 0);
 }
 
-void func_0211fe44(void) {
+void WriteSaveFriendCodes(void) {
     if (gStruct217D384->mBuddiesChanged == FALSE) {
         return;
     }
@@ -93,7 +93,7 @@ s32 GetWiFiSessionLoginResult(void) {
     }
 }
 
-void func_0211fd28(void) {
+void OnSomeMultiplayError(void) {
     StateMachine *stateMachine;
 
     ReleaseWiFiConnection();
@@ -134,7 +134,7 @@ void SetupWiFiSessionLogin(void) {
     gStruct217D384->mLogin.mStep = 1;
 }
 
-void func_0211fa70(void) {
+void sub_211FA70(void) {
     if (func_ov000_021a38d8() == 0) {
         func_ov000_021a3884();
         return;
@@ -158,7 +158,7 @@ void func_0211fa70(void) {
 u32 UpdateWiFiSessionLogin(void) {
     switch (gStruct217D384->mLogin.mStep) {
         case 1:
-            func_0211fa70();
+            sub_211FA70();
             break;
         case 3:
             if (gSaveData->mBusy == 0 ? (gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0)

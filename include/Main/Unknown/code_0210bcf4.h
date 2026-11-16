@@ -8,7 +8,7 @@
 // their first member. It holds the list of the sounds started on it, the pointer to the position the distance to the
 // camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its field34
 // member is set; InitSoundSource clears that bit. data_0217d048 is addressed in rows of twelve bytes;
-// sfx_updateEmitterStatus and func_0210c0bc address the container of one of those rows. Kart and the it_sItemsets
+// sfx_updateEmitterStatus and sub_210C0BC address the container of one of those rows. Kart and the it_sItemsets
 // elements (ItemObject) start with it: StartSoundWhileRequested and sfx_21090C4 pass either one to
 // StartSoundWhileRequestedEx and sfx_emitSfx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
 typedef struct SoundSource {
@@ -38,7 +38,7 @@ typedef struct SoundSource {
 
 // One sound started on a SoundSource, from the start request until it is stopped. The entries are taken from a pool of
 // twelve and linked into the list of the source. The field0 member is the library player handle, NULL until the player
-// is started. Returned by sp_acquireElement and passed to func_0210bcf4; sfx_stopSfxStandalone writes its byte at 0x19.
+// is started. Returned by sp_acquireElement and passed to sub_210BCF4; sfx_stopSfxStandalone writes its byte at 0x19.
 // sfx_210BF24 subtracts one NNSFndList from field10 to reach the SoundSource holding it.
 typedef struct PlayingSound {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
@@ -63,7 +63,7 @@ typedef struct Unk0210bcf4_20 {
     /* 0c */ s32 fieldC;
 } Unk0210bcf4_20;
 
-// Held on the stack by func_0210bcf4 and sfx_updateEmitter and passed to the three functions
+// Held on the stack by sub_210BCF4 and sfx_updateEmitter and passed to the three functions
 // data_0217d018, sfx_sCalcVolumeFunc and sfx_sCalcPanFunc point at.
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
@@ -77,10 +77,10 @@ typedef struct SoundParams {
     /* 20 */ Unk0210bcf4_20 *field20;
 } SoundParams;
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
+u32 sub_210BCF4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
+u32 sub_210BEE8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
 void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request);
 void sfx_updateEmitterStatus(SoundSource *source);
 void sfx_stopSfxStandalone(PlayingSound *sound, u32 fadeSteps);
-void func_0210c0bc(SoundSource *source);
+void sub_210C0BC(SoundSource *source);
 void sfx_initEmitter2(SoundSource *source, u32 positionSource);

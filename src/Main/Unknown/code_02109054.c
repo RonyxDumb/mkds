@@ -21,6 +21,6 @@ void StopSound(SoundSource *source, u32 soundId) {
     StopSoundEx(source, 0, soundId, 0);
 }
 
-void func_02109054(SoundSource *source) {
+void sub_2109054(SoundSource *source) {
     sfx_210C1B0(source);
 }

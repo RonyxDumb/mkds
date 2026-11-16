@@ -187,7 +187,7 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
     p->field3F8 = 0x1000;
     if (p->mAirborneFrames > 5) {
         p->mQuaternionBlendFactor = 0xf6;
-        func_02070484(p, &p->mUnk_100_q);
+        StructMQRacerEntry_SomeFn_88(p, &p->mUnk_100_q);
     } else {
         driver_1FFAD14(p, a);
     }
@@ -306,7 +306,7 @@ void func_01ff9cb0(Kart *p) {
     if (p->field208->field0 == FALSE) {
         return;
     }
-    func_020e0538((Unk020e04b0 *) p->field208, &p->mPos);
+    sub_20E0538((Unk020e04b0 *) p->field208, &p->mPos);
     p->field208->field0 = FALSE;
 }
 

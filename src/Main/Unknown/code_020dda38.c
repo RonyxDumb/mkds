@@ -39,7 +39,7 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
     if (chainObject->mHasKui != FALSE) {
         return;
     }
-    func_020dda2c(&chainObject->mChain);
+    sub_20DDA2C(&chainObject->mChain);
 }
 
 #pragma thumb on
@@ -69,7 +69,7 @@ void wwchn_init(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan) {
     InitWanwanChain(&chainObject->mChain, &chainObject->mPos, &chainObject->mPos, d - wanwan->fieldF0,
                     wanwan->fieldFC != 0 ? 4 : 7, 0x6000, &chainObject->field1C);
     if (chainObject->mHasKui == FALSE) {
-        func_020dda2c(&chainObject->mChain);
+        sub_20DDA2C(&chainObject->mChain);
         chainObject->mChain.mDownwardStep -= 0xcd;
         chainObject->mChain.field10 -= 0x3d;
         chainObject->mChain.field14.x += 0x52;

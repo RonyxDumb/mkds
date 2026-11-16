@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020c5df0(void);
+u32 StructE8_SomeFnHandle6(void);

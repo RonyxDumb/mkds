@@ -677,7 +677,7 @@ double PowBody(double a, double b) {
         }
         if (hb == 0x3fe00000) {
             if (ha >= 0) {
-                return func_02130a70(a);
+                return sub_2130A70(a);
             }
         }
     }

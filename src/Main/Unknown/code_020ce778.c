@@ -17,12 +17,12 @@ void menu_state13Render(void) {
 }
 #pragma thumb off
 
-Unk027ffc40 *func_020ce7ac(void) {
+Unk027ffc40 *GetBootIndicatorPointer_2(void) {
     return (Unk027ffc40 *) 0x027ffc40;
 }
 
 u32 func_020ce784(void) {
-    return func_020ce7ac()->field0 == 2 ? 1 : 0;
+    return GetBootIndicatorPointer_2()->field0 == 2 ? 1 : 0;
 }
 
 u32 func_020ce778(void) {

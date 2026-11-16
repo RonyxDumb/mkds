@@ -79,8 +79,8 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     s32 k;
 
     VEC_MultAdd(-item->fieldDC, &item->mNormal, &item->mPos, &item->field108);
-    func_020d5aa0(b, item->mCollisionBits, item->field104, &item->field108, &item->mNormal);
-    if (item->field104->field0 != NULL && func_020e0448((Unk020e0448 *) item->field104) != 0) {
+    sub_20D5AA0(b, item->mCollisionBits, item->field104, &item->field108, &item->mNormal);
+    if (item->field104->field0 != NULL && sub_20E0448((Unk020e0448 *) item->field104) != 0) {
         item->field11A = 0xe10;
     } else {
         item->field11A = 0;
@@ -106,8 +106,8 @@ void StartRestingItemObject(ItemObject *item, void *b) {
     item->mVelocity.x = 0;
     item->mVelocity.y = 0;
     item->mVelocity.z = 0;
-    func_020f90dc(item);
-    func_020f0e2c(&it_sItemsets[*(vs32 *) &item->mKind], item);
+    sub_20F90DC(item);
+    sub_20F0E2C(&it_sItemsets[*(vs32 *) &item->mKind], item);
     kind = *(vs32 *) &item->mKind;
     it_20F91FC(item, it_sItemParams[kind].field9C);
 }
@@ -116,7 +116,7 @@ void AdvanceRestingItemObject(ItemObject *item) {
     u32 w;
 
     if (item->field104->field0 != NULL) {
-        if (func_020e04b0(item->field104, &item->field108, &item->mNormal) != FALSE) {
+        if (sub_20E04B0(item->field104, &item->field108, &item->mNormal) != FALSE) {
             StartFallingItemObject(item);
         }
         if (item->field104->field0->field130 != FALSE) {
@@ -134,16 +134,16 @@ void AdvanceRestingItemObject(ItemObject *item) {
                               &item->mCollisionBits, NULL, NULL, NULL, &w) == 0) {
                 return;
             }
-            if (func_020d5a68(&w, item->mCollisionBits, item->field104) != FALSE) {
+            if (sub_20D5A68(&w, item->mCollisionBits, item->field104) != FALSE) {
                 item->mVelocity.x = 0;
                 item->mVelocity.y = 0;
                 item->mVelocity.z = 0;
-                func_020f6fc4(item, 1);
+                sub_20F6FC4(item, 1);
             }
             if (!(item->mCollisionBits & 0x8000)) {
                 return;
             }
-            func_020f7070(item, 1);
+            sub_20F7070(item, 1);
         } else {
             VEC_Subtract(&item->mPos, &item->mPrevPos, &item->mVelocity);
         }
@@ -216,7 +216,7 @@ void it_startThrowAnim(ItemObject *itemParam, s32 pushStrength, Vec3 *fromPos, V
         item->mFlags &= ~0x7000000;
     } else {
         item->mFlags &= ~0x4000;
-        func_020f7070(item, 1);
+        sub_20F7070(item, 1);
     }
 }
 
@@ -253,17 +253,17 @@ void AdvanceFallingItemObject(ItemObject *item) {
                       (s32 *) &bounceNormal, &item->mCollisionBits, NULL, NULL, NULL, &w) != 0) {
         VEC_Add(&pushOut, pos, pos);
         if (item->mCollisionBits & 0x1e34ef) {
-            func_020f9334(item, pos, velocity, 0x385, &groundNormal);
+            sub_20F9334(item, pos, velocity, 0x385, &groundNormal);
         }
         if (item->mCollisionBits & 0x214300) {
             item->mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &bounceNormal);
-            if (func_020f9290(item, &bounceNormal) != FALSE) {
+            if (sub_20F9290(item, &bounceNormal) != FALSE) {
                 return;
             }
         }
         if (item->mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            sub_20F7070(item, 1);
             return;
         }
     }
@@ -311,12 +311,12 @@ void itthun_activate(ItemInUse *itemInUse, HeldItem *heldItem) {
     }
     driver_invokeThunder(heldItem->mKartItems->mKart);
     mobj_executeAllThunderLogic();
-    func_020f82e8(0);
+    sub_20F82E8(0);
     it_takeSlotItems(heldItem, 1);
     if (gRaceMultiConfig->mMode != 5) {
         return;
     }
-    func_020fe958(6);
+    sub_20FE958(6);
 }
 
 void itstar_activate(ItemInUse *itemInUse, HeldItem *heldItem) {
@@ -325,7 +325,7 @@ void itstar_activate(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceMultiConfig->mMode != 5) {
         return;
     }
-    func_020fe958(4);
+    sub_20FE958(4);
 }
 
 void StartItemKouraGSound(void *kouraParam, s32 b) {
@@ -344,7 +344,7 @@ BOOL itkrag_20F6150(ItemInUse *itemInUse, ItemKouraG *koura) {
     BOOL isBattle;
 
     isBattle = gRaceMultiConfig->mMode == MODE_BATTLE;
-    func_020f9114(koura);
+    sub_20F9114(koura);
     sfx_210B850(&koura->field16C);
     koura->field0.field0.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a77c;
     if (itemInUse->mKartItems->mFlags & 0x20) {
@@ -379,13 +379,13 @@ void *itkrag_20F6038(void *buffer, ItemKouraG *koura, void *toBuffer) {
         func_020ff1a0(koura->field0.field0.mVelocity.y, &koura->field168);
     }
     if (koura != NULL && toBuffer != NULL) {
-        return func_020fe8ac(koura->field0.field0.mKind);
+        return sub_20FE8AC(koura->field0.field0.mKind);
     }
     return result;
 }
 
 void itkrag_20F5FFC(ItemKouraG *koura) {
-    func_020f8e78(koura);
+    sub_20F8E78(koura);
     sfx_210B850(&koura->field16C);
     koura->field0.field0.mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) func_0210a77c;
     InitItemObjectMotion(koura, 9, koura->field168, 0);
@@ -404,7 +404,7 @@ void StartItemKouraRSound(void *kouraParam, s32 b) {
 }
 
 void func_020f5f7c(ItemKouraR *kouraR, Vec3 *otherVelocity, Vec3 *normal) {
-    func_020f29e8(kouraR);
+    sub_20F29E8(kouraR);
     DeflectItemObjectOnHit(&kouraR->field0.field0, otherVelocity, normal);
     kouraR->mStateMachine.mNextState = 1;
     kouraR->mStateMachine.mNextStateRequested = 1;
@@ -416,7 +416,7 @@ s32 itkrar_20F5D6C(ItemInUse *itemInUse, ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    func_020f9114(kouraR);
+    sub_20F9114(kouraR);
     sfx_210B850(&kouraR->field258);
     kouraR->field0.field0.field0.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -480,7 +480,7 @@ void UpdateItemKouraRState0And1(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-void func_020f5cc4(ItemObject *item, u32 kartIndex) {
+void sub_20F5CC4(ItemObject *item, u32 kartIndex) {
     u32 value0 = (u32) item;
     u32 value1 = kartIndex;
     u32 minusOne;
@@ -498,7 +498,7 @@ void func_020f5cc4(ItemObject *item, u32 kartIndex) {
     if (collisionSlotCompared == minusOneCompared) {
         return;
     }
-    func_020f1150(value0, value1);
+    sub_20F1150(value0, value1);
     value0 = (itemAddress) + (0x200u);
     value1 = 4u;
     *(u16 *) ((value0) + (76)) = value1;
@@ -524,7 +524,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (!(kouraR->field0.field0.field0.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
+        sub_20FE71C(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 4) {
@@ -536,7 +536,7 @@ void UpdateItemKouraRState2(ItemKouraR *kouraR) {
         if (!(kouraR->field0.field0.field0.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
+        sub_20FE71C(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
     }
 }
 
@@ -570,7 +570,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 0x708) {
-        func_020f29e8(kouraR);
+        sub_20F29E8(kouraR);
         kouraR->mStateMachine.mNextState = 1;
         kouraR->mStateMachine.mNextStateRequested = 1;
         return;
@@ -584,7 +584,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (!(kouraR->field0.field0.field0.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
+        sub_20FE71C(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
         return;
     }
     if (kouraR->mStateMachine.mStateFrames > 4) {
@@ -596,7 +596,7 @@ void UpdateItemKouraRState3(ItemKouraR *kouraR) {
         if (!(kouraR->field0.field0.field0.mFlags & 0x8000000)) {
             return;
         }
-        func_020fe71c(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
+        sub_20FE71C(1, kouraR->mKartItems->mKartIndex, kouraR->field0.field0.field0.mId);
     }
 }
 
@@ -605,7 +605,7 @@ void EnterItemKouraRState4(ItemKouraR *kouraR) {
 }
 
 // Runs the two 0x7c/0x4c checks of the object in the 0x1fc word of the 0x1c pointer, then
-// one of the four func_020f14a0 calls, and stores the 0x24c/0x24e halfwords it picks.
+// one of the four sub_20F14A0 calls, and stores the 0x24c/0x24e halfwords it picks.
 void UpdateItemKouraRState4(ItemKouraR *kouraR) {
     KartItems *kartItems;
     Kart *kart;
@@ -623,22 +623,22 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
         }
     }
     if (d != FALSE) {
-        func_020f1104(kouraR);
+        sub_20F1104(kouraR);
         kouraR->mStateMachine.mNextState = 6;
         kouraR->mStateMachine.mNextStateRequested = 1;
     } else {
         n = kouraR->field0.field0.field0.mFlags;
         if (n & 0x10000000) {
             if (kartBits & 1) {
-                n = func_020f14a0(kouraR, 0x5333, 0x19a, 1);
+                n = sub_20F14A0(kouraR, 0x5333, 0x19a, 1);
             } else {
-                n = func_020f14a0(kouraR, 0x4b33, 0x19a, 0);
+                n = sub_20F14A0(kouraR, 0x4b33, 0x19a, 0);
             }
         } else {
-            n = func_020f14a0(kouraR, 0x4800, 0x19a, (n & 0x8000000) == 0);
+            n = sub_20F14A0(kouraR, 0x4800, 0x19a, (n & 0x8000000) == 0);
         }
         if (n != 0) {
-            func_020f1104(kouraR);
+            sub_20F1104(kouraR);
             kouraR->mStateMachine.mNextState = 2;
             kouraR->mStateMachine.mNextStateRequested = 1;
             kouraR->field0.mPreviousLink.mLink = NULL;
@@ -652,7 +652,7 @@ void UpdateItemKouraRState4(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Checks func_0206c0e0 of the 0x1fc object, then the 0x240 counter and the sum of the two
+// Checks StructMQRacerEntry_SomeFn_86 of the 0x1fc object, then the 0x240 counter and the sum of the two
 // squares of the 0x50/0x54/0x58 differences against the 0x1d0/0x1d4/0x1e0 square.
 void UpdateItemKouraRState5(ItemKouraR *kouraR) {
     KartItems *kartItems;
@@ -663,10 +663,10 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
 
     kartItems = kouraR->mKartItems;
     kart = kartItems->mKart;
-    if (func_0206c0e0(kart) != FALSE) {
-        func_020f6f10(&kouraR->field0.field0.field0, 0, 8);
+    if (StructMQRacerEntry_SomeFn_86(kart) != FALSE) {
+        sub_20F6F10(&kouraR->field0.field0.field0, 0, 8);
     } else {
-        func_020f14a0(kouraR, 0x10000, 0x333, 0);
+        sub_20F14A0(kouraR, 0x10000, 0x333, 0);
     }
     if ((kouraR->field0.field0.field0.mFlags & 1) == 0) {
         AddSoundRequest(&data_0217d294, kouraR->field0.field0.field0.mDistanceSquaredAndFlags & ~0xc000001f,
@@ -680,7 +680,7 @@ void UpdateItemKouraRState5(ItemKouraR *kouraR) {
             return;
         }
     }
-    func_020f6f10(&kouraR->field0.field0.field0, 0, 8);
+    sub_20F6F10(&kouraR->field0.field0.field0, 0, 8);
 }
 
 // Runs AdvanceItemObjectMotion and hands StartItemKouraRSound to AddSoundRequest when the 0x74 bit 0 is clear.
@@ -693,9 +693,9 @@ void UpdateItemKouraRState6(ItemKouraR *kouraR) {
                     StartItemKouraRSound, kouraR, 0);
 }
 
-// Runs func_0210a598 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
+// Runs StructMQRacerEntry_SomeFn_66 with the 0x3bc word of the 0x1fc object when the 0x78 high bits of the
 // third parameter match that object's 0x74 halfword and the 0x74/0x78/0xdc tests pass.
-void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
+void sub_20F5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
     ItemKouraR *kouraR;
     ItemObject *other;
     KartItems *kartItems;
@@ -729,11 +729,11 @@ void func_020f5614(void *kouraParam, s32 hitType, ItemObject *otherParam) {
             return;
         }
     }
-    func_0210a598(kart, kart->mSoundIndex);
+    StructMQRacerEntry_SomeFn_66(kart, kart->mSoundIndex);
 }
 
 // Hands the 0x44 word and the 0x5c/0x130/0x250/0x254/0x60/0x54 addresses of b to
-// CopyItemObjectData, CopyItemPointLinkIndex, func_020ff1b8, func_020ff1a0 and func_020fe8ac.
+// CopyItemObjectData, CopyItemPointLinkIndex, func_020ff1b8, func_020ff1a0 and sub_20FE8AC.
 void *itkrar_20F5550(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
     s32 dot;
     void *result;
@@ -750,7 +750,7 @@ void *itkrar_20F5550(void *buffer, ItemKouraR *kouraR, void *toBuffer) {
         func_020ff1a0(kouraR->field0.field0.field0.mPos.y, &kouraR->mThrowForward);
     }
     if (kouraR != NULL && toBuffer != NULL) {
-        return func_020fe8ac(kouraR->field0.field0.field0.mKind);
+        return sub_20FE8AC(kouraR->field0.field0.field0.mKind);
     }
     return result;
 }
@@ -763,7 +763,7 @@ void itkrar_20F53D0(ItemKouraR *kouraR) {
     u16 targetKartIndex;
     u16 rankAhead;
 
-    func_020f8e78(kouraR);
+    sub_20F8E78(kouraR);
     sfx_210B850(&kouraR->field258);
     kouraR->field0.field0.field0.mSoundSource.mTrackParamsFunction =
         (void (*)(void *, void *, void *)) func_0210a77c;
@@ -802,7 +802,7 @@ void itkrar_20F53D0(ItemKouraR *kouraR) {
 
 // Returns 1 while driver_getById(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
 // words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
-BOOL func_020f5324(void *kouraParam, s32 kartIndex) {
+BOOL sub_20F5324(void *kouraParam, s32 kartIndex) {
     ItemKouraR *kouraR;
     Kart *kart;
     s32 deltaZ;
@@ -827,14 +827,14 @@ BOOL func_020f5324(void *kouraParam, s32 kartIndex) {
     return FALSE;
 }
 
-// Runs func_020f9114, ors data_02159834 into the 0x78 halfword, then makes one of two
+// Runs sub_20F9114, ors data_02159834 into the 0x78 halfword, then makes one of two
 // ThrowBouncingItem calls depending on the 0x1ec halfword of the 0x0c pointer, and returns the
 // 0x130 word it stores.
 s32 itbana_20F5240(ItemInUse *itemInUse, ItemBanana *banana) {
     KartItems *kartItems;
     s32 n;
 
-    func_020f9114(banana);
+    sub_20F9114(banana);
     banana->field0.mItemObject.field78 |= data_02159834;
     kartItems = itemInUse->mKartItems;
     if (kartItems->mFlags & KART_ITEMS_THROW_FORWARD) {
@@ -874,7 +874,7 @@ void itbana_20F518C(ItemBanana *banana) {
 }
 
 // Hands the 0x130 word and the 0x60 word to func_020ff1b8/func_020ff1a0 around the
-// CopyItemObjectData call, and returns func_020fe8ac's value when b and c are both set.
+// CopyItemObjectData call, and returns sub_20FE8AC's value when b and c are both set.
 void *itbana_20F5108(void *buffer, ItemBanana *banana, void *toBuffer) {
     void *result;
 
@@ -886,14 +886,14 @@ void *itbana_20F5108(void *buffer, ItemBanana *banana, void *toBuffer) {
         func_020ff1a0(banana->field0.mItemObject.mVelocity.y, &banana->mThrowForward);
     }
     if (banana != NULL && toBuffer != NULL) {
-        return func_020fe8ac(banana->field0.mItemObject.mKind);
+        return sub_20FE8AC(banana->field0.mItemObject.mKind);
     }
     return result;
 }
 
-// Runs func_020f8e78 and StartItemObjectBouncing, then sfx_21090C4 when the two 0x74/0x130 tests pass.
+// Runs sub_20F8E78 and StartItemObjectBouncing, then sfx_21090C4 when the two 0x74/0x130 tests pass.
 void itbana_20F50B4(ItemBanana *banana) {
-    func_020f8e78(banana);
+    sub_20F8E78(banana);
     StartItemObjectBouncing(&banana->field0, 0);
     if ((banana->field0.mItemObject.mFlags & 0x10000000) == 0) {
         return;
@@ -913,7 +913,7 @@ void itkino_activate(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (gRaceMultiConfig->mMode != 5) {
         return;
     }
-    func_020fe958(3);
+    sub_20FE958(3);
 }
 
 void itkino_initInstance(ItemKinoko *kinoko) {
@@ -930,11 +930,11 @@ void itkino_20F5008(ItemKinoko *kinoko, void *b, void *c) {
     DrawItemObjectModel(&kinoko->field0.mItemObject, c, b);
 }
 
-// Decreases the 0x130 word by one; when it goes below zero func_020f7658 runs first.
+// Decreases the 0x130 word by one; when it goes below zero sub_20F7658 runs first.
 void AdvanceRestingItemKinoko(ItemKinoko *kinoko) {
     kinoko->mTimer--;
     if (kinoko->mTimer < 0) {
-        func_020f7658(&kinoko->field0.mItemObject, 0);
+        sub_20F7658(&kinoko->field0.mItemObject, 0);
     }
     AdvanceRestingItemObject(&kinoko->field0.mItemObject);
 }
@@ -997,7 +997,7 @@ void StartBouncingItemKinoko(void **kinokoSlot, Vec3 *b, s32 timer) {
     kinoko = kinokoSlot[0];
     kinoko->field0.mItemObject.field78 |= data_0215969c;
     CreateItemObjectCollisionSlot(kinoko);
-    func_020f9114(kinoko);
+    sub_20F9114(kinoko);
     InitBouncingItem(&kinoko->field0, 0, b);
     if ((kinoko->field0.mItemObject.mFlags & 0x180000) == 0) {
         kinoko->field0.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceBouncingItemKinoko;
@@ -1092,7 +1092,7 @@ void StartNextHeldItemObject(HeldItem *heldItem) {
     kartDrawPos = &kart->mDrawMatrixPos;
     kartVelocity = &kart->mVelocity;
     it_itemsetAddItem(it_sItemsets + item->mKind, item);
-    func_020efd1c(heldItem->mKartItems, item);
+    sub_20EFD1C(heldItem->mKartItems, item);
     VEC_MultAdd(0xb33, kartVelocity, &item->mVelocity, &item->mVelocity);
     *(Vec3 *) &item->mPos = *kartDrawPos;
     it_startThrowAnim(item, 0, kartDrawPos, kartVelocity, &kart->mGroundNormal);

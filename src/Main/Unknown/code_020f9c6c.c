@@ -160,7 +160,7 @@ void SetItemKouraWKartItemsAndStateIfNone(ItemKouraW *item, s32 kartIndex) {
 s32 itkraw_20FC79C(ItemInUse *itemInUse, ItemKouraW *item) {
     Kart *kart;
 
-    func_020f9114(item);
+    sub_20F9114(item);
     if (itemInUse->mKartItems->field1F0.mLink != NULL) {
         InitLinkFollowingItemFromInUse((LinkFollowingItemObject *) item, itemInUse, 0x14, 0xcc, 1, 1, 0, 0x6000,
                                        item->mRankKartIndex, 1);
@@ -171,7 +171,7 @@ s32 itkraw_20FC79C(ItemInUse *itemInUse, ItemKouraW *item) {
         item->mNextState = ((item->field0.mFlags & 0x40000000) || (kart->field48 & 1)) ? 2 : 3;
         item->mNextStateRequested = 1;
         if (item->field0.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+            sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     }
     itkraw_20FC94C(item);
@@ -337,7 +337,7 @@ void itkraw_20FBD98(ItemKouraW *item) {
         }
         if (item->mRankKartIndex ==
                 (u16) (!(item->field0.field78 & 0x8000) ? (u16) (item->field0.field78 & ~0xff00) : 8) ||
-            func_02068eac(driver_getById(item->mRankKartIndex)) != 0) {
+            StructMQRacerEntry_HasFlags0x60(driver_getById(item->mRankKartIndex)) != 0) {
             item->field278 = 1;
         } else {
             item->mKartMask |= 1 << item->mRankKartIndex;
@@ -348,7 +348,7 @@ void itkraw_20FBD98(ItemKouraW *item) {
         kartCount = (u8) gRaceMultiConfig->mKartCount;
         for (i = 1; i <= kartCount; i = (u16) (i + 1)) {
             item->mRankKartIndex = gRaceStatus->mKartAtRank[(u8) i - 1];
-            if (func_02068eac(driver_getById(item->mRankKartIndex)) == 0) {
+            if (StructMQRacerEntry_HasFlags0x60(driver_getById(item->mRankKartIndex)) == 0) {
                 break;
             }
         }
@@ -360,7 +360,7 @@ void itkraw_20FBD98(ItemKouraW *item) {
         item->mNextState = r;
         item->mNextStateRequested = 1;
         if (item->field0.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+            sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
         return;
     }
@@ -372,7 +372,7 @@ void itkraw_20FBD98(ItemKouraW *item) {
         item->mNextState = v;
         item->mNextStateRequested = 1;
         if (item->field0.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+            sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
         return;
     }
@@ -474,7 +474,7 @@ void itkraw_20FBA6C(ItemKouraW *item) {
         item->mPosStrip = NULL;
     }
     if (item->field0.mFlags & 0x8000000) {
-        func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+        sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
     }
 }
 
@@ -596,9 +596,9 @@ void itkraw_20FB46C(ItemKouraW *item) {
     item->field260 -= 0x7000;
     SteerItemKouraWToKartForward(item, 0xb33, item->field260);
     if (item->field260 < -0x32000) {
-        func_020f7104(&item->field0, 0);
+        sub_20F7104(&item->field0, 0);
         if (item->field0.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+            sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     } else {
         Vec3 *position;
@@ -608,15 +608,15 @@ void itkraw_20FB46C(ItemKouraW *item) {
                           item->field0.mCollisionSlotIndex, &hitOffset, NULL, NULL, &item->field0.mCollisionBits,
                           NULL, NULL, NULL, NULL) != 0) {
             VEC_Add(&hitOffset, position, position);
-            func_020f7104(&item->field0, 0);
+            sub_20F7104(&item->field0, 0);
             if (item->field0.mFlags & 0x8000000) {
-                func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+                sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
             }
         }
     }
     grew =
         GrowItemObjectScale(item, it_sItemParams[item->field0.mKind].field74, it_sItemParams[item->field0.mKind].field78);
-    if (func_020f9ce8(&item->field0) != 0) {
+    if (sub_20F9CE8(&item->field0) != 0) {
         return;
     }
     if (grew) {
@@ -633,7 +633,7 @@ void itkraw_20FB35C(ItemKouraW *param_1) {
     param_1->field0.field100 = 0;
     param_1->field0.mScale = data_02159d84;
     param_1->mModelEffect =
-        expl_spawnEffect(1, &param_1->field0.mPos, func_020f9160(&param_1->field0) == 0 ? 1 : 0);
+        expl_spawnEffect(1, &param_1->field0.mPos, sub_20F9160(&param_1->field0) == 0 ? 1 : 0);
     effect = param_1->mModelEffect;
     if (effect != NULL) {
         effectScale = effect->mScale;
@@ -662,7 +662,7 @@ void itkraw_20FB2B4(ItemKouraW *item) {
 
     stateFrames = item->mStateFrames;
     if (GrowItemObjectScale(item, gKouraWState7ScaleLimit, gKouraWState7ScaleStep)) {
-        func_020f9fa8(&item->field0);
+        sub_20F9FA8(&item->field0);
     }
     if (stateFrames < 0x16) {
         return;
@@ -692,7 +692,7 @@ void *itkraw_20FB208(void *param_1, ItemKouraW *item, void *param_3) {
         func_020ff1a0(item->field0.mVelocity.y, &item->field2FC);
     }
     if (item != NULL && param_3 != NULL) {
-        return func_020fe8ac(item->field0.mKind);
+        return sub_20FE8AC(item->field0.mKind);
     }
     return r;
 }
@@ -703,7 +703,7 @@ void itkraw_20FB038(ItemKouraW *item) {
     Kart *kart;
     s32 nextState;
 
-    func_020f8e78(item);
+    sub_20F8E78(item);
     if (item->mPreviousLink != 0) {
         InitLinkFollowingItem((LinkFollowingItemObject *) item, 0x14, 0xcc, 1, 0, item->field2FC,
                               gRaceStatus->mKartAtRank[0], 1);
@@ -725,7 +725,7 @@ void itkraw_20FB038(ItemKouraW *item) {
         item->mNextState = nextState;
         item->mNextStateRequested = 1;
         if (item->field0.mFlags & 0x8000000) {
-            func_020fe71c(5, item->mKartItems->mKartIndex, item->field0.mId);
+            sub_20FE71C(5, item->mKartItems->mKartIndex, item->field0.mId);
         }
     }
     itkraw_20FC94C(item);
@@ -921,7 +921,7 @@ BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex) {
     return TRUE;
 }
 
-void func_020fa9e4(void) {
+void sub_20FA9E4(void) {
     enum { K0 } poolIndex;
     u16 kartIndex;
 
@@ -938,8 +938,8 @@ void it_updateAll(void) {
     u16 kartIndex;
 
     if (gRaceMultiConfig->mMode == 5) {
-        func_020fec30();
-        func_020feb44();
+        sub_20FEC30();
+        sub_20FEB44();
     }
     for (poolIndex = 0; poolIndex < 0xe; poolIndex++) {
         if (it_sItemsets[poolIndex].mActiveCount != 0) {
@@ -949,7 +949,7 @@ void it_updateAll(void) {
     for (kartIndex = 0; kartIndex < it_sDriverCount; kartIndex++) {
         it_driverUpdateItemStatus(&it_sDriverItemStatus[kartIndex]);
     }
-    func_020f8258();
+    sub_20F8258();
     cspl_update();
     UpdateBouncingItemBoxTimers();
 }
@@ -1058,7 +1058,7 @@ s32 it_20FA4C8(Kart *kart) {
         if (v == 0) {
             continue;
         }
-        if ((kart->field7C & 0x2000) && func_020f9880(item) != 0) {
+        if ((kart->field7C & 0x2000) && sub_20F9880(item) != 0) {
             continue;
         }
         gCollidedItemObjects[hitCount++] = item;
@@ -1067,11 +1067,11 @@ s32 it_20FA4C8(Kart *kart) {
         }
         kind = item->mKind;
         if (it_sItemParams[kind].field88 != 0) {
-            if (func_020f9880(item) != 0) {
-                func_020f6be8(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
-                func_020f6f10(item, 1, (u16) kart->mIndex);
+            if (sub_20F9880(item) != 0) {
+                sub_20F6BE8(item, &kart->mCollisionCenter, &kart->mVelocity, &kart->mSignedTurnedForward);
+                sub_20F6F10(item, 1, (u16) kart->mIndex);
             } else {
-                func_020f7430(item, 1);
+                sub_20F7430(item, 1);
             }
         }
         if (hitCount >= 0x10) {
@@ -1175,9 +1175,9 @@ void InitializeItems(void) {
     heap = proc_getHeap(proc_getCurrent());
     a = 0;
     LoadItemSlotList();
-    func_020f82e8(1);
-    func_020f82c4(1);
-    func_020f82a4(1);
+    sub_20F82E8(1);
+    sub_20F82C4(1);
+    sub_20F82A4(1);
     it_initItemConfig();
     items_20F1A24();
     CreateItemPushVector();
@@ -1263,7 +1263,7 @@ void RefreshItemObjectScale(ItemObject *item) {
     col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
 }
 
-void func_020f9fa8(ItemObject *item) {
+void sub_20F9FA8(ItemObject *item) {
     ItemKind *kindInfo;
     enum { K0 } kind;
     s32 radiusRatio;
@@ -1317,7 +1317,7 @@ s32 func_020f9dc8(ItemObject *item) {
     return 0;
 }
 
-s32 func_020f9ce8(ItemObject *item) {
+s32 sub_20F9CE8(ItemObject *item) {
     ItemKind *kindInfo;
     enum { K0 } kind;
     s32 radiusRatio;

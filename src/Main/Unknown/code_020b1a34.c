@@ -53,7 +53,7 @@ s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMilli
     return firstNotLess;
 }
 
-void func_020b1a34(void) {
+void sub_20B1A34(void) {
     MinuteSecondMillisecondTime referenceLap;
     MinuteSecondMillisecondTime kartLap;
     MinuteSecondMillisecondTime difference;

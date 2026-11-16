@@ -33,7 +33,7 @@ found:
     slot->mDataSize = size;
 }
 
-void func_0205a7dc(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state) {
+void sub_205A7DC(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state) {
     Unk0217aa14_754_04_20 *entry;
 
     entry = &((Unk0217aa14_754_04 *) (void *) &gStruct217AA14->field754->field4)->field20[participantIndex];
@@ -42,12 +42,12 @@ void func_0205a7dc(s32 participantIndex, u16 remaining, s32 itemIndex, s32 state
     entry->field0_12 = state;
 }
 
-void func_0205a7ac(s32 participantIndex) {
+void sub_205A7AC(s32 participantIndex) {
     Unk0217aa14_754_04 *p = (void *) &gStruct217AA14->field754->field4;
     MI_CpuFill8(&p->field20[participantIndex], 0, 2);
 }
 
-void func_0205a750(s32 itemIndex) {
+void sub_205A750(s32 itemIndex) {
     Unk0217aa14_104_68 *view;
     s32 t;
 
@@ -60,11 +60,11 @@ void func_0205a750(s32 itemIndex) {
     view->field4 = 0x13;
 }
 
-void func_0205a71c(s32 participantIndex) {
-    func_020f86c4(&it_sDriverItemStatus[(u8) gStruct217AA18->mKartOfParticipant[participantIndex]]);
+void sub_205A71C(s32 participantIndex) {
+    sub_20F86C4(&it_sDriverItemStatus[(u8) gStruct217AA18->mKartOfParticipant[participantIndex]]);
 }
 
-void func_0205a6b4(void) {
+void sub_205A6B4(void) {
     u16 participantIndex;
     Unk0217aa14_104_68 *view;
 
@@ -80,13 +80,13 @@ void func_0205a6b4(void) {
     }
 }
 
-s32 func_0205a630(s32 participantIndex) {
+s32 sub_205A630(s32 participantIndex) {
     BOOL result;
     s32 itemInfoIndex;
 
     itemInfoIndex = gStruct217AA14->field104[participantIndex].field6C;
     result = FALSE;
-    if (func_020efd84(&it_sDriverItemStatus[(u8) gStruct217AA18->mKartOfParticipant[participantIndex]], itemInfoIndex) !=
+    if (sub_20EFD84(&it_sDriverItemStatus[(u8) gStruct217AA18->mKartOfParticipant[participantIndex]], itemInfoIndex) !=
         FALSE) {
         gStruct217AA14->field104[participantIndex].field6C = 0x13;
         result = TRUE;
@@ -94,7 +94,7 @@ s32 func_0205a630(s32 participantIndex) {
     return result;
 }
 
-void func_0205a5b0(u32 participantIndex) {
+void sub_205A5B0(u32 participantIndex) {
     Unk0217aa14_104_68 *view;
 
     view = &gStruct217AA14->field104[participantIndex].mUnk_68_view;

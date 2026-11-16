@@ -10,7 +10,7 @@
 
 void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
     if (kart->field7C & KART_7C_ENTRY_KIND_2) {
-        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) func_0210ab44;
+        kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) MQ_FnPtr1_1;
     } else {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
     }
@@ -18,10 +18,10 @@ void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
     if (scproc_getCurrentScene() == 2 || kart->mIndex != gRaceMultiConfig->mEntryIndex) {
         b->field3C = func_0210a63c;
     } else {
-        b->field3C = func_0210aa0c;
+        b->field3C = sub_210AA0C;
     }
 }
 
-void func_0210a598(Kart *kart, s32 soundIndex) {
+void StructMQRacerEntry_SomeFn_66(Kart *kart, s32 soundIndex) {
     sfx_emitDriverVoice(kart, soundIndex, 8);
 }

@@ -39,7 +39,7 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
             }
             VEC_Subtract(&item->mPrevPos, otherPos, &offset);
             if (!(item->mFlags & 0x8000) && (item->mFlags & 0x1000000)) {
-                func_020f7c90(item, otherPos, &offset);
+                sub_20F7C90(item, otherPos, &offset);
                 break;
             }
             item->mFlags |= 0x4000000;
@@ -90,7 +90,7 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
                 n = vec_normalize(otherVelocity, &direction);
             }
             if (n != 0) {
-                func_020f6be8(item, otherPos, otherVelocity, &direction);
+                sub_20F6BE8(item, otherPos, otherVelocity, &direction);
             } else {
                 VEC_Subtract(&item->mPos, otherPos, &direction);
                 if (direction.y < 0) {
@@ -104,13 +104,13 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
                 push.x = ((s64) direction.x * 0x1800) >> 12;
                 push.y = ((s64) direction.y * 0x1800) >> 12;
                 push.z = ((s64) direction.z * 0x1800) >> 12;
-                func_020f6be8(item, otherPos, &push, &direction);
+                sub_20F6BE8(item, otherPos, &push, &direction);
             }
             if (soundId == -1 || (item->mFlags & 0x8000000)) {
-                func_020f6fc4(item, 1);
+                sub_20F6FC4(item, 1);
             } else {
                 n = item->mKind;
-                func_020f7104(item, 1);
+                sub_20F7104(item, 1);
                 if (n == 5 || n == 9) {
                     soundId = -1;
                 }
@@ -124,7 +124,7 @@ void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherV
     soundCallback(item, soundId);
 }
 
-void func_020f7658(ItemObject *item, s32 c) {
+void sub_20F7658(ItemObject *item, s32 c) {
     BOOL started;
     enum { K0 } kind;
 
@@ -173,7 +173,7 @@ void func_020f7658(ItemObject *item, s32 c) {
     if (c == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 4, 8, item->mId);
+    sub_20FE7A0(item->mKind, 4, 8, item->mId);
 }
 
 void StartItemObjectReleaseTimer(ItemObject *item) {
@@ -203,7 +203,7 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     }
 }
 
-void func_020f7430(ItemObject *item, s32 c) {
+void sub_20F7430(ItemObject *item, s32 c) {
     BOOL started;
 
     if (!(item->mFlags & 0x8000000)) {
@@ -249,7 +249,7 @@ void func_020f7430(ItemObject *item, s32 c) {
     if (c == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 5, 8, item->mId);
+    sub_20FE7A0(item->mKind, 5, 8, item->mId);
 }
 
 void StartItemObjectRelease(ItemObject *item) {

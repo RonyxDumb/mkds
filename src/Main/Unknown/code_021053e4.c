@@ -17,7 +17,7 @@ const Unk0215a64c data_0215a64c = {
 
 const Unk0215a680 data_0215a680 = {{0, 0, 0, 0xf000, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0}};
 
-u32 func_02105504(void) {
+u32 IsInRaceSceneNormalOrReplay(void) {
     u32 result = 0;
     u32 isNormalOrKind2;
     if (scproc_getCurrentScene() == 2) {

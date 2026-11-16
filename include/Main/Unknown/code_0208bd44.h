@@ -5,7 +5,7 @@
 
 void enmy_initStaffRollEnemy(KartAi *kartAi, s32 kartIndex);
 void enmy_updateAwardEnemy(KartAi *kartAi);
-void func_0208bde0(KartAi *kartAi, PointLink *pointLink);
+void sub_208BDE0(KartAi *kartAi, PointLink *pointLink);
 void enmy_initAwardEnemy(KartAi *kartAi, s32 kartIndex);
 void enmy_notifyDragItemChangedForMg(KartAi *kartAi);
 void enmy_notifySlotItemChangedForMg(KartAi *kartAi);

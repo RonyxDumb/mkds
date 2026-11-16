@@ -23,5 +23,5 @@ typedef struct Unk0206390c {
 extern const u32 aKilleritem[];
 
 void driver_killerItemRenderObjCallback(Unk0206390c *renderState);
-void func_02063a68(Kart *kart);
-void func_02063ad0(Kart *kart);
+void sub_2063A68(Kart *kart);
+void sub_2063AD0(Kart *kart);

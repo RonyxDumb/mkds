@@ -160,12 +160,12 @@ void arc_getCourseArcPath(char *path, s32 courseId, s32 useTexture) {
     if (useTexture != 0) {
         textureSuffix = aTex;
     } else {
-        textureSuffix = data_02165168;
+        textureSuffix = g_EmptyString;
     }
     if (d != FALSE) {
         dSuffix = aD_0;
     } else {
-        dSuffix = data_02165170;
+        dSuffix = g_EmptyString_0;
     }
     OS_SNPrintf(path, 0x80, aDataCourseSSS_, sCourseDefs[courseId].field0, dSuffix, textureSuffix);
 }

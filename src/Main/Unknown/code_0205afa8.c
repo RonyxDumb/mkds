@@ -9,7 +9,7 @@
 #include "00/code_0219b580.h"
 #include "Main/Kart/KartTimes.h"
 
-s32 func_0205afa8(void) {
+s32 sub_205AFA8(void) {
     u32 c;
     s32 kartStartRank;
     u16 kartIndex;

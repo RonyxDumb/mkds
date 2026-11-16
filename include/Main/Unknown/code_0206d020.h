@@ -17,7 +17,7 @@ typedef enum {
 } KartBoostKind;
 
 void driver_addBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
-void func_0206d138(Kart *kart);
+void StructMQRacerEntry_SomeFn_89(Kart *kart);
 void driver_handleItems(Kart *kart);
 void driver_handleSlipstream(Kart *kart);
 void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Vec3 *out);

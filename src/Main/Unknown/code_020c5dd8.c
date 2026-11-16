@@ -48,7 +48,7 @@ s32 r2dtar_isSaving(void) {
     return r2dtar_sStatus != NULL ? r2dtar_sStatus->field18 : 0;
 }
 
-s32 func_020c70a0(void) {
+s32 sub_20C70A0(void) {
     return r2dtar_sStatus != NULL ? r2dtar_sStatus->fieldDC : 0;
 }
 
@@ -374,7 +374,7 @@ void r2dtar_20C610C(void) {
         if (r2dtar_sStatus->mFinishTimeIsRecord != 0 || r2dtar_sStatus->mBestLapIsRecord != 0) {
             r2dtar_sStatus->field18 = 1;
             savd_flushNkta();
-            r2dtar_sStatus->mUpdate = func_020c5f7c;
+            r2dtar_sStatus->mUpdate = StructE8_SomeFnHandle4;
             r2dtar_sStatus->mUpdateFrames = 0;
         } else {
             r = FALSE;
@@ -398,7 +398,7 @@ void r2dtar_20C610C(void) {
             if (r != FALSE) {
                 r2dtar_sStatus->field18 = 1;
                 savd_storePersonalGhost(gRaceMultiConfig->mCourseId, gRaceMultiConfig->mEntryIndex);
-                r2dtar_sStatus->mUpdate = func_020c5f08;
+                r2dtar_sStatus->mUpdate = StructE8_SomeFnHandle3;
                 r2dtar_sStatus->mUpdateFrames = 0;
             } else {
                 r2dtar_sStatus->mUpdate = SlideInRaceNewRecordTa;
@@ -436,7 +436,7 @@ void r2dtar_20C610C(void) {
     r2dtar_sStatus->fieldDC = 1;
 }
 
-void func_020c5f7c(void) {
+void StructE8_SomeFnHandle4(void) {
     MinuteSecondMillisecondTime setupTime;
     MinuteSecondMillisecondTime finishTime;
     BOOL r;
@@ -472,7 +472,7 @@ void func_020c5f7c(void) {
     if (r != FALSE) {
         r2dtar_sStatus->field18 = 1;
         savd_storePersonalGhost(gRaceMultiConfig->mCourseId, gRaceMultiConfig->mEntryIndex);
-        r2dtar_sStatus->mUpdate = func_020c5f08;
+        r2dtar_sStatus->mUpdate = StructE8_SomeFnHandle3;
         r2dtar_sStatus->mUpdateFrames = 0;
     } else {
         r2dtar_sStatus->field18 = 0;
@@ -481,7 +481,7 @@ void func_020c5f7c(void) {
     }
 }
 
-void func_020c5f08(void) {
+void StructE8_SomeFnHandle3(void) {
     s32 waiting;
 
     if (gSaveData->mBusy == 0) {
@@ -515,12 +515,12 @@ void SlideInRaceNewRecordTa(void) {
         r2dtar_sStatus->mOffsetX = mutil_interpolate(1, -0x100, 0, n, 0x14);
     } else {
         r2dtar_sStatus->mOffsetX = 0;
-        r2dtar_sStatus->mUpdate = (void (*)(void)) func_020c5df0;
+        r2dtar_sStatus->mUpdate = (void (*)(void)) StructE8_SomeFnHandle6;
         r2dtar_sStatus->mUpdateFrames = 0;
     }
 }
 
-u32 func_020c5df0(void) {
+u32 StructE8_SomeFnHandle6(void) {
     u32 value0;
     u32 value1;
     u32 value2;
@@ -538,7 +538,7 @@ u32 func_020c5df0(void) {
         return value0;
     }
     value2 = *(const u32 *) ((value0) + (0));
-    value3 = (u32) &func_020c5dd8;
+    value3 = (u32) &StructE8_SomeFnHandle7;
     value1 = 0u;
     *(u32 *) ((value2) + (0)) = value3;
     value0 = *(const u32 *) ((value0) + (0));
@@ -546,7 +546,7 @@ u32 func_020c5df0(void) {
     return value0;
 }
 
-u32 func_020c5dd8(void) {
+u32 StructE8_SomeFnHandle7(void) {
     u32 value0;
     u32 zero;
     value0 = (u32) &r2dtar_sStatus;

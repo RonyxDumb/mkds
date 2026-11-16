@@ -5,7 +5,7 @@
 
 extern s8 data_0217d414;
 extern u32 data_0217d418;
-extern u32 data_0217d41c;
+extern u32 g_SoundInitialized;
 extern PMSleepCallbackInfo data_0217d420;
 extern PMSleepCallbackInfo data_0217d42c;
 

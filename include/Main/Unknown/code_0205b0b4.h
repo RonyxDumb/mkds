@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0205b0b4(void);
+void GlobalB_E7Fn_5BImpl(void);

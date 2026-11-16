@@ -22,7 +22,7 @@ void menu_configureRace(void) {
     u16 rowIndex;
     u8 tableRowColumn[2];
 
-    if (func_020cc120() != 2) {
+    if (GetB488_SinglePlayerMenuTarget() != 2) {
         if (menu_getRaceConfig()->mMode == 0) {
             switch (menu_getRaceConfig()->mEngineIndex) {
                 case 0:
@@ -93,6 +93,6 @@ void menu_configureRace(void) {
     }
     if (func_020cc994() != 0) {
         rconf_2045ED0();
-        func_020cc10c(0);
+        SetB488_B2(0);
     }
 }

@@ -24,7 +24,7 @@
 #include "Main/Unknown/code_02109000.h"
 #include "code_02147cd8.h"
 
-BOOL func_020f9c08(ItemObject *item) {
+BOOL sub_20F9C08(ItemObject *item) {
     if (item->mAgeFrames > 0x12c && (item->mFlags & 0x8000) != 0 &&
         item->mAdvance == (void (*)(ItemObject *)) AdvanceRestingItemObject) {
         return TRUE;
@@ -32,7 +32,7 @@ BOOL func_020f9c08(ItemObject *item) {
     return FALSE;
 }
 
-void func_020f9ba8(ItemObject *item) {
+void sub_20F9BA8(ItemObject *item) {
     if (item->mAgeFrames <= 0x12c) {
         return;
     }
@@ -42,18 +42,18 @@ void func_020f9ba8(ItemObject *item) {
     if (item->mAdvance != (void (*)(ItemObject *)) AdvanceRestingItemObject) {
         return;
     }
-    func_020f7658(item, 1);
+    sub_20F7658(item, 1);
 }
 
 void func_020f9b0c(ItemObject *item) {
     if ((item->mFlags & 0x8000) != 0) {
-        func_020f7658(item, 1);
+        sub_20F7658(item, 1);
         return;
     }
     item->mVelocity.x = ((s64) item->mVelocity.x * 0x99a) >> 12;
     item->mVelocity.y = ((s64) item->mVelocity.y * 0x99a) >> 12;
     item->mVelocity.z = ((s64) item->mVelocity.z * 0x99a) >> 12;
-    func_020f6fc4(item, 1);
+    sub_20F6FC4(item, 1);
 }
 
 void it_initInstance(ItemObject *item, s32 kind) {
@@ -106,7 +106,7 @@ void it_destroy(ItemObject *item) {
         item->mCollisionSlotIndex = col_deleteColEntry(item->mCollisionSlotIndex);
     }
     if ((item->mFlags & 0x400000) != 0) {
-        func_02109054(&item->mSoundSource);
+        sub_2109054(&item->mSoundSource);
         item->mSoundSource.mTrackParamsFunction = NULL;
         item->mFlags &= ~0x400000;
     }
@@ -129,7 +129,7 @@ void it_20F98A0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, u16 *colorBl
     item->field116 = param_5 != 0 ? 0 : 5;
 }
 
-s32 func_020f9880(ItemObject *item) {
+s32 sub_20F9880(ItemObject *item) {
     return it_sItemParams[item->mKind].field84;
 }
 
@@ -196,12 +196,12 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     it_20F77F8(item, hitType, &other->mPos, &other->mVelocity, NULL);
     it_20F77F8(other, otherHitType, &item->mPos, &itemVelocity, NULL);
     if (item->mKind == 1) {
-        func_020f5614(item, hitType, other);
+        sub_20F5614(item, hitType, other);
     }
     if (other->mKind != 1) {
         return;
     }
-    func_020f5614(other, otherHitType, item);
+    sub_20F5614(other, otherHitType, item);
 }
 
 void it_20F944C(ItemObject *itemParam, MapObject *mapObjectParam) {
@@ -248,7 +248,7 @@ void it_20F944C(ItemObject *itemParam, MapObject *mapObjectParam) {
     }
 }
 
-void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
+void sub_20F9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed, Vec3 *normal) {
     ItemObject *item = itemParam;
     Vec3 lowerPos;
     u32 collisionBits;

@@ -78,7 +78,7 @@ s32 mutil_FX_TRUNC_MUL(s32 value, s32 factor) {
     return ((s64) value * factor) >> 12;
 }
 
-s32 func_020ae54c(s32 value) {
+s32 sub_20AE54C(s32 value) {
     return value >> 12;
 }
 
@@ -107,7 +107,7 @@ s16 mutil_interpolate(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durat
             } else {
                 scaledDifference = (difference << 12) - 0.5f;
             }
-            return start + func_020ae54c(mutil_FX_TRUNC_MUL(scaledDifference, 0x1000 - easeValue)) / 2;
+            return start + sub_20AE54C(mutil_FX_TRUNC_MUL(scaledDifference, 0x1000 - easeValue)) / 2;
     }
 }
 
@@ -178,7 +178,7 @@ u32 func_020ae3b4(u32 limit) {
     } else {
         randomState = func_020ae3d8();
     }
-    return func_02046524((RandomState64 *) randomState, limit);
+    return sub_2046524((RandomState64 *) randomState, limit);
 }
 
 #pragma thumb off
@@ -211,12 +211,12 @@ void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
 
 #pragma thumb off
 
-u32 func_020ae338(InputSlotPair *inputSlotPair) {
+u32 sub_20AE338(InputSlotPair *inputSlotPair) {
     return inputSlotPair->mHasPair;
 }
 
-BOOL func_020ae308(InputSlotPair *inputSlotPair) {
-    if (func_020ae338(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+BOOL sub_20AE308(InputSlotPair *inputSlotPair) {
+    if (sub_20AE338(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
         return 1;
     }
     return 0;
@@ -230,7 +230,7 @@ BOOL IsPairNew(InputSlotPair *inputSlotPair) {
 }
 
 BOOL func_020ae2b0(InputSlotPair *inputSlotPair) {
-    if (func_020ae308(inputSlotPair) == 0 && IsPairNew(inputSlotPair) != 0) {
+    if (sub_20AE308(inputSlotPair) == 0 && IsPairNew(inputSlotPair) != 0) {
         return 1;
     }
     return 0;
@@ -317,7 +317,7 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 b) {
 
 #pragma thumb off
 
-u32 func_020ae15c(u32 entryIndex) {
+u32 GetRacerType(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
@@ -329,8 +329,8 @@ u32 func_020ae15c(u32 entryIndex) {
     return value0;
 }
 
-BOOL func_020ae114(u32 entryIndex) {
-    if (func_020ae15c(entryIndex) == 0 || func_020ae15c(entryIndex) == 2 || func_020ae15c(entryIndex) == 3) {
+BOOL IsRacerPlayerOrGhostOrNet(u32 entryIndex) {
+    if (GetRacerType(entryIndex) == 0 || GetRacerType(entryIndex) == 2 || GetRacerType(entryIndex) == 3) {
         return 1;
     }
     return 0;
@@ -348,11 +348,11 @@ u32 GetKartEntryName(u32 entryIndex) {
     return value0;
 }
 
-u32 func_020ae0e4(void) {
+u32 GetCurrentRaceMode_0(void) {
     return (gRaceMultiConfig->mMode);
 }
 
-u32 func_020ae0c8(u32 entryIndex) {
+u32 GetRacerCharacterId_0(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
@@ -389,7 +389,7 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
     for (i = 0; i < 11; i++) {
         nameOut[i] = 0;
     }
-    if (func_020ae114(entryIndex) != 0) {
+    if (IsRacerPlayerOrGhostOrNet(entryIndex) != 0) {
         source = (u16 *) GetKartEntryName(entryIndex);
         if (source == NULL) {
             return;
@@ -400,8 +400,8 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
             charCount = CopyTextWithinWidth(source, &x[1]);
         }
     } else {
-        if (func_020ae0e4() == MODE_GRAND_PRIX || func_020ae0e4() == MODE_MISSION_RUN) {
-            source = GetCharacterBmgEntry(func_020ae0c8(entryIndex), c);
+        if (GetCurrentRaceMode_0() == MODE_GRAND_PRIX || GetCurrentRaceMode_0() == MODE_MISSION_RUN) {
+            source = GetCharacterBmgEntry(GetRacerCharacterId_0(entryIndex), c);
             charCount = 20;
         } else {
             wcsncpy(numberedName, jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), 0x72), 9);

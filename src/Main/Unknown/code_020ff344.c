@@ -200,7 +200,7 @@ void itfbox_20FF638(ItemInUse *inUse, ItemFBox *fbox) {
 }
 
 u32 itfbox_20FF538(ItemInUse *inUse, ItemFBox *fbox) {
-    func_020f9114(fbox);
+    sub_20F9114(fbox);
     fbox->field0.mItemObject.field78 |= data_0215a02c;
     MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) &fbox->field0.mItemObject.field94,
                  (s32 *) &fbox->field0.mItemObject.field94);
@@ -223,7 +223,7 @@ void itfbox_20FF438(ItemFBox *fbox) {
 
     if (fbox->field0.mItemObject.mFlags & 0x180000) {
         if (fbox->field0.mItemObject.mFlags & 0x80000) {
-            func_020f6e58(&fbox->field0.mItemObject);
+            sub_20F6E58(&fbox->field0.mItemObject);
         } else if (fbox->field0.mItemObject.mFlags & 0x100000) {
             AdvanceItemObjectReleaseTimer(&fbox->field0.mItemObject);
         }

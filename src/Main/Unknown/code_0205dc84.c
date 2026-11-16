@@ -77,7 +77,7 @@ void scproc_runWifiUtil(void) {
         heap_free(a, scproc_sSceneProc->mSndHeapsBuffer);
         scproc_sSceneProc->mSndHeapsBuffer = NULL;
     }
-    func_02108ed8();
+    nullsub_12();
     expHeapFromMaxFree = heap_createSubExpHeap(a);
     c = heap_allocEx(expHeapFromMaxFree, 0x40000, 0x20);
     func_0205dee0_inline(c, SDK_OVERLAY_OV003_ID);
@@ -137,7 +137,7 @@ s32 scproc_sceneProcMain(s16 *sceneNumber) {
     }
     switch (scproc_sSceneProc->field0) {
         case 0:
-            func_02054330();
+            sub_2054330();
             break;
         case 1:
             DeleteWiFiSessionHeap();

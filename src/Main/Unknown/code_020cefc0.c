@@ -56,7 +56,7 @@ void mpicn_updateExplosionIcon(void) {
     for (i = 0; i < activeCount; i++) {
         bomb = objects[i];
         if (IsItemBombState2(bomb) != FALSE) {
-            bombPosition = func_020fd308((ItemBomb *) bomb, &bombStateFrames, &y);
+            bombPosition = sub_20FD308((ItemBomb *) bomb, &bombStateFrames, &y);
             if (lmap_20B5AE8(
                     bombPosition, &mpicn_sExplosionIcon->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
                 mpicn_sExplosionIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x63);

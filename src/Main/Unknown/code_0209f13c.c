@@ -61,7 +61,7 @@ void chnd_update(void *a, Unk0209f1c8 *b) {
             s1.mPositionSource = &b->field0.mPos;
             s1.field8 = t;
             s1.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-            func_0210b7a8(&s1);
+            sub_210B7A8(&s1);
         }
     } else if (b->fieldA0 == 0x46 || b->fieldA0 == 0xaf) {
         if ((b->field0.mDistanceSquaredAndFlags & 4) == 0) {
@@ -76,7 +76,7 @@ void chnd_update(void *a, Unk0209f1c8 *b) {
             s2.mPositionSource = &b->field0.mPos;
             s2.field8 = t;
             s2.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-            func_0210b7a8(&s2);
+            sub_210B7A8(&s2);
         }
     } else if (b->fieldA0 == 0xfa) {
         if ((b->field0.mDistanceSquaredAndFlags & 4) == 0) {
@@ -91,7 +91,7 @@ void chnd_update(void *a, Unk0209f1c8 *b) {
             s3.mPositionSource = &b->field0.mPos;
             s3.field8 = t;
             s3.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-            func_0210b7a8(&s3);
+            sub_210B7A8(&s3);
         }
     }
     n = b->fieldA0 + 1;

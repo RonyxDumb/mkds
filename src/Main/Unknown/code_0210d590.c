@@ -38,7 +38,7 @@ void MKDS_SND_210D5C0(ScenePlayers *scenePlayers) {
     func_0210d614_inline(scenePlayers, data_0217d070.fieldB, (NNSSndSeqPlayer **) (u32) &data_0217d07c);
 }
 
-void func_0210d590(ScenePlayers *scenePlayers, u32 fadeSteps) {
+void sub_210D590(ScenePlayers *scenePlayers, u32 fadeSteps) {
     if (scenePlayers->fieldB == 0xff) {
         return;
     }

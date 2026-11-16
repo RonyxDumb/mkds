@@ -126,7 +126,7 @@ void mtree_update(void *a, MoveTree *moveTree) {
             s1.mPositionSource = &moveTree->field0.mPos;
             s1.field8 = k;
             s1.mDistanceSquared = mobj_calcXZCamDist(&moveTree->field0.mPos);
-            func_0210b7a8(&s1);
+            sub_210B7A8(&s1);
             break;
         case 1:
             speed = moveTree->fieldA8;
@@ -169,7 +169,7 @@ void mtree_update(void *a, MoveTree *moveTree) {
             s2.mPositionSource = &moveTree->field0.mPos;
             s2.field8 = k;
             s2.mDistanceSquared = mobj_calcXZCamDist(&moveTree->field0.mPos);
-            func_0210b7a8(&s2);
+            sub_210B7A8(&s2);
     }
 }
 
@@ -267,7 +267,7 @@ void baku_update(void *a, Bakubaku *bakubaku) {
             s1.mPositionSource = &bakubaku->field0.mPos;
             s1.field8 = 4;
             s1.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->field0.mPos);
-            func_0210b7a8(&s1);
+            sub_210B7A8(&s1);
             bakubaku->mState = 2;
             break;
         case 2:
@@ -281,7 +281,7 @@ void baku_update(void *a, Bakubaku *bakubaku) {
             s2.mPositionSource = &bakubaku->field0.mPos;
             s2.field8 = 2;
             s2.mDistanceSquared = mobj_calcXZCamDist(&bakubaku->field0.mPos);
-            func_0210b7a8(&s2);
+            sub_210B7A8(&s2);
             bakubaku->mState = 3;
             break;
         case 3:

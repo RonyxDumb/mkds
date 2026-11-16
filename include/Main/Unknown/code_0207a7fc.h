@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0207a828(s32 kartIndex);
+void StructMQRacerEntry_SomeFn_21_ById(s32 kartIndex);

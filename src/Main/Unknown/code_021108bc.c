@@ -16,7 +16,7 @@
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_02111024(void) {
+void sub_2111024(void) {
     s32 resultKind;
     s32 callCount;
     s32 callLimit;
@@ -28,7 +28,7 @@ void func_02111024(void) {
     if (data_0217d070.fieldC != NULL) {
         return;
     }
-    resultKind = func_02110e58();
+    resultKind = sub_2110E58();
     callLimit = (resultKind == 2) ? 0x91 : 0x82;
     callCount = data_0217d320 + 1;
     data_0217d320 = callCount;
@@ -38,7 +38,7 @@ void func_02111024(void) {
     if (data_0217d328 == 0) {
         return;
     }
-    row = data_0217d32c.mSeqRow;
+    row = g_GlobalCX.mSeqRow;
     seqId = 0xff;
     switch (resultKind) {
         case 0:
@@ -55,7 +55,7 @@ void func_02111024(void) {
     data_0217d320 = 0;
 }
 
-s32 func_02110fb8(s32 kartRank) {
+s32 sub_2110FB8(s32 kartRank) {
     s32 b;
     b = 0xb;
     if (kartRank == 1) {
@@ -80,7 +80,7 @@ s32 func_02110fb8(s32 kartRank) {
     return b;
 }
 
-s32 func_02110e58(void) {
+s32 sub_2110E58(void) {
     s32 resultKind;
     s32 candidateKind;
     RaceSetup *raceSetup;
@@ -89,7 +89,7 @@ s32 func_02110e58(void) {
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case 5:
-            switch (data_0217d32c.fieldC) {
+            switch (g_GlobalCX.fieldC) {
                 case 0:
                     if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = 0;
@@ -106,9 +106,9 @@ s32 func_02110e58(void) {
             break;
         case MODE_VS:
             if (raceSetup->mRuleKind == 1) {
-                resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
+                resultKind = (g_GlobalCX.fieldC == 0) ? 0 : 2;
             } else {
-                switch (data_0217d32c.fieldC) {
+                switch (g_GlobalCX.fieldC) {
                     case 0:
                         if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = 0;
@@ -125,13 +125,13 @@ s32 func_02110e58(void) {
             }
             break;
         case MODE_MISSION_RUN:
-            resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
+            resultKind = (g_GlobalCX.fieldC == 0) ? 0 : 2;
             break;
         case MODE_BATTLE:
-            resultKind = (data_0217d32c.fieldC == 0) ? 0 : 2;
+            resultKind = (g_GlobalCX.fieldC == 0) ? 0 : 2;
             break;
         case MODE_TIME_ATTACK:
-            resultKind = (data_0217d32c.fieldC == 0) ? 1 : 2;
+            resultKind = (g_GlobalCX.fieldC == 0) ? 1 : 2;
             if (resultKind == IsRaceNewRecordTaFinishRecordFirst()) {
                 resultKind = 0;
             }
@@ -140,7 +140,7 @@ s32 func_02110e58(void) {
     return resultKind;
 }
 
-void func_02110cc8(s32 unused) {
+void MaybePlayCrowdAmbientNoise(s32 unused) {
     s32 seqId;
     s32 resultKind;
     u32 c;
@@ -154,8 +154,8 @@ void func_02110cc8(s32 unused) {
         return;
     }
     EndRaceSounds();
-    resultKind = func_02110e58();
-    row = data_0217d32c.mSeqRow;
+    resultKind = sub_2110E58();
+    row = g_GlobalCX.mSeqRow;
     c = 0xff;
     switch (resultKind) {
         case 0:
@@ -209,14 +209,14 @@ void func_02110cc8(s32 unused) {
     if (seqId <= -1) {
         return;
     }
-    func_02108e38();
+    sub_2108E38();
     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) seqId);
 }
 
-s32 func_02110c40(void) {
+s32 sub_2110C40(void) {
     s32 seqId;
     s32 resultKind;
-    resultKind = func_02110e58();
+    resultKind = sub_2110E58();
     seqId = -1;
     switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_CROSS:
@@ -289,14 +289,14 @@ void func_02110aac(s32 a, s32 b) {
     func_02110aac_inline(handleSlot, secondSeqId);
 }
 
-void func_02110a60(void) {
+void sub_2110A60(void) {
     data_0217d204 = 0;
     data_0217d1e0 = 0;
     data_0217d1e4 = 0;
     data_0217d1f4 = 7;
 }
 
-void func_021108bc(s32 a) {
+void sub_21108BC(s32 a) {
     s32 seqId;
     s32 pitch;
     u8 m;

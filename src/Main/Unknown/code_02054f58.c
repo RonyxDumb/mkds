@@ -49,8 +49,8 @@ s32 func_02055564(s32 a) {
     status = 0;
     if (gStruct217AA00->mRequestPending != 0) {
         if (gStruct217AA00->fieldC == 7 && gStruct217AA00->field43B == 1) {
-            if (func_020501b0(a) == 0) {
-                func_02050e60(5);
+            if (sub_20501B0(a) == 0) {
+                sub_2050E60(5);
             }
         }
         return 0;
@@ -69,7 +69,7 @@ s32 func_02055564(s32 a) {
         case 10:
             if (gStruct217AA00->mOwnIndex == 0xffff) {
                 if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
-                    func_02050e60(5);
+                    sub_2050E60(5);
                     return 3;
                 }
                 status = 2;
@@ -86,7 +86,7 @@ s32 func_02055564(s32 a) {
     return status;
 }
 
-s32 func_020554e4(void) {
+s32 sub_20554E4(void) {
     if (gStruct217AA00->mRequestPending != 0) {
         return 0;
     }
@@ -104,7 +104,7 @@ s32 func_020554e4(void) {
     return 0;
 }
 
-void func_02055340(void) {
+void sub_2055340(void) {
     u8 participantMask;
     u8 childMask;
     u8 participantIndex;
@@ -125,7 +125,7 @@ void func_02055340(void) {
             if (func_02055030_inline() != 1) {
                 return;
             }
-            func_02001000();
+            sub_2001000();
             break;
         case 2:
             childMask = gStruct217AA00->field44.mChildMask;
@@ -139,7 +139,7 @@ void func_02055340(void) {
             }
             participantIndex = gStruct217AA00->field44.field3E % 8;
             if (participantMask & (1 << participantIndex)) {
-                if (func_020504a4(participantIndex, childMask) == FALSE) {
+                if (sub_20504A4(participantIndex, childMask) == FALSE) {
                     return;
                 }
                 gStruct217AA00->field44.field3E++;
@@ -271,13 +271,13 @@ s32 AdvanceConnectionEnd(void) {
             EndMP();
             break;
         default:
-            func_020533a0();
+            sub_20533A0();
             break;
     }
     return finished;
 }
 
-s32 func_02054f58(void) {
+s32 sub_2054F58(void) {
     s32 status;
     s32 result;
 
@@ -309,7 +309,7 @@ s32 func_02054f58(void) {
                 StartCloseScanConnect();
                 break;
             default:
-                func_020533a0();
+                sub_20533A0();
                 break;
         }
         gStruct217AA00->field8 = 9;

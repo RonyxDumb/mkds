@@ -290,7 +290,7 @@ typedef struct CourseMap {
     /* 6a */ u8 field6A[0x2];
     // Race routes over mRacePoints (first point, count, up to three next and three previous routes).
     /* 6c */ CourseMapRoute *mRaceRoutes;
-    // Number of mRaceRoutes; the kart code tests it together with mBattleRouteCount (func_020733ec, func_02066ac0).
+    // Number of mRaceRoutes; the kart code tests it together with mBattleRouteCount (StructMQRacerEntry_Fn0, StructMQRacerEntry_SomeFn_78).
     /* 70 */ u16 mRaceRouteCount;
     /* 72 */ u8 field72[0x2];
     /* 74 */ CourseMapShape *mShapes;

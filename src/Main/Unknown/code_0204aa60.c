@@ -12,7 +12,7 @@ void sysdat_loadSeq(s32 seqId) {
         return;
     }
     gSystemData->mSoundSetPlayerInitialized = 1;
-    func_0210f8b0(&gSystemData->mSoundSetPlayer, seqId, 0xff);
+    LoadSomeSseq(&gSystemData->mSoundSetPlayer, seqId, 0xff);
 }
 
 void sysdat_startSeq(void) {

@@ -32,7 +32,7 @@ void sfx_initEmitter2(SoundSource *source, u32 positionSource) {
     list_append(&sfx_sActiveEmitterList, source);
 }
 
-void func_0210c0bc(SoundSource *source) {
+void sub_210C0BC(SoundSource *source) {
     void *sound;
 
     sfx_210C238(source, 0);
@@ -96,17 +96,17 @@ void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
         sfx_updateEmitterStatus((SoundSource *) (sourceList - 1));
     }
     sfx_initSfx(sound);
-    func_0210bcf4(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
+    sub_210BCF4(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
 }
 
-u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 sub_210BEE8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
     if (SoundHandle_217D084.field10 == 0) {
         return seqArcNo;
     }
-    return func_0210bcf4(seqArcNo, soundId, positionSource, handle, request);
+    return sub_210BCF4(seqArcNo, soundId, positionSource, handle, request);
 }
 
-u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
+u32 sub_210BCF4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
     SoundParams params;
     u32 v;
     u32 runThisCall;

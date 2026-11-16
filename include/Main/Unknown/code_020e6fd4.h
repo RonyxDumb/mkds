@@ -146,11 +146,11 @@ typedef struct JgKindRow {
 
 extern Unk0216c324 data_0216c324[];
 // Filled in by jg_init; jg_state1Update stores mobj_calcXZCamDist's return value
-// at 0x0c and hands it to func_0210b760.
+// at 0x0c and hands it to sub_210B760.
 extern Unk0210b7a8 data_0217b9dc;
 extern JgKindRow gJgKindRows[];
 extern JgKindRow gJgKindRowLapModels[];
-extern JgKindRow data_0217bb08[];
+extern JgKindRow g_JgReverseModel[];
 
 void mobj_logicPartExecuteThunderLogic(MapObjectList *list);
 void mobj_logicPartExecute(MapObjectList *list);
@@ -162,6 +162,6 @@ MapObjectList *fwdst_setupLogicPart(void);
 Unk020e7410 *fwdst_setupConfig(void);
 void jg_load(void);
 void jg_init(void);
-void func_020e79c4(void);
+void sub_20E79C4(void);
 void jg_finishRespawning(void);
 void jg_startRespawning(void);

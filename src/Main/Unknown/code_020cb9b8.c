@@ -27,8 +27,8 @@ void ReleaseMenu(void) {
     ClearLinkLevelIconsPointer();
     FreeSinglePlayerMenuInfo();
     model_releaseAll();
-    func_020cbabc(0);
-    func_020cbaa8(0);
+    SetSinglePlayerMenuTarget(0);
+    SetB488_B5(0);
     menu_G2_SetBlendAlpha(0, 0x3f, 6, 10);
     menu_G2S_SetBlendAlpha(0, 0x3f, 6, 10);
     gMenuSceneState = NULL;

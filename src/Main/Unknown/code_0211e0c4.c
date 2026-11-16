@@ -198,7 +198,7 @@ BOOL func_0211e130(void) {
 void func_0211e0c4(u32 kind) {
     switch (kind) {
         case 4:
-            func_02043fb0(gGhostRecordSet->mCourseId);
+            sub_2043FB0(gGhostRecordSet->mCourseId);
             break;
         case 0:
             func_020442d0(gGhostRecordSet->mCourseId);
@@ -207,7 +207,7 @@ void func_0211e0c4(u32 kind) {
             func_0204419c(gGhostRecordSet->mCourseId, (u8) gGhostRecordSet->mSlotIndex);
             break;
         case 2:
-            func_02044060(gGhostRecordSet->mCourseId);
+            LoadStaffGhost(gGhostRecordSet->mCourseId);
             break;
     }
 }

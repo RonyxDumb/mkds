@@ -258,7 +258,7 @@ void dossun_update(void *unused, Dossun *dossun) {
                 soundRequest.mPositionSource = &dossun->field0.mPos;
                 soundRequest.field8 = n;
                 soundRequest.mDistanceSquared = mobj_calcXZCamDist(&dossun->field0.mPos);
-                func_0210b7a8(&soundRequest);
+                sub_210B7A8(&soundRequest);
             }
             cam_tryImpactShakePlayerCamera(dossun->field0.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
             if ((dossun->field0.mDistanceSquaredAndFlags & 3) == 0) {
@@ -498,7 +498,7 @@ void kuribo_update(void *unused, Kuribo *kuribo) {
             soundRequest.mPositionSource = &kuribo->field0.mPos;
             soundRequest.field8 = falloffIndex;
             soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->field0.mPos);
-            func_0210b7a8(&soundRequest);
+            sub_210B7A8(&soundRequest);
         }
     }
     if (kuribo->fieldF0 >= 0x28) {

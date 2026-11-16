@@ -42,7 +42,7 @@ void CARDi_RequestStreamCommandCore(CARDiCommon *p) {
     reqType = p->mReqType;
     reqMode = p->mReqMode;
     retryCount = p->mReqRetry;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    Os_ReferSymbol((u32) (BuildInfo + 0x24));
     do {
         len = p->mLen;
         if (len > 0x100) {
@@ -101,7 +101,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
     u32 enabled;
 
     p = (CARDiCommon *) (u32) &gAccessState;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    Os_ReferSymbol((u32) (BuildInfo + 0x24));
     enabled = OS_DisableInterrupts();
     while (p->mFlag & 4) {
         OS_SleepThread(&p->mBusyQ);
@@ -120,7 +120,7 @@ int CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, UnkFunc *callback, voi
         CARDi_SetTask(CARDi_RequestStreamCommandCore);
         return 1;
     }
-    gAccessState.mCurTh = data_0216ff5c.mCurrentThread;
+    gAccessState.mCurTh = g_Os_ThreadInfo.mCurrentThread;
     CARDi_RequestStreamCommandCore(p);
     return p->mCmd->mResult == 0;
 }
@@ -133,7 +133,7 @@ int CARD_IdentifyBackup(s32 type) {
     u32 enabled;
 
     p = &gAccessState;
-    func_02000b44((u32) (BuildInfo + 0x24));
+    Os_ReferSymbol((u32) (BuildInfo + 0x24));
     if (type == 0) {
         OS_Terminate();
     }
@@ -147,7 +147,7 @@ int CARD_IdentifyBackup(s32 type) {
     p->mCallbackArg = 0;
     OS_RestoreInterrupts(enabled);
     CARDi_IdentifyBackupCore(type);
-    gAccessState.mCurTh = data_0216ff5c.mCurrentThread;
+    gAccessState.mCurTh = g_Os_ThreadInfo.mCurrentThread;
     CARDi_Request(p, 2, 1);
     p->mCmd->mSrc = 0;
     p->mCmd->mDst = (u32) p->mBackupCachePageBuf;

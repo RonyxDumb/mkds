@@ -44,18 +44,18 @@ typedef struct OSMessageQueue {
 // Value OS_GetConsoleType builds on its first call; 0xffffffff until then.
 extern u32 gConsoleType;
 
-u32 func_0200e77c(void);
+u32 Os_ExistsSioConnection(void);
 // Gets an id, then repeats under OS_DisableInterrupts until it has either seen that the holder of the lock word at
 // 0x027fffe8 has bit 0x40 set or taken the lock: compares the words at 0x08000000 and 0x08000004 with 0x544e494e and
 // 0x4f444e45 (the text NINTENDO) and returns 0x01000000 when both match, else 0x02000000. Releases the lock again when
 // it took it.
 u32 ReadCartridgeMarkerBits(void);
 // On the first call builds the value from ReadCartridgeMarkerBits (bit 24 or bit 25), adds 0x10000000 when
-// OS_IsRunOnEmulator is nonzero, else 0x40000000 when func_0200e77c is nonzero, else 0x20000000 when bit 24 is set,
+// OS_IsRunOnEmulator is nonzero, else 0x40000000 when Os_ExistsSioConnection is nonzero, else 0x20000000 when bit 24 is set,
 // else 0x80000000, ors in the halfword at 0x027ffffa and stores it in gConsoleType. Returns the stored value.
 u32 OS_GetConsoleType(void);
 // Returns 0. OS_GetConsoleType tests it first (nonzero adds 0x10000000); IsCommandAvailable reads the register at
-// 0x04fff200 only when it is nonzero; func_02039cbc and InitBackupAccess skip work when it is nonzero.
+// 0x04fff200 only when it is nonzero; InitializeGeneralObjects and InitBackupAccess skip work when it is nonzero.
 u32 OS_IsRunOnEmulator(void);
 BOOL OS_ReadMessage(OSMessageQueue *queue, OSMessage *message, s32 flags);
 BOOL OS_JamMessage(OSMessageQueue *queue, OSMessage message, s32 flags);

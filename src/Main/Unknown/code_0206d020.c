@@ -432,7 +432,7 @@ void driver_handleItems(Kart *kart) {
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         mgcnt_20A1E40(kart->mIndex, itemObject);
     }
-    if (func_020f9880(itemObject) == 0) {
+    if (sub_20F9880(itemObject) == 0) {
         return;
     }
     if (kart->field4C & 0x10000040) {
@@ -466,7 +466,7 @@ void driver_handleItems(Kart *kart) {
     }
 }
 
-void func_0206d138(Kart *kart) {
+void StructMQRacerEntry_SomeFn_89(Kart *kart) {
     u32 f;
 
     if (!(kart->field48 & 0x840)) {

@@ -278,13 +278,13 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             }
             break;
         case 7:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 LEDBlink_Wireless();
                 sGhostReceiveState->mState = 8;
             }
             break;
         case 12:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 LEDBlink_Wireless();
                 gStruct217B488->field8 = 5;
                 if (sceneNumbers != NULL) {

@@ -206,11 +206,11 @@ void sfx_emitWallSfx(Kart *kart, s32 b, s32 c, s32 d, s32 f) {
     sfx_21090C4(&kart->mSoundSource, soundId, 0x7f, 0);
 }
 
-void func_0210b198(s32 a, s32 b, u32 volume, s32 d, s32 e) {
+void sub_210B198(s32 a, s32 b, u32 volume, s32 d, s32 e) {
     NNSSndSeqPlayer *sndHandle;
     u16 f;
 
-    if (func_02105504() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -272,7 +272,7 @@ void sfx_emitDriverVoice(Kart *kart, s32 b, s32 c) {
             volume = 0x7f;
         }
         if (isEntryKart != FALSE) {
-            if (func_02105504() == 0) {
+            if (IsInRaceSceneNormalOrReplay() == 0) {
                 return;
             }
             NNS_SndHandleInit(&sndHandle);
@@ -407,7 +407,7 @@ void StartQueuedKartSound(Kart *kart, s32 b, s32 c, s32 volume) {
         sfx_emitSfx(&kart->mSoundSource, 2, b * 0xe + k, 0x7f, 0);
         return;
     }
-    if (func_02105504() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -420,14 +420,14 @@ void StartQueuedKartSound(Kart *kart, s32 b, s32 c, s32 volume) {
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void func_0210ab48(s32 a, s32 b) {
+void sub_210AB48(s32 a, s32 b) {
     NNSSndSeqPlayer *sndHandle;
     s32 c;
     u16 d;
 
     c = b != 0 ? 0xc : 0xd;
     gKartSoundQueue.mDisabled = TRUE;
-    if (func_02105504() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     NNS_SndHandleInit(&sndHandle);
@@ -440,11 +440,11 @@ void func_0210ab48(s32 a, s32 b) {
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void func_0210ab44(Kart *a, PlayingSound *b, s32 c) {}
+void MQ_FnPtr1_1(Kart *a, PlayingSound *b, s32 c) {}
 
 void func_0210ab40(Kart *a, PlayingSound *b, s32 c) {}
 
-void func_0210ab30(Kart *a) {
+void sub_210AB30(Kart *a) {
     a->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) func_0210ab40;
 }
 
@@ -483,7 +483,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 c) {
     }
 }
 
-u32 func_0210aa0c(void) {
+u32 sub_210AA0C(void) {
     return 0x0u;
 }
 

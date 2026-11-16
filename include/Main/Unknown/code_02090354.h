@@ -34,10 +34,10 @@ typedef struct SmanList {
 } SmanList;
 
 void mgenit_setupFunctions(void);
-s32 func_020905a8(KartKillerCursor *kartKillerCursor);
+s32 sub_20905A8(KartKillerCursor *kartKillerCursor);
 void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor);
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor);
-s32 func_0209081c(KartKillerCursor *kartKillerCursor);
+s32 sub_209081C(KartKillerCursor *kartKillerCursor);
 void kill_recalculateRoute(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link);
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
 BOOL unlock_isFasterThanStaffGhost(u32 entryNumber, void *time);

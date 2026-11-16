@@ -11,7 +11,7 @@ typedef struct Unk0203a0dc {
     /* 04 */ u16 mNextScene;
 } Unk0203a0dc;
 
-u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
+u32 AllocateHeapsAndBuffers(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
                   void **outSecondFrontHeap, void **outThirdFrontHeap);
 // Scene function of scproc_sSceneTable[1] (scene 'Menu' in sSceneDefs): copies the callbacks and calls
 // scene_runScene. Returns 0. Scene 4 (menu2_run) also carries the name 'Menu'.

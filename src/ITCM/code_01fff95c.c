@@ -172,7 +172,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         }
     }
     if (p->mPos.y < 0 && p->mKind != 0xb && p->mKind != 0xa) {
-        func_020f7658(p, 1);
+        sub_20F7658(p, 1);
     }
     if (p->field114 < 5) {
         p->mFlags &= ~0x20000;
@@ -196,7 +196,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         p->mFlags &= ~0x10000;
     }
     if (p->mFlags & 0x400000) {
-        func_020f90bc(p);
+        sub_20F90BC(p);
     }
     p->mPrevPos = p->mPos;
     p->mAgeFrames += 1;

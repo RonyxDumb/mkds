@@ -249,7 +249,7 @@ void func_020c1728(void) {
             }
         }
     } else {
-        func_020c1060();
+        sub_20C1060();
         r2d_sResults->mUpdate = func_020c155c;
         r2d_sResults->mUpdateFrames = 0;
     }
@@ -260,7 +260,7 @@ void func_020c1728(void) {
             r2d_sResults->mRowVisible[j] = 0;
         }
         r2d_sResults->mHiddenRowCount = gRaceMultiConfig->mKartCount;
-        func_020c1060();
+        sub_20C1060();
         r2d_sResults->mUpdate = func_020c155c;
         r2d_sResults->mUpdateFrames = 0;
     }
@@ -329,7 +329,7 @@ void func_020c13e8(void) {
 
     frame = r2d_sResults->mUpdateFrames++;
     if (frame < 0x3c) {
-        func_020c1060();
+        sub_20C1060();
         for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
             r2d_sResults->mRowVisible[i] = 1;
         }

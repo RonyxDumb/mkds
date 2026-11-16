@@ -12,7 +12,7 @@ extern u32 gSpaRng;
 
 extern BOOL NNS_G3dFlagUseFastDma;
 
-extern CallQueue data_02173220;
+extern CallQueue g_GlobalTEQ;
 extern NNSGfdFrmPlttVramManager data_02173214;
 extern NNS_GfdLnkTexVramManager data_02173234;
 extern RangeEntry *data_02173238;

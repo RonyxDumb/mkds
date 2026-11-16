@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_02110484(void);
-void func_021104dc(u32 arg0);
+u32 sub_2110484(void);
+void sub_21104DC(u32 arg0);

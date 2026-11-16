@@ -13,6 +13,6 @@ u32 GetParticipantIndex(u32 position) {
 void SetParticipantMask(u8 mask) {
     u32 value0 = mask;
     gStruct217AA00->mParticipantMask = value0;
-    func_02050080();
+    sub_2050080();
     func_02058b10();
 }

@@ -15,9 +15,9 @@ u32 DGT_SetOverlayTableMode(u32 flag) {
     prev = data_02180490;
     data_02180490 = flag;
     if (flag != 0) {
-        data_0216f26c = DGTi_Hash2ProcessMessageBlock;
+        g_YearDaysElapsedUntilMonth = DGTi_Hash2ProcessMessageBlock;
     } else {
-        data_0216f26c = func_02150e1c;
+        g_YearDaysElapsedUntilMonth = sub_2150E1C;
     }
     return prev;
 }
@@ -58,7 +58,7 @@ void DGT_Hash2SetSource(Hash20State *ctx, const u8 *input, u32 length) {
             MI_CpuCopy8(input, buffer + num, chunk);
             length -= chunk;
             input += chunk;
-            data_0216f26c(ctx, buffer, 0x40);
+            g_YearDaysElapsedUntilMonth(ctx, buffer, 0x40);
             ctx->mBufferLen = 0;
         } else {
             MI_CpuCopy8(input, buffer + num, length);
@@ -70,13 +70,13 @@ void DGT_Hash2SetSource(Hash20State *ctx, const u8 *input, u32 length) {
         chunk = length & ~0x3f;
         length -= chunk;
         if (((u32) input & 3) == 0) {
-            data_0216f26c(ctx, (u8 *) input, chunk);
+            g_YearDaysElapsedUntilMonth(ctx, (u8 *) input, chunk);
             input += chunk;
         } else {
             do {
                 MI_CpuCopy8(input, buffer, 0x40);
                 input += 0x40;
-                data_0216f26c(ctx, buffer, 0x40);
+                g_YearDaysElapsedUntilMonth(ctx, buffer, 0x40);
                 chunk -= 0x40;
             } while ((int) chunk > 0);
         }
@@ -116,7 +116,7 @@ void DGT_Hash2GetDigest(Hash20State *ctx, u8 *digest, ...) {
         for (; wordIndex < 16; wordIndex++) {
             blockWords[wordIndex] = 0;
         }
-        data_0216f26c(ctx, (u8 *) blockWords, 0x40);
+        g_YearDaysElapsedUntilMonth(ctx, (u8 *) blockWords, 0x40);
         wordIndex = 0;
     }
     for (; wordIndex < 14; wordIndex++) {
@@ -132,7 +132,7 @@ void DGT_Hash2GetDigest(Hash20State *ctx, u8 *digest, ...) {
     blockBytes[0x3a] = value >> 8;
     blockBytes[0x39] = value >> 16;
     blockBytes[0x38] = value >> 24;
-    data_0216f26c(ctx, (u8 *) blockWords, 0x40);
+    g_YearDaysElapsedUntilMonth(ctx, (u8 *) blockWords, 0x40);
     value = ctx->mWords[0];
     digest[0] = value >> 24;
     digest[1] = value >> 16;
@@ -177,7 +177,7 @@ void DGTi_Hash2ProcessMessageBlock(Hash20State *ctx, u8 *source, int length) {
         saved38 = *OFFSET_PTR(u32, source, 0x38);
         *OFFSET_PTR(u32, source, 0x18) = 0;
         *OFFSET_PTR(u32, source, 0x38) = 0;
-        func_02150e1c(ctx, source, 0x40);
+        sub_2150E1C(ctx, source, 0x40);
         *OFFSET_PTR(u32, source, 0x18) = saved18;
         *OFFSET_PTR(u32, source, 0x38) = saved38;
         source += 0x40;

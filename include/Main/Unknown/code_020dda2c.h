@@ -4,4 +4,4 @@
 
 typedef struct WanwanChain WanwanChain;
 
-void func_020dda2c(WanwanChain *chain);
+void sub_20DDA2C(WanwanChain *chain);

@@ -307,7 +307,7 @@ void traf_update(u32 a, Unk020e1e98 *vehicle) {
         if (vehicle->fieldFE == 0) {
             baseRotation = &vehicle->fieldB4;
         }
-        func_020d79b0(baseRotation, vehicle->field0.mAngle, &targetRotation);
+        sub_20D79B0(baseRotation, vehicle->field0.mAngle, &targetRotation);
     }
     qrtn_slerp(&vehicle->fieldA4, &targetRotation, &vehicle->fieldA4, vehicle->field152);
     qtrn_toMtx33(&vehicle->field0.mMatrix.field0[0].x, &vehicle->fieldA4);
@@ -531,7 +531,7 @@ void traf_20E1E98(Unk020e1e98 *vehicle) {
     vehicle->field0.mPos.y = vehicle->fieldA0;
     vehicle->field0.field10.y = 0;
     vehicle->fieldB4 = *(const Unk020e1e98_0b4 *) data_0216c044;
-    func_020d79b0(&vehicle->fieldB4,
+    sub_20D79B0(&vehicle->fieldB4,
                   (u16) (((s64) FX_Atan2(vehicle->field0.field10.x, vehicle->field0.field10.z) * 0x28be60db9391 +
                           0x80000000000) >>
                          44),

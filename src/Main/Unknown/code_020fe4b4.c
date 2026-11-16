@@ -37,13 +37,13 @@ u8 *itfbox_20FF2B0(u8 *cursor, ItemFBox *fbox, void *toData) {
         func_020ff1a0(fbox->field0.mItemObject.mVelocity.y, &fbox->mThrownForward);
     }
     if (fbox != NULL && toData != NULL) {
-        return func_020fe8ac(fbox->field0.mItemObject.mKind);
+        return sub_20FE8AC(fbox->field0.mItemObject.mKind);
     }
     return nextCursor;
 }
 
 void itfbox_20FF25C(ItemFBox *fbox) {
-    func_020f8e78(fbox);
+    sub_20F8E78(fbox);
     StartItemObjectBouncing(&fbox->field0, 0);
     if ((fbox->field0.mItemObject.mFlags & 0x10000000) == 0) {
         return;
@@ -283,7 +283,7 @@ u8 *CopyItemObjectData(u8 *cursor, void *object, void *toData) {
     return cursor + 2;
 }
 
-void func_020fec30(void) {
+void sub_20FEC30(void) {
     u32 index;
     s32 available;
     u32 nextIndex;
@@ -311,7 +311,7 @@ void func_020fec30(void) {
     } while (nextIndex != 0xff);
 }
 
-void func_020feb44(void) {
+void sub_20FEB44(void) {
     u32 raceUpdateFrames;
     u32 index;
     u32 previousIndex;
@@ -339,7 +339,7 @@ void func_020feb44(void) {
             record = &gItemDataDelayed[index];
             if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
                 u32 k = *(vu32 *) &record->mKind;
-                func_020f0758(it_sItemsets + k, record->field18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
+                sub_20F0758(it_sItemsets + k, record->field18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
             }
         } else {
             previousIndex = index;
@@ -348,7 +348,7 @@ void func_020feb44(void) {
     }
 }
 
-void func_020fea84(u32 kind, u32 messageKind, void *packet, u8 size) {
+void sub_20FEA84(u32 kind, u32 messageKind, void *packet, u8 size) {
     u32 index;
     ItemDataRecord *record;
 
@@ -379,7 +379,7 @@ void func_020fea84(u32 kind, u32 messageKind, void *packet, u8 size) {
     gItemDataQueueLinks[index][1] = size;
 }
 
-void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet, u32 frameStamp) {
+void sub_20FE9D0(u32 kind, u32 messageKind, s32 frameDifference, void *packet, u32 frameStamp) {
     u32 index;
     ItemDataRecord *record;
 
@@ -402,7 +402,7 @@ void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
     gItemDataDelayedUsedHead[0] = index;
 }
 
-u8 *func_020fe958(u32 kind) {
+u8 *sub_20FE958(u32 kind) {
     s32 available;
 
     gItemDataBuffer[0] = race_getFrameCounter();
@@ -410,12 +410,12 @@ u8 *func_020fe958(u32 kind) {
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, 1);
+        sub_20FEA84(kind, 0, gItemDataBuffer, 1);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe8ac(u32 kind) {
+u8 *sub_20FE8AC(u32 kind) {
     u32 dataSize;
     s32 available;
 
@@ -425,12 +425,12 @@ u8 *func_020fe8ac(u32 kind) {
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, dataSize + 1);
+        sub_20FEA84(kind, 0, gItemDataBuffer, dataSize + 1);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe828(u32 kind) {
+u8 *sub_20FE828(u32 kind) {
     s32 available;
 
     gItemDataBuffer[1] = 0xff;
@@ -439,12 +439,12 @@ u8 *func_020fe828(u32 kind) {
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
-        func_020fea84(kind, 0, gItemDataBuffer, 2);
+        sub_20FEA84(kind, 0, gItemDataBuffer, 2);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
+u8 *sub_20FE7A0(u32 kind, u32 b, u32 c, u32 itemId) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
@@ -454,12 +454,12 @@ u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
-        func_020fea84(kind, 2, gItemDataBuffer, 3);
+        sub_20FEA84(kind, 2, gItemDataBuffer, 3);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
+u8 *sub_20FE71C(u32 kind, u32 kartIndex, u32 itemId) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
@@ -469,12 +469,12 @@ u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
-        func_020fea84(kind, 3, gItemDataBuffer, 3);
+        sub_20FEA84(kind, 3, gItemDataBuffer, 3);
     }
     return gItemDataBuffer;
 }
 
-u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
+u8 *sub_20FE694(u32 kind, u32 itemId, u32 c, u32 d) {
     s32 available;
 
     gItemDataBuffer[1] = itemId;
@@ -485,19 +485,19 @@ u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
-        func_020fea84(kind, 3, gItemDataBuffer, 4);
+        sub_20FEA84(kind, 3, gItemDataBuffer, 4);
     }
     return gItemDataBuffer;
 }
 
-void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
+void sub_20FE5B8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     s8 frameDifference;
 
     frameDifference = (u8) race_getFrameCounter() - packet[0];
     if (frameDifference >= 0) {
-        func_020f0758(it_sItemsets + kind, messageKind, frameDifference, packet, 0);
+        sub_20F0758(it_sItemsets + kind, messageKind, frameDifference, packet, 0);
     } else {
-        func_020fe9d0(kind, messageKind, frameDifference, packet, 0);
+        sub_20FE9D0(kind, messageKind, frameDifference, packet, 0);
     }
     if (kind != 0xb) {
         return;
@@ -511,14 +511,14 @@ void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     SetActiveItem(&it_sDriverItemStatus[(u16) kartIndex], 0x10);
 }
 
-void func_020fe56c(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
+void sub_20FE56C(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
     u32 storedFrameStamp;
 
     storedFrameStamp = frameStamp;
     if (storedFrameStamp == 0) {
         storedFrameStamp = race_getFrameCounter();
     }
-    func_020fe9d0(kind, messageKind, frameDifference, packet, storedFrameStamp);
+    sub_20FE9D0(kind, messageKind, frameDifference, packet, storedFrameStamp);
 }
 
 void *func_020fe4c0(void *cursor, void *object, s32 toData) {
@@ -541,11 +541,11 @@ void *func_020fe4c0(void *cursor, void *object, s32 toData) {
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {
-        func_020fea84(kind, 1, gItemDataBuffer, 0x12);
+        sub_20FEA84(kind, 1, gItemDataBuffer, 0x12);
     }
     return gItemDataBuffer;
 }
 
-void func_020fe4b4(void *object) {
-    func_020f8e78(object);
+void sub_20FE4B4(void *object) {
+    sub_20F8E78(object);
 }

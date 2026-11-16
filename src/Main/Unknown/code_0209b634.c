@@ -44,14 +44,14 @@ void mobj_renderModel(MapObjectList *mapObjectList, void *b, void *d) {
 
     NNS_G3dGeBufferOP_N(0x1b, mapObjectModel, 3);
     if (mapObjectModel->mNsbmdModel != NULL) {
-        func_020ea5b0(mapObjectModel->mNsbmdModel, mapObject->mAlpha, NULL);
+        sub_20EA5B0(mapObjectModel->mNsbmdModel, mapObject->mAlpha, NULL);
     }
     if (mapObjectModel->mAnimatedModel == NULL && mapObjectModel->mShadowModel == NULL) {
         return;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         if (mapObjectModel->mAnimations[2] != NULL) {
-            func_020ea670(mapObjectModel->mAnimatedModel, mapObject->mAlpha);
+            sub_20EA670(mapObjectModel->mAnimatedModel, mapObject->mAlpha);
         } else {
             DrawNsbmdWithMaxAlpha(mapObjectModel->mAnimatedModel, mapObject->mAlpha);
         }
@@ -69,14 +69,14 @@ void mobj_renderModelInPlace(u32 a, MapObjectModel *mapObjectModel, MapObject *m
 
     NNS_G3dGeBufferOP_N(0x1b, o, 3);
     if (o->mNsbmdModel != NULL) {
-        func_020ea5b0(o->mNsbmdModel, mapObject->mAlpha, &mapObject->mPos);
+        sub_20EA5B0(o->mNsbmdModel, mapObject->mAlpha, &mapObject->mPos);
     }
     if (o->mAnimatedModel == NULL && o->mShadowModel == NULL) {
         return;
     }
     if (o->mAnimatedModel != NULL) {
         if (o->mAnimations[2] != NULL) {
-            func_020ea670(o->mAnimatedModel, mapObject->mAlpha);
+            sub_20EA670(o->mAnimatedModel, mapObject->mAlpha);
         } else {
             DrawNsbmdWithMaxAlpha(o->mAnimatedModel, mapObject->mAlpha);
         }

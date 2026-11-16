@@ -14,7 +14,7 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
+s32 sub_20F7184(ItemObject *item, s32 b, s32 c) {
     Vec3 *velocity = &item->mVelocity;
     ItemKind *kindInfo;
     s32 r;
@@ -63,7 +63,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     kind = item->mKind;
     kindInfo = &it_sItemParams[kind];
     if (kindInfo->field40 == 0) {
-        item->mAdvance = func_020f6e58;
+        item->mAdvance = sub_20F6E58;
     }
     item->mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) func_020f6be4;
     if (item->mNormal.y != 0) {
@@ -85,55 +85,55 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     return 0;
 }
 
-void func_020f7104(ItemObject *item, s32 b) {
+void sub_20F7104(ItemObject *item, s32 b) {
     s32 result;
 
     if (!(item->mFlags & 0x8000000)) {
-        func_020f7184(item, 0, 0);
+        sub_20F7184(item, 0, 0);
         return;
     }
-    result = func_020f7184(item, 0, 0);
+    result = sub_20F7184(item, 0, 0);
     if (result != 0) {
         return;
     }
     if (b == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 0, 8, item->mId);
+    sub_20FE7A0(item->mKind, 0, 8, item->mId);
 }
 
-void func_020f70f0(ItemObject *item) {
-    func_020f7184(item, 0, 1);
+void sub_20F70F0(ItemObject *item) {
+    sub_20F7184(item, 0, 1);
 }
 
-void func_020f7070(void *objectParam, s32 b) {
+void sub_20F7070(void *objectParam, s32 b) {
     ItemObject *item = objectParam;
     s32 result;
 
     if (!(item->mFlags & 0x8000000)) {
-        func_020f7184(item, 1, 0);
+        sub_20F7184(item, 1, 0);
         return;
     }
-    result = func_020f7184(item, 1, 0);
+    result = sub_20F7184(item, 1, 0);
     if (result != 0) {
         return;
     }
     if (b == 0) {
         return;
     }
-    func_020fe7a0(item->mKind, 1, 8, item->mId);
+    sub_20FE7A0(item->mKind, 1, 8, item->mId);
 }
 
-void func_020f705c(ItemObject *item) {
-    func_020f7184(item, 1, 1);
+void sub_20F705C(ItemObject *item) {
+    sub_20F7184(item, 1, 1);
 }
 
-void func_020f6fc4(void *objectParam, s32 b) {
+void sub_20F6FC4(void *objectParam, s32 b) {
     ItemObject *item = objectParam;
     s32 result;
     enum { K0 } kind;
 
-    result = func_020f7184(item, 0, 0);
+    result = sub_20F7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
         it_20F91FC(item, it_sItemParams[kind].field94);
@@ -150,14 +150,14 @@ void func_020f6fc4(void *objectParam, s32 b) {
     if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(item->mKind, 2, 8, item->mId);
+    sub_20FE7A0(item->mKind, 2, 8, item->mId);
 }
 
-void func_020f6f10(ItemObject *item, s32 b, s32 c) {
+void sub_20F6F10(ItemObject *item, s32 b, s32 c) {
     s32 result;
     enum { K0 } kind;
 
-    result = func_020f7184(item, 0, 0);
+    result = sub_20F7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
         it_20F91FC(item, it_sItemParams[kind].field98);
@@ -174,10 +174,10 @@ void func_020f6f10(ItemObject *item, s32 b, s32 c) {
     if (item->mKind == 5) {
         return;
     }
-    func_020fe7a0(item->mKind, 3, c, item->mId);
+    sub_20FE7A0(item->mKind, 3, c, item->mId);
 }
 
-void func_020f6e58(ItemObject *item) {
+void sub_20F6E58(ItemObject *item) {
     Vec3 direction;
 
     vec_crossProduct(&item->mNormal, bbm_getBillboardForwardVec(), &direction);
@@ -193,7 +193,7 @@ void func_020f6e58(ItemObject *item) {
     it_itemsetDestroyItem(&it_sItemsets[item->mKind], item);
 }
 
-void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *normal) {
+void sub_20F6BE8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *normal) {
     Vec3 away;
     Vec3 relativeVelocity;
     Vec3 *push;

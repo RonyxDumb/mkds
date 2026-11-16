@@ -8,8 +8,8 @@
 #include "Main/Unknown/code_0200f000.h"
 #include "Main/Unknown/code_0214d000.h"
 
-FSArchive *data_0216f340;
-Unk02003024U data_0216f344;
+FSArchive *g_ArchiveList;
+Unk02003024U g_CurrentDirectoryPosition;
 
 // Resolves a path, with an optional "name:" archive prefix, against the current directory and sends the command.
 u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
@@ -19,13 +19,13 @@ u32 FSi_FindPath(FSFile *dir, const u8 *path, void *fileID, void *dirPos) {
     s32 loaded;
 
     if (path[0] == '/' || path[0] == '\\') {
-        pos.h.field0 = data_0216f344.h.field0;
+        pos.h.field0 = g_CurrentDirectoryPosition.h.field0;
         pos.h.field4 = 0;
         pos.h.field8 = 0;
         pos.h.field6 = 0;
         path++;
     } else {
-        pos = data_0216f344;
+        pos = g_CurrentDirectoryPosition;
         for (i = 0; i <= 3; i++) {
             if (path[i] == 0 || path[i] == '/' || path[i] == '\\') {
                 break;
@@ -241,7 +241,7 @@ u32 FS_ChangeDir(const u8 *path) {
     if (FSi_FindPath(&searchFile, path, 0, &dirPos) == 0) {
         return 0;
     }
-    data_0216f344 = dirPos;
+    g_CurrentDirectoryPosition = dirPos;
     return 1;
 }
 
@@ -466,7 +466,7 @@ FSArchive *FS_FindArchive(const u8 *name, s32 nameLen) {
 
     packed = FSi_GetPackedName(name, nameLen);
     enabled = OS_DisableInterrupts();
-    archive = data_0216f340;
+    archive = g_ArchiveList;
     while (archive != 0 && archive->mName != packed) {
         archive = archive->mNext;
     }
@@ -483,14 +483,14 @@ u32 FS_RegisterArchiveName(FSArchive *archive, const u8 *name, s32 nameLen) {
     result = 0;
     enabled = OS_DisableInterrupts();
     if (FS_FindArchive(name, nameLen) == 0) {
-        if (data_0216f340 == 0) {
-            data_0216f340 = archive;
-            data_0216f344.h.field0 = archive;
-            data_0216f344.h.field8 = 0;
-            data_0216f344.h.field6 = 0;
-            data_0216f344.h.field4 = 0;
+        if (g_ArchiveList == 0) {
+            g_ArchiveList = archive;
+            g_CurrentDirectoryPosition.h.field0 = archive;
+            g_CurrentDirectoryPosition.h.field8 = 0;
+            g_CurrentDirectoryPosition.h.field6 = 0;
+            g_CurrentDirectoryPosition.h.field4 = 0;
         } else {
-            tail = data_0216f340;
+            tail = g_ArchiveList;
             while (tail->mNext != 0) {
                 tail = tail->mNext;
             }
@@ -523,11 +523,11 @@ void FS_ReleaseArchiveName(FSArchive *archive) {
     archive->mPrev = 0;
     archive->mNext = archive->mPrev;
     archive->mFlag &= ~1;
-    if (data_0216f344.h.field0 == archive) {
-        data_0216f344.h.field8 = 0;
-        data_0216f344.h.field6 = 0;
-        data_0216f344.h.field0 = data_0216f340;
-        data_0216f344.h.field4 = 0;
+    if (g_CurrentDirectoryPosition.h.field0 == archive) {
+        g_CurrentDirectoryPosition.h.field8 = 0;
+        g_CurrentDirectoryPosition.h.field6 = 0;
+        g_CurrentDirectoryPosition.h.field0 = g_ArchiveList;
+        g_CurrentDirectoryPosition.h.field4 = 0;
     }
     OS_RestoreInterrupts(enabled);
 }

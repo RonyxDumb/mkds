@@ -36,5 +36,5 @@ typedef struct LogoScene {
 extern LogoScene *logo_sLogoState;
 extern s32 gDWCInitResult;
 
-void func_02001000(void);
-void func_0200104c(void);
+void sub_2001000(void);
+void sub_200104C(void);

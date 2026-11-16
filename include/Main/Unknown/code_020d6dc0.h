@@ -23,7 +23,7 @@ void qrtn_fromYAngle(s32 angle, Quaternion *quaternion);
 // Writes to q the quaternion qrtn_fromForwardVec gives for p combined with the Y rotation
 // qrtn_fromYAngle gives for b.
 void qrtn_20D7A3C(void *directionPtr, s32 angle, void *outputPtr);
-void func_020d79b0(void *quaternionPtr, u32 angle, void *outputPtr);
+void sub_20D79B0(void *quaternionPtr, u32 angle, void *outputPtr);
 void qrtn_20D7938(Quaternion *first, Quaternion *second, Quaternion *result);
 void Quaternion_Rotate_20D788C(Quaternion *quaternion, s32 angle, Quaternion *result);
 void Quaternion_Rotate_20D77E0(void *quaternionPtr, s32 angle, void *resultPtr);

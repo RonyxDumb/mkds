@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "code_020176c0.h"
 
-UnkFunc *data_0216e21c[14] = {
+UnkFunc *g_GlobalB_E7FnList[14] = {
     0,
     0,
     EnterWiFiSessionState1,
@@ -35,15 +35,15 @@ UnkFunc *data_0216e21c[14] = {
     0,
     EnterWiFiSessionState3,
     UpdateWiFiSessionState3,
-    func_021200a4,
+    GlobalB_E7Fn_4A,
     UpdateWiFiSessionState4,
     EnterWiFiSessionState5,
     UpdateWiFiSessionState5,
     0,
-    func_02120044,
+    GlobalB_E7Fn_6B,
 };
 
-u32 func_021205e8(void) {
+u32 sub_21205E8(void) {
     return func_ov000_021a3758();
 }
 
@@ -52,7 +52,7 @@ void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
     gStruct217D384 = heap_allocEx(heap, 0x1f58, 0x20);
-    sm_init(&gStruct217D384->field8, data_0216e21c, 8, NULL);
+    sm_init(&gStruct217D384->field8, g_GlobalB_E7FnList, 8, NULL);
     stateMachine = &gStruct217D384->field8;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
@@ -139,7 +139,7 @@ void UpdateWiFiSession(void) {
     sm_execute(&gStruct217D384->field8);
 }
 
-s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void)) {
+s32 sub_2120340(u32 a, void *b, s32 c, u32 (*d)(void)) {
     return func_ov000_021a32a0(a, b, c);
 }
 

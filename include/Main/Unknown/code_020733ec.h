@@ -4,5 +4,5 @@
 
 typedef struct Kart Kart;
 
-void func_020733ec(Kart *kart);
+void StructMQRacerEntry_Fn0(Kart *kart);
 void driver_initColResponses(void);

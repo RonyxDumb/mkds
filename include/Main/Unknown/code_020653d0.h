@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-// Second parameter of func_020653d0.
+// Second parameter of StructMQRacerEntry_SomeFn_19.
 typedef struct ParticipantKartRecord {
     /* 00 */ s16 mPosX;
     /* 02 */ s16 mPosY;
@@ -17,4 +17,4 @@ typedef struct ParticipantKartRecord {
     /* 14 */ u32 field14;
 } ParticipantKartRecord;
 
-void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount);
+void StructMQRacerEntry_SomeFn_19(Kart *kart, ParticipantKartRecord *record, s32 stepCount);

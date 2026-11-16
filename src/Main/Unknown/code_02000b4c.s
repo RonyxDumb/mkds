@@ -1,13 +1,13 @@
-// Build information block, kept in .text after func_02000b48: the addresses the startup code reads (the list of blocks
+// Build information block, kept in .text after NtrStartup: the addresses the startup code reads (the list of blocks
 // to copy and clear, the range of words to clear) and the SDK version strings.
 //
 // Not compiled code: a C file can't place data in .text. 1.2 puts C tables in .rodata, also with `#pragma section`
 // or a section attribute (docs/compiler.md).
 
     .text
-    .extern data_021773c0
+    .extern g_RegionCopyInfos
     .extern data_021773d8
-    .extern data_0216f340
+    .extern g_ArchiveList
     .extern ARM9_BSS_END
 
     .global BuildInfo
@@ -15,10 +15,10 @@
 BuildInfo:
     // Start and end of the block list, the source of the copied words, then the start of the range of words to clear and
     // its end.
-    .word data_021773c0
+    .word g_RegionCopyInfos
     .word data_021773d8
-    .word data_0216f340
-    .word data_0216f340
+    .word g_ArchiveList
+    .word g_ArchiveList
     .word ARM9_BSS_END
     .word 0x00000000
     .word 0x030028a0

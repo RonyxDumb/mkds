@@ -27,7 +27,7 @@ void OS_LockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = g_Os_ThreadInfo.mCurrentThread;
     while (1) {
         if (mutex->mHolder == 0) {
             mutex->mHolder = current;
@@ -52,7 +52,7 @@ void OS_UnlockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = g_Os_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == current) {
         mutex->mLockCount = mutex->mLockCount - 1;
         if (mutex->mLockCount == 0) {
@@ -87,7 +87,7 @@ BOOL OS_TryLockMutex(OSMutex *mutex) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = data_0216ff5c.mCurrentThread;
+    current = g_Os_ThreadInfo.mCurrentThread;
     if (mutex->mHolder == 0) {
         mutex->mHolder = current;
         mutex->mLockCount = mutex->mLockCount + 1;
@@ -248,7 +248,7 @@ u32 OS_IsRunOnEmulator(void) {
 }
 
 // On the first call stores ReadCartridgeMarkerBits's result with one bit added in the top bits (0x10000000 when
-// OS_IsRunOnEmulator is nonzero, else 0x40000000 when func_0200e77c is nonzero, else 0x20000000 when bit 24 of the
+// OS_IsRunOnEmulator is nonzero, else 0x40000000 when Os_ExistsSioConnection is nonzero, else 0x20000000 when bit 24 of the
 // result is set, else 0x80000000), or-ed with a halfword read from a fixed address. The stored value is -1 until
 // then.
 u32 OS_GetConsoleType(void) {
@@ -258,7 +258,7 @@ u32 OS_GetConsoleType(void) {
         type = ReadCartridgeMarkerBits();
         if (OS_IsRunOnEmulator() != 0) {
             type |= 0x10000000;
-        } else if (func_0200e77c() != 0) {
+        } else if (Os_ExistsSioConnection() != 0) {
             type |= 0x40000000;
         } else if (type & 0x1000000) {
             type |= 0x20000000;
@@ -303,7 +303,7 @@ u32 ReadCartridgeMarkerBits(void) {
 }
 
 // 1 when a halfword is 1; which of two fixed addresses it is read from depends on whether another halfword is 0.
-u32 func_0200e77c(void) {
+u32 Os_ExistsSioConnection(void) {
     u16 *p;
 
     if (*(u16 *) 0x27ffc10 == 0) {

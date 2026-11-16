@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_020b1000.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_020c1060(void) {
+void sub_20C1060(void) {
     s32 a[8];
     s32 c;
     u32 p;
@@ -131,7 +131,7 @@ void func_020c0f48(void) {
 }
 
 void func_020c0f0c(void) {
-    func_020c1060();
+    sub_20C1060();
     r2d_sResults->mUpdate = func_020c0ee4;
     r2d_sResults->mUpdateFrames = 0;
 }

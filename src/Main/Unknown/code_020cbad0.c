@@ -71,13 +71,13 @@ void menu_create(void) {
     menu_createRaceConfig(menu_process_getCurrentHeapHandle());
     displaySettings = dc_createDisplayConfig(menu_process_getCurrentHeapHandle(), menu_sDisplayConfigBase);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
-    func_020cc2f4(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    func_020cc2c0(displaySettings, 0, 0, 0, 0, 0x1e, 6);
-    func_020cc28c(displaySettings, 3, 0, 0, 0, 0x1d, 4);
+    DisplayConfig_SetTopEngineBg1Config_1(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    DisplayConfig_SetTopEngineBg2Config2(displaySettings, 0, 0, 0, 0, 0x1e, 6);
+    DisplayConfig_SetTopEngineBg3Config_0(displaySettings, 3, 0, 0, 0, 0x1d, 4);
     SetSubBg0Record(displaySettings, 0, 0, 0, 0, 0xb, 0, 0);
     SetSubBg1Record(displaySettings, 3, 0, 0, 0, 0xd, 0, 0);
-    func_020cc1e0(displaySettings, 0, 0, 0, 0, 0xe, 0);
-    func_020cc1ac(displaySettings, 2, 0, 0, 0, 0xf, 0);
+    DisplayConfig_SetBottomEngineBg2Config2(displaySettings, 0, 0, 0, 0, 0xe, 0);
+    DisplayConfig_SetBottomEngineBg3Config_1(displaySettings, 2, 0, 0, 0, 0xf, 0);
     dc_setDisplayConfig(displaySettings);
     gMenuSceneState->mFramesSinceScreenSwitch = 0;
     gMenuSceneState->field4 = 1;
@@ -176,18 +176,18 @@ void menu_create(void) {
         ClearSelectReturnDisplayBitOn();
     }
     InitLinkLevelIcons(menu_process_getCurrentHeapHandle(), gMenuSceneState->mMainOam);
-    switch (func_020cc120()) {
+    switch (GetB488_SinglePlayerMenuTarget()) {
         case 0:
             menu_gotoState(0, 0x1f);
-            func_020cc10c(1);
+            SetB488_B2(1);
             break;
         case 1:
             menu_loadLastRaceConfig();
             switch (menu_getRaceConfig()->mMode) {
                 case 0:
                     menu_gotoState(5, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
                 case 3:
                     menu_gotoState(8, 0x1f);
@@ -197,8 +197,8 @@ void menu_create(void) {
                     break;
                 case 1:
                     menu_gotoState(0x15, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
             }
             break;
@@ -213,20 +213,20 @@ void menu_create(void) {
                     break;
                 case 1:
                     menu_gotoState(0x17, 0x1f);
-                    func_020cbabc(0);
-                    func_020cc10c(1);
+                    SetSinglePlayerMenuTarget(0);
+                    SetB488_B2(1);
                     break;
             }
             break;
         case 3:
             menu_loadLastRaceConfig();
-            if (func_020cc0f8() != 0 || func_020cc0e4() != 0) {
+            if (GetB488_B5() != 0 || GetB488_B6() != 0) {
                 menu_gotoState(SCREEN_MISSION_RUN_LVSEL, 0x1f);
             } else {
                 menu_gotoState(SCREEN_MISSION_RUN_MSSEL, 0x1f);
             }
-            func_020cbabc(0);
-            func_020cc10c(1);
+            SetSinglePlayerMenuTarget(0);
+            SetB488_B2(1);
             break;
         case 4:
             menu_gotoState(0xe, 0x1f);
@@ -235,8 +235,8 @@ void menu_create(void) {
             menu_loadLastRaceConfig();
             menu_getRaceConfig()->mMode = 1;
             menu_gotoState(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
-            func_020cbabc(0);
-            func_020cc10c(1);
+            SetSinglePlayerMenuTarget(0);
+            SetB488_B2(1);
             break;
     }
     AllocSinglePlayerMenuInfo(menu_process_getCurrentHeapHandle());

@@ -14,7 +14,7 @@ typedef struct Unk027e0000 {
     /* 3ff8 */ u32 field3FF8;
 } Unk027e0000;
 
-extern Unk027e0000 data_027e0000;
+extern Unk027e0000 g_DTCM;
 
 typedef void (*OSIrqFunction)(void);
 typedef u32 OSIrqMask;

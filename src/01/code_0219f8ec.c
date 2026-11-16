@@ -176,7 +176,7 @@ void func_ov001_021a0b3c(void) {
                 gMissionRunMSsel->fieldA4 = TRUE;
             }
         }
-        func_021057f0(0, GetMissionTableRow());
+        sub_21057F0(0, GetMissionTableRow());
         if (i == 8) {
             jn_ui_setCellCparam(data_ov001_021a6e7c[i][2], 2, gMissionRunMSsel->mMissionRunMSselSNcer,
                                 gMissionRunMSsel->mMissionRunMSselSBncl);
@@ -192,7 +192,7 @@ void func_ov001_021a0b3c(void) {
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
                     jn_ui_setCellCparam(data_ov001_021a6e7c[i][1], 0xe, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
-                    func_021057f0(3, GetMissionTableRow());
+                    sub_21057F0(3, GetMissionTableRow());
                 }
             }
         }

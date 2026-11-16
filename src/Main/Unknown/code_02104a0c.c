@@ -83,7 +83,7 @@ void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
     SetActiveItem(itemInUse->mKartItems, 0xe);
 }
 
-void func_0210515c(s32 kartIndex) {
+void sub_210515C(s32 kartIndex) {
     it_sDriverItemStatus[kartIndex].mActiveItem = 0x13;
     if (gRaceMultiConfig->mMode != 5) {
         return;
@@ -91,7 +91,7 @@ void func_0210515c(s32 kartIndex) {
     if (kartIndex == gRaceMultiConfig->mEntryIndex) {
         return;
     }
-    func_020efd84(&it_sDriverItemStatus[kartIndex], 0xe);
+    sub_20EFD84(&it_sDriverItemStatus[kartIndex], 0xe);
 }
 
 // Battle only: hands item 17 to a kart with an empty hand when its timer is 0 and counts the running timers down.
@@ -137,7 +137,7 @@ void UpdateBouncingItemBoxTimers(void) {
     }
 }
 
-void func_02104f84(s32 kartIndex) {
+void sub_2104F84(s32 kartIndex) {
     if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
@@ -199,7 +199,7 @@ void AdvanceBouncingItemBoxInUse(ItemInUse *itemInUse, BouncingItemBox *box) {
 }
 
 s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
-    func_020f9114(box);
+    sub_20F9114(box);
     box->field0.mItemObject.field78 |= data_0215a584;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->fieldB0 = 1;
@@ -232,7 +232,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
     PooledMapObject *mapObject;
     if ((box->field0.mItemObject.mFlags & 0x180000) != 0) {
         if ((box->field0.mItemObject.mFlags & 0x80000) != 0) {
-            func_020f6e58(&box->field0.mItemObject);
+            sub_20F6E58(&box->field0.mItemObject);
         } else if ((box->field0.mItemObject.mFlags & 0x100000) != 0) {
             AdvanceItemObjectReleaseTimer(&box->field0.mItemObject);
         }

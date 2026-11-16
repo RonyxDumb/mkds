@@ -29,7 +29,7 @@ typedef struct Unk020eb498 {
     /* 2a4 */ s32 field2A4;
 } Unk020eb498;
 
-// Objects read by func_020ea670.
+// Objects read by sub_20EA670.
 typedef struct Unk020ea670_08 {
     /* 000 */ u8 field0[8];
     /* 008 */ u32 field8;
@@ -58,24 +58,24 @@ void wbox_loadModel(void);
 
 typedef struct MapObjectFlagsView MapObjectFlagsView;
 
-void func_020ea670(Nsbmd *model, s32 maxAlpha);
+void sub_20EA670(Nsbmd *model, s32 maxAlpha);
 // Draws the model with its alpha capped at param_2 (put back afterwards), through NNS_G3dDraw1Mat1Shp.
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 // Draws the model with its alpha capped at param_2 (put back afterwards).
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
-void func_020ea84c(void);
+void StructMLFnPtr2(void);
 // Draws the shadow model with its alpha capped at param_4 (put back afterwards).
 void model2_renderShadowModel(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
 // Draws the model with the matrix param_2 and scale param_3, its alpha capped at param_4 (put back afterwards).
 void model2_renderModel(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha);
-void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
+void sub_20EA94C(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
                    Vec3 *result);
 // Splits the velocity param_1 along the direction param_2: the rest is scaled by param_3, the part along is reversed
 // and scaled by param_4; the result goes to param_6.
 void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                               s32 minNormalSpeed, Vec3 *result);
 void func_020eac20(Vec3 *direction, s32 blendFactor);
-void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result);
+void sub_20EACC0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result);
 // Writes to param_5 the move that puts point param_1 out of the cylinder at param_2 (radius param_3 in x/z, half height
 // param_4 in y); the move has y = 0.
 void col_collidePointSpheroid(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);

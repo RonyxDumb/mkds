@@ -23,10 +23,10 @@
 #include "Main/Unknown/code_0210b000.h"
 #include "Main/Unknown/code_020e337c.h"
 
-BOOL func_020f9290(void *itemParam, Vec3 *normal) {
+BOOL sub_20F9290(void *itemParam, Vec3 *normal) {
     ItemObject *item = itemParam;
     if ((item->mFlags & 0x2000000) != 0 && vec_dotProduct(normal, &item->field108) < 0 && (item->mFlags & 8) == 0) {
-        func_020f6fc4(item, 1);
+        sub_20F6FC4(item, 1);
         return TRUE;
     }
     return FALSE;
@@ -49,10 +49,10 @@ void it_20F91FC(void *itemParam, s32 soundId) {
     request.mPositionSource = &item->mPos;
     request.mSoundId = soundId;
     request.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
-    func_0210b7a8(&request);
+    sub_210B7A8(&request);
 }
 
-BOOL func_020f91e0(ItemObject *itemParam) {
+BOOL sub_20F91E0(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     return item->mScale.z >= 0xccd;
@@ -62,7 +62,7 @@ BOOL IsItemObjectFartherFromCameraThan(ItemObject *item, s32 distance) {
     return (s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) > distance * distance;
 }
 
-BOOL func_020f9160(ItemObject *c) {
+BOOL sub_20F9160(ItemObject *c) {
     BOOL a;
     BOOL b;
 
@@ -81,7 +81,7 @@ BOOL func_020f9160(ItemObject *c) {
     return FALSE;
 }
 
-void func_020f9114(void *itemParam) {
+void sub_20F9114(void *itemParam) {
     ItemObject *item = itemParam;
     enum { K0 } kind = item->mKind;
 
@@ -90,21 +90,21 @@ void func_020f9114(void *itemParam) {
     item->mFlags |= 0x400000;
 }
 
-void func_020f90dc(ItemObject *itemParam) {
+void sub_20F90DC(ItemObject *itemParam) {
     ItemObject *item = itemParam;
     if ((item->mFlags & 0x400000) == 0) {
         return;
     }
-    func_02109054(&item->mSoundSource);
+    sub_2109054(&item->mSoundSource);
     item->mSoundSource.mTrackParamsFunction = NULL;
     item->mFlags &= ~0x400000;
 }
 
-void func_020f90bc(ItemObject *itemParam) {
+void sub_20F90BC(ItemObject *itemParam) {
     ItemObject *item = itemParam;
 
     item->mSoundSource.mDistanceSquared = item->mDistanceSquaredAndFlags & ~0xc000001f;
-    func_020d4e28(item, &item->mPos, item->mDistanceSquaredAndFlags);
+    StructMQRacerEntry_SomeFn_91(item, &item->mPos, item->mDistanceSquaredAndFlags);
 }
 
 void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 d) {
@@ -118,7 +118,7 @@ void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 
     item->mFlags |= 0x10000000;
 }
 
-void func_020f8e78(void *itemParam) {
+void sub_20F8E78(void *itemParam) {
     ItemObject *item = itemParam;
     ItemKind *kindInfo;
     BOOL hasCollisionSlot;

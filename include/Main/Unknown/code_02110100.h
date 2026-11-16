@@ -5,8 +5,8 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObjectSound
 #include "code_0212bcac.h"
 
-void func_021103c0(void);
+void sub_21103C0(void);
 void func_02110350(MapObjectSound *mapSound);
 u32 func_02110324(void);
-void func_02110114(NNSSndSeqPlayer **handle);
+void sub_2110114(NNSSndSeqPlayer **handle);
 u32 IsSndHandleSet(NNSSndSeqPlayer **handle);

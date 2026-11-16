@@ -29,10 +29,10 @@ u32 gArena2Enabled;
 
 // Fills in the arena bounds on the first call only; the extra main memory arena starts out empty.
 void OS_InitArena(void) {
-    if (data_021701b4 != 0) {
+    if (g_MemoryRegionsInit != 0) {
         return;
     }
-    data_021701b4 = 1;
+    g_MemoryRegionsInit = 1;
     OS_SetArenaHi(OS_ARENA_MAIN, OS_GetInitArenaHi(OS_ARENA_MAIN));
     OS_SetArenaLo(OS_ARENA_MAIN, OS_GetInitArenaLo(OS_ARENA_MAIN));
     OS_SetArenaLo(OS_ARENA_MAINEX, NULL);
@@ -85,7 +85,7 @@ void *OS_GetInitArenaHi(OSArenaId id) {
         case OS_ARENA_ITCM:
             return (void *) 0x2000000;
         case OS_ARENA_DTCM:
-            dtcmStart = (u32) &data_027e0000;
+            dtcmStart = (u32) &g_DTCM;
             irqStackBottom = dtcmStart + 0x3f80 - (u32) data_00000c00;
             sysStackSize = (s32) data_00002800;
             if (sysStackSize == 0) {

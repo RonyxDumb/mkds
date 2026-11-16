@@ -22,9 +22,9 @@ void InitLinkFollowingItem(LinkFollowingItemObject *follower, s32 rampCount, s32
                            s32 endsOnFirstHit, s32 reverse, u16 targetKartIndex, s32 g);
 void AdvanceLinkFollowingItem(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex,
                               s32 d);
-void func_020ec9c0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e);
-void func_020ece1c(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c);
-BOOL func_020ed0f4(LinkFollowingItemObject *follower);
+void sub_20EC9C0(LinkFollowingItemObject *follower, s32 targetSpeed, s32 speedEase, s32 targetKartIndex, s32 e);
+void sub_20ECE1C(LinkFollowingItemObject *follower, s32 targetSpeed, s32 targetKartIndex, s32 c);
+BOOL sub_20ED0F4(LinkFollowingItemObject *follower);
 void InitLinkFollowingItemFromInUse(LinkFollowingItemObject *follower, ItemInUse *inUse, s32 rampCount,
                                     s32 rampWeightPerCount, s32 throwForward, s32 d, s32 endsOnFirstHit, s32 baseSpeed,
                                     u16 targetKartIndex, s32 h);

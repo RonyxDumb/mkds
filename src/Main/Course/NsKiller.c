@@ -94,7 +94,7 @@ void nsk1_update(void *a, NsKiller1 *nsKiller1) {
                     s = data_0216676c;
                     s.mPositionSource = &nsKiller1->field0.mPos;
                     s.mDistanceSquared = mobj_calcXZCamDist(&nsKiller1->field0.mPos);
-                    func_0210b708(&s, GetSndHandleSlot(8));
+                    sub_210B708(&s, GetSndHandleSlot(8));
                 }
             } else if (nsKiller1->mStateTimer <= 0) {
                 nsKiller1->mStateTimer = 0;

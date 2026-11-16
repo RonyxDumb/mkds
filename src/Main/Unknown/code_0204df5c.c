@@ -7,10 +7,10 @@
 
 void func_0204df5c(void) {
     if ((0x00000708u) < gStruct217AA00->field1692) {
-        func_02050e60(5);
+        sub_2050E60(5);
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 #pragma thumb off

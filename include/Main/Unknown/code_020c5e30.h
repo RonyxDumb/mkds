@@ -30,7 +30,7 @@ typedef struct RaceNewRecordTa {
 } RaceNewRecordTa;
 
 s32 r2dtar_isSaving(void);
-s32 func_020c70a0(void);
+s32 sub_20C70A0(void);
 void r2dtar_init(void);
 void r2dtar_finalize(void);
 void r2dtar_update(void);
@@ -40,7 +40,7 @@ void r2dtar_render(RaceHudOamBuffer *oamBuffer);
 BOOL r2dtar_20C657C(s32 store);
 BOOL r2dtar_20C6428(s32 store);
 void r2dtar_20C610C(void);
-void func_020c5f7c(void);
-void func_020c5f08(void);
+void StructE8_SomeFnHandle4(void);
+void StructE8_SomeFnHandle3(void);
 void ShowRaceNewRecordTaSubScreen(void);
 void SlideInRaceNewRecordTa(void);

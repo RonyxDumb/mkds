@@ -27,7 +27,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
+BOOL sub_20F14A0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     Vec3 t;
     Vec3 firstNormal;
     Vec3 secondNormal;
@@ -44,7 +44,7 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
     if ((item->field0.field0.field0.field48 & 1) == race_getIsOddFrame()) {
         kart = item->mKartItems->mKart;
         if (!(item->field0.field0.field0.mFlags & 0x20000)) {
-            if (func_0206c0e0(kart) != FALSE) {
+            if (StructMQRacerEntry_SomeFn_86(kart) != FALSE) {
                 speed >>= 1;
             }
             VEC_Subtract(&kart->mDrawMatrixPos, pos, &t);
@@ -66,7 +66,7 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 if (n < (s32) (((s64) kart->mPhysicalParam->mRadius * kart->mScale.z + 0x800) >> 12)) {
                     item->field238 = item->field238 + 1;
                     if (item->field238 > 0x5a) {
-                        func_020f7070(item, 1);
+                        sub_20F7070(item, 1);
                         return FALSE;
                     }
                     t.x = 0;
@@ -124,16 +124,16 @@ BOOL func_020f14a0(ItemKouraR *item, s32 speed, s32 gain, s32 d) {
                 velocity->x = ((s64) velocity->x * 0x23d) >> 12;
                 velocity->y = ((s64) velocity->y * 0x23d) >> 12;
                 velocity->z = ((s64) velocity->z * 0x23d) >> 12;
-                func_020f6fc4(item, 1);
+                sub_20F6FC4(item, 1);
                 return FALSE;
             }
         }
         if (item->field0.field0.field0.mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            sub_20F7070(item, 1);
             return FALSE;
         }
     }
-    func_020f2028(&item->field0.field0.field0);
+    sub_20F2028(&item->field0.field0.field0);
     return result;
 }
 

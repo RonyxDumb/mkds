@@ -234,7 +234,7 @@ void efbub_state0Init(MkdEfBubbleObject *bubble) {
         soundRequest.mPositionSource = &bubble->field0.mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&bubble->field0.mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
     }
     bubble->fieldE4 = 0;
     if (bubble->fieldE8 == NULL) {

@@ -10,21 +10,21 @@
 u32 data_021732cc;
 u32 data_021732e8;
 SNDCommand *data_021732d8;
-SNDCommand *data_021732d0;
-SNDCommand *data_021732c8;
+SNDCommand *g_WaitingCommandListCount;
+SNDCommand *g_Command;
 SNDCommand *data_021732d4;
 s32 data_021732dc;
 s32 data_021732e0;
-s32 data_021732e4;
+s32 g_Sound_WaitingCommandCount;
 SNDCommand *data_021732ec[13];
 Unk020217b4 data_02173320;
-SNDCommand data_021735a0[256];
+SNDCommand g_SoundCommandArray[256];
 
 // Stores handler and arg in the alarm table entry for alarmNo and returns the id byte of that entry after raising it.
 u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
     Unk02021734 *info;
 
-    info = &data_02174da0[alarmNo];
+    info = &g_SoundAlarms[alarmNo];
     info->mFunc = handler;
     info->mArg = arg;
     info->mId++;
@@ -35,7 +35,7 @@ u8 SNDi_SetAlarmHandler(int alarmNo, SNDAlarmHandler handler, void *arg) {
 void SNDi_CallAlarmHandler(int alarmNo) {
     Unk02021734 *info;
 
-    info = &data_02174da0[alarmNo & 0xff];
+    info = &g_SoundAlarms[alarmNo & 0xff];
     if (((alarmNo >> 8) & 0xff) != info->mId) {
         return;
     }
@@ -52,15 +52,15 @@ void SND_CommandInit(void) {
     SNDCommand *command;
 
     InitPXI();
-    data_021732c8 = data_021735a0;
+    g_Command = g_SoundCommandArray;
     for (i = 0; i < 255; i++) {
-        data_021735a0[i].mNext = &data_021735a0[i + 1];
+        g_SoundCommandArray[i].mNext = &g_SoundCommandArray[i + 1];
     }
-    data_021735a0[255].mNext = 0;
-    data_021732d8 = &data_021735a0[255];
-    data_021732d0 = 0;
+    g_SoundCommandArray[255].mNext = 0;
+    data_021732d8 = &g_SoundCommandArray[255];
+    g_WaitingCommandListCount = 0;
     data_021732d4 = 0;
-    data_021732e4 = 0;
+    g_Sound_WaitingCommandCount = 0;
     data_021732dc = 0;
     data_021732e0 = 0;
     data_021732e8 = 1;
@@ -109,10 +109,10 @@ const SNDCommand *SND_RecvCommandReply(u32 flags) {
     if (data_021732d8 != 0) {
         data_021732d8->mNext = commandList;
     } else {
-        data_021732c8 = commandList;
+        g_Command = commandList;
     }
     data_021732d8 = commandListEnd;
-    data_021732e4--;
+    g_Sound_WaitingCommandCount--;
     data_021732cc++;
     OS_RestoreInterrupts(enabled);
     return commandList;
@@ -160,7 +160,7 @@ void SND_PushCommand(SNDCommand *command) {
     end = data_021732d4;
     if (end == 0) {
         data_021732d4 = command;
-        data_021732d0 = command;
+        g_WaitingCommandListCount = command;
     } else {
         end->mNext = command;
         data_021732d4 = command;
@@ -175,44 +175,44 @@ u32 SND_FlushCommand(u32 flags) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (data_021732d0 == 0) {
+    if (g_WaitingCommandListCount == 0) {
         OS_RestoreInterrupts(enabled);
         return 1;
     }
-    if (data_021732e4 >= 8) {
+    if (g_Sound_WaitingCommandCount >= 8) {
         if ((flags & 1) == 0) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }
         do {
             SND_RecvCommandReply(1);
-        } while (data_021732e4 >= 8);
+        } while (g_Sound_WaitingCommandCount >= 8);
     }
-    DC_FlushRange(data_021735a0, 0x1800);
-    if (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0) {
+    DC_FlushRange(g_SoundCommandArray, 0x1800);
+    if (PXI_SendWordByFifo(7, (u32) g_WaitingCommandListCount, 0) < 0) {
         if ((flags & 1) == 0) {
             OS_RestoreInterrupts(enabled);
             return 0;
         }
-        if (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0) {
+        if (PXI_SendWordByFifo(7, (u32) g_WaitingCommandListCount, 0) < 0) {
             do {
                 OS_RestoreInterrupts(enabled);
                 OS_SpinWait(0x64);
                 enabled = OS_DisableInterrupts();
-            } while (PXI_SendWordByFifo(7, (u32) data_021732d0, 0) < 0);
+            } while (PXI_SendWordByFifo(7, (u32) g_WaitingCommandListCount, 0) < 0);
         }
     }
     if ((flags & 2) != 0) {
         RequestCommandProc();
     }
-    data_021732ec[data_021732e0] = data_021732d0;
+    data_021732ec[data_021732e0] = g_WaitingCommandListCount;
     data_021732e0++;
     if (data_021732e0 > 8) {
         data_021732e0 = 0;
     }
-    data_021732d0 = 0;
+    g_WaitingCommandListCount = 0;
     data_021732d4 = 0;
-    data_021732e4++;
+    g_Sound_WaitingCommandCount++;
     data_021732e8++;
     OS_RestoreInterrupts(enabled);
     return 1;
@@ -244,7 +244,7 @@ u32 SND_GetCurrentCommandTag(void) {
     u32 tag;
 
     enabled = OS_DisableInterrupts();
-    if (data_021732d0 == 0) {
+    if (g_WaitingCommandListCount == 0) {
         tag = data_021732cc;
     } else {
         tag = data_021732e8;
@@ -286,7 +286,7 @@ s32 SND_CountFreeCommand(void) {
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    for (command = data_021732c8; command != 0; command = command->mNext) {
+    for (command = g_Command; command != 0; command = command->mNext) {
         count++;
     }
     OS_RestoreInterrupts(enabled);
@@ -301,7 +301,7 @@ s32 SND_CountReservedCommand(void) {
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    for (command = data_021732d0; command != 0; command = command->mNext) {
+    for (command = g_WaitingCommandListCount; command != 0; command = command->mNext) {
         count++;
     }
     OS_RestoreInterrupts(enabled);
@@ -352,13 +352,13 @@ SNDCommand *AllocCommand(void) {
     SNDCommand *next;
 
     enabled = OS_DisableInterrupts();
-    command = data_021732c8;
+    command = g_Command;
     if (command == 0) {
         OS_RestoreInterrupts(enabled);
         return 0;
     }
     next = command->mNext;
-    data_021732c8 = next;
+    g_Command = next;
     if (next == 0) {
         data_021732d8 = 0;
     }

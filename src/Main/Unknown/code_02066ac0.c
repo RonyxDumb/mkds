@@ -279,7 +279,7 @@ void driver_updateEnemy(Kart *kart) {
     }
 }
 
-void func_02066fe0(Kart *kart) {
+void StructMQRacerEntry_SomeFn_21(Kart *kart) {
     RaceSetup *raceSetup;
     CourseMap *courseMap;
     KartEntryPlayer *player;
@@ -332,7 +332,7 @@ void func_02066fe0(Kart *kart) {
                 kart->field48 = kart->field48 | 0x2000;
             }
             if ((kart->field7C & KART_7C_ENTRY_KIND_2) != 0) {
-                func_02068ec0(kart, 0);
+                StructMQRacerEntry_SomeFn_35(kart, 0);
             }
         }
     }
@@ -391,7 +391,7 @@ void func_02066fe0(Kart *kart) {
         return;
     }
     if (kart->mIndex == raceSetup->mEntryIndex) {
-        c = func_02110e58();
+        c = sub_2110E58();
         switch (c) {
             case 0:
                 d = 9;
@@ -403,10 +403,10 @@ void func_02066fe0(Kart *kart) {
                 d = 0xb;
                 break;
         }
-        func_0210b198(kart->mSoundIndex, d, 0x6e, 7, -1);
+        sub_210B198(kart->mSoundIndex, d, 0x6e, 7, -1);
         return;
     }
-    d = func_02110fb8(rstat_getPlace(kart->mIndex));
+    d = sub_2110FB8(rstat_getPlace(kart->mIndex));
     if ((kart->field48 & 0x840) != 0) {
         return;
     }
@@ -451,7 +451,7 @@ void AdvanceKartWobble(Kart *kart) {
     kart->mWobbleDirection = 0;
 }
 
-void func_02066ac0(Kart *kart) {
+void StructMQRacerEntry_SomeFn_78(Kart *kart) {
     ParticipantKartRecordState *state;
     ParticipantKartRecordNode *node;
     ParticipantKartRecordState *stateAgain;
@@ -466,10 +466,10 @@ void func_02066ac0(Kart *kart) {
 
     state = kart->field514;
     appliedNow = 0;
-    h = func_0205b954(((u8 *) gStruct217AA18)[kart->mIndex & 0xff]);
+    h = sub_205B954(((u8 *) gStruct217AA18)[kart->mIndex & 0xff]);
     state->field24 = race_getState() == 1 ? 0x333 : appliedNow;
     if (h > state->field20) {
-        entry = func_0205b978(((u8 *) gStruct217AA18)[kart->mIndex & 0xff], h);
+        entry = sub_205B978(((u8 *) gStruct217AA18)[kart->mIndex & 0xff], h);
         record = entry != NULL ? (ParticipantKartRecord *) entry->field8 : 0;
         if (record != NULL) {
             difference = gStruct217AA14->field728 - h;
@@ -491,7 +491,7 @@ void func_02066ac0(Kart *kart) {
                 if (difference > 0x19) {
                     difference = 0x19;
                 }
-                func_020653d0(kart, record, difference);
+                StructMQRacerEntry_SomeFn_19(kart, record, difference);
                 appliedNow = 1;
             }
         }
@@ -510,7 +510,7 @@ void func_02066ac0(Kart *kart) {
         pendingNode->mApplyTimer = pendingNode->mApplyTimer - 1;
         if (pendingNode->mApplyTimer <= 0) {
             if (appliedNow == 0) {
-                func_020653d0(kart, &pendingNode->mRecord, 0);
+                StructMQRacerEntry_SomeFn_19(kart, &pendingNode->mRecord, 0);
             }
             NNS_FndRemoveListObject(&stateAgain->mPendingRecords, pendingNode);
             NNS_FndAppendListObject(&stateAgain->mFreeRecords, pendingNode);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_0207a68c(int kartIndex);
+u32 sub_207A68C(int kartIndex);

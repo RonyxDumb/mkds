@@ -318,7 +318,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         func_0210895c();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->field8 >= 0x78 && func_0212111c() == -1) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && gWiFiVSMatching->field8 >= 0x78 && sub_212111C() == -1) {
         func_ov000_021840c8();
         gWiFiVSMatching->mNextState = 9;
         gWiFiVSMatching->field40 = TRUE;
@@ -331,7 +331,7 @@ void AdvanceWiFiVSMatchingState1(void) {
         func_02108990();
         return;
     }
-    if (IsTxtSystemState2NoCloseRequest() != 0 && func_0212111c() == 1) {
+    if (IsTxtSystemState2NoCloseRequest() != 0 && sub_212111C() == 1) {
         k = 0;
         gWiFiVSMatching->field8 = 0;
         if (gStruct217D384->mKartCount <= 1) {
@@ -372,7 +372,7 @@ void AdvanceWiFiVSMatchingState1(void) {
             dst = gWiFiVSMatching->mOtherEmblems[0];
             dst += i * 0x200;
             CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[i]), dst, 0x20);
-            gWiFiVSMatching->field16D8[i] = func_02120278(gWiFiVSMatching->mOtherIndices[i]);
+            gWiFiVSMatching->field16D8[i] = GetSomeBTKUseCustomEmblemFlag(gWiFiVSMatching->mOtherIndices[i]);
         }
         for (i = 0; i < 3; i++) {
             gWiFiVSMatching->mWiFiVSMatchingTable[data_ov000_021b065c[i]].mVisible = 0;

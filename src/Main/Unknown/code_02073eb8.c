@@ -62,7 +62,7 @@ void cam_applyFrustum(Camera *camera, s32 useSecondFar) {
         farPlane = camera->mFar;
     }
     G3i_FrustumW_(camera->mFrustumTop, camera->mFrustumBottom, camera->mFrustumLeft, camera->mFrustumRight,
-                  camera->mNear, farPlane, 0x1000, 0, &data_021702a4);
+                  camera->mNear, farPlane, 0x1000, 0, &g_YetAnotherMatrix4x4);
     NNS_G3dGlb.mFlag &= ~0x50;
 }
 

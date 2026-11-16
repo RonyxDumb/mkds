@@ -5,5 +5,5 @@
 
 typedef struct Unk0210b7a8 Unk0210b7a8;
 
-void func_0210b708(Unk0210b7a8 *request, NNSSndSeqPlayer **handle);
-void func_0210b734(void *request, NNSSndSeqPlayer **handle);
+void sub_210B708(Unk0210b7a8 *request, NNSSndSeqPlayer **handle);
+void sub_210B734(void *request, NNSSndSeqPlayer **handle);

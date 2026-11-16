@@ -34,7 +34,7 @@
 #include "Main/Unknown/code_020c6000.h"
 #include "Main/Kart/KartTimes.h"
 
-void func_020aeb7c(void) {
+void sub_20AEB7C(void) {
     BOOL subScreenEnabled;
     BOOL d;
     BOOL b;

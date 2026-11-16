@@ -11,4 +11,4 @@ typedef struct Unk0210a5a8 {
 } Unk0210a5a8;
 
 void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b);
-void func_0210a598(Kart *kart, s32 soundIndex);
+void StructMQRacerEntry_SomeFn_66(Kart *kart, s32 soundIndex);

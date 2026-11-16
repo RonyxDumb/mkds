@@ -3,7 +3,7 @@
 #include "Main/System/Heap.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020cffa0(void) {
+u32 SomeAlloc(void) {
     u32 value0;
     u32 value1;
     value0 = (u32) proc_getCurrent();

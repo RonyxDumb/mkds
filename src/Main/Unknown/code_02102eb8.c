@@ -79,7 +79,7 @@ BOOL itgsso_210300C(ItemGesso *gesso) {
     }
     gesso->field194 = f;
     if (step->mTargetVelocityY > 0 && gesso->mStepIndex != 0 && gesso->mStepIndex != 0xe && gesso->mVisible != FALSE) {
-        func_020f8e3c((u32) gesso->mKart, 0xf1);
+        sub_20F8E3C((u32) gesso->mKart, 0xf1);
     }
     return FALSE;
 done:
@@ -93,7 +93,7 @@ u32 itgsso_2102EB8(ItemGesso *gesso, s32 fromData) {
 
     entryIndex = gRaceMultiConfig->mEntryIndex;
     camera = cam_getPlayerCamera();
-    func_020f82a4(0);
+    sub_20F82A4(0);
     if (entryIndex < 0) {
         kartIndex = (u16) (gesso->field0.field78 & ~0xff00);
     } else {

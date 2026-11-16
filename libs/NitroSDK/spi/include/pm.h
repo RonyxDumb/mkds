@@ -44,12 +44,12 @@ extern vu32 gPowerSleepHandshakeReplyReceived;
 extern vu32 data_02180438;
 // List of PMSleepCallbackInfo run first by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPreSleepCallbacks;
-extern u32 data_02180440;
+extern u32 g_FrameCounterValue;
 // List of PMSleepCallbackInfo run last by PM_GoSleepMode.
 extern PMSleepCallbackInfo *gPowerPostSleepCallbacks;
 // The command in flight.
 extern PMiWork gPowerCommand;
-extern OSMutex data_02180458;
+extern OSMutex g_GlobalVStr;
 // The four register buffers.
 extern PMData16 gPMData16s[4];
 

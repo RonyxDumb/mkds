@@ -50,9 +50,9 @@ void SND_AlarmInit(void) {
     s32 alarmNo;
 
     for (alarmNo = 0; alarmNo < 8; alarmNo++) {
-        data_02174da0[alarmNo].mFunc = 0;
-        data_02174da0[alarmNo].mArg = 0;
-        data_02174da0[alarmNo].mId = 0;
+        g_SoundAlarms[alarmNo].mFunc = 0;
+        g_SoundAlarms[alarmNo].mArg = 0;
+        g_SoundAlarms[alarmNo].mId = 0;
     }
 }
 
@@ -61,7 +61,7 @@ u32 SNDi_IncAlarmId(u32 alarmNo) {
     Unk02021734 *info;
     u32 id;
 
-    info = &data_02174da0[alarmNo];
+    info = &g_SoundAlarms[alarmNo];
     id = info->mId + 1;
     info->mId = id;
     return id;

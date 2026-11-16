@@ -20,16 +20,16 @@
 #include "Main/Unknown/unk_0217e000.h"
 #include "Main/Unknown/unk_02152000.h"
 
-u32 data_0216f350;
-u32 data_0216f354;
-u32 data_0216f358;
-Unk02005704 data_0216f364;
-Unk02005704 data_0216f35c;
-FSArchive data_0216f36c;
+u32 g_Fs_Init;
+u32 g_CardLockId;
+u32 g_CardDmaChannel;
+Unk02005704 g_Overlay7;
+Unk02005704 g_Overlay9;
+FSArchive g_Fs_RomArchive;
 
-void *data_02161768 = data_02152b80;
-u8 data_02161764[4] = "rom";
-u32 data_0216176c = 0x40;
+void *g_SomeCompCode = data_02152b80;
+u8 g_str_rom[4] = "rom";
+u32 g_40 = 0x40;
 
 // Returns the size of the overlay image: the compressed size when the compressed flag is set, else the image size.
 s32 FSi_GetOverlayBinarySize(FSOverlayInfo *info) {
@@ -57,7 +57,7 @@ void FS_ClearOverlayImage(FSOverlayInfo *info) {
 void FS_GetOverlayFileID(FSFileID *fileID, FSOverlayInfo *info) {
     FSFileID id;
 
-    id.mArc = &data_0216f36c;
+    id.mArc = &g_Fs_RomArchive;
     id.mFileId = info->mFileId;
     *fileID = id;
 }
@@ -111,9 +111,9 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     Unk02005704 *region1;
 
     if (selector == 0) {
-        table = &data_0216f35c;
+        table = &g_Overlay9;
     } else {
-        table = &data_0216f364;
+        table = &g_Overlay7;
     }
     if (table->field0 != 0) {
         if (index * 32 >= table->field4) {
@@ -133,7 +133,7 @@ u32 FS_LoadOverlayInfo(FSOverlayInfo *info, u32 selector, u32 index) {
     }
     region0 = (Unk02005704 *) 0x27ffe50;
     region1 = (Unk02005704 *) 0x27ffe58;
-    return FSi_LoadOverlayInfoCore(info, selector, index, &data_0216f36c, region0->field0, region0->field4,
+    return FSi_LoadOverlayInfoCore(info, selector, index, &g_Fs_RomArchive, region0->field0, region0->field4,
                                    region1->field0, region1->field4);
 }
 
@@ -184,8 +184,8 @@ u32 FSi_CompareDigest(const u8 *expected, const u8 *data, u32 size) {
     u32 i;
 
     MI_CpuFill8(digest, 0, 0x14);
-    MI_CpuCopy8(data_02161768, key, data_0216176c);
-    DGT_Hash2CalcHmac(digest, data, size, key, data_0216176c);
+    MI_CpuCopy8(g_SomeCompCode, key, g_40);
+    DGT_Hash2CalcHmac(digest, data, size, key, g_40);
     for (i = 0; i < 0x14; i += 4) {
         if (*(u32 *) (digest + i) != *(u32 *) (expected + i)) {
             break;
@@ -205,7 +205,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
     if (*(u16 *) 0x27ffc40 == 2) {
         verified = 0;
         if (info->field1C.b[3] & 2) {
-            if (info->mId < ((u8 *) &data_0216f340 - (u8 *) OverlaySignatures) / 20) {
+            if (info->mId < ((u8 *) &g_ArchiveList - (u8 *) OverlaySignatures) / 20) {
                 verified = FSi_CompareDigest(OverlaySignatures[info->mId], info->mRamAddress, size);
             }
         }
@@ -216,7 +216,7 @@ void FS_StartOverlay(FSOverlayInfo *info) {
         }
     }
     if (info->field1C.b[3] & 1) {
-        func_02000934(info->mRamAddress + size);
+        Crt0_DecompressFlushCode(info->mRamAddress + size);
     }
     DC_FlushRange(info->mRamAddress, info->mRamSize);
     initFunc = info->mSinitInit;
@@ -329,15 +329,15 @@ void FS_AttachOverlayTable(u32 selector, u8 *data, u32 size) {
 
     if (data != 0 && selector == 0) {
         saved = DGT_SetOverlayTableMode(1);
-        if (FSi_CompareDigest(data_0216f2dc, data, size) == 0) {
+        if (FSi_CompareDigest(g_SomeDigest, data, size) == 0) {
             OS_Terminate();
         }
         DGT_SetOverlayTableMode(saved);
     }
     if (selector == 0) {
-        table = &data_0216f35c;
+        table = &g_Overlay9;
     } else {
-        table = &data_0216f364;
+        table = &g_Overlay7;
     }
     saved = OS_DisableInterrupts();
     table->field0 = data;
@@ -352,7 +352,7 @@ void FSi_OnRomReadDone(FSArchive *archive) {
 
 // Archive read callback that reads from the card in the background.
 s32 FSi_ReadRomCallback(FSArchive *archive, void *dst, u32 src, u32 len) {
-    CARDi_ReadRom(data_0216f358, src, (u32) dst, len, FSi_OnRomReadDone, (u32) archive, 1);
+    CARDi_ReadRom(g_CardDmaChannel, src, (u32) dst, len, FSi_OnRomReadDone, (u32) archive, 1);
     return 6;
 }
 
@@ -365,10 +365,10 @@ s32 FSi_WriteDummyCallback(FSArchive *archive, const void *src, u32 dst, u32 len
 s32 FSi_RomArchiveProc(FSFile *file, u32 command) {
     switch (command) {
         case 9:
-            CARD_LockRom(data_0216f354);
+            CARD_LockRom(g_CardLockId);
             return 0;
         case 10:
-            CARD_UnlockRom(data_0216f354);
+            CARD_UnlockRom(g_CardLockId);
             return 0;
         case 1:
             return 4;
@@ -391,27 +391,27 @@ s32 FSi_EmptyArchiveProc(FSFile *file, u32 command) {
 void FSi_InitRom(u32 dmaNo) {
     enum { K0 } fntRegion, fatRegion;
 
-    data_0216f358 = dmaNo;
-    data_0216f354 = OS_GetLockID();
-    data_0216f35c.field0 = 0;
-    data_0216f35c.field4 = 0;
-    data_0216f364.field0 = 0;
-    data_0216f364.field4 = 0;
+    g_CardDmaChannel = dmaNo;
+    g_CardLockId = OS_GetLockID();
+    g_Overlay9.field0 = 0;
+    g_Overlay9.field4 = 0;
+    g_Overlay7.field0 = 0;
+    g_Overlay7.field4 = 0;
     CARD_Init();
-    FS_InitArchive(&data_0216f36c);
-    FS_RegisterArchiveName(&data_0216f36c, data_02161764, 3);
+    FS_InitArchive(&g_Fs_RomArchive);
+    FS_RegisterArchiveName(&g_Fs_RomArchive, g_str_rom, 3);
     if (*(u16 *) 0x27ffc40 == 2) {
-        data_0216f35c.field0 = (u8 *) -1;
-        data_0216f35c.field4 = 0;
-        data_0216f364.field0 = (u8 *) -1;
-        data_0216f364.field4 = 0;
-        FS_SetArchiveProc(&data_0216f36c, FSi_EmptyArchiveProc, -1);
-        FS_LoadArchive(&data_0216f36c, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
+        g_Overlay9.field0 = (u8 *) -1;
+        g_Overlay9.field4 = 0;
+        g_Overlay7.field0 = (u8 *) -1;
+        g_Overlay7.field4 = 0;
+        FS_SetArchiveProc(&g_Fs_RomArchive, FSi_EmptyArchiveProc, -1);
+        FS_LoadArchive(&g_Fs_RomArchive, 0, 0, 0, 0, 0, FSi_ReadDummyCallback, FSi_WriteDummyCallback);
         return;
     }
     fntRegion = 0x27ffe40;
     fatRegion = 0x27ffe48;
-    FS_SetArchiveProc(&data_0216f36c, FSi_RomArchiveProc, 0x602);
+    FS_SetArchiveProc(&g_Fs_RomArchive, FSi_RomArchiveProc, 0x602);
     if (((Unk02005704 *) fntRegion)->field0 == (u8 *) -1) {
         return;
     }
@@ -424,21 +424,21 @@ void FSi_InitRom(u32 dmaNo) {
     if (((Unk02005704 *) fatRegion)->field0 == 0) {
         return;
     }
-    FS_LoadArchive(&data_0216f36c, 0, (u32) ((Unk02005704 *) fatRegion)->field0, ((Unk02005704 *) fatRegion)->field4,
+    FS_LoadArchive(&g_Fs_RomArchive, 0, (u32) ((Unk02005704 *) fatRegion)->field0, ((Unk02005704 *) fatRegion)->field4,
                    (u32) ((Unk02005704 *) fntRegion)->field0, ((Unk02005704 *) fntRegion)->field4,
                    FSi_ReadRomCallback, FSi_WriteDummyCallback);
 }
 
 // Copies the ROM archive tables into the given memory.
 u32 FS_TryLoadTable(u32 mem, u32 size) {
-    return FS_LoadArchiveTables(&data_0216f36c, mem, size);
+    return FS_LoadArchiveTables(&g_Fs_RomArchive, mem, size);
 }
 
 // Initializes the file system once.
 void FS_Init(u32 dmaNo) {
-    if (data_0216f350 != 0) {
+    if (g_Fs_Init != 0) {
         return;
     }
-    data_0216f350 = 1;
+    g_Fs_Init = 1;
     FSi_InitRom(dmaNo);
 }

@@ -74,7 +74,7 @@ void jg_finishRespawning(void) {
     }
 }
 
-void func_020e79c4(void) {
+void sub_20E79C4(void) {
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
@@ -229,7 +229,7 @@ void jg_load(void) {
     }
     gJgTableIndex = 0;
     n = 2;
-    for (j = n, sourceRow = data_0216c324, kindRow = data_0217bb08; j < 4; j++) {
+    for (j = n, sourceRow = data_0216c324, kindRow = g_JgReverseModel; j < 4; j++) {
         if (sourceRow->field0 != NULL) {
             kindRow->mModel = heap_alloc(heap, 0x6c);
             file = arc_getSceneArcFile(sourceRow->field0);
@@ -261,7 +261,7 @@ void jg_load(void) {
     bbm_createFromNsbmd((NsbmdModel **) gJgKindRowLapModels, arc_getSceneArcFile(aLap_count_nsbm), arc_getSceneArcFile(aLap_count_nsbt), 0);
     bbm_setDefaultMatParams(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->field14 |= 0xc0;
-    bbm_createFromNsbmd((NsbmdModel **) data_0217bb04, arc_getSceneArcFile(aLap_final_nsbm), 0, 0);
+    bbm_createFromNsbmd((NsbmdModel **) g_LapFinalMapObjectSub, arc_getSceneArcFile(aLap_final_nsbm), 0, 0);
     bbm_setDefaultMatParams(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->field14 |= 0xc0;
 }

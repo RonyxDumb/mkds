@@ -19,8 +19,8 @@ typedef struct Unk027ffc00 {
     /* 388 */ u32 mPxiHandleChecker[2];
 } Unk027ffc00;
 
-extern PXIFifoCallback data_0218032c[32];
-extern u16 data_02180328;
+extern PXIFifoCallback g_FifoCallbackTable[32];
+extern u16 g_FifoInit;
 
 void PXI_Init(void);
 void PXIi_HandlerRecvFifoNotEmpty(void);

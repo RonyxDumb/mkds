@@ -1036,13 +1036,13 @@ typedef struct Race {
     // ran, stored by race_20617D8 (in mission run mode that is after the end wait); 0 until then.
     /* 3c */ s32 mUpdateFramesAtEntryEnd;
     // x component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
-    // from data_021653f0 and by race_setLight0Direction.
+    // from g_SomeTDVector and by race_setLight0Direction.
     /* 40 */ s16 mLightVectorX;
     // y component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
-    // from data_021653f0 and by race_setLight0Direction.
+    // from g_SomeTDVector and by race_setLight0Direction.
     /* 42 */ s16 mLightVectorY;
     // z component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
-    // from data_021653f0 and by race_setLight0Direction.
+    // from g_SomeTDVector and by race_setLight0Direction.
     /* 44 */ s16 mLightVectorZ;
 } Race;
 
@@ -1505,7 +1505,7 @@ extern KartAiShared *gKartAiShared;
 extern KartAiParamRow *gKartAiParamRow;
 extern u8 *gKartEntryNameTexBuffer;
 extern u16 *gKartEntryNamePlltBuffer;
-extern u8 *data_0217aecc;
+extern u8 *g_TempBuffer4_0x200;
 extern Vec3 *gKartDistanceLimitsSquared;
 extern u16 *gKartEmblemPlltBuffer;
 extern s32 data_0217aedc;
@@ -1513,7 +1513,7 @@ extern Unk0214ad4c PlayerLabelProjMtx;
 
 struct KartNameTag;
 
-// Object behind data_0217aed0, 0x194 bytes: tables of eight entries.
+// Object behind g_GlobalAED0, 0x194 bytes: tables of eight entries.
 typedef struct Unk0217aed0 {
     /* 000 */ struct KartNameTag *mNameTagByKart[8];
     /* 020 */ s32 mNameTagCount;
@@ -1536,7 +1536,7 @@ typedef struct Unk0217aed0 {
     /* 18c */ u8 field18C[8];
 } Unk0217aed0;
 
-extern Unk0217aed0 *data_0217aed0;
+extern Unk0217aed0 *g_GlobalAED0;
 extern const char *ckldr_sLoadBasePath;
 extern char ckldr_sPathResult[];
 

@@ -26,7 +26,7 @@ typedef struct Unk0215a64c {
 extern const Unk0215a64c data_0215a64c;
 extern const Unk0215a680 data_0215a680;
 
-u32 func_02105504(void);
+u32 IsInRaceSceneNormalOrReplay(void);
 u32 race_isBossBattle(void);
 Unk0215a680 *func_02105480(void);
 void func_02105464(void *mapObject, void *q);

@@ -66,5 +66,5 @@ int printf(const char *fmt, ...);
 void *FormatPutBuffer(void *p, const char *b, u32 n);
 void *FormatPutFwrite(void *a, const char *b, u32 n);
 
-void func_0213453c(u8 *a, u32 *b);
-void func_02135010(void);
+void nullsub_17(u8 *a, u32 *b);
+void nullsub_18(void);

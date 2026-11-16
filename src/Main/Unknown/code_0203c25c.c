@@ -71,7 +71,7 @@ void rstat_203C2E4(u16 a) {
         mgcnt_killDriver(a);
     }
     p->mStatus = 4;
-    func_02069044(driver_getById(a));
+    StructMQRacerEntry_SomeFn_34(driver_getById(a));
     SetRaceHudKartRemoved(a, 1);
     if (rstat_shouldTryFinish() != 0) {
         switch (gRaceMultiConfig->mMode) {

@@ -336,7 +336,7 @@ void WFSi_SendOpenAck(RomArchiveParentView *view, RomArchiveFileNode *node, s32 
         if (node->mChildCount <= 0) {
             length = node->mFile.mProp.w.field8 - node->mFile.mProp.w.field4;
             blockId = node->mBlockId;
-            WBT_RegisterBlock(&node->mBlockNode, blockId, data_0215470c, length <= 0x400u ? node->mBuffers[0] : 0, length,
+            WBT_RegisterBlock(&node->mBlockNode, blockId, g_SomeNullString, length <= 0x400u ? node->mBuffers[0] : 0, length,
                      0);
             WFSi_MoveList(&view->mPendingHead, &view->mActiveHead, node);
             node->mState = 2;
@@ -929,7 +929,7 @@ void WFS_InitParent(u32 port, void (*stateCallback)(s32 port),
     view->mActiveHead = archiveNode;
     archiveNode->mChildCount = 1;
     MI_CpuFill8(archiveNode, 0, 0x8c0);
-    WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, data_0215470c, transfer->mArchiveBlock,
+    WBT_RegisterBlock(&archiveNode->mBlockNode, 0x20000, g_SomeNullString, transfer->mArchiveBlock,
              gRomArchiveTransfer.mArchiveBlockSize, 0);
     transfer->mState = 1;
     WFSi_CreateTaskThread();

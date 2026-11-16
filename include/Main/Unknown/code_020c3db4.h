@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020c3db4(void);
+u32 sub_20C3DB4(void);

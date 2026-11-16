@@ -71,7 +71,7 @@ void rstat_updateTime(void) {
                                 break;
                         }
                     }
-                    func_0205af90();
+                    sub_205AF90();
                 }
             }
         }

@@ -151,7 +151,7 @@ void kuribo_reappearStateInit(Kuribo *kuribo) {
         soundRequest.mPositionSource = &kuribo->field0.mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->field0.mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
     }
     kuribo->field0.mFlags &= ~1;
     kuribo->fieldC8 = 0;

@@ -181,7 +181,7 @@ void puku_state0Update(Unk020e43a8 *pukupuku) {
         soundRequest.mPositionSource = &pukupuku->field0.mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&pukupuku->field0.mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
     }
     pukupuku->field0.mPos.y = y;
     pukupuku->fieldC4 = pukupuku->fieldC4 - 1;

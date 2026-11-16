@@ -10,10 +10,10 @@
 #include "Main/Unknown/code_0211127c.h"
 #include "Main/Unknown/code_021112fc.h"
 
-void func_021112fc(u32 arg0) {
+void sub_21112FC(u32 arg0) {
     u32 copy = arg0;
     u32 unused;
-    data_0217d32c.fieldC = copy;
+    g_GlobalCX.fieldC = copy;
 }
 
 u32 snd_getResultSceneSeqId(void) {
@@ -50,8 +50,8 @@ u32 snd_getResultSceneSeqId(void) {
 }
 
 void CreateSeqRowHeap(void *heapMemory, u32 heapSize) {
-    data_0217d32c.mSeqHeap = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d32c.mSeqRow = NULL;
+    g_GlobalCX.mSeqHeap = NNS_SndHeapCreate(heapMemory, heapSize);
+    g_GlobalCX.mSeqRow = NULL;
 }
 
 // Loads the sequences of the row for index a unless that row is already loaded; returns 0 if a load fails.
@@ -61,16 +61,16 @@ u32 LoadSeqRowIfChanged(s32 index) {
     NNSSndHeap *savedHeap;
     s32 i;
     savedHeap = gSndHeapHandle;
-    state = &data_0217d32c;
+    state = &g_GlobalCX;
     if (index == 4 && (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? gRaceMultiConfig->mMissionTableColumn : -1) == 9) {
-        row = data_0216cbc0;
+        row = g_MissionRunBossResultSseqIdTable;
     } else {
-        row = data_0216cbd8[index];
+        row = g_PerRaceModeResultSseqIdTable[index];
     }
     if (state->mSeqRow == row) {
         return 1;
     }
-    gSndHeapHandle = data_0217d32c.mSeqHeap;
+    gSndHeapHandle = g_GlobalCX.mSeqHeap;
     NNS_SndHeapClear(state->mSeqHeap);
     for (i = 0; i < 6; i++) {
         if (row[i] != 0xff) {
@@ -88,13 +88,13 @@ u32 LoadSeqRowIfChanged(s32 index) {
 
 u32 snd_getRaceStartSeqId(void) {
     u32 value;
-    value = (u32) &data_0217d32c;
+    value = (u32) &g_GlobalCX;
     value = *(const u32 *) ((value) + (8));
     value = *(const u32 *) ((value) + (20));
     return value;
 }
 
-u32 func_02111118(void) {
+u32 sub_2111118(void) {
     u32 value0;
     u32 value1;
     u32 value2;

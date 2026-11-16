@@ -5,7 +5,7 @@
 // Turns the caches and the protection unit off, invalidates and drains the caches, sets the eight protection regions,
 // the tightly coupled memory, the cacheable, write-buffer and access-rights settings, and turns them back on.
 // Not compiled code: C has no way to read or write a coprocessor 15 register (mrc/mcr).
-asm void func_02000a5c(void) {
+asm void Crt0_InitializePU(void) {
     mrc p15, 0, r0, c1, c0, 0
     ldr r1, =0xf9005
     bic r0, r0, r1
@@ -18,11 +18,11 @@ asm void func_02000a5c(void) {
     mcr p15, 0, r0, c6, c0, 0
     ldr r0, =0x200002d
     mcr p15, 0, r0, c6, c1, 0
-    ldr r0, =data_027e0000 + 0x21
+    ldr r0, =g_DTCM + 0x21
     mcr p15, 0, r0, c6, c2, 0
     ldr r0, =0x8000035
     mcr p15, 0, r0, c6, c3, 0
-    ldr r0, =data_027e0000
+    ldr r0, =g_DTCM
     orr r0, r0, #0x1a
     orr r0, r0, #0x1
     mcr p15, 0, r0, c6, c4, 0
@@ -34,7 +34,7 @@ asm void func_02000a5c(void) {
     mcr p15, 0, r0, c6, c7, 0
     mov r0, #0x20
     mcr p15, 0, r0, c9, c1, 1
-    ldr r0, =data_027e0000
+    ldr r0, =g_DTCM
     orr r0, r0, #0xa
     mcr p15, 0, r0, c9, c1, 0
     mov r0, #0x42

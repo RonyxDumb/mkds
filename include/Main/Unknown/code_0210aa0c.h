@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_0210aa0c(void);
+unsigned int sub_210AA0C(void);

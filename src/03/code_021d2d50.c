@@ -32,7 +32,7 @@ void func_ov003_021d2dcc(void) {
 
 void func_ov003_021d2da4(void) {
     RunTasksAndRemoveRequested(1);
-    *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
+    *OFFSET_PTR(u32, &g_DTCM, 0x3ff8) |= 1;
 }
 
 void InitKeyTouchInput(void) {

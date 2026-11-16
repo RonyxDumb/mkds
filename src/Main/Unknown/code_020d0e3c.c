@@ -10,7 +10,7 @@
 
 #pragma thumb on
 BOOL func_020d0ec4(void) {
-    if (gCupPicture != NULL && func_020d0ee8() == 0) {
+    if (gCupPicture != NULL && WorkerHasPendingTask() == 0) {
         return TRUE;
     }
     return FALSE;

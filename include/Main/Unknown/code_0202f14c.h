@@ -37,11 +37,11 @@ typedef struct WLMenuScene {
 
 Unk02174e4c_818 *func_0202f14c(void);
 void func_0202f160(void);
-u32 func_0202f19c(void);
-u32 func_0202f1a8(void);
-u16 *func_0202f1d0(void);
+u32 j_IsDwc_2(void);
+u32 IsDwc_2(void);
+u16 *GetBiosBootIndicatorRef(void);
 void EndMultiplayerMenu(void);
 void AdvanceWLMenuScene(void *a);
 void InitWLMenuScene(void *heap);
-void func_0202f454(u32 bits);
-void func_0202f478(u32 bits);
+void SetSomeDispcntSubMask(u32 bits);
+void SetSomeDispcntTopMask(u32 bits);

@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0205dc84.h"
 
 u32 mproc_main(void) {
-    func_02039cbc();
+    InitializeGeneralObjects();
     scproc_run();
     input_finalize();
     return 0;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0204673c(void);
+void nullsub_4(void);

@@ -58,7 +58,7 @@ static inline s32 func_0207f554_inline(u32 kartIndex, u32 targetIndex) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
-        if (isHumanGhostOrPeer != FALSE || func_02085824(kartIndex) <= 0) {
+        if (isHumanGhostOrPeer != FALSE || sub_2085824(kartIndex) <= 0) {
             if (func_0207f600_inline(targetIndex)) {
                 result = TRUE;
             }
@@ -125,9 +125,9 @@ void AdvanceStaffRollPointLinkCursor(PointLinkCursor *pointLinkCursor) {
     vec_normalize(&pointLinkCursor->mDirection, &pointLinkCursor->mDirection);
 }
 
-void func_0207fba0(void) {
+void sub_207FBA0(void) {
     data_0217ae60 = gRaceMultiConfig->mMode == MODE_BATTLE ? &data_021557bc : &data_021557c0;
-    switch (func_020853dc()) {
+    switch (sub_20853DC()) {
         case 0:
             data_0217ae58 = data_0215572c;
             gKartAiDriftChargeRandomLimits = data_02155798;
@@ -223,7 +223,7 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     Kart *kart;
     PointLink *requestedLink;
 
-    func_0207e668(kartAi);
+    sub_207E668(kartAi);
     linkCursor = &kartAi->field8.mLinkCursor;
     kart = kartAi->mKart;
     if (kartAi->field90 == 2) {
@@ -233,7 +233,7 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     }
     requestedLink = linkCursor->mRequestedLink;
     driver_getPosition(&kartPos, kartAi->mIndex);
-    func_0207f6f0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
+    sub_207F6F0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, PAD_KEY_A);
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
@@ -243,7 +243,7 @@ void AdvanceRaceKartAi(KartAi *kartAi) {
     PickKartAiTargetKart(kartAi);
 }
 
-void func_0207f6f0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink *requestedLink, Vec3 *kartPos,
+void sub_207F6F0(KartAi *kartAi, LinkCursor *linkCursor, Kart *kart, PointLink *requestedLink, Vec3 *kartPos,
                    Vec3 *kartForward) {
     Vec3 toLinkPos;
     Vec3 crossProduct;
@@ -315,7 +315,7 @@ void SetKartAiLinkPosAndClearSideOffset(KartAi *kartAi, LinkCursor *linkCursor, 
     kartAi->mSideOffsetRatio = 0;
 }
 
-BOOL func_0207f600(s32 kartIndex) {
+BOOL GetSomeMQRacerAnotherFlags(s32 kartIndex) {
     return (driver_getById(kartIndex)->field7C & 0x402020) == 0;
 }
 
@@ -333,7 +333,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
-        if (isHumanGhostOrPeer != FALSE || func_02085824(kartIndex) <= 0) {
+        if (isHumanGhostOrPeer != FALSE || sub_2085824(kartIndex) <= 0) {
             if ((driver_getById(targetIndex)->field7C & 0x402020) == 0) {
                 result = TRUE;
             }
@@ -686,7 +686,7 @@ void SetKartAiSideOffsetFromKart(KartAi *kartAi) {
     VEC_Add(&linkPos, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
 }
 
-void func_0207e668(KartAi *kartAi) {
+void sub_207E668(KartAi *kartAi) {
     BOOL limitReached = FALSE;
     BOOL timerActive = FALSE;
     Kart *kart;
@@ -747,7 +747,7 @@ void func_0207e668(KartAi *kartAi) {
             break;
         case 3:
             kartAi->fieldA8 = 4;
-            func_02063a68(kartAi->mKart);
+            sub_2063A68(kartAi->mKart);
             break;
     }
 }

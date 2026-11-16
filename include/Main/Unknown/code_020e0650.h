@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020e0650(u32 *slotPointer);
+void sub_20E0650(u32 *slotPointer);

@@ -274,7 +274,7 @@ void DrawRaceRankListRankCells(RaceHudOamBuffer *oamBuffer) {
         markerIndex = 0;
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead(i) != FALSE) {
             markerIndex = 1;
-        } else if (gRaceMultiConfig->mMode != MODE_BATTLE && (GetRaceHudKartRemoved(i) != 0 || func_0207a84c(i) != 0)) {
+        } else if (gRaceMultiConfig->mMode != MODE_BATTLE && (GetRaceHudKartRemoved(i) != 0 || RacerEntryHasFlags0x60(i) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -342,7 +342,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -356,7 +356,7 @@ void DrawRaceRankListState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -422,7 +422,7 @@ void DrawRaceRankListState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -510,7 +510,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             secondKartCellBase = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             secondKartCellBase = 1;
         }
         secondKartCellBase = secondKartCellBase != 0 ? 0x6d : 0x65;
@@ -562,7 +562,7 @@ void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {
@@ -671,7 +671,7 @@ void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer) {
         if (gRaceMultiConfig->mMode == MODE_BATTLE && mgcnt_isDriverDead((u16) kartIndex) != FALSE) {
             markerIndex = 1;
         } else if (gRaceMultiConfig->mMode != MODE_BATTLE &&
-                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || func_0207a84c((u16) kartIndex) != 0)) {
+                   (GetRaceHudKartRemoved((u16) kartIndex) != 0 || RacerEntryHasFlags0x60((u16) kartIndex) != 0)) {
             markerIndex = 1;
         }
         if (markerIndex != 0) {

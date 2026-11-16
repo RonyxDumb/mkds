@@ -222,7 +222,7 @@ void rstat_tryFinishNt(void) {
                 }
             }
             rstat_calculateTime(&finishTime->field2, &finishTime->field3, &finishTime->field0, u, frames);
-            func_0205ae8c(kartIndex);
+            sub_205AE8C(kartIndex);
             rstat_finishDriver(raceProgressKart, v);
         }
     }

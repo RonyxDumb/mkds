@@ -4,7 +4,7 @@
 
 typedef struct Unk020217b4 Unk020217b4;
 
-// 0x18 bytes, linked through mNext. data_021735a0 holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
+// 0x18 bytes, linked through mNext. g_SoundCommandArray holds 256 of them; SND_CommandInit chains them and SND_AllocCommand
 // takes one.
 typedef struct SNDCommand {
     /* 00 */ struct SNDCommand *mNext;
@@ -21,19 +21,19 @@ typedef struct Unk02021734 {
     /* 08 */ u8 mId;
 } Unk02021734;
 
-extern SNDCommand *data_021732c8;
+extern SNDCommand *g_Command;
 extern u32 data_021732cc;
-extern SNDCommand *data_021732d0;
+extern SNDCommand *g_WaitingCommandListCount;
 extern SNDCommand *data_021732d4;
 extern SNDCommand *data_021732d8;
 extern s32 data_021732dc;
 extern s32 data_021732e0;
-extern s32 data_021732e4;
+extern s32 g_Sound_WaitingCommandCount;
 extern u32 data_021732e8;
 extern SNDCommand *data_021732ec[13];
 extern Unk020217b4 data_02173320;
-extern SNDCommand data_021735a0[256];
-extern Unk02021734 data_02174da0[8];
+extern SNDCommand g_SoundCommandArray[256];
+extern Unk02021734 g_SoundAlarms[8];
 
 u32 IsCommandAvailable(void);
 SNDCommand *AllocCommand(void);

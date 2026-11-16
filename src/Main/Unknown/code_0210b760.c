@@ -24,14 +24,14 @@ void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 
     }
 }
 
-void func_0210b7a8(Unk0210b7a8 *request) {
+void sub_210B7A8(Unk0210b7a8 *request) {
     if (data_0217c780 & 1) {
         sfx_210BF24(0, request->mSoundId, (u32) request->mPositionSource, request);
     }
 }
 
-void func_0210b760(Unk0210b7a8 *request, NNSSndSeqPlayer **handle) {
+void sub_210B760(Unk0210b7a8 *request, NNSSndSeqPlayer **handle) {
     if (data_0217c780 & 1) {
-        func_0210bee8(0, request->mSoundId, (u32) request->mPositionSource, handle, request);
+        sub_210BEE8(0, request->mSoundId, (u32) request->mPositionSource, handle, request);
     }
 }

@@ -92,7 +92,7 @@ void func_0204e6e8(u32 index, u32 code, Unk0204e4d8 *c) {
                         gStruct217AA00->field1699--;
                     }
                     if ((gStruct217AA00->field1694 & 1) && gStruct217AA00->field1696 == 0) {
-                        func_02050e60(7);
+                        sub_2050E60(7);
                     }
                 } else {
                     gStruct217AA00->field1696 = 0;
@@ -155,17 +155,17 @@ void func_0204e568(void) {
     b.field0_0 = gSystemData->field40;
     b.field0_4 = 8;
     MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, b.field2, 0x14);
-    gStruct217AA00->field1690 = func_02052c5c(1);
+    gStruct217AA00->field1690 = sub_2052C5C(1);
     if (InitWirelessWork(gStruct217AA00->field165C, (Unk02009ff4 *) &b, 0x25, gStruct217AA00->field1690, 2) != 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
     }
     SetMPLimits(0x1fe, 7);
     SetCallback(func_0204e6e8);
     if (((s32(*)(u32)) func_02009cc8)(gStruct217AA00->field88) != 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
     }
     if (mbp_204EA3C() == 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
     }
     gStruct217AA00->field8B &= ~4;
     gStruct217AA00->mRequestPending = 0;
@@ -240,7 +240,7 @@ void RepeatedScanCallback(u32 code) {
         case 1:
             break;
         case 2:
-            func_02050e60(5);
+            sub_2050E60(5);
             break;
         case 3:
             gStruct217AA00->mRequestPending = 0;
@@ -262,7 +262,7 @@ void ScanConnectStateCallback(u32 state) {
             gStruct217AA00->field4 = 6;
             break;
         case 4:
-            func_02050e60(5);
+            sub_2050E60(5);
             break;
         case 3:
         case 6:
@@ -284,11 +284,11 @@ s32 func_0204e29c(void) {
             MeasureChannel(r);
             break;
         case 4:
-            func_0204f814();
+            sub_204F814();
             func_0204e568();
             break;
         case 0x16:
-            func_0200104c();
+            sub_200104C();
             r = TRUE;
             break;
     }
@@ -359,7 +359,7 @@ void func_0204e128(void) {
     u8 index;
     u8 count;
     if (gStruct217AA00->field1696 == 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
         return;
     }
     gStruct217AA00->fieldC = 0x18;
@@ -415,7 +415,7 @@ void func_0204e03c(u32 entryIndex) {
     gStruct217AA00->mRequestPending = 1;
     gStruct217AA00->field169C = 0;
     if (MB_FakeEntryToParent(entryIndex) == 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
     }
 }
 
@@ -427,7 +427,7 @@ void func_0204dfe0(u32 a) {
     gStruct217AA00->mRequestPending = 0;
     gStruct217AA00->field24->field48 = (gStruct217AA00->field24->field48 + 7) & 0x7fff;
     if (result == 0) {
-        func_02050e60(5);
+        sub_2050E60(5);
     }
 }
 

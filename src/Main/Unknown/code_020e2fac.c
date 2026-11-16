@@ -116,7 +116,7 @@ void choro_state3Update(Unk020e1e98 *choropu) {
         soundRequest.mPositionSource = &choropu->field0.mPos;
         soundRequest.field8 = falloffIndex;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&choropu->field0.mPos);
-        func_0210b7a8(&soundRequest);
+        sub_210B7A8(&soundRequest);
     }
     choropu->field0.mStateMachine.mNextState = 4;
     choropu->field0.mStateMachine.mNextStateRequested = 1;

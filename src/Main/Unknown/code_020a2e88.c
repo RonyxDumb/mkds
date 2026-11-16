@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020a2e88.h"
 
 // Sets the balloon's kart index to -1 and starts a countdown; given a position, places the balloon there.
-void func_020a2ebc(Balloon *balloon, Vec3 *position) {
+void sub_20A2EBC(Balloon *balloon, Vec3 *position) {
     balloon->mNoKartTimer = 0x1e;
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;

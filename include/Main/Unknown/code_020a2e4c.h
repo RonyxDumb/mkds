@@ -49,4 +49,4 @@ typedef struct Balloon {
 void blln_setSubBalloons(Balloon *balloon, u16 drawCount, void *drawList);
 void blln_setDriverId(Balloon *balloon, u16 kartIndex);
 s32 blln_getInflationProgress(Balloon *balloon);
-void func_020a2e68(Balloon *balloon);
+void sub_20A2E68(Balloon *balloon);

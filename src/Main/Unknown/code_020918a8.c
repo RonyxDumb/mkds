@@ -60,7 +60,7 @@ static inline void func_020919e8_inline_3(Unk020919e8 *p, s32 n) {
     s.mPositionSource = &p->field0.mPos;
     s.field8 = v;
     s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
-    func_0210b7a8(&s);
+    sub_210B7A8(&s);
 }
 
 void kan64_loadModel(void *a) {
@@ -202,7 +202,7 @@ void kan64_update(void *a, Unk020919e8 *p) {
             func_020919e8_inline_6(&basabasaPos, p->field0.mPos.x, p->field0.mPos.y + 0x19000, p->field0.mPos.z);
             k = p->field0.mAngle;
             horizontalSpeed = kan64_mobj_getRandom32(mobj_getRng1(), 0x1000) + 0x800;
-            k = k - 0x3e8 + func_02046524(mobj_getRng1(), 0x7d0);
+            k = k - 0x3e8 + sub_2046524(mobj_getRng1(), 0x7d0);
             basabasaVelocity.x = kan64_FX_TRUNC_MUL(horizontalSpeed, kan64_FX_SinIdx(k));
             basabasaVelocity.y = kan64_mobj_getRandom32(mobj_getRng1(), 0x400) + 0x2200;
             basabasaVelocity.z = kan64_FX_TRUNC_MUL(horizontalSpeed, kan64_FX_CosIdx(k));

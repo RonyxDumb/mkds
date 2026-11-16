@@ -7,5 +7,5 @@ extern s32 gMinKartDistanceSquaredPresent;
 extern s32 gMinKartDistanceSquared;
 
 void ConfigureFullNSBMDColors(NNSG3dResMdl *mdl, u32 colorSet);
-BOOL func_0207a218(void);
+BOOL sub_207A218(void);
 BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared);

@@ -17,10 +17,10 @@ typedef struct Unk02068494 {
 void driver_handleDriftingPhases(Kart *kart);
 void driver_setDriftLeftRightCount(Kart *kart, s32 charge);
 void driver_2068494(Kart *kart, s32 b, s32 c);
-void func_02068640(Kart *kart, s32 b);
-void func_020688a0(Kart *kart);
+void StructMQRacerEntry_SomeFn_25(Kart *kart, s32 b);
+void StructMQRacerEntry_SomeFn_15(Kart *kart);
 void driver_emitKillVoice(Kart *kart);
-void func_02068a10(Kart *kart);
+void StructMQRacerEntry_SomeFn_10(Kart *kart);
 void driver_2068A64(Kart *kart, s32 b, s32 c);
 void driver_killForMg(Kart *kart);
-void func_02068b98(Kart *kart);
+void StructMQRacerEntry_SomeFn_53(Kart *kart);

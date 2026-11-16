@@ -35,20 +35,20 @@ int printf(const char *fmt, ...) {
     if (fwide(&data_0216eb7c[1], -1) >= 0) {
         return -1;
     }
-    if (OS_TryLockMutex((OSMutex *) data_0217eadc[3]) == 0) {
-        data_0217ea94[3] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[3] = 1;
-    } else if (data_0217ea94[3] == data_0216ff5c.mListHead->mId) {
-        data_0217eab8[3]++;
+    if (OS_TryLockMutex((OSMutex *) g_AnotherMutex[3]) == 0) {
+        g_SomeThreadId[3] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[3] = 1;
+    } else if (g_SomeThreadId[3] == g_Os_ThreadInfo.mListHead->mId) {
+        g_SomeCounter[3]++;
     } else {
-        OS_LockMutex((OSMutex *) data_0217eadc[3]);
-        data_0217ea94[3] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[3] = 1;
+        OS_LockMutex((OSMutex *) g_AnotherMutex[3]);
+        g_SomeThreadId[3] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[3] = 1;
     }
     r = FormatWithPutFunc(FormatPutFwrite, &data_0216eb7c[1], fmt, (char *) (((int) &fmt & ~3) + 4));
-    data_0217eab8[3]--;
-    if (data_0217eab8[3] == 0) {
-        OS_UnlockMutex((OSMutex *) data_0217eadc[3]);
+    g_SomeCounter[3]--;
+    if (g_SomeCounter[3] == 0) {
+        OS_UnlockMutex((OSMutex *) g_AnotherMutex[3]);
     }
     return r;
 }
@@ -82,7 +82,7 @@ int sprintf(char *buf, const char *fmt, ...) {
 
 #pragma avoid_byte all
 
-void func_02135010(void) {}
+void nullsub_18(void) {}
 
 void MemsetBody(u8 *p, int c, u32 n) {
     u32 *w;
@@ -342,24 +342,24 @@ u32 fwrite(const char *a, u32 b, u32 c, FILE *d) {
     } else {
         i = 5;
     }
-    p = (OSMutex *) data_0217eadc[i];
+    p = (OSMutex *) g_AnotherMutex[i];
     if (OS_TryLockMutex(p) == 0) {
-        data_0217ea94[i] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[i] = 1;
+        g_SomeThreadId[i] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[i] = 1;
     } else {
         u32 v;
 
-        v = data_0217ea94[i];
-        if (v == data_0216ff5c.mListHead->mId) {
-            data_0217eab8[i]++;
+        v = g_SomeThreadId[i];
+        if (v == g_Os_ThreadInfo.mListHead->mId) {
+            g_SomeCounter[i]++;
         } else {
             OS_LockMutex(p);
-            data_0217ea94[i] = data_0216ff5c.mListHead->mId;
-            data_0217eab8[i] = 1;
+            g_SomeThreadId[i] = g_Os_ThreadInfo.mListHead->mId;
+            g_SomeCounter[i] = 1;
         }
     }
     r = FwriteBody(a, b, c, d);
-    if (--data_0217eab8[i] == 0) {
+    if (--g_SomeCounter[i] == 0) {
         OS_UnlockMutex(p);
     }
     return r;
@@ -387,7 +387,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
         return 0;
     }
     if (d->field4_7 == 2) {
-        func_02135010();
+        nullsub_18();
     }
     m = 1;
     if (d->field4_12 != 0) {
@@ -461,7 +461,7 @@ u32 FwriteBody(const char *a, u32 b, u32 c, FILE *d) {
     return t / b;
 }
 
-void func_0213453c(u8 *a, u32 *b) {}
+void nullsub_17(u8 *a, u32 *b) {}
 
 void FileResetBuffer(FILE *a) {
     a->mBufferNext = a->mBuffer;
@@ -478,7 +478,7 @@ int FileFlushBuffer(FILE *a, u32 *b) {
     if (n != 0) {
         a->mBufferRemaining = n;
         if (a->field4_12 == 0) {
-            func_0213453c(a->mBuffer, &a->mBufferRemaining);
+            nullsub_17(a->mBuffer, &a->mBufferRemaining);
         }
         r = a->mWriteFunc(a->field0, a->mBuffer, &a->mBufferRemaining, a->field48);
         if (b != 0) {

@@ -92,7 +92,7 @@ BOOL mpicn_createMapObjIcon(RaceHudSubScreenCells **outCells, s32 kind) {
         if (drawList == NULL) {
             return FALSE;
         }
-        objectCount = func_02100094(drawList);
+        objectCount = sub_2100094(drawList);
         if (objectCount == 0) {
             return FALSE;
         }

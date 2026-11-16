@@ -6,7 +6,7 @@
 
 void func_0204ece0(u16 entryIndex) {
     int result;
-    result = func_020501b0(entryIndex);
+    result = sub_20501B0(entryIndex);
     if (result != 0) {
         gStruct217AA00->field1E45 = entryIndex;
     }

@@ -3,9 +3,9 @@
 #include "types.h"
 
 void ProcessOtherParticipantItemData(void);
-void func_0205aa60(void);
+void sub_205AA60(void);
 void ExpireItemDataSlots(void);
-void func_0205ac38(void);
+void sub_205AC38(void);
 BOOL IsAnyItemDataSlotFree(void);
 void ResetItemDataSlots(void);
-void func_0205ae8c(u32 kartIndex);
+void sub_205AE8C(u32 kartIndex);

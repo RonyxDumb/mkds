@@ -5,7 +5,7 @@
 #include "code_0200e77c.h"
 #include "code_0200f790.h"
 
-// The thread control block. The threads are linked through OSThread.mNext from data_0216ff5c.mListHead in increasing
+// The thread control block. The threads are linked through OSThread.mNext from g_Os_ThreadInfo.mListHead in increasing
 // OSThread.mPriority; OS_CreateThread sets one up.
 typedef struct OSThread {
     /* 00 */ u32 field0;
@@ -30,7 +30,7 @@ typedef struct OSThread {
     /* 64 */ u32 mState; // 0 waiting, 1 ready, 2 terminated
     /* 68 */ struct OSThread *mNext;
     // The id OSi_GetUnusedThreadId gives (0 for the first thread); the game tests it against 0 and the C library code
-    // keeps a copy of the first thread's value in data_0217ea94 and compares it later.
+    // keeps a copy of the first thread's value in g_SomeThreadId and compares it later.
     /* 6c */ u32 mId;
     /* 70 */ u32 mPriority;
     /* 74 */ u32 mProfiler;
@@ -54,7 +54,7 @@ typedef struct OSThread {
 // The thread switch callback type.
 typedef void (*OSSwitchThreadCallback)(OSThread *from, OSThread *to);
 
-// Object at data_0216ff5c; OS_InitThread stores the address of mCurrentThread in data_0216ff54.
+// Object at g_Os_ThreadInfo; OS_InitThread stores the address of mCurrentThread in g_Os_CurrentThreadRef.
 typedef struct ThreadSystem {
     /* 00 */ u16 field0;
     /* 02 */ u16 field2;
@@ -94,7 +94,7 @@ void OS_DestroyThread(OSThread *thread);
 void OSi_ExitThread_Destroy(void);
 // Calls the thread's destructor with arg when it has one, then ends the current thread.
 void OSi_ExitThread(void *arg);
-// Ends thread, running OSi_ExitThread on a separate stack when data_0216ff44 is set.
+// Ends thread, running OSi_ExitThread on a separate stack when g_Os_ThreadDtorSp is set.
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg);
 // Ends the current thread; OS_CreateThread stores it as the return address of every new thread.
 void OS_ExitThread(void);

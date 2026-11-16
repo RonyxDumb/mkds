@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_02089f9c(unsigned int value);
+unsigned int nullsub_7(unsigned int value);

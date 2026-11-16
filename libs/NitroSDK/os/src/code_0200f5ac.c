@@ -8,7 +8,7 @@
 #include "registers.h"
 
 u16 gTickInitialized;
-u32 data_02170250;
+u32 g_Os_NeedsTimerReset;
 volatile u64 gTickOverflowCount;
 
 // Runs once: reserves timer 0, clears gTickOverflowCount, starts timer 0 and installs OSi_CountUpTick for its
@@ -25,7 +25,7 @@ void OS_InitTick(void) {
     *(vu16 *) 0x4000102 = 0xc1;
     OS_SetIrqFunction(8, OSi_CountUpTick);
     OS_EnableIrqMask(8);
-    data_02170250 = 0;
+    g_Os_NeedsTimerReset = 0;
 }
 
 // Returns gTickInitialized.
@@ -33,14 +33,14 @@ u32 OS_IsTickAvailable(void) {
     return gTickInitialized;
 }
 
-// Timer 0 overflow handler: adds 1 to gTickOverflowCount and restarts timer 0 when data_02170250 asks for it.
+// Timer 0 overflow handler: adds 1 to gTickOverflowCount and restarts timer 0 when g_Os_NeedsTimerReset asks for it.
 void OSi_CountUpTick(void) {
     gTickOverflowCount++;
-    if (data_02170250 != 0) {
+    if (g_Os_NeedsTimerReset != 0) {
         *(vu16 *) 0x4000102 = 0;
         *(vu16 *) 0x4000100 = 0;
         *(vu16 *) 0x4000102 = 0xc1;
-        data_02170250 = 0;
+        g_Os_NeedsTimerReset = 0;
     }
     OSi_EnterTimerCallback(0, OSi_CountUpTick, 0);
 }

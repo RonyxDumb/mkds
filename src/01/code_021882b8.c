@@ -48,5 +48,5 @@ void func_ov001_021882b8(void) {
             }
         }
     }
-    func_020a305c();
+    sub_20A305C();
 }

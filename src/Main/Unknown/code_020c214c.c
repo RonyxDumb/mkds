@@ -37,7 +37,7 @@
 // placeholder: an object of the original file that is not known yet; it only sets the order of the tables below
 u8 data_020c214c_pad[12];
 
-void func_020c3b6c(s32 row, s32 style) {
+void sub_20C3B6C(s32 row, s32 style) {
     UnkPair020b502c spans[8] = {{2, 5}, {5, 8}, {8, 10}, {10, 13}, {13, 16}, {15, 18}, {18, 21}, {21, 23}};
     UnkPair020b502c fullSpan = {0, 0x1f};
     s32 m;
@@ -366,11 +366,11 @@ void r2dres_renderResults(RaceHudOamBuffer *oamBuffer) {
             hundreds = ones;
         }
         if (r2d_sResults->mRowVisible[i] == 0) {
-            func_020c3b6c(i, 2);
+            sub_20C3B6C(i, 2);
         } else if (kartIndex == Race_GetPlayerId()) {
-            func_020c3b6c(i, 0);
+            sub_20C3B6C(i, 0);
         } else {
-            func_020c3b6c(i, 1);
+            sub_20C3B6C(i, 1);
         }
         if (r2d_sResults->mRowVisible[i] != 0) {
             if (hundreds != 0) {
