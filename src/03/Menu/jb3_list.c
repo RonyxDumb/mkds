@@ -359,7 +359,7 @@ void UpdateJb3ListScrollInput(void) {
             case SCROLL_BAR_EVENT_THUMB_PRESSED:
                 gJb3List->mScrollBarDragging = 1;
                 break;
-            case SCROLL_BAR_EVENT_THUMB_MOVED:
+            case SCROLL_BAR_EVENT_THUMB_DRAGGED:
                 if (gJb3List->mScrollTimer != 0) {
                     return;
                 }

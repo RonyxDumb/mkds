@@ -22,7 +22,7 @@ enum {
 #define EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED 2
 #define EXCHANGE_OUTCOME_RESULT_USABLE 3
 #define EXCHANGE_OUTCOME_ENDED_WITHOUT_RESULT 4
-#define EXCHANGE_OUTCOME_BAD_RESULT 5
+#define EXCHANGE_OUTCOME_UNUSABLE_RESULT 5
 
 // One exchange status: the status code, the milliseconds left before the timeout (0xffffffff when none is set) and the
 // result code.

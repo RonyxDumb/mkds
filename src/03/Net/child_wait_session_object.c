@@ -114,7 +114,7 @@ void AdvanceChildWaitSession(TaskEntry *task, void *arg) {
                 gChildWaitSession->mEventPending = 1;
             }
             break;
-        case CHILD_WAIT_STATE_END_DONE:
+        case CHILD_WAIT_STATE_END_WH_DONE:
         case CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE:
             if (stateInfo[1] == 0) {
                 break;

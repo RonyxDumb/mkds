@@ -48,7 +48,7 @@ BOOL StopChildWaitSession(void) {
     u8 *statePointer = &session->mState;
     u8 state = *statePointer;
 
-    if (state == CHILD_WAIT_STATE_IDLE || state == CHILD_WAIT_STATE_END_DONE ||
+    if (state == CHILD_WAIT_STATE_IDLE || state == CHILD_WAIT_STATE_END_WH_DONE ||
         state == CHILD_WAIT_STATE_CLOSE_NO_RESTART_DONE || state == CHILD_WAIT_STATE_CLOSE_RESTARTABLE_DONE ||
         state == CHILD_WAIT_STATE_ABORT_DONE) {
         session->mState = CHILD_WAIT_STATE_ENDED;
@@ -162,16 +162,16 @@ void AdvanceChildWaitState(void) {
                 EndChildWaitWh();
             }
             return;
-        case CHILD_WAIT_STATE_CHILD_LOST:
+        case CHILD_WAIT_STATE_DOWNLOAD_STARTED_NONE:
             MB_EndToIdle();
             gChildWaitSessionView->mEndWaitFrames = 0;
             gChildWaitSessionView->mState = CHILD_WAIT_STATE_CLOSE_NO_RESTART_WAIT;
             return;
-        case CHILD_WAIT_STATE_END_WAIT:
+        case CHILD_WAIT_STATE_END_WH_WAIT:
             if (gChildWaitSessionView->mEndWaitFrames++ > 0x1e) {
                 if (GetWhState() == WH_STATE_IDLE) {
                     EndWh();
-                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_DONE;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_END_WH_DONE;
                 }
             }
             return;
@@ -314,7 +314,7 @@ void AdvanceChildWaitMultiBoot(void) {
             }
             if ((u8) (gChildWaitSessionView->mState + (256 - CHILD_WAIT_STATE_DOWNLOADING)) <= 1) {
                 if (GetMultiBootChildMask(MULTIBOOT_CHILD_MASK_DOWNLOAD_STARTED) == 0) {
-                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_CHILD_LOST;
+                    gChildWaitSessionView->mState = CHILD_WAIT_STATE_DOWNLOAD_STARTED_NONE;
                     return;
                 }
             }
@@ -373,7 +373,7 @@ void AdvanceChildWaitDataSharing(void) {
                     return;
                 }
                 if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK ||
-                    GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK_END) {
+                    GetChildWaitReplyCode() == CHILD_WAIT_CODE_BLOCK_ACK_NO_ADVANCE) {
                     GetChildWaitReplyCode();
                     gChildWaitSessionView->mState = CHILD_WAIT_STATE_SHARING_BLOCK_ACKED;
                 } else if (GetChildWaitReplyCode() == CHILD_WAIT_CODE_FINAL_REPLY) {

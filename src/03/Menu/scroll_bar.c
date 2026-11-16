@@ -123,7 +123,7 @@ void AdvanceScrollBarDrag(void) {
             }
             SetScrollBarDragSound(newOffset);
             PlaceScrollBar(newOffset);
-            gScrollBar->mEvent = SCROLL_BAR_EVENT_THUMB_MOVED;
+            gScrollBar->mEvent = SCROLL_BAR_EVENT_THUMB_DRAGGED;
             return;
         }
     }

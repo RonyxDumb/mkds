@@ -284,7 +284,7 @@ void UpdateApListScroll(void) {
             gApList->mScrollBarDragging = 1;
             DisableButtonTouch();
             break;
-        case SCROLL_BAR_EVENT_THUMB_MOVED:
+        case SCROLL_BAR_EVENT_THUMB_DRAGGED:
             if (gApList->mScrollTimer == 0) {
                 ReleaseSelectionObjectSlots();
                 gApListScrollY = FX_DivS32(gApList->mScrollYMax * GetScrollBarOffset(), gApList->mScrollBarOffsetMax);
