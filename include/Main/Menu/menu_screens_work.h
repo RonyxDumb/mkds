@@ -813,6 +813,8 @@ enum {
 // mToggleFrames above which the toggle mark flips: ON while it is shown, OFF while it is hidden.
 #define SELECT_CHOISES_TOGGLE_ON_LIMIT 0x1e
 #define SELECT_CHOISES_TOGGLE_OFF_LIMIT 0x14
+// GetSelectChoisesIndex result when no choice was made.
+#define SELECT_CHOISES_INDEX_NONE -1
 // Sound ids of the first choice, the second choice and none (the B key).
 #define SELECT_CHOISES_FIRST_SOUND_ID 7
 #define SELECT_CHOISES_SECOND_SOUND_ID 0x10

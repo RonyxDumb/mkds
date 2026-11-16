@@ -1052,7 +1052,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 gConnectionWork->mFlags = gConnectionWork->mFlags | CONNECTION_FLAG_ENDING;
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_END_CONNECTION;
                                 break;
-                            case -1:
+                            case SELECT_CHOISES_INDEX_NONE:
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }
@@ -1074,7 +1074,7 @@ void AdvanceResultsBattle(SceneNumbers *sceneNumbers) {
                                 }
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_DONE;
                                 break;
-                            case -1:
+                            case SELECT_CHOISES_INDEX_NONE:
                                 gResultsBattle->mState = RESULTS_BATTLE_STATE_WAIT_CONFIRM;
                                 break;
                         }

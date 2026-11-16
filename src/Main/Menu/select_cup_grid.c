@@ -846,7 +846,7 @@ void AdvanceSelectCupGridWaitConfirmAnswer(void) {
                 RequestSelectCupGridSlideOut();
                 RequestSelectReturnSlideOut();
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 RequestSelectCupGridChoose();
                 break;
@@ -872,7 +872,7 @@ void AdvanceSelectCupGridWaitExitChoices(void) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             choiceIndex = GetSelectChoisesIndex();
             switch (choiceIndex) {
-                case -1:
+                case SELECT_CHOISES_INDEX_NONE:
                 case 0:
                     break;
                 case 1:
@@ -890,7 +890,7 @@ void AdvanceSelectCupGridWaitExitAnswer(void) {
     if (IsSelectChoisesHiddenNoRequest() != 0) {
         choiceIndex = GetSelectChoisesIndex();
         switch (choiceIndex) {
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 0:
                 RequestSelectCupGridChoose();
                 break;

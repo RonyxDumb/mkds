@@ -55,7 +55,7 @@ void AdvanceSelectRaceRuleWaitConfirmChoices(void) {
             case 0:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 7);
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x10);
                 break;
@@ -72,7 +72,7 @@ void AdvanceSelectRaceRuleWaitConfirmAnswer(void) {
                 StartPlayerEntryListKind(PLAYER_ENTRY_LIST_KIND_ENTRIES_OUT);
                 RequestSelectReturnSlideOut();
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 RequestSelectRaceRuleChoose();
                 break;

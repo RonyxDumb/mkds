@@ -183,7 +183,7 @@ void AdvanceSelectCupCourseChoose(void) {
                 case 0:
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, SELECT_CHOISES_FIRST_SOUND_ID);
                     break;
-                case -1:
+                case SELECT_CHOISES_INDEX_NONE:
                 case 1:
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, SELECT_CHOISES_SECOND_SOUND_ID);
                     break;
@@ -207,7 +207,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
                         gSelectCupCourse->mResult = MENU_SCREEN_RESULT_NEXT;
                         RequestSelectCupCourseSlideOut();
                         break;
-                    case -1:
+                    case SELECT_CHOISES_INDEX_NONE:
                     case 1:
                         RequestSelectCupCoursePickCourse();
                         break;
@@ -228,7 +228,7 @@ void AdvanceSelectCupCourseCloseChoices(void) {
                                 SlideOutSelectRaceRuleWait();
                             }
                             break;
-                        case -1:
+                        case SELECT_CHOISES_INDEX_NONE:
                         case 1:
                             RequestSelectCupCoursePickCourse();
                             break;

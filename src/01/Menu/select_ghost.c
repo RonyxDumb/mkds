@@ -593,7 +593,7 @@ void AdvanceSelectGhostChoisesClose(void) {
             RequestSelectGhostSlideOut();
             RequestSelectReturnSlideOut();
             break;
-        case -1:
+        case SELECT_CHOISES_INDEX_NONE:
         case 1:
             StartPaletteBlend();
             RequestSelectGhostInput();

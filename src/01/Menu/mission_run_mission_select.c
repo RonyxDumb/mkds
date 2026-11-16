@@ -892,7 +892,7 @@ void AdvanceMissionRunMSselChoisesClose(void) {
                 gMissionRunMSsel->mExitOffsetX = -LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
                 RequestMissionRunMSselSlideOut();
                 break;
-            case -1:
+            case SELECT_CHOISES_INDEX_NONE:
             case 1:
                 RequestMissionRunMSselInput();
                 break;
