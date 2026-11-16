@@ -1244,11 +1244,11 @@ enum {
 };
 
 // The Wi-Fi race sync state: mStateMachine, mPeers, mEntries, the item data slots, the countdown (mCountdownTimer,
-// mCountdownDrift), the ready, sampled, participant and dropped masks, mSharedState, mFlags and mSendBuffer.
+// mCountdownSmoothedDifference), the ready, sampled, participant and dropped masks, mSharedState, mFlags and mSendBuffer.
 typedef struct WiFiRaceSync {
     /* 000 */ StateMachine mStateMachine;
     /* 014 */ WiFiRaceSyncPeer mPeers[WIFI_RACE_SYNC_PARTICIPANT_COUNT];
-    /* 0f4 */ s32 mCountdownDrift;
+    /* 0f4 */ s32 mCountdownSmoothedDifference;
 // Participant the next probe goes to in state 1; the last participant sent to in states 2 and 3.
     /* 0f8 */ u16 mSendParticipantIndex;
     /* 0fa */ u8 mReadyMask;
@@ -1266,7 +1266,7 @@ typedef struct WiFiRaceSync {
     /* 728 */ s32 mSyncFrames;
     /* 72c */ BOOL mFinishRecorded;
     /* 730 */ u8 mUnk_730[0x4];
-    /* 734 */ u16 mCountdownSendIndex;
+    /* 734 */ u16 mCountdownSendParticipantIndex;
     /* 736 */ s16 mCountdownTimer;
     /* 738 */ u16 mIdleFrames;
     /* 73a */ u8 mRecordSendCursor;
@@ -1492,7 +1492,7 @@ typedef struct Camera {
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
     /* 21c */ struct SequenceCameraEntry *mSequenceEntries;
-    /* 220 */ struct SequenceCameraEntry *mCurrentSequenceEntry;
+    /* 220 */ struct SequenceCameraEntry *mFirstSequenceEntry;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
     // TRUE from StartEntryCameraAngleStart until mAngleStartFrames reaches 300 (outside mode 2) or

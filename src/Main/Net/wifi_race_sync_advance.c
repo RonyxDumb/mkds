@@ -208,7 +208,7 @@ void EnterWiFiRaceSyncProbe(void *stateObject) {
     gWiFiRaceSync->mSendParticipantIndex = 0;
     gWiFiRaceSync->mSampledMask = 0;
     gWiFiRaceSync->mUnk_0fd = 0;
-    gWiFiRaceSync->mCountdownDrift = 0;
+    gWiFiRaceSync->mCountdownSmoothedDifference = 0;
     gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_PRE_COUNTDOWN_TIME;
     gWiFiRaceSync->mSharedState = WIFI_RACE_SHARED_STATE_PROBING;
     gWiFiRaceSync->mFlags &= ~WIFI_RACE_SYNC_FLAG_IN_RACE;
@@ -362,7 +362,7 @@ void UpdateWiFiRaceSyncReady(void *stateObject) {
 
 void EnterWiFiRaceSyncCountdown(void *stateObject) {
     gWiFiRaceSync->mCountdownTimer = WIFI_RACE_SYNC_COUNTDOWN_TIME;
-    gWiFiRaceSync->mCountdownSendIndex = 0;
+    gWiFiRaceSync->mCountdownSendParticipantIndex = 0;
 }
 
 void SendWiFiRaceSyncCountdown(u32 participant) {
@@ -374,7 +374,7 @@ void SendWiFiRaceSyncCountdown(u32 participant) {
     payload->mLeadHalfword = gWiFiRaceSync->mCountdownTimer - gWiFiRaceSync->mEntries[participant].mRoundTripAverage;
     payload->mCountdownBytes[0] = gWiFiRaceSync->mSampledMask;
     if (SendWiFiRaceSyncPacket(participant, WIFI_RACE_SYNC_PACKET_COUNTDOWN, 8) != 0) {
-        gWiFiRaceSync->mCountdownSendIndex = participant;
+        gWiFiRaceSync->mCountdownSendParticipantIndex = participant;
     }
 }
 
@@ -389,7 +389,7 @@ void UpdateWiFiRaceSyncCountdown(void *stateObject) {
         sync->mStateMachine.mNextStateRequested = 1;
         return;
     }
-    CallWithNextWiFiRaceSyncParticipant(gWiFiRaceSync->mCountdownSendIndex, SendWiFiRaceSyncCountdown);
+    CallWithNextWiFiRaceSyncParticipant(gWiFiRaceSync->mCountdownSendParticipantIndex, SendWiFiRaceSyncCountdown);
 }
 
 void EnterWiFiRaceSyncRace(void *stateObject) {
@@ -889,8 +889,8 @@ void ReceiveWiFiRaceSyncCountdown(u32 fromIndex, WiFiRaceSyncPacket *packet, u32
     } else if (difference < 0) {
         difference = (difference - 1) >> 1;
     }
-    smoothed = (difference << 11) + (gWiFiRaceSync->mCountdownDrift >> 1);
-    gWiFiRaceSync->mCountdownDrift = smoothed;
+    smoothed = (difference << 11) + (gWiFiRaceSync->mCountdownSmoothedDifference >> 1);
+    gWiFiRaceSync->mCountdownSmoothedDifference = smoothed;
     gWiFiRaceSync->mCountdownTimer += (s16) FROM_FIXED12(smoothed + 0x800);
 }
 
