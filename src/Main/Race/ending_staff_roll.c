@@ -23,7 +23,7 @@ void UploadEndingStaffRollOam(void) {
         StartFadeToFadedNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);
         return;
     }
-    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_END) {
+    if (gEndingStaffRoll->mStaffRollFrames != ENDING_STAFF_ROLL_FRAME_FADE_TO_CLEAR_START) {
         return;
     }
     StartFadeToClearNegativeOneScreen(ENDING_STAFF_ROLL_FADE_FRAMES, 1);

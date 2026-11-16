@@ -107,9 +107,9 @@ typedef struct KartEntry {
 
 #define MISSION_RUN_BIT_END_IN_CONTACT 4
 
-#define MISSION_RUN_BIT_END_KART_FLAG_1000 8
+#define MISSION_RUN_BIT_END_RESPAWN_FALL 8
 
-#define MISSION_RUN_BIT_END_NOT_NORMAL 2
+#define MISSION_RUN_BIT_END_NOT_NORMAL_OR_SCALE_TABLE 2
 
 #define MISSION_RUN_BIT_FLIP_FOLLOW_DIRECTION 0x20
 
@@ -305,12 +305,12 @@ typedef struct RaceSetupHeader {
 #define MISSION_KIND_COUNT_HITS 7
 // Shown as a lap race (lap number, lap time difference, race end sound), but completing the laps does not finish it:
 // CompleteRaceProgressKartLap skips its mission finish for this kind.
-#define MISSION_KIND_LAPS_NO_LAP_PROGRESS 10
+#define MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS 10
 
 // Values of MissionSettings.mMissionTableValue: the Mission Run mission number (GetMissionTableValue), named by the
 // boss of the mission.
 enum {
-    MISSION_NUMBER_GARDEN = 4,
+    MISSION_NUMBER_OWN_SEQ = 4,
     MISSION_NUMBER_DONKETU = 9,
     MISSION_NUMBER_KING_ICE_DONKETU = 0xa,
     MISSION_NUMBER_BOMB_KING = 0x11,

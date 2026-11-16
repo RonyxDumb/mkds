@@ -730,7 +730,7 @@ void UpdateRaceLapNumber(void) {
             case MISSION_KIND_LAPS:
             case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
             case MISSION_KIND_LAPS_FIRST_PLACE:
-            case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
+            case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                 break;
             default:
                 return;
@@ -798,7 +798,7 @@ void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer) {
             case MISSION_KIND_LAPS:
             case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
             case MISSION_KIND_LAPS_FIRST_PLACE:
-            case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
+            case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                 if (gRaceLapNumber->mLastLapIndex < 2) {
                     return;
                 }

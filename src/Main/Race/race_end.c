@@ -225,7 +225,7 @@ void UpdateRaceEnd(void) {
                         case MISSION_KIND_LAPS:
                         case MISSION_KIND_LAPS_MINI_TURBO_COUNT:
                         case MISSION_KIND_LAPS_FIRST_PLACE:
-                        case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
+                        case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                             if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind
                                                                            : RACE_END_KIND_NOT_ENDED) != 0) {
                                 playsRaceEndSound = FALSE;

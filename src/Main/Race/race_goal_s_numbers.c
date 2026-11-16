@@ -99,7 +99,7 @@ void HoldRaceGoalSPreviousNumbers(void) {
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
-    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (keyABits != 0 && frame >= RACE_GOAL_S_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = CountUpRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
@@ -131,7 +131,7 @@ void CountUpRaceGoalSNumbers(void) {
                 target = record->mTotalPoints;
             }
             if (gRaceGoalS->mShownNumbers[index] < target) {
-                if (gRaceGoalS->mShownNumbers[index] < RACE_GOAL_S_POINTS_LIMIT) {
+                if (gRaceGoalS->mShownNumbers[index] < RACE_GOAL_S_SHOWN_NUMBER_LIMIT) {
                     gRaceGoalS->mShownNumbers[index]++;
                     allReached = FALSE;
                 }
@@ -150,7 +150,7 @@ void CountUpRaceGoalSNumbers(void) {
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
-    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (keyABits != 0 && frame >= RACE_GOAL_S_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = HoldRaceGoalSNumbers;
         gRaceGoalS->mUpdateFrames = 0;
     }
@@ -194,7 +194,7 @@ void HoldRaceGoalSNumbers(void) {
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
-    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (keyABits != 0 && frame >= RACE_GOAL_S_PHASE_FRAMES) {
         if (gRaceSetup->mUseTeams != 0) {
             gRaceGoalS->mUpdate = SlideOutRaceGoalS;
             gRaceGoalS->mUpdateFrames = 0;
@@ -216,7 +216,7 @@ void HideRaceGoalSRows(void) {
     InputSlotIndex inputSlot;
 
     frame = gRaceGoalS->mUpdateFrames++;
-    if (frame < RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (frame < RACE_GOAL_S_PHASE_FRAMES) {
         hiddenRows = gRaceGoalS->mHiddenRowCount;
         if (hiddenRows < gRaceSetup->mKartCount) {
             if (frame % RACE_GOAL_S_ROW_STEP_FRAMES == 0) {
@@ -256,7 +256,7 @@ void HideRaceGoalSRows(void) {
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
-    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (keyABits != 0 && frame >= RACE_GOAL_S_PHASE_FRAMES) {
         for (rowIndex = 0; rowIndex < (u32) gRaceSetup->mKartCount; rowIndex++) {
             gRaceGoalS->mRowVisible[rowIndex] = 0;
         }
@@ -312,7 +312,7 @@ void ShowRaceGoalSRows(void) {
     }
     inputSlot = INPUT_SLOT_PAD_OR_PARTICIPANT;
     keyABits = gInputSlots[inputSlot].mPressedBits & PAD_KEY_A;
-    if (keyABits != 0 && frame >= RACE_GOAL_S_ROWS_PHASE_FRAMES) {
+    if (keyABits != 0 && frame >= RACE_GOAL_S_PHASE_FRAMES) {
         gRaceGoalS->mUpdate = HoldRaceGoalSRows;
         gRaceGoalS->mUpdateFrames = 0;
     }

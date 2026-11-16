@@ -7,11 +7,11 @@
 // Cells of race_m.NCER (mRaceMNcerEntries) that DrawRaceItemSlot picks: the slot cell for no teams and for each team,
 // the cell drawn first, the cell for no item, then one cell per item as LookupRaceMNcerIndex maps them.
 typedef enum {
-    RACE_M_CELL_SLOT_BOX_NO_TEAMS = 8,
-    RACE_M_CELL_SLOT_BOX_TEAM_0,
-    RACE_M_CELL_SLOT_BOX_TEAM_1,
-    RACE_M_CELL_ITEM_EMPTY,
-    RACE_M_CELL_SLOT_FRAME,
+    RACE_M_CELL_SLOT_NO_TEAMS = 8,
+    RACE_M_CELL_SLOT_TEAM_0,
+    RACE_M_CELL_SLOT_TEAM_1,
+    RACE_M_CELL_ITEM_NONE,
+    RACE_M_CELL_SLOT_DRAWN_FIRST,
     RACE_M_CELL_KINOKO_ONE,
     RACE_M_CELL_KINOKO_TWO,
     RACE_M_CELL_KINOKO_THREE,

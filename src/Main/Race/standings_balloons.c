@@ -1021,8 +1021,8 @@ void UpdateDistanceSound(void *mapObjectList, DistanceSound *mapObject) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 mapObject->mSoundVolumeFixed12 =
                     mapObject->mSoundVolumeFixed12 - MUL_FIXED12_NO_ROUND(kart->mVelocityLengthRatio, TO_FIXED12(1));
-                if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_VOLUME_MIN) {
-                    mapObject->mSoundVolumeFixed12 = DISTANCE_SOUND_VOLUME_MIN;
+                if (mapObject->mSoundVolumeFixed12 < DISTANCE_SOUND_SOUND_VOLUME_MIN) {
+                    mapObject->mSoundVolumeFixed12 = DISTANCE_SOUND_SOUND_VOLUME_MIN;
                 }
             } else if (mapObject->mSoundTimer-- <= 0) {
                 sndHandleSlot = GetSndHandleSlot(8);

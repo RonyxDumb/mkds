@@ -37,7 +37,7 @@ typedef enum ResultsGpGrade {
 #define CUP_RANK_NO_TROPHY 3
 // Values of ResultsGp.mState: mStateFrames counts up to the frame limit and the scene waits for A or a new pair, a text
 // is open and waits to close, the scene is left.
-#define RESULTS_GP_STATE_TIMELINE 0
+#define RESULTS_GP_STATE_COUNTING_FRAMES 0
 #define RESULTS_GP_STATE_TEXT_OPEN 1
 #define RESULTS_GP_STATE_LEFT 2
 

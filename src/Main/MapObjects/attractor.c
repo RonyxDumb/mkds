@@ -173,7 +173,7 @@ void InitJg(void) {
             if ((u8) (gRaceSetup->mMissionKind + 0xfe) <= 8 &&
                 ((1 << 0 | 1 << (MISSION_KIND_LAPS_MINI_TURBO_COUNT - MISSION_KIND_LAPS) |
                   1 << (MISSION_KIND_LAPS_FIRST_PLACE - MISSION_KIND_LAPS) |
-                  1 << (MISSION_KIND_LAPS_NO_LAP_PROGRESS - MISSION_KIND_LAPS)) &
+                  1 << (MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS - MISSION_KIND_LAPS)) &
                  (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
                 enabled = TRUE;
             }

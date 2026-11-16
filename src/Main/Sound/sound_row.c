@@ -222,7 +222,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                     if (raceMode == MODE_MISSION_RUN) {
                         mission = &gRaceSetup->mMissionSettings;
                         overridden = FALSE;
-                        if (mission->mMissionTableValue == MISSION_NUMBER_GARDEN) {
+                        if (mission->mMissionTableValue == MISSION_NUMBER_OWN_SEQ) {
                             output->mSeqId = SOUND_SEQ_ID_MISSION_GARDEN;
                             overridden = TRUE;
                         }
@@ -233,7 +233,7 @@ u32 GetSceneSoundRowIndex(s32 sceneNumber, SoundRow *output) {
                                     break;
                                 case MISSION_KIND_LAPS:
                                 case MISSION_KIND_COUNT_MAP_OBJECTS:
-                                case MISSION_KIND_LAPS_NO_LAP_PROGRESS:
+                                case MISSION_KIND_LAPS_NOT_FINISHED_BY_LAPS:
                                     break;
                             }
                         }

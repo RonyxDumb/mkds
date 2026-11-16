@@ -263,7 +263,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
         DrawTrophy();
     }
     switch (gResultsGp->mState) {
-        case RESULTS_GP_STATE_TIMELINE: {
+        case RESULTS_GP_STATE_COUNTING_FRAMES: {
             s32 frameLimit;
             s32 frames;
             frameLimit = GetResultsGpFrameLimit(gResultsGp->mCupRankIndex);
@@ -366,7 +366,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
         case RESULTS_GP_STATE_TEXT_OPEN:
             if (GetTxtSystemDone()) {
                 RequestTxtSystemClose();
-                gResultsGp->mState = RESULTS_GP_STATE_TIMELINE;
+                gResultsGp->mState = RESULTS_GP_STATE_COUNTING_FRAMES;
             }
             break;
     }

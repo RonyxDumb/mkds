@@ -98,6 +98,6 @@ extern void (*gThrowItemTrailKindCallback)(struct KartAiItemUse *itemUse, struct
 
 // The Killer item cursor: its forward speed, the frames the end count hold timer is set to on contact and the end count
 // it ends at.
-#define KART_KILLER_STAFF_FORWARD_SPEED 0xa800
+#define KART_KILLER_FORWARD_SPEED 0xa800
 #define KART_KILLER_END_HOLD_FRAMES 5
 #define KART_KILLER_END_COUNT_FRAMES 0x78

@@ -37,10 +37,10 @@ u32 GetResultSceneSeqId(void) {
     result = 0xffffffff;
     selector = GetResultSceneSeqKind();
     switch (selector) {
-        case RESULT_SCENE_SEQ_KIND_GP_HIGH_RANK:
+        case RESULT_SCENE_SEQ_KIND_GP_TROPHY:
             result = 0x43;
             break;
-        case RESULT_SCENE_SEQ_KIND_GP_LOW_RANK:
+        case RESULT_SCENE_SEQ_KIND_GP_NO_TROPHY:
             result = 0x44;
             break;
         case RESULT_SCENE_SEQ_KIND_WON:

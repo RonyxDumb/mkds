@@ -53,4 +53,4 @@ extern struct RaceNewRecordTa *gRaceNewRecordTa;
 
 // Frames of the new record cycle, and the digit value drawn for every digit of a record whose mFilled is 0.
 #define RACE_NEW_RECORD_TA_CYCLE_FRAMES 0x18
-#define RACE_NEW_RECORD_TA_BLANK_DIGIT 0xb
+#define RACE_NEW_RECORD_TA_UNFILLED_DIGIT 0xb

@@ -483,7 +483,7 @@ BOOL AdvanceKartKillerCursor(KartKillerCursor *kartKillerCursor) {
     return AdvanceKartKillerEndCount(kartKillerCursor);
 }
 
-// Holds the kart at KART_KILLER_STAFF_FORWARD_SPEED; when it is past the point link ahead (or, except with
+// Holds the kart at KART_KILLER_FORWARD_SPEED; when it is past the point link ahead (or, except with
 // KART_DRIVE_BOOST_SURFACE_HELD on surface variant 1, within its distance) it moves the cursor on, otherwise it steers
 // toward the link.
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
@@ -502,7 +502,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
             isPastOrNearLink = IsWithinPointLinkDistance(&kartKillerCursor->mPointLinkCursor, &position);
         }
     }
-    kart->mForwardSpeed = KART_KILLER_STAFF_FORWARD_SPEED;
+    kart->mForwardSpeed = KART_KILLER_FORWARD_SPEED;
     kart->mSpeedLimitGoal = kart->mForwardSpeed;
     kart->mSpeedLimit = kart->mSpeedLimitGoal;
     if (isPastOrNearLink != 0) {

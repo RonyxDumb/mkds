@@ -80,7 +80,7 @@ typedef struct IntPair {
 // priority 3 are drawn (mMinDrawValue).
 #define RACE_HUD_PRIORITY_FRONT 1
 #define RACE_HUD_PRIORITY_MIDDLE 2
-#define RACE_HUD_PRIORITY_BACK 3
+#define RACE_HUD_PRIORITY_3 3
 // One cell of the race sub screen: its draw position, cell, priority, translucency and angle.
 typedef struct RaceHudSubScreenCell {
     /* 00 */ IntPair mDrawPos;
@@ -713,7 +713,7 @@ enum {
 #define RACE_GOAL_S_HIDE_ROW_SEQ_FIRST 0x32
 #define RACE_GOAL_S_SHOW_ROW_SEQ_FIRST 0x2a
 #define RACE_GOAL_S_ROW_STEP_FRAMES 5
-#define RACE_GOAL_S_ROWS_PHASE_FRAMES 0x2d
+#define RACE_GOAL_S_PHASE_FRAMES 0x2d
 // Values of RaceGoalS.mRankComparison (a row moved down, moved up, or stayed), the largest points number counted up on
 // a row, and the frames and distance of the slide in.
 // Styles of a RaceGoalS row (WriteRaceGoalSRowTiles): the followed kart, another kart, a row not shown yet.
@@ -723,7 +723,7 @@ enum {
 #define RACE_GOAL_S_RANK_DOWN 0
 #define RACE_GOAL_S_RANK_UP 1
 #define RACE_GOAL_S_RANK_SAME 2
-#define RACE_GOAL_S_POINTS_LIMIT 0x3e8
+#define RACE_GOAL_S_SHOWN_NUMBER_LIMIT 0x3e8
 #define RACE_GOAL_S_SLIDE_FRAMES 0x14
 #define RACE_GOAL_S_SLIDE_OFFSET 0x100
 
@@ -818,7 +818,7 @@ typedef struct RaceTimeDigits {
 // Position samples kept per kart for the time attack trail, and the frames between two ageing steps of the boost point
 // samples (an age of the sample count means the point is gone).
 #define RACE_TA_SAMPLE_COUNT 0x28
-#define RACE_TA_AGE_INTERVAL_FRAMES 0xf
+#define RACE_TA_SAMPLE_FRAME_COUNT 0xf
 #define RACE_TA_SAMPLE_KIND_NONE 0
 #define RACE_TA_SAMPLE_KIND_PLAIN 1
 #define RACE_TA_SAMPLE_KIND_HOPPING_OR_DRIFTING 2

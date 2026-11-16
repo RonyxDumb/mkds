@@ -858,12 +858,12 @@ void UpdateRaceHudSubScreen(void) {
                         gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                     }
                 } else if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -918,7 +918,7 @@ void UpdateRaceHudSubScreen(void) {
                 if (gRaceHud->mGoalMStarted == FALSE) {
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_SOLO;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -994,7 +994,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_GOAL_KARTS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                 }
             } else {
                 subScreenEnabled = FALSE;
@@ -1054,7 +1054,7 @@ void UpdateRaceHudSubScreen(void) {
                     if (gRaceHud->mGoalMStarted == FALSE) {
                         gRaceHud->mGoalMStarted = TRUE;
                         gRaceHud->mGoalMUploadPending = TRUE;
-                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                        gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                     }
                 } else {
                     gRaceHud->mSubScreenEnabled = FALSE;
@@ -1065,7 +1065,7 @@ void UpdateRaceHudSubScreen(void) {
                     gRaceHud->mSubScreenState = RACE_HUD_SUB_SCREEN_KART_ICONS;
                     gRaceHud->mGoalMStarted = TRUE;
                     gRaceHud->mGoalMUploadPending = TRUE;
-                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_MULTI;
+                    gRaceHud->mGoalMDelayFrameCount = RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI;
                 } else {
                     subScreenEnabled = FALSE;
                     switchAllowed = FALSE;

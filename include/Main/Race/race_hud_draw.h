@@ -35,8 +35,8 @@ extern struct RaceHud *gRaceHud;
 
 // Frames RaceHud.mGoalMDelayFrameCount is set to when the goal screen starts: Grand Prix and Time Attack, Battle,
 // Versus and Wi-Fi, and the mission run goal.
-#define RACE_HUD_GOAL_M_DELAY_SOLO 0xc
-#define RACE_HUD_GOAL_M_DELAY_MULTI 0x8c
+#define RACE_HUD_GOAL_M_DELAY_GRAND_PRIX_TIME_ATTACK 0xc
+#define RACE_HUD_GOAL_M_DELAY_BATTLE_VS_WIFI 0x8c
 #define RACE_HUD_GOAL_M_DELAY_MISSION_RUN 0xaf
 // Values of RaceHud.mSubScreenCourseScale: the sub screen course map scale; small for battle mini stage 3, medium for
 // the other battle courses and mission run stages 1 to 4, large for all other races.

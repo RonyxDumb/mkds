@@ -144,7 +144,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
                                     IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE
-                                                                        : RACE_HUD_PRIORITY_BACK;
+                                                                        : RACE_HUD_PRIORITY_3;
                                 gRaceHudSubScreenItemCells->mCells[cellCount].mXlu = 0;
                                 cellCount++;
                             }
@@ -158,7 +158,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                         if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
-                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
                                 (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
@@ -172,7 +172,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
                         if (IsFarBelowWaterEfct(position->y) == 0) {
                             gRaceHudSubScreenItemCells->mCells[cellCount].mCell = cell;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mPriority =
-                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                                IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
                             gRaceHudSubScreenItemCells->mCells[cellCount].mXlu =
                                 (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                             cellCount++;
@@ -285,7 +285,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                         gRaceHudSubScreenKarts->mNonNormalStateFrames[kartIndex] = 0;
                     }
                     gRaceHudSubScreenKarts->mPriority[kartIndex] =
-                        IsPositionOutsideBox(&kartPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        IsPositionOutsideBox(&kartPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
                     itemInUse = &gKartItems[kartIndex].mItemInUse;
                     objects = itemInUse->mObjects;
                     objectCount = itemInUse->mObjectCount;
@@ -341,7 +341,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                                 }
                                 gRaceHudSubScreenKarts->mCells->mCells[cellCount].mPriority =
                                     IsPositionOutsideBox(&cellPosition) != 0 ? RACE_HUD_PRIORITY_MIDDLE
-                                                                             : RACE_HUD_PRIORITY_BACK;
+                                                                             : RACE_HUD_PRIORITY_3;
                                 gRaceHudSubScreenKarts->mCells->mCells[cellCount].mXlu =
                                     (object->mFlags & ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE) != 0 ? 1 : 0;
                                 cellCount++;
@@ -851,7 +851,7 @@ void UpdateRaceHudSubScreenCarCells(void) {
                     break;
             }
             gRaceHudSubScreenCarCells->mCells[cellCount].mPriority =
-                IsPositionOutsideBox((Vec3 *) &position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                IsPositionOutsideBox((Vec3 *) &position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
             gRaceHudSubScreenCarCells->mCells[cellCount].mAngle = angle;
             cellCount++;
         }
@@ -1158,7 +1158,7 @@ void UpdateRaceHudSubScreenEarthenPipeCells(void) {
                                                     scale, 0, 0) != FALSE) {
                     gRaceHudSubScreenEarthenPipeCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x8c);
                     gRaceHudSubScreenEarthenPipeCells->mCells[cellCount].mPriority =
-                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_BACK;
+                        IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_MIDDLE : RACE_HUD_PRIORITY_3;
                     cellCount++;
                 }
             }

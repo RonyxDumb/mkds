@@ -454,7 +454,7 @@ u32 LookupRaceMNcerIndex(u32 item) {
     KartItems *kartItems;
     enum { ITEM_INFO_INDEX_FIRST } itemInfoIndex;
 
-    cellIndex = RACE_M_CELL_ITEM_EMPTY;
+    cellIndex = RACE_M_CELL_ITEM_NONE;
     switch (item) {
         case ITEM_INFO_KOURA_G:
             cellIndex = RACE_M_CELL_KOURA_G;
