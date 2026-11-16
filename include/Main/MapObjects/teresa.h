@@ -8,7 +8,8 @@
 #define TERESA_ALPHA_FIXED12_MIN 0x2000
 #define TERESA_NEVER_FRAMES 0xffff
 
-// A wobble of an angle and a value that swings around mMid by mAmplitude; Teresa, Crab and the trophy use it.
+// A wobble: mValue follows mMid plus a swing of mAmplitude driven by mAngle; mAmplitude and mAnglePerFrame step toward
+// zero. Teresa, Crab and the trophy use it.
 typedef struct TeresaWobble {
     /* 00 */ u16 mAngle;
     /* 02 */ u8 mUnk_02[2];
@@ -21,7 +22,7 @@ typedef struct TeresaWobble {
     /* 1c */ s32 mAnglePerFrameDelta;
 } TeresaWobble;
 
-// A Teresa map object that StartTeresa fills: start position, alpha fade, wobbles, radius; one state per mState value.
+// A Teresa map object: start position, fade delay timers, alpha fade, wobbles, radius and state.
 typedef struct Teresa {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ Vec3 mStartPos;

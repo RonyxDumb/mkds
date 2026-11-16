@@ -23,7 +23,8 @@ typedef struct CourseMapRow CourseMapRow;
 #define KURIBO_SCALE_SETTLE_RANGE 0x29
 #define KURIBO_SCALE_SHRINK_FACTOR 0xd99
 
-// A Kuribo map object: its start height, orientations, scale, path follower, frame index, model alpha and toggle.
+// A Kuribo map object: its start height, orientations and blend amount, scale and scale speed, path follower, frame
+// index, whether it returns after the wait, model alpha and toggle.
 typedef struct Kuribo {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mStartY;

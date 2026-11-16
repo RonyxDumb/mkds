@@ -28,7 +28,7 @@ enum {
     CRAB_STATE_RISE,
 };
 
-// The crab map object, one state per value of mState: its spin, timer, crab and hand frames, wobbles and path follower.
+// The crab map object: its state, spin, timer, crab and hand frame indexes, two wobbles and path follower.
 typedef struct Crab {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mRotateZAnglePerFrame;

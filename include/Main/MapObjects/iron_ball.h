@@ -6,7 +6,8 @@
 #include "Main/MapObjects/segment_group_collision.h"
 #include "Main/MapObjects/send_obj_shadow.h"
 
-// IronBall.mState: waits for its start (timer or lap), counts mStartDelayFrames down, then rolls along the path.
+// IronBall.mState: waits for its start (timer or lap), counts mStartDelayFrames down, then rolls along the path; at the
+// end of the path it waits for the next start or is parked.
 #define IRON_BALL_STATE_WAIT_START 0
 #define IRON_BALL_STATE_WAIT_APPEAR 1
 #define IRON_BALL_STATE_ROLL 2
@@ -27,7 +28,8 @@
 #define IRON_BALL_PATH_SPEED_FLIPPER 0x1e000
 #define IRON_BALL_PATH_SPEED_DECAY 410
 
-// An iron ball map object: its start delay, path speeds, height, follower, shadow and state.
+// An iron ball map object: its rotation, start timer, start delay and next start lap, path speeds and position, height,
+// follower, shadow, sound mask and state.
 typedef struct IronBall {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mRotateZAngle;

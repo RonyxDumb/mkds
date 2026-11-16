@@ -28,7 +28,7 @@ typedef struct Chandelier {
     /* a8 */ s32 mState;
 } Chandelier;
 
-// A rain star map object: its animation frame, timer and state.
+// A rain star map object: its animation frame; the object turns by 0x111 each update.
 typedef struct RainStar {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;

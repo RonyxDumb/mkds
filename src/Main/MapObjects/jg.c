@@ -209,7 +209,9 @@ void AdvanceJgPointsAndSetTarget(Vec3 *offset, const Vec3 *endScale, const Vec3 
     MTX_MultVec43(&shifted, &gJgMatrix, &gJgTargetPos);
 }
 
-// Runs the position, matrix and state machine; while Off it starts the next state from mStatus, lap and mFlags.
+// Unless staff roll or no kart: while not Off updates the animation, matrix and position; advances the state machine;
+// while Off (not in Battle) starts Arrive at goal or a new lap and Reverse after more than 60 frames against a
+// checkpoint.
 void UpdateJg(void) {
     s32 lap;
     u32 kartFlags;
@@ -514,7 +516,8 @@ static inline void UpdateJgPosition_inline_2(Vec3 *result, const Vec3 *first, co
     result->z = first->z > second->z ? first->z : second->z;
 }
 
-// Steers gJgPos toward gJgTargetPos (damped, pushed out of map objects and the course); snaps in FollowKart or hidden.
+// Steers gJgPos toward gJgTargetPos (damped, pushed out of map objects and the course); snaps in FollowKart or hidden,
+// and in x/z while the snap flags are on.
 void UpdateJgPosition(void) {
     s64 distanceSquared;
     s32 deltaZ;

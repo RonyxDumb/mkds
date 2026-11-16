@@ -52,7 +52,7 @@ enum {
     DOSSUN_HIT_SPIN_SETTLING,
 };
 
-// A Dossun map object that slams down: its state, timers, spin and hit data and the follower it moves along.
+// A Dossun map object: its state, timer, hover and drop values, spin and hit data and the follower it moves along.
 typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState;
@@ -79,7 +79,7 @@ typedef struct Dossun {
     /* 108 */ s32 mFollowerSetSpeed;
 } Dossun;
 
-// The draw list of the Kuribo map objects: functions that set up and draw each object.
+// The draw list of the Kuribo map objects: the functions that create the model, set up drawing and draw each object.
 typedef struct KuriboDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);

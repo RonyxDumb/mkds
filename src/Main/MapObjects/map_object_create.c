@@ -83,7 +83,8 @@ static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
     return NULL;
 }
 
-// Map objects the game can hold at once, and the most one area query can return.
+// Sizes of the map object array (the count is held below it) and of the found-object arrays that
+// FindMapObjectsTouchingKart fills (the count is held below it).
 #define MAP_OBJECT_CAPACITY 0x100
 #define FOUND_MAP_OBJECT_CAPACITY 0x20
 

@@ -29,7 +29,7 @@ enum {
     PAKKUN_STATE_LEAN_FORWARD,
 };
 
-// A Pakkun plant map object: its mouth animation, state, seven followers, head and body stretch motion.
+// A Pakkun map object: its mouth animation, state, up to seven followers, head and body stretch motion.
 typedef struct Pakkun {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mPolygonId;

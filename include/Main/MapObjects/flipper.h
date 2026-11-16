@@ -16,7 +16,8 @@
 #define FLIPPER_ALT_SWING_OUT_STEPS 0x1c
 #define FLIPPER_SWING_BACK_STEP_LIMIT 0xf
 
-// Values of Flipper.mState; the ALT states are the same cycle at double step after mAltWaitFrames was set.
+// Values of Flipper.mState; WAIT goes to ALT_WAIT while mAltWaitFrames is non-zero, ALT_WAIT lasts until it reaches 0,
+// and the ALT swings move two steps per frame.
 enum {
     FLIPPER_STATE_START,
     FLIPPER_STATE_WAIT,

@@ -34,7 +34,8 @@ extern MapObjectKindRow gMapObjectKindRows[];
 // Course map row that starts a resting item object (its setting 0 is the item kind).
 #define MAP_OBJECT_KIND_ITEM_PLACEMENT 0x6d
 #define MAP_OBJECT_KIND_MISSION_GATE 0x6e
-// Kind of the pooled map objects that item boxes of thrown or bouncing items use.
+// Kind of the pooled map objects that bouncing item boxes, item bombs and F boxes take from the pool
+// (CreatePooledMapObjects).
 #define MAP_OBJECT_KIND_POOLED_ITEM_BOX 0x6f
 #define MAP_OBJECT_KIND_SHINE_BALLOON 0x70
 #define MAP_OBJECT_KIND_KOOPA_BLOCK 0xca

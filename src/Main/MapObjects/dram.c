@@ -172,7 +172,8 @@ void EnterDramAlign(void *stateObject) {
     dram->mAngleRemaining = DRAM_ALIGN_ANGLE - angle % DRAM_ALIGN_ANGLE;
 }
 
-// Asks for Idle once mAngleRemaining has run out.
+// Turns by DRAM_MIN_ANGLE_STEP a call until mAngleRemaining goes below 0, takes the overshoot off mAngleX and then asks
+// for Idle.
 void UpdateDramAlign(void *stateObject) {
     Dram *dram = stateObject;
     dram->mAngleX += DRAM_MIN_ANGLE_STEP;

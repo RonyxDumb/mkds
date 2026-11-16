@@ -40,14 +40,17 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
 void CreateWoodbox1(MapObjectList *list);
 
 void DrawNsbmdWithMaxAlphaAndMaterial(Nsbmd *model, s32 maxAlpha);
-// Draws the model with its alpha capped at maxAlpha (put back afterwards), through NNS_G3dDraw1Mat1Shp.
+// Draws the model with every material's alpha set to maxAlpha when that is below the first material's alpha (put back
+// afterwards), through NNS_G3dDraw1Mat1Shp.
 void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
-// Draws the model with its alpha capped at maxAlpha (put back afterwards).
+// Draws the model with every material's alpha set to maxAlpha when that is below the first material's alpha (put back
+// afterwards).
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 void SendMaterialPolygonAttributes(NNSG3dRS *renderState);
 // Draws the shadow model with its alpha capped at maxAlpha (put back afterwards).
 void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
-// Draws the model with the matrix and scale, its alpha capped at maxAlpha (put back afterwards).
+// Draws the model with the matrix and scale, every material's alpha set to maxAlpha when that is below the first
+// material's alpha (put back afterwards, with the polygon id).
 void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, MtxFx43 *matrix, Vec3 *scale, s32 maxAlpha);
 void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                                           s32 minNormalSpeed, Vec3 *result);

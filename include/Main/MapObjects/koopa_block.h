@@ -24,7 +24,7 @@ enum {
 };
 
 // MkdEfBubbleObject.mMapObject.mStateMachine states, in the order of gMkdEfBubbleStateTable. LEAP throws the bubble up
-// from mBottomY until it falls back; WAIT keeps it hidden for mDelayFrameCount frames.
+// from mBottomY until it falls below mBottomY again; WAIT keeps it hidden until mStateFrames reaches mDelayFrameCount.
 enum {
     MKD_EF_BUBBLE_STATE_LEAP,
     MKD_EF_BUBBLE_STATE_WAIT,

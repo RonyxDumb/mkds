@@ -14,7 +14,8 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 
-// The map object manager: the map object array, the draw and update lists and the flags for the special kinds present.
+// The map objects: the map object array, the draw and update lists, the flags for the koopa block, rotary, bridge and
+// mission run box kinds present, and mRunUpdateLists.
 typedef struct MapObjects {
     /* 000 */ MapObject **mMapObjects;
     // Pinned at 0xff when the 0x100-pointer array is full.

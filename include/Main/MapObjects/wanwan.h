@@ -92,7 +92,7 @@ WanwanKindData *CreateWanwanKindData(void);
 
 void EnterWanwanRest(void *stateObject);
 
-// A Wanwan map object: its pull-back and hit state, vectors and the ring of chain post pointers.
+// A Wanwan map object: its center, orientation, roam curve points, path follower, chain object and kart target.
 typedef struct Wanwan {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mCenterPos;

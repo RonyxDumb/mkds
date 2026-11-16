@@ -53,10 +53,12 @@ typedef struct MapObjectKindData {
     /* 3c */ s32 mHeightRangeMin;
 } MapObjectKindData;
 
-// A far-away value: the draw distance of a GP start race and the position step of an object whose step is not measured.
+// A far-away value (9999.0): the draw distance of a GP start race, and the position step of an object whose kind's
+// mPosStepMode is neither 0 nor MAP_OBJECT_LIST_POS_STEP_MEASURED.
 #define MAP_OBJECT_FAR_VALUE 0x270f000
 
-// Range of heights, up and down, that a kind covers when its data leaves it 0 (a replay raises the upper one).
+// Limit of the height difference between the camera and an object, below and above, that a kind gets when its data
+// leaves it 0 (a replay raises the upper one).
 #define MAP_OBJECT_HEIGHT_RANGE_DEFAULT 0x64000
 #define MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX 0x44c000
 
@@ -70,19 +72,22 @@ typedef struct MapObjectKindData {
 #define MAP_OBJECT_FLAG_INVISIBLE 0x2
 #define MAP_OBJECT_FLAG_HUD_XLU 0x20
 #define MAP_OBJECT_FLAG_FLIPPER_MIRROR 0x400
-// MapObject.mFlags: a kart touching the object counts as hitting it fast whatever its speed (full push strength).
+// MapObject.mFlags: the speed tests of kart hits are skipped for the object (spin hits and touch sounds happen at any
+// speed) and its kind sound is started with the full fraction 0x1000.
 #define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
 
-// Bits of MapObject.mFlags.
-// Items and karts that overlap the object are not pushed out of it (the overlap tests skip it).
+// MapObject.mFlags: karts, items and Jg that overlap the object are not pushed out of it; the hit is still found and
+// its callback runs.
 #define MAP_OBJECT_FLAG_NO_PUSH_OUT 0x40
 // The object is parked (ParkMapObject sets it, UnparkMapObject clears it).
 #define MAP_OBJECT_FLAG_PARKED 0x100
 
-// MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; item hits clear it and pass the object on as the one hit.
+// MapObject.mDistanceSquaredAndFlags bit 31: set by kinds; a bounce or fade-out item hit clears it, and reports the
+// object as the one hit when the bit was set or the first response is 1.
 #define MAP_OBJECT_DISTANCE_FLAG_REPORT_HIT 0x80000000
 
-// The part every map object shares: its position, state machine and list data; each kind uses the rest its own way.
+// The part every map object shares: its kind, flags, position and matrix, collision and view-test values, state
+// machine, sound and kind data; each kind adds its own members after it.
 typedef struct MapObject {
     /* 00 */ u16 mKind;
     /* 02 */ u16 mFlags;
@@ -231,8 +236,8 @@ typedef struct JgKindRow {
     /* 0c */ NsbmdModel *mLapModel;
 } JgKindRow;
 
-// Filled in by InitJg; UpdateJgReverse stores GetHorizontalCameraDistanceSquared's return value
-// at 0x0c and hands it to StartSndHandleSound.
+// InitJg sets mSoundId, mPositionSource and mFalloffIndex; UpdateJgReverse sets mDistanceSquared from
+// GetHorizontalCameraDistanceSquared and passes it to StartSndHandleSound.
 extern SoundStartParams gJgSoundStartParams;
 extern JgKindRow gJgKindRows[];
 
