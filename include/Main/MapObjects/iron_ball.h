@@ -27,8 +27,7 @@
 #define IRON_BALL_PATH_SPEED_FLIPPER 0x1e000
 #define IRON_BALL_PATH_SPEED_DECAY 410
 
-// Object of kinds 0x1b0 and 0x1b3 (IronBall; kind 0x1b3 has only Init and Draw, no update or collision group), 0x134
-// bytes: the shared MapObject part, a GroupFollower at 0xc4 and a ShadowMatrix at 0xe8.
+// An iron ball map object: its start delay, path speeds, height, follower, shadow and state.
 typedef struct IronBall {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mRotateZAngle;

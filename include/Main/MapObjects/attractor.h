@@ -15,7 +15,7 @@
 struct MapObject;
 struct CourseMapRow;
 
-// Object behind MapObject.mSound, passed to SetSoundSourceFlagBit (which reads its halfword at 0x34).
+// The sound of a map object: its sound source and the change of the squared distance to it.
 typedef struct MapObjectSound {
     // Sound source of the map object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;

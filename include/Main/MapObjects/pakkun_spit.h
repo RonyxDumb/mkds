@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 
-// Object up to 0xd4 bytes: the shared part, an GroupFollower at 0xa0, then three words and a pointer.
+// The spit of a Pakkun plant: a follower, its height motion, state and particle emitter.
 typedef struct PakkunSpit {
     /* 00 */ MapObject mMapObject;
     /* a0 */ GroupFollower mFollower;

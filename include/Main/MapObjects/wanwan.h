@@ -43,8 +43,7 @@ enum {
 #define WANWAN_ORIENTATION_BLEND_AMOUNT_START 0x1c2
 #define WANWAN_ORIENTATION_BLEND_AMOUNT_STEP 0x1c
 
-// Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
-// it at 0x28.
+// The draw list of the Wanwan map objects: init and per-object draw functions, the pass and the slot that holds it.
 typedef struct WanwanDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);
@@ -56,7 +55,7 @@ typedef struct WanwanDrawList {
     /* 28 */ struct WanwanDrawList **mListSlot;
 } WanwanDrawList;
 
-// Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
+// The data of one Wanwan kind: its collision callbacks, shape, extent, sound and how it steps.
 typedef struct WanwanKindData {
     /* 00 */ u8 (*mCollideKartCallback)(Wanwan *, void *, u8 *, u8 *);
     /* 04 */ u8 (*mCollideItemObjectCallback)(Wanwan *, void *, u8 *, u8 *);

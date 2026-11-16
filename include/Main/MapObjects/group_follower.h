@@ -6,8 +6,7 @@
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 
-// 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; SetDrawListSlot
-// stores the address of its pointer at 0x28.
+// The draw list of the rock map objects: the shared list, the slot that holds it and the shadow matrix.
 typedef struct RockDrawList {
     /* 00 */ MapObjectList mMapObjectList;
     /* 28 */ struct RockDrawList **mListSlot;

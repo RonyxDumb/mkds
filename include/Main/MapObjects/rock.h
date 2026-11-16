@@ -51,8 +51,7 @@ typedef struct CollisionSlotEnd {
 
 u32 FreeCollisionSlot(s32 slotIndex);
 s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
-// Object behind the pointer IsCollisionHitLinkOutdated and UpdateCollisionHitLink read: a pointer at 0x00 and a word at
-// 0x04.
+// The first hit of a rock: the collision object it hit and whether the link is blocked.
 typedef struct CollisionFirstHit {
     /* 00 */ CollisionMapObject *mObject;
     /* 04 */ s32 mLinkBlocked;

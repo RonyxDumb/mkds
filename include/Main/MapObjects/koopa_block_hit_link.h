@@ -5,7 +5,7 @@
 #include "Main/MapObjects/map_object_draw_list_flags.h" // MapObjectDrawList
 #include "Main/MapObjects/attractor.h" // MapObjectKindData, MapObjectList
 
-// Object holding a pointer at 0x0 and two vectors.
+// A link between a collision map object and a hit: the object and the local position and normal on it.
 typedef struct CollisionHitLink {
     /* 00 */ CollisionMapObject *mObject;
     /* 04 */ Vec3 mLocalPosition;

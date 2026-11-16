@@ -16,8 +16,7 @@ typedef struct Fireball2Element {
     /* 0e */ u16 mRotationAngle;
 } Fireball2Element;
 
-// Object of kind 0x1af (Fireball2). After the shared part, the counts at 0xa0 and 0xa2, a grid of elements from 0xc4
-// (rows of 0x140 bytes, 0xa0 rows of 0xa2 elements) and the words from 0x19c4.
+// A Fireball2 map object: a grid of rows of fireball elements that turn around a center, and kart hit timers.
 typedef struct Fireball2 {
     /* 0000 */ MapObject mMapObject;
     /* 00a0 */ u16 mRowCount;

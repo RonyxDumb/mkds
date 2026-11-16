@@ -14,8 +14,7 @@
 
 #define NS_KILLER2_HEIGHT_RANGE_MAX 0x32000
 
-// Object of kind 0x1a2 (NsKiller2), pool objects: after the shared part, a counter at 0xa0, mMode at 0xa4 and an
-// object at 0xa8.
+// A pooled NsKiller2 map object: its park timer, mode and sound distance change.
 typedef struct NsKiller2 {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mParkTimer;
@@ -31,8 +30,7 @@ enum {
     NS_KILLER1_STATE_LAUNCH,
 };
 
-// Object of kind 0x1a1 (NsKiller1), creates 20 NsKiller2 in its Init: after the shared part, a counter at 0xa0, a state
-// at 0xa8 and an GroupFollower at 0xac.
+// An NsKiller1 map object: its state timer, state and the follower it moves along.
 typedef struct NsKiller1 {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mStateTimer;

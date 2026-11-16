@@ -3,7 +3,7 @@
 #include "types.h"
 #include "matrix_3x3_basic.h"
 
-// Record of 0x54 bytes: four positions, then words at 0x30 and 0x34.
+// One segment of a path: four points, its lengths and their inverses, and the up vector.
 typedef struct Segment {
     /* 00 */ Vec3 mPoints[4];
     /* 30 */ s32 mProgressLength;
@@ -45,7 +45,7 @@ typedef struct GroupFollower {
 // Shape that the collision routines test a map object against.
 typedef enum { COLLISION_SHAPE_BOX, COLLISION_SHAPE_CYLINDER } CollisionShape;
 
-// Collision-body block at 0xa0 of CollisionMapObject, Bridge, Rotary and MissionRunBox.
+// The collision body of a map object: matrices, center, half sizes, flags and shape.
 typedef struct CollisionData {
     /* 00 */ MtxFx33 mPrevMatrix;
     /* 24 */ MtxFx33 mInitialMatrix;

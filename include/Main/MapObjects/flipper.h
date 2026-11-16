@@ -27,7 +27,7 @@ enum {
     FLIPPER_STATE_ALT_SWING_BACK,
 };
 
-// Object of kind 0x1a9 (Flipper), up to 0xed4 bytes plus a table of words from 0xed4.
+// A flipper map object: its swing matrices, particle emitter positions, animation frames, timers and state.
 typedef struct Flipper {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mHitSide;

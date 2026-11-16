@@ -8,8 +8,7 @@
 #define WANWAN_CHAIN_DOWNWARD_STEP_INITIAL 0x599
 #define WANWAN_CHAIN_DOWNWARD_STEP_HIT 0x219
 
-// Object of InitWanwanChain: words at 0x00 to 0x10, a vector at 0x14, a word at 0x20, a vector at 0x34, and two
-// arrays of vectors at 0x44 and 0x48 with one element per unit of the word at 0x20.
+// The chain of a Wanwan: its length, damping and link settings and the points and velocities of its links.
 typedef struct WanwanChain {
     /* 00 */ s32 mLength;
     /* 04 */ s32 mDownwardStep;

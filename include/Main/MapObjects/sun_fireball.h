@@ -31,8 +31,7 @@ enum {
 #define SUN_FIREBALL_HIT_FRAMES 360
 #define SUN_FIREBALL_NO_BOUNCE_FRAMES 120
 
-// Object of StartSunFireball: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
-// halfword at 0xb4, a state at 0xb8 and two objects at 0xbc and 0xc0.
+// A sun fireball map object: its timer, start position, move angle, state and two particle emitters.
 typedef struct SunFireball {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mTimer;

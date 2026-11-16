@@ -3,13 +3,13 @@
 #include "types.h"
 #include "Main/MapObjects/attractor.h" // MapObjectList, MapObjectKindData
 
-// Object of 0x2c bytes made by CreateWanwanChainDrawList and the other factories that copy a template from 0x02158xxx.
+// A draw list of map objects: the shared list and one more word.
 typedef struct MapObjectDrawList {
     /* 00 */ MapObjectList mList;
     /* 28 */ u32 mUnk_28;
 } MapObjectDrawList;
 
-// Object of 0x2c bytes made by CreateMkdEfBubbleUpdateList; a word at 0x28.
+// The update list of the Koopa block bubbles: the shared list and the angle scale.
 typedef struct MkdEfBubbleUpdateList {
     /* 00 */ MapObjectList mList;
     /* 28 */ s32 mAngleScale;

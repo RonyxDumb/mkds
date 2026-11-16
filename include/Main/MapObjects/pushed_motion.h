@@ -7,7 +7,7 @@
 typedef struct ItemObject ItemObject;
 typedef struct Kart Kart;
 
-// Motion words at 0xa0 of the objects the pushed-motion functions work on.
+// The motion of an object that is pushed up and away: lowest height, gravity, angle and speeds.
 typedef struct PushedMotion {
     /* 00 */ s32 mLowestY;
     /* 04 */ s32 mGravity;

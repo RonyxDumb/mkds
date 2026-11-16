@@ -22,7 +22,7 @@
 #define BAKUBAKU_STATE_SINK_BELOW_SURFACE 3
 #define BAKUBAKU_STATE_WAIT_TO_RESET 4
 
-// Object of kind 0x13c (Bakubaku): after the shared part, a counter at 0xa0, a vector at 0xa4 and a state at 0xb0.
+// A Bakubaku map object: the timer before it resets, the position its distance is checked from and its state.
 typedef struct Bakubaku {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mWaitToResetTimer;
@@ -32,8 +32,7 @@ typedef struct Bakubaku {
     /* b0 */ u32 mState;
 } Bakubaku;
 
-// Object of kind 0x1a3 (MoveTree): after the shared part, three counters from 0xa0, a halfword at 0xac, a value at
-// 0xb0, an GroupFollower at 0xb4, a state at 0xd8 and an ShadowMatrix at 0xdc.
+// A moving tree map object: its start delay, kart hit timer, follower, animation frame, state and shadow.
 typedef struct MoveTree {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mStartDelayFrames;

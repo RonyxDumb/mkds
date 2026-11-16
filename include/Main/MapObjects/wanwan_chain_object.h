@@ -6,8 +6,7 @@
 #include "Main/MapObjects/nsbmd_model_draw_variants.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-// Object of InitWanwanChainObject: a vector at 0x04, a vector at 0x1c, a word at 0x68, the Wanwan it was set up from at
-// 0xa0, an WanwanChain at 0xa4 and a word at 0xf4.
+// The map object of a Wanwan chain: its position, scale, view radius, the Wanwan, the chain and the kui flag.
 typedef struct WanwanChainObject {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mFlags;

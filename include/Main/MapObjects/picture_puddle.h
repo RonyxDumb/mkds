@@ -13,8 +13,7 @@ enum {
     PICTURE_STATE_PLAY,
 };
 
-// Object of UpdatePicture: after the shared part, a halfword at 0xa0, the phase at 0xa4, a counter at 0xa8 and the
-// state at 0xac.
+// A picture map object: its animation frame, picture index, wait frames and state.
 typedef struct Picture {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mNsbcaFrameIndex;

@@ -18,8 +18,7 @@ enum {
     BASABASA_STATE_CLIMB,
 };
 
-// Object of kind 0x19f (Basabasa), 0xd8 bytes: the MapObject it starts with, a vector at 0xa0 and words and halfwords
-// up to 0xd4.
+// A Basabasa map object: its velocity, delay, fall and glide timers, draw angle and state.
 typedef struct Basabasa {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Vec3 mVelocity;

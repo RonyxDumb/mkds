@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 #include "Main/MapObjects/segment_group_collision.h" // GroupFollower
 
-// 0x48-byte entries from 0xb0 of Sanbo; StartSanboLaunch writes the first mPieceCount of them.
+// One piece of a Sanbo: position, velocity, draw scale and the wobble and rotation that animate it.
 typedef struct SanboPiece {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mVelocity;

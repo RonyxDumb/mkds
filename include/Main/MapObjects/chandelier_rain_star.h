@@ -19,8 +19,7 @@
 #define CHANDELIER_SECOND_SOUND_ID 0x11b
 #define CHANDELIER_THIRD_SOUND_ID 0x119
 
-// Object with the MapObject base: two halfwords at 0xa0 and 0xa2, then two words (UpdateChandelier,
-// InitChandelierObjects, DrawChandelier).
+// A chandelier map object: its animation frame, timer and state.
 typedef struct Chandelier {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;
@@ -29,7 +28,7 @@ typedef struct Chandelier {
     /* a8 */ s32 mState;
 } Chandelier;
 
-// Object with the MapObject base and the frame index at 0xa0 (UpdateRainStar, DrawRainStar).
+// A rain star map object: its animation frame, timer and state.
 typedef struct RainStar {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mFrameIndex;

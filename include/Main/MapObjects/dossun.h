@@ -52,7 +52,7 @@ enum {
     DOSSUN_HIT_SPIN_SETTLING,
 };
 
-// Object with the GroupFollower base at 0xc8 and its own fields from 0xec.
+// A Dossun map object that slams down: its state, timers, spin and hit data and the follower it moves along.
 typedef struct Dossun {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mState;
@@ -79,7 +79,7 @@ typedef struct Dossun {
     /* 108 */ s32 mFollowerSetSpeed;
 } Dossun;
 
-// 0x2c bytes: three functions at 0x08, 0x0c and 0x10.
+// The draw list of the Kuribo map objects: functions that set up and draw each object.
 typedef struct KuriboDrawList {
     /* 00 */ u8 mUnk_00[8];
     /* 08 */ void (*mInit)(void);

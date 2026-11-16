@@ -17,7 +17,7 @@ enum {
     AIRSHIP_STATE_FOLLOW_PATH,
 };
 
-// Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
+// An airship map object: its wobble motion, the group follower it moves along and its state.
 typedef struct Airship {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mModelHeightOffset;
