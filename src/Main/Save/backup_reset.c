@@ -132,7 +132,7 @@ void ResetFailedBackupBlocks(void) {
             CARD_WaitBackupAsync();
         }
     }
-    if (gBackupBuffers->mFailedBlockBits & 1) {
+    if (gBackupBuffers->mFailedBlockBits & BACKUP_FAILED_FIRST_BLOCK) {
         ResetBackupFirstBlock(gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT);
         WriteBackupFirstBlock(gBackupBuffers->mFirstBlock);
         if (gBackupAccess->mBackupEnabled != 0) {

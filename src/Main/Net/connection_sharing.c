@@ -358,10 +358,10 @@ s32 GetZeroWordResult(void) {
 
     result = WORD_WAIT_RESULT_WAITING;
     connection = gConnectionWork;
-    if (GetWorkConnectionMode(connection) != 1) {
+    if (GetWorkConnectionMode(connection) != CONNECTION_MODE_PARENT) {
         result = WORD_WAIT_RESULT_NOT_RECEIVED;
     } else {
-        if (GetWorkConnectionMode(connection) == 1) {
+        if (GetWorkConnectionMode(connection) == CONNECTION_MODE_PARENT) {
             if ((connection->mFlags & CONNECTION_FLAG_MULTIBOOT_SETUP) != 0) {
                 count = connection->mWaitToSendCount;
             } else {
@@ -502,7 +502,7 @@ void ResetConnectionData(void) {
     gConnectionWork->mOwnIndex = CONNECTION_OWN_INDEX_NONE;
     gConnectionWork->mRememberedScanKeyHeld = 0;
     gConnectionWork->mUnk_0434 = 0;
-    gConnectionWork->mScanMissCount = 1;
+    gConnectionWork->mUnk_0439 = 1;
     gConnectionWork->mExpectedRecordMask = 0;
     gConnectionWork->mOperationFlags = 0;
     gConnectionWork->mLanguageIndex = LANGUAGE_JAPANESE;

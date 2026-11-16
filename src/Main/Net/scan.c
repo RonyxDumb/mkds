@@ -301,13 +301,13 @@ void StartScanCallback(WirelessMessage *event) {
                             }
                         }
                     } else if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                        gConnectionWork->mScanMissCount += 1;
+                        gConnectionWork->mUnk_0439 += 1;
                     }
                 }
                 break;
             case WIRELESS_STATE_SEARCH_EMPTY:
                 if (gConnectionWork->mRememberedScanKeyHeld == 0) {
-                    gConnectionWork->mScanMissCount += 1;
+                    gConnectionWork->mUnk_0439 += 1;
                 }
                 break;
         }

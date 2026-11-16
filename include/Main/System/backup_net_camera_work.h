@@ -590,11 +590,14 @@ typedef struct MultiBootStateView {
 #define CONNECTION_FLAG_RACE 8
 // ConnectionWork.mFlags: the connection is being ended; cleared when the end finishes.
 #define CONNECTION_FLAG_ENDING 0x80
-// ConnectionWork.mOperationFlags: a disconnect is running.
+// ConnectionWork.mOperationFlags: set by a child's Disconnect when WM_Disconnect answers WIRELESS_RESULT_OCCUPIED;
+// DisconnectCallback clears it, and a refused result then resets the connection data instead of stopping.
 #define CONNECTION_OPERATION_DISCONNECT_OCCUPIED 2
-// ConnectionWork.mOperationFlags: a scan is running.
+// ConnectionWork.mOperationFlags: scan results are being recorded into the scan slots; set when StartScan starts a scan
+// and when a child presses a member row, cleared by EndScan, a failed start and when an entry is chosen.
 #define CONNECTION_OPERATION_SCANNING 1
-// ConnectionWork.mStatusFlags: data sharing sync finished.
+// ConnectionWork.mStatusFlags: set on a parent once every child's record carries the current sync toggle bit; cleared
+// when a sync starts or the sharing is reset.
 #define CONNECTION_STATUS_SHARING_SYNCED 1
 // ConnectionWork.mStatusFlags: the child set changed since the game info was last refreshed.
 #define CONNECTION_STATUS_CHILDREN_CHANGED 8
@@ -664,13 +667,15 @@ typedef struct MultiBootStateView {
 #define CONNECTION_RANDOM_MULTIPLIER_LOW 0x6c078965
 #define CONNECTION_RANDOM_MULTIPLIER_HIGH 0x5d588b65
 #define CONNECTION_RANDOM_INCREMENT_LOW 0x269ec3
-// ConnectionWork.mParentTransferStep: the callback waits for the handshake, then for all chunks held twice.
+// ConnectionWork.mParentTransferStep: ParentBlockTransferCallback waits for the handshake request, then twice for all
+// chunks held; after the second it sets CONNECTION_TRANSFER_SEQUENCE_DONE and starts over at the handshake.
 #define PARENT_TRANSFER_WAIT_HANDSHAKE 0
 #define PARENT_TRANSFER_WAIT_FIRST_CHUNKS 1
 #define PARENT_TRANSFER_WAIT_SECOND_CHUNKS 2
-// ConnectionWork.mStep: the operation in flight, named after the call that starts it.
+// ConnectionWork.mStep: the operation last started, named after the call that starts it; it is still running while
+// mRequestPending is nonzero.
 typedef enum ConnectionStep {
-    CONNECTION_STEP_NOTHING = 0, // nothing in flight
+    CONNECTION_STEP_NOTHING = 0, // no operation started
     CONNECTION_STEP_STARTING_UP = 1,
     CONNECTION_STEP_RESETTING = 2,
     CONNECTION_STEP_SETTING_LIFE_TIME = 3,
@@ -719,7 +724,6 @@ typedef enum ConnectionStep {
     CONNECTION_STEP_SEND_WORD_REQUEST = 46,
 } ConnectionStep;
 
-// ConnectionWork.mState.
 typedef enum ConnectionState {
     CONNECTION_STATE_IDLE = 0,
     CONNECTION_STATE_STARTING = 1,
@@ -734,7 +738,7 @@ typedef enum ConnectionState {
     CONNECTION_STATE_ENTRY_EXCHANGE = 10,
     CONNECTION_STATE_SETUP = 11,
     CONNECTION_STATE_MP_ENDING = 12,
-    CONNECTION_STATE_ENDED = 13,
+    CONNECTION_STATE_ENDED = 13, // never set; the connection-active tests compare against it
 } ConnectionState;
 
 // ConnectionWork.mErrorCode; CONNECTION_ERROR_NONE means no error is pending.
@@ -744,12 +748,11 @@ typedef enum ConnectionError {
     CONNECTION_ERROR_MP_FAILED = 2,
     CONNECTION_ERROR_NO_CHANNEL = 3,
     CONNECTION_ERROR_CONNECT_FAILED = 5,
-    CONNECTION_ERROR_COMMUNICATION_LOST = 7,
+    CONNECTION_ERROR_COMMUNICATION_LOST = 7, // also set when the local sound-load callback fails
     CONNECTION_ERROR_OPERATION_FAILED = 8,
     CONNECTION_ERROR_NONE = 9,
 } ConnectionError;
 
-// ConnectionWork.mConnectionMode.
 typedef enum ConnectionMode {
     CONNECTION_MODE_NONE = 0,
     CONNECTION_MODE_PARENT = 1,
@@ -814,7 +817,7 @@ typedef struct ConnectionWork {
             /* 0434 */ u16 mUnk_0434;
             /* 0436 */ u16 mOperationFlags;
             /* 0438 */ u8 mRememberedScanKeyHeld;
-            /* 0439 */ u8 mScanMissCount;
+            /* 0439 */ u8 mUnk_0439;
             /* 043a */ u8 mExpectedRecordMask;
             /* 043b */ s8 mKeepScanning;
             /* 043c */ u8 mLanguageIndex;
@@ -1028,14 +1031,9 @@ typedef struct OverlayLoader {
 #define WIFI_RACE_SYNC_RECORD_SIZE 0x68
 #define WIFI_RACE_SYNC_PROBE_SIZE 0x28
 #define WIFI_RACE_SYNC_SEND_BUFFER_SIZE 0x6c
-// Bits of WiFiRaceSync.mFlags.
-// Set when the sync enters its race state (EnterWiFiRaceSyncRace) and cleared when it enters the latency check state.
-#define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
-#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_A 0x1
+// Bits of WiFiRaceSync.mFlags. IN_RACE is set by EnterWiFiRaceSyncRace and cleared by EnterWiFiRaceSyncProbe.
 #define WIFI_RACE_SYNC_FLAG_IN_RACE 0x2
 #define WIFI_RACE_SYNC_FLAG_DATA_SHARING_INCOMPLETE 0x10
-#define WIFI_RACE_SYNC_FLAG_CLEARED_UNREAD 0x20
-#define WIFI_RACE_SYNC_FLAG_RESET_UNREAD_B 0x40
 #define WIFI_RACE_SYNC_FLAG_REMOVE_DROPPED 0x80
 #define WIFI_RACE_SYNC_FLAG_SENDING 0x4
 #define WIFI_RACE_SYNC_FLAG_ALL_PEERS_PICKED_SEEN 0x100
@@ -1084,7 +1082,6 @@ typedef struct OverlayLoader {
 #define ITEM_DATA_HEADER_MESSAGE_KIND_MASK 0xe0
 #define ITEM_DATA_HEADER_MESSAGE_KIND_SHIFT 5
 
-// Item info index meaning no item, in SlotResultSyncState.
 #define SLOT_RESULT_SYNC_NO_ITEM 0x13
 // Values of SlotResultSyncState.mState; SlotResultSyncHalfword.mState only holds IDLE or SENDING.
 #define SLOT_RESULT_SYNC_STATE_IDLE 0

@@ -69,7 +69,7 @@ BOOL TryGetScanSlotName(u16 entryIndex, void *destination) {
 
     connectionWork = gConnectionWork;
     result = FALSE;
-    if (ParticipantGetWorkConnectionMode(connectionWork) != 2) {
+    if (ParticipantGetWorkConnectionMode(connectionWork) != CONNECTION_MODE_CHILD) {
         return FALSE;
     }
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {

@@ -327,7 +327,7 @@ void InitRaceProgress(void) {
                 default:
                     connectionWork = gConnectionWork;
                     value = 0;
-                    if (RaceProgressGetWorkConnectionMode(connectionWork) != 0) {
+                    if (RaceProgressGetWorkConnectionMode(connectionWork) != CONNECTION_MODE_NONE) {
                         if (connectionWork->mState != CONNECTION_STATE_ENDED) {
                             value = 1;
                         }
