@@ -10,10 +10,10 @@ typedef struct ValueRecordsRequestItem {
 } ValueRecordsRequestItem;
 
 // A clear value and an item built on the stack, then copied into the request's mItem.
-typedef struct ValueRecordsRequestView {
+typedef struct ValueRecordsRequestStagedItem {
     /* 000 */ u16 mClearValue;
     /* 002 */ ValueRecordsRequestItem mItem;
-} ValueRecordsRequestView;
+} ValueRecordsRequestStagedItem;
 
 // Values RunValueRecordsRequestForStatus returns: try again later (no entry or a timeout), succeeded, failed.
 #define VALUE_RECORDS_STATUS_RETRY 0
