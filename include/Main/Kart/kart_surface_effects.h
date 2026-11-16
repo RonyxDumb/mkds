@@ -40,7 +40,10 @@ s32 ApplyKartSurfaceKeyedPlacement(Kart *kart);
 // Surface kind 18 (entry 18 of gKartSurfaceFunctions): the body of kind 7, followed by setting
 // KART_DRIVE_BOOST_SPEED_FLOOR in mDriveFlags; returns surface group 8.
 s32 ApplyKartSurfaceBoostWithSpeedFloor(Kart *kart);
-// from gKartJumpPadVerticalSpeeds and mSurfaceSpeedLimitGoal from gKartJumpPadSpeedLimitGoals by mSurfaceVariant, runs
+// Surface kind 12 (entry 12 of gKartSurfaceFunctions): sets KART_DRIVE_JUMP_PAD in mDriveFlags, sets mVerticalSpeed
+// from gKartSurfaceJumpVerticalSpeeds and mSurfaceSpeedLimitGoal from gKartSurfaceJumpSpeedLimitGoals by
+// mSurfaceVariant, runs StopKartCurrentEffects and returns surface group 8; on course 0xc or 0x28, when mSurfaceGroup
+// was not already 8 or KART_MOTION_STATE_RESET is set in mMotionFlags, it first calls StartSound with 0x15e.
 s32 ApplyKartSurfaceJumpPad(Kart *kart);
 // Surface kind 7 (entry 7 of gKartSurfaceFunctions): unless mSurfaceGroup is already 8 and KART_MOTION_STATE_RESET is
 // clear in mMotionFlags it runs StartKartBoost and, for the selected kart with mSurfaceVariant above 0, calls

@@ -46,20 +46,20 @@ void DrawKartNameTagLineVertices(s32 texWidthFixed, s32 texHeightFixed, u32 colo
     heightTexCoord = (texHeightFixed << 8) >> 16;
     widthTexCoord = (texWidthFixed << 8) >> 16;
     reg_G3_TEXCOORD = 0x60006;
-    vertexZ = gKartNameTagLineVertices[2];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[0] | gKartNameTagLineVertices[1] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[2];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[0] | gKartNameTagSlantedQuadVertices[1] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = heightTexCoord << 16 | 6;
-    vertexZ = gKartNameTagLineVertices[5];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[3] | gKartNameTagLineVertices[4] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[5];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[3] | gKartNameTagSlantedQuadVertices[4] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | heightTexCoord << 16;
-    vertexZ = gKartNameTagLineVertices[8];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[6] | gKartNameTagLineVertices[7] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[8];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[6] | gKartNameTagSlantedQuadVertices[7] << 16;
     reg_G3_VTX_16 = vertexZ;
     reg_G3_TEXCOORD = widthTexCoord | 0x60000;
-    vertexZ = gKartNameTagLineVertices[11];
-    reg_G3_VTX_16 = gKartNameTagLineVertices[9] | gKartNameTagLineVertices[10] << 16;
+    vertexZ = gKartNameTagSlantedQuadVertices[11];
+    reg_G3_VTX_16 = gKartNameTagSlantedQuadVertices[9] | gKartNameTagSlantedQuadVertices[10] << 16;
     reg_G3_VTX_16 = vertexZ;
 }
 

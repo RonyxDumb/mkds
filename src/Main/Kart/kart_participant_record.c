@@ -465,7 +465,7 @@ void AdvanceKartFlip(Kart *kart) {
         kart->mEffectFlags &= ~KART_EFFECT_TUMBLING;
     }
     kart->mRotationEndFrames++;
-    if (kart->mRotationEndFrames < gKartFlipEndFrameCount) {
+    if (kart->mRotationEndFrames < gKartFlipRotationEndFrames) {
         return;
     }
     kart->mState = KART_STATE_NORMAL;
@@ -2238,8 +2238,8 @@ s32 ApplyKartSurfaceJumpPad(Kart *kart) {
         }
     }
     kart->mDriveFlags = kart->mDriveFlags | KART_DRIVE_JUMP_PAD;
-    kart->mVerticalSpeed = gKartJumpPadVerticalSpeeds[kart->mSurfaceVariant];
-    kart->mSurfaceSpeedLimitGoal = gKartJumpPadSpeedLimitGoals[kart->mSurfaceVariant];
+    kart->mVerticalSpeed = gKartSurfaceJumpVerticalSpeeds[kart->mSurfaceVariant];
+    kart->mSurfaceSpeedLimitGoal = gKartSurfaceJumpSpeedLimitGoals[kart->mSurfaceVariant];
     StopKartCurrentEffects(kart);
     return 8;
 }

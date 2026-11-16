@@ -136,7 +136,7 @@ s32 gKartSpeedLimitReciprocal;
 struct Kart *gKarts;
 s32 gKartForwardSpeedRatio;
 struct EntryKartCounters *gEntryKartCounters;
-u32 gKartZoneMask;
+u32 gEntryKartZoneMask;
 s32 gMinKartDistanceSquaredPresent;
 s32 gMissionRunEndShapesPresent;
 
@@ -182,7 +182,7 @@ void InitKarts(u32 kartCount) {
         gKarts[kartIndex].mEntryIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mIndex;
         InitKart(&gKarts[kartIndex], gKartDefaultSlotFunctions);
     }
-    gKartZoneMask = 0;
+    gEntryKartZoneMask = 0;
 }
 
 void UpdateKarts(void) {
@@ -286,16 +286,16 @@ u32 GetKartForwardSpeedRatio(void) {
 void SetKartZoneMask(s32 kartIndex) {
     u16 shapeListIndex;
 
-    gKartZoneMask = 0;
+    gEntryKartZoneMask = 0;
     for (shapeListIndex = 0; shapeListIndex < 8; shapeListIndex++) {
         if (IsKartInCourseMapZoneShapeList(kartIndex, shapeListIndex) != 0) {
-            BIT_SET(gKartZoneMask, shapeListIndex);
+            BIT_SET(gEntryKartZoneMask, shapeListIndex);
         }
     }
 }
 
 u32 GetEntryKartZoneMask(void) {
-    return gKartZoneMask;
+    return gEntryKartZoneMask;
 }
 
 // Stores the forward speed as a part of the speed limit, 0x1000 = 1.0.

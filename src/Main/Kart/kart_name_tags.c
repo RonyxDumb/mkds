@@ -35,7 +35,7 @@
 #include "Main/Kart/karts.h"
 #include "registers.h"
 
-u16 gKartNameTagLineVertices[12] = {0xf400, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
+u16 gKartNameTagSlantedQuadVertices[12] = {0xf400, 0x2000, 0, 0xf000, 0, 0, 0x1000, 0, 0, 0x1000, 0x2000, 0};
 TexPlttEntry gKartNameTagEmblemTexPltt = {0xd200000, 0, 0, {0, 0}, NULL, NULL, {0, 0, 0, 0}, 0, 0, 0};
 TexPlttEntry gKartNameTagColorQuadTexPltt = {
     0x28100000,   0x20, 8, {0, 0}, (void *) gKartNameTagColorQuadTexture, (void *) gKartNameTagColorQuadPalette,

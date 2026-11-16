@@ -211,4 +211,4 @@ extern s32 gMinKartDistanceSquaredPresent;
 // 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
 extern s32 gMissionRunEndShapesPresent;
 extern s32 gKartSpeedLimitReciprocal;
-extern u32 gKartZoneMask;
+extern u32 gEntryKartZoneMask;

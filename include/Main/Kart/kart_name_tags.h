@@ -82,7 +82,7 @@ extern MtxFx44 gKartNameTagProjection;
 
 extern const u16 gKartNameTagColorQuadPalette[4];
 
-extern u16 gKartNameTagLineVertices[12];
+extern u16 gKartNameTagSlantedQuadVertices[12];
 extern TexPlttEntry gKartNameTagColorQuadTexPltt;
 extern TexPlttEntry gKartNameTagEmblemTexPltt;
 extern TexPlttEntry gKartNameTagEntryNameTexPltt;
