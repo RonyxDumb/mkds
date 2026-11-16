@@ -73,7 +73,7 @@ s32 AdvanceWLMenuMBChildMessage(SceneNumbers *sceneNumbers) {
         case WL_MENU_MESSAGE_STATE_RUN_MP_WITH_OWN_INDEX:
             result = AdvanceMPStateMachineWithOwnIndex();
             switch (result) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (HasGroupSendMask() != 0) {
                         StopSeqZeroLoopWrapper();
                     }

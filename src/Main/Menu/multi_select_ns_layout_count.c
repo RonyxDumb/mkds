@@ -354,7 +354,7 @@ void UpdateMultiSelectMemberKeySetup(void) {
             break;
         case MULTI_SELECT_MEMBER_SETUP_RUN_COMMUNICATION:
             switch (AdvanceMPStateMachineWithOwnIndex()) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (gMultiSelectMember->mTimer == 0) {
                         if ((u8) ((gConnectionWork->mParticipantMask & ~gConnectionWork->mGroupSendMask) & 0xfe) != 0) {
                             SetupTxtSystemSubText(GetBmgEntry(gMultiSelectMember->mCommonMessages, 0x81));
@@ -430,7 +430,7 @@ void UpdateMultiSelectMemberNoKeySetup(void) {
                 return;
             }
             switch (AdvanceMPStateMachineWithOwnIndex()) {
-                case MP_STATE_ADVANCE_READY:
+                case MP_STATE_ADVANCE_FINISHED:
                     if (gMultiSelectMember->mIsMultiBoot == 0 && gMultiSelectMember->mConnectionNamesDone == FALSE) {
                         PrintMultiSelectConnectionNames();
                         SetMultiSelectChildCountCellsVisible();

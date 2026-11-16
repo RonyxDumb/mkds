@@ -118,7 +118,7 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
 
     finished = FALSE;
     if (!MPStatesIsConnectionActive()) {
-        return 1;
+        return MP_STATE_ADVANCE_FINISHED;
     }
     ownIndex = ((const ConnectionWork *) gConnectionWork)->mConnectionMode == CONNECTION_MODE_CHILD
                    ? gConnectionWork->mOwnIndex
@@ -126,9 +126,9 @@ s32 AdvanceMPStateMachineWithOwnIndex(void) {
     if (ownIndex == 0xffff && MPStatesGetConnectionMode() == CONNECTION_MODE_CHILD) {
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             SetRequestErrorCode(CONNECTION_ERROR_DISCONNECTED);
-            return 3;
+            return MP_STATE_ADVANCE_DISCONNECTED;
         }
-        return 2;
+        return MP_STATE_ADVANCE_OWN_INDEX_LOST;
     }
     AdvanceStateMachine(&gConnectionWork->mMPStateMachine.mStateMachine);
     if (!MPStatesIsConnectionActiveNotEndingWithError()) {

@@ -32,7 +32,7 @@ void InitMPChunkBuffers(void *heap) {
         gConnectionWork->mChunkReceivedFlags[slot] = allocation;
         byteOffset = byteOffset + 4;
         slot = slot + 1;
-    } while (slot < 8);
+    } while (slot < MP_PARTICIPANT_SLOT_COUNT);
 }
 
 #pragma thumb off
@@ -94,7 +94,7 @@ s32 IsAllMPChildSharedDataCopied(void) {
     allCopied = 1;
     childIndex = allCopied;
     childMask = gConnectionWork->mChildren.mChildMask;
-    for (; childIndex < 8; childIndex++) {
+    for (; childIndex < MP_PARTICIPANT_SLOT_COUNT; childIndex++) {
         if ((childMask & (allCopied << childIndex)) &&
             gConnectionWork->mDataSharing.mSharedDataCopied[childIndex] == 0) {
             allCopied = 0;

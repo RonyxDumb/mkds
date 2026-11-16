@@ -1,4 +1,5 @@
 #include "Main/Net/pending_files.h"
+#include "Main/Net/packet_port.h"
 #include "Main/System/heap.h"
 #include "file_archive_access.h"
 #include "file_handle_setup.h"
@@ -126,7 +127,7 @@ void AddPendingFile(const void *path, void *heap, void **dataOutput, u32 value, 
 void StartParentSideBlockTransfer(void) {
     gConnectionWork->mStep = CONNECTION_STEP_PARENT_BLOCK_TRANSFER;
     gConnectionWork->mRequestPending = 1;
-    WBT_InitParent(0x192, 0xe, ParentBlockTransferCallback);
+    WBT_InitParent(PACKET_PORT_PARENT_PACKET_SIZE, PACKET_PORT_CHILD_PACKET_SIZE, ParentBlockTransferCallback);
     gConnectionWork->mSendTimer = 0;
     gConnectionWork->mTransferFlags &= ~1;
     gConnectionWork->mFlags |= CONNECTION_FLAG_BLOCK_TRANSFER;
@@ -151,10 +152,11 @@ void AllocTransferBuffers(void *heap) {
     gConnectionWork->mMPReceiveBuffer =
         HeapAllocAligned(heap, gConnectionWork->mMPReceiveBufferSize, HEAP_ALIGN_CACHE_LINE);
     for (blockInfoIndex = 0; blockInfoIndex < 8; blockInfoIndex++) {
-        gConnectionWork->mBlockInfos[blockInfoIndex] = HeapAllocAligned(heap, 0x28, HEAP_ALIGN_CACHE_LINE);
+        gConnectionWork->mBlockInfos[blockInfoIndex] =
+            HeapAllocAligned(heap, BLOCK_TRANSFER_BLOCK_INFO_BYTES, HEAP_ALIGN_CACHE_LINE);
         gConnectionWork->mChunkBitmaps[blockInfoIndex] = HeapAllocAligned(heap, 4, HEAP_ALIGN_CACHE_LINE);
     }
-    gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, 0x192, HEAP_ALIGN_CACHE_LINE);
+    gConnectionWork->mPacketBuffer = HeapAllocAligned(heap, PACKET_PORT_PARENT_PACKET_SIZE, HEAP_ALIGN_CACHE_LINE);
     gConnectionWork->mScanGhostInfos = HeapAllocAligned(heap, 0x20, HEAP_ALIGN_CACHE_LINE);
 }
 

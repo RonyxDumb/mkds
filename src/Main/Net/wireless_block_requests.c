@@ -260,7 +260,7 @@ u32 WBT_GetBlock(u16 indexMask, u32 blockId, const void *buffers, u32 blockSize,
 u32 WBT_PutUserData(u16 indexMask, const void *bytes, s32 byteCount, void (*callback)(WBTCommand *)) {
     WBTCommand request;
     WBTCommand *requestPointer;
-    if (byteCount < 0 || byteCount > 9) {
+    if (byteCount < 0 || byteCount > BLOCK_TRANSFER_USER_DATA_MAX_BYTES) {
         return 0;
     }
     request.mCommand = XFER_COMMAND_SEND_USER_DATA;

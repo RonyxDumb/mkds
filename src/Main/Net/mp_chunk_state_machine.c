@@ -133,7 +133,7 @@ void ProcessMPChunk(u8 *chunk) {
             finished = 1;
             break;
         default:
-            MI_CpuCopy8(chunk + 4, entry->mName + byteOffset, *(u16 *) (chunk + 2));
+            MI_CpuCopy8(chunk + MP_CHUNK_HEADER_SIZE, entry->mName + byteOffset, *(u16 *) (chunk + 2));
             gConnectionWork->mChunkReceivedFlags[chunk[0]][chunk[1]] = 1;
             if (IsAllMPChunksReceived(chunk[0]) != 0) {
                 finished = 1;

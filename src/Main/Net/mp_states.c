@@ -207,7 +207,7 @@ void EnterMPStartExchange(void *stateObject) {
     if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
         SetMPFrequency(0);
     }
-    for (slot = 0; slot < 8; slot++) {
+    for (slot = 0; slot < MP_PARTICIPANT_SLOT_COUNT; slot++) {
         if (MPStatesGetConnectionMode() == CONNECTION_MODE_PARENT) {
             flagCount = MP_CHUNK_FLAGS_PER_SLOT;
         } else {
@@ -267,13 +267,14 @@ BOOL QueueMPChunk(u8 chunkNumber, u8 *data, u16 size, u8 playerIndex, u8 destBit
     *(u16 *) (packet + 2) = size;
     packet[0] = playerIndex;
     if (data != NULL) {
-        MI_CpuCopy8(data, packet + 4, size);
+        MI_CpuCopy8(data, packet + MP_CHUNK_HEADER_SIZE, size);
     } else {
         size = 0;
     }
-    DC_StoreRange(packet, size + 4);
+    DC_StoreRange(packet, size + MP_CHUNK_HEADER_SIZE);
     gConnectionWork->mMPStateMachine.mChunkSendFlags &= ~1;
-    if (QueueMPDataToPort(gConnectionWork->mChunkBuffer, size + 4, destBitmap, NULL, &gQueueMPChunkParams) == 0) {
+    if (QueueMPDataToPort(gConnectionWork->mChunkBuffer, size + MP_CHUNK_HEADER_SIZE, destBitmap, NULL,
+                          &gQueueMPChunkParams) == 0) {
         gConnectionWork->mMPStateMachine.mChunkSendFlags |= 1;
         return FALSE;
     }
@@ -400,7 +401,7 @@ void EnterMPSendRomArchive(void *stateObject) {
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         gStartupWork->mLanguageIndex = gConnectionWork->mLanguageIndex;
     }
-    for (slot = 1; slot < 8; slot++) {
+    for (slot = 1; slot < MP_PARTICIPANT_SLOT_COUNT; slot++) {
         if ((gConnectionWork->mRecordReceivedMask & (1 << slot)) == 0) {
             MI_CpuFill8(&gConnectionWork->mPlayerRecords[slot], 0, sizeof(PlayerRecord));
         }

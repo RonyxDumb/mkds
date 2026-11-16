@@ -530,7 +530,8 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     }
     gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&halfword, 2, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
+    if (QueueMPDataToPort(&halfword, MP_MESSAGE_MIN_LENGTH, destBitmap, gConnectionWork->mMPDataBuffer,
+                          &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;
@@ -553,7 +554,8 @@ BOOL QueueMPDataPlayerName(s32 playerIndex, u16 destBitmap) {
     }
     gMPDataToPortParams.mMaxDataSize = MP_MESSAGE_MAX_LENGTH;
     gConnectionWork->mFlags &= ~CONNECTION_FLAG_SEND_READY;
-    if (QueueMPDataToPort(&message, 0x18, destBitmap, gConnectionWork->mMPDataBuffer, &gMPDataToPortParams) != FALSE) {
+    if (QueueMPDataToPort(&message, MP_MESSAGE_MAX_LENGTH, destBitmap, gConnectionWork->mMPDataBuffer,
+                          &gMPDataToPortParams) != FALSE) {
         return TRUE;
     }
     gConnectionWork->mFlags |= CONNECTION_FLAG_SEND_READY;

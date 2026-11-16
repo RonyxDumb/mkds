@@ -872,7 +872,7 @@ void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
     transfer->mArchiveBlockSize = 0;
     transfer->mArchiveBlock = NULL;
     transfer->mParentPacketSize = 0;
-    transfer->mChildPacketSize = PACKET_PORT_CHILD_PACKET_SIZE;
+    transfer->mChildPacketSize = 0xe;
     gRomArchiveUnusedWord = 0;
     if (WM_SetPortCallback(narrowedPort, RomArchivePortCallback, NULL) != 0) {
         OS_Terminate();
