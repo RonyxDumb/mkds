@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceTitleStates(s32 a);
+void title_update(s32 a);

@@ -2,8 +2,8 @@
 #include "Main/Ui/BackScreen.h"
 
 #pragma thumb on
-void func_02032aa8(void) {
+void bres_vblank(void) {
     u32 value3;
-    func_021258f0();
+    gmenu_vblank();
 }
 #pragma thumb off

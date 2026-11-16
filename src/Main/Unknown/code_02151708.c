@@ -8,7 +8,7 @@
 
 #pragma thumb on
 
-u32 ReadNvramEntriesOffset(u16 *buffer) {
+u32 DWCi_BACKUPlInit(u16 *buffer) {
     int readResult;
     readResult = readNvram(0x20, 0x20, buffer);
     if (readResult == 0) {
@@ -18,7 +18,7 @@ u32 ReadNvramEntriesOffset(u16 *buffer) {
     return 1;
 }
 
-u32 ReadNvramEntries(void *buffer) {
+u32 DWCi_BACKUPlRead(void *buffer) {
     int readResult;
     readResult = readNvram((*(u32 *) &gNvramEntriesOffset), (0x00000400u), buffer);
     if (readResult != 0) {
@@ -27,7 +27,7 @@ u32 ReadNvramEntries(void *buffer) {
     return 0;
 }
 
-u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
+u32 DWCi_BACKUPlWritePage(int data, int *flags, void *verifyBuffer) {
     int verifyResult;
     int v2;
     int address;
@@ -56,7 +56,7 @@ u32 WriteFlaggedNvramEntries(int data, int *flags, void *verifyBuffer) {
     return 0;
 }
 
-u32 WriteNvramEntriesWithCrc16(int data) {
+u32 DWCi_BACKUPlWriteAll(int data) {
     int entryIndex;
     int address;
     int entry;
@@ -68,7 +68,7 @@ u32 WriteNvramEntriesWithCrc16(int data) {
     entryIndex = 0;
     entry = data;
     do {
-        crc = Crc16((const u16 *) (data + 0x500), (const u8 *) entry, 0xfe);
+        crc = MATH_CalcCRC16((const u16 *) (data + 0x500), (const u8 *) entry, 0xfe);
         *(u16 *) (entry + 0xfe) = crc;
         do {
             writeNvram(address, v4, (void *) entry);
@@ -88,7 +88,7 @@ u32 WriteNvramEntriesWithCrc16(int data) {
 #pragma thumb off
 
 #pragma thumb on
-void WritePackedWiFiInfo(u32 packedWiFiInfo) {
+void DWCi_BACKUPlSetWiFi(u32 packedWiFiInfo) {
     u32 source = packedWiFiInfo;
     u32 destination;
     u32 size;

@@ -5,7 +5,7 @@ u32 GetWiFiSessionCharacterIndex(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gWiFiSession;
+    value2 = (u32) &gStruct217D384;
     value1 = 0x44u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -18,7 +18,7 @@ u32 GetWiFiSessionKartIndex(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gWiFiSession;
+    value2 = (u32) &gStruct217D384;
     value1 = 0x44u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -31,7 +31,7 @@ u32 GetWiFiSessionPickedCourseId(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gWiFiSession;
+    value2 = (u32) &gStruct217D384;
     value1 = 0x44u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);

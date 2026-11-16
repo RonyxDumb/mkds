@@ -8,27 +8,27 @@
 #pragma thumb on
 
 void StartBlockCountRequest(void) {
-    s32 savedValue = data_0217aa00->mUnk_000c;
+    s32 savedValue = gStruct217AA00->mUnk_000c;
     u8 mask;
-    s32 s = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+    s32 s = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
     if (s == 1) {
-        mask = data_0217aa00->mUnk_0044.mChildMask;
+        mask = gStruct217AA00->mUnk_0044.mChildMask;
     } else {
         mask = 1;
     }
-    data_0217aa00->mUnk_000c = 0x2a;
-    data_0217aa00->mRequestPending = 1;
+    gStruct217AA00->mUnk_000c = 0x2a;
+    gStruct217AA00->mRequestPending = 1;
     if (RequestBlockCount(mask, BlockCountRequestCallback) == 0) {
-        data_0217aa00->mRequestPending = 0;
-        data_0217aa00->mUnk_000c = savedValue;
+        gStruct217AA00->mRequestPending = 0;
+        gStruct217AA00->mUnk_000c = savedValue;
     }
 }
 
 void BlockCountRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 2) {
         if (record->mCallbackCode == 3) {
-            data_0217aa00->mBlockCount = *(s16 *) &record->mUnk_14;
-            data_0217aa00->mRequestPending = 0;
+            gStruct217AA00->mBlockCount = *(s16 *) &record->mUnk_14;
+            gStruct217AA00->mRequestPending = 0;
         } else {
             func_02050e60(8);
         }
@@ -38,19 +38,19 @@ void BlockCountRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockNodeRequest(void) {
-    s32 savedValue = data_0217aa00->mUnk_000c;
-    data_0217aa00->mUnk_000c = 0x2b;
-    data_0217aa00->mRequestPending = 1;
-    if (RequestBlockNode(1, data_0217aa00->mBlockIndex, data_0217aa00->mBlockInfos, BlockNodeRequestCallback) == 0) {
-        data_0217aa00->mUnk_000c = savedValue;
-        data_0217aa00->mRequestPending = 0;
+    s32 savedValue = gStruct217AA00->mUnk_000c;
+    gStruct217AA00->mUnk_000c = 0x2b;
+    gStruct217AA00->mRequestPending = 1;
+    if (RequestBlockNode(1, gStruct217AA00->mBlockIndex, gStruct217AA00->mBlockInfos, BlockNodeRequestCallback) == 0) {
+        gStruct217AA00->mUnk_000c = savedValue;
+        gStruct217AA00->mRequestPending = 0;
     }
 }
 
 void BlockNodeRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 6) {
         if (record->mCallbackCode == 7) {
-            data_0217aa00->mRequestPending = 0;
+            gStruct217AA00->mRequestPending = 0;
         } else {
             StartBlockNodeRequest();
         }
@@ -60,22 +60,22 @@ void BlockNodeRequestCallback(BlockTransferRecord *record) {
 }
 
 void StartBlockDataRequest(void) {
-    s32 savedValue = data_0217aa00->mUnk_000c;
-    data_0217aa00->mUnk_000c = 0x2c;
-    data_0217aa00->mRequestPending = 1;
-    data_0217aa00->mUnk_1d60 = data_0217aa00->mBlockEntries[data_0217aa00->mBlockIndex].mBuffer;
-    if (RequestBlockData(1, data_0217aa00->mBlockInfos[0]->mBlockId, &data_0217aa00->mUnk_1d60,
-                         data_0217aa00->mBlockInfos[0]->mSize, data_0217aa00->mChunkBitmaps,
+    s32 savedValue = gStruct217AA00->mUnk_000c;
+    gStruct217AA00->mUnk_000c = 0x2c;
+    gStruct217AA00->mRequestPending = 1;
+    gStruct217AA00->mUnk_1d60 = gStruct217AA00->mBlockEntries[gStruct217AA00->mBlockIndex].mBuffer;
+    if (RequestBlockData(1, gStruct217AA00->mBlockInfos[0]->mBlockId, &gStruct217AA00->mUnk_1d60,
+                         gStruct217AA00->mBlockInfos[0]->mSize, gStruct217AA00->mChunkBitmaps,
                          BlockDataRequestCallback) == 0) {
-        data_0217aa00->mUnk_000c = savedValue;
-        data_0217aa00->mRequestPending = 0;
+        gStruct217AA00->mUnk_000c = savedValue;
+        gStruct217AA00->mRequestPending = 0;
     }
 }
 
 void BlockDataRequestCallback(BlockTransferRecord *record) {
     if (record->mKind == 4) {
         if (record->mCallbackCode == 5) {
-            data_0217aa00->mRequestPending = 0;
+            gStruct217AA00->mRequestPending = 0;
         } else {
             func_02050e60(8);
         }
@@ -85,30 +85,30 @@ void BlockDataRequestCallback(BlockTransferRecord *record) {
 }
 
 void SetOwnIndexFromConnection(void) {
-    s32 v = data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000;
+    s32 v = gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000;
     if (v == 2) {
-        if (data_0217aa00->mOwnIndex == 0xffff) {
+        if (gStruct217AA00->mOwnIndex == 0xffff) {
             func_02050e60(8);
             return;
         }
-        SetOwnIndex(data_0217aa00->mOwnIndex);
+        SetOwnIndex(gStruct217AA00->mOwnIndex);
     }
 }
 
 void func_0204ef1c(void) {
-    data_0217aa00->mUnk_000c = 0xb;
-    data_0217aa00->mRequestPending = 1;
-    if (WM_StartMPEx(StartMPCallback, data_0217aa00->mMPReceiveBuffer, data_0217aa00->mMPReceiveBufferSize,
-                     data_0217aa00->mMPSendBuffer, data_0217aa00->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
+    gStruct217AA00->mUnk_000c = 0xb;
+    gStruct217AA00->mRequestPending = 1;
+    if (WM_StartMPEx(StartMPCallback, gStruct217AA00->mMPReceiveBuffer, gStruct217AA00->mMPReceiveBufferSize,
+                     gStruct217AA00->mMPSendBuffer, gStruct217AA00->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
         func_02050e60(2);
     }
 }
 
 void AddGhostDataBlock(u8 *data, u32 size) {
-    u16 index = data_0217aa00->mGhostBlockCount;
-    AddBlock(&data_0217aa00->mBlockEntries[index].mNode, (u16) (index + 0x3e8), gGhostBlockInfo, data, size, 0);
-    data_0217aa00->mBlockEntries[index].mBuffer = (u32 *) data;
-    data_0217aa00->mGhostBlockCount++;
+    u16 index = gStruct217AA00->mGhostBlockCount;
+    WBT_RegisterBlock(&gStruct217AA00->mBlockEntries[index].mNode, (u16) (index + 0x3e8), aNitrokartGhostDataTest01, data, size, 0);
+    gStruct217AA00->mBlockEntries[index].mBuffer = (u32 *) data;
+    gStruct217AA00->mGhostBlockCount++;
 }
 
 void func_0204eeac(u8 *data, u32 size) {
@@ -118,10 +118,10 @@ void func_0204eeac(u8 *data, u32 size) {
 void RemoveGhostDataBlocks(void) {
     s32 i;
     for (i = 0; i < 12; i++) {
-        RemoveBlock((u16) (i + 0x3e8));
-        data_0217aa00->mBlockEntries[i].mBuffer = 0;
+        WBT_UnregisterBlock((u16) (i + 0x3e8));
+        gStruct217AA00->mBlockEntries[i].mBuffer = 0;
     }
-    data_0217aa00->mGhostBlockCount = 0;
+    gStruct217AA00->mGhostBlockCount = 0;
 }
 
 #pragma thumb off

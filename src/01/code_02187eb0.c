@@ -25,7 +25,7 @@
 Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if (kart != NULL && IsPointInRange(mapObject, &kart->mPos, radius, halfAngle) != FALSE &&
         (kart->mUnk_48 & 0x40) == 0) {
         return kart;
@@ -36,7 +36,7 @@ Kart *GetEntryKartInRange(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
 Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radius, s32 halfAngle) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if (kart != NULL && (kart->mUnk_48 & 0x40) == 0 && (radius != 0 || halfAngle != 0)) {
         if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
             if (halfAngle == 0 || IsDirectionToPointWithinAngle(mapObject, mapObject->mAngle + angleOffset, &kart->mPos,
@@ -51,7 +51,7 @@ Kart *GetEntryKartInAngleRange(Unk02188950 *mapObject, s32 angleOffset, s32 radi
 Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if (kart != NULL && (kart->mUnk_48 & 0x40) == 0 && (radius != 0 || halfAngle != 0)) {
         if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
             if (halfAngle == 0 ||
@@ -64,28 +64,28 @@ Kart *GetEntryKartFacingObject(Unk02188950 *mapObject, s32 radius, s32 halfAngle
 }
 
 CourseMapGroupEntry *GetCurrentGroupEntry(Unk02188950 *mapObject) {
-    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex);
+    if (mapObject->mEntryGroupIndex < gMapData->mEntryGroupCount) {
+        return mdat_getPathPoint(mapObject->mEntryGroupIndex, mapObject->mEntryIndex);
     }
     return NULL;
 }
 
 s32 func_ov001_02187f7c(Unk02188950 *mapObject) {
-    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
+    if (mapObject->mEntryGroupIndex < gMapData->mEntryGroupCount) {
+        return mdat_getPathPoint(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_0e;
     }
     return 0;
 }
 
 s32 func_ov001_02187f38(Unk02188950 *mapObject) {
-    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
+    if (mapObject->mEntryGroupIndex < gMapData->mEntryGroupCount) {
+        return mdat_getPathPoint(mapObject->mEntryGroupIndex, mapObject->mEntryIndex)->mUnk_10;
     }
     return 0;
 }
 
 CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
-    CourseMap *courseMap = gCourseMap;
+    CourseMap *courseMap = gMapData;
     s32 nextEntryIndex;
 
     if (mapObject->mEntryGroupIndex < courseMap->mEntryGroupCount) {
@@ -93,7 +93,7 @@ CourseMapGroupEntry *GetNextGroupEntry(Unk02188950 *mapObject) {
         if (nextEntryIndex >= courseMap->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
             nextEntryIndex = 0;
         }
-        return GetCourseMapGroupEntry(mapObject->mEntryGroupIndex, nextEntryIndex);
+        return mdat_getPathPoint(mapObject->mEntryGroupIndex, nextEntryIndex);
     }
     return NULL;
 }
@@ -104,7 +104,7 @@ void func_ov001_02187eb0(Unk02188950 *mapObject) {
     s32 groupIndex;
     s32 entryIndex;
 
-    courseMap = gCourseMap;
+    courseMap = gMapData;
     groupIndex = mapObject->mEntryGroupIndex;
     if (groupIndex < courseMap->mEntryGroupCount) {
         entryGroup = &courseMap->mEntryGroups[(u16) groupIndex];

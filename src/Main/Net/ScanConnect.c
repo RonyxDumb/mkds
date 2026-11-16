@@ -14,7 +14,7 @@
 #include "03/code_021b94b8.h"
 
 #pragma thumb on
-u32 SetupMPLink(u32 arg0) {
+u32 MBi_WMSetBuffer(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     u32 value2;
@@ -38,7 +38,7 @@ u32 SetupMPLink(u32 arg0) {
 
 #pragma thumb on
 
-void SetMPLinkCallback(u32 callback) {
+void MBi_WMSetCallback(u32 callback) {
     u32 v1 = ((callback) + (0x0u));
     u32 v2 = (OS_DisableInterrupts());
     u32 v3 = ((u32) (&gMPLink));
@@ -52,7 +52,7 @@ void SetMPLinkCallback(u32 callback) {
 
 #pragma thumb on
 
-void ScanConnectStartConnect(u8 *scanBuffer) {
+void MBi_WMStartConnect(u8 *scanBuffer) {
     s32 r;
     gMPLink->mMPStarted = 0;
     gMPLink->mResetting = 0;
@@ -107,7 +107,7 @@ void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer) {
     MPLink *p;
     gMPLink->mSendBuffer = sendBuffer;
     gMPLink->mReceiveBuffer = receiveBuffer;
-    r = WM_SetPortCallback(1, PortCallback, NULL);
+    r = WM_SetIndCallback(1, PortCallback, NULL);
     if (r != 0) {
         p = gMPLink;
         if (p->mCallback != NULL) {
@@ -307,34 +307,34 @@ void QueueMPDataCallback(Unk021425e8 *a) {
     }
 }
 
-void ClearPortCallback(void) {
-    WM_SetPortCallback(1, NULL, NULL);
+void MBi_WMClearCallback(void) {
+    WM_SetIndCallback(1, NULL, NULL);
 }
 
-void InitScanConnectWork(ScanConnectWork *a, void *b) {
-    if (*(u16 *) &gScanConnectInitialized == 0) {
-        *(u16 *) &gScanConnectInitialized = 1;
+void MB_FakeInit(ScanConnectWork *a, void *b) {
+    if (*(u16 *) &mbf_initialize == 0) {
+        *(u16 *) &mbf_initialize = 1;
         MI_CpuFill8(a, 0, 0x5f20);
-        gScanConnectWork = a;
+        mbf_work = a;
         a->mState = 0;
-        MI_CpuCopy8(b, gScanConnectWork->mUnk_05c4, 0x16);
-        SetEntryTable(gScanConnectWork->mUnk_05e8);
-        ClearEntryTable();
-        SetScanBssidCallbacks((UnkFunc *) SetScanBssid, (UnkFunc *) ClearUseScanBssid);
+        MI_CpuCopy8(b, mbf_work->mUnk_05c4, 0x16);
+        MBi_SetBeaconRecvStatusBuffer(mbf_work->mUnk_05e8);
+        MB_InitRecvGameInfoStatus();
+        MBi_SetScanLockFunc((UnkFunc *) MBFi_ScanLock, (UnkFunc *) MBFi_ScanUnlock);
     }
 }
 
-void CloseScanConnect(void) {
-    if (gScanConnectWork->mEndRequested == 0) {
-        gScanConnectWork->mEndRequested = 1;
-        switch (gScanConnectWork->mState) {
+void MB_FakeEnd(void) {
+    if (mbf_work->mEndRequested == 0) {
+        mbf_work->mEndRequested = 1;
+        switch (mbf_work->mState) {
             case 0:
-                if (gScanConnectWork->mRepeatScan != 0) {
-                    gScanConnectWork->mRepeatScan = 0;
+                if (mbf_work->mRepeatScan != 0) {
+                    mbf_work->mRepeatScan = 0;
                     return;
                 }
-                if (gScanConnectWork->mEndScanRequested == 0) {
-                    FinishScanConnect();
+                if (mbf_work->mEndScanRequested == 0) {
+                    MBFi_EndComplete();
                     return;
                 }
                 break;
@@ -357,7 +357,7 @@ void CloseScanConnect(void) {
                 break;
             case 11:
             case 12:
-                FinishScanConnect();
+                MBFi_EndComplete();
                 break;
             default:
                 OS_Terminate();
@@ -370,21 +370,21 @@ void CloseScanConnect(void) {
 
 #pragma thumb on
 
-void FinishScanConnect(void) {
-    *(u16 *) &gScanConnectInitialized = 0;
-    gScanConnectWork->mEndRequested = 0;
-    ClearPortCallback();
-    SetScanConnectStateAndNotify(0x14, NULL);
+void MBFi_EndComplete(void) {
+    *(u16 *) &mbf_initialize = 0;
+    mbf_work->mEndRequested = 0;
+    MBi_WMClearCallback();
+    MBFi_CommChangeChildState(0x14, NULL);
 }
 
-u32 GetScanConnectWorkSize(void) {
+u32 MB_FakeGetWorkSize(void) {
     return 0x5f20u;
 }
 
-void SetScanConnectStateCallback(UnkFunc *callback) {
+void MB_FakeSetCStateCallback(UnkFunc *callback) {
     u32 v1 = (u32) callback;
     u32 v2 = (OS_DisableInterrupts());
-    u32 v3 = ((u32) (&gScanConnectWork));
+    u32 v3 = ((u32) (&mbf_work));
     u32 v4 = (*(u32 *) ((v3) + (0)));
     u32 v5 = 0x5e0u;
     u32 v7;
@@ -396,13 +396,13 @@ void SetScanConnectStateCallback(UnkFunc *callback) {
 
 #pragma thumb on
 
-void SetScanConnectStateAndNotify(u32 state, void *b) {
+void MBFi_CommChangeChildState(u32 state, void *b) {
     u32 v1;
     v1 = OS_DisableInterrupts();
-    gScanConnectWork->mState = state;
+    mbf_work->mState = state;
     OS_RestoreInterrupts(v1);
-    if (gScanConnectWork->mStateCallback != NULL) {
-        gScanConnectWork->mStateCallback(state, b);
+    if (mbf_work->mStateCallback != NULL) {
+        mbf_work->mStateCallback(state, b);
     }
 }
 
@@ -410,27 +410,27 @@ void SetScanConnectStateAndNotify(u32 state, void *b) {
 
 #pragma thumb on
 
-void StartRepeatedScan(UnkFunc *callback, u32 b) {
-    gScanConnectWork->mScanCallback = callback;
-    gScanConnectWork->mUnk_05e4 = b;
-    gScanConnectWork->mScanParams.mUnk_04 = 0;
-    gScanConnectWork->mScanParams.mUnk_00 = gScanConnectWork->mScanBuffer;
-    gScanConnectWork->mRepeatScan = 1;
-    gScanConnectWork->mUseScanBssid = 0;
-    gScanConnectWork->mUnk_05ee = 0;
-    ScanConnectStartScan();
+void MB_FakeStartScanParent(UnkFunc *callback, u32 b) {
+    mbf_work->mScanCallback = callback;
+    mbf_work->mUnk_05e4 = b;
+    mbf_work->mScanParams.mUnk_04 = 0;
+    mbf_work->mScanParams.mUnk_00 = mbf_work->mScanBuffer;
+    mbf_work->mRepeatScan = 1;
+    mbf_work->mUseScanBssid = 0;
+    mbf_work->mUnk_05ee = 0;
+    MBFi_StateInStartScan();
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void ScanConnectStartScan(void) {
+void MBFi_StateInStartScan(void) {
     s32 r;
     ScanConnectWork *d;
     u8 *p;
     u8 *q;
-    d = gScanConnectWork;
+    d = mbf_work;
     if (d->mUseScanBssid != 0) {
         d->mScanParams.mUnk_06 = 0xdc;
     } else {
@@ -442,53 +442,53 @@ void ScanConnectStartScan(void) {
         p[3] = q[3];
         p[4] = q[4];
         p[5] = q[5];
-        gScanConnectWork->mScanParams.mUnk_06 = 10;
-        if (PickScanChannel() == 0) {
-            ReportScanError(0x1e, 0);
+        mbf_work->mScanParams.mUnk_06 = 10;
+        if (RotateChannel() == 0) {
+            MBFi_ScanErrorCallback(0x1e, 0);
             return;
         }
     }
-    if (gScanConnectWork->mScanParams.mUnk_04 == 0) {
-        gScanConnectWork->mScanParams.mUnk_04 = 1;
+    if (mbf_work->mScanParams.mUnk_04 == 0) {
+        mbf_work->mScanParams.mUnk_04 = 1;
     }
-    r = WM_StartScan(ScanConnectStartScanCallback, &gScanConnectWork->mScanParams);
+    r = WM_StartScan(MBFi_StateOutStartScanParent, &mbf_work->mScanParams);
     if (r != 2) {
-        ReportScanError(0xa, r);
+        MBFi_ScanErrorCallback(0xa, r);
     }
 }
 
-void ScanConnectStartScanCallback(Unk021425e8 *a) {
+void MBFi_StateOutStartScanParent(Unk021425e8 *a) {
     if (a->mResultCode != 0) {
-        ReportScanError(0xa, a->mResultCode);
+        MBFi_ScanErrorCallback(0xa, a->mResultCode);
         return;
     }
     switch (a->mUnk_08_0) {
         case 3:
             break;
         case 5:
-            if (a->mUnk_38.mUnk_00[1] == gScanConnectWork->mUnk_05e4) {
-                DC_InvalidateRange(gScanConnectWork->mScanBuffer, 0xc0);
-                AddScanResult(EntryCallback, a->mUnk_12, (ScanBlock *) gScanConnectWork->mScanBuffer);
-                UpdateEntryTimers(EntryCallback, 1);
+            if (a->mUnk_38.mUnk_00[1] == mbf_work->mUnk_05e4) {
+                DC_InvalidateRange(mbf_work->mScanBuffer, 0xc0);
+                MB_RecvGameInfoBeacon(MBFi_CommBeaconRecvCallback, a->mUnk_12, (ScanBlock *) mbf_work->mScanBuffer);
+                MB_CountGameInfoLifetime(MBFi_CommBeaconRecvCallback, 1);
             }
         case 4:
-            UpdateEntryTimers(EntryCallback, 0);
-            if (gScanConnectWork->mRepeatScan != 0) {
-                ScanConnectStartScan();
+            MB_CountGameInfoLifetime(MBFi_CommBeaconRecvCallback, 0);
+            if (mbf_work->mRepeatScan != 0) {
+                MBFi_StateInStartScan();
             } else {
-                ScanConnectEndScan();
+                MBFi_StateInEndScan();
             }
             break;
         default:
-            ReportScanError(0xa, 1);
+            MBFi_ScanErrorCallback(0xa, 1);
             break;
     }
 }
 
-void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex) {
+void MBFi_ScanCallback(u32 a, EntryRecord *entry, u32 entryIndex) {
     ScanEntryArgs v;
     ScanConnectWork *d;
-    d = gScanConnectWork;
+    d = mbf_work;
     if (d->mScanCallback != NULL) {
         v.mEntryIndex = entryIndex;
         if (entry != NULL) {
@@ -502,19 +502,19 @@ void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex) {
     }
 }
 
-void ReportScanError(u16 a, u16 b) {
+void MBFi_ScanErrorCallback(u16 a, u16 b) {
     ScanErrorArgs v;
-    if (gScanConnectWork->mScanCallback != NULL) {
+    if (mbf_work->mScanCallback != NULL) {
         v.mUnk_00 = a;
         v.mUnk_02 = b;
-        gScanConnectWork->mScanCallback(2, &v);
+        mbf_work->mScanCallback(2, &v);
     }
 }
 
-void SetScanBssid(const u8 *a) {
+void MBFi_ScanLock(const u8 *a) {
     u8 *p;
-    gScanConnectWork->mUseScanBssid = 1;
-    p = gScanConnectWork->mScanParams.mUnk_08;
+    mbf_work->mUseScanBssid = 1;
+    p = mbf_work->mScanParams.mUnk_08;
     p[0] = a[0];
     p[1] = a[1];
     p[2] = a[2];
@@ -526,12 +526,12 @@ void SetScanBssid(const u8 *a) {
 #pragma thumb off
 
 #pragma thumb on
-u32 ClearUseScanBssid(void) {
+u32 MBFi_ScanUnlock(void) {
     u32 value0;
     u32 value1;
     u32 value2;
     value2 = 0u;
-    value0 = (u32) &gScanConnectWork;
+    value0 = (u32) &mbf_work;
     value1 = *(const u32 *) ((value0) + 0u);
     value0 = 0x5f00u;
     *(u32 *) ((value1) + (value0)) = value2;
@@ -541,51 +541,51 @@ u32 ClearUseScanBssid(void) {
 
 #pragma thumb on
 
-void EntryCallback(u32 a, void *entry, u32 entryIndex) {
+void MBFi_CommBeaconRecvCallback(u32 a, void *entry, u32 entryIndex) {
     switch (a) {
         case 0:
         case 2:
         case 4:
             break;
         case 1:
-            CallScanCallbackWithEntry(0, entry, entryIndex);
+            MBFi_ScanCallback(0, entry, entryIndex);
             break;
         case 3:
-            CallScanCallbackWithEntry(1, entry, entryIndex);
+            MBFi_ScanCallback(1, entry, entryIndex);
             break;
     }
 }
 
-u32 PickScanChannel(void) {
+u32 RotateChannel(void) {
     u16 a;
     a = WM_GetAllowedChannel();
     if (a == 0x8000 || a == 0) {
         return 0;
     }
-    gScanConnectWork->mScanParams.mUnk_04++;
+    mbf_work->mScanParams.mUnk_04++;
     do {
-        gScanConnectWork->mScanParams.mUnk_04++;
-        if (gScanConnectWork->mScanParams.mUnk_04 > 0x10) {
-            gScanConnectWork->mScanParams.mUnk_04 = 1;
+        mbf_work->mScanParams.mUnk_04++;
+        if (mbf_work->mScanParams.mUnk_04 > 0x10) {
+            mbf_work->mScanParams.mUnk_04 = 1;
         }
-    } while ((a & (1 << (gScanConnectWork->mScanParams.mUnk_04 - 1))) == 0);
+    } while ((a & (1 << (mbf_work->mScanParams.mUnk_04 - 1))) == 0);
     return 1;
 }
 
 void RequestEndScan(void) {
-    gScanConnectWork->mRepeatScan = 0;
-    gScanConnectWork->mEndScanRequested = 1;
+    mbf_work->mRepeatScan = 0;
+    mbf_work->mEndScanRequested = 1;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void ScanConnectEndScan(void) {
+void MBFi_StateInEndScan(void) {
     u32 v1;
-    v1 = WM_EndScan(ScanConnectEndScanCallback);
+    v1 = WM_EndScan(MBFi_StateOutEndScan);
     if (v1 != 2) {
-        ReportScanError(0xb, v1 & 0xffff);
+        MBFi_ScanErrorCallback(0xb, v1 & 0xffff);
     }
 }
 

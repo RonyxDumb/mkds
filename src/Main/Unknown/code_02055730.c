@@ -44,7 +44,7 @@ u8 func_02056208(void) {
     lowestValue = 7;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            recordValue = func_02060364(cupIndex, engineClass);
+            recordValue = savd_getCupRank(cupIndex, engineClass);
             if (recordValue == 9 || recordValue < lowestValue) {
                 lowestValue = recordValue;
             }
@@ -67,41 +67,41 @@ u8 func_02056208(void) {
 
 #pragma thumb off
 
-void InitDispCap(void *heap) {
-    gDispCap = HeapAlloc(heap, 0x10);
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_GP || gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-        gDispCap->mOamBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+void dce_init(void *heap) {
+    sDceState = heap_alloc(heap, 0x10);
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_START_GP || gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
+        sDceState->mOamBuffer = heap_allocEx(heap, 0x400, 0x20);
     } else {
-        gDispCap->mOamBuffer = NULL;
+        sDceState->mOamBuffer = NULL;
     }
-    gDispCap->mFlags = 0;
-    gDispCap->mBlendMin = 0;
-    gDispCap->mBlendFactor = 0x1000;
-    gDispCap->mMode = 0;
-    if (data_02175614.mUnk_00 == 0) {
-        gDispCap->mMode = 0;
+    sDceState->mFlags = 0;
+    sDceState->mBlendMin = 0;
+    sDceState->mBlendFactor = 0x1000;
+    sDceState->mMode = 0;
+    if (gVramWvrStatus.mUnk_00 == 0) {
+        sDceState->mMode = 0;
     }
 }
 
-u32 ClearDispCapPointer(void) {
+u32 dce_uninit(void) {
     u32 pointerAddress;
     u32 nullValue;
-    pointerAddress = (u32) &gDispCap;
+    pointerAddress = (u32) &sDceState;
     nullValue = 0u;
     *(u32 *) ((pointerAddress) + (0)) = nullValue;
     return pointerAddress;
 }
 
 static inline u32 func_02055808_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gStruct217AA00->mUnk_0000;
 }
 
 static inline s32 func_02055808_inline2(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_02055808_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -109,7 +109,7 @@ static inline s32 func_02055808_inline2(void) {
 
 static inline s32 func_02055808_inline3(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_02055808_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -117,20 +117,20 @@ static inline s32 func_02055808_inline3(void) {
 
 static inline s32 func_02055808_inline4(void) {
     BOOL r = FALSE;
-    if (func_02055808_inline3() && data_0217aa00->mUnk_0008 != 9) {
+    if (func_02055808_inline3() && gStruct217AA00->mUnk_0008 != 9) {
         r = TRUE;
     }
     return r;
 }
 
-void SetDispCapMode(s32 mode) {
-    gDispCap->mMode = mode;
-    if (data_02175614.mUnk_00 == 0) {
-        gDispCap->mMode = 0;
+void dce_setMode(s32 mode) {
+    sDceState->mMode = mode;
+    if (gVramWvrStatus.mUnk_00 == 0) {
+        sDceState->mMode = 0;
     }
 }
 
-void SetupDispCapMode1(void) {
+void dce_setupDouble3D(void) {
     DispCapOamEntry *oamBuffer;
     s32 affineMatrix[4];
     s32 clearIndex;
@@ -139,7 +139,7 @@ void SetupDispCapMode1(void) {
     s32 entryIndex;
     DispCapOamEntry *oamEntry;
 
-    oamBuffer = gDispCap->mOamBuffer;
+    oamBuffer = sDceState->mOamBuffer;
     if (oamBuffer == NULL) {
         return;
     }
@@ -163,15 +163,15 @@ void SetupDispCapMode1(void) {
     DC_FlushRange(oamBuffer, 0x400);
     GXS_LoadOAM(oamBuffer, 0, 0x400);
     VBlankIntrWait();
-    gDispCap->mFlags &= ~1;
+    sDceState->mFlags &= ~1;
     reg_GX_POWCNT = reg_GX_POWCNT | 0x8000;
-    ToggleDispCapBanks();
+    dce_updateDouble3D();
 }
 
-void SetupDispCap(void) {
-    switch (gDispCap->mMode) {
+void dce_setupGX(void) {
+    switch (sDceState->mMode) {
         case 1:
-            SetupDispCapMode1();
+            dce_setupDouble3D();
             break;
         case 2:
             GX_SetGraphicsMode(0xe, 0, 1);
@@ -180,18 +180,18 @@ void SetupDispCap(void) {
 }
 
 // Alternates the VRAM banks used for the display capture each time it runs.
-void ToggleDispCapBanks(void) {
+void dce_updateDouble3D(void) {
     u32 captureBits;
     u32 powerBit;
 
     GX_ResetBankForSubBG();
     GX_ResetBankForSubOBJ();
-    if (gDispCap->mFlags & 1) {
+    if (sDceState->mFlags & 1) {
         reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | 0x300;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x1000;
         GX_SetBankForLCDC(4);
         GX_SetBankForSubOBJ(8);
-        gDispCap->mFlags &= ~1;
+        sDceState->mFlags &= ~1;
         captureBits = 2;
         powerBit = 1;
     } else {
@@ -199,7 +199,7 @@ void ToggleDispCapBanks(void) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | 0x400;
         GX_SetBankForSubBG(4);
         GX_SetBankForLCDC(8);
-        gDispCap->mFlags |= 1;
+        sDceState->mFlags |= 1;
         captureBits = 3;
         powerBit = 0;
     }
@@ -208,151 +208,151 @@ void ToggleDispCapBanks(void) {
 }
 
 // Writes the capture blend weights; with a 0 it also moves the blend factor toward 0 (bit 2 of mFlags set) or 0x1000.
-void AdvanceDispCapBlend(s32 a) {
+void dce_updateBlur(s32 a) {
     u8 weight;
 
-    weight = gDispCap->mBlendMin + (((16 - gDispCap->mBlendMin) * gDispCap->mBlendFactor) >> 12);
+    weight = sDceState->mBlendMin + (((16 - sDceState->mBlendMin) * sDceState->mBlendFactor) >> 12);
     reg_GX_DISPCAPCNT = weight | (0xc0330000 | (u8) (16 - weight) << 8);
     if (a != 0) {
         return;
     }
-    if (gDispCap->mFlags & 2) {
-        if (gDispCap->mBlendFactor <= 0) {
+    if (sDceState->mFlags & 2) {
+        if (sDceState->mBlendFactor <= 0) {
             return;
         }
-        gDispCap->mBlendFactor -= 0x802;
-        if (gDispCap->mBlendFactor < 0) {
-            gDispCap->mBlendFactor = 0;
+        sDceState->mBlendFactor -= 0x802;
+        if (sDceState->mBlendFactor < 0) {
+            sDceState->mBlendFactor = 0;
         }
     } else {
-        if (gDispCap->mBlendFactor >= 0x1000) {
+        if (sDceState->mBlendFactor >= 0x1000) {
             return;
         }
-        gDispCap->mBlendFactor = gDispCap->mBlendFactor + 0x19a;
-        if (gDispCap->mBlendFactor > 0x1000) {
-            gDispCap->mBlendFactor = 0x1000;
+        sDceState->mBlendFactor = sDceState->mBlendFactor + 0x19a;
+        if (sDceState->mBlendFactor > 0x1000) {
+            sDceState->mBlendFactor = 0x1000;
         }
     }
 }
 
-void AdvanceDispCap(s32 a) {
-    switch (gDispCap->mMode) {
+void dce_updateVBlank(s32 a) {
+    switch (sDceState->mMode) {
         case 1:
             if (a == 0) {
-                ToggleDispCapBanks();
+                dce_updateDouble3D();
             }
             break;
         case 2:
-            AdvanceDispCapBlend(a);
+            dce_updateBlur(a);
             break;
     }
-    if (!(gDispCap->mFlags & 4)) {
+    if (!(sDceState->mFlags & 4)) {
         return;
     }
-    if (AreBrightnessFadesClear() == 0) {
+    if (mbright_isFadedIn() == 0) {
         return;
     }
-    gDispCap->mFlags &= ~4;
-    gDispCap->mFlags &= ~8;
+    sDceState->mFlags &= ~4;
+    sDceState->mFlags &= ~8;
 }
 
-void StartDispCapBlend(u8 blendMin) {
-    if (gDispCap->mMode != 2) {
+void dce_startBlur(u8 blendMin) {
+    if (sDceState->mMode != 2) {
         return;
     }
-    gDispCap->mFlags |= 2;
-    gDispCap->mBlendFactor = 0x1000;
-    gDispCap->mBlendMin = blendMin;
+    sDceState->mFlags |= 2;
+    sDceState->mBlendFactor = 0x1000;
+    sDceState->mBlendMin = blendMin;
 }
 
 static inline s32 func_02055b1c_inline(void) {
     BOOL r = FALSE;
     u32 t;
-    if (data_0217aa00 == NULL) {
+    if (gStruct217AA00 == NULL) {
         t = 0;
         r = FALSE;
     } else {
-        t = data_0217aa00->mUnk_0000;
+        t = gStruct217AA00->mUnk_0000;
     }
-    if (t != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (t != 0 && gStruct217AA00->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
 }
 
-void StopDispCapBlend(void) {
-    if (gDispCap->mMode == 2) {
-        gDispCap->mFlags &= ~2;
+void dce_stopBlur(void) {
+    if (sDceState->mMode == 2) {
+        sDceState->mFlags &= ~2;
     }
 }
 
-void func_02055c18(u32 frameCount) {
-    if (func_02049838() != 2) {
+void dce_fadeInFromBlack(u32 frameCount) {
+    if (scene_getState() != 2) {
         return;
     }
-    gDispCap->mFlags |= 4;
-    StartFadeToFadedNegativeOneScreen(frameCount, 1);
+    sDceState->mFlags |= 4;
+    mbright_fadeFromBlackSingle(frameCount, 1);
 }
 
-void func_02055bd4(u32 frameCount) {
-    if (func_02049838() != 2) {
+void dce_fadeOutToBlack(u32 frameCount) {
+    if (scene_getState() != 2) {
         return;
     }
-    gDispCap->mFlags |= 4;
-    StartFadeToClearNegativeOneScreen(frameCount, 1);
+    sDceState->mFlags |= 4;
+    mbright_fadeToBlackSingle(frameCount, 1);
 }
 
-BOOL func_02055b1c(void) {
+BOOL dce_2055B1C(void) {
     if (func_02055b1c_inline()) {
         if (func_0204ffbc() != 0) {
-            return (data_0217aa00->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
+            return (gStruct217AA00->mUnk_15bc_view.mUnk_0c->mUnk_06_0 & 4) != 0;
         }
         return FALSE;
     }
-    return (gDispCap->mFlags & 8) != 0;
+    return (sDceState->mFlags & 8) != 0;
 }
 
-BOOL func_02055afc(void) {
-    return (gDispCap->mFlags & 8) != 0;
+BOOL dce_2055AFC(void) {
+    return (sDceState->mFlags & 8) != 0;
 }
 
-void func_02055a94(void) {
+void dce_2055A94(void) {
     if (func_02055808_inline2() != 0 && func_02055808_inline() != 1) {
         return;
     }
-    gDispCap->mFlags |= 8;
+    sDceState->mFlags |= 8;
 }
 
-s32 RunRecordScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks recordSceneCallbacks = gRecordSceneCallbacks;
+s32 record_run(SceneNumbers *sceneNumbers) {
+    SceneCallbacks recordSceneCallbacks = recordsMenu_vtable;
 
-    RunScene(sceneNumbers, &recordSceneCallbacks);
+    scene_runScene(sceneNumbers, &recordSceneCallbacks);
     return 0;
 }
 
 void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
     u8 keptBits;
 
-    keptBits = data_0217aa00->mUnk_043d & keepMask;
-    MI_CpuCopy8(entryName, &data_0217aa00->mUnk_045c[entryIndex], 0x14);
-    data_0217aa00->mUnk_043d = keptBits | (1 << entryIndex);
+    keptBits = gStruct217AA00->mUnk_043d & keepMask;
+    MI_CpuCopy8(entryName, &gStruct217AA00->mUnk_045c[entryIndex], 0x14);
+    gStruct217AA00->mUnk_043d = keptBits | (1 << entryIndex);
 }
 
 s32 func_02055808(s32 a) {
     BOOL result;
 
     result = FALSE;
-    if (data_0217aa00->mRequestPending != 0) {
+    if (gStruct217AA00->mRequestPending != 0) {
         return result;
     }
     if (func_02055808_inline4()) {
         return 3;
     }
-    switch (data_0217aa00->mUnk_000c) {
+    switch (gStruct217AA00->mUnk_000c) {
         case 0:
         case 21:
-            data_0217aa00->mUnk_0454 &= ~0x40;
-            data_0217aa00->mUnk_0004 = 1;
+            gStruct217AA00->mUnk_0454 &= ~0x40;
+            gStruct217AA00->mUnk_0004 = 1;
             Initialize();
             break;
         case 1:
@@ -364,7 +364,7 @@ s32 func_02055808(s32 a) {
                 SetLifeTime(0x14);
             } else {
                 result = TRUE;
-                data_0217aa00->mUnk_0004 = 3;
+                gStruct217AA00->mUnk_0004 = 3;
                 StartScan(1, NULL, NULL);
             }
             break;
@@ -383,10 +383,10 @@ s32 func_02055808(s32 a) {
             StartMP();
             break;
         case 11:
-            data_0217aa00->mUnk_0004 = 2;
-            data_0217aa00->mUnk_0044.mUnk_3e = 0;
+            gStruct217AA00->mUnk_0004 = 2;
+            gStruct217AA00->mUnk_0044.mUnk_3e = 0;
             result = TRUE;
-            data_0217aa00->mUnk_008b &= ~8;
+            gStruct217AA00->mUnk_008b &= ~8;
             break;
         default:
             func_020533a0();
@@ -409,8 +409,8 @@ s32 func_0205579c(s32 a, s32 b) {
 }
 
 s32 func_02055730(u16 a) {
-    if (data_0217aa00->mUnk_0436 & 1) {
-        data_0217aa00->mUnk_0436 &= ~1;
+    if (gStruct217AA00->mUnk_0436 & 1) {
+        gStruct217AA00->mUnk_0436 &= ~1;
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 || func_0204fe90(a) != 0) {
         return func_0204dd24(a);

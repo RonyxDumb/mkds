@@ -4,7 +4,7 @@
 
 typedef struct Camera Camera;
 
-// The object behind gCurrentCamera.
+// The object behind race_sCurCamera.
 typedef Camera Unk02073904;
 
 extern s32 data_021656a4;
@@ -16,4 +16,4 @@ extern s32 data_021656bc;
 extern s32 data_021656c8;
 extern s32 data_021656cc[];
 
-void UpdateCameraShake(Unk02073904 *p);
+void cam_2073904(Unk02073904 *p);

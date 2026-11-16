@@ -113,7 +113,7 @@ s32 func_ov000_021a9010(s32 descriptor) {
     return func_ov000_021a836c(descriptor);
 }
 
-s32 func_ov000_021a9008(s32 descriptor) {
+s32 aEndingThanks01(s32 descriptor) {
     return func_ov000_021a8604(descriptor);
 }
 
@@ -181,7 +181,7 @@ u32 func_ov000_021a8ed4(void) {
     return v17;
 }
 
-void func_ov000_021a8e78(u32 *p0, u32 *p1) {
+void aThanksyouMBg00(u32 *p0, u32 *p1) {
     u32 v2 = (*(u32 *) ((p1) + (0)));
     u32 v3 = (*(u32 *) ((p0) + (0)));
     u32 v4 = ((v3) << 24);
@@ -295,7 +295,7 @@ s32 func_ov000_021a8c94(void *b) {
     return func_ov000_021a6ee4(&data_ov000_021b6040);
 }
 
-s32 func_ov000_021a8c8c(void) {
+s32 aMgSelect_battle_stage_s_nce_ncer(void) {
     return func_ov000_021a87bc();
 }
 
@@ -383,7 +383,7 @@ void func_ov000_021a8b08(u32 arg0, u32 arg1) {
     *(u32 *) ((value0) + 0u) = value1;
 }
 
-void func_ov000_021a8af8(Unk021a6fa8 *arg0) {
+void aMgSelect_battle_stage_s_nce_ncer_0(Unk021a6fa8 *arg0) {
     u32 value0;
     u32 value1;
     u32 value3;
@@ -461,7 +461,7 @@ u32 func_ov000_021a8994(Unk021a6fa8 *a) {
         }
         if (a->mUnk_73 == 1 || (v->mUnk_70 & 4) != 0) {
             c = OS_DisableInterrupts();
-            if (func_ov000_021a8960(a) > 0) {
+            if (aMgSelect_battle_stage_m_00_nscr_0(a) > 0) {
                 b |= 1;
             }
             if (func_ov000_021a8118(a) > 0) {
@@ -485,7 +485,7 @@ u32 func_ov000_021a8994(Unk021a6fa8 *a) {
     return b;
 }
 
-s32 func_ov000_021a8960(Unk021a6fa8 *a) {
+s32 aMgSelect_battle_stage_m_00_nscr_0(Unk021a6fa8 *a) {
     u32 v1;
     Unk021a71c0 *v2;
     s8 v3;
@@ -626,7 +626,7 @@ s32 func_ov000_021a86e8(void) {
         a = func_ov000_021a8740();
         if (a == 0) {
             func_ov000_021a8604((s32) data_ov000_021b5fa4);
-            if (func_ov000_021a86bc(data_ov000_021b5fa4) != 0) {
+            if (aOptionHensyuMe(data_ov000_021b5fa4) != 0) {
                 data_ov000_021b5fa4 = NULL;
             }
             a = -0x1a;
@@ -642,7 +642,7 @@ s32 func_ov000_021a86e8(void) {
     return a;
 }
 
-u32 func_ov000_021a86bc(Unk021a6fa8 *a) {
+u32 aOptionHensyuMe(Unk021a6fa8 *a) {
     int v1;
     if (((0 <= (s32) a) && (v1 = func_ov000_021a8a80(a), v1 != 0)) &&
         (v1 = func_ov000_021a8a5c((Unk021a8ab8 *) a), v1 == 0)) {
@@ -716,7 +716,7 @@ s32 func_ov000_021a8580(Unk021a7064 *a) {
     func_ov000_021a7008(c, NULL);
     d = OS_DisableInterrupts();
     func_ov000_021a8ae8(b);
-    func_ov000_021a8af8(b);
+    aMgSelect_battle_stage_s_nce_ncer_0(b);
     OS_RestoreInterrupts(d);
     b->mUnk_70 |= 0x20;
     return 0;
@@ -1121,16 +1121,16 @@ s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s
 s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f) {
     s32 g;
     if (a->mUnk_73 == 4) {
-        return func_ov000_021a7bc8(a, (u32) b, c, (u32) d, (u32) e);
+        return aSh_circle_ns_2(a, (u32) b, c, (u32) d, (u32) e);
     }
-    g = func_ov000_021a7c4c(a, b, c, d, e);
+    g = gHanachanBodyPartMObjDef(a, b, c, d, e);
     if (g == -6 && f == 1) {
-        g = func_ov000_021a7bc8(a, (u32) b, c, (u32) d, (u32) e);
+        g = aSh_circle_ns_2(a, (u32) b, c, (u32) d, (u32) e);
     }
     return g;
 }
 
-s32 func_ov000_021a7c4c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
+s32 gHanachanBodyPartMObjDef(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e) {
     u32 f = OS_DisableInterrupts();
     u16 g[2];
     s32 h;
@@ -1195,7 +1195,7 @@ u8 *func_ov000_021a7bfc(Unk021a6fa8 *a, s32 *b, u16 *c, u16 *d, u32 *e) {
     return g->mReceiveBuffer.mStart + h;
 }
 
-s32 func_ov000_021a7bc8(Unk021a6fa8 *p0, u32 p1, u32 p2, u32 p3, u32 p4) {
+s32 aSh_circle_ns_2(Unk021a6fa8 *p0, u32 p1, u32 p2, u32 p3, u32 p4) {
     u32 v3 = ((p1) + (0x0u));
     u32 v4 = ((p2) + (0x0u));
     u32 v5 = ((p3) + (0x0u));
@@ -1255,7 +1255,7 @@ s32 func_ov000_021a7af0(Unk021a7064 *param_1) {
         return e;
     }
     if (i != NULL) {
-        h = func_ov000_021a7c4c(b, d, e, f, g);
+        h = gHanachanBodyPartMObjDef(b, d, e, f, g);
     } else {
         h = 0;
     }

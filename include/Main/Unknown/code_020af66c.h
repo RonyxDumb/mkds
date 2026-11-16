@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-void InitMap2D(void);
+void map2d_load(void);
 
-void func_020af66c(void);
+void race_update2d(void);
 void func_020af86c(void);
 void func_020af99c(void);

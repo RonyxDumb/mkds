@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020e43a4(unsigned int unused);
+unsigned int rotcyl_state3Init(unsigned int unused);

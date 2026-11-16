@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 GetKartFinishTimeMs(u32 kart);
+u32 rstat_getDriverTotalMilliseconds(u32 kart);

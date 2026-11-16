@@ -54,41 +54,41 @@ void LocateAndQueueRecordTopMenu(void) {
     e = NULL;
     f = NULL;
     g = NULL;
-    LocateNcgr(&e, FindSceneFile(gRecordTopMenuMBNcgrName));
-    LocateNclr(&f, FindSceneFile(gRecordTopMenuMBNclrName));
-    LocateNscr(&g, FindSceneFile(gRecordTopMenuMNscrName));
-    gRecordTopMenu->mUnk_28 = HeapAlloc(gRecordTopMenu->mHeap, 0x800);
-    gRecordTopMenu->mRecordTopMenuMBncl = FindSceneFile(gRecordTopMenuMBnclName);
-    gRecordTopMenu->mRecordTopMenuMBnll = FindSceneFile(gRecordTopMenuMBnllName);
-    LocateNcgr2(&a, FindSceneFile(gRecordTopMenuMNcgrName));
-    LocateNcer(&gRecordTopMenu->mRecordTopMenuMNcer, FindSceneFile(gRecordTopMenuMNcerName));
-    LocateNclr(&b, FindSceneFile(gRecordTopMenuMONclrName));
-    gRecordTopMenu->mRecordTopMenuSBncl = FindSceneFile(gRecordTopMenuSBnclName);
-    gRecordTopMenu->mRecordTopMenuSBnbl = FindSceneFile(gRecordTopMenuSBnblName);
-    LocateNcgr2(&c, FindSceneFile(gRecordTopMenuSNcgrName));
-    LocateNcer(&gRecordTopMenu->mRecordTopMenuSNcer, FindSceneFile(gRecordTopMenuSNcerName));
-    LocateNclr(&d, FindSceneFile(gRecordTopMenuSONclrName));
+    g2du_getCharacterDataBG(&e, arc_getSceneArcFile(gRecordTopMenuMBNcgrName));
+    g2du_getPaletteData(&f, arc_getSceneArcFile(gRecordTopMenuMBNclrName));
+    g2du_getScreenData(&g, arc_getSceneArcFile(gRecordTopMenuMNscrName));
+    gRecordTopMenu->mUnk_28 = heap_alloc(gRecordTopMenu->mHeap, 0x800);
+    gRecordTopMenu->mRecordTopMenuMBncl = arc_getSceneArcFile(gRecordTopMenuMBnclName);
+    gRecordTopMenu->mRecordTopMenuMBnll = arc_getSceneArcFile(gRecordTopMenuMBnllName);
+    g2du_getCharacterData(&a, arc_getSceneArcFile(gRecordTopMenuMNcgrName));
+    g2du_getCellBankData(&gRecordTopMenu->mRecordTopMenuMNcer, arc_getSceneArcFile(gRecordTopMenuMNcerName));
+    g2du_getPaletteData(&b, arc_getSceneArcFile(gRecordTopMenuMONclrName));
+    gRecordTopMenu->mRecordTopMenuSBncl = arc_getSceneArcFile(gRecordTopMenuSBnclName);
+    gRecordTopMenu->mRecordTopMenuSBnbl = arc_getSceneArcFile(gRecordTopMenuSBnblName);
+    g2du_getCharacterData(&c, arc_getSceneArcFile(gRecordTopMenuSNcgrName));
+    g2du_getCellBankData(&gRecordTopMenu->mRecordTopMenuSNcer, arc_getSceneArcFile(gRecordTopMenuSNcerName));
+    g2du_getPaletteData(&d, arc_getSceneArcFile(gRecordTopMenuSONclrName));
     q = b->mData;
-    CallQueueAppend(4, 0, e->mData, e->mDataSize);
-    CallQueueAppend(15, 0, f->mData, 0x60);
-    CallQueueAppend(8, 0, g->mData, g->mDataSize);
-    CallQueueAppend(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(14, 0, b->mData, 0x1a0);
-    CallQueueAppend(14, 0x1c0, q + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, f->mData, 0x60);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, g->mData, g->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gRecordTopMenu->mUnk_28, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(14, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(14, 0x1c0, q + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
 }
 
 void SetRecordTopMenuRowOn(s32 a) {
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[a]].mVisible = 1;
-    SetCellPaletteIndex(data_ov001_021a6aa4[a], 14, gRecordTopMenu->mRecordTopMenuSNcer,
+    jn_ui_setCellCparam(data_ov001_021a6aa4[a], 14, gRecordTopMenu->mRecordTopMenuSNcer,
                         gRecordTopMenu->mRecordTopMenuSBncl);
 }
 
 void SetRecordTopMenuRowOff(s32 a) {
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[a]].mVisible = 0;
-    SetCellPaletteIndex(data_ov001_021a6aa4[a], 15, gRecordTopMenu->mRecordTopMenuSNcer,
+    jn_ui_setCellCparam(data_ov001_021a6aa4[a], 15, gRecordTopMenu->mRecordTopMenuSNcer,
                         gRecordTopMenu->mRecordTopMenuSBncl);
 }
 
@@ -168,7 +168,7 @@ void RequestRecordTopMenuState7(void) {
 void RequestRecordTopMenuState8(void) {
     gRecordTopMenu->mNextState = 8;
     gRecordTopMenu->mStateFrames = 0;
-    SetupTxtSystemSubText(GetBmgEntry(gRecordTopMenu->mUnk_20, 0x76));
+    SetupTxtSystemSubText(jn_msg_getMessage(gRecordTopMenu->mUnk_20, 0x76));
 }
 
 void RequestRecordTopMenuState9(void) {
@@ -212,8 +212,8 @@ void func_ov001_0219ac98(void) {
 
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            if (IsGrandPrixRecordFilled(i, j)) {
-                s32 v = func_02060364(i, j);
+            if (savd_getIsCupPlayed(i, j)) {
+                s32 v = savd_getCupRank(i, j);
                 if (best > v) {
                     best = v;
                 }
@@ -243,7 +243,7 @@ void InitRecordTopMenu(void *heap) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x8800;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
-    gRecordTopMenu = HeapAlloc(heap, 0x48);
+    gRecordTopMenu = heap_alloc(heap, 0x48);
     gRecordTopMenu->mHeap = heap;
     gRecordTopMenu->mState = 0;
     switch (GetRecordPrevScreen()) {
@@ -264,26 +264,26 @@ void InitRecordTopMenu(void *heap) {
     }
     LocateAndQueueRecordTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov001_021a6ac4[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
+        jn_ui_setCellIsTranslucent(data_ov001_021a6ac4[i], 1, gRecordTopMenu->mRecordTopMenuSNcer,
                       gRecordTopMenu->mRecordTopMenuSBncl);
     }
-    ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
-    InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
+    oam_clearResetBuffers(GetRecordMainOam(), GetRecordSubOam());
+    jn_ui_initLayout(heap, gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMBnll,
                     &gRecordTopMenu->mRecordTopMenuMTable);
-    InitLayoutTable(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
-    gRecordTopMenu->mUnk_20 = FindFileInLoadedArchives("common.bmg");
-    gRecordTopMenu->mRecordMessages = FindSceneFile("record.bmg");
+    jn_ui_initLayout(heap, gRecordTopMenu->mRecordTopMenuSBncl, NULL, &gRecordTopMenu->mRecordTopMenuSTable);
+    gRecordTopMenu->mUnk_20 = arc_get2dArcFile("common.bmg");
+    gRecordTopMenu->mRecordMessages = arc_getSceneArcFile("record.bmg");
     rem = 0x8000;
     rem -=
-        InitLabelCanvas(heap, 0, gRecordTopMenu->mRecordTopMenuMBnll, 0xaa, 0xe, 0, gRecordTopMenu->mRecordTopMenuMNcer,
+        jn_ui_initLabel(heap, 0, gRecordTopMenu->mRecordTopMenuMBnll, 0xaa, 0xe, 0, gRecordTopMenu->mRecordTopMenuMNcer,
                         gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, rem);
-    func_0212426c(0, 0, gRecordTopMenu->mRecordTopMenuMBnll, GetBmgEntry(gRecordTopMenu->mRecordMessages, 9),
+    jn_ui_212426C(0, 0, gRecordTopMenu->mRecordTopMenuMBnll, jn_msg_getMessage(gRecordTopMenu->mRecordMessages, 9),
                   gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     x = 1;
     base = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
-            rem -= InitLabelCanvas(heap, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
+            rem -= jn_ui_initLabel(heap, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll,
                                    data_ov001_021a6af8[i][j], data_ov001_021a6b0c[i][j], x,
                                    gRecordTopMenu->mRecordTopMenuMNcer, gRecordTopMenu->mRecordTopMenuMBncl,
                                    gRecordTopMenu->mRecordTopMenuMTable, rem);
@@ -291,11 +291,11 @@ void InitRecordTopMenu(void *heap) {
         }
     }
     for (i = 0; i < 3; i++) {
-        func_0212426c(0, data_ov001_021a6ae4[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
-                      GetBmgEntry(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
+        jn_ui_212426C(0, data_ov001_021a6ae4[0][i], gRecordTopMenu->mRecordTopMenuMBnll,
+                      jn_msg_getMessage(gRecordTopMenu->mRecordMessages, gRecordTopMenuRecordMessageIndices[i]),
                       gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable);
     }
-    pp = &data_0217aa08->mFirstBlock;
+    pp = &gSaveData->mFirstBlock;
     scores[1][0] = (*pp)->mUnk_34[0];
     scores[2][0] = (*pp)->mUnk_34[1];
     scores[1][1] = (*pp)->mUnk_34[2];
@@ -308,7 +308,7 @@ void InitRecordTopMenu(void *heap) {
                 scores[i][j] = 9999;
             }
             FormatAsciiNumber(scores[i][j], buf);
-            func_02124248(0, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll, buf,
+            jn_ui_2124248(0, data_ov001_021a6ae4[i][j], gRecordTopMenu->mRecordTopMenuMBnll, buf,
                           gRecordTopMenu->mRecordTopMenuMBncl, gRecordTopMenu->mRecordTopMenuMTable, 6);
         }
     }
@@ -332,7 +332,7 @@ void ReleaseRecordTopMenu(void) {
 
 void AdvanceRecordTopMenuState0(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         RequestRecordTopMenuState1();
     }
@@ -347,8 +347,8 @@ void AdvanceRecordTopMenuState1(void) {
     s32 idx;
 
     gRecordTopMenu->mStateFrames++;
-    a = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
-    b = InterpolateS16(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
+    a = mutil_interpolate(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
+    b = mutil_interpolate(1, -0xc0, 0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
     idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
@@ -379,7 +379,7 @@ void AdvanceRecordTopMenuState2(void) {
     s32 i;
 
     gRecordTopMenu->mStateFrames++;
-    v = func_020ae488(gRecordTopMenu->mStateFrames);
+    v = mutil_getButtonOutEffectOffset(gRecordTopMenu->mStateFrames);
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
@@ -413,32 +413,32 @@ void AdvanceRecordTopMenuState4(void) {
     sel = -1;
     i = UNK_02175628_INDEX_8;
     a = FALSE;
-    if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+    if (gInputUnits[i].mHasPair == 0 && gInputUnits[i].mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+    if (a == FALSE && gInputUnits[i].mPrevHasPair == 0 && gInputUnits[i].mHasPair != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        sel = RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, data_02175628[i].mPairX,
-                                      data_02175628[i].mPairY);
+        sel = jn_ui_checkTouch(gRecordTopMenu->mRecordTopMenuSBnbl, gInputUnits[i].mPairX,
+                                      gInputUnits[i].mPairY);
     }
-    flags = data_02175628[i].mPressedBits & PAD_KEY_B;
+    flags = gInputUnits[i].mPressedBits & PAD_KEY_B;
     if (flags == 0) {
         b2 = FALSE;
         a2 = FALSE;
-        if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+        if (gInputUnits[i].mHasPair == 0 && gInputUnits[i].mNoPairCount < 5) {
             a2 = TRUE;
         }
-        if (a2 == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+        if (a2 == FALSE && gInputUnits[i].mPrevHasPair == 0 && gInputUnits[i].mHasPair != 0) {
             b2 = TRUE;
         }
-        if (b2 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                           data_02175628[i].mPairY) == FALSE) {
+        if (b2 == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                           gInputUnits[i].mPairY) == FALSE) {
             goto skip;
         }
     }
-    SetSelectReturnSoundId(15);
+    gmenu_setSeqArcIndex(15);
     RequestRecordTopMenuState6();
     gRecordTopMenu->mUnk_44 = 5;
     RequestSelectReturnState3WithSound(1);
@@ -458,15 +458,15 @@ skip:
             RequestRecordTopMenuState5();
         }
     } else {
-        flags = data_02175628[i].mPressedBits & PAD_KEY_A;
+        flags = gInputUnits[i].mPressedBits & PAD_KEY_A;
         if (flags != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             RequestRecordTopMenuState5();
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        } else if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             DecrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        } else if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
             SetRecordTopMenuRowOff(gRecordTopMenu->mIndex);
             IncrementRecordTopMenuIndex();
             SetRecordTopMenuRowOn(gRecordTopMenu->mIndex);
@@ -478,7 +478,7 @@ void AdvanceRecordTopMenuState5(void) {
     s16 v;
 
     gRecordTopMenu->mStateFrames++;
-    v = func_020ae488(gRecordTopMenu->mStateFrames);
+    v = mutil_getButtonOutEffectOffset(gRecordTopMenu->mStateFrames);
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[gRecordTopMenu->mIndex]].mOffsetX = v;
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[gRecordTopMenu->mIndex]].mOffsetX = v;
     gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6a9c[gRecordTopMenu->mIndex]].mOffsetX = v;
@@ -508,8 +508,8 @@ void AdvanceRecordTopMenuState6(void) {
         SetRecordNextScene(0);
     }
     gRecordTopMenu->mStateFrames++;
-    a = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
-    b = InterpolateS16(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
+    a = mutil_interpolate(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
+    b = mutil_interpolate(1, 0, -0xc0, gRecordTopMenu->mStateFrames, 10);
     gRecordTopMenu->mBg0Offset = b;
     idx = gRecordTopMenu->mRecordTopMenuMBncl->mUnk_06;
     gRecordTopMenu->mRecordTopMenuMTable[0].mOffsetY = b;
@@ -540,7 +540,7 @@ void AdvanceRecordTopMenuState7(void) {
     s32 i;
 
     gRecordTopMenu->mStateFrames++;
-    v = InterpolateS16(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, 0xe0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
@@ -567,20 +567,20 @@ void AdvanceRecordTopMenuState9(void) {
     BOOL a;
     u16 v;
 
-    RectTableFindContaining(gRecordTopMenu->mRecordTopMenuSBnbl, data_02175628[i].mPairX, data_02175628[i].mPairY);
-    flags = data_02175628[i].mPressedBits & PAD_KEY_B;
+    jn_ui_checkTouch(gRecordTopMenu->mRecordTopMenuSBnbl, gInputUnits[i].mPairX, gInputUnits[i].mPairY);
+    flags = gInputUnits[i].mPressedBits & PAD_KEY_B;
     if (flags == 0) {
         b = FALSE;
         a = FALSE;
-        v = data_02175628[i].mHasPair;
-        if (v == 0 && data_02175628[i].mNoPairCount < 5) {
+        v = gInputUnits[i].mHasPair;
+        if (v == 0 && gInputUnits[i].mNoPairCount < 5) {
             a = TRUE;
         }
-        if (a == FALSE && data_02175628[i].mPrevHasPair == 0 && v != 0) {
+        if (a == FALSE && gInputUnits[i].mPrevHasPair == 0 && v != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                          data_02175628[i].mPairY) == FALSE) {
+        if (b == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                          gInputUnits[i].mPairY) == FALSE) {
             return;
         }
     }
@@ -600,7 +600,7 @@ void AdvanceRecordTopMenuState11(void) {
     s32 i;
     s16 v;
     gRecordTopMenu->mStateFrames++;
-    v = InterpolateS16(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
+    v = mutil_interpolate(1, 0xe0, 0, gRecordTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ab4[i]].mOffsetX = v;
         gRecordTopMenu->mRecordTopMenuSTable[data_ov001_021a6ac4[i]].mOffsetX = v;
@@ -654,10 +654,10 @@ void AdvanceRecordTopMenu(void) {
             break;
     }
     p = gRecordTopMenu;
-    DrawLayoutTable(p->mRecordTopMenuMBncl, p->mRecordTopMenuMNcer, p->mRecordTopMenuMBnll, GetRecordMainOam(),
+    jn_ui_renderElements(p->mRecordTopMenuMBncl, p->mRecordTopMenuMNcer, p->mRecordTopMenuMBnll, GetRecordMainOam(),
                     p->mRecordTopMenuMTable);
     p = gRecordTopMenu;
-    DrawLayoutTable(p->mRecordTopMenuSBncl, p->mRecordTopMenuSNcer, NULL, GetRecordSubOam(), p->mRecordTopMenuSTable);
+    jn_ui_renderElements(p->mRecordTopMenuSBncl, p->mRecordTopMenuSNcer, NULL, GetRecordSubOam(), p->mRecordTopMenuSTable);
 }
 
 void func_ov001_0219a0c0(void) {

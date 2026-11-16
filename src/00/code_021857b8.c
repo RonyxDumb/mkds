@@ -16,10 +16,10 @@
 #include "Main/System/Heap.h"
 
 void func_ov000_0218592c(void *a) {
-    data_ov000_021b4c8c = HeapAlloc(a, 8);
+    data_ov000_021b4c8c = heap_alloc(a, 8);
     data_ov000_021b4c8c->mState = 0;
     data_ov000_021b4c8c->mNextState = 0;
-    StartFadeToFadedNegative(0x1e);
+    mbright_fadeToBlack(0x1e);
 }
 
 void func_ov000_02185920(void) {
@@ -31,9 +31,9 @@ void func_ov000_0218583c(void) {
     BackupFirstBlock *p;
     s8 b;
 
-    if (AreBrightnessFadesFaded() != 0) {
+    if (mbright_isFadedOut() != 0) {
         data_ov000_021b4c8c->mNextState = 1;
-        StartFadeToClear(0x1e);
+        mbright_fadeIn(0x1e);
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x1208;
         reg_G2_BG1CNT = reg_G2_BG1CNT & ~3;
         reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffffe0ff) | 0x1f00;
@@ -41,10 +41,10 @@ void func_ov000_0218583c(void) {
         reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
         reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
         GX_SetGraphicsMode(1, 0, 1);
-        if (data_0217b488->mUnk_6c != FALSE) {
-            p = data_0217aa08->mFirstBlock;
+        if (gStruct217B488->mUnk_6c != FALSE) {
+            p = gSaveData->mFirstBlock;
             a = p->mUnk_34[5];
-            b = gWiFiSession->mKartCountCopy - 1;
+            b = gStruct217D384->mKartCountCopy - 1;
             if (b > 0) {
                 if (a < b) {
                     a = 0;
@@ -53,9 +53,9 @@ void func_ov000_0218583c(void) {
                 }
             }
             p->mUnk_34[5] = a;
-            func_02056d40();
-            WaitThreadFunctionsDone();
-            if (gBackupAccess->mBackupEnabled != 0) {
+            savd_flushNksy();
+            bgwkr_waitForCompletion();
+            if (gSaveCore->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
         }
@@ -64,10 +64,10 @@ void func_ov000_0218583c(void) {
 
 void func_ov000_02185818(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         RequestWiFiState(2);
-        data_0217b488->mUnk_1c = 1;
+        gStruct217B488->mUnk_1c = 1;
     }
 }
 

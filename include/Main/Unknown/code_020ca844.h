@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateEmblemChoises(void);
+void echoi_update(void);

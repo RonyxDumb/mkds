@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetMapObjectsRunUpdateLists(void);
+void mobj_enableLogicUpdates(void);

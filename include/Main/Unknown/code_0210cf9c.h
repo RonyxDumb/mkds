@@ -5,4 +5,4 @@
 typedef struct SoundSource SoundSource;
 
 void SetSoundSourceFlagBit(SoundSource *source, s32 bit, s32 value);
-void SetSoundSourceEnabled(SoundSource *source, s32 enabled);
+void sfx_210CF9C(SoundSource *source, s32 enabled);

@@ -24,17 +24,17 @@
 
 #pragma thumb on
 
-void InitResultsByMode(void *heap) {
-    gResultScene = HeapAlloc(heap, 0x80c);
-    MemFillWordsByBlock_inline(gResultScene, 0x80c);
-    ResetOamLists(gResultScene, gResultScene->mSubOam);
-    gResultScene->mMode = gRaceSetup->mMode;
-    if (gResultScene->mMode == 0) {
-        InitResultsGp(heap, gResultScene, gResultScene->mSubOam);
+void result_init(void *heap) {
+    result_sState = heap_alloc(heap, 0x80c);
+    MemFillWordsByBlock_inline(result_sState, 0x80c);
+    oam_clearResetBuffers(result_sState, result_sState->mSubOam);
+    result_sState->mMode = gRaceMultiConfig->mMode;
+    if (result_sState->mMode == 0) {
+        gpres_init(heap, result_sState, result_sState->mSubOam);
     } else {
-        InitResultsBattle(heap, (s32) gResultScene, (s32) gResultScene->mSubOam);
+        bres_init(heap, (s32) result_sState, (s32) result_sState->mSubOam);
     }
-    InitLinkLevelIcons(heap, gResultScene);
+    InitLinkLevelIcons(heap, result_sState);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 1, 0x3f, 8, 8);
@@ -47,37 +47,37 @@ void InitResultsByMode(void *heap) {
 
 #pragma thumb on
 
-void AdvanceResultsByMode(u32 sceneNumbers) {
+void result_update(u32 sceneNumbers) {
     int result;
-    result = func_02049b6c();
+    result = scene_areUpdatesSuspended();
     if (result == 0) {
-        ClearOamListCounts(gResultScene, gResultScene->mSubOam);
-        if (gResultScene->mMode == 0) {
-            AdvanceResultsGp((SceneNumbersView *) sceneNumbers);
+        oam_resetBuffers(result_sState, result_sState->mSubOam);
+        if (result_sState->mMode == 0) {
+            gpres_update((SceneNumbersView *) sceneNumbers);
         } else {
-            AdvanceResultsBattle((SceneNumbersView *) sceneNumbers);
+            bres_update((SceneNumbersView *) sceneNumbers);
         }
-        func_020ae630(gResultScene, gResultScene->mSubOam);
+        oam_prepareBuffers(result_sState, result_sState->mSubOam);
         AdvanceLinkLevelIcons();
     }
 }
 
-void func_0202a5d8(void) {
-    if (gResultScene->mMode == 0) {
-        func_02029a98();
+void result_finalize(void) {
+    if (result_sState->mMode == 0) {
+        gpres_finalize();
     } else {
-        func_02032ab0();
+        bres_finalize();
     }
     ClearLinkLevelIconsPointer();
 }
 
-void func_0202a5a0(void) {
-    if (gResultScene->mMode == 0) {
-        func_02029a90();
+void result_vblank(void) {
+    if (result_sState->mMode == 0) {
+        gpres_vblank();
     } else {
-        func_02032aa8();
+        bres_vblank();
     }
-    UploadOamLists(gResultScene, gResultScene->mSubOam);
+    oam_applyBuffers(result_sState, result_sState->mSubOam);
 }
 
 #pragma thumb off

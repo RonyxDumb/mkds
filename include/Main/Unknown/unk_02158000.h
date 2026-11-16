@@ -10,16 +10,16 @@ extern struct Quaternion data_02158150;
 extern struct Unk020db1b0 data_02158164;
 extern struct Unk020db20c data_0215818c;
 extern struct Unk020db268 data_021581b8;
-extern Vec3 data_021581f8;
+extern Vec3 kuribo_sUpVec;
 extern struct Unk020dbe74 data_02158238;
 extern struct Unk020dbed0 data_02158260;
 extern struct Unk020dbf2c data_0215828c;
-// Object of 0x2c bytes made by CreateWanwanChainDrawList and the other factories that copy a template from 0x02158xxx.
+// Object of 0x2c bytes made by wwchn_setupRenderPart and the other factories that copy a template from 0x02158xxx.
 typedef struct MapObjectDrawList {
     /* 00 */ u32 mUnk_00[11];
 } MapObjectDrawList;
 
-// Object of 0x2c bytes made by CreateMkdEfBubbleUpdateList; a word at 0x28.
+// Object of 0x2c bytes made by efbub_setupLogicPart; a word at 0x28.
 typedef struct Unk020dfc44 {
     /* 00 */ u32 mUnk_00[10];
     /* 28 */ s32 mUnk_28;
@@ -27,7 +27,7 @@ typedef struct Unk020dfc44 {
 
 extern MapObjectList data_0215840c;
 extern MapObjectDrawList data_02158434;
-extern MapObjectKindData data_02158460;
+extern MapObjectKindData WanwanChain_CollisionInfo;
 extern MapObjectList data_021584d4;
 extern MapObjectDrawList data_021584fc;
 extern MapObjectKindData data_02158528;
@@ -39,7 +39,7 @@ extern MapObjectDrawList data_021585d0;
 extern MapObjectDrawList data_021585fc;
 extern MapObjectDrawList data_02158628;
 extern MapObjectKindData data_02158654;
-extern u8 data_02158694[];
+extern u8 ItemBoxScale[];
 extern u16 data_021586d4;
 extern MapObjectList data_021586d8;
 extern MapObjectKindData data_02158700;
@@ -50,10 +50,10 @@ extern MapObjectDrawList data_021587b0;
 extern MapObjectKindData data_021587dc;
 extern u16 data_0215881c;
 
-extern const u32 data_02158094[];
+extern const u32 aWaterc[];
 
 // Objects whose layout isn't known yet.
-extern u16 data_02158160;
+extern u16 kuribo_sSomeFlag;
 extern u16 data_0215877c;
 extern u16 data_02158780;
 extern s32 data_02158908;

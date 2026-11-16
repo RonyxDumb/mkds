@@ -19,9 +19,9 @@ void func_ov001_0218b2b8(Unk02188950 *mapObject) {
 }
 
 void func_ov001_0218b2a8(Unk02188950 *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x237);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x237);
 }
 
 void func_ov001_0218b298(Unk02188950 *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x237);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x237);
 }

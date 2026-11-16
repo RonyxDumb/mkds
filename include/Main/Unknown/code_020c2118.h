@@ -15,4 +15,4 @@
 #include "Main/Unknown/code_020c2000.h"
 #include "Main/Unknown/code_020c06c4.h"
 
-void DrawRaceGoalS(RaceHudOamBuffer *oamBuffer);
+void r2dres_render(RaceHudOamBuffer *oamBuffer);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitCupPicture(void);
+void cpic_init(void);

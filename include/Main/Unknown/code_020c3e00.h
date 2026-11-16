@@ -8,7 +8,7 @@ typedef struct Nclr Nclr;
 
 s32 GetRaceGoalSOffsetX(void);
 Nscr *GetRaceGoalSNscr(unsigned int index);
-// Two pointers; the elements of 8 bytes at member 0xb8 of the object behind gRaceGoalS.
+// Two pointers; the elements of 8 bytes at member 0xb8 of the object behind r2d_sResults.
 typedef struct Unk020c3e2c {
     /* 00 */ Nclr *mUnk_00;
     /* 04 */ Ncgr *mUnk_04;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 GetLapProgressSoundGap(u32 arg0);
+s32 sfx_getKaidanKibashiProgressDistance(u32 arg0);

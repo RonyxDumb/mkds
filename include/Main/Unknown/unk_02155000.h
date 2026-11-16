@@ -3,15 +3,15 @@
 #include "types.h"
 
 // Objects whose layout isn't known yet.
-extern const u32 data_02155018[];
-extern u32 data_02155048[];
-extern u32 data_02155098[];
-extern u32 data_021550a8[];
-extern const u32 data_02155068[];
+extern const u32 aKart_emblem[];
+extern u32 aEmblem[];
+extern u32 aKart_tire[];
+extern u32 aEmblem_pl[];
+extern const u32 aE_main_1[];
 extern const Vec3 data_02155188;
 struct Vec4;
-extern const struct Vec4 data_02155194;
-extern void (*gNsbmdDrawFunctions[])(void *param_1);
+extern const struct Vec4 Quaternion_Identity;
+extern void (*gModelRenderFuncs[])(void *param_1);
 extern const u16 data_02155a64[];
 extern const u16 data_02155a28[];
 extern const u16 data_02155a2c[];
@@ -33,29 +33,29 @@ extern Vec3 data_02155a08;
 extern u32 gKartBoostCameraEffectIds[];
 extern s32 gKartSideOffsetsX[];
 extern Vec3 gKartSideDirectionVectors[];
-extern void (*gKartSurfaceEffectFunctions[])(struct Kart *p);
-extern Vec3 data_02155a14;
+extern void (*CollisionParticleRenderArray[])(struct Kart *p);
+extern Vec3 rptc_sEmitterPos;
 extern Vec3 data_02155a48;
 extern Vec3 gVec3UnitY;
 extern Vec3 data_02155ebc;
 
-// 12-byte entries; BuildEmblemNsbtxPath reads the string pointer at 0x00.
+// 12-byte entries; cklcr_getCharacterEmblemPath reads the string pointer at 0x00.
 typedef struct CharacterName {
     /* 00 */ const char *mUnk_00;
     /* 04 */ u8 mUnk_04[8];
 } CharacterName;
 
 extern const CharacterName gCharacterEmblemNames[];
-extern const CharacterName gCharacterPNames[];
+extern const CharacterName cklcr_sCharDefs[];
 extern const CharacterName gCharacterENames[];
 
-// 8-byte entries; BuildKartShadowNsbmdPath and BuildKartNsbtxPath read the string pointer at 0x00.
+// 8-byte entries; cklcr_getKartShadowPath and cklcr_getKartNsbtxPath read the string pointer at 0x00.
 typedef struct Unk02155d88 {
     /* 00 */ const char *mUnk_00;
     /* 04 */ u8 mUnk_04[4];
 } Unk02155d88;
 
-extern const Unk02155d88 gKartNames[];
+extern const Unk02155d88 cklcr_sKartDefs[];
 extern const Unk02155d88 gKartShadowNames[];
 
 // 12-byte entry: four bytes and two string pointers.
@@ -75,7 +75,7 @@ extern const StemSetParams gLoseStems;
 extern const StemSetParams gCompleteStems;
 extern const StemSetParams gFailedStems;
 extern Vec3 data_02155a3c;
-extern const u32 data_02155a54;
+extern const u32 aKart_emblem_0;
 extern const u16 data_02155a74[12];
 extern const Vec3 data_021557c4;
 extern const Vec3 data_021557d0;

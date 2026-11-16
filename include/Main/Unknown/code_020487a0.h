@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void ResetArchiveBuffer(int bufferIndex);
-void func_020487e0(const void *source, void *destination, u32 size);
+void arc_initSomething(int bufferIndex);
+void arc_decompressLZ(const void *source, void *destination, u32 size);

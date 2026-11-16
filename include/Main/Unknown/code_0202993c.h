@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void ResetRaceSetupCopy(void);
-u32 func_020299e4(void);
-u32 func_020299f0(void);
-u16 *func_02029a18(void);
+void menu_initRaceConfig(void);
+u32 menu_MB_IsMultiBootChild_2(void);
+u32 menu_MB_IsMultiBootChild(void);
+u16 *menu_MB_GetMultiBootParam(void);

@@ -36,43 +36,43 @@
 #include "Main/Unknown/code_021287cc.h"
 
 #pragma thumb on
-s32 InitSelectReturn(void *heap, s32 subCharOffset) {
+s32 gmenu_initSelectReturn(void *heap, s32 subCharOffset) {
     u32 subDisplayBits;
-    gSelectReturn = HeapAlloc(heap, 0x828);
+    gmenu_sSelectReturnContext = heap_alloc(heap, 0x828);
     if (*(vu16 *) 0x27ffc40 != 2) {
-        InitSelectReturnDisplay();
-        subCharOffset = LoadSelectReturn(subCharOffset);
-        gSelectReturn->mDisplayBitOn = TRUE;
+        gmenu_setupHWForSelectReturn();
+        subCharOffset = gmenu_loadSelectReturn(subCharOffset);
+        gmenu_sSelectReturnContext->mDisplayBitOn = TRUE;
     } else {
-        gSelectReturn->mDisplayBitOn = FALSE;
+        gmenu_sSelectReturnContext->mDisplayBitOn = FALSE;
         subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
         subDisplayBits &= ~4;
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
     }
-    gSelectReturn->mEnabled = TRUE;
-    gSelectReturn->mState = 0;
-    gSelectReturn->mNextState = 0;
-    gSelectReturn->mStateFrames = 0;
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState4Requested = FALSE;
-    gSelectReturn->mBg2Offset = -0x28;
-    gSelectReturn->mSoundId = 0xe;
+    gmenu_sSelectReturnContext->mEnabled = TRUE;
+    gmenu_sSelectReturnContext->mState = 0;
+    gmenu_sSelectReturnContext->mNextState = 0;
+    gmenu_sSelectReturnContext->mStateFrames = 0;
+    gmenu_sSelectReturnContext->mState1Requested = FALSE;
+    gmenu_sSelectReturnContext->mState4Requested = FALSE;
+    gmenu_sSelectReturnContext->mBg2Offset = -0x28;
+    gmenu_sSelectReturnContext->mSoundId = 0xe;
     return subCharOffset;
 }
 #pragma thumb off
 
 #pragma thumb on
-void ClearSelectReturnPointer(void) {
+void gmenu_finishSelectReturn(void) {
     u32 address;
     u32 zero;
     zero = 0u;
-    address = (u32) &gSelectReturn;
+    address = (u32) &gmenu_sSelectReturnContext;
     *(u32 *) ((address) + 0u) = zero;
 }
 #pragma thumb off
 
 #pragma thumb on
-void InitSelectReturnDisplay(void) {
+void gmenu_setupHWForSelectReturn(void) {
     u32 subDisplayBits;
     subDisplayBits = (reg_GXS_DB_DISPCNT & 0x1f00) >> 8;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits | 4) << 8);
@@ -80,27 +80,27 @@ void InitSelectReturnDisplay(void) {
     reg_G2S_DB_BG2CNT = (reg_G2S_DB_BG2CNT & 0x43) | 0xe00;
 }
 
-s32 LoadSelectReturn(s32 subCharOffset) {
+s32 gmenu_loadSelectReturn(s32 subCharOffset) {
     Ncgr *ncgr;
     Nscr *nscr;
     Nclr *nclr;
     s32 i;
     s32 j;
     s32 k;
-    LocateNcgr(&ncgr, FindFileInLoadedArchives("select_return_s_b_00.ncgr"));
-    LocateNscr(&nscr, FindFileInLoadedArchives("select_return_s_bg_00.nscr"));
-    LocateNclr(&nclr, FindFileInLoadedArchives("select_return_s_b_00.nclr"));
+    g2du_getCharacterDataBG(&ncgr, arc_get2dArcFile("select_return_s_b_00.ncgr"));
+    g2du_getScreenData(&nscr, arc_get2dArcFile("select_return_s_bg_00.nscr"));
+    g2du_getPaletteData(&nclr, arc_get2dArcFile("select_return_s_b_00.nclr"));
     subCharOffset -= ncgr->mDataSize;
     DC_FlushRange(ncgr->mData, ncgr->mDataSize);
     GXS_LoadBG2Char(ncgr->mData, subCharOffset, ncgr->mDataSize);
     for (i = 0; i < 0x20; i++) {
         for (j = 0; j < 0x20; j++) {
-            *(gSelectReturn->mScreenMapCopy + i * 0x20 + j) =
+            *(gmenu_sSelectReturnContext->mScreenMapCopy + i * 0x20 + j) =
                 (subCharOffset >> 5) + *((u16 *) nscr->mData + i * 0x20 + j);
         }
     }
-    DC_FlushRange(gSelectReturn->mScreenMapCopy, nscr->mDataSize);
-    GXS_LoadBG2Scr(gSelectReturn->mScreenMapCopy, 0, nscr->mDataSize);
+    DC_FlushRange(gmenu_sSelectReturnContext->mScreenMapCopy, nscr->mDataSize);
+    GXS_LoadBG2Scr(gmenu_sSelectReturnContext->mScreenMapCopy, 0, nscr->mDataSize);
     DC_FlushRange(nclr->mData, 0x180);
     GXS_LoadBGPltt(nclr->mData + 0xc0, 0x180, 0x40);
     return subCharOffset;
@@ -114,31 +114,31 @@ void SetSelectReturnPaletteBits(s32 paletteKind) {
         paletteBits = 0xd000;
     }
     for (i = 0x260; i < 0x360; i++) {
-        gSelectReturn->mScreenMapCopy[i] &= ~0xf000;
-        gSelectReturn->mScreenMapCopy[i] |= paletteBits;
+        gmenu_sSelectReturnContext->mScreenMapCopy[i] &= ~0xf000;
+        gmenu_sSelectReturnContext->mScreenMapCopy[i] |= paletteBits;
     }
     if (*(vu16 *) 0x27ffc40 != 2) {
-        CallQueueAppend(0x1a, 0x4c0, &gSelectReturn->mScreenMapCopy[0x260], 0x200);
+        NNS_GfdRegisterNewVramTransferTask(0x1a, 0x4c0, &gmenu_sSelectReturnContext->mScreenMapCopy[0x260], 0x200);
     }
 }
 
 void AdvanceSelectReturnState0(void) {
-    if (gSelectReturn->mState1Requested != FALSE) {
-        gSelectReturn->mNextState = 1;
-        gSelectReturn->mStateFrames = 0;
+    if (gmenu_sSelectReturnContext->mState1Requested != FALSE) {
+        gmenu_sSelectReturnContext->mNextState = 1;
+        gmenu_sSelectReturnContext->mStateFrames = 0;
         SetSelectReturnPaletteBits(1);
     }
 }
 
 void AdvanceSelectReturnState1(void) {
     SelectReturn *selectReturn;
-    gSelectReturn->mBg2Offset = LookupSelectReturnState1Bg2Offset(gSelectReturn->mStateFrames);
-    gSelectReturn->mStateFrames++;
-    selectReturn = gSelectReturn;
+    gmenu_sSelectReturnContext->mBg2Offset = LookupSelectReturnState1Bg2Offset(gmenu_sSelectReturnContext->mStateFrames);
+    gmenu_sSelectReturnContext->mStateFrames++;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mStateFrames >= 10) {
         selectReturn->mNextState = 2;
-        gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState1Requested = FALSE;
+        gmenu_sSelectReturnContext->mStateFrames = 0;
+        gmenu_sSelectReturnContext->mState1Requested = FALSE;
     }
 }
 #pragma thumb off
@@ -147,7 +147,7 @@ void AdvanceSelectReturnState1(void) {
 
 void AdvanceSelectReturnState2(void) {
     SelectReturn *selectReturn;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mState3Requested != FALSE) {
         selectReturn->mNextState = 3;
         SetSelectReturnPaletteBits(0);
@@ -163,10 +163,10 @@ void AdvanceSelectReturnState2(void) {
 #pragma thumb on
 void AdvanceSelectReturnState3(void) {
     SelectReturn *selectReturn;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     selectReturn->mBg2Offset = data_0215d0b4[selectReturn->mStateFrames];
-    gSelectReturn->mStateFrames++;
-    selectReturn = gSelectReturn;
+    gmenu_sSelectReturnContext->mStateFrames++;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mStateFrames >= 9) {
         if (selectReturn->mState4Requested != FALSE) {
             selectReturn->mNextState = 4;
@@ -175,29 +175,29 @@ void AdvanceSelectReturnState3(void) {
             selectReturn->mNextState = 2;
             SetSelectReturnPaletteBits(1);
         }
-        gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState3Requested = FALSE;
+        gmenu_sSelectReturnContext->mStateFrames = 0;
+        gmenu_sSelectReturnContext->mState3Requested = FALSE;
     }
 }
 
 void AdvanceSelectReturnState4(void) {
     SelectReturn *selectReturn;
-    gSelectReturn->mBg2Offset = LookupSelectReturnState4Bg2Offset(gSelectReturn->mStateFrames);
-    gSelectReturn->mStateFrames++;
-    selectReturn = gSelectReturn;
+    gmenu_sSelectReturnContext->mBg2Offset = LookupSelectReturnState4Bg2Offset(gmenu_sSelectReturnContext->mStateFrames);
+    gmenu_sSelectReturnContext->mStateFrames++;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mStateFrames >= 10) {
         selectReturn->mNextState = 0;
-        gSelectReturn->mStateFrames = 0;
-        gSelectReturn->mState4Requested = FALSE;
+        gmenu_sSelectReturnContext->mStateFrames = 0;
+        gmenu_sSelectReturnContext->mState4Requested = FALSE;
     }
 }
 
-void AdvanceSelectReturn(void) {
+void gmenu_2128458(void) {
     SelectReturn *selectReturn;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mEnabled != FALSE) {
         selectReturn->mState = selectReturn->mNextState;
-        switch (gSelectReturn->mState) {
+        switch (gmenu_sSelectReturnContext->mState) {
             case 0:
                 AdvanceSelectReturnState0();
                 break;
@@ -217,10 +217,10 @@ void AdvanceSelectReturn(void) {
     }
 }
 
-void WriteSelectReturnRegisters(void) {
+void gmenu_updateSelectReturn(void) {
     SelectReturn *selectReturn;
     u32 subDisplayBits;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mEnabled != FALSE) {
         if (selectReturn->mDisplayBitOn != FALSE) {
             if (((reg_GXS_DB_DISPCNT & 0x1f00) >> 8 & 4) == 0) {
@@ -233,31 +233,31 @@ void WriteSelectReturnRegisters(void) {
                 reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | ((subDisplayBits & ~4) << 8);
             }
         }
-        reg_G2S_DB_BG2OFS = (gSelectReturn->mBg2Offset << 16) & 0x1ff0000;
+        reg_G2S_DB_BG2OFS = (gmenu_sSelectReturnContext->mBg2Offset << 16) & 0x1ff0000;
     }
 }
 
 void RequestSelectReturnState1(void) {
     if (IsSelectReturnState2NoState3Or4Request() != 0) {
-        gSelectReturn->mState1Requested = FALSE;
+        gmenu_sSelectReturnContext->mState1Requested = FALSE;
     } else {
-        gSelectReturn->mState1Requested = TRUE;
+        gmenu_sSelectReturnContext->mState1Requested = TRUE;
     }
-    gSelectReturn->mState3Requested = FALSE;
-    gSelectReturn->mState4Requested = FALSE;
+    gmenu_sSelectReturnContext->mState3Requested = FALSE;
+    gmenu_sSelectReturnContext->mState4Requested = FALSE;
 }
 
 // a != 0 also asks for state 4 once state 3 ends.
 void RequestSelectReturnState3WithSound(s32 requestState4) {
     s32 soundId;
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState3Requested = TRUE;
+    gmenu_sSelectReturnContext->mState1Requested = FALSE;
+    gmenu_sSelectReturnContext->mState3Requested = TRUE;
     if (requestState4 != 0) {
-        gSelectReturn->mState4Requested = TRUE;
+        gmenu_sSelectReturnContext->mState4Requested = TRUE;
     } else {
-        gSelectReturn->mState4Requested = FALSE;
+        gmenu_sSelectReturnContext->mState4Requested = FALSE;
     }
-    soundId = gSelectReturn->mSoundId;
+    soundId = gmenu_sSelectReturnContext->mSoundId;
     if (soundId != -1) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) soundId);
     }
@@ -265,12 +265,12 @@ void RequestSelectReturnState3WithSound(s32 requestState4) {
 
 void RequestSelectReturnState4(void) {
     if (IsSelectReturnState0NoState1Request() != 0) {
-        gSelectReturn->mState4Requested = FALSE;
+        gmenu_sSelectReturnContext->mState4Requested = FALSE;
     } else {
-        gSelectReturn->mState4Requested = TRUE;
+        gmenu_sSelectReturnContext->mState4Requested = TRUE;
     }
-    gSelectReturn->mState1Requested = FALSE;
-    gSelectReturn->mState3Requested = FALSE;
+    gmenu_sSelectReturnContext->mState1Requested = FALSE;
+    gmenu_sSelectReturnContext->mState3Requested = FALSE;
 }
 
 s32 IsSelectReturnState2NoState3Or4Request(void) {
@@ -279,7 +279,7 @@ s32 IsSelectReturnState2NoState3Or4Request(void) {
     SelectReturn *selectReturn;
     result = FALSE;
     t = FALSE;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mState == 2 && selectReturn->mState4Requested == FALSE) {
         t = TRUE;
     }
@@ -295,7 +295,7 @@ s32 IsSelectReturnState0NoState1Request(void) {
     BOOL result;
     SelectReturn *selectReturn;
     result = FALSE;
-    selectReturn = gSelectReturn;
+    selectReturn = gmenu_sSelectReturnContext;
     if (selectReturn->mState == 0 && selectReturn->mState1Requested == FALSE) {
         result = TRUE;
     }
@@ -328,7 +328,7 @@ int LookupSelectReturnState4Bg2Offset(int frame) {
 #pragma thumb off
 
 #pragma thumb on
-BOOL IsSelectReturnState2NoState3Or4RequestAndInRect(s32 pointX, s32 pointY) {
+BOOL gmenu_checkSelectReturnTouch(s32 pointX, s32 pointY) {
     if (IsSelectReturnState2NoState3Or4Request() != 0 && pointX >= 0 && pointX <= 0x28 && pointY >= 0x98 &&
         pointY <= 0xc0) {
         return TRUE;
@@ -343,7 +343,7 @@ void ClearSelectReturnDisplayBitOn(void) {
     u32 object;
     u32 zero;
     zero = 0u;
-    value0 = (u32) &gSelectReturn;
+    value0 = (u32) &gmenu_sSelectReturnContext;
     object = *(const u32 *) ((value0) + 0u);
     value0 = 0x820u;
     *(u32 *) ((object) + (value0)) = zero;
@@ -353,17 +353,17 @@ void ClearSelectReturnDisplayBitOn(void) {
 #pragma thumb on
 void SetSelectReturnDisplayBitOn(void) {
     if (*(vu16 *) 0x27ffc40 != 2) {
-        gSelectReturn->mDisplayBitOn = TRUE;
+        gmenu_sSelectReturnContext->mDisplayBitOn = TRUE;
     }
 }
 #pragma thumb off
 
 #pragma thumb on
-void SetSelectReturnSoundId(u32 soundId) {
+void gmenu_setSeqArcIndex(u32 soundId) {
     u32 value0 = soundId;
     u32 value1;
     u32 object;
-    value1 = (u32) &gSelectReturn;
+    value1 = (u32) &gmenu_sSelectReturnContext;
     object = *(const u32 *) ((value1) + 0u);
     value1 = 0x824u;
     *(u32 *) ((object) + (value1)) = value0;
@@ -371,7 +371,7 @@ void SetSelectReturnSoundId(u32 soundId) {
 #pragma thumb off
 
 #pragma thumb on
-// Zeroes the char buffer gate; StartSelectChoises sets it after taking the strings.
+// Zeroes the char buffer gate; gmenu_startSelectChoices sets it after taking the strings.
 u32 ClearSelectChoisesUseCharBuffers(void) {
     u32 value0;
     u32 object;
@@ -386,16 +386,16 @@ u32 ClearSelectChoisesUseCharBuffers(void) {
 #pragma thumb off
 
 #pragma thumb on
-s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
+s32 gmenu_initSelectChoises(void *heap, void *font, s32 subCharOffset) {
     s32 i;
     s32 charSpacing;
     CharCanvas *charCanvas;
     Unk0217d3f0_2178 *textCanvas;
     u32 subDisplayBits;
-    gSelectChoises = HeapAlloc(heap, 0x8b4);
+    gSelectChoises = heap_alloc(heap, 0x8b4);
     if (*(vu16 *) 0x27ffc40 != 2) {
         InitSelectChoisesDisplay();
-        subCharOffset = LoadSelectChoises(subCharOffset);
+        subCharOffset = gmenu_loadSelectChoises(subCharOffset);
         gSelectChoises->mDisplayBitOn = 1;
     } else {
         gSelectChoises->mDisplayBitOn = 0;
@@ -404,11 +404,11 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
         reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffffe0ff) | (subDisplayBits << 8);
     }
     for (i = 0; i < 2; i++) {
-        gSelectChoises->mCharBuffers[i] = HeapAlloc(heap, 0x800);
+        gSelectChoises->mCharBuffers[i] = heap_alloc(heap, 0x800);
         NNS_G2dCharCanvasInitForBG(&gSelectChoises->mCharCanvases[i], gSelectChoises->mCharBuffers[i], 0x20, 2, 4);
         charCanvas = &gSelectChoises->mCharCanvases[i];
         charCanvas->mUnk_18(charCanvas, 0);
-        charSpacing = IsLanguageJa();
+        charSpacing = g2du_getTextHSpace();
         textCanvas = &gSelectChoises->mUnk_874[i];
         textCanvas->mUnk_00 = &gSelectChoises->mCharCanvases[i];
         textCanvas->mUnk_04 = (u32) font;
@@ -434,7 +434,7 @@ s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset) {
 #pragma thumb off
 
 #pragma thumb on
-void ClearSelectChoisesPointer(void) {
+void gmenu_finishSelectChoises(void) {
     u32 address;
     u32 zero;
     zero = 0u;
@@ -465,7 +465,7 @@ u32 InitSelectChoisesDisplay(void) {
 
 #pragma thumb on
 
-s32 LoadSelectChoises(s32 subCharOffset) {
+s32 gmenu_loadSelectChoises(s32 subCharOffset) {
     Ncgr *chars;
     Nscr *screenMap;
     Nclr *palette;
@@ -476,9 +476,9 @@ s32 LoadSelectChoises(s32 subCharOffset) {
     s32 tileRowOffset;
     ByteRect *tileRect;
 
-    LocateNcgr(&chars, FindFileInLoadedArchives(gSelectChoisesSBNcgrName));
-    LocateNscr(&screenMap, FindFileInLoadedArchives(gSelectChoisesSBgNscrName));
-    LocateNclr(&palette, FindFileInLoadedArchives(gSelectChoisesSBNclrName));
+    g2du_getCharacterDataBG(&chars, arc_get2dArcFile(aSelect_chois_2));
+    g2du_getScreenData(&screenMap, arc_get2dArcFile(aSelect_chois_3));
+    g2du_getPaletteData(&palette, arc_get2dArcFile(aSelect_chois_4));
     subCharOffset = subCharOffset - chars->mDataSize;
     s = subCharOffset >> 5;
     gSelectChoises->mFirstTileIndex = s;
@@ -573,7 +573,7 @@ void RefreshAndQueueSelectChoises(void) {
     RefreshSelectChoisesPaletteBits();
     RefreshSelectChoisesNscrCopy();
     if (*(vu16 *) 0x27ffc40 != 2) {
-        CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -587,7 +587,7 @@ void func_02127d28(void) {
     gSelectChoises->mToggleFrames = 0;
     gSelectChoises->mToggleOn = 1;
     if (*(vu16 *) 0x27ffc40 != 2) {
-        CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
     }
 }
 
@@ -608,7 +608,7 @@ void AdvanceSelectChoisesState0(void) {
                 for (j = 0; j < 2; j++) {
                     tileOffset = (j + i * 2) * 32 + 5;
                     if (*(vu16 *) 0x27ffc40 != 2) {
-                        CallQueueAppend(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
+                        NNS_GfdRegisterNewVramTransferTask(0x14, (gSelectChoises->mFirstTileIndex + tileOffset) << 5,
                                         gSelectChoises->mCharBuffers[i] + ((j * 32 + 5) << 5), 0x360);
                     }
                 }
@@ -664,7 +664,7 @@ void AdvanceSelectChoisesState1(void) {
             hit = 1;
         }
     }
-    keys = data_02175628[inputSlotIndex].mPressedBits;
+    keys = gInputUnits[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) != 0 || hit != -1) {
         if (hit == -1 || gSelectChoises->mIndex == hit) {
             func_02127d28();
@@ -675,7 +675,7 @@ void AdvanceSelectChoisesState1(void) {
         gSelectChoises->mNextState = 2;
         if (gSelectChoises->mDisplayBitOn != 0) {
             if (gSelectChoises->mSoundIds[gSelectChoises->mIndex] != -1) {
-                StartSoundOncePerFrame((u16) gSelectChoises->mSoundIds[gSelectChoises->mIndex]);
+                sfx_2105AC0((u16) gSelectChoises->mSoundIds[gSelectChoises->mIndex]);
             }
         }
     } else {
@@ -685,7 +685,7 @@ void AdvanceSelectChoisesState1(void) {
             gSelectChoises->mNextState = 2;
             if (gSelectChoises->mDisplayBitOn != 0) {
                 if (gSelectChoises->mIndexNoneSoundId != -1) {
-                    StartSoundOncePerFrame((u16) gSelectChoises->mIndexNoneSoundId);
+                    sfx_2105AC0((u16) gSelectChoises->mIndexNoneSoundId);
                 }
             }
             return;
@@ -694,7 +694,7 @@ void AdvanceSelectChoisesState1(void) {
             gSelectChoises->mIndex = 0;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {
-                StartSoundOncePerFrame(0);
+                sfx_2105AC0(0);
             }
             return;
         }
@@ -702,7 +702,7 @@ void AdvanceSelectChoisesState1(void) {
             gSelectChoises->mIndex = 1;
             RefreshAndQueueSelectChoises();
             if (gSelectChoises->mDisplayBitOn != 0) {
-                StartSoundOncePerFrame(0);
+                sfx_2105AC0(0);
             }
         }
     }
@@ -736,7 +736,7 @@ void AdvanceSelectChoisesState2(void) {
 
 #pragma thumb on
 
-void AdvanceSelectChoises(void) {
+void gmenu_21279A0(void) {
     if (gSelectChoises->mEnabled != 0) {
         gSelectChoises->mState = gSelectChoises->mNextState;
         switch (gSelectChoises->mState) {
@@ -757,7 +757,7 @@ void AdvanceSelectChoises(void) {
             gSelectChoises->mToggleFrames = 0;
             RefreshSelectChoisesNscrCopy();
             if (*(vu16 *) 0x27ffc40 != 2) {
-                CallQueueAppend(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
+                NNS_GfdRegisterNewVramTransferTask(0x18, 0, gSelectChoises->mNscrCopy, 0x800);
             }
         }
     }
@@ -789,15 +789,15 @@ void RequestSelectChoisesState1(void) {
     gSelectChoises->mState1Requested = 1;
 }
 
-void StartSelectChoises(void *firstText, void *secondText, s32 startOnSecond) {
+void gmenu_startSelectChoices(void *firstText, void *secondText, s32 startOnSecond) {
     CharCanvas *charCanvas;
 
     charCanvas = &gSelectChoises->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 5);
     charCanvas = &gSelectChoises->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 5);
-    func_0212583c(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
-    func_0212583c(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
+    jn_ui_drawFormattedTextRect(&gSelectChoises->mUnk_874[0], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, firstText);
+    jn_ui_drawFormattedTextRect(&gSelectChoises->mUnk_874[1], 0x28, 0, 0xd8, 0x10, 0xc, 0x480, 1, secondText);
     ClearSelectChoisesUseCharBuffers();
     gSelectChoises->mUseCharBuffers = 1;
     RequestSelectChoisesState1();

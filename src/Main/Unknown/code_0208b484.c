@@ -23,20 +23,20 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 HeapAllocForSPLManager(u32 size) {
+u32 ptcm_alloc(u32 size) {
     u32 value0 = size;
     u32 sizeCopy;
     u32 heapGlobalAddress;
     u32 heapAllocAddress;
-    heapGlobalAddress = (u32) &gSPLManagerHeap;
-    heapAllocAddress = (u32) &HeapAlloc;
+    heapGlobalAddress = (u32) &ptcm_sParticleHeap;
+    heapAllocAddress = (u32) &heap_alloc;
     sizeCopy = value0;
     value0 = *(const u32 *) ((heapGlobalAddress) + (0));
-    value0 = (u32) HeapAlloc((void *) value0, sizeCopy);
+    value0 = (u32) heap_alloc((void *) value0, sizeCopy);
     return value0;
 }
 
-void InitEffects(void *defaultHeap) {
+void ptcm_init(void *defaultHeap) {
     s32 maxParticles = 0x78;
     s32 maxEmitters = 0x28;
     void *effectHeap = defaultHeap;
@@ -49,12 +49,12 @@ void InitEffects(void *defaultHeap) {
     RaceSetup *raceSetup;
     Vec3 *emitterDirection;
 
-    *(u32 *) &gGetSPLManagerFunction = (u32) func_0208b484;
-    if (GetCurrentSceneNumber() == 2) {
-        raceSetup = gRaceSetup;
+    *(u32 *) &ptcm_sGetParticleSetByIdFunc = (u32) ptcm_getParticleSetByIdNormal;
+    if (scproc_getCurrentScene() == 2) {
+        raceSetup = gRaceMultiConfig;
         if (raceSetup->mMode == MODE_MISSION_RUN) {
-            *(u32 *) &gGetSPLManagerFunction = (u32) GetSPLManagerForEffectId;
-            effectHeap = data_0217aa10->mExpHeap;
+            *(u32 *) &ptcm_sGetParticleSetByIdFunc = (u32) ptcm_getParticleSetByIdMr;
+            effectHeap = gOverlayData->mExpHeap;
             maxParticles = 0x96;
         }
         if (raceSetup->mCourseId == COURSE_ID_AWARD) {
@@ -62,95 +62,95 @@ void InitEffects(void *defaultHeap) {
             maxEmitters = 0x32;
         }
     }
-    gSPLManagerHeap = effectHeap;
-    data_0217b044 =
-        SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, maxEmitters, maxParticles, 3, 0xe, GetSplMaxPolyId());
-    raceEffectFile = FindMainRaceOrMainEffectFile(gRaceEffectSpaName);
-    SPLManager_LoadResources(data_0217b044, raceEffectFile);
-    SPLManager_UploadTextures(data_0217b044);
-    SPLManager_UploadPalettes(data_0217b044);
-    ResizeMainEffectArchiveBlock(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
-    data_0217b04c = SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, 0x1e, 0x64, 3, 0xe, 0x1e);
-    raceEffectFogOffFile = FindMainRaceOrMainEffectFile(gRaceEffectFogOffSpaName);
-    SPLManager_LoadResources(data_0217b04c, raceEffectFogOffFile);
-    SPLManager_UploadTextures(data_0217b04c);
-    SPLManager_UploadPalettes(data_0217b04c);
-    gMissionRunSPLManager = NULL;
-    data_0217b054 = NULL;
-    data_0217b048 = NULL;
-    if (GetCurrentSceneNumber() != 2) {
+    ptcm_sParticleHeap = effectHeap;
+    ptcm_sRaceEffectParticleSet =
+        spa_createParticleSet((void *(*) (u32)) ptcm_alloc, maxEmitters, maxParticles, 3, 0xe, race_getLastParticlePolygonId());
+    raceEffectFile = arc_getMainRaceMainEffectArcFile(aRaceeffect_spa);
+    spa_initParticleSet(ptcm_sRaceEffectParticleSet, raceEffectFile);
+    spa_defaultUploadTextures(ptcm_sRaceEffectParticleSet);
+    spa_defaultUploadPalettes(ptcm_sRaceEffectParticleSet);
+    arc_resizeMainEffectArc(raceEffectFile, *OFFSET_PTR(u32, raceEffectFile, 0x18));
+    ptcm_sRaceEffectFogOffParticleSet = spa_createParticleSet((void *(*) (u32)) ptcm_alloc, 0x1e, 0x64, 3, 0xe, 0x1e);
+    raceEffectFogOffFile = arc_getMainRaceMainEffectArcFile(aEffectRaceeffe);
+    spa_initParticleSet(ptcm_sRaceEffectFogOffParticleSet, raceEffectFogOffFile);
+    spa_defaultUploadTextures(ptcm_sRaceEffectFogOffParticleSet);
+    spa_defaultUploadPalettes(ptcm_sRaceEffectFogOffParticleSet);
+    ptcm_sMissionEffectParticleSet = NULL;
+    ptcm_sSpecialParticleUpdateFunc = NULL;
+    ptcm_sCamFlashes = NULL;
+    if (scproc_getCurrentScene() != 2) {
         return;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         missionEffectFile = NULL;
-        gMissionRunSPLManager = SPLManager_New((void *(*) (u32)) HeapAllocForSPLManager, 0x32, 0xc8, 3, 0xe, 0x1e);
-        LoadFileIntoHeap(gMissionEffectSpaName, effectHeap, &missionEffectFile);
-        SPLManager_LoadResources(gMissionRunSPLManager, missionEffectFile);
-        SPLManager_UploadTextures(gMissionRunSPLManager);
-        SPLManager_UploadPalettes(gMissionRunSPLManager);
-        gMissionRunSPLManager->mMiscPolygonAttr = 0x8000;
+        ptcm_sMissionEffectParticleSet = spa_createParticleSet((void *(*) (u32)) ptcm_alloc, 0x32, 0xc8, 3, 0xe, 0x1e);
+        arc_loadFile(aDataMissionrun, effectHeap, &missionEffectFile);
+        spa_initParticleSet(ptcm_sMissionEffectParticleSet, missionEffectFile);
+        spa_defaultUploadTextures(ptcm_sMissionEffectParticleSet);
+        spa_defaultUploadPalettes(ptcm_sMissionEffectParticleSet);
+        ptcm_sMissionEffectParticleSet->mMiscPolygonAttr = 0x8000;
     }
-    data_0217b044->mPolygonIDDrawOrder = 1;
-    data_0217b04c->mPolygonIDDrawOrder = 1;
-    if (gMissionRunSPLManager != NULL) {
-        gMissionRunSPLManager->mPolygonIDDrawOrder = 1;
+    ptcm_sRaceEffectParticleSet->mPolygonIDDrawOrder = 1;
+    ptcm_sRaceEffectFogOffParticleSet->mPolygonIDDrawOrder = 1;
+    if (ptcm_sMissionEffectParticleSet != NULL) {
+        ptcm_sMissionEffectParticleSet->mPolygonIDDrawOrder = 1;
     }
-    InitKartTurnEffects(defaultHeap);
-    if (gRaceSetup->mCourseId != COURSE_ID_RAINBOW) {
-        data_0217b044->mMiscPolygonAttr = 0x8000;
+    dptc_init(defaultHeap);
+    if (gRaceMultiConfig->mCourseId != COURSE_ID_RAINBOW) {
+        ptcm_sRaceEffectParticleSet->mMiscPolygonAttr = 0x8000;
     } else {
-        data_0217b044->mMiscPolygonAttr = 0;
+        ptcm_sRaceEffectParticleSet->mMiscPolygonAttr = 0;
     }
-    InitCourseCameraEffects();
-    switch (gRaceSetup->mCourseId) {
+    rptc_initWeather();
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_STADIUM:
             directionOrigin = data_021660fc;
-            data_0217b048 = HeapAlloc(effectHeap, 0x64);
+            ptcm_sCamFlashes = heap_alloc(effectHeap, 0x64);
             for (emitterIndex = 0; emitterIndex < 6; emitterIndex++) {
-                data_0217b048->mEmitters[emitterIndex] = NULL;
-                VEC_Subtract(&data_02155f78[emitterIndex], &directionOrigin, &offset);
-                emitterDirection = &data_0217b048->mDirections[emitterIndex];
+                ptcm_sCamFlashes->mEmitters[emitterIndex] = NULL;
+                VEC_Subtract(&ptcm_sCamFlashesPositions[emitterIndex], &directionOrigin, &offset);
+                emitterDirection = &ptcm_sCamFlashes->mDirections[emitterIndex];
                 if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&offset, emitterDirection);
+                    vec_normalize(&offset, emitterDirection);
                 }
             }
-            data_0217b048->mEmitterTimer = 1;
-            data_0217b054 = (UnkFunc *) AdvanceStadiumEmitters;
+            ptcm_sCamFlashes->mEmitterTimer = 1;
+            ptcm_sSpecialParticleUpdateFunc = (UnkFunc *) ptcm_updateCameraFlashes;
             break;
         case COURSE_ID_AWARD:
-            CreateAwardEmitters();
+            ptcm_initAwardEmitters();
             break;
     }
 }
 
-void UpdateEffects(void) {
-    if (data_0217b054 != NULL) {
-        data_0217b054();
+void ptcm_update(void) {
+    if (ptcm_sSpecialParticleUpdateFunc != NULL) {
+        ptcm_sSpecialParticleUpdateFunc();
     }
-    SPLManager_Update(data_0217b044);
-    SPLManager_Update(data_0217b04c);
-    if (gMissionRunSPLManager != NULL) {
-        SPLManager_Update(gMissionRunSPLManager);
-    }
-}
-
-void DrawEffects(MtxFx43 *viewMatrix) {
-    SPLManager_Draw(data_0217b044, viewMatrix);
-    SPLManager_Draw(data_0217b04c, viewMatrix);
-    if (gMissionRunSPLManager != NULL) {
-        SPLManager_Draw(gMissionRunSPLManager, viewMatrix);
+    spa_updateSet(ptcm_sRaceEffectParticleSet);
+    spa_updateSet(ptcm_sRaceEffectFogOffParticleSet);
+    if (ptcm_sMissionEffectParticleSet != NULL) {
+        spa_updateSet(ptcm_sMissionEffectParticleSet);
     }
 }
 
-void *StartEffect(u32 effectId, const Vec3 *position) {
+void ptcm_render(MtxFx43 *viewMatrix) {
+    spa_renderSet(ptcm_sRaceEffectParticleSet, viewMatrix);
+    spa_renderSet(ptcm_sRaceEffectFogOffParticleSet, viewMatrix);
+    if (ptcm_sMissionEffectParticleSet != NULL) {
+        spa_renderSet(ptcm_sMissionEffectParticleSet, viewMatrix);
+    }
+}
+
+void *ptcm_createEmitter(u32 effectId, const Vec3 *position) {
     s32 resourceId;
     Vec3 emitterPosition;
     Unk0201ca6c *emitter;
-    SPLManager *splManager = gGetSPLManagerFunction(&resourceId, effectId);
+    SPLManager *splManager = ptcm_sGetParticleSetByIdFunc(&resourceId, effectId);
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
+    emitter = spa_createEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
         if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
             emitter->mUnk_80_16 = 1;
@@ -161,45 +161,45 @@ void *StartEffect(u32 effectId, const Vec3 *position) {
     return emitter;
 }
 
-void StartEffectWithCallback(u32 effectId, const Vec3 *position, void *callbackParam, void (*initCallback)()) {
+void ptcm_createEmitterNoUpdateSkip(u32 effectId, const Vec3 *position, void *callbackParam, void (*initCallback)()) {
     s32 resourceId;
     Vec3 emitterPosition;
-    SPLManager *splManager = gGetSPLManagerFunction(&resourceId, effectId);
+    SPLManager *splManager = ptcm_sGetParticleSetByIdFunc(&resourceId, effectId);
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    SPLManager_CreateEmitterWithCallbackEx(splManager, resourceId, &emitterPosition, (s32) callbackParam,
+    spa_createEmitterWithCallback(splManager, resourceId, &emitterPosition, (s32) callbackParam,
                                            (void (*)(Unk0201ca6c *, s32)) initCallback);
 }
 
-void DeleteEffect(Unk0201ca6c *emitter) {
+void ptcm_killEmitterDirect(Unk0201ca6c *emitter) {
     u32 splManager;
     u8 indexBuffer[8];
-    splManager = (*(UnkWordFunc *) (u32) gGetSPLManagerFunction)(indexBuffer, 0);
-    SPLManager_DeleteEmitter((SPLManager *) splManager, emitter);
+    splManager = (*(UnkWordFunc *) (u32) ptcm_sGetParticleSetByIdFunc)(indexBuffer, 0);
+    spa_removeEmitter((SPLManager *) splManager, emitter);
 }
 
-void DeleteEffectAndClearPointer(Unk0201ca6c **emitterSlot) {
+void ptcm_killEmitterDirectSafe(Unk0201ca6c **emitterSlot) {
     u32 splManager;
     u8 indexBuffer[8];
-    splManager = (*(UnkWordFunc *) (u32) gGetSPLManagerFunction)(indexBuffer, 0);
-    SPLManager_DeleteEmitter((SPLManager *) splManager, *emitterSlot);
+    splManager = (*(UnkWordFunc *) (u32) ptcm_sGetParticleSetByIdFunc)(indexBuffer, 0);
+    spa_removeEmitter((SPLManager *) splManager, *emitterSlot);
     *emitterSlot = NULL;
 }
 
-void func_0208b6b0(void **emitterSlot) {
+void ptcm_killEmitter(void **emitterSlot) {
     Unk0201ca6c *effect = *emitterSlot;
     effect->mUnk_24.mUnk_00_0 = 1;
     *emitterSlot = NULL;
 }
 
-Unk0201ca6c *func_0208b60c(s32 resourceId, Vec3 *position) {
+Unk0201ca6c *ptcm_createFogOffEmitter(s32 resourceId, Vec3 *position) {
     Vec3 emitterPosition;
     Unk0201ca6c *emitter;
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    emitter = SPLManager_CreateEmitter(data_0217b04c, resourceId, &emitterPosition);
+    emitter = spa_createEmitter(ptcm_sRaceEffectFogOffParticleSet, resourceId, &emitterPosition);
     if (emitter != NULL) {
         if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
             emitter->mUnk_80_16 = 1;
@@ -210,7 +210,7 @@ Unk0201ca6c *func_0208b60c(s32 resourceId, Vec3 *position) {
     return emitter;
 }
 
-void PlaceEffect(void *effectHandle, const Vec3 *position) {
+void ptcm_setEmitterPosition(void *effectHandle, const Vec3 *position) {
     Unk0201ca6c *emitter = effectHandle;
     s32 positionX = position->x;
     s32 positionY = position->y;
@@ -220,16 +220,16 @@ void PlaceEffect(void *effectHandle, const Vec3 *position) {
     emitter->mUnk_28.z = (positionZ >> 4) + emitter->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale) {
+void *ptcm_208B498(u32 effectId, Vec3 *position, u32 kartIndex, s32 velocityScale) {
     s32 resourceId;
     Vec3 velocity;
     Vec3 emitterPosition;
     Unk0201ca6c *emitter;
-    SPLManager *splManager = gGetSPLManagerFunction(&resourceId, effectId);
+    SPLManager *splManager = ptcm_sGetParticleSetByIdFunc(&resourceId, effectId);
     emitterPosition.x = position->x >> 4;
     emitterPosition.y = position->y >> 4;
     emitterPosition.z = position->z >> 4;
-    emitter = SPLManager_CreateEmitter(splManager, resourceId, &emitterPosition);
+    emitter = spa_createEmitter(splManager, resourceId, &emitterPosition);
     if (emitter != NULL) {
         if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
             emitter->mUnk_80_16 = 1;
@@ -238,7 +238,7 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
         }
     }
     if (emitter != NULL) {
-        velocity = GetKart(kartIndex)->mEffectVelocity;
+        velocity = driver_getById(kartIndex)->mEffectVelocity;
         velocity.x = ((s64) velocity.x * velocityScale) >> 12;
         velocity.y = ((s64) velocity.y * velocityScale) >> 12;
         velocity.z = ((s64) velocity.z * velocityScale) >> 12;
@@ -247,11 +247,11 @@ void *StartEffectWithKartVelocity(u32 effectId, Vec3 *position, u32 kartIndex, s
     return emitter;
 }
 
-u32 func_0208b484(u32 outIndex, u32 effectId) {
+u32 ptcm_getParticleSetByIdNormal(u32 outIndex, u32 effectId) {
     u32 value0 = outIndex;
     u32 effectIdCopy = effectId;
     u32 managerGlobalAddress;
-    managerGlobalAddress = (u32) &data_0217b044;
+    managerGlobalAddress = (u32) &ptcm_sRaceEffectParticleSet;
     *(u32 *) ((value0) + (0)) = effectIdCopy;
     value0 = *(const u32 *) ((managerGlobalAddress) + (0));
     return value0;

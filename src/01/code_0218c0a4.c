@@ -34,7 +34,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 
 void func_ov001_0218c490(Unk02188950 *mapObject) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
 
     func_ov001_02187218(mapObject, 2, func_ov001_0218c5d4);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_104, mapObject->mPrm->mUnk_108);
@@ -90,11 +90,11 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
     angle = mapObject->mAngle - prm->mUnk_1a4 * (mapObject->mUnk_138 / 2);
     firstRange = prm->mUnk_1a8;
     if (firstRange == 0x10000) {
-        random = GetMapObjectRandom();
+        random = mobj_getRng1();
         random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
         firstResult = (random->mValue >> 32) * 0x10000 >> 32;
     } else {
-        random = GetMapObjectRandom();
+        random = mobj_getRng1();
         if ((u16) firstRange == 0) {
             firstScaledDraw = 0;
         } else {
@@ -111,11 +111,11 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
     if (firstResult == 0) {
         secondRange = mapObject->mUnk_138;
         if (secondRange == 0x10000) {
-            random = GetMapObjectRandom();
+            random = mobj_getRng1();
             random->mValue = random->mIncrement + (s64) random->mMultiplier * (s64) random->mValue;
             secondResult = (random->mValue >> 32) * 0x10000 >> 32;
         } else {
-            random = GetMapObjectRandom();
+            random = mobj_getRng1();
             if ((u16) secondRange == 0) {
                 secondScaledDraw = 0;
             } else {
@@ -138,20 +138,20 @@ void ThrowBombsAndKinoko(Unk02188950 *mapObject) {
         Vec3 pos;
         Vec3 vel = {0, 0, 0};
 
-        pos.x = mapObject->mUnk_000.mPos.x + (((s64) radius * gPairsByAngle[((u16) angle >> 4) * 2]) >> 12);
+        pos.x = mapObject->mUnk_000.mPos.x + (((s64) radius * FX_SinCosTable_[((u16) angle >> 4) * 2]) >> 12);
         pos.y = mapObject->mUnk_000.mPos.y + mapObject->mPrm->mUnk_194;
-        pos.z = mapObject->mUnk_000.mPos.z + (((s64) radius * gPairsByAngle[((u16) angle >> 4) * 2 + 1]) >> 12);
-        vel.x = ((s64) mapObject->mPrm->mUnk_1a0 * gPairsByAngle[((u16) angle >> 4) * 2]) >> 12;
+        pos.z = mapObject->mUnk_000.mPos.z + (((s64) radius * FX_SinCosTable_[((u16) angle >> 4) * 2 + 1]) >> 12);
+        vel.x = ((s64) mapObject->mPrm->mUnk_1a0 * FX_SinCosTable_[((u16) angle >> 4) * 2]) >> 12;
         vel.y = mapObject->mPrm->mUnk_19c;
-        vel.z = ((s64) mapObject->mPrm->mUnk_1a0 * gPairsByAngle[((u16) angle >> 4) * 2 + 1]) >> 12;
+        vel.z = ((s64) mapObject->mPrm->mUnk_1a0 * FX_SinCosTable_[((u16) angle >> 4) * 2 + 1]) >> 12;
         if (i == sel) {
-            ThrowItemKinokoFromPosition(StartItemKinokoOrZero(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
+            ThrowItemKinokoFromPosition(itkino_20F4EE8(), &pos, &vel, mapObject->mPrm->mUnk_1ac);
         } else {
             ThrowItemBombFromPosition(StartItemBombWithParkedKuribo(), &pos, &vel, mapObject->mPrm->mUnk_1b0);
         }
         angle += mapObject->mPrm->mUnk_1a4;
-        StartEffect(0x3f7, &pos);
-        StartEffect(0x3f6, &pos);
+        ptcm_createEmitter(0x3f7, &pos);
+        ptcm_createEmitter(0x3f6, &pos);
     }
-    StartMapObjectSound(&mapObject->mUnk_000, 0x222);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x222);
 }

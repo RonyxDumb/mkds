@@ -4,6 +4,6 @@
 
 typedef struct HeapCall HeapCall;
 
-void *GetHeap(HeapCall *call);
-void *GetCurrentHeapCall(void);
-u32 RunHeapCall(HeapCall *call, u32 argument);
+void *proc_getHeap(HeapCall *call);
+void *proc_getCurrent(void);
+u32 proc_run(HeapCall *call, u32 argument);

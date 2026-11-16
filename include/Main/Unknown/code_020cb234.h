@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateSinglePlaySelectMenuScreen0(void);
+void menu_modeSelectInStateRender(void);

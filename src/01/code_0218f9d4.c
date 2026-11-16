@@ -68,7 +68,7 @@
 #include "Main/Unknown/code_02061654.h"
 
 void func_ov001_02192890(Unk02188950 *a) {
-    a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    a->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource((SoundSource *) a->mUnk_000.mSound, 0xc, &a->mUnk_000.mPos);
     a->mUnk_000.mFarDistanceSquared = data_0217cbec[0x14];
 }
@@ -84,12 +84,12 @@ void func_ov001_021927c0(Unk02188950 *a) {
         SetKartCollisionCallback(a, func_ov001_021927c0);
         return;
     }
-    a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_144 * gPairsByAngle[(u16) a->mMoveAngle >> 4 << 1]) >> 12;
+    a->mUnk_000.mUnk_10.x = ((s64) a->mPrm->mUnk_144 * FX_SinCosTable_[(u16) a->mMoveAngle >> 4 << 1]) >> 12;
     a->mUnk_000.mUnk_10.y = 0;
-    a->mUnk_000.mUnk_10.z = ((s64) a->mPrm->mUnk_144 * gPairsByAngle[((u16) a->mMoveAngle >> 4 << 1) + 1]) >> 12;
+    a->mUnk_000.mUnk_10.z = ((s64) a->mPrm->mUnk_144 * FX_SinCosTable_[((u16) a->mMoveAngle >> 4 << 1) + 1]) >> 12;
     a->mUnk_2d8 = 0xd;
     SetKartCollisionCallback(a, func_ov001_021927c0);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
 }
 
 void func_ov001_02192794(Unk02188950 *a) {
@@ -106,12 +106,12 @@ void func_ov001_02192694(void) {
     int idx;
     u16 ang;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        obj = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
     } else {
         obj = NULL;
     }
-    other = GetKart((u16) gRaceSetup->mEntryIndex);
+    other = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if (obj->mUnk_0a8 == 4) {
         a0 = obj->mPrm;
         ang = FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x) - a0->mUnk_26c;
@@ -120,9 +120,9 @@ void func_ov001_02192694(void) {
         ang = a0->mUnk_26c + FX_Atan2Idx(other->mPos.z - obj->mUnk_000.mPos.z, other->mPos.x - obj->mUnk_000.mPos.x);
     }
     idx = (ang >> 4) * 2;
-    pos.x = obj->mUnk_000.mPos.x + (s32) (((s64) a0->mUnk_270 * gPairsByAngle[idx + 1]) >> 12);
+    pos.x = obj->mUnk_000.mPos.x + (s32) (((s64) a0->mUnk_270 * FX_SinCosTable_[idx + 1]) >> 12);
     pos.y = obj->mUnk_000.mPos.y;
-    pos.z = obj->mUnk_000.mPos.z + (s32) (((s64) obj->mPrm->mUnk_270 * gPairsByAngle[idx]) >> 12);
+    pos.z = obj->mUnk_000.mPos.z + (s32) (((s64) obj->mPrm->mUnk_270 * FX_SinCosTable_[idx]) >> 12);
     SetAnglePointAndMoveAnglePoint(obj, &pos);
 }
 
@@ -134,30 +134,30 @@ void func_ov001_021924cc(void) {
     Unk02188950 *obj;
     Unk02188950 *objC;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objB = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        objB = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2));
     } else {
         objB = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        obj = GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        obj = GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0));
     } else {
         obj = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        objC = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        objC = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         objC = NULL;
     }
-    a.x = (((s64) objB->mPrm->mUnk_274 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
+    a.x = (((s64) objB->mPrm->mUnk_274 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2]) >> 12);
     a.y = objB->mUnk_000.mPos.y;
-    a.z = (((s64) objB->mPrm->mUnk_274 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
-    b.x = -(s32) (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
+    a.z = (((s64) objB->mPrm->mUnk_274 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
+    b.x = -(s32) (((s64) objB->mPrm->mUnk_278 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
     b.y = objB->mUnk_000.mPos.y;
-    b.z = (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
-    c.x = (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
+    b.z = (((s64) objB->mPrm->mUnk_278 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2]) >> 12);
+    c.x = (((s64) objB->mPrm->mUnk_278 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2 + 1]) >> 12);
     c.y = objB->mUnk_000.mPos.y;
-    c.z = -(s32) (((s64) objB->mPrm->mUnk_278 * gPairsByAngle[((u16) objB->mAngle >> 4) * 2]) >> 12);
+    c.z = -(s32) (((s64) objB->mPrm->mUnk_278 * FX_SinCosTable_[((u16) objB->mAngle >> 4) * 2]) >> 12);
     SetAnglePoint(obj, &a);
     SetAnglePoint(objC, &a);
     SetMoveAnglePoint(obj, &b);
@@ -257,7 +257,7 @@ void func_ov001_02191f70(Unk02188950 *a) {
     func_ov001_02188c0c(a, a->mPrm->mUnk_2c8, 0x270f000);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_2cc, 0x270f000);
     func_ov001_021922e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x215);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x215);
 }
 
 void func_ov001_02191ecc(Unk02188950 *a) {
@@ -296,7 +296,7 @@ void func_ov001_02191de0(Unk02188950 *a) {
 }
 
 u32 func_ov001_02191dc8(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x0000021du);
+    mobj_emitSfxFromEmitter(&a->mUnk_000, 0x0000021du);
     return 0;
 }
 
@@ -334,7 +334,7 @@ void func_ov001_02191bc0(Unk02188950 *a) {
     SetSpeedAndClearTarget(a, 0);
     func_ov001_02188c90(a);
     func_ov001_021922e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x00000215u);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x00000215u);
 }
 
 void func_ov001_02191b40(Unk02188950 *a) {
@@ -396,7 +396,7 @@ void func_ov001_021918c8(Unk02188950 *a) {
 
 int func_ov001_02191888(Unk02188950 *a) {
     if (a->mSpeed > 0) {
-        StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x219);
+        mobj_emitSfxFromEmitter(&a->mUnk_000, 0x219);
     } else {
         ReleaseEffects(a);
         SetKartCollisionCallback(a, func_ov001_02192878);
@@ -406,12 +406,12 @@ int func_ov001_02191888(Unk02188950 *a) {
 }
 
 s32 func_ov001_02191870(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x219);
+    mobj_emitSfxFromEmitter(&a->mUnk_000, 0x219);
     return 0;
 }
 
 void func_ov001_021917d0(Unk02188950 *a) {
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 3, (s32(*)(Unk02188950 *)) func_ov001_02191888);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_148, a->mPrm->mUnk_14c);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_150, a->mPrm->mUnk_154);
@@ -420,7 +420,7 @@ void func_ov001_021917d0(Unk02188950 *a) {
 }
 
 void func_ov001_021916e0(Unk02188950 *a) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     Vec3 local = {0, 0, 0};
 
     if ((a->mUnk_000.mFlags & 0x400) == 0) {
@@ -447,10 +447,10 @@ void func_ov001_02191618(Unk02188950 *a) {
     SetSpeedAndClearTarget(a, 0);
     SetVelocity(a, &local);
     SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x218);
 }
 
 void func_ov001_02191550(Unk02188950 *a) {
@@ -463,10 +463,10 @@ void func_ov001_02191550(Unk02188950 *a) {
     SetSpeedAndClearTarget(a, 0);
     SetVelocity(a, &local);
     SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x218);
 }
 
 void func_ov001_02191488(Unk02188950 *a) {
@@ -478,9 +478,9 @@ void func_ov001_02191488(Unk02188950 *a) {
     SetVelocity(a, &local);
     func_ov001_02188c90(a);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_0f8, a->mPrm->mUnk_0fc);
-    if (func_ov001_02188220(gRaceSetup->mMode == MODE_MISSION_RUN
+    if (func_ov001_02188220(gRaceMultiConfig->mMode == MODE_MISSION_RUN
                                 ? GetMissionRunMapObject(
-                                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                                      (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                                 : 0) >= 1) {
         SetCourseCollisionCallback(a, func_ov001_02191618);
     } else {
@@ -491,12 +491,12 @@ void func_ov001_02191488(Unk02188950 *a) {
 }
 
 s32 func_ov001_02191470(Unk02188950 *a) {
-    StartMapObjectSoundWhileRequested(&a->mUnk_000, 0x21c);
+    mobj_emitSfxFromEmitter(&a->mUnk_000, 0x21c);
     return 0;
 }
 
 void func_ov001_021913b8(Unk02188950 *a) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     Vec3 local = {0, 0, 0};
 
     IncrementEntryIndex(a);
@@ -511,7 +511,7 @@ void func_ov001_021913b8(Unk02188950 *a) {
 }
 
 void func_ov001_02191318(Unk02188950 *a) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     Vec3 local = {0, 0, 0};
 
     local.y = a->mPrm->mUnk_0a4;
@@ -534,14 +534,14 @@ void func_ov001_02191258(Unk02188950 *a) {
     SetSpeedAndClearTarget(a, 0);
     SetVelocity(a, &local);
     SetKartCollisionCallback(a, func_ov001_02192878);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x414, 0);
     StartEffectAtRowHeight(a, 0x1000, 0, 0x2000, 0x415, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x218);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x218);
 }
 
 void func_ov001_021911a8(Unk02188950 *a) {
-    Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     Vec3 local = {0, 0, 0};
 
     local.y = a->mPrm->mUnk_1e4;
@@ -569,7 +569,7 @@ void func_ov001_02191130(Unk02188950 *a) {
 
 s32 func_ov001_021910fc(Unk02188950 *a) {
     if ((a->mCollisionBits & 0x001e34ef) != 0) {
-        StartMapObjectSound(&a->mUnk_000, 0x218);
+        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x218);
         a->mUnk_158 = NULL;
     }
     return 0;
@@ -590,7 +590,7 @@ void func_ov001_02191064(Unk02188950 *a) {
     a->mGravityEnabled = TRUE;
     func_ov001_0219226c(a);
     SetKartCollisionCallback(a, func_ov001_02192878);
-    StartMapObjectSound(&a->mUnk_000, 0x00000216u);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x00000216u);
 }
 
 void func_ov001_02191034(Unk02188950 *a) {
@@ -606,7 +606,7 @@ void func_ov001_02190fc4(Unk02188950 *a) {
     a->mGravityEnabled = TRUE;
     func_ov001_0219226c(a);
     SetKartCollisionCallback(a, func_ov001_02192878);
-    StartMapObjectSound(&a->mUnk_000, 0x00000216u);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x00000216u);
 }
 
 void func_ov001_02190ee0(Unk02188950 *a) {
@@ -621,7 +621,7 @@ void func_ov001_02190ee0(Unk02188950 *a) {
         Unk0210b7a8 local = data_ov001_021a7de8;
 
         local.mPositionSource = &a->mUnk_000.mPos;
-        local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
+        local.mDistanceSquared = mobj_calcXZCamDist(&a->mUnk_000.mPos);
         func_0210b734(&local, func_02108e7c());
     }
     a->mUnk_000.mFlags |= data_ov001_021a65c8;
@@ -660,11 +660,11 @@ s32 func_ov001_02190d78(Unk02188950 *a) {
     Unk02188950 *v1;
     Unk02188950 *v2;
 
-    v1 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+    v1 = gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
              : 0;
-    v2 = gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+    v2 = gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
              : 0;
     if (func_ov001_021871f8(v1, 3) != 0 && func_ov001_021871f8(v2, 3) != 0) {
         func_ov001_02188e88(a);
@@ -676,11 +676,11 @@ s32 func_ov001_02190d00(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+    a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
              : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+    b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
              : 0);
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
         func_ov001_02190c08(c);
@@ -695,24 +695,24 @@ void func_ov001_02190c08(Unk02188950 *c) {
     if (func_ov001_0218820c(c)) {
         func_ov001_02187218(c, 3, func_ov001_02190d00);
         func_ov001_02188c90(c);
-        a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+        a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+                 ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
                  : 0);
-        b = (gRaceSetup->mMode == MODE_MISSION_RUN
+        b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                       (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
                  : 0);
         func_ov001_021911a8(a);
         func_ov001_021911a8(b);
     } else {
         func_ov001_02187218(c, 3, func_ov001_02190d78);
         func_ov001_02188c90(c);
-        a = (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+        a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+                 ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
                  : 0);
-        b = (gRaceSetup->mMode == MODE_MISSION_RUN
+        b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
                  ? GetMissionRunMapObject(
-                       (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                       (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
                  : 0);
         func_ov001_021918c8(a);
         func_ov001_021918c8(b);
@@ -723,13 +723,13 @@ s32 func_ov001_02190b58(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+    a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
              : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+    b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
              : 0);
-    SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(c, &driver_getById((u16) gRaceMultiConfig->mEntryIndex)->mPos);
     func_ov001_021924cc();
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
         func_ov001_02188218(c, ((u16) c->mPrm->mUnk_1ec));
@@ -742,14 +742,14 @@ void func_ov001_02190acc(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(c, 3, func_ov001_02190b58);
     func_ov001_02188c90(c);
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+    a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
              : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+    b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
              : 0);
     func_ov001_02191bc0(a);
     func_ov001_02191bc0(b);
@@ -759,13 +759,13 @@ s32 func_ov001_02190a20(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+    a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
              : 0);
-    b = (gRaceSetup->mMode == MODE_MISSION_RUN
-             ? GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+    b = (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+             ? GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
              : 0);
-    SetAnglePointAndMoveAnglePoint(c, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(c, &driver_getById((u16) gRaceMultiConfig->mEntryIndex)->mPos);
     func_ov001_021924cc();
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
         c->mUnk_0a8 = c->mUnk_0a8 == 4 ? 5 : 4;
@@ -780,17 +780,17 @@ void func_ov001_02190948(Unk02188950 *c) {
     Unk02188950 *b;
 
     if (func_ov001_0218820c(c)) {
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
         func_ov001_02187218(c, 3, func_ov001_02190a20);
         func_ov001_02188c48(c, c->mPrm->mUnk_2c4, 0x270f000);
         SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+            a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
         } else {
             a = NULL;
         }
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+            b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
         } else {
             b = NULL;
         }
@@ -811,17 +811,17 @@ int func_ov001_021908a8(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
     func_ov001_021924cc();
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
@@ -835,16 +835,16 @@ void func_ov001_0219081c(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(c, 3, func_ov001_021908a8);
     func_ov001_02188c90(c);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -856,13 +856,13 @@ int func_ov001_0219079c(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -879,14 +879,14 @@ int func_ov001_02190688(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -916,13 +916,13 @@ void func_ov001_021905f8(Unk02188950 *c) {
 
     func_ov001_02187218(c, 3, func_ov001_02190688);
     func_ov001_02188c90(c);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -939,13 +939,13 @@ int func_ov001_0219052c(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -964,17 +964,17 @@ void func_ov001_02190468(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(c, 3, func_ov001_0219052c);
     func_ov001_02188c48(c, c->mPrm->mUnk_2c4, 0x270f000);
     SetAnglePointAndMoveAnglePoint(c, &kart->mPos);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -991,14 +991,14 @@ int func_ov001_021903e0(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1012,17 +1012,17 @@ void func_ov001_02190328(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(c, 3, func_ov001_021903e0);
     func_ov001_02188c90(c);
     c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1039,17 +1039,17 @@ void func_ov001_02190270(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(c, 3, func_ov001_021903e0);
     func_ov001_02188c90(c);
     c->mUnk_0a8 = (c->mUnk_0a8 == 5) ? 4 : 5;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
@@ -1071,27 +1071,27 @@ int func_ov001_02190168(Unk02188950 *c) {
     Unk02188950 *a;
     Unk02188950 *b;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
     if (func_ov001_021871f8(a, 3) && func_ov001_021871f8(b, 3)) {
         if (func_ov001_02188220(
-                ((gRaceSetup->mMode == MODE_MISSION_RUN
+                ((gRaceMultiConfig->mMode == MODE_MISSION_RUN
                       ? GetMissionRunMapObject(
-                            (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                            (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                       : 0))) == 1) {
             func_ov001_02190270(c);
         } else if (func_ov001_02188220(
-                       ((gRaceSetup->mMode == MODE_MISSION_RUN
+                       ((gRaceMultiConfig->mMode == MODE_MISSION_RUN
                              ? GetMissionRunMapObject(
-                                   (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                                   (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                              : 0))) == 2) {
             func_ov001_02190248(c);
         } else {
@@ -1107,19 +1107,19 @@ void func_ov001_021900ac(Unk02188950 *c) {
 
     func_ov001_02187218(c, 3, func_ov001_02190168);
     func_ov001_02188c90(c);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)));
     } else {
         a = NULL;
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        b = GetMissionRunMapObject((u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        b = GetMissionRunMapObject((u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1));
     } else {
         b = NULL;
     }
-    if (func_ov001_02188220(((gRaceSetup->mMode == MODE_MISSION_RUN
+    if (func_ov001_02188220(((gRaceMultiConfig->mMode == MODE_MISSION_RUN
                                   ? GetMissionRunMapObject(
-                                        (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                                        (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                                   : 0))) >= 2) {
         func_ov001_02190fc4(a);
         func_ov001_02190fc4(b);
@@ -1131,7 +1131,7 @@ void func_ov001_021900ac(Unk02188950 *c) {
 
 u32 func_ov001_02190090(Unk02188950 *a) {
     int v1;
-    v1 = IsRaceStarted();
+    v1 = race_getState();
     if (v1 == 1) {
         func_ov001_02190328(a);
     }
@@ -1163,7 +1163,7 @@ void func_ov001_0218ff98(Unk02188950 *a) {
     func_ov001_02187218(a, 8, NULL);
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, (UnkFunc *) &func_ov001_0218ffd4);
     func_ov001_021923e0(a);
-    StartMapObjectSound(&a->mUnk_000, 0x0000021bu);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x0000021bu);
 }
 
 void func_ov001_0218ff64(Unk02188950 *a) {
@@ -1201,26 +1201,26 @@ void func_ov001_0218fd20(Unk02188950 *a, Unk0218fd20 *b) {
     }
     limit = a->mPrm->mUnk_088;
     if (diff <= limit && diff >= -limit && func_ov001_021871f8(a, 7)) {
-        vec.x = (((s64) -a->mPrm->mUnk_224 * gPairsByAngle[((u16) a->mAngle >> 4) * 2]) >> 12);
+        vec.x = (((s64) -a->mPrm->mUnk_224 * FX_SinCosTable_[((u16) a->mAngle >> 4) * 2]) >> 12);
         vec.y = a->mPrm->mUnk_228;
-        vec.z = (((s64) -a->mPrm->mUnk_224 * gPairsByAngle[((u16) a->mAngle >> 4) * 2 + 1]) >> 12);
+        vec.z = (((s64) -a->mPrm->mUnk_224 * FX_SinCosTable_[((u16) a->mAngle >> 4) * 2 + 1]) >> 12);
         SetVelocity(
-            (gRaceSetup->mMode == MODE_MISSION_RUN
-                 ? GetMissionRunMapObject((u16) (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
+            (gRaceMultiConfig->mMode == MODE_MISSION_RUN
+                 ? GetMissionRunMapObject((u16) (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0))
                  : 0),
             &vec);
-        SetVelocity((gRaceSetup->mMode == MODE_MISSION_RUN
+        SetVelocity((gRaceMultiConfig->mMode == MODE_MISSION_RUN
                          ? GetMissionRunMapObject(
-                               (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
+                               (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 1))
                          : 0),
                     &vec);
-        StartEffect(0x3eb, &b->mUnk_50);
-        StartEffect(0x3ec, &b->mUnk_50);
-        StartEffect(0x3ed, &b->mUnk_50);
+        ptcm_createEmitter(0x3eb, &b->mUnk_50);
+        ptcm_createEmitter(0x3ec, &b->mUnk_50);
+        ptcm_createEmitter(0x3ed, &b->mUnk_50);
         a->mUnk_000.mDistanceSquaredAndFlags |= data_ov001_021a65c4;
-        func_ov001_0219006c(gRaceSetup->mMode == MODE_MISSION_RUN
+        func_ov001_0219006c(gRaceMultiConfig->mMode == MODE_MISSION_RUN
                                 ? GetMissionRunMapObject(
-                                      (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                                      (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                                 : 0);
         SetItemCollisionCallback(a, (UnkFunc *) func_ov001_0218fee0);
         a->mUnk_2e0 = 2;
@@ -1238,8 +1238,8 @@ void func_ov001_0218fcc4(Unk0218fa78 *a) {
     if (a != NULL) {
         zero = 0;
         for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
-            InitMissionRunMapObject((void *) zero, obj, (const char *) zero, (const char *) zero, data_ov001_021a7eb0);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            boss_21870E4((void *) zero, obj, (const char *) zero, (const char *) zero, aIwante_l_prm_0);
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
             func_ov001_02190080(obj);
@@ -1248,18 +1248,18 @@ void func_ov001_0218fcc4(Unk0218fa78 *a) {
 }
 
 void func_ov001_0218fc4c(u32 a, Unk02188950 *b) {
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == 0 && func_ov001_021871f8(b, 1)) {
+    if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) == 0 && func_ov001_021871f8(b, 1)) {
         if (func_ov001_02188220(
-                (gRaceSetup->mMode == MODE_MISSION_RUN
+                (gRaceMultiConfig->mMode == MODE_MISSION_RUN
                      ? GetMissionRunMapObject(
-                           (u16) ((gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
+                           (u16) ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) + 2))
                      : 0)) < 2) {
             func_ov001_02190468(b);
         } else {
             func_ov001_0219081c(b);
         }
     }
-    AdvanceMissionRunMapObject(a, b);
+    boss_update(a, b);
 }
 
 void InitIwanteObjects(Unk0218fa78 *a) {
@@ -1268,7 +1268,7 @@ void InitIwanteObjects(Unk0218fa78 *a) {
 
     if (a != NULL) {
         for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
-            if (GetRaceUseChainCameras()) {
+            if (race_isCamAnimMode()) {
                 obj->mUnk_000.mPos.y += obj->mPrm->mUnk_080;
                 func_ov001_0218fef8(obj);
             } else {
@@ -1278,14 +1278,14 @@ void InitIwanteObjects(Unk0218fa78 *a) {
             SetKartCollisionCallback(obj, func_ov001_02192878);
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_02190df0);
+    mgcnt_setOnEndFunc((void (*)(void)) func_ov001_02190df0);
 }
 
 void UpdateIwante(u32 a, Unk02188950 *b) {
     s32 value;
 
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) && func_ov001_021871f8(b, 3)) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
+    if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasMgEnded() : 0) && func_ov001_021871f8(b, 3)) {
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead((u16) gRaceMultiConfig->mEntryIndex) : 0) {
             func_ov001_02190df8(b);
         } else {
             func_ov001_02190eb0(b);
@@ -1293,8 +1293,8 @@ void UpdateIwante(u32 a, Unk02188950 *b) {
     }
     if (b->mUnk_0a8 == 1) {
         value = b->mUnk_134 + 1;
-        if (value >= GetMapObjectModelNsbtpFrameCount(b->mNsbmd) - 1) {
-            value = GetMapObjectModelNsbtpFrameCount(b->mNsbmd) - 1;
+        if (value >= mobj_getModelNsbtpFrameCount(b->mNsbmd) - 1) {
+            value = mobj_getModelNsbtpFrameCount(b->mNsbmd) - 1;
         }
         b->mUnk_134 = value;
     } else {
@@ -1304,23 +1304,23 @@ void UpdateIwante(u32 a, Unk02188950 *b) {
         }
         b->mUnk_134 = value;
     }
-    SetMapObjectModelNsbtpFrameIndex(b->mNsbmd, b->mUnk_134);
-    AdvanceMissionRunMapObject(a, b);
+    mobj_setModelNsbtpFrame(b->mNsbmd, b->mUnk_134);
+    boss_update(a, b);
 }
 
 // Iwante: the two stone hands of Mission Run.
-void InitIwante(Unk0218fa78 *a) {
+void LoadIwante_l(Unk0218fa78 *a) {
     int i;
     Unk02188950 *obj;
 
     if (a != NULL) {
         for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(obj);
             }
-            InitMissionRunMapObject(a, obj, gIwanteLNsbmdName, gIwanteLNsbcaName, gIwanteLPrmName);
-            LoadMissionRunMapObjectShadow(a, obj, gShIwanteNsbmdName);
-            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, gIwanteLNsbtpName);
+            boss_21870E4(a, obj, aIwante_l_nsbmd, aIwante_l_nsbca, aIwante_l_prm);
+            LoadMissionRunMapObjectShadow(a, obj, aSh_iwante_nsbm);
+            LoadMapObjectModelNsbtpAnimation(obj->mNsbmd, aIwante_l_nsbtp);
             obj->mCollisionShape = 1;
             if (i == 0) {
                 obj->mUnk_000.mFlags |= data_ov001_021a65c0;
@@ -1332,27 +1332,27 @@ void InitIwante(Unk0218fa78 *a) {
 }
 
 void func_ov001_0218fa58(void *a, Unk02188950 *b) {
-    DrawMissionRunMapObject(a, b);
-    DrawMissionRunMapObjectShadow(a, b, 0);
+    boss_render(a, b);
+    boss_renderShadow(a, b, 0);
 }
 
 void func_ov001_0218fa20(void) {
     u32 v4 = 0x21au;
     u32 v6 = 0x216u;
-    void *v8 = &CollideKartWithMissionRunMapObject;
-    void *v9 = &CollideItemWithMissionRunMapObject;
-    void *v10 = &ComputeSphereHitOnMissionRunMapObject;
+    void *v8 = &boss_onDriverCollide;
+    void *v9 = &boss_onItemCollide;
+    void *v10 = &boss_collide;
     void *v12 = func_ov001_0219b510(v8, v9, v10, 0x2u, 0x1u, v4, v6);
 }
 
 void *func_ov001_0218fa04(void) {
-    return CreateMapObjectDrawList1(InitIwante, func_ov001_0218fa58, ToggleShadowScale);
+    return mobj_createRenderPart3d(LoadIwante_l, func_ov001_0218fa58, ktesa_globalPreRender);
 }
 
 void *func_ov001_0218f9ec(void) {
-    return CreateMapObjectUpdateList(InitIwanteObjects, UpdateIwante, NULL);
+    return mobj_createLogicPart(InitIwanteObjects, UpdateIwante, NULL);
 }
 
 void *func_ov001_0218f9d4(void) {
-    return CreateMapObjectUpdateList(func_ov001_0218fcc4, func_ov001_0218fc4c, NULL);
+    return mobj_createLogicPart(func_ov001_0218fcc4, func_ov001_0218fc4c, NULL);
 }

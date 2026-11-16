@@ -40,7 +40,7 @@ u32 func_ov001_02180ad0(TextCanvas *textCanvas, u32 drawX, u32 drawY, u32 color,
 
 #pragma thumb on
 
-void func_ov001_02180800(void) {
+void test_vblank(void) {
     s32 mtx[4];
 
     if (gTestScene->mStateChanged != 0) {
@@ -54,8 +54,8 @@ void func_ov001_02180800(void) {
                 WriteSubBg0CntBits(0);
                 WriteSubBg0CntBit6(0);
                 SetSubBg0Cnt(0, 0, 4, 4, 0);
-                SetEmblemChoisesShownAndReset(1);
-                RequestEmblemChoisesGraphicsUpload();
+                echoi_setMenuVisible(1);
+                echoi_requestPalCharUpdate();
                 break;
             case 1:
             case 2:
@@ -80,7 +80,7 @@ void func_ov001_02180800(void) {
         }
     }
     if (gTestScene->mState == 0) {
-        DrawEmblemChoises();
+        echoi_vblank();
     } else if ((u32) (gTestScene->mState - 1) <= 2) {
         u32 slotIndex;
         BOOL moved;
@@ -149,22 +149,22 @@ void func_ov001_02180800(void) {
 #pragma thumb off
 
 void *func_ov001_021807e4(void) {
-    return GetHeap(GetCurrentHeapCall());
+    return proc_getHeap(proc_getCurrent());
 }
 
 void func_ov001_021807a8(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8,
                          u32 cntVal2, u32 cntVal13) {
-    SetBg1Record(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
+    dc_setBg1Config(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, cntVal7, cntVal8, cntVal2, cntVal13);
 }
 
 void func_ov001_02180774(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
                          u32 cntVal2) {
-    SetBg2RecordParams(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+    dc_setBg2Config(displaySettings->mMainBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
 }
 
 void func_ov001_02180740(Unk02180774 *displaySettings, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 p4, u32 cntVal8,
                          u32 cntVal2) {
-    SetBg2RecordParams(displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
+    dc_setBg2Config(displaySettings->mSubBgRecords, cntLow2, cntBit6, cntVal14, p4, cntVal8, cntVal2);
 }
 
 void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
@@ -176,35 +176,35 @@ void func_ov001_02180728(TextCanvas *textCanvas, void *charCanvas, void *font, s
 
 #pragma thumb on
 
-void func_ov001_02180610(void) {
+void test_init(void) {
     DisplaySettingsDesc displaySettingsDesc = {1, 0x16, 4, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0, 0, 0, 8, 0};
     void *displaySettings;
     int i;
 
-    gTestScene = HeapAlloc(func_ov001_021807e4(), 0x66a8);
+    gTestScene = heap_alloc(func_ov001_021807e4(), 0x66a8);
     gTestScene->mUnk_0000 = 0;
     gTestScene->mState = 1;
     gTestScene->mStateChanged = 1;
     ClearChars(gTestScene->mChars);
     FillScreenMapIndices(gTestScene->mScreenMap);
-    displaySettings = CreateDisplaySettings(func_ov001_021807e4(), &displaySettingsDesc);
+    displaySettings = dc_createDisplayConfig(func_ov001_021807e4(), &displaySettingsDesc);
     func_ov001_021807a8(displaySettings, 0, 0, 0, 0, 4, 0, 0);
     func_ov001_02180774(displaySettings, 2, 0, 0, 0, 0xe, 1);
     func_ov001_02180740(displaySettings, 2, 0, 0, 0, 4, 4);
-    InitDisplayFromSettings(displaySettings);
-    gTestScene->mFonts[0] = GetFontByIndex(0);
-    gTestScene->mFonts[1] = GetFontByIndex(1);
-    gTestScene->mFonts[2] = GetFontByIndex(2);
+    dc_setDisplayConfig(displaySettings);
+    gTestScene->mFonts[0] = m2d_getFont(0);
+    gTestScene->mFonts[1] = m2d_getFont(1);
+    gTestScene->mFonts[2] = m2d_getFont(2);
     for (i = 0; i < 3; i++) {
         NNS_G2dCharCanvasInitForBG(gTestScene->mCharCanvases[i], gTestScene->mChars, 0x20, 0x18, 4);
         func_ov001_02180728(&gTestScene->mTextCanvases[i], gTestScene->mCharCanvases[i], gTestScene->mFonts[i], 0, 0);
     }
-    InitEmblemChoises();
+    echoi_init();
 }
 
-void func_ov001_021805f4(void) {
-    GetCurrentHeapCall();
-    ClearEmblemChoisesPointer();
+void test_finalize(void) {
+    proc_getCurrent();
+    echoi_finalize();
     gTestScene = NULL;
 }
 
@@ -219,12 +219,12 @@ u16 func_ov001_021805d8(InputSlot *inputSlot, u32 mask) {
 }
 
 u32 func_ov001_021805bc(u32 slotIndex, u32 mask) {
-    return func_ov001_021805d8(&data_02175628[slotIndex], mask);
+    return func_ov001_021805d8(&gInputUnits[slotIndex], mask);
 }
 
 #pragma thumb on
 
-void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
+void test_update(Unk0218052c *sceneNumbers) {
     u32 slotIndex;
     TestScene *testScene;
 
@@ -240,14 +240,14 @@ void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
             testScene->mState = (testScene->mState + 1) % 4;
             gTestScene->mStateChanged = 1;
             if (gTestScene->mState == 1) {
-                SetEmblemChoisesShownAndReset(0);
+                echoi_setMenuVisible(0);
             }
         }
     }
     switch (gTestScene->mState) {
         case 0:
-            UpdateEmblemChoises();
-            func_020ca83c();
+            echoi_update();
+            echoi_render();
             break;
         case 1:
         case 2:
@@ -256,26 +256,26 @@ void func_ov001_0218052c(Unk0218052c *sceneNumbers) {
     }
 }
 
-void InitTestScene(void) {
-    func_ov001_02180610();
+void testdef_init(void) {
+    test_init();
 }
 
-void ReleaseTestScene(void) {
-    func_ov001_021805f4();
+void testdef_finalize(void) {
+    test_finalize();
 }
 
-void func_ov001_02180514(void) {
-    func_ov001_02180800();
+void testdef_vblank(void) {
+    test_vblank();
 }
 
-void UpdateTestScene(Unk0218052c *sceneNumbers) {
-    func_ov001_0218052c(sceneNumbers);
+void testdef_update(Unk0218052c *sceneNumbers) {
+    test_update(sceneNumbers);
 }
 
-int RunTestScene(void *sceneNumbers) {
+int test_run(void *sceneNumbers) {
     SceneCallbacks callbacks = {
-        InitTestScene, UpdateTestScene, ReleaseTestScene, func_ov001_02180514, 0, 0, 0x1e, 0x1e, 0};
+        testdef_init, testdef_update, testdef_finalize, testdef_vblank, 0, 0, 0x1e, 0x1e, 0};
 
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }

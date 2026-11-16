@@ -11,7 +11,7 @@ typedef struct Unk0212513c {
     /* 04 */ u16 mUnk_04;
 } Unk0212513c;
 
-// Tag that func_021253f8 and DrawTextLines read through the pointer they pass to the function at member 4 of
+// Tag that formatMeasureText and drawText read through the pointer they pass to the function at member 4 of
 // Unk02022aa8: a byte (the number of bytes), a byte, a halfword and a byte.
 typedef struct TextTag {
     /* 00 */ u8 mSize;
@@ -28,18 +28,18 @@ static inline s32 func_021253f8_inline(u16 c) {
     return 0;
 }
 
-void DrawTextInRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
+void drawFormattedTextRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
                     s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 l);
-void func_0212583c(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
+void jn_ui_drawFormattedTextRect(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
                    void *text);
-void func_02125808(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color, u32 alignFlags,
+void jn_ui_drawFormattedTextRectMonospace(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color, u32 alignFlags,
                    u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance);
-void func_021257d8(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
+void jn_ui_drawFormattedTextRectSomething(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
                    void *text);
-void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
+void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
                    u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance);
 s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidth, s32 lineWidth);
-void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
+void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 o);
 void FormatMessageWithText(u16 *insertText, u16 *message, u16 *formattedText, u32 d);

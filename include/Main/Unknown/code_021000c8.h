@@ -4,4 +4,4 @@
 
 typedef struct MapObjectList MapObjectList;
 
-unsigned int GetMapObjectListCount(MapObjectList *list);
+unsigned int mobj_logicPartGetInstanceCount(MapObjectList *list);

@@ -16,7 +16,7 @@
 #pragma thumb on
 
 void ReleasePlayerEntryList(void) {
-    HeapDestroy(gPlayerEntryList->mHeap);
+    heap_destroySubHeap(gPlayerEntryList->mHeap);
     *&gPlayerEntryList = NULL;
 }
 
@@ -29,7 +29,7 @@ void WritePlayerEntryListRegisters(void) {
     BOOL b;
     s16 interpolatedValue;
 
-    interpolatedValue = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[2]);
+    interpolatedValue = interp_interpolate(&gPlayerEntryList->mInterpolations[2]);
     if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_RACE_RULE) {
         b = FALSE;
         displayBits |= 2;
@@ -66,23 +66,23 @@ void LoadPlayerEntryListFiles(void) {
     Nscr *screenMap;
 
     if (*(vu16 *) 0x27ffc40 == 2) {
-        LoadNcgrData(&chars, FindSceneFile(gSelectMenuEtcDownloadMBNcgrName));
-        LoadNcgrData2(&chars, FindSceneFile(gSelectMenuEtcDownloadMNcgrName));
-        LoadNcerData(&cells, FindSceneFile(gSelectMenuEtcDownloadMNcerName));
-        LoadNclrData(&palette, FindSceneFile(gSelectMenuEtcDownloadMONclrName));
-        LoadNclrData(&palette, FindSceneFile(gSelectMenuEtcDownloadMBNclrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectMenuEtcDownloadMBg00NscrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectMenuEtcDownloadMBg01NscrName));
+        g2du_unpackCharacterDataBG(&chars, arc_getSceneArcFile(aMbSelect_menu_));
+        g2du_unpackCharacterData(&chars, arc_getSceneArcFile(aMbSelect_men_0));
+        g2du_unpackCellBankData(&cells, arc_getSceneArcFile(aMbSelect_men_1));
+        g2du_unpackPaletteData(&palette, arc_getSceneArcFile(aMbSelect_men_2));
+        g2du_unpackPaletteData(&palette, arc_getSceneArcFile(aMbSelect_men_3));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(aMbSelect_men_4));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(aMbSelect_menu_etc_download_m_bg_01_ns));
     } else {
-        LoadNcgrData(&chars, FindFileInLoadedArchives(gSelectMenuEtcMBNcgrName));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives(gSelectMenuEtcMNcgrName));
-        LoadNcgrData2(&chars, FindFileInLoadedArchives(gSelectMenuEtcTitleMNcgrName));
-        LoadNcerData(&cells, FindFileInLoadedArchives(gSelectMenuEtcMNcerName));
-        LoadNcerData(&cells, FindFileInLoadedArchives(gSelectMenuEtcTitleMNcerName));
-        LoadNclrData(&palette, FindFileInLoadedArchives(gSelectMenuEtcMONclrName));
-        LoadNclrData(&palette, FindFileInLoadedArchives(gSelectMenuEtcMBNclrName));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives(gSelectMenuEtcMBg00NscrName));
-        LoadNscrData(&screenMap, FindFileInLoadedArchives(gSelectMenuEtcMBg01NscrName));
+        g2du_unpackCharacterDataBG(&chars, arc_get2dArcFile(aSelect_menu_etc_m_b_ncgr));
+        g2du_unpackCharacterData(&chars, arc_get2dArcFile(aSelect_menu_etc_m_nce_ncgr));
+        g2du_unpackCharacterData(&chars, arc_get2dArcFile(aSelect_menu_etc_title_m_nce_ncgr));
+        g2du_unpackCellBankData(&cells, arc_get2dArcFile(aSelect_menu_etc_m_nce_ncer));
+        g2du_unpackCellBankData(&cells, arc_get2dArcFile(aSelect_menu_etc_title_m_nce_ncer));
+        g2du_unpackPaletteData(&palette, arc_get2dArcFile(aSelect_menu_etc_m_o_nclr));
+        g2du_unpackPaletteData(&palette, arc_get2dArcFile(aSelect_menu_etc_m_b_nclr));
+        g2du_unpackScreenData(&screenMap, arc_get2dArcFile(aSelect_menu_etc_m_bg_00_nscr));
+        g2du_unpackScreenData(&screenMap, arc_get2dArcFile(aSelect_menu_etc_m_bg_01_nscr));
     }
 }
 
@@ -107,7 +107,7 @@ u32 IsEveryPlayerKartStored(void) {
     if (0 < gPlayerEntryList->mPlayerCount) {
         offset = 0;
         do {
-            setupCopy = ((u32) GetRaceSetupCopy());
+            setupCopy = ((u32) menu_getRaceConfig());
             allKartsStored = allKartsStored & ((RaceSetupCopy *) setupCopy)->mEntries[index].mUnk_14;
             offset = offset + 0x18;
             index = index + 1;
@@ -123,9 +123,9 @@ u32 IsEveryPlayerKartStored(void) {
 void func_0202b7c0(s32 kind) {
     s32 i;
 
-    func_02025f14(&gPlayerEntryList->mInterpolations[0], 2);
-    func_02025f14(&gPlayerEntryList->mInterpolations[3], 2);
-    func_02025f14(&gPlayerEntryList->mInterpolations[2], 2);
+    interp_setState(&gPlayerEntryList->mInterpolations[0], 2);
+    interp_setState(&gPlayerEntryList->mInterpolations[3], 2);
+    interp_setState(&gPlayerEntryList->mInterpolations[2], 2);
     switch (kind) {
         case 0:
         case 1:
@@ -136,7 +136,7 @@ void func_0202b7c0(s32 kind) {
             }
             break;
         case 2:
-            func_02025f14(&gPlayerEntryList->mInterpolations[1], 2);
+            interp_setState(&gPlayerEntryList->mInterpolations[1], 2);
             break;
         case 3:
             for (i = 0; i < 8; i++) {
@@ -163,16 +163,16 @@ void SetPlayerEntryListUseTeams(s32 useTeams) {
                     SetEntryTargetSlot(i, slot);
                 }
             }
-            func_02025f14(&gPlayerEntryList->mInterpolations[2], 0);
-            func_02025f14(&gPlayerEntryList->mInterpolations[0], 2);
+            interp_setState(&gPlayerEntryList->mInterpolations[2], 0);
+            interp_setState(&gPlayerEntryList->mInterpolations[0], 2);
         } else {
             for (i = 0; i < 8; i++) {
                 if (i < gPlayerEntryList->mPlayerCount || gPlayerEntryList->mUnk_208 != 0) {
                     SetEntryTargetSlot(i, 1);
                 }
             }
-            func_02025f14(&gPlayerEntryList->mInterpolations[2], 2);
-            func_02025f14(&gPlayerEntryList->mInterpolations[0], 0);
+            interp_setState(&gPlayerEntryList->mInterpolations[2], 2);
+            interp_setState(&gPlayerEntryList->mInterpolations[0], 0);
         }
     }
     gPlayerEntryList->mUseTeams = useTeams;

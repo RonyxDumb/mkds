@@ -16,10 +16,10 @@ typedef struct Unk020e0448 {
     /* 04 */ Vec3 mUnk_04;
 } Unk020e0448;
 
-void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock);
-void *CreateKoopaBlockUpdateList(void);
-void *CreateKoopaBlockDrawList(void);
-void *CreateKoopaBlockKindData(void);
+void kblock_update(void *a0, Unk020e005c *koopaBlock);
+void *kblock_setupLogicPart(void);
+void *kblock_setupRenderPart(void);
+void *kblock_setupConfig(void);
 s32 func_020e0448(Unk020e0448 *link);
 BOOL func_020e04b0(Unk020e04b0 *link, Vec3 *outPosition, Vec3 *outVelocity);
 void func_020e0538(Unk020e04b0 *link, Vec3 *outPosition);

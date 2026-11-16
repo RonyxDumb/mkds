@@ -10,17 +10,17 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020cae8c(void) {
+void menu_modeSelectSelectedOutEffectStateRender(void) {
     s32 nextScreenAndModeTable[5][2] = {{4, 0}, {0x14, 1}, {8, 3}, {0xe, 2}, {0x12, 4}};
     s32 framesSinceSwitch;
 
-    framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
-    data_0217b43c->mUnk_938 = func_020ae488(framesSinceSwitch);
+    framesSinceSwitch = menu_getFrameCounter();
+    gMenuSceneState->mUnk_938 = mutil_getButtonOutEffectOffset(framesSinceSwitch);
     if (framesSinceSwitch >= 10) {
-        SwitchMenuScreen(2, nextScreenAndModeTable[data_0217b43c->mSinglePlaySelectModeIndex][0]);
-        ResetRaceSetupCopy();
-        GetRaceSetupCopy()->mMode = nextScreenAndModeTable[data_0217b43c->mSinglePlaySelectModeIndex][1];
+        menu_gotoState(2, nextScreenAndModeTable[gMenuSceneState->mSinglePlaySelectModeIndex][0]);
+        menu_initRaceConfig();
+        menu_getRaceConfig()->mMode = nextScreenAndModeTable[gMenuSceneState->mSinglePlaySelectModeIndex][1];
     }
-    DrawSinglePlaySelectCells();
+    menu_renderModeSelectUI();
 }
 #pragma thumb off

@@ -18,7 +18,7 @@ void StopKartSoundWhileRequested(Kart *a) {
     a->mUnk_488 = 0xffff;
 }
 
-void InitSoundFalloffs(void) {
+void sfx_2109468(void) {
     BOOL f;
     SoundFalloffSettings t0;
     SoundFalloffSettings t1;
@@ -65,7 +65,7 @@ void InitSoundFalloffs(void) {
     static SoundFalloffSettings s0 = {800, 500, 47, 150, 127};
     static SoundFalloffSettings s1 = {800, 500, 47, 150, 95};
 
-    if (GetCurrentSceneNumber() == 2 && gRaceSetup->mRaceKind == 2) {
+    if (scproc_getCurrentScene() == 2 && gRaceMultiConfig->mRaceKind == 2) {
         f = TRUE;
     } else {
         f = FALSE;
@@ -80,15 +80,15 @@ void InitSoundFalloffs(void) {
         t0 = b0;
     }
     c0 = t0;
-    gSoundFalloffs[0].mMaxVolume = c0.mMaxVolume;
-    gSoundFalloffs[0].mOuterDistance = c0.mOuterDistance;
-    gSoundFalloffs[0].mUnk_04 = c0.mUnk_04;
-    gSoundFalloffs[0].mUnk_08 = c0.mUnk_08;
-    gSoundFalloffs[0].mInnerDistance = c0.mInnerDistance;
-    gSoundFalloffs[0].mUnk_14 = FX_Div((c0.mUnk_08 - c0.mMaxVolume) << 12, (c0.mUnk_04 - c0.mInnerDistance) << 12);
-    gSoundFalloffs[0].mUnk_18 = FX_Div(c0.mUnk_08 << 12, (c0.mUnk_04 - c0.mOuterDistance) << 12);
-    gSoundFalloffs[0].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[0].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[0].mUnk_20 = (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[0].mMaxVolume = c0.mMaxVolume;
+    gSfxParams[0].mOuterDistance = c0.mOuterDistance;
+    gSfxParams[0].mUnk_04 = c0.mUnk_04;
+    gSfxParams[0].mUnk_08 = c0.mUnk_08;
+    gSfxParams[0].mInnerDistance = c0.mInnerDistance;
+    gSfxParams[0].mUnk_14 = FX_Div((c0.mUnk_08 - c0.mMaxVolume) << 12, (c0.mUnk_04 - c0.mInnerDistance) << 12);
+    gSfxParams[0].mUnk_18 = FX_Div(c0.mUnk_08 << 12, (c0.mUnk_04 - c0.mOuterDistance) << 12);
+    gSfxParams[0].mUnk_1c = FX_Div(0x666, (gSfxParams[0].mInnerDistance << 12) + 0x36000);
+    gSfxParams[0].mUnk_20 = (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c0.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t1 = s1;
     if (f != FALSE) {
@@ -120,15 +120,15 @@ void InitSoundFalloffs(void) {
         t2 = b2;
     }
     c2 = t2;
-    gSoundFalloffs[1].mMaxVolume = c2.mMaxVolume;
-    gSoundFalloffs[1].mOuterDistance = c2.mOuterDistance;
-    gSoundFalloffs[1].mUnk_04 = c2.mUnk_04;
-    gSoundFalloffs[1].mUnk_08 = c2.mUnk_08;
-    gSoundFalloffs[1].mInnerDistance = c2.mInnerDistance;
-    gSoundFalloffs[1].mUnk_14 = FX_Div((c2.mUnk_08 - c2.mMaxVolume) << 12, (c2.mUnk_04 - c2.mInnerDistance) << 12);
-    gSoundFalloffs[1].mUnk_18 = FX_Div(c2.mUnk_08 << 12, (c2.mUnk_04 - c2.mOuterDistance) << 12);
-    gSoundFalloffs[1].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[1].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[1].mUnk_20 = (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[1].mMaxVolume = c2.mMaxVolume;
+    gSfxParams[1].mOuterDistance = c2.mOuterDistance;
+    gSfxParams[1].mUnk_04 = c2.mUnk_04;
+    gSfxParams[1].mUnk_08 = c2.mUnk_08;
+    gSfxParams[1].mInnerDistance = c2.mInnerDistance;
+    gSfxParams[1].mUnk_14 = FX_Div((c2.mUnk_08 - c2.mMaxVolume) << 12, (c2.mUnk_04 - c2.mInnerDistance) << 12);
+    gSfxParams[1].mUnk_18 = FX_Div(c2.mUnk_08 << 12, (c2.mUnk_04 - c2.mOuterDistance) << 12);
+    gSfxParams[1].mUnk_1c = FX_Div(0x666, (gSfxParams[1].mInnerDistance << 12) + 0x36000);
+    gSfxParams[1].mUnk_20 = (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c2.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t3 = s3;
     if (f != FALSE) {
@@ -140,15 +140,15 @@ void InitSoundFalloffs(void) {
         t3 = b3;
     }
     c3 = t3;
-    gSoundFalloffs[2].mMaxVolume = c3.mMaxVolume;
-    gSoundFalloffs[2].mOuterDistance = c3.mOuterDistance;
-    gSoundFalloffs[2].mUnk_04 = c3.mUnk_04;
-    gSoundFalloffs[2].mUnk_08 = c3.mUnk_08;
-    gSoundFalloffs[2].mInnerDistance = c3.mInnerDistance;
-    gSoundFalloffs[2].mUnk_14 = FX_Div((c3.mUnk_08 - c3.mMaxVolume) << 12, (c3.mUnk_04 - c3.mInnerDistance) << 12);
-    gSoundFalloffs[2].mUnk_18 = FX_Div(c3.mUnk_08 << 12, (c3.mUnk_04 - c3.mOuterDistance) << 12);
-    gSoundFalloffs[2].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[2].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[2].mUnk_20 = (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[2].mMaxVolume = c3.mMaxVolume;
+    gSfxParams[2].mOuterDistance = c3.mOuterDistance;
+    gSfxParams[2].mUnk_04 = c3.mUnk_04;
+    gSfxParams[2].mUnk_08 = c3.mUnk_08;
+    gSfxParams[2].mInnerDistance = c3.mInnerDistance;
+    gSfxParams[2].mUnk_14 = FX_Div((c3.mUnk_08 - c3.mMaxVolume) << 12, (c3.mUnk_04 - c3.mInnerDistance) << 12);
+    gSfxParams[2].mUnk_18 = FX_Div(c3.mUnk_08 << 12, (c3.mUnk_04 - c3.mOuterDistance) << 12);
+    gSfxParams[2].mUnk_1c = FX_Div(0x666, (gSfxParams[2].mInnerDistance << 12) + 0x36000);
+    gSfxParams[2].mUnk_20 = (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c3.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     t4 = s4;
     if (f != FALSE) {
@@ -160,151 +160,151 @@ void InitSoundFalloffs(void) {
         t4 = b4;
     }
     c4 = t4;
-    gSoundFalloffs[3].mMaxVolume = c4.mMaxVolume;
-    gSoundFalloffs[3].mOuterDistance = c4.mOuterDistance;
-    gSoundFalloffs[3].mUnk_04 = c4.mUnk_04;
-    gSoundFalloffs[3].mUnk_08 = c4.mUnk_08;
-    gSoundFalloffs[3].mInnerDistance = c4.mInnerDistance;
-    gSoundFalloffs[3].mUnk_14 = FX_Div((c4.mUnk_08 - c4.mMaxVolume) << 12, (c4.mUnk_04 - c4.mInnerDistance) << 12);
-    gSoundFalloffs[3].mUnk_18 = FX_Div(c4.mUnk_08 << 12, (c4.mUnk_04 - c4.mOuterDistance) << 12);
-    gSoundFalloffs[3].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[3].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[3].mUnk_20 = (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[3].mMaxVolume = c4.mMaxVolume;
+    gSfxParams[3].mOuterDistance = c4.mOuterDistance;
+    gSfxParams[3].mUnk_04 = c4.mUnk_04;
+    gSfxParams[3].mUnk_08 = c4.mUnk_08;
+    gSfxParams[3].mInnerDistance = c4.mInnerDistance;
+    gSfxParams[3].mUnk_14 = FX_Div((c4.mUnk_08 - c4.mMaxVolume) << 12, (c4.mUnk_04 - c4.mInnerDistance) << 12);
+    gSfxParams[3].mUnk_18 = FX_Div(c4.mUnk_08 << 12, (c4.mUnk_04 - c4.mOuterDistance) << 12);
+    gSfxParams[3].mUnk_1c = FX_Div(0x666, (gSfxParams[3].mInnerDistance << 12) + 0x36000);
+    gSfxParams[3].mUnk_20 = (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (c4.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w5 = s5;
-    gSoundFalloffs[4].mMaxVolume = w5.mMaxVolume;
-    gSoundFalloffs[4].mOuterDistance = w5.mOuterDistance;
-    gSoundFalloffs[4].mUnk_04 = w5.mUnk_04;
-    gSoundFalloffs[4].mUnk_08 = w5.mUnk_08;
-    gSoundFalloffs[4].mInnerDistance = w5.mInnerDistance;
-    gSoundFalloffs[4].mUnk_14 = FX_Div((w5.mUnk_08 - w5.mMaxVolume) << 12, (w5.mUnk_04 - w5.mInnerDistance) << 12);
-    gSoundFalloffs[4].mUnk_18 = FX_Div(w5.mUnk_08 << 12, (w5.mUnk_04 - w5.mOuterDistance) << 12);
-    gSoundFalloffs[4].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[4].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[4].mUnk_20 = (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[4].mMaxVolume = w5.mMaxVolume;
+    gSfxParams[4].mOuterDistance = w5.mOuterDistance;
+    gSfxParams[4].mUnk_04 = w5.mUnk_04;
+    gSfxParams[4].mUnk_08 = w5.mUnk_08;
+    gSfxParams[4].mInnerDistance = w5.mInnerDistance;
+    gSfxParams[4].mUnk_14 = FX_Div((w5.mUnk_08 - w5.mMaxVolume) << 12, (w5.mUnk_04 - w5.mInnerDistance) << 12);
+    gSfxParams[4].mUnk_18 = FX_Div(w5.mUnk_08 << 12, (w5.mUnk_04 - w5.mOuterDistance) << 12);
+    gSfxParams[4].mUnk_1c = FX_Div(0x666, (gSfxParams[4].mInnerDistance << 12) + 0x36000);
+    gSfxParams[4].mUnk_20 = (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w5.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w6 = s6;
-    gSoundFalloffs[5].mMaxVolume = w6.mMaxVolume;
-    gSoundFalloffs[5].mOuterDistance = w6.mOuterDistance;
-    gSoundFalloffs[5].mUnk_04 = w6.mUnk_04;
-    gSoundFalloffs[5].mUnk_08 = w6.mUnk_08;
-    gSoundFalloffs[5].mInnerDistance = w6.mInnerDistance;
-    gSoundFalloffs[5].mUnk_14 = FX_Div((w6.mUnk_08 - w6.mMaxVolume) << 12, (w6.mUnk_04 - w6.mInnerDistance) << 12);
-    gSoundFalloffs[5].mUnk_18 = FX_Div(w6.mUnk_08 << 12, (w6.mUnk_04 - w6.mOuterDistance) << 12);
-    gSoundFalloffs[5].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[5].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[5].mUnk_20 = (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[5].mMaxVolume = w6.mMaxVolume;
+    gSfxParams[5].mOuterDistance = w6.mOuterDistance;
+    gSfxParams[5].mUnk_04 = w6.mUnk_04;
+    gSfxParams[5].mUnk_08 = w6.mUnk_08;
+    gSfxParams[5].mInnerDistance = w6.mInnerDistance;
+    gSfxParams[5].mUnk_14 = FX_Div((w6.mUnk_08 - w6.mMaxVolume) << 12, (w6.mUnk_04 - w6.mInnerDistance) << 12);
+    gSfxParams[5].mUnk_18 = FX_Div(w6.mUnk_08 << 12, (w6.mUnk_04 - w6.mOuterDistance) << 12);
+    gSfxParams[5].mUnk_1c = FX_Div(0x666, (gSfxParams[5].mInnerDistance << 12) + 0x36000);
+    gSfxParams[5].mUnk_20 = (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w6.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w7 = s7;
-    gSoundFalloffs[6].mMaxVolume = w7.mMaxVolume;
-    gSoundFalloffs[6].mOuterDistance = w7.mOuterDistance;
-    gSoundFalloffs[6].mUnk_04 = w7.mUnk_04;
-    gSoundFalloffs[6].mUnk_08 = w7.mUnk_08;
-    gSoundFalloffs[6].mInnerDistance = w7.mInnerDistance;
-    gSoundFalloffs[6].mUnk_14 = FX_Div((w7.mUnk_08 - w7.mMaxVolume) << 12, (w7.mUnk_04 - w7.mInnerDistance) << 12);
-    gSoundFalloffs[6].mUnk_18 = FX_Div(w7.mUnk_08 << 12, (w7.mUnk_04 - w7.mOuterDistance) << 12);
-    gSoundFalloffs[6].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[6].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[6].mUnk_20 = (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[6].mMaxVolume = w7.mMaxVolume;
+    gSfxParams[6].mOuterDistance = w7.mOuterDistance;
+    gSfxParams[6].mUnk_04 = w7.mUnk_04;
+    gSfxParams[6].mUnk_08 = w7.mUnk_08;
+    gSfxParams[6].mInnerDistance = w7.mInnerDistance;
+    gSfxParams[6].mUnk_14 = FX_Div((w7.mUnk_08 - w7.mMaxVolume) << 12, (w7.mUnk_04 - w7.mInnerDistance) << 12);
+    gSfxParams[6].mUnk_18 = FX_Div(w7.mUnk_08 << 12, (w7.mUnk_04 - w7.mOuterDistance) << 12);
+    gSfxParams[6].mUnk_1c = FX_Div(0x666, (gSfxParams[6].mInnerDistance << 12) + 0x36000);
+    gSfxParams[6].mUnk_20 = (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w7.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w8 = s8;
-    gSoundFalloffs[7].mMaxVolume = w8.mMaxVolume;
-    gSoundFalloffs[7].mOuterDistance = w8.mOuterDistance;
-    gSoundFalloffs[7].mUnk_04 = w8.mUnk_04;
-    gSoundFalloffs[7].mUnk_08 = w8.mUnk_08;
-    gSoundFalloffs[7].mInnerDistance = w8.mInnerDistance;
-    gSoundFalloffs[7].mUnk_14 = FX_Div((w8.mUnk_08 - w8.mMaxVolume) << 12, (w8.mUnk_04 - w8.mInnerDistance) << 12);
-    gSoundFalloffs[7].mUnk_18 = FX_Div(w8.mUnk_08 << 12, (w8.mUnk_04 - w8.mOuterDistance) << 12);
-    gSoundFalloffs[7].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[7].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[7].mUnk_20 = (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[7].mMaxVolume = w8.mMaxVolume;
+    gSfxParams[7].mOuterDistance = w8.mOuterDistance;
+    gSfxParams[7].mUnk_04 = w8.mUnk_04;
+    gSfxParams[7].mUnk_08 = w8.mUnk_08;
+    gSfxParams[7].mInnerDistance = w8.mInnerDistance;
+    gSfxParams[7].mUnk_14 = FX_Div((w8.mUnk_08 - w8.mMaxVolume) << 12, (w8.mUnk_04 - w8.mInnerDistance) << 12);
+    gSfxParams[7].mUnk_18 = FX_Div(w8.mUnk_08 << 12, (w8.mUnk_04 - w8.mOuterDistance) << 12);
+    gSfxParams[7].mUnk_1c = FX_Div(0x666, (gSfxParams[7].mInnerDistance << 12) + 0x36000);
+    gSfxParams[7].mUnk_20 = (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w8.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w9 = s9;
-    gSoundFalloffs[8].mMaxVolume = w9.mMaxVolume;
-    gSoundFalloffs[8].mOuterDistance = w9.mOuterDistance;
-    gSoundFalloffs[8].mUnk_04 = w9.mUnk_04;
-    gSoundFalloffs[8].mUnk_08 = w9.mUnk_08;
-    gSoundFalloffs[8].mInnerDistance = w9.mInnerDistance;
-    gSoundFalloffs[8].mUnk_14 = FX_Div((w9.mUnk_08 - w9.mMaxVolume) << 12, (w9.mUnk_04 - w9.mInnerDistance) << 12);
-    gSoundFalloffs[8].mUnk_18 = FX_Div(w9.mUnk_08 << 12, (w9.mUnk_04 - w9.mOuterDistance) << 12);
-    gSoundFalloffs[8].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[8].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[8].mUnk_20 = (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[8].mMaxVolume = w9.mMaxVolume;
+    gSfxParams[8].mOuterDistance = w9.mOuterDistance;
+    gSfxParams[8].mUnk_04 = w9.mUnk_04;
+    gSfxParams[8].mUnk_08 = w9.mUnk_08;
+    gSfxParams[8].mInnerDistance = w9.mInnerDistance;
+    gSfxParams[8].mUnk_14 = FX_Div((w9.mUnk_08 - w9.mMaxVolume) << 12, (w9.mUnk_04 - w9.mInnerDistance) << 12);
+    gSfxParams[8].mUnk_18 = FX_Div(w9.mUnk_08 << 12, (w9.mUnk_04 - w9.mOuterDistance) << 12);
+    gSfxParams[8].mUnk_1c = FX_Div(0x666, (gSfxParams[8].mInnerDistance << 12) + 0x36000);
+    gSfxParams[8].mUnk_20 = (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w9.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w10 = s10;
-    gSoundFalloffs[9].mMaxVolume = w10.mMaxVolume;
-    gSoundFalloffs[9].mOuterDistance = w10.mOuterDistance;
-    gSoundFalloffs[9].mUnk_04 = w10.mUnk_04;
-    gSoundFalloffs[9].mUnk_08 = w10.mUnk_08;
-    gSoundFalloffs[9].mInnerDistance = w10.mInnerDistance;
-    gSoundFalloffs[9].mUnk_14 = FX_Div((w10.mUnk_08 - w10.mMaxVolume) << 12, (w10.mUnk_04 - w10.mInnerDistance) << 12);
-    gSoundFalloffs[9].mUnk_18 = FX_Div(w10.mUnk_08 << 12, (w10.mUnk_04 - w10.mOuterDistance) << 12);
-    gSoundFalloffs[9].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[9].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[9].mUnk_20 = (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[9].mMaxVolume = w10.mMaxVolume;
+    gSfxParams[9].mOuterDistance = w10.mOuterDistance;
+    gSfxParams[9].mUnk_04 = w10.mUnk_04;
+    gSfxParams[9].mUnk_08 = w10.mUnk_08;
+    gSfxParams[9].mInnerDistance = w10.mInnerDistance;
+    gSfxParams[9].mUnk_14 = FX_Div((w10.mUnk_08 - w10.mMaxVolume) << 12, (w10.mUnk_04 - w10.mInnerDistance) << 12);
+    gSfxParams[9].mUnk_18 = FX_Div(w10.mUnk_08 << 12, (w10.mUnk_04 - w10.mOuterDistance) << 12);
+    gSfxParams[9].mUnk_1c = FX_Div(0x666, (gSfxParams[9].mInnerDistance << 12) + 0x36000);
+    gSfxParams[9].mUnk_20 = (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                 (((s32) ((((s64) (w10.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w11 = s11;
-    gSoundFalloffs[10].mMaxVolume = w11.mMaxVolume;
-    gSoundFalloffs[10].mOuterDistance = w11.mOuterDistance;
-    gSoundFalloffs[10].mUnk_04 = w11.mUnk_04;
-    gSoundFalloffs[10].mUnk_08 = w11.mUnk_08;
-    gSoundFalloffs[10].mInnerDistance = w11.mInnerDistance;
-    gSoundFalloffs[10].mUnk_14 = FX_Div((w11.mUnk_08 - w11.mMaxVolume) << 12, (w11.mUnk_04 - w11.mInnerDistance) << 12);
-    gSoundFalloffs[10].mUnk_18 = FX_Div(w11.mUnk_08 << 12, (w11.mUnk_04 - w11.mOuterDistance) << 12);
-    gSoundFalloffs[10].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[10].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[10].mUnk_20 = (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[10].mMaxVolume = w11.mMaxVolume;
+    gSfxParams[10].mOuterDistance = w11.mOuterDistance;
+    gSfxParams[10].mUnk_04 = w11.mUnk_04;
+    gSfxParams[10].mUnk_08 = w11.mUnk_08;
+    gSfxParams[10].mInnerDistance = w11.mInnerDistance;
+    gSfxParams[10].mUnk_14 = FX_Div((w11.mUnk_08 - w11.mMaxVolume) << 12, (w11.mUnk_04 - w11.mInnerDistance) << 12);
+    gSfxParams[10].mUnk_18 = FX_Div(w11.mUnk_08 << 12, (w11.mUnk_04 - w11.mOuterDistance) << 12);
+    gSfxParams[10].mUnk_1c = FX_Div(0x666, (gSfxParams[10].mInnerDistance << 12) + 0x36000);
+    gSfxParams[10].mUnk_20 = (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w11.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w12 = s12;
-    gSoundFalloffs[11].mMaxVolume = w12.mMaxVolume;
-    gSoundFalloffs[11].mOuterDistance = w12.mOuterDistance;
-    gSoundFalloffs[11].mUnk_04 = w12.mUnk_04;
-    gSoundFalloffs[11].mUnk_08 = w12.mUnk_08;
-    gSoundFalloffs[11].mInnerDistance = w12.mInnerDistance;
-    gSoundFalloffs[11].mUnk_14 = FX_Div((w12.mUnk_08 - w12.mMaxVolume) << 12, (w12.mUnk_04 - w12.mInnerDistance) << 12);
-    gSoundFalloffs[11].mUnk_18 = FX_Div(w12.mUnk_08 << 12, (w12.mUnk_04 - w12.mOuterDistance) << 12);
-    gSoundFalloffs[11].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[11].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[11].mUnk_20 = (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[11].mMaxVolume = w12.mMaxVolume;
+    gSfxParams[11].mOuterDistance = w12.mOuterDistance;
+    gSfxParams[11].mUnk_04 = w12.mUnk_04;
+    gSfxParams[11].mUnk_08 = w12.mUnk_08;
+    gSfxParams[11].mInnerDistance = w12.mInnerDistance;
+    gSfxParams[11].mUnk_14 = FX_Div((w12.mUnk_08 - w12.mMaxVolume) << 12, (w12.mUnk_04 - w12.mInnerDistance) << 12);
+    gSfxParams[11].mUnk_18 = FX_Div(w12.mUnk_08 << 12, (w12.mUnk_04 - w12.mOuterDistance) << 12);
+    gSfxParams[11].mUnk_1c = FX_Div(0x666, (gSfxParams[11].mInnerDistance << 12) + 0x36000);
+    gSfxParams[11].mUnk_20 = (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w12.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w13 = s13;
-    gSoundFalloffs[12].mMaxVolume = w13.mMaxVolume;
-    gSoundFalloffs[12].mOuterDistance = w13.mOuterDistance;
-    gSoundFalloffs[12].mUnk_04 = w13.mUnk_04;
-    gSoundFalloffs[12].mUnk_08 = w13.mUnk_08;
-    gSoundFalloffs[12].mInnerDistance = w13.mInnerDistance;
-    gSoundFalloffs[12].mUnk_14 = FX_Div((w13.mUnk_08 - w13.mMaxVolume) << 12, (w13.mUnk_04 - w13.mInnerDistance) << 12);
-    gSoundFalloffs[12].mUnk_18 = FX_Div(w13.mUnk_08 << 12, (w13.mUnk_04 - w13.mOuterDistance) << 12);
-    gSoundFalloffs[12].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[12].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[12].mUnk_20 = (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[12].mMaxVolume = w13.mMaxVolume;
+    gSfxParams[12].mOuterDistance = w13.mOuterDistance;
+    gSfxParams[12].mUnk_04 = w13.mUnk_04;
+    gSfxParams[12].mUnk_08 = w13.mUnk_08;
+    gSfxParams[12].mInnerDistance = w13.mInnerDistance;
+    gSfxParams[12].mUnk_14 = FX_Div((w13.mUnk_08 - w13.mMaxVolume) << 12, (w13.mUnk_04 - w13.mInnerDistance) << 12);
+    gSfxParams[12].mUnk_18 = FX_Div(w13.mUnk_08 << 12, (w13.mUnk_04 - w13.mOuterDistance) << 12);
+    gSfxParams[12].mUnk_1c = FX_Div(0x666, (gSfxParams[12].mInnerDistance << 12) + 0x36000);
+    gSfxParams[12].mUnk_20 = (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w13.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w14 = s14;
-    gSoundFalloffs[13].mMaxVolume = w14.mMaxVolume;
-    gSoundFalloffs[13].mOuterDistance = w14.mOuterDistance;
-    gSoundFalloffs[13].mUnk_04 = w14.mUnk_04;
-    gSoundFalloffs[13].mUnk_08 = w14.mUnk_08;
-    gSoundFalloffs[13].mInnerDistance = w14.mInnerDistance;
-    gSoundFalloffs[13].mUnk_14 = FX_Div((w14.mUnk_08 - w14.mMaxVolume) << 12, (w14.mUnk_04 - w14.mInnerDistance) << 12);
-    gSoundFalloffs[13].mUnk_18 = FX_Div(w14.mUnk_08 << 12, (w14.mUnk_04 - w14.mOuterDistance) << 12);
-    gSoundFalloffs[13].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[13].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[13].mUnk_20 = (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[13].mMaxVolume = w14.mMaxVolume;
+    gSfxParams[13].mOuterDistance = w14.mOuterDistance;
+    gSfxParams[13].mUnk_04 = w14.mUnk_04;
+    gSfxParams[13].mUnk_08 = w14.mUnk_08;
+    gSfxParams[13].mInnerDistance = w14.mInnerDistance;
+    gSfxParams[13].mUnk_14 = FX_Div((w14.mUnk_08 - w14.mMaxVolume) << 12, (w14.mUnk_04 - w14.mInnerDistance) << 12);
+    gSfxParams[13].mUnk_18 = FX_Div(w14.mUnk_08 << 12, (w14.mUnk_04 - w14.mOuterDistance) << 12);
+    gSfxParams[13].mUnk_1c = FX_Div(0x666, (gSfxParams[13].mInnerDistance << 12) + 0x36000);
+    gSfxParams[13].mUnk_20 = (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w14.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w15 = s15;
-    gSoundFalloffs[14].mMaxVolume = w15.mMaxVolume;
-    gSoundFalloffs[14].mOuterDistance = w15.mOuterDistance;
-    gSoundFalloffs[14].mUnk_04 = w15.mUnk_04;
-    gSoundFalloffs[14].mUnk_08 = w15.mUnk_08;
-    gSoundFalloffs[14].mInnerDistance = w15.mInnerDistance;
-    gSoundFalloffs[14].mUnk_14 = FX_Div((w15.mUnk_08 - w15.mMaxVolume) << 12, (w15.mUnk_04 - w15.mInnerDistance) << 12);
-    gSoundFalloffs[14].mUnk_18 = FX_Div(w15.mUnk_08 << 12, (w15.mUnk_04 - w15.mOuterDistance) << 12);
-    gSoundFalloffs[14].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[14].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[14].mUnk_20 = (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[14].mMaxVolume = w15.mMaxVolume;
+    gSfxParams[14].mOuterDistance = w15.mOuterDistance;
+    gSfxParams[14].mUnk_04 = w15.mUnk_04;
+    gSfxParams[14].mUnk_08 = w15.mUnk_08;
+    gSfxParams[14].mInnerDistance = w15.mInnerDistance;
+    gSfxParams[14].mUnk_14 = FX_Div((w15.mUnk_08 - w15.mMaxVolume) << 12, (w15.mUnk_04 - w15.mInnerDistance) << 12);
+    gSfxParams[14].mUnk_18 = FX_Div(w15.mUnk_08 << 12, (w15.mUnk_04 - w15.mOuterDistance) << 12);
+    gSfxParams[14].mUnk_1c = FX_Div(0x666, (gSfxParams[14].mInnerDistance << 12) + 0x36000);
+    gSfxParams[14].mUnk_20 = (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w15.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
     w16 = s16;
-    gSoundFalloffs[15].mMaxVolume = w16.mMaxVolume;
-    gSoundFalloffs[15].mOuterDistance = w16.mOuterDistance;
-    gSoundFalloffs[15].mUnk_04 = w16.mUnk_04;
-    gSoundFalloffs[15].mUnk_08 = w16.mUnk_08;
-    gSoundFalloffs[15].mInnerDistance = w16.mInnerDistance;
-    gSoundFalloffs[15].mUnk_14 = FX_Div((w16.mUnk_08 - w16.mMaxVolume) << 12, (w16.mUnk_04 - w16.mInnerDistance) << 12);
-    gSoundFalloffs[15].mUnk_18 = FX_Div(w16.mUnk_08 << 12, (w16.mUnk_04 - w16.mOuterDistance) << 12);
-    gSoundFalloffs[15].mUnk_1c = FX_Div(0x666, (gSoundFalloffs[15].mInnerDistance << 12) + 0x36000);
-    gSoundFalloffs[15].mUnk_20 = (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
+    gSfxParams[15].mMaxVolume = w16.mMaxVolume;
+    gSfxParams[15].mOuterDistance = w16.mOuterDistance;
+    gSfxParams[15].mUnk_04 = w16.mUnk_04;
+    gSfxParams[15].mUnk_08 = w16.mUnk_08;
+    gSfxParams[15].mInnerDistance = w16.mInnerDistance;
+    gSfxParams[15].mUnk_14 = FX_Div((w16.mUnk_08 - w16.mMaxVolume) << 12, (w16.mUnk_04 - w16.mInnerDistance) << 12);
+    gSfxParams[15].mUnk_18 = FX_Div(w16.mUnk_08 << 12, (w16.mUnk_04 - w16.mOuterDistance) << 12);
+    gSfxParams[15].mUnk_1c = FX_Div(0x666, (gSfxParams[15].mInnerDistance << 12) + 0x36000);
+    gSfxParams[15].mUnk_20 = (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12) *
                                  (((s32) ((((s64) (w16.mOuterDistance << 12) * 0x16a1) + 0x800) >> 12)) >> 12);
 }
 
-s32 ComputeSoundVolume(SoundParams *p) {
+s32 sfx_21092B0(SoundParams *p) {
     Kart *k;
     SoundFalloff *e;
     s32 v;
@@ -313,13 +313,13 @@ s32 ComputeSoundVolume(SoundParams *p) {
     k = (Kart *) p->mSource;
     v = 0;
     if (k != NULL) {
-        if (k != NULL && k->mSoundSource.mFalloffIndex == 0 && k->mIndex != gRaceSetup->mEntryIndex) {
+        if (k != NULL && k->mSoundSource.mFalloffIndex == 0 && k->mIndex != gRaceMultiConfig->mEntryIndex) {
             e = &gOtherKartSoundFalloff;
         } else {
-            e = &gSoundFalloffs[k->mSoundSource.mFalloffIndex];
+            e = &gSfxParams[k->mSoundSource.mFalloffIndex];
         }
     } else {
-        e = &gSoundFalloffs[p->mUnk_20->mUnk_08];
+        e = &gSfxParams[p->mUnk_20->mUnk_08];
     }
     a = p->mDistance;
     if (a <= e->mInnerDistance) {
@@ -348,7 +348,7 @@ s32 ComputeSoundVolume(SoundParams *p) {
 }
 
 // Returns the pan, from -0x80 to 0x7f.
-s32 ComputeSoundPan(SoundParams *p) {
+s32 sfx_210920C(SoundParams *p) {
     u32 a;
     s32 v;
 
@@ -367,7 +367,7 @@ s32 ComputeSoundPan(SoundParams *p) {
 }
 
 // Returns the distance to the camera; also stores the forward and side distance in the record.
-u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
+u32 sfx_2109184(SoundParams *p) {
     u32 a;
     u32 b;
 
@@ -379,8 +379,8 @@ u32 ComputeSoundDistanceAndOffsets(SoundParams *p) {
     reg_CP_SQRTCNT = 0;
     *(vu32 *) 0x040002b8 = a;
     b = p->mPositionSource;
-    p->mUnk_08 = GetCameraForwardDistance(b) >> 12;
-    p->mUnk_0c = GetCameraSideDistance(b) >> 12;
+    p->mUnk_08 = cam_2073E4C(b) >> 12;
+    p->mUnk_0c = cam_2073E04(b) >> 12;
     while (reg_CP_SQRTCNT & 0x8000) {
     }
     return reg_CP_SQRT_RESULT;

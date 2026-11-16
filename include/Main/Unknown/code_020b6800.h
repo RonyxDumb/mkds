@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *RaceHudSubScreenGetCurrentHeap(void);
+void *m2d_proc_getCurrentHeap(void);

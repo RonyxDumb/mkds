@@ -4,5 +4,5 @@
 #include "Main/Unknown/unk_027e0000.h"
 
 void SetItemKouraWKartItems(ItemKouraW *a, int b) {
-    a->mKartItems = &gKartItems[b];
+    a->mKartItems = &it_sDriverItemStatus[b];
 }

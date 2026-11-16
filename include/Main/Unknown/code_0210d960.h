@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-unsigned int GetSoundFadeSteps(void);
-void SetSoundFadeSteps(unsigned int fadeSteps);
-unsigned int func_0210d980(void);
-void func_0210d990(unsigned int flag);
+unsigned int sound_getFadeFrameCount(void);
+void sound_setFadeFrameCount(unsigned int fadeSteps);
+unsigned int sound_getIsSdatLoaded(void);
+void sound_setIsSdatLoaded(unsigned int flag);

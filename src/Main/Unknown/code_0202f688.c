@@ -163,7 +163,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
             cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 4)[j]].mVisible &= z;
             cellFileSet->mUnk_18[(rowCellIndices->mCellIndices + 16)[j]].mVisible &= z;
         }
-        SetLabelPaletteIndex(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14,
+        jn_ui_setLabelColorParam(rowCellIndices->mLabelIndex, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14,
                              cellFileSet->mUnk_18, cellFileSet->mUnk_0c);
         entryOffset += 0xc;
         rowCellIndices = OFFSET_PTR(MemberRowCellIndices, rowCellIndices, 0x32);
@@ -181,7 +181,7 @@ void RefreshMultiSelectMemberGroup(s32 showSelected) {
         rowNotSelected = 0;
     }
     cellFileSet->mUnk_18[88].mVisible = rowNotSelected;
-    SetLabelPaletteIndex(4, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14, cellFileSet->mUnk_18,
+    jn_ui_setLabelColorParam(4, valueTable.mUnk_00[rowSelected], cellFileSet->mUnk_14, cellFileSet->mUnk_18,
                          cellFileSet->mUnk_0c);
 }
 
@@ -248,13 +248,13 @@ void func_0202fd2c(void) {
                 gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 = func_0204ff14(i, &entry);
                 if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0) {
                     entry.mUnk_14 = 0;
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14, &entry,
+                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14, &entry,
                                   cellFileSet->mUnk_0c, cellFileSet->mUnk_18);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = func_0204fe1c(i);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = func_0204fe90(i);
                 } else {
-                    func_0212426c(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14,
-                                  GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mUnk_0c,
+                    jn_ui_212426C(1, gMemberRowCellIndices[i].mLabelIndex, cellFileSet->mUnk_14,
+                                  jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, 8), cellFileSet->mUnk_0c,
                                   cellFileSet->mUnk_18);
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 = 0;
                     gMultiSelectMemberGroup->mUnk_58[i].mUnk_04 = 0;
@@ -267,14 +267,14 @@ void func_0202fd2c(void) {
                         }
                     }
                     if (isNewEntry != FALSE) {
-                        NNS_SndArcSetCurrent(&data_0217c868);
+                        NNS_SndArcSetCurrent(&SDATFile);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 4);
-                        NNS_SndArcSetCurrent(&data_0217d0a0);
+                        NNS_SndArcSetCurrent(&gSdatFileSndArc);
                     }
                 } else if (oldWord0 != 0 && gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 == 0) {
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    NNS_SndArcSetCurrent(&SDATFile);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
+                    NNS_SndArcSetCurrent(&gSdatFileSndArc);
                 }
                 changed |= oldWord0 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 ? 1 : 0;
                 changed |= oldWord8 != gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 ? 1 : 0;
@@ -301,38 +301,38 @@ void InitMultiSelectMemberGroup(void *parentHeap, void *scene, void *oamList) {
     LabelMessageRow *labelMessageRow;
     void *text;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectMemberGroup = HeapAlloc(heap, 0xa8);
+    heap = heap_createSubFrmHeap(parentHeap);
+    gMultiSelectMemberGroup = heap_alloc(heap, 0xa8);
     MemFillWordsByBlock_inline(gMultiSelectMemberGroup, 0xa8);
     gMultiSelectMemberGroup->mHeap = heap;
     gMultiSelectMemberGroup->mUnk_40 = scene;
     gMultiSelectMemberGroup->mOamList = oamList;
-    gMultiSelectMemberGroup->mBannerMessages = FindSceneFile(gBannerBmgName);
+    gMultiSelectMemberGroup->mBannerMessages = arc_getSceneArcFile(aBanner_bmg_2);
     gMultiSelectMemberGroup->mState = 0;
     gMultiSelectMemberGroup->mBg3Offset = -0xc0;
-    func_020258d4(1, gMultiSelectMemberGroup, gMultiSelectMemberSBNcgrName2, gMultiSelectMemberSBNclrName2,
-                  gMultiSelectMemberSGroupNscrName2, 3, FindSceneFile);
+    mutil2_initBgGraphics(1, gMultiSelectMemberGroup, aMulti_select_member_s_b_ncgr_0, aMulti_select_member_s_b_nclr_0,
+                  aMulti_select_member_s_group_nscr, 3, arc_getSceneArcFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
-    LocateCellFileSet(cellFileSet, gMultiSelectMemberGroupSNcgrName2, gMultiSelectMemberGroupSNcerName2,
-                      gMultiSelectMemberGroupSONclrName2, gMultiSelectMemberSGroupBnclName,
-                      gMultiSelectMemberSGroupBnllName, gMultiSelectMemberSGroupBnblName, FindSceneFile);
-    func_02025a50(1, gMultiSelectMemberGroup->mHeap, cellFileSet);
+    mutil2_loadLayout(cellFileSet, aMulti_select_member_group_s_nce_ncgr, aMulti_select_member_group_s_nce_ncer,
+                      aMulti_select_member_group_s_o_nclr, aMulti_select_member_s_group_bncl,
+                      aMulti_select_member_s_group_bnll, aMulti_select_member_s_group_bnbl, arc_getSceneArcFile);
+    mutil2_initLayout(1, gMultiSelectMemberGroup->mHeap, cellFileSet);
     for (i = 0, labelMessageRow = gMemberGroupLabelMessageRows; i < 5; labelMessageRow++, i++) {
         subObjSizeLeft -=
-            func_02025a00(1, gMultiSelectMemberGroup->mHeap, cellFileSet, labelMessageRow, subObjSizeLeft);
+            mutil2_initLabel(1, gMultiSelectMemberGroup->mHeap, cellFileSet, labelMessageRow, subObjSizeLeft);
         if (gMemberGroupLabelMessageRows[i].mMessageIndex < 0) {
             text = data_02163610;
         } else {
-            text = GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
+            text = jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, gMemberGroupLabelMessageRows[i].mMessageIndex);
         }
-        func_0212426c(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mUnk_14, text, cellFileSet->mUnk_0c,
+        jn_ui_212426C(1, gMemberGroupLabelMessageRows[i].mLabelIndex, cellFileSet->mUnk_14, text, cellFileSet->mUnk_0c,
                       cellFileSet->mUnk_18);
     }
     RefreshMultiSelectMemberGroup(1);
-    SetSelectReturnSoundId(0xf);
-    data_021759d0->mUnk_20 = 2;
-    FrmHeapShrinkInParent(gMultiSelectMemberGroup->mHeap);
+    gmenu_setSeqArcIndex(0xf);
+    gSystemData->mUnk_20 = 2;
+    heap_adjustSubFrmHeap(gMultiSelectMemberGroup->mHeap);
 }
 
 s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
@@ -350,7 +350,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
     s32 selectionChanged;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = input_getDirectInputUnitId();
     cellFileSet = &gMultiSelectMemberGroup->mGroupSParts;
     if (gMultiSelectMemberGroup->mEntriesCleared == FALSE) {
         gMultiSelectMemberGroup->mEntriesClearFrames++;
@@ -366,17 +366,17 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
     }
     switch (gMultiSelectMemberGroup->mState) {
         case 0:
-            if (AreBrightnessFadesClear() == 0) {
+            if (mbright_isFadedIn() == 0) {
                 break;
             }
             if (gMultiSelectMemberGroup->mBg3OffsetFrames == 0) {
                 RequestSelectReturnState1();
-                func_02126638(GetBmgEntry(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
+                CreateMainMessageBoxBig(jn_msg_getMessage(gMultiSelectMemberGroup->mBannerMessages, 7), 0, 0, 1, 0, 0, 0);
             }
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
             if (gMultiSelectMemberGroup->mBg3OffsetFrames < 10) {
                 gMultiSelectMemberGroup->mBg3Offset =
-                    InterpolateS16(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames, 10);
+                    mutil_interpolate(1, -0xc0, 0, gMultiSelectMemberGroup->mBg3OffsetFrames, 10);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;
@@ -389,20 +389,20 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
             rectIndex = -1;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            v = data_02175628[slotIndex].mHasPair;
-            if (v == 0 && data_02175628[slotIndex].mNoPairCount < 5) {
+            v = gInputUnits[slotIndex].mHasPair;
+            if (v == 0 && gInputUnits[slotIndex].mNoPairCount < 5) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mPrevHasPair == 0 && v != 0) {
+            if (pairRecentlyGone == FALSE && gInputUnits[slotIndex].mPrevHasPair == 0 && v != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                pairX = data_02175628[slotIndex].mPairX;
-                pairY = data_02175628[slotIndex].mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
-                rectIndex = RectTableFindContaining(cellFileSet->mUnk_10, pairX, pairY);
+                pairX = gInputUnits[slotIndex].mPairX;
+                pairY = gInputUnits[slotIndex].mPairY;
+                touchInReturnRect = gmenu_checkSelectReturnTouch(pairX, pairY);
+                rectIndex = jn_ui_checkTouch(cellFileSet->mUnk_10, pairX, pairY);
             }
-            v = data_02175628[slotIndex].mPressedBits;
+            v = gInputUnits[slotIndex].mPressedBits;
             if ((u16) (v & PAD_KEY_A) != 0) {
                 if (func_0203023c() != 0) {
                     gMultiSelectMemberGroup->mUnk_88 = TRUE;
@@ -412,12 +412,12 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                     if (gMultiSelectMemberGroup->mSelectedIndex == 4) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4e);
                     } else {
-                        if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) == 2) {
-                            data_0217aa00->mUnk_0436 |= 1;
+                        if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) == 2) {
+                            gStruct217AA00->mUnk_0436 |= 1;
                         }
-                        NNS_SndArcSetCurrent(&data_0217c868);
+                        NNS_SndArcSetCurrent(&SDATFile);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                        NNS_SndArcSetCurrent(&data_0217d0a0);
+                        NNS_SndArcSetCurrent(&gSdatFileSndArc);
                     }
                 } else {
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x4f);
@@ -428,14 +428,14 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                 }
                 gMultiSelectMemberGroup->mState = 3;
                 RequestSelectReturnState3WithSound(1);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
+            } else if (mutil_checkKeys(slotIndex, PAD_KEY_UP) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex--;
                 if (gMultiSelectMemberGroup->mSelectedIndex < 0) {
                     gMultiSelectMemberGroup->mSelectedIndex = 4;
                 }
                 RefreshMultiSelectMemberGroup(1);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
-            } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
+            } else if (mutil_checkKeys(slotIndex, PAD_KEY_DOWN) != 0) {
                 gMultiSelectMemberGroup->mSelectedIndex++;
                 if (gMultiSelectMemberGroup->mSelectedIndex > 4) {
                     gMultiSelectMemberGroup->mSelectedIndex = 0;
@@ -455,9 +455,9 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != i ? 1 : 0;
                         if (gMultiSelectMemberGroup->mUnk_58[i].mUnk_00 != 0 &&
                             gMultiSelectMemberGroup->mUnk_58[i].mUnk_08 < 7) {
-                            NNS_SndArcSetCurrent(&data_0217c868);
+                            NNS_SndArcSetCurrent(&SDATFile);
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
-                            NNS_SndArcSetCurrent(&data_0217d0a0);
+                            NNS_SndArcSetCurrent(&gSdatFileSndArc);
                             gMultiSelectMemberGroup->mSelectedIndex = i;
                             RefreshMultiSelectMemberGroup(selectionChanged);
                             gMultiSelectMemberGroup->mState2Frames = 0;
@@ -488,7 +488,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
             gMultiSelectMemberGroup->mBg3OffsetFrames++;
             if (gMultiSelectMemberGroup->mBg3OffsetFrames < 10) {
                 gMultiSelectMemberGroup->mBg3Offset =
-                    InterpolateS16(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames, 10);
+                    mutil_interpolate(1, 0, -0xc0, gMultiSelectMemberGroup->mBg3OffsetFrames, 10);
             } else {
                 gMultiSelectMemberGroup->mBg3OffsetFrames = 0;
                 gMultiSelectMemberGroup->mBg3Offset = 0;
@@ -503,7 +503,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
             break;
     }
     if (gMultiSelectMemberGroup->mState != 4) {
-        DrawLayoutTable(cellFileSet->mUnk_0c, cellFileSet->mUnk_08, cellFileSet->mUnk_14,
+        jn_ui_renderElements(cellFileSet->mUnk_0c, cellFileSet->mUnk_08, cellFileSet->mUnk_14,
                         gMultiSelectMemberGroup->mOamList, cellFileSet->mUnk_18);
     }
     return result;
@@ -514,7 +514,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbersView *sceneNumbers) {
 #pragma thumb on
 
 void ReleaseMultiSelectMemberGroup(void) {
-    HeapDestroy(gMultiSelectMemberGroup->mHeap);
+    heap_destroySubHeap(gMultiSelectMemberGroup->mHeap);
     *&gMultiSelectMemberGroup = NULL;
 }
 

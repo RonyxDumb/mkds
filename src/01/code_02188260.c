@@ -3,14 +3,14 @@
 #include "Main/Unknown/code_020a12b8.h"
 
 u32 func_ov001_02188260(Unk02188950 *mapObject) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_021817e0();
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyBossDamage();
     }
     mapObject->mUnk_0ac++;
     if (mapObject->mUnk_0ac >= mapObject->mPrm->mUnk_000) {
         mapObject->mUnk_0ac = mapObject->mPrm->mUnk_000;
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            EliminateKartsUntilWinnerDecided();
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+            mgcnt_tryFinish();
         }
         return 1;
     }

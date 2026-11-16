@@ -4,4 +4,4 @@
 
 typedef struct TimeRecord TimeRecord;
 
-void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record);
+void savd_setNkgpEntry(int cup, int engineClass, TimeRecord *record);

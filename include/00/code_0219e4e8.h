@@ -14,5 +14,5 @@ void func_ov000_0219e8b8(s32 a);
 u32 GetMatchingParticipantMaskExceptFirst(s32 a);
 s32 GetMatchingParticipantIndexByProfileId(u32 profileId, s32 b);
 s32 GetSbServerProfileIdIfComplete(u32 server);
-u8 FindFreeMatchingParticipantIndex(void);
+u8 ending_update(void);
 void ReleaseMatchingKeys(void);

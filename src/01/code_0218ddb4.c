@@ -76,7 +76,7 @@ void func_ov001_0218f850(Unk02188950 *a) {
     StartEffectAtOffset(a, 0, 0, 0, 0x41e, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x41f, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x420, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x22d);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x22d);
     a->mUnk_000.mFlags = a->mUnk_000.mFlags | data_ov001_021a65bc;
 }
 
@@ -89,19 +89,19 @@ void func_ov001_0218f724(Unk02188950 *b) {
     s32 c;
     s64 z;
     s64 x;
-    VEC_Subtract(gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
-                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &v1);
+    VEC_Subtract(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPlayerPosition() : 0,
+                 gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPrevPlayerPosition() : 0, &v1);
     v1.y = 0;
     a = 0;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        a = GetMissionRunPrevKartHeadingAngle();
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        a = mrcnt_getPrevPlayerYRot();
     }
-    a = (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartHeadingAngle() : 0) - a;
-    VEC_Subtract(&b->mUnk_000.mPos, gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0, &v2);
+    a = (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPlayerYRot() : 0) - a;
+    VEC_Subtract(&b->mUnk_000.mPos, gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPlayerPosition() : 0, &v2);
     for (i = 0; i < 1; i++) {
-        c = gPairsByAngle[((u16) a >> 4) * 2 + 1];
+        c = FX_SinCosTable_[((u16) a >> 4) * 2 + 1];
         x = v2.x;
-        s = gPairsByAngle[((u16) a >> 4) * 2];
+        s = FX_SinCosTable_[((u16) a >> 4) * 2];
         z = v2.z;
     }
     v1.x += (s32) (z * s >> 12) + (s32) (x * c >> 12) - v2.x;
@@ -111,14 +111,14 @@ void func_ov001_0218f724(Unk02188950 *b) {
 
 void func_ov001_0218f6d8(Unk02188950 *a) {
     Vec3 local;
-    VEC_Subtract(gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunKartPos() : 0,
-                 gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunPrevKartPos() : 0, &local);
+    VEC_Subtract(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPlayerPosition() : 0,
+                 gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getPrevPlayerPosition() : 0, &local);
     local.y = 0;
     SetVelocity(a, &local);
 }
 
 s32 func_ov001_0218f688(Unk02188950 *a) {
-    Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *obj = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((obj->mUnk_48 & 0x200) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
         func_ov001_02188d8c(a, &obj->mPos);
@@ -128,20 +128,20 @@ s32 func_ov001_0218f688(Unk02188950 *a) {
 }
 
 s32 func_ov001_0218f634(Unk02188950 *a) {
-    Kart *obj = GetKart((u16) gRaceSetup->mEntryIndex);
+    Kart *obj = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((obj->mUnk_48 & 0x200) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &obj->mPos);
         func_ov001_02188d8c(a, &obj->mPos);
     }
     func_ov001_0218f6d8(a);
-    ClearFadeFogHoldFrames();
+    race_resetDarkeningFadeWaitCounter();
     return 0;
 }
 
 void func_ov001_0218f57c(Unk02188950 *a) {
     Kart *p;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 5, func_ov001_0218f634);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_1fc, a->mPrm->mUnk_200);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_204, a->mPrm->mUnk_208);
@@ -153,7 +153,7 @@ void func_ov001_0218f57c(Unk02188950 *a) {
 }
 
 void func_ov001_0218f51c(Unk02188950 *a) {
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 5, func_ov001_0218f634);
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_1f4, a->mPrm->mUnk_1f8, func_ov001_0218f57c);
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
@@ -163,7 +163,7 @@ void func_ov001_0218f51c(Unk02188950 *a) {
 void func_ov001_0218f454(Unk02188950 *a) {
     Kart *p;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 5, func_ov001_0218f634);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_1d8, a->mPrm->mUnk_1dc);
     SetSpeedTargetAndPerCall(a, a->mPrm->mUnk_1e0, a->mPrm->mUnk_1e4);
@@ -172,28 +172,28 @@ void func_ov001_0218f454(Unk02188950 *a) {
     func_ov001_021889c8(a);
     StartStateFrameCountCallback(a, a->mPrm->mUnk_1f0, func_ov001_0218f51c);
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    StartMapObjectSound(&a->mUnk_000, 0x229);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x229);
 }
 
 s32 func_ov001_0218f3ec(Unk02188950 *a) {
     Kart *p;
     Vec3 v;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((p->mUnk_48 & 0x200) == 0) {
         VEC_MultAdd(a->mPrm->mUnk_21c, &p->mEasedTurnedForward, &p->mPos, &v);
         SetAnglePointAndMoveAnglePoint(a, &v);
         func_ov001_02188d8c(a, &v);
     }
     func_ov001_0218f6d8(a);
-    ClearFadeFogHoldFrames();
+    race_resetDarkeningFadeWaitCounter();
     return 0;
 }
 
 s32 func_ov001_0218f3ac(Unk02188950 *a) {
     Kart *p;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((p->mUnk_48 & 0x200) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &p->mPos);
     }
@@ -205,7 +205,7 @@ void func_ov001_0218f2a8(Unk02188950 *a) {
     Kart *p;
     Vec3 v;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     VEC_MultAdd(a->mPrm->mUnk_21c, &p->mEasedTurnedForward, &p->mPos, &v);
     func_ov001_02187218(a, 5, func_ov001_0218f3ac);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_0ec, a->mPrm->mUnk_0f0);
@@ -225,7 +225,7 @@ s32 func_ov001_0218f244(Unk02188950 *a) {
     Kart *p;
     Vec3 v;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((p->mUnk_48 & 0x200) == 0) {
         VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
         SetAnglePointAndMoveAnglePoint(a, &v);
@@ -239,7 +239,7 @@ void func_ov001_0218f16c(Unk02188950 *a) {
     Kart *p;
     Vec3 v;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
     func_ov001_02187218(a, 3, func_ov001_0218f244);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_0c4, a->mPrm->mUnk_0c8);
@@ -257,7 +257,7 @@ s32 func_ov001_0218efc4(Unk02188950 *a) {
     Kart *p;
     float f;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     if ((p->mUnk_48 & 0x200) == 0) {
         SetAnglePointAndMoveAnglePoint(a, &p->mPos);
         func_ov001_02188d8c(a, &p->mPos);
@@ -269,25 +269,25 @@ s32 func_ov001_0218efc4(Unk02188950 *a) {
         a->mUnk_1c4 = 0;
     }
     a->mAlphaLimitPerCall = a->mPrm->mUnk_09c;
-    if (a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > 0) {
-        f = 0.5f + ((a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12);
+    if (a->mPrm->mUnk_1cc - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > 0) {
+        f = 0.5f + ((a->mPrm->mUnk_1cc - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12);
     } else {
-        f = ((a->mPrm->mUnk_1cc - (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12) - 0.5f;
+        f = ((a->mPrm->mUnk_1cc - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) << 12) - 0.5f;
     }
     a->mAlphaLimitTarget = (s32) f / a->mPrm->mUnk_1d4;
-    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <= a->mPrm->mUnk_1d0 &&
+    if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <= a->mPrm->mUnk_1d0 &&
         GetEntryKartFacingObject(a, 0, a->mPrm->mUnk_0bc) != NULL) {
         SetKartCollisionCallback(a, func_ov001_0218f9a8);
         a->mUnk_000.mFlags |= data_ov001_021a65b0;
         func_ov001_0218f16c(a);
-    } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > a->mPrm->mUnk_1cc) {
+    } else if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) > a->mPrm->mUnk_1cc) {
         func_ov001_02188e88(a);
     }
     return 0;
 }
 
 void func_ov001_0218ef30(Unk02188950 *a) {
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 3, func_ov001_0218efc4);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_090, a->mPrm->mUnk_094);
     SetSpeedAndClearTarget(a, a->mPrm->mUnk_0a0);
@@ -302,7 +302,7 @@ void func_ov001_0218ee88(Unk02188950 *a) {
     Kart *p;
     Vec3 v;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     VEC_MultAdd(-a->mPrm->mUnk_0e8, &p->mEasedTurnedForward, &p->mPos, &v);
     a->mUnk_000.mPos.x = v.x;
     a->mUnk_000.mPos.y = a->mUnk_000.mCourseMapRow->mUnk_00.y + a->mPrm->mUnk_080;
@@ -317,7 +317,7 @@ void func_ov001_0218ee88(Unk02188950 *a) {
 void func_ov001_0218edc8(Unk02188950 *a) {
     Kart *p;
 
-    p = GetKart((u16) gRaceSetup->mEntryIndex);
+    p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 3, func_ov001_0218f634);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_144, a->mPrm->mUnk_148);
     SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_14c, a->mPrm->mUnk_150);
@@ -328,12 +328,12 @@ void func_ov001_0218edc8(Unk02188950 *a) {
 }
 
 u32 func_ov001_0218edb8(void) {
-    ClearFadeFogHoldFrames();
+    race_resetDarkeningFadeWaitCounter();
     return 0;
 }
 
 void func_ov001_0218ec40(Unk02188950 *a) {
-    GetKart((u16) gRaceSetup->mEntryIndex);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(a, 1, (s32(*)(Unk02188950 *)) func_ov001_0218edb8);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c);
     SetAlphaLimitTargetAndPerCall(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124);
@@ -357,8 +357,8 @@ void func_ov001_0218ec40(Unk02188950 *a) {
 
 void func_ov001_0218eb94(Unk02188950 *a) {
     RandomState64 *rng;
-    GetKart((u16) gRaceSetup->mEntryIndex);
-    rng = GetMapObjectRandom();
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
+    rng = mobj_getRng1();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
     a->mUnk_000.mPos.x = (&GetCurrentGroupEntry(a)->mPos)->x;
     a->mUnk_000.mPos.y = a->mPrm->mUnk_080 + (&GetCurrentGroupEntry(a)->mPos)->y;
@@ -411,7 +411,7 @@ u32 func_ov001_0218ea98(Unk02188950 *a) {
         v1 = v2;
     }
     a->mUnk_000.mPos.y = v1;
-    ClearFadeFogHoldFrames();
+    race_resetDarkeningFadeWaitCounter();
     return 0;
 }
 
@@ -431,9 +431,9 @@ void func_ov001_0218e92c(Unk02188950 *p) {
     data_0217d20c = 4;
     SetKartCollisionCallback(p, func_ov001_0218e38c);
     p->mUnk_000.mFlags |= data_ov001_021a65b0;
-    func_ov001_02182a3c(p->mPrm->mUnk_18c < (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0)
+    func_ov001_02182a3c(p->mPrm->mUnk_18c < (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getStolenCoinCount() : 0)
                             ? p->mPrm->mUnk_18c
-                            : (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunBossCount() : 0));
+                            : (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getStolenCoinCount() : 0));
     p->mCollisionExtent.x = p->mCollisionExtentTargetX = p->mCollisionExtent.z = p->mCollisionExtentTargetZ =
         p->mPrm->mUnk_00c / 2;
 }
@@ -444,13 +444,13 @@ void func_ov001_0218e8d8(Unk02188950 *a) {
     func_ov001_02188c90(a);
     SetSpeedAndClearTarget(a, 0);
     func_ov001_02182a3c(0);
-    StartMapObjectSound(&a->mUnk_000, 0x00000230u);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x00000230u);
 }
 
 void func_ov001_0218e8b0(Unk02188950 *a) {
     func_ov001_02187218(a, 1, NULL);
     SetShadowOffsetYAndScale(a, 0, 0x19000);
-    SetFadeFogHoldFramesToLimit();
+    race_forceDarkeningFade();
     func_ov001_021827f0();
 }
 
@@ -493,7 +493,7 @@ void func_ov001_0218e760(Unk02188950 *p) {
     data_0217d20c = 3;
 }
 
-void func_ov001_0218e710(Unk02188950 *p) {
+void ktesa_218E710(Unk02188950 *p) {
     func_ov001_02187218(p, 8, NULL);
     StartAnimationNoEndCallback(p, p->mPrm->mUnk_078, p->mPrm->mUnk_07c);
     func_ov001_02188c90(p);
@@ -502,14 +502,14 @@ void func_ov001_0218e710(Unk02188950 *p) {
         data_0217d21c = data_0217d20c;
     }
     data_0217d20c = 6;
-    SetFadeFogHoldFramesToLimit();
+    race_forceDarkeningFade();
 }
 
 void func_ov001_0218e690(Unk02188950 *p) {
     func_ov001_02187218(p, 8, NULL);
     StartAnimationNoEndCallback(p, p->mPrm->mUnk_070, p->mPrm->mUnk_074);
-    StartEffect(0x3fe, &p->mUnk_000.mPos);
-    StartEffect(0x3fd, &p->mUnk_000.mPos);
+    ptcm_createEmitter(0x3fe, &p->mUnk_000.mPos);
+    ptcm_createEmitter(0x3fd, &p->mUnk_000.mPos);
     if (data_0217d20c != 7) {
         data_0217d21c = data_0217d20c;
     }
@@ -523,7 +523,7 @@ s32 func_ov001_0218e650(Unk02188950 *a) {
     if (a->mStateFrames == 50) {
         Unk0210b7a8 local = {0x22f, 0, 0xe, 0};
         local.mPositionSource = &a->mUnk_000.mPos;
-        local.mDistanceSquared = GetHorizontalCameraDistanceSquared(&a->mUnk_000.mPos);
+        local.mDistanceSquared = mobj_calcXZCamDist(&a->mUnk_000.mPos);
         func_0210b734(&local, func_02108e7c());
     }
     return 0;
@@ -554,16 +554,16 @@ void func_ov001_0218e58c(void) {
     func_ov001_021882b8();
 }
 
-void func_ov001_0218e564(Unk02188950 *a) {
+void ktesa_218E564(Unk02188950 *a) {
     func_ov001_02187218(a, 8, NULL);
     StartAnimationWithEndCallback(a, a->mPrm->mUnk_058, a->mPrm->mUnk_05c, func_ov001_0218e760);
 }
 
-void func_ov001_0218e520(Unk02188950 *a) {
+void ktesa_218E520(Unk02188950 *a) {
     a->mUnk_000.mPos.y += a->mPrm->mUnk_080;
     func_ov001_02187218(a, 8, NULL);
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_04c, a->mPrm->mUnk_050);
-    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, func_ov001_0218e564);
+    StartStateFrameCountCallback(a, a->mPrm->mUnk_054, ktesa_218E564);
 }
 
 void func_ov001_0218e508(Unk02188950 *a) {
@@ -571,7 +571,7 @@ void func_ov001_0218e508(Unk02188950 *a) {
     func_ov001_0218f900(a);
 }
 
-void func_ov001_0218e4ac(Unk02188950 *a) {
+void ktesa_218E4AC(Unk02188950 *a) {
     a->mUnk_000.mPos.y += a->mPrm->mUnk_080;
     a->mAlphaLimitTarget = 0;
     a->mAlphaLimit = a->mAlphaLimitTarget;
@@ -581,23 +581,23 @@ void func_ov001_0218e4ac(Unk02188950 *a) {
     StartStateFrameCountCallback(a, a->mPrm->mUnk_03c, func_ov001_0218e508);
 }
 
-void func_ov001_0218e474(Unk02188950 *a) {
-    a->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void ktesa_init(Unk02188950 *a) {
+    a->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&a->mUnk_000.mSound->mSoundSource, 0xe, &a->mUnk_000.mPos);
     a->mUnk_000.mFarDistanceSquared = data_0217cc6c[6];
 }
 
 void func_ov001_0218e38c(Unk02188950 *a, Kart *b) {
-    a->mUnk_000.mUnk_10.x = ((s64) -a->mPrm->mUnk_024 * gPairsByAngle[(b->mHeadingAngle >> 4) * 2]) >> 12;
+    a->mUnk_000.mUnk_10.x = ((s64) -a->mPrm->mUnk_024 * FX_SinCosTable_[(b->mHeadingAngle >> 4) * 2]) >> 12;
     a->mUnk_000.mUnk_10.y = 0;
-    a->mUnk_000.mUnk_10.z = ((s64) -a->mPrm->mUnk_024 * gPairsByAngle[(b->mHeadingAngle >> 4) * 2 + 1]) >> 12;
+    a->mUnk_000.mUnk_10.z = ((s64) -a->mPrm->mUnk_024 * FX_SinCosTable_[(b->mHeadingAngle >> 4) * 2 + 1]) >> 12;
     func_ov001_021829ac(a->mPrm->mUnk_190);
     func_ov001_0218ead0(a);
     a->mUnk_2d8 = 0;
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
     func_ov001_0218e860(a);
     a->mUnk_0a8 = 0;
-    StartMapObjectSound(&a->mUnk_000, 0x22c);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x22c);
     a->mCollisionExtent.x = a->mCollisionExtentTargetX = a->mCollisionExtent.z = a->mCollisionExtentTargetZ =
         a->mPrm->mUnk_00c;
 }
@@ -611,56 +611,56 @@ void func_ov001_0218e344(Unk02188950 *a) {
     a->mUnk_2d8 = 0xd;
     SetKartCollisionCallback(a, func_ov001_0218e344);
     if (a->mTimer == 0) {
-        StartMapObjectSound(&a->mUnk_000, 0x00000234u);
+        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x00000234u);
     }
 }
 
 void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
-    func_ov001_02182bbc((u16) a->mPrm->mUnk_110);
+    coin_steal((u16) a->mPrm->mUnk_110);
     a->mUnk_000.mUnk_10.x = 0;
     a->mUnk_000.mUnk_10.y = a->mPrm->mUnk_114;
     a->mUnk_000.mUnk_10.z = 0;
     a->mUnk_2d8 = 0xc;
     a->mUnk_158 = func_ov001_0218f3ec;
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
-    StartCameraWobbleAtDistance(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(a->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     func_02068a10(b);
     SetShadowOffsetYAndScale(a, 0, 0x32000);
     a->mUnk_0a8 = 1;
-    if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0)) {
-        StartFadeFog();
+    if (!(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0)) {
+        race_startDarkening();
     }
 }
 
-void InitKingTeresaObjects(Unk0218d87c *a) {
+void ktesa_globalInitLogic(Unk0218d87c *a) {
     s32 i;
     Unk02188950 *obj;
     MissionRunPrm *a0;
 
     if (a != NULL) {
         for (i = 0; i < a->mUnk_04 && (obj = a->mUnk_00[i]) != NULL; i++) {
-            if (GetRaceUseChainCameras() != 0) {
-                func_ov001_0218e4ac(obj);
+            if (race_isCamAnimMode() != 0) {
+                ktesa_218E4AC(obj);
             } else {
-                func_ov001_0218e520(obj);
+                ktesa_218E520(obj);
             }
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 a0 = obj->mPrm;
                 func_ov001_02181844(a0->mUnk_1b8, a0->mUnk_1bc, a0->mUnk_1c0, a0->mUnk_1c4);
             }
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_0218e58c);
+    mgcnt_setOnEndFunc((void (*)(void)) func_ov001_0218e58c);
 }
 
-void UpdateKingTeresa(u32 a, Unk02188950 *b) {
+void ktesa_update(u32 a, Unk02188950 *b) {
     Kart *p;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) {
         if (func_ov001_021871f8(b, 5) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
-                func_ov001_0218e710(b);
-            } else if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecidedAndEndReached() : 0) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead((u16) gRaceMultiConfig->mEntryIndex) : 0) {
+                ktesa_218E710(b);
+            } else if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasMgEnded() : 0) {
                 func_ov001_0218e5c4(b);
             } else {
                 func_ov001_0218e594(b);
@@ -669,7 +669,7 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
     } else {
         if (b->mUnk_0a8 != 0) {
             if (func_ov001_021871f8(b, 5) != 0) {
-                p = GetKart((u16) gRaceSetup->mEntryIndex);
+                p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
                 if (p->mState == KART_STATE_NORMAL && (p->mUnk_48 & 0x200) == 0 &&
                     GetEntryKartInRange(b, 0, b->mPrm->mUnk_184) != NULL &&
                     GetEntryKartFacingObject(b, 0, b->mPrm->mUnk_180) != NULL &&
@@ -687,14 +687,14 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
                 func_ov001_0218ec40(b);
             }
         } else {
-            p = GetKart((u16) gRaceSetup->mEntryIndex);
+            p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
             if (p->mUnk_48 & 0x200) {
-                if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0) {
-                    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getCurrentValue() : 0) {
+                    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         SetMissionRunTimer((u16) b->mPrm->mUnk_1bc);
                     }
                 } else {
-                    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         SetMissionRunTimer(0);
                     }
                 }
@@ -704,9 +704,9 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
                     func_ov001_0218e7d0(b);
                 }
             }
-            if (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) {
                 if (func_ov001_021871f8(b, 3) != 0) {
-                    if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) < b->mPrm->mUnk_1c8) {
+                    if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) < b->mPrm->mUnk_1c8) {
                         if (b->mUnk_000.mFlags & 1) {
                             SetKartCollisionCallback(b, func_ov001_0218f9a8);
                             b->mUnk_000.mFlags |= data_ov001_021a65b0;
@@ -727,26 +727,26 @@ void UpdateKingTeresa(u32 a, Unk02188950 *b) {
         if (data_0217d20c == 0) {
             func_02110350(b->mUnk_000.mSound);
         } else if (func_02110324() != 0) {
-            StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22a);
+            mobj_emitSfxFromEmitter(&b->mUnk_000, 0x22a);
         } else if (data_0217d20c == 4) {
-            StartMapObjectSoundWhileRequested(&b->mUnk_000, 0x22b);
+            mobj_emitSfxFromEmitter(&b->mUnk_000, 0x22b);
         }
     }
-    AdvanceMissionRunMapObject(a, b);
+    boss_update(a, b);
 }
 
-void InitKingTeresa(Unk0218d87c *a) {
+void ktesa_loadFiles(Unk0218d87c *a) {
     int i;
     Unk02188950 *p;
     MissionRunPrm *a0;
 
     if (a != NULL) {
         for (i = 0; i < a->mUnk_04 && (p = a->mUnk_00[i]) != NULL; i++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(p);
             }
-            InitMissionRunMapObject(a, p, data_ov001_021a7da0, data_ov001_021a7db4, data_ov001_021a7dc8);
-            LoadMissionRunMapObjectShadow(a, p, data_ov001_021a7dd8);
+            boss_21870E4(a, p, aKing_teresa_ns, aKing_teresa__0, aKing_teresa_pr);
+            LoadMissionRunMapObjectShadow(a, p, aSh_circle_ns_4);
             a0 = p->mPrm;
             SetCollisionOffsetAndExtent(p, a0->mUnk_008, a0->mUnk_00c, a0->mUnk_240);
             SetShadowOffsetYAndScale(p, 0, 0x19000);
@@ -758,26 +758,26 @@ void InitKingTeresa(Unk0218d87c *a) {
     }
 }
 
-void DrawKingTeresa(void *a, Unk02188950 *b) {
-    DrawMissionRunMapObject(a, b);
+void ktesa_render(void *a, Unk02188950 *b) {
+    boss_render(a, b);
     if (b->mUnk_0a8 == 0) {
-        DrawMissionRunMapObjectShadow(a, b, 0);
+        boss_renderShadow(a, b, 0);
         return;
     }
-    DrawMissionRunMapObjectShadow(a, b, 1);
+    boss_renderShadow(a, b, 1);
 }
 
-void func_ov001_0218dde8(void) {
-    void *v6 = &CollideKartWithMissionRunMapObject;
-    void *v7 = &CollideItemWithMissionRunMapObject;
-    void *v8 = &ComputeSphereHitOnMissionRunMapObject;
+void ktesa_setupCollision(void) {
+    void *v6 = &boss_onDriverCollide;
+    void *v7 = &boss_onItemCollide;
+    void *v8 = &boss_collide;
     void *v10 = func_ov001_0219b510(v6, v7, v8, 0x2u, 0x0u, 0x0u, 0x0u);
 }
 
-void *func_ov001_0218ddcc(void) {
-    return CreateMapObjectDrawList1(InitKingTeresa, DrawKingTeresa, ToggleShadowScale);
+void *ktesa_setupRenderPart(void) {
+    return mobj_createRenderPart3d(ktesa_loadFiles, ktesa_render, ktesa_globalPreRender);
 }
 
-void *func_ov001_0218ddb4(void) {
-    return CreateMapObjectUpdateList(InitKingTeresaObjects, UpdateKingTeresa, NULL);
+void *ktesa_setupLogicPart(void) {
+    return mobj_createLogicPart(ktesa_globalInitLogic, ktesa_update, NULL);
 }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetupAndDrawTitleTable(void);
+void title_renderUI(void);

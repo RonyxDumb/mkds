@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-void PackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
+void savd_packNktaEntry(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
     if (timeRecord->mFilled != 0) {
         MI_CpuCopy8(timeRecord->mName, packedCourseTimeRecord->mName, 0x14);
         packedCourseTimeRecord->mFilled = 1;

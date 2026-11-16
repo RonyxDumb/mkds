@@ -21,17 +21,17 @@ static inline u32 func_0208b190_inline(RandomState64 *b, u32 n) {
 }
 
 // Ids from 1000 up belong to the second manager (Mission Run); the id inside the manager goes to *a.
-SPLManager *GetSPLManagerForEffectId(s32 *outIndex, s32 effectId) {
+SPLManager *ptcm_getParticleSetByIdMr(s32 *outIndex, s32 effectId) {
     if (effectId >= 0x3e8) {
         effectId -= 0x3e8;
         *outIndex = effectId;
-        return gMissionRunSPLManager;
+        return ptcm_sMissionEffectParticleSet;
     }
     *outIndex = effectId;
-    return data_0217b044;
+    return ptcm_sRaceEffectParticleSet;
 }
 
-void AdvanceStadiumEmitters(void) {
+void ptcm_updateCameraFlashes(void) {
     s16 i;
     s32 bestIndex;
     Vec3 cameraForward;
@@ -45,25 +45,25 @@ void AdvanceStadiumEmitters(void) {
     Unk0217b050Func *getManager;
     Camera *camera;
 
-    data_0217b048->mEmitterTimer--;
-    if (data_0217b048->mEmitterTimer > 0) {
+    ptcm_sCamFlashes->mEmitterTimer--;
+    if (ptcm_sCamFlashes->mEmitterTimer > 0) {
         return;
     }
     bestDot = -0x1000;
     bestIndex = -1;
-    camera = GetCurrentCamera();
+    camera = race_getCamera();
     cameraForward = camera->mForward;
     for (i = 0; i < 6; i++) {
-        StadiumEmitters *stadiumEmitters = data_0217b048;
+        StadiumEmitters *stadiumEmitters = ptcm_sCamFlashes;
         if (stadiumEmitters->mEmitters[i] != NULL) {
             s32 effectIndex;
             Unk0201ca6c **emitterSlot = &stadiumEmitters->mEmitters[i];
-            SPLManager_DeleteEmitter(gGetSPLManagerFunction(&effectIndex, 0), *emitterSlot);
+            spa_removeEmitter(ptcm_sGetParticleSetByIdFunc(&effectIndex, 0), *emitterSlot);
             *emitterSlot = NULL;
         }
     }
     for (i = 0; i < 6; i++) {
-        s32 dot = VEC_DotProduct(&cameraForward, &data_0217b048->mDirections[i]);
+        s32 dot = VEC_DotProduct(&cameraForward, &ptcm_sCamFlashes->mDirections[i]);
         if (dot >= bestDot) {
             bestDot = dot;
             bestIndex = i;
@@ -77,12 +77,12 @@ void AdvanceStadiumEmitters(void) {
     if (nextIndex >= 6) {
         nextIndex = 0;
     }
-    effectIds[0] = data_02155f48[previousIndex * 2];
-    effectIds[1] = data_02155f48[previousIndex * 2 + 1];
-    effectIds[2] = data_02155f48[bestIndex * 2];
-    effectIds[3] = data_02155f48[bestIndex * 2 + 1];
-    effectIds[4] = data_02155f48[nextIndex * 2];
-    effectIds[5] = data_02155f48[nextIndex * 2 + 1];
+    effectIds[0] = ptcm_sCamFlashesParticleIds[previousIndex * 2];
+    effectIds[1] = ptcm_sCamFlashesParticleIds[previousIndex * 2 + 1];
+    effectIds[2] = ptcm_sCamFlashesParticleIds[bestIndex * 2];
+    effectIds[3] = ptcm_sCamFlashesParticleIds[bestIndex * 2 + 1];
+    effectIds[4] = ptcm_sCamFlashesParticleIds[nextIndex * 2];
+    effectIds[5] = ptcm_sCamFlashesParticleIds[nextIndex * 2 + 1];
     emitterDirectionIndices[0] = emitterDirectionIndices[1] = previousIndex;
     emitterDirectionIndices[2] = emitterDirectionIndices[3] = bestIndex;
     emitterDirectionIndices[4] = emitterDirectionIndices[5] = nextIndex;
@@ -91,13 +91,13 @@ void AdvanceStadiumEmitters(void) {
         Vec3 position;
         Unk0201ca6c *emitter;
         SPLManager *manager;
-        Vec3 *tablePosition = &data_02155f78[emitterDirectionIndices[emitterIndex]];
-        getManager = gGetSPLManagerFunction;
+        Vec3 *tablePosition = &ptcm_sCamFlashesPositions[emitterDirectionIndices[emitterIndex]];
+        getManager = ptcm_sGetParticleSetByIdFunc;
         manager = getManager(&effectIndex, effectIds[emitterIndex]);
         position.x = tablePosition->x >> 4;
         position.y = tablePosition->y >> 4;
         position.z = tablePosition->z >> 4;
-        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
             if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
                 emitter->mUnk_80_16 = 1;
@@ -105,13 +105,13 @@ void AdvanceStadiumEmitters(void) {
                 emitter->mUnk_80_16 = 2;
             }
         }
-        data_0217b048->mEmitters[emitterIndex] = emitter;
+        ptcm_sCamFlashes->mEmitters[emitterIndex] = emitter;
     }
-    randomDraw = func_0208b190_inline(&gRaceProgress->mLocalRandom, 0x19);
-    data_0217b048->mEmitterTimer = (u16) randomDraw + 0x14;
+    randomDraw = func_0208b190_inline(&gRaceStatus->mLocalRandom, 0x19);
+    ptcm_sCamFlashes->mEmitterTimer = (u16) randomDraw + 0x14;
 }
 
-void CreateAwardEmitters(void) {
+void ptcm_initAwardEmitters(void) {
     Unk02166108 secondEffectIds = data_02166108;
     Unk021660f8 firstEffectIds = data_021660f8;
     s32 baseX = data_02155fc0.x;
@@ -126,11 +126,11 @@ void CreateAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         Unk0201ca6c *emitter;
-        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, firstEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, firstEffectIds.mUnk_00[emitterIndex]);
         position.x = emitX;
         position.y = emitY;
         position.z = emitZ;
-        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
             if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
                 emitter->mUnk_80_16 = 1;
@@ -143,11 +143,11 @@ void CreateAwardEmitters(void) {
         s32 effectIndex;
         Vec3 position;
         Unk0201ca6c *emitter;
-        SPLManager *manager = gGetSPLManagerFunction(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
+        SPLManager *manager = ptcm_sGetParticleSetByIdFunc(&effectIndex, secondEffectIds.mUnk_00[emitterIndex]);
         position.x = baseX >> 4;
         position.y = emitY;
         position.z = emitZ;
-        emitter = SPLManager_CreateEmitter(manager, effectIndex, &position);
+        emitter = spa_createEmitter(manager, effectIndex, &position);
         if (emitter != NULL) {
             if (emitter->mUnk_20->mUnk_00->mUnk_54 & 0x80) {
                 emitter->mUnk_80_16 = 1;
@@ -158,26 +158,26 @@ void CreateAwardEmitters(void) {
     }
 }
 
-void CreateKartPhysicalParamTable(void *heap, u32 entryCount) {
-    gKartPhysicalParamTable = HeapAlloc(heap, 0x14);
-    gKartPhysicalParamTable->mKartParams = HeapAlloc(heap, entryCount * 0x98);
-    gKartPhysicalParamTable->mCharParams = HeapAlloc(heap, entryCount * 8);
-    gKartPhysicalParamTable->mKartParamFile = FindKartModelFile(data_021660c8);
-    gKartPhysicalParamTable->mCharParamFile = FindKartModelFile(data_021660e0);
-    gKartPhysicalParamTable->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, gKartPhysicalParamTable->mKartParamFile, 0x10);
+void physp_init(void *heap, u32 entryCount) {
+    physp_sPhysicalParams = heap_alloc(heap, 0x14);
+    physp_sPhysicalParams->mKartParams = heap_alloc(heap, entryCount * 0x98);
+    physp_sPhysicalParams->mCharParams = heap_alloc(heap, entryCount * 8);
+    physp_sPhysicalParams->mKartParamFile = arc_getKartModelArcFile(aKartphysicalpa);
+    physp_sPhysicalParams->mCharParamFile = arc_getKartModelArcFile(aCharphysicalpa);
+    physp_sPhysicalParams->mFirstBaseSpeedLimit = *OFFSET_PTR(s32, physp_sPhysicalParams->mKartParamFile, 0x10);
 }
 
 // Copies the kart row and the character row of the files to the slot after choosing the rows (rows 0 when
-// IsRaceAwardOrStaffRoll() != 0; character + 0x25 in mode 2).
-void CopyKartPhysicalParams(u32 slot, u32 kartRow, u32 characterRow) {
-    u8 *kartParamFile = gKartPhysicalParamTable->mKartParamFile;
-    u8 *characterParamFile = gKartPhysicalParamTable->mCharParamFile;
-    if (IsRaceAwardOrStaffRoll() != 0) {
+// race_isAwardStaffRoll() != 0; character + 0x25 in mode 2).
+void physp_initForDriver(u32 slot, u32 kartRow, u32 characterRow) {
+    u8 *kartParamFile = physp_sPhysicalParams->mKartParamFile;
+    u8 *characterParamFile = physp_sPhysicalParams->mCharParamFile;
+    if (race_isAwardStaffRoll() != 0) {
         characterRow = 0;
         kartRow = characterRow;
-    } else if (gRaceSetup->mMode == MODE_BATTLE) {
+    } else if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         kartRow = (u16) (characterRow + 0x25);
     }
-    MI_CpuCopy8(kartParamFile + kartRow * 0x98, gKartPhysicalParamTable->mKartParams + slot * 0x98, 0x98);
-    MI_CpuCopy8(characterParamFile + characterRow * 8, gKartPhysicalParamTable->mCharParams + slot * 8, 8);
+    MI_CpuCopy8(kartParamFile + kartRow * 0x98, physp_sPhysicalParams->mKartParams + slot * 0x98, 0x98);
+    MI_CpuCopy8(characterParamFile + characterRow * 8, physp_sPhysicalParams->mCharParams + slot * 8, 8);
 }

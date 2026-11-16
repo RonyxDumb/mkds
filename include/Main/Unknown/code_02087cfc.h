@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02087cfc(void *animation, u32 entryIndex, u32 loopFlag);
+void anim_setLoop(void *animation, u32 entryIndex, u32 loopFlag);

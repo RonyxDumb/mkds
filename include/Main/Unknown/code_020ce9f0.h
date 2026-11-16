@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateVsSelectCharacter(void);
+void menu_state8Render(void);

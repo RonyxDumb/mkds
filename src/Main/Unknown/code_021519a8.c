@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-u32 ReadNvramFirstThreeEntries(void *buffer) {
+u32 DWCi_BM_GetApInfo(void *buffer) {
     int readResult;
     readResult = readNvram((*(u32 *) &gNvramEntriesOffset), (0x00000300u), buffer);
     if (readResult != 0) {

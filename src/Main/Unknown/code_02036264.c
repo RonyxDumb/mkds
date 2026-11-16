@@ -32,11 +32,11 @@ void SetupWLMenuMBChildMessage(void *heap) {
 
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 0;
-    func_0204aa28(1);
-    gWLMenuMessage->mMBChildMessages = func_020d1630()->mUnk_20;
-    gWLMenuMessage->mFont = (u8 *) func_020d1630() + 0x14;
+    sysdat_setIsMBChild(1);
+    gWLMenuMessage->mMBChildMessages = s2d_getData()->mUnk_20;
+    gWLMenuMessage->mFont = (u8 *) s2d_getData() + 0x14;
     charBase = G2S_GetBG1CharPtr();
-    text = GetBmgEntry(gWLMenuMessage->mMBChildMessages, 1);
+    text = jn_msg_getMessage(gWLMenuMessage->mMBChildMessages, 1);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
     func_020362c4(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
     func_0203629c(&gWLMenuMessage->mTextCanvas, 0x80, 0, 3, 0x211, text);
@@ -58,7 +58,7 @@ void SetupWLMenuMBChildMessage(void *heap) {
     DC_StoreRange(gWLMenuMessage->mScreenMap, 0x600);
     GXS_LoadBG1Scr(gWLMenuMessage->mScreenMap, 0, 0x600);
     func_02036258();
-    FrmHeapShrinkInParent(gWLMenuMessage->mHeap);
+    heap_adjustSubFrmHeap(gWLMenuMessage->mHeap);
 }
 
 #pragma thumb off

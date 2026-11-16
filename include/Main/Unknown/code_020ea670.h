@@ -7,9 +7,9 @@
 typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 
-extern Nsbmd *gWoodbox1;
+extern Nsbmd *wbox_sModel;
 
-// Second argument of InitWoodbox1, CollideItemObjectWithWoodbox1 and CollideKartWithWoodbox1.
+// Second argument of wbox_init, wbox_onItemCollide and wbox_onDriverCollide.
 typedef struct Unk020eb498 {
     /* 000 */ Vec3 mUnk_000;
     /* 00c */ u8 mUnk_00c[4];
@@ -47,14 +47,14 @@ typedef struct Unk020ea670_0c {
 
 // Sphere (centre param_1, radius param_7) against the cylinder at param_2 whose axes are the rows of param_3; returns 0
 // for no hit, else 2, and writes the move out to param_8 unless it is NULL.
-s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *axes, s32 cylinderRadius,
+s32 col_collideSphereCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *axes, s32 cylinderRadius,
                                       s32 halfHeightPositive, s32 halfHeightNegative, s32 sphereRadius, Vec3 *pushOut);
 // Sphere (radius param_6) against the box at param_2 whose axes are the rows of param_3 and whose half sizes are
 // param_4 and param_5; returns 0 for no hit, 1 when the y axis (positive side) has the least overlap, else 3 (x axis)
 // or 4 (z axis), and writes the move out to param_7 unless it is NULL.
-s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
+s32 col_collideSphereBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
                                  Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut);
-void CreateWoodbox1(void);
+void wbox_loadModel(void);
 
 typedef struct MapObjectFlagsView MapObjectFlagsView;
 
@@ -65,9 +65,9 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha);
 void func_020ea84c(void);
 // Draws the shadow model with its alpha capped at param_4 (put back afterwards).
-void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
+void model2_renderShadowModel(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha);
 // Draws the model with the matrix param_2 and scale param_3, its alpha capped at param_4 (put back afterwards).
-void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha);
+void model2_renderModel(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha);
 void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
                    Vec3 *result);
 // Splits the velocity param_1 along the direction param_2: the rest is scaled by param_3, the part along is reversed
@@ -78,18 +78,18 @@ void func_020eac20(Vec3 *direction, s32 blendFactor);
 void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result);
 // Writes to param_5 the move that puts point param_1 out of the cylinder at param_2 (radius param_3 in x/z, half height
 // param_4 in y); the move has y = 0.
-void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);
+void col_collidePointSpheroid(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset);
 // Writes to param_4 the move that puts point param_1 exactly param_3 away from param_2.
-void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);
-void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow);
-void ClearWoodbox1Pointer(void);
-u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response);
-u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response);
-void UpdateWoodbox1State3(Woodbox1 *woodbox);
-void UpdateWoodbox1State2(Woodbox1 *woodbox);
-void EnterWoodbox1State2(Woodbox1 *woodbox);
+void col_collidePointSphere(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset);
+void wbox_init(Woodbox1 *woodbox, Unk020eb498 *courseRow);
+void wbox_globalLogicInit(void);
+u32 wbox_onItemCollide(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response);
+u32 wbox_onDriverCollide(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response);
+void wbox_state3Update(Woodbox1 *woodbox);
+void wbox_state2Update(Woodbox1 *woodbox);
+void wbox_state2Init(Woodbox1 *woodbox);
 // Landing test of the box: when it is below the ground and falling, lifts it, reverses and scales its fall speed and
 // returns TRUE.
-BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox);
-void UpdateWoodbox1State1(Woodbox1 *woodbox);
-void EnterWoodbox1State1(MapObjectFlagsView *woodbox);
+BOOL wbox_20EBC2C(Woodbox1 *woodbox);
+void wbox_state1Update(Woodbox1 *woodbox);
+void wbox_state1Init(MapObjectFlagsView *woodbox);

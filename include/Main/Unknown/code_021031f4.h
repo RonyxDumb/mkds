@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Item/ItemGesso.h"
 
-// The register words and texture sizes DrawOrthoQuadsWithModel uses, filled from one model.
+// The register words and texture sizes cspl_renderSplash uses, filled from one model.
 typedef struct {
     /* 00 */ void *mModel;
     /* 04 */ u32 mPolygonAttr;
@@ -18,26 +18,26 @@ typedef struct {
 
 #include "Main/Unknown/code_021035ac.h"
 
-// The cream record; gOrthoQuadUseCreamEffect picks which of the two records is drawn.
-extern OrthoQuadModel gOrthoQuadCreamEffect;
+// The cream record; cspl_sUseCustomSplash picks which of the two records is drawn.
+extern OrthoQuadModel cspl_sCustomSplashTex;
 // GesoSumi: the screen overlay the Gesso item starts for a hit kart.
-extern OrthoQuadModel gOrthoQuadGesoSumi;
+extern OrthoQuadModel cspl_sGessoSplashTex;
 
-void func_021031f4(ItemGesso *gesso);
-void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model);
-void InitOrthoQuads(void);
-void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count);
-void CreateOrthoQuadCreamEffect(const char *fileName);
-void StopOrthoQuads(int idx);
-void StartOrthoQuadsGesoSumi(u32 kartIndex, u32 count);
-void StartOrthoQuads(s32 idx, s32 count, s32 flag);
-void SetupOrthoQuad(s32 idx, HalfwordPair startPair, s32 overlap);
+void itgsso_21031F4(ItemGesso *gesso);
+void cspl_initSplashTex(OrthoQuadModel *quadModel, NsbmdModel *model);
+void cspl_init(void);
+void cspl_emitCustomSplash(u32 kartIndex, u32 count);
+void cspl_loadCustomSplashModel(const char *fileName);
+void cspl_killSplashes(int idx);
+void cspl_emitGessoSplash(u32 kartIndex, u32 count);
+void cspl_emitSplashes(s32 idx, s32 count, s32 flag);
+void cspl_emitSplash(s32 idx, HalfwordPair startPair, s32 overlap);
 u8 MarkOrthoQuadCellsAndGetOverlap(s32 column, s32 row);
-void DrawOrthoQuads(void);
-void DrawOrthoQuadsWithModel(OrthoQuadModel *model);
-void UpdateOrthoQuads(void);
-void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad);
-void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad);
-void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad);
+void cspl_render(void);
+void cspl_renderSplash(OrthoQuadModel *model);
+void cspl_update(void);
+void cspl_initialWaitUpdate(OrthoQuad *quad);
+void cspl_appearUpdate(OrthoQuad *quad);
+void cspl_dripUpdate(OrthoQuad *quad);
 void InitBouncingItemBoxTimers(void);
 void InitBouncingItemBoxMapObjects(void);

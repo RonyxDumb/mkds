@@ -4,7 +4,7 @@
 
 typedef struct InputSlotPair InputSlotPair;
 
-u32 func_020ace14(u32 slotIndex);
-u32 func_020ace34(InputSlotPair *inputSlotPair);
-u32 func_020ace68(InputSlotPair *inputSlotPair);
-u32 func_020ace8c(InputSlotPair *inputSlotPair);
+u32 title_input_isValidPenDownEventById(u32 slotIndex);
+u32 title_spi_isValidPenDownEvent(InputSlotPair *inputSlotPair);
+u32 title_spi_isPenDownEvent(InputSlotPair *inputSlotPair);
+u32 title_spi_isPenReleaseTimeout(InputSlotPair *inputSlotPair);

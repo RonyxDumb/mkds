@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_0204f240.h"
 #include "Main/Kart/KartTimes.h"
 
-void SumTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum) {
+void race_addTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord *sum) {
     u16 milliseconds = firstTime->mMillisecond + secondTime->mUnk_00;
     u16 minutes = firstTime->mMinute + secondTime->mUnk_02;
     u16 seconds = firstTime->mSecond + secondTime->mUnk_03;
@@ -47,25 +47,25 @@ void SumTimes(TimeRecord *firstTime, Unk0217aa1c_144_00 *secondTime, TimeRecord 
     sum->mMillisecond = milliseconds;
 }
 
-void FillGrandPrixRecord(TimeRecord *record) {
+void race_createNkgpEntry(TimeRecord *record) {
     u8 courseIndex;
     record->mMinute = 0;
     record->mSecond = 0;
     record->mMillisecond = 0;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, record->mName, 0x14);
+    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, record->mName, 0x14);
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
-        SumTimes(record, &data_0217b488->mCourseTimes[courseIndex], record);
+        race_addTimes(record, &gStruct217B488->mCourseTimes[courseIndex], record);
     }
-    record->mCharacterIndex = data_0217b488->mCharacterIndex;
-    record->mKartIndex = data_0217b488->mKartIndex;
+    record->mCharacterIndex = gStruct217B488->mCharacterIndex;
+    record->mKartIndex = gStruct217B488->mKartIndex;
     record->mUnk_1b = 0;
-    record->mCupRank = gCupRankTable[data_0217b488->mCupRankIndex];
-    record->mTotalPoints = data_0217b488->mTotalPoints;
-    record->mUnk_1e = data_0217b488->mUnk_80;
+    record->mCupRank = race_sPlaceToTrophyTable[gStruct217B488->mCupRankIndex];
+    record->mTotalPoints = gStruct217B488->mTotalPoints;
+    record->mUnk_1e = gStruct217B488->mUnk_80;
     record->mFilled = 1;
 }
 
-BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
+BOOL race_isNkgpBetter(TimeRecord *storedRecord, TimeRecord *newRecord) {
     s32 storedTimeMs;
     s32 newTimeMs;
     if (newRecord->mCupRank == 3) {
@@ -97,12 +97,12 @@ BOOL ShouldSetGrandPrixRecord(TimeRecord *storedRecord, TimeRecord *newRecord) {
     return storedTimeMs > newTimeMs;
 }
 
-BOOL TrySetGrandPrixRecord(void) {
+BOOL race_saveGpResult(void) {
     TimeRecord storedRecord;
     TimeRecord newRecord;
     BOOL stored = FALSE;
     s32 engineClass;
-    Unk0217b488 *p = data_0217b488;
+    Unk0217b488 *p = gStruct217B488;
     switch (p->mEngineIndex) {
         case 0:
             engineClass = stored;
@@ -114,17 +114,17 @@ BOOL TrySetGrandPrixRecord(void) {
             engineClass = (p->mMirrorMode != 0) ? 3 : 2;
             break;
     }
-    GetGrandPrixRecord(p->mCupIndex, engineClass, &storedRecord);
-    FillGrandPrixRecord(&newRecord);
-    if (ShouldSetGrandPrixRecord(&storedRecord, &newRecord) != FALSE) {
-        SetGrandPrixRecord(data_0217b488->mCupIndex, engineClass, &newRecord);
-        WriteBackupGrandPrixRecords();
+    savd_getNkgpEntry(p->mCupIndex, engineClass, &storedRecord);
+    race_createNkgpEntry(&newRecord);
+    if (race_isNkgpBetter(&storedRecord, &newRecord) != FALSE) {
+        savd_setNkgpEntry(gStruct217B488->mCupIndex, engineClass, &newRecord);
+        savd_flushNkgp();
         stored = TRUE;
     }
     return stored;
 }
 
-u32 TrySetMissionRecord(void) {
+u32 race_saveMrResult(void) {
     UnpackedMissionRecord storedRecord;
     UnpackedMissionRecord newRecord;
     u32 stored = 0;
@@ -132,24 +132,24 @@ u32 TrySetMissionRecord(void) {
     s32 missionColumn;
     s32 t;
     BOOL shouldStore;
-    missionRow = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableRow : -1;
-    missionColumn = (gRaceSetup->mMode == MODE_MISSION_RUN) ? gRaceSetup->mMissionTableColumn : -1;
-    t = IsKartEnded((u16) gRaceSetup->mEntryIndex);
-    t = (t != 0) ? gRaceProgress->mEntryEndKind : 6;
+    missionRow = (gRaceMultiConfig->mMode == MODE_MISSION_RUN) ? gRaceMultiConfig->mMissionTableRow : -1;
+    missionColumn = (gRaceMultiConfig->mMode == MODE_MISSION_RUN) ? gRaceMultiConfig->mMissionTableColumn : -1;
+    t = rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex);
+    t = (t != 0) ? gRaceStatus->mEntryEndKind : 6;
     if (t != 0) {
         return 0;
     }
-    GetMissionRecord((u16) missionRow, (u16) missionColumn, &storedRecord);
+    savd_getNkmrEntry((u16) missionRow, (u16) missionColumn, &storedRecord);
     newRecord.mFilled = 1;
-    newRecord.mValue = func_0205d140();
+    newRecord.mValue = rres_calculateMrRank();
     if (storedRecord.mFilled == 0) {
         shouldStore = TRUE;
     } else {
         shouldStore = storedRecord.mValue < newRecord.mValue;
     }
     if (shouldStore != FALSE) {
-        SetMissionRecord((u16) missionRow, (u16) missionColumn, &newRecord);
-        WriteBackupMissionRecords();
+        savd_setNkmrEntry((u16) missionRow, (u16) missionColumn, &newRecord);
+        savd_flushNkmr();
         stored = 1;
     }
     return stored;
@@ -183,9 +183,9 @@ void func_0203b0f8(void *heap) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         InitBlockEntries(heap, 1);
     } else {
-        bannerFile = FindSceneFile(data_0216478c);
+        bannerFile = arc_getSceneArcFile(aBanner_bmg);
     }
-    t = data_021759d0->mUnk_20;
+    t = gSystemData->mUnk_20;
     f = 1;
     if (t != 1 && t != 2) {
         f = 0;
@@ -194,7 +194,7 @@ void func_0203b0f8(void *heap) {
         func_0204e928(heap, t == 1, bannerFile);
         InitMPChunkBuffers(heap);
     }
-    ResetRaceSetup();
+    rconf_reset();
 }
 
 BOOL IsDateEarlier(const DateBytes *firstDate, const DateBytes *secondDate) {

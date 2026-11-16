@@ -63,15 +63,15 @@ static inline s64 func_020dc354_inline(const Vec3 *vector) {
     return (s64) vector->x * vector->x + (s64) vector->z * vector->z;
 }
 
-void UpdateWanwanState5(Wanwan *wanwan) {
+void wanwan_state5Update(Wanwan *wanwan) {
     wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x;
     wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z;
-    AdvanceGroupFollowerWithSpeeds(&wanwan->mFollower);
-    GetGroupFollowerCurveXz(&wanwan->mFollower.mUnk_00, &wanwan->mUnk_00.mPos);
+    pwex_update(&wanwan->mFollower);
+    pw_calcCurrentPointXZ(&wanwan->mFollower.mUnk_00, &wanwan->mUnk_00.mPos);
     wanwan->mUnk_00.mUnk_10.x = wanwan->mUnk_00.mPos.x - wanwan->mUnk_00.mUnk_10.x;
     wanwan->mUnk_00.mUnk_10.z = wanwan->mUnk_00.mPos.z - wanwan->mUnk_00.mUnk_10.z;
     if (func_020dc354_inline(&wanwan->mUnk_00.mUnk_10) >= 0x10) {
-        QuaternionFromAngleAroundY(
+        qrtn_fromYAngle(
             (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
                     0x80000000000LL) >>
                    44),
@@ -83,15 +83,15 @@ void UpdateWanwanState5(Wanwan *wanwan) {
 }
 
 #pragma thumb on
-void CreateWanwanAndRockShadow(void) {
-    CreateNsbmd((void **) &gWanwan, FindCourseMapObjFile("wanwan.nsbmd"), NULL);
-    CreateShadowModel((void **) &gWanwanRockShadow, FindCourseMapObjFile("rock_shadow.nsbmd"), 0x3f);
-    func_02084968(gWanwan, 0x3f, 2, 0x294a);
+void wanwan_loadModels(void) {
+    model2_createFromNsbmd((void **) &wanwan_sModel, mobj_getMapObjFile("wanwan.nsbmd"), NULL);
+    model2_createShadowFromNsbmd((void **) &wanwan_sShadowModel, mobj_getMapObjFile("rock_shadow.nsbmd"), 0x3f);
+    model_setPolyIdLightFlagsEmi(wanwan_sModel, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row) {
+void wanwan_initFixed(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mUnk_00;
     wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
@@ -101,20 +101,20 @@ void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_1fc = wanwan->mUnk_f8 - (wanwan->mUnk_f0 << 1);
     wanwan->mUnk_fc = 0;
     wanwan->mUnk_b0 = 0;
-    wanwan->mChainObject = (Unk020dc474_1d8 *) CreateMapObjectFromObject(&wanwan->mUnk_00, 0x197);
+    wanwan->mChainObject = (Unk020dc474_1d8 *) mobj_createSubObject(&wanwan->mUnk_00, 0x197);
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
-    InitStateMachine(&wanwan->mUnk_00.mStateMachine, data_0216befc, 6, wanwan);
-    SetStateMachineState(&wanwan->mUnk_00.mStateMachine, 0);
+    sm_init(&wanwan->mUnk_00.mStateMachine, wanwan_sStates, 6, wanwan);
+    sm_gotoState(&wanwan->mUnk_00.mStateMachine, 0);
     wanwan->mUnk_200 = wanwan->mUnk_00.mMatrix.mUnk_00[2];
-    ResetWanwan(wanwan);
-    wanwan->mUnk_1fa = CreateCollisionSlot(&wanwan->mUnk_00.mPos, wanwan->mMaxRadius, 0x400, wanwan);
-    wanwan->mUnk_00.mFarDistanceSquared = gSoundFalloffs[4].mUnk_20;
+    wanwan_20DBF7C(wanwan);
+    wanwan->mUnk_1fa = col_createColEntry(&wanwan->mUnk_00.mPos, wanwan->mMaxRadius, 0x400, wanwan);
+    wanwan->mUnk_00.mFarDistanceSquared = gSfxParams[4].mUnk_20;
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020dc11c(Wanwan *wanwan, CourseMapRow *row) {
+void wanwan_initMoving(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mCenterPos = row->mUnk_00;
     wanwan->mUnk_f0 = ((s64) wanwan->mUnk_00.mScale.y * 0x1e000) >> 12;
     wanwan->mUnk_f4 = 0xf000 - wanwan->mUnk_f0;
@@ -122,27 +122,27 @@ void func_020dc11c(Wanwan *wanwan, CourseMapRow *row) {
     wanwan->mUnk_b0 = row->mUnk_2a;
     wanwan->mUnk_ac = wanwan->mCenterPos.y;
     wanwan->mCenterPos.y = wanwan->mCenterPos.y + wanwan->mUnk_f0;
-    InitStateMachine(&wanwan->mUnk_00.mStateMachine, data_0216befc, 6, wanwan);
-    SetStateMachineState(&wanwan->mUnk_00.mStateMachine, 5);
-    func_020d7d4c(&wanwan->mFollower, row, data_02158908, row->mUnk_28);
-    ResetWanwan(wanwan);
+    sm_init(&wanwan->mUnk_00.mStateMachine, wanwan_sStates, 6, wanwan);
+    sm_gotoState(&wanwan->mUnk_00.mStateMachine, 5);
+    pwex_initFromObject(&wanwan->mFollower, row, data_02158908, row->mUnk_28);
+    wanwan_20DBF7C(wanwan);
 }
 #pragma thumb off
 
 #pragma thumb on
-void ResetWanwan(Wanwan *wanwan) {
+void wanwan_20DBF7C(Wanwan *wanwan) {
     wanwan->mUnk_00.mPos = wanwan->mCenterPos;
     wanwan->mUnk_00.mUnk_10.x = 0;
     wanwan->mUnk_00.mUnk_10.y = 0;
     wanwan->mUnk_00.mUnk_10.z = 0;
     wanwan->mUnk_c4 = data_0216beec;
-    QuaternionFromAngleAroundY(
+    qrtn_fromYAngle(
         (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
                 0x80000000000LL) >>
                44),
         &wanwan->mUnk_d4);
-    func_020d7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &wanwan->mUnk_b4);
-    Matrix3x3FromQuaternion(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
+    qrtn_20D7938(&wanwan->mUnk_c4, &wanwan->mUnk_d4, &wanwan->mUnk_b4);
+    qtrn_toMtx33(&wanwan->mUnk_00.mMatrix, &wanwan->mUnk_b4);
     wanwan->mUnk_e4 = 0;
     if (wanwan->mUnk_fc == 0) {
         ResetWanwanChainPoints((WanwanChainObject *) wanwan->mChainObject);
@@ -152,12 +152,12 @@ void ResetWanwan(Wanwan *wanwan) {
         wanwan->mCurvePoints[1] = &wanwan->mCurvePointValues[1];
         wanwan->mCurvePoints[2] = &wanwan->mCurvePointValues[2];
         wanwan->mCurvePoints[3] = &wanwan->mCurvePointValues[3];
-        if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
+        if (gRaceMultiConfig->mRaceKind == RACE_KIND_START_GP) {
             VEC_MultAdd(0xf000, &wanwan->mUnk_200, &wanwan->mUnk_00.mPos, &wanwan->mUnk_00.mPos);
             wanwan->mUnk_00.mUnk_10.x = ((s64) wanwan->mUnk_200.x * 0x400) >> 12;
             wanwan->mUnk_00.mUnk_10.y = ((s64) wanwan->mUnk_200.y * 0x400) >> 12;
             wanwan->mUnk_00.mUnk_10.z = ((s64) wanwan->mUnk_200.z * 0x400) >> 12;
-            QuaternionFromAngleAroundY(
+            qrtn_fromYAngle(
                 (u16) ((((s64) FX_Atan2(wanwan->mUnk_00.mUnk_10.x, wanwan->mUnk_00.mUnk_10.z) * 0x28be60db9391LL) +
                         0x80000000000LL) >>
                        44),
@@ -176,7 +176,7 @@ Quaternion data_0216beec = {{0, 0, 0, 0x1000}};
 Unk0210b7a8 data_0216bedc = {0x12d, NULL, 2, 0};
 // Shared by kinds 0x196 and 0x1a5 (class Wanwan). Only kind 0x196 objects reach states 0, 1, 3 and 4;
 // a kind 0x1a5 object starts in state 5 and moves between states 2 and 5.
-// func_020dc444 is an empty (bx lr) handler, left unnamed.
-UnkFunc *data_0216befc[] = {EnterWanwanState0, UpdateWanwanState0, EnterWanwanState1, UpdateWanwanState1,
-                            EnterWanwanState2, UpdateWanwanState2, EnterWanwanState3, UpdateWanwanState3,
-                            EnterWanwanState4, func_020dc444,      EnterWanwanState5, UpdateWanwanState5};
+// wanwan_state4Update is an empty (bx lr) handler, left unnamed.
+UnkFunc *wanwan_sStates[] = {wanwan_state0Init, wanwan_state0Update, wanwan_state1Init, wanwan_state1Update,
+                            wanwan_state2Init, wanwan_state2Update, wanwan_state3Init, wanwan_state3Update,
+                            wanwan_state4Init, wanwan_state4Update,      wanwan_state5Init, wanwan_state5Update};

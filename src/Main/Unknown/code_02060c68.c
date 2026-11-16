@@ -5,7 +5,7 @@
 // Stores the session player in the buddy records; the second argument allows adding a new record.
 s32 SetBuddyRecordFromPlayer(Unk0217aa00_45c *player, u32 addIfMissing) {
     u32 flag = (*(u8 *) (((u32) player) + (532)));
-    u32 blocksPointerAddress = ((u32) (&data_0217aa08));
+    u32 blocksPointerAddress = ((u32) (&gSaveData));
     u32 friendDataOffset = 0x874u;
     u32 blocks = (*(u32 *) ((blocksPointerAddress) + (0)));
     u32 buddyBlock = (*(u32 *) ((blocks) + (32)));

@@ -10,7 +10,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0200eddc.h"
 
-void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
+void irec_recordKeys(KeyRecording *keyRecording, u16 keys) {
     BOOL startsNewPair;
     u8 repeatCount;
     u8 *pair;
@@ -60,7 +60,7 @@ void AppendKeysToKeyRecording(KeyRecording *keyRecording, u16 keys) {
     pair[1]++;
 }
 
-u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
+u16 irec_playKeys(KeyRecording *keyRecording) {
     KeyRecordingBuffer *buffer;
     u8 *pair;
     u16 pairIndex;
@@ -95,33 +95,33 @@ u16 ReadKeysFromKeyRecording(KeyRecording *keyRecording) {
     return keys;
 }
 
-BOOL IsKeyRecordingFull(KeyRecording *keyRecording) {
+BOOL irec_isBufferFull(KeyRecording *keyRecording) {
     return keyRecording->mStatus == 3;
 }
 
-BOOL func_0204a620(KeyRecording *keyRecording) {
+BOOL irec_isAlmostAtPlayBufferEnd(KeyRecording *keyRecording) {
     if (keyRecording->mStatus != 2) {
         return FALSE;
     }
     return ((u32) keyRecording->mPairIndex << 1) > 0xd1b;
 }
 
-void InitEmblemScene(void) {
-    GetHeap(GetCurrentHeapCall());
-    StopWvrAndWait();
-    ResetInputSlots();
+void emblem_init(void) {
+    proc_getHeap(proc_getCurrent());
+    vram_terminateWifiVram();
+    input_initUnits();
     func_ov001_021a23f4();
 }
 
-u32 func_0204a5f4(u32 value) {
+u32 emblem_finalize(u32 value) {
     return value;
 }
 
-void func_0204a5e8(void) {
-    func_ov001_021a23c0();
+void emblem_vblank(void) {
+    PostRenderEmblemEditor();
 }
 
-void UpdateEmblemScene(EmblemSceneNumbersView *sceneNumbers) {
+void emblem_update(EmblemSceneNumbersView *sceneNumbers) {
     s32 r;
 
     r = func_ov001_021a23c8();
@@ -137,9 +137,9 @@ void UpdateEmblemScene(EmblemSceneNumbersView *sceneNumbers) {
     }
 }
 
-s32 RunEmblemScene(void *sceneNumbers) {
+s32 emblem_run(void *sceneNumbers) {
     SceneCallbacks emblemSceneCallbacks = gEmblemSceneCallbacks;
 
-    RunScene(sceneNumbers, &emblemSceneCallbacks);
+    scene_runScene(sceneNumbers, &emblemSceneCallbacks);
     return 0;
 }

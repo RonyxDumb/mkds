@@ -25,7 +25,7 @@ void func_ov001_021a2408(void) {
     u16 *dst;
     u32 bits;
 
-    if ((data_0217aa08->mBusy == 0 ? (gBackupAccess->mBackupEnabled ? gBackupAccess->mCommandRunning : 0) : 1) == 0) {
+    if ((gSaveData->mBusy == 0 ? (gSaveCore->mBackupEnabled ? gSaveCore->mCommandRunning : 0) : 1) == 0) {
         AdvanceKartModelMenuLoad();
     }
 
@@ -171,6 +171,6 @@ void func_ov001_021a2408(void) {
         }
         gEmblem->mUnk_10b8 = FALSE;
     }
-    DrawEmblemChoises();
-    UploadOamLists(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
+    echoi_vblank();
+    oam_applyBuffers(&gEmblem->mUnk_0000, &gEmblem->mUnk_0404);
 }

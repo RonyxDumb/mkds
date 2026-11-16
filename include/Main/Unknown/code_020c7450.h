@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenItemBoxCells(void);
+void mpicn_destroyItemboxIcon(void);

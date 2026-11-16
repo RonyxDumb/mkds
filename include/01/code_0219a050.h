@@ -10,9 +10,9 @@ typedef struct RecordTopMenu {
     /* 0x0c */ struct Unk02021dc8 *mRecordTopMenuSNcer;
     /* 0x10 */ struct Unk0201ea30 *mRecordTopMenuSBncl;
     /* 0x14 */ struct Unk0201ea30 *mRecordTopMenuSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 0x18 */ LayoutTableEntry *mRecordTopMenuMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 0x1c */ LayoutTableEntry *mRecordTopMenuSTable;
     /* 0x20 */ void *mUnk_20;
     /* 0x24 */ struct Bmg *mRecordMessages;

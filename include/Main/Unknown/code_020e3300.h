@@ -4,4 +4,4 @@
 
 typedef struct Unk020e1e98 Unk020e1e98;
 
-void EnterChoropuState6(Unk020e1e98 *choropu);
+void choro_state6Init(Unk020e1e98 *choropu);

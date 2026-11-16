@@ -6,7 +6,7 @@
 
 typedef struct MicBuffer MicBuffer;
 
-// A time as three parts, minute, second and millisecond; IsTimeLessThanStaffGhostTime sums them in milliseconds.
+// A time as three parts, minute, second and millisecond; unlock_isFasterThanStaffGhost sums them in milliseconds.
 typedef struct MinuteSecondMillisecondTime {
     /* 00 */ u16 mMillisecond;
     /* 02 */ u8 mMinute;
@@ -38,7 +38,7 @@ typedef struct KartEntryPlayer {
     /* 27 */ u8 mUnk_27;
 } KartEntryPlayer;
 
-// 0x30-byte entries at 0x68 and 0x250 of the object behind gRaceSetup.
+// 0x30-byte entries at 0x68 and 0x250 of the object behind gRaceMultiConfig.
 typedef struct KartEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -73,8 +73,8 @@ typedef struct KartEntry {
 // Staff roll: the course is COURSE_ID_STAFFROLL or COURSE_ID_STAFFROLLTRUE.
 #define RACE_KIND_STAFF_ROLL 6
 
-// setup. The value is the row of the course name table data_02154228 (8 byte rows, the string pointer first):
-// BuildCourseArchivePath formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
+// setup. The value is the row of the course name table sCourseDefs (8 byte rows, the string pointer first):
+// arc_getCourseArcPath formats the row's string as the first %s of "/data/Course/%s%s%s.carc". Each name below is
 // that row's string without a trailing "_course", upper-cased, and the comment after it quotes the row index and the
 // string. Only the values that occur at a compare, case label or store of the member are defined;
 // the other rows stay literals.
@@ -125,7 +125,7 @@ typedef struct KartEntry {
 #define COURSE_ID_STAFFROLL 0x35  // row 53: "StaffRoll"
 #define COURSE_ID_STAFFROLLTRUE 0x36  // row 54: "StaffRollTrue"
 
-// The 0x68 bytes at 0x1e8 of the object behind gRaceSetup.
+// The 0x68 bytes at 0x1e8 of the object behind gRaceMultiConfig.
 // Values of the mBattleKind member of RaceSetup and of RaceSetupHeader.
 typedef enum { BATTLE_KIND_BALLOON, BATTLE_KIND_SHINE } BattleKind;
 
@@ -155,7 +155,7 @@ typedef struct RaceSetupHeader {
     /* 65 */ u8 mUnk_65[0x3];
 } RaceSetupHeader;
 
-// The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
+// The 0x10 bytes at 0x28 of the object behind gRaceMultiConfig (the same bytes as its mUnk_028 to mUnk_37).
 typedef struct Unk021759c0_28 {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
     /* 02 */ u16 mUnk_02;
@@ -171,7 +171,7 @@ typedef struct Unk021759c0_28 {
 #define CPU_DIFFICULTY_NORMAL 2
 // Difficulty of the CPU karts, the value of the CPU KART row (RaceSetup.mUnk_014 and the setup copy); 0 is not named.
 #define CPU_DIFFICULTY_EASY 1
-// Object behind gRaceSetup.
+// Object behind gRaceMultiConfig.
 typedef struct RaceSetup {
     /* 00 */ s32 mCourseId;
     /* 004 */ s32 mCupIndex;
@@ -244,9 +244,9 @@ typedef struct RaceSetup {
     /* 3ec */ MinuteSecondMillisecondTime mGhostLapTimes[5];
 } RaceSetup;
 
-extern RaceSetup *gRaceSetup;
+extern RaceSetup *gRaceMultiConfig;
 
-// Object behind gTouchMicInput; the members are the ones the code reads.
+// Object behind gSpiData; the members are the ones the code reads.
 typedef struct TouchMicInput {
     /* 00 */ TPData mAutoSamples[5];
     /* 28 */ TPData mCalibratedPoint;
@@ -263,4 +263,4 @@ typedef struct TouchMicInput {
     /* 3c */ MicBuffer *mMicBuffer;
 } TouchMicInput;
 
-extern TouchMicInput *gTouchMicInput;
+extern TouchMicInput *gSpiData;

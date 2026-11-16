@@ -4,4 +4,4 @@
 
 typedef struct RaceNclrNcgr RaceNclrNcgr;
 
-RaceNclrNcgr *GetRaceNclrNcgr(u32 pairIndex);
+RaceNclrNcgr *r2d_getGraphics(u32 pairIndex);

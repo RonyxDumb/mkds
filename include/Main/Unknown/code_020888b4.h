@@ -27,7 +27,7 @@ typedef struct KartAiRaceSpeedLimit {
     /* 32 */ u8 mUnk_32[2];
 } KartAiRaceSpeedLimit;
 
-// Object at 0x140 of the object KartAi starts: AdvanceBattleKartAiSpeedLimit and SetBattleKartAiTurnSpeedLimit write
+// Object at 0x140 of the object KartAi starts: mgenrb_update and SetBattleKartAiTurnSpeedLimit write
 // the words at 0x04, 0x0c and 0x10.
 typedef struct KartAiSpeedLimit {
     /* 00 */ s32 mBaseSpeedLimit;
@@ -38,7 +38,7 @@ typedef struct KartAiSpeedLimit {
 } KartAiSpeedLimit;
 
 // One per Kart: follows the kart (mKart), steers it and requests its bits and items.
-// Object of 0x158 bytes (FindKartAiTargetShine to PickBattleKartAiRaceStart take it first): the Kart it follows at
+// Object of 0x158 bytes (mgen_findTargetShine to PickBattleKartAiRaceStart take it first): the Kart it follows at
 // 0x00, a LinkCursor at 0x28, vectors at 0x44, 0x50, 0x60 and 0xdc, a KartAiRaceSpeedLimit at 0xe8, a KartAiItemUse at
 // 0x11c, a KartAiSpeedLimit at 0x140 and a word at 0x154.
 typedef struct KartAi {
@@ -94,18 +94,18 @@ typedef struct KartAi {
     /* 154 */ s32 mUnk_154;
 } KartAi;
 
-void AdvanceBattleKartAiSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi);
+void mgenrb_update(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi);
 void SetBattleKartAiTurnSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi, s32 speedLimit);
 void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLimit);
 void SetupBattleKartAiParams(void);
 void ResetBattleKartAi(KartAi *kartAi);
-void SetupBattleKartAi(KartAi *kartAi, Kart *kart);
+void mgen_init(KartAi *kartAi, Kart *kart);
 void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink);
-void AdvanceBattleKartAi(KartAi *kartAi);
-void func_02089494(KartAi *kartAi);
+void mgen_update(KartAi *kartAi);
+void mgen_updateDriving(KartAi *kartAi);
 void AdvanceBattleKartAiSideOffset(KartAi *kartAi);
-void AdvanceBattleKartAiTargetKart(KartAi *kartAi);
-void func_02088d34(KartAi *kartAi);
+void mgen_updateTargetDriver(KartAi *kartAi);
+void mgen_updateBalloonInflationState(KartAi *kartAi);
 void PickKartAiBalloonCountGoal(KartAi *kartAi);
-void AdvanceBattleKartAiTargetShine(KartAi *kartAi);
-BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDifferenceLimit);
+void mgen_updateTargetShine(KartAi *kartAi);
+BOOL mgen_findTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDifferenceLimit);

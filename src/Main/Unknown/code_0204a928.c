@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0204a928.h"
 #include "code_0200eddc.h"
 
-void FinishKeyRecording(void *record) {
+void irec_stopRecording(void *record) {
     u32 value0 = (u32) record;
     u32 value1;
     u32 buffer;

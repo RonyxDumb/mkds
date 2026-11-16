@@ -127,21 +127,21 @@
 
 void func_0207ad88(ShadowModel *shadowModel, u32 b, u32 c) {
     if ((shadowModel->mFlags & 1) != 0) {
-        func_02084ad8(shadowModel, shadowModel->mAlpha);
-        gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
-        func_02084a88(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
-        gNsbmdDrawFunctions[shadowModel->mNsbmd.mDrawKind](shadowModel);
+        model_configShadowPass1(shadowModel, shadowModel->mAlpha);
+        gModelRenderFuncs[shadowModel->mNsbmd.mDrawKind](shadowModel);
+        model_configShadowPass2(shadowModel, shadowModel->mAlpha, shadowModel->mPolygonId);
+        gModelRenderFuncs[shadowModel->mNsbmd.mDrawKind](shadowModel);
     }
 }
 
-void InitKarts(u32 kartCount) {
+void driver_initAll(u32 kartCount) {
     u16 i;
-    void *heap = GetHeap(GetCurrentHeapCall());
+    void *heap = proc_getHeap(proc_getCurrent());
     EntryKartCounters *entryKartCounters;
-    gKarts = HeapAlloc(heap, kartCount * 0x5a8);
-    gKartCount = kartCount;
-    entryKartCounters = HeapAlloc(heap, 0x1c);
-    gEntryKartCounters = entryKartCounters;
+    sDrivers = heap_alloc(heap, kartCount * 0x5a8);
+    driver_sDriverCount = kartCount;
+    entryKartCounters = heap_alloc(heap, 0x1c);
+    driver_sPlayerStatistics = entryKartCounters;
     gKillerItemKartIndex = 0;
     gMinKartDistanceSquaredPresent = 0;
     gMinKartDistanceSquared = -1;
@@ -152,115 +152,115 @@ void InitKarts(u32 kartCount) {
     entryKartCounters->mUnk_10 = 0;
     entryKartCounters->mUnk_14 = 0;
     entryKartCounters->mUnk_18 = 0;
-    data_021658bc = gRaceSetup->mMode == MODE_BATTLE ? 1 : 2;
-    func_02073630();
-    RegisterKartAiCallbacks();
-    InitKartEffects(kartCount);
-    gMissionRunKind2ShapesPresent = 0;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        if (gCourseMap->mKind2ShapeCountInMode4 != 0) {
-            gMissionRunKind2ShapesPresent = 1;
+    data_021658bc = gRaceMultiConfig->mMode == MODE_BATTLE ? 1 : 2;
+    driver_initColResponses();
+    enmy_setupFunctions();
+    rptc_initForDrivers(kartCount);
+    driver_sCheckMissionEndArea = 0;
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        if (gMapData->mKind2ShapeCountInMode4 != 0) {
+            driver_sCheckMissionEndArea = 1;
         }
     }
     for (i = 0; i < kartCount; i++) {
-        gKarts[i].mIndex = i;
-        gKarts[i].mEntryIndex = gRaceSetup->mCurrentEntries[i].mPlayer.mIndex;
-        InitKart(&gKarts[i], gKartDefaultSlotFunctions);
+        sDrivers[i].mIndex = i;
+        sDrivers[i].mEntryIndex = gRaceMultiConfig->mCurrentEntries[i].mPlayer.mIndex;
+        InitKart(&sDrivers[i], gKartDefaultSlotFunctions);
     }
-    gKartKind3ShapeMask = 0;
+    driver_sClipAreaMask = 0;
 }
 
 void UpdateKarts(void) {
     s32 i;
-    Kart *kart = gKarts;
+    Kart *kart = sDrivers;
     gMinKartDistanceSquaredPresent = 0;
     gMinKartDistanceSquared = -1;
-    for (i = 0; i < gKartCount; i++) {
-        UpdateKartPrevValuesAndClearFlags(kart);
+    for (i = 0; i < driver_sDriverCount; i++) {
+        driver_1FFCAC0(kart);
         kart++;
     }
     SetKartNearPlayerRankBits();
-    kart = gKarts;
-    for (i = 0; i < gKartCount; i++) {
+    kart = sDrivers;
+    for (i = 0; i < driver_sDriverCount; i++) {
         kart->mSlotFunctions[3](kart);
         kart++;
     }
-    kart = gKarts;
-    for (i = 0; i < gKartCount; i++) {
+    kart = sDrivers;
+    for (i = 0; i < driver_sDriverCount; i++) {
         kart->mSlotFunctions[4](kart);
         kart++;
     }
 }
 
 void UpdateKartSoundDistancesSquared(void) {
-    Kart *kart = gKarts;
+    Kart *kart = sDrivers;
     s16 i;
-    for (i = 0; i < gKartCount; i++) {
+    for (i = 0; i < driver_sDriverCount; i++) {
         kart->mSlotFunctions[2](kart);
         kart++;
     }
 }
 
-void DrawKarts(void) {
+void driver_renderAll(void) {
     s32 i = 0;
     u16 *kartIndices = GetKartIndicesByDistance();
-    (gKarts[gRaceSetup->mEntryIndex].mKartModelsEntry)->mUnk_060 = TRUE;
-    for (; i < gKartCount; i++) {
-        DrawKart(&gKarts[*kartIndices]);
+    (sDrivers[gRaceMultiConfig->mEntryIndex].mKartModelsEntry)->mUnk_060 = TRUE;
+    for (; i < driver_sDriverCount; i++) {
+        driver_render(&sDrivers[*kartIndices]);
         kartIndices++;
     }
 }
 
-void func_0207a990(void) {
+void driver_finalize(void) {
     s32 i;
-    for (i = 0; i < gKartCount; i++) {
-        CallKartSlot8(&gKarts[i]);
+    for (i = 0; i < driver_sDriverCount; i++) {
+        CallKartSlot8(&sDrivers[i]);
     }
-    gKarts = NULL;
+    sDrivers = NULL;
 }
 
-Kart *GetKart(s32 kartIndex) {
-    return &gKarts[kartIndex];
+Kart *driver_getById(s32 kartIndex) {
+    return &sDrivers[kartIndex];
 }
 
-void GetKartPos(Vec3 *pos, s32 kartIndex) {
-    *pos = *gKarts[kartIndex].mPosSource;
+void driver_getPosition(Vec3 *pos, s32 kartIndex) {
+    *pos = *sDrivers[kartIndex].mPosSource;
 }
 
 void GetKartPosFromPosSourceCopy(Vec3 *pos, u8 kartIndex) {
-    *pos = *gKarts[kartIndex].mPosSourceCopy;
+    *pos = *sDrivers[kartIndex].mPosSourceCopy;
 }
 
-void GetKartPrevPos(Vec3 *pos, s32 kartIndex) {
-    *pos = gKarts[kartIndex].mPrevPos;
+void driver_getKartChassisPosition(Vec3 *pos, s32 kartIndex) {
+    *pos = sDrivers[kartIndex].mPrevPos;
 }
 
-void GetKartScale(Vec3 *scale, s32 kartIndex) {
-    *scale = gKarts[kartIndex].mScale;
+void driver_getScale(Vec3 *scale, s32 kartIndex) {
+    *scale = sDrivers[kartIndex].mScale;
 }
 
-u32 GetKartItemEffect(u32 kartIndex) {
-    return gKarts[kartIndex].mItemEffect;
+u32 driver_getCollisionMode(u32 kartIndex) {
+    return sDrivers[kartIndex].mItemEffect;
 }
 
-u16 GetKartHeadingAngle(s32 kartIndex) {
-    return gKarts[kartIndex].mHeadingAngle;
+u16 driver_getYRot(s32 kartIndex) {
+    return sDrivers[kartIndex].mHeadingAngle;
 }
 
-u32 IsMissionRunWithKind2Shapes(void) {
-    return gMissionRunKind2ShapesPresent;
+u32 driver_getCheckMissionEndArea(void) {
+    return driver_sCheckMissionEndArea;
 }
 
 BOOL func_0207a84c(s32 kartIndex) {
-    return func_02068eac(&gKarts[kartIndex]);
+    return func_02068eac(&sDrivers[kartIndex]);
 }
 
 void func_0207a828(s32 kartIndex) {
-    func_02066fe0(&gKarts[kartIndex]);
+    func_02066fe0(&sDrivers[kartIndex]);
 }
 
-BOOL func_0207a7fc(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & 1) != 0;
+BOOL driver_getIsOnAntigravity(s32 kartIndex) {
+    return (sDrivers[kartIndex].mUnk_48 & 1) != 0;
 }
 
 u32 GetKartForwardSpeedRatio(void) {
@@ -268,19 +268,19 @@ u32 GetKartForwardSpeedRatio(void) {
 }
 
 // Sets bit i when the kart is inside kind 3 shape list i.
-void SetKartKind3ShapeMask(s32 kartIndex) {
+void driver_updateClipAreaMask(s32 kartIndex) {
     u16 i;
 
-    gKartKind3ShapeMask = 0;
+    driver_sClipAreaMask = 0;
     for (i = 0; i < 8; i++) {
-        if (IsKartInCourseMapKind3ShapeList(kartIndex, i) != 0) {
-            gKartKind3ShapeMask |= 1 << i;
+        if (mdat_isDriverInClipArea(kartIndex, i) != 0) {
+            driver_sClipAreaMask |= 1 << i;
         }
     }
 }
 
-u32 GetKartKind3ShapeMask(void) {
-    return gKartKind3ShapeMask;
+u32 driver_getClipAreaMask(void) {
+    return driver_sClipAreaMask;
 }
 
 // Stores the forward speed as a part of the speed limit, 0x1000 = 1.0.
@@ -292,37 +292,37 @@ void SetKartSpeedLimitReciprocal(u32 speedLimitReciprocal) {
     gKartSpeedLimitReciprocal = speedLimitReciprocal;
 }
 
-void func_0207a70c(s32 kartIndex) {
-    if (kartIndex == gRaceSetup->mEntryIndex) {
-        gEntryKartCounters->mUnk_08++;
+void driver_notifyItemHit(s32 kartIndex) {
+    if (kartIndex == gRaceMultiConfig->mEntryIndex) {
+        driver_sPlayerStatistics->mUnk_08++;
     }
 }
 
-void func_0207a6c0(Kart *kart) {
-    if (kart->mIndex != gRaceSetup->mEntryIndex) {
+void driver_notifyOffRoad(Kart *kart) {
+    if (kart->mIndex != gRaceMultiConfig->mEntryIndex) {
         return;
     }
     if (kart->mUnk_4c & 0x40) {
         return;
     }
     if (!(kart->mUnk_48 & 0x20000000)) {
-        gEntryKartCounters->mUnk_0c++;
+        driver_sPlayerStatistics->mUnk_0c++;
     }
 }
 
-EntryKartCounters *GetEntryKartCounters(void) {
-    return gEntryKartCounters;
+EntryKartCounters *driver_getPlayerStatistics(void) {
+    return driver_sPlayerStatistics;
 }
 
 u32 func_0207a68c(int kartIndex) {
-    return func_0206c0a8(&gKarts[kartIndex]);
+    return func_0206c0a8(&sDrivers[kartIndex]);
 }
 
-void SetKartModelsFogEnable(s32 fogEnableFlag) {
+void driver_setFogEnableFlags(s32 fogEnableFlag) {
     s32 i;
-    Kart *kart = gKarts;
+    Kart *kart = sDrivers;
     KartModelsEntry *entry;
-    for (i = 0; i < gKartCount; i++) {
+    for (i = 0; i < driver_sDriverCount; i++) {
         entry = kart->mKartModelsEntry;
         NNS_G3dMdlSetMdlFogEnableFlagAll(entry->mModels[1]->mResMdl, fogEnableFlag);
         NNS_G3dMdlSetMdlFogEnableFlagAll(entry->mModels[0]->mResMdl, fogEnableFlag);
@@ -333,58 +333,58 @@ void SetKartModelsFogEnable(s32 fogEnableFlag) {
     }
 }
 
-BOOL func_0207a5c4(s32 kartIndex) {
-    return (gKarts[kartIndex].mUnk_48 & 0x800) != 0 ? 1 : 0;
+BOOL driver_isFalling(s32 kartIndex) {
+    return (sDrivers[kartIndex].mUnk_48 & 0x800) != 0 ? 1 : 0;
 }
 
-BOOL func_0207a574(void) {
-    Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
+BOOL driver_isPlayerHit(void) {
+    Kart *kart = &sDrivers[gRaceMultiConfig->mEntryIndex];
     if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x4000000) != 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL func_0207a538(void) {
-    return (gKarts[gRaceSetup->mEntryIndex].mUnk_44 & 0xc0) != 0 ? 1 : 0;
+BOOL driver_isPlayerHittingWall(void) {
+    return (sDrivers[gRaceMultiConfig->mEntryIndex].mUnk_44 & 0xc0) != 0 ? 1 : 0;
 }
 
-BOOL func_0207a4fc(void) {
-    return (gKarts[gRaceSetup->mEntryIndex].mUnk_48 & 0x1000) != 0 ? 1 : 0;
+BOOL driver_isPlayerRespawning(void) {
+    return (sDrivers[gRaceMultiConfig->mEntryIndex].mUnk_48 & 0x1000) != 0 ? 1 : 0;
 }
 
 void SetKartNearPlayerRankBits(void) {
     s32 kartIndices[3];
-    u32 kartRank = GetKartRank((u16) gRaceSetup->mEntryIndex);
+    u32 kartRank = rstat_getPlace((u16) gRaceMultiConfig->mEntryIndex);
     u16 i;
     u16 k;
     s32 kartIndex;
     Kart *kart;
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
         for (k = 0; k < 3; k++) {
-            gKarts[k].mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
+            sDrivers[k].mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
         }
         return;
     }
-    kartIndices[0] = gRaceSetup->mEntryIndex;
+    kartIndices[0] = gRaceMultiConfig->mEntryIndex;
     if (kartRank == 1) {
         kartIndices[1] = GetKartIndexAtRank(2);
         if (kartIndices[1] >= 0) {
-            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
+            if ((sDrivers[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
                 kartIndices[1] = -1;
             }
         }
     } else {
         kartIndices[1] = GetKartIndexAtRank((u16) (kartRank - 1));
         if (kartIndices[1] >= 0) {
-            if ((gKarts[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
+            if ((sDrivers[kartIndices[1]].mKartModelsEntry)->mUnk_060 != FALSE) {
                 kartIndices[1] = -1;
             }
         }
-        if (kartRank < gRaceSetup->mKartCount) {
+        if (kartRank < gRaceMultiConfig->mKartCount) {
             kartIndex = GetKartIndexAtRank((u16) (kartRank + 1));
             if (kartIndex >= 0) {
-                kart = &gKarts[kartIndex];
+                kart = &sDrivers[kartIndex];
                 kart->mUnk_4c |= KART_4C_ONE_RANK_BEHIND_PLAYER;
             }
         }
@@ -392,7 +392,7 @@ void SetKartNearPlayerRankBits(void) {
     for (i = 0; i < data_021658bc; i++) {
         kartIndex = kartIndices[i];
         if (kartIndex >= 0) {
-            kart = &gKarts[kartIndex];
+            kart = &sDrivers[kartIndex];
             if ((kart->mUnk_4c & 0x10000000) == 0) {
                 kart->mUnk_4c |= KART_4C_NEAR_PLAYER_RANK;
             }
@@ -426,9 +426,9 @@ BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared) {
 
 BOOL func_0207a218(void) {
     BOOL result = TRUE;
-    s32 mode = gRaceSetup->mMode;
+    s32 mode = gRaceMultiConfig->mMode;
     if (mode == MODE_MISSION_RUN) {
-        Kart *kart = &gKarts[gRaceSetup->mEntryIndex];
+        Kart *kart = &sDrivers[gRaceMultiConfig->mEntryIndex];
         if (kart->mState != KART_STATE_NORMAL || (kart->mUnk_48 & 0x2000840) != 0 ||
             (kart->mUnk_44 & KART_44_ON_GROUND) == 0 || (mode != MODE_MISSION_RUN ? 0 : func_ov001_021816b4()) != 0) {
             result = FALSE;
@@ -437,14 +437,14 @@ BOOL func_0207a218(void) {
     return result;
 }
 
-void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet) {
+void ConfigureFullNSBMDColors(NNSG3dResMdl *mdl, u32 colorSet) {
     u32 diffColor;
     u32 ambColor;
     u32 specColor;
     u32 emiColor;
     switch (colorSet) {
         case 0: {
-            u16 *courseColors = gKartModels->mCourseColors;
+            u16 *courseColors = gCharKartData->mCourseColors;
             diffColor = courseColors[0];
             ambColor = courseColors[1];
             specColor = courseColors[2];
@@ -476,19 +476,19 @@ void SetKartModelMaterialColors(NNSG3dResMdl *mdl, u32 colorSet) {
     NNS_G3dMdlSetMdlEmiAll(mdl, emiColor);
 }
 
-u16 GetKartCourseDiffColor(void) {
-    return gKartModels->mCourseColors[0];
+u16 chkrt_getKartCrsMatDiffuse(void) {
+    return gCharKartData->mCourseColors[0];
 }
 
-u16 GetKartCourseEmiColor(void) {
-    return gKartModels->mCourseColors[3];
+u16 chkrt_getKartCrsMatEmission(void) {
+    return gCharKartData->mCourseColors[3];
 }
 
-u16 GetKartCourseAmbColor(void) {
-    return gKartModels->mCourseColors[1];
+u16 chkrt_getKartCrsMatAmbient(void) {
+    return gCharKartData->mCourseColors[1];
 }
 
-void StartKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, u16 targetDiffColor, u16 targetEmiColor,
+void chkrt_setTargetColors(struct KartModelsEntry *kartModelsEntry, u16 targetDiffColor, u16 targetEmiColor,
                               u16 targetAmbColor) {
     KartModelColorBlend *blend;
 
@@ -514,7 +514,7 @@ void StartKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, u16 targe
     blend->mBlendProgress = 0;
 }
 
-s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blendAmount) {
+s32 chkrt_progressColorInterpolation(struct KartModelsEntry *kartModelsEntry, s32 blendAmount) {
     KartModelColorBlend *blend = &kartModelsEntry->mColorBlend;
     BOOL finished = FALSE;
 
@@ -559,8 +559,8 @@ s32 AdvanceKartModelColorBlend(struct KartModelsEntry *kartModelsEntry, s32 blen
     return finished;
 }
 
-void SetKartModelsEntryCourseColors(struct KartModelsEntry *kartModelsEntry) {
-    u16 *courseColors = gKartModels->mCourseColors;
+void chkrt_applyKartCrsMat(struct KartModelsEntry *kartModelsEntry) {
+    u16 *courseColors = gCharKartData->mCourseColors;
     u32 diffColor;
     u32 emiColor;
     u32 ambColor;
@@ -581,38 +581,38 @@ void SetKartModelsEntryCourseColors(struct KartModelsEntry *kartModelsEntry) {
     }
 }
 
-KartModelsEntry *GetKartModelsEntry(u32 kartIndex) {
-    return &gKartModels->mKartModelsEntries[kartIndex];
+KartModelsEntry *chkrt_getCharKart(u32 kartIndex) {
+    return &gCharKartData->mKartModelsEntries[kartIndex];
 }
 
-void *GetKartModelResMdl(u32 kartIndex) {
-    return gKartModels->mKartModelsEntries[kartIndex].mModels[1]->mResMdl;
+void *chkrt_getKartResMdl(u32 kartIndex) {
+    return gCharKartData->mKartModelsEntries[kartIndex].mModels[1]->mResMdl;
 }
 
 // Shows (b non-zero) or hides the tire material of the kart model.
-void SetKartModelTireAlpha(struct KartModelsEntry *kartModelsEntry, s32 visible) {
-    NNS_G3dMdlSetMdlAlpha(kartModelsEntry->mModels[1]->mResMdl, gKartModels->mKartTireMaterialIndex,
+void chkrt_setKartTireVisibility(struct KartModelsEntry *kartModelsEntry, s32 visible) {
+    NNS_G3dMdlSetMdlAlpha(kartModelsEntry->mModels[1]->mResMdl, gCharKartData->mKartTireMaterialIndex,
                           visible != 0 ? 0x1f : 0);
 }
 
-void *GetKillerItem(void) {
-    return &gKartModels->mKillerItem;
+void *chkrt_getKillerItemModel(void) {
+    return &gCharKartData->mKillerItem;
 }
 
-void *GetKillerItemS(void) {
-    return &gKartModels->mKillerItemS;
+void *chkrt_getKillerItemShadowModel(void) {
+    return &gCharKartData->mKillerItemS;
 }
 
-void *GetKillerItemNsbca(void) {
-    return &gKartModels->mKillerItemNsbca;
+void *chkrt_getKillerItemAnim(void) {
+    return &gCharKartData->mKillerItemNsbca;
 }
 
-u32 GetKartVariant(u32 kartIndex) {
-    return gKartModels->mKartModelsEntries[kartIndex].mVariant;
+u32 chkrt_getKartABC(u32 kartIndex) {
+    return gCharKartData->mKartModelsEntries[kartIndex].mVariant;
 }
 
 #pragma thumb on
-void InitKartModelsEntry(void *entry) {
+void chkrt_initCharKart(void *entry) {
     u32 value0 = (u32) entry;
     u32 value1;
     u32 value2;
@@ -748,8 +748,8 @@ void InitKartModelsEntry(void *entry) {
 #pragma thumb on
 
 void func_02079a14(KartModelsEntry *kartModelsEntry) {
-    ResetModelAnimationLooping((ModelAnimation *) kartModelsEntry->mUnk_098,
-                               GetModelAnimationFrameCountFixed(&gKartModels->mKillerItemNsbca));
+    anim_initAnimatorLoop((ModelAnimation *) kartModelsEntry->mUnk_098,
+                               anim_getAnimLength(&gCharKartData->mKillerItemNsbca));
 }
 
 #pragma thumb off
@@ -770,21 +770,21 @@ void func_02079a04(u32 animationStateAddress) {
 #pragma thumb on
 
 // TRUE when the entry's character files use the P name list.
-BOOL IsCharacterPNameUsed(s32 kartIndex) {
+BOOL chkrt_getIsPlayer(s32 kartIndex) {
     BOOL pNameUsed = TRUE;
     s32 b = pNameUsed;
     s32 c = pNameUsed;
     s32 isEntryOrFollowedKart = pNameUsed;
-    if (kartIndex != gRaceSetup->mEntryIndex && kartIndex != gRaceSetup->mFollowedKartIndex) {
+    if (kartIndex != gRaceMultiConfig->mEntryIndex && kartIndex != gRaceMultiConfig->mFollowedKartIndex) {
         isEntryOrFollowedKart = 0;
     }
-    if (isEntryOrFollowedKart == 0 && gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (isEntryOrFollowedKart == 0 && gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         c = 0;
     }
-    if (c == 0 && IsRaceAwardOrStaffRoll() == 0) {
+    if (c == 0 && race_isAwardStaffRoll() == 0) {
         b = 0;
     }
-    if (b == 0 && gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (b == 0 && gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         pNameUsed = FALSE;
     }
     if (pNameUsed != FALSE) {
@@ -798,7 +798,7 @@ BOOL IsCharacterPNameUsed(s32 kartIndex) {
 #pragma thumb on
 
 // Stores the kart index modulo 3.
-void SetKartModelsEntryVariant(KartModelsEntry *kartModelsEntry, int kartIndex) {
+void chkrt_setKartABC(KartModelsEntry *kartModelsEntry, int kartIndex) {
     u16 variant;
     variant = kartIndex % 3;
     kartModelsEntry->mVariant = variant;
@@ -808,54 +808,54 @@ void SetKartModelsEntryVariant(KartModelsEntry *kartModelsEntry, int kartIndex) 
 
 #pragma thumb on
 
-void InitKartModels(void *heap, u32 kartCount) {
+void chkrt_init(void *heap, u32 kartCount) {
     u8 *kartOffsetFile;
     u16 i;
     KartModelsEntry *entry;
     KartModelsEntry *entries;
-    kartOffsetFile = FindKartModelFile("kartoffsetdata.bin");
-    SetKartModelPathPrefix(0);
-    gKartModelMenu = NULL;
-    gKartModels = HeapAlloc(heap, 0x144);
-    gKartModels->mKartModelsEntries = HeapAlloc(heap, kartCount * 0xb4);
-    gKartModels->mCourseColors = func_02047950("kartcrsmat.bin");
-    gKartModels->mCourseColors = gKartModels->mCourseColors + (gRaceSetup->mCourseId << 2) - 4;
-    gKartModels->mKartAPalette = LoadKartAPaletteFromKartModelFile();
-    gKartModels->mHeyhoPalettes = NULL;
-    gKartModels->mPFaceanimNsbtpFile = func_02047950((const char *) BuildPFaceanimNsbtpPath());
-    gKartModels->mKartCount = kartCount;
-    gKartModels->mKartTireMaterialIndex = 0;
-    CreateKartPhysicalParamTable(heap, kartCount);
-    SetKartAiParamRow();
-    CreateKillerItem(heap);
-    for (i = 0; i < gKartModels->mKartCount; i++) {
-        entries = gKartModels->mKartModelsEntries;
+    kartOffsetFile = arc_getKartModelArcFile("kartoffsetdata.bin");
+    cklcr_setLoadFromFolder(0);
+    gCharKartSelectState = NULL;
+    gCharKartData = heap_alloc(heap, 0x144);
+    gCharKartData->mKartModelsEntries = heap_alloc(heap, kartCount * 0xb4);
+    gCharKartData->mCourseColors = arc_getKartModelArcFileSafe("kartcrsmat.bin");
+    gCharKartData->mCourseColors = gCharKartData->mCourseColors + (gRaceMultiConfig->mCourseId << 2) - 4;
+    gCharKartData->mKartAPalette = loadStandardKartPaletteFromKartModelArc();
+    gCharKartData->mHeyhoPalettes = NULL;
+    gCharKartData->mPFaceanimNsbtpFile = arc_getKartModelArcFileSafe((const char *) cklcr_getFaceAnimPath());
+    gCharKartData->mKartCount = kartCount;
+    gCharKartData->mKartTireMaterialIndex = 0;
+    physp_init(heap, kartCount);
+    loadKartAIParams();
+    loadKillerItem(heap);
+    for (i = 0; i < gCharKartData->mKartCount; i++) {
+        entries = gCharKartData->mKartModelsEntries;
         entry = &entries[i];
-        InitKartModelsEntry(entry);
-        entry->mUnk_0b0 = gRaceSetup->mCurrentEntries[i].mPlayer.mUnk_25;
+        chkrt_initCharKart(entry);
+        entry->mUnk_0b0 = gRaceMultiConfig->mCurrentEntries[i].mPlayer.mUnk_25;
         func_02079a14(entry);
-        entries[i].mCharacterIndex = gRaceSetup->mCurrentEntries[i].mCharacterIndex;
-        entry->mKartIndex = gRaceSetup->mCurrentEntries[i].mKartIndex;
-        SetKartModelsEntryVariant(entry, entry->mKartIndex);
-        entry->mKartOffsetData = HeapAlloc(heap, 0xe0);
+        entries[i].mCharacterIndex = gRaceMultiConfig->mCurrentEntries[i].mCharacterIndex;
+        entry->mKartIndex = gRaceMultiConfig->mCurrentEntries[i].mKartIndex;
+        chkrt_setKartABC(entry, entry->mKartIndex);
+        entry->mKartOffsetData = heap_alloc(heap, 0xe0);
         MI_CpuCopy8(kartOffsetFile + entry->mKartIndex * 0xe0, entry->mKartOffsetData, 0xe0);
-        CopyKartPhysicalParams(i, (u16) entry->mKartIndex, (u16) entries[i].mCharacterIndex);
+        physp_initForDriver(i, (u16) entry->mKartIndex, (u16) entries[i].mCharacterIndex);
     }
-    func_02079678(heap, 1);
-    func_0204775c();
-    func_02079678(heap, 0);
-    for (i = 0; i < gKartModels->mKartCount; i++) {
-        entry = &gKartModels->mKartModelsEntries[i];
-        UploadKartModelsEntryPalettes(entry, IsCharacterPNameUsed(i));
+    loadDrivers(heap, 1);
+    arc_switchKartModelMainAtoB();
+    loadDrivers(heap, 0);
+    for (i = 0; i < gCharKartData->mKartCount; i++) {
+        entry = &gCharKartData->mKartModelsEntries[i];
+        PatchROBPalette(entry, chkrt_getIsPlayer(i));
     }
     {
         Nclr *nclr;
-        LoadNclrData(&nclr, func_02047950("/character/heyho/HH_color.NCLR"));
-        gKartModels->mHeyhoPalettes = (HeyhoPalette *) nclr->mData;
+        g2du_unpackPaletteData(&nclr, arc_getKartModelArcFileSafe("/character/heyho/HH_color.NCLR"));
+        gCharKartData->mHeyhoPalettes = (HeyhoPalette *) nclr->mData;
     }
 }
 
-void func_02079678(void *heap, s32 firstPass) {
+void loadDrivers(void *heap, s32 firstPass) {
     BOOL isVariantZero;
     KartModelsEntry *entry;
     s32 pNameUsed;
@@ -881,11 +881,11 @@ void func_02079678(void *heap, s32 firstPass) {
         kartRangeEnd = 0x25;
     }
     i = 0;
-    if (i < gKartModels->mKartCount) {
+    if (i < gCharKartData->mKartCount) {
         g = (firstPass == 0) ? 1 : i;
         do {
-            entry = &gKartModels->mKartModelsEntries[i];
-            pNameUsed = IsCharacterPNameUsed(i);
+            entry = &gCharKartData->mKartModelsEntries[i];
+            pNameUsed = chkrt_getIsPlayer(i);
             if ((u16) entry->mKartIndex % 3 == 0) {
                 isVariantZero = TRUE;
             } else {
@@ -893,18 +893,18 @@ void func_02079678(void *heap, s32 firstPass) {
             }
             f = (isVariantZero != FALSE && g != 0) ? TRUE : FALSE;
             if (entry->mCharacterIndex >= characterRangeStart && entry->mCharacterIndex < characterRangeEnd) {
-                CreateCharacter(entry, heap, pNameUsed);
+                loadCharacter(entry, heap, pNameUsed);
             }
             if (f == FALSE) {
                 if ((isVariantZero != FALSE && firstPass != 0) ||
                     (entry->mKartIndex >= kartRangeStart && entry->mKartIndex < kartRangeEnd)) {
-                    CreateKart(entry, heap, pNameUsed);
+                    loadKart(entry, heap, pNameUsed);
                 }
             }
             if (firstPass != 0) {
                 if (pNameUsed != 0) {
                     j = 0;
-                    entry->mUnk_054 = HeapAlloc(heap, 0x30);
+                    entry->mUnk_054 = heap_alloc(heap, 0x30);
                     do {
                         dst = &entry->mUnk_054->mUnk_v[j];
                         src = &entry->mKartOffsetData->mUnk_14[j];
@@ -916,16 +916,16 @@ void func_02079678(void *heap, s32 firstPass) {
                     entry->mUnk_054->mUnk_v[1].x =
                         FX_Div(-entry->mUnk_054->mUnk_v[0].x * 2, entry->mKartOffsetData->mUnk_10);
                     entry->mUnk_054->mUnk_v[3].x = -entry->mUnk_054->mUnk_v[2].x * 2;
-                    CreateTire(entry, heap);
+                    loadKartTire(entry, heap);
                 }
-                CreateKartShadow(entry, heap);
+                loadKartShadow(entry, heap);
             }
             i++;
-        } while (i < gKartModels->mKartCount);
+        } while (i < gCharKartData->mKartCount);
     }
 }
 
-void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
+void loadCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     u16 i;
     u16 characterIndex;
     BOOL hasFirstAnimation;
@@ -934,22 +934,22 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
     NNSG3dResMdl *mdl;
     void *animationFile;
     characterIndex = kartModelsEntry->mCharacterIndex;
-    nsbmdFile = func_02047950(BuildCharacterNsbmdPath(characterIndex, pNameUsed));
-    nsbtxFile = FindKartModelFile(BuildCharacterNsbtxPath(characterIndex, pNameUsed));
-    kartModelsEntry->mModels[0] = HeapAlloc(heap, 0x6c);
-    mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[0], nsbmdFile, nsbtxFile);
-    SetNsbmdPolygonIdAll(kartModelsEntry->mModels[0], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    nsbmdFile = arc_getKartModelArcFileSafe(cklcr_getCharacterNsbmdPath(characterIndex, pNameUsed));
+    nsbtxFile = arc_getKartModelArcFile(cklcr_getCharacterNsbtxPath(characterIndex, pNameUsed));
+    kartModelsEntry->mModels[0] = heap_alloc(heap, 0x6c);
+    mdl = model_initFromNsbmdNsbtxMetaCopy(heap, kartModelsEntry->mModels[0], nsbmdFile, nsbtxFile);
+    model_setPolygonId(kartModelsEntry->mModels[0], 3);
+    ConfigureFullNSBMDColors(mdl, 0);
     if (pNameUsed != 0) {
         i = 0;
         hasFirstAnimation = FALSE;
-        kartModelsEntry->mCharacterAnimation = HeapAlloc(heap, 0x38);
-        InitModelAnimation(0, kartModelsEntry->mCharacterAnimation, kartModelsEntry->mModels[0], 4, heap, NULL);
+        kartModelsEntry->mCharacterAnimation = heap_alloc(heap, 0x38);
+        anim_initManager(0, kartModelsEntry->mCharacterAnimation, kartModelsEntry->mModels[0], 4, heap, NULL);
         do {
-            animationFile = func_02047950(BuildCharacterNsbcaPath(characterIndex, i));
+            animationFile = arc_getKartModelArcFileSafe(GetCharacterNsbcaPath(characterIndex, i));
             if (animationFile != NULL) {
                 void *jointAnimation = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(animationFile), 0);
-                InitModelAnimationEntry(kartModelsEntry->mCharacterAnimation, i, jointAnimation,
+                anim_registerAnim(kartModelsEntry->mCharacterAnimation, i, jointAnimation,
                                         GetCharacterAnimationLoopFlag(i), heap);
                 if (i == 0) {
                     hasFirstAnimation = TRUE;
@@ -958,51 +958,51 @@ void CreateCharacter(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed
             i++;
         } while (i < 4);
         if (hasFirstAnimation != FALSE) {
-            SetModelAnimation(kartModelsEntry->mCharacterAnimation, 0);
+            anim_setAnim(kartModelsEntry->mCharacterAnimation, 0);
             kartModelsEntry->mMiddleFrame =
-                (GetModelAnimationFrameCountFixed(kartModelsEntry->mCharacterAnimation) - 0x1000) / 2;
+                (anim_getAnimLength(kartModelsEntry->mCharacterAnimation) - 0x1000) / 2;
             kartModelsEntry->mMiddleFrameReciprocal = FX_Div(0x1000, kartModelsEntry->mMiddleFrame);
         } else {
             kartModelsEntry->mCharacterAnimation->mUnk_18 = 0;
         }
     }
-    kartModelsEntry->mFaceAnimation = HeapAlloc(heap, 0x38);
-    InitModelAnimation(2, kartModelsEntry->mFaceAnimation, kartModelsEntry->mModels[0], 1, heap, NULL);
-    InitModelAnimationEntries(kartModelsEntry->mFaceAnimation, gKartModels->mPFaceanimNsbtpFile, heap);
-    SetModelAnimation(kartModelsEntry->mFaceAnimation, 0);
+    kartModelsEntry->mFaceAnimation = heap_alloc(heap, 0x38);
+    anim_initManager(2, kartModelsEntry->mFaceAnimation, kartModelsEntry->mModels[0], 1, heap, NULL);
+    anim_registerAllAnims(kartModelsEntry->mFaceAnimation, gCharKartData->mPFaceanimNsbtpFile, heap);
+    anim_setAnim(kartModelsEntry->mFaceAnimation, 0);
 }
 
-void CreateKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
+void loadKart(KartModelsEntry *kartModelsEntry, void *heap, s32 pNameUsed) {
     u16 kartIndex = kartModelsEntry->mKartIndex;
     void *nsbmdFile;
     NNSG3dResFileHeader *nsbtxFile;
     NNSG3dResMdl *mdl;
     s32 tireMaterialIndex;
-    nsbmdFile = func_02047950(BuildKartNsbmdPath(kartIndex));
-    nsbtxFile = FindKartModelFile(BuildKartNsbtxPath(kartIndex));
-    kartModelsEntry->mModels[1] = HeapAlloc(heap, 0x6c);
-    mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[1], nsbmdFile, nsbtxFile);
-    SetNsbmdPolygonIdAll(kartModelsEntry->mModels[1], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    nsbmdFile = arc_getKartModelArcFileSafe(cklcr_getKartNsbmdPath(kartIndex));
+    nsbtxFile = arc_getKartModelArcFile(cklcr_getKartNsbtxPath(kartIndex));
+    kartModelsEntry->mModels[1] = heap_alloc(heap, 0x6c);
+    mdl = model_initFromNsbmdNsbtxMetaCopy(heap, kartModelsEntry->mModels[1], nsbmdFile, nsbtxFile);
+    model_setPolygonId(kartModelsEntry->mModels[1], 3);
+    ConfigureFullNSBMDColors(mdl, 0);
     if (pNameUsed != 0) {
-        tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_021550b8);
+        tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, aKart_tire_1);
         NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
-        gKartModels->mKartTireMaterialIndex = tireMaterialIndex;
+        gCharKartData->mKartTireMaterialIndex = tireMaterialIndex;
     }
-    UploadKartAPaletteSlice(kartModelsEntry->mModels[1], kartModelsEntry->mKartIndex, gKartModels->mKartAPalette);
+    UploadKartAPaletteSlice(kartModelsEntry->mModels[1], kartModelsEntry->mKartIndex, gCharKartData->mKartAPalette);
 }
 
-u16 *LoadKartAPaletteFromKartModelFile(void) {
+u16 *loadStandardKartPaletteFromKartModelArc(void) {
     Nclr *nclr;
-    LoadNclrData(&nclr, func_02047950("/kart/palette/kart_a.NCLR"));
+    g2du_unpackPaletteData(&nclr, arc_getKartModelArcFileSafe("/kart/palette/kart_a.NCLR"));
     return nclr->mData;
 }
 
-u16 *LoadKartAPaletteFromKartModelMenu(void *heap) {
+u16 *LoadKartPaletteInKartModelMenuFolder(void *heap) {
     void *file;
     Nclr *nclr;
-    LoadKartModelMenuFile(heap, "kart/palette/kart_a.NCLR", &file);
-    LoadNclrData(&nclr, file);
+    LoadFileInKartModelMenuFolder(heap, "kart/palette/kart_a.NCLR", &file);
+    g2du_unpackPaletteData(&nclr, file);
     return nclr->mData;
 }
 
@@ -1017,7 +1017,7 @@ void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette) {
         mdlBytes = (u8 *) nsbmd->mResMdl;
         paletteSlice = (u8 *) kartAPalette + kartIndex / 3 * 0x20;
         DC_FlushRange(paletteSlice, 0x10);
-        materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155088);
+        materialIndex = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aKart_body_1);
         q = mdlBytes + *(s32 *) (mdlBytes + 8);
         t = q + 4 + *OFFSET_PTR(u16, q, 0xa);
         paletteBase = *(u16 *) (q + *(s32 *) (t + *(u16 *) t * materialIndex + 4) + 0x1c) << 4;
@@ -1027,7 +1027,7 @@ void UploadKartAPaletteSlice(Nsbmd *nsbmd, s32 kartIndex, void *kartAPalette) {
     }
 }
 
-void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUsed) {
+void PatchROBPalette(KartModelsEntry *kartModelsEntry, s32 pNameUsed) {
     u8 *c;
     u32 k;
     u32 m;
@@ -1046,13 +1046,13 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
             mdlBytes = (u8 *) kartModelsEntry->mModels[1]->mResMdl;
             switch (kartModelsEntry->mKartIndex) {
                 case 0x22:
-                    c = data_021550e8;
+                    c = ROB_BLS_Palette;
                     break;
                 case 0x23:
-                    c = data_02155108;
+                    c = ROB_LGS_Palette;
                     break;
             }
-            i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155008);
+            i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aKart_body);
             q = mdlBytes + *(s32 *) (mdlBytes + 8);
             t = q + 4 + *OFFSET_PTR(u16, q, 0xa);
             e = q + *(s32 *) (t + *(u16 *) t * i + 4);
@@ -1065,14 +1065,14 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
         if (kartModelsEntry->mCharacterIndex == 0xb) {
             mdlBytes = (u8 *) kartModelsEntry->mModels[0]->mResMdl;
             if (pNameUsed != 0) {
-                i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155028);
-                j = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155038);
+                i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aP_main);
+                j = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aP_face);
                 c = data_02155128;
                 h = data_02155148;
                 m = 0x40;
             } else {
-                i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155058);
-                j = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, data_02155078);
+                i = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aE_main);
+                j = NNS_G3dGetResDictIdxByName(mdlBytes + *(s32 *) (mdlBytes + 8) + 4, aE_face);
                 c = data_021550c8;
                 h = data_02154fe8;
                 m = 0x10;
@@ -1093,96 +1093,96 @@ void UploadKartModelsEntryPalettes(KartModelsEntry *kartModelsEntry, s32 pNameUs
     }
 }
 
-void CreateTire(KartModelsEntry *kartModelsEntry, void *heap) {
+void loadKartTire(KartModelsEntry *kartModelsEntry, void *heap) {
     u16 kartIndex = kartModelsEntry->mKartIndex;
     void *nsbmdFile;
     NNSG3dResMdl *mdl;
     NNSG3dResFileHeader *nsbtxFile;
-    nsbmdFile = func_02047950(BuildTireNsbmdPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
-    nsbtxFile = FindKartModelFile(BuildTireNsbtxPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
-    kartModelsEntry->mModels[2] = HeapAlloc(heap, 0x6c);
-    mdl = InitNsbmdWithTextureInfoCopy(heap, kartModelsEntry->mModels[2], nsbmdFile, nsbtxFile);
-    SetNsbmdPolygonIdAll(kartModelsEntry->mModels[2], 3);
-    SetKartModelMaterialColors(mdl, 0);
+    nsbmdFile = arc_getKartModelArcFileSafe(cklcr_getTireNsbmdPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
+    nsbtxFile = arc_getKartModelArcFile(cklcr_getTireNsbtxPath(kartIndex, kartModelsEntry->mKartOffsetData->mUnk_00));
+    kartModelsEntry->mModels[2] = heap_alloc(heap, 0x6c);
+    mdl = model_initFromNsbmdNsbtxMetaCopy(heap, kartModelsEntry->mModels[2], nsbmdFile, nsbtxFile);
+    model_setPolygonId(kartModelsEntry->mModels[2], 3);
+    ConfigureFullNSBMDColors(mdl, 0);
 }
 
-void CreateKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
+void loadKartShadow(KartModelsEntry *kartModelsEntry, void *heap) {
     void *nsbmdFile;
     u8 *mdlSet;
-    nsbmdFile = func_02047950(BuildKartShadowNsbmdPath(kartModelsEntry->mKartIndex));
-    kartModelsEntry->mShadowModel = HeapAlloc(heap, 0x74);
-    AddResFileEntry(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
+    nsbmdFile = arc_getKartModelArcFileSafe(cklcr_getKartShadowPath(kartModelsEntry->mKartIndex));
+    kartModelsEntry->mShadowModel = heap_alloc(heap, 0x74);
+    model_resSetNsbmdNsbtx(&kartModelsEntry->mShadowModel->mNsbmd.mResFileEntry, nsbmdFile, nsbmdFile);
     mdlSet = (u8 *) NNS_G3dGetMdlSet(nsbmdFile);
     InitShadowModelFromResMdl(&kartModelsEntry->mShadowModel->mNsbmd,
                               mdlSet + *(s32 *) (mdlSet + *OFFSET_PTR(u16, mdlSet, 0xe) + 0xc), 3);
 }
 
-void CreateKillerItem(void *heap) {
-    void *nsbmdFile = func_02047950("character/common/KillerItem.nsbmd");
-    NNSG3dResFileHeader *nsbtxFile = FindKartModelFile("character/common/KillerItem.nsbtx");
-    void *shadowNsbmdFile = func_02047950("character/common/KillerItem_s.nsbmd");
+void loadKillerItem(void *heap) {
+    void *nsbmdFile = arc_getKartModelArcFileSafe("character/common/KillerItem.nsbmd");
+    NNSG3dResFileHeader *nsbtxFile = arc_getKartModelArcFile("character/common/KillerItem.nsbtx");
+    void *shadowNsbmdFile = arc_getKartModelArcFileSafe("character/common/KillerItem_s.nsbmd");
     void *nsbcaFile;
-    SetKartModelMaterialColors(InitNsbmdWithTextureInfoCopy(heap, &gKartModels->mKillerItem, nsbmdFile, nsbtxFile), 0);
-    SetNsbmdPolygonIdAll(&gKartModels->mKillerItem, 3);
-    nsbcaFile = func_02047950("character/common/KillerItem.nsbca");
-    InitModelAnimation(0, &gKartModels->mKillerItemNsbca, &gKartModels->mKillerItem, 1, heap, nsbmdFile);
-    InitModelAnimationEntries(&gKartModels->mKillerItemNsbca, nsbcaFile, heap);
-    SetModelAnimation(&gKartModels->mKillerItemNsbca, 0);
-    InitShadowModel(&gKartModels->mKillerItemS, shadowNsbmdFile, 3);
-    SetKillerItemRenderCallback(&gKartModels->mKillerItem);
+    ConfigureFullNSBMDColors(model_initFromNsbmdNsbtxMetaCopy(heap, &gCharKartData->mKillerItem, nsbmdFile, nsbtxFile), 0);
+    model_setPolygonId(&gCharKartData->mKillerItem, 3);
+    nsbcaFile = arc_getKartModelArcFileSafe("character/common/KillerItem.nsbca");
+    anim_initManager(0, &gCharKartData->mKillerItemNsbca, &gCharKartData->mKillerItem, 1, heap, nsbmdFile);
+    anim_registerAllAnims(&gCharKartData->mKillerItemNsbca, nsbcaFile, heap);
+    anim_setAnim(&gCharKartData->mKillerItemNsbca, 0);
+    InitShadowModel(&gCharKartData->mKillerItemS, shadowNsbmdFile, 3);
+    driver_setupKillerItemRenderObjCallback(&gCharKartData->mKillerItem);
 }
 
-void LoadKartModelMenuFile(void *heap, const void *fileName, void **file) {
+void LoadFileInKartModelMenuFolder(void *heap, const void *fileName, void **file) {
     char path[0x100];
     snprintf(path, 0x100, "/data/KartModelMenu/%s", fileName);
-    LoadFileIntoHeap(path, heap, file);
+    arc_loadFile(path, heap, file);
 }
 
 void func_020790e0(void *heap, s32 createKartAppear) {
     if (createKartAppear != 0) {
-        gKartModelMenu->mUseEmblemTex = FALSE;
-        gKartModelMenu->mKartAppear = CreateKartAppear(heap);
+        gCharKartSelectState->mUseEmblemTex = FALSE;
+        gCharKartSelectState->mKartAppear = CreateKartAppear(heap);
     } else {
-        gKartModelMenu->mUseEmblemTex = TRUE;
+        gCharKartSelectState->mUseEmblemTex = TRUE;
     }
-    gKartModelMenu->mKartAPalette = LoadKartAPaletteFromKartModelMenu(heap);
-    gKartModelMenu->mSelectModel = NULL;
+    gCharKartSelectState->mKartAPalette = LoadKartPaletteInKartModelMenuFolder(heap);
+    gCharKartSelectState->mSelectModel = NULL;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void CreateKartModelMenuCharacter(void *heap, Nsbmd *nsbmd, void *animation, NNSG3dResFileHeader *modelFile,
+void anim_2079078(void *heap, Nsbmd *nsbmd, void *animation, NNSG3dResFileHeader *modelFile,
                                   NNSG3dResFileHeader *textureFile, void *animationFile) {
     NNSG3dResMdl *mdl;
     u32 loopFlag;
     void *jointAnimation;
-    mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
-    SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
-    InitModelAnimation(0, animation, nsbmd, 1, heap, NULL);
+    mdl = model_initFromNsbmdNsbtx(nsbmd, modelFile, textureFile);
+    model_setPolygonId(nsbmd, 3);
+    ConfigureFullNSBMDColors(mdl, 1);
+    anim_initManager(0, animation, nsbmd, 1, heap, NULL);
     jointAnimation = NNS_G3dGetJntAnmByIdx(NNS_G3dGetJntAnmSet(animationFile), 0);
     loopFlag = GetCharacterAnimationLoopFlag(2);
-    InitModelAnimationEntry(animation, 0, jointAnimation, loopFlag, heap);
-    SetModelAnimation(animation, 0);
+    anim_registerAnim(animation, 0, jointAnimation, loopFlag, heap);
+    anim_setAnim(animation, 0);
 }
 
 void CreateKartModelMenuKart(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdl *mdl;
     u32 tireMaterialIndex;
-    mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
-    SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
-    tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_02155098);
+    mdl = model_initFromNsbmdNsbtx(nsbmd, modelFile, textureFile);
+    model_setPolygonId(nsbmd, 3);
+    ConfigureFullNSBMDColors(mdl, 1);
+    tireMaterialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, aKart_tire);
     NNS_G3dMdlSetMdlAlpha(mdl, tireMaterialIndex, 0);
 }
 
 void CreateKartModelMenuTire(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile) {
     NNSG3dResMdl *mdl;
-    mdl = InitNsbmdWithTextureFile(nsbmd, modelFile, textureFile);
-    SetNsbmdPolygonIdAll(nsbmd, 3);
-    SetKartModelMaterialColors(mdl, 1);
+    mdl = model_initFromNsbmdNsbtx(nsbmd, modelFile, textureFile);
+    model_setPolygonId(nsbmd, 3);
+    ConfigureFullNSBMDColors(mdl, 1);
 }
 
 #pragma thumb off
@@ -1193,15 +1193,15 @@ void *CreateKartModelMenuShadow(void *shadowModel, NNSG3dResFileHeader *modelFil
     return InitShadowModel(shadowModel, modelFile, 3);
 }
 
-void LoadKartModelMenuSelectModel(void *heap) {
+void LoadSelectModel(void *heap) {
     void *modelFile;
     void *textureFile;
-    LoadKartModelMenuFile(heap, data_02165760, &modelFile);
-    LoadKartModelMenuFile(heap, data_0216577c, &textureFile);
-    gKartModelMenu->mSelectModel = HeapAlloc(heap, 0x6c);
-    InitNsbmdWithTextureFile(gKartModelMenu->mSelectModel, modelFile, textureFile);
-    SetNsbmdPolygonIdAll(gKartModelMenu->mSelectModel, 2);
-    NNS_G3dMdlSetMdlXLDepthUpdateAll(gKartModelMenu->mSelectModel->mResMdl, 1);
+    LoadFileInKartModelMenuFolder(heap, aKartSelectSele, &modelFile);
+    LoadFileInKartModelMenuFolder(heap, aKartSelectSe_0, &textureFile);
+    gCharKartSelectState->mSelectModel = heap_alloc(heap, 0x6c);
+    model_initFromNsbmdNsbtx(gCharKartSelectState->mSelectModel, modelFile, textureFile);
+    model_setPolygonId(gCharKartSelectState->mSelectModel, 2);
+    NNS_G3dMdlSetMdlXLDepthUpdateAll(gCharKartSelectState->mSelectModel->mResMdl, 1);
 }
 
 #pragma thumb off
@@ -1209,19 +1209,19 @@ void LoadKartModelMenuSelectModel(void *heap) {
 #pragma thumb on
 
 void LoadKartModelMenuEmblemTexData(NNSG3dResFileHeader *file) {
-    gKartModelMenu->mEmblemTex = NNS_G3dGetTex(file);
+    gCharKartSelectState->mEmblemTex = NNS_G3dGetTex(file);
     NNS_G3dResDefaultSetup(file);
 }
 
 void InitKartModelMenuSlot(void *heap, KartModelMenuSlot *slot) {
-    InitKartModelsEntry(slot);
-    slot->mUnk_b0 = data_021759d0->mUnk_00;
+    chkrt_initCharKart(slot);
+    slot->mUnk_b0 = gSystemData->mUnk_00;
     slot->mEmblemTex = 0;
-    slot->mCharacterNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mKartNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mTireNsbmd = HeapAlloc(heap, 0x6c);
-    slot->mShadowModel = HeapAlloc(heap, 0x74);
-    slot->mCharacterAnimation = HeapAlloc(heap, 0x38);
+    slot->mCharacterNsbmd = heap_alloc(heap, 0x6c);
+    slot->mKartNsbmd = heap_alloc(heap, 0x6c);
+    slot->mTireNsbmd = heap_alloc(heap, 0x6c);
+    slot->mShadowModel = heap_alloc(heap, 0x74);
+    slot->mCharacterAnimation = heap_alloc(heap, 0x38);
 }
 
 void InitKartModelMenuView(KartModelMenuView *view, int b) {
@@ -1254,115 +1254,115 @@ void QueueKartEmblemTexture(void *emblemData, void *emblemPalette) {
     s32 materialIndex;
     s32 paletteBase;
     NNSG3dResMatData *material;
-    KartModelMenuData *menu = gKartModelMenu;
+    KartModelMenuData *menu = gCharKartSelectState;
     KartModelMenuFiles *files = &menu->mFiles[menu->mLoadSlotIndex];
     s16 shownSlotIndex = menu->mShownSlotIndex;
     if (shownSlotIndex >= 0 && files->mLoadRequested == FALSE) {
         mdl = menu->mSlots[shownSlotIndex].mKartNsbmd->mResMdl;
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_02155018);
+        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, aKart_emblem);
         t = (u8 *) mdl + mdl->mOfsMat;
         u = t + 4;
         w = u + *OFFSET_PTR(u16, t, 0xa);
         material = (NNSG3dResMatData *) (t + *(u32 *) (w + *(u16 *) w * materialIndex + 4));
         paletteBase = material->mTexPlttBase << 4;
-        CallQueueAppend(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
-        CallQueueAppend(1, paletteBase, emblemPalette, 0x20);
+        NNS_GfdRegisterNewVramTransferTask(0, (material->mTexImageParam & 0xffff) << 3, emblemData, 0x200);
+        NNS_GfdRegisterNewVramTransferTask(1, paletteBase, emblemPalette, 0x20);
     }
 }
 
-void func_02078d64(void *heap) {
+void SPM_InitCharacterKartSelect(void *heap) {
     u32 i;
-    SetHeapGroupId(1);
-    Init3dEngine();
+    arc_setHeapGroupId(1);
+    race_initG3d();
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c &= ~8;
-    InitLnkVramManagers(heap);
-    ResetResFileEntries();
-    SetKartModelPathPrefix(1);
+    gSystemData->mUnk_1c &= ~8;
+    SPM_InitVramManager(heap);
+    model_initResList();
+    cklcr_setLoadFromFolder(1);
     InitKartModelMenu(heap);
     func_020790e0(heap, 0);
-    LoadKartModelMenuFile(heap, data_02165738, (void **) &gKartModelMenu->mCharMenuParams);
-    LoadKartModelMenuFile(heap, data_0216574c, (void **) &gKartModelMenu->mKartMenuParams);
-    LoadKartModelMenuSelectModel(heap);
+    LoadFileInKartModelMenuFolder(heap, aCharmenuparam_, (void **) &gCharKartSelectState->mCharMenuParams);
+    LoadFileInKartModelMenuFolder(heap, aKartmenuparam_, (void **) &gCharKartSelectState->mKartMenuParams);
+    LoadSelectModel(heap);
     for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
+        InitKartModelMenuFiles(heap, &gCharKartSelectState->mFiles[i]);
     }
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
-        gKartModelMenu->mEmblemData = data_0217aa08->mEmblemRecord->mEmblemData;
-        gKartModelMenu->mEmblemPalette = GetEmblemSBNclr()->mData;
+    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->mUnk_31_3 == 0) {
+        gCharKartSelectState->mEmblemData = gSaveData->mEmblemRecord->mEmblemData;
+        gCharKartSelectState->mEmblemPalette = GetEmblemSBNclr()->mData;
     }
-    SetHeapGroupId(9);
+    arc_setHeapGroupId(9);
 }
 
 void func_02078c58(void *heap) {
     u32 i;
     enum { K0 } kartIndex;
     s32 characterIndex;
-    SetHeapGroupId(1);
-    Init3dEngine();
+    arc_setHeapGroupId(1);
+    race_initG3d();
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c &= ~8;
-    InitLnkVramManagers(heap);
-    ResetResFileEntries();
-    SetKartModelPathPrefix(1);
+    gSystemData->mUnk_1c &= ~8;
+    SPM_InitVramManager(heap);
+    model_initResList();
+    cklcr_setLoadFromFolder(1);
     InitKartModelMenu(heap);
     func_020790e0(heap, 1);
     kartIndex = 0;
-    gKartModelMenu->mKartIndex = kartIndex;
-    gKartModelMenu->mKartListCount = kartIndex;
-    gKartModelMenu->mKartListPos = kartIndex;
+    gCharKartSelectState->mKartIndex = kartIndex;
+    gCharKartSelectState->mKartListCount = kartIndex;
+    gCharKartSelectState->mKartListPos = kartIndex;
     while (kartIndex < 0x24) {
         if (func_02077a70(&characterIndex, kartIndex) != 0) {
-            gKartModelMenu->mKartListCount++;
+            gCharKartSelectState->mKartListCount++;
         }
         kartIndex++;
     }
-    gKartModelMenu->mView.mScale = data_021656e0;
+    gCharKartSelectState->mView.mScale = data_021656e0;
     for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuFiles(heap, &gKartModelMenu->mFiles[i]);
+        InitKartModelMenuFiles(heap, &gCharKartSelectState->mFiles[i]);
     }
-    gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
-    gKartModelMenu->mView.mCharacterIndex = 0;
-    gKartModelMenu->mView.mKartIndex = 0;
-    gKartModelMenu->mLoadSlot->mCharacterIndex = 0;
-    gKartModelMenu->mLoadSlot->mKartIndex = 0;
-    gKartModelMenu->mLoadSlot->mKartOffsetData = gKartModelMenu->mKartOffsetTable;
-    LoadKartAndCharacterFiles();
+    gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex].mLoadRequested = TRUE;
+    gCharKartSelectState->mView.mCharacterIndex = 0;
+    gCharKartSelectState->mView.mKartIndex = 0;
+    gCharKartSelectState->mLoadSlot->mCharacterIndex = 0;
+    gCharKartSelectState->mLoadSlot->mKartIndex = 0;
+    gCharKartSelectState->mLoadSlot->mKartOffsetData = gCharKartSelectState->mKartOffsetTable;
+    SPM_2077D68();
     AdvanceKartModelMenuLoad();
-    InitKartModelMenuView(&gKartModelMenu->mView, 0);
-    SetHeapGroupId(9);
+    InitKartModelMenuView(&gCharKartSelectState->mView, 0);
+    arc_setHeapGroupId(9);
 }
 
 void InitKartModelMenu(void *heap) {
     u32 i;
-    gKartModels = NULL;
-    gKartModelMenu = HeapAlloc(heap, 0x26c);
-    gKartModelMenu->mShownSlotIndex = -1;
-    gKartModelMenu->mLoadSlotIndex = 0;
-    gKartModelMenu->mLoadSlot = &gKartModelMenu->mSlots[gKartModelMenu->mLoadSlotIndex];
-    gKartModelMenu->mKartAPalette = NULL;
-    gKartModelMenu->mUnk_1dc = FALSE;
-    gKartModelMenu->mUnk_1d8 = 0;
-    gKartModelMenu->mMirrorMode = 0;
-    gKartModelMenu->mCharMenuParams = NULL;
-    gKartModelMenu->mKartMenuParams = NULL;
-    gKartModelMenu->mCharacterRequested = 0;
-    gKartModelMenu->mKartRequested = 0;
-    gKartModelMenu->mKartAppear = NULL;
-    gKartModelMenu->mUnk_1f0 = 0;
-    gKartModelMenu->mEmblemPalette = NULL;
-    gKartModelMenu->mEmblemData = gKartModelMenu->mEmblemPalette;
+    gCharKartData = NULL;
+    gCharKartSelectState = heap_alloc(heap, 0x26c);
+    gCharKartSelectState->mShownSlotIndex = -1;
+    gCharKartSelectState->mLoadSlotIndex = 0;
+    gCharKartSelectState->mLoadSlot = &gCharKartSelectState->mSlots[gCharKartSelectState->mLoadSlotIndex];
+    gCharKartSelectState->mKartAPalette = NULL;
+    gCharKartSelectState->mUnk_1dc = FALSE;
+    gCharKartSelectState->mUnk_1d8 = 0;
+    gCharKartSelectState->mMirrorMode = 0;
+    gCharKartSelectState->mCharMenuParams = NULL;
+    gCharKartSelectState->mKartMenuParams = NULL;
+    gCharKartSelectState->mCharacterRequested = 0;
+    gCharKartSelectState->mKartRequested = 0;
+    gCharKartSelectState->mKartAppear = NULL;
+    gCharKartSelectState->mUnk_1f0 = 0;
+    gCharKartSelectState->mEmblemPalette = NULL;
+    gCharKartSelectState->mEmblemData = gCharKartSelectState->mEmblemPalette;
     LoadEmblemSBNclr(heap);
-    LoadKartModelMenuFile(heap, data_02165724, (void **) &gKartModelMenu->mKartOffsetTable);
+    LoadFileInKartModelMenuFolder(heap, aKartoffsetdata, (void **) &gCharKartSelectState->mKartOffsetTable);
     for (i = 0; i < 2; i = (u16) (i + 1)) {
-        InitKartModelMenuSlot(heap, &gKartModelMenu->mSlots[i]);
+        InitKartModelMenuSlot(heap, &gCharKartSelectState->mSlots[i]);
     }
-    InitKartModelMenuView(&gKartModelMenu->mView, 1);
-    SetHeapGroupId(9);
+    InitKartModelMenuView(&gCharKartSelectState->mView, 1);
+    arc_setHeapGroupId(9);
 }
 
-s16 *ComputeKartMenuParams(s32 kartIndex, s32 characterIndex) {
-    KartModelMenuData *menu = gKartModelMenu;
+s16 *spm_LoadCharKartParam(s32 kartIndex, s32 characterIndex) {
+    KartModelMenuData *menu = gCharKartSelectState;
     s16 *characterParam = &menu->mCharMenuParams[characterIndex];
     KartMenuParams *kartParams = &menu->mKartMenuParams[kartIndex];
     menu->mMenuParams[0] = kartParams->mUnk_00[0];
@@ -1372,12 +1372,12 @@ s16 *ComputeKartMenuParams(s32 kartIndex, s32 characterIndex) {
     menu->mMenuParams[4] = kartParams->mUnk_00[4];
     menu->mMenuParams[5] = kartParams->mUnk_00[5];
     menu->mMenuParams[2] += *characterParam;
-    return gKartModelMenu->mMenuParams;
+    return gCharKartSelectState->mMenuParams;
 }
 
 // Asks for a new character in the menu view; -1 clears it at once.
 void RequestKartModelMenuCharacter(s32 characterIndex) {
-    KartModelMenuData *menu = gKartModelMenu;
+    KartModelMenuData *menu = gCharKartSelectState;
     KartModelMenuView *view = &menu->mView;
     KartModelMenuFiles *files = &menu->mFiles[menu->mLoadSlotIndex];
     s32 currentCharacterIndex = view->mCharacterIndex;
@@ -1393,12 +1393,12 @@ void RequestKartModelMenuCharacter(s32 characterIndex) {
     }
     if (files->mLoadRequested == FALSE && currentCharacterIndex != characterIndex && characterIndex <= 0xd) {
         view->mCharacterIndex = characterIndex;
-        gKartModelMenu->mCharacterRequested = 1;
+        gCharKartSelectState->mCharacterRequested = 1;
     }
 }
 
 void RequestKartModelMenuKart(s32 kartIndex) {
-    KartModelMenuData *menu = gKartModelMenu;
+    KartModelMenuData *menu = gCharKartSelectState;
     KartModelMenuView *view = &menu->mView;
     KartModelMenuFiles *files = &menu->mFiles[menu->mLoadSlotIndex];
     s32 currentKartIndex = view->mKartIndex;
@@ -1414,12 +1414,12 @@ void RequestKartModelMenuKart(s32 kartIndex) {
     }
     if (files->mLoadRequested == FALSE && currentKartIndex != kartIndex && kartIndex <= 0x25) {
         view->mKartIndex = kartIndex;
-        gKartModelMenu->mKartRequested = 1;
+        gCharKartSelectState->mKartRequested = 1;
     }
 }
 
 void AdvanceKartModelMenuBg0Offset(void) {
-    KartModelMenuView *view = &gKartModelMenu->mView;
+    KartModelMenuView *view = &gCharKartSelectState->mView;
     switch (view->mBg0Direction) {
         case 0:
             view->mBg0Offset += 0x15;
@@ -1437,11 +1437,11 @@ void AdvanceKartModelMenuBg0Offset(void) {
 }
 
 void StartKartModelMenuBg0Increase(void) {
-    gKartModelMenu->mView.mBg0Direction = 0;
+    gCharKartSelectState->mView.mBg0Direction = 0;
 }
 
 void StartKartModelMenuBg0Decrease(void) {
-    gKartModelMenu->mView.mBg0Direction = 1;
+    gCharKartSelectState->mView.mBg0Direction = 1;
 }
 
 void SetFrustumProjection(s32 mirrored) {
@@ -1459,9 +1459,9 @@ void SetFrustumProjection(s32 mirrored) {
         e = -d;
         c = d;
     }
-    func_01ff9048(0x15, NULL, 0);
-    G3i_FrustumW_(a, b, c, e, 0x200, 0x64000, 0x1000, 0, (Unk0214ad4c *) data_0217029c.mProjMtx);
-    data_0217029c.mFlag &= ~0x50;
+    NNS_G3dGeBufferOP_N(0x15, NULL, 0);
+    G3i_FrustumW_(a, b, c, e, 0x200, 0x64000, 0x1000, 0, (Unk0214ad4c *) NNS_G3dGlb.mProjMtx);
+    NNS_G3dGlb.mFlag &= ~0x50;
     NNS_G3dGlbFlushP();
 }
 
@@ -1476,7 +1476,7 @@ void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
     if ((s64) lightDirection.z * lightDirection.z +
             ((s64) lightDirection.x * lightDirection.x + (s64) lightDirection.y * lightDirection.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&lightDirection, &lightDirection);
+        vec_normalize(&lightDirection, &lightDirection);
     }
     NNS_G3dGlbLightVector(0, (s16) lightDirection.x, (s16) lightDirection.y, (s16) lightDirection.z);
     NNS_G3dGlbLightColor(0, (u16) (data_021656d8 | (data_021656d8 << 5) | (data_021656d8 << 10)));
@@ -1489,12 +1489,12 @@ void SetupLightFrustumAndLookAt(s32 param_1, s32 yOffset) {
     data_021704dc[0] = data_021656fc;
     data_021704dc[1] = e;
     data_021704dc[2] = c;
-    G3i_LookAt_(&data_021656fc, &e, &c, 0, &data_0217029c.mCameraMtx);
-    data_0217029c.mFlag &= ~0xe8;
+    G3i_LookAt_(&data_021656fc, &e, &c, 0, &NNS_G3dGlb.mCameraMtx);
+    NNS_G3dGlb.mFlag &= ~0xe8;
     NNS_G3dGlbFlushP();
 }
 
-void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32 mirrored) {
+void RenderCharacterForMenu(KartModelMenuSlot *slot, KartModelMenuView *view, s32 mirrored) {
     Vec3 scale;
     s32 m1[9];
     s32 m2[9];
@@ -1506,7 +1506,7 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     s32 k;
     u16 i;
 
-    data_0217029c.mPrmViewPort = 0xbfff0000;
+    NNS_G3dGlb.mPrmViewPort = 0xbfff0000;
     t.x = data_021656f0.x;
     t.y = data_021656f0.y;
     t.z = data_021656f0.z;
@@ -1514,9 +1514,9 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     scale.x = k;
     scale.y = k;
     scale.z = k;
-    MTX_RotY33_(m1, gPairsByAngle[(view->mYawAngle >> 4) * 2], gPairsByAngle[(view->mYawAngle >> 4) * 2 + 1]);
-    MTX_RotX33_(m2, gPairsByAngle[(((u16) (data_021656dc + view->mUnk_1a)) >> 4) * 2],
-                gPairsByAngle[(((u16) (data_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
+    MTX_RotY33_(m1, FX_SinCosTable_[(view->mYawAngle >> 4) * 2], FX_SinCosTable_[(view->mYawAngle >> 4) * 2 + 1]);
+    MTX_RotX33_(m2, FX_SinCosTable_[(((u16) (data_021656dc + view->mUnk_1a)) >> 4) * 2],
+                FX_SinCosTable_[(((u16) (data_021656dc + view->mUnk_1a)) >> 4) * 2 + 1]);
     MTX_Concat33(m1, m2, m1);
     if (slot->mKartOffsetData != NULL) {
         MTX_Copy33To43_(m1, &m3.mUnk_00[0].x);
@@ -1527,14 +1527,14 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     }
     NNS_G3dGlbSetBaseScale(&scale);
     NNS_G3dGlbSetBaseTrans(&t);
-    MI_Copy36B(m2, data_0217029c.mPrmBaseRot);
-    data_0217029c.mFlag &= ~0xa4;
+    MI_Copy36B(m2, NNS_G3dGlb.mPrmBaseRot);
+    NNS_G3dGlb.mFlag &= ~0xa4;
     NNS_G3dGlbFlushP();
-    if (gKartModelMenu->mSelectModel != NULL) {
-        func_01ff8cf0(gKartModelMenu->mSelectModel);
+    if (gCharKartSelectState->mSelectModel != NULL) {
+        NNS_G3dDraw(gCharKartSelectState->mSelectModel);
     }
-    MI_Copy36B(m1, data_0217029c.mPrmBaseRot);
-    data_0217029c.mFlag &= ~0xa4;
+    MI_Copy36B(m1, NNS_G3dGlb.mPrmBaseRot);
+    NNS_G3dGlb.mFlag &= ~0xa4;
     NNS_G3dGlbSetBaseTrans(&t);
     NNS_G3dGlbFlushP();
     if (slot->mCharacterIndex != -1 && slot->mKartIndex != -1) {
@@ -1549,11 +1549,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
         }
         if (slot->mKartNsbmd != NULL) {
             if (mirrored != 0) {
-                func_02084f68(slot->mKartNsbmd);
+                model_setCullFront(slot->mKartNsbmd);
             } else {
-                func_02084f20(slot->mKartNsbmd);
+                model_setCullBack(slot->mKartNsbmd);
             }
-            func_01ff8cf0(slot->mKartNsbmd);
+            NNS_G3dDraw(slot->mKartNsbmd);
         }
         if (slot->mTireNsbmd != NULL) {
             for (i = 0; i < 4; i++) {
@@ -1575,11 +1575,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
                     NNS_G3dGlbSetBaseTrans(&t);
                     NNS_G3dGlbFlushP();
                     if (mirrored != 0) {
-                        func_02084f68(slot->mTireNsbmd);
+                        model_setCullFront(slot->mTireNsbmd);
                     } else {
-                        func_02084f20(slot->mTireNsbmd);
+                        model_setCullBack(slot->mTireNsbmd);
                     }
-                    func_01ff8cf0(slot->mTireNsbmd);
+                    NNS_G3dDraw(slot->mTireNsbmd);
                 }
             }
         }
@@ -1588,11 +1588,11 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
             NNS_G3dGlbSetBaseTrans(&t);
             NNS_G3dGlbFlushP();
             if (mirrored != 0) {
-                func_02084f68(slot->mCharacterNsbmd);
+                model_setCullFront(slot->mCharacterNsbmd);
             } else {
-                func_02084f20(slot->mCharacterNsbmd);
+                model_setCullBack(slot->mCharacterNsbmd);
             }
-            func_01ff8cf0(slot->mCharacterNsbmd);
+            NNS_G3dDraw(slot->mCharacterNsbmd);
         }
     }
 }
@@ -1601,12 +1601,12 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
 
 #pragma thumb on
 
-void SetupKartModelEmblemTex(KartModelMenuSlot *slot) {
-    if ((gKartModelMenu->mUseEmblemTex != FALSE) && (slot->mEmblemTex != NULL)) {
-        NNS_G3dReleaseMdlTexEx(slot->mKartNsbmd->mResMdl, data_02155048);
-        NNS_G3dReleaseMdlPlttEx(slot->mKartNsbmd->mResMdl, data_021550a8);
-        NNS_G3dBindMdlTexEx(slot->mKartNsbmd->mResMdl, slot->mEmblemTex, data_02155048);
-        NNS_G3dBindMdlPlttEx(slot->mKartNsbmd->mResMdl, slot->mEmblemTex, data_021550a8);
+void SPM_UpdateKartEmblem(KartModelMenuSlot *slot) {
+    if ((gCharKartSelectState->mUseEmblemTex != FALSE) && (slot->mEmblemTex != NULL)) {
+        NNS_G3dReleaseMdlTexEx(slot->mKartNsbmd->mResMdl, aEmblem);
+        NNS_G3dReleaseMdlPlttEx(slot->mKartNsbmd->mResMdl, aEmblem_pl);
+        NNS_G3dBindMdlTexEx(slot->mKartNsbmd->mResMdl, slot->mEmblemTex, aEmblem);
+        NNS_G3dBindMdlPlttEx(slot->mKartNsbmd->mResMdl, slot->mEmblemTex, aEmblem_pl);
     }
 }
 
@@ -1614,48 +1614,48 @@ void SetupKartModelEmblemTex(KartModelMenuSlot *slot) {
 
 #pragma thumb on
 
-void AdvanceKartModelMenu(s32 mirrorMode) {
+void SPM_2078420(s32 mirrorMode) {
     KartModelMenuView *view;
     KartModelMenuSlot *shownSlot;
-    view = &gKartModelMenu->mView;
-    gKartModelMenu->mMirrorMode = mirrorMode;
-    QueueKartModelMenuLoad();
+    view = &gCharKartSelectState->mView;
+    gCharKartSelectState->mMirrorMode = mirrorMode;
+    SPM_2077B3C();
     AdvanceKartModelMenuBg0Offset();
-    if (gKartModelMenu->mShownSlotIndex >= 0) {
-        shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
-        if (gKartModelMenu->mUnk_1d8 != 0 || gKartModelMenu->mUnk_1dc != FALSE) {
+    if (gCharKartSelectState->mShownSlotIndex >= 0) {
+        shownSlot = &gCharKartSelectState->mSlots[gCharKartSelectState->mShownSlotIndex];
+        if (gCharKartSelectState->mUnk_1d8 != 0 || gCharKartSelectState->mUnk_1dc != FALSE) {
             AdvanceAngleToward(&view->mSpinAngle, 0xeaab, data_021656e8);
-            if (gKartModelMenu->mUnk_1d8 == 0 && gKartModelMenu->mUnk_1dc != FALSE) {
-                gKartModelMenu->mUnk_1f0++;
-                if (gKartModelMenu->mUnk_1f0 > 0x3c) {
-                    gKartModelMenu->mUnk_1dc = FALSE;
+            if (gCharKartSelectState->mUnk_1d8 == 0 && gCharKartSelectState->mUnk_1dc != FALSE) {
+                gCharKartSelectState->mUnk_1f0++;
+                if (gCharKartSelectState->mUnk_1f0 > 0x3c) {
+                    gCharKartSelectState->mUnk_1dc = FALSE;
                 }
             }
         } else {
             view->mSpinAngle += 0x64;
         }
         view->mYawAngle = mirrorMode != 0 ? (u16) -view->mSpinAngle : view->mSpinAngle;
-        AdvanceModelAnimation(shownSlot->mCharacterAnimation);
-        if (gKartModelMenu->mEmblemData != NULL && gKartModelMenu->mEmblemPalette != NULL &&
-            gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested == FALSE) {
-            QueueKartEmblemTexture(gKartModelMenu->mEmblemData, gKartModelMenu->mEmblemPalette);
+        anim_update(shownSlot->mCharacterAnimation);
+        if (gCharKartSelectState->mEmblemData != NULL && gCharKartSelectState->mEmblemPalette != NULL &&
+            gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex].mLoadRequested == FALSE) {
+            QueueKartEmblemTexture(gCharKartSelectState->mEmblemData, gCharKartSelectState->mEmblemPalette);
         }
     }
     ClearKartModelMenuRequests();
 }
 
 void AdvanceShownSlotAndQueueEmblem(void) {
-    s16 shownSlotIndex = gKartModelMenu->mShownSlotIndex;
+    s16 shownSlotIndex = gCharKartSelectState->mShownSlotIndex;
     if (shownSlotIndex >= 0) {
-        AdvanceModelAnimation(gKartModelMenu->mSlots[shownSlotIndex].mCharacterAnimation);
-        if (gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested == FALSE) {
+        anim_update(gCharKartSelectState->mSlots[shownSlotIndex].mCharacterAnimation);
+        if (gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex].mLoadRequested == FALSE) {
             QueueKartEmblemTexture(func_ov001_021a2398(), func_ov001_021a23ac());
         }
     }
 }
 
 void AdvanceKartModelMenuInput(void) {
-    KartModelMenuView *view = &gKartModelMenu->mView;
+    KartModelMenuView *view = &gCharKartSelectState->mView;
     s32 a = 0;
     BOOL b;
     s32 d;
@@ -1665,46 +1665,46 @@ void AdvanceKartModelMenuInput(void) {
     s32 v = 2;
     KartModelMenuFiles *files;
 
-    files = &gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex];
-    if (gThreadFunctionQueue->mRunRequested == 0 && files->mLoadRequested == FALSE) {
+    files = &gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex];
+    if (gBgWkrState->mRunRequested == 0 && files->mLoadRequested == FALSE) {
         characterIndex = ~a;
         v1 = UNK_02175628_INDEX_8;
-        buttons = data_02175628[v1].mPressedBits;
+        buttons = gInputUnits[v1].mPressedBits;
         if ((u16) (buttons & PAD_KEY_R) != 0) {
             d = a;
             do {
-                gKartModelMenu->mKartIndex++;
-                if (gKartModelMenu->mKartIndex > 0x23) {
-                    gKartModelMenu->mKartIndex = a;
+                gCharKartSelectState->mKartIndex++;
+                if (gCharKartSelectState->mKartIndex > 0x23) {
+                    gCharKartSelectState->mKartIndex = a;
                 }
-                if (func_02077a70(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
+                if (func_02077a70(&characterIndex, gCharKartSelectState->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
-                    RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
+                    RequestKartModelMenuKart(gCharKartSelectState->mKartIndex);
                     d = 1;
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, a, 0x1fd);
                 }
             } while (d == 0);
-            gKartModelMenu->mKartListPos++;
-            if (gKartModelMenu->mKartListPos >= gKartModelMenu->mKartListCount) {
-                gKartModelMenu->mKartListPos = 0;
+            gCharKartSelectState->mKartListPos++;
+            if (gCharKartSelectState->mKartListPos >= gCharKartSelectState->mKartListCount) {
+                gCharKartSelectState->mKartListPos = 0;
             }
         } else if ((u16) (buttons & PAD_KEY_L) != 0) {
             d = a;
             do {
-                gKartModelMenu->mKartIndex--;
-                if (gKartModelMenu->mKartIndex < 0) {
-                    gKartModelMenu->mKartIndex = 0x23;
+                gCharKartSelectState->mKartIndex--;
+                if (gCharKartSelectState->mKartIndex < 0) {
+                    gCharKartSelectState->mKartIndex = 0x23;
                 }
-                if (func_02077a70(&characterIndex, gKartModelMenu->mKartIndex) != 0) {
+                if (func_02077a70(&characterIndex, gCharKartSelectState->mKartIndex) != 0) {
                     RequestKartModelMenuCharacter(characterIndex);
-                    RequestKartModelMenuKart(gKartModelMenu->mKartIndex);
+                    RequestKartModelMenuKart(gCharKartSelectState->mKartIndex);
                     d = 1;
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, a, 0x1fe);
                 }
             } while (d == 0);
-            gKartModelMenu->mKartListPos--;
-            if (gKartModelMenu->mKartListPos < 0) {
-                gKartModelMenu->mKartListPos = gKartModelMenu->mKartListCount - 1;
+            gCharKartSelectState->mKartListPos--;
+            if (gCharKartSelectState->mKartListPos < 0) {
+                gCharKartSelectState->mKartListPos = gCharKartSelectState->mKartListCount - 1;
             }
         }
     }
@@ -1712,7 +1712,7 @@ void AdvanceKartModelMenuInput(void) {
     d = b;
     GetSndHandleSlot(2);
     v1 = UNK_02175628_INDEX_8;
-    buttons = data_02175628[v1].mBits;
+    buttons = gInputUnits[v1].mBits;
     if ((u16) (buttons & PAD_KEY_RIGHT) != 0) {
         view->mYawAngle += 0x1c2;
         b = TRUE;
@@ -1721,7 +1721,7 @@ void AdvanceKartModelMenuInput(void) {
         b = TRUE;
     }
     v1 = UNK_02175628_INDEX_8;
-    buttons = data_02175628[v1].mBits;
+    buttons = gInputUnits[v1].mBits;
     if ((u16) (buttons & PAD_KEY_DOWN) != 0) {
         view->mUnk_18 += 0x1c2;
         if (view->mUnk_18 > 0x1b58) {
@@ -1742,7 +1742,7 @@ void AdvanceKartModelMenuInput(void) {
     }
     GetSndHandleSlot(1);
     v1 = UNK_02175628_INDEX_8;
-    buttons = data_02175628[v1].mBits;
+    buttons = gInputUnits[v1].mBits;
     if ((u16) (buttons & PAD_KEY_X) != 0) {
         view->mScale += 0x7b;
         if (view->mScale > data_021656e0) {
@@ -1752,7 +1752,7 @@ void AdvanceKartModelMenuInput(void) {
         }
     } else {
         v1 = UNK_02175628_INDEX_8;
-        buttons = data_02175628[v1].mBits;
+        buttons = gInputUnits[v1].mBits;
         if ((u16) (buttons & PAD_KEY_B) != 0) {
             view->mScale -= 0x7b;
             if (view->mScale < 0x800) {
@@ -1764,54 +1764,54 @@ void AdvanceKartModelMenuInput(void) {
     }
     view->mUnk_1a = view->mUnk_18;
     func_02110aac(v, a);
-    QueueKartModelMenuLoad();
+    SPM_2077B3C();
     ClearKartModelMenuRequests();
 }
 
-void DrawKartModelMenu(void) {
+void SPM_RenderCharacterSelect3D(void) {
     KartModelMenuSlot *slot;
     KartModelMenuView *view;
-    if (gKartModelMenu->mShownSlotIndex >= 0) {
-        slot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
-        view = &gKartModelMenu->mView;
+    if (gCharKartSelectState->mShownSlotIndex >= 0) {
+        slot = &gCharKartSelectState->mSlots[gCharKartSelectState->mShownSlotIndex];
+        view = &gCharKartSelectState->mView;
         if (view->mCharacterIndex != -1 && view->mKartIndex != -1) {
             SetupLightFrustumAndLookAt(view->mBg0Offset, data_021656ec);
-            DrawKartModelMenuSlot(slot, &gKartModelMenu->mView, gKartModelMenu->mMirrorMode);
-            func_01ff9234();
+            RenderCharacterForMenu(slot, &gCharKartSelectState->mView, gCharKartSelectState->mMirrorMode);
+            NNS_G3dGeFlushBuffer();
         }
     }
 }
 
 void DrawKartModelMenuUnmirrored(void) {
     KartModelMenuSlot *slot;
-    if (gKartModelMenu->mShownSlotIndex >= 0) {
-        slot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
+    if (gCharKartSelectState->mShownSlotIndex >= 0) {
+        slot = &gCharKartSelectState->mSlots[gCharKartSelectState->mShownSlotIndex];
         SetupLightFrustumAndLookAt(0, data_021656ec);
-        DrawKartModelMenuSlot(slot, &gKartModelMenu->mView, 0);
-        func_01ff9234();
+        RenderCharacterForMenu(slot, &gCharKartSelectState->mView, 0);
+        NNS_G3dGeFlushBuffer();
     }
 }
 
-void CopyHeyhoPaletteIndices(void) {
+void chkrt_setupHeyhoPaletteRows(void) {
     u16 i;
     for (i = 0; i < 8; i++) {
-        gKartModels->mHeyhoPaletteIndices[i] = data_0217b488->mShuffledIndices[i];
+        gCharKartData->mHeyhoPaletteIndices[i] = gStruct217B488->mShuffledIndices[i];
     }
 }
 
-void SetupHeyhoPalettes(void) {
+void chkrt_applyAllHeyhoPalettes(void) {
     u32 i;
-    if (gKartModels->mHeyhoPalettes != NULL) {
-        CopyHeyhoPaletteIndices();
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            if (gKartModels->mKartModelsEntries[i].mCharacterIndex == 0xc) {
-                UploadHeyhoPalette(i, &gKartModels->mKartModelsEntries[i], GetHeyhoPalette(i));
+    if (gCharKartData->mHeyhoPalettes != NULL) {
+        chkrt_setupHeyhoPaletteRows();
+        for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
+            if (gCharKartData->mKartModelsEntries[i].mCharacterIndex == 0xc) {
+                chkrt_applyHeyhoPalette(i, &gCharKartData->mKartModelsEntries[i], chkrt_getHeyhoPaletteRow(i));
             }
         }
     }
 }
 
-void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, HeyhoPalette *palette) {
+void chkrt_applyHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, HeyhoPalette *palette) {
     NNSG3dResMdl *mdl;
     u8 *t;
     u8 *u;
@@ -1820,10 +1820,10 @@ void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, 
     s32 paletteBase;
     mdl = kartModelsEntry->mModels[0]->mResMdl;
     DC_FlushRange(palette, 0x20);
-    if (IsCharacterPNameUsed(kartIndex) != 0) {
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_02154ff8);
+    if (chkrt_getIsPlayer(kartIndex) != 0) {
+        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, aP_main_1);
     } else {
-        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, data_02155068);
+        materialIndex = NNS_G3dGetResDictIdxByName((u8 *) mdl + mdl->mOfsMat + 4, aE_main_1);
     }
     t = (u8 *) mdl + mdl->mOfsMat;
     u = t + 4;
@@ -1834,17 +1834,17 @@ void UploadHeyhoPalette(int kartIndex, struct KartModelsEntry *kartModelsEntry, 
     GX_EndLoadTexPltt();
 }
 
-HeyhoPalette *GetHeyhoPalette(int kartIndex) {
+HeyhoPalette *chkrt_getHeyhoPaletteRow(int kartIndex) {
     HeyhoPalette *palette = NULL;
-    if (gKartModels->mHeyhoPalettes != NULL) {
-        palette = gKartModels->mHeyhoPalettes + gKartModels->mHeyhoPaletteIndices[kartIndex];
+    if (gCharKartData->mHeyhoPalettes != NULL) {
+        palette = gCharKartData->mHeyhoPalettes + gCharKartData->mHeyhoPaletteIndices[kartIndex];
     }
     return palette;
 }
 
 void func_02077f5c(void) {
-    gKartModelMenu->mUnk_1dc = TRUE;
-    gKartModelMenu->mUnk_1f0 = 0;
+    gCharKartSelectState->mUnk_1dc = TRUE;
+    gCharKartSelectState->mUnk_1f0 = 0;
 }
 
 #pragma thumb off
@@ -1852,7 +1852,7 @@ void func_02077f5c(void) {
 #pragma thumb on
 
 void func_02077f48(u32 flag) {
-    gKartModelMenu->mUnk_1d8 = flag;
+    gCharKartSelectState->mUnk_1d8 = flag;
 }
 
 // Moves *a toward b by a share of the distance plus 100; keeps the old value when the step would reach b.
@@ -1889,7 +1889,7 @@ Nclr *GetEmblemSBNclr(void) {
 void InitKartModelMenuFiles(void *heap, KartModelMenuFiles *files) {
     void *heapMemory;
     struct NNSiFndHeapHead *expHeap;
-    heapMemory = HeapAlloc(heap, 0xf000);
+    heapMemory = heap_alloc(heap, 0xf000);
     expHeap = NNS_FndCreateExpHeapEx(heapMemory, 0xf000, 0);
     files->mHeap = expHeap;
     files->mHeapMemory = heapMemory;
@@ -1910,7 +1910,7 @@ void InitKartModelMenuFiles(void *heap, KartModelMenuFiles *files) {
 
 #pragma thumb on
 
-void LoadKartAndCharacterFiles(void) {
+void SPM_2077D68(void) {
     KartModelMenuFiles *files;
     s32 characterIndex;
     KartModelMenuFiles *loadFiles;
@@ -1918,11 +1918,11 @@ void LoadKartAndCharacterFiles(void) {
     s32 loadSlotIndex;
     char *tireName;
 
-    files = gKartModelMenu->mFiles;
-    loadSlotIndex = gKartModelMenu->mLoadSlotIndex;
+    files = gCharKartSelectState->mFiles;
+    loadSlotIndex = gCharKartSelectState->mLoadSlotIndex;
     loadFiles = &files[loadSlotIndex];
-    characterIndex = gKartModelMenu->mLoadSlot->mCharacterIndex;
-    kartIndex = gKartModelMenu->mLoadSlot->mKartIndex;
+    characterIndex = gCharKartSelectState->mLoadSlot->mCharacterIndex;
+    kartIndex = gCharKartSelectState->mLoadSlot->mKartIndex;
     loadFiles->mLoadStep = 0;
     NNS_FndDestroyExpHeap(loadFiles->mHeap);
     loadFiles->mHeap = NNS_FndCreateExpHeapEx(loadFiles->mHeapMemory, 0xf000, 0);
@@ -1936,18 +1936,18 @@ void LoadKartAndCharacterFiles(void) {
         NNS_G3dResDefaultRelease(loadFiles->mTireNsbtxFile);
         NNS_G3dResDefaultRelease(loadFiles->mKartShadowNsbmdFile);
     }
-    tireName = (char *) &gKartModelMenu->mKartOffsetTable[kartIndex];
-    LoadFileIntoHeap(BuildCharacterNsbmdPath(characterIndex, 1), loadFiles->mHeap,
+    tireName = (char *) &gCharKartSelectState->mKartOffsetTable[kartIndex];
+    arc_loadFile(cklcr_getCharacterNsbmdPath(characterIndex, 1), loadFiles->mHeap,
                      (void **) &loadFiles->mCharacterNsbmdFile);
-    LoadFileIntoHeap(BuildCharacterNsbtxPath(characterIndex, 1), loadFiles->mHeap,
+    arc_loadFile(cklcr_getCharacterNsbtxPath(characterIndex, 1), loadFiles->mHeap,
                      (void **) &loadFiles->mCharacterNsbtxFile);
-    LoadFileIntoHeap(BuildCharacterNsbcaPath(characterIndex, 2), loadFiles->mHeap, &loadFiles->mCharacterNsbcaFile);
-    LoadFileIntoHeap(BuildEmblemNsbtxPath(characterIndex), loadFiles->mHeap, (void **) &loadFiles->mEmblemNsbtxFile);
-    LoadFileIntoHeap(BuildKartNsbmdPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartNsbmdFile);
-    LoadFileIntoHeap(BuildKartNsbtxPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartNsbtxFile);
-    LoadFileIntoHeap(BuildKartShadowNsbmdPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartShadowNsbmdFile);
-    LoadFileIntoHeap(BuildTireNsbmdPath(kartIndex, tireName), loadFiles->mHeap, (void **) &loadFiles->mTireNsbmdFile);
-    LoadFileIntoHeap(BuildTireNsbtxPath(kartIndex, tireName), loadFiles->mHeap, (void **) &loadFiles->mTireNsbtxFile);
+    arc_loadFile(GetCharacterNsbcaPath(characterIndex, 2), loadFiles->mHeap, &loadFiles->mCharacterNsbcaFile);
+    arc_loadFile(cklcr_getCharacterEmblemPath(characterIndex), loadFiles->mHeap, (void **) &loadFiles->mEmblemNsbtxFile);
+    arc_loadFile(cklcr_getKartNsbmdPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartNsbmdFile);
+    arc_loadFile(cklcr_getKartNsbtxPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartNsbtxFile);
+    arc_loadFile(cklcr_getKartShadowPath(kartIndex), loadFiles->mHeap, (void **) &loadFiles->mKartShadowNsbmdFile);
+    arc_loadFile(cklcr_getTireNsbmdPath(kartIndex, tireName), loadFiles->mHeap, (void **) &loadFiles->mTireNsbmdFile);
+    arc_loadFile(cklcr_getTireNsbtxPath(kartIndex, tireName), loadFiles->mHeap, (void **) &loadFiles->mTireNsbtxFile);
 }
 
 // Builds the slot being loaded over three calls, then shows it and loads into the other slot next.
@@ -1957,13 +1957,13 @@ void AdvanceKartModelMenuLoad(void) {
     KartModelMenuSlot *shownSlot;
     KartModelAnimationView *animation;
 
-    G2Bg0OfsWrite(gKartModelMenu->mView.mBg0Offset);
-    if (gThreadFunctionQueue->mRunRequested == 0) {
-        loadFiles = &gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex];
+    G3X_SetHOffset(gCharKartSelectState->mView.mBg0Offset);
+    if (gBgWkrState->mRunRequested == 0) {
+        loadFiles = &gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex];
         if (loadFiles->mLoadRequested != FALSE) {
-            loadSlot = gKartModelMenu->mLoadSlot;
+            loadSlot = gCharKartSelectState->mLoadSlot;
             if (loadFiles->mLoadStep == 0) {
-                CreateKartModelMenuCharacter(loadFiles->mHeap, loadSlot->mCharacterNsbmd, loadSlot->mCharacterAnimation,
+                anim_2079078(loadFiles->mHeap, loadSlot->mCharacterNsbmd, loadSlot->mCharacterAnimation,
                                              loadFiles->mCharacterNsbmdFile, loadFiles->mCharacterNsbtxFile,
                                              loadFiles->mCharacterNsbcaFile);
                 loadFiles->mLoadStep++;
@@ -1971,29 +1971,29 @@ void AdvanceKartModelMenuLoad(void) {
             }
             if (loadFiles->mLoadStep == 1) {
                 LoadKartModelMenuEmblemTexData(loadFiles->mEmblemNsbtxFile);
-                gKartModelMenu->mLoadSlot->mEmblemTex = gKartModelMenu->mEmblemTex;
+                gCharKartSelectState->mLoadSlot->mEmblemTex = gCharKartSelectState->mEmblemTex;
                 CreateKartModelMenuShadow(loadSlot->mShadowModel, loadFiles->mKartShadowNsbmdFile);
                 CreateKartModelMenuTire(loadSlot->mTireNsbmd, loadFiles->mTireNsbmdFile, loadFiles->mTireNsbtxFile);
                 loadFiles->mLoadStep++;
                 return;
             }
             CreateKartModelMenuKart(loadSlot->mKartNsbmd, loadFiles->mKartNsbmdFile, loadFiles->mKartNsbtxFile);
-            SetupKartModelEmblemTex(gKartModelMenu->mLoadSlot);
-            UploadKartAPaletteSlice(loadSlot->mKartNsbmd, loadSlot->mKartIndex, gKartModelMenu->mKartAPalette);
-            UploadKartModelsEntryPalettes((struct KartModelsEntry *) loadSlot, 1);
+            SPM_UpdateKartEmblem(gCharKartSelectState->mLoadSlot);
+            UploadKartAPaletteSlice(loadSlot->mKartNsbmd, loadSlot->mKartIndex, gCharKartSelectState->mKartAPalette);
+            PatchROBPalette((struct KartModelsEntry *) loadSlot, 1);
             loadFiles->mLoadRequested = FALSE;
             loadFiles->mLoadStep = 0;
-            if (gKartModelMenu->mShownSlotIndex >= 0) {
-                shownSlot = &gKartModelMenu->mSlots[gKartModelMenu->mShownSlotIndex];
+            if (gCharKartSelectState->mShownSlotIndex >= 0) {
+                shownSlot = &gCharKartSelectState->mSlots[gCharKartSelectState->mShownSlotIndex];
                 if (loadSlot->mCharacterIndex == shownSlot->mCharacterIndex) {
                     animation = loadSlot->mCharacterAnimation;
                     animation->mUnk_0c = shownSlot->mCharacterAnimation->mUnk_0c;
                     *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
                 }
             }
-            gKartModelMenu->mShownSlotIndex = gKartModelMenu->mLoadSlotIndex;
-            gKartModelMenu->mLoadSlotIndex = gKartModelMenu->mLoadSlotIndex == 0 ? 1 : 0;
-            gKartModelMenu->mLoadSlot = &gKartModelMenu->mSlots[gKartModelMenu->mLoadSlotIndex];
+            gCharKartSelectState->mShownSlotIndex = gCharKartSelectState->mLoadSlotIndex;
+            gCharKartSelectState->mLoadSlotIndex = gCharKartSelectState->mLoadSlotIndex == 0 ? 1 : 0;
+            gCharKartSelectState->mLoadSlot = &gCharKartSelectState->mSlots[gCharKartSelectState->mLoadSlotIndex];
         }
     }
 }
@@ -2002,15 +2002,15 @@ void AdvanceKartModelMenuLoad(void) {
 
 #pragma thumb on
 
-void InitLnkVramManagers(void *heap) {
+void SPM_InitVramManager(void *heap) {
     u32 texWorkSize;
     u32 plttWorkSize;
     RangeEntry *texWork;
     RangeEntry *plttWork;
     texWorkSize = NNS_GfdGetLnkTexVramManagerWorkSize(0x20);
-    plttWorkSize = func_020172d0(0x20);
-    texWork = HeapAlloc(heap, texWorkSize);
-    plttWork = HeapAlloc(heap, plttWorkSize);
+    plttWorkSize = NNS_GfdGetLnkPlttVramManagerWorkSize(0x20);
+    texWork = heap_alloc(heap, texWorkSize);
+    plttWork = heap_alloc(heap, plttWorkSize);
     NNS_GfdInitLnkTexVramManager(0x00040000u, 0x00020000u, texWork, texWorkSize, 1);
     NNS_GfdInitLnkPlttVramManager(0x00010000u, plttWork, plttWorkSize, 1);
 }

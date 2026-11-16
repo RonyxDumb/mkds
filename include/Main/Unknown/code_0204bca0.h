@@ -13,7 +13,7 @@ typedef struct Unk0204bfac_28 {
     /* 08 */ u8 mUnk_08[0x20];
 } Unk0204bfac_28;
 
-// The object at 0x440 of gRomArchiveTransfer as StartRomArchiveChild and RomArchiveChildCallback use it: three tables
+// The object at 0x440 of gRomArchiveTransfer as WFS_InitChild and WFSi_OnChildSystemCallback use it: three tables
 // of 16 words, then the entries.
 typedef struct RomArchiveChildView {
     /* 000 */ Unk0204bfac_28 *mNodeBuffers[16];
@@ -27,7 +27,7 @@ typedef struct RomArchiveChildView {
     /* b08 */ s32 mFileBlockId;
 } RomArchiveChildView;
 
-// Node of 0x8c0 bytes; StartRomArchiveParent chains eight of them from 0xc0 of the object at 0x440 of
+// Node of 0x8c0 bytes; WFS_InitParent chains eight of them from 0xc0 of the object at 0x440 of
 // gRomArchiveTransfer.
 typedef struct RomArchiveFileNode {
     /* 000 */ struct RomArchiveFileNode *mNext;
@@ -47,7 +47,7 @@ typedef struct RomArchiveFileNode {
     /* 0c0 */ u8 mBuffers[2][0x400];
 } RomArchiveFileNode;
 
-// Words at 0x14 of the object that RomArchiveChildCallback and RomArchiveParentCallback receive.
+// Words at 0x14 of the object that WFSi_OnChildSystemCallback and WFSi_OnParentSystemCallback receive.
 typedef union Unk0204c320_14 {
     u32 mUnk_w;
     struct {
@@ -59,7 +59,7 @@ typedef union Unk0204c320_14 {
     RomArchiveMessage mUnk_m;
 } Unk0204c320_14;
 
-// Object that RomArchiveChildCallback and RomArchiveParentCallback receive.
+// Object that WFSi_OnChildSystemCallback and WFSi_OnParentSystemCallback receive.
 typedef struct Unk0204c320 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -70,7 +70,7 @@ typedef struct Unk0204c320 {
     /* 20 */ s16 mUnk_20;
 } Unk0204c320;
 
-// Object that RomArchivePortCallback receives.
+// Object that WFSi_PortCallback receives.
 typedef struct RomArchivePortMessage {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mUnk_04;
@@ -82,37 +82,37 @@ typedef struct RomArchivePortMessage {
 
 typedef struct FSFile FSFile;
 
-// Entries of 0x20 bytes after a count word; SendRomArchiveMessage reads and rewrites the word at 0x18.
+// Entries of 0x20 bytes after a count word; WFSi_SendAck reads and rewrites the word at 0x18.
 typedef struct OverlayTableEntry {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ u32 mFileId;
     /* 1c */ u8 mUnk_1c[4];
 } OverlayTableEntry;
 
-void WakeRomArchiveThread(void);
-u32 func_0204bcb4(u32 value);
-u32 GetRomArchiveState(void);
-void StopRomArchive(void);
-void func_0204be0c(void);
-void StartRomArchive(int isParent, u32 port, u32 parentPacketSize, void (*stateCallback)(s32 isParent),
+void WFSi_NotifyBusy(void);
+u32 WFS_EnableSync(u32 value);
+u32 WFS_GetStatus(void);
+void WFS_End(void);
+void WFS_Start(void);
+void WFS_Init(int isParent, u32 port, u32 parentPacketSize, void (*stateCallback)(s32 isParent),
                      void *(*allocFunc)(s32 isParent, u32 port, void *parentPacketSize), u32 allocFuncArg);
-void StartRomArchiveChild(u32 port, void (*stateCallback)(s32 port),
+void WFS_InitChild(u32 port, void (*stateCallback)(s32 port),
                           void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
-void StartRomArchiveParent(u32 port, void (*stateCallback)(s32 port),
+void WFS_InitParent(u32 port, void (*stateCallback)(s32 port),
                            void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg,
                            u32 parentPacketSize, FSFile *file, s32 appendOverlays);
-void InitRomArchive(u32 port, void (*stateCallback)(s32 port),
+void WFSi_InitCommon(u32 port, void (*stateCallback)(s32 port),
                     void *(*allocFunc)(s32 port, u32 stateCallback, void *allocFunc), u32 allocFuncArg);
-void RomArchiveChildCallback(Unk0204c320 *record);
-void RomArchiveParentCallback(Unk0204c320 *record);
-void RomArchivePortCallback(RomArchivePortMessage *message);
-void SendRomArchivePacket(void);
-void RequestRomArchiveBytes(FSFile *file);
-void FreeRomArchiveNode(RomArchiveParentView *view, RomArchiveFileNode *node);
-void func_0204d110(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
-void func_0204d18c(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c);
-void SendRomArchiveMessage(void);
-void RomArchiveSendCallback(void);
-u32 ReloadRomArchiveFromBlock(u32 *block);
-void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays);
-s32 RomArchiveChildProc(FSFile *file, u32 command);
+void WFSi_OnChildSystemCallback(Unk0204c320 *record);
+void WFSi_OnParentSystemCallback(Unk0204c320 *record);
+void WFSi_PortCallback(RomArchivePortMessage *message);
+void WFSi_SetMPData(void);
+void WFSi_ReadRequest(FSFile *file);
+void WFSi_FromBusyToFree(RomArchiveParentView *view, RomArchiveFileNode *node);
+void WFSi_MoveList(RomArchiveFileNode **fromHead, RomArchiveFileNode **toHead, RomArchiveFileNode *node);
+void WFSi_SendOpenAck(RomArchiveParentView *view, RomArchiveFileNode *node, s32 c);
+void WFSi_SendAck(void);
+void WFSi_OnSendMessageDone(void);
+u32 WFSi_ReplaceRomArchive(u32 *block);
+void WFSi_LoadTables(FSFile *file, s32 appendOverlays);
+s32 WFSi_RomArchiveProc(FSFile *file, u32 command);

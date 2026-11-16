@@ -7,8 +7,8 @@
 #include "code_0212bcac.h"
 
 // 0x28-byte part at 0xa0 and 0xc8 of Unk020a826c: the four words at 0x00 go to func_0210b734 or func_0210b760 with
-// the value at 0x1c, 0x0c holds GetHorizontalCameraDistanceSquared's result for the vector at 0x10, 0x24 is set to 0, 1
-// or 2 (func_020a826c); func_020a8ed8 writes the vector at 0x10 and the word at 0x20.
+// the value at 0x1c, 0x0c holds mobj_calcXZCamDist's result for the vector at 0x10, 0x24 is set to 0, 1
+// or 2 (mobj0008_updateInstanceLogic); mobj0008_20A8ED8 writes the vector at 0x10 and the word at 0x20.
 typedef struct Unk020a826c_a0 {
     /* 00 */ Unk0210b7a8 mUnk_00;
     /* 10 */ Vec3 mSourcePos;
@@ -17,8 +17,8 @@ typedef struct Unk020a826c_a0 {
     /* 24 */ s32 mUnk_24;
 } Unk020a826c_a0;
 
-// Object of func_020a826c: the shared MapObject part, two Unk020a826c_a0 and a value at 0xf0 (0 to 6) that
-// selects what func_020a826c does.
+// Object of mobj0008_updateInstanceLogic: the shared MapObject part, two Unk020a826c_a0 and a value at 0xf0 (0 to 6) that
+// selects what mobj0008_updateInstanceLogic does.
 typedef struct Unk020a826c {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ Unk020a826c_a0 mUnk_0a0;
@@ -26,4 +26,4 @@ typedef struct Unk020a826c {
     /* 0f0 */ s32 mState;
 } Unk020a826c;
 
-void func_020a826c(void *a, Unk020a826c *p);
+void mobj0008_updateInstanceLogic(void *a, Unk020a826c *p);

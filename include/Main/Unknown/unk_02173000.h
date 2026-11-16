@@ -8,9 +8,9 @@ typedef struct Unk01ff9048 Unk01ff9048;
 typedef struct NNSGfdFrmPlttVramManager NNSGfdFrmPlttVramManager;
 typedef struct CallQueue CallQueue;
 
-extern u32 data_02173274;
+extern u32 gSpaRng;
 
-extern BOOL data_0217320c;
+extern BOOL NNS_G3dFlagUseFastDma;
 
 extern CallQueue data_02173220;
 extern NNSGfdFrmPlttVramManager data_02173214;
@@ -35,7 +35,7 @@ extern u8 data_021732a0[4];
 extern s32 data_021732a4;
 extern s32 data_021732a8;
 
-extern Unk01ff9048 *data_02173204;
-extern vu32 data_02173208;
+extern Unk01ff9048 *NNS_G3dGeBuffer;
+extern vu32 NNS_G3dFlagGXDmaAsync;
 
 #include "gfd_LinkedListTexVramMan.h"

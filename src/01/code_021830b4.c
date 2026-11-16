@@ -52,7 +52,7 @@ void func_ov001_02183ff4(Unk02188950 *donketu) {
     velocity.y = 0;
     velocity.z = donketu->mUnk_000.mPos.z;
     if ((s64) velocity.z * velocity.z + ((s64) velocity.x * velocity.x + (s64) velocity.y * velocity.y) >= 16) {
-        Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
+        vec_normalize(&velocity, &velocity);
     }
     scale = donketu->mPrm->mUnk_204;
     velocity.x = (s64) velocity.x * scale >> 12;
@@ -69,7 +69,7 @@ void func_ov001_02183ff4(Unk02188950 *donketu) {
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x423, 0);
     StartEffectAtWaterHeight(donketu, 0, 0, 0, 0x425, 0);
     StartModelEffectAtWaterHeight(donketu, 4, 0);
-    StartMapObjectSound(&donketu->mUnk_000, 0x244);
+    mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x244);
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
 }
 
@@ -93,7 +93,7 @@ void func_ov001_02183f0c(Unk02188950 *donketu) {
         Unk0210b7a8 soundRequest = {0x212, 0, 0xc, 0};
 
         soundRequest.mPositionSource = &donketu->mUnk_000.mPos;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&donketu->mUnk_000.mPos);
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&donketu->mUnk_000.mPos);
         func_0210b734(&soundRequest, func_02108e7c());
     }
     donketu->mUnk_000.mFlags |= data_ov001_021a6578;
@@ -106,7 +106,7 @@ void func_ov001_02183ed4(Unk02188950 *donketu) {
 }
 
 u32 func_ov001_02183ebc(Unk02188950 *donketu) {
-    StartMapObjectSoundWhileRequested(&donketu->mUnk_000, 0x00000243u);
+    mobj_emitSfxFromEmitter(&donketu->mUnk_000, 0x00000243u);
     return 0;
 }
 
@@ -129,7 +129,7 @@ void func_ov001_02183dec(Unk02188950 *donketu) {
 }
 
 s32 func_ov001_02183d94(Unk02188950 *donketu) {
-    SetAnglePointAndMoveAnglePoint(donketu, &GetKart((u16) gRaceSetup->mEntryIndex)->mPos);
+    SetAnglePointAndMoveAnglePoint(donketu, &driver_getById((u16) gRaceMultiConfig->mEntryIndex)->mPos);
     if (donketu->mSpeed < donketu->mPrm->mUnk_108) {
         SetKartCollisionCallback(donketu, func_ov001_02184874);
         func_ov001_02184e6c(donketu);
@@ -140,7 +140,7 @@ s32 func_ov001_02183d94(Unk02188950 *donketu) {
 void func_ov001_02183cc8(Unk02188950 *donketu) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(donketu, 2, func_ov001_02183d94);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_10c, donketu->mPrm->mUnk_110);
     func_ov001_02188c48(donketu, donketu->mPrm->mUnk_118, donketu->mPrm->mUnk_118);
@@ -186,7 +186,7 @@ void func_ov001_02183b9c(Unk02188950 *donketu) {
 void func_ov001_02183ad8(Unk02188950 *donketu) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(donketu, 3, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mUnk_0cc, donketu->mPrm->mUnk_0d0);
     func_ov001_02188c48(donketu, donketu->mPrm->mUnk_0d8, donketu->mPrm->mUnk_0d8);
@@ -194,9 +194,9 @@ void func_ov001_02183ad8(Unk02188950 *donketu) {
     SetSpeedAndClearTarget(donketu, donketu->mPrm->mUnk_0d4);
     SetPointInRangeCallback(donketu, 0, donketu->mPrm->mUnk_0e4, &kart->mPos, func_ov001_02183c08);
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
-        StartMapObjectSound(&donketu->mUnk_000, 0x214);
+        mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x214);
     } else if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-        StartMapObjectSound(&donketu->mUnk_000, 0x245);
+        mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x245);
     }
     func_ov001_02184e6c(donketu);
 }
@@ -264,16 +264,16 @@ void func_ov001_02183848(void) {
 
 int func_ov001_02183780(Unk02188950 *donketu) {
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-        if (GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 2 ||
-            GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 3) {
+        if (mobj_getModelCurNsbcaFrame(donketu->mNsbmd) == 2 ||
+            mobj_getModelCurNsbcaFrame(donketu->mNsbmd) == 3) {
             ReleaseEffects(donketu);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x666, -0x1000, 0x428, 0);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x666, -0x1000, 0x429, 0);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x800, -0x1000, 0x42a, 0);
-            StartMapObjectSound(&donketu->mUnk_000, 0x240);
+            mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x240);
         }
     }
-    if (IsRaceStarted() == 1) {
+    if (race_getState() == 1) {
         func_ov001_02183b9c(donketu);
     }
     return 0;
@@ -281,16 +281,16 @@ int func_ov001_02183780(Unk02188950 *donketu) {
 
 int func_ov001_02183690(Unk02188950 *donketu) {
     if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
-        if (GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 2) {
+        if (mobj_getModelCurNsbcaFrame(donketu->mNsbmd) == 2) {
             ReleaseEffects(donketu);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x666, -0x1000, 0x428, 0);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x666, -0x1000, 0x429, 0);
             func_ov001_021872e0(donketu, 0x1000, 0, 0, 0, 0x800, -0x1000, 0x42a, 0);
-            StartMapObjectSound(&donketu->mUnk_000, 0x240);
+            mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x240);
         }
     } else if (donketu->mUnk_000.mKind == MAP_OBJECT_KIND_BOSS_DONKETU) {
-        if (GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 0x2b ||
-            GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd) == 0x48) {
+        if (mobj_getModelCurNsbcaFrame(donketu->mNsbmd) == 0x2b ||
+            mobj_getModelCurNsbcaFrame(donketu->mNsbmd) == 0x48) {
             ReleaseEffects(donketu);
             StartEffectAtRowHeight(donketu, 0, 0, 0, 0x410, 0);
         }
@@ -301,12 +301,12 @@ int func_ov001_02183690(Unk02188950 *donketu) {
 s32 func_ov001_021835e0(Unk02188950 *donketu) {
     int nsbcaFrameIndex;
     if ((donketu->mUnk_000.mKind == 0x000001f6u) &&
-        (nsbcaFrameIndex = GetMapObjectModelNsbcaFrameIndex(donketu->mNsbmd), nsbcaFrameIndex == 2)) {
+        (nsbcaFrameIndex = mobj_getModelCurNsbcaFrame(donketu->mNsbmd), nsbcaFrameIndex == 2)) {
         ReleaseEffects(donketu);
         func_ov001_021872e0(donketu, 0x00001000u, 0, 0, 0, 0x00000666u, 0xfffff000u, 0x00000428u, 0);
         func_ov001_021872e0(donketu, 0x00001000u, 0, 0, 0, 0x00000666u, 0xfffff000u, 0x00000429u, 0);
         func_ov001_021872e0(donketu, 0x00001000u, 0, 0, 0, 0x00000800u, 0xfffff000u, 0x0000042au, 0);
-        StartMapObjectSound(&donketu->mUnk_000, 0x00000240u);
+        mobj_emitSfxFromEmitter2(&donketu->mUnk_000, 0x00000240u);
     }
     return 0;
 }
@@ -352,7 +352,7 @@ void InitDonketuObjects(Unk0218fa78 *list) {
             func_ov001_02187eb0(donketu);
             donketu->mUnk_000.mCourseMapRow->mUnk_00.x = 0;
             donketu->mUnk_000.mCourseMapRow->mUnk_00.z = 0;
-            if (GetRaceUseChainCameras() != 0) {
+            if (race_isCamAnimMode() != 0) {
                 func_ov001_021834c4(donketu);
             } else {
                 func_ov001_02183524(donketu);
@@ -360,16 +360,16 @@ void InitDonketuObjects(Unk0218fa78 *list) {
             func_ov001_02188da4(donketu, func_ov001_02183b9c);
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_02183848);
+    mgcnt_setOnEndFunc((void (*)(void)) func_ov001_02183848);
 }
 
 void UpdateDonketu(u32 b, Unk02188950 *donketu) {
     MissionRunPrm *prm;
     Kart *kart;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) {
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) {
         if (func_ov001_021871f8(donketu, 1) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead((u16) gRaceMultiConfig->mEntryIndex) : 0) {
                 func_ov001_02183850(donketu);
             } else {
                 func_ov001_02183f0c(donketu);
@@ -389,7 +389,7 @@ void UpdateDonketu(u32 b, Unk02188950 *donketu) {
                     prm = donketu->mPrm;
                     kart = GetEntryKartFacingObject(donketu, prm->mUnk_140, prm->mUnk_144);
                     if (kart != NULL) {
-                        if ((GetKart(kart->mIndex)->mUnk_48 & 0x100000) != 0 && kart->mBoostTimer > 0) {
+                        if ((driver_getById(kart->mIndex)->mUnk_48 & 0x100000) != 0 && kart->mBoostTimer > 0) {
                             func_ov001_02183dec(donketu);
                         }
                     }
@@ -412,26 +412,26 @@ void UpdateDonketu(u32 b, Unk02188950 *donketu) {
             func_ov001_02183894(donketu);
         }
     }
-    AdvanceMissionRunMapObject(b, donketu);
+    boss_update(b, donketu);
 }
 
-void func_ov001_02183294(Unk02188950 *donketu) {
-    donketu->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void donk_init(Unk02188950 *donketu) {
+    donketu->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource((SoundSource *) donketu->mUnk_000.mSound, 0xc, &donketu->mUnk_000.mPos);
     donketu->mUnk_000.mFarDistanceSquared = data_0217cbec[20];
 }
 
-void InitBossDonketu(Unk0218fa78 *list) {
+void LoadBoss_donketu(Unk0218fa78 *list) {
     Unk02188950 *donketu;
     s32 i;
 
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (donketu = list->mUnk_00[i]) != NULL; i++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
-            InitMissionRunMapObject(list, donketu, gBossDonketuNsbmdName, gBossDonketuNsbcaName, gBossDonketuPrmName);
-            LoadMissionRunMapObjectShadow(list, donketu, data_ov001_021a79e4);
+            boss_21870E4(list, donketu, aBoss_donketu_n, aBoss_donketu_0, aBoss_donketu_p);
+            LoadMissionRunMapObjectShadow(list, donketu, aSh_circle_nsbmd);
             SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
             SetShadowOffsetYAndScale(donketu, 0, 0x11000);
             SetKartCollisionCallback(donketu, func_ov001_02184874);
@@ -440,18 +440,18 @@ void InitBossDonketu(Unk0218fa78 *list) {
     }
 }
 
-void InitKingIceDonketu(Unk0218fa78 *list) {
+void LoadKing_ice_donketu(Unk0218fa78 *list) {
     Unk02188950 *donketu;
     s32 i;
 
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (donketu = list->mUnk_00[i]) != NULL; i++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(donketu);
             }
-            InitMissionRunMapObject(list, donketu, gKingIceDonketuNsbmdName, gKingIceDonketuNsbcaName,
-                                    gKingIceDonketuPrmName);
-            LoadMissionRunMapObjectShadow(list, donketu, data_ov001_021a7998);
+            boss_21870E4(list, donketu, aKing_ice_donke, aKing_ice_don_0,
+                                    aKing_ice_don_1);
+            LoadMissionRunMapObjectShadow(list, donketu, aSh_circle_nsbm);
             SetCollisionOffsetAndExtent(donketu, donketu->mPrm->mUnk_008, donketu->mPrm->mUnk_00c, 0);
             SetShadowOffsetYAndScale(donketu, 0, 0x21000);
             SetKartCollisionCallback(donketu, func_ov001_02184874);
@@ -460,26 +460,26 @@ void InitKingIceDonketu(Unk0218fa78 *list) {
 }
 
 void func_ov001_02183138(void *a, Unk02188950 *donketu) {
-    DrawMissionRunMapObject(a, donketu);
-    DrawMissionRunMapObjectShadow(a, donketu, 0);
+    boss_render(a, donketu);
+    boss_renderShadow(a, donketu, 0);
 }
 
-void func_ov001_02183104(void) {
+void donk_setupCollision(void) {
     u32 v4 = 0x23eu;
-    void *v8 = &CollideKartWithMissionRunMapObject;
-    void *v9 = &CollideItemWithMissionRunMapObject;
-    void *v10 = &ComputeSphereHitOnMissionRunMapObject;
+    void *v8 = &boss_onDriverCollide;
+    void *v9 = &boss_onItemCollide;
+    void *v10 = &boss_collide;
     void *v12 = func_ov001_0219b510(v8, v9, v10, 0x2u, 0x1u, v4, 0x0u);
 }
 
-void *CreateBossDonketuDrawList(void) {
-    return CreateMapObjectDrawList1(InitBossDonketu, func_ov001_02183138, ToggleShadowScale);
+void *donk_setupBossRenderPart(void) {
+    return mobj_createRenderPart3d(LoadBoss_donketu, func_ov001_02183138, ktesa_globalPreRender);
 }
 
-void *CreateKingIceDonketuDrawList(void) {
-    return CreateMapObjectDrawList1(InitKingIceDonketu, func_ov001_02183138, ToggleShadowScale);
+void *donk_setupKingIceRenderPart(void) {
+    return mobj_createRenderPart3d(LoadKing_ice_donketu, func_ov001_02183138, ktesa_globalPreRender);
 }
 
-void *CreateDonketuUpdateList(void) {
-    return CreateMapObjectUpdateList(InitDonketuObjects, UpdateDonketu, NULL);
+void *donk_setupLogicPart(void) {
+    return mobj_createLogicPart(InitDonketuObjects, UpdateDonketu, NULL);
 }

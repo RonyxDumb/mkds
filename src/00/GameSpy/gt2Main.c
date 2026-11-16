@@ -21,14 +21,14 @@ void SetUnmatchedDataCallback(Gt2Socket *a, UnkWordFunc *b) {
 
 void func_ov000_021988a4(Unk0219887c *connection, void *b) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x19c);
+        __msl_assertion_failed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x19c);
     }
     connection->mUnk_40 = b;
 }
 
 u8 *func_ov000_0219887c(Unk0219887c *object) {
     if (object == NULL) {
-        AssertionFailed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x1a3);
+        __msl_assertion_failed(data_ov000_021b3f8c, data_ov000_021b3f98, NULL, 0x1a3);
     }
     return object->mUnk_40;
 }

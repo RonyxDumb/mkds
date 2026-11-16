@@ -11,5 +11,5 @@ typedef struct HeapCall {
     /* 10 */ struct HeapCall *mParent;
 } HeapCall;
 
-void SetHeapCallFunc(HeapCall *call, u32 func);
-void InitHeapCall(HeapCall *call, u32 func);
+void proc_setMainFunc(HeapCall *call, u32 func);
+void proc_init(HeapCall *call, u32 func);

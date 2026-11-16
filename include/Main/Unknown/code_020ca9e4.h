@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void DrawEmblemChoises(void);
+void echoi_vblank(void);

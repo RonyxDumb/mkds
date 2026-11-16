@@ -79,7 +79,7 @@ typedef struct Unk0217b498_00 {
     /* c0 */ u16 mUnk_c0;
 } Unk0217b498_00;
 
-// Shared by the gRaceHudSubScreenItemBoxCells..gRaceHudSubScreenFireball2Cells lists and the ov001 pointers.
+// Shared by the mpicn_sItemboxIcon..mpicn_sFireball2Icon lists and the ov001 pointers.
 typedef struct RaceHudSubScreenCells {
     /* 00 */ Unk0217b498_00 **mObjects;
     /* 04 */ s32 mCellCount;
@@ -88,7 +88,7 @@ typedef struct RaceHudSubScreenCells {
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
-// Halfwords from 0x02 of Unk0217b490 read by UpdateRaceHudSubScreenBgPalette when gRaceSetup->mUnk_00 is 0x20: six, two
+// Halfwords from 0x02 of Unk0217b490 read by UpdateRaceHudSubScreenBgPalette when gRaceMultiConfig->mUnk_00 is 0x20: six, two
 // rows of three and two.
 typedef struct Unk0217b490_02_03 {
     /* 00 */ u16 mUnk_00[6];
@@ -97,7 +97,7 @@ typedef struct Unk0217b490_02_03 {
 } Unk0217b490_02_03;
 
 // The halfwords from 0x02 of Unk0217b490 as UpdateRaceHudSubScreenBgPalette and func_020cfca4 index them for the values
-// of gRaceSetup->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
+// of gRaceMultiConfig->mUnk_00: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
 // Unk0217b490_02_03 (0x20).
 typedef union Unk0217b490_02 {
     u16 mUnk_00[0x15];
@@ -112,13 +112,13 @@ typedef struct Unk0217b490 {
     /* 02 */ Unk0217b490_02 mUnk_02;
 } Unk0217b490;
 
-// Pair of numbers "course number, course count" drawn on the main screen before start-sequence frame 0xb4, only in mode
-// 5 and in mode 3 with gRaceSetup->mUnk_1c == 2 (DrawRaceMNumberPair), one record behind gRaceMNumberPair (0x28
-// bytes, InitRaceMNumberPair); mUnk_08 .. mUnk_20 are the slide-in animation state. mUnk_18 points into mUnk_08.
+// Pair of numbers "course number, course count" drawn on the NitroMain screen before start-sequence frame 0xb4, only in mode
+// 5 and in mode 3 with gRaceMultiConfig->mUnk_1c == 2 (r2d_renderRaceNumber), one record behind gRaceMNumberPair (0x28
+// bytes, r2d_initRaceNumber); mUnk_08 .. mUnk_20 are the slide-in animation state. mUnk_18 points into mUnk_08.
 typedef struct RaceMNumberPair {
-    // Copy of gRaceSetup->mCourseNumber taken in InitRaceMNumberPair.
+    // Copy of gRaceMultiConfig->mCourseNumber taken in r2d_initRaceNumber.
     /* 00 */ s32 mCourseNumber;
-    // Number of courses of the run: 4 in mode 5, gRaceSetup->mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
+    // Number of courses of the run: 4 in mode 5, gRaceMultiConfig->mUnk_3d8 in mode 3 with mUnk_1c == 2, else 0 (not
     // drawn). mUnk_3d8 has another meaning (score threshold) in mode 2 and for mUnk_1c == 1; this member never copies
     // that one.
     /* 04 */ s32 mCourseCount;
@@ -127,7 +127,7 @@ typedef struct RaceMNumberPair {
     /* 1c */ s32 mScale;
     /* 20 */ u16 mMatrixIndex;
     /* 22 */ u8 mUnk_22[2];
-    // X added to every sprite of the pair: 0, or eased by InterpolateS16 (func_020d1de8) for the slide-in.
+    // X added to every sprite of the pair: 0, or eased by mutil_interpolate (r2d_20D1DE8) for the slide-in.
     /* 24 */ s32 mOffsetX;
 } RaceMNumberPair;
 
@@ -147,7 +147,7 @@ typedef struct ViewFrustum {
     /* 54 */ BOOL mViewTestRefreshPending;
 } ViewFrustum;
 
-// Object behind gEmblemChoises, 0x6c bytes (InitEmblemChoises allocates it); DrawEmblemChoises calls the function at
+// Object behind echoi_sState, 0x6c bytes (echoi_init allocates it); echoi_vblank calls the function at
 // 0x0c.
 typedef struct EmblemChoises {
     /* 00 */ s32 mShown;
@@ -169,7 +169,7 @@ typedef struct EmblemChoises {
     /* 68 */ struct Nscr *mChoisesS3Nscr;
 } EmblemChoises;
 
-// 16-byte rows of the table behind gGrpconfTbl (CreateMapObject reads the halfwords).
+// 16-byte rows of the table behind mobj_sGrpconfTbl (mobj_createObject reads the halfwords).
 typedef struct GrpconfTblRow {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
@@ -181,9 +181,9 @@ typedef struct GrpconfTblRow {
     /* 0e */ u16 mUnk_0e;
 } GrpconfTblRow;
 
-extern void *gHole;
-extern void *gCover;
-extern void *gPoo;
+extern void *poo_sHoleModel;
+extern void *poo_sCoverModel;
+extern void *poo_sPooModel;
 extern u16 gSearchStartIndex;
 extern s32 gEntryYDifferenceLimit;
 extern Unk02165ff0 *data_0217b030;
@@ -191,7 +191,7 @@ extern Unk02165ff0 *data_0217b030;
 // Objects whose layout isn't known yet.
 struct SPLManager;
 
-// Object behind gKartPhysicalParamTable (0x14 bytes), made once per race: the per-slot records (mKartParams) and
+// Object behind physp_sPhysicalParams (0x14 bytes), made once per race: the per-slot records (mKartParams) and
 // character rows (mCharParams) and the two loaded files. mFirstBaseSpeedLimit is a copy of file word 0x10.
 typedef struct KartPhysicalParamTable {
     /* 00 */ u8 *mKartParams;
@@ -201,25 +201,25 @@ typedef struct KartPhysicalParamTable {
     /* 10 */ u8 *mCharParamFile;
 } KartPhysicalParamTable;
 
-extern KartPhysicalParamTable *gKartPhysicalParamTable;
+extern KartPhysicalParamTable *physp_sPhysicalParams;
 
-extern struct SPLManager *gMissionRunSPLManager;
+extern struct SPLManager *ptcm_sMissionEffectParticleSet;
 
-extern struct SPLManager *data_0217b044;
-extern struct SPLManager *data_0217b04c;
-extern UnkFunc *data_0217b054;
+extern struct SPLManager *ptcm_sRaceEffectParticleSet;
+extern struct SPLManager *ptcm_sRaceEffectFogOffParticleSet;
+extern UnkFunc *ptcm_sSpecialParticleUpdateFunc;
 
-// Function pointers set by RegisterKartAiCallbacks (the targets take different parameters).
-extern UnkFunc *gKartAiAdvanceCallback;
-extern UnkFunc *gKartAiSetupCallback;
+// Function pointers set by enmy_setupFunctions (the targets take different parameters).
+extern UnkFunc *enmy_sUpdateFunc;
+extern UnkFunc *enmy_sInitFunc;
 extern UnkFunc *gKartAiResetCallback;
-extern UnkFunc *gKartAiLinkPosAndDirectionCallback;
-extern UnkFunc *gKartAiSetupHeldItemEntryCallback;
-extern UnkFunc *gKartAiSetupItemInUseEntryCallback;
-extern UnkFunc *gKartAiRequestLinkCallback;
-extern s32 (*gKartAiIsLinkRequestedCallback)();
-// Table of KartTurnEffects, one per Kart, allocated by InitKartTurnEffects and indexed by Kart.mIndex.
-extern struct KartTurnEffects *gKartTurnEffects;
+extern UnkFunc *enmy_sGetTargetPosDirFunc;
+extern UnkFunc *enmy_sNotifySlotItemChangedFunc;
+extern UnkFunc *enmy_sNotifyDragItemChangedFunc;
+extern UnkFunc *enmy_sRecalculateRouteFunc;
+extern s32 (*enmy_sGetIsAreaPointNotNullFunc)();
+// Table of KartTurnEffects, one per Kart, allocated by dptc_init and indexed by Kart.mIndex.
+extern struct KartTurnEffects *dptc_sDriverControllers;
 struct ModelEffect;
 
 // The ModelEffect pools: an active list, one free list per kind, and the next polygon id (10 to 13).
@@ -231,10 +231,10 @@ typedef struct ModelEffects {
     /* 5e */ u8 mUnk_5e[2];
 } ModelEffects;
 
-extern ModelEffects *gModelEffects;
-extern s32 data_0217b07c;
-// Particle effect ids func_0208d978 starts with a kind 2 object; -1 marks an unused entry.
-extern s32 gKind2EffectIds[2];
+extern ModelEffects *expl_sState;
+extern s32 expl_sIsSplashModelSet;
+// Particle effect ids expl_spawnSplash starts with a kind 2 object; -1 marks an unused entry.
+extern s32 expl_sSplashPtclIds[2];
 extern KartAiItemUseEntry *gBattleItemInUseEntries;
 
 // The strip pool, 0x38 bytes: the active strips, the free strips, the free points and the texture file.
@@ -245,7 +245,7 @@ typedef struct PosStrips {
     /* 34 */ s32 mPolygonAttrBits;
 } PosStrips;
 
-extern PosStrips *gPosStrips;
+extern PosStrips *trl_sState;
 extern UnkFunc *gUseItemCircleKindCallback;
 extern UnkFunc *gUseItemNotCircleKindCallback;
 extern UnkFunc *gThrowItemNotCircleKindCallback;
@@ -253,9 +253,9 @@ extern UnkFunc *gThrowItemCircleKindCallback;
 extern UnkFunc *gThrowItemNotTrailKindCallback;
 extern UnkFunc *gThrowItemTrailKindCallback;
 extern KartAiItemUseEntry *gBattleHeldItemEntries;
-extern s32 *gStaffGhostTime;
-extern void *gSmanBottom;
-extern void *gSmanTop;
+extern s32 *unlock_sStaffGhostTime;
+extern void *sman_sBottomModel;
+extern void *sman_sTopModel;
 
 // The 0x10 bytes at 0x784 of StemSets; the callbacks at 0x794 and 0x798 get their address.
 typedef struct TimedQuad {
@@ -267,12 +267,12 @@ typedef struct TimedQuad {
     /* 0c */ u8 mUnk_0c[4];
 } TimedQuad;
 
-// Object behind gStemSets, 0x79c bytes.
+// Object behind rwrd_sState, 0x79c bytes.
 typedef struct StemSets {
     // Entries 0 to 7 are the sets; entry 8 is a copy of the one shown.
     /* 000 */ StemSet *mSets[9];
     /* 024 */ u8 mUnk_024[0x718];
-    // Index of the set DrawStemSets draws; 9 means none.
+    // Index of the set rwrd_render draws; 9 means none.
     /* 73c */ s32 mShownIndex;
     /* 740 */ u16 mShownFrames;
     /* 742 */ u16 mShownFrameCount;
@@ -282,9 +282,9 @@ typedef struct StemSets {
     /* 798 */ void (*mUpdateFunction)(TimedQuad *);
 } StemSets;
 
-extern StemSets *gStemSets;
-extern u32 gUnparkedTeresaCount;
-extern void *gChandelier;
+extern StemSets *rwrd_sState;
+extern u32 tesa_sActiveInstanceCount;
+extern void *chnd_sModel;
 // One kart's entry of Standings (0x70 bytes, indexed by kart index): its count, rank, side id, elimination status and
 // last position, and the hit tracking of the kart (those members keep their address names). Slots past the kart count
 // are unused: status 2, count -1.
@@ -319,8 +319,8 @@ typedef struct KartStanding {
     /* 6c */ s32 mInflatingBalloon;
 } KartStanding;
 
-// Per-kart table of the modes that play with kart counts (modes 2 and 4): the one object behind gStandings, made by
-// InitStandings from InitRace and stepped once per UpdateRace call. It ranks the karts by count (mKarts), keeps who is
+// Per-kart table of the modes that play with kart counts (modes 2 and 4): the one object behind mgcnt_sMinigameController, made by
+// mgcnt_init from race_init and stepped once per race_update call. It ranks the karts by count (mKarts), keeps who is
 // eliminated, the winning side, the end timer and its callbacks. The name covers only the ranking and winner part: the
 // kart-to-kart hit tracking, the four hit callbacks that act on a hit, a time-limit step and a random course point are
 // in the same object too (those members keep their address names). 0x3c0 bytes, the allocation size.
@@ -344,11 +344,11 @@ typedef struct Standings {
     /* 390 */ void (*mEndCallback)(void);
     /* 394 */ u8 mUnk_394[8];
     // Called in Battle with the kart index and the address of a Vec3 when a kart is placed or pushed: the position
-    // change of a kart set to a checkpoint position, the position change in func_02068494, and the push vector of a map
+    // change of a kart set to a checkpoint position, the position change in driver_2068494, and the push vector of a map
     // object that a kart pushed; set by the balloon object, which adds that Vec3 to the positions of the kart's
     // balloons.
     /* 39c */ void (*mKartOffsetCallback)(s32, s32);
-    // Number of Shine16 objects placed and not yet finished: AddShineCount changes it (+1 placed, -1 finished); the
+    // Number of Shine16 objects placed and not yet finished: mgcnt_updateCollectableShineCount changes it (+1 placed, -1 finished); the
     // spawner stops placing at 3. Parking every shine at once, as the shine mode's end callback does, does not
     // subtract.
     /* 3a0 */ u16 mShineCount;
@@ -360,7 +360,7 @@ typedef struct Standings {
     // race-progress end step, which sets -1 and runs the callback.
     /* 3a8 */ s32 mEndTimer;
     // Highest KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort (the two functions that
-    // swap ranks recompute it; AddBalloonOrShineCountAndMoveRank, which adds to a count, does not).
+    // swap ranks recompute it; mgcnt_updateDriverBalloonShineCount, which adds to a count, does not).
     /* 3ac */ s32 mHighestBalloonOrShineCount;
     // Lowest non-negative KartStanding.mBalloonOrShineCount over the karts, as of the last rank re-sort; 0xffff when no
     // kart has a non-negative count.
@@ -371,13 +371,13 @@ typedef struct Standings {
     /* 3b4 */ s32 mWinnerTeamId;
     /* 3b8 */ u16 mUnk_3b8;
     /* 3ba */ u8 mUnk_3ba[2];
-    // Pointer to entry 0 of the kind 0x69 object's KartBalloons array; set once by InitKartBalloons.
+    // Pointer to entry 0 of the kind 0x69 object's KartBalloons array; set once by blncnt_init.
     /* 3bc */ struct KartBalloons *mKartBalloons;
 } Standings;
 
-// The Standings object, allocated by InitStandings in modes 2 and 4.
-extern Standings *gStandings;
-extern void *gBalloon;
+// The Standings object, allocated by mgcnt_init in modes 2 and 4.
+extern Standings *mgcnt_sMinigameController;
+extern void *blln_sModel;
 extern Vec3 data_0217b208;
 extern Vec3 data_0217b214;
 // 8-byte entries of the tables KeyboardKeys points to (FindKeyboardRectByValue returns one).
@@ -403,7 +403,7 @@ typedef struct KeyboardLayout {
     /* 0e */ u16 mRectCount;
 } KeyboardLayout;
 
-// Four halfwords at 0x34 of KeyboardKeys (IsRepeatCounterFiring, AdvanceRepeatCounter).
+// Four halfwords at 0x34 of KeyboardKeys (KBD_IsTriggerAutoRepeat, KBD_UpdateAutoRepeat).
 typedef struct RepeatCounter {
     /* 00 */ u16 mRepeatFrames;
     /* 02 */ u16 mFirstFireFrame;
@@ -411,8 +411,8 @@ typedef struct RepeatCounter {
     /* 06 */ u16 mUnk_06;
 } RepeatCounter;
 
-// Object at gKeyboardKeyRepeat: an RepeatCounter followed by two halfwords (AdvanceKeyboardKeyRepeat,
-// SetupKeyboardKeyRepeat).
+// Object at gKeyboardKeyRepeat: an RepeatCounter followed by two halfwords (KBD_UpdatePadRepeat,
+// KBD_InitPadRepeat).
 typedef struct KeyboardKeyRepeat {
     /* 00 */ RepeatCounter mCounter;
     /* 08 */ u16 mKeyMask;
@@ -447,7 +447,7 @@ extern u8 data_0217b280[];
 extern u16 data_0217b2b8[2];
 extern KeyboardLayout data_0217b294;
 extern RepeatCounter data_0217b2ac;
-// Object at gKeyboardInput, 0x28 bytes (AdvanceKeyboardInput updates it, ClearKeyboardInput clears it).
+// Object at gKeyboardInput, 0x28 bytes (KBD_UpdatePadTpInputValue updates it, KBD_ClearPadTpInput clears it).
 typedef struct KeyboardInput {
     /* 00 */ s32 mUnk_00;
     /* 04 */ u16 mKeysPressed;
@@ -508,7 +508,7 @@ typedef struct KeyboardTextEntry {
 
 extern KeyboardTextEntry *gKeyboardTextEntry;
 extern u16 *gKbdmapHiragana;
-extern void *gShineBalloon;
+extern void *sblln_sModel;
 typedef struct TitleStateHandlers {
     /* 00 */ UnkFunc *mUnk_00;
     /* 04 */ void (*mUpdate)(s32);
@@ -555,8 +555,8 @@ typedef struct TitleScene {
     /* 8b8 */ u8 *mCharacterKartPicks;
 } TitleScene;
 
-extern TitleScene *gTitleScene;
-extern const TitleStateHandlers gTitleStateHandlers[7];
+extern TitleScene *sTitleSceneState;
+extern const TitleStateHandlers sTitleSceneStates[7];
 extern u8 data_0217b344[];
 extern u16 *data_0217b34c;
 // 0x20 bytes: four words, then four more words.
@@ -568,18 +568,18 @@ typedef struct Unk0217b350_858 {
     /* 1c */ s32 mUnk_1c;
 } Unk0217b350_858;
 
-// On-screen display of the race, one record behind gRaceHud (0x914 bytes, allocated by func_020b03bc on the scene heap,
+// On-screen display of the race, one record behind r2d_sStatus (0x914 bytes, allocated by r2d_init on the scene heap,
 // set NULL by the release slot func_020af86c, never freed). It holds the two 0x400-byte sprite entry buffers the
-// element draws append to (mUnk_004 for the main screen, mSubOam for the sub screen, copied to 0x07000000 /
+// element draws append to (mUnk_004 for the NitroMain screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
-// 5 and 6 of gRaceSetup->mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
+// 5 and 6 of gRaceMultiConfig->mUnk_00c (the scene slots run RaceStartGp / EndingStaffRoll there).
 // Words from 0x828 to 0x910 are read and written by func_020aeb7c. The pointers at 0x80c to 0x824 are written through
-// LoadNclrData, LoadNcgrData and LoadNscrData.
+// g2du_unpackPaletteData, g2du_unpackCharacterDataBG and g2du_unpackScreenData.
 typedef struct RaceHud {
-    // Calls of the step func_020af66c that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
+    // Calls of the step race_update2d that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
     // 0xc00. An animation clock: read by the upload slot (value / 6 = scroll of the sub-screen page 0) and by
-    // GetRaceHudUpdateFrames (value / 32).
+    // r2d_20B1DD0 (value / 32).
     /* 000 */ s32 mUpdateFrames;
     /* 004 */ u8 mMainOam[0x400];
     /* 404 */ u16 mMainOamCount;
@@ -610,18 +610,18 @@ typedef struct RaceHud {
     /* 850 */ s32 mUnk_850;
     /* 854 */ s32 mSubScreenCourseScale;
     /* 858 */ Unk0217b350_858 mUnk_858[2];
-    // FALSE from func_020b03bc until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
+    // FALSE from r2d_init until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
     // again); the step, the draw, the page choice and the upload slot return at once while FALSE.
     /* 898 */ BOOL mEnabled;
     /* 89c */ s32 mKartRemoved[8];
     /* 8bc */ s32 mRemovedSoundPlayed[8];
     /* 8dc */ s32 mShowLapTime;
     /* 8e0 */ s32 mShowLapTimeFrames;
-    // Set once in func_020b03bc: 1 only in mode 1 with more than one kart; gates func_020b1a34 (the computation) and
+    // Set once in r2d_init: 1 only in mode 1 with more than one kart; gates func_020b1a34 (the computation) and
     // the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
-    // ComputeTimeDifference's return: non-zero when the entry's summed lap times (GetKartLapTime) are >= the summed
-    // reference times (gRaceSetup->mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
+    // ComputeTimeDifference's return: non-zero when the entry's summed lap times (rstat_getDriverLapTime) are >= the summed
+    // reference times (gRaceMultiConfig->mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
     // minus is not named.
     /* 8e8 */ s32 mTimeDifferenceSign;
     // The difference as seven digits (SplitTimeDigits), written by func_020b1a34, read through GetRaceHudTimeDifference
@@ -633,9 +633,9 @@ typedef struct RaceHud {
     /* 910 */ s32 mUnk_910;
 } RaceHud;
 
-extern RaceHud *gRaceHud;
+extern RaceHud *r2d_sStatus;
 struct ChoisesS;
-extern struct ChoisesS *gChoisesS;
+extern struct ChoisesS *rchoi_sState;
 struct RaceNcerNclrNcgrTables;
 extern struct RaceNcerNclrNcgrTables *gRaceNcerNclrNcgrTables;
 // 8-byte elements at the start of RaceRankList.
@@ -669,7 +669,7 @@ typedef struct RaceRankList {
 } RaceRankList;
 
 extern RaceRankList *gRaceRankList;
-// Object behind gRaceHudSubScreenCellGroups, 0x25c bytes, allocated by InitRaceHudSubScreenCellGroups.
+// Object behind mpicn_sIconData, 0x25c bytes, allocated by mpicn_init.
 typedef struct RaceHudSubScreenCellGroups {
     /* 000 */ u16 mUnk_000;
     /* 004 */ s32 mScale;
@@ -680,8 +680,8 @@ typedef struct RaceHudSubScreenCellGroups {
     /* 198 */ void (*mDrawFunctions[49])(void *);
 } RaceHudSubScreenCellGroups;
 
-extern RaceHudSubScreenCellGroups *gRaceHudSubScreenCellGroups;
-// Object behind gRaceGoalS, 0x20e4 bytes, allocated by InitRaceGoalS.
+extern RaceHudSubScreenCellGroups *mpicn_sIconData;
+// Object behind r2d_sResults, 0x20e4 bytes, allocated by r2dres_init.
 typedef struct RaceGoalS {
     /* 0000 */ s32 mRowVisible[8];
     /* 0020 */ s32 mShownNumbers[8];
@@ -703,28 +703,28 @@ typedef struct RaceGoalS {
     /* 20e0 */ s32 mOffset;
 } RaceGoalS;
 
-extern RaceGoalS *gRaceGoalS;
-extern struct RaceStartGp *gRaceStartGp;
+extern RaceGoalS *r2d_sResults;
+extern struct RaceStartGp *cint_sStatus;
 extern struct RaceGoalM *gRaceGoalM;
-extern struct RaceNewRecordTa *gRaceNewRecordTa;
+extern struct RaceNewRecordTa *r2dtar_sStatus;
 extern s32 data_0217b3f8;
-extern EmblemChoises *gEmblemChoises;
-extern struct MenuScene *data_0217b43c;
+extern EmblemChoises *echoi_sState;
+extern struct MenuScene *gMenuSceneState;
 extern struct CupPicture *gCupPicture;
-extern struct Unk0217b4b0 *data_0217b4b0;
-extern struct RandomState64 *gRaceRandom;
-extern struct RandomState64 *gMapObjectRandom;
-// The same pointer as gWaterEfct, stored by SetCourseWaterEfct (the last call of CreateWaterEfct) and set to NULL in
-// InitMapObjects; the water_efct getters and the level getter read this one.
-extern WaterEfct *gCourseWaterEfct;
-extern Vec3 *gFoundMapObjectVectors;
-extern s32 data_0217b4e0;
-// The same pointer as gWater, stored by SetCourseWater (the last call of each Create...Water) and set to NULL in
-// InitMapObjects before the objects are created, so NULL means the course has no water; the update, draw, getters and
-// camera read this one, while gWater (never cleared) is only the creators' variable.
-extern struct Water *gCourseWater;
-extern s32 gMapObjectKindCount;
-extern struct MapObjects *gMapObjects;
+extern struct Unk0217b4b0 *sStatic2dData;
+extern struct RandomState64 *mobj_sSafeRng;
+extern struct RandomState64 *mobj_sRng1;
+// The same pointer as gSplashState, stored by mobj_setSplashStatePointer (the last call of water_initSplash) and set to NULL in
+// mobj_init; the water_efct getters and the level getter read this one.
+extern WaterEfct *gMObjSplashState;
+extern Vec3 *mobj_sQueryPushbacks;
+extern s32 mobj_sUseSimpleHitResponses;
+// The same pointer as gWaterState, stored by mobj_setWaterStatePointer (the last call of each Create...Water) and set to NULL in
+// mobj_init before the objects are created, so NULL means the course has no water; the update, draw, getters and
+// camera read this one, while gWaterState (never cleared) is only the creators' variable.
+extern struct Water *gMObjWaterState;
+extern s32 mobj_sAvailableObjectCount;
+extern struct MapObjects *gMapObjState;
 extern s32 data_0217b4f4;
 extern ViewFrustum gViewFrustum;
 extern ViewFrustum gViewFrustumBeforeRotation;
@@ -733,58 +733,58 @@ extern struct RockUpdateList *data_0217b654;
 extern struct ShadowModel *gRockShadow;
 extern struct Nsbmd *gRock;
 extern struct Quaternion gViewYawQuaternion;
-extern struct GroupPath *gGroupPaths;
-extern struct Unk020db20c *gKuriboDrawList;
-extern struct Unk020db1b0 *gKuriboUpdateList;
-extern NsbmdModel *gKuribo;
-extern struct Nsbmd *gDossun;
-extern struct Unk020dbe74 *gDossunUpdateList;
-extern struct ShadowModel *gDossunShadow;
-extern struct Unk020dbed0 *gDossunDrawList;
-extern MtxFx43 gDossunDrawMatrix;
-extern struct Nsbmd *gWanwan;
-extern struct ShadowModel *gWanwanRockShadow;
-extern MapObjectDrawList *data_0217b6dc;
-extern MapObjectList *data_0217b6e0;
-extern NsbmdModel *gWanwanKui;
-extern NsbmdModel *gWanwanChain;
-extern MapObjectList *gEarthenPipeUpdateList;
-extern NsbmdModel *gEarthenPipe1;
-extern NsbmdModel *gEarthenPipe2;
-extern MapObjectDrawList *gEarthenPipeDrawList;
+extern struct GroupPath *pRTPathArray;
+extern struct Unk020db20c *kuribo_sRenderPart;
+extern struct Unk020db1b0 *kuribo_sLogicPart;
+extern NsbmdModel *kuribo_sModel;
+extern struct Nsbmd *dossun_sModel;
+extern struct Unk020dbe74 *dossun_sLogicPart;
+extern struct ShadowModel *dossun_sShadowModel;
+extern struct Unk020dbed0 *dossun_sRenderPart;
+extern MtxFx43 dossun_sRotMtx;
+extern struct Nsbmd *wanwan_sModel;
+extern struct ShadowModel *wanwan_sShadowModel;
+extern MapObjectDrawList *wwchn_sRenderPart;
+extern MapObjectList *wwchn_sLogicPart;
+extern NsbmdModel *wwchn_sKuiModel;
+extern NsbmdModel *wwchn_sChainModel;
+extern MapObjectList *epipe_sLogicPart;
+extern NsbmdModel *epipe_sModel1;
+extern NsbmdModel *epipe_sModel2;
+extern MapObjectDrawList *epipe_sRenderPart;
 extern u16 data_0217b6fc;
 extern MapObjectDrawList *gQuestionDrawList;
 extern BoxRotation *gBoxRotations;
 extern QuestionRotation *gQuestionRotations;
 extern MapObjectDrawList *gBoxDrawList;
-extern NsbmdModel *gQuestion;
+extern NsbmdModel *ibox_sQuestionModel;
 extern MapObjectDrawList *data_0217b714;
-extern MapObjectList *gItemBoxUpdateList;
-extern NsbmdModel *gBox;
+extern MapObjectList *ibox_sLogicPart;
+extern NsbmdModel *ibox_sBoxModel;
 extern MtxFx43 data_0217b720;
 extern u16 data_0217b750;
 extern s32 data_0217b754;
-extern MapObjectList *gGroupItemBoxUpdateList;
+extern MapObjectList *mibox_sLogicPart;
 extern s32 data_0217b75c;
 extern Vec3 data_0217b760;
 extern Unk020dfc44 *data_0217b76c;
 extern void *gMkdEfBubble;
 extern MapObjectDrawList *data_0217b774;
 extern void *gMkdEfBubbleNsbta;
-extern void *gKoopaBlock;
+extern void *kblock_sModel;
 extern NsbmdModel *gChoropu;
 extern NsbmdModel *gPukupuku;
-extern Unk020e53ac *data_0217b814;
-extern NsbmdModel *gObPakkunSf;
+extern Unk020e53ac *oshd_sModelMat;
+extern NsbmdModel *obpak_sModel;
 extern MtxFx43 *gTranslationMatrix;
-extern MtxFx43 *gViewTransposeMatrix;
-extern MtxFx43 *data_0217b84c;
+extern MtxFx43 *bbm_sBillboardMtx;
+extern MtxFx43 *bbm_sCustomUpAxisBillboardMtx;
 extern MtxFx43 *data_0217b850;
-extern MtxFx43 *gViewMatrix;
+extern MtxFx43 *bbm_sCameraMtx;
 extern s32 *data_0217b858;
 extern MtxFx43 *data_0217b85c;
-extern MtxFx43 *data_0217b860;
-extern u16 *data_0217b868;
+extern MtxFx43 *bbm_sYBillboardMtx;
+extern u16 *fwdst_sCCDependentSettings;
 extern s32 data_0217bc5c;
 extern s32 data_0217bc60;
 
@@ -799,7 +799,7 @@ typedef struct RaceModeCount {
         u16 mNumberHalves[2];
     };
     /* 04 */ s32 mMissionRunCountLimit;
-    // 1 from init; cleared by DrawRaceModeCount once the time attack key recording is full; IsRaceKeyRecordingNotFull
+    // 1 from init; cleared by r2d_20B9DFC once the time attack key recording is full; IsRaceKeyRecordingNotFull
     // reads it.
     /* 08 */ s32 mKeyRecordingNotFull;
 } RaceModeCount;
@@ -814,7 +814,7 @@ typedef struct RaceItemSlotScale {
     /* 10 */ s32 mScaleYTarget;
 } RaceItemSlotScale;
 
-// Object behind gRaceItemSlot, 0x2c bytes, allocated by InitRaceItemSlot.
+// Object behind gRaceItemSlot, 0x2c bytes, allocated by r2d_initItemSpinner.
 typedef struct RaceItemSlot {
     /* 00 */ s32 mScrollY;
     /* 04 */ s32 mSlotFrames;
@@ -859,7 +859,7 @@ typedef struct Matrix2x2 {
     /* 0c */ s32 mUnk_0c;
 } Matrix2x2;
 
-// Object behind gRaceTaPositions, 0x910 bytes, allocated by InitRaceTaPositions.
+// Object behind r2d_sMapPath, 0x910 bytes, allocated by r2d_initMapPath.
 typedef struct RaceTaPositions {
     /* 000 */ s32 mVisible;
     /* 004 */ s32 mKartVisible[2];
@@ -869,7 +869,7 @@ typedef struct RaceTaPositions {
     /* 810 */ Matrix2x2 mRotations[16];
 } RaceTaPositions;
 
-extern RaceTaPositions *gRaceTaPositions;
+extern RaceTaPositions *r2d_sMapPath;
 // Object behind gRaceLinkLevel.
 typedef struct Unk0217b3ec {
     /* 00 */ s32 mUnk_00;
@@ -881,7 +881,7 @@ typedef struct Unk0217b3ec {
 
 extern Unk0217b3ec *gRaceLinkLevel;
 extern Unk0217b3ec *gRaceLapNumber;
-// Object behind gRaceHudSubScreenSecondHand, 0x44 bytes allocated by CreateRaceHudSubScreenSecondHand: a table of
+// Object behind mpicn_sSecondHandIcon, 0x44 bytes allocated by mpicn_createSecondHandIcon: a table of
 // object pointers and two counts (as in RaceHudSubScreenCells), three halfwords and two arrays of three pairs.
 typedef struct RaceHudSubScreenSecondHand {
     /* 00 */ struct Unk020e1e98 **mObjects;
@@ -893,7 +893,7 @@ typedef struct RaceHudSubScreenSecondHand {
     /* 2c */ Unk0217b498_0c mUnk_2c[3];
 } RaceHudSubScreenSecondHand;
 
-// Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by CreateRaceHudSubScreenKarts: arrays of eight entries
+// Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by mpicn_createDriverIcon: arrays of eight entries
 // and an RaceHudSubScreenCells pointer at 0x190.
 typedef struct RaceHudSubScreenKarts {
     /* 000 */ s32 mUnk_000[8];
@@ -909,28 +909,28 @@ typedef struct RaceHudSubScreenKarts {
     /* 190 */ RaceHudSubScreenCells *mUnk_190;
 } RaceHudSubScreenKarts;
 
-extern RaceHudSubScreenSecondHand *gRaceHudSubScreenSecondHand;
+extern RaceHudSubScreenSecondHand *mpicn_sSecondHandIcon;
 extern RaceHudSubScreenKarts *gRaceHudSubScreenKarts;
 extern struct RaceGoalTimes *gRaceGoalTimes;
 extern u8 data_0217b4a8[];
 extern struct EndingStaffRollObject *gEndingStaffRoll;
 extern RaceMNumberPair *gRaceMNumberPair;
-extern u16 data_0217b4c0;
-extern u16 gWrappingPolygonId;
-extern u16 gWrappingPolygonIdBase;
-extern u16 data_0217b4cc;
-extern u16 gNextPolygonId;
-extern GrpconfTblRow *gGrpconfTbl;
-extern MapObject **gFoundMapObjects;
-extern u8 data_0217b7c4[];
-extern u8 gMapObjectPositionByTableIndex[];
+extern u16 mobj_sMaxStaticPolygonId;
+extern u16 mobj_sCurCyclicPolygonId;
+extern u16 mobj_sMinCyclicPolygonId;
+extern u16 mobj_sMinStaticPolygonId;
+extern u16 mobj_sCurStaticPolygonId;
+extern GrpconfTblRow *mobj_sGrpconfTbl;
+extern MapObject **mobj_sQueryResult;
+extern u8 bridge_sRenderPart[];
+extern u8 fwdst_sPositions[];
 // Indexed by object kind; 14 slots, 13 files (kind 8 aliases kind 7)
-extern NsbmdModel *gItemModels[];
+extern NsbmdModel *it_sBillboardModels[];
 struct ItemObject;
 
 extern struct ItemObject **gCollidedItemObjects;
 
-extern void *gSPLManagerHeap;
+extern void *ptcm_sParticleHeap;
 extern s32 gKeyboardOffsetX;
 extern s32 gKeyboardOffsetY;
 extern u16 *gCharTablePair3[2];
@@ -954,8 +954,8 @@ struct Unk0217b340;
 struct BmgBodySection;
 struct Nclr;
 struct Unk02021dc8;
-extern struct Unk0217b340 *data_0217b360;
-extern struct BmgBodySection *data_0217b364;
+extern struct Unk0217b340 *BMG_INF1_Pointer;
+extern struct BmgBodySection *BMG_DAT1_Pointer;
 extern struct Nclr *gPlayerCharacterNclr[2];
 extern struct Nclr *gPlayerCharacterLNclr;
 extern struct Ncgr *gPlayerCharacterNcgr[2];
@@ -965,51 +965,51 @@ extern struct Unk02021dc8 *gPlayerCharacterLNcer;
 extern void *gPlayerCharacterBncl[2];
 extern struct Nclr *gPlayerCharacterShyguyNclr[2];
 extern struct Nclr *gPlayerCharacterLShyguyNclr;
-extern struct Unk02022aa8 *gFontTable[3];
+extern struct Unk02022aa8 *FontArray[3];
 extern struct Unk02022aa8 gLCFontS;
 extern struct Unk02022aa8 gLCFontM;
 extern struct Unk02022aa8 gMarioFont;
-extern RaceHudSubScreenCells *gRaceHudSubScreenItemBoxCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenEarthenPipeCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenWanwanCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenDossunCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenSmanCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMoveTreeCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenPukupukuCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenChoropuCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenKoopaBlockCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCarCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenItemCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCrabCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenShine16Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenPendulumCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenNsKiller2Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenFlipperCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenWoodbox1Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRockCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenSanboCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRock2Cells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCoverPooHoleCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenObPakkunSfCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenKuriboCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenIronBallCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenSunFireballCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBurnerCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBoundCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenMkdEfBubbleCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBasabasaCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenRainStarCells;
-extern RaceHudSubScreenCells *data_0217b484;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBombKouraWCells;
+extern RaceHudSubScreenCells *mpicn_sItemboxIcon;
+extern RaceHudSubScreenCells *mpicn_sEarthenPipeIcon;
+extern RaceHudSubScreenCells *mpicn_sWanwanIcon;
+extern RaceHudSubScreenCells *mpicn_sDossunIcon;
+extern RaceHudSubScreenCells *mpicn_sSmanIcon;
+extern RaceHudSubScreenCells *mpicn_sMoveTreeIcon;
+extern RaceHudSubScreenCells *mpicn_sPukupukuIcon;
+extern RaceHudSubScreenCells *mpicn_sChoropuIcon;
+extern RaceHudSubScreenCells *mpicn_sKoopaBlockIcon;
+extern RaceHudSubScreenCells *mpicn_sCarTruckBusIcon;
+extern RaceHudSubScreenCells *mpicn_sItemIcon;
+extern RaceHudSubScreenCells *mpicn_sCrabIcon;
+extern RaceHudSubScreenCells *mpicn_sShine16Icon;
+extern RaceHudSubScreenCells *mpicn_sPendulumIcon;
+extern RaceHudSubScreenCells *mpicn_sNsKiller2Icon;
+extern RaceHudSubScreenCells *mpicn_sFlipperIcon;
+extern RaceHudSubScreenCells *mpicn_sWoodbox1Icon;
+extern RaceHudSubScreenCells *mpicn_sRockIcon;
+extern RaceHudSubScreenCells *mpicn_sSanboIcon;
+extern RaceHudSubScreenCells *mpicn_sRock2Icon;
+extern RaceHudSubScreenCells *mpicn_sPooIcon;
+extern RaceHudSubScreenCells *mpicn_sObPakkunSfIcon;
+extern RaceHudSubScreenCells *mpicn_sKuriboIcon;
+extern RaceHudSubScreenCells *mpicn_sIronBallIcon;
+extern RaceHudSubScreenCells *mpicn_sSunFireSnakeIcon;
+extern RaceHudSubScreenCells *mpicn_sMkdEfBurnerIcon;
+extern RaceHudSubScreenCells *mpicn_sBoundIcon;
+extern RaceHudSubScreenCells *mpicn_sMkdEfBubbleIcon;
+extern RaceHudSubScreenCells *mpicn_sBasabasaIcon;
+extern RaceHudSubScreenCells *mpicn_sRainStarIcon;
+extern RaceHudSubScreenCells *mpicn_sPakkunFireIcon;
+extern RaceHudSubScreenCells *mpicn_sExplosionIcon;
 extern Unk0217b490 *data_0217b490;
-extern RaceHudSubScreenCells *gRaceHudSubScreenCreamCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenBerryCells;
-extern RaceHudSubScreenCells *gRaceHudSubScreenFireball2Cells;
+extern RaceHudSubScreenCells *mpicn_sCreamIcon;
+extern RaceHudSubScreenCells *mpicn_sBerryIcon;
+extern RaceHudSubScreenCells *mpicn_sFireball2Icon;
 // Which model the Jg shows and its row in gJgKindRows: 0 lap_count, 1 lap_final, 2 jg_reverse, 3 jg_flag, 4 none.
-extern s32 gJgKind;
+extern s32 LukituObject;
 extern s32 data_0217b8ac;
 extern s32 data_0217b8c4;
-extern s32 gJgVisible;
+extern s32 jg_sVisible;
 extern s32 data_0217b900;
 
 // The Jg's state machine record, seen only through its state halfword at 0xe.
@@ -1018,52 +1018,52 @@ typedef struct Unk0217b9ec {
     /* 00e */ u16 mState;
 } Unk0217b9ec;
 
-extern Unk0217b9ec gJgStateMachine;
+extern Unk0217b9ec jg_sStateMachine;
 extern Vec3 *gItemPushVector;
-extern void *gBridge;
-extern void *gBridgeNsbca;
-extern void *data_0217b7c0;
-extern void *data_0217b7bc;
-extern void *data_0217b7b4;
-extern void *data_0217b780;
-extern void *data_0217b784;
-extern void *gCarAShadow;
-extern void *gCarANsbtp;
-extern void *gCarTire;
-extern void *gTruckA;
-extern void *gTruckAShadow;
+extern void *bridge_sModel;
+extern void *bridge_sNsbcaAnim;
+extern void *choro_sShadowRenderPart;
+extern void *choro_sMainRenderPart;
+extern void *choro_sLogicPart;
+extern void *kblock_sLogicPart;
+extern void *kblock_sRenderPart;
+extern void *traf_sCarShadowModel;
+extern void *traf_sCarNsbtpAnim;
+extern void *traf_sCarTireModel;
+extern void *traf_sTruckModel;
+extern void *traf_sTruckShadowModel;
 extern struct Unk0217b79c *data_0217b79c;
-extern void *gCarA;
+extern void *traf_sCarModel;
 extern void *data_0217b7a4;
-extern void *gTruckANsbtp;
-extern void *gBusA;
-extern void *gBusAShadow;
-extern void *data_0217b7c8;
+extern void *traf_sTruckNsbtpAnim;
+extern void *traf_sBusModel;
+extern void *traf_sBusShadowModel;
+extern void *bridge_sLogicPart;
 extern void *gGearWhite;
 extern void *gGearBlack;
 extern void *gRotaryBridge;
-extern void *data_0217b7e4;
+extern void *rotobj_sRenderPart;
 extern void *gTestCylinder;
 extern void *gRotaryRoom;
-extern void **gFoundCollisionSlotObjects;
-extern s16 gFoundCollisionSlotCount;
-extern u16 *gFoundCollisionSlotFlags;
-extern s16 gFirstFreeCollisionSlot;
-extern s16 gCollisionSlotCount;
-extern struct CollisionSlotEnd *gCollisionSlotHighEnds;
-extern struct CollisionSlot *gCollisionSlots;
-extern struct CollisionSlotEnd *gCollisionSlotLowEnds;
-extern s16 *gCollisionSlotNextFree;
-extern s16 *gFoundCollisionSlotIndices;
+extern void **gColQueryResultObjects;
+extern s16 gColQueryResultCount;
+extern u16 *gColQueryResultFlags;
+extern s16 col_sCurAllocIdx;
+extern s16 col_sEntryCount;
+extern struct CollisionSlotEnd *col_sSegRightEndpoints;
+extern struct CollisionSlot *col_sColEntries;
+extern struct CollisionSlotEnd *col_sSegLeftEndpoints;
+extern s16 *col_sAllocTable;
+extern s16 *gColQueryResultEntryIds;
 extern Vec3 gPukupukuDrawScale;
-extern void *gPendulum;
-extern void *gPendulumShadow;
-extern void *gSecondHand;
-extern void *data_0217b864;
+extern void *pend_sModel;
+extern void *pend_sShadowModel;
+extern void *shand_sModel;
+extern void *fwdst_sLogicPart;
 extern s32 data_0217b8b4;
-extern u16 gJgFinalLap;
+extern u16 jg_sLapCount;
 extern u16 gJgState2FrameCount;
-extern u16 gJgKartIndex;
+extern u16 jg_sTargetDriverId;
 extern u16 data_0217b870;
 extern u16 gJgHighestLap;
 extern s32 data_0217b8b8;
@@ -1075,7 +1075,7 @@ extern s32 data_0217b8bc;
 extern s32 data_0217b894;
 extern s32 data_0217b8f8;
 extern s32 gJgLapAndReverseEnabled;
-extern u16 *data_0217b8c0;
+extern u16 *jg_sLight;
 extern Vec3 gJgTargetPos;
 extern Vec3 data_0217b90c;
 extern Vec3 data_0217b918;
@@ -1108,13 +1108,13 @@ extern Vec3 gJgPoint7;
 extern Vec3 gJgPoint1;
 extern Vec3 gJgPoint2;
 extern Vec3 *gJgPointPointers[4];
-extern u16 gJgAlpha;
+extern u16 jg_sAlpha;
 extern u16 gJgAngle;
 extern Vec3 gJgKind3Offset;
 extern Vec3 gJgKind2Offset;
-extern void *data_0217b5d0[16];
-extern s32 data_0217b610;
-extern CourseCollision gCourseCollision;
+extern void *col_sDColResults[16];
+extern s32 gUsesDynamicCollision;
+extern CourseCollision gKCollisionData;
 extern u32 data_0217bbe8;
 extern Vec3 gJgMatrixAxis2;
 extern Vec3 data_0217badc;
@@ -1127,7 +1127,7 @@ extern u32 data_0217b8fc;
 extern s32 gItemSlotPossibleItems[];
 extern s32 data_0217bc58;
 // Items the spin may show after a roll with a forced row: the items with a non-zero weight in that row plus the one
-// picked. Written by PickItem, cleared by CreateItemSlotTables.
+// picked. Written by PickItem, cleared by LoadItemSlotList.
 extern s32 gItemSlotSpinItems[];
 extern u16 gItemSlotPossibleItemCount;
 // Length of gItemSlotSpinItems; 0 means the spin uses gItemSlotPossibleItems.
@@ -1151,33 +1151,33 @@ extern u8 gItemDataDelayedLinks[][2];
 extern u8 gItemDataBuffer[];
 extern u8 data_0217bdc1[];
 extern u8 data_0217bd81[];
-extern void *gShine16;
-extern void *gAirship;
-extern void *gSanboH;
-extern void *gSanboB;
-extern void *gIronBall;
+extern void *shine_sShineModel;
+extern void *aship_sModel;
+extern void *sanbo_sHeadModel;
+extern void *sanbo_sBodyModel;
+extern void *iball_sModel;
 
-extern MapObjectModel *gFlipper;
-extern void *gBasabasa;
-extern void *gMkdEfBurner;
-extern void *gCow;
-extern void *gKanoke64;
-extern void *gNsKiller2;
-extern void *gNsKiller2S;
-extern void *gNsKiller1;
-extern void *gTeresa;
-extern void *gBakuShadow;
-extern void *gBakubaku;
-extern void *gMoveTree;
+extern MapObjectModel *flip_sModel;
+extern void *basa_sModel;
+extern void *efbnr_sModel;
+extern void *cow_sModel;
+extern void *kan64_sModel;
+extern void *nsk2_sModel;
+extern void *nsk2_sShadowModel;
+extern void *nsk1_sModel;
+extern void *tesa_sModel;
+extern void *baku_sShadowModel;
+extern void *baku_sModel;
+extern void *mtree_sModel;
 extern void *gCrabHand;
 extern void *gCrab;
-extern void *gBerry;
-extern void *gCream;
-extern void *gBound;
-extern void *gSunLOD;
-extern void *gSun;
-extern void *gFireball2;
-extern void *gPuddle;
-extern void *gPicture1;
-extern void *gPicture2;
-extern void *gRainStar;
+extern void *bnd_sBerryModel;
+extern void *bnd_sCreamModel;
+extern void *bnd_sBoundModel;
+extern void *sun_sLodModel;
+extern void *sun_sModel;
+extern void *fbal2_sModel;
+extern void *pud_sModel;
+extern void *pict_sPicture1Model;
+extern void *pict_sPicture2Model;
+extern void *rstar_sModel;

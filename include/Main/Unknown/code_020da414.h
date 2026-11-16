@@ -7,7 +7,7 @@
 
 typedef struct CourseMapRow CourseMapRow;
 
-// Object allocated by func_020da414; 0x40 bytes.
+// Object allocated by water_setupWaterCollision; 0x40 bytes.
 typedef struct Unk020da414 {
     /* 00 */ s32 mUnk_00[0x10];
 } Unk020da414;
@@ -33,5 +33,5 @@ typedef struct Kuribo {
 } Kuribo;
 
 /* also runs for source-created objects with b == NULL (then only mUnk_100 is set) */
-void InitKuribo(Kuribo *kuribo, CourseMapRow *row);
-Unk020da414 *func_020da414(void);
+void kuribo_init(Kuribo *kuribo, CourseMapRow *row);
+Unk020da414 *water_setupWaterCollision(void);

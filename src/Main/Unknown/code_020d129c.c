@@ -5,19 +5,19 @@
 #include "Main/Unknown/code_020d12b0.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020d12b0(void) {
+u32 r2d_initBattleIntro(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
+    value0 = (u32) proc_getCurrent();
+    value0 = (u32) proc_getHeap((void *) value0);
     value1 = 4u;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
+    value0 = (u32) heap_alloc((void *) value0, value1);
     value1 = (u32) &data_0217b4a8;
     *(u32 *) ((value1) + (0)) = value0;
     return value0;
 }
 
-u32 func_020d129c(void) {
+u32 r2d_finalizeBattleIntro(void) {
     u32 address;
     u32 zero;
     address = (u32) &data_0217b4a8;

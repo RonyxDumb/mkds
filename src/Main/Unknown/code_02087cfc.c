@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02087cfc.h"
 
-void func_02087cfc(void *animation, u32 entryIndex, u32 loopFlag) {
+void anim_setLoop(void *animation, u32 entryIndex, u32 loopFlag) {
     u32 animationAddress = (u32) animation;
     u32 entryIndexCopy = entryIndex;
     u32 loopFlagCopy = loopFlag;

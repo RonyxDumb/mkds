@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020d8b88.h"
 #include "Main/Unknown/code_020d9340.h"
 
-void GetGroupFollowerCurveXz(GroupFollower *follower, Vec3 *output) {
+void pw_calcCurrentPointXZ(GroupFollower *follower, Vec3 *output) {
     u32 value0 = (u32) follower;
     u32 value1 = (u32) output;
     u32 outputAddress;
@@ -15,5 +15,5 @@ void GetGroupFollowerCurveXz(GroupFollower *follower, Vec3 *output) {
     value0 = 0x54u;
     value0 = (value1) * (value0) + (segments);
     value1 = *(const u32 *) ((followerAddress) + (20));
-    GetCurvePointXz(value0, value1, outputAddress);
+    pw_interpolateXZ(value0, value1, outputAddress);
 }

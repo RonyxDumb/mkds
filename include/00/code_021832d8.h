@@ -44,8 +44,8 @@ void InitWiFiVSMatching(void *a);
 #include "Main/Unknown/code_02124094.h" // LayoutTableEntry
 #include "code_02016468.h"
 
-extern Unk0217b488 *data_0217b488;
-extern WiFiSession *gWiFiSession;
+extern Unk0217b488 *gStruct217B488;
+extern WiFiSession *gStruct217D384;
 extern u8 data_ov000_021b0658[2];
 extern u8 data_ov000_021b065c[3];
 extern u8 data_ov000_021b0660[3];

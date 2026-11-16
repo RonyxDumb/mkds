@@ -18,7 +18,7 @@ typedef struct Unk020e4610 {
     /* 24 */ u32 mUnk_24;
 } Unk020e4610;
 
-extern Unk020e4610 *data_0217b7dc;
+extern Unk020e4610 *rotobj_sLogicPart;
 
 // 0x2c-byte object built from a table.
 typedef struct Unk020e466c {
@@ -55,10 +55,10 @@ typedef struct Unk020e46c8 {
     /* 3c */ u32 mUnk_3c;
 } Unk020e46c8;
 
-void func_020e44e4(u32 unused, Unk020e43a8 *object);
-Unk020e4610 *func_020e4610(void);
-Unk020e466c *func_020e466c(void);
-Unk020e46c8 *func_020e46c8(void);
-Unk020e46c8 *func_020e4718(void);
-Unk020e46c8 *func_020e4768(void);
-void InitPukupuku(Unk020e43a8 *pukupuku, Vec3 *position);
+void rotcyl_update(u32 unused, Unk020e43a8 *object);
+Unk020e4610 *rotcyl_setupLogicPart(void);
+Unk020e466c *rotcyl_setupRenderPart(void);
+Unk020e46c8 *rotcyl_setupRotBridgeConfig(void);
+Unk020e46c8 *rotcyl_setupRotRoomConfig(void);
+Unk020e46c8 *rotcyl_setupGearConfig(void);
+void puku_init(Unk020e43a8 *pukupuku, Vec3 *position);

@@ -106,7 +106,7 @@ u32 GpiOpenSockets(GpConnection *p, Unk021919ac_node *n) {
     s.f.mUnk_01 = 2;
     s.f.mUnk_04 = **x->mUnk_0c;
     if (s.f.mUnk_04 == 0) {
-        AssertionFailed(data_ov000_021b2ed0, data_ov000_021b2b88, NULL, 0x90);
+        __msl_assertion_failed(data_ov000_021b2ed0, data_ov000_021b2b88, NULL, 0x90);
     }
     s.f.mUnk_02 = 0xcc74;
     if (func_ov000_0218e4b4(o->mConnectSocket, &s, 8) == -1) {
@@ -496,7 +496,7 @@ int func_ov000_02191200(GpConnection *a) {
             return 0;
         }
         if (v3 != 3) {
-            AssertionFailed(data_ov000_021b2b70, data_ov000_021b2b88, NULL, 0x2ef);
+            __msl_assertion_failed(data_ov000_021b2b70, data_ov000_021b2b88, NULL, 0x2ef);
         }
         v2->mConnectState = 2;
         v1 = 0;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CollideKartWithMapObjectNoResponse(u32 kart, u32 outValue);
+u32 driver_initReaction1(u32 kart, u32 outValue);

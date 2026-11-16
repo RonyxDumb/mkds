@@ -6,27 +6,27 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState5(Unk020aca24 *a) {
+void title_gotoSelectedRender(Unk020aca24 *a) {
     s16 v[5] = {1, 6, 12, 7, 8};
 
     if (a != NULL) {
-        switch (gTitleScene->mSelectedIndex) {
+        switch (sTitleSceneState->mSelectedIndex) {
             case 0:
             case 3:
             case 4:
             default:
-                func_020acab8(0);
+                title_sysdat_setOverlayRelatedNum(0);
                 break;
             case 1:
-                func_020acab8(2);
-                func_020acaa4(0);
+                title_sysdat_setOverlayRelatedNum(2);
+                title_struct217B488_setField74(0);
                 break;
             case 2:
-                func_020acab8(3);
+                title_sysdat_setOverlayRelatedNum(3);
                 break;
         }
-        a->mNextScene = v[gTitleScene->mSelectedIndex];
-        func_02105e98();
+        a->mNextScene = v[sTitleSceneState->mSelectedIndex];
+        sound_2105E98();
     }
 }
 

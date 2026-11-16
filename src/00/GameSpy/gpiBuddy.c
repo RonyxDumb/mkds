@@ -387,7 +387,7 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *p, u32 b) {
     if (e->mBuddyStatus != NULL) {
         n = e->mBuddyStatus->mIndex;
         if (n < 0) {
-            AssertionFailed(data_ov000_021b2780, data_ov000_021b278c, NULL, 0x1fd);
+            __msl_assertion_failed(data_ov000_021b2780, data_ov000_021b278c, NULL, 0x1fd);
         }
         func_ov000_021a3668(e->mBuddyStatus->mUnk_08);
         e->mBuddyStatus->mUnk_08 = NULL;
@@ -400,7 +400,7 @@ u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *p, u32 b) {
         }
         o->mBuddyCount--;
         if (o->mBuddyCount < 0) {
-            AssertionFailed(data_ov000_021b2798, data_ov000_021b278c, NULL, 0x204);
+            __msl_assertion_failed(data_ov000_021b2798, data_ov000_021b278c, NULL, 0x204);
         }
         GpiForEachProfileWhileNonZero(p, GpiDecrementBuddyIndexAbove, (void *) n);
     }

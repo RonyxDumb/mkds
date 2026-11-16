@@ -4,15 +4,15 @@
 
 unsigned int func_020cc994(void);
 void func_020cc9a8(unsigned int p0);
-void SetNextCourseListMode(unsigned int courseListMode);
-void SetNextRuleKind(unsigned int ruleKind);
-void SetCourseCount(unsigned int courseCount);
-void SetNextUseTeams(unsigned int useTeams);
-void SetNextBattleKind(unsigned int battleKind);
-void func_020cca24(unsigned int p0);
+void SetNextCourseMode(unsigned int courseListMode);
+void SetNextRules(unsigned int ruleKind);
+void SetNextNrRacesNrWins(unsigned int courseCount);
+void SetNextTeamMode(unsigned int useTeams);
+void SetNextBattleMode(unsigned int battleKind);
+void SetNextTTGhost(unsigned int p0);
 void SetNextMirrorMode(unsigned int mirrorMode);
-void SetNextEngineIndex(unsigned int engineIndex);
-void SetNextCourseId(unsigned int courseId);
-void SetNextCupIndex(unsigned int cupIndex);
-void SetNextMode(unsigned int mode);
-void SetNextCpuDifficulty(unsigned int cpuDifficulty);
+void SetNextCCMode(unsigned int engineIndex);
+void SetNextCourse(unsigned int courseId);
+void SetNextCup(unsigned int cupIndex);
+void SetNextRaceMode(unsigned int mode);
+void SetNextCPUMode(unsigned int cpuDifficulty);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void EnterPushedObjectState2(u32 objectAddress);
+void rdmo_deadStateInit(u32 objectAddress);

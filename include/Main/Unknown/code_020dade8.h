@@ -4,4 +4,4 @@
 
 typedef struct Kuribo Kuribo;
 
-void EnterKuriboState1(Kuribo *kuribo);
+void kuribo_groundRoamIdleStateInit(Kuribo *kuribo);

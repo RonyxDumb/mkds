@@ -11,4 +11,4 @@ typedef struct TxtSystemArgs {
 } TxtSystemArgs;
 
 void ClearTxtSystemCanvasInUse(void);
-s32 InitTxtSystem(void *heap, TxtSystemArgs *args);
+s32 gmenu_initUnknown(void *heap, TxtSystemArgs *args);

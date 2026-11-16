@@ -15,20 +15,20 @@
 
 #pragma thumb on
 
-void CreateCharacterKartPicks(void *heap) {
+void AllocSinglePlayerMenuInfo(void *heap) {
     u32 v1;
-    v1 = ((u32) HeapAlloc(heap, 4));
-    *(u32 *) &gPicksHolder = v1;
+    v1 = ((u32) heap_alloc(heap, 4));
+    *(u32 *) &SinglePlayerMenuInfoPointer = v1;
     v1 = (u32) func_0203bedc(heap);
-    *(u32 *) (*(u32 *) &gPicksHolder) = v1;
+    *(u32 *) (*(u32 *) &SinglePlayerMenuInfoPointer) = v1;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void ClearPicksHolderPointer(void) {
-    gPicksHolder = NULL;
+void FreeSinglePlayerMenuInfo(void) {
+    SinglePlayerMenuInfoPointer = NULL;
 }
 
 void func_021170f8(void) {
@@ -36,20 +36,20 @@ void func_021170f8(void) {
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
-    InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mUnk_20 == 0) {
+    InitCharacterKartPicks(SinglePlayerMenuInfoPointer->mPicks);
+    if (gSystemData->mUnk_20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
     }
     zeroValue = 0;
     noIndex = ~0;
     for (; n < 8; n++) {
-        SetCharacterIndex(n, noIndex);
+        SPM_SetDriverXCharacterID(n, noIndex);
         func_020294ac(n, zeroValue);
     }
 }
@@ -60,50 +60,50 @@ void func_02117060(void) {
     BOOL isEightOrNine;
     u32 zeroValue, noIndex;
 
-    InitCharacterKartPicks(gPicksHolder->mPicks);
-    if (data_021759d0->mUnk_20 == 0) {
+    InitCharacterKartPicks(SinglePlayerMenuInfoPointer->mPicks);
+    if (gSystemData->mUnk_20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
     }
     for (i = 0; i < 8; i++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
+        SetGivenCharacter(SinglePlayerMenuInfoPointer->mPicks, (u8) i, SPM_GetDriverXCharacterID(i));
     }
     zeroValue = 0;
     noIndex = ~0;
     for (; n < 8; n++) {
-        SetKartIndex(n, noIndex);
+        SPM_SetDriverXKartID(n, noIndex);
         func_020294ac(n, zeroValue);
     }
 }
 
-void FillRandomCharacterIndices(void) {
+void SPM_2116FB0(void) {
     int i;
     int n;
     BOOL isEightOrNine;
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mUnk_20 == 0) {
+    if (gSystemData->mUnk_20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
     }
     for (i = 0; i < n; i++) {
-        SetGivenCharacter(gPicksHolder->mPicks, (u8) i, GetCharacterIndex(i));
+        SetGivenCharacter(SinglePlayerMenuInfoPointer->mPicks, (u8) i, SPM_GetDriverXCharacterID(i));
     }
-    PickRandomCharacters(gPicksHolder->mPicks);
+    PickRandomCharacters(SinglePlayerMenuInfoPointer->mPicks);
     for (; n < 8; n++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, n, &pickedIndex, NULL);
-        SetCharacterIndex(n, pickedIndex);
+        GetEntryCharacterAndKart(SinglePlayerMenuInfoPointer->mPicks, n, &pickedIndex, NULL);
+        SPM_SetDriverXCharacterID(n, pickedIndex);
     }
 }
 
@@ -114,22 +114,22 @@ void FillRandomKartIndices(void) {
     u32 pickedIndex;
 
     pickedIndex = ~0;
-    if (data_021759d0->mUnk_20 == 0) {
+    if (gSystemData->mUnk_20 == 0) {
         n = 1;
     } else {
         isEightOrNine = TRUE;
-        if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+        if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
             isEightOrNine = FALSE;
         }
-        n = (u8) (isEightOrNine != FALSE ? CountSetBits(data_0217aa00->mParticipantMask) : 0);
+        n = (u8) (isEightOrNine != FALSE ? MATH_CountPopulation(gStruct217AA00->mParticipantMask) : 0);
     }
     for (i = 0; i < n; i++) {
-        SetGivenKart(gPicksHolder->mPicks, (u8) i, GetKartIndex(i));
+        SetGivenKart(SinglePlayerMenuInfoPointer->mPicks, (u8) i, SPM_GetDriverXKartID(i));
     }
-    PickRandomKarts(gPicksHolder->mPicks);
+    PickRandomKarts(SinglePlayerMenuInfoPointer->mPicks);
     for (; n < 8; n++) {
-        GetEntryCharacterAndKart(gPicksHolder->mPicks, n, NULL, &pickedIndex);
-        SetKartIndex(n, pickedIndex);
+        GetEntryCharacterAndKart(SinglePlayerMenuInfoPointer->mPicks, n, NULL, &pickedIndex);
+        SPM_SetDriverXKartID(n, pickedIndex);
         func_020294ac(n, 1);
     }
 }
@@ -138,7 +138,7 @@ void SetKartIndicesFromCharacters(void) {
     int i;
 
     for (i = 0; i < 8; i++) {
-        SetKartIndex(i, data_0215c5d8[GetCharacterIndex(i)]);
+        SPM_SetDriverXKartID(i, data_0215c5d8[SPM_GetDriverXCharacterID(i)]);
         func_020294ac(i, 1);
     }
 }

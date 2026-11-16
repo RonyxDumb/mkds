@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020e4df8(u32 arg0, u32 arg1);
+void puku_update(u32 arg0, u32 arg1);

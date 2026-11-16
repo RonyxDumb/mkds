@@ -6,7 +6,7 @@ void RequestMPState16ForNextRace(void) {
     u32 courseId;
     u32 mode;
     u32 value12;
-    courseId = gRaceSetup->mNextHeader.mCourseId;
-    mode = gRaceSetup->mNextHeader.mMode;
+    courseId = gRaceMultiConfig->mNextHeader.mCourseId;
+    mode = gRaceMultiConfig->mNextHeader.mMode;
     RequestMPState16((void *) courseId, (void *) mode);
 }

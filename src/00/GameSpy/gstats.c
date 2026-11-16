@@ -105,7 +105,7 @@ s32 GstatsUpdateConnect(void) {
                 return 6;
             }
             if (b != 1 || a[0] != 1) {
-                AssertionFailed(data_ov000_021b3e14, data_ov000_021b3e34, NULL, 0x145);
+                __msl_assertion_failed(data_ov000_021b3e14, data_ov000_021b3e34, NULL, 0x145);
             }
             data_ov000_021b4e60 = 3;
         case 3:

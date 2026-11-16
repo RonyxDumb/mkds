@@ -54,11 +54,11 @@ fail:
 }
 
 // Copies chunk b into the buffer; FALSE when b is past the last chunk.
-BOOL StoreReceivedChunk(ChunkReceiveState *a, s32 b, const u8 *c) {
+BOOL wbt_save_block_seq(ChunkReceiveState *a, s32 b, const u8 *c) {
     u32 v1;
     u8 *v2;
     u32 v3;
-    v1 = GetReceiveChunkSize();
+    v1 = WBTi_get_peer_data_packet_size();
     v2 = a->mBuffer;
     if (b < a->mChunkCount) {
         if (b == a->mChunkCount - 1) {
@@ -78,7 +78,7 @@ BOOL StoreReceivedChunk(ChunkReceiveState *a, s32 b, const u8 *c) {
 }
 
 // Fills the shared record and calls the transfer's callback once per request id (code 13 always).
-void RunBlockTransferCallback(BlockTransfer *a, s32 b, s32 c, u32 d) {
+void wbt_system_callback(BlockTransfer *a, s32 b, s32 c, u32 d) {
     BlockTransferEntry *v2;
     BlockTransferRecord *v1;
     v1 = &a->mCallbackRecord;
@@ -119,7 +119,7 @@ void RunBlockTransferCallback(BlockTransfer *a, s32 b, s32 c, u32 d) {
 
 // A reply from index c: clears its bit in the current request, calls the request's callback and ends the request when
 // no index is left.
-void RunCurrentRequestCallback(BlockTransfer *a, s32 b, s32 c) {
+void wbt_user_callback(BlockTransfer *a, s32 b, s32 c) {
     u16 v1;
     u8 v4;
     BlockTransferEntry *v2;
@@ -163,7 +163,7 @@ void RunCurrentRequestCallback(BlockTransfer *a, s32 b, s32 c) {
 
 // Reads one packet from index b field by field into its entry, answers or calls back as the kind needs, and returns the
 // bytes used.
-u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
+u32 WBTi_get_token_from_recv_buffer(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
     s32 v1;
     u32 v2;
     u32 v3;
@@ -222,7 +222,7 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                             continue;
                         case 11:
                             if (a->mCurrentRequest.mKind == 10) {
-                                RunCurrentRequestCallback(a, v5->mPacketKind, b);
+                                wbt_user_callback(a, v5->mPacketKind, b);
                             }
                             return v1;
                         case 10:
@@ -240,7 +240,7 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                     continue;
                 case 9:
                     v5->mPayload = (u8 *) c;
-                    RunBlockTransferCallback(a, v5->mPacketKind, b, 0);
+                    wbt_system_callback(a, v5->mPacketKind, b, 0);
                     v5->mUnk_00 = 2;
                     v1 = v1 + 9;
                     return v1;
@@ -262,16 +262,16 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                     v3 = v5->mPacketKind;
                     switch (v3) {
                         case 2:
-                            RunBlockTransferCallback(a, v3, b, 0);
+                            wbt_system_callback(a, v3, b, 0);
                             v5->mUnk_00 = 2;
                             return v1 + 4;
                         case 3:
                             if (a->mCurrentRequest.mKind == 2) {
-                                RunCurrentRequestCallback(a, v3, b);
+                                wbt_user_callback(a, v3, b);
                             }
                             return v1 + 4;
                         default:
-                            RunBlockTransferCallback(a, 15, b, 3);
+                            wbt_system_callback(a, 15, b, 3);
                             return v1 + 4;
                     }
                 case 7:
@@ -281,17 +281,17 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                     v3 = v5->mPacketKind;
                     switch (v3) {
                         case 8:
-                            RunBlockTransferCallback(a, v3, b, 0);
+                            wbt_system_callback(a, v3, b, 0);
                             v5->mUnk_00 = 2;
                             return v1;
                         case 9:
                             if (a->mCurrentRequest.mKind == 4) {
                                 if (a->mCurrentRequest.mUnk_14 == v5->mBlockId) {
-                                    RunCurrentRequestCallback(a, 5, b);
+                                    wbt_user_callback(a, 5, b);
                                 }
                             } else if (a->mCurrentRequest.mKind == 6) {
                                 if (a->mCurrentRequest.mUnk_14 == v5->mBlockId) {
-                                    RunCurrentRequestCallback(a, 7, b);
+                                    wbt_user_callback(a, 7, b);
                                 }
                             }
                             return v1;
@@ -302,7 +302,7 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                             v2 = 8;
                             continue;
                         default:
-                            RunBlockTransferCallback(a, 15, b, 3);
+                            wbt_system_callback(a, 15, b, 3);
                             continue;
                     }
                 case 8:
@@ -322,10 +322,10 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                                 if (v5->mBlockId == a->mCurrentRequest.mUnk_14) {
                                     if ((a->mCurrentRequest.mIndexMask & (u16) (1 << b)) != 0) {
                                         if (IsChunkReceived(v6, v5->mChunkIndex) == FALSE) {
-                                            if (StoreReceivedChunk(v6, v5->mChunkIndex, v5->mPayload) == TRUE) {
+                                            if (wbt_save_block_seq(v6, v5->mChunkIndex, v5->mPayload) == TRUE) {
                                                 MarkChunkReceived(v6, v5->mChunkIndex);
                                             } else {
-                                                RunBlockTransferCallback(a, 15, b, 6);
+                                                wbt_system_callback(a, 15, b, 6);
                                             }
                                         }
                                     }
@@ -333,20 +333,20 @@ u32 ParseReceivedPacket(BlockTransfer *a, s32 b, const u8 *c, s32 d) {
                             }
                             return v1;
                         default:
-                            RunBlockTransferCallback(a, 15, b, 3);
+                            wbt_system_callback(a, 15, b, 3);
                             continue;
                     }
                 default:
-                    RunBlockTransferCallback(a, 15, b, 4);
+                    wbt_system_callback(a, 15, b, 4);
                     continue;
             }
         } while (v1 < d);
     }
-    RunBlockTransferCallback(a, 15, b, 5);
+    wbt_system_callback(a, 15, b, 5);
     return v1;
 }
 
-s32 ReplyToBlockCountRequest(BlockTransfer *a, s32 b, u8 *c, s32 d) {
+s32 WBTi_token_check_req_sync(BlockTransfer *a, s32 b, u8 *c, s32 d) {
     s32 v1;
     s32 v3;
     u32 v4;
@@ -359,7 +359,7 @@ s32 ReplyToBlockCountRequest(BlockTransfer *a, s32 b, u8 *c, s32 d) {
         if (v5->mPacketKind == 2) {
             v3 = CountBlocks();
             v4 = GetSendChunkSize();
-            v1 = WriteBlockCountReplyPacket(c, v2, v5->mRequestId, v3, v4, GetReceiveChunkSize());
+            v1 = WriteBlockCountReplyPacket(c, v2, v5->mRequestId, v3, v4, WBTi_get_peer_data_packet_size());
             v5->mUnk_00 = 1;
         }
     }
@@ -428,7 +428,7 @@ s32 ReplyToBlockDataRequest(BlockTransfer *a, s32 b, u8 *c, s32 d) {
                         v6->mUnk_18 = v3;
                         *(s16 *) &v6->mUnk_1c[1] = GetSendChunkSize();
                         v6->mUnk_1c[0] = 0;
-                        RunBlockTransferCallback(a, 13, b, 0);
+                        wbt_system_callback(a, 13, b, 0);
                         if (v6->mUnk_1c[0] != 0) {
                             v1 = WriteBlockDataPacket(c, v2, v7->mRequestId, v6->mUnk_14, v6->mUnk_18, v6->mUnk_1c[0],
                                                       *(s16 *) &v6->mUnk_1c[1]);
@@ -503,7 +503,7 @@ s32 WriteCurrentRequestPacket(BlockTransfer *a, u8 *b, s32 c) {
         case 2:
             v2 = GetSendChunkSize();
             return WriteBlockCountRequestPacket(b, a->mCurrentRequest.mIndexMask, a->mCurrentRequest.mRequestId, v2,
-                                                GetReceiveChunkSize());
+                                                WBTi_get_peer_data_packet_size());
         case 4:
         case 6:
             for (i = 0, v3 = &a->mEntries[0].mReceive; i < 16; i++) {
@@ -563,7 +563,7 @@ s32 StartNextRequest(BlockTransfer *a, u8 *b, s32 c) {
             a->mCurrentRequest.mRequestId = v2;
             v2 = GetSendChunkSize();
             v1 = WriteBlockCountRequestPacket(b, a->mCurrentRequest.mIndexMask, a->mCurrentRequest.mRequestId, v2,
-                                              GetReceiveChunkSize());
+                                              WBTi_get_peer_data_packet_size());
             break;
         case 6:
             MIi_CpuCopy32(v3, a, 0x9c);

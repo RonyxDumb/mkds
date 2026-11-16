@@ -15,7 +15,7 @@ typedef struct Unk01ff9320_buf {
 
 typedef void (*Unk01ff9320_Fn)(s32 *, NNSG3dMatAnmResult *);
 
-void func_01ff9320(NNSG3dMatAnmResult *p);
-void func_01ff946c(s32 *o);
-void func_01ff9490(s32 *o, const NNSG3dMatAnmResult *in);
-void func_01ff94d4(s32 *o, const NNSG3dMatAnmResult *in);
+void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *p);
+void texmtxCalc_flagTRS_(s32 *o);
+void texmtxCalc_flagTR_(s32 *o, const NNSG3dMatAnmResult *in);
+void texmtxCalc_flagTS_(s32 *o, const NNSG3dMatAnmResult *in);

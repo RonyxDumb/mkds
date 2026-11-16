@@ -48,58 +48,58 @@
 #include "Main/Unknown/code_0205f000.h"
 #include "Main/Unknown/code_02133000.h"
 
-// placeholder: the names of InitChoisesS's screens as file-scope arrays; this declaration order gives the original's
+// placeholder: the names of rchoi_init's screens as file-scope arrays; this declaration order gives the original's
 // order of them in .data.
-static char sChoisesSNscrName6[] = "choises_s_6.NSCR";
-static char sChoisesSNscrName1[] = "choises_s_1.NSCR";
-static char sChoisesSNscrName5[] = "choises_s_5.NSCR";
-static char sChoisesSNscrName4[] = "choises_s_4.NSCR";
-static char sChoisesSNscrName2[] = "choises_s_2.NSCR";
-static char sChoisesSNscrName3[] = "choises_s_3.NSCR";
+static char aChoises_s_6_ns[] = "choises_s_6.NSCR";
+static char aChoises_s_1_ns[] = "choises_s_1.NSCR";
+static char aChoises_s_5_ns[] = "choises_s_5.NSCR";
+static char aChoises_s_4_ns[] = "choises_s_4.NSCR";
+static char aChoises_s_2_ns[] = "choises_s_2.NSCR";
+static char aChoises_s_3__0[] = "choises_s_3.NSCR";
 
 #pragma optimize_for_size on
 
 #pragma thumb on
-void *GetChoisesSValueMessage(s32 listIndex, s32 value) {
+void *rchoi_getOptionString(s32 listIndex, s32 value) {
     s32 entryNumbers[11] = {0x5d, 0x67, 0x62, 0x64, 0x65, 0x66, 0x69, 0x62, 0x61, 0x5f, 0x75};
 
-    if (func_020b24e4() == 2) {
+    if (rchoi_race_getCurrentDisplayMode() == 2) {
         entryNumbers[0] = 0x6a;
         entryNumbers[8] = 0x63;
     }
     if (listIndex != 0) {
         entryNumbers[2] = 0x60;
     }
-    return GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), entryNumbers[value]);
+    return jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), entryNumbers[value]);
 }
 
-void ClearChoisesSListValueCounts(void) {
+void rchoi_resetChoicesSets(void) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        gChoisesS->mLists[i].mValueCount = 0;
+        rchoi_sState->mLists[i].mValueCount = 0;
     }
 }
 
-void AppendChoisesSListValue(s32 listIndex, s32 value) {
+void rchoi_registerOption(s32 listIndex, s32 value) {
     s32 valueCount;
 
-    valueCount = gChoisesS->mLists[listIndex].mValueCount;
-    gChoisesS->mLists[listIndex].mValueCount = valueCount + 1;
-    gChoisesS->mLists[listIndex].mValues[valueCount] = value;
+    valueCount = rchoi_sState->mLists[listIndex].mValueCount;
+    rchoi_sState->mLists[listIndex].mValueCount = valueCount + 1;
+    rchoi_sState->mLists[listIndex].mValues[valueCount] = value;
 }
 
-s32 MoveChoisesSSelectedValue(s32 step) {
+s32 rchoi_moveCursor(s32 step) {
     s32 selectedIndex = 0;
     s32 valueCount;
     s32 listIndex;
     ChoisesS *choisesS;
 
-    if (func_020b2e98() != 0) {
-        listIndex = GetChoisesSListIndex();
-        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+    if (rchoi_isMenuVisible() != 0) {
+        listIndex = rchoi_getCurChoicesSetId();
+        valueCount = rchoi_sState->mLists[listIndex].mValueCount;
         for (; selectedIndex < valueCount; selectedIndex++) {
-            if (gChoisesS->mSelectedValue == gChoisesS->mLists[listIndex].mValues[selectedIndex]) {
+            if (rchoi_sState->mSelectedValue == rchoi_sState->mLists[listIndex].mValues[selectedIndex]) {
                 break;
             }
         }
@@ -107,16 +107,16 @@ s32 MoveChoisesSSelectedValue(s32 step) {
             step = 0;
         } else if (valueCount == 2) {
             if (step != 0 && selectedIndex + step >= 0 && selectedIndex + step < valueCount) {
-                gChoisesS->mCycleFrames = 0;
-                StartSoundOncePerFrame(0);
+                rchoi_sState->mCycleFrames = 0;
+                sfx_2105AC0(0);
             } else {
                 step = 0;
             }
         } else if (step != 0) {
-            gChoisesS->mCycleFrames = 0;
-            StartSoundOncePerFrame(0);
+            rchoi_sState->mCycleFrames = 0;
+            sfx_2105AC0(0);
         }
-        choisesS = gChoisesS;
+        choisesS = rchoi_sState;
         choisesS->mSelectedValue =
             choisesS->mLists[listIndex].mValues[(valueCount + (selectedIndex + step)) % valueCount];
     }
@@ -124,10 +124,10 @@ s32 MoveChoisesSSelectedValue(s32 step) {
 }
 
 static inline ChoisesS *func_020b302c_inline(void) {
-    return gChoisesS;
+    return rchoi_sState;
 }
 
-u32 func_020b302c(void) {
+u32 rchoi_handleTouch(void) {
     u32 touched = 0;
     s32 valueCount;
     s32 listIndex;
@@ -136,10 +136,10 @@ u32 func_020b302c(void) {
     s32 firstRectRow;
     s32 top;
 
-    if (func_020b2e98() != 0) {
-        MoveChoisesSSelectedValue(0);
-        listIndex = GetChoisesSListIndex();
-        valueCount = gChoisesS->mLists[listIndex].mValueCount;
+    if (rchoi_isMenuVisible() != 0) {
+        rchoi_moveCursor(0);
+        listIndex = rchoi_getCurChoicesSetId();
+        valueCount = rchoi_sState->mLists[listIndex].mValueCount;
         for (valueIndex = 0, firstRectRow = 0xc - valueCount * 2; valueIndex < valueCount; valueIndex++) {
             top = (firstRectRow + valueIndex * 4) * 8 + 6;
             valueRects[valueIndex].mMinX = 8;
@@ -148,73 +148,73 @@ u32 func_020b302c(void) {
             valueRects[valueIndex].mMaxY = top + 0x16;
         }
         for (valueIndex = 0; valueIndex < valueCount; valueIndex++) {
-            if (IsNewPairInRect(func_020b2b54(), valueRects[valueIndex]) != 0) {
-                if (gChoisesS->mSelectedValue != func_020b302c_inline()->mLists[listIndex].mValues[valueIndex]) {
-                    gChoisesS->mSelectedValue = gChoisesS->mLists[listIndex].mValues[valueIndex];
-                    MoveChoisesSSelectedValue(0);
+            if (IsNewPairInRect(rchoi_input_getDefaultInputId(), valueRects[valueIndex]) != 0) {
+                if (rchoi_sState->mSelectedValue != func_020b302c_inline()->mLists[listIndex].mValues[valueIndex]) {
+                    rchoi_sState->mSelectedValue = rchoi_sState->mLists[listIndex].mValues[valueIndex];
+                    rchoi_moveCursor(0);
                 } else {
-                    gChoisesS->mUnk_010 = TRUE;
+                    rchoi_sState->mUnk_010 = TRUE;
                 }
                 touched = 1;
             }
         }
         if (touched != 0) {
-            if (gChoisesS->mSelectedValue == 0) {
-                func_02105c4c();
+            if (rchoi_sState->mSelectedValue == 0) {
+                sfx_handleRaceContinue();
             } else {
-                StartChoisesSSelectedValueSeq();
+                rchoi_emitOptionActivationSound();
             }
         }
     }
     return touched;
 }
 
-void ResetChoisesSSelection(void) {
+void rchoi_resetSelectedOption(void) {
     ChoisesS *choisesS;
 
-    gChoisesS->mPickedValue = 0;
-    choisesS = gChoisesS;
-    choisesS->mSelectedValue = choisesS->mLists[GetChoisesSListIndex()].mValues[0];
+    rchoi_sState->mPickedValue = 0;
+    choisesS = rchoi_sState;
+    choisesS->mSelectedValue = choisesS->mLists[rchoi_getCurChoicesSetId()].mValues[0];
 }
 
-void func_020b2f88(s32 openFlag) {
-    if (gChoisesS->mPickLocked != 0) {
+void rchoi_setMenuVisible(s32 openFlag) {
+    if (rchoi_sState->mPickLocked != 0) {
         return;
     }
-    if (openFlag != 0 && func_020b2e98() == 0) {
-        if (func_020b29c4() != 0) {
-            gChoisesS->mOpenDuringRace = openFlag;
-        } else if (func_020b2b70() != 0) {
-            gChoisesS->mUnk_008 = openFlag;
+    if (openFlag != 0 && rchoi_isMenuVisible() == 0) {
+        if (rchoi_shouldPauseRaceDuringMenu() != 0) {
+            rchoi_sState->mOpenDuringRace = openFlag;
+        } else if (rchoi_isMenuAllowed() != 0) {
+            rchoi_sState->mUnk_008 = openFlag;
         } else {
             return;
         }
-        ResetChoisesSSelection();
-    } else if (openFlag == 0 && func_020b2e98() != 0) {
-        if (func_020b29c4() != 0) {
-            gChoisesS->mOpenDuringRace = openFlag;
-        } else if (func_020b2b70() != 0) {
-            gChoisesS->mUnk_008 = openFlag;
+        rchoi_resetSelectedOption();
+    } else if (openFlag == 0 && rchoi_isMenuVisible() != 0) {
+        if (rchoi_shouldPauseRaceDuringMenu() != 0) {
+            rchoi_sState->mOpenDuringRace = openFlag;
+        } else if (rchoi_isMenuAllowed() != 0) {
+            rchoi_sState->mUnk_008 = openFlag;
         } else {
             return;
         }
     }
-    if (gChoisesS->mPickedValue != 0) {
-        gChoisesS->mPickLocked = 1;
+    if (rchoi_sState->mPickedValue != 0) {
+        rchoi_sState->mPickLocked = 1;
     }
 }
 
 u32 func_020b2f58(void) {
-    if ((GetMissionRunTableRow() == 6 && GetMissionRunTableColumn() == 9) ||
-        (GetMissionRunTableRow() == 7 && GetMissionRunTableColumn() == 9)) {
+    if ((rchoi_race_getCurrentMissionLevel() == 6 && rchoi_race_getCurrentMissionIdx() == 9) ||
+        (rchoi_race_getCurrentMissionLevel() == 7 && rchoi_race_getCurrentMissionIdx() == 9)) {
         return 1;
     }
     return 0;
 }
 #pragma thumb off
 
-s8 GetMissionRunTableRow(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+s8 rchoi_race_getCurrentMissionLevel(void) {
+    RaceSetup *raceSetup = gRaceMultiConfig;
 
     if (raceSetup->mMode == MODE_MISSION_RUN) {
         return raceSetup->mMissionTableRow;
@@ -222,8 +222,8 @@ s8 GetMissionRunTableRow(void) {
     return -1;
 }
 
-s8 GetMissionRunTableColumn(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+s8 rchoi_race_getCurrentMissionIdx(void) {
+    RaceSetup *raceSetup = gRaceMultiConfig;
 
     if (raceSetup->mMode == MODE_MISSION_RUN) {
         return raceSetup->mMissionTableColumn;
@@ -232,12 +232,12 @@ s8 GetMissionRunTableColumn(void) {
 }
 
 #pragma thumb on
-u32 func_020b2ecc(void) {
+u32 rchoi_20B2ECC(void) {
     s32 recordValue;
     s32 isFilled;
 
-    isFilled = GetMissionRecordValue(GetMissionRunTableRow(), GetMissionRunTableColumn(), &recordValue);
-    if (GetEntryEndKind() == 0 && gChoisesS->mUnk_020 != FALSE && isFilled != 0 && (u32) (recordValue - 5) <= 2) {
+    isFilled = GetMissionRecordValue(rchoi_race_getCurrentMissionLevel(), rchoi_race_getCurrentMissionIdx(), &recordValue);
+    if (rchoi_rstat_getMissionResult() == 0 && rchoi_sState->mUnk_020 != FALSE && isFilled != 0 && (u32) (recordValue - 5) <= 2) {
         return 1;
     }
     return 0;
@@ -246,15 +246,15 @@ u32 func_020b2ecc(void) {
 
 #pragma thumb on
 
-u32 GetChoisesSOpenDuringRace(void) {
-    return (gChoisesS->mOpenDuringRace);
+u32 rchoi_getIsRacePaused(void) {
+    return (rchoi_sState->mOpenDuringRace);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020b2e98(void) {
-    if (GetChoisesSOpenDuringRace() != 0 || gChoisesS->mUnk_008 != 0) {
+u32 rchoi_isMenuVisible(void) {
+    if (rchoi_getIsRacePaused() != 0 || rchoi_sState->mUnk_008 != 0) {
         return 1;
     }
     return 0;
@@ -263,28 +263,28 @@ u32 func_020b2e98(void) {
 
 #pragma thumb on
 
-void func_020b2e64(u32 openFlag) {
+void rchoi_handleSleep(u32 openFlag) {
     int wasOpen;
     int v2;
-    wasOpen = GetChoisesSOpenDuringRace();
-    v2 = func_020b29c4();
+    wasOpen = rchoi_getIsRacePaused();
+    v2 = rchoi_shouldPauseRaceDuringMenu();
     if (v2 != 0) {
-        func_020b2f88(openFlag);
+        rchoi_setMenuVisible(openFlag);
     }
-    v2 = GetChoisesSOpenDuringRace();
+    v2 = rchoi_getIsRacePaused();
     if ((wasOpen == 0) && (v2 != 0)) {
-        func_02105d70();
+        sfx_handleRacePause();
     }
 }
 
-u32 GetChoisesSPrevOpenDuringRace(void) {
-    return (gChoisesS->mPrevOpenDuringRace);
+u32 rchoi_getPrevIsRacePaused(void) {
+    return (rchoi_sState->mPrevOpenDuringRace);
 }
 
-int func_020b2e34(void) {
+int rchoi_getActivatedOption(void) {
     int v1;
     int pickedValue;
-    pickedValue = gChoisesS->mPickedValue;
+    pickedValue = rchoi_sState->mPickedValue;
     if ((pickedValue == 2) && (v1 = func_020c3db4(), v1 != 0)) {
         pickedValue = 7;
     }
@@ -294,49 +294,49 @@ int func_020b2e34(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_020b2e00(u16 *screenMap, s32 column, s32 row) {
-    SetScreenMapBlockLowBits(screenMap, column, row, 1, 1, 4);
-    SetScreenMapBlockLowBits(screenMap, column, row + 1, 1, 1, 0x24);
+void rchoi_renderOptionBar(u16 *screenMap, s32 column, s32 row) {
+    m2d_setCharMapCharName2d(screenMap, column, row, 1, 1, 4);
+    m2d_setCharMapCharName2d(screenMap, column, row + 1, 1, 1, 0x24);
 }
 
-void func_020b2da4(void) {
+void rchoi_renderChoicesUnselected(void) {
     s32 valueCount;
     s32 valueIndex;
     s32 firstRow;
     u16 *screenMap;
 
-    valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
-    screenMap = GetChoisesSListScreenMapData();
+    valueCount = rchoi_sState->mLists[rchoi_getCurChoicesSetId()].mValueCount;
+    screenMap = rchoi_getMapData();
     if (screenMap != NULL) {
         for (valueIndex = 0, firstRow = 0xd - valueCount * 2; valueIndex < valueCount; valueIndex++) {
-            func_020b2e00(screenMap, 2, firstRow + valueIndex * 4);
+            rchoi_renderOptionBar(screenMap, 2, firstRow + valueIndex * 4);
         }
-        SetScreenMapBlockTopBits(screenMap, 0, 0, 0x20, 0x18, 0xf);
+        m2d_setCharMapPalette2d(screenMap, 0, 0, 0x20, 0x18, 0xf);
     }
 }
 #pragma thumb off
 
 #pragma thumb off
-u32 GetEntryIndex(void) {
-    return (gRaceSetup->mEntryIndex);
+u32 rchoi_race_getCurrentPlayerDriverId(void) {
+    return (gRaceMultiConfig->mEntryIndex);
 }
 
 #pragma thumb off
-s32 GetEntryEndKind(void) {
-    if (IsKartEnded((u16) GetEntryIndex()) != 0) {
-        return gRaceProgress->mEntryEndKind;
+s32 rchoi_rstat_getMissionResult(void) {
+    if (rstat_hasDriverFinished((u16) rchoi_race_getCurrentPlayerDriverId()) != 0) {
+        return gRaceStatus->mEntryEndKind;
     }
     return 6;
 }
 
 #pragma thumb on
-u32 GetChoisesSListIndex(void) {
-    if (func_020b24e4() == 2 && GetRaceDone() == 0) {
+u32 rchoi_getCurChoicesSetId(void) {
+    if (rchoi_race_getCurrentDisplayMode() == 2 && GetRaceDone() == 0) {
         return 3;
     }
     if (GetRaceDone() != 0) {
-        if (func_020b252c() == MODE_MISSION_RUN) {
-            if (GetEntryEndKind() == 0) {
+        if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN) {
+            if (rchoi_rstat_getMissionResult() == 0) {
                 return 2;
             }
             return 1;
@@ -349,23 +349,23 @@ u32 GetChoisesSListIndex(void) {
     return 0;
 }
 
-// Defined without a prototype: func_020b2c68 calls it without an argument (it uses the value left in r0).
-void func_020b2c80(selectedIndex) s32 selectedIndex;
+// Defined without a prototype: rchoi_renderMenu calls it without an argument (it uses the value left in r0).
+void rchoi_renderSelection(selectedIndex) s32 selectedIndex;
 {
     s32 valueCount;
     s32 row;
     u16 *screenMap;
 
-    valueCount = gChoisesS->mLists[GetChoisesSListIndex()].mValueCount;
-    screenMap = GetChoisesSListScreenMapData();
+    valueCount = rchoi_sState->mLists[rchoi_getCurChoicesSetId()].mValueCount;
+    screenMap = rchoi_getMapData();
     if (screenMap != NULL) {
-        if (gChoisesS->mUnk_010 == FALSE || gChoisesS->mPickFrames >= 5) {
+        if (rchoi_sState->mUnk_010 == FALSE || rchoi_sState->mPickFrames >= 5) {
             row = 0xd - valueCount * 2 + selectedIndex * 4;
-            if (gChoisesS->mCycleFrames < 0x1e) {
-                SetScreenMapBlockLowBits(screenMap, 2, row, 1, 1, 0x21);
-                SetScreenMapBlockLowBits(screenMap, 2, row + 1, 1, 1, 0x41);
+            if (rchoi_sState->mCycleFrames < 0x1e) {
+                m2d_setCharMapCharName2d(screenMap, 2, row, 1, 1, 0x21);
+                m2d_setCharMapCharName2d(screenMap, 2, row + 1, 1, 1, 0x41);
             }
-            SetScreenMapBlockTopBits(screenMap, 0, row - 1, 0x20, 4, 0xe);
+            m2d_setCharMapPalette2d(screenMap, 0, row - 1, 0x20, 4, 0xe);
         }
     }
 }
@@ -373,45 +373,45 @@ void func_020b2c80(selectedIndex) s32 selectedIndex;
 
 #pragma thumb on
 
-void func_020b2c68(void) {
-    func_020b2da4();
-    MoveChoisesSSelectedValue(0);
-    func_020b2c80();
+void rchoi_renderMenu(void) {
+    rchoi_renderChoicesUnselected();
+    rchoi_moveCursor(0);
+    rchoi_renderSelection();
 }
 
 #pragma thumb off
 
-u32 func_020b2c54(void) {
-    return (gBackupAccess->mBackupEnabled);
+u32 rchoi_savc_isEnabled(void) {
+    return (gSaveCore->mBackupEnabled);
 }
 
 #pragma thumb off
-s32 func_020b2c24(void) {
-    if (func_020b2c54() != 0) {
-        return gBackupAccess->mCommandRunning;
+s32 rchoi_savc_isBusy(void) {
+    if (rchoi_savc_isEnabled() != 0) {
+        return gSaveCore->mCommandRunning;
     }
     return 0;
 }
 
-s32 func_020b2bf0(void) {
-    if (data_0217aa08->mBusy != 0) {
+s32 rchoi_savd_isBusy(void) {
+    if (gSaveData->mBusy != 0) {
         return 1;
     }
-    return func_020b2c24();
+    return rchoi_savc_isBusy();
 }
 
 #pragma thumb on
 u32 func_020b2bc8(void) {
-    if (GetRaceDone() != 0 || (func_020b24e4() == 2 && GetRaceStartSequenceFrames() > 0xf0)) {
+    if (GetRaceDone() != 0 || (rchoi_race_getCurrentDisplayMode() == 2 && GetRaceStartSequenceFrames() > 0xf0)) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2b70(void) {
+u32 rchoi_isMenuAllowed(void) {
     if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && func_020c5dc4() != 0 && func_020c3da0() == 0 &&
-        func_020c70bc() == 0 && func_020c70a0() == 0 && GetShowLapTime() == 0 &&
-        (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE)) {
+        r2dtar_isSaving() == 0 && func_020c70a0() == 0 && GetShowLapTime() == 0 &&
+        (rchoi_getIsRacePaused() != 0 || dce_2055B1C() == FALSE)) {
         return 1;
     }
     return 0;
@@ -420,34 +420,34 @@ u32 func_020b2b70(void) {
 
 #pragma thumb off
 u32 func_020b2b5c(void) {
-    return (data_0217b488->mUnk_10);
+    return (gStruct217B488->mUnk_10);
 }
 
-u32 func_020b2b54(void) {
+u32 rchoi_input_getDefaultInputId(void) {
     return 0x8u;
 }
 
-u16 func_020b2b40(InputSlot *slot, u32 mask) {
+u16 rchoi_pad_isSetPadTrig(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u16 func_020b2b24(s32 slotIndex, u32 mask) {
-    return func_020b2b40(&data_02175628[slotIndex], mask);
+u16 rchoi_input_isSetPadTrigById(s32 slotIndex, u32 mask) {
+    return rchoi_pad_isSetPadTrig(&gInputUnits[slotIndex], mask);
 }
 
-u32 func_020b2b1c(const void *inputSlotPair) {
+u32 rchoi_spi_getTpValid(const void *inputSlotPair) {
     return (*OFFSET_PTR(const u16, inputSlotPair, 4));
 }
 
 #pragma thumb off
-u32 func_020b2aec(InputSlotPair *inputSlotPair) {
-    if (func_020b2b1c(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
+u32 rchoi_spi_isPenReleaseTimeout(InputSlotPair *inputSlotPair) {
+    if (rchoi_spi_getTpValid(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < 5) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2ac8(InputSlotPair *inputSlotPair) {
+u32 rchoi_spi_isPenDownEvent(InputSlotPair *inputSlotPair) {
     if (inputSlotPair->mPrevHasPair == 0 && inputSlotPair->mHasPair != 0) {
         return 1;
     }
@@ -455,37 +455,37 @@ u32 func_020b2ac8(InputSlotPair *inputSlotPair) {
 }
 
 u32 func_020b2a94(InputSlotPair *inputSlotPair) {
-    if (func_020b2aec(inputSlotPair) == 0 && func_020b2ac8(inputSlotPair) != 0) {
+    if (rchoi_spi_isPenReleaseTimeout(inputSlotPair) == 0 && rchoi_spi_isPenDownEvent(inputSlotPair) != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020b2a74(s32 slotIndex) {
-    return func_020b2a94((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+u32 rchoi_sub_20ACE14(s32 slotIndex) {
+    return func_020b2a94((InputSlotPair *) &gInputUnits[slotIndex].mPairX);
 }
 
 #pragma thumb off
 void func_020b2a60(u32 p0) {
-    data_0217b488->mUnk_14 = p0;
+    gStruct217B488->mUnk_14 = p0;
 }
 
 u32 GetRaceDone(void) {
-    return (gRaceProgress->mRaceDone);
+    return (gRaceStatus->mRaceDone);
 }
 
 #pragma thumb on
-u32 func_020b29c4(void) {
+u32 rchoi_shouldPauseRaceDuringMenu(void) {
     u32 result = 0;
     u32 b = 0;
     u32 raceInProgress = 0;
     u32 noMissionWinner;
 
     if (IsRaceStartSequenceDone() != 0 && GetRaceStartSequenceFrames() > 0xf0 && GetRaceDone() == 0 &&
-        (func_020b252c() != MODE_BATTLE || IsWinnerDecided() == FALSE)) {
+        (rchoi_race_getCurrentRaceMode() != MODE_BATTLE || mgcnt_hasWinnerBeenDecided() == FALSE)) {
         noMissionWinner = 1;
-        if (func_020b252c() == MODE_MISSION_RUN) {
-            if ((func_020b252c() == MODE_MISSION_RUN ? IsWinnerDecided() : 0) != FALSE) {
+        if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN) {
+            if ((rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) != FALSE) {
                 noMissionWinner = 0;
             }
         }
@@ -494,12 +494,12 @@ u32 func_020b29c4(void) {
         }
     }
     if (raceInProgress != 0) {
-        if (func_020b252c() != 5) {
+        if (rchoi_race_getCurrentRaceMode() != 5) {
             b = 1;
         }
     }
     if (b != 0) {
-        if (GetChoisesSOpenDuringRace() != 0 || func_02055b1c() == FALSE) {
+        if (rchoi_getIsRacePaused() != 0 || dce_2055B1C() == FALSE) {
             result = 1;
         }
     }
@@ -508,419 +508,419 @@ u32 func_020b29c4(void) {
 #pragma thumb off
 
 #pragma thumb off
-u32 func_020b29b0(void) {
-    return (data_021759d0->mUnk_20);
+u32 rchoi_sysdat_getOverlayRelatedNum(void) {
+    return (gSystemData->mUnk_20);
 }
 
 #pragma thumb on
-void UpdateChoisesS(void) {
+void rchoi_update(void) {
     s32 a;
 
-    gChoisesS->mPrevOpenDuringRace = gChoisesS->mOpenDuringRace;
-    gChoisesS->mCycleFrames = gChoisesS->mCycleFrames + 1;
-    if (gChoisesS->mCycleFrames >= 0x32) {
-        gChoisesS->mCycleFrames = 0;
+    rchoi_sState->mPrevOpenDuringRace = rchoi_sState->mOpenDuringRace;
+    rchoi_sState->mCycleFrames = rchoi_sState->mCycleFrames + 1;
+    if (rchoi_sState->mCycleFrames >= 0x32) {
+        rchoi_sState->mCycleFrames = 0;
     }
-    if (func_020b2bf0() != 0) {
+    if (rchoi_savd_isBusy() != 0) {
         return;
     }
-    if ((func_020b252c() == MODE_GRAND_PRIX || func_020b252c() == MODE_TIME_ATTACK) && func_020b24e4() == 2 &&
-        func_0203c0bc() != 0) {
+    if ((rchoi_race_getCurrentRaceMode() == MODE_GRAND_PRIX || rchoi_race_getCurrentRaceMode() == MODE_TIME_ATTACK) && rchoi_race_getCurrentDisplayMode() == 2 &&
+        rstat_203C0BC() != 0) {
         return;
     }
-    if (gChoisesS->mPickFrames == 0 && gChoisesS->mCloseFrames == 0 && IsChoisesSPickLocked() == 0) {
+    if (rchoi_sState->mPickFrames == 0 && rchoi_sState->mCloseFrames == 0 && rchoi_getIsExittingRace() == 0) {
         if (func_020b2bc8() != 0) {
-            if (func_020b2b70() != 0) {
-                if (func_020b252c() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
-                        gChoisesS->mPickedValue = 10;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
-                        StartChoisesSSelectedValueSeq();
+            if (rchoi_isMenuAllowed() != 0) {
+                if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
+                    if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0 || rchoi_sub_20ACE14(rchoi_input_getDefaultInputId()) != 0) {
+                        rchoi_sState->mPickedValue = 10;
+                        rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;
+                        rchoi_sState->mPickLocked = 1;
+                        rchoi_emitOptionActivationSound();
                     }
-                } else if (func_020b252c() == MODE_MISSION_RUN && func_020b2ecc() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
-                        gChoisesS->mPickedValue = 6;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
-                        StartChoisesSSelectedValueSeq();
+                } else if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && rchoi_20B2ECC() != 0) {
+                    if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0 || rchoi_sub_20ACE14(rchoi_input_getDefaultInputId()) != 0) {
+                        rchoi_sState->mPickedValue = 6;
+                        rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;
+                        rchoi_sState->mPickLocked = 1;
+                        rchoi_emitOptionActivationSound();
                         func_020b2a60(1);
                     }
-                } else if (func_020b252c() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
-                    if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0 || func_020b2a74(func_020b2b54()) != 0) {
-                        gChoisesS->mPickedValue = 6;
-                        gChoisesS->mSelectedValue = gChoisesS->mPickedValue;
-                        gChoisesS->mPickLocked = 1;
-                        StartChoisesSSelectedValueSeq();
+                } else if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
+                    if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0 || rchoi_sub_20ACE14(rchoi_input_getDefaultInputId()) != 0) {
+                        rchoi_sState->mPickedValue = 6;
+                        rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;
+                        rchoi_sState->mPickLocked = 1;
+                        rchoi_emitOptionActivationSound();
                     }
-                } else if (func_020b2b24(func_020b2b54(), 8) != 0) {
-                    if (func_020b2e98() != 0) {
-                        func_02105c4c();
-                        gChoisesS->mCloseFrames = 1;
+                } else if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), 8) != 0) {
+                    if (rchoi_isMenuVisible() != 0) {
+                        sfx_handleRaceContinue();
+                        rchoi_sState->mCloseFrames = 1;
                     } else {
-                        func_02105d70();
-                        func_020b2f88(1);
+                        sfx_handleRacePause();
+                        rchoi_setMenuVisible(1);
                     }
-                } else if (func_020b302c() != 0) {
-                    gChoisesS->mPickFrames = 1;
-                } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
-                    if (func_020b2e98() != 0) {
-                        if (gChoisesS->mSelectedValue == 0) {
-                            func_02105c4c();
+                } else if (rchoi_handleTouch() != 0) {
+                    rchoi_sState->mPickFrames = 1;
+                } else if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0) {
+                    if (rchoi_isMenuVisible() != 0) {
+                        if (rchoi_sState->mSelectedValue == 0) {
+                            sfx_handleRaceContinue();
                         } else {
-                            StartChoisesSSelectedValueSeq();
+                            rchoi_emitOptionActivationSound();
                         }
-                        gChoisesS->mPickFrames = 1;
-                        gChoisesS->mUnk_010 = TRUE;
+                        rchoi_sState->mPickFrames = 1;
+                        rchoi_sState->mUnk_010 = TRUE;
                     } else {
-                        func_02105d70();
-                        func_020b2f88(1);
+                        sfx_handleRacePause();
+                        rchoi_setMenuVisible(1);
                     }
-                } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
-                    if (func_020b2e98() != 0) {
-                        func_02105c4c();
-                        gChoisesS->mCloseFrames = 1;
+                } else if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_B) != 0) {
+                    if (rchoi_isMenuVisible() != 0) {
+                        sfx_handleRaceContinue();
+                        rchoi_sState->mCloseFrames = 1;
                     }
-                } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {
-                    MoveChoisesSSelectedValue(-1);
-                } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_DOWN) != 0) {
-                    MoveChoisesSSelectedValue(1);
+                } else if (mutil_checkKeys(rchoi_input_getDefaultInputId(), PAD_KEY_UP) != 0) {
+                    rchoi_moveCursor(-1);
+                } else if (mutil_checkKeys(rchoi_input_getDefaultInputId(), PAD_KEY_DOWN) != 0) {
+                    rchoi_moveCursor(1);
                 }
             }
-        } else if (func_020b29c4() != 0) {
-            if (func_020b2b24(func_020b2b54(), 8) != 0) {
-                if (func_020b2e98() != 0) {
-                    func_02105c4c();
-                    gChoisesS->mCloseFrames = 1;
+        } else if (rchoi_shouldPauseRaceDuringMenu() != 0) {
+            if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), 8) != 0) {
+                if (rchoi_isMenuVisible() != 0) {
+                    sfx_handleRaceContinue();
+                    rchoi_sState->mCloseFrames = 1;
                 } else {
-                    func_02105d70();
-                    func_020b2f88(1);
+                    sfx_handleRacePause();
+                    rchoi_setMenuVisible(1);
                 }
-            } else if (func_020b302c() != 0) {
-                gChoisesS->mPickFrames = 1;
-            } else if (func_020b2b24(func_020b2b54(), PAD_KEY_A) != 0) {
-                if (func_020b2e98() != 0) {
-                    if (gChoisesS->mSelectedValue == 0) {
-                        func_02105c4c();
+            } else if (rchoi_handleTouch() != 0) {
+                rchoi_sState->mPickFrames = 1;
+            } else if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0) {
+                if (rchoi_isMenuVisible() != 0) {
+                    if (rchoi_sState->mSelectedValue == 0) {
+                        sfx_handleRaceContinue();
                     } else {
-                        StartChoisesSSelectedValueSeq();
+                        rchoi_emitOptionActivationSound();
                     }
-                    gChoisesS->mPickFrames = 1;
-                    gChoisesS->mUnk_010 = TRUE;
+                    rchoi_sState->mPickFrames = 1;
+                    rchoi_sState->mUnk_010 = TRUE;
                 }
-            } else if (func_020b2b24(func_020b2b54(), PAD_KEY_B) != 0) {
-                if (func_020b2e98() != 0) {
-                    func_02105c4c();
-                    gChoisesS->mCloseFrames = 1;
+            } else if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_B) != 0) {
+                if (rchoi_isMenuVisible() != 0) {
+                    sfx_handleRaceContinue();
+                    rchoi_sState->mCloseFrames = 1;
                 }
-            } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_UP) != 0) {
-                MoveChoisesSSelectedValue(-1);
-            } else if (GetNewOrRepeatBits(func_020b2b54(), PAD_KEY_DOWN) != 0) {
-                MoveChoisesSSelectedValue(1);
+            } else if (mutil_checkKeys(rchoi_input_getDefaultInputId(), PAD_KEY_UP) != 0) {
+                rchoi_moveCursor(-1);
+            } else if (mutil_checkKeys(rchoi_input_getDefaultInputId(), PAD_KEY_DOWN) != 0) {
+                rchoi_moveCursor(1);
             }
         }
     }
-    a = gChoisesS->mPickFrames;
+    a = rchoi_sState->mPickFrames;
     if (a != 0) {
-        gChoisesS->mPickFrames = a + 1;
-        if (gChoisesS->mPickFrames > 0xf) {
+        rchoi_sState->mPickFrames = a + 1;
+        if (rchoi_sState->mPickFrames > 0xf) {
             if (func_020b2bc8() != 0) {
-                if (func_020b2e98() != 0) {
-                    gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
-                    func_020b2f88(0);
+                if (rchoi_isMenuVisible() != 0) {
+                    rchoi_sState->mPickedValue = rchoi_sState->mSelectedValue;
+                    rchoi_setMenuVisible(0);
                 } else {
-                    func_020b2f88(1);
+                    rchoi_setMenuVisible(1);
                 }
-            } else if (func_020b2e98() != 0) {
-                gChoisesS->mPickedValue = gChoisesS->mSelectedValue;
-                func_020b2f88(0);
+            } else if (rchoi_isMenuVisible() != 0) {
+                rchoi_sState->mPickedValue = rchoi_sState->mSelectedValue;
+                rchoi_setMenuVisible(0);
             }
-            gChoisesS->mPickFrames = 0;
-            gChoisesS->mUnk_010 = FALSE;
+            rchoi_sState->mPickFrames = 0;
+            rchoi_sState->mUnk_010 = FALSE;
         }
     }
-    a = gChoisesS->mCloseFrames;
+    a = rchoi_sState->mCloseFrames;
     if (a != 0) {
-        gChoisesS->mCloseFrames = a + 1;
-        if (gChoisesS->mCloseFrames > 4) {
+        rchoi_sState->mCloseFrames = a + 1;
+        if (rchoi_sState->mCloseFrames > 4) {
             if (func_020b2bc8() != 0) {
-                if (func_020b2e98() != 0) {
-                    func_020b2f88(0);
+                if (rchoi_isMenuVisible() != 0) {
+                    rchoi_setMenuVisible(0);
                 } else {
-                    func_020b2f88(1);
+                    rchoi_setMenuVisible(1);
                 }
-            } else if (func_020b2e98() != 0) {
-                func_020b2f88(0);
+            } else if (rchoi_isMenuVisible() != 0) {
+                rchoi_setMenuVisible(0);
             }
-            gChoisesS->mCloseFrames = 0;
+            rchoi_sState->mCloseFrames = 0;
         }
     }
-    if (func_020b29b0() != 0 && func_020b252c() == 5 && func_020b2bc8() != 0) {
-        gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
-        if (gChoisesS->mAutoPickFrames > 0x384) {
-            gChoisesS->mPickedValue = GetCourseNumber() != 4 ? 2 : 7;
+    if (rchoi_sysdat_getOverlayRelatedNum() != 0 && rchoi_race_getCurrentRaceMode() == 5 && func_020b2bc8() != 0) {
+        rchoi_sState->mAutoPickFrames = rchoi_sState->mAutoPickFrames + 1;
+        if (rchoi_sState->mAutoPickFrames > 0x384) {
+            rchoi_sState->mPickedValue = rchoi_race_getCurrentRaceNr() != 4 ? 2 : 7;
         }
     }
-    if (GetChoisesSOpenDuringRace() != 0) {
-        a = gChoisesS->mUnk_030;
-        gChoisesS->mUnk_030 = a + 1;
+    if (rchoi_getIsRacePaused() != 0) {
+        a = rchoi_sState->mUnk_030;
+        rchoi_sState->mUnk_030 = a + 1;
         if (a >= 1) {
-            gChoisesS->mUnk_02c = 2;
-            gChoisesS->mUnk_030 = 1;
+            rchoi_sState->mUnk_02c = 2;
+            rchoi_sState->mUnk_030 = 1;
         }
     } else {
-        gChoisesS->mUnk_02c = 0;
-        gChoisesS->mUnk_030 = 0;
+        rchoi_sState->mUnk_02c = 0;
+        rchoi_sState->mUnk_030 = 0;
     }
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void func_020b255c(void) {
+void rchoi_render(void) {
     int isOpen;
-    isOpen = func_020b2e98();
+    isOpen = rchoi_isMenuVisible();
     if (isOpen != 0) {
-        func_020b2c68();
+        rchoi_renderMenu();
     }
 }
 
 #pragma thumb off
 
-void *func_020b2540(void) {
-    return GetHeap(GetCurrentHeapCall());
+void *rchoi_proc_getCurrentHeap(void) {
+    return proc_getHeap(proc_getCurrent());
 }
 
-u32 func_020b252c(void) {
-    return (gRaceSetup->mMode);
+u32 rchoi_race_getCurrentRaceMode(void) {
+    return (gRaceMultiConfig->mMode);
 }
 
 #pragma thumb on
 BOOL func_020b250c(void) {
-    return func_020b252c() == MODE_GRAND_PRIX && GetCourseNumber() == 4;
+    return rchoi_race_getCurrentRaceMode() == MODE_GRAND_PRIX && rchoi_race_getCurrentRaceNr() == 4;
 }
 #pragma thumb off
 
 #pragma thumb off
-u32 GetCourseNumber(void) {
-    return (gRaceSetup->mCourseNumber);
+u32 rchoi_race_getCurrentRaceNr(void) {
+    return (gRaceMultiConfig->mCourseNumber);
 }
 
-u32 func_020b24e4(void) {
-    return gRaceSetup->mRaceKind;
+u32 rchoi_race_getCurrentDisplayMode(void) {
+    return gRaceMultiConfig->mRaceKind;
 }
 
 #pragma thumb off
-void func_020b24cc(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
+void rchoi_NNS_G2dTextCanvasInit(TextCanvas *textCanvas, void *charCanvas, void *font, s32 charSpacing, s32 lineSpacing) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = font;
     textCanvas->mCharSpacing = charSpacing;
     textCanvas->mLineSpacing = lineSpacing;
 }
 
-u32 func_020b24a4(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
+u32 rchoi_NNS_G2dTextCanvasDrawText(TextCanvas *textCanvas, s32 textX, s32 textY, u32 color, u32 flags, void *text) {
     return NNSi_G2dTextCanvasDrawText(textCanvas, textX, textY, color, flags, text);
 }
 
 #pragma thumb on
 
-void InitChoisesS(void) {
+void rchoi_init(void) {
     ChoisesS *choisesS;
     u32 charCount;
     s32 i;
 
-    gChoisesS = HeapAlloc(func_020b2540(), 0x1a4);
-    gChoisesS->mOpenDuringRace = 0;
-    gChoisesS->mPrevOpenDuringRace = 0;
-    gChoisesS->mUnk_008 = 0;
-    gChoisesS->mPickLocked = 0;
-    gChoisesS->mPickFrames = 0;
-    gChoisesS->mUnk_010 = FALSE;
-    gChoisesS->mAutoPickFrames = 0;
-    if (func_020b252c() == MODE_MISSION_RUN) {
-        gChoisesS->mUnk_020 = func_020adb34();
+    rchoi_sState = heap_alloc(rchoi_proc_getCurrentHeap(), 0x1a4);
+    rchoi_sState->mOpenDuringRace = 0;
+    rchoi_sState->mPrevOpenDuringRace = 0;
+    rchoi_sState->mUnk_008 = 0;
+    rchoi_sState->mPickLocked = 0;
+    rchoi_sState->mPickFrames = 0;
+    rchoi_sState->mUnk_010 = FALSE;
+    rchoi_sState->mAutoPickFrames = 0;
+    if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN) {
+        rchoi_sState->mUnk_020 = func_020adb34();
     } else {
-        gChoisesS->mUnk_020 = FALSE;
+        rchoi_sState->mUnk_020 = FALSE;
     }
-    gChoisesS->mUnk_02c = 0;
-    gChoisesS->mUnk_030 = 0;
-    ResetChoisesSSelection();
-    ClearChoisesSListValueCounts();
-    switch (func_020b252c()) {
+    rchoi_sState->mUnk_02c = 0;
+    rchoi_sState->mUnk_030 = 0;
+    rchoi_resetSelectedOption();
+    rchoi_resetChoicesSets();
+    switch (rchoi_race_getCurrentRaceMode()) {
         case MODE_GRAND_PRIX:
-            AppendChoisesSListValue(0, 0);
-            AppendChoisesSListValue(0, 9);
+            rchoi_registerOption(0, 0);
+            rchoi_registerOption(0, 9);
             if (func_020b250c() != FALSE) {
-                AppendChoisesSListValue(1, 7);
-                AppendChoisesSListValue(1, 8);
+                rchoi_registerOption(1, 7);
+                rchoi_registerOption(1, 8);
             } else {
-                AppendChoisesSListValue(1, 2);
-                AppendChoisesSListValue(1, 8);
-                AppendChoisesSListValue(1, 9);
+                rchoi_registerOption(1, 2);
+                rchoi_registerOption(1, 8);
+                rchoi_registerOption(1, 9);
             }
             if (func_020b250c() != FALSE) {
-                AppendChoisesSListValue(3, 0);
-                AppendChoisesSListValue(3, 7);
-                AppendChoisesSListValue(3, 8);
+                rchoi_registerOption(3, 0);
+                rchoi_registerOption(3, 7);
+                rchoi_registerOption(3, 8);
             } else {
-                AppendChoisesSListValue(3, 0);
-                AppendChoisesSListValue(3, 2);
-                AppendChoisesSListValue(3, 8);
-                AppendChoisesSListValue(3, 9);
+                rchoi_registerOption(3, 0);
+                rchoi_registerOption(3, 2);
+                rchoi_registerOption(3, 8);
+                rchoi_registerOption(3, 9);
             }
             break;
         case MODE_TIME_ATTACK:
-            AppendChoisesSListValue(0, 0);
-            AppendChoisesSListValue(0, 3);
-            AppendChoisesSListValue(0, 4);
-            AppendChoisesSListValue(0, 5);
-            AppendChoisesSListValue(0, 9);
-            AppendChoisesSListValue(1, 1);
-            AppendChoisesSListValue(1, 4);
-            AppendChoisesSListValue(1, 5);
-            AppendChoisesSListValue(1, 8);
-            AppendChoisesSListValue(1, 9);
-            AppendChoisesSListValue(3, 0);
-            AppendChoisesSListValue(3, 1);
-            AppendChoisesSListValue(3, 4);
-            AppendChoisesSListValue(3, 5);
-            AppendChoisesSListValue(3, 8);
-            AppendChoisesSListValue(3, 9);
+            rchoi_registerOption(0, 0);
+            rchoi_registerOption(0, 3);
+            rchoi_registerOption(0, 4);
+            rchoi_registerOption(0, 5);
+            rchoi_registerOption(0, 9);
+            rchoi_registerOption(1, 1);
+            rchoi_registerOption(1, 4);
+            rchoi_registerOption(1, 5);
+            rchoi_registerOption(1, 8);
+            rchoi_registerOption(1, 9);
+            rchoi_registerOption(3, 0);
+            rchoi_registerOption(3, 1);
+            rchoi_registerOption(3, 4);
+            rchoi_registerOption(3, 5);
+            rchoi_registerOption(3, 8);
+            rchoi_registerOption(3, 9);
             break;
         case MODE_BATTLE:
-            AppendChoisesSListValue(0, 0);
-            AppendChoisesSListValue(0, 9);
-            AppendChoisesSListValue(1, 2);
-            AppendChoisesSListValue(1, 9);
-            AppendChoisesSListValue(2, 7);
+            rchoi_registerOption(0, 0);
+            rchoi_registerOption(0, 9);
+            rchoi_registerOption(1, 2);
+            rchoi_registerOption(1, 9);
+            rchoi_registerOption(2, 7);
             break;
         case MODE_VS:
-            AppendChoisesSListValue(0, 0);
-            AppendChoisesSListValue(0, 9);
-            AppendChoisesSListValue(1, 2);
-            AppendChoisesSListValue(1, 9);
-            AppendChoisesSListValue(2, 7);
+            rchoi_registerOption(0, 0);
+            rchoi_registerOption(0, 9);
+            rchoi_registerOption(1, 2);
+            rchoi_registerOption(1, 9);
+            rchoi_registerOption(2, 7);
             break;
         case MODE_MISSION_RUN:
-            AppendChoisesSListValue(0, 0);
-            AppendChoisesSListValue(0, 3);
-            AppendChoisesSListValue(0, 6);
-            AppendChoisesSListValue(0, 9);
+            rchoi_registerOption(0, 0);
+            rchoi_registerOption(0, 3);
+            rchoi_registerOption(0, 6);
+            rchoi_registerOption(0, 9);
             if (func_020b2f58() != 0) {
                 if (IsMissionRunRecordFilled() != 0) {
-                    AppendChoisesSListValue(1, 1);
-                    AppendChoisesSListValue(1, 6);
-                    AppendChoisesSListValue(1, 9);
-                    AppendChoisesSListValue(2, 6);
-                    AppendChoisesSListValue(2, 1);
-                    AppendChoisesSListValue(2, 10);
-                    AppendChoisesSListValue(2, 9);
+                    rchoi_registerOption(1, 1);
+                    rchoi_registerOption(1, 6);
+                    rchoi_registerOption(1, 9);
+                    rchoi_registerOption(2, 6);
+                    rchoi_registerOption(2, 1);
+                    rchoi_registerOption(2, 10);
+                    rchoi_registerOption(2, 9);
                 } else {
-                    AppendChoisesSListValue(1, 1);
-                    AppendChoisesSListValue(1, 6);
-                    AppendChoisesSListValue(1, 9);
-                    AppendChoisesSListValue(2, 6);
-                    AppendChoisesSListValue(2, 1);
-                    AppendChoisesSListValue(2, 9);
+                    rchoi_registerOption(1, 1);
+                    rchoi_registerOption(1, 6);
+                    rchoi_registerOption(1, 9);
+                    rchoi_registerOption(2, 6);
+                    rchoi_registerOption(2, 1);
+                    rchoi_registerOption(2, 9);
                 }
             } else {
-                AppendChoisesSListValue(1, 1);
-                AppendChoisesSListValue(1, 6);
-                AppendChoisesSListValue(1, 9);
-                AppendChoisesSListValue(2, 6);
-                AppendChoisesSListValue(2, 1);
-                AppendChoisesSListValue(2, 9);
+                rchoi_registerOption(1, 1);
+                rchoi_registerOption(1, 6);
+                rchoi_registerOption(1, 9);
+                rchoi_registerOption(2, 6);
+                rchoi_registerOption(2, 1);
+                rchoi_registerOption(2, 9);
             }
             break;
         case 5:
-            AppendChoisesSListValue(0, 0);
-            if (GetCourseNumber() != 4) {
-                AppendChoisesSListValue(1, 2);
+            rchoi_registerOption(0, 0);
+            if (rchoi_race_getCurrentRaceNr() != 4) {
+                rchoi_registerOption(1, 2);
             } else {
-                AppendChoisesSListValue(1, 7);
+                rchoi_registerOption(1, 7);
             }
             break;
     }
-    if (func_020b24e4() != RACE_KIND_START_GP && func_020b24e4() != RACE_KIND_STAFF_ROLL) {
+    if (rchoi_race_getCurrentDisplayMode() != RACE_KIND_START_GP && rchoi_race_getCurrentDisplayMode() != RACE_KIND_STAFF_ROLL) {
         const char *nscrNames[6] = {
-            sChoisesSNscrName1, sChoisesSNscrName2, sChoisesSNscrName3,
-            sChoisesSNscrName4, sChoisesSNscrName5, sChoisesSNscrName6,
+            aChoises_s_1_ns, aChoises_s_2_ns, aChoises_s_3__0,
+            aChoises_s_4_ns, aChoises_s_5_ns, aChoises_s_6_ns,
         };
 
-        LoadNclrData(&gChoisesS->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
-        LoadNcgrData(&gChoisesS->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
+        g2du_unpackPaletteData(&rchoi_sState->mChoisesSBNclr, m2d_getSceneArcFile("choises_s_b.NCLR"));
+        g2du_unpackCharacterDataBG(&rchoi_sState->mChoisesSBNcgr, m2d_getSceneArcFile("choises_s_b.NCGR"));
         for (i = 0; i < 6; i++) {
-            LoadNscrData(&gChoisesS->mChoisesSNscrs[i], FindSceneFileWrapper(nscrNames[i]));
+            g2du_unpackScreenData(&rchoi_sState->mChoisesSNscrs[i], m2d_getSceneArcFile(nscrNames[i]));
         }
-        gChoisesS->mList0Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[0].mValueCount - 1];
-        gChoisesS->mList1Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[1].mValueCount - 1];
-        gChoisesS->mList2Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[2].mValueCount - 1];
-        gChoisesS->mList3Nscr = gChoisesS->mChoisesSNscrs[gChoisesS->mLists[3].mValueCount - 1];
-        gChoisesS->mList1Chars = HeapAlloc(func_020b2540(), GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount));
-        switch (func_020b252c()) {
+        rchoi_sState->mList0Nscr = rchoi_sState->mChoisesSNscrs[rchoi_sState->mLists[0].mValueCount - 1];
+        rchoi_sState->mList1Nscr = rchoi_sState->mChoisesSNscrs[rchoi_sState->mLists[1].mValueCount - 1];
+        rchoi_sState->mList2Nscr = rchoi_sState->mChoisesSNscrs[rchoi_sState->mLists[2].mValueCount - 1];
+        rchoi_sState->mList3Nscr = rchoi_sState->mChoisesSNscrs[rchoi_sState->mLists[3].mValueCount - 1];
+        rchoi_sState->mList1Chars = heap_alloc(rchoi_proc_getCurrentHeap(), GetChoisesSListCharsSize(rchoi_sState->mLists[1].mValueCount));
+        switch (rchoi_race_getCurrentRaceMode()) {
             case MODE_BATTLE:
             case MODE_VS:
             case MODE_MISSION_RUN:
-                gChoisesS->mList2Chars =
-                    HeapAlloc(func_020b2540(), GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount));
+                rchoi_sState->mList2Chars =
+                    heap_alloc(rchoi_proc_getCurrentHeap(), GetChoisesSListCharsSize(rchoi_sState->mLists[2].mValueCount));
                 break;
         }
-        gChoisesS->mFont = GetFontByIndex(2);
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[0], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        func_020b24cc(&choisesS->mTextCanvases[0], choisesS->mCharCanvases[0], choisesS->mFont, IsLanguageJa(), 0);
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[1], gChoisesS->mList1Chars, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        func_020b24cc(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, IsLanguageJa(), 0);
-        charCount = GetChoisesSListCharsSize(gChoisesS->mLists[1].mValueCount) >> 1;
+        rchoi_sState->mFont = m2d_getFont(2);
+        NNS_G2dCharCanvasInitForBG(rchoi_sState->mCharCanvases[0], rchoi_getCharData()->mData, 0x20, 0xc, 4);
+        choisesS = rchoi_sState;
+        rchoi_NNS_G2dTextCanvasInit(&choisesS->mTextCanvases[0], choisesS->mCharCanvases[0], choisesS->mFont, g2du_getTextHSpace(), 0);
+        NNS_G2dCharCanvasInitForBG(rchoi_sState->mCharCanvases[1], rchoi_sState->mList1Chars, 0x20, 0xc, 4);
+        choisesS = rchoi_sState;
+        rchoi_NNS_G2dTextCanvasInit(&choisesS->mTextCanvases[1], choisesS->mCharCanvases[1], choisesS->mFont, g2du_getTextHSpace(), 0);
+        charCount = GetChoisesSListCharsSize(rchoi_sState->mLists[1].mValueCount) >> 1;
         for (i = 0; i < charCount; i++) {
-            gChoisesS->mList1Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
+            rchoi_sState->mList1Chars[i] = rchoi_getCharData()->mData[i];
         }
-        if (gChoisesS->mList2Chars != NULL) {
-            NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[2], gChoisesS->mList2Chars, 0x20, 0xc, 4);
-            choisesS = gChoisesS;
-            func_020b24cc(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont, IsLanguageJa(), 0);
-            charCount = GetChoisesSListCharsSize(gChoisesS->mLists[2].mValueCount) >> 1;
+        if (rchoi_sState->mList2Chars != NULL) {
+            NNS_G2dCharCanvasInitForBG(rchoi_sState->mCharCanvases[2], rchoi_sState->mList2Chars, 0x20, 0xc, 4);
+            choisesS = rchoi_sState;
+            rchoi_NNS_G2dTextCanvasInit(&choisesS->mTextCanvases[2], choisesS->mCharCanvases[2], choisesS->mFont, g2du_getTextHSpace(), 0);
+            charCount = GetChoisesSListCharsSize(rchoi_sState->mLists[2].mValueCount) >> 1;
             for (i = 0; i < charCount; i++) {
-                gChoisesS->mList2Chars[i] = GetChoisesSBNcgrWithListChars()->mData[i];
+                rchoi_sState->mList2Chars[i] = rchoi_getCharData()->mData[i];
             }
         }
-        NNS_G2dCharCanvasInitForBG(gChoisesS->mCharCanvases[3], GetChoisesSBNcgrWithListChars()->mData, 0x20, 0xc, 4);
-        choisesS = gChoisesS;
-        func_020b24cc(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, IsLanguageJa(), 0);
-        if (func_020b24e4() != 2) {
-            for (i = 0; i < gChoisesS->mLists[0].mValueCount; i++) {
-                func_020b24a4(&gChoisesS->mTextCanvases[0], 0x90, i * 16 + 9, 0xc, 0x412,
-                              GetChoisesSValueMessage(0, gChoisesS->mLists[0].mValues[i]));
+        NNS_G2dCharCanvasInitForBG(rchoi_sState->mCharCanvases[3], rchoi_getCharData()->mData, 0x20, 0xc, 4);
+        choisesS = rchoi_sState;
+        rchoi_NNS_G2dTextCanvasInit(&choisesS->mTextCanvases[3], choisesS->mCharCanvases[3], choisesS->mFont, g2du_getTextHSpace(), 0);
+        if (rchoi_race_getCurrentDisplayMode() != 2) {
+            for (i = 0; i < rchoi_sState->mLists[0].mValueCount; i++) {
+                rchoi_NNS_G2dTextCanvasDrawText(&rchoi_sState->mTextCanvases[0], 0x90, i * 16 + 9, 0xc, 0x412,
+                              rchoi_getOptionString(0, rchoi_sState->mLists[0].mValues[i]));
             }
         } else {
-            for (i = 0; i < gChoisesS->mLists[3].mValueCount; i++) {
-                func_020b24a4(&gChoisesS->mTextCanvases[3], 0x90, i * 16 + 9, 0xc, 0x412,
-                              GetChoisesSValueMessage(3, gChoisesS->mLists[3].mValues[i]));
+            for (i = 0; i < rchoi_sState->mLists[3].mValueCount; i++) {
+                rchoi_NNS_G2dTextCanvasDrawText(&rchoi_sState->mTextCanvases[3], 0x90, i * 16 + 9, 0xc, 0x412,
+                              rchoi_getOptionString(3, rchoi_sState->mLists[3].mValues[i]));
             }
         }
-        for (i = 0; i < gChoisesS->mLists[1].mValueCount; i++) {
-            func_020b24a4(&gChoisesS->mTextCanvases[1], 0x90, i * 16 + 9, 0xc, 0x412,
-                          GetChoisesSValueMessage(1, gChoisesS->mLists[1].mValues[i]));
+        for (i = 0; i < rchoi_sState->mLists[1].mValueCount; i++) {
+            rchoi_NNS_G2dTextCanvasDrawText(&rchoi_sState->mTextCanvases[1], 0x90, i * 16 + 9, 0xc, 0x412,
+                          rchoi_getOptionString(1, rchoi_sState->mLists[1].mValues[i]));
         }
-        for (i = 0; i < gChoisesS->mLists[2].mValueCount; i++) {
-            func_020b24a4(&gChoisesS->mTextCanvases[2], 0x90, i * 16 + 9, 0xc, 0x412,
-                          GetChoisesSValueMessage(2, gChoisesS->mLists[2].mValues[i]));
+        for (i = 0; i < rchoi_sState->mLists[2].mValueCount; i++) {
+            rchoi_NNS_G2dTextCanvasDrawText(&rchoi_sState->mTextCanvases[2], 0x90, i * 16 + 9, 0xc, 0x412,
+                          rchoi_getOptionString(2, rchoi_sState->mLists[2].mValues[i]));
         }
     } else {
-        gChoisesS->mChoisesSBNclr = NULL;
-        gChoisesS->mChoisesSBNcgr = NULL;
-        gChoisesS->mList1Chars = NULL;
-        gChoisesS->mList2Chars = NULL;
-        gChoisesS->mList0Nscr = NULL;
-        gChoisesS->mList1Nscr = NULL;
-        gChoisesS->mList2Nscr = NULL;
-        gChoisesS->mList3Nscr = NULL;
+        rchoi_sState->mChoisesSBNclr = NULL;
+        rchoi_sState->mChoisesSBNcgr = NULL;
+        rchoi_sState->mList1Chars = NULL;
+        rchoi_sState->mList2Chars = NULL;
+        rchoi_sState->mList0Nscr = NULL;
+        rchoi_sState->mList1Nscr = NULL;
+        rchoi_sState->mList2Nscr = NULL;
+        rchoi_sState->mList3Nscr = NULL;
     }
 }
 
-void ClearChoisesSPointer(void) {
-    gChoisesS = NULL;
+void rchoi_finalize(void) {
+    rchoi_sState = NULL;
 }
 
 #pragma thumb off

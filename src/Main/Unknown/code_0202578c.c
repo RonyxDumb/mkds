@@ -5,18 +5,18 @@
 
 #pragma thumb on
 
-void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void mutil2_loadLayout(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                        const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                        void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LocateNcgr2((Ncgr **) &fileSet->mChars, findFile(charsName));
+        g2du_getCharacterData((Ncgr **) &fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
-        LocateNcer((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
+        g2du_getCellBankData((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LocateNclr((Nclr **) &fileSet->mPalette, findFile(paletteName));
+        g2du_getPaletteData((Nclr **) &fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -29,18 +29,18 @@ void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *
     }
 }
 
-void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void mutil2_loadUnpackLayout(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) ) {
     CellFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LoadNcgrData2((Ncgr **) &fileSet->mChars, findFile(charsName));
+        g2du_unpackCharacterData((Ncgr **) &fileSet->mChars, findFile(charsName));
     }
     if (cellsName) {
-        LoadNcerData((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
+        g2du_unpackCellBankData((Unk02021dc8 **) &fileSet->mCells, findFile(cellsName));
     }
     if (paletteName) {
-        LoadNclrData((Nclr **) &fileSet->mPalette, findFile(paletteName));
+        g2du_unpackPaletteData((Nclr **) &fileSet->mPalette, findFile(paletteName));
     }
     if (cellLayoutName) {
         fileSet->mCellLayout = findFile(cellLayoutName);
@@ -53,32 +53,32 @@ void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *ce
     }
 }
 
-void func_02025a50(u32 a, void *heap, void *fileSetPointer) {
+void mutil2_initLayout(u32 a, void *heap, void *fileSetPointer) {
     CellFileSet *fileSet = fileSetPointer;
     u32 r;
-    InitLayoutTable(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
+    jn_ui_initLayout(heap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     if (a == 0) {
         r = 0x13;
-        CallQueueAppend(0xe, 0, ((Nclr *) fileSet->mPalette)->mData, 0x1a0);
-        CallQueueAppend(0xe, 0x1c0, (u8 *) ((Nclr *) fileSet->mPalette)->mData + 0x1c0, 0x40);
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0, ((Nclr *) fileSet->mPalette)->mData, 0x1a0);
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) ((Nclr *) fileSet->mPalette)->mData + 0x1c0, 0x40);
     } else {
         r = 0x23;
-        CallQueueAppend(0x1e, 0, ((Nclr *) fileSet->mPalette)->mData, ((Nclr *) fileSet->mPalette)->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1e, 0, ((Nclr *) fileSet->mPalette)->mData, ((Nclr *) fileSet->mPalette)->mDataSize);
     }
-    CallQueueAppend(r, 0, ((Ncgr *) fileSet->mChars)->mData, ((Ncgr *) fileSet->mChars)->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(r, 0, ((Ncgr *) fileSet->mChars)->mData, ((Ncgr *) fileSet->mChars)->mDataSize);
 }
 
-s32 func_02025a00(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e) {
+s32 mutil2_initLabel(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e) {
     Unk02153918 *entry = entryPointer;
     CellFileSet *fileSet = fileSetPointer;
     s32 result;
-    result = InitLabelCanvas(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
+    result = jn_ui_initLabel(heap, entry->mUnk_00, fileSet->mLabelLayout, entry->mUnk_02, entry->mUnk_04,
                              entry->mUnk_06, fileSet->mCells, fileSet->mCellLayout, fileSet->mCellTable, e);
-    ClearAndQueueLabelLayoutText(a, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout, fileSet->mCellTable);
+    jn_ui_21241C0(a, entry->mUnk_00, fileSet->mLabelLayout, fileSet->mCellLayout, fileSet->mCellTable);
     return result;
 }
 
-void func_02025954(u32 a, void *fileSetPointer, u32 index) {
+void mutil2_bgVramTransferTask(u32 a, void *fileSetPointer, u32 index) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     u32 charsCode;
     u32 screenMapCode;
@@ -124,49 +124,49 @@ void func_02025954(u32 a, void *fileSetPointer, u32 index) {
                 break;
         }
     }
-    CallQueueAppend(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
-    CallQueueAppend(paletteCode, 0, fileSet->mPalette->mData, 0x140);
-    CallQueueAppend(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData, fileSet->mScreenMaps[index]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(charsCode, 0, fileSet->mChars[index]->mData, fileSet->mChars[index]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(paletteCode, 0, fileSet->mPalette->mData, 0x140);
+    NNS_GfdRegisterNewVramTransferTask(screenMapCode, 0, &fileSet->mScreenMaps[index]->mData, fileSet->mScreenMaps[index]->mDataSize);
 }
 
-void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_loadBgGraphics(void *fileSetPointer, const char *charsName, const char *paletteName,
                             const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LocateNcgr(&fileSet->mChars[index], findFile(charsName));
+        g2du_getCharacterDataBG(&fileSet->mChars[index], findFile(charsName));
     }
     if (paletteName) {
-        LocateNclr(&fileSet->mPalette, findFile(paletteName));
+        g2du_getPaletteData(&fileSet->mPalette, findFile(paletteName));
     }
     if (screenMapName) {
-        LocateNscr(&fileSet->mScreenMaps[index], findFile(screenMapName));
+        g2du_getScreenData(&fileSet->mScreenMaps[index], findFile(screenMapName));
     }
 }
 
-void func_020258d4(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_initBgGraphics(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
-    LocateScreenMapFileSet(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
-    func_02025954(a, fileSetPointer, index);
+    mutil2_loadBgGraphics(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
+    mutil2_bgVramTransferTask(a, fileSetPointer, index);
 }
 
-void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_loadUnpackBgGraphics(void *fileSetPointer, const char *charsName, const char *paletteName,
                           const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
     ScreenMapFileSet *fileSet = fileSetPointer;
     if (charsName) {
-        LoadNcgrData(&fileSet->mChars[index], findFile(charsName));
+        g2du_unpackCharacterDataBG(&fileSet->mChars[index], findFile(charsName));
     }
     if (paletteName) {
-        LoadNclrData(&fileSet->mPalette, findFile(paletteName));
+        g2du_unpackPaletteData(&fileSet->mPalette, findFile(paletteName));
     }
     if (screenMapName) {
-        LoadNscrData(&fileSet->mScreenMaps[index], findFile(screenMapName));
+        g2du_unpackScreenData(&fileSet->mScreenMaps[index], findFile(screenMapName));
     }
 }
 
-void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_initUnpackBgGraphics(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) ) {
-    LoadScreenMapFileSet(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
-    func_02025954(a, fileSetPointer, index);
+    mutil2_loadUnpackBgGraphics(fileSetPointer, charsName, paletteName, screenMapName, index, findFile);
+    mutil2_bgVramTransferTask(a, fileSetPointer, index);
 }
 
 #pragma thumb off

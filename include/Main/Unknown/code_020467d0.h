@@ -8,7 +8,7 @@ typedef struct StateCallbacks {
     /* 04 */ void (*mUpdate)(void *);
 } StateCallbacks;
 
-// Object AdvanceStateMachine and SetStateMachineState take (the code reaches it through a void pointer).
+// Object sm_execute and sm_gotoState take (the code reaches it through a void pointer).
 typedef struct StateMachine {
     /* 00 */ StateCallbacks *mStateTable;
     /* 04 */ s32 mStateFrames;
@@ -21,14 +21,14 @@ typedef struct StateMachine {
 
 s32 FindCupIndexOfCourse(s32 courseId);
 u32 GetCupCourseIdAtIndex(s32 courseIndex);
-s32 FindCupCourseIndex();
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f);
+s32 rconf_getCourseNumber();
+void rconf_setDriverConfigNext(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f);
 void RefreshRaceSetupKartCounts(s32 entryCount);
-void func_02046a3c(void *heap);
-s32 func_02046a88(void *a);
-unsigned int func_02046ad0(unsigned int value);
-unsigned int func_02046ad4(unsigned int value);
-void func_02046ad8(void);
-void func_02046ae4(void);
-void AdvanceStateMachine(void *rawStateMachine);
-void SetStateMachineState(void *rawStateMachine, u16 state);
+void rconf_init(void *heap);
+s32 menu2_run(void *a);
+unsigned int menu2_draw(unsigned int value);
+unsigned int menu2_vblank(unsigned int value);
+void menu2_finish(void);
+void menu2_create(void);
+void sm_execute(void *rawStateMachine);
+void sm_gotoState(void *rawStateMachine, u16 state);

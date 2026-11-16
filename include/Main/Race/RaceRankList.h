@@ -11,10 +11,10 @@ typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
 void InitRaceTimeDigits(void);
-void DrawRaceLapAndTimeDifference(RaceHudOamBuffer *oamBuffer);
-void UpdateRaceLapNumber(void);
-u32 ClearRaceLapNumberPointer(void);
-void InitRaceLapNumber(void);
+void r2d_renderLapAndTimeDiff(RaceHudOamBuffer *oamBuffer);
+void r2d_updateLapAndTimeDiff(void);
+u32 r2d_finalizeLapAndTimeDiff(void);
+void r2d_initLapAndTimeDiff(void);
 void DrawRaceRankListBattleState1To3Rows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListBattleState0Rows(RaceHudOamBuffer *oamBuffer);
 void DrawRaceRankListNonBattleRows(RaceHudOamBuffer *a);

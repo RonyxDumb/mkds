@@ -9,93 +9,93 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void StartTouchAutoSampling(void) {
-    if (gTouchMicInput->mTouchAutoSampling != 0) {
+void spi_startTouchAutoSampling(void) {
+    if (gSpiData->mTouchAutoSampling != 0) {
         return;
     }
-    TP_RequestAutoSamplingStartAsync(0xa, 4, gTouchMicInput->mAutoSamples, 5);
+    TP_RequestAutoSamplingStartAsync(0xa, 4, gSpiData->mAutoSamples, 5);
     TP_WaitBusy(2);
     TP_CheckError(2);
-    gTouchMicInput->mTouchAutoSampling = 1;
+    gSpiData->mTouchAutoSampling = 1;
 }
 
-void StartMicInput(void *heap) {
-    if (gTouchMicInput->mMicAutoSampling != 0) {
+void spi_startMicAutoSampling(void *heap) {
+    if (gSpiData->mMicAutoSampling != 0) {
         return;
     }
-    gTouchMicInput->mMicBuffer = HeapAllocAligned(heap, 0x420, 0x20);
-    SetupMicAutoSampling(gTouchMicInput->mMicBuffer);
-    StartMicAutoSampling(gTouchMicInput->mMicBuffer);
-    gTouchMicInput->mMicAutoSampling = 1;
-    gTouchMicInput->mUnk_30_2 = 0;
-    gTouchMicInput->mMicOverThreshold = 0;
+    gSpiData->mMicBuffer = heap_allocEx(heap, 0x420, 0x20);
+    mic_initAutoSampling(gSpiData->mMicBuffer);
+    mic_startAutoSampling(gSpiData->mMicBuffer);
+    gSpiData->mMicAutoSampling = 1;
+    gSpiData->mUnk_30_2 = 0;
+    gSpiData->mMicOverThreshold = 0;
 }
 
-void StopTouchAutoSampling(void) {
-    if (gTouchMicInput->mTouchAutoSampling == 0) {
+void spi_stopTouchAutoSampling(void) {
+    if (gSpiData->mTouchAutoSampling == 0) {
         return;
     }
     TP_RequestAutoSamplingStopAsync();
     TP_WaitBusy(4);
     TP_CheckError(4);
-    gTouchMicInput->mTouchAutoSampling = 0;
+    gSpiData->mTouchAutoSampling = 0;
 }
 
-void StopMicInput(void) {
-    if (gTouchMicInput->mMicAutoSampling == 0) {
+void spi_stopMicAutoSampling(void) {
+    if (gSpiData->mMicAutoSampling == 0) {
         return;
     }
-    StopMicAutoSampling(gTouchMicInput->mMicBuffer);
-    gTouchMicInput->mMicBuffer = NULL;
-    gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mUnk_30_2 = 0;
+    mic_stopAutoSampling(gSpiData->mMicBuffer);
+    gSpiData->mMicBuffer = NULL;
+    gSpiData->mMicAutoSampling = 0;
+    gSpiData->mUnk_30_2 = 0;
 }
 
-void func_02046e84(void) {
+void spi_handlePreSleep(void) {
     TouchMicInput *touchMicInput;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = gSpiData;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
     if (touchMicInput->mUnk_30_2 == 0) {
-        func_0210f07c(touchMicInput->mMicBuffer);
+        mic_handlePreSleep(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mUnk_30_2 = 1;
+    gSpiData->mUnk_30_2 = 1;
 }
 
-void func_02046e24(void) {
+void spi_handlePostSleep(void) {
     TouchMicInput *touchMicInput;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = gSpiData;
     if (touchMicInput->mMicAutoSampling == 0) {
         return;
     }
     if (touchMicInput->mUnk_30_2) {
-        func_0210f068(touchMicInput->mMicBuffer);
+        mic_handlePostSleep(touchMicInput->mMicBuffer);
     }
-    gTouchMicInput->mUnk_30_2 = 0;
+    gSpiData->mUnk_30_2 = 0;
 }
 
-void UpdateTouchMicInput(void) {
+void spi_update(void) {
     TouchMicInput *touchMicInput;
     u32 latestIndex;
 
     latestIndex = TP_GetLatestIndexInAuto();
-    touchMicInput = gTouchMicInput;
+    touchMicInput = gSpiData;
     touchMicInput->mCalibratedPoint = *(TPData *) &touchMicInput->mAutoSamples[latestIndex];
     TP_GetCalibratedPoint(&touchMicInput->mCalibratedPoint, &touchMicInput->mCalibratedPoint);
-    if (gTouchMicInput->mMicAutoSampling) {
-        gTouchMicInput->mMicOverThreshold = func_0210f090(gTouchMicInput->mMicBuffer) > 0x14;
+    if (gSpiData->mMicAutoSampling) {
+        gSpiData->mMicOverThreshold = mic_update(gSpiData->mMicBuffer) > 0x14;
     }
 }
 
-void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
+void spi_updateTpMic(InputSlotPair *pair, s32 b, s32 c) {
     TPData point;
     u32 pointY;
     s32 pointX;
 
-    if (gTouchMicInput->mTouchAutoSampling) {
+    if (gSpiData->mTouchAutoSampling) {
         pointX = (b >> 8) & 0xff;
         pointY = b & 0xff;
         if (pointY > 0xbf) {
@@ -115,23 +115,23 @@ void func_02046ca8(InputSlotPair *pair, s32 b, s32 c) {
             pair->mNoPairCount++;
         }
     }
-    if (gTouchMicInput->mMicAutoSampling) {
+    if (gSpiData->mMicAutoSampling) {
         pair->mUnk_12[0] = c;
     }
 }
 
-void func_02046c74(void) {
-    func_0210f114(gTouchMicInput->mMicBuffer);
-    gTouchMicInput = NULL;
+void spi_finalize(void) {
+    mic_finalize(gSpiData->mMicBuffer);
+    gSpiData = NULL;
 }
 
-u16 GetPackedTouchPoint(void) {
+u16 spi_getTouchPos(void) {
     TouchMicInput *touchMicInput;
     TPData *calibratedPoint;
     u32 pointX;
     u32 pointY;
 
-    touchMicInput = gTouchMicInput;
+    touchMicInput = gSpiData;
     calibratedPoint = &touchMicInput->mCalibratedPoint;
     if (!touchMicInput->mTouchAutoSampling || calibratedPoint->mTouch == 0 || calibratedPoint->mValidity != 0) {
         pointX = 0xff;

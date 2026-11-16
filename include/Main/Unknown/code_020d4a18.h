@@ -4,4 +4,4 @@
 
 typedef struct MapObjectList MapObjectList;
 
-void ClearMapObjectList(MapObjectList *list);
+void mobj_renderPartInitInstanceList(MapObjectList *list);

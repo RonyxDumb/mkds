@@ -5,11 +5,11 @@
 
 #pragma thumb on
 
-void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord) {
+void savd_setNktaEntry(u32 courseId, int recordIndex, TimeRecord *timeRecord) {
     int cupCourseIndex;
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = rconf_getCourseNumber(courseId);
     if (cupCourseIndex != -1) {
-        PackCourseTimeRecord(&data_0217aa08->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex], timeRecord);
+        savd_packNktaEntry(&gSaveData->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex], timeRecord);
     }
 }
 

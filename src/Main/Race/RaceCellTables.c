@@ -90,7 +90,7 @@ void InitRaceNcerNclrNcgrTables(void) {
     s32 colorBelow;
     void *iconCharData;
 
-    gRaceNcerNclrNcgrTables = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x88c);
+    gRaceNcerNclrNcgrTables = heap_alloc(proc_getHeap(proc_getCurrent()), 0x88c);
     for (i = 0; i < 0x38; i++) {
         gRaceNcerNclrNcgrTables->mRaceMNcerEntries[i] = NULL;
     }
@@ -125,115 +125,115 @@ void InitRaceNcerNclrNcgrTables(void) {
         gRaceNcerNclrNcgrTables->mRaceStartBattleMNcerEntries[i] = NULL;
     }
 
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr, FindSceneFileWrapper("race_m_o.NCLR"));
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNclr, FindSceneFileWrapper("race_goal_m_o.NCLR"));
-    switch (gRaceSetup->mMode) {
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr, m2d_getSceneArcFile("race_m_o.NCLR"));
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNclr, m2d_getSceneArcFile("race_goal_m_o.NCLR"));
+    switch (gRaceMultiConfig->mMode) {
         case MODE_TIME_ATTACK:
             gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNclr = gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr;
             break;
         case MODE_BATTLE:
-            LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNclr,
-                         FindSceneFileWrapper("race_battle_m_o.NCLR"));
-            if (gRaceSetup->mRaceKind == 4) {
-                LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNclr,
-                             FindSceneFileWrapper("race_start_battle_m_o.NCLR"));
+            g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNclr,
+                         m2d_getSceneArcFile("race_battle_m_o.NCLR"));
+            if (gRaceMultiConfig->mRaceKind == 4) {
+                g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNclr,
+                             m2d_getSceneArcFile("race_start_battle_m_o.NCLR"));
             }
             break;
         case MODE_MISSION_RUN:
-            LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNclr, FindSceneFileWrapper("race_mr_m_o.NCLR"));
-            LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNclr,
-                         FindSceneFileWrapper("race_goal_mr_m_o.NCLR"));
+            g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNclr, m2d_getSceneArcFile("race_mr_m_o.NCLR"));
+            g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNclr,
+                         m2d_getSceneArcFile("race_goal_mr_m_o.NCLR"));
             break;
         case 5:
             break;
     }
 
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr, FindSceneFileWrapper("race_m_o.NCGR"));
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr, FindSceneFileWrapper("race_goal_m_o.NCGR"));
-    switch (gRaceSetup->mMode) {
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr, m2d_getSceneArcFile("race_m_o.NCGR"));
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr, m2d_getSceneArcFile("race_goal_m_o.NCGR"));
+    switch (gRaceMultiConfig->mMode) {
         case MODE_TIME_ATTACK:
-            LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr, FindSceneFileWrapper("race_ta_m_o.NCGR"));
+            g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr, m2d_getSceneArcFile("race_ta_m_o.NCGR"));
             break;
         case MODE_BATTLE:
-            LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNcgr,
-                          FindSceneFileWrapper("race_battle_m_o.NCGR"));
-            if (gRaceSetup->mRaceKind == 4) {
-                LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr,
-                              FindSceneFileWrapper("race_start_battle_m_o.NCGR"));
+            g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNcgr,
+                          m2d_getSceneArcFile("race_battle_m_o.NCGR"));
+            if (gRaceMultiConfig->mRaceKind == 4) {
+                g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr,
+                              m2d_getSceneArcFile("race_start_battle_m_o.NCGR"));
             }
             break;
         case MODE_MISSION_RUN:
-            LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNcgr, FindSceneFileWrapper("race_mr_m_o.NCGR"));
-            LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNcgr,
-                          FindSceneFileWrapper("race_goal_mr_m_o.NCGR"));
+            g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNcgr, m2d_getSceneArcFile("race_mr_m_o.NCGR"));
+            g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNcgr,
+                          m2d_getSceneArcFile("race_goal_mr_m_o.NCGR"));
             break;
         case 5:
             break;
     }
 
     raceMCells = NULL;
-    LoadNcerData(&raceMCells, FindSceneFileWrapper("race_m.NCER"));
+    g2du_unpackCellBankData(&raceMCells, m2d_getSceneArcFile("race_m.NCER"));
     for (i = 0; i < 0x38; i++) {
         gRaceNcerNclrNcgrTables->mRaceMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceMCells, i);
     }
     raceGoalMCells = NULL;
-    LoadNcerData(&raceGoalMCells, FindSceneFileWrapper("race_goal_m.NCER"));
+    g2du_unpackCellBankData(&raceGoalMCells, m2d_getSceneArcFile("race_goal_m.NCER"));
     for (i = 0; i < 0x44; i++) {
         gRaceNcerNclrNcgrTables->mRaceGoalMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceGoalMCells, i);
     }
 
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_TIME_ATTACK:
-            font = GetFontByIndex(2);
+            font = m2d_getFont(2);
             NNS_G2dCharCanvasInitForBG(raceGoalMOCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mData,
                                        0x20, 0x10, 4);
-            raceGoalMOTextCanvas.mCharSpacing = IsLanguageJa();
+            raceGoalMOTextCanvas.mCharSpacing = g2du_getTextHSpace();
             raceGoalMOTextCanvas.mCharCanvas = raceGoalMOCharCanvas;
             raceGoalMOTextCanvas.mFont = font;
             raceGoalMOTextCanvas.mLineSpacing = 0;
             NNSi_G2dTextCanvasDrawText(&raceGoalMOTextCanvas, 0x80, 0x38, 0xe, 0x412,
-                                       GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x81));
+                                       jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), 0x81));
             DC_FlushRange(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mData,
                           gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mDataSize);
             raceTaMCells = NULL;
-            LoadNcerData(&raceTaMCells, FindSceneFileWrapper("race_ta_m.NCER"));
+            g2du_unpackCellBankData(&raceTaMCells, m2d_getSceneArcFile("race_ta_m.NCER"));
             for (i = 0; i < 0xf; i++) {
                 gRaceNcerNclrNcgrTables->mRaceTaMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceTaMCells, i);
             }
-            font = GetFontByIndex(2);
+            font = m2d_getFont(2);
             NNS_G2dCharCanvasInitForBG(raceTaMOCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr->mData,
                                        0x20, 4, 4);
-            raceTaMOTextCanvas.mCharSpacing = IsLanguageJa();
+            raceTaMOTextCanvas.mCharSpacing = g2du_getTextHSpace();
             raceTaMOTextCanvas.mCharCanvas = raceTaMOCharCanvas;
             raceTaMOTextCanvas.mFont = font;
             raceTaMOTextCanvas.mLineSpacing = 0;
             NNSi_G2dTextCanvasDrawText(&raceTaMOTextCanvas, 0x80, 0x18, 0xe, 0x412,
-                                       GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x6d));
+                                       jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), 0x6d));
             DC_FlushRange(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr->mData,
                           gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr->mDataSize);
-            CopyCharsBlock(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr->mData, 0, 0, 0x20, 4,
+            m2d_copyTiles2d(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[2].mNcgr->mData, 0, 0, 0x20, 4,
                            gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0, 0);
             break;
         case MODE_BATTLE:
-            if (gRaceSetup->mRaceKind != 4) {
+            if (gRaceMultiConfig->mRaceKind != 4) {
                 raceBattleMCells = NULL;
-                LoadNcerData(&raceBattleMCells, FindSceneFileWrapper("race_battle_m.NCER"));
+                g2du_unpackCellBankData(&raceBattleMCells, m2d_getSceneArcFile("race_battle_m.NCER"));
                 for (i = 0; i < 0xd; i++) {
                     gRaceNcerNclrNcgrTables->mRaceBattleMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceBattleMCells, i);
                 }
                 MIi_CpuCopy16(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNclr->mData,
                               gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr->mData, 0x40);
-                CopyCharsBlock(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNcgr->mData, 0, 0, 0x20, 4,
+                m2d_copyTiles2d(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[3].mNcgr->mData, 0, 0, 0x20, 4,
                                gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0, 0);
             } else {
                 raceStartBattleMCells = NULL;
-                LoadNcerData(&raceStartBattleMCells, FindSceneFileWrapper("race_start_battle_m.NCER"));
+                g2du_unpackCellBankData(&raceStartBattleMCells, m2d_getSceneArcFile("race_start_battle_m.NCER"));
                 for (i = 0; i < 3; i++) {
                     gRaceNcerNclrNcgrTables->mRaceStartBattleMNcerEntries[i] =
                         NNS_G2dGetCellDataByIdx(raceStartBattleMCells, i);
                 }
-                font = GetFontByIndex(2);
-                courseMessageIndex = GetCourseMessageIndex(gRaceSetup->mCourseId);
+                font = m2d_getFont(2);
+                courseMessageIndex = mutil2_getCourseNameCommonMsgId(gRaceMultiConfig->mCourseId);
                 NNS_G2dCharCanvasInitForBG(raceStartBattleMOCharCanvas,
                                            gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr->mData, 0x20, 4, 4);
                 charSpacing = RaceStartIsLanguageJa();
@@ -242,93 +242,93 @@ void InitRaceNcerNclrNcgrTables(void) {
                 raceStartBattleMOTextCanvas.mLineSpacing = 0;
                 raceStartBattleMOTextCanvas.mCharSpacing = charSpacing;
                 NNSi_G2dTextCanvasDrawText(&raceStartBattleMOTextCanvas, 0, 9, 0xc, 0x40a,
-                                           GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"),
-                                                       gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON ? 0x54 : 0x55));
+                                           jn_msg_getMessage(m2d_get2dArcFile("common.bmg"),
+                                                       gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON ? 0x54 : 0x55));
                 NNSi_G2dTextCanvasDrawText(&raceStartBattleMOTextCanvas, 0, 8, 0xc, 0x40a,
-                                           GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"),
-                                                       gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON ? 0x54 : 0x55));
+                                           jn_msg_getMessage(m2d_get2dArcFile("common.bmg"),
+                                                       gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON ? 0x54 : 0x55));
                 raceStartBattleMOTextCanvas.mCharSpacing = RaceStartIsLanguageJa();
                 NNSi_G2dTextCanvasDrawText(
                     &raceStartBattleMOTextCanvas, 0, 0x19, 0xe, 0x40a,
-                    GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), courseMessageIndex));
+                    jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), courseMessageIndex));
                 NNSi_G2dTextCanvasDrawText(
                     &raceStartBattleMOTextCanvas, 0, 0x18, 0xe, 0x40a,
-                    GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), courseMessageIndex));
+                    jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), courseMessageIndex));
                 DC_FlushRange(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr->mData,
                               gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr->mDataSize);
                 MIi_CpuCopy16(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNclr->mData,
                               gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr->mData, 0x40);
-                CopyCharsBlock(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr->mData, 0, 0, 0x20, 4,
+                m2d_copyTiles2d(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[10].mNcgr->mData, 0, 0, 0x20, 4,
                                gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0, 0);
             }
             break;
         case MODE_MISSION_RUN:
             raceMrMCells = NULL;
-            LoadNcerData(&raceMrMCells, FindSceneFileWrapper("race_mr_m.NCER"));
+            g2du_unpackCellBankData(&raceMrMCells, m2d_getSceneArcFile("race_mr_m.NCER"));
             for (i = 0; i < 0x16; i++) {
                 gRaceNcerNclrNcgrTables->mRaceMrMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceMrMCells, i);
             }
             MIi_CpuCopy16(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNclr->mData,
                           gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNclr->mData, 0x40);
-            CopyCharsBlock(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNcgr->mData, 0, 0, 0x20, 4,
+            m2d_copyTiles2d(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[4].mNcgr->mData, 0, 0, 0x20, 4,
                            gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0, 0);
             raceGoalMrMCells = NULL;
-            LoadNcerData(&raceGoalMrMCells, FindSceneFileWrapper("race_goal_mr_m.NCER"));
+            g2du_unpackCellBankData(&raceGoalMrMCells, m2d_getSceneArcFile("race_goal_mr_m.NCER"));
             for (i = 0; i < 8; i++) {
                 gRaceNcerNclrNcgrTables->mRaceGoalMrMNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceGoalMrMCells, i);
             }
             MIi_CpuCopy16(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNclr->mData,
                           gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNclr->mData, 0x20);
-            CopyCharsBlock(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNcgr->mData, 0, 0, 0x20, 8,
+            m2d_copyTiles2d(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[5].mNcgr->mData, 0, 0, 0x20, 8,
                            gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mData, 0, 0);
             break;
         case 5:
             raceIconTxtChars = NULL;
-            LoadNcgrData2(&raceIconTxtChars, FindSceneFileWrapper("race_icon_txt.NCGR"));
+            g2du_unpackCharacterData(&raceIconTxtChars, m2d_getSceneArcFile("race_icon_txt.NCGR"));
             iconCharData = raceIconTxtChars->mData;
-            CopyCharsBlock(iconCharData, 0, 0, 8, 2, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0x18,
+            m2d_copyTiles2d(iconCharData, 0, 0, 8, 2, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[0].mNcgr->mData, 0x18,
                            0xe);
-            CopyCharsBlock(iconCharData, 0, 0, 8, 2, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mData, 0x18,
+            m2d_copyTiles2d(iconCharData, 0, 0, 8, 2, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[1].mNcgr->mData, 0x18,
                            0xe);
             break;
     }
 
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNclr, FindSceneFileWrapper("race_s_o.NCLR"));
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNclr, FindSceneFileWrapper("race_goal_s_o.NCLR"));
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[8].mNclr, FindSceneFileWrapper("race_goal_team_s_o.NCLR"));
-    if (gRaceSetup->mUseTeams != 0) {
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNclr, m2d_getSceneArcFile("race_s_o.NCLR"));
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNclr, m2d_getSceneArcFile("race_goal_s_o.NCLR"));
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[8].mNclr, m2d_getSceneArcFile("race_goal_team_s_o.NCLR"));
+    if (gRaceMultiConfig->mUseTeams != 0) {
         ownCharacterPalette = NULL;
         teamColorIndex =
-            gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mTeamIndex == 0 ? 0x13 : 0x23;
-        LoadNclrData(&ownCharacterPalette, FindSceneFileWrapper("race_own_character_s_o.NCLR"));
+            gRaceMultiConfig->mCurrentEntries[Race_GetPlayerId()].mPlayer.mTeamIndex == 0 ? 0x13 : 0x23;
+        g2du_unpackPaletteData(&ownCharacterPalette, m2d_getSceneArcFile("race_own_character_s_o.NCLR"));
         DC_FlushRange(gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNclr->mData, 0x200);
         for (j = 0; j < 4; j++) {
             gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNclr->mData[j + 0xb3] =
                 ownCharacterPalette->mData[teamColorIndex + j];
         }
     }
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNcgr, FindSceneFileWrapper("race_s_o.NCGR"));
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNcgr, FindSceneFileWrapper("race_goal_s_o.NCGR"));
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[8].mNcgr, FindSceneFileWrapper("race_goal_team_s_o.NCGR"));
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[6].mNcgr, m2d_getSceneArcFile("race_s_o.NCGR"));
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNcgr, m2d_getSceneArcFile("race_goal_s_o.NCGR"));
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[8].mNcgr, m2d_getSceneArcFile("race_goal_team_s_o.NCGR"));
 
-    font = GetFontByIndex(0);
+    font = m2d_getFont(0);
     NNS_G2dCharCanvasInitForBG(raceGoalSOCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNcgr->mData, 0x20,
                                0x10, 4);
     raceGoalSOTextCanvas.mCharCanvas = raceGoalSOCharCanvas;
     raceGoalSOTextCanvas.mFont = font;
     raceGoalSOTextCanvas.mCharSpacing = 1;
     raceGoalSOTextCanvas.mLineSpacing = 0;
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
         x = (i % 2) * 0x68;
         y = (i / 2) * 0x10 + 0x48;
         CopyKartEntryName(i, goalKartName, 1);
-        NNSi_G2dTextCanvasDrawText(&raceGoalSOTextCanvas, x, y + 1, i == GetFollowedKartOrEntryIndex() ? 0xd : 0xf,
+        NNSi_G2dTextCanvasDrawText(&raceGoalSOTextCanvas, x, y + 1, i == Race_GetPlayerId() ? 0xd : 0xf,
                                    0x40a, goalKartName);
-        NNSi_G2dTextCanvasDrawText(&raceGoalSOTextCanvas, x, y, i == GetFollowedKartOrEntryIndex() ? 0xc : 0xe, 0x40a,
+        NNSi_G2dTextCanvasDrawText(&raceGoalSOTextCanvas, x, y, i == Race_GetPlayerId() ? 0xc : 0xe, 0x40a,
                                    goalKartName);
     }
 
-    font = GetFontByIndex(2);
+    font = m2d_getFont(2);
     NNS_G2dCharCanvasInitForBG(raceGoalSOMessageCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[7].mNcgr->mData,
                                0x20, 0x10, 4);
     raceGoalSOMessageTextCanvas.mCharCanvas = raceGoalSOMessageCharCanvas;
@@ -336,22 +336,22 @@ void InitRaceNcerNclrNcgrTables(void) {
     raceGoalSOMessageTextCanvas.mCharSpacing = 1;
     raceGoalSOMessageTextCanvas.mLineSpacing = 0;
     NNSi_G2dTextCanvasDrawText(&raceGoalSOMessageTextCanvas, 0x20, 0x38, 0xe, 0x40a,
-                               GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x79));
+                               jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), 0x79));
 
-    font = GetFontByIndex(0);
+    font = m2d_getFont(0);
     NNS_G2dCharCanvasInitForBG(raceGoalTeamSOCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[8].mNcgr->mData, 0x20,
                                0xa, 4);
     raceGoalTeamSOTextCanvas.mCharCanvas = raceGoalTeamSOCharCanvas;
     raceGoalTeamSOTextCanvas.mFont = font;
     raceGoalTeamSOTextCanvas.mCharSpacing = 1;
     raceGoalTeamSOTextCanvas.mLineSpacing = 0;
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
         goalTeamX = (i % 4) * 0x38;
         goalTeamY = (i / 4) * 0x10 + 0x38;
         CopyKartEntryName(i, goalTeamKartName, 0);
-        if (i == GetFollowedKartOrEntryIndex()) {
-            if (gRaceSetup->mUseTeams != 0) {
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex == 0) {
+        if (i == Race_GetPlayerId()) {
+            if (gRaceMultiConfig->mUseTeams != 0) {
+                if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex == 0) {
                     color = 0xa;
                     colorBelow = 0xb;
                 } else {
@@ -372,29 +372,29 @@ void InitRaceNcerNclrNcgrTables(void) {
     }
 
     raceSCells = NULL;
-    LoadNcerData(&raceSCells, FindSceneFileWrapper("race_s.NCER"));
+    g2du_unpackCellBankData(&raceSCells, m2d_getSceneArcFile("race_s.NCER"));
     for (i = 0; i < 0xc9; i++) {
         gRaceNcerNclrNcgrTables->mRaceSNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceSCells, i);
     }
     raceGoalSCells = NULL;
-    LoadNcerData(&raceGoalSCells, FindSceneFileWrapper("race_goal_s.NCER"));
+    g2du_unpackCellBankData(&raceGoalSCells, m2d_getSceneArcFile("race_goal_s.NCER"));
     for (i = 0; i < 0x2c; i++) {
         gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceGoalSCells, i);
     }
     raceGoalTeamSCells = NULL;
-    LoadNcerData(&raceGoalTeamSCells, FindSceneFileWrapper("race_goal_team_s.NCER"));
+    g2du_unpackCellBankData(&raceGoalTeamSCells, m2d_getSceneArcFile("race_goal_team_s.NCER"));
     for (i = 0; i < 0x28; i++) {
         gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceGoalTeamSCells, i);
     }
 
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    LoadNclrData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[9].mNclr,
-                 FindSceneFileWrapper("race_new_record_ta_s_o.NCLR"));
-    LoadNcgrData2(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[9].mNcgr,
-                  FindSceneFileWrapper("race_new_record_ta_s_o.NCGR"));
-    font = GetFontByIndex(0);
+    g2du_unpackPaletteData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[9].mNclr,
+                 m2d_getSceneArcFile("race_new_record_ta_s_o.NCLR"));
+    g2du_unpackCharacterData(&gRaceNcerNclrNcgrTables->mNclrNcgrPairs[9].mNcgr,
+                  m2d_getSceneArcFile("race_new_record_ta_s_o.NCGR"));
+    font = m2d_getFont(0);
     NNS_G2dCharCanvasInitForBG(raceNewRecordTaSOCharCanvas, gRaceNcerNclrNcgrTables->mNclrNcgrPairs[9].mNcgr->mData,
                                0x20, 0x10, 4);
     raceNewRecordTaSOTextCanvas.mCharCanvas = raceNewRecordTaSOCharCanvas;
@@ -409,7 +409,7 @@ void InitRaceNcerNclrNcgrTables(void) {
         NNSi_G2dTextCanvasDrawText(&raceNewRecordTaSOTextCanvas, recordRowX, recordRowY, 0xe, 0x40a, recordRowName);
     }
     raceNewRecordTaSCells = NULL;
-    LoadNcerData(&raceNewRecordTaSCells, FindSceneFileWrapper("race_new_record_ta_s.NCER"));
+    g2du_unpackCellBankData(&raceNewRecordTaSCells, m2d_getSceneArcFile("race_new_record_ta_s.NCER"));
     for (i = 0; i < 0x21; i++) {
         gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[i] = NNS_G2dGetCellDataByIdx(raceNewRecordTaSCells, i);
     }
@@ -420,15 +420,15 @@ struct RaceNcerNclrNcgrTables **ClearRaceNcerNclrNcgrTablesPointer(void) {
     return &gRaceNcerNclrNcgrTables;
 }
 
-RaceNclrNcgr *GetRaceNclrNcgr(u32 pairIndex) {
+RaceNclrNcgr *r2d_getGraphics(u32 pairIndex) {
     return &gRaceNcerNclrNcgrTables->mNclrNcgrPairs[pairIndex];
 }
 
-Unk020224e0_c *GetRaceMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceMNcerEntries[cellIndex];
 }
 
-u32 LookupRaceMNcerIndex(u32 a) {
+u32 r2d_getSpinnerItemCellIdx(u32 a) {
     u32 cellIndex;
     KartItems *kartItems;
     enum { K0 } itemInfoIndex;
@@ -451,9 +451,9 @@ u32 LookupRaceMNcerIndex(u32 a) {
             cellIndex = 0xd;
             break;
         case 5:
-            kartItems = &gKartItems[GetFollowedKartOrEntryIndex()];
+            kartItems = &it_sDriverItemStatus[Race_GetPlayerId()];
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
-            switch (gItemInfos[itemInfoIndex].mObjectKind == 3 ? (u16) kartItems->mHeldItem.mObjectCount : 0) {
+            switch (it_sItemConfigs[itemInfoIndex].mObjectKind == 3 ? (u16) kartItems->mHeldItem.mObjectCount : 0) {
                 case 1:
                     cellIndex = 0xd;
                     break;
@@ -509,47 +509,47 @@ u32 LookupRaceMNcerIndex(u32 a) {
     return cellIndex;
 }
 
-Unk020224e0_c *GetRaceGoalMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceGoalMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceTaMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceTaMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceTaMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceBattleMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceBattleMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceBattleMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceMrMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceMrMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceMrMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalMrMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceGoalMrMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalMrMNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceSNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceSCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalSNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceGoalSCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceGoalTeamSNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceGoalTeamSCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceNewRecordTaSNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceNewRecordTaSCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[cellIndex];
 }
 
-Unk020224e0_c *GetRaceStartBattleMNcerEntry(u32 cellIndex) {
+Unk020224e0_c *r2d_getRaceStartBattleMCell(u32 cellIndex) {
     return gRaceNcerNclrNcgrTables->mRaceStartBattleMNcerEntries[cellIndex];
 }
 
-s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b) {
+s32 r2d_getSubDriverItemCellIdx(s32 kartIndex, s32 b) {
     KartItems *kartItems;
     u32 heldObjectCount;
     enum { K0 } itemInfoIndex;
@@ -566,9 +566,9 @@ s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b) {
         case 4:
             return 0x11;
         case 5:
-            kartItems = &gKartItems[(u16) kartIndex];
+            kartItems = &it_sDriverItemStatus[(u16) kartIndex];
             itemInfoIndex = kartItems->mHeldItem.mItemInfoIndex;
-            if (gItemInfos[itemInfoIndex].mObjectKind == 3) {
+            if (it_sItemConfigs[itemInfoIndex].mObjectKind == 3) {
                 heldObjectCount = (u16) kartItems->mHeldItem.mObjectCount;
             } else {
                 heldObjectCount = 0;
@@ -624,9 +624,9 @@ void RenderKartEntryNames(void) {
     TextCanvas textCanvas;
     u16 kartName[22];
 
-    font = GetFontByIndex(0);
-    charBuffer = GetMessageScreenCharBuffer();
-    ClearMessageScreenChars();
+    font = m2d_getFont(0);
+    charBuffer = err_getCharData();
+    err_clearCharData();
     NNS_G2dCharCanvasInitForBG(charCanvas, charBuffer, 0x20, 4, 4);
     textCanvas.mCharCanvas = charCanvas;
     textCanvas.mCharSpacing = 1;
@@ -638,9 +638,9 @@ void RenderKartEntryNames(void) {
         textX = (i % 4) << 6;
         textY = (((u32) i >> 2) << 4) + 8;
         CopyKartEntryName(i, kartName, k);
-        if (i == GetFollowedKartOrEntryIndex()) {
-            if (gRaceSetup->mUseTeams != 0) {
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex == 0) {
+        if (i == Race_GetPlayerId()) {
+            if (gRaceMultiConfig->mUseTeams != 0) {
+                if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex == 0) {
                     color = 10;
                     colorBelow = 11;
                 } else {
@@ -663,7 +663,7 @@ void RenderKartEntryNames(void) {
 void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *outPaletteIndex) {
     s32 shuffledIndex;
 
-    *outCharacterIndex = gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
+    *outCharacterIndex = gRaceMultiConfig->mCurrentEntries[entryIndex].mCharacterIndex;
     switch (*outCharacterIndex) {
         case 0:
         case 2:
@@ -686,7 +686,7 @@ void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *ou
             *outPaletteIndex = 10;
             break;
         case 12:
-            shuffledIndex = data_0217b488->mShuffledIndices[entryIndex];
+            shuffledIndex = gStruct217B488->mShuffledIndices[entryIndex];
             *outCharacterIndex = shuffledIndex % 4 + 12;
             if (shuffledIndex < 4) {
                 *outPaletteIndex = 5;
@@ -700,7 +700,7 @@ void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *ou
 void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s32 *outPaletteIndex) {
     TimeRecord timeRecord;
 
-    GetCourseTimeRecord(gRaceSetup->mCourseId, recordIndex, &timeRecord);
+    savd_getNktaEntry(gRaceMultiConfig->mCourseId, recordIndex, &timeRecord);
     if (timeRecord.mFilled != 0) {
         *outCharacterIndex = timeRecord.mCharacterIndex;
     } else {
@@ -734,7 +734,7 @@ void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s
     }
 }
 
-void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
+void r2d_loadMrMapIconGraphics(u16 *palette, void *chars) {
     Ncgr *transferMapMrChars = NULL;
     void *transferMapMrCharData;
     Nclr *v1;
@@ -746,61 +746,61 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
     Nclr *v7;
     s32 i;
 
-    LoadNcgrData2(&transferMapMrChars, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCGR"));
+    g2du_unpackCharacterData(&transferMapMrChars, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCGR"));
     transferMapMrCharData = transferMapMrChars->mData;
-    switch (gRaceSetup->mMissionTableValue) {
+    switch (gRaceMultiConfig->mMissionTableValue) {
         case 0x9:
-            CopyCharsBlock(transferMapMrCharData, 0x0, 0, 4, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x0, 0, 4, 4, chars, 0, 12);
             v1 = NULL;
-            LoadNclrData(&v1, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v1, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v1->mData[0x0 + i];
             }
             break;
         case 0x32:
-            CopyCharsBlock(transferMapMrCharData, 0x4, 0, 8, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x4, 0, 8, 4, chars, 0, 12);
             v2 = NULL;
-            LoadNclrData(&v2, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v2, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v2->mData[0x10 + i];
             }
             break;
         case 0x15:
-            CopyCharsBlock(transferMapMrCharData, 0xc, 0, 4, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0xc, 0, 4, 4, chars, 0, 12);
             v3 = NULL;
-            LoadNclrData(&v3, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v3, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v3->mData[0x20 + i];
             }
             break;
         case 0x33:
-            CopyCharsBlock(transferMapMrCharData, 0x10, 0, 4, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x10, 0, 4, 4, chars, 0, 12);
             v4 = NULL;
-            LoadNclrData(&v4, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v4, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v4->mData[0x50 + i];
             }
             break;
         case 0x11:
-            CopyCharsBlock(transferMapMrCharData, 0x14, 0, 4, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x14, 0, 4, 4, chars, 0, 12);
             v5 = NULL;
-            LoadNclrData(&v5, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v5, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v5->mData[0x60 + i];
             }
             break;
         case 0xa:
-            CopyCharsBlock(transferMapMrCharData, 0x18, 0, 4, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x18, 0, 4, 4, chars, 0, 12);
             v6 = NULL;
-            LoadNclrData(&v6, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v6, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v6->mData[0x70 + i];
             }
             break;
         case 0x31:
-            CopyCharsBlock(transferMapMrCharData, 0x0, 4, 8, 4, chars, 0, 12);
+            m2d_copyTiles2d(transferMapMrCharData, 0x0, 4, 8, 4, chars, 0, 12);
             v7 = NULL;
-            LoadNclrData(&v7, FindSceneFileWrapper("race_transfer_map_mr_s_o.NCLR"));
+            g2du_unpackPaletteData(&v7, m2d_getSceneArcFile("race_transfer_map_mr_s_o.NCLR"));
             for (i = 0; i < 16; i++) {
                 palette[0x50 + i] = v7->mData[0x80 + i];
             }
@@ -808,7 +808,7 @@ void CopyRaceTransferMapMrSO(u16 *palette, void *chars) {
     }
 }
 
-void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
+void r2d_loadMapIconGraphics(u16 *palette, void *chars) {
     s32 characterIndex;
     s32 paletteIndex;
     Ncgr *transferChars = NULL;
@@ -834,61 +834,61 @@ void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
     s32 colorIndex;
     Unk020224e0_s *oamEntry;
 
-    LoadNcgrData2(&transferChars, FindSceneFileWrapper("race_transfer_s_o.NCGR"));
+    g2du_unpackCharacterData(&transferChars, m2d_getSceneArcFile("race_transfer_s_o.NCGR"));
     transferCharData = transferChars->mData;
-    for (i = 0; i < (s32) gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < (s32) gRaceMultiConfig->mKartCount; i++) {
         GetEntryCharacterAndPalette(i, &characterIndex, &paletteIndex);
-        CopyCharsBlock(transferCharData, characterIndex << 1, 0, 2, 2, chars, i << 1, 0);
+        m2d_copyTiles2d(transferCharData, characterIndex << 1, 0, 2, 2, chars, i << 1, 0);
         oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[i]->mUnk_04;
         oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
     }
-    for (j = 0; j < (s32) gRaceSetup->mKartCount; j++) {
+    for (j = 0; j < (s32) gRaceMultiConfig->mKartCount; j++) {
         GetEntryCharacterAndPalette(j, &characterIndex, &paletteIndex);
-        CopyCharsBlock(transferCharData, characterIndex << 1, 2, 2, 2, chars, (j << 1) + 0x10, 0);
+        m2d_copyTiles2d(transferCharData, characterIndex << 1, 2, 2, 2, chars, (j << 1) + 0x10, 0);
         oamEntry = gRaceNcerNclrNcgrTables->mRaceSNcerEntries[j + 8]->mUnk_04;
         oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
         oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalSNcerEntries[j]->mUnk_04;
         oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
         oamEntry = gRaceNcerNclrNcgrTables->mRaceGoalTeamSNcerEntries[j]->mUnk_04;
         oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+        if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
             oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 7]->mUnk_04;
             oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
         }
     }
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         for (j = 0; j < 6; j++) {
             GetTimeRecordCharacterAndPalette(j, &characterIndex, &paletteIndex);
-            CopyCharsBlock(transferCharData, characterIndex << 1, 2, 2, 2, chars, ((j + 2) << 1) + 0x10, 0);
+            m2d_copyTiles2d(transferCharData, characterIndex << 1, 2, 2, 2, chars, ((j + 2) << 1) + 0x10, 0);
             oamEntry = gRaceNcerNclrNcgrTables->mRaceNewRecordTaSNcerEntries[j + 8]->mUnk_04;
             oamEntry->mUnk_04 = (oamEntry->mUnk_04 & 0xfff) + (paletteIndex << 12);
         }
     }
-    for (k = 0; k < (s32) gRaceSetup->mKartCount; k++) {
+    for (k = 0; k < (s32) gRaceMultiConfig->mKartCount; k++) {
         s32 nameTilePositions[8][2] = {{16, 8}, {16, 10}, {11, 12}, {18, 12}, {25, 12}, {11, 14}, {18, 14}, {25, 14}};
 
-        CopyCharsBlock(GetMessageScreenCharBuffer(), (k % 4) << 3, ((u32) k >> 2) << 1, 7, 2, chars,
+        m2d_copyTiles2d(err_getCharData(), (k % 4) << 3, ((u32) k >> 2) << 1, 7, 2, chars,
                        nameTilePositions[k][0], nameTilePositions[k][1]);
     }
-    ClearMessageScreenChars();
-    LoadNcgrData2(&transferChars, FindSceneFileWrapper("race_transfer_map_s_o.NCGR"));
+    err_clearCharData();
+    g2du_unpackCharacterData(&transferChars, m2d_getSceneArcFile("race_transfer_map_s_o.NCGR"));
     transferCharData = transferChars->mData;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        CopyCharsBlock(transferCharData, 0x14, 6, 0xc, 4, chars, 0, 8);
-        CopyCharsBlock(transferCharData, 0x14, 0xa, 0xb, 4, chars, 0, 0xc);
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        m2d_copyTiles2d(transferCharData, 0x14, 6, 0xc, 4, chars, 0, 8);
+        m2d_copyTiles2d(transferCharData, 0x14, 0xa, 0xb, 4, chars, 0, 0xc);
         q1 = NULL;
-        LoadNclrData(&q1, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+        g2du_unpackPaletteData(&q1, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
         for (colorIndex = 0; colorIndex < 16; colorIndex++) {
             palette[0x40 + colorIndex] = q1->mData[0xd0 + colorIndex];
         }
     } else {
-        switch (gRaceSetup->mCourseId) {
+        switch (gRaceMultiConfig->mCourseId) {
             case COURSE_ID_OLD_NOKO_SFC:
             case COURSE_ID_BEACH:
             case COURSE_ID_MINI_STAGE3:
-                CopyCharsBlock(transferCharData, 0x0, 0, 4, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x0, 0, 4, 2, chars, 0, 8);
                 q2 = NULL;
-                LoadNclrData(&q2, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q2, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q2->mData[colorIndex];
                 }
@@ -896,63 +896,63 @@ void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
             case COURSE_ID_OLD_MARIO_SFC:
             case COURSE_ID_MANSION:
             case COURSE_ID_OLD_DONUT_SFC:
-                CopyCharsBlock(transferCharData, 0x4, 0, 5, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x4, 0, 5, 2, chars, 0, 8);
                 q3 = NULL;
-                LoadNclrData(&q3, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q3, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q3->mData[0x10 + colorIndex];
                 }
                 break;
             case COURSE_ID_DESERT:
-                CopyCharsBlock(transferCharData, 0x9, 0, 6, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x9, 0, 6, 2, chars, 0, 8);
                 q4 = NULL;
-                LoadNclrData(&q4, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q4, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q4->mData[0x20 + colorIndex];
                 }
                 break;
             case COURSE_ID_OLD_CHOCO_64:
-                CopyCharsBlock(transferCharData, 0xf, 0, 3, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0xf, 0, 3, 2, chars, 0, 8);
                 q5 = NULL;
-                LoadNclrData(&q5, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q5, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q5->mData[0x30 + colorIndex];
                 }
                 break;
             case COURSE_ID_PINBALL:
-                CopyCharsBlock(transferCharData, 0, 2, 0xc, 4, chars, 0, 8);
-                CopyCharsBlock(transferCharData, 0, 6, 0xb, 4, chars, 0, 0xc);
-                if (gRaceSetup->mMirrorMode != 0) {
-                    CopyCharsBlockFlippedVertically(transferCharData, 0, 2, 8, 8, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0, 2, 0xc, 4, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0, 6, 0xb, 4, chars, 0, 0xc);
+                if (gRaceMultiConfig->mMirrorMode != 0) {
+                    m2d_copyTiles2dVFlip(transferCharData, 0, 2, 8, 8, chars, 0, 8);
                 }
                 q6 = NULL;
-                LoadNclrData(&q6, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q6, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q6->mData[0x40 + colorIndex];
                 }
                 break;
             case COURSE_ID_RIDGE:
             case COURSE_ID_OLD_KINOKO_GC:
-                CopyCharsBlock(transferCharData, 0x14, 0, 8, 4, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x14, 0, 8, 4, chars, 0, 8);
                 q7 = NULL;
-                LoadNclrData(&q7, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q7, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q7->mData[0x50 + colorIndex];
                 }
                 break;
             case COURSE_ID_OLD_FRAPPE_64:
             case COURSE_ID_SNOW:
-                CopyCharsBlock(transferCharData, 0x1d, 0, 3, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x1d, 0, 3, 2, chars, 0, 8);
                 q8 = NULL;
-                LoadNclrData(&q8, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q8, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q8->mData[0x60 + colorIndex];
                 }
                 break;
             case COURSE_ID_CLOCK:
-                CopyCharsBlock(transferCharData, 0xc, 4, 8, 4, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0xc, 4, 8, 4, chars, 0, 8);
                 q9 = NULL;
-                LoadNclrData(&q9, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q9, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q9->mData[0x70 + colorIndex];
                 }
@@ -961,9 +961,9 @@ void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
             case COURSE_ID_OLD_BABY_GC:
             case COURSE_ID_MARIO:
             case COURSE_ID_OLD_CHOCO_SFC:
-                CopyCharsBlock(transferCharData, 0xc, 2, 8, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0xc, 2, 8, 2, chars, 0, 8);
                 q10 = NULL;
-                LoadNclrData(&q10, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q10, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q10->mData[0x80 + colorIndex];
                 }
@@ -972,49 +972,49 @@ void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars) {
             case COURSE_ID_OLD_LUIGI_GC:
             case COURSE_ID_AIRSHIP:
             case COURSE_ID_GARDEN:
-                CopyCharsBlock(transferCharData, 0x13, 4, 12, 4, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x13, 4, 12, 4, chars, 0, 8);
                 q11 = NULL;
-                LoadNclrData(&q11, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q11, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q11->mData[0x90 + colorIndex];
                 }
                 break;
             case COURSE_ID_STADIUM:
-                CopyCharsBlock(transferCharData, 0x8, 10, 8, 4, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x8, 10, 8, 4, chars, 0, 8);
                 q12 = NULL;
-                LoadNclrData(&q12, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q12, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q12->mData[0x80 + colorIndex];
                 }
                 break;
             case COURSE_ID_OLD_KOOPA_AGB:
             case COURSE_ID_KOOPA:
-                CopyCharsBlock(transferCharData, 0xc, 8, 8, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0xc, 8, 8, 2, chars, 0, 8);
                 q13 = NULL;
-                LoadNclrData(&q13, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q13, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q13->mData[0xa0 + colorIndex];
                 }
                 break;
             case COURSE_ID_RAINBOW:
-                CopyCharsBlock(transferCharData, 0x12, 10, 2, 2, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x12, 10, 2, 2, chars, 0, 8);
                 q14 = NULL;
-                LoadNclrData(&q14, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q14, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q14->mData[0xb0 + colorIndex];
                 }
                 break;
             case COURSE_ID_OLD_HYUDORO_64:
-                CopyCharsBlock(transferCharData, 0x0, 10, 8, 6, chars, 0, 8);
+                m2d_copyTiles2d(transferCharData, 0x0, 10, 8, 6, chars, 0, 8);
                 q15 = NULL;
-                LoadNclrData(&q15, FindSceneFileWrapper("race_transfer_map_s_o.NCLR"));
+                g2du_unpackPaletteData(&q15, m2d_getSceneArcFile("race_transfer_map_s_o.NCLR"));
                 for (colorIndex = 0; colorIndex < 16; colorIndex++) {
                     palette[0x40 + colorIndex] = q15->mData[0xe0 + colorIndex];
                 }
                 break;
         }
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        CopyRaceTransferMapMrSO(palette, chars);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        r2d_loadMrMapIconGraphics(palette, chars);
     }
 }

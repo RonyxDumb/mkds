@@ -6,24 +6,24 @@
 #include "pm.h"
 #include "Main/Unknown/code_0210f090.h"
 
-u32 gMicInitialized;
+u32 mic_sInitialized;
 
-void InitMicAndAmp(void) {
+void mic_init(void) {
     MIC_Init();
     PM_Init();
-    PM_SetAmp(1);
-    gMicInitialized = 1;
+    PM_SetAmpAsync(1);
+    mic_sInitialized = 1;
 }
 
-void SetupMicAutoSampling(MicBuffer *micBuffer) {
+void mic_initAutoSampling(MicBuffer *micBuffer) {
     MICAutoParam *autoParam;
     s32 i;
 
-    if (gMicInitialized == 0) {
+    if (mic_sInitialized == 0) {
         MIC_Init();
         PM_Init();
-        PM_SetAmp(1);
-        gMicInitialized = 1;
+        PM_SetAmpAsync(1);
+        mic_sInitialized = 1;
     }
     micBuffer->mUnk_41c = 0;
     for (i = 0; i < 0x400; i++) {

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateKartIcon(void *heap);
+void kic_initForGhost(void *heap);

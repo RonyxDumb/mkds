@@ -14,7 +14,7 @@
 
 // Position of the start placement with key c (the only one when there are not several) moved by d along the negated
 // first and e along the negated third axis of its rotation, and the rotation angles in b.
-void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 key, s32 firstAxisOffset,
+void mdat_calculateStartPosition(Vec3 *outPos, Vec3 *outRotation, s32 key, s32 firstAxisOffset,
                                            s32 thirdAxisOffset) {
     CourseMapPlacement *placement = NULL;
     CourseMapPlacement *candidate;
@@ -33,26 +33,26 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
     s32 negatedThirdAxisY;
     s32 negatedThirdAxisZ;
 
-    if (gCourseMap->mSettings->mUnk_04 != 0) {
+    if (gMapData->mSettings->mUnk_04 != 0) {
         firstAxisOffset = 0x1000 - firstAxisOffset;
     }
-    if (gCourseMap->mStartPlacementCount > 1) {
-        for (i = 0; i < gCourseMap->mStartPlacementCount; i++) {
-            candidate = &(gCourseMap->mStartPlacements)[i];
+    if (gMapData->mStartPlacementCount > 1) {
+        for (i = 0; i < gMapData->mStartPlacementCount; i++) {
+            candidate = &(gMapData->mStartPlacements)[i];
             if (key == (s16) candidate->mKey) {
                 placement = candidate;
                 break;
             }
         }
     } else {
-        placement = gCourseMap->mStartPlacements;
+        placement = gMapData->mStartPlacements;
     }
     angleX = (placement->mUnk_0c.x >> 12) * 0xb6;
     angleY = (placement->mUnk_0c.y >> 12) * 0xb6;
     angleZ = (placement->mUnk_0c.z >> 12) * 0xb6;
-    MTX_RotX43_((s32 *) &rotationMatrixX, gPairsByAngle[(angleX >> 4) * 2], gPairsByAngle[(angleX >> 4) * 2 + 1]);
-    MTX_RotY43_(&rotationMatrixY, gPairsByAngle[(angleY >> 4) * 2], gPairsByAngle[(angleY >> 4) * 2 + 1]);
-    MTX_RotZ43_((s32 *) &rotationMatrixZ, gPairsByAngle[(angleZ >> 4) * 2], gPairsByAngle[(angleZ >> 4) * 2 + 1]);
+    MTX_RotX43_((s32 *) &rotationMatrixX, FX_SinCosTable_[(angleX >> 4) * 2], FX_SinCosTable_[(angleX >> 4) * 2 + 1]);
+    MTX_RotY43_(&rotationMatrixY, FX_SinCosTable_[(angleY >> 4) * 2], FX_SinCosTable_[(angleY >> 4) * 2 + 1]);
+    MTX_RotZ43_((s32 *) &rotationMatrixZ, FX_SinCosTable_[(angleZ >> 4) * 2], FX_SinCosTable_[(angleZ >> 4) * 2 + 1]);
     MTX_Concat43(&rotationMatrixX, &rotationMatrixZ, &rotationMatrix);
     MTX_Concat43(&rotationMatrixY, &rotationMatrix, &rotationMatrix);
     negatedFirstAxisX = -rotationMatrix.mUnk_00[0].x;
@@ -74,37 +74,37 @@ void GetCourseMapStartPlacementWithOffsets(Vec3 *outPos, Vec3 *outRotation, s32 
 
 // Position and rotation of the start spot of kart c by mode: a staggered grid by rank in a race, by key
 // (kart + mStartPlacementOffset) % 8 in battle.
-void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex) {
-    u16 lastKartIndex = gRaceSetup->mKartCount - 1;
-    s32 rankIndex = (u16) (GetKartStartRank(kartIndex) - 1);
+void mdat_getStartPosition(Vec3 *outPos, Vec3 *outRotation, s32 kartIndex) {
+    u16 lastKartIndex = gRaceMultiConfig->mKartCount - 1;
+    s32 rankIndex = (u16) (rres_getPlace(kartIndex) - 1);
     s32 k;
     s32 l;
     s32 n;
     s32 t;
     s32 d;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-        GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0, 0);
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
+        mdat_calculateStartPosition(outPos, outRotation, 0, 0, 0);
         return;
     }
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_BATTLE:
-            GetCourseMapStartPlacementWithOffsets(outPos, outRotation,
-                                                  (u16) ((rankIndex + gRaceProgress->mStartPlacementOffset) % 8), 0, 0);
+            mdat_calculateStartPosition(outPos, outRotation,
+                                                  (u16) ((rankIndex + gRaceStatus->mStartPlacementOffset) % 8), 0, 0);
             break;
         case MODE_TIME_ATTACK:
-            GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0x800, 0);
+            mdat_calculateStartPosition(outPos, outRotation, 0, 0x800, 0);
             break;
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mKartCount <= 1) {
-                GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, 0x800, 0);
+            if (gRaceMultiConfig->mKartCount <= 1) {
+                mdat_calculateStartPosition(outPos, outRotation, 0, 0x800, 0);
             } else {
-                GetCourseMapStartPlacementWithOffsets(outPos, outRotation, kartIndex,
+                mdat_calculateStartPosition(outPos, outRotation, kartIndex,
                                                       (1 - kartIndex * 2) * 0x14000 + 0x800, 0);
             }
             break;
         default:
-            k = data_0215406c[lastKartIndex * 2];
+            k = mdat_sDriverPlacements[lastKartIndex * 2];
             l = k;
             n = rankIndex;
             if (rankIndex >= k) {
@@ -126,12 +126,12 @@ void GetCourseMapKartStartPlacement(Vec3 *outPos, Vec3 *outRotation, s32 kartInd
             if (rankIndex >= k) {
                 t = 1;
             }
-            GetCourseMapStartPlacementWithOffsets(outPos, outRotation, 0, d, rankIndex * 0x19000 + t * 0x14000);
+            mdat_calculateStartPosition(outPos, outRotation, 0, d, rankIndex * 0x19000 + t * 0x14000);
             break;
     }
 }
 
-BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape) {
+BOOL mdat_isPointInsideBoxArea(Vec3 *pos, CourseMapShape *shape) {
     Vec3 offset;
     s32 distance;
     s32 extent;
@@ -154,7 +154,7 @@ BOOL IsPosInCourseMapShapeBox(Vec3 *pos, CourseMapShape *shape) {
     return TRUE;
 }
 
-s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
+s32 mdat_isPointInsideArea(Vec3 *pos, CourseMapShape *shape) {
     Vec3 offset;
     s32 inside = 0;
     s32 x;
@@ -163,7 +163,7 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
 
     switch (shape->mShapeKind) {
         case 0:
-            inside = IsPosInCourseMapShapeBox(pos, shape);
+            inside = mdat_isPointInsideBoxArea(pos, shape);
             break;
         case 1:
             VEC_Subtract(pos, &shape->mPos, &offset);
@@ -181,7 +181,7 @@ s32 IsPosInCourseMapShape(Vec3 *pos, CourseMapShape *shape) {
     return inside;
 }
 
-s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
+s32 mdat_isInsideMissionEndArea(Vec3 *pos, s32 *outFlag) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -191,13 +191,13 @@ s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
     s32 radius;
     s32 inside;
 
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < gMapData->mShapeCount; shapeIndex++) {
+        shape = mdat_getAreaEntryByIndex(shapeIndex);
         if (shape->mKind == 2) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
-                    inside = IsPosInCourseMapShapeBox(pos, shape);
+                    inside = mdat_isPointInsideBoxArea(pos, shape);
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
@@ -227,7 +227,7 @@ s32 func_0204176c(Vec3 *pos, s32 *outFlag) {
     return found;
 }
 
-void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
+void *mdat_findEnemyPoint(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -237,16 +237,16 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
     void *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mKind4ShapeCount == 0) {
+    if (gMapData->mKind4ShapeCount == 0) {
         return link;
     }
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < gMapData->mShapeCount; shapeIndex++) {
+        shape = mdat_getAreaEntryByIndex(shapeIndex);
         if (shape->mKind == 4) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
-                    inside = IsPosInCourseMapShapeBox(pos, shape);
+                    inside = mdat_isPointInsideBoxArea(pos, shape);
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
@@ -263,7 +263,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
                     break;
             }
             if (inside != 0) {
-                link = (u8 *) gCourseMap->mRacePointLinks + shape->mPointIndex * 0x28;
+                link = (u8 *) gMapData->mRacePointLinks + shape->mPointIndex * 0x28;
                 break;
             }
         }
@@ -271,7 +271,7 @@ void *FindCourseMapKind4ShapeRacePointLink(Vec3 *pos) {
     return link;
 }
 
-PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
+PointLink *mdat_findMgEnemyPoint(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -281,16 +281,16 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
     PointLink *link = NULL;
     s32 inside;
 
-    if (gCourseMap->mKind4ShapeCount == 0) {
+    if (gMapData->mKind4ShapeCount == 0) {
         return link;
     }
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < gMapData->mShapeCount; shapeIndex++) {
+        shape = mdat_getAreaEntryByIndex(shapeIndex);
         if (shape->mKind == 4) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
-                    inside = IsPosInCourseMapShapeBox(pos, shape);
+                    inside = mdat_isPointInsideBoxArea(pos, shape);
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
@@ -307,7 +307,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
                     break;
             }
             if (inside != 0) {
-                link = &gCourseMap->mBattlePointLinks[shape->mPointIndex];
+                link = &gMapData->mBattlePointLinks[shape->mPointIndex];
                 break;
             }
         }
@@ -315,7 +315,7 @@ PointLink *FindCourseMapKind4ShapeBattlePointLink(Vec3 *pos) {
     return link;
 }
 
-s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
+s32 mdat_findCameraId(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
@@ -325,13 +325,13 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
     s32 cameraIndex = -1;
     s32 inside;
 
-    for (shapeIndex = 0; shapeIndex < gCourseMap->mShapeCount; shapeIndex++) {
-        shape = GetCourseMapShape(shapeIndex);
+    for (shapeIndex = 0; shapeIndex < gMapData->mShapeCount; shapeIndex++) {
+        shape = mdat_getAreaEntryByIndex(shapeIndex);
         if (shape->mKind == 1) {
             inside = 0;
             switch (shape->mShapeKind) {
                 case 0:
-                    inside = IsPosInCourseMapShapeBox(pos, shape);
+                    inside = mdat_isPointInsideBoxArea(pos, shape);
                     break;
                 case 1:
                     VEC_Subtract(pos, &shape->mPos, &offset);
@@ -362,28 +362,28 @@ s32 GetCourseMapCameraIndexAtPos(Vec3 *pos) {
 
 // Mode 2: returns mNextRespawnSlot and advances it modulo mRespawnCount (the argument is ignored); otherwise returns
 // mCheckpoints[a].mRespawnSlot, a = the kart's current entry.
-u16 GetCourseMapRespawnSlot(u32 checkpointIndex) {
+u16 mdat_getRespawnId(u32 checkpointIndex) {
     u16 respawnSlot;
     CourseMap *courseMap;
 
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        courseMap = gCourseMap;
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        courseMap = gMapData;
         respawnSlot = courseMap->mNextRespawnSlot;
         courseMap->mNextRespawnSlot = (respawnSlot + 1) % courseMap->mRespawnCount;
     } else {
-        respawnSlot = gCourseMap->mCheckpoints[checkpointIndex].mRespawnSlot;
+        respawnSlot = gMapData->mCheckpoints[checkpointIndex].mRespawnSlot;
     }
     return respawnSlot;
 }
 
-void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
+void *mdat_getRespawnData(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
     CourseMapRespawn *respawn;
     s32 pointIndex;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (gMapData->mCheckpoints == NULL && gMapData->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &gMapData->mRespawns[gMapData->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         outPos->x = 0;
@@ -405,17 +405,17 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     if (pointIndex == -1) {
         return NULL;
     }
-    return (u8 *) gCourseMap->mRacePointLinks + pointIndex * 0x28;
+    return (u8 *) gMapData->mRacePointLinks + pointIndex * 0x28;
 }
 
-PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
+PointLink *mdat_getMgRespawnData(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
     CourseMapRespawn *respawn;
     s32 pointIndex;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (gMapData->mCheckpoints == NULL && gMapData->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &gMapData->mRespawns[gMapData->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         outPos->x = 0;
@@ -437,24 +437,24 @@ PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outR
     if (pointIndex == -1) {
         return NULL;
     }
-    return &gCourseMap->mBattlePointLinks[pointIndex];
+    return &gMapData->mBattlePointLinks[pointIndex];
 }
 
-struct ItemPointLink *GetCourseMapRespawnItemPointLink(u32 slot) {
+struct ItemPointLink *mdat_getItemPointForRespawn(u32 slot) {
     CourseMapRespawn *respawn;
 
-    if (gCourseMap->mCheckpoints == NULL && gCourseMap->mRespawns == NULL) {
+    if (gMapData->mCheckpoints == NULL && gMapData->mRespawns == NULL) {
         respawn = NULL;
     } else {
-        respawn = &gCourseMap->mRespawns[gCourseMap->mRespawnIndexBySlot[slot]];
+        respawn = &gMapData->mRespawns[gMapData->mRespawnIndexBySlot[slot]];
     }
     if (respawn == NULL) {
         return NULL;
     }
-    return &gCourseMap->mItemPointLinks[respawn->mItemPointIndex];
+    return &gMapData->mItemPointLinks[respawn->mItemPointIndex];
 }
 
-s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
+s32 mdat_isDriverInClipArea(s32 kartIndex, u32 listIndex) {
     CourseMapKind3ShapeNode *node;
     s32 inside;
     CourseMapShape *shape;
@@ -465,14 +465,14 @@ s32 IsKartInCourseMapKind3ShapeList(s32 kartIndex, u32 listIndex) {
     s32 radius;
     BOOL found = FALSE;
 
-    node = gCourseMap->mKind3ShapeLists[listIndex];
-    GetKartPos(&kartPos, kartIndex);
+    node = gMapData->mKind3ShapeLists[listIndex];
+    driver_getPosition(&kartPos, kartIndex);
     for (; found == FALSE && node != NULL; node = node->mUnk_04) {
         shape = node->mUnk_00;
         inside = 0;
         switch (shape->mShapeKind) {
             case 0:
-                inside = IsPosInCourseMapShapeBox(&kartPos, shape);
+                inside = mdat_isPointInsideBoxArea(&kartPos, shape);
                 break;
             case 1:
                 VEC_Subtract(&kartPos, &shape->mPos, &offset);

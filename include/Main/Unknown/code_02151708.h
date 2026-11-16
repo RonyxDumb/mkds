@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WritePackedWiFiInfo(u32 packedWiFiInfo);
+void DWCi_BACKUPlSetWiFi(u32 packedWiFiInfo);

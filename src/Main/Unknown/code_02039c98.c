@@ -3,9 +3,9 @@
 #include "Main/Unknown/code_020435c4.h"
 #include "Main/Unknown/code_0205dc84.h"
 
-u32 func_02039c98(void) {
+u32 mproc_main(void) {
     func_02039cbc();
-    RunScenesForever();
-    func_02043ad4();
+    scproc_run();
+    input_finalize();
     return 0;
 }

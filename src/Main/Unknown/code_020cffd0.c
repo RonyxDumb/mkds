@@ -37,14 +37,14 @@
 #include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void ClearRaceHudSubScreenFireball2Cells(void) {
+void mpicn_destroyFireball2Icon(void) {
     u32 cellsPointerAddress;
     u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenFireball2Cells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    cellsPointerAddress = (u32) &mpicn_sFireball2Icon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) cellsPointerAddress);
 }
 
-void UpdateRaceHudSubScreenFireball2Cells(void) {
+void mpicn_updateFireball2Icon(void) {
     s32 i;
     s32 cellCount;
     BOOL inFirstHalf;
@@ -53,38 +53,38 @@ void UpdateRaceHudSubScreenFireball2Cells(void) {
     Vec3 *position;
 
     cellCount = 0;
-    a = GetRaceHudSubScreenScale();
-    gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04++;
-    if (gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 < 0 ||
-        gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 >= 0x14) {
-        gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 = 0;
+    a = mpicn_20C0DB0();
+    mpicn_sFireball2Icon->mUnk_0c->mUnk_04++;
+    if (mpicn_sFireball2Icon->mUnk_0c->mUnk_04 < 0 ||
+        mpicn_sFireball2Icon->mUnk_0c->mUnk_04 >= 0x14) {
+        mpicn_sFireball2Icon->mUnk_0c->mUnk_04 = 0;
     }
-    inFirstHalf = gRaceHudSubScreenFireball2Cells->mUnk_0c->mUnk_04 < 10;
-    for (i = 0; i < gRaceHudSubScreenFireball2Cells->mObjectCount; i++) {
-        object = gRaceHudSubScreenFireball2Cells->mObjects[i];
+    inFirstHalf = mpicn_sFireball2Icon->mUnk_0c->mUnk_04 < 10;
+    for (i = 0; i < mpicn_sFireball2Icon->mObjectCount; i++) {
+        object = mpicn_sFireball2Icon->mObjects[i];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(
-                position, (UnkPair020b502c *) &gRaceHudSubScreenFireball2Cells->mCells[cellCount], a, 1, 1) == FALSE) {
+        if (lmap_20B5AE8(
+                position, (UnkPair020b502c *) &mpicn_sFireball2Icon->mCells[cellCount], a, 1, 1) == FALSE) {
             continue;
         }
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mCell =
-            GetRaceSNcerEntry(inFirstHalf != FALSE ? 0xa5 : 0xa6);
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_0c = 1;
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_0e = 0;
-        gRaceHudSubScreenFireball2Cells->mCells[cellCount].mUnk_10 = object->mAngle;
+        mpicn_sFireball2Icon->mCells[cellCount].mCell =
+            r2d_getRaceSCell(inFirstHalf != FALSE ? 0xa5 : 0xa6);
+        mpicn_sFireball2Icon->mCells[cellCount].mUnk_0c = 1;
+        mpicn_sFireball2Icon->mCells[cellCount].mUnk_0e = 0;
+        mpicn_sFireball2Icon->mCells[cellCount].mUnk_10 = object->mAngle;
         cellCount++;
     }
-    gRaceHudSubScreenFireball2Cells->mCellCount = cellCount;
+    mpicn_sFireball2Icon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenFireball2Cells, 1);
+void mpicn_renderFireball2Icon(void *oamBuffer) {
+    mpicn_renderMObjIcon(oamBuffer, mpicn_sFireball2Icon, 1);
 }
 
 void InitRaceGoalTimes(void) {
     u16 i;
 
-    gRaceGoalTimes = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xb0);
+    gRaceGoalTimes = heap_alloc(proc_getHeap(proc_getCurrent()), 0xb0);
     gRaceGoalTimes->mFinishTime.mDigits[0] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[1] = 0;
     gRaceGoalTimes->mFinishTime.mDigits[2] = 0;
@@ -121,16 +121,16 @@ void UpdateRaceGoalTimes(void) {
     u16 i;
     s32 cycleStep;
 
-    if (gRaceSetup->mMode != MODE_GRAND_PRIX && gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode != MODE_GRAND_PRIX && gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    GetKartFinishTime(GetFollowedKartOrEntryIndex(), &a, &b, &c);
+    rstat_getDriverTotalTime(Race_GetPlayerId(), &a, &b, &c);
     SplitTimeDigits(a, b, c, &gRaceGoalTimes->mFinishTime);
-    for (i = 0; i < GetLapCount(); i++) {
-        GetKartLapTime(GetFollowedKartOrEntryIndex(), i + 1, &a, &b, &c);
+    for (i = 0; i < rconf_getLapCount(); i++) {
+        rstat_getDriverLapTime(Race_GetPlayerId(), i + 1, &a, &b, &c);
         SplitTimeDigits(a, b, c, &gRaceGoalTimes->mLapTimes[i]);
     }
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         return;
     }
     if (IsRaceNewRecordTaFinishRecord() == 0 && IsRaceNewRecordTaBestLapRecord() == 0) {
@@ -167,14 +167,14 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
     s32 rowY;
 
     updateFrames = GetRaceGoalMUpdateFrames();
-    if (gRaceSetup->mMode != MODE_GRAND_PRIX && gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode != MODE_GRAND_PRIX && gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceSetup->mRaceKind == 4 || gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (gRaceMultiConfig->mRaceKind == 4 || gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    if (func_020c70bc() != 0) {
-        cell = GetRaceGoalMNcerEntry(0x43);
+    if (r2dtar_isSaving() != 0) {
+        cell = r2d_getRaceGoalMCell(0x43);
         positions[0][0] = 0x80000;
         positions[0][1] = 0x60000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
@@ -184,26 +184,26 @@ void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer) {
         return;
     }
     for (i = 0; i < 6; i++) {
-        slideOffsets[i] = InterpolateS16(1, 0x80, 0, updateFrames - i * 4, 0x14);
+        slideOffsets[i] = mutil_interpolate(1, 0x80, 0, updateFrames - i * 4, 0x14);
     }
-    cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x15);
+    cell = r2d_getRaceGoalMCell((IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x15);
     positions[1][0] = (slideOffsets[0] + 0xa2) << 12;
     positions[1][1] = 0x10000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[1], 0, 1);
     DrawRaceGoalTimeDigits(oamBuffer, slideOffsets[0], 0x10, &gRaceGoalTimes->mFinishTime,
                            IsRaceNewRecordTaFinishRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0);
-    cell = GetRaceGoalMNcerEntry((IsRaceNewRecordTaBestLapRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x16);
+    cell = r2d_getRaceGoalMCell((IsRaceNewRecordTaBestLapRecord() != 0 ? gRaceGoalTimes->mCellIndexAdd : 0) + 0x16);
     positions[2][0] = (slideOffsets[1] + 0x99) << 12;
     positions[2][1] = 0x28000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, positions[2], 0, 1);
-    for (i = 0; i < GetLapCount(); i++) {
+    for (i = 0; i < rconf_getLapCount(); i++) {
         cellOffset = 0;
         if (IsRaceNewRecordTaBestLapRecord() != 0 && i + 1 == GetRaceNewRecordTaBestLapNumber()) {
             cellOffset = gRaceGoalTimes->mCellIndexAdd;
         }
-        cell = GetRaceGoalMNcerEntry(i + 0x18 + cellOffset);
+        cell = r2d_getRaceGoalMCell(i + 0x18 + cellOffset);
         rowY = i * 16 + 0x28;
         positions[3][0] = (slideOffsets[i + 1] + 0x9e) << 12;
         positions[3][1] = rowY << 12;
@@ -228,66 +228,66 @@ void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 origin
     s32 columnOffsets[9] = {170, 179, 188, 198, 207, 216, 226, 235, 244};
 
     if (digits->mDigits[0] != 0) {
-        cell = GetRaceGoalMNcerEntry(digits->mDigits[0] + 0x17 + cellOffset);
+        cell = r2d_getRaceGoalMCell(digits->mDigits[0] + 0x17 + cellOffset);
         digit0Position[0] = (originX + columnOffsets[0]) << 12;
         digit0Position[1] = originY << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, digit0Position, 0, 1);
     }
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[1] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[1] + 0x17 + cellOffset);
     digit1Position[0] = (originX + columnOffsets[1]) << 12;
     digit1Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit1Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
+    cell = r2d_getRaceGoalMCell(cellOffset + 0x21);
     separator0Position[0] = (originX + columnOffsets[2]) << 12;
     separator0Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator0Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[2] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[2] + 0x17 + cellOffset);
     digit2Position[0] = (originX + columnOffsets[3]) << 12;
     digit2Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit2Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[3] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[3] + 0x17 + cellOffset);
     digit3Position[0] = (originX + columnOffsets[4]) << 12;
     digit3Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit3Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(cellOffset + 0x21);
+    cell = r2d_getRaceGoalMCell(cellOffset + 0x21);
     separator1Position[0] = (originX + columnOffsets[5]) << 12;
     separator1Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, separator1Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[4] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[4] + 0x17 + cellOffset);
     digit4Position[0] = (originX + columnOffsets[6]) << 12;
     digit4Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit4Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[5] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[5] + 0x17 + cellOffset);
     digit5Position[0] = (originX + columnOffsets[7]) << 12;
     digit5Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit5Position, 0, 1);
-    cell = GetRaceGoalMNcerEntry(digits->mDigits[6] + 0x17 + cellOffset);
+    cell = r2d_getRaceGoalMCell(digits->mDigits[6] + 0x17 + cellOffset);
     digit6Position[0] = (originX + columnOffsets[8]) << 12;
     digit6Position[1] = originY << 12;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, digit6Position, 0, 1);
 }
 
-s32 CreateRaceHudSubScreenBerryCells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenBerryCells, MAP_OBJECT_KIND_BERRY);
+s32 mpicn_createBerryIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sBerryIcon, MAP_OBJECT_KIND_BERRY);
 }
 
-void ClearRaceHudSubScreenBerryCells(void) {
+void mpicn_destroyBerryIcon(void) {
     u32 cellsPointerAddress;
     u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenBerryCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    cellsPointerAddress = (u32) &mpicn_sBerryIcon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) cellsPointerAddress);
 }
 
-void UpdateRaceHudSubScreenBerryCells(void) {
+void mpicn_updateBerryIcon(void) {
     s32 i;
     s32 cellCount;
     u32 a;
@@ -295,39 +295,39 @@ void UpdateRaceHudSubScreenBerryCells(void) {
     Vec3 *position;
 
     cellCount = 0;
-    a = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenBerryCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenBerryCells->mObjects[i];
+    a = mpicn_20C0DB0();
+    for (i = 0; i < mpicn_sBerryIcon->mObjectCount; i++) {
+        object = mpicn_sBerryIcon->mObjects[i];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(
-                position, (UnkPair020b502c *) &gRaceHudSubScreenBerryCells->mCells[cellCount], a, 1, 1) == FALSE) {
+        if (lmap_20B5AE8(
+                position, (UnkPair020b502c *) &mpicn_sBerryIcon->mCells[cellCount], a, 1, 1) == FALSE) {
             continue;
         }
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb8);
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
-        gRaceHudSubScreenBerryCells->mCells[cellCount].mUnk_10 = object->mAngle;
-        gRaceHudSubScreenBerryCells->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+        mpicn_sBerryIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xb8);
+        mpicn_sBerryIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
+        mpicn_sBerryIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+        mpicn_sBerryIcon->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
         cellCount++;
     }
-    gRaceHudSubScreenBerryCells->mCellCount = cellCount;
+    mpicn_sBerryIcon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenBerryCells(void *oamBuffer) {
-    DrawRaceHudSubScreenCellsScaled(oamBuffer, gRaceHudSubScreenBerryCells, 1);
+void mpicn_renderBerryIcon(void *oamBuffer) {
+    mpicn_20C06C4(oamBuffer, mpicn_sBerryIcon, 1);
 }
 
-s32 CreateRaceHudSubScreenCreamCells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenCreamCells, MAP_OBJECT_KIND_CREAM);
+s32 mpicn_createCreamIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sCreamIcon, MAP_OBJECT_KIND_CREAM);
 }
 
-void ClearRaceHudSubScreenCreamCells(void) {
+void mpicn_destroyCreamIcon(void) {
     u32 cellsPointerAddress;
     u32 value12;
-    cellsPointerAddress = (u32) &gRaceHudSubScreenCreamCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) cellsPointerAddress);
+    cellsPointerAddress = (u32) &mpicn_sCreamIcon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) cellsPointerAddress);
 }
 
-void UpdateRaceHudSubScreenCreamCells(void) {
+void mpicn_updateCreamIcon(void) {
     s32 i;
     s32 cellCount;
     s32 v;
@@ -335,22 +335,22 @@ void UpdateRaceHudSubScreenCreamCells(void) {
     Vec3 *position;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenCreamCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenCreamCells->mObjects[i];
+    v = mpicn_20C0DB0();
+    for (i = 0; i < mpicn_sCreamIcon->mObjectCount; i++) {
+        object = mpicn_sCreamIcon->mObjects[i];
         position = &object->mPos;
-        if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCreamCells->mCells[cellCount].mDrawPos, v, 1,
+        if (lmap_20B5AE8(position, &mpicn_sCreamIcon->mCells[cellCount].mDrawPos, v, 1,
                                             1) != FALSE) {
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb7);
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
-            gRaceHudSubScreenCreamCells->mCells[cellCount].mUnk_10 = object->mAngle;
-            gRaceHudSubScreenCreamCells->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
+            mpicn_sCreamIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xb7);
+            mpicn_sCreamIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
+            mpicn_sCreamIcon->mCells[cellCount].mUnk_10 = object->mAngle;
+            mpicn_sCreamIcon->mUnk_0c[cellCount].mUnk_00 = object->mScaleX / 6;
             cellCount++;
         }
     }
-    gRaceHudSubScreenCreamCells->mCellCount = cellCount;
+    mpicn_sCreamIcon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenCreamCells(RaceHudOamBuffer *oamBuffer) {
-    DrawRaceHudSubScreenCellsScaled(oamBuffer, gRaceHudSubScreenCreamCells, 1);
+void mpicn_renderCreamIcon(RaceHudOamBuffer *oamBuffer) {
+    mpicn_20C06C4(oamBuffer, mpicn_sCreamIcon, 1);
 }

@@ -8,17 +8,17 @@ typedef struct MapObjectList MapObjectList;
 
 struct MapObjectKindDescriptor;
 
-// Row of the table searched by FindMapObjectKindDrawList0 and FindMapObjectKindUpdateList.
+// Row of the table searched by mobj_getRenderPart0ForObjectId and mobj_getLogicPartForObjectId.
 typedef struct MapObjectKindRow {
     /* 00 */ u32 mKind;
     /* 04 */ struct MapObjectKindDescriptor *mUnk_04;
     /* 08 */ void *mUnk_08;
 } MapObjectKindRow;
 
-extern MapObjectKindRow data_0216b288[];
+extern MapObjectKindRow gMapObjTable[];
 
 // Kind numbers (the mKind member of MapObjectKindRow) of rows whose class the tree names: the Init function in the
-// row's descriptor (CreateCream and CreateBerry, the model loaders, for the last two rows) carries the class name; for
+// row's descriptor (bnd_loadCreamModels and bnd_loadBerryModels, the model loaders, for the last two rows) carries the class name; for
 // RainStar, Rock, Rock2, ObPakkunSf and Pendulum it is a function of the lists the row builds. Other rows stay
 // literals. CarA, BusA and TruckA share one Init: their CreateKindData function carries the class name.
 // The class ItemBox also has kind 0xc9 (own Init and update list), which stays a literal.
@@ -55,9 +55,9 @@ extern MapObjectKindRow data_0216b288[];
 #define MAP_OBJECT_KIND_BOUND 0x1a8
 #define MAP_OBJECT_KIND_FLIPPER 0x1a9
 #define MAP_OBJECT_KIND_CRAB 0x1ac
-// InitSun creates 30 objects of the pool kind MAP_OBJECT_KIND_SUN_FIREBALL.
+// sun_init creates 30 objects of the pool kind MAP_OBJECT_KIND_SUN_FIREBALL.
 #define MAP_OBJECT_KIND_SUN 0x1ad
-// Pool kind of the SunFireball objects (StartSunFireball unparks them).
+// Pool kind of the SunFireball objects (sfsn_spawn unparks them).
 #define MAP_OBJECT_KIND_SUN_FIREBALL 0x1ae
 #define MAP_OBJECT_KIND_FIREBALL2 0x1af
 // The class IronBall also has kind 0x1b3 (Init and Draw only), which stays a literal.
@@ -90,5 +90,5 @@ typedef struct MapObjectKindDescriptor {
     /* 24 */ MapObjectList *mLists[4];
 } MapObjectKindDescriptor;
 
-void *FindMapObjectKindUpdateList(u32 a);
-void *FindMapObjectKindDrawList0(u32 a);
+void *mobj_getLogicPartForObjectId(u32 a);
+void *mobj_getRenderPart0ForObjectId(u32 a);

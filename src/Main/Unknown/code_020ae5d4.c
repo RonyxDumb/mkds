@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_02124bf0.h"
 
 #pragma thumb on
-u32 IncrementOamMatrixCount(OamList *oamList) {
+u32 oam_increaseAffineCount(OamList *oamList) {
     u16 *counterPointer = &oamList->mMatrixCount;
     *counterPointer = *counterPointer + 1;
     return (u32) counterPointer;

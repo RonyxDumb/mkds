@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void *GetKillerItemNsbca(void);
-void *GetKillerItemS(void);
-void *GetKillerItem(void);
+void *chkrt_getKillerItemAnim(void);
+void *chkrt_getKillerItemShadowModel(void);
+void *chkrt_getKillerItemModel(void);

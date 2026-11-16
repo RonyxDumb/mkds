@@ -14,5 +14,5 @@
 #include "Main/Unknown/code_0209bef0.h"
 
 u32 GetMapObjectNsbtpFrameIndex(Unk02188950 *mapObject) {
-    return GetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd);
+    return mobj_getModelCurNsbtpFrame(mapObject->mNsbmd);
 }

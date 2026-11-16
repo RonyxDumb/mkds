@@ -4,7 +4,7 @@
 
 typedef struct Water Water;
 
-// Publishes the WaterEfct object as gCourseWaterEfct.
-void SetCourseWaterEfct(void *waterEfct);
-// Publishes the Water object as gCourseWater.
-void SetCourseWater(Water *water);
+// Publishes the WaterEfct object as gMObjSplashState.
+void mobj_setSplashStatePointer(void *waterEfct);
+// Publishes the Water object as gMObjWaterState.
+void mobj_setWaterStatePointer(Water *water);

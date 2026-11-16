@@ -28,11 +28,11 @@ void PickRandomKarts(u8 *rawPicks) {
     picks = (CharacterKartPicks *) rawPicks;
     givenBits = picks->mKartGivenBits;
     useSharedRandom = FALSE;
-    if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) != 0 && gStruct217AA00->mUnk_0004 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &data_0217aa00->mUnk_1ee8;
+        random = &gStruct217AA00->mUnk_1ee8;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
@@ -67,7 +67,7 @@ void PickRandomKarts(u8 *rawPicks) {
                     }
                 }
             }
-            candidateCount = CountSetBits(candidateBits);
+            candidateCount = MATH_CountPopulation(candidateBits);
             if (candidateCount == 0) {
                 pick = 0;
             } else {
@@ -117,16 +117,16 @@ void PickRandomCharacters(u8 *rawPicks) {
     availableBits = 0;
     givenBits = picks->mCharacterGivenBits;
     useSharedRandom = FALSE;
-    if (data_0217aa00 == NULL) {
+    if (gStruct217AA00 == NULL) {
         x = 0;
     } else {
-        x = data_0217aa00->mUnk_0000;
+        x = gStruct217AA00->mUnk_0000;
     }
-    if (x != 0 && data_0217aa00->mUnk_0004 != 0xd) {
+    if (x != 0 && gStruct217AA00->mUnk_0004 != 0xd) {
         useSharedRandom = TRUE;
     }
     if (useSharedRandom != FALSE) {
-        random = &data_0217aa00->mUnk_1ee8;
+        random = &gStruct217AA00->mUnk_1ee8;
     } else {
         firstTick = OS_GetTick();
         secondTick = OS_GetTick();
@@ -165,7 +165,7 @@ void PickRandomCharacters(u8 *rawPicks) {
     }
     for (entry = 0; entry < 8; entry++) {
         pickedCharacter = -1;
-        availableCount = CountSetBits(availableBits);
+        availableCount = MATH_CountPopulation(availableBits);
         seen = 0;
         if ((givenBits & (1 << entry)) == 0) {
             picks->mCharacterIndices[entry] = -1;

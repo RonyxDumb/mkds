@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020acefc.h"
 
 #pragma thumb on
-u32 func_020acefc(u32 value) {
+u32 title_mainStateVblank(u32 value) {
     u32 value0 = value;
     u32 functionAddress;
     functionAddress = (u32) &func_020ad230;
@@ -16,18 +16,18 @@ u32 func_020acefc(u32 value) {
 }
 #pragma thumb off
 
-u32 func_020acef4(void) {
+u32 title_input_getMasterInputUnitId(void) {
     return 0x8u;
 }
 
-u16 func_020acee0(InputSlot *slot, u32 mask) {
+u16 title_pad_isSetPadTrig(InputSlot *slot, u32 mask) {
     return slot->mPressedBits & mask;
 }
 
-u16 func_020acec4(u32 slotIndex, u32 mask) {
-    return func_020acee0(&data_02175628[slotIndex], mask);
+u16 title_input_isSetPadTrigById(u32 slotIndex, u32 mask) {
+    return title_pad_isSetPadTrig(&gInputUnits[slotIndex], mask);
 }
 
-u32 func_020acebc(const void *pair) {
+u32 title_spi_getTpValid(const void *pair) {
     return (*OFFSET_PTR(const u16, pair, 4));
 }

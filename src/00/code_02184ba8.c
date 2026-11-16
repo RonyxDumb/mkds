@@ -34,7 +34,7 @@ void InitWiFiAikotoba(void *a) {
     u32 b;
     void *c;
 
-    gWiFiAikotoba = HeapAlloc(a, 0x40);
+    gWiFiAikotoba = heap_alloc(a, 0x40);
     gWiFiAikotoba->mHeap = a;
     gWiFiAikotoba->mState = 0;
     gWiFiAikotoba->mNextState = 0;
@@ -53,19 +53,19 @@ void InitWiFiAikotoba(void *a) {
     gWiFiAikotoba->mUnk_14 = TRUE;
     LocateAndUploadWiFiAikotoba();
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov000_021b06c0[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer, gWiFiAikotoba->mWiFiAikotobaBncl);
+        jn_ui_setCellIsTranslucent(data_ov000_021b06c0[i], 1, gWiFiAikotoba->mWiFiAikotobaSNcer, gWiFiAikotoba->mWiFiAikotobaBncl);
     }
     c = func_ov000_021804f4();
-    ResetOamLists(c, func_ov000_021804e0());
-    InitLayoutTable(a, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
-    gWiFiAikotoba->mWiFiMessages = FindSceneFile(data_ov000_021b0ee8);
-    gWiFiAikotoba->mCommonMessages = FindFileInLoadedArchives(data_ov000_021b0ef4);
+    oam_clearResetBuffers(c, test_run());
+    jn_ui_initLayout(a, gWiFiAikotoba->mWiFiAikotobaBncl, NULL, &gWiFiAikotoba->mWiFiAikotobaTable);
+    gWiFiAikotoba->mWiFiMessages = arc_getSceneArcFile(data_ov000_021b0ee8);
+    gWiFiAikotoba->mCommonMessages = arc_get2dArcFile(data_ov000_021b0ef4);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < data_ov000_021b06c8[i]; j++) {
             gWiFiAikotoba->mWiFiAikotobaTable[data_ov000_021b06d0[i][j]].mOffsetX = 0xfa;
         }
     }
-    SetSelectReturnSoundId(0xe);
+    gmenu_setSeqArcIndex(0xe);
 }
 
 void func_ov000_02185230(void) {
@@ -74,16 +74,16 @@ void func_ov000_02185230(void) {
 
 void LocateAndUploadWiFiAikotoba(void) {
     void *v1;
-    v1 = FindSceneFile(gWiFiAikotobaBnclName);
+    v1 = arc_getSceneArcFile(gWiFiAikotobaBnclName);
     gWiFiAikotoba->mWiFiAikotobaBncl = v1;
-    v1 = FindSceneFile(gWiFiAikotobaBnblName);
+    v1 = arc_getSceneArcFile(gWiFiAikotobaBnblName);
     gWiFiAikotoba->mWiFiAikotobaBnbl = v1;
-    v1 = FindSceneFile(gWiFiAikotobaSNcgrName);
-    LocateNcgr2(&gWiFiAikotoba->mWiFiAikotobaSNcgr, v1);
-    v1 = FindSceneFile(gWiFiAikotobaSNcerName);
-    LocateNcer(&gWiFiAikotoba->mWiFiAikotobaSNcer, v1);
-    v1 = FindSceneFile(gWiFiAikotobaSONclrName);
-    LocateNclr(&gWiFiAikotoba->mWiFiAikotobaSONclr, v1);
+    v1 = arc_getSceneArcFile(gWiFiAikotobaSNcgrName);
+    g2du_getCharacterData(&gWiFiAikotoba->mWiFiAikotobaSNcgr, v1);
+    v1 = arc_getSceneArcFile(gWiFiAikotobaSNcerName);
+    g2du_getCellBankData(&gWiFiAikotoba->mWiFiAikotobaSNcer, v1);
+    v1 = arc_getSceneArcFile(gWiFiAikotobaSONclrName);
+    g2du_getPaletteData(&gWiFiAikotoba->mWiFiAikotobaSONclr, v1);
     GXS_LoadOBJ(gWiFiAikotoba->mWiFiAikotobaSNcgr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSNcgr->mDataSize);
     GXS_LoadOBJPltt(gWiFiAikotoba->mWiFiAikotobaSONclr->mData, 0, gWiFiAikotoba->mWiFiAikotobaSONclr->mDataSize);
 }
@@ -99,7 +99,7 @@ u32 func_ov000_02185184(void) {
 
 void AdvanceWiFiAikotobaState0(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         gWiFiAikotoba->mNextState = 1;
     }
@@ -111,7 +111,7 @@ void AdvanceWiFiAikotobaState1(void) {
     s32 j;
 
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
-    a = InterpolateS16(1, 0xfa, 0, gWiFiAikotoba->mStateFrames, 10);
+    a = mutil_interpolate(1, 0xfa, 0, gWiFiAikotoba->mStateFrames, 10);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < data_ov000_021b06c8[i]; j++) {
             if (i == 1) {
@@ -148,28 +148,28 @@ void AdvanceWiFiAikotobaState3(void) {
 
     b = FALSE;
     c = FALSE;
-    d = data_02175628[i].mHasPair;
-    if (d == 0 && data_02175628[i].mNoPairCount < 5) {
+    d = gInputUnits[i].mHasPair;
+    if (d == 0 && gInputUnits[i].mNoPairCount < 5) {
         c = TRUE;
     }
-    if (c == FALSE && data_02175628[i].mPrevHasPair == 0 && d != 0) {
+    if (c == FALSE && gInputUnits[i].mPrevHasPair == 0 && d != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        a = RectTableFindContaining(gWiFiAikotoba->mWiFiAikotobaBnbl, data_02175628[i].mPairX, data_02175628[i].mPairY);
+        a = jn_ui_checkTouch(gWiFiAikotoba->mWiFiAikotobaBnbl, gInputUnits[i].mPairX, gInputUnits[i].mPairY);
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputUnits[i].mPressedBits & PAD_KEY_B) == 0) {
         b = FALSE;
         c = FALSE;
-        d = data_02175628[i].mHasPair;
-        if (d == 0 && data_02175628[i].mNoPairCount < 5) {
+        d = gInputUnits[i].mHasPair;
+        if (d == 0 && gInputUnits[i].mNoPairCount < 5) {
             c = TRUE;
         }
-        if (c == FALSE && data_02175628[i].mPrevHasPair == 0 && d != 0) {
+        if (c == FALSE && gInputUnits[i].mPrevHasPair == 0 && d != 0) {
             b = TRUE;
         }
-        if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                          data_02175628[i].mPairY) == FALSE) {
+        if (b == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                          gInputUnits[i].mPairY) == FALSE) {
             goto next;
         }
     }
@@ -178,7 +178,7 @@ void AdvanceWiFiAikotobaState3(void) {
     RequestSelectReturnState3WithSound(0);
     return;
 next:
-    e = data_02175628[i].mPressedBits & PAD_KEY_A;
+    e = gInputUnits[i].mPressedBits & PAD_KEY_A;
     if ((u16) e != 0 || a <= 1) {
         p = gWiFiAikotoba;
         f = p->mUnk_08;
@@ -204,17 +204,17 @@ next:
         if (gWiFiAikotoba->mUnk_08 == f) {
             gWiFiAikotoba->mUnk_14 = FALSE;
         }
-        StartSoundOncePerFrame(5);
+        sfx_2105AC0(5);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mUnk_08 > 0) {
+    if (mutil_checkKeys(8, PAD_KEY_UP) != 0 && gWiFiAikotoba->mUnk_08 > 0) {
         gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 - 1;
-        StartSoundOncePerFrame(0);
+        sfx_2105AC0(0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mUnk_08 < 1) {
+    if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0 && gWiFiAikotoba->mUnk_08 < 1) {
         gWiFiAikotoba->mUnk_08 = gWiFiAikotoba->mUnk_08 + 1;
-        StartSoundOncePerFrame(0);
+        sfx_2105AC0(0);
     }
 }
 
@@ -243,7 +243,7 @@ void AdvanceWiFiAikotobaState5(void) {
     }
     gWiFiAikotoba->mStateFrames = gWiFiAikotoba->mStateFrames + 1;
     if (gWiFiAikotoba->mStateFrames <= 10) {
-        a = InterpolateS16(1, 0, 0xfa, gWiFiAikotoba->mStateFrames, 10);
+        a = mutil_interpolate(1, 0, 0xfa, gWiFiAikotoba->mStateFrames, 10);
     } else {
         a = 0xfa;
     }
@@ -260,8 +260,8 @@ void AdvanceWiFiAikotobaState5(void) {
         if (func_ov000_02185184() != 0 && gWiFiAikotoba->mPendingWiFiState == 11) {
             gWiFiAikotoba->mNextState = 6;
             gWiFiAikotoba->mPendingWiFiState = -1;
-            c = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0xf);
-            SetupTxtSystemMainTextButton(c, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 6));
+            c = jn_msg_getMessage(gWiFiAikotoba->mWiFiMessages, 0xf);
+            SetupTxtSystemMainTextButton(c, jn_msg_getMessage(gWiFiAikotoba->mCommonMessages, 6));
             gWiFiAikotoba->mStateFrames = 0;
             return;
         }
@@ -277,9 +277,9 @@ void AdvanceWiFiAikotobaState6(void) {
 
     if (IsTxtSystemState0NoOpenRequest() != 0 && IsSelectReturnState0NoState1Request() != 0) {
         gWiFiAikotoba->mNextState = 7;
-        a = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
-        b = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);
-        SetupTxtSystemMainTextTwoButtons(a, b, GetBmgEntry(gWiFiAikotoba->mCommonMessages, 1), 0);
+        a = jn_msg_getMessage(gWiFiAikotoba->mWiFiMessages, 0x10);
+        b = jn_msg_getMessage(gWiFiAikotoba->mCommonMessages, 0);
+        SetupTxtSystemMainTextTwoButtons(a, b, jn_msg_getMessage(gWiFiAikotoba->mCommonMessages, 1), 0);
         return;
     }
     if (GetTxtSystemDone() != 0) {
@@ -294,7 +294,7 @@ void AdvanceWiFiAikotobaState7(void) {
             if (GetWiFiNextScene() == -1) {
                 SetWiFiNextScene(8);
             }
-            data_0217b488->mUnk_50 = 1;
+            gStruct217B488->mUnk_50 = 1;
             return;
         }
         gWiFiAikotoba->mNextState = 1;
@@ -312,11 +312,11 @@ void func_ov000_02184c74(void) {
     for (i = 0; i < 2; i++) {
         if (i == gWiFiAikotoba->mUnk_08 && gWiFiAikotoba->mUnk_14 != FALSE) {
             gWiFiAikotoba->mWiFiAikotobaTable[data_ov000_021b06c4[i]].mVisible = 1;
-            SetCellPaletteIndex(data_ov000_021b06bc[i], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
+            jn_ui_setCellCparam(data_ov000_021b06bc[i], 0xe, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);
         } else {
             gWiFiAikotoba->mWiFiAikotobaTable[data_ov000_021b06c4[i]].mVisible = 0;
-            SetCellPaletteIndex(data_ov000_021b06bc[i], 0xf, gWiFiAikotoba->mWiFiAikotobaSNcer,
+            jn_ui_setCellCparam(data_ov000_021b06bc[i], 0xf, gWiFiAikotoba->mWiFiAikotobaSNcer,
                                 gWiFiAikotoba->mWiFiAikotobaBncl);
         }
     }
@@ -354,7 +354,7 @@ void AdvanceWiFiAikotoba(void) {
     }
     func_ov000_02184c74();
     p = gWiFiAikotoba;
-    DrawLayoutTable(p->mWiFiAikotobaBncl, p->mWiFiAikotobaSNcer, NULL, func_ov000_021804e0(), p->mWiFiAikotobaTable);
+    jn_ui_renderElements(p->mWiFiAikotobaBncl, p->mWiFiAikotobaSNcer, NULL, test_run(), p->mWiFiAikotobaTable);
 }
 
 void func_ov000_02184bcc(void) {

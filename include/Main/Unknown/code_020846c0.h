@@ -7,7 +7,7 @@
 
 typedef struct MtxFx43 MtxFx43;
 
-// A registered resource file and its texture; the entries form the list gResFileEntries (links at 0x00 and 0x04).
+// A registered resource file and its texture; the entries form the list sModelResList (links at 0x00 and 0x04).
 typedef struct ResFileEntry {
     /* 00 */ void *mUnk_00;
     /* 04 */ void *mUnk_04;
@@ -25,25 +25,25 @@ typedef struct Nsbmd {
     /* 5c */ ResFileEntry mResFileEntry;
 } Nsbmd;
 
-void func_020846c0(void *heap);
-void ReleaseAllResFiles(void);
-void SetNsbmdCullModeAll(void *object, u32 cullMode);
-void func_02084968(void *object, u32 polygonId, u32 light, u32 color);
-void SetNsbmdEmiAll(void *object, u32 color);
-void SetNsbmdLightEnableFlagAll(void *object, u32 light);
-void SetNsbmdPolygonIdAll(void *object, u32 polygonId);
-void DrawNsbmd(void *object);
-void DrawNsbmdWithMatrix(void *object, MtxFx43 *matrix, u32 *scale);
-void func_02084a88(void *object, u8 alpha, u8 polygonId);
-void func_02084ad8(void *object, u8 alpha);
-NNSG3dResMdl *InitNsbmdWithTextureInfoCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
+void rptc_init(void *heap);
+void model_releaseAll(void);
+void model_setCullMode(void *object, u32 cullMode);
+void model_setPolyIdLightFlagsEmi(void *object, u32 polygonId, u32 light, u32 color);
+void model_setEmi(void *object, u32 color);
+void model_setLightEnableFlag(void *object, u32 light);
+void model_setPolygonId(void *object, u32 polygonId);
+void model_render(void *object);
+void model_drawTransformed(void *object, MtxFx43 *matrix, u32 *scale);
+void model_configShadowPass2(void *object, u8 alpha, u8 polygonId);
+void model_configShadowPass1(void *object, u8 alpha);
+NNSG3dResMdl *model_initFromNsbmdNsbtxMetaCopy(void *heap, Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile,
                                            NNSG3dResFileHeader *textureFile);
-NNSG3dResMdl *InitNsbmdWithoutCullSwap(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
-NNSG3dResMdl *InitNsbmdWithTextureFile(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
-NNSG3dResMdl *InitNsbmd(void *object, NNSG3dResFileHeader *file);
-void func_02084f10(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
-void func_02084f20(Nsbmd *nsbmd);
-void func_02084f68(Nsbmd *nsbmd);
-void InitNsbmdRenderObj(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
-u32 UploadResTexture(NNSG3dResTex *texture);
-void AddResFileEntry(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
+NNSG3dResMdl *model_initFromNsbmdNoCullFix(Nsbmd *nsbmd, NNSG3dResFileHeader *file);
+NNSG3dResMdl *model_initFromNsbmdNsbtx(Nsbmd *nsbmd, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);
+NNSG3dResMdl *model_initFromNsbmd(void *object, NNSG3dResFileHeader *file);
+void model_initFromResMdl(Nsbmd *nsbmd, NNSG3dResMdl *resMdl);
+void model_setCullBack(Nsbmd *nsbmd);
+void model_setCullFront(Nsbmd *nsbmd);
+void initModel(Nsbmd *nsbmd, NNSG3dResMdl *resMdl, u32 allowCullSwap);
+u32 loadTex(NNSG3dResTex *texture);
+void model_resSetNsbmdNsbtx(ResFileEntry *entry, NNSG3dResFileHeader *modelFile, NNSG3dResFileHeader *textureFile);

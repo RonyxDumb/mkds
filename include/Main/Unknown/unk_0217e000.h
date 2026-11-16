@@ -13,9 +13,9 @@ struct Unk02142aa8;
 struct Unk021425e8;
 
 // System work area set up by WmInitCore.
-extern struct Unk02142aa8 *data_0217eed4;
+extern struct Unk02142aa8 *wm9buf;
 // Nonzero while the library is set up.
-extern u16 data_0217eed0;
+extern u16 wmInitialized;
 // Ring of free command messages.
 extern OSMessageQueue data_0217eed8;
 extern void *data_0217eef8[10];
@@ -24,19 +24,19 @@ extern struct Unk021425e8 data_0217ef20;
 // The ten 0x100-byte command messages.
 extern u8 data_0217ef60[10][0x100];
 extern struct Unk02005210 *data_0217eeb0;
-// Function pointers called and cleared by ExitTail (data_0217e984) and exit (data_0217e988).
-extern void (*data_0217e984)(void);
-extern void (*data_0217e988)(void);
-// Count of the entries of gExitFunctions that ExitTail calls, last first.
-extern int gExitFunctionCount;
+// Function pointers called and cleared by __exit (__console_exit) and exit (__stdio_exit).
+extern void (*__console_exit)(void);
+extern void (*__stdio_exit)(void);
+// Count of the entries of gExitFunctions that __exit calls, last first.
+extern int __atexit_curr_func;
 // Set by abort; exit reads it.
-extern int gAborted;
+extern int __aborting;
 extern void (*gExitFunctions[])(void);
-// Word arrays; ExitTail uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
+// Word arrays; __exit uses entry 0 of each, fwrite entries 3-5, printf entry 3 and
 // raise entry 7.
-extern u32 data_0217ea94[];
-extern u32 data_0217eab8[];
-// 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; ExitTail uses entry 0,
+extern u32 __cs_id[];
+extern u32 __cs_ref[];
+// 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; __exit uses entry 0,
 // fwrite entries 3-5, printf entry 3 and raise entry 7. An OSMutex is 0x18 bytes, so OSMutex.mPrev of one entry is
 // the start of the next entry.
 extern u8 data_0217eadc[][0x14];

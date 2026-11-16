@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02152698(const void *friendData);
+u32 DWCi_Acc_IsValidFriendData(const void *friendData);

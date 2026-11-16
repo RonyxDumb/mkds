@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void UpdateMenuScreen();
+void menu_render();
 void func_020cb4c0(void);

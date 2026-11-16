@@ -524,7 +524,7 @@ u32 DWC_Http_FinishHeader(Http *p) {
 
 void DWC_Http_StartThread(Http *p) {
     u32 n;
-    n = OS_GetThreadPriority(data_0216ff5c.mCurrentThread);
+    n = OS_GetThreadPriority(OSi_ThreadInfo.mCurrentThread);
     p->mUnk_a40 = FALSE;
     OS_InitMutex(&p->mUnk_a28);
     OS_InitMutex(&p->mUnk_948);

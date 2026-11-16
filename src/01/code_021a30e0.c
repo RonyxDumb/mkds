@@ -60,12 +60,12 @@ void func_ov001_021a30e0(void) {
         dx = 0;
         dy = 0;
         dz = 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
+        dx += mutil_checkKeys(8, PAD_KEY_LEFT) ? -1 : 0;
+        dx += mutil_checkKeys(8, PAD_KEY_RIGHT) ? 1 : 0;
+        dy += mutil_checkKeys(8, PAD_KEY_UP) ? -1 : 0;
+        dy += mutil_checkKeys(8, PAD_KEY_DOWN) ? 1 : 0;
+        dz += mutil_checkKeys(8, PAD_KEY_L) ? -1 : 0;
+        dz += mutil_checkKeys(8, PAD_KEY_R) ? 1 : 0;
 
         switch (gEmblem->mUnk_1094) {
             case 0:
@@ -130,7 +130,7 @@ void func_ov001_021a30e0(void) {
                     func_ov001_02185018(entry8, 0);
                     SetLldEntryPos(entry8, GetLldEntryX(entry), GetLldEntryY(entry));
                     if (gEmblem->mUnk_107c != prev) {
-                        StartSoundOncePerFrame(0x1ef);
+                        sfx_2105AC0(0x1ef);
                     }
                 }
                 func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -182,7 +182,7 @@ void func_ov001_021a30e0(void) {
                         func_ov001_02185018(entry9, -5);
                     }
                     if (gEmblem->mUnk_1080 != prev) {
-                        StartSoundOncePerFrame(0x1ef);
+                        sfx_2105AC0(0x1ef);
                     }
                 }
                 func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);

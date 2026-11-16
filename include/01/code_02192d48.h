@@ -36,10 +36,10 @@ typedef struct StopSignObject {
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void *func_ov001_02192d48(void);
-void func_ov001_02192d60(void);
+void *stsig_setupRenderPart(void);
+void stsig_setupCollision(void);
 void DrawStopSign(void *a, StopSignObject *b);
 void LoadStopSign(Unk0219b478 *a);
-void InitStopSign(Unk02188950 *a); /* object is MapObject-sized; Unk02188950 is only the prefix view */
+void stsig_init(Unk02188950 *a); /* object is MapObject-sized; Unk02188950 is only the prefix view */
 
 #include "01/code_0219b540.h"

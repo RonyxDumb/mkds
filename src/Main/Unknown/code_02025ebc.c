@@ -3,8 +3,8 @@
 
 #pragma thumb on
 
-s16 GetInterpolatedValue(Interpolation *interpolation) {
-    return InterpolateS16(1, interpolation->mStartValue, interpolation->mEndValue, interpolation->mCounter,
+s16 interp_interpolate(Interpolation *interpolation) {
+    return mutil_interpolate(1, interpolation->mStartValue, interpolation->mEndValue, interpolation->mCounter,
                           interpolation->mCounterLimit);
 }
 

@@ -58,18 +58,18 @@ ViewFrustum *GetViewFrustum(void) {
     return &gViewFrustum;
 }
 
-void RequestViewTestRefresh(void) {
+void mobj_20D50C4(void) {
     gViewFrustum.mViewTestRefreshRequested = TRUE;
     gViewFrustum.mViewTestRefreshPending = FALSE;
 }
 
-u32 GetViewTestRefreshPending(void) {
+u32 mobj_getIsObjFadeDisabled(void) {
     u32 value0;
     value0 = gViewFrustum.mViewTestRefreshPending;
     return value0;
 }
 
-void UpdateViewFrustum(Unk020d4f94 *viewMatrix) {
+void mobj_updateCameraVectors(Unk020d4f94 *viewMatrix) {
     s32 buf[10];
 
     MTX_Transpose33_(viewMatrix, buf);
@@ -95,7 +95,7 @@ void UpdateViewFrustum(Unk020d4f94 *viewMatrix) {
     }
 }
 
-u32 func_020d4f34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared) {
+u32 mobj_20D4F34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared) {
     s32 deltaX;
     s32 deltaZ;
     s32 distanceSquared;
@@ -111,7 +111,7 @@ u32 func_020d4f34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared) {
     return result | 3;
 }
 
-s32 GetHorizontalCameraDistanceSquared(Vec3 *position) {
+s32 mobj_calcXZCamDist(Vec3 *position) {
     s32 x;
     s32 z;
 
@@ -144,7 +144,7 @@ void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags)
     }
 }
 
-BOOL func_020d4ddc(MapObject *mapObject) {
+BOOL mobj_isInaudible(MapObject *mapObject) {
     s32 cameraHeightAboveObject;
 
     if (mapObject->mDistanceSquaredAndFlags & 4) {
@@ -158,7 +158,7 @@ BOOL func_020d4ddc(MapObject *mapObject) {
     return TRUE;
 }
 
-BOOL func_020d4d60(MapObject *mapObject, s32 distanceSquared) {
+BOOL mobj_calcInaudible(MapObject *mapObject, s32 distanceSquared) {
     s32 heightAboveCamera;
     Vec3 *position;
     MapObjectKindData *kindData;
@@ -172,15 +172,15 @@ BOOL func_020d4d60(MapObject *mapObject, s32 distanceSquared) {
     if (heightAboveCamera < kindData->mUnk_3c || kindData->mUnk_38 < heightAboveCamera) {
         return TRUE;
     }
-    return (GetKartKind3ShapeMask() & mapObject->mDigitMask) != 0;
+    return (driver_getClipAreaMask() & mapObject->mDigitMask) != 0;
 }
 
-void func_020d4d44(MtxFx43 *viewMatrix) {
-    SetViewMatrices(viewMatrix);
+void mobj_20D4D44(MtxFx43 *viewMatrix) {
+    bbm_updateBaseMatrices(viewMatrix);
     SetViewYawQuaternion(viewMatrix);
 }
 
-void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
+void mobj_renderRenderPart(MapObjectList *list, MtxFx43 *viewMatrix) {
     s32 i;
     MapObject *mapObject;
     UnkFunc *forEachObject;
@@ -223,10 +223,10 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
 
 #pragma thumb on
 
-void func_020d4bf0(void) {
+void mobj_20D4BF0(void) {
     gViewFrustum.mViewTestRefreshRequested = TRUE;
     gViewFrustum.mViewTestRefreshPending = FALSE;
-    if (gRaceSetup->mRaceKind == 2) {
+    if (gRaceMultiConfig->mRaceKind == 2) {
         data_0217b4f4 = 0x258000;
         return;
     }
@@ -236,7 +236,7 @@ void func_020d4bf0(void) {
 #pragma thumb off
 
 #pragma thumb on
-void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistance, s32 farDistance) {
+void mobj_setFrustum(s32 a, s32 b, s32 c, s32 d, s32 nearDistance, s32 farDistance) {
     gViewFrustumBeforeRotation.mNear = nearDistance << 4;
     gViewFrustum.mNear = nearDistance << 4;
     gViewFrustumBeforeRotation.mFar = farDistance << 4;
@@ -249,9 +249,9 @@ void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistan
             ((s64) gViewFrustumBeforeRotation.mUnk_20.x * gViewFrustumBeforeRotation.mUnk_20.x +
              (s64) gViewFrustumBeforeRotation.mUnk_20.y * gViewFrustumBeforeRotation.mUnk_20.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_20, &gViewFrustumBeforeRotation.mUnk_20);
+        vec_normalize(&gViewFrustumBeforeRotation.mUnk_20, &gViewFrustumBeforeRotation.mUnk_20);
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (gRaceMultiConfig->mMirrorMode != 0) {
         gViewFrustumBeforeRotation.mUnk_20.x = -gViewFrustumBeforeRotation.mUnk_20.x;
         gViewFrustumBeforeRotation.mUnk_20.y = -gViewFrustumBeforeRotation.mUnk_20.y;
         gViewFrustumBeforeRotation.mUnk_20.z = -gViewFrustumBeforeRotation.mUnk_20.z;
@@ -264,9 +264,9 @@ void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistan
             ((s64) gViewFrustumBeforeRotation.mUnk_2c.x * gViewFrustumBeforeRotation.mUnk_2c.x +
              (s64) gViewFrustumBeforeRotation.mUnk_2c.y * gViewFrustumBeforeRotation.mUnk_2c.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_2c, &gViewFrustumBeforeRotation.mUnk_2c);
+        vec_normalize(&gViewFrustumBeforeRotation.mUnk_2c, &gViewFrustumBeforeRotation.mUnk_2c);
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (gRaceMultiConfig->mMirrorMode != 0) {
         gViewFrustumBeforeRotation.mUnk_2c.x = -gViewFrustumBeforeRotation.mUnk_2c.x;
         gViewFrustumBeforeRotation.mUnk_2c.y = -gViewFrustumBeforeRotation.mUnk_2c.y;
         gViewFrustumBeforeRotation.mUnk_2c.z = -gViewFrustumBeforeRotation.mUnk_2c.z;
@@ -279,7 +279,7 @@ void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistan
             ((s64) gViewFrustumBeforeRotation.mUnk_38.x * gViewFrustumBeforeRotation.mUnk_38.x +
              (s64) gViewFrustumBeforeRotation.mUnk_38.y * gViewFrustumBeforeRotation.mUnk_38.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_38, &gViewFrustumBeforeRotation.mUnk_38);
+        vec_normalize(&gViewFrustumBeforeRotation.mUnk_38, &gViewFrustumBeforeRotation.mUnk_38);
     }
 
     gViewFrustumBeforeRotation.mUnk_44.x = 0;
@@ -289,34 +289,34 @@ void RefreshViewFrustumFromProjection(s32 a, s32 b, s32 c, s32 d, s32 nearDistan
             ((s64) gViewFrustumBeforeRotation.mUnk_44.x * gViewFrustumBeforeRotation.mUnk_44.x +
              (s64) gViewFrustumBeforeRotation.mUnk_44.y * gViewFrustumBeforeRotation.mUnk_44.y) >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mUnk_44, &gViewFrustumBeforeRotation.mUnk_44);
+        vec_normalize(&gViewFrustumBeforeRotation.mUnk_44, &gViewFrustumBeforeRotation.mUnk_44);
     }
 }
 #pragma thumb off
 
 #pragma thumb on
-void ClearMapObjectList(MapObjectList *list) {
+void mobj_renderPartInitInstanceList(MapObjectList *list) {
     list->mMapObjects = NULL;
     list->mMapObjectCount = 0;
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_020d4a10(MapObjectList *list, s32 count) {
+void mobj_renderPartIncreaseInstanceCount(MapObjectList *list, s32 count) {
     list->mMapObjectCount += count;
 }
 #pragma thumb off
 
 #pragma thumb on
-u32 InitMapObjectDrawList(MapObjectList *list) {
-    list->mMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount << 2);
+u32 mobj_renderPartAllocInstanceList(MapObjectList *list) {
+    list->mMapObjects = heap_alloc(proc_getHeap(proc_getCurrent()), list->mMapObjectCount << 2);
     list->mMapObjectCount = 0;
     return 0;
 }
 #pragma thumb off
 
 #pragma thumb on
-u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject) {
+u32 mobj_renderPartAddInstance(MapObjectList *list, MapObject *mapObject) {
     u32 index = list->mMapObjectCount;
     list->mMapObjectCount = index + 1;
     list->mMapObjects[index] = mapObject;
@@ -326,18 +326,18 @@ u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject) {
 
 #pragma thumb on
 
-void func_020d49d8(void *listSlot) {
+void mobj_renderPartSetThisPointer(void *listSlot) {
     *(u32 *) ((u8 *) (u32) (((u32) * (const u32 *) ((u8 *) (u32) listSlot + 0))) + 40) = (u32) listSlot;
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void func_020d4990(MapObjectList *list) {
+void mobj_renderPartCreateAlphaSortList(MapObjectList *list) {
     s32 i;
 
     if (list->mUnk_1c != NULL) {
-        list->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mMapObjectCount * 4);
+        list->mUnk_24 = heap_alloc(proc_getHeap(proc_getCurrent()), list->mMapObjectCount * 4);
         for (i = 0; i < list->mMapObjectCount; i++) {
             list->mUnk_24[i] = list->mMapObjects[i];
         }
@@ -347,15 +347,15 @@ void func_020d4990(MapObjectList *list) {
 }
 #pragma thumb off
 
-void SetCourseWater(Water *water) {
-    gCourseWater = water;
+void mobj_setWaterStatePointer(Water *water) {
+    gMObjWaterState = water;
 }
 
-void SetCourseWaterEfct(void *waterEfct) {
-    gCourseWaterEfct = waterEfct;
+void mobj_setSplashStatePointer(void *waterEfct) {
+    gMObjSplashState = waterEfct;
 }
 
-void UpdateMapObjectViewTests(void) {
+void mobj_updateVisibility(void) {
     u32 shapeMask;
     s32 i;
     s32 n;
@@ -365,10 +365,10 @@ void UpdateMapObjectViewTests(void) {
     u16 extraFlags;
     u32 extraViewFlags;
 
-    n = gMapObjects->mMapObjectCount;
-    mapObjects = gMapObjects->mMapObjects;
-    shapeMask = GetKartKind3ShapeMask();
-    frameSlot = GetRaceUpdateFrames() & 3;
+    n = gMapObjState->mMapObjectCount;
+    mapObjects = gMapObjState->mMapObjects;
+    shapeMask = driver_getClipAreaMask();
+    frameSlot = race_getFrameCounter() & 3;
     i = 0;
     if (n <= 0) {
         return;
@@ -396,12 +396,12 @@ void UpdateMapObjectViewTests(void) {
                     if (mapObject->mUseTwoPlaneViewTest != 0) {
                         mapObject->mDistanceSquaredAndFlags =
                             (mapObject->mDistanceSquaredAndFlags & 0x10) |
-                            ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
+                            mobj_calcVisibilityFlags3d(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                     mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     } else {
                         mapObject->mDistanceSquaredAndFlags =
                             (mapObject->mDistanceSquaredAndFlags & 0x10) |
-                            ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
+                            mobj_calcVisibilityFlags2d(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                             mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     }
                     mapObject->mDistanceSquaredAndFlags |= extraViewFlags;
@@ -416,7 +416,7 @@ void UpdateMapObjectViewTests(void) {
     } while (++i < n);
 }
 
-void RefreshMapObjectViewTests(void) {
+void mobj_updateVisibilityNoFade(void) {
     u32 shapeMask;
     s32 i;
     s32 n;
@@ -425,10 +425,10 @@ void RefreshMapObjectViewTests(void) {
     u16 extraFlags;
     u32 extraViewFlags;
 
-    shapeMask = GetKartKind3ShapeMask();
+    shapeMask = driver_getClipAreaMask();
     i = 0;
-    n = gMapObjects->mMapObjectCount;
-    mapObjects = gMapObjects->mMapObjects;
+    n = gMapObjState->mMapObjectCount;
+    mapObjects = gMapObjState->mMapObjects;
     if (n <= 0) {
         return;
     }
@@ -444,12 +444,12 @@ void RefreshMapObjectViewTests(void) {
                 if (mapObject->mUseTwoPlaneViewTest != 0) {
                     mapObject->mDistanceSquaredAndFlags =
                         (mapObject->mDistanceSquaredAndFlags & 0x10) |
-                        ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
+                        mobj_calcVisibilityFlags3d(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                 mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 } else {
                     mapObject->mDistanceSquaredAndFlags =
                         (mapObject->mDistanceSquaredAndFlags & 0x10) |
-                        ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
+                        mobj_calcVisibilityFlags2d(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                         mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 }
                 mapObject->mDistanceSquaredAndFlags |= extraViewFlags;
@@ -468,48 +468,48 @@ void RefreshMapObjectViewTests(void) {
     } while (++i < n);
 }
 
-void UpdateMapObjects(void) {
+void mobj_updateAll(void) {
     MapObjectList *list;
     s32 i;
     s32 n;
     MapObjectList **lists;
     s32 startFrames;
 
-    lists = gMapObjects->mUpdateLists;
-    n = gMapObjects->mUpdateListCount;
+    lists = gMapObjState->mUpdateLists;
+    n = gMapObjState->mUpdateListCount;
     startFrames = GetRaceStartSequenceFrames();
     if (startFrames <= 0x168) {
-        if (gRaceSetup->mRaceKind != RACE_KIND_START_GP) {
+        if (gRaceMultiConfig->mRaceKind != RACE_KIND_START_GP) {
             if (startFrames == -0x73) {
-                func_020d3b74();
+                mobj_deactivateObjsBeforeCountdown();
             } else if (startFrames == 0x168) {
-                func_020d3b10();
+                mobj_activateObjsAfterCountdown();
             }
         }
     }
-    if (gMapObjects->mRunUpdateLists != 0) {
+    if (gMapObjState->mRunUpdateLists != 0) {
         for (i = 0; i < n; i++) {
             list = lists[i];
             if (list->mBeforeObjects != NULL) {
                 list->mBeforeObjects(list);
             }
-            UpdateMapObjectList(list);
+            mobj_logicPartExecute(list);
             if (list->mAfterObjects != NULL) {
                 list->mAfterObjects(list);
             }
         }
     }
-    if (GetViewTestRefreshPending() != 0) {
-        RefreshMapObjectViewTests();
+    if (mobj_getIsObjFadeDisabled() != 0) {
+        mobj_updateVisibilityNoFade();
     } else {
-        UpdateMapObjectViewTests();
+        mobj_updateVisibility();
     }
-    if (gCourseWater != NULL) {
-        UpdateWater(gCourseWater);
+    if (gMObjWaterState != NULL) {
+        water_update(gMObjWaterState);
     }
 }
 
-void DrawMapObjects(Camera *view) {
+void mobj_renderAll(Camera *view) {
     s32 i;
     s32 firstPassCount;
     MapObjectList **lists;
@@ -519,56 +519,56 @@ void DrawMapObjects(Camera *view) {
     s32 j;
 
     viewMatrix = &view->mViewMatrix;
-    func_020d4d44(viewMatrix);
-    if (gCourseWater != NULL) {
-        DrawWater(gCourseWater, viewMatrix);
+    mobj_20D4D44(viewMatrix);
+    if (gMObjWaterState != NULL) {
+        water_render(gMObjWaterState, viewMatrix);
     }
     i = 0;
-    firstPassCount = gMapObjects->mUnk_12a;
-    lists = gMapObjects->mUnk_068;
+    firstPassCount = gMapObjState->mUnk_12a;
+    lists = gMapObjState->mUnk_068;
     for (; i < firstPassCount; i++) {
         list = lists[i];
-        func_0208ab00();
+        light_applyDefault();
         if (list->mBeforeObjects != NULL) {
             list->mBeforeObjects(list);
         }
-        DrawMapObjectList(list, viewMatrix);
+        mobj_renderRenderPart(list, viewMatrix);
         if (list->mAfterObjects != NULL) {
             list->mAfterObjects(list);
         }
     }
-    func_020e6a74();
+    bbm_restoreCameraMtx();
     j = 0;
-    secondPassCount = gMapObjects->mUnk_12c;
-    lists = gMapObjects->mUnk_0c8;
+    secondPassCount = gMapObjState->mUnk_12c;
+    lists = gMapObjState->mUnk_0c8;
     for (; j < secondPassCount; j++) {
         list = lists[j];
         if (list->mBeforeObjects != NULL) {
             list->mBeforeObjects(list);
         }
-        DrawMapObjectList(list, viewMatrix);
+        mobj_renderRenderPart(list, viewMatrix);
         if (list->mAfterObjects != NULL) {
             list->mAfterObjects(list);
         }
     }
 }
 
-void func_020d4418(Camera *view) {
+void mobj_renderDColObjects(Camera *view) {
     MtxFx43 *viewMatrix;
 
     viewMatrix = &view->mViewMatrix;
-    if (gMapObjects->mHasKoopaBlock != 0) {
-        DrawAllKoopaBlocks(viewMatrix);
+    if (gMapObjState->mHasKoopaBlock != 0) {
+        kblock_renderAll(viewMatrix);
     }
-    if (gMapObjects->mUnk_180 != 0) {
-        func_020e435c(viewMatrix);
+    if (gMapObjState->mUnk_180 != 0) {
+        rotcyl_renderAll(viewMatrix);
     }
-    if (gMapObjects->mUnk_184 != 0) {
-        DrawAllBridges(viewMatrix);
+    if (gMapObjState->mUnk_184 != 0) {
+        bridge_renderAll(viewMatrix);
     }
 }
 
-s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
+s32 mobj_collideDriver(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     Vec3 centre;
     Vec3 lo;
     Vec3 hi;
@@ -584,7 +584,7 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     kartFlagSet = (kart->mUnk_48 & 0x8000000) != 0;
     radius = kart->mRadius;
     itemEffect = kart->mItemEffect;
-    foundVector = gFoundMapObjectVectors;
+    foundVector = mobj_sQueryPushbacks;
     {
         Vec3 z1 = {0, 0, 0};
         lo = z1;
@@ -595,14 +595,14 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     }
     foundCount = 0;
     hitOffset->x = hitOffset->y = hitOffset->z = 0;
-    for (i = 0; i < gFoundCollisionSlotCount; i++) {
-        if (gFoundCollisionSlotFlags[i] & 0x2000) {
-            mapObject = gFoundCollisionSlotObjects[i];
+    for (i = 0; i < gColQueryResultCount; i++) {
+        if (gColQueryResultFlags[i] & 0x2000) {
+            mapObject = gColQueryResultObjects[i];
             if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & 0x10)) {
                 continue;
             }
-            if (IsSphereHittingMapObject(&centre, radius, mapObject, foundVector) != FALSE) {
-                if (!(mapObject->mFlags & 0x40) && DoesKartRespondToMapObject(itemEffect, mapObject) != 0) {
+            if (mobj_sphereCollide(&centre, radius, mapObject, foundVector) != FALSE) {
+                if (!(mapObject->mFlags & 0x40) && mobj_getCollidesWithDriver(itemEffect, mapObject) != 0) {
                     lo.x = (foundVector->x < lo.x) ? foundVector->x : lo.x;
                     lo.y = (foundVector->y < lo.y) ? foundVector->y : lo.y;
                     lo.z = (foundVector->z < lo.z) ? foundVector->z : lo.z;
@@ -610,9 +610,9 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
                     hi.y = (foundVector->y > hi.y) ? foundVector->y : hi.y;
                     hi.z = (foundVector->z > hi.z) ? foundVector->z : hi.z;
                 }
-                gFoundMapObjects[foundCount] = mapObject;
+                mobj_sQueryResult[foundCount] = mapObject;
                 foundCount++;
-                foundVector = &gFoundMapObjectVectors[foundCount];
+                foundVector = &mobj_sQueryPushbacks[foundCount];
                 if (foundCount >= 0x20) {
                     foundCount = 0x1f;
                 }
@@ -630,7 +630,7 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     return foundCount;
 }
 
-s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
+s32 mobj_queryBySphere(Vec3 *position, s32 radius, s32 kind) {
     s32 foundCount;
     MapObject *mapObject;
     s32 deltaZ;
@@ -638,14 +638,14 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     s32 i;
 
     foundCount = 0;
-    FindCollisionSlotsAroundPos(position, radius, 0x2000);
-    for (i = 0; i < gFoundCollisionSlotCount; i++) {
-        mapObject = gFoundCollisionSlotObjects[i];
+    col_queryBySphere(position, radius, 0x2000);
+    for (i = 0; i < gColQueryResultCount; i++) {
+        mapObject = gColQueryResultObjects[i];
         if (mapObject->mKind == kind) {
             deltaX = position->x - mapObject->mPos.x;
             deltaZ = position->z - mapObject->mPos.z;
             if ((s64) deltaX * deltaX + (s64) deltaZ * deltaZ < (s64) radius * radius) {
-                gFoundMapObjects[foundCount] = mapObject;
+                mobj_sQueryResult[foundCount] = mapObject;
                 foundCount++;
             }
         }
@@ -653,17 +653,17 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     return foundCount;
 }
 
-// Returns the i-th map object stored by the last FindMapObjectsTouchingKart or FindMapObjectsOfKindInRadius call; i
+// Returns the i-th map object stored by the last mobj_collideDriver or mobj_queryBySphere call; i
 // must be below the count that call returned.
-MapObject *GetFoundMapObject(u32 index) {
-    return gFoundMapObjects[index];
+MapObject *mobj_getQueryResult(u32 index) {
+    return mobj_sQueryResult[index];
 }
 
-Vec3 *GetFoundMapObjectVector(int index) {
-    return gFoundMapObjectVectors + index;
+Vec3 *mobj_getQueryPushback(int index) {
+    return mobj_sQueryPushbacks + index;
 }
 
-BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, Vec3 *overlapOffset) {
+BOOL mobj_sphereCollide(Vec3 *position, s32 radius, MapObject *mapObject, Vec3 *overlapOffset) {
     s32 combinedRadius;
     s32 combinedHeight;
     s32 dx;
@@ -697,7 +697,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
             if (isHit == FALSE) {
                 return FALSE;
             }
-            ComputeSphereOverlapOffset(position, &mapObject->mPos, combinedRadius, overlapOffset);
+            col_collidePointSphere(position, &mapObject->mPos, combinedRadius, overlapOffset);
             return TRUE;
         case 2:
             combinedRadius = radius + mapObject->mExtent.x;
@@ -722,14 +722,14 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
             if (isHit == FALSE) {
                 return FALSE;
             }
-            ComputeCylinderOverlapOffset(position, &mapObject->mPos, combinedRadius, combinedHeight, overlapOffset);
+            col_collidePointSpheroid(position, &mapObject->mPos, combinedRadius, combinedHeight, overlapOffset);
             return TRUE;
         case 3:
-            return ComputeSphereHitOnRotatedCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return col_collideSphereCylinder(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
                                                      mapObject->mExtent.x, mapObject->mExtent.y, mapObject->mExtent.y,
                                                      radius, overlapOffset) != 0;
         case 4:
-            return ComputeSphereHitOnRotatedBox(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
+            return col_collideSphereBox(position, &mapObject->mPos, &mapObject->mMatrix.mUnk_00[0],
                                                 &mapObject->mExtent, &mapObject->mExtent, radius, overlapOffset) != 0;
         case 0:
             return FALSE;
@@ -743,34 +743,34 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
     }
 }
 
-// TRUE when the course has a water object (gCourseWater is not NULL); asked by the camera and the HUD gauge.
-BOOL IsWaterPresent(void) {
-    return gCourseWater != NULL;
+// TRUE when the course has a water object (gMObjWaterState is not NULL); asked by the camera and the HUD gauge.
+BOOL mobj_getHasWater(void) {
+    return gMObjWaterState != NULL;
 }
 
-// y minus mHeight of gCourseWater (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
+// y minus mHeight of gMObjWaterState (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
 // camera; it does not look at mUnk_170 or WaterEfct.
-s32 GetHeightAboveWater(s32 y) {
-    return gCourseWater != NULL ? y - gCourseWater->mHeight : 0x270f000;
+s32 mobj_getWaterPlaneDistance2(s32 y) {
+    return gMObjWaterState != NULL ? y - gMObjWaterState->mHeight : 0x270f000;
 }
 
-// mHeightFactor of gCourseWater, 0 when the course has no water; asked by the HUD gauge.
-s32 GetWaterHeightFactor(void) {
-    return gCourseWater != NULL ? gCourseWater->mHeightFactor : 0;
+// mHeightFactor of gMObjWaterState, 0 when the course has no water; asked by the HUD gauge.
+s32 mobj_getWaterTideProgress(void) {
+    return gMObjWaterState != NULL ? gMObjWaterState->mHeightFactor : 0;
 }
 
-// mHeightAngle of gCourseWater, 0 when the course has no water; the HUD gauge tests 0x4000 <= angle < 0xc000 (the
+// mHeightAngle of gMObjWaterState, 0 when the course has no water; the HUD gauge tests 0x4000 <= angle < 0xc000 (the
 // falling half).
-u32 GetWaterHeightAngle(void) {
-    return gCourseWater != NULL ? gCourseWater->mHeightAngle : 0;
+u32 mobj_getWaterTidePhase(void) {
+    return gMObjWaterState != NULL ? gMObjWaterState->mHeightAngle : 0;
 }
 
-u32 func_020d3d94(void) {
+u32 mobj_getHasDiveableWater(void) {
     u32 result = 0;
-    if (gCourseWater == NULL) {
+    if (gMObjWaterState == NULL) {
         return result;
     }
-    if (gCourseWater->mUnk_170 != 0) {
+    if (gMObjWaterState->mUnk_170 != 0) {
         result = 1;
     }
     return result;
@@ -779,81 +779,81 @@ u32 func_020d3d94(void) {
 // Y minus mHeight when the Water exists and mUnk_170 is non-zero (mini stage 3, beach), else y minus WaterEfct.mHeight,
 // else 9999.0 (fx32); Or = the second source when the first is not used; asked by the kart steps, the kart sound and the
 // overlay-1 objects.
-s32 GetHeightAboveWaterOrEfct(s32 y) {
-    if (gCourseWater != NULL && gCourseWater->mUnk_170 != 0) {
-        return y - gCourseWater->mHeight;
+s32 mobj_getWaterPlaneDistance1(s32 y) {
+    if (gMObjWaterState != NULL && gMObjWaterState->mUnk_170 != 0) {
+        return y - gMObjWaterState->mHeight;
     }
-    return gCourseWaterEfct != NULL ? y - gCourseWaterEfct->mHeight : 0x270f000;
+    return gMObjSplashState != NULL ? y - gMObjSplashState->mHeight : 0x270f000;
 }
 
-s32 func_020d3d10(s32 y) {
+s32 mobj_20D3D10(s32 y) {
     BOOL isFarBelow;
     isFarBelow = FALSE;
-    if (gCourseWaterEfct != NULL) {
-        if (y - gCourseWaterEfct->mHeight < -0x32000) {
+    if (gMObjSplashState != NULL) {
+        if (y - gMObjSplashState->mHeight < -0x32000) {
             isFarBelow = TRUE;
         }
     }
     return isFarBelow;
 }
 
-void func_020d3cc8(void) {
+void mobj_executeAllThunderLogic(void) {
     s32 i;
     s32 n;
     MapObjects *mapObjects;
     MapObjectList **lists;
     i = 0;
-    mapObjects = gMapObjects;
+    mapObjects = gMapObjState;
     n = mapObjects->mUpdateListCount;
     lists = mapObjects->mUpdateLists;
     for (; i < n; i++) {
-        func_020e6fd4(lists[i]);
+        mobj_logicPartExecuteThunderLogic(lists[i]);
     }
 }
 
-s32 func_020d3c94(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
-    return func_020d2c2c(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
+s32 mobj_collideAsItem(MapObject *mapObject, s32 itemKind, Vec3 *hitOffset) {
+    return mobj_collideAsItemDirect(&mapObject->mPos, &mapObject->mUnk_10, mapObject->mExtent.x, mapObject->mCollisionSlotIndex,
                          itemKind, hitOffset);
 }
 
-void SetMapObjectsRunUpdateLists(void) {
-    gMapObjects->mRunUpdateLists = 1;
+void mobj_enableLogicUpdates(void) {
+    gMapObjState->mRunUpdateLists = 1;
 }
 
-u16 AllocPolygonIdWrapping(void) {
-    gWrappingPolygonId++;
-    if (gWrappingPolygonId > 0x3e) {
-        gWrappingPolygonId = gWrappingPolygonIdBase;
+u16 mobj_getCyclicPolygonId(void) {
+    mobj_sCurCyclicPolygonId++;
+    if (mobj_sCurCyclicPolygonId > 0x3e) {
+        mobj_sCurCyclicPolygonId = mobj_sMinCyclicPolygonId;
     }
-    return gWrappingPolygonId;
+    return mobj_sCurCyclicPolygonId;
 }
 
-u16 AllocPolygonId(void) {
-    return gNextPolygonId++;
+u16 mobj_getStaticPolygonId(void) {
+    return mobj_sCurStaticPolygonId++;
 }
 
 #pragma thumb on
 
-u16 CountMapObjectsOfKind(u32 kind) {
+u16 mobj_getInstanceCountWithId(u32 kind) {
     s32 i;
     u16 count;
     count = 0;
     i = 0;
-    for (; i < gMapObjects->mMapObjectCount; i++) {
-        if (kind == gMapObjects->mMapObjects[i]->mKind) {
+    for (; i < gMapObjState->mMapObjectCount; i++) {
+        if (kind == gMapObjState->mMapObjects[i]->mKind) {
             count++;
         }
     }
     return count;
 }
 
-void func_020d3b74(void) {
+void mobj_deactivateObjsBeforeCountdown(void) {
     s32 i;
     s32 mapObjectCount;
     MapObject **mapObjectSlot;
     MapObject *mapObject;
-    mapObjectCount = gMapObjects->mMapObjectCount;
-    mapObjectSlot = gMapObjects->mMapObjects;
+    mapObjectCount = gMapObjState->mMapObjectCount;
+    mapObjectSlot = gMapObjState->mMapObjects;
     for (i = 0; i < mapObjectCount; i++) {
         mapObject = *mapObjectSlot;
         if (mapObject->mFlags & 0x80) {
@@ -864,7 +864,7 @@ void func_020d3b74(void) {
                 mapObject->mFlags |= (mapObject->mFlags & 0xf) << 12;
                 mapObject->mFlags |= data_021568dc;
                 if (mapObject->mCollisionSlotIndex != -1) {
-                    DisableCollisionSlot(mapObject->mCollisionSlotIndex);
+                    col_disableColEntry(mapObject->mCollisionSlotIndex);
                 }
             }
         }
@@ -872,13 +872,13 @@ void func_020d3b74(void) {
     }
 }
 
-void func_020d3b10(void) {
+void mobj_activateObjsAfterCountdown(void) {
     s32 i;
     s32 mapObjectCount;
     MapObject **mapObjectSlot;
     MapObject *mapObject;
-    mapObjectCount = gMapObjects->mMapObjectCount;
-    mapObjectSlot = gMapObjects->mMapObjects;
+    mapObjectCount = gMapObjState->mMapObjectCount;
+    mapObjectSlot = gMapObjState->mMapObjects;
     for (i = 0; i < mapObjectCount; i++) {
         mapObject = *mapObjectSlot;
         if (mapObject->mFlags & 0x80) {
@@ -886,7 +886,7 @@ void func_020d3b10(void) {
             mapObject->mFlags &= ~0xf;
             mapObject->mFlags |= (mapObject->mFlags & 0xf000) >> 12;
             if (mapObject->mCollisionSlotIndex != -1) {
-                EnableCollisionSlot(mapObject->mCollisionSlotIndex);
+                col_enableColEntry(mapObject->mCollisionSlotIndex);
             }
         }
         mapObjectSlot++;
@@ -899,7 +899,7 @@ void func_020d3b10(void) {
 
 // Stores the mask of the nonzero decimal digits of a (bit d for digit d) in mUnk_74; a of 10000 or more first sets flag
 // 0x80 in mFlags and loses the 10000.
-void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
+void mobj_parseObjiFlags(s32 number, MapObject *mapObject) {
     int limit;
     u32 digitMask;
     limit = 0x2710;
@@ -907,7 +907,7 @@ void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject) {
         mapObject->mFlags = mapObject->mFlags | data_021568e8;
         number = (number - limit) * 0x10000 >> 0x10;
     }
-    digitMask = DecimalNonZeroDigitsToBitMask(number);
+    digitMask = mobj_parseDecimalBits(number);
     mapObject->mDigitMask = digitMask;
 }
 

@@ -5,4 +5,4 @@
 #include "Main/Unknown/code_020a2e4c.h" // Balloon
 #include "Main/Unknown/code_02086058.h"
 
-void func_020a392c(Unk0201ca6c *effect, Balloon *balloon);
+void blln_setParticleColor(Unk0201ca6c *effect, Balloon *balloon);

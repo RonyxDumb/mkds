@@ -4,23 +4,23 @@
 
 typedef struct Interpolation Interpolation;
 
-int AdvanceSelectCharacter(void);
-void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam);
+int menucs_render(void);
+void menucs_init(void *parentHeap, s32 mode, void *mainOam, void *subOam);
 
-extern char data_02161b3c[];
-extern char data_02161b5c[];
-extern char data_02161b7c[];
-extern char data_02161b9c[];
-extern char data_02161bb8[];
-extern char data_02161bd4[];
-extern char data_02161bf0[];
-extern char data_02161c14[];
-extern char data_02161c38[];
-extern char data_02161c60[];
+extern char aSelect_character_gp_m_nce_ncgr[];
+extern char aSelect_character_gp_m_nce_ncer[];
+extern char aSelect_character_gp_m_o_nclr[];
+extern char aSelect_character_s_nce_ncgr[];
+extern char aSelect_character_s_nce_ncer[];
+extern char aSelect_character_s_o_nclr[];
+extern char aSelect_character_gp_name_m_nce_ncgr[];
+extern char aSelect_character_gp_name_m_nce_ncer[];
+extern char aSelect_character_gp_title_m_nce_ncgr[];
+extern char aSelect_character_gp_title_m_nce_ncer[];
 
-void SetupInterpolation(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue);
+void interp_init(Interpolation *interpolation, s32 state, s32 counterLimit, s16 startValue, s32 endValue);
 void func_02025f90(void);
-void WriteSelectCharacterRegisters(void);
+void menucs_2026058(void);
 void ReleaseSelectCharacter(void);
 void func_02027084(void);
 u32 func_020270d0(void);

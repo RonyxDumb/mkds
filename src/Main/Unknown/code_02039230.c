@@ -44,7 +44,7 @@ void ReadKeysIntoInputSlot(void) {
     } else {
         keys = (u16) (((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff);
     }
-    UpdateInputSlot(keys, &data_021755dc);
+    pad_update(keys, &data_021755dc);
 }
 
 void SeekKeyStream(u32 count, u32 origin) {

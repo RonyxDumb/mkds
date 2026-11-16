@@ -31,21 +31,21 @@
 
 #pragma thumb on
 
-void InitGroupItemBox(ItemBox *itemBox, Unk020de6a8_1 *row) {
-    InitItemBox(itemBox, row);
+void mibox_init(ItemBox *itemBox, Unk020de6a8_1 *row) {
+    ibox_init(itemBox, row);
     if (itemBox->mUnk_0f8 != 0) {
         itemBox->mFollower.mUnk_00.mGroupIndex = (0x0000ffffu);
         return;
     }
-    func_020d7d4c(&itemBox->mFollower, (CourseMapRow *) row, *&data_02158908, row->mUnk_28);
-    SetupGroupFollowerWithSpeeds(&itemBox->mFollower, row->mUnk_30, 1);
-    GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
+    pwex_initFromObject(&itemBox->mFollower, (CourseMapRow *) row, *&data_02158908, row->mUnk_28);
+    pwex_init(&itemBox->mFollower, row->mUnk_30, 1);
+    pw_calcCurrentPointXYZ(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void func_020df3f8(void) {
+void mibox_globalInitLogic(void) {
     data_0217b750 = 0;
     data_0217b754 = 0;
     data_0217b75c = 0x1000;
@@ -55,47 +55,47 @@ void func_020df3f8(void) {
 }
 #pragma thumb off
 
-MapObjectKindData *CreateItemBoxKindData(void) {
+MapObjectKindData *ibox_setupCollision(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_02158654;
     return kindData;
 }
 
-MapObjectDrawList *CreateBoxDrawList(void) {
-    gBoxDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectDrawList *ibox_setupBoxRenderPart(void) {
+    gBoxDrawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *gBoxDrawList = data_02158628;
-    func_020d49d8(&gBoxDrawList);
+    mobj_renderPartSetThisPointer(&gBoxDrawList);
     return gBoxDrawList;
 }
 
-MapObjectDrawList *CreateQuestionDrawList(void) {
-    gQuestionDrawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectDrawList *ibox_setupQuestionRenderPart(void) {
+    gQuestionDrawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *gQuestionDrawList = data_021585fc;
-    func_020d49d8(&gQuestionDrawList);
+    mobj_renderPartSetThisPointer(&gQuestionDrawList);
     return gQuestionDrawList;
 }
 
-MapObjectDrawList *func_020df294(void) {
-    data_0217b714 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectDrawList *ibox_setupShadowRenderPart(void) {
+    data_0217b714 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *data_0217b714 = data_021585d0;
-    func_020d49d8(&data_0217b714);
+    mobj_renderPartSetThisPointer(&data_0217b714);
     return data_0217b714;
 }
 
-MapObjectList *CreateItemBoxUpdateList(void) {
-    gItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *gItemBoxUpdateList = data_021585a8;
-    SetUpdateListSlot(&gItemBoxUpdateList);
-    return gItemBoxUpdateList;
+MapObjectList *ibox_setupLogicPart(void) {
+    ibox_sLogicPart = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    *ibox_sLogicPart = data_021585a8;
+    mobj_logicPartSetThisPointer(&ibox_sLogicPart);
+    return ibox_sLogicPart;
 }
 
-void SetupDrawBox(void) {
-    func_020e6a18(gBox);
+void ibox_applyBoxMaterial(void) {
+    bbm_applyMaterial(ibox_sBoxModel);
 }
 
-void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
+void ibox_renderBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     MtxFx43 matrix;
     NsbmdModel *model;
     Vec3 *position;
@@ -112,8 +112,8 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     }
     if (itemBox->mUnk_100 != NULL) {
         itemBox->mUnk_100(itemBox->mUnk_104, &matrix);
-        newPolygonId = AllocPolygonIdWrapping();
-        model = gBox;
+        newPolygonId = mobj_getCyclicPolygonId();
+        model = ibox_sBoxModel;
         model->mUnk_14 = model->mUnk_14 & 0xc0ffffff;
         model->mUnk_14 = model->mUnk_14 | newPolygonId << 24;
     } else {
@@ -135,29 +135,29 @@ void DrawBox(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
         matrix.mUnk_00[3].y = position->y >> 4;
         matrix.mUnk_00[3].z = position->z >> 4;
         polygonId = itemBox->mPolygonId;
-        model = gBox;
+        model = ibox_sBoxModel;
         model->mUnk_14 = model->mUnk_14 & 0xc0ffffff;
         model->mUnk_14 = model->mUnk_14 | polygonId << 24;
     }
     x = itemBox->mUnk_0e8;
-    model = gBox;
+    model = ibox_sBoxModel;
     model->mUnk_14 = model->mUnk_14 & 0xffe0ffff;
     model->mUnk_14 = model->mUnk_14 | x << 16;
     if (itemBox->mUnk_0fc != NULL) {
         if (itemBox->mUnk_000.mScale.z < 0x29) {
             return;
         }
-        func_020e67c4(gBox, &matrix, &itemBox->mUnk_000.mScale, 0, d);
+        bbm_renderTransformedScaled(ibox_sBoxModel, &matrix, &itemBox->mUnk_000.mScale, 0, d);
     } else {
-        func_020e67c4(gBox, &matrix, NULL, 0, d);
+        bbm_renderTransformedScaled(ibox_sBoxModel, &matrix, NULL, 0, d);
     }
 }
 
-void SetupDrawQuestion(void) {
-    func_020e6a18(gQuestion);
+void ibox_applyQuestionMaterial(void) {
+    bbm_applyMaterial(ibox_sQuestionModel);
 }
 
-void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
+void ibox_renderQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     MtxFx43 matrix;
     s32 cosine;
     s32 negatedSine;
@@ -168,12 +168,12 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     NsbmdModel *p2;
     u16 polygonId;
 
-    itemBox->mPolygonId = AllocPolygonIdWrapping();
+    itemBox->mPolygonId = mobj_getCyclicPolygonId();
     if (itemBox->mUnk_100 != NULL) {
         return;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0) > 0x27100) {
-        if (func_0203c5e4() == 0) {
+        if (rstat_getUncontrollable() == 0) {
             return;
         }
     }
@@ -196,30 +196,30 @@ void DrawQuestion(void *unused0, ItemBox *itemBox, void *unused1, u16 d) {
     matrix.mUnk_00[3].x = position->x >> 4;
     matrix.mUnk_00[3].y = position->y >> 4;
     matrix.mUnk_00[3].z = position->z >> 4;
-    p = gQuestion;
+    p = ibox_sQuestionModel;
     x = itemBox->mUnk_0ec;
     p->mUnk_14 &= 0xffe0ffff;
     p->mUnk_14 |= (u16) x << 16;
     polygonId = itemBox->mPolygonId;
-    p2 = gQuestion;
+    p2 = ibox_sQuestionModel;
     p2->mUnk_14 &= 0xc0ffffff;
     p2->mUnk_14 |= polygonId << 24;
-    func_020e67c4(gQuestion, &matrix, itemBox->mUnk_0fc != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
+    bbm_renderTransformedScaled(ibox_sQuestionModel, &matrix, itemBox->mUnk_0fc != NULL ? &itemBox->mUnk_000.mScale : 0, 0, d);
 }
 
-void func_020dee8c(void) {
+void ibox_globalPreRenderShadow(void) {
     s32 angleIndex;
 
-    func_020e55b4();
-    if (GetChoisesSOpenDuringRace() != 0) {
+    oshd_applyMaterial();
+    if (rchoi_getIsRacePaused() != 0) {
         return;
     }
     data_0217b6fc += 0xca;
     angleIndex = data_0217b6fc >> 4;
-    MTX_RotY43_(&data_0217b720, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotY43_(&data_0217b720, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
 }
 
-void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
+void ibox_renderShadow(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     Vec3 shadowScale;
     Vec3 *position;
     s32 n;
@@ -248,7 +248,7 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         itemBox->mUnk_0ec = y;
     }
     if ((s32) (itemBox->mUnk_000.mDistanceSquaredAndFlags & ~0xc000001f) > 0x27100) {
-        if (func_0203c5e4() == 0) {
+        if (rstat_getUncontrollable() == 0) {
             return;
         }
     }
@@ -257,7 +257,7 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
     }
     if (itemBox->mUnk_0b0 == 0) {
         itemBox->mUnk_0b4.mUnk_030 = n;
-        func_020e54e4(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
+        oshd_render(&itemBox->mUnk_0b4, itemBox->mUnk_0a8 != 0 ? &data_0217b75c : 0, c, d);
         return;
     }
     if (itemBox->mUnk_0b0 != 1) {
@@ -268,14 +268,14 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         data_0217b720.mUnk_00[3].x = position->x >> 4;
         data_0217b720.mUnk_00[3].y = position->y >> 4;
         data_0217b720.mUnk_00[3].z = position->z >> 4;
-        DrawJgShadowWithMatrix(&data_0217b760, &data_0217b720, (u16) n, d);
+        oshd_renderJgShadowTransformed(&data_0217b760, &data_0217b720, (u16) n, d);
         return;
     }
     shadowScale.x = ((s64) itemBox->mUnk_000.mScale.x * 0x1666) >> 12;
     shadowScale.y = ((s64) itemBox->mUnk_000.mScale.y * 0x1666) >> 12;
     shadowScale.z = ((s64) itemBox->mUnk_000.mScale.z * 0x1666) >> 12;
     if (itemBox->mUnk_100 != NULL) {
-        matrix = SetTranslationMatrixPos(itemBox->mUnk_0fc);
+        matrix = bbm_20E6B58(itemBox->mUnk_0fc);
     } else {
         position = itemBox->mUnk_0fc;
         data_0217b720.mUnk_00[3].x = position->x >> 4;
@@ -283,10 +283,10 @@ void func_020dec4c(void *unused, ItemBox *itemBox, u32 c, u32 d) {
         data_0217b720.mUnk_00[3].z = position->z >> 4;
         matrix = &data_0217b720;
     }
-    DrawJgShadowWithMatrix(&shadowScale, matrix, (u16) n, d);
+    oshd_renderJgShadowTransformed(&shadowScale, matrix, (u16) n, d);
 }
 
-void UpdateItemBox(void *unused, ItemBox *itemBox) {
+void ibox_update(void *unused, ItemBox *itemBox) {
     u32 framesSinceHit;
 
     itemBox->mBoxRotationIndex++;
@@ -307,31 +307,31 @@ void UpdateItemBox(void *unused, ItemBox *itemBox) {
     }
 }
 
-void func_020deb2c(Vec3 *position, void *kart, u32 c, int d, u32 e) {
+void ibox_handleBreak(Vec3 *position, void *kart, u32 c, int d, u32 e) {
     void *effect;
     u32 kartIndex;
     kartIndex = *OFFSET_PTR(u16, kart, 0x74);
     if (d == 0) {
-        if (kartIndex == gRaceSetup->mEntryIndex) {
-            effect = StartEffect(0x2d, position);
+        if (kartIndex == gRaceMultiConfig->mEntryIndex) {
+            effect = ptcm_createEmitter(0x2d, position);
             if (effect != NULL) {
-                SetupKartFollowEffect(effect, kartIndex, 0x1e);
+                rptc_2081F10(effect, kartIndex, 0x1e);
             }
-            effect = StartEffect(0x2e, position);
+            effect = ptcm_createEmitter(0x2e, position);
             if (effect != NULL) {
-                SetupKartFollowEffect(effect, kartIndex, 0x1e);
+                rptc_2081F10(effect, kartIndex, 0x1e);
             }
         }
-        effect = StartEffect(0x2f, position);
+        effect = ptcm_createEmitter(0x2f, position);
         if (effect != NULL) {
-            SetupKartFollowEffect(effect, kartIndex, 0x1e);
+            rptc_2081F10(effect, kartIndex, 0x1e);
         }
     }
-    func_020d26ec(kart, 0xd4);
+    mobj_driverEmitSfx2(kart, 0xd4);
     StartItemSlotForKart(kartIndex, c, e);
 }
 
-u8 CollideKartWithItemBox(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d) {
+u8 ibox_onDriverCollide(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d) {
     s32 playerKind;
     BOOL kindInMask;
     u32 distanceBits;
@@ -343,17 +343,17 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d)
     itemBox->mFramesSinceHit = 0;
     itemBox->mUnk_000.mFlags |= data_021585a4;
     distanceBits = itemBox->mUnk_000.mDistanceSquaredAndFlags & 3;
-    playerKind = gRaceSetup->mCurrentEntries[kart->mUnk_74].mPlayer.mKind;
+    playerKind = gRaceMultiConfig->mCurrentEntries[kart->mUnk_74].mPlayer.mKind;
     if ((u32) playerKind <= 3) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;
         }
     }
-    func_020deb2c(&itemBox->mUnk_000.mPos, kart, kindInMask != FALSE ? itemBox->mUnk_0f2 : itemBox->mUnk_0f4,
+    ibox_handleBreak(&itemBox->mUnk_000.mPos, kart, kindInMask != FALSE ? itemBox->mUnk_0f2 : itemBox->mUnk_0f4,
                   distanceBits, itemBox->mUnk_0ac);
     if (itemBox->mUnk_0f8 != 0 || itemBox->mUnk_000.mCourseMapRow->mUnk_32 != 0) {
         itemBox->mFramesSinceHit = 0x80;
-        ParkMapObject(&itemBox->mUnk_000);
+        mobj_setInvisible(&itemBox->mUnk_000);
     }
     return *d;
 }

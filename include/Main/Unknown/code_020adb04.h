@@ -5,7 +5,7 @@
 
 typedef struct Unk02022aa8 Unk02022aa8;
 
-void InitTitleStateHandlers(void);
+void title_setupStates(void);
 BOOL func_020adb34(void);
 s32 func_020adbc4(void);
 s32 func_020adbe4(void);

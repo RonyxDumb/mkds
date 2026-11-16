@@ -36,7 +36,7 @@ void func_ov000_02189f64(Unk02188ec0 *v1) {
         if (e->mUnk_c0[0] == 0 && v2 != 0) {
             a = func_ov000_0218a018(e->mUnk_c8);
             b = func_ov000_0218a018(e->mUnk_cc);
-            func_ov000_021a8e78(&a, &b);
+            aThanksyouMBg00(&a, &b);
         }
     }
 }

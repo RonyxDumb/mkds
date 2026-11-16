@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 IsWinnerDecidedAndEndReached(void);
+u32 mgcnt_hasMgEnded(void);

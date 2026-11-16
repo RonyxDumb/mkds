@@ -5,5 +5,5 @@
 
 typedef struct SegmentProgress SegmentProgress;
 
-void GetSegmentProgressPointXz(SegmentProgress *segmentProgress, Vec3 *output);
-void GetSegmentProgressPoint(SegmentPoints *progressOwner, Vec3 *output);
+void pwex_interpolateXZ(SegmentProgress *segmentProgress, Vec3 *output);
+void pwex_interpolateXYZ(SegmentPoints *progressOwner, Vec3 *output);

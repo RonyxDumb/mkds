@@ -3,7 +3,7 @@
 #include "Main/Unknown/unk_02175628.h"
 #include "code_0200f5ac.h"
 
-void UpdateInputSlot(u32 keys, InputSlot *slot) {
+void pad_update(u32 keys, InputSlot *slot) {
     u16 maskedBits;
     if (slot->mUnk_20 != 0) {
         WriteKeyBitsToStream(keys);

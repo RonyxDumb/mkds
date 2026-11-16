@@ -23,35 +23,35 @@
 
 #pragma thumb on
 
-void func_02125de0(void *heap, Unk02125de0Arg *config) {
+void gmenu_init(void *heap, Unk02125de0Arg *config) {
     TxtSystemArgs txtConfig;
 
-    data_0217d3ec = HeapAlloc(heap, 0x814);
-    data_0217d3ec->mSubCharOffset = 0x5800;
-    data_0217d3ec->mUseTxtSystem = FALSE;
-    data_0217d3ec->mUseSelectChoises = FALSE;
-    data_0217d3ec->mUnk_08 = FALSE;
+    gmenu_sGlobalMenuContext = heap_alloc(heap, 0x814);
+    gmenu_sGlobalMenuContext->mSubCharOffset = 0x5800;
+    gmenu_sGlobalMenuContext->mUseTxtSystem = FALSE;
+    gmenu_sGlobalMenuContext->mUseSelectChoises = FALSE;
+    gmenu_sGlobalMenuContext->mUnk_08 = FALSE;
     if (config->mUnk_00 != FALSE) {
         txtConfig.mFont = (u32) config->mUnk_04;
         txtConfig.mUseCanvas1 = config->mUnk_08;
         txtConfig.mUseCanvas2 = config->mUnk_0c;
         txtConfig.mUseCanvas3 = config->mUnk_10;
-        txtConfig.mSubCharOffset = data_0217d3ec->mSubCharOffset;
-        data_0217d3ec->mUseTxtSystem = TRUE;
-        data_0217d3ec->mSubCharOffset = InitTxtSystem(heap, &txtConfig);
+        txtConfig.mSubCharOffset = gmenu_sGlobalMenuContext->mSubCharOffset;
+        gmenu_sGlobalMenuContext->mUseTxtSystem = TRUE;
+        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initUnknown(heap, &txtConfig);
     }
     if (config->mUnk_14 != FALSE) {
-        data_0217d3ec->mUseSelectChoises = TRUE;
-        data_0217d3ec->mSubCharOffset = InitSelectChoises(heap, config->mUnk_18, data_0217d3ec->mSubCharOffset);
+        gmenu_sGlobalMenuContext->mUseSelectChoises = TRUE;
+        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initSelectChoises(heap, config->mUnk_18, gmenu_sGlobalMenuContext->mSubCharOffset);
     }
     if (config->mUnk_1c != FALSE) {
-        data_0217d3ec->mUnk_08 = TRUE;
-        data_0217d3ec->mSubCharOffset = InitSelectReturn(heap, data_0217d3ec->mSubCharOffset);
+        gmenu_sGlobalMenuContext->mUnk_08 = TRUE;
+        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_initSelectReturn(heap, gmenu_sGlobalMenuContext->mSubCharOffset);
     }
     if (config->mUnk_20 != FALSE) {
-        data_0217d3ec->mBackScreenKind = config->mUnk_24;
-        func_02125ba4();
-        data_0217d3ec->mSubCharOffset = LoadBackScreen(data_0217d3ec->mSubCharOffset);
+        gmenu_sGlobalMenuContext->mBackScreenKind = config->mUnk_24;
+        gmenu_setupHWForBackground();
+        gmenu_sGlobalMenuContext->mSubCharOffset = gmenu_loadBackground(gmenu_sGlobalMenuContext->mSubCharOffset);
     }
 }
 
@@ -59,17 +59,17 @@ void func_02125de0(void *heap, Unk02125de0Arg *config) {
 
 #pragma thumb on
 
-void func_02125da0(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
-        ClearTxtSystemPointer();
+void gmenu_finish(void) {
+    if (gmenu_sGlobalMenuContext->mUseTxtSystem != FALSE) {
+        gmenu_finishUnknown();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
-        ClearSelectChoisesPointer();
+    if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
+        gmenu_finishSelectChoises();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
-        ClearSelectReturnPointer();
+    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+        gmenu_finishSelectReturn();
     }
-    *&data_0217d3ec = NULL;
+    *&gmenu_sGlobalMenuContext = NULL;
 }
 
 #pragma thumb off
@@ -77,52 +77,52 @@ void func_02125da0(void) {
 #pragma thumb off
 // placeholder: the file names as file-scope arrays; this declaration order gives the original's order of the
 // names and tables in .data.
-static char sBackScreenMBg00Nscr[] = "back_screen_m_bg_00.nscr";
-static char sBackScreenSB00Nclr[] = "back_screen_s_b_00.nclr";
-static char sBackScreenSB00Ncgr[] = "back_screen_s_b_00.ncgr";
-static char sBackScreenMB00Ncgr[] = "back_screen_m_b_00.ncgr";
-static char sBackScreenSBg00Nscr[] = "back_screen_s_bg_00.nscr";
-const char *gBackScreenSNclrNames[1] = {sBackScreenSB00Nclr};
-static char sBackScreenMB01Ncgr[] = "back_screen_m_b_01.ncgr";
-static char sBackScreenMB01Nclr[] = "back_screen_m_b_01.nclr";
-const char *gBackScreenMNcgrNames[2] = {sBackScreenMB00Ncgr, sBackScreenMB01Ncgr};
-static char sBackScreenMB00Nclr[] = "back_screen_m_b_00.nclr";
-const char *gBackScreenMNclrNames[2] = {sBackScreenMB00Nclr, sBackScreenMB01Nclr};
-const char *gBackScreenSNcgrNames[1] = {sBackScreenSB00Ncgr};
-static char sBackScreenMBg01Nscr[] = "back_screen_m_bg_01.nscr";
-const char *gBackScreenMNscrNames[2] = {sBackScreenMBg00Nscr, sBackScreenMBg01Nscr};
-const char *gBackScreenSNscrNames[1] = {sBackScreenSBg00Nscr};
+static char aBack_screen_m_bg_00_nscr[] = "back_screen_m_bg_00.nscr";
+static char aBack_screen_s_b_00_nclr[] = "back_screen_s_b_00.nclr";
+static char aBack_screen_s_b_00_ncgr[] = "back_screen_s_b_00.ncgr";
+static char aBack_screen_m_b_00_ncgr[] = "back_screen_m_b_00.ncgr";
+static char aBack_screen_s_bg_00_nscr[] = "back_screen_s_bg_00.nscr";
+const char *gBackScreenSNclrNames[1] = {aBack_screen_s_b_00_nclr};
+static char aBack_screen_m_b_01_ncgr[] = "back_screen_m_b_01.ncgr";
+static char aBack_screen_m_b_01_nclr[] = "back_screen_m_b_01.nclr";
+const char *gBackScreenMNcgrNames[2] = {aBack_screen_m_b_00_ncgr, aBack_screen_m_b_01_ncgr};
+static char aBack_screen_m_b_00_nclr[] = "back_screen_m_b_00.nclr";
+const char *gBackScreenMNclrNames[2] = {aBack_screen_m_b_00_nclr, aBack_screen_m_b_01_nclr};
+const char *gBackScreenSNcgrNames[1] = {aBack_screen_s_b_00_ncgr};
+static char aBack_screen_m_bg_01_nscr[] = "back_screen_m_bg_01.nscr";
+const char *gBackScreenMNscrNames[2] = {aBack_screen_m_bg_00_nscr, aBack_screen_m_bg_01_nscr};
+const char *gBackScreenSNscrNames[1] = {aBack_screen_s_bg_00_nscr};
 
 #pragma thumb on
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void) {
+void gmenu_unpackData(void) {
     LoadedPartPointer loadedPartPointer;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        LoadNcgrData(&loadedPartPointer.mNcgr, FindSceneFile("txt_system_b_00.ncgr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindSceneFile("txt_system_bg_00.nscr"));
-        LoadNclrData(&loadedPartPointer.mNclr, FindSceneFile("txt_system_b_00.nclr"));
+        g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_getSceneArcFile("txt_system_b_00.ncgr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_getSceneArcFile("txt_system_bg_00.nscr"));
+        g2du_unpackPaletteData(&loadedPartPointer.mNclr, arc_getSceneArcFile("txt_system_b_00.nclr"));
     } else {
-        LoadNcgrData(&loadedPartPointer.mNcgr, FindFileInLoadedArchives("txt_system_b_00.ncgr"));
-        LoadNcgrData(&loadedPartPointer.mNcgr, FindFileInLoadedArchives("txt_system_b_01.ncgr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_00.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_00_2.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_01.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_01_2.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_02.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_02_2.nscr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("txt_system_bg_02_3.nscr"));
-        LoadNclrData(&loadedPartPointer.mNclr, FindFileInLoadedArchives("txt_system_b_00.nclr"));
-        LoadNcgrData(&loadedPartPointer.mNcgr, FindFileInLoadedArchives("select_choises_s_b.ncgr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("select_choises_s_bg.nscr"));
-        LoadNclrData(&loadedPartPointer.mNclr, FindFileInLoadedArchives("select_choises_s_b.nclr"));
-        LoadNcgrData(&loadedPartPointer.mNcgr, FindFileInLoadedArchives("select_return_s_b_00.ncgr"));
-        LoadNscrData(&loadedPartPointer.mNscr, FindFileInLoadedArchives("select_return_s_bg_00.nscr"));
-        LoadNclrData(&loadedPartPointer.mNclr, FindFileInLoadedArchives("select_return_s_b_00.nclr"));
+        g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_get2dArcFile("txt_system_b_00.ncgr"));
+        g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_get2dArcFile("txt_system_b_01.ncgr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_00.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_00_2.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_01.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_01_2.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_02.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_02_2.nscr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("txt_system_bg_02_3.nscr"));
+        g2du_unpackPaletteData(&loadedPartPointer.mNclr, arc_get2dArcFile("txt_system_b_00.nclr"));
+        g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_get2dArcFile("select_choises_s_b.ncgr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("select_choises_s_bg.nscr"));
+        g2du_unpackPaletteData(&loadedPartPointer.mNclr, arc_get2dArcFile("select_choises_s_b.nclr"));
+        g2du_unpackCharacterDataBG(&loadedPartPointer.mNcgr, arc_get2dArcFile("select_return_s_b_00.ncgr"));
+        g2du_unpackScreenData(&loadedPartPointer.mNscr, arc_get2dArcFile("select_return_s_bg_00.nscr"));
+        g2du_unpackPaletteData(&loadedPartPointer.mNclr, arc_get2dArcFile("select_return_s_b_00.nclr"));
     }
 }
 
-void func_02125ba4(void) {
+void gmenu_setupHWForBackground(void) {
     u32 mainDisplayBits;
     u32 subDisplayBits;
 
@@ -136,7 +136,7 @@ void func_02125ba4(void) {
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0xd00;
 }
 
-s32 LoadBackScreen(s32 subCharOffset) {
+s32 gmenu_loadBackground(s32 subCharOffset) {
     s32 i;
     s32 nclrSOffset;
     s32 nclrSSize;
@@ -153,7 +153,7 @@ s32 LoadBackScreen(s32 subCharOffset) {
     s32 nclrMOffset;
     s32 nclrMSize;
 
-    kind = data_0217d3ec->mBackScreenKind;
+    kind = gmenu_sGlobalMenuContext->mBackScreenKind;
     indexM = gBackScreenKindMIndices[kind * 2];
     indexS = gBackScreenKindSIndices[kind * 2];
     nclrMOffset = gBackScreenMNclrStarts[indexM] << 5;
@@ -161,45 +161,45 @@ s32 LoadBackScreen(s32 subCharOffset) {
     nclrSOffset = gBackScreenSNclrStarts[indexS] << 5;
     nclrSSize = (0xc - gBackScreenSNclrStarts[indexS]) << 5;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        LocateNcgr(&ncgrM, FindSceneFile("common/select_race_rule_s_b.NCGR"));
-        LoadNscrData(&nscrM, FindSceneFile("common/select_race_rule_download_bg_m.NSCR"));
-        LocateNclr(&nclrM, FindSceneFile("common/select_race_rule_s_b.NCLR"));
+        g2du_getCharacterDataBG(&ncgrM, arc_getSceneArcFile("common/select_race_rule_s_b.NCGR"));
+        g2du_unpackScreenData(&nscrM, arc_getSceneArcFile("common/select_race_rule_download_bg_m.NSCR"));
+        g2du_getPaletteData(&nclrM, arc_getSceneArcFile("common/select_race_rule_s_b.NCLR"));
         ncgrS = ncgrM;
-        LoadNscrData(&nscrS, FindSceneFile("common/select_race_rule_download_bg_s.NSCR"));
+        g2du_unpackScreenData(&nscrS, arc_getSceneArcFile("common/select_race_rule_download_bg_s.NSCR"));
         nclrS = nclrM;
     } else {
         if (data_0215d038[indexM] != 0) {
-            LoadNcgrData(&ncgrM, FindFileInLoadedArchives(gBackScreenMNcgrNames[indexM]));
-            LoadNscrData(&nscrM, FindFileInLoadedArchives(gBackScreenMNscrNames[indexM]));
-            LoadNclrData(&nclrM, FindFileInLoadedArchives(gBackScreenMNclrNames[indexM]));
+            g2du_unpackCharacterDataBG(&ncgrM, arc_get2dArcFile(gBackScreenMNcgrNames[indexM]));
+            g2du_unpackScreenData(&nscrM, arc_get2dArcFile(gBackScreenMNscrNames[indexM]));
+            g2du_unpackPaletteData(&nclrM, arc_get2dArcFile(gBackScreenMNclrNames[indexM]));
         } else {
-            LoadNcgrData(&ncgrM, FindSceneFile(gBackScreenMNcgrNames[indexM]));
-            LoadNscrData(&nscrM, FindSceneFile(gBackScreenMNscrNames[indexM]));
-            LoadNclrData(&nclrM, FindSceneFile(gBackScreenMNclrNames[indexM]));
+            g2du_unpackCharacterDataBG(&ncgrM, arc_getSceneArcFile(gBackScreenMNcgrNames[indexM]));
+            g2du_unpackScreenData(&nscrM, arc_getSceneArcFile(gBackScreenMNscrNames[indexM]));
+            g2du_unpackPaletteData(&nclrM, arc_getSceneArcFile(gBackScreenMNclrNames[indexM]));
         }
         if (data_0215d038[indexS] != 0) {
-            LoadNcgrData(&ncgrS, FindFileInLoadedArchives(gBackScreenSNcgrNames[indexS]));
-            LoadNscrData(&nscrS, FindFileInLoadedArchives(gBackScreenSNscrNames[indexS]));
-            LoadNclrData(&nclrS, FindFileInLoadedArchives(gBackScreenSNclrNames[indexS]));
+            g2du_unpackCharacterDataBG(&ncgrS, arc_get2dArcFile(gBackScreenSNcgrNames[indexS]));
+            g2du_unpackScreenData(&nscrS, arc_get2dArcFile(gBackScreenSNscrNames[indexS]));
+            g2du_unpackPaletteData(&nclrS, arc_get2dArcFile(gBackScreenSNclrNames[indexS]));
         } else {
-            LoadNcgrData(&ncgrS, FindSceneFile(gBackScreenSNcgrNames[indexS]));
-            LoadNscrData(&nscrS, FindSceneFile(gBackScreenSNscrNames[indexS]));
-            LoadNclrData(&nclrS, FindSceneFile(gBackScreenSNclrNames[indexS]));
+            g2du_unpackCharacterDataBG(&ncgrS, arc_getSceneArcFile(gBackScreenSNcgrNames[indexS]));
+            g2du_unpackScreenData(&nscrS, arc_getSceneArcFile(gBackScreenSNscrNames[indexS]));
+            g2du_unpackPaletteData(&nclrS, arc_getSceneArcFile(gBackScreenSNclrNames[indexS]));
         }
     }
-    CallQueueAppend(7, 0, ncgrM->mData, ncgrM->mDataSize);
-    CallQueueAppend(0xb, 0, nscrM->mData, nscrM->mDataSize);
-    CallQueueAppend(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
+    NNS_GfdRegisterNewVramTransferTask(7, 0, ncgrM->mData, ncgrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xb, 0, nscrM->mData, nscrM->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, nclrMOffset, OFFSET_PTR(void, nclrM->mData, nclrMOffset), nclrMSize);
     subCharOffset -= ncgrS->mDataSize;
-    CallQueueAppend(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x15, subCharOffset, ncgrS->mData, ncgrS->mDataSize);
     for (i = 0; i < 0x20; i++) {
         for (j = 0; j < 0x20; j++) {
-            *(data_0217d3ec->mBackScreenSNscrCopy + i * 0x20 + j) =
+            *(gmenu_sGlobalMenuContext->mBackScreenSNscrCopy + i * 0x20 + j) =
                 (subCharOffset >> 5) + *((u16 *) nscrS->mData + i * 0x20 + j);
         }
     }
-    CallQueueAppend(0x19, 0, data_0217d3ec->mBackScreenSNscrCopy, nscrS->mDataSize);
-    CallQueueAppend(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
+    NNS_GfdRegisterNewVramTransferTask(0x19, 0, gmenu_sGlobalMenuContext->mBackScreenSNscrCopy, nscrS->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, nclrSOffset, OFFSET_PTR(void, nclrS->mData, nclrSOffset), nclrSSize);
     return subCharOffset;
 }
 
@@ -207,27 +207,27 @@ s32 LoadBackScreen(s32 subCharOffset) {
 
 #pragma thumb on
 
-void func_02125928(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
-        AdvanceTxtSystem();
+void gmenu_render(void) {
+    if (gmenu_sGlobalMenuContext->mUseTxtSystem != FALSE) {
+        gmenu_2126834();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
-        AdvanceSelectChoises();
+    if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
+        gmenu_21279A0();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
-        AdvanceSelectReturn();
+    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+        gmenu_2128458();
     }
 }
 
-void func_021258f0(void) {
-    if (data_0217d3ec->mUseTxtSystem != FALSE) {
+void gmenu_vblank(void) {
+    if (gmenu_sGlobalMenuContext->mUseTxtSystem != FALSE) {
         WriteTxtSystemRegisters();
     }
-    if (data_0217d3ec->mUseSelectChoises != FALSE) {
+    if (gmenu_sGlobalMenuContext->mUseSelectChoises != FALSE) {
         WriteSelectChoisesRegisters();
     }
-    if (data_0217d3ec->mUnk_08 != FALSE) {
-        WriteSelectReturnRegisters();
+    if (gmenu_sGlobalMenuContext->mUnk_08 != FALSE) {
+        gmenu_updateSelectReturn();
     }
 }
 

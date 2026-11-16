@@ -2,10 +2,10 @@
 
 #include "types.h"
 
-extern UnkFunc *gLogoStateTable[24];
+extern UnkFunc *logo_sStates[24];
 
-void UpdateLogoState10(void);
-void EnterLogoState10(void);
-void UpdateLogoState9(void);
-void EnterLogoState9(void);
-void UpdateLogoState8(void);
+void logo_checkApSettingsMsgStateUpdate(void);
+void logo_checkApSettingsMsgStateInit(void);
+void logo_wifiIdErasedMsgStateUpdate(void);
+void logo_wifiIdErasedMsgStateInit(void);
+void logo_dwcInitResultCheckStateUpdate(void);

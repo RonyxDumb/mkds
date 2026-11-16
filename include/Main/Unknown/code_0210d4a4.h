@@ -4,4 +4,4 @@
 
 typedef struct PlayingSound PlayingSound;
 
-void InitPlayingSoundPool(PlayingSound *sounds, s32 count);
+void sfx_initPool(PlayingSound *sounds, s32 count);

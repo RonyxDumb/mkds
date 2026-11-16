@@ -9,10 +9,10 @@ typedef struct Unk0201ca6c Unk0201ca6c;
 typedef struct ItemObject ItemObject;
 
 void *CreateBombKingUpdateList(void);
-void *CreateBombKingDrawList(void);
+void *InitBomb_king(void);
 void func_ov001_02189dd8(void);
 void func_ov001_02189e0c(void *mapObjectList, Unk02188950 *mapObject);
-void InitBombKing(Unk0218d87c *list);
+void LoadBomb_king(Unk0218d87c *list);
 void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject);
 void func_ov001_02189fe0(Unk02188950 *mapObject, ItemObject *itemObject);
 void func_ov001_0218a028(Unk0201ca6c *emitter);

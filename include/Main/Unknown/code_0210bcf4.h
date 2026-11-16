@@ -8,9 +8,9 @@
 // their first member. It holds the list of the sounds started on it, the pointer to the position the distance to the
 // camera is measured to, and the number of its volume curve. A sound is started on it only while bit 0 of its mUnk_34
 // member is set; InitSoundSource clears that bit. data_0217d048 is addressed in rows of twelve bytes;
-// RefreshSoundSourceUpdateList and func_0210c0bc address the container of one of those rows. Kart and the gItemPools
-// elements (ItemObject) start with it: StartSoundWhileRequested and StartSound pass either one to
-// StartSoundWhileRequestedEx and StartSoundEx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
+// sfx_updateEmitterStatus and func_0210c0bc address the container of one of those rows. Kart and the it_sItemsets
+// elements (ItemObject) start with it: StartSoundWhileRequested and sfx_21090C4 pass either one to
+// StartSoundWhileRequestedEx and sfx_emitSfx. InitSoundSource writes the byte at 0x3c and the word at 0x40.
 typedef struct SoundSource {
     /* 00 */ u8 mUnk_00[2];
     /* 02 */ u16 mUnk_02;
@@ -27,7 +27,7 @@ typedef struct SoundSource {
     /* 34 */ u16 mSourceFlags;
     /* 36 */ u8 mUnk_36[2];
     /* 38 */ u32 mUnk_38;
-    // Number of the volume curve (element of gSoundFalloffs) of this source.
+    // Number of the volume curve (element of gSfxParams) of this source.
     /* 3c */ u8 mFalloffIndex;
     /* 3d */ u8 mUnk_3d[3];
     // Squared distance from the camera to the owner of the sound source. For a Kart it is the three-axis one, for map
@@ -38,8 +38,8 @@ typedef struct SoundSource {
 
 // One sound started on a SoundSource, from the start request until it is stopped. The entries are taken from a pool of
 // twelve and linked into the list of the source. The mUnk_00 member is the library player handle, NULL until the player
-// is started. Returned by TakeSoundHandleEntry and passed to func_0210bcf4; func_0210c084 writes its byte at 0x19.
-// func_0210bf24 subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
+// is started. Returned by sp_acquireElement and passed to func_0210bcf4; sfx_stopSfxStandalone writes its byte at 0x19.
+// sfx_210BF24 subtracts one NNSFndList from mUnk_10 to reach the SoundSource holding it.
 typedef struct PlayingSound {
     /* 00 */ NNSSndSeqPlayer *mSeqPlayer;
     /* 04 */ s32 mUnk_04;
@@ -63,8 +63,8 @@ typedef struct Unk0210bcf4_20 {
     /* 0c */ s32 mUnk_0c;
 } Unk0210bcf4_20;
 
-// Held on the stack by func_0210bcf4 and SetPlayingSoundsParams and passed to the three functions
-// data_0217d018, data_0217d014 and data_0217d01c point at.
+// Held on the stack by func_0210bcf4 and sfx_updateEmitter and passed to the three functions
+// data_0217d018, sfx_sCalcVolumeFunc and sfx_sCalcPanFunc point at.
 typedef struct SoundParams {
     /* 00 */ SoundSource *mSource;
     /* 04 */ u32 mPositionSource;
@@ -79,8 +79,8 @@ typedef struct SoundParams {
 
 u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
 u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request);
-void func_0210bf24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request);
-void RefreshSoundSourceUpdateList(SoundSource *source);
-void func_0210c084(PlayingSound *sound, u32 fadeSteps);
+void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request);
+void sfx_updateEmitterStatus(SoundSource *source);
+void sfx_stopSfxStandalone(PlayingSound *sound, u32 fadeSteps);
 void func_0210c0bc(SoundSource *source);
-void func_0210c134(SoundSource *source, u32 positionSource);
+void sfx_initEmitter2(SoundSource *source, u32 positionSource);

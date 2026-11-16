@@ -5,13 +5,13 @@
 #include "gx.h"
 #include "code_02148950.h"
 
-void func_ov001_021854a4(void) {
+void menu_state7Vblank(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = menu_getField4();
     if (screenChanged != 0) {
-        func_ov001_021854f4(0x19);
+        moverlay_menu_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_021854d8(0x16);
+        moverlay_menu_GXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupGridRegisters();

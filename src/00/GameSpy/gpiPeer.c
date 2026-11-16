@@ -127,7 +127,7 @@ s32 func_ov000_02194590(GpConnection *a, GpiPeer *b) {
             b->mUnk_20 = FALSE;
             break;
         default:
-            AssertionFailed(data_ov000_021b3440, data_ov000_021b333c, NULL, 0x9f);
+            __msl_assertion_failed(data_ov000_021b3440, data_ov000_021b333c, NULL, 0x9f);
             break;
     }
     if (b->mOutputBufferLength > 0) {
@@ -155,7 +155,7 @@ s32 GpiPeerUpdateWaiting(GpConnection *a, GpiPeer *b) {
 
     r = a->mGpiConnection;
     if (b->mState != 0x68) {
-        AssertionFailed(data_ov000_021b34a8, data_ov000_021b333c, NULL, 0xc1);
+        __msl_assertion_failed(data_ov000_021b34a8, data_ov000_021b333c, NULL, 0xc1);
     }
     t = GpiReceiveBuffer(a, b->mSocket, (GpiBuffer *) &b->mInputBuffer, &x, &y, data_ov000_021b3490);
     if (t != 0) {
@@ -317,7 +317,7 @@ s32 GpiPeerUpdate(GpConnection *b, GpiPeer *c) {
     s32 a = 0;
 
     if (c->mState == 0x64) {
-        AssertionFailed(data_ov000_021b3468, data_ov000_021b333c, NULL, 0x1d9);
+        __msl_assertion_failed(data_ov000_021b3468, data_ov000_021b333c, NULL, 0x1d9);
     }
     if (c->mState != 0x69) {
         if (c->mUnk_04 != 0) {
@@ -354,7 +354,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *f, GpiPeer *g) {
     s32 e;
 
     if (g == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x213);
+        __msl_assertion_failed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x213);
     }
     b = a->mPeerList;
     if (b == g) {
@@ -363,7 +363,7 @@ void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *f, GpiPeer *g) {
         c = b->mNext;
         while (c != g) {
             if (c == NULL) {
-                AssertionFailed(data_ov000_021b3440, data_ov000_021b333c, NULL, 0x225);
+                __msl_assertion_failed(data_ov000_021b3440, data_ov000_021b333c, NULL, 0x225);
                 func_ov000_0219690c(f, data_ov000_021b3444);
                 return;
             }
@@ -521,10 +521,10 @@ s32 GpiPeerQueueMessage(GpConnection *param_1, GpiPeer *peer, u32 param_3, const
     s32 c;
 
     if (peer == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x340);
+        __msl_assertion_failed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x340);
     }
     if (message == NULL) {
-        AssertionFailed(data_ov000_021b337c, data_ov000_021b333c, NULL, 0x341);
+        __msl_assertion_failed(data_ov000_021b337c, data_ov000_021b333c, NULL, 0x341);
     }
     b = strlen(message);
     {
@@ -572,7 +572,7 @@ u32 GpiPeerSendXfer(GpConnection *param_1, GpiPeer *param_2, u32 param_3, GpiTra
     u32 d = transferID->mUnk_08;
 
     if (transferID == NULL) {
-        AssertionFailed(data_ov000_021b335c, data_ov000_021b333c, NULL, 0x376);
+        __msl_assertion_failed(data_ov000_021b335c, data_ov000_021b333c, NULL, 0x376);
     }
     sprintf(a, data_ov000_021b3368, param_3, c, b, d);
     return GpiPeerSendString(param_1, (Unk02190988 *) param_2, a);
@@ -583,7 +583,7 @@ s32 GpiPeerSendLenMsg(GpConnection *param_1, GpiPeer *peer, const char *param_3,
     s32 b;
 
     if (peer == NULL) {
-        AssertionFailed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x389);
+        __msl_assertion_failed(data_ov000_021b332c, data_ov000_021b333c, NULL, 0x389);
     }
     if (param_3 == NULL) {
         param_3 = data_ov000_021b3348;

@@ -42,7 +42,7 @@ u32 GpiUnpackDate(u32 *a, s32 b, u32 *c, u32 *d, u32 *e) {
     b = b & (0x0000ffffu);
     v1 = GpiIsValidDate(v2, v3, b);
     if (v1 == 0) {
-        AssertionFailed(data_ov000_021b323c, data_ov000_021b31f8, NULL, 0xb7);
+        __msl_assertion_failed(data_ov000_021b323c, data_ov000_021b31f8, NULL, 0xb7);
     }
     v1 = GpiIsValidDate(v2, v3, b);
     if (v1 == 0) {
@@ -158,7 +158,7 @@ s32 GpiProcessInfoOperation(GpConnection *r, GpiOperation *s, const char *t) {
     }
     profileid = StrtolBase10(d);
     if (profileid <= 0) {
-        AssertionFailed(data_ov000_021b31e8, data_ov000_021b31f8, NULL, 0x15a);
+        __msl_assertion_failed(data_ov000_021b31e8, data_ov000_021b31f8, NULL, 0x15a);
     }
     GpiFindProfile(r, profileid, &b);
     {

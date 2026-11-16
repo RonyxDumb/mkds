@@ -127,7 +127,7 @@ typedef struct {
 // The item a kart is using: its objects and how they are carried. (replaces the two-line comment above the struct)
 
 // Object at 0x58 of a KartItems (that KartItems at 0x0c), passed first to the function pointers in the
-// gItemKinds entries: three ItemObject pointers at 0x14, vectors from 0x2c to 0x0e4.
+// it_sItemParams entries: three ItemObject pointers at 0x14, vectors from 0x2c to 0x0e4.
 typedef struct ItemInUse {
     /* 000 */ s32 mObjectKind;
     /* 004 */ s32 mItemInfoIndex;
@@ -173,17 +173,17 @@ typedef struct ItemInUse {
 } ItemInUse;
 
 void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis);
-void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *));
-void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis);
+void it_20ED718(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *));
+void it_20ED79C(ItemPool *pool, Vec3 *viewAxis);
 void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis);
 void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object);
 void StartItemInUseObjectCountdown(ItemInUse *itemInUse);
-void ReleaseItemInUse(ItemInUse *itemInUse);
+void it_destroyDragItem(ItemInUse *itemInUse);
 s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s32 forwardWeight, Vec3 *outDirection);
 s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor, s32 forwardWeight,
                             Vec3 *outDirection);
 void AdvanceItemInUse(ItemInUse *itemInUse);
-void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem);
+void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem);
 BOOL CopyKartToItemInUse(ItemInUse *itemInUse);
 void UpdateItemInUseObjects(ItemInUse *itemInUse);
 void CollideItemObjects(ItemObject *object, ItemObject *other);

@@ -37,38 +37,38 @@
 #include "Main/Unknown/code_020e5000.h"
 #include "Main/Unknown/code_020e360c.h"
 
-void SetupDrawChoropuShadow(void) {
+void choro_applyShadowMaterial(void) {
     u32 value12;
-    func_020e55b4();
+    oshd_applyMaterial();
 }
 
-void DrawChoropuShadow(void *a, Unk020e1e98 *choropu, u32 c, u32 alpha) {
-    func_020e54e4(&choropu->mUnk_0b4.mUnk_08, NULL, 0, alpha);
+void choro_renderShadow(void *a, Unk020e1e98 *choropu, u32 c, u32 alpha) {
+    oshd_render(&choropu->mUnk_0b4.mUnk_08, NULL, 0, alpha);
 }
 
-void func_020e35e4(u32 arg0, u32 object) {
+void choro_update(u32 arg0, u32 object) {
     u32 value0;
     u32 value1 = object;
     u32 value12;
     value0 = (value1) + (0x80u);
-    AdvanceStateMachine((void *) value0);
+    sm_execute((void *) value0);
 }
 
-void EnterChoropuState0(Unk020e35a0 *choropu) {
+void choro_state0Init(Unk020e35a0 *choropu) {
     choropu->mUnk_08 = choropu->mUnk_ac;
     choropu->mUnk_14 = 0x0u;
     choropu->mUnk_02 |= data_02158bb8;
     choropu->mUnk_02 |= data_02158bb4;
 }
 
-void UpdateChoropuState0(Unk020e1e98 *choropu) {
+void choro_state0Update(Unk020e1e98 *choropu) {
     if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mUnk_0a0) {
         choropu->mUnk_000.mStateMachine.mNextState = 1;
         choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterChoropuState1(Unk020e3538 *choropu) {
+void choro_state1Init(Unk020e3538 *choropu) {
     choropu->mUnk_08 = choropu->mUnk_ac;
     choropu->mUnk_14 = 0x1000u;
     choropu->mUnk_b8 = 0x0u;
@@ -76,7 +76,7 @@ void EnterChoropuState1(Unk020e3538 *choropu) {
     choropu->mUnk_02 |= data_02158bb4;
 }
 
-void UpdateChoropuState1(Unk020e1e98 *choropu) {
+void choro_state1Update(Unk020e1e98 *choropu) {
     choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
     if (choropu->mUnk_000.mPos.y > choropu->mUnk_0ac + 0x11199) {
         choropu->mUnk_000.mPos.y = choropu->mUnk_0ac + 0x11199;
@@ -85,22 +85,22 @@ void UpdateChoropuState1(Unk020e1e98 *choropu) {
     }
 }
 
-void EnterChoropuState2(Unk020e34ec *choropu) {
+void choro_state2Init(Unk020e34ec *choropu) {
     choropu->mUnk_14 = 0x0u;
 }
 
-void UpdateChoropuState2(Unk020e1e98 *choropu) {
+void choro_state2Update(Unk020e1e98 *choropu) {
     if (choropu->mUnk_000.mStateMachine.mStateFrames >= 0x14) {
         choropu->mUnk_000.mStateMachine.mNextState = 3;
         choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterChoropuState3(Unk020e34c0 *choropu) {
+void choro_state3Init(Unk020e34c0 *choropu) {
     choropu->mUnk_14 = ((0x0u) - (0x1000u));
 }
 
-void UpdateChoropuState3(Unk020e1e98 *choropu) {
+void choro_state3Update(Unk020e1e98 *choropu) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
 
@@ -109,32 +109,32 @@ void UpdateChoropuState3(Unk020e1e98 *choropu) {
         return;
     }
     if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x4) == 0) {
-        falloffIndex = choropu->mUnk_000.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
+        falloffIndex = choropu->mUnk_000.mFarDistanceSquared == gSfxParams[2].mUnk_20
                            ? 2
-                           : (choropu->mUnk_000.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
+                           : (choropu->mUnk_000.mFarDistanceSquared == gSfxParams[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x128;
         soundRequest.mPositionSource = &choropu->mUnk_000.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&choropu->mUnk_000.mPos);
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&choropu->mUnk_000.mPos);
         func_0210b7a8(&soundRequest);
     }
     choropu->mUnk_000.mStateMachine.mNextState = 4;
     choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
 }
 
-void EnterChoropuState4(Unk020e1e98 *choropu) {
+void choro_state4Init(Unk020e1e98 *choropu) {
     choropu->mUnk_000.mPos.y = choropu->mUnk_0ac;
     choropu->mUnk_000.mUnk_10.y = 0x4800;
     choropu->mUnk_000.mFlags &= ~0x1;
     if ((choropu->mUnk_000.mDistanceSquaredAndFlags & 0x3) != 0) {
-        if (func_0203c5e4() == 0) {
+        if (rstat_getUncontrollable() == 0) {
             return;
         }
     }
-    StartEffect(0x30, &choropu->mUnk_000.mCourseMapRow->mUnk_00);
+    ptcm_createEmitter(0x30, &choropu->mUnk_000.mCourseMapRow->mUnk_00);
 }
 
-void UpdateChoropuState4(Unk020e1e98 *choropu) {
+void choro_state4Update(Unk020e1e98 *choropu) {
     choropu->mUnk_000.mUnk_10.y -= 0x266;
     choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
     if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
@@ -143,26 +143,26 @@ void UpdateChoropuState4(Unk020e1e98 *choropu) {
     }
 }
 
-// Same body as EnterChoropuState0; this is the enter slot of state 5.
-void func_020e3338(Unk020e3338 *choropu) {
+// Same body as choro_state0Init; this is the enter slot of state 5.
+void choro_state5Init(Unk020e3338 *choropu) {
     choropu->mUnk_08 = choropu->mUnk_ac;
     choropu->mUnk_14 = 0x0u;
     choropu->mUnk_02 |= data_02158bb8;
     choropu->mUnk_02 |= data_02158bb4;
 }
 
-void UpdateChoropuState5(Unk020e1e98 *choropu) {
+void choro_state5Update(Unk020e1e98 *choropu) {
     if (choropu->mUnk_000.mStateMachine.mStateFrames >= choropu->mUnk_0a4) {
         choropu->mUnk_000.mStateMachine.mNextState = 1;
         choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterChoropuState6(Unk020e1e98 *choropu) {
+void choro_state6Init(Unk020e1e98 *choropu) {
     choropu->mUnk_000.mFlags = (((choropu->mUnk_000.mFlags)) | ((data_02158bb4)));
 }
 
-void UpdateChoropuState6(Unk020e1e98 *choropu) {
+void choro_state6Update(Unk020e1e98 *choropu) {
     if (choropu->mUnk_0b4.mUnk_00 != 0) {
         choropu->mUnk_0b4.mUnk_04 += 0x400;
     } else {
@@ -176,11 +176,11 @@ void UpdateChoropuState6(Unk020e1e98 *choropu) {
     }
 }
 
-u32 func_020e32a0(u32 value) {
+u32 choro_state7Init(u32 value) {
     return value;
 }
 
-void UpdateChoropuState7(Unk020e1e98 *choropu) {
+void choro_state7Update(Unk020e1e98 *choropu) {
     choropu->mUnk_000.mUnk_10.y -= 0x266;
     choropu->mUnk_000.mPos.y = choropu->mUnk_000.mPos.y + choropu->mUnk_000.mUnk_10.y;
     if (choropu->mUnk_000.mPos.y < choropu->mUnk_0b0) {
@@ -197,12 +197,12 @@ void UpdateChoropuState7(Unk020e1e98 *choropu) {
 }
 
 // Case 1 starts state 6 with an upward speed; case 2 starts state 7 unless player kind 2 or already there.
-u8 CollideKartWithChoropu(Unk020e1e98 *choropu, Kart *kart, u8 *c, u8 *d) {
+u8 choro_onDriverCollide(Unk020e1e98 *choropu, Kart *kart, u8 *c, u8 *d) {
     Vec3 offsetFromKart;
 
     switch (c[0]) {
         case 2:
-            if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
+            if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_GHOST) {
                 return d[0];
             }
             if (choropu->mUnk_000.mStateMachine.mState == 7) {
@@ -210,7 +210,7 @@ u8 CollideKartWithChoropu(Unk020e1e98 *choropu, Kart *kart, u8 *c, u8 *d) {
             }
             choropu->mUnk_000.mStateMachine.mNextState = 7;
             choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
-            StartSoundIfKartStarOrKiller(&choropu->mUnk_000, kart);
+            mobj_tryDestroyByDriver(&choropu->mUnk_000, kart);
             break;
         case 1:
             VEC_Subtract(&choropu->mUnk_000.mPos, &kart->mPos, &offsetFromKart);
@@ -223,14 +223,14 @@ u8 CollideKartWithChoropu(Unk020e1e98 *choropu, Kart *kart, u8 *c, u8 *d) {
             choropu->mUnk_000.mStateMachine.mNextState = 6;
             choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
             choropu->mUnk_000.mFlags |= data_02158bb4;
-            StartSoundIfKartStarOrKiller(&choropu->mUnk_000, kart);
+            mobj_tryDestroyByDriver(&choropu->mUnk_000, kart);
             break;
     }
     return d[0];
 }
 
-// Case 1 starts state 6 with an upward speed, as CollideKartWithChoropu does for a kart.
-u8 CollideItemObjectWithChoropu(Unk020e1e98 *choropu, Unk020e246c *itemObject, u8 *c, u8 *d) {
+// Case 1 starts state 6 with an upward speed, as choro_onDriverCollide does for a kart.
+u8 choro_onItemCollide(Unk020e1e98 *choropu, Unk020e246c *itemObject, u8 *c, u8 *d) {
     Vec3 offsetFromItem;
     Vec3 offset;
 
@@ -246,7 +246,7 @@ u8 CollideItemObjectWithChoropu(Unk020e1e98 *choropu, Unk020e246c *itemObject, u
             choropu->mUnk_000.mStateMachine.mNextState = 6;
             choropu->mUnk_000.mStateMachine.mNextStateRequested = 1;
             choropu->mUnk_000.mFlags |= data_02158bb4;
-            func_020f8ddc(itemObject);
+            it_emitMissionParticles(itemObject);
         } else {
             VEC_Subtract(&choropu->mUnk_000.mPos, &choropu->mUnk_000.mPos, &offset);
             if ((s64) offset.z * data_02158c7c.x - (s64) offset.x * data_02158c7c.z < 0) {
@@ -265,13 +265,13 @@ u8 CollideItemObjectWithChoropu(Unk020e1e98 *choropu, Unk020e246c *itemObject, u
 
 #pragma thumb on
 
-void CreateChoropu(void) {
+void choro_loadModel(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile(gChoropuNsbmdName);
-    nsbtpFile = FindCourseMapObjFile(gChoropuNsbtpName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gChoropu)), nsbmdFile, nsbtpFile, 0);
-    func_020e6ab8(gChoropu);
+    nsbmdFile = mobj_getMapObjFile(aChoropu_nsbmd);
+    nsbtpFile = mobj_getMapObjFile(aChoropu_nsbtp);
+    bbm_createFromNsbmd((NsbmdModel **) (((u32 *) &gChoropu)), nsbmdFile, nsbtpFile, 0);
+    bbm_setDefaultMatParams(gChoropu);
 }
 
 #pragma thumb off

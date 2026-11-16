@@ -33,17 +33,17 @@
 #include "code_02147cd8.h"
 #include "ITCM/code_01ff9598.h"
 
-void func_02073630(void) {
+void driver_initColResponses(void) {
     RaceSetup *raceSetup;
     u16 i;
     void **responseSlot;
     void **b;
 
     data_0217ac14 = func_01ffa478;
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     i = 0;
-    responseSlot = gCollideKartWithMapObjectResponses;
-    b = data_0217ac54;
+    responseSlot = driver_sColReactionInitTable;
+    b = driver_sColReactionHandleTable;
     if (raceSetup->mCourseId == COURSE_ID_RAINBOW || raceSetup->mCourseId == COURSE_ID_OLD_SKY_AGB) {
         data_0217ac14 = func_01ffa380;
     }
@@ -60,68 +60,68 @@ void func_02073630(void) {
     for (; i < 15; i++, responseSlot++, b++) {
         switch (i) {
             case 0:
-                *responseSlot = CollideKartWithMapObjectResponse0;
-                *b = func_020681e0;
+                *responseSlot = driver_initNoReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 2:
-                *responseSlot = CollideKartWithMapObjectResponse2;
-                *b = func_020681e0;
+                *responseSlot = driver_initReaction2;
+                *b = driver_defaultHandleReaction;
                 break;
             case 3:
-                *responseSlot = CollideKartWithMapObjectResponse3;
-                *b = func_020681e0;
+                *responseSlot = driver_initSingleSpinOutReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 4:
-                *responseSlot = CollideKartWithMapObjectResponse4;
-                *b = func_020681e0;
+                *responseSlot = driver_initDoubleSpinOutReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 5:
-                *responseSlot = CollideKartWithMapObjectResponse5;
-                *b = func_020681e0;
+                *responseSlot = driver_initDoubleSpinOutFireReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 6:
-                *responseSlot = CollideKartWithMapObjectResponse6;
-                *b = func_020681e0;
+                *responseSlot = driver_initDoubleSpinOutWaterReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 7:
-                *responseSlot = CollideKartWithMapObjectResponse7;
-                *b = func_020681e0;
+                *responseSlot = driver_initForwardFlipReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 9:
-                *responseSlot = CollideKartWithMapObjectResponse9;
-                *b = func_02068094;
+                *responseSlot = driver_initSingleBackwardFlip2Reaction;
+                *b = driver_handleSingleBackwardFlip2Reaction;
                 break;
             case 8:
-                *responseSlot = CollideKartWithMapObjectResponse8;
-                *b = func_020680e0;
+                *responseSlot = driver_initSingleBackwardFlip1Reaction;
+                *b = driver_handleSingleBackwardFlip1Reaction;
                 break;
             case 10:
-                *responseSlot = CollideKartWithMapObjectResponse10;
-                *b = func_02067f94;
+                *responseSlot = driver_initDoubleBackwardFlipReaction;
+                *b = driver_handleDoubleBackwardFlipReaction;
                 break;
             case 11:
-                *responseSlot = CollideKartWithMapObjectResponse11;
-                *b = func_020681e0;
+                *responseSlot = driver_initDossunSmashReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             case 12:
-                *responseSlot = CollideKartWithMapObjectResponse12;
-                *b = func_020681e0;
+                *responseSlot = driver_initReaction12;
+                *b = driver_defaultHandleReaction;
                 break;
             case 13:
-                *responseSlot = CollideKartWithMapObjectResponse13;
-                *b = func_020681e0;
+                *responseSlot = driver_initReaction13;
+                *b = driver_defaultHandleReaction;
                 break;
             case 14:
-                *responseSlot = CollideKartWithMapObjectResponse14;
-                *b = func_020681e0;
+                *responseSlot = driver_initSingleSpinElectricityReaction;
+                *b = driver_defaultHandleReaction;
                 break;
             default:
-                *responseSlot = CollideKartWithMapObjectNoResponse;
-                *b = func_020681e0;
+                *responseSlot = driver_initReaction1;
+                *b = driver_defaultHandleReaction;
                 break;
         }
     }
-    data_021654ec = FX_Div(0x1000, ((s64) GetFirstBaseSpeedLimit() * 0xd9aLL) >> 12);
+    data_021654ec = FX_Div(0x1000, ((s64) physp_getField8() * 0xd9aLL) >> 12);
 }
 
 void func_020733ec(Kart *kart) {
@@ -129,18 +129,18 @@ void func_020733ec(Kart *kart) {
     Vec3 *collisionPos;
     u16 i;
 
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = proc_getHeap(proc_getCurrent());
     kart->mUnk_230 = func_02071568;
-    InitKartPhysicalParams(kart);
-    func_02071e28(kart);
+    driver_initPhysicalParams(kart);
+    driver_initField7C(kart);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
-    InitKartSound(kart);
+    driver_initSound(kart);
     func_020e0650((u32 *) &kart->mUnk_208);
-    kart->mAi = HeapAlloc(heap, 0x158);
-    if (gCourseMap->mRaceRouteCount != 0 || gCourseMap->mBattleRouteCount != 0) {
-        if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
+    kart->mAi = heap_alloc(heap, 0x158);
+    if (gMapData->mRaceRouteCount != 0 || gMapData->mBattleRouteCount != 0) {
+        if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {
             kart->mUnk_7c |= 2;
             if (kart->mUnk_7c & 2) {
                 for (i = 0; i < 12; i++) {
@@ -156,27 +156,27 @@ void func_020733ec(Kart *kart) {
     }
     kart->mUnk_2ca = -1;
     kart->mCollisionSlot = kart->mUnk_2ca;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         collisionPos = &kart->mPointAlongUp;
     } else {
         collisionPos = &kart->mCollisionCenter;
     }
     if (kart->mCollisionSlot == -1) {
-        kart->mCollisionSlot = CreateCollisionSlot(collisionPos, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
+        kart->mCollisionSlot = col_createColEntry(collisionPos, kart->mPhysicalParam->mRadius + 0xd000, 0x8000, kart);
     }
     if (kart->mUnk_2ca == -1) {
         kart->mUnk_2ca =
-            CreateCollisionSlot(&kart->mUnk_1f0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
+            col_createColEntry(&kart->mUnk_1f0, ((s64) kart->mPhysicalParam->mRadius << 15) >> 12, 0x800, kart);
     }
     kart->mUnk_44 |= KART_44_ON_GROUND;
     kart->mUnk_4d0 = 0x64;
     kart->mRadius = kart->mPhysicalParam->mRadius;
-    func_020719d0(kart);
-    if (gRaceSetup->mMode == 5) {
-        kart->mUnk_514 = HeapAlloc(heap, 0xb8);
-        func_02071fb8(kart, heap);
+    driver_initField450(kart);
+    if (gRaceMultiConfig->mMode == 5) {
+        kart->mUnk_514 = heap_alloc(heap, 0xb8);
+        driver_initField514(kart, heap);
     }
-    if (IsRaceAwardOrStaffRoll() != 0) {
+    if (race_isAwardStaffRoll() != 0) {
         kart->mUnk_44 |= 0x1000000;
     }
 }

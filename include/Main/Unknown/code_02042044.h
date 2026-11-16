@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// One entry of the table returned by GetCourseMapGroupEntry.
+// One entry of the table returned by mdat_getPathPoint.
 typedef struct CourseMapGroupEntry {
     /* 00 */ Vec3 mPos;
     /* 0c */ u8 mUnk_0c;
@@ -12,4 +12,4 @@ typedef struct CourseMapGroupEntry {
     /* 12 */ s16 mUnk_12;
 } CourseMapGroupEntry;
 
-CourseMapGroupEntry *GetCourseMapGroupEntry(u16 groupIndex, u16 entryIndex);
+CourseMapGroupEntry *mdat_getPathPoint(u16 groupIndex, u16 entryIndex);

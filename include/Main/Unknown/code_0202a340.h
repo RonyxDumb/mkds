@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_0202a340(s16 *a, int index);
+void gpres_getCourseTimeAsString(s16 *a, int index);

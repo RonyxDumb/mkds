@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020810e4(u32 kartIndex);
+void rptc_stopElectricEffect(u32 kartIndex);

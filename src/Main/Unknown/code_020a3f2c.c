@@ -75,15 +75,15 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitShine16(MapObject *p) {
-    ParkMapObject(p);
-    p->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void shine_init(MapObject *p) {
+    mobj_setInvisible(p);
+    p->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&p->mSound->mSoundSource, 0xb, &p->mPos);
     func_0210bae8(&p->mSound->mSoundSource);
-    p->mFarDistanceSquared = gSoundFalloffs[0xb].mUnk_20;
+    p->mFarDistanceSquared = gSfxParams[0xb].mUnk_20;
 }
 
-u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b) {
+u32 shine_onDriverCollide(Shine16 *p, Kart *o, u8 *a, u8 *b) {
     u8 v1;
     u8 v2;
     s32 r;
@@ -92,7 +92,7 @@ u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b) {
 
     v1 = *a;
     v2 = *b;
-    if (o->mState != KART_STATE_NORMAL || (o->mUnk_48 & 0x200) != 0 || IsKartEliminated(o->mIndex) != FALSE) {
+    if (o->mState != KART_STATE_NORMAL || (o->mUnk_48 & 0x200) != 0 || mgcnt_isDriverDead(o->mIndex) != FALSE) {
         return 0;
     }
     if (v1 == 1) {
@@ -105,7 +105,7 @@ u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b) {
         p->mUnk_00.mFlags |= data_021567a0;
         p->mPickupTimer = 0x19;
         p->mUnk_00.mPos.x = o->mPos.x;
-        p->mUnk_00.mPos.y = o->mPos.y + func_020a23a0(o) + 0x7800;
+        p->mUnk_00.mPos.y = o->mPos.y + mgcnt_20A23A0(o) + 0x7800;
         p->mUnk_00.mPos.z = o->mPos.z;
         p->mHeightAboveKart = 0;
         p->mUnk_00.mUnk_10.x = 0;
@@ -115,28 +115,28 @@ u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b) {
         p->mState = 2;
         p->mKartIndex = o->mIndex;
         p->mUnk_ca = o->mIndex;
-        AddBalloonsLeftToMake(o->mIndex, 1);
-        AddBalloonOrShineCountAndMoveRank(o->mIndex, 1);
-        r = o->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
-        c = GetHighestBalloonOrShineCount();
-        n = GetBalloonOrShineCount(o->mIndex);
-        func_0210b98c(p->mUnk_00.mSound, func_02024974(0, r, c, n));
-        p->mEffect = StartEffect(0x7d, &p->mUnk_00.mPos);
+        mgcnt_updateDriverBalloonShineInventoryCount(o->mIndex, 1);
+        mgcnt_updateDriverBalloonShineCount(o->mIndex, 1);
+        r = o->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
+        c = mgcnt_getMaxOwnedShineCount();
+        n = mgcnt_getDriverBalloonShineCount(o->mIndex);
+        func_0210b98c(p->mUnk_00.mSound, snd_getShineLoseSfxId(0, r, c, n));
+        p->mEffect = ptcm_createEmitter(0x7d, &p->mUnk_00.mPos);
         p->mEffectTimer = 0xe;
     }
     return v2;
 }
 
-void CreateShine16(void *a) {
-    gShine16 = CreateMapObjectModelNsbmdNsbtp(a, gShine16NsbmdName, gShine16NsbtpName);
-    SetMapObjectModelPolygonId(gShine16, 0x3f);
+void shine_loadShineModel(void *a) {
+    shine_sShineModel = mobj_loadTexAnimBillboardModel(a, aShine16_nsbmd, aShine16_nsbtp);
+    mobj_setModelPolygonIdAll(shine_sShineModel, 0x3f);
 }
 
-void SetupDrawShine16(void *a) {
-    func_0209bbd0(a, gShine16);
+void shine_applyShineMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, shine_sShineModel);
 }
 
-void DrawShine16(void *a, Shine16 *p) {
+void shine_renderShine(void *a, Shine16 *p) {
     s32 t;
     Vec3 s;
     s32 n;
@@ -145,19 +145,19 @@ void DrawShine16(void *a, Shine16 *p) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6cbc(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n != 0x1000) {
         s.x = n;
         s.y = n;
         s.z = n;
-        func_01ff9048(0x1b, &s, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    func_01ff9048(0x1b, &p->mUnk_00.mScale, 3);
-    SetMapObjectModelMirror(gShine16, p->mMirror, 0);
-    SetMapObjectModelNsbtpFrameIndex(gShine16, p->mNsbtpFrameIndex);
-    DrawMapObjectModel(a, gShine16, p);
+    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
+    mobj_setModelFlip(shine_sShineModel, p->mMirror, 0);
+    mobj_setModelNsbtpFrame(shine_sShineModel, p->mNsbtpFrameIndex);
+    mobj_renderModel(a, shine_sShineModel, p);
 }
 
 u32 func_020a69a0(void) {
@@ -193,27 +193,27 @@ void func_020a683c(void *a, Shine16 *p, void *b, s32 c) {
         return;
     }
     t = 0x1e;
-    func_01ff9048(0x14, &t, 1);
-    func_01ff9048(0x19, func_020e6cbc(&p->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &t, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&p->mUnk_00.mPos), 0xc);
     n = p->mDrawScale;
     if (n < 0x1000) {
         s.x = n;
         s.y = n;
         s.z = n;
-        func_01ff9048(0x1b, &s, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &s, 3);
     }
-    func_01ff9048(0x1b, &p->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &p->mUnk_00.mScale, 3);
     x = data_021567a4[data_0217b220] >> 4;
-    MTX_RotY33_(m, gPairsByAngle[x * 2 + 1], gPairsByAngle[x * 2]);
-    func_01ff9048(0x1a, m, 9);
+    MTX_RotY33_(m, FX_SinCosTable_[x * 2 + 1], FX_SinCosTable_[x * 2]);
+    NNS_G3dGeBufferOP_N(0x1a, m, 9);
     u.x = 0x2000;
     u.y = 0x2000;
     u.z = 0x2000;
-    func_01ff9048(0x1b, &u, 3);
-    func_020e5348(8, c);
+    NNS_G3dGeBufferOP_N(0x1b, &u, 3);
+    oshd_renderJgShadow(8, c);
 }
 
-void UpdateShine16(void *a, Shine16 *p) {
+void shine_update(void *a, Shine16 *p) {
     Vec3 c;
     Vec3 b;
     Vec3 d;
@@ -236,8 +236,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -267,8 +267,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -287,8 +287,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -301,8 +301,8 @@ void UpdateShine16(void *a, Shine16 *p) {
                 return;
             }
             p->mDrawScale = 0;
-            ParkMapObject(&p->mUnk_00);
-            AddShineCount(-1);
+            mobj_setInvisible(&p->mUnk_00);
+            mgcnt_updateCollectableShineCount(-1);
             if (p->mSpawnObjectIndex < 0) {
                 return;
             }
@@ -313,8 +313,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -322,24 +322,24 @@ void UpdateShine16(void *a, Shine16 *p) {
                     p->mMirror = p->mMirror == 0;
                 }
             }
-            v = GetKart(p->mKartIndex);
+            v = driver_getById(p->mKartIndex);
             p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *GetKartStandingPos(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (func_020a23a0(v) + 0x7800);
+            p->mUnk_00.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
+            p->mUnk_00.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(v) + 0x7800);
             p->mUnk_00.mUnk_10.y -= 0x333;
             if (p->mPickupTimer-- <= 0) {
                 p->mPickupTimer = 0;
                 p->mDrawScale -= 0x19a;
                 if (p->mDrawScale <= 0) {
                     p->mDrawScale = 0;
-                    ParkMapObject(&p->mUnk_00);
-                    AddShineCount(-1);
+                    mobj_setInvisible(&p->mUnk_00);
+                    mgcnt_updateCollectableShineCount(-1);
                     if (p->mSpawnObjectIndex >= 0) {
                         func_020a6cb4(p->mSpawnObjectIndex);
                     }
                 }
                 if (p->mDrawScale <= 0) {
-                    SetupKartFollowEffect(StartEffect(0x7c, &v->mPos), v->mIndex, 0x16);
+                    rptc_2081F10(ptcm_createEmitter(0x7c, &v->mPos), v->mIndex, 0x16);
                 }
             } else {
                 p->mDrawScale += 0x19a;
@@ -350,20 +350,20 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mEffect == NULL) {
                 return;
             }
-            PlaceEffect(p->mEffect, &p->mUnk_00.mPos);
+            ptcm_setEmitterPosition(p->mEffect, &p->mUnk_00.mPos);
             p->mEffectTimer--;
             if (p->mEffectTimer >= 0) {
                 return;
             }
-            func_0208b6b0(&p->mEffect);
+            ptcm_killEmitter(&p->mEffect);
             return;
         case 3:
             p->mUnk_b4 += 4;
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -372,14 +372,14 @@ void UpdateShine16(void *a, Shine16 *p) {
                 }
             }
             for (i = 0; i < 2; i++) {
-                q = MoveToRandomForwardBattlePoint();
-                n = q->mPos.y - GetKartStandingPos(p->mKartIndex)->y;
+                q = mgcnt_getRandomShineMepo();
+                n = q->mPos.y - mgcnt_getDriverPosition(p->mKartIndex)->y;
                 if (n <= 0) {
                     n = -n;
                 }
                 if (n < 0x14000) {
-                    x = (q->mPos.x - GetKartStandingPos(p->mUnk_ca)->x) >> 12;
-                    z = (q->mPos.z - GetKartStandingPos(p->mUnk_ca)->z) >> 12;
+                    x = (q->mPos.x - mgcnt_getDriverPosition(p->mUnk_ca)->x) >> 12;
+                    z = (q->mPos.z - mgcnt_getDriverPosition(p->mUnk_ca)->z) >> 12;
                     n = x * x + z * z;
                     if (p->mUnk_ca == p->mKartIndex) {
                         if (n < 0x9c400 && n > p->mUnk_d8) {
@@ -401,8 +401,8 @@ void UpdateShine16(void *a, Shine16 *p) {
                 }
             }
             p->mHeightAboveKart += p->mUnk_00.mUnk_10.y;
-            p->mUnk_00.mPos = *GetKartStandingPos(p->mKartIndex);
-            p->mUnk_00.mPos.y += p->mHeightAboveKart + (func_020a23a0(GetKart(p->mKartIndex)) + 0x7800);
+            p->mUnk_00.mPos = *mgcnt_getDriverPosition(p->mKartIndex);
+            p->mUnk_00.mPos.y += p->mHeightAboveKart + (mgcnt_20A23A0(driver_getById(p->mKartIndex)) + 0x7800);
             p->mUnk_00.mUnk_10.y -= 0x52;
             p->mDrawScale += 0x19a;
             if (p->mDrawScale >= 0x1000) {
@@ -412,14 +412,14 @@ void UpdateShine16(void *a, Shine16 *p) {
                 return;
             }
             if (p->mUnk_dc > 0) {
-                g = &gRaceProgress->mRandom;
+                g = &gRaceStatus->mRandom;
                 g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
                 r = ((u64) (u32) (g->mValue >> 32) * 0x10000) >> 32;
-                g = &gRaceProgress->mRandom;
+                g = &gRaceStatus->mRandom;
                 g->mValue = g->mMultiplier * g->mValue + g->mIncrement;
                 s = ((u64) (u32) (g->mValue >> 32) * 0x14000) >> 32;
-                x = p->mUnk_cc.x + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2]) >> 12) - p->mUnk_00.mPos.x;
-                z = p->mUnk_cc.z + (s32) (((s64) s * gPairsByAngle[(r >> 4) * 2 + 1]) >> 12) - p->mUnk_00.mPos.z;
+                x = p->mUnk_cc.x + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2]) >> 12) - p->mUnk_00.mPos.x;
+                z = p->mUnk_cc.z + (s32) (((s64) s * FX_SinCosTable_[(r >> 4) * 2 + 1]) >> 12) - p->mUnk_00.mPos.z;
                 p->mState = 4;
                 p->mUnk_00.mUnk_10.x = ((s64) x * 0x25) >> 12;
                 p->mUnk_00.mUnk_10.y = 0x5000;
@@ -440,8 +440,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -466,8 +466,8 @@ void UpdateShine16(void *a, Shine16 *p) {
             if (p->mUnk_b4 >= 3) {
                 p->mUnk_b4 -= 3;
                 p->mNsbtpFrameIndex++;
-                if (p->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
-                    p->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
+                if (p->mNsbtpFrameIndex >= mobj_getModelNsbtpFrameCount(shine_sShineModel)) {
+                    p->mNsbtpFrameIndex -= mobj_getModelNsbtpFrameCount(shine_sShineModel);
                 }
                 p->mNsbtpFramesSinceMirror++;
                 if (p->mNsbtpFramesSinceMirror >= 8) {
@@ -482,7 +482,7 @@ void UpdateShine16(void *a, Shine16 *p) {
             p->mUnk_00.mUnk_10.y -= 0x19a;
             VEC_Add(&p->mUnk_00.mPos, &p->mUnk_00.mUnk_10, &p->mUnk_00.mPos);
             if (p->mUnk_00.mUnk_10.y < 0 && p->mUnk_00.mPos.y <= p->mUnk_cc.y + p->mUnk_00.mExtent.x) {
-                if (func_020d3c94(&p->mUnk_00, 0, &b)) {
+                if (mobj_collideAsItem(&p->mUnk_00, 0, &b)) {
                     t = p->mUnk_00.mUnk_10.y;
                     VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
                     func_020ea94c(&p->mUnk_00.mUnk_10, &b, 0x1000, 0x1000, 0x800, &p->mUnk_00.mUnk_10);
@@ -491,7 +491,7 @@ void UpdateShine16(void *a, Shine16 *p) {
                             (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
                             (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                        vec_normalize(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
                     }
                     p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
                     p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
@@ -501,7 +501,7 @@ void UpdateShine16(void *a, Shine16 *p) {
                 c.x = p->mUnk_00.mPos.x;
                 c.y = p->mUnk_00.mExtent.x + (p->mUnk_00.mPos.y - 0x14000);
                 c.z = p->mUnk_00.mPos.z;
-                if (func_01ffdee4(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e.x, &f, NULL, NULL, NULL, NULL)) {
+                if (col_collide(&c, NULL, 0, p->mUnk_00.mExtent.x, 8, -2, &b, &d, &e.x, &f, NULL, NULL, NULL, NULL)) {
                     VEC_Add(&p->mUnk_00.mPos, &b, &p->mUnk_00.mPos);
                     if (f & 0x214300) {
                         t = p->mUnk_00.mUnk_10.y;
@@ -511,7 +511,7 @@ void UpdateShine16(void *a, Shine16 *p) {
                                 (s64) p->mUnk_00.mUnk_10.y * p->mUnk_00.mUnk_10.y +
                                 (s64) p->mUnk_00.mUnk_10.z * p->mUnk_00.mUnk_10.z >=
                             0x10) {
-                            Vec3NormalizeAndGetLengthUnchecked(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
+                            vec_normalize(&p->mUnk_00.mUnk_10, &p->mUnk_00.mUnk_10);
                         }
                         p->mUnk_00.mUnk_10.x = ((s64) p->mUnk_00.mUnk_10.x * 0x1000) >> 12;
                         p->mUnk_00.mUnk_10.y = ((s64) p->mUnk_00.mUnk_10.y * 0x1000) >> 12;
@@ -544,48 +544,48 @@ void UpdateShine16(void *a, Shine16 *p) {
     }
 }
 
-void CreateShine16KindData(void) {
+void shine_setupCollision(void) {
     MapObjectKindData *p;
 
-    p = CreateMapObjectKindData(CollideKartWithShine16, NULL, NULL, 1, 0);
+    p = mobj_createConfig(shine_onDriverCollide, NULL, NULL, 1, 0);
     p->mUnk_38 = 0x190000;
     p->mUnk_3c = -0x190000;
 }
 
-void *CreateShine16DrawList(void) {
-    return CreateMapObjectDrawList2(CreateShine16, DrawShine16, SetupDrawShine16);
+void *shine_setupShineRenderPart(void) {
+    return mobj_createRenderPart2d(shine_loadShineModel, shine_renderShine, shine_applyShineMaterial);
 }
 
-void *func_020a58d0(void) {
-    return CreateMapObjectDrawList1(func_020a69a0, func_020a683c, func_020a697c);
+void *shine_setupRenderPart2(void) {
+    return mobj_createRenderPart3d(func_020a69a0, func_020a683c, func_020a697c);
 }
 
-void *CreateShine16UpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, UpdateShine16, NULL);
+void *shine_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, shine_update, NULL);
 }
 
 // Parks each map object of kind 0x6a (Shine16) that is not already parked.
-void ParkShine16Objects(void) {
+void shine_clearAll(void) {
     s32 i;
     MapObject *o;
     MapObjectList *l;
 
-    l = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16);
+    l = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE16);
     if (l == NULL) {
         return;
     }
     for (i = 0; i < l->mMapObjectCount && (o = l->mMapObjects[i]) != NULL; i++) {
         if ((o->mFlags & 0x100) == 0) {
-            ParkMapObject(o);
+            mobj_setInvisible(o);
         }
     }
 }
 
 // Unparks a Shine16 at the position; a nonzero last argument drops it from above, zero leaves it resting.
-void StartShine16(Vec3 *a, s32 b, s32 c) {
+void shine_spawn(Vec3 *a, s32 b, s32 c) {
     Shine16 *p;
 
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
+    p = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE16));
     if (p == NULL) {
         return;
     }
@@ -615,17 +615,17 @@ void StartShine16(Vec3 *a, s32 b, s32 c) {
     p->mSpawnObjectIndex = b;
     p->mUnk_00.mFlags &= ~1;
     p->mUnk_00.mFlags &= ~0x20;
-    AddShineCount(1);
+    mgcnt_updateCollectableShineCount(1);
     func_0210b98c(p->mUnk_00.mSound, 0x138);
 }
 
-void StartShine16FromKart(Kart *a, Kart *b) {
+void shine_driverLostSpawn(Kart *a, Kart *b) {
     Shine16 *p;
     s32 r;
     u16 c;
     s32 n;
 
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16));
+    p = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE16));
     if (p == NULL) {
         return;
     }
@@ -652,14 +652,14 @@ void StartShine16FromKart(Kart *a, Kart *b) {
     }
     p->mUnk_dc = 0;
     p->mSpawnObjectIndex = -1;
-    AddShineCount(1);
-    r = a->mIndex == gRaceSetup->mEntryIndex ? 1 : 0;
-    c = GetHighestBalloonOrShineCount();
-    n = GetBalloonOrShineCount(a->mIndex);
-    func_0210b98c(p->mUnk_00.mSound, func_02024974(1, r, c, n));
+    mgcnt_updateCollectableShineCount(1);
+    r = a->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
+    c = mgcnt_getMaxOwnedShineCount();
+    n = mgcnt_getDriverBalloonShineCount(a->mIndex);
+    func_0210b98c(p->mUnk_00.mSound, snd_getShineLoseSfxId(1, r, c, n));
 }
 
-BOOL BalloonKartHitByKartCallback(u16 a, u16 b) {
+BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
     Kart *o;
     KartBalloons *e;
     Balloon *f;
@@ -667,27 +667,27 @@ BOOL BalloonKartHitByKartCallback(u16 a, u16 b) {
     Vec3 v;
     s32 n;
 
-    o = GetKart(a);
-    GetStandingsKartBalloons();
-    if (GetBalloonOrShineCount(b) >= 3 || GetBalloonOrShineCount(a) == 0) {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+    o = driver_getById(a);
+    mgcnt_getBlncntDriverEntries();
+    if (mgcnt_getDriverBalloonShineCount(b) >= 3 || mgcnt_getDriverBalloonShineCount(a) == 0) {
+        e = mgcnt_getBlncntDriverEntries() + a;
+        f = mgcnt_getDriverIsInflating(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] : 0;
+        l = mgcnt_getDriverBalloonShineCount(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a) - 1] : 0;
+        if (mgcnt_getDriverBalloonShineCount(a) != 0 && l != NULL) {
+            if (mgcnt_getDriverIsInflating(a) != 0 && f != NULL) {
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = l;
+                mgcnt_updateDriverBalloonShineCount(a, -1);
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = f;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                mgcnt_updateDriverBalloonShineCount(a, -1);
             }
         }
         if (l != NULL) {
-            if (a == gRaceSetup->mEntryIndex) {
+            if (a == gRaceMultiConfig->mEntryIndex) {
                 func_020a2ebc(l, NULL);
             } else {
                 v.x = o->mPos.x;
-                v.y = o->mPos.y + func_020a23a0(o) - 0xf666;
+                v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
                 v.z = o->mPos.z;
                 l->mUnk_00.mFlags &= ~4;
                 l->mUnk_00.mFlags &= ~2;
@@ -695,41 +695,41 @@ BOOL BalloonKartHitByKartCallback(u16 a, u16 b) {
                 l->mUnk_00.mAlpha = 0x1f;
                 func_020a2ebc(l, &v);
             }
-            func_020d26ec(o, 0x153);
-            if (GetBalloonOrShineCount(a) == 0) {
-                EliminateKartAndCheckWinner(a);
+            mobj_driverEmitSfx2(o, 0x153);
+            if (mgcnt_getDriverBalloonShineCount(a) == 0) {
+                mgcnt_killDriver(a);
             }
             return FALSE;
         }
     } else {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+        e = mgcnt_getBlncntDriverEntries() + a;
+        f = mgcnt_getDriverIsInflating(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] : 0;
+        l = mgcnt_getDriverBalloonShineCount(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a) - 1] : 0;
+        if (mgcnt_getDriverBalloonShineCount(a) != 0 && l != NULL) {
+            if (mgcnt_getDriverIsInflating(a) != 0 && f != NULL) {
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = l;
+                mgcnt_updateDriverBalloonShineCount(a, -1);
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = f;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                mgcnt_updateDriverBalloonShineCount(a, -1);
             }
         }
         if (l != NULL) {
-            e = GetStandingsKartBalloons() + b;
-            n = GetBalloonOrShineCount(b);
-            e->mBalloons[n + 1] = e->mBalloons[GetBalloonOrShineCount(b)];
-            e->mBalloons[GetBalloonOrShineCount(b)] = l;
-            AddBalloonOrShineCountAndMoveRank(b, 1);
+            e = mgcnt_getBlncntDriverEntries() + b;
+            n = mgcnt_getDriverBalloonShineCount(b);
+            e->mBalloons[n + 1] = e->mBalloons[mgcnt_getDriverBalloonShineCount(b)];
+            e->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = l;
+            mgcnt_updateDriverBalloonShineCount(b, 1);
             func_020a2e68(l);
-            SetBalloonKartIndex(l, b);
-            if (GetBalloonOrShineCount(b) >= 2 && IsKartInflatingBalloon(b) != 0) {
+            blln_setDriverId(l, b);
+            if (mgcnt_getDriverBalloonShineCount(b) >= 2 && mgcnt_getDriverIsInflating(b) != 0) {
                 e->mState = 4;
             }
-            SetupKartFollowEffect(StartEffect(0x7a, &o->mPos), o->mIndex, 0x20);
-            SetupKartFollowEffect(StartEffect(0x7b, &o->mPos), o->mIndex, 0x20);
-            func_020d26ec(GetKart(b), 0x14f);
-            if (GetBalloonOrShineCount(a) == 0) {
-                EliminateKartAndCheckWinner(a);
+            rptc_2081F10(ptcm_createEmitter(0x7a, &o->mPos), o->mIndex, 0x20);
+            rptc_2081F10(ptcm_createEmitter(0x7b, &o->mPos), o->mIndex, 0x20);
+            mobj_driverEmitSfx2(driver_getById(b), 0x14f);
+            if (mgcnt_getDriverBalloonShineCount(a) == 0) {
+                mgcnt_killDriver(a);
             }
             return TRUE;
         }
@@ -747,95 +747,95 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
     Unk0210b7a8 s;
     s32 n;
 
-    v1 = GetStandingsKartBalloons();
+    v1 = mgcnt_getBlncntDriverEntries();
     v1 += a;
-    f = IsKartInflatingBalloon(a) != 0 ? v1->mBalloons[GetBalloonOrShineCount(a)] : 0;
-    l = GetBalloonOrShineCount(a) != 0 ? v1->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-    if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-        if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-            v1->mBalloons[GetBalloonOrShineCount(a)] = l;
-            AddBalloonOrShineCountAndMoveRank(a, -1);
-            v1->mBalloons[GetBalloonOrShineCount(a)] = f;
+    f = mgcnt_getDriverIsInflating(a) != 0 ? v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)] : 0;
+    l = mgcnt_getDriverBalloonShineCount(a) != 0 ? v1->mBalloons[mgcnt_getDriverBalloonShineCount(a) - 1] : 0;
+    if (mgcnt_getDriverBalloonShineCount(a) != 0 && l != NULL) {
+        if (mgcnt_getDriverIsInflating(a) != 0 && f != NULL) {
+            v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = l;
+            mgcnt_updateDriverBalloonShineCount(a, -1);
+            v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = f;
         } else {
-            AddBalloonOrShineCountAndMoveRank(a, -1);
+            mgcnt_updateDriverBalloonShineCount(a, -1);
         }
     }
-    v2 = GetStandingsKartBalloons();
+    v2 = mgcnt_getBlncntDriverEntries();
     v2 += b;
-    g = IsKartInflatingBalloon(b) != 0 ? v2->mBalloons[GetBalloonOrShineCount(b)] : 0;
-    m = GetBalloonOrShineCount(b) != 0 ? v2->mBalloons[GetBalloonOrShineCount(b) - 1] : 0;
-    if (GetBalloonOrShineCount(b) != 0 && m != NULL) {
-        if (IsKartInflatingBalloon(b) != 0 && g != NULL) {
-            v2->mBalloons[GetBalloonOrShineCount(b)] = m;
-            AddBalloonOrShineCountAndMoveRank(b, -1);
-            v2->mBalloons[GetBalloonOrShineCount(b)] = g;
+    g = mgcnt_getDriverIsInflating(b) != 0 ? v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)] : 0;
+    m = mgcnt_getDriverBalloonShineCount(b) != 0 ? v2->mBalloons[mgcnt_getDriverBalloonShineCount(b) - 1] : 0;
+    if (mgcnt_getDriverBalloonShineCount(b) != 0 && m != NULL) {
+        if (mgcnt_getDriverIsInflating(b) != 0 && g != NULL) {
+            v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = m;
+            mgcnt_updateDriverBalloonShineCount(b, -1);
+            v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = g;
         } else {
-            AddBalloonOrShineCountAndMoveRank(b, -1);
+            mgcnt_updateDriverBalloonShineCount(b, -1);
         }
     }
     if (l != NULL) {
-        v2 = GetStandingsKartBalloons();
+        v2 = mgcnt_getBlncntDriverEntries();
         v2 += b;
-        n = GetBalloonOrShineCount(b);
-        v2->mBalloons[n + 1] = v2->mBalloons[GetBalloonOrShineCount(b)];
-        v2->mBalloons[GetBalloonOrShineCount(b)] = l;
-        AddBalloonOrShineCountAndMoveRank(b, 1);
+        n = mgcnt_getDriverBalloonShineCount(b);
+        v2->mBalloons[n + 1] = v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)];
+        v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = l;
+        mgcnt_updateDriverBalloonShineCount(b, 1);
         func_020a2e68(l);
-        SetBalloonKartIndex(l, b);
-        if (GetBalloonOrShineCount(b) >= 2 && IsKartInflatingBalloon(b) != 0) {
+        blln_setDriverId(l, b);
+        if (mgcnt_getDriverBalloonShineCount(b) >= 2 && mgcnt_getDriverIsInflating(b) != 0) {
             v2->mState = 4;
         }
     }
     if (m != NULL) {
-        v1 = GetStandingsKartBalloons();
+        v1 = mgcnt_getBlncntDriverEntries();
         v1 += a;
-        n = GetBalloonOrShineCount(a);
-        v1->mBalloons[n + 1] = v1->mBalloons[GetBalloonOrShineCount(a)];
-        v1->mBalloons[GetBalloonOrShineCount(a)] = m;
-        AddBalloonOrShineCountAndMoveRank(a, 1);
+        n = mgcnt_getDriverBalloonShineCount(a);
+        v1->mBalloons[n + 1] = v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)];
+        v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = m;
+        mgcnt_updateDriverBalloonShineCount(a, 1);
         func_020a2e68(m);
-        SetBalloonKartIndex(m, a);
-        if (GetBalloonOrShineCount(a) >= 2 && IsKartInflatingBalloon(a) != 0) {
+        blln_setDriverId(m, a);
+        if (mgcnt_getDriverBalloonShineCount(a) >= 2 && mgcnt_getDriverIsInflating(a) != 0) {
             v1->mState = 4;
         }
     }
-    if (a == gRaceSetup->mEntryIndex || b == gRaceSetup->mEntryIndex) {
+    if (a == gRaceMultiConfig->mEntryIndex || b == gRaceMultiConfig->mEntryIndex) {
         s.mSoundId = 0x14f;
         s.mPositionSource = NULL;
         s.mUnk_08 = 2;
-        s.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
+        s.mDistanceSquared = mobj_calcXZCamDist(NULL);
         func_0210b7a8(&s);
     }
     return 1;
 }
 
-BOOL BalloonKartHitCallback(u16 a, u16 b) {
+BOOL blncnt_loseBalloonOnDamage(u16 a, u16 b) {
     Kart *o;
     KartBalloons *e;
     Balloon *f;
     Balloon *l;
     Vec3 v;
 
-    e = GetStandingsKartBalloons() + a;
-    f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-    l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-    if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-        if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-            e->mBalloons[GetBalloonOrShineCount(a)] = l;
-            AddBalloonOrShineCountAndMoveRank(a, -1);
-            e->mBalloons[GetBalloonOrShineCount(a)] = f;
+    e = mgcnt_getBlncntDriverEntries() + a;
+    f = mgcnt_getDriverIsInflating(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] : 0;
+    l = mgcnt_getDriverBalloonShineCount(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a) - 1] : 0;
+    if (mgcnt_getDriverBalloonShineCount(a) != 0 && l != NULL) {
+        if (mgcnt_getDriverIsInflating(a) != 0 && f != NULL) {
+            e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = l;
+            mgcnt_updateDriverBalloonShineCount(a, -1);
+            e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = f;
         } else {
-            AddBalloonOrShineCountAndMoveRank(a, -1);
+            mgcnt_updateDriverBalloonShineCount(a, -1);
         }
     }
     if (l != NULL) {
-        o = GetKart(a);
-        GetStandingsKartBalloons();
-        if (a == gRaceSetup->mEntryIndex) {
+        o = driver_getById(a);
+        mgcnt_getBlncntDriverEntries();
+        if (a == gRaceMultiConfig->mEntryIndex) {
             func_020a2ebc(l, NULL);
         } else {
             v.x = o->mPos.x;
-            v.y = o->mPos.y + func_020a23a0(o) - 0xf666;
+            v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
             v.z = o->mPos.z;
             l->mUnk_00.mFlags &= ~4;
             l->mUnk_00.mFlags &= ~2;
@@ -843,64 +843,64 @@ BOOL BalloonKartHitCallback(u16 a, u16 b) {
             l->mUnk_00.mAlpha = 0x1f;
             func_020a2ebc(l, &v);
         }
-        func_020d26ec(o, 0x153);
-        if (GetBalloonOrShineCount(a) == 0) {
-            EliminateKartAndCheckWinner(a);
+        mobj_driverEmitSfx2(o, 0x153);
+        if (mgcnt_getDriverBalloonShineCount(a) == 0) {
+            mgcnt_killDriver(a);
         }
         return TRUE;
     }
     return FALSE;
 }
 
-void BalloonKartEliminatedCallback(u16 a) {
+void blncnt_onDriverKill(u16 a) {
     KartBalloons *e;
     Balloon *f;
     Balloon *l;
 
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
-    BalloonKartHitCallback(a, a);
-    if (GetBalloonOrShineCount(a) == 0) {
+    blncnt_loseBalloonOnDamage(a, a);
+    if (mgcnt_getDriverBalloonShineCount(a) == 0) {
         return;
     }
     do {
-        e = GetStandingsKartBalloons() + a;
-        f = IsKartInflatingBalloon(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a)] : 0;
-        l = GetBalloonOrShineCount(a) != 0 ? e->mBalloons[GetBalloonOrShineCount(a) - 1] : 0;
-        if (GetBalloonOrShineCount(a) != 0 && l != NULL) {
-            if (IsKartInflatingBalloon(a) != 0 && f != NULL) {
-                e->mBalloons[GetBalloonOrShineCount(a)] = l;
-                AddBalloonOrShineCountAndMoveRank(a, -1);
-                e->mBalloons[GetBalloonOrShineCount(a)] = f;
+        e = mgcnt_getBlncntDriverEntries() + a;
+        f = mgcnt_getDriverIsInflating(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] : 0;
+        l = mgcnt_getDriverBalloonShineCount(a) != 0 ? e->mBalloons[mgcnt_getDriverBalloonShineCount(a) - 1] : 0;
+        if (mgcnt_getDriverBalloonShineCount(a) != 0 && l != NULL) {
+            if (mgcnt_getDriverIsInflating(a) != 0 && f != NULL) {
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = l;
+                mgcnt_updateDriverBalloonShineCount(a, -1);
+                e->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = f;
             } else {
-                AddBalloonOrShineCountAndMoveRank(a, -1);
+                mgcnt_updateDriverBalloonShineCount(a, -1);
             }
         }
         if (l != NULL) {
             ParkBalloon(l, a);
         }
-    } while (GetBalloonOrShineCount(a) != 0);
+    } while (mgcnt_getDriverBalloonShineCount(a) != 0);
 }
 
-void BalloonEndCallback(void) {
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+void blncnt_onMgEnd(void) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
     func_020a305c();
 }
 
-void BalloonKartOffsetCallback(u16 a, Vec3 *b) {
+void blncnt_applyForceToDriverBalloons(u16 a, Vec3 *b) {
     KartBalloons *e;
     Balloon *p;
     s32 i;
     s32 n;
 
-    e = GetStandingsKartBalloons() + a;
+    e = mgcnt_getBlncntDriverEntries() + a;
     if (b == NULL) {
         return;
     }
-    n = (IsKartInflatingBalloon(a) != 0 ? 1 : 0) + GetBalloonOrShineCount(a);
+    n = (mgcnt_getDriverIsInflating(a) != 0 ? 1 : 0) + mgcnt_getDriverBalloonShineCount(a);
     i = 0;
     if (n <= 0) {
         return;
@@ -917,7 +917,7 @@ void BalloonKartOffsetCallback(u16 a, Vec3 *b) {
 // Init of the kind 0x69 object: creates and parks the kind 0x6c balloon objects (0x20 in mode 2, else 4), fills the
 // frame indices, offsets and start timer, sets Standings.mKartBalloons and registers the callbacks in Standings (four
 // hit callbacks, the kart-eliminated and the end callback). If kind 0x6c already exists it parks itself instead.
-void InitKartBalloons(Unk020a3fa8 *a) {
+void blncnt_init(Unk020a3fa8 *a) {
     RaceSetup *d;
     s32 n;
     s32 i;
@@ -926,20 +926,20 @@ void InitKartBalloons(Unk020a3fa8 *a) {
     s32 w;
     s32 v;
 
-    if (CountMapObjectsOfKind(MAP_OBJECT_KIND_BALLOON) == 0) {
-        d = gRaceSetup;
+    if (mobj_getInstanceCountWithId(MAP_OBJECT_KIND_BALLOON) == 0) {
+        d = gRaceMultiConfig;
         n = d->mKartCount;
         if (d->mMode == MODE_BATTLE) {
-            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 0x20, a);
+            mobj_createSubObjects(MAP_OBJECT_KIND_BALLOON, 0x20, a);
         } else {
-            CreateParkedMapObjects(MAP_OBJECT_KIND_BALLOON, 4, a);
+            mobj_createSubObjects(MAP_OBJECT_KIND_BALLOON, 4, a);
         }
         for (i = 0; i < n; i++) {
             p = &a->mKartBalloons[i];
             if (a->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
                 p->mBalloonNsbtpFrameIndex = a->mUnk_000.mCourseMapRow->mUnk_2c;
             } else {
-                switch (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
+                switch (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex) {
                     case 0:
                         p->mBalloonNsbtpFrameIndex = 1;
                         break;
@@ -957,27 +957,27 @@ void InitKartBalloons(Unk020a3fa8 *a) {
                 a->mBalloonOffsets[i][j] = v;
             }
         }
-        if (GetRaceUseChainCameras() != 0) {
+        if (race_isCamAnimMode() != 0) {
             a->mStartTimer = 0xffff;
         } else {
             a->mStartTimer = 0x3c;
         }
-        SetStandingsKartBalloons(a->mKartBalloons);
-        SetStandingsKartHitByKartCallback((s32(*)(s32, s32)) BalloonKartHitByKartCallback);
-        SetStandingsKartsHitEachOtherCallback((void (*)(s32, s32)) BalloonKartsHitEachOtherCallback);
-        SetStandingsKartHitCallback(BalloonKartHitCallback);
-        SetStandingsKartEliminatedCallback(BalloonKartEliminatedCallback);
-        SetStandingsEndCallback(BalloonEndCallback);
-        SetStandingsKartOffsetCallback((void (*)(s32, s32)) BalloonKartOffsetCallback);
+        mgcnt_setBlncntDriverEntries(a->mKartBalloons);
+        mgcnt_setTryStealBalloonFunc((s32(*)(s32, s32)) blncnt_tryStealBalloon);
+        mgcnt_setField384((void (*)(s32, s32)) BalloonKartsHitEachOtherCallback);
+        mgcnt_setOnDamageFunc(blncnt_loseBalloonOnDamage);
+        mgcnt_setOnKillFunc(blncnt_onDriverKill);
+        mgcnt_setOnEndFunc(blncnt_onMgEnd);
+        mgcnt_setApplyForceToDriverBalloonsFunc((void (*)(s32, s32)) blncnt_applyForceToDriverBalloons);
     } else {
-        ParkMapObject(&a->mUnk_000);
+        mobj_setInvisible(&a->mUnk_000);
     }
 }
 
 // Per-frame step of the kind 0x69 object: after mStartTimer runs out it steps every kart's KartBalloons (makes,
 // inflates, holds and deflates its balloons), updates the kart's count and hands each balloon its kart index, target
 // position and velocity.
-void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
+void blncnt_update(void *b, Unk020a3fa8 *c) {
     Balloon *balloon;
     s32 i;
     s32 j;
@@ -991,7 +991,7 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
     Vec3 t2;
     Vec3 *q;
 
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = gRaceMultiConfig->mKartCount;
     if (c->mStartTimer > 0) {
         c->mStartTimer--;
         if (c->mStartTimer > 0) {
@@ -999,14 +999,14 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
         }
         for (i = 0; i < kartCount; i++) {
             KartBalloons *kartBalloons = &c->mKartBalloons[i];
-            GetKart((u16) i);
+            driver_getById((u16) i);
             kartBalloons->mState = 1;
             if (c->mUnk_000.mCourseMapRow->mUnk_28 != 0 || c->mUnk_000.mCourseMapRow->mUnk_2a != 0) {
                 kartBalloons->mRemainingSpawnCount = c->mUnk_000.mCourseMapRow->mUnk_28;
-                AddBalloonsLeftToMake(i, c->mUnk_000.mCourseMapRow->mUnk_28 + c->mUnk_000.mCourseMapRow->mUnk_2a);
+                mgcnt_updateDriverBalloonShineInventoryCount(i, c->mUnk_000.mCourseMapRow->mUnk_28 + c->mUnk_000.mCourseMapRow->mUnk_2a);
             } else {
                 kartBalloons->mRemainingSpawnCount = 1;
-                AddBalloonsLeftToMake(i, 5);
+                mgcnt_updateDriverBalloonShineInventoryCount(i, 5);
             }
         }
         return;
@@ -1014,10 +1014,10 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
     for (i = 0; i < kartCount; i++) {
         Kart *kart;
         KartBalloons *kartBalloons = &c->mKartBalloons[i];
-        GetChaseCamera();
-        kart = GetKart((u16) i);
+        cam_getPlayerCamera();
+        kart = driver_getById((u16) i);
         balloonPos.x = kart->mPos.x;
-        balloonPos.y = kart->mPos.y + func_020a23a0(kart) - 0xf666;
+        balloonPos.y = kart->mPos.y + mgcnt_20A23A0(kart) - 0xf666;
         balloonPos.z = kart->mPos.z;
         switch (kartBalloons->mState) {
             case 0:
@@ -1025,38 +1025,38 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     kartBalloons->mSpawnTimer--;
                     break;
                 }
-                if (GetBalloonsLeftToMake(i) == 0) {
+                if (mgcnt_getDriverBalloonShineInventoryCount(i) == 0) {
                     break;
                 }
-                if (GetBalloonOrShineCount(i) >= 3) {
+                if (mgcnt_getDriverBalloonShineCount(i) >= 3) {
                     break;
                 }
-                if (func_020a2264(i) <= 0 && func_020a223c(i) <= 0) {
+                if (mgcnt_getDriverMicInflatingCounter(i) <= 0 && mgcnt_getDriverKeyInflating(i) <= 0) {
                     break;
                 }
-                balloon = StartBalloon(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
+                balloon = blln_spawn(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
                 if (balloon == NULL) {
                     break;
                 }
-                kartBalloons->mBalloons[GetBalloonOrShineCount(i)] = balloon;
-                func_020a2f9c(balloon, i, 0xcd);
+                kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)] = balloon;
+                blln_inflate(balloon, i, 0xcd);
                 kartBalloons->mState = 2;
-                SetKartInflatingBalloon(i, 1);
-                AddBalloonsLeftToMake(i, -1);
+                mgcnt_setDriverIsInflating(i, 1);
+                mgcnt_updateDriverBalloonShineInventoryCount(i, -1);
                 break;
             case 1:
-                if (IsKartInflatingBalloon(i) != 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x266);
+                if (mgcnt_getDriverIsInflating(i) != 0) {
+                    blln_inflate(kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)], i, 0x266);
                     break;
                 }
-                if (GetBalloonsLeftToMake(i) != 0 && GetBalloonOrShineCount(i) < 3) {
+                if (mgcnt_getDriverBalloonShineInventoryCount(i) != 0 && mgcnt_getDriverBalloonShineCount(i) < 3) {
                     if (kartBalloons->mRemainingSpawnCount > 0) {
-                        balloon = StartBalloon(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
+                        balloon = blln_spawn(kartBalloons->mBalloonNsbtpFrameIndex, &balloonPos);
                         if (balloon != NULL) {
-                            kartBalloons->mBalloons[GetBalloonOrShineCount(i)] = balloon;
-                            func_020a2f9c(balloon, i, 0x266);
-                            SetKartInflatingBalloon(i, 1);
-                            AddBalloonsLeftToMake(i, -1);
+                            kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)] = balloon;
+                            blln_inflate(balloon, i, 0x266);
+                            mgcnt_setDriverIsInflating(i, 1);
+                            mgcnt_updateDriverBalloonShineInventoryCount(i, -1);
                             kartBalloons->mRemainingSpawnCount--;
                         }
                     }
@@ -1065,61 +1065,61 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                 }
                 break;
             case 2:
-                if (func_020a2264(i) < 0) {
+                if (mgcnt_getDriverMicInflatingCounter(i) < 0) {
                     kartBalloons->mState = 4;
                     break;
                 }
-                balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
-                func_020a2f9c(balloon, i, 0xcd);
-                if (GetBalloonScaleFactor(balloon) >= 0x800) {
+                balloon = kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)];
+                blln_inflate(balloon, i, 0xcd);
+                if (blln_getInflationProgress(balloon) >= 0x800) {
                     kartBalloons->mState = 3;
                 }
                 break;
             case 3:
-                if (func_020a2264(i) < 0) {
+                if (mgcnt_getDriverMicInflatingCounter(i) < 0) {
                     kartBalloons->mState = 4;
                     break;
                 }
-                if (func_020a223c(i) > 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x10);
-                } else if (func_020a2264(i) > 0) {
-                    func_020a2f9c(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x29);
+                if (mgcnt_getDriverKeyInflating(i) > 0) {
+                    blln_inflate(kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)], i, 0x10);
+                } else if (mgcnt_getDriverMicInflatingCounter(i) > 0) {
+                    blln_inflate(kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)], i, 0x29);
                 } else {
-                    balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
-                    func_020a2f30(balloon, i, 0xe);
-                    if (GetBalloonScaleFactor(balloon) <= 0x400) {
+                    balloon = kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)];
+                    blln_deflate(balloon, i, 0xe);
+                    if (blln_getInflationProgress(balloon) <= 0x400) {
                         kartBalloons->mState = 4;
                     }
                 }
                 break;
             case 4:
-                func_020a2f30(kartBalloons->mBalloons[GetBalloonOrShineCount(i)], i, 0x19a);
+                blln_deflate(kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)], i, 0x19a);
                 break;
         }
-        if (IsKartInflatingBalloon(i) != 0) {
-            balloon = kartBalloons->mBalloons[GetBalloonOrShineCount(i)];
-            if (GetBalloonScaleFactor(balloon) <= 0) {
-                kartBalloons->mBalloons[GetBalloonOrShineCount(i)] = NULL;
-                SetKartInflatingBalloon(i, 0);
-                AddBalloonsLeftToMake(i, 1);
+        if (mgcnt_getDriverIsInflating(i) != 0) {
+            balloon = kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)];
+            if (blln_getInflationProgress(balloon) <= 0) {
+                kartBalloons->mBalloons[mgcnt_getDriverBalloonShineCount(i)] = NULL;
+                mgcnt_setDriverIsInflating(i, 0);
+                mgcnt_updateDriverBalloonShineInventoryCount(i, 1);
                 kartBalloons->mSpawnTimer = 0;
                 kartBalloons->mState = 0;
-            } else if (GetBalloonScaleFactor(balloon) >= 0x1000) {
-                SetKartInflatingBalloon(i, 0);
-                AddBalloonOrShineCountAndMoveRank(i, 1);
+            } else if (blln_getInflationProgress(balloon) >= 0x1000) {
+                mgcnt_setDriverIsInflating(i, 0);
+                mgcnt_updateDriverBalloonShineCount(i, 1);
                 if (kartBalloons->mRemainingSpawnCount <= 0) {
                     kartBalloons->mSpawnTimer = 30;
                     kartBalloons->mState = 0;
                 }
-                func_020d26ec(GetKart((u16) i), 0x152);
+                mobj_driverEmitSfx2(driver_getById((u16) i), 0x152);
             }
         } else if (kartBalloons->mRemainingSpawnCount <= 0) {
             kartBalloons->mState = 0;
         }
-        if (i == gRaceSetup->mEntryIndex) {
-            if (func_020a2264(i) > 0 || func_020a223c(i) > 0) {
-                s = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
-                d = GetBalloonOrShineCount(i) >= 3 ? 200 : 100;
+        if (i == gRaceMultiConfig->mEntryIndex) {
+            if (mgcnt_getDriverMicInflatingCounter(i) > 0 || mgcnt_getDriverKeyInflating(i) > 0) {
+                s = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 600 : 300;
+                d = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 200 : 100;
                 kartBalloons->mUnk_08 += kartBalloons->mUnk_0c;
                 if (kartBalloons->mUnk_08 >= 0) {
                     if (kartBalloons->mUnk_0c < 0) {
@@ -1135,14 +1135,14 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     }
                 }
             } else {
-                s = GetBalloonOrShineCount(i) >= 3 ? 600 : 300;
+                s = mgcnt_getDriverBalloonShineCount(i) >= 3 ? 600 : 300;
                 if (kartBalloons->mUnk_08 >= 0) {
                     kartBalloons->mUnk_08 = kartBalloons->mUnk_08 < s ? 0 : kartBalloons->mUnk_08 - s;
                 } else {
                     kartBalloons->mUnk_08 = kartBalloons->mUnk_08 > -s ? 0 : kartBalloons->mUnk_08 + s;
                 }
             }
-            balloonCount = GetBalloonOrShineCount(i) + (IsKartInflatingBalloon(i) != 0 ? 1 : 0);
+            balloonCount = mgcnt_getDriverBalloonShineCount(i) + (mgcnt_getDriverIsInflating(i) != 0 ? 1 : 0);
             for (j = 0; j < balloonCount; j++) {
                 Balloon *balloon = kartBalloons->mBalloons[j];
                 a = kartBalloons->mUnk_08 + c->mBalloonOffsets[balloonCount - 1][j];
@@ -1151,37 +1151,37 @@ void UpdateKartBalloons(void *b, Unk020a3fa8 *c) {
                     t.x = ((s64) q->x * a) >> 12;
                     t.y = ((s64) q->y * a) >> 12;
                     t.z = ((s64) q->z * a) >> 12;
-                    func_020a2e74(balloon, &t);
+                    blln_addVelocity(balloon, &t);
                 }
                 if ((j & 1) == 1) {
                     q = &kart->mUnk_168;
                     t2.x = ((s64) q->x * -0xcd) >> 12;
                     t2.y = ((s64) q->y * -0xcd) >> 12;
                     t2.z = ((s64) q->z * -0xcd) >> 12;
-                    func_020a2e74(balloon, &t2);
+                    blln_addVelocity(balloon, &t2);
                 }
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
-                SetBalloonKartIndex(balloon, i);
-                SetBalloonDrawCountAndList(balloon, 1, NULL);
+                blln_setDriverId(balloon, i);
+                blln_setSubBalloons(balloon, 1, NULL);
                 balloon->mUnk_00.mFlags &= ~4;
                 balloon->mUnk_00.mFlags &= ~2;
                 balloon->mUnk_00.mFlags &= ~8;
                 balloon->mUnk_00.mAlpha = 0x1f;
             }
         } else {
-            balloonCount = GetBalloonOrShineCount(i) + (IsKartInflatingBalloon(i) != 0 ? 1 : 0);
+            balloonCount = mgcnt_getDriverBalloonShineCount(i) + (mgcnt_getDriverIsInflating(i) != 0 ? 1 : 0);
             for (j = 0; j < balloonCount; j++) {
                 balloon = kartBalloons->mBalloons[j];
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
-                SetBalloonKartIndex(balloon, i);
+                blln_setDriverId(balloon, i);
                 if (j == 0) {
-                    SetBalloonDrawCountAndList(balloon, balloonCount, kartBalloons->mBalloons);
+                    blln_setSubBalloons(balloon, balloonCount, kartBalloons->mBalloons);
                     balloon->mUnk_00.mFlags &= ~4;
                     balloon->mUnk_00.mFlags &= ~2;
                     balloon->mUnk_00.mFlags &= ~8;
                     balloon->mUnk_00.mAlpha = 0x1f;
                 } else {
-                    SetBalloonDrawCountAndList(balloon, 0, NULL);
+                    blln_setSubBalloons(balloon, 0, NULL);
                     balloon->mUnk_00.mFlags |= data_02156794;
                     balloon->mUnk_00.mFlags |= data_02156798;
                     balloon->mUnk_00.mFlags |= data_0215679c;
@@ -1195,17 +1195,17 @@ u32 CreateKartBalloonsKindData(void) {
     RaceSetup *d;
     s32 k;
 
-    d = gRaceSetup;
+    d = gRaceMultiConfig;
     k = d->mMode;
     if (k == MODE_BATTLE && d->mBattleKind == BATTLE_KIND_BALLOON) {
-        return CreateEmptyMapObjectKindData();
+        return mobj_createDummyConfig();
     }
     if (k != MODE_MISSION_RUN) {
         return 0;
     }
-    return CreateEmptyMapObjectKindData();
+    return mobj_createDummyConfig();
 }
 
-void *CreateKartBalloonsUpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, UpdateKartBalloons, NULL);
+void *blncnt_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, blncnt_update, NULL);
 }

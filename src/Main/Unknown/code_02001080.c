@@ -14,55 +14,55 @@
                                  ".bss" abs32 RWX
 #pragma section MAIN_TEXT begin
 
-UnkFunc *gLogoStateTable[24] = {
-    EnterLogoState0,
-    UpdateLogoState0,
-    func_020019ac,
-    UpdateLogoState1,
-    EnterLogoState2,
-    UpdateLogoState2,
-    EnterLogoState3,
-    UpdateLogoState3,
-    EnterLogoState4,
-    UpdateLogoState4,
-    EnterLogoState5,
-    UpdateLogoState5,
-    EnterLogoState6,
-    UpdateLogoState6,
-    EnterLogoState7,
-    func_02001294,
-    func_02001290,
-    UpdateLogoState8,
-    EnterLogoState9,
-    UpdateLogoState9,
-    EnterLogoState10,
-    UpdateLogoState10,
+UnkFunc *logo_sStates[24] = {
+    logo_fadeInStateInit,
+    logo_fadeInStateUpdate,
+    logo_waitSaveBusyStateInit,
+    logo_waitSaveBusyStateUpdate,
+    logo_corruptedMsgStateInit,
+    logo_corruptedMsgStateUpdate,
+    logo_corruptedErasingMsgStateInit,
+    logo_corruptedErasingMsgStateUpdate,
+    logo_corruptedDeletedMsgStateInit,
+    logo_corruptedDeletedMsgStateUpdate,
+    logo_eraseAllConfirmStateInit,
+    logo_eraseAllConfirmStateUpdate,
+    logo_eraseAllErasingMsgStateInit,
+    logo_eraseAllErasingMsgStateUpdate,
+    logo_eraseAllDoneMsgStateInit,
+    logo_eraseAllDoneMsgStateUpdate,
+    logo_dwcInitResultCheckStateInit,
+    logo_dwcInitResultCheckStateUpdate,
+    logo_wifiIdErasedMsgStateInit,
+    logo_wifiIdErasedMsgStateUpdate,
+    logo_checkApSettingsMsgStateInit,
+    logo_checkApSettingsMsgStateUpdate,
     NULL,
     NULL,
 };
 
 #pragma section MAIN_TEXT end
 
-void UpdateLogoState8(void) {
+void logo_dwcInitResultCheckStateUpdate(void) {
     StateMachine *stateMachine;
-    if (data_02174e74 == 3) {
-        stateMachine = &gLogoScene->mStateMachine;
+    if (gDWCInitResult == 3) {
+        stateMachine = &logo_sLogoState->mStateMachine;
         stateMachine->mNextState = 9;
         stateMachine->mNextStateRequested = 1;
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &logo_sLogoState->mStateMachine;
     stateMachine->mNextState = 11;
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState9(void) {
+void logo_wifiIdErasedMsgStateInit(void) {
     void *message;
-    message = GetBmgEntry(gLogoScene->mCommonMessages, 137);
-    SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 6));
+    message = jn_msg_getMessage(logo_sLogoState->mCommonMessages, 137);
+    SetupTxtSystemSubTextButton(message, jn_msg_getMessage(logo_sLogoState->mCommonMessages, 6));
 }
 
-void UpdateLogoState9(void) {
+void logo_wifiIdErasedMsgStateUpdate(void) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -71,18 +71,18 @@ void UpdateLogoState9(void) {
     if (IsTxtSystemState0NoOpenRequest() == 0) {
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &logo_sLogoState->mStateMachine;
     stateMachine->mNextState = 10;
     stateMachine->mNextStateRequested = 1;
 }
 
-void EnterLogoState10(void) {
+void logo_checkApSettingsMsgStateInit(void) {
     void *message;
-    message = GetBmgEntry(gLogoScene->mCommonMessages, 138);
-    SetupTxtSystemSubTextButton(message, GetBmgEntry(gLogoScene->mCommonMessages, 4));
+    message = jn_msg_getMessage(logo_sLogoState->mCommonMessages, 138);
+    SetupTxtSystemSubTextButton(message, jn_msg_getMessage(logo_sLogoState->mCommonMessages, 4));
 }
 
-void UpdateLogoState10(void) {
+void logo_checkApSettingsMsgStateUpdate(void) {
     StateMachine *stateMachine;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -91,7 +91,7 @@ void UpdateLogoState10(void) {
     if (IsTxtSystemState0NoOpenRequest() == 0) {
         return;
     }
-    stateMachine = &gLogoScene->mStateMachine;
+    stateMachine = &logo_sLogoState->mStateMachine;
     stateMachine->mNextState = 11;
     stateMachine->mNextStateRequested = 1;
 }

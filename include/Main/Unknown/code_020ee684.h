@@ -5,10 +5,10 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_0206bcb0.h"
 
-// Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (func_020f0154 and AdvanceItemInUseOne set it from the input
+// Copy of ITEM_THROW_FORWARD_BIT in KartItems.mFlags (func_020f0154 and it_deploy_20EF4A0 set it from the input
 // word).
 #define KART_ITEMS_THROW_FORWARD 0x10
-// One item record per kart (the array behind gKartItems, 0x210 bytes each): the item roulette in the first 0x30 bytes,
+// One item record per kart (the array behind it_sDriverItemStatus, 0x210 bytes each): the item roulette in the first 0x30 bytes,
 // the held item at 0x30, the item in use at 0x58, the course reference at 0x1f0, the kart index and the Kart at 0x1f8 /
 // 0x1fc and four words of use state at 0x200..0x20c. A bag named after whose item state it is: no single role. Race
 // code only.
@@ -62,19 +62,19 @@ typedef struct Unk0217562a {
 
 extern Unk0217562a data_0217562a[];
 
-// Element at 0x7c of the object behind gRaceSetup.
+// Element at 0x7c of the object behind gRaceMultiConfig.
 typedef struct Unk021759c0_7c {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u8 mUnk_04[0x2c];
 } Unk021759c0_7c;
 
-// The object behind gRaceSetup from its first byte: the elements at 0x7c.
+// The object behind gRaceMultiConfig from its first byte: the elements at 0x7c.
 typedef struct Unk021759c0_000 {
     /* 000 */ u8 mUnk_000[0x7c];
     /* 07c */ Unk021759c0_7c mUnk_07c[17];
 } Unk021759c0_000;
 
-// The object behind gCourseMap from its first byte: the halfword at 0x60
+// The object behind gMapData from its first byte: the halfword at 0x60
 // and the word at 0xb0.
 typedef struct Unk02175620_060 {
     /* 000 */ u8 mUnk_000[0x60];
@@ -84,7 +84,7 @@ typedef struct Unk02175620_060 {
 } Unk02175620_060;
 
 void InitItemInUse(ItemInUse *itemInUse, KartItems *kartItems);
-void ResetItemInUse(ItemInUse *itemInUse);
+void it_resetDragItem(ItemInUse *itemInUse);
 void RemoveItemInUseCircle(ItemInUse *itemInUse, s32 i, ItemObject *object);
 void AdvanceItemInUseCircle(ItemInUse *itemInUse);
 void StartItemInUseCircle(ItemInUse *itemInUse);
@@ -93,8 +93,8 @@ void RemoveItemInUseTrail(ItemInUse *itemInUse, s32 i, ItemObject *object);
 void AdvanceItemInUseTrail(ItemInUse *itemInUse);
 void StartItemInUseTrail(ItemInUse *itemInUse);
 void RemoveItemInUseOne(ItemInUse *itemInUse, ItemObject *index, ItemObject *object);
-void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse);
-void AdvanceItemInUseOne(ItemInUse *itemInUse);
+void it_20EF350(ItemInUse *itemInUse);
+void it_deploy_20EF4A0(ItemInUse *itemInUse);
 void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 *behindPos);
 void StartItemInUseOneWithOrientation(ItemInUse *itemInUse);
 void StartItemInUseOne(ItemInUse *itemInUse);
@@ -106,12 +106,12 @@ void func_020efc74(KartItems *kartItems, s32 a);
 void func_020efd1c(KartItems *kartItems, ItemObject *object);
 BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex);
 void func_020efea4(KartItems *kartItems);
-void func_020eff40(KartItems *kartItems);
+void it_dropDriverItem(KartItems *kartItems);
 void ReleaseKartItems(KartItems *kartItems);
 void func_020f00f0(KartItems *kartItems);
 BOOL func_020f0154(KartItems *kartItems);
 // Builds the pool of one kind: allocates the pointer array and every object, and runs InitItemObject for each.
-void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter);
+void it_initItemset(ItemPool *pool, s32 kind, s32 *objectIdCounter);
 // Releases the object at index 0 of mObjects (not necessarily the oldest: the array is reordered); FALSE when none is
 // active.
 BOOL TryReleaseFirstItemObject(ItemPool *tab);
@@ -125,11 +125,11 @@ s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId);
 void func_020f0b00(ItemPool *tab, s32 a, void *data, s32 c);
 void func_020f0d04(ItemObject *object);
 // Draws every taken object, including those only held by a kart, with the kind's draw callback or the default.
-void DrawItemPool(ItemPool *tab, void *viewAxis);
+void it_renderItemset(ItemPool *tab, void *viewAxis);
 void func_020f0e2c(ItemPool *tab, ItemObject *object);
 // Starts an object taken now or earlier and held by a kart: swaps it into the active part of mObjects and counts it.
-void StartItemObject(ItemPool *tab, ItemObject *object);
+void it_itemsetAddItem(ItemPool *tab, ItemObject *object);
 // Hands an object back to its pool behind the active and taken parts and counts it out; what the object holds is
-// freed by ReleaseItemObject.
-void ReleaseItemPoolObject(ItemPool *tab, ItemObject *object);
-void TakeItemPoolObjects(ItemPool *tab, s32 count, ItemObject **out, u16 kind, Vec3 *pos);
+// freed by it_destroy.
+void it_itemsetDestroyItem(ItemPool *tab, ItemObject *object);
+void it_itemsetAcquireItems(ItemPool *tab, s32 count, ItemObject **out, u16 kind, Vec3 *pos);

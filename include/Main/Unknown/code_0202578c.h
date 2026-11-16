@@ -12,20 +12,20 @@ typedef struct Unk02153918 {
 } Unk02153918;
 
 u32 func_0202578c(u32 a);
-void func_02025854(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_initUnpackBgGraphics(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void LoadScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_loadUnpackBgGraphics(void *fileSetPointer, const char *charsName, const char *paletteName,
                           const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void func_020258d4(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_initBgGraphics(u32 a, void *fileSetPointer, const char *charsName, const char *paletteName,
                    const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void LocateScreenMapFileSet(void *fileSetPointer, const char *charsName, const char *paletteName,
+void mutil2_loadBgGraphics(void *fileSetPointer, const char *charsName, const char *paletteName,
                             const char *screenMapName, s32 index, void *(*findFile)(const char *) );
-void func_02025954(u32 a, void *fileSetPointer, u32 index);
-s32 func_02025a00(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e);
-void func_02025a50(u32 a, void *heap, void *fileSetPointer);
-void LoadCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void mutil2_bgVramTransferTask(u32 a, void *fileSetPointer, u32 index);
+s32 mutil2_initLabel(u32 a, void *heap, void *fileSetPointer, void *entryPointer, s32 e);
+void mutil2_initLayout(u32 a, void *heap, void *fileSetPointer);
+void mutil2_loadUnpackLayout(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                      const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                      void *(*findFile)(const char *) );
-void LocateCellFileSet(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
+void mutil2_loadLayout(void *fileSetPointer, const char *charsName, const char *cellsName, const char *paletteName,
                        const char *cellLayoutName, const char *labelLayoutName, const char *rectsName,
                        void *(*findFile)(const char *) );

@@ -5,14 +5,14 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateBattleSelectCharacter(void) {
-    switch (AdvanceSelectCharacter()) {
+void menu_state15Render(void) {
+    switch (menucs_render()) {
         case 1:
         case 3:
-            SwitchMenuScreen(0x10, 0x1f);
+            menu_gotoState(0x10, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0xe, 0x1f);
+            menu_gotoState(0xe, 0x1f);
             break;
     }
 }

@@ -18,7 +18,7 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateSinglePlaySelectInput(s32 a) {
+void menu_modeSelectStateRender(s32 a) {
     u32 v;
     u32 pairX;
     s32 touchedIndex;
@@ -26,40 +26,40 @@ void UpdateSinglePlaySelectInput(s32 a) {
     MenuScene *menu;
 
     if (a != 0) {
-        v = func_020cb224();
+        v = menu_input_getDefaultInputId();
         if (func_020cb1f4(v, PAD_KEY_A)) {
-            SwitchMenuScreen(3, 0x1f);
+            menu_gotoState(3, 0x1f);
             func_020cb1cc(5);
-            data_0217b43c->mUnk_934 = TRUE;
+            gMenuSceneState->mUnk_934 = TRUE;
         } else if (func_020cb1f4(v, PAD_KEY_B)) {
-            SwitchMenuScreen(2, 0x1b);
+            menu_gotoState(2, 0x1b);
             RequestSelectReturnState3WithSound(1);
-        } else if (GetNewOrRepeatBits(v, PAD_KEY_UP)) {
-            menu = data_0217b43c;
+        } else if (mutil_checkKeys(v, PAD_KEY_UP)) {
+            menu = gMenuSceneState;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 4) % 5;
-            StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(v, PAD_KEY_DOWN)) {
-            menu = data_0217b43c;
+            sfx_2105AC0(0);
+        } else if (mutil_checkKeys(v, PAD_KEY_DOWN)) {
+            menu = gMenuSceneState;
             menu->mSinglePlaySelectModeIndex = (menu->mSinglePlaySelectModeIndex + 6) % 5;
-            StartSoundOncePerFrame(0);
+            sfx_2105AC0(0);
         } else if (func_020cb11c(v)) {
             pairX = func_020cb0f4(v);
             v = func_020cb0cc(v);
-            touchedIndex = FindRectContainingPoint(pairX, v, data_0217b43c->mSinglePlaySelectModeSBnbl);
-            menu = data_0217b43c;
+            touchedIndex = FindRectContainingPoint(pairX, v, gMenuSceneState->mSinglePlaySelectModeSBnbl);
+            menu = gMenuSceneState;
             previousSelected = menu->mSinglePlaySelectModeIndex;
             if (touchedIndex != -1) {
                 if (previousSelected == touchedIndex) {
                     menu->mUnk_934 = TRUE;
                 }
-                data_0217b43c->mSinglePlaySelectModeIndex = touchedIndex;
-                SwitchMenuScreen(3, 0x1f);
+                gMenuSceneState->mSinglePlaySelectModeIndex = touchedIndex;
+                menu_gotoState(3, 0x1f);
                 func_020cb1cc(5);
-            } else if (IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, v)) {
-                SwitchMenuScreen(2, 0x1b);
+            } else if (gmenu_checkSelectReturnTouch(pairX, v)) {
+                menu_gotoState(2, 0x1b);
                 RequestSelectReturnState3WithSound(1);
             }
         }
     }
-    DrawSinglePlaySelectCells();
+    menu_renderModeSelectUI();
 }

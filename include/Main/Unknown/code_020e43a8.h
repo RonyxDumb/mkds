@@ -13,8 +13,8 @@ typedef struct Unk020e43a8_28 {
 
 // Object read through mUnk_9c; only the s16 at 0x28 is seen.
 
-// Object passed to func_020e43a8 and the functions after it, and to DrawWoodbox1 and
-// func_020ec41c to InitPushedMotion; the words from 0xa0 to 0xc8 are read two ways.
+// Object passed to rotcyl_state2Update and the functions after it, and to wbox_render and
+// rdmo_onItemCollide to rdmo_initParams; the words from 0xa0 to 0xc8 are read two ways.
 typedef struct Unk020e43a8 {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ union {
@@ -23,8 +23,8 @@ typedef struct Unk020e43a8 {
             /* c4 */ u16 mUnk_c4;
             /* c6 */ s16 mUnk_c6;
         };
-        // As DrawWoodbox1, SetPushedMotionFromItemObject, SetPushedMotionFromKart, AdvancePushedMotion and
-        // InitPushedMotion read it: halfwords at 0xac and 0xae, a word at 0xc4.
+        // As wbox_render, rdmo_20EC538, rdmo_20EC6E4, rdmo_dieUpdate and
+        // rdmo_initParams read it: halfwords at 0xac and 0xae, a word at 0xc4.
         struct {
             /* a0 */ s32 mUnk_0a0;
             /* a4 */ s32 mUnk_0a4;
@@ -67,4 +67,4 @@ typedef struct Unk020e43a8 {
     /* 15c */ s32 mUnk_15c;
 } Unk020e43a8;
 
-void func_020e43a8(Unk020e43a8 *object);
+void rotcyl_state2Update(Unk020e43a8 *object);

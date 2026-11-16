@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020acdc4(u32 slotIndex);
+u32 title_input_getTpYById(u32 slotIndex);

@@ -7,4 +7,4 @@ typedef struct Unk020ffd94 {
     /* ac */ u32 mUnk_ac;
 } Unk020ffd94;
 
-void EnterDramState2(Unk020ffd94 *dram);
+void dram_spinStartStateInit(Unk020ffd94 *dram);

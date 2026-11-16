@@ -5,4 +5,4 @@
 struct Kart;
 
 void CallKartSlot8(struct Kart *kart);
-void SetKillerItemRenderCallback(void *model);
+void driver_setupKillerItemRenderObjCallback(void *model);

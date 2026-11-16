@@ -19,34 +19,34 @@
 #include "Main/Unknown/code_02037000.h"
 #include "registers.h"
 
-void func_020d159c(void) {
+void r2d_vblankUpdateStaffRoll(void) {
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     GX_LoadOAM(&gEndingStaffRoll->mOamBuffer, 0, 0x400);
     if (gEndingStaffRoll->mStaffRollFrames == 0x1a4) {
-        StartFadeToFadedNegativeOneScreen(0x78, 1);
+        mbright_fadeFromBlackSingle(0x78, 1);
         return;
     }
     if (gEndingStaffRoll->mStaffRollFrames != 0x77a) {
         return;
     }
-    StartFadeToClearNegativeOneScreen(0x78, 1);
+    mbright_fadeToBlackSingle(0x78, 1);
 }
 
-void InitEndingStaffRoll(void) {
+void r2d_initStaffRoll(void) {
     s32 i;
     Unk02021dc8 *cells;
     u32 *oamWords;
 
-    gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x414);
+    gEndingStaffRoll = heap_alloc(proc_getHeap(proc_getCurrent()), 0x414);
     for (i = 0; i < 0x80; i++) {
         oamWords = (u32 *) &gEndingStaffRoll->mOamBuffer.mOams[i];
         oamWords[0] = (oamWords[0] & ~0xc00) | 0xc00;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
-    LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
-    LoadNcgrData2(&gEndingStaffRoll->mEndingStaffRollM00Ncgr, FindSceneFileWrapper("ending_staffRoll_m_00.nce.ncgr"));
+    g2du_unpackPaletteData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, m2d_getSceneArcFile("ending_staffRoll_m_o_00.NCLR"));
+    g2du_unpackCharacterData(&gEndingStaffRoll->mEndingStaffRollM00Ncgr, m2d_getSceneArcFile("ending_staffRoll_m_00.nce.ncgr"));
     cells = NULL;
-    LoadNcerData(&cells, FindSceneFileWrapper("ending_staffRoll_m_00.nce.ncer"));
+    g2du_unpackCellBankData(&cells, m2d_getSceneArcFile("ending_staffRoll_m_00.nce.ncer"));
     gEndingStaffRoll->mCell = NNS_G2dGetCellDataByIdx(cells, 0);
     GX_LoadOBJPltt(gEndingStaffRoll->mEndingStaffRollMO00Nclr->mData, 0,
                    gEndingStaffRoll->mEndingStaffRollMO00Nclr->mDataSize);
@@ -55,7 +55,7 @@ void InitEndingStaffRoll(void) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
 }
 
-u32 ClearEndingStaffRollPointer(void) {
+u32 r2d_finalizeStaffRoll(void) {
     u32 address;
     u32 zero;
     address = (u32) &gEndingStaffRoll;
@@ -64,17 +64,17 @@ u32 ClearEndingStaffRollPointer(void) {
     return address;
 }
 
-u16 UpdateEndingStaffRoll(void) {
+u16 r2d_updateStaffRoll(void) {
     if (gEndingStaffRoll->mStaffRollFrames < 0x7fffffff) {
         gEndingStaffRoll->mStaffRollFrames++;
     }
     if (gEndingStaffRoll->mStaffRollFrames == 0x30c) {
-        StartStaffRollText();
+        srol_start();
     }
     return reg_GX_POWCNT;
 }
 
-void DrawEndingStaffRoll(void) {
+void r2d_renderStaffRoll(void) {
     RaceHudOamBuffer *oamBuffer;
     s32 i;
     GXOamAttr *firstNewOam;

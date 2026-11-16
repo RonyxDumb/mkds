@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_02154000.h"
 
-void func_01ffb0cc(Kart *p) {
+void driver_1FFB0CC(Kart *p) {
     p->mUnk_4fc = p->mUnk_4fc + 1;
     if (p->mUnk_4fc >= 8) {
         p->mUnk_4fc = 0;
@@ -17,7 +17,7 @@ void func_01ffb0cc(Kart *p) {
     p->mUnk_4f0.z = data_02154ba4[p->mUnk_4fc];
 }
 
-s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
+s32 driver_1FFAF18(Kart *p) {
     BOOL v1;
     s32 a = p->mForwardSpeed;
     s32 c;
@@ -84,7 +84,7 @@ s32 LimitKartForwardSpeedAndGetScaled(Kart *p) {
     return ((s64) p->mForwardSpeed * (0x1000 - (p->mUnk_274 >> 3)) + 0x800) >> 12;
 }
 
-void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
+void driver_multiplyDeltaPos(Kart *p, s32 a) {
     s32 r;
 
     p->mVelocity.x = (s64) p->mVelocity.x * a >> 12;
@@ -94,7 +94,7 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
     if ((s64) p->mVelocity.x * p->mVelocity.x + (s64) p->mVelocity.y * p->mVelocity.y +
             (s64) p->mVelocity.z * p->mVelocity.z >=
         0x10) {
-        r = Vec3NormalizeAndGetLengthUnchecked(&p->mVelocity, &p->mVelocityDirection);
+        r = vec_normalize(&p->mVelocity, &p->mVelocityDirection);
     }
     p->mVelocityLength = r;
     if (p->mVelocityLength > 0xd000) {
@@ -105,15 +105,15 @@ void ScaleKartVelocityAndSetCappedLengthAndDirection(Kart *p, s32 a) {
     }
 }
 
-void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a) {
+void driver_1FFAD14(Kart *p, Vec3 *a) {
     Vec4 v;
     Vec4 w;
     Vec4 *q = &p->mUnk_100_q;
     s32 r;
 
-    r = TryQuaternionFromVectors(&v, &data_02154f7c, a);
-    TryQuaternionFromVectors(&w, &p->mGroundNormal, a);
-    QuaternionMultiply(&w, q, q);
+    r = qrtn_lookAt(&v, &driverCore_sUpVec, a);
+    qrtn_lookAt(&w, &p->mGroundNormal, a);
+    qrtn_mult(&w, q, q);
     if (r != 0) {
         if ((v.w < 0 && q->w > 0) || (v.w > 0 && q->w < 0)) {
             q->x = -v.x;
@@ -129,5 +129,5 @@ void AdvanceKartQuaternionFromVector(Kart *p, Vec3 *a) {
             p->mUnk_48 = p->mUnk_48 & ~0x80000000;
         }
     }
-    QuaternionNormalize(q, q);
+    qrtn_normalize(q, q);
 }

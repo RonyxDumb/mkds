@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateTitleScene(void);
+void title_init(void);

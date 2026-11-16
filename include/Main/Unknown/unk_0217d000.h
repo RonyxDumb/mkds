@@ -38,7 +38,7 @@ typedef struct PaletteBlend {
     /* 8c */ BOOL mFirstBlend;
 } PaletteBlend;
 
-// Object behind gPicksHolder.
+// Object behind SinglePlayerMenuInfoPointer.
 typedef struct PicksHolder {
     /* 00 */ u8 *mPicks;
 } PicksHolder;
@@ -144,7 +144,7 @@ typedef struct ScenePlayers {
     /* 10 */ NNSSndSeqPlayer *mUnk_10;
 } ScenePlayers;
 
-// Object at data_0217d084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
+// Object at SoundHandle_217D084 (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
 typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
@@ -170,12 +170,12 @@ typedef struct RecordVS {
     /* 08 */ Unk0201ea30 *mRecordVSMBncl;
     /* 0c */ struct Unk0201ea30 *mRecordVSMBnll;
     /* 10 */ struct Nscr *mRecordVSM02Nscr;
-    // Object table of the main part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
+    // Object table of the NitroMain part of the screen (files mRecordVSMBncl / mRecordVSMBnll).
     /* 14 */ LayoutTableEntry *mRecordVSMTable;
     /* 18 */ Unk0201ea30 *mRecordVSMTransientBncl;
     /* 1c */ struct Unk0201ea30 *mRecordVSMTransientBnll;
     /* 20 */ struct Nscr *mRecordVSM03Nscr;
-    // Object table of the transient part of the main screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
+    // Object table of the transient part of the NitroMain screen (files mRecordVSMTransientBncl / mRecordVSMTransientBnll).
     /* 24 */ LayoutTableEntry *mRecordVSMTransientTable;
     /* 28 */ struct Ncgr *mRecordVSSNcgr;
     /* 2c */ struct Unk02021dc8 *mRecordVSSNcer;
@@ -190,13 +190,13 @@ typedef struct RecordVS {
     /* 4c */ s32 mState;
     /* 50 */ s32 mNextState;
     /* 54 */ s32 mStateFrames; /* counts only in states 1, 2, 5 to 11 */
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS (0x04000010, NitroMain engine BG0), stored negated
     /* 58 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS (0x04000010, NitroMain engine BG0), stored negated
     /* 5c */ s32 mBg0OffsetY;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // X half of reg_G2_BG1OFS (0x04000014, NitroMain engine BG1), stored negated
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (0x04000014, NitroMain engine BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
     // Position of the highlight among the six items: 0 to 4 are the records of the page, 5 the extra item; -1 can be
     // stored (count % 5 - 1 in RefreshRecordVSPage).
@@ -220,10 +220,10 @@ typedef struct RecordVS {
     /* 90 */ s32 mUnk_90;
 } RecordVS;
 
-// Object behind gSelectCupGrid: the screen that picks one of eight cups, laid out as two rows of four (a direction key
+// Object behind CupSelectionMenuInfoPointer: the screen that picks one of eight cups, laid out as two rows of four (a direction key
 // or a touch moves mIndex to a neighbour cup that is enabled). Choosing stores the cup and the first course of that cup
-// in the record behind gRaceSetupCopy (func_021185ec); SelectCupCourse then picks one of the four courses of the stored
-// cup. Allocated by InitSelectCupGrid, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen that opened
+// in the record behind menu_sRaceConfig (func_021185ec); SelectCupCourse then picks one of the four courses of the stored
+// cup. Allocated by SPM_LoadCupSelectionMenu, freed by ReleaseSelectCupGrid; mMode is 0, 1 or 2 to 4 by the screen that opened
 // it.
 typedef struct SelectCupGrid {
     /* 00 */ struct Unk02021dc8 *mSelectCupMNcer;
@@ -245,7 +245,7 @@ typedef struct SelectCupGrid {
     // Negated and shifted into the upper half-word of the BG0 offset register.
     /* 40 */ s32 mBg0Offset;
     /* 44 */ s32 mIndex;
-    // One entry per cup: non-zero when the cup can be chosen, filled once at InitSelectCupGrid from
+    // One entry per cup: non-zero when the cup can be chosen, filled once at SPM_LoadCupSelectionMenu from
     // GetSelectCupGridCupEnabled; a disabled cup shows its other cells, plays the error sound when touched and is
     // skipped by the direction keys.
     /* 48 */ s32 mCupsEnabled[8];
@@ -261,7 +261,7 @@ typedef struct SelectCupGrid {
     // restarts at 0.
     /* 74 */ s32 mShownCourseFrames;
     // Position 0 to 3 of the course of the cup at mIndex whose picture is shown: indexes
-    // gSelectCupGridCourseIds[mIndex]; AdvanceSelectCupGrid also shows the cell of that position differently from the
+    // TTCoursePicOrder[mIndex]; AdvanceSelectCupGrid also shows the cell of that position differently from the
     // other three.
     /* 78 */ s16 mShownCourseIndex;
     /* 7a */ u8 mUnk_7a[2];
@@ -281,11 +281,11 @@ typedef struct SelectCupCourse {
     /* 10 */ Unk0201ea30 *mSelectCupMBncl;
     /* 14 */ Unk0201ea30 *mSelectCupMBnbl;
     /* 18 */ struct Unk0201ea30 *mSelectCupMBnll;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout; assigned only when
     // *(vu16
     // *) 0x027ffc40 != 2
     /* 1c */ LayoutTableEntry *mSelectCupCourseTaOrVsMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; assigned only when
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout; assigned only when
     // *(vu16
     // *) 0x027ffc40 != 2
     /* 20 */ LayoutTableEntry *mSelectCupMTable;
@@ -298,9 +298,9 @@ typedef struct SelectCupCourse {
     /* 3c */ s32 mStateFrames; /* counts only in states 1, 4, 5, 7, 8 */
     /* 40 */ s32 mMode;
     /* 44 */ s32 mBg0Offset;
-    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the main engine's */
+    /* 48 */ s32 mBg3Offset; /* the sub engine's BG3 offset (0x0400101c); mBg0Offset is the NitroMain engine's */
     /* 4c */ u8 mUnk_4c[4];
-    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is data_0215cbec[row][mIndex] */
+    /* 50 */ s16 mIndex; /* 0..3 position among the four courses of the cup: the course is TTCourseOrder[row][mIndex] */
     /* 52 */ u8 mUnk_52[2];
     /* 54 */ BOOL mUnk_54;
     // Counts 7 down to 0 after mIndex changed: AdvanceSelectCupCourseIndexChange sets 7 when mIndex differs from
@@ -474,7 +474,7 @@ typedef struct RecordList {
     /* 0c */ void *mUnk_0c;
 } RecordList;
 
-// Object behind data_0217d3ec: 0x814 bytes allocated by func_02125de0.
+// Object behind gmenu_sGlobalMenuContext: 0x814 bytes allocated by gmenu_init.
 typedef struct Unk0217d3ec {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
@@ -491,7 +491,7 @@ typedef struct CharCanvas {
     /* 1c */ u32 mUnk_1c;
 } CharCanvas;
 
-// Objects of 0x10 bytes passed first to func_0212583c; member 0x00 points to one CharCanvas.
+// Objects of 0x10 bytes passed first to jn_ui_drawFormattedTextRect; member 0x00 points to one CharCanvas.
 typedef struct Unk0217d3f0_2178 {
     /* 00 */ CharCanvas *mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -499,7 +499,7 @@ typedef struct Unk0217d3f0_2178 {
     /* 0c */ u32 mUnk_0c;
 } Unk0217d3f0_2178;
 
-// Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
+// Object behind gTxtSystem: 0x2278 bytes allocated by gmenu_initUnknown.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;
     /* 0004 */ u32 mNextState;
@@ -573,9 +573,9 @@ typedef struct SelectChoises {
     /* 8b0 */ s32 mIndexNoneSoundId;
 } SelectChoises;
 
-// Object behind gSelectReturn: 0x828 bytes allocated by InitSelectReturn.
+// Object behind gmenu_sSelectReturnContext: 0x828 bytes allocated by gmenu_initSelectReturn.
 typedef struct SelectReturn {
-    /* 000 */ BOOL mEnabled; /* only ever set to 1 by InitSelectReturn; the off path does not run in this build */
+    /* 000 */ BOOL mEnabled; /* only ever set to 1 by gmenu_initSelectReturn; the off path does not run in this build */
     /* 004 */ s32 mState;
     /* 008 */ s32 mNextState;
     /* 00c */ s32 mStateFrames; /* counts only in states 1, 3, 4 */
@@ -596,7 +596,7 @@ typedef struct Unk0217d3fc_00_00 {
     /* 06 */ u8 mUnk_06[2];
 } Unk0217d3fc_00_00;
 
-// Object behind data_0217d3fc: 0x808 bytes allocated by InitKeyboardScene, two OamLists.
+// Object behind sNicknameOamBuffers: 0x808 bytes allocated by nicknameEditor_onCreate, two OamLists.
 typedef struct Unk0217d3fc {
     /* 000 */ OamList mUnk_00;
     /* 404 */ OamList mUnk_404;
@@ -613,14 +613,14 @@ typedef struct Unk0217d400_2c {
             // Mode of the screen as passed in by the scene (0xc, 7 or 0xb); element 2 of Keyboard.mUnk_2c only: in
             // element 0 these bytes are character 10 of the text.
             /* 14 */ s16 mMode;
-            // Scene to run when the keyboard ends, -1 until set, read by GetKeyboardNextScene through the raw offset
+            // Scene to run when the keyboard ends, -1 until set, read by nickname_getField72 through the raw offset
             // 114; element 2 of Keyboard.mUnk_2c only: in element 0 these bytes are character 11 of the text.
             /* 16 */ s16 mNextScene;
         };
     };
 } Unk0217d400_2c;
 
-// Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
+// Object behind nickname_sState: 0xc4 bytes allocated by nickname_create.
 typedef struct Keyboard {
     // Heap the screen's objects are allocated from.
     /* 00 */ void *mHeap;
@@ -682,7 +682,7 @@ typedef struct LinkLevelIcons {
     /* 10c */ Unk0217d3fc_00_00 mOamRecords[2];
 } LinkLevelIcons;
 
-// Object behind gMessageScreen: 0x1a44 bytes allocated by InitMessageScreen; the 0x20 bytes at 0x14 are set up by
+// Object behind gMessageScreen: 0x1a44 bytes allocated by err_init; the 0x20 bytes at 0x14 are set up by
 // NNS_G2dCharCanvasInitForBG.
 typedef struct MessageScreen {
     /* 0000 */ s32 mKind;
@@ -728,11 +728,11 @@ typedef struct StaffRollText {
 typedef struct SoundParams SoundParams;
 
 // Objects whose layout isn't known yet.
-extern s32 (*data_0217d014)(SoundParams *);
+extern s32 (*sfx_sCalcVolumeFunc)(SoundParams *);
 extern u32 (*data_0217d018)(SoundParams *);
-extern s32 (*data_0217d01c)(SoundParams *);
-extern NNSFndList data_0217d028;
-extern u32 data_0217d064;
+extern s32 (*sfx_sCalcPanFunc)(SoundParams *);
+extern NNSFndList sfx_sActiveEmitterList;
+extern u32 sSdatFileLoaded;
 extern s32 data_0217d1f4;
 extern s32 data_0217d20c;
 extern s32 data_0217d21c;
@@ -740,9 +740,9 @@ extern u32 gAnySeqVariableEnabled;
 extern SeqPlayerControl data_0217d244;
 extern struct RecordScene *gRecordScene;
 extern RecordVSErase *gRecordVSErase;
-extern Wait *gWait;
-extern PicksHolder *gPicksHolder;
-extern KartIcon *gKartIcon;
+extern Wait *sWaitData;
+extern PicksHolder *SinglePlayerMenuInfoPointer;
+extern KartIcon *sKartIconData;
 extern SelectRaceRule *gSelectRaceRule;
 extern SelectCupNameM *gSelectCupNameM;
 extern CupMark *gCupMark;
@@ -751,29 +751,29 @@ extern SelectCupM *gSelectCupM;
 extern TrophyIcon *gTrophyIcon;
 extern SelectRaceRuleWait *gSelectRaceRuleWait;
 extern char gKartFilterString[0x64];
-extern Unk0217d3ec *data_0217d3ec;
+extern Unk0217d3ec *gmenu_sGlobalMenuContext;
 extern TxtSystem *gTxtSystem;
 extern SelectChoises *gSelectChoises;
-extern SelectReturn *gSelectReturn;
-extern Unk0217d3fc *data_0217d3fc;
-extern Keyboard *gKeyboard;
+extern SelectReturn *gmenu_sSelectReturnContext;
+extern Unk0217d3fc *sNicknameOamBuffers;
+extern Keyboard *nickname_sState;
 extern MessageScreen *gMessageScreen;
 extern u32 data_0217d1f0;
-extern s32 gLapProgressSoundGaps[];
+extern s32 sfx_sKaidanKibashiProgressDistance[];
 extern s32 data_0217d320;
 extern s32 data_0217d324;
 extern s32 data_0217d328;
-extern StaffRollText *gStaffRollText;
+extern StaffRollText *srol_sStatus;
 extern u32 data_0217dda8;
-extern CaptureParam data_0217ddd0;
-extern NNSSndSeqPlayer data_0217d45c[16];
-extern NNSSndPlayer data_0217d89c[];
+extern CaptureParam sCapParam;
+extern NNSSndSeqPlayer sSeqPlayer[16];
+extern NNSSndPlayer sPlayer[];
 extern NNSFndList data_0217dd1c;
 extern NNSSndStrmChannel data_0217dd28[];
 extern s32 data_0217ddac;
 extern OSMessageQueue data_0217ddb0;
 extern EffectInfo data_0217de24[8];
-extern struct NNSSndArc *data_0217dec4;
+extern struct NNSSndArc *sCurrent;
 extern s32 data_0217d1e8;
 extern s32 data_0217d1ec;
 extern s32 data_0217d1f8;
@@ -795,24 +795,24 @@ extern LinkLevelIcons *gLinkLevelIcons;
 extern PaletteBlend *gPaletteBlend;
 extern struct NNSSndStrmThread *data_0217df04;
 extern u8 data_0217df08[];
-extern NNSSndHeap *data_0217d130;
+extern NNSSndHeap *gSndHeapHandle;
 extern ScenePlayers data_0217d070;
 // The member at 0x0c of data_0217d070, addressed through a pool word of its own.
 extern NNSSndSeqPlayer *data_0217d07c;
-extern SoundModeHolder data_0217d084;
-extern struct NNSSndArc data_0217d0a0;
+extern SoundModeHolder SoundHandle_217D084;
+extern struct NNSSndArc gSdatFileSndArc;
 extern Unk0217d32c data_0217d32c;
 extern RecordVS *gRecordVS;
 extern RecordList *gRecordList;
-// Pointer to the cup chooser object: set by InitSelectCupGrid, cleared by ReleaseSelectCupGrid.
-extern SelectCupGrid *gSelectCupGrid;
+// Pointer to the cup chooser object: set by SPM_LoadCupSelectionMenu, cleared by ReleaseSelectCupGrid.
+extern SelectCupGrid *CupSelectionMenuInfoPointer;
 extern SelectCupCourse *gSelectCupCourse;
-extern u32 gMicInitialized;
+extern u32 mic_sInitialized;
 extern u32 gSeqVariableEnabled[];
 extern u32 data_0217d010[];
 extern u32 data_0217d024[];
-extern Unk0217c7c4 data_0217d034;
+extern Unk0217c7c4 sfx_sSfxPool;
 extern NNSFndList data_0217d048[];
 extern NNSFndList data_0217d054;
 extern u32 data_0217d020;
-extern void *data_0217d06c;
+extern void *sOutputEffectBuffer;

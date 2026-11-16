@@ -6,17 +6,17 @@
 
 extern Unk020e0764 data_0216b8c4;
 extern Unk020e0764 data_0216b8ec;
-extern UnkFunc *data_0216be68[];
-extern UnkFunc *data_0216bfc0[];
-extern UnkFunc *data_0216bff8[];
+extern UnkFunc *kuribo_sStates[];
+extern UnkFunc *efbub_sStates[];
+extern UnkFunc *kblock_sStates[];
 
 // Objects whose layout isn't known yet.
-extern const char gKuriboNsbmdName[];
-extern const char gKuriboNsbtpName[];
-extern const char gEarthenPipe1NsbmdName[];
-extern const char gEarthenPipe2NsbmdName[];
+extern const char aKuribo_nsbmd[];
+extern const char aKuribo_nsbtp[];
+extern const char aEarthen_pipe1_[];
+extern const char aEarthen_pipe2_[];
 
-extern u8 *data_0216b96c[][4];
-extern u8 *data_0216b9cc[][4];
-extern u8 *data_0216ba2c[][14];
-extern u8 *data_0216bb7c[][14];
+extern u8 *mobj_sDriverHitResponseTable[][4];
+extern u8 *mobj_sDriverHitObjResponseTable[][4];
+extern u8 *mobj_sItemHitResponseTable[][14];
+extern u8 *mobj_sItemHitObjResponseTable[][14];

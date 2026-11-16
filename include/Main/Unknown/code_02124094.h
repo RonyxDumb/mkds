@@ -5,7 +5,7 @@
 #include "code_02022030.h" // Unk020224e0_c, Unk020224e0_s
 #include "code_0201ea58.h" // Unk0201ea30
 
-// 8-byte elements from offset 8 of an Unk0201ea30 (func_0201ea30 indexes them).
+// 8-byte elements from offset 8 of an Unk0201ea30 (jn_ui_getBnclElement indexes them).
 typedef struct CellLayoutEntry {
     /* 00 */ union {
         u32 mUnk_00;
@@ -17,7 +17,7 @@ typedef struct CellLayoutEntry {
     /* 04 */ u32 mCellIndex;
 } CellLayoutEntry;
 
-// 0x24 bytes at member 0x20 of LabelCanvas (func_02125808 takes its address).
+// 0x24 bytes at member 0x20 of LabelCanvas (jn_ui_drawFormattedTextRectMonospace takes its address).
 typedef struct LabelTextCanvas {
     /* 00 */ struct LabelCanvas *mCharCanvas;
     /* 04 */ struct Unk02022aa8 *mFont;
@@ -30,7 +30,7 @@ typedef struct LabelTextCanvas {
     /* 20 */ s32 mUnk_20;
 } LabelTextCanvas;
 
-// Object of 0x48 bytes allocated by InitLabelCanvas.
+// Object of 0x48 bytes allocated by jn_ui_initLabel.
 typedef struct LabelCanvas {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ void (*mUnk_18)(struct LabelCanvas *a, s32 b);
@@ -39,7 +39,7 @@ typedef struct LabelCanvas {
     /* 44 */ Unk020224e0_c *mUnk_44;
 } LabelCanvas;
 
-// 0x40-byte element of the tables InitLayoutTable allocates and InitLayoutTableEntries sets up: behind
+// 0x40-byte element of the tables jn_ui_initLayout allocates and initLayoutElements sets up: behind
 // WiFiVSMatching.mUnk_10d4, members 0x14, 0x24 and 0x3c of RecordVSErase, and the tables of the objects behind
 // gRecordVS to gSelectRaceRuleWait and of several overlay globals.
 typedef struct LayoutTableEntry {
@@ -57,7 +57,7 @@ typedef struct LayoutTableEntry {
     /* 3c */ LabelCanvas *mLabelCanvas;
 } LayoutTableEntry;
 
-// 8-byte elements InitLabelCanvas fills and copies into Unk020224e0_s elements.
+// 8-byte elements jn_ui_initLabel fills and copies into Unk020224e0_s elements.
 typedef struct Unk02022eb0 {
     /* 00 */ union {
         u32 mUnk_00;
@@ -70,7 +70,7 @@ typedef struct Unk02022eb0 {
     /* 06 */ u16 mUnk_06;
 } Unk02022eb0;
 
-// 12-byte elements of the array func_0201ea58 indexes.
+// 12-byte elements of the array jn_ui_getBnllElement indexes.
 typedef struct LabelLayoutEntry {
     /* 00 */ Unk0201ea84 mUnk_00;
     /* 02 */ Unk0201ea84 mUnk_02;
@@ -82,7 +82,7 @@ typedef struct LabelLayoutEntry {
     /* 08 */ u8 mUnk_08[4];
 } LabelLayoutEntry;
 
-// Object whose mUnk_14 is the base address QueueCellCharsAndFirstPalette, QueueCellChars and func_0212481c add offsets
+// Object whose mUnk_14 is the base address QueueCellCharsAndFirstPalette, jn_ui_fillPlaceholder and func_0212481c add offsets
 // to.
 typedef struct Unk0212463c_c {
     /* 00 */ u8 mUnk_00[0x14];
@@ -95,38 +95,38 @@ typedef struct Unk0212463c_d {
     /* 0c */ u8 *mUnk_0c;
 } Unk0212463c_d;
 
-BOOL func_02124ae4(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void SetLayoutEntryAngleAndScale(LayoutTableEntry *entry, s32 angle, s32 scale);
-void func_02124a98(u32 index, s32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+BOOL jn_ui_getCellIsTranslucent(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+void jn_ui_setElementAffine(LayoutTableEntry *entry, s32 angle, s32 scale);
+void jn_ui_setCellIsTranslucent(u32 index, s32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 u8 GetCellPaletteIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void SetCellPaletteIndex(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-u8 func_021249f0(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
-void func_021249a8(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+void jn_ui_setCellCparam(s32 index, s32 paletteIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+u8 jn_ui_getCellPriority(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
+void jn_ui_setCellPriority(u32 index, u32 value, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 u16 GetCellCharIndex(u32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout);
 void func_0212481c(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette, Unk0201ea30 *cellLayout,
                    s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
-void QueueCellChars(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
+void jn_ui_fillPlaceholder(u32 index, Unk02021dc8 *cells, void *chars, Unk0201ea30 *cellLayout, s32 queueSelector,
                     u32 destIndex, Unk02021dc8 *destCells, Unk0201ea30 *destCellLayout);
 void QueueCellCharsAndFirstPalette(u32 index, Unk02021dc8 *cells, Unk0212463c_c *chars, Unk0212463c_d *palette,
                                    Unk0201ea30 *cellLayout, s32 queueSelector, u32 destIndex, Unk02021dc8 *destCells,
                                    Unk0201ea30 *destCellLayout);
-s32 InitLabelCanvas(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,
+s32 jn_ui_initLabel(void *heap, s32 labelIndex, Unk0201ea30 *labelLayout, s32 width, s32 height, s32 entryIndex,
                     Unk02021dc8 *cells, Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 j);
-void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
+void jn_ui_212428C(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text,
                           Unk0201ea30 *cellLayout, LayoutTableEntry *table, s32 g, s8 h);
-void func_0212426c(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+void jn_ui_212426C(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
                    LayoutTableEntry *table);
-void func_02124248(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+void jn_ui_2124248(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
                    LayoutTableEntry *table, s8 g);
-void func_02124224(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
+void jn_ui_2124224(s32 queueSelector, u32 labelIndex, Unk0201ea30 *labelLayout, void *text, Unk0201ea30 *cellLayout,
                    LayoutTableEntry *table, s8 g);
-void ClearAndQueueLabelLayoutText(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, Unk0201ea30 *cellLayout,
+void jn_ui_21241C0(s32 queueSelector, s32 labelIndex, Unk0201ea30 *labelLayout, Unk0201ea30 *cellLayout,
                                   LayoutTableEntry *table);
-BOOL func_0212418c(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void func_02124140(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+BOOL jn_ui_getLabelIsTranslucent(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
+void jn_ui_setLabelIsTranslucent(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
                    Unk0201ea30 *cellLayout);
-void SetLabelPaletteIndex(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+void jn_ui_setLabelColorParam(s32 labelIndex, u8 paletteIndex, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
                           Unk0201ea30 *cellLayout);
-u8 func_021240d4(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
-void func_02124094(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
+u8 jn_ui_getLabelPriority(s32 labelIndex, void *b, LayoutTableEntry *table, Unk0201ea30 *cellLayout);
+void jn_ui_setLabelPriority(u32 labelIndex, u32 value, Unk0201ea30 *labelLayout, LayoutTableEntry *table,
                    Unk0201ea30 *cellLayout);

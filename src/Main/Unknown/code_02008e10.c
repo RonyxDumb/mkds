@@ -69,7 +69,7 @@ void func_02008ff0(u32 entryIndex, EntryCallbackFunc callback) {
     }
 }
 
-void UpdateEntryTimers(EntryCallbackFunc callback, u32 b) {
+void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 b) {
     u32 stopFollowing;
     s32 i;
     u32 entryOffset;

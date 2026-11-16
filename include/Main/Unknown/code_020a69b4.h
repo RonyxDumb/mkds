@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 #include "Main/Unknown/code_020a3f2c.h"
 
-u32 CollideKartWithShine16(Shine16 *p, Kart *o, u8 *a, u8 *b);
-void CreateShine16(void *a);
-void SetupDrawShine16(void *a);
-void DrawShine16(void *a, Shine16 *p);
+u32 shine_onDriverCollide(Shine16 *p, Kart *o, u8 *a, u8 *b);
+void shine_loadShineModel(void *a);
+void shine_applyShineMaterial(void *a);
+void shine_renderShine(void *a, Shine16 *p);

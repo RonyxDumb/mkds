@@ -4,4 +4,4 @@
 
 typedef struct MapObjectFlagsView MapObjectFlagsView;
 
-void EnterPukupukuState2(MapObjectFlagsView *pukupuku);
+void puku_state2Init(MapObjectFlagsView *pukupuku);

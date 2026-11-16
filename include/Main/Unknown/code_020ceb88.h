@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateBattleSelectRaceRule(void);
+void menu_state16Render(void);

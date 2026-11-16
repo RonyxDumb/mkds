@@ -23,16 +23,16 @@
 #include "code_02146cbc.h"
 #include "code_02147cd8.h"
 
-void InitBasabasa(MapObject *mapObject) {
+void basa_init(MapObject *mapObject) {
     MapObject *value0 = mapObject;
     MapObject *value4;
     value4 = value0;
-    ParkMapObject(value0);
+    mobj_setInvisible(value0);
     value0 = value4;
-    CreateMapObjectSoundSourceFalloff2(value0);
+    mobj_initSoundEmitterForObjectSfxParam2(value0);
 }
 
-u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
+u8 basa_onDriverCollide(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
     Vec3 u;
     Vec3 offsetToKart;
     s32 k;
@@ -59,7 +59,7 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
             basabasa->mUnk_00.mUnk_10.y = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].y * 0x1333) >> 12;
             basabasa->mUnk_00.mUnk_10.z = ((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0x1333) >> 12;
         } else {
-            Vec3NormalizeAndGetLengthUnchecked(&u, &u);
+            vec_normalize(&u, &u);
             basabasa->mUnk_00.mUnk_10.x = ((s64) u.x * 0x1333) >> 12;
             basabasa->mUnk_00.mUnk_10.y = ((s64) u.y * 0x1333) >> 12;
             basabasa->mUnk_00.mUnk_10.z = ((s64) u.z * 0x1333) >> 12;
@@ -69,38 +69,38 @@ u8 CollideKartWithBasabasa(Basabasa *basabasa, Kart *kart, void *c, u8 *d) {
     return r;
 }
 
-void CreateBasabasa(void *a) {
-    gBasabasa = CreateMapObjectModelNsbmdNsbtp(a, gBasabasaNsbmdName, gBasabasaNsbtpName);
-    SetMapObjectModelPolygonId(gBasabasa, 0x3f);
+void basa_loadModel(void *a) {
+    basa_sModel = mobj_loadTexAnimBillboardModel(a, aBasabasa_nsbmd, aBasabasa_nsbtp);
+    mobj_setModelPolygonIdAll(basa_sModel, 0x3f);
 }
 
-void SetupDrawBasabasa(void *a) {
-    func_0209bbd0(a, gBasabasa);
+void basa_globalPreRender(void *a) {
+    mobj_bbModelApplyMaterial(a, basa_sModel);
 }
 
-void DrawBasabasa(void *a, Basabasa *basabasa) {
+void basa_render(void *a, Basabasa *basabasa) {
     s32 s;
     s32 rotationMatrix[9];
     s32 drawAngle;
 
     drawAngle = 0x1fe0 - basabasa->mUnk_c4;
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&basabasa->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&basabasa->mUnk_00.mPos), 0xc);
     if (basabasa->mRotateZNegated != 0) {
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[((u16) -drawAngle >> 4) * 2],
-                    gPairsByAngle[((u16) -drawAngle >> 4) * 2 + 1]);
+        MTX_RotZ33_(rotationMatrix, FX_SinCosTable_[((u16) -drawAngle >> 4) * 2],
+                    FX_SinCosTable_[((u16) -drawAngle >> 4) * 2 + 1]);
     } else {
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[((u16) drawAngle >> 4) * 2],
-                    gPairsByAngle[((u16) drawAngle >> 4) * 2 + 1]);
+        MTX_RotZ33_(rotationMatrix, FX_SinCosTable_[((u16) drawAngle >> 4) * 2],
+                    FX_SinCosTable_[((u16) drawAngle >> 4) * 2 + 1]);
     }
-    func_01ff9048(0x1a, rotationMatrix, 9);
-    func_01ff9048(0x1b, &basabasa->mUnk_00.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gBasabasa, basabasa->mNsbtpFrameIndex);
-    DrawMapObjectModel(a, gBasabasa, basabasa);
+    NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
+    NNS_G3dGeBufferOP_N(0x1b, &basabasa->mUnk_00.mScale, 3);
+    mobj_setModelNsbtpFrame(basa_sModel, basabasa->mNsbtpFrameIndex);
+    mobj_renderModel(a, basa_sModel, basabasa);
 }
 
-void UpdateBasabasa(void *a, Basabasa *basabasa) {
+void basa_update(void *a, Basabasa *basabasa) {
     s32 nextFrameIndex;
 
     basabasa->mUnk_c4 += basabasa->mUnk_c8;
@@ -151,7 +151,7 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
             basabasa->mVelocity.z -= (s32) (((s64) basabasa->mUnk_00.mMatrix.mUnk_00[2].z * 0xcd) >> 12);
             VEC_Add(&basabasa->mUnk_00.mPos, &basabasa->mVelocity, &basabasa->mUnk_00.mPos);
             if (basabasa->mUnk_00.mPos.y >= 0x1b8000) {
-                ParkMapObject(&basabasa->mUnk_00);
+                mobj_setInvisible(&basabasa->mUnk_00);
             }
             break;
     }
@@ -159,18 +159,18 @@ void UpdateBasabasa(void *a, Basabasa *basabasa) {
         return;
     }
     nextFrameIndex = basabasa->mNsbtpFrameIndex + 1;
-    if (nextFrameIndex >= GetMapObjectModelNsbtpFrameCount(gBasabasa)) {
+    if (nextFrameIndex >= mobj_getModelNsbtpFrameCount(basa_sModel)) {
         nextFrameIndex = 0;
     }
     basabasa->mNsbtpFrameIndex = nextFrameIndex;
     if (basabasa->mSoundRequested == 0) {
         return;
     }
-    StartMapObjectSoundWhileRequested(&basabasa->mUnk_00, 0x165);
+    mobj_emitSfxFromEmitter(&basabasa->mUnk_00, 0x165);
 }
 
-void CreateBasabasaKindData(void) {
-    CreateMapObjectKindData(&CollideKartWithBasabasa, NULL, NULL, 1, 0);
+void basa_setupConfig(void) {
+    mobj_createConfig(&basa_onDriverCollide, NULL, NULL, 1, 0);
 }
 
 static inline u16 func_0209219c_inline(u32 limit) {
@@ -179,11 +179,11 @@ static inline u16 func_0209219c_inline(u32 limit) {
     u32 r;
 
     if (limit == 0x10000) {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
     } else {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         m = (u16) limit;
         if (m == 0) {
             r = 0;
@@ -200,22 +200,22 @@ static inline u16 func_0209219c_inline(u32 limit) {
     return r;
 }
 
-void CreateBasabasaDrawList(void) {
-    CreateMapObjectDrawList2(CreateBasabasa, DrawBasabasa, SetupDrawBasabasa);
+void basa_setupRenderPart(void) {
+    mobj_createRenderPart2d(basa_loadModel, basa_render, basa_globalPreRender);
 }
 
-void CreateBasabasaUpdateList(void) {
-    CreateMapObjectUpdateList(NULL, UpdateBasabasa, NULL);
+void basa_setupLogicPart(void) {
+    mobj_createLogicPart(NULL, basa_update, NULL);
 }
 
-void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
+void basa_spawn(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *velocity, u32 state0TimerBase,
                    s32 soundRequested, u16 f) {
     Basabasa *basabasa;
     RandomState64 *mapObjectRandom;
     u32 n;
     u16 w;
 
-    basabasa = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BASABASA));
+    basabasa = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_BASABASA));
     if (basabasa == NULL) {
         return;
     }
@@ -224,7 +224,7 @@ void StartBasabasa(u32 state2TimerBase, const Vec3 *startPos, const Vec3 *veloci
     basabasa->mUnk_00.mFlags |= data_02156468;
     basabasa->mSoundRequested = soundRequested;
     basabasa->mUnk_c0 = f;
-    mapObjectRandom = GetMapObjectRandom();
+    mapObjectRandom = mobj_getRng1();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     basabasa->mDelayTimer = (u16) (((mapObjectRandom->mValue >> 32) * 30) >> 32);
     n = (state0TimerBase << 12) >> 16;

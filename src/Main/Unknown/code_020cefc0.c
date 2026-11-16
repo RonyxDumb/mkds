@@ -25,14 +25,14 @@
 #include "Main/Unknown/code_020fd264.h"
 #include "Main/Unknown/code_020cf2fc.h"
 
-void ClearRaceHudSubScreenBombKouraWCells(void) {
+void mpicn_destroyExplosionIcon(void) {
     u32 address;
     u32 unused;
-    address = (u32) &gRaceHudSubScreenBombKouraWCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) address);
+    address = (u32) &mpicn_sExplosionIcon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) address);
 }
 
-void UpdateRaceHudSubScreenBombKouraWCells(void) {
+void mpicn_updateExplosionIcon(void) {
     s32 i;
     s32 cellCount;
     s32 v;
@@ -49,54 +49,54 @@ void UpdateRaceHudSubScreenBombKouraWCells(void) {
     Vec3 *kouraPosition;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
-    pool = &gItemPools[9];
+    v = mpicn_20C0DB0();
+    pool = &it_sItemsets[9];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
     for (i = 0; i < activeCount; i++) {
         bomb = objects[i];
         if (IsItemBombState2(bomb) != FALSE) {
             bombPosition = func_020fd308((ItemBomb *) bomb, &bombStateFrames, &y);
-            if (ComputeRaceHudSubScreenPosition(
-                    bombPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x63);
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0c =
-                    IsPositionOutsideBox(bombPosition) != 0 ? 2 : 3;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_10 = bombStateFrames;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
+            if (lmap_20B5AE8(
+                    bombPosition, &mpicn_sExplosionIcon->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
+                mpicn_sExplosionIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x63);
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0c =
+                    m2d_isPointOnLowerMap(bombPosition) != 0 ? 2 : 3;
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_10 = bombStateFrames;
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0e = bombStateFrames >= 0x16 ? 1 : 0;
                 if (bombStateFrames >= 0x16) {
-                    y = InterpolateS16(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
+                    y = mutil_interpolate(1, 0x1000, 10, bombStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mUnk_00 = y;
+                mpicn_sExplosionIcon->mUnk_0c[cellCount].mUnk_00 = y;
                 cellCount++;
             }
         }
     }
-    pool = &gItemPools[5];
+    pool = &it_sItemsets[5];
     activeCount = pool->mActiveCount;
     objects = pool->mObjects;
     for (i = 0; i < activeCount; i++) {
         kouraW = objects[i];
         if (IsItemKouraWState7((ItemKouraW *) kouraW) != FALSE) {
             kouraPosition = GetItemKouraWState7Info((ItemKouraW *) kouraW, &kouraStateFrames, &y2);
-            if (ComputeRaceHudSubScreenPosition(
-                    kouraPosition, &gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x64);
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0c =
-                    IsPositionOutsideBox(kouraPosition) != 0 ? 2 : 3;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_10 = kouraStateFrames;
-                gRaceHudSubScreenBombKouraWCells->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
+            if (lmap_20B5AE8(
+                    kouraPosition, &mpicn_sExplosionIcon->mCells[cellCount].mDrawPos, v, 1, 1) != FALSE) {
+                mpicn_sExplosionIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x64);
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0c =
+                    m2d_isPointOnLowerMap(kouraPosition) != 0 ? 2 : 3;
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_10 = kouraStateFrames;
+                mpicn_sExplosionIcon->mCells[cellCount].mUnk_0e = kouraStateFrames >= 0x16 ? 1 : 0;
                 if (kouraStateFrames >= 0x16) {
-                    y2 = InterpolateS16(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
+                    y2 = mutil_interpolate(1, 0x1000, 10, kouraStateFrames - 0x16, 0x22);
                 }
-                gRaceHudSubScreenBombKouraWCells->mUnk_0c[cellCount].mUnk_00 = y2;
+                mpicn_sExplosionIcon->mUnk_0c[cellCount].mUnk_00 = y2;
                 cellCount++;
             }
         }
     }
-    gRaceHudSubScreenBombKouraWCells->mCellCount = cellCount;
+    mpicn_sExplosionIcon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenBombKouraWCells(RaceHudOamBuffer *oamBuffer) {
-    DrawRaceHudSubScreenCellsScaled(oamBuffer, gRaceHudSubScreenBombKouraWCells, 0);
+void mpicn_renderExplosionIcon(RaceHudOamBuffer *oamBuffer) {
+    mpicn_20C06C4(oamBuffer, mpicn_sExplosionIcon, 0);
 }

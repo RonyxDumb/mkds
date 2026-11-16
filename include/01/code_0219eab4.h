@@ -11,7 +11,7 @@ void AdvanceMissionRunLVselState2(void);
 void AdvanceMissionRunLVselState1(void);
 void AdvanceMissionRunLVselState0(void);
 void ReleaseMissionRunLVsel(void);
-void InitMissionRunLVsel(void *a, void *b, void *c);
+void SPM_LoadMissionRunMenu(void *a, void *b, void *c);
 void func_ov001_0219f198(void);
 void func_ov001_0219f1f4(void);
 void RequestMissionRunLVselState3(void);

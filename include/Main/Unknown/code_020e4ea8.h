@@ -18,7 +18,7 @@ typedef struct PukupukuUpdateList {
     /* 24 */ u32 mUnk_24;
 } PukupukuUpdateList;
 
-extern PukupukuUpdateList *gPukupukuUpdateList;
+extern PukupukuUpdateList *puku_sLogicPart;
 
 // 0x2c-byte object built from a table.
 typedef struct PukupukuShadowDrawList {
@@ -35,7 +35,7 @@ typedef struct PukupukuShadowDrawList {
     /* 28 */ u32 mUnk_28;
 } PukupukuShadowDrawList;
 
-extern PukupukuShadowDrawList *gPukupukuShadowDrawList;
+extern PukupukuShadowDrawList *puku_sShadowRenderPart;
 
 // 0x2c-byte object built from a table.
 typedef struct PukupukuDrawList {
@@ -52,7 +52,7 @@ typedef struct PukupukuDrawList {
     /* 28 */ u32 mUnk_28;
 } PukupukuDrawList;
 
-extern PukupukuDrawList *gPukupukuDrawList;
+extern PukupukuDrawList *puku_sMainRenderPart;
 
 // 0x40-byte object built from a table.
 typedef struct PukupukuKindData {
@@ -74,9 +74,9 @@ typedef struct PukupukuKindData {
     /* 3c */ u32 mUnk_3c;
 } PukupukuKindData;
 
-PukupukuKindData *CreatePukupukuKindData(void);
-PukupukuDrawList *CreatePukupukuDrawList(void);
-PukupukuShadowDrawList *CreatePukupukuShadowDrawList(void);
-PukupukuUpdateList *CreatePukupukuUpdateList(void);
-void SetupDrawPukupuku(void);
-void DrawPukupuku(u32 a, Unk020e43a8 *pukupuku, u32 b, u16 alpha);
+PukupukuKindData *puku_setupConfig(void);
+PukupukuDrawList *puku_setupMainRenderPart(void);
+PukupukuShadowDrawList *puku_setupShadowRenderPart(void);
+PukupukuUpdateList *puku_setupLogicPart(void);
+void puku_applyMainMaterial(void);
+void puku_renderMain(u32 a, Unk020e43a8 *pukupuku, u32 b, u16 alpha);

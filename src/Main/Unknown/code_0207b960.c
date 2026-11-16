@@ -29,13 +29,13 @@
 #include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
+void enrb_updateForAwardStaffRoll(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi) {
     s32 turnSpeedLimit;
     s32 turnAngle;
     s32 limit;
     s32 x;
 
-    if (GetRaceUpdateFramesMod8() == kartAi->mIndex) {
+    if (race_getFrameCounterModulo8() == kartAi->mIndex) {
         raceSpeedLimit->mSpeedLimitAddition = 0;
         limit = kartAi->mKart->mSpeedLimitGoal;
         if (limit > 0xa000) {
@@ -85,7 +85,7 @@ void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (timerRanOut == FALSE) {
         return;
     }
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -102,7 +102,7 @@ void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemKouraWThunderStarKillerGessoTeresaIboxUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
     RandomState64 *random;
     u16 randomLimit;
@@ -117,7 +117,7 @@ void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (timerRanOut == FALSE) {
         return;
     }
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -133,11 +133,11 @@ void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
-void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemSingleKouraGBananaUpdateHard(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RaceSetup *raceSetup;
     u16 kartIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
         if (itemUse->mRandomValue <= 0xc00) {
@@ -145,13 +145,13 @@ void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             return;
         }
     }
-    UseItemByTargetOrRankAfterHeld(itemUse, kartAi);
+    enit_slotItemSingleKouraRFBoxBombUpdateHard(itemUse, kartAi);
 }
-void func_0207d3ec(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemSingleKouraGBananaUpdateMedium(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RaceSetup *raceSetup;
     u16 kartIndex;
 
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     kartIndex = kartAi->mIndex;
     if ((raceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0) {
         if (itemUse->mRandomValue <= 0x400) {
@@ -175,7 +175,7 @@ void func_0207d3ec(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RequestItemBitsByKartRank(itemUse, kartAi);
 }
 
-void UseItemByTargetOrRankAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemSingleKouraRFBoxBombUpdateHard(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
 
     timerRanOut = FALSE;
@@ -209,9 +209,9 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     u16 randomLimit;
     u32 randomPart;
 
-    if (IsTargetKartSet(kartAi) != FALSE) {
+    if (enmy_hasTargetDriver(kartAi) != FALSE) {
         if (GetTargetAhead(kartAi) != 0) {
-            RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+            input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
             itemUse->mThrowForwardPending = 1;
             itemUse->mThrowForwardTimer = 2;
             itemUse->mItemBitsEveryCall = 0;
@@ -230,7 +230,7 @@ void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
             itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
             return;
         } else {
-            RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+            input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
             itemUse->mThrowBehindPending = 1;
             itemUse->mThrowBehindTimer = 2;
             itemUse->mItemBitsEveryCall = 0;
@@ -260,9 +260,9 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     u16 randomLimit;
     u32 randomPart;
 
-    rank = GetKartRank(kartAi->mIndex);
+    rank = rstat_getPlace(kartAi->mIndex);
     if (rank == 1) {
-        RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+        input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
         itemUse->mThrowBehindPending = 1;
         itemUse->mThrowBehindTimer = 2;
         itemUse->mItemBitsEveryCall = 0;
@@ -280,10 +280,10 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
         }
         itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
         return;
-    } else if ((u32) rank >= 2 && rank <= gRaceSetup->mKartCount - 1) {
+    } else if ((u32) rank >= 2 && rank <= gRaceMultiConfig->mKartCount - 1) {
         switch (itemUse->mHeldItemEntry->mThenBitKind) {
             case 0:
-                RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+                input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mItemBitsEveryCall = 0;
                 if (itemUse->mItemInUseEntry == NULL) {
                     return;
@@ -300,7 +300,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
                 return;
             case 1:
-                RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+                input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowForwardPending = 1;
                 itemUse->mThrowForwardTimer = 2;
                 itemUse->mItemBitsEveryCall = 0;
@@ -319,7 +319,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
                 return;
             case 2:
-                RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+                input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
                 itemUse->mThrowBehindPending = 1;
                 itemUse->mThrowBehindTimer = 2;
                 itemUse->mItemBitsEveryCall = 0;
@@ -341,7 +341,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
                 return;
         }
     } else {
-        RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+        input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
         itemUse->mThrowForwardPending = 1;
         itemUse->mThrowForwardTimer = 2;
         itemUse->mItemBitsEveryCall = 0;
@@ -362,7 +362,7 @@ void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemSingleKinokoUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
     RandomState64 *random;
     u16 randomLimit;
@@ -380,7 +380,7 @@ void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi
     if (kartAi->mTurnAngleDegrees >= 0x14000) {
         return;
     }
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -397,7 +397,7 @@ void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_slotItemTripleKinokoKinokoPUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     BOOL timerRanOut;
     RandomState64 *random;
     u16 randomLimit;
@@ -415,7 +415,7 @@ void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     if (kartAi->mTurnAngleDegrees >= 0x14000) {
         return;
     }
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mHeldItemEntry == NULL) {
         return;
@@ -432,13 +432,13 @@ void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mHeldItemTimer = itemUse->mHeldItemEntry->mTimerBase + (u16) randomPart;
 }
 
-u32 func_0207cb70(u32 value) {
+u32 enit_dragItemDummyUpdate(u32 value) {
     return value;
 // Calls one of two handlers, by whether the item in use is the circling kind.
 }
 
-void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
-    if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {
+void enit_dragItemKouraGRUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+    if (it_sDriverItemStatus[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_CIRCLE) {
         data_0217ae48(itemUse, kartAi);
     } else {
         data_0217ae44(itemUse, kartAi);
@@ -446,8 +446,8 @@ void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi
 // Calls one of two handlers, by whether the item in use is the trail kind.
 }
 
-void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi) {
-    if (gKartItems[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_TRAIL) {
+void enit_dragItemBananaBombUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+    if (it_sDriverItemStatus[kartAi->mIndex].mItemInUse.mUseKind == ITEM_USE_KIND_TRAIL) {
         data_0217ae3c(itemUse, kartAi);
     } else {
         data_0217ae40(itemUse, kartAi);
@@ -489,7 +489,7 @@ void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     s32 heldItemIndex;
     BOOL timerRanOut;
 
-    kartItems = &gKartItems[kartAi->mIndex];
+    kartItems = &it_sDriverItemStatus[kartAi->mIndex];
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
@@ -518,7 +518,7 @@ void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     s32 heldItemIndex;
     BOOL timerRanOut;
 
-    kartItems = &gKartItems[kartAi->mIndex];
+    kartItems = &it_sDriverItemStatus[kartAi->mIndex];
     heldItemIndex = kartItems->mHeldItem.mItemInfoIndex;
     if (itemUse->mItemBitsEveryCall != 0) {
         if (heldItemIndex != 0x13) {
@@ -542,19 +542,19 @@ void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     }
 }
 
-void SetupRaceItemEntries(void) {
-    switch (gRaceSetup->mCpuDifficulty) {
+void enit_setupFunctions(void) {
+    switch (gRaceMultiConfig->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
-            gCurrentHeldItemEntries = gRaceEasyHeldItemEntries;
-            gCurrentItemInUseEntries = gRaceItemInUseEntries;
+            enit_sSlotItemParamsPtr = enit_sSlotItemParamsEasy;
+            enit_sDragItemParamsPtr = enit_sDragItemParams;
             data_0217ae48 = UseItemByRankAfterInUse;
             data_0217ae44 = func_0207c8d8;
             data_0217ae3c = UseItemByRankAfterInUse;
             data_0217ae40 = func_0207c8d8;
             break;
         case CPU_DIFFICULTY_NORMAL:
-            gCurrentHeldItemEntries = gRaceNormalHeldItemEntries;
-            gCurrentItemInUseEntries = gRaceItemInUseEntries;
+            enit_sSlotItemParamsPtr = enit_sSlotItemParamsMedium;
+            enit_sDragItemParamsPtr = enit_sDragItemParams;
             data_0217ae48 = UseItemByRankAfterInUse;
             data_0217ae44 = func_0207c8d8;
             data_0217ae3c = UseItemByRankAfterInUse;
@@ -562,8 +562,8 @@ void SetupRaceItemEntries(void) {
             break;
         case CPU_DIFFICULTY_HARD:
         default:
-            gCurrentHeldItemEntries = gRaceHardHeldItemEntries;
-            gCurrentItemInUseEntries = gRaceItemInUseEntries;
+            enit_sSlotItemParamsPtr = enit_sSlotItemParamsHard;
+            enit_sDragItemParamsPtr = enit_sDragItemParams;
             data_0217ae48 = UseItemByTargetOrRankAfterInUse;
             data_0217ae44 = func_0207c978;
             data_0217ae3c = UseItemByTargetOrRankAfterInUse;
@@ -573,12 +573,12 @@ void SetupRaceItemEntries(void) {
 }
 
 // Also stops the every-call request of the item bits.
-void UseItemAndResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_deploySlotItem(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
 
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mHeldItemEntry == NULL) {
         return;
@@ -596,12 +596,12 @@ void UseItemAndResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
 }
 
 // Also stops the every-call request of the item bits.
-void UseItemAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_deployDragItem(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
 
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mItemBitsEveryCall = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -619,12 +619,12 @@ void UseItemAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
 }
 
 // Also stops the every-call request of the item bits.
-void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_deployDragItemForwards(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
 
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mThrowForwardPending = 1;
     itemUse->mThrowForwardTimer = 2;
     itemUse->mItemBitsEveryCall = 0;
@@ -644,12 +644,12 @@ void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kar
 }
 
 // Also stops the every-call request of the item bits.
-void UseItemBehindAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_deployDragItemBackwards(KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
 
-    RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     itemUse->mThrowBehindPending = 1;
     itemUse->mThrowBehindTimer = 2;
     itemUse->mItemBitsEveryCall = 0;
@@ -668,7 +668,7 @@ void UseItemBehindAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kart
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void ClearKartAiItemUse(KartAiItemUse *itemUse) {
+void enit_init(KartAiItemUse *itemUse) {
     itemUse->mHeldItemTimer = 0x0u;
     itemUse->mItemInUseTimer = 0x0u;
     itemUse->mHeldItemEntry = NULL;
@@ -684,7 +684,7 @@ void ClearKartAiItemUse(KartAiItemUse *itemUse) {
 
 // On the call whose kart index matches the race frame count mod 8, runs the entry function or sends ITEM_BITS; on
 // the other calls sends the pending bit 0x40 (ITEM_THROW_FORWARD_BIT) or 0x80.
-void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_update(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     u16 kartIndex;
     KartItems *kartItems;
 
@@ -692,53 +692,53 @@ void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi
         return;
     }
     kartIndex = kartAi->mIndex;
-    if (kartIndex == GetRaceUpdateFramesMod8()) {
-        kartItems = &gKartItems[kartIndex];
+    if (kartIndex == race_getFrameCounterModulo8()) {
+        kartItems = &it_sDriverItemStatus[kartIndex];
         if (kartItems->mItemInUse.mObjectKind != 0xf && itemUse->mItemInUseEntry != NULL) {
             itemUse->mItemInUseEntry->mHandler(itemUse, kartAi);
         } else if ((itemUse->mHeldItemEntry != 0) & (kartItems->mHeldItem.mItemInfoIndex != 0x13)) {
             itemUse->mHeldItemEntry->mHandler(itemUse, kartAi);
         } else {
-            RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+            input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
         }
     } else if (itemUse->mThrowForwardPending != 0) {
-        RequestBits(kartAi->mKart->mEntryIndex, ITEM_THROW_FORWARD_BIT);
+        input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_THROW_FORWARD_BIT);
         itemUse->mThrowForwardTimer--;
         if (itemUse->mThrowForwardTimer <= 0) {
             itemUse->mThrowForwardPending = 0;
         }
     } else if (itemUse->mThrowBehindPending != 0) {
-        RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_DOWN);
+        input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, PAD_KEY_DOWN);
         itemUse->mThrowBehindTimer--;
         if (itemUse->mThrowBehindTimer <= 0) {
             itemUse->mThrowBehindPending = 0;
         }
     }
     if (itemUse->mItemBitsEveryCall != 0) {
-        RequestBits(kartAi->mKart->mEntryIndex, ITEM_BITS);
+        input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, ITEM_BITS);
     }
 }
 
-void AdvanceRaceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
-    if (IsKartEnded(kartAi->mIndex) != 0) {
+void enit_updateForRace(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
+    if (rstat_hasDriverFinished(kartAi->mIndex) != 0) {
         return;
     }
-    if (gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex == 0xe) {
+    if (it_sDriverItemStatus[kartAi->mIndex].mHeldItem.mItemInfoIndex == 0xe) {
         if (*(u16 *) &kartAi->mUnk_08.mLinkCursor.mLink->mUnk_24 > 1) {
             return;
         }
     }
-    AdvanceItemBitRequests(itemUse, kartAi);
+    enit_update(itemUse, kartAi);
 }
 
-void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_notifySlotItemChanged(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
     enum { K0 } heldItemIndex;
 
-    heldItemIndex = gKartItems[kartAi->mIndex].mHeldItem.mItemInfoIndex;
-    itemUse->mHeldItemEntry = &gCurrentHeldItemEntries[heldItemIndex];
+    heldItemIndex = it_sDriverItemStatus[kartAi->mIndex].mHeldItem.mItemInfoIndex;
+    itemUse->mHeldItemEntry = &enit_sSlotItemParamsPtr[heldItemIndex];
     random = GetKartAiRandom();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     itemUse->mRandomValue = (s16) (u16) (random->mValue >> 52);
@@ -757,7 +757,7 @@ void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mHeldItemTimer = itemUse->mHeldItemEntry->mTimerBase + (u16) randomPart;
 }
 
-void ResetHeldItemTimer(struct KartAiItemUse *itemUse) {
+void enit_beginSlotItemTimeout(struct KartAiItemUse *itemUse) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
@@ -778,7 +778,7 @@ void ResetHeldItemTimer(struct KartAiItemUse *itemUse) {
 }
 
 // Counts the held-item timer down; returns TRUE once it has run out.
-s32 DecrementHeldItemTimer(struct KartAiItemUse *itemUse) {
+s32 enit_updateSlotItemTimeout(struct KartAiItemUse *itemUse) {
     BOOL timerRanOut = FALSE;
 
     itemUse->mHeldItemTimer--;
@@ -789,7 +789,7 @@ s32 DecrementHeldItemTimer(struct KartAiItemUse *itemUse) {
     return timerRanOut;
 }
 
-void ResetItemInUseTimer(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry) {
+void enit_beginDragItemTimeout(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
@@ -810,7 +810,7 @@ void ResetItemInUseTimer(struct KartAiItemUse *itemUse, struct KartAiItemUseEntr
 }
 
 // Counts the item-in-use timer down; returns TRUE once it has run out.
-s32 DecrementItemInUseTimer(struct KartAiItemUse *itemUse) {
+s32 enit_updateDragItemTimeout(struct KartAiItemUse *itemUse) {
     BOOL timerRanOut = FALSE;
 
     itemUse->mItemInUseTimer--;
@@ -821,14 +821,14 @@ s32 DecrementItemInUseTimer(struct KartAiItemUse *itemUse) {
     return timerRanOut;
 }
 
-void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
+void enit_notifyDragItemChanged(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     RandomState64 *random;
     u16 randomLimit;
     u32 randomPart;
     enum { K0 } objectKind;
 
-    objectKind = gKartItems[kartAi->mIndex].mItemInUse.mObjectKind;
-    itemUse->mItemInUseEntry = &gCurrentItemInUseEntries[objectKind];
+    objectKind = it_sDriverItemStatus[kartAi->mIndex].mItemInUse.mObjectKind;
+    itemUse->mItemInUseEntry = &enit_sDragItemParamsPtr[objectKind];
     itemUse->mUnk_0c = 0;
     if (itemUse->mItemInUseEntry == NULL) {
         return;
@@ -845,8 +845,8 @@ void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi) {
     itemUse->mItemInUseTimer = itemUse->mItemInUseEntry->mTimerBase + (u16) randomPart;
 }
 
-void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+void camr_initRouteStat(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
+    CourseMapEntryGroup *entryGroup = &gMapData->mEntryGroups[mapCamera->mEntryGroupIndex];
     u16 i;
 
     posCurve->mParam = 0;
@@ -856,15 +856,15 @@ void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
         return;
     }
     for (i = 0; i < 4; i++) {
-        posCurve->mPoints[i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, i)->mPos;
+        posCurve->mPoints[i] = mdat_getPathPoint(mapCamera->mEntryGroupIndex, i)->mPos;
         posCurve->mUnk_34 = i;
     }
 }
 
-void func_0207bd6c(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
+void camr_initRouteStatReversed(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     s16 entryIndex;
     s16 i;
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+    CourseMapEntryGroup *entryGroup = &gMapData->mEntryGroups[mapCamera->mEntryGroupIndex];
 
     posCurve->mParam = 0;
     posCurve->mUnk_34 = 0;
@@ -876,18 +876,18 @@ void func_0207bd6c(PosCurve *posCurve, struct CourseMapCamera *mapCamera) {
     posCurve->mUnk_34 = 2;
     entryIndex = 2;
     for (i = 0; i < 3; i++) {
-        posCurve->mPoints[(u16) i] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
+        posCurve->mPoints[(u16) i] = mdat_getPathPoint(mapCamera->mEntryGroupIndex, entryIndex)->mPos;
         entryIndex--;
     }
-    posCurve->mPoints[3] = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, entryGroup->mEntryCount - 1)->mPos;
+    posCurve->mPoints[3] = mdat_getPathPoint(mapCamera->mEntryGroupIndex, entryGroup->mEntryCount - 1)->mPos;
 }
 
-void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep) {
+void camr_updateRoute(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep) {
     CourseMapEntryGroup *entryGroup;
     CourseMapGroupEntry *groupEntry;
     u16 i;
 
-    entryGroup = &gCourseMap->mEntryGroups[mapCamera->mEntryGroupIndex];
+    entryGroup = &gMapData->mEntryGroups[mapCamera->mEntryGroupIndex];
     posCurve->mParam += paramStep;
     if (posCurve->mParam > 0x1000) {
         posCurve->mUnk_34++;
@@ -895,7 +895,7 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
             posCurve->mUnk_34 = entryGroup->mEntryCount;
             posCurve->mParam = 0x1000;
         } else {
-            groupEntry = GetCourseMapGroupEntry(mapCamera->mEntryGroupIndex, posCurve->mUnk_34);
+            groupEntry = mdat_getPathPoint(mapCamera->mEntryGroupIndex, posCurve->mUnk_34);
             for (i = 0; i < 3; i++) {
                 posCurve->mPoints[i] = posCurve->mPoints[i + 1];
             }
@@ -903,10 +903,10 @@ void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *map
             posCurve->mParam -= 0x1000;
         }
     }
-    ComputePosCurvePoint(point, posCurve);
+    interpolateCubicSpline(point, posCurve);
 }
 
-void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve) {
+void interpolateCubicSpline(Vec3 *point, PosCurve *posCurve) {
     s32 param;
     s32 paramSquared;
     s32 paramCubed;

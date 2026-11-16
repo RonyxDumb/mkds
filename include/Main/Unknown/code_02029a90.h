@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_02029a90(void);
-void func_02029a98(void);
+void gpres_vblank(void);
+void gpres_finalize(void);

@@ -4,10 +4,10 @@
 
 #pragma thumb on
 
-int FlushAndSendMPData(int size, u32 childMask, u32 data) {
+int MBi_BlockHeaderEnd(int size, u32 childMask, u32 data) {
     DC_FlushRange((const void *) data, (size + 0x1fU & 0xffffffe0));
     DC_WaitWriteBufferEmpty();
-    return SendMPData((void *) data, size, childMask);
+    return MBw_SendMP((void *) data, size, childMask);
 }
 
 #pragma thumb off

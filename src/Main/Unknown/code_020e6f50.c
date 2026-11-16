@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void SetUpdateListSlot(void *listSlot) {
+void mobj_logicPartSetThisPointer(void *listSlot) {
     (*(MapObjectList **) listSlot)->mUnk_24 = listSlot;
 }
 

@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void AdvanceStaffRollTextState1(void);
-void AdvanceStaffRollText(void);
-void SetStaffRollScrollAndDrainQueue(void);
+void srol_updateInternal(void);
+void srol_update(void);
+void srol_vblank(void);

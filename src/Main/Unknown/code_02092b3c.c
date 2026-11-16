@@ -19,7 +19,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_02093190(u32 arg0) {
+void baspw_init(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     u32 value2;
@@ -27,13 +27,13 @@ void func_02093190(u32 arg0) {
     value2 = value0;
     value0 = MAP_OBJECT_KIND_BASABASA;
     value1 = 8u;
-    CreateParkedMapObjects(value0, value1, (void *) value2);
+    mobj_createSubObjects(value0, value1, (void *) value2);
 }
 
 static inline u32 func_02092b5c_inline(u32 n) {
     RandomState64 *mapObjectRandom;
 
-    mapObjectRandom = GetMapObjectRandom();
+    mapObjectRandom = mobj_getRng1();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     return ((mapObjectRandom->mValue >> 32) * n) >> 32;
 }
@@ -41,12 +41,12 @@ static inline u32 func_02092b5c_inline(u32 n) {
 static inline u16 func_02092b5c_inline_2(u32 n) {
     RandomState64 *mapObjectRandom;
 
-    mapObjectRandom = GetMapObjectRandom();
+    mapObjectRandom = mobj_getRng1();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     return (u32) (((mapObjectRandom->mValue >> 32) * n) >> 32);
 }
 
-void func_020930c8(MapObjectList *mapObjectList) {
+void baspw_globalInitLogic(MapObjectList *mapObjectList) {
     s32 i;
     Unk020919e8 *p;
 
@@ -75,16 +75,16 @@ static inline BOOL func_02092b5c_inline_3(Unk020919e8 *p, s32 k) {
     s32 d;
     Kart *kart;
 
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
         f = FALSE;
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
-            ((1 << gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mKind <= 3 &&
+            ((1 << gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             f = TRUE;
         }
-        if (f == FALSE && i != gRaceSetup->mEntryIndex) {
+        if (f == FALSE && i != gRaceMultiConfig->mEntryIndex) {
             continue;
         }
-        kart = GetKart((u16) i);
+        kart = driver_getById((u16) i);
         if (func_02092b5c_inline_4(&kart->mPos, &p->mUnk_00.mPos) >= 0x15f900000000LL) {
             continue;
         }
@@ -105,19 +105,19 @@ static inline void func_02092b5c_inline_5(Vec3 *v, s32 x, s32 y, s32 z) {
     v->z = z - 0x28000 + func_02092b5c_inline(0x50000);
 }
 
-s16 func_020930b0(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+s16 baspw_FX_SinIdx(s32 angle) {
+    return FX_SinCosTable_[(angle >> 4) * 2];
 }
 
-s32 func_020930a0(s32 a, s32 b) {
+s32 baspw_FX_TRUNC_MUL(s32 a, s32 b) {
     return ((s64) a * b) >> 12;
 }
 
-s16 func_02093080(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+s16 baspw_FX_CosIdx(s32 angle) {
+    return FX_SinCosTable_[(angle >> 4) * 2 + 1];
 }
 
-void func_02092b5c(void *a, Unk020919e8 *p) {
+void baspw_update(void *a, Unk020919e8 *p) {
     s32 i;
     s32 horizontalSpeed;
     u16 k;
@@ -127,7 +127,7 @@ void func_02092b5c(void *a, Unk020919e8 *p) {
 
     switch (p->mUnk_ac) {
         case 0:
-            if (GetCurrentCameraKind() == 2) {
+            if (race_getCameraField250() == 2) {
                 p->mUnk_ac = 1;
                 return;
             }
@@ -152,15 +152,15 @@ void func_02092b5c(void *a, Unk020919e8 *p) {
         for (i = 0; i < 2; i++) {
             func_02092b5c_inline_5(&basabasaPos, p->mUnk_00.mPos.x, p->mUnk_00.mPos.y + 0x23000, p->mUnk_00.mPos.z);
             k = p->mUnk_00.mAngle;
-            horizontalSpeed = NextRandomBelow(GetMapObjectRandom(), 0x1000) + 0x2000;
-            k = k - 0xbb8 + func_02046524(GetMapObjectRandom(), 0x1770);
-            basabasaVelocity.x = func_020930a0(horizontalSpeed, func_020930b0(k));
-            basabasaVelocity.y = NextRandomBelow(GetMapObjectRandom(), 0x400) - 0xa00;
-            basabasaVelocity.z = func_020930a0(horizontalSpeed, func_02093080(k));
+            horizontalSpeed = kan64_mobj_getRandom32(mobj_getRng1(), 0x1000) + 0x2000;
+            k = k - 0xbb8 + func_02046524(mobj_getRng1(), 0x1770);
+            basabasaVelocity.x = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_SinIdx(k));
+            basabasaVelocity.y = kan64_mobj_getRandom32(mobj_getRng1(), 0x400) - 0xa00;
+            basabasaVelocity.z = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_CosIdx(k));
             if (i == 0 && p->mUnk_a8 == 0) {
-                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 1, i == 0 ? 2 : 0);
+                basa_spawn(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 1, i == 0 ? 2 : 0);
             } else {
-                StartBasabasa(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 0, i == 0 ? 2 : 0);
+                basa_spawn(0x8c, &basabasaPos, &basabasaVelocity, 0xf, 0, i == 0 ? 2 : 0);
             }
         }
         p->mUnk_a8 += 1;
@@ -186,6 +186,6 @@ void func_02092b5c(void *a, Unk020919e8 *p) {
     }
 }
 
-void func_02092b3c(void) {
-    CreateMapObjectUpdateList(func_020930c8, func_02092b5c, NULL);
+void baspw_setupLogicPart(void) {
+    mobj_createLogicPart(baspw_globalInitLogic, baspw_update, NULL);
 }

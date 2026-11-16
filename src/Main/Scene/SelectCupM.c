@@ -60,41 +60,41 @@ void LocateAndQueueSelectCupM(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         return;
     }
-    LocateNcgr(&e, FindSceneFile(gSelectCupMBNcgrName3));
-    LocateNclr(&g, FindSceneFile(gSelectCupMBNclrName3));
-    LocateNscr(&f, FindSceneFile(gSelectCupMNscrName3));
-    LocateNcgr(&h, FindSceneFile(gSelectCupMBNcgrName3));
-    LocateNclr(&j, FindSceneFile(gSelectCupMBNclrName3));
-    LocateNscr(&i, FindSceneFile(gSelectCupMNscrName3));
-    gSelectCupM->mUnk_20 = HeapAlloc(gSelectCupM->mHeap, 0x800);
-    gSelectCupM->mMainBncl = FindSceneFile(gSelectCupMBnclName3);
-    gSelectCupM->mMainBnll = FindSceneFile(gSelectCupMBnllName3);
-    LocateNcgr2(&a, FindSceneFile(gSelectCupMNcgrName3));
-    LocateNcer(&gSelectCupM->mMainNcer, FindSceneFile(gSelectCupMNcerName3));
-    LocateNclr(&b, FindSceneFile(gSelectCupMONclrName3));
-    gSelectCupM->mSubBncl = FindSceneFile(gSelectCupMBnclName3);
-    gSelectCupM->mSubBnll = FindSceneFile(gSelectCupMBnllName3);
-    LocateNcgr2(&c, FindSceneFile(gSelectCupMNcgrName3));
-    LocateNcer(&gSelectCupM->mSubNcer, FindSceneFile(gSelectCupMNcerName3));
-    LocateNclr(&d, FindSceneFile(gSelectCupMONclrName3));
+    g2du_getCharacterDataBG(&e, arc_getSceneArcFile(gSelectCupMBNcgrName3));
+    g2du_getPaletteData(&g, arc_getSceneArcFile(gSelectCupMBNclrName3));
+    g2du_getScreenData(&f, arc_getSceneArcFile(gSelectCupMNscrName3));
+    g2du_getCharacterDataBG(&h, arc_getSceneArcFile(gSelectCupMBNcgrName3));
+    g2du_getPaletteData(&j, arc_getSceneArcFile(gSelectCupMBNclrName3));
+    g2du_getScreenData(&i, arc_getSceneArcFile(gSelectCupMNscrName3));
+    gSelectCupM->mUnk_20 = heap_alloc(gSelectCupM->mHeap, 0x800);
+    gSelectCupM->mMainBncl = arc_getSceneArcFile(gSelectCupMBnclName3);
+    gSelectCupM->mMainBnll = arc_getSceneArcFile(gSelectCupMBnllName3);
+    g2du_getCharacterData(&a, arc_getSceneArcFile(gSelectCupMNcgrName3));
+    g2du_getCellBankData(&gSelectCupM->mMainNcer, arc_getSceneArcFile(gSelectCupMNcerName3));
+    g2du_getPaletteData(&b, arc_getSceneArcFile(gSelectCupMONclrName3));
+    gSelectCupM->mSubBncl = arc_getSceneArcFile(gSelectCupMBnclName3);
+    gSelectCupM->mSubBnll = arc_getSceneArcFile(gSelectCupMBnllName3);
+    g2du_getCharacterData(&c, arc_getSceneArcFile(gSelectCupMNcgrName3));
+    g2du_getCellBankData(&gSelectCupM->mSubNcer, arc_getSceneArcFile(gSelectCupMNcerName3));
+    g2du_getPaletteData(&d, arc_getSceneArcFile(gSelectCupMONclrName3));
     v = b->mData;
-    if (!(GetPreviousMenuScreenNumber() == 0x17 || GetPreviousMenuScreenNumber() == 0xb)) {
-        CallQueueAppend(4, 0, e->mData, e->mDataSize);
-        CallQueueAppend(0xf, 0, g->mData, 0x140);
-        CallQueueAppend(8, 0, f->mData, f->mDataSize);
-        CallQueueAppend(8, 0x800, gSelectCupM->mUnk_20, 0x800);
+    if (!(menu_getPrevState() == 0x17 || menu_getPrevState() == 0xb)) {
+        NNS_GfdRegisterNewVramTransferTask(4, 0, e->mData, e->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(8, 0, f->mData, f->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, gSelectCupM->mUnk_20, 0x800);
     }
-    if (!(GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd)) {
-        CallQueueAppend(0x17, 0, h->mData, h->mDataSize);
-        CallQueueAppend(0x1f, 0, j->mData, 0x140);
-        CallQueueAppend(0x1b, 0, i->mData, i->mDataSize);
-        CallQueueAppend(0x1b, 0x800, gSelectCupM->mUnk_20, 0x800);
+    if (!(menu_getPrevState() == 0x19 || menu_getPrevState() == 0xd)) {
+        NNS_GfdRegisterNewVramTransferTask(0x17, 0, h->mData, h->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, 0, j->mData, 0x140);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0, i->mData, i->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectCupM->mUnk_20, 0x800);
     }
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0xe, 0, b->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, v + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, v + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, d->mData, d->mDataSize);
 }
 
 void InitSelectCupMCellsAndRequestCupPicture(void) {
@@ -131,32 +131,32 @@ void InitSelectCupMCellsAndRequestCupPicture(void) {
     gSelectCupM->mMainTable[19].mVisible = 1;
     gSelectCupM->mSubTable[20].mVisible = 0;
     gSelectCupM->mSubTable[19].mVisible = 1;
-    QueueSelectCupNameM(data_0215cf2c[GetCupIndex()], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl, 0x13, 0);
-    QueueSelectCupNameM(data_0215cf2c[GetCupIndex()], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl, 0x13, 1);
+    QueueSelectCupNameM(data_0215cf2c[SPM_GetSelectedCup()], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl, 0x13, 0);
+    QueueSelectCupNameM(data_0215cf2c[SPM_GetSelectedCup()], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl, 0x13, 1);
     n = FALSE;
     for (j = 0; j < 4; j++) {
-        func_0212426c(n, data_0215cf0c[j], gSelectCupM->mMainBnll,
-                      GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
+        jn_ui_212426C(n, data_0215cf0c[j], gSelectCupM->mMainBnll,
+                      jn_msg_getMessage(gSelectCupM->mCommonMessages, a_0123456789Abcdefghijkl_0[data_0215cf2c[SPM_GetSelectedCup()]][j]),
                       gSelectCupM->mMainBncl, gSelectCupM->mMainTable);
-        func_0212426c(1, data_0215cf0c[j], gSelectCupM->mSubBnll,
-                      GetBmgEntry(gSelectCupM->mCommonMessages, data_0215cf4c[data_0215cf2c[GetCupIndex()]][j]),
+        jn_ui_212426C(1, data_0215cf0c[j], gSelectCupM->mSubBnll,
+                      jn_msg_getMessage(gSelectCupM->mCommonMessages, a_0123456789Abcdefghijkl_0[data_0215cf2c[SPM_GetSelectedCup()]][j]),
                       gSelectCupM->mSubBncl, gSelectCupM->mSubTable);
     }
     a = data_0215cf04[0];
     gSelectCupM->mMainTable[a].mVisible = 1;
     j = data_0215cf0c[0];
-    SetLabelPaletteIndex(j, 0xe, gSelectCupM->mMainBnll, gSelectCupM->mMainTable, gSelectCupM->mMainBncl);
+    jn_ui_setLabelColorParam(j, 0xe, gSelectCupM->mMainBnll, gSelectCupM->mMainTable, gSelectCupM->mMainBncl);
     gSelectCupM->mSubTable[a].mVisible = 1;
-    SetLabelPaletteIndex(j, 0xe, gSelectCupM->mSubBnll, gSelectCupM->mSubTable, gSelectCupM->mSubBncl);
+    jn_ui_setLabelColorParam(j, 0xe, gSelectCupM->mSubBnll, gSelectCupM->mSubTable, gSelectCupM->mSubBncl);
     for (m = 1; m < 4; m++) {
         gSelectCupM->mMainTable[data_0215cf04[m]].mVisible = 0;
-        SetLabelPaletteIndex(data_0215cf0c[m], 0xf, gSelectCupM->mMainBnll, gSelectCupM->mMainTable,
+        jn_ui_setLabelColorParam(data_0215cf0c[m], 0xf, gSelectCupM->mMainBnll, gSelectCupM->mMainTable,
                              gSelectCupM->mMainBncl);
         gSelectCupM->mSubTable[data_0215cf04[m]].mVisible = 0;
-        SetLabelPaletteIndex(data_0215cf0c[m], 0xf, gSelectCupM->mSubBnll, gSelectCupM->mSubTable,
+        jn_ui_setLabelColorParam(data_0215cf0c[m], 0xf, gSelectCupM->mSubBnll, gSelectCupM->mSubTable,
                              gSelectCupM->mSubBncl);
     }
-    TrySetCupPictureIndexAndQueueLoads(data_0215cf8c[data_0215cf2c[GetCupIndex()]][0]);
+    cpic_loadForCourse(CoursePictureSlideDownTable[data_0215cf2c[SPM_GetSelectedCup()]][0]);
     gSelectCupM->mCupPicturePending = TRUE;
 }
 
@@ -249,32 +249,32 @@ void InitSelectCupM(void *a, void *b, void *c) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
-    p = CreateFrmHeapFromMaxFree(a);
-    gSelectCupM = HeapAlloc(p, 0x54);
+    p = heap_createSubFrmHeap(a);
+    gSelectCupM = heap_alloc(p, 0x54);
     gSelectCupM->mHeap = p;
     gSelectCupM->mCupPicturePending = FALSE;
     gSelectCupM->mUnk_48 = b;
     gSelectCupM->mUnk_4c = c;
     gSelectCupM->mUnk_50 = 0;
-    if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
+    if (menu_getPrevState() == 0x19 || menu_getPrevState() == 0xd) {
         gSelectCupM->mState = 1;
     } else {
         gSelectCupM->mState = 0;
     }
     LocateAndQueueSelectCupM();
-    gSelectCupM->mCommonMessages = FindFileInLoadedArchives(data_0216e09c);
+    gSelectCupM->mCommonMessages = arc_get2dArcFile(aCommon_bmg_24);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
-        InitLayoutTable(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
+        jn_ui_initLayout(gSelectCupM->mHeap, gSelectCupM->mMainBncl, gSelectCupM->mMainBnll, &gSelectCupM->mMainTable);
+        jn_ui_initLayout(gSelectCupM->mHeap, gSelectCupM->mSubBncl, gSelectCupM->mSubBnll, &gSelectCupM->mSubTable);
         m = 0x8000;
         for (i = 0; i < 4; i++) {
-            m -= InitLabelCanvas(gSelectCupM->mHeap, data_0215cf0c[i], gSelectCupM->mMainBnll, data_0215cef4[i],
+            m -= jn_ui_initLabel(gSelectCupM->mHeap, data_0215cf0c[i], gSelectCupM->mMainBnll, data_0215cef4[i],
                                  data_0215cf14[i], data_0215cf04[i], gSelectCupM->mMainNcer, gSelectCupM->mMainBncl,
                                  gSelectCupM->mMainTable, m);
         }
         i = GX_GetSizeOfSubOBJ();
         for (m = 0; m < 4; m++) {
-            i -= InitLabelCanvas(gSelectCupM->mHeap, data_0215cf0c[m], gSelectCupM->mSubBnll, data_0215cef4[m],
+            i -= jn_ui_initLabel(gSelectCupM->mHeap, data_0215cf0c[m], gSelectCupM->mSubBnll, data_0215cef4[m],
                                  data_0215cf14[m], data_0215cf04[m], gSelectCupM->mSubNcer, gSelectCupM->mSubBncl,
                                  gSelectCupM->mSubTable, i);
         }
@@ -284,12 +284,12 @@ void InitSelectCupM(void *a, void *b, void *c) {
         func_0211f380();
     }
     InitSelectCupMCellsAndRequestCupPicture();
-    if (GetPreviousMenuScreenNumber() == 0x19 || GetPreviousMenuScreenNumber() == 0xd) {
+    if (menu_getPrevState() == 0x19 || menu_getPrevState() == 0xd) {
         StartSelectCupMState1();
     } else {
         StartSelectCupMState0();
     }
-    FrmHeapShrinkInParent(gSelectCupM->mHeap);
+    heap_adjustSubFrmHeap(gSelectCupM->mHeap);
 }
 
 void ReleaseSelectCupM(void) {
@@ -298,7 +298,7 @@ void ReleaseSelectCupM(void) {
     } else {
         func_0211f498();
     }
-    HeapDestroy(gSelectCupM->mHeap);
+    heap_destroySubHeap(gSelectCupM->mHeap);
     gSelectCupM = NULL;
 }
 
@@ -313,8 +313,8 @@ void AdvanceSelectCupMState0(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         return;
     }
-    a = InterpolateS16(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
-    b = InterpolateS16(1, ~0xbf, ~0x1f, gSelectCupM->mStateFrames, 0xa);
+    a = mutil_interpolate(1, 0, 0xc0, gSelectCupM->mStateFrames, 0xa);
+    b = mutil_interpolate(1, ~0xbf, ~0x1f, gSelectCupM->mStateFrames, 0xa);
     c = gSelectCupM->mMainBncl->mUnk_06;
     gSelectCupM->mBg0Offset = a;
     gSelectCupM->mMainTable[20].mOffsetY = a;
@@ -356,8 +356,8 @@ void AdvanceSelectCupMState1(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         return;
     }
-    a = InterpolateS16(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
-    b = InterpolateS16(1, ~0x1f, ~0xbf, gSelectCupM->mStateFrames, 0xa);
+    a = mutil_interpolate(1, 0xc0, 0, gSelectCupM->mStateFrames, 0xa);
+    b = mutil_interpolate(1, ~0x1f, ~0xbf, gSelectCupM->mStateFrames, 0xa);
     c = gSelectCupM->mMainBncl->mUnk_06;
     gSelectCupM->mBg0Offset = a;
     gSelectCupM->mMainTable[20].mOffsetY = a;
@@ -407,26 +407,26 @@ s32 AdvanceSelectCupM(void) {
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         if (gSelectCupM->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
             p = GetCupPictureNscrData();
-            CallQueueAppend(0xf, 0, GetCupPictureNclrData(), 0xe0);
-            CallQueueAppend(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(0xf, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(4, 0x20, GetCupPictureNcgrData(), 0xdc0);
             a = 8;
             b = 0x14;
             for (i = 0; i < 0xb; i++) {
                 n = ((i + 8) << 5) + 0x16;
-                CallQueueAppend(a, n << 1, p + n, b);
+                NNS_GfdRegisterNewVramTransferTask(a, n << 1, p + n, b);
             }
-            CallQueueAppend(0x1f, 0, GetCupPictureNclrData(), 0xe0);
-            CallQueueAppend(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
             a = 0x1b;
             for (i = 0; i < 0xb; i++) {
                 n = ((i + 8) << 5) + 0x16;
-                CallQueueAppend(a, n << 1, p + n, b);
+                NNS_GfdRegisterNewVramTransferTask(a, n << 1, p + n, b);
             }
             gSelectCupM->mCupPicturePending = FALSE;
         }
-        DrawLayoutTable(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->mUnk_48,
+        jn_ui_renderElements(gSelectCupM->mMainBncl, gSelectCupM->mMainNcer, gSelectCupM->mMainBnll, gSelectCupM->mUnk_48,
                         gSelectCupM->mMainTable);
-        DrawLayoutTable(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->mUnk_4c,
+        jn_ui_renderElements(gSelectCupM->mSubBncl, gSelectCupM->mSubNcer, gSelectCupM->mSubBnll, gSelectCupM->mUnk_4c,
                         gSelectCupM->mSubTable);
     } else {
         AdvanceSelectRaceRuleWait();

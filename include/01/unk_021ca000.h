@@ -83,9 +83,9 @@ typedef struct MissionRunMSsel {
     /* 18 */ struct Unk0201ea30 *mMissionRunMSselSBnll;
     /* 1c */ Unk021ca414_1c *mUnk_1c;
     /* 20 */ u16 mUnk_20[0x10];
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 40 */ LayoutTableEntry *mMissionRunMSselMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
     /* 48 */ void *mUnk_48;
     // missionTable.mtbl: byte table, header u16 row width at +6, data at +8; GetMissionTableValue(table, row, column)
@@ -99,11 +99,11 @@ typedef struct MissionRunMSsel {
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames; /* counted only in states 1, 4, 8; zeroed by the next-state setter */
     /* 6c */ s32 mUnk_6c[9];
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS (0x04000010, NitroMain engine BG0), stored negated
     /* 90 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS (0x04000010, NitroMain engine BG0), stored negated
     /* 94 */ s32 mBg0OffsetY;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated; X is not written
+    // Y half of reg_G2_BG1OFS (0x04000014, NitroMain engine BG1), stored negated; X is not written
     /* 98 */ s32 mBg1Offset;
     /* 9c */ s16 mUnk_9c;
     /* 9e */ s16 mIndex; /* mission number - 1, 8 = ninth mission */
@@ -123,15 +123,15 @@ typedef struct SelectEngine {
     /* 00 */ struct Unk02021dc8 *mSelectEngineMNcer;
     /* 04 */ struct Unk0201ea30 *mSelectEngineMBncl;
     /* 08 */ struct Unk02021dc8 *mSelectEngineSNcer;
-    // gp/select_engine_B_s.bncl when IsBackupFlagSet(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
+    // gp/select_engine_B_s.bncl when savd_isUnlockBitSet(0x10) != 0, else gp/select_engine_A_s.bncl; the same flag hides
     // item 3 (A layout has no fourth item) (code_021a11a4.c:139-143 zeroes the cells of item 3 when
-    // IsBackupFlagSet(0x10) is 0)
+    // savd_isUnlockBitSet(0x10) is 0)
     /* 0c */ struct Unk0201ea30 *mSelectEngineAOrBSBncl;
     // same variant as mSelectEngineAOrBSBncl (.bnbl)
     /* 10 */ void *mSelectEngineAOrBSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 14 */ LayoutTableEntry *mSelectEngineMTable;
-    // cell records of mSelectEngineAOrBSBncl (variant chosen by IsBackupFlagSet(0x10))
+    // cell records of mSelectEngineAOrBSBncl (variant chosen by savd_isUnlockBitSet(0x10))
     /* 18 */ LayoutTableEntry *mSelectEngineAOrBSTable;
     /* 1c */ void *mUnk_1c;
     /* 20 */ void *mHeap;

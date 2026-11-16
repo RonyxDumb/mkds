@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateVsSelectKart(void);
+void menu_state9Render(void);

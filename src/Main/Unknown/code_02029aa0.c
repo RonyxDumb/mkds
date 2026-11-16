@@ -49,7 +49,7 @@
 #pragma thumb on
 
 // Sets up the Grand Prix results screen: loads its files and lays out the cup, course and time texts.
-void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
+void gpres_init(void *heap, void *firstOamList, void *secondOamList) {
     s16 timeText[10];
     Unk02125de0Arg config;
     ScreenMapFileSet mainScreenMapFileSet;
@@ -72,26 +72,26 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     Unk02153918 *tableEntry;
 
     labelTableIndex = 0;
-    gResultsGp = HeapAlloc(heap, 0x60);
-    MemFillWordsByBlock_inline(gResultsGp, 0x60);
-    gResultsGp->mOamLists[0] = firstOamList;
-    gResultsGp->mOamLists[1] = secondOamList;
-    gResultsGp->mCommonMessages = FindFileInLoadedArchives(data_02162138);
-    gResultsGp->mSecretMessages = FindSceneFile(gSecretBmgName);
-    gResultsGp->mCupIndex = data_0217b488->mCupIndex;
-    gResultsGp->mCupRankIndex = data_0217b488->mCupRankIndex;
-    if (gResultsGp->mCupRankIndex < 0) {
-        gResultsGp->mCupRankIndex = 0;
+    gpres_sState = heap_alloc(heap, 0x60);
+    MemFillWordsByBlock_inline(gpres_sState, 0x60);
+    gpres_sState->mOamLists[0] = firstOamList;
+    gpres_sState->mOamLists[1] = secondOamList;
+    gpres_sState->mCommonMessages = arc_get2dArcFile(aCommon_bmg_13);
+    gpres_sState->mSecretMessages = arc_getSceneArcFile(aSecret_bmg);
+    gpres_sState->mCupIndex = gStruct217B488->mCupIndex;
+    gpres_sState->mCupRankIndex = gStruct217B488->mCupRankIndex;
+    if (gpres_sState->mCupRankIndex < 0) {
+        gpres_sState->mCupRankIndex = 0;
     }
-    gResultsGp->mUnk_44 = data_0217b488->mUnk_80;
-    Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, data_021547f0);
-    SetBg1Record(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
-    SetBg3RecordParams(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
-    SetBg3RecordParams(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
-    InitDisplayFromSettings(displaySettings);
+    gpres_sState->mUnk_44 = gStruct217B488->mUnk_80;
+    race_initG3d();
+    displaySettings = dc_createDisplayConfig(heap, data_021547f0);
+    dc_setBg1Config(&displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x10, 6, 0);
+    dc_setBg3Config(&displaySettings->mMainBgRecords, 3, 0, 0, 0, 2, 6);
+    dc_setBg3Config(&displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
+    dc_setDisplayConfig(displaySettings);
     config.mUnk_00 = 1;
-    config.mUnk_04 = GetFontByIndex(1);
+    config.mUnk_04 = m2d_getFont(1);
     config.mUnk_08 = 0;
     config.mUnk_0c = 1;
     config.mUnk_10 = 0;
@@ -100,26 +100,26 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     config.mUnk_1c = 0;
     config.mUnk_20 = 0;
     config.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &config);
-    func_02025854(0, &mainScreenMapFileSet, gResultsGpMBNcgrName, gResultsGpMBNclrName, gResultsGpM1NscrName, 1,
-                  FindSceneFile);
-    LoadNscrData(&mainScreenMapFileSet.mScreenMaps[3], FindSceneFile(gResultsGpM2NscrName));
-    CallQueueAppend(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
+    gmenu_unpackData();
+    gmenu_init(heap, &config);
+    mutil2_initUnpackBgGraphics(0, &mainScreenMapFileSet, aResults_gp_m_b, aResults_gp_m_0, aResults_gp_m1_, 1,
+                  arc_getSceneArcFile);
+    g2du_unpackScreenData(&mainScreenMapFileSet.mScreenMaps[3], arc_getSceneArcFile(aResults_gp_m2_));
+    NNS_GfdRegisterNewVramTransferTask(0xb, 0, &mainScreenMapFileSet.mScreenMaps[3]->mData,
                     mainScreenMapFileSet.mScreenMaps[3]->mDataSize);
     mainObjSize = GX_GetSizeOfOBJ();
-    mainFileSet = &gResultsGp->mCellFileSets[0];
-    LoadCellFileSet(mainFileSet, gResultsGpMNcgrName, gResultsGpMNcerName, gResultsGpMONclrName, gResultsGpMBnclName,
-                    gResultsGpMBnllName, NULL, FindSceneFile);
-    func_02025a50(0, heap, mainFileSet);
-    MIi_CpuCopy16(&data_0217aa08->mFirstBlock->mPlayerName, playerName, 0x14);
+    mainFileSet = &gpres_sState->mCellFileSets[0];
+    mutil2_loadUnpackLayout(mainFileSet, aResults_gp_m_n, aResults_gp_m_1, aResults_gp_m_o, aResults_gp_m_2,
+                    aResults_gp_m_4, NULL, arc_getSceneArcFile);
+    mutil2_initLayout(0, heap, mainFileSet);
+    MIi_CpuCopy16(&gSaveData->mFirstBlock->mPlayerName, playerName, 0x14);
     playerName[10] = 0;
-    InitLabelCanvas(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
+    jn_ui_initLabel(heap, 0, mainFileSet->mLabelLayout, 0x82, 0xd, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout,
                     mainFileSet->mCellTable, mainObjSize);
-    func_0212426c(0, 0, mainFileSet->mLabelLayout, playerName, mainFileSet->mCellLayout, mainFileSet->mCellTable);
-    func_02124094(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
+    jn_ui_212426C(0, 0, mainFileSet->mLabelLayout, playerName, mainFileSet->mCellLayout, mainFileSet->mCellTable);
+    jn_ui_setLabelPriority(0, 1, mainFileSet->mLabelLayout, mainFileSet->mCellTable, mainFileSet->mCellLayout);
     for (i = 0; i < 8; i++) {
-        if (i == gResultsGp->mCupRankIndex) {
+        if (i == gpres_sState->mCupRankIndex) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
@@ -127,14 +127,14 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         mainFileSet->mCellTable[gCupRankCellIndexTable[i]].mVisible = cellFlag;
     }
     for (i = 0; i < 8; i++) {
-        if (i == gResultsGp->mUnk_44) {
+        if (i == gpres_sState->mUnk_44) {
             cellFlag = 1;
         } else {
             cellFlag = 0;
         }
         mainFileSet->mCellTable[data_02153888[i]].mVisible = cellFlag;
     }
-    if (gResultsGp->mCupRankIndex >= 3) {
+    if (gpres_sState->mCupRankIndex >= 3) {
         cellFlag = 1;
     } else {
         cellFlag = 0;
@@ -143,34 +143,34 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     mainFileSet->mCellTable[2].mVisible = mainFileSet->mCellTable[3].mVisible;
     mainFileSet->mCellTable[1].mVisible = (mainFileSet->mCellTable[2].mVisible == 0) ? 1 : 0;
     mainFileSet->mCellTable[0].mVisible = mainFileSet->mCellTable[1].mVisible;
-    characterIndex = data_0217b488->mCharacterIndex;
-    mainFileSet = &gResultsGp->mCellFileSets[0];
-    func_02025b84(1, &cellFileSet);
+    characterIndex = gStruct217B488->mCharacterIndex;
+    mainFileSet = &gpres_sState->mCellFileSets[0];
+    mutil2_loadPortraits(1, &cellFileSet);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet.mCells, cellFileSet.mChars, cellFileSet.mPalette,
                                   cellFileSet.mCellLayout, 0, 0x14, mainFileSet->mCells, mainFileSet->mCellLayout);
-    func_02025854(1, &subScreenMapFileSet, gResultsGpSBNcgrName, gResultsGpSBNclrName, gResultsGpSNscrName, 3,
-                  FindSceneFile);
+    mutil2_initUnpackBgGraphics(1, &subScreenMapFileSet, aResults_gp_s_b, aResults_gp_s_0, aResults_gp_s_n, 3,
+                  arc_getSceneArcFile);
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
-    subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(subFileSet, gResultsGpSNcgrName, gResultsGpSNcerName, gResultsGpSONclrName, gResultsGpSBnclName,
-                    gResultsGpSBnllName, NULL, FindSceneFile);
-    func_02025a50(1, heap, subFileSet);
+    subFileSet = &gpres_sState->mCellFileSets[1];
+    mutil2_loadUnpackLayout(subFileSet, aResults_gp_s_5, aResults_gp_s_3, aResults_gp_s_o, aResults_gp_s_4,
+                    aResults_gp_s_1, NULL, arc_getSceneArcFile);
+    mutil2_initLayout(1, heap, subFileSet);
     j = 0;
     tableEntry = data_02153918;
     for (; j < 16; j++) {
-        subObjSizeLeft -= func_02025a00(1, heap, subFileSet, tableEntry, subObjSizeLeft);
+        subObjSizeLeft -= mutil2_initLabel(1, heap, subFileSet, tableEntry, subObjSizeLeft);
         tableEntry++;
     }
-    message = GetBmgEntry(gResultsGp->mCommonMessages, gEngineMessageIndexTable[data_0217b488->mEngineIndex]);
+    message = jn_msg_getMessage(gpres_sState->mCommonMessages, gpres_sCCModeStringIds[gStruct217B488->mEngineIndex]);
     for (j = 0; j < 2; j++) {
-        func_0212426c(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+        jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
                       subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
-    if (data_0217b488->mMirrorMode != 0) {
-        message = GetBmgEntry(gResultsGp->mCommonMessages, 0x71);
+    if (gStruct217B488->mMirrorMode != 0) {
+        message = jn_msg_getMessage(gpres_sState->mCommonMessages, 0x71);
         for (j = 0; j < 2; j++) {
-            func_0212426c(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+            jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
                           subFileSet->mCellLayout, subFileSet->mCellTable);
             labelTableIndex++;
         }
@@ -178,29 +178,29 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
         labelTableIndex += 2;
     }
     for (courseIndex = 0; courseIndex < 4; courseIndex++) {
-        message = GetBmgEntry(gResultsGp->mCommonMessages,
-                              GetCourseMessageIndex(data_02153898[gResultsGp->mCupIndex][courseIndex]));
-        func_0212426c(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
+        message = jn_msg_getMessage(gpres_sState->mCommonMessages,
+                              mutil2_getCourseNameCommonMsgId(gpres_sCupCourses[gpres_sState->mCupIndex][courseIndex]));
+        jn_ui_212426C(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, message,
                       subFileSet->mCellLayout, subFileSet->mCellTable);
         labelTableIndex++;
     }
     for (j = 0; j < 4; j++) {
-        func_0202a340(timeText, j);
-        func_02124224(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, timeText,
+        gpres_getCourseTimeAsString(timeText, j);
+        jn_ui_2124224(1, data_02153918[labelTableIndex].mUnk_00, subFileSet->mLabelLayout, timeText,
                       subFileSet->mCellLayout, subFileSet->mCellTable, 7);
-        func_02124224(1, data_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout, timeText,
+        jn_ui_2124224(1, data_02153918[labelTableIndex + 4].mUnk_00, subFileSet->mLabelLayout, timeText,
                       subFileSet->mCellLayout, subFileSet->mCellTable, 7);
         labelTableIndex++;
     }
-    subFileSet = &gResultsGp->mCellFileSets[1];
-    LoadCellFileSet(&cupNameFileSet, gCupNameLeftNcgrName, gCupNameLeftNcerName, NULL, gCupNameLeftBnclName, NULL, NULL,
-                    FindSceneFile);
-    QueueCellChars(data_02153868[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
+    subFileSet = &gpres_sState->mCellFileSets[1];
+    mutil2_loadUnpackLayout(&cupNameFileSet, aCup_name_lef_2, aCup_name_lef_0, NULL, aCup_name_left_, NULL, NULL,
+                    arc_getSceneArcFile);
+    jn_ui_fillPlaceholder(gpres_sCupCellIds[gpres_sState->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
-    func_020629a4();
-    InitTrophy(gResultsGp->mCupIndex, (u16) gResultsGp->mCupRankIndex);
+    race_initResManagement();
+    trophy_init(gpres_sState->mCupIndex, (u16) gpres_sState->mCupRankIndex);
     i = -1;
-    switch (gResultsGp->mUnk_44) {
+    switch (gpres_sState->mUnk_44) {
         case 5:
             i = 0x1e;
             break;
@@ -214,43 +214,43 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     if (i >= 0) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, (u16) i);
     }
-    if (TrySetGrandPrixRecord()) {
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (race_saveGpResult()) {
+        bgwkr_waitForCompletion();
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
-        gResultsGp->mSecretMessageMask = func_020911a8();
+        gpres_sState->mSecretMessageMask = unlock_updateUnlocks();
     }
 }
 
 // Draws the Grand Prix results; after a delay and a button press or touch, shows each pending secret message, then
 // picks the next scene.
-void AdvanceResultsGp(SceneNumbersView *sceneNumbers) {
+void gpres_update(SceneNumbersView *sceneNumbers) {
     u32 inputSlotIndex;
     void *secretMessage;
     s32 i;
-    inputSlotIndex = func_020435bc();
+    inputSlotIndex = input_getDirectInputUnitId();
     secretMessage = NULL;
     for (i = 0; i < 2; i++) {
-        DrawLayoutTable(gResultsGp->mCellFileSets[i].mCellLayout, gResultsGp->mCellFileSets[i].mCells,
-                        gResultsGp->mCellFileSets[i].mLabelLayout, gResultsGp->mOamLists[i],
-                        gResultsGp->mCellFileSets[i].mCellTable);
+        jn_ui_renderElements(gpres_sState->mCellFileSets[i].mCellLayout, gpres_sState->mCellFileSets[i].mCells,
+                        gpres_sState->mCellFileSets[i].mLabelLayout, gpres_sState->mOamLists[i],
+                        gpres_sState->mCellFileSets[i].mCellTable);
     }
-    if (gResultsGp->mCupRankIndex < 3) {
-        AdvanceTrophy();
-        DrawTrophy();
+    if (gpres_sState->mCupRankIndex < 3) {
+        trophy_update();
+        trophy_render();
     }
-    switch (gResultsGp->mState) {
+    switch (gpres_sState->mState) {
         case 0: {
             s32 frameLimit;
             s32 frames;
-            frameLimit = func_0210f71c(gResultsGp->mCupRankIndex);
-            frames = gResultsGp->mState0Frames;
-            gResultsGp->mState0Frames = frames + 1;
+            frameLimit = func_0210f71c(gpres_sState->mCupRankIndex);
+            frames = gpres_sState->mState0Frames;
+            gpres_sState->mState0Frames = frames + 1;
             if (frames >= frameLimit) {
                 void *commonMessage;
                 u32 messageMask;
-                if (!(u16) (data_02175628[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
+                if (!(u16) (gInputUnits[inputSlotIndex].mPressedBits & PAD_KEY_A)) {
                     BOOL y;
                     BOOL x;
                     u16 z;
@@ -273,82 +273,82 @@ void AdvanceResultsGp(SceneNumbersView *sceneNumbers) {
                         break;
                     }
                 }
-                commonMessage = GetBmgEntry(gResultsGp->mCommonMessages, 4);
-                messageMask = gResultsGp->mSecretMessageMask;
+                commonMessage = jn_msg_getMessage(gpres_sState->mCommonMessages, 4);
+                messageMask = gpres_sState->mSecretMessageMask;
                 if (messageMask != 0) {
                     if (messageMask & 0x1) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 0);
-                        gResultsGp->mSecretMessageMask &= ~0x1;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 0);
+                        gpres_sState->mSecretMessageMask &= ~0x1;
                     } else if (messageMask & 0x2) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 1);
-                        gResultsGp->mSecretMessageMask &= ~0x2;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 1);
+                        gpres_sState->mSecretMessageMask &= ~0x2;
                     } else if (messageMask & 0x4) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 2);
-                        gResultsGp->mSecretMessageMask &= ~0x4;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 2);
+                        gpres_sState->mSecretMessageMask &= ~0x4;
                     } else if (messageMask & 0x8) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 3);
-                        gResultsGp->mSecretMessageMask &= ~0x8;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 3);
+                        gpres_sState->mSecretMessageMask &= ~0x8;
                     } else if (messageMask & 0x10) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 4);
-                        gResultsGp->mSecretMessageMask &= ~0x10;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 4);
+                        gpres_sState->mSecretMessageMask &= ~0x10;
                     } else if (messageMask & 0x20) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 5);
-                        gResultsGp->mSecretMessageMask &= ~0x20;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 5);
+                        gpres_sState->mSecretMessageMask &= ~0x20;
                     } else if (messageMask & 0x40) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 6);
-                        gResultsGp->mSecretMessageMask &= ~0x40;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 6);
+                        gpres_sState->mSecretMessageMask &= ~0x40;
                     } else if (messageMask & 0x80) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 7);
-                        gResultsGp->mSecretMessageMask &= ~0x80;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 7);
+                        gpres_sState->mSecretMessageMask &= ~0x80;
                     } else if (messageMask & 0x100) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 8);
-                        gResultsGp->mSecretMessageMask &= ~0x100;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 8);
+                        gpres_sState->mSecretMessageMask &= ~0x100;
                     } else if (messageMask & 0x200) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 9);
-                        gResultsGp->mSecretMessageMask &= ~0x200;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 9);
+                        gpres_sState->mSecretMessageMask &= ~0x200;
                     } else if (messageMask & 0x400) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 10);
-                        gResultsGp->mSecretMessageMask &= ~0x400;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 10);
+                        gpres_sState->mSecretMessageMask &= ~0x400;
                     } else if (messageMask & 0x800) {
-                        secretMessage = GetBmgEntry(gResultsGp->mSecretMessages, 11);
-                        gResultsGp->mSecretMessageMask &= ~0x800;
+                        secretMessage = jn_msg_getMessage(gpres_sState->mSecretMessages, 11);
+                        gpres_sState->mSecretMessageMask &= ~0x800;
                     }
                     SetTxtSystemOpenSoundId(0x53);
-                    SetupTxtSystemSubTextButtonEx(secretMessage, commonMessage, 0, 1, 1, 0);
-                    gResultsGp->mState = 1;
+                    gmenu_createSubMessageBoxConfirm(secretMessage, commonMessage, 0, 1, 1, 0);
+                    gpres_sState->mState = 1;
                 } else {
-                    switch (func_020909cc()) {
+                    switch (unlock_hasUnlockedTrueStaffRoll()) {
                         case 0:
                             if (sceneNumbers != NULL) {
                                 sceneNumbers->mNextScene = 0;
                             }
                             break;
                         case 1:
-                            SetupStaffRollRace(0);
+                            rconf_setupStaffRoll(0);
                             if (sceneNumbers != NULL) {
                                 sceneNumbers->mNextScene = 2;
                             }
                             break;
                         case 2:
-                            SetupStaffRollRace(1);
+                            rconf_setupStaffRoll(1);
                             if (sceneNumbers != NULL) {
                                 sceneNumbers->mNextScene = 2;
                             }
                             break;
                     }
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
-                    gResultsGp->mState = 2;
+                    gpres_sState->mState = 2;
                 }
             }
         } break;
         case 1:
             if (GetTxtSystemDone()) {
                 RequestTxtSystemClose();
-                gResultsGp->mState = 0;
+                gpres_sState->mState = 0;
             }
             break;
     }
-    func_02125928();
+    gmenu_render();
 }
 
 #pragma thumb off

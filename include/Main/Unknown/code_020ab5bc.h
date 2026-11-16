@@ -4,4 +4,4 @@
 
 typedef struct RepeatCounter RepeatCounter;
 
-void AdvanceRepeatCounter(RepeatCounter *repeatCounter);
+void KBD_UpdateAutoRepeat(RepeatCounter *repeatCounter);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenShine16Cells(void);
+void mpicn_destroyShine16Icon(void);

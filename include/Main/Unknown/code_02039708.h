@@ -4,5 +4,5 @@
 
 typedef struct InputSlot InputSlot;
 
-void ClearInputSlotBitsAndRepeat(InputSlot *slot);
-void ResetInputSlot(InputSlot *slot);
+void pad_clear(InputSlot *slot);
+void pad_init(InputSlot *slot);

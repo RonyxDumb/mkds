@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cb2cc(void);
+void menu_modeSelectInStateVblank(void);

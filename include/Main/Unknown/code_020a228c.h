@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020a228c(int kartIndex);
+void mgcnt_driverStopInflateBalloonByMic(int kartIndex);

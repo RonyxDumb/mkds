@@ -8,14 +8,14 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Three pointers filled in by LoadNclrData, LoadNcgrData2 and LoadNscrData.
+// Three pointers filled in by g2du_unpackPaletteData, g2du_unpackCharacterData and g2du_unpackScreenData.
 typedef struct Bg1Files {
     /* 00 */ Nclr *mPalette;
     /* 04 */ Ncgr *mChars;
     /* 08 */ Nscr *mScreenMap;
 } Bg1Files;
 
-// Object behind gLogoScene.
+// Object behind logo_sLogoState.
 typedef struct LogoScene {
     /* 00 */ Bg1Files mMainBg;
     /* 0c */ Bg1Files mSubBg;
@@ -33,8 +33,8 @@ typedef struct LogoScene {
     /* 38 */ Bmg *mCommonMessages;
 } LogoScene;
 
-extern LogoScene *gLogoScene;
-extern s32 data_02174e74;
+extern LogoScene *logo_sLogoState;
+extern s32 gDWCInitResult;
 
 void func_02001000(void);
 void func_0200104c(void);

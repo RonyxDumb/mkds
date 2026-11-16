@@ -9,7 +9,7 @@ u32 func_02122ae4(void) {
     u32 one;
     u32 testedStep;
     u32 twelve;
-    value1 = (u32) &gWiFiSession;
+    value1 = (u32) &gStruct217D384;
     result = 0u;
     value1 = *(const u32 *) ((value1) + (0));
     value1 = (value1) + (0x1000u);

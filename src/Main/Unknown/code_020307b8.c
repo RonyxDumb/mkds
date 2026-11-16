@@ -70,7 +70,7 @@ void RefreshMultiSelectNS(s32 showSelected) {
             rowNotSelected = z2;
         }
         multiSelectNS->mCellTable[rowCellIndices[1]].mVisible = rowNotSelected;
-        SetLabelPaletteIndex(rowCellIndices[2], valueTable[rowSelected], multiSelectNS->mBnll,
+        jn_ui_setLabelColorParam(rowCellIndices[2], valueTable[rowSelected], multiSelectNS->mBnll,
                              multiSelectNS->mCellTable, multiSelectNS->mBncl);
     }
 }
@@ -96,40 +96,40 @@ void InitMultiSelectNS(void *parentHeap, void *scene, void *oamList) {
     u32 subObjSizeLeft;
     s32 labelIndex;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gMultiSelectNS = HeapAlloc(heap, 0x40);
+    heap = heap_createSubFrmHeap(parentHeap);
+    gMultiSelectNS = heap_alloc(heap, 0x40);
     func_0203091c(gMultiSelectNS, 0x40);
     gMultiSelectNS->mHeap = heap;
     gMultiSelectNS->mUnk_1c = scene;
     gMultiSelectNS->mOamList = oamList;
-    gMultiSelectNS->mBannerMessages = FindSceneFile(data_0216362c);
+    gMultiSelectNS->mBannerMessages = arc_getSceneArcFile(aBanner_bmg_1);
     gMultiSelectNS->mOffset = -0xc0;
     subObjSizeLeft = GX_GetSizeOfSubOBJ();
     multiSelectNS = gMultiSelectNS;
-    LocateNcgr2(&multiSelectNS->mNcgr, FindSceneFile(data_02163638));
-    LocateNcer(&multiSelectNS->mNcer, FindSceneFile(data_02163654));
-    LocateNclr(&multiSelectNS->mNclr, FindSceneFile(data_02163670));
-    multiSelectNS->mBncl = FindSceneFile(gMultiSelectNSSBnclName);
-    multiSelectNS->mBnbl = FindSceneFile(gMultiSelectNSSBnblName);
-    multiSelectNS->mBnll = FindSceneFile(gMultiSelectNSSBnllName);
-    InitLayoutTable(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
+    g2du_getCharacterData(&multiSelectNS->mNcgr, arc_getSceneArcFile(aMulti_select_ns_s_nce_ncgr));
+    g2du_getCellBankData(&multiSelectNS->mNcer, arc_getSceneArcFile(aMulti_select_ns_s_nce_ncer));
+    g2du_getPaletteData(&multiSelectNS->mNclr, arc_getSceneArcFile(aMulti_select_ns_s_o_nclr));
+    multiSelectNS->mBncl = arc_getSceneArcFile(aMulti_select_ns_s_bncl);
+    multiSelectNS->mBnbl = arc_getSceneArcFile(aMulti_select_ns_s_bnbl);
+    multiSelectNS->mBnll = arc_getSceneArcFile(aMulti_select_ns_s_bnll);
+    jn_ui_initLayout(gMultiSelectNS->mHeap, multiSelectNS->mBncl, multiSelectNS->mBnll, &multiSelectNS->mCellTable);
     for (i = 0; i < 2; i++) {
         labelMessageRow = &gMultiSelectNSLabelMessageRows[i];
         labelIndex = labelMessageRow->mUnk_00;
         subObjSizeLeft -=
-            InitLabelCanvas(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,
+            jn_ui_initLabel(gMultiSelectNS->mHeap, labelIndex, multiSelectNS->mBnll, labelMessageRow->mUnk_02,
                             labelMessageRow->mUnk_04, labelMessageRow->mUnk_06, multiSelectNS->mNcer,
                             multiSelectNS->mBncl, multiSelectNS->mCellTable, subObjSizeLeft);
-        func_0212426c(1, labelIndex, multiSelectNS->mBnll,
-                      GetBmgEntry(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08), multiSelectNS->mBncl,
+        jn_ui_212426C(1, labelIndex, multiSelectNS->mBnll,
+                      jn_msg_getMessage(gMultiSelectNS->mBannerMessages, labelMessageRow->mUnk_08), multiSelectNS->mBncl,
                       multiSelectNS->mCellTable);
     }
-    CallQueueAppend(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, multiSelectNS->mNcgr->mData, multiSelectNS->mNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, multiSelectNS->mNclr->mData, multiSelectNS->mNclr->mDataSize);
     RefreshMultiSelectNS(1);
-    SetSelectReturnSoundId(0xe);
-    func_0204f804();
-    FrmHeapShrinkInParent(gMultiSelectNS->mHeap);
+    gmenu_setSeqArcIndex(0xe);
+    LEDBlink_Wireless();
+    heap_adjustSubFrmHeap(gMultiSelectNS->mHeap);
 }
 
 #pragma thumb off

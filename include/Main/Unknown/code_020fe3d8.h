@@ -4,4 +4,4 @@
 
 typedef struct ItemBomb ItemBomb;
 
-void ResetItemBomb(ItemBomb *bomb);
+void itbomb_initInstance(ItemBomb *bomb);

@@ -3,8 +3,8 @@
 
 #pragma thumb on
 
-s32 GetTitleStateFrames(void) {
-    return ((u32) gTitleScene->mStateFrames);
+s32 title_getFrameCounter(void) {
+    return ((u32) sTitleSceneState->mStateFrames);
 }
 
 #pragma thumb off

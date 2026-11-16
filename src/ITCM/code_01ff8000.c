@@ -11,39 +11,39 @@
 #include "cp_context.h"
 #include "registers.h"
 
-void func_01ff92e0(Unk01ff9048 *a) {
-    if (data_02173204 == 0) {
+void NNS_G3dGeSetBuffer(Unk01ff9048 *a) {
+    if (NNS_G3dGeBuffer == 0) {
         a->mUnk_00 = 0;
-        data_02173204 = a;
+        NNS_G3dGeBuffer = a;
     }
 }
 
-Unk01ff9048 *func_01ff92b4(void) {
+Unk01ff9048 *NNS_G3dGeReleaseBuffer(void) {
     Unk01ff9048 *p;
 
-    func_01ff9234();
-    p = data_02173204;
-    data_02173204 = 0;
+    NNS_G3dGeFlushBuffer();
+    p = NNS_G3dGeBuffer;
+    NNS_G3dGeBuffer = 0;
     return p;
 }
 // clang-format on
 
-void func_01ff9234(void) {
-    if (data_02173208 != 0) {
-        func_01ff921c();
+void NNS_G3dGeFlushBuffer(void) {
+    if (NNS_G3dFlagGXDmaAsync != 0) {
+        NNS_G3dGeWaitSendDL();
     }
-    if (data_02173204 == 0) {
+    if (NNS_G3dGeBuffer == 0) {
         return;
     }
-    if (data_02173204->mUnk_00 == 0) {
+    if (NNS_G3dGeBuffer->mUnk_00 == 0) {
         return;
     }
-    MIi_CpuSend32(data_02173204->mUnk_04, &reg_G3X_GXFIFO, data_02173204->mUnk_00 * 4);
-    data_02173204->mUnk_00 = 0;
+    MIi_CpuSend32(NNS_G3dGeBuffer->mUnk_04, &reg_G3X_GXFIFO, NNS_G3dGeBuffer->mUnk_00 * 4);
+    NNS_G3dGeBuffer->mUnk_00 = 0;
 }
 
-void func_01ff921c(void) {
-    while (data_02173208 != 0) {
+void NNS_G3dGeWaitSendDL(void) {
+    while (NNS_G3dFlagGXDmaAsync != 0) {
     }
 }
 
@@ -51,60 +51,60 @@ void func_01ff9210(u32 *a) {
     *a = 0;
 }
 
-void func_01ff9144(const void *a, u32 b) {
-    if (b < 0x100 || data_0216f074[0] == 0xffffffff) {
-        func_01ff9048(*(u32 *) a, a + 4, (b >> 2) - 1);
+void NNS_G3dGeSendDL(const void *a, u32 b) {
+    if (b < 0x100 || GXi_DmaId[0] == 0xffffffff) {
+        NNS_G3dGeBufferOP_N(*(u32 *) a, a + 4, (b >> 2) - 1);
         return;
     }
-    func_01ff9234();
-    data_02173208 = 1;
-    if (data_0217320c != 0) {
-        MI_SendGXCommandAsyncFast(data_0216f074[0], a, b, (MIDmaCallback) func_01ff9210, &data_02173208);
+    NNS_G3dGeFlushBuffer();
+    NNS_G3dFlagGXDmaAsync = 1;
+    if (NNS_G3dFlagUseFastDma != 0) {
+        MI_SendGXCommandAsyncFast(GXi_DmaId[0], a, b, (MIDmaCallback) func_01ff9210, &NNS_G3dFlagGXDmaAsync);
     } else {
-        MI_SendGXCommandAsync(data_0216f074[0], a, b, (MIDmaCallback) func_01ff9210, &data_02173208);
+        MI_SendGXCommandAsync(GXi_DmaId[0], a, b, (MIDmaCallback) func_01ff9210, &NNS_G3dFlagGXDmaAsync);
     }
 }
 
-void func_01ff9048(u32 a, const void *b, u32 n) {
+void NNS_G3dGeBufferOP_N(u32 a, const void *b, u32 n) {
     u32 c;
 
-    if (data_02173204 != 0) {
-        if (data_02173208 != 0) {
-            c = data_02173204->mUnk_00;
+    if (NNS_G3dGeBuffer != 0) {
+        if (NNS_G3dFlagGXDmaAsync != 0) {
+            c = NNS_G3dGeBuffer->mUnk_00;
             if (c + 1 + n <= 0xc0) {
-                data_02173204->mUnk_00 = c + 1;
-                data_02173204->mUnk_04[c] = a;
+                NNS_G3dGeBuffer->mUnk_00 = c + 1;
+                NNS_G3dGeBuffer->mUnk_04[c] = a;
                 if (n == 0) {
                     return;
                 }
-                MIi_CpuCopyFast(b, &data_02173204->mUnk_04[data_02173204->mUnk_00], n * 4);
-                data_02173204->mUnk_00 += n;
+                MIi_CpuCopyFast(b, &NNS_G3dGeBuffer->mUnk_04[NNS_G3dGeBuffer->mUnk_00], n * 4);
+                NNS_G3dGeBuffer->mUnk_00 += n;
                 return;
             }
         }
-        if (data_02173204->mUnk_00 != 0) {
-            func_01ff9234();
-        } else if (data_02173208 != 0) {
-            func_01ff921c();
+        if (NNS_G3dGeBuffer->mUnk_00 != 0) {
+            NNS_G3dGeFlushBuffer();
+        } else if (NNS_G3dFlagGXDmaAsync != 0) {
+            NNS_G3dGeWaitSendDL();
         }
-    } else if (data_02173208 != 0) {
-        func_01ff921c();
+    } else if (NNS_G3dFlagGXDmaAsync != 0) {
+        NNS_G3dGeWaitSendDL();
     }
     reg_G3X_GXFIFO = a;
     MIi_CpuSend32(b, &reg_G3X_GXFIFO, n * 4);
 }
 
-void func_01ff8ff8(Unk02170500 *s) {
+void G3dDrawInternal_Loop_(Unk02170500 *s) {
     u32 v1;
 
     do {
         s->mUnk_08 &= ~0x40;
         v1 = s->mUnk_00[0];
-        data_0216196c[v1 & 0x1f](s, v1 & 0xe0);
+        NNS_G3dFuncSbcTable[v1 & 0x1f](s, v1 & 0xe0);
     } while (!(s->mUnk_08 & 0x20));
 }
 
-void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i) {
+void G3dDrawInternal_(Unk02170500 *s, Unk02170500_04 *i) {
     MemFillWordsByBlock_inline(s, 0x188);
     s->mUnk_c4[0] = 1;
     s->mUnk_08 = 1;
@@ -119,7 +119,7 @@ void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i) {
     s->mUnk_dc = (u8 *) i->mUnk_04 + i->mUnk_04->mUnk_0c;
     s->mUnk_e8 = (UnkFunc *) data_02161850[i->mUnk_04->mUnk_15];
     s->mUnk_ec = data_02161844[i->mUnk_04->mUnk_15];
-    s->mUnk_f0 = data_0216185c[i->mUnk_04->mUnk_16];
+    s->mUnk_f0 = NNS_G3dSendTexSRT_FuncArray[i->mUnk_04->mUnk_16];
     s->mUnk_e0 = i->mUnk_04->mUnk_1c;
     s->mUnk_e4 = i->mUnk_04->mUnk_20;
     if (i->mUnk_20 != 0 && i->mUnk_24 < 0x20) {
@@ -141,11 +141,11 @@ void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i) {
     if (i->mUnk_28 != 0) {
         i->mUnk_28(s);
     }
-    func_01ff8ff8(s);
+    G3dDrawInternal_Loop_(s);
     i->mUnk_00 &= ~1;
 }
 
-void func_01ff8dec(u32 *a, NNSG3dAnmObj *b) {
+void updateHintVec__0(u32 *a, NNSG3dAnmObj *b) {
     s32 i;
 
     if (b == 0) {
@@ -161,7 +161,7 @@ void func_01ff8dec(u32 *a, NNSG3dAnmObj *b) {
     } while (b != 0);
 }
 
-void func_01ff8cf0(void *a) {
+void NNS_G3dDraw(void *a) {
     Unk02170500_04 *i;
     Unk02170500 v1;
 
@@ -171,40 +171,40 @@ void func_01ff8cf0(void *a) {
         func_01ff8cf0_inline(i->mUnk_44);
         func_01ff8cf0_inline(i->mUnk_4c);
         if (i->mUnk_08 != 0) {
-            func_01ff8dec(i->mUnk_3c, i->mUnk_08);
+            updateHintVec__0(i->mUnk_3c, i->mUnk_08);
         }
         if (i->mUnk_10 != 0) {
-            func_01ff8dec(i->mUnk_44, i->mUnk_10);
+            updateHintVec__0(i->mUnk_44, i->mUnk_10);
         }
         if (i->mUnk_18 != 0) {
-            func_01ff8dec(i->mUnk_4c, i->mUnk_18);
+            updateHintVec__0(i->mUnk_4c, i->mUnk_18);
         }
         i->mUnk_00 &= ~0x10;
     }
     if (data_02170500 != 0) {
-        func_01ff8e64(data_02170500, i);
+        G3dDrawInternal_(data_02170500, i);
         return;
     }
     data_02170500 = &v1;
-    func_01ff8e64(&v1, i);
+    G3dDrawInternal_(&v1, i);
     data_02170500 = 0;
 }
 
-void func_01ff8cc4(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_NOP(Unk02170500 *s, u32 a) {
     if (s->mUnk_0c[0] != 0) {
         s->mUnk_0c[0](s);
     }
     s->mUnk_00 += 1;
 }
 
-void func_01ff8c98(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_RET(Unk02170500 *s, u32 a) {
     if (s->mUnk_0c[1] != 0) {
         s->mUnk_0c[1](s);
     }
     s->mUnk_08 |= 0x20;
 }
 
-void func_01ff8b98(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_NODE(Unk02170500 *s, u32 a) {
     u32 w;
     u32 v1;
     Unk02170500_04 *i;
@@ -237,7 +237,7 @@ void func_01ff8b98(Unk02170500 *s, u32 a) {
     s->mUnk_00 += 3;
 }
 
-void func_01ff8b08(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_MTX(Unk02170500 *s, u32 a) {
     u32 w;
     u32 v;
 
@@ -249,7 +249,7 @@ void func_01ff8b08(Unk02170500 *s, u32 a) {
         }
         v = s->mUnk_00[1];
         if (!(s->mUnk_08 & 0x100)) {
-            func_01ff9048(0x14, &v, 1);
+            NNS_G3dGeBufferOP_N(0x14, &v, 1);
         }
         if (w == 3) {
             s->mUnk_08 &= ~0x40;
@@ -259,7 +259,7 @@ void func_01ff8b08(Unk02170500 *s, u32 a) {
     s->mUnk_00 += 2;
 }
 
-void func_01ff8738(Unk02170500 *s, u32 a, const u8 *e, u32 b) {
+void NNSi_G3dFuncSbc_MAT_InternalDefault(Unk02170500 *s, u32 a, const u8 *e, u32 b) {
     u32 w;
     u32 m;
     u32 *d;
@@ -314,12 +314,12 @@ void func_01ff8738(Unk02170500 *s, u32 a, const u8 *e, u32 b) {
         o->mUnk_00 |= 0x20;
     }
     k = *OFFSET_PTR(u16, e, 0x1e);
-    x = ((u32 *) data_02152bec)[(k >> 6) & 7];
-    o->mUnk_04 = (data_0217029c.mPrmMatColor0 & ~x) | (*OFFSET_PTR(u32, e, 4) & x);
-    y = ((u32 *) data_02152bec)[(*OFFSET_PTR(u16, e, 0x1e) >> 9) & 7];
-    o->mUnk_08 = (data_0217029c.mPrmMatColor1 & ~y) | (*OFFSET_PTR(u32, e, 8) & y);
+    x = ((u32 *) matColorMask_)[(k >> 6) & 7];
+    o->mUnk_04 = (NNS_G3dGlb.mPrmMatColor0 & ~x) | (*OFFSET_PTR(u32, e, 4) & x);
+    y = ((u32 *) matColorMask_)[(*OFFSET_PTR(u16, e, 0x1e) >> 9) & 7];
+    o->mUnk_08 = (NNS_G3dGlb.mPrmMatColor1 & ~y) | (*OFFSET_PTR(u32, e, 8) & y);
     x = *OFFSET_PTR(u32, e, 0x10);
-    o->mUnk_0c = (data_0217029c.mPrmPolygonAttr & ~x) | (*OFFSET_PTR(u32, e, 0xc) & x);
+    o->mUnk_0c = (NNS_G3dGlb.mPrmPolygonAttr & ~x) | (*OFFSET_PTR(u32, e, 0xc) & x);
     o->mUnk_10 = *OFFSET_PTR(u32, e, 0x14);
     o->mUnk_14 = *OFFSET_PTR(u16, e, 0x1c);
     k = *OFFSET_PTR(u16, e, 0x1e);
@@ -372,7 +372,7 @@ done:
             v2[4] = 0x2b2a;
             v2[5] = v1->mUnk_10;
             v2[6] = v1->mUnk_14;
-            func_01ff9048(v2[0], &v2[1], 6);
+            NNS_G3dGeBufferOP_N(v2[0], &v2[1], 6);
             if (v1->mUnk_00 & 0x18) {
                 s->mUnk_f0(v1);
             }
@@ -386,7 +386,7 @@ done:
     }
 }
 
-void func_01ff86b4(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_MAT(Unk02170500 *s, u32 a) {
     u32 f;
     u8 *h;
     u8 *e;
@@ -402,13 +402,13 @@ void func_01ff86b4(Unk02170500 *s, u32 a) {
             t = h + 4;
             b = *(u16 *) (t + *(u16 *) (h + 0xa));
             e = h + *(u32 *) (t + *(u16 *) (h + 0xa) + b * v1 + 4);
-            data_0216187c[*(u16 *) e](s, a, e, v1);
+            NNS_G3dFuncSbcMatTable[*(u16 *) e](s, a, e, v1);
         }
     }
     s->mUnk_00 += 2;
 }
 
-void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c) {
+void NNSi_G3dFuncSbc_SHP_InternalDefault(Unk02170500 *s, u32 a, NNSG3dResShpData *c) {
     u32 w;
 
     if (s->mUnk_0c[5] != 0) {
@@ -417,7 +417,7 @@ void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c) {
         w = 0;
     }
     if (!(s->mUnk_08 & 0x100)) {
-        func_01ff9144((u8 *) c + c->mOfsDL, c->mSizeDL);
+        NNS_G3dGeSendDL((u8 *) c + c->mOfsDL, c->mSizeDL);
     }
     if (w == 3) {
         s->mUnk_08 &= ~0x40;
@@ -425,7 +425,7 @@ void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c) {
     }
 }
 
-void func_01ff85d0(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_SHP(Unk02170500 *s, u32 a) {
     u32 f;
     Unk02170500_d4 *b;
     u8 *e;
@@ -438,12 +438,12 @@ void func_01ff85d0(Unk02170500 *s, u32 a) {
         v1 = s->mUnk_00[1];
         t = (u8 *) b + b->mUnk_06;
         e = (u8 *) b + *(u32 *) (t + *(u16 *) t * v1 + 4);
-        data_0216188c[*(u16 *) e](s, a, e, v1);
+        NNS_G3dFuncSbcShpTable[*(u16 *) e](s, a, e, v1);
     }
     s->mUnk_00 += 2;
 }
 
-void func_01ff8220(Unk02170500 *s, u32 a) {
+void NNSi_G3dFuncSbc_NODEDESC(Unk02170500 *s, u32 a) {
     s32 b0;
     s32 b1;
     enum { K0 } w;
@@ -478,7 +478,7 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             n += 1;
             if (!(f & 0x100)) {
                 t = s->mUnk_00[4];
-                func_01ff9048(0x14, &t, 1);
+                NNS_G3dGeBufferOP_N(0x14, &t, 1);
             }
         }
         s->mUnk_00 += n;
@@ -492,7 +492,7 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             q = s->mUnk_00[5];
         }
         if (!(s->mUnk_08 & 0x100)) {
-            func_01ff9048(0x14, &q, 1);
+            NNS_G3dGeBufferOP_N(0x14, &q, 1);
         }
     }
     s->mUnk_b4 = &s->mUnk_12c;
@@ -540,7 +540,7 @@ void func_01ff8220(Unk02170500 *s, u32 a) {
             r += 2;
             m = (*p & 0x100) ? -0x1000 : 0x1000;
             ((s32 *) o->mRot)[k] = m;
-            ((s32 *) o->mRot)[data_02152c0c[k][0]] = b0;
+            ((s32 *) o->mRot)[pivotUtil_[k][0]] = b0;
             ((s32 *) o->mRot)[data_02152c0d[k][0]] = b1;
             if (*p & 0x200) {
                 b1 = -b1;
@@ -580,7 +580,7 @@ done:
         n += 1;
         if (c == 0 && !(s->mUnk_08 & 0x100)) {
             t2 = s->mUnk_00[4];
-            func_01ff9048(0x13, &t2, 1);
+            NNS_G3dGeBufferOP_N(0x13, &t2, 1);
         }
     }
     s->mUnk_00 += n;
@@ -602,16 +602,16 @@ void func_01ff81b4(Unk02170500 *s, u32 a) {
             v[1] = x;
             v[0] = x;
         }
-        func_01ff9048(0x1b, v, 3);
+        NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
     s->mUnk_00 += 1;
 }
 
 // clang-format off
 // Interrupt dispatch: reads the interrupt flag and enable registers (0x04000210), takes the highest set bit with clz,
-// acknowledges it, and runs the function in OS_IRQTable for that bit with lr set to func_01ff8058.
+// acknowledges it, and runs the function in OS_IRQTable for that bit with lr set to OS_IrqHandler_ThreadSwitch.
 // Not compiled code: it jumps with a set return address instead of a call (ldr lr, bx).
-asm void func_01ff8000(void) {
+asm void OS_IrqHandler(void) {
     stmdb sp!, {lr}
     mov ip, #0x4000000
     add ip, ip, #0x210
@@ -631,7 +631,7 @@ L_loop:
     rsbs r0, r0, #0x1f
     ldr r1, =OS_IRQTable
     ldr r0, [r1, r0, lsl #0x2]
-    ldr lr, =func_01ff8058
+    ldr lr, =OS_IrqHandler_ThreadSwitch
     bx r0
 }
 // clang-format on
@@ -641,7 +641,7 @@ L_loop:
 // registers of the running thread in its context and loads those of the first runnable thread.
 // Not compiled code: it switches processor modes and moves the whole register set with the user-bank forms of stm and
 // ldm (msr, mrs, ^).
-asm void func_01ff8058(void) {
+asm void OS_IrqHandler_ThreadSwitch(void) {
     mov r2, #0x1
     mov r3, #0x0
     ldr ip, =data_027e0000
@@ -660,11 +660,11 @@ L_01ff8070:
     ldr ip, =data_027e0000
     str r3, [ip, #0x0]
     str r3, [ip, #0x4]
-    ldr ip, =data_0216ff5c
+    ldr ip, =OSi_ThreadInfo
     mov r1, #0x1
     strh r1, [ip, #0x0]
 L_01ff80a8:
-    ldr ip, =data_0216ff5c
+    ldr ip, =OSi_ThreadInfo
     ldrh r1, [ip, #0x0]
     cmp r1, #0x0
     ldreq pc, [sp], #0x4
@@ -718,7 +718,7 @@ L_01ff8120:
     stmdb sp!, {r1}
     add r0, r1, #0x0
     add r0, r0, #0x48
-    ldr r1, =CPi_RestoreContext
+    ldr r1, =CP_RestoreContext
     blx r1
     ldmia sp!, {r1}
     ldr sp, [r1, #0x44]

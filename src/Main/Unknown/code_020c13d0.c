@@ -4,7 +4,7 @@
 u32 func_020c13d0(void) {
     u32 value0;
     u32 zero;
-    value0 = (u32) &gRaceGoalS;
+    value0 = (u32) &r2d_sResults;
     zero = 0u;
     value0 = *(const u32 *) ((value0) + (0));
     *(u32 *) ((value0) + (164)) = zero;

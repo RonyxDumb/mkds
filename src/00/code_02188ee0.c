@@ -39,7 +39,7 @@ s32 func_ov000_02189280(void) {
 u32 func_ov000_0218925c(void) {
     s32 s;
 
-    s = func_ov000_021a8c8c();
+    s = aMgSelect_battle_stage_s_nce_ncer();
     if (s == 0 || s == -0x27) {
         return 1;
     }

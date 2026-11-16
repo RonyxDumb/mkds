@@ -36,7 +36,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void QuaternionMultiply(const Vec4 *a, const Vec4 *b, Vec4 *c) {
+void qrtn_mult(const Vec4 *a, const Vec4 *b, Vec4 *c) {
     Vec4 t;
 
     t.x = (a->w * b->x + a->x * b->w + (a->y * b->z - a->z * b->y)) >> 12;
@@ -46,14 +46,14 @@ void QuaternionMultiply(const Vec4 *a, const Vec4 *b, Vec4 *c) {
     *c = t;
 }
 
-void QuaternionBlend(Vec4 *a, const Vec4 *b, Vec4 *c, s32 d) {
+void qrtn_lerp(Vec4 *a, const Vec4 *b, Vec4 *c, s32 d) {
     c->x = a->x + ((d * (b->x - a->x)) >> 12);
     c->y = a->y + ((d * (b->y - a->y)) >> 12);
     c->z = a->z + ((d * (b->z - a->z)) >> 12);
     c->w = a->w + ((d * (b->w - a->w)) >> 12);
 }
 
-void Matrix4x3FromQuaternion(void *a, const Vec4 *b) {
+void qrtn_toMtx43(void *a, const Vec4 *b) {
     s32 *o = a;
     s32 w;
     s32 x;
@@ -96,7 +96,7 @@ void Matrix4x3FromQuaternion(void *a, const Vec4 *b) {
     o[11] = 0;
 }
 
-void Matrix3x3FromQuaternion(void *a, void *b) {
+void qtrn_toMtx33(void *a, void *b) {
     s32 *o = a;
     const Vec4 *q = b;
     s32 w;
@@ -137,22 +137,22 @@ void Matrix3x3FromQuaternion(void *a, void *b) {
     o[8] = 0x1000 - (ww + xx);
 }
 
-void AdvanceKartMotion(Kart *p) {
+void driver_1FFCC50(Kart *p) {
     if (p->mUnk_7c & 0xa0) {
         AdvanceKartScaleFactor(p);
         return;
     }
-    func_01ffca50(p);
+    driver_1FFCA50(p);
     UpdateKartSpeedLimitGoal(p);
-    func_02067488(p);
-    UpdateKartSpeedLimit(p);
-    func_01ffbd9c(p);
-    func_01ffc6c0(p);
-    func_01ff9d18(p);
+    driver_updateEnemy(p);
+    driver_1FFBE04(p);
+    driver_1FFBD9C(p);
+    driver_1FFC6C0(p);
+    driver_handleSpecialBoosts(p);
     if (p->mUnk_48 & 0x10000) {
-        AdvanceKartToKeyedPlacement(p);
+        driver_handleCannon(p);
     } else {
-        func_01ffb130(p);
+        driver_handleRegularDriving(p);
     }
 }
 
@@ -168,15 +168,15 @@ void AdvanceKartCollision(Kart *p) {
         p->mUnk_44 &= ~0x80000;
     }
     ComputeKartCollisionCenter(&p->mCollisionCenter, &p->mDrawMatrixPos, 0x400, p);
-    func_01ffa4b4(p, &v);
+    driver_handleCollision(p, &v);
     AdvanceKartOrientation(p, &v);
     p->mGroundNormal = v;
     p->mUnk_4d0 = p->mUnk_4d0 + 1;
     if (p->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        ComputeKartSidePoints(p);
+        rptc_updateDriverEffects(p);
     }
-    if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && IsRaceStarted() == 1) {
-        SetKartKind3ShapeMask(p->mIndex);
+    if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && race_getState() == 1) {
+        driver_updateClipAreaMask(p->mIndex);
     }
     func_01ffc920(p);
     AdvanceKartCollisionTimer(p);
@@ -186,7 +186,7 @@ void AdvanceKartCollision(Kart *p) {
     p->mUnk_230(p);
 }
 
-void UpdateKartPrevValuesAndClearFlags(Kart *p) {
+void driver_1FFCAC0(Kart *p) {
     p->mTestedKartMask = 0;
     p->mUnk_44 &= 0x57ffffdf;
     p->mUnk_4c &= 0xffeb7efd;
@@ -203,7 +203,7 @@ static inline const s32 func_01ffc090_inline(void) {
     return data_02165500;
 }
 
-void func_01ffca50(Kart *p) {
+void driver_1FFCA50(Kart *p) {
     p->mUnk_48 &= ~(KART_48_TURN_LEFT | KART_48_TURN_RIGHT);
     p->mRadius = ((s64) p->mRadiusFactor * (s32) (((s64) p->mPhysicalParam->mRadius * p->mUnk_394) >> 12)) >> 12;
     p->mUnk_1d4 = ((s64) p->mPhysicalParam->mUnk_04 * p->mScale.z) >> 12;
@@ -218,25 +218,25 @@ void func_01ffc9e8(Kart *p, s32 a) {
     c = (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
     b = data_0216ca58[a];
     d = GetKartCameraDistanceSquared(p->mIndex);
-    AddSoundRequest(&(data_0217d26c)[c], d + b, func_02071980, p, a);
+    AddSoundRequest(&(data_0217d26c)[c], d + b, driver_emitFloorSfx, p, a);
 }
 
-s32 AdvanceKartRank(Kart *p) {
+s32 driver_handlePlaceChanges(Kart *p) {
     BOOL b;
     s32 a;
     s32 c;
     Kart *o;
 
     b = FALSE;
-    a = GetKartRank(p->mIndex);
+    a = rstat_getPlace(p->mIndex);
     if (a != p->mRank) {
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            SetSceneSoundRank((u8) (a - 1));
+            snd_handlePositionChangeSfx((u8) (a - 1));
         }
-        if (a < p->mRank && a < gRaceSetup->mKartCount) {
-            c = gRaceProgress->mKartAtRank[(u8) (a + 1) - 1];
+        if (a < p->mRank && a < gRaceMultiConfig->mKartCount) {
+            c = gRaceStatus->mKartAtRank[(u8) (a + 1) - 1];
             if (c >= 0) {
-                o = GetKart((u16) c);
+                o = driver_getById((u16) c);
                 if (!(o->mUnk_7c & 0x402004)) {
                     b = TRUE;
                 }
@@ -259,11 +259,11 @@ void AdvanceKartCollisionTimer(Kart *p) {
     if (p->mKartCollisionTimer > 0) {
         return;
     }
-    StartKartCollisionSound(p, p->mSoundIndex, p->mUnk_3d0);
+    sfx_210B12C(p, p->mSoundIndex, p->mUnk_3d0);
     p->mKartCollisionTimer = 0;
 }
 
-void func_01ffc6c0(Kart *p) {
+void driver_1FFC6C0(Kart *p) {
     s32 a;
     s32 b;
     enum { K0 } k;
@@ -275,49 +275,49 @@ void func_01ffc6c0(Kart *p) {
             p->mUnk_48 &= ~0x44000;
         }
     }
-    if (IsRaceStarted() == 1) {
+    if (race_getState() == 1) {
         a = 0;
         if (func_01ffc67c(p) != FALSE) {
             k = p->mEntryIndex;
-            data_02175628[k].mBitMask = 0xe04;
+            gInputUnits[k].mBitMask = 0xe04;
             if (p->mUnk_4c & 0x10000000) {
                 k = p->mEntryIndex;
-                data_02175628[k].mBitMask = 0xe34;
+                gInputUnits[k].mBitMask = 0xe34;
             }
             if (p->mUnk_48 & 0x2000000) {
                 k = p->mEntryIndex;
-                data_02175628[k].mBitMask = 0xe05;
+                gInputUnits[k].mBitMask = 0xe05;
             }
         } else {
             k = p->mEntryIndex;
-            data_02175628[k].mBitMask = 0xff7;
-            func_01ffc558(p);
+            gInputUnits[k].mBitMask = 0xff7;
+            driver_handleNoForwardMode(p);
         }
-        func_01ffc5a0(p);
+        driver_handleABButtons(p);
         if (p->mState == KART_STATE_NORMAL) {
             b = 0;
             if (!(p->mUnk_44 & KART_44_DRIFTING)) {
-                b = TryTurnKartAtLowSpeed(p);
+                b = driver_handleWheelSpin(p);
             }
-            a = func_01ffc27c(p, b);
-            AdvanceKartDrift(p);
-            func_01ffba68(p);
+            a = driver_handleSteering(p, b);
+            driver_handleJumpAndDrift(p);
+            driver_handleAcceleration(p);
         }
-        func_01ffc090(p, a);
-        if (AdvanceKartRank(p) == 0) {
+        driver_updateYRot(p, a);
+        if (driver_handlePlaceChanges(p) == 0) {
             return;
         }
         if (p->mUnk_48 & 0x840) {
             return;
         }
-        func_0210af40(p, p->mSoundIndex, 8);
+        sfx_emitDriverVoice(p, p->mSoundIndex, 8);
         return;
     }
-    AdvanceKartRank(p);
-    func_01ffc558(p);
-    func_01ffc5a0(p);
+    driver_handlePlaceChanges(p);
+    driver_handleNoForwardMode(p);
+    driver_handleABButtons(p);
     k = p->mEntryIndex;
-    a = data_02175628[k].mBits;
+    a = gInputUnits[k].mBits;
     if ((u16) (a & PAD_KEY_LEFT)) {
         p->mUnk_48 |= KART_48_TURN_LEFT;
     } else if ((u16) (a & PAD_KEY_RIGHT)) {
@@ -333,7 +333,7 @@ BOOL func_01ffc67c(Kart *p) {
     return FALSE;
 }
 
-void func_01ffc5a0(Kart *p) {
+void driver_handleABButtons(Kart *p) {
     u32 *r;
     u32 *q;
     u32 f;
@@ -343,11 +343,11 @@ void func_01ffc5a0(Kart *p) {
     p->mUnk_44 &= ~0x40500;
     q = (u32 *) &p->mUnk_48;
     k = p->mEntryIndex;
-    if ((u16) (data_02175628[k].mBits & PAD_KEY_A)) {
+    if ((u16) (gInputUnits[k].mBits & PAD_KEY_A)) {
         *q |= 2;
     }
     k = p->mEntryIndex;
-    if ((u16) (data_02175628[k].mBits & PAD_KEY_B)) {
+    if ((u16) (gInputUnits[k].mBits & PAD_KEY_B)) {
         r = (u32 *) &p->mUnk_48;
         p->mUnk_48 |= 4;
         f = p->mUnk_48;
@@ -361,11 +361,11 @@ void func_01ffc5a0(Kart *p) {
     }
 }
 
-void func_01ffc558(Kart *p) {
+void driver_handleNoForwardMode(Kart *p) {
     RaceSetup *d;
     enum { K0 } k;
 
-    d = gRaceSetup;
+    d = gRaceMultiConfig;
     if (d->mMode != MODE_MISSION_RUN) {
         return;
     }
@@ -373,7 +373,7 @@ void func_01ffc558(Kart *p) {
         return;
     }
     k = p->mEntryIndex;
-    data_02175628[k].mBitMask = 0xff6;
+    gInputUnits[k].mBitMask = 0xff6;
 }
 
 void DecayValueToZero(s32 *p) {
@@ -383,7 +383,7 @@ void DecayValueToZero(s32 *p) {
     }
 }
 
-s32 func_01ffc27c(Kart *p, s32 a) {
+s32 driver_handleSteering(Kart *p, s32 a) {
     s32 x = p->mPhysicalParam->mUnk_30;
     BOOL d = FALSE;
     s32 r = 0;
@@ -415,7 +415,7 @@ s32 func_01ffc27c(Kart *p, s32 a) {
         }
         p->mHeadingAngle = p->mHeadingAngle - t;
         k = p->mEntryIndex;
-        w = data_02175628[k].mBits;
+        w = gInputUnits[k].mBits;
         if ((u16) (w & PAD_KEY_LEFT)) {
             p->mUnk_48 |= KART_48_TURN_LEFT;
         } else if ((u16) (w & PAD_KEY_RIGHT)) {
@@ -425,7 +425,7 @@ s32 func_01ffc27c(Kart *p, s32 a) {
     }
     if (!(f & KART_44_ON_GROUND)) {
         k = p->mEntryIndex;
-        w = data_02175628[k].mBits;
+        w = gInputUnits[k].mBits;
         if ((u16) (w & PAD_KEY_UP)) {
             p->mAirTiltAngle += 0x96;
             if (p->mAirTiltAngle > 0x157c) {
@@ -441,21 +441,21 @@ s32 func_01ffc27c(Kart *p, s32 a) {
     }
     c = p->mUnk_44;
     f = c;
-    if (((f & 0x100) && (u16) (data_02175628[k = p->mEntryIndex].mBits & PAD_KEY_B)) || ((f & 0x100) && !(f & 0xa))) {
+    if (((f & 0x100) && (u16) (gInputUnits[k = p->mEntryIndex].mBits & PAD_KEY_B)) || ((f & 0x100) && !(f & 0xa))) {
         b = -1;
         x = (s16) ((s16) x * (s16) b);
     }
     k = p->mEntryIndex;
-    w = data_02175628[k].mBits;
+    w = gInputUnits[k].mBits;
     if ((u16) (w & PAD_KEY_LEFT)) {
-        r = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(p, x, b, 1, d, KART_48_TURN_LEFT);
+        r = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) driver_applySteering)(p, x, b, 1, d, KART_48_TURN_LEFT);
     } else if ((u16) (w & PAD_KEY_RIGHT)) {
-        r = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) ApplyKartTurn)(p, x, b, -1, d, KART_48_TURN_RIGHT);
+        r = ((s32(*)(Kart *, s32, s32, s32, s32, u32)) driver_applySteering)(p, x, b, -1, d, KART_48_TURN_RIGHT);
     }
     return r;
 }
 
-s32 ApplyKartTurn(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
+s32 driver_applySteering(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
     s16 k;
     s16 x;
     u32 f;
@@ -496,7 +496,7 @@ s32 ApplyKartTurn(Kart *p, s16 a, s16 b, s32 c, s32 d, u32 e) {
     return 1;
 }
 
-void func_01ffc090(Kart *p, s32 a) {
+void driver_updateYRot(Kart *p, s32 a) {
     if (a == 0) {
         if (p->mUnk_44 & KART_44_DRIFTING) {
             p->mTurnHeadingAnglePerFrameGoal = -p->mTurnDirection * ((p->mPhysicalParam->mUnk_32 + p->mUnk_38a) >> 1);
@@ -517,7 +517,7 @@ void func_01ffc090(Kart *p, s32 a) {
 }
 
 // Writes base + (mRadius + extra) * up to the out vector, where up is row 1 of the matrix at 0x120 (the vector
-// GetKartUp returns), and nothing else.
+// driver_getShadowYDirection returns), and nothing else.
 void ComputeKartPointAlongUp(Vec3 *a, const Vec3 *b, s32 c, Kart *p) {
     VEC_MultAdd(p->mRadius + c, &p->mUnk_12c, b, a);
 }
@@ -535,7 +535,7 @@ void SetKartPrevCollisionCenter(Kart *p) {
     VEC_MultAdd(p->mRadius + 0x400, &p->mUnk_15c, &p->mDrawMatrixPos, &p->mPrevCollisionCenter);
 }
 
-// Called once per step of the driving states (AdvanceKartMotion, func_020651fc); also writes mUnk_dc in five branches.
+// Called once per step of the driving states (driver_1FFCC50, func_020651fc); also writes mUnk_dc in five branches.
 void UpdateKartSpeedLimitGoal(Kart *p) {
     s32 *q;
     u32 f;
@@ -573,7 +573,7 @@ void UpdateKartSpeedLimitGoal(Kart *p) {
 
 // Called right after UpdateKartSpeedLimitGoal: the limit falls by 0xf37/0x1000 per step down to the goal and rises to
 // it at once.
-void UpdateKartSpeedLimit(Kart *p) {
+void driver_1FFBE04(Kart *p) {
     if (p->mSpeedLimit > p->mSpeedLimitGoal) {
         p->mSpeedLimit = ((s64) p->mSpeedLimit * 0xf37) >> 12;
         if (p->mSpeedLimit < p->mSpeedLimitGoal) {
@@ -584,12 +584,12 @@ void UpdateKartSpeedLimit(Kart *p) {
     }
 }
 
-void func_01ffbd9c(Kart *p) {
+void driver_1FFBD9C(Kart *p) {
     FX_DivAsync(p->mVelocityLength, p->mSpeedLimit);
     if (p->mUnk_44 & KART_44_ON_GROUND) {
-        Vec3CrossUnrounded(&p->mUnk_120, &p->mGroundNormal, &p->mForward);
+        vec_crossProduct(&p->mUnk_120, &p->mGroundNormal, &p->mForward);
     } else {
-        GetKartForward(p, &p->mForward);
+        driver_getShadowZDirection(p, &p->mForward);
     }
     p->mVelocityLengthRatio = FX_GetDivResult();
     if (p->mVelocityLengthRatio > 0x1000) {
@@ -598,7 +598,7 @@ void func_01ffbd9c(Kart *p) {
     }
 }
 
-void func_01ffba68(Kart *p) {
+void driver_handleAcceleration(Kart *p) {
     s32 v;
     s32 a;
     s32 b;
@@ -621,7 +621,7 @@ void func_01ffba68(Kart *p) {
     c = v;
     f = p->mUnk_48;
     if (f & KART_48_BOOST) {
-        AdvanceKartBoost(&v, p);
+        driver_handleBoost(&v, p);
     } else if (f & 4) {
         v = -0x19a;
         if (p->mUnk_4c & 0x40) {

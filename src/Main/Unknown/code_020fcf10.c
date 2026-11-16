@@ -26,12 +26,12 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
         item->mUnk_22c.y = -item->mUnk_22c.y;
         item->mUnk_22c.z = -item->mUnk_22c.z;
     }
-    Vec3CrossUnrounded(&item->mUnk_22c, &kart->mGroundNormal, &t);
-    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2 + 1]) >> 12;
+    vec_crossProduct(&item->mUnk_22c, &kart->mGroundNormal, &t);
+    s = ((s64) radius * FX_SinCosTable_[(angle >> 4) * 2 + 1]) >> 12;
     item->mUnk_250.x = ((s64) t.x * s) >> 12;
     item->mUnk_250.y = ((s64) t.y * s) >> 12;
     item->mUnk_250.z = ((s64) t.z * s) >> 12;
-    s = ((s64) radius * gPairsByAngle[(angle >> 4) * 2]) >> 12;
+    s = ((s64) radius * FX_SinCosTable_[(angle >> 4) * 2]) >> 12;
     VEC_MultAdd(s, &item->mUnk_22c, &item->mUnk_250, &item->mUnk_250);
     VEC_MultAdd(0x1e000, &item->mUnk_22c, &item->mUnk_250, &t);
     if (func_0206c0b0(kart) == FALSE) {
@@ -44,7 +44,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     t.z = ((s64) toTarget->z * gain) >> 12;
     if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= (s64) maxStep * maxStep) {
         if ((s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&t, &t);
+            vec_normalize(&t, &t);
         }
         t.x = ((s64) t.x * maxStep) >> 12;
         t.y = ((s64) t.y * maxStep) >> 12;
@@ -54,7 +54,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     velocity->y = (velocity->y * (s32) oldWeight + t.y) >> shift;
     velocity->z = (velocity->z * oldWeight + t.z) >> shift;
     VEC_Add(velocity, pos, pos);
-    if (func_01ffdee4(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
+    if (col_collide(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
                       &t, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }

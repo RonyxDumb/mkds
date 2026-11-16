@@ -11,55 +11,55 @@
 #include "Main/Unknown/code_0207f000.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void SetupKartAiForRace(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+void enmy_initRaceEnemy(KartAi *kartAi, s32 kartIndex) {
+    Kart *kart = driver_getById(kartIndex);
 
-    kartAi->mUnk_154 = (gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0;
+    kartAi->mUnk_154 = (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mUnk_14 & 1) != 0;
     SetupRaceKartAi(kartAi, kart, kartAi->mUnk_154);
-    SetupRaceKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
-    ClearKartAiItemUse(&kartAi->mItemUse);
+    enrb_initForRace(&kartAi->mUnk_e8, kartAi);
+    enit_init(&kartAi->mItemUse);
     PickKartAiRaceStart(&kartAi->mUnk_e8, kartAi);
 }
 
 void ResetKartAiForRace(KartAi *kartAi) {
     ResetRaceKartAiAtPointLink(kartAi);
     ResetRaceKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
-    ClearKartAiItemUse(&kartAi->mItemUse);
+    enit_init(&kartAi->mItemUse);
 }
 
-void AdvanceKartAiForRace(KartAi *kartAi) {
+void enmy_updateRaceEnemy(KartAi *kartAi) {
     AdvanceRaceKartAi(kartAi);
-    AdvanceRaceKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
-    AdvanceRaceItemBitRequests(&kartAi->mItemUse, kartAi);
+    enrb_updateForRace(&kartAi->mUnk_e8, kartAi);
+    enit_updateForRace(&kartAi->mItemUse, kartAi);
 }
 
-void RequestKartAiPointLink(KartAi *kartAi) {
+void enmy_recalculateEpoiRoute(KartAi *kartAi) {
     if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
         if (kartAi->mUnk_08.mLinkCursor.mUnk_18 != FALSE) {
             return;
         }
     }
-    kartAi->mUnk_08.mLinkCursor.mRequestedLink = FindCourseMapKind4ShapeRacePointLink(&kartAi->mKart->mPos);
+    kartAi->mUnk_08.mLinkCursor.mRequestedLink = mdat_findEnemyPoint(&kartAi->mKart->mPos);
     if (kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL) {
         kartAi->mUnk_08.mLinkCursor.mUnk_18 = TRUE;
     }
 }
 
-BOOL IsKartAiLinkRequested(KartAi *kartAi) {
+BOOL enmy_getIsAreaEpoiNotNull(KartAi *kartAi) {
     return kartAi->mUnk_08.mLinkCursor.mRequestedLink != NULL;
 }
 
-void CopyKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
+void enmy_getTargetEpoiPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
     LinkCursor *cursor = &kartAi->mUnk_08.mLinkCursor;
 
     *position = *cursor->mLink->mUnk_18;
     *direction = cursor->mDirection;
 }
 
-void func_0208bfec(KartAi *kartAi) {
-    SetupHeldItemEntry(&kartAi->mItemUse, kartAi);
+void enmy_notifySlotItemChangedForRace(KartAi *kartAi) {
+    enit_notifySlotItemChanged(&kartAi->mItemUse, kartAi);
 }
 
-void func_0208bfd8(KartAi *kartAi) {
-    SetupItemInUseEntry(&kartAi->mItemUse, kartAi);
+void enmy_notifyDragItemChangedForRace(KartAi *kartAi) {
+    enit_notifyDragItemChanged(&kartAi->mItemUse, kartAi);
 }

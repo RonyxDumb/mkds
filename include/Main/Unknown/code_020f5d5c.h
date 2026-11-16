@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceItemKouraR(u32 kouraR);
+void itkrar_20F5D5C(u32 kouraR);

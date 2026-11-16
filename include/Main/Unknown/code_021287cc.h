@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 InitSelectReturn(void *heap, s32 subCharOffset);
+s32 gmenu_initSelectReturn(void *heap, s32 subCharOffset);

@@ -14,29 +14,29 @@ void CombineParticipantBits(void) {
 
     ClearParticipantBits();
     for (i = 0; i < 8; i++) {
-        if ((data_0217aa00->mParticipantMask & (1 << i)) != 0) {
+        if ((gStruct217AA00->mParticipantMask & (1 << i)) != 0) {
             for (j = 0; j < 4; j++) {
-                entry = &data_0217aa00->mUnk_045c[i];
+                entry = &gStruct217AA00->mUnk_045c[i];
                 bitsByte = &entry->mBits[j];
                 if (i == 0) {
-                    data_0217aa08->mParticipantAndBits[j] = *bitsByte;
-                    data_0217aa08->mParticipantOrBits[j] = *bitsByte;
+                    gSaveData->mParticipantAndBits[j] = *bitsByte;
+                    gSaveData->mParticipantOrBits[j] = *bitsByte;
                 } else {
-                    data_0217aa08->mParticipantAndBits[j] &= *bitsByte;
-                    data_0217aa08->mParticipantOrBits[j] |= *bitsByte;
+                    gSaveData->mParticipantAndBits[j] &= *bitsByte;
+                    gSaveData->mParticipantOrBits[j] |= *bitsByte;
                 }
             }
-            entry = &data_0217aa00->mUnk_045c[i];
-            value = func_02056dac(entry->mBits);
+            entry = &gStruct217AA00->mUnk_045c[i];
+            value = savd_calcKartUnlockLevel(entry->mBits);
             if (i == 0) {
-                data_0217aa08->mParticipantMaxValue = value;
-                data_0217aa08->mParticipantMinValue = value;
+                gSaveData->mParticipantMaxValue = value;
+                gSaveData->mParticipantMinValue = value;
             } else {
-                if (value > data_0217aa08->mParticipantMaxValue) {
-                    data_0217aa08->mParticipantMaxValue = value;
+                if (value > gSaveData->mParticipantMaxValue) {
+                    gSaveData->mParticipantMaxValue = value;
                 }
-                if (value < data_0217aa08->mParticipantMinValue) {
-                    data_0217aa08->mParticipantMinValue = value;
+                if (value < gSaveData->mParticipantMinValue) {
+                    gSaveData->mParticipantMinValue = value;
                 }
             }
         }
@@ -47,10 +47,10 @@ void ClearParticipantBits(void) {
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        data_0217aa08->mParticipantAndBits[i] = 0;
-        data_0217aa08->mParticipantOrBits[i] = 0;
+        gSaveData->mParticipantAndBits[i] = 0;
+        gSaveData->mParticipantOrBits[i] = 0;
     }
-    data_0217aa08->mParticipantMaxValue = 0;
-    data_0217aa08->mParticipantMinValue = 0;
+    gSaveData->mParticipantMaxValue = 0;
+    gSaveData->mParticipantMinValue = 0;
 }
 #pragma thumb off

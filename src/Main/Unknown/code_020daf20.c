@@ -54,49 +54,49 @@
 
 #pragma thumb off
 
-Unk020dbf2c *CreateDossunKindData(void) {
+Unk020dbf2c *dossun_setupConfig(void) {
     Unk020dbf2c *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_0215828c;
     return kindData;
 }
 
-Unk020dbed0 *CreateDossunDrawList(void) {
+Unk020dbed0 *dossun_setupRenderPart(void) {
     Unk020dbed0 *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    gDossunDrawList = drawList;
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    dossun_sRenderPart = drawList;
     *drawList = data_02158260;
-    func_020d49d8(&gDossunDrawList);
-    return gDossunDrawList;
+    mobj_renderPartSetThisPointer(&dossun_sRenderPart);
+    return dossun_sRenderPart;
 }
 
-Unk020dbe74 *CreateDossunUpdateList(void) {
+Unk020dbe74 *dossun_setupLogicPart(void) {
     Unk020dbe74 *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    gDossunUpdateList = updateList;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    dossun_sLogicPart = updateList;
     *updateList = data_02158238;
-    SetUpdateListSlot(&gDossunUpdateList);
-    return gDossunUpdateList;
+    mobj_logicPartSetThisPointer(&dossun_sLogicPart);
+    return dossun_sLogicPart;
 }
 
-void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
+void dossun_render(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha) {
     MtxFx43 *drawMatrix;
     drawMatrix = &dossun->mUnk_00.mMatrix;
     if (dossun->mUnk_b4 != 0) {
-        drawMatrix = &gDossunDrawMatrix;
-        MTX_RotY33_((s32 *) &gDossunDrawMatrix, gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2],
-                    gPairsByAngle[((u16) dossun->mUnk_ba >> 4) * 2 + 1]);
-        MTX_Concat33((const s32 *) &gDossunDrawMatrix, (const s32 *) &dossun->mUnk_00.mMatrix,
-                     (s32 *) &gDossunDrawMatrix);
+        drawMatrix = &dossun_sRotMtx;
+        MTX_RotY33_((s32 *) &dossun_sRotMtx, FX_SinCosTable_[((u16) dossun->mUnk_ba >> 4) * 2],
+                    FX_SinCosTable_[((u16) dossun->mUnk_ba >> 4) * 2 + 1]);
+        MTX_Concat33((const s32 *) &dossun_sRotMtx, (const s32 *) &dossun->mUnk_00.mMatrix,
+                     (s32 *) &dossun_sRotMtx);
     }
     drawMatrix->mUnk_00[3].x = dossun->mUnk_00.mPos.x >> 4;
     drawMatrix->mUnk_00[3].y = dossun->mUnk_00.mPos.y >> 4;
     drawMatrix->mUnk_00[3].z = dossun->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gDossun, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
-    DrawShadowWithMaxAlpha(gDossunShadow, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
+    model2_renderModel(dossun_sModel, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
+    model2_renderShadowModel(dossun_sShadowModel, drawMatrix, &dossun->mUnk_00.mScale, maxAlpha);
 }
 
-void UpdateDossun(void *unused, Dossun *dossun) {
+void dossun_update(void *unused, Dossun *dossun) {
     Unk0210b7a8 soundRequest;
     GroupFollower *follower;
     CourseMapGroupEntry *fromEntry;
@@ -149,19 +149,19 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                     ((s64) t * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
             }
         }
-        if (AdvanceGroupFollower(follower) != FALSE) {
+        if (pw_update(follower) != FALSE) {
             dossun->mUnk_00.mPos = follower->mFromEntry->mPos;
             dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
             if (follower->mForward != 0) {
                 follower->mProgress = 0;
             } else {
-                ReverseGroupFollower(follower);
-                SetGroupFollowerSegmentEnd(follower);
+                pw_reverse(follower);
+                pw_20D8648(follower);
             }
             dossun->mUnk_b4 = 2;
             return;
         }
-        GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
+        pw_calcCurrentPointLinearXYZ(follower, &dossun->mUnk_00.mPos);
         dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
         return;
     }
@@ -179,7 +179,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             return;
         case 1:
             if (dossun->mUnk_f0 != 0) {
-                StartMapObjectSoundWhileRequested(&dossun->mUnk_00, 0x18b);
+                mobj_emitSfxFromEmitter(&dossun->mUnk_00, 0x18b);
             }
             break;
         case 2:
@@ -191,7 +191,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             }
             dossun->mUnk_c2 += 0x1555;
             dossun->mUnk_00.mPos.y = dossun->mUnk_ac;
-            sine = gPairsByAngle[(dossun->mUnk_c2 >> 4) * 2];
+            sine = FX_SinCosTable_[(dossun->mUnk_c2 >> 4) * 2];
             dossun->mUnk_00.mPos.y += (s32) (((s64) sine * dossun->mUnk_c4) >> 12);
             return;
         case 3:
@@ -224,7 +224,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         case 6:
             break;
     }
-    if (AdvanceGroupFollower(follower) != FALSE) {
+    if (pw_update(follower) != FALSE) {
         switch (follower->mFromEntry->mUnk_10) {
             case 0:
                 n = 0;
@@ -246,10 +246,10 @@ void UpdateDossun(void *unused, Dossun *dossun) {
         }
         if (dossun->mState == 5) {
             fromEntry = follower->mFromEntry;
-            if (func_020d4ddc(&dossun->mUnk_00) == FALSE) {
-                if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (mobj_isInaudible(&dossun->mUnk_00) == FALSE) {
+                if (dossun->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                     n = 2;
-                } else if (dossun->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                } else if (dossun->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                     n = 3;
                 } else {
                     n = 4;
@@ -257,13 +257,13 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 soundRequest.mSoundId = 0x166;
                 soundRequest.mPositionSource = &dossun->mUnk_00.mPos;
                 soundRequest.mUnk_08 = n;
-                soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mUnk_00.mPos);
+                soundRequest.mDistanceSquared = mobj_calcXZCamDist(&dossun->mUnk_00.mPos);
                 func_0210b7a8(&soundRequest);
             }
-            StartCameraWobbleAtDistance(dossun->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+            cam_tryImpactShakePlayerCamera(dossun->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
             if ((dossun->mUnk_00.mDistanceSquaredAndFlags & 3) == 0) {
-                StartEffect(0x59, &fromEntry->mPos);
-                StartEffect(0x5a, &fromEntry->mPos);
+                ptcm_createEmitter(0x59, &fromEntry->mPos);
+                ptcm_createEmitter(0x5a, &fromEntry->mPos);
             }
             dossun->mEnteredState5 = TRUE;
         }
@@ -275,11 +275,11 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             return;
         }
     }
-    GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
+    pw_calcCurrentPointLinearXYZ(follower, &dossun->mUnk_00.mPos);
     dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
 }
 
-u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
+u32 dossun_onDriverCollide(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
     Vec3 kartOffset;
     Vec3 toNextEntry;
     Vec3 centerOffset;
@@ -290,12 +290,12 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
     s64 n;
     follower = &dossun->mFollower;
     if (*b == 1) {
-        if ((dossun->mUnk_c0 & (1 << kart->mIndex)) == 0 || dossun->mUnk_bc + 0xf < GetRaceUpdateFrames()) {
+        if ((dossun->mUnk_c0 & (1 << kart->mIndex)) == 0 || dossun->mUnk_bc + 0xf < race_getFrameCounter()) {
             VEC_Subtract(&kart->mCollisionCenter, &dossun->mUnk_00.mPos, &kartOffset);
             VEC_Subtract(&follower->mToEntry->mPos, &dossun->mUnk_00.mPos, &toNextEntry);
             toNextEntry.y += dossun->mHeightOffset;
-            if (Vec3DotUnrounded(&kartOffset, &toNextEntry) > 0) {
-                ReverseGroupFollower(follower);
+            if (vec_dotProduct(&kartOffset, &toNextEntry) > 0) {
+                pw_reverse(follower);
             }
             if (dossun->mState < 4) {
                 speed = 0xa800;
@@ -311,9 +311,9 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
             if ((s64) kartOffset.z * kart->mVelocity.x - (s64) kartOffset.x * kart->mVelocity.z < 0) {
                 dossun->mUnk_b8 = -dossun->mUnk_b8;
             }
-            StartSoundIfKartStarOrKiller(&dossun->mUnk_00, kart);
+            mobj_tryDestroyByDriver(&dossun->mUnk_00, kart);
             dossun->mUnk_c0 |= 1 << kart->mIndex;
-            dossun->mUnk_bc = GetRaceUpdateFrames();
+            dossun->mUnk_bc = race_getFrameCounter();
         }
     }
     if (dossun->mState == 4 || dossun->mEnteredState5 != FALSE) {
@@ -322,16 +322,16 @@ u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c) {
         verticalOffset = centerOffset.y;
         m = ((s64) verticalOffset * verticalOffset) << 2;
         if (verticalOffset < 0 && n < m) {
-            return GetKartMapObjectResponseByKind(dossun->mUnk_00.mFlags & 0x800, kart->mItemEffect, 4, 4);
+            return mobj_getDriverHitResponse(dossun->mUnk_00.mFlags & 0x800, kart->mItemEffect, 4, 4);
         }
     }
     return *c;
 }
 
-s32 func_020db4c4(Dossun *dossun) {
+s32 dossun_getMapElevation(Dossun *dossun) {
     s32 progress;
     s32 state;
-    progress = GetGroupFollowerProgress(&dossun->mFollower);
+    progress = pw_getProgress(&dossun->mFollower);
     state = dossun->mState;
     if (state < 4) {
         if (dossun->mUnk_f0 != 0) {
@@ -360,12 +360,12 @@ s32 func_020db4c4(Dossun *dossun) {
 }
 
 #pragma thumb on
-void func_020db430(Dossun *dossun) {
+void dossun_initState(Dossun *dossun) {
     GroupFollower *follower;
     s32 state;
     follower = &dossun->mFollower;
-    SetupGroupFollowerAtEntry(follower, dossun->mStartEntryIndex, 1);
-    GetGroupFollowerLinearPosition(follower, &dossun->mUnk_00.mPos);
+    pw_init(follower, dossun->mStartEntryIndex, 1);
+    pw_calcCurrentPointLinearXYZ(follower, &dossun->mUnk_00.mPos);
     dossun->mUnk_00.mPos.y += dossun->mHeightOffset;
     switch (follower->mFromEntry->mUnk_10) {
         case 0:
@@ -393,17 +393,17 @@ void func_020db430(Dossun *dossun) {
 #pragma thumb off
 
 #pragma thumb on
-void CreateDossunAndDossunShadow(void) {
-    CreateNsbmd((void **) &gDossun, FindCourseMapObjFile("dossun.nsbmd"), NULL);
-    CreateShadowModel((void **) &gDossunShadow, FindCourseMapObjFile("dossun_shadow.nsbmd"), 0x3f);
-    func_02084968(gDossun, 0x3f, 2, 0x294a);
+void dossun_loadModels(void) {
+    model2_createFromNsbmd((void **) &dossun_sModel, mobj_getMapObjFile("dossun.nsbmd"), NULL);
+    model2_createShadowFromNsbmd((void **) &dossun_sShadowModel, mobj_getMapObjFile("dossun_shadow.nsbmd"), 0x3f);
+    model_setPolyIdLightFlagsEmi(dossun_sModel, 0x3f, 2, 0x294a);
 }
 #pragma thumb off
 
 #pragma thumb on
-void InitDossun(Dossun *dossun, CourseMapRow *row) {
+void dossun_init(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_f0 = row->mUnk_28;
-    InitGroupFollower(&dossun->mFollower, row, dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000);
+    pw_initFromObject(&dossun->mFollower, row, dossun->mUnk_f0 != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mUnk_2a;
     dossun->mUnk_f4 = ((s64) dossun->mUnk_00.mScale.x * 0x28000) >> 12;
     dossun->mHeightOffset = ((s64) dossun->mUnk_00.mScale.y * 0x2d000) >> 12;
@@ -412,54 +412,54 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mUnk_104 = ((s64) dossun->mUnk_00.mScale.y * 0x1000) >> 12;
     dossun->mUnk_108 = ((s64) dossun->mUnk_00.mScale.y * 0x2000) >> 12;
     dossun->mUnk_c4 = ((s64) dossun->mUnk_00.mScale.y * 0x3000) >> 12;
-    func_020db430(dossun);
+    dossun_initState(dossun);
     if (dossun->mUnk_f0 != 0) {
-        CreateMapObjectSoundSourceFalloff3(&dossun->mUnk_00);
+        mobj_initSoundEmitterForObjectSfxParam3(&dossun->mUnk_00);
     } else {
-        dossun->mUnk_00.mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+        dossun->mUnk_00.mFarDistanceSquared = gSfxParams[3].mUnk_20;
     }
 }
 #pragma thumb off
 
-Unk020db268 *CreateKuriboKindData(void) {
+Unk020db268 *kuribo_setupConfig(void) {
     Unk020db268 *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_021581b8;
     return kindData;
 }
 
-Unk020db20c *CreateKuriboDrawList(void) {
+Unk020db20c *kuribo_setupRenderPart(void) {
     Unk020db20c *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    gKuriboDrawList = drawList;
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    kuribo_sRenderPart = drawList;
     *drawList = data_0215818c;
-    func_020d49d8(&gKuriboDrawList);
-    return gKuriboDrawList;
+    mobj_renderPartSetThisPointer(&kuribo_sRenderPart);
+    return kuribo_sRenderPart;
 }
 
-Unk020db1b0 *CreateKuriboUpdateList(void) {
+Unk020db1b0 *kuribo_setupLogicPart(void) {
     Unk020db1b0 *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    gKuriboUpdateList = updateList;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    kuribo_sLogicPart = updateList;
     *updateList = data_02158164;
-    SetUpdateListSlot(&gKuriboUpdateList);
-    return gKuriboUpdateList;
+    mobj_logicPartSetThisPointer(&kuribo_sLogicPart);
+    return kuribo_sLogicPart;
 }
 
-void SetupDrawKuribo(void) {
-    func_020e6a18(gKuribo);
+void kuribo_globalPreRender(void) {
+    bbm_applyMaterial(kuribo_sModel);
 }
 
-void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
+void kuribo_render(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
     Vec3 scale;
     Quaternion orientation;
     u16 e;
     NsbmdModel *model;
     if (kuribo->mUnk_cc.mGroupIndex == 0xffff) {
-        func_020d7938(&kuribo->mUnk_a4, &gViewYawQuaternion, &orientation);
-        Matrix3x3FromQuaternion(&kuribo->mUnk_00.mMatrix, &orientation);
+        qrtn_20D7938(&kuribo->mUnk_a4, &gViewYawQuaternion, &orientation);
+        qtrn_toMtx33(&kuribo->mUnk_00.mMatrix, &orientation);
     } else {
-        func_020e6d34(GetGroupFollowerSegmentUp(&kuribo->mUnk_cc), &kuribo->mUnk_00.mMatrix);
+        bbm_20E6D34(GetGroupFollowerSegmentUp(&kuribo->mUnk_cc), &kuribo->mUnk_00.mMatrix);
     }
     scale.z = kuribo->mUnk_00.mScale.z;
     scale.y = ((s64) kuribo->mUnk_00.mScale.y * kuribo->mUnk_c4) >> 12;
@@ -468,28 +468,28 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d) {
     kuribo->mUnk_00.mMatrix.mUnk_00[3].y = kuribo->mUnk_00.mPos.y >> 4;
     kuribo->mUnk_00.mMatrix.mUnk_00[3].z = kuribo->mUnk_00.mPos.z >> 4;
     if (kuribo->mUnk_f0 < 0x14) {
-        gKuribo->mFrameIndex = kuribo->mUnk_f0;
+        kuribo_sModel->mFrameIndex = kuribo->mUnk_f0;
     } else {
         scale.x = -scale.x;
-        gKuribo->mFrameIndex = kuribo->mUnk_f0 - 0x14;
+        kuribo_sModel->mFrameIndex = kuribo->mUnk_f0 - 0x14;
     }
     e = kuribo->mUnk_100;
-    model = gKuribo;
+    model = kuribo_sModel;
     model->mUnk_14 &= ~0x1f0000;
     model->mUnk_14 |= e << 16;
-    func_020e67c4(gKuribo, &kuribo->mUnk_00.mMatrix, &scale, 0, d);
+    bbm_renderTransformedScaled(kuribo_sModel, &kuribo->mUnk_00.mMatrix, &scale, 0, d);
 }
 
-void UpdateKuribo(void *unused, Kuribo *kuribo) {
+void kuribo_update(void *unused, Kuribo *kuribo) {
     Unk0210b7a8 soundRequest;
     RandomState64 *random;
     s32 falloffIndex;
     kuribo->mUnk_f0++;
     if (kuribo->mUnk_f0 == 0x14 || kuribo->mUnk_f0 == 0x28) {
         if ((kuribo->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-            if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+            if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                 falloffIndex = 2;
-            } else if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+            } else if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;
@@ -497,7 +497,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
             soundRequest.mSoundId = 0x182;
             soundRequest.mPositionSource = &kuribo->mUnk_00.mPos;
             soundRequest.mUnk_08 = falloffIndex;
-            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mUnk_00.mPos);
+            soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->mUnk_00.mPos);
             func_0210b7a8(&soundRequest);
         }
     }
@@ -505,11 +505,11 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
         if (kuribo->mUnk_f4 != 0) {
             kuribo->mUnk_f0 = 0;
         } else {
-            random = &gRaceProgress->mRandom;
+            random = &gRaceStatus->mRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             kuribo->mUnk_f0 = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
             kuribo->mUnk_f4 = 1;
         }
     }
-    AdvanceStateMachine(&kuribo->mUnk_00.mStateMachine);
+    sm_execute(&kuribo->mUnk_00.mStateMachine);
 }

@@ -1657,7 +1657,7 @@ u32 func_ov000_0219ff54(u32 profileId, u32 address, u16 port) {
     gWiFiMatching->mParticipantCommandPorts[gWiFiMatching->mUnk_14 + 1] = port;
     gWiFiMatching->mUnk_1ac = address;
     gWiFiMatching->mUnk_1aa = port;
-    gWiFiMatching->mParticipantIndices[gWiFiMatching->mUnk_14 + 1] = FindFreeMatchingParticipantIndex();
+    gWiFiMatching->mParticipantIndices[gWiFiMatching->mUnk_14 + 1] = ending_update();
     s[0] = profileId;
     s[1] = gWiFiMatching->mParticipantIndices[gWiFiMatching->mUnk_14 + 1];
     for (i = 1; i <= gWiFiMatching->mUnk_14; i++) {
@@ -1775,7 +1775,7 @@ u32 func_ov000_0219fbec(s32 a, s32 b) {
         if (n == -1) {
             continue;
         }
-        if (func_02152698(gWiFiMatching->mBuddies +
+        if (DWCi_Acc_IsValidFriendData(gWiFiMatching->mBuddies +
                           gWiFiMatching->mBuddyEntryIndices[gWiFiMatching->mBuddyEntryIndexPos] * 12) == 0) {
             continue;
         }
@@ -2577,7 +2577,7 @@ void ReleaseMatchingKeys(void) {
     MIi_CpuClear32(v, gMatchingKeys, 0x738);
 }
 
-u8 FindFreeMatchingParticipantIndex(void) {
+u8 ending_update(void) {
     u8 i;
     s32 j;
     volatile WiFiMatching *p; // fields are read again on each use

@@ -20,7 +20,7 @@ static inline u32 func_02008570_inline(Unk02008570Header *a) {
     return b;
 }
 
-int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
+int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize) {
     FSFile *activeFile;
     Unk02008570Header *header;
     u8 *v3;
@@ -57,7 +57,7 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
             seekOffset = func_02008570_inline((Unk02008570Header *) 0x027ffe00);
             openedHere = TRUE;
             FS_InitFile(&openedFile);
-            FS_OpenFileDirect(&openedFile, FS_FindArchive(data_0216178c, 3), 0, seekOffset + 0x88, -1);
+            FS_OpenFileDirect(&openedFile, FS_FindArchive(aRom_3, 3), 0, seekOffset + 0x88, -1);
             activeFile = &openedFile;
             basePosition = openedFile.mUnk_2c - openedFile.mProp.w.mUnk_04;
             MI_CpuCopy8((const void *) 0x027ffe00, header, 0x160);
@@ -131,9 +131,9 @@ int func_02008570(FSFile *file, void *buffer, u32 bufferSize) {
                 v14[1] = header->mUnk_28 - header->mUnk_20;
                 v14[2] = (u32) rangeTable->mUnk_30[1].mData - header->mUnk_20;
                 v14[3] = bufferSize;
-                CopyOrClearRange(v14, 0x4000, 0x8000, 1);
+                MBi_ReadSegmentHeader(v14, 0x4000, 0x8000, 1);
                 while (((s32 *) v6)[1] != 0) {
-                    CopyOrClearRange(v14, v6[0], v6[0] + v6[1], 0);
+                    MBi_ReadSegmentHeader(v14, v6[0], v6[0] + v6[1], 0);
                     v6 += 2;
                 }
                 v3 = rangeTable->mUnk_30[1].mData;

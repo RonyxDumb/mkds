@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_020431e4(void);
-void func_02043410(void);
-void SetReadRaceKeys(u32 enable);
-u32 func_0204359c(void);
+void input_20431E4(void);
+void input_2043410(void);
+void input_setFlagsBit1(u32 enable);
+u32 input_getFlagsBit0(void);

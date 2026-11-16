@@ -11,7 +11,7 @@ extern const char data_ov000_021b3ea4[];
 extern const char data_ov000_021b3ec8[];
 extern const char data_ov000_021b3eec[];
 
-s8 *func_ov000_02197b34(s8 *a, const s8 *b);
+s8 *menu_ta_updateMainText(s8 *a, const s8 *b);
 s8 *func_ov000_02197be0(s8 *buffer);
 BOOL func_ov000_02197ca0(const s8 *a);
 void RemoveBufferBytes(Gt2Buffer *buffer, int start, int shortenBy);

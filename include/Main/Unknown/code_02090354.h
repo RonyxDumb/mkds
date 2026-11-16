@@ -22,8 +22,8 @@ typedef struct Sman {
     /* bc */ s32 mTopHeightPerFrame;
     /* c0 */ s32 mTopStartHeight;
     /* c4 */ s32 mTopLowHeight;
-    // State of UpdateSman: 0 at rest, 1 top goes up and down, 2 waits, 3 both parts come back;
-    // func_02091828 and func_020917d0 set 1.
+    // State of sman_update: 0 at rest, 1 top goes up and down, 2 waits, 3 both parts come back;
+    // sman_onDriverCollide and sman_onItemCollide set 1.
     /* c8 */ s32 mState;
 } Sman;
 
@@ -33,31 +33,31 @@ typedef struct SmanList {
     /* 04 */ u16 mSmanCount;
 } SmanList;
 
-void SetupBattleItemEntries(void);
+void mgenit_setupFunctions(void);
 s32 func_020905a8(KartKillerCursor *kartKillerCursor);
 void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor);
 void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor);
 s32 func_0209081c(KartKillerCursor *kartKillerCursor);
-void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link);
+void kill_recalculateRoute(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link);
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex);
-BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, void *time);
-void LoadStaffGhostTime(void *heap);
-BOOL IsAllGrandPrixRecordsTopRank(void);
-s32 func_020909cc(void);
-u32 func_02090b24(void);
-u32 func_02090cf8(void);
-u32 func_02090ff4(void);
-u32 func_0209119c(void);
-u32 func_020911a8(void);
-void *CreateSmanUpdateList(void);
-void *CreateSmanBottomDrawList(void);
-void *CreateSmanTopDrawList(void);
-void CreateSmanKindData(void);
-void UpdateSman(void *a, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitSmanObjects(SmanList *smanList);
-void DrawSmanBottom(void *mapObjectList, Sman *sman);
-void SetupDrawSmanBottom(void *a);
-void CreateSmanBottom(void *a);
-void DrawSmanTop(void *mapObjectList, Sman *sman);
-void SetupDrawSmanTop(void *a);
-void CreateSmanTop(void *a);
+BOOL unlock_isFasterThanStaffGhost(u32 entryNumber, void *time);
+void unlock_loadStaffGhostTime(void *heap);
+BOOL unlock_hasUnlockedTrueTitleScreen(void);
+s32 unlock_hasUnlockedTrueStaffRoll(void);
+u32 unlock_tryUnlockCharacters(void);
+u32 unlock_tryUnlockCups(void);
+u32 unlock_tryUnlock(void);
+u32 unlock_tryUnlock2(void);
+u32 unlock_updateUnlocks(void);
+void *sman_setupLogicPart(void);
+void *sman_setupBottomRenderPart(void);
+void *sman_setupTopRenderPart(void);
+void sman_setupConfig(void);
+void sman_update(void *a, Sman *sman); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void sman_globalLogicInit(SmanList *smanList);
+void sman_renderBottom(void *mapObjectList, Sman *sman);
+void sman_applyBottomMaterial(void *a);
+void sman_loadBottomModel(void *a);
+void sman_renderTop(void *mapObjectList, Sman *sman);
+void sman_applyTopMaterial(void *a);
+void sman_loadTopModel(void *a);

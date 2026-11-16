@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_0202e43c(s32 cupCourseIndex);
+u32 ghost_getCourseId(s32 cupCourseIndex);

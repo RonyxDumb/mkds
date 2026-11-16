@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void func_01ffa4b4(Kart *p, Vec3 *a);
+void driver_handleCollision(Kart *p, Vec3 *a);

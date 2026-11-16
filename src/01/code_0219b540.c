@@ -54,13 +54,13 @@ void LoadSelectGhostAndKartIconData(void) {
     Nclr *p2 = NULL;
     Nscr *p1 = NULL;
 
-    LoadNcgrData(&p0, FindSceneFile(gSelectGhostSBNcgrName));
-    LoadNscrData(&p1, FindSceneFile(gSelectGhostSNscrName));
-    LoadNclrData(&p2, FindSceneFile(gSelectGhostSBNclrName));
-    LoadNcgrData2(&p3, FindSceneFile(gSelectGhostSONcgrName));
-    LoadNcerData(&p4, FindSceneFile(gSelectGhostSONcerName));
-    LoadNclrData(&p5, FindSceneFile(gSelectGhostSONclrName));
-    LoadCommonKartIconData();
+    g2du_unpackCharacterDataBG(&p0, arc_getSceneArcFile(gSelectGhostSBNcgrName));
+    g2du_unpackScreenData(&p1, arc_getSceneArcFile(gSelectGhostSNscrName));
+    g2du_unpackPaletteData(&p2, arc_getSceneArcFile(gSelectGhostSBNclrName));
+    g2du_unpackCharacterData(&p3, arc_getSceneArcFile(gSelectGhostSONcgrName));
+    g2du_unpackCellBankData(&p4, arc_getSceneArcFile(gSelectGhostSONcerName));
+    g2du_unpackPaletteData(&p5, arc_getSceneArcFile(gSelectGhostSONclrName));
+    kic_unpackDataForMenu();
 }
 
 void LocateAndQueueSelectGhost(void) {
@@ -73,29 +73,29 @@ void LocateAndQueueSelectGhost(void) {
     b = NULL;
     c = NULL;
     d = NULL;
-    LocateNcgr(&b, FindSceneFile(gSelectGhostSBNcgrName));
-    LocateNscr(&d, FindSceneFile(gSelectGhostSNscrName));
-    LocateNclr(&c, FindSceneFile(gSelectGhostSBNclrName));
-    gSelectGhost->mUnk_40 = HeapAlloc(gSelectGhost->mHeap, 0x800);
-    gSelectGhost->mSelectCupCourseTaMBncl = FindSceneFile(gSelectCupCourseTaMBnclName);
-    gSelectGhost->mSelectCupCourseTaMBnll = FindSceneFile(gSelectCupCourseTaMBnllName);
-    LocateNcer(&gSelectGhost->mSelectCupCourseMNcer, FindSceneFile(gSelectCupCourseMNcerName));
-    gSelectGhost->mSelectGhostSBncl = FindSceneFile(gSelectGhostSBnclName);
-    gSelectGhost->mSelectGhostSBnbl = FindSceneFile(gSelectGhostSBnblName);
-    gSelectGhost->mSelectGhostSBnll = FindSceneFile(gSelectGhostSBnllName);
-    LocateNcgr2(&a, FindSceneFile(gSelectGhostSONcgrName));
-    LocateNcer(&gSelectGhost->mSelectGhostSONcer, FindSceneFile(gSelectGhostSONcerName));
-    LocateNclr(&gSelectGhost->mSelectGhostSONclr, FindSceneFile(gSelectGhostSONclrName));
-    gSelectGhost->mPlayerCharacterMNcgr = GetPlayerCharacterNcgr(0);
-    gSelectGhost->mPlayerCharacterMNcer = GetPlayerCharacterNcer(0);
-    gSelectGhost->mPlayerCharacterMONclr = GetPlayerCharacterNclr(0);
-    gSelectGhost->mPlayerCharacterMBncl = GetPlayerCharacterBncl(0);
-    CallQueueAppend(0x17, 0, b->mData, b->mDataSize);
-    CallQueueAppend(0x1f, 0, c->mData, 0x20);
-    CallQueueAppend(0x1b, 0, d->mData, d->mDataSize);
-    CallQueueAppend(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
-    CallQueueAppend(0x23, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData, gSelectGhost->mSelectGhostSONclr->mDataSize);
+    g2du_getCharacterDataBG(&b, arc_getSceneArcFile(gSelectGhostSBNcgrName));
+    g2du_getScreenData(&d, arc_getSceneArcFile(gSelectGhostSNscrName));
+    g2du_getPaletteData(&c, arc_getSceneArcFile(gSelectGhostSBNclrName));
+    gSelectGhost->mUnk_40 = heap_alloc(gSelectGhost->mHeap, 0x800);
+    gSelectGhost->mSelectCupCourseTaMBncl = arc_getSceneArcFile(gSelectCupCourseTaMBnclName);
+    gSelectGhost->mSelectCupCourseTaMBnll = arc_getSceneArcFile(gSelectCupCourseTaMBnllName);
+    g2du_getCellBankData(&gSelectGhost->mSelectCupCourseMNcer, arc_getSceneArcFile(gSelectCupCourseMNcerName));
+    gSelectGhost->mSelectGhostSBncl = arc_getSceneArcFile(gSelectGhostSBnclName);
+    gSelectGhost->mSelectGhostSBnbl = arc_getSceneArcFile(gSelectGhostSBnblName);
+    gSelectGhost->mSelectGhostSBnll = arc_getSceneArcFile(gSelectGhostSBnllName);
+    g2du_getCharacterData(&a, arc_getSceneArcFile(gSelectGhostSONcgrName));
+    g2du_getCellBankData(&gSelectGhost->mSelectGhostSONcer, arc_getSceneArcFile(gSelectGhostSONcerName));
+    g2du_getPaletteData(&gSelectGhost->mSelectGhostSONclr, arc_getSceneArcFile(gSelectGhostSONclrName));
+    gSelectGhost->mPlayerCharacterMNcgr = m2d_getPortraitNceNcgr(0);
+    gSelectGhost->mPlayerCharacterMNcer = m2d_getPortraitNceNcer(0);
+    gSelectGhost->mPlayerCharacterMONclr = m2d_getPortraitONclr(0);
+    gSelectGhost->mPlayerCharacterMBncl = m2d_getPortraitBncl(0);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, c->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0x800, gSelectGhost->mUnk_40, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectGhost->mSelectGhostSONclr->mData, gSelectGhost->mSelectGhostSONclr->mDataSize);
 }
 
 void ResetSelectGhost(void) {
@@ -144,7 +144,7 @@ void RequestSelectGhostState3(void) {
 void RequestSelectGhostState4(void) {
     gSelectGhost->mNextState = 4;
     gSelectGhost->mStateFrames = 0;
-    StartSelectChoises(GetBmgEntry(gSelectGhost->mCommonMessages, 4), GetBmgEntry(gSelectGhost->mCommonMessages, 2), 0);
+    gmenu_startSelectChoices(jn_msg_getMessage(gSelectGhost->mCommonMessages, 4), jn_msg_getMessage(gSelectGhost->mCommonMessages, 2), 0);
 }
 
 // Requests state 5.
@@ -209,8 +209,8 @@ void RefreshSelectGhostForIndex(void) {
 
     q = p->mSelectGhostSBncl;
     n = q->mUnk_06;
-    func_0212426c(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q, p->mSelectGhostSTable);
+    jn_ui_212426C(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
+                  jn_msg_getMessage(p->mMenuMessages, gSelectGhostMenuMessageIndices[p->mIndex]), q, p->mSelectGhostSTable);
     if (gSelectGhost->mIndex == 0) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[2]].mVisible = 0;
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[3]].mVisible = 0;
@@ -233,22 +233,22 @@ void RefreshSelectGhostForIndex(void) {
     x = gSelectGhostSBnllIndices[2];
     gSelectGhost->mSelectGhostSTable[n + x].mVisible = 1;
     r = data_ov001_021a6b88[GetGhostRecordSetCharacterIndex(data_ov001_021a6b78[gSelectGhost->mIndex])];
-    QueueCellChars(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMNcgr,
+    jn_ui_fillPlaceholder(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMNcgr,
                    gSelectGhost->mPlayerCharacterMBncl, 1, a, gSelectGhost->mSelectGhostSONcer,
                    gSelectGhost->mSelectGhostSBncl);
     blk = gSelectGhost->mPlayerCharacterMONclr->mUnk_0c;
-    CallQueueAppend(
+    NNS_GfdRegisterNewVramTransferTask(
         0x1e, 0x100,
         blk + (GetCellPaletteIndex(r, gSelectGhost->mPlayerCharacterMNcer, gSelectGhost->mPlayerCharacterMBncl) << 5),
         0x20);
     k = GetGhostRecordSetKartIndex(data_ov001_021a6b78[gSelectGhost->mIndex]);
-    QueueKartIcon(k, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, b, 9, 1);
+    kic_putIconInLayout(k, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, b, 9, 1);
     GetGhostRecordSetTime(data_ov001_021a6b78[gSelectGhost->mIndex], buf14);
     func_02116b80(buf14, buf18);
-    func_02124224(1, y, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
+    jn_ui_2124224(1, y, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
                   gSelectGhost->mSelectGhostSTable, 9);
     GetGhostRecordSetName(data_ov001_021a6b78[gSelectGhost->mIndex], buf18);
-    func_0212426c(1, x, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
+    jn_ui_212426C(1, x, gSelectGhost->mSelectGhostSBnll, buf18, gSelectGhost->mSelectGhostSBncl,
                   gSelectGhost->mSelectGhostSTable);
 }
 
@@ -287,7 +287,7 @@ void func_ov001_0219bff4(void) {
 }
 
 void func_ov001_0219bfc0(void) {
-    func_0202949c(data_ov001_021a6b78[gSelectGhost->mIndex]);
+    SPM_SetTTGhost(data_ov001_021a6b78[gSelectGhost->mIndex]);
     func_0211e0c4(data_ov001_021a6b78[gSelectGhost->mIndex]);
 }
 
@@ -306,22 +306,22 @@ void func_ov001_0219be5c(void) {
     gSelectGhost->mSelectCupCourseTaMTable[n + 3].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[n + 4].mVisible = 1;
     gSelectGhost->mSelectCupCourseTaMTable[n + 5].mVisible = 1;
-    QueueSelectCupNameM(data_ov001_021a6ba4[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
+    QueueSelectCupNameM(data_ov001_021a6ba4[SPM_GetSelectedCup()], gSelectGhost->mSelectCupCourseMNcer,
                         gSelectGhost->mSelectCupCourseTaMBncl, 0, 0);
-    QueueCupMark(data_ov001_021a6ba4[GetCupIndex()], gSelectGhost->mSelectCupCourseMNcer,
+    QueueCupMark(data_ov001_021a6ba4[SPM_GetSelectedCup()], gSelectGhost->mSelectCupCourseMNcer,
                  gSelectGhost->mSelectCupCourseTaMBncl, 5,
                  GetCellPaletteIndex(5, gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl), 0);
-    func_0212426c(0, 2, gSelectGhost->mSelectCupCourseTaMBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 0x73),
+    jn_ui_212426C(0, 2, gSelectGhost->mSelectCupCourseTaMBnll, jn_msg_getMessage(gSelectGhost->mCommonMessages, 0x73),
                   gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
-    func_0212426c(0, 4, gSelectGhost->mSelectCupCourseTaMBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 0x74),
+    jn_ui_212426C(0, 4, gSelectGhost->mSelectCupCourseTaMBnll, jn_msg_getMessage(gSelectGhost->mCommonMessages, 0x74),
                   gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMTable);
-    func_02124140(0, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+    jn_ui_setLabelIsTranslucent(0, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
                   gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(1, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+    jn_ui_setLabelIsTranslucent(1, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
                   gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(2, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+    jn_ui_setLabelIsTranslucent(2, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
                   gSelectGhost->mSelectCupCourseTaMBncl);
-    func_02124140(4, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
+    jn_ui_setLabelIsTranslucent(4, 0, gSelectGhost->mSelectCupCourseTaMBnll, gSelectGhost->mSelectCupCourseTaMTable,
                   gSelectGhost->mSelectCupCourseTaMBncl);
 }
 
@@ -333,8 +333,8 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
     reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~3;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
-    heap = CreateFrmHeapFromMaxFree(a);
-    gSelectGhost = HeapAlloc(heap, 0x70);
+    heap = heap_createSubFrmHeap(a);
+    gSelectGhost = heap_alloc(heap, 0x70);
     gSelectGhost->mHeap = heap;
     gSelectGhost->mState = 0;
     gSelectGhost->mIndex = 0;
@@ -342,51 +342,51 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
     gSelectGhost->mUnk_68 = c;
     gSelectGhost->mResult = 0;
     LocateAndQueueSelectGhost();
-    CreateCommonKartIcon(gSelectGhost->mHeap);
-    InitLayoutTable(gSelectGhost->mHeap, gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMBnll,
+    kic_initForMenu(gSelectGhost->mHeap);
+    jn_ui_initLayout(gSelectGhost->mHeap, gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseTaMBnll,
                     &gSelectGhost->mSelectCupCourseTaMTable);
-    InitLayoutTable(gSelectGhost->mHeap, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSBnll,
+    jn_ui_initLayout(gSelectGhost->mHeap, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSBnll,
                     &gSelectGhost->mSelectGhostSTable);
-    gSelectGhost->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gSelectGhost->mMenuMessages = FindSceneFile("menu.bmg");
+    gSelectGhost->mCommonMessages = arc_get2dArcFile("common.bmg");
+    gSelectGhost->mMenuMessages = arc_getSceneArcFile("menu.bmg");
     rem = 0x8000;
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 0, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 0,
+    rem -= jn_ui_initLabel(gSelectGhost->mHeap, 0, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 0,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                            gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 1, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 1,
+    rem -= jn_ui_initLabel(gSelectGhost->mHeap, 1, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 1,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                            gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 2, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 2,
+    rem -= jn_ui_initLabel(gSelectGhost->mHeap, 2, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 2,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                            gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 3, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 3,
+    rem -= jn_ui_initLabel(gSelectGhost->mHeap, 3, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 3,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                            gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 4, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 4,
+    rem -= jn_ui_initLabel(gSelectGhost->mHeap, 4, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 4,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                            gSelectGhost->mSelectCupCourseTaMTable, rem);
-    InitLabelCanvas(gSelectGhost->mHeap, 5, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 5,
+    jn_ui_initLabel(gSelectGhost->mHeap, 5, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 5,
                     gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
                     gSelectGhost->mSelectCupCourseTaMTable, rem);
     rem = GX_GetSizeOfSubOBJ();
     for (i = 0; i < 5; i++) {
-        rem -= InitLabelCanvas(gSelectGhost->mHeap, gSelectGhostSBnllIndices[i], gSelectGhost->mSelectGhostSBnll,
+        rem -= jn_ui_initLabel(gSelectGhost->mHeap, gSelectGhostSBnllIndices[i], gSelectGhost->mSelectGhostSBnll,
                                data_ov001_021a6b48[i], data_ov001_021a6b60[i], i, gSelectGhost->mSelectGhostSONcer,
                                gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable, rem);
     }
-    InitLabelCanvas(gSelectGhost->mHeap, 5, gSelectGhost->mSelectGhostSBnll, 0x32, 0xd, 0xb,
+    jn_ui_initLabel(gSelectGhost->mHeap, 5, gSelectGhost->mSelectGhostSBnll, 0x32, 0xd, 0xb,
                     gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable,
                     rem);
-    func_0212426c(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
+    jn_ui_212426C(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
+                  jn_msg_getMessage(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
                   gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, gSelectGhostSBnllIndices[3], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
+    jn_ui_212426C(1, gSelectGhostSBnllIndices[3], gSelectGhost->mSelectGhostSBnll,
+                  jn_msg_getMessage(gSelectGhost->mMenuMessages, 9), gSelectGhost->mSelectGhostSBncl,
                   gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
-                  GetBmgEntry(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
+    jn_ui_212426C(1, gSelectGhostSBnllIndices[4], gSelectGhost->mSelectGhostSBnll,
+                  jn_msg_getMessage(gSelectGhost->mMenuMessages, gSelectGhostMenuMessageIndices[0]),
                   gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
-    func_0212426c(1, 5, gSelectGhost->mSelectGhostSBnll, GetBmgEntry(gSelectGhost->mCommonMessages, 4),
+    jn_ui_212426C(1, 5, gSelectGhost->mSelectGhostSBnll, jn_msg_getMessage(gSelectGhost->mCommonMessages, 4),
                   gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
     CreateSelectCupNameM(gSelectGhost->mHeap);
     CreateCommonCupMark(gSelectGhost->mHeap);
@@ -401,7 +401,7 @@ void InitSelectGhost(void *a, u32 b, u32 c) {
         }
     }
     RefreshSelectGhostForIndex();
-    FrmHeapShrinkInParent(gSelectGhost->mHeap);
+    heap_adjustSubFrmHeap(gSelectGhost->mHeap);
 }
 
 void ReleaseSelectGhost(void) {
@@ -411,8 +411,8 @@ void ReleaseSelectGhost(void) {
     ClearPaletteBlendPointer();
     ClearSelectCupNameMPointer();
     ClearCupMarkPointer();
-    ClearKartIconPointer();
-    HeapDestroy(gSelectGhost->mHeap);
+    kic_free();
+    heap_destroySubHeap(gSelectGhost->mHeap);
     gSelectGhost = NULL;
 }
 
@@ -424,7 +424,7 @@ void AdvanceSelectGhostState0(void) {
     AdvanceSelectGhostOffsetTimers();
     n = gSelectGhost->mSelectGhostSBncl->mUnk_06;
     gSelectGhost->mStateFrames++;
-    v = InterpolateS16(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
+    v = mutil_interpolate(1, ~0xbf, 0, gSelectGhost->mStateFrames, 10);
     gSelectGhost->mBg3Offset = v;
     for (i = 0; i < 6; i++) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostSTableIndices[i]].mOffsetY = v;
@@ -470,31 +470,31 @@ void AdvanceSelectGhostState2(void) {
     idx = UNK_02175628_INDEX_8;
     b = FALSE;
     a = FALSE;
-    if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+    if (gInputUnits[idx].mHasPair == 0 && gInputUnits[idx].mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+    if (a == FALSE && gInputUnits[idx].mPrevHasPair == 0 && gInputUnits[idx].mHasPair != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        r = RectTableFindContaining(gSelectGhost->mSelectGhostSBnbl, data_02175628[idx].mPairX,
-                                    data_02175628[idx].mPairY);
+        r = jn_ui_checkTouch(gSelectGhost->mSelectGhostSBnbl, gInputUnits[idx].mPairX,
+                                    gInputUnits[idx].mPairY);
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_B) == 0) {
         d = FALSE;
         c = FALSE;
-        if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+        if (gInputUnits[idx].mHasPair == 0 && gInputUnits[idx].mNoPairCount < 5) {
             c = TRUE;
         }
-        if (c == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+        if (c == FALSE && gInputUnits[idx].mPrevHasPair == 0 && gInputUnits[idx].mHasPair != 0) {
             d = TRUE;
         }
-        if (d == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                          data_02175628[idx].mPairY) == FALSE) {
+        if (d == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[idx].mPairX,
+                                                                          gInputUnits[idx].mPairY) == FALSE) {
             goto next;
         }
     }
-    SetSelectReturnSoundId(14);
+    gmenu_setSeqArcIndex(14);
     RequestSelectGhostState7();
     gSelectGhost->mResult = 2;
     RequestSelectReturnState3WithSound(0);
@@ -516,15 +516,15 @@ next:
         func_ov001_0219c058();
         return;
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectGhostState3();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+    if (mutil_checkKeys(8, PAD_KEY_LEFT) != 0) {
         func_ov001_0219bff4();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    if (mutil_checkKeys(8, PAD_KEY_RIGHT) != 0) {
         func_ov001_0219c058();
     }
 }
@@ -582,7 +582,7 @@ void AdvanceSelectGhostState7(void) {
 
     flag = gSelectGhost->mResult == 1;
     gSelectGhost->mStateFrames++;
-    v = InterpolateS16(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, ~0xbf, gSelectGhost->mStateFrames, 10);
     if (flag) {
         n = gSelectGhost->mSelectCupCourseTaMBncl->mUnk_06;
         gSelectGhost->mBg0Offset = v;
@@ -647,10 +647,10 @@ int AdvanceSelectGhost(void) {
     }
     AdvancePaletteBlend();
     func_ov001_0219c358();
-    DrawLayoutTable(gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseMNcer,
+    jn_ui_renderElements(gSelectGhost->mSelectCupCourseTaMBncl, gSelectGhost->mSelectCupCourseMNcer,
                     gSelectGhost->mSelectCupCourseTaMBnll, (void *) gSelectGhost->mUnk_64,
                     gSelectGhost->mSelectCupCourseTaMTable);
-    DrawLayoutTable(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
+    jn_ui_renderElements(gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBnll,
                     (void *) gSelectGhost->mUnk_68, gSelectGhost->mSelectGhostSTable);
     if (gSelectGhost->mState == 7) {
         switch (gSelectGhost->mResult) {

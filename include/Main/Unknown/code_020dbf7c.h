@@ -9,10 +9,10 @@ typedef struct CourseMapRow CourseMapRow;
 
 extern Unk0210b7a8 data_0216bedc;
 extern Quaternion data_0216beec;
-extern UnkFunc *data_0216befc[];
+extern UnkFunc *wanwan_sStates[];
 
-void UpdateWanwanState5(Wanwan *wanwan);
-void func_020dc1d8(Wanwan *wanwan, CourseMapRow *row);
-void func_020dc11c(Wanwan *wanwan, CourseMapRow *row);
-void ResetWanwan(Wanwan *wanwan);
-void CreateWanwanAndRockShadow(void);
+void wanwan_state5Update(Wanwan *wanwan);
+void wanwan_initFixed(Wanwan *wanwan, CourseMapRow *row);
+void wanwan_initMoving(Wanwan *wanwan, CourseMapRow *row);
+void wanwan_20DBF7C(Wanwan *wanwan);
+void wanwan_loadModels(void);

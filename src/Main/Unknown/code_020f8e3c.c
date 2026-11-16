@@ -40,6 +40,6 @@ u32 func_020f8e3c(u32 kart, u32 soundId) {
     if (flagBitCompared == zeroAgain) {
         return kartCopy;
     }
-    kartCopy = (u32) func_020719bc((SoundSource *) kartCopy, soundIdCopy);
+    kartCopy = (u32) driver_emitSfx2((SoundSource *) kartCopy, soundIdCopy);
     return kartCopy;
 }

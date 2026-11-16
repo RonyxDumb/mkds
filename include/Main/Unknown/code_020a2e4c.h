@@ -4,9 +4,9 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object of kind 0x6c (Balloon, the battle balloons), also held by the kind 0x69 controller (UpdateKartBalloons,
-// code_020a3fa8.h) and by src/01/code_0218155c.c. Object of the list FindMapObjectKindUpdateList(0x6c), set up by
-// StartBalloon: the shared MapObject part, then the value passed to StartBalloon at 0xa8, two Vec3s at 0xb0 and 0xbc,
+// Object of kind 0x6c (Balloon, the battle balloons), also held by the kind 0x69 controller (blncnt_update,
+// code_020a3fa8.h) and by src/01/code_0218155c.c. Object of the list mobj_getLogicPartForObjectId(0x6c), set up by
+// blln_spawn: the shared MapObject part, then the value passed to blln_spawn at 0xa8, two Vec3s at 0xb0 and 0xbc,
 // words up to 0xe4, a Vec3 at 0xe8 and words up to 0xfc; the pointer array at 0xf8 has the count at 0xf4.
 typedef struct Balloon {
     /* 00 */ MapObject mUnk_00;
@@ -27,7 +27,7 @@ typedef struct Balloon {
     /* bc */ Vec3 mTargetVelocity;
     /* c8 */ s32 mUnk_c8;
     /* cc */ s32 mUnk_cc;
-    // Size of the balloon in 20.12 fixed point (0x1000 = full size): grows while inflating; UpdateKartBalloons treats
+    // Size of the balloon in 20.12 fixed point (0x1000 = full size): grows while inflating; blncnt_update treats
     // <= 0 as gone and >= 0x1000 as full.
     /* d0 */ s32 mScaleFactor;
     /* d4 */ s32 mUnk_d4;
@@ -41,12 +41,12 @@ typedef struct Balloon {
     /* f4 */ s32 mDrawCount;
     // The kart's balloon list that the first balloon draws (mDrawCount entries); NULL when a balloon draws only itself.
     /* f8 */ struct Balloon **mDrawList;
-    /* State number of this kind's own per-frame switch in UpdateBalloon; this object does not use
+    /* State number of this kind's own per-frame switch in blln_update; this object does not use
        MapObject.mUnk_80's state machine */
     /* fc */ s32 mState;
 } Balloon;
 
-void SetBalloonDrawCountAndList(Balloon *balloon, u16 drawCount, void *drawList);
-void SetBalloonKartIndex(Balloon *balloon, u16 kartIndex);
-s32 GetBalloonScaleFactor(Balloon *balloon);
+void blln_setSubBalloons(Balloon *balloon, u16 drawCount, void *drawList);
+void blln_setDriverId(Balloon *balloon, u16 kartIndex);
+s32 blln_getInflationProgress(Balloon *balloon);
 void func_020a2e68(Balloon *balloon);

@@ -4,7 +4,7 @@
 #include "01/code_02188950.h"
 #include "Main/Unknown/code_0208b000.h"
 
-// 0x34 bytes: two words, then four function pointers among zero words. Referenced only from main-module data.
+// 0x34 bytes: two words, then four function pointers among zero words. Referenced only from NitroMain-module data.
 typedef struct Unk021a7b64 {
     /* 00 */ s32 mObjectCount;
     /* 04 */ s32 mObjectSize;

@@ -40,7 +40,7 @@ typedef struct WiFiVSSetting {
     /* 0034 */ BOOL mConnectionReleased;
     /* 0038 */ u8 mNscrCopy[0x1000];
     /* 1038 */ void *mHeap;
-    // Table of cells built from the Bncl / Bnll by InitLayoutTable.
+    // Table of cells built from the Bncl / Bnll by jn_ui_initLayout.
     /* 103c */ LayoutTableEntry *mWiFiVSSettingTable;
     /* 1040 */ Unk02021dc8 *mWiFiVSSettingSNcer;
     /* 1044 */ Ncgr *mWiFiVSSettingSNcgr;
@@ -79,7 +79,7 @@ typedef struct WiFiVSMatching {
     /* 0094 */ s32 mToChannels[5][3];
     /* 00d0 */ void *mHeap;
     /* 00d4 */ u8 mNscrCopy[0x1000];
-    // Table of cells built from the Bncl / Bnll by InitLayoutTable.
+    // Table of cells built from the Bncl / Bnll by jn_ui_initLayout.
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
     /* 10d8 */ u8 mOtherEmblems[3][0x200];
     /* 16d8 */ s32 mUnk_16d8[3];
@@ -101,7 +101,7 @@ typedef struct Unk0217b488_20 {
     /* 08 */ s32 mPlayerKind;
 } Unk0217b488_20;
 
-// Object behind data_0217b488, 0x130 bytes (func_020cefa0 allocates it).
+// Object behind gStruct217B488, 0x130 bytes (struct217B488_init allocates it).
 typedef struct Unk0217b488 {
     /* 000 */ s32 mTitleBlendDone;
     /* 004 */ s32 mUnk_04;
@@ -202,7 +202,7 @@ typedef struct KartKey {
     /* 15 */ u8 pad_15[3];
 } KartKey;
 
-// Online session object behind gWiFiSession: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
+// Online session object behind gStruct217D384: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
 // 0x027ffc40 is 2) and never freed. mUnk_0008 is its state machine, 7 states each with an (enter, update) pair in
 // data_0216e21c: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message exchange
 // (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running; its own
@@ -327,7 +327,7 @@ void AdvanceWiFiVSMatching(void);
 #include "Main/Unknown/code_0212426c.h"
 #include "code_02016468.h"
 
-extern Unk0217b488 *data_0217b488;
+extern Unk0217b488 *gStruct217B488;
 extern u8 data_ov000_021b05e8[3];
 extern u8 data_ov000_021b05ec[];
 extern u8 data_ov000_021b05f0[];

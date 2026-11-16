@@ -18,29 +18,29 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void func_020cc744(void) {
+void menu_configureRace(void) {
     u16 rowIndex;
     u8 tableRowColumn[2];
 
     if (func_020cc120() != 2) {
-        if (GetRaceSetupCopy()->mMode == 0) {
-            switch (GetRaceSetupCopy()->mEngineIndex) {
+        if (menu_getRaceConfig()->mMode == 0) {
+            switch (menu_getRaceConfig()->mEngineIndex) {
                 case 0:
-                    GetRaceSetupCopy()->mCpuDifficulty = 1;
+                    menu_getRaceConfig()->mCpuDifficulty = 1;
                     break;
                 case 1:
-                    GetRaceSetupCopy()->mCpuDifficulty = 2;
+                    menu_getRaceConfig()->mCpuDifficulty = 2;
                     break;
                 case 2:
-                    GetRaceSetupCopy()->mCpuDifficulty = 3;
+                    menu_getRaceConfig()->mCpuDifficulty = 3;
                     break;
             }
         }
-        SetNextCpuDifficulty(GetRaceSetupCopy()->mCpuDifficulty);
-        if (GetRaceSetupCopy()->mMode != 2 && GetRaceSetupCopy()->mMode != 3) {
-            GetRaceSetupCopy()->mUseTeams = 0;
+        SetNextCPUMode(menu_getRaceConfig()->mCpuDifficulty);
+        if (menu_getRaceConfig()->mMode != 2 && menu_getRaceConfig()->mMode != 3) {
+            menu_getRaceConfig()->mUseTeams = 0;
         }
-        switch (GetRaceSetupCopy()->mMode) {
+        switch (menu_getRaceConfig()->mMode) {
             case 0:
                 SetNextGrandPrixEntries();
                 break;
@@ -53,46 +53,46 @@ void func_020cc744(void) {
                 SetNextRaceEntriesFromRaceSetupCopy();
                 break;
         }
-        SetNextMode(GetRaceSetupCopy()->mMode);
-        SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
-        if (GetRaceSetupCopy()->mMode == 0) {
-            GetRaceSetupCopy()->mCourseId = GetCupCourseId(GetRaceSetupCopy()->mCupIndex, 0);
+        SetNextRaceMode(menu_getRaceConfig()->mMode);
+        SetNextCup(menu_getRaceConfig()->mCupIndex);
+        if (menu_getRaceConfig()->mMode == 0) {
+            menu_getRaceConfig()->mCourseId = SPM_GetCourseIDByCupIndex(menu_getRaceConfig()->mCupIndex, 0);
         }
-        SetNextCourseId(GetRaceSetupCopy()->mCourseId);
-        if (GetRaceSetupCopy()->mMode == 1) {
-            GetRaceSetupCopy()->mEngineIndex = 2;
-        } else if (GetRaceSetupCopy()->mMode == 2) {
-            GetRaceSetupCopy()->mEngineIndex = 0;
-        } else if (GetRaceSetupCopy()->mMode == 3) {
-            if (func_020cae54() != 0 && func_020cae38() != 0) {
-                GetRaceSetupCopy()->mEngineIndex = 1;
+        SetNextCourse(menu_getRaceConfig()->mCourseId);
+        if (menu_getRaceConfig()->mMode == 1) {
+            menu_getRaceConfig()->mEngineIndex = 2;
+        } else if (menu_getRaceConfig()->mMode == 2) {
+            menu_getRaceConfig()->mEngineIndex = 0;
+        } else if (menu_getRaceConfig()->mMode == 3) {
+            if (menu_sysdat_getOverlayRelatedNum() != 0 && menu_sysdat_getIsMBChild() != 0) {
+                menu_getRaceConfig()->mEngineIndex = 1;
             }
         }
-        SetNextEngineIndex(GetRaceSetupCopy()->mEngineIndex);
-        SetNextMirrorMode(GetRaceSetupCopy()->mMirrorMode);
-        func_020cca24(GetRaceSetupCopy()->mUnk_e0);
-        SetNextBattleKind(GetRaceSetupCopy()->mBattleKind);
-        SetNextUseTeams(GetRaceSetupCopy()->mUseTeams);
-        SetCourseCount(GetRaceSetupCopy()->mCourseCount);
-        SetNextRuleKind(GetRaceSetupCopy()->mRuleKind);
-        SetNextCourseListMode(GetRaceSetupCopy()->mCourseListMode);
-        if (GetRaceSetupCopy()->mMode == 4 && func_020cbad0() == 0) {
-            rowIndex = GetRaceSetupCopy()->mMissionFileRowIndex;
-            FindMissionTableCell(GetRaceSetupCopy()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
+        SetNextCCMode(menu_getRaceConfig()->mEngineIndex);
+        SetNextMirrorMode(menu_getRaceConfig()->mMirrorMode);
+        SetNextTTGhost(menu_getRaceConfig()->mUnk_e0);
+        SetNextBattleMode(menu_getRaceConfig()->mBattleKind);
+        SetNextTeamMode(menu_getRaceConfig()->mUseTeams);
+        SetNextNrRacesNrWins(menu_getRaceConfig()->mCourseCount);
+        SetNextRules(menu_getRaceConfig()->mRuleKind);
+        SetNextCourseMode(menu_getRaceConfig()->mCourseListMode);
+        if (menu_getRaceConfig()->mMode == 4 && menu_MB_IsMultiBootChild_22() == 0) {
+            rowIndex = menu_getRaceConfig()->mMissionFileRowIndex;
+            FindMissionTableCell(menu_getRaceConfig()->mMissionFileRows[rowIndex].mMissionTableValue, &tableRowColumn[0],
                                  &tableRowColumn[1]);
-            func_02044380(&GetRaceSetupCopy()->mMissionFileRows[rowIndex], tableRowColumn[0], tableRowColumn[1]);
+            rconf_setupMissionRace(&menu_getRaceConfig()->mMissionFileRows[rowIndex], tableRowColumn[0], tableRowColumn[1]);
         }
     } else {
-        SetNextCupIndex(GetRaceSetupCopy()->mCupIndex);
-        SetNextCourseId(GetRaceSetupCopy()->mCourseId);
+        SetNextCup(menu_getRaceConfig()->mCupIndex);
+        SetNextCourse(menu_getRaceConfig()->mCourseId);
     }
-    if (GetRaceSetupCopy()->mMode == 0) {
+    if (menu_getRaceConfig()->mMode == 0) {
         func_020cc9a8(0);
     } else {
         func_020cc9a8(1);
     }
     if (func_020cc994() != 0) {
-        func_02045ed0();
+        rconf_2045ED0();
         func_020cc10c(0);
     }
 }

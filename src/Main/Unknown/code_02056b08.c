@@ -4,8 +4,8 @@
 
 #pragma thumb on
 
-void SetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    PackGrandPrixRecord(&data_0217aa08->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+void savd_setNkgpEntry(int cup, int engineClass, TimeRecord *record) {
+    savd_packNkgpEntry(&gSaveData->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
 }
 
 #pragma thumb off

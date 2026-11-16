@@ -45,11 +45,11 @@ static inline s32 func_0203d568_inline(ConnectionWork *p) {
 static inline void func_0203d568_b_inline(void) {
     u16 entryIndex;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && GetNextSceneNumber() != 10 &&
-        (GetNextSceneNumber() != 6 || data_0217b488->mUnk_74 != 2) && func_0203d568_inline(data_0217aa00) != 0) {
-        for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
-            if (gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
-                (data_0217aa00->mParticipantMask & (1 << data_0217aa00->mUnk_1e8c[entryIndex])) == 0) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL && scproc_getNextScene() != 10 &&
+        (scproc_getNextScene() != 6 || gStruct217B488->mUnk_74 != 2) && func_0203d568_inline(gStruct217AA00) != 0) {
+        for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
+            if (gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mKind == PLAYER_KIND_HUMAN &&
+                (gStruct217AA00->mParticipantMask & (1 << gStruct217AA00->mUnk_1e8c[entryIndex])) == 0) {
                 func_0204451c(entryIndex);
             }
         }
@@ -58,8 +58,8 @@ static inline void func_0203d568_b_inline(void) {
 
 static inline s32 func_0203d568_c_inline(void) {
     s32 r;
-    if (data_0217aa08->mBusy == 0) {
-        r = gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0;
+    if (gSaveData->mBusy == 0) {
+        r = gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0;
     } else {
         r = 1;
     }
@@ -72,8 +72,8 @@ static inline u16 func_0203df74_inline(u16 checkpoint) {
     u16 endEntry;
     CourseMapRoute *route;
 
-    for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
-        route = &gCourseMap->mCheckpointRoutes[routeIndex];
+    for (routeIndex = 0; routeIndex < gMapData->mCheckpointRouteCount; routeIndex++) {
+        route = &gMapData->mCheckpointRoutes[routeIndex];
         firstEntry = route->mFirstEntry;
         endEntry = firstEntry + route->mEntryCount;
         if (checkpoint >= firstEntry && checkpoint < endEntry) {
@@ -90,12 +90,12 @@ static inline s16 func_0203df74_b_inline(RaceProgressKart *kart, s32 *outProgres
     u16 hi;
     CourseMapRoute *route;
 
-    for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
-        route = &gCourseMap->mCheckpointRoutes[routeIndex];
+    for (routeIndex = 0; routeIndex < gMapData->mCheckpointRouteCount; routeIndex++) {
+        route = &gMapData->mCheckpointRoutes[routeIndex];
         lo = route->mFirstEntry;
         hi = lo + route->mEntryCount;
         for (checkpoint = lo; checkpoint < hi; checkpoint++) {
-            if (TryGetKartCheckpointProgress(kart, outProgress, position, routeIndex, checkpoint) != 0) {
+            if (rstat_isLeavingCpoiQuad(kart, outProgress, position, routeIndex, checkpoint) != 0) {
                 return checkpoint;
             }
         }
@@ -114,16 +114,16 @@ static inline s32 func_0203df74_c_inline(CourseMapRoute *route, u16 checkpoint, 
         x = FX_Div(t + progress, route->mEntryCount << 12);
     }
     t = x + (route->mLapProgressBase << 12);
-    return ((s64) t * gRaceProgress->mLapProgressScale + 0x800) >> 12;
+    return ((s64) t * gRaceStatus->mLapProgressScale + 0x800) >> 12;
 }
 
 static inline void func_0203e550_inline(s32 kartIndex) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        FinishRaceProgressKartWithEndKind(kartIndex, 0);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        rstat_finishMission(kartIndex, 0);
     }
 }
 
-void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
+void rstat_handleLapChange(RaceProgressKart *kart) {
     BOOL f;
     BOOL missionTestPassed;
     Unk021759c0_28 *s;
@@ -149,18 +149,18 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         return;
     }
     if ((kart->mFlags & 1) != 0) {
-        AdvanceSceneSoundLap();
+        snd_handleLapChange();
     }
-    StoreRaceProgressKartLapTime(kart, kart->mLap > GetLapCount());
+    rstat_handleLapTime(kart, kart->mLap > rconf_getLapCount());
     kart->mHighestLap = kart->mLap;
     if ((kart->mFlags & 1) != 0) {
         func_020b1a34();
     }
     f = FALSE;
-    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         f = TRUE;
     } else {
-        switch (gRaceSetup->mMissionKind) {
+        switch (gRaceMultiConfig->mMissionKind) {
             case 2:
             case 4:
             case 6:
@@ -171,14 +171,14 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     if (f == FALSE) {
         return;
     }
-    if (kart->mHighestLap <= GetLapCount()) {
+    if (kart->mHighestLap <= rconf_getLapCount()) {
         return;
     }
-    kart->mHighestLap = GetLapCount();
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        s = &gRaceSetup->mUnk_28_view;
+    kart->mHighestLap = rconf_getLapCount();
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        s = &gRaceMultiConfig->mUnk_28_view;
         missionTestPassed = TRUE;
-        entryKartCounters = GetEntryKartCounters();
+        entryKartCounters = driver_getPlayerStatistics();
         switch (s->mMissionKind) {
             case 4:
                 if (s->mUnk_0f > (u32) entryKartCounters->mUnk_04) {
@@ -194,53 +194,53 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
         if (missionTestPassed != FALSE) {
             func_0203e550_inline(kart->mIndex);
         } else {
-            FinishRaceProgressKartWithEndKind(kart->mIndex, 4);
+            rstat_finishMission(kart->mIndex, 4);
         }
     } else {
-        if ((kart->mFlags & 1) == 0 && gRaceSetup->mMode == 5) {
+        if ((kart->mFlags & 1) == 0 && gRaceMultiConfig->mMode == 5) {
             return;
         }
         kart->mFlags |= 0x40;
     }
 }
 
-void func_0203e4c4(u32 kartIndex, u32 b) {
+void rstat_203E4C4(u32 kartIndex, u32 b) {
     RaceProgressKart *kart;
     u16 finishRequest;
 
-    kart = &gRaceProgress->mKarts[kartIndex];
+    kart = &gRaceStatus->mKarts[kartIndex];
     finishRequest = b != 0 ? 1 : 2;
     kart->mUnk_3c = (kart->mUnk_3c & ~0x300) | ((finishRequest & 3) << 8);
-    if (gRaceProgress->mUnk_000[0].mFinishedCount + gRaceProgress->mUnk_000[0].mRemovedCount >=
-        gRaceSetup->mKartCount) {
-        FinishRaceProgress();
+    if (gRaceStatus->mUnk_000[0].mFinishedCount + gRaceStatus->mUnk_000[0].mRemovedCount >=
+        gRaceMultiConfig->mKartCount) {
+        rstat_storeRaceResults();
     }
 }
 
-void EnterRaceProgressKartCheckpoint(RaceProgressKart *kart, s32 checkpoint) {
+void rstat_setCurrentCpoi(RaceProgressKart *kart, s32 checkpoint) {
     s16 checkpointNumber;
 
-    checkpointNumber = gCourseMap->mCheckpoints[kart->mCheckpoint].mNumber;
+    checkpointNumber = gMapData->mCheckpoints[kart->mCheckpoint].mNumber;
     if (checkpointNumber != -1) {
         kart->mCheckpointNumber = checkpointNumber;
         if (kart->mInOrderCheckpointNumber + 1 >= checkpointNumber) {
             kart->mInOrderCheckpointNumber = checkpointNumber;
         }
     }
-    if (checkpoint == 0 && kart->mInOrderCheckpointNumber >= gCourseMap->mNumberedCheckpointCount - 1) {
-        CompleteRaceProgressKartLap(kart);
-    } else if (kart->mCheckpoint == 0 && checkpoint == gCourseMap->mLastCheckpoint) {
+    if (checkpoint == 0 && kart->mInOrderCheckpointNumber >= gMapData->mNumberedCheckpointCount - 1) {
+        rstat_handleLapChange(kart);
+    } else if (kart->mCheckpoint == 0 && checkpoint == gMapData->mLastCheckpoint) {
         if (kart->mLap > -100) {
             kart->mLap = kart->mLap - 1;
         }
-        kart->mCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
-        kart->mInOrderCheckpointNumber = gCourseMap->mNumberedCheckpointCount - 1;
+        kart->mCheckpointNumber = gMapData->mNumberedCheckpointCount - 1;
+        kart->mInOrderCheckpointNumber = gMapData->mNumberedCheckpointCount - 1;
     }
     kart->mCheckpoint = checkpoint;
     kart->mRoute = func_0203df74_inline(checkpoint);
 }
 
-void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
+void rstat_updateDriverProgress(Vec3 *position, RaceProgressKart *kart) {
     s32 checkpointProgress;
     u16 checkpoint;
     u16 routeIndex;
@@ -253,19 +253,19 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     routeIndex = kart->mRoute;
     p = checkpoint;
     checkpointProgress = 0;
-    if (func_0207a5c4(kart->mIndex) != 0) {
+    if (driver_isFalling(kart->mIndex) != 0) {
         return;
     }
-    if (TryGetKartCheckpointProgress(kart, &checkpointProgress, position, routeIndex, checkpoint) == 0) {
+    if (rstat_isLeavingCpoiQuad(kart, &checkpointProgress, position, routeIndex, checkpoint) == 0) {
         if (checkpointProgress >= 0) {
-            p = FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            p = rstat_getNextCpoiId(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             if (p == -1) {
-                p = FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+                p = rstat_getPrevCpoiId(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             }
         } else {
-            p = FindKartCheckpointBackward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+            p = rstat_getPrevCpoiId(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             if (p == -1) {
-                p = FindKartCheckpointForward(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
+                p = rstat_getNextCpoiId(kart, &checkpointProgress, position, routeIndex, checkpoint, 5);
             }
         }
         if (p == -1) {
@@ -276,17 +276,17 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
         }
         routeIndex = func_0203df74_inline(p);
     }
-    route = &gCourseMap->mCheckpointRoutes[routeIndex];
+    route = &gMapData->mCheckpointRoutes[routeIndex];
     lapProgress = func_0203df74_c_inline(route, p, checkpointProgress);
     k = 0;
     if (p != -1) {
-        if (gCourseMap->mNumberedCheckpointCount >= 1) {
-            k = gRaceProgress->mCheckpointLapProgress[gCourseMap->mNumberedCheckpointCount - 1];
+        if (gMapData->mNumberedCheckpointCount >= 1) {
+            k = gRaceStatus->mCheckpointLapProgress[gMapData->mNumberedCheckpointCount - 1];
         }
-        if (lapProgress <= gRaceProgress->mCheckpointLapProgress[kart->mInOrderCheckpointNumber + 1]) {
-            EnterRaceProgressKartCheckpoint(kart, p);
+        if (lapProgress <= gRaceStatus->mCheckpointLapProgress[kart->mInOrderCheckpointNumber + 1]) {
+            rstat_setCurrentCpoi(kart, p);
         } else if (kart->mCheckpoint == 0 && lapProgress > k) {
-            EnterRaceProgressKartCheckpoint(kart, p);
+            rstat_setCurrentCpoi(kart, p);
         } else {
             checkpointProgress = kart->mCheckpointProgress;
             lapProgress = func_0203df74_c_inline(route, kart->mCheckpoint, checkpointProgress);
@@ -295,10 +295,10 @@ void UpdateRaceProgressKart(Vec3 *position, RaceProgressKart *kart) {
     kart->mCheckpointProgress = checkpointProgress;
     kart->mLapProgress = lapProgress;
     k = ((kart->mLap - 1) << 12) + kart->mLapProgress;
-    kart->mRaceProgress = ((s64) k * gRaceProgress->mRaceProgressScale + 0x800) >> 12;
+    kart->mRaceProgress = ((s64) k * gRaceStatus->mRaceProgressScale + 0x800) >> 12;
 }
 
-void UpdateRaceProgressKarts(void) {
+void rstat_handleCheckPoints(void) {
     Unk0217b498_0c t;
     s32 progressByKart[8];
     s32 progressByRank[8];
@@ -323,21 +323,21 @@ void UpdateRaceProgressKarts(void) {
     u16 g;
     RaceProgressKart *s;
 
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        kart = &gRaceProgress->mKarts[i];
-        if (kart->mStatus != 4 && gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        kart = &gRaceStatus->mKarts[i];
+        if (kart->mStatus != 4 && gRaceMultiConfig->mRaceKind != RACE_KIND_STAFF_ROLL) {
             for (k = 0; k < 16; k++) {
                 kart->mCheckpointTestedBits[k] = 0;
             }
-            GetKartPos(&position, i);
-            GetKartForward(GetKart(i), &forward);
-            UpdateRaceProgressKart(&position, kart);
+            driver_getPosition(&position, i);
+            driver_getShadowZDirection(driver_getById(i), &forward);
+            rstat_updateDriverProgress(&position, kart);
             f = FALSE;
-            if (func_0207a7fc(kart->mIndex) == 0) {
-                checkpointDirection = &gCourseMap->mCheckpoints[kart->mCheckpoint].mDirection;
+            if (driver_getIsOnAntigravity(kart->mIndex) == 0) {
+                checkpointDirection = &gMapData->mCheckpoints[kart->mCheckpoint].mDirection;
                 t.mUnk_00 = forward.x;
                 t.mUnk_04 = forward.z;
-                if (ComputeDotOfPairsRounded(&t, checkpointDirection) < -1394) {
+                if (rstat_rotCompare(&t, checkpointDirection) < -1394) {
                     f = TRUE;
                 }
             }
@@ -349,11 +349,11 @@ void UpdateRaceProgressKarts(void) {
             progressByKart[i] = kart->mRaceProgress;
         }
     }
-    if (gRaceSetup->mKartCount > 1) {
-        raceProgress = gRaceProgress;
-        notRemovedCount = gRaceSetup->mKartCount - raceProgress->mUnk_000[0].mRemovedCount;
+    if (gRaceMultiConfig->mKartCount > 1) {
+        raceProgress = gRaceStatus;
+        notRemovedCount = gRaceMultiConfig->mKartCount - raceProgress->mUnk_000[0].mRemovedCount;
         finishedCount = raceProgress->mUnk_000[0].mFinishedCount;
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+        for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
             rankIndex = raceProgress->mUnk_000[i].mUnk_50_0 - 1;
             progressByRank[rankIndex] = progressByKart[i];
             kartByRank[rankIndex] = i;
@@ -374,42 +374,42 @@ void UpdateRaceProgressKarts(void) {
             progressByRank[insertPos] = progressKey;
             kartByRank[insertPos] = kartKey;
         }
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+        for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
             if (kartByRank[i] < 8) {
-                gRaceProgress->mKarts[kartByRank[i]].mRank = i + 1;
+                gRaceStatus->mKarts[kartByRank[i]].mRank = i + 1;
             }
         }
-        gRaceProgress->mUnk_000[kartByRank[0]].mFirstPlaceFrames++;
-        for (g = 0; g < (u32) gRaceSetup->mKartCount; g++) {
-            gRaceProgress->mKartAtRank[g] = kartByRank[g];
+        gRaceStatus->mUnk_000[kartByRank[0]].mFirstPlaceFrames++;
+        for (g = 0; g < (u32) gRaceMultiConfig->mKartCount; g++) {
+            gRaceStatus->mKartAtRank[g] = kartByRank[g];
         }
         for (; g < 8; g++) {
-            gRaceProgress->mKartAtRank[g] = -1;
+            gRaceStatus->mKartAtRank[g] = -1;
         }
     } else {
-        gRaceProgress->mUnk_000[0].mUnk_50_0 = 1;
-        gRaceProgress->mUnk_000[0].mFirstPlaceFrames++;
-        gRaceProgress->mKartAtRank[0] = 0;
+        gRaceStatus->mUnk_000[0].mUnk_50_0 = 1;
+        gRaceStatus->mUnk_000[0].mFirstPlaceFrames++;
+        gRaceStatus->mKartAtRank[0] = 0;
         for (g = 1; g < 8; g++) {
-            gRaceProgress->mKartAtRank[g] = -1;
+            gRaceStatus->mKartAtRank[g] = -1;
         }
     }
     f = FALSE;
-    switch (gRaceSetup->mRaceKind) {
+    switch (gRaceMultiConfig->mRaceKind) {
         case RACE_KIND_DEMO:
         case 2:
         case RACE_KIND_STAFF_ROLL:
             f = TRUE;
             break;
         case RACE_KIND_NORMAL:
-            if (func_02040bc0() != 0) {
+            if (rstat_calcUncontrollableRaceDisplayMode() != 0) {
                 f = TRUE;
             }
             break;
     }
-    gRaceProgress->mUnk_4f0 = f;
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        s = &gRaceProgress->mKarts[i];
+    gRaceStatus->mUnk_4f0 = f;
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        s = &gRaceStatus->mKarts[i];
         f = FALSE;
         switch (s->mStatus) {
             case 1:
@@ -419,22 +419,22 @@ void UpdateRaceProgressKarts(void) {
                 break;
         }
         if (f == FALSE && (s->mFlags & 0x40) != 0) {
-            FinishRaceProgressKart(s, 1);
-            if (IsRaceEndConditionMet() != 0) {
-                switch (gRaceSetup->mMode) {
+            rstat_finishDriver(s, 1);
+            if (rstat_shouldTryFinish() != 0) {
+                switch (gRaceMultiConfig->mMode) {
                     case MODE_TIME_ATTACK:
                         break;
                     case MODE_BATTLE:
-                        EliminateKartsUntilWinnerDecided();
+                        mgcnt_tryFinish();
                         break;
                     case MODE_MISSION_RUN:
-                        FinishRemainingMissionRunKarts();
+                        rstat_tryFinishMr();
                         break;
                     case 5:
-                        func_0203ecf0();
+                        rstat_tryFinishNt();
                         break;
                     default:
-                        FinishRemainingRaceProgressKarts();
+                        rstat_tryFinishGpVs();
                         break;
                 }
             }
@@ -442,7 +442,7 @@ void UpdateRaceProgressKarts(void) {
         }
         if ((s->mFlags & 8) != 0) {
             s->mFlags &= ~8;
-            if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
                 func_0207a828(s->mIndex);
                 if ((s->mFlags & 1) != 0) {
                     func_02110cc8(0);
@@ -452,23 +452,23 @@ void UpdateRaceProgressKarts(void) {
     }
 }
 
-void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
+void rstat_loadRankTimeGp(RankTimeGp *rankTimeGp) {
     s32 entryIndex;
     RankTimeGpEntry *entry;
 
-    gRaceProgress->mUnk_000[0].mRankTime = 0;
+    gRaceStatus->mUnk_000[0].mRankTime = 0;
     for (entryIndex = 0; entryIndex < rankTimeGp->mEntryCount; entryIndex++) {
         entry = &rankTimeGp->mUnk_1c[entryIndex];
-        if (entry->mCourseId == gRaceSetup->mCourseId) {
-            switch (gRaceSetup->mEngineIndex) {
+        if (entry->mCourseId == gRaceMultiConfig->mCourseId) {
+            switch (gRaceMultiConfig->mEngineIndex) {
                 case 0:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_02;
+                    gRaceStatus->mUnk_000[0].mRankTime = entry->mUnk_02;
                     return;
                 case 1:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_04;
+                    gRaceStatus->mUnk_000[0].mRankTime = entry->mUnk_04;
                     return;
                 case 2:
-                    gRaceProgress->mUnk_000[0].mRankTime = entry->mUnk_06;
+                    gRaceStatus->mUnk_000[0].mRankTime = entry->mUnk_06;
                     break;
             }
             return;
@@ -476,42 +476,42 @@ void SetRankTimeFromRankTimeGp(RankTimeGp *rankTimeGp) {
     }
 }
 
-void CreateRaceProgress(void *heap) {
-    gRaceProgress = HeapAlloc(heap, 0x524);
-    gRaceProgress->mCheckpointLapProgress = HeapAlloc(heap, (gCourseMap->mNumberedCheckpointCount + 1) << 2);
-    gRaceProgress->mRankPointFile = FindMainRaceOrMainEffectFile(gRankPointRptName);
-    gRaceProgress->mRankTimeGpFile = FindMainRaceOrMainEffectFile(gRankTimeGpRttName);
-    SetRankTimeFromRankTimeGp(gRaceProgress->mRankTimeGpFile);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        CreateShapeMapObjectCountList(heap);
+void rstat_init(void *heap) {
+    gRaceStatus = heap_alloc(heap, 0x524);
+    gRaceStatus->mCheckpointLapProgress = heap_alloc(heap, (gMapData->mNumberedCheckpointCount + 1) << 2);
+    gRaceStatus->mRankPointFile = arc_getMainRaceMainEffectArcFile(aRankpoint_rpt);
+    gRaceStatus->mRankTimeGpFile = arc_getMainRaceMainEffectArcFile(aRanktimegp_rtt);
+    rstat_loadRankTimeGp(gRaceStatus->mRankTimeGpFile);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        area_initMissionRivalPassAreas(heap);
     }
-    InitRaceProgress();
+    rstat_init2();
 }
 
-void func_0203d568(void) {
+void rstat_finalize(void) {
     u16 entryIndex;
     enum { K0 } inputSlotIndex;
 
-    SetReadRaceKeys(0);
+    input_setFlagsBit1(0);
     if (func_0203d568_c_inline() != 0) {
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
+        bgwkr_waitForCompletion();
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_VS:
             func_0203d568_b_inline();
             break;
         case MODE_MISSION_RUN:
-            func_0205e2b8();
+            area_finalizeMissionRivalPassAreas();
             break;
         case MODE_BATTLE:
             func_0203d568_b_inline();
             break;
     }
-    for (entryIndex = 0; entryIndex < (u32) gRaceSetup->mKartCount; entryIndex++) {
-        inputSlotIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-        FinishKeyRecording(&data_02175628[inputSlotIndex].mUnk_28);
+    for (entryIndex = 0; entryIndex < (u32) gRaceMultiConfig->mKartCount; entryIndex++) {
+        inputSlotIndex = gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mIndex;
+        irec_stopRecording(&gInputUnits[inputSlotIndex].mUnk_28);
     }
 }

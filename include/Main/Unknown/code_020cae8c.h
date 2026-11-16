@@ -13,7 +13,7 @@ typedef struct ScreenCallbacks {
     /* 4 */ void (*mUpdate)(u32 a);
 } ScreenCallbacks;
 
-// Object behind data_0217b43c.
+// Object behind gMenuSceneState.
 typedef struct MenuScene {
     /* 000 */ s32 mFramesSinceScreenSwitch;
     /* 004 */ s32 mUnk_004;
@@ -47,4 +47,4 @@ typedef struct MenuScene {
     /* 95c */ BOOL mUnk_95c;
 } MenuScene;
 
-void func_020cae8c(void);
+void menu_modeSelectSelectedOutEffectStateRender(void);

@@ -1,9 +1,9 @@
 #include "Main/Unknown/code_020b681c.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outMax) {
+void Map_20B681C(UnkPair020b502c *outMin, UnkPair020b502c *outMax) {
     int courseId;
-    courseId = RaceHudSubScreenGetCurrentCourseId();
+    courseId = m2d_race_getCurrentCourse();
     if (courseId == COURSE_ID_OLD_LUIGI_GC) {
         SetFixed12MinMaxFromWhole(outMin, outMax, 0xfffff434u, 0xfffffff6, 0x00000ba4u, 0x00001766u);
         return;
@@ -32,5 +32,5 @@ void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outM
         SetFixed12MinMaxFromWhole(outMin, outMax, 0xfffffff6, 0xfffff434u, 0x00001766u, 0x00000ba4u);
         return;
     }
-    GetRaceHudSubScreenCourseMinMax(outMin, outMax);
+    GetLocalMapScale(outMin, outMax);
 }

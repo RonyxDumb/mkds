@@ -47,12 +47,12 @@
 #include "Main/Item/ItemInUse.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_020e7a40(void) {
+void jg_startRespawning(void) {
     u32 value0;
     u32 requestedState;
     u32 raceKind;
     u32 staffRollKind;
-    value0 = gRaceSetup->mRaceKind;
+    value0 = gRaceMultiConfig->mRaceKind;
     raceKind = value0;
     staffRollKind = 6u;
     if (raceKind == staffRollKind) {
@@ -62,49 +62,49 @@ void func_020e7a40(void) {
     if (raceKind == staffRollKind) {
         return;
     }
-    value0 = (u32) &gJgStateMachine;
+    value0 = (u32) &jg_sStateMachine;
     requestedState = 4u;
-    SetStateMachineState((void *) value0, requestedState);
+    sm_gotoState((void *) value0, requestedState);
 }
 
 #pragma thumb off
-void func_020e7a18(void) {
-    if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
+void jg_finishRespawning(void) {
+    if (gRaceMultiConfig->mRaceKind != RACE_KIND_STAFF_ROLL) {
         data_0217b8b4 = 0x14;
     }
 }
 
 void func_020e79c4(void) {
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
     NNS_SndPlayerStopSeq(GetSndHandleSlot(4), 1);
-    gJgKart = NULL;
+    jg_sTargetDriver = NULL;
 }
 
 #pragma thumb on
-void func_020e7760(void) {
+void jg_init(void) {
     Kart *kart;
     Vec3 *point;
     s32 i;
     Vec3 *sourcePoint;
     BOOL flag;
 
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_START_GP) {
-        gJgKart = NULL;
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_START_GP) {
+        jg_sTargetDriver = NULL;
         return;
     }
-    if (gRaceSetup->mEntryIndex < 0) {
-        gJgKart = NULL;
+    if (gRaceMultiConfig->mEntryIndex < 0) {
+        jg_sTargetDriver = NULL;
         return;
     }
-    gJgKartIndex = gRaceSetup->mEntryIndex;
-    kart = GetKart(gJgKartIndex);
-    gJgKart = kart;
-    data_0217b8c0 = &kart->mKartModelsEntry->mUnk_040;
+    jg_sTargetDriverId = gRaceMultiConfig->mEntryIndex;
+    kart = driver_getById(jg_sTargetDriverId);
+    jg_sTargetDriver = kart;
+    jg_sLight = &kart->mKartModelsEntry->mUnk_040;
     gJgTargetPos.x = 0;
     gJgTargetPos.y = 0;
     gJgTargetPos.z = 0;
@@ -129,13 +129,13 @@ void func_020e7760(void) {
     data_0217b8f0 = flag;
     data_0217b8bc = flag;
     data_0217b894 = 0;
-    if (gCourseMap->mSettings->mUnk_04 != 0) {
+    if (gMapData->mSettings->mUnk_04 != 0) {
         flag = FALSE;
     }
     data_0217b8f8 = flag;
-    gJgKind = 4;
+    LukituObject = 4;
     gJgHighestLap = 1;
-    gJgFinalLap = GetLapCount();
+    jg_sLapCount = rconf_getLapCount();
     InitJgOffsets();
     gJgPoints[0].x = 0;
     gJgPoints[0].y = 0;
@@ -151,7 +151,7 @@ void func_020e7760(void) {
         }
         sourcePoint++;
     }
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_BATTLE:
             gJgLapAndReverseEnabled = 0;
             break;
@@ -159,8 +159,8 @@ void func_020e7760(void) {
             BOOL enabled;
 
             enabled = FALSE;
-            if ((u8) (gRaceSetup->mMissionKind + 0xfe) <= 8 &&
-                (0x115 & (1 << (u8) (gRaceSetup->mMissionKind + 0xfe))) != 0) {
+            if ((u8) (gRaceMultiConfig->mMissionKind + 0xfe) <= 8 &&
+                (0x115 & (1 << (u8) (gRaceMultiConfig->mMissionKind + 0xfe))) != 0) {
                 enabled = TRUE;
             }
             gJgLapAndReverseEnabled = enabled;
@@ -170,7 +170,7 @@ void func_020e7760(void) {
             gJgLapAndReverseEnabled = 1;
             break;
     }
-    switch (gRaceSetup->mEngineIndex) {
+    switch (gRaceMultiConfig->mEngineIndex) {
         case 0:
             gJgState2FrameCount = 0x50;
             break;
@@ -185,11 +185,11 @@ void func_020e7760(void) {
     data_0217b9dc.mSoundId = 0x101;
     data_0217b9dc.mPositionSource = &gJgPos;
     data_0217b9dc.mUnk_08 = 1;
-    InitStateMachine(&gJgStateMachine, (UnkFunc *const *) gJgStateTable, 7, NULL);
-    SetStateMachineState(&gJgStateMachine, 0);
+    sm_init(&jg_sStateMachine, (UnkFunc *const *) jg_sStates, 7, NULL);
+    sm_gotoState(&jg_sStateMachine, 0);
 }
 
-void func_020e7460(void) {
+void jg_load(void) {
     s32 angle;
     s32 j;
     s32 i;
@@ -200,99 +200,99 @@ void func_020e7460(void) {
     s32 n;
     s32 angleIndex;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    heap = proc_getHeap(proc_getCurrent());
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
         return;
     }
-    func_020e64b8(&gJgMain, FindSceneFile(data_0216c374), FindSceneFile(data_0216c384), 0);
-    func_020e6ab8(&gJgMain);
-    gJgMain.mUnk_14 |= 0xc0;
-    func_020e64b8(&gJgCloud, FindSceneFile(data_0216c394), NULL, 0);
-    func_020e6ab8(&gJgCloud);
-    gJgCloud.mUnk_14 |= 0xc0;
-    data_0217b8a4 = HeapAlloc(heap, 0x78);
-    data_0217b8a8 = HeapAlloc(heap, 0x78);
-    data_0217b8a0 = HeapAlloc(heap, 0x78);
-    data_0217b8e0 = HeapAlloc(heap, 0x78);
-    data_0217b904 = HeapAlloc(heap, 0x78);
+    bbm_initFromNsbmd(&jg_sMainModel, arc_getSceneArcFile(aJg_main_nsbmd), arc_getSceneArcFile(aJg_main_nsbtp), 0);
+    bbm_setDefaultMatParams(&jg_sMainModel);
+    jg_sMainModel.mUnk_14 |= 0xc0;
+    bbm_initFromNsbmd(&jg_sCloudModel, arc_getSceneArcFile(aJg_cloud_nsbmd), NULL, 0);
+    bbm_setDefaultMatParams(&jg_sCloudModel);
+    jg_sCloudModel.mUnk_14 |= 0xc0;
+    data_0217b8a4 = heap_alloc(heap, 0x78);
+    data_0217b8a8 = heap_alloc(heap, 0x78);
+    data_0217b8a0 = heap_alloc(heap, 0x78);
+    data_0217b8e0 = heap_alloc(heap, 0x78);
+    data_0217b904 = heap_alloc(heap, 0x78);
     for (i = 0, angle = 0; i < 0x3c; i++) {
-        data_0217b8a4[i] = (u16) (((s64) gPairsByAngle[(angle >> 4) * 2] * 0x4c) >> 12);
+        data_0217b8a4[i] = (u16) (((s64) FX_SinCosTable_[(angle >> 4) * 2] * 0x4c) >> 12);
         angleIndex =
-            (u16) (((u64) (s64) gPairsByAngle[((u16) (angle + 0xa218) >> 4) * 2] * 0xb60b60b60b + 0x80000000000) >>
+            (u16) (((u64) (s64) FX_SinCosTable_[((u16) (angle + 0xa218) >> 4) * 2] * 0xb60b60b60b + 0x80000000000) >>
                    44) >>
             4;
-        data_0217b8a8[i] = gPairsByAngle[angleIndex * 2];
-        data_0217b8a0[i] = gPairsByAngle[angleIndex * 2 + 1];
-        data_0217b8e0[i] = (u32) (((s64) gPairsByAngle[((u16) (angle + 0x1554) >> 4) * 2] * 0x19a) >> 12) + 0xe66;
-        data_0217b904[i] = (u32) (((s64) gPairsByAngle[((u16) (angle + 0xbbb0) >> 4) * 2] * 0x19a) >> 12) + 0x119a;
+        data_0217b8a8[i] = FX_SinCosTable_[angleIndex * 2];
+        data_0217b8a0[i] = FX_SinCosTable_[angleIndex * 2 + 1];
+        data_0217b8e0[i] = (u32) (((s64) FX_SinCosTable_[((u16) (angle + 0x1554) >> 4) * 2] * 0x19a) >> 12) + 0xe66;
+        data_0217b904[i] = (u32) (((s64) FX_SinCosTable_[((u16) (angle + 0xbbb0) >> 4) * 2] * 0x19a) >> 12) + 0x119a;
         angle += 0x444;
     }
     gJgTableIndex = 0;
     n = 2;
     for (j = n, sourceRow = data_0216c324, kindRow = data_0217bb08; j < 4; j++) {
         if (sourceRow->mUnk_00 != NULL) {
-            kindRow->mModel = HeapAlloc(heap, 0x6c);
-            file = FindSceneFile(sourceRow->mUnk_00);
-            InitNsbmd(kindRow->mModel, file);
-            func_02084968(kindRow->mModel, 0x3f, n, 0x294a);
-            SetNsbmdCullModeAll(kindRow->mModel, 3);
+            kindRow->mModel = heap_alloc(heap, 0x6c);
+            file = arc_getSceneArcFile(sourceRow->mUnk_00);
+            model_initFromNsbmd(kindRow->mModel, file);
+            model_setPolyIdLightFlagsEmi(kindRow->mModel, 0x3f, n, 0x294a);
+            model_setCullMode(kindRow->mModel, 3);
         } else {
             kindRow->mModel = NULL;
         }
         if (sourceRow->mUnk_04 != NULL) {
-            kindRow->mNsbcaAnimation = HeapAlloc(heap, 0x38);
-            InitModelAnimationWithEntries(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
-                                          FindSceneFile(sourceRow->mUnk_04));
-            func_02087cfc(kindRow->mNsbcaAnimation, 0, 1);
+            kindRow->mNsbcaAnimation = heap_alloc(heap, 0x38);
+            anim_20EA514(0, kindRow->mModel, kindRow->mNsbcaAnimation, file,
+                                          arc_getSceneArcFile(sourceRow->mUnk_04));
+            anim_setLoop(kindRow->mNsbcaAnimation, 0, 1);
         } else {
             kindRow->mNsbcaAnimation = NULL;
         }
         if (sourceRow->mUnk_08 != NULL) {
-            kindRow->mNsbmaAnimation = HeapAlloc(heap, 0x38);
-            InitModelAnimationWithEntries(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
-                                          FindSceneFile(sourceRow->mUnk_08));
-            func_02087cfc(kindRow->mNsbmaAnimation, 0, 1);
+            kindRow->mNsbmaAnimation = heap_alloc(heap, 0x38);
+            anim_20EA514(4, kindRow->mModel, kindRow->mNsbmaAnimation, file,
+                                          arc_getSceneArcFile(sourceRow->mUnk_08));
+            anim_setLoop(kindRow->mNsbmaAnimation, 0, 1);
         } else {
             kindRow->mNsbmaAnimation = NULL;
         }
         sourceRow++;
         kindRow++;
     }
-    func_020e6488((NsbmdModel **) gJgKindRowLapModels, FindSceneFile(data_0216c3a4), FindSceneFile(data_0216c3b4), 0);
-    func_020e6ab8(gJgKindRows[0].mLapModel);
+    bbm_createFromNsbmd((NsbmdModel **) gJgKindRowLapModels, arc_getSceneArcFile(aLap_count_nsbm), arc_getSceneArcFile(aLap_count_nsbt), 0);
+    bbm_setDefaultMatParams(gJgKindRows[0].mLapModel);
     gJgKindRows[0].mLapModel->mUnk_14 |= 0xc0;
-    func_020e6488((NsbmdModel **) data_0217bb04, FindSceneFile(data_0216c3c4), 0, 0);
-    func_020e6ab8(gJgKindRows[1].mLapModel);
+    bbm_createFromNsbmd((NsbmdModel **) data_0217bb04, arc_getSceneArcFile(aLap_final_nsbm), 0, 0);
+    bbm_setDefaultMatParams(gJgKindRows[1].mLapModel);
     gJgKindRows[1].mLapModel->mUnk_14 |= 0xc0;
 }
 #pragma thumb off
 
-Unk020e7410 *func_020e7410(void) {
+Unk020e7410 *fwdst_setupConfig(void) {
     Unk020e7410 *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = *(Unk020e7410 *) data_02159370;
     return kindData;
 }
 
-MapObjectList *func_020e73b4(void) {
+MapObjectList *fwdst_setupLogicPart(void) {
     MapObjectList *list;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b864 = list;
+    list = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    fwdst_sLogicPart = list;
     *list = *(MapObjectList *) data_02159348;
-    SetUpdateListSlot(&data_0217b864);
-    return data_0217b864;
+    mobj_logicPartSetThisPointer(&fwdst_sLogicPart);
+    return fwdst_sLogicPart;
 }
 
-Vec3 *GetMapObjectPositionByTableIndex(u32 index) {
-    return (*(Vec3 ***) gMapObjectPositionByTableIndex)[index];
+Vec3 *fwdst_getPosition(u32 index) {
+    return (*(Vec3 ***) fwdst_sPositions)[index];
 }
 
-u16 func_020e7388(int index) {
+u16 fwdst_getCCDependentSetting(int index) {
     u32 value0 = index;
     u32 value1;
-    value1 = (u32) &data_0217b868;
+    value1 = (u32) &fwdst_sCCDependentSettings;
     value0 = (value0 << 1);
     value1 = *(const u32 *) ((value1) + (0));
     value0 = *(const u16 *) ((value1) + (value0));
@@ -300,27 +300,27 @@ u16 func_020e7388(int index) {
 }
 
 #pragma thumb on
-void func_020e730c(void) {
+void fwdst_globalInitLogic(void) {
     Unk020e730c *object;
     s32 objectCount;
     s32 i;
 
-    objectCount = ((MapObjectList *) data_0217b864)->mMapObjectCount;
-    *(void **) gMapObjectPositionByTableIndex = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 4);
-    data_0217b868 = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 2);
-    for (i = 0; i < ((MapObjectList *) data_0217b864)->mMapObjectCount; i++) {
+    objectCount = ((MapObjectList *) fwdst_sLogicPart)->mMapObjectCount;
+    *(void **) fwdst_sPositions = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 4);
+    fwdst_sCCDependentSettings = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 2);
+    for (i = 0; i < ((MapObjectList *) fwdst_sLogicPart)->mMapObjectCount; i++) {
         s32 tableIndex;
 
-        object = ((MapObjectList *) data_0217b864)->mMapObjects[i];
+        object = ((MapObjectList *) fwdst_sLogicPart)->mMapObjects[i];
         tableIndex = object->mTableIndex;
-        (*(Vec3 ***) gMapObjectPositionByTableIndex)[tableIndex] = &object->mUnk_00.mPos;
-        data_0217b868[tableIndex] = object->mEntryValue;
+        (*(Vec3 ***) fwdst_sPositions)[tableIndex] = &object->mUnk_00.mPos;
+        fwdst_sCCDependentSettings[tableIndex] = object->mEntryValue;
     }
 }
 
-void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow) {
+void fwdst_init(Unk020e730c *object, struct CourseMapRow *courseRow) {
     object->mTableIndex = courseRow->mUnk_28;
-    switch (gRaceSetup->mEngineIndex) {
+    switch (gRaceMultiConfig->mEngineIndex) {
         case 0:
             object->mEntryValue = courseRow->mUnk_2a;
             break;
@@ -334,7 +334,7 @@ void func_020e72cc(Unk020e730c *object, struct CourseMapRow *courseRow) {
 }
 #pragma thumb off
 
-void func_020e71a0(MapObject *object) {
+void mobj_logicPartUpdateSoundEmitter(MapObject *object) {
     MapObjectSound *sound;
     BOOL resultIsFalse;
     BOOL hasSoundBit0;
@@ -342,7 +342,7 @@ void func_020e71a0(MapObject *object) {
     sound = object->mSound;
     if ((object->mFlags & 2) == 0) {
         sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
-        resultIsFalse = (func_020d4ddc(object) == FALSE);
+        resultIsFalse = (mobj_isInaudible(object) == FALSE);
         hasSoundBit0 = (sound->mSoundSource.mSourceFlags & 1) != 0;
         if (resultIsFalse != FALSE) {
             if (hasSoundBit0 != FALSE) {
@@ -362,9 +362,9 @@ void func_020e71a0(MapObject *object) {
     } else {
         s32 distanceSquared;
 
-        distanceSquared = GetHorizontalCameraDistanceSquared(&object->mPos);
+        distanceSquared = mobj_calcXZCamDist(&object->mPos);
         sound->mSoundSource.mDistanceSquared = distanceSquared;
-        if (func_020d4d60(object, distanceSquared) != FALSE) {
+        if (mobj_calcInaudible(object, distanceSquared) != FALSE) {
             object->mDistanceSquaredAndFlags |= data_02159310;
             if ((sound->mSoundSource.mSourceFlags & 1) != 0) {
                 SetSoundSourceFlagBit(&sound->mSoundSource, 2, 1);
@@ -375,7 +375,7 @@ void func_020e71a0(MapObject *object) {
     }
 }
 
-void UpdateMapObjectList(MapObjectList *list) {
+void mobj_logicPartExecute(MapObjectList *list) {
     MapObject *object;
     Vec3 previousPos;
     void (*callback)(void *list, MapObject *object);
@@ -391,7 +391,7 @@ void UpdateMapObjectList(MapObjectList *list) {
         for (i = 0; i < count; i++) {
             object = objects[i];
             if (object->mSound != NULL) {
-                func_020e71a0(object);
+                mobj_logicPartUpdateSoundEmitter(object);
             }
         };
         return;
@@ -406,7 +406,7 @@ void UpdateMapObjectList(MapObjectList *list) {
                 callback(list, object);
                 VEC_Subtract(&object->mPos, &previousPos, &object->mUnk_10);
                 if (object->mSound != NULL) {
-                    func_020e71a0(object);
+                    mobj_logicPartUpdateSoundEmitter(object);
                 }
             }
         };
@@ -420,14 +420,14 @@ void UpdateMapObjectList(MapObjectList *list) {
             if ((object->mFlags & 4) == 0) {
                 callback(list, object);
                 if (object->mSound != NULL) {
-                    func_020e71a0(object);
+                    mobj_logicPartUpdateSoundEmitter(object);
                 }
             }
         }
     }
 }
 
-void func_020e6fd4(MapObjectList *list) {
+void mobj_logicPartExecuteThunderLogic(MapObjectList *list) {
     MapObject *object;
     u8 callbackArgs[2];
     s32 i;

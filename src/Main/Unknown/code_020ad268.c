@@ -5,23 +5,23 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void AdvanceTitleBlend(void) {
+void title_updateIntro(void) {
     s32 n;
     s32 m;
 
-    n = gTitleScene->mBlendFrames++;
+    n = sTitleSceneState->mBlendFrames++;
     if (n < 30) {
-        func_020ad2f0(4, 8, 0, 16);
+        title_G2_SetBlendAlpha(4, 8, 0, 16);
     } else if (n < 47) {
         m = n - 30;
-        func_020ad2f0(4, 8, m, 16 - m);
+        title_G2_SetBlendAlpha(4, 8, m, 16 - m);
     } else if (n < 107) {
-        func_020ad2f0(0, 0, 0, 0);
+        title_G2_SetBlendAlpha(0, 0, 0, 0);
     } else {
-        func_020ad2f0(0, 0, 0, 0);
-        SetTitleBlendDone(1);
-        gTitleScene->mBlendDone = TRUE;
-        gTitleScene->mBlendFrames--;
+        title_G2_SetBlendAlpha(0, 0, 0, 0);
+        title_struct217B488_setTitleMenuSkipIntro(1);
+        sTitleSceneState->mBlendDone = TRUE;
+        sTitleSceneState->mBlendFrames--;
     }
 }
 

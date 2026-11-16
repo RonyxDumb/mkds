@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceTitleBlend(void);
+void title_updateIntro(void);

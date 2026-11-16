@@ -4,5 +4,5 @@
 
 typedef struct MapObjectList MapObjectList;
 
-void AddToMapObjectListCount(MapObjectList *p, s32 n);
-void ClearMapObjectListCount(MapObjectList *p);
+void mobj_logicPartIncreaseInstanceCount(MapObjectList *p, s32 n);
+void mobj_logicPartResetInstanceCount(MapObjectList *p);

@@ -10,7 +10,7 @@ void func_020f1150(int object, int kartIndex) {
     u32 value2;
     u32 value3;
     u32 kartItemsBase;
-    value3 = ((u32) &gKartItems);
+    value3 = ((u32) &it_sDriverItemStatus);
     value2 = 0x210u;
     kartItemsBase = *(const u32 *) ((value3) + (0));
     value3 = 0u;
@@ -23,7 +23,7 @@ void func_020f1150(int object, int kartIndex) {
 }
 
 void SetItemKouraRKartItems(ItemKouraR *item, int kartIndex) {
-    item->mKartItems = &gKartItems[kartIndex];
+    item->mKartItems = &it_sDriverItemStatus[kartIndex];
     item->mUnk_238 = 0;
 }
 

@@ -49,93 +49,93 @@ static inline void func_0205dee0_inline(void *c, void *overlayId) {
         GX_VBlankIntr(0);
         func_ov000_021a397c(2);
         f = 1;
-        languageIndex = data_021759d0->mLanguageIndex;
+        languageIndex = gSystemData->mLanguageIndex;
         if (languageIndex < 6) {
-            f = data_02154904[languageIndex];
+            f = scproc_sLanguageToDwcUtil[languageIndex];
         }
 #ifdef version_EUR
         func_ov003_021c2494(c, f, 0);
 #else
         func_ov003_021c2494(c, f, 0x20);
 #endif
-        func_02036778();
+        mkds_restoreIrqs();
         FS_UnloadOverlay(0, (u32) overlayId);
     }
 }
 
-void func_0205dee0(void) {
+void scproc_runWifiUtil(void) {
     void *expHeapFromMaxFree;
     void *c;
     void *a;
-    a = GetHeap(GetCurrentHeapCall());
-    WaitThreadFunctionsDone();
-    if (gBackupAccess->mBackupEnabled != 0) {
+    a = proc_getHeap(proc_getCurrent());
+    bgwkr_waitForCompletion();
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
-        HeapFree(a, gRunScenesState->mSndHeapsBuffer);
-        gRunScenesState->mSndHeapsBuffer = NULL;
+        heap_free(a, scproc_sSceneProc->mSndHeapsBuffer);
+        scproc_sSceneProc->mSndHeapsBuffer = NULL;
     }
     func_02108ed8();
-    expHeapFromMaxFree = CreateExpHeapFromMaxFree(a);
-    c = HeapAllocAligned(expHeapFromMaxFree, 0x40000, 0x20);
+    expHeapFromMaxFree = heap_createSubExpHeap(a);
+    c = heap_allocEx(expHeapFromMaxFree, 0x40000, 0x20);
     func_0205dee0_inline(c, SDK_OVERLAY_OV003_ID);
-    HeapDestroy(expHeapFromMaxFree);
+    heap_destroySubHeap(expHeapFromMaxFree);
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
-    WaitIrqAndTurnOnDisplays();
-    SetCurrentSndArc();
-    a = HeapAlloc(a, GetSndHeapsBufferSize(1));
+    dc_enableDisplay();
+    sound_setSdatAsCurrent();
+    a = heap_alloc(a, sound_getSomeSize2(1));
     CreateSndHeaps(1, (u32) a);
-    gRunScenesState->mSndHeapsBuffer = a;
+    scproc_sSceneProc->mSndHeapsBuffer = a;
 }
 
 static inline BOOL func_0205dd38_inline(void) {
-    if (gRunScenesState->mUnk_04 == 3 || gRunScenesState->mUnk_04 == gRunScenesState->mUnk_00) {
+    if (scproc_sSceneProc->mUnk_04 == 3 || scproc_sSceneProc->mUnk_04 == scproc_sSceneProc->mUnk_00) {
         return TRUE;
     }
     return FALSE;
 }
 
-s32 RunScenes(s16 *sceneNumber) {
+s32 scproc_sceneProcMain(s16 *sceneNumber) {
     HeapCall heapCall;
     void *heap;
-    func_0205e0b0();
+    scproc_overlay_205E0B0();
     while (func_0205dd38_inline()) {
-        gRunScenesState->mUnk_04 = 3;
-        gSceneNumbers[0] = gSceneNumbers[1];
-        gSceneNumbers[1] = *sceneNumber;
-        gSceneNumbers[2] = -1;
-        InitHeapCall(&heapCall, gSceneFuncs[*sceneNumber]);
-        RunHeapCall(&heapCall, (u32) gSceneNumbers);
-        if (gSceneNumbers[2] != -1) {
-            *sceneNumber = gSceneNumbers[2];
+        scproc_sSceneProc->mUnk_04 = 3;
+        scproc_sSceneManager[0] = scproc_sSceneManager[1];
+        scproc_sSceneManager[1] = *sceneNumber;
+        scproc_sSceneManager[2] = -1;
+        proc_init(&heapCall, scproc_sSceneTable[*sceneNumber]);
+        proc_run(&heapCall, (u32) scproc_sSceneManager);
+        if (scproc_sSceneManager[2] != -1) {
+            *sceneNumber = scproc_sSceneManager[2];
         } else {
             *sceneNumber = 9;
         }
-        switch (data_021759d0->mUnk_20) {
+        switch (gSystemData->mUnk_20) {
             case 0:
             case 1:
             case 2:
-                gRunScenesState->mUnk_04 = 0;
+                scproc_sSceneProc->mUnk_04 = 0;
                 break;
             case 3:
-                gRunScenesState->mUnk_04 = 1;
+                scproc_sSceneProc->mUnk_04 = 1;
                 break;
             case 4:
-                func_0205dee0();
-                data_021759d0->mUnk_20 = 3;
+                scproc_runWifiUtil();
+                gSystemData->mUnk_20 = 3;
                 break;
         }
     }
-    heap = GetHeap(GetCurrentHeapCall());
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && gRunScenesState->mSndHeapsBuffer != NULL) {
+    heap = proc_getHeap(proc_getCurrent());
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2 && scproc_sSceneProc->mSndHeapsBuffer != NULL) {
         ReleaseSndHeaps();
-        HeapFree(heap, gRunScenesState->mSndHeapsBuffer);
-        gRunScenesState->mSndHeapsBuffer = NULL;
+        heap_free(heap, scproc_sSceneProc->mSndHeapsBuffer);
+        scproc_sSceneProc->mSndHeapsBuffer = NULL;
     }
-    switch (gRunScenesState->mUnk_00) {
+    switch (scproc_sSceneProc->mUnk_00) {
         case 0:
             func_02054330();
             break;
@@ -146,19 +146,19 @@ s32 RunScenes(s16 *sceneNumber) {
     return 0;
 }
 
-void RunScenesForever(void) {
+void scproc_run(void) {
     HeapCall heapCall;
-    gRunScenesState->mSceneNumber = 9;
-    gRunScenesState->mUnk_00 = 0;
+    scproc_sSceneProc->mSceneNumber = 9;
+    scproc_sSceneProc->mUnk_00 = 0;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        data_021759d0->mUnk_20 = 2;
-        data_0217b488->mUnk_74 = 0;
-        gRunScenesState->mSceneNumber = 6;
+        gSystemData->mUnk_20 = 2;
+        gStruct217B488->mUnk_74 = 0;
+        scproc_sSceneProc->mSceneNumber = 6;
     }
     do {
-        gRunScenesState->mUnk_04 = 3;
-        InitHeapCall(&heapCall, (u32) RunScenes);
-        RunHeapCall(&heapCall, (u32) &gRunScenesState->mSceneNumber);
-        gRunScenesState->mUnk_00 = gRunScenesState->mUnk_04;
+        scproc_sSceneProc->mUnk_04 = 3;
+        proc_init(&heapCall, (u32) scproc_sceneProcMain);
+        proc_run(&heapCall, (u32) &scproc_sSceneProc->mSceneNumber);
+        scproc_sSceneProc->mUnk_00 = scproc_sSceneProc->mUnk_04;
     } while (1);
 }

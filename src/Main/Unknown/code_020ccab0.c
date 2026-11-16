@@ -11,13 +11,13 @@ void SetNextRaceEntriesFromRaceSetupCopy(void) {
     s32 teamIndex;
 
     for (i = 0; i < 8; i++) {
-        if (GetRaceSetupCopy()->mCpuDifficulty == 0 && GetRaceSetupCopy()->mEntries[i].mPlayerKind == 1) {
+        if (menu_getRaceConfig()->mCpuDifficulty == 0 && menu_getRaceConfig()->mEntries[i].mPlayerKind == 1) {
             SetNextRaceEntryNone(i);
         } else {
-            teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[i].mTeamIndex : -1;
-            SetNextRaceEntry(i, GetRaceSetupCopy()->mEntries[i].mCharacterIndex,
-                             GetRaceSetupCopy()->mEntries[i].mKartIndex, GetRaceSetupCopy()->mEntries[i].mPlayerKind,
-                             teamIndex, GetRaceSetupCopy()->mEntries[i].mUnk_10);
+            teamIndex = menu_getRaceConfig()->mUseTeams != 0 ? menu_getRaceConfig()->mEntries[i].mTeamIndex : -1;
+            rconf_setDriverConfigNext(i, menu_getRaceConfig()->mEntries[i].mCharacterIndex,
+                             menu_getRaceConfig()->mEntries[i].mKartIndex, menu_getRaceConfig()->mEntries[i].mPlayerKind,
+                             teamIndex, menu_getRaceConfig()->mEntries[i].mUnk_10);
         }
     }
 }

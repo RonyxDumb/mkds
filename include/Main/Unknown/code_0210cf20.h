@@ -4,4 +4,4 @@
 
 typedef struct SoundSource SoundSource;
 
-void InitAndRegisterSoundSource(SoundSource *source, u32 positionSource);
+void sfx_initEmitter(SoundSource *source, u32 positionSource);

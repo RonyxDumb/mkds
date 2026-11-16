@@ -3,7 +3,7 @@
 #include "types.h"
 
 extern u32 *data_02161788;
-extern u8 data_0216178c[];
+extern u8 aRom_3[];
 
 typedef struct FSFile FSFile;
 
@@ -22,4 +22,4 @@ typedef struct Unk02008570Header {
     /* 80 */ u32 mUnk_80;
 } Unk02008570Header;
 
-int func_02008570(FSFile *file, void *buffer, u32 bufferSize);
+int MB_ReadSegment(FSFile *file, void *buffer, u32 bufferSize);

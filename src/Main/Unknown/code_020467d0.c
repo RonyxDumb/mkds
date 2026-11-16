@@ -13,7 +13,7 @@
 #include "Main/Unknown/code_02038000.h"
 #include "Main/Unknown/code_020364e0.h"
 
-void SetStateMachineState(void *rawStateMachine, u16 state) {
+void sm_gotoState(void *rawStateMachine, u16 state) {
     StateMachine *stateMachine;
 
     stateMachine = rawStateMachine;
@@ -23,7 +23,7 @@ void SetStateMachineState(void *rawStateMachine, u16 state) {
     stateMachine->mNextState = state;
 }
 
-void AdvanceStateMachine(void *rawStateMachine) {
+void sm_execute(void *rawStateMachine) {
     StateMachine *stateMachine;
     StateCallbacks *callbacks;
 
@@ -46,38 +46,38 @@ void AdvanceStateMachine(void *rawStateMachine) {
     stateMachine->mStateFrames++;
 }
 
-void func_02046ae4(void) {
+void menu2_create(void) {
     u8 *displaySettings;
 
-    displaySettings = CreateDisplaySettings(GetHeap(GetCurrentHeapCall()), data_02154868);
-    SetBg1Record(displaySettings + 0x28, 0, 0, 0, 0, 4, 0, 0);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = dc_createDisplayConfig(proc_getHeap(proc_getCurrent()), DebugMenuDisplayConfig);
+    dc_setBg1Config(displaySettings + 0x28, 0, 0, 0, 0, 4, 0, 0);
+    dc_setDisplayConfig(displaySettings);
 }
 
-void func_02046ad8(void) {
+void menu2_finish(void) {
     func_020446e0();
 }
 
-u32 func_02046ad4(u32 value) {
+u32 menu2_vblank(u32 value) {
     return value;
 }
 
-u32 func_02046ad0(u32 value) {
+u32 menu2_draw(u32 value) {
     return value;
 }
 
-s32 func_02046a88(void *a) {
-    SceneCallbacks callbacks = data_02164838;
+s32 menu2_run(void *a) {
+    SceneCallbacks callbacks = menu2_vtable;
 
-    RunScene(a, &callbacks);
+    scene_runScene(a, &callbacks);
     return 0;
 }
 
-void func_02046a3c(void *heap) {
-    gRaceSetup = HeapAlloc(heap, 0x400);
-    gRaceSetup->mCourseList = HeapAlloc(heap, 0x21);
+void rconf_init(void *heap) {
+    gRaceMultiConfig = heap_alloc(heap, 0x400);
+    gRaceMultiConfig->mCourseList = heap_alloc(heap, 0x21);
     CreateParticipantKartMap(heap);
-    CreateCupRecords(heap);
+    rres_init(heap);
 }
 
 void RefreshRaceSetupKartCounts(s32 entryCount) {
@@ -89,39 +89,39 @@ void RefreshRaceSetupKartCounts(s32 entryCount) {
     humanAndPeerCount = 0;
     kartCount = 0;
     for (i = 0; i < entryCount; i++) {
-        if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_NONE) {
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN ||
-                gRaceSetup->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_PEER) {
+        if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind != PLAYER_KIND_NONE) {
+            if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_HUMAN ||
+                gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_PEER) {
                 humanAndPeerCount++;
             }
             kartCount++;
-            if (gRaceSetup->mUseTeams != 0) {
-                teamCounts[gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex]++;
+            if (gRaceMultiConfig->mUseTeams != 0) {
+                teamCounts[gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex]++;
             }
         }
     }
-    gRaceSetup->mKartCount = kartCount;
-    gRaceSetup->mHumanAndPeerKartCount = humanAndPeerCount;
+    gRaceMultiConfig->mKartCount = kartCount;
+    gRaceMultiConfig->mHumanAndPeerKartCount = humanAndPeerCount;
     for (i = 0; i < 2; i++) {
-        gRaceSetup->mTeamKartCounts[i] = teamCounts[i];
+        gRaceMultiConfig->mTeamKartCounts[i] = teamCounts[i];
     }
 }
 
-void SetNextRaceEntry(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f) {
-    gRaceSetup->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
-    gRaceSetup->mNextEntries[entryIndex].mKartIndex = kartIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_08 = f;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
-    gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 = 0;
+void rconf_setDriverConfigNext(int entryIndex, u32 characterIndex, u32 kartIndex, int playerKind, u32 teamIndex, int f) {
+    gRaceMultiConfig->mNextEntries[entryIndex].mCharacterIndex = characterIndex;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mKind = playerKind;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mIndex = entryIndex;
+    gRaceMultiConfig->mNextEntries[entryIndex].mKartIndex = kartIndex;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mTeamIndex = teamIndex;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_08 = f;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = playerKind == PLAYER_KIND_GHOST ? 0 : 3;
+    gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_14 = 0;
     if (f != 3) {
-        gRaceSetup->mNextEntries[entryIndex].mPlayer.mUnk_14 |= 1;
+        gRaceMultiConfig->mNextEntries[entryIndex].mPlayer.mUnk_14 |= 1;
     }
 }
 
-s32 FindCupCourseIndex(s32 courseId) {
+s32 rconf_getCourseNumber(s32 courseId) {
     s32 i;
     s32 j;
     s8 courseIndex;
@@ -129,7 +129,7 @@ s32 FindCupCourseIndex(s32 courseId) {
     courseIndex = -1;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            if (courseId == gCupCourseIdTable[i][j]) {
+            if (courseId == sCupDefs[i][j]) {
                 courseIndex = j + i * 4;
                 break;
             }
@@ -139,7 +139,7 @@ s32 FindCupCourseIndex(s32 courseId) {
 }
 
 u32 GetCupCourseIdAtIndex(s32 courseIndex) {
-    return gCupCourseIdTable[(u32) courseIndex / 4][courseIndex % 4];
+    return sCupDefs[(u32) courseIndex / 4][courseIndex % 4];
 }
 
 s32 FindCupIndexOfCourse(s32 courseId) {
@@ -150,7 +150,7 @@ s32 FindCupIndexOfCourse(s32 courseId) {
     cupIndex = 9;
     for (i = 0; i < 8; i++) {
         for (j = 0; j < 4; j++) {
-            if (courseId == gCupCourseIdTable[i][j]) {
+            if (courseId == sCupDefs[i][j]) {
                 cupIndex = i;
             }
         }

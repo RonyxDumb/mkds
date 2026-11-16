@@ -8,7 +8,7 @@
 
 struct ModelEffect;
 
-// Object of item kind 9, element of gItemPools[9].
+// Object of item kind 9, element of it_sItemsets[9].
 typedef struct ItemBomb {
     /* 000 */ BouncingItemObject mUnk_000;
     /* 130 */ s32 mUnk_130;
@@ -33,15 +33,15 @@ typedef struct ItemBomb {
     /* 1a0 */ BOOL mVisible;
 } ItemBomb;
 
-void func_020fd83c(ItemBomb *bomb);
-int RequestItemBombState2(ItemBomb *bomb);
-void DrawItemBomb(ItemBomb *bomb, Vec3 *a, NsbmdModel *model);
-void InitItemBombFromData(ItemBomb *bomb);
-void *func_020fda50(void *cursor, ItemBomb *bomb, void *toData);
+void itbomb_20FD83C(ItemBomb *bomb);
+int itbomb_20FD8B0(ItemBomb *bomb);
+void itbomb_20FD938(ItemBomb *bomb, Vec3 *a, NsbmdModel *model);
+void itbomb_20FD9D8(ItemBomb *bomb);
+void *itbomb_20FDA50(void *cursor, ItemBomb *bomb, void *toData);
 void AdvanceItemBomb(ItemBomb *bomb);
 void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, PooledMapObject *pooledMapObject);
 void ClampItemBombTimerByDistance(ItemBomb *bomb);
 void AdvanceItemBombNearestKart(ItemBomb *bomb);
-void UpdateItemBombState2(ItemBomb *bomb);
-void EnterItemBombState2(ItemBomb *bomb);
-void UpdateItemBombState1(ItemBomb *bomb);
+void itbomb_20FDF64(ItemBomb *bomb);
+void itbomb_20FE00C(ItemBomb *bomb);
+void itbomb_20FE120(ItemBomb *bomb);

@@ -15,18 +15,18 @@ void func_02027df8(void) {
     palette = NULL;
     cells = NULL;
     screenMap[0] = NULL;
-    fileData = FindFileInLoadedArchives(data_02161e64);
-    LoadNcgrData(&chars, fileData);
-    fileData = FindFileInLoadedArchives(data_02161e7c);
-    LoadNcgrData2(&chars, fileData);
-    fileData = FindFileInLoadedArchives(data_02161e94);
-    LoadNcerData(&cells, fileData);
-    fileData = FindFileInLoadedArchives(data_02161eac);
-    LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives(data_02161ec4);
-    LoadNclrData(&palette, fileData);
-    fileData = FindFileInLoadedArchives(data_02161edc);
-    LoadNscrData(screenMap, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_b_ncgr);
+    g2du_unpackCharacterDataBG(&chars, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_nce_ncgr);
+    g2du_unpackCharacterData(&chars, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_nce_ncer);
+    g2du_unpackCellBankData(&cells, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_o_nclr);
+    g2du_unpackPaletteData(&palette, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_b_nclr);
+    g2du_unpackPaletteData(&palette, fileData);
+    fileData = arc_get2dArcFile(aSelect_kart_s_nscr);
+    g2du_unpackScreenData(screenMap, fileData);
 }
 
 #pragma thumb off

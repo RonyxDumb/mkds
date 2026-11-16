@@ -7,5 +7,5 @@
 #include "Main/Unknown/unk_0216f000.h"
 #include "code_02142eac.h"
 
-int SendMPData(void *data, u32 size, u32 childMask);
+int MBw_SendMP(void *data, u32 size, u32 childMask);
 s32 SetMPDataToPort(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u16 e);

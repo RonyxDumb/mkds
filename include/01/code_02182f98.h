@@ -4,6 +4,6 @@
 
 typedef struct Coin Coin;
 
-void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l);
-void func_ov001_02183090(void);
-void func_ov001_021830a8(void);
+void coin_renderShadow(void *f, Coin *coin, void *h, u32 l);
+void coin_globalPreRenderShadow(void);
+void coin_globalInitShadow(void);

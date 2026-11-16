@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void StartReadCourseGhostRecords(void *records);
-void ReadCourseGhostRecords(void);
+void ghdat_loadPersonalGhostsAsync(void *records);
+void ghdat_loadPersonalGhostsTask(void);

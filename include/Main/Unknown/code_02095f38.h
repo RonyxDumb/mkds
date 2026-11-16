@@ -43,19 +43,19 @@ typedef struct CoverPooHole {
 #include "Main/Unknown/unk_0217b000.h" // Unk0217b498_00
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
-BOOL func_02095f38(Unk0217b498_00 *a);
-void *CreateCoverPooHoleUpdateList(void);
-void *CreateCoverPooHoleDrawList(void);
-void CreateCoverPooHoleKindData(void);
-void UpdateCoverPooHole(void *a,
+BOOL poo_2095F38(Unk0217b498_00 *a);
+void *poo_setupLogicPart(void);
+void *poo_setupRenderPart(void);
+void poo_setupConfig(void);
+void poo_update(void *a,
                         CoverPooHole *coverPooHole); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 func_020968c0(s32 a, s32 b);
-s32 func_020968dc(s32 a);
-void InitCoverPooHoleObjects(MapObjectList *mapObjectList);
-void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole);
-void CreateCoverPooHole(void *a);
-BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut);
-u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c);
-u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c);
-void InitCoverPooHole(MapObject *mapObject);
-u32 func_0209753c(u32 a);
+s32 poo_FX_MulInline(s32 a, s32 b);
+s32 poo_FX_SinIdx(s32 a);
+void poo_globalLogicInit(MapObjectList *mapObjectList);
+void poo_render(void *a, CoverPooHole *coverPooHole);
+void poo_loadModels(void *a);
+BOOL poo_collide(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut);
+u32 poo_onItemCollide(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c);
+u32 poo_onDriverCollide(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c);
+void poo_init(MapObject *mapObject);
+u32 flip_handleBallHit(u32 a);

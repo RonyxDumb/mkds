@@ -5,5 +5,5 @@
 #include "code_02022030.h"
 #include "Main/Unknown/code_020c476c.h"
 
-void UpdateRaceTaPositions(void);
-void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer);
+void r2d_updateMapPath(void);
+void r2d_renderMapPath(RaceHudOamBuffer *oamBuffer);

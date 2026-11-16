@@ -38,7 +38,7 @@
 u32 func_ov000_0218e8c4(void) {
     u64 t;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x109);
+        __msl_assertion_failed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x109);
     }
     t = OS_GetTick();
     return (t << 6) / 0x82ea;
@@ -226,7 +226,7 @@ s32 func_ov000_0218e554(s32 domain, s32 type, s32 protocol) {
 }
 
 s32 func_ov000_0218e53c(s32 descriptor) {
-    return func_ov000_0218e56c(func_ov000_021a9008(descriptor), -1);
+    return func_ov000_0218e56c(aEndingThanks01(descriptor), -1);
 }
 
 s32 func_ov000_0218e524(s32 descriptor, s32 a) {
@@ -340,7 +340,7 @@ u32 func_ov000_0218e368(s32 a) {
 u32 func_ov000_0218e320(u32 *param_1) {
     u32 a;
     if (OS_IsTickAvailable() != 1) {
-        AssertionFailed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x667);
+        __msl_assertion_failed(data_ov000_021b23b0, data_ov000_021b23d0, NULL, 0x667);
     }
     a = (OS_GetTick() << 6) / 0x1ff6210;
     if (param_1 != NULL) {

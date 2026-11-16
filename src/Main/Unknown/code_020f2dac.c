@@ -48,16 +48,16 @@ void UpdateHeldItem(HeldItem *rec) {
     if (rec->mTimer != 0) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
-        if (gRaceSetup->mEntryIndex == rec->mKartItems->mKartIndex) {
+    if (gRaceMultiConfig->mMode == 5) {
+        if (gRaceMultiConfig->mEntryIndex == rec->mKartItems->mKartIndex) {
             kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
-            func_020fe958(gItemInfos[kind].mObjectKind);
+            func_020fe958(it_sItemConfigs[kind].mObjectKind);
         }
     }
     rec->mObjectCount -= 1;
-    objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
-    reservedCount = gItemPools[objectKind].mReservedCount;
-    gItemPools[(s32) objectKind].mReservedCount = reservedCount - 1;
+    objectKind = it_sItemConfigs[rec->mItemInfoIndex].mObjectKind;
+    reservedCount = it_sItemsets[objectKind].mReservedCount;
+    it_sItemsets[(s32) objectKind].mReservedCount = reservedCount - 1;
     if (rec->mObjectCount == 0) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
@@ -76,26 +76,26 @@ void SetHeldItem(HeldItem *rec, s32 kind) {
     u32 k;
     s32 reservedCount;
 
-    k = gItemInfos[kind].mObjectCount;
+    k = it_sItemConfigs[kind].mObjectCount;
     rec->mItemInfoIndex = kind;
     rec->mObjectCount = k;
     rec->mObjectStartFramesLeft = 0;
-    SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUnk_0c = gItemInfos[kind].mUnk_10;
+    driver_notifySlotItemChanged(rec->mKartItems->mKart);
+    rec->mUnk_0c = it_sItemConfigs[kind].mUnk_10;
     rec->mTimer = 0;
     rec->mUnk_12 = 0;
-    k = gItemInfos[kind].mObjectKind;
-    reservedCount = gItemPools[k].mReservedCount;
-    gItemPools[(s32) k].mReservedCount = reservedCount + rec->mObjectCount;
+    k = it_sItemConfigs[kind].mObjectKind;
+    reservedCount = it_sItemsets[k].mReservedCount;
+    it_sItemsets[(s32) k].mReservedCount = reservedCount + rec->mObjectCount;
 }
 
-void RemoveHeldItemObjects(HeldItem *rec, s32 n) {
+void it_takeSlotItems(HeldItem *rec, s32 n) {
     s32 i;
     int objectKind;
 
     rec->mObjectCount -= n;
-    objectKind = gItemInfos[rec->mItemInfoIndex].mObjectKind;
-    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - n;
+    objectKind = it_sItemConfigs[rec->mItemInfoIndex].mObjectKind;
+    it_sItemsets[(s32) objectKind].mReservedCount = it_sItemsets[objectKind].mReservedCount - n;
     if (rec->mObjectCount == 0) {
         rec->mItemInfoIndex = 0x13;
         rec->mObjectCount = 0;
@@ -109,7 +109,7 @@ void RemoveHeldItemObjects(HeldItem *rec, s32 n) {
     }
 }
 
-void ResetHeldItem(HeldItem *rec) {
+void it_resetSlot(HeldItem *rec) {
     s32 i;
 
     rec->mItemInfoIndex = 0x13;
@@ -124,16 +124,16 @@ void ResetHeldItem(HeldItem *rec) {
 }
 
 // Gives the held objects back to the pool, or the reserved count unless keep is set, then empties the record.
-void ReleaseHeldItem(HeldItem *rec, s32 keep) {
+void it_destroySlotItem(HeldItem *rec, s32 keep) {
     s32 reservedCount;
     s32 i;
     s32 objectCount;
     s32 j;
     s32 m;
     Unk020f40dc_Kind kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
-    u32 poolIndex = gItemInfos[kind].mObjectKind;
+    u32 poolIndex = it_sItemConfigs[kind].mObjectKind;
 
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         objectCount = rec->mObjectCount;
         if (rec->mUnk_24 == FALSE) {
             for (i = 0; i < objectCount; i++) {
@@ -144,11 +144,11 @@ void ReleaseHeldItem(HeldItem *rec, s32 keep) {
     if (rec->mObjectStartFramesLeft != 0) {
         m = rec->mObjectCount;
         for (j = 0; j < m; j++) {
-            ReleaseItemPoolObject(&gItemPools[rec->mObjects[j]->mKind], rec->mObjects[j]);
+            it_itemsetDestroyItem(&it_sItemsets[rec->mObjects[j]->mKind], rec->mObjects[j]);
         }
     } else if (keep == 0) {
-        reservedCount = gItemPools[poolIndex].mReservedCount;
-        gItemPools[(s32) poolIndex].mReservedCount = reservedCount - rec->mObjectCount;
+        reservedCount = it_sItemsets[poolIndex].mReservedCount;
+        it_sItemsets[(s32) poolIndex].mReservedCount = reservedCount - rec->mObjectCount;
     }
     rec->mItemInfoIndex = 0x13;
     rec->mObjectCount = 0;
@@ -193,23 +193,23 @@ void TakeHeldItemObjects(HeldItem *rec) {
     s32 rowX;
     s32 rowY;
 
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        generator = &gRaceProgress->mLocalRandom;
+    if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
+        generator = &gRaceStatus->mLocalRandom;
     } else {
-        generator = &gRaceProgress->mRandom;
+        generator = &gRaceStatus->mRandom;
     }
     angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
     angle >>= 4;
-    poolIndex = gItemInfos[kind].mObjectKind;
-    if (gItemKinds[poolIndex].mUnk_80 != 0) {
+    poolIndex = it_sItemConfigs[kind].mObjectKind;
+    if (it_sItemParams[poolIndex].mUnk_80 != 0) {
         radius = 0x2000;
     } else {
         radius = 0x1800;
     }
     count = rec->mObjectCount;
-    va = ((s64) radius * gPairsByAngle[angle * 2]) >> 12;
-    vb = ((s64) radius * gPairsByAngle[angle * 2 + 1]) >> 12;
-    TakeItemPoolObjects(&gItemPools[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
+    va = ((s64) radius * FX_SinCosTable_[angle * 2]) >> 12;
+    vb = ((s64) radius * FX_SinCosTable_[angle * 2 + 1]) >> 12;
+    it_itemsetAcquireItems(&it_sItemsets[poolIndex], count, rec->mObjects, owner->mIndex, &owner->mDrawMatrixPos);
     i = 0;
     if (i < count) {
         row = &gItemSpreadRows[count - 1];
@@ -240,7 +240,7 @@ void StartHeldItemObjects(HeldItem *rec) {
     TakeHeldItemObjects(rec);
 }
 
-BOOL StartHeldItemTimer(HeldItem *rec, s32 v) {
+BOOL it_setSlotTimeout(HeldItem *rec, s32 v) {
     if (rec->mTimer != 0) {
         return FALSE;
     }
@@ -248,11 +248,11 @@ BOOL StartHeldItemTimer(HeldItem *rec, s32 v) {
     return TRUE;
 }
 
-void func_020f4188(HeldItem *rec, s32 v) {
+void it_20F4188(HeldItem *rec, s32 v) {
     rec->mUnk_12 = rec->mTimer - v;
 }
 
-void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count) {
+void it_stealSlotItem(HeldItem *rec, s32 *kind, s32 *count) {
     s32 i;
 
     *kind = rec->mItemInfoIndex;
@@ -273,16 +273,16 @@ void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count) {
     rec->mItemInfoIndex = kind;
     rec->mObjectCount = count;
     rec->mObjectStartFramesLeft = 0;
-    SetupKartAiHeldItemEntry(rec->mKartItems->mKart);
-    rec->mUnk_0c = gItemInfos[kind].mUnk_10;
+    driver_notifySlotItemChanged(rec->mKartItems->mKart);
+    rec->mUnk_0c = it_sItemConfigs[kind].mUnk_10;
     rec->mTimer = 0;
     rec->mUnk_12 = 0;
 }
 
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount) {
-    int objectKind = gItemInfos[itemInfoIndex].mObjectKind;
+    int objectKind = it_sItemConfigs[itemInfoIndex].mObjectKind;
 
-    gItemPools[(s32) objectKind].mReservedCount = gItemPools[objectKind].mReservedCount - amount;
+    it_sItemsets[(s32) objectKind].mReservedCount = it_sItemsets[objectKind].mReservedCount - amount;
 }
 
 s32 func_020f4090(s32 idx) {
@@ -471,7 +471,7 @@ BOOL FollowItemPointLinksToPos(ItemPointLinkRef *in, ItemPointLinkRef *out, Vec3
     deltaY = (linkPos->y - pos->y) >> 12;
     deltaZ = (linkPos->z - pos->z) >> 12;
     startDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-    stepsLeft = gCourseMap->mItemPointCount;
+    stepsLeft = gMapData->mItemPointCount;
     posAlias = pos;
 
     current = node;
@@ -540,7 +540,7 @@ void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx,
     found = FALSE;
     bestDistanceSquared = 0x5f592e1;
     if (idx < 8) {
-        other = GetKart(idx);
+        other = driver_getById(idx);
         pos = &other->mDrawMatrixPos;
         {
             s64 sq = (s64) (((const Vec3 *) pos)->x - ((const Vec3 *) origin)->x) *
@@ -611,14 +611,14 @@ u8 GetItemPointLinkIndex(ItemPointLinkRef *ref) {
     if (linkAddress == 0) {
         return 0xff;
     }
-    return (linkAddress - gCourseMap->mItemRoute0FirstLink) / 40;
+    return (linkAddress - gMapData->mItemRoute0FirstLink) / 40;
 }
 
 s32 SetItemPointLinkRefFromIndex(u32 index, u32 *ref) {
     if (index >= 0xff) {
         *ref = 0;
     } else {
-        *ref = gCourseMap->mItemRoute0FirstLink + index * 0x28;
+        *ref = gMapData->mItemRoute0FirstLink + index * 0x28;
     }
     ref[1] = 1;
     return 1;
@@ -649,8 +649,8 @@ void InitItemPointLinkDirections(void) {
     u32 linkCount;
     u16 i;
 
-    linkCount = gCourseMap->mItemPointCount;
-    link = gCourseMap->mItemPointLinks;
+    linkCount = gMapData->mItemPointCount;
+    link = gMapData->mItemPointLinks;
     i = 0;
     for (i = 0; i < 4; i++) {
         data_0217bc38[i] = 0;
@@ -660,12 +660,12 @@ void InitItemPointLinkDirections(void) {
             data_0217bc38[link->mUnk_20] = (s32) link;
         }
     }
-    link = gCourseMap->mItemPointLinks;
+    link = gMapData->mItemPointLinks;
     for (i = 0; i < linkCount; i++, link++) {
         VEC_Subtract(link->mNextLinks[0]->mPointPos, link->mPointPos, &direction);
         if ((s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+            vec_normalize(&direction, &direction);
         }
         link->mDirectionX = direction.x >> 6;
         link->mDirectionY = direction.y >> 6;
@@ -691,7 +691,7 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
     s32 dy;
     s32 dz;
 
-    n = Vec3DotUnrounded(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_18);
+    n = vec_dotProduct(&itemInUse->mKartMovement, &itemInUse->mKartOrientation.mUnk_18);
     m = (itemInUse->mKart->mUnk_48 & 1) != 0;
     n = ((s64) n * 0x1ec) >> 12;
     if (n < 0x666) {
@@ -708,8 +708,8 @@ void ThrowBouncingItem(BouncingItemObject *item, ItemInUse *itemInUse, s32 bounc
         }
     }
     if (itemInUse->mKartVelocityLength < 0x3000) {
-        v.z += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
-        v.x += ThrowBouncingItem_inline(&gRaceProgress->mRandom, 0xf6) - 0x7b;
+        v.z += ThrowBouncingItem_inline(&gRaceStatus->mRandom, 0xf6) - 0x7b;
+        v.x += ThrowBouncingItem_inline(&gRaceStatus->mRandom, 0xf6) - 0x7b;
     }
     v.x = ((s64) v.x * n) >> 12;
     v.y = ((s64) v.y * n) >> 12;
@@ -792,7 +792,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
     velocity->x = ((s64) velocity->x * velocityFactor) >> 12;
     velocity->y = ((s64) velocity->y * velocityFactor) >> 12;
     velocity->z = ((s64) velocity->z * velocityFactor) >> 12;
-    if (func_01ffdee4(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
+    if (col_collide(pos, &item->mItemObject.mPrevPos, 0, item->mItemObject.mUnk_dc, 0x24,
                       item->mItemObject.mCollisionSlotIndex, &t, &hitNormal, (s32 *) &wallNormal,
                       &item->mItemObject.mCollisionBits, NULL, NULL, NULL, e) != 0) {
         VEC_Add(&t, pos, pos);

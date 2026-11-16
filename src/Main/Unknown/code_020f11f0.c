@@ -6,8 +6,8 @@
 u32 TrySetItemKouraRKartItemsByFrame(ItemKouraR *item, u32 checkRank) {
     u16 kartIndex;
     int distanceSquared;
-    kartIndex = GetRaceUpdateFramesMod8();
-    if (((u32) kartIndex < gRaceSetup->mKartCount) &&
+    kartIndex = race_getFrameCounterModulo8();
+    if (((u32) kartIndex < gRaceMultiConfig->mKartCount) &&
         (distanceSquared = TrySetItemKouraRKartItems(item, kartIndex, 0, checkRank), distanceSquared != 0)) {
         return 1;
     }

@@ -4,5 +4,5 @@
 
 typedef struct ThreadFunctionQueue ThreadFunctionQueue;
 
-void func_02057ed8(void *heap);
-void (*func_02057f8c(ThreadFunctionQueue *a))(void);
+void bgwkr_init(void *heap);
+void (*bgwkr_dequeueTask(ThreadFunctionQueue *a))(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020acebc(const void *pair);
+unsigned int title_spi_getTpValid(const void *pair);

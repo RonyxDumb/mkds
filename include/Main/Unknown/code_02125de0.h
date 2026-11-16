@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Argument block of func_02125de0 (ten words read from it).
+// Argument block of gmenu_init (ten words read from it).
 typedef struct Unk02125de0Arg {
     /* 00 */ BOOL mUnk_00;
     /* 04 */ void *mUnk_04;
@@ -16,4 +16,4 @@ typedef struct Unk02125de0Arg {
     /* 24 */ s32 mUnk_24;
 } Unk02125de0Arg;
 
-void func_02125de0(void *heap, Unk02125de0Arg *config);
+void gmenu_init(void *heap, Unk02125de0Arg *config);

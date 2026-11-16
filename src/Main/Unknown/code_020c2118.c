@@ -1,12 +1,12 @@
 #include "Main/Unknown/code_020c2118.h"
 #include "Main/Unknown/code_020c214c.h"
 
-void DrawRaceGoalS(RaceHudOamBuffer *oamBuffer) {
+void r2dres_render(RaceHudOamBuffer *oamBuffer) {
     int state;
-    state = GetRaceHudSubScreenState();
+    state = r2d_getMapMode();
     if (state != 5) {
-        DrawRaceGoalSKarts(oamBuffer);
+        r2dres_renderResults(oamBuffer);
         return;
     }
-    DrawRaceGoalSTeams(oamBuffer);
+    r2dres_renderTeamResults(oamBuffer);
 }

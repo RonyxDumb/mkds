@@ -20,26 +20,26 @@ void LoadTrophyIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gTrophyIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNcgrName);
+    g2du_unpackCharacterDataBG(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNcerName);
+    g2du_unpackCellBankData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNclrName);
+    g2du_unpackPaletteData(palette, sceneFile);
 }
 
 void CreateTrophyIcon(void *heap) {
     int allocation;
     void *sceneFile;
-    allocation = ((u32) HeapAlloc(heap, 0x10));
+    allocation = ((u32) heap_alloc(heap, 0x10));
     *(s32 *) &gTrophyIcon = allocation;
-    sceneFile = FindSceneFile(gTrophyIconNcgrName);
-    LocateNcgr2(&gTrophyIcon->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNcerName);
-    LocateNcer(&gTrophyIcon->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconNclrName);
-    LocateNclr(&gTrophyIcon->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gTrophyIconBnclName);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNcgrName);
+    g2du_getCharacterData(&gTrophyIcon->mNcgr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNcerName);
+    g2du_getCellBankData(&gTrophyIcon->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconNclrName);
+    g2du_getPaletteData(&gTrophyIcon->mNclr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gTrophyIconBnclName);
     gTrophyIcon->mBncl = sceneFile;
 }
 
@@ -63,9 +63,9 @@ void QueueTrophyIcon(int iconIndex, int paletteIndex, void *cells, void *cellLay
         v1 = 0x1e;
     }
     trophyIcon = gTrophyIcon;
-    QueueCellChars(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl, g, e,
+    jn_ui_fillPlaceholder(gTrophyIconBnclIndices[iconIndex], trophyIcon->mNcer, trophyIcon->mNcgr, trophyIcon->mBncl, g, e,
                    cells, cellLayout);
-    CallQueueAppend(v1, paletteSlot << 5, (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20,
+    NNS_GfdRegisterNewVramTransferTask(v1, paletteSlot << 5, (u8 *) gTrophyIcon->mNclr->mData + gTrophyIconNclrStarts[paletteIndex] * 0x20,
                     0x20);
 }
 

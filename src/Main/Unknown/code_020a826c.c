@@ -21,24 +21,24 @@ static inline void func_020a826c_inline(Unk020a826c_a0 *q) {
     s32 v;
 
     if (q->mUnk_00.mUnk_08 == 2) {
-        v = gSoundFalloffs[2].mUnk_20;
+        v = gSfxParams[2].mUnk_20;
     } else if (q->mUnk_00.mUnk_08 == 3) {
-        v = gSoundFalloffs[3].mUnk_20;
+        v = gSfxParams[3].mUnk_20;
     } else if (q->mUnk_00.mUnk_08 == 4) {
-        v = gSoundFalloffs[4].mUnk_20;
+        v = gSfxParams[4].mUnk_20;
     } else if (q->mUnk_00.mUnk_08 == 5) {
-        v = gSoundFalloffs[5].mUnk_20;
+        v = gSfxParams[5].mUnk_20;
     } else if (q->mUnk_00.mUnk_08 == 6) {
-        v = gSoundFalloffs[6].mUnk_20;
+        v = gSfxParams[6].mUnk_20;
     } else if (q->mUnk_00.mUnk_08 == 8) {
-        v = gSoundFalloffs[8].mUnk_20;
+        v = gSfxParams[8].mUnk_20;
     } else {
         v = 0;
     }
-    q->mUnk_00.mDistanceSquared = GetHorizontalCameraDistanceSquared(&q->mSourcePos);
+    q->mUnk_00.mDistanceSquared = mobj_calcXZCamDist(&q->mSourcePos);
     if (q->mUnk_00.mDistanceSquared < v) {
         q->mUnk_24 = q->mUnk_24 == 0 ? 1 : 2;
-        if (GetRaceUseChainCameras() != 0) {
+        if (race_isCamAnimMode() != 0) {
             func_0210b734(&q->mUnk_00, q->mSndHandleSlot);
         } else {
             func_0210b760(&q->mUnk_00, q->mSndHandleSlot);
@@ -48,12 +48,12 @@ static inline void func_020a826c_inline(Unk020a826c_a0 *q) {
     }
 }
 
-void func_020a826c(void *a, Unk020a826c *p) {
+void mobj0008_updateInstanceLogic(void *a, Unk020a826c *p) {
     s32 v;
 
     switch (p->mState) {
         case 1:
-            if (IsRaceStarted() == 1) {
+            if (race_getState() == 1) {
                 v = p->mUnk_0c8.mUnk_00.mSoundId;
                 NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);
                 p->mUnk_0a0.mUnk_00.mSoundId = v;
@@ -62,8 +62,8 @@ void func_020a826c(void *a, Unk020a826c *p) {
             func_020a826c_inline(&p->mUnk_0a0);
             break;
         case 2:
-            func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
-            if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL && IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE &&
+            mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+            if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL && rstat_isDriverInFinalLap(gRaceMultiConfig->mEntryIndex) != FALSE &&
                 p->mUnk_0a0.mUnk_24 == 0 && p->mUnk_0a0.mUnk_20 != FALSE) {
                 v = func_02110c40();
                 NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);
@@ -73,9 +73,9 @@ void func_020a826c(void *a, Unk020a826c *p) {
             func_020a826c_inline(&p->mUnk_0a0);
             break;
         case 3:
-            func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
-            if (IsKartEnded((u16) gRaceSetup->mEntryIndex) != 0) {
-                ParkMapObject(&p->mUnk_000);
+            mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+            if (rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex) != 0) {
+                mobj_setInvisible(&p->mUnk_000);
             } else if (p->mUnk_0a0.mUnk_20 == FALSE) {
                 v = p->mUnk_0c8.mUnk_00.mSoundId;
                 NNS_SndPlayerStopSeq(p->mUnk_0a0.mSndHandleSlot, 0);

@@ -2,7 +2,7 @@
 #include "Main/System/Heap.h"
 
 #pragma thumb on
-CourseMap *AllocCourseMap(void *heap) {
-    return HeapAlloc(heap, 0x110);
+CourseMap *mdat_allocMapDataStruct(void *heap) {
+    return heap_alloc(heap, 0x110);
 }
 #pragma thumb off

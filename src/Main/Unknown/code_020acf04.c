@@ -12,19 +12,19 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void UpdateTitleState1(void) {
+void title_buttonsInStateRender(void) {
     u32 subBase;
     s32 i;
     LayoutTableEntry *titleTable;
 
-    titleTable = gTitleScene->mTitleTable;
-    subBase = func_020acbe8(gTitleScene->mTitleSBncl);
-    if (GetTitleStateFrames() < 10) {
+    titleTable = sTitleSceneState->mTitleTable;
+    subBase = title_jn_ui_getBnclElementCount(sTitleSceneState->mTitleSBncl);
+    if (title_getFrameCounter() < 10) {
         for (i = 0; i <= 14; i++) {
-            titleTable[i].mOffsetX = InterpolateS16(1, 0xf8, 0, GetTitleStateFrames(), 10);
+            titleTable[i].mOffsetX = mutil_interpolate(1, 0xf8, 0, title_getFrameCounter(), 10);
         }
         for (i = 0; i <= 1; i++) {
-            titleTable[i + subBase].mOffsetX = InterpolateS16(1, 0xe4, 0, GetTitleStateFrames(), 10);
+            titleTable[i + subBase].mOffsetX = mutil_interpolate(1, 0xe4, 0, title_getFrameCounter(), 10);
         }
     } else {
         for (i = 0; i <= 14; i++) {
@@ -33,22 +33,22 @@ void UpdateTitleState1(void) {
         for (i = 0; i <= 1; i++) {
             titleTable[i + subBase].mOffsetX = 0;
         }
-        SetTitleState(2, 8);
-        gTitleScene->mSelectedPressed = FALSE;
+        title_gotoState(2, 8);
+        sTitleSceneState->mSelectedPressed = FALSE;
     }
-    SetupAndDrawTitleTable();
+    title_renderUI();
 }
 
-void StartTitleSelectedSound(void) {
-    switch (gTitleScene->mSelectedIndex) {
+void title_playActivationSound(void) {
+    switch (sTitleSceneState->mSelectedIndex) {
         case 0:
         case 1:
         case 2:
-            StartSoundOncePerFrame(9);
+            sfx_2105AC0(9);
             break;
         case 3:
         case 4:
-            StartSoundOncePerFrame(8);
+            sfx_2105AC0(8);
             break;
         default:
             break;

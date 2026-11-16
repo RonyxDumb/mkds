@@ -4,4 +4,4 @@
 
 typedef struct MapObjectList MapObjectList;
 
-u32 InitMapObjectUpdateList(MapObjectList *list);
+u32 mobj_logicPartInit(MapObjectList *list);

@@ -20,5 +20,5 @@ s32 WriteBlockCountReplyPacket(u8 *buffer, u16 indexMask, u8 requestId, s16 bloc
                                u32 receiveChunkSize);
 s32 WriteBlockCountRequestPacket(u8 *buffer, u16 indexMask, u8 requestId, u32 sendChunkSize, u32 receiveChunkSize);
 s32 WriteEmptyPacket(u8 *buffer, u16 indexMask, u8 requestId);
-void ReceiveParentPacketChecked(const u8 *packet, u32 size);
-u32 BuildChildPacket(u8 *buffer, s32 bufferSize);
+void WBT_MpChildRecvHook(const u8 *packet, u32 size);
+u32 WBT_MpChildSendHook(u8 *buffer, s32 bufferSize);

@@ -34,11 +34,11 @@
 #include "Main/Unknown/code_020a9000.h"
 #include "Main/Unknown/code_0203c25c.h"
 
-u32 func_020a9cd0(u32 p0) {
+u32 ibal_globalInitShadow(u32 p0) {
     return p0;
 }
 
-void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
+void ibal_renderShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     u32 shadowAlphaCap;
 
     if (ironBall->mUnk_12c == 0) {
@@ -54,10 +54,10 @@ void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d) {
     if (shadowAlphaCap > 0x1c) {
         return;
     }
-    func_020e53ac(&ironBall->mShadowMatrix, NULL, c, d);
+    oshd_renderMat(&ironBall->mShadowMatrix, NULL, c, d);
 }
 
-void InitIronBallObjects(MapObjectList *mapObjectList) {
+void ibal_globalLogicInit(MapObjectList *mapObjectList) {
     s32 i;
     IronBall *ironBall;
     u32 z0;
@@ -88,11 +88,11 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
         ironBall->mUnk_11c = ironBall->mUnk_000.mCourseMapRow->mUnk_00;
         ironBall->mUnk_000.mPos = ironBall->mUnk_11c;
         ironBall->mUnk_11c.y += 0x1000;
-        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1,
+        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1,
                             shadowAlphaCap);
-        RefreshMapObjectMatrixFromHitNormal(&ironBall->mUnk_000);
-        InitGroupFollower(&ironBall->mFollower, ironBall->mUnk_000.mCourseMapRow, z0);
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+        mobj_setDirectionFromFloor(&ironBall->mUnk_000);
+        pw_initFromObject(&ironBall->mFollower, ironBall->mUnk_000.mCourseMapRow, z0);
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
         ironBall->mUnk_11c.y += 0x1000;
         VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
                     &ironBall->mUnk_000.mPos);
@@ -106,7 +106,7 @@ void InitIronBallObjects(MapObjectList *mapObjectList) {
     }
 }
 
-void UpdateIronBall(void *a, IronBall *ironBall) {
+void ibal_update(void *a, IronBall *ironBall) {
     CourseMapGroupEntry *fromEntry;
     RandomState64 *mapObjectRandom;
     BOOL lapReached;
@@ -128,13 +128,13 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 }
                 ironBall->mTimer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2c;
                 ironBall->mState1Timer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2e;
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
+                pw_init(&ironBall->mFollower, 0, 1);
                 ironBall->mState = 1;
                 return;
             }
             w = ironBall->mNextStartLap;
-            for (i = 0; i < gRaceSetup->mKartCount; i++) {
-                if (GetKartHighestLap((u16) i) >= w) {
+            for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
+                if (rstat_getDriverHighestReachedLap((u16) i) >= w) {
                     lapReached = TRUE;
                     goto found;
                 }
@@ -146,7 +146,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             }
             ironBall->mNextStartLap = ironBall->mNextStartLap + 1;
             ironBall->mState1Timer = (u16) ironBall->mUnk_000.mCourseMapRow->mUnk_2e;
-            SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
+            pw_init(&ironBall->mFollower, 0, 1);
             ironBall->mState = 1;
             return;
         case 1:
@@ -165,7 +165,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         default:
             return;
     }
-    if (!(GetKartKind3ShapeMask() & ironBall->mUnk_128) && !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
+    if (!(driver_getClipAreaMask() & ironBall->mUnk_128) && !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
         func_0210b874(ironBall->mUnk_000.mSound, ironBall->mPathSpeed);
     }
     v = ironBall->mPathSpeed;
@@ -173,30 +173,30 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     ironBall->mFollower.mProgressStep =
         ((s64) v * ironBall->mFollower.mPath->mSegments[ironBall->mFollower.mSegmentIndex].mInverseProgressLength) >>
         12;
-    if (AdvanceGroupFollower(&ironBall->mFollower) != FALSE) {
+    if (pw_update(&ironBall->mFollower) != FALSE) {
         fromEntry = ironBall->mFollower.mFromEntry;
         if (ironBall->mFollower.mForward == 0) {
             if (fromEntry->mUnk_10 >= 0) {
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+                pw_init(&ironBall->mFollower, fromEntry->mUnk_10, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
             } else if (ironBall->mUnk_000.mCourseMapRow->mUnk_2c != 0) {
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, 0, 1);
+                pw_init(&ironBall->mFollower, 0, 1);
                 ironBall->mUnk_000.mFlags |= data_021567ec;
                 ironBall->mUnk_000.mFlags |= data_021567f0;
                 ironBall->mUnk_000.mFlags |= data_021567f4;
                 ironBall->mState = 0;
                 return;
             } else {
-                ParkMapObject(&ironBall->mUnk_000);
+                mobj_setInvisible(&ironBall->mUnk_000);
                 return;
             }
         } else if (fromEntry->mUnk_10 >= 0) {
-            mapObjectRandom = GetMapObjectRandom();
+            mapObjectRandom = mobj_getRng1();
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             randomNumber = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 5) >> 32;
             if (randomNumber != 0) {
-                SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_10, 1);
+                pw_init(&ironBall->mFollower, fromEntry->mUnk_10, 1);
                 fromEntry = ironBall->mFollower.mFromEntry;
             }
         }
@@ -211,8 +211,8 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mPathSpeed = 0x8000;
             ironBall->mUnk_12c = 2;
             ironBall->mHeightOffset = ironBall->mUnk_11c.y;
-            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+            pw_init(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
+            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
             ironBall->mUnk_11c.y += 0x1000;
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
             ironBall->mHeightSpeed = 0xa000;
@@ -220,8 +220,8 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mPathSpeed = 0x5000;
             ironBall->mUnk_12c = 2;
             ironBall->mHeightOffset = ironBall->mUnk_11c.y;
-            SetupGroupFollowerAtEntry(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
-            GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+            pw_init(&ironBall->mFollower, fromEntry->mUnk_0c + 1, 1);
+            pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
             ironBall->mUnk_11c.y += 0x1000;
             ironBall->mHeightOffset = ironBall->mHeightOffset - ironBall->mUnk_11c.y;
             ironBall->mHeightSpeed = -0x3000;
@@ -232,7 +232,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mUnk_000.mUnk_10.z = 0;
             n = ((const CourseMapGroupEntry *) fromEntry)->mUnk_0e;
             if (n < 200) {
-                StartBoundWobble(n - 100);
+                bnd_handleBallHit(n - 100);
                 ironBall->mPathSpeed = 0xf000;
                 ironBall->mUnk_12c = 1;
             } else if (n < 300) {
@@ -240,7 +240,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 if (n != ironBall->mFollower.mToEntry->mUnk_0e) {
                     ironBall->mPathSpeed = 0x1e000;
                 } else {
-                    func_0209753c(t);
+                    flip_handleBallHit(t);
                 }
                 ironBall->mUnk_12c = 1;
             }
@@ -258,7 +258,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
             ironBall->mHeightSpeed = ((s64) ironBall->mHeightSpeed * -0x800) >> 12;
             if (ironBall->mHeightSpeed < 0x1000) {
                 ironBall->mHeightSpeed = 0;
-            } else if (!(GetKartKind3ShapeMask() & ironBall->mUnk_128) &&
+            } else if (!(driver_getClipAreaMask() & ironBall->mUnk_128) &&
                        !(ironBall->mUnk_000.mDistanceSquaredAndFlags & 4)) {
                 func_0210b8bc(ironBall->mUnk_000.mSound, ironBall->mHeightSpeed);
             }
@@ -267,7 +267,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     }
     v = ironBall->mFollower.mFromEntry->mUnk_0e;
     if (v >= 100) {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
         ironBall->mUnk_11c.y += 0x1000;
         w = ironBall->mPathSpeed - 410;
         if (w <= 0xa000) {
@@ -275,13 +275,13 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
         }
         ironBall->mPathSpeed = w;
     } else if ((u16) (s16) (v - 10) <= 1) {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
         ironBall->mUnk_11c.y += 0x1000;
     } else if (v == 0 || v == 2) {
-        GetGroupFollowerCurvePosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+        pw_20D8BF8_XYZ(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
         ironBall->mUnk_11c.y += 0x1000;
     } else {
-        GetGroupFollowerLinearPosStep(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
+        pw_calcCurrentPointLinearXYZSpecial(&ironBall->mFollower, &ironBall->mUnk_11c, &ironBall->mUnk_000.mUnk_10);
         ironBall->mUnk_11c.y += 0x1000;
     }
     VEC_MultAdd(ironBall->mUnk_000.mExtent.x, &ironBall->mUnk_000.mMatrix.mUnk_00[1], &ironBall->mUnk_11c,
@@ -302,7 +302,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     }
     ironBall->mRotateZAngle = v;
     if (ironBall->mUnk_12c == 2) {
-        RefreshShadowMatrix(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1, 0x1c);
+        oshd_setParams(&ironBall->mShadowMatrix, &ironBall->mUnk_11c, ironBall->mUnk_000.mExtent.x << 1, 0x1c);
         ironBall->mUnk_11c.y += 0x1000;
         ironBall->mUnk_12c = 1;
     }
@@ -317,7 +317,7 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
                 v = 0;
             }
             ironBall->mShadowMatrix.mUnk_030 = v;
-            SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mUnk_11c);
+            oshd_setPosition(&ironBall->mShadowMatrix, &ironBall->mUnk_11c);
         }
         ironBall->mUnk_000.mFlags &= ~1;
     } else {
@@ -325,27 +325,27 @@ void UpdateIronBall(void *a, IronBall *ironBall) {
     }
 }
 
-void CreateIronBallKindData(void) {
+void ibal_setupConfig(void) {
     MapObjectKindData *mapObjectKindData;
 
-    mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
+    mapObjectKindData = mobj_createConfig(ibal_onDriverCollide, NULL, NULL, 1, 1);
     mapObjectKindData->mUnk_38 = 0x190000;
     mapObjectKindData->mUnk_3c = -0x1f4000;
 }
 
-void *CreateIronBallShadowDrawList(void) {
-    return CreateMapObjectDrawList1(func_020a9cd0, DrawIronBallShadow, NULL);
+void *ibal_setupShadowRenderPart(void) {
+    return mobj_createRenderPart3d(ibal_globalInitShadow, ibal_renderShadow, NULL);
 }
 
-void *CreateIronBallDrawList(void) {
-    return CreateMapObjectDrawList2(CreateIronBall, DrawIronBall, SetupDrawIronBall);
+void *ibal_setupBallRenderPart(void) {
+    return mobj_createRenderPart2d(iball_loadBallModel, iball_renderBall, iball_applyBallMaterial);
 }
 
-void *CreateIronBallUpdateList(void) {
-    return CreateMapObjectUpdateList(InitIronBallObjects, UpdateIronBall, NULL);
+void *ibal_setupLogicPart(void) {
+    return mobj_createLogicPart(ibal_globalLogicInit, ibal_update, NULL);
 }
 
-void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
+void mobj0008_20A8ED8(Unk020a826c_a0 *soundPart, Vec3 *position) {
     s32 k;
     Camera *currentCamera;
     s32 v;
@@ -353,10 +353,10 @@ void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
     s32 x;
     s32 m;
 
-    currentCamera = GetCurrentCamera();
-    switch (gRaceSetup->mCourseId) {
+    currentCamera = race_getCamera();
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_CROSS:
-            if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
+            if (rstat_isDriverInFinalLap(gRaceMultiConfig->mEntryIndex) != FALSE || race_isCamAnimMode() != 0) {
                 k = 0x898000;
             } else {
                 k = 0x834000;
@@ -364,14 +364,14 @@ void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
             v = FX_Atan2Idx(currentCamera->mPos.x - position->x, currentCamera->mPos.z - position->z);
             if (v >= 0 && v <= 0xaaab) {
                 n = ((u16) v >> 4) << 1;
-                soundPart->mSourcePos.x = position->x + (s32) (((s64) gPairsByAngle[n] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.x = position->x + (s32) (((s64) FX_SinCosTable_[n] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + (s32) (((s64) gPairsByAngle[n + 1] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.z = position->z + (s32) (((s64) FX_SinCosTable_[n + 1] * 0x5dc000) >> 12);
                 soundPart->mUnk_20 = FALSE;
             } else if (currentCamera->mPos.z > position->z && currentCamera->mPos.y < position->y - 0x32000) {
-                soundPart->mSourcePos.x = position->x + (s32) (((s64) gPairsByAngle[0] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.x = position->x + (s32) (((s64) FX_SinCosTable_[0] * 0x5dc000) >> 12);
                 soundPart->mSourcePos.y = position->y;
-                soundPart->mSourcePos.z = position->z + (s32) (((s64) gPairsByAngle[1] * 0x5dc000) >> 12);
+                soundPart->mSourcePos.z = position->z + (s32) (((s64) FX_SinCosTable_[1] * 0x5dc000) >> 12);
                 v = soundPart->mSourcePos.x - k;
                 n = currentCamera->mPos.x;
                 if (n <= v) {
@@ -387,7 +387,7 @@ void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position) {
             }
             break;
         case COURSE_ID_MARIO:
-            if (IsKartOnLastLap(gRaceSetup->mEntryIndex) != FALSE || GetRaceUseChainCameras() != 0) {
+            if (rstat_isDriverInFinalLap(gRaceMultiConfig->mEntryIndex) != FALSE || race_isCamAnimMode() != 0) {
                 m = 0x384000;
             } else {
                 m = 0x320000;

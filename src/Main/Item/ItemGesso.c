@@ -25,7 +25,7 @@
 #include "Main/Unknown/code_02036bec.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void AdvanceItemGesso(ItemGesso *p) {
+void itgsso_210298C(ItemGesso *p) {
     Kart *kart;
     Camera *camera;
     s32 ageFrames;
@@ -39,18 +39,18 @@ void AdvanceItemGesso(ItemGesso *p) {
     s32 factor;
 
     kart = p->mKart;
-    camera = GetChaseCamera();
+    camera = cam_getPlayerCamera();
     ageFrames = p->mUnk_000.mAgeFrames;
     if (ageFrames == 0x3f) {
-        func_021031f4(p);
+        itgsso_21031F4(p);
     }
     if (ageFrames == 0x8f) {
-        kartCount = gRaceSetup->mKartCount;
+        kartCount = gRaceMultiConfig->mKartCount;
         for (i = 0; i < kartCount; i++) {
             if (p->mOrthoQuadCounts[i] == 0) {
                 continue;
             }
-            kartAtIndex = GetKart(i);
+            kartAtIndex = driver_getById(i);
             if (kartAtIndex->mUnk_7c & 0x402020) {
                 continue;
             }
@@ -60,7 +60,7 @@ void AdvanceItemGesso(ItemGesso *p) {
             if (kartAtIndex->mUnk_48 & 0x10000) {
                 continue;
             }
-            StartKartGesso(kartAtIndex, p->mOrthoQuadCounts[i]);
+            driver_startGessoInk(kartAtIndex, p->mOrthoQuadCounts[i]);
             func_020f8e3c((u32) kartAtIndex, 0xf0);
         }
     }
@@ -68,13 +68,13 @@ void AdvanceItemGesso(ItemGesso *p) {
         if (ageFrames <= gItemGessoFrameCount) {
             return;
         }
-        ReleaseItemPoolObject(gItemPools + p->mUnk_000.mKind, &p->mUnk_000);
+        it_itemsetDestroyItem(it_sItemsets + p->mUnk_000.mKind, &p->mUnk_000);
         return;
     }
     if (p->mStepIndex >= 4 && p->mStepIndex < 0xd) {
         if ((kart->mUnk_7c & 0x402020) || (kart->mUnk_4c & 0x10000840) || (kart->mUnk_48 & 0x10000)) {
             p->mStepIndex = 0xd;
-            SetupNextItemGessoStep(p);
+            itgsso_210300C(p);
             if (p->mVisible != FALSE) {
                 func_020f8e3c((u32) kart, 0xf3);
             }
@@ -113,7 +113,7 @@ void AdvanceItemGesso(ItemGesso *p) {
             }
         }
         if (p->mStepTimer < -p->mUnk_170) {
-            if (SetupNextItemGessoStep(p) != FALSE) {
+            if (itgsso_210300C(p) != FALSE) {
                 p->mUnk_160 = TRUE;
                 p->mVisible = FALSE;
                 return;
@@ -151,7 +151,7 @@ void AdvanceItemGesso(ItemGesso *p) {
     VEC_Add(&camera->mPos, &p->mUnk_000.mPos, &p->mUnk_000.mPos);
 }
 
-void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
+void itgsso_21027AC(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     Vec3 scale;
     MtxFx43 matrix;
     s32 scaleFactor;
@@ -163,7 +163,7 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     if (p->mVisible == FALSE) {
         return;
     }
-    matrix = *SetViewTransposeMatrixPos(&p->mUnk_000.mPos);
+    matrix = *bbm_getBillboardAtPos(&p->mUnk_000.mPos);
     d = p->mUnk_19c;
     if (d <= 0) {
         d = -d;
@@ -176,7 +176,7 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     scale.x = ((s64) p->mUnk_180 * p->mUnk_000.mScale.x) >> 12;
     scale.y = ((s64) p->mUnk_184.x * p->mUnk_000.mScale.y) >> 12;
     scale.z = p->mUnk_000.mScale.z;
-    scaleFactor = func_0203c5e4() != 0 ? 0xccd : 0x119a;
+    scaleFactor = rstat_getUncontrollable() != 0 ? 0xccd : 0x119a;
     scale.x = ((s64) scale.x * scaleFactor) >> 12;
     scale.y = ((s64) scale.y * scaleFactor) >> 12;
     d = p->mUnk_000.mAlpha;
@@ -184,8 +184,8 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
         t->mUnk_14 = t->mUnk_14 & ~0x1f0000;
         t->mUnk_14 = t->mUnk_14 | ((u16) d << 16);
     }
-    func_020e6a18(t);
-    func_020e67c4(t, &matrix, &scale, 0, 0x1f);
+    bbm_applyMaterial(t);
+    bbm_renderTransformedScaled(t, &matrix, &scale, 0, 0x1f);
     if (p->mUnk_000.mAlpha == 0x1f) {
         return;
     }
@@ -193,7 +193,7 @@ void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t) {
     t->mUnk_14 = t->mUnk_14 | 0x1f0000;
 }
 
-void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
+void itgsso_2102764(void *data, ItemGesso *gesso, void *toData) {
     CopyItemObjectData(data, gesso, toData);
     if (gesso == NULL) {
         return;
@@ -204,13 +204,13 @@ void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData) {
     func_020fe8ac(gesso->mUnk_000.mKind);
 }
 
-void InitItemGessoFromData(ItemGesso *gesso) {
+void itgsso_2102744(ItemGesso *gesso) {
     func_020f8e78(gesso);
-    SetupItemGesso((u32) gesso, 1);
+    itgsso_2102EB8((u32) gesso, 1);
 }
 
 #pragma thumb on
-void ComputeItemGessoFrameCount(void) {
+void itgsso_2102718(void) {
     s32 i;
     ItemGessoStep *step;
 
@@ -225,7 +225,7 @@ void ComputeItemGessoFrameCount(void) {
 void CreateItemTeresaFrameScaleTable(void) {
     s32 i;
 
-    gItemTeresaFrameScales = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x52);
+    gItemTeresaFrameScales = heap_alloc(proc_getHeap(proc_getCurrent()), 0x52);
     for (i = 0; i <= 0x28; i++) {
         gItemTeresaFrameScales[i] = ((0x28 - i) << 12) / (0x29 - i);
     }

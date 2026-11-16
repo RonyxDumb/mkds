@@ -7,9 +7,9 @@
 
 #pragma thumb on
 
-void WriteSelectGameRegisters(void) {
+void menu_state14Vblank(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = menu_getField4();
     if (screenChanged != 0) {
         GxDispCntBits8To12Write2(0x18);
         GX_SetGraphicsMode(1, 0, 0);

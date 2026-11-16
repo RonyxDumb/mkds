@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/code_020f1d70.h"
 
-// Element of gItemPools[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
+// Element of it_sItemsets[2], [3], [7], [8] and [9] up to 0x130: the word at 0x12c that AdvanceBouncingItem,
 // InitBouncingItem and ThrowBouncingItem use after the shared part.
 typedef struct BouncingItemObject {
     /* 000 */ ItemObject mItemObject;

@@ -6,22 +6,22 @@
 
 #pragma thumb on
 
-u32 func_020ad264(u32 value) {
+u32 title_fadeInStateVblank(u32 value) {
     return value;
 }
 
-void UpdateTitleState0(void) {
+void title_fadeInStateRender(void) {
     int stateFrames;
     int waitFrames;
     waitFrames = 0;
-    if (gTitleScene->mBlendDone == FALSE) {
+    if (sTitleSceneState->mBlendDone == FALSE) {
         waitFrames = 0x6b;
     }
-    stateFrames = GetTitleStateFrames();
+    stateFrames = title_getFrameCounter();
     if (stateFrames >= waitFrames) {
-        SetTitleState(1, 8);
+        title_gotoState(1, 8);
     }
-    AdvanceTitleBlend();
+    title_updateIntro();
 }
 
 u32 func_020ad230(u32 value) {

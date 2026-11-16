@@ -26,7 +26,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 
 void InitRaceStartSequence(void) {
-    gRaceStartSequence = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xc);
+    gRaceStartSequence = heap_alloc(proc_getHeap(proc_getCurrent()), 0xc);
     gRaceStartSequence->mCounting = FALSE;
     gRaceStartSequence->mDone = 0;
     gRaceStartSequence->mSequenceFrames = 0;
@@ -46,7 +46,7 @@ void ResetRaceStartSequenceFrames(void) {
     gRaceStartSequence->mSequenceFrames = -0x78;
 }
 
-// Per-frame step from func_020af66c: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
+// Per-frame step from race_update2d: no sounds (they are in the draw, UpdateRaceStartSequenceSounds).
 void UpdateRaceStartSequence(void) {
     RaceStartSequence *sequence = gRaceStartSequence;
     s32 frames;
@@ -57,14 +57,14 @@ void UpdateRaceStartSequence(void) {
         if (frames < 200) {
             sequence->mSequenceFrames = frames + 1;
             if (frames == -1) {
-                StartRaceInput();
+                rstat_initInputRecorders();
                 return;
             }
             if (frames != 180) {
                 return;
             }
             StartRaceSounds();
-            StartRace();
+            race_start();
             gRaceStartSequence->mDone = 1;
             return;
         }
@@ -74,13 +74,13 @@ void UpdateRaceStartSequence(void) {
         }
         return;
     }
-    if (gRaceSetup->mMode == 5) {
-        if ((data_0217aa14->mUnk_75c & 2) == 0) {
+    if (gRaceMultiConfig->mMode == 5) {
+        if ((gStruct217AA14->mUnk_75c & 2) == 0) {
             return;
         }
         sequence->mCounting = TRUE;
-        SetRaceUpdateFramesUnlimited();
-        SetMapObjectsRunUpdateLists();
+        race_setField34();
+        mobj_enableLogicUpdates();
         return;
     }
     if (FinishDataSharingSync() == 1) {
@@ -100,8 +100,8 @@ void UpdateRaceStartSequenceSounds(void) {
     }
     if (frames == 0 || frames == 60 || frames == 120) {
         if (data_0217c780 & 1) {
-            seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            seqPlayer = sp_acquireElement(sound_getPoolById(0));
+            if (SoundHandle_217D084.mUnk_0c != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }
@@ -114,8 +114,8 @@ void UpdateRaceStartSequenceSounds(void) {
     }
     if (frames == 175) {
         if (data_0217c780 & 1) {
-            seqPlayer = TakeSoundHandleEntry(GetSoundHandlePool(0));
-            if (data_0217d084.mUnk_0c != 0) {
+            seqPlayer = sp_acquireElement(sound_getPoolById(0));
+            if (SoundHandle_217D084.mUnk_0c != 0) {
                 if (*seqPlayer != NULL) {
                     NNS_SndPlayerStopSeq(seqPlayer, 0);
                 }

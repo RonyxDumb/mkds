@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateKuribo(void);
+void kuribo_loadModels(void);

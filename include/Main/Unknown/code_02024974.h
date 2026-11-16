@@ -5,7 +5,7 @@
 typedef struct Kart Kart;
 typedef struct SoundSource SoundSource;
 
-// Ten words at 0x40 of an KartSound, built on the stack by func_020719d0.
+// Ten words at 0x40 of an KartSound, built on the stack by driver_initField450.
 typedef struct Unk02024eec_40 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -59,9 +59,9 @@ typedef struct KartSound {
 typedef struct Kart Kart;
 typedef struct KartSound KartSound;
 
-s32 func_02024974(s32 a, s32 b, u32 c, u32 d);
-void func_020249b8(Kart *kart, s32 b, s32 c);
-void func_02024a28(SoundSource *soundSource, u16 soundId, s32 b, s32 c);
+s32 snd_getShineLoseSfxId(s32 a, s32 b, u32 c, u32 d);
+void snd_emitBalloonInflationSfx(Kart *kart, s32 b, s32 c);
+void snd_emitDriverMObjHitSfx(SoundSource *soundSource, u16 soundId, s32 b, s32 c);
 void func_02024a88(Kart *kart);
 s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c);
 void func_02024fc0(Kart *kart, KartSound *soundRecord);

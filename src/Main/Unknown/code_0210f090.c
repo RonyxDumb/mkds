@@ -2,7 +2,7 @@
 
 #include "code_0201ec30.h"
 
-u32 func_0210f090(MicBuffer *micBuffer) {
+u32 mic_update(MicBuffer *micBuffer) {
     if (micBuffer->mUnk_41c == 0) {
         return func_0201ec30();
     }

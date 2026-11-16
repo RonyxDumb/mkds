@@ -41,7 +41,7 @@ void *StartItemBombWithParkedItemBox(u16 a) {
         parkedMapObject->mUnk_0f2 = a;
         parkedMapObject->mUnk_0f4 = a;
         parkedMapObject->mUnk_0ac = 1;
-        return StartItemBombWithMapObject(parkedMapObject, 0xa000);
+        return itbomb_20FD338(parkedMapObject, 0xa000);
     }
     return NULL;
 }
@@ -51,8 +51,8 @@ void *StartItemBombWithParkedKuribo(void) {
 
     parkedMapObject = FindParkedMapObject(MAP_OBJECT_KIND_KURIBO);
     if (parkedMapObject != NULL) {
-        func_020da628(parkedMapObject);
-        return StartItemBombWithMapObject(parkedMapObject, 0);
+        kuribo_resetRoaming(parkedMapObject);
+        return itbomb_20FD338(parkedMapObject, 0);
     }
     return NULL;
 }
@@ -66,7 +66,7 @@ void func_ov001_02187d14(NNSG3dRS *renderState) {
 
     mapObject = renderState->mRenderObj->mPtrUser;
     if (renderState->mC[1] == mapObject->mUnk_2e4) {
-        currentCamera = GetCurrentCamera();
+        currentCamera = race_getCamera();
         NNS_G3dGetCurrentMtx(&currentMatrix, NULL);
         MTX_Inverse43(&currentCamera->mViewMatrix, &inverseViewMatrix);
         MTX_Concat43(&currentMatrix, &inverseViewMatrix, &currentMatrix);

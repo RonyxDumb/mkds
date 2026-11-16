@@ -21,7 +21,7 @@ extern ByteRect gSelectChoisesHitRects[];
 extern ByteRect gSelectChoisesPaletteRects[];
 
 // Objects whose layout isn't known yet.
-extern const s16 gPairsByAngle[];
+extern const s16 FX_SinCosTable_[];
 extern s16 data_0215d6b4[];
 
 extern u16 gTrophyIconNclrStarts[];

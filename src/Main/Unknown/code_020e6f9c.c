@@ -3,16 +3,16 @@
 #include "Main/System/Heap.h"
 
 #pragma thumb on
-u32 InitMapObjectUpdateList(MapObjectList *list) {
+u32 mobj_logicPartInit(MapObjectList *list) {
     u32 value0 = (u32) list;
     u32 value1;
     u32 listPointer;
     listPointer = (value0) + (0u);
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
+    value0 = (u32) proc_getCurrent();
+    value0 = (u32) proc_getHeap((void *) value0);
     value1 = *(const u16 *) ((listPointer) + 4u);
     value1 = (value1 << 2);
-    value0 = (u32) HeapAlloc((void *) value0, value1);
+    value0 = (u32) heap_alloc((void *) value0, value1);
     *(u32 *) ((listPointer) + 0u) = value0;
     value1 = 0u;
     *(u16 *) ((listPointer) + 4u) = value1;

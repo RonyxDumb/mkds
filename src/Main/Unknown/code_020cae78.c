@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-u32 func_020cae78(u32 value) {
+u32 menu_gotoGhostStateVblank(u32 value) {
     return value;
 }
 

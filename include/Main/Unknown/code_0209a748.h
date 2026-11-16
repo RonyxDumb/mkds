@@ -18,7 +18,7 @@ typedef struct Crab {
     /* 0b0 */ TeresaWobble mCrabWobble;
     /* 0d0 */ TeresaWobble mHandWobble;
     /* 0f0 */ GroupFollower mFollower;
-    /* State number of this kind's own per-frame switch in UpdateCrab; this object does not use MapObject.mUnk_80's
+    /* State number of this kind's own per-frame switch in crab_update; this object does not use MapObject.mUnk_80's
        state machine; also set by the group init and by the collision push (2) */
     /* 114 */ s32 mState;
 } Crab;
@@ -32,18 +32,18 @@ typedef struct Unk0209af98 {
 typedef struct Crab Crab;
 typedef struct Kart Kart;
 
-void CreateCrabAndCrabHand(void *a);
+void crab_loadModels(void *a);
 
-void *CreateCrabUpdateList(void);
-void *CreateCrabDrawList(void);
-void CreateCrabKindData(void);
-void UpdateCrab(void *a, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
-s32 func_0209af64(s32 a, s32 b);
-s16 func_0209af80(s32 a);
-void InitCrabObjects(Unk0209af98 *mapObjectList);
-void DrawCrab(void *a, Crab *crab);
-unsigned int func_0209b1f8(unsigned int p0);
-u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d);
-u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d);
-void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);
-void InitCrab(u32 crab); /* starts the path follower (InitGroupFollower) */
+void *crab_setupLogicPart(void);
+void *crab_setupRenderPart(void);
+void crab_setupConfig(void);
+void crab_update(void *a, Crab *crab); /* skipped for objects with mFlags & 4 (parked pool objects) */
+s32 crab_FX_MulInline(s32 a, s32 b);
+s16 crab_FX_SinIdx(s32 a);
+void crab_globalLogicInit(Unk0209af98 *mapObjectList);
+void crab_render(void *a, Crab *crab);
+unsigned int crab_globalPreRender(unsigned int p0);
+u8 crab_onItemCollide(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d);
+u8 crab_onDriverCollide(Crab *crab, Kart *kart, u8 *c, u8 *d);
+void crab_209B388(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity);
+void crab_init(u32 crab); /* starts the path follower (pw_initFromObject) */

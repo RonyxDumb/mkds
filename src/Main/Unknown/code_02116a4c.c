@@ -105,9 +105,9 @@ void FormatTwoDigitNumber(u32 number, u16 *text) {
     }
 }
 
-// Writes the year, month and day as text in the order data_021759d0->mUnk_00 selects.
+// Writes the year, month and day as text in the order gSystemData->mUnk_00 selects.
 void FormatDate(DateBytes *date, u16 *text) {
-    switch (data_021759d0->mUnk_00) {
+    switch (gSystemData->mUnk_00) {
         case 0:
             FormatTwoDigitNumber(0x14, text);
             FormatTwoDigitNumber(date->mYear, text + 2);
@@ -127,7 +127,7 @@ void FormatDate(DateBytes *date, u16 *text) {
             text[10] = 0;
             break;
         case 2:
-            if (data_021759d0->mLanguageIndex == 3) {
+            if (gSystemData->mLanguageIndex == 3) {
                 FormatTwoDigitNumber(date->mDay, text);
                 text[2] = 0x2e;
                 FormatTwoDigitNumber(date->mMonth, text + 3);

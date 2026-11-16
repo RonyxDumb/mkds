@@ -10,7 +10,7 @@ u32 func_0202f080(u32 slot) {
     u32 value1;
     u32 value2;
     u32 value12;
-    value2 = (u32) &data_02175628;
+    value2 = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (value2);
     value12 = (u32) &func_0202f0a0;
@@ -28,7 +28,7 @@ u32 func_0202f058(u32 slot) {
     u32 value1;
     u32 value2;
     u32 value12;
-    value2 = (u32) &data_02175628;
+    value2 = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (value2);
     value12 = (u32) &func_0202f078;

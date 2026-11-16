@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020cae54.h"
 #include "Main/Unknown/unk_02175000.h"
 
-u32 func_020cae54(void) {
-    return (data_021759d0->mUnk_20);
+u32 menu_sysdat_getOverlayRelatedNum(void) {
+    return (gSystemData->mUnk_20);
 }

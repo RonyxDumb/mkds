@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 EnterJgState0(void);
+u32 jg_idleStateInit(void);

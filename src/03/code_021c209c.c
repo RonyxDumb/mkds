@@ -85,7 +85,7 @@ void func_ov003_021c2398(void) {
         OS_Terminate();
     }
     GX_VBlankIntr(0);
-    func_02148904();
+    FX_Init();
     FS_Init(-1);
     TP_Init();
     RTC_Init();

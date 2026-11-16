@@ -22,35 +22,35 @@
 #include "Main/Unknown/unk_02166000.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void InitMkdEfBurner(MapObject *mapObject) {
+void efbnr_init(MapObject *mapObject) {
     MapObject *value0 = mapObject;
     u32 value12;
-    CreateMapObjectSoundSourceFalloff2(value0);
+    mobj_initSoundEmitterForObjectSfxParam2(value0);
 }
 
-u8 CollideKartWithMkdEfBurner(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d) {
+u8 efbnr_onDriverCollide(MkdEfBurner *mkdEfBurner, Kart *kart, u8 *c, u8 *d) {
     u8 v;
 
     v = *d;
-    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 && StartSoundIfKartStarOrKiller(&mkdEfBurner->mUnk_00, kart) != 0) {
+    if (mkdEfBurner->mKartTimers[kart->mIndex] == 0 && mobj_tryDestroyByDriver(&mkdEfBurner->mUnk_00, kart) != 0) {
         mkdEfBurner->mUnk_00.mDistanceSquaredAndFlags |= data_02156470;
         mkdEfBurner->mKartTimers[kart->mIndex] = 0x1f;
     }
     return v;
 }
 
-void CreateMkdEfBurner(Unk02093708 *p) {
-    gMkdEfBurner = CreateMapObjectModelAnimated(p, gMkdEfBurnerNsbmdName);
-    CreateMapObjectModelNsbtaAnimation(gMkdEfBurner, gMkdEfBurnerNsbtaName);
-    SetMapObjectModelPolygonId(gMkdEfBurner, 0x3f);
+void efbnr_loadModel(Unk02093708 *p) {
+    efbnr_sModel = mobj_loadModel(p, aMkd_ef_burner_);
+    mobj_loadNsbtaAnim(efbnr_sModel, aMkd_ef_burne_0);
+    mobj_setModelPolygonIdAll(efbnr_sModel, 0x3f);
     p->mUnk_1c = 1;
 }
 
-void SetupDrawMkdEfBurner(void *a) {
-    func_0209bbd0(a, gMkdEfBurner);
+void efbnr_applyMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, efbnr_sModel);
 }
 
-void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
+void efbnr_render(void *a, MkdEfBurner *mkdEfBurner) {
     s32 s0;
     Vec3 s4;
     Vec3 s10;
@@ -58,24 +58,24 @@ void DrawMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     if (mkdEfBurner->mScaleFixed12 <= 0) {
         return;
     }
-    SetMapObjectModelPolygonId(gMkdEfBurner, AllocPolygonIdWrapping());
+    mobj_setModelPolygonIdAll(efbnr_sModel, mobj_getCyclicPolygonId());
     s0 = 0x1e;
-    func_01ff9048(0x14, &s0, 1);
-    func_01ff9048(0x19, func_020e6cbc(&mkdEfBurner->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&mkdEfBurner->mUnk_00.mPos), 0xc);
     s4.y = mkdEfBurner->mUnk_00.mExtent.y >> 4;
     s4.x = 0;
     s4.z = 0;
-    func_01ff9048(0x1c, &s4, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &s4, 3);
     s10.x = mkdEfBurner->mScaleFixed12;
     s10.y = s10.x;
     s10.z = s10.x;
-    func_01ff9048(0x1b, &s10, 3);
-    func_01ff9048(0x1b, &mkdEfBurner->mUnk_00.mScale, 3);
-    SetMapObjectModelNsbtaFrameIndex(gMkdEfBurner, mkdEfBurner->mNsbtaFrameIndex);
-    DrawMapObjectModel(a, gMkdEfBurner, mkdEfBurner);
+    NNS_G3dGeBufferOP_N(0x1b, &s10, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &mkdEfBurner->mUnk_00.mScale, 3);
+    mobj_setModelNsbtaFrame(efbnr_sModel, mkdEfBurner->mNsbtaFrameIndex);
+    mobj_renderModel(a, efbnr_sModel, mkdEfBurner);
 }
 
-void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
+void efbnr_globalLogicInit(MapObjectList *mapObjectList) {
     BOOL z;
     s32 i;
     MkdEfBurner *mkdEfBurner;
@@ -92,7 +92,7 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
         if (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_26 < 0) {
             mkdEfBurner->mFollower.mGroupIndex = 0xffff;
         } else {
-            InitGroupFollower(&mkdEfBurner->mFollower, mkdEfBurner->mUnk_00.mCourseMapRow, z);
+            pw_initFromObject(&mkdEfBurner->mFollower, mkdEfBurner->mUnk_00.mCourseMapRow, z);
             speed = (mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_2e << 12) / 100;
             mkdEfBurner->mFollower.mSpeed = speed;
             mkdEfBurner->mFollower.mProgressStep =
@@ -117,7 +117,7 @@ void InitMkdEfBurnerObjects(MapObjectList *mapObjectList) {
     }
 }
 
-void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
+void efbnr_update(void *a, MkdEfBurner *mkdEfBurner) {
     u16 nsbtaFrameCount;
     s32 i;
     u8 kartCount;
@@ -146,7 +146,7 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
                 mkdEfBurner->mStateFrames = 0;
                 mkdEfBurner->mState = 3;
             }
-            StartMapObjectSoundWhileRequested(&mkdEfBurner->mUnk_00, 0x170);
+            mobj_emitSfxFromEmitter(&mkdEfBurner->mUnk_00, 0x170);
             break;
         case 3:
             mkdEfBurner->mScaleFixed12 -= 0x29;
@@ -159,22 +159,22 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
                 ((s64) mkdEfBurner->mUnk_00.mKindData->mUnk_10 * mkdEfBurner->mScaleFixed12) >> 12;
             break;
         case 4:
-            StartMapObjectSoundWhileRequested(&mkdEfBurner->mUnk_00, 0x170);
+            mobj_emitSfxFromEmitter(&mkdEfBurner->mUnk_00, 0x170);
             break;
     }
-    nsbtaFrameCount = GetMapObjectModelNsbtaFrameCount(gMkdEfBurner);
+    nsbtaFrameCount = mobj_getModelNsbtaFrameCount(efbnr_sModel);
     mkdEfBurner->mNsbtaFrameIndex++;
     if (mkdEfBurner->mNsbtaFrameIndex >= nsbtaFrameCount) {
         mkdEfBurner->mNsbtaFrameIndex = 0;
     }
     if (mkdEfBurner->mFollower.mGroupIndex != 0xffff) {
-        AdvanceGroupFollower(&mkdEfBurner->mFollower);
-        GetGroupFollowerLinearPosition(&mkdEfBurner->mFollower, &mkdEfBurner->mUnk_00.mPos);
+        pw_update(&mkdEfBurner->mFollower);
+        pw_calcCurrentPointLinearXYZ(&mkdEfBurner->mFollower, &mkdEfBurner->mUnk_00.mPos);
         mkdEfBurner->mUnk_00.mPos.y = mkdEfBurner->mUnk_00.mPos.y - mkdEfBurner->mUnk_00.mExtent.y;
     } else {
         mkdEfBurner->mUnk_00.mPos.y = mkdEfBurner->mUnk_00.mCourseMapRow->mUnk_00.y - mkdEfBurner->mUnk_00.mExtent.y;
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
         if (mkdEfBurner->mKartTimers[i] > 0) {
             mkdEfBurner->mKartTimers[i]--;
@@ -182,19 +182,19 @@ void UpdateMkdEfBurner(void *a, MkdEfBurner *mkdEfBurner) {
     }
 }
 
-void CreateMkdEfBurnerKindData(void) {
-    func_0209bf70(&CollideKartWithMkdEfBurner, NULL, NULL, 2, 0, (0x0000018du));
+void efbnr_setupConfig(void) {
+    mobj_createConfigEx(&efbnr_onDriverCollide, NULL, NULL, 2, 0, (0x0000018du));
 }
 
-void CreateMkdEfBurnerDrawList(void) {
-    CreateMapObjectDrawList1(&CreateMkdEfBurner, &DrawMkdEfBurner, &SetupDrawMkdEfBurner);
+void efbnr_setupRenderPart(void) {
+    mobj_createRenderPart3d(&efbnr_loadModel, &efbnr_render, &efbnr_applyMaterial);
 }
 
-void CreateMkdEfBurnerUpdateList(void) {
-    CreateMapObjectUpdateList(&InitMkdEfBurnerObjects, &UpdateMkdEfBurner, NULL);
+void efbnr_setupLogicPart(void) {
+    mobj_createLogicPart(&efbnr_globalLogicInit, &efbnr_update, NULL);
 }
 
-u16 func_020931ac(Unk0217b498_00 *a) {
+u16 efbnr_getMapIconType(Unk0217b498_00 *a) {
     if (a->mUnk_a8 >= 0x1000) {
         return 3;
     }

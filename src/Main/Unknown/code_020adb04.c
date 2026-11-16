@@ -25,7 +25,7 @@ s32 CopyTextWithinWidth(const u16 *source, u16 *destination) {
     void *font;
 
     widthSum = 0;
-    font = GetFontByIndex(0);
+    font = m2d_getFont(0);
     FillHalfwords(destination, 0, 0x14);
     for (i = 0; i < 10; i++) {
         if (source[i] == 0) {
@@ -77,15 +77,15 @@ BOOL IsMissionRunRecordFilled(void) {
 #pragma thumb off
 
 s32 func_020adbe4(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableRow;
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        return gRaceMultiConfig->mMissionTableRow;
     }
     return -1;
 }
 
 s32 func_020adbc4(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        return gRaceSetup->mMissionTableColumn;
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        return gRaceMultiConfig->mMissionTableColumn;
     }
     return -1;
 }
@@ -127,12 +127,12 @@ BOOL func_020adb34(void) {
     return TRUE;
 }
 
-void InitTitleStateHandlers(void) {
+void title_setupStates(void) {
     s32 i;
 
     for (i = 0; i < 7; i++) {
-        gTitleScene->mStateHandlers[i].mUnk_00 = gTitleStateHandlers[i].mUnk_00;
-        gTitleScene->mStateHandlers[i].mUpdate = gTitleStateHandlers[i].mUpdate;
+        sTitleSceneState->mStateHandlers[i].mUnk_00 = sTitleSceneStates[i].mUnk_00;
+        sTitleSceneState->mStateHandlers[i].mUpdate = sTitleSceneStates[i].mUpdate;
     }
 }
 

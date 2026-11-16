@@ -11,8 +11,8 @@
 #include "code_02147cd8.h"
 #include "Main/Kart/KartTimes.h"
 
-u16 GetFollowedKartOrEntryIndex(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+u16 Race_GetPlayerId(void) {
+    RaceSetup *raceSetup = gRaceMultiConfig;
 
     return raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
 }
@@ -21,16 +21,16 @@ u16 GetFollowedKartOrEntryIndex(void) {
 u16 GetFollowedKartLastEndedLap(void) {
     u16 lap;
 
-    lap = GetKartHighestLap(
-        (u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex));
-    if (IsKartEnded((u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex
-                                                                   : gRaceSetup->mEntryIndex)) == 0) {
+    lap = rstat_getDriverHighestReachedLap(
+        (u16) (gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO ? gRaceMultiConfig->mFollowedKartIndex : gRaceMultiConfig->mEntryIndex));
+    if (rstat_hasDriverFinished((u16) (gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO ? gRaceMultiConfig->mFollowedKartIndex
+                                                                   : gRaceMultiConfig->mEntryIndex)) == 0) {
         lap = lap - 1;
     }
     return lap;
 }
 
-void Matrix2x2ReciprocalScale(s32 *matrix, s32 scale) {
+void lmap_scaleMtx22(s32 *matrix, s32 scale) {
     s32 reciprocal;
 
     if (scale != 0) {
@@ -44,9 +44,9 @@ void Matrix2x2ReciprocalScale(s32 *matrix, s32 scale) {
     matrix[1] = matrix[2];
 }
 
-void Matrix2x2Rotation(s32 *matrix, s32 angle) {
-    s32 anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
-    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
+void lmap_rotMtx22(s32 *matrix, s32 angle) {
+    s32 anglePairFirst = FX_SinCosTable_[(angle >> 4) * 2];
+    s32 anglePairSecond = FX_SinCosTable_[(angle >> 4) * 2 + 1];
 
     matrix[0] = anglePairSecond;
     matrix[1] = anglePairFirst;
@@ -54,21 +54,21 @@ void Matrix2x2Rotation(s32 *matrix, s32 angle) {
     matrix[3] = anglePairSecond;
 }
 
-void Matrix2x2ReflectedRotation(s32 *matrix, s32 angle) {
-    s32 anglePairSecond = gPairsByAngle[(angle >> 4) * 2 + 1];
+void lmap_rotMtx22FlipX(s32 *matrix, s32 angle) {
+    s32 anglePairSecond = FX_SinCosTable_[(angle >> 4) * 2 + 1];
     s32 anglePairFirst;
 
     matrix[0] = -anglePairSecond;
-    anglePairFirst = gPairsByAngle[(angle >> 4) * 2];
+    anglePairFirst = FX_SinCosTable_[(angle >> 4) * 2];
     matrix[1] = anglePairFirst;
     matrix[2] = anglePairFirst;
     matrix[3] = anglePairSecond;
 }
 
-void Matrix2x2RotationReciprocalScale(s32 *matrix, s32 scale, s32 angle) {
+void lmap_rotScaleMtx22(s32 *matrix, s32 scale, s32 angle) {
     s32 angleIndex = angle >> 4;
-    s32 anglePairFirst = gPairsByAngle[angleIndex * 2];
-    s32 anglePairSecond = gPairsByAngle[angleIndex * 2 + 1];
+    s32 anglePairFirst = FX_SinCosTable_[angleIndex * 2];
+    s32 anglePairSecond = FX_SinCosTable_[angleIndex * 2 + 1];
     s32 reciprocal;
 
     if (scale != 0) {
@@ -82,8 +82,8 @@ void Matrix2x2RotationReciprocalScale(s32 *matrix, s32 scale, s32 angle) {
     matrix[3] = matrix[0];
 }
 
-BOOL func_020b4b98(s32 number) {
-    switch (data_021759d0->mLanguageIndex) {
+BOOL r2d_shouldUsePointsPlural(s32 number) {
+    switch (gSystemData->mLanguageIndex) {
         case 0:
         case 1:
         case 3:
@@ -103,7 +103,7 @@ BOOL func_020b4b98(s32 number) {
 }
 
 BOOL RaceStartIsLanguageJa(void) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gSystemData->mLanguageIndex) {
         case 0:
             return TRUE;
         case 1:
@@ -116,7 +116,7 @@ BOOL RaceStartIsLanguageJa(void) {
 }
 
 s32 GetLanguageCharSpacing(void) {
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gSystemData->mLanguageIndex) {
         case 0:
             return 1;
         case 1:
@@ -128,8 +128,8 @@ s32 GetLanguageCharSpacing(void) {
     }
 }
 
-BOOL IsLanguageJa(void) {
-    switch (data_021759d0->mLanguageIndex) {
+BOOL g2du_getTextHSpace(void) {
+    switch (gSystemData->mLanguageIndex) {
         case 0:
             return TRUE;
         case 1:
@@ -141,11 +141,11 @@ BOOL IsLanguageJa(void) {
     }
 }
 
-void LoadNclrData(Nclr **outNclr, void *file) {
+void g2du_unpackPaletteData(Nclr **outNclr, void *file) {
     Unk02021fd0 *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x504c5454);
+        part = NNS_G2dFindBinaryBlock(file, 0x504c5454);
         if (part != NULL) {
             *outNclr = (Nclr *) (part + 1);
             NNS_G2dUnpackNCL((NNSG2dPaletteData *) *outNclr);
@@ -154,48 +154,23 @@ void LoadNclrData(Nclr **outNclr, void *file) {
     DC_FlushRange((*outNclr)->mData, (*outNclr)->mDataSize);
 }
 
-void LocateNclr(Nclr **outNclr, void *file) {
+void g2du_getPaletteData(Nclr **outNclr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x504c5454);
+    part = NNS_G2dFindBinaryBlock(file, 0x504c5454);
     if (part != NULL) {
         *outNclr = (Nclr *) (part + 1);
     }
 }
 
-void LoadNcgrData2(Ncgr **outNcgr, void *file) {
+void g2du_unpackCharacterData(Ncgr **outNcgr, void *file) {
     Unk02021fd0 *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x43484152);
-        if (part != NULL) {
-            *outNcgr = (Ncgr *) (part + 1);
-            NNS_G2dUnpackBGNCG((NNSG2dCharacterData *) *outNcgr);
-        }
-    }
-    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
-}
-
-void LocateNcgr2(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
-
-    if (file == NULL) {
-        return;
-    }
-    part = FindPartByTag(file, 0x43484152);
-    if (part != NULL) {
-        *outNcgr = (Ncgr *) (part + 1);
-    }
-}
-
-void LoadNcgrData(Ncgr **outNcgr, void *file) {
-    Unk02021fd0 *part;
-
-    if (file != NULL) {
-        part = FindPartByTag(file, 0x43484152);
+        part = NNS_G2dFindBinaryBlock(file, 0x43484152);
         if (part != NULL) {
             *outNcgr = (Ncgr *) (part + 1);
             NNS_G2dUnpackNCG((NNSG2dCharacterData *) *outNcgr);
@@ -204,25 +179,50 @@ void LoadNcgrData(Ncgr **outNcgr, void *file) {
     DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
 }
 
-void LocateNcgr(Ncgr **outNcgr, void *file) {
+void g2du_getCharacterData(Ncgr **outNcgr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x43484152);
+    part = NNS_G2dFindBinaryBlock(file, 0x43484152);
     if (part != NULL) {
         *outNcgr = (Ncgr *) (part + 1);
     }
 }
 
-void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
+void g2du_unpackCharacterDataBG(Ncgr **outNcgr, void *file) {
+    Unk02021fd0 *part;
+
+    if (file != NULL) {
+        part = NNS_G2dFindBinaryBlock(file, 0x43484152);
+        if (part != NULL) {
+            *outNcgr = (Ncgr *) (part + 1);
+            NNS_G2dUnpackBGNCG((NNSG2dCharacterData *) *outNcgr);
+        }
+    }
+    DC_FlushRange((*outNcgr)->mData, (*outNcgr)->mDataSize);
+}
+
+void g2du_getCharacterDataBG(Ncgr **outNcgr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x4345424b);
+    part = NNS_G2dFindBinaryBlock(file, 0x43484152);
+    if (part != NULL) {
+        *outNcgr = (Ncgr *) (part + 1);
+    }
+}
+
+void g2du_unpackCellBankData(Unk02021dc8 **outNcer, void *file) {
+    Unk02021fd0 *part;
+
+    if (file == NULL) {
+        return;
+    }
+    part = NNS_G2dFindBinaryBlock(file, 0x4345424b);
     if (part == NULL) {
         return;
     }
@@ -230,25 +230,25 @@ void LoadNcerData(Unk02021dc8 **outNcer, void *file) {
     NNS_G2dUnpackNCE(*outNcer);
 }
 
-void LocateNcer(Unk02021dc8 **outNcer, void *file) {
+void g2du_getCellBankData(Unk02021dc8 **outNcer, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x4345424b);
+    part = NNS_G2dFindBinaryBlock(file, 0x4345424b);
     if (part != NULL) {
         *outNcer = (Unk02021dc8 *) (part + 1);
     }
 }
 
-void LoadNanrData(Unk02021dc8 **outNanr, void *file) {
+void g2du_unpackAnimBank(Unk02021dc8 **outNanr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x41424e4b);
+    part = NNS_G2dFindBinaryBlock(file, 0x41424e4b);
     if (part == NULL) {
         return;
     }
@@ -256,26 +256,26 @@ void LoadNanrData(Unk02021dc8 **outNanr, void *file) {
     NNS_G2dUnpackNAN(*outNanr);
 }
 
-void LoadNscrData(Nscr **outNscr, void *file) {
+void g2du_unpackScreenData(Nscr **outNscr, void *file) {
     Unk02021fd0 *part;
 
     if (file != NULL) {
-        part = FindPartByTag(file, 0x5343524e);
+        part = NNS_G2dFindBinaryBlock(file, 0x5343524e);
         if (part != NULL) {
             *outNscr = (Nscr *) (part + 1);
-            NNS_G2dGetUnpackedScreenData(file, (Unk02021fd0 **) outNscr);
+            NNS_G2dUnpackNSC(file, (Unk02021fd0 **) outNscr);
         }
     }
     DC_FlushRange((*outNscr)->mData, (*outNscr)->mDataSize);
 }
 
-void LocateNscr(Nscr **outNscr, void *file) {
+void g2du_getScreenData(Nscr **outNscr, void *file) {
     Unk02021fd0 *part;
 
     if (file == NULL) {
         return;
     }
-    part = FindPartByTag(file, 0x5343524e);
+    part = NNS_G2dFindBinaryBlock(file, 0x5343524e);
     if (part != NULL) {
         *outNscr = (Nscr *) (part + 1);
     }

@@ -17,6 +17,6 @@ void FreeItemObjectCollisionSlot(int object) {
     if (slotIndex == noSlotCompared) {
         return;
     }
-    scratch = FreeCollisionSlot(scratch);
+    scratch = col_deleteColEntry(scratch);
     *(u16 *) ((objectAddress) + (218)) = scratch;
 }

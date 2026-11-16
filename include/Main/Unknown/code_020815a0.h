@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void ReleaseKartKillerEffect(u32 kartIndex);
-u32 StopKartKillerEffect(u32 kartIndex);
+void rptc_stopBulletBillEffectDirect(u32 kartIndex);
+u32 rptc_stopBulletBillEffect(u32 kartIndex);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020cae38(void);
+u32 menu_sysdat_getIsMBChild(void);

@@ -4,7 +4,7 @@
 
 typedef struct Unk020e43a8 Unk020e43a8;
 
-// Second argument of InitSecondHand: a vector at 0x0c, halfwords from 0x28.
+// Second argument of shand_init: a vector at 0x0c, halfwords from 0x28.
 typedef struct Unk020e5684 {
     /* 00 */ u8 mUnk_00[0x0c];
     /* 0c */ Vec3 mUnk_0c;
@@ -16,11 +16,11 @@ typedef struct Unk020e5684 {
     /* 30 */ s16 mUnk_30;
 } Unk020e5684;
 
-void CreateSecondHand(void);
+void shand_loadModel(void);
 
 typedef struct Unk020e43a8 Unk020e43a8;
 
-// 0x28-byte object CreateSecondHandUpdateList loads from data_021590ec.
+// 0x28-byte object shand_setupLogicPart loads from shand_logicPartData.
 typedef struct Unk020e59e4 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -34,7 +34,7 @@ typedef struct Unk020e59e4 {
     /* 24 */ u32 mUnk_24;
 } Unk020e59e4;
 
-// 0x2c-byte object CreateSecondHandDrawList loads from data_02159114.
+// 0x2c-byte object shand_setupRenderPart loads from shand_renderPartData.
 typedef struct Unk020e5a40 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -49,7 +49,7 @@ typedef struct Unk020e5a40 {
     /* 28 */ u32 mUnk_28;
 } Unk020e5a40;
 
-// 0x40-byte object CreateSecondHandKindData loads from data_02159140.
+// 0x40-byte object shand_setupConfig loads from shand_colData.
 typedef struct Unk020e5a9c {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -69,20 +69,20 @@ typedef struct Unk020e5a9c {
     /* 3c */ u32 mUnk_3c;
 } Unk020e5a9c;
 
-void CreateObPakkunSf(void);
+void obpak_loadModel(void);
 
-extern Unk020e59e4 *data_0217b81c;
-extern Unk020e5a40 *data_0217b824;
-extern Unk020e59e4 *data_0217b828;
-extern Unk020e5a40 *data_0217b82c;
-extern Unk020e59e4 *data_0217b834;
-extern Unk020e5a40 *data_0217b840;
+extern Unk020e59e4 *shand_sLogicPart;
+extern Unk020e5a40 *shand_sRenderPart;
+extern Unk020e59e4 *obpak_sLogicPart;
+extern Unk020e5a40 *obpak_sRenderPart;
+extern Unk020e59e4 *pend_sLogicPart;
+extern Unk020e5a40 *pend_sRenderPart;
 
-void InitSecondHand(Unk020e43a8 *secondHand, Unk020e5684 *courseRow);
-void ComputeSphereHitOnSecondHand(Unk020e43a8 *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
-void UpdateSecondHand(u32 a, Unk020e43a8 *secondHand);
-void DrawSecondHand(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha);
-Unk020e59e4 *CreateSecondHandUpdateList(void);
-Unk020e5a40 *CreateSecondHandDrawList(void);
-Unk020e5a9c *CreateSecondHandKindData(void);
-void InitObPakkunSf(Unk020e43a8 *obPakkunSf);
+void shand_init(Unk020e43a8 *secondHand, Unk020e5684 *courseRow);
+void shand_collide(Unk020e43a8 *secondHand, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
+void shand_update(u32 a, Unk020e43a8 *secondHand);
+void shand_render(u32 a, Unk020e43a8 *secondHand, u32 b, u32 alpha);
+Unk020e59e4 *shand_setupLogicPart(void);
+Unk020e5a40 *shand_setupRenderPart(void);
+Unk020e5a9c *shand_setupConfig(void);
+void obpak_init(Unk020e43a8 *obPakkunSf);

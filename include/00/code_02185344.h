@@ -17,7 +17,7 @@ typedef struct WiFiAikotobaCheck {
     /* 26 */ u8 pad_26[2];
     /* 28 */ s32 mPendingWiFiState;
     /* 2c */ void *mHeap;
-    // Table of cells built from the Bncl / Bnll by InitLayoutTable.
+    // Table of cells built from the Bncl / Bnll by jn_ui_initLayout.
     /* 30 */ LayoutTableEntry *mWiFiAikotobaCheckTable;
     /* 34 */ struct Unk02021dc8 *mWiFiAikotobaCheckMNcer;
     /* 38 */ struct Ncgr *mWiFiAikotobaCheckMNcgr;
@@ -46,9 +46,9 @@ void AdvanceWiFiAikotobaCheckState1(void);
 void AdvanceWiFiAikotobaCheckState0(void);
 void func_ov000_021854f8(void);
 void LocateAndUploadWiFiAikotobaCheck(void);
-void func_ov000_021855f8(void);
+void menu_state4Vblank(void);
 void InitWiFiAikotobaCheck(void *a);
-void func_ov000_021856a8(void);
+void menu_ta_GX_SetVisiblePlane(void);
 void SetWiFiAikotobaCheckDigits(void);
 
 #include "00/code_021832d8.h"

@@ -33,7 +33,7 @@ typedef struct GroupFollower {
     /* 20 */ struct CourseMapGroupEntry *mToEntry;
 } GroupFollower;
 
-// Sub-object at 0x80 of Unk020e005c and MapObject: InitStateMachine stores its second, fourth and third arguments at
+// Sub-object at 0x80 of Unk020e005c and MapObject: sm_init stores its second, fourth and third arguments at
 // 0x00, 0x08 and 0x0c and zeroes 0x04, 0x0e and 0x10.
 typedef struct Unk020e005c_080 {
     /* 00 */ UnkFunc *const *mStateTable;
@@ -96,6 +96,6 @@ typedef struct Unk020e005c {
     /* 16c */ u16 mUnk_16c;
 } Unk020e005c;
 
-void UpdateKoopaBlockState1(Unk020e005c *koopaBlock);
-void EnterKoopaBlockState1(Unk020e005c *koopaBlock);
-void UpdateKoopaBlockState0(Unk020e005c *koopaBlock);
+void kblock_moveStateUpdate(Unk020e005c *koopaBlock);
+void kblock_moveStateInit(Unk020e005c *koopaBlock);
+void kblock_speedUpStateUpdate(Unk020e005c *koopaBlock);

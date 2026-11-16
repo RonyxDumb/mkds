@@ -62,7 +62,7 @@ void func_ov000_021984b4(Gt2Connection *a) {
 
 BOOL func_ov000_02198448(Gt2Socket *socket) {
     if (socket == NULL) {
-        AssertionFailed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x1b);
+        __msl_assertion_failed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x1b);
     }
     if (socket == NULL) {
         return TRUE;
@@ -82,7 +82,7 @@ BOOL func_ov000_02198448(Gt2Socket *socket) {
 
 BOOL CallIncomingConnectionCallback(Gt2Socket *a, Gt2Connection *b, int c, int d, int e, const u8 *f, int g) {
     if (a == NULL || b == NULL) {
-        AssertionFailed(data_ov000_021b3f74, data_ov000_021b3f58, NULL, 0x3d);
+        __msl_assertion_failed(data_ov000_021b3f74, data_ov000_021b3f58, NULL, 0x3d);
     }
     if (a == NULL || b == NULL) {
         return TRUE;
@@ -108,7 +108,7 @@ BOOL CallIncomingConnectionCallback(Gt2Socket *a, Gt2Connection *b, int c, int d
 
 BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int b, void *c, int d) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x69);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x69);
     }
     if (connection == NULL) {
         return TRUE;
@@ -135,7 +135,7 @@ BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int b, void *c
 
 BOOL Gt2CallDataCallback(Gt2Connection *connection, void *b, int c, int d) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x94);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x94);
     }
     if (connection == NULL) {
         return TRUE;
@@ -161,7 +161,7 @@ BOOL Gt2CallDataCallback(Gt2Connection *connection, void *b, int c, int d) {
 
 BOOL func_ov000_021981d0(Gt2Connection *connection, void *b) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0xba);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0xba);
     }
     if (connection == NULL) {
         return TRUE;
@@ -183,7 +183,7 @@ BOOL func_ov000_021981d0(Gt2Connection *connection, void *b) {
 
 BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 b) {
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0xd9);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0xd9);
     }
     if (connection == NULL) {
         return TRUE;
@@ -206,7 +206,7 @@ BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 b) {
 BOOL func_ov000_02198098(Gt2Connection *connection, s32 b, s32 c, void *d, s32 e) {
     Unk02197fe8Entry *f;
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x101);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x101);
     }
     if (connection == NULL) {
         return TRUE;
@@ -234,7 +234,7 @@ BOOL func_ov000_02198098(Gt2Connection *connection, s32 b, s32 c, void *d, s32 e
 BOOL func_ov000_02197fe8(Gt2Connection *connection, s32 b, void *c, s32 d, s32 e) {
     Unk02197fe8Entry *f;
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x12d);
+        __msl_assertion_failed(data_ov000_021b3f68, data_ov000_021b3f58, NULL, 0x12d);
     }
     if (connection == NULL) {
         return TRUE;
@@ -262,7 +262,7 @@ BOOL func_ov000_02197fe8(Gt2Connection *connection, s32 b, void *c, s32 d, s32 e
 u32 func_ov000_02197f28(Gt2Socket *socket, Gt2Connection *b, u32 f, u32 g, u32 h, int l, int m, int n) {
     UnkWordFunc *c;
     if (socket == NULL) {
-        AssertionFailed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x160);
+        __msl_assertion_failed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x160);
     }
     if (socket == NULL) {
         return 1;
@@ -298,7 +298,7 @@ u32 func_ov000_02197f28(Gt2Socket *socket, Gt2Connection *b, u32 f, u32 g, u32 h
 BOOL CallUnmatchedDataCallback(Gt2Socket *a, s32 b, s32 c, void *d, s32 e, s32 *f) {
     *f = 0;
     if (a == NULL) {
-        AssertionFailed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x197);
+        __msl_assertion_failed(data_ov000_021b3f50, data_ov000_021b3f58, NULL, 0x197);
     }
     if (a == NULL) {
         return TRUE;

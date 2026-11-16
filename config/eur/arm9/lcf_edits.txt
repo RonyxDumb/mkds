@@ -7,4 +7,4 @@ keep .text
 alias data_usa_02161748 ARM9_CTOR_START 0
 
 # Shared-source data names: targets verified at matching EUR relocation sites.
-alias data_usa_021541a8 gSceneNames 0x0
+alias data_usa_021541a8 sSceneDefs 0x0

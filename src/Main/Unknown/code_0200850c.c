@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void CopyOrClearRange(u32 *a, u32 b, u32 c, int d) {
+void MBi_ReadSegmentHeader(u32 *a, u32 b, u32 c, int d) {
     u32 rangeStart;
     if (b < (0x00004000u)) {
         b = (0x00004000u);

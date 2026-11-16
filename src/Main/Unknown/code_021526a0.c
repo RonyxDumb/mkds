@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-u32 IsFriendDataTypeNonZero(const void *friendData) {
+u32 DWC_IsValidFriendData(const void *friendData) {
     int dataType;
     dataType = DWCi_Acc_GetFlag_DataType(friendData);
     if (dataType != 0) {

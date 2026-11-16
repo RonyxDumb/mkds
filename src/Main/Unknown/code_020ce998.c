@@ -5,13 +5,13 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateVsSelectKart(void) {
+void menu_state9Render(void) {
     switch (AdvanceSelectKart()) {
         case 1:
-            SwitchMenuScreen(0xa, 0x1f);
+            menu_gotoState(0xa, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(8, 0x1f);
+            menu_gotoState(8, 0x1f);
             break;
     }
 }

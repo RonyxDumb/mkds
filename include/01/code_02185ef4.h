@@ -9,7 +9,7 @@ typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 typedef struct Vec3s16 Vec3s16;
 
-// Object passed to the per-frame functions UpdateMissionGate and DrawMissionGate.
+// Object passed to the per-frame functions mgat_update and mgat_render.
 typedef struct MissionGateObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MapObject *mNegativeSideObject;
@@ -19,7 +19,7 @@ typedef struct MissionGateObject {
     /* 0ac */ s32 mState;
 } MissionGateObject;
 
-// Table of objects walked by InitMissionGateObjects.
+// Table of objects walked by mgat_globalInitLogic.
 typedef struct MissionGateList {
     /* 00 */ MissionGateObject **mObjects;
     /* 04 */ u16 mObjectCount;
@@ -42,7 +42,7 @@ typedef struct MissionGateList {
 #include "Main/Unknown/code_020d2450.h"
 #include "Main/Unknown/code_0209b000.h"
 
-void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
+void boss_21870E4(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
                              const char *prmName);
 void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int offsetZ, int emitterParamX,
                          int emitterParamY, int emitterParamZ, int effectId, u32 timer);
@@ -55,17 +55,17 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
 #include "01/code_02187000.h"
 
 void *CreateEmptyMapObjectUpdateList(void);
-s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d);
-s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d);
-s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
+s32 boss_onItemCollide(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d);
+s32 boss_onDriverCollide(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d);
+s32 boss_collide(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
                                           Vec3 *overlapOffset);
-void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth);
-void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject);
-void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject);
+void boss_renderShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth);
+void boss_render(void *mapObjectList, Unk02188950 *mapObject);
+void boss_update(u32 a, Unk02188950 *mapObject);
 u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep, s32 angleOffset, s32 angle);
 u16 StepAngleTowardDirection(Vec3 *target, Vec3 *origin, s32 maxStep, s32 angle);
 int StepIntTowardTarget(int target, int step, int current);
-void ToggleShadowScale(void);
+void ktesa_globalPreRender(void);
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName);
 BOOL func_ov001_021871d0(Unk02188950 *mapObject);
 u32 func_ov001_021871f8(Unk02188950 *mapObject, int b);

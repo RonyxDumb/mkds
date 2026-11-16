@@ -4,5 +4,5 @@
 
 typedef struct OamList OamList;
 
-OamList *GetKeyboardSecondBuffer(void);
-OamList *GetKeyboardFirstBuffer(void);
+OamList *nickname_getSubOamBuf(void);
+OamList *nickname_getMainOamBuf(void);

@@ -2,11 +2,11 @@
 #include "Main/Unknown/unk_02154000.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void SetNextGrandPrixCourse(void) {
-    gRaceSetup->mNextHeader.mCourseNumber = gRaceSetup->mCourseNumber + 1;
-    if (gRaceSetup->mNextHeader.mCourseNumber <= 4) {
-        gRaceSetup->mNextHeader.mCourseId =
-            gCupCourseIdTable[gRaceSetup->mNextHeader.mCupIndex][gRaceSetup->mNextHeader.mCourseNumber - 1];
+void rconf_gotoNextGpRace(void) {
+    gRaceMultiConfig->mNextHeader.mCourseNumber = gRaceMultiConfig->mCourseNumber + 1;
+    if (gRaceMultiConfig->mNextHeader.mCourseNumber <= 4) {
+        gRaceMultiConfig->mNextHeader.mCourseId =
+            sCupDefs[gRaceMultiConfig->mNextHeader.mCupIndex][gRaceMultiConfig->mNextHeader.mCourseNumber - 1];
     }
-    gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_START_GP;
+    gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_START_GP;
 }

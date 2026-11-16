@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_020cc134(u32 bits);
-u32 func_020cc150(u32 bits);
+u32 menu_GXS_SetVisibleWnd(u32 bits);
+u32 menu_GX_SetVisibleWnd(u32 bits);

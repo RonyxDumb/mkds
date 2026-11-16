@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void FormatFriendKey(u32 low, u32 high, u32 buffer);
+void DWC_Acc_FriendKeyToNumericKey(u32 low, u32 high, u32 buffer);

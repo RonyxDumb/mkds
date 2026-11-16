@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitSelectKart(void *a, s32 b, void *c, void *d);
+void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d);

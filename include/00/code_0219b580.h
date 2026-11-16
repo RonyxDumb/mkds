@@ -108,7 +108,7 @@ typedef struct Unk021b5550 {
 BOOL StartWiFiBuddySync(const s8 *a, void (*b)(s32, s32), void *c, void (*d)(u32, u8), void *e, void (*f)(u32, u32),
                         void *g);
 
-// Pointer to the connection embedded in gWiFiSession: set by InitWiFiConnection at each login, NULL after
+// Pointer to the connection embedded in gStruct217D384: set by InitWiFiConnection at each login, NULL after
 // ReleaseWiFiConnection.
 extern WiFiConnection *gWiFiConnection;
 extern void *data_ov000_021b54d0[32];

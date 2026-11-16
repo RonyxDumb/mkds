@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_020470c4.h"
 
-void ResetInputSlotPair(InputSlotPair *pair) {
+void spi_initTpMic(InputSlotPair *pair) {
     pair->mNoPairCount = 0xffffu;
     pair->mUnk_12[0] = 0x0u;
     pair->mPairX = 0xffu;

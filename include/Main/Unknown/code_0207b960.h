@@ -31,51 +31,51 @@ typedef struct KartAiItemUse KartAiItemUse;
 struct KartAiRaceSpeedLimit;
 struct KartAi;
 
-extern KartAiItemUseEntry gRaceItemInUseEntries[];
-extern KartAiItemUseEntry gRaceNormalHeldItemEntries[];
-extern KartAiItemUseEntry gRaceHardHeldItemEntries[];
-extern KartAiItemUseEntry gRaceEasyHeldItemEntries[];
+extern KartAiItemUseEntry enit_sDragItemParams[];
+extern KartAiItemUseEntry enit_sSlotItemParamsMedium[];
+extern KartAiItemUseEntry enit_sSlotItemParamsHard[];
+extern KartAiItemUseEntry enit_sSlotItemParamsEasy[];
 
 // Writes to a the point of the curve b at parameter mParam (0 to 0x1000): the four control points of mPoints weighted
 // by the uniform cubic B-spline basis.
-void ComputePosCurvePoint(Vec3 *point, PosCurve *posCurve);
+void interpolateCubicSpline(Vec3 *point, PosCurve *posCurve);
 // Adds d to the curve parameter (0x1000 = one segment); past 0x1000 it shifts the four control points on to the next
-// point of the entry's group (clamped after the last) and writes the point on the curve to a. UpdateCameraPosCurve
+// point of the entry's group (clamped after the last) and writes the point on the curve to a. cam_updateCameRoutePos
 // calls it for groups of four or more points.
-void UpdatePosCurve(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep);
-void func_0207bd6c(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
+void camr_updateRoute(Vec3 *point, PosCurve *posCurve, struct CourseMapCamera *mapCamera, s32 paramStep);
+void camr_initRouteStatReversed(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
 // Restarts the curve a on the entry b: clears its parameter and counters and, when the entry's group has four or more
 // points, loads the first four as its control points (nothing is loaded for fewer).
-void SetupPosCurve(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
-void SetupItemInUseEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-s32 DecrementItemInUseTimer(struct KartAiItemUse *itemUse);
-void ResetItemInUseTimer(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry);
-s32 DecrementHeldItemTimer(struct KartAiItemUse *itemUse);
-void ResetHeldItemTimer(struct KartAiItemUse *itemUse);
-void SetupHeldItemEntry(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-void AdvanceRaceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-void AdvanceItemBitRequests(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
-void ClearKartAiItemUse(KartAiItemUse *itemUse);
-void UseItemBehindAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemForwardAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAndResetInUseTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAndResetHeldTimer(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void SetupRaceItemEntries(void);
+void camr_initRouteStat(PosCurve *posCurve, struct CourseMapCamera *mapCamera);
+void enit_notifyDragItemChanged(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+s32 enit_updateDragItemTimeout(struct KartAiItemUse *itemUse);
+void enit_beginDragItemTimeout(struct KartAiItemUse *itemUse, struct KartAiItemUseEntry *unusedEntry);
+s32 enit_updateSlotItemTimeout(struct KartAiItemUse *itemUse);
+void enit_beginSlotItemTimeout(struct KartAiItemUse *itemUse);
+void enit_notifySlotItemChanged(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_updateForRace(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_update(struct KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_init(KartAiItemUse *itemUse);
+void enit_deployDragItemBackwards(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_deployDragItemForwards(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_deployDragItem(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_deploySlotItem(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_setupFunctions(void);
 void func_0207c8d8(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0207c978(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRankAfterInUse(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAfterInUseByTrailKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAfterInUseByCircleKind(KartAiItemUse *itemUse, struct KartAi *kartAi);
-unsigned int func_0207cb70(unsigned int value);
-void func_0207cb74(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAfterHeldIfTurnUnder20(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_dragItemBananaBombUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_dragItemKouraGRUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi);
+unsigned int enit_dragItemDummyUpdate(unsigned int value);
+void enit_slotItemTripleKinokoKinokoPUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_slotItemSingleKinokoUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void RequestItemBitsByKartRank(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByTargetOrRank(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void UseItemByRankAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemByTargetOrRankAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d3ec(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d474(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void UseItemAfterHeld(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_slotItemSingleKouraRFBoxBombUpdateHard(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_slotItemSingleKouraGBananaUpdateMedium(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_slotItemSingleKouraGBananaUpdateHard(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void enit_slotItemKouraWThunderStarKillerGessoTeresaIboxUpdate(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0207d5b8(KartAiItemUse *itemUse, struct KartAi *kartAi);
-void func_0207d6a4(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);
+void enrb_updateForAwardStaffRoll(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct KartAi *kartAi);

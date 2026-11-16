@@ -12,23 +12,23 @@
 
 void *data_ov001_021ca40c;
 
-void InitEndingScene(void) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+void ending_init(void) {
+    void *heap = proc_getHeap(proc_getCurrent());
 
-    data_ov001_021ca40c = HeapAlloc(heap, 4);
+    data_ov001_021ca40c = heap_alloc(heap, 4);
     CreateEndingScene(heap);
 }
 
-void ReleaseEndingScene(void) {
+void ending_finalize(void) {
     func_ov001_0219e6e0();
     *(u32 *) &data_ov001_021ca40c = 0;
 }
 
-void func_ov001_0219ea6c(void) {
+void ending_vblank(void) {
     func_ov001_0219e0d4();
 }
 
-void UpdateEndingScene(int a) {
+void ending_update(int a) {
     u16 v1;
     int v2;
     AdvanceEndingScene();

@@ -27,25 +27,25 @@ const u16 data_ov001_021a6580 = 1;
 
 Unk0219b250 *gMissionGate;
 
-void InitMissionGate(MissionGateObject *missionGateObject) {
+void mgat_init(MissionGateObject *missionGateObject) {
     s32 mtx[9];
     s32 sideExtentX;
     s32 sideExtentY;
     s16 saved;
 
-    RefreshMapObjectMatrixFromHitNormal(missionGateObject);
+    mobj_setDirectionFromFloor(missionGateObject);
     missionGateObject->mMapObject.mAngle =
         (missionGateObject->mMapObject.mCourseMapRow->mUnk_0c.y * 0xB60B60B60BLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(mtx, gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2],
-                gPairsByAngle[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
+    MTX_RotY33_(mtx, FX_SinCosTable_[(missionGateObject->mMapObject.mAngle >> 4) * 2],
+                FX_SinCosTable_[(missionGateObject->mMapObject.mAngle >> 4) * 2 + 1]);
     MTX_Concat33(mtx, &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x,
                  &missionGateObject->mMapObject.mMatrix.mUnk_00[0].x);
     sideExtentX = (missionGateObject->mMapObject.mScale.x * 0xA000LL) >> 12;
     sideExtentY = (missionGateObject->mMapObject.mScale.y * 0xF000LL) >> 12;
     saved = missionGateObject->mMapObject.mCourseMapRow->mUnk_28;
     missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = 0x12;
-    missionGateObject->mNegativeSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
-    missionGateObject->mPositiveSideObject = CreateMapObjectFromObject(&missionGateObject->mMapObject, 0x66);
+    missionGateObject->mNegativeSideObject = mobj_createSubObject(&missionGateObject->mMapObject, 0x66);
+    missionGateObject->mPositiveSideObject = mobj_createSubObject(&missionGateObject->mMapObject, 0x66);
     missionGateObject->mMapObject.mCourseMapRow->mUnk_28 = saved;
     VEC_MultAdd(-(missionGateObject->mMapObject.mExtent.x + sideExtentX),
                 &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
@@ -53,18 +53,18 @@ void InitMissionGate(MissionGateObject *missionGateObject) {
     VEC_MultAdd(missionGateObject->mMapObject.mExtent.x + sideExtentX,
                 &missionGateObject->mMapObject.mMatrix.mUnk_00[0], &missionGateObject->mMapObject.mPos,
                 &missionGateObject->mPositiveSideObject->mPos);
-    SetMapObjectExtentX(missionGateObject->mNegativeSideObject, sideExtentX);
-    SetMapObjectExtentX(missionGateObject->mPositiveSideObject, sideExtentX);
-    SetMapObjectExtentY(missionGateObject->mNegativeSideObject, sideExtentY);
-    SetMapObjectExtentY(missionGateObject->mPositiveSideObject, sideExtentY);
+    mobj_setSizeX(missionGateObject->mNegativeSideObject, sideExtentX);
+    mobj_setSizeX(missionGateObject->mPositiveSideObject, sideExtentX);
+    mobj_setSizeY(missionGateObject->mNegativeSideObject, sideExtentY);
+    mobj_setSizeY(missionGateObject->mPositiveSideObject, sideExtentY);
 }
 
-u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f) {
+u32 mgat_onDriverCollide(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f) {
     u32 a = *e;
     u32 b = *f;
 
     if ((kart->mUnk_48 & 0x200) != 0 ||
-        (gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated(kart->mIndex) : 0) != FALSE) {
+        (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead(kart->mIndex) : 0) != FALSE) {
         return 0;
     }
     if (a == 1) {
@@ -74,33 +74,33 @@ u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart,
     return b;
 }
 
-void LoadMissionGate(void *a) {
+void mgat_loadModel(void *a) {
     gMissionGate = LoadMapObjectModelAnimated(a, "MissionGate.nsbmd");
     LoadMapObjectModelNsbtpAnimation(gMissionGate, "MissionGate.nsbtp");
     LoadMapObjectModelNsbmaAnimation(gMissionGate, "MissionGate.nsbma");
-    SetMapObjectModelPolygonId(gMissionGate, 0x3f);
-    SetMapObjectModelLightEnableFlag(gMissionGate, 2);
-    SetNsbmdEmiAll(gMissionGate->mAnimatedModel, 0x294a);
+    mobj_setModelPolygonIdAll(gMissionGate, 0x3f);
+    mobj_setModelLightMask(gMissionGate, 2);
+    model_setEmi(gMissionGate->mAnimatedModel, 0x294a);
 }
 
-void func_ov001_02185d18(void) {}
+void mgat_globalPreRender(void) {}
 
-void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) {
+void mgat_render(void *mapObjectList, MissionGateObject *missionGateObject) {
     s32 buf;
 
     buf = 0x1e;
-    func_01ff9048(0x14, &buf, 1);
+    NNS_G3dGeBufferOP_N(0x14, &buf, 1);
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].x = missionGateObject->mMapObject.mPos.x >> 4;
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].y = missionGateObject->mMapObject.mPos.y >> 4;
     missionGateObject->mMapObject.mMatrix.mUnk_00[3].z = missionGateObject->mMapObject.mPos.z >> 4;
-    func_01ff9048(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
-    func_01ff9048(0x1b, &missionGateObject->mMapObject.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mUnk_28);
-    SetMapObjectModelNsbmaFrameIndex(gMissionGate, missionGateObject->mNsbmaFrameIndex);
-    DrawMapObjectModel(mapObjectList, gMissionGate, missionGateObject);
+    NNS_G3dGeBufferOP_N(0x19, &missionGateObject->mMapObject.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &missionGateObject->mMapObject.mScale, 3);
+    mobj_setModelNsbtpFrame(gMissionGate, missionGateObject->mMapObject.mCourseMapRow->mUnk_28);
+    mobj_setModelNsbmaFrame(gMissionGate, missionGateObject->mNsbmaFrameIndex);
+    mobj_renderModel(mapObjectList, gMissionGate, missionGateObject);
 }
 
-void InitMissionGateObjects(MissionGateList *missionGateList) {
+void mgat_globalInitLogic(MissionGateList *missionGateList) {
     s32 i;
     MissionGateObject *missionGateObject;
 
@@ -118,36 +118,36 @@ void InitMissionGateObjects(MissionGateList *missionGateList) {
     }
 }
 
-void UpdateMissionGate(void *a, MissionGateObject *missionGateObject) {
+void mgat_update(void *a, MissionGateObject *missionGateObject) {
     s32 count;
 
     switch (missionGateObject->mState) {
         case 0:
-            count = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
+            count = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mrcnt_getCurrentValue() : 0;
             if (count >= missionGateObject->mMapObject.mCourseMapRow->mUnk_28 - 1) {
                 missionGateObject->mMapObject.mFlags &= ~1;
                 missionGateObject->mState = 1;
             }
             break;
         case 2:
-            count = GetMapObjectModelNsbmaFrameCount(gMissionGate);
+            count = mobj_getModelNsbmaFrameCount(gMissionGate);
             missionGateObject->mNsbmaFrameIndex++;
             if (missionGateObject->mNsbmaFrameIndex >= count - 1) {
-                missionGateObject->mNsbmaFrameIndex = GetMapObjectModelNsbmaFrameCount(gMissionGate) - 1;
+                missionGateObject->mNsbmaFrameIndex = mobj_getModelNsbmaFrameCount(gMissionGate) - 1;
                 missionGateObject->mState = 1;
             }
             break;
     }
 }
 
-void CreateMissionGateKindData(void) {
-    CreateMapObjectKindData(&CollideKartWithMissionGate, NULL, NULL, 0, 1);
+void mgat_setupCollision(void) {
+    mobj_createConfig(&mgat_onDriverCollide, NULL, NULL, 0, 1);
 }
 
-void CreateMissionGateDrawList(void) {
-    CreateMapObjectDrawList1(LoadMissionGate, DrawMissionGate, func_ov001_02185d18);
+void mgat_setupRenderPart(void) {
+    mobj_createRenderPart3d(mgat_loadModel, mgat_render, mgat_globalPreRender);
 }
 
-void CreateMissionGateUpdateList(void) {
-    CreateMapObjectUpdateList(InitMissionGateObjects, UpdateMissionGate, NULL);
+void mgat_setupLogicPart(void) {
+    mobj_createLogicPart(mgat_globalInitLogic, mgat_update, NULL);
 }

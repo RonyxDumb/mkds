@@ -6,19 +6,19 @@
 #include "Main/Unknown/code_020e005c.h"
 #include "Main/Unknown/unk_02158000.h"
 
-void UpdateKoopaBlockState2(Unk020e005c *koopaBlock);
-void DrawAllKoopaBlocks(void *viewMatrix);
-u32 IsKoopaBlockKind(u32 kind);
-s32 func_020dff4c(Unk020e005c *koopaBlock);
-void CreateKoopaBlock(void);
-void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow);
-MapObjectKindData *CreateMkdEfBubbleKindData(void);
-MapObjectDrawList *CreateMkdEfBubbleDrawList(void);
-Unk020dfc44 *CreateMkdEfBubbleUpdateList(void);
+void kblock_slowDownStateUpdate(Unk020e005c *koopaBlock);
+void kblock_renderAll(void *viewMatrix);
+u32 kblock_isKoopaBlock(u32 kind);
+s32 kblock_getRouteProgress(Unk020e005c *koopaBlock);
+void kblock_loadModel(void);
+void kblock_init(Unk020e005c *koopaBlock, CourseMapRow *courseRow);
+MapObjectKindData *efbub_setupConfig(void);
+MapObjectDrawList *efbub_setupRenderPart(void);
+Unk020dfc44 *efbub_setupLogicPart(void);
 /* writes the polygon alpha cap (mUnk_030 of its effect record), read only by draw routines */
-void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha);
-void AdvanceMkdEfBubbleAnimation(void);
-void UpdateMkdEfBubble(void *a,
+void efbub_render(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha);
+void efbub_globalPreUpdate(void);
+void efbub_update(void *a,
                        MkdEfBubbleObject *bubble); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble);
-void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble);
+void efbub_state0Init(MkdEfBubbleObject *bubble);
+void efbub_state0Update(MkdEfBubbleObject *bubble);

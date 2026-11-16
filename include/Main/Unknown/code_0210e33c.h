@@ -10,14 +10,14 @@ typedef struct SoundSet {
     /* 08 */ u32 mUnk_08;
 } SoundSet;
 
-// Object data_0217c7b4, which GetLoadedSoundSet returns: an SoundSet at 0 and a word at 0xc that
-// SaveSndHeapState and ReleaseSoundSet write.
+// Object data_0217c7b4, which sound_getSeqHeapState returns: an SoundSet at 0 and a word at 0xc that
+// saveHeapState and ReleaseSoundSet write.
 typedef struct LoadedSoundSet {
     /* 00 */ SoundSet mSoundSet;
     /* 0c */ u32 mHeapState;
 } LoadedSoundSet;
 
-// Object data_0217d178: 16 words from 0x00 and a signed number at 0x40; LoadSndDataFromFile and func_0210ed20 add a
+// Object data_0217d178: 16 words from 0x00 and a signed number at 0x40; LoadSndDataFromFile and PreLoadSounds add a
 // word to it, ClearSndFileAddresses walks it and ClearSndFileIdList resets it.
 typedef struct SndFileIdList {
     /* 00 */ u32 mFileIds[16];
@@ -34,7 +34,7 @@ extern const SoundSet data_0215c398;
 extern LoadedSoundSet data_0217c7b4;
 
 void ReleaseLoadedSoundSet(void);
-u32 func_0210ed20(u32 groupId, u32 moveWaveArcs);
+u32 PreLoadSounds(u32 groupId, u32 moveWaveArcs);
 u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras);
 void func_0210e920(void);
 void func_0210e8f8(u32 moveWaveArcs);
@@ -42,9 +42,9 @@ void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras);
 u32 LoadSndDataFromFile(void);
 u32 LoadCourseSoundSet(u32 a, u32 b);
 u32 func_0210e524(void);
-u32 LoadSndGroup(s32 groupId);
+u32 loadGroup(s32 groupId);
 void ResetLoadedSoundSet(LoadedSoundSet *loadedSet);
-void SaveSndHeapState(LoadedSoundSet *loadedSet);
+void saveHeapState(LoadedSoundSet *loadedSet);
 void ReleaseSoundSet(LoadedSoundSet *loadedSet);
 u32 IsSoundSetLoaded(LoadedSoundSet *loadedSet, SoundSet soundSet);
 u32 LoadSoundSet(LoadedSoundSet *loadedSet, SoundSet soundSet);

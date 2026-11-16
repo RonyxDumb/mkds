@@ -32,7 +32,7 @@ typedef struct Unk020e38a0_28 {
     /* 18 */ Vec3 mUnk_18;
 } Unk020e38a0_28;
 
-// Object func_020e0bac and func_020e0764 compare against: seven words and a vector.
+// Object dcol_collideBox and dcol_collideCylinder compare against: seven words and a vector.
 typedef struct Unk020e0764 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -69,13 +69,13 @@ typedef struct Unk020e246c {
     /* 0ac */ s32 mUnk_0ac;
 } Unk020e246c;
 
-// Object behind gCarA, gTruckA, gBusA and gCarTire.
+// Object behind traf_sCarModel, traf_sTruckModel, traf_sBusModel and traf_sCarTireModel.
 typedef struct Unk0217b7a0 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ NNSG3dResMdl *mUnk_04;
 } Unk0217b7a0;
 
-// Object a pointer at 0x12c of Unk020e1e98 points to (also behind gBridgeNsbca).
+// Object a pointer at 0x12c of Unk020e1e98 points to (also behind bridge_sNsbcaAnim).
 typedef struct Unk020e1e98_12c {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mUnk_0c;
@@ -149,13 +149,13 @@ typedef struct Unk020e1e98 {
     /* 160 */ u32 mUnk_160;
 } Unk020e1e98;
 
-// Object behind data_0217b79c and the argument of func_020e230c.
+// Object behind data_0217b79c and the argument of traf_prepareRoutes.
 typedef struct Unk0217b79c {
     /* 00 */ Unk020e1e98 **mUnk_00;
     /* 04 */ u16 mUnk_04;
 } Unk0217b79c;
 
-// Object func_020e3ef4 fills.
+// Object rotcyl_init fills.
 typedef struct Unk020e3ef4 {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ Unk020e38a0_28 mUnk_0a0;
@@ -185,7 +185,7 @@ typedef struct Unk020e3ef4 {
     /* 15c */ s32 mUnk_15c;
 } Unk020e3ef4;
 
-// Object behind data_0217b7c4.
+// Object behind bridge_sRenderPart.
 typedef struct Unk020e1dc0 {
     /* 00 */ Unk020e3ef4 **mUnk_00;
     /* 04 */ u16 mUnk_04;
@@ -193,34 +193,34 @@ typedef struct Unk020e1dc0 {
     /* 2c */ s32 mUnk_2c;
 } Unk020e1dc0;
 
-void InitChoropu(Unk020e1e98 *choropu, struct CourseMapRow *courseRow);
-void *CreateCarAKindData(void);
-void *CreateTruckAKindData(void);
-void *CreateBusAKindData(void);
-void *func_020e2db8(void);
-void *func_020e2d5c(void);
-void func_020e2ccc(Unk020e20a8 *drawList);
-void func_020e2a74(Unk020e20a8 *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha);
-void func_020e2630(u32 a, Unk020e1e98 *vehicle);
-void func_020e24d0(Unk020e1e98 *vehicle, Vec3 *hitterPosition);
-u8 func_020e2494(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d);
-u8 func_020e246c(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d);
-void func_020e2400(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
-void func_020e230c(Unk0217b79c *updateList);
-void func_020e20a8(Unk020e20a8 *drawList);
-void func_020e1f54(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
-void func_020e1e98(Unk020e1e98 *vehicle);
-void func_020e1e38(Unk020e1dc0 *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
-void func_020e1dec(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
-void SetMapObjectsModel(Unk020e1dc0 *list, void *model);
-s32 func_020e1d10(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
+void choro_init(Unk020e1e98 *choropu, struct CourseMapRow *courseRow);
+void *traf_setupCarCollision(void);
+void *traf_setupTruckCollision(void);
+void *traf_setupBusCollision(void);
+void *traf_setupRenderPart(void);
+void *traf_setupLogicPart(void);
+void traf_globalPreRender(Unk020e20a8 *drawList);
+void traf_render(Unk020e20a8 *drawList, Unk020e1e98 *vehicle, u32 c, u32 alpha);
+void traf_update(u32 a, Unk020e1e98 *vehicle);
+void traf_20E24D0(Unk020e1e98 *vehicle, Vec3 *hitterPosition);
+u8 traf_onDriverCollide(Unk020e1e98 *vehicle, Kart *kart, u8 *c, u8 *d);
+u8 traf_onItemCollide(Unk020e1e98 *vehicle, Unk020e246c *itemObject, u8 *c, u8 *d);
+void traf_collide(Unk020e1e98 *vehicle, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *overlapOffset);
+void traf_prepareRoutes(Unk0217b79c *updateList);
+void traf_loadModels(Unk020e20a8 *drawList);
+void traf_init(Unk020e1e98 *vehicle, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
+void traf_20E1E98(Unk020e1e98 *vehicle);
+void dcol_render(Unk020e1dc0 *list, void *viewMatrix, void (*drawObject)(Unk020e3ef4 *, void *, u32));
+void dcol_commonRender(Unk020e3ef4 *mapObject, void *viewMatrix, u32 alpha);
+void dcol_setModel(Unk020e1dc0 *list, void *model);
+s32 dcol_collide(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *e, Unk020e0764 *f,
                   Vec3 *g, u16 *h, Vec3 *i, u16 *j);
-void func_020e1a80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c *object, Vec3 *g, Vec3 *h,
+void dcol_20E1A80(s32 a, s32 b, s32 c, u32 d, u16 e, u16 *f, s32 v, Unk020e005c *object, Vec3 *g, Vec3 *h,
                    Unk020e0764 *i, Unk020e0764 *j, Vec3 *k, Vec3 *l, u16 *m);
-BOOL func_020e16dc(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i, s32 j, Unk020e005c *object, Vec3 *l,
+BOOL dcol_20E16DC(s32 a, s32 b, s32 c, u32 d, u16 e, u16 f, u16 *g, u16 h, s32 i, s32 j, Unk020e005c *object, Vec3 *l,
                    Vec3 *m, Vec3 *n, Unk020e0764 *o, Unk020e0764 *p, Vec3 *q, Vec3 *r, u16 *s);
-BOOL func_020e0bac(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
+BOOL dcol_collideBox(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
                    Vec3 *q, u16 *g, Vec3 *r, u16 *s);
-BOOL func_020e0764(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
+BOOL dcol_collideCylinder(Unk020e005c *object, Vec3 *sphereCenter, s32 sphereRadius, u16 d, Unk020e0764 *o, Unk020e0764 *p,
                    Vec3 *q, u16 *g, Vec3 *r, u16 *s);
-void func_020e0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e);
+void dcol_20E0680(Unk020e005c *object, Vec3 *position, Vec3 *c, Vec3 *d, u16 *e);

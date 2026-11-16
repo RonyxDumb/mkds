@@ -9,12 +9,12 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-void RunQueuedThreadFunctions(void *threadArgument) {
+void bgwkr_threadMain(void *threadArgument) {
     for (;;) {
-        if (gThreadFunctionQueue->mRunRequested != 0) {
-            void (*queuedFunction)(void) = func_02057f8c(gThreadFunctionQueue);
+        if (gBgWkrState->mRunRequested != 0) {
+            void (*queuedFunction)(void) = bgwkr_dequeueTask(gBgWkrState);
             if (queuedFunction == NULL) {
-                gThreadFunctionQueue->mRunRequested = 0;
+                gBgWkrState->mRunRequested = 0;
             } else {
                 queuedFunction();
             }
@@ -23,10 +23,10 @@ void RunQueuedThreadFunctions(void *threadArgument) {
     }
 }
 
-u32 QueueThreadFunction(void (*function)(void)) {
+u32 bgwkr_enqueueTask(void (*function)(void)) {
     s32 checkedCount;
     s32 searchIndex;
-    ThreadFunctionQueue *queue = gThreadFunctionQueue;
+    ThreadFunctionQueue *queue = gBgWkrState;
     u8 slotIndex;
     void (*slotFunction)(void);
     if (queue->mRunRequested != 0) {
@@ -51,31 +51,31 @@ u32 QueueThreadFunction(void (*function)(void)) {
     return 1;
 }
 
-void WaitThreadFunctionsDone(void) {
-    while (gThreadFunctionQueue->mRunRequested != 0) {
+void bgwkr_waitForCompletion(void) {
+    while (gBgWkrState->mRunRequested != 0) {
         OS_WaitIrq(1, 1);
     }
 }
 
-void InitLogoSceneCallback(void) {
-    InitLogoScene(GetHeap(GetCurrentHeapCall()));
+void logodef_create(void) {
+    logo_create(proc_getHeap(proc_getCurrent()));
 }
 
-void ApplySavedSoundModeCallback(void) {
-    ApplySavedSoundMode();
+void logodef_finish(void) {
+    logo_finish();
 }
 
-void WriteLogoSceneRegistersCallback(void) {
-    WriteLogoSceneRegisters();
+void logodef_vblank(void) {
+    logo_vblank();
 }
 
-void UpdateLogoSceneCallback(void *sceneNumbers) {
-    UpdateLogoScene(sceneNumbers);
+void logodef_render(void *sceneNumbers) {
+    logo_render(sceneNumbers);
 }
 
-s32 RunLogoScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gLogoSceneCallbacks;
+s32 logo_run(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = sLogoMenu;
 
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }

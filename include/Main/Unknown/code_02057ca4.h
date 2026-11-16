@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteBackupFirstBlock(void *block);
+void savd_writeNksy(void *block);

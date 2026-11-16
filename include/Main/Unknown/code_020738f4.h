@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned int func_020738f4(unsigned int value);
-s32 GetAbsoluteValue(s32 value);
+unsigned int driver_updateNoReaction(unsigned int value);
+s32 math_abs(s32 value);

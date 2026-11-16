@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_02125de0.h"
 
-void InitMenu(void);
-u16 *func_020cbb04(void);
-BOOL func_020cbadc(void);
-s32 func_020cbad0(void);
+void menu_create(void);
+u16 *menu_MB_GetMultiBootParam2(void);
+BOOL menu_MB_IsMultiBootChild2(void);
+s32 menu_MB_IsMultiBootChild_22(void);

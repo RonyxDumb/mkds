@@ -11,20 +11,20 @@
 
 #pragma thumb on
 
-void UnlockBackup(void) {
+void savc_unlockCardBackup(void) {
     s32 lockId;
-    lockId = gBackupAccess->mLockId;
+    lockId = gSaveCore->mLockId;
     if (lockId != -3) {
         CARD_UnlockBackup(lockId);
-        OS_ReleaseLockID(gBackupAccess->mLockId);
-        gBackupAccess->mLockId = -3;
+        OS_ReleaseLockID(gSaveCore->mLockId);
+        gSaveCore->mLockId = -3;
     }
 }
 
-BOOL TryLockBackup(void) {
+BOOL savc_lockCardBackup(void) {
     s32 lockId;
-    gBackupAccess->mLockId = OS_GetLockID();
-    lockId = gBackupAccess->mLockId;
+    gSaveCore->mLockId = OS_GetLockID();
+    lockId = gSaveCore->mLockId;
     if (lockId == -3) {
         return 0;
     }
@@ -32,25 +32,25 @@ BOOL TryLockBackup(void) {
     return 1;
 }
 
-void func_0204b344(s32 errorCode) {
+void savc_handleError(s32 errorCode) {
     BOOL f;
     f = TRUE;
-    switch (gBackupAccess->mUnk_00) {
+    switch (gSaveCore->mUnk_00) {
         case 1:
         case 2:
             f = FALSE;
     }
-    gBackupAccess->mUnk_00 = 4;
-    gBackupAccess->mErrorCode = errorCode;
-    switch (gBackupAccess->mErrorCode) {
+    gSaveCore->mUnk_00 = 4;
+    gSaveCore->mErrorCode = errorCode;
+    switch (gSaveCore->mErrorCode) {
         case 0:
             break;
         case 1:
         case 2:
             if (f != FALSE) {
-                func_02049980(1);
+                scene_reportError(1);
             } else {
-                func_02049980(2);
+                scene_reportError(2);
             }
             break;
         case 3:
@@ -59,7 +59,7 @@ void func_0204b344(s32 errorCode) {
     }
 }
 
-u16 ComputeBytesCrc(u8 *cursor, u32 byteCount) {
+u16 savc_calculateChecksum(u8 *cursor, u32 byteCount) {
     u16 crc;
     u16 byteIndex;
     u16 unused;
@@ -73,7 +73,7 @@ u16 ComputeBytesCrc(u8 *cursor, u32 byteCount) {
             for (bitIndex = 0; bitIndex < 8; bitIndex++) {
                 if (crc & 0x8000) {
                     crc <<= 1;
-                    crc ^= gCrcXorValue;
+                    crc ^= savc_sCrcPolynomial;
                 } else {
                     crc <<= 1;
                 }
@@ -89,7 +89,7 @@ u16 ComputeBytesCrc(u8 *cursor, u32 byteCount) {
     return crc;
 }
 
-void WriteBlockTail(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
+void savc_generateBlockFooter(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
     u8 *tail;
     u16 crc;
     tail = bytes + byteCount - 4;
@@ -99,7 +99,7 @@ void WriteBlockTail(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
     }
     tail[2] = 0;
     tail[3] = 0;
-    crc = ComputeBytesCrc(bytes, byteCount);
+    crc = savc_calculateChecksum(bytes, byteCount);
     if (skipTickBytes == 0) {
         tail[0] = (OS_GetTick() >> 16) & 0xff;
         tail[1] = (OS_GetTick() >> 32) & 0xff;
@@ -108,27 +108,27 @@ void WriteBlockTail(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
     tail[3] = crc;
 }
 
-BOOL ClearTickBytesAndCheckBlockCrc(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
+BOOL savc_handleBlockFooter(u8 *bytes, u32 byteCount, u32 skipTickBytes) {
     u8 *tail;
     tail = bytes + byteCount - 4;
     if (skipTickBytes == 0) {
         tail[0] = 0;
         tail[1] = 0;
     }
-    if (ComputeBytesCrc(bytes, byteCount) == 0) {
+    if (savc_calculateChecksum(bytes, byteCount) == 0) {
         return 1;
     }
     return 0;
 }
 
-s32 FindBackupXorIndex(u32 value, u32 expected) {
+s32 savc_findEncryptionSeed(u32 value, u32 expected) {
     u16 index;
     s32 foundIndex;
     index = 0;
     foundIndex = -1;
     for (; index < 0x1d; index++) {
-        if (expected == (value ^ (data_02154694[index] +
-                                  (data_02154648[0] + (data_021545d8[0] + data_02154604[0]))))) {
+        if (expected == (value ^ (savc_sEncTable0[index] +
+                                  (savc_sEncTable1[0] + (savc_sEncTable2[0] + savc_sEncTable3[0]))))) {
             foundIndex = index;
             break;
         }
@@ -136,7 +136,7 @@ s32 FindBackupXorIndex(u32 value, u32 expected) {
     return foundIndex;
 }
 
-void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
+void savc_encryptBlock(u32 *cursor, u32 byteCount) {
     u16 i;
     u16 j;
     u16 k;
@@ -147,11 +147,11 @@ void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
     l = 0;
     k = 0;
     i = (OS_GetTick() >> 16) % 0x1d;
-    tableSum = data_02154694[i] + (data_02154648[0] + (data_021545d8[0] + data_02154604[0]));
-    i = FindBackupXorIndex(tableSum ^ *cursor, *cursor);
+    tableSum = savc_sEncTable0[i] + (savc_sEncTable1[0] + (savc_sEncTable2[0] + savc_sEncTable3[0]));
+    i = savc_findEncryptionSeed(tableSum ^ *cursor, *cursor);
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
+        *cursor ^= savc_sEncTable0[i] + (savc_sEncTable1[j] + (savc_sEncTable2[k] + savc_sEncTable3[l]));
         cursor++;
         k++;
         if (k >= 0xb) {
@@ -172,7 +172,7 @@ void XorBackupWordsAtTickIndex(u32 *cursor, u32 byteCount) {
     } while (cursor < end);
 }
 
-BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirstWord) {
+BOOL savc_decryptBlock(u32 *cursor, u32 byteCount, u32 expectedFirstWord) {
     u16 i;
     u16 j;
     u16 k;
@@ -182,14 +182,14 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
     j = 0;
     l = 0;
     k = 0;
-    foundIndex = FindBackupXorIndex(*cursor, expectedFirstWord);
+    foundIndex = savc_findEncryptionSeed(*cursor, expectedFirstWord);
     if (foundIndex == -1) {
         return 0;
     }
     i = foundIndex;
     end = OFFSET_PTR(u32, cursor, byteCount);
     do {
-        *cursor ^= data_02154694[i] + (data_02154648[j] + (data_021545d8[k] + data_02154604[l]));
+        *cursor ^= savc_sEncTable0[i] + (savc_sEncTable1[j] + (savc_sEncTable2[k] + savc_sEncTable3[l]));
         cursor++;
         k++;
         if (k >= 0xb) {
@@ -213,11 +213,11 @@ BOOL TryXorBackupWordsAtFoundIndex(u32 *cursor, u32 byteCount, u32 expectedFirst
 
 #pragma thumb off
 
-void InitWLMenuSceneCallback(void) {
-    if (data_021759d0->mUnk_20 == 3) {
-        ReleaseCurrentOverlay();
-        StartLoadOverlay(0);
-        FinishOverlayLoad();
+void wlmenu_init(void) {
+    if (gSystemData->mUnk_20 == 3) {
+        overlay_unload();
+        overlay_beginLoad(0);
+        overlay_finishLoad();
     }
-    InitWLMenuScene(GetHeap(GetCurrentHeapCall()));
+    InitWLMenuScene(proc_getHeap(proc_getCurrent()));
 }

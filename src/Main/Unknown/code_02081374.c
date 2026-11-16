@@ -8,8 +8,8 @@
 #include "code_0201c528.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
-    Unk0201ca6c *effect = gKartEffects[kartIndex].mKillerEffect;
+void rptc_setBulletBillEffectVisibility(s32 kartIndex, s32 shown) {
+    Unk0201ca6c *effect = rptc_sDriverEffects[kartIndex].mKillerEffect;
 
     if (effect == NULL) {
         return;
@@ -17,18 +17,18 @@ void SetKartKillerEffectShown(s32 kartIndex, s32 shown) {
     effect->mUnk_24.mUnk_00_3 = (shown == 0);
 }
 
-void func_020813ec(s32 kartIndex, Vec3 *direction) {
+void rptc_startWallLeafEffect(s32 kartIndex, Vec3 *direction) {
     Vec3s16 directionHalfwords;
     Vec3 effectVelocity;
     Vec3 effectPos;
-    Kart *kart = GetKart(kartIndex);
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+    Kart *kart = driver_getById(kartIndex);
+    KartEffects *kartEffects = &rptc_sDriverEffects[kartIndex];
     Unk0201ca6c *effect;
 
     if ((kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) && kartEffects->mUnk_28 == NULL && kart->mVelocityLength > 0x1000) {
-        effect = StartEffect(0x53, kart->mPosSource);
+        effect = ptcm_createEmitter(0x53, kart->mPosSource);
         effect->mUnk_94 = kart;
-        effect->mUnk_90 = func_02081374;
+        effect->mUnk_90 = rptc_wallLeafEmitterCallback;
         kartEffects->mUnk_28 = effect;
     }
     if (kartEffects->mUnk_28 == NULL) {
@@ -39,7 +39,7 @@ void func_020813ec(s32 kartIndex, Vec3 *direction) {
     effectVelocity.z = ((s64) kart->mEffectVelocity.z * 0xccd) >> 12;
     kartEffects->mUnk_28->mUnk_40 = effectVelocity;
     VEC_MultAdd(-kart->mRadius, direction, kart->mPosSource, &effectPos);
-    PlaceEffect(kartEffects->mUnk_28, &effectPos);
+    ptcm_setEmitterPosition(kartEffects->mUnk_28, &effectPos);
     directionHalfwords.x = direction->x;
     directionHalfwords.y = direction->y;
     directionHalfwords.z = direction->z;
@@ -47,7 +47,7 @@ void func_020813ec(s32 kartIndex, Vec3 *direction) {
     kart->mUnk_48 |= 0x400;
 }
 
-void func_02081374(Unk0201ca6c *effect, s32 a) {
+void rptc_wallLeafEmitterCallback(Unk0201ca6c *effect, s32 a) {
     Kart *kart;
     KartEffects *kartEffects;
 
@@ -60,7 +60,7 @@ void func_02081374(Unk0201ca6c *effect, s32 a) {
             return;
         }
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (effect == kartEffects->mUnk_28) {
         effect->mUnk_24.mUnk_00_0 = 1;
         kartEffects->mUnk_28 = NULL;

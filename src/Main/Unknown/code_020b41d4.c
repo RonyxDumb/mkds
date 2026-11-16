@@ -3,8 +3,8 @@
 
 #pragma thumb on
 
-u32 IsArchiveSlotLoaded(u32 slotIndex) {
-    return (data_021759c8->mUnk_00[slotIndex].mLoaded);
+u32 m2d_arc_isArchiveLoaded(u32 slotIndex) {
+    return (gArcData->mUnk_00[slotIndex].mLoaded);
 }
 
 #pragma thumb off

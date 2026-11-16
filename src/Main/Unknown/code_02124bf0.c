@@ -11,20 +11,20 @@
 
 #pragma thumb on
 
-void InitLayoutTable(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, LayoutTableEntry **tableOut) {
+void jn_ui_initLayout(void *heap, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, LayoutTableEntry **tableOut) {
     u16 count;
 
     count = cellLayout->mUnk_06;
     if (labelLayout != NULL) {
         count = count + labelLayout->mUnk_06;
     }
-    *tableOut = HeapAlloc(heap, count << 6);
-    InitLayoutTableEntries(*tableOut, count);
+    *tableOut = heap_alloc(heap, count << 6);
+    initLayoutElements(*tableOut, count);
 }
 
 // Draws entry a: first the entry it is chained to, then itself; appends the cell OAMs to the list, and returns without
 // drawing when the entry is disabled or lies off the 256 x 192 screen.
-u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, OamList *oamList,
+u32 renderElement(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0201ea30 *labelLayout, OamList *oamList,
                     LayoutTableEntry *entry, s32 incrementFlag) {
     s32 width;
     s32 height;
@@ -38,7 +38,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
     Unk02124c70_00 *group;
 
     if (entry->mLabelIndex != -1) {
-        DrawLayoutEntry(entry->mLabelIndex + cellLayout->mUnk_06, cells, cellLayout, labelLayout, oamList,
+        renderElement(entry->mLabelIndex + cellLayout->mUnk_06, cells, cellLayout, labelLayout, oamList,
                         entry - index + cellLayout->mUnk_06 + entry->mLabelIndex, incrementFlag);
     }
     matrix = NULL;
@@ -46,7 +46,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         return (u32) matrix;
     }
     if (index >= cellLayout->mUnk_06) {
-        LabelLayoutEntry *labelEntry = func_0201ea58(labelLayout, index - cellLayout->mUnk_06);
+        LabelLayoutEntry *labelEntry = jn_ui_getBnllElement(labelLayout, index - cellLayout->mUnk_06);
         cellData = entry->mLabelCanvas->mUnk_44;
         axisRecords[0] = labelEntry->mUnk_00;
         axisRecords[1] = labelEntry->mUnk_02;
@@ -55,15 +55,15 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         position[0] = axisRecords[0].mUnk_00_0 << 12;
         position[1] = axisRecords[1].mUnk_00_0 << 12;
     } else {
-        cellEntry = func_0201ea30(cellLayout, index);
+        cellEntry = jn_ui_getBnclElement(cellLayout, index);
         cellData = NNS_G2dGetCellDataByIdx(cells, (u16) cellEntry->mCellIndex);
         axisRecords[2] = cellEntry->mUnk_00_0;
         axisRecords[0] = axisRecords[2];
         axisRecords[1] = cellEntry->mUnk_00_2;
         width = cellData->mUnk_08 - cellData->mUnk_0c;
         height = cellData->mUnk_0a - cellData->mUnk_0e;
-        position[0] = ((width >> 1) + func_0201ebe8(axisRecords[2], width)) << 12;
-        position[1] = ((height >> 1) + func_0201eba0(cellEntry->mUnk_00_2, height)) << 12;
+        position[0] = ((width >> 1) + jn_ui_calcOriginCoordX(axisRecords[2], width)) << 12;
+        position[1] = ((height >> 1) + jn_ui_calcOriginCoordY(cellEntry->mUnk_00_2, height)) << 12;
     }
     if (entry->mUnk_08 != FALSE) {
         if (index >= cellLayout->mUnk_06) {
@@ -80,7 +80,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         (position[1] >> 12) - height > 0xc0) {
         return 0;
     }
-    groupIndex = GetOamMatrixCount(oamList);
+    groupIndex = oam_getAffineCount(oamList);
     if (entry->mUseMatrix != 0) {
         matrix = entry->mMatrix;
         group = &oamList->mUnk_000[groupIndex];
@@ -89,7 +89,7 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
         group->mUnk_00[2].mUnk_00[3] = entry->mUnk_14[2] >> 4;
         group->mUnk_00[3].mUnk_00[3] = entry->mUnk_14[3] >> 4;
         if (incrementFlag != 0) {
-            IncrementOamMatrixCount(oamList);
+            oam_increaseAffineCount(oamList);
         }
     }
     oamCount = oamList->mOamCount;
@@ -97,18 +97,18 @@ u32 DrawLayoutEntry(s32 index, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, Unk0
                                                 matrix, position, groupIndex, entry->mUnk_34);
 }
 
-void DrawLayoutTable(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
+void jn_ui_renderElements(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, Unk0201ea30 *labelLayout, void *oamList,
                      LayoutTableEntry *table) {
     s32 i;
     for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 1);
+        renderElement(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 1);
     }
 }
 
-void func_02124bf0(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, void *labelLayout, void *oamList, void *table) {
+void jn_ui_renderElementsNoIncrAffine(Unk0201ea30 *cellLayout, Unk02021dc8 *cells, void *labelLayout, void *oamList, void *table) {
     s32 i;
     for (i = ((Unk0201ea30 *) cellLayout)->mUnk_06 - 1; i >= 0; i--) {
-        DrawLayoutEntry(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 0);
+        renderElement(i, cells, cellLayout, labelLayout, oamList, (LayoutTableEntry *) table + i, 0);
     }
 }
 

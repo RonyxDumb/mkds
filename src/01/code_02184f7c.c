@@ -36,10 +36,10 @@ Lld *CreateLld(const char *fileName, void *cells, void *cellAnims) {
     LldRecord *rec;
     Unk021a5a58_2c_2c *cell;
 
-    list = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x18);
-    data = FindSceneFile((fileName));
+    list = heap_alloc(proc_getHeap(proc_getCurrent()), 0x18);
+    data = arc_getSceneArcFile((fileName));
     list->mEntryCount = data->mEntryCount;
-    list->mEntries = HeapAlloc(GetHeap(GetCurrentHeapCall()), list->mEntryCount * 0x88);
+    list->mEntries = heap_alloc(proc_getHeap(proc_getCurrent()), list->mEntryCount * 0x88);
     list->mCells = cells;
     list->mCellAnims = cellAnims;
     rec = data->mRecords;
@@ -92,7 +92,7 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
             screenY = (entry->mPosY >> 12) + lld->mOffsetY;
             if (screenX >= -64 && screenX <= 0x140 && screenY >= -48 && screenY <= 0xf0) {
                 if (entry->mScale != 0x1000) {
-                    u16 idx = AllocOamMatrixIndex(oamBuffer);
+                    u16 idx = oam_getAffineId(oamBuffer);
                     s32 mtx[4] = {0, 0, 0, 0};
 
                     mtx[0] = FX_Div(0x1000, entry->mScale);
@@ -213,9 +213,9 @@ void SetLldEntryBounds(LldEntry *entry, s32 left, s32 top, s32 right, s32 bottom
 }
 
 void func_ov001_02184f8c(Unk02188950 *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x210);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x210);
 }
 
 void func_ov001_02184f7c(Unk02188950 *mapObject) {
-    StartMapObjectSound(&mapObject->mUnk_000, 0x210);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x210);
 }

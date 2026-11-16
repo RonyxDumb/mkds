@@ -4,8 +4,8 @@
 
 #pragma thumb on
 
-void WriteBackupMissionRecords(void) {
-    WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
+void savd_flushNkmr(void) {
+    savd_writeNkmr(gSaveData->mMissionRecordBlock);
 }
 
 #pragma thumb off

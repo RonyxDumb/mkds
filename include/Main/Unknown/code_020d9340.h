@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void GetCurvePointXz(u32 points, u32 fraction, u32 result);
+void pw_interpolateXZ(u32 points, u32 fraction, u32 result);

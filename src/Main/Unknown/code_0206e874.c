@@ -33,10 +33,10 @@ static inline s32 func_0206e874_inline(Vec3 *vector, Vec3 *normalized) {
     if ((s64) vector->x * vector->x + (s64) vector->y * vector->y + (s64) vector->z * vector->z < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(vector, normalized);
+    return vec_normalize(vector, normalized);
 }
 
-void func_0206edac(Kart *kart, Vec3 *groundNormal) {
+void driver_206EDAC(Kart *kart, Vec3 *groundNormal) {
     Vec3 v;
     s32 k;
     s32 s;
@@ -54,15 +54,15 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
         k = (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 3 : 2;
         x = data_0216ca58[2];
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(data_0217d26c + k, distanceSquared + x, (void (*)(void *, int)) func_02071958, kart, 2);
+        AddSoundRequest(data_0217d26c + k, distanceSquared + x, (void (*)(void *, int)) driver_emitFloorSfx2, kart, 2);
         StartKartModelScaleAnimation(kart, 0);
     }
     kart->mLandingTimer = 7;
     if (kart->mUnk_48 & 0x2000000) {
         kart->mUnk_4c &= ~0x800;
         kart->mUnk_48 &= ~0x2000000;
-        kart->mUnk_40c = GetRaceUpdateFrames();
-        ResetRaceTaKartPositions(kart->mIndex);
+        kart->mUnk_40c = race_getFrameCounter();
+        r2d_showMapPathForDriver(kart->mIndex);
         return;
     }
     if ((!(kart->mUnk_4c & 0x10000000) && kart->mVelocity.y < 0 &&
@@ -85,7 +85,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
             bits7c = kart->mUnk_7c;
             if ((bits7c & 0x10) && kart->mKartModelsEntry->mUnk_058 == 0) {
                 if ((bits7c & 1) || !(bits7c & 0x402000)) {
-                    StartEffectWithCallback(0x4e, &kart->mPos, kart, func_0206c2b4);
+                    ptcm_createEmitterNoUpdateSkip(0x4e, &kart->mPos, kart, func_0206c2b4);
                 }
             }
         }
@@ -93,7 +93,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
     if (kart->mAirborneFrames <= 0x14) {
         return;
     }
-    s = Vec3DotUnrounded(&kart->mUnk_138, groundNormal);
+    s = vec_dotProduct(&kart->mUnk_138, groundNormal);
     if (s >= 0) {
         return;
     }
@@ -103,7 +103,7 @@ void func_0206edac(Kart *kart, Vec3 *groundNormal) {
     kart->mForwardSpeed = ((s64) kart->mForwardSpeed * (s + 0x1000)) >> 12;
 }
 
-void CollideKartWithMapObjects(Kart *kart) {
+void driver_handleMapObjCollision(Kart *kart) {
     MapObject *touchedMapObjects[2] = {0};
     s32 i;
     MapObject *mapObject;
@@ -133,35 +133,35 @@ void CollideKartWithMapObjects(Kart *kart) {
     mapObject = NULL;
     touchedCount = 0;
     kart->mMapObjectVectorForwardDot = kart->mMapObjectVectorLength = 0;
-    foundCount = FindMapObjectsTouchingKart(kart, &kart->mCollisionCenter, &positionOffset);
+    foundCount = mobj_collideDriver(kart, &kart->mCollisionCenter, &positionOffset);
     if (foundCount != 0) {
         if (!(kart->mUnk_48 & 0x40)) {
             i = foundCount - 1;
             kart->mUnk_44 |= 0x40000;
             if (i >= 0) {
-                z = data_02154f94;
+                z = driverCore_sZeroVec;
                 do {
                     s = 0;
                     touchedBefore = FALSE;
-                    mapObject = GetFoundMapObject(i);
-                    handlerIndex = func_020d6be0(kart, mapObject);
+                    mapObject = mobj_getQueryResult(i);
+                    handlerIndex = mobj_handleDriverCollision(kart, mapObject);
                     handlerResult =
-                        ((s32(*)(Kart *, s32 *, MapObject *)) gCollideKartWithMapObjectResponses[handlerIndex])(
+                        ((s32(*)(Kart *, s32 *, MapObject *)) driver_sColReactionInitTable[handlerIndex])(
                             kart, &v2, mapObject);
                     if (handlerResult != 0) {
                         v = z;
                         u = &mapObject->mUnk_10;
-                        foundMapObjectVector = GetFoundMapObjectVector(i);
+                        foundMapObjectVector = mobj_getQueryPushback(i);
                         d = func_0206e874_inline(foundMapObjectVector, &v);
                         if (d != 0) {
                             if (v2 != 2) {
-                                ((void (*)(Kart *, Vec3 *, MapObject *)) data_0217ac54[handlerIndex])(kart, &v,
+                                ((void (*)(Kart *, Vec3 *, MapObject *)) driver_sColReactionHandleTable[handlerIndex])(kart, &v,
                                                                                                       mapObject);
                             }
                             if (handlerResult & 8) {
-                                func_0206f04c(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
+                                HandleWalls(kart, &v, (kart->mUnk_44 & 0x40) ? 1 : 0, 0x1000, -1, -1, v2);
                             } else if (handlerResult & 2) {
-                                s = Vec3DotUnrounded(&kart->mTurnedForward, &v) + 0x1000;
+                                s = vec_dotProduct(&kart->mTurnedForward, &v) + 0x1000;
                                 if (s > 0x1000) {
                                     s = 0x1000;
                                 } else if (s < 0x29) {
@@ -183,13 +183,13 @@ void CollideKartWithMapObjects(Kart *kart) {
                                         w.y = ((s64) v.y * s) >> 12;
                                         w.z = ((s64) v.z * s) >> 12;
                                     }
-                                    if (Vec3DotUnrounded(&v, &w) < 0) {
+                                    if (vec_dotProduct(&v, &w) < 0) {
                                         m = 0;
                                     }
                                 }
                                 kart->mMapObjectVectorLength = VEC_Mag(&w);
                                 if (kart->mMapObjectVectorLength > 0x1000 && m != 0) {
-                                    kart->mMapObjectVectorForwardDot = Vec3DotUnrounded(&kart->mTurnedForward, &w);
+                                    kart->mMapObjectVectorForwardDot = vec_dotProduct(&kart->mTurnedForward, &w);
                                     s = VEC_DotProduct(&kart->mTurnedForward, &w);
                                     v6 = w.y - (s32) (((s64) kart->mTurnedForward.y * s) >> 12);
                                     v7 = w.z - (s32) (((s64) kart->mTurnedForward.z * s) >> 12);
@@ -225,7 +225,7 @@ void CollideKartWithMapObjects(Kart *kart) {
                                     if (mapObject == kart->mPrevTouchingMapObjects[j] || kart->mUnk_444[j] != 0) {
                                         continue;
                                     }
-                                    StartMapObjectKindSound(mapObject, &kart->mSoundSource, v2, m);
+                                    mobj_emitDriverHitSfx(mapObject, &kart->mSoundSource, v2, m);
                                     kart->mUnk_444[j] = 1;
                                     break;
                                 }

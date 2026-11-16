@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 SetCurrentSndArc(void);
+u32 sound_setSdatAsCurrent(void);

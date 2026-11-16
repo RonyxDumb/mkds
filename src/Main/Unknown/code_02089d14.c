@@ -31,22 +31,22 @@
 #include "code_0214a748.h"
 #include "code_021471bc.h"
 
-void InitStemSets(void *heap) {
+void rwrd_init(void *heap) {
     TimedQuad *timedQuad;
 
-    gStemSets = HeapAlloc(heap, 0x79c);
-    InitStemSetArray(heap);
-    gStemSets->mShownIndex = 9;
+    rwrd_sState = heap_alloc(heap, 0x79c);
+    rwrd_loadWords(heap);
+    rwrd_sState->mShownIndex = 9;
     reg_G3_MTX_MODE = 0;
-    G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &gStemSets->mOrthoMtx);
-    timedQuad = &gStemSets->mTimedQuad;
-    gStemSets->mTimedQuad.mTimer = 0;
+    G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x200, 1, &rwrd_sState->mOrthoMtx);
+    timedQuad = &rwrd_sState->mTimedQuad;
+    rwrd_sState->mTimedQuad.mTimer = 0;
     timedQuad->mUnk_02 = 0;
     timedQuad->mColor = 0x7fff;
     timedQuad->mEnabled = FALSE;
 }
 
-void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex) {
+void rwrd_loadWord(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex) {
     char fileName[0x80];
     void *lastNsbmdFile;
     u16 nsbmdIndex;
@@ -66,93 +66,93 @@ void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams 
     stemSet->mNsbcaNsbmaNsbtp[0] = stemSet->mNsbcaNsbmaNsbtp[1] = stemSet->mNsbcaNsbmaNsbtp[2] = NULL;
     useOneNsbtpAnimation = FALSE;
     if (stemSetParams->mNsbmdCount != 0) {
-        stemSet->mNsbmds = HeapAlloc(heap, stemSetParams->mNsbmdCount * 0x6c);
+        stemSet->mNsbmds = heap_alloc(heap, stemSetParams->mNsbmdCount * 0x6c);
     }
     if (stemSetParams->mNsbcaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[0] = HeapAlloc(heap, stemSetParams->mNsbcaCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[0] = heap_alloc(heap, stemSetParams->mNsbcaCount * 0x38);
     }
     if (stemSetParams->mNsbmaCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[1] = HeapAlloc(heap, stemSetParams->mNsbmaCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[1] = heap_alloc(heap, stemSetParams->mNsbmaCount * 0x38);
     }
     if (stemSetParams->mNsbmdCount == 1 && stemSetParams->mNsbtpCount > 1) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[2] = heap_alloc(heap, 0x38);
         useOneNsbtpAnimation = TRUE;
     } else if (stemSetParams->mNsbtpCount != 0) {
-        stemSet->mNsbcaNsbmaNsbtp[2] = HeapAlloc(heap, stemSetParams->mNsbtpCount * 0x38);
+        stemSet->mNsbcaNsbmaNsbtp[2] = heap_alloc(heap, stemSetParams->mNsbtpCount * 0x38);
     }
     for (nsbmdIndex = 0; nsbmdIndex < stemSetParams->mNsbmdCount; nsbmdIndex++) {
         nsbmd = &stemSet->mNsbmds[nsbmdIndex];
         snprintf(fileName, 0x80, "%s.nsbmd", stemSetParams->mStems[nsbmdIndex]);
-        lastNsbmdFile = FindSceneFile(fileName);
-        InitNsbmdWithoutCullSwap(nsbmd, lastNsbmdFile);
+        lastNsbmdFile = arc_getSceneArcFile(fileName);
+        model_initFromNsbmdNoCullFix(nsbmd, lastNsbmdFile);
     }
     for (nsbcaIndex = 0; nsbcaIndex < stemSetParams->mNsbcaCount; nsbcaIndex++) {
         nsbcaModel = &stemSet->mNsbmds[nsbcaIndex];
         g = &stemSet->mNsbcaNsbmaNsbtp[0][nsbcaIndex];
         snprintf(fileName, 0x80, "%s.nsbca", stemSetParams->mStems[nsbcaIndex]);
-        InitModelAnimation(0, g, nsbcaModel, 1, heap, NULL);
-        InitModelAnimationEntries(g, FindSceneFile(fileName), heap);
-        SetModelAnimation(g, 0);
+        anim_initManager(0, g, nsbcaModel, 1, heap, NULL);
+        anim_registerAllAnims(g, arc_getSceneArcFile(fileName), heap);
+        anim_setAnim(g, 0);
     }
     for (nsbmaIndex = 0; nsbmaIndex < stemSetParams->mNsbmaCount; nsbmaIndex++) {
         nsbmaModel = &stemSet->mNsbmds[nsbmaIndex];
         nsbmaAnimation = &stemSet->mNsbcaNsbmaNsbtp[1][nsbmaIndex];
         snprintf(fileName, 0x80, "%s.nsbma", stemSetParams->mStems[nsbmaIndex]);
-        InitModelAnimation(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
-        InitModelAnimationEntries(nsbmaAnimation, FindSceneFile(fileName), heap);
-        SetModelAnimation(nsbmaAnimation, 0);
+        anim_initManager(4, nsbmaAnimation, nsbmaModel, 1, heap, NULL);
+        anim_registerAllAnims(nsbmaAnimation, arc_getSceneArcFile(fileName), heap);
+        anim_setAnim(nsbmaAnimation, 0);
     }
     if (useOneNsbtpAnimation != FALSE) {
         g = stemSet->mNsbcaNsbmaNsbtp[2];
-        InitModelAnimation(2, g, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
+        anim_initManager(2, g, stemSet->mNsbmds, stemSetParams->mNsbtpCount, heap, lastNsbmdFile);
         for (nsbtpIndex = 0; nsbtpIndex < stemSetParams->mNsbtpCount; nsbtpIndex++) {
             snprintf(fileName, 0x80, "%s.nsbtp", stemSetParams->mStems[nsbtpIndex]);
-            InitModelAnimationEntry(
-                g, nsbtpIndex, NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(FindSceneFile(fileName)), 0), 0, heap);
+            anim_registerAnim(
+                g, nsbtpIndex, NNS_G3dGetTexPatAnmByIdx(NNS_G3dGetTexPatAnmSet(arc_getSceneArcFile(fileName)), 0), 0, heap);
         }
-        SetModelAnimation(g, 0);
+        anim_setAnim(g, 0);
     }
 }
 
-void InitStemSetArray(void *heap) {
+void rwrd_loadWords(void *heap) {
     s16 setIndex;
     StemSet *sourceSet;
     StemSet *copiedSet;
 
     for (setIndex = 0; setIndex < 8; setIndex++) {
-        gStemSets->mSets[setIndex] = NULL;
+        rwrd_sState->mSets[setIndex] = NULL;
     }
-    if (IsRaceAwardOrStaffRoll() != 0) {
+    if (race_isAwardStaffRoll() != 0) {
         return;
     }
     for (setIndex = 0; setIndex <= 2; setIndex++) {
         if (setIndex == 2) {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, 0x14);
-            sourceSet = gStemSets->mSets[0];
-            copiedSet = gStemSets->mSets[2];
+            rwrd_sState->mSets[setIndex] = heap_alloc(heap, 0x14);
+            sourceSet = rwrd_sState->mSets[0];
+            copiedSet = rwrd_sState->mSets[2];
             copiedSet->mNsbmds = sourceSet->mNsbmds;
             copiedSet->mNsbcaNsbmaNsbtp[0] = NULL;
             copiedSet->mNsbcaNsbmaNsbtp[1] = sourceSet->mNsbcaNsbmaNsbtp[1];
             copiedSet->mNsbcaNsbmaNsbtp[2] = sourceSet->mNsbcaNsbmaNsbtp[2];
             copiedSet->mNsbmdCount = sourceSet->mNsbmdCount;
         } else {
-            gStemSets->mSets[setIndex] = HeapAlloc(heap, 0x14);
-            InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[setIndex], &gCountStartStems[(u32) setIndex], setIndex);
+            rwrd_sState->mSets[setIndex] = heap_alloc(heap, 0x14);
+            rwrd_loadWord(heap, rwrd_sState->mSets[setIndex], &gCountStartStems[(u32) setIndex], setIndex);
         }
     }
-    if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mRuleKind == 1) {
-        gStemSets->mSets[4] = HeapAlloc(heap, 0x14);
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[4], &gWinStems, 4);
-        gStemSets->mSets[5] = HeapAlloc(heap, 0x14);
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[5], &gLoseStems, 5);
-    } else if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        gStemSets->mSets[6] = HeapAlloc(heap, 0x14);
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[6], &gCompleteStems, 6);
-        gStemSets->mSets[7] = HeapAlloc(heap, 0x14);
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[7], &gFailedStems, 7);
+    if (gRaceMultiConfig->mMode == MODE_BATTLE || gRaceMultiConfig->mRuleKind == 1) {
+        rwrd_sState->mSets[4] = heap_alloc(heap, 0x14);
+        rwrd_loadWord(heap, rwrd_sState->mSets[4], &gWinStems, 4);
+        rwrd_sState->mSets[5] = heap_alloc(heap, 0x14);
+        rwrd_loadWord(heap, rwrd_sState->mSets[5], &gLoseStems, 5);
+    } else if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        rwrd_sState->mSets[6] = heap_alloc(heap, 0x14);
+        rwrd_loadWord(heap, rwrd_sState->mSets[6], &gCompleteStems, 6);
+        rwrd_sState->mSets[7] = heap_alloc(heap, 0x14);
+        rwrd_loadWord(heap, rwrd_sState->mSets[7], &gFailedStems, 7);
     } else {
-        gStemSets->mSets[3] = HeapAlloc(heap, 0x14);
-        InitNsbmdNsbcaNsbmaNsbtp(heap, gStemSets->mSets[3], &gGoalStems, 3);
+        rwrd_sState->mSets[3] = heap_alloc(heap, 0x14);
+        rwrd_loadWord(heap, rwrd_sState->mSets[3], &gGoalStems, 3);
     }
 }
 
@@ -163,19 +163,19 @@ void StartStemSet(s32 setIndex) {
     s32 animationIndex;
     s32 loopCount;
 
-    gStemSets->mSets[8] = gStemSets->mSets[setIndex];
-    stemSet = gStemSets->mSets[8];
+    rwrd_sState->mSets[8] = rwrd_sState->mSets[setIndex];
+    stemSet = rwrd_sState->mSets[8];
     if (stemSet == NULL) {
-        gStemSets->mShownIndex = 9;
+        rwrd_sState->mShownIndex = 9;
         return;
     }
-    gStemSets->mShownIndex = setIndex;
+    rwrd_sState->mShownIndex = setIndex;
     for (nsbmdIndex = 0; nsbmdIndex < stemSet->mNsbmdCount; nsbmdIndex++) {
         if (stemSet->mNsbcaNsbmaNsbtp[0] != NULL) {
-            SetModelAnimation(&stemSet->mNsbcaNsbmaNsbtp[0][nsbmdIndex], 0);
+            anim_setAnim(&stemSet->mNsbcaNsbmaNsbtp[0][nsbmdIndex], 0);
         }
         if (stemSet->mNsbcaNsbmaNsbtp[1] != NULL) {
-            SetModelAnimation(&stemSet->mNsbcaNsbmaNsbtp[1][nsbmdIndex], 0);
+            anim_setAnim(&stemSet->mNsbcaNsbmaNsbtp[1][nsbmdIndex], 0);
         }
         if (setIndex == 0 || setIndex == 2) {
             if (setIndex == 2) {
@@ -188,7 +188,7 @@ void StartStemSet(s32 setIndex) {
             } else {
                 loopCount = 3;
             }
-            SetModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
+            anim_setAnim(stemSet->mNsbcaNsbmaNsbtp[2], (u16) animationIndex);
             e = stemSet->mNsbcaNsbmaNsbtp[0];
             if (e != NULL) {
                 e[nsbmdIndex].mLoopMode = 2;
@@ -203,36 +203,36 @@ void StartStemSet(s32 setIndex) {
     }
 }
 
-void UpdateStemSets(void) {
+void rwrd_update(void) {
     StemSet *stemSet;
     u16 nsbmdIndex;
 
-    if (gStemSets->mShownIndex == 1 || gStemSets->mShownIndex == 3) {
-        gStemSets->mShownFrames++;
-        if (gStemSets->mShownFrames > gStemSets->mShownFrameCount) {
-            gStemSets->mShownIndex = 9;
+    if (rwrd_sState->mShownIndex == 1 || rwrd_sState->mShownIndex == 3) {
+        rwrd_sState->mShownFrames++;
+        if (rwrd_sState->mShownFrames > rwrd_sState->mShownFrameCount) {
+            rwrd_sState->mShownIndex = 9;
         }
     }
-    if (gStemSets->mShownIndex != 9) {
-        stemSet = gStemSets->mSets[8];
+    if (rwrd_sState->mShownIndex != 9) {
+        stemSet = rwrd_sState->mSets[8];
         for (nsbmdIndex = 0; nsbmdIndex < stemSet->mNsbmdCount; nsbmdIndex++) {
             if (stemSet->mNsbcaNsbmaNsbtp[0] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[0]);
+                anim_update(stemSet->mNsbcaNsbmaNsbtp[0]);
             }
             if (stemSet->mNsbcaNsbmaNsbtp[1] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[1]);
+                anim_update(stemSet->mNsbcaNsbmaNsbtp[1]);
             }
             if (stemSet->mNsbcaNsbmaNsbtp[2] != NULL) {
-                AdvanceModelAnimation(stemSet->mNsbcaNsbmaNsbtp[2]);
+                anim_update(stemSet->mNsbcaNsbmaNsbtp[2]);
             }
         }
     }
-    if (gStemSets->mTimedQuad.mEnabled != FALSE) {
-        gStemSets->mUpdateFunction(&gStemSets->mTimedQuad);
+    if (rwrd_sState->mTimedQuad.mEnabled != FALSE) {
+        rwrd_sState->mUpdateFunction(&rwrd_sState->mTimedQuad);
     }
 }
 
-void DrawStemSets(void) {
+void rwrd_render(void) {
     MtxFx43 identityMatrix;
     MtxFx43 baseTransform;
     Vec3 baseScale;
@@ -241,44 +241,44 @@ void DrawStemSets(void) {
     Nsbmd *nsbmd;
 
     MTX_Identity43_(&identityMatrix);
-    data_0217029c.mCameraMtx = identityMatrix;
-    if (gRaceSetup->mRaceKind != RACE_KIND_NORMAL) {
+    NNS_G3dGlb.mCameraMtx = identityMatrix;
+    if (gRaceMultiConfig->mRaceKind != RACE_KIND_NORMAL) {
         return;
     }
-    if (gStemSets->mShownIndex != 9) {
+    if (rwrd_sState->mShownIndex != 9) {
         baseTranslation = &baseTransform.mUnk_00[3];
         baseTranslation->x = 0;
         baseTranslation->y = 0;
         baseTranslation->z = 0;
         baseScale = data_0216608c;
         baseTransform.mUnk_00[3].y = data_02166048;
-        if (gStemSets->mShownIndex == 2) {
+        if (rwrd_sState->mShownIndex == 2) {
             baseTransform.mUnk_00[3].y = 0x50000;
         }
         MTX_Identity33_(&baseTransform);
-        for (nsbmdIndex = 0; nsbmdIndex < gStemSets->mSets[8]->mNsbmdCount; nsbmdIndex++) {
-            nsbmd = &gStemSets->mSets[8]->mNsbmds[nsbmdIndex];
+        for (nsbmdIndex = 0; nsbmdIndex < rwrd_sState->mSets[8]->mNsbmdCount; nsbmdIndex++) {
+            nsbmd = &rwrd_sState->mSets[8]->mNsbmds[nsbmdIndex];
             G3i_OrthoW_(0x60000, -0x60000, -0x80000, 0x80000, 0, 0x1000, 0x1f6, 0,
-                        (Unk0214ad4c *) data_0217029c.mProjMtx);
-            data_0217029c.mFlag &= ~0x50;
+                        (Unk0214ad4c *) NNS_G3dGlb.mProjMtx);
+            NNS_G3dGlb.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
-            MI_Copy36B(&baseTransform, data_0217029c.mPrmBaseRot);
-            data_0217029c.mFlag &= ~0xa4;
+            MI_Copy36B(&baseTransform, NNS_G3dGlb.mPrmBaseRot);
+            NNS_G3dGlb.mFlag &= ~0xa4;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mUnk_00[3]);
             NNS_G3dGlbFlushP();
-            func_01ff8cf0(nsbmd);
+            NNS_G3dDraw(nsbmd);
         }
     }
-    if (gStemSets->mTimedQuad.mEnabled != FALSE) {
+    if (rwrd_sState->mTimedQuad.mEnabled != FALSE) {
         reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
         reg_G3_SPE_EMI = 0x4210;
         reg_G3_DIF_AMB = 0x42100000;
         reg_G3_MTX_MODE = 0;
-        G3_LoadMtx44(&gStemSets->mOrthoMtx);
+        G3_LoadMtx44(&rwrd_sState->mOrthoMtx);
         reg_G3_TEXIMAGE_PARAM = 0x20000000;
         reg_G3_MTX_MODE = 2;
         reg_G3_MTX_IDENTITY = 0;
-        DrawTimedQuad(&gStemSets->mTimedQuad);
+        DrawTimedQuad(&rwrd_sState->mTimedQuad);
     }
 }
 
@@ -288,15 +288,15 @@ u32 func_02089f9c(u32 value) {
 
 void SetStemSet(s32 setIndex) {
     if (setIndex == 9) {
-        gStemSets->mShownIndex = setIndex;
+        rwrd_sState->mShownIndex = setIndex;
         return;
     }
-    if (gStemSets->mShownIndex != setIndex || setIndex == 2) {
+    if (rwrd_sState->mShownIndex != setIndex || setIndex == 2) {
         StartStemSet(setIndex);
     }
-    gStemSets->mShownFrames = 0;
-    if (gStemSets->mShownIndex == 1 || gStemSets->mShownIndex == 3) {
-        gStemSets->mShownFrameCount = GetModelAnimationFrameCountFixed(gStemSets->mSets[8]->mNsbcaNsbmaNsbtp[0]) >> 12;
+    rwrd_sState->mShownFrames = 0;
+    if (rwrd_sState->mShownIndex == 1 || rwrd_sState->mShownIndex == 3) {
+        rwrd_sState->mShownFrameCount = anim_getAnimLength(rwrd_sState->mSets[8]->mNsbcaNsbmaNsbtp[0]) >> 12;
     }
 }
 
@@ -338,8 +338,8 @@ void DrawTimedQuad(TimedQuad *timedQuad) {
     reg_G3_END_VTXS = 0;
 }
 
-void func_02089d14(u32 tableIndex) {
-    gStemSets->mStartFunction = data_02155ec8[tableIndex];
-    gStemSets->mUpdateFunction = data_02155ecc[tableIndex];
-    gStemSets->mStartFunction(&gStemSets->mTimedQuad);
+void rwrd_2089D14(u32 tableIndex) {
+    rwrd_sState->mStartFunction = data_02155ec8[tableIndex];
+    rwrd_sState->mUpdateFunction = data_02155ecc[tableIndex];
+    rwrd_sState->mStartFunction(&rwrd_sState->mTimedQuad);
 }

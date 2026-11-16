@@ -4,4 +4,4 @@
 
 typedef struct Unk020e43a8 Unk020e43a8;
 
-void UpdatePukupukuState3(Unk020e43a8 *pukupuku);
+void puku_state3Update(Unk020e43a8 *pukupuku);

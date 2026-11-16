@@ -9,7 +9,7 @@ void DrawShadowModelWithMaxAlpha(ShadowModel *model, int maxAlpha) {
     savedAlpha = model->mAlpha;
     if (maxAlpha < savedAlpha) {
         savedPolygonId = model->mPolygonId;
-        newPolygonId = AllocPolygonIdWrapping();
+        newPolygonId = mobj_getCyclicPolygonId();
         model->mPolygonId = newPolygonId;
         model->mAlpha = maxAlpha;
         func_0207ad88(model);

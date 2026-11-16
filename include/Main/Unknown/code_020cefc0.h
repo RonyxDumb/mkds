@@ -4,5 +4,5 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void DrawRaceHudSubScreenBombKouraWCells(RaceHudOamBuffer *oamBuffer);
-void UpdateRaceHudSubScreenBombKouraWCells(void);
+void mpicn_renderExplosionIcon(RaceHudOamBuffer *oamBuffer);
+void mpicn_updateExplosionIcon(void);

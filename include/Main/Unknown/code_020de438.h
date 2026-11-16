@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateEarthenPipe1AndEarthenPipe2(void);
+void epipe_loadModels(void);

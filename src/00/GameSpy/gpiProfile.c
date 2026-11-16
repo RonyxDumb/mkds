@@ -92,7 +92,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *a, s32 id) {
 
     c = &a->mGpiConnection->mProfileList;
     if (id <= 0) {
-        AssertionFailed(data_ov000_021b354c, data_ov000_021b3554, NULL, 0x2b5);
+        __msl_assertion_failed(data_ov000_021b354c, data_ov000_021b3554, NULL, 0x2b5);
     }
     if (id <= 0) {
         return NULL;

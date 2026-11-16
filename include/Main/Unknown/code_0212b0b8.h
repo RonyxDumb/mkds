@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-s32 UpdateMessageScreen(void);
+s32 err_212B0B8(void);
 void ResetMessageScreen(void);
-void InitMessageScreen(void *heap);
+void err_init(void *heap);

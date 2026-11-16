@@ -22,20 +22,20 @@ typedef struct Flipper {
     /* ec4 */ u16 mNsbtpFrameIndex;
     /* ec6 */ u16 mNsbtaFrameIndex;
     /* ec8 */ s32 mUnk_ec8;
-    /* State number of this kind's own per-frame switch in UpdateFlipper; this object does not use
+    /* State number of this kind's own per-frame switch in flip_update; this object does not use
        MapObject.mUnk_80's state machine */
     /* ecc */ s32 mState;
     /* ed0 */ Unk0201ca6c *mUnk_ed0;
     /* ed4 */ s32 mUnk_ed4[1];
 } Flipper;
 
-void *CreateFlipperUpdateList(void);
-void *CreateFlipperDrawList(void);
-void CreateFlipperKindData(void);
-void UpdateFlipper(void *a, Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitFlipperObjects(MapObjectList *mapObjectList);
-void DrawFlipper(void *a, Flipper *flipper);
-void CreateFlipper(void *a);
-u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut);
-u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c);
-void InitFlipper(Flipper *flipper); /* sets flag 0x200 and the ground matrix (RefreshMapObjectMatrixFromHitNormal) */
+void *flip_setupLogicPart(void);
+void *flip_setupRenderPart(void);
+void flip_setupConfig(void);
+void flip_update(void *a, Flipper *flipper); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void flip_globalLogicInit(MapObjectList *mapObjectList);
+void flip_render(void *a, Flipper *flipper);
+void flip_loadModel(void *a);
+u32 flip_collide(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut);
+u32 flip_onDriverCollide(Flipper *flipper, Kart *kart, void *b, u8 *c);
+void flip_init(Flipper *flipper); /* sets flag 0x200 and the ground matrix (mobj_setDirectionFromFloor) */

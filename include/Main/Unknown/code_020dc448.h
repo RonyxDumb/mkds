@@ -4,4 +4,4 @@
 
 typedef struct Wanwan Wanwan;
 
-void EnterWanwanState4(Wanwan *wanwan);
+void wanwan_state4Init(Wanwan *wanwan);

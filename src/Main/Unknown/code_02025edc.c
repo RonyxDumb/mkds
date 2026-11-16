@@ -4,29 +4,29 @@
 
 #pragma thumb on
 
-void func_02025f14(Interpolation *interpolation, s32 requestedState) {
+void interp_setState(Interpolation *interpolation, s32 requestedState) {
     switch (requestedState) {
         case 0:
             switch (interpolation->mState) {
                 case 2:
                 case 3:
-                    SetInterpolationState(interpolation, requestedState);
+                    interp_setStateDirect(interpolation, requestedState);
             }
             break;
         case 2:
             switch (interpolation->mState) {
                 case 0:
                 case 1:
-                    SetInterpolationState(interpolation, requestedState);
+                    interp_setStateDirect(interpolation, requestedState);
             }
             break;
         default:
-            SetInterpolationState(interpolation, requestedState);
+            interp_setStateDirect(interpolation, requestedState);
             break;
     }
 }
 
-void AdvanceInterpolation(Interpolation *interpolation) {
+void interp_update(Interpolation *interpolation) {
     switch (interpolation->mState) {
         case 0:
             interpolation->mCounter++;

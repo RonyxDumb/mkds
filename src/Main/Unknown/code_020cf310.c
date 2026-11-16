@@ -23,7 +23,7 @@ void func_020cfca4(void) {
     s32 i;
     s32 j;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
             for (i = 0; i < 9; i++) {
                 for (j = 0; j < 3; j++) {
@@ -84,19 +84,19 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
     u32 waterAngle;
     float threshold;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
-            v = GetCourseModelNsbtpFrame();
+            v = crsmdl_getNsbtpProgress();
             for (i = 0; i < 3; i++) {
                 palette->mUnk_00[i + 0x40] = data_0217b490->mUnk_02.mUnk_01[v / 10][i];
             }
             DC_FlushRange(&palette->mUnk_00[0x40], 6);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x40], 0x4080, 6);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0x40], 0x4080, 6);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x40], 0x6080, 6);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0x40], 0x6080, 6);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
         case 0x11: {
             s32 table[5] = {0, 5, 10, 16, 21};
@@ -104,9 +104,9 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             void *p;
             u16 angle;
 
-            p = FindMapObjectKindDrawList0(0xcb);
+            p = mobj_getRenderPart0ForObjectId(0xcb);
             if (p != NULL) {
-                objects = RaceHudSubScreenGetMapObjects(p);
+                objects = mobj_renderPartGetInstanceList(p);
                 for (i = 0; i < 5; i++) {
                     angle = objects[i]->mAngle;
                     if (i == 4) {
@@ -121,11 +121,11 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             DC_FlushRange(&palette->mUnk_00[0x80], 0x34);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x80], 0x4100, 0x34);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0x80], 0x4100, 0x34);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x80], 0x6100, 0x34);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0x80], 0x6100, 0x34);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
         }
         case 0x1c: {
@@ -137,7 +137,7 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                                {20, 20, 20, 20, 20, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17}};
             u8 *p;
 
-            v = func_020e3b08();
+            v = bridge_getProgress();
             if (v < 0x13) {
                 j = 0;
             } else if (v < 0x2c) {
@@ -158,16 +158,16 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             DC_FlushRange(&palette->mUnk_00[0x78], 0x28);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x78], 0x40f0, 0x28);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0x78], 0x40f0, 0x28);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x78], 0x60f0, 0x28);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0x78], 0x60f0, 0x28);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
         }
         case COURSE_ID_BEACH:
-            if (IsWaterPresent() != FALSE) {
-                n = GetWaterHeightFactor();
+            if (mobj_getHasWater() != FALSE) {
+                n = mobj_getWaterTideProgress();
                 for (k = 7; k > 0; k--) {
                     threshold = (7 - k) * 0.286f + -0.858f;
                     v = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
@@ -187,20 +187,20 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             DC_FlushRange(&palette->mUnk_00[0x50], 0x10);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x50], 0x40a0, 0x10);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0x50], 0x40a0, 0x10);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x50], 0x60a0, 0x10);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0x50], 0x60a0, 0x10);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
         case 0x20: {
             void *p;
             Unk0217b498_00 **objects;
             Unk020e005c **blocks;
 
-            p = FindMapObjectKindDrawList0(0xd0);
+            p = mobj_getRenderPart0ForObjectId(0xd0);
             if (p != NULL) {
-                objects = RaceHudSubScreenGetMapObjects(p);
+                objects = mobj_renderPartGetInstanceList(p);
                 v = (objects[1]->mAngle * 0x48) >> 16;
                 for (i = 0; i < 6; i++) {
                     palette->mUnk_00[i + 0x54] = data_0217b490->mUnk_02.mUnk_03.mUnk_00[(i + 0x48 - v) % 6];
@@ -213,11 +213,11 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
                     }
                 }
             }
-            p = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_KOOPA_BLOCK);
+            p = mobj_getRenderPart0ForObjectId(MAP_OBJECT_KIND_KOOPA_BLOCK);
             if (p != NULL) {
-                blocks = RaceHudSubScreenGetMapObjects(p);
+                blocks = mobj_renderPartGetInstanceList(p);
                 for (i = 0; i < 4; i++) {
-                    v = func_020dff4c(blocks[i]);
+                    v = kblock_getRouteProgress(blocks[i]);
                     if (i % 2 != 0) {
                         n = (v << 3) >> 12;
                     } else {
@@ -236,17 +236,17 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             DC_FlushRange(&palette->mUnk_00[0x54], 0x98);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0x54], 0x40a8, 0x98);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0x54], 0x40a8, 0x98);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0x54], 0x60a8, 0x98);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0x54], 0x60a8, 0x98);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
         }
         case COURSE_ID_MINI_STAGE3:
-            if (IsWaterPresent() != FALSE) {
-                n = GetWaterHeightFactor();
-                waterAngle = GetWaterHeightAngle();
+            if (mobj_getHasWater() != FALSE) {
+                n = mobj_getWaterTideProgress();
+                waterAngle = mobj_getWaterTidePhase();
                 for (k = 0; k < 0x13; k++) {
                     threshold = k * 0.105f + -0.945f;
                     v = threshold > 0.0f ? threshold * 4096.0f + 0.5f : threshold * 4096.0f - 0.5f;
@@ -278,20 +278,20 @@ void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette) {
             }
             DC_FlushRange(&palette->mUnk_00[0xe0], 0x2c);
             GXS_BeginLoadBGExtPltt();
-            GXS_LoadBGExtPltt(&palette->mUnk_00[0xe0], 0x41c0, 0x2c);
+            GX_LoadOBJExtPltt(&palette->mUnk_00[0xe0], 0x41c0, 0x2c);
             if (IsCourseWithMap2DLocal3() != 0) {
-                GXS_LoadBGExtPltt(&palette->mUnk_00[0xe0], 0x61c0, 0x2c);
+                GX_LoadOBJExtPltt(&palette->mUnk_00[0xe0], 0x61c0, 0x2c);
             }
-            GXS_EndLoadBGExtPltt();
+            GX_EndLoadOBJExtPltt();
             break;
     }
 }
 
-s32 CreateRaceHudSubScreenBombKouraWCells(void) {
+s32 mpicn_createExplosionIcon(void) {
     s32 itemCount;
 
     itemCount = 0;
-    itemCount += gItemKinds[5].mObjectCount;
-    itemCount += gItemKinds[9].mObjectCount;
-    return CreateRaceHudSubScreenCellsWithCount(&gRaceHudSubScreenBombKouraWCells, itemCount);
+    itemCount += it_sItemParams[5].mObjectCount;
+    itemCount += it_sItemParams[9].mObjectCount;
+    return mpicn_20C0BA8(&mpicn_sExplosionIcon, itemCount);
 }

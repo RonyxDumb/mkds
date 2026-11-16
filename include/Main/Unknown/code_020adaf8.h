@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 GetTitleStateFrames(void);
+s32 title_getFrameCounter(void);

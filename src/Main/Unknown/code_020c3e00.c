@@ -2,13 +2,13 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 Unk020c3e2c *GetRaceGoalSBPaletteAndChars(u32 index) {
-    return (Unk020c3e2c *) &gRaceGoalS->mRaceGoalSBNclr + index;
+    return (Unk020c3e2c *) &r2d_sResults->mRaceGoalSBNclr + index;
 }
 
 Nscr *GetRaceGoalSNscr(u32 index) {
-    return (gRaceGoalS->mRaceGoalSNscrs[index]);
+    return (r2d_sResults->mRaceGoalSNscrs[index]);
 }
 
 s32 GetRaceGoalSOffsetX(void) {
-    return gRaceGoalS->mOffsetX;
+    return r2d_sResults->mOffsetX;
 }

@@ -52,10 +52,10 @@ static inline s32 func_0206dfd0_inline_2(Vec3 *v, Vec3 *n) {
     if ((s64) v->x * v->x + (s64) v->y * v->y + (s64) v->z * v->z < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(v, n);
+    return vec_normalize(v, n);
 }
 
-void CollideKartWithKarts(Kart *p) {
+void driver_handleDriverCollision(Kart *p) {
     s32 i;
     Kart *q;
     s32 r;
@@ -89,11 +89,11 @@ void CollideKartWithKarts(Kart *p) {
     if (p->mUnk_48 & 0x40) {
         return;
     }
-    for (i = 0; i < gFoundCollisionSlotCount; i++) {
-        if (!(gFoundCollisionSlotFlags[i] & 0x8000)) {
+    for (i = 0; i < gColQueryResultCount; i++) {
+        if (!(gColQueryResultFlags[i] & 0x8000)) {
             continue;
         }
-        q = gFoundCollisionSlotObjects[i];
+        q = gColQueryResultObjects[i];
         if (p->mTestedKartMask & (1 << q->mIndex)) {
             continue;
         }
@@ -109,7 +109,7 @@ void CollideKartWithKarts(Kart *p) {
         if (func_0206dfd0_inline(p, q, r) == FALSE) {
             continue;
         }
-        ComputeSphereOverlapOffset(&p->mPointAlongUp, &q->mPointAlongUp, r, &v);
+        col_collidePointSphere(&p->mPointAlongUp, &q->mPointAlongUp, r, &v);
         d = func_0206dfd0_inline_2(&v, &n);
         if (d > 0) {
             a.x = v.x >> 1;
@@ -166,8 +166,8 @@ void CollideKartWithKarts(Kart *p) {
                 g.z = ((s64) n.z * f) >> 12;
                 q->mForwardSpeed += VEC_DotProduct(&q->mTurnedForward, &g);
             }
-            if (gRaceSetup->mMode == MODE_BATTLE) {
-                k = CallKartCollisionCallbacks(p->mIndex, q->mIndex);
+            if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+                k = mgcnt_handleDriverDriverCollide(p->mIndex, q->mIndex);
             }
             w = p->mUnk_4c;
             if (w & 0x10000000) {
@@ -196,7 +196,7 @@ void CollideKartWithKarts(Kart *p) {
             } else if (p->mKartCollisionDelayTimer <= 0) {
                 if (p->mVelocityLength > 0x1000 || q->mVelocityLength > 0x1000) {
                     if (gSceneSoundState.mRaceFrames > 0x78) {
-                        StartSound(&p->mSoundSource, 0x80, 0x7f, 0);
+                        sfx_21090C4(&p->mSoundSource, 0x80, 0x7f, 0);
                     }
                     if (p->mVelocityLength > q->mVelocityLength) {
                         q->mKartCollisionTimer = 0x14;
@@ -207,12 +207,12 @@ void CollideKartWithKarts(Kart *p) {
                     StartKartModelScaleAnimation(q, 2);
                     p->mKartCollisionDelayTimer = 0xf;
                     if (s == 0) {
-                        s = TryStartKartCollisionEffects(p, &n, k);
+                        s = driver_206C354(p, &n, k);
                         if (s == 0) {
                             h.x = -n.x;
                             h.y = -n.y;
                             h.z = -n.z;
-                            s = TryStartKartCollisionEffects(q, &h, k);
+                            s = driver_206C354(q, &h, k);
                         }
                     }
                 }
@@ -222,12 +222,12 @@ void CollideKartWithKarts(Kart *p) {
                 q->mUnk_4c |= 0x100000;
             }
             if (c == FALSE) {
-                u = data_02154f94;
-                func_0206d7c8(q, p, &n, 1, &u);
+                u = driverCore_sZeroVec;
+                OtherKartCollide(q, p, &n, 1, &u);
                 n.x = -n.x;
                 n.y = -n.y;
                 n.z = -n.z;
-                func_0206d7c8(p, q, &n, 0, &u);
+                OtherKartCollide(p, q, &n, 0, &u);
             }
         }
         p->mUnk_44 |= KART_44_NEAR_KART;

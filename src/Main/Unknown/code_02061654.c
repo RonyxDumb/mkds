@@ -99,154 +99,154 @@
 #include "01/code_0218155c.h"
 #include "Main/Unknown/code_0203ca38.h"
 
-u32 GetRaceUseChainCameras(void) {
-    return (gRace->mUseChainCameras);
+u32 race_isCamAnimMode(void) {
+    return (race_sState->mUseChainCameras);
 }
 
-u32 IsRaceAwardOrStaffRoll(void) {
-    return (gRace->mIsAwardOrStaffRoll);
+u32 race_isAwardStaffRoll(void) {
+    return (race_sState->mIsAwardOrStaffRoll);
 }
 
-// Builds the race world and gRace. Not part of it: the screen and 3D engine set-up (Init3dEngine, called before), the
-// net and the HUD, which are in the scene slot InitRaceScene.
-void InitRace(void) {
+// Builds the race world and race_sState. Not part of it: the screen and 3D engine set-up (race_initG3d, called before), the
+// net and the HUD, which are in the scene slot racesc_init.
+void race_init(void) {
     void *heap;
     u16 texBankMask;
     s16 i;
     u16 j;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    SetKartModelPathPrefix(0);
-    gRace = HeapAlloc(heap, 72);
-    InitRaceFields();
+    heap = proc_getHeap(proc_getCurrent());
+    cklcr_setLoadFromFolder(0);
+    race_sState = heap_alloc(heap, 72);
+    race_initState();
     texBankMask = GX_GetBankForTex();
     NNS_GfdInitFrmTexVramManager(
         ((texBankMask >> 3) & 1) + ((texBankMask >> 2) & 1) + ((texBankMask >> 1) & 1) + (texBankMask & 1), 1);
     NNS_GfdInitFrmPlttVramManager(0x10000, 1);
-    ResetResFileEntries();
-    func_02077998();
-    SetHeapGroupId(1);
+    model_initResList();
+    cam_setupRaceParams();
+    arc_setHeapGroupId(1);
     InitKartNameTagsAndDistanceOrder();
-    InitKartModels(heap, gRaceSetup->mKartCount);
-    SetupHeyhoPalettes();
+    chkrt_init(heap, gRaceMultiConfig->mKartCount);
+    chkrt_applyAllHeyhoPalettes();
     func_020872a4();
-    func_02047728();
-    InitMap2D();
-    SetHeapGroupId(2);
-    CreateCourseMap(heap);
-    InitCourseModels(heap);
-    func_020476ec();
-    SetHeapGroupId(7);
-    CreateRaceProgress(heap);
+    arc_switchKartModelBSubToCourse();
+    map2d_load();
+    arc_setHeapGroupId(2);
+    mdat_init(heap);
+    crsmdl_init(heap);
+    arc_switchCourseTexToSceneRace();
+    arc_setHeapGroupId(7);
+    rstat_init(heap);
     func_0205cd24(heap);
-    SetHeapGroupId(2);
-    InitCourseCollision();
-    SetHeapGroupId(8);
-    InitCollisionSlots();
-    SetHeapGroupId(1);
-    InitStemSets(heap);
+    arc_setHeapGroupId(2);
+    col_loadCourseCollision();
+    arc_setHeapGroupId(8);
+    col_init();
+    arc_setHeapGroupId(1);
+    rwrd_init(heap);
     InitKartAiShared();
-    InitKarts(gRaceSetup->mKartCount);
-    CreateChaseCamera();
-    CreateEntryCamera(gRaceSetup->mFollowedKartIndex);
-    if (gRace->mUseChainCameras != 0) {
-        if (gRace->mUseFirstChainCamera != 0) {
-            CreateFirstChainCamera();
+    driver_initAll(gRaceMultiConfig->mKartCount);
+    cam_setupPlayerCamera();
+    cam_20777AC(gRaceMultiConfig->mFollowedKartIndex);
+    if (race_sState->mUseChainCameras != 0) {
+        if (race_sState->mUseFirstChainCamera != 0) {
+            cam_setupIntroCamSingle();
         } else {
-            CreateChainCameraPair();
+            cam_setupIntroCamDouble();
         }
     }
-    gRaceChaseCamera = GetChaseCamera();
-    gRaceEntryCamera = GetEntryCamera();
-    gCurrentCamera = gRaceChaseCamera;
-    gCurrentViewMatrix = &gRaceChaseCamera->mViewMatrix;
-    RefreshCameraProjection(gRaceChaseCamera);
-    SetHeapGroupId(3);
-    switch (gRaceSetup->mMode) {
+    race_sPlayerCamera = cam_getPlayerCamera();
+    race_sReplayCamera = cam_getReplayCamera();
+    race_sCurCamera = race_sPlayerCamera;
+    race_sCurCameraMtx = &race_sPlayerCamera->mViewMatrix;
+    cam_updateFrustum(race_sPlayerCamera);
+    arc_setHeapGroupId(3);
+    switch (gRaceMultiConfig->mMode) {
         case MODE_BATTLE:
-            InitStandings();
+            mgcnt_init();
             break;
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                CreateMissionRunData();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mrcnt_init();
             }
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                InitStandings();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mgcnt_init();
             }
             break;
     }
-    SetHeapGroupId(3);
-    func_020e7460();
-    func_020e7760();
-    InitMapObjects();
-    InitItems();
-    SetHeapGroupId(6);
-    InitEffects(heap);
-    func_020846c0(heap);
-    InitModelEffects(heap);
-    InitPosStrips(heap);
-    SetHeapGroupId(9);
+    arc_setHeapGroupId(3);
+    jg_load();
+    jg_init();
+    mobj_init();
+    InitializeItems();
+    arc_setHeapGroupId(6);
+    ptcm_init(heap);
+    rptc_init(heap);
+    expl_init(heap);
+    trl_init(heap);
+    arc_setHeapGroupId(9);
     *(u16 *) 0x05000000 = 0xff00;
     reg_G3X_DISP3DCNT = reg_G3X_DISP3DCNT & 0xffffcffd;
-    G3X_SetToonTable(data_0217aadc);
+    G3X_SetToonTable(race_sToonTable);
     for (i = 0; i < 8; i++) {
-        data_0217aadc[i] = data_02154970[i];
-        data_0217aadc[i + 16] = data_02154980[i];
+        race_sToonTable[i] = race_sStarEffectToonTable[i];
+        race_sToonTable[i + 16] = race_sSlipStreamEffectToonTable[i];
     }
     for (i = 0; i < 8; i++) {
-        data_0217aadc[i + 8] = data_0217aadc[i];
-        data_0217aadc[i + 24] = data_0217aadc[i + 16];
+        race_sToonTable[i + 8] = race_sToonTable[i];
+        race_sToonTable[i + 24] = race_sToonTable[i + 16];
     }
-    InitRaceFog();
-    SetKoopaCourseLight2();
-    if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
+    race_setupFog();
+    crsmdl_setupLights();
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
         for (j = 0; j < 3; j++) {
-            StartAwardKartPosStrip(j);
+            trl_createTrailForDriver(j);
         }
     }
 }
 
-void InitRaceFields(void) {
+void race_initState(void) {
     Vec3 lightVector;
     s32 m;
 
-    gRace->mUpdateFrames = 0;
-    gRace->mDrawFrames = 0;
-    gRace->mUpdateFramesModKartCount = 0;
-    gRace->mUpdateFramesMod2 = 0;
-    gRace->mUpdateFramesMod8 = 0;
-    gRace->mToonTableOffset = 0;
-    gRace->mToonTableFrames = 0;
-    gRace->mUpdateFramesLimitReached = FALSE;
-    gRace->mUpdateFramesUnlimited = FALSE;
-    gRace->mUpdateFramesAtEntryEnd = 0;
+    race_sState->mUpdateFrames = 0;
+    race_sState->mDrawFrames = 0;
+    race_sState->mUpdateFramesModKartCount = 0;
+    race_sState->mUpdateFramesMod2 = 0;
+    race_sState->mUpdateFramesMod8 = 0;
+    race_sState->mToonTableOffset = 0;
+    race_sState->mToonTableFrames = 0;
+    race_sState->mUpdateFramesLimitReached = FALSE;
+    race_sState->mUpdateFramesUnlimited = FALSE;
+    race_sState->mUpdateFramesAtEntryEnd = 0;
     lightVector = data_021653f0;
-    gRace->mLightVectorX = lightVector.x;
-    gRace->mLightVectorY = lightVector.y;
-    gRace->mLightVectorZ = lightVector.z;
-    gRace->mUseChainCameras = (gRaceSetup->mRaceKind - 3) <= 2 ? 1 : 0;
-    gRace->mUseFirstChainCamera = gRaceSetup->mRaceKind == 4 ? 1 : 0;
-    gRace->mIsAwardOrStaffRoll =
-        (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) != 0 ? 1 : 0;
-    gRace->mStarted = gRace->mIsAwardOrStaffRoll != 0 ? 1 : 0;
+    race_sState->mLightVectorX = lightVector.x;
+    race_sState->mLightVectorY = lightVector.y;
+    race_sState->mLightVectorZ = lightVector.z;
+    race_sState->mUseChainCameras = (gRaceMultiConfig->mRaceKind - 3) <= 2 ? 1 : 0;
+    race_sState->mUseFirstChainCamera = gRaceMultiConfig->mRaceKind == 4 ? 1 : 0;
+    race_sState->mIsAwardOrStaffRoll =
+        (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD || gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) != 0 ? 1 : 0;
+    race_sState->mStarted = race_sState->mIsAwardOrStaffRoll != 0 ? 1 : 0;
 }
 
-void func_020629a4(void) {
+void race_initResManagement(void) {
     u16 texBankMask;
 
     texBankMask = GX_GetBankForTex();
     NNS_GfdInitFrmTexVramManager(
         ((texBankMask >> 3) & 1) + ((texBankMask >> 2) & 1) + ((texBankMask >> 1) & 1) + (texBankMask & 1), 1);
     NNS_GfdInitFrmPlttVramManager(0x10000, 1);
-    ResetResFileEntries();
+    model_initResList();
 }
 
-void Init3dEngine(void) {
+void race_initG3d(void) {
     NNS_G3dInit();
     NNS_G3dGlbInit();
-    func_01ff92b4();
+    NNS_G3dGeReleaseBuffer();
     NNS_G3dGeUseFastDma(1);
-    data_021759d0->mUnk_1c |= 8;
+    gSystemData->mUnk_1c |= 8;
     NNS_G3dGlbLightVector(0, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
@@ -258,174 +258,174 @@ void Init3dEngine(void) {
     NNS_G3dGlbMaterialColorDiffAmb(0x5294, 0x5294, 0);
     NNS_G3dGlbMaterialColorSpecEmi(0, 0, 1);
     NNS_G3dGlbPolygonAttr(15, 0, 2, 0, 31, 0);
-    data_0217aa74 = HeapAlloc(data_021759d0->mHeap, 772);
-    func_01ff92e0(data_0217aa74);
+    race_sG3dGeBuffer = heap_alloc(gSystemData->mHeap, 772);
+    NNS_G3dGeSetBuffer(race_sG3dGeBuffer);
 }
 
-// Advances the race one frame. Skipped while func_02049b6c or func_0204359c refuse (the draw is not), and in kind 6 for
+// Advances the race one frame. Skipped while scene_areUpdatesSuspended or input_getFlagsBit0 refuse (the draw is not), and in kind 6 for
 // the first 0x708 frames (neither update nor draw). The HUD step and the end-of-race state are in the scene slot
-// UpdateRaceScene, which calls this; the exit loop also runs it with a == NULL.
-void UpdateRace(void) {
+// racesc_update, which calls this; the exit loop also runs it with a == NULL.
+void race_update(void) {
     void *viewMatrix;
 
     data_0217d020 = 1;
-    UpdateCollisionSlotBounds();
-    UpdateCourseModels();
+    col_update();
+    crsmdl_update();
     UpdateKarts();
-    if (gRace->mUpdateFramesMod8 == 0) {
+    if (race_sState->mUpdateFramesMod8 == 0) {
         UpdateKartAiShared();
     }
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_BATTLE:
-            UpdateStandings();
+            mgcnt_update();
             break;
         case MODE_MISSION_RUN:
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                UpdateMissionRunData();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mrcnt_update();
             }
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                UpdateStandings();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mgcnt_update();
             }
             break;
     }
-    ClearCameraEntryFlags();
-    if (gRace->mUseChainCameras != 0) {
-        if (gRace->mUseFirstChainCamera != 0) {
-            viewMatrix = UpdateFirstChainCamera();
+    cam_2073E98();
+    if (race_sState->mUseChainCameras != 0) {
+        if (race_sState->mUseFirstChainCamera != 0) {
+            viewMatrix = cam_updateIntroCamSingle();
         } else {
-            viewMatrix = UpdateChainCameraPair();
+            viewMatrix = cam_updateIntroCamDouble();
         }
-        gCurrentViewMatrix = viewMatrix;
-        gCurrentCamera = GetCurrentChainCamera();
-    } else if (func_0203c5e4() != 0) {
-        UpdateChaseCamera(gRaceChaseCamera, GetKart(gRaceSetup->mFollowedKartIndex));
-        UpdateCameraView(gRaceChaseCamera);
-        if (TryUpdateEntryCamera(gRaceEntryCamera) != 0) {
-            gCurrentCamera = gRaceEntryCamera;
-            gCurrentViewMatrix = &gRaceEntryCamera->mViewMatrix;
+        race_sCurCameraMtx = viewMatrix;
+        race_sCurCamera = cam_getIntroCamera();
+    } else if (rstat_getUncontrollable() != 0) {
+        cam_updatePlayerCamera(race_sPlayerCamera, driver_getById(gRaceMultiConfig->mFollowedKartIndex));
+        cam_updateLookAtEx(race_sPlayerCamera);
+        if (cam_updateReplayCamera(race_sReplayCamera) != 0) {
+            race_sCurCamera = race_sReplayCamera;
+            race_sCurCameraMtx = &race_sReplayCamera->mViewMatrix;
         } else {
-            gCurrentCamera = gRaceChaseCamera;
-            gCurrentViewMatrix = &gRaceChaseCamera->mViewMatrix;
+            race_sCurCamera = race_sPlayerCamera;
+            race_sCurCameraMtx = &race_sPlayerCamera->mViewMatrix;
         }
     } else {
-        UpdateChaseCamera(gRaceChaseCamera, GetKart(gRaceSetup->mEntryIndex));
-        UpdateCameraView(gRaceChaseCamera);
-        gCurrentCamera = gRaceChaseCamera;
-        gCurrentViewMatrix = &gRaceChaseCamera->mViewMatrix;
+        cam_updatePlayerCamera(race_sPlayerCamera, driver_getById(gRaceMultiConfig->mEntryIndex));
+        cam_updateLookAtEx(race_sPlayerCamera);
+        race_sCurCamera = race_sPlayerCamera;
+        race_sCurCameraMtx = &race_sPlayerCamera->mViewMatrix;
     }
-    RefreshCameraProjection(gCurrentCamera);
-    UpdateViewFrustum((Unk020d4f94 *) gCurrentViewMatrix);
-    if (GetCameraEntryChanged() != 0) {
-        RequestViewTestRefresh();
+    cam_updateFrustum(race_sCurCamera);
+    mobj_updateCameraVectors((Unk020d4f94 *) race_sCurCameraMtx);
+    if (cam_2073E88() != 0) {
+        mobj_20D50C4();
     }
-    UpdateItems();
-    UpdateJg();
-    UpdateMapObjects();
-    UpdateModelEffects();
-    UpdatePosStrips();
-    UpdateEffects();
-    if (gFadeFogActive != 0) {
-        if (gFadeFogStepping != 0) {
-            if (data_021653e8 == 0) {
-                gRace->mFadeFog = 0;
-                SetKartModelsFogEnable(1);
-                SetCourseModelsFogEnableFlags(0);
-                gFadeFogActive = 0;
-                gFadeFogStepping = 0;
+    it_updateAll();
+    jg_update();
+    mobj_updateAll();
+    expl_update();
+    trl_update();
+    ptcm_update();
+    if (race_sDarkeningActive != 0) {
+        if (race_sDarkeningIsFading != 0) {
+            if (race_sDarkeningFogDensity == 0) {
+                race_sState->mFadeFog = 0;
+                driver_setFogEnableFlags(1);
+                crsmdl_setFogFlags(0);
+                race_sDarkeningActive = 0;
+                race_sDarkeningIsFading = 0;
             } else {
-                BuildFadeFog(data_021653e8, 0);
+                race_updateDarkeningFog(race_sDarkeningFogDensity, 0);
             }
-            data_021653e8 -= 4;
+            race_sDarkeningFogDensity -= 4;
         } else {
-            gFadeFogHoldFrames++;
-            if (gFadeFogHoldFrames >= 72) {
-                gFadeFogStepping = 1;
+            race_sDarkeningFadeWaitCounter++;
+            if (race_sDarkeningFadeWaitCounter >= 72) {
+                race_sDarkeningIsFading = 1;
             }
         }
     }
-    UpdateStemSets();
-    UpdateRaceProgress();
+    rwrd_update();
+    rstat_update();
     UpdateKartSoundDistancesSquared();
     func_0208677c();
-    if (gRaceSetup->mMode == 5) {
-        if (gRace->mUpdateFramesUnlimited == FALSE) {
-            if (gRace->mUpdateFramesLimitReached == FALSE) {
-                gRace->mUpdateFrames++;
-                if ((u32) gRace->mUpdateFrames >= 128) {
-                    gRace->mUpdateFramesLimitReached = TRUE;
+    if (gRaceMultiConfig->mMode == 5) {
+        if (race_sState->mUpdateFramesUnlimited == FALSE) {
+            if (race_sState->mUpdateFramesLimitReached == FALSE) {
+                race_sState->mUpdateFrames++;
+                if ((u32) race_sState->mUpdateFrames >= 128) {
+                    race_sState->mUpdateFramesLimitReached = TRUE;
                 }
             }
         } else {
-            gRace->mUpdateFrames++;
+            race_sState->mUpdateFrames++;
         }
     } else {
-        gRace->mUpdateFrames++;
+        race_sState->mUpdateFrames++;
     }
-    gRace->mUpdateFramesMod8 = gRace->mUpdateFrames & 7;
-    gRace->mUpdateFramesMod2 = gRace->mUpdateFrames & 1;
-    gRace->mUpdateFramesModKartCount = (u32) gRace->mUpdateFrames % gRaceSetup->mKartCount;
-    G3X_SetToonTable(&data_0217aadc[gRace->mToonTableOffset]);
-    gRace->mToonTableFrames++;
-    if ((u32) gRace->mToonTableFrames > data_021653ec) {
-        gRace->mToonTableFrames = 0;
-        gRace->mToonTableOffset++;
+    race_sState->mUpdateFramesMod8 = race_sState->mUpdateFrames & 7;
+    race_sState->mUpdateFramesMod2 = race_sState->mUpdateFrames & 1;
+    race_sState->mUpdateFramesModKartCount = (u32) race_sState->mUpdateFrames % gRaceMultiConfig->mKartCount;
+    G3X_SetToonTable(&race_sToonTable[race_sState->mToonTableOffset]);
+    race_sState->mToonTableFrames++;
+    if ((u32) race_sState->mToonTableFrames > race_sToonTableUpdateInterval) {
+        race_sState->mToonTableFrames = 0;
+        race_sState->mToonTableOffset++;
     }
-    if ((u32) gRace->mToonTableOffset > 7) {
-        gRace->mToonTableOffset = 0;
+    if ((u32) race_sState->mToonTableOffset > 7) {
+        race_sState->mToonTableOffset = 0;
     }
 }
 
 // Draws the 3D scene and writes the fog registers when the fade state changes; advances no game value. Has its own gate
 // in the scene slot; the HUD draw is in the scene slot too.
-void DrawRace(void) {
-    if (gFadeFogStepping != 0) {
-        G3X_SetFog(1, 0, data_0217aa80, gFadeFogOffset);
-        G3X_SetFogTable(gFadeFogTable);
-        reg_G3X_FOG_COLOR = data_0217aa28 | (data_0217aa68 << 16);
-    } else if (gRace->mFadeFog != gRace->mDrawnFadeFog) {
-        if (gRace->mFadeFog == 0) {
-            if (gCourseMap->mSettings->mFogEnabled != 0) {
-                G3X_SetFog(1, 0, data_0217aa80, gCourseFogOffset);
-                reg_G3X_FOG_COLOR = data_0217aa38 | (data_0217aa50 << 16);
-                G3X_SetFogTable(gCourseFogTable);
+void race_render(void) {
+    if (race_sDarkeningIsFading != 0) {
+        G3X_SetFog(1, 0, race_sFogSlope, race_sDarkeningFadeFogOffset);
+        G3X_SetFogTable(race_sDarkeningFogTable);
+        reg_G3X_FOG_COLOR = race_sDarkeningFadeFogColor | (race_sDarkeningFadeFogAlpha << 16);
+    } else if (race_sState->mFadeFog != race_sState->mDrawnFadeFog) {
+        if (race_sState->mFadeFog == 0) {
+            if (gMapData->mSettings->mFogEnabled != 0) {
+                G3X_SetFog(1, 0, race_sFogSlope, race_sStagFogOffset);
+                reg_G3X_FOG_COLOR = race_sStagFogColor | (race_sStagFogAlpha << 16);
+                G3X_SetFogTable(race_sStagFogTable);
             } else {
                 G3X_SetFog(0, 0, 5, 0);
             }
         } else {
-            G3X_SetFog(1, 0, data_0217aa80, 0);
-            reg_G3X_FOG_COLOR = data_0217aa30 | (data_0217aa60 << 16);
-            G3X_SetFogTable(gFadeFogTable);
+            G3X_SetFog(1, 0, race_sFogSlope, 0);
+            reg_G3X_FOG_COLOR = race_sDarkeningFogColor | (race_sDarkeningFogAlpha << 16);
+            G3X_SetFogTable(race_sDarkeningFogTable);
         }
     }
-    gRace->mDrawnFadeFog = gRace->mFadeFog;
-    DrawRaceWorld();
-    DrawEffects(gCurrentViewMatrix);
-    DrawPosStrips(gCurrentViewMatrix);
-    DrawStemSets();
-    if (gRace->mUseChainCameras == 0) {
-        DrawKartNameTags(gCurrentViewMatrix);
+    race_sState->mDrawnFadeFog = race_sState->mFadeFog;
+    race_renderRace();
+    ptcm_render(race_sCurCameraMtx);
+    trl_render(race_sCurCameraMtx);
+    rwrd_render();
+    if (race_sState->mUseChainCameras == 0) {
+        driver_renderLabels(race_sCurCameraMtx);
     }
-    DrawOrthoQuads();
-    gRace->mDrawFrames++;
+    cspl_render();
+    race_sState->mDrawFrames++;
 }
 
-void SetRaceLightVector(const Vec3 *lightVector) {
-    gRace->mLightVectorX = lightVector->x;
-    gRace->mLightVectorY = lightVector->y;
-    gRace->mLightVectorZ = lightVector->z;
+void race_setLight0Direction(const Vec3 *lightVector) {
+    race_sState->mLightVectorX = lightVector->x;
+    race_sState->mLightVectorY = lightVector->y;
+    race_sState->mLightVectorZ = lightVector->z;
 }
 
-void DrawRaceWorld(void) {
+void race_renderRace(void) {
     Vec3 lightVector;
     Vec3 a;
     Vec3 b;
     u32 v;
     Camera *currentCamera;
 
-    ApplyCameraFrustum(gCurrentCamera, 1);
-    ApplyCameraLookAt(gCurrentCamera);
-    currentCamera = gCurrentCamera;
-    NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
+    cam_applyFrustum(race_sCurCamera, 1);
+    cam_applyLookAt(race_sCurCamera);
+    currentCamera = race_sCurCamera;
+    NNS_G3dGlbLightVector(0, race_sState->mLightVectorX, race_sState->mLightVectorY, race_sState->mLightVectorZ);
     NNS_G3dGlbLightColor(0, 0x7fff);
     a.x = currentCamera->mViewMatrix.mUnk_00[0].y;
     a.y = currentCamera->mViewMatrix.mUnk_00[1].y;
@@ -437,94 +437,94 @@ void DrawRaceWorld(void) {
     if ((s64) lightVector.x * lightVector.x + (s64) lightVector.y * lightVector.y +
             (s64) lightVector.z * lightVector.z >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&lightVector, &lightVector);
+        vec_normalize(&lightVector, &lightVector);
     }
     NNS_G3dGlbLightVector(1, (s16) lightVector.x, (s16) lightVector.y, (s16) lightVector.z);
     NNS_G3dGlbLightColor(1, 0x7fff);
     NNS_G3dGlbFlushP();
-    func_01ff9048(23, gCurrentViewMatrix, 12);
+    NNS_G3dGeBufferOP_N(23, race_sCurCameraMtx, 12);
     v = 30;
-    func_01ff9048(19, &v, 1);
-    DrawCourseModelV();
-    ApplyCameraFrustum(gCurrentCamera, 0);
+    NNS_G3dGeBufferOP_N(19, &v, 1);
+    crsmdl_renderSky();
+    cam_applyFrustum(race_sCurCamera, 0);
     NNS_G3dGlbFlushP();
-    func_01ff92e0(data_0217aa74);
-    DrawCourseModel();
-    func_020d4418(gCurrentCamera);
-    func_01ff92b4();
-    DrawKarts();
-    NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
-    DrawJg();
-    DrawMapObjects(gCurrentCamera);
-    DrawItems(gCurrentViewMatrix);
-    DrawModelEffects();
-    func_01ff9234();
+    NNS_G3dGeSetBuffer(race_sG3dGeBuffer);
+    crsmdl_renderCourse();
+    mobj_renderDColObjects(race_sCurCamera);
+    NNS_G3dGeReleaseBuffer();
+    driver_renderAll();
+    NNS_G3dGlbLightVector(0, race_sState->mLightVectorX, race_sState->mLightVectorY, race_sState->mLightVectorZ);
+    jg_render();
+    mobj_renderAll(race_sCurCamera);
+    it_renderAll(race_sCurCameraMtx);
+    expl_render();
+    NNS_G3dGeFlushBuffer();
 }
 
-void func_02062004(void) {
+void race_finalize(void) {
     WiFiSession *wiFiSession;
     BOOL heapCreated;
 
-    func_020d2d94();
-    func_0207a990();
-    ReleaseAllResFiles();
-    func_0203d568();
+    mobj_finalize();
+    driver_finalize();
+    model_releaseAll();
+    rstat_finalize();
     heapCreated = FALSE;
-    wiFiSession = gWiFiSession;
+    wiFiSession = gStruct217D384;
     if (wiFiSession != NULL && wiFiSession->mHeapCreated != FALSE) {
         heapCreated = TRUE;
     }
     if (heapCreated != FALSE) {
-        wiFiSession->mKartMask = data_0217aa14->mUnk_749;
+        wiFiSession->mKartMask = gStruct217AA14->mUnk_749;
     }
-    data_0217aa14 = NULL;
+    gStruct217AA14 = NULL;
 }
 
-void func_02062000(void) {}
+void race_vblank(void) {}
 
-u32 IsRaceStarted(void) {
-    return (gRace->mStarted);
+u32 race_getState(void) {
+    return (race_sState->mStarted);
 }
 
-void StartRace(void) {
-    gRace->mStarted = 1;
-    StartRaceClock();
+void race_start(void) {
+    race_sState->mStarted = 1;
+    rstat_startTime();
 }
 
-u32 GetRaceUpdateFrames(void) {
-    return (gRace->mUpdateFrames);
+u32 race_getFrameCounter(void) {
+    return (race_sState->mUpdateFrames);
 }
 
-u32 GetRaceUpdateFramesModKartCount(void) {
-    return (gRace->mUpdateFramesModKartCount);
+u32 race_getFrameCounterModuloDriverCount(void) {
+    return (race_sState->mUpdateFramesModKartCount);
 }
 
-u32 GetRaceUpdateFramesMod8(void) {
-    return (gRace->mUpdateFramesMod8);
+u32 race_getFrameCounterModulo8(void) {
+    return (race_sState->mUpdateFramesMod8);
 }
 
-u32 GetRaceUpdateFramesMod2(void) {
-    return (gRace->mUpdateFramesMod2);
+u32 race_getIsOddFrame(void) {
+    return (race_sState->mUpdateFramesMod2);
 }
 
 // Also writes FOG_COLOR, FOG_OFFSET and FOG_TABLE directly and resets the fade state.
-void InitRaceFog(void) {
+void race_setupFog(void) {
     u32 fogCurve[32];
     u16 i;
     u8 fogTableMode;
 
-    BuildFadeFog(72, 1);
-    data_021653e8 = 72;
-    gFadeFogStepping = 0;
-    gFadeFogActive = 0;
-    gFadeFogHoldFrames = 0;
-    gRace->mDrawnFadeFog = 0;
-    gRace->mFadeFog = gRace->mDrawnFadeFog;
-    if (gCourseMap->mSettings->mFogEnabled != 0) {
-        fogTableMode = gCourseMap->mSettings->mFogTableMode;
+    race_updateDarkeningFog(72, 1);
+    race_sDarkeningFogDensity = 72;
+    race_sDarkeningIsFading = 0;
+    race_sDarkeningActive = 0;
+    race_sDarkeningFadeWaitCounter = 0;
+    race_sState->mDrawnFadeFog = 0;
+    race_sState->mFadeFog = race_sState->mDrawnFadeFog;
+    if (gMapData->mSettings->mFogEnabled != 0) {
+        fogTableMode = gMapData->mSettings->mFogTableMode;
         if (fogTableMode == 0) {
             for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] =
+                race_sStagFogTable[i] =
                     ((i * 4) << 2) | ((i * 16 + 4) << 8) | ((i * 16 + 8) << 16) | ((i * 16 + 12) << 24);
             }
         } else if (fogTableMode == 1) {
@@ -536,7 +536,7 @@ void InitRaceFog(void) {
             }
             fogCurve[0] = 0;
             for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
+                race_sStagFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
                                      (fogCurve[i * 4 + 3] << 24);
             }
         } else if (fogTableMode == 2) {
@@ -548,28 +548,28 @@ void InitRaceFog(void) {
             }
             fogCurve[0] = 0;
             for (i = 0; i < 8; i++) {
-                gCourseFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
+                race_sStagFogTable[i] = fogCurve[i * 4] | (fogCurve[i * 4 + 1] << 8) | (fogCurve[i * 4 + 2] << 16) |
                                      (fogCurve[i * 4 + 3] << 24);
             }
         }
-        data_0217aa38 = gCourseMap->mSettings->mColorAndFogAlpha & 0x7fff;
-        data_0217aa50 = ((u32) gCourseMap->mSettings->mColorAndFogAlpha >> 15) & 31;
-        data_0217aa80 = gCourseMap->mSettings->mUnk_07;
-        gCourseFogOffset = gCourseMap->mSettings->mFogOffset / 512;
-        data_0217aa40 = data_0217aa38 & 31;
-        data_0217aa34 = (data_0217aa38 >> 5) & 31;
-        data_0217aa3c = (data_0217aa38 >> 10) & 31;
+        race_sStagFogColor = gMapData->mSettings->mColorAndFogAlpha & 0x7fff;
+        race_sStagFogAlpha = ((u32) gMapData->mSettings->mColorAndFogAlpha >> 15) & 31;
+        race_sFogSlope = gMapData->mSettings->mUnk_07;
+        race_sStagFogOffset = gMapData->mSettings->mFogOffset / 512;
+        race_sStagFogColorR = race_sStagFogColor & 31;
+        race_sStagFogColorG = (race_sStagFogColor >> 5) & 31;
+        race_sStagFogColorB = (race_sStagFogColor >> 10) & 31;
     }
-    if (gCourseMap->mSettings->mFogEnabled != 0) {
-        G3X_SetFog(1, 0, data_0217aa80, gCourseFogOffset);
-        reg_G3X_FOG_COLOR = data_0217aa38 | (data_0217aa50 << 16);
-        G3X_SetFogTable(gCourseFogTable);
+    if (gMapData->mSettings->mFogEnabled != 0) {
+        G3X_SetFog(1, 0, race_sFogSlope, race_sStagFogOffset);
+        reg_G3X_FOG_COLOR = race_sStagFogColor | (race_sStagFogAlpha << 16);
+        G3X_SetFogTable(race_sStagFogTable);
     } else {
         G3X_SetFog(0, 0, 5, 0);
     }
 }
 
-void BuildFadeFog(s32 fadeLevel, s32 b) {
+void race_updateDarkeningFog(s32 fadeLevel, s32 b) {
     s32 fadeWeight;
     s32 courseWeight;
     u32 byteIndex;
@@ -577,20 +577,20 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
     u16 i;
     s32 fogByte;
 
-    if (gCourseMap->mSettings->mFogEnabled != 0 && b == 0) {
+    if (gMapData->mSettings->mFogEnabled != 0 && b == 0) {
         fadeWeight = ((s64) 57 * (fadeLevel << 12) + 0x800) >> 12;
         data_0217aa78 = fadeWeight;
         courseWeight = 4096 - fadeWeight;
         data_0217aa84 = courseWeight;
         data_0217aa44 = ((s64) fadeWeight * 72 + 0x800) >> 12;
-        data_0217aa28 = (s32) (((s64) data_0217aa40 * courseWeight + 0x800) >> 12) +
-                        ((s32) (((s64) data_0217aa34 * courseWeight + 0x800) >> 12) << 5) +
-                        ((s32) (((s64) data_0217aa3c * courseWeight + 0x800) >> 12) << 10);
-        data_0217aa68 = (s32) (((s64) courseWeight * data_0217aa50 + 0x800) >> 12) +
-                        (s32) (((s64) fadeWeight * data_0217aa60 + 0x800) >> 12);
-        gFadeFogOffset = ((s64) courseWeight * gCourseFogOffset + 0x800) >> 12;
+        race_sDarkeningFadeFogColor = (s32) (((s64) race_sStagFogColorR * courseWeight + 0x800) >> 12) +
+                        ((s32) (((s64) race_sStagFogColorG * courseWeight + 0x800) >> 12) << 5) +
+                        ((s32) (((s64) race_sStagFogColorB * courseWeight + 0x800) >> 12) << 10);
+        race_sDarkeningFadeFogAlpha = (s32) (((s64) courseWeight * race_sStagFogAlpha + 0x800) >> 12) +
+                        (s32) (((s64) fadeWeight * race_sDarkeningFogAlpha + 0x800) >> 12);
+        race_sDarkeningFadeFogOffset = ((s64) courseWeight * race_sStagFogOffset + 0x800) >> 12;
         for (i = 0; i < 8; i++) {
-            tableEntry = gCourseFogTable[i];
+            tableEntry = race_sStagFogTable[i];
             data_0217aa8c[0] = tableEntry & 0xff;
             data_0217aa8c[1] = (tableEntry & 0xff00) >> 8;
             data_0217aa8c[2] = (tableEntry & 0xff0000) >> 16;
@@ -599,92 +599,92 @@ void BuildFadeFog(s32 fadeLevel, s32 b) {
                 fogByte = data_0217aa8c[byteIndex];
                 data_0217aa8c[byteIndex] = (s32) (((s64) fogByte * (s32) courseWeight + 0x800) >> 12) + data_0217aa44;
             }
-            gFadeFogTable[i] =
+            race_sDarkeningFogTable[i] =
                 data_0217aa8c[0] | (data_0217aa8c[1] << 8) | (data_0217aa8c[2] << 16) | (data_0217aa8c[3] << 24);
         }
         data_0217aa58 = tableEntry;
     } else {
         for (i = 0; i < 8; i++) {
-            gFadeFogTable[i] = fadeLevel | (fadeLevel << 8) | (fadeLevel << 16) | (fadeLevel << 24);
+            race_sDarkeningFogTable[i] = fadeLevel | (fadeLevel << 8) | (fadeLevel << 16) | (fadeLevel << 24);
         }
     }
 }
 
-void StartFadeFog(void) {
-    if (gRace->mDrawnFadeFog == 1) {
-        gRace->mDrawnFadeFog = 0;
+void race_startDarkening(void) {
+    if (race_sState->mDrawnFadeFog == 1) {
+        race_sState->mDrawnFadeFog = 0;
     }
-    gRace->mFadeFog = 1;
-    SetKartModelsFogEnable(0);
-    SetCourseModelsFogEnableFlags(1);
-    data_021653e8 = 72;
-    BuildFadeFog(72, 1);
-    gFadeFogStepping = 0;
-    gFadeFogActive = 1;
-    gFadeFogHoldFrames = 0;
-    gFadeFogOffset = 0;
-    data_0217aa28 = data_0217aa30;
-    data_0217aa68 = data_0217aa60;
+    race_sState->mFadeFog = 1;
+    driver_setFogEnableFlags(0);
+    crsmdl_setFogFlags(1);
+    race_sDarkeningFogDensity = 72;
+    race_updateDarkeningFog(72, 1);
+    race_sDarkeningIsFading = 0;
+    race_sDarkeningActive = 1;
+    race_sDarkeningFadeWaitCounter = 0;
+    race_sDarkeningFadeFogOffset = 0;
+    race_sDarkeningFadeFogColor = race_sDarkeningFogColor;
+    race_sDarkeningFadeFogAlpha = race_sDarkeningFogAlpha;
 }
 
-void ClearFadeFogHoldFrames(void) {
+void race_resetDarkeningFadeWaitCounter(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gFadeFogHoldFrames;
+    value0 = (u32) &race_sDarkeningFadeWaitCounter;
     value1 = 0u;
     *(u16 *) ((value0) + (0)) = value1;
 }
 
-void SetFadeFogHoldFramesToLimit(void) {
+void race_forceDarkeningFade(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gFadeFogHoldFrames;
+    value0 = (u32) &race_sDarkeningFadeWaitCounter;
     value1 = 0x48u;
     *(u16 *) ((value0) + (0)) = value1;
 }
 
-u32 IsFadeFogActive(void) {
-    return (gFadeFogActive);
+u32 race_getIsDarkeningActive(void) {
+    return (race_sDarkeningActive);
 }
 
-MtxFx43 *GetCurrentViewMatrix(void) {
-    return gCurrentViewMatrix;
+MtxFx43 *race_getCameraMtx(void) {
+    return race_sCurCameraMtx;
 }
 
-u32 GetCurrentCameraKind(void) {
-    return (gCurrentCamera->mKind);
+u32 race_getCameraField250(void) {
+    return (race_sCurCamera->mKind);
 }
 
-// The camera used this frame: gCurrentCamera.
-Camera *GetCurrentCamera(void) {
-    return gCurrentCamera;
+// The camera used this frame: race_sCurCamera.
+Camera *race_getCamera(void) {
+    return race_sCurCamera;
 }
 
-u32 SetRaceUpdateFramesUnlimited(void) {
+u32 race_setField34(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gRace;
+    value0 = (u32) &race_sState;
     value1 = 1u;
     value0 = *(const u32 *) ((value0) + (0));
     *(u32 *) ((value0) + (52)) = value1;
     return value0;
 }
 
-u32 SetRaceUpdateFramesAtEntryEnd(void) {
+u32 race_20617D8(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gRace;
+    value0 = (u32) &race_sState;
     value1 = *(const u32 *) ((value0) + (0));
-    value0 = gRace->mUpdateFrames;
-    gRace->mUpdateFramesAtEntryEnd = value0;
+    value0 = race_sState->mUpdateFrames;
+    race_sState->mUpdateFramesAtEntryEnd = value0;
     return value0;
 }
 
-s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut) {
+s32 race_20617A8(u32 *framesOut) {
     Race *race;
     BOOL found;
 
-    race = gRace;
+    race = race_sState;
     found = FALSE;
     if (race->mUpdateFramesAtEntryEnd != 0) {
         found = TRUE;
@@ -693,21 +693,21 @@ s32 TryGetRaceUpdateFramesSinceEntryEnd(u32 *framesOut) {
     return found;
 }
 
-s32 GetMapObjectFirstPolygonId(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+s32 race_getFirstObjectPolygonId(void) {
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         return 0x2e;
     }
     return 0x1f;
 }
 
-u16 GetSplMaxPolyId(void) {
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+u16 race_getLastParticlePolygonId(void) {
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         return 0x2d;
     }
     return 0x1e;
 }
 
-BOOL IsGhostRecordFilled(void *record) {
+BOOL ghdat_getIsGhostValid(void *record) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled == 1) {
@@ -716,7 +716,7 @@ BOOL IsGhostRecordFilled(void *record) {
     return FALSE;
 }
 
-BOOL GetGhostRecordTime(void *record, TimeRecord *timeRecord) {
+BOOL ghdat_getGhostTime(void *record, TimeRecord *timeRecord) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
@@ -728,7 +728,7 @@ BOOL GetGhostRecordTime(void *record, TimeRecord *timeRecord) {
     return TRUE;
 }
 
-BOOL GetGhostRecordName(void *record, void *name) {
+BOOL ghdat_getGhostNickName(void *record, void *name) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
@@ -738,7 +738,7 @@ BOOL GetGhostRecordName(void *record, void *name) {
     return TRUE;
 }
 
-s32 GetGhostRecordCharacterIndex(void *record) {
+s32 ghdat_getGhostCharacter(void *record) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
@@ -747,7 +747,7 @@ s32 GetGhostRecordCharacterIndex(void *record) {
     return ghostRecord->mCharacterIndex;
 }
 
-s32 GetGhostRecordKartIndex(void *record) {
+s32 ghdat_getGhostKart(void *record) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {
@@ -756,7 +756,7 @@ s32 GetGhostRecordKartIndex(void *record) {
     return ghostRecord->mKartIndex;
 }
 
-u32 GetGhostRecordCourseId(void *record) {
+u32 ghdat_getGhostCourse(void *record) {
     GhostRecord *ghostRecord = record;
 
     if (ghostRecord->mFilled != 1) {

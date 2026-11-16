@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cef1c(void);
+void struct217B488_reset(void);

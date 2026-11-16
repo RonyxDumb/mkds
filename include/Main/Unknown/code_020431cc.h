@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-s32 func_020431cc(void);
-s32 func_020431d4(void);
-s32 func_020431dc(void);
+s32 mdat_getAreaBoxXZHalfScale(void);
+s32 mdat_getAreaBoxYScale(void);
+s32 mdat_getAreaCylinderHalfScale(void);

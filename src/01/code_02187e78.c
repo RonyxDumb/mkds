@@ -15,9 +15,9 @@
 void IncrementEntryIndex(Unk02188950 *mapObject) {
     int nextEntryIndex;
 
-    if (mapObject->mEntryGroupIndex < gCourseMap->mEntryGroupCount) {
+    if (mapObject->mEntryGroupIndex < gMapData->mEntryGroupCount) {
         nextEntryIndex = mapObject->mEntryIndex + 1;
-        if (nextEntryIndex >= gCourseMap->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
+        if (nextEntryIndex >= gMapData->mEntryGroups[(u16) mapObject->mEntryGroupIndex].mEntryCount) {
             nextEntryIndex = 0;
         }
         mapObject->mEntryIndex = nextEntryIndex;

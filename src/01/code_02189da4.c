@@ -59,7 +59,7 @@ void func_ov001_0218a30c(Unk02188950 *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0x2000, 0, 0x40f, 0);
     soundRequest = data_ov001_021a7ad0;
     soundRequest.mPositionSource = &mapObject->mUnk_000.mPos;
-    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&mapObject->mUnk_000.mPos);
+    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&mapObject->mUnk_000.mPos);
     func_0210b734(&soundRequest, func_02108e7c());
     mapObject->mUnk_000.mFlags |= data_ov001_021a6588;
     mapObject->mUnk_000.mFlags |= data_ov001_021a658c;
@@ -78,7 +78,7 @@ void func_ov001_0218a2d4(void) {
 
 s32 func_ov001_0218a2b8(Unk02188950 *mapObject) {
     int raceStarted;
-    raceStarted = IsRaceStarted();
+    raceStarted = race_getState();
     if (raceStarted == 1) {
         func_ov001_02188e88(mapObject);
     }
@@ -101,7 +101,7 @@ void func_ov001_0218a20c(Unk02188950 *mapObject) {
     func_ov001_02187218(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_04c, mapObject->mPrm->mUnk_050);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_054, &func_ov001_0218a250);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x00000235u);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x00000235u);
 }
 
 void func_ov001_0218a1d0(Unk02188950 *mapObject) {
@@ -126,28 +126,28 @@ void InitBombKingObjects(Unk0218d87c *list) {
             offset.x = mapObject->mPrm->mUnk_0fc;
             offset.y = mapObject->mPrm->mUnk_100;
             func_ov001_02187c88(mapObject, 5, (&offset));
-            if (GetRaceUseChainCameras() != 0) {
+            if (race_isCamAnimMode() != 0) {
                 func_ov001_0218a19c(mapObject);
             } else {
                 func_ov001_0218a20c(mapObject);
             }
         }
     }
-    SetStandingsEndCallback((void (*)(void)) func_ov001_0218a2d4);
+    mgcnt_setOnEndFunc((void (*)(void)) func_ov001_0218a2d4);
 }
 
 void UpdateBombKing(u32 a, Unk02188950 *mapObject) {
     int active;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        active = IsWinnerDecided();
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        active = mgcnt_hasWinnerBeenDecided();
     } else {
         active = 0;
     }
     if (active != 0) {
         if (func_ov001_021871f8(mapObject, 1) != 0) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                active = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                active = mgcnt_isDriverDead((u16) gRaceMultiConfig->mEntryIndex);
             } else {
                 active = 0;
             }
@@ -170,12 +170,12 @@ void UpdateBombKing(u32 a, Unk02188950 *mapObject) {
             StartBombKingWalkState(mapObject);
         }
     }
-    AdvanceMissionRunMapObject(a, mapObject);
+    boss_update(a, mapObject);
 }
 
 void func_ov001_0218a034(Unk02188950 *mapObject) {
-    CreateParkedMapObjects(0xc9, 0xa, mapObject);
-    mapObject->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mobj_createSubObjects(0xc9, 0xa, mapObject);
+    mapObject->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource((SoundSource *) mapObject->mUnk_000.mSound, 0xc, &mapObject->mUnk_000.mPos);
     mapObject->mUnk_000.mFarDistanceSquared = data_0217cbec[0x50 / 4];
 }
@@ -187,7 +187,7 @@ void func_ov001_0218a028(Unk0201ca6c *emitter) {
 void func_ov001_02189fe0(Unk02188950 *mapObject, ItemObject *itemObject) {
     if (itemObject->mKind == 9) {
         if (IsItemBombState2(itemObject) == FALSE) {
-            StartEffectWithCallback(0x3a, &itemObject->mPos, NULL, func_ov001_0218a028);
+            ptcm_createEmitterNoUpdateSkip(0x3a, &itemObject->mPos, NULL, func_ov001_0218a028);
         }
     }
     mapObject->mUnk_2e0 = 1;
@@ -208,7 +208,7 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
         velocity.y = 0;
         velocity.z = mapObject->mUnk_000.mPos.z - itemObject->mPos.z;
         if ((s64) velocity.x * velocity.x + (s64) velocity.y * velocity.y + (s64) velocity.z * velocity.z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
+            vec_normalize(&velocity, &velocity);
         }
         scale = mapObject->mPrm->mUnk_16c;
         velocity.x = (s64) velocity.x * scale >> 12;
@@ -219,18 +219,18 @@ void BombKingItemHitCallback(Unk02188950 *mapObject, ItemObject *itemObject) {
         func_ov001_0218a41c(mapObject);
     }
 }
-void InitBombKing(Unk0218d87c *list) {
+void LoadBomb_king(Unk0218d87c *list) {
     Unk02188950 *mapObject;
     MissionRunPrm *prm;
     int i;
 
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (mapObject = list->mUnk_00[i]) != NULL; i++) {
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 AddMissionRunMapObject(mapObject);
             }
-            InitMissionRunMapObject(list, mapObject, data_ov001_021a7b14, data_ov001_021a7b24, data_ov001_021a7b34);
-            LoadMissionRunMapObjectShadow(list, mapObject, data_ov001_021a7b44);
+            boss_21870E4(list, mapObject, aBomb_king_nsbm, aBomb_king_nsbc, aBomb_king_prm);
+            LoadMissionRunMapObjectShadow(list, mapObject, aSh_circle_ns_1);
             prm = mapObject->mPrm;
             SetCollisionOffsetAndExtent(mapObject, prm->mUnk_008, prm->mUnk_00c, prm->mUnk_20c);
             SetShadowOffsetYAndScale(mapObject, 0, 0x23000);
@@ -240,23 +240,23 @@ void InitBombKing(Unk0218d87c *list) {
 }
 
 void func_ov001_02189e0c(void *mapObjectList, Unk02188950 *mapObject) {
-    DrawMissionRunMapObject(mapObjectList, mapObject);
-    DrawMissionRunMapObjectShadow(mapObjectList, mapObject, 0);
+    boss_render(mapObjectList, mapObject);
+    boss_renderShadow(mapObjectList, mapObject, 0);
 }
 
 void func_ov001_02189dd8(void) {
     u32 v4 = 0x23eu;
-    void *kartCollisionCallback = &CollideKartWithMissionRunMapObject;
-    void *itemCollisionCallback = &CollideItemWithMissionRunMapObject;
-    void *sphereHitCallback = &ComputeSphereHitOnMissionRunMapObject;
+    void *kartCollisionCallback = &boss_onDriverCollide;
+    void *itemCollisionCallback = &boss_onItemCollide;
+    void *sphereHitCallback = &boss_collide;
     void *kindData =
         func_ov001_0219b510(kartCollisionCallback, itemCollisionCallback, sphereHitCallback, 0x2u, 0x1u, v4, 0x0u);
 }
 
-void *CreateBombKingDrawList(void) {
-    return CreateMapObjectDrawList1(InitBombKing, func_ov001_02189e0c, ToggleShadowScale);
+void *InitBomb_king(void) {
+    return mobj_createRenderPart3d(LoadBomb_king, func_ov001_02189e0c, ktesa_globalPreRender);
 }
 
 void *CreateBombKingUpdateList(void) {
-    return CreateMapObjectUpdateList(InitBombKingObjects, UpdateBombKing, NULL);
+    return mobj_createLogicPart(InitBombKingObjects, UpdateBombKing, NULL);
 }

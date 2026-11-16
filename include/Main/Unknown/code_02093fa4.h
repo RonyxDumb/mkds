@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitNsKiller1(u32 arg0);
+void nsk1_init(u32 arg0);

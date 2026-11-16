@@ -33,7 +33,7 @@ void func_02035114(void) {
     CellFileSet *subCellFileSet;
     s32 i;
 
-    object = data_02174e64;
+    object = sGhostReceiveState;
     subCellFileSet = &object->mCellFileSets[1];
     if (object->mSelectedIndex < 0) {
         for (i = 0; i < 4; i++) {
@@ -47,7 +47,7 @@ void func_02035114(void) {
     } else {
         if (object->mFilledCount == 0) {
             subCellFileSet->mCellTable[4].mVisible = 0;
-            data_02174e64->mSelectedIndex = -1;
+            sGhostReceiveState->mSelectedIndex = -1;
             return;
         }
         if (object->mGhostInfoEntries[object->mSelectedIndex].mFilled == FALSE) {
@@ -68,17 +68,17 @@ void func_02035060(void) {
     s16 interpolatedValue;
     s16 v;
 
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
+    subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
     cellCount = subCellFileSet->mCellLayout->mUnk_06;
     for (i = 0; i < 4; i++) {
-        AdvanceInterpolation(&data_02174e64->mGhostInfoEntries[i].mInterpolation);
-        interpolatedValue = GetInterpolatedValue(&data_02174e64->mGhostInfoEntries[i].mInterpolation);
+        interp_update(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation);
+        interpolatedValue = interp_interpolate(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation);
         subCellFileSet->mCellTable[cellCount + data_02164254[i + 4][0]].mOffsetX = interpolatedValue;
         v = subCellFileSet->mCellTable[cellCount + ((const s16(*)[4]) data_02164254)[i + 4][0]].mOffsetX;
         subCellFileSet->mCellTable[cellCount + data_02164254[i][0]].mOffsetX = v;
         v = subCellFileSet->mCellTable[cellCount + data_02164254[i][0]].mOffsetX;
         subCellFileSet->mCellTable[data_02164254[i][3]].mOffsetX = v;
-        if (data_02174e64->mSelectedIndex == i) {
+        if (sGhostReceiveState->mSelectedIndex == i) {
             subCellFileSet->mCellTable[4].mOffsetX = interpolatedValue;
         }
     }
@@ -92,11 +92,11 @@ void func_02034fec(void) {
     s32 i;
     s16 offset;
 
-    mainCellFileSet = &data_02174e64->mCellFileSets[0];
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
+    mainCellFileSet = &sGhostReceiveState->mCellFileSets[0];
+    subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
     mainEntryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
     subEntryCount = subCellFileSet->mCellLayout->mUnk_06 + subCellFileSet->mLabelLayout->mUnk_06;
-    offset = GetInterpolatedValue(&data_02174e64->mUnk_194);
+    offset = interp_interpolate(&sGhostReceiveState->mUnk_194);
     for (i = 0; i < mainEntryCount; i++) {
         mainCellFileSet->mCellTable[i].mOffsetY = -offset;
     }
@@ -112,19 +112,19 @@ void func_02034f60(void) {
     s32 entryCount;
     BOOL hasSelection;
 
-    mainCellFileSet = &data_02174e64->mCellFileSets[0];
-    selectedEntry = &data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex];
+    mainCellFileSet = &sGhostReceiveState->mCellFileSets[0];
+    selectedEntry = &sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex];
     entryCount = mainCellFileSet->mCellLayout->mUnk_06 + mainCellFileSet->mLabelLayout->mUnk_06;
     for (i = 0; i < entryCount; i++) {
-        if (data_02174e64->mSelectedIndex >= 0) {
+        if (sGhostReceiveState->mSelectedIndex >= 0) {
             hasSelection = TRUE;
         } else {
             hasSelection = FALSE;
         }
         mainCellFileSet->mCellTable[i].mVisible = hasSelection;
     }
-    if (data_02174e64->mSelectedIndex >= 0) {
-        PrintGhostRecordInfo((SelectCharacter *) &data_02174e64->mCellFileSets[0], data_02154034, selectedEntry,
+    if (sGhostReceiveState->mSelectedIndex >= 0) {
+        PrintGhostRecordInfo((SelectCharacter *) &sGhostReceiveState->mCellFileSets[0], data_02154034, selectedEntry,
                              selectedEntry->mInfo.mUnk_18[0], selectedEntry->mInfo.mUnk_18[1],
                              selectedEntry->mInfo.mUnk_18[2],
                              (MinuteSecondMillisecondTime *) &selectedEntry->mInfo.mMillisecond);
@@ -137,21 +137,21 @@ void func_02034ef0(void) {
     s32 v;
     s32 w;
 
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
+    subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
     for (i = 0; i < 4; i++) {
         w = i + 4;
-        if (i == data_02174e64->mSelectedIndex) {
+        if (i == sGhostReceiveState->mSelectedIndex) {
             v = 14;
         } else {
             v = 15;
         }
-        SetLabelPaletteIndex(w, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+        jn_ui_setLabelColorParam(w, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
-        SetLabelPaletteIndex(i, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+        jn_ui_setLabelColorParam(i, v, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
     }
-    if (data_02174e64->mSelectedIndex >= 0) {
-        func_02025c6c(4, data_02164254[data_02174e64->mSelectedIndex][3], subCellFileSet->mCellLayout);
+    if (sGhostReceiveState->mSelectedIndex >= 0) {
+        func_02025c6c(4, data_02164254[sGhostReceiveState->mSelectedIndex][3], subCellFileSet->mCellLayout);
     }
 }
 
@@ -189,31 +189,31 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     s16 *row;
     BOOL z;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    data_02174e64 = HeapAlloc(heap, 0x1a8);
-    MemFillWordsByBlock_inline(data_02174e64, 0x1a8);
-    data_02174e64->mHeap = heap;
-    data_02174e64->mUnk_024[0] = b;
-    data_02174e64->mUnk_024[1] = c;
-    data_02174e64->mCommonMessages = FindFileInLoadedArchives(data_02164294);
-    data_02174e64->mGhostMessages = FindSceneFile(data_021642a0);
-    InitBlockEntries(data_02174e64->mHeap, 2);
-    data_02174e64->mSelectedIndex = -1;
+    heap = heap_createSubFrmHeap(parentHeap);
+    sGhostReceiveState = heap_alloc(heap, 0x1a8);
+    MemFillWordsByBlock_inline(sGhostReceiveState, 0x1a8);
+    sGhostReceiveState->mHeap = heap;
+    sGhostReceiveState->mUnk_024[0] = b;
+    sGhostReceiveState->mUnk_024[1] = c;
+    sGhostReceiveState->mCommonMessages = arc_get2dArcFile(aCommon_bmg_34);
+    sGhostReceiveState->mGhostMessages = arc_getSceneArcFile(aGhost_bmg_2);
+    InitBlockEntries(sGhostReceiveState->mHeap, 2);
+    sGhostReceiveState->mSelectedIndex = -1;
     for (i = 0; i < 4; i++) {
-        SetupInterpolation(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 3, 10, 0x100, 0);
+        interp_init(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation, 3, 10, 0x100, 0);
     }
-    func_020258d4(0, data_02174e64, data_021642ac, data_021642cc, data_021642ec, 0, FindSceneFile);
-    cellFileSet = &data_02174e64->mCellFileSets[0];
+    mutil2_initBgGraphics(0, sGhostReceiveState, aTimeattack_ghost_get_m_b_ncgr, aTimeattack_ghost_get_m_b_nclr, aTimeattack_ghost_get_m_nscr, 0, arc_getSceneArcFile);
+    cellFileSet = &sGhostReceiveState->mCellFileSets[0];
     remainingObjSize = GX_GetSizeOfOBJ();
-    LocateCellFileSet(cellFileSet, data_02164308, data_02164328, data_02164348, gTimeAttackGhostGetMBnclName,
-                      gTimeAttackGhostGetMBnllName, NULL, FindSceneFile);
+    mutil2_loadLayout(cellFileSet, aTimeattack_ghost_get_m_nce_ncgr_0, aTimeattack_ghost_get_m_nce_ncer_0, aTimeattack_ghost_get_m_o_nclr_0, aTimeattack_ghost_get_m_bncl_0,
+                      aTimeattack_ghost_get_m_bnll_0, NULL, arc_getSceneArcFile);
     z = FALSE;
-    func_02025a50(0, data_02174e64->mHeap, cellFileSet);
+    mutil2_initLayout(0, sGhostReceiveState->mHeap, cellFileSet);
     i = 0;
     if (i < cellFileSet->mLabelLayout->mUnk_06) {
         row = (s16 *) data_02154034;
         do {
-            remainingObjSize -= func_02025a00(z, data_02174e64->mHeap, cellFileSet, row, remainingObjSize);
+            remainingObjSize -= mutil2_initLabel(z, sGhostReceiveState->mHeap, cellFileSet, row, remainingObjSize);
             row += 4;
             i++;
         } while (i < cellFileSet->mLabelLayout->mUnk_06);
@@ -222,12 +222,12 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
     for (i = 0; i < j; i++) {
         cellFileSet->mCellTable[i].mVisible = 0;
     }
-    cellFileSet = &data_02174e64->mCellFileSets[1];
+    cellFileSet = &sGhostReceiveState->mCellFileSets[1];
     remainingObjSize = GX_GetSizeOfSubOBJ();
     assignedCount = 0;
-    LocateCellFileSet(cellFileSet, data_021643a0, data_021643c0, data_021643e0, gTimeAttackGhostGetSSelBnclName,
-                      gTimeAttackGhostGetSSelBnllName, gTimeAttackGhostGetSSelBnblName, FindSceneFile);
-    func_02025a50(1, data_02174e64->mHeap, cellFileSet);
+    mutil2_loadLayout(cellFileSet, aTimeattack_ghost_get_s_nce_ncgr_0, aTimeattack_ghost_get_s_nce_ncer_0, aTimeattack_ghost_get_s_o_nclr_0, aTimeattack_ghost_get_s_sel_bncl,
+                      aTimeattack_ghost_get_s_sel_bnll, aTimeattack_ghost_get_s_sel_bnbl, arc_getSceneArcFile);
+    mutil2_initLayout(1, sGhostReceiveState->mHeap, cellFileSet);
     cellCount = cellFileSet->mCellLayout->mUnk_06;
     i = 0;
     if (i < cellFileSet->mLabelLayout->mUnk_06) {
@@ -236,19 +236,19 @@ void func_02034bf4(void *parentHeap, void *b, void *c) {
             if (row[3] < 0) {
                 row[3] = cellCount + assignedCount++;
             }
-            remainingObjSize -= func_02025a00(1, data_02174e64->mHeap, cellFileSet, data_02164254[i], remainingObjSize);
+            remainingObjSize -= mutil2_initLabel(1, sGhostReceiveState->mHeap, cellFileSet, data_02164254[i], remainingObjSize);
             row += 4;
             i++;
         } while (i < cellFileSet->mLabelLayout->mUnk_06);
     }
     for (j = 0; j < cellCount; j++) {
-        func_021249a8(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
+        jn_ui_setCellPriority(j, 3, cellFileSet->mCells, cellFileSet->mCellLayout);
     }
     cellFileSet->mCellTable[4].mVisible = 0;
-    func_02025b84(0, &data_02174e64->mUnk_064);
-    SetupInterpolation(&data_02174e64->mUnk_194, 3, 10, -0xc0, 0);
-    SetSelectReturnSoundId(0xf);
-    FrmHeapShrinkInParent(data_02174e64->mHeap);
+    mutil2_loadPortraits(0, &sGhostReceiveState->mUnk_064);
+    interp_init(&sGhostReceiveState->mUnk_194, 3, 10, -0xc0, 0);
+    gmenu_setSeqArcIndex(0xf);
+    heap_adjustSubFrmHeap(sGhostReceiveState->mHeap);
 }
 
 #pragma thumb off

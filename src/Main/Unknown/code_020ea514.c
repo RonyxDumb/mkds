@@ -7,14 +7,14 @@
 
 #pragma thumb on
 
-void InitModelAnimationWithEntries(u32 animationKind, void *model, void *animation, void *nsbmdFile,
+void anim_20EA514(u32 animationKind, void *model, void *animation, void *nsbmdFile,
                                    void *animationFile) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    InitModelAnimation(animationKind, animation, model, 1, heap, nsbmdFile);
-    InitModelAnimationEntries(animation, animationFile, GetHeap(GetCurrentHeapCall()));
-    SetModelAnimation(animation, 0);
+    heap = proc_getHeap(proc_getCurrent());
+    anim_initManager(animationKind, animation, model, 1, heap, nsbmdFile);
+    anim_registerAllAnims(animation, animationFile, proc_getHeap(proc_getCurrent()));
+    anim_setAnim(animation, 0);
 }
 
 #pragma thumb off

@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 
-// 0x48-byte entries from 0xb0 of Sanbo; StartSanboLaunch writes the first mUnk_1d0 of them.
+// 0x48-byte entries from 0xb0 of Sanbo; sanbo_kill writes the first mUnk_1d0 of them.
 typedef struct SanboPiece {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mVelocity;
@@ -25,8 +25,8 @@ typedef struct SanboPiece {
     /* 44 */ s32 mWobbleDelayTimer;
 } SanboPiece;
 
-// Object of kind 0x1b2 (Sanbo: sanbo_h and sanbo_b models in one object). Object passed to CollideItemObjectWithSanbo
-// and CollideKartWithSanbo as their first argument and on to StartSanboLaunch: the shared MapObject part, words at 0xa0
+// Object of kind 0x1b2 (Sanbo: sanbo_h and sanbo_b models in one object). Object passed to sanbo_onItemCollide
+// and sanbo_onDriverCollide as their first argument and on to sanbo_kill: the shared MapObject part, words at 0xa0
 // to 0xac, four 0x48-byte entries with their count at 0x1d0, a word at 0x1d4, an GroupFollower at 0x1d8 and a word at
 // 0x1fc.
 typedef struct Sanbo {
@@ -41,7 +41,7 @@ typedef struct Sanbo {
     /* 1d2 */ u8 mUnk_1d2[2];
     /* 1d4 */ s32 mPathSpeed;
     /* 1d8 */ GroupFollower mFollower;
-    /* State number of this kind's own per-frame switch in UpdateSanbo; this object does not use
+    /* State number of this kind's own per-frame switch in sanbo_update; this object does not use
        MapObject.mUnk_80's state machine; also read in its draw, state 1 is never written */
     /* 1fc */ s32 mState;
 } Sanbo;

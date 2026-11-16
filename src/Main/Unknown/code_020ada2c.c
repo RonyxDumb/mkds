@@ -6,14 +6,14 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void AdvanceTitleStates(s32 a) {
+void title_update(s32 a) {
     enum { K0 } i;
-    ClearOamListCounts(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
-    i = gTitleScene->mState;
-    gTitleScene->mStateHandlers[i].mUpdate(a);
-    IncrementCounterSaturating((s32 *) gTitleScene);
-    func_02125928();
-    func_020ae630(&gTitleScene->mMainOam, &gTitleScene->mSubOam);
+    oam_resetBuffers(&sTitleSceneState->mMainOam, &sTitleSceneState->mSubOam);
+    i = sTitleSceneState->mState;
+    sTitleSceneState->mStateHandlers[i].mUpdate(a);
+    title_ssm_increaseFrameCounter((s32 *) sTitleSceneState);
+    gmenu_render();
+    oam_prepareBuffers(&sTitleSceneState->mMainOam, &sTitleSceneState->mSubOam);
 }
 
 #pragma thumb off

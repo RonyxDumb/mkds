@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cedf8(void);
+void mpicn_destroyPakkunFireIcon(void);

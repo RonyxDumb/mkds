@@ -5,17 +5,17 @@ void func_020a2e68(Balloon *balloon) {
 }
 
 // Returns mScaleFactor.
-s32 GetBalloonScaleFactor(Balloon *balloon) {
+s32 blln_getInflationProgress(Balloon *balloon) {
     return balloon->mScaleFactor;
 }
 
 // Stores mKartIndex.
-void SetBalloonKartIndex(Balloon *balloon, u16 kartIndex) {
+void blln_setDriverId(Balloon *balloon, u16 kartIndex) {
     balloon->mKartIndex = kartIndex;
 }
 
 // Stores mDrawCount and mDrawList.
-void SetBalloonDrawCountAndList(Balloon *balloon, u16 drawCount, void *drawList) {
+void blln_setSubBalloons(Balloon *balloon, u16 drawCount, void *drawList) {
     balloon->mDrawCount = drawCount;
     balloon->mDrawList = drawList;
 }

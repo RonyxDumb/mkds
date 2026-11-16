@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020019ac(void);
+void logo_waitSaveBusyStateInit(void);

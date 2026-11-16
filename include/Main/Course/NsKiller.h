@@ -22,26 +22,26 @@ typedef struct NsKiller1 {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mStateTimer;
     /* a4 */ u8 mUnk_a4[4];
-    /* State number of this kind's own per-frame switch in UpdateNsKiller1; this object does not use
+    /* State number of this kind's own per-frame switch in nsk1_update; this object does not use
        MapObject.mUnk_80's state machine */
     /* a8 */ s32 mState;
     /* ac */ GroupFollower mFollower;
 } NsKiller1;
 
-void StartNsKiller2(Vec3 *startPos, Vec3 *b, u16 angle);
-void CreateNsKiller2UpdateList(void);
-void CreateNsKiller2DrawList(void);
-void CreateNsKiller2KindData(void);
-void UpdateNsKiller2(void *a, NsKiller2 *nsKiller2); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawNsKiller2(void *a, NsKiller2 *nsKiller2);
-void CreateNsKiller2AndNsKiller2S(void *a);
-u8 CollideKartWithNsKiller2(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d);
-/* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
- * UnparkFirstParkedMapObject */
-void InitNsKiller2(NsKiller2 *nsKiller2);
-void CreateNsKiller1UpdateList(void);
-void CreateNsKiller1DrawList(void);
-void UpdateNsKiller1(void *a, NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitNsKiller1Objects(MapObjectList *mapObjectList);
-void DrawNsKiller1(void *a, NsKiller1 *nsKiller1);
-void CreateNsKiller1(void *a);
+void nsk2_spawn(Vec3 *startPos, Vec3 *b, u16 angle);
+void nsk2_setupLogicPart(void);
+void nsk2_setupRenderPart(void);
+void nsk2_setupConfig(void);
+void nsk2_update(void *a, NsKiller2 *nsKiller2); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void nsk2_render(void *a, NsKiller2 *nsKiller2);
+void nsk2_loadModels(void *a);
+u8 nsk2_onDriverCollide(NsKiller2 *nsKiller2, Kart *kart, u8 *c, u8 *d);
+/* creates the pooled object hidden (parks it with mobj_setInvisible); the spawner later takes it with
+ * mobj_acquireFreeObject */
+void nsk2_init(NsKiller2 *nsKiller2);
+void nsk1_setupLogicPart(void);
+void nsk1_setupRenderPart(void);
+void nsk1_update(void *a, NsKiller1 *nsKiller1); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void nsk1_globalLogicInit(MapObjectList *mapObjectList);
+void nsk1_render(void *a, NsKiller1 *nsKiller1);
+void nsk1_loadModel(void *a);

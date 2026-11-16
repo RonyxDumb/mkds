@@ -45,7 +45,7 @@ u32 func_020072c0(void) {
     func_02007154(v13->mUnk_1525);
     work = data_0216fdac;
     childEntry = OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4);
-    if (func_0200806c(&v2, work->mUnk_1d2c + work->mUnk_1525 * 0x5d4, childEntry->mUnk_1d48,
+    if (MBi_get_blockinfo(&v2, work->mUnk_1d2c + work->mUnk_1525 * 0x5d4, childEntry->mUnk_1d48,
                       work->mUnk_1788 + work->mUnk_1525 * 0x5d4) == FALSE) {
         return 21;
     }
@@ -62,7 +62,7 @@ u32 func_020072c0(void) {
     rangeTable = childEntry->mUnk_1d54;
     if (CopyFromDataRanges(rangeTable, v10, v9, v2.mUnk_04) == 0) {
         loadJob = (DataRangeLoadJob *) data_0216fdac->mUnk_7ce0;
-        if (IsWorkerTaskInUse(&loadJob->mUnk_00) == 0) {
+        if (CTRDGi_IsTaskBusy(&loadJob->mUnk_00) == 0) {
             if (rangeTable->mUnk_00 != 0) {
                 range = rangeTable->mUnk_30;
                 lowestRange = NULL;
@@ -81,13 +81,13 @@ u32 func_020072c0(void) {
                 lowestRange->mOffset = v10 & ~0x1f;
                 loadJob->mDataRange = lowestRange;
                 loadJob->mDataRangeTable = rangeTable;
-                QueueWorkerTask(&loadJob->mUnk_00, (void *) LoadDataRange, NULL, 4);
+                CTRDGi_SetTask(&loadJob->mUnk_00, (void *) LoadDataRange, NULL, 4);
             }
         }
         return 21;
     }
     work = data_0216fdac;
-    return FlushAndSendMPData(v2.mUnk_04 + 6, (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d4c,
+    return MBi_BlockHeaderEnd(v2.mUnk_04 + 6, (OFFSET_PTR(Unk0216fdac, work, work->mUnk_1525 * 0x5d4))->mUnk_1d4c,
                               (u32) work);
 }
 

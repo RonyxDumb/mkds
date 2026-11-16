@@ -4,4 +4,4 @@
 
 typedef struct Interpolation Interpolation;
 
-void SetInterpolationState(Interpolation *interpolation, u32 state);
+void interp_setStateDirect(Interpolation *interpolation, u32 state);

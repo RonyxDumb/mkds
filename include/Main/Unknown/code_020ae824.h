@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020ae824(void);
+void r2d_render(void);

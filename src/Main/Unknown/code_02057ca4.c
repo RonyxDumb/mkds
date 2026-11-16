@@ -5,9 +5,9 @@
 
 #pragma thumb on
 
-void WriteBackupFirstBlock(void *block) {
-    u32 *buffer = gBackupAccess->mBuffer;
-    if (gBackupAccess->mBackupEnabled != 0) {
+void savd_writeNksy(void *block) {
+    u32 *buffer = gSaveCore->mBuffer;
+    if (gSaveCore->mBackupEnabled != 0) {
         enum { K0 = 0x53444b4d } firstWord;
         enum { K1 = 0x30315653 } secondWord;
         MI_CpuCopy8(block, buffer, 0x100);
@@ -16,7 +16,7 @@ void WriteBackupFirstBlock(void *block) {
         buffer[0] = firstWord;
         buffer[1] = secondWord;
         buffer[2] = 0x59534b4e;
-        StartBackupWriteTwoCopies(0, 0x30f00, buffer, 0x100, NULL, 1);
+        savc_writeWithBackup(0, 0x30f00, buffer, 0x100, NULL, 1);
     }
 }
 

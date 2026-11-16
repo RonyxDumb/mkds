@@ -8,7 +8,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020d849c.h"
 
-// 0x1c-byte element of the table behind gCollisionSlots.
+// 0x1c-byte element of the table behind col_sColEntries.
 typedef struct CollisionSlot {
     /* 00 */ s16 mHighEndIndex;
     /* 02 */ s16 mLowEndIndex;
@@ -21,7 +21,7 @@ typedef struct CollisionSlot {
     /* 18 */ void *mObject;
 } CollisionSlot;
 
-// Four-byte element of the tables behind gCollisionSlotHighEnds and gCollisionSlotLowEnds.
+// Four-byte element of the tables behind col_sSegRightEndpoints and col_sSegLeftEndpoints.
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;
 // Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.
@@ -29,15 +29,15 @@ typedef struct CollisionSlotEnd {
     /* 02 */ s32 mEndX : 16;
 } CollisionSlotEnd;
 
-u32 FreeCollisionSlot(s32 slotIndex);
-s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object);
+u32 col_deleteColEntry(s32 slotIndex);
+s32 col_createColEntry(Vec3 *centerPos, s32 radius, s32 flags, void *object);
 // Object behind the pointer func_020d5a68 and func_020d5aa0 read: a pointer at 0x00 and a word at 0x04.
 typedef struct Unk020d5a68 {
     /* 00 */ Unk020e005c *mUnk_00;
     /* 04 */ s32 mUnk_04;
 } Unk020d5a68;
 
-// Element object of InitRock: MapObject and the words and halfword used after it.
+// Element object of rock_init: MapObject and the words and halfword used after it.
 typedef struct RockObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mStartY;
@@ -70,22 +70,22 @@ typedef struct EmitterParams {
     /* 0a */ u8 mUnk_0a[2];
 } EmitterParams;
 
-void UpdateRock(void *a, RockObject *rock);
+void rock_update(void *a, RockObject *rock);
 void func_020d634c(RockObject *rock, s32 b);
-u8 func_020d5f8c(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
-u8 func_020d5f64(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 rock_onDriverCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
+u8 rock_onItemCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void ResetRock(RockObject *rock);
-void InitRock(RockObject *rock, struct CourseMapRow *courseRow);
-void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName);
-void CreateRock(void *a);
-void CreateRock2(void *a);
-void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file);
-void InitCourseCollision(void);
+void rock_init(RockObject *rock, struct CourseMapRow *courseRow);
+void rock_loadModels(void *a, const char *name, const char *shadowName);
+void rock_loadRockModels(void *a);
+void rock_loadRock2Models(void *a);
+void col_initFromKcl(CourseCollision *collision, CourseCollision *file);
+void col_loadCourseCollision(void);
 void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e);
 BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link);
-u16 PickCollisionHitValue(u32 mask);
-void InitCollisionSlots(void);
-void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask);
-void SetCollisionSlotRadius(s16 slotIndex, s32 radius);
-void DisableCollisionSlot(s16 slotIndex);
-void EnableCollisionSlot(s16 slotIndex);
+u16 col_findResponsePrismAttribute(u32 mask);
+void col_init(void);
+void col_queryBySphere(Vec3 *position, s32 radius, s32 flagMask);
+void col_setBoundingSphereRadius(s16 slotIndex, s32 radius);
+void col_disableColEntry(s16 slotIndex);
+void col_enableColEntry(s16 slotIndex);

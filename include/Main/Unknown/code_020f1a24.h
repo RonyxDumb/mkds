@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitItemKinds(void);
+void items_20F1A24(void);

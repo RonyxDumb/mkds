@@ -4,11 +4,11 @@
 
 typedef struct KartAi KartAi;
 
-void func_0208bfd8(KartAi *kartAi);
-void func_0208bfec(KartAi *kartAi);
-void CopyKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi);
-BOOL IsKartAiLinkRequested(KartAi *kartAi);
-void RequestKartAiPointLink(KartAi *kartAi);
-void AdvanceKartAiForRace(KartAi *kartAi);
+void enmy_notifyDragItemChangedForRace(KartAi *kartAi);
+void enmy_notifySlotItemChangedForRace(KartAi *kartAi);
+void enmy_getTargetEpoiPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi);
+BOOL enmy_getIsAreaEpoiNotNull(KartAi *kartAi);
+void enmy_recalculateEpoiRoute(KartAi *kartAi);
+void enmy_updateRaceEnemy(KartAi *kartAi);
 void ResetKartAiForRace(KartAi *kartAi);
-void SetupKartAiForRace(KartAi *kartAi, s32 kartIndex);
+void enmy_initRaceEnemy(KartAi *kartAi, s32 kartIndex);

@@ -32,9 +32,9 @@ typedef struct RecordTAtt {
     /* 2c */ struct Unk02021dc8 *mUnk_2c;
     /* 30 */ Nclr *mUnk_30;
     /* 34 */ struct Unk0201ea30 *mUnk_34;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 38 */ LayoutTableEntry *mRecordTAttMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout
     /* 3c */ LayoutTableEntry *mRecordTAttSTable;
     /* 40 */ struct Bmg *mCommonMessages;
     /* 44 */ void *mGhostMessages;
@@ -44,9 +44,9 @@ typedef struct RecordTAtt {
     /* 54 */ s32 mNextState;
     /* 58 */ s32 mStateFrames; /* counted only in states 0, 1, 3-8, 11, 12, 13, 17 */
     /* 5c */ s32 mBg0Offset;
-    // X half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated (code_021956dc.c:1212)
+    // X half of reg_G2_BG1OFS (0x04000014, NitroMain engine BG1), stored negated (code_021956dc.c:1212)
     /* 60 */ s32 mBg1OffsetX;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated
+    // Y half of reg_G2_BG1OFS (0x04000014, NitroMain engine BG1), stored negated
     /* 64 */ s32 mBg1OffsetY;
     // X half of reg_G2S_DB_BG3OFS (0x0400101c): the SUB engine's BG3, stored negated; Y is not written
     /* 68 */ s32 mBg3OffsetX;
@@ -62,7 +62,7 @@ typedef struct RecordTAtt {
     /* 90 */ s32 mUnk_90;
 } RecordTAtt;
 
-// Object behind gBackupAccess.
+// Object behind gSaveCore.
 typedef struct BackupAccess {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mErrorCode;
@@ -102,7 +102,7 @@ extern u16 data_ov001_021a6850[][2];
 
 #include "code_021458c4.h"
 
-extern BackupAccess *gBackupAccess;
+extern BackupAccess *gSaveCore;
 extern u16 data_ov001_021a67c0[];
 extern u16 data_ov001_021a67c4[];
 extern u16 data_ov001_021a67c8[];

@@ -14,7 +14,7 @@ typedef struct Unk020df6c8_e8 {
     /* 24 */ u32 mUnk_24;
 } Unk020df6c8_e8;
 
-// Object of at least 0xf4 bytes, made by CreateMapObject and filled in by InitMkdEfBubble.
+// Object of at least 0xf4 bytes, made by mobj_createObject and filled in by efbub_init.
 typedef struct MkdEfBubbleObject {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mUnk_a0;
@@ -30,9 +30,9 @@ typedef struct MkdEfBubbleObject {
     /* f0 */ s32 mUnk_f0;
 } MkdEfBubbleObject;
 
-void CreateMkdEfBubble(void);
-void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row);
-MapObjectKindData *CreateGroupItemBoxKindData(void);
-MapObjectList *CreateGroupItemBoxUpdateList(void);
-void func_020df58c(void);
-void UpdateGroupItemBox(void *unused, ItemBox *itemBox);
+void efbub_loadModel(void);
+void efbub_init(MkdEfBubbleObject *bubble, CourseMapRow *row);
+MapObjectKindData *mibox_setupCollision(void);
+MapObjectList *mibox_setupLogicPart(void);
+void mibox_globalPreUpdate(void);
+void mibox_update(void *unused, ItemBox *itemBox);

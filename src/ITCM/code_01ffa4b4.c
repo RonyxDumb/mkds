@@ -29,7 +29,7 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_0206e874.h"
 
-void func_01ffa4b4(Kart *p, Vec3 *a) {
+void driver_handleCollision(Kart *p, Vec3 *a) {
     u16 h;
     u32 f;
     u32 w;
@@ -49,22 +49,22 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
     s32 t;
     BOOL e;
 
-    v2 = data_02154f7c;
+    v2 = driverCore_sUpVec;
     b1 = (p->mUnk_44 & 0x100000) ? 1 : 0;
     b2 = (p->mUnk_48 & 0x200000) ? 1 : 0;
     *a = p->mGroundNormal;
-    if (func_01ffa1f8(p) != FALSE) {
+    if (driver_handleFallBelow0(p) != FALSE) {
         return;
     }
-    if (func_01ffdee4(&p->mCollisionCenter, &p->mPrevCollisionCenter, &p->mTurnedForward, p->mRadius, 1,
+    if (col_collide(&p->mCollisionCenter, &p->mPrevCollisionCenter, &p->mTurnedForward, p->mRadius, 1,
                       p->mCollisionSlot, &v1, &v5, &v2, &f, (u32 *) &v3, (s32 *) &v4, &h, &w) != 0) {
         m = f & 0x1e34ef;
         VEC_Add(&p->mPos, &v1, &p->mPos);
-        AdvanceCourseColorBlend(&p->mKartModelsEntry->mUnk_040, (f & 0x3c000000) >> 26, p->mVelocityLength);
-        func_01ff9c9c(p, f);
+        light_interpolateToKclColor(&p->mKartModelsEntry->mUnk_040, (f & 0x3c000000) >> 26, p->mVelocityLength);
+        driver_updateMap2DShadowFlag(p, f);
         func_0206f694(p, f, &v4, h);
         if (f & 0x200300) {
-            func_0206f574(p, f, &v2);
+            driver_handleWallCollision(p, f, &v2);
             if (m != 0) {
                 d = VEC_DotProduct(&v5, &p->mHitVelocity);
                 p->mHitVelocity.x -= (s32) (((s64) v5.x * d) >> 12);
@@ -79,7 +79,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0 || (p->mUnk_44 & 0x4000000)) {
                 n = 0;
                 if ((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z >= 0x10) {
-                    n = Vec3NormalizeAndGetLengthUnchecked(&v3, &v6);
+                    n = vec_normalize(&v3, &v6);
                 }
                 if (n != 0) {
                     k = 0x802;
@@ -97,7 +97,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                 }
                 p->mUnk_44 |= 0x200;
             } else {
-                p->mUnk_374 = data_02154f94;
+                p->mUnk_374 = driverCore_sZeroVec;
                 p->mUnk_44 &= ~0x200;
             }
         } else {
@@ -109,24 +109,24 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
         if (f & 0x8c10) {
             if ((p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && (f & 0x10)) {
                 if (b2 == 0) {
-                    func_0210f458((u16) ((PickCollisionHitValue(0x10) & 0xe0) >> 5));
+                    sfx_handleSoundTrigger((u16) ((col_findResponsePrismAttribute(0x10) & 0xe0) >> 5));
                 }
                 p->mUnk_48 |= 0x200000;
             }
             if (f & 0x8c00) {
                 if (!(f & 0x400) || !(p->mUnk_44 & 0x80) || (f & 0x800)) {
-                    func_0206ff50(p, f);
+                    driver_handleOobFallCannonPipe(p, f);
                 }
             }
         }
         if (f & 0x400000) {
-            func_020efc74(&(gKartItems)[p->mIndex], (u16) ((PickCollisionHitValue(0x400000) & 0xe0) >> 5));
+            func_020efc74(&(it_sDriverItemStatus)[p->mIndex], (u16) ((col_findResponsePrismAttribute(0x400000) & 0xe0) >> 5));
             if (p->mUnk_4c & 0x10000000) {
-                ResetKartKillerCursorTo(&p->mUnk_538.mKillerCursor,
-                                        (Unk02080b1c_00 *) (gKartItems)[p->mIndex].mUnk_1f0.mLink);
+                kill_recalculateRoute(&p->mUnk_538.mKillerCursor,
+                                        (Unk02080b1c_00 *) (it_sDriverItemStatus)[p->mIndex].mUnk_1f0.mLink);
             }
             if ((p->mUnk_7c & 2) && (f & 0x400000) && p->mState != KART_STATE_LAUNCH_DOUBLE_FLIP) {
-                CallKartAiRequestLink(p->mAi);
+                enmy_recalculateRoute(p->mAi);
             }
         }
         if (m != 0) {
@@ -134,10 +134,10 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
             if ((s64) a->x * a->x + (s64) a->y * a->y + (s64) a->z * a->z >= 0x10) {
                 p->mUnk_48 &= ~0x10000000;
                 p->mUnk_3e8 = 0;
-                RefreshKartSurface(p);
+                driver_handleFloorCollision(p);
                 if ((f & 0x20000) && !(p->mUnk_4c & 0x10000040) && !(p->mUnk_7c & 0x402000)) {
                     p->mUnk_4c |= 0x40000000;
-                    p->mUnk_4d8 = (PickCollisionHitValue(0x20000) & 0xe0) >> 5;
+                    p->mUnk_4d8 = (col_findResponsePrismAttribute(0x20000) & 0xe0) >> 5;
                 } else {
                     p->mUnk_4c &= ~0x40000000;
                 }
@@ -145,7 +145,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                 if (p->mVerticalSpeed < 0) {
                     p->mVerticalSpeed = (p->mUnk_48 & 1) ? -0x2b9 : -0xd9d;
                 }
-                func_0206edac(p, a);
+                driver_206EDAC(p, a);
                 if (f & 0x80000000) {
                     p->mUnk_1fc.y = 0;
                 }
@@ -155,7 +155,7 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                     if (((s32(*)(Kart *, u32, Vec3 *)) data_0217ac14)(p, f, &v3) != 0) {
                         n = 0;
                         if ((s64) v3.x * v3.x + (s64) v3.y * v3.y + (s64) v3.z * v3.z >= 0x10) {
-                            n = Vec3NormalizeAndGetLengthUnchecked(&v3, &v7);
+                            n = vec_normalize(&v3, &v7);
                         }
                         if (n != 0) {
                             k = 0x802;
@@ -173,25 +173,25 @@ void func_01ffa4b4(Kart *p, Vec3 *a) {
                         }
                         p->mUnk_44 |= 0x200;
                     } else {
-                        p->mUnk_374 = data_02154f94;
+                        p->mUnk_374 = driverCore_sZeroVec;
                         p->mUnk_44 &= ~0x200;
                     }
                 }
             }
         } else {
-            func_01ffa350(p, 0x10);
+            driver_1FFA350(p, 0x10);
         }
     } else {
-        func_01ffa350(p, 0x90);
+        driver_1FFA350(p, 0x90);
     }
     if (p->mLandingTimer > 0) {
         p->mLandingTimer--;
     }
-    if (func_020d3d94()) {
-        ApplyKartWaterDepth(p);
+    if (mobj_getHasDiveableWater()) {
+        driver_handleWaterDive(p);
     }
     if ((p->mUnk_4c & 0x40000000) && p->mState == KART_STATE_NORMAL) {
-        func_0206f824(p, a, b1);
+        driver_handleFallsWater(p, a, b1);
     }
     p->mUnk_274 = ((s64) p->mUnk_274 * 0xf33) >> 12;
     t = p->mUnk_274;

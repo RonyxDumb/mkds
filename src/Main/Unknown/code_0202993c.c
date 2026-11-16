@@ -5,45 +5,45 @@
 #include "Main/Unknown/unk_02174000.h"
 
 #pragma optimize_for_size on
-u16 *func_02029a18(void) {
+u16 *menu_MB_GetMultiBootParam(void) {
     return (u16 *) 0x27ffc40;
 }
 
-u32 func_020299f0(void) {
-    if (*func_02029a18() == 2) {
+u32 menu_MB_IsMultiBootChild(void) {
+    if (*menu_MB_GetMultiBootParam() == 2) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020299e4(void) {
-    return func_020299f0();
+u32 menu_MB_IsMultiBootChild_2(void) {
+    return menu_MB_IsMultiBootChild();
 }
 
 #pragma thumb on
 
-void ResetRaceSetupCopy(void) {
+void menu_initRaceConfig(void) {
     s32 entryIndex;
-    func_02029a38(gRaceSetupCopy, 0x110);
+    menu_MI_CpuClearFast(menu_sRaceConfig, 0x110);
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mKartIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = 4;
-        gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = -1;
-        gRaceSetupCopy->mEntries[entryIndex].mUnk_10 = 3;
+        menu_sRaceConfig->mEntries[entryIndex].mCharacterIndex = -1;
+        menu_sRaceConfig->mEntries[entryIndex].mKartIndex = -1;
+        menu_sRaceConfig->mEntries[entryIndex].mPlayerKind = 4;
+        menu_sRaceConfig->mEntries[entryIndex].mTeamIndex = -1;
+        menu_sRaceConfig->mEntries[entryIndex].mUnk_10 = 3;
     }
-    gRaceSetupCopy->mMissionTableRow = 1;
-    gRaceSetupCopy->mMissionTableColumn = 1;
-    if (func_02029a24() == 0) {
-        if (func_020299e4() == 0) {
-            gRaceSetupCopy->mMissionFile = FindSceneFile(data_0216212c);
+    menu_sRaceConfig->mMissionTableRow = 1;
+    menu_sRaceConfig->mMissionTableColumn = 1;
+    if (menu_sysdat_getOverlay() == 0) {
+        if (menu_MB_IsMultiBootChild_2() == 0) {
+            menu_sRaceConfig->mMissionFile = arc_getSceneArcFile(aMission_mr);
         } else {
-            gRaceSetupCopy->mMissionFile = NULL;
+            menu_sRaceConfig->mMissionFile = NULL;
         }
-        if (gRaceSetupCopy->mMissionFile != NULL) {
-            gRaceSetupCopy->mMissionFileRows = (MissionFileRow *) (gRaceSetupCopy->mMissionFile + 8);
+        if (menu_sRaceConfig->mMissionFile != NULL) {
+            menu_sRaceConfig->mMissionFileRows = (MissionFileRow *) (menu_sRaceConfig->mMissionFile + 8);
         } else {
-            gRaceSetupCopy->mMissionFileRows = NULL;
+            menu_sRaceConfig->mMissionFileRows = NULL;
         }
     }
 }

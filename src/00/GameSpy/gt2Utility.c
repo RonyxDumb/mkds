@@ -524,7 +524,7 @@ BOOL Gt2ParseAddress(const char *a, u32 *b, u16 *c) {
             } else {
                 g = e - a;
                 if (g >= 0x100) {
-                    AssertionFailed(data_ov000_021b3fcc, data_ov000_021b3fec, NULL, 0x81);
+                    __msl_assertion_failed(data_ov000_021b3fcc, data_ov000_021b3fec, NULL, 0x81);
                 }
                 memcpy(d, a, g);
                 d[g] = 0;

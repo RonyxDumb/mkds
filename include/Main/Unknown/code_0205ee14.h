@@ -17,7 +17,7 @@ typedef struct KartAppear {
 } KartAppear;
 
 extern u32 gResultTotalMax;
-extern u8 gTimeRecordCharTable[];
+extern u8 aS7lcx3jze8fg4h[];
 
 u32 GetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecordOut);
 void SetBuddyRecord(u32 recordIndex, BuddyRecord *buddyRecord);

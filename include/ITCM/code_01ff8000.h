@@ -14,29 +14,29 @@ typedef struct Unk01ff9048 {
     /* 04 */ u32 mUnk_04[1];
 } Unk01ff9048;
 
-void func_01ff8000(void);
-void func_01ff8058(void);
+void OS_IrqHandler(void);
+void OS_IrqHandler_ThreadSwitch(void);
 void func_01ff81b4(Unk02170500 *s, u32 a);
-void func_01ff8220(Unk02170500 *s, u32 a);
-void func_01ff85d0(Unk02170500 *s, u32 a);
-void func_01ff8648(Unk02170500 *s, u32 a, NNSG3dResShpData *c);
-void func_01ff86b4(Unk02170500 *s, u32 a);
-void func_01ff8738(Unk02170500 *s, u32 a, const u8 *e, u32 b);
-void func_01ff8b08(Unk02170500 *s, u32 a);
-void func_01ff8b98(Unk02170500 *s, u32 a);
-void func_01ff8c98(Unk02170500 *s, u32 a);
-void func_01ff8cc4(Unk02170500 *s, u32 a);
-void func_01ff8cf0(void *a);
-void func_01ff8dec(u32 *a, NNSG3dAnmObj *b);
-void func_01ff8e64(Unk02170500 *s, Unk02170500_04 *i);
-void func_01ff8ff8(Unk02170500 *s);
-void func_01ff9048(u32 a, const void *b, u32 n);
-void func_01ff9144(const void *a, u32 b);
+void NNSi_G3dFuncSbc_NODEDESC(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_SHP(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_SHP_InternalDefault(Unk02170500 *s, u32 a, NNSG3dResShpData *c);
+void NNSi_G3dFuncSbc_MAT(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_MAT_InternalDefault(Unk02170500 *s, u32 a, const u8 *e, u32 b);
+void NNSi_G3dFuncSbc_MTX(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_NODE(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_RET(Unk02170500 *s, u32 a);
+void NNSi_G3dFuncSbc_NOP(Unk02170500 *s, u32 a);
+void NNS_G3dDraw(void *a);
+void updateHintVec__0(u32 *a, NNSG3dAnmObj *b);
+void G3dDrawInternal_(Unk02170500 *s, Unk02170500_04 *i);
+void G3dDrawInternal_Loop_(Unk02170500 *s);
+void NNS_G3dGeBufferOP_N(u32 a, const void *b, u32 n);
+void NNS_G3dGeSendDL(const void *a, u32 b);
 void func_01ff9210(u32 *a);
-void func_01ff921c(void);
-void func_01ff9234(void);
-Unk01ff9048 *func_01ff92b4(void);
-void func_01ff92e0(Unk01ff9048 *a);
+void NNS_G3dGeWaitSendDL(void);
+void NNS_G3dGeFlushBuffer(void);
+Unk01ff9048 *NNS_G3dGeReleaseBuffer(void);
+void NNS_G3dGeSetBuffer(Unk01ff9048 *a);
 
 // Calls MIi_CpuClear32 with 0, passed through a stack offset of its own.
 static inline void func_01ff8cf0_inline(u32 *p) {

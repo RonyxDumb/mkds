@@ -40,64 +40,64 @@ void func_020c1060(void) {
     x2 = FALSE;
     x3 = 0;
     {
-        for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-            if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+        for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+            if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
                 v = x0;
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
-                    ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind <= 3 &&
+                    ((1 << gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     v = 1;
                 }
                 c = v != 0 ? 1 : x1;
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                w = gCupRecords->mKartResults[r][GetLowByte(p)].mWinCount;
-                a[i] = w * 16 + c * 8 + 8 - GetKartRank(i);
+                p = rres_205DC7C(i);
+                r = rres_205DB28();
+                w = rres_sRaceResults->mKartResults[r][rres_205DC7C(p)].mWinCount;
+                a[i] = w * 16 + c * 8 + 8 - rstat_getPlace(i);
             } else {
                 v = x2;
-                if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3 &&
-                    ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+                if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind <= 3 &&
+                    ((1 << gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
                     v = 1;
                 }
                 c = v != 0 ? 1 : x3;
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                s = &gCupRecords->mKartResults[r][GetLowByte(p)];
+                p = rres_205DC7C(i);
+                r = rres_205DB28();
+                s = &rres_sRaceResults->mKartResults[r][rres_205DC7C(p)];
                 w = s->mTotalPoints;
-                a[i] = w * 16 + c * 8 + 8 - GetKartRank(i);
-                p = GetLowByte(i);
-                r = GetCourseIndexInCup();
-                s = &gCupRecords->mKartResults[r][GetLowByte(p)];
-                gRaceGoalS->mShownNumbers[i] = s->mTotalPoints;
+                a[i] = w * 16 + c * 8 + 8 - rstat_getPlace(i);
+                p = rres_205DC7C(i);
+                r = rres_205DB28();
+                s = &rres_sRaceResults->mKartResults[r][rres_205DC7C(p)];
+                r2d_sResults->mShownNumbers[i] = s->mTotalPoints;
             }
         }
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        gRaceGoalS->mRowKartIndex[i] = i;
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        r2d_sResults->mRowKartIndex[i] = i;
         a[i] = a[i] * neg;
     }
-    SortIndicesByKey(gRaceGoalS->mRowKartIndex, a, gRaceSetup->mKartCount);
-    for (k = 0; k < (u32) gRaceSetup->mKartCount; k++) {
+    SortIndicesByKey(r2d_sResults->mRowKartIndex, a, gRaceMultiConfig->mKartCount);
+    for (k = 0; k < (u32) gRaceMultiConfig->mKartCount; k++) {
         {
-            for (j = 0; j < (u32) gRaceSetup->mKartCount; j++) {
-                if (k == gRaceGoalS->mRowKartIndex[j]) {
+            for (j = 0; j < (u32) gRaceMultiConfig->mKartCount; j++) {
+                if (k == r2d_sResults->mRowKartIndex[j]) {
                     m = j;
-                    SetKartCupRank(k, (j + 1) & 0xff);
-                    data_0217b488->mUnk_ec[k] = j;
+                    rres_setGlobalPlace(k, (j + 1) & 0xff);
+                    gStruct217B488->mUnk_ec[k] = j;
                     break;
                 }
             }
-            for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-                if (k == gRaceGoalS->mPreviousRowKartIndex[i]) {
+            for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+                if (k == r2d_sResults->mPreviousRowKartIndex[i]) {
                     n = i;
                     break;
                 }
             }
             if (m < n) {
-                gRaceGoalS->mRankComparison[k] = 1;
+                r2d_sResults->mRankComparison[k] = 1;
             } else if (m > n) {
-                gRaceGoalS->mRankComparison[k] = 0;
+                r2d_sResults->mRankComparison[k] = 0;
             } else {
-                gRaceGoalS->mRankComparison[k] = 2;
+                r2d_sResults->mRankComparison[k] = 2;
             }
         }
     }
@@ -106,13 +106,13 @@ void func_020c1060(void) {
 void func_020c0fd0(void) {
     s32 n;
 
-    n = gRaceGoalS->mUpdateFrames++;
+    n = r2d_sResults->mUpdateFrames++;
     if (n < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0, 0x100, n, 0x14);
+        r2d_sResults->mOffsetX = mutil_interpolate(1, 0, 0x100, n, 0x14);
     } else {
-        gRaceGoalS->mOffsetX = 0x100;
-        gRaceGoalS->mUpdate = func_020c0f48;
-        gRaceGoalS->mUpdateFrames = 0;
+        r2d_sResults->mOffsetX = 0x100;
+        r2d_sResults->mUpdate = func_020c0f48;
+        r2d_sResults->mUpdateFrames = 0;
         RequestRaceHudSubScreenState5();
     }
 }
@@ -120,49 +120,49 @@ void func_020c0fd0(void) {
 void func_020c0f48(void) {
     s32 n;
 
-    n = gRaceGoalS->mUpdateFrames++;
+    n = r2d_sResults->mUpdateFrames++;
     if (n < 0x14) {
-        gRaceGoalS->mOffsetX = InterpolateS16(1, 0x80, 0, n, 0x14);
+        r2d_sResults->mOffsetX = mutil_interpolate(1, 0x80, 0, n, 0x14);
     } else {
-        gRaceGoalS->mOffsetX = 0;
-        gRaceGoalS->mUpdate = func_020c0f0c;
-        gRaceGoalS->mUpdateFrames = 0;
+        r2d_sResults->mOffsetX = 0;
+        r2d_sResults->mUpdate = func_020c0f0c;
+        r2d_sResults->mUpdateFrames = 0;
     }
 }
 
 void func_020c0f0c(void) {
     func_020c1060();
-    gRaceGoalS->mUpdate = func_020c0ee4;
-    gRaceGoalS->mUpdateFrames = 0;
+    r2d_sResults->mUpdate = func_020c0ee4;
+    r2d_sResults->mUpdateFrames = 0;
 }
 
 void func_020c0ee4(void) {
-    gRaceGoalS->mUpdate = func_020c0dd8;
-    gRaceGoalS->mUpdateFrames = 0;
+    r2d_sResults->mUpdate = func_020c0dd8;
+    r2d_sResults->mUpdateFrames = 0;
 }
 
 static inline Unk0217aa1c_144_00 *func_020c0dd8_inline(s32 j) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[j];
+    return &rres_sRaceResults->mTeamResults[rres_205DB28()].mTeams[j];
 }
 
 void func_020c0dd8(void) {
     s32 a;
     s32 b;
 
-    if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mUseTeams != 0) {
+    if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
+        if (gRaceMultiConfig->mUseTeams != 0) {
             a = func_020c0dd8_inline(0)->mUnk_02;
             b = func_020c0dd8_inline(1)->mUnk_02;
             if (a <= b) {
                 a = b;
             }
         } else {
-            a = gRaceGoalS->mShownNumbers[gRaceGoalS->mRowKartIndex[0]];
+            a = r2d_sResults->mShownNumbers[r2d_sResults->mRowKartIndex[0]];
         }
-        gRaceGoalS->mUnk_00b4 = a >= gRaceSetup->mCourseCount;
+        r2d_sResults->mUnk_00b4 = a >= gRaceMultiConfig->mCourseCount;
     } else {
-        gRaceGoalS->mUnk_00b4 = gRaceSetup->mCourseNumber >= gRaceSetup->mCourseCount;
+        r2d_sResults->mUnk_00b4 = gRaceMultiConfig->mCourseNumber >= gRaceMultiConfig->mCourseCount;
     }
-    gRaceGoalS->mUpdate = func_020c13d0;
-    gRaceGoalS->mUpdateFrames = 0;
+    r2d_sResults->mUpdate = func_020c13d0;
+    r2d_sResults->mUpdateFrames = 0;
 }

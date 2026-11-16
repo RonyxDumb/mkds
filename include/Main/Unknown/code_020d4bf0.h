@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020d4bf0(void);
+void mobj_20D4BF0(void);

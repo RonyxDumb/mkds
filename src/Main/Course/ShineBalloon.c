@@ -27,25 +27,25 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 
-void InitShineBalloon(u32 arg0) {
+void sblln_init(u32 arg0) {
     u32 value0 = arg0;
     u32 value12;
-    ParkMapObject((void *) value0);
+    mobj_setInvisible((void *) value0);
 }
 
-void CreateShineBalloon(void *a) {
+void sblln_loadModel(void *a) {
     void *p;
 
-    p = CreateMapObjectModelNsbmd(a, "shine_balloon.nsbmd");
-    gShineBalloon = p;
-    SetMapObjectModelPolygonId(p, 0x3f);
+    p = mobj_loadBillboardModel(a, "shine_balloon.nsbmd");
+    sblln_sModel = p;
+    mobj_setModelPolygonIdAll(p, 0x3f);
 }
 
-void SetupDrawShineBalloon(void *a) {
-    func_0209bbd0(a, gShineBalloon);
+void sblln_applyMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, sblln_sModel);
 }
 
-void DrawShineBalloon(void *a, ShineBalloonObject *b) {
+void sblln_render(void *a, ShineBalloonObject *b) {
     s32 s0;
     Vec3 v1;
     Vec3 v2;
@@ -58,33 +58,33 @@ void DrawShineBalloon(void *a, ShineBalloonObject *b) {
         return;
     }
     s0 = 0x1e;
-    func_01ff9048(0x14, &s0, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_00.mPos), 0xc);
-    v2.y = func_020a23a0(b->mUnk_ac) >> 4;
+    NNS_G3dGeBufferOP_N(0x14, &s0, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_00.mPos), 0xc);
+    v2.y = mgcnt_20A23A0(b->mUnk_ac) >> 4;
     v2.x = 0;
     v2.z = 0;
-    func_01ff9048(0x1c, &v2, 3);
+    NNS_G3dGeBufferOP_N(0x1c, &v2, 3);
     t = b->mUnk_a0;
     if (t != 0x1000) {
         v3.x = t;
         v3.y = t;
         v3.z = t;
-        func_01ff9048(0x1b, &v3, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &v3, 3);
     }
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
-    VEC_Subtract(&b->mUnk_00.mPos, &GetCurrentCamera()->mPos, &v1);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+    VEC_Subtract(&b->mUnk_00.mPos, &race_getCamera()->mPos, &v1);
     v5 = VEC_Mag(&v1);
     v4.x = v5;
     v4.y = v5;
     v4.z = v5;
-    func_01ff9048(0x1b, &v4, 3);
-    DrawMapObjectModel(a, gShineBalloon, b);
+    NNS_G3dGeBufferOP_N(0x1b, &v4, 3);
+    mobj_renderModel(a, sblln_sModel, b);
 }
 
-void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
+void sblln_update(void *a, ShineBalloonObject *b) {
     switch (b->mState) {
         case 0:
-            if (GetBalloonOrShineCount(b->mUnk_ac->mIndex) == 0) {
+            if (mgcnt_getDriverBalloonShineCount(b->mUnk_ac->mIndex) == 0) {
                 return;
             }
             b->mTimer = 0x1e;
@@ -110,7 +110,7 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
             b->mUnk_00.mPos = b->mUnk_ac->mPos;
             break;
         case 2:
-            if (GetBalloonOrShineCount(b->mUnk_ac->mIndex) == 0) {
+            if (mgcnt_getDriverBalloonShineCount(b->mUnk_ac->mIndex) == 0) {
                 b->mTimer = 0x1e;
                 b->mUnk_a4 = 8;
                 b->mState = 3;
@@ -136,22 +136,22 @@ void UpdateShineBalloon(void *a, ShineBalloonObject *b) {
     }
 }
 
-void CreateShineBalloonKindData(void) {
-    CreateMapObjectKindData(NULL, NULL, NULL, 1, 0);
+void sblln_setupConfig(void) {
+    mobj_createConfig(NULL, NULL, NULL, 1, 0);
 }
 
-void *CreateShineBalloonDrawList(void) {
-    return CreateMapObjectDrawList2(CreateShineBalloon, DrawShineBalloon, SetupDrawShineBalloon);
+void *sblln_setupRenderPart(void) {
+    return mobj_createRenderPart2d(sblln_loadModel, sblln_render, sblln_applyMaterial);
 }
 
-void *CreateShineBalloonUpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, UpdateShineBalloon, NULL);
+void *sblln_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, sblln_update, NULL);
 }
 
-void StartShineBalloon(Kart *a) {
+void sblln_spawn(Kart *a) {
     ShineBalloonObject *o;
 
-    o = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON));
+    o = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE_BALLOON));
     if (o == NULL) {
         return;
     }
@@ -169,14 +169,14 @@ void StartShineBalloon(Kart *a) {
 }
 
 // Creates b map objects of kind a from the source object c and parks each one that is not already parked.
-void CreateParkedMapObjects(u32 a, s32 b, void *c) {
+void mobj_createSubObjects(u32 a, s32 b, void *c) {
     s32 i;
     MapObject *e;
 
     for (i = 0; i < b; i++) {
-        e = CreateMapObjectFromObject(c, a);
+        e = mobj_createSubObject(c, a);
         if ((e->mFlags & 0x100) == 0) {
-            ParkMapObject(e);
+            mobj_setInvisible(e);
         }
     }
 }
@@ -190,9 +190,9 @@ void *FindParkedMapObject(s32 a) {
     s32 i;
     MapObject *e;
 
-    v1 = FindMapObjectKindUpdateList(a);
-    v2 = GetMapObjects(v1);
-    n = GetMapObjectListCount(v1);
+    v1 = mobj_getLogicPartForObjectId(a);
+    v2 = mobj_logicPartGetInstanceList(v1);
+    n = mobj_logicPartGetInstanceCount(v1);
     for (i = 0; i < n; i++) {
         e = v2[i];
         if (e->mFlags & 0x100) {

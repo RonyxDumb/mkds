@@ -19,9 +19,9 @@ typedef struct PieceBuffer {
 
 // Objects whose layout isn't known yet.
 extern u32 data_0216f06c;
-extern char data_0216f2a0[];
-extern s8 data_0216f2b0[];
-extern const char data_0216f2d4[];
+extern char aSCCCCS[];
+extern s8 a0123456789abcd[];
+extern const char a012llu[];
 extern u32 gBlockTransferStarted;
 extern u8 gRequestId[];
 extern s16 gReceiveChunkSize;
@@ -35,10 +35,10 @@ extern struct WirelessWork *gWirelessWork;
 struct Unk0216fdac;
 extern struct Unk0216fdac *data_0216fdac;
 struct WorkerQueue;
-extern struct WorkerQueue *gWorkerQueue;
-extern u8 gScanConnectInitialized[];
+extern struct WorkerQueue *ctrdgi_task_work;
+extern u8 mbf_initialize[];
 struct ScanConnectWork;
-extern struct ScanConnectWork *gScanConnectWork;
+extern struct ScanConnectWork *mbf_work;
 struct MPLink;
 extern struct MPLink *gMPLink;
 struct PieceBuffer;
@@ -48,10 +48,10 @@ extern PieceSizes gPieceSizes;
 extern u8 data_0216f2dc[];
 extern u8 OverlaySignatures[][0x14];
 
-// 1 while the main display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
+// 1 while the NitroMain display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
 // 0 and clears it when its first argument is 0. Initial value 1.
 extern u8 gDispOn[];
-extern u32 data_0216f074[];
+extern u32 GXi_DmaId[];
 extern void (*gClearBssidCallback)(void);
 extern void (*gSetBssidCallback)(u8 *);
 extern Unk02143a78 gScanParams;
@@ -59,9 +59,9 @@ extern Unk02143a78 gScanParams;
 extern u32 data_0216ff44;
 extern u32 data_0216ff48;
 // The number OSi_GetUnusedThreadId last returned.
-extern u32 gThreadIdCount;
+extern u32 OSi_ThreadIdCount;
 extern void (*data_0216ff50)(OSThread *, OSThread *);
 extern OSThread **data_0216ff54;
 extern u32 data_0216ff58;
-extern ThreadSystem data_0216ff5c;
+extern ThreadSystem OSi_ThreadInfo;
 extern OSThread data_0216ff6c;

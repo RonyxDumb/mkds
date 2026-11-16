@@ -38,13 +38,13 @@ void func_020641f0(Kart *kart) {
     Vec4 *r;
     enum { K0 } o;
 
-    Matrix4x3FromQuaternion(&kart->mUnk_120, kart->mUnk_50c);
+    qrtn_toMtx43(&kart->mUnk_120, kart->mUnk_50c);
     n = kart->mUnk_4c;
     if ((n & 0x10) != 0) {
         drawMatrix = &kart->mUnk_150_m;
         MTX_Identity43_(&d);
         e = d;
-        Matrix4x3FromQuaternion(&rotationMatrix, &kart->mRotationQuaternion);
+        qrtn_toMtx43(&rotationMatrix, &kart->mRotationQuaternion);
         q = &kart->mUnk_12c;
         m.x = (s64) q->x * -0x5000 >> 12;
         m.y = (s64) q->y * -0x5000 >> 12;
@@ -59,7 +59,7 @@ void func_020641f0(Kart *kart) {
         MTX_Concat43(drawMatrix, &e, drawMatrix);
         if ((kart->mUnk_4c & 0x20) != 0) {
             pairIndex = (kart->mYRotationAngle >> 4) * 2;
-            MTX_RotY43_(&g, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+            MTX_RotY43_(&g, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
             MTX_Concat43(drawMatrix, &g, drawMatrix);
         }
         drawMatrix->mUnk_00[3].x = drawMatrix->mUnk_00[3].x + kart->mPosSource->x;
@@ -67,7 +67,7 @@ void func_020641f0(Kart *kart) {
         drawMatrix->mUnk_00[3].z = drawMatrix->mUnk_00[3].z + kart->mPosSource->z;
     } else if ((n & 0x20) != 0) {
         pairIndex = (kart->mYRotationAngle >> 4) * 2;
-        MTX_RotY43_(&h, gPairsByAngle[pairIndex], gPairsByAngle[pairIndex + 1]);
+        MTX_RotY43_(&h, FX_SinCosTable_[pairIndex], FX_SinCosTable_[pairIndex + 1]);
         MTX_Concat43(&h, &kart->mUnk_120_m, &kart->mUnk_150_m);
         q = kart->mPosSource;
         kart->mUnk_174.x = q->x;
@@ -100,10 +100,10 @@ void func_020641f0(Kart *kart) {
             kart->mTireSpinAngle = kart->mTireSpinAngle + (u16) ((s64) kart->mUnk_4d4 * 0x7d0 >> 12);
         } else {
             k = (s64) k * 0xfa0 >> 12;
-            if (GetAbsoluteValue(GetKartForwardSpeedRatio()) < 0x29) {
+            if (math_abs(GetKartForwardSpeedRatio()) < 0x29) {
                 k = 0;
                 if ((u16) (data_0217562a[o = kart->mEntryIndex].mBits & (PAD_KEY_A | PAD_KEY_B)) != 0 &&
-                    IsRaceStarted() == 1) {
+                    race_getState() == 1) {
                     k = k + 0x190;
                 }
             } else if ((kart->mUnk_44 & 0x100) != 0) {
@@ -119,7 +119,7 @@ void func_020641f0(Kart *kart) {
     characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
     if (characterAnimation != NULL && characterAnimation->mUnk_18 != 0) {
         AdvanceKartCharacterAnimation(kart);
-        if (IsKartEnded(kart->mIndex) != 0) {
+        if (rstat_hasDriverFinished(kart->mIndex) != 0) {
             AdvanceKartAnimationChangeTimer(kart);
         }
         characterAnimation = kart->mKartModelsEntry->mCharacterAnimation;
@@ -140,7 +140,7 @@ void func_020641f0(Kart *kart) {
             kart->mUnk_4c = kart->mUnk_4c & ~0x1400000;
         }
     }
-    AdvanceKartEffects(kart);
+    driver_updateDriftEffects(kart);
 }
 
 void func_020641d4(Kart *kart) {

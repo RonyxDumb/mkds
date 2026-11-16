@@ -31,18 +31,18 @@
 #include "code_02147cd8.h"
 #include "01/code_0218155c.h"
 
-u32 func_0209753c(u32 a) {
+u32 flip_handleBallHit(u32 a) {
     Flipper *flipper;
-    flipper = GetMapObjectFromList(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_FLIPPER), a);
+    flipper = mobj_getInstanceByIdx(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_FLIPPER), a);
     flipper->mUnk_ebc = 0xaa;
     return 1;
 }
 
-void InitCoverPooHole(MapObject *mapObject) {
+void poo_init(MapObject *mapObject) {
     mapObject->mFlags |= data_021564c0;
 }
 
-u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c) {
+u32 poo_onDriverCollide(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c) {
     s32 state;
     s32 itemEffect;
     u32 v2 = *b;
@@ -66,11 +66,11 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
             state = coverPooHole->mState;
             if (state == 0 || state == 3) {
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
-                if (gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
+                if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_GHOST) {
                     if ((coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -78,7 +78,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                         s.mSoundId = 0x16e;
                         s.mPositionSource = &coverPooHole->mUnk_00.mPos;
                         s.mUnk_08 = t;
-                        s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
+                        s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
                         func_0210b7a8(&s);
                     }
                 }
@@ -88,7 +88,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
             }
             if (itemEffect == 1 && (state == 4 || (state == 5 && coverPooHole->mUnk_a0 > 0x7800) || state == 1)) {
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
+                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
                     coverPooHole->mUnk_104 = 1;
                     coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
                     coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
@@ -106,15 +106,15 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                     coverPooHole->mUnk_f8 = -0x30;
                     coverPooHole->mUnk_fc = 0x800;
                     coverPooHole->mUnk_100 = 0x100;
-                    StartSoundIfKartStarOrKiller(&coverPooHole->mUnk_00, kart);
-                    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+                    mobj_tryDestroyByDriver(&coverPooHole->mUnk_00, kart);
+                    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                         effectPosition.x = (coverPooHole->mUnk_00.mPos.x + kart->mPos.x) >> 1;
                         effectPosition.y = (coverPooHole->mUnk_00.mPos.y + kart->mPos.y) >> 1;
                         effectPosition.z = (coverPooHole->mUnk_00.mPos.z + kart->mPos.z) >> 1;
-                        StartEffect(0x442, &effectPosition);
-                        StartEffect(0x443, &effectPosition);
-                        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                            func_ov001_0218175c(coverPooHole->mUnk_00.mKind);
+                        ptcm_createEmitter(0x442, &effectPosition);
+                        ptcm_createEmitter(0x443, &effectPosition);
+                        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                            mrcnt_notifyMObjDamage(coverPooHole->mUnk_00.mKind);
                         }
                     }
                 }
@@ -132,7 +132,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
             }
             if (state == 1) {
                 coverPooHole->mUnk_108 = coverPooHole->mUnk_108 | kartMask;
-                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceSetup->mEntryIndex) {
+                if ((coverPooHole->mUnk_00.mFlags & 0x800) == 0 || kart->mIndex == gRaceMultiConfig->mEntryIndex) {
                     coverPooHole->mUnk_104 = 1;
                     coverPooHole->mUnk_b4 = coverPooHole->mUnk_a0;
                     coverPooHole->mUnk_b8 = coverPooHole->mUnk_a4;
@@ -153,9 +153,9 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                     coverPooHole->mUnk_00.mDistanceSquaredAndFlags =
                         coverPooHole->mUnk_00.mDistanceSquaredAndFlags | data_021564bc;
                     if ((coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                        if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -163,7 +163,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
                         s2.mSoundId = 0x16f;
                         s2.mPositionSource = &coverPooHole->mUnk_00.mPos;
                         s2.mUnk_08 = t;
-                        s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
+                        s2.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
                         func_0210b7a8(&s2);
                     }
                 }
@@ -185,7 +185,7 @@ u32 CollideKartWithCoverPooHole(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u
     return 0;
 }
 
-u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c) {
+u32 poo_onItemCollide(CoverPooHole *coverPooHole, ItemObject *a, u8 *b, u8 *c) {
     u8 v1 = *b;
     u8 v2 = *c;
     if (coverPooHole->mState != 4) {
@@ -221,7 +221,7 @@ u32 CollideItemObjectWithCoverPooHole(CoverPooHole *coverPooHole, ItemObject *a,
 }
 
 // FALSE when the position is out of reach, else TRUE with the vector c that pushes it out (zero in most states).
-BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut) {
+BOOL poo_collide(CoverPooHole *coverPooHole, const Vec3 *position, s32 radius, Vec3 *pushOut) {
     Vec3 offset;
     s32 d;
     VEC_Subtract(position, &coverPooHole->mUnk_00.mPos, &offset);
@@ -240,7 +240,7 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
     }
     if (coverPooHole->mState == 4 || (coverPooHole->mState == 5 && coverPooHole->mUnk_a0 > 0x7800)) {
         if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+            vec_normalize(&offset, &offset);
         }
         d = coverPooHole->mUnk_00.mExtent.x + radius - d;
         pushOut->x = ((s64) offset.x * d) >> 12;
@@ -254,15 +254,15 @@ BOOL TryGetCoverPooHolePushOut(CoverPooHole *coverPooHole, const Vec3 *position,
     return TRUE;
 }
 
-void CreateCoverPooHole(void *a) {
-    gCover = CreateMapObjectModelNsbmd(a, "cover.nsbmd");
-    gPoo = CreateMapObjectModelNsbmdNsbtp(a, "poo.nsbmd", "poo.nsbtp");
-    gHole = CreateMapObjectModelNsbmd(a, "hole.nsbmd");
-    SetMapObjectModelPolygonId(gPoo, 0x3f);
-    SetMapObjectModelPolygonId(gHole, 0x3f);
+void poo_loadModels(void *a) {
+    poo_sCoverModel = mobj_loadBillboardModel(a, "cover.nsbmd");
+    poo_sPooModel = mobj_loadTexAnimBillboardModel(a, "poo.nsbmd", "poo.nsbtp");
+    poo_sHoleModel = mobj_loadBillboardModel(a, "hole.nsbmd");
+    mobj_setModelPolygonIdAll(poo_sPooModel, 0x3f);
+    mobj_setModelPolygonIdAll(poo_sHoleModel, 0x3f);
 }
 
-void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
+void poo_render(void *a, CoverPooHole *coverPooHole) {
     s32 w0;
     s32 w1;
     s32 w2;
@@ -279,49 +279,49 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     s32 r;
     s32 t;
     w0 = 0x1e;
-    func_01ff9048(0x14, &w0, 1);
-    func_01ff9048(0x11, NULL, 0);
+    NNS_G3dGeBufferOP_N(0x14, &w0, 1);
+    NNS_G3dGeBufferOP_N(0x11, NULL, 0);
     f0[1] = coverPooHole->mUnk_a8 >> 4;
     f0[0] = 0;
     f0[2] = 0;
-    func_01ff9048(0x1c, f0, 3);
-    func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
-    func_0209bbd0(a, gHole);
-    DrawMapObjectModel(a, gHole, coverPooHole);
+    NNS_G3dGeBufferOP_N(0x1c, f0, 3);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+    mobj_bbModelApplyMaterial(a, poo_sHoleModel);
+    mobj_renderModel(a, poo_sHoleModel, coverPooHole);
     w1 = 1;
-    func_01ff9048(0x12, &w1, 1);
+    NNS_G3dGeBufferOP_N(0x12, &w1, 1);
     switch (coverPooHole->mState) {
         case 1:
         case 2:
         case 6:
-            SetMapObjectModelNsbtpFrameIndex(gPoo, 0);
+            mobj_setModelNsbtpFrame(poo_sPooModel, 0);
             break;
         case 4:
         case 5:
         case 7:
-            SetMapObjectModelNsbtpFrameIndex(gPoo, 1);
+            mobj_setModelNsbtpFrame(poo_sPooModel, 1);
             break;
     }
     if (coverPooHole->mState != 0) {
-        func_01ff9048(0x11, NULL, 0);
+        NNS_G3dGeBufferOP_N(0x11, NULL, 0);
         if (coverPooHole->mUnk_104 != 0) {
             t = coverPooHole->mUnk_b8 >> 4;
             f1[0] = 0;
             f1[1] = t;
             f1[2] = 0;
-            func_01ff9048(0x1c, f1, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f1, 3);
         } else {
             t = coverPooHole->mUnk_a4 >> 4;
             f2[0] = 0;
             f2[1] = t;
             f2[2] = 0;
-            func_01ff9048(0x1c, f2, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f2, 3);
         }
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
-        func_0209bbd0(a, gPoo);
-        DrawMapObjectModel(a, gPoo, coverPooHole);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
+        mobj_bbModelApplyMaterial(a, poo_sPooModel);
+        mobj_renderModel(a, poo_sPooModel, coverPooHole);
         w2 = 1;
-        func_01ff9048(0x12, &w2, 1);
+        NNS_G3dGeBufferOP_N(0x12, &w2, 1);
     }
     if (coverPooHole->mUnk_104 == 1) {
         goto L;
@@ -330,35 +330,35 @@ void DrawCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     L:
         e = coverPooHole->mUnk_c8;
         k = ((u16) coverPooHole->mUnk_e8 >> 4) * 2;
-        v1 = gPairsByAngle[k];
+        v1 = FX_SinCosTable_[k];
         r = ((s64) v1 * 0x7000) >> 12;
         if (r <= 0) {
             r = -r;
         }
         t = coverPooHole->mUnk_b4 + r;
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
         f3[1] = t >> 4;
         f3[0] = 0;
         f3[2] = 0;
-        func_01ff9048(0x1c, f3, 3);
+        NNS_G3dGeBufferOP_N(0x1c, f3, 3);
         j = (e >> 4) * 2;
-        MTX_RotY33_(m, gPairsByAngle[j], gPairsByAngle[j + 1]);
-        func_01ff9048(0x1a, m, 9);
-        MTX_RotZ33_(m, v1, gPairsByAngle[k + 1]);
-        func_01ff9048(0x1a, m, 9);
+        MTX_RotY33_(m, FX_SinCosTable_[j], FX_SinCosTable_[j + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, m, 9);
+        MTX_RotZ33_(m, v1, FX_SinCosTable_[k + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, m, 9);
     } else {
         t = coverPooHole->mUnk_a0 >> 4;
         f4[0] = 0;
         f4[1] = t;
         f4[2] = 0;
-        func_01ff9048(0x1c, f4, 3);
-        func_01ff9048(0x19, func_020e6cbc(&coverPooHole->mUnk_00.mPos), 12);
+        NNS_G3dGeBufferOP_N(0x1c, f4, 3);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&coverPooHole->mUnk_00.mPos), 12);
     }
-    func_0209bbd0(a, gCover);
-    DrawMapObjectModel(a, gCover, coverPooHole);
+    mobj_bbModelApplyMaterial(a, poo_sCoverModel);
+    mobj_renderModel(a, poo_sCoverModel, coverPooHole);
 }
 
-void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
+void poo_globalLogicInit(MapObjectList *mapObjectList) {
     s32 i;
     CoverPooHole *coverPooHole;
     RandomState64 *mapObjectRandom;
@@ -367,12 +367,12 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (coverPooHole = mapObjectList->mMapObjects[i]) != NULL; i++) {
         coverPooHole->mUnk_a8 = 0x1000;
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         coverPooHole->mTimer = (u16) (coverPooHole->mUnk_00.mCourseMapRow->mUnk_28 +
                                       (u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) - 30);
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
             coverPooHole->mUnk_a0 = 0x2000;
             coverPooHole->mUnk_a4 = -0xd000;
@@ -384,18 +384,18 @@ void InitCoverPooHoleObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s32 func_020968dc(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s32 poo_FX_SinIdx(s32 a) {
+    return FX_SinCosTable_[(a >> 4) * 2];
 }
 
-s32 func_020968c0(s32 a, s32 b) {
+s32 poo_FX_MulInline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
 static inline u16 func_02095fec_inline(u32 n) {
     RandomState64 *mapObjectRandom;
 
-    mapObjectRandom = GetMapObjectRandom();
+    mapObjectRandom = mobj_getRng1();
     mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
     return (u32) (((mapObjectRandom->mValue >> 32) * n) >> 32);
 }
@@ -407,9 +407,9 @@ static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundI
     if (coverPooHole->mUnk_00.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
         v = 2;
-    } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (coverPooHole->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
         v = 3;
     } else {
         v = 4;
@@ -417,11 +417,11 @@ static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundI
     s.mSoundId = soundId;
     s.mPositionSource = &coverPooHole->mUnk_00.mPos;
     s.mUnk_08 = v;
-    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&coverPooHole->mUnk_00.mPos);
+    s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->mUnk_00.mPos);
     func_0210b7a8(&s);
 }
 
-void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
+void poo_update(void *a, CoverPooHole *coverPooHole) {
     s32 v;
 
     coverPooHole->mUnk_00.mUnk_10.y = 0;
@@ -447,7 +447,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mUnk_c4 += coverPooHole->mUnk_dc;
             coverPooHole->mUnk_cc = coverPooHole->mUnk_d0 +
-                                    func_020968c0(coverPooHole->mUnk_d4, func_020968dc(coverPooHole->mUnk_c4)) -
+                                    poo_FX_MulInline(coverPooHole->mUnk_d4, poo_FX_SinIdx(coverPooHole->mUnk_c4)) -
                                     coverPooHole->mUnk_c8;
             coverPooHole->mUnk_c8 += coverPooHole->mUnk_cc;
             if (coverPooHole->mUnk_d4 > 0) {
@@ -478,7 +478,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             }
             coverPooHole->mUnk_e4 += coverPooHole->mUnk_fc;
             coverPooHole->mUnk_ec = coverPooHole->mUnk_f0 +
-                                    func_020968c0(coverPooHole->mUnk_f4, func_020968dc(coverPooHole->mUnk_e4)) -
+                                    poo_FX_MulInline(coverPooHole->mUnk_f4, poo_FX_SinIdx(coverPooHole->mUnk_e4)) -
                                     coverPooHole->mUnk_e8;
             coverPooHole->mUnk_e8 += coverPooHole->mUnk_ec;
             if (coverPooHole->mUnk_f4 > 0) {
@@ -513,7 +513,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
             break;
     }
     if ((coverPooHole->mState == 6 || coverPooHole->mState == 7) && coverPooHole->mUnk_104 == 0) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
             coverPooHole->mState = 3;
             coverPooHole->mUnk_a0 = 0x2000;
             coverPooHole->mUnk_a4 = -0xd000;
@@ -596,7 +596,7 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
                 return;
             }
             coverPooHole->mTimer = (u16) (coverPooHole->mUnk_00.mCourseMapRow->mUnk_28 + func_02095fec_inline(60) - 30);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
                 coverPooHole->mState = 3;
                 coverPooHole->mUnk_a0 = 0x2000;
                 coverPooHole->mUnk_a4 = -0xd000;
@@ -611,22 +611,22 @@ void UpdateCoverPooHole(void *a, CoverPooHole *coverPooHole) {
     }
 }
 
-void CreateCoverPooHoleKindData(void) {
+void poo_setupConfig(void) {
     MapObjectKindData *o;
-    o = func_0209bf70(CollideKartWithCoverPooHole, CollideItemObjectWithCoverPooHole, TryGetCoverPooHolePushOut, 0, 1,
+    o = mobj_createConfigEx(poo_onDriverCollide, poo_onItemCollide, poo_collide, 0, 1,
                       0x16d);
     o->mUnk_28 = 0x1b0;
 }
 
-void *CreateCoverPooHoleDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCoverPooHole, DrawCoverPooHole, NULL);
+void *poo_setupRenderPart(void) {
+    return mobj_createRenderPart2d(poo_loadModels, poo_render, NULL);
 }
 
-void *CreateCoverPooHoleUpdateList(void) {
-    return CreateMapObjectUpdateList(InitCoverPooHoleObjects, UpdateCoverPooHole, NULL);
+void *poo_setupLogicPart(void) {
+    return mobj_createLogicPart(poo_globalLogicInit, poo_update, NULL);
 }
 
-BOOL func_02095f38(Unk0217b498_00 *a) {
+BOOL poo_2095F38(Unk0217b498_00 *a) {
     if (a->mUnk_b0 == 1 || a->mUnk_b0 == 4) {
         return TRUE;
     }

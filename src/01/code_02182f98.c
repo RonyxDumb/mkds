@@ -14,11 +14,11 @@
 
 const u16 data_ov001_021a656c[4] = {0, 0xe38, 0x1c71};
 
-void func_ov001_021830a8(void) {
+void coin_globalInitShadow(void) {
     data_ov001_021a9b94 = 0;
 }
 
-void func_ov001_02183090(void) {
+void coin_globalPreRenderShadow(void) {
     s32 nextIndex = data_ov001_021a9b94 + 1;
     if (nextIndex >= 3) {
         nextIndex = 0;
@@ -26,7 +26,7 @@ void func_ov001_02183090(void) {
     data_ov001_021a9b94 = nextIndex;
 }
 
-void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
+void coin_renderShadow(void *f, Coin *coin, void *h, u32 l) {
     s32 a;
     s32 scaleFactor;
     Vec3 b;
@@ -40,23 +40,23 @@ void func_ov001_02182f98(void *f, Coin *coin, void *h, u32 l) {
         b.y = coin->mUnk_000.mPos.y - 0x16000;
         b.z = coin->mUnk_000.mPos.z;
         a = 0x1e;
-        func_01ff9048(0x14, &a, 1);
-        func_01ff9048(0x19, func_020e6cbc(&b), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &a, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&b), 0xc);
         scaleFactor = coin->mScaleFactor;
         if (scaleFactor < 0x1000) {
             scale.x = scaleFactor;
             scale.y = scaleFactor;
             scale.z = scaleFactor;
-            func_01ff9048(0x1b, &scale, 3);
+            NNS_G3dGeBufferOP_N(0x1b, &scale, 3);
         }
-        func_01ff9048(0x1b, &coin->mUnk_000.mScale, 3);
-        MTX_RotY33_(m, gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
-                    gPairsByAngle[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2]);
-        func_01ff9048(0x1a, m, 9);
+        NNS_G3dGeBufferOP_N(0x1b, &coin->mUnk_000.mScale, 3);
+        MTX_RotY33_(m, FX_SinCosTable_[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2 + 1],
+                    FX_SinCosTable_[(data_ov001_021a656c[data_ov001_021a9b94] >> 4) * 2]);
+        NNS_G3dGeBufferOP_N(0x1a, m, 9);
         d.x = 0x199a;
         d.y = 0x2000;
         d.z = 0x199a;
-        func_01ff9048(0x1b, &d, 3);
-        func_020e5348(8, l);
+        NNS_G3dGeBufferOP_N(0x1b, &d, 3);
+        oshd_renderJgShadow(8, l);
     }
 }

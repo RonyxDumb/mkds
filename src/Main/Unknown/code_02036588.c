@@ -1,6 +1,6 @@
 #include "Main/Unknown/code_02036588.h"
 
-void InitHeapCall(HeapCall *call, u32 func) {
+void proc_init(HeapCall *call, u32 func) {
     call->mUnk_00 = 0;
     call->mFunc = func;
     call->mAfterFunc = 0;
@@ -8,6 +8,6 @@ void InitHeapCall(HeapCall *call, u32 func) {
     call->mHeap = NULL;
 }
 
-void SetHeapCallFunc(HeapCall *call, u32 func) {
+void proc_setMainFunc(HeapCall *call, u32 func) {
     call->mFunc = func;
 }

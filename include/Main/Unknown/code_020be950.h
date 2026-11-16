@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void DrawRaceHudSubScreenCellGroups(void *oamBuffer);
-void UpdateRaceHudSubScreenCellGroups(void);
-void ClearRaceHudSubScreenCellGroups(void);
+void mpicn_render(void *oamBuffer);
+void mpicn_update(void);
+void mpicn_finalize(void);

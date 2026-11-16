@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void WriteBackupCourseTimeRecords(void);
-void WriteBackupGrandPrixRecords(void);
-void WriteBackupEmblem(void);
+void savd_flushNkta(void);
+void savd_flushNkgp(void);
+void savd_flushNkem(void);

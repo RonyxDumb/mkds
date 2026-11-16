@@ -12,16 +12,16 @@
 
 #pragma optimize_for_size on
 
-void func_ov001_02185438(void) {
+void menu_state7Render(void) {
     switch (AdvanceSelectCupGrid()) {
         case 1:
-            SwitchMenuScreen(0x1d, 0x1f);
+            menu_gotoState(0x1d, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(6, 0x1f);
+            menu_gotoState(6, 0x1f);
             break;
         case 3:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             func_ov001_02185490(0);
             func_ov001_0218547c(1);
             break;

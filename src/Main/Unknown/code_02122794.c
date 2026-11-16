@@ -8,8 +8,8 @@
 
 void func_02122ab0(void) {
     StateMachine *stateMachine;
-    gWiFiSession->mUnk_19ad = 0;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    gStruct217D384->mUnk_19ad = 0;
+    stateMachine = &gStruct217D384->mUnk_0008;
     stateMachine->mNextState = 2;
     stateMachine->mNextStateRequested = 1;
 }
@@ -19,65 +19,65 @@ void func_02122ab0(void) {
 void RemoveWiFiSessionKarts(void) {
     u8 i;
     u32 bit;
-    if (gWiFiSession->mStep == 11 || gWiFiSession->mStep == 12) {
+    if (gStruct217D384->mStep == 11 || gStruct217D384->mStep == 12) {
         return;
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
+    for (i = 0; i < gStruct217D384->mStartKartCount; i++) {
         bit = 1 << i;
-        if ((gWiFiSession->mKartMask & bit) != 0 && (gWiFiSession->mKartRemoveMask & bit) != 0) {
+        if ((gStruct217D384->mKartMask & bit) != 0 && (gStruct217D384->mKartRemoveMask & bit) != 0) {
             if (i == func_ov000_0219bb50()) {
-                gWiFiSession->mUnk_19ad = 1;
+                gStruct217D384->mUnk_19ad = 1;
                 func_ov000_021a2ccc();
                 func_ov000_0219bbfc();
-                gWiFiSession->mStep = 11;
+                gStruct217D384->mStep = 11;
                 return;
             }
-            gWiFiSession->mKartMask &= ~bit;
-            gWiFiSession->mKartRemoveMask &= ~bit;
-            gWiFiSession->mKartCount--;
+            gStruct217D384->mKartMask &= ~bit;
+            gStruct217D384->mKartRemoveMask &= ~bit;
+            gStruct217D384->mKartCount--;
         }
     }
-    if (gWiFiSession->mKartCount <= 1) {
-        gWiFiSession->mUnk_19ad = 1;
+    if (gStruct217D384->mKartCount <= 1) {
+        gStruct217D384->mUnk_19ad = 1;
         func_ov000_021a2ccc();
         func_ov000_0219bbfc();
-        gWiFiSession->mStep = 11;
+        gStruct217D384->mStep = 11;
     }
 }
 
 void UpdateWiFiSessionKartTimeouts(void) {
     u8 i;
     u8 ownIndex;
-    if (gWiFiSession->mStep > 2 && gWiFiSession->mStep < 9) {
-        if (gWiFiSession->mStep == 3) {
+    if (gStruct217D384->mStep > 2 && gStruct217D384->mStep < 9) {
+        if (gStruct217D384->mStep == 3) {
             ownIndex = func_ov000_0219bb50();
-            if (gWiFiSession->mIndexMessages[ownIndex].mUnk_40 != 1) {
+            if (gStruct217D384->mIndexMessages[ownIndex].mUnk_40 != 1) {
                 return;
             }
         }
-        for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-            if (i != func_ov000_0219bb50() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-                if (gWiFiSession->mSinceCallbackFrames[i] > 300) {
-                    gWiFiSession->mKartRemoveMask |= 1 << i;
+        for (i = 0; i < gStruct217D384->mStartKartCount; i++) {
+            if (i != func_ov000_0219bb50() && (gStruct217D384->mKartMask & (1 << i)) != 0) {
+                if (gStruct217D384->mSinceCallbackFrames[i] > 300) {
+                    gStruct217D384->mKartRemoveMask |= 1 << i;
                 }
             }
         }
     }
-    for (i = 0; i < gWiFiSession->mStartKartCount; i++) {
-        if (i != func_ov000_0219bb50() && (gWiFiSession->mKartMask & (1 << i)) != 0) {
-            gWiFiSession->mSinceCallbackFrames[i]++;
+    for (i = 0; i < gStruct217D384->mStartKartCount; i++) {
+        if (i != func_ov000_0219bb50() && (gStruct217D384->mKartMask & (1 << i)) != 0) {
+            gStruct217D384->mSinceCallbackFrames[i]++;
         }
     }
 }
 
 u32 GetKartMaskBit(u32 index) {
-    return gWiFiSession->mKartMask & (1 << index);
+    return gStruct217D384->mKartMask & (1 << index);
 }
 
 u32 GetKartMaskBitOfPackedIndex(u8 packedIndex) {
     s8 i;
     for (i = 0; i < 4; i++) {
-        if (packedIndex == gWiFiSession->mPackedIndices[i]) {
+        if (packedIndex == gStruct217D384->mPackedIndices[i]) {
             goto found;
         }
     }
@@ -86,5 +86,5 @@ found:
     if (i == -1) {
         return 0;
     }
-    return gWiFiSession->mKartMask & (1 << (u8) i);
+    return gStruct217D384->mKartMask & (1 << (u8) i);
 }

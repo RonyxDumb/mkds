@@ -4,5 +4,5 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void func_020ced10(RaceHudOamBuffer *oamBuffer);
-void func_020ced2c(void);
+void mpicn_renderPakkunFireIcon(RaceHudOamBuffer *oamBuffer);
+void mpicn_updatePakkunFireIcon(void);

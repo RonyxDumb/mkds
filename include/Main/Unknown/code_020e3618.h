@@ -10,8 +10,8 @@ typedef struct Unk020e039c {
     /* 00 */ u32 mUnk_00[11];
 } Unk020e039c;
 
-// Object of kind 0xcc (Bridge) that InitBridge fills. Its draw callback DrawBridge is typed Unk020e3ef4 (the family
-// layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by SetMapObjectsModel, lies inside
+// Object of kind 0xcc (Bridge) that bridge_init fills. Its draw callback bridge_render is typed Unk020e3ef4 (the family
+// layout of kinds 0xcb, 0xce, 0xd0 and 0xd1); the model pointer at +0x140, written by dcol_setModel, lies inside
 // mUnk_13c.
 typedef struct Bridge {
     /* 000 */ MapObject mUnk_000;
@@ -42,12 +42,12 @@ typedef struct Bridge {
     /* 154 */ s32 mUnk_154;
 } Bridge;
 
-BOOL IsBridgeKind(u32 kind);
-void CreateBridge(void); /* no argument; also gives the model to the registered objects (SetMapObjectsModel) */
-void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow);
-void *CreateChoropuKindData(void);
-void *CreateChoropuDrawList(void);
-void *CreateChoropuShadowDrawList(void);
-void *CreateChoropuUpdateList(void);
-void SetupDrawChoropu(void);
-void DrawChoropu(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha);
+BOOL bridge_isBridge(u32 kind);
+void bridge_loadModel(void); /* no argument; also gives the model to the registered objects (dcol_setModel) */
+void bridge_init(Bridge *bridge, struct CourseMapRow *courseRow);
+void *choro_setupConfig(void);
+void *choro_setupMainRenderPart(void);
+void *choro_setupShadowRenderPart(void);
+void *choro_setupLogicPart(void);
+void choro_applyMainMaterial(void);
+void choro_renderMain(s32 a, Unk020e1e98 *choropu, s32 c, u16 alpha);

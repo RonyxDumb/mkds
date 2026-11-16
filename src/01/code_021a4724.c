@@ -109,8 +109,8 @@ void func_ov001_021a4ba0(void) {
 }
 
 void func_ov001_021a4b28(void) {
-    RequestEmblemChoisesGraphicsUpload();
-    SetEmblemChoisesShownAndReset(1);
+    echoi_requestPalCharUpdate();
+    echoi_setMenuVisible(1);
     gEmblem->mUnk_1090 = 10;
     gEmblem->mUnk_1098 = 14;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
@@ -119,7 +119,7 @@ void func_ov001_021a4b28(void) {
 }
 
 void func_ov001_021a4aac(void) {
-    SetEmblemChoisesShownAndReset(0);
+    echoi_setMenuVisible(0);
     gEmblem->mUnk_1090 = 0;
     gEmblem->mUnk_1098 = 15;
     gEmblem->mUnk_10b0 = FALSE;

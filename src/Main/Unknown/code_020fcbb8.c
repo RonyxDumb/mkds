@@ -49,7 +49,7 @@ void SteerItemKouraWToKartForward(ItemKouraW *item, s32 gain, s32 lift) {
     if (flagBit0 == 0) {
         return;
     }
-    if (func_01ffdee4(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
+    if (col_collide(pos, &item->mUnk_000.mPrevPos, 0, item->mUnk_000.mUnk_dc, 4, item->mUnk_000.mCollisionSlotIndex,
                       &v, NULL, NULL, NULL, NULL, NULL, NULL, NULL) == 0) {
         return;
     }
@@ -66,11 +66,11 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
     s32 offsetX;
     s32 offsetZ;
 
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     if (func_0206c0b0(kart) != FALSE) {
         return FALSE;
     }
-    kartItems = &(gKartItems)[kartIndex];
+    kartItems = &(it_sDriverItemStatus)[kartIndex];
     kartPos = &kart->mDrawMatrixPos;
     if (kartItems->mUnk_1f0.mLink != item->mTargetLink) {
         shortRange = ((item->mUnk_000.mFlags & 0x40000000) || (kart->mUnk_48 & 1)) ? 1 : 0;
@@ -80,7 +80,7 @@ BOOL TrySetItemKouraWKartItems(ItemKouraW *item, s32 kartIndex) {
         if (offsetX * offsetX + offsetZ * offsetZ > (shortRange ? 0x9c40 : 0x27100)) {
             return FALSE;
         }
-        normalDistance = Vec3DotUnrounded(&item->mUnk_000.mNormal, &v) >> 12;
+        normalDistance = vec_dotProduct(&item->mUnk_000.mNormal, &v) >> 12;
         if (normalDistance * normalDistance > 0x9c4) {
             return FALSE;
         }

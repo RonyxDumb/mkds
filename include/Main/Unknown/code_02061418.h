@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CreateGhostFileRecords(u32 heap);
+u32 ghdat_allocStaffGhostsStruct(u32 heap);

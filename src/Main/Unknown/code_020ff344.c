@@ -27,13 +27,13 @@
 
 #pragma thumb on
 
-void CreateDram(void) {
-    CreateNsbmd(&gDram, FindCourseMapObjFile(gDramNsbmdName), NULL);
-    func_02084968(gDram, 0x3f, 2, 0x294a);
+void dram_loadModel(void) {
+    model2_createFromNsbmd(&dram_sModel, mobj_getMapObjFile(aDram_nsbmd), NULL);
+    model_setPolyIdLightFlagsEmi(dram_sModel, 0x3f, 2, 0x294a);
 }
 
-void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
-    InitStateMachine(&dram->mUnk_00.mStateMachine, (UnkFunc *const *) data_0216c740, 6, dram);
+void dram_init(Dram *dram, struct CourseMapRow *courseRow) {
+    sm_init(&dram->mUnk_00.mStateMachine, (UnkFunc *const *) dram_sStates, 6, dram);
     dram->mUnk_b4[0] = courseRow->mUnk_28 * 0x80 / 100;
     dram->mUnk_b4[2] = courseRow->mUnk_30 * 0x80 / 100;
     dram->mUnk_b4[1] = (dram->mUnk_b4[0] + dram->mUnk_b4[2]) / 2;
@@ -56,13 +56,13 @@ void InitDram(Dram *dram, struct CourseMapRow *courseRow) {
 Unk02100004 *func_020ffacc(void) {
     Unk02100004 *p;
 
-    p = GetHeap(GetCurrentHeapCall());
-    p = HeapAlloc(p, 0x40);
+    p = proc_getHeap(proc_getCurrent());
+    p = heap_alloc(p, 0x40);
     *p = data_0215a068;
     return p;
 }
 
-BOOL func_020ffabc(u32 kind) {
+BOOL IsWall(u32 kind) {
     return kind == 0xb;
 }
 
@@ -111,7 +111,7 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
     s32 scaledX, scaledZ;
     Vec3 *position;
 
-    if ((fbox->mUnk_000.mItemObject.mFlags & 0x80000) && GetChoisesSOpenDuringRace() == 0) {
+    if ((fbox->mUnk_000.mItemObject.mFlags & 0x80000) && rchoi_getIsRacePaused() == 0) {
         s32 row0Dot, row2Dot;
 
         row0Dot = ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_130.x +
@@ -131,14 +131,14 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
                 (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z *
                     fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
+            vec_normalize(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1]);
         }
         if (row0Dot * row0Dot > row2Dot * row2Dot) {
             fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x =
                 (s32) (fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x - scaledX);
             fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
+            vec_crossProduct(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
             if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x *
@@ -148,16 +148,16 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
                     (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z *
                         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
+                vec_normalize(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
                                                    &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
             }
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
+            vec_crossProduct(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
         } else {
             fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x -= scaledX;
             fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z -= scaledZ;
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
+            vec_crossProduct(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
             if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].x *
@@ -167,10 +167,10 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
                     (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z *
                         fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
+                vec_normalize(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
                                                    &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
             }
-            Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
+            vec_crossProduct(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2],
                                &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
         }
@@ -182,24 +182,24 @@ void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out) {
     *out = fbox->mUnk_000.mItemObject.mUnk_94;
 }
 
-void ResetItemFBox(ItemFBox *fbox) {
+void itfbox_initInstance(ItemFBox *fbox) {
     *(MtxFx33 *) &fbox->mUnk_000.mItemObject.mUnk_94 = *(MtxFx33 *) &data_0217c600;
     ResetPooledMapObject(fbox->mPooledMapObject);
     fbox->mPooledMapObject->mUnk_b0 = 2;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, SetItemFBoxDrawMatrix, fbox);
 }
 
-void StartItemFBox(ItemFBox *fbox) {
+void itfbox_20FF654(ItemFBox *fbox) {
     fbox->mPooledMapObject->mUnk_b0 = 1;
     SetPooledMapObjectCallback(fbox->mPooledMapObject, func_020ff6d8, fbox);
 }
 
-void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox) {
+void itfbox_20FF638(ItemInUse *inUse, ItemFBox *fbox) {
     SetPooledMapObjectFromItem(fbox->mPooledMapObject, fbox->mUnk_000.mItemObject.mAlpha,
                                &fbox->mUnk_000.mItemObject.mScale);
 }
 
-u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
+u32 itfbox_20FF538(ItemInUse *inUse, ItemFBox *fbox) {
     func_020f9114(fbox);
     fbox->mUnk_000.mItemObject.mUnk_78 |= data_0215a02c;
     MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) &fbox->mUnk_000.mItemObject.mUnk_94,
@@ -209,7 +209,7 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     fbox->mUnk_130.z = 0;
     if ((inUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&fbox->mUnk_000, inUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        sfx_21090C4(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         fbox->mThrownForward = 1;
         return fbox->mThrownForward;
     }
@@ -218,7 +218,7 @@ u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox) {
     return fbox->mThrownForward;
 }
 
-void AdvanceItemFBox(ItemFBox *fbox) {
+void itfbox_20FF438(ItemFBox *fbox) {
     s32 unusedOutput;
 
     if (fbox->mUnk_000.mItemObject.mFlags & 0x180000) {
@@ -249,33 +249,33 @@ void AdvanceItemFBox(ItemFBox *fbox) {
                                &fbox->mUnk_000.mItemObject.mScale);
 }
 
-s32 func_020ff3c4(ItemFBox *fbox) {
+s32 itfbox_20FF3C4(ItemFBox *fbox) {
     Vec3 *vector;
 
     vector = gItemPushVector;
     if ((s64) vector->x * vector->x + (s64) vector->y * vector->y + (s64) vector->z * vector->z >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(vector, &fbox->mUnk_130);
+        vec_normalize(vector, &fbox->mUnk_130);
     }
     fbox->mPooledMapObject->mUnk_b0 = 2;
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
+        fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) itfbox_20FF438;
     }
     return 2;
 }
 
-void func_020ff344(ItemFBox *fbox) {
+void itfbox_20FF344(ItemFBox *fbox) {
     if ((s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].x +
             (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].y +
             (s64) fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z * fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0].z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
+        vec_normalize(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0],
                                            &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0]);
     }
-    Vec3CrossUnrounded(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0], &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
+    vec_crossProduct(&fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[0], &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[1],
                        &fbox->mUnk_000.mItemObject.mUnk_94.mUnk_00[2]);
     MTX_Concat33((const s32 *) &data_0217c600, (const s32 *) &fbox->mUnk_000.mItemObject.mUnk_94,
                  (s32 *) &fbox->mUnk_000.mItemObject.mUnk_94);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x180000) == 0) {
-        fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemFBox;
+        fbox->mUnk_000.mItemObject.mAdvance = (void (*)(ItemObject *)) itfbox_20FF438;
     }
 }

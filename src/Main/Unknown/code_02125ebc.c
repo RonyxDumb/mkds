@@ -73,13 +73,13 @@ static inline void func_021274ec_inline(Unk0217d3f0_2178 *textCanvas, CharCanvas
     textCanvas->mUnk_0c = 1;
 }
 
-s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
+s32 gmenu_initUnknown(void *heap, TxtSystemArgs *args) {
     s32 subCharOffset;
     s32 i;
     CharCanvas *charCanvas;
 
     subCharOffset = args->mSubCharOffset;
-    gTxtSystem = HeapAlloc(heap, 0x2278);
+    gTxtSystem = heap_alloc(heap, 0x2278);
     if (args->mUseCanvas1 != 0) {
         gTxtSystem->mUseCanvas1 = 1;
     }
@@ -96,7 +96,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
         if (!((i == 1 && gTxtSystem->mUseCanvas1 == 0) || (i == 2 && gTxtSystem->mUseCanvas2 == 0) ||
               (i == 3 && gTxtSystem->mUseCanvas3 == 0))) {
             gTxtSystem->mCharBuffers[i] =
-                HeapAlloc(heap, (gTxtSystemCanvasSizes[i][0] * gTxtSystemCanvasSizes[i][1]) << 5);
+                heap_alloc(heap, (gTxtSystemCanvasSizes[i][0] * gTxtSystemCanvasSizes[i][1]) << 5);
             NNS_G2dCharCanvasInitForBG(&gTxtSystem->mCharCanvases[i], gTxtSystem->mCharBuffers[i],
                                        gTxtSystemCanvasSizes[i][0], gTxtSystemCanvasSizes[i][1], 4);
             charCanvas = &gTxtSystem->mCharCanvases[i];
@@ -144,7 +144,7 @@ s32 InitTxtSystem(void *heap, TxtSystemArgs *args) {
 #pragma thumb off
 
 #pragma thumb on
-void ClearTxtSystemPointer(void) {
+void gmenu_finishUnknown(void) {
     u32 address;
     u32 zero;
     zero = 0u;
@@ -181,20 +181,20 @@ s32 LoadTxtSystem(s32 subCharOffset) {
     Nclr *palette;
 
     if (*(vu16 *) 0x27ffc40 == 2) {
-        LocateNcgr(&firstChars, FindSceneFile(data_0216e708));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindSceneFile(data_0216e720));
-        LocateNclr(&palette, FindSceneFile(data_0216e738));
+        g2du_getCharacterDataBG(&firstChars, arc_getSceneArcFile(aTxt_system__12));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[0], arc_getSceneArcFile(aTxt_system__13));
+        g2du_getPaletteData(&palette, arc_getSceneArcFile(aTxt_system__14));
     } else {
-        LocateNcgr(&firstChars, FindFileInLoadedArchives(data_0216e750));
-        LocateNcgr(&secondChars, FindFileInLoadedArchives(data_0216e768));
-        LocateNscr(&gTxtSystem->mBgNscrs[0], FindFileInLoadedArchives(data_0216e780));
-        LocateNscr(&gTxtSystem->mBgNscrs[1], FindFileInLoadedArchives(data_0216e798));
-        LocateNscr(&gTxtSystem->mBgNscrs[2], FindFileInLoadedArchives(data_0216e7b0));
-        LocateNscr(&gTxtSystem->mBgNscrs[3], FindFileInLoadedArchives(data_0216e7c8));
-        LocateNscr(&gTxtSystem->mBgNscrs[4], FindFileInLoadedArchives(data_0216e7e0));
-        LocateNscr(&gTxtSystem->mBgNscrs[5], FindFileInLoadedArchives(data_0216e7f8));
-        LocateNscr(&gTxtSystem->mBgNscrs[6], FindFileInLoadedArchives(data_0216e810));
-        LocateNclr(&palette, FindFileInLoadedArchives(data_0216e828));
+        g2du_getCharacterDataBG(&firstChars, arc_get2dArcFile(aTxt_system__15));
+        g2du_getCharacterDataBG(&secondChars, arc_get2dArcFile(aTxt_system__16));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[0], arc_get2dArcFile(aTxt_system__17));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[1], arc_get2dArcFile(aTxt_system__18));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[2], arc_get2dArcFile(aTxt_system__19));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[3], arc_get2dArcFile(aTxt_system__20));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[4], arc_get2dArcFile(aTxt_system__21));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[5], arc_get2dArcFile(aTxt_system__22));
+        g2du_getScreenData(&gTxtSystem->mBgNscrs[6], arc_get2dArcFile(aTxt_system__23));
+        g2du_getPaletteData(&palette, arc_get2dArcFile(aTxt_system__24));
     }
     gTxtSystem->mCanvasFileCharIndex[0] = 0;
     DC_FlushRange(firstChars->mData, firstChars->mDataSize);
@@ -301,12 +301,12 @@ void func_02126ef8(void) {
     TxtSystem *txtSystem;
     txtSystem = gTxtSystem;
     if (0 < txtSystem->mExtraCanvasCount) {
-        CallQueueAppend(0x1f, ((0xee - txtSystem->mSelectedIndex) * 2), &txtSystem->mUnk_2246, 2);
-        CallQueueAppend(0x1f, (0xfe - gTxtSystem->mSelectedIndex) * 2, &gTxtSystem->mUnk_2246, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, ((0xee - txtSystem->mSelectedIndex) * 2), &txtSystem->mUnk_2246, 2);
+        NNS_GfdRegisterNewVramTransferTask(0x1f, (0xfe - gTxtSystem->mSelectedIndex) * 2, &gTxtSystem->mUnk_2246, 2);
         txtSystem = gTxtSystem;
         if (txtSystem->mExtraCanvasCount == 2) {
-            CallQueueAppend(0x1f, ((txtSystem->mSelectedIndex + 0xed) * 2), &txtSystem->mUnk_2244, 2);
-            CallQueueAppend(0x1f, (gTxtSystem->mSelectedIndex + 0xfd) * 2, &gTxtSystem->mUnk_2244, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((txtSystem->mSelectedIndex + 0xed) * 2), &txtSystem->mUnk_2244, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, (gTxtSystem->mSelectedIndex + 0xfd) * 2, &gTxtSystem->mUnk_2244, 2);
         }
     }
 }
@@ -316,8 +316,8 @@ void func_02126ea8(void) {
     if (0 < gTxtSystem->mExtraCanvasCount) {
         v2 = 0;
         do {
-            CallQueueAppend(0x1f, ((v2 + 0xed) * 2), &gTxtSystem->mUnk_2244, 2);
-            CallQueueAppend(0x1f, ((v2 + 0xfd) * 2), &gTxtSystem->mUnk_2244, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((v2 + 0xed) * 2), &gTxtSystem->mUnk_2244, 2);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, ((v2 + 0xfd) * 2), &gTxtSystem->mUnk_2244, 2);
             v2 = v2 + 1;
         } while (v2 < 2);
     }
@@ -353,8 +353,8 @@ void AdvanceTxtSystemState0(void) {
             }
         }
         RefreshTxtSystemScreenBuffers(a);
-        CallQueueAppend(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
-        CallQueueAppend(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
+        NNS_GfdRegisterNewVramTransferTask(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
+        NNS_GfdRegisterNewVramTransferTask(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
         gTxtSystem->mNextState = 1;
         gTxtSystem->mStateFrames = 0;
         for (i = 0; i < 2; i++) {
@@ -370,7 +370,7 @@ void AdvanceTxtSystemState0(void) {
                 if ((u32) i <= 1) {
                     m = 6;
                 }
-                CallQueueAppend(m, (gTxtSystem->mCanvasFileCharIndex[i] + gTxtSystemCanvasCharOffsets[i]) << 5,
+                NNS_GfdRegisterNewVramTransferTask(m, (gTxtSystem->mCanvasFileCharIndex[i] + gTxtSystemCanvasCharOffsets[i]) << 5,
                                 gTxtSystem->mCharBuffers[i], bufferSize);
             }
         }
@@ -392,7 +392,7 @@ void AdvanceTxtSystemState1(void) {
 
     gTxtSystem->mStateFrames++;
     for (i = 0; i < 2; i++) {
-        gTxtSystem->mBgOffset[i] = InterpolateS16(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
+        gTxtSystem->mBgOffset[i] = mutil_interpolate(1, gTxtSystemBgOffsets[gTxtSystem->mOpenFromIndex],
                                                   -gTxtSystem->mBgOffsetAtOpen[i], gTxtSystem->mStateFrames, 0xf);
     }
     txtSystem = gTxtSystem;
@@ -443,7 +443,7 @@ void AdvanceTxtSystemState2(void) {
             inputSlotIndex = 8;
             break;
         case 1:
-            inputSlotIndex = func_020435bc();
+            inputSlotIndex = input_getDirectInputUnitId();
             break;
     }
     touchX = data_02175670[inputSlotIndex].mPressedBits;
@@ -479,7 +479,7 @@ void AdvanceTxtSystemState2(void) {
             }
         }
     }
-    keys = data_02175628[inputSlotIndex].mPressedBits;
+    keys = gInputUnits[inputSlotIndex].mPressedBits;
     if ((u16) (keys & PAD_KEY_A) == 0) {
         if (func_02126a00_inline2(inputSlotIndex) == 0 || buttonCount != 1 ||
             func_02126a00_inline(touchX, clampedTouchY, gTxtSystemHitRects[4].mUnk_00, gTxtSystemHitRects[4].mUnk_01,
@@ -516,13 +516,13 @@ L:
         if ((u16) (keys & PAD_KEY_LEFT) != 0 && txtSystem->mSelectedIndex == 1) {
             txtSystem->mSelectedIndex = 0;
             func_02126ef8();
-            StartSoundOncePerFrame(0);
+            sfx_2105AC0(0);
             return;
         }
         if ((u16) (keys & 0x10) != 0 && txtSystem->mSelectedIndex == 0) {
             txtSystem->mSelectedIndex = 1;
             func_02126ef8();
-            StartSoundOncePerFrame(0);
+            sfx_2105AC0(0);
         }
     }
 }
@@ -548,7 +548,7 @@ void AdvanceTxtSystemState4(void) {
     gTxtSystem->mStateFrames++;
     for (i = 0; i < 2; i++) {
         gTxtSystem->mBgOffset[i] =
-            InterpolateS16(1, -gTxtSystem->mBgOffsetAtOpen[i], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
+            mutil_interpolate(1, -gTxtSystem->mBgOffsetAtOpen[i], gTxtSystemBgOffsets[gTxtSystem->mCloseToIndex],
                            gTxtSystem->mStateFrames, 0xf);
     }
     txtSystem = gTxtSystem;
@@ -567,7 +567,7 @@ void AdvanceTxtSystemState4(void) {
     }
 }
 
-void AdvanceTxtSystem(void) {
+void gmenu_2126834(void) {
     if (gTxtSystem->mEnabled != 0) {
         gTxtSystem->mPrevState = gTxtSystem->mState;
         gTxtSystem->mState = gTxtSystem->mNextState;
@@ -597,8 +597,8 @@ void AdvanceTxtSystem(void) {
                     gTxtSystem->mAnimFrameIndex = 0;
                 }
                 RefreshTxtSystemAnim();
-                CallQueueAppend(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
-                CallQueueAppend(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
+                NNS_GfdRegisterNewVramTransferTask(10, 0, gTxtSystem->mMainScreenBuffer, 0x1000);
+                NNS_GfdRegisterNewVramTransferTask(0x18, 0, &gTxtSystem->mSubScreenBuffer, 0x1000);
             }
         }
     }
@@ -639,20 +639,20 @@ void RequestTxtSystemOpen(void) {
 #pragma thumb on
 
 void func_021266e4(void *text) {
-    func_02126638(text, 1, 1, 1, 0, 0, 0);
+    CreateMainMessageBoxBig(text, 1, 1, 1, 0, 0, 0);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_02126638(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
+void CreateMainMessageBoxBig(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 openFromIndex, s32 closeToIndex,
                    s32 mainAnim, s32 subAnim) {
     CharCanvas *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[0];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    func_0212583c(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
                   1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -667,13 +667,13 @@ void func_02126638(void *text, s32 mainBlendPlanes, s32 subBlendPlanes, s32 open
     gTxtSystem->mCloseToIndex = closeToIndex;
 }
 
-void func_0212658c(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
+void CreateMainMessageBoxSmall(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                    u32 mainAnim, u32 subAnim) {
     CharCanvas *charCanvas;
 
     charCanvas = &gTxtSystem->mCharCanvases[1];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    func_0212583c(&gTxtSystem->mUnk_2178[1], 0, 0, gTxtSystemCanvasSizes[1][0] << 3, gTxtSystemCanvasSizes[1][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[1], 0, 0, gTxtSystemCanvasSizes[1][0] << 3, gTxtSystemCanvasSizes[1][1] << 3,
                   1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[1] = 1;
@@ -693,14 +693,14 @@ void func_0212658c(void *text, u32 mainBlendPlanes, u32 subBlendPlanes, u32 open
 
 void SetupTxtSystemMainTextButton(void *text, void *buttonText) {
     u32 subBlendPlanes = ((0x1u) + (0x0u));
-    SetupTxtSystemMainTextButtonEx(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u, 0x0u);
+    CreateMainMessageBoxSubOK(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u, 0x0u);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
+void CreateMainMessageBoxSubOK(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                     u32 openFromIndex, u32 closeToIndex, u32 mainAnim) {
     CharCanvas *charCanvas;
 
@@ -708,9 +708,9 @@ void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendP
     charCanvas->mUnk_18(charCanvas, 0xf);
     charCanvas = &gTxtSystem->mCharCanvases[4];
     charCanvas->mUnk_18(charCanvas, 0xe);
-    func_0212583c(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
                   1, 0x480, 1, text);
-    func_021257d8(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3, gTxtSystemCanvasSizes[4][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3, gTxtSystemCanvasSizes[4][1] << 3,
                   2, 0x480, 1, buttonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -728,10 +728,10 @@ void SetupTxtSystemMainTextButtonEx(void *text, void *buttonText, u32 mainBlendP
 }
 
 void SetupTxtSystemMainTextTwoButtons(void *text, void *buttonText, void *secondButtonText, s32 selectedIndex) {
-    SetupTxtSystemMainTextTwoButtonsEx(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0, 0);
+    CreateMainMessageBoxSubYesNo(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0, 0);
 }
 
-void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
+void CreateMainMessageBoxSubYesNo(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                         u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex,
                                         u32 mainAnim) {
     CharCanvas *charCanvas;
@@ -742,11 +742,11 @@ void SetupTxtSystemMainTextTwoButtonsEx(void *text, void *buttonText, void *seco
     charCanvas->mUnk_18(charCanvas, 0xe);
     charCanvas = &gTxtSystem->mCharCanvases[6];
     charCanvas->mUnk_18(charCanvas, 0xd);
-    func_0212583c(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[0], 0, 0, gTxtSystemCanvasSizes[0][0] << 3, gTxtSystemCanvasSizes[0][1] << 3,
                   1, 0x480, 1, text);
-    func_021257d8(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3, gTxtSystemCanvasSizes[5][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3, gTxtSystemCanvasSizes[5][1] << 3,
                   2, 0x480, 1, buttonText);
-    func_021257d8(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3, gTxtSystemCanvasSizes[6][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3, gTxtSystemCanvasSizes[6][1] << 3,
                   2, 0x480, 1, secondButtonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[0] = 1;
@@ -782,7 +782,7 @@ void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes
 
     charCanvas = &gTxtSystem->mCharCanvases[2];
     charCanvas->mUnk_18(charCanvas, 0xf);
-    func_0212583c(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
                   1, 0x480, 1, text);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;
@@ -803,14 +803,14 @@ void SetupTxtSystemSubTextEx(void *text, u32 mainBlendPlanes, u32 subBlendPlanes
 
 void SetupTxtSystemSubTextButton(void *text, void *buttonText) {
     u32 subBlendPlanes = ((0x1u) + (0x0u));
-    SetupTxtSystemSubTextButtonEx(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u);
+    gmenu_createSubMessageBoxConfirm(text, buttonText, 0x1u, subBlendPlanes, 0x1u, 0x0u);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
+void gmenu_createSubMessageBoxConfirm(void *text, void *buttonText, u32 mainBlendPlanes, u32 subBlendPlanes,
                                    u32 openFromIndex, u32 closeToIndex) {
     CharCanvas *charCanvas;
 
@@ -818,9 +818,9 @@ void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPl
     charCanvas->mUnk_18(charCanvas, 0xf);
     charCanvas = &gTxtSystem->mCharCanvases[4];
     charCanvas->mUnk_18(charCanvas, 0xe);
-    func_0212583c(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
                   1, 0x480, 1, text);
-    func_021257d8(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3, gTxtSystemCanvasSizes[4][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[4], 0, 0, gTxtSystemCanvasSizes[4][0] << 3, gTxtSystemCanvasSizes[4][1] << 3,
                   2, 0x480, 1, buttonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;
@@ -838,10 +838,10 @@ void SetupTxtSystemSubTextButtonEx(void *text, void *buttonText, u32 mainBlendPl
 }
 
 void SetupTxtSystemSubTextTwoButtons(void *text, void *buttonText, void *secondButtonText, s32 selectedIndex) {
-    SetupTxtSystemSubTextTwoButtonsEx(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0);
+    CreateSubMessageBoxSubYesNo(text, buttonText, secondButtonText, selectedIndex, 1, 1, 1, 0);
 }
 
-void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
+void CreateSubMessageBoxSubYesNo(void *text, void *buttonText, void *secondButtonText, u32 selectedIndex,
                                        u32 mainBlendPlanes, u32 subBlendPlanes, u32 openFromIndex, u32 closeToIndex) {
     CharCanvas *charCanvas;
 
@@ -851,11 +851,11 @@ void SetupTxtSystemSubTextTwoButtonsEx(void *text, void *buttonText, void *secon
     charCanvas->mUnk_18(charCanvas, 0xe);
     charCanvas = &gTxtSystem->mCharCanvases[6];
     charCanvas->mUnk_18(charCanvas, 0xd);
-    func_0212583c(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
+    jn_ui_drawFormattedTextRect(&gTxtSystem->mUnk_2178[2], 0, 0, gTxtSystemCanvasSizes[2][0] << 3, gTxtSystemCanvasSizes[2][1] << 3,
                   1, 0x480, 1, text);
-    func_021257d8(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3, gTxtSystemCanvasSizes[5][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[5], 0, 0, gTxtSystemCanvasSizes[5][0] << 3, gTxtSystemCanvasSizes[5][1] << 3,
                   2, 0x480, 1, buttonText);
-    func_021257d8(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3, gTxtSystemCanvasSizes[6][1] << 3,
+    jn_ui_drawFormattedTextRectSomething(&gTxtSystem->mUnk_2178[6], 0, 0, gTxtSystemCanvasSizes[6][0] << 3, gTxtSystemCanvasSizes[6][1] << 3,
                   2, 0x480, 1, secondButtonText);
     ClearTxtSystemCanvasInUse();
     gTxtSystem->mCanvasInUse[2] = 1;

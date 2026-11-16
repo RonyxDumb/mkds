@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020d12b0(void);
+u32 r2d_initBattleIntro(void);

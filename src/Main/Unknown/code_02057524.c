@@ -7,24 +7,24 @@
 
 #pragma thumb on
 
-void InitBackupBuffers(void *heap) {
-    data_0217aa08 = HeapAlloc(heap, 0x48);
-    data_0217aa08->mFirstBlock = HeapAllocAligned(heap, 0x100, 0x20);
-    data_0217aa08->mEmblemRecord = HeapAllocAligned(heap, 0x300, 0x20);
-    data_0217aa08->mGrandPrixRecordBlock = HeapAllocAligned(heap, 0x400, 0x20);
-    data_0217aa08->mCourseTimeRecordBlock = HeapAllocAligned(heap, 0x1600, 0x20);
-    data_0217aa08->mMissionRecordBlock = HeapAllocAligned(heap, 0x100, 0x20);
-    data_0217aa08->mGhostRecords[0] = HeapAllocAligned(heap, 0xe00, 0x20);
-    data_0217aa08->mGhostRecords[1] = HeapAllocAligned(heap, 0x1000, 0x20);
-    data_0217aa08->mGhostRecords[2] = HeapAllocAligned(heap, 0x1000, 0x20);
-    data_0217aa08->mBuddyRecordBlock = HeapAllocAligned(heap, 0xc00, 0x20);
-    data_0217aa08->mEmblemBlockData = HeapAllocAligned(heap, 0xb00, 0x20);
-    data_0217aa08->mReadDestination = NULL;
-    ResetBackupFirstBlockAndRecords(1);
-    data_0217aa08->mFailedBlockBits = 0;
-    data_0217aa08->mReadStatus = 0;
-    data_0217aa08->mUnk_44 &= ~1;
-    data_0217aa08->mBusy = 0;
+void savd_init(void *heap) {
+    gSaveData = heap_alloc(heap, 0x48);
+    gSaveData->mFirstBlock = heap_allocEx(heap, 0x100, 0x20);
+    gSaveData->mEmblemRecord = heap_allocEx(heap, 0x300, 0x20);
+    gSaveData->mGrandPrixRecordBlock = heap_allocEx(heap, 0x400, 0x20);
+    gSaveData->mCourseTimeRecordBlock = heap_allocEx(heap, 0x1600, 0x20);
+    gSaveData->mMissionRecordBlock = heap_allocEx(heap, 0x100, 0x20);
+    gSaveData->mGhostRecords[0] = heap_allocEx(heap, 0xe00, 0x20);
+    gSaveData->mGhostRecords[1] = heap_allocEx(heap, 0x1000, 0x20);
+    gSaveData->mGhostRecords[2] = heap_allocEx(heap, 0x1000, 0x20);
+    gSaveData->mBuddyRecordBlock = heap_allocEx(heap, 0xc00, 0x20);
+    gSaveData->mEmblemBlockData = heap_allocEx(heap, 0xb00, 0x20);
+    gSaveData->mReadDestination = NULL;
+    savd_initSections(1);
+    gSaveData->mFailedBlockBits = 0;
+    gSaveData->mReadStatus = 0;
+    gSaveData->mUnk_44 &= ~1;
+    gSaveData->mBusy = 0;
 }
 
 #pragma thumb off

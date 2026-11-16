@@ -10,19 +10,19 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateSinglePlaySelectMenuScreen2(void) {
+void menu_modeSelectOutStateRender(void) {
     s32 frame;
     LayoutTableEntry *mainCells;
     LayoutTableEntry *subCells;
     s32 i;
     s16 offset;
 
-    frame = GetFramesSinceMenuScreenSwitch();
-    mainCells = data_0217b43c->mSinglePlaySelectModeMLayoutTable;
-    subCells = data_0217b43c->mSinglePlaySelectModeSLayoutTable;
+    frame = menu_getFrameCounter();
+    mainCells = gMenuSceneState->mSinglePlaySelectModeMLayoutTable;
+    subCells = gMenuSceneState->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
-        mainCells->mOffsetY = InterpolateS16(1, 0, -0x28, frame, 10);
-        offset = InterpolateS16(1, 0, 0xf0, frame, 10);
+        mainCells->mOffsetY = mutil_interpolate(1, 0, -0x28, frame, 10);
+        offset = mutil_interpolate(1, 0, 0xf0, frame, 10);
         for (i = 0; i <= 14; i++) {
             subCells[i].mOffsetX = offset;
         }
@@ -31,8 +31,8 @@ void UpdateSinglePlaySelectMenuScreen2(void) {
         for (i = 0; i <= 14; i++) {
             subCells[i].mOffsetX = 0xf0;
         }
-        SwitchMenuScreen(GetNextMenuScreenNumber(), 0x1f);
+        menu_gotoState(menu_getField10(), 0x1f);
     }
-    DrawSinglePlaySelectCells();
+    menu_renderModeSelectUI();
 }
 #pragma thumb off

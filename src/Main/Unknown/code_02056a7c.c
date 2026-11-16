@@ -4,8 +4,8 @@
 
 #pragma thumb on
 
-u32 GetGrandPrixRecord(int cup, int engineClass, TimeRecord *record) {
-    UnpackGrandPrixRecord(&data_0217aa08->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
+u32 savd_getNkgpEntry(int cup, int engineClass, TimeRecord *record) {
+    savd_unpackNkgpEntry(&gSaveData->mGrandPrixRecordBlock->mRecords[engineClass][cup], record);
     return 1;
 }
 

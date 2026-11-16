@@ -3,4 +3,4 @@
 #include "types.h"
 #include "Main/Unknown/code_02100084.h"
 
-void *GetMapObjectFromList(MapObjectList *list, s32 index);
+void *mobj_getInstanceByIdx(MapObjectList *list, s32 index);

@@ -13,44 +13,44 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void InitEarthenPipe(Unk020e43a8 *pipe) {
+void epipe_init(Unk020e43a8 *pipe) {
     pipe->mUnk_00.mPos.y += (s32) (((s64) pipe->mUnk_00.mScale.y * 0xd000) >> 12);
-    InitPushedMotion(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
-    InitPushedObjectStates(pipe);
+    rdmo_initParams(pipe, pipe->mUnk_00.mPos.y - 0xc0000, 0x400, 0x400, 0x5000, 0x2000);
+    rdmo_initStateMachine(pipe);
 }
 #pragma thumb off
 
-MapObjectKindData *CreateWanwanChainKindData(void) {
+MapObjectKindData *wwchn_setupCollision(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02158460;
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
+    *kindData = WanwanChain_CollisionInfo;
     return kindData;
 }
 
-MapObjectDrawList *CreateWanwanChainDrawList(void) {
-    data_0217b6dc = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    *data_0217b6dc = data_02158434;
-    func_020d49d8(&data_0217b6dc);
-    return data_0217b6dc;
+MapObjectDrawList *wwchn_setupRenderPart(void) {
+    wwchn_sRenderPart = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    *wwchn_sRenderPart = data_02158434;
+    mobj_renderPartSetThisPointer(&wwchn_sRenderPart);
+    return wwchn_sRenderPart;
 }
 
-MapObjectList *CreateWanwanChainUpdateList(void) {
-    data_0217b6e0 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *data_0217b6e0 = data_0215840c;
-    SetUpdateListSlot(&data_0217b6e0);
-    return data_0217b6e0;
+MapObjectList *wwchn_setupLogicPart(void) {
+    wwchn_sLogicPart = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    *wwchn_sLogicPart = data_0215840c;
+    mobj_logicPartSetThisPointer(&wwchn_sLogicPart);
+    return wwchn_sLogicPart;
 }
 
-void DrawWanwanChain(void *unused, WanwanChainObject *chainObject, s32 c, u16 d) {
-    DrawWanwanChainLinks(&chainObject->mChain, gWanwanChain, c, d);
+void wwchn_render(void *unused, WanwanChainObject *chainObject, s32 c, u16 d) {
+    DrawWanwanChainLinks(&chainObject->mChain, wwchn_sChainModel, c, d);
     if (chainObject->mHasKui == FALSE) {
         return;
     }
-    DrawWanwanChainKui(&chainObject->mChain, gWanwanKui, &chainObject->mPos, c, d);
+    DrawWanwanChainKui(&chainObject->mChain, wwchn_sKuiModel, &chainObject->mPos, c, d);
 }
 
-void UpdateWanwanChain(void *unused, WanwanChainObject *chainObject) {
+void wwchn_update(void *unused, WanwanChainObject *chainObject) {
     Vec3 endPoint;
     Wanwan *wanwan;
 

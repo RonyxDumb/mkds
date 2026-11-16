@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-extern const u16 gWaitBnclIndices[4];
+extern const u16 wait_sFrameBnclIndex[4];
 
-void AdvanceWait(void);
+void wait_update(void);

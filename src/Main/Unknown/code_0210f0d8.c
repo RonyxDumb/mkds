@@ -3,17 +3,17 @@
 #include "code_0201ec30.h"
 #include "mic.h"
 
-void func_0210f114(MicBuffer *micBuffer) {
+void mic_finalize(MicBuffer *micBuffer) {
     func_020203e4();
     MIC_StopAutoSampling();
 }
 
-void StartMicAutoSampling(MicBuffer *micBuffer) {
+void mic_startAutoSampling(MicBuffer *micBuffer) {
     MIC_StartAutoSampling(&micBuffer->mAutoParam);
     func_0202041c();
 }
 
-void StopMicAutoSampling(MicBuffer *micBuffer) {
+void mic_stopAutoSampling(MicBuffer *micBuffer) {
     func_020203e4();
     MIC_StopAutoSampling();
 }

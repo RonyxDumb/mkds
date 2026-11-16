@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_020f9c40.h"
 #include "code_02147cd8.h"
 
-void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity, MapObject *mapObject) {
+void it_20F77F8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *otherVelocity, MapObject *mapObject) {
     ItemObject *item = itemParam;
     Vec3 offset;
     Vec3 direction;
@@ -43,9 +43,9 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 break;
             }
             item->mFlags |= 0x4000000;
-            if (Vec3DotUnrounded(&item->mVelocity, &offset) <= 0) {
+            if (vec_dotProduct(&item->mVelocity, &offset) <= 0) {
                 if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                    vec_normalize(&offset, &offset);
                 }
                 item->mBounce(item, otherVelocity, &offset);
                 if (item->mFlags & 0x8000) {
@@ -73,7 +73,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 break;
             }
             if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                vec_normalize(&offset, &offset);
             }
             radius = item->mRadius;
             item->mPos.x = otherPos->x + (s32) (((s64) radius * offset.x) >> 12);
@@ -81,13 +81,13 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
             break;
         case 2:
             if (item->mFlags & 0x1000) {
-                RemoveItemInUseObject(&(gKartItems)[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
+                RemoveItemInUseObject(&(it_sDriverItemStatus)[(u16) (item->mUnk_78 & ~0xff00)].mItemInUse, item);
             }
             n = 0;
             if ((s64) otherVelocity->x * otherVelocity->x + (s64) otherVelocity->y * otherVelocity->y +
                     (s64) otherVelocity->z * otherVelocity->z >=
                 0x10) {
-                n = Vec3NormalizeAndGetLengthUnchecked(otherVelocity, &direction);
+                n = vec_normalize(otherVelocity, &direction);
             }
             if (n != 0) {
                 func_020f6be8(item, otherPos, otherVelocity, &direction);
@@ -99,7 +99,7 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
                 if ((s64) direction.x * direction.x + (s64) direction.y * direction.y +
                         (s64) direction.z * direction.z >=
                     0x10) {
-                    Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+                    vec_normalize(&direction, &direction);
                 }
                 push.x = ((s64) direction.x * 0x1800) >> 12;
                 push.y = ((s64) direction.y * 0x1800) >> 12;
@@ -119,8 +119,8 @@ void func_020f77f8(ItemObject *itemParam, s32 hitType, Vec3 *otherPos, Vec3 *oth
     if (soundId == -1) {
         return;
     }
-    soundCallback = (item->mFlags & 0x400000) ? (void (*)(ItemObject *, s32)) func_020f7c60
-                                              : (void (*)(ItemObject *, s32)) func_020f91fc;
+    soundCallback = (item->mFlags & 0x400000) ? (void (*)(ItemObject *, s32)) it_emitSfx
+                                              : (void (*)(ItemObject *, s32)) it_20F91FC;
     soundCallback(item, soundId);
 }
 
@@ -141,7 +141,7 @@ void func_020f7658(ItemObject *item, s32 c) {
             return;
         }
         kind = item->mKind;
-        if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+        if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
             item->mAdvance = AdvanceItemObjectReleaseTimer;
         }
         item->mFlags |= 0x100002;
@@ -160,7 +160,7 @@ void func_020f7658(ItemObject *item, s32 c) {
             started = FALSE;
         } else {
             kind = item->mKind;
-            if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+            if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
                 item->mAdvance = AdvanceItemObjectReleaseTimer;
             }
             item->mFlags |= 0x100002;
@@ -183,7 +183,7 @@ void StartItemObjectReleaseTimer(ItemObject *item) {
         return;
     }
     kind = item->mKind;
-    if (gItemKinds[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
+    if (it_sItemParams[kind].mUnk_40 == 0 && !(item->mFlags & 0x180000)) {
         item->mAdvance = AdvanceItemObjectReleaseTimer;
     }
     item->mFlags |= 0x100002;
@@ -195,7 +195,7 @@ void AdvanceItemObjectReleaseTimer(ItemObject *item) {
     }
     item->mAlpha--;
     if (item->mAlpha <= 0) {
-        ReleaseItemPoolObject(&gItemPools[item->mKind], item);
+        it_itemsetDestroyItem(&it_sItemsets[item->mKind], item);
     } else {
         if (item->mAlpha < 0xa) {
             FreeItemObjectCollisionSlot((s32) item);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020a02c8(void);
+u32 bsfx_getVolume(void);

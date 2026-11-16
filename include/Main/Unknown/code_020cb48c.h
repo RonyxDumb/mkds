@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_020cb48c(int bits);
-void func_020cb4a8(int bits);
+void menu_GXS_SetVisiblePlane(int bits);
+void menu_GX_SetVisiblePlane(int bits);

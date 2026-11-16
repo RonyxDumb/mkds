@@ -14,10 +14,10 @@ void InitWanwanChain(WanwanChain *chain, Vec3 *start, Vec3 *end, s32 length, s32
 
     chain->mLength = length;
     chain->mPointCount = pointCount;
-    heap = GetHeap(GetCurrentHeapCall());
-    chain->mPoints = HeapAlloc(heap, pointCount * 12);
-    heap = GetHeap(GetCurrentHeapCall());
-    chain->mVelocities = HeapAlloc(heap, pointCount * 12);
+    heap = proc_getHeap(proc_getCurrent());
+    chain->mPoints = heap_alloc(heap, pointCount * 12);
+    heap = proc_getHeap(proc_getCurrent());
+    chain->mVelocities = heap_alloc(heap, pointCount * 12);
     chain->mUnk_34 = *f;
     chain->mUnk_40 = ((s64) e * f->y) >> 12;
     segmentCount = pointCount - 1;

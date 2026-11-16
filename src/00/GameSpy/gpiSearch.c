@@ -85,7 +85,7 @@ s32 GpiOpenSearchSocket(GpConnection *a, GpiOperation *b) {
         s.mUnk_01 = 2;
         s.mUnk_04 = h->mUnk_0c[0][0];
         if (s.mUnk_04 == 0) {
-            AssertionFailed(data_ov000_021b394c, data_ov000_021b3628, NULL, 0x59);
+            __msl_assertion_failed(data_ov000_021b394c, data_ov000_021b3628, NULL, 0x59);
         }
         s.mUnk_02 = 0xcd74;
         if (func_ov000_0218e4b4(c->mSocket, &s, 8) == -1) {
@@ -351,7 +351,7 @@ s32 GpiUpdateSearch(GpConnection *a, GpiOperation *b) {
                     GpiAppendBufferString(a, &p->mOutputBuffer, data_ov000_021b3688);
                     GpiAppendBufferNumber(a, &p->mOutputBuffer, o->mNamespaceId);
                 } else {
-                    AssertionFailed(data_ov000_021b3768, data_ov000_021b3628, NULL, 0x275);
+                    __msl_assertion_failed(data_ov000_021b3768, data_ov000_021b3628, NULL, 0x275);
                 }
                 GpiAppendBufferString(a, &p->mOutputBuffer, data_ov000_021b376c);
                 GpiAppendBufferString(a, &p->mOutputBuffer, data_ov000_021b4d6c);
@@ -807,7 +807,7 @@ s32 GpiUpdateSearch(GpConnection *a, GpiOperation *b) {
                                 i++;
                             } else if (strcmp(w0, data_ov000_021b3884) == 0) {
                                 if (i != u9->mUnk_04) {
-                                    AssertionFailed(data_ov000_021b388c, data_ov000_021b3628, NULL, 0x515);
+                                    __msl_assertion_failed(data_ov000_021b388c, data_ov000_021b3628, NULL, 0x515);
                                 }
                                 u9->mUnk_04 = i;
                                 d = TRUE;
@@ -823,7 +823,7 @@ s32 GpiUpdateSearch(GpConnection *a, GpiOperation *b) {
                         }
                     }
                 } else {
-                    AssertionFailed(data_ov000_021b3768, data_ov000_021b3628, NULL, 0x52a);
+                    __msl_assertion_failed(data_ov000_021b3768, data_ov000_021b3628, NULL, 0x52a);
                 }
                 p->mUnk_140 = TRUE;
                 k = FALSE;
@@ -856,7 +856,7 @@ BOOL GpiUpdateSearches(GpConnection *a) {
         for (p = r->mOperationList; p != NULL; p = p->mNext) {
             if (p->mType == 3 && p->mUnk_14 != 5 && p->mUnk_04->mUnk_13c == 0) {
                 if (n >= r->mSearchCount) {
-                    AssertionFailed(data_ov000_021b3608, data_ov000_021b3628, NULL, 0x563);
+                    __msl_assertion_failed(data_ov000_021b3608, data_ov000_021b3628, NULL, 0x563);
                 }
                 v[n++] = p;
                 p->mUnk_04->mUnk_13c = 1;

@@ -132,7 +132,7 @@ typedef struct Unk02185984Data {
 extern DWCAuth *gAuth;
 extern DWCWiFiInfo data_ov000_021b4c94;
 
-void DWCi_Auth_SetError(s32 a);
+void menu_ta_characterSelectStateRender(s32 a);
 u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLabelValue *d, s32 e, s32 f);
 s32 DWCi_Auth_FillResult(void);
 s32 func_ov000_02185ef4(void);

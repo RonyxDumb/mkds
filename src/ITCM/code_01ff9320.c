@@ -7,20 +7,20 @@
 #pragma opt_arithtransformation off
 
 // The table below is initialized data kept in .text ahead of the code (the original has it at 0x01ff9300, right
-// before func_01ff9320); 1.2 puts initialized non-const data in the section a `#pragma section` names.
+// before NNSi_G3dSendTexSRTMaya); 1.2 puts initialized non-const data in the section a `#pragma section` names.
 #pragma define_section ITCM ".text"                                                                                    \
                             ".bss" abs32 RWX
 #pragma section ITCM begin
 
-Unk01ff9320_Fn data_01ff9300[8] = {
-    (Unk01ff9320_Fn) func_01ff9828, (Unk01ff9320_Fn) func_01ff974c, (Unk01ff9320_Fn) func_01ff96cc,
-    (Unk01ff9320_Fn) func_01ff9684, (Unk01ff9320_Fn) func_01ff9598, (Unk01ff9320_Fn) func_01ff94d4,
-    (Unk01ff9320_Fn) func_01ff9490, (Unk01ff9320_Fn) func_01ff946c,
+Unk01ff9320_Fn calcTexMtx_[8] = {
+    (Unk01ff9320_Fn) texmtxCalc_flag_, (Unk01ff9320_Fn) texmtxCalc_flagS_, (Unk01ff9320_Fn) texmtxCalc_flagR_,
+    (Unk01ff9320_Fn) texmtxCalc_flagRS_, (Unk01ff9320_Fn) texmtxCalc_flagT_, (Unk01ff9320_Fn) texmtxCalc_flagTS_,
+    (Unk01ff9320_Fn) texmtxCalc_flagTR_, (Unk01ff9320_Fn) texmtxCalc_flagTRS_,
 };
 
 #pragma section ITCM end
 
-void func_01ff94d4(s32 *o, const NNSG3dMatAnmResult *v1) {
+void texmtxCalc_flagTS_(s32 *o, const NNSG3dMatAnmResult *v1) {
     s32 a;
     s32 b;
     s32 t;
@@ -38,7 +38,7 @@ void func_01ff94d4(s32 *o, const NNSG3dMatAnmResult *v1) {
     o[4] = (v1->mUnk_20[0] * FX_GetDivResult()) >> 12;
 }
 
-void func_01ff9490(s32 *o, const NNSG3dMatAnmResult *v1) {
+void texmtxCalc_flagTR_(s32 *o, const NNSG3dMatAnmResult *v1) {
     s32 t;
 
     o[0] = v1->mUnk_18[0];
@@ -50,7 +50,7 @@ void func_01ff9490(s32 *o, const NNSG3dMatAnmResult *v1) {
     o[4] = 0;
 }
 
-void func_01ff946c(s32 *o) {
+void texmtxCalc_flagTRS_(s32 *o) {
     o[0] = 0x1000;
     o[1] = 0;
     o[4] = 0;
@@ -59,7 +59,7 @@ void func_01ff946c(s32 *o) {
     o[13] = 0;
 }
 
-void func_01ff9320(NNSG3dMatAnmResult *p) {
+void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *p) {
     Unk01ff9320_buf b;
 
     if (p->mUnk_00 & 8) {
@@ -79,7 +79,7 @@ void func_01ff9320(NNSG3dMatAnmResult *p) {
     b.mUnk_08[3] = 0;
     b.mUnk_08[2] = 0;
     b.mUnk_08[15] = 0x1000;
-    data_01ff9300[p->mUnk_00 & 7](b.mUnk_08, p);
+    calcTexMtx_[p->mUnk_00 & 7](b.mUnk_08, p);
     if (p->mUnk_30 != 0x1000) {
         b.mUnk_08[0] = ((s64) p->mUnk_30 * b.mUnk_08[0]) >> 12;
         b.mUnk_08[1] = ((s64) p->mUnk_30 * b.mUnk_08[1]) >> 12;
@@ -90,5 +90,5 @@ void func_01ff9320(NNSG3dMatAnmResult *p) {
         b.mUnk_08[5] = ((s64) p->mUnk_34 * b.mUnk_08[5]) >> 12;
         b.mUnk_08[13] = ((s64) p->mUnk_34 * b.mUnk_08[13]) >> 12;
     }
-    func_01ff9048(b.mUnk_00, (u32 *) &b + 1, 0x12);
+    NNS_G3dGeBufferOP_N(b.mUnk_00, (u32 *) &b + 1, 0x12);
 }

@@ -45,8 +45,8 @@ void InitBouncingItemBoxMapObjects(void) {
     ItemObject **objectCursor;
     ItemPool *pool;
     MapObject *mapObject;
-    if (gItemInfos[17].mEnabled != FALSE) {
-        pool = &gItemPools[8];
+    if (it_sItemConfigs[17].mEnabled != FALSE) {
+        pool = &it_sItemsets[8];
         objectCursor = pool->mObjects;
         objectCount = pool->mObjectCount;
         index = 0;
@@ -73,7 +73,7 @@ void InitBouncingItemBoxTimers(void) {
     u32 *timerCursor;
     u32 *runningFlagCursor;
 
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
     i = 0;
@@ -88,7 +88,7 @@ void InitBouncingItemBoxTimers(void) {
 
 #pragma thumb off
 
-void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
+void cspl_dripUpdate(OrthoQuad *quad) {
     s16(*velocities)[2];
     s32 framesFromMoveStart;
     s32 i;
@@ -99,17 +99,17 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     s32 b;
 
     velocities = quad->mCornerVelocities;
-    framesFromMoveStart = gOrthoQuadFrames - gOrthoQuadMoveStartFrameCount;
+    framesFromMoveStart = cspl_sSplashTimer - gOrthoQuadMoveStartFrameCount;
     if (framesFromMoveStart < 0) {
         for (i = 0; i < 4; i++) {
             quad->mCorners[i][1] -= 2;
         }
         return;
     }
-    if (framesFromMoveStart == 0 && gOrthoQuadUseCreamEffect == 0 && quad == gOrthoQuads) {
+    if (framesFromMoveStart == 0 && cspl_sUseCustomSplash == 0 && quad == cspl_sSplashes) {
         sndHandle = GetSndHandleSlot(6);
         NNS_SndPlayerStopSeq(sndHandle, 1);
-        if ((data_0217c780 & 1) != 0 && data_0217d084.mUnk_0c != 0) {
+        if ((data_0217c780 & 1) != 0 && SoundHandle_217D084.mUnk_0c != 0) {
             if (*sndHandle != NULL) {
                 NNS_SndPlayerStopSeq(sndHandle, 0);
             }
@@ -164,14 +164,14 @@ void AdvanceOrthoQuadCornersByVelocity(OrthoQuad *quad) {
     }
     quad->mTimer = quad->mTimer - 1;
     if ((quad->mTimer & 0xf) == 0) {
-        RandomState64 *a = &gRaceProgress->mLocalRandom;
+        RandomState64 *a = &gRaceStatus->mLocalRandom;
 
         a->mValue = a->mMultiplier * a->mValue + a->mIncrement;
         quad->mPickedCornerIndex = (u16) (((u64) (u32) (a->mValue >> 32) * 6) >> 32);
     }
 }
 
-void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
+void cspl_appearUpdate(OrthoQuad *quad) {
     s16(*velocities)[2] = quad->mCornerVelocities;
     s32 i;
     s32 tableScale;
@@ -179,7 +179,7 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     s16 startY;
     s32 v;
 
-    tableScale = data_0215a48c[-quad->mTimer];
+    tableScale = cspl_appearScaleAnim[-quad->mTimer];
     startX = quad->mStartPair[0];
     startY = quad->mStartPair[1];
     for (i = 0; i < 4; i++) {
@@ -190,11 +190,11 @@ void AdvanceOrthoQuadCornersByTable(OrthoQuad *quad) {
     }
     quad->mTimer = quad->mTimer - 1;
     if (quad->mTimer == -13) {
-        quad->mUpdateFunction = AdvanceOrthoQuadCornersByVelocity;
+        quad->mUpdateFunction = cspl_dripUpdate;
     }
 }
 
-void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
+void cspl_initialWaitUpdate(OrthoQuad *quad) {
     NNSSndSeqPlayer **sndHandle;
     u32 seqNo;
 
@@ -202,19 +202,19 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
     if (quad->mTimer != 0) {
         return;
     }
-    quad->mUpdateFunction = AdvanceOrthoQuadCornersByTable;
-    if (func_0203c5e4() != 0) {
+    quad->mUpdateFunction = cspl_appearUpdate;
+    if (rstat_getUncontrollable() != 0) {
         return;
     }
-    seqNo = gOrthoQuadUseCreamEffect != 0 ? 0x157 : 0xee;
+    seqNo = cspl_sUseCustomSplash != 0 ? 0x157 : 0xee;
     if (seqNo == 1) {
         return;
     }
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-    if (data_0217d084.mUnk_0c == 0) {
+    sndHandle = sp_acquireElement(sound_getPoolById(0));
+    if (SoundHandle_217D084.mUnk_0c == 0) {
         return;
     }
     if (*sndHandle != NULL) {
@@ -226,49 +226,49 @@ void AdvanceOrthoQuadDelayAndStartSound(OrthoQuad *quad) {
     NNS_SndArcPlayerStartSeqArc(sndHandle, 0, (u16) seqNo);
 }
 
-void UpdateOrthoQuads(void) {
+void cspl_update(void) {
     s32 i;
     OrthoQuadModel *model;
     s32 frames;
     u16 alpha;
 
-    if (gOrthoQuadCount == 0) {
+    if (cspl_sSplashCount == 0) {
         return;
     }
-    for (i = 0; i < gOrthoQuadCount; i++) {
-        OrthoQuad *e = &gOrthoQuads[i];
+    for (i = 0; i < cspl_sSplashCount; i++) {
+        OrthoQuad *e = &cspl_sSplashes[i];
 
         e->mUpdateFunction(e);
     }
-    frames = gOrthoQuadFrames + 1;
-    gOrthoQuadFrames = frames;
-    if (frames <= gOrthoQuadHoldFrameCount) {
+    frames = cspl_sSplashTimer + 1;
+    cspl_sSplashTimer = frames;
+    if (frames <= cspl_sSplashDuration) {
         return;
     }
     if (frames & 1) {
         return;
     }
-    alpha = gOrthoQuadAlpha;
-    gOrthoQuadAlpha = alpha - 1;
-    alpha = gOrthoQuadAlpha;
+    alpha = cspl_sSplashAlpha;
+    cspl_sSplashAlpha = alpha - 1;
+    alpha = cspl_sSplashAlpha;
     if (alpha == 0) {
-        gOrthoQuadCount = 0;
-        gOrthoQuadUseCreamEffect = FALSE;
+        cspl_sSplashCount = 0;
+        cspl_sUseCustomSplash = FALSE;
         NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
         return;
     }
-    model = gOrthoQuadUseCreamEffect != 0 ? &gOrthoQuadCreamEffect : &gOrthoQuadGesoSumi;
+    model = cspl_sUseCustomSplash != 0 ? &cspl_sCustomSplashTex : &cspl_sGessoSplashTex;
     model->mPolygonAttr = model->mPolygonAttr & ~0x1f0000;
     model->mPolygonAttr = model->mPolygonAttr | (alpha << 16);
 }
 
-void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
+void cspl_renderSplash(OrthoQuadModel *model) {
     s32 i;
 
-    if (gOrthoQuadCount == 0) {
+    if (cspl_sSplashCount == 0) {
         return;
     }
-    if (func_0203c5e4() != 0) {
+    if (rstat_getUncontrollable() != 0) {
         return;
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
@@ -277,7 +277,7 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_DIF_AMB = model->mDifAmb;
     reg_G3_SPE_EMI = model->mSpeEmi;
     reg_G3_MTX_MODE = 0;
-    G3_LoadMtx44(gOrthoQuadMatrix);
+    G3_LoadMtx44(cspl_sProjMtx);
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     reg_G3_MTX_MODE = 2;
@@ -286,13 +286,13 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
     reg_G3_MTX_SCALE = 0x64000;
     reg_G3_MTX_SCALE = 0x64000;
     i = 0;
-    if (gOrthoQuadCount <= 0) {
+    if (cspl_sSplashCount <= 0) {
         return;
     }
     do {
-        OrthoQuad *e = &gOrthoQuads[i];
+        OrthoQuad *e = &cspl_sSplashes[i];
 
-        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (gOrthoQuadFirstPolygonId + i) << 24;
+        reg_G3_POLYGON_ATTR = model->mPolygonAttr | (cspl_sPolygonId + i) << 24;
         reg_G3_BEGIN_VTXS = 1;
         reg_G3_TEXCOORD = 0;
         reg_G3_VTX_16 = *(u32 *) &e->mCorners[0];
@@ -305,11 +305,11 @@ void DrawOrthoQuadsWithModel(OrthoQuadModel *model) {
         *(u32 *) 0x4000494 = *(u32 *) &e->mCorners[3];
         reg_G3_END_VTXS = 0;
         i++;
-    } while (i < gOrthoQuadCount);
+    } while (i < cspl_sSplashCount);
 }
 
-void DrawOrthoQuads(void) {
-    DrawOrthoQuadsWithModel(gOrthoQuadUseCreamEffect != 0 ? &gOrthoQuadCreamEffect : &gOrthoQuadGesoSumi);
+void cspl_render(void) {
+    cspl_renderSplash(cspl_sUseCustomSplash != 0 ? &cspl_sCustomSplashTex : &cspl_sGessoSplashTex);
 }
 
 // Marks the cells in rows row - 2 to row + 2 next to column; returns the bits that were already marked.
@@ -323,27 +323,27 @@ u8 MarkOrthoQuadCellsAndGetOverlap(s32 column, s32 row) {
     fiveCellMask = threeCellMask | (1 << column) | (1 << (column + 4));
     overlapAbove = 0;
     if (row > 1) {
-        overlapAbove |= gOrthoQuadCells[row - 2] & (u8) (threeCellMask >> 3);
-        gOrthoQuadCells[row - 2] |= (u8) (threeCellMask >> 3);
+        overlapAbove |= cspl_sScreenCoverageFlags[row - 2] & (u8) (threeCellMask >> 3);
+        cspl_sScreenCoverageFlags[row - 2] |= (u8) (threeCellMask >> 3);
     }
     if (row > 0) {
-        overlapAbove |= gOrthoQuadCells[row - 1] & (u8) (fiveCellMask >> 3);
-        gOrthoQuadCells[row - 1] |= (u8) (fiveCellMask >> 3);
+        overlapAbove |= cspl_sScreenCoverageFlags[row - 1] & (u8) (fiveCellMask >> 3);
+        cspl_sScreenCoverageFlags[row - 1] |= (u8) (fiveCellMask >> 3);
     }
-    overlap = overlapAbove | (gOrthoQuadCells[row] & (u8) (fiveCellMask >> 3));
-    gOrthoQuadCells[row] |= (u8) (fiveCellMask >> 3);
+    overlap = overlapAbove | (cspl_sScreenCoverageFlags[row] & (u8) (fiveCellMask >> 3));
+    cspl_sScreenCoverageFlags[row] |= (u8) (fiveCellMask >> 3);
     if (row < 7) {
-        overlap |= gOrthoQuadCells[row + 1] & (u8) (fiveCellMask >> 3);
-        gOrthoQuadCells[row + 1] |= (u8) (fiveCellMask >> 3);
+        overlap |= cspl_sScreenCoverageFlags[row + 1] & (u8) (fiveCellMask >> 3);
+        cspl_sScreenCoverageFlags[row + 1] |= (u8) (fiveCellMask >> 3);
     }
     if (row < 6) {
-        overlap |= gOrthoQuadCells[row + 2] & (u8) (threeCellMask >> 3);
-        gOrthoQuadCells[row + 2] |= (u8) (threeCellMask >> 3);
+        overlap |= cspl_sScreenCoverageFlags[row + 2] & (u8) (threeCellMask >> 3);
+        cspl_sScreenCoverageFlags[row + 2] |= (u8) (threeCellMask >> 3);
     }
     return overlap;
 }
 
-void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
+void cspl_emitSplash(s32 index, HalfwordPair startPair, s32 overlap) {
     RaceProgress *raceProgress;
     RandomState64 *random;
     OrthoQuad *quad;
@@ -355,14 +355,14 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
     s16 velocityX;
     s16 velocityY;
 
-    raceProgress = gRaceProgress;
-    quad = &gOrthoQuads[index];
+    raceProgress = gRaceStatus;
+    quad = &cspl_sSplashes[index];
     random = &raceProgress->mLocalRandom;
     velocities = quad->mCornerVelocities;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     t = (s32) (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32) >> 4;
-    c = gPairsByAngle[2 * t];
-    s = gPairsByAngle[2 * t + 1];
+    c = FX_SinCosTable_[2 * t];
+    s = FX_SinCosTable_[2 * t + 1];
     if (overlap != 0) {
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
         t = (s16) (((u64) (u32) (random->mValue >> 32) * 0xcd) >> 32) + 0x800;
@@ -371,10 +371,10 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
         t = 0xa66 + (s16) (((u64) (u32) (random->mValue >> 32) * 0x52) >> 32);
     }
     t = (s16) t;
-    if (gOrthoQuadUseCreamEffect != 0) {
+    if (cspl_sUseCustomSplash != 0) {
         t = (s16) (((s64) t * 0x800) >> 12);
     }
-    quad->mTimer = data_0215a47c[index];
+    quad->mTimer = cspl_sInitialDelayTable[index];
     velocities[0][0] = -t;
     velocities[0][1] = -t;
     velocities[1][0] = -t;
@@ -391,13 +391,13 @@ void SetupOrthoQuad(s32 index, HalfwordPair startPair, s32 overlap) {
         *(HalfwordPair *) quad->mCorners[(u32) i] = startPair;
     }
     *(HalfwordPair *) quad->mStartPair = startPair;
-    quad->mUpdateFunction = AdvanceOrthoQuadDelayAndStartSound;
+    quad->mUpdateFunction = cspl_initialWaitUpdate;
     quad->mPickedCornerIndex = -1;
     quad->mVelocityMode = 0;
 }
 
 // Local entry only: places up to count quads at random cells; the cream effect does not restart while quads show.
-void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
+void cspl_emitSplashes(s32 kartIndex, s32 count, s32 useCreamEffect) {
     HalfwordPair startPair;
     s32 i;
     s32 placedCount;
@@ -406,32 +406,32 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
     s32 row;
     RandomState64 *random;
 
-    random = &gRaceProgress->mLocalRandom;
-    GetKart(kartIndex);
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    random = &gRaceStatus->mLocalRandom;
+    driver_getById(kartIndex);
+    if (kartIndex != gRaceMultiConfig->mEntryIndex) {
         return;
     }
-    data_0217c638 = kartIndex;
-    if (gOrthoQuadCount != 0) {
+    cspl_sDriverId = kartIndex;
+    if (cspl_sSplashCount != 0) {
         if (useCreamEffect != 0) {
             return;
         }
     }
-    gOrthoQuadCount = 0;
-    gOrthoQuadUseCreamEffect = FALSE;
+    cspl_sSplashCount = 0;
+    cspl_sUseCustomSplash = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
-    gOrthoQuadUseCreamEffect = useCreamEffect;
+    cspl_sUseCustomSplash = useCreamEffect;
     for (i = 0; i < 8; i++) {
-        gOrthoQuadCells[i] = 0;
+        cspl_sScreenCoverageFlags[i] = 0;
     }
     m = 1;
     for (i = 0, placedCount = 0; i < 0x10 && placedCount < count; i++) {
-        if (gOrthoQuadUseCreamEffect != 0) {
+        if (cspl_sUseCustomSplash != 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mUnk_00 = (s16) (((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32) * 2;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mUnk_02 = (s16) (((u64) (u32) (random->mValue >> 32) * 0xc00) >> 32) * 2;
-        } else if (gOrthoQuadCount == 0) {
+        } else if (cspl_sSplashCount == 0) {
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             startPair.mHalf.mUnk_00 = ((u64) (u32) (random->mValue >> 32) * 0x1000) >> 32;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
@@ -451,47 +451,47 @@ void StartOrthoQuads(s32 kartIndex, s32 count, s32 useCreamEffect) {
         column = startPair.mHalf.mUnk_00 >> 10;
         row = startPair.mHalf.mUnk_02 >> 10;
         if (row >= 3 || column < 3 || column > 4) {
-            if ((gOrthoQuadCells[row] & (m << column)) == 0) {
+            if ((cspl_sScreenCoverageFlags[row] & (m << column)) == 0) {
                 s32 r = MarkOrthoQuadCellsAndGetOverlap(column, row);
 
                 startPair.mHalf.mUnk_00 -= 0x1000;
                 startPair.mHalf.mUnk_02 -= 0x600;
-                SetupOrthoQuad(placedCount, startPair, r);
+                cspl_emitSplash(placedCount, startPair, r);
                 placedCount++;
             }
         }
     }
-    gOrthoQuadCount = placedCount;
-    gOrthoQuadFrames = 0;
-    gOrthoQuadAlpha = 0x1f;
-    if (gOrthoQuadUseCreamEffect != 0) {
-        gOrthoQuadHoldFrameCount = 0x96;
+    cspl_sSplashCount = placedCount;
+    cspl_sSplashTimer = 0;
+    cspl_sSplashAlpha = 0x1f;
+    if (cspl_sUseCustomSplash != 0) {
+        cspl_sSplashDuration = 0x96;
         gOrthoQuadMoveStartFrameCount = 0x1e;
-        gOrthoQuadCreamEffect.mPolygonAttr &= ~0x1f0000;
-        gOrthoQuadCreamEffect.mPolygonAttr |= 0x1f0000;
+        cspl_sCustomSplashTex.mPolygonAttr &= ~0x1f0000;
+        cspl_sCustomSplashTex.mPolygonAttr |= 0x1f0000;
     } else {
-        gOrthoQuadHoldFrameCount = 0x184;
+        cspl_sSplashDuration = 0x184;
         gOrthoQuadMoveStartFrameCount = 0x2d;
-        gOrthoQuadGesoSumi.mPolygonAttr &= ~0x1f0000;
-        gOrthoQuadGesoSumi.mPolygonAttr |= 0x1f0000;
+        cspl_sGessoSplashTex.mPolygonAttr &= ~0x1f0000;
+        cspl_sGessoSplashTex.mPolygonAttr |= 0x1f0000;
     }
 }
 
-void StartOrthoQuadsGesoSumi(u32 kartIndex, u32 count) {
-    StartOrthoQuads(kartIndex, count, 0);
+void cspl_emitGessoSplash(u32 kartIndex, u32 count) {
+    cspl_emitSplashes(kartIndex, count, 0);
 }
 
-void StopOrthoQuads(int kartIndex) {
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+void cspl_killSplashes(int kartIndex) {
+    if (kartIndex != gRaceMultiConfig->mEntryIndex) {
         return;
     }
-    gOrthoQuadCount = 0;
-    gOrthoQuadUseCreamEffect = FALSE;
+    cspl_sSplashCount = 0;
+    cspl_sUseCustomSplash = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
 }
 
 // Local entry only: moves the frame counter up to the hold count so the alpha starts to fall.
-u32 SkipOrthoQuadsHold(u32 kartIndex) {
+u32 cspl_clearSplashes(u32 kartIndex) {
     u32 value0 = kartIndex;
     u32 value1;
     u32 value2;
@@ -501,21 +501,21 @@ u32 SkipOrthoQuadsHold(u32 kartIndex) {
     u32 compareRight1;
     s32 compareLeft2;
     s32 compareRight2;
-    value1 = gRaceSetup->mEntryIndex;
+    value1 = gRaceMultiConfig->mEntryIndex;
     compareLeft0 = value0;
     compareRight0 = value1;
     if (compareLeft0 != compareRight0) {
         return value0;
     }
-    value0 = (u32) &gOrthoQuadCount;
+    value0 = (u32) &cspl_sSplashCount;
     value0 = *(const u32 *) ((value0) + (0));
     compareLeft1 = value0;
     compareRight1 = 0u;
     if (compareLeft1 == compareRight1) {
         return value0;
     }
-    value1 = (u32) &gOrthoQuadHoldFrameCount;
-    value0 = (u32) &gOrthoQuadFrames;
+    value1 = (u32) &cspl_sSplashDuration;
+    value0 = (u32) &cspl_sSplashTimer;
     value2 = *(const u32 *) ((value1) + (0));
     value1 = *(const u32 *) ((value0) + (0));
     compareLeft2 = value1;
@@ -527,7 +527,7 @@ u32 SkipOrthoQuadsHold(u32 kartIndex) {
 }
 
 // Derives the corner velocities from the corner positions and switches the quad to velocity mode.
-void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
+void cspl_speedClearSplash(OrthoQuad *quad) {
     s32 i;
     s32 cornerX;
     s32 cornerY;
@@ -587,82 +587,82 @@ void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad) {
     quad->mVelocityMode = 1;
 }
 
-void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex) {
+void cspl_speedClearSplashes(int kartIndex) {
     OrthoQuad *quad;
     s32 i;
     s32 quadCount;
     s32 holdFrameCount;
     s32 frames;
 
-    if (kartIndex != gRaceSetup->mEntryIndex) {
+    if (kartIndex != gRaceMultiConfig->mEntryIndex) {
         return;
     }
-    quadCount = gOrthoQuadCount;
+    quadCount = cspl_sSplashCount;
     if (quadCount == 0) {
         return;
     }
-    holdFrameCount = gOrthoQuadHoldFrameCount;
-    frames = gOrthoQuadFrames;
+    holdFrameCount = cspl_sSplashDuration;
+    frames = cspl_sSplashTimer;
     if (frames < holdFrameCount) {
-        gOrthoQuadFrames = holdFrameCount;
+        cspl_sSplashTimer = holdFrameCount;
     }
     i = 0;
     if (quadCount <= 0) {
         return;
     }
     do {
-        quad = &gOrthoQuads[i];
-        if (quad->mVelocityMode == 0 && quad->mUpdateFunction == AdvanceOrthoQuadCornersByVelocity) {
-            SetOrthoQuadVelocitiesFromCorners(quad);
+        quad = &cspl_sSplashes[i];
+        if (quad->mVelocityMode == 0 && quad->mUpdateFunction == cspl_dripUpdate) {
+            cspl_speedClearSplash(quad);
         }
         i++;
-    } while (i < gOrthoQuadCount);
+    } while (i < cspl_sSplashCount);
 }
 
-u32 ClearOrthoQuadCreamEffectPointer(void) {
+u32 cspl_unloadCustomSplashModel(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gOrthoQuadCreamEffect;
+    value0 = (u32) &cspl_sCustomSplashTex;
     value1 = 0u;
     *(u32 *) ((value0) + (0)) = value1;
     return value0;
 }
 
-void CreateOrthoQuadCreamEffect(const char *fileName) {
+void cspl_loadCustomSplashModel(const char *fileName) {
     u32 model;
 
-    func_020e6488((NsbmdModel **) &model, FindCourseMapObjFile(fileName), 0, 0);
-    func_020e6ab8((NsbmdModel *) model);
-    SetupOrthoQuadModel(&gOrthoQuadCreamEffect, (NsbmdModel *) model);
+    bbm_createFromNsbmd((NsbmdModel **) &model, mobj_getMapObjFile(fileName), 0, 0);
+    bbm_setDefaultMatParams((NsbmdModel *) model);
+    cspl_initSplashTex(&cspl_sCustomSplashTex, (NsbmdModel *) model);
 }
 
-void StartOrthoQuadsCreamEffect(u32 kartIndex, u32 count) {
-    StartOrthoQuads(kartIndex, count, 1);
+void cspl_emitCustomSplash(u32 kartIndex, u32 count) {
+    cspl_emitSplashes(kartIndex, count, 1);
 }
 
 #pragma thumb on
-void InitOrthoQuads(void) {
+void cspl_init(void) {
     NsbmdModel *model;
     s32 i;
 
-    gOrthoQuads = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xd0);
-    data_0217c638 = 0xffff;
-    gOrthoQuadCount = 0;
-    gOrthoQuadUseCreamEffect = FALSE;
+    cspl_sSplashes = heap_alloc(proc_getHeap(proc_getCurrent()), 0xd0);
+    cspl_sDriverId = 0xffff;
+    cspl_sSplashCount = 0;
+    cspl_sUseCustomSplash = FALSE;
     NNS_SndPlayerStopSeq(GetSndHandleSlot(6), 1);
-    model = CreateItemModel(data_0216c7b4, NULL, data_0216c7c4);
-    SetupOrthoQuadModel(&gOrthoQuadGesoSumi, model);
-    gOrthoQuadFirstPolygonId = AllocPolygonId();
+    model = it_loadItemBillboardModel(aGeso_sumi_nsbm, NULL, aGeso_sumi_ns_0);
+    cspl_initSplashTex(&cspl_sGessoSplashTex, model);
+    cspl_sPolygonId = mobj_getStaticPolygonId();
     for (i = 0; i < 3; i++) {
-        AllocPolygonId();
+        mobj_getStaticPolygonId();
     }
     reg_G3_MTX_MODE = 0;
     reg_G3_MTX_PUSH = 0;
-    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, (Unk0214ad4c *) gOrthoQuadMatrix);
+    G3i_OrthoW_(0x60000, 0xfffa0000, 0xfff80000, 0x80000, 0, 0x1000, 0x1fb, 1, (Unk0214ad4c *) cspl_sProjMtx);
     reg_G3_MTX_POP = 1;
 }
 
-void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
+void cspl_initSplashTex(OrthoQuadModel *quadModel, NsbmdModel *model) {
     u32 teximageParam;
 
     quadModel->mModel = model;
@@ -678,7 +678,7 @@ void SetupOrthoQuadModel(OrthoQuadModel *quadModel, NsbmdModel *model) {
 }
 #pragma thumb off
 
-void func_021031f4(ItemGesso *gesso) {
+void itgsso_21031F4(ItemGesso *gesso) {
     s32 kartCount;
     s32 entryIndex;
     s32 ownerIndex;
@@ -691,14 +691,14 @@ void func_021031f4(ItemGesso *gesso) {
     u16 kartIndex;
 
     ownerIndex = (u16) ((gesso->mUnk_000.mUnk_78 & 0x8000) == 0 ? (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00) : 8);
-    entryIndex = gRaceSetup->mEntryIndex;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        kartCount = gRaceSetup->mKartCount;
+    entryIndex = gRaceMultiConfig->mEntryIndex;
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        kartCount = gRaceMultiConfig->mKartCount;
         for (i = 0; i < kartCount; i++) {
             if (i == ownerIndex) {
                 continue;
             }
-            kart = GetKart(i);
+            kart = driver_getById(i);
             if (kart->mUnk_7c & 0x402020) {
                 continue;
             }
@@ -708,17 +708,17 @@ void func_021031f4(ItemGesso *gesso) {
             if (kart->mUnk_48 & 0x10000) {
                 continue;
             }
-            raceProgress = gRaceProgress;
+            raceProgress = gRaceStatus;
             random = &raceProgress->mLocalRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
             gesso->mOrthoQuadCounts[i] = (u16) (((random->mValue >> 32) * 4) >> 32) + 1;
         }
     } else {
         rank = 1;
-        ownerRank = GetKartRank(ownerIndex);
+        ownerRank = rstat_getPlace(ownerIndex);
         do {
-            kartIndex = gRaceProgress->mKartAtRank[(u8) rank - 1];
-            kart = GetKart(kartIndex);
+            kartIndex = gRaceStatus->mKartAtRank[(u8) rank - 1];
+            kart = driver_getById(kartIndex);
             if ((kart->mUnk_7c & 0x402020) == 0 && (kart->mUnk_4c & 0x10000840) == 0 &&
                 (kart->mUnk_48 & 0x10000) == 0) {
                 gesso->mOrthoQuadCounts[kartIndex] = 4 - ((rank - 1) >> 1);
@@ -731,6 +731,6 @@ void func_021031f4(ItemGesso *gesso) {
         return;
     }
     gesso->mVisible = TRUE;
-    gesso->mKart = GetKart(entryIndex);
+    gesso->mKart = driver_getById(entryIndex);
     func_020f8e3c((u32) gesso->mKart, 0xf3);
 }

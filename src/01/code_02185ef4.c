@@ -122,7 +122,7 @@ void ReleaseEffects(Unk02188950 *mapObject) {
 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-            func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+            ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
         }
     }
     mapObject->mUnk_0b8 = 0;
@@ -140,37 +140,37 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
         case 1:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
             position->y = mapObject->mUnk_000.mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12);
             break;
         case 3:
-            // As case 1 with mUnk_024 of the object from GetCurrentCamera added, then halved.
-            camera = GetCurrentCamera();
+            // As case 1 with mUnk_024 of the object from race_getCamera added, then halved.
+            camera = race_getCamera();
             position->x = mapObject->mUnk_000.mPos.x + camera->mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
             position->y = mapObject->mUnk_000.mPos.y + camera->mPos.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z + camera->mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12);
             position->x >>= 1;
             position->y >>= 1;
@@ -185,45 +185,45 @@ void ComputeEffectPosition(Unk02188950 *mapObject, int effectIndex, Vec3 *positi
             offsetComponent = mapObject->mEffects[effectIndex].mOffset.z;
             scaledZ = (((s64) offsetComponent * mapObject->mUnk_000.mScale.z) >> 12);
             position->x = mapObject->mUnk_000.mPos.x +
-                          (s32) (((s64) scaledZ * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >> 12) +
-                          (s32) (((s64) scaledX * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12);
+                          (s32) (((s64) scaledZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >> 12) +
+                          (s32) (((s64) scaledX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12);
             position->y = mapObject->mUnk_000.mPos.y + scaledY;
             position->z = mapObject->mUnk_000.mPos.z +
-                          (s32) (((s64) scaledZ * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12) -
-                          (s32) (((s64) scaledX * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >> 12);
+                          (s32) (((s64) scaledZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >> 12) -
+                          (s32) (((s64) scaledX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >> 12);
             break;
         case 4:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
             position->y = mapObject->mUnk_000.mCourseMapRow->mUnk_00.y + mapObject->mEffects[effectIndex].mOffset.y;
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12);
             break;
         case 5:
             position->x = mapObject->mUnk_000.mPos.x +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12) +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12);
-            position->y = mapObject->mEffects[effectIndex].mOffset.y - GetHeightAboveWaterOrEfct(0);
+            position->y = mapObject->mEffects[effectIndex].mOffset.y - mobj_getWaterPlaneDistance1(0);
             position->z = mapObject->mUnk_000.mPos.z +
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.z *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]) >>
                                  12) -
                           (s32) (((s64) mapObject->mEffects[effectIndex].mOffset.x *
-                                  gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2]) >>
+                                  FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2]) >>
                                  12);
             break;
     }
@@ -243,9 +243,9 @@ void StartEffectInSlot(Unk02188950 *mapObject, s32 effectIndex, s32 offsetX, s32
     ComputeEffectPosition(mapObject, effectIndex, &position);
     if (effectId != 0) {
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-            func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+            ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
         }
-        mapObject->mEffects[effectIndex].mEffect = StartEffect(effectId, &position);
+        mapObject->mEffects[effectIndex].mEffect = ptcm_createEmitter(effectId, &position);
     }
 }
 
@@ -303,12 +303,12 @@ void StartModelEffectAtWaterHeight(Unk02188950 *mapObject, u32 modelEffectKind, 
     for (effectIndex = 0; effectIndex < 5; effectIndex++) {
         if (mapObject->mEffects[effectIndex].mEffect == NULL) {
             mapObject->mEffects[effectIndex].mOffset.x = mapObject->mUnk_000.mPos.x;
-            mapObject->mEffects[effectIndex].mOffset.y = -GetHeightAboveWaterOrEfct(0);
+            mapObject->mEffects[effectIndex].mOffset.y = -mobj_getWaterPlaneDistance1(0);
             mapObject->mEffects[effectIndex].mOffset.z = mapObject->mUnk_000.mPos.z;
             if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-                func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
             }
-            StartModelEffect(modelEffectKind, &mapObject->mEffects[effectIndex].mOffset, 1);
+            expl_spawnEffect(modelEffectKind, &mapObject->mEffects[effectIndex].mOffset, 1);
             mapObject->mEffects[effectIndex].mKind = 0;
             mapObject->mEffects[effectIndex].mTimer = timer;
             return;
@@ -336,14 +336,14 @@ void func_ov001_021872e0(Unk02188950 *mapObject, int offsetX, int offsetY, int o
             ComputeEffectPosition(mapObject, effectIndex, &position);
             if (effectId != 0) {
                 if (mapObject->mEffects[effectIndex].mEffect != NULL) {
-                    func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                    ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
                 }
-                emitterParams.x = ((s64) emitterParamZ * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2] >> 12) +
-                                  ((s64) emitterParamX * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1] >> 12);
+                emitterParams.x = ((s64) emitterParamZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2] >> 12) +
+                                  ((s64) emitterParamX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1] >> 12);
                 emitterParams.y = emitterParamY;
-                emitterParams.z = ((s64) emitterParamZ * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1] >> 12) -
-                                  ((s64) emitterParamX * gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2] >> 12);
-                StartEffectWithCallback(effectId, &position, &emitterParams, func_ov001_0218742c);
+                emitterParams.z = ((s64) emitterParamZ * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1] >> 12) -
+                                  ((s64) emitterParamX * FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2] >> 12);
+                ptcm_createEmitterNoUpdateSkip(effectId, &position, &emitterParams, func_ov001_0218742c);
             }
         }
     }
@@ -393,7 +393,7 @@ BOOL func_ov001_021871d0(Unk02188950 *mapObject) {
     return FALSE;
 }
 
-void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
+void boss_21870E4(void *mapObjectList, Unk02188950 *mapObject, const char *nsbmdName, const char *nsbcaName,
                              const char *prmName) {
     if (mapObjectList != NULL && nsbmdName != NULL) {
         mapObject->mNsbmd = LoadMapObjectModelAnimated(mapObjectList, nsbmdName);
@@ -402,13 +402,13 @@ void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const 
         }
     }
     if (prmName != NULL) {
-        mapObject->mPrm = LoadMissionRunFile(prmName);
+        mapObject->mPrm = LoadFileInMissionRunFolder(prmName);
     }
     mapObject->mAngle =
         (u16) (((s64) mapObject->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44);
     mapObject->mAlphaLimit = 0x1f000;
     if (mapObject->mPrm != NULL) {
-        SetMapObjectExtentX(&mapObject->mUnk_000, mapObject->mPrm->mUnk_00c << 2);
+        mobj_setSizeX(&mapObject->mUnk_000, mapObject->mPrm->mUnk_00c << 2);
         mapObject->mUnk_000.mScale.x = mapObject->mPrm->mScale;
         mapObject->mUnk_000.mScale.y = mapObject->mPrm->mScale;
         mapObject->mUnk_000.mScale.z = mapObject->mPrm->mScale;
@@ -422,12 +422,12 @@ void InitMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject, const 
 void LoadMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, const char *shadowNsbmdName) {
     if (mapObjectList != NULL && shadowNsbmdName != NULL) {
         mapObject->mShadowNsbmd = LoadMapObjectModelShadow(mapObjectList, shadowNsbmdName);
-        SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 0x3f);
+        mobj_setModelPolygonIdAll(mapObject->mShadowNsbmd, 0x3f);
         gShadowScaleToggle = 0;
     }
 }
 
-void ToggleShadowScale(void) {
+void ktesa_globalPreRender(void) {
     if (gShadowScaleToggle == 0) {
         gShadowScaleToggle++;
     } else {
@@ -505,7 +505,7 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
     return angle + turn;
 }
 
-void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
+void boss_update(u32 a, Unk02188950 *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
     Vec3 v50;
@@ -701,8 +701,8 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     pairWordIndex = ((u16) mapObject->mMoveAngle >> 4) * 2;
     speed = mapObject->mSpeed;
     dy = mapObject->mVelocity.y;
-    dz = mapObject->mVelocity.z + (s32) ((speed * gPairsByAngle[pairWordIndex + 1]) >> 12);
-    dx = mapObject->mVelocity.x + (s32) ((speed * gPairsByAngle[pairWordIndex]) >> 12);
+    dz = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
+    dx = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
     mapObject->mUnk_000.mPos.x += dx;
     mapObject->mUnk_000.mPos.y += dy;
     mapObject->mUnk_000.mPos.z += dz;
@@ -711,7 +711,7 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     probePosition.y = mapObject->mUnk_000.mPos.y + 0x14000;
     probePosition.z = mapObject->mUnk_000.mPos.z;
     mapObject->mCollisionBits = 0;
-    if (func_01ffdee4(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2, &pushOut,
+    if (col_collide(&probePosition, NULL, 0, 0x14000, mapObject->mUnk_2b8 == 1 ? (u16) 4 : (u16) 1, -2, &pushOut,
                       &v50, &v5c, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
         if (mapObject->mUnk_2b8 == 2 || mapObject->mUnk_2b8 == 3) {
             mapObject->mUnk_000.mPos.y += pushOut.y;
@@ -723,7 +723,7 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     }
     if (mapObject->mUnk_2b8 != 2 && (mapObject->mCollisionBits & 0x214300)) {
         if ((s64) v5c.x * v5c.x + (s64) v5c.y * v5c.y + (s64) v5c.z * v5c.z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&v5c, &pushDirection);
+            vec_normalize(&v5c, &pushDirection);
         }
         pushDirection.y = 0;
         VEC_MultAdd(mapObject->mPrm->mUnk_030, &pushDirection, &mapObject->mVelocity, &mapObject->mVelocity);
@@ -758,8 +758,8 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
             StepIntTowardTarget(mapObject->mScaleTarget, mapObject->mScalePerCall, mapObject->mUnk_000.mScale.x);
     }
     if (mapObject->mCollisionShape == 1) {
-        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00[0].x, gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2],
-                    gPairsByAngle[((u16) mapObject->mAngle >> 4) * 2 + 1]);
+        MTX_RotY33_(&mapObject->mUnk_000.mMatrix.mUnk_00[0].x, FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2],
+                    FX_SinCosTable_[((u16) mapObject->mAngle >> 4) * 2 + 1]);
         MTX_MultVec33(&mapObject->mOffset, &mapObject->mUnk_000.mMatrix.mUnk_00[0].x, &mapObject->mPosWithOffset);
         VEC_Add(&mapObject->mPosWithOffset, &mapObject->mUnk_000.mPos, &mapObject->mPosWithOffset);
     } else {
@@ -770,9 +770,9 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     mapObject->mUnk_000.mAngle = mapObject->mAngle;
 
     if (mapObject->mNsbmd != NULL) {
-        previousFrame = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
+        previousFrame = mobj_getModelCurNsbcaFrame(mapObject->mNsbmd);
         func_ov001_0219b250(mapObject->mNsbmd);
-        currentFrame = GetMapObjectModelNsbcaFrameIndex(mapObject->mNsbmd);
+        currentFrame = mobj_getModelCurNsbcaFrame(mapObject->mNsbmd);
         if (mapObject->mAnimationFrameCallbackFrameIndex != 0) {
             if (previousFrame < mapObject->mAnimationFrameCallbackFrameIndex &&
                 mapObject->mAnimationFrameCallbackFrameIndex <= currentFrame) {
@@ -834,9 +834,9 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
         ComputeEffectPosition(mapObject, effectIndex, &effectPosition);
         if (mapObject->mEffects[effectIndex].mEffect != NULL) {
             if (mapObject->mEffects[effectIndex].mTimer > 0 && --mapObject->mEffects[effectIndex].mTimer == 0) {
-                func_0208b6b0(&mapObject->mEffects[effectIndex].mEffect);
+                ptcm_killEmitter(&mapObject->mEffects[effectIndex].mEffect);
             } else {
-                PlaceEffect(mapObject->mEffects[effectIndex].mEffect, &effectPosition);
+                ptcm_setEmitterPosition(mapObject->mEffects[effectIndex].mEffect, &effectPosition);
             }
         }
     }
@@ -845,7 +845,7 @@ void AdvanceMissionRunMapObject(u32 a, Unk02188950 *mapObject) {
     }
 }
 
-void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
+void boss_render(void *mapObjectList, Unk02188950 *mapObject) {
     s32 materialIndex;
     s32 alphaLimit;
     NNSG3dResMdl *resMdl;
@@ -859,7 +859,7 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
     shiftedPosition.x = mapObject->mUnk_000.mPos.x >> 4;
     shiftedPosition.y = mapObject->mUnk_000.mPos.y >> 4;
     shiftedPosition.z = mapObject->mUnk_000.mPos.z >> 4;
-    alpha = func_020e69bc(&shiftedPosition);
+    alpha = bbm_calcDistanceAlpha(&shiftedPosition);
     if (alpha >= alphaLimit) {
         alpha = alphaLimit;
     }
@@ -869,33 +869,33 @@ void DrawMissionRunMapObject(void *mapObjectList, Unk02188950 *mapObject) {
         }
         if (alpha >= 0x1f) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
-            SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
+            mobj_setModelPolygonIdAll(mapObject->mNsbmd, 3);
         } else if (mapObject->mUnk_27c <= 1) {
             NNS_G3dMdlSetMdlXLDepthUpdateAll(mapObject->mNsbmd->mAnimatedModel->mResMdl, 1);
-            SetMapObjectModelPolygonId(mapObject->mNsbmd, 3);
+            mobj_setModelPolygonIdAll(mapObject->mNsbmd, 3);
         } else {
             resMdl = mapObject->mNsbmd->mAnimatedModel->mResMdl;
             NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
             for (materialIndex = 0; materialIndex < resMdl->mInfo.mNumMat; materialIndex++) {
-                SetMapObjectModelMaterialPolygonId(mapObject->mNsbmd, AllocPolygonIdWrapping(), materialIndex);
+                mobj_setModelPolygonId(mapObject->mNsbmd, mobj_getCyclicPolygonId(), materialIndex);
             }
         }
         value = 0x1e;
-        func_01ff9048(0x14, &value, 1);
-        func_01ff9048(0x19, SetTranslationMatrixPos(&mapObject->mUnk_000.mPos), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &value, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&mapObject->mUnk_000.mPos), 0xc);
         if (mapObject->mUnk_000.mAngle != 0) {
             pairIndex = mapObject->mUnk_000.mAngle >> 4;
-            MTX_RotY33_(rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-            func_01ff9048(0x1a, rotationMatrix, 9);
+            MTX_RotY33_(rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
+            NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
         }
-        func_01ff9048(0x1b, &mapObject->mUnk_000.mScale.x, 3);
-        SetMapObjectModelAlpha(mapObject->mNsbmd, alpha);
-        SetMapObjectModelMirror(mapObject->mNsbmd, mapObject->mUnk_000.mFlags & 0x400, 0);
-        DrawMapObjectModel(mapObjectList, mapObject->mNsbmd, mapObject);
+        NNS_G3dGeBufferOP_N(0x1b, &mapObject->mUnk_000.mScale.x, 3);
+        mobj_setModelAlpha(mapObject->mNsbmd, alpha);
+        mobj_setModelFlip(mapObject->mNsbmd, mapObject->mUnk_000.mFlags & 0x400, 0);
+        mobj_renderModel(mapObjectList, mapObject->mNsbmd, mapObject);
     }
 }
 
-void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth) {
+void boss_renderShadow(void *mapObjectList, Unk02188950 *mapObject, s32 invertDepth) {
     s32 depth;
     s32 value;
     Vec3 shadowPosition;
@@ -938,32 +938,32 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, Unk02188950 *mapObject, 
         s32 c;
 
         value = 0x1e;
-        func_01ff9048(0x14, &value, 1);
-        func_01ff9048(0x19, SetTranslationMatrixPos(&shadowPosition), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &value, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_20E6B58(&shadowPosition), 0xc);
         pairIndex = (u16) mapObject->mAngle >> 4;
-        MTX_RotY33_(rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotY33_(rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
         c = mapObject->mShadowOffsetZ >> 4;
         b = mapObject->mShadowOffsetY >> 4;
         a = mapObject->mShadowOffsetX >> 4;
         w.x = a;
         w.y = b;
         w.z = c;
-        func_01ff9048(0x1c, &w, 3);
-        func_01ff9048(0x1b, &mapObject->mShadowScaleX, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &w, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &mapObject->mShadowScaleX, 3);
         if (gShadowScaleToggle == 0) {
             u.x = 0x1333;
             u.y = 0x1000;
             u.z = 0x1333;
-            func_01ff9048(0x1b, &u, 3);
+            NNS_G3dGeBufferOP_N(0x1b, &u, 3);
         }
-        SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 3);
-        SetMapObjectModelAlpha(mapObject->mShadowNsbmd, depth);
-        DrawMapObjectModel(mapObjectList, mapObject->mShadowNsbmd, mapObject);
+        mobj_setModelPolygonIdAll(mapObject->mShadowNsbmd, 3);
+        mobj_setModelAlpha(mapObject->mShadowNsbmd, depth);
+        mobj_renderModel(mapObjectList, mapObject->mShadowNsbmd, mapObject);
     }
 }
 
-s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
+s32 boss_collide(Unk02188950 *mapObject, Vec3 *sphereCenter, s32 sphereRadius,
                                           Vec3 *overlapOffset) {
     s32 diffX;
     s32 diffY;
@@ -976,17 +976,17 @@ s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCe
             diffY = sphereCenter->y - mapObject->mPosWithOffset.y;
             diffZ = sphereCenter->z - mapObject->mPosWithOffset.z;
             if ((s64) diffZ * diffZ + ((s64) diffX * diffX + (s64) diffY * diffY) < (s64) sphereRadius * sphereRadius) {
-                ComputeSphereOverlapOffset(sphereCenter, &mapObject->mPosWithOffset, sphereRadius, overlapOffset);
+                col_collidePointSphere(sphereCenter, &mapObject->mPosWithOffset, sphereRadius, overlapOffset);
                 return 1;
             }
             return 0;
         case 2:
-            return ComputeSphereHitOnRotatedCylinder(sphereCenter, &mapObject->mPosWithOffset,
+            return col_collideSphereCylinder(sphereCenter, &mapObject->mPosWithOffset,
                                                      &mapObject->mUnk_000.mMatrix.mUnk_00[0],
                                                      mapObject->mCollisionExtent.x, mapObject->mCollisionExtent.y,
                                                      mapObject->mCollisionExtent.y, sphereRadius, overlapOffset);
         case 1:
-            return ComputeSphereHitOnRotatedBox(sphereCenter, &mapObject->mPosWithOffset,
+            return col_collideSphereBox(sphereCenter, &mapObject->mPosWithOffset,
                                                 &mapObject->mUnk_000.mMatrix.mUnk_00[0], &mapObject->mCollisionExtent,
                                                 &mapObject->mCollisionExtent, sphereRadius, overlapOffset);
         default:
@@ -994,7 +994,7 @@ s32 ComputeSphereHitOnMissionRunMapObject(Unk02188950 *mapObject, Vec3 *sphereCe
     }
 }
 
-s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d) {
+s32 boss_onDriverCollide(Unk02188950 *mapObject, Kart *kart, u8 *c, u8 *d) {
     Vec3 awayDirection;
     s64 pushStrength;
     u32 mode;
@@ -1012,7 +1012,7 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c
         if ((s64) awayDirection.z * awayDirection.z +
                 ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
             16) {
-            Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
+            vec_normalize(&awayDirection, &awayDirection);
             pushStrength = -mapObject->mPrm->mUnk_024;
             mapObject->mUnk_000.mUnk_10.x = (((s64) awayDirection.x * pushStrength) >> 12);
             mapObject->mUnk_000.mUnk_10.y = (((s64) awayDirection.y * pushStrength) >> 12);
@@ -1031,7 +1031,7 @@ s32 CollideKartWithMissionRunMapObject(Unk02188950 *mapObject, Kart *kart, u8 *c
     return mapObject->mUnk_2d8;
 }
 
-s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d) {
+s32 boss_onItemCollide(Unk02188950 *mapObject, ItemObject *itemObject, u8 *c, u8 *d) {
     Vec3 awayDirection;
     UnkFunc *collisionCallback;
 
@@ -1042,7 +1042,7 @@ s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemO
     if ((s64) awayDirection.z * awayDirection.z +
             ((s64) awayDirection.x * awayDirection.x + (s64) awayDirection.y * awayDirection.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
+        vec_normalize(&awayDirection, &awayDirection);
         VEC_MultAdd(mapObject->mPrm->mUnk_02c, &awayDirection, &mapObject->mVelocity, &mapObject->mVelocity);
     }
     collisionCallback = mapObject->mItemCollisionCallback;
@@ -1054,5 +1054,5 @@ s32 CollideItemWithMissionRunMapObject(Unk02188950 *mapObject, ItemObject *itemO
 }
 
 void *CreateEmptyMapObjectUpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, NULL, NULL);
+    return mobj_createLogicPart(NULL, NULL, NULL);
 }

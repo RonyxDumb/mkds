@@ -6,10 +6,10 @@
 
 #pragma thumb on
 
-void StartWriteBackupFirstBlock(void) {
-    SetBackupBusy();
-    QueueThreadFunction(WriteBackupFirstBlockAndWait);
-    gThreadFunctionQueue->mRunRequested = 1;
+void savd_writeNksyAsync(void) {
+    savd_beginOperation();
+    bgwkr_enqueueTask(savd_writeNksyTask);
+    gBgWkrState->mRunRequested = 1;
 }
 
 #pragma thumb off

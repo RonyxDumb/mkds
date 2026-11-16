@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_ov001_021854d8(int bits);
-void func_ov001_021854f4(int bits);
+void moverlay_menu_GXS_SetVisiblePlane(int bits);
+void moverlay_menu_GX_SetVisiblePlane(int bits);

@@ -14,22 +14,22 @@
 #pragma thumb on
 #pragma optimize_for_size on
 void ReleaseMenu(void) {
-    if (data_0217b43c->mScreenInitPending == FALSE) {
-        data_0217b43c->mPreviousScreenNumber = data_0217b43c->mScreenNumber;
-        data_0217b43c->mScreenNumber = 0x1f;
-        ReleasePreviousMenuScreen();
+    if (gMenuSceneState->mScreenInitPending == FALSE) {
+        gMenuSceneState->mPreviousScreenNumber = gMenuSceneState->mScreenNumber;
+        gMenuSceneState->mScreenNumber = 0x1f;
+        menu_destroySubMenu();
     }
-    if (func_020cbad0() == 0) {
-        ClearCupPicturePointer();
+    if (menu_MB_IsMultiBootChild_22() == 0) {
+        cpic_finalize();
         ClearGhostRecordSetPointer();
     }
-    func_02125da0();
+    gmenu_finish();
     ClearLinkLevelIconsPointer();
-    ClearPicksHolderPointer();
-    ReleaseAllResFiles();
+    FreeSinglePlayerMenuInfo();
+    model_releaseAll();
     func_020cbabc(0);
     func_020cbaa8(0);
-    func_020cba6c(0, 0x3f, 6, 10);
-    func_020cba30(0, 0x3f, 6, 10);
-    data_0217b43c = NULL;
+    menu_G2_SetBlendAlpha(0, 0x3f, 6, 10);
+    menu_G2S_SetBlendAlpha(0, 0x3f, 6, 10);
+    gMenuSceneState = NULL;
 }

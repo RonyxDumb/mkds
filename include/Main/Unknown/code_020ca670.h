@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void SetEmblemChoisesShownAndReset(u32 shown);
-s32 CreateRaceHudSubScreenShine16Cells(void);
+void echoi_setMenuVisible(u32 shown);
+s32 mpicn_createShine16Icon(void);

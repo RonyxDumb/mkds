@@ -3,7 +3,7 @@
 #include "types.h"
 
 void ReleaseSelectRaceRule(void);
-void InitSelectRaceRule(void *parentHeap, s32 b, void *oamList, s32 mode);
+void SPM_LoadRaceRulesMenu(void *parentHeap, s32 b, void *oamList, s32 mode);
 void RequestSelectRaceRuleState8(void);
 void RequestSelectRaceRuleState7(void);
 void RequestSelectRaceRuleState6(void);

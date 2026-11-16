@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitKeyboardScene(s16 *sceneNumbers);
+void nicknameEditor_onCreate(s16 *sceneNumbers);

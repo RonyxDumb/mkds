@@ -8,10 +8,10 @@ static inline s32 func_02073904_inline(Vec3 *v, Vec3 *n) {
     if ((s64) v->x * v->x + (s64) v->y * v->y + (s64) v->z * v->z < 0x10) {
         return 0;
     }
-    return Vec3NormalizeAndGetLengthUnchecked(v, n);
+    return vec_normalize(v, n);
 }
 
-void UpdateCameraShake(Unk02073904 *p) {
+void cam_2073904(Unk02073904 *p) {
     RandomState64 *r;
     Vec3 a;
     Vec3 b;
@@ -26,12 +26,12 @@ void UpdateCameraShake(Unk02073904 *p) {
     s32 s;
     s32 i;
 
-    if (GetRaceUpdateFramesMod2() == 0) {
+    if (race_getIsOddFrame() == 0) {
         VEC_Subtract(&p->mPos, &p->mLookAt, &d);
         l = func_02073904_inline(&d, &d);
         if (l != 0) {
             k = data_021656a8;
-            r = &gRaceProgress->mLocalRandom;
+            r = &gRaceStatus->mLocalRandom;
             r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
             s = ((s64) data_021656ac * l) >> 12;
             h = (s16) (u16) (r->mValue >> 52);
@@ -40,7 +40,7 @@ void UpdateCameraShake(Unk02073904 *p) {
             a.x = ((s64) p->mSide.x * m) >> 12;
             a.y = ((s64) p->mSide.y * m) >> 12;
             a.z = ((s64) p->mSide.z * m) >> 12;
-            r = &gRaceProgress->mLocalRandom;
+            r = &gRaceStatus->mLocalRandom;
             r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
             h = (s16) (u16) (r->mValue >> 52);
             m = ((s64) s * ((h - 0x800) * 2)) >> 12;
@@ -48,14 +48,14 @@ void UpdateCameraShake(Unk02073904 *p) {
             b.y = ((s64) p->mUp.y * m) >> 12;
             b.z = ((s64) p->mUp.z * m) >> 12;
             VEC_Add(&a, &b, &p->mShakeLookAtOffsetGoal);
-            r = &gRaceProgress->mLocalRandom;
+            r = &gRaceStatus->mLocalRandom;
             r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
             h = (s16) (u16) (r->mValue >> 52);
             m = ((s64) k * ((h - 0x800) * 2)) >> 12;
             a.x = ((s64) p->mSide.x * m) >> 12;
             a.y = ((s64) p->mSide.y * m) >> 12;
             a.z = ((s64) p->mSide.z * m) >> 12;
-            r = &gRaceProgress->mLocalRandom;
+            r = &gRaceStatus->mLocalRandom;
             r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
             h = (s16) (u16) (r->mValue >> 52);
             m = ((s64) k * ((h - 0x800) * 2)) >> 12;

@@ -4,11 +4,11 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void SwitchMenuScreen(s32 screenNumber, s32 nextScreenNumber) {
-    data_0217b43c->mFramesSinceScreenSwitch = 0;
-    data_0217b43c->mUnk_004 = 1;
-    data_0217b43c->mPreviousScreenNumber = data_0217b43c->mScreenNumber;
-    data_0217b43c->mScreenNumber = screenNumber;
-    data_0217b43c->mNextScreenNumber = nextScreenNumber;
+void menu_gotoState(s32 screenNumber, s32 nextScreenNumber) {
+    gMenuSceneState->mFramesSinceScreenSwitch = 0;
+    gMenuSceneState->mUnk_004 = 1;
+    gMenuSceneState->mPreviousScreenNumber = gMenuSceneState->mScreenNumber;
+    gMenuSceneState->mScreenNumber = screenNumber;
+    gMenuSceneState->mNextScreenNumber = nextScreenNumber;
 }
 #pragma thumb off

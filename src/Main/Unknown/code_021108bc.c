@@ -49,7 +49,7 @@ void func_02111024(void) {
             seqId = row[4];
             break;
     }
-    func_0210d614(&data_0217d070, seqId, NULL);
+    MKDS_SND_210D614(&data_0217d070, seqId, NULL);
     data_0217d328 = 0;
     data_0217d324 = 0;
     data_0217d320 = 0;
@@ -61,7 +61,7 @@ s32 func_02110fb8(s32 kartRank) {
     if (kartRank == 1) {
         b = 9;
     } else {
-        switch (gRaceSetup->mKartCount) {
+        switch (gRaceMultiConfig->mKartCount) {
             case 4:
             case 5:
                 if (kartRank < 3) {
@@ -85,13 +85,13 @@ s32 func_02110e58(void) {
     s32 candidateKind;
     RaceSetup *raceSetup;
     resultKind = -1;
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     switch (raceSetup->mMode) {
         case MODE_GRAND_PRIX:
         case 5:
             switch (data_0217d32c.mUnk_0c) {
                 case 0:
-                    if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
+                    if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                         candidateKind = 0;
                     } else {
                         candidateKind = 1;
@@ -110,7 +110,7 @@ s32 func_02110e58(void) {
             } else {
                 switch (data_0217d32c.mUnk_0c) {
                     case 0:
-                        if (GetKartRank((u16) raceSetup->mEntryIndex) - 1 == 0) {
+                        if (rstat_getPlace((u16) raceSetup->mEntryIndex) - 1 == 0) {
                             candidateKind = 0;
                         } else {
                             candidateKind = 1;
@@ -146,11 +146,11 @@ void func_02110cc8(s32 unused) {
     u32 c;
     u32 *row;
     seqId = -1;
-    c = gRaceSetup->mRaceKind;
+    c = gRaceMultiConfig->mRaceKind;
     if (c != 2 && c != RACE_KIND_NORMAL) {
         return;
     }
-    if (data_0217d084.mMode != 2) {
+    if (SoundHandle_217D084.mMode != 2) {
         return;
     }
     EndRaceSounds();
@@ -168,10 +168,10 @@ void func_02110cc8(s32 unused) {
             c = row[2];
             break;
     }
-    func_0210d614(&data_0217d070, c, NULL);
+    MKDS_SND_210D614(&data_0217d070, c, NULL);
     data_0217d324 = 1;
     data_0217d328 = 1;
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_STADIUM:
             switch (resultKind) {
                 case 0:
@@ -218,7 +218,7 @@ s32 func_02110c40(void) {
     s32 resultKind;
     resultKind = func_02110e58();
     seqId = -1;
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_CROSS:
             switch (resultKind) {
                 case 0:

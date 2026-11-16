@@ -22,14 +22,14 @@ typedef struct Unk0216c7e0 {
 
 extern Unk0216c7e0 data_0216c7e0;
 
-// Object behind data_0216c7d8.
+// Object behind sLoadedCharacterSounds.
 typedef struct Unk0216c7d8 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u8 mUnk_02[2];
     /* 04 */ u32 mUnk_04;
 } Unk0216c7d8;
 
-extern Unk0216c7d8 data_0216c7d8;
+extern Unk0216c7d8 sLoadedCharacterSounds;
 
 // 0x03-byte argument of InitSceneSoundState and InitSceneSounds.
 typedef struct Unk021073ec {
@@ -53,7 +53,7 @@ typedef struct Unk0217c7f0 {
 
 extern Unk0217c7f0 data_0217c7f0;
 
-// View of data_0217c7c4; IncrementSoundHandleAges takes it.
+// View of sound_sPools; sp_updateAges takes it.
 typedef struct Unk0217c7c4 {
     /* 00 */ s32 mCount;
     /* 04 */ s32 mNextIndex;
@@ -62,7 +62,7 @@ typedef struct Unk0217c7c4 {
     /* 10 */ s32 mEntrySize;
 } Unk0217c7c4;
 
-extern Unk0217c7c4 data_0217c7c4;
+extern Unk0217c7c4 sound_sPools;
 
 // The first eight bytes of each element of the table an Unk0217c7c4 describes: a handle at 0 and a word at 4.
 typedef struct SoundHandleEntry {
@@ -109,28 +109,28 @@ typedef struct VolumeFade {
 
 extern VolumeFade gVolumeFade;
 
-// Values of the two switches in InitSound.
+// Values of the two switches in sound_loadSdat.
 typedef enum { E0 = 0, E1 = 1, E2 = 2 } Unk02108344;
 
-BOOL LoadSndBanksAndWaveArcs(s32 bankMask);
-BOOL LoadSndBanksAndWaveArcsIfChanged(s32 bankMask);
-int GetSndHeapsBufferSize(int a);
-int GetSndInitBufferSize(int a);
+BOOL loadCharacterSoundsInternal(s32 bankMask);
+BOOL sound_loadCharacterSounds(s32 bankMask);
+int sound_getSomeSize2(int a);
+int sound_getSomeSize(int a);
 void ReleaseSndHeaps(void);
 void CreateSndHeaps(u32 a, u32 buffer);
-void InitSound(void *buffer, u32 b, u32 c);
-void UpdateSounds(void);
+void sound_loadSdat(void *buffer, u32 b, u32 c);
+void sound_main(void);
 void InitSceneSounds(s32 e);
 void InitSceneSoundState(u32 a, Unk021073ec b, SceneSoundState *c);
-void StartSceneSounds(void);
+void snd_handleRaceStart(void);
 void StartRaceSounds(void);
-void StartKartStarSeq(void);
-void func_02106dc8(void);
+void snd_startStarMusic(void);
+void snd_stopStarMusic(void);
 void EndRaceSounds(void);
-void AdvanceSceneSoundLap(void);
-void SetSceneSoundRank(u32 a);
-void UpdateRaceSounds(void);
-void func_021062a8(void);
+void snd_handleLapChange(void);
+void snd_handlePositionChangeSfx(u32 a);
+void snd_2106580(void);
+void snd_handleIntroAmbiance(void);
 void UpdateSceneSoundState(void);
 void StopSceneSounds(void);
 void StopSceneSoundsAtOnce(void);

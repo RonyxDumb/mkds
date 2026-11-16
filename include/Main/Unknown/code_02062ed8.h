@@ -5,13 +5,13 @@
 #include "code_02147cd8.h" // Vec3s16
 #include "Main/Unknown/code_020846c0.h" // Nsbmd
 
-// Object at gCourseModels: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
+// Object at crsmdl_sState: two Nsbmd pointers, then the words and halfwords the code tests. The flag halfwords
 // live inside the embedded animation objects. 0xf4 is the distance to the next symbol, so the object overlaps four
 // other symbols: data_0217abcc at +0xb0 and the embedded objects data_0217ab24 at +8, data_0217ab5c at +0x40
 // and data_0217ab94 at +0x78 (USA).
 typedef struct CourseModels {
     /* 00 */ Nsbmd *mNsbmd;
-    // NULL when '/course_model_V.nsbmd' is absent; drawn before the main model under the other projection argument.
+    // NULL when '/course_model_V.nsbmd' is absent; drawn before the NitroMain model under the other projection argument.
     /* 04 */ Nsbmd *mVNsbmd;
     /* 08 */ u8 mUnk_08[0xc];
     /* 14 */ s32 mNsbtpFrameIndex;
@@ -41,39 +41,39 @@ typedef struct Unk020636f8_B {
     /* 14 */ u32 mUnk_14;
 } Unk020636f8_B;
 
-extern CourseModels gCourseModels;
+extern CourseModels crsmdl_sState;
 extern u8 data_0217ab24[];
 extern u8 data_0217ab5c[];
 extern u8 data_0217ab94[];
 extern MtxFx43 data_0217abcc;
 
-extern const char data_02165404[];
-extern const char data_02165418[];
-extern const char data_0216542c[];
-extern const char data_02165440[];
-extern const char data_02165454[];
-extern const char data_0216546c[];
-extern const char data_02165484[];
-extern const Vec3s16 data_021653fc;
-extern const u32 data_02154990[];
-extern const u32 data_021549a0[];
-extern const u32 data_021549b0[];
-extern const u32 data_021549c0[];
-extern const u32 data_021549d0[];
-extern const u32 data_021549e0[];
-extern const u32 data_021549f0[];
-extern const u32 data_02154a00[];
-extern const u32 data_02154a10[];
-extern u32 data_02154a20[];
+extern const char aCourse_model_n[];
+extern const char aCourse_model_0[];
+extern const char aCourse_model_1[];
+extern const char aCourse_model_2[];
+extern const char aCourse_model_v[];
+extern const char aCourse_model_5[];
+extern const char aCourse_model_3[];
+extern const Vec3s16 crsmdl_sKoopaCrsLight2Dir;
+extern const u32 crsmdl_sFalls01Mat[];
+extern const u32 crsmdl_sShdwOff5Mat[];
+extern const u32 crsmdl_sShdwOff4Mat[];
+extern const u32 crsmdl_sShdwOff1Mat[];
+extern const u32 crsmdl_sShdwOff2Mat[];
+extern const u32 crsmdl_sShdwOff3Mat[];
+extern const u32 crsmdl_sShdwOffMat[];
+extern const u32 crsmdl_sYoganMat[];
+extern const u32 crsmdl_sFalls02Mat[];
+extern u32 crsmdl_sModelScale[];
 
-s32 GetCourseModelNsbtpFrame(void);
-void SetCourseModelsFogEnableFlags(u32 flag);
-void InitCourseModelsFogEnableFlags(void);
-void SetKoopaCourseLight2(void);
-void DrawCourseModelV(void);
-void DrawCourseModel(void);
-void UpdateCourseModels(void);
-void InitCourseModels(void *heap);
+s32 crsmdl_getNsbtpProgress(void);
+void crsmdl_setFogFlags(u32 flag);
+void crsmdl_setupFog(void);
+void crsmdl_setupLights(void);
+void crsmdl_renderSky(void);
+void crsmdl_renderCourse(void);
+void crsmdl_update(void);
+void crsmdl_init(void *heap);
 void func_020636f8(Kart *kart);
 void func_020637c4(Kart *kart);
 void func_020637e0(Kart *kart);

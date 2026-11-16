@@ -8,19 +8,19 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateEmblemChoises(void) {
-    gEmblemChoises->mUnk_24++;
-    if (gEmblemChoises->mUnk_24 >= 0x32) {
-        gEmblemChoises->mUnk_24 = 0;
+void echoi_update(void) {
+    echoi_sState->mUnk_24++;
+    if (echoi_sState->mUnk_24 >= 0x32) {
+        echoi_sState->mUnk_24 = 0;
     }
-    if (gEmblemChoises->mUnk_14 == 0 && gEmblemChoises->mUnk_18 == 0 && gEmblemChoises->mShown != 0 &&
-        gEmblemChoises->mUnk_04 != 0) {
-        if (func_020cacc0()) {
-            gEmblemChoises->mUnk_14 = 1;
-        } else if (func_020ca9ac(GetEmblemChoisesInputSlot(), PAD_KEY_A)) {
-            gEmblemChoises->mUnk_14 = 1;
-            gEmblemChoises->mUnk_10 = TRUE;
-            switch (gEmblemChoises->mChoisesIndex) {
+    if (echoi_sState->mUnk_14 == 0 && echoi_sState->mUnk_18 == 0 && echoi_sState->mShown != 0 &&
+        echoi_sState->mUnk_04 != 0) {
+        if (echoi_handleTouch()) {
+            echoi_sState->mUnk_14 = 1;
+        } else if (echoi_input_isSetPadTrigById(echoi_input_getDefaultInputId(), PAD_KEY_A)) {
+            echoi_sState->mUnk_14 = 1;
+            echoi_sState->mUnk_10 = TRUE;
+            switch (echoi_sState->mChoisesIndex) {
                 case 0:
                     StartEmblemChoisesSound(0x10);
                     break;
@@ -31,35 +31,35 @@ void UpdateEmblemChoises(void) {
                     StartEmblemChoisesSound(5);
                     break;
             }
-        } else if (func_020ca9ac(GetEmblemChoisesInputSlot(), PAD_KEY_B | PAD_KEY_START)) {
-            gEmblemChoises->mUnk_18 = 1;
+        } else if (echoi_input_isSetPadTrigById(echoi_input_getDefaultInputId(), PAD_KEY_B | PAD_KEY_START)) {
+            echoi_sState->mUnk_18 = 1;
             StartEmblemChoisesSound(0x10);
         }
-        if (func_020ca9ac(GetEmblemChoisesInputSlot(), PAD_KEY_UP)) {
-            MoveEmblemChoisesIndex(-1);
-        } else if (func_020ca9ac(GetEmblemChoisesInputSlot(), PAD_KEY_DOWN)) {
-            MoveEmblemChoisesIndex(1);
+        if (echoi_input_isSetPadTrigById(echoi_input_getDefaultInputId(), PAD_KEY_UP)) {
+            echoi_moveCursor(-1);
+        } else if (echoi_input_isSetPadTrigById(echoi_input_getDefaultInputId(), PAD_KEY_DOWN)) {
+            echoi_moveCursor(1);
         }
     }
-    if (gEmblemChoises->mUnk_14 != 0) {
-        gEmblemChoises->mUnk_14++;
-        if (gEmblemChoises->mUnk_14 > 0xf) {
-            if (gEmblemChoises->mShown != 0) {
-                gEmblemChoises->mResult = gEmblemChoises->mChoisesIndex;
-                gEmblemChoises->mUnk_14 = 0;
+    if (echoi_sState->mUnk_14 != 0) {
+        echoi_sState->mUnk_14++;
+        if (echoi_sState->mUnk_14 > 0xf) {
+            if (echoi_sState->mShown != 0) {
+                echoi_sState->mResult = echoi_sState->mChoisesIndex;
+                echoi_sState->mUnk_14 = 0;
             }
-            gEmblemChoises->mUnk_14 = 0;
-            gEmblemChoises->mUnk_10 = FALSE;
+            echoi_sState->mUnk_14 = 0;
+            echoi_sState->mUnk_10 = FALSE;
         }
     }
-    if (gEmblemChoises->mUnk_18 != 0) {
-        gEmblemChoises->mUnk_18++;
-        if (gEmblemChoises->mUnk_18 > 4) {
-            if (gEmblemChoises->mShown != 0) {
-                gEmblemChoises->mResult = -2;
-                gEmblemChoises->mUnk_14 = 0;
+    if (echoi_sState->mUnk_18 != 0) {
+        echoi_sState->mUnk_18++;
+        if (echoi_sState->mUnk_18 > 4) {
+            if (echoi_sState->mShown != 0) {
+                echoi_sState->mResult = -2;
+                echoi_sState->mUnk_14 = 0;
             }
-            gEmblemChoises->mUnk_18 = 0;
+            echoi_sState->mUnk_18 = 0;
         }
     }
 }

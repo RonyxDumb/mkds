@@ -19,7 +19,7 @@
 #include "code_0212bcac.h"
 #include "code_0212df7c.h"
 
-void func_02108edc(s32 a, s32 b) {
+void sound_handleMissionValueChange(s32 a, s32 b) {
     u32 c;
     PlayingSound *playingSound;
 
@@ -31,7 +31,7 @@ void func_02108edc(s32 a, s32 b) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x1de);
             return;
         }
-        c = gRaceSetup->mUnk_3c;
+        c = gRaceMultiConfig->mUnk_3c;
         if (c == 0x65 || c == 0xc9) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0xd4);
         }
@@ -43,8 +43,8 @@ void func_02108edc(s32 a, s32 b) {
         if (!(data_0217c780 & 1)) {
             return;
         }
-        playingSound = TakeSoundHandleEntry(&data_0217c7c4);
-        if (data_0217d084.mUnk_0c == 0) {
+        playingSound = sp_acquireElement(&sound_sPools);
+        if (SoundHandle_217D084.mUnk_0c == 0) {
             return;
         }
         if (playingSound->mSeqPlayer != NULL) {
@@ -59,11 +59,11 @@ void func_02108edc(s32 a, s32 b) {
 
 void func_02108ed8(void) {}
 
-u32 SetCurrentSndArc(void) {
+u32 sound_setSdatAsCurrent(void) {
     u32 value0;
     u32 value12;
     value12 = (u32) &NNS_SndArcSetCurrent;
-    value0 = (u32) &data_0217d0a0;
+    value0 = (u32) &gSdatFileSndArc;
     value0 = (u32) NNS_SndArcSetCurrent((NNSSndArc *) value0);
     return value0;
 }
@@ -76,18 +76,18 @@ void func_02108eb4(u32 index, u32 value) {
     *(u32 *) ((table) + ((indexCopy << 2))) = valueCopy;
 }
 
-Unk0217c7c4 *GetSoundHandlePool(u32 index) {
+Unk0217c7c4 *sound_getPoolById(u32 index) {
     u32 value0 = index;
     u32 elementSize;
     u32 base;
-    base = (u32) &data_0217c7c4;
+    base = (u32) &sound_sPools;
     elementSize = 0x14u;
     value0 = (elementSize) * (value0) + (base);
     return (Unk0217c7c4 *) value0;
 }
 
-void SetSoundOutputEffect(s32 type) {
-    ChangeSoundOutputEffect(type);
+void sound_2108E94(s32 type) {
+    sound_changeOutputEffect(type);
 }
 
 NNSSndSeqPlayer **GetSndHandles(void) {

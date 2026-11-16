@@ -34,20 +34,20 @@ const u8 data_020da414_pad[1] = {1};
 
 #pragma thumb on
 
-void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
+void kuribo_init(Kuribo *kuribo, CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     Vec3 *zeroedVector;
     Unk020e005c_080 *stateMachine;
     kuribo->mUnk_100 = 0x1f;
     if (row != NULL) {
-        InitGroupFollower(&kuribo->mUnk_cc, row, (row->mUnk_28 << 11) / 100);
-        startEntry = GetCourseMapGroupEntry(row->mUnk_26, row->mUnk_2e);
+        pw_initFromObject(&kuribo->mUnk_cc, row, (row->mUnk_28 << 11) / 100);
+        startEntry = mdat_getPathPoint(row->mUnk_26, row->mUnk_2e);
         kuribo->mUnk_a0 = startEntry->mPos.y;
         kuribo->mUnk_f8 = row->mUnk_28 * 0xb4 / 100;
         kuribo->mUnk_fc = row->mUnk_2a == 0;
-        InitStateMachine(&kuribo->mUnk_00.mStateMachine, data_0216be68, 6, kuribo);
-        SetupGroupFollowerAtEntry(&kuribo->mUnk_cc, kuribo->mUnk_00.mCourseMapRow->mUnk_2e, 1);
-        GetGroupFollowerCurveXz(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
+        sm_init(&kuribo->mUnk_00.mStateMachine, kuribo_sStates, 6, kuribo);
+        pw_init(&kuribo->mUnk_cc, kuribo->mUnk_00.mCourseMapRow->mUnk_2e, 1);
+        pw_calcCurrentPointXZ(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
         kuribo->mUnk_00.mPos.y = kuribo->mUnk_a0;
         zeroedVector = &kuribo->mUnk_00.mUnk_10;
         zeroedVector->x = 0;
@@ -70,7 +70,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         kuribo->mUnk_cc.mGroupIndex = 0xffff;
         kuribo->mUnk_a0 = 0;
         kuribo->mUnk_fc = 0;
-        InitStateMachine(&kuribo->mUnk_00.mStateMachine, data_0216be68, 6, kuribo);
+        sm_init(&kuribo->mUnk_00.mStateMachine, kuribo_sStates, 6, kuribo);
         kuribo->mUnk_f8 = 0x1000;
         {
             Quaternion identityA = {0, 0, 0, 0x1000};
@@ -80,7 +80,7 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
             Quaternion identityB = {0, 0, 0, 0x1000};
             kuribo->mUnk_b4 = identityB;
         }
-        SetStateMachineState(&kuribo->mUnk_00.mStateMachine, 1);
+        sm_gotoState(&kuribo->mUnk_00.mStateMachine, 1);
         kuribo->mUnk_00.mUnk_10.x = 0;
         kuribo->mUnk_00.mUnk_10.y = 0;
         kuribo->mUnk_00.mUnk_10.z = 0;
@@ -89,9 +89,9 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
 
 #pragma thumb off
 
-Unk020da414 *func_020da414(void) {
+Unk020da414 *water_setupWaterCollision(void) {
     Unk020da414 *object;
-    object = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    object = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     {
         Unk020da414 zeros = {0};
         *object = zeros;

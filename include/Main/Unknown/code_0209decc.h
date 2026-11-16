@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitSunFireball(unsigned int mapObject);
+void sfsn_init(unsigned int mapObject);

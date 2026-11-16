@@ -7,10 +7,10 @@ void func_020e0650(u32 *slotPointer) {
     u32 value1;
     u32 slot;
     slot = value0;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
+    value0 = (u32) proc_getCurrent();
+    value0 = (u32) proc_getHeap((void *) value0);
     value1 = 0x1cu;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
+    value0 = (u32) heap_alloc((void *) value0, value1);
     *(u32 *) ((slot) + (0)) = value0;
     value0 = *(const u32 *) ((slot) + (0));
     value1 = 0u;

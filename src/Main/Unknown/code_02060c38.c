@@ -8,7 +8,7 @@ void CopyBuddyFriendDataList(void *destination) {
     u32 value2;
     u32 value3;
     u32 value12;
-    value1 = (u32) &data_0217aa08;
+    value1 = (u32) &gSaveData;
     value3 = 0x874u;
     value2 = *(const u32 *) ((value1) + (0));
     value1 = value0;

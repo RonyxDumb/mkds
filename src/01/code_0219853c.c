@@ -29,11 +29,11 @@ Unk021a9be4 *data_ov001_021a9be4;
 void func_ov001_021987d4(void *heap, s16 a) {
     Unk02125de0Arg arg;
 
-    data_ov001_021a9be4 = HeapAlloc(heap, 0x18);
+    data_ov001_021a9be4 = heap_alloc(heap, 0x18);
     data_ov001_021a9be4->mUnk_08 = heap;
     data_ov001_021a9be4->mUnk_10 = func_021250b0(heap);
     arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = GetFontByIndex(1);
+    arg.mUnk_04 = m2d_getFont(1);
     arg.mUnk_08 = 0;
     arg.mUnk_0c = 1;
     arg.mUnk_10 = 0;
@@ -42,17 +42,17 @@ void func_ov001_021987d4(void *heap, s16 a) {
     arg.mUnk_1c = TRUE;
     arg.mUnk_20 = TRUE;
     arg.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    gmenu_unpackData();
+    gmenu_init(heap, &arg);
     data_ov001_021a9be4->mUnk_0c = a;
     data_ov001_021a9be4->mUnk_0e = -1;
     data_ov001_021a9be4->mUnk_00 = 0;
     data_ov001_021a9be4->mUnk_04 = data_ov001_021a9be4->mUnk_00;
-    data_ov001_021a9be4->mUnk_14 = FindFileInLoadedArchives("common.bmg");
+    data_ov001_021a9be4->mUnk_14 = arc_get2dArcFile("common.bmg");
 }
 
 void func_ov001_021987bc(void) {
-    func_02125da0();
+    gmenu_finish();
     *(u32 *) &data_ov001_021a9be4 = 0;
 }
 
@@ -60,11 +60,11 @@ void func_ov001_02198768(void) {
     void *a;
     void *b;
     void *c;
-    if (AreBrightnessFadesClear() != 0) {
+    if (mbright_isFadedIn() != 0) {
         data_ov001_021a9be4->mUnk_04 = 1;
-        a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xc);
-        b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-        c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+        a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0xc);
+        b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
+        c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
         SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
     }
 }
@@ -80,9 +80,9 @@ void func_ov001_021986e8(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov001_021a9be4->mUnk_04 = 2;
-            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0xd);
-            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+            a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0xd);
+            b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
+            c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
             SetupTxtSystemSubTextTwoButtons(a, b, c, 0);
         } else {
             data_ov001_021a9be4->mUnk_0e = 0xe;
@@ -101,15 +101,15 @@ void func_ov001_02198624(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            d = data_021759d0->mOwnerText;
-            data_0217aa08->mFirstBlock->mUnk_31_0 = 1;
-            MI_CpuFill8(data_0217aa08->mFirstBlock->mPlayerName, 0, 0x14);
-            MI_CpuCopy8(d, data_0217aa08->mFirstBlock->mPlayerName, 0x14);
-            func_02056d40();
+            d = gSystemData->mOwnerText;
+            gSaveData->mFirstBlock->mUnk_31_0 = 1;
+            MI_CpuFill8(gSaveData->mFirstBlock->mPlayerName, 0, 0x14);
+            MI_CpuCopy8(d, gSaveData->mFirstBlock->mPlayerName, 0x14);
+            savd_flushNksy();
             data_ov001_021a9be4->mUnk_04 = 3;
-            a = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0x13);
-            b = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 0);
-            c = GetBmgEntry(data_ov001_021a9be4->mUnk_14, 1);
+            a = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0x13);
+            b = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 0);
+            c = jn_msg_getMessage(data_ov001_021a9be4->mUnk_14, 1);
             SetupTxtSystemSubTextTwoButtons(a, b, c, 1);
         } else {
             data_ov001_021a9be4->mUnk_0e = 0xe;
@@ -124,9 +124,9 @@ void func_ov001_021985b0(void) {
         return;
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
-        if (data_0217aa08->mBusy == 0) {
-            if (gBackupAccess->mBackupEnabled != 0) {
-                v = gBackupAccess->mCommandRunning;
+        if (gSaveData->mBusy == 0) {
+            if (gSaveCore->mBackupEnabled != 0) {
+                v = gSaveCore->mCommandRunning;
             } else {
                 v = 0;
             }
@@ -144,7 +144,7 @@ void func_ov001_021985b0(void) {
 }
 
 void func_ov001_02198554(void) {
-    func_02125928();
+    gmenu_render();
     data_ov001_021a9be4->mUnk_00 = data_ov001_021a9be4->mUnk_04;
     switch (data_ov001_021a9be4->mUnk_00) {
         case 0:
@@ -163,7 +163,7 @@ void func_ov001_02198554(void) {
 }
 
 void func_ov001_0219854c(void) {
-    func_021258f0();
+    gmenu_vblank();
 }
 
 int func_ov001_0219853c(void) {

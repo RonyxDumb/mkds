@@ -15,14 +15,14 @@ typedef struct Unk02094e8c {
 
 #include "Main/Unknown/code_020d22c0.h"
 
-void func_02094e1c(void);
-u32 func_02094e3c(void);
-void func_02094e8c(void *a, Unk02094e8c *o);
-s16 func_0209516c(s32 a);
-s32 func_0209518c(s32 a, s32 b);
-s16 func_0209519c(s32 a);
+void tsacnt_setupLogicPart(void);
+u32 tsacnt_setupConfig(void);
+void tsacnt_update(void *a, Unk02094e8c *o);
+s16 tsacnt_FX_GetCosIdx(s32 a);
+s32 tsacnt_FX_TRUNC_MUL(s32 a, s32 b);
+s16 tsacnt_FX_GetSinIdx(s32 a);
 u16 func_020951b4(RandomState64 *randomState64);
 RandomState64 *GetRaceLocalRandom(void);
-void func_02095228(MapObjectList *mapObjectList);
+void tsacnt_globalLogicInit(MapObjectList *mapObjectList);
 void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit, s32 timerLimit);
-void func_020954e4(u32 mapObject);
+void tsacnt_init(u32 mapObject);

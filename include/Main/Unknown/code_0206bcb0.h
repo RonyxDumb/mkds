@@ -165,7 +165,7 @@ typedef struct Unk0206bcb0_A {
 } Unk0206bcb0_A;
 
 // Bits of Kart.mUnk_7c.
-// Set once at set-up (func_02071e28) when mIndex == gRaceSetup->mEntryIndex, i.e. the selected entry.
+// Set once at set-up (driver_initField7C) when mIndex == gRaceMultiConfig->mEntryIndex, i.e. the selected entry.
 #define KART_7C_INDEX_IS_SELECTED_ENTRY 0x1
 // Set at set-up when the entry's mKind is 2. Bit 0x2 and this bit are also tested together as 6 / 0x402004 (left
 // literal).
@@ -183,9 +183,9 @@ typedef struct Unk0206bcb0_A {
 #define KART_44_NEAR_KART 0x20
 
 // Bits of Kart.mUnk_4c.
-// Set while the Kart is small from the Thunder item (StartKartThunderShrink sets it, AdvanceKartThunderShrink clears
+// Set while the Kart is small from the Thunder item (driver_startThunderShrinkEffect sets it, driver_updateThunderShrinkEffect clears
 // it).
-// Set while mHeadingAngleOffset swings (AdvanceKartRaceStartBoost sets it, AdvanceKartHeadingSwing clears it).
+// Set while mHeadingAngleOffset swings (driver_handleStartBoost sets it, AdvanceKartHeadingSwing clears it).
 #define KART_4C_HEADING_SWING 0x20000000
 // Set each frame on the kart one rank behind the player.
 #define KART_4C_ONE_RANK_BEHIND_PLAYER 0x40000
@@ -237,16 +237,16 @@ typedef struct Unk0206bcb0_A {
 #define KART_4C_OUT_OF_VIEW 0x800000
 #define KART_4C_THUNDER_SHRINK 0x80
 // Bits of Kart.mUnk_48.
-// The Kart steers left in this step (from the input bits or the CPU); func_01ffca50 clears both turn bits.
+// The Kart steers left in this step (from the input bits or the CPU); driver_1FFCA50 clears both turn bits.
 #define KART_48_TURN_LEFT 8
 // The Kart steers right in this step.
 #define KART_48_TURN_RIGHT 0x10
-// Set while a boost runs (StartKartBoost sets it; mBoostTimer counts it down).
+// Set while a boost runs (driver_addBoost sets it; mBoostTimer counts it down).
 #define KART_48_BOOST 0x20
 // Set from the release of a fully charged drift until mUnk_23c has counted down.
 #define KART_48_MINI_TURBO 0x80000
 
-// The values of Kart.mState; each indexes gKartStateFunctions.
+// The values of Kart.mState; each indexes driver_sReactionUpdateFuncs.
 typedef enum {
     // Ordinary driving; the handler does nothing.
     KART_STATE_NORMAL,
@@ -297,8 +297,8 @@ typedef struct Kart {
     // mScaleYFactor. Zero at the start placement (ResetKartToStartPlacement) and where the kart is moved to a far
     // corner (func_02068b98, func_02068640).
     /* bc */ Vec3 mScale;
-    // Negative step added by ApplyKartGravity to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
-    // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of func_0206ff50.
+    // Negative step added by driver_1FFB9CC to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
+    // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of driver_handleOobFallCannonPipe.
     /* c8 */ s32 mGravity;
     // The value mSpeedLimit follows: it falls by x0xf37/0x1000 per step but never below it and rises to it at once.
     // Written by the step, by the companion objects (their own choice) and at set-up; read by the companion objects as
@@ -367,7 +367,7 @@ typedef struct Kart {
     // squared distance in the sound source, 3 and 4 the two steps UpdateKarts runs for every Kart, 5 stores the
     // previous collision center, 6 respawn, 7 start placement, 8 does nothing. 7 and 8 are never called. InitKart fills
     // it from gKartDefaultSlotFunctions and replaces slots 2 to 5; it also replaces slots 3 and 4 with an empty
-    // function when gRace.mUseChainCameras is set and RaceSetup.mUnk_00c is not 5.
+    // function when race_sState.mUseChainCameras is set and RaceSetup.mUnk_00c is not 5.
     /* 20c */ void (*mSlotFunctions[9])(struct Kart *);
     /* 230 */ void (*mUnk_230)(struct Kart *);
     /* 234 */ s16 mAirTiltAngle;
@@ -403,7 +403,7 @@ typedef struct Kart {
     /* 2b2 */ u16 mNearKartMask;
     /* 2b4 */ u16 mPrevNearKartMask;
     /* 2b6 */ u8 mUnk_2b6[2];
-    // Vertical speed of the hop arc: 0x1405 at the start (AdvanceKartDrift), mGravity added each step by
+    // Vertical speed of the hop arc: 0x1405 at the start (driver_handleJumpAndDrift), mGravity added each step by
     // AdvanceKartHop, integrated into mHopHeight, 0 once the height is below 0.
     /* 2b8 */ s32 mHopSpeed;
     // Height of the hop arc, integrated from mHopSpeed; 0 at the start and when it would go below 0. The camera, its
@@ -418,7 +418,7 @@ typedef struct Kart {
     /* 2c4 */ s32 mTurnDirection;
     /* 2c8 */ s16 mCollisionSlot;
     /* 2ca */ s16 mUnk_2ca;
-    // Pointer to this slot's KartPhysicalParam; set once in InitKartPhysicalParams. The record is shared by nothing
+    // Pointer to this slot's KartPhysicalParam; set once in driver_initPhysicalParams. The record is shared by nothing
     // else.
     /* 2cc */ KartPhysicalParam *mPhysicalParam;
     // Two words of charphysicalparam.bin for the entry's character: [0] scales the surface factors below 0x1000, [1] is
@@ -461,14 +461,14 @@ typedef struct Kart {
     // Calls of UpdateKartAirborne since KART_44_ON_GROUND was last set; not every step (skipped below
     // y = 0).
     /* 380 */ u32 mAirborneFrames;
-    // Draw gate of the kart: 0xffff while it is drawn, 0 when DrawKart skips it (hidden states, or the off phase of
+    // Draw gate of the kart: 0xffff while it is drawn, 0 when driver_render skips it (hidden states, or the off phase of
     // the blink); other draw code skips its drawing while it is 0; 0 at reset for an entry of kind 2.
     /* 384 */ u16 mVisible;
     // Angle added to mHeadingAngle each step, first multiplied by 0xe66 / 0x1000 and cut to 0 below 0x14; set in
-    // func_0206f04c, 0 at reset.
+    // HandleWalls, 0 at reset.
     /* 386 */ s16 mHeadingAnglePerFrame;
     // Angle that follows mTurnDirection: eased toward 11000 or -11000, changed by the turn input and cut back to 0 on
-    // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in func_01ffb130.
+    // the ground; it is the angle of the rotation of mUnk_278 about mUnk_244 in driver_handleRegularDriving.
     /* 388 */ s16 mTurnAngle;
     /* 38a */ s16 mUnk_38a;
     /* 38c */ s32 mSpeedLimitHitFactor;
@@ -478,13 +478,13 @@ typedef struct Kart {
     /* 39c */ s32 mMapObjectVectorLength;
     /* 3a0 */ s32 mMapObjectVectorForwardDot;
     // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in func_020641f0 from the speed
-    // ratio and used by DrawKart; 0 at reset.
+    // ratio and used by driver_render; 0 at reset.
     /* 3a4 */ u16 mTireSpinAngle;
     /* 3a6 */ u8 mUnk_3a6[2];
     /* 3a8 */ s32 mQuaternionBlendFactor;
     /* 3ac */ u16 mSinkFrames;
     /* 3ae */ u8 mUnk_3ae[2];
-    // mVelocity, minus mVerticalSpeed on a floor hit, shifted right by 4 each step (AdvanceKartEffects); copied or
+    // mVelocity, minus mVerticalSpeed on a floor hit, shifted right by 4 each step (driver_updateDriftEffects); copied or
     // scaled into the velocity (mUnk_40) of effect objects.
     /* 3b0 */ Vec3 mEffectVelocity;
     /* 3bc */ u16 mUnk_3bc;
@@ -498,8 +498,8 @@ typedef struct Kart {
     /* 3ca */ u8 mUnk_3ca[2];
     /* 3cc */ s32 mSoundIndex;
     /* 3d0 */ s16 mUnk_3d0;
-    // Countdown of 0x14 set on the slower kart of a kart-kart contact in CollideKartWithKarts and counted down by
-    // AdvanceKartCollisionTimer, which calls StartKartCollisionSound at 0 (what that call does is unknown).
+    // Countdown of 0x14 set on the slower kart of a kart-kart contact in driver_handleDriverCollision and counted down by
+    // AdvanceKartCollisionTimer, which calls sfx_210B12C at 0 (what that call does is unknown).
     /* 3d2 */ s16 mKartCollisionTimer;
     /* 3d4 */ s16 mKartCollisionDelayTimer;
     /* 3d6 */ u8 mUnk_3d6[2];
@@ -507,7 +507,7 @@ typedef struct Kart {
     // Result of the handler: index into the two 12-entry tables of the record; -1 when the floor is left; compared with
     // 8 and 0xb. Group meanings unknown.
     /* 3dc */ s32 mSurfaceGroup;
-    // Bits 8..12 of the attribute of the strongest ground hit (mask 0x1e34ef); indexes gKartSurfaceFunctions; 0 after
+    // Bits 8..12 of the attribute of the strongest ground hit (mask 0x1e34ef); indexes driver_sHandleFloorCollisionFuncs; 0 after
     // reset.
     /* 3e0 */ s32 mSurfaceKind;
     // Bits 5..7 of the same attribute: second selector (effect tables).
@@ -531,10 +531,10 @@ typedef struct Kart {
     // Part of mScale looked up in three tables (x, y, z) of 25 entries (0x800 up to 0x1000) by a step counter, forwards
     // or backwards; 0x1000 when no step runs.
     /* 41c */ Vec3 mScaleFactor;
-    // Part of mScale held at 0x1000, eased down to 0x800 while the countdown of AdvanceKartThunderShrink runs and set
+    // Part of mScale held at 0x1000, eased down to 0x800 while the countdown of driver_updateThunderShrinkEffect runs and set
     // back to 0x1000 at its end; mScaleFactor is the table-driven part.
     /* 428 */ Vec3 mScaleBase;
-    // Factor of mScale.y only: 0x1000 normally, lowered by 0x4cd per call to a floor of 0x4cd in func_02069f6c.
+    // Factor of mScale.y only: 0x1000 normally, lowered by 0x4cd per call to a floor of 0x4cd in driver_updateDossunFlatEffect.
     /* 434 */ s32 mScaleYFactor;
     /* 438 */ struct MapObject *mPrevTouchingMapObjects[2];
     /* 440 */ u16 mUnk_440[2];
@@ -594,43 +594,43 @@ typedef struct Kart {
 } Kart;
 
 // Jg: the object built from the jg_* files plus lap_count and lap_final; this is the kart it follows.
-extern Kart *gJgKart;
+extern Kart *jg_sTargetDriver;
 
 extern int data_02154f10[];
 
-void StartKartState(Kart *kart, KartState mode);
+void driver_beginColReaction(Kart *kart, KartState mode);
 BOOL func_0206c094(Kart *kart);
 int func_0206c0a8(Kart *kart);
 BOOL func_0206c0b0(Kart *kart);
 BOOL func_0206c0e0(Kart *kart);
-void SetupKartAiItemInUseEntry(Kart *kart);
-void SetupKartAiHeldItemEntry(Kart *kart);
+void driver_notifyDragItemChanged(Kart *kart);
+void driver_notifySlotItemChanged(Kart *kart);
 void func_0206c17c(Kart *kart);
 void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart);
 void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart);
-BOOL TryStartKartCollisionEffects(Kart *kart, const Vec3 *overlapDirection, int flag);
+BOOL driver_206C354(Kart *kart, const Vec3 *overlapDirection, int flag);
 void func_0206c450(Unk0201ca6c *emitter, Kart *kart);
 void func_0206c488(Unk0201ca6c *emitter, Kart *kart);
 
-void StartEffectWithCallback(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
-int TryTurnKartAtLowSpeed(Kart *kart);
-void func_0206cc60(Kart *kart, int fromLowSpeedTurn);
+void ptcm_createEmitterNoUpdateSkip(u32 idx, const Vec3 *pos, void *splManager, void (*cb)());
+int driver_handleWheelSpin(Kart *kart);
+void driver_handleDrifting(Kart *kart, int fromLowSpeedTurn);
 #include "Main/Unknown/code_0210ab48.h"
-void EndKartDrift(Kart *kart);
-void AdvanceKartBoost(s32 *acceleration, Kart *kart);
+void driver_endDrift(Kart *kart);
+void driver_handleBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue data_0217d26c[7];
 extern SoundRequestQueue data_0217d274;
 extern SoundRequestQueue data_0217d284;
 extern SoundRequestQueue data_0217d28c;
 #include "Main/Unknown/code_0210dc7c.h"
 void func_020718c8(void *kart, int arg);
-void func_02071944(void *soundSource, int arg);
+void driver_emitSfx3(void *soundSource, int arg);
 #include "Main/Unknown/code_021035ac.h"
-BOOL TrySpinKart(Kart *kart, int rotationCount, int b);
+BOOL driver_tryStartSpinOut(Kart *kart, int rotationCount, int b);
 BOOL TryStartKartState(Kart *kart, KartState newState);
-void AdvanceKartDrift(Kart *kart);
-void GetKartForward(const Kart *p, Vec3 *out);
-void GetKartUp(const Kart *p, Vec3 *out);
+void driver_handleJumpAndDrift(Kart *kart);
+void driver_getShadowZDirection(const Kart *p, Vec3 *out);
+void driver_getShadowYDirection(const Kart *p, Vec3 *out);
 
 #include "Main/Unknown/code_0207ae58.h"
 #include "Main/Unknown/code_02079c0c.h"

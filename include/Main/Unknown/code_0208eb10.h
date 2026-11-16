@@ -36,14 +36,14 @@ typedef struct KartAiItemUse KartAiItemUse;
 
 struct KartAi;
 
-void StopPosStrip(PosStrip *strip);
-PosStrip *StartAwardKartPosStrip(s32 kartIndex);
-PosStrip *StartPosStrip(const Vec3 *followedPos);
-void SetPosStripPointFromKart(PosStripPoint *posStripPoint, PosStrip *posStrip);
-void SetPosStripPointFromPos(PosStripPoint *stripPoint, PosStrip *strip);
-void DrawPosStrips(const MtxFx43 *matrix);
-void UpdatePosStrips(void);
-void InitPosStrips(void *heap);
+void trl_killTrail(PosStrip *strip);
+PosStrip *trl_createTrailForDriver(s32 kartIndex);
+PosStrip *trl_createTrail(const Vec3 *followedPos);
+void trl_initPointForDriver(PosStripPoint *posStripPoint, PosStrip *posStrip);
+void trl_initPoint(PosStripPoint *stripPoint, PosStrip *strip);
+void trl_render(const MtxFx43 *matrix);
+void trl_update(void);
+void trl_init(void *heap);
 void UseItemBehindAfterInUseOrNearTarget(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0208f434(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0208f4e8(KartAiItemUse *itemUse, struct KartAi *kartAi);

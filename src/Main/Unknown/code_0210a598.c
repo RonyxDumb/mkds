@@ -15,7 +15,7 @@ void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
         kart->mSoundSource.mStartSeqFunction = (void (*)(void *, void *, u32)) StartKartPlayingSoundSeq;
     }
     kart->mSoundSource.mTrackParamsFunction = (void (*)(void *, void *, void *)) UpdateKartPlayingSound;
-    if (GetCurrentSceneNumber() == 2 || kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (scproc_getCurrentScene() == 2 || kart->mIndex != gRaceMultiConfig->mEntryIndex) {
         b->mUnk_3c = func_0210a63c;
     } else {
         b->mUnk_3c = func_0210aa0c;
@@ -23,5 +23,5 @@ void InitKartSoundCallbacks(Kart *kart, Unk0210a5a8 *b) {
 }
 
 void func_0210a598(Kart *kart, s32 soundIndex) {
-    func_0210af40(kart, soundIndex, 8);
+    sfx_emitDriverVoice(kart, soundIndex, 8);
 }

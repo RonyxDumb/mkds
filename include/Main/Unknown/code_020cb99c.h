@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *func_020cb99c(void);
+void *menu_process_getCurrentHeapHandle(void);

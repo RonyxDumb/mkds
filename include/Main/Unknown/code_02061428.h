@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void StartReadSlotGhostRecords(void *records);
-void ReadSlotGhostRecords(void);
+void ghdat_loadDownloadGhostsAsync(void *records);
+void ghdat_loadDownloadGhostsTask(void);

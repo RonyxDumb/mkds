@@ -4,5 +4,5 @@
 
 typedef struct RaceHudSubScreenCells RaceHudSubScreenCells;
 
-BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind);
-BOOL CreateRaceHudSubScreenCellsWithCount(RaceHudSubScreenCells **outCells, s32 objectCount);
+BOOL mpicn_createMapObjIcon(RaceHudSubScreenCells **outCells, s32 kind);
+BOOL mpicn_20C0BA8(RaceHudSubScreenCells **outCells, s32 objectCount);

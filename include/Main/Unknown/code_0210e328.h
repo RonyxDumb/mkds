@@ -4,4 +4,4 @@
 
 typedef struct PlayingSound PlayingSound;
 
-void ResetPlayingSoundHandle(PlayingSound *sound);
+void sp_initHandle(PlayingSound *sound);

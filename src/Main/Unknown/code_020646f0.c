@@ -19,7 +19,7 @@
 #include "Main/Item/ItemInUse.h"
 #include "code_02147cd8.h"
 
-void func_020646f0(Kart *kart, s32 b) {
+void driver_initToNkmPos(Kart *kart, s32 b) {
     MtxFx43 *rotationMatrix;
     CourseMap *courseMap;
     Vec3 startRotation;
@@ -34,12 +34,12 @@ void func_020646f0(Kart *kart, s32 b) {
     Vec3 *n;
 
     if (b == 0) {
-        GetCourseMapKartStartPlacement(&kart->mPos, &startRotation, kart->mIndex);
-        if (gRaceSetup->mRaceKind == RACE_KIND_AWARD) {
-            kart->mPos = data_0216549c[kart->mIndex];
+        mdat_getStartPosition(&kart->mPos, &startRotation, kart->mIndex);
+        if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD) {
+            kart->mPos = AwardCeremonyStartPositions[kart->mIndex];
         }
     } else {
-        courseMap = gCourseMap;
+        courseMap = gMapData;
         if (courseMap->mUnk_3c != NULL) {
             n = &kart->mPos;
             if (n != NULL) {
@@ -59,7 +59,7 @@ void func_020646f0(Kart *kart, s32 b) {
     g = kart->mPos;
     g.y = g.y + 0x1000;
     kart->mPos.y = kart->mPos.y - 0x1400;
-    if (func_01ffdee4(&kart->mPos, (u32 *) &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
+    if (col_collide(&kart->mPos, (u32 *) &g, &kart->mTurnedForward, 0x5000, 1, -2, &e, &f, NULL, NULL, NULL, NULL,
                       NULL, NULL) != 0) {
         h.x = (s64) f.x * 0x5000 >> 12;
         h.y = (s64) f.y * 0x5000 >> 12;
@@ -69,9 +69,9 @@ void func_020646f0(Kart *kart, s32 b) {
     }
     kart->mPos.y = kart->mPos.y - 0x1000;
     kart->mHeadingAngle = (u32) (startRotation.y * 0xb6) >> 12;
-    QuaternionFromAxisAngle(&data_02154a3c, kart->mHeadingAngle, &kart->mUnk_e0_m);
+    qrtn_fromAxisAngle(&data_02154a3c, kart->mHeadingAngle, &kart->mUnk_e0_m);
     kart->mUnk_110_q = kart->mUnk_e0_m;
-    Matrix4x3FromQuaternion(&kart->mUnk_120, &kart->mUnk_110_q);
+    qrtn_toMtx43(&kart->mUnk_120, &kart->mUnk_110_q);
     kart->mUnk_150_m = kart->mUnk_120_m;
     kart->mPrevPos = kart->mPos;
     kart->mDrawMatrixPos = kart->mPrevPos;

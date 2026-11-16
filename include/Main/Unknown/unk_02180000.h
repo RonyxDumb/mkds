@@ -15,10 +15,10 @@ extern u8 OV001_BSS_END[];
 extern u8 OV002_BSS_END[];
 
 // Set to 1 by CARDi_PulledOutCallback; CARD_IsPulledOut returns it.
-extern u32 gRemovalSeen;
+extern u32 CARDi_IsPulledOutFlag;
 // The hook set by CARD_SetPulledOutCallback, cleared by CARD_InitPulledOutCallback and called by
 // CARDi_PulledOutCallback.
-extern UnkWordFunc *gRemovalCallback;
+extern UnkWordFunc *CARD_UserCallback;
 // Id from OS_GetLockID, taken in GX_Init; disableBankForX_ hands it to the lock-table release.
 extern u16 gVramLockId;
 // 13 bank-mask halfwords: [0] banks that are directly accessible, then the banks given to the background, sprites,
@@ -52,7 +52,7 @@ extern u32 gBgExtPaletteLoadBankMask;
 // The bank mask kept between the begin and end call of that load group; 0 when no load is open.
 extern u32 gSubObjExtPaletteLoadBankMask;
 
-// Display mode value (the bits at 16 and up of the main display word) kept while the display is off and by
+// Display mode value (the bits at 16 and up of the NitroMain display word) kept while the display is off and by
 // GX_SetGraphicsMode; GX_DispOn writes it back.
 extern u16 gSavedDispMode;
 

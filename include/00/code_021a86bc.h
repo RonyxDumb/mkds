@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/code_021a6fa8.h"
 
-u32 func_ov000_021a86bc(Unk021a6fa8 *a);
+u32 aOptionHensyuMe(Unk021a6fa8 *a);
 s32 func_ov000_021a86e8(void);
 s32 func_ov000_021a8740(void);
 s32 func_ov000_021a87bc(void);

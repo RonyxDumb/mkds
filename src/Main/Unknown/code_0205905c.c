@@ -9,15 +9,15 @@
 #pragma opt_rebuildconditionals off
 
 static inline u32 func_0205905c_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gStruct217AA00->mUnk_0000;
 }
 
 static inline s32 func_0205905c_inline2(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline() != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if (func_0205905c_inline() != 0 && gStruct217AA00->mUnk_0004 != 13) {
         r = TRUE;
     }
     return r;
@@ -25,7 +25,7 @@ static inline s32 func_0205905c_inline2(void) {
 
 static inline s32 func_0205905c_inline3(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline2() && !(data_0217aa00->mUnk_0454 & 0x80)) {
+    if (func_0205905c_inline2() && !(gStruct217AA00->mUnk_0454 & 0x80)) {
         r = TRUE;
     }
     return r;
@@ -33,7 +33,7 @@ static inline s32 func_0205905c_inline3(void) {
 
 static inline s32 func_0205905c_inline4(void) {
     BOOL r = FALSE;
-    if (func_0205905c_inline3() && data_0217aa00->mUnk_0008 != 9) {
+    if (func_0205905c_inline3() && gStruct217AA00->mUnk_0008 != 9) {
         r = TRUE;
     }
     return r;
@@ -48,13 +48,13 @@ BOOL func_020591cc(void) {
     if (!func_0205905c_inline2()) {
         return TRUE;
     }
-    AdvanceStateMachine(&data_0217aa00->mUnk_1608);
+    sm_execute(&gStruct217AA00->mUnk_1608);
     if (!func_0205905c_inline4()) {
-        if (func_0205905c_inline() == 1 && data_0217aa00->mUnk_0044.mChildCount == 0) {
+        if (func_0205905c_inline() == 1 && gStruct217AA00->mUnk_0044.mChildCount == 0) {
             func_02050e60(7);
         }
     }
-    if (data_0217aa00->mUnk_1608.mState == 0xf) {
+    if (gStruct217AA00->mUnk_1608.mState == 0xf) {
         r = TRUE;
     }
     return r;

@@ -7,7 +7,7 @@
 #include "code_0212d214.h"
 #include "code_020172d0.h"
 
-u32 TryAppendListObject(void *list, void *object) {
+u32 list_append(void *list, void *object) {
     BOOL willAppend;
     Unk0210bc54 *link;
 
@@ -26,7 +26,7 @@ u32 TryAppendListObject(void *list, void *object) {
     return 1;
 }
 
-void RemoveListObject(NNSFndList *list, void *object) {
+void list_remove(NNSFndList *list, void *object) {
     Unk0210bc54 *link;
 
     NNS_FndRemoveListObject(list, object);
@@ -36,66 +36,66 @@ void RemoveListObject(NNSFndList *list, void *object) {
     }
 }
 
-void ClearSurfaceSoundIds(void) {
-    __clear(data_0217cd30, 0x17 * sizeof(Unk0217cd30));
+void csfx_init(void) {
+    __clear(csfx_sSfxOverrides, 0x17 * sizeof(Unk0217cd30));
 }
 
-u32 SetSurfaceSoundIds(u32 rowIndex, u32 columnIndex, void *entries) {
+u32 csfx_setFloorOverride(u32 rowIndex, u32 columnIndex, void *entries) {
     u32 value0 = rowIndex;
     u32 columnCopy = columnIndex;
     u32 entriesCopy = (u32) entries;
     u32 table;
-    table = (u32) &data_0217cd30;
+    table = (u32) &csfx_sSfxOverrides;
     value0 = (table) + ((value0 << 5));
     *(u32 *) ((value0) + ((columnCopy << 2))) = entriesCopy;
     return value0;
 }
 
-u32 func_0210bbec(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries) {
+u32 csfx_setWallOverride(u32 rowIndex, u32 columnIndex, Unk0216c860 *entries) {
     u32 value0 = rowIndex;
     u32 columnCopy = columnIndex;
     u32 entriesCopy = (u32) entries;
     u32 table;
-    table = (u32) &data_0217cd30;
+    table = (u32) &csfx_sSfxOverrides;
     value0 = (table) + ((value0 << 5));
     *(u32 *) ((value0) + ((columnCopy << 2))) = entriesCopy;
     return value0;
 }
 
-u32 GetSurfaceSoundId(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
+u32 csfx_getFloorSfx(s32 entryIndex, s32 surfaceKind, s32 surfaceVariant) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) data_0217cd30)[surfaceKind].mUnk_00[surfaceVariant];
+    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[surfaceKind].mUnk_00[surfaceVariant];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;
     }
-    v = data_0215a6fc[surfaceKind][surfaceVariant];
+    v = csfx_sMaterialTable[surfaceKind][surfaceVariant];
     if (v == 0x14) {
         v = 0xffff;
     }
     if (v == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca84 + entryIndex * 0x26 + v * 2);
+    return *(u16 *) (csfx_sFloorSfxIds + entryIndex * 0x26 + v * 2);
 }
 
-u32 func_0210bafc(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
+u32 csfx_getWallSfx(s32 entryIndex, s32 rowIndex, s32 columnIndex) {
     s32 idArray;
     s32 v;
 
-    idArray = ((Unk0217cd30 *) data_0217cd30)[rowIndex].mUnk_00[columnIndex];
+    idArray = ((Unk0217cd30 *) csfx_sSfxOverrides)[rowIndex].mUnk_00[columnIndex];
     v = idArray != 0 ? ((u32 *) idArray)[entryIndex] : 0xffff;
     if (v != 0xffff) {
         return (u16) v;
     }
-    v = data_0215a6fc[rowIndex][columnIndex];
+    v = csfx_sMaterialTable[rowIndex][columnIndex];
     if (v == 0xe) {
         v = 0xffff;
     }
     if (v == 0xffff) {
         return 0xffff;
     }
-    return *(u16 *) (data_0216ca68 + entryIndex * 0x1a + v * 2);
+    return *(u16 *) (csfx_sWallSfxIds + entryIndex * 0x1a + v * 2);
 }

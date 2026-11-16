@@ -7,11 +7,11 @@
 
 u32 IsBackupCommandRunning(void) {
     if (IsBackupEnabled() != 0) {
-        return gBackupAccess->mCommandRunning;
+        return gSaveCore->mCommandRunning;
     }
     return 0;
 }
 
 u32 IsBackupBusy(void) {
-    return data_0217aa08->mBusy != 0 ? 1 : IsBackupCommandRunning();
+    return gSaveData->mBusy != 0 ? 1 : IsBackupCommandRunning();
 }

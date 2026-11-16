@@ -4,4 +4,4 @@
 
 typedef struct InputSlot InputSlot;
 
-void SetInputSlotRepeat(InputSlot *slot, unsigned int mask, unsigned int delayLimit, unsigned int intervalLimit);
+void pad_initAutoRepeat(InputSlot *slot, unsigned int mask, unsigned int delayLimit, unsigned int intervalLimit);

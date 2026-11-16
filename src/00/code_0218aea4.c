@@ -239,7 +239,7 @@ void func_ov000_0218d0e4(SbServerList *p, u32 v1) {
     k[0] = v1;
     e = HashtableFind(func_ov000_0218b3f4(p), k);
     if (e == NULL) {
-        AssertionFailed(data_ov000_021b22a4, data_ov000_021b2218, NULL, 0xf4);
+        __msl_assertion_failed(data_ov000_021b22a4, data_ov000_021b2218, NULL, 0xf4);
     }
     if (e != NULL) {
         e[1] = e[1] - 1;
@@ -276,7 +276,7 @@ static inline void func_ov000_0218ce14_inline(Unk0218cd94 *d, Unk0218cd94 *s) {
 void SbServerListInit(SbServerList *slist, const char *a, const char *b, const char *c, u32 d, s32 e, UnkFunc *callback,
                       void *g) {
     if (slist == NULL) {
-        AssertionFailed(data_ov000_021b2280, data_ov000_021b2218, NULL, 0x11c);
+        __msl_assertion_failed(data_ov000_021b2280, data_ov000_021b2218, NULL, 0x11c);
     }
     if (e != 0 || data_ov000_021b4d28 == 1) {
         slist->mState = 1;
@@ -288,7 +288,7 @@ void SbServerListInit(SbServerList *slist, const char *a, const char *b, const c
         slist->mCallback = callback;
         slist->mUnk_48c = NULL;
         if (callback == NULL) {
-            AssertionFailed(data_ov000_021b2290, data_ov000_021b2218, NULL, 0x132);
+            __msl_assertion_failed(data_ov000_021b2290, data_ov000_021b2218, NULL, 0x132);
         }
         slist->mUnk_494 = g;
         slist->mUnk_498 = data_ov000_021b2260;
@@ -478,7 +478,7 @@ s32 func_ov000_0218ca58(SbServerList *p, const char *a, const char *b, u32 c, u3
     u8 *q;
     s32 r;
     if (p->mState != 1) {
-        AssertionFailed(data_ov000_021b2240, data_ov000_021b2218, NULL, 0x20a);
+        __msl_assertion_failed(data_ov000_021b2240, data_ov000_021b2218, NULL, 0x20a);
     }
     if (a == NULL) {
         a = data_ov000_021b2260;
@@ -672,7 +672,7 @@ BOOL func_ov000_0218c794(SbServerList *a, u8 *b, s32 c) {
                     }
                     break;
                 default:
-                    AssertionFailed(data_ov000_021b223c, data_ov000_021b2218, NULL, 0x317);
+                    __msl_assertion_failed(data_ov000_021b223c, data_ov000_021b2218, NULL, 0x317);
                     return FALSE;
             }
             if (c < 0) {
@@ -1012,7 +1012,7 @@ s32 func_ov000_0218c15c(SbServerList *a) {
             break;
     }
     if (n < 0) {
-        AssertionFailed(data_ov000_021b2228, data_ov000_021b2218, NULL, 0x4af);
+        __msl_assertion_failed(data_ov000_021b2228, data_ov000_021b2218, NULL, 0x4af);
     }
     if (a->mInBuffer == NULL) {
         return 0;
@@ -1286,7 +1286,7 @@ s32 func_ov000_0218bc08(SbServerList *slist) {
         }
         slist->mInBufferLength -= c;
         if (slist->mInBufferLength < 0) {
-            AssertionFailed(data_ov000_021b2200, data_ov000_021b2218, NULL, 0x5b4);
+            __msl_assertion_failed(data_ov000_021b2200, data_ov000_021b2218, NULL, 0x5b4);
         }
         if (slist->mInBufferLength != 0 && slist->mInBuffer != NULL) {
             memmove(slist->mInBuffer, slist->mInBuffer + c, slist->mInBufferLength);
@@ -1676,7 +1676,7 @@ char *SbServerGetValue(SbServer *server, const char *v1, char *d) {
     Unk0218b30c a;
     u32 *b;
     if (server == NULL) {
-        AssertionFailed(data_ov000_021b21d0, data_ov000_021b21d8, NULL, 0x97);
+        __msl_assertion_failed(data_ov000_021b21d0, data_ov000_021b21d8, NULL, 0x97);
     }
     if (server == NULL) {
         return NULL;

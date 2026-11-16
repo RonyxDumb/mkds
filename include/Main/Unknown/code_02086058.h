@@ -45,7 +45,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
 u16 *GetKartIndicesByDistance(void);
 u16 func_0208606c(int index);
 u32 GetKartCameraDistanceSquared(int kartIndex);
-void DrawKartNameTags(MtxFx43 *viewMatrix);
+void driver_renderLabels(MtxFx43 *viewMatrix);
 void func_020865ec(void);
 void func_020866b4(void);
 void func_0208677c(void);

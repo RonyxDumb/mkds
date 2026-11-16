@@ -6,25 +6,25 @@
 #include "Main/Unknown/code_020ca6b8.h"
 
 #pragma thumb on
-void ClearEmblemChoisesPointer(void) {
+void echoi_finalize(void) {
     u32 pointerAddress;
     u32 zero;
     zero = 0u;
-    pointerAddress = (u32) &gEmblemChoises;
+    pointerAddress = (u32) &echoi_sState;
     *(u32 *) ((pointerAddress) + 0u) = zero;
 }
 #pragma thumb off
 
 #pragma thumb on
-void RequestEmblemChoisesGraphicsUpload(void) {
-    gEmblemChoises->mGraphicsUploadRequested = TRUE;
+void echoi_requestPalCharUpdate(void) {
+    echoi_sState->mGraphicsUploadRequested = TRUE;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-u32 GetEmblemChoisesResult(void) {
-    return (gEmblemChoises->mResult);
+u32 echoi_getActivatedOption(void) {
+    return (echoi_sState->mResult);
 }
 
 #pragma thumb off

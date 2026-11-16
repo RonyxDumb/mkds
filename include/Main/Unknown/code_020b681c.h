@@ -14,4 +14,4 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020b6000.h"
 
-void GetRaceHudSubScreenBg3MinMax(UnkPair020b502c *outMin, UnkPair020b502c *outMax);
+void Map_20B681C(UnkPair020b502c *outMin, UnkPair020b502c *outMax);

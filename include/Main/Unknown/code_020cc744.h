@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cc744(void);
+void menu_configureRace(void);

@@ -4,8 +4,8 @@
 
 #pragma optimize_for_size on
 
-u32 func_020ace8c(InputSlotPair *inputSlotPair) {
-    if (func_020acebc(inputSlotPair) == 0) {
+u32 title_spi_isPenReleaseTimeout(InputSlotPair *inputSlotPair) {
+    if (title_spi_getTpValid(inputSlotPair) == 0) {
         if (inputSlotPair->mNoPairCount < 5) {
             return 1;
         }
@@ -13,17 +13,17 @@ u32 func_020ace8c(InputSlotPair *inputSlotPair) {
     return 0;
 }
 
-u32 func_020ace68(InputSlotPair *inputSlotPair) {
+u32 title_spi_isPenDownEvent(InputSlotPair *inputSlotPair) {
     if (inputSlotPair->mPrevHasPair == 0 && inputSlotPair->mHasPair != 0) {
         return 1;
     }
     return 0;
 }
 
-u32 func_020ace34(InputSlotPair *inputSlotPair) {
+u32 title_spi_isValidPenDownEvent(InputSlotPair *inputSlotPair) {
     u32 r;
 
-    if (func_020ace8c(inputSlotPair) == 0 && func_020ace68(inputSlotPair) != 0) {
+    if (title_spi_isPenReleaseTimeout(inputSlotPair) == 0 && title_spi_isPenDownEvent(inputSlotPair) != 0) {
         r = 1;
     } else {
         r = 0;
@@ -31,6 +31,6 @@ u32 func_020ace34(InputSlotPair *inputSlotPair) {
     return r;
 }
 
-u32 func_020ace14(u32 slotIndex) {
-    return func_020ace34((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+u32 title_input_isValidPenDownEventById(u32 slotIndex) {
+    return title_spi_isValidPenDownEvent((InputSlotPair *) &gInputUnits[slotIndex].mPairX);
 }

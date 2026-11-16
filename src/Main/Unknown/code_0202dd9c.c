@@ -36,24 +36,24 @@
 
 #pragma thumb on
 
-void InitGhostScene(void *heap) {
+void ghost_create(void *heap) {
     Unk02125de0Arg arg;
     u8 *displaySettings;
     s32 i;
     u32 courseId;
     u8 *courseRecords;
     s32 cupCourseIndex;
-    gGhostScene = HeapAlloc(heap, 0x8dc);
-    MemFillWordsByBlock_inline(gGhostScene, 0x8dc);
-    gGhostScene->mCourseGhostBuffer = HeapAllocAligned(heap, 0xe00, 0x20);
-    gGhostScene->mSlotGhostBuffer = HeapAllocAligned(heap, 0x1000, 0x20);
-    displaySettings = CreateDisplaySettings(heap, gGhostSceneDisplaySettingsDesc);
-    SetBg0Record(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
-    SetBg3RecordParams(displaySettings + 0x70, 2, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
-    LoadGhostSceneFiles();
+    sGhostSceneState = heap_alloc(heap, 0x8dc);
+    MemFillWordsByBlock_inline(sGhostSceneState, 0x8dc);
+    sGhostSceneState->mCourseGhostBuffer = heap_allocEx(heap, 0xe00, 0x20);
+    sGhostSceneState->mSlotGhostBuffer = heap_allocEx(heap, 0x1000, 0x20);
+    displaySettings = dc_createDisplayConfig(heap, ghost_sDisplayConfigBase);
+    dc_setBg0Config(displaySettings + 0x28, 1, 0, 0, 0, 0, 1, 0);
+    dc_setBg3Config(displaySettings + 0x70, 2, 0, 0, 0, 0xf, 0);
+    dc_setDisplayConfig(displaySettings);
+    ghost_loadFiles();
     arg.mUnk_00 = 1;
-    arg.mUnk_04 = GetFontByIndex(1);
+    arg.mUnk_04 = m2d_getFont(1);
     arg.mUnk_08 = 1;
     arg.mUnk_0c = 1;
     arg.mUnk_10 = 0;
@@ -62,95 +62,95 @@ void InitGhostScene(void *heap) {
     arg.mUnk_1c = 1;
     arg.mUnk_20 = 1;
     arg.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
+    gmenu_unpackData();
+    gmenu_init(heap, &arg);
     SetTxtSystemMode(1);
-    InitLinkLevelIcons(heap, gGhostScene);
-    CreateKartIcon(heap);
+    InitLinkLevelIcons(heap, sGhostSceneState);
+    kic_initForGhost(heap);
     for (i = 0; i < 0x20; i++) {
-        gGhostScene->mCupCourseIndices[i] = -1;
+        sGhostSceneState->mCupCourseIndices[i] = -1;
     }
     for (i = 0; i < 10; i++) {
-        gGhostScene->mSlotIndices[i] = -1;
+        sGhostSceneState->mSlotIndices[i] = -1;
     }
-    gGhostScene->mCourseGhostRecords = (u8 *) CreateCourseGhostRecords((u32) heap);
-    StartReadCourseGhostRecords(gGhostScene->mCourseGhostRecords);
-    WaitThreadFunctionsDone();
+    sGhostSceneState->mCourseGhostRecords = (u8 *) ghdat_allocPersonalGhostsStruct((u32) heap);
+    ghdat_loadPersonalGhostsAsync(sGhostSceneState->mCourseGhostRecords);
+    bgwkr_waitForCompletion();
     for (i = 0; i < 0x20; i++) {
-        courseId = func_0202e43c(i);
-        courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
-        if (IsGhostRecordFilled(courseRecords + cupCourseIndex * 0x30) != FALSE) {
-            gGhostScene->mCupCourseIndices[gGhostScene->mCourseGhostCount] = i;
-            gGhostScene->mGhostCount++;
-            gGhostScene->mCourseGhostCount++;
+        courseId = ghost_getCourseId(i);
+        courseRecords = sGhostSceneState->mCourseGhostRecords;
+        cupCourseIndex = rconf_getCourseNumber(courseId);
+        if (ghdat_getIsGhostValid(courseRecords + cupCourseIndex * 0x30) != FALSE) {
+            sGhostSceneState->mCupCourseIndices[sGhostSceneState->mCourseGhostCount] = i;
+            sGhostSceneState->mGhostCount++;
+            sGhostSceneState->mCourseGhostCount++;
         }
     }
-    gGhostScene->mSlotGhostRecords = (u8 *) CreateSlotGhostRecords((u32) heap);
-    StartReadSlotGhostRecords(gGhostScene->mSlotGhostRecords);
-    WaitThreadFunctionsDone();
+    sGhostSceneState->mSlotGhostRecords = (u8 *) ghdat_allocDownloadGhostsStruct((u32) heap);
+    ghdat_loadDownloadGhostsAsync(sGhostSceneState->mSlotGhostRecords);
+    bgwkr_waitForCompletion();
     for (i = 0; i < 10; i++) {
-        if (IsGhostRecordFilled(gGhostScene->mSlotGhostRecords + (u8) i * 0x230) != FALSE) {
-            gGhostScene->mSlotIndices[gGhostScene->mSlotGhostCount] = i;
-            gGhostScene->mGhostCount++;
-            gGhostScene->mSlotGhostCount++;
+        if (ghdat_getIsGhostValid(sGhostSceneState->mSlotGhostRecords + (u8) i * 0x230) != FALSE) {
+            sGhostSceneState->mSlotIndices[sGhostSceneState->mSlotGhostCount] = i;
+            sGhostSceneState->mGhostCount++;
+            sGhostSceneState->mSlotGhostCount++;
         }
     }
-    ResetOamLists(gGhostScene, gGhostScene->mSubOam);
+    oam_clearResetBuffers(sGhostSceneState, sGhostSceneState->mSubOam);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
-    switch (data_0217b488->mGhostSceneInitialCallbacksIndex) {
+    switch (gStruct217B488->mGhostSceneInitialCallbacksIndex) {
         case 0:
-            gGhostScene->mRequestedCallbacksIndex = 0;
+            sGhostSceneState->mRequestedCallbacksIndex = 0;
             break;
         case 1:
-            gGhostScene->mRequestedCallbacksIndex = 1;
+            sGhostSceneState->mRequestedCallbacksIndex = 1;
             break;
     }
-    gGhostScene->mCurrentCallbacksIndex = gGhostScene->mRequestedCallbacksIndex;
-    gGhostScene->mCurrentCallbacks = gGhostSceneCallbacks[gGhostScene->mRequestedCallbacksIndex];
-    gGhostScene->mHeap = CreateExpHeapFromMaxFree(heap);
-    gGhostScene->mCurrentCallbacks->mInit(gGhostScene->mHeap, gGhostScene, gGhostScene->mSubOam);
+    sGhostSceneState->mCurrentCallbacksIndex = sGhostSceneState->mRequestedCallbacksIndex;
+    sGhostSceneState->mCurrentCallbacks = sGhostSceneFuncs[sGhostSceneState->mRequestedCallbacksIndex];
+    sGhostSceneState->mHeap = heap_createSubExpHeap(heap);
+    sGhostSceneState->mCurrentCallbacks->mInit(sGhostSceneState->mHeap, sGhostSceneState, sGhostSceneState->mSubOam);
 }
 
-void AdvanceGhostScene(s32 sceneNumbers) {
+void ghost_render(s32 sceneNumbers) {
     s32 requestedIndex;
     s32 currentIndex;
     s32 nextIndex;
     GhostSceneCallbacks *oldCallbacks;
-    requestedIndex = gGhostScene->mRequestedCallbacksIndex;
-    currentIndex = gGhostScene->mCurrentCallbacksIndex;
+    requestedIndex = sGhostSceneState->mRequestedCallbacksIndex;
+    currentIndex = sGhostSceneState->mCurrentCallbacksIndex;
     if (currentIndex != requestedIndex) {
-        oldCallbacks = gGhostScene->mCurrentCallbacks;
-        gGhostScene->mCurrentCallbacks = gGhostSceneCallbacks[requestedIndex];
-        gGhostScene->mCurrentCallbacksIndex = gGhostScene->mRequestedCallbacksIndex;
+        oldCallbacks = sGhostSceneState->mCurrentCallbacks;
+        sGhostSceneState->mCurrentCallbacks = sGhostSceneFuncs[requestedIndex];
+        sGhostSceneState->mCurrentCallbacksIndex = sGhostSceneState->mRequestedCallbacksIndex;
         oldCallbacks->mRelease();
-        gGhostScene->mCurrentCallbacks->mInit(gGhostScene->mHeap, gGhostScene, gGhostScene->mSubOam);
+        sGhostSceneState->mCurrentCallbacks->mInit(sGhostSceneState->mHeap, sGhostSceneState, sGhostSceneState->mSubOam);
     } else {
-        ClearOamListCounts(gGhostScene, gGhostScene->mSubOam);
-        nextIndex = gGhostScene->mCurrentCallbacks->mAdvance(sceneNumbers);
+        oam_resetBuffers(sGhostSceneState, sGhostSceneState->mSubOam);
+        nextIndex = sGhostSceneState->mCurrentCallbacks->mAdvance(sceneNumbers);
         if (nextIndex != -1) {
-            gGhostScene->mRequestedCallbacksIndex = nextIndex;
+            sGhostSceneState->mRequestedCallbacksIndex = nextIndex;
         }
-        func_020ae630(gGhostScene, gGhostScene->mSubOam);
+        oam_prepareBuffers(sGhostSceneState, sGhostSceneState->mSubOam);
     }
-    func_02125928();
+    gmenu_render();
     AdvanceLinkLevelIcons();
 }
 
-void ReleaseGhostScene(void) {
+void ghost_finish(void) {
     reg_GX_DISPCNT = reg_GX_DISPCNT & 0xffff1fff;
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & 0xffff1fff;
-    func_02125da0();
+    gmenu_finish();
     ClearLinkLevelIconsPointer();
-    ClearKartIconPointer();
-    func_0204f7f4();
+    kic_free();
+    LEDBlink_NoPattern();
 }
 
-void func_0202dec8(void) {
-    func_021258f0();
-    gGhostScene->mCurrentCallbacks->mUnk_0c();
-    UploadOamLists(gGhostScene, gGhostScene->mSubOam);
+void ghost_vblank(void) {
+    gmenu_vblank();
+    sGhostSceneState->mCurrentCallbacks->mUnk_0c();
+    oam_applyBuffers(sGhostSceneState, sGhostSceneState->mSubOam);
 }
 
 #pragma thumb off
@@ -163,20 +163,20 @@ void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *
     u16 terminatedName[11];
     CellFileSet *cellFileSet;
     cellFileSet = &fileSets->mUnk_038;
-    func_0212426c(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
-                  GetBmgEntry(fileSets->mUnk_058, GetCourseMessageIndex(courseId)), fileSets->mUnk_000.mCellLayout,
+    jn_ui_212426C(0, labelRows[0][0], fileSets->mUnk_000.mLabelLayout,
+                  jn_msg_getMessage(fileSets->mUnk_058, mutil2_getCourseNameCommonMsgId(courseId)), fileSets->mUnk_000.mCellLayout,
                   fileSets->mUnk_000.mCellTable);
-    WriteMinuteSecondMillisecondText((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
-    func_02124224(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText, fileSets->mUnk_000.mCellLayout,
+    mutil2_timeToString((s16 *) timeText, time->mMinute, time->mSecond, time->mMillisecond);
+    jn_ui_2124224(0, labelRows[1][0], fileSets->mUnk_000.mLabelLayout, timeText, fileSets->mUnk_000.mCellLayout,
                   fileSets->mUnk_000.mCellTable, 7);
     MIi_CpuCopy16(name, terminatedName, 0x14);
     terminatedName[10] = 0;
-    func_0212426c(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName, fileSets->mUnk_000.mCellLayout,
+    jn_ui_212426C(0, labelRows[2][0], fileSets->mUnk_000.mLabelLayout, terminatedName, fileSets->mUnk_000.mCellLayout,
                   fileSets->mUnk_000.mCellTable);
     QueueCellCharsAndFirstPalette(characterIndex, cellFileSet->mCells, fileSets->mUnk_038.mChars, cellFileSet->mPalette,
                                   cellFileSet->mCellLayout, 0, labelRows[0][3], fileSets->mUnk_000.mCells,
                                   fileSets->mUnk_000.mCellLayout);
-    QueueKartIcon(kartIndex, fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout, labelRows[1][3],
+    kic_putIconInLayout(kartIndex, fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout, labelRows[1][3],
                   GetCellPaletteIndex(labelRows[1][3], fileSets->mUnk_000.mCells, fileSets->mUnk_000.mCellLayout), 0);
 }
 
@@ -185,23 +185,23 @@ void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *
 #pragma thumb on
 
 void *GetCourseGhostBuffer(void) {
-    return gGhostScene->mCourseGhostBuffer;
+    return sGhostSceneState->mCourseGhostBuffer;
 }
 
 u32 GetSlotGhostBuffer(void) {
-    return ((u32) gGhostScene->mSlotGhostBuffer);
+    return ((u32) sGhostSceneState->mSlotGhostBuffer);
 }
 
-u32 GetGhostCount(void) {
-    return (gGhostScene->mGhostCount);
+u32 ghost_getTotalGhostCount(void) {
+    return (sGhostSceneState->mGhostCount);
 }
 
-u32 GetCourseGhostCount(void) {
-    return (gGhostScene->mCourseGhostCount);
+u32 ghost_getMyGhostCount(void) {
+    return (sGhostSceneState->mCourseGhostCount);
 }
 
-u32 GetSlotGhostCount(void) {
-    return (gGhostScene->mSlotGhostCount);
+u32 ghost_getDlGhostCount(void) {
+    return (sGhostSceneState->mSlotGhostCount);
 }
 
 #pragma thumb off

@@ -12,7 +12,7 @@ typedef struct Bg23CntFields {
     /* 0a */ u16 mBgCntVal2;
 } Bg23CntFields;
 
-// Argument of ApplyBg3Cnt and ApplyBg2Cnt.
+// Argument of setupBg3 and setupBg2.
 typedef struct Bg23Cnt {
     /* 00 */ s32 mMode;
     /* 04 */ Bg23CntFields mFields;
@@ -20,7 +20,7 @@ typedef struct Bg23Cnt {
 
 typedef struct DisplaySettings DisplaySettings;
 
-// The 0xdc-byte object CreateDisplaySettings returns is an DisplaySettings (unk_02175000.h). Member 0x28 and member
+// The 0xdc-byte object dc_createDisplayConfig returns is an DisplaySettings (unk_02175000.h). Member 0x28 and member
 // 0x70 of it are each followed by 0x44 bytes of the layout below.
 typedef struct DisplayBgRecords {
     /* 00 */ u16 mBg0CntLow2;
@@ -57,7 +57,7 @@ typedef struct DisplayBgRecords {
     /* 42 */ u16 mUnk_42;
 } DisplayBgRecords;
 
-// The 0x28 bytes InitDisplaySettings copies to the start of an DisplaySettings.
+// The 0x28 bytes initializeDisplayConfigFromBaseConfig copies to the start of an DisplaySettings.
 typedef struct DisplaySettingsDesc {
     /* 00 */ u16 mUnk_00[4];
     /* 08 */ u16 mMainBgMode;
@@ -66,7 +66,7 @@ typedef struct DisplaySettingsDesc {
     /* 0e */ u16 mUnk_0e[13];
 } DisplaySettingsDesc;
 
-// Two of these sit at gSubBrightnessFade and gMainBrightnessFade; UpdateBrightnessFade steps one.
+// Two of these sit at gBottomMasterBright and gTopMasterBright; updateMasterBright steps one.
 typedef struct BrightnessFade {
     /* 00 */ u16 mState;
     /* 02 */ u16 mPositive;
@@ -76,43 +76,43 @@ typedef struct BrightnessFade {
     /* 0a */ u16 mUnk_0a;
 } BrightnessFade;
 
-extern BrightnessFade gSubBrightnessFade;
-extern BrightnessFade gMainBrightnessFade;
+extern BrightnessFade gBottomMasterBright;
+extern BrightnessFade gTopMasterBright;
 
-u32 AreBrightnessFadesClear(void);
+u32 mbright_isFadedIn(void);
 void SetBrightnessFadesClear(void);
-u32 AreBrightnessFadesFaded(void);
-void StartFadeToFadedPositive(s16 frameCount);
+u32 mbright_isFadedOut(void);
+void mbright_fadeToWhite(s16 frameCount);
 void StartFadeToFadedPositiveOneScreen(s16 frameCount, s32 isMainScreen);
-void StartFadeToFadedNegative(s16 frameCount);
-void StartFadeToFadedNegativeOneScreen(s32 frameCount, s32 isMainScreen);
+void mbright_fadeToBlack(s16 frameCount);
+void mbright_fadeFromBlackSingle(s32 frameCount, s32 isMainScreen);
 void StartFadeToClearNegative(s16 frameCount);
-void StartFadeToClearNegativeOneScreen(s32 frameCount, s32 isMainScreen);
-void StartFadeToClear(s16 frameCount);
+void mbright_fadeToBlackSingle(s32 frameCount, s32 isMainScreen);
+void mbright_fadeIn(s16 frameCount);
 void StartFadeToClearOneScreen(s16 frameCount, s32 isMainScreen);
-void RecordFrameTimes(void);
-void FinishDisplayFrameSwapIf(s32 doSwap);
-void func_02037658(s32 a);
-void FinishDisplayFrame(void);
-u32 ClearFrameFinishedFlag(void);
-u32 func_02037a20(void);
-void PrepareDisplayFrame(void);
-void DisableAllBanksAndNullDisplaySettings(void);
-void InitDisplayFromSettings(void *settingsPtr);
-void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen);
-void ApplyBg2Cnt(Bg23Cnt *cnt, s32 isMainScreen);
-void func_02038c94(DisplaySettings *settings, unsigned int value);
-u32 SetG3xSwapBits(DisplaySettings *settings, u32 swapBit0, u32 swapBit1);
-void SetBg2RecordMode5(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8);
-void SetBg3RecordParams(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2);
-void SetBg2RecordParams(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2);
-void SetBg1Record(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
+void dc_handleEndOfFrame(void);
+void dc_2037498(s32 doSwap);
+void dc_2037658(s32 a);
+void dc_2037850(void);
+u32 dc_clearFlagsBit0(void);
+u32 dc_getFlagsBit1(void);
+void dc_handleStartOfFrame(void);
+void dc_unsetDisplayConfig(void);
+void dc_setDisplayConfig(void *settingsPtr);
+void setupBg3(Bg23Cnt *cnt, s32 isMainScreen);
+void setupBg2(Bg23Cnt *cnt, s32 isMainScreen);
+void dc_setSubObjBmpMode(DisplaySettings *settings, unsigned int value);
+u32 dc_set3DSwapConfig(DisplaySettings *settings, u32 swapBit0, u32 swapBit1);
+void dc_setBg2ConfigMode5(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8);
+void dc_setBg3Config(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2);
+void dc_setBg2Config(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 e, u32 cntVal8, u32 cntVal2);
+void dc_setBg1Config(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
                   u32 cntVal13);
-void SetBg0Record(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
+void dc_setBg0Config(void *recordsBase, u32 cntLow2, u32 cntBit6, u32 cntVal14, u32 cntVal7, u32 cntVal8, u32 cntVal2,
                   u32 cntVal13);
-void *CreateDisplaySettings(void *heap, void *descriptor);
-void InitDisplaySettings(DisplaySettings *settings, void *descriptorBase);
-void InitDisplayBgRecords(void *recordsBase, u32 bgMode);
-void WaitIrqAndTurnOnDisplays(void);
-void InitBrightnessFades(void);
-void UpdateBrightnessFade(BrightnessFade *fade);
+void *dc_createDisplayConfig(void *heap, void *descriptor);
+void initializeDisplayConfigFromBaseConfig(DisplaySettings *settings, void *descriptorBase);
+void initializeDisplayConfigBg(void *recordsBase, u32 bgMode);
+void dc_enableDisplay(void);
+void dc_initMasterBright(void);
+void updateMasterBright(BrightnessFade *fade);

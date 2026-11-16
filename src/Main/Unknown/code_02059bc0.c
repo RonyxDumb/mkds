@@ -23,15 +23,15 @@
 static inline void func_0205a140_inline(s32 entryIndex, s32 overlayId, u32 startAddress, u32 endAddress) {
     OverlayLoaderEntry *entry;
 
-    entry = &data_0217aa10->mEntries[entryIndex];
+    entry = &gOverlayData->mEntries[entryIndex];
     entry->mOverlayId = overlayId;
     entry->mStart = startAddress;
     entry->mEnd = endAddress;
-    if (entry->mStart < data_0217aa10->mLowestStart) {
-        data_0217aa10->mLowestStart = entry->mStart;
+    if (entry->mStart < gOverlayData->mLowestStart) {
+        gOverlayData->mLowestStart = entry->mStart;
     }
-    if (entry->mEnd > data_0217aa10->mHighestEnd) {
-        data_0217aa10->mHighestEnd = entry->mEnd;
+    if (entry->mEnd > gOverlayData->mHighestEnd) {
+        gOverlayData->mHighestEnd = entry->mEnd;
     }
 }
 
@@ -39,7 +39,7 @@ void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
     s32 t;
 
     a->mUnk_0e = 0;
-    t = data_0217aa14->mUnk_728;
+    t = gStruct217AA14->mUnk_728;
     a->mUnk_0c = 2;
     a->mUnk_00 = b;
     a->mUnk_08 = t + 0x78;
@@ -54,7 +54,7 @@ void func_0205a350(void) {
 
     for (i = 0; i < 4; i++) {
         if (func_0205a50c(i) != 0) {
-            p = &data_0217aa14->mUnk_104[i].mUnk_68_view;
+            p = &gStruct217AA14->mUnk_104[i].mUnk_68_view;
             h = func_0205a4e8(i, i);
             switch (p->mUnk_0c) {
                 case 0:
@@ -64,7 +64,7 @@ void func_0205a350(void) {
                     }
                     break;
                 case 2:
-                    d = p->mUnk_08 - data_0217aa14->mUnk_728;
+                    d = p->mUnk_08 - gStruct217AA14->mUnk_728;
                     if ((s32) p->mUnk_0e < 100) {
                         func_0205a7dc(i, d, p->mUnk_00, 2);
                         p->mUnk_0e = p->mUnk_0e + 1;
@@ -94,7 +94,7 @@ s32 func_0205a310(s32 a) {
     BOOL r;
     Unk0217aa14_104 *e;
 
-    e = &data_0217aa14->mUnk_104[a];
+    e = &gStruct217AA14->mUnk_104[a];
     r = FALSE;
     if ((u16) (e->mUnk_74 + 0xffff) <= 1) {
         r = TRUE;
@@ -108,45 +108,45 @@ s32 func_0205a2ac(s32 a) {
 
     r = 0x13;
     f = FALSE;
-    if ((u16) (data_0217aa14->mUnk_104[a].mUnk_74 + 0xffff) <= 1) {
+    if ((u16) (gStruct217AA14->mUnk_104[a].mUnk_74 + 0xffff) <= 1) {
         f = TRUE;
     }
     if (f == FALSE) {
-        r = data_0217aa14->mUnk_104[a].mUnk_68;
+        r = gStruct217AA14->mUnk_104[a].mUnk_68;
     }
     return r;
 }
 
 // Allocates the overlay record and fills the table of the three overlays and the address range they cover.
-void InitOverlayTable(void *heap) {
-    data_0217aa10 = HeapAlloc(heap, 0xb0);
-    data_0217aa10->mLowestStart = -1;
-    data_0217aa10->mHighestEnd = 0;
+void overlay_init(void *heap) {
+    gOverlayData = heap_alloc(heap, 0xb0);
+    gOverlayData->mLowestStart = -1;
+    gOverlayData->mHighestEnd = 0;
     func_0205a140_inline(0, (s32) SDK_OVERLAY_OV000_ID, (u32) OV000_TEXT_START, (u32) OV000_BSS_END);
     func_0205a140_inline(1, (s32) SDK_OVERLAY_OV001_ID, (u32) OV001_TEXT_START, (u32) OV001_BSS_END);
     func_0205a140_inline(2, (s32) SDK_OVERLAY_OV002_ID, (u32) OV002_CTOR_START, (u32) OV002_BSS_END);
-    data_0217aa10->mFrmHeap = NULL;
-    data_0217aa10->mExpHeap = NULL;
+    gOverlayData->mFrmHeap = NULL;
+    gOverlayData->mExpHeap = NULL;
 }
 
 // Creates the frame heap in a fixed 0x50000-byte buffer.
-void CreateOverlayFrmHeap(void) {
-    data_0217aa10->mFrmHeap = NNS_FndCreateFrmHeapEx(data_ov002_02180500, 0x50000, 0);
+void overlay_createFrmHeap(void) {
+    gOverlayData->mFrmHeap = NNS_FndCreateFrmHeapEx(data_ov002_02180500, 0x50000, 0);
 }
 
 // Marks no overlay as current: index 4 is past the three table entries.
-void ResetCurrentOverlay(void) {
-    data_0217aa10->mCurrentOverlay = 4;
-    data_0217aa10->mLoadState = 0;
+void overlay_reset(void) {
+    gOverlayData->mCurrentOverlay = 4;
+    gOverlayData->mLoadState = 0;
 }
 
 // Starts loading the overlay: nothing while a load runs; a loaded overlay is unloaded first.
-void StartLoadOverlay(s32 overlay) {
+void overlay_beginLoad(s32 overlay) {
     OverlayLoader *loader;
     s32 current;
     s32 state;
 
-    loader = data_0217aa10;
+    loader = gOverlayData;
     current = loader->mCurrentOverlay;
     if (current == overlay) {
         return;
@@ -155,10 +155,10 @@ void StartLoadOverlay(s32 overlay) {
     switch (state) {
         case 0:
             FS_LoadOverlayInfo(&loader->mInfo, 0, loader->mEntries[overlay].mOverlayId);
-            FS_InitFile(&data_0217aa10->mFile);
-            FS_LoadOverlayImageAsync(&data_0217aa10->mInfo, &data_0217aa10->mFile);
-            data_0217aa10->mLoadState = 1;
-            data_0217aa10->mCurrentOverlay = overlay;
+            FS_InitFile(&gOverlayData->mFile);
+            FS_LoadOverlayImageAsync(&gOverlayData->mInfo, &gOverlayData->mFile);
+            gOverlayData->mLoadState = 1;
+            gOverlayData->mCurrentOverlay = overlay;
             break;
         case 1:
             break;
@@ -167,59 +167,59 @@ void StartLoadOverlay(s32 overlay) {
                 case 1:
                 case 2:
                     if (FS_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
-                        data_0217aa10->mCurrentOverlay = 4;
-                        data_0217aa10->mLoadState = 0;
-                        if (data_0217aa10->mExpHeap != NULL) {
-                            NNS_FndDestroyExpHeap(data_0217aa10->mExpHeap);
-                            data_0217aa10->mExpHeap = NULL;
+                        gOverlayData->mCurrentOverlay = 4;
+                        gOverlayData->mLoadState = 0;
+                        if (gOverlayData->mExpHeap != NULL) {
+                            NNS_FndDestroyExpHeap(gOverlayData->mExpHeap);
+                            gOverlayData->mExpHeap = NULL;
                         }
                     }
                     break;
             }
-            FS_LoadOverlayInfo(&data_0217aa10->mInfo, 0, data_0217aa10->mEntries[overlay].mOverlayId);
-            FS_InitFile(&data_0217aa10->mFile);
-            FS_LoadOverlayImageAsync(&data_0217aa10->mInfo, &data_0217aa10->mFile);
-            data_0217aa10->mLoadState = 1;
-            data_0217aa10->mCurrentOverlay = overlay;
+            FS_LoadOverlayInfo(&gOverlayData->mInfo, 0, gOverlayData->mEntries[overlay].mOverlayId);
+            FS_InitFile(&gOverlayData->mFile);
+            FS_LoadOverlayImageAsync(&gOverlayData->mInfo, &gOverlayData->mFile);
+            gOverlayData->mLoadState = 1;
+            gOverlayData->mCurrentOverlay = overlay;
             break;
         case 3:
             switch (state) {
                 case 1:
                 case 2:
                     if (FS_UnloadOverlay(0, loader->mEntries[current].mOverlayId) != 0) {
-                        data_0217aa10->mCurrentOverlay = 4;
-                        data_0217aa10->mLoadState = 0;
-                        if (data_0217aa10->mExpHeap != NULL) {
-                            NNS_FndDestroyExpHeap(data_0217aa10->mExpHeap);
-                            data_0217aa10->mExpHeap = NULL;
+                        gOverlayData->mCurrentOverlay = 4;
+                        gOverlayData->mLoadState = 0;
+                        if (gOverlayData->mExpHeap != NULL) {
+                            NNS_FndDestroyExpHeap(gOverlayData->mExpHeap);
+                            gOverlayData->mExpHeap = NULL;
                         }
                     }
                     break;
             }
-            FS_LoadOverlayInfo(&data_0217aa10->mInfo, 0, data_0217aa10->mEntries[overlay].mOverlayId);
-            FS_InitFile(&data_0217aa10->mFile);
-            FS_LoadOverlayImageAsync(&data_0217aa10->mInfo, &data_0217aa10->mFile);
-            data_0217aa10->mLoadState = 1;
-            data_0217aa10->mCurrentOverlay = overlay;
+            FS_LoadOverlayInfo(&gOverlayData->mInfo, 0, gOverlayData->mEntries[overlay].mOverlayId);
+            FS_InitFile(&gOverlayData->mFile);
+            FS_LoadOverlayImageAsync(&gOverlayData->mInfo, &gOverlayData->mFile);
+            gOverlayData->mLoadState = 1;
+            gOverlayData->mCurrentOverlay = overlay;
             break;
     }
 }
 
 // Waits in a loop for the read to end, then starts the overlay and closes the file.
-void FinishOverlayLoad(void) {
+void overlay_finishLoad(void) {
     BOOL finished;
     s32 loadState;
 
     do {
         finished = FALSE;
-        loadState = data_0217aa10->mLoadState;
+        loadState = gOverlayData->mLoadState;
         if (loadState == 2) {
             finished = TRUE;
         } else if (loadState == 1) {
-            if (((data_0217aa10->mFile.mStat & 1) ? 1 : 0) == 0) {
-                FS_StartOverlay(&data_0217aa10->mInfo);
-                FS_CloseFile(&data_0217aa10->mFile);
-                data_0217aa10->mLoadState = 2;
+            if (((gOverlayData->mFile.mStat & 1) ? 1 : 0) == 0) {
+                FS_StartOverlay(&gOverlayData->mInfo);
+                FS_CloseFile(&gOverlayData->mFile);
+                gOverlayData->mLoadState = 2;
                 finished = TRUE;
             }
         }
@@ -227,29 +227,29 @@ void FinishOverlayLoad(void) {
 }
 
 // Creates the expandable heap only while overlay 1 is the current one.
-void CreateOverlayExpHeap(void) {
-    if (data_0217aa10->mCurrentOverlay != 1) {
+void overlay_createExpHeap(void) {
+    if (gOverlayData->mCurrentOverlay != 1) {
         return;
     }
-    data_0217aa10->mExpHeap = NNS_FndCreateExpHeapEx(data_ov002_021a9c00, 0x20800, 1);
+    gOverlayData->mExpHeap = NNS_FndCreateExpHeapEx(aHpxe_11, 0x20800, 1);
 }
 
-void FreeOverlayExpHeap(void) {
-    if (data_0217aa10->mExpHeap == NULL) {
+void overlay_destroyExpHeap(void) {
+    if (gOverlayData->mExpHeap == NULL) {
         return;
     }
-    NNS_FndDestroyExpHeap(data_0217aa10->mExpHeap);
-    data_0217aa10->mExpHeap = NULL;
+    NNS_FndDestroyExpHeap(gOverlayData->mExpHeap);
+    gOverlayData->mExpHeap = NULL;
 }
 
 // Same finish as the wait loop without waiting: returns 1 when the overlay is loaded, else 0.
-s32 TryFinishOverlayLoad(void) {
+s32 overlay_tryFinishLoad(void) {
     enum { K0 } r;
     s32 state;
     OverlayLoader *loader;
 
     r = 0;
-    loader = data_0217aa10;
+    loader = gOverlayData;
     state = loader->mLoadState;
     if (state == 2) {
         return 1;
@@ -266,55 +266,55 @@ s32 TryFinishOverlayLoad(void) {
         return r;
     }
     FS_StartOverlay(&loader->mInfo);
-    FS_CloseFile(&data_0217aa10->mFile);
-    data_0217aa10->mLoadState = 2;
+    FS_CloseFile(&gOverlayData->mFile);
+    gOverlayData->mLoadState = 2;
     return 1;
 }
 
-void ReleaseCurrentOverlay(void) {
-    if (data_0217aa10->mLoadState != 1 && data_0217aa10->mLoadState != 2) {
+void overlay_unload(void) {
+    if (gOverlayData->mLoadState != 1 && gOverlayData->mLoadState != 2) {
         return;
     }
-    if (FS_UnloadOverlay(0, data_0217aa10->mEntries[data_0217aa10->mCurrentOverlay].mOverlayId) == 0) {
+    if (FS_UnloadOverlay(0, gOverlayData->mEntries[gOverlayData->mCurrentOverlay].mOverlayId) == 0) {
         return;
     }
-    data_0217aa10->mCurrentOverlay = 4;
-    data_0217aa10->mLoadState = 0;
-    if (data_0217aa10->mExpHeap != NULL) {
-        NNS_FndDestroyExpHeap(data_0217aa10->mExpHeap);
-        data_0217aa10->mExpHeap = NULL;
+    gOverlayData->mCurrentOverlay = 4;
+    gOverlayData->mLoadState = 0;
+    if (gOverlayData->mExpHeap != NULL) {
+        NNS_FndDestroyExpHeap(gOverlayData->mExpHeap);
+        gOverlayData->mExpHeap = NULL;
     }
 }
 
 // 1 when the address lies between the lowest start and the highest end of the three overlays.
-u32 IsInOverlayRange(struct MapObjectKindDescriptor *address) {
+u32 overlay_isAddressInOverlay(struct MapObjectKindDescriptor *address) {
     u32 inRange;
 
     inRange = 0;
-    if ((u32) address >= data_0217aa10->mLowestStart) {
-        if ((u32) address <= data_0217aa10->mHighestEnd) {
+    if ((u32) address >= gOverlayData->mLowestStart) {
+        if ((u32) address <= gOverlayData->mHighestEnd) {
             inRange = 1;
         }
     }
     return inRange;
 }
 
-void InitResultScene(void) {
-    InitResultsByMode(GetHeap(GetCurrentHeapCall()));
+void ressc_init(void) {
+    result_init(proc_getHeap(proc_getCurrent()));
 }
 
-void ReleaseResultScene(void) {
+void ressc_finalize(void) {
     u32 value12;
-    func_0202a5d8();
+    result_finalize();
 }
 
-void func_02059bcc(void) {
+void ressc_vblank(void) {
     u32 value12;
-    func_0202a5a0();
+    result_vblank();
 }
 
-void UpdateResultScene(u32 arg0) {
+void ressc_update(u32 arg0) {
     u32 value0 = arg0;
     u32 value12;
-    AdvanceResultsByMode(value0);
+    result_update(value0);
 }

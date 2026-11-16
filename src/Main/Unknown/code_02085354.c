@@ -3,10 +3,10 @@
 #include "code_02010c84.h"
 #include "ITCM/code_01ff8000.h"
 
-void DrawNsbmd1Mat1Shp(Nsbmd *nsbmd) {
+void renderG3dDraw1Mat1Shp(Nsbmd *nsbmd) {
     NNS_G3dDraw1Mat1Shp(nsbmd->mResMdl, 0, 0, 1);
 }
 
-void func_02085354(void *object) {
-    func_01ff8cf0(object);
+void renderG3dDraw(void *object) {
+    NNS_G3dDraw(object);
 }

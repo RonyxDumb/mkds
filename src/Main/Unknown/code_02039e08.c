@@ -39,39 +39,39 @@
 #include "code_020176c0.h"
 #include "Main/Unknown/code_02044618.h"
 
-void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
+void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
     RaceSetup *raceSetup;
     u32 c;
-    if (func_02049b6c() == 0) {
-        if (func_0204359c() == 0) {
+    if (scene_areUpdatesSuspended() == 0) {
+        if (input_getFlagsBit0() == 0) {
             if (sceneNumbers != NULL) {
-                if (func_0203a8f4() == 5) {
+                if (race_race_getCurrentRaceMode() == 5) {
                     c = func_0205bba8();
                 } else {
-                    c = func_020b2e34();
+                    c = rchoi_getActivatedOption();
                 }
                 if (c != 0) {
-                    func_0203a8e0(c);
-                    SetNextSceneFromPickedValue(sceneNumbers, c);
+                    race_sysdat_setActivatedRaceMenuOption(c);
+                    race_handleMenuOption(sceneNumbers, c);
                 }
-                switch (GetCurrentRaceKind()) {
+                switch (race_race_getCurrentDisplayMode()) {
                     case RACE_KIND_DEMO:
                         c = 0;
-                        if (sceneFrames > func_0210f72c()) {
-                            if (IsSeqVariableChanged(1) != 0) {
+                        if (sceneFrames > sndvar_getDemoRaceMaxDuration()) {
+                            if (sndvar_getVarField4IsZero(1) != 0) {
                                 c = 1;
-                                func_0203a4d4(0);
+                                race_sysdat_setDemoRaceWasCanceled(0);
                             }
                         }
                         if (c == 0) {
-                            if (GetDownBits(func_0203a4cc(), 0x2fff) != 0) {
+                            if (GetDownBits(race_input_getDefaultInputId(), 0x2fff) != 0) {
                                 c = 1;
                                 func_0203a48c(5);
-                                func_0203a4d4(1);
-                            } else if (func_0203a440(func_0203a4cc()) != 0) {
+                                race_sysdat_setDemoRaceWasCanceled(1);
+                            } else if (func_0203a440(race_input_getDefaultInputId()) != 0) {
                                 c = 1;
                                 func_0203a48c(5);
-                                func_0203a4d4(1);
+                                race_sysdat_setDemoRaceWasCanceled(1);
                             }
                         }
                         if (c != 0) {
@@ -82,16 +82,16 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
                     case 4:
                         if (IsCameraChainEnded() != 0 ||
                             (sceneFrames > 0x5a &&
-                             (GetDownBits(func_0203a4cc(), 0xc0f) != 0 || func_0203a3cc(func_0203a4cc()) != 0))) {
+                             (GetDownBits(race_input_getDefaultInputId(), 0xc0f) != 0 || func_0203a3cc(race_input_getDefaultInputId()) != 0))) {
                             sceneNumbers->mNextScene = 2;
-                            SetNextRaceKind(0);
+                            race_race_setNextDisplayMode(0);
                         }
                         break;
                     case 2:
-                        switch (func_0203a8f4()) {
+                        switch (race_race_getCurrentRaceMode()) {
                             case MODE_GRAND_PRIX:
                             case MODE_TIME_ATTACK:
-                                if (func_0203c0bc() != 0) {
+                                if (rstat_203C0BC() != 0) {
                                     sceneNumbers->mNextScene = 2;
                                 }
                                 break;
@@ -104,41 +104,41 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
                         break;
                     case RACE_KIND_STAFF_ROLL:
                         c = 0x2a5a;
-                        if (func_0203a3a4() == COURSE_ID_STAFFROLLTRUE) {
+                        if (race_race_getCurrentCourse() == COURSE_ID_STAFFROLLTRUE) {
                             c = 0x2b02;
                         }
                         if (sceneFrames > c) {
                             sceneNumbers->mNextScene = 0xf;
                             break;
                         }
-                        if (ShouldEndStaffRoll(sceneFrames) != 0) {
+                        if (japdiff_203A908(sceneFrames) != 0) {
                             func_ov001_0219e0c4();
                             sceneNumbers->mNextScene = 0xf;
                         }
                         break;
                 }
             }
-            if (ShouldUpdateRace(sceneFrames) != 0) {
-                UpdateRace();
+            if (race_getShouldUpdate(sceneFrames) != 0) {
+                race_update();
             }
-            func_020af66c();
+            race_update2d();
         }
         func_020aeb7c();
-        switch (GetCurrentRaceKind()) {
+        switch (race_race_getCurrentDisplayMode()) {
             case RACE_KIND_NORMAL:
             case 2:
             case RACE_KIND_START_GP:
             case 4:
-                UpdateChoisesS();
+                rchoi_update();
                 break;
         }
-        if (GetChoisesSOpenDuringRace() != 0) {
-            SetInputOpenDuringRace(1);
+        if (rchoi_getIsRacePaused() != 0) {
+            input_setFlagsBit0(1);
         } else {
-            SetInputOpenDuringRace(0);
+            input_setFlagsBit0(0);
         }
     }
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     if (raceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
         c = 1;
     } else {
@@ -149,42 +149,42 @@ void UpdateRaceScene(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
         }
     }
     if (c != 0) {
-        if (raceSetup->mMode != 5 || func_02037a20() == 0) {
-            DrawRace();
+        if (raceSetup->mMode != 5 || dc_getFlagsBit1() == 0) {
+            race_render();
         }
     }
-    func_020ae824();
-    func_020b255c();
+    r2d_render();
+    rchoi_render();
 }
 
-void PreSleepRaceScene(void) {
-    data_021759d0->mUnk_54 = FALSE;
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        func_020b2e64(1);
+void racesc_preSleep(void) {
+    gSystemData->mUnk_54 = FALSE;
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        rchoi_handleSleep(1);
     }
-    func_02046e84();
+    spi_handlePreSleep();
     while ((u32) data_0217c7ac != 0) {
-        PrepareDisplayFrame();
-        UpdateChoisesS();
-        UpdateSounds();
-        FinishDisplayFrame();
-        func_020b255c();
-        RecordFrameTimes();
+        dc_handleStartOfFrame();
+        rchoi_update();
+        sound_main();
+        dc_2037850();
+        rchoi_render();
+        dc_handleEndOfFrame();
     }
 }
 
-void PostSleepRaceScene(void) {
-    func_02046e24();
+void racesc_postSleep(void) {
+    spi_handlePostSleep();
 }
 
-u32 RunRaceScene(SceneNumbers *sceneNumbers) {
+u32 race_run(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = gRaceSceneCallbacks;
-    SetCurrentRaceFromNext();
-    if (gRaceSetup->mMode == 5) {
+    rconf_setupNext();
+    if (gRaceMultiConfig->mMode == 5) {
         callbacks.mUnk_1c = 1;
     }
-    if (gRaceSetup->mRaceKind != RACE_KIND_AWARD) {
-        if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
+    if (gRaceMultiConfig->mRaceKind != RACE_KIND_AWARD) {
+        if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
             callbacks.mFadeToClearFrameCount = 1;
             callbacks.mFadeToFadedFrameCount = 0x78;
         }
@@ -193,34 +193,34 @@ u32 RunRaceScene(SceneNumbers *sceneNumbers) {
         callbacks.mFadeToFadedFrameCount = 0x78;
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        func_02043f28(1);
+        rconf_loadCharacterSounds(1);
     }
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 
-void InitMenuScene(void) {
-    InitMenu();
+void menudef_create(void) {
+    menu_create();
 }
 
-void ReleaseMenuScene(void) {
+void menudef_finish(void) {
     ReleaseMenu();
-    data_021759d0->mUnk_50 &= ~1;
+    gSystemData->mUnk_50 &= ~1;
     ResetTimeAttackNextEntries();
 }
 
-void func_02039f50(void) {
-    func_020cc36c();
+void menudef_vblank(void) {
+    menu_vblank();
 }
 
-void UpdateMenuScene(void) {
-    UpdateMenuScreen();
+void menudef_render(void) {
+    menu_render();
     func_020cb4c0();
 }
 
-u32 RunMenuScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gMenuSceneCallbacks;
-    RunScene(sceneNumbers, &callbacks);
+u32 menu_run(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = menu_sceneDef;
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 
@@ -228,21 +228,21 @@ u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuff
                   void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        *outBackHeap = CreateFrmHeapFromBack(heap, 0x19000);
+        *outBackHeap = heap_createSubFrmHeapWithSizeFromTail(heap, 0x19000);
     } else {
-        *outBackHeap = CreateFrmHeapFromBack(heap, 0x1b800);
+        *outBackHeap = heap_createSubFrmHeapWithSizeFromTail(heap, 0x1b800);
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         *outFirstFrontHeap = NULL;
         *outSecondFrontHeap = NULL;
         *outThirdFrontHeap = NULL;
     } else {
-        *outFirstFrontHeap = CreateFrmHeapFromFront(heap, 0x19000);
-        *outSecondFrontHeap = CreateFrmHeapFromFront(heap, 0x4b000);
-        *outThirdFrontHeap = CreateFrmHeapFromFront(heap, 0x1b800);
+        *outFirstFrontHeap = heap_createSubFrmHeapWithSize(heap, 0x19000);
+        *outSecondFrontHeap = heap_createSubFrmHeapWithSize(heap, 0x4b000);
+        *outThirdFrontHeap = heap_createSubFrmHeapWithSize(heap, 0x1b800);
     }
-    soundBufferSize = GetSndInitBufferSize(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 ? 2 : 0);
-    *outSoundBuffer = HeapAlloc(heap, soundBufferSize);
+    soundBufferSize = sound_getSomeSize(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 ? 2 : 0);
+    *outSoundBuffer = heap_alloc(heap, soundBufferSize);
     NNS_FndGetTotalFreeSizeForExpHeap(heap);
     return soundBufferSize;
 }

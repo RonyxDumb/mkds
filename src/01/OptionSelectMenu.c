@@ -43,12 +43,12 @@ void InitOptionSelectMenuTexts(void) {
         s32 c[2] = {0xb, 0xc};
 
         for (i = 0; i < 2; i++) {
-            v0 -= InitLabelCanvas(gOptionSelectMenu->mHeap, data_ov001_021a6a24[i],
+            v0 -= jn_ui_initLabel(gOptionSelectMenu->mHeap, data_ov001_021a6a24[i],
                                   gOptionSelectMenu->mOptionSelectMenuMBnll, a[i][0], a[i][1], i,
                                   gOptionSelectMenu->mOptionSelectMenuMNcer, gOptionSelectMenu->mOptionSelectMenuMBncl,
                                   gOptionSelectMenu->mOptionSelectMenuMTable, v0);
-            func_0212426c(0, data_ov001_021a6a24[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
-                          GetBmgEntry(gOptionSelectMenu->mOptionMessages, c[i]),
+            jn_ui_212426C(0, data_ov001_021a6a24[i], gOptionSelectMenu->mOptionSelectMenuMBnll,
+                          jn_msg_getMessage(gOptionSelectMenu->mOptionMessages, c[i]),
                           gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMTable);
         }
     }
@@ -63,11 +63,11 @@ void InitOptionSelectMenuTexts(void) {
             if (i == 2) {
                 v1 = gOptionSelectMenu->mCommonMessages;
             }
-            v2 -= InitLabelCanvas(gOptionSelectMenu->mHeap, data_ov001_021a6a34[i],
+            v2 -= jn_ui_initLabel(gOptionSelectMenu->mHeap, data_ov001_021a6a34[i],
                                   gOptionSelectMenu->mOptionSelectMenuSBnll, b[i][0], b[i][1], data_ov001_021a6a30[i],
                                   gOptionSelectMenu->mOptionSelectMenuSNcer, gOptionSelectMenu->mOptionSelectMenuSBncl,
                                   gOptionSelectMenu->mOptionSelectMenuSTable, v2);
-            func_0212426c(1, data_ov001_021a6a34[i], gOptionSelectMenu->mOptionSelectMenuSBnll, GetBmgEntry(v1, d[i]),
+            jn_ui_212426C(1, data_ov001_021a6a34[i], gOptionSelectMenu->mOptionSelectMenuSBnll, jn_msg_getMessage(v1, d[i]),
                           gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSTable);
         }
     }
@@ -76,7 +76,7 @@ void InitOptionSelectMenuTexts(void) {
 void InitOptionSelectMenu(void *a) {
     s32 i;
 
-    gOptionSelectMenu = HeapAlloc(a, 0x90);
+    gOptionSelectMenu = heap_alloc(a, 0x90);
     gOptionSelectMenu->mHeap = a;
     gOptionSelectMenu->mState = 0;
     gOptionSelectMenu->mNextState = 0;
@@ -86,16 +86,16 @@ void InitOptionSelectMenu(void *a) {
     LocateAndQueueOptionSelectMenu();
     InitPaletteBlend(a, gOptionSelectMenu->mOptionSelectMenuSONclr, 3);
     for (i = 0; i < 2; i++) {
-        func_02124a98(data_ov001_021a6a28[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
+        jn_ui_setCellIsTranslucent(data_ov001_021a6a28[i], 1, gOptionSelectMenu->mOptionSelectMenuSNcer,
                       gOptionSelectMenu->mOptionSelectMenuSBncl);
     }
-    ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
-    InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMBnll,
+    oam_clearResetBuffers(GetOptionFirstBuffer(), GetOptionSecondBuffer());
+    jn_ui_initLayout(a, gOptionSelectMenu->mOptionSelectMenuMBncl, gOptionSelectMenu->mOptionSelectMenuMBnll,
                     &gOptionSelectMenu->mOptionSelectMenuMTable);
-    InitLayoutTable(a, gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSBnll,
+    jn_ui_initLayout(a, gOptionSelectMenu->mOptionSelectMenuSBncl, gOptionSelectMenu->mOptionSelectMenuSBnll,
                     &gOptionSelectMenu->mOptionSelectMenuSTable);
-    gOptionSelectMenu->mOptionMessages = FindSceneFile(data_ov001_021a8644);
-    gOptionSelectMenu->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a8650);
+    gOptionSelectMenu->mOptionMessages = arc_getSceneArcFile(aOptionBmg_0);
+    gOptionSelectMenu->mCommonMessages = arc_get2dArcFile(aCommonBmg_0);
     InitOptionSelectMenuTexts();
     gOptionSelectMenu->mBg0Bg1Offset = -140;
     for (i = 0; i < 3; i++) {
@@ -111,7 +111,7 @@ void InitOptionSelectMenu(void *a) {
         }
     }
     SetOptionSoundRowFromSave();
-    if (data_0217aa08->mFirstBlock->mLocateFriendOff == 0) {
+    if (gSaveData->mFirstBlock->mLocateFriendOff == 0) {
         gOptionSelectMenu->mRowValues[1] = 0;
     } else {
         gOptionSelectMenu->mRowValues[1] = 1;
@@ -127,7 +127,7 @@ void InitOptionSelectMenu(void *a) {
     }
     gOptionSelectMenu->mUnk_1c = FALSE;
     gOptionSelectMenu->mUnk_3c = TRUE;
-    SetSelectReturnSoundId(0xe);
+    gmenu_setSeqArcIndex(0xe);
 }
 
 void ReleaseOptionSelectMenu(void) {
@@ -146,43 +146,43 @@ void LocateAndQueueOptionSelectMenu(void) {
     Nscr *b;
     Nclr *c;
 
-    LocateNcgr(&a, FindSceneFile(data_ov001_021a84ac));
-    LocateNscr(&b, FindSceneFile(data_ov001_021a84c8));
-    LocateNclr(&c, FindSceneFile(data_ov001_021a84e4));
-    gOptionSelectMenu->mOptionSelectMenuMBncl = FindSceneFile(data_ov001_021a8500);
-    gOptionSelectMenu->mOptionSelectMenuSBncl = FindSceneFile(data_ov001_021a851c);
-    gOptionSelectMenu->mOptionSelectMenuSBnbl = FindSceneFile(data_ov001_021a8538);
-    gOptionSelectMenu->mOptionSelectMenuMBnll = FindSceneFile(data_ov001_021a8554);
-    gOptionSelectMenu->mOptionSelectMenuSBnll = FindSceneFile(data_ov001_021a8570);
-    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuMNcgr, FindSceneFile(data_ov001_021a858c));
-    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuMNcer, FindSceneFile(data_ov001_021a85ac));
-    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuMONclr, FindSceneFile(data_ov001_021a85cc));
-    LocateNcgr2(&gOptionSelectMenu->mOptionSelectMenuSNcgr, FindSceneFile(data_ov001_021a85e8));
-    LocateNcer(&gOptionSelectMenu->mOptionSelectMenuSNcer, FindSceneFile(data_ov001_021a8608));
-    LocateNclr(&gOptionSelectMenu->mOptionSelectMenuSONclr, FindSceneFile(data_ov001_021a8628));
-    CallQueueAppend(5, 0, a->mData, a->mDataSize);
-    CallQueueAppend(9, 0, b->mData, b->mDataSize);
-    CallQueueAppend(0xf, 0x20, c->mData + 0x10, 0x20);
-    CallQueueAppend(0x13, 0, gOptionSelectMenu->mOptionSelectMenuMNcgr->mData,
+    g2du_getCharacterDataBG(&a, arc_getSceneArcFile(aOptionSelectMe));
+    g2du_getScreenData(&b, arc_getSceneArcFile(aOptionSelectMe_0));
+    g2du_getPaletteData(&c, arc_getSceneArcFile(aOptionSelectMe_1));
+    gOptionSelectMenu->mOptionSelectMenuMBncl = arc_getSceneArcFile(aOptionSelectMe_2);
+    gOptionSelectMenu->mOptionSelectMenuSBncl = arc_getSceneArcFile(aOptionSelectMe_3);
+    gOptionSelectMenu->mOptionSelectMenuSBnbl = arc_getSceneArcFile(aOptionSelectMe_4);
+    gOptionSelectMenu->mOptionSelectMenuMBnll = arc_getSceneArcFile(aOptionSelectMe_5);
+    gOptionSelectMenu->mOptionSelectMenuSBnll = arc_getSceneArcFile(aOptionSelectMe_6);
+    g2du_getCharacterData(&gOptionSelectMenu->mOptionSelectMenuMNcgr, arc_getSceneArcFile(aOptionSelectMe_7));
+    g2du_getCellBankData(&gOptionSelectMenu->mOptionSelectMenuMNcer, arc_getSceneArcFile(aOptionSelectMe_8));
+    g2du_getPaletteData(&gOptionSelectMenu->mOptionSelectMenuMONclr, arc_getSceneArcFile(aOptionSelectMe_9));
+    g2du_getCharacterData(&gOptionSelectMenu->mOptionSelectMenuSNcgr, arc_getSceneArcFile(aOptionSelectMe_10));
+    g2du_getCellBankData(&gOptionSelectMenu->mOptionSelectMenuSNcer, arc_getSceneArcFile(aOptionSelectMe_11));
+    g2du_getPaletteData(&gOptionSelectMenu->mOptionSelectMenuSONclr, arc_getSceneArcFile(aOptionSelectMe_12));
+    NNS_GfdRegisterNewVramTransferTask(5, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0x20, c->mData + 0x10, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gOptionSelectMenu->mOptionSelectMenuMNcgr->mData,
                     gOptionSelectMenu->mOptionSelectMenuMNcgr->mDataSize);
-    CallQueueAppend(0x23, 0, gOptionSelectMenu->mOptionSelectMenuSNcgr->mData,
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionSelectMenu->mOptionSelectMenuSNcgr->mData,
                     gOptionSelectMenu->mOptionSelectMenuSNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, gOptionSelectMenu->mOptionSelectMenuMONclr->mData,
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, gOptionSelectMenu->mOptionSelectMenuMONclr->mData,
                     gOptionSelectMenu->mOptionSelectMenuMONclr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionSelectMenu->mOptionSelectMenuSONclr->mData,
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionSelectMenu->mOptionSelectMenuSONclr->mData,
                     gOptionSelectMenu->mOptionSelectMenuSONclr->mDataSize);
 }
 
 void ApplyOptionSelectMenuSound(void) {
     switch (gOptionSelectMenu->mRowValues[0]) {
         case SOUND_MODE_STEREO:
-            SetSoundOutputEffect(0);
+            sound_2108E94(0);
             break;
         case SOUND_MODE_SURROUND:
-            SetSoundOutputEffect(1);
+            sound_2108E94(1);
             break;
         case SOUND_MODE_HEADPHONES:
-            SetSoundOutputEffect(2);
+            sound_2108E94(2);
             break;
     }
 }
@@ -190,19 +190,19 @@ void ApplyOptionSelectMenuSound(void) {
 void SetSoundModeFromOptionRow(void) {
     switch (gOptionSelectMenu->mRowValues[0]) {
         case SOUND_MODE_STEREO:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_STEREO;
+            gSaveData->mFirstBlock->mSoundMode = SOUND_MODE_STEREO;
             break;
         case SOUND_MODE_SURROUND:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
+            gSaveData->mFirstBlock->mSoundMode = SOUND_MODE_SURROUND;
             break;
         case SOUND_MODE_HEADPHONES:
-            data_0217aa08->mFirstBlock->mSoundMode = SOUND_MODE_HEADPHONES;
+            gSaveData->mFirstBlock->mSoundMode = SOUND_MODE_HEADPHONES;
             break;
     }
 }
 
 void SetOptionSoundRowFromSave(void) {
-    switch (data_0217aa08->mFirstBlock->mSoundMode) {
+    switch (gSaveData->mFirstBlock->mSoundMode) {
         case SOUND_MODE_STEREO:
             gOptionSelectMenu->mRowValues[0] = SOUND_MODE_STEREO;
             break;
@@ -221,8 +221,8 @@ void AdvanceOptionSelectMenuState0(void) {
     s16 v;
 
     gOptionSelectMenu->mStateFrames++;
-    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, -140, 0, gOptionSelectMenu->mStateFrames, 10);
-    v = InterpolateS16(1, 250, 0, gOptionSelectMenu->mStateFrames, 10);
+    gOptionSelectMenu->mBg0Bg1Offset = mutil_interpolate(1, -140, 0, gOptionSelectMenu->mStateFrames, 10);
+    v = mutil_interpolate(1, 250, 0, gOptionSelectMenu->mStateFrames, 10);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
             if (i == 1) {
@@ -263,30 +263,30 @@ void AdvanceOptionSelectMenuState2(void) {
     hasB = FALSE;
     r5 = -1;
     hasA = FALSE;
-    v = data_02175628[idx].mHasPair;
-    if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+    v = gInputUnits[idx].mHasPair;
+    if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
         hasA = TRUE;
     }
-    if (hasA == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+    if (hasA == FALSE && gInputUnits[idx].mPrevHasPair == 0 && v != 0) {
         hasB = TRUE;
     }
     if (hasB != FALSE) {
-        r5 = RectTableFindContaining(p->mOptionSelectMenuSBnbl, data_02175628[idx].mPairX, data_02175628[idx].mPairY);
+        r5 = jn_ui_checkTouch(p->mOptionSelectMenuSBnbl, gInputUnits[idx].mPairX, gInputUnits[idx].mPairY);
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) != 0) {
+    if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_B) != 0) {
         goto L1;
     } else {
         BOOL c = FALSE;
         BOOL d = FALSE;
-        v = data_02175628[idx].mHasPair;
-        if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+        v = gInputUnits[idx].mHasPair;
+        if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
             d = TRUE;
         }
-        if (d == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+        if (d == FALSE && gInputUnits[idx].mPrevHasPair == 0 && v != 0) {
             c = TRUE;
         }
-        if (c != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                          data_02175628[idx].mPairY) != FALSE) {
+        if (c != FALSE && gmenu_checkSelectReturnTouch(gInputUnits[idx].mPairX,
+                                                                          gInputUnits[idx].mPairY) != FALSE) {
         L1:
             gOptionSelectMenu->mNextState = 4;
             gOptionSelectMenu->mNextOptionState = 0;
@@ -297,14 +297,14 @@ void AdvanceOptionSelectMenuState2(void) {
             goto end;
         }
     }
-    if (((u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
+    if (((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == 2) || r5 == 2) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[1] == 0) {
-            data_0217aa08->mFirstBlock->mUnk_31 &= ~0x10;
+            gSaveData->mFirstBlock->mUnk_31 &= ~0x10;
         } else {
-            data_0217aa08->mFirstBlock->mUnk_31 |= 0x10;
+            gSaveData->mFirstBlock->mUnk_31 |= 0x10;
         }
-        func_02056d40();
+        savd_flushNksy();
         if (gOptionSelectMenu->mIndex == 2) {
             gOptionSelectMenu->mUnk_38 = FALSE;
         }
@@ -313,66 +313,66 @@ void AdvanceOptionSelectMenuState2(void) {
         gOptionSelectMenu->mIndex = 2;
         gOptionSelectMenu->mUnk_1c = TRUE;
         StopPaletteBlend();
-        StartSoundOncePerFrame(5);
+        sfx_2105AC0(5);
     } else if (r5 == 0) {
         gOptionSelectMenu->mIndex = 0;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        StartSoundOncePerFrame(10);
+        sfx_2105AC0(10);
     } else if (r5 == 1) {
         gOptionSelectMenu->mIndex = 1;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        StartSoundOncePerFrame(1);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        sfx_2105AC0(1);
+    } else if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
         gOptionSelectMenu->mIndex--;
         if (gOptionSelectMenu->mIndex < 0) {
             gOptionSelectMenu->mIndex = 2;
         }
-        StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 ||
-               (gOptionSelectMenu->mIndex != 2 && (u16) (data_02175628[idx].mPressedBits & PAD_KEY_A) != 0)) {
+        sfx_2105AC0(0);
+    } else if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0 ||
+               (gOptionSelectMenu->mIndex != 2 && (u16) (gInputUnits[idx].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
         if (gOptionSelectMenu->mIndex > 2) {
             gOptionSelectMenu->mIndex = 0;
         }
-        StartSoundOncePerFrame(0);
-    } else if (gOptionSelectMenu->mIndex != 2 && GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) {
+        sfx_2105AC0(0);
+    } else if (gOptionSelectMenu->mIndex != 2 && mutil_checkKeys(8, PAD_KEY_LEFT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
         if (gOptionSelectMenu->mIndex == 0) {
-            StartSoundOncePerFrame(10);
+            sfx_2105AC0(10);
         } else {
-            StartSoundOncePerFrame(1);
+            sfx_2105AC0(1);
         }
-    } else if (gOptionSelectMenu->mIndex != 2 && GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+    } else if (gOptionSelectMenu->mIndex != 2 && mutil_checkKeys(8, PAD_KEY_RIGHT) != 0) {
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
-        if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) {
+        if (mutil_checkKeys(8, PAD_KEY_RIGHT) != 0) {
             gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
         }
         if (gOptionSelectMenu->mIndex == 0) {
-            StartSoundOncePerFrame(10);
+            sfx_2105AC0(10);
         } else {
-            StartSoundOncePerFrame(1);
+            sfx_2105AC0(1);
         }
     } else if (r5 == 3) {
         gOptionSelectMenu->mIndex = 0;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
-        StartSoundOncePerFrame(10);
+        sfx_2105AC0(10);
     } else if (r5 == 4) {
         gOptionSelectMenu->mIndex = 0;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
-        StartSoundOncePerFrame(10);
+        sfx_2105AC0(10);
     } else if (r5 == 5) {
         gOptionSelectMenu->mIndex = 1;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]--;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][0] = 6;
-        StartSoundOncePerFrame(1);
+        sfx_2105AC0(1);
     } else if (r5 == 6) {
         gOptionSelectMenu->mIndex = 1;
         gOptionSelectMenu->mRowValues[gOptionSelectMenu->mIndex]++;
         gOptionSelectMenu->mOffsetTimers[gOptionSelectMenu->mIndex][1] = 6;
-        StartSoundOncePerFrame(1);
+        sfx_2105AC0(1);
     }
 end:
     if (gOptionSelectMenu->mRowValues[0] < 0) {
@@ -410,9 +410,9 @@ void AdvanceOptionSelectMenuState4(void) {
     void *a;
     void *b;
 
-    gOptionSelectMenu->mBg0Bg1Offset = InterpolateS16(1, 0, -0x8c, gOptionSelectMenu->mStateFrames, 10);
+    gOptionSelectMenu->mBg0Bg1Offset = mutil_interpolate(1, 0, -0x8c, gOptionSelectMenu->mStateFrames, 10);
     gOptionSelectMenu->mStateFrames++;
-    t = InterpolateS16(1, 0, 250, gOptionSelectMenu->mStateFrames, 10);
+    t = mutil_interpolate(1, 0, 250, gOptionSelectMenu->mStateFrames, 10);
     for (i = 0; i < 2; i++) {
         for (j = 0; j < gOptionSelectMenuGroupSTableCounts[i]; j++) {
             if (i == 1) {
@@ -428,8 +428,8 @@ void AdvanceOptionSelectMenuState4(void) {
             gOptionSelectMenu->mUnk_3c = FALSE;
             if (gOptionSelectMenu->mUnk_1c != FALSE) {
                 SetTxtSystemOpenSoundId(0x21);
-                a = GetBmgEntry(gOptionSelectMenu->mOptionMessages, 0x10);
-                b = GetBmgEntry(gOptionSelectMenu->mCommonMessages, 4);
+                a = jn_msg_getMessage(gOptionSelectMenu->mOptionMessages, 0x10);
+                b = jn_msg_getMessage(gOptionSelectMenu->mCommonMessages, 4);
                 SetupTxtSystemSubTextButton(a, b);
                 gOptionSelectMenu->mNextState = 5;
                 gOptionSelectMenu->mStateFrames = 0;
@@ -445,9 +445,9 @@ void AdvanceOptionSelectMenuState5(void) {
     s32 r;
 
     if (GetTxtSystemDone() != 0) {
-        if (data_0217aa08->mBusy == 0) {
-            if (gBackupAccess->mBackupEnabled != 0) {
-                r = gBackupAccess->mCommandRunning;
+        if (gSaveData->mBusy == 0) {
+            if (gSaveCore->mBackupEnabled != 0) {
+                r = gSaveCore->mCommandRunning;
             } else {
                 r = 0;
             }
@@ -524,19 +524,19 @@ void SetOptionSelectMenuRowsOnOff(void) {
     for (i = 0; i < 3; i++) {
         if (i == gOptionSelectMenu->mIndex && gOptionSelectMenu->mUnk_38 != FALSE) {
             gOptionSelectMenu->mOptionSelectMenuSTable[data_ov001_021a6a30[i]].mVisible = 1;
-            SetLabelPaletteIndex(data_ov001_021a6a34[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
+            jn_ui_setLabelColorParam(data_ov001_021a6a34[i], 14, gOptionSelectMenu->mOptionSelectMenuSBnll,
                                  gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
             for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
-                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 14,
+                jn_ui_setCellCparam(gOptionSelectMenuValueSTableIndices[i][k], 14,
                                     gOptionSelectMenu->mOptionSelectMenuSNcer,
                                     gOptionSelectMenu->mOptionSelectMenuSBncl);
             }
         } else {
             gOptionSelectMenu->mOptionSelectMenuSTable[data_ov001_021a6a30[i]].mVisible = 0;
-            SetLabelPaletteIndex(data_ov001_021a6a34[i], 15, gOptionSelectMenu->mOptionSelectMenuSBnll,
+            jn_ui_setLabelColorParam(data_ov001_021a6a34[i], 15, gOptionSelectMenu->mOptionSelectMenuSBnll,
                                  gOptionSelectMenu->mOptionSelectMenuSTable, gOptionSelectMenu->mOptionSelectMenuSBncl);
             for (k = 0; k < gOptionSelectMenuValueCounts[i]; k++) {
-                SetCellPaletteIndex(gOptionSelectMenuValueSTableIndices[i][k], 15,
+                jn_ui_setCellCparam(gOptionSelectMenuValueSTableIndices[i][k], 15,
                                     gOptionSelectMenu->mOptionSelectMenuSNcer,
                                     gOptionSelectMenu->mOptionSelectMenuSBncl);
             }
@@ -601,10 +601,10 @@ void AdvanceOptionSelectMenu(void) {
     SetOptionSelectMenuRowsOnOff();
     AdvanceOptionSelectMenuOffsetTimers();
     p = gOptionSelectMenu;
-    DrawLayoutTable(p->mOptionSelectMenuMBncl, p->mOptionSelectMenuMNcer, p->mOptionSelectMenuMBnll,
+    jn_ui_renderElements(p->mOptionSelectMenuMBncl, p->mOptionSelectMenuMNcer, p->mOptionSelectMenuMBnll,
                     GetOptionFirstBuffer(), p->mOptionSelectMenuMTable);
     p = gOptionSelectMenu;
-    DrawLayoutTable(p->mOptionSelectMenuSBncl, p->mOptionSelectMenuSNcer, p->mOptionSelectMenuSBnll,
+    jn_ui_renderElements(p->mOptionSelectMenuSBncl, p->mOptionSelectMenuSNcer, p->mOptionSelectMenuSBnll,
                     GetOptionSecondBuffer(), p->mOptionSelectMenuSTable);
 }
 

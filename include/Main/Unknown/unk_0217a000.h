@@ -346,7 +346,7 @@ typedef struct ChildList {
     /* 43 */ u8 mChildMask;
 } ChildList;
 
-// 8-byte entries behind member 0x1e48 of data_0217aa00.
+// 8-byte entries behind member 0x1e48 of gStruct217AA00.
 typedef struct ScanGhostInfo {
     /* 00 */ u8 mKartIndex;
     /* 01 */ u8 mCharacterIndex;
@@ -357,7 +357,7 @@ typedef struct ScanGhostInfo {
     /* 06 */ u16 mMillisecond;
 } ScanGhostInfo;
 
-// Elements of the array at member 0x1e52 of data_0217aa00.
+// Elements of the array at member 0x1e52 of gStruct217AA00.
 typedef struct Unk0217aa00_1e52 {
     /* 00 */ u16 mEntryIndex;
     /* 02 */ u8 mUnk_02[6];
@@ -379,7 +379,7 @@ typedef struct MPStateMachine {
     /* 1b */ u8 mUnk_1b[0x1];
 } MPStateMachine;
 
-// Object behind data_0217aa00.
+// Object behind gStruct217AA00.
 // One of the 12 entries at 0x16a0: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
     /* 00 */ BlockListNode mNode;
@@ -763,9 +763,9 @@ typedef struct ConnectionWork {
     /* 1ee8 */ RandomState64 mUnk_1ee8;
 } ConnectionWork;
 
-extern ConnectionWork *data_0217aa00;
-extern Unk0217aa08 *data_0217aa08;
-// Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
+extern ConnectionWork *gStruct217AA00;
+extern Unk0217aa08 *gSaveData;
+// Object behind gBgWkrState; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
 typedef struct ThreadFunctionQueue {
     /* 00 */ void (*mFunctions[10])(void);
     /* 28 */ u8 mNewestIndex;
@@ -776,7 +776,7 @@ typedef struct ThreadFunctionQueue {
     /* f8 */ s32 mRunRequested;
 } ThreadFunctionQueue;
 
-extern ThreadFunctionQueue *gThreadFunctionQueue;
+extern ThreadFunctionQueue *gBgWkrState;
 // 0xc-byte entries from 0x08 of OverlayLoader.
 typedef struct OverlayLoaderEntry {
     /* 00 */ s32 mOverlayId;
@@ -786,7 +786,7 @@ typedef struct OverlayLoaderEntry {
 
 struct NNSiFndHeapHead;
 
-// Object behind data_0217aa10; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
+// Object behind gOverlayData; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
 // FS_StartOverlay and FS_InitFile, the pointer at 0xa4 to NNS_FndDestroyExpHeap.
 typedef struct OverlayLoader {
     /* 00 */ s32 mCurrentOverlay;
@@ -800,7 +800,7 @@ typedef struct OverlayLoader {
     /* ac */ u32 mHighestEnd;
 } OverlayLoader;
 
-extern OverlayLoader *data_0217aa10;
+extern OverlayLoader *gOverlayData;
 // 0x38-byte entries from 0x14 of Unk0217aa14.
 typedef struct Unk0217aa14_014 {
     /* 00 */ u8 mUnk_00[4];
@@ -932,7 +932,7 @@ typedef struct Unk0217aa14_754 {
     /* 04 */ Unk0217aa14_754_04 mUnk_04;
 } Unk0217aa14_754;
 
-// Object behind data_0217aa14.
+// Object behind gStruct217AA14.
 typedef struct Unk0217aa14 {
     /* 000 */ void *mUnk_000;
     /* 004 */ s32 mUnk_004;
@@ -978,85 +978,85 @@ typedef struct Unk0217aa14 {
     /* 75c */ u16 mUnk_75c;
 } Unk0217aa14;
 
-extern Unk0217aa14 *data_0217aa14;
-// Per-run state of the race scene, one record behind gRace (0x48 bytes, allocated by InitRace on the scene heap and
+extern Unk0217aa14 *gStruct217AA14;
+// Per-run state of the race scene, one record behind race_sState (0x48 bytes, allocated by race_init on the scene heap and
 // never cleared at the end of the scene): frame counters (mUpdateFrames and three phases derived from it), toon-table
-// cycle, fog/fade switch, kind flags derived from gRaceSetup->mUnk_00c (also live in the demo and credits kinds 3 to
-// 6), a light vector. Not the race setup (gRaceSetup), not the karts.
+// cycle, fog/fade switch, kind flags derived from gRaceMultiConfig->mUnk_00c (also live in the demo and credits kinds 3 to
+// 6), a light vector. Not the race setup (gRaceMultiConfig), not the karts.
 typedef struct Race {
-    // 1 once the race has started, else 0: StartRace sets it when UpdateRaceStartSequence reaches its frame 180, and
-    // InitRace sets it at once for the kinds 5 and 6 of RaceSetup.mUnk_00c, which have no countdown; IsRaceStarted
+    // 1 once the race has started, else 0: race_start sets it when UpdateRaceStartSequence reaches its frame 180, and
+    // race_init sets it at once for the kinds 5 and 6 of RaceSetup.mUnk_00c, which have no countdown; race_getState
     // returns it.
     /* 00 */ s16 mStarted;
     /* 02 */ u8 mUnk_02[2];
-    // Counts calls of UpdateRace; in mode 5 held at 128 until mUpdateFramesUnlimited is set
-    // (SetRaceUpdateFramesUnlimited).
+    // Counts calls of race_update; in mode 5 held at 128 until mUpdateFramesUnlimited is set
+    // (race_setField34).
     /* 04 */ s32 mUpdateFrames;
-    // Counts calls of DrawRace; never read (2 writes, 0 reads).
+    // Counts calls of race_render; never read (2 writes, 0 reads).
     /* 08 */ s32 mDrawFrames;
-    // Value of mUpdateFrames modulo 8 (its low three bits) as of the end of the latest UpdateRace, 0 at set-up; kart
+    // Value of mUpdateFrames modulo 8 (its low three bits) as of the end of the latest race_update, 0 at set-up; kart
     // and map object code compare it with an index or a limit to act on one frame out of eight.
     /* 0c */ s32 mUpdateFramesMod8;
-    // Value of mUpdateFrames modulo 2 as of the end of the latest UpdateRace, 0 at set-up; compared with 0 or with a
+    // Value of mUpdateFrames modulo 2 as of the end of the latest race_update, 0 at set-up; compared with 0 or with a
     // bit of the object's own flags to act on every second frame.
     /* 10 */ s32 mUpdateFramesMod2;
-    // Value of mUpdateFrames modulo RaceSetup.mKartCount as of the end of the latest UpdateRace, 0 at set-up; its one
+    // Value of mUpdateFrames modulo RaceSetup.mKartCount as of the end of the latest race_update, 0 at set-up; its one
     // reader uses it as a kart index.
     /* 14 */ s32 mUpdateFramesModKartCount;
-    // Start index (0 to 7) of the 32 entries of data_0217aadc that UpdateRace gives to G3X_SetToonTable on each call;
-    // it advances by 1 each time mToonTableFrames passes data_021653ec and wraps back to 0 after 7.
+    // Start index (0 to 7) of the 32 entries of race_sToonTable that race_update gives to G3X_SetToonTable on each call;
+    // it advances by 1 each time mToonTableFrames passes race_sToonTableUpdateInterval and wraps back to 0 after 7.
     /* 18 */ s32 mToonTableOffset;
-    // Counts calls of UpdateRace since mToonTableOffset last changed; when it exceeds data_021653ec (2) it restarts at
+    // Counts calls of race_update since mToonTableOffset last changed; when it exceeds race_sToonTableUpdateInterval (2) it restarts at
     // 0 and mToonTableOffset advances (every third call).
     /* 1c */ s32 mToonTableFrames;
-    // 1 from the start of a fog fade (StartFadeFog) until UpdateRace ends it, else 0: while it is 1 DrawRace writes
-    // the fade fog into the fog registers instead of the course fog. UpdateRace holds it for 72 calls, then steps
-    // data_021653e8 from 72 down to 0 in steps of 4 and clears it. DrawRace compares it with mDrawnFadeFog.
+    // 1 from the start of a fog fade (race_startDarkening) until race_update ends it, else 0: while it is 1 race_render writes
+    // the fade fog into the fog registers instead of the course fog. race_update holds it for 72 calls, then steps
+    // race_sDarkeningFogDensity from 72 down to 0 in steps of 4 and clears it. race_render compares it with mDrawnFadeFog.
     /* 20 */ s32 mFadeFog;
-    // The value of mFadeFog that DrawRace last handled; DrawRace writes the fog registers when it differs from
-    // mFadeFog, then copies mFadeFog here. StartFadeFog sets it to 0 when it is 1 so that the next DrawRace writes the
+    // The value of mFadeFog that race_render last handled; race_render writes the fog registers when it differs from
+    // mFadeFog, then copies mFadeFog here. race_startDarkening sets it to 0 when it is 1 so that the next race_render writes the
     // registers again.
     /* 24 */ s32 mDrawnFadeFog;
-    // 1 when RaceSetup.mUnk_00c is 3, 4 or 5, else 0. While it is 1, InitRace creates the chain cameras, UpdateRace
-    // updates them and takes their view, and DrawRace skips the draw call of DrawKartNameTags. The other readers go
-    // through GetRaceUseChainCameras and use it to tell these kinds apart (map objects, balloons, effects, kart
+    // 1 when RaceSetup.mUnk_00c is 3, 4 or 5, else 0. While it is 1, race_init creates the chain cameras, race_update
+    // updates them and takes their view, and race_render skips the draw call of driver_renderLabels. The other readers go
+    // through race_isCamAnimMode and use it to tell these kinds apart (map objects, balloons, effects, kart
     // set-up).
     /* 28 */ s32 mUseChainCameras;
     // 1 when RaceSetup.mUnk_00c is 4: only the first chain camera is created and updated instead of the pair (read
     // only while mUseChainCameras is non-zero).
     /* 2c */ s32 mUseFirstChainCamera;
-    // Mode 5 only: set by UpdateRace when mUpdateFrames reaches 128 while mUpdateFramesUnlimited is FALSE; from then on
+    // Mode 5 only: set by race_update when mUpdateFrames reaches 128 while mUpdateFramesUnlimited is FALSE; from then on
     // mUpdateFrames stays put until mUpdateFramesUnlimited is set. Never cleared again.
     /* 30 */ BOOL mUpdateFramesLimitReached;
-    // Mode 5 only: FALSE at set-up, set by SetRaceUpdateFramesUnlimited (called by UpdateRaceStartSequence when it
-    // begins counting); once set, UpdateRace counts mUpdateFrames on every call with no stop at 128.
+    // Mode 5 only: FALSE at set-up, set by race_setField34 (called by UpdateRaceStartSequence when it
+    // begins counting); once set, race_update counts mUpdateFrames on every call with no stop at 128.
     /* 34 */ BOOL mUpdateFramesUnlimited;
     /* 38 */ s32 mIsAwardOrStaffRoll;
     // Value of mUpdateFrames when the end handler of the kart of the selected entry (RaceSetup.mEntryIndex) first
-    // ran, stored by SetRaceUpdateFramesAtEntryEnd (in mission run mode that is after the end wait); 0 until then.
+    // ran, stored by race_20617D8 (in mission run mode that is after the end wait); 0 until then.
     /* 3c */ s32 mUpdateFramesAtEntryEnd;
-    // x component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // x component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
+    // from data_021653f0 and by race_setLight0Direction.
     /* 40 */ s16 mLightVectorX;
-    // y component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // y component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
+    // from data_021653f0 and by race_setLight0Direction.
     /* 42 */ s16 mLightVectorY;
-    // z component of the direction of light 0, the vector DrawRaceWorld gives to NNS_G3dGlbLightVector; set at InitRace
-    // from data_021653f0 and by SetRaceLightVector.
+    // z component of the direction of light 0, the vector race_renderRace gives to NNS_G3dGlbLightVector; set at race_init
+    // from data_021653f0 and by race_setLight0Direction.
     /* 44 */ s16 mLightVectorZ;
 } Race;
 
-extern Race *gRace;
-extern s32 gFadeFogActive;
+extern Race *race_sState;
+extern s32 race_sDarkeningActive;
 struct Unk02077750;
 
 // The viewer of a race: position, look-at point, three axes, view matrix and frustum. One class, several instances:
-// gChaseCamera follows the selected kart, gEntryCamera and gFirstChainCamera / gSecondChainCamera step through
-// CourseMapCamera entries; gCurrentCamera points at the one used this frame.
+// cam_sPlayerCamera follows the selected kart, cam_sReplayCamera and cam_sIntroCameraTop / cam_sIntroCameraBottom step through
+// CourseMapCamera entries; race_sCurCamera points at the one used this frame.
 typedef struct Camera {
     /* 000 */ Vec3 mUp;
     // baseUp x forward, perpendicular to mUp and mForward. Sign not fixed (left or right is not shown); not updated
-    // by UpdateCameraViewWithWorldUp.
+    // by cam_updateLookAt.
     /* 00c */ Vec3 mSide;
     /* 018 */ Vec3 mLookAt;
     /* 024 */ Vec3 mPos;
@@ -1065,14 +1065,14 @@ typedef struct Camera {
     // mHalfFovAngleGoal; entry cameras set the pair mHalfFovPairFirst / mHalfFovPairSecond (sin and cos of the angle)
     // directly.
     /* 060 */ s32 mHalfFovAngle;
-    // Default gDefaultHalfFovAngle (0x157c, about 30 degrees).
+    // Default cam_sDefaultFov (0x157c, about 30 degrees).
     /* 064 */ s32 mHalfFovAngleGoal;
-    // First and second element of the pair gPairsByAngle holds for mHalfFovAngle; mFrustumTop = mNear * first / second.
+    // First and second element of the pair FX_SinCosTable_ holds for mHalfFovAngle; mFrustumTop = mNear * first / second.
     /* 068 */ s16 mHalfFovPairFirst;
     /* 06a */ s16 mHalfFovPairSecond;
     /* 06c */ s32 mAspectRatio;
     /* 070 */ s32 mNear;
-    // Far plane of the main projection (course settings value, default 0x640000); mUnk_08c is a second far value.
+    // Far plane of the NitroMain projection (course settings value, default 0x640000); mUnk_08c is a second far value.
     /* 074 */ s32 mFar;
     // The four extents handed to G3i_FrustumW_ (top, bottom, left, right), 20.12; shifted by mFrustumShift
     // and a kind-6 entry offset, left and right swapped in mirror mode.
@@ -1099,24 +1099,24 @@ typedef struct Camera {
     /* 0dc */ s32 mFollowDistance;
     /* 0e0 */ s32 mUnk_0e0;
     // Amount the look-at is lowered: +0x1000 per call up to 0xa000 while the Kart has bit 0x10000 of mUnk_48, else
-    // decays; subtracted from the look-at goal y (UpdateChaseCameraLookAt).
+    // decays; subtracted from the look-at goal y (cam_20745D4).
     /* 0e4 */ s32 mLookAtLowering;
     /* 0e8 */ s32 mFollowDistanceScale;
     /* 0ec */ s32 mUnk_0ec;
-    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceSetup->mUnk_044.
+    // 0x1000, or -0x1000 in mode 4 with flag 0x20 of gRaceMultiConfig->mUnk_044.
     /* 0f0 */ s32 mFollowDirectionSign;
     /* 0f4 */ Vec3 mShakeLookAtOffsetGoal;
     /* 100 */ Vec3 mShakePosOffsetGoal;
     /* 10c */ Vec3 mShakeLookAtOffset;
     /* 118 */ Vec3 mShakePosOffset;
     // Third look-at shake term: adds -mShakeLookAtOffset times a per-kind factor (1.25 / 2 / 2.75), halved each call;
-    // added to the look-at in UpdateCameraView.
+    // added to the look-at in cam_updateLookAtEx.
     /* 124 */ Vec3 mShakeLookAtCounterOffset;
     /* 130 */ u8 mShakeKind;
     /* 131 */ u8 mUnk_131[0x3];
     // mPos of the previous frame; the chase step keeps it while a collision push is active.
     /* 134 */ Vec3 mPrevPos;
-    // Set by StartCameraWobble, cleared by UpdateCameraWobble when the amplitude is used up.
+    // Set by cam_tryShakePlayerCamera, cleared by cam_updateShake when the amplitude is used up.
     /* 140 */ BOOL mWobbling;
     /* 144 */ s32 mUnk_144;
     /* 148 */ s32 mWobbleAmplitude;
@@ -1136,11 +1136,11 @@ typedef struct Camera {
     // toward it.
     /* 170 */ s32 mCollisionOffsetLengthGoal;
     // Eased mCollisionOffsetLengthGoal; times 3 it shortens the follow distance and raises the position goal
-    // (UpdateChaseCameraPos).
+    // (cam_20741A0).
     /* 174 */ s32 mCollisionOffsetLength;
     // Added to the eye height of the view only, not to the look-at.
     /* 178 */ s32 mViewPosYOffset;
-    // The push-out vector of the collision test (func_01ffdee4) scaled by 3 to 8, kept and eased; added to the position
+    // The push-out vector of the collision test (col_collide) scaled by 3 to 8, kept and eased; added to the position
     // goal.
     /* 17c */ Vec3 mPosGoalCollisionOffset;
     // Kart.mUnk_120 (a row of the Kart's matrix) times mPosGoalKartOffsetScale; added to the position goal.
@@ -1149,10 +1149,10 @@ typedef struct Camera {
     /* 1d0 */ PosCurve mUnk_1d0;
     /* 20c */ u16 mUnk_20c;
     /* 20e */ u16 mUnk_20e;
-    // Index into gKarts the look-at is taken from (entry cameras; the chase camera is handed its Kart).
+    // Index into sDrivers the look-at is taken from (entry cameras; the chase camera is handed its Kart).
     /* 210 */ u16 mFollowedKartIndex;
     /* 212 */ u8 mUnk_212[0x2];
-    // Index GetCourseMapCameraIndexAtPos last returned for the followed kart; mCourseMapCamera is the entry actually in
+    // Index mdat_findCameraId last returned for the followed kart; mCourseMapCamera is the entry actually in
     // use.
     /* 214 */ s32 mLastCourseMapCameraIndex;
     /* 218 */ struct CourseMapCamera *mCourseMapCamera;
@@ -1160,90 +1160,90 @@ typedef struct Camera {
     /* 220 */ struct Unk02077750 *mUnk_220;
     /* 224 */ u16 mUnk_224;
     /* 226 */ u8 mUnk_226[0x2];
-    // TRUE from StartEntryCameraKind6Entry until mKind6EntryFrames reaches 300 (outside mode 2) or func_02075d08
+    // TRUE from cam_2075EB8 until mKind6EntryFrames reaches 300 (outside mode 2) or cam_2075D08
     // replaces the entry. While TRUE the entry is not replaced by the one picked from the Kart's position; in mode 2
-    // TryUpdateEntryCamera steps the entry by its kind on every call and only func_02075d08 clears it.
+    // cam_updateReplayCamera steps the entry by its kind on every call and only cam_2075D08 clears it.
     /* 228 */ BOOL mKind6EntryRunning;
-    // Counts the calls of TryUpdateEntryCamera outside mode 2 while mKind6EntryRunning is TRUE; at 300 it clears
-    // mKind6EntryRunning. Only SetupCamera zeroes it, so it carries over a restart.
+    // Counts the calls of cam_updateReplayCamera outside mode 2 while mKind6EntryRunning is TRUE; at 300 it clears
+    // mKind6EntryRunning. Only cam_init zeroes it, so it carries over a restart.
     /* 22c */ u16 mKind6EntryFrames;
     /* 22e */ u8 mUnk_22e[0x2];
-    // Set to 1 by func_02075d08(1), which only does so while the current entry is of kind 5 or 6, and to 0 by
-    // func_02075d08(0) and SetupCamera. While non-zero TryUpdateEntryCamera returns FALSE at once, so the chase camera
+    // Set to 1 by cam_2075D08(1), which only does so while the current entry is of kind 5 or 6, and to 0 by
+    // cam_2075D08(0) and cam_init. While non-zero cam_updateReplayCamera returns FALSE at once, so the chase camera
     // is shown.
     /* 230 */ s32 mEntryUpdateHold;
-    // Set to 1 once by DisableEntryCameraUpdate and never cleared (SetupCamera zeroes it). While set
-    // TryUpdateEntryCamera returns FALSE at once, so the chase camera is shown.
+    // Set to 1 once by cam_2075CF0 and never cleared (cam_init zeroes it). While set
+    // cam_updateReplayCamera returns FALSE at once, so the chase camera is shown.
     /* 234 */ BOOL mEntryUpdateDisabled;
-    // Set to TRUE by StartEntryCameraKind8Entry and never cleared (SetupCamera zeroes it). While set, and after the
-    // mEntryUpdateHold and mEntryUpdateDisabled tests, TryUpdateEntryCamera runs UpdateCameraAngleEntry on the current
+    // Set to TRUE by cam_setupMissionFinishCamera and never cleared (cam_init zeroes it). While set, and after the
+    // mEntryUpdateHold and mEntryUpdateDisabled tests, cam_updateReplayCamera runs cam_2074E6C on the current
     // entry and returns TRUE.
     /* 238 */ BOOL mKind8EntryRunning;
     /* 23c */ u16 mCourseMapCameraFrames;
     /* 23e */ u8 mUnk_23e[0x2];
     /* 240 */ s32 mFovBlend;
     /* 244 */ s32 mLookAtBlend;
-    // Non-zero while the position y is held at mHeldHeight (set by SetCameraHeightHold for kart state 6).
+    // Non-zero while the position y is held at mHeldHeight (set by cam_20747F4 for kart state 6).
     /* 248 */ s32 mHeightHold;
-    // 0 none; 1 and 2 (gFirstChainCamera / gSecondChainCamera while the entry is kind 4) shift the window of
-    // mFrustumTop and mFrustumBottom up or down by 1.3 of its half height (RefreshCameraProjection).
+    // 0 none; 1 and 2 (cam_sIntroCameraTop / cam_sIntroCameraBottom while the entry is kind 4) shift the window of
+    // mFrustumTop and mFrustumBottom up or down by 1.3 of its half height (cam_updateFrustum).
     /* 24c */ s32 mFrustumShift;
     // Which camera this instance is: 0 chase, 1 entry camera, 2 chain camera, 3 entry camera in mode 2 with a kind 7
-    // entry; tested by outside code (GetCurrentCameraKind).
+    // entry; tested by outside code (race_getCameraField250).
     /* 250 */ s32 mKind;
     /* 254 */ s32 mUnk_254;
     /* 258 */ BOOL mUnk_258;
     /* 25c */ BOOL mUnk_25c;
-    // GetKartForward (row 2 of the Kart's matrix, taken as its heading) of the selected Kart at creation; used instead
-    // of the live vector for a Kart with bit 0x20000000 of mUnk_4c. SetupCamera zeroes it.
+    // driver_getShadowZDirection (row 2 of the Kart's matrix, taken as its heading) of the selected Kart at creation; used instead
+    // of the live vector for a Kart with bit 0x20000000 of mUnk_4c. cam_init zeroes it.
     /* 260 */ Vec3 mSavedKartForward;
     /* 26c */ s16 mSideDistanceSign;
     /* 26e */ u8 mUnk_26e[0x2];
 } Camera;
 
-extern Camera *gCurrentCamera;
-extern u16 data_0217aa28;
-extern u16 data_0217aa30;
-extern s16 data_0217aa34;
-extern u16 data_0217aa38;
-extern s16 data_0217aa3c;
-extern s16 data_0217aa40;
+extern Camera *race_sCurCamera;
+extern u16 race_sDarkeningFadeFogColor;
+extern u16 race_sDarkeningFogColor;
+extern s16 race_sStagFogColorG;
+extern u16 race_sStagFogColor;
+extern s16 race_sStagFogColorB;
+extern s16 race_sStagFogColorR;
 extern s32 data_0217aa44;
-extern s32 gCourseFogOffset;
-extern s32 gFadeFogStepping;
-extern s32 data_0217aa50;
+extern s32 race_sStagFogOffset;
+extern s32 race_sDarkeningIsFading;
+extern s32 race_sStagFogAlpha;
 extern s32 data_0217aa58;
-extern Camera *gRaceEntryCamera;
-extern s32 data_0217aa60;
-extern s32 data_0217aa68;
-extern s32 gFadeFogOffset;
-extern void *data_0217aa74;
+extern Camera *race_sReplayCamera;
+extern s32 race_sDarkeningFogAlpha;
+extern s32 race_sDarkeningFadeFogAlpha;
+extern s32 race_sDarkeningFadeFogOffset;
+extern void *race_sG3dGeBuffer;
 extern s32 data_0217aa78;
-extern s32 data_0217aa80;
+extern s32 race_sFogSlope;
 extern s32 data_0217aa84;
-extern Camera *gRaceChaseCamera;
+extern Camera *race_sPlayerCamera;
 extern u32 data_0217aa8c[4];
-extern u32 gFadeFogTable[8];
-extern u32 gCourseFogTable[8];
-extern u16 data_0217aadc[32];
-extern MtxFx43 *gCurrentViewMatrix;
+extern u32 race_sDarkeningFogTable[8];
+extern u32 race_sStagFogTable[8];
+extern u16 race_sToonTable[32];
+extern MtxFx43 *race_sCurCameraMtx;
 extern u32 data_0217ac10;
 extern void *data_0217ac14;
-extern void *gCollideKartWithMapObjectResponses[15];
-extern void *data_0217ac54[15];
-extern struct Camera *gChaseCamera;
-// Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per UpdateRace call by
-// ClearCameraEntryFlags. UpdateRace calls RequestViewTestRefresh when it is set.
+extern void *driver_sColReactionInitTable[15];
+extern void *driver_sColReactionHandleTable[15];
+extern struct Camera *cam_sPlayerCamera;
+// Set to 1 at race set-up and when a camera entry is started or advanced; cleared once per race_update call by
+// cam_2073E98. race_update calls mobj_20D50C4 when it is set.
 extern s32 gCameraEntryChanged;
-// The chain camera whose view matrix the last chain step returned; UpdateRace stores it as the camera in use. Not
+// The chain camera whose view matrix the last chain step returned; race_update stores it as the camera in use. Not
 // written in races without chain cameras.
-extern Camera *gCurrentChainCamera;
-// The Camera that picks its CourseMapCamera entry from the position of the followed Kart (GetCourseMapCameraIndexAtPos)
-// and is stepped by TryUpdateEntryCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
-// Kart code starts its kind 6 and kind 8 entries (StartEntryCameraKind6Entry, StartEntryCameraKind8Entry). The chain
+extern Camera *cam_sIntroCamera;
+// The Camera that picks its CourseMapCamera entry from the position of the followed Kart (mdat_findCameraId)
+// and is stepped by cam_updateReplayCamera. mKind is 1, or 3 in mode 2 when CourseMap.mFirstKind7EntryInMode2 is set. The
+// Kart code starts its kind 6 and kind 8 entries (cam_2075EB8, cam_setupMissionFinishCamera). The chain
 // cameras also run entries but never pick by position.
-extern Camera *gEntryCamera;
-extern u8 data_0217acc0[];
+extern Camera *cam_sReplayCamera;
+extern u8 cam_sProjectionMtx[];
 // 0x20-byte entries behind member 0x014 of KartModels.
 typedef struct HeyhoPalette {
     /* 00 */ u8 mUnk_00[4];
@@ -1251,15 +1251,15 @@ typedef struct HeyhoPalette {
     /* 06 */ u8 mUnk_06[0x1a];
 } HeyhoPalette;
 
-// Object behind gKartModels (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
+// Object behind gCharKartData (0x144 bytes); the addresses of 0x2c, 0x98 and 0x10c are passed on as objects.
 struct KartModelsEntry;
 
 typedef struct KartModels {
-    // Array of the per-kart model entries (0xb4 bytes each), allocated by InitKartModels with mKartCount elements;
+    // Array of the per-kart model entries (0xb4 bytes each), allocated by chkrt_init with mKartCount elements;
     // Kart.mKartModelsEntry points into it.
     /* 000 */ struct KartModelsEntry *mKartModelsEntries;
     /* 004 */ u16 *mCourseColors;
-    // Number of elements of mKartModelsEntries, copied from gRaceSetup->mKartCount; the loop bound over the
+    // Number of elements of mKartModelsEntries, copied from gRaceMultiConfig->mKartCount; the loop bound over the
     // entries.
     /* 008 */ u16 mKartCount;
     /* 00a */ u8 mUnk_00a[2];
@@ -1273,7 +1273,7 @@ typedef struct KartModels {
     /* 10c */ ModelAnimation mKillerItemNsbca;
 } KartModels;
 
-extern KartModels *gKartModels;
+extern KartModels *gCharKartData;
 
 typedef struct KartModelAnimationView KartModelAnimationView;
 
@@ -1344,7 +1344,7 @@ typedef struct KartModelMenuView {
     /* 30 */ s32 mBg0Direction;
 } KartModelMenuView;
 
-// Object behind gKartModelMenu.
+// Object behind gCharKartSelectState.
 typedef struct KartModelMenuData {
     /* 000 */ s32 mKartIndex;
     /* 004 */ s32 mKartListPos;
@@ -1375,17 +1375,17 @@ typedef struct KartModelMenuData {
     /* 268 */ struct KartAppear *mKartAppear;
 } KartModelMenuData;
 
-extern KartModelMenuData *gKartModelMenu;
+extern KartModelMenuData *gCharKartSelectState;
 extern u16 gKillerItemKartIndex;
-extern char gCharacterNsbcaPathBuffer[];
-// 1 when this is a mission run and the course has a shape of kind 2, else 0; set by InitKarts.
-extern s32 gMissionRunKind2ShapesPresent;
-extern u32 gKartKind3ShapeMask;
+extern char aCharacterMarioP_mr_lose_nsbca[];
+// 1 when this is a mission run and the course has a shape of kind 2, else 0; set by driver_initAll.
+extern s32 driver_sCheckMissionEndArea;
+extern u32 driver_sClipAreaMask;
 extern s32 gKartSpeedLimitReciprocal;
 extern s32 gKartForwardSpeedRatio;
 struct Unk0201ca6c;
 
-// Two objects returned by StartEffect.
+// Two objects returned by ptcm_createEmitter.
 typedef struct KartEffectPair {
     union {
         struct {
@@ -1397,15 +1397,15 @@ typedef struct KartEffectPair {
 } KartEffectPair;
 
 // Effect objects of one Kart: the current effect with its id, and further effect objects with the points they are
-// placed at. One record per Kart in gKartEffects, indexed by Kart.mIndex. 0x58-byte entries of the table behind
-// gKartEffects; the pointers at 0x0c and 0x20 to 0x30 hold objects returned by StartEffect.
+// placed at. One record per Kart in rptc_sDriverEffects, indexed by Kart.mIndex. 0x58-byte entries of the table behind
+// rptc_sDriverEffects; the pointers at 0x0c and 0x20 to 0x30 hold objects returned by ptcm_createEmitter.
 typedef struct KartEffects {
     // Id of the effect in mCurrentEffect, -1 when there is none.
     /* 00 */ s32 mCurrentEffectId;
     // Id of the effect running in entry i of mEffectPairs, -1 when there is none; compared with the wanted id to decide
     // whether to start again.
     /* 04 */ s32 mEffectIds[2];
-    // The effect object of this Kart started by StartKartCurrentEffect, whose id is mCurrentEffectId (NULL when none).
+    // The effect object of this Kart started by rptc_DriveOnSand, whose id is mCurrentEffectId (NULL when none).
     /* 0c */ struct Unk0201ca6c *mCurrentEffect;
     // The effect objects started for mEffectIds: entry i holds the object of side 0 and the object of side 1 (the byte
     // set in each object is the side number); ids in mEffectIds.
@@ -1422,18 +1422,18 @@ typedef struct KartEffects {
     /* 30 */ struct Unk0201ca6c *mUnk_30;
     // Position in effect units (position / 16) of each side of the Kart: model point 2 or 3 moved by the x offset
     // 0x1800 or -0x1800 of gKartSideOffsetsX, scaled by the Kart scale and transformed by the Kart matrix; written only
-    // by ComputeKartSidePoints.
+    // by rptc_updateDriverEffects.
     /* 34 */ Vec3 mSidePositions[2];
     // Direction vector (halfwords) of the effect on each side of the Kart: the vector of gKartSideDirectionVectors for
-    // that side rotated by the Kart matrix; written only by ComputeKartSidePoints and read as the direction of the
+    // that side rotated by the Kart matrix; written only by rptc_updateDriverEffects and read as the direction of the
     // effect object.
     /* 4c */ Vec3s16 mSideDirections[2];
 } KartEffects;
 
-// Per-Kart effect records, allocated for every Kart by InitKartEffects and indexed by Kart.mIndex.
-extern KartEffects *gKartEffects;
-extern struct KartAiItemUseEntry *gCurrentItemInUseEntries;
-extern struct KartAiItemUseEntry *gCurrentHeldItemEntries;
+// Per-Kart effect records, allocated for every Kart by rptc_initForDrivers and indexed by Kart.mIndex.
+extern KartEffects *rptc_sDriverEffects;
+extern struct KartAiItemUseEntry *enit_sDragItemParamsPtr;
+extern struct KartAiItemUseEntry *enit_sSlotItemParamsPtr;
 struct PointLinkCursor;
 struct KartAi;
 struct LinkCursor;
@@ -1446,18 +1446,18 @@ extern const s32 *gKartAiDriftChargeRandomLimits;
 extern const s32 *data_0217ae4c;
 extern const s32 *gKartAiRaceStartBoostRandomLimits;
 extern const s32 *data_0217ae54;
-extern u16 data_0217ae6c;
+extern u16 rptc_sEffectColor;
 extern u16 data_0217ae70;
-extern struct Unk0201ca6c **data_0217ae74;
+extern struct Unk0201ca6c **rptc_sDriverSlipstreamEmitters;
 // Three objects per entry, 0xc bytes each.
 typedef struct KartStarEffects {
     /* 00 */ struct Unk0201ca6c *mEffects[3];
 } KartStarEffects;
 
-extern KartStarEffects *gKartStarEffects;
-extern u16 *gKartEffectIdSetIndex;
+extern KartStarEffects *rptc_sRainbowEffectEmitters;
+extern u16 *rptc_sDriverEffectVariantTable;
 extern s32 gOtherKartOddCount;
-extern struct Unk0201ca6c **data_0217ae94;
+extern struct Unk0201ca6c **rptc_sDriverSlipstreamBeginEmitters;
 extern s32 gOtherKartFullPairCount;
 
 // Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list.
@@ -1509,7 +1509,7 @@ extern u8 *data_0217aecc;
 extern Vec3 *gKartDistanceLimitsSquared;
 extern u16 *gKartEmblemPlltBuffer;
 extern s32 data_0217aedc;
-extern Unk0214ad4c data_0217aee0;
+extern Unk0214ad4c PlayerLabelProjMtx;
 
 struct KartNameTag;
 
@@ -1537,8 +1537,8 @@ typedef struct Unk0217aed0 {
 } Unk0217aed0;
 
 extern Unk0217aed0 *data_0217aed0;
-extern const char *gKartModelPathPrefix;
-extern char gKartModelPathBuffer[];
+extern const char *ckldr_sLoadBasePath;
+extern char ckldr_sPathResult[];
 
 // Entries of the 0x400-byte buffer behind member 0x04 of DispCap.
 typedef struct DispCapOamEntry {
@@ -1549,7 +1549,7 @@ typedef struct DispCapOamEntry {
     };
 } DispCapOamEntry;
 
-// Object behind gDispCap.
+// Object behind sDceState.
 typedef struct DispCap {
     /* 00 */ s32 mMode;
     /* 04 */ DispCapOamEntry *mOamBuffer;
@@ -1559,8 +1559,8 @@ typedef struct DispCap {
     /* 0c */ s32 mBlendFactor;
 } DispCap;
 
-extern DispCap *gDispCap;
-// Object behind gRunScenesState, 0x10 bytes.
+extern DispCap *sDceState;
+// Object behind scproc_sSceneProc, 0x10 bytes.
 typedef struct RunScenesState {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -1579,18 +1579,18 @@ typedef struct ShapeMapObjectCount {
     /* 0a */ u8 mUnk_0a[2];
 } ShapeMapObjectCount;
 
-// Object behind data_0217aa24, 8 bytes.
+// Object behind area_sMissionRivalPassAreaStatus, 8 bytes.
 typedef struct ShapeMapObjectCountList {
     /* 00 */ ShapeMapObjectCount *mEntries;
     /* 04 */ u16 mEntryCount;
     /* 06 */ u8 mUnk_06[2];
 } ShapeMapObjectCountList;
 
-extern RunScenesState *gRunScenesState;
-extern ShapeMapObjectCountList *data_0217aa24;
-extern u16 gFadeFogHoldFrames;
-// Set to 1 when TryUpdateEntryCamera is entered; cleared once per UpdateRace call by ClearCameraEntryFlags.
-// RefreshCameraProjection does not skip the chase camera's projection while it is 1.
+extern RunScenesState *scproc_sSceneProc;
+extern ShapeMapObjectCountList *area_sMissionRivalPassAreaStatus;
+extern u16 race_sDarkeningFadeWaitCounter;
+// Set to 1 when cam_updateReplayCamera is entered; cleared once per race_update call by cam_2073E98.
+// cam_updateFrustum does not skip the chase camera's projection while it is 1.
 extern s32 gEntryCameraUpdateRan;
 
 // Ten bytes: bytes 6 to 9 are signed values read in rows of four.
@@ -1601,7 +1601,7 @@ typedef struct ParticipantKartMap {
     /* 06 */ s8 mKartOfParticipant[4];
 } ParticipantKartMap;
 
-extern ParticipantKartMap *gParticipantKartMap;
+extern ParticipantKartMap *gStruct217AA18;
 // 0xa-byte elements of the rows (eight each) of the table at member 0 of CupRecords.
 typedef struct KartCourseResult {
     /* 00 */ u16 mTotalPoints;
@@ -1644,23 +1644,23 @@ typedef struct CupRecords {
     };
 } CupRecords;
 
-extern CupRecords *gCupRecords;
-extern struct Kart *gKarts;
-extern NNSFndList gResFileEntries;
-// The event counters of the selected entry's Kart, allocated by InitKarts.
+extern CupRecords *rres_sRaceResults;
+extern struct Kart *sDrivers;
+extern NNSFndList sModelResList;
+// The event counters of the selected entry's Kart, allocated by driver_initAll.
 struct EntryKartCounters;
-extern struct EntryKartCounters *gEntryKartCounters;
+extern struct EntryKartCounters *driver_sPlayerStatistics;
 
 // The Camera (mKind 2) that starts at CourseMap.mSecondChainStartEntry; NULL when only the first chain camera exists.
 // While its entry is of kind 4 it is not stepped itself: it copies the field of view, mPos and mLookAt of
-// gFirstChainCamera, and its entry advances together with the first one's. Its view is the one used on odd frames.
-extern Camera *gSecondChainCamera;
+// cam_sIntroCameraTop, and its entry advances together with the first one's. Its view is the one used on odd frames.
+extern Camera *cam_sIntroCameraBottom;
 // The Camera (mKind 2) that starts at CourseMap.mFirstChainStartEntry and follows mNextIndex through its entries; the
-// only chain camera when gRaceSetup->mUnk_00c is 4. Created by CreateFirstChainCamera or CreateChainCameraPair. With
-// two chain cameras its view is the one used on even frames of gRace->mUpdateFrames.
-extern Camera *gFirstChainCamera;
+// only chain camera when gRaceMultiConfig->mUnk_00c is 4. Created by cam_setupIntroCamSingle or cam_setupIntroCamDouble. With
+// two chain cameras its view is the one used on even frames of race_sState->mUpdateFrames.
+extern Camera *cam_sIntroCameraTop;
 extern void *data_usa_0217aa68;
-extern s32 gFollowHeight;
-extern s32 gDefaultFollowDistance;
-extern s32 gDefaultLookAtHeight;
-extern u16 gKind7EntryCount;
+extern s32 cam_sCameraElevation;
+extern s32 cam_sCameraDistance;
+extern s32 cam_sMaxTargetElevation;
+extern u16 cam_sMgIntroCamCount;

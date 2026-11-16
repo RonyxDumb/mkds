@@ -3,10 +3,10 @@
 #include "types.h"
 #include "Main/Unknown/code_020d22c0.h" // RandomState64
 
-RandomState64 *GetRandomState(void);
-BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest);
-void StopSceneSoundSetSeqWithSteps(u32 fadeSteps);
-void ReleaseSceneSoundSetPlayer(void);
-void StopSceneSoundSetSeq(void);
-void StartSceneSoundSetSeq(void);
-void InitSceneSoundSetPlayer(s32 seqId);
+RandomState64 *sysdat_getRandom(void);
+BOOL sysdat_configureBackLight(s32 firstRequest, s32 secondRequest);
+void sysdat_204AB64(u32 fadeSteps);
+void sysdat_unloadSeq(void);
+void sysdat_stopSeq(void);
+void sysdat_startSeq(void);
+void sysdat_loadSeq(s32 seqId);

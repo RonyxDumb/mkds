@@ -2,23 +2,23 @@
 
 #include "types.h"
 
-void WriteTimeAttackTopMenuBg0Offset(void);
-s32 AdvanceTimeAttackTopMenu(void);
-void AdvanceTimeAttackTopMenuState5(void);
-void AdvanceTimeAttackTopMenuState4(void);
-void AdvanceTimeAttackTopMenuState3(void);
-void AdvanceTimeAttackTopMenuState2(void);
-void AdvanceTimeAttackTopMenuState1(void);
-void AdvanceTimeAttackTopMenuState0(void);
-void ReleaseTimeAttackTopMenu(void);
-void InitTimeAttackTopMenu(void *a, void *b, s32 c);
-void func_ov001_02198264(s32 a);
-void func_ov001_0219829c(s32 a);
-void RequestTimeAttackTopMenuState5(void);
-void func_ov001_021982e8(void);
-void RequestTimeAttackTopMenuState3(void);
-void func_ov001_02198338(void);
-void RequestTimeAttackTopMenuState1(void);
-void func_ov001_02198368(void);
-void LocateAndQueueTimeAttackTopMenu(void);
+void menu_ta_updateMainText(void);
+s32 menu_ta_modeSelectRender(void);
+void menu_ta_buttonsFadeOut(void);
+void menu_ta_buttonSelected(void);
+void menu_ta_buttonSelecting(void);
+void menu_ta_wait(void);
+void menu_ta_buttonsBump(void);
+void menu_ta_buttonsFadeIn(void);
+void menu_ta_destroy(void);
+void menu_ta_init(void *a, void *b, s32 c);
+void menu_ta_setButtonHighlightInvisible(s32 a);
+void menu_ta_setButtonHighlightVisible(s32 a);
+void menu_ta_buttonSelectedEnd(void);
+void menu_ta_buttonSelectingEnd(void);
+void menu_ta_waitEnd(void);
+void menu_ta_buttonsBumpEnd(void);
+void menu_ta_buttonsFadeInEnd(void);
+void menu_ta_initFields(void);
+void menu_ta_loadFiles(void);
 void LoadTimeAttackTopMenuData(void);

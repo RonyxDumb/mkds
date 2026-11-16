@@ -4,4 +4,4 @@
 
 typedef struct Unk020aca24 Unk020aca24;
 
-void UpdateTitleState2(Unk020aca24 *a);
+void title_mainStateRender(Unk020aca24 *a);

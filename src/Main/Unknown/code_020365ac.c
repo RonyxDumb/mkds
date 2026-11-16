@@ -24,18 +24,18 @@
 #include "code_02004dc0.h"
 #include "registers.h"
 
-void func_020367c4(void) {
-    if (gDisplaySettings != NULL) {
-        ClearFrameFinishedFlag();
-        if (gDisplaySettings->mIrqCallback != NULL) {
-            gDisplaySettings->mIrqCallback();
+void vblankIrq(void) {
+    if (gCurDisplayConfig != NULL) {
+        dc_clearFlagsBit0();
+        if (gCurDisplayConfig->mIrqCallback != NULL) {
+            gCurDisplayConfig->mIrqCallback();
         }
     }
     *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
 }
 
-void func_02036778(void) {
-    OS_SetIrqFunction(1, func_020367c4);
+void mkds_restoreIrqs(void) {
+    OS_SetIrqFunction(1, vblankIrq);
     OS_EnableIrqMask(1);
     reg_OS_IME;
     reg_OS_IME = 1;
@@ -43,19 +43,19 @@ void func_02036778(void) {
     GX_VBlankIntr(1);
 }
 
-void func_020366bc(void) {
+void initSdk(void) {
     OS_DisableMainExArena();
     OS_Init();
-    data_02174e78.mUnk_00 = 0;
+    gMainHeap.mUnk_00 = 0;
     OS_InitTick();
     OS_InitAlarm();
-    func_02148904();
+    FX_Init();
     GX_Init();
-    InitWvrState();
-    ClearLcdcBanksByState();
+    vram_initializeWvrStatus();
+    vram_clearDisableAll();
     GX_DispOff();
     reg_GXS_DB_DISPCNT = reg_GXS_DB_DISPCNT & ~0x10000;
-    OS_SetIrqFunction(1, func_020367c4);
+    OS_SetIrqFunction(1, vblankIrq);
     OS_EnableIrqMask(1);
     reg_OS_IME;
     reg_OS_IME = 1;
@@ -63,11 +63,11 @@ void func_020366bc(void) {
     GX_VBlankIntr(1);
     FS_Init(-1);
     func_02039774();
-    data_02174e74 = DWC_Init(data_02174ea0);
-    ClearLcdcBankAndStartWvrAndWait();
+    gDWCInitResult = DWC_Init(sDwcWork);
+    vram_startUpWifiVram();
 }
 
-void func_02036678(void) {
+void checkArenas(void) {
     OS_GetArenaLo(0);
     OS_GetArenaHi(0);
     OS_GetArenaLo(3);
@@ -76,25 +76,25 @@ void func_02036678(void) {
     OS_GetArenaHi(4);
 }
 
-void func_020365f0(void) {
+void mkds_init(void) {
     u8 *arenaLo;
-    func_020366bc();
-    InitBrightnessFades();
-    data_02174e78.mArm9TextStart = (u32) ARM9_TEXT_START;
-    data_02174e78.mArenaLo = OS_GetArenaLo(0);
-    func_02036678();
+    initSdk();
+    dc_initMasterBright();
+    gMainHeap.mArm9TextStart = (u32) ARM9_TEXT_START;
+    gMainHeap.mArenaLo = OS_GetArenaLo(0);
+    checkArenas();
     arenaLo = OS_GetArenaLo(0);
-    data_02174e78.mHeap = CreateExpHeapOverBlock(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
-    InitHeapCall(&gRootHeapCall, 0);
-    data_02174e78.mUnk_10 = data_021646ec;
+    gMainHeap.mHeap = heap_create(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
+    proc_init(&sMainProcess, 0);
+    gMainHeap.mUnk_10 = aMainproc;
     func_020394cc();
 }
 
-void RunRootHeapCall(u32 func) {
-    SetHeapCallFunc(&gRootHeapCall, func);
-    RunHeapCall(&gRootHeapCall, 0xbeef);
+void mkds_runMainProc(u32 func) {
+    proc_setMainFunc(&sMainProcess, func);
+    proc_run(&sMainProcess, 0xbeef);
 }
 
-void *GetArenaHeap(void) {
-    return data_02174e78.mHeap;
+void *getMainHeapHandle(void) {
+    return gMainHeap.mHeap;
 }

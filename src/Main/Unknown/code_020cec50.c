@@ -8,9 +8,9 @@
 
 #pragma thumb on
 
-void WriteBattleSelectCharacterRegisters(void) {
+void menu_state15Vblank(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = menu_getField4();
     if (screenChanged != 0) {
         GxDispCntBits8To12Write2(0xb);
         GX_SetGraphicsMode(1, 0, 1);
@@ -18,7 +18,7 @@ void WriteBattleSelectCharacterRegisters(void) {
         GXS_SetGraphicsMode(0);
     }
     GxsDispCntBits8To12Write2(0x12);
-    WriteSelectCharacterRegisters();
+    menucs_2026058();
 }
 
 #pragma thumb off

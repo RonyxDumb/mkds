@@ -9,10 +9,10 @@
 #include "Main/Unknown/code_02057000.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-u32 func_020d0f60(void) {
+u32 cpic_bgwkr_startRequest(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &gThreadFunctionQueue;
+    value0 = (u32) &gBgWkrState;
     value1 = 1u;
     value0 = *(const u32 *) ((value0) + (0));
     *(u32 *) ((value0) + (248)) = value1;
@@ -20,7 +20,7 @@ u32 func_020d0f60(void) {
 }
 
 #pragma thumb on
-u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
+u32 cpic_loadForCourse(int cupPictureIndex) {
     u32 result;
 
     result = 1;
@@ -29,10 +29,10 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
     } else if (func_020d0ec4() != FALSE) {
         if (gCupPicture->mCupPictureIndex != cupPictureIndex) {
             gCupPicture->mCupPictureIndex = cupPictureIndex;
-            QueueThreadFunction(LoadCupPictureNclr);
-            QueueThreadFunction(LoadCupPictureNcgr);
-            QueueThreadFunction(LoadCupPictureNscr);
-            func_020d0f60();
+            bgwkr_enqueueTask(cpic_loadPalette);
+            bgwkr_enqueueTask(cpic_loadCharacter);
+            bgwkr_enqueueTask(cpic_loadScreen);
+            cpic_bgwkr_startRequest();
         }
     } else {
         result = 0;
@@ -42,5 +42,5 @@ u32 TrySetCupPictureIndexAndQueueLoads(int cupPictureIndex) {
 #pragma thumb off
 
 u32 func_020d0ee8(void) {
-    return (gThreadFunctionQueue->mRunRequested);
+    return (gBgWkrState->mRunRequested);
 }

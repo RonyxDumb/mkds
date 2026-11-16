@@ -27,7 +27,7 @@ void func_ov001_0218aba0(Unk02188950 *mapObject) {
     func_ov001_02188c90(mapObject);
     SetSpeedAndClearTarget(mapObject, 0);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1a0, &func_ov001_0218ac04);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x238);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x238);
 }
 
 void StartBombKingJumpCycle(Unk02188950 *mapObject) {
@@ -53,7 +53,7 @@ void func_ov001_0218aa34(Unk02188950 *mapObject) {
     void *bomb;
 
     if (IsItemBombStored(mapObject) == 0) {
-        bomb = StartItemBomb();
+        bomb = itbomb_20FD428();
         if (bomb != NULL) {
             ReleaseAndSetItemBomb(mapObject, (bomb));
         }
@@ -64,7 +64,7 @@ void func_ov001_0218aa34(Unk02188950 *mapObject) {
         SetSpeedAndClearTarget(mapObject, 0);
         SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
     }
-    StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x23c);
 }
 
 void StartBombKingChaseState(Unk02188950 *mapObject) {
@@ -92,7 +92,7 @@ void StartItemBombThrow(Unk02188950 *mapObject) {
         StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_0d4, mapObject->mPrm->mUnk_0d8, 0);
         SetSpeedAndClearTarget(mapObject, 0);
         SetAnimationFrameCallback(mapObject, mapObject->mPrm->mUnk_0dc, ThrowStoredItemBomb);
-        StartMapObjectSound(&mapObject->mUnk_000, 0x23c);
+        mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x23c);
     }
 }
 
@@ -146,11 +146,11 @@ void StartBombKingRandomState(Unk02188950 *mapObject) {
 
     randomLimit = (u16) mapObject->mPrm->mUnk_208;
     if (randomLimit == 0x10000) {
-        rng = GetMapObjectRandom();
+        rng = mobj_getRng1();
         rng->mValue = rng->mMultiplier * rng->mValue + rng->mIncrement;
         randomValue = (u16) (((rng->mValue >> 32) * 0x10000) >> 32);
     } else {
-        rng = GetMapObjectRandom();
+        rng = mobj_getRng1();
         if ((u16) randomLimit == 0) {
             randomValue = 0;
         } else {
@@ -194,7 +194,7 @@ int StartBombKingBounceEffects(Unk02188950 *mapObject) {
             StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x412, 0);
         }
         if (mapObject->mVelocity.y > 0) {
-            StartMapObjectSound(&mapObject->mUnk_000, 0x23b);
+            mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x23b);
         }
     }
     return 0;

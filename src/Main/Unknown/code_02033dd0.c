@@ -8,9 +8,9 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "registers.h"
 
-// Reads the table of gCupRecords, a row chosen by one call and a column by another.
+// Reads the table of rres_sRaceResults, a row chosen by one call and a column by another.
 static inline KartCourseResult *func_02033e6c_inline(u32 entryIndex) {
-    return &gCupRecords->mKartResults[GetCourseIndexInCup()][GetLowByte(entryIndex)];
+    return &rres_sRaceResults->mKartResults[rres_205DB28()][rres_205DC7C(entryIndex)];
 }
 
 #pragma thumb on
@@ -22,7 +22,7 @@ void func_02034244(void) {
     s32 negatedOffset;
     s32 e;
 
-    offset = GetInterpolatedValue(&data_02174e64->mUnk_194);
+    offset = interp_interpolate(&sGhostReceiveState->mUnk_194);
     reg_G2_BG0OFS = (offset << 16) & 0x1ff0000;
     negatedOffset = -offset;
     reg_G2S_DB_BG3OFS = (negatedOffset << 16) & 0x1ff0000;
@@ -49,7 +49,7 @@ void func_02034244(void) {
     }
 }
 
-void AssignResultsBattleTeamOrder(void) {
+void bres_2034188(void) {
     ResultsBattle *o;
     s32 nextOrderIndex;
     s32 team1Count;
@@ -57,29 +57,29 @@ void AssignResultsBattleTeamOrder(void) {
 
     nextOrderIndex = 0;
     team1Count = 0;
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
-            gResultsBattle->mEntries[i].mOrderIndex = nextOrderIndex;
+    for (i = 0; i < bres_sState->mKartCount; i++) {
+        if (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
+            bres_sState->mEntries[i].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
+    for (i = 0; i < bres_sState->mKartCount; i++) {
+        if (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
             team1Count++;
         }
     }
     if (nextOrderIndex < 4 && team1Count <= 4) {
         nextOrderIndex = 4;
     }
-    for (i = 0; i < gResultsBattle->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
-            gResultsBattle->mEntries[i].mOrderIndex = nextOrderIndex;
+    for (i = 0; i < bres_sState->mKartCount; i++) {
+        if (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 1) {
+            bres_sState->mEntries[i].mOrderIndex = nextOrderIndex;
             nextOrderIndex++;
         }
     }
 }
 
-void AssignResultsBattleTeamOrderByScore(void) {
+void bres_2034024(void) {
     ResultsBattle *o;
     s32 scores[8];
     s32 team0Entries[8];
@@ -99,11 +99,11 @@ void AssignResultsBattleTeamOrderByScore(void) {
     nextOrderIndex = 0;
     team0Count = 0;
     team1Count = 0;
-    for (i = 0; i < (o = gResultsBattle)->mKartCount; i++) {
+    for (i = 0; i < (o = bres_sState)->mKartCount; i++) {
         scores[i] = o->mEntries[i].mScore;
     }
-    for (i = 0; i < (o = *(ResultsBattle **) &gResultsBattle)->mKartCount; i++) {
-        if (gRaceSetup->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
+    for (i = 0; i < (o = *(ResultsBattle **) &bres_sState)->mKartCount; i++) {
+        if (gRaceMultiConfig->mCurrentEntries[(u16) i].mPlayer.mTeamIndex == 0) {
             team0Entries[team0Count] = i;
             team0Count = team0Count + 1;
         } else {
@@ -120,7 +120,7 @@ void AssignResultsBattleTeamOrderByScore(void) {
                 team0BestIndex = k;
             }
         }
-        gResultsBattle->mEntries[team0Entries[team0BestIndex]].mOrderIndex = nextOrderIndex++;
+        bres_sState->mEntries[team0Entries[team0BestIndex]].mOrderIndex = nextOrderIndex++;
         scores[team0Entries[team0BestIndex]] = -2;
     }
     if (nextOrderIndex < 4 && team1Count <= 4) {
@@ -135,76 +135,76 @@ void AssignResultsBattleTeamOrderByScore(void) {
                 team1BestIndex = k;
             }
         }
-        gResultsBattle->mEntries[team1Entries[team1BestIndex]].mOrderIndex = nextOrderIndex++;
+        bres_sState->mEntries[team1Entries[team1BestIndex]].mOrderIndex = nextOrderIndex++;
         scores[team1Entries[team1BestIndex]] = -2;
     }
 }
 
-void FillResultsBattleEntries(void) {
+void bres_2033E6C(void) {
     u16 j;
     u16 k;
     s32 higherCount;
 
-    for (k = 0; k < gResultsBattle->mKartCount; k++) {
-        if (gResultsBattle->mMode == 3 || gRaceSetup->mRuleKind == 2) {
-            gResultsBattle->mEntries[k].mScore = func_02033e6c_inline(GetLowByte(k))->mTotalPoints;
+    for (k = 0; k < bres_sState->mKartCount; k++) {
+        if (bres_sState->mMode == 3 || gRaceMultiConfig->mRuleKind == 2) {
+            bres_sState->mEntries[k].mScore = func_02033e6c_inline(rres_205DC7C(k))->mTotalPoints;
         } else {
-            gResultsBattle->mEntries[k].mScore = func_02033e6c_inline(GetLowByte(k))->mWinCount;
+            bres_sState->mEntries[k].mScore = func_02033e6c_inline(rres_205DC7C(k))->mWinCount;
         }
     }
-    for (j = 0; j < gResultsBattle->mKartCount; j++) {
+    for (j = 0; j < bres_sState->mKartCount; j++) {
         higherCount = 0;
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            if (j != k && gResultsBattle->mEntries[j].mScore < gResultsBattle->mEntries[k].mScore) {
+        for (k = 0; k < bres_sState->mKartCount; k++) {
+            if (j != k && bres_sState->mEntries[j].mScore < bres_sState->mEntries[k].mScore) {
                 higherCount++;
             }
         }
-        gResultsBattle->mEntries[j].mRank = higherCount;
+        bres_sState->mEntries[j].mRank = higherCount;
     }
-    if (gRaceSetup->mUseTeams != 0) {
-        if (gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mRuleKind == 1) {
-            AssignResultsBattleTeamOrder();
+    if (gRaceMultiConfig->mUseTeams != 0) {
+        if (gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mRuleKind == 1) {
+            bres_2034188();
         } else {
-            AssignResultsBattleTeamOrderByScore();
+            bres_2034024();
         }
-    } else if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            gResultsBattle->mEntries[k].mOrderIndex = data_0217b488->mUnk_ec[k];
+    } else if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        for (k = 0; k < bres_sState->mKartCount; k++) {
+            bres_sState->mEntries[k].mOrderIndex = gStruct217B488->mUnk_ec[k];
         }
     } else {
-        for (k = 0; k < gResultsBattle->mKartCount; k++) {
-            gResultsBattle->mEntries[k].mOrderIndex = GetKartCupRank(k) - 1;
+        for (k = 0; k < bres_sState->mKartCount; k++) {
+            bres_sState->mEntries[k].mOrderIndex = rres_getGlobalRank(k) - 1;
         }
     }
 }
 
-s32 AreResultsBattleRanksAllZero(void) {
+s32 bres_2033E24(void) {
     s32 allRanksZero;
     s32 i;
 
     allRanksZero = 1;
     i = 0;
-    for (; i < gResultsBattle->mKartCount; i++) {
-        allRanksZero &= gResultsBattle->mEntries[i].mRank == 0 ? 1 : 0;
+    for (; i < bres_sState->mKartCount; i++) {
+        allRanksZero &= bres_sState->mEntries[i].mRank == 0 ? 1 : 0;
     }
     return allRanksZero;
 }
 
-s32 IsResultsBattleTimerRunOut(void) {
+s32 bres_2033DFC(void) {
     BOOL result;
 
     result = FALSE;
-    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer == 0) {
+    if (bres_sState->mUseTimer != FALSE && bres_sState->mTimer == 0) {
         result = TRUE;
     }
     return result;
 }
 
-s32 func_02033dd0(void) {
+s32 bres_2033DD0(void) {
     BOOL result;
 
     result = FALSE;
-    if (gResultsBattle->mUseTimer != FALSE && gResultsBattle->mTimer < 0x12c) {
+    if (bres_sState->mUseTimer != FALSE && bres_sState->mTimer < 0x12c) {
         result = TRUE;
     }
     return result;

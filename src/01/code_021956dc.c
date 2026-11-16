@@ -52,41 +52,41 @@ void LocateAndQueueRecordTAtt(void) {
     Nscr *l20 = NULL;
     u16 *p;
 
-    LocateNcgr2(&gRecordTAtt->mRecordTAttMNcgr, FindSceneFile(gRecordTAttMNcgrName));
-    LocateNcer(&gRecordTAtt->mRecordTAttMNcer, FindSceneFile(gRecordTAttMNcerName));
-    LocateNclr(&l0, FindSceneFile(gRecordTAttMONclrName));
-    gRecordTAtt->mRecordTAttMBncl = FindSceneFile(gRecordTAttMBnclName);
-    gRecordTAtt->mRecordTAttMBnll = FindSceneFile(gRecordTAttMBnllName);
-    LocateNcgr2(&gRecordTAtt->mRecordTAttSNcgr, FindSceneFile(gRecordTAttSNcgrName));
-    LocateNcer(&gRecordTAtt->mRecordTAttSNcer, FindSceneFile(gRecordTAttSNcerName));
-    LocateNclr(&l14, FindSceneFile(gRecordTAttSONclrName));
-    gRecordTAtt->mRecordTAttSBncl = FindSceneFile(gRecordTAttSBnclName);
-    gRecordTAtt->mRecordTAttSBnbl = FindSceneFile(gRecordTAttSBnblName);
-    gRecordTAtt->mRecordTAttSBnll = FindSceneFile(gRecordTAttSBnllName);
-    gRecordTAtt->mUnk_28 = GetPlayerCharacterNcgr(0);
-    gRecordTAtt->mUnk_2c = GetPlayerCharacterNcer(0);
-    gRecordTAtt->mUnk_30 = GetPlayerCharacterNclr(0);
-    gRecordTAtt->mUnk_34 = GetPlayerCharacterBncl(0);
-    LocateNcgr(&l4, FindSceneFile(gRecordTAttMBNcgrName));
-    LocateNscr(&lc, FindSceneFile(gRecordTAttMNscrName));
-    LocateNscr(&l10, FindSceneFile(gRecordTAttMScoreNscrName));
-    LocateNclr(&l8, FindSceneFile(gRecordTAttMBNclrName));
-    LocateNcgr(&l18, FindSceneFile(gRecordTAttSBNcgrName));
-    LocateNclr(&l1c, FindSceneFile(gRecordTAttSBNclrName));
-    LocateNscr(&l20, FindSceneFile(gRecordTAttSNscrName));
+    g2du_getCharacterData(&gRecordTAtt->mRecordTAttMNcgr, arc_getSceneArcFile(gRecordTAttMNcgrName));
+    g2du_getCellBankData(&gRecordTAtt->mRecordTAttMNcer, arc_getSceneArcFile(gRecordTAttMNcerName));
+    g2du_getPaletteData(&l0, arc_getSceneArcFile(gRecordTAttMONclrName));
+    gRecordTAtt->mRecordTAttMBncl = arc_getSceneArcFile(gRecordTAttMBnclName);
+    gRecordTAtt->mRecordTAttMBnll = arc_getSceneArcFile(gRecordTAttMBnllName);
+    g2du_getCharacterData(&gRecordTAtt->mRecordTAttSNcgr, arc_getSceneArcFile(gRecordTAttSNcgrName));
+    g2du_getCellBankData(&gRecordTAtt->mRecordTAttSNcer, arc_getSceneArcFile(gRecordTAttSNcerName));
+    g2du_getPaletteData(&l14, arc_getSceneArcFile(gRecordTAttSONclrName));
+    gRecordTAtt->mRecordTAttSBncl = arc_getSceneArcFile(gRecordTAttSBnclName);
+    gRecordTAtt->mRecordTAttSBnbl = arc_getSceneArcFile(gRecordTAttSBnblName);
+    gRecordTAtt->mRecordTAttSBnll = arc_getSceneArcFile(gRecordTAttSBnllName);
+    gRecordTAtt->mUnk_28 = m2d_getPortraitNceNcgr(0);
+    gRecordTAtt->mUnk_2c = m2d_getPortraitNceNcer(0);
+    gRecordTAtt->mUnk_30 = m2d_getPortraitONclr(0);
+    gRecordTAtt->mUnk_34 = m2d_getPortraitBncl(0);
+    g2du_getCharacterDataBG(&l4, arc_getSceneArcFile(gRecordTAttMBNcgrName));
+    g2du_getScreenData(&lc, arc_getSceneArcFile(gRecordTAttMNscrName));
+    g2du_getScreenData(&l10, arc_getSceneArcFile(gRecordTAttMScoreNscrName));
+    g2du_getPaletteData(&l8, arc_getSceneArcFile(gRecordTAttMBNclrName));
+    g2du_getCharacterDataBG(&l18, arc_getSceneArcFile(gRecordTAttSBNcgrName));
+    g2du_getPaletteData(&l1c, arc_getSceneArcFile(gRecordTAttSBNclrName));
+    g2du_getScreenData(&l20, arc_getSceneArcFile(gRecordTAttSNscrName));
     p = l0->mData;
-    CallQueueAppend(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData, gRecordTAtt->mRecordTAttMNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, l0->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, (u8 *) p + 0x1c0, 0x40);
-    CallQueueAppend(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData, gRecordTAtt->mRecordTAttSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, l14->mData, l14->mDataSize);
-    CallQueueAppend(4, 0, l4->mData, l4->mDataSize);
-    CallQueueAppend(8, 0, lc->mData, lc->mDataSize);
-    CallQueueAppend(9, 0, l10->mData, l10->mDataSize);
-    CallQueueAppend(0xf, 0, l8->mData, 0x40);
-    CallQueueAppend(0x17, 0, l18->mData, l18->mDataSize);
-    CallQueueAppend(0x1f, 0, l1c->mData, 0x40);
-    CallQueueAppend(0x1b, 0, l20->mData, l20->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, gRecordTAtt->mRecordTAttMNcgr->mData, gRecordTAtt->mRecordTAttMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, l0->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, (u8 *) p + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gRecordTAtt->mRecordTAttSNcgr->mData, gRecordTAtt->mRecordTAttSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, l14->mData, l14->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, l4->mData, l4->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, lc->mData, lc->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, l10->mData, l10->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, l8->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, l18->mData, l18->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, l1c->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, l20->mData, l20->mDataSize);
 }
 
 void func_ov001_021975f4(u16 a) {
@@ -109,29 +109,29 @@ void func_ov001_021975f4(u16 a) {
         index = data_ov001_021a6850[0][0];
         gRecordTAtt->mRecordTAttMTable[index].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, index,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, index,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0xe, data_ov001_021a683c[0] << 5,
+        NNS_GfdRegisterNewVramTransferTask(0xe, data_ov001_021a683c[0] << 5,
                         palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6850[0][1];
         gRecordTAtt->mRecordTAttMTable[slot].mVisible = 1;
-        QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, slot,
+        kic_putIconInLayout(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, slot,
                       data_ov001_021a683c[5], 0);
         cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[0];
         gRecordTAtt->mRecordTAttMTable[cnt + pal].mVisible = 1;
-        func_02124224(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+        jn_ui_2124224(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                       gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], value, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         pal = data_ov001_021a6810[0];
         gRecordTAtt->mRecordTAttMTable[cnt + pal].mVisible = 1;
-        func_0212426c(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+        jn_ui_212426C(0, pal, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                       gRecordTAtt->mRecordTAttMTable);
     } else {
         u16 cnt;
@@ -141,29 +141,29 @@ void func_ov001_021975f4(u16 a) {
         index = data_ov001_021a6850[a][0];
         gRecordTAtt->mRecordTAttSTable[index].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 1, index,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 1, index,
                        gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0x1e, data_ov001_021a683c[a] << 5,
+        NNS_GfdRegisterNewVramTransferTask(0x1e, data_ov001_021a683c[a] << 5,
                         palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], value);
         slot = data_ov001_021a6852[a][0];
         gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
-        QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
+        kic_putIconInLayout(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
                       data_ov001_021a6846[a], 1);
         cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], value, &time);
         FormatTimeAscii(&time, str);
         pal = data_ov001_021a67d4[a];
         gRecordTAtt->mRecordTAttSTable[cnt + pal].mVisible = 1;
-        func_02124224(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
+        jn_ui_2124224(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
                       gRecordTAtt->mRecordTAttSTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], value, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         pal = data_ov001_021a6810[a];
         gRecordTAtt->mRecordTAttSTable[cnt + pal].mVisible = 1;
-        func_0212426c(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
+        jn_ui_212426C(1, pal, gRecordTAtt->mRecordTAttSBnll, str, gRecordTAtt->mRecordTAttSBncl,
                       gRecordTAtt->mRecordTAttSTable);
     }
 }
@@ -176,7 +176,7 @@ void func_ov001_0219750c(u16 a) {
         gRecordTAtt->mRecordTAttMTable[data_ov001_021a6850[0][1]].mVisible = 0;
         cnt = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a67d4[0]].mVisible = 1;
-        func_02124224(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
+        jn_ui_2124224(0, data_ov001_021a67d4[0], gRecordTAtt->mRecordTAttMBnll, L"--:--:---",
                       gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, 7);
         gRecordTAtt->mRecordTAttMTable[cnt + data_ov001_021a6810[0]].mVisible = 0;
     } else {
@@ -184,7 +184,7 @@ void func_ov001_0219750c(u16 a) {
         gRecordTAtt->mRecordTAttSTable[data_ov001_021a6852[a][0]].mVisible = 0;
         cnt = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a67d4[a]].mVisible = 1;
-        func_02124224(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
+        jn_ui_2124224(1, data_ov001_021a67d4[a], gRecordTAtt->mRecordTAttSBnll, L"--:--:---",
                       gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, 7);
         gRecordTAtt->mRecordTAttSTable[cnt + data_ov001_021a6810[a]].mVisible = 0;
     }
@@ -202,7 +202,7 @@ void func_ov001_021972f4(void) {
     u16 cnt;
 
     p = gRecordTAtt;
-    func_0212426c(0, 0, gRecordTAtt->mRecordTAttMBnll, GetBmgEntry(p->mCommonMessages, data_ov001_021a6880[p->mIndex]),
+    jn_ui_212426C(0, 0, gRecordTAtt->mRecordTAttMBnll, jn_msg_getMessage(p->mCommonMessages, data_ov001_021a6880[p->mIndex]),
                   p->mRecordTAttMBncl, p->mRecordTAttMTable);
     for (i = 0; i < 5; i++) {
         if (IsTimeRecordFilled(data_ov001_021a6900[gRecordTAtt->mIndex], data_ov001_021a6828[i])) {
@@ -216,30 +216,30 @@ void func_ov001_021972f4(void) {
         result = GetTimeRecordCharacterIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 1;
         tile = data_ov001_021a6864[result];
-        QueueCellChars(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, 5,
+        jn_ui_fillPlaceholder(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_28, gRecordTAtt->mUnk_34, 0, 5,
                        gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) ((Nclr *) gRecordTAtt->mUnk_30)->mData;
-        CallQueueAppend(0xe, 0x80,
+        NNS_GfdRegisterNewVramTransferTask(0xe, 0x80,
                         palette + (GetCellPaletteIndex(tile, gRecordTAtt->mUnk_2c, gRecordTAtt->mUnk_34) << 5), 0x20);
         result = GetTimeRecordKartIndex(data_ov001_021a6900[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 1;
-        QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, 6, 6, 0);
+        kic_putIconInLayout(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, 6, 6, 0);
         GetTimeRecordTime(data_ov001_021a6900[gRecordTAtt->mIndex], 5, &time);
         FormatTimeAscii(&time, str);
         gRecordTAtt->mRecordTAttMTable[cnt + 2].mVisible = 1;
-        func_02124224(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+        jn_ui_2124224(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                       gRecordTAtt->mRecordTAttMTable, 7);
         GetTimeRecordName(data_ov001_021a6900[gRecordTAtt->mIndex], 5, name);
         MI_CpuFill8(str, 0, 0x20);
         MIi_CpuCopy16(name, str, 0x14);
         gRecordTAtt->mRecordTAttMTable[cnt + 4].mVisible = 1;
-        func_0212426c(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
+        jn_ui_212426C(0, 4, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                       gRecordTAtt->mRecordTAttMTable);
     } else {
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 0;
         gRecordTAtt->mRecordTAttMTable[cnt + 2].mVisible = 1;
-        func_02124224(0, 2, gRecordTAtt->mRecordTAttMBnll, L"--:--:---", gRecordTAtt->mRecordTAttMBncl,
+        jn_ui_2124224(0, 2, gRecordTAtt->mRecordTAttMBnll, L"--:--:---", gRecordTAtt->mRecordTAttMBncl,
                       gRecordTAtt->mRecordTAttMTable, 7);
         gRecordTAtt->mRecordTAttMTable[cnt + 4].mVisible = 0;
     }
@@ -393,11 +393,11 @@ void func_ov001_02196ecc(void) {
     buf[0] = 0;
     MIi_CpuClear16(buf[0], &buf[1], 0x200);
     p = gRecordTAtt;
-    a = GetBmgEntry(p->mGhostMessages, data_ov001_021a6980[p->mIndex]);
-    FormatMessageWithText(a, GetBmgEntry(p->mRecordMessages, 10), &buf[1], 0x200);
-    a = GetBmgEntry(gRecordTAtt->mCommonMessages, 0);
-    b = GetBmgEntry(gRecordTAtt->mCommonMessages, 1);
-    SetupTxtSystemSubTextTwoButtonsEx(&buf[1], a, b, 1, 0, 1, 1, 1);
+    a = jn_msg_getMessage(p->mGhostMessages, data_ov001_021a6980[p->mIndex]);
+    FormatMessageWithText(a, jn_msg_getMessage(p->mRecordMessages, 10), &buf[1], 0x200);
+    a = jn_msg_getMessage(gRecordTAtt->mCommonMessages, 0);
+    b = jn_msg_getMessage(gRecordTAtt->mCommonMessages, 1);
+    CreateSubMessageBoxSubYesNo(&buf[1], a, b, 1, 0, 1, 1, 1);
 }
 
 void func_ov001_02196eb0(void) {
@@ -495,7 +495,7 @@ BOOL func_ov001_02196c4c(void) {
     InputSlotIndex idx = UNK_02175628_INDEX_8;
     u16 m;
 
-    m = data_02175628[idx].mPressedBits;
+    m = gInputUnits[idx].mPressedBits;
     if (m != 0) {
         if (data_ov001_021a681c[0] == (data_ov001_021a681c[0] | m)) {
             gRecordTAtt->mUnk_80 = 1;
@@ -527,7 +527,7 @@ void InitRecordTAtt(void *heap) {
     (reg_G2_BG1CNT) = ((reg_G2_BG1CNT) & 0x43) | 0xcc00;
     (reg_G2S_DB_BG1CNT) = ((reg_G2S_DB_BG1CNT) & 0x43) | 0x1018;
     (reg_G2S_DB_BG3CNT) = ((reg_G2S_DB_BG3CNT) & 0x43) | 0x5810;
-    gRecordTAtt = HeapAlloc(heap, 0x94);
+    gRecordTAtt = heap_alloc(heap, 0x94);
     gRecordTAtt->mUnk_4c = heap;
     gRecordTAtt->mState = 0;
     gRecordTAtt->mIndex = 0;
@@ -539,39 +539,39 @@ void InitRecordTAtt(void *heap) {
         gRecordTAtt->mUnk_78[i] = 0;
     }
     LocateAndQueueRecordTAtt();
-    CreateKartIcon(heap);
-    ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
-    InitLayoutTable(heap, gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMBnll,
+    kic_initForGhost(heap);
+    oam_clearResetBuffers(GetRecordMainOam(), GetRecordSubOam());
+    jn_ui_initLayout(heap, gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMBnll,
                     &gRecordTAtt->mRecordTAttMTable);
-    InitLayoutTable(heap, gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSBnll,
+    jn_ui_initLayout(heap, gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSBnll,
                     &gRecordTAtt->mRecordTAttSTable);
-    gRecordTAtt->mCommonMessages = FindFileInLoadedArchives("common.bmg");
-    gRecordTAtt->mGhostMessages = FindSceneFile("ghost.bmg");
-    gRecordTAtt->mRecordMessages = FindSceneFile("record.bmg");
+    gRecordTAtt->mCommonMessages = arc_get2dArcFile("common.bmg");
+    gRecordTAtt->mGhostMessages = arc_getSceneArcFile("ghost.bmg");
+    gRecordTAtt->mRecordMessages = arc_getSceneArcFile("record.bmg");
     rem = 0x8000;
-    rem -= InitLabelCanvas(heap, 0, gRecordTAtt->mRecordTAttMBnll, 0xc8, 0x10, 0, gRecordTAtt->mRecordTAttMNcer,
+    rem -= jn_ui_initLabel(heap, 0, gRecordTAtt->mRecordTAttMBnll, 0xc8, 0x10, 0, gRecordTAtt->mRecordTAttMNcer,
                            gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, rem);
-    rem -= InitLabelCanvas(heap, 1, gRecordTAtt->mRecordTAttMBnll, 0x46, 0x10, 1, gRecordTAtt->mRecordTAttMNcer,
+    rem -= jn_ui_initLabel(heap, 1, gRecordTAtt->mRecordTAttMBnll, 0x46, 0x10, 1, gRecordTAtt->mRecordTAttMNcer,
                            gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, rem);
-    rem -= InitLabelCanvas(heap, 2, gRecordTAtt->mRecordTAttMBnll, 0x46, 0x10, 2, gRecordTAtt->mRecordTAttMNcer,
+    rem -= jn_ui_initLabel(heap, 2, gRecordTAtt->mRecordTAttMBnll, 0x46, 0x10, 2, gRecordTAtt->mRecordTAttMNcer,
                            gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, rem);
-    rem -= InitLabelCanvas(heap, 3, gRecordTAtt->mRecordTAttMBnll, 0x7c, 0x10, 3, gRecordTAtt->mRecordTAttMNcer,
+    rem -= jn_ui_initLabel(heap, 3, gRecordTAtt->mRecordTAttMBnll, 0x7c, 0x10, 3, gRecordTAtt->mRecordTAttMNcer,
                            gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, rem);
-    rem -= InitLabelCanvas(heap, 4, gRecordTAtt->mRecordTAttMBnll, 0x64, 0x10, 4, gRecordTAtt->mRecordTAttMNcer,
+    rem -= jn_ui_initLabel(heap, 4, gRecordTAtt->mRecordTAttMBnll, 0x64, 0x10, 4, gRecordTAtt->mRecordTAttMNcer,
                            gRecordTAtt->mRecordTAttMBncl, gRecordTAtt->mRecordTAttMTable, rem);
     rem = GX_GetSizeOfSubOBJ();
     for (k = 1; k < 5; k++) {
-        rem -= InitLabelCanvas(heap, data_ov001_021a67d4[k], gRecordTAtt->mRecordTAttSBnll, data_ov001_021a67c8[k],
+        rem -= jn_ui_initLabel(heap, data_ov001_021a67d4[k], gRecordTAtt->mRecordTAttSBnll, data_ov001_021a67c8[k],
                                data_ov001_021a67e0[k], k, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl,
                                gRecordTAtt->mRecordTAttSTable, rem);
-        rem -= InitLabelCanvas(heap, data_ov001_021a6810[k], gRecordTAtt->mRecordTAttSBnll, data_ov001_021a6804[k],
+        rem -= jn_ui_initLabel(heap, data_ov001_021a6810[k], gRecordTAtt->mRecordTAttSBnll, data_ov001_021a6804[k],
                                data_ov001_021a67ec[k], k + 5, gRecordTAtt->mRecordTAttSNcer,
                                gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, rem);
     }
-    InitLabelCanvas(heap, 8, gRecordTAtt->mRecordTAttSBnll, 0x98, 0x10, 0xd, gRecordTAtt->mRecordTAttSNcer,
+    jn_ui_initLabel(heap, 8, gRecordTAtt->mRecordTAttSBnll, 0x98, 0x10, 0xd, gRecordTAtt->mRecordTAttSNcer,
                     gRecordTAtt->mRecordTAttSBncl, gRecordTAtt->mRecordTAttSTable, rem);
     p = gRecordTAtt;
-    func_0212426c(1, 8, gRecordTAtt->mRecordTAttSBnll, GetBmgEntry(p->mRecordMessages, 3), p->mRecordTAttSBncl,
+    jn_ui_212426C(1, 8, gRecordTAtt->mRecordTAttSBnll, jn_msg_getMessage(p->mRecordMessages, 3), p->mRecordTAttSBncl,
                   p->mRecordTAttSTable);
     func_ov001_02197058();
 }
@@ -580,7 +580,7 @@ void func_ov001_02196904(void) {
     u32 a;
     u32 b;
 
-    ClearKartIconPointer();
+    kic_free();
     gRecordTAtt = NULL;
     a = ((reg_GX_DISPCNT) & 0x1f00) >> 8;
     (reg_GX_DISPCNT) = ((reg_GX_DISPCNT) & ~0x1f00) | ((a & ~0x13) << 8);
@@ -592,7 +592,7 @@ void AdvanceRecordTAttState0(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, -0xc0, 0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, -0xc0, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg0Offset = v;
     gRecordTAtt->mBg1OffsetY = v;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = v;
@@ -609,7 +609,7 @@ void AdvanceRecordTAttState1(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
@@ -656,29 +656,29 @@ void AdvanceRecordTAttState2(void) {
     func_ov001_02196cd0();
     x = TRUE;
     y = FALSE;
-    v = data_02175628[idx].mHasPair;
-    if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+    v = gInputUnits[idx].mHasPair;
+    if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
         y = TRUE;
     }
     if (y == FALSE && v == 0) {
         x = FALSE;
     }
     if (x != FALSE) {
-        a = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, data_02175628[idx].mPairX,
-                                    data_02175628[idx].mPairY);
+        a = jn_ui_checkTouch(gRecordTAtt->mRecordTAttSBnbl, gInputUnits[idx].mPairX,
+                                    gInputUnits[idx].mPairY);
     }
     x = FALSE;
     y = FALSE;
-    v = data_02175628[idx].mHasPair;
-    if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+    v = gInputUnits[idx].mHasPair;
+    if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
         y = TRUE;
     }
-    if (y == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+    if (y == FALSE && gInputUnits[idx].mPrevHasPair == 0 && v != 0) {
         x = TRUE;
     }
     if (x != FALSE) {
-        b = RectTableFindContaining(gRecordTAtt->mRecordTAttSBnbl, data_02175628[idx].mPairX,
-                                    data_02175628[idx].mPairY);
+        b = jn_ui_checkTouch(gRecordTAtt->mRecordTAttSBnbl, gInputUnits[idx].mPairX,
+                                    gInputUnits[idx].mPairY);
     }
     if (a != 0) {
         gRecordTAtt->mUnk_88 = FALSE;
@@ -686,18 +686,18 @@ void AdvanceRecordTAttState2(void) {
     if (a != 1) {
         gRecordTAtt->mUnk_8c = FALSE;
     }
-    if ((u16) (data_02175628[idx].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputUnits[idx].mPressedBits & PAD_KEY_B) == 0) {
         x = FALSE;
         y = FALSE;
-        v = data_02175628[idx].mHasPair;
-        if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+        v = gInputUnits[idx].mHasPair;
+        if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
             y = TRUE;
         }
-        if (y == FALSE && data_02175628[idx].mPrevHasPair == 0 && v != 0) {
+        if (y == FALSE && gInputUnits[idx].mPrevHasPair == 0 && v != 0) {
             x = TRUE;
         }
-        if (x == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                          data_02175628[idx].mPairY) == FALSE) {
+        if (x == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[idx].mPairX,
+                                                                          gInputUnits[idx].mPairY) == FALSE) {
             goto other;
         }
     }
@@ -706,17 +706,17 @@ void AdvanceRecordTAttState2(void) {
     RequestSelectReturnState3WithSound(0);
     goto done;
 other:
-    if (b == 2 || (u16) (data_02175628[idx].mPressedBits & PAD_KEY_X) != 0) {
+    if (b == 2 || (u16) (gInputUnits[idx].mPressedBits & PAD_KEY_X) != 0) {
         func_ov001_02196f80();
     } else if ((a == 0 && gRecordTAtt->mUnk_88 != FALSE) || (b == 0 && gRecordTAtt->mUnk_88 == FALSE) ||
-               (u16) (data_02175628[idx].mBits & PAD_KEY_LEFT) != 0) {
+               (u16) (gInputUnits[idx].mBits & PAD_KEY_LEFT) != 0) {
         gRecordTAtt->mUnk_70 = 1;
         gRecordTAtt->mUnk_78[0] = 6;
         gRecordTAtt->mUnk_88 = TRUE;
         RequestRecordTAttState3();
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 2);
     } else if ((a == 1 && gRecordTAtt->mUnk_8c != FALSE) || (b == 1 && gRecordTAtt->mUnk_8c == FALSE) ||
-               (u16) (data_02175628[idx].mBits & PAD_KEY_RIGHT) != 0) {
+               (u16) (gInputUnits[idx].mBits & PAD_KEY_RIGHT) != 0) {
         gRecordTAtt->mUnk_70 = 0;
         gRecordTAtt->mUnk_78[1] = 6;
         gRecordTAtt->mUnk_8c = TRUE;
@@ -750,7 +750,7 @@ void AdvanceRecordTAttState3(void) {
             break;
     }
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0, k, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, k, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
@@ -799,7 +799,7 @@ void AdvanceRecordTAttState4(void) {
             break;
     }
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, k, 0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, k, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
@@ -837,7 +837,7 @@ void AdvanceRecordTAttState5(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg1OffsetX = v;
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
@@ -877,7 +877,7 @@ void AdvanceRecordTAttState6(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0, -0xc0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, -0xc0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg0Offset = v;
     gRecordTAtt->mBg1OffsetY = v;
     gRecordTAtt->mRecordTAttMTable[0].mOffsetY = v;
@@ -891,7 +891,7 @@ void AdvanceRecordTAttState7(void) {
     u16 x;
 
     gRecordTAtt->mStateFrames++;
-    v = func_020ae488(gRecordTAtt->mStateFrames);
+    v = mutil_getButtonOutEffectOffset(gRecordTAtt->mStateFrames);
     x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
     gRecordTAtt->mRecordTAttSTable[12].mOffsetX = v;
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = v;
@@ -909,7 +909,7 @@ void AdvanceRecordTAttState8(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
@@ -948,8 +948,8 @@ void AdvanceRecordTAttState10(void) {
         if (GetTxtSystemSelectedIndex() == 0) {
             if (func_02060268(data_ov001_021a6900[gRecordTAtt->mIndex]) == 0) {
                 ClearCourseTimeRecords(data_ov001_021a6900[gRecordTAtt->mIndex]);
-                WaitThreadFunctionsDone();
-                if (gBackupAccess->mBackupEnabled != 0) {
+                bgwkr_waitForCompletion();
+                if (gSaveCore->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             }
@@ -965,7 +965,7 @@ void AdvanceRecordTAttState11(void) {
 
     gRecordTAtt->mStateFrames++;
     if (gRecordTAtt->mUnk_74 != FALSE) {
-        v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
+        v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
         gRecordTAtt->mBg1OffsetX = v;
         w = gRecordTAtt->mRecordTAttMBncl->mUnk_06;
         gRecordTAtt->mRecordTAttMTable[0].mOffsetX = v;
@@ -995,7 +995,7 @@ void AdvanceRecordTAttState12(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     if (gRecordTAtt->mUnk_74 != FALSE) {
         u16 w;
 
@@ -1047,7 +1047,7 @@ void AdvanceRecordTAttState13(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0, 0x100, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
     x = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
@@ -1087,18 +1087,18 @@ void AdvanceRecordTAttState15(void) {
     BOOL b;
 
     i = UNK_02175628_INDEX_8;
-    f = data_02175628[i].mPressedBits & PAD_KEY_B;
+    f = gInputUnits[i].mPressedBits & PAD_KEY_B;
     if (f == 0) {
         f = 0;
         b = FALSE;
-        if (data_02175628[i].mHasPair == 0 && data_02175628[i].mNoPairCount < 5) {
+        if (gInputUnits[i].mHasPair == 0 && gInputUnits[i].mNoPairCount < 5) {
             b = TRUE;
         }
-        if (b == FALSE && data_02175628[i].mPrevHasPair == 0 && data_02175628[i].mHasPair != 0) {
+        if (b == FALSE && gInputUnits[i].mPrevHasPair == 0 && gInputUnits[i].mHasPair != 0) {
             f = 1;
         }
-        if (f == 0 || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                      data_02175628[i].mPairY) == FALSE) {
+        if (f == 0 || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                      gInputUnits[i].mPairY) == FALSE) {
             return;
         }
     }
@@ -1121,7 +1121,7 @@ void AdvanceRecordTAttState17(void) {
     s16 v;
 
     gRecordTAtt->mStateFrames++;
-    v = InterpolateS16(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
+    v = mutil_interpolate(1, 0x100, 0, gRecordTAtt->mStateFrames, 10);
     gRecordTAtt->mBg3OffsetX = v;
     m = gRecordTAtt->mRecordTAttSBncl->mUnk_06;
     gRecordTAtt->mRecordTAttSTable[15].mOffsetX = v;
@@ -1207,10 +1207,10 @@ void AdvanceRecordTAtt(void) {
             break;
     }
     p = gRecordTAtt;
-    DrawLayoutTable(p->mRecordTAttMBncl, p->mRecordTAttMNcer, p->mRecordTAttMBnll, GetRecordMainOam(),
+    jn_ui_renderElements(p->mRecordTAttMBncl, p->mRecordTAttMNcer, p->mRecordTAttMBnll, GetRecordMainOam(),
                     p->mRecordTAttMTable);
     p = gRecordTAtt;
-    DrawLayoutTable(p->mRecordTAttSBncl, p->mRecordTAttSNcer, p->mRecordTAttSBnll, GetRecordSubOam(),
+    jn_ui_renderElements(p->mRecordTAttSBncl, p->mRecordTAttSNcer, p->mRecordTAttSBnll, GetRecordSubOam(),
                     p->mRecordTAttSTable);
 }
 

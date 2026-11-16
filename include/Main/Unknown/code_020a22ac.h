@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020a22ac(u16 kartIndex);
+void mgcnt_driverInflateBalloonByMic(u16 kartIndex);

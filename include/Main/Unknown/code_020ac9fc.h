@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-/* creates the pooled object hidden (parks it with ParkMapObject); the spawner later takes it with
- * UnparkFirstParkedMapObject */
-void InitShineBalloon(u32 arg0);
+/* creates the pooled object hidden (parks it with mobj_setInvisible); the spawner later takes it with
+ * mobj_acquireFreeObject */
+void sblln_init(u32 arg0);

@@ -4,33 +4,33 @@
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"
 
-void ReadSlotGhostRecords(void) {
+void ghdat_loadDownloadGhostsTask(void) {
     u8 i;
     u8 *records;
     GhostRecord *record;
 
-    records = data_0217aa08->mReadDestination;
+    records = gSaveData->mReadDestination;
     for (i = 0; i < 10; i++) {
         record = (GhostRecord *) (records + i * 0x230);
-        if (IsSlotGhostBitSet(i) != 0) {
-            func_02057800(0, i, record);
-            if (gBackupAccess->mBackupEnabled != 0) {
+        if (savd_isDownloadGhostAvailable(i) != 0) {
+            savd_readGhostHeaderWithEmblem(0, i, record);
+            if (gSaveCore->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
-            if (gBackupAccess->mErrorCode != 0) {
+            if (gSaveCore->mErrorCode != 0) {
                 record->mFilled = 0;
             }
         } else {
             record->mFilled = 0;
         }
     }
-    ClearBackupBusy();
-    data_0217aa08->mReadDestination = NULL;
+    savd_endOperation();
+    gSaveData->mReadDestination = NULL;
 }
 
-void StartReadSlotGhostRecords(void *records) {
-    data_0217aa08->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadSlotGhostRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void ghdat_loadDownloadGhostsAsync(void *records) {
+    gSaveData->mReadDestination = records;
+    savd_beginOperation();
+    bgwkr_enqueueTask((void (*)(void)) ghdat_loadDownloadGhostsTask);
+    gBgWkrState->mRunRequested = 1;
 }

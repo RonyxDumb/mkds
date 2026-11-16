@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void SetFriendDataFlags(DWCAccFriendData *friendData, u32 flags) {
+void DWCi_Acc_SetFlags(DWCAccFriendData *friendData, u32 flags) {
     DWCi_Acc_SetMaskBits(&friendData->mUnk_00, flags, 0xb, 0x1fffff);
 }
 

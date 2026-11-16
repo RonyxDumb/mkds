@@ -4,6 +4,6 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-void UpdateRaceHudSubScreenShine16Cells(void);
-void DrawRaceHudSubScreenShine16Cells(RaceHudOamBuffer *a);
-s32 CreateRaceHudSubScreenCrabCells(void);
+void mpicn_updateShine16Icon(void);
+void mpicn_renderShine16Icon(RaceHudOamBuffer *a);
+s32 mpicn_createCrabIcon(void);

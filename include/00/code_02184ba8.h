@@ -19,7 +19,7 @@ typedef struct WiFiAikotoba {
     /* 10 */ s32 mPendingWiFiState;
     /* 14 */ BOOL mUnk_14;
     /* 18 */ void *mHeap;
-    // Table of cells built from the Bncl by InitLayoutTable.
+    // Table of cells built from the Bncl by jn_ui_initLayout.
     /* 1c */ LayoutTableEntry *mWiFiAikotobaTable;
     /* 20 */ struct Unk02021dc8 *mWiFiAikotobaSNcer;
     /* 24 */ struct Ncgr *mWiFiAikotobaSNcgr;

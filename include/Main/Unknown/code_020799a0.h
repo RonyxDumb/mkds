@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-BOOL IsCharacterPNameUsed(s32 kartIndex);
+BOOL chkrt_getIsPlayer(s32 kartIndex);

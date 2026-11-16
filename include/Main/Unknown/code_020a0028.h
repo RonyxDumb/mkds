@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020e005c.h" // GroupFollower
 #include "Main/Unknown/code_020f9c6c.h" // CourseMapRow
 
-// Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (DrawAirship, InitAirshipObjects).
+// Object of kind 0x158 (Airship) with the GroupFollower base at 0xc8 (aship_render, aship_globalLogicInit).
 typedef struct Airship {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mUnk_a0;
@@ -21,19 +21,19 @@ typedef struct Airship {
     /* c0 */ s32 mWobbleAnglePerFrame;
     /* c4 */ s32 mUnk_c4;
     /* c8 */ GroupFollower mUnk_c8;
-    /* State number of this kind's own per-frame switch in UpdateAirship; this object does not use
+    /* State number of this kind's own per-frame switch in aship_update; this object does not use
        MapObject.mUnk_80's state machine; also written by the group pre-step */
     /* ec */ s32 mState;
 } Airship;
 
-// Array of object pointers: pointer to the array and the number of entries (InitAirshipObjects).
+// Array of object pointers: pointer to the array and the number of entries (aship_globalLogicInit).
 typedef struct AirshipObjectList {
     /* 00 */ Airship **mUnk_00;
     /* 04 */ u16 mUnk_04;
 } AirshipObjectList;
 
-void CreateAirship(void *a);
-void DrawAirship(void *a, Airship *airship);
-void InitAirshipObjects(AirshipObjectList *list);
-s32 func_020a0044(s32 angle);
-s32 func_020a0028(s32 multiplicand, s32 multiplier);
+void aship_loadModel(void *a);
+void aship_render(void *a, Airship *airship);
+void aship_globalLogicInit(AirshipObjectList *list);
+s32 aship_FX_CosIdx(s32 angle);
+s32 aship_FX_MulInline(s32 multiplicand, s32 multiplier);

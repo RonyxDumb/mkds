@@ -43,63 +43,63 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "Main/Unknown/code_0207e654.h"
 
-void CreateSmanTop(void *a) {
+void sman_loadTopModel(void *a) {
     void *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanTopNsbmdName);
-    gSmanTop = mapObjectModelNsbmd;
-    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+    mapObjectModelNsbmd = mobj_loadBillboardModel(a, aSman_top_nsbmd);
+    sman_sTopModel = mapObjectModelNsbmd;
+    mobj_setModelPolygonIdAll(mapObjectModelNsbmd, 0x3f);
 }
 
-void SetupDrawSmanTop(void *a) {
-    func_0209bbd0(a, gSmanTop);
+void sman_applyTopMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, sman_sTopModel);
 }
 
-void DrawSmanTop(void *mapObjectList, Sman *sman) {
+void sman_renderTop(void *mapObjectList, Sman *sman) {
     s32 c;
     s32 matrix[9];
     s32 topOffset[3];
     c = 0x1e;
-    func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, func_020e6cbc(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&sman->mMapObject.mPos), 0xc);
     topOffset[1] = sman->mTopHeight >> 4;
     topOffset[0] = 0;
     topOffset[2] = 0;
-    func_01ff9048(0x1c, topOffset, 3);
-    func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
-    MTX_RotZ33_(matrix, gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2],
-                gPairsByAngle[((u16) sman->mAngleZ >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, matrix, 9);
-    DrawMapObjectModel(mapObjectList, gSmanTop, sman);
+    NNS_G3dGeBufferOP_N(0x1c, topOffset, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
+    MTX_RotZ33_(matrix, FX_SinCosTable_[((u16) sman->mAngleZ >> 4) * 2],
+                FX_SinCosTable_[((u16) sman->mAngleZ >> 4) * 2 + 1]);
+    NNS_G3dGeBufferOP_N(0x1a, matrix, 9);
+    mobj_renderModel(mapObjectList, sman_sTopModel, sman);
 }
 
-void CreateSmanBottom(void *a) {
+void sman_loadBottomModel(void *a) {
     void *mapObjectModelNsbmd;
-    mapObjectModelNsbmd = CreateMapObjectModelNsbmd(a, gSmanBottomNsbmdName);
-    gSmanBottom = mapObjectModelNsbmd;
-    SetMapObjectModelPolygonId(mapObjectModelNsbmd, 0x3f);
+    mapObjectModelNsbmd = mobj_loadBillboardModel(a, aSman_bottom_ns);
+    sman_sBottomModel = mapObjectModelNsbmd;
+    mobj_setModelPolygonIdAll(mapObjectModelNsbmd, 0x3f);
 }
 
-void SetupDrawSmanBottom(void *a) {
-    func_0209bbd0(a, gSmanBottom);
+void sman_applyBottomMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, sman_sBottomModel);
 }
 
-void DrawSmanBottom(void *mapObjectList, Sman *sman) {
+void sman_renderBottom(void *mapObjectList, Sman *sman) {
     s32 c;
     s32 scale[3];
     s32 bottomScale;
     c = 0x1e;
-    func_01ff9048(0x14, &c, 1);
-    func_01ff9048(0x19, func_020e6cbc(&sman->mMapObject.mPos), 0xc);
-    func_01ff9048(0x1b, &sman->mMapObject.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x14, &c, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&sman->mMapObject.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &sman->mMapObject.mScale, 3);
     bottomScale = sman->mBottomScale;
     scale[0] = bottomScale;
     scale[1] = bottomScale;
     scale[2] = bottomScale;
-    func_01ff9048(0x1b, scale, 3);
-    DrawMapObjectModel(mapObjectList, gSmanBottom, sman);
+    NNS_G3dGeBufferOP_N(0x1b, scale, 3);
+    mobj_renderModel(mapObjectList, sman_sBottomModel, sman);
 }
 
-void InitSmanObjects(SmanList *smanList) {
+void sman_globalLogicInit(SmanList *smanList) {
     s32 index;
     Sman *sman;
     if (smanList == NULL) {
@@ -116,7 +116,7 @@ void InitSmanObjects(SmanList *smanList) {
     }
 }
 
-void UpdateSman(void *a, Sman *sman) {
+void sman_update(void *a, Sman *sman) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
     switch (sman->mState) {
@@ -131,7 +131,7 @@ void UpdateSman(void *a, Sman *sman) {
             }
             if (sman->mMapObject.mCourseMapRow->mUnk_28 > 0) {
                 if (sman->mTopHeight < 0) {
-                    ParkMapObject(&sman->mMapObject);
+                    mobj_setInvisible(&sman->mMapObject);
                 }
             } else if (sman->mTopHeight < sman->mTopLowHeight) {
                 sman->mTopHeight = sman->mTopLowHeight;
@@ -139,8 +139,8 @@ void UpdateSman(void *a, Sman *sman) {
                 sman->mState = 2;
                 falloffIndex = 2;
                 if ((sman->mMapObject.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (sman->mMapObject.mFarDistanceSquared != gSoundFalloffs[2].mUnk_20) {
-                        if (sman->mMapObject.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    if (sman->mMapObject.mFarDistanceSquared != gSfxParams[2].mUnk_20) {
+                        if (sman->mMapObject.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             falloffIndex = 3;
                         } else {
                             falloffIndex = 4;
@@ -149,7 +149,7 @@ void UpdateSman(void *a, Sman *sman) {
                     soundRequest.mSoundId = 0x162;
                     soundRequest.mPositionSource = &sman->mMapObject.mPos;
                     soundRequest.mUnk_08 = falloffIndex;
-                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sman->mMapObject.mPos);
+                    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&sman->mMapObject.mPos);
                     func_0210b7a8(&soundRequest);
                 }
             }
@@ -205,8 +205,8 @@ void UpdateSman(void *a, Sman *sman) {
 }
 
 // Creates the kind record of Sman with two functions that put it into state 1 when their third argument points to 1.
-void CreateSmanKindData(void) {
-    func_0209bf70(func_02091828, func_020917d0, NULL, 0, 1, 0x161);
+void sman_setupConfig(void) {
+    mobj_createConfigEx(sman_onDriverCollide, sman_onItemCollide, NULL, 0, 1, 0x161);
 }
 
 static inline BOOL func_02090940_inline(void) {
@@ -215,7 +215,7 @@ static inline BOOL func_02090940_inline(void) {
     enum { L0 } engineClass;
     for (cup = 0; cup < 8; cup++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
-            if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
+            if (savd_getIsCupPlayed(cup, engineClass) != 0 && savd_getCupTrophy(cup, engineClass) == 0) {
                 isFilledTopRank = TRUE;
             } else {
                 isFilledTopRank = FALSE;
@@ -228,55 +228,55 @@ static inline BOOL func_02090940_inline(void) {
     return TRUE;
 }
 
-void *CreateSmanTopDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSmanTop, DrawSmanTop, SetupDrawSmanTop);
+void *sman_setupTopRenderPart(void) {
+    return mobj_createRenderPart2d(sman_loadTopModel, sman_renderTop, sman_applyTopMaterial);
 }
 
-void *CreateSmanBottomDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSmanBottom, DrawSmanBottom, SetupDrawSmanBottom);
+void *sman_setupBottomRenderPart(void) {
+    return mobj_createRenderPart2d(sman_loadBottomModel, sman_renderBottom, sman_applyBottomMaterial);
 }
 
-void *CreateSmanUpdateList(void) {
-    return CreateMapObjectUpdateList(InitSmanObjects, UpdateSman, NULL);
+void *sman_setupLogicPart(void) {
+    return mobj_createLogicPart(sman_globalLogicInit, sman_update, NULL);
 }
 
 static inline BOOL func_02090cf8_inline(s32 cup, s32 engineClass) {
-    if (IsGrandPrixRecordFilled(cup, engineClass) != 0 && GetGrandPrixRecordCupRank(cup, engineClass) == 0) {
+    if (savd_getIsCupPlayed(cup, engineClass) != 0 && savd_getCupTrophy(cup, engineClass) == 0) {
         return TRUE;
     }
     return FALSE;
 }
 
-u32 func_020911a8(void) {
+u32 unlock_updateUnlocks(void) {
     u32 setFlagBits;
     setFlagBits = 0;
-    if (GetCurrentSceneNumber() == 10) {
-        setFlagBits = func_02090ff4();
-        func_02056d40();
-        WaitThreadFunctionsDone();
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (scproc_getCurrentScene() == 10) {
+        setFlagBits = unlock_tryUnlock();
+        savd_flushNksy();
+        bgwkr_waitForCompletion();
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
     return setFlagBits;
 }
 
-u32 func_0209119c(void) {
-    return func_02090ff4();
+u32 unlock_tryUnlock2(void) {
+    return unlock_tryUnlock();
 }
 
-u32 func_02090ff4(void) {
+u32 unlock_tryUnlock(void) {
     u32 setFlagBits;
     u32 q;
     BOOL t;
     setFlagBits = 0;
-    setFlagBits = setFlagBits | func_02090cf8();
-    setFlagBits = setFlagBits | func_02090b24();
+    setFlagBits = setFlagBits | unlock_tryUnlockCups();
+    setFlagBits = setFlagBits | unlock_tryUnlockCharacters();
     q = 0;
     t = FALSE;
-    if (func_02056d98() < 2) {
-        if ((IsGrandPrixRecordFilled(3, 1) != 0 && GetGrandPrixRecordCupRank(3, 1) == 0) ? 1 : 0) {
-            func_02056d54(2);
+    if (savd_getKartUnlockLevel() < 2) {
+        if ((savd_getIsCupPlayed(3, 1) != 0 && savd_getCupTrophy(3, 1) == 0) ? 1 : 0) {
+            savd_setKartUnlockLevel(2);
             t = TRUE;
         }
     }
@@ -284,9 +284,9 @@ u32 func_02090ff4(void) {
         q = 0x200;
     }
     t = FALSE;
-    if (func_02056d98() < 3) {
+    if (savd_getKartUnlockLevel() < 3) {
         BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 2) != 0 && GetGrandPrixRecordCupRank(3, 2) == 0) {
+        if (savd_getIsCupPlayed(3, 2) != 0 && savd_getCupTrophy(3, 2) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
@@ -294,14 +294,14 @@ u32 func_02090ff4(void) {
         if (isFilledTopRank != FALSE) {
             goto l1;
         }
-        if (IsGrandPrixRecordFilled(7, 2) != 0 && GetGrandPrixRecordCupRank(7, 2) == 0) {
+        if (savd_getIsCupPlayed(7, 2) != 0 && savd_getCupTrophy(7, 2) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
         l1:
-            func_02056d54(3);
+            savd_setKartUnlockLevel(3);
             t = TRUE;
         }
     }
@@ -309,10 +309,10 @@ u32 func_02090ff4(void) {
         q = 0x400;
     }
     t = FALSE;
-    if (func_02056d98() < 4) {
-        if ((IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) ? 1 : 0) {
-            if ((IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) ? 1 : 0) {
-                func_02056d54(4);
+    if (savd_getKartUnlockLevel() < 4) {
+        if ((savd_getIsCupPlayed(3, 3) != 0 && savd_getCupTrophy(3, 3) == 0) ? 1 : 0) {
+            if ((savd_getIsCupPlayed(7, 3) != 0 && savd_getCupTrophy(7, 3) == 0) ? 1 : 0) {
+                savd_setKartUnlockLevel(4);
                 t = TRUE;
             }
         }
@@ -323,7 +323,7 @@ u32 func_02090ff4(void) {
     return setFlagBits | q;
 }
 
-u32 func_02090cf8(void) {
+u32 unlock_tryUnlockCups(void) {
     enum { K0 } engineClass;
     u32 setFlagBits;
     u32 q;
@@ -334,59 +334,59 @@ u32 func_02090cf8(void) {
     setFlagBits = 0;
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
-        if (IsBackupFlagSet(engineClass) == 0) {
+        if (savd_isUnlockBitSet(engineClass) == 0) {
             if (func_02090cf8_inline(0, engineClass) != FALSE && func_02090cf8_inline(1, engineClass) != FALSE) {
-                SetBackupFlag(engineClass);
+                savd_setUnlockBit(engineClass);
                 newBit = 1;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         j4 = engineClass + 4;
-        if (IsBackupFlagSet(j4) == 0) {
+        if (savd_isUnlockBitSet(j4) == 0) {
             if (func_02090cf8_inline(2, engineClass) != FALSE) {
-                SetBackupFlag(j4);
+                savd_setUnlockBit(j4);
                 newBit = 2;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         j8 = engineClass + 8;
-        if (IsBackupFlagSet(j8) == 0) {
+        if (savd_isUnlockBitSet(j8) == 0) {
             if (func_02090cf8_inline(4, engineClass) != FALSE && func_02090cf8_inline(5, engineClass) != FALSE) {
-                SetBackupFlag(j8);
+                savd_setUnlockBit(j8);
                 newBit = 4;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
         j12 = engineClass + 12;
-        if (IsBackupFlagSet(j12) == 0) {
+        if (savd_isUnlockBitSet(j12) == 0) {
             if (func_02090cf8_inline(6, engineClass) != FALSE) {
-                SetBackupFlag(j12);
+                savd_setUnlockBit(j12);
                 newBit = 8;
             }
         }
         setFlagBits = setFlagBits | newBit;
     }
     q = 0;
-    if (IsBackupFlagSet(0x10) == 0) {
+    if (savd_isUnlockBitSet(0x10) == 0) {
         if (func_02090cf8_inline(3, 2) != FALSE && func_02090cf8_inline(7, 2) != FALSE) {
-            SetBackupFlag(0x10);
+            savd_setUnlockBit(0x10);
             q = 0x10;
         }
     }
     return setFlagBits | q;
 }
 
-u32 func_02090b24(void) {
+u32 unlock_tryUnlockCharacters(void) {
     u32 setFlagBits;
     BOOL t;
     setFlagBits = 0;
     t = FALSE;
-    if (IsBackupFlagSet(0x14) == 0) {
-        if ((IsGrandPrixRecordFilled(3, 0) != 0 && GetGrandPrixRecordCupRank(3, 0) == 0) ? 1 : 0) {
-            SetBackupFlag(0x14);
+    if (savd_isUnlockBitSet(0x14) == 0) {
+        if ((savd_getIsCupPlayed(3, 0) != 0 && savd_getCupTrophy(3, 0) == 0) ? 1 : 0) {
+            savd_setUnlockBit(0x14);
             t = TRUE;
         }
     }
@@ -394,9 +394,9 @@ u32 func_02090b24(void) {
         setFlagBits = setFlagBits | 0x20;
     }
     t = FALSE;
-    if (IsBackupFlagSet(0x15) == 0) {
-        if ((IsGrandPrixRecordFilled(7, t) != 0 && GetGrandPrixRecordCupRank(7, t) == 0) ? 1 : 0) {
-            SetBackupFlag(0x15);
+    if (savd_isUnlockBitSet(0x15) == 0) {
+        if ((savd_getIsCupPlayed(7, t) != 0 && savd_getCupTrophy(7, t) == 0) ? 1 : 0) {
+            savd_setUnlockBit(0x15);
             t = TRUE;
         }
     }
@@ -404,9 +404,9 @@ u32 func_02090b24(void) {
         setFlagBits = setFlagBits | 0x40;
     }
     t = FALSE;
-    if (IsBackupFlagSet(0x16) == 0) {
-        if ((IsGrandPrixRecordFilled(7, 1) != 0 && GetGrandPrixRecordCupRank(7, 1) == 0) ? 1 : 0) {
-            SetBackupFlag(0x16);
+    if (savd_isUnlockBitSet(0x16) == 0) {
+        if ((savd_getIsCupPlayed(7, 1) != 0 && savd_getCupTrophy(7, 1) == 0) ? 1 : 0) {
+            savd_setUnlockBit(0x16);
             t = TRUE;
         }
     }
@@ -414,9 +414,9 @@ u32 func_02090b24(void) {
         setFlagBits = setFlagBits | 0x80;
     }
     t = FALSE;
-    if (IsBackupFlagSet(0x17) == 0) {
+    if (savd_isUnlockBitSet(0x17) == 0) {
         BOOL isFilledTopRank;
-        if (IsGrandPrixRecordFilled(3, 3) != 0 && GetGrandPrixRecordCupRank(3, 3) == 0) {
+        if (savd_getIsCupPlayed(3, 3) != 0 && savd_getCupTrophy(3, 3) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
@@ -424,14 +424,14 @@ u32 func_02090b24(void) {
         if (isFilledTopRank != FALSE) {
             goto l1;
         }
-        if (IsGrandPrixRecordFilled(7, 3) != 0 && GetGrandPrixRecordCupRank(7, 3) == 0) {
+        if (savd_getIsCupPlayed(7, 3) != 0 && savd_getCupTrophy(7, 3) == 0) {
             isFilledTopRank = TRUE;
         } else {
             isFilledTopRank = FALSE;
         }
         if (isFilledTopRank != FALSE) {
         l1:
-            SetBackupFlag(0x17);
+            savd_setUnlockBit(0x17);
             t = TRUE;
         }
     }
@@ -441,7 +441,7 @@ u32 func_02090b24(void) {
     return setFlagBits;
 }
 
-s32 func_020909cc(void) {
+s32 unlock_hasUnlockedTrueStaffRoll(void) {
     Unk0217b488 *p;
     s32 result;
     s32 n;
@@ -449,7 +449,7 @@ s32 func_020909cc(void) {
     BOOL c;
     BOOL f;
     result = 0;
-    p = data_0217b488;
+    p = gStruct217B488;
     engineClass = p->mEngineIndex;
     n = p->mCupIndex;
     if (p->mMirrorMode != 0) {
@@ -459,7 +459,7 @@ s32 func_020909cc(void) {
     f = func_02090940_inline();
     if (f != FALSE) {
         if (n == 3 || n == 7) {
-            if (data_0217b488->mCupRankIndex == 0) {
+            if (gStruct217B488->mCupRankIndex == 0) {
                 c = TRUE;
             }
         }
@@ -474,13 +474,13 @@ s32 func_020909cc(void) {
             } else {
                 n = 7;
             }
-            if (IsGrandPrixRecordFilled(n, engineClass) != 0 && GetGrandPrixRecordCupRank(n, engineClass) <= 2) {
+            if (savd_getIsCupPlayed(n, engineClass) != 0 && savd_getCupTrophy(n, engineClass) <= 2) {
                 f = TRUE;
             } else {
                 f = FALSE;
             }
             if (f != FALSE) {
-                if (data_0217b488->mCupRankIndex <= 2) {
+                if (gStruct217B488->mCupRankIndex <= 2) {
                     c = TRUE;
                 }
             }
@@ -492,33 +492,33 @@ s32 func_020909cc(void) {
     return result;
 }
 
-BOOL IsAllGrandPrixRecordsTopRank(void) {
+BOOL unlock_hasUnlockedTrueTitleScreen(void) {
     return func_02090940_inline();
 }
 
-void LoadStaffGhostTime(void *heap) {
-    LoadFileIntoHeap(gStaffGhostTimeBinName, heap, (void **) &gStaffGhostTime);
+void unlock_loadStaffGhostTime(void *heap) {
+    arc_loadFile(aDataGhostStaff, heap, (void **) &unlock_sStaffGhostTime);
 }
 
 // TRUE when the time is smaller than entry a - 1 of the staff ghost times.
-BOOL IsTimeLessThanStaffGhostTime(u32 entryNumber, void *timeArg) {
+BOOL unlock_isFasterThanStaffGhost(u32 entryNumber, void *timeArg) {
     MinuteSecondMillisecondTime *time = timeArg;
-    return time->mSecond * 1000 + time->mMinute * 60000 + time->mMillisecond < gStaffGhostTime[entryNumber - 1];
+    return time->mSecond * 1000 + time->mMinute * 60000 + time->mMillisecond < unlock_sStaffGhostTime[entryNumber - 1];
 }
 
 void SetupKartKillerCursor(KartKillerCursor *kartKillerCursor, u32 kartIndex) {
     Kart *kart;
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     kartKillerCursor->mKillerKartIndex = kartIndex;
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartIndex,
-                         (Unk02080b1c_00 *) gKartItems[kartIndex].mUnk_1f0.mLink);
+                         (Unk02080b1c_00 *) it_sDriverItemStatus[kartIndex].mUnk_1f0.mLink);
     kartKillerCursor->mUnk_26 = 0;
     kartKillerCursor->mUnk_28 = 0;
     kart->mTurnAngle = 0;
-    EndKartDrift(kart);
+    driver_endDrift(kart);
 }
 
-void ResetKartKillerCursorTo(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link) {
+void kill_recalculateRoute(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *link) {
     if (link == kartKillerCursor->mPointLinkCursor.mPreviousLink) {
         return;
     }
@@ -536,7 +536,7 @@ void AdvanceKartKillerAlongPointLinks(KartKillerCursor *kartKillerCursor) {
     Kart *kart;
     Vec3 position;
     s32 isPastOrNearLink;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = driver_getById(kartKillerCursor->mKillerKartIndex);
     position = kart->mPos;
     kartKillerCursor->mAngleToLinkDegrees = ComputeAngleToPositionDegrees(
         kartKillerCursor->mPointLinkCursor.mLink->mUnk_18, &position, &kart->mUnk_12c, &kart->mUnk_138);
@@ -568,7 +568,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     s32 angleDifference;
     s32 angleDifferenceAbs;
     s32 entryIndex;
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = driver_getById(kartKillerCursor->mKillerKartIndex);
     angleToLinkDegrees = kartKillerCursor->mAngleToLinkDegrees;
     if ((kart->mUnk_44 & KART_44_ON_GROUND) != 0) {
         turnFactor = 0x19a;
@@ -608,7 +608,7 @@ s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
     } else {
         isCounting = TRUE;
     }
-    kart = GetKart(kartKillerCursor->mKillerKartIndex);
+    kart = driver_getById(kartKillerCursor->mKillerKartIndex);
     if ((kart->mUnk_44 & 0xc0) != 0) {
         isCounting = TRUE;
         kartKillerCursor->mUnk_28 = 5;
@@ -626,8 +626,8 @@ s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
 }
 
 // Stores one of three sets of battle item entry tables and callbacks; any value other than 1 or 2 takes the third set.
-void SetupBattleItemEntries(void) {
-    switch (gRaceSetup->mCpuDifficulty) {
+void mgenit_setupFunctions(void) {
+    switch (gRaceMultiConfig->mCpuDifficulty) {
         case CPU_DIFFICULTY_EASY:
             gBattleHeldItemEntries = data_021561d0;
             gBattleItemInUseEntries = data_02155fd8;

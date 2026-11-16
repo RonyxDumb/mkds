@@ -165,41 +165,41 @@ u16 KeyboardCursorCallback(s32 rectValue, u16 b) {
             if ((b & 0x20) != 0 || (b & 0x10) != 0) {
                 r = 2;
             } else if ((b & 0x40) != 0) {
-                r = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_00;
+                r = a079[gKeyboardTextEntry->mLayoutIndex].mUnk_00;
             } else if ((b & 0x80) != 0) {
-                r = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_02;
+                r = a079[gKeyboardTextEntry->mLayoutIndex].mUnk_02;
             }
             break;
         case 2:
             if ((b & 0x20) != 0 || (b & 0x10) != 0) {
                 r = 1;
             } else if ((b & 0x40) != 0) {
-                r = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_04;
+                r = a079[gKeyboardTextEntry->mLayoutIndex].mUnk_04;
             } else if ((b & 0x80) != 0) {
-                r = data_02156808[gKeyboardTextEntry->mLayoutIndex].mUnk_06;
+                r = a079[gKeyboardTextEntry->mLayoutIndex].mUnk_06;
             }
             break;
     }
-    StartSoundOncePerFrame(0x1e4);
+    sfx_2105AC0(0x1e4);
     return r;
 }
 
 void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
     KeyboardTextEntry *keyboardTextEntry;
 
-    gKeyboardTextEntry = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x78);
+    gKeyboardTextEntry = heap_alloc(proc_getHeap(proc_getCurrent()), 0x78);
     gKeyboardTextEntry->mTextCapacity = textCapacity;
     gKeyboardTextEntry->mTextLimit = textCapacity;
     gKeyboardTextEntry->mTextIndex = 0;
     gKeyboardTextEntry->mUnk_48 = 0;
-    gKeyboardTextEntry->mText = HeapAlloc(GetHeap(GetCurrentHeapCall()), (textCapacity + 1) * 2);
+    gKeyboardTextEntry->mText = heap_alloc(proc_getHeap(proc_getCurrent()), (textCapacity + 1) * 2);
     gKeyboardTextEntry->mBg2ScrSize = b * (a * 2);
-    gKeyboardTextEntry->mBg2Scr = HeapAlloc(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2ScrSize);
+    gKeyboardTextEntry->mBg2Scr = heap_alloc(proc_getHeap(proc_getCurrent()), gKeyboardTextEntry->mBg2ScrSize);
     gKeyboardTextEntry->mBg2CharSize = 0x4020;
     gKeyboardTextEntry->mBg2Char =
-        HeapAllocAligned(GetHeap(GetCurrentHeapCall()), gKeyboardTextEntry->mBg2CharSize, 0x20);
+        heap_allocEx(proc_getHeap(proc_getCurrent()), gKeyboardTextEntry->mBg2CharSize, 0x20);
     keyboardTextEntry = gKeyboardTextEntry;
-    InitKeyboardKeysAndCanvas(GetFontByIndex(0), keyboardTextEntry->mBg2Char, keyboardTextEntry->mBg2Scr, a, b, 0);
+    InitKeyboardKeysAndCanvas(m2d_getFont(0), keyboardTextEntry->mBg2Char, keyboardTextEntry->mBg2Scr, a, b, 0);
     SetKeyboardCursorCallback(KeyboardCursorCallback);
     SetKeyboardKeyCallback(KeyboardKeyCallback);
     func_020ab07c(0);
@@ -214,32 +214,32 @@ void InitKeyboardTextEntry(s32 a, s32 b, s32 textCapacity) {
     gKeyboardTextEntry->mButton1Y0 = 0x7a;
     gKeyboardTextEntry->mButton1X1 = 0xdd;
     gKeyboardTextEntry->mButton1Y1 = 0x8e;
-    LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[0], FindSceneFile(data_02167bf4));
-    LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[2], FindSceneFile(data_02167c0c));
-    LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[1], FindSceneFile(data_02167c24));
-    LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[3], FindSceneFile(data_02167c3c));
-    LoadNcgrData2(&gKeyboardTextEntry->mNcgrs[4], FindSceneFile(data_02167c54));
-    LocateNcgr2(&gKeyboardTextEntry->mUnk_24, FindSceneFile(data_02167c6c));
-    gKeyboardTextEntry->mKbds[0] = FindSceneFile(data_02167c84);
-    gKeyboardTextEntry->mKbds[2] = FindSceneFile(data_02167c90);
-    gKeyboardTextEntry->mKbds[1] = FindSceneFile(data_02167c9c);
-    gKeyboardTextEntry->mKbds[3] = FindSceneFile(data_02167ca4);
-    gKeyboardTextEntry->mKbds[4] = FindSceneFile(data_02167cb0);
-    gKeyboardTextEntry->mKbds[5] = FindSceneFile(data_02167cbc);
-    gKbdmapAscii = FindSceneFile(data_02167cc8);
-    gKbdmapAsciiCaps = FindSceneFile(data_02167cd8);
-    gKbdmapAsciiShift = FindSceneFile(data_02167cec);
-    gKbdmapHiragana = FindSceneFile(data_02167d00);
-    gKbdmapHiraganaDakuten = FindSceneFile(data_02167d10);
-    gKbdmapHiraganaHandaku = FindSceneFile(data_02167d28);
-    gKbdmapHiraganaSmall = FindSceneFile(data_02167d40);
-    gKbdmapKatakana = FindSceneFile(data_02167d58);
-    gKbdmapKatakanaDakuten = FindSceneFile(data_02167d68);
-    gKbdmapKatakanaHandaku = FindSceneFile(data_02167d80);
-    gKbdmapKatakanaSmall = FindSceneFile(data_02167d98);
-    gKbdmapOther1 = FindSceneFile(data_02167db0);
-    gKbdmapOther2 = FindSceneFile(data_02167dc0);
-    gKbdmapOther3 = FindSceneFile(data_02167dd0);
+    g2du_unpackCharacterData(&gKeyboardTextEntry->mNcgrs[0], arc_getSceneArcFile(aKeyboard_s_b_1));
+    g2du_unpackCharacterData(&gKeyboardTextEntry->mNcgrs[2], arc_getSceneArcFile(aKeyboard_s_b_a));
+    g2du_unpackCharacterData(&gKeyboardTextEntry->mNcgrs[1], arc_getSceneArcFile(aKeyboard_s_b_j));
+    g2du_unpackCharacterData(&gKeyboardTextEntry->mNcgrs[3], arc_getSceneArcFile(aKeyboard_s_b_e));
+    g2du_unpackCharacterData(&gKeyboardTextEntry->mNcgrs[4], arc_getSceneArcFile(aKeyboard_s_b_0));
+    g2du_getCharacterData(&gKeyboardTextEntry->mUnk_24, arc_getSceneArcFile(aKeyboard_s_b_p));
+    gKeyboardTextEntry->mKbds[0] = arc_getSceneArcFile(a10key_kbd);
+    gKeyboardTextEntry->mKbds[2] = arc_getSceneArcFile(aAscii_kbd);
+    gKeyboardTextEntry->mKbds[1] = arc_getSceneArcFile(aJp_kbd);
+    gKeyboardTextEntry->mKbds[3] = arc_getSceneArcFile(aEuro_kbd);
+    gKeyboardTextEntry->mKbds[4] = arc_getSceneArcFile(aPicto_kbd_0);
+    gKeyboardTextEntry->mKbds[5] = arc_getSceneArcFile(aPicto_kbd);
+    gKbdmapAscii = arc_getSceneArcFile(aAscii_kbdmap);
+    gKbdmapAsciiCaps = arc_getSceneArcFile(aAscii_caps_kbd);
+    gKbdmapAsciiShift = arc_getSceneArcFile(aAscii_shift_kb);
+    gKbdmapHiragana = arc_getSceneArcFile(aHiragana_kbdma);
+    gKbdmapHiraganaDakuten = arc_getSceneArcFile(aHiragana_dakut);
+    gKbdmapHiraganaHandaku = arc_getSceneArcFile(aHiragana_handa);
+    gKbdmapHiraganaSmall = arc_getSceneArcFile(aHiragana_small);
+    gKbdmapKatakana = arc_getSceneArcFile(aKatakana_kbdma);
+    gKbdmapKatakanaDakuten = arc_getSceneArcFile(aKatakana_dakut);
+    gKbdmapKatakanaHandaku = arc_getSceneArcFile(aKatakana_handa);
+    gKbdmapKatakanaSmall = arc_getSceneArcFile(aKatakana_small);
+    gKbdmapOther1 = arc_getSceneArcFile(aOther1_kbdmap);
+    gKbdmapOther2 = arc_getSceneArcFile(aOther2_kbdmap);
+    gKbdmapOther3 = arc_getSceneArcFile(aOther3_kbdmap);
     SetupKeyboardInputMasks(1, 2, 0x400);
 }
 
@@ -250,10 +250,10 @@ void AdvanceKeyboardTextEntry(void) {
     u16 convertedChar;
 
     lastCharIndex = GetKeyboardLastCharIndex();
-    PollKeyboard();
+    KBD_Update();
     GetKeyboardKeyValue();
     inputSlotIndex = UNK_02175628_INDEX_8;
-    if ((u16) (data_02175628[inputSlotIndex].mPressedBits & 8) != 0) {
+    if ((u16) (gInputUnits[inputSlotIndex].mPressedBits & 8) != 0) {
         if (GetKeyboardCursorValueWrapper() != 1) {
             MoveKeyboardCursorToValueWrapper(1);
         }
@@ -515,7 +515,7 @@ u16 GetKeyboardTextIndex(void) {
 
 #pragma thumb on
 
-void ClearKeyboardInput(void) {
+void KBD_ClearPadTpInput(void) {
     MemFillWordsByBlock_inline(&gKeyboardInput, 0x28);
 }
 
@@ -523,8 +523,8 @@ void ClearKeyboardInput(void) {
 
 #pragma thumb on
 
-void InitKeyboardInput(void) {
-    ClearKeyboardInput();
+void KBD_StartupPadTpInput(void) {
+    KBD_ClearPadTpInput();
     gKeyboardInput.mTouchEnabled = TRUE;
 }
 
@@ -532,7 +532,7 @@ void InitKeyboardInput(void) {
 
 #pragma thumb on
 
-void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
+void KBD_UpdatePadTpInputValue(u16 keys, volatile TPData touchPoint) {
     u32 changedKeys;
     u16 touch;
 
@@ -578,7 +578,7 @@ void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint) {
 #pragma thumb off
 
 #pragma thumb on
-u32 GetKeyboardKeysPressed(u32 mask) {
+u32 KBD_IsSetPadTrig(u32 mask) {
     u32 value0 = mask;
     u32 value1;
     value1 = gKeyboardInput.mKeysPressed;
@@ -589,7 +589,7 @@ u32 GetKeyboardKeysPressed(u32 mask) {
 #pragma thumb off
 
 #pragma thumb on
-u32 GetKeyboardKeysDown(u32 mask) {
+u32 KBD_IsSetPadPress(u32 mask) {
     u32 value0 = mask;
     u32 value1;
     value1 = gKeyboardInput.mKeysDown;
@@ -632,7 +632,7 @@ u32 GetKeyboardLastTouchY(void) {
 #pragma thumb off
 
 #pragma thumb on
-u32 IsKeyboardTouchEnabled(void) {
+u32 KBD_IsEnableTpSampling(void) {
     u32 touchEnabled;
     touchEnabled = gKeyboardInput.mTouchEnabled;
     return touchEnabled;
@@ -641,14 +641,14 @@ u32 IsKeyboardTouchEnabled(void) {
 
 #pragma thumb on
 
-void SetupRepeatCounterDefault(RepeatCounter *repeatCounter) {
+void KBD_InitAutoRepeat(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
     repeatCounter->mUnk_06 = 0x0u;
     repeatCounter->mFirstFireFrame = 0x28u;
     repeatCounter->mRepeatFireFrame = 0x2du;
 }
 
-void SetupRepeatCounter(RepeatCounter *repeatCounter, u32 firstFireFrame, u32 repeatGap) {
+void KBD_InitAutoRepeatValue(RepeatCounter *repeatCounter, u32 firstFireFrame, u32 repeatGap) {
     repeatCounter->mRepeatFrames = 0x0u;
     repeatCounter->mUnk_06 = 0x0u;
     repeatCounter->mFirstFireFrame = firstFireFrame;
@@ -659,7 +659,7 @@ void SetupRepeatCounter(RepeatCounter *repeatCounter, u32 firstFireFrame, u32 re
 
 #pragma thumb on
 
-void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
+void KBD_UpdateAutoRepeat(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = repeatCounter->mRepeatFrames + 1;
     if (repeatCounter->mRepeatFrames == repeatCounter->mFirstFireFrame ||
         repeatCounter->mRepeatFrames == repeatCounter->mRepeatFireFrame) {
@@ -674,7 +674,7 @@ void AdvanceRepeatCounter(RepeatCounter *repeatCounter) {
 
 #pragma thumb on
 
-void ResetRepeatCounter(RepeatCounter *repeatCounter) {
+void KBD_ResetAutoRepeat(RepeatCounter *repeatCounter) {
     repeatCounter->mRepeatFrames = 0x0u;
     repeatCounter->mUnk_06 = 0x0u;
 }
@@ -683,7 +683,7 @@ void ResetRepeatCounter(RepeatCounter *repeatCounter) {
 
 #pragma thumb on
 
-BOOL IsRepeatCounterFiring(RepeatCounter *repeatCounter) {
+BOOL KBD_IsTriggerAutoRepeat(RepeatCounter *repeatCounter) {
     if (repeatCounter->mRepeatFrames == repeatCounter->mFirstFireFrame ||
         repeatCounter->mRepeatFrames == repeatCounter->mRepeatFireFrame) {
         return TRUE;
@@ -691,41 +691,41 @@ BOOL IsRepeatCounterFiring(RepeatCounter *repeatCounter) {
     return FALSE;
 }
 
-void SetupKeyboardKeyRepeat(u16 keyMask) {
-    SetupRepeatCounterDefault(&gKeyboardKeyRepeat.mCounter);
+void KBD_InitPadRepeat(u16 keyMask) {
+    KBD_InitAutoRepeat(&gKeyboardKeyRepeat.mCounter);
     gKeyboardKeyRepeat.mKeyMask = keyMask;
     gKeyboardKeyRepeat.mRepeatKeys = 0;
 }
 
-void AdvanceKeyboardKeyRepeat(void) {
-    if (gKeyboardKeyRepeat.mRepeatKeys == 0 && GetKeyboardKeysPressed(gKeyboardKeyRepeat.mKeyMask) != 0) {
-        gKeyboardKeyRepeat.mRepeatKeys = GetKeyboardKeysPressed(gKeyboardKeyRepeat.mKeyMask);
+void KBD_UpdatePadRepeat(void) {
+    if (gKeyboardKeyRepeat.mRepeatKeys == 0 && KBD_IsSetPadTrig(gKeyboardKeyRepeat.mKeyMask) != 0) {
+        gKeyboardKeyRepeat.mRepeatKeys = KBD_IsSetPadTrig(gKeyboardKeyRepeat.mKeyMask);
         return;
     }
-    if (GetKeyboardKeysDown(gKeyboardKeyRepeat.mRepeatKeys) != 0) {
-        AdvanceRepeatCounter(&gKeyboardKeyRepeat.mCounter);
+    if (KBD_IsSetPadPress(gKeyboardKeyRepeat.mRepeatKeys) != 0) {
+        KBD_UpdateAutoRepeat(&gKeyboardKeyRepeat.mCounter);
     } else {
-        ResetRepeatCounter(&gKeyboardKeyRepeat.mCounter);
+        KBD_ResetAutoRepeat(&gKeyboardKeyRepeat.mCounter);
         gKeyboardKeyRepeat.mRepeatKeys = 0;
     }
 }
 
-u16 GetKeyboardRepeatedKeys(void) {
+u16 KBD_GetPadRepeat(void) {
     u32 repeatedKeys;
 
-    if (IsRepeatCounterFiring(&gKeyboardKeyRepeat.mCounter) != FALSE) {
-        repeatedKeys = GetKeyboardKeysDown(gKeyboardKeyRepeat.mRepeatKeys);
+    if (KBD_IsTriggerAutoRepeat(&gKeyboardKeyRepeat.mCounter) != FALSE) {
+        repeatedKeys = KBD_IsSetPadPress(gKeyboardKeyRepeat.mRepeatKeys);
     } else {
         repeatedKeys = 0;
     }
     return repeatedKeys;
 }
 
-u16 GetKeyboardKeysPressedOrRepeated(void) {
-    if (GetKeyboardKeysPressed(0x2fff) != 0) {
-        return GetKeyboardKeysPressed(0x2fff);
+u16 KBD_GetPadTrigRepeat(void) {
+    if (KBD_IsSetPadTrig(0x2fff) != 0) {
+        return KBD_IsSetPadTrig(0x2fff);
     }
-    return GetKeyboardRepeatedKeys();
+    return KBD_GetPadRepeat();
 }
 
 void AsciiLayoutCallback(KeyboardKeys *keyboardKeys) {
@@ -907,7 +907,7 @@ void SetupKeyboardInputMasks(u16 a, u16 b, u16 c) {
     gKeyboardInputMasks[0] = a;
     gKeyboardInputMasks[1] = b;
     gKeyboardInputMasks[2] = c;
-    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
+    KBD_InitPadRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
 }
 
 #pragma thumb off
@@ -951,9 +951,9 @@ void InitKeyboardKeysAndCanvas(struct Unk02022aa8 *font, void *bg2Char, u16 *bg2
     gKeyboardCanvas.mUnk_10 = d;
     gKeyboardCanvas.mUnk_14 = e;
     gKeyboardCanvas.mUnk_1c = f;
-    InitKeyboardInput();
-    SetupRepeatCounter(&data_0217b2ac, 0x28, 5);
-    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
+    KBD_StartupPadTpInput();
+    KBD_InitAutoRepeatValue(&data_0217b2ac, 0x28, 5);
+    KBD_InitPadRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
     gCharTablePair1[0] = gCharTablePair2[0] = gCharTablePair3[0] = gCharTables[0];
     gCharTablePair1[1] = gCharTables[1];
     gCharTablePair2[1] = gCharTables[2];
@@ -1049,7 +1049,7 @@ u16 FindFirstCharRectIndex(KeyboardLayout *keyboardLayout) {
     return 0;
 }
 
-KeyboardRect *FindKeyboardRectAt(KeyboardKeys *keyboardKeys, s32 pointX, s32 pointY) {
+KeyboardRect *SearchButton(KeyboardKeys *keyboardKeys, s32 pointX, s32 pointY) {
     KeyboardRect *buttonRect;
     KeyboardLayout *layout;
     s32 rectCount;
@@ -1081,7 +1081,7 @@ KeyboardRect *FindKeyboardRectAt(KeyboardKeys *keyboardKeys, s32 pointX, s32 poi
     return NULL;
 }
 
-void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
+void RedrawKeytop(KeyboardKeys *keyboardKeys) {
     Unk02022aa8 *font;
     KeyboardRect *rect;
     Unk02022ce4_08 *u;
@@ -1132,7 +1132,7 @@ void DrawKeyboardGlyphs(KeyboardKeys *keyboardKeys) {
     }
 }
 
-void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
+void DrawKeyboard(KeyboardKeys *keyboardKeys) {
     KeyboardLayout *layout;
     KeyboardRect *e;
     KeyboardRect *r;
@@ -1144,7 +1144,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         e = layout->mRects + (keyboardKeys->mChosenKeyId - 1);
         r = e;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
+            AddBGCharRectangle(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
                                       r->mX, r->mY, r->mX + r->mWidth, r->mY + r->mHeight);
             r += r->mNextRectOffset;
         } while (r != e);
@@ -1153,7 +1153,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         e = layout->mRects + (keyboardKeys->mToggledKeyId - 1);
         r = e;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
+            AddBGCharRectangle(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
                                       r->mX, r->mY, r->mX + r->mWidth, r->mY + r->mHeight);
             r += r->mNextRectOffset;
         } while (r != e);
@@ -1173,7 +1173,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         e->mKeyId != data_0217b2b8[0]) {
         r = e;
         do {
-            AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
+            AddBGCharRectangle(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
                                       r->mX, r->mY, r->mX + r->mWidth, r->mY + r->mHeight);
             r += r->mNextRectOffset;
         } while (r != e);
@@ -1184,7 +1184,7 @@ void MarkKeyboardRects(KeyboardKeys *keyboardKeys) {
         if (keyboardKeys->mTouchRect != NULL && e->mKeyId == keyboardKeys->mTouchRect->mKeyId) {
             r = e;
             do {
-                AddToNonzeroNibblesInRect(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
+                AddBGCharRectangle(gKeyboardCanvas.mUnk_08, gKeyboardKeys.mCurrentLayout->mNcgr->mUnk_02 << 3, 8,
                                           r->mX, r->mY, r->mX + r->mWidth, r->mY + r->mHeight);
                 r += r->mNextRectOffset;
             } while (r != e);
@@ -1218,35 +1218,35 @@ u32 IsKeyboardTouchOnStartKeyId(KeyboardKeys *keyboardKeys) {
     return r;
 }
 
-void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
+void KBD_UpdateValue(u16 keys, TPData touchPoint) {
     u16 h;
     u16 k;
     void (*fn)(KeyboardKeys *);
 
-    AdvanceKeyboardInput(keys, touchPoint);
-    AdvanceKeyboardKeyRepeat();
+    KBD_UpdatePadTpInputValue(keys, touchPoint);
+    KBD_UpdatePadRepeat();
     gKeyboardKeys.mKeyId = 0;
     gKeyboardKeys.mKeyValue = 0;
     if (gKeyboardKeys.mCurrentLayout != NULL && gKeyboardKeys.mCharMap != NULL) {
-        if (GetKeyboardKeysDown(gKeyboardInputMasks[0]) != 0) {
+        if (KBD_IsSetPadPress(gKeyboardInputMasks[0]) != 0) {
             gKeyboardKeys.mKeyDownRect = gKeyboardKeys.mCursorRect;
-        } else if (GetKeyboardKeysDown(gKeyboardInputMasks[1]) != 0) {
+        } else if (KBD_IsSetPadPress(gKeyboardInputMasks[1]) != 0) {
             gKeyboardKeys.mKeyDownRect = gKeyboardKeys.mCurrentLayout->mRects;
         } else {
             gKeyboardKeys.mKeyDownRect = NULL;
         }
         k = gKeyboardInputMasks[0];
-        if ((GetKeyboardKeysPressedOrRepeated() & k) != 0) {
+        if ((KBD_GetPadTrigRepeat() & k) != 0) {
             gKeyboardKeys.mKeyId = gKeyboardKeys.mCursorRect->mKeyId;
-            CallKeyboardKeyCallback(GetKeyboardKeysPressed(k));
+            CallKeyboardKeyCallback(KBD_IsSetPadTrig(k));
         } else {
             k = gKeyboardInputMasks[1];
-            if ((GetKeyboardKeysPressedOrRepeated() & k) != 0) {
+            if ((KBD_GetPadTrigRepeat() & k) != 0) {
                 gKeyboardKeys.mKeyId = 1;
-                CallKeyboardKeyCallback(GetKeyboardKeysPressed(k));
+                CallKeyboardKeyCallback(KBD_IsSetPadTrig(k));
             } else {
                 k = gKeyboardInputMasks[2];
-                if ((GetKeyboardKeysPressedOrRepeated() & k) != 0) {
+                if ((KBD_GetPadTrigRepeat() & k) != 0) {
                     fn = gKeyboardKeys.mCurrentLayout->mCallback;
                     if (fn == AsciiLayoutCallback) {
                         h = data_0217b2b8[1];
@@ -1257,34 +1257,34 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
                         } else if (h == 5) {
                             gKeyboardKeys.mKeyId = 5;
                         }
-                        CallKeyboardKeyCallback(GetKeyboardKeysPressed(k));
+                        CallKeyboardKeyCallback(KBD_IsSetPadTrig(k));
                     } else if (fn == HiraganaKatakanaLayoutCallback) {
                         gKeyboardKeys.mKeyId = 0xffff;
-                        CallKeyboardKeyCallback(GetKeyboardKeysPressed(k));
+                        CallKeyboardKeyCallback(KBD_IsSetPadTrig(k));
                     }
                 }
             }
         }
-        if ((GetKeyboardKeysPressedOrRepeated() & 0x40) != 0) {
+        if ((KBD_GetPadTrigRepeat() & 0x40) != 0) {
             gKeyboardKeys.mCursorRect =
-                FindKeyboardRectInDirection(0x40, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
-        } else if ((GetKeyboardKeysPressedOrRepeated() & 0x80) != 0) {
+                MoveCursor(0x40, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
+        } else if ((KBD_GetPadTrigRepeat() & 0x80) != 0) {
             gKeyboardKeys.mCursorRect =
-                FindKeyboardRectInDirection(0x80, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
-        } else if ((GetKeyboardKeysPressedOrRepeated() & 0x20) != 0) {
+                MoveCursor(0x80, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
+        } else if ((KBD_GetPadTrigRepeat() & 0x20) != 0) {
             gKeyboardKeys.mCursorRect =
-                FindKeyboardRectInDirection(0x20, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
-        } else if ((GetKeyboardKeysPressedOrRepeated() & 0x10) != 0) {
+                MoveCursor(0x20, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
+        } else if ((KBD_GetPadTrigRepeat() & 0x10) != 0) {
             gKeyboardKeys.mCursorRect =
-                FindKeyboardRectInDirection(0x10, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
+                MoveCursor(0x10, gKeyboardKeys.mCursorRect, gKeyboardKeys.mCurrentLayout->mRects);
         }
         if (GetKeyboardTouchDown() != 0) {
             gKeyboardKeys.mTouchRect =
-                FindKeyboardRectAt(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
+                SearchButton(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
         }
         if (GetKeyboardTouchStatus() == 1) {
             gKeyboardKeys.mTouchStartRect =
-                FindKeyboardRectAt(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
+                SearchButton(&gKeyboardKeys, GetKeyboardLastTouchX(), GetKeyboardLastTouchY());
             if (gKeyboardKeys.mTouchStartRect != NULL) {
                 gKeyboardKeys.mKeyId = gKeyboardKeys.mTouchStartRect->mKeyId;
                 CallKeyboardKeyCallback(1);
@@ -1293,13 +1293,13 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
             gKeyboardKeys.mTouchStartRect = NULL;
         }
         if (IsKeyboardTouchOnStartKeyId(&gKeyboardKeys) != 0) {
-            AdvanceRepeatCounter(&data_0217b2ac);
-            if (IsRepeatCounterFiring(&data_0217b2ac) != FALSE) {
+            KBD_UpdateAutoRepeat(&data_0217b2ac);
+            if (KBD_IsTriggerAutoRepeat(&data_0217b2ac) != FALSE) {
                 gKeyboardKeys.mKeyId = gKeyboardKeys.mTouchStartRect->mKeyId;
                 CallKeyboardKeyCallback(0);
             }
         } else {
-            ResetRepeatCounter(&data_0217b2ac);
+            KBD_ResetAutoRepeat(&data_0217b2ac);
         }
         gKeyboardKeys.mKeyValue = GetKeyboardValueForKeyId(gKeyboardKeys.mKeyId);
         if (gKeyboardKeys.mKeyValue >= 0x20) {
@@ -1315,16 +1315,16 @@ void AdvanceKeyboardKeys(u16 keys, TPData touchPoint) {
         if (gKeyboardKeys.mKeyId != 0 && gKeyboardKeys.mCurrentLayout->mCallback != NULL) {
             gKeyboardKeys.mCurrentLayout->mCallback(&gKeyboardKeys);
         }
-        DrawKeyboardGlyphs(&gKeyboardKeys);
-        MarkKeyboardRects(&gKeyboardKeys);
+        RedrawKeytop(&gKeyboardKeys);
+        DrawKeyboard(&gKeyboardKeys);
     }
 }
 
-void PollKeyboard(void) {
+void KBD_Update(void) {
     TPData rawSample;
     TPData touchPoint;
 
-    if (IsKeyboardTouchEnabled() != 0) {
+    if (KBD_IsEnableTpSampling() != 0) {
         do {
             TP_RequestSamplingAsync();
         } while (TP_WaitRawResult(&rawSample) != 0);
@@ -1333,7 +1333,7 @@ void PollKeyboard(void) {
         touchPoint.mTouch = 0;
         touchPoint.mValidity = 3;
     }
-    AdvanceKeyboardKeys(((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff, touchPoint);
+    KBD_UpdateValue(((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff, touchPoint);
 }
 
 #pragma thumb off

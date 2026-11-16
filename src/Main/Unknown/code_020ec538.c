@@ -9,7 +9,7 @@ const Vec3 data_02159588 = {0x1000, 0, 0};
 const Vec3 gVec3UnitX = {0x1000, 0, 0};
 const Vec3 data_02159594 = {0, 0, 0};
 
-void InitPushedMotion(Unk020e43a8 *object, s32 lowestY, u32 gravity, u16 angleStep, u32 upwardSpeed, s32 pushSpeed) {
+void rdmo_initParams(Unk020e43a8 *object, s32 lowestY, u32 gravity, u16 angleStep, u32 upwardSpeed, s32 pushSpeed) {
     object->mUnk_0a0 = lowestY;
     object->mUnk_0a4 = gravity;
     object->mUnk_0a8 = 1;
@@ -19,7 +19,7 @@ void InitPushedMotion(Unk020e43a8 *object, s32 lowestY, u32 gravity, u16 angleSt
     object->mUnk_0b4 = pushSpeed;
 }
 
-BOOL AdvancePushedMotion(Unk020e43a8 *object) {
+BOOL rdmo_dieUpdate(Unk020e43a8 *object) {
     if (object->mUnk_0a8) {
         object->mUnk_0ac = object->mUnk_0ac + object->mUnk_0ae;
     } else {
@@ -30,7 +30,7 @@ BOOL AdvancePushedMotion(Unk020e43a8 *object) {
     return object->mUnk_00.mPos.y < object->mUnk_0a0;
 }
 
-void SetPushedMotionFromKart(Unk020e43a8 *object, Unk020ec6e4 *other) {
+void rdmo_20EC6E4(Unk020e43a8 *object, Unk020ec6e4 *other) {
     Vec3 offset;
     s32 pushSpeed;
 
@@ -59,7 +59,7 @@ void SetPushedMotionFromKart(Unk020e43a8 *object, Unk020ec6e4 *other) {
     object->mUnk_00.mUnk_10.y = object->mUnk_0b0;
 }
 
-void SetPushedMotionFromItemObject(Unk020e43a8 *object, const Unk020ec6e4 *other) {
+void rdmo_20EC538(Unk020e43a8 *object, const Unk020ec6e4 *other) {
     Vec3 out;
     Vec3 otherPoint;
     Vec3 otherVector;
@@ -69,7 +69,7 @@ void SetPushedMotionFromItemObject(Unk020e43a8 *object, const Unk020ec6e4 *other
     otherVector = other ? other->mUnk_05c : data_02159594;
     VEC_Subtract(&object->mUnk_00.mPos, &otherPoint, &out);
     if ((s64) out.z * otherVector.x - (s64) out.x * otherVector.z < 0) {
-        if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
+        if (vec_normalizeXZFast(&otherVector, &out) == 0) {
             out = gVec3UnitX;
         } else {
             s32 x = out.x;
@@ -80,7 +80,7 @@ void SetPushedMotionFromItemObject(Unk020e43a8 *object, const Unk020ec6e4 *other
         }
         object->mUnk_0a8 = 1;
     } else {
-        if (Vec3NormalizeXZAndGetLengthOrZero(&otherVector, &out) == 0) {
+        if (vec_normalizeXZFast(&otherVector, &out) == 0) {
             out = data_02159588;
         } else {
             s32 x = out.x;

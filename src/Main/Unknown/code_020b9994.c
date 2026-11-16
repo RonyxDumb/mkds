@@ -53,10 +53,10 @@
 #include "Main/Kart/KartTimes.h"
 #include "Main/Unknown/code_0203c8dc.h"
 
-void InitRaceItemSlot(void) {
+void r2d_initItemSpinner(void) {
     RaceItemSlot *itemSlot;
 
-    itemSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    itemSlot = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     gRaceItemSlot = itemSlot;
     itemSlot->mScrollY = 0;
     gRaceItemSlot->mSlotFrames = 0;
@@ -71,7 +71,7 @@ void InitRaceItemSlot(void) {
     gRaceItemSlot->mScale.mScaleYTarget = 0x800;
 }
 
-u32 ClearRaceItemSlotPointer(void) {
+u32 r2d_finalizeItemSpinner(void) {
     u32 address;
     u32 zero;
     address = (u32) &gRaceItemSlot;
@@ -81,10 +81,10 @@ u32 ClearRaceItemSlotPointer(void) {
 }
 
 static inline KartItems *GetKartItemsAtOffset(u32 offset) {
-    return (KartItems *) ((u32) gKartItems + offset);
+    return (KartItems *) ((u32) it_sDriverItemStatus + offset);
 }
 
-void UpdateRaceItemSlot(void) {
+void r2d_updateItemSpinner(void) {
     s32 finalScrollFrameCount;
     u32 kartOffset;
     s32 slotFrames;
@@ -98,7 +98,7 @@ void UpdateRaceItemSlot(void) {
     KartItems *kartItems;
 
     slotFrames = gRaceItemSlot->mSlotFrames;
-    kartOffset = GetFollowedKartOrEntryIndex() * 0x210;
+    kartOffset = Race_GetPlayerId() * 0x210;
     finalScrollFrameCount = GetKartItemsAtOffset(kartOffset)->mSlotFinalScrollFrameCount;
     gRaceItemSlot->mPrevSlotRunning = gRaceItemSlot->mSlotRunning;
     upperItem = 0x13;
@@ -166,14 +166,14 @@ void UpdateRaceItemSlot(void) {
         gRaceItemSlot->mSlotFrames = 0;
         slotFrames = gRaceItemSlot->mSlotFrames;
         if (GetKartItemsAtOffset(kartOffset)->mSlotShownItem >= 9) {
-            if (gRaceSetup->mRaceKind != 2) {
+            if (gRaceMultiConfig->mRaceKind != 2) {
                 endSeqNo = 0x40;
-                if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
+                if (gRaceMultiConfig->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c6;
                 }
                 if ((data_0217c780 & 1) != 0) {
-                    entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mUnk_0c != 0) {
+                    entryHandle = sp_acquireElement(sound_getPoolById(0));
+                    if (SoundHandle_217D084.mUnk_0c != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -185,14 +185,14 @@ void UpdateRaceItemSlot(void) {
                 }
             }
         } else {
-            if (gRaceSetup->mRaceKind != 2) {
+            if (gRaceMultiConfig->mRaceKind != 2) {
                 endSeqNo = 0x3f;
-                if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
+                if (gRaceMultiConfig->mCourseId == COURSE_ID_PINBALL) {
                     endSeqNo = 0x1c5;
                 }
                 if ((data_0217c780 & 1) != 0) {
-                    entryHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mUnk_0c != 0) {
+                    entryHandle = sp_acquireElement(sound_getPoolById(0));
+                    if (SoundHandle_217D084.mUnk_0c != 0) {
                         if (*entryHandle != NULL) {
                             NNS_SndPlayerStopSeq(entryHandle, 0);
                         }
@@ -206,14 +206,14 @@ void UpdateRaceItemSlot(void) {
         }
         gRaceItemSlot->mSlotRunning = 0;
     }
-    if (gRaceItemSlot->mPrevSlotRunning == 0 && gRaceItemSlot->mSlotRunning != 0 && gRaceSetup->mRaceKind != 2) {
+    if (gRaceItemSlot->mPrevSlotRunning == 0 && gRaceItemSlot->mSlotRunning != 0 && gRaceMultiConfig->mRaceKind != 2) {
         sndHandle = GetSndHandles();
         startSeqNo = 0x3e;
-        if (gRaceSetup->mCourseId == COURSE_ID_PINBALL) {
+        if (gRaceMultiConfig->mCourseId == COURSE_ID_PINBALL) {
             startSeqNo = 0x1c4;
         }
         if ((data_0217c780 & 1) != 0) {
-            if (data_0217d084.mUnk_0c != 0) {
+            if (SoundHandle_217D084.mUnk_0c != 0) {
                 if (*sndHandle != NULL) {
                     NNS_SndPlayerStopSeq(sndHandle, 0);
                 }
@@ -324,7 +324,7 @@ void UpdateRaceItemSlot(void) {
     gRaceItemSlot->mUpperItem = upperItem;
 }
 
-void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
+void r2d_renderItemSpinner(RaceHudOamBuffer *oamBuffer) {
     s32 firstPos[2];
     s32 secondPos[2];
     s32 thirdPos[2];
@@ -346,16 +346,16 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
     scrollY = gRaceItemSlot->mScrollY;
     upperItem = gRaceItemSlot->mUpperItem;
     teamCell =
-        GetRaceMNcerEntry(gRaceSetup->mUseTeams == 0                                                           ? 8
-                          : gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mPlayer.mTeamIndex == 0 ? 9
+        r2d_getRaceMCell(gRaceMultiConfig->mUseTeams == 0                                                           ? 8
+                          : gRaceMultiConfig->mCurrentEntries[Race_GetPlayerId()].mPlayer.mTeamIndex == 0 ? 9
                                                                                                                : 10);
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceMultiConfig->mRaceKind == 4) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    cell = GetRaceMNcerEntry(0xc);
+    cell = r2d_getRaceMCell(0xc);
     firstPos[0] = 0x18000;
     firstPos[1] = 0x18000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
@@ -378,23 +378,23 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
     }
     if (gRaceItemSlot->mScale.mScaleFrames == 0) {
-        cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
+        cell = r2d_getRaceMCell(r2d_getSpinnerItemCellIdx(upperItem));
         upperItemPos[0] = 0x18000;
         upperItemPos[1] = (scrollY - 8) << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, upperItemPos, 0, 1);
-        cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(gRaceItemSlot->mLowerItem));
+        cell = r2d_getRaceMCell(r2d_getSpinnerItemCellIdx(gRaceItemSlot->mLowerItem));
         lowerItemPos[0] = 0x18000;
         lowerItemPos[1] = (scrollY + 0x18) << 12;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, lowerItemPos, 0, 1);
     } else {
-        matrixIndex = AllocOamMatrixIndex(oamBuffer);
+        matrixIndex = oam_getAffineId(oamBuffer);
         matrix[0] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleX);
         matrix[1] = 0;
         matrix[2] = 0;
         matrix[3] = FX_Div(0x1000, gRaceItemSlot->mScale.mScaleY);
-        cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(upperItem));
+        cell = r2d_getRaceMCell(r2d_getSpinnerItemCellIdx(upperItem));
         oamIndex = oamBuffer->mOamCount;
         scaledUpperItemPos[0] = 0x18000;
         scaledUpperItemPos[1] = (scrollY - 8) << 12;
@@ -404,7 +404,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++, oam++) {
             ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
         }
-        cell = GetRaceMNcerEntry(LookupRaceMNcerIndex(gRaceItemSlot->mLowerItem));
+        cell = r2d_getRaceMCell(r2d_getSpinnerItemCellIdx(gRaceItemSlot->mLowerItem));
         oamIndex = oamBuffer->mOamCount;
         scaledLowerItemPos[0] = 0x18000;
         scaledLowerItemPos[1] = (scrollY + 0x18) << 12;
@@ -420,7 +420,7 @@ void DrawRaceItemSlot(RaceHudOamBuffer *oamBuffer) {
         matrixOams[2].mUnk_00[3] = matrix[2] >> 4;
         matrixOams[3].mUnk_00[3] = matrix[3] >> 4;
     }
-    cell = GetRaceMNcerEntry(0xb);
+    cell = r2d_getRaceMCell(0xb);
     lastPos[0] = 0x18000;
     lastPos[1] = 0x18000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
@@ -438,30 +438,30 @@ void InitRaceModeCount(void) {
     RaceModeCount *modeCount;
     s32 mode;
 
-    modeCount = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0xc);
+    modeCount = heap_alloc(proc_getHeap(proc_getCurrent()), 0xc);
     gRaceModeCount = modeCount;
-    mode = gRaceSetup->mMode;
+    mode = gRaceMultiConfig->mMode;
     switch (mode) {
         case MODE_MISSION_RUN:
-            gRaceModeCount->mNumber = mode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
-            gRaceModeCount->mMissionRunCountLimit = gRaceSetup->mMissionRunCountLimit;
+            gRaceModeCount->mNumber = mode == MODE_MISSION_RUN ? mrcnt_getCurrentValue() : 0;
+            gRaceModeCount->mMissionRunCountLimit = gRaceMultiConfig->mMissionRunCountLimit;
             break;
         case MODE_BATTLE:
-            switch (gRaceSetup->mBattleKind) {
+            switch (gRaceMultiConfig->mBattleKind) {
                 case BATTLE_KIND_BALLOON:
                     modeCount->mNumberHalves[0] = 0;
-                    gRaceModeCount->mNumberHalves[1] = GetBalloonsLeftToMake(GetFollowedKartOrEntryIndex());
+                    gRaceModeCount->mNumberHalves[1] = mgcnt_getDriverBalloonShineInventoryCount(Race_GetPlayerId());
                     break;
                 case BATTLE_KIND_SHINE:
                 default:
-                    gRaceModeCount->mNumberHalves[0] = GetBalloonOrShineCount(GetFollowedKartOrEntryIndex());
+                    gRaceModeCount->mNumberHalves[0] = mgcnt_getDriverBalloonShineCount(Race_GetPlayerId());
                     break;
             }
             break;
         case MODE_TIME_ATTACK:
             break;
         default:
-            gRaceModeCount->mNumber = GetKartRank(GetFollowedKartOrEntryIndex()) - 1;
+            gRaceModeCount->mNumber = rstat_getPlace(Race_GetPlayerId()) - 1;
             break;
     }
     gRaceModeCount->mKeyRecordingNotFull = 1;
@@ -479,14 +479,14 @@ u32 ClearRaceModeCountPointer(void) {
 void UpdateRaceModeCount(void) {
     s32 mode;
 
-    mode = gRaceSetup->mMode;
+    mode = gRaceMultiConfig->mMode;
     switch (mode) {
         case MODE_MISSION_RUN:
-            gRaceModeCount->mNumber = mode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
+            gRaceModeCount->mNumber = mode == MODE_MISSION_RUN ? mrcnt_getCurrentValue() : 0;
             break;
         case MODE_BATTLE:
-            if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
-                if (IsKartInflatingBalloon(GetFollowedKartOrEntryIndex()) != 0) {
+            if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
+                if (mgcnt_getDriverIsInflating(Race_GetPlayerId()) != 0) {
                     gRaceModeCount->mNumberHalves[0] += 1;
                     if (gRaceModeCount->mNumberHalves[0] >= 9) {
                         gRaceModeCount->mNumberHalves[0] = 0;
@@ -494,20 +494,20 @@ void UpdateRaceModeCount(void) {
                 } else {
                     gRaceModeCount->mNumberHalves[0] = 0;
                 }
-                gRaceModeCount->mNumberHalves[1] = GetBalloonsLeftToMake(GetFollowedKartOrEntryIndex());
+                gRaceModeCount->mNumberHalves[1] = mgcnt_getDriverBalloonShineInventoryCount(Race_GetPlayerId());
             } else {
-                gRaceModeCount->mNumberHalves[0] = GetBalloonOrShineCount(GetFollowedKartOrEntryIndex());
+                gRaceModeCount->mNumberHalves[0] = mgcnt_getDriverBalloonShineCount(Race_GetPlayerId());
             }
             break;
         case MODE_TIME_ATTACK:
             break;
         default:
-            gRaceModeCount->mNumber = GetKartRank(GetFollowedKartOrEntryIndex()) - 1;
+            gRaceModeCount->mNumber = rstat_getPlace(Race_GetPlayerId()) - 1;
             break;
     }
 }
 
-void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
+void r2d_20B9DFC(RaceHudOamBuffer *oamBuffer) {
     s32 battleEndPos[2];
     s32 balloonPos[2];
     s32 inflatingBalloonPos[2];
@@ -524,24 +524,24 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
     GXOamAttr *oam;
     Unk020224e0_c *cell;
 
-    if (gRaceSetup->mRaceKind == 4) {
+    if (gRaceMultiConfig->mRaceKind == 4) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_DEMO) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_DEMO) {
         return;
     }
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_MISSION_RUN:
-            DrawRaceMissionRunCount(oamBuffer);
+            r2d_renderMissionValueAndTarget(oamBuffer);
             return;
         case MODE_BATTLE:
-            if (IsKartEnded(GetFollowedKartOrEntryIndex()) == 0) {
-                if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+            if (rstat_hasDriverFinished(Race_GetPlayerId()) == 0) {
+                if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
                     i = 0;
                     count = gRaceModeCount->mNumberHalves[1];
                     inflateFrames = gRaceModeCount->mNumberHalves[0];
                     for (; i < count; i++) {
-                        cell = GetRaceBattleMNcerEntry(10);
+                        cell = r2d_getRaceBattleMCell(10);
                         balloonPos[0] = (0xfe - i * 0xe) << 12;
                         balloonPos[1] = 0xc000;
                         oamBuffer->mOamCount +=
@@ -554,7 +554,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                     if (inflateFrames >= 6) {
                         return;
                     }
-                    cell = GetRaceBattleMNcerEntry(10);
+                    cell = r2d_getRaceBattleMCell(10);
                     inflatingBalloonPos[0] = (0xfe - i * 0xe) << 12;
                     inflatingBalloonPos[1] = 0xc000;
                     oamBuffer->mOamCount +=
@@ -562,23 +562,23 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                                               cell, NULL, inflatingBalloonPos, 0, 1);
                 } else {
                     i = GetRaceStartSequenceFrames() % 16;
-                    if (IsKartLastByBalloonOrShineCount(GetFollowedKartOrEntryIndex()) != 0 && i >= 10) {
+                    if (mgcnt_isDriverShineCountLow(Race_GetPlayerId()) != 0 && i >= 10) {
                         return;
                     }
                     count = gRaceModeCount->mNumberHalves[0];
-                    cell = GetRaceBattleMNcerEntry(0xb);
+                    cell = r2d_getRaceBattleMCell(0xb);
                     leadingCellPos[0] = 0xcd000;
                     leadingCellPos[1] = 0xf000;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                               cell, NULL, leadingCellPos, 0, 1);
-                    cell = GetRaceBattleMNcerEntry(count / 10);
+                    cell = r2d_getRaceBattleMCell(count / 10);
                     tensPos[0] = 0xe1000;
                     tensPos[1] = 0x10000;
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                               cell, NULL, tensPos, 0, 1);
-                    cell = GetRaceBattleMNcerEntry(count % 10);
+                    cell = r2d_getRaceBattleMCell(count % 10);
                     onesPos[0] = 0xf0000;
                     onesPos[1] = 0x10000;
                     oamBuffer->mOamCount +=
@@ -586,13 +586,13 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                                               cell, NULL, onesPos, 0, 1);
                 }
             } else {
-                if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus != 2) {
+                if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus != 2) {
                     return;
                 }
-                if ((GetKart(GetFollowedKartOrEntryIndex())->mUnk_7c & 0x402000) == 0) {
+                if ((driver_getById(Race_GetPlayerId())->mUnk_7c & 0x402000) == 0) {
                     return;
                 }
-                cell = GetRaceBattleMNcerEntry(0xc);
+                cell = r2d_getRaceBattleMCell(0xc);
                 battleEndPos[0] = 0x80000;
                 battleEndPos[1] = 0x60000;
                 oamBuffer->mOamCount +=
@@ -601,14 +601,14 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
             }
             break;
         case MODE_TIME_ATTACK:
-            if (data_02175628[0].mSourceKind != 2) {
+            if (gInputUnits[0].mSourceKind != 2) {
                 return;
             }
-            if (IsKeyRecordingFull(&data_02175650[0]) == FALSE) {
+            if (irec_isBufferFull(&data_02175650[0]) == FALSE) {
                 return;
             }
             gRaceModeCount->mKeyRecordingNotFull = 0;
-            cell = GetRaceTaMNcerEntry(0xd);
+            cell = r2d_getRaceTaMCell(0xd);
             oamIndex = oamBuffer->mOamCount;
             recordingFullFirstPos[0] = 0x80000;
             recordingFullFirstPos[1] = 0x60000;
@@ -619,7 +619,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                 ((u32 *) oam)[0] = (((u32 *) oam)[0] & ~0xc00) | 0x800;
                 ((u32 *) oam)[1] = (((u32 *) oam)[1] & ~0xc00) | 0x400;
             }
-            cell = GetRaceTaMNcerEntry(0xd);
+            cell = r2d_getRaceTaMCell(0xd);
             recordingFullSecondPos[0] = 0x80000;
             recordingFullSecondPos[1] = 0x60000;
             oamBuffer->mOamCount +=
@@ -627,7 +627,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
                                       recordingFullSecondPos, 0, 1);
             break;
         default:
-            cell = GetRaceMNcerEntry(gRaceModeCount->mNumber);
+            cell = r2d_getRaceMCell(gRaceModeCount->mNumber);
             rankPos[0] = 0x18000;
             rankPos[1] = 0xa8000;
             oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
@@ -636,7 +636,7 @@ void DrawRaceModeCount(RaceHudOamBuffer *oamBuffer) {
     }
 }
 
-void DrawRaceMissionRunCount(RaceHudOamBuffer *oamBuffer) {
+void r2d_renderMissionValueAndTarget(RaceHudOamBuffer *oamBuffer) {
     s32 leadingCellPos[2];
     s32 countTensPos[2];
     s32 countOnesPos[2];
@@ -660,50 +660,50 @@ void DrawRaceMissionRunCount(RaceHudOamBuffer *oamBuffer) {
     if (count > countLimit) {
         count = countLimit;
     }
-    cell = GetRaceMrMNcerEntry(0x15);
+    cell = r2d_getRaceMrMCell(0x15);
     leadingCellPos[0] = 0xc000;
     leadingCellPos[1] = 0xb0000;
     oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
                                                   cell, NULL, leadingCellPos, 0, 1);
     if (gRaceModeCount->mMissionRunCountLimit >= 10) {
-        cell = GetRaceMrMNcerEntry(count / 10);
+        cell = r2d_getRaceMrMCell(count / 10);
         countTensPos[0] = 0x1b000;
         countTensPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, countTensPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(count % 10);
+        cell = r2d_getRaceMrMCell(count % 10);
         countOnesPos[0] = 0x2e000;
         countOnesPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, countOnesPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(10);
+        cell = r2d_getRaceMrMCell(10);
         middleCellPos[0] = 0x42000;
         middleCellPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, middleCellPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(countLimit / 10 + 0xb);
+        cell = r2d_getRaceMrMCell(countLimit / 10 + 0xb);
         limitTensPos[0] = 0x4d000;
         limitTensPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, limitTensPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(countLimit % 10 + 0xb);
+        cell = r2d_getRaceMrMCell(countLimit % 10 + 0xb);
         limitOnesPos[0] = 0x5b000;
         limitOnesPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, limitOnesPos, 0, 1);
     } else {
-        cell = GetRaceMrMNcerEntry(count % 10);
+        cell = r2d_getRaceMrMCell(count % 10);
         oneDigitCountPos[0] = 0x1b000;
         oneDigitCountPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],
                                                       0x80 - oamBuffer->mOamCount, cell, NULL, oneDigitCountPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(10);
+        cell = r2d_getRaceMrMCell(10);
         oneDigitMiddleCellPos[0] = 0x2f000;
         oneDigitMiddleCellPos[1] = 0xb4000;
         oamBuffer->mOamCount +=
             NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, NULL,
                                   oneDigitMiddleCellPos, 0, 1);
-        cell = GetRaceMrMNcerEntry(countLimit % 10 + 0xb);
+        cell = r2d_getRaceMrMCell(countLimit % 10 + 0xb);
         oneDigitLimitPos[0] = 0x3a000;
         oneDigitLimitPos[1] = 0xb4000;
         oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount],

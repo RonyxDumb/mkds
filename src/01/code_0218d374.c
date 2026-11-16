@@ -28,11 +28,11 @@ void func_ov001_0218d3ec(Unk02188950 *a) {
     s32 y;
     s32 t;
 
-    if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
+    if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 1) {
         y = 0x1000 - a->mPrm->mUnk_0ac;
         t = func_ov001_02187f38(a);
         x = (((s64) t * y) >> 12);
-    } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
+    } else if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 2) {
         y = 0x1000 - a->mPrm->mUnk_0a8;
         t = func_ov001_02187f38(a);
         x = (((s64) t * y) >> 12);
@@ -57,7 +57,7 @@ void func_ov001_0218d374(Unk02188950 *a) {
     StartAnimationNoEndCallback(a, a->mPrm->mUnk_078, a->mPrm->mUnk_07c);
     func_ov001_02188c90(a);
     SetSpeedAndClearTarget(a, 0);
-    list = FindMapObjectKindUpdateList(0x1fe);
+    list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (p = list->mUnk_00[i]) != NULL; i++) {
             func_ov001_02187218(p, 1, NULL);

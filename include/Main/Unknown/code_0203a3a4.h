@@ -4,30 +4,30 @@
 
 typedef struct Unk0203a0dc Unk0203a0dc;
 
-unsigned int func_0203a3a4(void);
-void SetNextRaceKind(unsigned int raceKind);
+unsigned int race_race_getCurrentCourse(void);
+void race_race_setNextDisplayMode(unsigned int raceKind);
 u32 func_0203a3cc(u32 slotIndex);
 unsigned int IsCameraChainEnded(void);
 u32 func_0203a440(u32 slotIndex);
 u32 func_0203a48c(u32 index);
 u16 GetDownBits(u32 slotIndex, u32 mask);
-unsigned int func_0203a4cc(void);
-void func_0203a4d4(u32 a);
-unsigned int GetCurrentRaceKind(void);
-void SetNextSceneFromPickedValue(Unk0203a0dc *sceneNumbers, u32 pickedValue);
-void func_0203a8e0(unsigned int pickedValue);
-unsigned int func_0203a8f4(void);
-u32 ShouldEndStaffRoll(u32 sceneFrames);
+unsigned int race_input_getDefaultInputId(void);
+void race_sysdat_setDemoRaceWasCanceled(u32 a);
+unsigned int race_race_getCurrentDisplayMode(void);
+void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue);
+void race_sysdat_setActivatedRaceMenuOption(unsigned int pickedValue);
+unsigned int race_race_getCurrentRaceMode(void);
+u32 japdiff_203A908(u32 sceneFrames);
 u32 ShouldEndAwardRace(u32 sceneFrames);
-void func_0203aaa8(void);
-void func_0203aacc(void);
-// Slot mInit of the Race scene; not the whole preparation (RunRaceScene and RunScene's prologue run
-// before it). Calls in order: CreateOverlayExpHeap (creates the heap that FreeOverlayExpHeap destroys),
-// StopWvrAndWait (kinds 3 and 5) or ClearLcdcBankAndStartWvrAndWait + func_02053e74, Init3dEngine, InitDispCap,
-// SetupRaceDisplay (screen layout), func_020431e4, InitRace, InitChoisesS, func_020b03bc,
-// func_020af99c (not kind 3), SetLeftRightKeysSwapped, and the mode 5 net state / mode 2 StartMicInput
-// extras. Does not allocate gRace: InitRace does.
-void InitRaceScene(void);
-void SetupRaceDisplay(void *heap);
-u32 ShouldUpdateRace(u32 sceneFrames);
-BOOL TryFormatGhostPath(u32 courseId, void *buffer, u32 size);
+void racesc_vblank(void);
+void racesc_finalize(void);
+// Slot mInit of the Race scene; not the whole preparation (race_run and scene_runScene's prologue run
+// before it). Calls in order: overlay_createExpHeap (creates the heap that overlay_destroyExpHeap destroys),
+// vram_terminateWifiVram (kinds 3 and 5) or vram_startUpWifiVram + func_02053e74, race_initG3d, dce_init,
+// race_initDisplayConfig (screen layout), input_20431E4, race_init, rchoi_init, r2d_init,
+// func_020af99c (not kind 3), input_setMirrorMode, and the mode 5 net state / mode 2 spi_startMicAutoSampling
+// extras. Does not allocate race_sState: race_init does.
+void racesc_init(void);
+void race_initDisplayConfig(void *heap);
+u32 race_getShouldUpdate(u32 sceneFrames);
+BOOL race_getGhostFileNameForCourse(u32 courseId, void *buffer, u32 size);

@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// First argument of StartWoodbox1ItemObject.
+// First argument of wbox_trySpawnItem.
 typedef struct Woodbox1 {
     /* 000 */ MapObject mUnk_000;
 // mGroundUp plus mTiltOffset, normalized: the up direction of the tilted box.
@@ -35,7 +35,7 @@ typedef struct Woodbox1 {
 
 extern Woodbox1 *data_0217bbf0;
 
-// Argument of EnterWoodbox1State0.
+// Argument of wbox_state0Init.
 typedef struct Unk020ec194 {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ Vec3 mUnk_004;
@@ -47,5 +47,5 @@ typedef struct Unk020ec194 {
     /* 0c8 */ u16 mUnk_0c8;
 } Unk020ec194;
 
-void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity);
-void EnterWoodbox1State0(Unk020ec194 *woodbox);
+void wbox_trySpawnItem(Woodbox1 *woodbox, Vec3 *velocity);
+void wbox_state0Init(Unk020ec194 *woodbox);

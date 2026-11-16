@@ -31,35 +31,35 @@ static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd 
     if (animationFile == NULL) {
         *animationCount = 0;
     } else {
-        InitModelAnimation(animationKind, animation, nsbmd, 1, heap, modelFile);
-        InitModelAnimationEntries(animation, animationFile, heap);
-        func_02087cfc(animation, 0, 1);
-        SetModelAnimation(animation, 0);
+        anim_initManager(animationKind, animation, nsbmd, 1, heap, modelFile);
+        anim_registerAllAnims(animation, animationFile, heap);
+        anim_setLoop(animation, 0, 1);
+        anim_setAnim(animation, 0);
     }
 }
 
 void func_02063880(Kart *kart) {
     AdvanceKartCollision(kart);
-    if ((data_0217aa14->mUnk_75c & 2) != 0) {
+    if ((gStruct217AA14->mUnk_75c & 2) != 0) {
         func_020636f8(kart);
     }
     func_020641f0(kart);
 }
 
 void func_02063830(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+    if (driver_getCheckMissionEndArea() != 0) {
+        rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
         func_0206d138(kart);
     }
     kart->mUnk_4c = kart->mUnk_4c & ~0x1000;
-    AdvanceKartMotion(kart);
+    driver_1FFCC50(kart);
 }
 
 void func_020637e0(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+    if (driver_getCheckMissionEndArea() != 0) {
+        rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
     if ((kart->mUnk_4c & 0x1000) != 0) {
         func_0206d138(kart);
@@ -78,7 +78,7 @@ void func_020636f8(Kart *kart) {
     Unk0217aa14_754_04 *recordBase;
     Unk020636f8_B *record;
 
-    recordBase = &data_0217aa14->mUnk_754->mUnk_04;
+    recordBase = &gStruct217AA14->mUnk_754->mUnk_04;
     record = OFFSET_PTR(Unk020636f8_B, recordBase, 8);
     b = kart->mUnk_514;
     record->mUnk_00 = kart->mPos.x >> 10;
@@ -96,7 +96,7 @@ void func_020636f8(Kart *kart) {
 }
 
 // Also sets the matrix and the per-course flags (CreateCourseModels would be the verb for just finding and building).
-void InitCourseModels(void *heap) {
+void crsmdl_init(void *heap) {
     const char *nsbmdFile;
     const char *nsbtxFile;
     const char *animationFile;
@@ -105,176 +105,176 @@ void InitCourseModels(void *heap) {
     s32 shdwOffMaterialIndices[6];
     s32 i;
 
-    nsbmdFile = FindCourseFile(data_02165404);
-    nsbtxFile = FindCourseFile(data_02165418);
-    gCourseModels.mNsbmd = HeapAlloc(heap, 0x6c);
-    resMdl = InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
+    nsbmdFile = arc_getCourseArcFile(aCourse_model_n);
+    nsbtxFile = arc_getCourseArcFile(aCourse_model_0);
+    crsmdl_sState.mNsbmd = heap_alloc(heap, 0x6c);
+    resMdl = model_initFromNsbmdNsbtxMetaCopy(heap, crsmdl_sState.mNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
                                           (NNSG3dResFileHeader *) nsbtxFile);
-    animationFile = FindCourseFile(data_0216542c);
-    func_0206331c_inline(2, data_0217ab24, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                         &gCourseModels.mNsbtpAnmObjCount);
-    animationFile = FindCourseFile(data_02165440);
-    func_0206331c_inline(1, data_0217ab5c, gCourseModels.mNsbmd, heap, nsbmdFile, animationFile,
-                         &gCourseModels.mNsbtaAnmObjCount);
-    SetNsbmdPolygonIdAll(gCourseModels.mNsbmd, 8);
+    animationFile = arc_getCourseArcFile(aCourse_model_1);
+    func_0206331c_inline(2, data_0217ab24, crsmdl_sState.mNsbmd, heap, nsbmdFile, animationFile,
+                         &crsmdl_sState.mNsbtpAnmObjCount);
+    animationFile = arc_getCourseArcFile(aCourse_model_2);
+    func_0206331c_inline(1, data_0217ab5c, crsmdl_sState.mNsbmd, heap, nsbmdFile, animationFile,
+                         &crsmdl_sState.mNsbtaAnmObjCount);
+    model_setPolygonId(crsmdl_sState.mNsbmd, 8);
     NNS_G3dMdlSetMdlXLDepthUpdateAll(resMdl, 1);
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_OLD_KOOPA_AGB:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154a00);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sYoganMat);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlAlpha(resMdl, materialIndex, 0x1e);
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
             break;
         case COURSE_ID_BANK:
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154990);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sFalls01Mat);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
-            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_02154a10);
+            materialIndex = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sFalls02Mat);
             if (materialIndex >= 0) {
                 NNS_G3dMdlSetMdlXLDepthUpdate(resMdl, materialIndex, 0);
             }
             break;
     }
-    gCourseModels.mVNsbmd = NULL;
-    nsbmdFile = FindCourseFile(data_02165454);
-    nsbtxFile = FindCourseFile(data_0216546c);
+    crsmdl_sState.mVNsbmd = NULL;
+    nsbmdFile = arc_getCourseArcFile(aCourse_model_v);
+    nsbtxFile = arc_getCourseArcFile(aCourse_model_5);
     if (nsbmdFile != NULL) {
-        gCourseModels.mVNsbmd = HeapAlloc(heap, 0x6c);
-        InitNsbmdWithTextureInfoCopy(heap, gCourseModels.mVNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
+        crsmdl_sState.mVNsbmd = heap_alloc(heap, 0x6c);
+        model_initFromNsbmdNsbtxMetaCopy(heap, crsmdl_sState.mVNsbmd, (NNSG3dResFileHeader *) nsbmdFile,
                                      (NNSG3dResFileHeader *) nsbtxFile);
-        SetNsbmdPolygonIdAll(gCourseModels.mVNsbmd, 8);
-        animationFile = FindCourseFile(data_02165484);
-        func_0206331c_inline(1, data_0217ab94, gCourseModels.mVNsbmd, heap, nsbmdFile, animationFile,
-                             &gCourseModels.mVNsbtaAnmObjCount);
+        model_setPolygonId(crsmdl_sState.mVNsbmd, 8);
+        animationFile = arc_getCourseArcFile(aCourse_model_3);
+        func_0206331c_inline(1, data_0217ab94, crsmdl_sState.mVNsbmd, heap, nsbmdFile, animationFile,
+                             &crsmdl_sState.mVNsbtaAnmObjCount);
     }
-    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549f0);
-    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549c0);
-    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549d0);
-    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549e0);
-    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549b0);
-    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, data_021549a0);
+    shdwOffMaterialIndices[0] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOffMat);
+    shdwOffMaterialIndices[1] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOff1Mat);
+    shdwOffMaterialIndices[2] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOff2Mat);
+    shdwOffMaterialIndices[3] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOff3Mat);
+    shdwOffMaterialIndices[4] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOff4Mat);
+    shdwOffMaterialIndices[5] = NNS_G3dGetResDictIdxByName((u8 *) resMdl + resMdl->mOfsMat + 4, crsmdl_sShdwOff5Mat);
     for (i = 0; i < 6; i++) {
         if (shdwOffMaterialIndices[i] >= 0) {
             NNS_G3dMdlSetMdlPolygonID(resMdl, shdwOffMaterialIndices[i], 7);
         }
     }
     MTX_Identity43_(&data_0217abcc);
-    InitCourseModelsFogEnableFlags();
+    crsmdl_setupFog();
 }
 
-void UpdateCourseModels(void) {
-    if (gCourseModels.mNsbtpAnmObjCount != 0) {
-        AdvanceModelAnimation(data_0217ab24);
+void crsmdl_update(void) {
+    if (crsmdl_sState.mNsbtpAnmObjCount != 0) {
+        anim_update(data_0217ab24);
     }
-    if (gCourseModels.mNsbtaAnmObjCount != 0) {
-        AdvanceModelAnimation(data_0217ab5c);
+    if (crsmdl_sState.mNsbtaAnmObjCount != 0) {
+        anim_update(data_0217ab5c);
     }
-    if (gCourseModels.mVNsbmd != NULL && gCourseModels.mVNsbtaAnmObjCount != 0) {
-        AdvanceModelAnimation(data_0217ab94);
+    if (crsmdl_sState.mVNsbmd != NULL && crsmdl_sState.mVNsbtaAnmObjCount != 0) {
+        anim_update(data_0217ab94);
     }
 }
 
-void DrawCourseModel(void) {
-    DrawNsbmdWithMatrix(gCourseModels.mNsbmd, &data_0217abcc, data_02154a20);
+void crsmdl_renderCourse(void) {
+    model_drawTransformed(crsmdl_sState.mNsbmd, &data_0217abcc, crsmdl_sModelScale);
 }
 
-void DrawCourseModelV(void) {
-    if (gCourseModels.mVNsbmd == NULL) {
+void crsmdl_renderSky(void) {
+    if (crsmdl_sState.mVNsbmd == NULL) {
         return;
     }
-    DrawNsbmdWithMatrix(gCourseModels.mVNsbmd, &data_0217abcc, data_02154a20);
+    model_drawTransformed(crsmdl_sState.mVNsbmd, &data_0217abcc, crsmdl_sModelScale);
 }
 
-void SetKoopaCourseLight2(void) {
+void crsmdl_setupLights(void) {
     Vec3s16 lightVector;
 
-    if (gRaceSetup->mCourseId != COURSE_ID_KOOPA) {
+    if (gRaceMultiConfig->mCourseId != COURSE_ID_KOOPA) {
         return;
     }
-    lightVector = data_021653fc;
+    lightVector = crsmdl_sKoopaCrsLight2Dir;
     NNS_G3dGlbLightVector(2, lightVector.x, lightVector.y, lightVector.z);
     NNS_G3dGlbLightColor(2, 0x7fff);
 }
 
-void InitCourseModelsFogEnableFlags(void) {
+void crsmdl_setupFog(void) {
     u32 i;
     NNSG3dResMdl *courseResMdl;
     u32 j;
     NNSG3dResMdl *vResMdl;
 
-    gCourseModels.mRestoreFogEnableFlags = FALSE;
-    gCourseModels.mSavedFogEnableFlags = 0;
-    gCourseModels.mRestoreVFogEnableFlags = FALSE;
-    gCourseModels.mSavedVFogEnableFlags = 0;
-    switch (gRaceSetup->mCourseId) {
+    crsmdl_sState.mRestoreFogEnableFlags = FALSE;
+    crsmdl_sState.mSavedFogEnableFlags = 0;
+    crsmdl_sState.mRestoreVFogEnableFlags = FALSE;
+    crsmdl_sState.mSavedVFogEnableFlags = 0;
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_DESERT:
         case COURSE_ID_MINI_STAGE2:
-            gCourseModels.mRestoreFogEnableFlags = TRUE;
+            crsmdl_sState.mRestoreFogEnableFlags = TRUE;
             break;
         case COURSE_ID_RAINBOW:
-            gCourseModels.mRestoreVFogEnableFlags = TRUE;
+            crsmdl_sState.mRestoreVFogEnableFlags = TRUE;
             break;
     }
-    if (gCourseModels.mRestoreFogEnableFlags != FALSE) {
-        courseResMdl = gCourseModels.mNsbmd->mResMdl;
+    if (crsmdl_sState.mRestoreFogEnableFlags != FALSE) {
+        courseResMdl = crsmdl_sState.mNsbmd->mResMdl;
         for (i = 0; i < courseResMdl->mInfo.mNumMat; i++) {
             if (NNS_G3dMdlGetMdlFogEnableFlag(courseResMdl, i) != 0) {
-                gCourseModels.mSavedFogEnableFlags |= (s64) (1 << i);
+                crsmdl_sState.mSavedFogEnableFlags |= (s64) (1 << i);
             }
         }
     } else {
-        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+        NNS_G3dMdlSetMdlFogEnableFlagAll(crsmdl_sState.mNsbmd->mResMdl, 1);
     }
-    if (gCourseModels.mVNsbmd == NULL) {
+    if (crsmdl_sState.mVNsbmd == NULL) {
         return;
     }
-    if (gCourseModels.mRestoreVFogEnableFlags == FALSE) {
+    if (crsmdl_sState.mRestoreVFogEnableFlags == FALSE) {
         return;
     }
-    vResMdl = gCourseModels.mVNsbmd->mResMdl;
+    vResMdl = crsmdl_sState.mVNsbmd->mResMdl;
     for (j = 0; j < vResMdl->mInfo.mNumMat; j++) {
         if (NNS_G3dMdlGetMdlFogEnableFlag(vResMdl, j) != 0) {
-            gCourseModels.mSavedVFogEnableFlags |= 1 << j;
+            crsmdl_sState.mSavedVFogEnableFlags |= 1 << j;
         }
     }
 }
 
-void SetCourseModelsFogEnableFlags(u32 flag) {
+void crsmdl_setFogFlags(u32 flag) {
     u32 i;
     NNSG3dResMdl *resMdl;
     u32 j;
 
-    if (gCourseModels.mVNsbmd != NULL) {
-        if (gCourseModels.mRestoreVFogEnableFlags != FALSE && flag == 0) {
-            resMdl = gCourseModels.mVNsbmd->mResMdl;
+    if (crsmdl_sState.mVNsbmd != NULL) {
+        if (crsmdl_sState.mRestoreVFogEnableFlags != FALSE && flag == 0) {
+            resMdl = crsmdl_sState.mVNsbmd->mResMdl;
             for (i = 0; i < resMdl->mInfo.mNumMat; i++) {
-                NNS_G3dMdlSetMdlFogEnableFlag(resMdl, i, (gCourseModels.mSavedVFogEnableFlags & (1 << i)) != 0 ? 1 : 0);
+                NNS_G3dMdlSetMdlFogEnableFlag(resMdl, i, (crsmdl_sState.mSavedVFogEnableFlags & (1 << i)) != 0 ? 1 : 0);
             }
         } else {
-            NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mVNsbmd->mResMdl, flag);
+            NNS_G3dMdlSetMdlFogEnableFlagAll(crsmdl_sState.mVNsbmd->mResMdl, flag);
         }
     }
-    if (gCourseModels.mRestoreFogEnableFlags == FALSE) {
+    if (crsmdl_sState.mRestoreFogEnableFlags == FALSE) {
         return;
     }
     if (flag != 0) {
-        NNS_G3dMdlSetMdlFogEnableFlagAll(gCourseModels.mNsbmd->mResMdl, 1);
+        NNS_G3dMdlSetMdlFogEnableFlagAll(crsmdl_sState.mNsbmd->mResMdl, 1);
         return;
     }
-    resMdl = gCourseModels.mNsbmd->mResMdl;
+    resMdl = crsmdl_sState.mNsbmd->mResMdl;
     for (j = 0; j < resMdl->mInfo.mNumMat; j++) {
-        if ((gCourseModels.mSavedFogEnableFlags & (s64) (1 << j)) == 0) {
+        if ((crsmdl_sState.mSavedFogEnableFlags & (s64) (1 << j)) == 0) {
             NNS_G3dMdlSetMdlFogEnableFlag(resMdl, j, 0);
         }
     }
 }
 
-s32 GetCourseModelNsbtpFrame(void) {
-    if (gCourseModels.mNsbtpAnmObjCount != 0) {
-        return gCourseModels.mNsbtpFrameIndex >> 12;
+s32 crsmdl_getNsbtpProgress(void) {
+    if (crsmdl_sState.mNsbtpAnmObjCount != 0) {
+        return crsmdl_sState.mNsbtpFrameIndex >> 12;
     }
     return -1;
 }

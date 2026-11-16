@@ -2,13 +2,13 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 BOOL GetShowLapTime(void) {
-    return (gRaceHud->mShowLapTime);
+    return (r2d_sStatus->mShowLapTime);
 }
 
 u32 GetShowLapTimeFrames(void) {
-    return (gRaceHud->mShowLapTimeFrames);
+    return (r2d_sStatus->mShowLapTimeFrames);
 }
 
 u32 GetUseTimeDifference(void) {
-    return (gRaceHud->mUseTimeDifference);
+    return (r2d_sStatus->mUseTimeDifference);
 }

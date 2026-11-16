@@ -25,21 +25,21 @@
 
 BOOL func_020f9290(void *itemParam, Vec3 *normal) {
     ItemObject *item = itemParam;
-    if ((item->mFlags & 0x2000000) != 0 && Vec3DotUnrounded(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
+    if ((item->mFlags & 0x2000000) != 0 && vec_dotProduct(normal, &item->mUnk_108) < 0 && (item->mFlags & 8) == 0) {
         func_020f6fc4(item, 1);
         return TRUE;
     }
     return FALSE;
 }
 
-void func_020f91fc(void *itemParam, s32 soundId) {
+void it_20F91FC(void *itemParam, s32 soundId) {
     ItemObject *item = itemParam;
     Unk0210b7a8 request;
 
     if (soundId == 1) {
         return;
     }
-    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSoundFalloffs[1].mUnk_20) {
+    if ((s32) (item->mDistanceSquaredAndFlags & ~0xc000001f) >= gSfxParams[1].mUnk_20) {
         return;
     }
     if (soundId == 1) {
@@ -85,8 +85,8 @@ void func_020f9114(void *itemParam) {
     ItemObject *item = itemParam;
     enum { K0 } kind = item->mKind;
 
-    func_02109038(item, gItemKinds[kind].mUnk_a0, &item->mPos);
-    SetSoundSourceEnabled(&item->mSoundSource, 1);
+    sfx_2109038(item, it_sItemParams[kind].mUnk_a0, &item->mPos);
+    sfx_210CF9C(&item->mSoundSource, 1);
     item->mFlags |= 0x400000;
 }
 
@@ -111,8 +111,8 @@ void ResetItemObjectFromData(ItemObject *itemParam, s32 kind, void *buffer, s32 
     ItemObject *item = itemParam;
     void *(*copyData)(void *, void *, s32);
 
-    copyData = d != 0 ? func_020fe4c0 : gItemKinds[kind].mCopyData;
-    ResetItemObject(item, kind);
+    copyData = d != 0 ? func_020fe4c0 : it_sItemParams[kind].mCopyData;
+    it_initInstance(item, kind);
     copyData(buffer, item, 0);
     item->mFlags &= ~0x400000;
     item->mFlags |= 0x10000000;
@@ -131,12 +131,12 @@ void func_020f8e78(void *itemParam) {
     item->mFlags |= 0x40;
     item->mScale.y = item->mScale.z;
     item->mScale.x = item->mScale.y;
-    kindInfo = &gItemKinds[kind];
+    kindInfo = &it_sItemParams[kind];
     kindRadius = kindInfo->mUnk_6c;
     item->mUnk_dc = ((s64) item->mScale.y * kindInfo->mUnk_64) >> 12;
     item->mRadius = ((s64) item->mScale.y * kindRadius) >> 12;
-    SetCollisionSlotRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
-    InitCourseColorBlend(&item->mColorBlend, 1);
+    col_setBoundingSphereRadius(item->mCollisionSlotIndex, item->mRadius + 0xa000);
+    light_init(&item->mColorBlend, 1);
     item->mUnk_90 = NULL;
     item->mNormal = data_02159ca0;
     item->mCollisionBits = 0;
@@ -152,12 +152,12 @@ void func_020f8e78(void *itemParam) {
     item->mAgeFrames = 1;
     if ((item->mFlags & 0x400000) == 0) {
         kind = item->mKind;
-        func_02109038(item, gItemKinds[kind].mUnk_a0, &item->mPos);
-        SetSoundSourceEnabled(&item->mSoundSource, 1);
+        sfx_2109038(item, it_sItemParams[kind].mUnk_a0, &item->mPos);
+        sfx_210CF9C(&item->mSoundSource, 1);
         item->mFlags |= 0x400000;
     }
     kind = item->mKind;
-    advance = gItemKinds[kind].mAdvance;
+    advance = it_sItemParams[kind].mAdvance;
     if ((item->mFlags & 0x180000) == 0) {
         item->mAdvance = advance;
     }
@@ -165,7 +165,7 @@ void func_020f8e78(void *itemParam) {
         return;
     }
     kind = item->mKind;
-    if (gItemKinds[kind].mUnk_54 != 0) {
+    if (it_sItemParams[kind].mUnk_54 != 0) {
         return;
     }
     hasCollisionSlot = item->mCollisionSlotIndex != -1;
@@ -175,5 +175,5 @@ void func_020f8e78(void *itemParam) {
     if (hasCollisionSlot != FALSE) {
         return;
     }
-    item->mCollisionSlotIndex = CreateCollisionSlot(&item->mPos, item->mRadius + 0xa000, 0x4000, item);
+    item->mCollisionSlotIndex = col_createColEntry(&item->mPos, item->mRadius + 0xa000, 0x4000, item);
 }

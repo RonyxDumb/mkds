@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateChoropu(void);
+void choro_loadModel(void);

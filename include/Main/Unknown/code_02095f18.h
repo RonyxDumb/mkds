@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitMoveTree(u32 arg0); /* starts the path follower (InitGroupFollower) */
+void mtree_init(u32 arg0); /* starts the path follower (pw_initFromObject) */

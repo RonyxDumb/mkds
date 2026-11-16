@@ -18,36 +18,36 @@
 
 #pragma thumb on
 
-void DrawTextInRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
+void drawFormattedTextRect(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, s32 color, s32 alignFlags,
                     s32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance, s32 l) {
     s32 maxWidth;
     s32 textHeight;
     s32 lineWidths[20];
     u16 expandedText[500];
 
-    func_021253f8(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
+    formatMeasureText(textCanvas, &maxWidth, lineWidths, &textHeight, text, expandedText, fixedDigitsOnly,
                   (s32) fixedAdvance);
-    DrawTextLines(textCanvas, maxWidth, lineWidths, textHeight, left, top, width, height, color, alignFlags, lineAlign,
+    drawText(textCanvas, maxWidth, lineWidths, textHeight, left, top, width, height, color, alignFlags, lineAlign,
                   expandedText, fixedDigitsOnly, fixedAdvance, l);
 }
 
-void func_0212583c(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
+void jn_ui_drawFormattedTextRect(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
                    void *text) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 0);
+    drawFormattedTextRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 0);
 }
 
-void func_02125808(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color, u32 alignFlags,
+void jn_ui_drawFormattedTextRectMonospace(LabelTextCanvas *textCanvas, s32 left, s32 top, s32 width, s32 height, u32 color, u32 alignFlags,
                    u32 lineAlign, void *text, s32 fixedDigitsOnly, s8 fixedAdvance) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, fixedDigitsOnly,
+    drawFormattedTextRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, fixedDigitsOnly,
                    fixedAdvance, 0);
 }
 
-void func_021257d8(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
+void jn_ui_drawFormattedTextRectSomething(void *textCanvas, u32 left, u32 top, u32 width, u32 height, u32 color, u32 alignFlags, u32 lineAlign,
                    void *text) {
-    DrawTextInRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 1);
+    drawFormattedTextRect(textCanvas, left, top, width, height, color, alignFlags, lineAlign, text, 0, -1, 1);
 }
 
-void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
+void formatMeasureText(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, s32 *textHeight, void *text,
                    u16 *expandedText, s32 fixedDigitsOnly, s32 fixedAdvance) {
     s32 lineHeight;
     s32 charSpacing;
@@ -95,7 +95,7 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                         switch (variant) {
                             case 0:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    ch = ((u16 *) data_0217aa08->mFirstBlock->mPlayerName)[r7];
+                                    ch = ((u16 *) gSaveData->mFirstBlock->mPlayerName)[r7];
                                     if (ch == 0) {
                                         r7 = 10;
                                     } else {
@@ -114,7 +114,7 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                                 break;
                             case 1:
-                                n1 = CopyTextWithinWidth((u16 *) data_0217aa08->mFirstBlock->mPlayerName, buf1);
+                                n1 = CopyTextWithinWidth((u16 *) gSaveData->mFirstBlock->mPlayerName, buf1);
                                 for (i1 = 0; i1 < n1; i1++) {
                                     *writePointer++ = buf1[i1];
                                     if (fixedAdvance == -1 ||
@@ -131,7 +131,7 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                             case 10:
                                 for (r7 = 0; r7 < 10; r7++) {
-                                    ch = ((u16 *) data_021759d0->mOwnerText)[r7];
+                                    ch = ((u16 *) gSystemData->mOwnerText)[r7];
                                     if (ch == 0) {
                                         r7 = 10;
                                     } else {
@@ -150,7 +150,7 @@ void func_021253f8(LabelTextCanvas *textCanvas, s32 *maxWidth, s32 *lineWidths, 
                                 }
                                 break;
                             case 11:
-                                n2 = CopyTextWithinWidth((u16 *) data_021759d0->mOwnerText, buf2);
+                                n2 = CopyTextWithinWidth((u16 *) gSystemData->mOwnerText, buf2);
                                 for (i2 = 0; i2 < n2; i2++) {
                                     *writePointer++ = buf2[i2];
                                     if (fixedAdvance == -1 ||
@@ -228,7 +228,7 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
     return offset;
 }
 
-void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
+void drawText(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, s32 textHeight, s32 left, s32 top,
                    s32 width, s32 height, s32 color, u32 alignFlags, s32 lineAlign, void *text, s32 fixedDigitsOnly,
                    s32 fixedAdvance, s32 o) {
     s32 x;
@@ -362,10 +362,10 @@ void *func_021250b0(void *heap) {
     DisplaySettingsDesc desc = {1, 0x12, 0x18, 1, 0, 0, 0, 2, 1, 0, 0, 0, 0, 0, 4, 0x100, 0, 0, 8, 0};
     Unk02180774 *displaySettings;
 
-    displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = dc_createDisplayConfig(heap, &desc);
+    dc_setBg1Config(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    dc_setBg3Config(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0x10, 4);
+    dc_setDisplayConfig(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
     return displaySettings;
@@ -375,10 +375,10 @@ void *func_02125028(void *heap) {
     DisplaySettingsDesc desc = {1, 0x13, 0x18, 1, 0, 1, 0, 4, 0x60, 0, 0, 3, 0x10, 0, 0x80, 0x100, 0, 0, 8, 0};
     Unk02180774 *displaySettings;
 
-    displaySettings = CreateDisplaySettings(heap, &desc);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
+    displaySettings = dc_createDisplayConfig(heap, &desc);
+    dc_setBg1Config(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0x12, 2, 0);
+    dc_setBg3Config(displaySettings->mSubBgRecords, 1, 0, 0, 0, 0xf, 0);
+    dc_setDisplayConfig(displaySettings);
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | 0x10;
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | 0x10;
     return displaySettings;

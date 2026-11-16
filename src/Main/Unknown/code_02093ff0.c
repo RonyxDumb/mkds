@@ -23,50 +23,50 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 InitTeresa(u32 arg0) {
+u32 tesa_init(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
-    ParkMapObject((void *) value0);
-    value0 = (u32) &gUnparkedTeresaCount;
+    mobj_setInvisible((void *) value0);
+    value0 = (u32) &tesa_sActiveInstanceCount;
     value1 = 0u;
     *(u32 *) ((value0) + (0)) = value1;
     return value0;
 }
 
-void CreateTeresa(Unk02094db4 *a) {
-    gTeresa = CreateMapObjectModelNsbmdNsbtp(a, gTeresaNsbmdName, gTeresaNsbtpName);
-    SetMapObjectModelPolygonId(gTeresa, 0x3f);
+void tesa_loadModel(Unk02094db4 *a) {
+    tesa_sModel = mobj_loadTexAnimBillboardModel(a, aTeresa_nsbmd, aTeresa_nsbtp);
+    mobj_setModelPolygonIdAll(tesa_sModel, 0x3f);
     a->mUnk_1c = 1;
 }
 
-void SetupDrawTeresa(void *a) {
-    func_0209bbd0(a, gTeresa);
+void tesa_applyMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, tesa_sModel);
 }
 
-void DrawTeresa(void *a, Teresa *teresa) {
+void tesa_render(void *a, Teresa *teresa) {
     s32 w;
     s32 v[3];
 
     if (teresa->mModelAlpha == 0) {
         return;
     }
-    GetKart((u16) gRaceSetup->mEntryIndex);
-    SetMapObjectModelPolygonId(gTeresa, AllocPolygonIdWrapping());
-    SetMapObjectModelNsbtpFrameIndex(gTeresa, teresa->mNsbtpFrameIndex);
-    SetMapObjectModelAlpha(gTeresa, teresa->mModelAlpha);
-    SetMapObjectModelFogEnabled(gTeresa, IsFadeFogActive());
-    SetMapObjectModelMirror(gTeresa, teresa->mMirror, 0);
+    driver_getById((u16) gRaceMultiConfig->mEntryIndex);
+    mobj_setModelPolygonIdAll(tesa_sModel, mobj_getCyclicPolygonId());
+    mobj_setModelNsbtpFrame(tesa_sModel, teresa->mNsbtpFrameIndex);
+    mobj_setModelAlpha(tesa_sModel, teresa->mModelAlpha);
+    mobj_setModelFogEnableFlag(tesa_sModel, race_getIsDarkeningActive());
+    mobj_setModelFlip(tesa_sModel, teresa->mMirror, 0);
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&teresa->mUnk_00.mPos), 0xc);
-    if (GetCurrentCameraKind() == 2) {
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&teresa->mUnk_00.mPos), 0xc);
+    if (race_getCameraField250() == 2) {
         v[0] = 0x2000;
         v[1] = 0x2000;
         v[2] = 0x2000;
-        func_01ff9048(0x1b, v, 3);
+        NNS_G3dGeBufferOP_N(0x1b, v, 3);
     }
-    func_01ff9048(0x1b, &teresa->mUnk_00.mScale, 3);
-    DrawMapObjectModel(a, gTeresa, teresa);
+    NNS_G3dGeBufferOP_N(0x1b, &teresa->mUnk_00.mScale, 3);
+    mobj_renderModel(a, tesa_sModel, teresa);
 }
 
 static inline void func_02094768_inline(Teresa *teresa) {
@@ -99,7 +99,7 @@ static inline void func_02094768_inline_2(s32 *p, s32 *q) {
 }
 
 // Gives each Teresa two values from its place in the list: bit 0 and bit 1 of its index.
-void InitTeresaObjects(MapObjectList *mapObjectList) {
+void tesa_globalLogicInit(MapObjectList *mapObjectList) {
     s32 i;
     Teresa *teresa;
 
@@ -112,19 +112,19 @@ void InitTeresaObjects(MapObjectList *mapObjectList) {
     }
 }
 
-s16 func_02094c0c(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2];
+s16 tesa_FX_SinIdx(s32 angle) {
+    return FX_SinCosTable_[(angle >> 4) * 2];
 }
 
-s32 func_02094bf0(s32 a, s32 b) {
+s32 tesa_FX_MulInline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
-s16 func_02094bd0(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+s16 tesa_FX_CosIdx(s32 angle) {
+    return FX_SinCosTable_[(angle >> 4) * 2 + 1];
 }
 
-void UpdateTeresa(void *a, Teresa *teresa) {
+void tesa_update(void *a, Teresa *teresa) {
     s32 t;
     s32 x;
     s32 anglePairSecond;
@@ -155,8 +155,8 @@ void UpdateTeresa(void *a, Teresa *teresa) {
                     teresa->mModelAlpha = teresa->mAlphaFixed12 >> 12;
                 } else {
                     teresa->mModelAlpha = 0;
-                    ParkMapObject(&teresa->mUnk_00);
-                    gUnparkedTeresaCount--;
+                    mobj_setInvisible(&teresa->mUnk_00);
+                    tesa_sActiveInstanceCount--;
                 }
             } else {
                 func_02094768_inline(teresa);
@@ -167,52 +167,52 @@ void UpdateTeresa(void *a, Teresa *teresa) {
         return;
     }
     teresa->mAngleWobble.mAngle = teresa->mAngleWobble.mAngle + teresa->mAngleWobble.mAnglePerFrame;
-    x = func_02094bf0(teresa->mAngleWobble.mAmplitude, func_02094c0c(teresa->mAngleWobble.mAngle));
+    x = tesa_FX_MulInline(teresa->mAngleWobble.mAmplitude, tesa_FX_SinIdx(teresa->mAngleWobble.mAngle));
     teresa->mAngleWobble.mUnk_08 = teresa->mAngleWobble.mMid + x - teresa->mAngleWobble.mValue;
     teresa->mAngleWobble.mValue = teresa->mAngleWobble.mValue + teresa->mAngleWobble.mUnk_08;
     func_02094768_inline_2(&teresa->mAngleWobble.mAmplitude, &teresa->mAngleWobble.mAmplitudePerFrame);
     func_02094768_inline_2(&teresa->mAngleWobble.mAnglePerFrame, &teresa->mAngleWobble.mUnk_1c);
     angleWobbleValue = teresa->mAngleWobble.mValue;
     teresa->mYWobble.mAngle = teresa->mYWobble.mAngle + teresa->mYWobble.mAnglePerFrame;
-    anglePairSecond = func_02094bd0(teresa->mYWobble.mAngle);
-    x = func_02094bf0(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
+    anglePairSecond = tesa_FX_CosIdx(teresa->mYWobble.mAngle);
+    x = tesa_FX_MulInline(teresa->mYWobble.mAmplitude / 2, 0x1000 - anglePairSecond);
     teresa->mYWobble.mUnk_08 = teresa->mYWobble.mMid + x - teresa->mYWobble.mValue;
     teresa->mYWobble.mValue = teresa->mYWobble.mValue + teresa->mYWobble.mUnk_08;
     func_02094768_inline_2(&teresa->mYWobble.mAmplitude, &teresa->mYWobble.mAmplitudePerFrame);
     func_02094768_inline_2(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mUnk_1c);
     yWobbleValue = teresa->mYWobble.mValue;
     n = teresa->mUnk_10c;
-    if (GetCurrentCameraKind() == 2) {
+    if (race_getCameraField250() == 2) {
         teresa->mUnk_00.mPos.x =
-            teresa->mStartPos.x + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]) >> 12);
+            teresa->mStartPos.x + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2 + 1]) >> 12);
         teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mUnk_00.mPos.z =
-            teresa->mStartPos.z + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2]) >> 12);
+            teresa->mStartPos.z + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2]) >> 12);
     } else {
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
         teresa->mUnk_00.mPos.x =
             kart->mPos.x +
-            (teresa->mStartPos.x + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2 + 1]) >> 12));
+            (teresa->mStartPos.x + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2 + 1]) >> 12));
         teresa->mUnk_00.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mUnk_00.mPos.z =
-            kart->mPos.z + (teresa->mStartPos.z + (s32) (((s64) n * gPairsByAngle[(angleWobbleValue >> 4) * 2]) >> 12));
+            kart->mPos.z + (teresa->mStartPos.z + (s32) (((s64) n * FX_SinCosTable_[(angleWobbleValue >> 4) * 2]) >> 12));
     }
 }
 
-void CreateTeresaDrawList(void) {
-    CreateMapObjectDrawList2(CreateTeresa, DrawTeresa, SetupDrawTeresa);
+void tesa_setupRenderPart(void) {
+    mobj_createRenderPart2d(tesa_loadModel, tesa_render, tesa_applyMaterial);
 }
 
-void CreateTeresaUpdateList(void) {
-    CreateMapObjectUpdateList(InitTeresaObjects, UpdateTeresa, NULL);
+void tesa_setupLogicPart(void) {
+    mobj_createLogicPart(tesa_globalLogicInit, tesa_update, NULL);
 }
 
-void ClearTeresaTimers(void) {
+void tesa_20946B8(void) {
     MapObjectList *mapObjectList;
     Teresa *teresa;
     s32 i;
 
-    mapObjectList = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_TERESA);
+    mapObjectList = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_TERESA);
     if (mapObjectList == NULL) {
         return;
     }
@@ -240,7 +240,7 @@ static inline void func_02094000_inline_2(TeresaWobble *teresaWobble, u16 angle,
     teresaWobble->mUnk_1c = f;
 }
 
-void StartTeresa(Vec3 *startPos) {
+void tesa_spawn(Vec3 *startPos) {
     Teresa *teresa;
     Camera *chaseCamera;
     s32 alphaFixed12Max;
@@ -252,51 +252,51 @@ void StartTeresa(Vec3 *startPos) {
     s32 d;
     s32 f;
 
-    teresa = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_TERESA));
+    teresa = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_TERESA));
     if (teresa == NULL) {
         return;
     }
     teresa->mModelAlpha = 0;
     teresa->mStartPos = *startPos;
-    if (GetCurrentCameraKind() == 0) {
-        chaseCamera = GetChaseCamera();
-        e = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x30);
-        c = (u16) (func_02094000_inline(&gRaceProgress->mLocalRandom, 0) >> 20);
-        b = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x5555);
+    if (race_getCameraField250() == 0) {
+        chaseCamera = cam_getPlayerCamera();
+        e = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x30);
+        c = (u16) (func_02094000_inline(&gRaceStatus->mLocalRandom, 0) >> 20);
+        b = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x5555);
         k = FX_Atan2Idx(chaseCamera->mLookAt.z - chaseCamera->mPos.z, chaseCamera->mLookAt.x - chaseCamera->mPos.x) +
             b - 0x2aaa;
-        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000), k,
+        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceStatus->mLocalRandom, 0x10000), k,
                                c + 0x1000, 0, e + 0x60, 0);
     } else {
-        e = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x30);
-        c = (u16) (func_02094000_inline(&gRaceProgress->mLocalRandom, 0) >> 20);
-        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000),
-                               (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x10000), c + 0x1000, 0,
+        e = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x30);
+        c = (u16) (func_02094000_inline(&gRaceStatus->mLocalRandom, 0) >> 20);
+        func_02094000_inline_2(&teresa->mAngleWobble, func_02094000_inline(&gRaceStatus->mLocalRandom, 0x10000),
+                               (u16) func_02094000_inline(&gRaceStatus->mLocalRandom, 0x10000), c + 0x1000, 0,
                                e + 0x60, 0);
     }
-    d = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x80);
-    f = func_02094000_inline(&gRaceProgress->mLocalRandom, 0xa000);
-    func_02094000_inline_2(&teresa->mYWobble, 0, func_02094000_inline(&gRaceProgress->mLocalRandom, 0x19000) + 0x19000,
+    d = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x80);
+    f = func_02094000_inline(&gRaceStatus->mLocalRandom, 0xa000);
+    func_02094000_inline_2(&teresa->mYWobble, 0, func_02094000_inline(&gRaceStatus->mLocalRandom, 0x19000) + 0x19000,
                            f + 0xa000, 0, d + 0x100, 0);
-    teresa->mUnk_10c = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x3c000) + 0x3c000;
-    alphaFixed12Max = func_02094000_inline(&gRaceProgress->mLocalRandom, 0xc000) + 0xe000;
-    alphaFixed12PerFrame = func_02094000_inline(&gRaceProgress->mLocalRandom, 0x200) + 0x400;
+    teresa->mUnk_10c = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x3c000) + 0x3c000;
+    alphaFixed12Max = func_02094000_inline(&gRaceStatus->mLocalRandom, 0xc000) + 0xe000;
+    alphaFixed12PerFrame = func_02094000_inline(&gRaceStatus->mLocalRandom, 0x200) + 0x400;
     teresa->mAlphaFixed12 = 0;
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
     teresa->mAlphaFixed12Min = 0x2000;
     teresa->mAlphaFixed12Max = alphaFixed12Max;
-    if (GetCurrentCameraKind() == 2) {
+    if (race_getCameraField250() == 2) {
         teresa->mState1Timer = 0;
         teresa->mState0Timer = 0xffff;
         teresa->mState = 0;
     } else {
-        teresa->mState1Timer = (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x4b);
-        teresa->mState0Timer = (u16) func_02094000_inline(&gRaceProgress->mLocalRandom, 0x96) + 0x12c;
+        teresa->mState1Timer = (u16) func_02094000_inline(&gRaceStatus->mLocalRandom, 0x4b);
+        teresa->mState0Timer = (u16) func_02094000_inline(&gRaceStatus->mLocalRandom, 0x96) + 0x12c;
         teresa->mState = 1;
     }
-    gUnparkedTeresaCount++;
+    tesa_sActiveInstanceCount++;
 }
 
-s32 GetUnparkedTeresaCount(void) {
-    return gUnparkedTeresaCount;
+s32 tesa_getActiveInstanceCount(void) {
+    return tesa_sActiveInstanceCount;
 }

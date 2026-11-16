@@ -4,23 +4,23 @@
 
 #pragma thumb on
 
-void SetBackupBusy(void) {
-    data_0217aa08->mBusy = 1;
+void savd_beginOperation(void) {
+    gSaveData->mBusy = 1;
 }
 
-void ClearBackupBusy(void) {
-    data_0217aa08->mBusy = 0;
+void savd_endOperation(void) {
+    gSaveData->mBusy = 0;
 }
 
-void WriteBackupFirstBlockAndWait(void) {
-    if (gBackupAccess->mBackupEnabled != 0) {
+void savd_writeNksyTask(void) {
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNksy(gSaveData->mFirstBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    ClearBackupBusy();
+    savd_endOperation();
 }
 
 #pragma thumb off

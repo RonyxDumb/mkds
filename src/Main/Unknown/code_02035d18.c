@@ -19,11 +19,11 @@
 #include "00/code_02181f98.h"
 
 void func_02036058(u32 value) {
-    data_0217b488->mUnk_04 = value;
+    gStruct217B488->mUnk_04 = value;
 }
 
 void func_02036044(u32 value) {
-    data_0217b488->mUnk_08 = value;
+    gStruct217B488->mUnk_08 = value;
 }
 
 #pragma thumb on
@@ -42,7 +42,7 @@ s32 func_02035f5c(u32 sceneNumbers) {
             result = func_02055730(0);
             switch (result) {
                 case 1:
-                    func_0204aa28(func_020360e4());
+                    sysdat_setIsMBChild(func_020360e4());
                     gWLMenuMessage->mState = 4;
                     break;
                 case 2:
@@ -142,7 +142,7 @@ s32 func_02035e64(u32 sceneNumbers) {
 #pragma thumb off
 
 u32 func_02035e44(void) {
-    return data_0217aa00->mUnk_0457 != 0;
+    return gStruct217AA00->mUnk_0457 != 0;
 }
 
 void func_02035e38(void) {
@@ -191,7 +191,7 @@ s32 func_02035db4(u32 sceneNumbers) {
 #pragma thumb on
 
 void ReleaseWLMenuMessage(void) {
-    HeapDestroy(gWLMenuMessage->mHeap);
+    heap_destroySubHeap(gWLMenuMessage->mHeap);
     *&gWLMenuMessage = NULL;
 }
 

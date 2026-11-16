@@ -41,7 +41,7 @@ void InitWiFiTopMenu(void *heap) {
     s32 j;
     s32 k;
 
-    gWiFiTopMenu = HeapAlloc(heap, 0x40);
+    gWiFiTopMenu = heap_alloc(heap, 0x40);
     gWiFiTopMenu->mHeap = heap;
     gWiFiTopMenu->mState = 0;
     gWiFiTopMenu->mNextState = 0;
@@ -60,22 +60,22 @@ void InitWiFiTopMenu(void *heap) {
     }
     gWiFiTopMenu->mStateFrames = 0;
     gWiFiTopMenu->mUnk_18 = TRUE;
-    gWiFiTopMenu->mWiFiMessages = FindSceneFile("wifi.bmg");
-    gWiFiTopMenu->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gWiFiTopMenu->mWiFiMessages = arc_getSceneArcFile("wifi.bmg");
+    gWiFiTopMenu->mCommonMessages = arc_get2dArcFile("common.bmg");
     LocateAndQueueWiFiTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov000_021b05c0[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+        jn_ui_setCellIsTranslucent(data_ov000_021b05c0[i], 1, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
     }
-    ResetOamLists(func_ov000_021804f4(), func_ov000_021804e0());
-    InitLayoutTable(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
+    oam_clearResetBuffers(func_ov000_021804f4(), test_run());
+    jn_ui_initLayout(heap, gWiFiTopMenu->mWiFiTopMenuBncl, NULL, &gWiFiTopMenu->mWiFiTopMenuTable);
     for (j = 0; j < 3; j++) {
         for (k = 0; k < data_ov000_021b05cc[j]; k++) {
             gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[j][k]].mOffsetX = 0xdc;
         }
     }
     SetLinkLevelIconEnabled(1, 0);
-    SetSelectReturnSoundId(0xf);
-    func_0204f7f4();
+    gmenu_setSeqArcIndex(0xf);
+    LEDBlink_NoPattern();
 }
 
 void func_ov000_02181e8c(void) {
@@ -84,18 +84,18 @@ void func_ov000_02181e8c(void) {
 
 void LocateAndQueueWiFiTopMenu(void) {
     void *v1;
-    v1 = FindSceneFile(gWiFiTopMenuSBnclName);
+    v1 = arc_getSceneArcFile(gWiFiTopMenuSBnclName);
     gWiFiTopMenu->mWiFiTopMenuBncl = v1;
-    v1 = FindSceneFile(gWiFiTopMenuSBnblName);
+    v1 = arc_getSceneArcFile(gWiFiTopMenuSBnblName);
     gWiFiTopMenu->mWiFiTopMenuBnbl = v1;
-    v1 = FindSceneFile(gWiFiTopMenuSNcgrName);
-    LocateNcgr2(&gWiFiTopMenu->mWiFiTopMenuSNcgr, v1);
-    v1 = FindSceneFile(gWiFiTopMenuSNcerName);
-    LocateNcer(&gWiFiTopMenu->mWiFiTopMenuSNcer, v1);
-    v1 = FindSceneFile(gWiFiTopMenuSONclrName);
-    LocateNclr(&gWiFiTopMenu->mWiFiTopMenuSONclr, v1);
-    CallQueueAppend(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData), gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData), gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
+    v1 = arc_getSceneArcFile(gWiFiTopMenuSNcgrName);
+    g2du_getCharacterData(&gWiFiTopMenu->mWiFiTopMenuSNcgr, v1);
+    v1 = arc_getSceneArcFile(gWiFiTopMenuSNcerName);
+    g2du_getCellBankData(&gWiFiTopMenu->mWiFiTopMenuSNcer, v1);
+    v1 = arc_getSceneArcFile(gWiFiTopMenuSONclrName);
+    g2du_getPaletteData(&gWiFiTopMenu->mWiFiTopMenuSONclr, v1);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gWiFiTopMenu->mWiFiTopMenuSNcgr->mData), gWiFiTopMenu->mWiFiTopMenuSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, (gWiFiTopMenu->mWiFiTopMenuSONclr->mData), gWiFiTopMenu->mWiFiTopMenuSONclr->mDataSize);
 }
 
 s32 func_ov000_02181df0(void) {
@@ -104,7 +104,7 @@ s32 func_ov000_02181df0(void) {
 
 void AdvanceWiFiTopMenuState0(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         gWiFiTopMenu->mNextState = 1;
     }
@@ -121,9 +121,9 @@ void AdvanceWiFiTopMenuState1(void) {
         gWiFiTopMenu->mStateFrames = v;
         RequestSelectReturnState1();
     } else if (gWiFiTopMenu->mStateFrames >= 10) {
-        v = func_020ae488(gWiFiTopMenu->mStateFrames - 10);
+        v = mutil_getButtonOutEffectOffset(gWiFiTopMenu->mStateFrames - 10);
     } else {
-        v = InterpolateS16(1, 0xdc, v, gWiFiTopMenu->mStateFrames, 10);
+        v = mutil_interpolate(1, 0xdc, v, gWiFiTopMenu->mStateFrames, 10);
     }
     for (i = 0; i < 3; i++) {
         for (j = 0; j < data_ov000_021b05cc[i]; j++) {
@@ -137,7 +137,7 @@ void AdvanceWiFiTopMenuState2(void) {
     v1 = IsSelectReturnState2NoState3Or4Request();
     if (v1 != 0) {
         gWiFiTopMenu->mNextState = 3;
-        SetSelectReturnSoundId(0xf);
+        gmenu_setSeqArcIndex(0xf);
     }
 }
 
@@ -158,10 +158,10 @@ void AdvanceWiFiTopMenuState3(void) {
         v1 = TRUE;
     }
     if (v1 != FALSE) {
-        v2 = RectTableFindContaining(gWiFiTopMenu->mWiFiTopMenuBnbl, data_02175670[i].mPressedBits,
+        v2 = jn_ui_checkTouch(gWiFiTopMenu->mWiFiTopMenuBnbl, data_02175670[i].mPressedBits,
                                      data_02175672[i].mPressedBits);
     }
-    v5 = data_02175628[i].mPressedBits & PAD_KEY_B;
+    v5 = gInputUnits[i].mPressedBits & PAD_KEY_B;
     if ((u16) v5 == 0) {
         v7 = v6 = FALSE;
         if (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) {
@@ -170,7 +170,7 @@ void AdvanceWiFiTopMenuState3(void) {
         if (v7 == 0 && data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0) {
             v6 = TRUE;
         }
-        if (v6 == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[i].mPressedBits,
+        if (v6 == FALSE || gmenu_checkSelectReturnTouch(data_02175670[i].mPressedBits,
                                                                            data_02175672[i].mPressedBits) == FALSE) {
             goto next;
         }
@@ -182,7 +182,7 @@ void AdvanceWiFiTopMenuState3(void) {
     }
     return;
 next:
-    v5 = data_02175628[i].mPressedBits & PAD_KEY_A;
+    v5 = gInputUnits[i].mPressedBits & PAD_KEY_A;
     if ((u16) v5 != 0 || v2 <= 2) {
         v4 = gWiFiTopMenu->mIndex;
         if ((u16) v5 == 0) {
@@ -217,20 +217,20 @@ next:
                 gWiFiTopMenu->mPendingWiFiState = 13;
                 break;
         }
-        StartSoundOncePerFrame(5);
+        sfx_2105AC0(5);
     } else {
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
             gWiFiTopMenu->mIndex--;
             if (gWiFiTopMenu->mIndex < 0) {
                 gWiFiTopMenu->mIndex = 2;
             }
-            StartSoundOncePerFrame(0);
-        } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+            sfx_2105AC0(0);
+        } else if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
             gWiFiTopMenu->mIndex++;
             if (gWiFiTopMenu->mIndex > 2) {
                 gWiFiTopMenu->mIndex = 0;
             }
-            StartSoundOncePerFrame(0);
+            sfx_2105AC0(0);
         }
     }
 }
@@ -240,7 +240,7 @@ void AdvanceWiFiTopMenuState4(void) {
     s32 v;
 
     gWiFiTopMenu->mStateFrames = gWiFiTopMenu->mStateFrames + 1;
-    v = func_020ae488(gWiFiTopMenu->mStateFrames);
+    v = mutil_getButtonOutEffectOffset(gWiFiTopMenu->mStateFrames);
     for (i = 0; i < data_ov000_021b05cc[gWiFiTopMenu->mIndex]; i++) {
         gWiFiTopMenu->mWiFiTopMenuTable[data_ov000_021b05d8[gWiFiTopMenu->mIndex][i]].mOffsetX = v;
     }
@@ -263,14 +263,14 @@ void AdvanceWiFiTopMenuState5(void) {
         if (gWiFiTopMenu->mPendingWiFiState == 10 && GetWiFiSessionLoginResult() != 1) {
             SetWiFiNextScene(0);
         } else if (gWiFiTopMenu->mPendingWiFiState == 13) {
-            data_021759d0->mUnk_20 = 4;
+            gSystemData->mUnk_20 = 4;
             SetWiFiNextScene(12);
         }
     }
     gWiFiTopMenu->mStateFrames++;
     v = gWiFiTopMenu->mStateFrames;
     if (v <= 10) {
-        v = InterpolateS16(1, 0xdc, 0, 10 - v, 10);
+        v = mutil_interpolate(1, 0xdc, 0, 10 - v, 10);
     } else {
         v = 0xdc;
     }
@@ -288,9 +288,9 @@ void AdvanceWiFiTopMenuState5(void) {
             if (gWiFiTopMenu->mPendingWiFiState == 8 && func_ov000_02181df0() == 0) {
                 gWiFiTopMenu->mNextState = 8;
                 gWiFiTopMenu->mPendingWiFiState = -1;
-                func_021266e4(GetBmgEntry(gWiFiTopMenu->mWiFiMessages, 0x12));
+                func_021266e4(jn_msg_getMessage(gWiFiTopMenu->mWiFiMessages, 0x12));
                 gWiFiTopMenu->mStateFrames = 0;
-                SetSelectReturnSoundId(0xe);
+                gmenu_setSeqArcIndex(0xe);
                 return;
             }
             RequestWiFiState(gWiFiTopMenu->mPendingWiFiState);
@@ -338,17 +338,17 @@ void AdvanceWiFiTopMenuState8(void) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
     }
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+        if ((u16) (gInputUnits[i].mPressedBits & PAD_KEY_B) == 0) {
             a = b = FALSE;
-            v = data_02175628[i].mHasPair;
-            if (v == 0 && data_02175628[i].mNoPairCount < 5) {
+            v = gInputUnits[i].mHasPair;
+            if (v == 0 && gInputUnits[i].mNoPairCount < 5) {
                 a = 1;
             }
-            if (a == 0 && data_02175628[i].mPrevHasPair == 0 && v != 0) {
+            if (a == 0 && gInputUnits[i].mPrevHasPair == 0 && v != 0) {
                 b = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                              data_02175628[i].mPairY) == FALSE) {
+            if (b == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                              gInputUnits[i].mPairY) == FALSE) {
                 return;
             }
         }
@@ -366,10 +366,10 @@ void func_ov000_021817e8(void) {
     for (; i < 3; i++) {
         if (i == gWiFiTopMenu->mIndex && gWiFiTopMenu->mUnk_18 != FALSE) {
             gWiFiTopMenu->mWiFiTopMenuTable[*p].mVisible = 1;
-            SetCellPaletteIndex(*q, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+            jn_ui_setCellCparam(*q, 0xe, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
         } else {
             gWiFiTopMenu->mWiFiTopMenuTable[*p].mVisible = v1;
-            SetCellPaletteIndex(*q, 0xf, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
+            jn_ui_setCellCparam(*q, 0xf, gWiFiTopMenu->mWiFiTopMenuSNcer, gWiFiTopMenu->mWiFiTopMenuBncl);
         }
         p++;
         q++;
@@ -410,7 +410,7 @@ void AdvanceWiFiTopMenu(void) {
     }
     func_ov000_021817e8();
     p = gWiFiTopMenu;
-    DrawLayoutTable(p->mWiFiTopMenuBncl, p->mWiFiTopMenuSNcer, NULL, func_ov000_021804e0(), p->mWiFiTopMenuTable);
+    jn_ui_renderElements(p->mWiFiTopMenuBncl, p->mWiFiTopMenuSNcer, NULL, test_run(), p->mWiFiTopMenuTable);
 }
 
 void func_ov000_02181738(void) {

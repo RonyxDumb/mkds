@@ -20,29 +20,29 @@
 
 #pragma thumb on
 
-void InitArchiveSlots(void *heap) {
+void arc_init(void *heap) {
     s32 index;
 
-    data_021759c8 = HeapAlloc(heap, 0xa84);
-    data_021759c8->mUnk_8c8.mReadBuffer = HeapAllocAligned(heap, 0x400, 0x20);
+    gArcData = heap_alloc(heap, 0xa84);
+    gArcData->mUnk_8c8.mReadBuffer = heap_allocEx(heap, 0x400, 0x20);
     for (index = 0; index < 20; index++) {
-        data_021759c8->mUnk_00[index].mLoaded = 0;
+        gArcData->mUnk_00[index].mLoaded = 0;
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        data_021759c8->mFileTableSize = FS_TryLoadTable(0, 0);
-        data_021759c8->mFileTable = HeapAlloc(heap, data_021759c8->mFileTableSize);
-        FS_TryLoadTable((u32) data_021759c8->mFileTable, data_021759c8->mFileTableSize);
+        gArcData->mFileTableSize = FS_TryLoadTable(0, 0);
+        gArcData->mFileTable = heap_alloc(heap, gArcData->mFileTableSize);
+        FS_TryLoadTable((u32) gArcData->mFileTable, gArcData->mFileTableSize);
     }
     for (index = 0; index < 16; index++) {
-        ResetArchiveBuffer(index);
+        arc_initSomething(index);
     }
-    data_021759c8->mUnk_a70 = NULL;
-    data_021759c8->mUnk_a78 = NULL;
-    data_021759c8->mCourseBufferHeap = NULL;
-    FS_InitFile(&data_021759c8->mFile);
+    gArcData->mUnk_a70 = NULL;
+    gArcData->mUnk_a78 = NULL;
+    gArcData->mCourseBufferHeap = NULL;
+    FS_InitFile(&gArcData->mFile);
 }
 
-int ReadWholeFile(const char *path, void *buffer, u32 maxSize) {
+int arc_readFileToEnd(const char *path, void *buffer, u32 maxSize) {
     FSFile file;
     u32 opened;
     u32 size;
@@ -63,7 +63,7 @@ int ReadWholeFile(const char *path, void *buffer, u32 maxSize) {
     return opened;
 }
 
-u32 ReadFileBytes(void *path, void *buffer, u32 size) {
+u32 arc_readFile(void *path, void *buffer, u32 size) {
     FSFile file;
     u32 opened;
 
@@ -80,13 +80,13 @@ u32 ReadFileBytes(void *path, void *buffer, u32 size) {
     return opened;
 }
 
-u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
+u32 arc_loadFile(char *path, NNSiFndHeapHead *heap, void **outData) {
     u32 opened;
     FSFile *file;
     u32 size;
     void *data;
 
-    file = &data_021759c8->mFile;
+    file = &gArcData->mFile;
     if (((file->mStat & 1) ? 1 : 0) != 0) {
         return 0;
     }
@@ -96,7 +96,7 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     opened = FS_OpenFile(file, (const u8 *) path);
     if (opened != 0) {
         size = file->mProp.p.mUnk_08 - file->mProp.p.mUnk_04;
-        data = HeapAlloc(heap, size);
+        data = heap_alloc(heap, size);
         *outData = data;
         if (data == NULL) {
             opened = 0;
@@ -104,7 +104,7 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
         if (opened != 0) {
             if (FS_ReadFile(file, data, size) < 0) {
                 opened = 0;
-                HeapFree(heap, data);
+                heap_free(heap, data);
             }
         }
         FS_CloseFile(file);
@@ -116,7 +116,7 @@ u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData) {
     return size;
 }
 
-void *LoadFileAligned(const char *path, s32 alignment) {
+void *arc_loadFileToHeap(const char *path, s32 alignment) {
     FSFile file;
     u32 opened;
     void *data;
@@ -130,13 +130,13 @@ void *LoadFileAligned(const char *path, s32 alignment) {
     opened = FS_OpenFile(&file, (const u8 *) path);
     if (opened != 0) {
         size = file.mProp.p.mUnk_08 - file.mProp.p.mUnk_04;
-        data = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), size, alignment);
+        data = heap_allocEx(proc_getHeap(proc_getCurrent()), size, alignment);
         DC_StoreRange(data, size);
         if (data == NULL) {
             opened = 0;
         } else {
             if (FS_ReadFile(&file, data, size) < 0) {
-                HeapFree(GetHeap(GetCurrentHeapCall()), data);
+                heap_free(proc_getHeap(proc_getCurrent()), data);
                 opened = 0;
             }
             FS_CloseFile(&file);
@@ -148,36 +148,36 @@ void *LoadFileAligned(const char *path, s32 alignment) {
     return data;
 }
 
-void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
+void arc_getCourseArcPath(char *path, s32 courseId, s32 useTexture) {
     BOOL d;
     const char *textureSuffix;
     const char *dSuffix;
 
     d = FALSE;
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && data_02154228[courseId].mUnk_04 == 1) {
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sCourseDefs[courseId].mUnk_04 == 1) {
         d = TRUE;
     }
     if (useTexture != 0) {
-        textureSuffix = data_02165164;
+        textureSuffix = aTex;
     } else {
         textureSuffix = data_02165168;
     }
     if (d != FALSE) {
-        dSuffix = data_0216516c;
+        dSuffix = aD_0;
     } else {
         dSuffix = data_02165170;
     }
-    OS_SNPrintf(path, 0x80, data_02165174, data_02154228[courseId].mUnk_00, dSuffix, textureSuffix);
+    OS_SNPrintf(path, 0x80, aDataCourseSSS_, sCourseDefs[courseId].mUnk_00, dSuffix, textureSuffix);
 }
 
-u32 GetLanguageCode(void) {
+u32 arc_getLocalizationPostfix(void) {
     s32 languageIndex;
 
-    languageIndex = data_021759d0->mLanguageIndex;
-    if (data_021759d0->mUnk_00 == 2 && languageIndex == 1) {
+    languageIndex = gSystemData->mLanguageIndex;
+    if (gSystemData->mUnk_00 == 2 && languageIndex == 1) {
         languageIndex += 5;
     }
-    return ((u32 *) data_02164dc8)[languageIndex];
+    return ((u32 *) sLocalizationNames)[languageIndex];
 }
 
 #pragma thumb off
@@ -186,24 +186,24 @@ u32 GetLanguageCode(void) {
 
 u32 GetMPLanguageCode(void) {
     u32 languageIndex;
-    languageIndex = data_0217aa00->mUnk_043c;
-    if ((data_021759d0->mUnk_00 == 2) && (((s32 *) data_021759d0)[1] == 1)) {
+    languageIndex = gStruct217AA00->mUnk_043c;
+    if ((gSystemData->mUnk_00 == 2) && (((s32 *) gSystemData)[1] == 1)) {
         languageIndex = languageIndex + 5;
     }
-    return ((u32 *) &data_02164dc8)[languageIndex];
+    return ((u32 *) &sLocalizationNames)[languageIndex];
 }
 
-void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName) {
+void arc_getLocalizedSceneArcPath(char *path, const char *sceneName) {
     u32 languageCode;
     if (*sceneName != 0) {
-        languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, data_02165148, sceneName, languageCode, data_0216515c);
+        languageCode = arc_getLocalizationPostfix();
+        OS_SNPrintf(path, 0x80, aDataSceneS_S_0, sceneName, languageCode, a_carc_5);
     }
 }
 
-void BuildSceneArchivePath(char *path, const char *sceneName) {
+void arc_getSceneArcPath(char *path, const char *sceneName) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, data_0216512c, sceneName, data_02165140);
+        OS_SNPrintf(path, 0x80, aDataSceneSS, sceneName, a_carc_4);
     }
 }
 

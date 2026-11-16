@@ -4,4 +4,4 @@
 
 typedef struct MapObject MapObject;
 
-void SetMapObjectMaskAndFlagFromNumber(s32 number, MapObject *mapObject);
+void mobj_parseObjiFlags(s32 number, MapObject *mapObject);

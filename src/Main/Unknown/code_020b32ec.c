@@ -3,49 +3,49 @@
 
 #pragma thumb on
 
-Nclr *GetChoisesSBNclr(void) {
-    return (gChoisesS->mChoisesSBNclr);
+Nclr *rchoi_getPalData(void) {
+    return (rchoi_sState->mChoisesSBNclr);
 }
 
-Ncgr *GetChoisesSBNcgrWithListChars(void) {
+Ncgr *rchoi_getCharData(void) {
     int choisesSListIndex;
-    choisesSListIndex = GetChoisesSListIndex();
+    choisesSListIndex = rchoi_getCurChoicesSetId();
     if (choisesSListIndex == 1) {
-        gChoisesS->mChoisesSBNcgr->mData = gChoisesS->mList1Chars;
+        rchoi_sState->mChoisesSBNcgr->mData = rchoi_sState->mList1Chars;
     } else {
-        choisesSListIndex = GetChoisesSListIndex();
+        choisesSListIndex = rchoi_getCurChoicesSetId();
         if (choisesSListIndex == 2) {
-            gChoisesS->mChoisesSBNcgr->mData = gChoisesS->mList2Chars;
+            rchoi_sState->mChoisesSBNcgr->mData = rchoi_sState->mList2Chars;
         }
     }
-    return gChoisesS->mChoisesSBNcgr;
+    return rchoi_sState->mChoisesSBNcgr;
 }
 
-void *GetChoisesSListScreenMapData(void) {
+void *rchoi_getMapData(void) {
     int choisesSListIndex;
     u16 *screenMapData;
     screenMapData = 0;
-    choisesSListIndex = GetChoisesSListIndex();
+    choisesSListIndex = rchoi_getCurChoicesSetId();
     if (choisesSListIndex == 0) {
-        if (gChoisesS->mList0Nscr != NULL) {
-            screenMapData = gChoisesS->mList0Nscr->mData;
+        if (rchoi_sState->mList0Nscr != NULL) {
+            screenMapData = rchoi_sState->mList0Nscr->mData;
         }
     } else if (choisesSListIndex == 1) {
-        if (gChoisesS->mList1Nscr != NULL) {
-            screenMapData = gChoisesS->mList1Nscr->mData;
+        if (rchoi_sState->mList1Nscr != NULL) {
+            screenMapData = rchoi_sState->mList1Nscr->mData;
         }
     } else if (choisesSListIndex == 2) {
-        if (gChoisesS->mList2Nscr != NULL) {
-            screenMapData = gChoisesS->mList2Nscr->mData;
+        if (rchoi_sState->mList2Nscr != NULL) {
+            screenMapData = rchoi_sState->mList2Nscr->mData;
         }
-    } else if ((choisesSListIndex == 3) && (gChoisesS->mList3Nscr != NULL)) {
-        screenMapData = gChoisesS->mList3Nscr->mData;
+    } else if ((choisesSListIndex == 3) && (rchoi_sState->mList3Nscr != NULL)) {
+        screenMapData = rchoi_sState->mList3Nscr->mData;
     }
     return screenMapData;
 }
 
-u32 IsChoisesSPickLocked(void) {
-    return (gChoisesS->mPickLocked);
+u32 rchoi_getIsExittingRace(void) {
+    return (rchoi_sState->mPickLocked);
 }
 
 #pragma thumb off

@@ -2,18 +2,18 @@
 
 #include "types.h"
 
-extern const char data_ov001_021a76a0[];
+extern const char aCommon_bmg_36[];
 
-void func_02001294(void);
-void EnterLogoState7(void);
-void UpdateLogoState6(void);
-void EnterLogoState6(void);
-void UpdateLogoState5(void);
-void EnterLogoState5(void);
-void UpdateLogoState4(void);
-void EnterLogoState4(void);
-void UpdateLogoState3(void);
-void EnterLogoState3(void);
-void UpdateLogoState2(void);
-void EnterLogoState2(void);
-void UpdateLogoState1(void);
+void logo_eraseAllDoneMsgStateUpdate(void);
+void logo_eraseAllDoneMsgStateInit(void);
+void logo_eraseAllErasingMsgStateUpdate(void);
+void logo_eraseAllErasingMsgStateInit(void);
+void logo_eraseAllConfirmStateUpdate(void);
+void logo_eraseAllConfirmStateInit(void);
+void logo_corruptedDeletedMsgStateUpdate(void);
+void logo_corruptedDeletedMsgStateInit(void);
+void logo_corruptedErasingMsgStateUpdate(void);
+void logo_corruptedErasingMsgStateInit(void);
+void logo_corruptedMsgStateUpdate(void);
+void logo_corruptedMsgStateInit(void);
+void logo_waitSaveBusyStateUpdate(void);

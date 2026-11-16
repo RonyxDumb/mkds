@@ -3,8 +3,8 @@
 #include "Main/Unknown/code_020e005c.h"
 #include "code_02147cd8.h"
 
-void GetGroupFollowerCurvePosStepXz(GroupFollower *follower, Vec3 *position, Vec3 *step) {
-    GetSegmentCurvePosStepXz(&follower->mPath->mSegments[follower->mSegmentIndex], follower->mProgress,
+void pw_20D8B18_XZ(GroupFollower *follower, Vec3 *position, Vec3 *step) {
+    pw_20D9270_XZ(&follower->mPath->mSegments[follower->mSegmentIndex], follower->mProgress,
                              follower->mProgressStep, position, step);
     if (follower->mForward == 0) {
         step->x = -step->x;
@@ -12,7 +12,7 @@ void GetGroupFollowerCurvePosStepXz(GroupFollower *follower, Vec3 *position, Vec
     }
 }
 
-void GetGroupFollowerLinearPosition(GroupFollower *follower, Vec3 *position) {
+void pw_calcCurrentPointLinearXYZ(GroupFollower *follower, Vec3 *position) {
     Segment *segment;
     s32 progress;
     s32 remaining;
@@ -27,7 +27,7 @@ void GetGroupFollowerLinearPosition(GroupFollower *follower, Vec3 *position) {
     position->z = position->z + (s32) (((s64) segment->mPoints[3].z * progress) >> 24);
 }
 
-void GetGroupFollowerLinearPosStep(GroupFollower *follower, Vec3 *position, Vec3 *step) {
+void pw_calcCurrentPointLinearXYZSpecial(GroupFollower *follower, Vec3 *position, Vec3 *step) {
     Segment *segment;
     s32 progress;
     s32 remaining;

@@ -40,7 +40,7 @@ const u16 data_ov001_021a65a8 = 0x20;
 void func_ov001_0218bee4(Unk02188950 *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(mapObject, 2, (s32(*)(Unk02188950 *)) func_ov001_0218c55c);
     StartAnimationWithEndCallback(mapObject, mapObject->mPrm->mUnk_184, mapObject->mPrm->mUnk_188, func_ov001_0218bfc8);
     func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_18c, mapObject->mPrm->mUnk_188, 0);
@@ -54,7 +54,7 @@ void func_ov001_0218bee4(Unk02188950 *mapObject) {
 void func_ov001_0218bde8(Unk02188950 *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(mapObject, 2, (s32(*)(Unk02188950 *)) func_ov001_0218c55c);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_134, mapObject->mPrm->mUnk_138);
     func_ov001_0219b1c4(mapObject->mNsbmd, mapObject->mPrm->mUnk_13c, mapObject->mPrm->mUnk_138, 0);
@@ -88,7 +88,7 @@ void func_ov001_0218bcc4(Unk02188950 *mapObject) {
     func_ov001_02188c90(mapObject);
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1ec, mapObject->mPrm->mUnk_1f0);
     SetCourseCollisionCallback(mapObject, func_ov001_0218bd80);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x226);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x226);
     mapObject->mUnk_000.mFlags |= data_ov001_021a65a8;
 }
 
@@ -113,9 +113,9 @@ void func_ov001_0218bbac(Unk02188950 *mapObject) {
 
 int func_ov001_0218bb74(Unk02188950 *mapObject) {
     if (func_ov001_02188220(mapObject) == 1) {
-        StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x220);
+        mobj_emitSfxFromEmitter(&mapObject->mUnk_000, 0x220);
     } else if (func_ov001_02188220(mapObject) == 2) {
-        StartMapObjectSoundWhileRequested(&mapObject->mUnk_000, 0x221);
+        mobj_emitSfxFromEmitter(&mapObject->mUnk_000, 0x221);
     }
     return 0;
 }
@@ -131,7 +131,7 @@ void func_ov001_0218ba48(Unk02188950 *mapObject) {
     SetScaleTargetAndPerCall(mapObject, (mapObject->mUnk_000.mScale.x + mapObject->mPrm->mUnk_0f8),
                              mapObject->mPrm->mUnk_0fc);
     SetSpeedAndClearTarget(mapObject, 0);
-    SetMapObjectModelNsbtpFrameIndex(mapObject->mNsbmd, func_ov001_02188220(mapObject));
+    mobj_setModelNsbtpFrame(mapObject->mNsbmd, func_ov001_02188220(mapObject));
     if (func_ov001_02188220(mapObject) == 0) {
         SetDoubledCollisionAndShadowTargets(mapObject);
         StartEffectAtScaledOffset(mapObject, 0, 0x1800, 0, 0x419, 0);
@@ -149,7 +149,7 @@ void func_ov001_0218ba34(Unk02188950 *mapObject) {
 void func_ov001_0218b9b4(Unk02188950 *mapObject) {
     Kart *kart;
 
-    kart = GetKart((u16) gRaceSetup->mEntryIndex);
+    kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
     func_ov001_02187218(mapObject, 8, NULL);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mUnk_078, mapObject->mPrm->mUnk_07c);
     func_ov001_02188c48(mapObject, mapObject->mPrm->mUnk_20c, mapObject->mPrm->mUnk_210);

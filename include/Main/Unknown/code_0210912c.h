@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitSoundFalloffsAndPlayingSounds(void);
+void sfx_210912C(void);

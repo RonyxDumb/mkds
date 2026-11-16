@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-void func_021258f0(void);
-void func_02125928(void);
+void gmenu_vblank(void);
+void gmenu_render(void);
 
 extern const char *gBackScreenSNclrNames[1];
 extern const char *gBackScreenSNcgrNames[1];
@@ -12,8 +12,8 @@ extern const char *gBackScreenMNscrNames[2];
 extern const char *gBackScreenMNcgrNames[2];
 extern const char *gBackScreenMNclrNames[2];
 
-void LoadTxtSystemAndSelectChoisesAndSelectReturnData(void);
-void func_02125ba4(void);
-s32 LoadBackScreen(s32 subCharOffset);
+void gmenu_unpackData(void);
+void gmenu_setupHWForBackground(void);
+s32 gmenu_loadBackground(s32 subCharOffset);
 
-void func_02125da0(void);
+void gmenu_finish(void);

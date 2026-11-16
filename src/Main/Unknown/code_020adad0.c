@@ -4,12 +4,12 @@
 #pragma optimize_for_size on
 #pragma thumb on
 
-void SetTitleState(u32 a, u32 b) {
-    gTitleScene->mStateFrames = 0;
-    gTitleScene->mStateChanged = TRUE;
-    gTitleScene->mPrevState = gTitleScene->mState;
-    gTitleScene->mState = a;
-    gTitleScene->mNextState = b;
+void title_gotoState(u32 a, u32 b) {
+    sTitleSceneState->mStateFrames = 0;
+    sTitleSceneState->mStateChanged = TRUE;
+    sTitleSceneState->mPrevState = sTitleSceneState->mState;
+    sTitleSceneState->mState = a;
+    sTitleSceneState->mNextState = b;
 }
 
 #pragma thumb off

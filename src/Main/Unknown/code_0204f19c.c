@@ -10,21 +10,21 @@ void ParentBlockTransferCallback(BlockTransferRecord *record) {
         func_0204f220(&record->mUnk_14, *((u8 *) &record->mUnk_1c[0] + 1));
         return;
     }
-    switch (data_0217aa00->mUnk_1e46) {
+    switch (gStruct217AA00->mUnk_1e46) {
         case 0:
             if (callbackCode == 2) {
-                data_0217aa00->mUnk_1e46 = 1;
+                gStruct217AA00->mUnk_1e46 = 1;
             }
             break;
         case 1:
             if (callbackCode == 8) {
-                data_0217aa00->mUnk_1e46 = 2;
+                gStruct217AA00->mUnk_1e46 = 2;
             }
             break;
         case 2:
             if (callbackCode == 8) {
-                data_0217aa00->mUnk_1e44 |= 4;
-                data_0217aa00->mUnk_1e46 = 0;
+                gStruct217AA00->mUnk_1e44 |= 4;
+                gStruct217AA00->mUnk_1e46 = 0;
             }
             break;
     }

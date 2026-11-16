@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-Vec3 *GetFoundMapObjectVector(int index);
+Vec3 *mobj_getQueryPushback(int index);

@@ -135,8 +135,8 @@ void func_ov001_021a4ba0(void) {
 }
 
 void func_ov001_021a4b28(void) {
-    RequestEmblemChoisesGraphicsUpload();
-    SetEmblemChoisesShownAndReset(1);
+    echoi_requestPalCharUpdate();
+    echoi_setMenuVisible(1);
     gEmblem->mUnk_1090 = 10;
     gEmblem->mUnk_1098 = 14;
     func_ov001_02185018(GetLldEntry(gEmblem->mEmblemSLld, 1), -3);
@@ -145,7 +145,7 @@ void func_ov001_021a4b28(void) {
 }
 
 void func_ov001_021a4aac(void) {
-    SetEmblemChoisesShownAndReset(0);
+    echoi_setMenuVisible(0);
     gEmblem->mUnk_1090 = 0;
     gEmblem->mUnk_1098 = 15;
     gEmblem->mUnk_10b0 = FALSE;
@@ -523,12 +523,12 @@ void func_ov001_021a30e0(void) {
         dx = 0;
         dy = 0;
         dz = 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
+        dx += mutil_checkKeys(8, PAD_KEY_LEFT) ? -1 : 0;
+        dx += mutil_checkKeys(8, PAD_KEY_RIGHT) ? 1 : 0;
+        dy += mutil_checkKeys(8, PAD_KEY_UP) ? -1 : 0;
+        dy += mutil_checkKeys(8, PAD_KEY_DOWN) ? 1 : 0;
+        dz += mutil_checkKeys(8, PAD_KEY_L) ? -1 : 0;
+        dz += mutil_checkKeys(8, PAD_KEY_R) ? 1 : 0;
 
         switch (gEmblem->mUnk_1094) {
             case 0:
@@ -593,7 +593,7 @@ void func_ov001_021a30e0(void) {
                     func_ov001_02185018(entry8, 0);
                     SetLldEntryPos(entry8, GetLldEntryX(entry), GetLldEntryY(entry));
                     if (gEmblem->mUnk_107c != prev) {
-                        StartSoundOncePerFrame(0x1ef);
+                        sfx_2105AC0(0x1ef);
                     }
                 }
                 func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -645,7 +645,7 @@ void func_ov001_021a30e0(void) {
                         func_ov001_02185018(entry9, -5);
                     }
                     if (gEmblem->mUnk_1080 != prev) {
-                        StartSoundOncePerFrame(0x1ef);
+                        sfx_2105AC0(0x1ef);
                     }
                 }
                 func_ov001_021a5f70(0, GetEmblemInputX(), GetEmblemInputY(), 0, 0, 0);
@@ -833,12 +833,12 @@ void func_ov001_021a2e0c(void) {
     h = 0;
     v = 0;
     w = 0;
-    h += (GetNewOrRepeatBits(8, PAD_KEY_LEFT) != 0) ? -1 : 0;
-    h += (GetNewOrRepeatBits(8, PAD_KEY_RIGHT) != 0) ? 1 : 0;
-    v += (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) ? -1 : 0;
-    v += (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) ? 1 : 0;
-    w += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
-    w += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
+    h += (mutil_checkKeys(8, PAD_KEY_LEFT) != 0) ? -1 : 0;
+    h += (mutil_checkKeys(8, PAD_KEY_RIGHT) != 0) ? 1 : 0;
+    v += (mutil_checkKeys(8, PAD_KEY_UP) != 0) ? -1 : 0;
+    v += (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) ? 1 : 0;
+    w += (mutil_checkKeys(8, PAD_KEY_L) != 0) ? -1 : 0;
+    w += (mutil_checkKeys(8, PAD_KEY_R) != 0) ? 1 : 0;
     gEmblem->mUnk_1080 = w + (func_ov001_021a63b4() - 1);
     t = gEmblem->mUnk_1080;
     if (t < 0) {
@@ -868,7 +868,7 @@ void func_ov001_021a2e0c(void) {
     func_ov001_02185018(entry_a, 0);
     SetLldEntryPos(entry_a, GetLldEntryX(entry_b), GetLldEntryY(entry_b));
     if (gEmblem->mUnk_1084 != sel) {
-        StartSoundOncePerFrame(0x1ef);
+        sfx_2105AC0(0x1ef);
     }
     {
         s32 k;
@@ -902,30 +902,30 @@ void func_ov001_021a2d90(void) {
     }
 }
 
-void func_ov001_021a2cf0(void) {
+void EmblemEditorRenderChoises(void) {
     s32 v;
 
-    v = GetEmblemChoisesResult();
+    v = echoi_getActivatedOption();
     switch (v) {
         case -2:
         case 0:
             func_ov001_021a4aac();
             break;
         case 1:
-            SetEmblemChoisesShownAndReset(0);
+            echoi_setMenuVisible(0);
             JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_087c, GetEmblemGridSide());
-            SetEmblemRecordAndWriteBackup(gEmblem->mUnk_087c);
+            savd_setEmblem(gEmblem->mUnk_087c);
             gEmblem->mUnk_1090 = 0xb;
             gEmblem->mUnk_1098 = 1;
             break;
         case 2:
-            SetEmblemChoisesShownAndReset(0);
+            echoi_setMenuVisible(0);
             gEmblem->mUnk_1090 = 0xb;
             gEmblem->mUnk_1098 = 1;
             break;
     }
-    UpdateEmblemChoises();
-    func_020ca83c();
+    echoi_update();
+    echoi_render();
 }
 
 void func_ov001_021a2a40(void) {
@@ -938,7 +938,7 @@ void func_ov001_021a2a40(void) {
         t -= 0x100000;
     }
     gEmblem->mUnk_10a8 = t;
-    ClearOamListCounts(gEmblem, &gEmblem->mUnk_0404);
+    oam_resetBuffers(gEmblem, &gEmblem->mUnk_0404);
     AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mUnk_0000);
     switch (gEmblem->mUnk_1090) {
         case 0:
@@ -1002,14 +1002,14 @@ void func_ov001_021a2a40(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 10:
-            func_ov001_021a2cf0();
+            EmblemEditorRenderChoises();
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
         case 11:
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
-            if (data_0217aa08->mBusy == 0) {
-                if (gBackupAccess->mBackupEnabled != 0) {
-                    t = gBackupAccess->mCommandRunning;
+            if (gSaveData->mBusy == 0) {
+                if (gSaveCore->mBackupEnabled != 0) {
+                    t = gSaveCore->mCommandRunning;
                 } else {
                     t = 0;
                 }
@@ -1024,7 +1024,7 @@ void func_ov001_021a2a40(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mUnk_0404);
             break;
     }
-    func_020ae630(gEmblem, &gEmblem->mUnk_0404);
+    oam_prepareBuffers(gEmblem, &gEmblem->mUnk_0404);
     AdvanceShownSlotAndQueueEmblem();
     DrawKartModelMenuUnmirrored();
     JoinNibbleTilesIntoBytes(GetEmblemGridCells(), gEmblem->mUnk_087c, GetEmblemGridSide());

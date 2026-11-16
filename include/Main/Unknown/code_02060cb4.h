@@ -12,5 +12,5 @@ void FormatUserDataFriendKey(u32 buffer);
 s32 func_02061250(void);
 s32 CheckUserDataValidConsole(void);
 void func_020612b0(void);
-void StartReadGhostFileRecords(void *records);
-void ReadGhostFileRecords(void);
+void ghdat_loadStaffGhostsAsync(void *records);
+void ghdat_loadStaffGhostsTask(void);

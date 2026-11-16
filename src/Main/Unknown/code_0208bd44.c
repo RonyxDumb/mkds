@@ -11,50 +11,50 @@
 #include "Main/Unknown/code_02090000.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void AdvanceKartAiForBattle(KartAi *kartAi) {
-    AdvanceBattleKartAi(kartAi);
-    AdvanceBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
-    AdvanceBattleItemBitRequests(&kartAi->mItemUse, kartAi);
+void enmy_updateMgEnemy(KartAi *kartAi) {
+    mgen_update(kartAi);
+    mgenrb_update(&kartAi->mAiSpeedLimit, kartAi);
+    mgenit_update(&kartAi->mItemUse, kartAi);
 }
 
-void RequestBattleKartAiPointLink(KartAi *kartAi) {
+void enmy_recalculateMepoRoute(KartAi *kartAi) {
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
         if (kartAi->mBattleLinkCursor.mUnk_18 != FALSE) {
             return;
         }
     }
-    kartAi->mBattleLinkCursor.mRequestedLink = FindCourseMapKind4ShapeBattlePointLink(&kartAi->mKart->mPos);
+    kartAi->mBattleLinkCursor.mRequestedLink = mdat_findMgEnemyPoint(&kartAi->mKart->mPos);
     if (kartAi->mBattleLinkCursor.mRequestedLink != NULL) {
         kartAi->mBattleLinkCursor.mUnk_18 = TRUE;
     }
 }
 
-BOOL IsBattleKartAiLinkRequested(KartAi *kartAi) {
+BOOL enmy_getIsAreaMepoNotNull(KartAi *kartAi) {
     return kartAi->mBattleLinkCursor.mRequestedLink != NULL;
 }
 
-void CopyBattleKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
+void enmy_getTargetMepoPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi) {
     LinkCursor *cursor = &kartAi->mBattleLinkCursor;
 
     *position = *cursor->mLink->mUnk_20;
     *direction = cursor->mDirection;
 }
 
-void SetupBattleKartAiHeldItemEntry(KartAi *kartAi) {
-    SetupBattleHeldItemEntry(&kartAi->mItemUse, kartAi);
+void enmy_notifySlotItemChangedForMg(KartAi *kartAi) {
+    mgenit_notifySlotItemChanged(&kartAi->mItemUse, kartAi);
 }
 
-void SetupBattleKartAiItemInUseEntry(KartAi *kartAi) {
-    SetupBattleItemInUseEntry(&kartAi->mItemUse, kartAi);
+void enmy_notifyDragItemChangedForMg(KartAi *kartAi) {
+    mgenit_notifyDragItemChanged(&kartAi->mItemUse, kartAi);
 }
 
-void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+void enmy_initAwardEnemy(KartAi *kartAi, s32 kartIndex) {
+    Kart *kart = driver_getById(kartIndex);
 
     kartAi->mUnk_154 = 0;
     SetupAwardMissionRunKartAi(kartAi, kart, kartAi->mUnk_154);
-    func_0207d814(&kartAi->mUnk_e8, kartAi);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
+    enrb_initForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         kartAi->mUnk_e8.mBoostsAtRaceStart = 1;
         kartAi->mUnk_e8.mRaceStartBoostChoice = 4;
     } else {
@@ -65,23 +65,23 @@ void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex) {
 
 void func_0208bde0(KartAi *kartAi, PointLink *pointLink) {
     ResetAwardMissionRunKartAi(kartAi, pointLink);
-    ResetAwardMissionRunKartAiSpeedLimit(&kartAi->mUnk_e8, kartAi);
+    enrb_207D7E4(&kartAi->mUnk_e8, kartAi);
 }
 
-void func_0208bdc0(KartAi *kartAi) {
+void enmy_updateAwardEnemy(KartAi *kartAi) {
     AdvanceAwardMissionRunKartAi(kartAi);
-    func_0207d6a4(&kartAi->mUnk_e8, kartAi);
+    enrb_updateForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
 }
 
-void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+void enmy_initStaffRollEnemy(KartAi *kartAi, s32 kartIndex) {
+    Kart *kart = driver_getById(kartIndex);
 
     kartAi->mUnk_154 = 0;
     SetupStaffRollKartAi(kartAi, kart, kartAi->mUnk_154);
-    func_0207d814(&kartAi->mUnk_e8, kartAi);
+    enrb_initForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
     kartAi->mUnk_e8.mBoostsAtRaceStart = 0;
     kartAi->mUnk_e8.mRaceStartBoostChoice = 0;
-    if (kart->mIndex != gRaceSetup->mEntryIndex) {
+    if (kart->mIndex != gRaceMultiConfig->mEntryIndex) {
         kart->mUnk_7c |= 0x40;
     }
 }

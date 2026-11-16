@@ -9,23 +9,23 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-s32 MoveEmblemChoisesIndex(s32 step) {
+s32 echoi_moveCursor(s32 step) {
     s32 previousIndex;
     s32 choisesCount;
 
-    previousIndex = gEmblemChoises->mChoisesIndex;
-    if (gEmblemChoises->mShown != 0) {
-        choisesCount = gEmblemChoises->mChoisesCount;
+    previousIndex = echoi_sState->mChoisesIndex;
+    if (echoi_sState->mShown != 0) {
+        choisesCount = echoi_sState->mChoisesCount;
         if (step != 0) {
-            gEmblemChoises->mUnk_24 = 0;
-            StartSoundOncePerFrame(0);
+            echoi_sState->mUnk_24 = 0;
+            sfx_2105AC0(0);
         }
-        gEmblemChoises->mChoisesIndex = (previousIndex + step + choisesCount) % choisesCount;
+        echoi_sState->mChoisesIndex = (previousIndex + step + choisesCount) % choisesCount;
     }
     return previousIndex;
 }
 
-s32 func_020cacc0(void) {
+s32 echoi_handleTouch(void) {
     BOOL touched;
     s32 choisesCount;
     BOOL zeroStep;
@@ -34,9 +34,9 @@ s32 func_020cacc0(void) {
     PairRect choiceRects[6];
 
     touched = FALSE;
-    if (gEmblemChoises->mShown != 0) {
-        MoveEmblemChoisesIndex(touched);
-        choisesCount = gEmblemChoises->mChoisesCount;
+    if (echoi_sState->mShown != 0) {
+        echoi_moveCursor(touched);
+        choisesCount = echoi_sState->mChoisesCount;
         for (i = 0; i < choisesCount; i++) {
             s32 minY;
 
@@ -48,14 +48,14 @@ s32 func_020cacc0(void) {
         }
         zeroStep = FALSE;
         for (j = 0; j < choisesCount; j++) {
-            if (IsNewPairInRect(GetEmblemChoisesInputSlot(), choiceRects[j])) {
-                if (gEmblemChoises->mChoisesIndex != j) {
-                    gEmblemChoises->mChoisesIndex = j;
-                    MoveEmblemChoisesIndex(zeroStep);
+            if (IsNewPairInRect(echoi_input_getDefaultInputId(), choiceRects[j])) {
+                if (echoi_sState->mChoisesIndex != j) {
+                    echoi_sState->mChoisesIndex = j;
+                    echoi_moveCursor(zeroStep);
                 } else {
-                    gEmblemChoises->mUnk_10 = TRUE;
+                    echoi_sState->mUnk_10 = TRUE;
                 }
-                switch (gEmblemChoises->mChoisesIndex) {
+                switch (echoi_sState->mChoisesIndex) {
                     case 0:
                         StartEmblemChoisesSound(0x10);
                         break;
@@ -73,52 +73,52 @@ s32 func_020cacc0(void) {
     return touched;
 }
 
-void ResetEmblemChoisesState(void) {
-    gEmblemChoises->mResult = -1;
-    gEmblemChoises->mChoisesIndex = 0;
-    gEmblemChoises->mUnk_24 = 0;
-    gEmblemChoises->mUnk_10 = FALSE;
-    gEmblemChoises->mUnk_14 = 0;
-    gEmblemChoises->mUnk_18 = 0;
+void echoi_resetSelectedOption(void) {
+    echoi_sState->mResult = -1;
+    echoi_sState->mChoisesIndex = 0;
+    echoi_sState->mUnk_24 = 0;
+    echoi_sState->mUnk_10 = FALSE;
+    echoi_sState->mUnk_14 = 0;
+    echoi_sState->mUnk_18 = 0;
 }
 
-void func_020cac68(u16 *mapData, s32 column, s32 row) {
-    SetScreenMapBlockLowBits(mapData, column, row, 1, 1, 4);
-    SetScreenMapBlockLowBits(mapData, column, row + 1, 1, 1, 0x24);
+void echoi_renderOptionBar(u16 *mapData, s32 column, s32 row) {
+    m2d_setCharMapCharName2d(mapData, column, row, 1, 1, 4);
+    m2d_setCharMapCharName2d(mapData, column, row + 1, 1, 1, 0x24);
 }
 
-void func_020cac18(void) {
+void echoi_renderChoicesUnselected(void) {
     s32 choisesCount;
     u16 *mapData;
     s32 i;
 
-    choisesCount = gEmblemChoises->mChoisesCount;
-    mapData = gEmblemChoises->mChoisesS3Nscr->mData;
+    choisesCount = echoi_sState->mChoisesCount;
+    mapData = echoi_sState->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
         for (i = 0; i < choisesCount; i++) {
-            func_020cac68(mapData, 2, 13 - choisesCount * 2 + i * 4);
+            echoi_renderOptionBar(mapData, 2, 13 - choisesCount * 2 + i * 4);
         }
-        SetScreenMapBlockTopBits(mapData, 0, 0, 0x20, 0x18, 0xf);
+        m2d_setCharMapPalette2d(mapData, 0, 0, 0x20, 0x18, 0xf);
     }
 }
 
-void func_020caba4(s32 choiceIndex) {
+void echoi_renderSelection(s32 choiceIndex) {
     EmblemChoises *emblemChoises;
     s32 choisesCount;
     u16 *mapData;
     s32 firstRow;
 
-    emblemChoises = gEmblemChoises;
+    emblemChoises = echoi_sState;
     choisesCount = emblemChoises->mChoisesCount;
     mapData = emblemChoises->mChoisesS3Nscr->mData;
     if (mapData != NULL) {
         if (emblemChoises->mUnk_10 == FALSE || emblemChoises->mUnk_14 >= 5) {
             firstRow = 13 - choisesCount * 2 + choiceIndex * 4;
             if (emblemChoises->mUnk_24 < 0x1e) {
-                SetScreenMapBlockLowBits(mapData, 2, firstRow, 1, 1, 0x21);
-                SetScreenMapBlockLowBits(mapData, 2, firstRow + 1, 1, 1, 0x41);
+                m2d_setCharMapCharName2d(mapData, 2, firstRow, 1, 1, 0x21);
+                m2d_setCharMapCharName2d(mapData, 2, firstRow + 1, 1, 1, 0x41);
             }
-            SetScreenMapBlockTopBits(mapData, 0, firstRow - 1, 0x20, 4, 0xe);
+            m2d_setCharMapPalette2d(mapData, 0, firstRow - 1, 0x20, 4, 0xe);
         }
     }
 }

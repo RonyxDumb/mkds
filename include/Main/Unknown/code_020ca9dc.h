@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetEmblemChoisesInputSlot(void);
+unsigned int echoi_input_getDefaultInputId(void);

@@ -22,7 +22,7 @@ typedef struct RockShadowMatrix {
     /* 24 */ Vec3 mUnk_24;
 } RockShadowMatrix;
 
-// 0x5c-byte object that CreateRock2DrawList and CreateRockDrawList allocate and fill from a table; func_020d49d8 stores
+// 0x5c-byte object that rock_setupRock2RenderPart and rock_setupRockRenderPart allocate and fill from a table; mobj_renderPartSetThisPointer stores
 // the address of its pointer at 0x28.
 typedef struct RockDrawList {
     /* 00 */ u8 mUnk_00[0x28];
@@ -30,7 +30,7 @@ typedef struct RockDrawList {
     /* 2c */ RockShadowMatrix mUnk_2c;
 } RockDrawList;
 
-// 0x28-byte object that CreateRockUpdateList allocates and fills from a table; SetUpdateListSlot stores the address of
+// 0x28-byte object that rock_setupLogicPart allocates and fills from a table; mobj_logicPartSetThisPointer stores the address of
 // its pointer at 0x24.
 typedef struct RockUpdateList {
     /* 00 */ u8 mUnk_00[0x24];
@@ -40,22 +40,22 @@ typedef struct RockUpdateList {
 #include "Main/Unknown/code_020d50ec.h" // EmitterParams, RockObject
 
 void func_020d6538(Unk020d6538_a *emitter, EmitterParams *params);
-void func_020d655c(void *a, RockObject *rock, void *c, s32 alpha);
-void SetupDrawRock(void);
-RockUpdateList *CreateRockUpdateList(void);
-RockDrawList *CreateRock2DrawList(void);
-RockDrawList *CreateRockDrawList(void);
-MapObjectKindData *CreateRockKindData(void);
-s32 func_020d6910(s32 itemKind, MapObject *mapObject);
+void rock_render(void *a, RockObject *rock, void *c, s32 alpha);
+void roak_globalPreRender(void);
+RockUpdateList *rock_setupLogicPart(void);
+RockDrawList *rock_setupRock2RenderPart(void);
+RockDrawList *rock_setupRockRenderPart(void);
+MapObjectKindData *rock_setupConfig(void);
+s32 mobj_getItemHitObjResponseForMObj(s32 itemKind, MapObject *mapObject);
 // 1 when the ItemObject kind a has a response to the map object b, else 0.
-s32 DoesItemObjectRespondToMapObject(s32 itemKind, MapObject *mapObject);
+s32 mobj_getCollidesWithItem(s32 itemKind, MapObject *mapObject);
 // 1 when the Kart item effect a has a response to the map object b, else 0.
-s32 DoesKartRespondToMapObject(s32 itemEffect, MapObject *mapObject);
+s32 mobj_getCollidesWithDriver(s32 itemEffect, MapObject *mapObject);
 // Response code for the ItemObject a and the map object b; the kind's own callback may change it; the second value goes
 // to *c.
-s32 func_020d6a54(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut);
-// Index into gCollideKartWithMapObjectResponses of the Kart a response to the map object b; the kind's own callback may
+s32 mobj_handleItemCollision(ItemObject *itemObject, MapObject *mapObject, s32 *firstResponseOut);
+// Index into driver_sColReactionInitTable of the Kart a response to the map object b; the kind's own callback may
 // change it.
-s32 func_020d6be0(Kart *kart, MapObject *mapObject);
-u32 GetItemObjectResponseByKind(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue);
-u32 func_020d6d8c(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder);
+s32 mobj_handleDriverCollision(Kart *kart, MapObject *mapObject);
+u32 mobj_getItemHitResponse(s32 flagBit, s32 itemKind, s32 kindHundreds, s32 kindRemainder, s32 kindDataValue);
+u32 mobj_getItemHitObjResponse(u32 zeroResultFlag, u32 itemKind, u32 kindHundreds, u32 kindRemainder);

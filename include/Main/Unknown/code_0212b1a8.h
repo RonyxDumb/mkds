@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-u32 StartStaffRollText(void);
-void InitStaffRollText(void *heap);
+u32 srol_start(void);
+void srol_init(void *heap);
 void StartPaletteBlend(void);
 void StopPaletteBlend(void);
 void ResetPaletteBlendCycle(void);

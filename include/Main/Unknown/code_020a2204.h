@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 IsKartInflatingBalloon(u16 kartIndex);
+u32 mgcnt_getDriverIsInflating(u16 kartIndex);

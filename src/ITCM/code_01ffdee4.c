@@ -16,7 +16,7 @@
 #include "code_02147cd8.h"
 #include "registers.h"
 
-BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, void *g, void *h, u32 *o, u32 *j, int *k,
+BOOL col_collide(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, void *g, void *h, u32 *o, u32 *j, int *k,
                    u16 *l, u32 *m) {
     u16 *pl;
     Unk0217b614_08 *ta;
@@ -70,8 +70,8 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         ud.z = 0;
         ud.y = r * 2;
     }
-    gCollisionHitCount = 0;
-    kp = &gCourseCollision;
+    col_sColResponseCount = 0;
+    kp = &gKCollisionData;
     pa = *(Vec3 *) a;
     if (b != NULL) {
         pb = *(Vec3 *) b;
@@ -110,7 +110,7 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         n[3].x = tc[tr.mUnk_0c].x;
         n[3].y = tc[tr.mUnk_0c].y;
         n[3].z = tc[tr.mUnk_0c].z;
-        dt = Vec3DotUnrounded(&ua, &n[3]);
+        dt = vec_dotProduct(&ua, &n[3]);
         if (dt < -r) {
             continue;
         }
@@ -121,21 +121,21 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         n[1].x = tc[tr.mUnk_08].x;
         n[1].y = tc[tr.mUnk_08].y;
         n[1].z = tc[tr.mUnk_08].z;
-        d1 = Vec3DotUnrounded(&ua, &n[1]);
+        d1 = vec_dotProduct(&ua, &n[1]);
         if (d1 >= r) {
             continue;
         }
         n[2].x = tc[tr.mUnk_0a].x;
         n[2].y = tc[tr.mUnk_0a].y;
         n[2].z = tc[tr.mUnk_0a].z;
-        d2 = Vec3DotUnrounded(&ua, &n[2]);
+        d2 = vec_dotProduct(&ua, &n[2]);
         if (d2 >= r) {
             continue;
         }
         n[0].x = tc[tr.mUnk_06].x;
         n[0].y = tc[tr.mUnk_06].y;
         n[0].z = tc[tr.mUnk_06].z;
-        d0 = Vec3DotUnrounded(&ua, &n[0]);
+        d0 = vec_dotProduct(&ua, &n[0]);
         pe = r - d0;
         if (pe >= 0 && pe <= 0x1e000) {
             at = tr.mUnk_0e;
@@ -176,22 +176,22 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     continue;
                 }
                 VEC_Subtract(&pb, &vt, &ub);
-                if (Vec3DotUnrounded(&ub, &n[0]) < 0) {
+                if (vec_dotProduct(&ub, &n[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &n[1]) > 0) {
+                if (vec_dotProduct(&ub, &n[1]) > 0) {
                     continue;
                 }
             }
             if (d2 > d3) {
-                dt = Vec3DotUnrounded(&n[1], &n[2]);
+                dt = vec_dotProduct(&n[1], &n[2]);
                 if ((s32) (((s64) dt * d1) >> 12) > d2) {
                     goto ld;
                 } else {
                     goto lg;
                 }
             } else {
-                dt = Vec3DotUnrounded(&n[1], &n[3]);
+                dt = vec_dotProduct(&n[1], &n[3]);
                 if ((s32) (((s64) dt * d1) >> 12) > d3) {
                     goto ld;
                 } else {
@@ -207,22 +207,22 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     continue;
                 }
                 VEC_Subtract(&pb, &vt, &ub);
-                if (Vec3DotUnrounded(&ub, &n[0]) < 0) {
+                if (vec_dotProduct(&ub, &n[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &n[2]) > 0) {
+                if (vec_dotProduct(&ub, &n[2]) > 0) {
                     continue;
                 }
             }
             if (d3 > d1) {
-                dt = Vec3DotUnrounded(&n[2], &n[3]);
+                dt = vec_dotProduct(&n[2], &n[3]);
                 if ((s32) (((s64) dt * d2) >> 12) > d3) {
                     goto le;
                 } else {
                     goto lh;
                 }
             } else {
-                dt = Vec3DotUnrounded(&n[2], &n[1]);
+                dt = vec_dotProduct(&n[2], &n[1]);
                 if ((s32) (((s64) dt * d2) >> 12) > d1) {
                     goto le;
                 } else {
@@ -238,22 +238,22 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     continue;
                 }
                 VEC_Subtract(&pb, &vt, &ub);
-                if (Vec3DotUnrounded(&ub, &n[0]) < 0) {
+                if (vec_dotProduct(&ub, &n[0]) < 0) {
                     continue;
                 }
-                if (Vec3DotUnrounded(&ub, &n[3]) > tr.mUnk_00) {
+                if (vec_dotProduct(&ub, &n[3]) > tr.mUnk_00) {
                     continue;
                 }
             }
             if (d1 > d2) {
-                dt = Vec3DotUnrounded(&n[3], &n[1]);
+                dt = vec_dotProduct(&n[3], &n[1]);
                 if ((s32) (((s64) dt * d3) >> 12) > d1) {
                     goto lf;
                 } else {
                     goto li;
                 }
             } else {
-                dt = Vec3DotUnrounded(&n[3], &n[2]);
+                dt = vec_dotProduct(&n[3], &n[2]);
                 if ((s32) (((s64) dt * d3) >> 12) > d2) {
                     goto lf;
                 } else {
@@ -318,17 +318,17 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         lm:
             if (d0 < 0 && b != NULL) {
                 VEC_Subtract(&pb, &vt, &ub);
-                if (Vec3DotUnrounded(&ub, &n[0]) < 0) {
+                if (vec_dotProduct(&ub, &n[0]) < 0) {
                     if (fl & 0x20) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &n[1]) > 0) {
+                    if (vec_dotProduct(&ub, &n[1]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &n[2]) > 0) {
+                    if (vec_dotProduct(&ub, &n[2]) > 0) {
                         continue;
                     }
-                    if (Vec3DotUnrounded(&ub, &n[3]) > tr.mUnk_00) {
+                    if (vec_dotProduct(&ub, &n[3]) > tr.mUnk_00) {
                         continue;
                     }
                 }
@@ -340,7 +340,7 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
             bt |= (at & 2) << 0x17;
             if (b != NULL) {
                 VEC_Subtract(&pb, &vt, &ub);
-                dt = Vec3DotUnrounded(&ub, &n[0]);
+                dt = vec_dotProduct(&ub, &n[0]);
                 if (dt < 0) {
                     if (v && (bt & 0x214300) && c != 0) {
                         ua.x = ((s64) pe * n[0].x) >> 2;
@@ -364,7 +364,7 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                     }
                 }
                 VEC_Subtract(&pa, &pb, &ub);
-                if (Vec3DotUnrounded(&ub, &n[0]) > 0x333) {
+                if (vec_dotProduct(&ub, &n[0]) > 0x333) {
                     if (v && (bt & 0x214300) && c != 0) {
                         ua.x = ((s64) pe * n[0].x) >> 2;
                         ua.z = ((s64) pe * n[0].z) >> 2;
@@ -471,13 +471,13 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
             }
             ra |= data_02156908;
             ra |= bt;
-            if (gCollisionHitCount == 16) {
-                gCollisionHitCount--;
+            if (col_sColResponseCount == 16) {
+                col_sColResponseCount--;
             }
-            gCollisionHitBits[gCollisionHitCount] = bt;
+            col_sColResponseColFlags[col_sColResponseCount] = bt;
             rv = TRUE;
-            gCollisionHitValues[gCollisionHitCount] = at;
-            gCollisionHitCount++;
+            col_sColResponsePrismAttributes[col_sColResponseCount] = at;
+            col_sColResponseCount++;
         }
     }
     if (k != NULL) {
@@ -489,37 +489,37 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
         *l = 0;
     }
     if (m != NULL) {
-        *(void ***) m = data_0217b5d0;
-        data_0217b5d0[1] = NULL;
-        data_0217b5d0[0] = NULL;
+        *(void ***) m = col_sDColResults;
+        col_sDColResults[1] = NULL;
+        col_sDColResults[0] = NULL;
     }
-    if (data_0217b610 != 0 && e != -2) {
+    if (gUsesDynamicCollision != 0 && e != -2) {
         ct = 0;
         if (e == -1) {
-            FindCollisionSlotsAroundPos(a, r, 0x1000);
+            col_queryBySphere(a, r, 0x1000);
         } else {
-            FindCollisionSlotsOverlappingSlot(e, 0x1000);
+            col_queryByColEntry(e, 0x1000);
         }
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            ob = gFoundCollisionSlotObjects[i];
-            if (func_020e1d10(ob, a, r, fl, &wa, &wb, j != NULL ? &ud : 0, &hw, (Vec3 *) k, l)) {
+        for (i = 0; i < gColQueryResultCount; i++) {
+            ob = gColQueryResultObjects[i];
+            if (dcol_collide(ob, a, r, fl, &wa, &wb, j != NULL ? &ud : 0, &hw, (Vec3 *) k, l)) {
                 ra |= data_0215690c;
                 ra |= 1 << hw;
-                if (gCollisionHitCount == 16) {
-                    gCollisionHitCount--;
+                if (col_sColResponseCount == 16) {
+                    col_sColResponseCount--;
                 }
                 bi = 1 << hw;
-                gCollisionHitBits[gCollisionHitCount] = bi;
-                gCollisionHitValues[gCollisionHitCount] = hw << 8;
-                gCollisionHitCount++;
+                col_sColResponseColFlags[col_sColResponseCount] = bi;
+                col_sColResponsePrismAttributes[col_sColResponseCount] = hw << 8;
+                col_sColResponseCount++;
                 if (m != NULL) {
                     if (bi & 0x1e34ef) {
-                        data_0217b5d0[ct++] = data_0217b5d0[0];
-                        data_0217b5d0[0] = ob;
+                        col_sDColResults[ct++] = col_sDColResults[0];
+                        col_sDColResults[0] = ob;
                     } else {
-                        data_0217b5d0[ct++] = ob;
+                        col_sDColResults[ct++] = ob;
                     }
-                    data_0217b5d0[ct] = NULL;
+                    col_sDColResults[ct] = NULL;
                     if (ct >= 15) {
                         ct--;
                     }
@@ -597,9 +597,9 @@ BOOL func_01ffdee4(void *a, void *b, Vec3 *c, int r, u16 fl, short e, void *f, v
                 cc.x = cc.x - (s32) (((s64) cd.x * (c)->x) >> 12);
                 cc.z = cc.z - (s32) (((s64) cd.z * (c)->z) >> 12);
                 VEC_Add((Vec3 *) &wa.mUnk_00, (Vec3 *) &wa.mUnk_0c, &ua);
-                if (Vec3DotUnrounded(&cc, &ua) >= 0) {
+                if (vec_dotProduct(&cc, &ua) >= 0) {
                     if ((s64) cc.x * cc.x + (s64) cc.y * cc.y + (s64) cc.z * cc.z >= 16) {
-                        Vec3NormalizeAndGetLengthUnchecked(&cc, &cc);
+                        vec_normalize(&cc, &cc);
                     }
                     cc.x = ((s64) cc.x * (r >> 5)) >> 12;
                     cc.y = ((s64) cc.y * (r >> 5)) >> 12;

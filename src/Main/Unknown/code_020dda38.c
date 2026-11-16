@@ -16,11 +16,11 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "Main/Unknown/code_020de204.h"
 
-u32 func_020de20c(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
+u32 wwchn_onDriverCollide(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }
 
-u32 func_020de204(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
+u32 wwchn_onItemCollide(u32 unused0, u32 unused1, u32 unused2, u32 bytePointer) {
     return (*OFFSET_PTR(const u8, bytePointer, 0));
 }
 
@@ -44,19 +44,19 @@ void ResetWanwanChainPoints(WanwanChainObject *chainObject) {
 
 #pragma thumb on
 
-void CreateWanwanChainAndWanwanKui(void) {
+void wwchn_loadModels(void) {
     void *kuiFile;
 
-    func_020e6488(&gWanwanChain, FindCourseMapObjFile("wanwan_chain.nsbmd"), 0, 0);
-    func_020e6ab8(gWanwanChain);
-    kuiFile = FindCourseFile("MapObj/wanwan_kui.nsbmd");
+    bbm_createFromNsbmd(&wwchn_sChainModel, mobj_getMapObjFile("wanwan_chain.nsbmd"), 0, 0);
+    bbm_setDefaultMatParams(wwchn_sChainModel);
+    kuiFile = arc_getCourseArcFile("MapObj/wanwan_kui.nsbmd");
     if (kuiFile != NULL) {
-        func_020e6488(&gWanwanKui, kuiFile, 0, 0);
-        func_020e6ab8(gWanwanKui);
+        bbm_createFromNsbmd(&wwchn_sKuiModel, kuiFile, 0, 0);
+        bbm_setDefaultMatParams(wwchn_sKuiModel);
     }
 }
 
-void InitWanwanChainObject(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan) {
+void wwchn_init(WanwanChainObject *chainObject, void *unused, Wanwan *wanwan) {
     s32 d;
 
     chainObject->mPos = wanwan->mCenterPos;
@@ -133,7 +133,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         excessSquared = (s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) (excessSquared >> 12);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
+            vec_normalize(&t, &offset);
             linkLength = chain->mLinkLength;
             offset.x = ((s64) offset.x * linkLength) >> 12;
             offset.y = ((s64) offset.y * linkLength) >> 12;
@@ -161,7 +161,7 @@ void UpdateWanwanChainPoints(WanwanChain *chain, Vec3 *endPoint, Vec3 *unused) {
         excessSquared = (s64) t.x * t.x + (s64) t.y * t.y + (s64) t.z * t.z - chain->mLinkLengthSquared;
         excess = excessSquared < 0 ? 0 : (s32) (excessSquared >> 12);
         if (excess != 0) {
-            Vec3NormalizeAndGetLengthUnchecked(&t, &offset);
+            vec_normalize(&t, &offset);
             linkLength = chain->mLinkLength;
             offset.x = ((s64) offset.x * linkLength) >> 12;
             offset.y = ((s64) offset.y * linkLength) >> 12;
@@ -185,21 +185,21 @@ void DrawWanwanChainLinks(WanwanChain *chain, NsbmdModel *model, s32 unused, u16
     s32 pointIndex;
     u32 polygonId;
 
-    func_020e6a18(model);
+    bbm_applyMaterial(model);
     for (pointIndex = 1; pointIndex < chain->mPointCount; pointIndex++) {
-        polygonId = AllocPolygonIdWrapping();
+        polygonId = mobj_getCyclicPolygonId();
         model->mUnk_14 &= ~0x3f000000;
         model->mUnk_14 |= polygonId << 24;
-        func_020e67c4(model, SetViewTransposeMatrixPos(&chain->mPoints[pointIndex]), &chain->mUnk_34, 1, e);
+        bbm_renderTransformedScaled(model, bbm_getBillboardAtPos(&chain->mPoints[pointIndex]), &chain->mUnk_34, 1, e);
     }
 }
 
 void DrawWanwanChainKui(WanwanChain *chain, NsbmdModel *model, Vec3 *position, s32 unused, u16 e) {
     u32 polygonId;
 
-    func_020e6a18(model);
-    polygonId = AllocPolygonIdWrapping();
+    bbm_applyMaterial(model);
+    polygonId = mobj_getCyclicPolygonId();
     model->mUnk_14 &= ~0x3f000000;
     model->mUnk_14 |= polygonId << 24;
-    func_020e67c4(model, func_020e6cbc(position), &chain->mUnk_34, 1, e);
+    bbm_renderTransformedScaled(model, bbm_getYBillboardAtPos(position), &chain->mUnk_34, 1, e);
 }

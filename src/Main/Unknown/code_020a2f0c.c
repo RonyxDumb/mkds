@@ -6,5 +6,5 @@ void ParkBalloon(Balloon *balloon, u16 kartIndex) {
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;
     balloon->mDrawList = NULL;
-    ParkMapObject(&balloon->mUnk_00);
+    mobj_setInvisible(&balloon->mUnk_00);
 }

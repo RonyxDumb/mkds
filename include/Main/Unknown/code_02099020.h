@@ -36,7 +36,7 @@ typedef struct Unk0209905c {
 extern u16 data_02156590;
 extern u32 data_02156594;
 
-void func_02099020(void);
-void func_0209905c(void *a, Unk0209905c *p);
-u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d);
-void func_02099278(unsigned int mapObject);
+void pknf_setupConfig(void);
+void pknf_update(void *a, Unk0209905c *p);
+u32 pknf_onDriverCollide(Unk0209905c *a, Kart *kart, u8 *c, u8 *d);
+void pknf_init(unsigned int mapObject);

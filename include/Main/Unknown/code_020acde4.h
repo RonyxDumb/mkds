@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020acde4(unsigned int pair);
+unsigned int title_spi_getTpY(unsigned int pair);

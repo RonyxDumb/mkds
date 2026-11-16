@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_0207d000.h"
 #include "Main/Unknown/code_0207e000.h"
 
-void func_0208bd20(KartAi *kartAi) {
+void enmy_updateStaffRollEnemy(KartAi *kartAi) {
     AdvanceStaffRollKartAi(kartAi);
-    func_0207d6a4(&kartAi->mUnk_e8, kartAi);
+    enrb_updateForAwardStaffRoll(&kartAi->mUnk_e8, kartAi);
 }
