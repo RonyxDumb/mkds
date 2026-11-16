@@ -539,9 +539,9 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;
             reg_G3_SPE_EMI = 0x7c004210;
             reg_G3_DIF_AMB = 0x42100000;
-            reg_G3_MTX_MODE = 3;
+            reg_G3_MTX_MODE = G3D_MTX_MODE_TEXTURE;
             reg_G3_MTX_IDENTITY = 0;
-            reg_G3_MTX_MODE = 2;
+            reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
             reg_G3_TEXIMAGE_PARAM = gPosStripTexture.mTexImageParam;
             reg_G3_TEXPLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
             isDrawStateSet = TRUE;

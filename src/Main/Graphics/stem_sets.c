@@ -278,7 +278,7 @@ void DrawStemSets(void) {
             NNS_G3dGlb.mFlag &= ~0x50;
             NNS_G3dGlbSetBaseScale(&baseScale);
             MI_Copy36B(&baseTransform, &NNS_G3dGlb.mPrmBaseRot);
-            NNS_G3dGlb.mFlag &= ~0xa4;
+            NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
             NNS_G3dGlbSetBaseTrans(&baseTransform.mRows[3]);
             NNS_G3dGlbFlushP();
             NNS_G3dDraw(&nsbmd->mRenderObj);
@@ -291,7 +291,7 @@ void DrawStemSets(void) {
         reg_G3_MTX_MODE = 0;
         G3_LoadMtx44(&gStemSets->mOrthoMtx);
         reg_G3_TEXIMAGE_PARAM = 0x20000000;
-        reg_G3_MTX_MODE = 2;
+        reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
         reg_G3_MTX_IDENTITY = 0;
         DrawTimedQuad(&gStemSets->mTimedQuad);
     }

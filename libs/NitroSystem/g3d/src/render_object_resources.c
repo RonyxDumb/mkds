@@ -114,7 +114,7 @@ int removeLink_(NNSG3dAnmObj **head, NNSG3dAnmObj *item) {
 void NNS_G3dRenderObjRemoveAnmObj(NNSG3dRenderObj *pRenderObj, NNSG3dAnmObj *pAnmObj) {
     if (removeLink_(&pRenderObj->mAnmMat, pAnmObj) != 0 || removeLink_(&pRenderObj->mAnmJnt, pAnmObj) != 0 ||
         removeLink_(&pRenderObj->mAnmVis, pAnmObj) != 0) {
-        pRenderObj->mFlag |= G3D_RENDER_OBJ_FLAG_ANM_CHANGED;
+        pRenderObj->mFlag |= RENDER_OBJ_HINTS_STALE;
     }
 }
 

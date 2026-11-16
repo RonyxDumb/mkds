@@ -306,28 +306,28 @@ void GetTexSRTAnm_(const NNSG3dResTexSRTAnm *pTexAnm, u16 idx, u32 frame, NNSG3d
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransS, srtData->mTransSEx, frame);
     valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mTransT, srtData->mTransTEx, frame);
     if (valueS == 0 && valueT == 0) {
-        flag |= G3D_MAT_ANM_TRANS_IS_IDENTITY;
+        flag |= MAT_RESULT_TEX_NO_TRANSLATION;
     } else {
         pResult->mTransST[0] = valueS;
         pResult->mTransST[1] = valueT;
-        flag &= ~G3D_MAT_ANM_TRANS_IS_IDENTITY;
+        flag &= ~MAT_RESULT_TEX_NO_TRANSLATION;
     }
     rotation = GetTexSRTAnmSinCosVal_(pTexAnm, srtData->mRot, srtData->mRotEx, frame);
     if (rotation == 0x10000000) {
-        flag |= G3D_MAT_ANM_ROT_IS_IDENTITY;
+        flag |= MAT_RESULT_TEX_NO_ROTATION;
     } else {
         pResult->mSinCosR[0] = rotation;
         pResult->mSinCosR[1] = rotation >> 16;
-        flag &= ~G3D_MAT_ANM_ROT_IS_IDENTITY;
+        flag &= ~MAT_RESULT_TEX_NO_ROTATION;
     }
     valueS = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleS, srtData->mScaleSEx, frame);
     valueT = GetTexSRTAnmVectorVal_(pTexAnm, srtData->mScaleT, srtData->mScaleTEx, frame);
     if (valueS == 0x1000 && valueT == 0x1000) {
-        flag |= G3D_MAT_ANM_SCALE_IS_IDENTITY;
+        flag |= MAT_RESULT_TEX_UNIT_SCALE;
     } else {
         pResult->mScaleST[0] = valueS;
         pResult->mScaleST[1] = valueT;
-        flag &= ~G3D_MAT_ANM_SCALE_IS_IDENTITY;
+        flag &= ~MAT_RESULT_TEX_UNIT_SCALE;
     }
     pResult->mFlag = flag;
 }
@@ -359,7 +359,7 @@ void NNSi_G3dAnmCalcNsBta(NNSG3dMatAnmResult *pResult, const NNSG3dAnmObj *pAnmO
     GetTexSRTAnm_(pAnmObj->mResAnm, dataIdx, FROM_FIXED12(pAnmObj->mFrame), pResult);
     pResult->mPrmTexImage &= ~G3D_TEX_GEN_MASK;
     pResult->mPrmTexImage |= G3D_TEX_GEN_TEXCOORD;
-    pResult->mFlag |= G3D_MAT_ANM_TEX_MTX_SET;
+    pResult->mFlag |= MAT_RESULT_TEX_MATRIX_SET;
 }
 
 // Blends the two stored colors when the frame falls between them.

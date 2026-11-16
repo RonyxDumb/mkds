@@ -1585,13 +1585,13 @@ void DrawKartModelMenuSlot(KartModelMenuSlot *slot, KartModelMenuView *view, s32
     NNS_G3dGlbSetBaseScale(&scale);
     NNS_G3dGlbSetBaseTrans(&translation);
     MI_Copy36B(&tiltMatrix, &NNS_G3dGlb.mPrmBaseRot);
-    NNS_G3dGlb.mFlag &= ~0xa4;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
     NNS_G3dGlbFlushP();
     if (gKartModelMenu->mSelectModel != NULL) {
         NNS_G3dDraw(&gKartModelMenu->mSelectModel->mRenderObj);
     }
     MI_Copy36B(&rotationMatrix, &NNS_G3dGlb.mPrmBaseRot);
-    NNS_G3dGlb.mFlag &= ~0xa4;
+    NNS_G3dGlb.mFlag &= ~G3D_GLB_BASE_DEPENDENT_CACHES;
     NNS_G3dGlbSetBaseTrans(&translation);
     NNS_G3dGlbFlushP();
     if (slot->mCharacterIndex != KART_MODEL_MENU_NONE && slot->mKartIndex != KART_MODEL_MENU_NONE) {

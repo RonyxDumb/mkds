@@ -9,8 +9,6 @@ typedef struct NNSG3dMatAnmResult NNSG3dMatAnmResult;
 // otherwise. The two mode words sent around the matrix are TEX and POS_VEC.
 #define TEX_MTX_COMMAND_SET 0x101610
 #define TEX_MTX_COMMAND_MULT 0x101810
-#define TEX_MTX_MODE_TEXTURE 3
-#define TEX_MTX_MODE_POSITION_VECTOR 2
 // Bits of NNSG3dMatAnmResult.mFlag that pick the texture matrix calculation (scale one, rotation zero, translation
 // zero).
 #define TEX_MTX_CALC_FLAG_MASK 7

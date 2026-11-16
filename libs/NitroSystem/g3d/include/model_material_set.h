@@ -71,7 +71,7 @@ typedef struct NNSG3dResMat {
 #define G3D_MAT_FLAG_NO_TEX_SCALE 0x2
 #define G3D_MAT_FLAG_NO_TEX_ROT 0x4
 #define G3D_MAT_FLAG_NO_TEX_TRANS 0x8
-#define G3D_MAT_FLAG_WIREFRAME 0x20
+#define G3D_MAT_FLAG_CLEAR_ALPHA 0x20
 #define G3D_MAT_FLAG_HAS_EXTRA_MTX 0x2000
 
 // Polygon attribute fields of NNSG3dResMatData.mPolyAttr, fields of the texture image word (mTexImageParam,

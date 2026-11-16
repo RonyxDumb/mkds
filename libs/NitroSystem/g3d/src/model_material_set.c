@@ -342,7 +342,7 @@ void NNS_G3dGetCurrentMtx(MtxFx43 *pos, void *vec) {
         }
     }
     reg_G3_MTX_POP = 1;
-    reg_G3_MTX_MODE = 2;
+    reg_G3_MTX_MODE = G3D_MTX_MODE_POS_VEC;
 }
 
 // Initializes the geometry engine and the global state.

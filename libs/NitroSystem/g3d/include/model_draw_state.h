@@ -15,7 +15,7 @@ typedef struct NNSG3dVisAnmResult {
 } NNSG3dVisAnmResult;
 
 // Bits of NNSG3dJntAnmResult.mFlag: a set bit says that part is at its identity value (scale one, rotation unit,
-// translation zero, the two extra scales one); JNT_RESULT_SEGMENT_SCALE_COMPENSATE says mScaleEx0 holds the inverse scale of
+// translation zero, the two extra scales one); G3D_JNT_ANM_PARENT_INV_SCALE says mScaleEx0 holds the inverse scale of
 // the parent node.
 #define G3D_JNT_ANM_SCALE_IS_IDENTITY 0x1
 #define G3D_JNT_ANM_ROT_IS_IDENTITY 0x2
@@ -24,6 +24,7 @@ typedef struct NNSG3dVisAnmResult {
 #define G3D_JNT_ANM_SCALE_EX1_IS_IDENTITY 0x10
 #define G3D_JNT_ANM_SCALE_EX_ARE_IDENTITY 0x18
 #define G3D_JNT_ANM_SRT_IS_IDENTITY 0x7
+#define G3D_JNT_ANM_PARENT_INV_SCALE 0x20
 
 // Result of a joint animation for one node. Bit 0 of mFlag says the scale is one, bit 1 that the rotation is zero,
 // bit 2 that the translation is zero, bits 3 and 4 that mScaleEx0 and mScaleEx1 are one.
@@ -35,12 +36,6 @@ typedef struct NNSG3dJntAnmResult {
     /* 28 */ MtxFx33 mRot;
     /* 4c */ Vec3 mTrans;
 } NNSG3dJntAnmResult;
-
-// Bits of NNSG3dMatAnmResult.mFlag: the texture matrix parts that are left out, and whether the matrix is used.
-#define G3D_MAT_ANM_SCALE_IS_IDENTITY 0x1
-#define G3D_MAT_ANM_ROT_IS_IDENTITY 0x2
-#define G3D_MAT_ANM_TRANS_IS_IDENTITY 0x4
-#define G3D_MAT_ANM_TEX_MTX_SET 0x8
 
 // Result of a material animation: the colors, polygon attributes and texture parameters of one material.
 struct NNSG3dMatAnmResult {
@@ -79,9 +74,6 @@ struct NNSG3dAnmObj {
     /* 1a */ u16 mMapData[1];
 };
 
-// Bit of NNSG3dRenderObj.mFlag: an animation object was removed, so NNS_G3dDraw rebuilds the hint bit sets.
-#define G3D_RENDER_OBJ_FLAG_ANM_CHANGED 0x10
-
 #define G3D_ANM_PRIORITY_DEFAULT 0x7f
 
 // Render object: the model and the animation objects drawn with it.
@@ -107,16 +99,6 @@ typedef struct NNSG3dRenderObj {
     /* 44 */ u32 mHintJntAnmExist[2];
     /* 4c */ u32 mHintVisAnmExist[2];
 } NNSG3dRenderObj;
-
-#define NNS_G3D_RSFLAG_CURRENT_NODEDESC_VALID 0x10
-
-// More NNSG3dRS.mFlag bits: bit 0 is set while the current node is visible; a callback sets bit 6 to say it did the
-// work of the command itself; bit 8 stops the commands from being sent to the geometry engine; bit 9 makes the
-// interpreter only step over the commands.
-#define G3D_RS_FLAG_NODE_VISIBLE 0x1
-#define G3D_RS_FLAG_CALLBACK_HANDLED 0x40
-#define G3D_RS_FLAG_NO_COMMANDS 0x100
-#define G3D_RS_FLAG_SKIP_ALL 0x200
 
 // Render state of the SBC interpreter. mC points into the byte sequence that the SBC functions advance.
 // NNSG3dRS.mFlag bits.
@@ -144,20 +126,6 @@ typedef struct NNSG3dRenderObj {
 #define MAT_RESULT_TEX_MATRIX_SET 0x8
 #define MAT_RESULT_TEX_MATRIX_MULTIPLY 0x10
 #define MAT_RESULT_CLEAR_ALPHA 0x20
-// NNSG3dJntAnmResult.mFlag bits.
-#define JNT_RESULT_NO_ROTATION 0x2
-#define JNT_RESULT_NO_TRANSLATION 0x4
-#define JNT_RESULT_FIRST_EXTRA_SCALE_UNIT 0x8
-#define JNT_RESULT_SECOND_EXTRA_SCALE_UNIT 0x10
-#define JNT_RESULT_SEGMENT_SCALE_COMPENSATE 0x20
-// Material data flag bits.
-#define MAT_DATA_TEX_MATRIX_USED 0x1
-#define MAT_DATA_TEX_UNIT_SCALE 0x2
-#define MAT_DATA_TEX_NO_ROTATION 0x4
-#define MAT_DATA_TEX_NO_TRANSLATION 0x8
-#define G3D_MAT_FLAG_CLEAR_ALPHA 0x20
-// Polygon attribute bits 16 to 20, the alpha of the polygon.
-#define G3D_POLYGON_ATTR_ALPHA_MASK 0x1f0000
 // Entries of the callback vectors of NNSG3dRS (one per SBC command number).
 #define G3D_CALLBACK_VECTOR_COUNT 0x20
 
