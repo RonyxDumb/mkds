@@ -485,7 +485,7 @@ void InitRaceStartGp(void) {
     gRaceStartGp = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gRaceStartGp));
     for (index = 0; index < RACE_HUD_OAM_COUNT; index++) {
         RaceHudOamBits *oamBits = &gRaceStartGp->mMainOam.mOamBits[index];
-        oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
+        oamBits->mObjMode = 3;
     }
     gRaceStartGp->mUpdateFrames = 0;
     LoadNclrData(&gRaceStartGp->mRaceStartGpMONclr, FindSceneFileWrapper("race_start_gp_m_o.NCLR"));

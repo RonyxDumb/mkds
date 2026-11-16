@@ -37,7 +37,7 @@ void InitEndingStaffRoll(void) {
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEndingStaffRoll));
     for (oamIndex = 0; oamIndex < RACE_HUD_OAM_COUNT; oamIndex++) {
         oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
-        oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
+        oamBits->mObjMode = 3;
     }
     gEndingStaffRoll->mStaffRollFrames = 0;
     LoadNclrData(&gEndingStaffRoll->mEndingStaffRollMO00Nclr, FindSceneFileWrapper("ending_staffRoll_m_o_00.NCLR"));
