@@ -122,8 +122,7 @@ struct ApStore;
 struct SoundData;
 struct MenuPairObjects;
 extern UsbScan *gUsbScan;
-// Object behind gMessageBox: AdvanceMessageBoxSlideOut passes 0x00 to GetOamRangeEntryPosition and reads the byte at
-// 0x1e; GetMessageBoxResult reads the byte at 0x1b.
+// The on-screen message box: its box, text and button OAM ranges, its task and the result the player chose.
 typedef struct MessageBox {
     /* 00 */ OamRange *mBox;
     /* 04 */ OamRange *mText;
@@ -260,8 +259,7 @@ typedef struct DwcArchive {
     /* e6 */ u8 mUnk_e6[2];
 } DwcArchive;
 
-// Two objects of 0x228 bytes: 32 objects from 0x000, two list heads at 0x200 and 0x210, a pointer at 0x220 and the
-// list of the free objects at 0x224.
+// The pool of OamRange objects: 32 ranges, the start and end of the list in use and the stack of free ranges.
 typedef struct OamRanges {
     /* 000 */ OamRange mRanges[0x20];
     /* 200 */ OamRange mListStart;

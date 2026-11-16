@@ -2,8 +2,7 @@
 
 #include "types.h"
 
-// A colour that fades between course colours: the colour at 0x00, its three 5-bit parts when the fade began at
-// 0x02 to 0x06, their differences to the new colour at 0x08 to 0x0c, its bit at 0x0e and the fade factor at 0x10.
+// A colour that fades between course colours: mColor, its start parts, the steps to the new one, mBlendFactor.
 typedef struct CourseColorBlend {
     /* 00 */ u16 mColor;
     /* 02 */ s16 mStartComponent0;

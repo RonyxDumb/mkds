@@ -14,8 +14,7 @@ void PreSleepMicBuffer(MicBuffer *micBuffer);
 #define MICROPHONE_BUFFER_SKIP_FROM_POST_SLEEP 2
 #define MICROPHONE_BUFFER_SKIP_LAST 0x1e
 
-// Object UpdateMicBufferInput and SetupMicAutoSampling take, 0x420 bytes: SetupMicAutoSampling zeroes 0x400 bytes and
-// sets up the words at 0x400..0x418; mSkipFrames counts calls: a sleep hook starts it, input returns 0 to 0x1e.
+// The microphone sample buffer with its auto-sampling setup; mSkipFrames counts input calls after a sleep hook.
 typedef struct MicBuffer {
     /* 000 */ u8 mSamples[0x400];
     /* 400 */ MICAutoParam mAutoParam;

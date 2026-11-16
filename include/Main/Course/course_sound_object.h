@@ -35,8 +35,7 @@ enum {
     COURSE_SOUND_STATE_TWO_PARTS,
 };
 
-// Object of UpdateCourseSoundObject: the shared MapObject part, two CourseSoundObjectPart and a state at 0xf0
-// that selects what UpdateCourseSoundObject does.
+// A course map object that plays sound: the MapObject part, two CourseSoundObjectPart and mState.
 typedef struct CourseSoundObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ CourseSoundObjectPart mFirstPart;

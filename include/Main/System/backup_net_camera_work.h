@@ -202,8 +202,7 @@ typedef struct SlotGhostRecord {
     /* ffc */ u8 mUnk_ffc[4];
 } SlotGhostRecord;
 
-// One buddy: counts per kind of match, the date of the last result, the name and four flags; 60 entries from 0x04 of
-// BuddyRecordBlock.
+// One buddy in the save: result counts per kind of match, the date of the last result, the name and some flags.
 typedef struct BuddyRecord {
 // Two counters for each of three kinds of match (VS, Battle and a third kind), each raised by one at the end of a
 // race.
@@ -240,7 +239,7 @@ typedef struct BuddyRecordBlock {
     /* b44 */ u8 mUnk_b44[0xbc];
 } BuddyRecordBlock;
 
-// 0xb00 bytes behind member 0x24 of BackupBuffers: a byte at 0x04 and five 0x200-byte rows from 0x08.
+// The emblem save block: five emblem images (mEmblems) and the bits saying which are filled (mFilledBits).
 typedef struct EmblemBlockData {
     /* 000 */ u8 mUnk_000[4];
     /* 004 */ u8 mFilledBits;
@@ -327,7 +326,7 @@ typedef struct ChildEntry {
 #define CHILD_LIST_NAME_SEND_PAUSE_FIRST 8
 #define CHILD_LIST_NAME_SEND_PAUSE_LAST 0x2c
 
-// 0x44 bytes from 0x44 of ConnectionWork.
+// The children connected to a parent console: their entries, game info, masks and the name being sent.
 typedef struct ChildList {
     /* 00 */ ChildEntry mEntries[CHILD_LIST_MAX_CHILDREN];
     /* 38 */ UserGameInfo *mGameInfo;
@@ -368,8 +367,7 @@ typedef struct MPStateMachine {
     /* 1b */ u8 mUnk_1b[0x1];
 } MPStateMachine;
 
-// Object behind gConnectionWork.
-// One of the 12 entries at 0x16a0: a block to offer to the other consoles, or a file path to read in.
+// One file slot of the connection: a block to offer to the other consoles, or a file path to read in.
 typedef struct BlockEntry {
     /* 00 */ WBTBlockInfoList mNode;
 // The 0x40-byte path; a first byte of 0 means the entry is free.
@@ -418,7 +416,7 @@ typedef struct BlockTransferView {
 // Bytes of a player name: ten 16-bit characters.
 #define PLAYER_NAME_BYTES 0x14
 
-// 0x22c-byte entries from 0x45c of ConnectionWork; also the tail from 0xc of WiFiPlayerRecord.
+// What a console tells the others about its player: name, emblem, rating, friend data and region and language.
 typedef struct PlayerRecord {
     /* 000 */ u8 mName[PLAYER_NAME_BYTES];
     /* 014 */ u8 mEmblem[0x200];

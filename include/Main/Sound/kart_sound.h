@@ -6,7 +6,7 @@ typedef struct SoundDistanceSquaredChange SoundDistanceSquaredChange;
 typedef struct Kart Kart;
 typedef struct SoundSource SoundSource;
 
-// Ten words at 0x40 of a KartSound, built on the stack by InitKartSoundParams.
+// One row of sound ids for a kart engine: the pitched sound and the sounds chosen by speed ratio.
 typedef struct KartSoundRow {
     /* 00 */ s32 mSoundRowIndex;
     /* 04 */ s32 mPitchedSoundId;

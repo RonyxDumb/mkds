@@ -13,7 +13,7 @@ typedef struct OamBuffer {
     /* 402 */ u16 mUnk_402;
 } OamBuffer;
 
-// Object behind the pointer at 0x85c of Emblem.
+// A list of cell entries with the cells and cell animations they draw and the offset they are drawn at.
 typedef struct Lld {
     /* 00 */ u16 mEntryCount;
     /* 02 */ u8 mUnk_02[0x2];

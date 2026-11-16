@@ -25,8 +25,7 @@ typedef struct OamEntry {
     /* 06 */ u16 mUnk_06;
 } OamEntry;
 
-// Object passed to GetOamRangeEntryPosition: a pointer at 0x08 to OamEntry objects, indexed by its second
-// argument, and their number at 0x0c. The two pointers at 0x00 and 0x04 link the objects of a list.
+// A run of OamEntry objects (mEntries, mEntryCount), linked into a list by mPrev and mNext.
 typedef struct OamRange {
     /* 00 */ struct OamRange *mPrev;
     /* 04 */ struct OamRange *mNext;

@@ -21,7 +21,7 @@ typedef struct Bmg {
     /* 20 */ BmgSectionHeader mFirstSection;
 } Bmg;
 
-// Section of LocateBmgSections whose first word is 0x494e4631 (gBmgEntryOffsetSection): words from 0x10.
+// The BMG section holding the offset of each message entry (mEntryOffsets), found by LocateBmgSections.
 typedef struct BmgEntryOffsetSection {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;

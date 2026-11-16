@@ -41,8 +41,7 @@ typedef struct LoadedSoundSet {
     /* 0c */ u32 mHeapState;
 } LoadedSoundSet;
 
-// Object gSndDataFileIdList: 16 words from 0x00 and a signed number at 0x40; LoadSndDataFromFile and
-// LoadSndGroupWithWaveArcs add a word to it, ClearSndFileAddresses walks it and ClearSndFileIdList resets it.
+// The ids of the sound data files loaded so far (mFileIds, mCount); loads add an id, clearing walks and resets it.
 typedef struct SndFileIdList {
     /* 00 */ u32 mFileIds[16];
     /* 40 */ s32 mCount;
