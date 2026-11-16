@@ -45,8 +45,20 @@ const Rect gWayRects[2][4] = {
 WayPaletteFileName gYbBgStep21NclName2 = {{0x63, 0x68, 0x61, 0x72, 0x2f, 0x79, 0x62, 0x42, 0x67, 0x53, 0x74,
                                 0x65, 0x70, 0x32, 0x31, 0x2e, 0x6e, 0x63, 0x6c, 0x2e, 0x6c, 0}};
 WayPaletteRows gWayPaletteRows = {{1, 2, 3, 4}};
-const s8 gWayMoveTargets[2][4][4] = {{{-1, -2, -1, -2}, {3, 0, 3, 0}, {-1, -1, -1, -1}, {1, 0, 1, 0}},
-                                     {{-1, -2, -1, -2}, {3, 0, 2, 0}, {1, 0, 3, 0}, {2, 0, 1, 0}}};
+const s8 gWayMoveTargets[2][4][4] = {
+    {
+        {-1, -2, -1, -2},
+        {WAY_SELECTED_JB3_LIST, WAY_SELECTED_AP_SCAN, WAY_SELECTED_JB3_LIST, WAY_SELECTED_AP_SCAN},
+        {-1, -1, -1, -1},
+        {WAY_SELECTED_VALUE_RECORDS, WAY_SELECTED_AP_SCAN, WAY_SELECTED_VALUE_RECORDS, WAY_SELECTED_AP_SCAN},
+    },
+    {
+        {-1, -2, -1, -2},
+        {WAY_SELECTED_JB3_LIST, WAY_SELECTED_AP_SCAN, WAY_SELECTED_EXCHANGE_SEARCH, WAY_SELECTED_AP_SCAN},
+        {WAY_SELECTED_VALUE_RECORDS, WAY_SELECTED_AP_SCAN, WAY_SELECTED_JB3_LIST, WAY_SELECTED_AP_SCAN},
+        {WAY_SELECTED_EXCHANGE_SEARCH, WAY_SELECTED_AP_SCAN, WAY_SELECTED_VALUE_RECORDS, WAY_SELECTED_AP_SCAN},
+    },
+};
 const s8 gWayMessageDigitColumns[6] = {3, -1, -1, -1, -1, -1};
 const Rect gWaySelectionRects[2][4] = {
     {{6, 0x1e, 0xea, 0x4e}, {6, 0x62, 0x70, 0x92}, {0, 0, 0, 0}, {0x80, 0x62, 0xea, 0x92}},
@@ -59,15 +71,15 @@ s8 gWaySavedIndex;
 void SetupWay(void) {
     ApWorkCopy *record = GetApWorkCopy();
     gWayChosen = 0;
-    if (gWaySavedIndex == 0) {
-        gWaySavedIndex = 1;
+    if (gWaySavedIndex == WAY_SELECTED_AP_SCAN) {
+        gWaySavedIndex = WAY_SELECTED_VALUE_RECORDS;
     }
     if (GetLanguageIndex() != 0) {
-        if (gWaySelectedIndex == 2) {
-            gWaySelectedIndex = 0;
+        if (gWaySelectedIndex == WAY_SELECTED_EXCHANGE_SEARCH) {
+            gWaySelectedIndex = WAY_SELECTED_AP_SCAN;
         }
-        if (gWaySavedIndex == 2) {
-            gWaySavedIndex = 1;
+        if (gWaySavedIndex == WAY_SELECTED_EXCHANGE_SEARCH) {
+            gWaySavedIndex = WAY_SELECTED_VALUE_RECORDS;
         }
     }
     LoadWayFilesAndSetBgCnt();
@@ -230,7 +242,7 @@ void MoveWaySelection(int direction) {
     if (moveTarget == -1) {
         return;
     }
-    if (moveTarget == 0) {
+    if (moveTarget == WAY_SELECTED_AP_SCAN) {
         gWaySavedIndex = selectedIndex;
     }
     if (moveTarget == -2) {

@@ -7,7 +7,7 @@
 
 typedef struct Rect Rect;
 
-// Entry of gApObjectPositions, two halfwords.
+// Screen position of an entry icon or reset button object of the Ap screen: mX, mY.
 typedef struct ApObjectPosition {
     /* 0 */ u16 mX;
     /* 2 */ u16 mY;

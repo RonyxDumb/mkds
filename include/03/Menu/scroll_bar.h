@@ -13,6 +13,11 @@ enum {
     SCROLL_BAR_PART_TRACK,
 };
 
+// The two largest scroll bar offsets: the smaller one for a short list, the larger one otherwise (also the range of the
+// Jb3 list bar).
+#define SCROLL_BAR_OFFSET_MAX_SMALL 0x1f
+#define SCROLL_BAR_OFFSET_MAX_LARGE 0x37
+
 // Values of ScrollBar.mState; the two hold states have the value of the arrow part being held.
 enum {
     SCROLL_BAR_STATE_IDLE,
@@ -22,7 +27,8 @@ enum {
 };
 
 // Values of ScrollBar.mEvent, set by one AdvanceScrollBar call and read through GetScrollBarEvent. OFFSET_SETTLED is
-// the end of a drag or a tap on the track.
+// the end of a drag or a tap on the track; ARROW_UP_PRESSED and ARROW_DOWN_PRESSED are raised again on every touch
+// repeat while the arrow is held.
 enum {
     SCROLL_BAR_EVENT_NONE,
     SCROLL_BAR_EVENT_THUMB_PRESSED,

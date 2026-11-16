@@ -4,7 +4,7 @@
 
 typedef struct OamRange OamRange;
 
-// K&R on purpose: this declaration is deliberately not the typed one in 03/Graphics/dispcnt_window.h.
+// K&R on purpose: message_box_create.c passes a u8 element of mFlagsByKind where the definition takes an int.
 void WriteWinInOutBits();
 
 void CloseMessageBox(void);

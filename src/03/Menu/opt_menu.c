@@ -159,7 +159,7 @@ void UpdateOptMenuResult(void) {
             break;
         case 1:
             DWCi_BM_GetWiFiInfo(&wifiInfo);
-            if (gOptMenuSelectedIndex != 0 && wifiInfo.mAttestedUserId == 0) {
+            if (gOptMenuSelectedIndex != OPT_MENU_SELECTED_INFO && wifiInfo.mAttestedUserId == 0) {
                 StartSoundSeq(9);
                 SetButtonResult(-1);
                 return;

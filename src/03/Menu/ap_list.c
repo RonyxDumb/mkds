@@ -66,7 +66,7 @@ void CreateApList(void) {
     gApList = AllocZeroedExpHeapBlock(0x5c, 4);
     GetSecondaryMenuPair(&secondaryPairFirst, NULL);
     if (secondaryPairFirst == 0) {
-        gApListSelectedRow = 0;
+        gApListSelectedRow = AP_LIST_ROW_FIRST_VISIBLE;
         gApListScrollY = 0;
     }
     gApList->mEntryCount = CountApScanEntries(&gApList->mEntries);
@@ -103,16 +103,16 @@ void SetupApListScroll(void) {
     int entryCountRange;
     u32 offset;
     offset = 0;
-    gApList->mScrollYMax = (gApList->mEntryCount - 4) * 0x1c;
+    gApList->mScrollYMax = (gApList->mEntryCount - AP_LIST_VISIBLE_ROWS) * 0x1c;
     if (gApList->mEntryCount <= AP_LIST_VISIBLE_ROWS) {
         entryCountRange = 0;
         gApList->mScrollBarOffsetMax = 0;
     } else if (gApList->mEntryCount <= AP_LIST_SMALL_ENTRY_COUNT_MAX) {
         entryCountRange = 1;
-        gApList->mScrollBarOffsetMax = AP_LIST_SCROLL_BAR_OFFSET_MAX_SMALL;
+        gApList->mScrollBarOffsetMax = SCROLL_BAR_OFFSET_MAX_SMALL;
     } else {
         entryCountRange = 2;
-        gApList->mScrollBarOffsetMax = AP_LIST_SCROLL_BAR_OFFSET_MAX_LARGE;
+        gApList->mScrollBarOffsetMax = SCROLL_BAR_OFFSET_MAX_LARGE;
     }
     if (entryCountRange != 0) {
         offset = FX_DivS32(gApListScrollY * gApList->mScrollBarOffsetMax, gApList->mScrollYMax);
@@ -194,7 +194,7 @@ void UpdateApListInput(void) {
         rowRect = gApListRowRects;
         do {
             if (IsTouchPressedInRect(rowRect) != 0) {
-                if (row < 4) {
+                if (row < AP_LIST_VISIBLE_ROWS) {
                     gApList->mHitRow = row;
                     break;
                 }
@@ -226,7 +226,7 @@ void UpdateApListInput(void) {
             }
             rowRect++;
             row++;
-        } while (row < 4);
+        } while (row < AP_LIST_VISIBLE_ROWS);
     }
     if (AreKeysPressed(1) != 0) {
         SetButtonResultIfNone(1);
@@ -346,7 +346,7 @@ void UpdateApListResult(void) {
                 StartSoundSeq(7);
                 break;
             case 1:
-                if (gApListSelectedRow == 4) {
+                if (gApListSelectedRow == AP_LIST_ROW_BUTTON) {
                     gApList->mSelectionMade = 1;
                     StartSoundSeq(6);
                     RequestApListPaletteRowCopy();
@@ -429,7 +429,7 @@ void UpdateApListRelease(void) {
         CopyApEntryToWorkCopy(GetApWorkCopy()->mEntryIndex);
         SetPrimaryMenuPair(2, 0);
         SetUpdateFunction(SetupWay);
-    } else if (gApListSelectedRow == 4) {
+    } else if (gApListSelectedRow == AP_LIST_ROW_BUTTON) {
         ReleaseApScan();
         SetPrimaryMenuPair(0, 1);
         SetUpdateFunction(SetupApScan);

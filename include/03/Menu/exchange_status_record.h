@@ -15,8 +15,10 @@ enum {
     EXCHANGE_STATUS_ENDED_WITHOUT_RESULT,
 };
 
-// Values GetExchangeOutcome returns: the step the exchange reached, as the screens tell them apart. RESULT_USABLE is a
-// finished exchange whose result has a known kind and item value 1; BAD_RESULT is a finished one that has not.
+// Values GetExchangeOutcome returns: the step the exchange reached, as the screens tell them apart; PENDING is every
+// other running status (none, started, entry found, second key received). RESULT_USABLE is a finished exchange whose
+// result kind is NONE or a WEP key kind and whose mItem205Value is 1; the result kind check does not accept WORDS_A or
+// WORDS_B. UNUSABLE_RESULT is a finished one that fails that test.
 #define EXCHANGE_OUTCOME_PENDING 0
 #define EXCHANGE_OUTCOME_SEARCH_ROUND_DONE 1
 #define EXCHANGE_OUTCOME_FIRST_PACKET_ACCEPTED 2

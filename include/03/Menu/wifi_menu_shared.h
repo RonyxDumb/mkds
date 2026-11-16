@@ -49,8 +49,8 @@ typedef struct LinkLevel {
     /* 08 */ s8 mImageRow;
 } LinkLevel;
 
-// The on-screen keys of the Edit screen.
-// Key index of the grid key in a row (12 per row) and column.
+// The on-screen keys of the Edit screen. Key index of the grid key at a row and column (rows are 12 apart; the last row
+// has 11 keys).
 #define EDIT_KEY(row, col) ((row) * 12 + (col))
 #define EDIT_KEY_MAIN_COUNT 0x2f
 // Keys after the grid: four extra keys, then the two bottom keys.
@@ -65,7 +65,7 @@ enum {
 // Values of EditKeyboard.mPage, and of EditKeyboard.mInput besides the characters (NOT_READY until the keyboard slid
 // in), the number of calls a held remove key waits before its first repeat (later ones wait 7 fewer), the text glyph of
 // a space and the longest text.
-#define EDIT_KEYBOARD_PAGE_MAIN 0
+#define EDIT_KEYBOARD_PAGE0 0
 #define EDIT_KEYBOARD_PAGE1 1
 #define EDIT_KEYBOARD_PAGE2 2
 #define EDIT_KEYBOARD_INPUT_REMOVE_CHAR 0x80
@@ -88,7 +88,7 @@ enum {
 // and cursor keys, mRepeatCalls and the mRemoveCharEnabled and mAddCharEnabled flags.
 typedef struct EditKeyboard {
     /* 000 */ void *mRowTexts[3][4];
-    /* 030 */ OamEntry *mKeys[0x2f];
+    /* 030 */ OamEntry *mKeys[EDIT_KEY_MAIN_COUNT];
     /* 0ec */ OamEntry *mExtraKeys[4];
     /* 0fc */ OamRange *mRow4Keys[2];
     /* 104 */ void *mRowTextRanges[4];

@@ -161,7 +161,7 @@ void UpdateEditAddrFadeIn(void) {
 }
 
 void UpdateEditAddrKeyboardIn(void) {
-    if (GetEditAddrKeyboardInput() != 31) {
+    if (GetEditAddrKeyboardInput() != EDIT_ADDR_KEYBOARD_INPUT_NOT_READY) {
         SetUpdateFunction(UpdateEditAddr);
     }
 }
@@ -199,7 +199,7 @@ void UpdateEditAddrInput(void) {
             break;
         case EDIT_ADDR_KEYBOARD_INPUT_NEXT_GROUP:
             groupIndex = gEditAddr->mGroupIndex;
-            if (groupIndex >= 3) {
+            if (groupIndex >= EDIT_ADDR_LAST_GROUP) {
                 break;
             }
             if (gEditAddr->mText[groupIndex * 3 + 2] == 0) {
@@ -392,8 +392,8 @@ void PlaceEditAddrGroupOam(void) {
     s32 groupIndex;
     editAddr = gEditAddr;
     groupIndex = editAddr->mGroupIndex;
-    if (groupIndex > 3) {
-        groupIndex = 3;
+    if (groupIndex > EDIT_ADDR_LAST_GROUP) {
+        groupIndex = EDIT_ADDR_LAST_GROUP;
     }
     oamEntry = editAddr->mOamEntry;
     xBits = (gEditAddrCharX[groupIndex * 3 + 2] & 0x1ff) << 16;

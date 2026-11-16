@@ -54,10 +54,16 @@ u8 gJb3ListMode;
 u8 gJb3ListSelectedId;
 u16 gJb3ListScrollY;
 struct Jb3List *gJb3List;
-u8 gJb3ListTimerIds[4] = {2, 3, 7, 8};
+u8 gJb3ListTimerIds[4] = {JB3_ID_IP_NONE, JB3_ID_IP_NOT_NONE, JB3_ID_DNS_NONE, JB3_ID_DNS_NOT_NONE};
 const u8 gJb3ListPaletteRows[3] = {6, 8, 7};
-const u8 gJb3ListEntryIndexById[11] = {0, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8};
-const u8 gJb3ListIdByEntryIndex[9] = {0, 1, 0xe, 4, 5, 6, 0xe, 9, 0xa};
+const u8 gJb3ListEntryIndexById[11] = {
+    JB3_ENTRY_SSID, JB3_ENTRY_WEP_KEY, JB3_ENTRY_IP_MODE, JB3_ENTRY_IP_MODE, JB3_ENTRY_IP_ADDRESS, JB3_ENTRY_NETMASK,
+    JB3_ENTRY_GATEWAY, JB3_ENTRY_DNS_MODE, JB3_ENTRY_DNS_MODE, JB3_ENTRY_DNS_FIRST, JB3_ENTRY_DNS_SECOND,
+};
+const u8 gJb3ListIdByEntryIndex[9] = {
+    JB3_ID_SSID, JB3_ID_WEP_KEY, JB3_ID_NONE, JB3_ID_IP_ADDRESS, JB3_ID_NETMASK,
+    JB3_ID_GATEWAY, JB3_ID_NONE, JB3_ID_DNS_FIRST, JB3_ID_DNS_SECOND,
+};
 const Rect gJb3ListSelectionRects[6] = {{0xc8, 0x31, 0xe0, 0x4d}, {0xbc, 0x31, 0xe0, 0x4d}, {0x8b, 0x31, 0xaf, 0x4d},
                                         {0x82, 0x18, 0xee, 0x2c}, {0x82, 0xa9, 0xee, 0xbd}, {2, 0xa9, 0x6e, 0xbd}};
 Jb3ListSelectionRectIndices gJb3ListSelectionRectIndices = {{0, 0, 1, 2, 0, 0, 0, 1, 2, 0, 0, 3, 4, 5}};
@@ -92,7 +98,7 @@ void CreateJb3List(void) {
     }
     CreateObjectsForMenuPair(1);
     LoadHlListScr();
-    CreateScrollBar(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+    CreateScrollBar(2, 0x55, 0xf1, 0x41, _s32_div_f(gJb3ListScrollY * SCROLL_BAR_OFFSET_MAX_LARGE, 0x91));
     gJb3List->mBgTextCanvas = InitBgTextCanvas(0, 1);
     for (cellIndex = 0; cellIndex < 7; cellIndex++) {
         gJb3List->mCellOamEntries[cellIndex] = CreateOamEntryFromNceImage(0, gJb3ListCellImageIds[0][1]);
@@ -143,7 +149,7 @@ void ResetJb3ListScrollAndSelection(void) {
     GetSecondaryMenuPair(NULL, secondaryPairSecond);
     if (secondaryPairSecond[0] == 0) {
         gJb3ListScrollY = 0;
-        gJb3ListSelectedId = 0;
+        gJb3ListSelectedId = JB3_ID_SSID;
         gJb3ListSelectedRow = 0;
     }
 }
@@ -263,10 +269,10 @@ BOOL UpdateJb3ListHit(void) {
     }
     SetJb3ListSelectedId(hitId);
     switch (hitId) {
-        case JB3_ID_IP_AUTO:
-        case JB3_ID_IP_MANUAL:
-        case JB3_ID_DNS_AUTO:
-        case JB3_ID_DNS_MANUAL:
+        case JB3_ID_IP_NONE:
+        case JB3_ID_IP_NOT_NONE:
+        case JB3_ID_DNS_NONE:
+        case JB3_ID_DNS_NOT_NONE:
             StartJb3ListIdTimer();
     }
     StartJb3ListIdAction(hitId);
@@ -279,15 +285,15 @@ void StartJb3ListIdAction(u32 listId) {
         return;
     }
     switch (listId) {
-        case JB3_ID_IP_AUTO:
-        case JB3_ID_IP_MANUAL:
+        case JB3_ID_IP_NONE:
+        case JB3_ID_IP_NOT_NONE:
             StartSoundSeq(6);
-            SetJb3ListIpNone(((listId - 2) ^ 1) != 0);
+            SetJb3ListIpNone(((listId - JB3_ID_IP_NONE) ^ 1) != 0);
             return;
-        case JB3_ID_DNS_AUTO:
-        case JB3_ID_DNS_MANUAL:
+        case JB3_ID_DNS_NONE:
+        case JB3_ID_DNS_NOT_NONE:
             StartSoundSeq(6);
-            SetJb3ListDnsNone(((listId - 7) ^ 1) != 0);
+            SetJb3ListDnsNone(((listId - JB3_ID_DNS_NONE) ^ 1) != 0);
             return;
     }
     gJb3List->mChosenId = listId;
@@ -364,13 +370,13 @@ void UpdateJb3ListScrollInput(void) {
                     return;
                 }
                 ReleaseSelectionObjectSlots();
-                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
+                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, SCROLL_BAR_OFFSET_MAX_LARGE);
                 RefreshJb3List();
                 gJb3List->mScrollTimer = JB3_LIST_SCROLL_TIMER_FRAMES;
                 break;
             case SCROLL_BAR_EVENT_OFFSET_SETTLED:
                 gJb3List->mScrollBarDragging = 0;
-                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, 0x37);
+                gJb3ListScrollY = _s32_div_f(GetScrollBarOffset() * 0x91, SCROLL_BAR_OFFSET_MAX_LARGE);
                 StartSoundSeq(0x13);
                 RefreshJb3List();
                 scrollRemainder = FX_ModS32(gJb3ListScrollY, 0x1d);
@@ -475,7 +481,7 @@ void UpdateJb3ListRelease(void) {
     chosenId = gJb3List->mChosenId;
     switch (chosenId) {
         case JB3_ID_SSID:
-        case JB3_ID_KEY:
+        case JB3_ID_WEP_KEY:
             SetSecondaryMenuPair(chosenId, 0);
             SetPrimaryMenuPair(2, 0);
             SetUpdateFunction(CreateEdit);
@@ -485,8 +491,8 @@ void UpdateJb3ListRelease(void) {
         case JB3_ID_GATEWAY:
         case JB3_ID_DNS_FIRST:
         case JB3_ID_DNS_SECOND:
-            index = chosenId - 4;
-            if (chosenId >= 9) {
+            index = chosenId - JB3_ID_IP_ADDRESS;
+            if (chosenId >= JB3_ID_DNS_FIRST) {
                 index -= 2;
             }
             SetPrimaryMenuPair(2, 0);
@@ -691,13 +697,13 @@ BOOL IsJb3ListIdEnabled(u32 listId) {
     record = GetApWorkCopy();
     enabled = 1;
     switch (listId) {
-        case JB3_ID_DNS_AUTO:
+        case JB3_ID_DNS_NONE:
             if (record->mIpNone == 0) {
                 enabled = 0;
             }
             break;
         case JB3_ID_SSID:
-        case JB3_ID_KEY:
+        case JB3_ID_WEP_KEY:
             if ((u8) (record->mEntry.mSetType + 0xff) <= 1) {
                 enabled = 0;
             }
@@ -733,7 +739,7 @@ void SetupJb3ListCell(int cellKind, int cellState, int row) {
     cellXPositions[4] = secondXPosition;
     entryPointer = &gJb3List->mCellOamEntries[row];
     if ((u32) (cellKind - 1) <= 1) {
-        if (GetJb3ListEntryIndexOfRow(row) == 2) {
+        if (GetJb3ListEntryIndexOfRow(row) == JB3_ENTRY_IP_MODE) {
             entryPointer = &gJb3List->mCellOamEntries[5];
         } else {
             entryPointer = &gJb3List->mCellOamEntries[6];
@@ -809,7 +815,7 @@ void RefreshJb3ListRowPositions(void) {
     firstEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     firstRowY = 0x34 - FX_ModS32(gJb3ListScrollY, 0x1d);
     if (gJb3List->mSetTypeOamEntry != NULL) {
-        if (firstEntryIndex == 0) {
+        if (firstEntryIndex == JB3_ENTRY_SSID) {
             xPosition = 0x26;
         } else {
             xPosition = 0x100;
@@ -824,20 +830,20 @@ void RefreshJb3ListRowPositions(void) {
         oamEntry->mAttr01 =
             ((xPosition & 0x1ff) << 16) | ((oamEntry->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | (rowY & 0xff));
     }
-    if (firstEntryIndex <= 2) {
+    if (firstEntryIndex <= JB3_ENTRY_IP_MODE) {
         Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[5], &xPosition, (u32 *) &yPosition);
         gJb3List->mCellOamEntries[5]->mAttr01 =
             ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) |
-                                           ((firstRowY + (2 - firstEntryIndex) * 0x1d) & 0xff));
+                                           ((firstRowY + (JB3_ENTRY_IP_MODE - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mCellOamEntries[5]->mAttr01 =
             (gJb3List->mCellOamEntries[5]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x1000000;
     }
-    if (firstEntryIndex >= 2 && firstEntryIndex <= 6) {
+    if (firstEntryIndex >= JB3_ENTRY_IP_MODE && firstEntryIndex <= JB3_ENTRY_DNS_MODE) {
         Jb3ListG2_GetOBJPosition(gJb3List->mCellOamEntries[6], &xPosition, (u32 *) &yPosition);
         gJb3List->mCellOamEntries[6]->mAttr01 =
             ((xPosition & 0x1ff) << 16) | ((gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) |
-                                           ((firstRowY + (6 - firstEntryIndex) * 0x1d) & 0xff));
+                                           ((firstRowY + (JB3_ENTRY_DNS_MODE - firstEntryIndex) * 0x1d) & 0xff));
     } else {
         gJb3List->mCellOamEntries[6]->mAttr01 =
             (gJb3List->mCellOamEntries[6]->mAttr01 & OAM_ENTRY_NOT_POSITION_MASK) | 0x1000000;
@@ -859,7 +865,7 @@ u32 GetJb3ListHitId(void) {
     cellRectPointer = &cellRect;
     cellRect = gJb3ListCellRect;
     for (rowIndex = 0; rowIndex < 4; rowIndex++, firstEntryIndex++, cellRect.mY += 0x1d) {
-        if (firstEntryIndex != 2 && firstEntryIndex != 6) {
+        if (firstEntryIndex != JB3_ENTRY_IP_MODE && firstEntryIndex != JB3_ENTRY_DNS_MODE) {
             if (IsTouchPressedInOriginSizeRect(cellRectPointer) != 0) {
                 return gJb3ListIdByEntryIndex[firstEntryIndex];
             }
@@ -867,34 +873,34 @@ u32 GetJb3ListHitId(void) {
     }
     searchEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     for (rowIndex = 0; rowIndex < 4; rowIndex++, searchEntryIndex++) {
-        if (searchEntryIndex == 2) {
+        if (searchEntryIndex == JB3_ENTRY_IP_MODE) {
             cellRect = gJb3ListRightButtonRect;
             rowIndex = rowIndex * 0x1d;
             cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
-                return 2;
+                return JB3_ID_IP_NONE;
             }
             cellRect = gJb3ListLeftButtonRect;
             cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
-                return 3;
+                return JB3_ID_IP_NOT_NONE;
             }
             break;
         }
     }
     searchEntryIndex = FX_DivS32(gJb3ListScrollY, 0x1d);
     for (rowIndex = 0; rowIndex < 4; rowIndex++, searchEntryIndex++) {
-        if (searchEntryIndex == 6) {
+        if (searchEntryIndex == JB3_ENTRY_DNS_MODE) {
             cellRect = gJb3ListRightButtonRect;
             rowIndex = rowIndex * 0x1d;
             cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
-                return 7;
+                return JB3_ID_DNS_NONE;
             }
             cellRect = gJb3ListLeftButtonRect;
             cellRect.mY = cellRect.mY + rowIndex;
             if (IsTouchPressedInOriginSizeRect(&cellRect) != 0) {
-                return 8;
+                return JB3_ID_DNS_NOT_NONE;
             }
             break;
         }
@@ -951,7 +957,7 @@ void AdvanceJb3ListScrollYDecrease(TaskEntry *taskEntry, void *arg) {
     }
     RefreshJb3ListRowPositions();
     if (scrollRemainder == 0) {
-        PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+        PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * SCROLL_BAR_OFFSET_MAX_LARGE, 0x91));
         EnableScrollBarInput();
         SetJb3ListSelectedIdFromRow();
         gJb3List->mScrollTask = 0;
@@ -971,7 +977,7 @@ void AdvanceJb3ListScrollYIncrease(TaskEntry *taskEntry, void *arg) {
     }
     gJb3ListScrollY = gJb3ListScrollY - scrollRemainder;
     RefreshJb3List();
-    PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * 0x37, 0x91));
+    PlaceScrollBarWrapper(_s32_div_f(gJb3ListScrollY * SCROLL_BAR_OFFSET_MAX_LARGE, 0x91));
     EnableScrollBarInput();
     SetJb3ListSelectedIdFromRow();
     gJb3List->mScrollTask = 0;
@@ -1009,6 +1015,7 @@ void PlaceJb3ListSelectionPair(void) {
 void SetJb3ListSelectedIdFromRow(void) {
     ApWorkCopy *record;
     s32 entryIndex;
+    // Tests the ids from JB3_ID_CONNECT to JB3_ID_BACK.
     if ((u8) (gJb3ListSelectedId + 0xf5) <= 2) {
         PlaceJb3ListSelectionPair();
         return;
@@ -1018,16 +1025,16 @@ void SetJb3ListSelectedIdFromRow(void) {
     switch (entryIndex) {
         case JB3_ENTRY_IP_MODE:
             if (record->mIpNone != 0) {
-                gJb3ListSelectedId = 2;
+                gJb3ListSelectedId = JB3_ID_IP_NONE;
             } else {
-                gJb3ListSelectedId = 3;
+                gJb3ListSelectedId = JB3_ID_IP_NOT_NONE;
             }
             break;
         case JB3_ENTRY_DNS_MODE:
             if (record->mDnsNone != 0) {
-                gJb3ListSelectedId = 7;
+                gJb3ListSelectedId = JB3_ID_DNS_NONE;
             } else {
-                gJb3ListSelectedId = 8;
+                gJb3ListSelectedId = JB3_ID_DNS_NOT_NONE;
             }
             break;
         default:
@@ -1050,7 +1057,7 @@ void MoveJb3ListSelection(s32 direction) {
     record = GetApWorkCopy();
     moveResult = 0;
     selectedId = gJb3ListSelectedId;
-    if (selectedId == JB3_ID_DNS_MANUAL && record->mIpNone == 0) {
+    if (selectedId == JB3_ID_DNS_NOT_NONE && record->mIpNone == 0) {
         if (direction == 0) {
             return;
         }
@@ -1086,7 +1093,7 @@ void MoveJb3ListSelection(s32 direction) {
                 gJb3List->mKeyLimitSoundPlayed = 1;
                 return;
             } else if (direction == 3) {
-                gJb3ListSelectedId = 0;
+                gJb3ListSelectedId = JB3_ID_SSID;
                 gJb3ListSelectedRow = 0;
                 gJb3ListScrollY = 0;
                 RefreshJb3List();
@@ -1103,7 +1110,7 @@ void MoveJb3ListSelection(s32 direction) {
                 gJb3ListSelectedRow = 3;
                 gJb3ListScrollY = 0x91;
                 RefreshJb3List();
-                PlaceScrollBarWrapper(0x37);
+                PlaceScrollBarWrapper(SCROLL_BAR_OFFSET_MAX_LARGE);
             } else if (direction == 3) {
                 if (gJb3List->mKeyLimitSoundPlayed != 0) {
                     return;
@@ -1136,14 +1143,14 @@ void MoveJb3ListSelection(s32 direction) {
                 return;
             } else {
                 moveResult = 2;
-                if (selectedId == 2) {
-                    gJb3ListSelectedId = 3;
-                } else if (selectedId == 3) {
+                if (selectedId == JB3_ID_IP_NONE) {
+                    gJb3ListSelectedId = JB3_ID_IP_NOT_NONE;
+                } else if (selectedId == JB3_ID_IP_NOT_NONE) {
                     gJb3ListSelectedId = moveResult;
-                } else if (selectedId == 7) {
-                    gJb3ListSelectedId = 8;
-                } else if (selectedId == 8) {
-                    gJb3ListSelectedId = 7;
+                } else if (selectedId == JB3_ID_DNS_NONE) {
+                    gJb3ListSelectedId = JB3_ID_DNS_NOT_NONE;
+                } else if (selectedId == JB3_ID_DNS_NOT_NONE) {
+                    gJb3ListSelectedId = JB3_ID_DNS_NONE;
                 } else {
                     break;
                 }

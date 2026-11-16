@@ -46,7 +46,7 @@ void CreateEdit(void) {
     GetSecondaryMenuPair(&secondaryPairFirst, &secondaryPairSecond);
     if (secondaryPairFirst == 0) {
         CopyApWorkSsid(gEdit->mText);
-        gEdit->mCharCount = GetStringLengthWithLimit(gEdit->mText, 0x20);
+        gEdit->mCharCount = GetStringLengthWithLimit(gEdit->mText, EDIT_TEXT_MAX_CHARS);
     }
     LoadEditFilesAndSetBgCnt();
     LoadHlScr(secondaryPairFirst + 9);
@@ -137,7 +137,7 @@ void UpdateEditFadeIn(void) {
         if (gEdit->mCharCount == 0) {
             SetEditKeyboardRemoveCharEnabled(0);
         }
-        if (gEdit->mCharCount == ' ') {
+        if (gEdit->mCharCount == EDIT_TEXT_MAX_CHARS) {
             SetEditKeyboardAddCharEnabled(0);
         }
         SetUpdateFunction(UpdateEditKeyboardIn);
@@ -145,7 +145,7 @@ void UpdateEditFadeIn(void) {
 }
 
 void UpdateEditKeyboardIn(void) {
-    if (GetEditKeyboardInput() != 255) {
+    if (GetEditKeyboardInput() != EDIT_KEYBOARD_INPUT_NOT_READY) {
         SetUpdateFunction(UpdateEdit);
     }
 }
@@ -287,7 +287,7 @@ void PrintEditText(void) {
     charIndex = 0;
     column = charIndex;
     secondLineY = gEditLineY[1];
-    for (; charIndex < 0x20; charIndex++, column++) {
+    for (; charIndex < EDIT_TEXT_MAX_CHARS; charIndex++, column++) {
         Edit *edit;
         if (charIndex == 0x10) {
             charRect.mY = secondLineY;
@@ -373,7 +373,7 @@ BOOL IsEditTextValid(void) {
     if (secondaryPairSecond == 1 && gEdit->mText[0] == 0) {
         return FALSE;
     }
-    textLength = GetStringLengthWithLimit(gEdit->mText, 0x20);
+    textLength = GetStringLengthWithLimit(gEdit->mText, EDIT_TEXT_MAX_CHARS);
     switch (textLength) {
         case 0:
         case sizeof(WepKey5):

@@ -103,7 +103,7 @@ void UpdateEditKeyboardPad(void) {
             }
             gEditKeyboard->mInput = gEditKeyboardPageInputs[gEditKeyboard->mPage][cursorKeyIndex];
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
             return;
         }
@@ -129,7 +129,7 @@ void UpdateEditKeyboardPad(void) {
                     break;
             }
             if (gEditKeyboard->mPage == EDIT_KEYBOARD_PAGE1) {
-                ChangeEditKeyboardPage(0);
+                ChangeEditKeyboardPage(EDIT_KEYBOARD_PAGE0);
             }
             gEditKeyboard->mInput = gEditKeyboardExtraKeyInputs[cursorKeyIndex - EDIT_KEY_MAIN_COUNT];
             return;
@@ -212,9 +212,9 @@ void ChangeEditKeyboardPage(int page) {
             rowIndex++;
         } while (rowIndex < 4);
     }
-    if (page == 2) {
+    if (page == EDIT_KEYBOARD_PAGE2) {
         page2Selected = TRUE;
-    } else if (page == 1) {
+    } else if (page == EDIT_KEYBOARD_PAGE1) {
         page1Selected = TRUE;
     }
     SetEditKeyboardKeyHighlight(EDIT_KEY_PAGE2_TOGGLE, page2Selected);

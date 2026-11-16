@@ -22,7 +22,7 @@ enum {
 // the extra keys and the bottom row.
 #define EDIT_ADDR_KEY_TOP_MIDDLE 1
 #define EDIT_ADDR_KEY_TOP_RIGHT 2
-#define EDIT_ADDR_KEY_REMOVE 10
+#define EDIT_ADDR_KEY_REMOVE_CHAR 10
 #define EDIT_ADDR_KEY_NEXT_GROUP 11
 #define EDIT_ADDR_KEY_CANCEL 12
 #define EDIT_ADDR_KEY_OK 13

@@ -26,7 +26,7 @@ void InitChildWaitSession(ChildWaitSessionView *session, ChildWaitParams *params
     gChildWaitSessionView->mTgid = 0;
     gChildWaitSessionView->mChannel = 0;
     gChildWaitSessionView->mState = CHILD_WAIT_STATE_IDLE;
-    gChildWaitSessionView->mPrevState = 1;
+    gChildWaitSessionView->mPrevState = CHILD_WAIT_STATE_IDLE;
     gChildWaitSessionView->mEndWaitFrames = 0;
     ClearChildWaitSharedEntries();
     gChildWaitSessionView->mGameRegistry.mRomFilePathp = params->mRomFilePathp;
@@ -431,7 +431,7 @@ void ClearChildWaitSharedEntries(void) {
 void ExchangeChildWaitSharedEntries(u16 code, u16 value, u8 *payload) {
     u16 aid;
 
-    if (gChildWaitSessionView->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
+    if (gChildWaitSessionView->mHandshakeDone == 1) {
         gChildWaitSessionView->mSendEntry->mCode = code;
         gChildWaitSessionView->mSendEntry->mValue = value;
         MI_CpuCopy8(payload, gChildWaitSessionView->mSendEntry->mPayload,
@@ -477,8 +477,8 @@ void ReadChildWaitReply(void) {
         session = gChildWaitSessionView;
         if (session->mEntryPresent[entryIndex] != 0) {
             entry = GetChildWaitSharedEntry(session, entryIndex);
-            if (entryIndex == CHILD_WAIT_STATE_IDLE) {
-                if (session->mHandshakeDone == CHILD_WAIT_STATE_IDLE) {
+            if (entryIndex == 1) {
+                if (session->mHandshakeDone == 1) {
                     if (entry->mCode != CHILD_WAIT_CODE_BLOCK_ACK) {
                         return;
                     }
