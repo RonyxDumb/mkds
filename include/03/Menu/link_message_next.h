@@ -12,4 +12,4 @@ void UpdateLinkMessageNextResult(void);
 void UpdateLinkMessageNextNop(void);
 void UpdateLinkMessageNextInput(void);
 
-extern u8 gYb5MultiNscName3[19];
+extern u8 gLinkMessageNextYb5MultiNscName[19];

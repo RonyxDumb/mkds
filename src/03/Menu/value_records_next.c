@@ -19,7 +19,7 @@
 #include "03/Graphics/blend_brightness_fade_slots.h"
 #include "03/Menu/message_box.h"
 
-u8 gXb4MultiNscName2[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
+u8 gValueRecordsNextXb4MultiNscName[19] = {0x63, 0x68, 0x61, 0x72, 0x2f, 0x78, 0x62, 0x34, 0x4d, 0x75,
                             0x6c, 0x74, 0x69, 0x2e, 0x6e, 0x73, 0x63, 0x2e, 0x6c};
 u8 gValueRecordsNextFrames;
 
@@ -53,7 +53,7 @@ void SetupValueRecordsNext(void) {
 }
 
 void LoadValueRecordsNextFileAndSetBgCnt(void) {
-    void *nscName = &gXb4MultiNscName2;
+    void *nscName = &gValueRecordsNextXb4MultiNscName;
     void *loadBg2ScrFunc = &GX_LoadBG2Scr;
     u32 loadFileResult = LoadFileToVram(nscName, loadBg2ScrFunc);
     u32 g2sDbBg0CntAddr = 0x4001008u;
