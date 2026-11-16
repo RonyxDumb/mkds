@@ -142,7 +142,7 @@ typedef struct MapObject {
 // Bits of MapObject.mFlags. The low nibble (the 1, 2, 4 and 8 bits) is saved in the high nibble while the object is
 // parked.
 #define MAP_OBJECT_FLAG_DISABLED 0x1 // hit tests answer FALSE and the race HUD leaves the object out
-// the view test skips the object, the sound source update measures its distance itself and unparking keeps its alpha
+// not drawn; the view test skips it, the sound source update measures its distance itself and unparking keeps its alpha
 #define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2
 #define MAP_OBJECT_FLAG_NO_UPDATE 0x4 // the update lists skip the object
 // the list-wide callback sweep (CallMapObjectListCallback) skips the object
@@ -186,7 +186,7 @@ typedef struct AttractorMapObject {
 #define MAP_OBJECT_LIST_POS_STEP_UNSET 3
 #define MAP_OBJECT_LIST_ITEM_FIRST_RESPONSE_UNSET 3
 
-// Size of the found-object arrays that FindMapObjectsTouchingKart fills (the count is held below them).
+// Size of gFoundMapObjects and gFoundMapObjectVectors; FindMapObjectsTouchingKart keeps its count below it.
 #define FOUND_MAP_OBJECT_CAPACITY 0x20
 
 // The update and draw lists call mForEachObject with different arguments and the stored functions take their own object

@@ -16,8 +16,8 @@ typedef struct NNSG3dResMdl NNSG3dResMdl;
 typedef struct Woodbox1 Woodbox1;
 
 // Woodbox1.mMapObject.mStateMachine states, in the order of gWoodbox1StateTable. INTACT rests at its base; a hit by a
-// fast or star kart or an item breaks it open (BROKEN, for at least WOODBOX1_BROKEN_MIN_FRAMES); FALL drops the box
-// back in from above; SETTLE bounces it for WOODBOX1_SETTLE_FRAMES and then it is INTACT again.
+// fast or star kart (not in time attack) or an item breaks it open (BROKEN); after WOODBOX1_BROKEN_MIN_FRAMES FALL
+// drops it back in (mSettings[2] is 0, no box falling); SETTLE bounces it for WOODBOX1_SETTLE_FRAMES, then INTACT.
 enum {
     WOODBOX1_STATE_INTACT,
     WOODBOX1_STATE_BROKEN,
@@ -55,9 +55,9 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
 void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, MtxFx43 *matrix, Vec3 *scale, s32 maxAlpha);
 void BounceVelocityOffUnnormalizedSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                                           s32 minNormalSpeed, Vec3 *result);
-// Splits the velocity along surfaceNormal (an upward normal is first made horizontal): the rest is scaled by
-// tangentScale, the part along it is reversed and scaled by bounceScale, but at least minNormalSpeed long along the
-// normal when its horizontal length is smaller; the result goes to result.
+// Splits the velocity along surfaceNormal (an upward normal is first made horizontal; with no direction left the
+// velocity is copied unchanged): the rest is scaled by tangentScale, the part along it is reversed and scaled by
+// bounceScale, but replaced by minNormalSpeed along the normal if horizontally shorter; the result goes to result.
 void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale,
                               s32 minNormalSpeed, Vec3 *result);
 void BlendDirectionTowardUp(Vec3 *direction, s32 blendFactor);

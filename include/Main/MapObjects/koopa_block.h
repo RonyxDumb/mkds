@@ -16,7 +16,7 @@
 
 // KoopaBlock.mCollisionMapObject.mMapObject.mStateMachine states, in the order of gKoopaBlockStateTable. ACCELERATE
 // speeds up over the first sixteenth of a segment, CRUISE keeps mFollowSpeed, DECELERATE slows down over the last
-// sixteenth of the segment before a stop (a to entry with a value, or the end of an open path) and the next segment
+// sixteenth of the segment before a stop (the to entry's mValue is not 0, or an open path ends) and the next segment
 // starts at ACCELERATE.
 enum {
     KOOPA_BLOCK_STATE_ACCELERATE,

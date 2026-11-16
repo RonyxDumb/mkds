@@ -17,7 +17,7 @@
 #define COLLISION_SLOT_COUNT 0x100
 #define FOUND_COLLISION_SLOT_CAPACITY 0x80
 
-// Bits of CollisionSlot.mFlags that the map object and item object code set or test.
+// Bits of CollisionSlot.mFlags: map and item objects pass the kind and MARK_RADIUS_CHANGE; the slot code sets the rest.
 #define COLLISION_SLOT_FLAG_MAP_OBJECT 0x2000 // CreateCollisionSlot flags of a map object slot
 #define COLLISION_SLOT_FLAG_ITEM_OBJECT 0x4000 // and of an item object slot
 #define COLLISION_SLOT_FLAG_RADIUS_CHANGED 0x100
