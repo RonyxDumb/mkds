@@ -44,7 +44,7 @@ enum {
     AC_SEARCH_LIST_HIDDEN,
 };
 
-// Object behind gAcHold.
+// The access point connection state: allocator, phase, error and end state, beacon flag and access point type.
 typedef struct ACHOLD {
     /* 00 */ SocketAllocFn mAlloc;
     /* 04 */ SocketFreeFn mFree;

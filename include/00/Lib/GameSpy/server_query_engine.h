@@ -16,7 +16,7 @@ struct SBQueryEngine;
 
 typedef void (*SBEngineCallback)(void *engine, s32 reason, SbServer *server, void *instance);
 
-// 0x24 bytes allocated by SBAllocServer.
+// A game server of the server browser: its addresses, state flags, key values, ping and the next server.
 typedef struct SbServer {
     /* 00 */ u32 mPublicIp;
     /* 04 */ u16 mPublicPort;

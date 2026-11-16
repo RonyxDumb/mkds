@@ -64,8 +64,8 @@ enum {
     SOCKET_BLOCK_DATAGRAM = 3,
 };
 
-// One TCP or UDP connection of the network stack, 0x64 bytes; mHttpsState is the https layer's own state. It is the
-// head of every SOCLSocket (mCps).
+// One TCP or UDP connection of the network stack: state, ports, addresses, sequence numbers, buffers; head of
+// SOCLSocket.
 typedef struct CPSSoc {
     /* 00 */ struct OSThread *mThread;
     /* 04 */ u32 mBlockType;
@@ -95,7 +95,7 @@ typedef struct CPSSoc {
     /* 60 */ u32 mOutBufferLength;
 } CPSSoc;
 
-// Shared start of the two blocks SOCLi_InitSocket sets up behind an SOCLSocket.
+// The command pipe of a socket: the message queue, the thread that runs the commands and the in-use mutex.
 typedef struct SOCLiSocketCommandPipe {
     /* 00 */ OSMessageQueue mQueue;
     /* 20 */ OSThread mThread;

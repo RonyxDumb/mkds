@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
-// 0xac-byte array element GpiUpdateSearch fills.
+// One profile found by a search: profile, nicks, names and email.
 typedef struct ProfileMatch {
     /* 00 */ s32 mProfile;
     /* 04 */ char mNick[0x1f];
@@ -13,7 +13,7 @@ typedef struct ProfileMatch {
     /* 76 */ char mEmail[0x36];
 } ProfileMatch;
 
-// 0x128-byte array element GpiUpdateSearch fills.
+// One player found by a search: profile, nick, status and status string.
 typedef struct PlayerMatch {
     /* 000 */ s32 mProfile;
     /* 004 */ char mNick[0x20];

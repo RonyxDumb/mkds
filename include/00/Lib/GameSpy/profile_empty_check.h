@@ -12,8 +12,7 @@ typedef struct GpiBuddyStatus {
     /* 14 */ s32 mPort;
 } GpiBuddyStatus;
 
-// Object behind the pointer whose address GpiWriteDelbuddyAndRemoveBuddy passes to GpiFindProfile; GpiIsProfileEmpty
-// returns 1 when 0x08, 0x0c, 0x10 and 0x18 are 0.
+// A known profile: its ids, buddy status, info cache, signatures and request count.
 typedef struct GpiProfile {
     /* 00 */ u32 mProfileId;
     /* 04 */ u32 mUserId;

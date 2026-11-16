@@ -15,7 +15,7 @@
 
 typedef struct OSThread OSThread;
 
-// Object behind gNetcheck.
+// The network check: its error and return code, HTTP labels and values, response bodies, thread and mutex.
 typedef struct DWCNetcheck {
     /* 000 */ u32 mError;
     /* 004 */ s32 mReturnCode;

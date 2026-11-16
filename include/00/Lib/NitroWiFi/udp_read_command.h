@@ -8,7 +8,7 @@ typedef struct SOCLSocket SOCLSocket;
 
 typedef s32 (*CPSUDPReadCallback)(void *data, u32 length, SOCLSocket *socket);
 
-// Entry of the list behind mUnk_100 and mUnk_104 of an SOCLiSocketRecvCommandPipe; the data follows at mUnk_0c.
+// A received UDP datagram in a list: the next entry, size, sender port and address, then the data.
 typedef struct SOCLiSocketUdpData {
     /* 00 */ struct SOCLiSocketUdpData *mNext;
     /* 04 */ u16 mSize;

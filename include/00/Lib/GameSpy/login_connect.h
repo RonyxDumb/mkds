@@ -24,7 +24,7 @@
 #include "00/Lib/GameSpy/query_reporting.h"
 #include "00/Lib/GameSpy/profile_walk.h"
 
-// Object of 0x308 bytes that GpiStartConnect allocates and fills.
+// A presence login in progress: the challenges, password hash, auth token, partner challenge and cd key.
 typedef struct GPIConnectData {
     /* 000 */ char mServerChallenge[0x80];
     /* 080 */ char mUserChallenge[0x21];

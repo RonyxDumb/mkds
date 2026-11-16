@@ -25,9 +25,7 @@ enum {
     WIFI_MESSAGE_KIND_SYNC_GO,
 };
 
-// State of the message being sent to, and the one being received from, one peer (index into WiFiMessageLayer.mPeers),
-// 0x30 bytes: send side buffer / total size / sent size, receive side buffer / capacity / total size / received size /
-// mReceiveState, plus the kind of the message being received.
+// The message being sent to, and the one being received from, one peer: buffers, sizes and receive state.
 typedef struct WiFiPeerMessage {
     /* 00 */ u8 *mSendBuffer;
     /* 04 */ u8 *mReceiveBuffer;

@@ -9,7 +9,7 @@ typedef enum GpRequestResult {
     GP_REQUEST_CONNECT_FAILED = 4
 } GpRequestResult;
 
-// Growable byte buffer: 0x00 data, 0x04 capacity, 0x08 length, 0x0c read position.
+// A growable byte buffer: its data, capacity, length and read position.
 typedef struct GpiBuffer {
     /* 00 */ u8 *mBuffer;
     /* 04 */ s32 mCapacity;

@@ -42,7 +42,7 @@ typedef struct GPIInfoCache {
     /* ec */ s32 mConntypeid;
 } GPIInfoCache;
 
-// Copy of GPIInfoCache made by gpiInfoCacheToArg, 0x204 bytes.
+// A profile info reply: nick names, email, name, place, birth date and the other profile fields.
 typedef struct GetInfoReply {
     /* 000 */ u32 mResult;
     /* 004 */ s32 mProfile;

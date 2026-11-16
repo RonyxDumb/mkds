@@ -5,8 +5,7 @@
 
 typedef struct Darray Darray;
 
-// 0x14 bytes. Table of Darray arrays: the array of buckets, its length, the per-element callback and the
-// functions that pick a bucket and compare two elements.
+// A hash table: an array of Darray buckets, its length, the per-element callback and the bucket and compare functions.
 typedef struct Hashtable {
     /* 00 */ Darray **mBuckets;
     /* 04 */ s32 mBucketCount;

@@ -40,8 +40,7 @@ typedef enum HttpResult {
     HTTP_RESULT_DONE
 } HttpResult;
 
-// 0x1a60 bytes; the stack of its thread ends at mThreadStackBottom. mUnk_04 holds the setup it was created with; its
-// allocate and free functions allocate and release the memory of the buffers.
+// An HTTP connection: parameters, URL, socket, https state, send and receive buffers, thread and abort flag.
 typedef struct Http {
     /* 000 */ u8 mInitFlag;
     /* 004 */ DWCHttpParam mParam;
@@ -103,7 +102,7 @@ enum {
 // Size of the block DWCi_Auth allocates under the name "bmwork" for the update id and new id results.
 #define AUTH_BMWORK_BYTES 0x71f
 
-// 0x13e0 bytes, held in gAuth; the stack of its thread is the last 0x1000 bytes.
+// The server login: reply strings (token, challenge, cookie), HTTP labels, its Http connection, thread and abort flag.
 typedef struct DWCAuth {
     /* 000 */ u32 mUnk_000;
     /* 004 */ s32 mError;

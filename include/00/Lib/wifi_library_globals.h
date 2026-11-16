@@ -38,7 +38,7 @@ extern void *gWcmBuffer;
 extern void *gSocConfig;
 extern DWCNetcheckParam *gNetCheck;
 extern ACHOLD *gAcHold;
-// Objects behind gWiFiSelectCharacterState and gWiFiSelectKartState.
+// The heap of a Wi-Fi character or kart select screen.
 typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
 } WiFiSelectHeapHolder;
@@ -108,7 +108,7 @@ typedef struct SbServerList {
     /* 5d0 */ struct SbServer *mDeadList;
 } SbServerList;
 
-// Object behind gGsiAvailableCheck.
+// The availability check request: its socket, server address, packet, send time and retry count.
 typedef struct GsiAvailableCheck {
     /* 00 */ s32 mSocket;
     /* 04 */ SOCSockAddrIn mAddress;

@@ -40,7 +40,7 @@ enum {
     HTTPS_COMMON_VALUE_HASH20,
 };
 
-// State of the https layer of one Http thread (0x804 bytes), reached through mHttpsState.
+// The https layer state of one connection: its entry, setup blocks, key streams, hashes and certificate checks.
 typedef struct HttpsState {
     // The entry in use, or NULL; may be gUncachedHttpsEntry, which is not in the table.
     /* 000 */ HttpsEntry *mEntry;

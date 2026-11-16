@@ -11,7 +11,7 @@ typedef struct WCMWepDesc {
     /* 02 */ u8 mKey[0x50];
 } WCMWepDesc;
 
-// One of the 0x100-byte entries at the start of ACWORK.
+// One saved connection entry: ISP login, SSIDs, WEP keys and the IP, gateway and DNS addresses.
 typedef struct DWCMemPage {
     /* 00 */ u8 mIspId[0x20];
     /* 20 */ u8 mIspPass[0x20];

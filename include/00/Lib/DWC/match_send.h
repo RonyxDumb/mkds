@@ -11,7 +11,7 @@ typedef struct MatchingSignatureText {
     /* 0 */ char mText[5];
 } MatchingSignatureText;
 
-// The 0x14-byte header DWCi_SendSBMsgCommand sends in front of the values.
+// The header in front of the values of a matching command: signature, version, command, size, port, address, profile.
 typedef struct MatchingSendHeader {
     /* 00 */ char mSignature[4];
     /* 04 */ u32 mVersion;

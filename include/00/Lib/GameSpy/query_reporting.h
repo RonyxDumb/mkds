@@ -64,7 +64,7 @@ typedef void (*QueryNatnegFunc)(u32 cookie, void *userData);
 typedef void (*QueryClientMessageFunc)(const void *data, u32 len, void *userData);
 typedef void (*QueryCdkeyFunc)(s8 *query, s32 len, void *sender);
 
-// 0x110 bytes; qr2_init_socketA fills it, gCurrentQr2Rec points at the one in use.
+// The query reporting state: heartbeat socket and address, game name and keys, callbacks and public address.
 typedef struct QueryRecord {
     /* 000 */ s32 mHbSock;
     /* 004 */ char mGameName[0x40];

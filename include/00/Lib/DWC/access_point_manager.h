@@ -12,8 +12,7 @@
 #include "00/Lib/DWC/access_point_search.h"
 #include "00/Lib/DWC/access_point_connect.h"
 
-// Argument of DWC_AC_Create: the first two words go to the ACHOLD and the DWCNetcheckParam it sets up, the
-// bytes at 8 to 0xb to the object at gAcWork.
+// The settings DWC_AC_Create takes: allocator, free function, DMA number, power mode, connection type, net check skip.
 typedef struct DWCACConfig {
     /* 00 */ void *(*mAlloc)();
     /* 04 */ void (*mFree)();

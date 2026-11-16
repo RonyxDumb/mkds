@@ -17,7 +17,7 @@
 #define GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER 0xcc74
 #define GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER 0xcd74
 
-// 8 bytes, moved one byte at a time.
+// A socket address: its length and address bytes.
 typedef struct SOCSockAddr {
     /* 00 */ u8 mLen;
     /* 01 */ u8 mUnk_01;
@@ -41,7 +41,7 @@ typedef struct SOCHostEnt {
     /* 0c */ u32 **mAddrList;
 } SOCHostEnt;
 
-// 8 bytes: descriptor, requested events and returned events.
+// A descriptor to poll: the descriptor, the requested events and the returned events.
 typedef struct SOCPollFD {
     /* 00 */ s32 mFd;
     /* 04 */ s16 mEvents;

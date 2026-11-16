@@ -8,7 +8,7 @@ typedef struct ACHOLD ACHOLD;
 typedef void *(*SocketAllocFn)(u32 name, u32 size);
 typedef void (*SocketFreeFn)(u32 name, void *block, u32 size);
 
-// Object behind gNetCheck, 0x58 bytes.
+// The socket library configuration: allocator and free function, IP settings, buffer sizes and host name.
 typedef struct SOCConfig {
     /* 00 */ u8 pad_00[4];
     /* 04 */ SocketAllocFn mAlloc;

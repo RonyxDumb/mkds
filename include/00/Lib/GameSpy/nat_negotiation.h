@@ -41,7 +41,7 @@ enum {
     NAT_PACKET_PING = 7,
 };
 
-// Message of 0x14 bytes; made of bytes so a copy of it is bytewise.
+// The NAT negotiation connect message: cookie, remote address and port, and the data received and finished flags.
 typedef struct ConnectPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;
@@ -53,7 +53,7 @@ typedef struct ConnectPacket {
     /* 13 */ u8 mFinished;
 } ConnectPacket;
 
-// Message of 0x15 bytes.
+// The NAT negotiation init message: cookie, port type and client index.
 typedef struct InitPacket {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;
@@ -70,7 +70,7 @@ typedef struct InitPacket {
     /* 14 */ u8 mUnk_14;
 } InitPacket;
 
-// Message of 0x15 bytes followed by a string.
+// The NAT negotiation init message with the local address and the game name.
 typedef struct InitPacketWithGamename {
     /* 00 */ NNMagic mMagic;
     /* 06 */ u8 mVersion;

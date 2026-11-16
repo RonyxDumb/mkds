@@ -51,8 +51,7 @@ enum {
     GPI_BM_FILE_TRANSFER_KEEPALIVE,
 };
 
-// Object behind GpConnection.mGpiConnection: GpiWriteDelbuddyAndRemoveBuddy passes the address of 0x1f4 to
-// GpiAppendBufferString and GpiAppendBufferNumber, reads 0x198 and decrements 0x430.
+// The presence connection: login names, callbacks, sockets, buffers, status strings, operation, profile and peer lists.
 typedef struct GpiConnection {
     /* 000 */ char mErrorMessage[0x100];
     /* 100 */ s32 mInfoCaching;
@@ -116,21 +115,21 @@ typedef struct GpiProfile GpiProfile;
 
 typedef struct GpConnection GpConnection;
 
-// Object gpiProcessRecvBuddyMessage allocates with 0xc bytes and passes to GpiQueueCallback.
+// A received buddy message: the profile, the date and a string.
 typedef struct BuddyMessageData {
     /* 00 */ s32 mProfile;
     /* 04 */ s32 mDate;
     /* 08 */ char *mUnk_08;
 } BuddyMessageData;
 
-// Object gpiProcessRecvBuddyMessage allocates with 0x40c bytes and passes to GpiQueueCallback.
+// A received buddy request: the profile, the date and the reason text.
 typedef struct BuddyRequestData {
     /* 000 */ s32 mProfile;
     /* 004 */ s32 mDate;
     /* 008 */ char mReason[0x404];
 } BuddyRequestData;
 
-// Object gpiProcessRecvBuddyMessage allocates with 0x108 bytes and passes to GpiQueueCallback.
+// A received game invite: the profile, the product id and the location text.
 typedef struct GameInviteData {
     /* 000 */ s32 mProfile;
     /* 004 */ s32 mProductId;

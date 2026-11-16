@@ -9,7 +9,7 @@ struct SOCLiCommandPacket;
 
 typedef s32 (*SOCLiCommandHandler)(struct SOCLiCommandPacket *packet);
 
-// Entry of the queue behind SOCLiCommandPacketQueue.
+// A queued socket command: handler, socket, response queue, mode and block flags, ports and addresses.
 typedef struct SOCLiCommandPacket {
     /* 00 */ SOCLiCommandHandler mHandler;
     /* 04 */ SOCLSocket *mSocket;

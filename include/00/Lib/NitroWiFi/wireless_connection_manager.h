@@ -36,7 +36,7 @@ typedef struct WCMNotice {
     /* 0c */ u32 mParameter2;
 } WCMNotice;
 
-// 0xd0 bytes. Entry of the list at mPbdBuffer of an WCMWork.
+// One access point entry of the list of a WCMWork: state, link level, index, previous and next entries, and data.
 typedef struct WCMApList {
     /* 00 */ u8 mState;
     /* 02 */ u16 mLinkLevel;
@@ -106,7 +106,7 @@ enum {
     WIFI_LINK_PHASE_TERMINATING = 13,
 };
 
-// 0x2300 bytes; the word gWcmWork points to it.
+// The wireless connection manager state: WM work, buffers, BSS description, WEP key, phase, scan parameters and alarm.
 typedef struct WCMWork {
     /* 0000 */ u8 mWmWork[0xf00];
     /* 0f00 */ u8 mSendBuf[0x600];

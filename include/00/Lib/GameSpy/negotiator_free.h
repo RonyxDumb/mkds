@@ -13,7 +13,7 @@ enum {
     NAT_NEGOTIATION_CANCELED = 4,
 };
 
-// Entry of the list at negotiateList, 0x40 bytes.
+// One NAT negotiation in progress: cookie, client index, state, retry counters, guessed address and callbacks.
 typedef struct NatTraversalEntry {
     /* 00 */ s32 mDescriptor;
     /* 04 */ s32 mGameSock;
