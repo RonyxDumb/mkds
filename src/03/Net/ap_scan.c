@@ -26,7 +26,7 @@ struct ApScan *gApScan;
 
 void CreateApScan(void) {
     if (gApScan == NULL) {
-        gApScan = AllocZeroedExpHeapBlock(0x1e60, 32);
+        gApScan = AllocZeroedExpHeapBlock(0x1e60, HEAP_ALIGN_CACHE_LINE);
     }
 }
 

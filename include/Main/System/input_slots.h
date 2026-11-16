@@ -101,16 +101,14 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
-// A touch pair lost for fewer frames than this (InputSlotPair.mNoPairCount) still counts as recently lost.
-#define INPUT_NO_PAIR_BRIEF_FRAMES 5
+// A touch pair lost for fewer frames than this (InputSlotPair.mNoPairCount) still counts as recently lost;
+// IsPairRecentlyLost answers yes while there is no pair and mNoPairCount is below it.
+#define INPUT_PAIR_RECENTLY_LOST_FRAMES 5
 
 // InputSlotHead.mRepeatState: no masked bit held, held until the first repeat, repeating at the interval.
 #define INPUT_REPEAT_IDLE 0
 #define INPUT_REPEAT_WAIT_DELAY 1
 #define INPUT_REPEAT_WAIT_INTERVAL 2
-
-// A touch pair lost for fewer samples than this still counts as recently lost.
-#define INPUT_PAIR_LOSS_SAMPLES 5
 
 // The key state of an input slot: pressed, held and cleared bits and repeat state; gKeysInputSlot is only this part.
 typedef struct InputSlotHead {

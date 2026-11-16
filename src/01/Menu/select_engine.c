@@ -437,7 +437,7 @@ void AdvanceSelectEngineInput(void) {
     AdvanceSelectEngineIndexChange();
     recentlyNoPair = pairStarted = FALSE;
     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyNoPair = 1;
     }
     if (recentlyNoPair == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -451,7 +451,7 @@ void AdvanceSelectEngineInput(void) {
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) == 0) {
         recentlyNoPairAgain = pairStartedAgain = FALSE;
         hasPairAgain = gInputSlots[inputSlotIndex].mPair.mHasPair;
-        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyNoPairAgain = 1;
         }
         if (recentlyNoPairAgain == 0 && gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && hasPairAgain != 0) {

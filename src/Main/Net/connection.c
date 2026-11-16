@@ -458,7 +458,7 @@ void *RomArchiveAllocFunc(s32 unusedValue, u32 size, void *block) {
     if (block != NULL) {
         HeapFree(gConnectionWork->mHeap, block);
     } else {
-        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -0x20);
+        allocated = HeapAllocAligned(gConnectionWork->mHeap, size, -HEAP_ALIGN_CACHE_LINE);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return allocated;

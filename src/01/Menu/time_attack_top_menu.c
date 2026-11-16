@@ -247,7 +247,7 @@ void AdvanceTimeAttackTopMenuInput(void) {
     s32 recentlyLostAgain;
 
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
@@ -264,7 +264,7 @@ void AdvanceTimeAttackTopMenuInput(void) {
     if ((u16) pressedBits == 0) {
         recentlyLostAgain = touchStartedAgain = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLostAgain = 1;
         }
         if (recentlyLostAgain == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

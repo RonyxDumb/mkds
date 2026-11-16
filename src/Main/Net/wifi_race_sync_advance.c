@@ -128,10 +128,11 @@ void InitWiFiRaceSync(void *heap) {
     gWiFiRaceSync = HeapAlloc(heap, sizeof(*gWiFiRaceSync));
     gWiFiRaceSync->mSendBuffer = HeapAllocAligned(heap, WIFI_RACE_SYNC_SEND_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
     for (slotIndex = 0; slotIndex < 16; slotIndex++) {
-        gWiFiRaceSync->mItemDataSlots[slotIndex].mData = HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
+        gWiFiRaceSync->mItemDataSlots[slotIndex].mData =
+            HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
         for (index = 0; index < WIFI_RACE_SYNC_PARTICIPANT_COUNT; index++) {
             gWiFiRaceSync->mReceivedItemDataSlots[slotIndex][index].mData =
-                HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, 32);
+                HeapAllocAligned(heap, ITEM_DATA_SLOT_BUFFER_SIZE, HEAP_ALIGN_CACHE_LINE);
         }
     }
     gWiFiRaceSync->mStartParticipantMask = gParticipantKartMap->mParticipantMask;

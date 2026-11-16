@@ -75,7 +75,7 @@ static inline u32 IsPadOrParticipantPairPresentOrRecentlyLost(void) {
     u32 result = 1;
     u32 briefNoPair = 0;
     u16 hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -506,7 +506,7 @@ u32 RaceSceneSlotHasPairOrLost(u32 slotIndex) {
     result = 1;
     briefNoPair = 0;
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && hasPair == 0) {
@@ -525,7 +525,7 @@ u32 RaceSceneIsSlotPairNew(u32 slotIndex) {
     result = 0;
     briefNoPair = 0;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
-        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         briefNoPair = 1;
     }
     if (briefNoPair == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&

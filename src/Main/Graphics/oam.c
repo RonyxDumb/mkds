@@ -214,7 +214,7 @@ u32 GetPairHasPair(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsPairRecentlyLost(InputSlotPair *inputSlotPair) {
-    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (GetPairHasPair(inputSlotPair) == 0 && inputSlotPair->mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         return 1;
     }
     return 0;

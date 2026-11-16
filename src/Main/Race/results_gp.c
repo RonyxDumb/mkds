@@ -280,7 +280,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers) {
                     recentlyUnpaired = FALSE;
                     hasPair = gInputSlots[inputSlotIndex].mPair.mHasPair;
                     if (hasPair == 0) {
-                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+                        if (gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                             recentlyUnpaired = TRUE;
                         }
                     }

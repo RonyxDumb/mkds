@@ -24,8 +24,8 @@ void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatState = 0;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -41,8 +41,8 @@ void ResetKeysInputSlot(void) {
     gKeysInputSlot.mRepeatState = 0;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
-    gKeysInputSlot.mRepeatDelayLimit = KEYS_REPEAT_DELAY_FRAMES;
-    gKeysInputSlot.mRepeatIntervalLimit = KEYS_REPEAT_INTERVAL_FRAMES;
+    gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
+    gKeysInputSlot.mRepeatIntervalLimit = INPUT_REPEAT_INTERVAL_FRAMES;
     gKeysInputSlot.mHoldLong = 0;
     gKeysInputSlot.mLongHoldEnabled = 0;
     gKeysInputSlot.mHoldStartTick = 0;
@@ -117,7 +117,7 @@ void WriteKeyBitsToStream(u32 keys) {
     } else {
         *(u16 *) position = keys;
     }
-    SeekKeyStream(1, 1);
+    SeekKeyStream(1, KEY_STREAM_SEEK_CURRENT);
     if (gKeyStream.mPosition > gKeyStream.mHighestWritten) {
         gKeyStream.mHighestWritten = gKeyStream.mPosition;
     }
@@ -154,6 +154,6 @@ u32 ReadKeyBitsFromStream(void) {
     } else {
         keys = *(u16 *) gKeyStream.mPosition;
     }
-    SeekKeyStream(1, 1);
+    SeekKeyStream(1, KEY_STREAM_SEEK_CURRENT);
     return keys;
 }

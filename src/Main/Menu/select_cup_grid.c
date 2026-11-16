@@ -696,7 +696,7 @@ void AdvanceSelectCupGridChoose(void) {
     releasedFlag = 0;
     hasPairSlot = &gInputHasPairs[inputIndex];
     pressedBits = gInputHasPairs[inputIndex].mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         releasedFlag = 1;
     }
     if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && pressedBits != 0) {
@@ -713,7 +713,7 @@ void AdvanceSelectCupGridChoose(void) {
     pressedFlag = 0;
     releasedFlag = 0;
     pressedBits = hasPairSlot->mHasPair;
-    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+    if (pressedBits == 0 && gInputNoPairCounts[inputIndex].mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         releasedFlag = 1;
     }
     if (releasedFlag == 0 && gInputPrevHasPairs[inputIndex].mPrevHasPair == 0 && pressedBits != 0) {

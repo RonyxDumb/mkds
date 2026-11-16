@@ -790,7 +790,7 @@ void AdvanceRecordVSEraseBrowse(void) {
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     condition =
         (gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
-         gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) ||
+         gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) ||
         gInputSlots[inputSlotIndex].mPair.mHasPair != 0;
     if (condition) {
         downRectIndex =
@@ -799,7 +799,7 @@ void AdvanceRecordVSEraseBrowse(void) {
     }
     condition =
         !(gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
-          gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) &&
+          gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) &&
         (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 && gInputSlots[inputSlotIndex].mPair.mHasPair != 0);
     if (condition) {
         pressedRectIndex =
@@ -814,7 +814,7 @@ void AdvanceRecordVSEraseBrowse(void) {
     }
     if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_B) != 0 ||
         ((condition = !(gInputSlots[inputSlotIndex].mPair.mHasPair == 0 &&
-                        gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) &&
+                        gInputSlots[inputSlotIndex].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) &&
                       (gInputSlots[inputSlotIndex].mPair.mPrevHasPair == 0 &&
                        gInputSlots[inputSlotIndex].mPair.mHasPair != 0)) &&
          IsSelectReturnShownNoRequestAndInRect(gInputSlots[inputSlotIndex].mPair.mPairX,

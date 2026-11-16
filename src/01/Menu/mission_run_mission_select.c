@@ -738,7 +738,7 @@ void AdvanceMissionRunMSselInput(void) {
     touchBegan = FALSE;
     recentlyLost = FALSE;
     hasPair = gInputSlots[slot].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+    if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         recentlyLost = TRUE;
     }
     if (recentlyLost == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && hasPair != 0) {
@@ -752,7 +752,7 @@ void AdvanceMissionRunMSselInput(void) {
         touchBegan = FALSE;
         recentlyLost = FALSE;
         hasPair = gInputSlots[slot].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
             recentlyLost = TRUE;
         }
         if (recentlyLost == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && hasPair != 0) {

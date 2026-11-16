@@ -881,7 +881,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
                         noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                                 noPairBriefWhileClosed = TRUE;
                             }
                         } else {
@@ -936,7 +936,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
                         noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                                 noPairBriefWhileClosed = TRUE;
                             }
                         } else {
@@ -1012,7 +1012,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
                         noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                                 noPairBriefWhileClosed = TRUE;
                             }
                         } else {
@@ -1082,7 +1082,8 @@ void UpdateRaceHudSubScreen(void) {
                         if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
                             noPairBriefWhileClosed = FALSE;
                             if (IsChoisesSOpen() == 0) {
-                                if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
+                                if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount ==
+                                    INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                                     noPairBriefWhileClosed = TRUE;
                                 }
                             } else {
@@ -1129,7 +1130,7 @@ void UpdateRaceHudSubScreen(void) {
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
                         noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
-                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
+                            if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_PAIR_RECENTLY_LOST_FRAMES) {
                                 noPairBriefWhileClosed = TRUE;
                             }
                         } else {

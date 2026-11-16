@@ -361,7 +361,7 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     }
     uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
     allocFromHeapEnd = gArchiveSlotInfos[slotIndex].mAllocFromHeapEnd;
-    archiveBufferSize = gArchiveSlotInfos[slotIndex].mArchiveBufferSize;
+    archiveBufferSize = gArchiveSlotInfos[slotIndex].mUnk_14;
     bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
     if (bufferIndex != ARCHIVE_BUFFER_NONE) {
         bufferData = gArchiveSlots->mBuffers[bufferIndex].mData;
@@ -472,7 +472,7 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     request->mData = data;
     request->mAllocFromHeapEnd = allocFromHeapEnd;
     request->mUncompressSource = uncompressSource;
-    request->mArchiveBufferSize = archiveBufferSize;
+    request->mUnk_9c = archiveBufferSize;
     if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
@@ -516,7 +516,7 @@ void UncompressArchiveFile(void) {
         return;
     }
     if (request->mAllocFromHeapEnd != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -HEAP_ALIGN_CACHE_LINE);
     } else {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }
@@ -538,7 +538,7 @@ void UncompressArchiveMemory(void) {
     request = &gArchiveSlots->mLoadRequest;
     uncompressedSize = *request->mSourceData >> 8;
     if (request->mAllocFromHeapEnd != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -HEAP_ALIGN_CACHE_LINE);
     } else {
         request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, HEAP_ALIGN_CACHE_LINE);
     }

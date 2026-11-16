@@ -89,7 +89,7 @@ BgTextCanvas *InitBgTextCanvas(u32 screen, u32 fontIndex) {
     u32 screenBase;
     NNSG2dFont *font;
 
-    canvas->mChars = AllocExpHeapBlock((areaWidth * areaHeight) << 5, 0x20);
+    canvas->mChars = AllocExpHeapBlock((areaWidth * areaHeight) << 5, HEAP_ALIGN_CACHE_LINE);
     if (screen == 1) {
         bgControl = &reg_G2S_DB_BG0CNT;
         *bgControl &= ~0x40;

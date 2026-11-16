@@ -894,7 +894,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
 static inline s32 SelectCharacterIsPairRecentlyLost(u16 inputSlot) {
     BOOL result = FALSE;
     if (gInputSlots[inputSlot].mPair.mHasPair == 0 &&
-        gInputSlots[inputSlot].mPair.mNoPairCount < INPUT_PAIR_LOSS_SAMPLES) {
+        gInputSlots[inputSlot].mPair.mNoPairCount < INPUT_PAIR_RECENTLY_LOST_FRAMES) {
         result = TRUE;
     }
     return result;
