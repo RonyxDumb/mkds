@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.h"
+#include "ITCM/kart_speed.h"
 
 typedef struct Kart Kart;
 
@@ -144,7 +145,7 @@ void AdvanceKartSpin(Kart *kart);
 void StartKartSpin(Kart *kart, int spinCount, int skipSound);
 
 extern const u32 gKartSurfaceKind1Effects[8];
-extern const s32 gKartOffsetCycleY[8];
+extern const s32 gKartOffsetCycleY[KART_OFFSET_CYCLE_COUNT];
 extern const Vec3 gKartStartPlacementHeadingAxis;
 extern const s32 gKartModelScaleYHardLandTable[15];
 extern const s32 gKartModelOffsetYHardLandTable[15];
@@ -155,10 +156,10 @@ extern const s32 gKartModelScaleYLandTable[15];
 extern const u32 gKartSurfaceKind3Effects[8];
 extern const u32 gKartSurfaceKind2Effects[8];
 extern const s32 gKartModelOffsetYLandAndBumpTable[15];
-extern const s32 gKartOffsetCycleZ[8];
+extern const s32 gKartOffsetCycleZ[KART_OFFSET_CYCLE_COUNT];
 extern const u32 gKartSurfaceKind5Effects[8];
 extern const u32 gKartSurfaceKind17Effects[8];
-extern const s32 gKartOffsetCycleX[8];
+extern const s32 gKartOffsetCycleX[KART_OFFSET_CYCLE_COUNT];
 extern const u32 gKartSurfaceKind20Effects[8];
 extern const u32 gKartSurfaceKind6Effects[8];
 extern const u32 gKartSurfaceStopEffects[8];

@@ -80,6 +80,8 @@
 #include "Main/Race/entry_race_ended.h"
 #include "linked_list_ops.h"
 #include "ITCM/kart_motion.h"
+#include "ITCM/kart_speed.h"
+#include "ITCM/kart_velocity.h"
 #include "Main/Course/course_map_shapes.h"
 #include "Main/Kart/kart_course_colors.h"
 #include "Main/Kart/kart_contact_effect_release.h"
@@ -982,7 +984,7 @@ void AdvanceKartOffsetCycle(Kart *kart) {
     fraction = kart->mOffsetCyclePhase & FIXED12_FRACTION_MASK;
     tableIndex = FROM_FIXED12(kart->mOffsetCyclePhase);
     nextTableIndex = tableIndex + 1;
-    if (nextTableIndex >= 8) {
+    if (nextTableIndex >= KART_OFFSET_CYCLE_COUNT) {
         nextTableIndex = 0;
     }
     kart->mOffsetCycleAmount.x =
@@ -1280,7 +1282,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
                             0xa3);
         }
         itemEffectState->mAheadBoostFrames++;
-        if (itemEffectState->mAheadBoostFrames > KART_KILLER_RANK_END_FRAMES &&
+        if (itemEffectState->mAheadBoostFrames > KART_AHEAD_BOOST_MAX_FRAMES &&
             (kart->mEffectFlags & KART_EFFECT_AHEAD_BOOST)) {
             kart->mEffectFlags &= ~KART_EFFECT_AHEAD_BOOST;
             kart->mAheadSpeedLimitFactor = TO_FIXED12(1);
@@ -1299,7 +1301,7 @@ void AdvanceKartToKeyedPlacement(Kart *kart) {
             SetKartCharacterAnimation(kart, KART_CHARACTER_ANIMATION_ALTERNATE, 1);
         }
         itemEffectState->mStarFrames++;
-        if (itemEffectState->mStarFrames > KART_TERESA_MAX_FRAMES) {
+        if (itemEffectState->mStarFrames > KART_STAR_MAX_FRAMES) {
             kart->mEffectFlags &= ~KART_EFFECT_STAR;
             StopKartStarModels(kart);
             kart->mItemEffect = KART_ITEM_EFFECT_NONE;
