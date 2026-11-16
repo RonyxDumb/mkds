@@ -176,7 +176,7 @@ s32 DisconnectEssidAndWait(void) {
         running = FALSE;
         do {
             OS_ReceiveMessage(&gMessageQueue, &msg, 1);
-            /* waits for one entry */
+            /* receives one message; result is 0 only if it is the disconnected event */
             if ((u32) msg == EXCHANGE_EVENT_DISCONNECTED) {
                 result = 0;
                 running = FALSE;

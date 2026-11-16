@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// One entry of the table returned by GetCourseMapGroupEntry.
+// One entry of a course map entry group; GetCourseMapGroupEntry(groupIndex, entryIndex) returns one of them.
 typedef struct CourseMapGroupEntry {
     /* 00 */ Vec3 mPos;
     /* 0c */ u8 mEntryIndex;

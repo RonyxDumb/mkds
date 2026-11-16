@@ -1332,7 +1332,9 @@ u8 *ReadFirstItem(const u8 *body, u32 *type, s32 *length) {
     return ReadNextItem(&cursor, cursor + SwapBytes16_inline(*(u16 *) body), type, length);
 }
 
-// Frames a body: six header bytes, the body (copied or transformed with the key), then the byte sum.
+// Writes the body's length into its first two bytes, then frames it: six header bytes, the body (copied, or
+// transformed with the key when there is one, which makes it 8 bytes longer), then the byte sum; returns the total
+// size.
 s32 BuildExchangePacket(u8 *packet, u32 kind, u8 *body, u32 length, const void *key) {
     u8 *end;
     u8 *cursor;
@@ -2068,7 +2070,8 @@ void XorEightBytes(u8 *first, u8 *second, u8 *output) {
     output[7] = first[7] ^ second[7];
 }
 
-// Expands the key into 4 * (n + 1) words and returns n: 10, 12 or 14 for 128, 192 or 256 bits.
+// Expands the key into 4 * (n + 1) words and returns n: 10, 12 or 14 for 128, 192 or 256 bits; any other bit count
+// returns 0.
 int ExpandKey(u32 *words, u8 *key, int keyBits) {
     int roundIndex = 0;
     u32 lastWord;
@@ -2668,7 +2671,8 @@ s32 FormatMacAddress(u8 *output, const s8 *address) {
     return cursor - output;
 }
 
-// Starts the thread that runs RunExchange; returns 1, or -10 while a run is under way.
+// Starts the thread that runs RunExchangeThread; returns 1, -10 while a run is under way, or another negative value
+// when set-up, the stack allocation or the thread check fails.
 s32 StartExchange(u32 priority, s32 entryCount, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
                   ExchangeFreeFunc freeFunction, u32 stackSize) {
     s32 result;
