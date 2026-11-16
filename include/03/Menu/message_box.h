@@ -33,8 +33,6 @@ void AdvanceMessageBoxSlideIn(TaskEntry *task, void *arg);
 void AdvanceMessageBoxBrightnessDown(TaskEntry *taskEntry, void *arg);
 BOOL IsMessageBoxOpen(void);
 int GetMessageBoxResult(void);
-// K&R on purpose: message_box_create.c passes the const array gMessageBoxWindowRect where the definition takes a
-// non-const u16 *.
 void WriteWinRect();
 
 extern const u8 gMessageBoxButtonCounts[6];
