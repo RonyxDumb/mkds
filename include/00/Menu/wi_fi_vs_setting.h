@@ -80,12 +80,12 @@ typedef struct WiFiVSSetting {
     /* 1038 */ void *mHeap;
     // Table of cells built from the Bncl / Bnll by InitLayoutTable.
     /* 103c */ LayoutTableEntry *mWiFiVSSettingTable;
-    /* 1040 */ NNSG2dCellDataBank *mWiFiVSSettingSNcer;
-    /* 1044 */ Ncgr *mWiFiVSSettingSNcgr;
-    /* 1048 */ Nclr *mWiFiVSSettingSONclr;
-    /* 104c */ LayoutEntryTable *mWiFiVSSettingBncl;
-    /* 1050 */ LayoutEntryTable *mWiFiVSSettingBnbl;
-    /* 1054 */ struct LayoutEntryTable *mWiFiVSSettingBnll;
+    /* 1040 */ NNSG2dCellDataBank *mWiFiVSSettingSCells;
+    /* 1044 */ Ncgr *mWiFiVSSettingSChars;
+    /* 1048 */ Nclr *mWiFiVSSettingSOPalette;
+    /* 104c */ LayoutEntryTable *mWiFiVSSettingCellLayout;
+    /* 1050 */ LayoutEntryTable *mWiFiVSSettingRects;
+    /* 1054 */ struct LayoutEntryTable *mWiFiVSSettingLabelLayout;
     /* 1058 */ struct Bmg *mWiFiMessages;
     /* 105c */ struct Bmg *mCommonMessages;
 } WiFiVSSetting;
@@ -148,12 +148,12 @@ typedef struct WiFiVSMatching {
     /* 10d4 */ LayoutTableEntry *mWiFiVSMatchingTable;
     /* 10d8 */ u8 mOtherEmblems[3][0x200];
     /* 16d8 */ s32 mOtherHasEmblem[3];
-    /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSNcer;
-    /* 16e8 */ Ncgr *mWiFiVSMatchingSNcgr;
-    /* 16ec */ Nclr *mWiFiVSMatchingSONclr;
-    /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingBncl;
-    /* 16f4 */ void *mWiFiVSMatchingBnbl;
-    /* 16f8 */ struct LayoutEntryTable *mWiFiVSMatchingBnll;
+    /* 16e4 */ struct NNSG2dCellDataBank *mWiFiVSMatchingSCells;
+    /* 16e8 */ Ncgr *mWiFiVSMatchingSChars;
+    /* 16ec */ Nclr *mWiFiVSMatchingSOPalette;
+    /* 16f0 */ LayoutEntryTable *mWiFiVSMatchingCellLayout;
+    /* 16f4 */ void *mWiFiVSMatchingRects;
+    /* 16f8 */ struct LayoutEntryTable *mWiFiVSMatchingLabelLayout;
     /* 16fc */ struct Bmg *mWiFiMessages;
     /* 1700 */ void *mCommonMessages;
     /* 1704 */ u8 pad_1704[8];

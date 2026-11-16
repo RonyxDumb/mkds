@@ -69,13 +69,13 @@ void InitWiFiVSSetting(void *heap) {
     gWiFiVSSetting->mHighlightVisible = TRUE;
     SetWiFiVSSettingFlag(0);
     LocateAndQueueWiFiVSSetting();
-    InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSONclr, 3);
+    InitPaletteBlend(heap, gWiFiVSSetting->mWiFiVSSettingSOPalette, 3);
     for (index = 0; index < 2; index++) {
-        SetCellOamModeXlu(gWiFiVSSettingOffsetTableIndices[index][0], 1, gWiFiVSSetting->mWiFiVSSettingSNcer,
-                          gWiFiVSSetting->mWiFiVSSettingBncl);
+        SetCellOamModeXlu(gWiFiVSSettingOffsetTableIndices[index][0], 1, gWiFiVSSetting->mWiFiVSSettingSCells,
+                          gWiFiVSSetting->mWiFiVSSettingCellLayout);
     }
     ResetOamLists(GetWiFiMenuMainOamList(), GetWiFiMenuSubOamList());
-    InitLayoutTable(heap, gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingBnll,
+    InitLayoutTable(heap, gWiFiVSSetting->mWiFiVSSettingCellLayout, gWiFiVSSetting->mWiFiVSSettingLabelLayout,
                     &gWiFiVSSetting->mWiFiVSSettingTable);
     gWiFiVSSetting->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiVSSetting->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -86,14 +86,14 @@ void InitWiFiVSSetting(void *heap) {
         u32 headerMessageIndices[1] = {1};
 
         for (index = 0; index < 1; index++) {
-            subObjSizeLeft -= InitLabelCanvas(heap, headerLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingBnll,
+            subObjSizeLeft -= InitLabelCanvas(heap, headerLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingLabelLayout,
                                               headerLabelSizes[index][0], headerLabelSizes[index][1],
                                               gWiFiVSSettingOffsetTableIndices[index][11],
-                                              gWiFiVSSetting->mWiFiVSSettingSNcer, gWiFiVSSetting->mWiFiVSSettingBncl,
+                                              gWiFiVSSetting->mWiFiVSSettingSCells, gWiFiVSSetting->mWiFiVSSettingCellLayout,
                                               gWiFiVSSetting->mWiFiVSSettingTable, subObjSizeLeft);
-            PrintLabelLayoutTextNoFixedAdvance(1, headerLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingBnll,
+            PrintLabelLayoutTextNoFixedAdvance(1, headerLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingLabelLayout,
                                                GetBmgEntry(gWiFiVSSetting->mWiFiMessages, headerMessageIndices[index]),
-                                               gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
+                                               gWiFiVSSetting->mWiFiVSSettingCellLayout, gWiFiVSSetting->mWiFiVSSettingTable);
         }
         {
             u8 labelSizes[3][2] = {{0x80, 0x10}, {0xa0, 0x10}, {0x32, 0x10}};
@@ -110,9 +110,9 @@ void InitWiFiVSSetting(void *heap) {
                     messageColumn = gWiFiVSSetting->mSettingIndex;
                 }
                 subObjSizeLeft -= InitLabelCanvas(
-                    heap, gWiFiVSSettingLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingBnll, labelSizes[index][0],
+                    heap, gWiFiVSSettingLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingLabelLayout, labelSizes[index][0],
                     labelSizes[index][1], gWiFiVSSettingOffsetTableIndices[index][1],
-                    gWiFiVSSetting->mWiFiVSSettingSNcer, gWiFiVSSetting->mWiFiVSSettingBncl,
+                    gWiFiVSSetting->mWiFiVSSettingSCells, gWiFiVSSetting->mWiFiVSSettingCellLayout,
                     gWiFiVSSetting->mWiFiVSSettingTable, subObjSizeLeft);
                 if (index == 2) {
                     bmgEntry = GetBmgEntry(gWiFiVSSetting->mCommonMessages,
@@ -125,8 +125,8 @@ void InitWiFiVSSetting(void *heap) {
                         GetBmgEntry(gWiFiVSSetting->mWiFiMessages, gWiFiVSSettingMessageIndices[index][messageColumn]);
                 }
                 PrintLabelLayoutTextNoFixedAdvance(
-                    1, gWiFiVSSettingLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingBnll, bmgEntry,
-                    gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
+                    1, gWiFiVSSettingLabelIndices[index], gWiFiVSSetting->mWiFiVSSettingLabelLayout, bmgEntry,
+                    gWiFiVSSetting->mWiFiVSSettingCellLayout, gWiFiVSSetting->mWiFiVSSettingTable);
             }
         }
     }
@@ -168,12 +168,12 @@ void LocateAndQueueWiFiVSSetting(void) {
     LocateNcgr(&chr, FindSceneFile("WiFi_VS_setting_s_b.ncgr"));
     LocateNscr(&scrn, FindSceneFile("WiFi_VS_s_setting.nscr"));
     LocateNclr(&pltt, FindSceneFile("WiFi_VS_setting_s_b.nclr"));
-    gWiFiVSSetting->mWiFiVSSettingBncl = FindSceneFile("WiFi_VS_setting.bncl");
-    gWiFiVSSetting->mWiFiVSSettingBnbl = FindSceneFile("WiFi_VS_setting.bnbl");
-    gWiFiVSSetting->mWiFiVSSettingBnll = FindSceneFile("WiFi_VS_setting.bnll");
-    LocateNcgr2(&gWiFiVSSetting->mWiFiVSSettingSNcgr, FindSceneFile("WiFi_VS_setting_s.nce.ncgr"));
-    LocateNcer(&gWiFiVSSetting->mWiFiVSSettingSNcer, FindSceneFile("WiFi_VS_setting_s.nce.ncer"));
-    LocateNclr(&gWiFiVSSetting->mWiFiVSSettingSONclr, FindSceneFile("WiFi_VS_setting_s_o.nclr"));
+    gWiFiVSSetting->mWiFiVSSettingCellLayout = FindSceneFile("WiFi_VS_setting.bncl");
+    gWiFiVSSetting->mWiFiVSSettingRects = FindSceneFile("WiFi_VS_setting.bnbl");
+    gWiFiVSSetting->mWiFiVSSettingLabelLayout = FindSceneFile("WiFi_VS_setting.bnll");
+    LocateNcgr2(&gWiFiVSSetting->mWiFiVSSettingSChars, FindSceneFile("WiFi_VS_setting_s.nce.ncgr"));
+    LocateNcer(&gWiFiVSSetting->mWiFiVSSettingSCells, FindSceneFile("WiFi_VS_setting_s.nce.ncer"));
+    LocateNclr(&gWiFiVSSetting->mWiFiVSSettingSOPalette, FindSceneFile("WiFi_VS_setting_s_o.nclr"));
     reg_G2S_DB_BG3CNT =
         (reg_G2S_DB_BG3CNT & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x4400;
     zero = 0;
@@ -182,10 +182,10 @@ void LocateAndQueueWiFiVSSetting(void) {
     NNS_GfdRegisterNewVramTransferTask(0x17, 0, chr->mData, chr->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gWiFiVSSetting->mNscrCopy, 0x1000);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, pltt->mData, 0x80);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSSetting->mWiFiVSSettingSNcgr->mData,
-                                       gWiFiVSSetting->mWiFiVSSettingSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSSetting->mWiFiVSSettingSONclr->mData,
-                                       gWiFiVSSetting->mWiFiVSSettingSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSSetting->mWiFiVSSettingSChars->mData,
+                                       gWiFiVSSetting->mWiFiVSSettingSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSSetting->mWiFiVSSettingSOPalette->mData,
+                                       gWiFiVSSetting->mWiFiVSSettingSOPalette->mDataSize);
 }
 
 void SetupWiFiVSSettingText(void) {
@@ -288,7 +288,7 @@ void AdvanceWiFiVSSettingWaitInput(void) {
         pairNewUnlessRecentlyLost = TRUE;
     }
     if (pairNewUnlessRecentlyLost != FALSE) {
-        hitIndex = RectTableFindContaining(gWiFiVSSetting->mWiFiVSSettingBnbl, gInputSlots[slotIndex].mPair.mPairX,
+        hitIndex = RectTableFindContaining(gWiFiVSSetting->mWiFiVSSettingRects, gInputSlots[slotIndex].mPair.mPairX,
                                            gInputSlots[slotIndex].mPair.mPairY);
     }
     inputSlot = &gInputSlots[slotIndex];
@@ -389,9 +389,9 @@ end:
     }
     if (prevSettingIndex != gWiFiVSSetting->mSettingIndex) {
         messageIndex = LookupWiFiVSSettingMessageIndex(gWiFiVSSetting->mSettingIndex);
-        PrintLabelLayoutTextNoFixedAdvance(1, gWiFiVSSettingLabelIndices[1], gWiFiVSSetting->mWiFiVSSettingBnll,
+        PrintLabelLayoutTextNoFixedAdvance(1, gWiFiVSSettingLabelIndices[1], gWiFiVSSetting->mWiFiVSSettingLabelLayout,
                                            GetBmgEntry(gWiFiVSSetting->mWiFiMessages, messageIndex),
-                                           gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingTable);
+                                           gWiFiVSSetting->mWiFiVSSettingCellLayout, gWiFiVSSetting->mWiFiVSSettingTable);
     }
     if (gWiFiVSSetting->mRow == WIFI_VS_SETTING_ROW_MATCHING && previousRow != WIFI_VS_SETTING_ROW_MATCHING) {
         ResetPaletteBlendCycle();
@@ -618,7 +618,7 @@ void UpdateWiFiVSSettingOffsets(void) {
     s32 copyIndex;
     s32 cellCount;
 
-    cellCount = gWiFiVSSetting->mWiFiVSSettingBncl->mCount;
+    cellCount = gWiFiVSSetting->mWiFiVSSettingCellLayout->mCount;
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         for (entryIndex = 0; entryIndex < gWiFiVSSettingOffsetCellCounts[rowIndex]; entryIndex++) {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][entryIndex]].mOffsetX =
@@ -652,12 +652,12 @@ void UpdateWiFiVSSettingHighlight(void) {
     for (rowIndex = 0; rowIndex < 3; rowIndex++) {
         if (rowIndex == gWiFiVSSetting->mRow && gWiFiVSSetting->mHighlightVisible != FALSE) {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][1]].mVisible = 1;
-            SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 14, gWiFiVSSetting->mWiFiVSSettingBnll,
-                                 gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);
+            SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 14, gWiFiVSSetting->mWiFiVSSettingLabelLayout,
+                                 gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingCellLayout);
         } else {
             gWiFiVSSetting->mWiFiVSSettingTable[gWiFiVSSettingOffsetTableIndices[rowIndex][1]].mVisible = visible;
-            SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 15, gWiFiVSSetting->mWiFiVSSettingBnll,
-                                 gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingBncl);
+            SetLabelPaletteIndex(gWiFiVSSettingLabelIndices[rowIndex], 15, gWiFiVSSetting->mWiFiVSSettingLabelLayout,
+                                 gWiFiVSSetting->mWiFiVSSettingTable, gWiFiVSSetting->mWiFiVSSettingCellLayout);
         }
     }
 }
@@ -731,8 +731,8 @@ void AdvanceWiFiVSSetting(void) {
     UpdateWiFiVSSettingOffsets();
     UpdateWiFiVSSettingHighlight();
     AdvanceWiFiVSSettingIndexTimers();
-    DrawLayoutTable(gWiFiVSSetting->mWiFiVSSettingBncl, gWiFiVSSetting->mWiFiVSSettingSNcer,
-                    gWiFiVSSetting->mWiFiVSSettingBnll, GetWiFiMenuSubOamList(), gWiFiVSSetting->mWiFiVSSettingTable);
+    DrawLayoutTable(gWiFiVSSetting->mWiFiVSSettingCellLayout, gWiFiVSSetting->mWiFiVSSettingSCells,
+                    gWiFiVSSetting->mWiFiVSSettingLabelLayout, GetWiFiMenuSubOamList(), gWiFiVSSetting->mWiFiVSSettingTable);
 }
 
 void WriteWiFiVSSettingRegisters(void) {

@@ -45,9 +45,9 @@ void InitWiFiVSMatchingLabels(void) {
             nameLabelPointer = gWiFiVSMatchingNameLabelIndices;
              otherIndex < 3; otherIndex++) {
             subObjSizeLeft -= InitLabelCanvas(
-                gWiFiVSMatching->mHeap, *nameLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, nameSizePointer[0],
-                nameSizePointer[1], *nameCellPointer, gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
+                gWiFiVSMatching->mHeap, *nameLabelPointer, gWiFiVSMatching->mWiFiVSMatchingLabelLayout, nameSizePointer[0],
+                nameSizePointer[1], *nameCellPointer, gWiFiVSMatching->mWiFiVSMatchingSCells,
+                gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
             nameCellPointer++;
             nameSizePointer += 2;
             nameLabelPointer++;
@@ -62,9 +62,9 @@ void InitWiFiVSMatchingLabels(void) {
             for (totalIndex = 0; totalIndex < 2; totalIndex++) {
                 subObjSizeLeft -= InitLabelCanvas(
                     gWiFiVSMatching->mHeap, gWiFiVSMatchingTotalLabelIndices[otherIndex][totalIndex],
-                    gWiFiVSMatching->mWiFiVSMatchingBnll, totalLabelSizes[otherIndex][totalIndex][0],
+                    gWiFiVSMatching->mWiFiVSMatchingLabelLayout, totalLabelSizes[otherIndex][totalIndex][0],
                     totalLabelSizes[otherIndex][totalIndex][1], gWiFiVSMatchingTotalCellIndices[otherIndex][totalIndex],
-                    gWiFiVSMatching->mWiFiVSMatchingSNcer, gWiFiVSMatching->mWiFiVSMatchingBncl,
+                    gWiFiVSMatching->mWiFiVSMatchingSCells, gWiFiVSMatching->mWiFiVSMatchingCellLayout,
                     gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
             }
         }
@@ -81,13 +81,13 @@ void InitWiFiVSMatchingLabels(void) {
             searchLabelPointer = gWiFiVSMatchingSearchLabelIndices;
              otherIndex < 3; otherIndex++) {
             subObjSizeLeft -= InitLabelCanvas(
-                gWiFiVSMatching->mHeap, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, searchSizePointer[0],
-                searchSizePointer[1], *emblemCellPointer, gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
+                gWiFiVSMatching->mHeap, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingLabelLayout, searchSizePointer[0],
+                searchSizePointer[1], *emblemCellPointer, gWiFiVSMatching->mWiFiVSMatchingSCells,
+                gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
             wiFiVSMatching = gWiFiVSMatching;
             bmgEntry = GetBmgEntry(wiFiVSMatching->mWiFiMessages, 9);
-            PrintLabelLayoutTextNoFixedAdvance(1, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingBnll, bmgEntry,
-                                               wiFiVSMatching->mWiFiVSMatchingBncl,
+            PrintLabelLayoutTextNoFixedAdvance(1, *searchLabelPointer, gWiFiVSMatching->mWiFiVSMatchingLabelLayout, bmgEntry,
+                                               wiFiVSMatching->mWiFiVSMatchingCellLayout,
                                                wiFiVSMatching->mWiFiVSMatchingTable);
             emblemCellPointer++;
             searchSizePointer += 2;
@@ -98,13 +98,13 @@ void InitWiFiVSMatchingLabels(void) {
         u8 settingLabelSize[2] = {0xa0, 0x10};
 
         settingMessageIndex = LookupWiFiVSSettingMessageIndex(GetWiFiVSSettingIndex());
-        InitLabelCanvas(gWiFiVSMatching->mHeap, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll, settingLabelSize[0],
-                        settingLabelSize[1], gWiFiVSMatching->mWiFiVSMatchingBncl->mCount,
-                        gWiFiVSMatching->mWiFiVSMatchingSNcer, gWiFiVSMatching->mWiFiVSMatchingBncl,
+        InitLabelCanvas(gWiFiVSMatching->mHeap, 0xc, gWiFiVSMatching->mWiFiVSMatchingLabelLayout, settingLabelSize[0],
+                        settingLabelSize[1], gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount,
+                        gWiFiVSMatching->mWiFiVSMatchingSCells, gWiFiVSMatching->mWiFiVSMatchingCellLayout,
                         gWiFiVSMatching->mWiFiVSMatchingTable, subObjSizeLeft);
-        PrintLabelLayoutTextNoFixedAdvance(1, 0xc, gWiFiVSMatching->mWiFiVSMatchingBnll,
+        PrintLabelLayoutTextNoFixedAdvance(1, 0xc, gWiFiVSMatching->mWiFiVSMatchingLabelLayout,
                                            GetBmgEntry(gWiFiVSMatching->mWiFiMessages, settingMessageIndex),
-                                           gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+                                           gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable);
     }
 }
 
@@ -116,7 +116,7 @@ void InitWiFiVSMatchingEntryMatrices(void) {
     s32 cellCount;
     const u8 *totalCellIndices;
 
-    cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    cellCount = gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount;
     otherIndex = 0;
     totalCellIndices = &gWiFiVSMatchingTotalCellIndices[0][0];
     totalLabelIndices = &gWiFiVSMatchingTotalLabelIndices[0][0];
@@ -163,7 +163,7 @@ void InitWiFiVSMatching(void *heap) {
     LocateAndQueueWiFiVSMatching();
     oamList = GetWiFiMenuMainOamList();
     ResetOamLists(oamList, GetWiFiMenuSubOamList());
-    InitLayoutTable(heap, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingBnll,
+    InitLayoutTable(heap, gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingLabelLayout,
                     &gWiFiVSMatching->mWiFiVSMatchingTable);
     gWiFiVSMatching->mWiFiMessages = FindSceneFile("wifi.bmg");
     gWiFiVSMatching->mCommonMessages = FindFileInLoadedArchives("common.bmg");
@@ -179,11 +179,11 @@ void InitWiFiVSMatching(void *heap) {
             gWiFiVSMatching->mWiFiVSMatchingTable[offsetTableIndices[entryIndex]].mVisible = 0;
         }
         gWiFiVSMatching->mWiFiVSMatchingTable[*emblemCellIndices].mVisible = 1;
-        gWiFiVSMatching->mWiFiVSMatchingTable[*nameLabelIndices + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+        gWiFiVSMatching->mWiFiVSMatchingTable[*nameLabelIndices + gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount]
             .mVisible = 0;
         for (entryIndex = 0; entryIndex < 2; entryIndex++) {
             totalLabelIndex = totalLabelIndices[entryIndex];
-            gWiFiVSMatching->mWiFiVSMatchingTable[totalLabelIndex + gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+            gWiFiVSMatching->mWiFiVSMatchingTable[totalLabelIndex + gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount]
                 .mVisible = 0;
         }
         gWiFiVSMatching->mWiFiVSMatchingTable[*nameCellIndices].mVisible = 1;
@@ -227,12 +227,12 @@ void LocateAndQueueWiFiVSMatching(void) {
     LocateNcgr(&chars, FindSceneFile("WiFi_VS_matching_s_b.ncgr"));
     LocateNscr(&scrn, FindSceneFile("WiFi_VS_matching_s.nscr"));
     LocateNclr(&palette, FindSceneFile("WiFi_VS_matching_s_b.nclr"));
-    gWiFiVSMatching->mWiFiVSMatchingBncl = FindSceneFile("WiFi_VS_matching.bncl");
-    gWiFiVSMatching->mWiFiVSMatchingBnbl = FindSceneFile("WiFi_VS_matching.bnbl");
-    gWiFiVSMatching->mWiFiVSMatchingBnll = FindSceneFile("WiFi_VS_matching.bnll");
-    LocateNcgr2(&gWiFiVSMatching->mWiFiVSMatchingSNcgr, FindSceneFile("WiFi_VS_matching_s.nce.ncgr"));
-    LocateNcer(&gWiFiVSMatching->mWiFiVSMatchingSNcer, FindSceneFile("WiFi_VS_matching_s.nce.ncer"));
-    LocateNclr(&gWiFiVSMatching->mWiFiVSMatchingSONclr, FindSceneFile("WiFi_VS_matching_s_o.nclr"));
+    gWiFiVSMatching->mWiFiVSMatchingCellLayout = FindSceneFile("WiFi_VS_matching.bncl");
+    gWiFiVSMatching->mWiFiVSMatchingRects = FindSceneFile("WiFi_VS_matching.bnbl");
+    gWiFiVSMatching->mWiFiVSMatchingLabelLayout = FindSceneFile("WiFi_VS_matching.bnll");
+    LocateNcgr2(&gWiFiVSMatching->mWiFiVSMatchingSChars, FindSceneFile("WiFi_VS_matching_s.nce.ncgr"));
+    LocateNcer(&gWiFiVSMatching->mWiFiVSMatchingSCells, FindSceneFile("WiFi_VS_matching_s.nce.ncer"));
+    LocateNclr(&gWiFiVSMatching->mWiFiVSMatchingSOPalette, FindSceneFile("WiFi_VS_matching_s_o.nclr"));
     (reg_G2S_DB_BG3CNT) =
         ((reg_G2S_DB_BG3CNT) & (REG_G2S_DB_BG3CNT_PRIORITY_MASK | REG_G2S_DB_BG3CNT_MOSAIC_MASK)) | 0x4400;
     zero = 0;
@@ -241,20 +241,20 @@ void LocateAndQueueWiFiVSMatching(void) {
     NNS_GfdRegisterNewVramTransferTask(0x17, 0, chars->mData, chars->mDataSize);
     NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gWiFiVSMatching->mNscrCopy, 0x1000);
     NNS_GfdRegisterNewVramTransferTask(0x1f, 0, palette->mData, 0x80);
-    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSMatching->mWiFiVSMatchingSNcgr->mData,
-                                       gWiFiVSMatching->mWiFiVSMatchingSNcgr->mDataSize);
-    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSMatching->mWiFiVSMatchingSONclr->mData,
-                                       gWiFiVSMatching->mWiFiVSMatchingSONclr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gWiFiVSMatching->mWiFiVSMatchingSChars->mData,
+                                       gWiFiVSMatching->mWiFiVSMatchingSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gWiFiVSMatching->mWiFiVSMatchingSOPalette->mData,
+                                       gWiFiVSMatching->mWiFiVSMatchingSOPalette->mDataSize);
     for (colorIndex = 0; colorIndex < 5; colorIndex++) {
         paletteColor =
-            (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[0])[colorIndex];
+            (gWiFiVSMatching->mWiFiVSMatchingSOPalette->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[0])[colorIndex];
         gWiFiVSMatching->mFromChannels[colorIndex][0] = paletteColor & 0x1f;
         gWiFiVSMatching->mFromChannels[colorIndex][1] = (paletteColor & 0x3e0) >> 5;
         gWiFiVSMatching->mFromChannels[colorIndex][2] = (paletteColor & 0x7c00) >> 10;
     }
     for (colorIndex = 0; colorIndex < 5; colorIndex++) {
         paletteColor =
-            (gWiFiVSMatching->mWiFiVSMatchingSONclr->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[1])[colorIndex];
+            (gWiFiVSMatching->mWiFiVSMatchingSOPalette->mData + 0x60 + gWiFiVSMatchingBlendColorOffsets[1])[colorIndex];
         gWiFiVSMatching->mToChannels[colorIndex][0] = paletteColor & 0x1f;
         gWiFiVSMatching->mToChannels[colorIndex][1] = (paletteColor & 0x3e0) >> 5;
         gWiFiVSMatching->mToChannels[colorIndex][2] = (paletteColor & 0x7c00) >> 10;
@@ -267,8 +267,8 @@ void PrintWiFiVSMatchingNoOpponents(void) {
     for (otherIndex = 0; otherIndex < 3; otherIndex++) {
         if (gWiFiVSMatching->mOtherFound[otherIndex] == 0) {
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gWiFiVSMatchingSearchLabelIndices[otherIndex], gWiFiVSMatching->mWiFiVSMatchingBnll,
-                GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10), gWiFiVSMatching->mWiFiVSMatchingBncl,
+                1, gWiFiVSMatchingSearchLabelIndices[otherIndex], gWiFiVSMatching->mWiFiVSMatchingLabelLayout,
+                GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 10), gWiFiVSMatching->mWiFiVSMatchingCellLayout,
                 gWiFiVSMatching->mWiFiVSMatchingTable);
         }
     }
@@ -398,8 +398,8 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
             MIi_CpuCopy16(GetPlayerRecordName(gWiFiVSMatching->mOtherIndices[otherIndex]), nameText, 0x14);
             nameText[10] = 0;
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gWiFiVSMatchingNameLabelIndices[otherIndex], gWiFiVSMatching->mWiFiVSMatchingBnll, nameText,
-                gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+                1, gWiFiVSMatchingNameLabelIndices[otherIndex], gWiFiVSMatching->mWiFiVSMatchingLabelLayout, nameText,
+                gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable);
             secondTotal = GetPlayerRecordSecondTotal(gWiFiVSMatching->mOtherIndices[otherIndex]);
             if (secondTotal > 9999) {
                 secondTotal = 9999;
@@ -407,11 +407,11 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
             FormatAsciiNumber(GetPlayerRecordFirstTotal(gWiFiVSMatching->mOtherIndices[otherIndex]), firstTotalText);
             FormatAsciiNumber(secondTotal, secondTotalText);
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gWiFiVSMatchingTotalLabelIndices[otherIndex][0], gWiFiVSMatching->mWiFiVSMatchingBnll,
-                firstTotalText, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+                1, gWiFiVSMatchingTotalLabelIndices[otherIndex][0], gWiFiVSMatching->mWiFiVSMatchingLabelLayout,
+                firstTotalText, gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable);
             PrintLabelLayoutTextNoFixedAdvance(
-                1, gWiFiVSMatchingTotalLabelIndices[otherIndex][1], gWiFiVSMatching->mWiFiVSMatchingBnll,
-                secondTotalText, gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingTable);
+                1, gWiFiVSMatchingTotalLabelIndices[otherIndex][1], gWiFiVSMatching->mWiFiVSMatchingLabelLayout,
+                secondTotalText, gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingTable);
             emblemDestination = gWiFiVSMatching->mOtherEmblems[0];
             emblemDestination += otherIndex * 0x200;
             CopyBytesIntoTiles(GetPlayerRecordEmblem(gWiFiVSMatching->mOtherIndices[otherIndex]), emblemDestination,
@@ -491,15 +491,15 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
                 if (gWiFiVSMatching->mOtherHasEmblem[otherIndex] != 0) {
                     NNS_GfdRegisterNewVramTransferTask(0x23,
                                                        GetCellCharIndex(gWiFiVSMatchingEmblemCellIndices[otherIndex],
-                                                                        gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                                                                        gWiFiVSMatching->mWiFiVSMatchingBncl)
+                                                                        gWiFiVSMatching->mWiFiVSMatchingSCells,
+                                                                        gWiFiVSMatching->mWiFiVSMatchingCellLayout)
                                                            << 5,
                                                        gWiFiVSMatching->mOtherEmblems[otherIndex], 0x200);
                     NNS_GfdRegisterNewVramTransferTask(0x1e, (otherIndex + 3) << 5, emblemPalette->mData, 0x20);
                 }
                 gWiFiVSMatching
                     ->mWiFiVSMatchingTable[gWiFiVSMatchingSearchLabelIndices[otherIndex] +
-                                           gWiFiVSMatching->mWiFiVSMatchingBncl->mCount]
+                                           gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount]
                     .mVisible = 0;
             }
             SetupTxtSystemMainTextEx(GetBmgEntry(gWiFiVSMatching->mWiFiMessages, 11), 0, 0, 1, 0, 0, 0);
@@ -545,7 +545,7 @@ void AdvanceWiFiVSMatchingScaleInOther(void) {
     totalFrame = frame;
     emblemFrame = frame;
     otherSlot = gWiFiVSMatching->mCurrentOtherIndex;
-    cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    cellCount = gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount;
     if (frame >= WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES) {
         totalFrame = WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES - 1;
     }
@@ -679,7 +679,7 @@ void AdvanceWiFiVSMatchingWaitFadeOut(void) {
 
 void UpdateWiFiVSMatchingOffsets(void) {
     s32 otherIndex;
-    u32 cellCount = gWiFiVSMatching->mWiFiVSMatchingBncl->mCount;
+    u32 cellCount = gWiFiVSMatching->mWiFiVSMatchingCellLayout->mCount;
     s32 entryIndex;
 
     for (otherIndex = 0; otherIndex < 3; otherIndex++) {
@@ -782,8 +782,8 @@ void AdvanceWiFiVSMatching(void) {
     }
     UpdateWiFiVSMatchingOffsets();
     UpdateWiFiVSMatchingPaletteBlend();
-    DrawLayoutTable(gWiFiVSMatching->mWiFiVSMatchingBncl, gWiFiVSMatching->mWiFiVSMatchingSNcer,
-                    gWiFiVSMatching->mWiFiVSMatchingBnll, GetWiFiMenuSubOamList(),
+    DrawLayoutTable(gWiFiVSMatching->mWiFiVSMatchingCellLayout, gWiFiVSMatching->mWiFiVSMatchingSCells,
+                    gWiFiVSMatching->mWiFiVSMatchingLabelLayout, GetWiFiMenuSubOamList(),
                     gWiFiVSMatching->mWiFiVSMatchingTable);
 }
 
