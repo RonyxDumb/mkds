@@ -111,7 +111,7 @@ void UpdateWanwanFollowPath(void *stateObject) {
                    44),
             &wanwan->mYawQuaternion);
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_FOLLOW_PATH_FRAMES) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_FOLLOW_PATH_BLEND_FRAMES) {
         wanwan->mOrientationBlendAmount = wanwan->mOrientationBlendAmount + WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }

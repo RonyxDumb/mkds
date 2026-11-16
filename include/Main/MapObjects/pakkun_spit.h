@@ -20,7 +20,7 @@ typedef struct PakkunSpit {
 
 #define PAKKUN_SPIT_HEIGHT_SPEED 0x5800
 
-#define PAKKUN_SPIT_OBJECT_SOUND_ID 0x1af
+#define PAKKUN_SPIT_BOUNCE_SOUND_ID 0x1af
 
 MapObjectKindData *CreatePakkunSpitKindData(void);
 void UpdatePakkunSpit(void *mapObjectList, PakkunSpit *pakkunSpit);

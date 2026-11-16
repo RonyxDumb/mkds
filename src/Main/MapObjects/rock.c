@@ -186,7 +186,7 @@ void UpdateRock(void *mapObjectList, RockObject *rock) {
     } else {
         rock->mSinceGroundFrames += 1;
     }
-    if (rock->mSinceGroundFrames < ROCK_GROUND_GRACE_FRAMES) {
+    if (rock->mSinceGroundFrames < ROCK_SOUND_AFTER_GROUND_FRAMES) {
         StartMapObjectSoundWhileRequested(&rock->mMapObject, 0x179);
     }
     rock->mMapObject.mPosStep.y = rock->mMapObject.mPosStep.y - 0x400;

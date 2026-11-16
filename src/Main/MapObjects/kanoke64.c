@@ -216,13 +216,13 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
             }
             if (kanoke64->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (kanoke64->mTimer-- <= 0) {
-                    kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
+                    kanoke64->mTimer = KANOKE64_BURST_TIMER_LOOPS;
                     kanoke64->mState = 1;
                 }
                 return;
             }
             if (Kanoke64IsKartNearInAngle(kanoke64, kanoke64->mMapObject.mAngle) != FALSE) {
-                kanoke64->mTimer = KANOKE64_BURST_TIMER_FRAMES;
+                kanoke64->mTimer = KANOKE64_BURST_TIMER_LOOPS;
                 kanoke64->mState = 1;
             }
             return;
@@ -231,7 +231,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
         default:
             return;
     }
-    if (kanoke64->mNsbcaFrameIndex == KANOKE64_BURST_END_FRAME) {
+    if (kanoke64->mNsbcaFrameIndex == KANOKE64_BURST_FRAME) {
         for (burstIndex = 0; burstIndex < 3; burstIndex++) {
             Kanoke64SetRandomPos(&basabasaPos, kanoke64->mMapObject.mPos.x, kanoke64->mMapObject.mPos.y + 0x19000,
                                  kanoke64->mMapObject.mPos.z);

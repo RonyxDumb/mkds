@@ -5,8 +5,8 @@
 #include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 #define NS_KILLER1_SPEED 0x2000
-#define NS_KILLER1_STATE_FRAMES 0x2d
-#define NS_KILLER1_LONG_STATE_FRAMES 0x4b
+#define NS_KILLER1_PAUSE_FRAMES 0x2d
+#define NS_KILLER1_WAIT_FRAMES 0x4b
 
 extern struct MapObjectModel *gNsKiller1;
 

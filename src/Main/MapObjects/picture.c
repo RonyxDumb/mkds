@@ -110,7 +110,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                         } else {
                             falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
-                        firstSoundParams.mSoundId = PICTURE_MAIN_FRAMES_SOUND_ID;
+                        firstSoundParams.mSoundId = PICTURE1_FIRST_FRAMES_SOUND_ID;
                         firstSoundParams.mPositionSource = &picture->mMapObject.mPos;
                         firstSoundParams.mFalloffIndex = falloffIndex;
                         firstSoundParams.mDistanceSquared =
@@ -129,7 +129,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                         } else {
                             falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
-                        secondSoundParams.mSoundId = PICTURE_SIDE_FRAMES_SOUND_ID;
+                        secondSoundParams.mSoundId = PICTURE1_SECOND_FRAMES_SOUND_ID;
                         secondSoundParams.mPositionSource = &picture->mMapObject.mPos;
                         secondSoundParams.mFalloffIndex = falloffIndex;
                         secondSoundParams.mDistanceSquared =
@@ -147,7 +147,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                         } else {
                             falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
-                        thirdSoundParams.mSoundId = PICTURE_LAST_FRAME_SOUND_ID;
+                        thirdSoundParams.mSoundId = PICTURE1_LATEST_FRAME_SOUND_ID;
                         thirdSoundParams.mPositionSource = &picture->mMapObject.mPos;
                         thirdSoundParams.mFalloffIndex = falloffIndex;
                         thirdSoundParams.mDistanceSquared =
@@ -172,7 +172,7 @@ void UpdatePicture(void *mapObjectList, Picture *picture) {
                         } else {
                             falloffIndex = SOUND_FALLOFF_LONG_RANGE;
                         }
-                        fourthSoundParams.mSoundId = PICTURE_SECOND_PICTURE_SOUND_ID;
+                        fourthSoundParams.mSoundId = PICTURE2_SOUND_ID;
                         fourthSoundParams.mPositionSource = &picture->mMapObject.mPos;
                         fourthSoundParams.mFalloffIndex = falloffIndex;
                         fourthSoundParams.mDistanceSquared =

@@ -321,7 +321,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             break;
         case PAKKUN_STATE_WAIT_BODY_SETTLE:
             if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
-                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
+                pakkun->mTimer = PAKKUN_LEAN_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_BACK;
             }
             break;
@@ -378,7 +378,7 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
                     StartSoundFromParams(&soundParams);
                 }
             } else if (pakkun->mMouthFrame == 0) {
-                pakkun->mTimer = PAKKUN_WAIT_FRAMES;
+                pakkun->mTimer = PAKKUN_LEAN_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_FORWARD;
             }
             break;

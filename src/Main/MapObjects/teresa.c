@@ -318,7 +318,7 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mAlphaFixed12Max = alphaFixed12Max;
     if (GetCurrentCameraKind() == 2) {
         teresa->mFadeInTimer = 0;
-        teresa->mFadeOutTimer = TERESA_NEVER_FRAMES;
+        teresa->mFadeOutTimer = TERESA_FADE_OUT_TIMER_MAX;
         teresa->mState = 0;
     } else {
         teresa->mFadeInTimer = (u16) TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x4b);

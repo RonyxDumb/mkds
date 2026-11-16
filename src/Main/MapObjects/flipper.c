@@ -204,14 +204,14 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
                 flipper->mMirror = 0;
                 flipper->mMapObject.mFlags &= ~0x400;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
+                flipper->mWaitTimer = FLIPPER_FIRST_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));
                 break;
             case 1:
                 flipper->mMirror = 1;
                 flipper->mMapObject.mFlags |= gFlipperMirrorFlag;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
-                flipper->mWaitTimer = FLIPPER_WAIT_FRAMES;
+                flipper->mWaitTimer = FLIPPER_FIRST_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0x1050), COS_OF_ANGLE(0x1050));
                 break;
         }
@@ -290,7 +290,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             break;
         case FLIPPER_STATE_SWING_BACK:
             flipper->mMapObject.mAngle += 0x16c;
-            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_ANIMATION_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;
@@ -324,7 +324,7 @@ void UpdateFlipper(void *mapObjectList, Flipper *flipper) {
             break;
         case FLIPPER_STATE_ALT_SWING_BACK:
             flipper->mMapObject.mAngle += 0x2d8;
-            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_STEP_LIMIT) {
+            if (flipper->mSwingStep >= FLIPPER_SWING_BACK_ANIMATION_STEP_LIMIT) {
                 flipper->mIsAnimating = 1;
             } else {
                 flipper->mIsAnimating = 0;

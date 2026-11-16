@@ -6,7 +6,7 @@
 #include "01/MapObjects/map_object_model.h"
 
 #define TERESA_ALPHA_FIXED12_MIN 0x2000
-#define TERESA_NEVER_FRAMES 0xffff
+#define TERESA_FADE_OUT_TIMER_MAX 0xffff
 
 // A wobble: mValue follows mMid plus a swing of mAmplitude driven by mAngle; mAmplitude and mAnglePerFrame step toward
 // zero. Teresa, Crab and the trophy use it.

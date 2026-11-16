@@ -179,7 +179,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
             break;
         case SMAN_STATE_WAIT_LOW:
             sman->mStateFrames = sman->mStateFrames + 1;
-            if (sman->mStateFrames >= SMAN_STATE_END_FRAMES) {
+            if (sman->mStateFrames >= SMAN_WAIT_LOW_FRAMES) {
                 sman->mStateFrames = 0;
                 sman->mTopHeightPerFrame = ((sman->mTopStartHeight - sman->mTopLowHeight) * 0x40) / 0x1000;
                 sman->mState = SMAN_STATE_COME_BACK;

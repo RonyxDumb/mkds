@@ -542,17 +542,17 @@ void UpdateMapObjectViewTests(void) {
             if ((objectIndex & 3) == frameSlot) {
                 if (mapObject->mDigitMask & shapeMask) {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) | 0x5f592e7;
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) | 0x5f592e7;
                     mapObject->mFlags |= extraFlags;
                 } else {
                     if (mapObject->mUseTwoPlaneViewTest != 0) {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                             ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                     mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     } else {
                         mapObject->mDistanceSquaredAndFlags =
-                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                            (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                             ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                             mapObject->mFarDistanceSquared, mapObject->mAlpha);
                     }
@@ -595,12 +595,12 @@ void RefreshMapObjectViewTests(void) {
             } else {
                 if (mapObject->mUseTwoPlaneViewTest != 0) {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                         ComputeTwoPlaneViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                                 mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 } else {
                     mapObject->mDistanceSquaredAndFlags =
-                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT) |
+                        (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH) |
                         ComputeViewTest(&mapObject->mPos, mapObject->mViewRadius, mapObject->mDrawDistance,
                                         mapObject->mFarDistanceSquared, mapObject->mAlpha);
                 }
@@ -750,7 +750,7 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
         if (gFoundCollisionSlotFlags[slotIndex] & 0x2000) {
             mapObject = gFoundCollisionSlotObjects[slotIndex];
-            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_KIND_BIT)) {
+            if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH)) {
                 continue;
             }
             if (IsSphereHittingMapObject(&centre, radius, mapObject, foundVector) != FALSE) {

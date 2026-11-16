@@ -132,7 +132,7 @@ void EnterKuriboStretch(void *stateObject) {
 void UpdateKuriboStretch(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, 0x1266);
-    if (kuribo->mScaleFactorY > KURIBO_STRETCH_SCALE_Y_MAX) {
+    if (kuribo->mScaleFactorY > KURIBO_STRETCH_SCALE_Y_LIMIT) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_SHRINK;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }
@@ -143,7 +143,7 @@ void EnterKuriboShrink(void *stateObject) {}
 void UpdateKuriboShrink(void *stateObject) {
     Kuribo *kuribo = stateObject;
     kuribo->mScaleFactorY = MUL_FIXED12_NO_ROUND(kuribo->mScaleFactorY, KURIBO_SCALE_SHRINK_FACTOR);
-    if (kuribo->mScaleFactorY < KURIBO_SHRINK_SCALE_Y_MIN) {
+    if (kuribo->mScaleFactorY < KURIBO_SHRINK_SCALE_Y_LIMIT) {
         kuribo->mMapObject.mStateMachine.mNextState = KURIBO_STATE_FLAT_WAIT;
         kuribo->mMapObject.mStateMachine.mNextStateRequested = 1;
     }

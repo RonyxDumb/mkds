@@ -106,7 +106,7 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             dossun->mSpinAngle = dossun->mSpinSpeed;
             dossun->mHitState = DOSSUN_HIT_NONE;
             dossun->mKartMask = 0;
-            dossun->mTimer = DOSSUN_START_FRAMES;
+            dossun->mTimer = DOSSUN_AFTER_HIT_WAIT_FRAMES;
             dossun->mState = DOSSUN_STATE_WAIT_START;
             return;
         }

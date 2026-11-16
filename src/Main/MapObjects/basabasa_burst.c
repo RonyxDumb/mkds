@@ -145,13 +145,13 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
             }
             if (burstObject->mMapObject.mFlags & MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI) {
                 if (burstObject->mTimer-- <= 0) {
-                    burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
+                    burstObject->mTimer = BASABASA_BURST_TIMER_CYCLES;
                     burstObject->mState = 1;
                 }
                 return;
             }
             if (BasabasaBurstIsKartNearInAngle(burstObject, burstObject->mMapObject.mAngle) != FALSE) {
-                burstObject->mTimer = BASABASA_BURST_TIMER_FRAMES;
+                burstObject->mTimer = BASABASA_BURST_TIMER_CYCLES;
                 burstObject->mState = 1;
             }
             return;

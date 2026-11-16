@@ -11,10 +11,10 @@
 
 #define FLIPPER_ALT_WAIT_FRAMES 0xaa
 
-#define FLIPPER_WAIT_FRAMES 0x1e
+#define FLIPPER_FIRST_WAIT_FRAMES 0x1e
 #define FLIPPER_SWING_OUT_STEPS 0x1d
 #define FLIPPER_ALT_SWING_OUT_STEPS 0x1c
-#define FLIPPER_SWING_BACK_STEP_LIMIT 0xf
+#define FLIPPER_SWING_BACK_ANIMATION_STEP_LIMIT 0xf
 
 // Values of Flipper.mState; WAIT goes to ALT_WAIT while mAltWaitFrames is non-zero, ALT_WAIT lasts until it reaches 0,
 // and the ALT swings move two steps per frame.

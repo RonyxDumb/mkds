@@ -9,7 +9,7 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_kind_update_list.h" // MapObjectKindDescriptor
 
-#define ROCK_GROUND_GRACE_FRAMES 10
+#define ROCK_SOUND_AFTER_GROUND_FRAMES 10
 
 #define ROCK_HEIGHT_RANGE_MAX 0x3e8000
 

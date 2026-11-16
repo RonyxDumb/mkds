@@ -69,7 +69,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
             sideDirection.z = valueX;
             sideDirection.x = -valueZ;
             sideDirection.y = 0;
-            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_REVERSE;
         }
         crab->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(sideDirection.x, 0x1800);
         crab->mMapObject.mPosStep.y = MUL_FIXED12_NO_ROUND(sideDirection.y, 0x1800);
@@ -85,7 +85,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         if (CrabNextRandomBelow(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME;
         } else {
-            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_BACK;
+            crab->mRotateZAnglePerFrame = CRAB_ROTATE_Z_ANGLE_PER_FRAME_REVERSE;
         }
     }
     if (sourceVelocity != NULL) {
@@ -93,7 +93,7 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mMapObject.mPosStep.z += sourceVelocity->z / 2;
     }
     crab->mMapObject.mPosStep.y = 0x4000;
-    crab->mTimer = CRAB_START_TIMER_FRAMES;
+    crab->mTimer = CRAB_FLUNG_FRAMES;
     crab->mState = CRAB_STATE_FLUNG;
     crab->mMapObject.mFlags |= gCrabLaunchFlag;
 }

@@ -171,15 +171,15 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                         descriptor->mKindData->mHeightRangeMin = -MAP_OBJECT_HEIGHT_RANGE_DEFAULT;
                     }
                     if (gRaceSetup->mRaceKind == RACE_KIND_REPLAY) {
-                        if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX) {
-                            descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX;
+                        if (descriptor->mKindData->mHeightRangeMax < MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN) {
+                            descriptor->mKindData->mHeightRangeMax = MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN;
                         }
                     }
                 }
                 grpconfRow = FindGrpconfTblRowByKind(row->mKind);
                 if (grpconfRow->mViewTestKind != 0) {
                     descriptor->mKindData->mUseTwoPlaneViewTest =
-                        grpconfRow->mViewTestKind >= MAP_OBJECT_VIEW_TEST_KIND_PAIRED_PLANES ? 1 : 0;
+                        grpconfRow->mViewTestKind >= MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE_MIN ? 1 : 0;
                     tableValue = grpconfRow->mViewRadius;
                     descriptor->mKindData->mViewRadius =
                         tableValue != 0 ? TO_FIXED12(tableValue) + 0.5f : TO_FIXED12(tableValue) - 0.5f;

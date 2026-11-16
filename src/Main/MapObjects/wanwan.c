@@ -176,7 +176,7 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
     if (touchesGround != FALSE) {
         touchesGround = TRUE;
         if (wanwan->mMapObject.mStateMachine.mState == WANWAN_STATE_HIT) {
-            if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_FRAMES) {
+            if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_TURN_START_FRAMES) {
                 touchesGround = FALSE;
             }
         }
@@ -395,7 +395,7 @@ void UpdateWanwanRoam(void *stateObject) {
                    44),
             &wanwan->mYawQuaternion);
     }
-    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_ROAM_START_FRAMES) {
+    if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_ROAM_BLEND_FRAMES) {
         wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
     }
 }
@@ -532,10 +532,10 @@ void UpdateWanwanHit(void *stateObject) {
                        44),
                 &wanwan->mYawQuaternion);
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_SHAKE_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames < WANWAN_HIT_BLEND_FRAMES) {
             wanwan->mOrientationBlendAmount += WANWAN_ORIENTATION_BLEND_AMOUNT_STEP;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_PHASE_END_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_PATH_TURN_START_FRAMES) {
             wanwan->mAngleAroundX += 0x200;
         } else {
             wanwan->mMapObject.mPosStep.y -= 0x266;
@@ -548,7 +548,7 @@ void UpdateWanwanHit(void *stateObject) {
         if (wanwan->mAngleAroundX == WANWAN_ANGLE_AROUND_X_HIT) {
             wanwan->mMapObject.mPosStep.y -= 0x19a;
         }
-        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_FRAMES) {
+        if (wanwan->mMapObject.mStateMachine.mStateFrames >= WANWAN_HIT_TURN_START_FRAMES) {
             wanwan->mAngleAroundX += 0x100;
         }
         if (wanwan->mAngleAroundX > WANWAN_ANGLE_AROUND_X_HIT_END) {

@@ -61,12 +61,12 @@ static inline u16 TownMonteMapObjectRandomBelowU16(u32 limit) {
 
 static inline void AdvanceTownMonteBounce(TownMonte *townMonte) {
     townMonte->mBounceOffset += townMonte->mBounceSpeed;
-    townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
+    townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_PER_FRAME;
     if (townMonte->mBounceOffset == 0) {
         townMonte->mBounceOffset += townMonte->mBounceSpeed;
-        townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_STEP;
+        townMonte->mBounceSpeed += TOWN_MONTE_BOUNCE_SPEED_PER_FRAME;
     } else if (townMonte->mBounceOffset >= TOWN_MONTE_BOUNCE_OFFSET_MAX) {
-        townMonte->mBounceSpeed = TOWN_MONTE_BOUNCE_SPEED_STEP - townMonte->mBounceSpeed;
+        townMonte->mBounceSpeed = TOWN_MONTE_BOUNCE_SPEED_PER_FRAME - townMonte->mBounceSpeed;
         townMonte->mMirror = townMonte->mMirror == 0 ? 1 : 0;
     }
 }

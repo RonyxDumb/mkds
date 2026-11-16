@@ -8,8 +8,8 @@
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 #include "01/MapObjects/map_object_model.h"
 
-#define NS_KILLER2_PARK_WAIT_FRAMES 0x78
-#define NS_KILLER2_PARK_TIMER_LIMIT 0x24e
+#define NS_KILLER2_HIT_PARK_FRAMES 0x78
+#define NS_KILLER2_SOUND_START_PARK_TIMER 0x24e
 #define NS_KILLER2_PARK_FRAMES 600
 
 #define NS_KILLER2_HEIGHT_RANGE_MAX 0x32000

@@ -253,7 +253,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
         ironBall->mHeightOffset = ironBall->mHeightOffset + ironBall->mHeightSpeed;
         if (ironBall->mHeightOffset <= 0) {
             ironBall->mHeightSpeed = MUL_FIXED12_NO_ROUND(ironBall->mHeightSpeed, -0x800);
-            if (ironBall->mHeightSpeed < IRON_BALL_ROLL_HEIGHT_SPEED_LIMIT) {
+            if (ironBall->mHeightSpeed < IRON_BALL_BOUNCE_MIN_HEIGHT_SPEED) {
                 ironBall->mHeightSpeed = 0;
             } else if (!(GetEntryKartZoneMask() & ironBall->mSoundOffDigitMask) &&
                        !(ironBall->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE)) {

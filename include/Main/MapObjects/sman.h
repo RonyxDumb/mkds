@@ -8,7 +8,7 @@
 
 #define SMAN_ANGLE_Z_PER_FRAME 0xf0
 
-#define SMAN_STATE_END_FRAMES 0x12b
+#define SMAN_WAIT_LOW_FRAMES 0x12b
 
 #define SMAN_SOUND_ID 0x162
 

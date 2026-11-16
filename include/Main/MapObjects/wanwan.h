@@ -6,12 +6,12 @@
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_response_and_quaternion_math.h"
 
-#define WANWAN_HIT_FRAMES 0x78
-#define WANWAN_ROAM_START_FRAMES 0x40
-#define WANWAN_FOLLOW_PATH_FRAMES 0x40
+#define WANWAN_HIT_TURN_START_FRAMES 0x78
+#define WANWAN_ROAM_BLEND_FRAMES 0x40
+#define WANWAN_FOLLOW_PATH_BLEND_FRAMES 0x40
 #define WANWAN_LUNGE_FRAMES 0xb4
-#define WANWAN_HIT_SHAKE_FRAMES 0x40
-#define WANWAN_HIT_PHASE_END_FRAMES 0x28
+#define WANWAN_HIT_BLEND_FRAMES 0x40
+#define WANWAN_HIT_PATH_TURN_START_FRAMES 0x28
 #define WANWAN_PULL_BACK_FRAMES 0xb4
 
 #define WANWAN_PATH_BASE_LAND_SOUND_ID 0x1a1

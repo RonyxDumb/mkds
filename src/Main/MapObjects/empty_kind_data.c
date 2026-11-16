@@ -98,7 +98,7 @@ MapObjectKindData *CreateEmptyKindDataWithSound(void) {
     MapObjectKindData *kindData;
 
     kindData = CreateEmptyMapObjectKindData();
-    kindData->mSoundId = MINI_DOKAN_SOUND_ID;
+    kindData->mSoundId = EMPTY_KIND_DATA_SOUND_ID;
     return kindData;
 }
 

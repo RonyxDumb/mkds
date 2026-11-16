@@ -104,13 +104,13 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
             break;
         case NS_KILLER1_STATE_FOLLOW_PATH:
             if (AdvanceGroupFollower(&nsKiller1->mFollower) != FALSE) {
-                nsKiller1->mStateTimer = NS_KILLER1_STATE_FRAMES;
+                nsKiller1->mStateTimer = NS_KILLER1_PAUSE_FRAMES;
                 nsKiller1->mState = NS_KILLER1_STATE_PAUSE;
             }
             GetGroupFollowerLinearXz(&nsKiller1->mFollower, &nsKiller1->mMapObject.mPos);
             break;
         case NS_KILLER1_STATE_PAUSE:
-            if (nsKiller1->mStateTimer == NS_KILLER1_STATE_FRAMES) {
+            if (nsKiller1->mStateTimer == NS_KILLER1_PAUSE_FRAMES) {
                 if ((nsKiller1->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
                     NNS_SndPlayerStopSeq(GetSndHandleSlot(8), 0);
                     soundParams = gNsKiller1SoundStartParams;
@@ -132,7 +132,7 @@ void UpdateNsKiller1(void *mapObjectList, NsKiller1 *nsKiller1) {
                 StartEffect(0x4c, &nsKiller1->mMapObject.mPos);
                 StartEffect(0x4d, &nsKiller1->mMapObject.mPos);
             }
-            nsKiller1->mStateTimer = NS_KILLER1_LONG_STATE_FRAMES;
+            nsKiller1->mStateTimer = NS_KILLER1_WAIT_FRAMES;
             nsKiller1->mState = NS_KILLER1_STATE_WAIT;
             break;
     }

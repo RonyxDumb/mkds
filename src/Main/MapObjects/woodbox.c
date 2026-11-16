@@ -238,7 +238,7 @@ void EnterWoodbox1Broken(void *stateObject) {
 
 void UpdateWoodbox1Broken(void *stateObject) {
     Woodbox1 *woodbox = stateObject;
-    if (woodbox->mMapObject.mStateMachine.mStateFrames < WOODBOX1_BROKEN_FRAMES) {
+    if (woodbox->mMapObject.mStateMachine.mStateFrames < WOODBOX1_BROKEN_MIN_FRAMES) {
         return;
     }
     if (woodbox->mMapObject.mCourseMapRow->mSettings[2] != 0) {
@@ -378,7 +378,7 @@ void UpdateWoodbox1Settle(void *stateObject) {
 u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
         if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
-            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > WOODBOX1_SMASH_VELOCITY) {
+            if (kart->mItemEffect == KART_ITEM_EFFECT_STAR || kart->mVelocityLength > WOODBOX1_BREAK_MIN_SPEED) {
                 StartWoodbox1ItemObject(woodbox, &kart->mVelocity);
                 if (gBouncingWoodbox1 == woodbox) {
                     gBouncingWoodbox1 = NULL;

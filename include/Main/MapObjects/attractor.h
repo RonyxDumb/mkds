@@ -60,10 +60,10 @@ typedef struct MapObjectKindData {
 // Limit of the height difference between the camera and an object, below and above, that a kind gets when its data
 // leaves it 0 (a replay raises the upper one).
 #define MAP_OBJECT_HEIGHT_RANGE_DEFAULT 0x64000
-#define MAP_OBJECT_HEIGHT_RANGE_REPLAY_MAX 0x44c000
+#define MAP_OBJECT_HEIGHT_RANGE_REPLAY_UPPER_MIN 0x44c000
 
 // View test kind of a grpconf row from which on the kind uses two view planes.
-#define MAP_OBJECT_VIEW_TEST_KIND_PAIRED_PLANES 2
+#define MAP_OBJECT_VIEW_TEST_KIND_TWO_PLANE_MIN 2
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
@@ -169,7 +169,7 @@ typedef struct MapObject {
 #define MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE 0x4
 #define MAP_OBJECT_VIEW_OUT_OF_SIGHT (MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE | MAP_OBJECT_VIEW_OUTSIDE_PLANES)
 #define MAP_OBJECT_VIEW_TESTED 0x8
-#define MAP_OBJECT_VIEW_KIND_BIT 0x10
+#define MAP_OBJECT_VIEW_FAR_KART_TOUCH 0x10
 #define MAP_OBJECT_VIEW_DISTANCE_MASK 0x3fffffe0
 #define MAP_OBJECT_VIEW_SKIP_KIND_SOUND 0x40000000
 

@@ -142,7 +142,7 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
             }
             SetupKartFollowEffect(StartEffect(0x7a, &kart->mPos), kart->mIndex, 0x20);
             SetupKartFollowEffect(StartEffect(0x7b, &kart->mPos), kart->mIndex, 0x20);
-            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), KART_BALLOONS_HIT_SOUND_ID);
+            StartSoundFullVolumeWrapper(GetKart(hitByKartIndex), KART_BALLOONS_TRANSFER_SOUND_ID);
             if (GetBalloonOrShineCount(hitKartIndex) == 0) {
                 EliminateKartAndCheckWinner(hitKartIndex);
             }
@@ -225,7 +225,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 firstKartIndex, u16 secondKartIndex) {
         }
     }
     if (firstKartIndex == gRaceSetup->mEntryIndex || secondKartIndex == gRaceSetup->mEntryIndex) {
-        soundStartParams.mSoundId = KART_BALLOONS_HIT_SOUND_ID;
+        soundStartParams.mSoundId = KART_BALLOONS_TRANSFER_SOUND_ID;
         soundStartParams.mPositionSource = NULL;
         soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
         soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(NULL);
@@ -540,7 +540,7 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetKartInflatingBalloon(kartIndex, 0);
                 AddBalloonOrShineCountAndMoveRank(kartIndex, 1);
                 if (kartBalloons->mRemainingSpawnCount <= 0) {
-                    kartBalloons->mSpawnTimer = KART_BALLOONS_RESPAWN_WAIT_FRAMES;
+                    kartBalloons->mSpawnTimer = KART_BALLOONS_SPAWN_WAIT_FRAMES;
                     kartBalloons->mState = KART_BALLOONS_STATE_IDLE;
                 }
                 StartSoundFullVolumeWrapper(GetKart((u16) kartIndex), 0x152);

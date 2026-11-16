@@ -60,7 +60,7 @@ u8 CollideKartWithSanbo(Sanbo *sanbo, Kart *kart, u8 *firstResponse, u8 *respons
         StartSoundIfKartStarOrKiller(&sanbo->mMapObject, kart);
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
+            soundStartParams.mSoundId = SANBO_TOUCH_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
@@ -83,7 +83,7 @@ u8 CollideItemObjectWithSanbo(Sanbo *sanbo, ItemObject *itemObject, u8 *firstRes
         sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags | gSanboSecondHitFlag;
     } else {
         if (sanbo->mFastWobbleTimer == 0) {
-            soundStartParams.mSoundId = SANBO_HIT_SOUND_ID;
+            soundStartParams.mSoundId = SANBO_TOUCH_SOUND_ID;
             soundStartParams.mPositionSource = &sanbo->mMapObject.mPos;
             soundStartParams.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
             soundStartParams.mDistanceSquared = GetHorizontalCameraDistanceSquared(&sanbo->mMapObject.mPos);
@@ -283,7 +283,7 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             for (pieceIndex = 0; pieceIndex < sanbo->mPieceCount; pieceIndex++) {
                 if (sanbo->mFastWobbleTimer > 0) {
                     sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame = SANBO_FAST_WOBBLE_ANGLE_PER_FRAME;
-                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > SANBO_WOBBLE_SOUND_ANGLE_PER_FRAME) {
+                } else if (sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame > SANBO_WOBBLE_SLOW_DOWN_END_ANGLE_PER_FRAME) {
                     sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame =
                         sanbo->mPieces[pieceIndex].mWobbleAnglePerFrame - 0xb6;
                 } else {
