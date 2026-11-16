@@ -12,7 +12,7 @@
 #include "Main/Menu/message_screen.h"
 #include "Main/Menu/menu_shared_clear.h"
 
-WiFiStateCallbacks gSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState,
+WiFiStateCallbacks gWiFiSelectCharacterCallbacks = {InitWiFiSelectCharacterState, ReleaseWiFiSelectCharacterState,
                                                 AdvanceWiFiSelectCharacterState, WriteSelectCharacterRegistersWrapper};
 WiFiSelectHeapHolder *gWiFiSelectCharacterState;
 
@@ -70,6 +70,6 @@ void WriteSelectCharacterRegistersWrapper(void) {
 }
 
 void RegisterSelectCharacterCallbacks(void) {
-    WiFiStateCallbacks callbacks = gSelectCharacterCallbacks;
+    WiFiStateCallbacks callbacks = gWiFiSelectCharacterCallbacks;
     SetWiFiStateCallbacks(&callbacks);
 }

@@ -7,7 +7,7 @@
 #include "Main/Net/wifi_connection_lost.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 
-WiFiStateCallbacks gSelectKartCallbacks = {InitWiFiSelectKartState, ReleaseWiFiSelectKartState,
+WiFiStateCallbacks gWiFiSelectKartCallbacks = {InitWiFiSelectKartState, ReleaseWiFiSelectKartState,
                                            AdvanceWiFiSelectKartState, WriteSelectKartRegistersWrapper};
 WiFiSelectHeapHolder *gWiFiSelectKartState;
 
@@ -55,6 +55,6 @@ void WriteSelectKartRegistersWrapper(void) {
 }
 
 void RegisterSelectKartCallbacks(void) {
-    WiFiStateCallbacks callbacks = gSelectKartCallbacks;
+    WiFiStateCallbacks callbacks = gWiFiSelectKartCallbacks;
     SetWiFiStateCallbacks(&callbacks);
 }
