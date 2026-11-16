@@ -104,7 +104,7 @@ void UpdateBakubaku(void *mapObjectList, Bakubaku *bakubaku) {
 
     switch (bakubaku->mState) {
         case BAKUBAKU_STATE_WAIT_FOR_KART:
-            if (GetCurrentCameraKind() != 2) {
+            if (GetCurrentCameraKind() != CAMERA_KIND_CHAIN) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 kartPos = &kart->mPos;
                 deltaX = kartPos->x - bakubaku->mDistanceCheckPos.x;

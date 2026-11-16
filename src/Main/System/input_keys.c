@@ -21,7 +21,7 @@ void StartupResetKeysInputSlot(void) {
     gKeysInputSlot.mBits = 0;
     gKeysInputSlot.mClearedBits = 0;
     gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatState = INPUT_REPEAT_IDLE;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
     gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;
@@ -38,7 +38,7 @@ void ResetKeysInputSlot(void) {
     gKeysInputSlot.mBits = 0;
     gKeysInputSlot.mClearedBits = 0;
     gKeysInputSlot.mRepeatBits = 0;
-    gKeysInputSlot.mRepeatState = 0;
+    gKeysInputSlot.mRepeatState = INPUT_REPEAT_IDLE;
     gKeysInputSlot.mRepeatCallCount = 0;
     gKeysInputSlot.mRepeatMask = 0;
     gKeysInputSlot.mRepeatDelayLimit = INPUT_REPEAT_DELAY_FRAMES;

@@ -330,11 +330,11 @@ void InitWiFiVSCourseSelect(void *parentHeap, void *mainOam, void *subOam) {
     gWiFiVSCourseSelect->mSubOffsetY = -0xc0;
     for (index = 0; index < 4; index++) {
         gWiFiVSCourseSelect->mShownCourseIds[index] = 0;
-        SetupInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[index], 3, 10, 0xfc, 0);
+        SetupInterpolation(&gWiFiVSCourseSelect->mRowInterpolations[index], INTERPOLATION_STATE_AT_START, 10, 0xfc, 0);
     }
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[1], 0, 10, -0x40, 0);
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], 0, 10, -0xc0, 0);
-    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], 0, 10, 0x40, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
+    SetupInterpolation(&gWiFiVSCourseSelect->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
     reg_G2_BG0CNT = (reg_G2_BG0CNT & (REG_G2_BG0CNT_PRIORITY_MASK | REG_G2_BG0CNT_MOSAIC_MASK)) | 0xc00;
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gWiFiVSCourseSelect, "WiFi_VS_course_select_m_b.NCGR",
                                    "WiFi_VS_course_select_m_b.NCLR", "WiFi_VS_course_select_m.NSCR", 0, FindSceneFile);

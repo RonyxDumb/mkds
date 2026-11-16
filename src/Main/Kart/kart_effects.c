@@ -259,7 +259,7 @@ void ApplyKartCurrentEffectRow7(Kart *kart) {
 void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
     ParticleEmitter *effect;
 
-    if (GetCurrentCameraKind() != 0) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
         return;
     }
     GetChaseCamera();
@@ -530,7 +530,7 @@ void AdvanceKartBoostCameraEffect(ParticleEmitter *effect, s32 phase) {
     }
     chaseCamera = GetChaseCamera();
     kart = effect->mCallbackData;
-    if (GetCurrentCameraKind() != 0 ||
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE ||
         (effect->mFlags.mEmissionStopped != 0 && (effect->mCallbackState = effect->mCallbackState + 1,
                                                   effect->mCallbackState > KART_BOOST_CAMERA_EFFECT_STOPPED_STEP_LIMIT))) {
         effect->mFlags.mEnding = 1;

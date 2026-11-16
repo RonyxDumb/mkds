@@ -313,7 +313,7 @@ void InitTimeAttackGhostGetSlot(void *parentHeap, void *mainOam, void *subOam) {
                    RefreshSlotGhostListRows);
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetSlot->mInfoFileSets.mCellFileSets[2]);
     PrintSelectedGhostRecord();
-    SetupInterpolation(&gTimeAttackGhostGetSlot->mInterpolation, 0, 10, -0xc0, 0);
+    SetupInterpolation(&gTimeAttackGhostGetSlot->mInterpolation, INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
     RequestSelectReturnSlideIn();
     SetSelectReturnSoundId(0xf);
     SetupGhostMainTextEx();
@@ -353,7 +353,7 @@ s32 AdvanceTimeAttackGhostGetSlot(u16 *sceneNumbers) {
     object = gTimeAttackGhostGetSlot;
     switch (object->mState) {
         case TIME_ATTACK_GHOST_GET_SLOT_STATE_SLIDE_IN:
-            if (object->mInterpolation.mState == 1) {
+            if (object->mInterpolation.mState == INTERPOLATION_STATE_AT_END) {
                 object->mState = TIME_ATTACK_GHOST_GET_SLOT_STATE_CHOOSE_SLOT;
             } else {
                 UpdateSlotSlideOffsets();
@@ -523,7 +523,7 @@ void MoveSelectedGhostUp(s32 wrap) {
     if (index != startIndex) {
         do {
             if (object->mGhostInfoEntries[index].mFilled == TRUE &&
-                object->mGhostInfoEntries[index].mInterpolation.mState == 1) {
+                object->mGhostInfoEntries[index].mInterpolation.mState == INTERPOLATION_STATE_AT_END) {
                 found = TRUE;
                 object->mInfoFileSets.mSelectedIndex = index;
                 break;
@@ -563,7 +563,7 @@ void MoveSelectedGhostDown(s32 wrap) {
     if (index != startIndex) {
         do {
             if (object->mGhostInfoEntries[index].mFilled == TRUE &&
-                object->mGhostInfoEntries[index].mInterpolation.mState == 1) {
+                object->mGhostInfoEntries[index].mInterpolation.mState == INTERPOLATION_STATE_AT_END) {
                 found = TRUE;
                 object->mInfoFileSets.mSelectedIndex = index;
                 break;
@@ -803,7 +803,8 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     InitBlockEntries(gTimeAttackGhostGetScan->mHeap, 2);
     gTimeAttackGhostGetScan->mInfoFileSets.mSelectedIndex = -1;
     for (index = 0; index < 4; index++) {
-        SetupInterpolation(&gTimeAttackGhostGetScan->mGhostInfoEntries[index].mInterpolation, 3, 10, 0x100, 0);
+        SetupInterpolation(&gTimeAttackGhostGetScan->mGhostInfoEntries[index].mInterpolation,
+                           INTERPOLATION_STATE_AT_START, 10, 0x100, 0);
     }
     LocateAndQueueScreenMapFileSet(SCREEN_SIDE_MAIN, gTimeAttackGhostGetScan, "TimeAttack_ghost_get_m_b.NCGR",
                                    "TimeAttack_ghost_get_m_b.NCLR", "TimeAttack_ghost_get_m.NSCR", 0, FindSceneFile);
@@ -854,7 +855,7 @@ void InitTimeAttackGhostGetScan(void *parentHeap, void *mainOam, void *subOam) {
     }
     cellFileSet->mCellTable[4].mVisible = 0;
     SetPlayerCharacterCellFileSet(0, &gTimeAttackGhostGetScan->mInfoFileSets.mCellFileSets[2]);
-    SetupInterpolation(&gTimeAttackGhostGetScan->mInterpolation, 3, 10, -0xc0, 0);
+    SetupInterpolation(&gTimeAttackGhostGetScan->mInterpolation, INTERPOLATION_STATE_AT_START, 10, -0xc0, 0);
     SetSelectReturnSoundId(0xf);
     FrmHeapShrinkInParent(gTimeAttackGhostGetScan->mHeap);
 }
@@ -918,7 +919,7 @@ s32 AdvanceTimeAttackGhostGetScan(SceneNumbers *sceneNumbers) {
             }
             break;
         case TIME_ATTACK_GHOST_GET_SCAN_STATE_SLIDE_IN:
-            if (gTimeAttackGhostGetScan->mInterpolation.mState == 1) {
+            if (gTimeAttackGhostGetScan->mInterpolation.mState == INTERPOLATION_STATE_AT_END) {
                 gTimeAttackGhostGetScan->mState = TIME_ATTACK_GHOST_GET_SCAN_STATE_SCAN_LIST;
             } else {
                 UpdateScanSlideOffsets();

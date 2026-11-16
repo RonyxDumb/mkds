@@ -159,7 +159,7 @@ void UpdateKartViewDistancesAndOutOfView(void) {
             }
         }
     }
-    if (GetCurrentCameraKind() != 3) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE) {
         objectCount = 0;
         for (orderIndex = gKartNameTags->mAlongViewOrderIndex[gRaceSetup->mEntryIndex] + 1;
              orderIndex < gRaceSetup->mKartCount; orderIndex++) {
@@ -198,7 +198,7 @@ void UpdateKartNameTags(void) {
     KartNameTag *kartObject;
     Vec3 *posSource;
     Kart *kart;
-    if (GetCurrentCameraKind() == 0) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
         gKartDistanceLimitsSquared = &gChaseDistanceLimitsSquared;
     } else {
         gKartDistanceLimitsSquared = &gOtherCameraDistanceLimitsSquared;
@@ -214,7 +214,7 @@ void UpdateKartNameTags(void) {
         alphaScale = 0x1000;
         if (distance > 0) {
             if (gKartNameTags->mDistanceSquared[kartObject->mKartIndex] < KART_NAME_TAG_FADE_IN_DISTANCE_SQUARED ||
-                GetCurrentCameraKind() == 3) {
+                GetCurrentCameraKind() == CAMERA_KIND_ENTRY_SEQUENCE) {
                 distance -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->mFadeState = KART_NAME_TAG_FADE_IN;
@@ -230,7 +230,7 @@ void UpdateKartNameTags(void) {
         if (gKartNameTags->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
             (GetKart(kartObject->mKartIndex)->mEntryFlags & KART_ENTRY_REMOVED_PARKED_OR_TERESA) != 0 ||
             (GetAbsoluteValue(posSource->y - GetKart(gRaceSetup->mEntryIndex)->mPos.y) > 0x96000 &&
-             GetCurrentCameraKind() != 3)) {
+             GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE)) {
             kartObject->mFadeLevelPerCall = -1;
         }
         if (kartObject->mFadeStopped != FALSE) {
@@ -328,7 +328,7 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     MtxFx44 *projectionMatrix;
     KartNameTag *kartObject;
     BOOL isProjected;
-    if (GetCurrentCameraKind() != 0 && GetCurrentCameraKind() != 3) {
+    if (GetCurrentCameraKind() != CAMERA_KIND_CHASE && GetCurrentCameraKind() != CAMERA_KIND_ENTRY_SEQUENCE) {
         return;
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK)) | 8;

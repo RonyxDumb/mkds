@@ -323,21 +323,21 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectKart->mTouchRect = -1;
     switch (GetRaceSetupCopy()->mEntryTransition) {
         case ENTRY_TRANSITION_FROM_CHARACTER:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_AT_END, 10, -0x80, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_AT_END, 10, 0x60, 0);
             break;
         case ENTRY_TRANSITION_FRESH:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x80, 0);
+            SetupInterpolation(&gSelectKart->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x60, 0);
             if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
                 StartKartModelMenuBg0Increase();
                 SetKartModelMenuSpinStopped(0);
             }
             break;
     }
-    SetupInterpolation(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[3], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
+    SetupInterpolation(&gSelectKart->mInterpolations[4], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
     gSelectKart->mMainOam = mainOam;
     gSelectKart->mSubOam = subOam;
     if (gSelectKart->mMode != SELECT_KART_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||

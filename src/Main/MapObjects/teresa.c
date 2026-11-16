@@ -88,7 +88,7 @@ void DrawTeresa(void *mapObjectList, Teresa *teresa) {
     gxParam = 0x1e;
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewTransposeMatrixPos(&teresa->mMapObject.mPos), 0xc);
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         gxScale[0] = 0x2000;
         gxScale[1] = 0x2000;
         gxScale[2] = 0x2000;
@@ -213,7 +213,7 @@ void UpdateTeresa(void *mapObjectList, Teresa *teresa) {
     AdvanceTeresaValueStoppingAtZero(&teresa->mYWobble.mAnglePerFrame, &teresa->mYWobble.mAnglePerFrameDelta);
     yWobbleValue = teresa->mYWobble.mValue;
     radius = teresa->mRadius;
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         teresa->mMapObject.mPos.x = teresa->mStartPos.x + MUL_FIXED12_NO_ROUND(radius, FX_CosIdx(angleWobbleValue));
         teresa->mMapObject.mPos.y = teresa->mStartPos.y + yWobbleValue;
         teresa->mMapObject.mPos.z = teresa->mStartPos.z + MUL_FIXED12_NO_ROUND(radius, FX_SinIdx(angleWobbleValue));
@@ -288,7 +288,7 @@ void StartTeresa(Vec3 *startPos) {
     }
     teresa->mModelAlpha = 0;
     teresa->mStartPos = *startPos;
-    if (GetCurrentCameraKind() == 0) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
         chaseCamera = GetChaseCamera();
         angleSpeedRandom = TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0x30);
         amplitudeRandom = (u16) (TeresaNextRandomBelow(&gRaceProgress->mLocalRandom, 0) >> 20);
@@ -316,7 +316,7 @@ void StartTeresa(Vec3 *startPos) {
     teresa->mAlphaFixed12PerFrame = alphaFixed12PerFrame;
     teresa->mAlphaFixed12Min = TERESA_ALPHA_FIXED12_MIN;
     teresa->mAlphaFixed12Max = alphaFixed12Max;
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         teresa->mFadeInTimer = 0;
         teresa->mFadeOutTimer = TERESA_FADE_OUT_TIMER_MAX;
         teresa->mState = 0;

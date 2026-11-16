@@ -210,7 +210,7 @@ void UpdateKanoke64(void *mapObjectList, Kanoke64 *kanoke64) {
 
     switch (kanoke64->mState) {
         case 0:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 kanoke64->mState = 1;
                 return;
             }

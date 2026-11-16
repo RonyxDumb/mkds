@@ -525,12 +525,12 @@ void InitMultiSelectMember(void *parentHeap, void *mainOam, void *subOam) {
         subObjSizeLeft -= SetupLabelCanvas(SCREEN_SIDE_SUB, gMultiSelectMember->mHeap, subFileSet,
                                            &gMultiSelectMemberSubLabelRows.mRows[index], subObjSizeLeft);
     }
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[3], 3, 10, 0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[3], INTERPOLATION_STATE_AT_START, 10, 0x40, 0);
     InitPaletteBlend(gMultiSelectMember->mHeap, subFileSet->mPalette, 3);
     SetMultiSelectMemberSubCellVisible(1);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[0], 0, 10, -0x40, 0);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[1], 0, 10, 0x40, 0);
-    SetupInterpolation(&gMultiSelectMember->mInterpolations[2], 0, 10, -0xc0, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
+    SetupInterpolation(&gMultiSelectMember->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, -0xc0, 0);
     gMultiSelectMember->mRows[0].mState = MULTI_SELECT_MEMBER_ROW_SHOWN;
     for (index = 0; index < 8; index++) {
         gMultiSelectMember->mRows[index].mFirstCellIndex = index * 2;
@@ -633,7 +633,7 @@ void InitMultiSelectMemberNoKeyStart(void *parentHeap, void *mainOam, void *subO
 #pragma thumb on
 
 BOOL MultiSelectMemberIsSubSlideInDone(void) {
-    if (gMultiSelectMember->mInterpolations[2].mState == 1) {
+    if (gMultiSelectMember->mInterpolations[2].mState == INTERPOLATION_STATE_AT_END) {
         return 1;
     }
     return 0;
@@ -755,7 +755,8 @@ s32 AdvanceMultiSelectMemberKeyStart(SceneNumbers *sceneNumbers) {
                 rectIndex = RectTableFindContaining(subFileSet->mRects, value, pairY);
             }
             if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 || rectIndex == 0) {
-                if (gMultiSelectMember->mChildCount > 0 && gMultiSelectMember->mInterpolations[3].mState == 1) {
+                if (gMultiSelectMember->mChildCount > 0 &&
+                    gMultiSelectMember->mInterpolations[3].mState == INTERPOLATION_STATE_AT_END) {
                     SetMultiSelectMemberSubCellVisible(0);
                     RequestSelectReturnSlideOut();
                     StopPaletteBlend();

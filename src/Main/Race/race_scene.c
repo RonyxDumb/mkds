@@ -171,7 +171,7 @@ void InitRaceScene(void) {
     InitDispCap(heap);
     SetupRaceDisplay(heap);
     ResetInputSlotsFromRaceSetup();
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     InitRace();
     SetHeapGroupId(5);
     InitChoisesS();
@@ -187,7 +187,7 @@ void InitRaceScene(void) {
         }
     }
     SetLeftRightKeysSwapped(mirrorMode);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     if (gRaceSetup->mMode != MODE_BATTLE) {
         if (gRaceSetup->mMode == MODE_WIFI) {
             sessionHeapCreated = FALSE;

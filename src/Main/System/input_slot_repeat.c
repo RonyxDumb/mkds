@@ -70,9 +70,9 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
             }
             break;
     }
-    maskedBits = slot->mBits & PAD_KEYS_SHOULDER_AND_MENU;
-    if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_SHOULDER_AND_MENU) {
-        if (slot->mPressedBits & PAD_KEYS_SHOULDER_AND_MENU) {
+    maskedBits = slot->mBits & PAD_KEYS_L_R_SELECT_START;
+    if (slot->mLongHoldEnabled != 0 && maskedBits == PAD_KEYS_L_R_SELECT_START) {
+        if (slot->mPressedBits & PAD_KEYS_L_R_SELECT_START) {
             slot->mHoldStartTick = OS_GetTick();
             slot->mHoldLong = 0;
             return;
@@ -85,7 +85,7 @@ void UpdateInputSlot(u32 keys, InputSlotHead *slot) {
         }
         return;
     }
-    if (maskedBits != 0x30c) {
+    if (maskedBits != PAD_KEYS_L_R_SELECT_START) {
         slot->mLongHoldEnabled = 1;
     }
     slot->mHoldLong = 0;

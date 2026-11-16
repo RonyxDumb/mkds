@@ -1347,7 +1347,7 @@ void InitKartModelMenuWithParamFiles(void *heap) {
         gKartModelMenu->mEmblemData = gBackupBuffers->mEmblemRecord->mEmblemData;
         gKartModelMenu->mEmblemPalette = GetEmblemSBNclr()->mData;
     }
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
 }
 
 void InitKartModelMenuWithKartList(void *heap) {
@@ -1386,7 +1386,7 @@ void InitKartModelMenuWithKartList(void *heap) {
     LoadKartAndCharacterFiles();
     AdvanceKartModelMenuLoad();
     InitKartModelMenuView(&gKartModelMenu->mView, 0);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
 }
 
 void InitKartModelMenu(void *heap) {
@@ -1414,7 +1414,7 @@ void InitKartModelMenu(void *heap) {
         InitKartModelMenuSlot(heap, &gKartModelMenu->mSlots[slotIndex]);
     }
     InitKartModelMenuView(&gKartModelMenu->mView, 1);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
 }
 
 s16 *ComputeKartMenuParams(s32 kartIndex, s32 characterIndex) {

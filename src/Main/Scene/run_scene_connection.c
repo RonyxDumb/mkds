@@ -200,9 +200,9 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
     }
     OS_RestoreInterrupts(interruptState);
     gSceneRunState->mRunStep = SCENE_RUN_STEP_LOADING;
-    SetHeapGroupId(0);
+    SetHeapGroupId(HEAP_GROUP_DEFAULT);
     LoadArchiveSlotsForScene(sceneNumbers->mScene);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     GetHeap(GetCurrentHeapCall());
     NNS_GfdInitVramTransferManager(
         HeapAlloc(GetHeap(GetCurrentHeapCall()), SCENE_VRAM_TASK_COUNT * sizeof(NNSGfdVramTransferTask)),

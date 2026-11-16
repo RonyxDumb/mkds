@@ -91,7 +91,7 @@ void DrawSun(void *mapObjectList, Sun *sun) {
         NNS_G3dGeBufferOP_N(0x1c, &translation, 3);
     }
     NNS_G3dGeBufferOP_N(0x1b, &sun->mMapObject.mScale, 3);
-    if (GetCurrentCameraKind() == 2) {
+    if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
         QueueMapObjectModelMaterial(mapObjectList, gSun);
         SetMapObjectModelNsbcaFrameIndex(gSun, sun->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gSun, sun);

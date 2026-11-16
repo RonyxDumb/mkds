@@ -2,6 +2,8 @@
 #include "types.h"
 #include "touch_panel_sampling.h" // TPData
 
+// Bits of the pad key word (the slots' mPressedBits, mBits, mRepeatBits ... and the keyboard's key word): one bit per
+// key.
 #define PAD_KEY_B 0x2
 
 #define PAD_KEY_DIRECTION_DOWN 0x80
@@ -22,8 +24,6 @@
 
 #define PAD_KEY_Y 0x800
 
-// Bits of the pad key word (the slots' mPressedBits, mBits, mRepeatBits ... and the keyboard's key word): one bit per
-// key.
 #define PAD_KEY_A 0x1
 
 #define PAD_KEY_SELECT 0x4
@@ -36,7 +36,7 @@
 #define PAD_KEYS_A_B_X_Y_L_R (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
 
 // L, R, Select and Start.
-#define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
+#define PAD_KEYS_L_R_SELECT_START (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
 
 // All twelve keys.
 #define PAD_KEYS_ALL 0xfff
@@ -133,7 +133,8 @@ typedef struct InputSlotHead {
     /* 24 */ s32 mReadsKeyBits;
 } InputSlotHead;
 
-// Values of InputSlot.mSourceKind: where the slot gets its keys from each frame.
+// Values of InputSlot.mSourceKind: where the slot gets its keys from each frame. REQUESTED_BITS and WIFI_REQUESTED_BITS
+// are read alike; ResetInputSlotsFromRaceSetup picks the WiFi one in a WiFi race.
 #define INPUT_SOURCE_NONE 0
 #define INPUT_SOURCE_KEY_RECORDING_PLAYBACK 1
 #define INPUT_SOURCE_PAD_RECORDED 2

@@ -170,7 +170,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
     switch (spawner->mState) {
         case TERESA_SPAWNER_STATE_FIRST_SPAWN:
             randomRange = FALSE;
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 for (spawnIndex = 0; spawnIndex < spawner->mMapObject.mCourseMapRow->mSettings[1]; spawnIndex++) {
                     if (spawner->mMapObject.mCourseMapRow->mSettings[0] > 0) {
                         maxDistance = 0.5f + TO_FIXED12(spawner->mMapObject.mCourseMapRow->mSettings[0]);
@@ -190,13 +190,13 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
             }
             spawner->mState = TERESA_SPAWNER_STATE_WAIT_KART_NEAR;
         case TERESA_SPAWNER_STATE_WAIT_KART_NEAR:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 break;
             }
             if (spawner->mEntryKartNear == FALSE) {
                 break;
             }
-            if (GetCurrentCameraKind() != 0) {
+            if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
                 StartTeresasAtRandomPositions(spawner, 0x1e, 0x14, 0x1f4, 4);
             } else {
                 StartTeresasAtRandomPositions(spawner, 6, 4, 0xa, 0x14);
@@ -210,7 +210,7 @@ void UpdateTeresaSpawner(void *mapObjectList, TeresaSpawner *spawner) {
                 break;
             }
             if (spawner->mEntryKartNear != FALSE) {
-                if (GetCurrentCameraKind() != 0) {
+                if (GetCurrentCameraKind() != CAMERA_KIND_CHASE) {
                     StartTeresasAtRandomPositions(spawner, 0x1e, 1, 0x1f4, 4);
                 } else {
                     StartTeresasAtRandomPositions(spawner, 6, 1, 0xa, 0x14);
@@ -231,7 +231,7 @@ MapObjectKindData *CreateTeresaSpawnerKindData(void) {
 
     mode = gRaceSetup->mMode;
     if (mode == MODE_VS || mode == MODE_WIFI) {
-        if (GetCurrentCameraKind() == 0) {
+        if (GetCurrentCameraKind() == CAMERA_KIND_CHASE) {
             return 0;
         }
     }

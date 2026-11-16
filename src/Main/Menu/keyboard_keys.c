@@ -263,7 +263,7 @@ void InitKeyboardTextEntry(s32 screenMapWidth, s32 screenMapHeight, s32 textCapa
     gKbdmapOther1 = FindSceneFile("other1.kbdmap");
     gKbdmapOther2 = FindSceneFile("other2.kbdmap");
     gKbdmapOther3 = FindSceneFile("other3.kbdmap");
-    SetupKeyboardInputMasks(1, 2, 0x400);
+    SetupKeyboardInputMasks(PAD_KEY_A, PAD_KEY_B, PAD_KEY_X);
 }
 
 void AdvanceKeyboardTextEntry(void) {
@@ -933,7 +933,8 @@ void SetupKeyboardInputMasks(u16 firstMask, u16 secondMask, u16 thirdMask) {
     gKeyboardInputMasks[0] = firstMask;
     gKeyboardInputMasks[1] = secondMask;
     gKeyboardInputMasks[2] = thirdMask;
-    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
+    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] |
+                           (gKeyboardInputMasks[0] | PAD_KEY_DIRECTIONS | gKeyboardInputMasks[1]));
 }
 
 #pragma thumb off
@@ -974,7 +975,8 @@ void InitKeyboardKeysAndCanvas(struct NNSG2dFont *font, void *bg2Char, u16 *bg2S
     gKeyboardCanvas.mScreenMapTileBase = screenMapTileBase;
     InitKeyboardInput();
     SetupRepeatCounter(&gKeyboardKeys.mTouchRepeat, 0x28, 5);
-    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] | (gKeyboardInputMasks[0] | 0xf0 | gKeyboardInputMasks[1]));
+    SetupKeyboardKeyRepeat(gKeyboardInputMasks[2] |
+                           (gKeyboardInputMasks[0] | PAD_KEY_DIRECTIONS | gKeyboardInputMasks[1]));
     gCharTablePair1[0] = gCharTablePair2[0] = gCharTablePair3[0] = gCharTables[0];
     gCharTablePair1[1] = gCharTables[1];
     gCharTablePair2[1] = gCharTables[2];

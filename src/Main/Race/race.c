@@ -216,7 +216,7 @@ void InitRace(void) {
     InitKartEffectTables(heap);
     InitModelEffects(heap);
     InitPosStrips(heap);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     *HW_BG_PLTT = 0xff00;
     reg_G3X_DISP3DCNT =
         reg_G3X_DISP3DCNT & ~(REG_G3X_DISP3DCNT_GO_MASK | REG_G3X_DISP3DCNT_RO_MASK | REG_G3X_DISP3DCNT_THS_MASK);

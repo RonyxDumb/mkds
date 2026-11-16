@@ -663,15 +663,15 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
     gSelectCharacter->mMode = mode;
     switch (GetRaceSetupCopy()->mEntryTransition) {
         case ENTRY_TRANSITION_FRESH:
-            SetupInterpolation(&gSelectCharacter->mInterpolations[0], 0, 10, -0x80, 0);
-            SetupInterpolation(&gSelectCharacter->mInterpolations[2], 0, 10, 0x60, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x80, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_RISING, 10, 0x60, 0);
             if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
                 StartKartModelMenuBg0Increase();
             }
             break;
         case ENTRY_TRANSITION_FROM_KART:
-            SetupInterpolation(&gSelectCharacter->mInterpolations[0], 1, 10, -0x80, 0);
-            SetupInterpolation(&gSelectCharacter->mInterpolations[2], 1, 10, 0x60, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[0], INTERPOLATION_STATE_AT_END, 10, -0x80, 0);
+            SetupInterpolation(&gSelectCharacter->mInterpolations[2], INTERPOLATION_STATE_AT_END, 10, 0x60, 0);
             switch (gSelectCharacter->mMode) {
                 case SELECT_CHARACTER_MODE_CONNECTION:
                     if (gConnectionWork->mState == CONNECTION_STATE_SYNCED) {
@@ -684,7 +684,7 @@ void InitSelectCharacter(void *parentHeap, s32 mode, void *mainOam, void *subOam
             }
             break;
     }
-    SetupInterpolation(&gSelectCharacter->mInterpolations[1], 0, 10, -0x40, 0);
+    SetupInterpolation(&gSelectCharacter->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
     gSelectCharacter->mMainOam = mainOam;
     gSelectCharacter->mSubOam = subOam;
     if (gSelectCharacter->mMode != SELECT_CHARACTER_MODE_NO_CONNECTION || GetRaceSetupCopy()->mMode == MODE_VS ||

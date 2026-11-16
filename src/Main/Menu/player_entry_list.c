@@ -279,9 +279,9 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
             fileSet->mCellTable[gEntryCellIndices[entryIndex].mKartCellIndex].mVisible;
     }
     ResetEntrySlots();
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[0], INTERPOLATION_STATE_RISING, 10, -0x40, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_AT_START, 10, 0x60, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[3], INTERPOLATION_STATE_AT_START, 10, 0x40, 0);
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
         LocateCellFileSet(&gPlayerEntryList->mTitleParts, "select_menu_etc_title_m.nce.ncgr",
                           "select_menu_etc_title_m.nce.ncer", NULL, "select_menu_etc_title_m.bncl", NULL, NULL,
@@ -307,7 +307,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     gPlayerEntryList->mScreenKind = screenKind;
     if (gPlayerEntryList->mSetupPending != FALSE) {
         gPlayerEntryList->mTimer = PLAYER_ENTRY_LIST_TIMER_FRAMES;
-        SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
+        SetupInterpolation(&gPlayerEntryList->mInterpolations[1], INTERPOLATION_STATE_RISING, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
             case PLAYER_ENTRY_LIST_MODE_NO_CONNECTION:
                 gPlayerEntryList->mPlayerCount = 1;
@@ -433,7 +433,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     for (index = 0; index < 8; index++) {
         PrintEntryName(index, gPlayerEntryList->mEntries[index].mName);
     }
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
+    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], INTERPOLATION_STATE_AT_START, 10, 0x60, 0);
     gPlayerEntryList->mUseTeams = 0;
     count = 0;
     if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE &&

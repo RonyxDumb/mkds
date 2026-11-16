@@ -322,11 +322,11 @@ void InitMenu(void) {
     gMenuScene->mDataSharingSyncFinished = TRUE;
     CopyMenuScreenCallbacks();
     ResetOamLists(gMenuScene->mMainOam, gMenuScene->mSubOam);
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     Init3dEngine();
     SetHeapGroupId(5);
     InitFrmVramManagers();
-    SetHeapGroupId(9);
+    SetHeapGroupId(HEAP_GROUP_SCENE);
     if (MenuMB_IsMultiBootChildWrapper() == 0) {
         InitKartModelMenuWithParamFiles(MenuGetCurrentHeap());
         RequestKartModelMenuCharacter(-1);

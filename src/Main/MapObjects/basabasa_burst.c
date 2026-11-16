@@ -139,7 +139,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
 
     switch (burstObject->mState) {
         case 0:
-            if (GetCurrentCameraKind() == 2) {
+            if (GetCurrentCameraKind() == CAMERA_KIND_CHAIN) {
                 burstObject->mState = 1;
                 return;
             }
