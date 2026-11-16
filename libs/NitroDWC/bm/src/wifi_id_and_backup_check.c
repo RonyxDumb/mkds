@@ -25,7 +25,8 @@ BOOL DWCi_AUTH_UpDateWiFiID(DWCWiFiInfo *info, u8 *work) {
     return 0;
 }
 
-// Like DWCi_AUTH_GetNewWiFiInfo, but always picks a new random history.
+// Like DWCi_AUTH_GetNewWiFiInfo, but it keeps mAttestedUserId and always picks a random history that differs from the
+// old one.
 BOOL DWCi_AUTH_RemakeWiFiID(DWCWiFiInfo *info) {
     u8 vendor;
     u32 macLow;
