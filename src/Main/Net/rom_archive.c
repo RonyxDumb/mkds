@@ -539,7 +539,7 @@ void RomArchivePortCallback(void *portMessage) {
 
 void RomArchiveParentCallback(WBTCommand *record) {
     s32 fromIndex;
-    WBTCommandData *payload;
+    BlockTransferCommandData *payload;
     s32 value;
     u32 fileLength;
     RomArchiveParentView *view;
@@ -548,7 +548,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
     RomArchiveFileNode *activeNode;
     RomArchiveFileNode *foundNode;
     u32 sizeOrBlockId;
-    WBTCommandData *commandData;
+    BlockTransferCommandData *commandData;
     s32 bufferIndex;
     s32 newBufferIndex;
     RomArchiveFileNode *node;

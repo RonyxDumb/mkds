@@ -14,10 +14,10 @@ typedef struct WBTBlockInfo {
 } WBTBlockInfo;
 
 // WBTBlockInfoList.mBlockType.
-typedef enum WBTBlockType {
+typedef enum BlockTransferBlockType {
     XFER_BLOCK_TYPE_MEMORY = 0, // the chunks are read from mDataPtr
     XFER_BLOCK_TYPE_SUPPLIED = 1, // registered without a buffer; the callback supplies each chunk
-} WBTBlockType;
+} BlockTransferBlockType;
 
 // A registered block: its WBTBlockInfo in mDataInfo, the mNext link, the mDataPtr buffer, the mPermissionBmp and the
 // mBlockType.
