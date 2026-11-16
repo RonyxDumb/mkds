@@ -502,7 +502,7 @@ void ReleaseRace(void) {
     BOOL heapCreated;
 
     ClearMapObjectListSlots();
-    ReleaseKartsAndClear();
+    ReleaseKartsAndClearPointer();
     ReleaseAllResFiles();
     StopRaceInput();
     heapCreated = FALSE;

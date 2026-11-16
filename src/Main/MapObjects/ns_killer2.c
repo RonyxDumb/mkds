@@ -102,7 +102,7 @@ void DrawNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
 }
 
 void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
-    if ((GetKartZoneMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
+    if ((GetEntryKartZoneMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
         nsKiller2->mMapObject.mFlags |= gNsKiller2SkipViewTestFlag;
     } else {
         nsKiller2->mMapObject.mFlags &= ~2;

@@ -226,10 +226,10 @@ void DrawKarts(void) {
     }
 }
 
-void ReleaseKartsAndClear(void) {
+void ReleaseKartsAndClearPointer(void) {
     s32 kartIndex;
     for (kartIndex = 0; kartIndex < gKartCount; kartIndex++) {
-        CallKartReleaseFunction(&gKarts[kartIndex]);
+        CallKartSlot8Function(&gKarts[kartIndex]);
     }
     gKarts = NULL;
 }
@@ -294,7 +294,7 @@ void SetKartZoneMask(s32 kartIndex) {
     }
 }
 
-u32 GetKartZoneMask(void) {
+u32 GetEntryKartZoneMask(void) {
     return gKartZoneMask;
 }
 

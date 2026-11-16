@@ -319,7 +319,7 @@ BOOL IsMapObjectOutOfRangeOrMaskedAtDistance(MapObject *mapObject, s32 distanceS
     if (heightAboveCamera < kindData->mHeightRangeMin || kindData->mHeightRangeMax < heightAboveCamera) {
         return TRUE;
     }
-    return (GetKartZoneMask() & mapObject->mDigitMask) != 0;
+    return (GetEntryKartZoneMask() & mapObject->mDigitMask) != 0;
 }
 
 void SetupMapObjectView(MtxFx43 *viewMatrix) {
@@ -518,7 +518,7 @@ void UpdateMapObjectViewTests(void) {
 
     mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;
-    shapeMask = GetKartZoneMask();
+    shapeMask = GetEntryKartZoneMask();
     frameSlot = GetRaceUpdateFrames() & 3;
     objectIndex = 0;
     if (mapObjectCount <= 0) {
@@ -577,7 +577,7 @@ void RefreshMapObjectViewTests(void) {
     u16 extraFlags;
     u32 extraViewFlags;
 
-    shapeMask = GetKartZoneMask();
+    shapeMask = GetEntryKartZoneMask();
     objectIndex = 0;
     mapObjectCount = gMapObjects->mMapObjectCount;
     mapObjects = gMapObjects->mMapObjects;

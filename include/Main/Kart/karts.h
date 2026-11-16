@@ -146,7 +146,7 @@ void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);
 // Copies the position of Kart idx to dst, read through mPosSource (which points to mPos, or for a kind-3 entry in mode
 // 5 to a Vec3 of the received record).
 void GetKartPos(Vec3 *dst, s32 idx);
-void ReleaseKartsAndClear(void);
+void ReleaseKartsAndClearPointer(void);
 // Runs slot 2 of Kart.mSlotFunctions for every Kart each time UpdateRace runs; the slot stores the Kart's squared
 // distance in its sound source.
 void UpdateKartSoundDistancesSquared(void);
@@ -187,7 +187,7 @@ void SetKartSpeedLimitReciprocal(unsigned int speedLimitReciprocal);
 
 void SetKartForwardSpeedRatio(s32 forwardSpeed);
 
-unsigned int GetKartZoneMask(void);
+unsigned int GetEntryKartZoneMask(void);
 
 void SetKartZoneMask(s32 kartIndex);
 
