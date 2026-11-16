@@ -427,21 +427,21 @@ void PrintLabelLayoutText(s32 queueSelector, s32 labelIndex, LayoutEntryTable *l
     offsetX = 0;
     offsetY = 0;
     if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_START) {
-        flags |= 0x200;
+        flags |= TEXT_CANVAS_FLAG_LEFT;
     } else if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_CENTER) {
-        flags |= 0x400;
+        flags |= TEXT_CANVAS_FLAG_CENTER;
         offsetX = (alignedWidth - canvasWidth) >> 1;
     } else if (labelEntry->mAxisX.mAlign == LAYOUT_ALIGN_END) {
-        flags |= 0x800;
+        flags |= TEXT_CANVAS_FLAG_RIGHT;
         offsetX = alignedWidth - canvasWidth;
     }
     if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_START) {
-        flags |= 0x40;
+        flags |= TEXT_CANVAS_FLAG_TOP;
     } else if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_CENTER) {
-        flags |= 0x80;
+        flags |= TEXT_CANVAS_FLAG_MIDDLE;
         offsetY = (alignedHeight - canvasHeight) >> 1;
     } else if (labelEntry->mAxisY.mAlign == LAYOUT_ALIGN_END) {
-        flags |= 0x100;
+        flags |= TEXT_CANVAS_FLAG_BOTTOM;
         offsetY = alignedHeight - canvasHeight;
     }
     canvas->mCharCanvas.mPClear(&canvas->mCharCanvas, 0);

@@ -92,7 +92,7 @@ void CreateEditKeyboard(void) {
             for (columnIndex = 0, textRect[0] = 0; columnIndex < 12; columnIndex++, charIndex++, textRect[0] += 0x12) {
                 text[0] = gEditKeyboardPageKeyTexts[index][charIndex];
                 DrawCanvasTextRect(gEditKeyboard->mRowTexts[index][rowIndex], textRect[0], textRect[1], textRect[2],
-                                   textRect[3], 2, 0x480, text);
+                                   textRect[3], 2, TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, text);
             }
             if (index == 0) {
                 gEditKeyboard->mRowTextRanges[rowIndex] = CreateOamRange(0, entryCount, 1);

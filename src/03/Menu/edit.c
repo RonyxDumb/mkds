@@ -300,8 +300,8 @@ void PrintEditText(void) {
             charText[0] = edit->mText[charIndex];
         }
         charRect.mX = gEditColumnX[column];
-        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mWidth, charRect.mHeight, 2, 0x480,
-                           charText);
+        DrawCanvasTextRect(edit->mBgTextCanvas, charRect.mX, charRect.mY, charRect.mWidth, charRect.mHeight, 2,
+                           TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, charText);
     }
     RequestBgTextCanvasUpload(gEdit->mBgTextCanvas);
 }

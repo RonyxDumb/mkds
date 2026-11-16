@@ -15,8 +15,9 @@ typedef struct NNSG2dAnimFrameData {
     /* 06 */ u16 mPad16;
 } NNSG2dAnimFrameData;
 
-// Values of NNSG2dAnimSequenceData.mPlayMode and NNSG2dCellAnimation.mOverriddenPlayMode (0 there means use the
-// sequence's own mode). The ping-pong modes turn around at each end of the sequence.
+// Values of NNSG2dAnimSequenceData.mPlayMode and NNSG2dCellAnimation.mOverriddenPlayMode; 0 in mOverriddenPlayMode
+// means use the sequence's mPlayMode. The ping-pong modes turn around after the last frame and end or loop only back at
+// the loop start frame.
 #define G2D_PLAY_MODE_FROM_SEQUENCE 0
 #define G2D_PLAY_MODE_FORWARD 1
 #define G2D_PLAY_MODE_FORWARD_LOOP 2

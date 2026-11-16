@@ -98,7 +98,8 @@ void CreateEditAddrKeyboard(void) {
         for (column = 0, textArgs.mTextRect[0] = 0; column < 3; column++, textIndex++, textArgs.mTextRect[0] += 0x20) {
             textArgs.mText[0] = gEditAddrKeyboardKeyTexts[textIndex];
             DrawCanvasTextRect(gEditAddrKeyboard->mRowTexts[index], textArgs.mTextRect[0], textArgs.mTextRect[1],
-                               textArgs.mTextRect[2], textArgs.mTextRect[3], 2, 0x480, textArgs.mText);
+                               textArgs.mTextRect[2], textArgs.mTextRect[3], 2,
+                               TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, textArgs.mText);
         }
         gEditAddrKeyboard->mRowTextRanges[index] = CreateOamRange(0, textArgs.mEntryCount, 0);
     }

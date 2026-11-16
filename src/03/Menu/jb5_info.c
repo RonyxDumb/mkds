@@ -92,7 +92,7 @@ void PrintJb5Info(void) {
     swprintf(text, 0x14, L"%02X-%02X-%02X-%02X-%02X-%02X", macAddress[0], macAddress[1], macAddress[2], macAddress[3],
              macAddress[4], macAddress[5]);
     DrawCanvasTextRect(canvas, gJb5InfoMacAddressRect.mX, gJb5InfoMacAddressRect.mY, gJb5InfoMacAddressRect.mWidth,
-                       gJb5InfoMacAddressRect.mHeight, 2, 0x480, text);
+                       gJb5InfoMacAddressRect.mHeight, 2, TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, text);
     DWCi_BM_GetWiFiInfo(&wifiInfo);
     userId = wifiInfo.mAttestedUserId;
     if (userId != 0) {
@@ -107,7 +107,7 @@ void PrintJb5Info(void) {
         swprintf(text, 0x14, L"-------------------");
     }
     DrawCanvasTextRect(canvas, gJb5InfoUserIdRect.mX, gJb5InfoUserIdRect.mY, gJb5InfoUserIdRect.mWidth,
-                       gJb5InfoUserIdRect.mHeight, 2, 0x480, text);
+                       gJb5InfoUserIdRect.mHeight, 2, TEXT_CANVAS_FLAG_CENTER | TEXT_CANVAS_FLAG_MIDDLE, text);
     RequestBgTextCanvasUpload(canvas);
 }
 

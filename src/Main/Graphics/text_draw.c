@@ -222,9 +222,9 @@ s32 GetTextLineOffset(u32 alignFlags, s32 lineAlign, s32 rectWidth, s32 textWidt
     s32 offset;
 
     offset = 0;
-    if (alignFlags & 0x400) {
+    if (alignFlags & TEXT_CANVAS_FLAG_CENTER) {
         offset += (rectWidth - textWidth) >> 1;
-    } else if (alignFlags & 0x800) {
+    } else if (alignFlags & TEXT_CANVAS_FLAG_RIGHT) {
         offset += rectWidth - textWidth;
     }
     if (lineAlign == 1) {
@@ -264,9 +264,9 @@ void DrawTextLines(LabelTextCanvas *textCanvas, s32 textWidth, s32 *lineWidths, 
     if (cursorX < 0) {
         return;
     }
-    if (alignFlags & 0x80) {
+    if (alignFlags & TEXT_CANVAS_FLAG_MIDDLE) {
         cursorY += (height - textHeight) >> 1;
-    } else if (alignFlags & 0x100) {
+    } else if (alignFlags & TEXT_CANVAS_FLAG_BOTTOM) {
         cursorY += height - textHeight;
     }
     if (cursorY < 0) {

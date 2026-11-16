@@ -57,7 +57,7 @@ u32 NNS_G2dTickAnimCtrl(NNSG2dCellAnimation *pAnimCtrl, s32 frames) {
         if (atEdge) {
             SequenceEdgeHandle_(pAnimCtrl);
         }
-        if (pAnimCtrl->mCallbackFunctor.mType != 0) {
+        if (pAnimCtrl->mCallbackFunctor.mType != G2D_CALLBACK_NONE) {
             frameIdx = ((u32) pAnimCtrl->mPCurrent - (u32) pAnimCtrl->mPAnimSequence->mPAnmFrameArray) >> 3;
             CallbackFuncHandling_(pAnimCtrl, frameIdx);
         }
@@ -87,12 +87,12 @@ void NNS_G2dInitAnimCtrl(NNSG2dCellAnimation *pAnimCtrl) {
     pAnimCtrl->mActive = 1;
     pAnimCtrl->mCurrentTime = 0;
     pAnimCtrl->mSpeed = FIXED12_UNIT;
-    pAnimCtrl->mOverriddenPlayMode = 0;
+    pAnimCtrl->mOverriddenPlayMode = G2D_PLAY_MODE_FROM_SEQUENCE;
     pAnimCtrl->mPAnimSequence = 0;
 }
 
 void NNS_G2dInitAnimCallBackFunctor(NNSG2dCallBackFunctor *pCallBack) {
-    pCallBack->mType = 0;
+    pCallBack->mType = G2D_CALLBACK_NONE;
     pCallBack->mParam = 0;
     pCallBack->mFunc = 0;
     pCallBack->mFrameIdx = 0;

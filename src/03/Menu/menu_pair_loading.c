@@ -86,7 +86,7 @@ void PrintMessageAndText(void *text, u32 messageIndex) {
     DrawCanvasTextRect(canvas, gPrintMessageAndTextRect[0], gPrintMessageAndTextRect[1], gPrintMessageAndTextRect[2],
                        gPrintMessageAndTextRect[3], 2, GetLanguageTextFlags(), message);
     DrawCanvasText(canvas, gPrintMessageTextXPositions[GetLanguageIndex() * 2],
-                   (gPrintMessageTextXPositions + 1)[GetLanguageIndex() * 2], 2, 0x209, text);
+                   (gPrintMessageTextXPositions + 1)[GetLanguageIndex() * 2], 2, TEXT_CANVAS_FLAG_LEFT | 0x9, text);
     RequestBgTextCanvasUpload(canvas);
 }
 

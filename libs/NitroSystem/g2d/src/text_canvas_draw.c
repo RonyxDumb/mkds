@@ -46,8 +46,8 @@ void NNSi_G2dTextCanvasDrawTextAlign(TextCanvas *pTxn, s32 drawX, s32 drawY, s32
     if (pos == 0) {
         return;
     }
-    alignRight = flags & 0x800;
-    alignCenter = flags & 0x400;
+    alignRight = flags & TEXT_CANVAS_FLAG_RIGHT;
+    alignCenter = flags & TEXT_CANVAS_FLAG_CENTER;
     halfWidth = (areaWidth + 1) / 2;
     do {
         lineX = drawX;
@@ -84,10 +84,10 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
                                     u32 flags, u16 *txt) {
     s32 textHeight;
 
-    if (flags & 0x100) {
+    if (flags & TEXT_CANVAS_FLAG_BOTTOM) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += areaHeight - textHeight;
-    } else if (flags & 0x80) {
+    } else if (flags & TEXT_CANVAS_FLAG_MIDDLE) {
         textHeight = NNSi_G2dFontGetTextHeight(pTxn->mFont, pTxn->mLineSpacing, (u8 *) txt);
         drawY += (areaHeight + 1) / 2 - (textHeight + 1) / 2;
     }
