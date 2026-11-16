@@ -8,7 +8,7 @@
 #include "Main/Graphics/font_and_player_character.h"
 
 // Frames a message of the member setup stays before the setup goes on, and frames after the start (mStartPending or
-// mStarted) before the sequence zero loop is started (it starts on the call after the count passes the constant).
+// mStarted) before the sequence zero loop is started (it starts on the call where the count is above the constant).
 #define MULTI_SELECT_MEMBER_MESSAGE_FRAMES 0x78
 #define MULTI_SELECT_MEMBER_SEQ_LOOP_START_FRAMES 0x96
 

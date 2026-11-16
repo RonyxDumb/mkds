@@ -260,8 +260,8 @@ void AdvanceWiFiVSCourseSelectTimer(void) {
     }
 }
 
-// Picks a random start in the course table and steps forward to the first course whose id is none of the stored course
-// ids of the earlier races.
+// Picks a random start in the course table and steps forward (at least one place, wrapping at 20) to the first course
+// whose id is none of the four stored course ids of the earlier races.
 s32 PickRandomCourseIndexNotRaced(void) {
     WiFiVSCourseSelect *courseSelect;
     RandomState64 *random;
