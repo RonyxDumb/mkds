@@ -22,6 +22,7 @@
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 #include "Main/Menu/menu_entry_kind.h"
+#include "capture_output_effect.h"
 
 const u8 gOptionSelectMenuMLabelIndices[2] = {0, 1};
 const u8 gOptionSelectMenuXluCellIndices[2] = {0, 1};
@@ -186,13 +187,13 @@ void LocateAndQueueOptionSelectMenu(void) {
 void ApplyOptionSelectMenuSound(void) {
     switch (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_SOUND]) {
         case SOUND_MODE_STEREO:
-            SetSoundOutputEffect(0);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_NONE);
             break;
         case SOUND_MODE_SURROUND:
-            SetSoundOutputEffect(1);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_SURROUND);
             break;
         case SOUND_MODE_HEADPHONES:
-            SetSoundOutputEffect(2);
+            SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_HEADPHONE);
             break;
     }
 }

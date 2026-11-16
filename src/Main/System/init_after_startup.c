@@ -26,6 +26,7 @@
 #include "Main/Scene/scene_connection.h"
 #include "Main/Scene/wl_menu_scene_callback.h"
 #include "Main/Save/backup_read_copies.h"
+#include "capture_output_effect.h"
 
 RaceProgress *gRaceProgress;
 InputState *gInputState;
@@ -53,7 +54,7 @@ void InitAfterStartup(void) {
     CreateRaceSetupObjects(backHeap);
     InitBackupBuffers(backHeap);
     InitSound(soundBuffer, soundBufferSize, gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT);
-    SetSoundOutputEffect(1);
+    SetSoundOutputEffect(SOUND_OUTPUT_EFFECT_SURROUND);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
     }

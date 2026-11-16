@@ -70,6 +70,7 @@
 #include "Main/Menu/select_race_rule_state.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "capture_output_effect.h"
 
 const Vec3 gVec3Ones = {0x1000, 0x1000, 0x1000};
 const Vec3 gPooledMapObjectVec3Zero = {0, 0, 0};
@@ -414,7 +415,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
         CreateSeqRowHeap((buffer + bufferSize + 0x25a5c), 0x35a0);
     }
     gSceneSeqVolume = 0x69;
-    StartSoundOutputEffect(1);
+    StartSoundOutputEffect(SOUND_OUTPUT_EFFECT_SURROUND);
     InitKartSoundPitchFactors();
     ClearSndFileIdList(GetSndDataFileIdList());
     ClearSndFileIdList(GetSoundSetFileIdList());
