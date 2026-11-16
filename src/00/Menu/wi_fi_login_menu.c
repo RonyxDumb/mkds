@@ -316,7 +316,7 @@ void AdvanceWiFiLoginMenuWaitLogin(void) {
     }
     if (IsTxtSystemOpenNoCloseRequest() != 0) {
         switch (GetWiFiSessionLoginResult()) {
-            case -1:
+            case WIFI_LOGIN_RESULT_ERROR:
                 gWiFiLoginMenu->mErrorCode = GetWiFiSessionErrorCodeNegatedWrapper();
                 if (gWiFiLoginMenu->mErrorCode < 0) {
                     gWiFiLoginMenu->mErrorCode = -gWiFiLoginMenu->mErrorCode;
@@ -328,9 +328,9 @@ void AdvanceWiFiLoginMenuWaitLogin(void) {
                 gWiFiLoginMenu->mMessageTableIndex = 0;
                 StartWiFiLoginErrorSeq();
                 break;
-            case 0:
+            case WIFI_LOGIN_RESULT_PENDING:
                 break;
-            case 1:
+            case WIFI_LOGIN_RESULT_LOGGED_IN:
                 if (IsWiFiStatesCounterNotNegative() != 0) {
                     if (gWiFiLoginMenu->mShowLoggedInMessage != FALSE) {
                         gWiFiLoginMenu->mNextState = WIFI_LOGIN_MENU_STATE_SHOW_LOGGED_IN;
