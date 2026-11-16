@@ -112,10 +112,10 @@ void IwanteKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
         return;
     }
     mapObject->mMapObject.mPosStep.x =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryVelocity, SIN_OF_ANGLE((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryPosStep, SIN_OF_ANGLE((u16) mapObject->mMoveAngle));
     mapObject->mMapObject.mPosStep.y = 0;
     mapObject->mMapObject.mPosStep.z =
-        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryVelocity, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
+        MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mKartHitCarryPosStep, COS_OF_ANGLE((u16) mapObject->mMoveAngle));
     mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY_HALT;
     SetKartCollisionCallback(mapObject, IwanteKartHitCallback);
     StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK, 0x1000);
@@ -596,16 +596,16 @@ void StartIwanteHandTurnToKart(MissionRunMapObject *mapObject) {
     Kart *kart = GetKart((u16) gRaceSetup->mEntryIndex);
     Vec3 velocity = {0, 0, 0};
 
-    velocity.y = mapObject->mPrm->mIwante.mTurnToKartVelocityY;
+    velocity.y = mapObject->mPrm->mIwante.mBeforeMoveToKartVelocityY;
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandKartSound);
-    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mTurnToKartAnimationEntry,
-                                mapObject->mPrm->mIwante.mTurnToKartFrameStep);
+    StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mBeforeMoveToKartAnimationEntry,
+                                mapObject->mPrm->mIwante.mBeforeMoveToKartFrameStep);
     SetVelocity(mapObject, &velocity);
     StopTurningMoveFollowsAngle(mapObject);
     SetAnglePointAndMoveAnglePoint(mapObject, &kart->mPos);
-    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mTurnToKartSpeedTarget,
-                             mapObject->mPrm->mIwante.mTurnToKartSpeedPerCall);
-    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mTurnToKartFrameCount, StartIwanteHandMoveToKart);
+    SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mIwante.mBeforeMoveToKartSpeedTarget,
+                             mapObject->mPrm->mIwante.mBeforeMoveToKartSpeedPerCall);
+    StartStateFrameCountCallback(mapObject, mapObject->mPrm->mIwante.mBeforeMoveToKartFrameCount, StartIwanteHandMoveToKart);
 }
 
 void StartIwanteHandLandOnKartAndStop(MissionRunMapObject *mapObject) {
@@ -1074,7 +1074,7 @@ int AdvanceIwanteHandsApproachKart(MissionRunMapObject *mapObject) {
     }
     SetIwanteHandsApproachPoint();
     SetIwanteHandsPoints();
-    if (IsPointInRange(mapObject, &mapObject->mAnglePoint, 0, mapObject->mPrm->mIwante.mApproachKartObjectRadius) &&
+    if (IsPointInRange(mapObject, &mapObject->mAnglePoint, 0, mapObject->mPrm->mIwante.mApproachKartObjectHalfAngle) &&
         IsPointInRange(firstHand, &firstHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mApproachKartHandRadius, 0) &&
         IsPointInRange(secondHand, &secondHand->mMoveAnglePoint, mapObject->mPrm->mIwante.mApproachKartHandRadius, 0)) {
         StartIwanteHandsTurnToKart(mapObject);

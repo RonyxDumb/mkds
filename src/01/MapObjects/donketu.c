@@ -712,7 +712,7 @@ void StartDonketuStartupSecond(MissionRunMapObject *donketu) {
     if (donketu->mMapObject.mKind == MAP_OBJECT_KIND_KING_ICE_DONKETU) {
         StartAnimationNoEndCallback(donketu, donketu->mPrm->mHead.mStartupSecondAnimationEntry,
                                     donketu->mPrm->mHead.mStartupSecondFrameStep);
-        StartStateFrameCountCallback(donketu, donketu->mPrm->mHead.mWaitForRaceStartDelayFrames,
+        StartStateFrameCountCallback(donketu, donketu->mPrm->mHead.mWaitForRaceStartDelayFrameCount,
                                      &StartDonketuWaitForRaceStart);
         return;
     }

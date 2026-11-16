@@ -10,8 +10,8 @@ typedef struct MissionRunPrmHead {
     /* 004 */ s32 mScale;
     /* 008 */ s32 mCollisionOffsetY;
     /* 00c */ s32 mCollisionExtentXZ;
-    /* 010 */ s32 mCourseHitVelocityScale;
-    /* 014 */ s32 mFreeVelocityScale;
+    /* 010 */ s32 mGroundHitVelocityScale;
+    /* 014 */ s32 mNoGroundHitVelocityScale;
     /* 018 */ s32 mStopSpeedLimit;
     /* 01c */ s32 mGravity;
     /* 020 */ s32 mBounceScale;
@@ -30,7 +30,7 @@ typedef struct MissionRunPrmHead {
     /* 054 */ s32 mStartupFirstFrameCount;
     /* 058 */ s32 mStartupSecondAnimationEntry;
     /* 05c */ s32 mStartupSecondFrameStep;
-    /* 060 */ s32 mWaitForRaceStartDelayFrames;
+    /* 060 */ s32 mWaitForRaceStartDelayFrameCount;
     /* 064 */ s32 mWaitForRaceStartAnimationEntry;
     /* 068 */ s32 mWaitForRaceStartFrameStep;
     /* 06c */ s32 mUnk_06c;
@@ -86,8 +86,8 @@ typedef struct BombKingPrm {
     /* 140 */ s32 mThrowBombsAnimationEntry;
     /* 144 */ s32 mThrowBombsFrameStep;
     /* 148 */ s32 mThrowBombsFrameIndex;
-    /* 14c */ s32 mRingRadius;
-    /* 150 */ s32 mRingOffsetY;
+    /* 14c */ s32 mRingRadiusCounterZero;
+    /* 150 */ s32 mRingOffsetYCounterZero;
     /* 154 */ s32 mRingRadiusCounterNonZero;
     /* 158 */ s32 mRingOffsetYCounterNonZero;
     /* 15c */ s32 mRingBombTimer;
@@ -126,7 +126,7 @@ typedef struct BombKingPrm {
     /* 1e0 */ s32 mJumpThrowBombsFrameStep;
     /* 1e4 */ s32 mJumpRingRadius;
     /* 1e8 */ s32 mJumpRingBombTimer;
-    /* 1ec */ u32 mJumpRingParkedBombTimer;
+    /* 1ec */ u32 mJumpCenterParkedBombTimer;
     /* 1f0 */ s32 mJumpThrowBombsFrameCount;
     /* 1f4 */ s32 mJumpFallAnimationEntry;
     /* 1f8 */ s32 mJumpFallFrameStep;
@@ -277,7 +277,7 @@ typedef struct HanachanPrm {
     /* 0a0 */ s32 mMoveRangeRadius;
     /* 0a4 */ u8 mUnk_0a4[0x4];
     /* 0a8 */ s32 mTwoBalloonSpeedReduction;
-    /* 0ac */ s32 mOneBalloonSpeedReduction;
+    /* 0ac */ s32 mOneOrNoBalloonSpeedReduction;
     /* 0b0 */ u8 mUnk_0b0[0x10];
     /* 0c0 */ s32 mFollowerFirstDistance;
     /* 0c4 */ s32 mFollowerSecondDistance;
@@ -294,7 +294,7 @@ typedef struct HanachanPrm {
     /* 0f0 */ u8 mUnk_0f0[0x4];
     /* 0f4 */ s32 mFollowerFourthCollisionOffsetY;
     /* 0f8 */ u8 mUnk_0f8[0x4];
-    /* 0fc */ s32 mStarHitSideSpeed;
+    /* 0fc */ s32 mStarHitSidePosStep;
     /* 100 */ s32 mCollisionRadius;
     /* 104 */ s32 mSecondKartRangeAnimationEntry;
     /* 108 */ s32 mSecondKartRangeFrameStep;
@@ -321,13 +321,13 @@ typedef struct IwantePrm {
     /* 080 */ s32 mChainCameraPosYOffset;
     /* 084 */ u8 mUnk_084[0x4];
     /* 088 */ s32 mItemHitHalfAngle;
-    /* 08c */ s32 mTurnToKartAnimationEntry;
-    /* 090 */ s32 mTurnToKartFrameStep;
-    /* 094 */ s32 mTurnToKartSpeedTarget;
-    /* 098 */ s32 mTurnToKartSpeedPerCall;
+    /* 08c */ s32 mBeforeMoveToKartAnimationEntry;
+    /* 090 */ s32 mBeforeMoveToKartFrameStep;
+    /* 094 */ s32 mBeforeMoveToKartSpeedTarget;
+    /* 098 */ s32 mBeforeMoveToKartSpeedPerCall;
     /* 09c */ u8 mUnk_09c[0x8];
-    /* 0a4 */ s32 mTurnToKartVelocityY;
-    /* 0a8 */ s32 mTurnToKartFrameCount;
+    /* 0a4 */ s32 mBeforeMoveToKartVelocityY;
+    /* 0a8 */ s32 mBeforeMoveToKartFrameCount;
     /* 0ac */ u8 mUnk_0ac[0x24];
     /* 0d0 */ s32 mMoveToKartAnimationEntry;
     /* 0d4 */ s32 mMoveToKartFrameStep;
@@ -355,7 +355,7 @@ typedef struct IwantePrm {
     /* 134 */ s32 mMoveSidewaysSpeedPerCall;
     /* 138 */ u8 mUnk_138[0x8];
     /* 140 */ s32 mMoveSidewaysFrameCount;
-    /* 144 */ s32 mKartHitCarryVelocity;
+    /* 144 */ s32 mKartHitCarryPosStep;
     /* 148 */ s32 mSidewaysStopAnimationEntry;
     /* 14c */ s32 mSidewaysStopFrameStep;
     /* 150 */ s32 mSidewaysStopSpeedTarget;
@@ -435,7 +435,7 @@ typedef struct IwantePrm {
     /* 2b0 */ s32 mChangeToWalkBFrameStep;
     /* 2b4 */ s32 mChangeToWalkAAnimationEntry;
     /* 2b8 */ s32 mChangeToWalkAFrameStep;
-    /* 2bc */ u32 mApproachKartObjectRadius;
+    /* 2bc */ u32 mApproachKartObjectHalfAngle;
     /* 2c0 */ u32 mApproachKartHandRadius;
     /* 2c4 */ u32 mHandsTurnPerCallTarget;
     /* 2c8 */ s32 mWalkTurnPerCallTarget;
@@ -453,7 +453,7 @@ typedef struct KingTeresaPrm {
     /* 07c */ s32 mKartEliminatedFrameStep;
     /* 080 */ s32 mPosOffsetY;
     /* 084 */ s32 mSinkMinOffsetY;
-    /* 088 */ s32 mSinkStepY;
+    /* 088 */ s32 mSinkYPerCall;
     /* 08c */ u8 mUnk_08c[0x4];
     /* 090 */ s32 mWaitToApproachAnimationEntry;
     /* 094 */ s32 mWaitToApproachFrameStep;
@@ -499,7 +499,7 @@ typedef struct KingTeresaPrm {
     /* 134 */ s32 mMoveToGroupEntryStage1AnglePerCallIncrement;
     /* 138 */ s32 mMoveToGroupEntryPointRadius;
     /* 13c */ s32 mMoveToGroupEntryPointHalfAngle;
-    /* 140 */ s32 mNextGroupSpan;
+    /* 140 */ s32 mEntryGroupSpan;
     /* 144 */ s32 mHitReactionAnimationEntry;
     /* 148 */ s32 mHitReactionFrameStep;
     /* 14c */ s32 mHitReactionAlphaLimitTarget;
@@ -515,9 +515,9 @@ typedef struct KingTeresaPrm {
     /* 174 */ s32 mShowBossCoinsFrameStep;
     /* 178 */ s32 mShowBossCoinsAlphaLimitTarget;
     /* 17c */ s32 mShowBossCoinsAlphaLimitPerCall;
-    /* 180 */ s32 mStopKartFacingHalfAngle;
-    /* 184 */ s32 mStopKartInRangeHalfAngle;
-    /* 188 */ s32 mStopKartInRangeRadius;
+    /* 180 */ s32 mStopForBossCoinsKartFacingHalfAngle;
+    /* 184 */ s32 mStopForBossCoinsKartInRangeHalfAngle;
+    /* 188 */ s32 mStopForBossCoinsKartInRangeRadius;
     /* 18c */ s32 mShowBossCoinsShownCountMax;
     /* 190 */ s32 mParkBossCoinCount;
     /* 194 */ s32 mShowBossCoinsFrameCount;
@@ -534,7 +534,7 @@ typedef struct KingTeresaPrm {
     /* 1c0 */ s32 mTimerCountUpAdd;
     /* 1c4 */ s32 mTimerBossTransferAdd;
     /* 1c8 */ s32 mShowNearKartTimerLimit;
-    /* 1cc */ s32 mWaitToApproachEndTimer;
+    /* 1cc */ s32 mWaitToApproachEndTimerLimit;
     /* 1d0 */ s32 mApproachTimerLimit;
     /* 1d4 */ s32 mWaitToApproachAlphaLimitDivisor;
     /* 1d8 */ s32 mTurnTowardKartAnimationEntry;
@@ -793,7 +793,7 @@ typedef void (*MapObjectItemCollisionCallback)(MissionRunMapObject *mapObject, I
 typedef struct MissionRunMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ MissionRunPrm *mPrm;
-    /* 0a4 */ struct MissionRunMapObject *mPreviousObject;
+    /* 0a4 */ struct MissionRunMapObject *mFollowedObject;
     /* 0a8 */ union {
         s32 mHandShape;
         s32 mHandOrder;
@@ -808,7 +808,7 @@ typedef struct MissionRunMapObject {
     /* 0bc */ MissionRunMapObjectEffect mEffects[5];
     /* 134 */ s32 mModelAnimationFrameIndex;
     /* 138 */ s32 mThrowCount;
-    /* 13c */ s32 mTurnDelayFrames;
+    /* 13c */ s32 mTurnDelayTimer;
     /* 140 */ s32 mEffectStepCounter;
     /* 144 */ s32 mSoundStepCounter;
     /* 148 */ s32 mEntryGroupIndex;
@@ -831,7 +831,7 @@ typedef struct MissionRunMapObject {
     /* 194 */ s32 mAnglePerCall;
     /* 198 */ s32 mAnglePerCallTarget;
     /* 19c */ s32 mAnglePerCallIncrement;
-    /* 1a0 */ s32 mSidewaysAngleOffset;
+    /* 1a0 */ s32 mAngleOffset;
     /* 1a4 */ s32 mMoveAngleMode;
     /* 1a8 */ s32 mMoveAngle;
     /* 1ac */ Vec3 mMoveAnglePoint;

@@ -139,10 +139,10 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
         angle += 0x5555;
         if (GetAbsoluteCounter(mapObject) == 0) {
             pos.x = mapObject->mMapObject.mPos.x +
-                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadius, SIN_OF_ANGLE((u16) angle));
-            pos.y = mapObject->mMapObject.mPos.y + mapObject->mPrm->mBombKing.mRingOffsetY;
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterZero, SIN_OF_ANGLE((u16) angle));
+            pos.y = mapObject->mMapObject.mPos.y + mapObject->mPrm->mBombKing.mRingOffsetYCounterZero;
             pos.z = mapObject->mMapObject.mPos.z +
-                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadius, COS_OF_ANGLE((u16) angle));
+                    MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterZero, COS_OF_ANGLE((u16) angle));
         } else {
             pos.x =
                 mapObject->mMapObject.mPos.x +
@@ -194,7 +194,7 @@ void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
         centerPos.y = mapObject->mMapObject.mPos.y;
         centerPos.z = mapObject->mMapObject.mPos.z;
         ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &centerPos, &centerVelocity,
-                                  mapObject->mPrm->mBombKing.mJumpRingParkedBombTimer);
+                                  mapObject->mPrm->mBombKing.mJumpCenterParkedBombTimer);
     }
     SetSpeedAndClearTarget(mapObject, 0);
 }

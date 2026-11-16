@@ -335,13 +335,13 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
         mapObject->mMoveAngleOffset = 0;
     }
     mapObject->mAlphaLimitPerCall = mapObject->mPrm->mKingTeresa.mWaitToApproachAlphaLimitPerCall;
-    if (mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer -
+    if (mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimerLimit -
             (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) >
         0) {
-        scaledTimerGap = 0.5f + TO_FIXED12(mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer -
+        scaledTimerGap = 0.5f + TO_FIXED12(mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimerLimit -
                                            (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0));
     } else {
-        scaledTimerGap = TO_FIXED12(mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer -
+        scaledTimerGap = TO_FIXED12(mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimerLimit -
                                     (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0)) -
                          0.5f;
     }
@@ -353,7 +353,7 @@ s32 AdvanceKingTeresaWaitToApproach(MissionRunMapObject *mapObject) {
         mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
         StartKingTeresaApproachKart(mapObject);
     } else if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) >
-               mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimer) {
+               mapObject->mPrm->mKingTeresa.mWaitToApproachEndTimerLimit) {
         StopMapObjectState(mapObject);
     }
     return 0;
@@ -474,7 +474,7 @@ void StartKingTeresaHideForNextGroup(MissionRunMapObject *mapObject) {
     HideKingTeresaWithEffects(mapObject);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mKingTeresa.mHideFrameCount, ShowKingTeresaAtGroupEntry);
     SetBossCoinShownCount(0);
-    IncrementEntryGroupIndex(mapObject, mapObject->mPrm->mKingTeresa.mNextGroupSpan);
+    IncrementEntryGroupIndex(mapObject, mapObject->mPrm->mKingTeresa.mEntryGroupSpan);
     currentValue = mapObject->mMoveStage;
     if (currentValue == 1) {
         nextValue = 2;
@@ -500,7 +500,7 @@ u32 AdvanceKingTeresaSinkToCourseRow(MissionRunMapObject *mapObject) {
     int newY;
     int lowestY;
     lowestY = mapObject->mMapObject.mCourseMapRow->mPosition.y + mapObject->mPrm->mKingTeresa.mSinkMinOffsetY;
-    newY = mapObject->mMapObject.mPos.y - mapObject->mPrm->mKingTeresa.mSinkStepY;
+    newY = mapObject->mMapObject.mPos.y - mapObject->mPrm->mKingTeresa.mSinkYPerCall;
     if (newY <= lowestY) {
         newY = lowestY;
     }
@@ -787,10 +787,10 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
             if (IsStateNumberBelow(mapObject, 5) != 0) {
                 kart = GetKart((u16) gRaceSetup->mEntryIndex);
                 if (kart->mState == KART_STATE_NORMAL && (kart->mDriveFlags & KART_DRIVE_OBJECTS_SKIP) == 0 &&
-                    GetEntryKartInRange(mapObject, 0, mapObject->mPrm->mKingTeresa.mStopKartInRangeHalfAngle) != NULL &&
-                    GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mKingTeresa.mStopKartFacingHalfAngle) !=
+                    GetEntryKartInRange(mapObject, 0, mapObject->mPrm->mKingTeresa.mStopForBossCoinsKartInRangeHalfAngle) != NULL &&
+                    GetEntryKartFacingObject(mapObject, 0, mapObject->mPrm->mKingTeresa.mStopForBossCoinsKartFacingHalfAngle) !=
                         NULL &&
-                    GetEntryKartInRange(mapObject, mapObject->mPrm->mKingTeresa.mStopKartInRangeRadius, 0) != NULL) {
+                    GetEntryKartInRange(mapObject, mapObject->mPrm->mKingTeresa.mStopForBossCoinsKartInRangeRadius, 0) != NULL) {
                     StartKingTeresaStopForBossCoins(mapObject);
                 }
             }

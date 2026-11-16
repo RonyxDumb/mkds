@@ -10,7 +10,7 @@ typedef struct MapObjectList MapObjectList;
 #include "01/MapObjects/kuriking_state_shared.h"
 #include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
-// Values of MissionRunMapObject.mFollowerIndex: the follower's place behind mPreviousObject; the distances
+// Values of MissionRunMapObject.mFollowerIndex: the follower's place behind mFollowedObject; the distances
 // (mFollower*Distance), animation frame offset and turn delay scale with it.
 enum {
     HANACHAN_FOLLOWER_FIRST = 1,

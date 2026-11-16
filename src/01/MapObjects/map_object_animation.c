@@ -253,7 +253,7 @@ void TurnSidewaysMoveFollowsAngle(MissionRunMapObject *mapObject, s32 anglePerCa
     mapObject->mAngleState = MAP_OBJECT_ANGLE_TURN_SIDEWAYS;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = angleOffset;
+    mapObject->mAngleOffset = angleOffset;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_FOLLOW_ANGLE;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -276,7 +276,7 @@ void SpinAngleStopMoveAngle(MissionRunMapObject *mapObject, s32 anglePerCallTarg
     mapObject->mAngleState = MAP_OBJECT_ANGLE_SPIN;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_KEEP;
     mapObject->mMoveAnglePerCall = 0;
     mapObject->mMoveAnglePerCallTarget = 0;
@@ -297,7 +297,7 @@ void SpinTowardPointMoveToPoint(MissionRunMapObject *mapObject, s32 anglePerCall
     mapObject->mAngleState = angleState;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
@@ -308,7 +308,7 @@ void TurnAndMoveToPointOwnRates(MissionRunMapObject *mapObject, s32 anglePerCall
     mapObject->mAngleState = MAP_OBJECT_ANGLE_TURN_TO_POINT;
     mapObject->mAnglePerCallTarget = anglePerCallTarget;
     mapObject->mAnglePerCallIncrement = anglePerCallIncrement;
-    mapObject->mSidewaysAngleOffset = 0;
+    mapObject->mAngleOffset = 0;
     mapObject->mMoveAngleMode = MAP_OBJECT_MOVE_ANGLE_TURN_TO_POINT;
     mapObject->mMoveAnglePerCallTarget = moveAnglePerCallTarget;
     mapObject->mMoveAnglePerCallIncrement = moveAnglePerCallIncrement;
@@ -1335,7 +1335,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
             }
             if (mapObject->mAnglePerCall > 0) {
                 mapObject->mAngle = StepAngleSidewaysToPoint(&mapObject->mAnglePoint, &mapObject->mMapObject.mPos,
-                                                             mapObject->mAnglePerCall, mapObject->mSidewaysAngleOffset,
+                                                             mapObject->mAnglePerCall, mapObject->mAngleOffset,
                                                              mapObject->mAngle);
             }
             break;
@@ -1461,12 +1461,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
         mapObject->mVelocity.x = 0;
         mapObject->mVelocity.z = 0;
     } else if (mapObject->mCollisionBits & COURSE_HIT_GROUND) {
-        velocityScale = mapObject->mPrm->mHead.mCourseHitVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mGroundHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
     } else {
-        velocityScale = mapObject->mPrm->mHead.mFreeVelocityScale;
+        velocityScale = mapObject->mPrm->mHead.mNoGroundHitVelocityScale;
         mapObject->mVelocity.x = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.x, velocityScale);
         mapObject->mVelocity.y = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.y, velocityScale);
         mapObject->mVelocity.z = MUL_FIXED12_NO_ROUND(mapObject->mVelocity.z, velocityScale);
