@@ -237,7 +237,7 @@ void AdvanceRecordVSBrowse(void) {
         if (pressedFlag == FALSE ||
             IsSelectReturnShownNoRequestAndInRect(gInputPairXs[inputSlotIndex].mPairX,
                                                             gInputPairYs[inputSlotIndex].mPairY) == FALSE) {
-            goto handlePageButtons;
+            goto skipReturnPress;
         }
     }
     if (IsRecordVSIndexChangeRunning() != 0) {
@@ -252,7 +252,7 @@ void AdvanceRecordVSBrowse(void) {
     gRecordVS->mNextScreen = RECORD_SCREEN_TOP_MENU;
     RequestSelectReturnPressWithSound(0);
     return;
-handlePageButtons:
+skipReturnPress:
     if ((downRectIndex == 10 && gRecordVS->mPageDecrementRepeat != FALSE) ||
         (pressedRectIndex == 10 && gRecordVS->mPageDecrementRepeat == FALSE) ||
         (u16) (gInputSlots[inputSlotIndex].mBits & PAD_KEY_LEFT) != 0) {

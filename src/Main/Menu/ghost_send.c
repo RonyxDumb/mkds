@@ -340,7 +340,7 @@ void InitTimeAttackGhostSend(void *parentHeap, void *mainOam, void *subOam) {
     FrmHeapShrinkInParent(gTimeAttackGhostSend->mHeap);
 }
 
-s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
+s32 AdvanceTimeAttackGhostSend(SceneNumbers *sceneNumbers) {
     u16 slotIndex;
     s32 isTouched;
     s32 returnRequested;
@@ -370,8 +370,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NO_GHOST_TEXT:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -420,8 +420,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
                     keyB = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
                     if (keyB != 0 || returnTouched != 0) {
                         gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                        if (advanceArg != NULL) {
-                            advanceArg->mNextScene = SCENE_MENU_1;
+                        if (sceneNumbers != NULL) {
+                            sceneNumbers->mNextScene = SCENE_MENU_1;
                         }
                         gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
                         RequestSelectReturnPressWithSound(0);
@@ -499,8 +499,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
             if (AdvanceConnectionEndStopOnError() == 1) {
                 SendLedPatternWireless();
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }
@@ -522,8 +522,8 @@ s32 AdvanceTimeAttackGhostSend(SceneNumbers *advanceArg) {
         case TIME_ATTACK_GHOST_SEND_STATE_WAIT_NAME_TEXT_LEAVE:
             if (GetTxtSystemDone() != 0) {
                 gMenuShared->mMenuEntryKind = MENU_ENTRY_TIME_ATTACK_TOP_MENU;
-                if (advanceArg != NULL) {
-                    advanceArg->mNextScene = SCENE_MENU_1;
+                if (sceneNumbers != NULL) {
+                    sceneNumbers->mNextScene = SCENE_MENU_1;
                 }
                 gTimeAttackGhostSend->mState = TIME_ATTACK_GHOST_SEND_STATE_LEAVE;
             }

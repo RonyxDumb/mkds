@@ -205,8 +205,8 @@ void AdvancePlayerEntryListOffsets(void) {
     }
 }
 
-static inline void PlayerEntryListMI_CpuCopy16(const void *source, void *destination, s32 byteCount) {
-    MIi_CpuCopy16(source, destination, byteCount);
+static inline void PlayerEntryListMI_CpuCopy16(const void *src, void *dest, s32 size) {
+    MIi_CpuCopy16(src, dest, size);
 }
 
 void SetExtraEntryNames(void) {
