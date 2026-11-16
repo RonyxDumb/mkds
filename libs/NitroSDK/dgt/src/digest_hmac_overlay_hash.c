@@ -112,26 +112,26 @@ void DGT_Hash2GetDigest(DGTHash2Context *ctx, u8 *digest, ...) {
         len++;
     }
     wordIndex++;
-    if (ctx->mBufferLen >= DGT_HASH2_LENGTH_OFFSET) {
+    if (ctx->mBufferLen >= HASH_BLOCK_BIT_COUNT_OFFSET) {
         for (; wordIndex < 16; wordIndex++) {
             blockWords[wordIndex] = 0;
         }
         DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
         wordIndex = 0;
     }
-    for (; wordIndex < 14; wordIndex++) {
+    for (; wordIndex < HASH_BLOCK_BIT_COUNT_OFFSET / 4; wordIndex++) {
         blockWords[wordIndex] = 0;
     }
     value = ctx->mBitCountLow;
-    blockBytes[0x3f] = value;
-    blockBytes[0x3e] = value >> 8;
-    blockBytes[0x3d] = value >> 16;
-    blockBytes[0x3c] = value >> 24;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 7] = value;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 6] = value >> 8;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 5] = value >> 16;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 4] = value >> 24;
     value = ctx->mBitCountHigh;
-    blockBytes[0x3b] = value;
-    blockBytes[0x3a] = value >> 8;
-    blockBytes[0x39] = value >> 16;
-    blockBytes[0x38] = value >> 24;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 3] = value;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 2] = value >> 8;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET + 1] = value >> 16;
+    blockBytes[HASH_BLOCK_BIT_COUNT_OFFSET] = value >> 24;
     DGTi_Hash2ProcessMessageBlockFunc(ctx, (u8 *) blockWords, 0x40);
     value = ctx->mWords[0];
     digest[0] = value >> 24;

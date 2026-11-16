@@ -131,11 +131,7 @@ enum {
 
 // Mask of the directory id in the parent field of a directory table entry (FSi_SeekDirCommand) and in the id that
 // follows a directory name in a directory read (FSi_ReadDirCommand).
-#define FILE_DIR_NUMBER_MASK 0xfff
-
-// FSFile.mStat bits: a command on the file is running, the record holds an open file.
-#define FILE_RECORD_BUSY 0x1
-#define FILE_RECORD_OPEN 0x10
+#define FILE_DIR_ID_MASK 0xfff
 
 // A file system file or directory: its link, archive, status, command, error, thread queue, the locations mProp and
 // mArg, the position or parent id, the path, a directory flag and the result pointer.

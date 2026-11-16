@@ -48,7 +48,7 @@ void InitDwcArchive(void) {
     if (FS_RegisterArchiveName(&gDwcArchive->mArchive, gDwcArchiveName, 3) == 0) {
         OS_Terminate();
     }
-    FS_SetArchiveProc(&gDwcArchive->mArchive, DwcArchiveProc, 0x602);
+    FS_SetArchiveProc(&gDwcArchive->mArchive, DwcArchiveProc, ARCHIVE_PROC_START_RUN | ARCHIVE_PROC_STOP_RUN | 0x2);
     if (FS_LoadArchive(&gDwcArchive->mArchive, (u8 *) base, fatRegion[0], fatRegion[1], fntRegion[0], fntRegion[1],
                        DwcArchiveReadCallback, DwcArchiveWriteCallback) == 0) {
         OS_Terminate();
@@ -75,31 +75,31 @@ void ReleaseDwcArchive(void) {
 
 s32 DwcArchiveProc(FSFile *file, u32 command) {
     switch (command) {
-        case FS_COMMAND_ACTIVATE:
+        case ARCHIVE_COMMAND_START_RUN:
             CARD_LockRom(gDwcArchive->mLockId);
-            return 0;
-        case FS_COMMAND_IDLE:
+            return ARCHIVE_RESULT_SUCCESS;
+        case ARCHIVE_COMMAND_STOP_RUN:
             CARD_UnlockRom(gDwcArchive->mLockId);
-            return 0;
+            return ARCHIVE_RESULT_SUCCESS;
         case ARCHIVE_PROC_WRITE:
-            return 4;
+            return ARCHIVE_RESULT_UNSUPPORTED;
         default:
-            return 8;
+            return ARCHIVE_RESULT_NOT_HANDLED;
     }
 }
 
 s32 DwcArchiveReadCallback(FSArchive *archive, void *dst, u32 offset, u32 length) {
     CARDi_ReadRom(0xffffffff, offset + (u32) archive->mBase, (u32) dst, length, DwcArchiveReadEndCallback, archive, 1);
-    return 6;
+    return ARCHIVE_RESULT_RUNNING_IN_BACKGROUND;
 }
 
 void DwcArchiveReadEndCallback(void *arg) {
     FSArchive *archive = arg;
-    FS_NotifyArchiveAsyncEnd(archive, 0);
+    FS_NotifyArchiveAsyncEnd(archive, ARCHIVE_RESULT_SUCCESS);
 }
 
 s32 DwcArchiveWriteCallback(FSArchive *archive, const void *src, u32 offset, u32 length) {
-    return 1;
+    return ARCHIVE_RESULT_FAILED;
 }
 
 void *LoadFile(const u8 *path, u32 *outSize, s32 alignment) {

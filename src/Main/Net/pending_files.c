@@ -35,7 +35,7 @@ BOOL LoadPendingFiles(void) {
     void *workOrPath;
     s32 size;
     u32 *buffer;
-    if (((file->mStat & FILE_RECORD_BUSY) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_BUSY) ? 1 : 0) != 0) {
         return FALSE;
     }
     if (previousIndex >= 0 && gConnectionWork->mBlockEntries[previousIndex].mUncompressPending != 0) {
@@ -50,7 +50,7 @@ BOOL LoadPendingFiles(void) {
         return TRUE;
     }
     workOrPath = gConnectionWork->mBlockEntries[nextIndex].mPath;
-    if (((file->mStat & FILE_RECORD_OPEN) ? 1 : 0) != 0) {
+    if (((file->mStat & FILE_STAT_IS_FILE) ? 1 : 0) != 0) {
         FS_CloseFile(file);
     }
     FS_InitFile(file);

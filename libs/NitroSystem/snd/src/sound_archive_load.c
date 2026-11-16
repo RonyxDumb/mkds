@@ -746,7 +746,7 @@ void NNS_SndArcInit(NNSSndArc *arc, const u8 *filePath, NNSSndHeap *heap, BOOL s
 BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
     s32 bytesRead;
 
-    if (FS_SeekFile(&arc->mFile, 0, 0) == 0) {
+    if (FS_SeekFile(&arc->mFile, 0, FILE_SEEK_START) == 0) {
         return 0;
     }
     if (FS_ReadFile(&arc->mFile, &arc->mHeader, 0x30) != 0x30) {
@@ -757,7 +757,7 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
         if (arc->mInfo == 0) {
             return 0;
         }
-        if (FS_SeekFile(&arc->mFile, arc->mHeader.mInfoOffset, 0) == 0) {
+        if (FS_SeekFile(&arc->mFile, arc->mHeader.mInfoOffset, FILE_SEEK_START) == 0) {
             return 0;
         }
         bytesRead = FS_ReadFile(&arc->mFile, arc->mInfo, arc->mHeader.mInfoSize);
@@ -768,7 +768,7 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
         if (arc->mFat == 0) {
             return 0;
         }
-        if (FS_SeekFile(&arc->mFile, arc->mHeader.mFatOffset, 0) == 0) {
+        if (FS_SeekFile(&arc->mFile, arc->mHeader.mFatOffset, FILE_SEEK_START) == 0) {
             return 0;
         }
         bytesRead = FS_ReadFile(&arc->mFile, arc->mFat, arc->mHeader.mFatSize);
@@ -780,7 +780,7 @@ BOOL NNS_SndArcSetup(NNSSndArc *arc, NNSSndHeap *heap, BOOL symbolLoadFlag) {
             if (arc->mSymbol == 0) {
                 return 0;
             }
-            if (FS_SeekFile(&arc->mFile, arc->mHeader.mSymbolDataOffset, 0) == 0) {
+            if (FS_SeekFile(&arc->mFile, arc->mHeader.mSymbolDataOffset, FILE_SEEK_START) == 0) {
                 return 0;
             }
             bytesRead = FS_ReadFile(&arc->mFile, arc->mSymbol, arc->mHeader.mSymbolDataSize);
@@ -998,7 +998,7 @@ s32 NNS_SndArcReadFile(u32 fileId, void *buffer, u32 size, u32 offset) {
     if (size > left) {
         size = left;
     }
-    if (FS_SeekFile(&arc->mFile, file->mOffset + offset, 0) == 0) {
+    if (FS_SeekFile(&arc->mFile, file->mOffset + offset, FILE_SEEK_START) == 0) {
         return -1;
     }
     return FS_ReadFile(&arc->mFile, buffer, size);

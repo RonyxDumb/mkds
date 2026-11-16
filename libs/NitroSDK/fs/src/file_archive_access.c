@@ -181,7 +181,7 @@ u32 FS_WaitAsync(FSFile *file) {
     if (needsRun) {
         return FSi_ExecuteSyncCommand(file);
     }
-    return file->mError == 0;
+    return file->mError == ARCHIVE_RESULT_SUCCESS;
 }
 
 // Marks a pending command as cancelled.
@@ -268,19 +268,19 @@ u32 FSi_GetPackedName(const u8 *name, s32 nameLen) {
 // Archive read callback that copies from the archive memory image.
 s32 FSi_ReadMemCallback(FSArchive *archive, void *dst, u32 pos, u32 size) {
     MI_CpuCopy8(archive->mBase + pos, dst, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Archive write callback that copies into the archive memory image.
 s32 FSi_WriteMemCallback(FSArchive *archive, const void *src, u32 pos, u32 size) {
     MI_CpuCopy8(src, archive->mBase + pos, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Table read callback that copies from an address.
 s32 FSi_ReadMemoryCore(FSArchive *archive, void *dst, u32 pos, u32 size) {
     MI_CpuCopy8((const void *) pos, dst, size);
-    return 0;
+    return ARCHIVE_RESULT_SUCCESS;
 }
 
 // Cancels flagged commands, then starts the first queued command and returns it; returns 0 when a suspend is requested
@@ -304,7 +304,7 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
                     if (archive->mList.mNext == file) {
                         archive->mList.mNext = next;
                     }
-                    FSi_ReleaseCommand(file, 3);
+                    FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
                     if (next == 0) {
                         next = archive->mList.mNext;
                     }
@@ -370,7 +370,7 @@ void FSi_ExecuteAsyncCommand(FSFile *file) {
         }
         file->mStat |= FILE_STAT_ASYNC;
         OS_RestoreInterrupts(savedInterrupts);
-        if (FSi_TranslateCommand(file, file->mCommand) == 6) {
+        if (FSi_TranslateCommand(file, file->mCommand) == ARCHIVE_RESULT_RUNNING_IN_BACKGROUND) {
             return;
         }
         file = FSi_NextCommand(archive);
@@ -387,7 +387,7 @@ u32 FSi_ExecuteSyncCommand(FSFile *file) {
     if (next != 0) {
         FSi_ExecuteAsyncCommand(next);
     }
-    return file->mError == 0;
+    return file->mError == ARCHIVE_RESULT_SUCCESS;
 }
 
 // Queues a command on its archive; returns 0 if the archive is unloading. A command not waited for is started or left
@@ -407,7 +407,7 @@ u32 FSi_SendCommand(FSFile *file, u32 command) {
     file->mStat |= FILE_STAT_BUSY;
     savedInterrupts = OS_DisableInterrupts();
     if (archive->mFlag & ARCHIVE_FLAG_UNLOADING) {
-        FSi_ReleaseCommand(file, 3);
+        FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -573,7 +573,7 @@ u32 FS_UnloadArchive(FSArchive *archive) {
         if (file != 0) {
             do {
                 next = file->mLink.mNext;
-                FSi_ReleaseCommand(file, 3);
+                FSi_ReleaseCommand(file, ARCHIVE_RESULT_CANCELED);
                 file = next;
             } while (next != 0);
         }
@@ -588,7 +588,7 @@ u32 FS_UnloadArchive(FSArchive *archive) {
         archive->mFntSize = 0;
         archive->mFntBak = 0;
         archive->mFatBak = archive->mFntBak;
-        archive->mFlag &= ~0xa2;
+        archive->mFlag &= ~(ARCHIVE_FLAG_LOADED | ARCHIVE_FLAG_CANCEL_PENDING | ARCHIVE_FLAG_UNLOADING);
     }
     OS_RestoreInterrupts(savedInterrupts);
     return 1;

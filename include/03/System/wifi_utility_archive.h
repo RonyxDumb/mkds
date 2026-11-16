@@ -8,8 +8,6 @@ typedef struct FSArchive FSArchive;
 
 // Commands the archive procedure gets.
 #define ARCHIVE_PROC_WRITE 1
-#define FS_COMMAND_ACTIVATE 9
-#define FS_COMMAND_IDLE 10
 
 BOOL AreStringEndsEqual(const u8 *first, const char *second, s32 endLength);
 void DeleteLoadedFile(void *block, ...);

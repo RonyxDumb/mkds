@@ -1,4 +1,5 @@
 #include "wireless_driver_startup.h"
+#include "fixed_point_graphics_setup.h"
 #include "lock_word_and_bus_ownership.h"
 #include "reset_interrupts_halt.h"
 #include "particle_random_state.h"
@@ -40,28 +41,28 @@ s32 WVR_StartUpAsync(u32 vram, void (*callback)(u32, s32), u32 arg) {
         return 5;
     }
     switch (vram) {
-        case WIRELESS_VRAM_BANK_C:
-            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C, wvrLockId) == 0) {
+        case VRAM_BANK_C:
+            if (OSi_TryLockVram(VRAM_BANK_C, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WIRELESS_VRAM_BANK_C;
+            wvrVRam = VRAM_BANK_C;
             *(vu8 *) 0x4000242 = 0x82;
             break;
-        case WIRELESS_VRAM_BANK_D:
-            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_D, wvrLockId) == 0) {
+        case VRAM_BANK_D:
+            if (OSi_TryLockVram(VRAM_BANK_D, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WIRELESS_VRAM_BANK_D;
+            wvrVRam = VRAM_BANK_D;
             *(vu8 *) 0x4000243 = 0x82;
             break;
-        case WIRELESS_VRAM_BANK_C_AND_D:
-            if (OSi_TryLockVram(WIRELESS_VRAM_BANK_C_AND_D, wvrLockId) == 0) {
+        case VRAM_BANK_C | VRAM_BANK_D:
+            if (OSi_TryLockVram(VRAM_BANK_C | VRAM_BANK_D, wvrLockId) == 0) {
                 OS_RestoreInterrupts(enabled);
                 return 6;
             }
-            wvrVRam = WIRELESS_VRAM_BANK_C_AND_D;
+            wvrVRam = VRAM_BANK_C | VRAM_BANK_D;
             *(vu8 *) 0x4000242 = 0x82;
             *(vu8 *) 0x4000243 = 0x8a;
             break;

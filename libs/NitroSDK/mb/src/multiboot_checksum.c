@@ -32,7 +32,7 @@ u32 MB_GetSegmentLength(FSFile *file) {
         if ((u32) FS_ReadFile(file, &header, 0x60) >= 0x60) {
             headerPtr = &header;
         }
-        FS_SeekFile(file, backupPosition, 0);
+        FS_SeekFile(file, backupPosition, FILE_SEEK_START);
     } else {
         headerPtr = &SYSTEM_WORK->mRomHeader.mHead;
     }

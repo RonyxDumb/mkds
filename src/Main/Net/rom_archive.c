@@ -37,7 +37,7 @@ const u8 gEmptyBlockInfo[32] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 s32 RomArchiveWriteCallback(FSArchive *archive, const void *src, u32 dst, u32 length) {
-    return 1;
+    return ARCHIVE_RESULT_FAILED;
 }
 
 s32 RomArchiveChildProc(FSFile *file, u32 command) {
@@ -47,14 +47,14 @@ s32 RomArchiveChildProc(FSFile *file, u32 command) {
                 return 5;
             }
             if (file->mArg.p.mUnk_08 == 0) {
-                return 0;
+                return ARCHIVE_RESULT_SUCCESS;
             }
             RequestRomArchiveBytes(file);
-            return 6;
+            return ARCHIVE_RESULT_RUNNING_IN_BACKGROUND;
         case 1:
-            return 4;
+            return ARCHIVE_RESULT_UNSUPPORTED;
         default:
-            return 8;
+            return ARCHIVE_RESULT_NOT_HANDLED;
     }
 }
 
@@ -130,7 +130,7 @@ void CreateRomArchiveBlock(FSFile *file, s32 appendOverlays) {
     block = gRomArchiveTransfer.mAllocFunc(gRomArchiveTransfer.mAllocFuncArg, blockSize, NULL);
     OS_RestoreInterrupts(alignedSizeOrInterruptState);
     *block = positionOffset;
-    origin = 0;
+    origin = FILE_SEEK_START;
     unusedValue = FALSE;
     {
         u32 *cursor = block + 1;
@@ -847,7 +847,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
                     archive = file->mArc;
                     gRomArchiveTransfer.mPendingFile = NULL;
                     file->mPosition = file->mPosition + file->mArg.w.mUnk_08;
-                    FS_NotifyArchiveAsyncEnd(archive, 0);
+                    FS_NotifyArchiveAsyncEnd(archive, ARCHIVE_RESULT_SUCCESS);
                     return;
             }
             return;
