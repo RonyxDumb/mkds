@@ -108,7 +108,7 @@ void DrawRaceMNumberPairTwoDigitCount(RaceHudOamBuffer *oamBuffer) {
         position0[0] = TO_FIXED12(spriteX[0] + gRaceMNumberPair->mOffsetX);
         position0[1] = 0xb1000;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell, matrix,
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, matrix,
                                   position0, matrixIndex, 1);
     }
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
@@ -116,28 +116,28 @@ void DrawRaceMNumberPairTwoDigitCount(RaceHudOamBuffer *oamBuffer) {
     cell = GetRaceMNcerEntry(gRaceMNumberPair->mCourseNumber % 10 + 0x2d);
     position1[0] = TO_FIXED12(spriteX[1] + gRaceMNumberPair->mOffsetX);
     position1[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position1, matrixIndex, 1);
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
     matrix = gRaceMNumberPair->mCellMatrix;
     cell = GetRaceMNcerEntry(0x37);
     position2[0] = TO_FIXED12(spriteX[2] + gRaceMNumberPair->mOffsetX);
     position2[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position2, matrixIndex, 1);
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
     matrix = gRaceMNumberPair->mCellMatrix;
     cell = GetRaceMNcerEntry(gRaceMNumberPair->mCourseCount / 10 + 0x2d);
     position3[0] = TO_FIXED12(spriteX[3] + gRaceMNumberPair->mOffsetX);
     position3[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position3, matrixIndex, 1);
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
     matrix = gRaceMNumberPair->mCellMatrix;
     cell = GetRaceMNcerEntry(gRaceMNumberPair->mCourseCount % 10 + 0x2d);
     position4[0] = TO_FIXED12(spriteX[4] + gRaceMNumberPair->mOffsetX);
     position4[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position4, matrixIndex, 1);
 }
 
@@ -155,20 +155,20 @@ void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer) {
     cell = GetRaceMNcerEntry(gRaceMNumberPair->mCourseNumber + 0x2d);
     position0[0] = TO_FIXED12(spriteX[0] + gRaceMNumberPair->mOffsetX);
     position0[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position0, matrixIndex, 1);
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
     matrix = gRaceMNumberPair->mCellMatrix;
     cell = GetRaceMNcerEntry(0x37);
     position1[0] = TO_FIXED12(spriteX[1] + gRaceMNumberPair->mOffsetX);
     position1[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position1, matrixIndex, 1);
     matrixIndex = gRaceMNumberPair->mMatrixIndex;
     matrix = gRaceMNumberPair->mCellMatrix;
     cell = GetRaceMNcerEntry(gRaceMNumberPair->mCourseCount + 0x2d);
     position2[0] = TO_FIXED12(spriteX[2] + gRaceMNumberPair->mOffsetX);
     position2[1] = 0xb1000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, matrix, position2, matrixIndex, 1);
 }

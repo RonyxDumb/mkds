@@ -391,7 +391,7 @@ static inline void AddRaceHudSubScreenCellOams(RaceHudOamBuffer *oamBuffer, NNSG
     position[1] = TO_FIXED12(screenY);
     oam = &oamBuffer->mOamBits[oamIndex];
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, matrix, position, matrixIndex, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, matrix, position, matrixIndex, 1);
     for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
         if (xlu != -1) {
             oam->mObjMode = xlu;
@@ -412,7 +412,7 @@ static inline void AddRaceHudSubScreenCellOamsNoMatrix(RaceHudOamBuffer *oamBuff
     position[1] = TO_FIXED12(screenY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, position, 0, 1);
 }
 
 static inline void AddRaceHudSubScreenKartStarCells(RaceHudOamBuffer *oamBuffer, s32 kartIndex, s32 frame) {
@@ -663,7 +663,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             endPosition0[0] = TO_FIXED12(screenX0);
             endPosition0[1] = TO_FIXED12(screenY0);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, endPosition0, rotationSlot0, 1);
         }
         trailDeltaX0 = gRaceHudSubScreenSecondHand->mDrawPositions[0].mFirst -
@@ -678,7 +678,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 middlePosition0[0] = TO_FIXED12(screenX0);
                 middlePosition0[1] = TO_FIXED12(screenY0);
                 oamBuffer->mOamCount +=
-                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                           &rotationMatrix, middlePosition0, rotationSlot0, 1);
             }
             trailSumX0 += trailDeltaX0;
@@ -691,7 +691,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             drawPosition0[0] = TO_FIXED12(screenX0);
             drawPosition0[1] = TO_FIXED12(screenY0);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition0, rotationSlot0, 1);
         }
         oamBuffer->mMatrices[rotationSlot0].mPA = rotationMatrix.mElements[0] >> 4;
@@ -714,7 +714,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             endPosition2[0] = TO_FIXED12(screenX2);
             endPosition2[1] = TO_FIXED12(screenY2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, endPosition2, rotationSlot2, 1);
         }
         trailDeltaX2 = gRaceHudSubScreenSecondHand->mDrawPositions[2].mFirst -
@@ -729,7 +729,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
                 middlePosition2[0] = TO_FIXED12(screenX2);
                 middlePosition2[1] = TO_FIXED12(screenY2);
                 oamBuffer->mOamCount +=
-                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                    NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                           &rotationMatrix, middlePosition2, rotationSlot2, 1);
             }
             trailSumX2 += trailDeltaX2;
@@ -742,7 +742,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             drawPosition2[0] = TO_FIXED12(screenX2);
             drawPosition2[1] = TO_FIXED12(screenY2);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, drawPosition2, rotationSlot2, 1);
         }
         oamBuffer->mMatrices[rotationSlot2].mPA = rotationMatrix.mElements[0] >> 4;
@@ -764,7 +764,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         endPosition1[0] = TO_FIXED12(screenX1);
         endPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                   &rotationMatrix, endPosition1, rotationSlot1, 1);
     }
     trailDeltaX1 =
@@ -779,7 +779,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
             middlePosition1[0] = TO_FIXED12(screenX1);
             middlePosition1[1] = TO_FIXED12(screenY1);
             oamBuffer->mOamCount +=
-                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+                NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                       &rotationMatrix, middlePosition1, rotationSlot1, 1);
         }
         trailSumX1 += trailDeltaX1;
@@ -792,7 +792,7 @@ void DrawRaceHudSubScreenSecondHand(RaceHudOamBuffer *oamBuffer) {
         drawPosition1[0] = TO_FIXED12(screenX1);
         drawPosition1[1] = TO_FIXED12(screenY1);
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount, cell,
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell,
                                   &rotationMatrix, drawPosition1, rotationSlot1, 1);
     }
     oamBuffer->mMatrices[rotationSlot1].mPA = rotationMatrix.mElements[0] >> 4;

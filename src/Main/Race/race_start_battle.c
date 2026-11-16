@@ -32,12 +32,12 @@ void DrawRaceStartBattle(RaceHudOamBuffer *oamBuffer) {
                                                                                        : RACE_START_BATTLE_OTHER_CELL);
     positions[0][0] = 0x80000;
     positions[0][1] = 0x60000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, NULL, positions[0], 0, 1);
     cell = GetRaceStartBattleMNcerEntry(2);
     positions[1][0] = 0x80000;
     positions[1][1] = 0x60000;
-    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], 0x80 - oamBuffer->mOamCount,
+    oamBuffer->mOamCount += NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamBuffer->mOamCount], RACE_HUD_OAM_COUNT - oamBuffer->mOamCount,
                                                   cell, NULL, positions[1], 0, 1);
 }
 

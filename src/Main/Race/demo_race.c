@@ -121,7 +121,7 @@ void SetNextDemoRace(CharacterKartPicks *picks) {
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_FAST;
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
+    gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mMirrorMode = 0;
     gRaceSetup->mNextHeader.mLapCount = -1;
     gRaceSetup->mNextHeader.mCpuDifficulty = CPU_DIFFICULTY_NORMAL;

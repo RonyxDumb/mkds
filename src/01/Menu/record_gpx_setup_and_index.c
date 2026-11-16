@@ -21,6 +21,7 @@
 #include "registers.h"
 #include "Main/Sound/sound_system.h"
 #include "01/Menu/record_gpx_setup_and_index.h"
+#include "Main/Race/results_gp.h"
 
 const u16 gRecordGpxCharacterPaletteSlots[4] = {3, 4, 5, 6};
 const u16 gRecordGpxKartPaletteSlots[4] = {7, 8, 9, 0xa};
@@ -162,13 +163,15 @@ void SetupRecordGpxValues(s32 row) {
     }
     grandPrixRecordGrade =
         GetGrandPrixRecordGrade(gRecordGpxCupIndices[gRecordGpx->mIndex], gRecordGpxRecordIndices[row]);
-    if (grandPrixRecordGrade < 5) {
+    if (grandPrixRecordGrade < RESULTS_GP_GRADE_THIRD_BEST) {
         gRecordGpx->mRecordGpxSTable[subLayoutCount + gRecordGpxGradeLabelIndices[row]].mVisible = 1;
         PrintLabelLayoutTextNoFixedAdvance(1, gRecordGpxGradeLabelIndices[row], gRecordGpx->mRecordGpxSLabelLayout,
                                            gRecordGpxGradeStrings[grandPrixRecordGrade], gRecordGpx->mRecordGpxSCellLayout,
                                            gRecordGpx->mRecordGpxSTable);
     } else {
-        gRecordGpx->mRecordGpxSTable[gRecordGpxGradeCellIndices[row][grandPrixRecordGrade - 5]].mVisible = 1;
+        gRecordGpx
+            ->mRecordGpxSTable[gRecordGpxGradeCellIndices[row][grandPrixRecordGrade - RESULTS_GP_GRADE_THIRD_BEST]]
+            .mVisible = 1;
     }
 }
 

@@ -35,7 +35,7 @@ void InitEndingStaffRoll(void) {
     RaceHudOamBits *oamBits;
 
     gEndingStaffRoll = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(*gEndingStaffRoll));
-    for (oamIndex = 0; oamIndex < 0x80; oamIndex++) {
+    for (oamIndex = 0; oamIndex < RACE_HUD_OAM_COUNT; oamIndex++) {
         oamBits = &gEndingStaffRoll->mOamBuffer.mOamBits[oamIndex];
         oamBits->mObjMode = RACE_HUD_OBJ_MODE_BITMAP;
     }
@@ -85,7 +85,7 @@ void DrawEndingStaffRoll(void) {
         position[1] = 0x60000;
         oamBits = &oamBuffer->mOamBits[oamIndex];
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, position, 0, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, position, 0, 1);
         for (; oamIndex < oamBuffer->mOamCount; oamIndex++) {
             oamBits->mObjMode = RACE_HUD_OBJ_MODE_TRANSLUCENT;
             oamBits->mPriority = 1;
@@ -94,5 +94,5 @@ void DrawEndingStaffRoll(void) {
     }
     DC_FlushRange(&gEndingStaffRoll->mOamBuffer, 0x400);
     MI_DmaFill32(3, &gEndingStaffRoll->mOamBuffer.mOams[gEndingStaffRoll->mOamBuffer.mOamCount], 0xc0,
-                 (0x80 - gEndingStaffRoll->mOamBuffer.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gEndingStaffRoll->mOamBuffer.mOamCount) << 3);
 }

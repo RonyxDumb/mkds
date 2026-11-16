@@ -25,6 +25,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Race/results_gp.h"
 
 const u16 gRecordTopMenuGradeSTableIndices[3] = {2, 3, 4};
 const u16 gRecordTopMenuRowCellIndices[3] = {9, 0xa, 0xb};
@@ -209,7 +210,7 @@ void DecrementRecordTopMenuIndex(void) {
 }
 
 void RefreshRecordTopMenuGradeCells(void) {
-    s32 lowestGrade = 7;
+    s32 lowestGrade = RESULTS_GP_GRADE_BEST;
     s32 i;
     s32 engineClass;
 
@@ -228,8 +229,10 @@ void RefreshRecordTopMenuGradeCells(void) {
     for (i = 0; i < 3; i++) {
         gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[i]].mVisible = 0;
     }
-    if (lowestGrade > 4) {
-        gRecordTopMenu->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[lowestGrade - 5]].mVisible = 1;
+    if (lowestGrade > RESULTS_GP_GRADE_THIRD_BEST - 1) {
+        gRecordTopMenu
+            ->mRecordTopMenuMTable[gRecordTopMenuGradeSTableIndices[lowestGrade - RESULTS_GP_GRADE_THIRD_BEST]]
+            .mVisible = 1;
     }
 }
 

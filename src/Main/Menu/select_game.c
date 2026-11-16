@@ -56,10 +56,10 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
-                battleKind = FALSE;
+                battleKind = BATTLE_KIND_BALLOON;
                 break;
             default:
-                battleKind = TRUE;
+                battleKind = BATTLE_KIND_SHINE;
                 break;
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;
@@ -69,10 +69,10 @@ void WriteSelectGameRowToRaceSetupCopy(void) {
         GetRaceSetupCopy()->mMode = MODE_BATTLE;
         switch (gSelectGame->mSelectedIndex) {
             case 1:
-                battleKind = FALSE;
+                battleKind = BATTLE_KIND_BALLOON;
                 break;
             default:
-                battleKind = TRUE;
+                battleKind = BATTLE_KIND_SHINE;
                 break;
         }
         GetRaceSetupCopy()->mBattleKind = battleKind;

@@ -543,7 +543,7 @@ void ResetRaceSetup(void) {
     gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     gRaceSetup->mNextHeader.mEngineIndex = ENGINE_CLASS_SLOW;
     gRaceSetup->mNextHeader.mCpuDifficulty = 0;
-    gRaceSetup->mNextHeader.mBattleKind = 0;
+    gRaceSetup->mNextHeader.mBattleKind = BATTLE_KIND_BALLOON;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
     gRaceSetup->mNextHeader.mGhostRecordIndex = GHOST_RECORD_INDEX_COURSE;
@@ -1101,7 +1101,7 @@ void SetNextRaceFromMissionRow(MissionFileRow *missionFileRow, u32 tableRow, u32
     gRaceSetup->mNextHeader.mUseTeams = 0;
     gRaceSetup->mNextHeader.mRuleKind = RULE_KIND_FREE;
     gRaceSetup->mNextHeader.mCourseListMode = COURSE_LIST_MODE_SINGLE;
-    gRaceSetup->mNextHeader.mBattleKind = 0;
+    gRaceSetup->mNextHeader.mBattleKind = BATTLE_KIND_BALLOON;
     gRaceSetup->mCourseCount = 0;
     gRaceSetup->mNextHeader.mEngineIndex = missionFileRow->mEngineIndex;
     SetNextRaceEntry(0, missionFileRow->mCharacterIndex0, missionFileRow->mKartIndex0, PLAYER_KIND_HUMAN, -1, 3);

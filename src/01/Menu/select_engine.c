@@ -35,7 +35,8 @@ const s16 gSelectEngineRightStepsFlagSet[4] = {1, 0, 1, 0};
 const char *gSelectEngineBSBnclName = "gp/select_engine_B_s.bncl";
 const char *gSelectEngineBSBnblName = "gp/select_engine_B_s.bnbl";
 const char *gSelectEngineMNscrName = "gp/select_engine_m.nscr";
-const u32 gSelectEngineEngineIndices[4] = {0, 1, 2, 1};
+const u32 gSelectEngineEngineIndices[4] = {ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST,
+                                           ENGINE_CLASS_MEDIUM};
 const u32 gSelectEngineIndicesByEngineIndex[3] = {0, 1, 2};
 const char *gSelectEngineSNcgrName = "gp/select_engine_s.nce.ncgr";
 const char *gSelectEngineMBNcgrName = "gp/select_engine_m_b.ncgr";

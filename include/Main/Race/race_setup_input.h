@@ -3,8 +3,6 @@
 #include "types.h"
 
 #define ITEM_BITS 0x600
-// Item input bit held while the item is used: the held item is thrown in front of the kart.
-#define ITEM_THROW_FORWARD_BIT 0x40
 
 typedef struct MissionFileRow MissionFileRow;
 

@@ -73,13 +73,15 @@ const u16 gSelectRaceRuleRow0ValueMessageIndices[4] = {5, 6, 7, 8};
 const u16 gSelectRaceRuleRowMessageIndices[6] = {0, 1, 2, 3, 4, 0};
 const u16 gSelectRaceRuleRowValueCounts[6] = {4, 4, 3, 3, 3, 0};
 const u32 gSelectRaceRuleCourseListModeValues[3] = {2, 0, 1};
-const u32 gSelectRaceRuleEngineIndexValues[3] = {0, 1, 2};
+const u32 gSelectRaceRuleEngineIndexValues[3] = {ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST};
 const u32 gSelectRaceRuleRuleKindValues[3] = {SELECT_RACE_RULE_FREE, SELECT_RACE_RULE_WIN, SELECT_RACE_RULE_RACE};
-const u32 gSelectRaceRuleCourseListModes[3] = {1, 2, 0};
+const u32 gSelectRaceRuleCourseListModes[3] = {COURSE_LIST_MODE_IN_ORDER, COURSE_LIST_MODE_SHUFFLED,
+                                               COURSE_LIST_MODE_SINGLE};
 const u32 gSelectRaceRuleRuleKinds[3] = {RULE_KIND_WIN_COUNT, RULE_KIND_RACE_COUNT, RULE_KIND_FREE};
-const u32 gSelectRaceRuleCpuDifficulties[4] = {0, 1, 2, 3};
-const u32 gSelectRaceRuleCpuDifficultyValues[4] = {0, 1, 2, 3};
-const u32 gSelectRaceRuleEngineIndices[4] = {0, 1, 2, 1};
+const u32 gSelectRaceRuleCpuDifficulties[4] = {0, CPU_DIFFICULTY_EASY, CPU_DIFFICULTY_NORMAL, CPU_DIFFICULTY_HARD};
+const u32 gSelectRaceRuleCpuDifficultyValues[4] = {0, CPU_DIFFICULTY_EASY, CPU_DIFFICULTY_NORMAL, CPU_DIFFICULTY_HARD};
+const u32 gSelectRaceRuleEngineIndices[4] = {ENGINE_CLASS_SLOW, ENGINE_CLASS_MEDIUM, ENGINE_CLASS_FAST,
+                                             ENGINE_CLASS_MEDIUM};
 const SelectRaceRuleRowEntries gSelectRaceRuleRowEntries[5] = {{{0, 5}}, {{1, 6}}, {{2, 7}}, {{3, 9}}, {{4, 0xb}}};
 const u16 gSelectRaceRuleLabelWidths[5][2] = {{0x60, 0x64}, {0x58, 0x64}, {0x58, 0x64}, {0x58, 0x96}, {0x58, 0x64}};
 const u16 gSelectRaceRuleLabelHeights[5][2] = {{0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}, {0xd, 0xf}};
@@ -1241,9 +1243,9 @@ void ReadRaceSetupCopyIntoSelectRaceRule(void) {
         GetPreviousMenuScreenNumber() == 0xf) {
         ClearUseTeams();
         ClearMirrorMode();
-        SetEngineIndex(0);
+        SetEngineIndex(ENGINE_CLASS_SLOW);
         SetCpuDifficulty(0);
-        SetCourseListMode(0);
+        SetCourseListMode(COURSE_LIST_MODE_SINGLE);
         SetRuleKind(RULE_KIND_FREE);
         SetRaceSetupCopyCourseCount(0);
     }

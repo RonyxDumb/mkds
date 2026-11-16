@@ -44,6 +44,7 @@
 #include "Main/Sound/sound_system.h"
 #include "Main/Menu/menu_shared_clear.h"
 #include "Main/System/init_after_startup.h"
+#include "Main/Race/results_gp.h"
 
 #pragma thumb on
 
@@ -231,13 +232,13 @@ void SetupSelectCupGridIndex(void) {
                 case 4:
                     value = gSelectCupGridTrophyCells[0];
                     break;
-                case 5:
+                case RESULTS_GP_GRADE_THIRD_BEST:
                     value = gSelectCupGridTrophyCells[1];
                     break;
-                case 6:
+                case RESULTS_GP_GRADE_SECOND_BEST:
                     value = gSelectCupGridTrophyCells[2];
                     break;
-                case 7:
+                case RESULTS_GP_GRADE_BEST:
                     value = gSelectCupGridTrophyCells[3];
                     break;
             }

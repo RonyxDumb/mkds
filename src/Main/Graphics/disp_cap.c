@@ -56,14 +56,14 @@ u8 GetLowestGrandPrixRecordValue(void) {
     u8 engineClass;
     s32 recordValue;
 
-    lowestValue = 7;
+    lowestValue = RESULTS_GP_GRADE_BEST;
     for (cupIndex = 0; cupIndex < 8; cupIndex++) {
         for (engineClass = 0; engineClass < 4; engineClass++) {
             recordValue = GetGrandPrixRecordGrade(cupIndex, engineClass);
             if (recordValue == 9 || recordValue < lowestValue) {
                 lowestValue = recordValue;
             }
-            if (lowestValue == 9 || lowestValue < 5) {
+            if (lowestValue == 9 || lowestValue < RESULTS_GP_GRADE_THIRD_BEST) {
                 return 0;
             }
         }

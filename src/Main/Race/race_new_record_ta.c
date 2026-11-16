@@ -112,56 +112,56 @@ void DrawRaceNewRecordTaTime(RaceHudOamBuffer *oamBuffer, s32 baseX, s32 baseY, 
         digit0Position[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit0Position, 0, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit0Position, 0, 1);
     }
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[1] + 0xe);
     digit1Position[0] = TO_FIXED12(baseX + cellOffsets[1]);
     digit1Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit1Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit1Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(0x18);
     firstSeparatorPosition[0] = TO_FIXED12(baseX + cellOffsets[2]);
     firstSeparatorPosition[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstSeparatorPosition, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, firstSeparatorPosition, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[2] + 0xe);
     digit2Position[0] = TO_FIXED12(baseX + cellOffsets[3]);
     digit2Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit2Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit2Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[3] + 0xe);
     digit3Position[0] = TO_FIXED12(baseX + cellOffsets[4]);
     digit3Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit3Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit3Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(0x18);
     secondSeparatorPosition[0] = TO_FIXED12(baseX + cellOffsets[5]);
     secondSeparatorPosition[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondSeparatorPosition, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, secondSeparatorPosition, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[4] + 0xe);
     digit4Position[0] = TO_FIXED12(baseX + cellOffsets[6]);
     digit4Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit4Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit4Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[5] + 0xe);
     digit5Position[0] = TO_FIXED12(baseX + cellOffsets[7]);
     digit5Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit5Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit5Position, 0, 1);
     cell = GetRaceNewRecordTaSNcerEntry(digits.mDigits[6] + 0xe);
     digit6Position[0] = TO_FIXED12(baseX + cellOffsets[8]);
     digit6Position[1] = TO_FIXED12(baseY);
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, digit6Position, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, digit6Position, 0, 1);
 }
 
 void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s32 baseY) {
@@ -197,13 +197,13 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s
         firstCellPosition[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, firstCellPosition, 0, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, firstCellPosition, 0, 1);
         cell = GetRaceNewRecordTaSNcerEntry(index + 0x1a);
         secondCellPosition[0] = TO_FIXED12(baseX + 0x3d);
         secondCellPosition[1] = TO_FIXED12(baseY);
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, secondCellPosition, 0, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, secondCellPosition, 0, 1);
     }
     if (isNewRecord != FALSE && cycleFrames >= 0x10) {
         return;
@@ -226,7 +226,7 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     headerPosition[1] = 0xc000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, headerPosition, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, headerPosition, 0, 1);
     for (rowIndex = 0; rowIndex < 5; rowIndex++) {
         cell = GetRaceNewRecordTaSNcerEntry(rowIndex + 1);
         rowY = rowIndex * 0x18 + 0x28;
@@ -234,7 +234,7 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
         rowPosition[1] = (rowIndex * 0x18 + 0x28) << 12;
         oamIndex = oamBuffer->mOamCount;
         oamBuffer->mOamCount +=
-            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, rowPosition, 0, 1);
+            NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, rowPosition, 0, 1);
         DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX, rowY);
     }
     cell = GetRaceNewRecordTaSNcerEntry(6);
@@ -242,7 +242,7 @@ void DrawRaceNewRecordTa(RaceHudOamBuffer *oamBuffer) {
     lastRowPosition[1] = 0x9f000;
     oamIndex = oamBuffer->mOamCount;
     oamBuffer->mOamCount +=
-        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], 0x80 - oamIndex, cell, NULL, lastRowPosition, 0, 1);
+        NNS_G2dMakeCellToOams(&oamBuffer->mOams[oamIndex], RACE_HUD_OAM_COUNT - oamIndex, cell, NULL, lastRowPosition, 0, 1);
     DrawRaceNewRecordTaRow(oamBuffer, rowIndex, gRaceNewRecordTa->mOffsetX + 1, 0xb4);
 }
 

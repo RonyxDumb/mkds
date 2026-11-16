@@ -1,4 +1,5 @@
 #include "Main/Graphics/layout_table_entry.h"
+#include "Main/Race/race_hud_sub_screen_cells.h"
 #include "matrix_2x2_basic.h"
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam_matrix_count.h"
@@ -118,7 +119,7 @@ u32 DrawLayoutEntry(s32 index, NNSG2dCellDataBank *cells, LayoutEntryTable *cell
         }
     }
     oamCount = oamList->mOamCount;
-    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], 0x80 - oamCount, cellData, matrix, position,
+    oamList->mOamCount += NNS_G2dMakeCellToOams(&oamList->mOams[oamCount], RACE_HUD_OAM_COUNT - oamCount, cellData, matrix, position,
                                                 groupIndex, entry->mDoubleAffine);
 }
 

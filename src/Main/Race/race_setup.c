@@ -157,11 +157,11 @@ void SetNextRaceSetupFromKartMask(void) {
     }
     WiFiSetNextMode(5);
     WiFiSetNextCourseId(gRaceSetupCopy->mCourseId);
-    WiFiSetNextEngineIndex(1);
+    WiFiSetNextEngineIndex(ENGINE_CLASS_MEDIUM);
     WiFiSetNextMirrorMode(0);
     WiFiSetNextUseTeams(0);
     WiFiSetNextRuleKind(RULE_KIND_FREE);
-    WiFiSetNextCourseListMode(0);
+    WiFiSetNextCourseListMode(COURSE_LIST_MODE_SINGLE);
     kartMask = 0;
     for (index = 0; index < 4; index++) {
         if (GetKartMaskBit(index) != 0) {

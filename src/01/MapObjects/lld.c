@@ -116,14 +116,14 @@ void AdvanceLld(Lld *lld, OamBuffer *oamBuffer) {
                     scaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
+                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, &mtx, scaledPos, idx, 1);
                 } else {
                     cell = entry->mCellAnim.mPCurrentCell;
                     unscaledPos[0] = TO_FIXED12(screenX);
                     unscaledPos[1] = TO_FIXED12(screenY);
                     oamBuffer->mOamCount +=
                         NNS_G2dMakeCellToOams((GXOamAttr *) &oamBuffer->mOams[oamBuffer->mOamCount * 8],
-                                              0x80 - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
+                                              RACE_HUD_OAM_COUNT - oamBuffer->mOamCount, cell, NULL, unscaledPos, 0, 0);
                 }
             }
         }

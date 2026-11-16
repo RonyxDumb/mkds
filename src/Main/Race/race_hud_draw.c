@@ -1288,7 +1288,7 @@ void DrawRaceHud(void) {
     }
     DC_FlushRange(&gRaceHud->mMainOam, 0x400);
     MI_DmaFill32(3, &gRaceHud->mMainOam.mOams[gRaceHud->mMainOam.mOamCount], 0xc0,
-                 (0x80 - gRaceHud->mMainOam.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gRaceHud->mMainOam.mOamCount) << 3);
     gRaceHud->mSubOam.mOamCount = 0;
     gRaceHud->mSubOam.mMatrixCount = 0;
     subScreenState = gRaceHud->mSubScreenState;
@@ -1298,7 +1298,7 @@ void DrawRaceHud(void) {
     DrawRaceRankList(&gRaceHud->mSubOam);
     DC_FlushRange(&gRaceHud->mSubOam, 0x400);
     MI_DmaFill32(3, &gRaceHud->mSubOam.mOams[gRaceHud->mSubOam.mOamCount], 0xc0,
-                 (0x80 - gRaceHud->mSubOam.mOamCount) << 3);
+                 (RACE_HUD_OAM_COUNT - gRaceHud->mSubOam.mOamCount) << 3);
     switch (gRaceHud->mSubScreenState) {
         case RACE_HUD_SUB_SCREEN_KART_ICONS:
             DrawRaceHudSubScreenCellGroups(&gRaceHud->mSubOam);
