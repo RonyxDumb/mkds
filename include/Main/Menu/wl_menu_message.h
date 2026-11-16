@@ -17,7 +17,7 @@ enum {
     WL_MENU_MESSAGE_STATE_DONE = 11,
 };
 
-// Object behind gWLMenuMessage, 0x654 bytes: the halfwords from 0x34 are 32 per row.
+// The Wi-Fi menu message box: its font, char canvas, screen map, message files, background offset, state and heap.
 typedef struct WLMenuMessage {
     /* 000 */ void *mFont;
     /* 004 */ u8 mCharCanvas[0x20];

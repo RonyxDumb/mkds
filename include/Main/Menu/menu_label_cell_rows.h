@@ -26,7 +26,7 @@ typedef struct SelectCharacterRowCellIndices {
     /* 06 */ s16 mRectEntryId;
 } SelectCharacterRowCellIndices;
 
-// 8-byte entries at 0x90 of SelectCharacter, filled from gSelectCharacterRows.
+// One row of the select character menu: a character and its name layout entry.
 typedef struct SelectCharacterRow {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s16 mNameLayoutEntryIndex;

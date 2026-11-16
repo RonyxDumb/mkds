@@ -206,7 +206,7 @@ typedef struct ScenePlayers {
     /* 10 */ NNSSndSeqPlayer *mSecondSeqPlayer;
 } ScenePlayers;
 
-// Object at gSoundModeHolder (0x1c bytes); SetupSoundMode stores its second argument at 0x00.
+// The sound mode of the menus: the scene players, the current and saved mode and the sound switches.
 typedef struct SoundModeHolder {
     /* 00 */ ScenePlayers *mScenePlayers;
     /* 04 */ u32 mMode;
@@ -879,8 +879,7 @@ typedef struct KeyboardScene {
     /* 404 */ RaceHudOamBuffer mSubOam;
 } KeyboardScene;
 
-// Objects of 0x18 bytes, three of them at 0x2c of Keyboard: 0 and 1 are read as halfword strings, 2 also as the
-// fields at 0x10, 0x14 and 0x16.
+// A record of the keyboard text: characters, plus the first button, mode and next scene in the third record.
 typedef struct KeyboardRecord {
     /* 00 */ union {
         u16 mChars[12];
@@ -1011,8 +1010,7 @@ typedef struct LinkLevelIcons {
     /* 10c */ LinkLevelIconOam mOamRecords[2];
 } LinkLevelIcons;
 
-// Object behind gMessageScreen: 0x1a44 bytes allocated by InitMessageScreen; the 0x20 bytes at 0x14 are set up by
-// NNS_G2dCharCanvasInitForBG.
+// The message screen: its kind, text, open flag and result, with the char canvas, buffers and screen map it draws to.
 typedef struct MessageScreen {
     /* 0000 */ s32 mKind;
     /* 0004 */ s32 mInputEnabled;
@@ -1067,7 +1065,7 @@ typedef enum StaffRollTextState {
     STAFF_ROLL_TEXT_SCROLL_DONE = 2,
 } StaffRollTextState;
 
-// 0x85c bytes; the 0x20 bytes at 0x20 are set up by NNS_G2dCharCanvasInitForBG.
+// The staff roll text: its state, scroll position and speed, text position, char canvas and buffers.
 typedef struct StaffRollText {
     /* 000 */ s32 mState;
     /* 004 */ s32 mNextState;

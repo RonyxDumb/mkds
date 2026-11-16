@@ -129,7 +129,7 @@ typedef enum SelectKartState {
 #define SELECT_KART_SLIDING_CELL_LEFT 2
 #define SELECT_KART_SLIDING_CELL_RIGHT 3
 
-// 0x24-byte part of ResultsBattle (at 0x00 and 0x24) and of SelectKart, filled by LoadScreenMapFileSet.
+// The files of one screen map set: four chars, a palette and four screen maps.
 typedef struct ScreenMapFileSet {
     /* 00 */ Ncgr *mChars[4];
     /* 10 */ Nclr *mPalette;
@@ -167,7 +167,7 @@ typedef struct SelectKart {
     /* 116 */ u8 mUnk_116[2];
 } SelectKart;
 
-// Four words at 0x04 of PlayerEntryRow.
+// The move of an entry between slots: frames, target slot and the slots it moves from and to.
 typedef struct EntrySlotMove {
     /* 00 */ s32 mMoveFrames;
     /* 04 */ s32 mTargetSlot;
@@ -175,7 +175,7 @@ typedef struct EntrySlotMove {
     /* 0c */ s32 mToSlot;
 } EntrySlotMove;
 
-// 0x2c-byte entries from 0x4c of PlayerEntryList.
+// One player entry of the entry list: its team, slot move and name.
 typedef struct PlayerEntryRow {
     /* 00 */ s32 mTeamIndex;
     /* 04 */ EntrySlotMove mSlotMove;
@@ -266,7 +266,7 @@ typedef struct PlayerEntryList {
     /* 254 */ s32 mScreenKind; // PLAYER_ENTRY_LIST_CHARACTER / _KART / _RACE_RULE
 } PlayerEntryList;
 
-// 0xc-byte entries from 0xe4 of ResultsBattle.
+// One battle result entry: rank, score and order index.
 typedef struct ResultsBattleEntry {
     /* 00 */ s32 mRank;
     /* 04 */ s32 mScore;
@@ -324,8 +324,7 @@ typedef struct ResultsBattle {
     /* 150 */ s32 mState;
 } ResultsBattle;
 
-// 0x28-byte part of the entries from 0x9c of TimeAttackGhostGetScan; AdvanceTimeAttackGhostGetScan fills one on the
-// stack through TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
+// The info of a ghost record: name, character, kart, course and time; one is read and compared with the stored one.
 typedef struct GhostRecordInfo {
     /* 00 */ u16 mName[11];
     /* 16 */ u8 mUnk_16[2];
@@ -335,7 +334,7 @@ typedef struct GhostRecordInfo {
     /* 24 */ MinuteSecondMillisecondTime mTime;
 } GhostRecordInfo;
 
-// 0x3c-byte entries from 0x9c of TimeAttackGhostGetScan.
+// One ghost entry of the list: its record info, whether it is filled and its interpolation.
 typedef struct GhostInfoEntry {
     /* 00 */ GhostRecordInfo mInfo;
     /* 28 */ BOOL mFilled;

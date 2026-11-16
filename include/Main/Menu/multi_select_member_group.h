@@ -5,8 +5,7 @@
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
 
-// 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
-// SetPlayerCharacterCellFileSet. ResultsBattle has four from 0x48. MultiSelectMemberGroup has one at 0x24.
+// The files of one cell set: chars, palette, cells, rects and the cell layouts and label layout built from them.
 typedef struct CellFileSet {
     /* 00 */ Ncgr *mChars;
     /* 04 */ Nclr *mPalette;
@@ -17,7 +16,7 @@ typedef struct CellFileSet {
     /* 18 */ LayoutTableEntry *mCellTable;
 } CellFileSet;
 
-// 12-byte entries at 0x58 of MultiSelectMemberGroup.
+// One member slot row of a multi select group: whether it has text, is multiboot and how many children it has.
 typedef struct ScanSlotMemberRow {
     /* 00 */ s32 mHasText;
     /* 04 */ s32 mIsMultiBoot;

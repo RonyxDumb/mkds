@@ -6,8 +6,7 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Object behind gCupPicture: three pointers that LoadNclrData, LoadNcgrData and LoadNscrData fill from
-// the three buffers at 0x10, 0x238 and 0x1038, then a word at 0xc.
+// The picture of a cup: its palette, chars and screen map pointers, the cup index and the files they are loaded from.
 typedef struct CupPicture {
     /* 0000 */ Nclr *mCupPictureNclr;
     /* 0004 */ Ncgr *mCupPictureNcgr;
