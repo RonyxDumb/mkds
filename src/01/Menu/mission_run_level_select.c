@@ -213,26 +213,26 @@ void UpdateMissionRunLVselHighlight(void) {
 }
 
 void RefreshMissionRunLVselReachedLevel(void) {
-    BOOL all = TRUE;
+    BOOL allRecordsAtLeastFive = TRUE;
     s32 levelIndex = 0;
-    s32 ok;
+    s32 levelRecordsFilled;
     s32 columnIndex;
     s32 recordValue;
     u8 levelNumber;
     gMissionRunLVsel->mReachedLevel = 0;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
-        ok = 1;
+        levelRecordsFilled = 1;
         columnIndex = 0;
         levelNumber = levelIndex + 1;
         for (; columnIndex < 9; columnIndex++) {
-            ok &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
-            if (!ok || recordValue < 5) {
-                all = FALSE;
+            levelRecordsFilled &= GetMissionRecordValue(levelNumber, (u8) (columnIndex + 1), &recordValue);
+            if (!levelRecordsFilled || recordValue < 5) {
+                allRecordsAtLeastFive = FALSE;
             }
         }
-        if (ok) {
+        if (levelRecordsFilled) {
             if (levelIndex == 5) {
-                if (all) {
+                if (allRecordsAtLeastFive) {
                     gMissionRunLVsel->mReachedLevel = levelIndex + 1;
                 }
             } else {
@@ -250,14 +250,14 @@ void SetMissionTableToSelectedLevel(void) {
 BOOL IsMissionRunLVselLastRecordMissing(void) {
     s32 columnIndex;
     s32 ok = 1;
-    s32 result;
+    s32 lastFilled;
     s32 recordValue;
 
     for (columnIndex = 0; columnIndex < 8; columnIndex++) {
         ok &= GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), (u8) (columnIndex + 1), &recordValue);
     }
-    result = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
-    if (ok != 0 && result == 0) {
+    lastFilled = GetMissionRecordValue((u8) (gMissionRunLVsel->mIndex + 1), 9, &recordValue);
+    if (ok != 0 && lastFilled == 0) {
         return TRUE;
     }
     return FALSE;
@@ -443,7 +443,7 @@ void AdvanceMissionRunLVselWaitSelectReturn(void) {
 }
 
 void AdvanceMissionRunLVselSelect(void) {
-    u32 touchedRect = -1;
+    u32 touchedRectIndex = -1;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL touchBegan;
     BOOL recentlyLost;
@@ -461,7 +461,7 @@ void AdvanceMissionRunLVselSelect(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRect = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl,
+        touchedRectIndex = RectTableFindContaining(gMissionRunLVsel->mMissionRunLVselS7Or6Bnbl,
                                               gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
@@ -488,8 +488,8 @@ void AdvanceMissionRunLVselSelect(void) {
     RequestSelectReturnPressWithSound(0);
     return;
 next:
-    if (touchedRect <= 6) {
-        targetIndex = gMissionRunLVselTouchLevelIndices[touchedRect];
+    if (touchedRectIndex <= 6) {
+        targetIndex = gMissionRunLVselTouchLevelIndices[touchedRectIndex];
         if (IsMissionRunLVselLevelReached(targetIndex) != 0) {
             gMissionRunLVsel->mIndex = targetIndex;
             gMissionRunLVsel->mHighlightTimers[gMissionRunLVsel->mIndex] = MISSION_RUN_LVSEL_HIGHLIGHT_FRAMES;

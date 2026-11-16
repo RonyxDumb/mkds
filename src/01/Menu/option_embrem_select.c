@@ -146,11 +146,11 @@ void AdvanceOptionEmbremSelectWaitSelectReturn(void) {
 
 void AdvanceOptionEmbremSelectSelect(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    s32 touchedRect = -1;
+    s32 touchedRectIndex = -1;
     BOOL touchBegan = FALSE;
     BOOL recentlyLost = FALSE;
     u16 hasPair;
-    u16 keyBPressed;
+    u16 pressedKeyBits;
 
     hasPair = gInputSlots[slotIndex].mPair.mHasPair;
     if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
@@ -160,11 +160,11 @@ void AdvanceOptionEmbremSelectSelect(void) {
         touchBegan = TRUE;
     }
     if (touchBegan != FALSE) {
-        touchedRect = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
+        touchedRectIndex = RectTableFindContaining(gOptionEmbremSelect->mOptionEmbremSelectSBnbl,
                                               gInputSlots[slotIndex].mPair.mPairX, gInputSlots[slotIndex].mPair.mPairY);
     }
-    keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
-    if (keyBPressed != 0) {
+    pressedKeyBits = gInputSlots[slotIndex].mPressedBits & PAD_KEY_B;
+    if (pressedKeyBits != 0) {
         goto next;
     }
     touchBegan = FALSE;
@@ -193,8 +193,8 @@ void AdvanceOptionEmbremSelectSelect(void) {
         }
         WriteBackupFirstBlockWrapper();
     } else {
-        keyBPressed = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
-        if ((keyBPressed != 0 && gOptionEmbremSelect->mSelectedRow == 0) || touchedRect == 0) {
+        pressedKeyBits = gInputSlots[slotIndex].mPressedBits & PAD_KEY_A;
+        if ((pressedKeyBits != 0 && gOptionEmbremSelect->mSelectedRow == 0) || touchedRectIndex == 0) {
             if (gOptionEmbremSelect->mSelectedRow == 0) {
                 gOptionEmbremSelect->mHighlightVisible = FALSE;
             }
@@ -203,7 +203,7 @@ void AdvanceOptionEmbremSelectSelect(void) {
             gOptionEmbremSelect->mSelectedRow = 0;
             gMenuShared->mOptionReturnsToEmbremSelect = TRUE;
             StartSoundOncePerFrame(5);
-        } else if (touchedRect == 1) {
+        } else if (touchedRectIndex == 1) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
             StartSoundOncePerFrame(1);
@@ -223,12 +223,12 @@ void AdvanceOptionEmbremSelectSelect(void) {
                 gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             }
             StartSoundOncePerFrame(1);
-        } else if (touchedRect == 2) {
+        } else if (touchedRectIndex == 2) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice--;
             gOptionEmbremSelect->mOffsetTimers[0] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
             StartSoundOncePerFrame(1);
-        } else if (touchedRect == 3) {
+        } else if (touchedRectIndex == 3) {
             gOptionEmbremSelect->mSelectedRow = 1;
             gOptionEmbremSelect->mEmblemOffChoice++;
             gOptionEmbremSelect->mOffsetTimers[1] = OPTION_EMBREM_SELECT_OFFSET_TIMER_FRAMES;
@@ -282,22 +282,22 @@ void AdvanceOptionEmbremSelectSlideOut(void) {
         if (gOptionEmbremSelect->mStateFrames >= OPTION_EMBREM_SELECT_SLIDE_FRAMES &&
             (IsSelectReturnShownNoRequest() != 0 || IsSelectReturnHiddenNoRequest() != 0)) {
             if (GetOptionNextScene() == -1) {
-                OptionEmbremSelect *obj = gOptionEmbremSelect;
-                s32 arg;
-                void *first;
+                OptionEmbremSelect *optionEmbremSelect = gOptionEmbremSelect;
+                s32 messageIndex;
+                void *text;
 
-                if (obj->mEmblemOffChoice == obj->mEmblemOffAtOpen) {
-                    RequestOptionState(obj->mNextOptionState);
+                if (optionEmbremSelect->mEmblemOffChoice == optionEmbremSelect->mEmblemOffAtOpen) {
+                    RequestOptionState(optionEmbremSelect->mNextOptionState);
                     return;
                 }
-                arg = 9;
-                if (obj->mEmblemOffChoice == 1) {
-                    arg = 10;
+                messageIndex = 9;
+                if (optionEmbremSelect->mEmblemOffChoice == 1) {
+                    messageIndex = 10;
                 }
-                obj->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE;
+                optionEmbremSelect->mNextState = OPTION_EMBREM_SELECT_STATE_WAIT_MESSAGE;
                 SetTxtSystemOpenSoundId(0x21);
-                first = GetBmgEntry(gOptionEmbremSelect->mOptionMessages, arg);
-                SetupTxtSystemSubTextButton(first, GetBmgEntry(gOptionEmbremSelect->mCommonMessages, 4));
+                text = GetBmgEntry(gOptionEmbremSelect->mOptionMessages, messageIndex);
+                SetupTxtSystemSubTextButton(text, GetBmgEntry(gOptionEmbremSelect->mCommonMessages, 4));
                 gOptionEmbremSelect->mStateFrames = 0;
             }
         }

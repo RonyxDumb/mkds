@@ -189,8 +189,8 @@ u8 GetEmblemGridCellValue(s32 cellX, s32 cellY) {
 }
 
 s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value) {
-    s32 dy;
-    s32 dx;
+    s32 distanceY;
+    s32 distanceX;
     s32 stepY;
     s32 stepX;
     BOOL changed;
@@ -200,41 +200,41 @@ s32 SetEmblemGridLine(s32 lineX, s32 lineY, s32 endX, s32 endY, s32 value) {
 
     changed = FALSE;
     if (FROM_FIXED12(endX) > FROM_FIXED12(lineX)) {
-        dx = endX - lineX;
+        distanceX = endX - lineX;
     } else if (FROM_FIXED12(lineX) > FROM_FIXED12(endX)) {
-        dx = lineX - endX;
+        distanceX = lineX - endX;
     } else {
-        dx = 0;
+        distanceX = 0;
     }
     if (FROM_FIXED12(endY) > FROM_FIXED12(lineY)) {
-        dy = endY - lineY;
+        distanceY = endY - lineY;
     } else if (FROM_FIXED12(lineY) > FROM_FIXED12(endY)) {
-        dy = lineY - endY;
+        distanceY = lineY - endY;
     } else {
-        dy = 0;
+        distanceY = 0;
     }
-    if (dx == 0) {
+    if (distanceX == 0) {
         stepX = 0;
-    } else if (dx < dy) {
-        stepX = FX_Div(endX - lineX, dy);
+    } else if (distanceX < distanceY) {
+        stepX = FX_Div(endX - lineX, distanceY);
     } else if (endX > lineX) {
         stepX = 0x1000;
     } else {
         stepX = -0x1000;
     }
-    if (dy == 0) {
+    if (distanceY == 0) {
         stepY = 0;
-    } else if (dy < dx) {
-        stepY = FX_Div(endY - lineY, dx);
+    } else if (distanceY < distanceX) {
+        stepY = FX_Div(endY - lineY, distanceX);
     } else if (endY > lineY) {
         stepY = 0x1000;
     } else {
         stepY = -0x1000;
     }
-    if (dx > dy) {
-        stepCount = FROM_FIXED12(dx);
+    if (distanceX > distanceY) {
+        stepCount = FROM_FIXED12(distanceX);
     } else {
-        stepCount = FROM_FIXED12(dy);
+        stepCount = FROM_FIXED12(distanceY);
     }
     for (stepIndex = 0; stepIndex <= stepCount; stepIndex++, lineX += stepX, lineY += stepY) {
         cellPtr = GetEmblemGridCellPtr(FROM_FIXED12(lineX), FROM_FIXED12(lineY));

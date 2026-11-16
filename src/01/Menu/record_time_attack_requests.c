@@ -86,9 +86,9 @@ void SetupRecordTAttRowValues(u16 row) {
     u16 name[10];
     s32 recordIndex;
     s32 result;
-    u16 tile;
-    u16 index;
-    u16 slot;
+    u16 sourceCellIndex;
+    u16 characterEntryIndex;
+    u16 kartEntryIndex;
     u16 labelIndex;
     u8 *palette;
 
@@ -97,23 +97,23 @@ void SetupRecordTAttRowValues(u16 row) {
 
         recordIndex = gRecordTAttRecordIndices[0];
         result = GetTimeRecordCharacterIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex);
-        index = gRecordTAttCharacterKartCellIndices[0][0];
-        gRecordTAtt->mRecordTAttMTable[index].mVisible = 1;
-        tile = gRecordTAttCharacterCells[result];
-        QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
-                       gRecordTAtt->mPlayerCharacterCellLayout, 0, index, gRecordTAtt->mRecordTAttMNcer,
+        characterEntryIndex = gRecordTAttCharacterKartCellIndices[0][0];
+        gRecordTAtt->mRecordTAttMTable[characterEntryIndex].mVisible = 1;
+        sourceCellIndex = gRecordTAttCharacterCells[result];
+        QueueCellChars(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
+                       gRecordTAtt->mPlayerCharacterCellLayout, 0, characterEntryIndex, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0xe, gRecordTAttPaletteSlots[0][0] << 5,
             palette +
-                (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
+                (GetCellPaletteIndex(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
                  << 5),
             0x20);
         result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex);
-        slot = gRecordTAttCharacterKartCellIndices[0][1];
-        gRecordTAtt->mRecordTAttMTable[slot].mVisible = 1;
-        QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, slot,
+        kartEntryIndex = gRecordTAttCharacterKartCellIndices[0][1];
+        gRecordTAtt->mRecordTAttMTable[kartEntryIndex].mVisible = 1;
+        QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, kartEntryIndex,
                       gRecordTAttPaletteSlots[1][0], 0);
         cnt = gRecordTAtt->mRecordTAttMBncl->mCount;
         GetTimeRecordTime(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, &time);
@@ -134,23 +134,23 @@ void SetupRecordTAttRowValues(u16 row) {
 
         recordIndex = gRecordTAttRecordIndices[row];
         result = GetTimeRecordCharacterIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex);
-        index = gRecordTAttCharacterKartCellIndices[row][0];
-        gRecordTAtt->mRecordTAttSTable[index].mVisible = 1;
-        tile = gRecordTAttCharacterCells[result];
-        QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
-                       gRecordTAtt->mPlayerCharacterCellLayout, 1, index, gRecordTAtt->mRecordTAttSNcer,
+        characterEntryIndex = gRecordTAttCharacterKartCellIndices[row][0];
+        gRecordTAtt->mRecordTAttSTable[characterEntryIndex].mVisible = 1;
+        sourceCellIndex = gRecordTAttCharacterCells[result];
+        QueueCellChars(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
+                       gRecordTAtt->mPlayerCharacterCellLayout, 1, characterEntryIndex, gRecordTAtt->mRecordTAttSNcer,
                        gRecordTAtt->mRecordTAttSBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0x1e, gRecordTAttPaletteSlots[0][row] << 5,
             palette +
-                (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
+                (GetCellPaletteIndex(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
                  << 5),
             0x20);
         result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex);
-        slot = gRecordTAttCharacterKartCellIndices[row][1];
-        gRecordTAtt->mRecordTAttSTable[slot].mVisible = 1;
-        QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, slot,
+        kartEntryIndex = gRecordTAttCharacterKartCellIndices[row][1];
+        gRecordTAtt->mRecordTAttSTable[kartEntryIndex].mVisible = 1;
+        QueueKartIcon(result, gRecordTAtt->mRecordTAttSNcer, gRecordTAtt->mRecordTAttSBncl, kartEntryIndex,
                       gRecordTAttPaletteSlots[1][row], 1);
         cnt = gRecordTAtt->mRecordTAttSBncl->mCount;
         GetTimeRecordTime(gRecordTAttCourseIds[gRecordTAtt->mIndex], recordIndex, &time);
@@ -196,9 +196,9 @@ void SetupRecordTAtt(void) {
     u32 time;
     u16 str[16];
     u16 name[10];
-    s32 recordIndex;
+    s32 rowIndex;
     s32 result;
-    u16 tile;
+    u16 sourceCellIndex;
     u8 *palette;
     u16 mainLayoutCount;
 
@@ -207,26 +207,26 @@ void SetupRecordTAtt(void) {
         0, 0, gRecordTAtt->mRecordTAttMBnll,
         GetBmgEntry(recordTAtt->mCommonMessages, gRecordTAttCommonMessageIndices[recordTAtt->mIndex]),
         recordTAtt->mRecordTAttMBncl, recordTAtt->mRecordTAttMTable);
-    for (recordIndex = 0; recordIndex < 5; recordIndex++) {
-        if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[recordIndex])) {
-            SetupRecordTAttRowValues(recordIndex);
+    for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+        if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], gRecordTAttRecordIndices[rowIndex])) {
+            SetupRecordTAttRowValues(rowIndex);
         } else {
-            SetupRecordTAttRowDashes(recordIndex);
+            SetupRecordTAttRowDashes(rowIndex);
         }
     }
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
     if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5)) {
         result = GetTimeRecordCharacterIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5);
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 1;
-        tile = gRecordTAttCharacterCells[result];
-        QueueCellChars(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
+        sourceCellIndex = gRecordTAttCharacterCells[result];
+        QueueCellChars(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
                        gRecordTAtt->mPlayerCharacterCellLayout, 0, 5, gRecordTAtt->mRecordTAttMNcer,
                        gRecordTAtt->mRecordTAttMBncl);
         palette = (u8 *) gRecordTAtt->mPlayerCharacterPalette->mData;
         NNS_GfdRegisterNewVramTransferTask(
             0xe, 0x80,
             palette +
-                (GetCellPaletteIndex(tile, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
+                (GetCellPaletteIndex(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
                  << 5),
             0x20);
         result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5);
@@ -287,8 +287,8 @@ BOOL CheckRecordTAttFirstRecordFormat(void) {
 }
 
 void ResetRecordTAtt(void) {
-    s32 recordIndex;
-    s32 cellIndex;
+    s32 rowIndex;
+    s32 j;
     u16 mainLayoutCount;
     u16 subLayoutCount;
 
@@ -319,20 +319,20 @@ void ResetRecordTAtt(void) {
     gRecordTAtt->mRecordTAttSTable[13].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gRecordTAtt->mRecordTAttSTable[14].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
     gRecordTAtt->mRecordTAttSTable[subLayoutCount + 8].mOffsetX = LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-    for (recordIndex = 1; recordIndex < 5; recordIndex++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[recordIndex]].mOffsetX =
+    for (rowIndex = 1; rowIndex < 5; rowIndex++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttOffsetSTableIndices[rowIndex]].mOffsetX =
             LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[recordIndex]].mOffsetX =
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttTimeLabelIndices[rowIndex]].mOffsetX =
             LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[recordIndex]].mOffsetX =
+        gRecordTAtt->mRecordTAttSTable[subLayoutCount + gRecordTAttNameLabelIndices[rowIndex]].mOffsetX =
             LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
-        for (cellIndex = 0; cellIndex < 2; cellIndex++) {
-            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[recordIndex][cellIndex]].mOffsetX =
+        for (j = 0; j < 2; j++) {
+            gRecordTAtt->mRecordTAttSTable[gRecordTAttCharacterKartCellIndices[rowIndex][j]].mOffsetX =
                 LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH;
         }
     }
-    for (cellIndex = 0; cellIndex < 2; cellIndex++) {
-        gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[cellIndex]].mVisible = 0;
+    for (j = 0; j < 2; j++) {
+        gRecordTAtt->mRecordTAttSTable[gRecordTAttRunningSTableIndices[j]].mVisible = 0;
     }
     gRecordTAtt->mRecordTAttSTable[13].mVisible = 0;
 }

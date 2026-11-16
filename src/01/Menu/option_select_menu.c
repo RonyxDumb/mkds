@@ -260,45 +260,45 @@ void AdvanceOptionSelectMenuSlideInBg2(void) {
 
 void AdvanceOptionSelectMenuWaitInput(void) {
     OptionSelectMenu *menu;
-    s32 sel;
+    s32 previousIndex;
     s32 touchedRect;
-    BOOL hasB;
-    BOOL hasA;
+    BOOL rectTouchBegan;
+    BOOL rectRecentlyLost;
     s32 rowIndex;
-    InputSlotIndex idx;
+    InputSlotIndex slotIndex;
     u16 hasPair;
 
     menu = gOptionSelectMenu;
-    sel = menu->mIndex;
-    idx = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    hasB = FALSE;
+    previousIndex = menu->mIndex;
+    slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
+    rectTouchBegan = FALSE;
     touchedRect = -1;
-    hasA = FALSE;
-    hasPair = gInputSlots[idx].mPair.mHasPair;
-    if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        hasA = TRUE;
+    rectRecentlyLost = FALSE;
+    hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        rectRecentlyLost = TRUE;
     }
-    if (hasA == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
-        hasB = TRUE;
+    if (rectRecentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        rectTouchBegan = TRUE;
     }
-    if (hasB != FALSE) {
-        touchedRect = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[idx].mPair.mPairX,
-                                              gInputSlots[idx].mPair.mPairY);
+    if (rectTouchBegan != FALSE) {
+        touchedRect = RectTableFindContaining(menu->mOptionSelectMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
+                                              gInputSlots[slotIndex].mPair.mPairY);
     }
-    if ((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_B) != 0) {
+    if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) != 0) {
         goto leaveMenu;
     } else {
         BOOL touchBegan = FALSE;
         BOOL recentlyLost = FALSE;
-        hasPair = gInputSlots[idx].mPair.mHasPair;
-        if (hasPair == 0 && gInputSlots[idx].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        hasPair = gInputSlots[slotIndex].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
             recentlyLost = TRUE;
         }
-        if (recentlyLost == FALSE && gInputSlots[idx].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 && hasPair != 0) {
             touchBegan = TRUE;
         }
-        if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[idx].mPair.mPairX,
-                                                                         gInputSlots[idx].mPair.mPairY) != FALSE) {
+        if (touchBegan != FALSE && IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+                                                                         gInputSlots[slotIndex].mPair.mPairY) != FALSE) {
         leaveMenu:
             gOptionSelectMenu->mNextState = OPTION_SELECT_STATE_SLIDE_OUT;
             gOptionSelectMenu->mNextOptionState = OPTION_STATE_TOP_MENU;
@@ -309,7 +309,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
             goto end;
         }
     }
-    if (((u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
+    if (((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0 && gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK) ||
         touchedRect == OPTION_SELECT_ROW_OK) {
         SetSoundModeFromOptionRow();
         if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] == 0) {
@@ -342,7 +342,7 @@ void AdvanceOptionSelectMenuWaitInput(void) {
         }
         StartSoundOncePerFrame(0);
     } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0 || (gOptionSelectMenu->mIndex != OPTION_SELECT_ROW_OK &&
-                                                            (u16) (gInputSlots[idx].mPressedBits & PAD_KEY_A) != 0)) {
+                                                            (u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_A) != 0)) {
         gOptionSelectMenu->mIndex++;
         if (gOptionSelectMenu->mIndex > OPTION_SELECT_ROW_OK) {
             gOptionSelectMenu->mIndex = OPTION_SELECT_ROW_SOUND;
@@ -400,7 +400,7 @@ end:
     if (gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] > 1) {
         gOptionSelectMenu->mRowValues[OPTION_SELECT_ROW_LOCATE_FRIEND] = 0;
     }
-    if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK && sel != OPTION_SELECT_ROW_OK) {
+    if (gOptionSelectMenu->mIndex == OPTION_SELECT_ROW_OK && previousIndex != OPTION_SELECT_ROW_OK) {
         ResetPaletteBlendCycle();
     }
     ApplyOptionSelectMenuSound();
@@ -638,16 +638,16 @@ void AdvanceOptionSelectMenu(void) {
 }
 
 void WriteOptionSelectMenuRegisters(void) {
-    u32 plane;
+    u32 displayBits;
 
     if (gOptionSelectMenu->mBg1Visible != FALSE) {
-        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
-        plane |= 2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        displayBits |= 2;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     } else {
-        plane = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
-        plane &= ~2;
-        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (plane << 8);
+        displayBits = (reg_GX_DISPCNT & REG_GX_DISPCNT_DISPLAY_MASK) >> 8;
+        displayBits &= ~2;
+        reg_GX_DISPCNT = (reg_GX_DISPCNT & ~REG_GX_DISPCNT_DISPLAY_MASK) | (displayBits << 8);
     }
     G2x_SetBlendAlpha_(&reg_G2S_DB_BLDCNT, 0, 2, 6, 10);
     reg_G2_BG0OFS = (-gOptionSelectMenu->mBg0Bg1Offset << 16) & 0x1ff0000;

@@ -158,13 +158,13 @@ void LocateAndQueueMissionRunMSsel(void) {
 }
 
 void SetMissionRunMSselAllRecorded(void) {
-    s32 out;
+    s32 recordValue;
     s32 missionIndex;
 
     gMissionRunMSsel->mAllRecorded = 1;
     for (missionIndex = 0; missionIndex < 8; missionIndex++) {
         gMissionRunMSsel->mAllRecorded &=
-            GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &out);
+            GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &recordValue);
     }
 }
 
@@ -180,7 +180,7 @@ void InitMissionRunMSselCells(void) {
     s32 missionIndex;
     u16 mainLayoutCellCount;
     s32 slotIndex;
-    s32 out;
+    s32 recordValue;
     u16 text[18];
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
@@ -220,8 +220,8 @@ void InitMissionRunMSselCells(void) {
         gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][0]].mVisible = 1;
         gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][2]].mVisible = 0;
         gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][3]].mVisible = 0;
-        if (GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &out)) {
-            if (out <= 4) {
+        if (GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (missionIndex + 1), &recordValue)) {
+            if (recordValue <= 4) {
                 gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][5]].mVisible =
                     1;
                 gMissionRunMSsel
@@ -229,10 +229,10 @@ void InitMissionRunMSselCells(void) {
                     .mVisible = 1;
                 PrintLabelLayoutTextNoFixedAdvance(
                     1, gMissionRunMSselLabelSTableIndices[missionIndex][0], gMissionRunMSsel->mMissionRunMSselSBnll,
-                    gMissionRunMSselGradeStrings[out], gMissionRunMSsel->mMissionRunMSselSBncl,
+                    gMissionRunMSselGradeStrings[recordValue], gMissionRunMSsel->mMissionRunMSselSBncl,
                     gMissionRunMSsel->mMissionRunMSselSTable);
-            } else if (out <= 7) {
-                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][out + 1]]
+            } else if (recordValue <= 7) {
+                gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[missionIndex][recordValue + 1]]
                     .mVisible = 1;
             }
             if (missionIndex == MISSION_RUN_MSSEL_BOSS_INDEX) {
@@ -382,7 +382,7 @@ void UpdateMissionRunMSselIndexCells(void) {
 void RefreshMissionRunMSselMCells(void) {
     MissionRunMSsel *missionRunMSsel;
     s32 slotIndex;
-    s32 out;
+    s32 recordValue;
     s32 hasRecord;
     gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[GetMissionTableRow() - 1]].mVisible = 0;
     gMissionRunMSsel->mMissionRunMSselMTable[9].mVisible = 0;
@@ -401,16 +401,16 @@ void RefreshMissionRunMSselMCells(void) {
         gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[gMissionRunMSsel->mIndex]]
             .mVisible = 1;
     }
-    hasRecord = GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (gMissionRunMSsel->mIndex + 1), &out);
+    hasRecord = GetMissionRecordValue((u8) GetMissionTableRow(), (u8) (gMissionRunMSsel->mIndex + 1), &recordValue);
     gMissionRunMSsel->mMissionRunMSselMTable[18].mVisible = 0;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
         gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mVisible = 0;
     }
-    if (hasRecord != 0 && out <= 7) {
-        if (out <= 4) {
+    if (hasRecord != 0 && recordValue <= 7) {
+        if (recordValue <= 4) {
             gMissionRunMSsel->mMissionRunMSselMTable[18].mVisible = 1;
         }
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[out - 2]].mVisible = 1;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[recordValue - 2]].mVisible = 1;
     }
     missionRunMSsel = gMissionRunMSsel;
     PrintLabelLayoutTextNoFixedAdvance(
@@ -590,8 +590,8 @@ void RequestMissionRunMSselSlideOut(void) {
 void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) {
     s32 missionIndex;
     void *heap;
-    s32 rem;
-    u16 base;
+    s32 remainingSize;
+    u16 firstLabelIndex;
 
     reg_G2_BG0CNT = (reg_G2_BG0CNT & ~REG_G2_BG0CNT_PRIORITY_MASK) | 1;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~REG_G2_BG1CNT_PRIORITY_MASK) | 1;
@@ -625,21 +625,21 @@ void InitMissionRunMSsel(void *parentHeap, void *mainOamList, void *subOamList) 
     InitLabelCanvas(gMissionRunMSsel->mHeap, 0, gMissionRunMSsel->mMissionRunMSselMBnll, 0xd2, 0x46, 0,
                     gMissionRunMSsel->mMissionRunMSselMNcer, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMTable, 0x8000);
-    rem = GX_GetSizeOfSubOBJ();
+    remainingSize = GX_GetSizeOfSubOBJ();
     for (missionIndex = 0; missionIndex < 9; missionIndex++) {
-        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][0],
+        remainingSize -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][0],
                                gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSselLabelWidths[missionIndex][0],
                                gMissionRunMSselLabelHeights[missionIndex][0],
                                gMissionRunMSselIndexSTableIndices[missionIndex][5],
                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
-                               gMissionRunMSsel->mMissionRunMSselSTable, rem);
-        base = gMissionRunMSselLabelSTableIndices[missionIndex][0];
-        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][1],
+                               gMissionRunMSsel->mMissionRunMSselSTable, remainingSize);
+        firstLabelIndex = gMissionRunMSselLabelSTableIndices[missionIndex][0];
+        remainingSize -= InitLabelCanvas(gMissionRunMSsel->mHeap, gMissionRunMSselLabelSTableIndices[missionIndex][1],
                                gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSselLabelWidths[missionIndex][1],
                                gMissionRunMSselLabelHeights[missionIndex][1],
-                               base + gMissionRunMSsel->mMissionRunMSselSBncl->mCount,
+                               firstLabelIndex + gMissionRunMSsel->mMissionRunMSselSBncl->mCount,
                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
-                               gMissionRunMSsel->mMissionRunMSselSTable, rem);
+                               gMissionRunMSsel->mMissionRunMSselSTable, remainingSize);
     }
     CreateMissionRunBossIcon(gMissionRunMSsel->mHeap);
     InitMissionRunMSselCells();
@@ -723,41 +723,41 @@ void AdvanceMissionRunMSselWaitSelectReturn(void) {
 }
 
 void AdvanceMissionRunMSselInput(void) {
-    u32 result = -1;
+    u32 touchedRectIndex = -1;
     InputSlotIndex slot = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    BOOL flag_b;
-    BOOL flag_a;
-    u16 value;
+    BOOL touchBegan;
+    BOOL recentlyLost;
+    u16 hasPair;
     s16 current;
     s16 delta;
     s16 target;
 
     UpdateMissionRunMSselSounds(gMissionRunMSsel->mPaletteBlendFrame);
     AdvanceMissionRunMSselIndexChange();
-    flag_b = FALSE;
-    flag_a = FALSE;
-    value = gInputSlots[slot].mPair.mHasPair;
-    if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        flag_a = TRUE;
+    touchBegan = FALSE;
+    recentlyLost = FALSE;
+    hasPair = gInputSlots[slot].mPair.mHasPair;
+    if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+        recentlyLost = TRUE;
     }
-    if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
-        flag_b = TRUE;
+    if (recentlyLost == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && hasPair != 0) {
+        touchBegan = TRUE;
     }
-    if (flag_b) {
-        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, gInputSlots[slot].mPair.mPairX,
+    if (touchBegan) {
+        touchedRectIndex = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, gInputSlots[slot].mPair.mPairX,
                                          gInputSlots[slot].mPair.mPairY);
     }
     if ((u16) (gInputSlots[slot].mPressedBits & PAD_KEY_B) == 0) {
-        flag_b = FALSE;
-        flag_a = FALSE;
-        value = gInputSlots[slot].mPair.mHasPair;
-        if (value == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            flag_a = TRUE;
+        touchBegan = FALSE;
+        recentlyLost = FALSE;
+        hasPair = gInputSlots[slot].mPair.mHasPair;
+        if (hasPair == 0 && gInputSlots[slot].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
+            recentlyLost = TRUE;
         }
-        if (flag_a == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && value != 0) {
-            flag_b = TRUE;
+        if (recentlyLost == FALSE && gInputSlots[slot].mPair.mPrevHasPair == 0 && hasPair != 0) {
+            touchBegan = TRUE;
         }
-        if (!flag_b || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slot].mPair.mPairX,
+        if (!touchBegan || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slot].mPair.mPairX,
                                                              gInputSlots[slot].mPair.mPairY) == FALSE) {
             goto skip;
         }
@@ -772,8 +772,8 @@ void AdvanceMissionRunMSselInput(void) {
     RequestSelectReturnPressWithSound(0);
     return;
 skip:
-    if (result <= 8) {
-        target = gMissionRunMSselRectIndices[result];
+    if (touchedRectIndex <= 8) {
+        target = gMissionRunMSselRectIndices[touchedRectIndex];
         if (target == MISSION_RUN_MSSEL_BOSS_INDEX && gMissionRunMSsel->mAllRecorded == 0) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
             return;
@@ -905,40 +905,40 @@ void AdvanceMissionRunMSselChoisesClose(void) {
 void AdvanceMissionRunMSselSlideOut(void) {
     s32 slotIndex;
     s32 cellSlot;
-    s16 first;
-    s16 second;
+    s16 offsetX;
+    s16 bg1Offset;
     u16 mainLayoutCellCount;
     u16 subLayoutCellCount;
 
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    first = InterpolateS16(1, 0, gMissionRunMSsel->mExitOffsetX, gMissionRunMSsel->mStateFrames, 10);
-    second = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
-    gMissionRunMSsel->mBg0OffsetX = first;
-    gMissionRunMSsel->mBg1Offset = second;
-    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = first;
-    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = first;
-    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = first;
-    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = first;
+    offsetX = InterpolateS16(1, 0, gMissionRunMSsel->mExitOffsetX, gMissionRunMSsel->mStateFrames, 10);
+    bg1Offset = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
+    gMissionRunMSsel->mBg0OffsetX = offsetX;
+    gMissionRunMSsel->mBg1Offset = bg1Offset;
+    gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[9].mOffsetX = offsetX;
+    gMissionRunMSsel->mMissionRunMSselMTable[18].mOffsetX = offsetX;
     for (slotIndex = 0; slotIndex < 7; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = first;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselRowMTableIndices[slotIndex]].mOffsetX = offsetX;
     }
-    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = first;
+    gMissionRunMSsel->mMissionRunMSselSTable[45].mOffsetX = offsetX;
     for (slotIndex = 0; slotIndex < 6; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = first;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselValueMTableIndices[slotIndex]].mOffsetX = offsetX;
     }
-    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = first;
+    gMissionRunMSsel->mMissionRunMSselMTable[mainLayoutCellCount].mOffsetX = offsetX;
     for (slotIndex = 0; slotIndex < 9; slotIndex++) {
-        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = first;
+        gMissionRunMSsel->mMissionRunMSselMTable[gMissionRunMSselIndexMTableIndices[slotIndex]].mOffsetX = offsetX;
         for (cellSlot = 0; cellSlot < 9; cellSlot++) {
             gMissionRunMSsel->mMissionRunMSselSTable[gMissionRunMSselIndexSTableIndices[slotIndex][cellSlot]].mOffsetX =
-                first;
+                offsetX;
         }
         for (cellSlot = 0; cellSlot < 2; cellSlot++) {
             gMissionRunMSsel
                 ->mMissionRunMSselSTable[subLayoutCellCount + gMissionRunMSselLabelSTableIndices[slotIndex][cellSlot]]
-                .mOffsetX = first;
+                .mOffsetX = offsetX;
         }
     }
     if (gMissionRunMSsel->mStateFrames == MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME) {

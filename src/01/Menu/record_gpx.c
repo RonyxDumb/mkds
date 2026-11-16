@@ -227,7 +227,7 @@ void AdvanceRecordGpxSelect(void) {
     s32 touchedRect = -1;
     s32 touchBeganRect = -1;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    BOOL touchActive, recentlyLost, touchBegan, lostBeforeBegan, confirmTouchBegan, lostBeforeConfirm;
+    BOOL touchActive, recentlyLost, touchBegan, recentlyLostAtBegan, confirmTouchBegan, recentlyLostAtConfirm;
 
     AdvanceRecordGpxOffsetTimers();
     touchActive = TRUE;
@@ -244,12 +244,12 @@ void AdvanceRecordGpxSelect(void) {
                                               gInputSlots[slotIndex].mPair.mPairY);
     }
     touchBegan = FALSE;
-    lostBeforeBegan = FALSE;
+    recentlyLostAtBegan = FALSE;
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        lostBeforeBegan = TRUE;
+        recentlyLostAtBegan = TRUE;
     }
-    if (lostBeforeBegan == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+    if (recentlyLostAtBegan == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mHasPair != 0) {
         touchBegan = TRUE;
     }
@@ -265,12 +265,12 @@ void AdvanceRecordGpxSelect(void) {
     }
     if ((u16) (gInputSlots[slotIndex].mPressedBits & PAD_KEY_B) == 0) {
         confirmTouchBegan = FALSE;
-        lostBeforeConfirm = FALSE;
+        recentlyLostAtConfirm = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            lostBeforeConfirm = TRUE;
+            recentlyLostAtConfirm = TRUE;
         }
-        if (lostBeforeConfirm == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        if (recentlyLostAtConfirm == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
             confirmTouchBegan = TRUE;
         }
@@ -501,7 +501,7 @@ void WriteRecordGpxRegisters(void) {
 }
 
 void RegisterRecordGpxCallbacks(void) {
-    RecordScreenCallbacks local = gRecordGpxCallbacks;
+    RecordScreenCallbacks callbacks = gRecordGpxCallbacks;
 
-    SetRecordScreenCallbacks(&local);
+    SetRecordScreenCallbacks(&callbacks);
 }

@@ -38,7 +38,7 @@ void CreateEndingScene(void *heap) {
     bmgEntry = NULL;
     gEndingScene->mEndingThanksTable->mVisible = 0;
     {
-        u16 table[2][2] = {{200, 24}, {200, 24}};
+        u16 canvasSizes[2][2] = {{200, 24}, {200, 24}};
 
         switch (gEndingScene->mKind) {
             case ENDING_KIND_STAFFROLL:
@@ -48,8 +48,8 @@ void CreateEndingScene(void *heap) {
                 bmgEntry = GetBmgEntry(gEndingScene->mCommonMessages, 0x78);
                 break;
         }
-        InitLabelCanvas(gEndingScene->mHeap, 0, gEndingScene->mEndingThanksBnll, table[gEndingScene->mKind][0],
-                        table[gEndingScene->mKind][1], 0, gEndingScene->mThanksYouMNcer,
+        InitLabelCanvas(gEndingScene->mHeap, 0, gEndingScene->mEndingThanksBnll, canvasSizes[gEndingScene->mKind][0],
+                        canvasSizes[gEndingScene->mKind][1], 0, gEndingScene->mThanksYouMNcer,
                         gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable, 0x8000);
         PrintLabelLayoutTextNoFixedAdvance(0, 0, gEndingScene->mEndingThanksBnll, bmgEntry,
                                            gEndingScene->mEndingThanksBncl, gEndingScene->mEndingThanksTable);

@@ -236,41 +236,41 @@ void AdvanceTimeAttackTopMenuWaitSelectReturn(void) {
 
 void AdvanceTimeAttackTopMenuInput(void) {
     BOOL touchStarted = FALSE;
-    u32 tappedRectIndex = -1;
+    u32 touchedRectIndex = -1;
     s32 newIndex = 3;
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
-    BOOL flag1 = FALSE;
+    BOOL recentlyLost = FALSE;
     InputSlot *inputSlot;
     s32 pressedBits;
-    BOOL flag4;
-    s32 flag3;
+    BOOL touchStartedAgain;
+    s32 recentlyLostAgain;
 
     if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-        flag1 = TRUE;
+        recentlyLost = TRUE;
     }
-    if (flag1 == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+    if (recentlyLost == FALSE && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
         gInputSlots[slotIndex].mPair.mHasPair != 0) {
         touchStarted = TRUE;
     }
     if (touchStarted != FALSE) {
-        tappedRectIndex =
+        touchedRectIndex =
             RectTableFindContaining(gTimeAttackTopMenu->mTimeAttackTopMenuSBnbl, gInputSlots[slotIndex].mPair.mPairX,
                                     gInputSlots[slotIndex].mPair.mPairY);
     }
     inputSlot = &gInputSlots[slotIndex];
     pressedBits = inputSlot->mPressedBits & PAD_KEY_B;
     if ((u16) pressedBits == 0) {
-        flag3 = flag4 = FALSE;
+        recentlyLostAgain = touchStartedAgain = FALSE;
         if (gInputSlots[slotIndex].mPair.mHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mNoPairCount < INPUT_NO_PAIR_BRIEF_FRAMES) {
-            flag3 = 1;
+            recentlyLostAgain = 1;
         }
-        if (flag3 == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
+        if (recentlyLostAgain == 0 && gInputSlots[slotIndex].mPair.mPrevHasPair == 0 &&
             gInputSlots[slotIndex].mPair.mHasPair != 0) {
-            flag4 = TRUE;
+            touchStartedAgain = TRUE;
         }
-        if (flag4 == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
+        if (touchStartedAgain == FALSE || IsSelectReturnShownNoRequestAndInRect(gInputSlots[slotIndex].mPair.mPairX,
                                                                     gInputSlots[slotIndex].mPair.mPairY) == FALSE) {
             goto next;
         }
@@ -282,10 +282,10 @@ void AdvanceTimeAttackTopMenuInput(void) {
     return;
 next:
     pressedBits = inputSlot->mPressedBits & PAD_KEY_A;
-    if ((u16) pressedBits != 0 || tappedRectIndex <= 2) {
+    if ((u16) pressedBits != 0 || touchedRectIndex <= 2) {
         if ((u16) pressedBits == 0) {
             HideTimeAttackTopMenuHighlight(gTimeAttackTopMenu->mIndex);
-            switch (tappedRectIndex) {
+            switch (touchedRectIndex) {
                 case TIME_ATTACK_TOP_ROW_TIME_TRIALS:
                     newIndex = TIME_ATTACK_TOP_ROW_TIME_TRIALS;
                     break;

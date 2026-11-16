@@ -85,22 +85,22 @@ const s32 gEmblemTemplateCursorVerticalMoves[3][29] = {
 EmblemCursor *gEmblemCursor;
 
 void ClampEmblemCursorCell(void) {
-    s32 lo = 0;
-    s32 hi = gEmblemCursor->mSide - 1;
+    s32 minCell = 0;
+    s32 maxCell = gEmblemCursor->mSide - 1;
 
     switch (gEmblemCursor->mSizeIndex) {
         case EMBLEM_BRUSH_2X2:
-            hi -= 1;
+            maxCell -= 1;
             break;
         case EMBLEM_BRUSH_3X3:
-            lo += 1;
-            hi -= 1;
+            minCell += 1;
+            maxCell -= 1;
             break;
     }
-    gEmblemCursor->mCellX = (gEmblemCursor->mCellX > lo) ? gEmblemCursor->mCellX : lo;
-    gEmblemCursor->mCellX = (gEmblemCursor->mCellX < hi) ? gEmblemCursor->mCellX : hi;
-    gEmblemCursor->mCellY = (gEmblemCursor->mCellY > lo) ? gEmblemCursor->mCellY : lo;
-    gEmblemCursor->mCellY = (gEmblemCursor->mCellY < hi) ? gEmblemCursor->mCellY : hi;
+    gEmblemCursor->mCellX = (gEmblemCursor->mCellX > minCell) ? gEmblemCursor->mCellX : minCell;
+    gEmblemCursor->mCellX = (gEmblemCursor->mCellX < maxCell) ? gEmblemCursor->mCellX : maxCell;
+    gEmblemCursor->mCellY = (gEmblemCursor->mCellY > minCell) ? gEmblemCursor->mCellY : minCell;
+    gEmblemCursor->mCellY = (gEmblemCursor->mCellY < maxCell) ? gEmblemCursor->mCellY : maxCell;
 }
 
 void SetEmblemCursorCellShift(s32 shift) {
@@ -155,10 +155,10 @@ s32 GetEmblemCursorPrevPointY(void) {
 }
 
 BOOL IsEmblemPointInGrid(s32 pointX, s32 pointY) {
-    s32 px = (pointX - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
-    s32 py = (pointY - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
+    s32 cellX = (pointX - gEmblemCursor->mOriginX) >> gEmblemCursor->mCellShift;
+    s32 cellY = (pointY - gEmblemCursor->mOriginY) >> gEmblemCursor->mCellShift;
 
-    if (px >= 0 && px < gEmblemCursor->mSide && py >= 0 && py < gEmblemCursor->mSide) {
+    if (cellX >= 0 && cellX < gEmblemCursor->mSide && cellY >= 0 && cellY < gEmblemCursor->mSide) {
         return TRUE;
     }
     return FALSE;
@@ -186,7 +186,7 @@ void CreateEmblemCursorAndGrid(s32 originX, s32 originY, s32 side, s32 scrSide, 
     CreateEmblemGrid(side, scrSide, tableCount);
 }
 
-s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 inputBits, s32 dx, s32 dy) {
+s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 applyAtCell, s32 cellStepX, s32 cellStepY) {
     s32 result;
     s32 offsetX;
     s32 offsetY;
@@ -234,8 +234,8 @@ s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 inputBits, s32 dx,
         pointInGrid = TRUE;
     }
     result = 0;
-    gEmblemCursor->mCellX += dx;
-    gEmblemCursor->mCellY += dy;
+    gEmblemCursor->mCellX += cellStepX;
+    gEmblemCursor->mCellY += cellStepY;
     if ((gEmblemCursor->mPrevDown != 0 && prevInGrid != FALSE) || (down != 0 && pointInGrid != FALSE)) {
         if (gEmblemCursor->mMode == EMBLEM_CURSOR_MODE_ERASE) {
             writeValue = 0;
@@ -281,16 +281,16 @@ s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 inputBits, s32 dx,
                             break;
                     }
                 }
-                inputBits = result;
+                applyAtCell = result;
                 break;
             case EMBLEM_CURSOR_MODE_FILL:
             case EMBLEM_CURSOR_MODE_PICK_VALUE:
-                inputBits = 1;
+                applyAtCell = 1;
                 break;
         }
     }
     ClampEmblemCursorCell();
-    if (inputBits != 0) {
+    if (applyAtCell != 0) {
         if (gEmblemCursor->mMode == EMBLEM_CURSOR_MODE_ERASE) {
             writeValue = 0;
         } else {
@@ -340,7 +340,7 @@ s32 AdvanceEmblemCursor(s32 down, s32 pointX, s32 pointY, s32 inputBits, s32 dx,
     gEmblemCursor->mPrevY = pointY;
     gEmblemCursor->mPrevCellX = saveX;
     gEmblemCursor->mPrevCellY = saveY;
-    if (down == 0 && inputBits == 0) {
+    if (down == 0 && applyAtCell == 0) {
         ClearEmblemGridCopied();
     }
     return result;
@@ -1112,16 +1112,16 @@ void AdvanceEmblemGridScreen(void) {
     s32 touchedEntry;
     s32 inputX;
     s32 inputY;
-    s32 dx;
-    s32 dy;
-    s32 dz;
+    s32 horizontalStep;
+    s32 verticalStep;
+    s32 targetStep;
     s32 previousCursor;
-    BOOL flag;
+    BOOL showPickFrame;
     void *buttonCursorEntry;
     void *colorCursorEntry;
     void *targetEntry;
 
-    flag = FALSE;
+    showPickFrame = FALSE;
     if (GetEmblemInputPressed()) {
         inputY = GetEmblemInputY();
         inputX = GetEmblemInputX();
@@ -1147,22 +1147,22 @@ void AdvanceEmblemGridScreen(void) {
         GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex]);
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
         GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
-        dx = 0;
-        dy = 0;
-        dz = 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
-        dx += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
-        dy += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
-        dz += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
+        horizontalStep = 0;
+        verticalStep = 0;
+        targetStep = 0;
+        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_LEFT) ? -1 : 0;
+        horizontalStep += GetNewOrRepeatBits(8, PAD_KEY_RIGHT) ? 1 : 0;
+        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_UP) ? -1 : 0;
+        verticalStep += GetNewOrRepeatBits(8, PAD_KEY_DOWN) ? 1 : 0;
+        targetStep += GetNewOrRepeatBits(8, PAD_KEY_L) ? -1 : 0;
+        targetStep += GetNewOrRepeatBits(8, PAD_KEY_R) ? 1 : 0;
 
         switch (gEmblem->mCursorTargetState) {
             case EMBLEM_CURSOR_TARGET_GRID:
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), 0);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
-                if (dz > 0) {
+                if (targetStep > 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_COLORS;
                     gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
@@ -1170,7 +1170,7 @@ void AdvanceEmblemGridScreen(void) {
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 9), NULL);
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
-                } else if (dz < 0) {
+                } else if (targetStep < 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_BUTTONS;
                     switch (GetEmblemCursorMode()) {
                         case EMBLEM_CURSOR_MODE_DRAW:
@@ -1197,7 +1197,7 @@ void AdvanceEmblemGridScreen(void) {
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), 0);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), -5);
-                if (dz < 0) {
+                if (targetStep < 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_COLORS;
                     gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 9), 0x1000);
@@ -1206,7 +1206,7 @@ void AdvanceEmblemGridScreen(void) {
                     SetLldEntryCallback(GetLldEntry(gEmblem->mEmblemSLld, 10), NULL);
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
-                } else if (dz > 0) {
+                } else if (targetStep > 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     ApplyLldEntryFrameCommand(buttonCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
@@ -1216,9 +1216,9 @@ void AdvanceEmblemGridScreen(void) {
                     }
                 } else {
                     previousCursor = gEmblem->mButtonCursorIndex;
-                    gEmblem->mButtonCursorIndex = gEmblemButtonCursorVerticalMoves[dy + 1][previousCursor];
+                    gEmblem->mButtonCursorIndex = gEmblemButtonCursorVerticalMoves[verticalStep + 1][previousCursor];
                     gEmblem->mButtonCursorIndex =
-                        gEmblemButtonCursorHorizontalMoves[dx + 1][gEmblem->mButtonCursorIndex];
+                        gEmblemButtonCursorHorizontalMoves[horizontalStep + 1][gEmblem->mButtonCursorIndex];
                     targetEntry =
                         GetLldEntry(gEmblem->mEmblemSLld, gEmblemButtonLldEntries[gEmblem->mButtonCursorIndex]);
                     ApplyLldEntryFrameCommand(buttonCursorEntry, 0);
@@ -1233,7 +1233,7 @@ void AdvanceEmblemGridScreen(void) {
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xb), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xc), -5);
                 ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0xd), 0);
-                if (dz > 0) {
+                if (targetStep > 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_BUTTONS;
                     switch (GetEmblemCursorMode()) {
                         case EMBLEM_CURSOR_MODE_DRAW:
@@ -1258,7 +1258,7 @@ void AdvanceEmblemGridScreen(void) {
                     gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                     ApplyLldEntryFrameCommand(colorCursorEntry, -5);
                     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1ee);
-                } else if (dz < 0) {
+                } else if (targetStep < 0) {
                     gEmblem->mCursorTargetState = EMBLEM_CURSOR_TARGET_HELD;
                     SetLldEntryScale(colorCursorEntry, 0);
                     SetLldEntryScale(GetLldEntry(gEmblem->mEmblemSLld, 10), 0x1000);
@@ -1269,8 +1269,8 @@ void AdvanceEmblemGridScreen(void) {
                     ActivateEmblemEntry(gEmblemColorLldEntries[gEmblem->mColorCursorIndex], 0);
                 } else {
                     previousCursor = gEmblem->mColorCursorIndex;
-                    gEmblem->mColorCursorIndex = gEmblemColorCursorVerticalMoves[dy + 1][previousCursor];
-                    gEmblem->mColorCursorIndex = gEmblemColorCursorHorizontalMoves[dx + 1][gEmblem->mColorCursorIndex];
+                    gEmblem->mColorCursorIndex = gEmblemColorCursorVerticalMoves[verticalStep + 1][previousCursor];
+                    gEmblem->mColorCursorIndex = gEmblemColorCursorHorizontalMoves[horizontalStep + 1][gEmblem->mColorCursorIndex];
                     GetLldEntry(gEmblem->mEmblemSLld, gEmblemColorLldEntries[gEmblem->mColorCursorIndex]);
                     if (gEmblem->mColorCursorIndex < EMBLEM_COLOR_COUNT) {
                         ApplyLldEntryFrameCommand(colorCursorEntry, 0);
@@ -1317,14 +1317,14 @@ void AdvanceEmblemGridScreen(void) {
     }
 
     if (gEmblem->mCursorTargetState == EMBLEM_CURSOR_TARGET_GRID) {
-        dx = 0;
-        dy = 0;
-        dx += IsEmblemInputRepeat(0x20) ? -1 : 0;
-        dx += IsEmblemInputRepeat(0x10) ? 1 : 0;
-        dy += IsEmblemInputRepeat(0x40) ? -1 : 0;
-        dy += IsEmblemInputRepeat(0x80) ? 1 : 0;
-        if (AdvanceEmblemCursor(GetEmblemInputDown(), GetEmblemInputX(), GetEmblemInputY(), GetEmblemInputBits(1), dx,
-                                dy)) {
+        horizontalStep = 0;
+        verticalStep = 0;
+        horizontalStep += IsEmblemInputRepeat(0x20) ? -1 : 0;
+        horizontalStep += IsEmblemInputRepeat(0x10) ? 1 : 0;
+        verticalStep += IsEmblemInputRepeat(0x40) ? -1 : 0;
+        verticalStep += IsEmblemInputRepeat(0x80) ? 1 : 0;
+        if (AdvanceEmblemCursor(GetEmblemInputDown(), GetEmblemInputX(), GetEmblemInputY(), GetEmblemInputBits(1), horizontalStep,
+                                verticalStep)) {
             if (GetEmblemCursorMode() == EMBLEM_CURSOR_MODE_PICK_VALUE) {
                 gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
@@ -1332,7 +1332,7 @@ void AdvanceEmblemGridScreen(void) {
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f5);
             }
         } else if (GetEmblemInputBits(0x400)) {
-            flag = TRUE;
+            showPickFrame = TRUE;
             if (SetEmblemCursorCellValueFromGrid()) {
                 gEmblem->mColorCursorIndex = GetEmblemCursorCellValue() - 1;
                 NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f4);
@@ -1372,7 +1372,7 @@ void AdvanceEmblemGridScreen(void) {
         gEmblem->mCursorSizeIndex = EMBLEM_BRUSH_NONE;
     } else {
         gEmblem->mCursorSizeIndex = GetEmblemCursorSizeIndex();
-        if (flag) {
+        if (showPickFrame) {
             ApplyLldEntryFrameCommand(GetLldEntry(gEmblem->mEmblemSLld, 0), 3);
         } else {
             switch (GetEmblemCursorMode()) {
@@ -1438,9 +1438,9 @@ void AdvanceEmblemTemplateScreen(void) {
     s32 horizontalStep;
     s32 verticalStep;
     s32 colorStep;
-    s32 sel;
-    s32 colorIndexHigh;
-    s32 colorIndexLow;
+    s32 cursorIndex;
+    s32 colorIndexHighWrapped;
+    s32 colorIndexLowWrapped;
     u32 inputY;
     s32 inputX;
     void *colorEntry;
@@ -1475,19 +1475,19 @@ void AdvanceEmblemTemplateScreen(void) {
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_L) != 0) ? -1 : 0;
     colorStep += (GetNewOrRepeatBits(8, PAD_KEY_R) != 0) ? 1 : 0;
     gEmblem->mColorCursorIndex = colorStep + (GetEmblemCursorCellValue() - 1);
-    colorIndexLow = gEmblem->mColorCursorIndex;
-    if (colorIndexLow < 0) {
-        colorIndexLow = 0xe;
+    colorIndexLowWrapped = gEmblem->mColorCursorIndex;
+    if (colorIndexLowWrapped < 0) {
+        colorIndexLowWrapped = 0xe;
     }
-    gEmblem->mColorCursorIndex = colorIndexLow;
-    colorIndexHigh = gEmblem->mColorCursorIndex;
-    if (colorIndexHigh > 0xe) {
-        colorIndexHigh = 0;
+    gEmblem->mColorCursorIndex = colorIndexLowWrapped;
+    colorIndexHighWrapped = gEmblem->mColorCursorIndex;
+    if (colorIndexHighWrapped > 0xe) {
+        colorIndexHighWrapped = 0;
     }
-    gEmblem->mColorCursorIndex = colorIndexHigh;
-    sel = gEmblem->mColorCursorIndex;
-    if (sel != GetEmblemCursorCellValue() - 1) {
-        colorEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemTemplateScreenColorEntries[sel]);
+    gEmblem->mColorCursorIndex = colorIndexHighWrapped;
+    cursorIndex = gEmblem->mColorCursorIndex;
+    if (cursorIndex != GetEmblemCursorCellValue() - 1) {
+        colorEntry = GetLldEntry(gEmblem->mEmblemSLld, gEmblemTemplateScreenColorEntries[cursorIndex]);
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 9);
         SetLldEntryPos(colorCursorEntry, GetLldEntryX(colorEntry), GetLldEntryY(colorEntry));
         colorCursorEntry = GetLldEntry(gEmblem->mEmblemSLld, 10);
@@ -1495,15 +1495,15 @@ void AdvanceEmblemTemplateScreen(void) {
         SetEmblemCursorCellValue(gEmblem->mColorCursorIndex + 1);
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x1f1);
     }
-    sel = gEmblem->mTemplateCursorIndex;
-    gEmblem->mTemplateCursorIndex = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][sel];
+    cursorIndex = gEmblem->mTemplateCursorIndex;
+    gEmblem->mTemplateCursorIndex = gEmblemTemplateCursorVerticalMoves[verticalStep + 1][cursorIndex];
     gEmblem->mTemplateCursorIndex =
         gEmblemTemplateCursorHorizontalMoves[horizontalStep + 1][gEmblem->mTemplateCursorIndex];
     templateCursorEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, 2);
     templateEntry = GetLldEntry(gEmblem->mEmblemTemplateSLld, gEmblemTemplateLldEntries[gEmblem->mTemplateCursorIndex]);
     ApplyLldEntryFrameCommand(templateCursorEntry, 0);
     SetLldEntryPos(templateCursorEntry, GetLldEntryX(templateEntry), GetLldEntryY(templateEntry));
-    if (gEmblem->mTemplateCursorIndex != sel) {
+    if (gEmblem->mTemplateCursorIndex != cursorIndex) {
         StartSoundOncePerFrame(0x1ef);
     }
     {
@@ -1565,15 +1565,15 @@ void AdvanceEmblemChoisesScreen(void) {
 }
 
 void AdvanceEmblem(void) {
-    s32 scrollPosition;
+    s32 value;
 
     AdvanceEmblemInput();
     gEmblem->mBgScrollPosition += 0x4cd;
-    scrollPosition = gEmblem->mBgScrollPosition;
-    if (scrollPosition >= 0x100000) {
-        scrollPosition -= 0x100000;
+    value = gEmblem->mBgScrollPosition;
+    if (value >= 0x100000) {
+        value -= 0x100000;
     }
-    gEmblem->mBgScrollPosition = scrollPosition;
+    gEmblem->mBgScrollPosition = value;
     ClearOamListCounts(gEmblem, &gEmblem->mSubOam);
     AdvanceLld(gEmblem->mEmblemMLld, &gEmblem->mMainOam);
     switch (gEmblem->mState) {
@@ -1645,14 +1645,14 @@ void AdvanceEmblem(void) {
             AdvanceLld(gEmblem->mEmblemSLld, &gEmblem->mSubOam);
             if (gBackupBuffers->mBusy == 0) {
                 if (gBackupAccess->mBackupEnabled != 0) {
-                    scrollPosition = gBackupAccess->mCommandRunning;
+                    value = gBackupAccess->mCommandRunning;
                 } else {
-                    scrollPosition = 0;
+                    value = 0;
                 }
             } else {
-                scrollPosition = 1;
+                value = 1;
             }
-            if (scrollPosition == 0) {
+            if (value == 0) {
                 gEmblem->mState = EMBLEM_STATE_DONE;
             }
             break;

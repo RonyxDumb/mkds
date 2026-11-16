@@ -105,7 +105,7 @@ void LocateAndQueueSelectGhost(void) {
 }
 
 void ResetSelectGhost(void) {
-    u16 cnt;
+    u16 layoutCount;
     s32 index;
 
     gSelectGhost->mNextState = SELECT_GHOST_STATE_SLIDE_IN;
@@ -117,11 +117,11 @@ void ResetSelectGhost(void) {
     }
     gSelectGhost->mSelectGhostSTable[10].mOffsetY = -0xc0;
     gSelectGhost->mSelectGhostSTable[11].mOffsetY = -0xc0;
-    cnt = gSelectGhost->mSelectGhostSBncl->mCount;
+    layoutCount = gSelectGhost->mSelectGhostSBncl->mCount;
     for (index = 0; index < 5; index++) {
-        gSelectGhost->mSelectGhostSTable[cnt + gSelectGhostSBnllIndices[index]].mOffsetY = -0xc0;
+        gSelectGhost->mSelectGhostSTable[layoutCount + gSelectGhostSBnllIndices[index]].mOffsetY = -0xc0;
     }
-    gSelectGhost->mSelectGhostSTable[cnt + 5].mOffsetY = -0xc0;
+    gSelectGhost->mSelectGhostSTable[layoutCount + 5].mOffsetY = -0xc0;
     for (index = 0; index < 2; index++) {
         gSelectGhost->mSelectGhostSTable[gSelectGhostTimerZeroSTableIndices[index]].mOffsetY = -0xc0;
         gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[index]].mOffsetY = -0xc0;
@@ -210,8 +210,8 @@ void RefreshSelectGhostForIndex(void) {
     u16 *paletteData;
     s32 characterCell;
     s32 ghostRecordSetKartIndex;
-    u8 buf14[4];
-    u16 buf18[16];
+    u8 recordTime[4];
+    u16 labelText[16];
 
     subLayout = selectGhost->mSelectGhostSBncl;
     subLayoutCount = subLayout->mCount;
@@ -255,44 +255,44 @@ void RefreshSelectGhostForIndex(void) {
     ghostRecordSetKartIndex = GetGhostRecordSetKartIndex(gSelectGhostRecordKinds[gSelectGhost->mIndex]);
     QueueKartIcon(ghostRecordSetKartIndex, gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl,
                   kartCellIndex, 9, 1);
-    GetGhostRecordSetTime(gSelectGhostRecordKinds[gSelectGhost->mIndex], buf14);
-    FormatTimeFullWidth(buf14, buf18);
-    PrintLabelLayoutTextFixedDigits(1, timeLabelIndex, gSelectGhost->mSelectGhostSBnll, buf18,
+    GetGhostRecordSetTime(gSelectGhostRecordKinds[gSelectGhost->mIndex], recordTime);
+    FormatTimeFullWidth(recordTime, labelText);
+    PrintLabelLayoutTextFixedDigits(1, timeLabelIndex, gSelectGhost->mSelectGhostSBnll, labelText,
                                     gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable, 9);
-    GetGhostRecordSetName(gSelectGhostRecordKinds[gSelectGhost->mIndex], buf18);
-    PrintLabelLayoutTextNoFixedAdvance(1, nameLabelIndex, gSelectGhost->mSelectGhostSBnll, buf18,
+    GetGhostRecordSetName(gSelectGhostRecordKinds[gSelectGhost->mIndex], labelText);
+    PrintLabelLayoutTextNoFixedAdvance(1, nameLabelIndex, gSelectGhost->mSelectGhostSBnll, labelText,
                                        gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable);
 }
 
 void IncrementSelectGhostIndex(void) {
-    BOOL ok = TRUE;
+    BOOL selectable = TRUE;
     gSelectGhost->mIndex++;
     if (gSelectGhost->mIndex >= SELECT_GHOST_KIND_COUNT) {
         gSelectGhost->mIndex = 0;
     }
     if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[gSelectGhost->mIndex]) == 0) {
-        ok = FALSE;
+        selectable = FALSE;
         IncrementSelectGhostIndex();
     }
     gSelectGhost->mOffsetTimers[1] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
-    if (ok != FALSE) {
+    if (selectable != FALSE) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
 }
 
 void DecrementSelectGhostIndex(void) {
-    BOOL ok = TRUE;
+    BOOL selectable = TRUE;
     gSelectGhost->mIndex--;
     if (gSelectGhost->mIndex < 0) {
         gSelectGhost->mIndex = SELECT_GHOST_KIND_COUNT - 1;
     }
     if (IsGhostRecordSetKindSelectable(gSelectGhostRecordKinds[gSelectGhost->mIndex]) == 0) {
-        ok = FALSE;
+        selectable = FALSE;
         DecrementSelectGhostIndex();
     }
     gSelectGhost->mOffsetTimers[0] = SELECT_GHOST_OFFSET_TIMER_FRAMES;
-    if (ok != FALSE) {
+    if (selectable != FALSE) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
         RefreshSelectGhostForIndex();
     }
@@ -341,7 +341,7 @@ void SetupSelectGhostCupCells(void) {
 
 void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
     void *heap;
-    s32 rem;
+    s32 remainingSize;
     s32 index;
 
     reg_G2S_DB_BG0CNT = reg_G2S_DB_BG0CNT & ~REG_G2S_DB_BG0CNT_PRIORITY_MASK;
@@ -364,35 +364,35 @@ void InitSelectGhost(void *parentHeap, void *mainOam, void *subOam) {
                     &gSelectGhost->mSelectGhostSTable);
     gSelectGhost->mCommonMessages = FindFileInLoadedArchives("common.bmg");
     gSelectGhost->mMenuMessages = FindSceneFile("menu.bmg");
-    rem = 0x8000;
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 0, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 0,
+    remainingSize = 0x8000;
+    remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, 0, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 0,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                           gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 1, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 1,
+                           gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
+    remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, 1, gSelectGhost->mSelectCupCourseTaMBnll, 0xb4, 0xd, 1,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                           gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 2, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 2,
+                           gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
+    remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, 2, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 2,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                           gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 3, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 3,
+                           gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
+    remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, 3, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 3,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                           gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem -= InitLabelCanvas(gSelectGhost->mHeap, 4, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 4,
+                           gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
+    remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, 4, gSelectGhost->mSelectCupCourseTaMBnll, 0x96, 0xd, 4,
                            gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                           gSelectGhost->mSelectCupCourseTaMTable, rem);
+                           gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
     InitLabelCanvas(gSelectGhost->mHeap, 5, gSelectGhost->mSelectCupCourseTaMBnll, 0x50, 0xd, 5,
                     gSelectGhost->mSelectCupCourseMNcer, gSelectGhost->mSelectCupCourseTaMBncl,
-                    gSelectGhost->mSelectCupCourseTaMTable, rem);
-    rem = GX_GetSizeOfSubOBJ();
+                    gSelectGhost->mSelectCupCourseTaMTable, remainingSize);
+    remainingSize = GX_GetSizeOfSubOBJ();
     for (index = 0; index < 5; index++) {
-        rem -= InitLabelCanvas(gSelectGhost->mHeap, gSelectGhostSBnllIndices[index], gSelectGhost->mSelectGhostSBnll,
+        remainingSize -= InitLabelCanvas(gSelectGhost->mHeap, gSelectGhostSBnllIndices[index], gSelectGhost->mSelectGhostSBnll,
                                gSelectGhostSLabelWidths[index], gSelectGhostSLabelHeights[index], index,
                                gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl,
-                               gSelectGhost->mSelectGhostSTable, rem);
+                               gSelectGhost->mSelectGhostSTable, remainingSize);
     }
     InitLabelCanvas(gSelectGhost->mHeap, 5, gSelectGhost->mSelectGhostSBnll, 0x32, 0xd, 0xb,
                     gSelectGhost->mSelectGhostSONcer, gSelectGhost->mSelectGhostSBncl, gSelectGhost->mSelectGhostSTable,
-                    rem);
+                    remainingSize);
     PrintLabelLayoutTextNoFixedAdvance(1, gSelectGhostSBnllIndices[0], gSelectGhost->mSelectGhostSBnll,
                                        GetBmgEntry(gSelectGhost->mMenuMessages, 8), gSelectGhost->mSelectGhostSBncl,
                                        gSelectGhost->mSelectGhostSTable);

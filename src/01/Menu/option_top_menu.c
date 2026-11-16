@@ -325,21 +325,21 @@ void AdvanceOptionTopMenuAskResetAgain(void) {
 }
 
 void AdvanceOptionTopMenuWaitResetWrite(void) {
-    s32 flag;
+    s32 backupBusy;
 
     if (IsTxtSystemOpenAfterOpening() != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x22);
     }
     if (gBackupBuffers->mBusy == 0) {
         if (gBackupAccess->mBackupEnabled != 0) {
-            flag = gBackupAccess->mCommandRunning;
+            backupBusy = gBackupAccess->mCommandRunning;
         } else {
-            flag = 0;
+            backupBusy = 0;
         }
     } else {
-        flag = 1;
+        backupBusy = 1;
     }
-    if (flag == 0 && IsTxtSystemOpenNoCloseRequest() != 0) {
+    if (backupBusy == 0 && IsTxtSystemOpenNoCloseRequest() != 0) {
         gOptionTopMenu->mNextState = OPTION_TOP_STATE_RESET_DONE;
         SetTxtSystemOpenSoundId(0x21);
         SetupTxtSystemSubTextButton(GetBmgEntry(gOptionTopMenu->mOptionMessages, 6),
