@@ -69,7 +69,8 @@ typedef enum ArchiveCommand {
     ARCHIVE_COMMAND_MOVE_DIR_CURSOR = 2,
     ARCHIVE_COMMAND_LIST_DIR_ENTRY = 3,
     ARCHIVE_COMMAND_OPEN_BY_NUMBER = 7,
-    // Sent to FSArchive.mProc, not to a file: the archive starts running its queue, and has run it empty.
+    // Sent to FSArchive.mProc: START_RUN with the first queued file when the archive was not running, STOP_RUN with an
+    // empty file when it was running and its queue is empty or it is suspended or a suspend was requested.
     ARCHIVE_COMMAND_START_RUN = 9,
     ARCHIVE_COMMAND_STOP_RUN = 10,
     ARCHIVE_COMMAND_UNSET = 14
@@ -81,10 +82,12 @@ enum {
     ARCHIVE_PROC_STOP_RUN = 1 << ARCHIVE_COMMAND_STOP_RUN,
 };
 
-// Commands 2 to 8 are always waited for by the caller (FSi_SendCommand sets FILE_STAT_SYNC for them).
+// Commands 2 to 8: FSi_SendCommand sets FILE_STAT_SYNC for them, so the caller runs them and waits for the result (not
+// when the archive is unloading).
 #define ARCHIVE_SYNC_COMMANDS_MASK 0x1fc
 
-// Results of the archive handlers and of the commands. FSFile.mError holds the final ones.
+// Results of the archive handlers and of the commands. FSFile.mError holds PENDING while a command runs, then its
+// result; FSi_TranslateCommand handles USE_DEFAULT, NOT_HANDLED and RUNNING_IN_BACKGROUND itself.
 enum {
     ARCHIVE_RESULT_SUCCESS = 0,
     ARCHIVE_RESULT_FAILED = 1,
@@ -121,18 +124,21 @@ enum {
     ARCHIVE_FLAG_SYNC_COMMAND = 0x200,
 };
 
-// Archive names hold up to three characters in FSArchive.mName; these are the largest values of one and of two.
+// FSArchive.mName packs up to three characters, the first in the low byte; the cutoffs FSi_GetPathCommand uses are the
+// largest value it counts as one character and as two.
 #define ARCHIVE_NAME_SINGLE_CHAR_MAX 0xff
 #define ARCHIVE_NAME_DOUBLE_CHAR_MAX 0xff00
 
-// Mask of the directory number in the parent field of a directory table entry.
+// Mask of the directory id in the parent field of a directory table entry (FSi_SeekDirCommand) and in the id that
+// follows a directory name in a directory read (FSi_ReadDirCommand).
 #define FILE_DIR_NUMBER_MASK 0xfff
 
 // FSFile.mStat bits: a command on the file is running, the record holds an open file.
 #define FILE_RECORD_BUSY 0x1
 #define FILE_RECORD_OPEN 0x10
 
-// A file system file: its link, archive, status, command, error, thread queue and file location.
+// A file system file or directory: its link, archive, status, command, error, thread queue, the locations mProp and
+// mArg, the position or parent id, the path, a directory flag and the result pointer.
 typedef struct FSFile {
     // FSi_ReleaseCommand links mLink.mPrev and mLink.mNext to each other, then clears both.
     /* 00 */ FSFileLink mLink;
@@ -152,7 +158,8 @@ typedef struct FSFile {
     /* 44 */ FileLocation *mResult;
 } FSFile;
 
-// A file system archive: its name, links to other archives, flags, file list, thread queues and its access functions.
+// A file system archive: its name, links to other archives, flags, file list, thread queues, base address, FAT and FNT
+// offsets and sizes with their backups, load memory, access functions and mProcFlag.
 typedef struct FSArchive {
     /* 00 */ u32 mName;
     /* 04 */ FSArchive *mNext;

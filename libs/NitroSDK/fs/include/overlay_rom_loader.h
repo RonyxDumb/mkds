@@ -8,7 +8,8 @@ typedef struct FSFileID FSFileID;
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
-// The info of one overlay: its id, RAM address and sizes, static initializers, file id and compressed size.
+// The info of one overlay: its id, RAM address and sizes, static initializers, file id, compressed size with its flags,
+// the table selector and the file offset and length.
 typedef struct FSOverlayInfo {
     /* 00 */ u32 mId;
     /* 04 */ u8 *mRamAddress;

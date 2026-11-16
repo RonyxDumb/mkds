@@ -156,7 +156,8 @@ u32 FS_CloseFile(FSFile *file) {
     return 1;
 }
 
-// Waits until the file has no command pending; runs the command itself if it has not started.
+// Waits until the file has no command pending; runs the command itself if it has neither started nor been marked to
+// wait. Returns 1 when the command finished without error.
 u32 FS_WaitAsync(FSFile *file) {
     u32 needsRun;
     u32 savedInterrupts;
@@ -195,7 +196,7 @@ void FS_CancelFile(FSFile *file) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-// Starts a read without waiting for it.
+// Starts a read without waiting for it; returns the byte count that will be read, cut to the end of the file.
 s32 FS_ReadFileAsync(FSFile *file, void *dst, s32 len) {
     return FSi_ReadFileCore(file, dst, len, 1);
 }
@@ -205,7 +206,8 @@ s32 FS_ReadFile(FSFile *file, void *dst, s32 len) {
     return FSi_ReadFileCore(file, dst, len, 0);
 }
 
-// Moves the file position, clamped to the file range; origin 0 is start, 1 current, 2 end.
+// Moves the file position, clamped to the file range; origin 0 is the start, 1 the current position, 2 the end; any
+// other origin returns 0 and moves nothing.
 u32 FS_SeekFile(FSFile *file, s32 offset, u32 origin) {
     switch (origin) {
         case FILE_SEEK_START:
@@ -243,7 +245,8 @@ u32 FS_ChangeDir(const u8 *path) {
     return 1;
 }
 
-// Packs up to three characters of an archive name into a word, upper case folded to lower.
+// Packs a name of at most three characters into a word, one byte each, upper case folded to lower; a longer name gives
+// 0.
 u32 FSi_GetPackedName(const u8 *name, s32 nameLen) {
     u32 packed;
     u32 diff;
@@ -280,7 +283,9 @@ s32 FSi_ReadMemoryCore(FSArchive *archive, void *dst, u32 pos, u32 size) {
     return 0;
 }
 
-// Cancels flagged commands and returns the next command the archive should run, if it is not suspended.
+// Cancels flagged commands, then starts the first queued command and returns it; returns 0 when a suspend is requested
+// or done, or when the command's own thread waits for it (that thread is woken instead). With nothing to run it stops
+// the archive's run and completes a requested suspend.
 FSFile *FSi_NextCommand(FSArchive *archive) {
     FSFile procFile;
     FSFile *file;
@@ -345,7 +350,8 @@ FSFile *FSi_NextCommand(FSArchive *archive) {
     return 0;
 }
 
-// Runs the given command and then the following queued ones until one is left pending.
+// Runs the given command and then the following queued ones, until one continues in the background or one has a thread
+// waiting for it (that thread is woken).
 void FSi_ExecuteAsyncCommand(FSFile *file) {
     FSArchive *archive;
     u32 savedInterrupts;
@@ -371,7 +377,8 @@ void FSi_ExecuteAsyncCommand(FSFile *file) {
     } while (file != 0);
 }
 
-// Runs one command to completion, then starts the queue.
+// Runs one command to completion, then runs the commands queued behind it; returns 1 when the command finished without
+// error.
 u32 FSi_ExecuteSyncCommand(FSFile *file) {
     FSFile *next;
 
@@ -383,7 +390,8 @@ u32 FSi_ExecuteSyncCommand(FSFile *file) {
     return file->mError == 0;
 }
 
-// Queues a command on its archive and runs it or waits for it.
+// Queues a command on its archive; returns 0 if the archive is unloading. A command not waited for is started or left
+// queued and 1 is returned; a waited-for one runs here once it is its turn and its result is returned.
 u32 FSi_SendCommand(FSFile *file, u32 command) {
     FSArchive *archive;
     FSFile *tail;
