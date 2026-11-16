@@ -63,7 +63,7 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     DC_InvalidateRange(wmSysBuf, bufSize);
     MI_DmaFill32(dmaNo, wmSysBuf, 0, bufSize);
     wm9buf = wmSysBuf;
-    wm9buf->mWM7 = OFFSET_PTR(void, wmSysBuf, WIRELESS_ARM9_BUF_SIZE);
+    wm9buf->mWM7 = OFFSET_PTR(void, wmSysBuf, WIRELESS_ARM9_BUF_AREA_SIZE);
     wm9buf->mStatusArea = OFFSET_PTR(WMStatus, wm9buf->mWM7, 0x300);
     wm9buf->mRequestArea = OFFSET_PTR(u16, wm9buf->mStatusArea, 0x800);
     wm9buf->mMessageArea = OFFSET_PTR(WirelessMessage, wm9buf->mRequestArea, 0x100);

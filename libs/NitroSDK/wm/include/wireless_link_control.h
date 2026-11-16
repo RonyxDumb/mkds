@@ -184,8 +184,9 @@ typedef struct WMBssDesc {
 } WMBssDesc;
 
 // Bytes at the start of the system buffer reserved for the WMArm9Buf; the area mWM7 points to follows them.
-#define WIRELESS_ARM9_BUF_SIZE 0x200
-
+#define WIRELESS_ARM9_BUF_AREA_SIZE 0x200
+// System work area set up by WmInitCore. The callback tables are indexed by the command number of the message that
+// WmReceiveFifo takes.
 typedef struct WMArm9Buf {
     /* 000 */ void *mWM7;
     /* 004 */ struct WMStatus *mStatusArea;
