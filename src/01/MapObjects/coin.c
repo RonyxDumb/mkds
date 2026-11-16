@@ -504,8 +504,8 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
             s32 kartIndex;
             BOOL found;
             Vec3 *kartPos;
-            s32 dx;
-            s32 dz;
+            s32 differenceX;
+            s32 differenceZ;
             AdvanceCoinNsbtpFrame(coin, 1);
             if (coin->mFollower.mGroupIndex != GROUP_FOLLOWER_NO_GROUP) {
                 AdvanceGroupFollower(&coin->mFollower);
@@ -521,9 +521,9 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 radius = coin->mMapObject.mCourseMapRow->mSettings[1];
                 for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex++) {
                     kartPos = &GetKart((u16) kartIndex)->mPos;
-                    dx = kartPos->x - coin->mMapObject.mPos.x;
-                    dz = kartPos->z - coin->mMapObject.mPos.z;
-                    if (SQUARE_SUM2(dx, dz) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
+                    differenceX = kartPos->x - coin->mMapObject.mPos.x;
+                    differenceZ = kartPos->z - coin->mMapObject.mPos.z;
+                    if (SQUARE_SUM2(differenceX, differenceZ) < (s64) TO_FIXED12(radius) * TO_FIXED12(radius)) {
                         found = TRUE;
                         goto checked;
                     }

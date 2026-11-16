@@ -126,16 +126,16 @@ void ThrowStoredItemBomb(MissionRunMapObject *mapObject) {
 }
 
 void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
-    RandomState64 *rng;
+    RandomState64 *random;
     s32 angle;
     s32 bombIndex;
     Vec3 pos;
 
-    rng = GetMapObjectRandom();
-    rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
+    random = GetMapObjectRandom();
+    random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+    angle = (u16) (((random->mValue >> 32) << 16) >> 32);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
-        Vec3 vel = {0, 0, 0};
+        Vec3 velocity = {0, 0, 0};
         angle += 0x5555;
         if (GetAbsoluteCounter(mapObject) == 0) {
             pos.x = mapObject->mMapObject.mPos.x +
@@ -153,9 +153,9 @@ void ThrowItemBombsInRing(MissionRunMapObject *mapObject) {
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mRingRadiusCounterNonZero, COS_OF_ANGLE((u16) angle));
         }
         if (bombIndex == 0) {
-            ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mRingBombTimer);
+            ThrowItemBombFromPosition(StartItemBomb(), &pos, &velocity, mapObject->mPrm->mBombKing.mRingBombTimer);
         } else {
-            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &vel,
+            ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos, &velocity,
                                       mapObject->mPrm->mBombKing.mRingParkedBombTimer);
         }
     }
@@ -169,31 +169,31 @@ void StartBombKingEffectAndSound(MissionRunMapObject *mapObject) {
 }
 
 void ThrowItemBombsInRingAndCenter(MissionRunMapObject *mapObject) {
-    RandomState64 *rng;
+    RandomState64 *random;
     s32 angle;
     s32 bombIndex;
     Vec3 pos;
 
-    rng = GetMapObjectRandom();
-    rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
-    angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
+    random = GetMapObjectRandom();
+    random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
+    angle = (u16) (((random->mValue >> 32) << 16) >> 32);
     for (bombIndex = 0; bombIndex < 3; bombIndex++) {
-        Vec3 vel = {0, 0, 0};
+        Vec3 velocity = {0, 0, 0};
         angle += 0x5555;
         pos.x = mapObject->mMapObject.mPos.x +
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mJumpRingRadius, SIN_OF_ANGLE((u16) angle));
         pos.y = mapObject->mMapObject.mPos.y;
         pos.z = mapObject->mMapObject.mPos.z +
                 MUL_FIXED12_NO_ROUND(mapObject->mPrm->mBombKing.mJumpRingRadius, COS_OF_ANGLE((u16) angle));
-        ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mBombKing.mJumpRingBombTimer);
+        ThrowItemBombFromPosition(StartItemBomb(), &pos, &velocity, mapObject->mPrm->mBombKing.mJumpRingBombTimer);
     }
     {
-        Vec3 pos2;
-        Vec3 vel2 = {0, 0, 0};
-        pos2.x = mapObject->mMapObject.mPos.x;
-        pos2.y = mapObject->mMapObject.mPos.y;
-        pos2.z = mapObject->mMapObject.mPos.z;
-        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &pos2, &vel2,
+        Vec3 centerPos;
+        Vec3 centerVelocity = {0, 0, 0};
+        centerPos.x = mapObject->mMapObject.mPos.x;
+        centerPos.y = mapObject->mMapObject.mPos.y;
+        centerPos.z = mapObject->mMapObject.mPos.z;
+        ThrowItemBombFromPosition(StartItemBombWithParkedItemBox(9), &centerPos, &centerVelocity,
                                   mapObject->mPrm->mBombKing.mJumpRingParkedBombTimer);
     }
     SetSpeedAndClearTarget(mapObject, 0);
@@ -635,21 +635,21 @@ void InitBombKingObjects(MapObjectList *list) {
 }
 
 void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
-    int active;
+    int result;
 
     if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        active = IsWinnerDecided();
+        result = IsWinnerDecided();
     } else {
-        active = 0;
+        result = 0;
     }
-    if (active != 0) {
+    if (result != 0) {
         if (IsStateNumberBelow(mapObject, 1) != 0) {
             if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                active = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
+                result = IsKartEliminated((u16) gRaceSetup->mEntryIndex);
             } else {
-                active = 0;
+                result = 0;
             }
-            if (active != 0) {
+            if (result != 0) {
                 StartBombKingKartEliminatedState(mapObject);
             } else {
                 StartBombKingKartNotEliminatedState(mapObject);

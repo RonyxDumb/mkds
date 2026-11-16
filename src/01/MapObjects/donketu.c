@@ -405,7 +405,7 @@ void StartDonketuWaterWalkState(MissionRunMapObject *donketu) {
 
 void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     Vec3 velocity;
-    s32 scale;
+    s32 horizontalSpeed;
 
     velocity.x = donketu->mMapObject.mPos.x;
     velocity.y = 0;
@@ -413,10 +413,10 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
-    scale = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
-    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, scale);
-    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, scale);
-    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, scale);
+    horizontalSpeed = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;
+    velocity.x = MUL_FIXED12_NO_ROUND(velocity.x, horizontalSpeed);
+    velocity.y = MUL_FIXED12_NO_ROUND(velocity.y, horizontalSpeed);
+    velocity.z = MUL_FIXED12_NO_ROUND(velocity.z, horizontalSpeed);
     velocity.y = -donketu->mPrm->mDonketu.mWaterSinkDescentSpeed;
     StartMapObjectState(donketu, 8, NULL);
     StartAnimationNoEndCallback(donketu, donketu->mPrm->mDonketu.mWaterSinkAnimationEntry,

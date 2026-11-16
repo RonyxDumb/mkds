@@ -97,10 +97,10 @@ void LoadMissionGate(void *mapObjectList) {
 void MissionGateNop(void) {}
 
 void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject) {
-    s32 buf;
+    s32 commandValue;
 
-    buf = 0x1e;
-    NNS_G3dGeBufferOP_N(0x14, &buf, 1);
+    commandValue = 0x1e;
+    NNS_G3dGeBufferOP_N(0x14, &commandValue, 1);
     missionGateObject->mMapObject.mMatrix.mRows[3].x = missionGateObject->mMapObject.mPos.x >> 4;
     missionGateObject->mMapObject.mMatrix.mRows[3].y = missionGateObject->mMapObject.mPos.y >> 4;
     missionGateObject->mMapObject.mMatrix.mRows[3].z = missionGateObject->mMapObject.mPos.z >> 4;

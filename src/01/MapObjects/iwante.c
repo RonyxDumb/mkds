@@ -129,7 +129,7 @@ void IwanteKartResponse11Callback(MissionRunMapObject *mapObject, Kart *kart) {
 }
 
 void SetIwanteHandsApproachPoint(void) {
-    Vec3 pos;
+    Vec3 approachPoint;
     MissionRunMapObject *mapObject;
     IwantePrm *prm;
     Kart *kart;
@@ -151,11 +151,11 @@ void SetIwanteHandsApproachPoint(void) {
         angle = prm->mApproachAngleOffset +
                 FX_Atan2Idx(kart->mPos.z - mapObject->mMapObject.mPos.z, kart->mPos.x - mapObject->mMapObject.mPos.x);
     }
-    pos.x = mapObject->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(prm->mApproachPointRadius, COS_OF_ANGLE(angle));
-    pos.y = mapObject->mMapObject.mPos.y;
-    pos.z = mapObject->mMapObject.mPos.z +
+    approachPoint.x = mapObject->mMapObject.mPos.x + MUL_FIXED12_NO_ROUND(prm->mApproachPointRadius, COS_OF_ANGLE(angle));
+    approachPoint.y = mapObject->mMapObject.mPos.y;
+    approachPoint.z = mapObject->mMapObject.mPos.z +
             MUL_FIXED12_NO_ROUND(mapObject->mPrm->mIwante.mApproachPointRadius, SIN_OF_ANGLE(angle));
-    SetAnglePointAndMoveAnglePoint(mapObject, &pos);
+    SetAnglePointAndMoveAnglePoint(mapObject, &approachPoint);
 }
 
 void SetIwanteHandsPoints(void) {

@@ -418,14 +418,14 @@ void SetCollisionOffsetAndExtentTarget(MissionRunMapObject *mapObject, u32 offse
 void SetShadowOffsetAndScale(MissionRunMapObject *mapObject, int offsetX, u32 offsetY, u32 offsetZ, u32 scaleX,
                              u32 unusedScaleY, u32 scaleZ) {
     int *shadowTargetPtr;
-    int *shadowTargetXPtr;
+    int *shadowOffsetTargetXPtr;
     mapObject->mShadowMode = MAP_OBJECT_SHADOW_COURSE_OFFSET;
     if ((mapObject->mMapObject.mFlags & (0x00000400u)) != 0) {
         offsetX = -offsetX;
     }
-    shadowTargetXPtr = &mapObject->mShadowOffsetTargetX;
-    *shadowTargetXPtr = offsetX;
-    mapObject->mShadowOffsetX = *shadowTargetXPtr;
+    shadowOffsetTargetXPtr = &mapObject->mShadowOffsetTargetX;
+    *shadowOffsetTargetXPtr = offsetX;
+    mapObject->mShadowOffsetX = *shadowOffsetTargetXPtr;
     shadowTargetPtr = &mapObject->mShadowOffsetTargetY;
     *shadowTargetPtr = offsetY;
     mapObject->mShadowOffsetY = *shadowTargetPtr;
@@ -1279,14 +1279,14 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
 void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     Vec3 probePosition;
     Vec3 pushOut;
-    Vec3 courseNormal;
+    Vec3 groundNormal;
     Vec3 wallNormal;
     Vec3 pushDirection;
     Vec3 effectPosition;
     s32 velocityScale;
-    s32 dx;
-    s32 dy;
-    s32 dz;
+    s32 moveX;
+    s32 moveY;
+    s32 moveZ;
     s32 currentFrame;
     s32 previousFrame;
     s32 effectIndex;
@@ -1474,12 +1474,12 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
 
     pairWordIndex = ((u16) mapObject->mMoveAngle >> 4) * 2;
     speed = mapObject->mSpeed;
-    dy = mapObject->mVelocity.y;
-    dz = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
-    dx = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
-    mapObject->mMapObject.mPos.x += dx;
-    mapObject->mMapObject.mPos.y += dy;
-    mapObject->mMapObject.mPos.z += dz;
+    moveY = mapObject->mVelocity.y;
+    moveZ = mapObject->mVelocity.z + (s32) ((speed * FX_SinCosTable_[pairWordIndex + 1]) >> 12);
+    moveX = mapObject->mVelocity.x + (s32) ((speed * FX_SinCosTable_[pairWordIndex]) >> 12);
+    mapObject->mMapObject.mPos.x += moveX;
+    mapObject->mMapObject.mPos.y += moveY;
+    mapObject->mMapObject.mPos.z += moveZ;
 
     probePosition.x = mapObject->mMapObject.mPos.x;
     probePosition.y = mapObject->mMapObject.mPos.y + 0x14000;
@@ -1488,7 +1488,7 @@ void AdvanceMissionRunMapObject(u32 unused, MissionRunMapObject *mapObject) {
     if (CollideSphereWithCourse(
             &probePosition, NULL, 0, 0x14000,
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_ALT_FILTER ? (u16) 4 : (u16) 1, -2, &pushOut,
-            &courseNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
+            &groundNormal, &wallNormal, &mapObject->mCollisionBits, NULL, NULL, NULL, NULL)) {
         if (mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY_NO_BITS ||
             mapObject->mCourseCollisionMode == MAP_OBJECT_COURSE_COLLISION_PUSH_Y_ONLY) {
             mapObject->mMapObject.mPos.y += pushOut.y;
@@ -1680,11 +1680,11 @@ void DrawMissionRunMapObject(void *mapObjectList, MissionRunMapObject *mapObject
 }
 
 void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *mapObject, s32 invertDepth) {
-    s32 depth;
+    s32 shadowAlpha;
     s32 value;
     Vec3 shadowPosition;
 
-    depth = FROM_FIXED12(mapObject->mAlphaLimit);
+    shadowAlpha = FROM_FIXED12(mapObject->mAlphaLimit);
     if (mapObject->mShadowMode == MAP_OBJECT_SHADOW_AT_OBJECT) {
         shadowPosition.x = mapObject->mMapObject.mPos.x;
         shadowPosition.y = mapObject->mMapObject.mPos.y;
@@ -1694,26 +1694,26 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
         shadowPosition.y = mapObject->mMapObject.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mNodePosition.z;
     } else {
-        if (depth >= 4) {
+        if (shadowAlpha >= 4) {
             s32 adjustedDepth =
-                depth - ((mapObject->mMapObject.mPos.y - mapObject->mMapObject.mCourseMapRow->mPosition.y) >> 15);
+                shadowAlpha - ((mapObject->mMapObject.mPos.y - mapObject->mMapObject.mCourseMapRow->mPosition.y) >> 15);
 
             if (adjustedDepth <= 4) {
                 adjustedDepth = 4;
             }
-            depth = (u16) adjustedDepth;
+            shadowAlpha = (u16) adjustedDepth;
         }
         shadowPosition.x = mapObject->mMapObject.mPos.x;
         shadowPosition.y = mapObject->mMapObject.mCourseMapRow->mPosition.y;
         shadowPosition.z = mapObject->mMapObject.mPos.z;
     }
-    if (depth > 0x10) {
-        depth = 0x10;
+    if (shadowAlpha > 0x10) {
+        shadowAlpha = 0x10;
     }
     if (invertDepth != 0) {
-        depth = 0x14 - depth;
+        shadowAlpha = 0x14 - shadowAlpha;
     }
-    if (depth > 0) {
+    if (shadowAlpha > 0) {
         MtxFx33 rotationMatrix;
         Vec3 shadowOffset;
         Vec3 shadowScale;
@@ -1741,7 +1741,7 @@ void DrawMissionRunMapObjectShadow(void *mapObjectList, MissionRunMapObject *map
             NNS_G3dGeBufferOP_N(0x1b, &shadowScale, 3);
         }
         SetMapObjectModelPolygonId(mapObject->mShadowNsbmd, 3);
-        SetMapObjectModelAlpha(mapObject->mShadowNsbmd, depth);
+        SetMapObjectModelAlpha(mapObject->mShadowNsbmd, shadowAlpha);
         DrawMapObjectModel(mapObjectList, mapObject->mShadowNsbmd, mapObject);
     }
 }
