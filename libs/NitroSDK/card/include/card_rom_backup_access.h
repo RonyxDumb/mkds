@@ -91,14 +91,14 @@ enum {
 // devices get one of these; type 3 devices store their whole size instead.
 enum {
     BACKUP_DEVICE_512B_PAGE_SIZE = 0x10,
-    BACKUP_DEVICE_8KB_PAGE_SIZE = 0x20,
+    BACKUP_DEVICE_TYPE1_8KB_PAGE_SIZE = 0x20,
     BACKUP_DEVICE_64KB_PAGE_SIZE = 0x80,
     BACKUP_DEVICE_LARGE_PAGE_SIZE = 0x100,
 };
 
 // Sector size written to CARDiCommandArg.mSectSize for the large devices, and the priority of the worker thread.
 #define BACKUP_DEVICE_LARGE_SECTOR_SIZE 0x10000
-#define BACKUP_TASK_THREAD_PRIORITY 4
+#define ACCESS_TASK_THREAD_PRIORITY 4
 
 // Values written to CARDiCommandArg.mProgramPage: the 64 KB devices use their own value, every other device with one
 // the common value.
@@ -131,15 +131,15 @@ typedef struct CARDiCommandArg {
 // Bits of CARDiCommon.mFlag. Nothing in the tree sets WAKE_WORKER or STOP_REQUESTED; WAKE_WORKER is tested when a
 // transfer ends and STOP_REQUESTED before each piece of a backup transfer.
 enum {
-    BACKUP_ACCESS_FLAG_INITIALIZED = 0x1,
-    BACKUP_ACCESS_FLAG_REQUEST_CHANNEL_READY = 0x2,
-    BACKUP_ACCESS_FLAG_BUSY = 0x4,
-    BACKUP_ACCESS_FLAG_TASK_PENDING = 0x8,
-    BACKUP_ACCESS_FLAG_WAKE_WORKER = 0x10,
-    BACKUP_ACCESS_FLAG_REQUEST_PENDING = 0x20,
-    BACKUP_ACCESS_FLAG_STOP_REQUESTED = 0x40,
-    BACKUP_ACCESS_FLAG_TRANSFER_MASK =
-        BACKUP_ACCESS_FLAG_BUSY | BACKUP_ACCESS_FLAG_TASK_PENDING | BACKUP_ACCESS_FLAG_STOP_REQUESTED,
+    ACCESS_FLAG_INITIALIZED = 0x1,
+    ACCESS_FLAG_REQUEST_SETUP_STARTED = 0x2,
+    ACCESS_FLAG_BUSY = 0x4,
+    ACCESS_FLAG_TASK_PENDING = 0x8,
+    ACCESS_FLAG_WAKE_WORKER = 0x10,
+    ACCESS_FLAG_REQUEST_PENDING = 0x20,
+    ACCESS_FLAG_STOP_REQUESTED = 0x40,
+    ACCESS_FLAG_TRANSFER_MASK =
+        ACCESS_FLAG_BUSY | ACCESS_FLAG_TASK_PENDING | ACCESS_FLAG_STOP_REQUESTED,
 };
 
 // The ROM is read in pages of CARD_ROM_PAGE_SIZE bytes; a DMA channel is used only for numbers 0 to

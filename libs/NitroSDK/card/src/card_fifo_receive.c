@@ -17,7 +17,7 @@ void CARDi_OnFifoRecv(u32 tag, u32 data, u32 err) {
     }
     common = (CARDiCommon *) &gAccessState;
     value = common->mFlag;
-    value = value & ~BACKUP_ACCESS_FLAG_REQUEST_PENDING;
+    value = value & ~ACCESS_FLAG_REQUEST_PENDING;
     common->mFlag = value;
     OS_WakeupThreadDirect(common->mCurTh);
 }

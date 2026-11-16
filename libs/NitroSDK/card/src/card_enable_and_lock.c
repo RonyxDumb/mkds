@@ -33,7 +33,7 @@ int CARDi_WaitAsync(void) {
 
     common = (CARDiCommon *) (u32) &gAccessState;
     enabled = OS_DisableInterrupts();
-    while (common->mFlag & BACKUP_ACCESS_FLAG_BUSY) {
+    while (common->mFlag & ACCESS_FLAG_BUSY) {
         OS_SleepThread(&common->mBusyQ);
     }
     OS_RestoreInterrupts(enabled);
@@ -42,7 +42,7 @@ int CARDi_WaitAsync(void) {
 
 // Returns 1 when no transfer is running.
 int CARDi_TryWaitAsync(void) {
-    return (gAccessState.mFlag & BACKUP_ACCESS_FLAG_BUSY) == 0;
+    return (gAccessState.mFlag & ACCESS_FLAG_BUSY) == 0;
 }
 
 // Returns CARDiCommandArg.mResult of the last request, 0 when it succeeded.
