@@ -128,13 +128,15 @@ void ResetSelectGhost(void) {
     }
 }
 
-// Requests state 1.
+// Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceSelectGhost call copies it to
+// mState and runs AdvanceSelectGhostReturnSlideIn.
 void RequestSelectGhostReturnSlideIn(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_RETURN_SLIDE_IN;
     gSelectGhost->mStateFrames = 0;
 }
 
-// Requests state 2.
+// Requests state 2: stores mNextState = 2 and zeroes mStateFrames; the next AdvanceSelectGhost call copies it to
+// mState and runs AdvanceSelectGhostInput.
 void RequestSelectGhostInput(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_INPUT;
     gSelectGhost->mStateFrames = 0;
@@ -153,7 +155,8 @@ void RequestSelectGhostChoisesOpen(void) {
     StartSelectChoises(GetBmgEntry(gSelectGhost->mCommonMessages, 4), GetBmgEntry(gSelectGhost->mCommonMessages, 2), 0);
 }
 
-// Requests state 5.
+// Requests state 5: stores mNextState = 5 and zeroes mStateFrames; the next AdvanceSelectGhost call copies it to
+// mState and runs AdvanceSelectGhostChoisesInput.
 void RequestSelectGhostChoisesInput(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_CHOISES_INPUT;
     gSelectGhost->mStateFrames = 0;
@@ -165,7 +168,8 @@ void RequestSelectGhostChoisesClose(void) {
     RequestSelectChoisesHidden();
 }
 
-// Requests state 7.
+// Requests state 7: stores mNextState = 7 and zeroes mStateFrames; the next AdvanceSelectGhost call copies it to
+// mState and runs AdvanceSelectGhostSlideOut.
 void RequestSelectGhostSlideOut(void) {
     gSelectGhost->mNextState = SELECT_GHOST_STATE_SLIDE_OUT;
     gSelectGhost->mStateFrames = 0;
@@ -180,7 +184,8 @@ void UpdateSelectGhostCellVisibility(void) {
     gSelectGhost->mSelectGhostSTable[11].mVisible = 1;
 }
 
-// Stores both offsets and steps both timers; each timer switches its rows on or off.
+// Sets the x offset of the two running rows from their timers, then counts each timer down while it is above 0; a timer
+// above 0 shows its running row and hides its zero row, a timer at 0 does the reverse.
 void AdvanceSelectGhostOffsetTimers(void) {
     s32 timerIndex;
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[0]].mOffsetX =
