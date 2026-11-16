@@ -905,7 +905,7 @@ BOOL IsWaterPresent(void) {
 // y minus mHeight of gCourseWater (negative below the water), 9999.0 (fx32) when the course has no water; asked by the
 // camera; it does not look at mIsHeightUsed or WaterEfct.
 s32 GetHeightAboveWater(s32 height) {
-    return gCourseWater != NULL ? height - gCourseWater->mHeight : 0x270f000;
+    return gCourseWater != NULL ? height - gCourseWater->mHeight : MAP_OBJECT_FAR_VALUE;
 }
 
 // mHeightFactor of gCourseWater, 0 when the course has no water; asked by the HUD gauge.
@@ -937,7 +937,7 @@ s32 GetHeightAboveWaterOrEfct(s32 height) {
     if (gCourseWater != NULL && gCourseWater->mIsHeightUsed != 0) {
         return height - gCourseWater->mHeight;
     }
-    return gCourseWaterEfct != NULL ? height - gCourseWaterEfct->mHeight : 0x270f000;
+    return gCourseWaterEfct != NULL ? height - gCourseWaterEfct->mHeight : MAP_OBJECT_FAR_VALUE;
 }
 
 s32 IsFarBelowWaterEfct(s32 height) {

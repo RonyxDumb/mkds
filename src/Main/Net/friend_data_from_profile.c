@@ -7,7 +7,7 @@
 void InitFriendDataFromGsProfileId(DWCAccFriendData *friendData, u32 gsProfileId) {
     MI_CpuFill8(friendData, 0, 0xc);
     DWCi_Acc_SetGsProfileId(friendData, gsProfileId);
-    SetFriendDataType(friendData, 3);
+    SetFriendDataType(friendData, ACCOUNT_DATA_TYPE_GS_PROFILE_ID);
 }
 
 #pragma thumb off

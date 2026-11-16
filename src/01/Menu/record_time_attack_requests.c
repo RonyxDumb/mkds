@@ -215,8 +215,8 @@ void SetupRecordTAtt(void) {
         }
     }
     mainLayoutCount = gRecordTAtt->mRecordTAttMBncl->mCount;
-    if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5)) {
-        result = GetTimeRecordCharacterIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5);
+    if (IsTimeRecordFilled(gRecordTAttCourseIds[gRecordTAtt->mIndex], TIME_RECORD_BEST_LAP)) {
+        result = GetTimeRecordCharacterIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], TIME_RECORD_BEST_LAP);
         gRecordTAtt->mRecordTAttMTable[5].mVisible = 1;
         sourceCellIndex = gRecordTAttCharacterCells[result];
         QueueCellChars(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterChars,
@@ -229,15 +229,15 @@ void SetupRecordTAtt(void) {
                 (GetCellPaletteIndex(sourceCellIndex, gRecordTAtt->mPlayerCharacterCells, gRecordTAtt->mPlayerCharacterCellLayout)
                  << 5),
             0x20);
-        result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5);
+        result = GetTimeRecordKartIndex(gRecordTAttCourseIds[gRecordTAtt->mIndex], TIME_RECORD_BEST_LAP);
         gRecordTAtt->mRecordTAttMTable[6].mVisible = 1;
         QueueKartIcon(result, gRecordTAtt->mRecordTAttMNcer, gRecordTAtt->mRecordTAttMBncl, 6, 6, 0);
-        GetTimeRecordTime(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5, &time);
+        GetTimeRecordTime(gRecordTAttCourseIds[gRecordTAtt->mIndex], TIME_RECORD_BEST_LAP, &time);
         FormatTimeAscii(&time, str);
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 2].mVisible = 1;
         PrintLabelLayoutTextFixedDigits(0, 2, gRecordTAtt->mRecordTAttMBnll, str, gRecordTAtt->mRecordTAttMBncl,
                                         gRecordTAtt->mRecordTAttMTable, 7);
-        GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], 5, name);
+        GetTimeRecordName(gRecordTAttCourseIds[gRecordTAtt->mIndex], TIME_RECORD_BEST_LAP, name);
         MI_CpuFill8(str, 0, sizeof(str));
         MIi_CpuCopy16(name, str, sizeof(name));
         gRecordTAtt->mRecordTAttMTable[mainLayoutCount + 4].mVisible = 1;

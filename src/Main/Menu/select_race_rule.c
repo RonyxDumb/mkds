@@ -461,9 +461,10 @@ void RefreshSelectCupCourseForIndex(void) {
                                             selectCupCourse->mSelectCupCourseTaOrVsMBncl,
                                             selectCupCourse->mSelectCupCourseTaOrVsMTable, 9);
         }
-        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5)) {
-            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex], 5,
-                              &recordTime);
+        if (IsTimeRecordFilled(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex],
+                               TIME_RECORD_BEST_LAP)) {
+            GetTimeRecordTime(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex],
+                              TIME_RECORD_BEST_LAP, &recordTime);
             FormatTimeFullWidth(&recordTime, timeText);
             selectCupCourse = gSelectCupCourse;
             PrintLabelLayoutTextFixedDigits(0, 5, selectCupCourse->mSelectCupCourseTaOrVsMBnll, timeText,

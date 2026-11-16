@@ -32,7 +32,7 @@ u32 GetFriendDataGsProfileId(const DWCAccFriendData *friendData) {
 
 void DWCi_Acc_SetUserId(DWCAccFriendData *loginid, u32 useridLo, u32 useridHi) {
     enum { SHIFT_NONE } shift = SHIFT_NONE;
-    DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, 0x7ff);
+    DWCi_Acc_SetMaskBits(&loginid->mIdData, useridHi, shift, ACCOUNT_USER_ID_HIGH_MASK);
     loginid->mUserIdLo32 = useridLo;
 }
 
@@ -208,7 +208,7 @@ void DWCi_Acc_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
     userdata->mGsProfileId = 0;
     userdata->mGamecode = gamecode;
     DWCi_Acc_CreateTempLoginId(&userdata->mPseudo);
-    SetFriendDataType(&userdata->mAuthentic, 0);
+    SetFriendDataType(&userdata->mAuthentic, ACCOUNT_DATA_TYPE_NONE);
     Crc32InitTable(crcTable, 0xedb88320);
     userdata->mCrc32 = Crc32(crcTable, userdata, 0x3c);
     userdata->mFlag |= 1;
@@ -228,7 +228,7 @@ void DWCi_Acc_CreateTempLoginId(DWCAccFriendData *loginid) {
     }
     rand = tick * 0x5d588b656c078965ull + 0x269ec3;
     DWCi_Acc_SetPlayerId(loginid, rand >> 32);
-    SetFriendDataType(loginid, 1);
+    SetFriendDataType(loginid, ACCOUNT_DATA_TYPE_LOGIN_ID);
 }
 
 BOOL DWCi_Acc_CheckConsoleUserId(const DWCAccFriendData *loginid) {
@@ -275,7 +275,7 @@ BOOL DWCi_Acc_IsAuthentic(const DWCAccUserData *userdata) {
 u32 IsFriendDataTypeNonZero(const void *friendData) {
     int dataType;
     dataType = DWCi_Acc_GetFlag_DataType(friendData);
-    if (dataType != 0) {
+    if (dataType != ACCOUNT_DATA_TYPE_NONE) {
         return 1;
     }
     return 0;
@@ -298,7 +298,7 @@ void DWC_CreateUserData(DWCAccUserData *userdata, u32 gamecode) {
 BOOL DWC_CheckValidConsole(const DWCAccUserData *userdata) {
     DWCAuthWiFiId id;
 
-    if (DWCi_Acc_GetFlag_DataType(&userdata->mAuthentic) == 0) {
+    if (DWCi_Acc_GetFlag_DataType(&userdata->mAuthentic) == ACCOUNT_DATA_TYPE_NONE) {
         return 1;
     }
     DWC_Auth_GetId(&id);
@@ -379,7 +379,7 @@ u64 DWC_CreateFriendKey(const DWCAccUserData *userdata) {
 void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh) {
     MI_CpuFill8(friendData, 0, 0xc);
     DWCi_Acc_SetFriendKey(friendData, friendKeyLow, friendKeyHigh);
-    SetFriendDataType(friendData, 2);
+    SetFriendDataType(friendData, ACCOUNT_DATA_TYPE_FRIEND_KEY);
 }
 
 #pragma thumb off
@@ -390,7 +390,7 @@ void DWC_CreateExchangeToken(const DWCAccUserData *userdata, DWCAccFriendData *t
     MI_CpuFill8(token, 0, 12);
     if (DWCi_Acc_IsAuthentic(userdata) != 0) {
         DWCi_Acc_SetGsProfileId(token, userdata->mGsProfileId);
-        SetFriendDataType(token, 3);
+        SetFriendDataType(token, ACCOUNT_DATA_TYPE_GS_PROFILE_ID);
     } else {
         *token = userdata->mPseudo;
     }

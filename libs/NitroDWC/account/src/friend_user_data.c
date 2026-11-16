@@ -16,20 +16,20 @@ BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFrie
     if (type != DWCi_Acc_GetFlag_DataType(frienddata2)) {
         return 0;
     }
-    if (type == 3) {
+    if (type == ACCOUNT_DATA_TYPE_GS_PROFILE_ID) {
         if (GetFriendDataGsProfileId(frienddata1) == GetFriendDataGsProfileId(frienddata2)) {
             return 1;
         }
         return 0;
     }
-    if (type == 1) {
+    if (type == ACCOUNT_DATA_TYPE_LOGIN_ID) {
         if (DWCi_Acc_GetUserId(frienddata1) == DWCi_Acc_GetUserId(frienddata2) &&
             GetFriendDataPlayerId(frienddata1) == GetFriendDataPlayerId(frienddata2)) {
             return 1;
         }
         return 0;
     }
-    if (type == 2) {
+    if (type == ACCOUNT_DATA_TYPE_FRIEND_KEY) {
         if (DWCi_Acc_GetFriendKey(frienddata1) == DWCi_Acc_GetFriendKey(frienddata2)) {
             return 1;
         }
@@ -41,13 +41,13 @@ BOOL DWC_IsEqualFriendData(const DWCAccFriendData *frienddata1, const DWCAccFrie
 void DWC_ReportFriendData(const DWCAccUserData *userdata, const DWCAccFriendData *frienddata) {
     u8 text[0x24];
     u64 friendKey;
-    if (DWCi_Acc_GetFlag_DataType(frienddata) != 3) {
-        if (DWCi_Acc_GetFlag_DataType(frienddata) == 2) {
+    if (DWCi_Acc_GetFlag_DataType(frienddata) != ACCOUNT_DATA_TYPE_GS_PROFILE_ID) {
+        if (DWCi_Acc_GetFlag_DataType(frienddata) == ACCOUNT_DATA_TYPE_FRIEND_KEY) {
             friendKey = DWCi_Acc_GetFriendKey(frienddata);
             FormatFriendKey(friendKey, friendKey >> 32, (u32) text);
             return;
         }
-        if (DWCi_Acc_GetFlag_DataType(frienddata) == 1) {
+        if (DWCi_Acc_GetFlag_DataType(frienddata) == ACCOUNT_DATA_TYPE_LOGIN_ID) {
             DWCi_Acc_LoginIdToUserName(frienddata, userdata->mGamecode, (char *) &text[0xd]);
         }
     }

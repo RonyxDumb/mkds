@@ -425,7 +425,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
 
 u32 GetItemBoxMaxGroupDistance(ItemBox *itemBox) {
     if (itemBox->mNoCourseRow != 0) {
-        return 0x270f000;
+        return MAP_OBJECT_FAR_VALUE;
     }
     if (itemBox->mUsesGroupShadow == 0) {
         return 0;

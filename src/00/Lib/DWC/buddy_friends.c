@@ -386,7 +386,8 @@ s32 DWCi_RefreshFriendListAll(DWCAccFriendData *friendList, s32 friendListLength
                     laterEntry = &friendList[laterIndex];
                     do {
                         if (currentProfileId == DWCi_GetProfileIDFromList(laterIndex)) {
-                            if (GetFriendDataType(typeCheckEntry) == 2 && GetFriendDataType(laterEntry) == 3) {
+                            if (GetFriendDataType(typeCheckEntry) == ACCOUNT_DATA_TYPE_FRIEND_KEY &&
+                                GetFriendDataType(laterEntry) == ACCOUNT_DATA_TYPE_GS_PROFILE_ID) {
                                 InitFriendDataFromGsProfileId(updatedEntry, currentProfileId);
                             }
                             if (DWC_IsBuddyFriendData(laterEntry) != 0) {

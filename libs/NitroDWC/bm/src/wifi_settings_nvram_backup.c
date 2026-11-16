@@ -266,7 +266,7 @@ static inline u32 sendOneWord(u32 tag, u32 word) {
 
 BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
     u32 sending;
-    u32 tag;
+    u32 tag; // also holds the command state after the wait
     u32 bufAddr;
     u32 readHeader;
     u32 sizeWord;
@@ -340,7 +340,7 @@ BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
                 case NVRAM_STATE_WRITE_FAILED:
                     sending = sendOneWord(tag, 0x3002d00);
                     break;
-                case NVRAM_STATE_FINISH:
+                case NVRAM_STATE_WRITE_DISABLE:
                     sending = sendOneWord(tag, 0x3002100);
                     break;
             }
@@ -379,7 +379,7 @@ BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
                     break;
                 case NVRAM_STATE_WRITE_FAILED:
                     return sending;
-                case NVRAM_STATE_FINISH:
+                case NVRAM_STATE_WRITE_DISABLE:
                     return 1;
             }
         }
@@ -388,7 +388,7 @@ BOOL NVRAMm_ExecuteCommand(u32 nv_state, u32 addr, u16 size, u8 *srcp) {
 }
 
 BOOL readNvram(u32 address, u32 size, void *buf) {
-    u32 tag;
+    u32 tag; // also holds the command state after the wait
     DC_InvalidateRange(buf, size);
     tag = 4;
     while (PXI_IsCallbackReady(tag, 1) == 0) {
@@ -406,7 +406,7 @@ BOOL readNvram(u32 address, u32 size, void *buf) {
 }
 
 void writeNvram(u32 address, u16 size, void *data) {
-    u32 tag;
+    u32 tag; // also holds the command state after the wait
     tag = 4;
     while (PXI_IsCallbackReady(tag, 1) == 0) {
     }
@@ -432,7 +432,7 @@ BOOL verify(const u8 *src, u32 address, u32 size, const u8 *work) {
 }
 
 BOOL writeDisable(void) {
-    u32 tag;
+    u32 tag; // also holds the command state after the wait
     u32 proc;
     u32 delay;
     u32 zero;
@@ -442,7 +442,7 @@ BOOL writeDisable(void) {
     }
     PXI_SetFifoRecvCallback(4, (PXIFifoCallback) Callback_NVRAM);
     delay = 0x40000;
-    tag = 7;
+    tag = NVRAM_STATE_WRITE_DISABLE;
     zero = 0;
     while (1) {
         if (NVRAMm_ExecuteCommand(tag, zero, zero, (u8 *) zero) == 1) {

@@ -178,7 +178,7 @@ void DrawRaceNewRecordTaRow(RaceHudOamBuffer *oamBuffer, s32 index, s32 baseX, s
     cycleFrames = newRecordTa->mCycleFrames;
     isNewRecord = FALSE;
     record = newRecordTa->mRecords[index];
-    if (index == 5) {
+    if (index == TIME_RECORD_BEST_LAP) {
         if ((newRecordTa != NULL ? newRecordTa->mBestLapIsRecord : 0) != 0) {
             index = 0;
             isNewRecord = TRUE;
@@ -292,7 +292,7 @@ found:
         slot->mCharacterIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mCharacterIndex;
         slot->mKartIndex = gRaceSetup->mCurrentEntries[GetFollowedKartOrEntryIndex()].mKartIndex;
         SetCourseTimeRecord(gRaceSetup->mCourseId, recordIndex, slot);
-        if (recordIndex != 5) {
+        if (recordIndex != TIME_RECORD_BEST_LAP) {
             gRaceNewRecordTa->mFinishRecordIndex = recordIndex;
         }
     } else {
