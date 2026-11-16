@@ -105,7 +105,7 @@ void UpdateSinglePlaySelectMenuScreen3(void) {
 
     framesSinceSwitch = GetFramesSinceMenuScreenSwitch();
     gMenuScene->mSinglePlaySelectModePressOffset = GetSelectedPressOffset(framesSinceSwitch);
-    if (framesSinceSwitch >= 10) {
+    if (framesSinceSwitch >= SELECTED_PRESS_FRAMES) {
         SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_OUT,
                          nextScreenAndModeTable[gMenuScene->mSinglePlaySelectModeIndex][0]);
         ResetRaceSetupCopy();

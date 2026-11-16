@@ -763,7 +763,7 @@ void MoveSelectRaceRuleValueNext(s32 playSound) {
             SetPlayerEntryListShowAllEntries(1);
         }
     }
-    gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][1] = 6;
+    gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][1] = FRAME_OFFSET_COUNT;
     if (playSound != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
     }
@@ -818,7 +818,7 @@ void MoveSelectRaceRuleValuePrevious(s32 playSound) {
             SetPlayerEntryListShowAllEntries(1);
         }
     }
-    gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][0] = 6;
+    gSelectRaceRule->mRowChangeTimers[gSelectRaceRule->mRow][0] = FRAME_OFFSET_COUNT;
     if (playSound != 0) {
         NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 1);
     }
@@ -894,9 +894,9 @@ void AdvanceSelectRaceRuleRowObjects(void) {
             }
         } else {
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][0]].mOffsetX =
-                -LookupFrameOffset(6 - gSelectRaceRule->mRowChangeTimers[rowIndex][0]);
+                -LookupFrameOffset(FRAME_OFFSET_COUNT - gSelectRaceRule->mRowChangeTimers[rowIndex][0]);
             gSelectRaceRule->mTable[gSelectRaceRuleStepCellsChanging[rowIndex][1]].mOffsetX =
-                LookupFrameOffset(6 - gSelectRaceRule->mRowChangeTimers[rowIndex][1]);
+                LookupFrameOffset(FRAME_OFFSET_COUNT - gSelectRaceRule->mRowChangeTimers[rowIndex][1]);
             for (columnIndex = 0; columnIndex < 2; columnIndex++) {
                 if (gSelectRaceRule->mRowChangeTimers[rowIndex][columnIndex] > 0) {
                     gSelectRaceRule->mRowChangeTimers[rowIndex][columnIndex]--;

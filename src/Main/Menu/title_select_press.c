@@ -19,7 +19,7 @@ void UpdateTitleSelectPress(void) {
 
     titleStateFrames = GetTitleStateFrames();
     gTitleScene->mSelectedOffset = GetSelectedPressOffset(titleStateFrames);
-    if (titleStateFrames >= 10) {
+    if (titleStateFrames >= SELECTED_PRESS_FRAMES) {
         SetTitleState(TITLE_STATE_SLIDE_OUT, TITLE_STATE_LEAVE);
     }
     SetupAndDrawTitleTable();
