@@ -55,7 +55,8 @@ typedef struct NNSG2dVramTransferData {
 } NNSG2dVramTransferData;
 
 // A cell bank: its cell count and attributes, the array of cells, the mapping mode and the VRAM transfer data.
-// mPCellDataArrayHead and mPVramTransferData are offsets until NNS_G2dUnpackNCE turns them into addresses.
+// mPCellDataArrayHead is an offset and mPVramTransferData is an offset when not 0, until NNS_G2dUnpackNCE turns them
+// into addresses.
 typedef struct NNSG2dCellDataBank {
     /* 00 */ u16 mNumCells;
     /* 02 */ u16 mCellBankAttr;
