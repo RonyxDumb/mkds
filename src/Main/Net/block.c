@@ -123,7 +123,7 @@ void AddGhostDataBlockWrapper(void *data, u32 size) {
 
 void RemoveGhostDataBlocks(void) {
     s32 blockIndex;
-    for (blockIndex = 0; blockIndex < 12; blockIndex++) {
+    for (blockIndex = 0; blockIndex < CONNECTION_BLOCK_ENTRY_COUNT; blockIndex++) {
         WBT_UnregisterBlock((u16) (blockIndex + 0x3e8));
         gConnectionWork->mBlockEntries[blockIndex].mBuffer = 0;
     }

@@ -105,7 +105,7 @@ s32 CheckFriendKeyString(const void *keyString) {
     InitFriendDataFromFriendKey(&friendData, friendKey, friendKey >> 32);
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
         DWCAccFriendData *entry;
 
         GetBuddyRecord(buddyIndex, &buddyRecord);
@@ -131,7 +131,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
 
     friendDataList = gBackupBuffers->mBuddyRecordBlock->mFriendData;
     foundIndex = -1;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
         DWCAccFriendData *entry;
 
         GetBuddyRecord(buddyIndex, &buddyRecord);
@@ -169,7 +169,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
     month = today[1];
     day = today[2];
     entry = friendDataList;
-    for (buddyIndex = 0; buddyIndex < 60; buddyIndex++, entry++) {
+    for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++, entry++) {
         GetBuddyRecord((u8) buddyIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && IsFriendDataTypeNonZeroWrapper(friendData) != 0 &&
             IsFriendDataTypeNonZeroWrapper(entry) != 0 && DWC_IsEqualFriendData(entry, friendData) != 0) {
@@ -185,7 +185,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         return -1;
     }
     if (slotIndex == -1) {
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+        for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             if (buddyRecord.mFilled == 0) {
                 slotIndex = buddyIndex;
@@ -198,7 +198,7 @@ s32 AddOrUpdateBuddyRecord(DWCAccFriendData *friendDataList, void *name, DWCAccF
         oldestDate.mYear = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_YEAR;
         oldestDate.mMonth = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_MONTH;
         oldestDate.mDay = BUDDY_RECORD_OLDEST_SEARCH_LIMIT_DAY;
-        for (buddyIndex = 0; buddyIndex < 60; buddyIndex++) {
+        for (buddyIndex = 0; buddyIndex < BUDDY_RECORD_COUNT; buddyIndex++) {
             GetBuddyRecord((u8) buddyIndex, &buddyRecord);
             recordDate.mYear = buddyRecord.mYear;
             recordDate.mMonth = buddyRecord.mMonth;

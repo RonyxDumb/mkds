@@ -72,7 +72,7 @@ void ResetConnection(void) {
     ResetConnectionData();
     blocks = &gConnectionWork->mBlockTransfer;
     blockEntry = &blocks->mBlockEntries[0];
-    for (index = 0; index < 0xc; index++) {
+    for (index = 0; index < CONNECTION_BLOCK_ENTRY_COUNT; index++) {
         blockEntry->mPath[0] = 0;
         blockEntry->mBuffer = NULL;
         blockEntry++;

@@ -11,9 +11,10 @@
 #include "Main/Race/race_setup_block.h"
 #include "Main/MapObjects/map_object_park.h"
 
-const u8 gDefaultParentParameter[64] = {0, 0, 0,    0, 0, 0, 0, 0, 0x25, 0, 0,    0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0,
-                                        0, 0, 0xc8, 0, 0, 0, 0, 0, 0,    0, 0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                        0, 0, 0,    0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+const u8 gDefaultParentParameter[64] = {
+    0, 0, 0, 0, 0, 0, 0, 0, CONNECTION_GAME_GROUP_ID, 0, 0, 0, 0, 0, 1, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0xc8, 0, 0, 0, 0,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0xbc, 1, 0x36, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+};
 
 #pragma opt_rebuildconditionals off
 

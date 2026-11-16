@@ -116,7 +116,7 @@ s32 IsSelectedMemberRowSelectable(void) {
     if (selectedIndex != MULTI_SELECT_MEMBER_GROUP_NS_ROW) {
         memberChecksPass = FALSE;
         if (gMultiSelectMemberGroup->mMemberRows[selectedIndex].mHasText != 0 &&
-            gMultiSelectMemberGroup->mMemberRows[selectedIndex].mChildCount < 7) {
+            gMultiSelectMemberGroup->mMemberRows[selectedIndex].mChildCount < CHILD_LIST_MAX_CHILDREN) {
             memberChecksPass = TRUE;
         }
         if (memberChecksPass == FALSE) {
@@ -498,7 +498,7 @@ s32 AdvanceMultiSelectMemberGroup(SceneNumbers *sceneNumbers) {
                     if (IsRectInMemberRow(rectIndex, rowIndex) != 0) {
                         selectionChanged = gMultiSelectMemberGroup->mSelectedIndex != rowIndex ? 1 : 0;
                         if (gMultiSelectMemberGroup->mMemberRows[rowIndex].mHasText != 0 &&
-                            gMultiSelectMemberGroup->mMemberRows[rowIndex].mChildCount < 7) {
+                            gMultiSelectMemberGroup->mMemberRows[rowIndex].mChildCount < CHILD_LIST_MAX_CHILDREN) {
                             NNS_SndArcSetCurrent(&gOnMemorySndArc);
                             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 2);
                             NNS_SndArcSetCurrent(&gFileSndArc);

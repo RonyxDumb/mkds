@@ -22,7 +22,7 @@ void InitBackupBuffers(void *heap) {
     gBackupBuffers->mReadDestination = NULL;
     ResetBackupFirstBlockAndRecords(1);
     gBackupBuffers->mFailedBlockBits = 0;
-    gBackupBuffers->mReadStatus = 0;
+    gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_OK;
     gBackupBuffers->mUnk_44 &= ~1;
     gBackupBuffers->mBusy = 0;
 }

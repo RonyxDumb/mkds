@@ -26,6 +26,9 @@
 // Bytes of the pixels of one emblem, and of its converted tiles.
 #define EMBLEM_PIXEL_BYTES 0x200
 
+// Bytes of a player name: ten 16-bit characters.
+#define PLAYER_NAME_BYTES 0x14
+
 // Values of BackupFirstBlock.mSoundMode.
 typedef enum { SOUND_MODE_SURROUND, SOUND_MODE_STEREO, SOUND_MODE_HEADPHONES } SoundMode;
 
@@ -91,7 +94,7 @@ typedef struct PackedGrandPrixRecord {
             u32 mMillisecond : 10;
         };
     };
-    /* 08 */ u8 mName[0x14];
+    /* 08 */ u8 mName[PLAYER_NAME_BYTES];
 } PackedGrandPrixRecord;
 
 // The saved Grand Prix records: entries by engine class and cup.
@@ -115,7 +118,7 @@ typedef struct PackedCourseTimeRecord {
     };
     /* 04 */ u8 mKartIndex;
     /* 05 */ u8 mUnk_05[3];
-    /* 08 */ u8 mName[0x14];
+    /* 08 */ u8 mName[PLAYER_NAME_BYTES];
 } PackedCourseTimeRecord;
 
 // The saved course time records: the best times and the best lap, by course.
@@ -173,7 +176,7 @@ typedef struct GhostRecordHead {
             u32 mMillisecond : 10;
         };
     };
-    /* 0c */ u8 mName[0x14];
+    /* 0c */ u8 mName[PLAYER_NAME_BYTES];
     /* 20 */ u8 mLapTimes[0xf];
     /* 2f */ union {
         u8 mUnk_2f;
@@ -217,7 +220,7 @@ typedef struct BuddyRecord {
             u16 mDay : 5;
         };
     };
-    /* 0e */ u8 mName[0x14];
+    /* 0e */ u8 mName[PLAYER_NAME_BYTES];
     /* 22 */ union {
         u8 mUnk_22;
         struct {
@@ -418,9 +421,6 @@ typedef struct BlockTransferView {
     /* 7a7 */ u8 mUnk_7a7[1];
 } BlockTransferView;
 
-// Bytes of a player name: ten 16-bit characters.
-#define PLAYER_NAME_BYTES 0x14
-
 // What a console tells the others about its player: name, emblem, Elo, friend data and region and language.
 typedef struct PlayerRecord {
     /* 000 */ u8 mName[PLAYER_NAME_BYTES];
@@ -450,7 +450,7 @@ typedef struct ScanMacAddress {
 typedef struct ScanSlot {
     /* 00 */ WMBssDesc mUnk_00;
     /* c0 */ ScanMacAddress mKey;
-    /* c6 */ u8 mName[0x14];
+    /* c6 */ u8 mName[PLAYER_NAME_BYTES];
     /* da */ u8 mChildCount;
     /* db */ u8 mAge;
     /* dc */ union {

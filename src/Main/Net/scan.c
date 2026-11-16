@@ -369,7 +369,7 @@ void StartConnect(WMBssDesc *parentBssDesc, void *customUserData, void (*connect
         *gConnectionWork->mParentBssDesc = *parentBssDesc;
     }
     if (customUserData == NULL) {
-        userData[0x14] = 0;
+        userData[PLAYER_NAME_BYTES] = 0;
         if (gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
             userData[0x14] = userData[0x14] | 1;
         }

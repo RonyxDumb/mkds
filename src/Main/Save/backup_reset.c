@@ -27,7 +27,7 @@ void ReadBackupFirstBlockAndRecords(void) {
     u16 failedBlockBits;
 
     failedBlockBits = 0;
-    gBackupBuffers->mReadStatus = 0;
+    gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_OK;
     ReadBackupFirstBlock(gBackupBuffers->mFirstBlock);
     if (gBackupAccess->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
@@ -76,11 +76,11 @@ void ReadBackupFirstBlockAndRecords(void) {
     if (gBackupAccess->mErrorCode != BACKUP_ERROR_NONE) {
         failedBlockBits |= BACKUP_FAILED_BUDDY_RECORD;
     }
-    if (gBackupBuffers->mReadStatus == 0) {
+    if (gBackupBuffers->mReadStatus == BACKUP_READ_STATUS_OK) {
         if (failedBlockBits != 0) {
             gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_BLOCKS_FAILED;
         } else {
-            gBackupBuffers->mReadStatus = 0;
+            gBackupBuffers->mReadStatus = BACKUP_READ_STATUS_OK;
         }
     }
     gBackupBuffers->mFailedBlockBits = failedBlockBits;

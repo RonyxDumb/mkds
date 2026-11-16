@@ -36,7 +36,7 @@ void RefreshNotYetBuddyFlags(void) {
     BuddyRecord buddyRecord;
     u8 recordIndex;
 
-    for (recordIndex = 0; recordIndex < 60; recordIndex++) {
+    for (recordIndex = 0; recordIndex < BUDDY_RECORD_COUNT; recordIndex++) {
         GetBuddyRecord(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
             DWC_IsBuddyFriendData(&gBackupBuffers->mBuddyRecordBlock->mFriendData[recordIndex]) != 0) {
