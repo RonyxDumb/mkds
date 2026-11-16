@@ -99,9 +99,9 @@ void QueueEndingSceneIndex1Data(void) {
 
 void LoadAndQueueEndingSceneData(void) {
 #ifdef version_EUR
-    LoadNcgrData(&gEndingScene->mLogoEndMarioKartMBAndThanksYouMBNcgrs[0],
+    LoadNcgrData(&gEndingScene->mLogoAndThanksYouMBChars[0],
                  FindSceneFile("logo_end_marioKart_m_b_02.ncgr"));
-    LoadNscrData(&gEndingScene->mLogoEndMarioKartMBgAndThanksYouMBgNscrs[0],
+    LoadNscrData(&gEndingScene->mLogoAndThanksYouMBgScreenMaps[0],
                  FindSceneFile("logo_end_marioKart_m_bg_02.nscr"));
 #else
     LoadNcgrData(&gEndingScene->mLogoAndThanksYouMBChars[0],
