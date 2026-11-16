@@ -5,7 +5,7 @@
 
 typedef struct WiFiStateCallbacks WiFiStateCallbacks;
 
-// The heap of the Wi-Fi VS course select screen.
+// The Wi-Fi VS course select state: mHeap, the heap it was started with.
 typedef struct WiFiVSCourseSelectHeapHolder {
     /* 0 */ u8 mUnk_00[4];
     /* 4 */ void *mHeap;

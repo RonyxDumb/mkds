@@ -119,7 +119,7 @@ enum {
 #define WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES 0x1e
 #define WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES 0x28
 
-// The Wi-Fi VS matching screen: its state, the other players found with names and emblems, heap and layout tables.
+// The Wi-Fi VS matching screen: its state, the other players found (indices, emblems), palette blend, heap and layouts.
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -355,7 +355,7 @@ enum {
     WIFI_LOGIN_STEP_FAILED = 7,
 };
 
-// The login state of a Wi-Fi session, of which only the step is known.
+// The login part of a Wi-Fi session: the object DWC_InitInet sets up, then mStep, the login step.
 typedef struct WiFiSessionLogin {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mStep;
@@ -409,7 +409,7 @@ typedef struct KartKey {
     /* 14 */ u8 mId;
 } KartKey;
 
-// The online session: its state machine, per-player records, saved buddy list, picks and the roster of karts.
+// The Wi-Fi session: its state machine, per-player records, saved buddy list, picks and the karts taking part.
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;

@@ -18,7 +18,7 @@ enum {
 #define WIFI_AIKOTOBA_CHECK_SLIDE_FRAMES 15
 #define WIFI_AIKOTOBA_CHECK_OFFSET_HIDDEN 0x50
 
-// The Wi-Fi password check screen: its state, the entered digits, heap, cell and layout tables and messages.
+// The Wi-Fi friend key screen: its state, the shown digits, heap, cell and layout tables and messages.
 typedef struct WiFiAikotobaCheck {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

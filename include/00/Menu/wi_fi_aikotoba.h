@@ -21,13 +21,14 @@ enum {
 };
 
 // Frames the two cell rows take to slide in or out, the press state lasts, and the frame of it where the highlight
-// shows again; the x offset of the table cells while they are off screen.
+// shows again; the x offset of the table cells while they are off screen (the first row's cells use the negative of it
+// while sliding).
 #define WIFI_AIKOTOBA_SLIDE_FRAMES 10
 #define WIFI_AIKOTOBA_PRESS_FRAMES 10
 #define WIFI_AIKOTOBA_PRESS_HIGHLIGHT_FRAMES 5
 #define WIFI_AIKOTOBA_OFFSET_HIDDEN 0xfa
 
-// The Wi-Fi password screen: its state, selected index, heap, cell and layout tables and messages.
+// The Wi-Fi friend key menu: its state, selected index, heap, cell and layout tables and messages.
 typedef struct WiFiAikotoba {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

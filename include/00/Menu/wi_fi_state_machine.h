@@ -32,7 +32,7 @@ enum {
     WIFI_STATE_SCENE_RECORD,
 };
 
-// The WiFi menu state machine: its heaps, current, next and previous state, step counter and requested scene.
+// The WiFi menu state machine: its heaps, current, next and previous state, requested scene and callbacks.
 typedef struct WiFiStates {
     /* 00 */ void *mHeap;
     /* 04 */ void *mStateHeap;
