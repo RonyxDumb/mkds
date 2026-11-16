@@ -4,8 +4,7 @@
 #include "Main/MapObjects/segment_group_collision.h"
 #include "Main/Course/course_map_group_entry.h"
 
-// Object of 0x38 bytes whose first 0x24 bytes are an GroupFollower (AdvanceGroupFollowerWithSpeeds,
-// SetupGroupFollowerWithSpeeds, ReverseGroupFollower).
+// A GroupFollower with its speeds: the speed per entry unit, the default, from, initial and to speeds.
 typedef struct GroupFollowerWithSpeeds {
     /* 00 */ GroupFollower mGroupFollower;
     /* 24 */ s32 mSpeedPerEntryUnit;

@@ -9,7 +9,7 @@ typedef struct Woodbox1 Woodbox1;
 typedef struct Kart Kart;
 typedef struct ItemObject ItemObject;
 
-// Initialiser stored into the 0x40-byte object CreateWoodbox1KindData allocates.
+// The kind data of the Woodbox1 map object: collision callbacks, shape, extents, sound ids and view settings as words.
 typedef struct Woodbox1KindData {
     /* 00 */ u32 (*mCollideKartCallback)(Woodbox1 *woodbox, Kart *kart, u8 *firstResponse, u8 *response);
     /* 04 */ u32 (*mCollideItemObjectCallback)(Woodbox1 *woodbox, ItemObject *itemObject, u8 *firstResponse,

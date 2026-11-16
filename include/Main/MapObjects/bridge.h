@@ -9,7 +9,7 @@
 #include "Main/Graphics/model_animation.h"
 #include "Main/MapObjects/pendulum.h"
 
-// Object of kind 0xcc (Bridge) that InitBridge fills.
+// A bridge map object that InitBridge fills: collision data, swing amplitude and angles, pause counts, animation frame.
 typedef struct Bridge {
     /* 000 */ CollisionMapObject mCollisionMapObject;
     /* 144 */ u16 mSwingAmplitude;

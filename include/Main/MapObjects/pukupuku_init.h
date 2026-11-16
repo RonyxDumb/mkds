@@ -11,7 +11,7 @@
 
 typedef struct Rotary Rotary;
 
-// Object InitPukupuku sets up, 0x10c bytes.
+// A Pukupuku map object that InitPukupuku sets up: the pushed object, initial position, jumps, shadow and ground slope.
 typedef struct Pukupuku {
     /* 00 */ PushedObject mPushedObject;
     /* b8 */ Vec3 mInitialPos;

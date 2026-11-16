@@ -21,7 +21,7 @@
 
 #define SHINE_BATTLE_START_FRAMES 0x5a
 
-// Object of the list FindMapObjectKindUpdateList(0x6b): the shared MapObject part, then three words.
+// The shine battle map object: whether a shine is held, the random pick skip and the shine start frames.
 typedef struct ShineBattle {
     /* 00 */ MapObject mMapObject;
     /* a0 */ BOOL mHasShine;

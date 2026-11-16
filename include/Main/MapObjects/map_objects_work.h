@@ -14,7 +14,7 @@
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
 
-// 0x2bc bytes.
+// The map object manager: the map object array, the draw and update lists and the flags for the special kinds present.
 typedef struct MapObjects {
     /* 000 */ MapObject **mMapObjects;
     // Pinned at 0xff when the 0x100-pointer array is full.

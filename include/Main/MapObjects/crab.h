@@ -28,7 +28,7 @@ enum {
     CRAB_STATE_RISE,
 };
 
-// Object of kind 0x1ac (Crab), one state per value of mState; draws crab and crab_hand.
+// The crab map object, one state per value of mState: its spin, timer, crab and hand frames, wobbles and path follower.
 typedef struct Crab {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mRotateZAnglePerFrame;

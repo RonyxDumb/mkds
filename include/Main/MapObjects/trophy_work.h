@@ -6,7 +6,7 @@
 #include "Main/Graphics/model_animation.h" // ModelAnimation
 #include "Main/MapObjects/teresa.h" // TeresaWobble
 
-// Object behind gTrophy (a 0x124-byte allocation).
+// The trophy shown on a menu screen: its model and animation, rotation, light directions and particle effects.
 typedef struct Trophy {
     /* 000 */ u16 mModelIndex;
     /* 002 */ u16 mRankIndex;

@@ -103,7 +103,7 @@ typedef struct Choropu {
     /* 0bc */ ShadowMatrix mShadowMatrix;
 } Choropu;
 
-// 0x164 bytes.
+// A vehicle map object: its rotations, tires, extents, model, shadow, animation, path follower and sound ids.
 typedef struct Vehicle {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ s32 mStartEntryY;
@@ -134,8 +134,7 @@ typedef struct Vehicle {
     /* 160 */ u32 mBounceSoundId;
 } Vehicle;
 
-// Map object with a collision block: the part that the collision routines read, which Koopa blocks and the kinds 0xcb,
-// 0xcc, 0xce, 0xd0 and 0xd1 share.
+// A map object with collision data and a model: the part the collision routines read, shared by several kinds.
 typedef struct CollisionMapObject {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ CollisionData mCollisionData;
@@ -176,7 +175,7 @@ typedef struct Rotary {
     /* 15c */ s32 mSoundId;
 } Rotary;
 
-// Object behind gBridgeDrawList, and the list of the kinds 0xcb, 0xce, 0xd0 and 0xd1.
+// The draw list of the bridge map objects: a map object list and the animation frame count.
 typedef struct BridgeDrawList {
     /* 00 */ MapObjectList mMapObjectList;
     /* 28 */ s32 mUnk_28;

@@ -25,7 +25,7 @@
 #define CREAM_ITEM_HIT_SOUND_ID 0x156
 #define BERRY_ITEM_HIT_SOUND_ID 0x155
 
-// Object of kinds 0x1a8, 0x1b4 and 0x1b5 (Bound, Cream, Berry); mWobbling is set while its scale wobbles.
+// A bouncing map object (Bound, Cream, Berry): its wobbling scale, path follower and per-kart push timers.
 typedef struct Bound {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u16 mNsbtpFrameIndex;
@@ -66,8 +66,7 @@ typedef struct Bound {
 #define SUN_STATE_SHOOT_FIREBALLS 3
 #define SUN_STATE_SPIN_DOWN 4
 
-// Sun, kind 0x1ad: UpdateSun steps mState through the SUN_STATE_* values and back; SUN_STATE_SHOOT_FIREBALLS unparks a
-// MAP_OBJECT_KIND_SUN_FIREBALL object twice per cycle.
+// The sun map object: UpdateSun steps mState through SUN_STATE_*; SUN_STATE_SHOOT_FIREBALLS unparks its fireballs.
 typedef struct Sun {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ u32 mFireballIndex;

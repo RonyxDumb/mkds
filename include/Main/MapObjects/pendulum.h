@@ -15,8 +15,7 @@
 
 #define PENDULUM_SOUND_ID 0x173
 
-// Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
-// DrawPendulum; at least 0x110 bytes.
+// A pendulum map object: its rotation, positions, shadow matrix, swing amplitude and angle, and radius.
 typedef struct PendulumObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Quaternion mRotationQuaternion;
@@ -41,7 +40,7 @@ typedef struct PendulumObject {
 #define POLYGON_ATTR_ID_SHIFT 24
 #define POLYGON_ATTR_ID_MASK 0x3f000000
 
-// Allocated by CreateNsbmdModel and CreateItemModel, filled in by FillNsbmdModel, 0x2c bytes.
+// A model drawn from a display list: its display list, scale, light and polygon settings, animation frame and nsbtp.
 typedef struct NsbmdModel {
     /* 00 */ u8 *mDisplayList;
     /* 04 */ u32 mDisplayListSize;

@@ -10,7 +10,7 @@
 #include "particle_instance.h" // ParticleEmitter
 #include "Main/Menu/second_menu_scene.h"
 
-// Object of at least 0xf4 bytes, made by CreateMapObject and filled in by InitMkdEfBubble.
+// A bubble effect map object that InitMkdEfBubble fills: delay, vertical range, shadow matrix and two particle effects.
 typedef struct MkdEfBubbleObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mDelayFrameCount;

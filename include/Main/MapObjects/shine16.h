@@ -76,8 +76,7 @@ enum {
     KART_BALLOONS_STATE_SHRINK,
 };
 
-// The balloons of one kart (0x38 bytes, one per kart index in the kind 0x69 object; Standings.mKartBalloons points at
-// the first): the list of its Balloon objects with the state that makes, inflates and holds them.
+// The balloons of one kart, one per kart index in KartBalloonsObject: their Balloon objects and the state making them.
 typedef struct KartBalloons {
     // Frames left before the next balloon is made (state 0); 30 after a balloon is finished with none left to make, 0
     // when one is gone.
@@ -96,8 +95,7 @@ typedef struct KartBalloons {
     /* 34 */ s32 mState;
 } KartBalloons;
 
-// Object of map object kind 0x69: steps the balloons of every kart. A MapObject first, then mStartTimer, eight
-// KartBalloons and the balloon offsets; 0x364 bytes, the size in its kind descriptor.
+// The map object that steps the balloons of every kart: mStartTimer, a KartBalloons per kart and the balloon offsets.
 typedef struct KartBalloonsObject {
     /* 000 */ MapObject mMapObject;
     // Frames left before the first balloons are made: the update does nothing until it reaches 0, then puts every entry

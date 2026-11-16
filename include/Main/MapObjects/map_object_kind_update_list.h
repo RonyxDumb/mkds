@@ -85,7 +85,7 @@ extern MapObjectKindRow gMapObjectKindRows[];
 #define MAP_OBJECT_KIND_KURIKING 0x1f7
 #define MAP_OBJECT_KIND_BERRY 0x1b5
 
-// Object behind MapObjectKindRow.mUnk_04.
+// The descriptor of a map object kind: object count and size, init and list creation functions, kind data and lists.
 typedef struct MapObjectKindDescriptor {
     /* 00 */ u16 mObjectCount;
     /* 02 */ u8 mUnk_02[2];

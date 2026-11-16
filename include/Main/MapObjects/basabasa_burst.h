@@ -9,7 +9,7 @@
 
 typedef struct MapObjectList MapObjectList;
 
-// Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
+// A Basabasa burst map object: a cycle length, a timer, the burst count and its state.
 typedef struct BasabasaBurst {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mCycleFrames;

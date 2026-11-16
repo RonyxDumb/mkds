@@ -88,7 +88,7 @@ typedef struct KuriboDrawList {
     /* 14 */ u8 mUnk_14[0x18];
 } KuriboDrawList;
 
-// 0x2c bytes: a list and a word.
+// The draw list of Dossun map objects: a map object list and a word.
 typedef struct DossunDrawList {
     /* 00 */ MapObjectList mList;
     /* 28 */ u32 mUnk_28;

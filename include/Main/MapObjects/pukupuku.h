@@ -59,7 +59,7 @@ void EnterPukupukuHop(void *stateObject);
 
 void UpdatePukupuku(u32 unused, Pukupuku *pukupuku);
 
-// 0x10-byte request built on the stack here.
+// The shadow request of a Pukupuku: a scale and a position.
 typedef struct PukupukuShadowParams {
     /* 00 */ s32 mScale;
     /* 04 */ Vec3 mPos;

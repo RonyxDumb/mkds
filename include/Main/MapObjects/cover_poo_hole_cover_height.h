@@ -49,7 +49,7 @@ enum {
 #define COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP 0x800
 #define COVER_POO_HOLE_TILT_WOBBLE_ANGLE_STEP_CHANGE 0x100
 
-// Object up to 0x109 bytes.
+// A cover and poo hole map object: cover, poo and hole heights, state, hit state and the wobbles a hit starts.
 typedef struct CoverPooHole {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mCoverHeight;

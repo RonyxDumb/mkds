@@ -24,7 +24,7 @@
 #define COLLISION_SLOT_FLAG_DISABLED 0x200 // the searches skip the slot
 #define COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE 0x400 // SetCollisionSlotRadius also sets the radius changed bit
 
-// 0x1c-byte element of the table behind gCollisionSlots.
+// One entry of the table behind gCollisionSlots: its end indices, z range, center, radius, flags and object.
 typedef struct CollisionSlot {
     /* 00 */ s16 mHighEndIndex;
     /* 02 */ s16 mLowEndIndex;
@@ -41,7 +41,7 @@ static inline CollisionSlot *GetCollisionSlot(s16 slotId) {
     return &gCollisionSlots[slotId];
 }
 
-// Four-byte element of the tables behind gCollisionSlotHighEnds and gCollisionSlotLowEnds.
+// One end of a collision slot (gCollisionSlotHighEnds, gCollisionSlotLowEnds): the other end's index, a slot index, x.
 typedef struct CollisionSlotEnd {
     /* 00 */ u32 mOtherEndIndex : 8;
 // Low-end list: the slot index. High-end list: the lowest low-end index the search scans down to.

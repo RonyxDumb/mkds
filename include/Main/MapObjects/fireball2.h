@@ -9,7 +9,7 @@
 #define FIREBALL2_KART_HIT_FRAMES 0xb
 #define FIREBALL2_ROW_ANGLE_SPACING 0x10000
 
-// Element of 0x10 bytes: a position, then two halfwords.
+// One fireball of a Fireball2: its position and two angles.
 typedef struct Fireball2Element {
     /* 00 */ Vec3 mPos;
     /* 0c */ u16 mAngle;

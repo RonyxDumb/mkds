@@ -18,7 +18,7 @@ typedef struct PushedMotion {
     /* 14 */ s32 mPushSpeed;
 } PushedMotion;
 
-// First 0xb8 bytes of the kinds the pushed-motion functions work on; each kind embeds it first.
+// A map object that can be pushed: the MapObject and its PushedMotion; the pushed-motion kinds embed it first.
 typedef struct PushedObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ PushedMotion mMotion;

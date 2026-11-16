@@ -21,8 +21,7 @@ enum {
     SHINE_BALLOON_STATE_DISAPPEAR,
 };
 
-// Object of the list FindMapObjectKindUpdateList(0x70): the shared MapObject part, then the words and the pointer
-// StartShineBalloon sets.
+// A shine balloon map object: a pulse scale and speed, a timer, the Kart it follows and its state.
 typedef struct ShineBalloonObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mPulseScale;

@@ -6,7 +6,7 @@
 #include "Main/MapObjects/attractor.h"
 #include "01/MapObjects/map_object_model.h"
 
-// Object of 0xb0 bytes: the MapObject it starts with, then a halfword and three words.
+// A Kanoke64 map object: its animation frame, a timer, the burst count and its state.
 typedef struct Kanoke64 {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mNsbcaFrameIndex;

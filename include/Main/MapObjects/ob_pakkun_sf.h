@@ -23,7 +23,7 @@ enum {
     SECOND_HAND_STATE_PAUSE,
 };
 
-// Object InitSecondHand sets up, 0xd0 bytes.
+// A clock second hand map object that InitSecondHand sets up: its rotation, ramp, steady and pause frames and speed.
 typedef struct SecondHand {
     /* 00 */ MapObject mMapObject;
     /* a0 */ Quaternion mRotationQuaternion;

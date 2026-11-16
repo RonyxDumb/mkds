@@ -21,8 +21,7 @@ typedef struct TeresaWobble {
     /* 1c */ s32 mAnglePerFrameDelta;
 } TeresaWobble;
 
-// Object of kind 0x13b (Teresa), returned by UnparkFirstParkedMapObject for FindMapObjectKindUpdateList(0x13b), filled
-// by StartTeresa. The pool objects are made by another kind's init (InitTeresaSpawner).
+// A Teresa map object that StartTeresa fills: start position, alpha fade, wobbles, radius; one state per mState value.
 typedef struct Teresa {
     /* 000 */ MapObject mMapObject;
     /* 0a0 */ Vec3 mStartPos;

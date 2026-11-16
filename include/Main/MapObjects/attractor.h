@@ -30,7 +30,8 @@ typedef struct MapObjectSound {
 #define MAP_OBJECT_SHAPE_ROTATED_BOX 4
 #define MAP_OBJECT_SHAPE_CUSTOM_HIT_TEST 5
 
-// Object behind MapObject.mKindData; kinds whose rows point at the same record share it.
+// The per-kind data of map objects: collision callbacks, shape, extents, sound ids and view settings; kinds may share
+// it.
 typedef struct MapObjectKindData {
     /* 00 */ s32 (*mCollideKartCallback)(struct MapObject *mapObject, void *kart, s32 *firstResponse,
                                          s32 *secondResponse);
@@ -167,8 +168,7 @@ typedef struct MapObject {
 #define MAP_OBJECT_VIEW_DISTANCE_MASK 0x3fffffe0
 #define MAP_OBJECT_VIEW_SKIP_KIND_SOUND 0x40000000
 
-// Invisible attractor (map object kind 2): a table index and a strength after the shared part; a Kart on a hit-bit
-// 0x20000 surface is pulled toward it.
+// An invisible attractor map object: a table index and a strength; a Kart on the attractor surface is pulled toward it.
 typedef struct AttractorMapObject {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mTableIndex;
@@ -216,8 +216,7 @@ typedef struct ModelAnimation ModelAnimation;
 typedef struct MapObjectList MapObjectList;
 typedef struct SoundStartParams SoundStartParams;
 
-// Source rows read by the second loop of CreateJg, 0x0c bytes each; a
-// row's non-zero words are names looked up by FindSceneFile.
+// The model and animation file names of a Jg kind; FindSceneFile looks up each non-zero name.
 typedef struct JgKindFileNames {
     /* 00 */ const char *mNsbmdName;
     /* 04 */ const char *mNsbcaName;

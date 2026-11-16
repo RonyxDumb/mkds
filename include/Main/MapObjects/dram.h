@@ -19,7 +19,7 @@
 // Dram.mRamp at full turning speed; it runs from 0 to this over mRampFrameCount frames.
 #define DRAM_RAMP_FULL 0x1000
 
-// Object of kind 0xd2 (Dram) and the functions of this file: 0xc0 bytes.
+// A Dram map object: its ramp and steady frame counts, delay, angle choices and the ramp it moves.
 typedef struct Dram {
     /* 00 */ MapObject mMapObject;
     /* a0 */ u16 mRampFrameCount;
