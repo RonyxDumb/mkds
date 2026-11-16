@@ -401,8 +401,8 @@ void StartSeqOnHandleIfEnabled(u32 soundId, NNSSndSeqPlayer **handle) {
     NNS_SndArcPlayerStartSeqArc(handle, 0, soundId);
 }
 
-// Sets the volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume and sets the seq volume when it
-// changed.
+// Sets the target volume of player 1 and the seq pitch, steps gVolumeFade towards targetVolume, stores the limited
+// result in gReachedSeqVolume and sets the seq volume when it stepped.
 static inline void StepSeqPlayerVolumeFade(NNSSndSeqPlayer **handle, s32 playerVolume, s32 pitch, s32 targetVolume) {
     s32 limitedVolume;
     s32 volume;

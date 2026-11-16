@@ -85,7 +85,7 @@ CourseSurfaceSoundEntry gCourseSurfaceSoundEntries[14] = {
 u16 gMissionRunMSselSeqIndex;
 u16 gMissionRunCountSeqNo[1];
 u16 gMissionRunLimitSeqNo[1];
-NNSSndSeqPlayer *gSeqZeroLoopHandle;
+NNSSndSeqPlayer *gSeqZeroAndSessionSeqHandle;
 u32 gSceneSeqRestartAfterStar;
 s32 gMissionRunMSselStep0Count;
 s32 gMissionRunMSselStep32Count;
@@ -111,7 +111,7 @@ PlayerVolumeFade gPlayerVolumeFade;
 // Keeps seq 0 looping on the in-memory archive until StopSeqZeroLoop; UpdateSounds restarts it.
 void StartSeqZeroLoop(void) {
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     gSeqZeroLoopOn = 1;
     NNS_SndArcSetCurrent(&gFileSndArc);
@@ -119,14 +119,14 @@ void StartSeqZeroLoop(void) {
 
 void StopSeqZeroLoop(void) {
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0xd);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0xd);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
 void BootInfoStartMessageScreenSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
@@ -137,7 +137,7 @@ void BootInfoStartMessageScreenSeq(void) {
 }
 
 void StartMessageScreenSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     gSeqZeroLoopOn = 0;
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
@@ -148,38 +148,38 @@ void StartMessageScreenSeq(void) {
 }
 
 void StartTimeAttackGhostSendSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndArcSetCurrent(&gOnMemorySndArc);
-    if (gSeqZeroLoopHandle != NULL) {
-        NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
+    if (gSeqZeroAndSessionSeqHandle != NULL) {
+        NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 8);
+    NNS_SndArcPlayerStartSeqArc(&gSeqZeroAndSessionSeqHandle, 0, 8);
     NNS_SndArcSetCurrent(&gFileSndArc);
 }
 
 void StopTimeAttackGhostSendSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
 }
 
 void StartWiFiSessionLoginSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
-    if (gSeqZeroLoopHandle != NULL) {
-        NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
+    if (gSeqZeroAndSessionSeqHandle != NULL) {
+        NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0x202);
+    NNS_SndArcPlayerStartSeqArc(&gSeqZeroAndSessionSeqHandle, 0, 0x202);
 }
 
 void StartWiFiSessionLoginResult1Seq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x203);
 }
 
 void StartWiFiSessionMatchingSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
-    if (gSeqZeroLoopHandle != NULL) {
-        NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
+    if (gSeqZeroAndSessionSeqHandle != NULL) {
+        NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0);
     }
-    NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0x204);
+    NNS_SndArcPlayerStartSeqArc(&gSeqZeroAndSessionSeqHandle, 0, 0x204);
 }
 
 void StartWiFiMatchingEntryShowSeq(void) {
@@ -199,27 +199,27 @@ void StartWiFiMatchingEntryHideSeq(void) {
 }
 
 void StartPlayerEntryListSetupSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x207);
 }
 
 void StartWiFiLoginErrorSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, (0x0000020au));
 }
 
 void StartWiFiNoOpponentsSeq(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x20a);
 }
 
 void StopBothSeqHandles(void) {
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 1);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 1);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 1);
 }
 
@@ -423,7 +423,7 @@ void InitSound(void *buffer, u32 bufferSize, u32 useFileArchive) {
     }
     InitSoundHandlePool(&gSoundHandlePool, gSoundHandlePoolEntries, 3, 8);
     NNS_SndHandleInit(&gChoisesSSeqHandle);
-    NNS_SndHandleInit(&gSeqZeroLoopHandle);
+    NNS_SndHandleInit(&gSeqZeroAndSessionSeqHandle);
     NNS_SndHandleInit(&gMatchingEntrySeqHandle);
     NNS_SndSetMasterVolume(0x7f);
     NNS_SndSetMonoFlag(0);
@@ -456,14 +456,14 @@ void UpdateSounds(void) {
     IncrementSoundHandleAges(&gSoundHandlePool);
     UpdateSoundSources();
     if (gSeqZeroLoopOn == 1) {
-        seqPlayer = gSeqZeroLoopHandle;
+        seqPlayer = gSeqZeroAndSessionSeqHandle;
         seqZeroPlaying = seqPlayer != NULL && seqPlayer->mSeqArcIndex == 0 && seqPlayer->mSeqNo == 0;
         if (seqZeroPlaying == FALSE) {
             NNS_SndArcSetCurrent(&gOnMemorySndArc);
-            if (gSeqZeroLoopHandle != NULL) {
-                NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
+            if (gSeqZeroAndSessionSeqHandle != NULL) {
+                NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0);
             }
-            NNS_SndArcPlayerStartSeqArc(&gSeqZeroLoopHandle, 0, 0);
+            NNS_SndArcPlayerStartSeqArc(&gSeqZeroAndSessionSeqHandle, 0, 0);
             NNS_SndArcSetCurrent(&gFileSndArc);
         }
     }
@@ -1508,7 +1508,7 @@ void StopSceneSounds(void) {
         NNS_SndPlayerStopSeq((NNSSndSeqPlayer **) playerCursor, fadeSteps);
         playerCursor += (&gSoundHandlePool)->mEntrySize;
     }
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 13);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 13);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 13);
     gSeqZeroLoopOn = 0;
 }
@@ -1535,7 +1535,7 @@ void StopSceneSoundsAtOnce(void) {
         playerCursor += playerTable->mEntrySize;
     }
     gSeqZeroLoopOn = 0;
-    NNS_SndPlayerStopSeq(&gSeqZeroLoopHandle, 0);
+    NNS_SndPlayerStopSeq(&gSeqZeroAndSessionSeqHandle, 0);
     NNS_SndPlayerStopSeq(&gMatchingEntrySeqHandle, 0);
 }
 

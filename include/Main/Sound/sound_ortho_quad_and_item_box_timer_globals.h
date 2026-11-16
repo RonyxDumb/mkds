@@ -49,7 +49,7 @@ extern NNSSndSeqPlayer *gMatchingEntrySeqHandle;
 
 extern u32 gMissionRunSelMode;
 
-extern NNSSndSeqPlayer *gSeqZeroLoopHandle;
+extern NNSSndSeqPlayer *gSeqZeroAndSessionSeqHandle;
 
 extern s32 gSeqZeroLoopOn;
 

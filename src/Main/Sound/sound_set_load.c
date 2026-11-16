@@ -60,21 +60,21 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (NNS_SndArcLoadWaveArc(0x61, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
-            NNSSndArcWaveArcInfo *waveArcInfo;
+            NNSSndArcWaveArcInfo *sourceWaveArc;
             NNSSndArcWaveArcInfo *destWaveArc;
             u32 sourceFileId;
-            u32 fileId;
+            u32 destFileId;
 
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(0x61);
+            sourceWaveArc = NNS_SndArcGetWaveArcInfo(0x61);
             destWaveArc = NNS_SndArcGetWaveArcInfo(0);
-            fileId = (destWaveArc)->mFileId;
-            sourceFileId = waveArcInfo->mFileId;
-            NNS_SndArcSetFileAddress(fileId, NNS_SndArcGetFileAddress(sourceFileId));
+            destFileId = (destWaveArc)->mFileId;
+            sourceFileId = sourceWaveArc->mFileId;
+            NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
             NNS_SndArcSetFileAddress(sourceFileId, NULL);
             loaded = 1;
             listCount = gSndDataFileIdList.mCount;
             gSndDataFileIdList.mCount = listCount + 1;
-            gSndDataFileIdList.mFileIds[listCount] = fileId;
+            gSndDataFileIdList.mFileIds[listCount] = destFileId;
         }
         if (loaded == 0) {
             return 0;
@@ -82,21 +82,21 @@ u32 LoadSndGroupWithWaveArcs(u32 groupId, u32 moveWaveArcs) {
         if (NNS_SndArcLoadWaveArc(0x62, gCurrentSndHeap) == 0) {
             loaded = 0;
         } else {
-            NNSSndArcWaveArcInfo *waveArcInfo;
+            NNSSndArcWaveArcInfo *sourceWaveArc;
             NNSSndArcWaveArcInfo *destWaveArc;
             u32 sourceFileId;
-            u32 fileId;
+            u32 destFileId;
 
-            waveArcInfo = NNS_SndArcGetWaveArcInfo(0x62);
+            sourceWaveArc = NNS_SndArcGetWaveArcInfo(0x62);
             destWaveArc = NNS_SndArcGetWaveArcInfo(0x50);
-            fileId = (destWaveArc)->mFileId;
-            sourceFileId = waveArcInfo->mFileId;
-            NNS_SndArcSetFileAddress(fileId, NNS_SndArcGetFileAddress(sourceFileId));
+            destFileId = (destWaveArc)->mFileId;
+            sourceFileId = sourceWaveArc->mFileId;
+            NNS_SndArcSetFileAddress(destFileId, NNS_SndArcGetFileAddress(sourceFileId));
             NNS_SndArcSetFileAddress(sourceFileId, NULL);
             loaded = 1;
             listCount = gSndDataFileIdList.mCount;
             gSndDataFileIdList.mCount = listCount + 1;
-            gSndDataFileIdList.mFileIds[listCount] = fileId;
+            gSndDataFileIdList.mFileIds[listCount] = destFileId;
         }
         if (loaded == 0) {
             return 0;
