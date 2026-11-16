@@ -15,7 +15,7 @@
 
 extern MtxFx33 gItemFBoxRotation;
 
-// Object of InitMissionRunBoxMapObject: 0x144 bytes.
+// A mission run box map object: the collision map object and nothing more.
 typedef struct MissionRunBox {
     /* 000 */ CollisionMapObject mCollisionMapObject;
 } MissionRunBox;

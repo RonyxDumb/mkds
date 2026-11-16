@@ -16,7 +16,7 @@ typedef struct ResFileEntry {
     /* 0c */ NNSG3dResTex *mTexture;
 } ResFileEntry;
 
-// 0x6c-byte model object: a render object up to 0x53, then mCullModesSwapped, mDrawKind and the file entry.
+// A model: a render object with its model resource, then the cull mode swap flag, the draw kind and the file entry.
 typedef struct Nsbmd {
     union {
         NNSG3dRenderObj mRenderObj;

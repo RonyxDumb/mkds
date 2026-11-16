@@ -10,7 +10,7 @@
 typedef struct Ncgr Ncgr;
 typedef struct Nclr Nclr;
 
-// 8-byte elements from offset 8 of an LayoutEntryTable (GetCellLayoutEntry indexes them).
+// One cell of a layout: its x and y axes and the cell index.
 typedef struct CellLayoutEntry {
     /* 00 */ union {
         u32 mUnk_00;
@@ -22,7 +22,7 @@ typedef struct CellLayoutEntry {
     /* 04 */ u32 mCellIndex;
 } CellLayoutEntry;
 
-// 0x24 bytes at member 0x20 of LabelCanvas (DrawTextInRectFixedAdvance takes its address).
+// The text drawing state of a label: its char canvas, font, spacing, char buffer and size.
 typedef struct LabelTextCanvas {
     /* 00 */ NNSG2dCharCanvas *mCharCanvas;
     /* 04 */ struct NNSG2dFont *mFont;
@@ -35,7 +35,7 @@ typedef struct LabelTextCanvas {
     /* 20 */ s32 mHeight;
 } LabelTextCanvas;
 
-// Object of 0x48 bytes allocated by InitLabelCanvas.
+// The canvas of a label: its char canvas, text canvas and the cell data it draws.
 typedef struct LabelCanvas {
     /* 00 */ NNSG2dCharCanvas mCharCanvas;
     /* 20 */ LabelTextCanvas mTextCanvas;

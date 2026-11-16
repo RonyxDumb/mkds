@@ -29,7 +29,7 @@ typedef struct BmgEntryOffsetSection {
     /* 10 */ u32 mEntryOffsets[1];
 } BmgEntryOffsetSection;
 
-// Section of LocateBmgSections whose first word is 0x44415431 (gBmgBodySection): bytes from 8.
+// The body section of a message file: its tag, the offset of the next section and the body bytes.
 typedef struct BmgBodySection {
     /* 00 */ u32 mTag;
     /* 04 */ u32 mNextOffset;

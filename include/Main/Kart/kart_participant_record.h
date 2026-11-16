@@ -82,7 +82,7 @@ void MapObjectResponseNop(void);
 
 s32 CollideKartWithMapObjectNoResponse(Kart *kart, s32 *outValue);
 
-// Stack frame of ResetKartAtRaceEnd from its stack offset 0: a halfword and four vectors.
+// What ResetKartAtRaceEnd uses to place a kart at the race end: old and record positions, rotation and change.
 typedef struct KartRaceEndPlacement {
     /* 00 */ s16 mKeepSpeedFlag;
     /* 02 */ u8 mUnk_02[2];

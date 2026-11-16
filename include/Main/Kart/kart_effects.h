@@ -33,7 +33,7 @@ typedef struct KartEffectIdSet {
     /* 04 */ s32 mEffectIds[2];
 } KartEffectIdSet;
 
-// 0x20 bytes: id sets for the entry kart and the others, a start function and a velocity factor index.
+// How a surface affects a kart: effect id sets for the entry kart and the others, a start function, a velocity factor.
 typedef struct KartSurfaceEffectRow {
     /* 00 */ KartEffectIdSet mEffectIdSets[2];
     /* 18 */ s32 (*mStartEffects)(const KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart);

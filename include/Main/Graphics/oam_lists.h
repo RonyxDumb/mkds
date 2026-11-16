@@ -8,7 +8,7 @@
 #define OAM_ENTRY_HIDDEN_X 0x1800000
 #define OAM_ENTRY_HIDDEN_Y 0xe0
 
-// Element of 8 bytes of OamEntryList.mUnk_00.
+// One OAM entry of an OamEntryList; mYPos is its y position.
 typedef struct OamListEntry {
     /* 00 */ union {
         u32 mUnk_00;
@@ -17,7 +17,7 @@ typedef struct OamListEntry {
     /* 04 */ u32 mUnk_04;
 } OamListEntry;
 
-// Object of 0x404 bytes: 0x80 elements of 8 bytes, then two halfwords.
+// A list of OAM entries with the number of entries and of matrices in use.
 typedef struct OamEntryList {
     /* 000 */ OamListEntry mEntries[0x80];
     /* 400 */ u16 mOamCount;

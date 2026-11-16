@@ -9,8 +9,7 @@
 #include "Main/Kart/character_animation.h"
 #include "Main/Graphics/font_and_player_character.h"
 
-// 0x88-byte object built from an entry of the table at CourseMap.mCameras: the entry, two PosCurve and two
-// halfwords.
+// A sequence camera: its course map camera entry, the position curve, its reverse and the step along it.
 typedef struct SequenceCameraEntry {
     /* 00 */ CourseMapCamera *mCourseMapCamera;
     /* 04 */ PosCurve mPosCurve;

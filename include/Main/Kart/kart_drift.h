@@ -51,8 +51,7 @@ typedef struct KartPhysicalParam {
     /* 68 */ s32 mSurfaceSpeedLimitFactors[12];
 } KartPhysicalParam;
 
-// Event counters of the selected entry's Kart (seven words; the one at 0 is a flag set to 1). Every writer tests that
-// the Kart is the selected entry. Read by the rank score of the grand prix and the goal tests of mission run.
+// Event counters of the selected entry's Kart, set only while it is the selected entry; read by the Grand Prix score.
 typedef struct EntryKartCounters {
     /* 0 */ s32 mRaceStartBoosted;
     /* 4 */ s32 mMiniTurboCount;
@@ -65,7 +64,7 @@ typedef struct EntryKartCounters {
 
 struct Kart;
 
-// 16-byte entry of the table at SoundRequestQueue.mUnk_04: RunSoundRequests calls mUnk_04 with the words at 8 and 0xc.
+// A queued sound request: a sort key, the function to call and its two arguments.
 typedef struct SoundRequest {
     /* 00 */ u32 mSortKey;
     /* 04 */ void (*mFunction)(void *, s32);

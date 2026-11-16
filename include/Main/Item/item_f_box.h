@@ -6,8 +6,7 @@
 typedef struct ItemObject ItemObject;
 typedef struct ItemFBox ItemFBox;
 
-// Element of the two tables gItemDataDelayed and gItemDataQueue: 0x14 bytes of
-// bytes passed on followed by three words.
+// One item data record: the bytes passed on, then its kind, message kind and the frame stamp.
 typedef struct ItemDataRecord {
     /* 00 */ u8 mData[0x14];
     /* 14 */ vu32 mKind;

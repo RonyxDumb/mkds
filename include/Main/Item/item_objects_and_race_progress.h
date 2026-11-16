@@ -253,7 +253,7 @@ typedef struct ItemObject {
 #define RACE_PROGRESS_KART_FLAG_FAILURE_WAIT 0x20
 #define RACE_PROGRESS_KART_FLAG_FINISH_PENDING 0x40
 
-// One 0x8c entry per kart (mKarts[kart index]).
+// The race progress of one kart (mKarts[kart index]): status, lap times, checkpoints, rank and score.
 typedef struct RaceProgressKart {
     // See RACE_PROGRESS_KART_STATUS_*.
     /* 00 */ s32 mStatus;
@@ -304,7 +304,7 @@ typedef struct RaceProgressKart {
     /* 4c */ s32 mCheckpointTestedBits[0x10];
 } RaceProgressKart;
 
-// The 0x14 bytes before RaceProgress.mKarts: the race clock and the finish counters.
+// The race clock and the finish counters at the start of RaceProgress.
 typedef struct RaceProgressHeader {
     /* 00 */ s32 mElapsedFrames;
     // Gate of the clock; cleared by FinishRaceProgressKartWithEndKind (finish request for ANY entry: mission goal,
@@ -349,8 +349,7 @@ typedef struct RankTimeGpEntry {
     /* 06 */ u16 mRankTimeEngine2;
 } RankTimeGpEntry;
 
-// Object behind RaceProgress.mRankTimeGpFile: header 0x1c bytes (score weights read by ComputeGrandPrixScoreTerms:
-// halfwords 0x0a..0x1a), then mEntryCount entries of 8 bytes.
+// The Grand Prix rank time file: the score weights ComputeGrandPrixScoreTerms reads, then mEntryCount entries.
 typedef struct RankTimeGp {
     /* 00 */ u8 mUnk_00[0x8];
     /* 08 */ u16 mEntryCount;
@@ -366,7 +365,7 @@ typedef struct RankTimeGp {
     /* 1c */ RankTimeGpEntry mEntries[1];
 } RankTimeGp;
 
-// A row of the file behind RaceProgress.mRankPointFile: points for rank 1..8, first row of the file skipped.
+// A row of RaceProgress.mRankPointFile: the points for rank 1 to 8; the first row of the file is skipped.
 typedef struct RankPointRow {
     /* 00 */ u8 mPoints[8];
 } RankPointRow;
@@ -422,8 +421,7 @@ typedef struct RaceProgress {
     /* 500 */ RaceProgressScoreTerms mScoreTerms;
 } RaceProgress;
 
-// Entry of the table behind gItemKinds: one record per object kind (14, 0xa8 bytes each), a heap copy of the static
-// gItemKind records, indexed by the kind number.
+// The record of one item object kind: its pool sizes and the callbacks for setup, reset, start, advance, draw, release.
 typedef struct ItemKind {
     /* 00 */ s32 mObjectSize;
     // Most objects of the kind that may be in use, copied to the pool; CreateItemKinds changes it in modes 2, 4 and 5.

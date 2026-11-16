@@ -61,7 +61,7 @@ typedef struct ItemGesso {
     /* 1a0 */ u8 mUnk_1a0[0x14];
 } ItemGesso;
 
-// Row of the 0xc-byte table behind gItemGessoSteps.
+// One step of the gesso item's motion: target velocity, approach rate, damping and their frame counts.
 typedef struct ItemGessoStep {
     /* 00 */ s16 mTargetVelocityX;
     /* 02 */ s16 mTargetVelocityY;

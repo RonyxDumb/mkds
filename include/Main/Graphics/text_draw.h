@@ -17,7 +17,7 @@
 #define TEXT_TAG_NAME_OWNER_TEXT_FIT 11
 #define TEXT_TAG_VARIANT_INSERT 0xff
 
-// Tag in a run of halfwords: 0x1a, a byte (the number of bytes), a byte (1) and a halfword (0xff).
+// A tag in message text: a char code, its size, kind and variant.
 typedef struct TextTagWithCharCode {
     /* 00 */ u16 mCharCode;
     /* 02 */ u8 mSize;

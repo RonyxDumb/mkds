@@ -12,7 +12,7 @@ typedef struct ItemSlotTable {
 
 
 
-// Element of the table behind gItemSlotRowRemaps, 0xe bytes.
+// The source row numbers one item slot row is remapped from.
 typedef struct ItemSlotRowRemap {
     /* 00 */ u16 mSourceRowNumbers[7];
 } ItemSlotRowRemap;
