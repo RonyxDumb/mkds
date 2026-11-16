@@ -131,7 +131,7 @@ char gResultsBattleVsRedNcgrName[] = "results_battle_VS_m.nce.ncgr";
 char gResultsBattleLoseBNcgrName[] = "results_battle_lose_m_b.NCGR";
 char gResultsBattleVsBlueONclrName[] = "results_battle_VS_m_o.NCLR";
 char gResultsBattleVsBlueBnclName[] = "Results_battle_VS_m.bncl";
-const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5] = {
+const ResultsBattleVictoryFileNames gResultsBattleFileNames[5] = {
     {gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName,
      gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName,
      gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName},
@@ -820,21 +820,21 @@ void InitResultsBattle(void *heap, void *mainOam, void *subOam) {
     gResultsBattle->mCellFileSet2ShyguyPalette = GetPlayerCharacterShyguyNclr(1);
     gResultsBattle->mCellFileSet3ShyguyPalette = GetPlayerCharacterShyguyNclr(0);
     screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBNclrName,
-                         gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
+    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBNcgrName,
+                         gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBNclrName,
+                         gResultsBattleFileNames[gResultsBattle->mFileSetKind].mLowerNscrName, 3, FindSceneFile);
     LoadNscrData(&screenMapFileSet->mScreenMaps[2],
-                 FindSceneFile(gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
+                 FindSceneFile(gResultsBattleFileNames[gResultsBattle->mFileSetKind].mUpperNscrName));
     GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
     GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcgrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mNcerName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mONclrName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnclName,
-                    gResultsBattleVictoryFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
+    LoadCellFileSet(mainCellFileSet, gResultsBattleFileNames[gResultsBattle->mFileSetKind].mNcgrName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mNcerName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mONclrName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBnclName,
+                    gResultsBattleFileNames[gResultsBattle->mFileSetKind].mBnllName, NULL, FindSceneFile);
     SetupCellFileSet(SCREEN_SIDE_MAIN, heap, mainCellFileSet);
     switch (gResultsBattle->mFileSetKind) {
         case RESULTS_BATTLE_FILES_VICTORY:

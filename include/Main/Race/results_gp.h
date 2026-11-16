@@ -62,7 +62,7 @@ void AdvanceResultsGp(SceneNumbers *sceneNumbers);
 void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);
 
 extern const u16 gEngineMessageIndexTable[4];
-extern const u16 gCupNameLeftCharIndices[8];
+extern const u16 gCupNameLeftCellIndices[8];
 extern const u16 gCupRankCellIndexTable[8];
 extern const u16 gResultsGpGradeCellIndices[8];
 extern const u32 gResultsGpCupCourseIds[8][4];

@@ -290,7 +290,7 @@ typedef enum {
     RESULTS_BATTLE_STATE_DONE
 } ResultsBattleState;
 
-// Values of ResultsBattle.mFileSetKind: the row of gResultsBattleVictoryFileNames, named after the files it loads.
+// Values of ResultsBattle.mFileSetKind: the row of gResultsBattleFileNames, named after the files it loads.
 typedef enum {
     RESULTS_BATTLE_FILES_VICTORY,
     RESULTS_BATTLE_FILES_LOSE,

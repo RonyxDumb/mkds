@@ -48,7 +48,7 @@
 #include "Main/System/init_after_startup.h"
 
 const u16 gEngineMessageIndexTable[4] = {0x6e, 0x6f, 0x70, 0};
-const u16 gCupNameLeftCharIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+const u16 gCupNameLeftCellIndices[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 const u16 gCupRankCellIndexTable[8] = {0xc, 0xd, 0xe, 0xf, 0x10, 0x11, 0x12, 0x13};
 const u16 gResultsGpGradeCellIndices[8] = {0xb, 0xa, 9, 8, 7, 6, 5, 4};
 const u32 gResultsGpCupCourseIds[8][4] = {{0x14, 0x16, 0x1f, 0x12}, {0x1b, 0x1c, 0x21, 0x18}, {0x1e, 0x11, 0x19, 0x13},
@@ -216,7 +216,7 @@ void InitResultsGp(void *heap, void *firstOamList, void *secondOamList) {
     subFileSet = &gResultsGp->mCellFileSets[1];
     LoadCellFileSet(&cupNameFileSet, "cup_name_left.nce.ncgr", "cup_name_left.nce.ncer", NULL, "cup_name_left.bncl",
                     NULL, NULL, FindSceneFile);
-    QueueCellChars(gCupNameLeftCharIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
+    QueueCellChars(gCupNameLeftCellIndices[gResultsGp->mCupIndex], cupNameFileSet.mCells, cupNameFileSet.mChars,
                    cupNameFileSet.mCellLayout, 1, 0, subFileSet->mCells, subFileSet->mCellLayout);
     InitFrmVramManagers();
     InitTrophy(gResultsGp->mCupIndex, gResultsGp->mCupRankIndex);

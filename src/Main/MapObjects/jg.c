@@ -91,7 +91,7 @@ s32 gJgLeaveHeightOffset;
 s32 gJgArriveSpeed;
 Kart *gJgKart;
 s32 gJgLapAndReverseEnabled;
-s32 gJgAgainstCheckpointFrames;
+s32 gJgCheckpointFlagFrames;
 u16 *gJgKartCourseColor;
 s32 gJgSnapUntilPushFlip;
 s16 *gJgCloudScaleXTable;
@@ -104,7 +104,7 @@ s16 *gJgMainRotationCosineTable;
 s32 gJgLeaveSpeed;
 s16 *gJgCloudOffsetYTable;
 s16 *gJgCloudScaleYTable;
-s32 gJgSnapActive;
+s32 gJgLapKindActive;
 Vec3 gJgTargetPos;
 Vec3 gJgKartMove;
 Vec3 gJgPreviousPos;
@@ -267,7 +267,7 @@ void UpdateJg(void) {
         gJgKind = JG_KIND_FLAG;
         if (GetEntryRaceEnded() == 0) {
             if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
-                gJgSnapActive = 1;
+                gJgLapKindActive = 1;
                 gJgSnapUntilPushFlip = 1;
             }
         }
@@ -292,7 +292,7 @@ void UpdateJg(void) {
                 gJgKind = JG_KIND_LAP_FINAL;
                 if (GetEntryRaceEnded() == 0) {
                     if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
-                        gJgSnapActive = 1;
+                        gJgLapKindActive = 1;
                         gJgSnapUntilPushFlip = 1;
                     }
                 }
@@ -302,7 +302,7 @@ void UpdateJg(void) {
             gJgKind = JG_KIND_LAP_COUNT;
             if (GetEntryRaceEnded() == 0) {
                 if ((u32) gJgKind <= JG_KIND_LAP_FINAL) {
-                    gJgSnapActive = 1;
+                    gJgLapKindActive = 1;
                     gJgSnapUntilPushFlip = 1;
                 }
             }
@@ -319,8 +319,8 @@ void UpdateJg(void) {
     }
     if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT) != 0 &&
         (kartFlags & KART_DRIVE_RESPAWN_WAIT) == 0) {
-        gJgAgainstCheckpointFrames++;
-        if (gJgAgainstCheckpointFrames <= 0x3c) {
+        gJgCheckpointFlagFrames++;
+        if (gJgCheckpointFlagFrames <= 0x3c) {
             return;
         }
         gJgKartPos = gJgKart->mPos;
@@ -329,7 +329,7 @@ void UpdateJg(void) {
         SetStateMachineState(&gJgStateMachine, JG_STATE_REVERSE);
         return;
     }
-    gJgAgainstCheckpointFrames = 0;
+    gJgCheckpointFlagFrames = 0;
 }
 
 // Draws the cloud, gJgMain and the model gJgKind selects; counts gJgAlpha up to 0x1f while visible.
@@ -382,7 +382,7 @@ void DrawJg(void) {
         lapModel->mPolygonAttributes &= ~0x1f0000;
         lapModel->mPolygonAttributes |= gJgAlpha << 16;
     }
-    if (gJgSnapActive != 0) {
+    if (gJgLapKindActive != 0) {
         modeProjection = 0;
         NNS_G3dGeBufferOP_N(0x10, &modeProjection, 1);
         NNS_G3dGeBufferOP_N(0x11, NULL, 0);
@@ -583,7 +583,7 @@ void UpdateJgPosition(void) {
         offsetVec.z = MUL_FIXED12_NO_ROUND(gJgMatrix.mRows[1].z, halfOffset);
         VEC_Add(&gJgCollisionCenter, &offsetVec, &gJgCollisionCenter);
         gJgCourseHitBits = 0;
-        if (gJgSnapActive == 0) {
+        if (gJgLapKindActive == 0) {
             if (gJgNearKart != 0 || gJgInView != 0) {
                 FindCollisionSlotsAroundPos(&gJgCollisionCenter, 0x12000, 0x2000);
                 for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
@@ -616,7 +616,7 @@ void UpdateJgPosition(void) {
             VEC_Add(&gJgPos, &offsetVec, &gJgPos);
             VEC_Add(&gJgCollisionCenter, &offsetVec, &gJgCollisionCenter);
         }
-        if (gJgSnapActive == 0) {
+        if (gJgLapKindActive == 0) {
             gJgProbeStep++;
             if (gJgProbeStep > 0xc) {
                 gJgProbeStep = 0;
@@ -661,7 +661,7 @@ void UpdateJgPosition(void) {
         if (gJgKart->mState >= KART_STATE_PUSH_FLIP) {
             gJgSnapUntilPushFlip = 0;
         }
-        if (gJgSnapActive != 0 && gJgSnapUntilPushFlip != 0) {
+        if (gJgLapKindActive != 0 && gJgSnapUntilPushFlip != 0) {
             gJgPos.x = gJgTargetPos.x;
             gJgPos.z = gJgTargetPos.z;
             localVec.x = localVec.z = 0;
@@ -729,8 +729,8 @@ void UpdateJgPosition(void) {
 void EnterJgOff(void *stateObject) {
     gJgKind = 4;
     gJgVisible = 0;
-    gJgAgainstCheckpointFrames = 0;
-    gJgSnapActive = 0;
+    gJgCheckpointFlagFrames = 0;
+    gJgLapKindActive = 0;
     gJgSnapUntilPushFlip = 0;
 }
 
@@ -743,8 +743,8 @@ void EnterJgReverse(void *stateObject) {
     // Written through a cast: a plain store changes the test below.
     *(s32 *) &gJgKind = JG_KIND_REVERSE;
     gJgVisible = 1;
-    gJgAgainstCheckpointFrames = 0;
-    gJgSnapActive = 0;
+    gJgCheckpointFlagFrames = 0;
+    gJgLapKindActive = 0;
     gJgSnapUntilPushFlip = 0;
     gJgTableIndex = 0;
     if (gJgKind != JG_KIND_NONE) {
@@ -851,12 +851,12 @@ void UpdateJgReverse(void *stateObject) {
         return;
     }
     if ((gRaceProgress->mKarts[gJgKartIndex].mFlags & RACE_PROGRESS_KART_FLAG_AGAINST_CHECKPOINT) == 0) {
-        if (++gJgAgainstCheckpointFrames > 0x3c) {
+        if (++gJgCheckpointFlagFrames > 0x3c) {
             SetStateMachineState(&gJgStateMachine, JG_STATE_LEAVE);
             return;
         }
     } else {
-        gJgAgainstCheckpointFrames = 0;
+        gJgCheckpointFlagFrames = 0;
     }
     if ((gJgKart->mDriveFlags & KART_DRIVE_ON_BOOST_SURFACE) == 0) {
         return;
@@ -910,12 +910,12 @@ void EnterJgFollowKart(void *stateObject) {
     NNSSndSeqPlayer **seqPlayer;
     MtxFx43 *matrix;
 
-    gJgAgainstCheckpointFrames = 0;
+    gJgCheckpointFlagFrames = 0;
     // Written through a cast: a plain store changes the test below.
     *(s32 *) &gJgKind = JG_KIND_NONE;
     gJgVisible = 1;
     gJgAlpha = 0x1f;
-    gJgSnapActive = 0;
+    gJgLapKindActive = 0;
     gJgSnapUntilPushFlip = 0;
     gJgTableIndex = 0;
     if (gJgKind != JG_KIND_NONE) {

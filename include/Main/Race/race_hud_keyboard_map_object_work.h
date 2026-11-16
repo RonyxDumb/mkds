@@ -944,9 +944,9 @@ extern s32 gJgKind;
 #define JG_KIND_FLAG 3 // shown when the entry kart has reached the goal (not in mission run mode)
 #define JG_KIND_NONE 4
 extern s32 gJgSnapUntilPushFlip;
-extern s32 gJgAgainstCheckpointFrames;
+extern s32 gJgCheckpointFlagFrames;
 extern s32 gJgVisible;
-extern s32 gJgSnapActive;
+extern s32 gJgLapKindActive;
 
 // gJgStateMachine.mState values, in the order of gJgStateTable. OFF is the idle state; REVERSE, LAP and FLAG follow
 // the kart with the model of that kind (the jg_reverse and jg_flag files, the lap model); FOLLOW_KART waits at the

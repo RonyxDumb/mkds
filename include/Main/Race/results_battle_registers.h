@@ -54,7 +54,7 @@ extern const u16 gResultsBattleKartFirstCellIndices[8];
 extern const u8 gResultsBattleOwnEntryLabelTextRows[8];
 extern struct ResultsBattle *gResultsBattle;
 
-extern const ResultsBattleVictoryFileNames gResultsBattleVictoryFileNames[5];
+extern const ResultsBattleVictoryFileNames gResultsBattleFileNames[5];
 extern char gResultsBattleVictoryBNcgrName[];
 extern char gResultsBattleVictoryBNclrName[];
 extern char gResultsBattleVictoryUpperNscrName[];
