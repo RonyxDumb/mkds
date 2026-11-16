@@ -1010,8 +1010,8 @@ void DisconnectExchangeAndStopSockets(void) {
     }
 }
 
-// Finds an entry of current with mEncrypted 0 that matches a previous entry (same name prefix, same first four address
-// bytes) with a different mEncrypted, else an unencrypted six-asterisk entry in current when previous has none; stores
+// Finds an entry of current with mBit4Set 0 that matches a previous entry (same name prefix, same first four address
+// bytes) with a different mBit4Set, else an unencrypted six-asterisk entry in current when previous has none; stores
 // its index.
 s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
@@ -1047,7 +1047,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
                 }
                 if (memcmp(currentName, previousEntry->mSsid, strlen(currentName)) == 0 &&
                     memcmp(currentEntry->mAddress.mBytes, previousEntry->mAddress.mBytes, 4) == 0 &&
-                    currentEntry->mEncrypted != previousEntry->mEncrypted && currentEntry->mEncrypted == 0) {
+                    currentEntry->mBit4Set != previousEntry->mBit4Set && currentEntry->mBit4Set == 0) {
                     found = TRUE;
                     break;
                 }
@@ -1072,7 +1072,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             memcpy(entryName, previousEntry->mSsid, sizeof(previousEntry->mSsid));
             entryName[previousEntry->mSsidLength] = 0;
             if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                previousEntry->mEncrypted == 0) {
+                previousEntry->mBit4Set == 0) {
                 previousHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
@@ -1084,7 +1084,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             entryName[currentEntry->mSsidLength] = 0;
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
                 memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
-                currentEntry->mEncrypted == 0) {
+                currentEntry->mBit4Set == 0) {
                 currentHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
@@ -1214,7 +1214,7 @@ s32 SearchEntriesAndStoreEntryWithEncryptionRemoved(void) {
                 memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, sizeof(currentList->mEntries[index].mSsid));
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
-                currentList->mEntries[index].mEncrypted = (rawEntry->mFlags & RAW_ENTRY_FLAG_ENCRYPTED) ? 1 : 0;
+                currentList->mEntries[index].mBit4Set = (rawEntry->mFlags & RAW_ENTRY_FLAG_ENCRYPTED) ? 1 : 0;
                 source = (u8 *) &rawEntry->mAddress;
                 target = (u8 *) &currentList->mEntries[index].mAddress;
                 target[0] = source[0];

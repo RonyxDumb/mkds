@@ -87,7 +87,7 @@ typedef struct EntrySummary {
     /* 04 */ char mSsid[0x20];
     /* 24 */ u8 mUnk_24[4];
     /* 28 */ MacAddress mAddress;
-    /* 2e */ u16 mEncrypted;
+    /* 2e */ u16 mBit4Set;
 } EntrySummary;
 
 // A list of short records of found access points: the count and the records.

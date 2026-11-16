@@ -28,7 +28,7 @@ u16 *gMultiBootMaskPointers[6];
 void InitMultiBootParent(u8 *object) {
     gMultiBootParent = (MultiBootParent *) object;
     InitWhWork(&gMultiBootParent->mWhWork);
-    gMultiBootParent->mCommWorkPointer = NULL;
+    gMultiBootParent->mMultiBootWorkPointer = NULL;
     gMultiBootParent->mFileBuffer = NULL;
 }
 
@@ -53,8 +53,8 @@ void InitMultiBootParentComm(u32 ggid, u32 tgid) {
         words[6] = 0;
     }
     gMultiBootParent->mHeader = clearedHeader;
-    gMultiBootParent->mCommWorkPointer = gMultiBootParent->mCommWork;
-    if (MB_Init(gMultiBootParent->mCommWorkPointer, &userInfo, ggid, tgid, 2) != 0) {
+    gMultiBootParent->mMultiBootWorkPointer = gMultiBootParent->mCommWork;
+    if (MB_Init(gMultiBootParent->mMultiBootWorkPointer, &userInfo, ggid, tgid, 2) != 0) {
         OS_Terminate();
     }
     MB_SetParentCommParam(0x100, 1);
@@ -116,7 +116,7 @@ void AcceptMultiBootChildRequest(u32 aid) {
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-        gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+        gMultiBootParent->mHeader.mBootedMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     }
@@ -135,7 +135,7 @@ void KickMultiBootChild(u32 aid) {
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-        gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+        gMultiBootParent->mHeader.mBootedMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
@@ -160,7 +160,7 @@ void StartMultiBootChildDownload(u32 aid) {
         gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
         gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
         gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-        gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+        gMultiBootParent->mHeader.mBootedMask &= clearMask;
         OS_RestoreInterrupts(savedInterrupts);
         MB_DisconnectChild(aid);
     } else {
@@ -191,7 +191,7 @@ void StartMultiBootDownloads(void) {
                     gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                     gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                     gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-                    gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+                    gMultiBootParent->mHeader.mBootedMask &= clearMask;
                     OS_RestoreInterrupts(savedInterrupts);
                     MB_DisconnectChild(aid);
                 } else {
@@ -238,7 +238,7 @@ void StartMultiBootBootRequests(void) {
                 gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-                gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+                gMultiBootParent->mHeader.mBootedMask &= clearMask;
                 OS_RestoreInterrupts(savedInterrupts);
                 MB_DisconnectChild(aid);
             } else {
@@ -291,7 +291,7 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
                 gMultiBootParent->mHeader.mDownloadPendingMask &= clearMask;
                 gMultiBootParent->mHeader.mDownloadStartedMask &= clearMask;
                 gMultiBootParent->mHeader.mSendCompleteMask &= clearMask;
-                gMultiBootParent->mHeader.mBootStartableMask &= clearMask;
+                gMultiBootParent->mHeader.mBootedMask &= clearMask;
                 OS_RestoreInterrupts(value);
             }
             break;
@@ -320,8 +320,8 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             break;
         case MULTIBOOT_PARENT_CHILD_BOOTED:
             BIT_CLEAR(gMultiBootParent->mHeader.mSendCompleteMask, aid);
-            BIT_SET(gMultiBootParent->mHeader.mBootStartableMask, aid);
-            if (gMultiBootParent->mHeader.mMask == gMultiBootParent->mHeader.mBootStartableMask) {
+            BIT_SET(gMultiBootParent->mHeader.mBootedMask, aid);
+            if (gMultiBootParent->mHeader.mMask == gMultiBootParent->mHeader.mBootedMask) {
                 MB_EndToIdle();
             }
             break;
@@ -334,8 +334,8 @@ void MultiBootParentStateCallback(u32 aid, u32 code, void *data) {
             if (gMultiBootParent->mFileBuffer != NULL) {
                 gMultiBootParent->mFileBuffer = NULL;
             }
-            if (gMultiBootParent->mCommWorkPointer != NULL) {
-                gMultiBootParent->mCommWorkPointer = NULL;
+            if (gMultiBootParent->mMultiBootWorkPointer != NULL) {
+                gMultiBootParent->mMultiBootWorkPointer = NULL;
             }
             break;
         case MULTIBOOT_PARENT_ERROR:
@@ -379,7 +379,7 @@ u16 GetMultiBootChildMask(u32 maskIndex) {
     gMultiBootMaskPointers[2] = &parent->mHeader.mDownloadPendingMask;
     gMultiBootMaskPointers[3] = &parent->mHeader.mDownloadStartedMask;
     gMultiBootMaskPointers[4] = &parent->mHeader.mSendCompleteMask;
-    gMultiBootMaskPointers[5] = &parent->mHeader.mBootStartableMask;
+    gMultiBootMaskPointers[5] = &parent->mHeader.mBootedMask;
     return *gMultiBootMaskPointers[maskIndex];
 }
 

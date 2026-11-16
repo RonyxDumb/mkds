@@ -40,7 +40,7 @@ struct UsbScan {
     /* 1b7c */ TaskEntry *mReportTask;
     /* 1b80 */ vu8 mReleaseProgress;
     /* 1b81 */ u8 mPendingResult;
-    /* 1b82 */ u8 mReported;
+    /* 1b82 */ u8 mScanTimeUp;
 };
 
 typedef struct WMStartScanExCallback WMStartScanExCallback;

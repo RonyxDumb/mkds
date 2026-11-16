@@ -49,7 +49,7 @@ typedef struct MultiBootParentHeader {
     /* 06 */ u16 mDownloadPendingMask;
     /* 08 */ u16 mDownloadStartedMask;
     /* 0a */ u16 mSendCompleteMask;
-    /* 0c */ u16 mBootStartableMask;
+    /* 0c */ u16 mBootedMask;
 } MultiBootParentHeader;
 
 struct MultiBootParent {
@@ -58,7 +58,7 @@ struct MultiBootParent {
     /* 002c */ u8 mFileData[0x10000];
     /* 1002c */ u8 mUnk_1002c[0x14];
     /* 10040 */ u8 mCommWork[0xb100];
-    /* 1b140 */ void *mCommWorkPointer;
+    /* 1b140 */ void *mMultiBootWorkPointer;
     /* 1b144 */ void *mFileBuffer;
     /* 1b148 */ u8 mUnk_1b148[0x18];
     /* 1b160 */ WhWork mWhWork;

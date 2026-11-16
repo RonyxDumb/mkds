@@ -64,7 +64,7 @@ void AdvanceUsbScanReport(TaskEntry *task, void *arg) {
             }
         }
         gUsbScan->mReportTask = 0;
-        gUsbScan->mReported = 1;
+        gUsbScan->mScanTimeUp = 1;
         RequestTaskRemoval(0, task);
     }
 }
