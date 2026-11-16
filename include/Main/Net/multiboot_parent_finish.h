@@ -19,7 +19,7 @@ typedef struct Bg1Files {
 #define LOGO_READ_BACKUP_FRAMES 120
 #define LOGO_SUB_TEXT_FRAMES 90
 
-// Object behind gLogoScene.
+// The logo scene: its main and sub backgrounds, state machine, backup read counters and common messages.
 typedef struct LogoScene {
     /* 00 */ Bg1Files mMainBg;
     /* 0c */ Bg1Files mSubBg;

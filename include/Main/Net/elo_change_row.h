@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 
-// Table of entries of 4 bytes.
+// One row of the Elo change table: the rating difference above and the points a win and a loss change.
 typedef struct EloChangeRow {
     /* 00 */ s16 mDifferenceAbove;
     /* 02 */ s8 mWinChange;

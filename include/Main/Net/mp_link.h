@@ -4,7 +4,7 @@
 #include "multiboot_game_info_beacon.h"
 #include "Main/System/backup_net_camera_work.h"
 
-// Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.
+// What the scan callback gets for a found game: the entry index, the entry and the scan buffer.
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ MBGameInfoRecvList *mEntry;
@@ -12,7 +12,7 @@ typedef struct ScanEntryArgs {
     /* 0c */ u32 mUnk_0c;
 } ScanEntryArgs;
 
-// Block the callback behind mScanCallback receives from ReportScanError.
+// What the scan callback gets for a scan error: the error code and the result code.
 typedef struct ScanErrorArgs {
     /* 00 */ u16 mErrorCode;
     /* 02 */ u16 mResultCode;

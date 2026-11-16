@@ -6,7 +6,7 @@
 typedef struct WBTCommand WBTCommand;
 typedef struct BlockTransfer BlockTransfer;
 
-// Id, size and user id of a registered block; 0x28 bytes.
+// A registered block: its id, its size and the user id.
 typedef struct WBTBlockInfo {
     /* 00 */ u32 mId;
     /* 04 */ s32 mBlockSize;

@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// 0xc-byte object built on the stack by AdvanceWiFiSessionStep1.
+// The header of a Wi-Fi session message: its kind and size, the sender and receiver index and the sender's kart mask.
 typedef struct WiFiSessionMessageHeader {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mSize;

@@ -4,7 +4,7 @@
 #include "reset_interrupts_halt.h"
 #include "Main/Menu/menu_screens_work.h"
 
-// Rectangle of the ScreenMap behind one row, with the top bits it is filled with plain and highlighted.
+// A rectangle of a ScreenMap for one row, with the top bits it is filled with plain and highlighted.
 typedef struct SelectRaceRuleNscrRect {
     /* 00 */ u32 mFirstColumn;
     /* 04 */ u32 mFirstRow;

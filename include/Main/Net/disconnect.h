@@ -17,7 +17,7 @@
 #define MP_MESSAGE_MIN_LENGTH 2
 #define MP_MESSAGE_MAX_LENGTH 0x18
 
-// 0x18-byte object whose first halfword selects what ProcessMPData does with the rest.
+// A multiplayer message: mKind selects what ProcessMPData does with the player index, bits, name and word.
 typedef struct MPMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mBitsOrName[2];

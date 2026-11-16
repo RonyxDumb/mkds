@@ -84,7 +84,7 @@ typedef enum WBTEntryState {
     XFER_ENTRY_AWAITING_ANSWER = 2,
 } WBTEntryState;
 
-// Starts at offset 0x24 of an entry of BlockTransfer; 0x44 bytes (see WBTi_FindBitmapIndex).
+// Which chunks of a block have arrived: the counts, the chosen chunk index, the bitmap and the buffer.
 typedef struct WBTPacketBitmap {
     /* 00 */ s32 mLength;
     /* 04 */ s32 mTotal;
@@ -100,7 +100,7 @@ static inline u32 *GetPacketBitmapWord(WBTPacketBitmap *bitmap, s32 chunkIndex) 
     return &bitmap->mBitmap[chunkIndex >> 5];
 }
 
-// Entry of BlockTransfer; 0x68 bytes.
+// One block transfer slot: its state, packet kind, request id, chunk sizes, block id, payload and receive bitmap.
 typedef struct BlockTransferEntry {
 // 1 at rest; 2 while a parsed request waits for its reply.
     /* 00 */ u8 mState;
@@ -159,7 +159,7 @@ typedef union WBTCommandData {
 
 struct WBTCommand;
 
-// Block of 0x9c bytes; BlockTransfer holds three of them.
+// A block transfer command: the command and event, target and peer bitmaps, counters, result, callback and data.
 typedef struct WBTCommand {
     /* 00 */ s32 mCommand;
     /* 04 */ s32 mEvent;
@@ -174,7 +174,7 @@ typedef struct WBTCommand {
     /* 14 */ WBTCommandData mData;
 } WBTCommand;
 
-// Object at gBlockTransfer; 0x854 bytes.
+// The block transfer state: the current, next and callback commands and the sixteen transfer slots.
 typedef struct BlockTransfer {
     /* 000 */ WBTCommand mCurrentRequest;
     /* 09c */ WBTCommand mNextRequest;

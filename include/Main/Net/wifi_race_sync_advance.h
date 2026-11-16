@@ -31,8 +31,7 @@ typedef enum {
     WIFI_RACE_SYNC_PACKET_EMPTY
 } WiFiRaceSyncPacketKind;
 
-// Body after the 4-byte header. Kind 0: probing participant at 0, its tick at 4. Kind 2: sender countdown at 0. Kind 3:
-// 24-bit frame count at 0, then record bytes.
+// The body of a Wi-Fi race sync packet: by kind a probe origin, a countdown or a frame count, and the probe ticks.
 typedef struct WiFiRaceSyncPacketBody {
     /* 00 */ union {
         u16 mProbeOrigin;

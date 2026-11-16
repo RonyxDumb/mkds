@@ -4,7 +4,7 @@
 
 struct WLMenuScene;
 
-// Table of four functions that member 0x80c of WLMenuScene points to.
+// The four functions of a Wi-Fi menu screen: init, advance, release and write registers.
 typedef struct WLMenuCallbacks {
     /* 00 */ void (*mInit)();
     /* 04 */ s32 (*mAdvance)();
@@ -12,7 +12,7 @@ typedef struct WLMenuCallbacks {
     /* 0c */ void (*mWriteRegisters)(void);
 } WLMenuCallbacks;
 
-// 0x16-byte entries from 4 of WLMenuScanSlotPick.
+// The text of one scan slot: ten characters and a terminator.
 typedef struct ScanSlotText {
     /* 00 */ u16 mText[0xa];
     /* 14 */ u16 mTerminator;
@@ -35,7 +35,7 @@ typedef struct WLMenuScanSlotPick {
 #define WL_MENU_CALLBACKS_MESSAGE_TO_MENU 7
 #define WL_MENU_CALLBACKS_COUNT 8
 
-// 0x874-byte object that gWLMenuScene points to.
+// The Wi-Fi menu scene: its two OAM buffers, heap, the callbacks of the current screen and the scan slot pick.
 typedef struct WLMenuScene {
     /* 000 */ u8 mMainOam[0x404];
     /* 404 */ u8 mSubOam[0x404];

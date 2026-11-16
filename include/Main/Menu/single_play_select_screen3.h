@@ -8,7 +8,7 @@ typedef struct Nclr Nclr;
 typedef struct CharacterKartPicks CharacterKartPicks;
 typedef struct NNSG2dCellDataBank NNSG2dCellDataBank;
 
-// Elements of the table at member 0x14 of MenuScene.
+// The two functions of one menu screen: one writes the registers, the other runs its update.
 typedef struct ScreenCallbacks {
     /* 0 */ void (*mWriteRegisters)(void);
     /* 4 */ void (*mUpdate)(u32 sceneArg);
@@ -24,7 +24,7 @@ typedef struct ScreenCallbacks {
 #define SINGLE_PLAY_SELECT_BATTLE 3
 #define SINGLE_PLAY_SELECT_MISSION_RUN 4
 
-// Object behind gMenuScene.
+// The menu scene: the current screen and its switch state, the screen callbacks, two OAM buffers and mode select files.
 typedef struct MenuScene {
     /* 000 */ s32 mFramesSinceScreenSwitch;
     /* 004 */ s32 mScreenSwitched;

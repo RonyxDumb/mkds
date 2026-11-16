@@ -6,7 +6,7 @@
 #include "Main/Race/race_goal_times.h"
 #include "Main/Graphics/font_and_player_character.h"
 
-// Object behind gDownloadScreenFiles, allocated 0x2c bytes long by CreateSearchIconMBChildAndMultiDownload.
+// The loaded files of the download screen: the search icon, the multiboot child font and messages, the download chars.
 typedef struct DownloadScreenFiles {
     /* 00 */ void *mSearchIconCellLayout;
     /* 04 */ void *mSearchIconLayoutCellLayout;

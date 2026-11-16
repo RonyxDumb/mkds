@@ -34,7 +34,7 @@ enum {
 #define WIFI_VS_COURSE_SELECT_FADE_OUT_ROWS_FRAMES 0x3c
 #define WIFI_VS_COURSE_SELECT_FADE_IN_FRAMES 10
 
-// Object behind gWiFiVSCourseSelect, 0x158 bytes (InitWiFiVSCourseSelect allocates it).
+// The Wi-Fi VS course select screen: its file sets, messages, random state, interpolations and the courses shown.
 typedef struct WiFiVSCourseSelect {
     /* 000 */ ScreenMapFileSet mWiFiVSCourseSelectMBAndSBParts[2];
     // mWiFiVSCourseSelectMParts and mWiFiVSCourseSelectSParts are also walked as a two-element array from the M one.
