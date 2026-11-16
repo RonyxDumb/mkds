@@ -76,7 +76,7 @@ void AdvanceWiFiTopMenuWaitNextScene(void);
 void AdvanceWiFiTopMenuWaitChoice(void);
 void AdvanceWiFiTopMenuSlideOut(void);
 void AdvanceWiFiTopMenuPressItem(void);
-void AdvanceWiFiTopMenuBrowse(void);
+void AdvanceWiFiTopMenuWaitInput(void);
 void AdvanceWiFiTopMenuWaitReturnButton(void);
 void AdvanceWiFiTopMenuSlideIn(void);
 void AdvanceWiFiTopMenuWaitFade(void);

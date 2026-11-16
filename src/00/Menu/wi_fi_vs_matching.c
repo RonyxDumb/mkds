@@ -468,7 +468,7 @@ void AdvanceWiFiVSMatchingWaitMatching(void) {
     gWiFiVSMatching->mShownEntryCount = v1;
 }
 
-void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
+void AdvanceWiFiVSMatchingEmblemShrink(void) {
     s32 frame = gWiFiVSMatching->mStateFrames;
     u16 angle = (frame << 16) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES;
     s32 scale = ((0x13 - frame) * 0xf33) / WIFI_VS_MATCHING_EMBLEM_SCALE_IN_FRAMES + 0xcd;
@@ -509,7 +509,7 @@ void AdvanceWiFiVSMatchingEmblemScaleIn(void) {
     }
 }
 
-void AdvanceWiFiVSMatchingWaitPlayerListText(void) {
+void AdvanceWiFiVSMatchingPauseBeforeOthers(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     if (gWiFiVSMatching->mStateFrames >= WIFI_VS_MATCHING_PLAYER_LIST_TEXT_FRAMES) {
         gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER;
@@ -604,7 +604,7 @@ void AdvanceWiFiVSMatchingWaitResultShown(void) {
     gWiFiVSMatching->mStateFrames = gWiFiVSMatching->mStateFrames + 1;
     // mUnk_30 is 1 to 3 here and indexes the table from 1.
     if (gWiFiVSMatching->mStateFrames >= (gWiFiVSMatchingResultWaitFrames - 1)[gWiFiVSMatching->mOtherCount]) {
-        if (IsSelectReturnHiddenNoRequest() != 0) {
+        if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
             gWiFiVSMatching->mNextState = WIFI_VS_MATCHING_STATE_WAIT_FADE_OUT;
             gWiFiVSMatching->mPendingWiFiState = WIFI_STATE_SELECT_CHARACTER;
             gWiFiVSMatching->mStateFrames = 0;
@@ -756,10 +756,10 @@ void AdvanceWiFiVSMatching(void) {
             AdvanceWiFiVSMatchingWaitMatching();
             break;
         case WIFI_VS_MATCHING_STATE_EMBLEM_SCALE_IN:
-            AdvanceWiFiVSMatchingEmblemScaleIn();
+            AdvanceWiFiVSMatchingEmblemShrink();
             break;
         case WIFI_VS_MATCHING_STATE_WAIT_PLAYER_LIST_TEXT:
-            AdvanceWiFiVSMatchingWaitPlayerListText();
+            AdvanceWiFiVSMatchingPauseBeforeOthers();
             break;
         case WIFI_VS_MATCHING_STATE_SCALE_IN_OTHER:
             AdvanceWiFiVSMatchingScaleInOther();

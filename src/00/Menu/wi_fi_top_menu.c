@@ -154,7 +154,7 @@ void AdvanceWiFiTopMenuWaitReturnButton(void) {
     }
 }
 
-void AdvanceWiFiTopMenuBrowse(void) {
+void AdvanceWiFiTopMenuWaitInput(void) {
     InputSlotIndex slotIndex = INPUT_SLOT_PAD_OR_PARTICIPANT;
     BOOL pairNewUnlessRecentlyLost = FALSE;
     u32 hitIndex = -1;
@@ -302,7 +302,7 @@ void AdvanceWiFiTopMenuSlideOut(void) {
     if (gWiFiTopMenu->mStateFrames >= WIFI_TOP_MENU_SLIDE_FRAMES) {
         if ((gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_TITLE ||
              gWiFiTopMenu->mPendingWiFiState == WIFI_STATE_SCENE_WIFI_MENU) &&
-            IsSelectReturnHiddenNoRequest() == 0) {
+            IsSelectReturnHiddenNoSlideInRequest() == 0) {
             return;
         }
         if (GetWiFiNextScene() == -1) {
@@ -414,7 +414,7 @@ void AdvanceWiFiTopMenu(void) {
             AdvanceWiFiTopMenuWaitReturnButton();
             break;
         case WIFI_TOP_MENU_STATE_BROWSE:
-            AdvanceWiFiTopMenuBrowse();
+            AdvanceWiFiTopMenuWaitInput();
             break;
         case WIFI_TOP_MENU_STATE_PRESS_ITEM:
             AdvanceWiFiTopMenuPressItem();

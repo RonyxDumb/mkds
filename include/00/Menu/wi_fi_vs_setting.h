@@ -512,7 +512,7 @@ void AdvanceWiFiVSSettingIndexTimers(void);
 void UpdateWiFiVSSettingHighlight(void);
 void UpdateWiFiVSSettingOffsets(void);
 void AdvanceWiFiVSSettingWaitDisconnectedText(void);
-void AdvanceWiFiVSSettingWaitDisconnectText(void);
+void AdvanceWiFiVSSettingWaitDisconnectingText(void);
 void AdvanceWiFiVSSettingWaitDisconnectAnswer(void);
 void AdvanceWiFiVSSettingWaitNoBuddySettingText(void);
 void AdvanceWiFiVSSettingWaitNoBuddyListText(void);

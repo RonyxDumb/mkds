@@ -451,7 +451,7 @@ void AdvanceWiFiVSSettingSlideOut(void) {
     if (gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_SLIDE_FRAMES &&
         gWiFiVSSetting->mStateFrames >= WIFI_VS_SETTING_RETURN_SLIDE_END_FRAMES &&
         IsTxtSystemClosedNoOpenRequest() != 0 &&
-        ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
+        ((gWiFiVSSetting->mSelectReturnPending != FALSE && IsSelectReturnHiddenNoSlideInRequest() != 0) ||
          IsSelectReturnShownNoRequest() != 0) &&
         GetWiFiNextScene() == -1) {
         if (gWiFiVSSetting->mPendingWiFiState == WIFI_STATE_SCENE_RECORD && HasBuddyRecords() == FALSE) {
@@ -582,7 +582,7 @@ void AdvanceWiFiVSSettingWaitDisconnectAnswer(void) {
     }
 }
 
-void AdvanceWiFiVSSettingWaitDisconnectText(void) {
+void AdvanceWiFiVSSettingWaitDisconnectingText(void) {
     gWiFiVSSetting->mStateFrames = gWiFiVSSetting->mStateFrames + 1;
     if (IsTxtSystemOpenNoCloseRequest() != 0 && gWiFiVSSetting->mConnectionReleased == FALSE) {
         gWiFiVSSetting->mConnectionReleased = TRUE;
@@ -721,7 +721,7 @@ void AdvanceWiFiVSSetting(void) {
             AdvanceWiFiVSSettingWaitDisconnectAnswer();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_DISCONNECT_TEXT:
-            AdvanceWiFiVSSettingWaitDisconnectText();
+            AdvanceWiFiVSSettingWaitDisconnectingText();
             break;
         case WIFI_VS_SETTING_STATE_WAIT_DISCONNECTED_TEXT:
             AdvanceWiFiVSSettingWaitDisconnectedText();

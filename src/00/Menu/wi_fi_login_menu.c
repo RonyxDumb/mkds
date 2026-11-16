@@ -168,7 +168,7 @@ void AdvanceWiFiLoginMenuAskLoginAfterInfo(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuSetupNotice(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleNotice(void) {
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
         return;
@@ -181,7 +181,7 @@ void AdvanceWiFiLoginMenuSetupNotice(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuAskSetup(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleAsk(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -217,7 +217,7 @@ void AdvanceWiFiLoginMenuAskSetup(void) {
     }
 }
 
-void AdvanceWiFiLoginMenuConfirmSetup(void) {
+void AdvanceWiFiLoginMenuInvalidConsoleConfirm(void) {
     WiFiLoginMenu *loginMenu;
     if (GetTxtSystemDone() != 0) {
         RequestTxtSystemClose();
@@ -418,13 +418,13 @@ void AdvanceWiFiLoginMenu(void) {
             AdvanceWiFiLoginMenuAskLoginAfterInfo();
             break;
         case WIFI_LOGIN_STATE_SETUP_NOTICE:
-            AdvanceWiFiLoginMenuSetupNotice();
+            AdvanceWiFiLoginMenuInvalidConsoleNotice();
             break;
         case WIFI_LOGIN_STATE_ASK_SETUP:
-            AdvanceWiFiLoginMenuAskSetup();
+            AdvanceWiFiLoginMenuInvalidConsoleAsk();
             break;
         case WIFI_LOGIN_STATE_CONFIRM_SETUP:
-            AdvanceWiFiLoginMenuConfirmSetup();
+            AdvanceWiFiLoginMenuInvalidConsoleConfirm();
             break;
         case WIFI_LOGIN_STATE_SHOW_LOGGED_IN:
             AdvanceWiFiLoginMenuShowLoggedIn();
