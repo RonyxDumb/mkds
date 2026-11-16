@@ -139,7 +139,7 @@ void EnterLogoAskResetBackup(void *stateObject) {
     void *message;
     void *firstButtonMessage;
     void *secondButtonMessage;
-    commonMessages = FindFileInLoadedArchives(gLogoCommonBmgFileName);
+    commonMessages = FindFileInLoadedArchives(gLogoAskResetBackupCommonBmgFileName);
     message = GetBmgEntry(commonMessages, 124);
     firstButtonMessage = GetBmgEntry(commonMessages, 0);
     secondButtonMessage = GetBmgEntry(commonMessages, 1);
