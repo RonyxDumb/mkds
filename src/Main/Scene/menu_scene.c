@@ -51,7 +51,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
     if (IsDataSharingIncomplete() == 0) {
         if (IsInputOpenDuringRace() == 0) {
             if (sceneNumbers != NULL) {
-                if (RaceSceneGetCurrentMode() == 5) {
+                if (RaceSceneGetCurrentMode() == MODE_WIFI) {
                     value = GetWiFiRaceSyncPickedValue();
                 } else {
                     value = GetChoisesSPickedValue();
@@ -90,7 +90,7 @@ void UpdateRaceScene(SceneNumbers *sceneNumbers, u32 sceneFrames) {
                             (sceneFrames > 0x5a && (GetDownBits(GetRaceSceneInputSlot(), 0xc0f) != 0 ||
                                                     RaceSceneIsSlotPairNew(GetRaceSceneInputSlot()) != 0))) {
                             sceneNumbers->mNextScene = SCENE_RACE;
-                            SetNextRaceKind(0);
+                            SetNextRaceKind(RACE_KIND_NORMAL);
                         }
                         break;
                     case RACE_KIND_REPLAY:

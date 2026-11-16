@@ -486,7 +486,7 @@ BOOL IsChoisesSOpenAllowedDuringRace(void) {
         }
     }
     if (raceInProgress != 0) {
-        if (ChoisesSGetCurrentMode() != 5) {
+        if (ChoisesSGetCurrentMode() != MODE_WIFI) {
             modeAllowsOpen = 1;
         }
     }

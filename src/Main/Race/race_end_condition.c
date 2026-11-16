@@ -33,7 +33,7 @@ s32 IsRaceEndConditionMet(void) {
             for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
                 flag = FALSE;
                 value = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
-                if ((u32) value <= 3 && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                if ((u32) value <= PLAYER_KIND_PEER && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     flag = TRUE;
                 }
                 if (flag != FALSE) {
@@ -116,7 +116,7 @@ s32 IsRaceEndConditionMet(void) {
             for (kartIndex = 0; kartIndex < (u32) raceSetup->mKartCount; kartIndex++) {
                 flag = FALSE;
                 value = raceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
-                if ((u32) value <= 3 && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                if ((u32) value <= PLAYER_KIND_PEER && ((1 << value) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     flag = TRUE;
                 }
                 if (flag != FALSE) {

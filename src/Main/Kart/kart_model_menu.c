@@ -85,7 +85,7 @@ BOOL FindKartModelMenuCharacter(s32 *characterIndex, u32 kartIndex) {
     enum { CHARACTER_FIRST } candidateCharacter;
 
     *characterIndex = _s32_div_f((u16) kartIndex, 3);
-    if (*characterIndex >= 8) {
+    if (*characterIndex >= CHARACTER_KARON) {
         switch (*characterIndex) {
             case CHARACTER_KARON:
                 backupFlagIndex = 0x14;

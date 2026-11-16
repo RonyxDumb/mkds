@@ -283,9 +283,9 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 fullName) {
     u32 messageIndexes[13] = {20, 25, 24, 27, 22, 26, 23, 21, 29, 28, 30, 31, 32};
     u32 messageIndex;
 
-    if (fullName != 0 && characterIndex == 1) {
+    if (fullName != 0 && characterIndex == CHARACTER_DONKEY) {
         messageIndex = 0x21;
-    } else if (fullName != 0 && characterIndex == 8) {
+    } else if (fullName != 0 && characterIndex == CHARACTER_KARON) {
         messageIndex = 0x22;
     } else {
         messageIndex = messageIndexes[characterIndex];

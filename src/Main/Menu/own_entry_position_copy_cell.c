@@ -6,7 +6,7 @@
 
 void AddCharacterSeqQueueEntry(int characterIndex, int pairSide) {
     u32 pairNo;
-    if ((characterIndex != 0xc) || (pairSide != 1)) {
+    if ((characterIndex != CHARACTER_HEYHO) || (pairSide != 1)) {
         pairNo = GetCharacterSeqPairNo(characterIndex);
         AddSeqQueueEntry(pairNo, pairSide);
     }

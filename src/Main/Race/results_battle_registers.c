@@ -501,7 +501,7 @@ void QueueResultsBattleCharacterIcon(s32 cellFileSetIndex, s32 entryIndex, s32 c
     QueueCellCharsAndFirstPalette(characterIndex, iconCellFileSet->mCells, iconCellFileSet->mChars,
                                   iconCellFileSet->mPalette, iconCellFileSet->mCellLayout, cellFileSetIndex, cellIndex,
                                   cellFileSet->mCells, cellFileSet->mCellLayout);
-    if (characterIndex == 0xc) {
+    if (characterIndex == CHARACTER_HEYHO) {
         if (iconSetSelector == 1) {
             palette = gResultsBattle->mCellFileSet2ShyguyPalette;
         } else {

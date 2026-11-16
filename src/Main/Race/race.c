@@ -256,7 +256,7 @@ void InitRaceFields(void) {
     gRace->mLightVectorX = lightVector.x;
     gRace->mLightVectorY = lightVector.y;
     gRace->mLightVectorZ = lightVector.z;
-    gRace->mUseChainCameras = (gRaceSetup->mRaceKind - 3) <= 2 ? 1 : 0;
+    gRace->mUseChainCameras = (gRaceSetup->mRaceKind - RACE_KIND_START_GP) <= 2 ? 1 : 0;
     gRace->mUseFirstChainCamera = gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE ? 1 : 0;
     gRace->mIsAwardOrStaffRoll =
         (gRaceSetup->mRaceKind == RACE_KIND_AWARD || gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) != 0 ? 1 : 0;

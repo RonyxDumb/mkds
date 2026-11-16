@@ -136,7 +136,7 @@ void PickRandomCharacters(CharacterKartPicks *picks) {
     }
     for (character = 0; character < 0xd; character++) {
         checkId = -1;
-        if (character != 0xc) {
+        if (character != CHARACTER_HEYHO) {
             switch (character) {
                 case CHARACTER_KARON:
                     checkId = 0x14;

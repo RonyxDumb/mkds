@@ -183,7 +183,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                     mode = gRaceSetup->mMode;
                     if (mode == MODE_TIME_ATTACK) {
                         sun->mTimer = value;
-                    } else if (mode == 5) {
+                    } else if (mode == MODE_WIFI) {
                         sun->mTimer = sun->mFollower.mFromEntry->mExtraValue;
                     }
                 }

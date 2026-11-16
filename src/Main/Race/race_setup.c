@@ -155,7 +155,7 @@ void SetNextRaceSetupFromKartMask(void) {
     for (; nextEntryIndex < 8; nextEntryIndex++) {
         SetNextRaceEntry(nextEntryIndex, -1, -1, PLAYER_KIND_NONE, -1, 3);
     }
-    WiFiSetNextMode(5);
+    WiFiSetNextMode(MODE_WIFI);
     WiFiSetNextCourseId(gRaceSetupCopy->mCourseId);
     WiFiSetNextEngineIndex(ENGINE_CLASS_MEDIUM);
     WiFiSetNextMirrorMode(0);

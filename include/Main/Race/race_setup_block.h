@@ -86,25 +86,22 @@ enum {
 typedef struct KartEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
-    // The 0x28-byte record of the entry's player: kind, team, index, name, emblem.
     /* 08 */ KartEntryPlayer mPlayer;
 } KartEntry;
 
 // Values of the mMode member of RaceSetup and of RaceSetupHeader.
 #define MODE_GRAND_PRIX 0
 
-// Time attack: the end handling below is not run in this mode.
 #define MODE_TIME_ATTACK 1
 
-// Battle: reads the balloon or shine count of every kart only in this mode.
 #define MODE_BATTLE 2
 
-// Versus: shares the case with battle and reads the team setting mUseTeams.
 #define MODE_VS 3
 
 // Mission run: the mission row and column are read only while the mode has this value.
 #define MODE_MISSION_RUN 4
 
+// Bits of RaceSetup.mMissionRunBits; each switches on one mission run rule.
 #define MISSION_RUN_BIT_END_IN_CONTACT 4
 
 #define MISSION_RUN_BIT_END_RESPAWN_FALL 8
@@ -115,10 +112,8 @@ typedef struct KartEntry {
 
 #define MISSION_RUN_BIT_SWAP_LEFT_RIGHT 0x10
 
-// Bits of RaceSetup.mMissionRunBits; each switches on one mission run rule.
 #define MISSION_RUN_BIT_INPUT_MASK 1
 
-// WiFi race: the WiFi session and the synced ranks are read only in this mode.
 #define MODE_WIFI 5
 
 // Values of the mRaceKind member of RaceSetup and of RaceSetupHeader: the kind of race scene.

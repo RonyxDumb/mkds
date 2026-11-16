@@ -956,7 +956,7 @@ void StartSceneSounds(void) {
         }
     } else {
         if (GetCurrentSceneNumber() == SCENE_RACE) {
-            if (gRaceSetup->mRaceKind - 3 <= 1) {
+            if (gRaceSetup->mRaceKind - RACE_KIND_START_GP <= 1) {
                 SetSoundMode(&gSoundModeHolder, SCENE_SOUND_MODE_PLAYING);
                 gRaceSoundKind = 2;
             } else {

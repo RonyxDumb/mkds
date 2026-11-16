@@ -486,7 +486,7 @@ void SetCourseIdFromSelectCupCourse(void) {
 
 void SetupGhostRecordSetForCupCourse(void) {
     SetupGhostRecordSetForCourse(gCupRowCourseIds[gCupRowsByCupIndex[GetCupIndex()]][gSelectCupCourse->mIndex]);
-    SetRaceSetupCopyGhostRecordIndex(0);
+    SetRaceSetupCopyGhostRecordIndex(GHOST_RECORD_INDEX_COURSE);
 }
 
 #pragma thumb off

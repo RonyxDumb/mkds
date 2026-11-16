@@ -55,7 +55,7 @@ u32 IsChoisesSPickLocked(void) {
 #pragma optimize_for_size on
 // In mode 5 the sequence index is always 4, whatever the selected value.
 void StartChoisesSSelectedValueSeq(void) {
-    if (ChoisesSGetCurrentMode() == 5) {
+    if (ChoisesSGetCurrentMode() == MODE_WIFI) {
         StartChoisesSValueSeq(4);
     } else {
         switch (gChoisesS->mSelectedValue) {

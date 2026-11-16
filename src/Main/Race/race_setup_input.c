@@ -429,10 +429,10 @@ void SetupStaffRollRace(s32 useTrueStaffRoll) {
             if ((gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableRow : -1) == MISSION_TABLE_ROW_KING_ICE_DONKETU &&
                 (gRaceSetup->mMode == MODE_MISSION_RUN ? gRaceSetup->mMissionTableColumn : -1) == 9) {
                 if (index == 0) {
-                    characterIndex = 7;
+                    characterIndex = CHARACTER_LUIGI;
                     kartIndex = 0x15;
                 } else if (index == 7) {
-                    characterIndex = 0;
+                    characterIndex = CHARACTER_MARIO;
                     kartIndex = characterIndex;
                 } else {
                     characterIndex = index;
@@ -751,9 +751,9 @@ BOOL SetNextEntryFromCourseGhost(s32 courseId, s32 entryIndex) {
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
                     sizeof(KeyRecordingBuffer));
         result = TRUE;
-        GetGhostFinishTimeByIndex(0, &gRaceSetup->mGhostTime);
+        GetGhostFinishTimeByIndex(GHOST_RECORD_INDEX_COURSE, &gRaceSetup->mGhostTime);
         for (lapNumber = 1; lapNumber <= 5; lapNumber++) {
-            GetGhostLapTimeByIndex(0, lapNumber, &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
+            GetGhostLapTimeByIndex(GHOST_RECORD_INDEX_COURSE, lapNumber, &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
         }
     }
     return result;
@@ -775,9 +775,10 @@ BOOL SetNextEntryFromFirstSlotGhost(s32 courseId, s32 entryIndex) {
         gRaceSetup->mNextEntries[entryIndex].mPlayer.mGhostRecordIndex = GHOST_RECORD_INDEX_FIRST_SLOT;
         MI_CpuCopy8(ghostRecord->mKeyRecordingBuffer, gInputSlots[entryIndex].mKeyRecording.mBuffer,
                     sizeof(KeyRecordingBuffer));
-        GetGhostFinishTimeByIndex(1, &gRaceSetup->mGhostTime);
+        GetGhostFinishTimeByIndex(GHOST_RECORD_INDEX_FIRST_SLOT, &gRaceSetup->mGhostTime);
         for (lapNumber = 1; lapNumber <= 5; lapNumber++) {
-            GetGhostLapTimeByIndex(1, lapNumber, &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
+            GetGhostLapTimeByIndex(GHOST_RECORD_INDEX_FIRST_SLOT, lapNumber,
+                                   &gRaceSetup->mGhostLapTimes[lapNumber - 1]);
         }
     } else {
         SetNextRaceEntry(entryIndex, 0, 0, PLAYER_KIND_NONE, -1, 3);

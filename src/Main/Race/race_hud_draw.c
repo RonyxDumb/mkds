@@ -841,7 +841,7 @@ void UpdateRaceHudSubScreen(void) {
     s32 value;
 
     UpdateRaceLinkLevel();
-    if (gRaceSetup->mRaceKind - 3 <= 3) {
+    if (gRaceSetup->mRaceKind - RACE_KIND_START_GP <= 3) {
         return;
     }
     if (gRaceHud->mEnabled == FALSE) {

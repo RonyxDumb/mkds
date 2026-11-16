@@ -101,7 +101,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
         isEntryIndexHumanGhostOrPeer = FALSE;
         if (entryIndex != -1) {
             playerKind = GetCurrentEntry(entryIndex)->mPlayer.mKind;
-            if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+            if (playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                 isEntryIndexHumanGhostOrPeer = TRUE;
             }
             if (isEntryIndexHumanGhostOrPeer != FALSE) {
@@ -139,7 +139,7 @@ void InitKartNameTagsAndDistanceOrder(void) {
             } else {
                 isEntryHumanGhostOrPeer = FALSE;
                 playerKind = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mKind;
-                if (playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
+                if (playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
                     isEntryHumanGhostOrPeer = TRUE;
                 }
                 if (isEntryHumanGhostOrPeer != FALSE && kartIndex != gRaceSetup->mEntryIndex) {

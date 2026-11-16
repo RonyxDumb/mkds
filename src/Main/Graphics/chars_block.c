@@ -110,14 +110,14 @@ void CopyPlayerCharacterPaletteAndChars(u16 *paletteDestination, s32 paletteRow,
 
     entryIndex = raceSetup->mRaceKind == RACE_KIND_DEMO ? raceSetup->mFollowedKartIndex : raceSetup->mEntryIndex;
     characterIndex = raceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
-    if (characterIndex == 12) {
+    if (characterIndex == CHARACTER_HEYHO) {
         palette = GetPlayerCharacterShyguyNclr(1);
     } else {
         palette = GetPlayerCharacterNclr(1);
     }
     chars = GetPlayerCharacterNcgr(1);
     paletteColors = palette->mData;
-    if (characterIndex == 12) {
+    if (characterIndex == CHARACTER_HEYHO) {
         paletteCharacterIndex = gMenuShared->mShuffledIndices[(
             u16) (gRaceSetup->mRaceKind == RACE_KIND_DEMO ? gRaceSetup->mFollowedKartIndex : gRaceSetup->mEntryIndex)];
     } else {

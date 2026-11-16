@@ -408,7 +408,7 @@ u8 CollideKartWithItemBox(ItemBox *itemBox, Kart *kart, void *firstResponsePtr, 
     itemBox->mMapObject.mFlags |= gItemBoxHitFlag;
     distanceBits = itemBox->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT;
     playerKind = gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind;
-    if ((u32) playerKind <= 3) {
+    if ((u32) playerKind <= PLAYER_KIND_PEER) {
         if (((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) != 0) {
             kindInMask = TRUE;
         }

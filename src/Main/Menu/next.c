@@ -41,11 +41,11 @@ void SetNextGrandPrixEntries(void) {
     SetGivenCharacterAndKart(gMenuScene->mCharacterKartPicks, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
                              GetRaceSetupCopy()->mEntries[0].mKartIndex);
     PickRandomCharactersAndKarts(gMenuScene->mCharacterKartPicks);
-    SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex, 0,
-                     -1, 3);
+    SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex,
+                     PLAYER_KIND_HUMAN, -1, 3);
     for (entryIndex = 1; entryIndex < 8; entryIndex++) {
         GetEntryCharacterAndKart(gMenuScene->mCharacterKartPicks, entryIndex, &characterIndex, &kartIndex);
-        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, 1, -1,
+        SetNextRaceEntry(entryIndex, characterIndex, kartIndex, PLAYER_KIND_CPU, -1,
                          entryIndex == firstPick    ? 0
                          : entryIndex == secondPick ? 1
                                                     : 3);
@@ -61,8 +61,8 @@ void SetNextTimeAttackEntries(void) {
     RaceSetupCopy *setupCopyForKart;
     setupCopy = GetRaceSetupCopy();
     setupCopyForKart = GetRaceSetupCopy();
-    SetNextRaceEntry(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex, 0, 0xffffffff,
-                     3);
+    SetNextRaceEntry(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex,
+                     PLAYER_KIND_HUMAN, 0xffffffff, 3);
     entryIndex = 1;
     do {
         SetNextRaceEntryNone(entryIndex);
@@ -73,7 +73,7 @@ void SetNextTimeAttackEntries(void) {
 #pragma thumb off
 
 void SetNextRaceEntryNone(u32 entryIndex) {
-    SetNextRaceEntry(entryIndex, 0xffffffff, 0xffffffff, 4, 0xffffffff, 3);
+    SetNextRaceEntry(entryIndex, 0xffffffff, 0xffffffff, PLAYER_KIND_NONE, 0xffffffff, 3);
 }
 
 #pragma optimize_for_size on
@@ -83,7 +83,8 @@ void SetNextRaceEntriesFromRaceSetupCopy(void) {
     s32 teamIndex;
 
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        if (GetRaceSetupCopy()->mCpuDifficulty == 0 && GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind == 1) {
+        if (GetRaceSetupCopy()->mCpuDifficulty == 0 &&
+            GetRaceSetupCopy()->mEntries[entryIndex].mPlayerKind == PLAYER_KIND_CPU) {
             SetNextRaceEntryNone(entryIndex);
         } else {
             teamIndex = GetRaceSetupCopy()->mUseTeams != 0 ? GetRaceSetupCopy()->mEntries[entryIndex].mTeamIndex : -1;

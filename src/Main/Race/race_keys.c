@@ -120,7 +120,7 @@ void ResetInputSlotsFromRaceSetup(void) {
         playerKind = raceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
         isNonCpu = FALSE;
         inputSlotIndex = raceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-        if ((u32) playerKind <= 3 && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
+        if ((u32) playerKind <= PLAYER_KIND_PEER && ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER)) {
             isNonCpu = TRUE;
         }
         if (isNonCpu != FALSE) {
@@ -132,14 +132,14 @@ void ResetInputSlotsFromRaceSetup(void) {
                 } else {
                     gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PAD_RECORDED;
                 }
-            } else if (playerKind == 2) {
+            } else if (playerKind == PLAYER_KIND_GHOST) {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_KEY_RECORDING_PLAYBACK;
             } else if (raceSetup->mMode == MODE_WIFI) {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_WIFI_REQUESTED_BITS;
             } else {
                 gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_PARTICIPANT;
             }
-        } else if (playerKind == 1) {
+        } else if (playerKind == PLAYER_KIND_CPU) {
             gInputSlots[inputSlotIndex].mSourceKind = INPUT_SOURCE_REQUESTED_BITS;
         }
     }

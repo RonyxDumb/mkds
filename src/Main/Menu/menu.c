@@ -466,7 +466,7 @@ void InitMenu(void) {
             break;
         case MENU_ENTRY_TIME_ATTACK_TOP_MENU:
             CopyCurrentToRaceSetupCopy();
-            GetRaceSetupCopy()->mMode = 1;
+            GetRaceSetupCopy()->mMode = MODE_TIME_ATTACK;
             SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, SCREEN_NONE);
             SetMenuEntryKind(0);
             SetRaceSetupRequested(1);

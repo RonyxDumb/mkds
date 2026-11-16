@@ -105,7 +105,7 @@ static inline s32 IsKartAiTargetAllowed(u32 kartIndex, u32 targetIndex) {
         gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
-        if ((u32) playerKind <= 3) {
+        if ((u32) playerKind <= PLAYER_KIND_PEER) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
@@ -379,7 +379,7 @@ s32 ShouldKartAiTargetKart(u32 kartIndex, u32 targetIndex) {
         gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex != KartAiGetCurrentTeamIndex(targetIndex)) {
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[targetIndex].mPlayer.mKind;
-        if ((u32) playerKind <= 3) {
+        if ((u32) playerKind <= PLAYER_KIND_PEER) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
@@ -967,7 +967,7 @@ void PickKartAiRaceStart(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kar
     KartAi *kartAiOfKart;
 
     playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
-    if (playerKind <= 3) {
+    if (playerKind <= PLAYER_KIND_PEER) {
         if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -1015,7 +1015,7 @@ void AdvanceRaceKartAiSpeedLimit(struct KartAiRaceSpeedLimit *raceSpeedLimit, st
         raceSpeedLimit->mSpeedLimitReduced = 0;
         isHumanGhostOrPeer = FALSE;
         playerKind = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
-        if (playerKind <= 3) {
+        if (playerKind <= PLAYER_KIND_PEER) {
             if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }

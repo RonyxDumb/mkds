@@ -1152,7 +1152,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
     }
     if (gRaceSetup->mMode == MODE_BATTLE) {
         isHumanGhostOrPeer = FALSE;
-        if ((u32) playerKind > 3) {
+        if ((u32) playerKind > PLAYER_KIND_PEER) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
@@ -1160,7 +1160,7 @@ void StartItemSlotForKart(s32 kartIndex, s32 forcedRowHandle, s32 shortSpin) {
                       shortSpin);
     } else {
         isHumanGhostOrPeer = FALSE;
-        if ((u32) playerKind > 3) {
+        if ((u32) playerKind > PLAYER_KIND_PEER) {
         } else if ((1 << playerKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
         }
