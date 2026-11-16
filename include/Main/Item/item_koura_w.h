@@ -166,11 +166,11 @@ void MarkItemInUseAsActiveItem(ItemInUse *itemInUse);
 extern Vec3 gKouraWVec3UnitY;
 
 extern StateCallbacks gItemKouraWStateTable[8];
-extern volatile s32 gKouraWBurstMaxRadiusSquared;
+extern volatile s32 gKouraWGrowMaxRadiusSquared;
 extern Nsbmd *gKouraW;
-extern s32 gKouraWBurstScaleStep;
+extern s32 gKouraWGrowScaleStep;
 extern struct ItemObject **gCollidedItemObjects;
-extern s32 gKouraWBurstScaleLimit;
+extern s32 gKouraWGrowScaleLimit;
 extern s32 gKouraWBurstInverseLimit;
 
 extern const u16 gItemObjectNoOwnerBit;

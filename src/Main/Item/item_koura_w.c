@@ -146,10 +146,10 @@ StateCallbacks gItemKouraWStateTable[ITEM_KOURA_W_STATE_COUNT] = {
     {EnterItemKouraWFall, UpdateItemKouraWFall},
     {EnterItemKouraWGrow, UpdateItemKouraWGrow}};
 Nsbmd *gKouraW;
-s32 gKouraWBurstScaleStep;
+s32 gKouraWGrowScaleStep;
 s32 gKouraWBurstInverseLimit;
-s32 gKouraWBurstScaleLimit;
-volatile s32 gKouraWBurstMaxRadiusSquared;
+s32 gKouraWGrowScaleLimit;
+volatile s32 gKouraWGrowMaxRadiusSquared;
 struct ItemObject **gCollidedItemObjects;
 
 void MarkItemInUseAsActiveItem(ItemInUse *itemInUse) {
@@ -808,8 +808,8 @@ void UpdateItemKouraWGrow(void *stateObject) {
     u32 stateFrames;
 
     stateFrames = item->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWBurstScaleLimit,
-                            gKouraWBurstScaleStep)) {
+    if (GrowItemObjectScale(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject, gKouraWGrowScaleLimit,
+                            gKouraWGrowScaleStep)) {
         RefreshItemObjectScaleExact(&item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -1007,16 +1007,16 @@ void SetupItemKouraWKind(void) {
     s32 radiusRatio;
     s32 maxRadius;
 
-    gKouraWBurstScaleLimit = 0x1e000;
-    gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWBurstScaleLimit);
-    gKouraWBurstScaleStep = 0x299a;
-    scaleLimit = gKouraWBurstScaleLimit;
+    gKouraWGrowScaleLimit = 0x1e000;
+    gKouraWBurstInverseLimit = FX_Div(0x1000, gKouraWGrowScaleLimit);
+    gKouraWGrowScaleStep = 0x299a;
+    scaleLimit = gKouraWGrowScaleLimit;
     radiusRatio = gItemKinds[5].mRadius;
     maxRadius = MUL_FIXED12_NO_ROUND(scaleLimit, radiusRatio);
-    gKouraWBurstMaxRadiusSquared = maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius;
     maxRadius >>= 12;
-    gKouraWBurstMaxRadiusSquared = maxRadius;
-    gKouraWBurstMaxRadiusSquared = maxRadius * maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius;
+    gKouraWGrowMaxRadiusSquared = maxRadius * maxRadius;
     gKouraW = CreateItemNsbmd("koura_w.nsbmd", "koura_w.nsbtx");
     if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
         NNS_G3dMdlSetMdlFogEnableFlagAll(gKouraW->mResMdl, 0);

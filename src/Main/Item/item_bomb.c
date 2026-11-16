@@ -66,7 +66,7 @@
 #include "matrix_4x3_basic.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-const Vec3 gItemBombExplodeStartScale = {0x1000, 0x1000, 0x1000};
+const Vec3 gItemBombGrowStartScale = {0x1000, 0x1000, 0x1000};
 const u16 gItemBombDisabledFlag = 1;
 StateCallbacks gItemBombStateTable[4] = {{ItemBombBounceNop, UpdateItemBombBounce},
                                          {ItemBombRestNop, UpdateItemBombRest},
@@ -77,11 +77,11 @@ const u16 gItemBombNoUpdateListFlag = 4;
 const u32 gItemObjectDistanceSquaredMask = 0x3fffffe0;
 const u16 gItemBombSkipViewTestFlag = 2;
 const u16 gItemBombNoOwnerBit = ITEM_OWNER_NO_OWNER;
-s32 gItemBombExplodeMaxRadiusSquared;
+s32 gItemBombGrowMaxRadiusSquared;
 s32 gItemBombTimerLimit;
-s32 gItemBombExplodeInverseLimit;
-s32 gItemBombExplodeScaleLimit;
-s32 gItemBombExplodeScaleStep;
+s32 gItemBombGrowInverseLimit;
+s32 gItemBombGrowScaleLimit;
+s32 gItemBombGrowScaleStep;
 
 // Reset hook of the bomb kind.
 void ResetItemBomb(ItemBomb *bomb) {
@@ -181,7 +181,7 @@ void EnterItemBombGrow(void *stateObject) {
 
     bomb->mBouncingItemObject.mItemObject.mFlags |= ITEM_OBJECT_FLAG_FIXED_SCALE;
     bomb->mBouncingItemObject.mItemObject.mScaleTargetOrSpeed = 0;
-    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombExplodeStartScale;
+    bomb->mBouncingItemObject.mItemObject.mScale = gItemBombGrowStartScale;
     bomb->mModelEffect =
         StartModelEffect(MODEL_EFFECT_BOMBCORE, &bomb->mBouncingItemObject.mItemObject.mPos,
                          IsItemObjectTooFarForEffects(&bomb->mBouncingItemObject.mItemObject) == 0 ? 1 : 0);
@@ -215,8 +215,8 @@ void UpdateItemBombGrow(void *stateObject) {
     s32 stateFrames;
 
     stateFrames = bomb->mStateMachine.mStateFrames;
-    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombExplodeScaleLimit,
-                            gItemBombExplodeScaleStep) != 0) {
+    if (GrowItemObjectScale(&bomb->mBouncingItemObject.mItemObject, gItemBombGrowScaleLimit,
+                            gItemBombGrowScaleStep) != 0) {
         RefreshItemObjectScaleExact(&bomb->mBouncingItemObject.mItemObject);
     }
     if (stateFrames < 0x16) {
@@ -279,22 +279,22 @@ void AdvanceItemBombNearestKart(ItemBomb *bomb) {
 }
 
 void ClampItemBombTimerByDistance(ItemBomb *bomb) {
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 6)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 6)) {
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 4)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 4)) {
         if (bomb->mTimer > gItemBombTimerLimit) {
             bomb->mTimer = gItemBombTimerLimit;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > (gItemBombExplodeMaxRadiusSquared << 2)) {
+    if (bomb->mNearestKartDistanceSquared > (gItemBombGrowMaxRadiusSquared << 2)) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 1)) {
             bomb->mTimer = gItemBombTimerLimit >> 1;
         }
         return;
     }
-    if (bomb->mNearestKartDistanceSquared > gItemBombExplodeMaxRadiusSquared) {
+    if (bomb->mNearestKartDistanceSquared > gItemBombGrowMaxRadiusSquared) {
         if (bomb->mTimer > (gItemBombTimerLimit >> 2)) {
             bomb->mTimer = gItemBombTimerLimit >> 2;
         }
@@ -660,7 +660,7 @@ void *StartItemBombWithMapObject(void *mapObject, s32 offsetY) {
 
 Vec3 *GetItemBombGrowInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
     *stateFrames = bomb->mStateMachine.mStateFrames;
-    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombExplodeInverseLimit);
+    *scaledScaleZ = MUL_FIXED12_NO_ROUND(bomb->mBouncingItemObject.mItemObject.mScale.z, gItemBombGrowInverseLimit);
     return &bomb->mBouncingItemObject.mItemObject.mPos;
 }
 
@@ -669,12 +669,12 @@ Vec3 *GetItemBombGrowInfo(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ) {
 void SetupItemBombKind(void) {
     s32 engineIndex;
 
-    gItemBombExplodeScaleLimit = 0x18006;
-    gItemBombExplodeInverseLimit = FX_Div(0x1000, 0x18006);
-    gItemBombExplodeScaleStep = 0x2148;
-    gItemBombExplodeMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombExplodeScaleLimit, gItemKinds[9].mRadius);
-    gItemBombExplodeMaxRadiusSquared >>= 12;
-    gItemBombExplodeMaxRadiusSquared *= gItemBombExplodeMaxRadiusSquared;
+    gItemBombGrowScaleLimit = 0x18006;
+    gItemBombGrowInverseLimit = FX_Div(0x1000, 0x18006);
+    gItemBombGrowScaleStep = 0x2148;
+    gItemBombGrowMaxRadiusSquared = MUL_FIXED12_NO_ROUND(gItemBombGrowScaleLimit, gItemKinds[9].mRadius);
+    gItemBombGrowMaxRadiusSquared >>= 12;
+    gItemBombGrowMaxRadiusSquared *= gItemBombGrowMaxRadiusSquared;
     engineIndex = gRaceSetup->mEngineIndex;
     switch (engineIndex) {
         case ENGINE_CLASS_SLOW:

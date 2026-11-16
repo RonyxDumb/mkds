@@ -112,7 +112,7 @@ s32 InitItemBomb(ItemInUse *inUse, ItemBomb *bomb);
 
 void ResetItemBomb(ItemBomb *bomb);
 
-extern const Vec3 gItemBombExplodeStartScale;
+extern const Vec3 gItemBombGrowStartScale;
 extern const u16 gItemBombDisabledFlag;
 extern StateCallbacks gItemBombStateTable[4];
 extern const u16 gItemBombSkipListCallbackFlag;
@@ -120,8 +120,8 @@ extern const u16 gItemBombNoUpdateListFlag;
 extern const u32 gItemObjectDistanceSquaredMask;
 extern const u16 gItemBombSkipViewTestFlag;
 extern const u16 gItemBombNoOwnerBit;
-extern s32 gItemBombExplodeMaxRadiusSquared;
+extern s32 gItemBombGrowMaxRadiusSquared;
 extern s32 gItemBombTimerLimit;
-extern s32 gItemBombExplodeInverseLimit;
-extern s32 gItemBombExplodeScaleLimit;
-extern s32 gItemBombExplodeScaleStep;
+extern s32 gItemBombGrowInverseLimit;
+extern s32 gItemBombGrowScaleLimit;
+extern s32 gItemBombGrowScaleStep;
