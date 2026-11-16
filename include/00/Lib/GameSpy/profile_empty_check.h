@@ -23,4 +23,4 @@ typedef struct GpiProfile {
     /* 18 */ void *mPeerSig;
 } GpiProfile;
 
-u32 GpiIsProfileEmpty(GpiProfile *profile);
+u32 gpiCanFreeProfile(GpiProfile *profile);

@@ -37,7 +37,7 @@ BOOL get_sockaddrin(const char *hostname, u32 port, SOCSockAddrIn *address) {
 void AvailableSendPacket(void) {
     sendto(gGsiAvailableCheck.mSocket, &gGsiAvailableCheck.mPacketType, gGsiAvailableCheck.mPacketLength, 0,
            &gGsiAvailableCheck.mAddress, 8);
-    gGsiAvailableCheck.mSendTime = GetElapsedMilliseconds();
+    gGsiAvailableCheck.mSendTime = current_time();
 }
 
 void GSIStartAvailableCheckA(const char *gamename) {
@@ -110,7 +110,7 @@ s32 GSIAvailableCheckThink(void) {
         }
         return gGsiAcResult;
     }
-    if (GetElapsedMilliseconds() > gGsiAvailableCheck.mSendTime + 0x7d0) {
+    if (current_time() > gGsiAvailableCheck.mSendTime + 0x7d0) {
         if (gGsiAvailableCheck.mRetryCount == 1) {
             closesocket(gGsiAvailableCheck.mSocket);
             gGsiAcResult = 1;
@@ -129,8 +129,8 @@ s32 IntKeyCompare(SbServer **entry1, SbServer **entry2) {
     s32 diff;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetInt(firstServer, gSortServerList->mSortKey, 0);
-    diff = firstValue - SbServerGetInt(secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SBServerGetIntValueA(firstServer, gSortServerList->mSortKey, 0);
+    diff = firstValue - SBServerGetIntValueA(secondServer, gSortServerList->mSortKey, 0);
     if (gSortServerList->mSortAscending == 0) {
         diff = -diff;
     }
@@ -145,8 +145,8 @@ s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2) {
     double difference;
     firstServer = *entry1;
     secondServer = *entry2;
-    firstValue = SbServerGetDouble(firstServer, gSortServerList->mSortKey, 0);
-    secondValue = SbServerGetDouble(secondServer, gSortServerList->mSortKey, 0);
+    firstValue = SBServerGetFloatValueA(firstServer, gSortServerList->mSortKey, 0);
+    secondValue = SBServerGetFloatValueA(secondServer, gSortServerList->mSortKey, 0);
     difference = firstValue - secondValue;
     if (gSortServerList->mSortAscending == 0) {
         difference = 0 - difference;

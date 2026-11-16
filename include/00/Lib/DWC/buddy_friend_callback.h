@@ -27,7 +27,7 @@ enum {
 // agree: GP buddies the list lacks are deleted, list entries GP lacks are added (DWCi_GPSendBuddyRequest), entries that
 // hold only a name are looked up by a GP profile search, entries with the same profile id are merged; when a name is
 // given it also talks to the stats server first. The end is reported through mResultCallback (mBuddiesChanged: the list
-// was rewritten and must be saved). DWCi_FriendProcess also pumps GpUpdate every 300 ms in connection states 3 to 6,
+// was rewritten and must be saved). DWCi_FriendProcess also pumps gpProcess every 300 ms in connection states 3 to 6,
 // and the object answers the GP buddy request and buddy status callbacks.
 typedef void (*DWCBuddyChangedCallback)(s32 index, void *arg);
 
@@ -36,10 +36,10 @@ typedef struct WiFiBuddySync {
     // phase inside state 1 and stays address-based.
     /* 00 */ s32 mState;
     /* 04 */ struct GpConnection *mGpConnection;
-    // GpUpdate calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
+    // gpProcess calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
     // more than 7.
     /* 08 */ u32 mPollCount;
-    // OS_GetTick reading at the last GpUpdate; the next one is allowed after 300 ms.
+    // OS_GetTick reading at the last gpProcess; the next one is allowed after 300 ms.
     /* 0c */ u64 mLastPollTime;
     // Capacity of the list at mBuddies (0x3c entries), not the number of entries in use (DWC_GetNumFriend counts
     // those).

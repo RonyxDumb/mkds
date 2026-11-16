@@ -31,28 +31,28 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     u32 *arg;
     s32 result;
 
-    if (GpiReadError(connection, input, 1) != FALSE) {
+    if (gpiCheckForError(connection, input, 1) != FALSE) {
         return 4;
     }
     if (strncmp(input, "\\rn\\", 4) != 0) {
-        GpiSetError(connection, 1, "Unexpected data was received from the server.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 1, "Unexpected data was received from the server.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
+            gpiSetErrorString(connection, "Out of memory.");
             return 1;
         }
         arg[0] = 0;
-        result = GpiQueueCallback(connection, callback, arg, operation, 0);
+        result = gpiAddCallback(connection, callback, arg, operation, 0);
         if (result != 0) {
             return result;
         }
     }
-    GpiRemoveOperation(connection, operation);
+    gpiRemoveOperation(connection, operation);
     return 0;
 }
 
@@ -64,16 +64,16 @@ s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, Gp
     if (msg == NULL) {
         msg = "";
     }
-    stepResult = GpiPeerSendXfer(connection, peer, 0xc9, transferID);
+    stepResult = gpiPeerStartTransferMessage(connection, peer, 0xc9, transferID);
     if (stepResult != 0) {
         return stepResult;
     }
     sprintf(buffer, "\\version\\%d\\result\\%d", 1, result);
-    stepResult = GpiPeerSendString(connection, peer, buffer);
+    stepResult = gpiSendOrBufferString(connection, peer, buffer);
     if (stepResult != 0) {
         return stepResult;
     }
-    stepResult = GpiPeerSendLenMsg(connection, peer, msg, -1);
+    stepResult = gpiPeerFinishTransferMessage(connection, peer, msg, -1);
     if (stepResult != 0) {
         return stepResult;
     }

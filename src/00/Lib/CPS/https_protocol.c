@@ -1276,7 +1276,7 @@ void MixBytesIntoRandomState(void *bytes, u32 byteCount) {
     gRandomByteStateMixed = 1;
 }
 
-u8 SendAnswerRecord(CPSSoc *connection) {
+u8 SendReplyRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     ItemList *itemList = httpsState->mItemList;
     s32 itemListLength;
@@ -1569,11 +1569,11 @@ u32 ReadRecordsExpectingStates7And6(CPSSoc *connection) {
     return 0;
 }
 
-BOOL RunSetupAfterReadingOfferRecord(CPSSoc *connection) {
+BOOL RunSetupByReadingOfferRecord(CPSSoc *connection) {
     if (ReadHttpsRecordAndSetState(connection) != HTTPS_SETUP_OFFER_RECEIVED) {
         return TRUE;
     }
-    if (SendAnswerRecord(connection) != 0) {
+    if (SendReplyRecord(connection) != 0) {
         DeriveBytesAndInitKeyStreamStates(connection->mHttpsState);
         SendOneByteRecordAndMessageDigests(connection);
         if (ReadRecordsExpectingStates7And6(connection) != 0) {
@@ -1591,7 +1591,7 @@ BOOL RunSetupAfterReadingOfferRecord(CPSSoc *connection) {
     return FALSE;
 }
 
-void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
+void RunSetupByReadingOfferRecordUntilDone(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     while (1) {
         CPSi_TcpListenRaw(connection);
@@ -1599,7 +1599,7 @@ void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
         httpsState->mReceivesOfferRecord = 1;
         CPSi_sha1_init(&httpsState->mMessageHash20);
         CPSi_md5_init(&httpsState->mMessageHash16);
-        if (RunSetupAfterReadingOfferRecord(connection) == 0) {
+        if (RunSetupByReadingOfferRecord(connection) == 0) {
             httpsState->mSetupState = HTTPS_SETUP_COMPLETE;
             return;
         }
@@ -1609,7 +1609,7 @@ void RunSetupAfterReadingOfferRecordUntilDone(CPSSoc *connection) {
     }
 }
 
-BOOL RunSetupAfterSendingOfferRecord(CPSSoc *connection) {
+BOOL RunSetupBySendingOfferRecord(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 state;
     SendOfferRecord(connection);
@@ -1652,7 +1652,7 @@ BOOL CPSi_SslConnect(CPSSoc *connection) {
     httpsState->mReceivesOfferRecord = 0;
     CPSi_sha1_init(&httpsState->mMessageHash20);
     CPSi_md5_init(&httpsState->mMessageHash16);
-    return RunSetupAfterSendingOfferRecord(connection);
+    return RunSetupBySendingOfferRecord(connection);
 }
 
 u8 *ReadHttpsRecordsUntilBytesReceived(u32 *unreadCount, CPSSoc *connection) {

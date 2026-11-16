@@ -235,8 +235,8 @@ void SortList(u32 listIndex, ACWORK *work) {
         } while (previousIndex >= 0);
     }
     findList += 10;
-    ClearBuffer32(findList, 4);
-    ClearBuffer32(bssDescList + 10, 0xc0);
+    AccessPointMI_CpuClear32(findList, 4);
+    AccessPointMI_CpuClear32(bssDescList + 10, 0xc0);
 }
 
 BOOL DWC_AC_Create(DWCACConfig *config) {
@@ -246,7 +246,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     s32 result;
 
     gAcHold = config->mAlloc(1, 0x18);
-    ClearBuffer32(gAcHold, 0x18);
+    AccessPointMI_CpuClear32(gAcHold, 0x18);
     hold = gAcHold;
     hold->mAlloc = config->mAlloc;
     hold->mFree = config->mFree;
@@ -257,10 +257,10 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     gWcmBuffer = DWCi_AC_Alloc(AC_MEM_WCM_BUFFER, 0x2300);
     gSocConfig = DWCi_AC_Alloc(AC_MEM_SOC_CONFIG, 0x58);
     gNetCheck = DWCi_AC_Alloc(AC_MEM_NETCHECK, 0xc);
-    ClearBuffer32(gAcWork, 0xd18);
-    ClearBuffer32(gWcmBuffer, 0x2300);
-    ClearBuffer32(gSocConfig, 0x58);
-    ClearBuffer32(gNetCheck, 0xc);
+    AccessPointMI_CpuClear32(gAcWork, 0xd18);
+    AccessPointMI_CpuClear32(gWcmBuffer, 0x2300);
+    AccessPointMI_CpuClear32(gSocConfig, 0x58);
+    AccessPointMI_CpuClear32(gNetCheck, 0xc);
     work = gAcWork;
     work->mDmaNo = config->mDmaNo;
     work->mPowerMode = config->mPowerMode;

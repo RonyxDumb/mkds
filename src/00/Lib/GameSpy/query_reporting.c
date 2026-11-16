@@ -40,7 +40,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
         *qrec = DWCi_GsMalloc(0x110);
         record = *qrec;
     }
-    srand(GetElapsedMilliseconds());
+    srand(current_time());
     strcpy(record->mGameName, gamename);
     strcpy((char *) record->mSecretKey, secretKey);
     record->mQport = boundport;
@@ -149,7 +149,7 @@ void qr2_check_send_heartbeat(QueryRecord *qrec) {
     u32 currentTime;
     s32 listState;
 
-    currentTime = GetElapsedMilliseconds();
+    currentTime = current_time();
     if (qrec->mHbSock != -1) {
         listState = qrec->mMasterState;
         if (listState > 0 && currentTime - qrec->mLastHeartbeat > QR_FIRST_HEARTBEAT_MS) {
@@ -180,7 +180,7 @@ void qr2_send_statechanged(QueryRecord *qrec) {
         qrec = gCurrentQr2Rec;
     }
     if (qrec->mIsPublic != 0) {
-        currentTime = GetElapsedMilliseconds();
+        currentTime = current_time();
         if ((currentTime - qrec->mLastHeartbeat) < (0x00002710u)) {
             qrec->mUserStateChangeRequested = TRUE;
             return;
@@ -813,7 +813,7 @@ void send_keepalive(QueryRecord *qrec) {
     buf.mLen = 0;
     qr_add_packet_header((u32) &buf, PACKET_KEEPALIVE, (u32) qrec->mInstanceKey);
     sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mMasterAddr, 8);
-    qrec->mLastKeepalive = GetElapsedMilliseconds();
+    qrec->mLastKeepalive = current_time();
 }
 
 void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
@@ -849,7 +849,7 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
         buf.mBuffer[buf.mLen++] = 0;
     }
     sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mMasterAddr, 8);
-    qrec->mLastHeartbeat = GetElapsedMilliseconds();
+    qrec->mLastHeartbeat = current_time();
     qrec->mLastKeepalive = qrec->mLastHeartbeat;
     if (statechanged != 0) {
         qrec->mUserStateChangeRequested = 0;

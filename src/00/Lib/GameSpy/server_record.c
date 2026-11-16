@@ -64,15 +64,15 @@ void RefStringFree(u32 element) {
 struct Hashtable *SBRefStrHash(struct SbServerList *serverList) {
     if (gSBRefStrList == NULL) {
         gSBRefStrList = HashtableCreate(8, 100, 2, (s32(*)(void *, s32)) RefStringHash,
-                                        (ElementCompareFunc *) RefStringCompare, (void (*)(void *)) RefStringFree);
+                                        (ArrayCompareFn *) RefStringCompare, (void (*)(void *)) RefStringFree);
     }
     return gSBRefStrList;
 }
 
 void SBRefStrHashCleanup(void *serverList) {
     int count;
-    if ((gSBRefStrList != NULL) && (count = HashtableGetCount(gSBRefStrList), count == 0)) {
-        HashtableDelete(gSBRefStrList);
+    if ((gSBRefStrList != NULL) && (count = TableCount(gSBRefStrList), count == 0)) {
+        TableFree(gSBRefStrList);
         gSBRefStrList = NULL;
     }
 }
@@ -80,25 +80,25 @@ void SBRefStrHashCleanup(void *serverList) {
 void SBServerFree(SbServer **serverPointer) {
     SbServer *serverRecord;
     serverRecord = *serverPointer;
-    HashtableDelete(serverRecord->mKeyValues);
+    TableFree(serverRecord->mKeyValues);
     serverRecord->mKeyValues = NULL;
     DWCi_GsFree(serverRecord);
 }
 
-void SbServerSetValue(SbServer *server, const char *key, const char *value) {
+void SBServerAddKeyValue(SbServer *server, const char *key, const char *value) {
     char *pair[2];
     pair[0] = SBRefStr(NULL, key);
     pair[1] = SBRefStr(NULL, value);
-    HashtableSet(server->mKeyValues, pair);
+    TableEnter(server->mKeyValues, pair);
 }
 
-void SbServerSetInt(SbServer *server, const char *key, u32 value) {
+void SBServerAddIntKeyValue(SbServer *server, const char *key, u32 value) {
     char valueText[20];
     sprintf(valueText, "%d", value);
-    SbServerSetValue(server, key, valueText);
+    SBServerAddKeyValue(server, key, valueText);
 }
 
-char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
+char *SBServerGetStringValueA(SbServer *server, const char *key, char *defaultValue) {
     KeyLookup probe;
     u32 *entry;
     if (server == NULL) {
@@ -108,20 +108,20 @@ char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue) {
         return NULL;
     }
     probe.mKey = key;
-    entry = HashtableFind(server->mKeyValues, &probe);
+    entry = TableLookup(server->mKeyValues, &probe);
     if (entry != NULL) {
         defaultValue = (char *) entry[1];
     }
     return defaultValue;
 }
 
-s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue) {
+s32 SBServerGetIntValueA(SbServer *server, const char *key, s32 defaultValue) {
     char *text;
     s32 firstChar;
     if (strcmp(key, "ping") == 0) {
         return SBServerGetPing(server);
     }
-    text = SbServerGetValue(server, key, NULL);
+    text = SBServerGetStringValueA(server, key, NULL);
     if (text == NULL ||
         (firstChar = *text, !((firstChar < 0 || firstChar >= 0x80) ? 0 : (gCharClassFlags[firstChar] & 8)))) {
         return defaultValue;
@@ -129,9 +129,9 @@ s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue) {
     return StrtolBase10(text);
 }
 
-double SbServerGetDouble(SbServer *server, const char *key, double defaultValue) {
+double SBServerGetFloatValueA(SbServer *server, const char *key, double defaultValue) {
     char *text;
-    text = SbServerGetValue(server, key, NULL);
+    text = SBServerGetStringValueA(server, key, NULL);
     if (text != NULL) {
         defaultValue = atof(text);
     }
@@ -245,7 +245,7 @@ void SBServerParseKeyVals(SbServer *server, s8 *keyValues) {
             value = (s8 *) "";
         }
         if (CheckValidKey((const char *) key) != 0) {
-            SbServerSetValue(server, (const char *) key, (const char *) value);
+            SBServerAddKeyValue(server, (const char *) key, (const char *) value);
         }
         key = mytok(NULL, 0x5c);
     }
@@ -278,7 +278,7 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
         value = data;
         data += stringLength;
         length -= stringLength;
-        SbServerSetValue(server, (const char *) key, (const char *) value);
+        SBServerAddKeyValue(server, (const char *) key, (const char *) value);
     }
     data++;
     length--;
@@ -314,7 +314,7 @@ void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
                     return;
                 }
                 sprintf(scratch.mTempKey, "%s%d", key, unitIndex);
-                SbServerSetValue(server, scratch.mTempKey, (const char *) data);
+                SBServerAddKeyValue(server, scratch.mTempKey, (const char *) data);
                 data += valueLength;
                 length -= valueLength;
                 key += strlen((const char *) key) + 1;
@@ -366,7 +366,7 @@ SbServer *SBAllocServer(SbServerList *serverList, u32 publicIp, u16 publicPort) 
         return NULL;
     }
     newServer->mKeyValues = HashtableCreate(8, 8, 4, (s32(*)(void *, s32)) KeyValHashKey,
-                                            (ElementCompareFunc *) KeyValCompareKey, (void (*)(void *)) KeyValFree);
+                                            (ArrayCompareFn *) KeyValCompareKey, (void (*)(void *)) KeyValFree);
     if (newServer->mKeyValues == NULL) {
         DWCi_GsFree(newServer);
         return NULL;

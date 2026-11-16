@@ -24,7 +24,7 @@
 #include "00/Lib/GameSpy/profile_walk.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-u32 GpiAppendBufferByte(void *connection, GpiBuffer *outputBuffer, s32 byte) {
+u32 gpiAppendCharToBuffer(void *connection, GpiBuffer *outputBuffer, s32 byte) {
     u8 *buffer;
     s32 length;
     s32 capacity;
@@ -39,7 +39,7 @@ u32 GpiAppendBufferByte(void *connection, GpiBuffer *outputBuffer, s32 byte) {
         capacity += 0x800;
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
+            gpiSetErrorString(connection, "Out of memory.");
             return 1;
         }
     }
@@ -51,7 +51,7 @@ u32 GpiAppendBufferByte(void *connection, GpiBuffer *outputBuffer, s32 byte) {
     return 0;
 }
 
-u32 GpiAppendBufferBytes(void *connection, GpiBuffer *outputBuffer, const void *string, s32 stringLen) {
+u32 gpiAppendStringToBufferLen(void *connection, GpiBuffer *outputBuffer, const void *string, s32 stringLen) {
     s32 capacity;
     u8 *buffer;
     s32 length;
@@ -75,7 +75,7 @@ u32 GpiAppendBufferBytes(void *connection, GpiBuffer *outputBuffer, const void *
         capacity += stringLen < 0x800 ? 0x800 : stringLen;
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
+            gpiSetErrorString(connection, "Out of memory.");
             return 1;
         }
     }
@@ -87,18 +87,18 @@ u32 GpiAppendBufferBytes(void *connection, GpiBuffer *outputBuffer, const void *
     return 0;
 }
 
-u32 GpiAppendBufferString(void *connection, void *outputBuffer, const void *string) {
-    return GpiAppendBufferBytes(connection, outputBuffer, string, strlen(string));
+u32 gpiAppendStringToBuffer(void *connection, void *outputBuffer, const void *string) {
+    return gpiAppendStringToBufferLen(connection, outputBuffer, string, strlen(string));
 }
 
-u32 GpiAppendBufferNumber(void *connection, void *outputBuffer, u32 number) {
+u32 gpiAppendIntToBuffer(void *connection, void *outputBuffer, u32 number) {
     char numberText[0x14];
 
     sprintf(numberText, "%d", number);
-    return GpiAppendBufferString(connection, outputBuffer, numberText);
+    return gpiAppendStringToBuffer(connection, outputBuffer, numberText);
 }
 
-u32 GpiSendBytes(GpConnection *connection, s32 sock, const void *data, s32 dataLen, s32 *wasClosed, s32 *bytesSent,
+u32 gpiSendData(GpConnection *connection, s32 sock, const void *data, s32 dataLen, s32 *wasClosed, s32 *bytesSent,
                  const s8 *label) {
     s32 sendResult;
     u32 lastError;
@@ -110,8 +110,8 @@ u32 GpiSendBytes(GpConnection *connection, s32 sock, const void *data, s32 dataL
             if (label[0] == 0x50 && label[1] == 0x52) {
                 return 3;
             }
-            GpiSetError(connection, 5, "There was an error sending on a socket.");
-            GpiQueueErrorCallback(connection, 3, 0);
+            gpiSetError(connection, 5, "There was an error sending on a socket.");
+            gpiCallErrorCallback(connection, 3, 0);
             return 3;
         }
         *bytesSent = 0;
@@ -127,7 +127,7 @@ u32 GpiSendBytes(GpConnection *connection, s32 sock, const void *data, s32 dataL
     return 0;
 }
 
-u32 GpiPeerSendByte(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
+u32 gpiSendOrBufferChar(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
     s32 wasClosed;
     s32 bytesSent;
     u32 sendResult;
@@ -136,8 +136,8 @@ u32 GpiPeerSendByte(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
         AssertionFailed("peer->outputBuffer.buffer != NULL", "gpiBuffer.c", NULL, 0xde);
     }
     if (gpiPeer->mOutputBuffer.mLength - gpiPeer->mOutputBuffer.mPos == 0 &&
-        DarrayGetCount(gpiPeer->mQueuedMessages) == 0) {
-        sendResult = GpiSendBytes(connection, gpiPeer->mSocket, &byte, 1, &wasClosed, &bytesSent, (s8 *) "PT");
+        ArrayLength(gpiPeer->mQueuedMessages) == 0) {
+        sendResult = gpiSendData(connection, gpiPeer->mSocket, &byte, 1, &wasClosed, &bytesSent, (s8 *) "PT");
         if (sendResult != 0) {
             return sendResult;
         }
@@ -145,10 +145,10 @@ u32 GpiPeerSendByte(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
             return 0;
         }
     }
-    return GpiAppendBufferByte(connection, &gpiPeer->mOutputBuffer, byte);
+    return gpiAppendCharToBuffer(connection, &gpiPeer->mOutputBuffer, byte);
 }
 
-u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *data, s32 byteCount) {
+u32 gpiSendOrBufferStringLen(GpConnection *connection, GpiPeer *gpiPeer, const char *data, s32 byteCount) {
     s32 offset;
     s32 wasClosed;
     s32 bytesSent;
@@ -162,9 +162,9 @@ u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *dat
         return offset;
     }
     if (gpiPeer->mOutputBuffer.mLength - gpiPeer->mOutputBuffer.mPos == 0 &&
-        DarrayGetCount(gpiPeer->mQueuedMessages) == 0) {
+        ArrayLength(gpiPeer->mQueuedMessages) == 0) {
         do {
-            sendResult = GpiSendBytes(connection, gpiPeer->mSocket, data + offset, byteCount, &wasClosed, &bytesSent,
+            sendResult = gpiSendData(connection, gpiPeer->mSocket, data + offset, byteCount, &wasClosed, &bytesSent,
                                       (s8 *) "PT");
             if (sendResult != 0) {
                 return sendResult;
@@ -176,7 +176,7 @@ u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *dat
         } while (bytesSent != 0 && byteCount != 0);
     }
     if (byteCount != 0) {
-        sendResult = GpiAppendBufferBytes(connection, &gpiPeer->mOutputBuffer, data + offset, byteCount);
+        sendResult = gpiAppendStringToBufferLen(connection, &gpiPeer->mOutputBuffer, data + offset, byteCount);
         if (sendResult != 0) {
             return sendResult;
         }
@@ -184,16 +184,16 @@ u32 GpiPeerSendBytes(GpConnection *connection, GpiPeer *gpiPeer, const char *dat
     return 0;
 }
 
-u32 GpiPeerSendString(GpConnection *connection, GpiPeer *gpiPeer, const char *string) {
+u32 gpiSendOrBufferString(GpConnection *connection, GpiPeer *gpiPeer, const char *string) {
     u32 stringLen = strlen(string);
-    return GpiPeerSendBytes(connection, gpiPeer, string, stringLen);
+    return gpiSendOrBufferStringLen(connection, gpiPeer, string, stringLen);
 }
 
 static void UnusedFormatDecimal(char *text, u32 number) {
     sprintf(text, "%d", number);
 }
 
-u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer, s32 *bytesRead, u32 *connClosed,
+u32 gpiRecvToBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer, s32 *bytesRead, u32 *connClosed,
                      const s8 *label) {
     u8 *buffer;
     s32 length;
@@ -229,7 +229,7 @@ u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer,
             capacity = value;
             buffer = DWCi_GsRealloc(buffer, value + 1);
             if (buffer == NULL) {
-                GpiSetErrorMessage(connection, "Out of memory.");
+                gpiSetErrorString(connection, "Out of memory.");
                 return 1;
             }
         }
@@ -237,7 +237,7 @@ u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer,
         if (recvResult == -1) {
             value = GOAGetLastError(sock);
             if (value != -6 && value != -0x1a && value != -0x4c) {
-                GpiSetErrorMessage(connection, "There was an error reading from a socket.");
+                gpiSetErrorString(connection, "There was an error reading from a socket.");
                 return 3;
             }
         } else if (recvResult == 0) {
@@ -260,7 +260,7 @@ u32 GpiReceiveBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer,
     return 0;
 }
 
-u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *connClosed, s32 discardSent,
+u32 gpiSendFromBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *connClosed, s32 discardSent,
                   const s8 *label) {
     s32 wasClosed;
     s32 bytesSent;
@@ -285,7 +285,7 @@ u32 GpiSendBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u
     }
     do {
         sendResult =
-            GpiSendBytes(connection, sock, buffer + (pos + totalSent), remaining, &wasClosed, &bytesSent, label);
+            gpiSendData(connection, sock, buffer + (pos + totalSent), remaining, &wasClosed, &bytesSent, label);
         if (sendResult != 0) {
             return sendResult;
         }

@@ -4,6 +4,6 @@
 
 typedef struct GpConnection GpConnection;
 
-int GpiUpdateConnection(void *connectionArgument, int blockingOperationID);
+int gpiProcess(void *connectionArgument, int blockingOperationID);
 u32 gpiProcessConnectionManager(GpConnection *connection);
-u32 GpiResetConnection(GpConnection *connection);
+u32 gpiReset(GpConnection *connection);

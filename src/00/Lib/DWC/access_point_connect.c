@@ -37,7 +37,7 @@ s32 DisConnectAP(void) {
     return 0;
 }
 
-BOOL CloseAutoConnectSocket(void) {
+BOOL CleanupSocketApi(void) {
     s32 result;
 
     result = SOC_Cleanup();

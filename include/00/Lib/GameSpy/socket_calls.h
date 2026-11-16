@@ -50,7 +50,7 @@ typedef struct SOCPollFD {
 
 
 u32 nextlongrand(u32 seed);
-u32 GetUnixTime(u32 *timer);
+u32 GetTickSeconds(u32 *timer);
 u32 GOAGetLastError(s32 sock);
 u32 inet_addr(const char *name);
 s32 getsockname(u32 sock, void *addr, u32 *len);
@@ -83,4 +83,4 @@ void *goastrdup(const char *src);
 void SocketShutDown(void);
 void SocketStartUp(void);
 void msleep(u32 msec);
-u32 GetElapsedMilliseconds(void);
+u32 current_time(void);

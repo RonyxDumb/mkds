@@ -4,8 +4,8 @@
 
 typedef struct GpConnection GpConnection;
 
-u32 GpSendMessage(GpConnection *connection, s32 profileRec, const char *message);
-u32 GpSetStatus(GpConnection *connection, s32 status, const char *statusString, const char *locationString);
+u32 gpSendBuddyMessageA(GpConnection *connection, s32 profileRec, const char *message);
+u32 gpSetStatusA(GpConnection *connection, s32 status, const char *statusString, const char *locationString);
 
 // The status of a buddy: profile id, status, status and location strings, IP and port.
 typedef struct GpBuddyStatus {
@@ -26,12 +26,12 @@ typedef struct ProfileSearchReply ProfileSearchReply;
 typedef void (*GpGetInfoCb)(GpConnection *connection, GetInfoReply *reply, u32 param);
 typedef void (*GpProfileSearchCb)(GpConnection *connection, ProfileSearchReply *reply, u32 param);
 
-u32 GpIsBuddy(GpConnection *connection, u32 profile);
-u32 GpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index);
-u32 GpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status);
-s32 GpGetBuddyCount(GpConnection *object, s32 *output);
-u32 GpWriteAddbuddy(GpConnection *connection, u32 profile, const char *reason);
-void GpDisconnect(GpConnection *connection);
+u32 gpIsBuddy(GpConnection *connection, u32 profile);
+u32 gpGetBuddyIndex(GpConnection *connection, u32 profile, s32 *index);
+u32 gpGetBuddyStatus(GpConnection *connection, s32 index, GpBuddyStatus *status);
+s32 gpGetNumBuddies(GpConnection *object, s32 *output);
+u32 gpSendBuddyRequestA(GpConnection *connection, u32 profile, const char *reason);
+void gpDisconnect(GpConnection *connection);
 
 u32 GpDeleteBuddy(GpConnection *connection, u32 profile);
 u32 GpDenyBuddyRequest(GpConnection *connection, int profile);
@@ -51,7 +51,7 @@ u32 GpConnectPreAuthenticatedA(GpConnection *connection, s8 *authtoken, s8 *part
                                s32 blocking, GpConnectCb callback, u32 param);
 u32 GpSetCallback(GpConnection *connection, s32 func, void (*callback)(void *connection, void *func, u32 callback),
                   u32 param);
-u32 GpUpdate(GpConnection *connection);
+u32 gpProcess(GpConnection *connection);
 void GpDestroy(GpConnection *connection);
-u32 GpInitialize(GpConnection *connection, s32 productID, s32 namespaceID);
+u32 gpInitialize(GpConnection *connection, s32 productID, s32 namespaceID);
 #include "00/Lib/GameSpy/connection_update.h"

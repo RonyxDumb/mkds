@@ -37,14 +37,14 @@ void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type,
     char value[0x40];
     GpiTransferId transferKey;
 
-    if (GpiGetValue(headers, "\\xfer\\", value, 0x40) != FALSE) {
+    if (gpiValueForKey(headers, "\\xfer\\", value, 0x40) != FALSE) {
         if (sscanf(value, "%d %u %u", &transferKey.mProfileId, &transferKey.mCount, &transferKey.mTime) == 3) {
             gpiSendTransferReply(connection, &transferKey, peer, 2, NULL);
         }
     }
 }
 
-s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
+s32 gpiStartProfileSearch(GpConnection *connection, GpiOperation *operation) {
     GPISearchData *data;
     SOCHostEnt *resolvedHost;
     s32 socketError;
@@ -53,24 +53,24 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     data->mInputBufferCapacity = 0x1000;
     data->mInputBuffer = DWCi_GsMalloc(data->mInputBufferCapacity + 1);
     if (data->mInputBuffer == NULL) {
-        GpiSetErrorMessage(connection, "Out of memory.");
+        gpiSetErrorString(connection, "Out of memory.");
         return 1;
     }
     data->mSocket = OpenNetSocket(2, 1, 0);
     if (data->mSocket == -1) {
-        GpiSetError(connection, 5, "There was an error creating a socket.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 5, "There was an error creating a socket.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     if (SetSockBlocking(data->mSocket, 0) == FALSE) {
-        GpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     resolvedHost = SOC_GetHostByName(gSearchManagerName);
     if (resolvedHost == NULL) {
-        GpiSetError(connection, 5, "Could not resolve search mananger host name.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 5, "Could not resolve search mananger host name.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     {
@@ -85,8 +85,8 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
         if (connect(data->mSocket, &address, 8) == -1) {
             socketError = GOAGetLastError(data->mSocket);
             if (socketError != -6 && socketError != -0x1a && socketError != -0x4c) {
-                GpiSetError(connection, 5, "There was an error connecting a socket.");
-                GpiQueueErrorCallback(connection, 3, 1);
+                gpiSetError(connection, 5, "There was an error connecting a socket.");
+                gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
         }
@@ -95,12 +95,12 @@ s32 GpiOpenSearchSocket(GpConnection *connection, GpiOperation *operation) {
     return 0;
 }
 
-BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 kind) {
+BOOL gpiInitSearchData(GpConnection *connection, GPISearchData **searchData, u32 kind) {
     GPISearchData *data;
 
     data = DWCi_GsMalloc(sizeof(GPISearchData));
     if (data == NULL) {
-        GpiSetErrorMessage(connection, "Out of memory.");
+        gpiSetErrorString(connection, "Out of memory.");
         return TRUE;
     }
     memset(data, 0, sizeof(GPISearchData));
@@ -115,7 +115,7 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     data->mOutputBufferCapacity = 0x1000;
     data->mOutputBuffer = DWCi_GsMalloc(data->mOutputBufferCapacity + 1);
     if (data->mOutputBuffer == NULL) {
-        GpiSetErrorMessage(connection, "Out of memory.");
+        gpiSetErrorString(connection, "Out of memory.");
         return TRUE;
     }
     data->mProcessing = 0;
@@ -124,14 +124,14 @@ BOOL GpiCreateSearch(GpConnection *connection, GPISearchData **searchData, u32 k
     return FALSE;
 }
 
-int GpiStartSearchOperation(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
+int gpiStartSearch(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
                             u32 param) {
     int result;
     GpiOperation *pendingOp;
     connection->mGpiConnection->mSearchCount = connection->mGpiConnection->mSearchCount + 1;
-    result = GpiCreateOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
-    if (((result == 0) && (result = GpiOpenSearchSocket(connection, pendingOp), result == 0)) &&
-        ((pendingOp->mBlocking == 0 || (result = GpiUpdateConnection(connection, pendingOp->mId), result == 0)))) {
+    result = gpiAddOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
+    if (((result == 0) && (result = gpiStartProfileSearch(connection, pendingOp), result == 0)) &&
+        ((pendingOp->mBlocking == 0 || (result = gpiProcess(connection, pendingOp->mId), result == 0)))) {
         result = 0;
     }
     return result;
@@ -145,43 +145,43 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
           ((firstname == NULL || (*firstname == 0)))) &&
          ((lastname == NULL || (*lastname == 0)))) &&
         ((icquin == 0 && ((uniquenick == NULL || (*uniquenick == 0)))))) {
-        GpiSetErrorMessage(connection, "No search criteria.");
+        gpiSetErrorString(connection, "No search criteria.");
         return 2;
     }
-    result = GpiCreateSearch(connection, &data, PROFILE_SEARCH_KIND_PROFILES);
+    result = gpiInitSearchData(connection, &data, PROFILE_SEARCH_KIND_PROFILES);
     if (result == 0) {
         if (nick == NULL) {
             data->mNick[0] = 0;
         } else {
-            GpiCopyString((char *) data->mNick, (const char *) nick, 0x1f);
+            CopyStringWithTerminator((char *) data->mNick, (const char *) nick, 0x1f);
         }
         if (uniquenick == NULL) {
             data->mUniquenick[0] = 0;
         } else {
-            GpiCopyString((char *) data->mUniquenick, (const char *) uniquenick, 0x15);
+            CopyStringWithTerminator((char *) data->mUniquenick, (const char *) uniquenick, 0x15);
         }
         if (email == NULL) {
             data->mEmail[0] = 0;
         } else {
-            GpiCopyString((char *) data->mEmail, (const char *) email, 0x33);
+            CopyStringWithTerminator((char *) data->mEmail, (const char *) email, 0x33);
         }
         _strlwr(data->mEmail);
         if (firstname == NULL) {
             data->mFirstname[0] = 0;
         } else {
-            GpiCopyString((char *) data->mFirstname, (const char *) firstname, 0x1f);
+            CopyStringWithTerminator((char *) data->mFirstname, (const char *) firstname, 0x1f);
         }
         if (lastname == NULL) {
             data->mLastname[0] = 0;
         } else {
-            GpiCopyString((char *) data->mLastname, (const char *) lastname, 0x1f);
+            CopyStringWithTerminator((char *) data->mLastname, (const char *) lastname, 0x1f);
         }
         data->mIcquin = icquin;
         if (skip < 0) {
             skip = 0;
         }
         data->mSkip = skip;
-        result = GpiStartSearchOperation(connection, data, blocking, callback, param);
+        result = gpiStartSearch(connection, data, blocking, callback, param);
         if (result == 0) {
             result = 0;
         }
@@ -189,7 +189,7 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
     return result;
 }
 
-s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
+s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
     char key[0x200];
     char value[0x200];
     ProfileSearchReply response;
@@ -236,141 +236,141 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
         loop = FALSE;
     }
     do {
-        result = GpiSendBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketClosed, 1,
+        result = gpiSendFromBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketClosed, 1,
                                (const s8 *) "SM");
         if (result != 0) {
             return result;
         }
         if (operation->mState == PROFILE_SEARCH_STATE_WAIT_CONNECT) {
-            result = GpiCheckConnectComplete(connection, data->mSocket, &state);
+            result = gpiCheckSocketConnect(connection, data->mSocket, &state);
             if (result != 0) {
                 return result;
             }
             if (state == 4) {
-                GpiSetError(connection, 0xd01, "Could not connect to the search manager.");
-                GpiQueueErrorCallback(connection, 4, 0);
+                gpiSetError(connection, 0xd01, "Could not connect to the search manager.");
+                gpiCallErrorCallback(connection, 4, 0);
                 return 4;
             }
             if (state == 3) {
                 if (data->mKind == PROFILE_SEARCH_KIND_PROFILES) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\search\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\search\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\sesskey\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mSesskey);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\profileid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mProfileId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\namespaceid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                     if (data->mNick[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\nick\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mNick);
                     }
                     if (data->mUniquenick[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquenick\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\uniquenick\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mUniquenick);
                     }
                     if (data->mEmail[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\email\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mEmail);
                     }
                     if (data->mFirstname[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\firstname\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mFirstname);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\firstname\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mFirstname);
                     }
                     if (data->mLastname[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\lastname\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mLastname);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\lastname\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mLastname);
                     }
                     if (data->mIcquin != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\icquin\\");
-                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mIcquin);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\icquin\\");
+                        gpiAppendIntToBuffer(connection, &data->mOutputBuffer, data->mIcquin);
                     }
                     if (data->mSkip > 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\skip\\");
-                        GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mSkip);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\skip\\");
+                        gpiAppendIntToBuffer(connection, &data->mOutputBuffer, data->mSkip);
                     }
                 } else if (data->mKind == PROFILE_SEARCH_KIND_VALID_EMAIL) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\valid\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\valid\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\email\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mEmail);
                 } else if (data->mKind == PROFILE_SEARCH_KIND_NICKS) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nicks\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\nicks\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\email\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mEmail);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\pass\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mPassword);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\namespaceid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == PROFILE_SEARCH_KIND_PLAYER_MATCH) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pmatch\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\productid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, data->mProductId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\pmatch\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\sesskey\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mSesskey);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\profileid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mProfileId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\productid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, data->mProductId);
                 } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\check\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\check\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\nick\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mNick);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\email\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mEmail);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\pass\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mPassword);
                 } else if (data->mKind == PROFILE_SEARCH_KIND_NEW_USER) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\newuser\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\nick\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mNick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\email\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mEmail);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\pass\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mPassword);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\productID\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProductId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquenick\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\newuser\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\nick\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mNick);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\email\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mEmail);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\pass\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mPassword);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\productID\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mProductId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\namespaceid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mNamespaceId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\uniquenick\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mUniquenick);
                     if (data->mCdkey[0] != 0) {
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, "\\cdkey\\");
-                        GpiAppendBufferString(connection, &data->mOutputBuffer, data->mCdkey);
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\cdkey\\");
+                        gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mCdkey);
                     }
                 } else if (data->mKind == PROFILE_SEARCH_KIND_OTHERS) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\others\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\sesskey\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mSesskey);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\profileid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mProfileId);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\others\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\sesskey\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mSesskey);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\profileid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mProfileId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\namespaceid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else if (data->mKind == PROFILE_SEARCH_KIND_UNIQUE_NICK) {
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\uniquesearch\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\preferrednick\\");
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, data->mUniquenick);
-                    GpiAppendBufferString(connection, &data->mOutputBuffer, "\\namespaceid\\");
-                    GpiAppendBufferNumber(connection, &data->mOutputBuffer, gpState->mNamespaceId);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\uniquesearch\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\preferrednick\\");
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mUniquenick);
+                    gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\namespaceid\\");
+                    gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mNamespaceId);
                 } else {
                     AssertionFailed("0", "gpiSearch.c", NULL, 0x275);
                 }
-                GpiAppendBufferString(connection, &data->mOutputBuffer, "\\gamename\\");
-                GpiAppendBufferString(connection, &data->mOutputBuffer, gGsiAcGamename);
-                GpiAppendBufferString(connection, &data->mOutputBuffer, "\\final\\");
+                gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\gamename\\");
+                gpiAppendStringToBuffer(connection, &data->mOutputBuffer, gGsiAcGamename);
+                gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\final\\");
                 operation->mState = PROFILE_SEARCH_STATE_WAIT_REPLY;
             }
         } else if (operation->mState == PROFILE_SEARCH_STATE_WAIT_REPLY) {
-            result = GpiReceiveBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &bytesRead,
+            result = gpiRecvToBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &bytesRead,
                                       &socketClosed, (const s8 *) "SM");
             if (result != 0) {
                 if (result != 3) {
                     return result;
                 }
-                GpiSetError(connection, 0xd01, "There was an error reading from the server.");
-                GpiQueueErrorCallback(connection, 3, 0);
+                gpiSetError(connection, 0xd01, "There was an error reading from the server.");
+                gpiCallErrorCallback(connection, 3, 0);
                 return 3;
             }
             if (strstr(data->mInputBuffer, "\\final\\") != NULL) {
                 readPos = 0;
                 operation->mState = PROFILE_SEARCH_STATE_REPLY_READ;
-                if (GpiReadError(connection, data->mInputBuffer, 1) != FALSE) {
+                if (gpiCheckForError(connection, data->mInputBuffer, 1) != FALSE) {
                     data->mRemove = TRUE;
                     return 4;
                 }
@@ -381,12 +381,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     response.mMatches = NULL;
                     response.mMore = PROFILE_SEARCH_MORE_DONE;
                     do {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "bsrdone") == 0) {
-                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -398,7 +398,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             profileMatches = DWCi_GsRealloc(response.mMatches, ++response.mNumMatches * 0xac);
                             response.mMatches = profileMatches;
                             if (profileMatches == NULL) {
-                                GpiSetErrorMessage(connection, "Out of memory.");
+                                gpiSetErrorString(connection, "Out of memory.");
                                 return 1;
                             }
                             entryIndex = response.mNumMatches - 1;
@@ -408,28 +408,28 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             matchDone = FALSE;
                             do {
                                 savedPos = readPos;
-                                result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                                result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                                 if (result != 0) {
                                     return result;
                                 }
                                 if (strcmp(key, "nick") == 0) {
-                                    GpiCopyString(profileMatch->mNick, value, 0x1f);
+                                    CopyStringWithTerminator(profileMatch->mNick, value, 0x1f);
                                 } else if (strcmp(key, "uniquenick") == 0) {
-                                    GpiCopyString(profileMatch->mUniquenick, value, 0x15);
+                                    CopyStringWithTerminator(profileMatch->mUniquenick, value, 0x15);
                                 } else if (strcmp(key, "firstname") == 0) {
-                                    GpiCopyString(profileMatch->mFirstname, value, 0x1f);
+                                    CopyStringWithTerminator(profileMatch->mFirstname, value, 0x1f);
                                 } else if (strcmp(key, "lastname") == 0) {
-                                    GpiCopyString(profileMatch->mLastname, value, 0x1f);
+                                    CopyStringWithTerminator(profileMatch->mLastname, value, 0x1f);
                                 } else if (strcmp(key, "email") == 0) {
-                                    GpiCopyString(profileMatch->mEmail, value, 0x33);
+                                    CopyStringWithTerminator(profileMatch->mEmail, value, 0x33);
                                 } else if (strcmp(key, "bsr") == 0 || strcmp(key, "bsrdone") == 0) {
                                     matchDone = TRUE;
                                     readPos = savedPos;
                                 }
                             } while (matchDone == FALSE);
                         } else {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                     } while (isDone == FALSE);
@@ -453,28 +453,28 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_VALID_EMAIL) {
                     emailCheckCallback = operation->mCallback;
                     if (emailCheckCallback.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "vr") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         u2 = DWCi_GsMalloc(0x3c);
                         if (u2 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u2->mResult = GP_REQUEST_OK;
-                        GpiCopyString(u2->mEmail, (const char *) data->mEmail, 0x33);
+                        CopyStringWithTerminator(u2->mEmail, (const char *) data->mEmail, 0x33);
                         if ((s8) value[0] == 0x30) {
                             u2->mIsValid = FALSE;
                         } else {
                             u2->mIsValid = TRUE;
                         }
-                        result = GpiQueueCallback(connection, emailCheckCallback, u2, operation,
+                        result = gpiAddCallback(connection, emailCheckCallback, u2, operation,
                                                   PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
@@ -485,7 +485,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (nicksCallback.mCallback != NULL) {
                         u3 = DWCi_GsMalloc(0x44);
                         if (u3 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u3->mResult = GP_REQUEST_OK;
@@ -493,61 +493,61 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u3->mNumNicks = 0;
                         u3->mNicks = NULL;
                         u3->mUniquenicks = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "nr") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         isDone = FALSE;
                         do {
-                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
                             if (strcmp(key, "nick") == 0) {
                                 allocatedBlock = DWCi_GsRealloc(u3->mNicks, (u3->mNumNicks + 1) * 4);
                                 if (allocatedBlock == NULL) {
-                                    GpiSetErrorMessage(connection, "Out of memory.");
+                                    gpiSetErrorString(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u3->mNicks = (char **) allocatedBlock;
                                 allocatedBlock = DWCi_GsMalloc(0x1f);
                                 if (allocatedBlock == NULL) {
-                                    GpiSetErrorMessage(connection, "Out of memory.");
+                                    gpiSetErrorString(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u3->mNicks[u3->mNumNicks] = allocatedBlock;
-                                GpiCopyString(u3->mNicks[u3->mNumNicks], value, 0x1f);
+                                CopyStringWithTerminator(u3->mNicks[u3->mNumNicks], value, 0x1f);
                                 u3->mNumNicks++;
                             } else if (strcmp(key, "uniquenick") == 0) {
                                 if (u3->mNumNicks > 0) {
                                     allocatedBlock = DWCi_GsRealloc(u3->mUniquenicks, u3->mNumNicks * 4);
                                     if (allocatedBlock == NULL) {
-                                        GpiSetErrorMessage(connection, "Out of memory.");
+                                        gpiSetErrorString(connection, "Out of memory.");
                                         return 1;
                                     }
                                     u3->mUniquenicks = (char **) allocatedBlock;
                                     allocatedBlock = DWCi_GsMalloc(0x15);
                                     if (allocatedBlock == NULL) {
-                                        GpiSetErrorMessage(connection, "Out of memory.");
+                                        gpiSetErrorString(connection, "Out of memory.");
                                         return 1;
                                     }
                                     u3->mUniquenicks[u3->mNumNicks - 1] = allocatedBlock;
-                                    GpiCopyString(u3->mUniquenicks[u3->mNumNicks - 1], value, 0x15);
+                                    CopyStringWithTerminator(u3->mUniquenicks[u3->mNumNicks - 1], value, 0x15);
                                 }
                             } else if (strcmp(key, "ndone") == 0) {
                                 isDone = TRUE;
                             } else {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, nicksCallback, u3, operation,
+                        result = gpiAddCallback(connection, nicksCallback, u3, operation,
                                                   PROFILE_CALLBACK_TYPE_FREE_NICK_LISTS);
                         if (result != 0) {
                             return result;
@@ -558,7 +558,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (playerMatchCallback.mCallback != NULL) {
                         u4 = DWCi_GsMalloc(0x10);
                         if (u4 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u4->mProductId = data->mProductId;
@@ -567,7 +567,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         u4->mNumMatches = 0;
                         u4->mMatches = NULL;
                         do {
-                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -578,7 +578,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 u4->mMatches = DWCi_GsRealloc(u4->mMatches, u4->mNumMatches * 0x128);
                                 playerMatches = u4->mMatches;
                                 if (playerMatches == NULL) {
-                                    GpiSetErrorMessage(connection, "Out of memory.");
+                                    gpiSetErrorString(connection, "Out of memory.");
                                     return 1;
                                 }
                                 entryIndex = u4->mNumMatches - 1;
@@ -589,14 +589,14 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 matchDone = FALSE;
                                 do {
                                     savedPos = readPos;
-                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                                    result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                                     if (result != 0) {
                                         return result;
                                     }
                                     if (strcmp(key, "status") == 0) {
-                                        GpiCopyString(playerMatch->mStatusString, value, 0x100);
+                                        CopyStringWithTerminator(playerMatch->mStatusString, value, 0x100);
                                     } else if (strcmp(key, "nick") == 0) {
-                                        GpiCopyString(playerMatch->mNick, value, 0x1f);
+                                        CopyStringWithTerminator(playerMatch->mNick, value, 0x1f);
                                     }
                                     if (strcmp(key, "statuscode") == 0) {
                                         playerMatch->mStatus = StrtolBase10(value);
@@ -606,12 +606,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                     }
                                 } while (matchDone == FALSE);
                             } else {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, playerMatchCallback, u4, operation,
+                        result = gpiAddCallback(connection, playerMatchCallback, u4, operation,
                                                   PROFILE_CALLBACK_TYPE_FREE_MATCH_LIST);
                         if (result != 0) {
                             return result;
@@ -620,13 +620,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
                     checkNickCallback = operation->mCallback;
                     if (checkNickCallback.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "cur") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         resultValue = StrtolBase10(value);
@@ -634,22 +634,22 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             gpState->mErrorNumber = resultValue;
                             profileValue = 0;
                         } else {
-                            if (GpiGetValue(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                            if (gpiValueForKey(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                             profileValue = StrtolBase10(value);
                         }
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
                         result =
-                            GpiQueueCallback(connection, checkNickCallback, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
+                            gpiAddCallback(connection, checkNickCallback, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
                         }
@@ -657,23 +657,23 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                 } else if (data->mKind == PROFILE_SEARCH_KIND_NEW_USER) {
                     newUserCallback = operation->mCallback;
                     if (newUserCallback.mCallback != NULL) {
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "nur") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         resultValue = StrtolBase10(value);
                         if (resultValue != 0) {
                             gpState->mErrorNumber = resultValue;
                         }
-                        if (GpiGetValue(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
+                        if (gpiValueForKey(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
                             if (resultValue == 0) {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                             profileValue = 0;
@@ -682,13 +682,13 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         }
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
                         result =
-                            GpiQueueCallback(connection, newUserCallback, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
+                            gpiAddCallback(connection, newUserCallback, u5, operation, PROFILE_CALLBACK_TYPE_PLAIN);
                         if (result != 0) {
                             return result;
                         }
@@ -698,24 +698,24 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                     if (othersCallback.mCallback != NULL) {
                         u7 = DWCi_GsMalloc(0xc);
                         if (u7 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u7->mResult = GP_REQUEST_OK;
                         u7->mNumProfiles = 0;
                         u7->mProfiles = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "others") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         isDone = FALSE;
                         do {
-                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
@@ -724,7 +724,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                             } else if (strcmp(key, "o") == 0) {
                                 profileMatches = DWCi_GsRealloc(u7->mProfiles, (u7->mNumProfiles + 1) * 0xac);
                                 if (profileMatches == NULL) {
-                                    GpiSetErrorMessage(connection, "Out of memory.");
+                                    gpiSetErrorString(connection, "Out of memory.");
                                     return 1;
                                 }
                                 u7->mProfiles = profileMatches;
@@ -737,32 +737,32 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 matchDone = FALSE;
                                 do {
                                     savedPos = readPos;
-                                    result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                                    result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                                     if (result != 0) {
                                         return result;
                                     }
                                     if (strcmp(key, "nick") == 0) {
-                                        GpiCopyString(profileMatch->mNick, value, 0x1f);
+                                        CopyStringWithTerminator(profileMatch->mNick, value, 0x1f);
                                     } else if (strcmp(key, "uniquenick") == 0) {
-                                        GpiCopyString(profileMatch->mUniquenick, value, 0x15);
+                                        CopyStringWithTerminator(profileMatch->mUniquenick, value, 0x15);
                                     } else if (strcmp(key, "first") == 0) {
-                                        GpiCopyString(profileMatch->mFirstname, value, 0x1f);
+                                        CopyStringWithTerminator(profileMatch->mFirstname, value, 0x1f);
                                     } else if (strcmp(key, "last") == 0) {
-                                        GpiCopyString(profileMatch->mLastname, value, 0x1f);
+                                        CopyStringWithTerminator(profileMatch->mLastname, value, 0x1f);
                                     } else if (strcmp(key, "email") == 0) {
-                                        GpiCopyString(profileMatch->mEmail, value, 0x33);
+                                        CopyStringWithTerminator(profileMatch->mEmail, value, 0x33);
                                     } else if (strcmp(key, "o") == 0 || strcmp(key, "odone") == 0) {
                                         matchDone = TRUE;
                                         readPos = savedPos;
                                     }
                                 } while (matchDone == FALSE);
                             } else {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, othersCallback, u7, operation,
+                        result = gpiAddCallback(connection, othersCallback, u7, operation,
                                                   PROFILE_CALLBACK_TYPE_FREE_OTHERS_PROFILES_IF_SET);
                         if (result != 0) {
                             return result;
@@ -774,40 +774,40 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                         entryIndex = 0;
                         u9 = DWCi_GsMalloc(0xc);
                         if (u9 == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         u9->mResult = GP_REQUEST_OK;
                         u9->mNumSuggestedNicks = 0;
                         u9->mSuggestedNicks = NULL;
-                        result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                        result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                         if (result != 0) {
                             return result;
                         }
                         if (strcmp(key, "us") != 0) {
-                            GpiSetError(connection, 1, "Error reading from the search server.");
-                            GpiQueueErrorCallback(connection, 3, 1);
+                            gpiSetError(connection, 1, "Error reading from the search server.");
+                            gpiCallErrorCallback(connection, 3, 1);
                             return 3;
                         }
                         u9->mNumSuggestedNicks = StrtolBase10(value);
                         u9->mSuggestedNicks = DWCi_GsMalloc(u9->mNumSuggestedNicks * 4);
                         if (u9->mSuggestedNicks == NULL) {
-                            GpiSetErrorMessage(connection, "Out of memory.");
+                            gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
                         isDone = FALSE;
                         do {
-                            result = GpiReadKeyValue(connection, data->mInputBuffer, &readPos, key, value);
+                            result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
                             if (result != 0) {
                                 return result;
                             }
                             if (strcmp(key, "nick") == 0) {
                                 u9->mSuggestedNicks[entryIndex] = DWCi_GsMalloc(0x15);
                                 if (u9->mSuggestedNicks[entryIndex] == NULL) {
-                                    GpiSetErrorMessage(connection, "Out of memory.");
+                                    gpiSetErrorString(connection, "Out of memory.");
                                     return 1;
                                 }
-                                GpiCopyString(u9->mSuggestedNicks[entryIndex], value, 0x15);
+                                CopyStringWithTerminator(u9->mSuggestedNicks[entryIndex], value, 0x15);
                                 entryIndex++;
                             } else if (strcmp(key, "usdone") == 0) {
                                 if (entryIndex != u9->mNumSuggestedNicks) {
@@ -816,12 +816,12 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
                                 u9->mNumSuggestedNicks = entryIndex;
                                 isDone = TRUE;
                             } else {
-                                GpiSetError(connection, 1, "Error reading from the search server.");
-                                GpiQueueErrorCallback(connection, 3, 1);
+                                gpiSetError(connection, 1, "Error reading from the search server.");
+                                gpiCallErrorCallback(connection, 3, 1);
                                 return 3;
                             }
                         } while (isDone == FALSE);
-                        result = GpiQueueCallback(connection, uniqueNickCallback, u9, operation,
+                        result = gpiAddCallback(connection, uniqueNickCallback, u9, operation,
                                                   PROFILE_CALLBACK_TYPE_FREE_SUGGESTED_NICKS);
                         if (result != 0) {
                             return result;
@@ -841,7 +841,7 @@ s32 GpiUpdateSearch(GpConnection *connection, GpiOperation *operation) {
     return 0;
 }
 
-BOOL GpiUpdateSearches(GpConnection *connection) {
+BOOL gpiProcessSearches(GpConnection *connection) {
     GpiConnection *gpState;
     GpiOperation **operations;
     GpiOperation *operation;
@@ -855,7 +855,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
     if (gpState->mSearchCount > 0) {
         operations = DWCi_GsMalloc(gpState->mSearchCount * 4);
         if (operations == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
+            gpiSetErrorString(connection, "Out of memory.");
             return TRUE;
         }
         for (operation = gpState->mOperationList; operation != NULL; operation = operation->mNext) {
@@ -869,7 +869,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             }
         }
         for (index = 0; index < count; index++) {
-            result = GpiUpdateSearch(connection, operations[index]);
+            result = gpiProcessSearch(connection, operations[index]);
             if (result != 0) {
                 operations[index]->mResult = result;
             }
@@ -878,7 +878,7 @@ BOOL GpiUpdateSearches(GpConnection *connection) {
             data = operations[index]->mData;
             data->mProcessing = 0;
             if (data->mRemove != 0) {
-                GpiRemoveOperation(connection, operations[index]);
+                gpiRemoveOperation(connection, operations[index]);
             }
         }
         DWCi_GsFree(operations);

@@ -6,5 +6,5 @@
 typedef struct GPIConnectData GPIConnectData;
 
 int gpiCheckConnect(GpConnection *connection);
-u32 GpiProcessConnectOperation(GpConnection *connection, GpiOperation *operation, const char *input);
-u32 GpiWriteNewuser(GpConnection *connection, GPIConnectData *data);
+u32 gpiProcessConnect(GpConnection *connection, GpiOperation *operation, const char *input);
+u32 gpiSendNewuser(GpConnection *connection, GPIConnectData *data);

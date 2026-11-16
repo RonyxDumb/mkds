@@ -130,13 +130,13 @@ void DWC_ShutdownFriendsMatch(void) {
             gWiFiConnection->mMatching.mServerList = NULL;
         }
         NNFreeNegotiateList();
-        GstatsClose();
+        CloseStatsConnection();
         if (gWiFiConnection->mGpConnection.mGpiConnection != NULL) {
             GpSetCallback(&gWiFiConnection->mGpConnection, 0, NULL, 0);
             GpSetCallback(&gWiFiConnection->mGpConnection, 3, NULL, 0);
             GpSetCallback(&gWiFiConnection->mGpConnection, 1, NULL, 0);
             GpSetCallback(&gWiFiConnection->mGpConnection, 2, NULL, 0);
-            GpUpdate(&gWiFiConnection->mGpConnection);
+            gpProcess(&gWiFiConnection->mGpConnection);
             GpDestroy(&gWiFiConnection->mGpConnection);
             gWiFiConnection->mGpConnection.mGpiConnection = NULL;
         }
@@ -183,7 +183,7 @@ void DWC_ProcessFriendsMatch(void) {
         case WIFI_CONNECTION_GP_SETUP:
             switch (GSIAvailableCheckThink()) {
                 case GSIACAvailable:
-                    if (ReportWiFiGpResult(GpInitialize(&gWiFiConnection->mGpConnection,
+                    if (ReportWiFiGpResult(gpInitialize(&gWiFiConnection->mGpConnection,
                                                         gWiFiConnection->mLogin.mProductId, 0)) != 0) {
                         return;
                     }
@@ -458,7 +458,7 @@ s32 DWCi_GT2Startup(void) {
         return result;
     }
     gt2Listen(gWiFiConnection->mSocket, DWCi_GT2ConnectAttemptCallback);
-    SetUnmatchedDataCallback(gWiFiConnection->mSocket, DWCi_GT2UnrecognizedMessageCallback);
+    gt2SetUnrecognizedMessageCallback(gWiFiConnection->mSocket, DWCi_GT2UnrecognizedMessageCallback);
     return result;
 }
 
@@ -498,8 +498,8 @@ s32 DWCi_GT2GetConnectionListIdx(void) {
 }
 
 void DWCi_ClearGT2ConnectionList(void) {
-    ClearBuffer32(stGt2ConnectionList, 0x80);
-    ClearBuffer32(stConnectionInfoList, 0x100);
+    AccessPointMI_CpuClear32(stGt2ConnectionList, 0x80);
+    AccessPointMI_CpuClear32(stConnectionInfoList, 0x100);
 }
 
 void **DWCi_GetGT2ConnectionByIdx(s32 index) {
@@ -762,7 +762,7 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
     }
 }
 
-// Slot 1 of the Gt2ConnectionCallbacks record (the library's Gt2CallDataCallback): the body
+// Slot 1 of the Gt2ConnectionCallbacks record (the library's gti2ReceivedCallback): the body
 // only forwards (connection, data, size, flag) to DWCi_RecvCallback, the receive side of the message layer.
 void DWCi_GT2ReceivedCallback(Gt2Connection *connection, void *message, s32 length, u32 reliable) {
     DWCi_RecvCallback(connection, message, length, reliable);
@@ -866,14 +866,14 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
     }
 }
 
-// Slot 3 of the record (Gt2CallElapsedTimeCallback): the body only forwards (connection, elapsed time) to
+// Slot 3 of the record (gti2PingCallback): the body only forwards (connection, elapsed time) to
 // DWCi_PingCallback, which calls the layer's mPingCallback, when it is set, with the time and the peer's aid.
 void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }
 
 void DWCi_GT2SocketErrorCallback(Gt2Socket *socket) {
-    stLastSocketError = GOAGetLastError(GetSocketDescriptor(socket));
+    stLastSocketError = GOAGetLastError(gt2GetSocketSOCKET(socket));
     DWCi_SetError(0xb, -0x17aeb);
     gWiFiConnection->mSocket = NULL;
 }
@@ -885,8 +885,8 @@ NatTraversalEntry *FindNegotiatorForCookie(u32 cookie) {
     if (negotiateList == NULL) {
         return NULL;
     }
-    for (index = 0; index < DarrayGetCount(negotiateList); index++) {
-        negotiator = DarrayGetElement(negotiateList, index);
+    for (index = 0; index < ArrayLength(negotiateList); index++) {
+        negotiator = ArrayNth(negotiateList, index);
         if (negotiator->mCookie == cookie) {
             return negotiator;
         }

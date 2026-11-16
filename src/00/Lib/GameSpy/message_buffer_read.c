@@ -39,11 +39,11 @@ u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s
             return 3;
         }
         *headerEnd = 0;
-        if (GpiGetValue((const char *) inputBuffer->mBuffer, "\\m\\", intText, 0x10) == FALSE) {
+        if (gpiValueForKey((const char *) inputBuffer->mBuffer, "\\m\\", intText, 0x10) == FALSE) {
             return 3;
         }
         *type = StrtolBase10(intText);
-        if (GpiGetValue((const char *) inputBuffer->mBuffer, "\\len\\", intText, 0x10) == FALSE) {
+        if (gpiValueForKey((const char *) inputBuffer->mBuffer, "\\len\\", intText, 0x10) == FALSE) {
             return 3;
         }
         bodyLength = StrtolBase10(intText);

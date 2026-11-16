@@ -2,7 +2,7 @@
 #include "00/Lib/GameSpy/connection_events.h"
 #include "print_memory_multibyte_write.h"
 
-u16 GetSocketPort(Gt2Socket *socket) {
+u16 gt2GetLocalPort(Gt2Socket *socket) {
     return socket->mPort;
 }
 
@@ -10,11 +10,11 @@ int gt2GetOutgoingBufferFreeSpace(Gt2Connection *connection) {
     return connection->mSendBuffer.mSize - connection->mSendBuffer.mLength;
 }
 
-u32 GetSocketDescriptor(Gt2Socket *socket) {
+u32 gt2GetSocketSOCKET(Gt2Socket *socket) {
     return socket->mDescriptor;
 }
 
-void SetUnmatchedDataCallback(Gt2Socket *socket, Gt2UnmatchedDataCallback callback) {
+void gt2SetUnrecognizedMessageCallback(Gt2Socket *socket, Gt2UnmatchedDataCallback callback) {
     socket->mUnmatchedDataCallback = callback;
 }
 

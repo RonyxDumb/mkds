@@ -8,7 +8,7 @@
 #include "quick_sort.h"
 
 Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
-                           ElementCompareFunc *compFn, void (*freeElement)(void *)) {
+                           ArrayCompareFn *compFn, void (*freeElement)(void *)) {
     Hashtable *table;
     s32 bucketIndex;
     if (hashFn == NULL) {
@@ -32,7 +32,7 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*h
         AssertionFailed("table->buckets", "hashtable.c", NULL, 0x41);
     }
     for (bucketIndex = 0; bucketIndex < nBuckets; bucketIndex++) {
-        table->mBuckets[bucketIndex] = DarrayCreate(elemSize, initialCount, freeElement);
+        table->mBuckets[bucketIndex] = ArrayNew(elemSize, initialCount, freeElement);
     }
     table->mBucketCount = nBuckets;
     table->mElemCallback = freeElement;
@@ -41,7 +41,7 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*h
     return table;
 }
 
-void HashtableDelete(void *tableArg) {
+void TableFree(void *tableArg) {
     Hashtable *table = tableArg;
     s32 bucketIndex;
     if (table == NULL) {
@@ -49,14 +49,14 @@ void HashtableDelete(void *tableArg) {
     }
     if (table != NULL) {
         for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
-            DarrayDelete(table->mBuckets[bucketIndex]);
+            ArrayFree(table->mBuckets[bucketIndex]);
         }
         DWCi_GsFree(table->mBuckets);
         DWCi_GsFree(table);
     }
 }
 
-s32 HashtableGetCount(Hashtable *table) {
+s32 TableCount(Hashtable *table) {
     s32 total = 0;
     s32 bucketIndex;
     if (table == NULL) {
@@ -66,12 +66,12 @@ s32 HashtableGetCount(Hashtable *table) {
         return 0;
     }
     for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
-        total += DarrayGetCount(table->mBuckets[bucketIndex]);
+        total += ArrayLength(table->mBuckets[bucketIndex]);
     }
     return total;
 }
 
-void HashtableSet(Hashtable *table, void *elem) {
+void TableEnter(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -79,16 +79,16 @@ void HashtableSet(Hashtable *table, void *elem) {
     }
     if (table != NULL) {
         bucketNo = table->mHashFn(elem, table->mBucketCount);
-        elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
+        elemIndex = ArraySearch(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
         if (elemIndex == -1) {
-            DarrayAppend(table->mBuckets[bucketNo], elem);
+            ArrayAppend(table->mBuckets[bucketNo], elem);
             return;
         }
-        DarrayReplace(table->mBuckets[bucketNo], elem, elemIndex);
+        ArrayReplaceAt(table->mBuckets[bucketNo], elem, elemIndex);
     }
 }
 
-BOOL HashtableRemove(Hashtable *table, void *elem) {
+BOOL TableRemove(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -98,15 +98,15 @@ BOOL HashtableRemove(Hashtable *table, void *elem) {
         return FALSE;
     }
     bucketNo = table->mHashFn(elem, table->mBucketCount);
-    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
+    elemIndex = ArraySearch(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
     if (elemIndex != -1) {
-        DarrayRemove(table->mBuckets[bucketNo], elemIndex);
+        ArrayDeleteAt(table->mBuckets[bucketNo], elemIndex);
         return TRUE;
     }
     return FALSE;
 }
 
-void *HashtableFind(Hashtable *table, void *elem) {
+void *TableLookup(Hashtable *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -116,24 +116,24 @@ void *HashtableFind(Hashtable *table, void *elem) {
         return NULL;
     }
     bucketNo = table->mHashFn(elem, table->mBucketCount);
-    elemIndex = DarrayFindIndex(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
+    elemIndex = ArraySearch(table->mBuckets[bucketNo], elem, table->mCompfn, 0, 0);
     if (elemIndex != -1) {
-        return DarrayGetElement(table->mBuckets[bucketNo], elemIndex);
+        return ArrayNth(table->mBuckets[bucketNo], elemIndex);
     }
     return NULL;
 }
 
-void HashtableForEach(Hashtable *table, void (*fn)(void *, void *), void *userData) {
+void TableMapSafe(Hashtable *table, void (*fn)(void *, void *), void *userData) {
     s32 bucketIndex;
     if (fn == NULL) {
         AssertionFailed("fn", "hashtable.c", NULL, 0xb6);
     }
     for (bucketIndex = 0; bucketIndex < table->mBucketCount; bucketIndex++) {
-        DarrayForEachReverse(table->mBuckets[bucketIndex], fn, userData);
+        ArrayMapBackwards(table->mBuckets[bucketIndex], fn, userData);
     }
 }
 
-void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
+void *TableMapSafe2(Hashtable *table, int fn, const void *userData) {
     void *foundElement;
     int bucketIndex;
     if (fn == 0) {
@@ -142,7 +142,7 @@ void *HashtableFindByFn(Hashtable *table, int fn, const void *userData) {
     bucketIndex = 0;
     if (0 < table->mBucketCount) {
         do {
-            foundElement = DarrayFindByFnReverse(table->mBuckets[bucketIndex], (ElementCompareFunc *) fn, userData);
+            foundElement = ArrayMapBackwards2(table->mBuckets[bucketIndex], (ArrayCompareFn *) fn, userData);
             if (foundElement != NULL) {
                 return foundElement;
             }

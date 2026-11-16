@@ -27,7 +27,7 @@ s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char 
     data.mEmail = email;
     data.mProfile = profile;
     data.mFound = FALSE;
-    GpiForEachProfileWhileNonZero(connection, gpiCheckProfileForUser, &data);
+    gpiProfileMap(connection, gpiCheckProfileForUser, &data);
     if (data.mFound == FALSE) {
         *profile = NULL;
     }
@@ -38,7 +38,7 @@ void gpiProfileMapCallback(GpiProfile *profile, GPIProfileMapData *mapData) {
     mapData->mFunc(mapData->mConnection, profile, mapData->mData);
 }
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData) {
+BOOL gpiProfileMap(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData) {
     GpiConnection *gpiConnection;
     GPIProfileMapData mapData;
 
@@ -46,7 +46,7 @@ BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, GpiProfileMapFunc
     mapData.mConnection = gpConnection;
     mapData.mFunc = callback;
     mapData.mData = userData;
-    if (HashtableFindByFn(gpiConnection->mProfileList.mTable, (s32) gpiProfileMapCallback, &mapData) == NULL) {
+    if (TableMapSafe2(gpiConnection->mProfileList.mTable, (s32) gpiProfileMapCallback, &mapData) == NULL) {
         return TRUE;
     }
     return FALSE;

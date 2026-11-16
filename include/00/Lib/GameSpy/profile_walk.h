@@ -22,7 +22,7 @@ typedef struct GPIProfileMapData {
     /* 08 */ void *mData;
 } GPIProfileMapData;
 
-BOOL GpiForEachProfileWhileNonZero(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData);
+BOOL gpiProfileMap(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData);
 
 void gpiProfileMapCallback(GpiProfile *profile, GPIProfileMapData *mapData);
 

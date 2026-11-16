@@ -67,7 +67,7 @@ u8 *gti2GetChallenge(u8 *buffer) {
     if (buffer == NULL) {
         AssertionFailed("buffer", "gt2Auth.c", NULL, 0x2b);
     }
-    srand(GetElapsedMilliseconds());
+    srand(current_time());
     buffer[0] = (s32) rand() % 0x5d + 0x21;
     parityFlag = 0;
     index = 1;

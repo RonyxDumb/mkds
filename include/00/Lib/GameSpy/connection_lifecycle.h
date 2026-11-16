@@ -19,7 +19,7 @@ BOOL gti2CheckPendingAck(Gt2Connection *connection, u32 now);
 BOOL gti2SendRetries(Gt2Connection *connection, u32 now);
 BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now);
 
-u32 SendConnectionBytes(Gt2Connection *gt2Connection, u8 *data, u32 length);
+u32 gti2ConnectionSendData(Gt2Connection *gt2Connection, u8 *data, u32 length);
 
 void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...);
 BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks);

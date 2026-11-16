@@ -21,7 +21,7 @@ typedef struct WiFiLogin {
     // connect then 4 profile name check (DWCi_GPGetInfoCallback), 5 done. Written only by the machine; 0 is
     // DWCi_CloseLogin.
     /* 04 */ s32 mState;
-    // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to GpInitialize, which stores it as
+    // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to gpInitialize, which stores it as
     // GpiConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mGamecode;
@@ -46,12 +46,13 @@ typedef struct WiFiLogin {
     /* 38 */ u64 mConnectStartTime;
     /* 40 */ DWCAccFriendData mTempLoginId;
     // First string of the HTTP reply (0x100 buffer): given to the GP connect as its first credential, which
-    // GpiWriteLogin writes after '\authtoken\'; also passed to StartBuddySync (stats login).
+    // gpiSendLogin writes after '\authtoken\'; also passed to StartBuddySync (stats login).
     // The reply's second string (mPartnerChallenge) is the password substitute the library hashes, not
     // the library's '\challenge\' (a random string the library makes).
     /* 4c */ char mAuthToken[0x100];
-    // GPIConnectData.mPartnerChallenge (when the token and this string are both non-empty) and GpiWriteLogin hashes it
-    // where it would hash the password. Not the
+    // Second string of the HTTP reply (0x100 buffer), the second GP connect credential: the library copies it to
+    // GPIConnectData.mPartnerChallenge (when the token and this string are both non-empty) and gpiSendLogin hashes it
+    // where it would hash the password. Not the library's '\challenge\' value.
     /* 14c */ char mPartnerChallenge[0x100];
     /* 24c */ char mUsername[9];
     /* 255 */ char mGsbrcd[0xf];

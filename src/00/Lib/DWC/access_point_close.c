@@ -21,7 +21,7 @@ u32 DWCi_AC_CloseNetwork(u8 *phase) {
         DWC_Netcheck_Abort();
         DWC_Netcheck_Destroy();
         *phase = 0xc;
-    } else if ((phaseValue < 0x12) && (result = CloseAutoConnectSocket(), result == 1)) {
+    } else if ((phaseValue < 0x12) && (result = CleanupSocketApi(), result == 1)) {
         *phase = 10;
     }
     return 0;

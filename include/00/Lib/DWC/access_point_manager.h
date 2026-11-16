@@ -37,7 +37,7 @@ typedef struct WifiReportArgument {
     /* 08 */ s32 mReportCode;
 } WifiReportArgument;
 
-static inline void ClearBuffer32(void *buffer, u32 byteCount) {
+static inline void AccessPointMI_CpuClear32(void *buffer, u32 byteCount) {
     vu32 zero = 0;
     MIi_CpuClear32(zero, buffer, byteCount);
 }

@@ -10,7 +10,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/login_connect_close.h"
 
-u32 GpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
+u32 gpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
     GpConnection newConnection;
     u32 result;
     s32 callbackIndex;
@@ -28,7 +28,7 @@ u32 GpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
     newConnection.mGpiConnection->mFirewall = FALSE;
     newConnection.mGpiConnection->mProductId = productID;
     newConnection.mGpiConnection->mNamespaceId = namespaceID;
-    if (GpiInitProfileList(&newConnection) == FALSE) {
+    if (gpiInitProfiles(&newConnection) == FALSE) {
         DWCi_GsFree(newConnection.mGpiConnection);
         newConnection.mGpiConnection = NULL;
         return 1;
@@ -40,13 +40,13 @@ u32 GpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
     }
     newConnection.mGpiConnection->mDebugBuffer = NULL;
     gpiDebug(&newConnection, "\n\n\n\n\n*************\ngpiInitialize\n");
-    result = GpiResetConnection(&newConnection);
+    result = gpiReset(&newConnection);
     if (result != 0) {
         gpiDestroy(&newConnection);
         return result;
     }
     SocketStartUp();
-    srand(GetElapsedMilliseconds());
+    srand(current_time());
     connection->mGpiConnection = newConnection.mGpiConnection;
     return 0;
 }
@@ -54,10 +54,10 @@ u32 GpiInitialize(GpConnection *connection, s32 productID, s32 namespaceID) {
 void gpiDestroy(GpConnection *connection) {
     GpiConnection *gpState;
     gpState = connection->mGpiConnection;
-    GpiCloseConnection(connection, 1);
+    gpiDisconnect(connection, 1);
     DWCi_GsFree(gpState->mDebugBuffer);
     gpState->mDebugBuffer = NULL;
-    HashtableDelete(gpState->mProfileList.mTable);
+    TableFree(gpState->mProfileList.mTable);
     DWCi_GsFree(gpState);
     connection->mGpiConnection = NULL;
 }

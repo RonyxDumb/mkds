@@ -23,7 +23,7 @@
 #include "00/Lib/GameSpy/peer_connection.h"
 #include "00/Lib/GameSpy/profile_walk.h"
 
-void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
+void gpiCallErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
     GpiConnection *gpState;
     GpiCallback errorCallback;
     ErrorData *errorArg;
@@ -50,18 +50,18 @@ void GpiQueueErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
             errorArg->mErrorCode = gpState->mErrorNumber;
             errorArg->mErrorString = gpState;
         }
-        GpiQueueCallback(connection, errorCallback, errorArg, NULL, PROFILE_CALLBACK_TYPE_ERROR);
+        gpiAddCallback(connection, errorCallback, errorArg, NULL, PROFILE_CALLBACK_TYPE_ERROR);
     }
 }
 
-u32 GpiQueueCallback(GpConnection *connection, GpiCallback callback, void *arg, GpiOperation *operation, s32 type) {
+u32 gpiAddCallback(GpConnection *connection, GpiCallback callback, void *arg, GpiOperation *operation, s32 type) {
     GpiConnection *gpState;
     GpiQueuedCallback *queued;
 
     gpState = connection->mGpiConnection;
     queued = DWCi_GsMalloc(0x18);
     if (queued == NULL) {
-        GpiSetErrorMessage(connection, "Out of memory.");
+        gpiSetErrorString(connection, "Out of memory.");
         return 1;
     }
     queued->mCallback = callback;
@@ -83,7 +83,7 @@ u32 GpiQueueCallback(GpConnection *connection, GpiCallback callback, void *arg, 
     return 0;
 }
 
-void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
+void gpiCallCallback(GpConnection *connection, GpiQueuedCallback *data) {
     CallbackArgData *callbackArg;
     CallbackArgData *nickListArg;
     s32 entryIndex;
@@ -142,7 +142,7 @@ void GpiCallAndFreeCallback(GpConnection *connection, GpiQueuedCallback *data) {
     DWCi_GsFree(data);
 }
 
-u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
+u32 gpiProcessCallbacks(GpConnection *connection, s32 operationId) {
     GpiConnection *gpState;
     GpiQueuedCallback *listNode;
     GpiQueuedCallback *queueTail;
@@ -169,7 +169,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
                     if (queueTail == current) {
                         queueTail = previousKept;
                     }
-                    GpiCallAndFreeCallback(connection, current);
+                    gpiCallCallback(connection, current);
                 } else {
                     previousKept = current;
                 }
@@ -191,7 +191,7 @@ u32 GpiCallQueuedCallbacks(GpConnection *connection, s32 operationId) {
         gpState->mCallbackQueueTail = NULL;
         while (current != NULL) {
             listNode = current->mNext;
-            GpiCallAndFreeCallback(connection, current);
+            gpiCallCallback(connection, current);
             current = listNode;
         }
         current = gpState->mCallbackQueueHead;

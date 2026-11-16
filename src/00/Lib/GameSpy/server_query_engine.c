@@ -79,7 +79,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
     s32 queryLength;
     s32 keyIndex;
     FIFOAddRear(&engine->mQueryList, server);
-    server->mPing = GetElapsedMilliseconds();
+    server->mPing = current_time();
     address.mFamily = SOCKET_FAMILY_IPV4;
     if ((server->mStateFlags & STATE_PENDINGICMPQUERY) == 0) {
         if (engine->mQueryVersion == 1) {
@@ -189,7 +189,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
                     if (valueLength < 0) {
                         break;
                     }
-                    SbServerSetValue(server, gQr2RegisteredKeyList[engine->mServerKeys[keyIndex]], (const char *) data);
+                    SBServerAddKeyValue(server, gQr2RegisteredKeyList[engine->mServerKeys[keyIndex]], (const char *) data);
                     data += valueLength;
                     length -= valueLength;
                     keyIndex++;
@@ -201,7 +201,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
             server->mStateFlags |= STATE_FULLKEYS | STATE_BASICKEYS | STATE_VALIDPING;
         }
         server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
-        server->mPing = GetElapsedMilliseconds() - server->mPing;
+        server->mPing = current_time() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
     }
@@ -222,7 +222,7 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
             server->mStateFlags |= STATE_FULLKEYS | STATE_VALIDPING;
         }
         server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
-        server->mPing = GetElapsedMilliseconds() - server->mPing;
+        server->mPing = current_time() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
         engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
     }
@@ -278,7 +278,7 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 useIcmpSocket) {
 void TimeoutOldQueries(SBQueryEngine *engine) {
     u32 currentTime;
     SbServer *server;
-    currentTime = GetElapsedMilliseconds();
+    currentTime = current_time();
     server = engine->mQueryList.mFirst;
     while (server != NULL) {
         if (currentTime <= server->mPing + MAX_QUERY_MSEC) {

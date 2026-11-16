@@ -77,7 +77,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, const char *remoteAddre
 void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
     if (connection->mState == GT2_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
-        if (DarrayGetCount(connection->mSendFilters) != 0) {
+        if (ArrayLength(connection->mSendFilters) != 0) {
             gti2SendFilterCallback(connection, 0, message, len, reliable);
             return;
         }
@@ -94,5 +94,5 @@ void gti2CloseAllConnectionsHardMap(Gt2Connection **elem) {
 }
 
 void gt2CloseAllConnectionsHard(Gt2Socket *socket) {
-    HashtableForEach(socket->mConnections, (void (*)(void *, void *)) gti2CloseAllConnectionsHardMap, NULL);
+    TableMapSafe(socket->mConnections, (void (*)(void *, void *)) gti2CloseAllConnectionsHardMap, NULL);
 }

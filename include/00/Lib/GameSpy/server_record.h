@@ -22,11 +22,11 @@ typedef struct KeyLookup {
     /* 0 */ const char *mKey;
 } KeyLookup;
 
-double SbServerGetDouble(SbServer *server, const char *key, double defaultValue);
-s32 SbServerGetInt(SbServer *server, const char *key, s32 defaultValue);
-char *SbServerGetValue(SbServer *server, const char *key, char *defaultValue);
-void SbServerSetInt(SbServer *server, const char *key, u32 value);
-void SbServerSetValue(SbServer *server, const char *key, const char *value);
+double SBServerGetFloatValueA(SbServer *server, const char *key, double defaultValue);
+s32 SBServerGetIntValueA(SbServer *server, const char *key, s32 defaultValue);
+char *SBServerGetStringValueA(SbServer *server, const char *key, char *defaultValue);
+void SBServerAddIntKeyValue(SbServer *server, const char *key, u32 value);
+void SBServerAddKeyValue(SbServer *server, const char *key, const char *value);
 
 BOOL SBIsNullServer(SbServer *server);
 u8 SBServerGetState(SbServer *server);

@@ -78,7 +78,7 @@ void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...
     }
 }
 
-u32 SendConnectionBytes(Gt2Connection *connection, u8 *data, u32 length) {
+u32 gti2ConnectionSendData(Gt2Connection *connection, u8 *data, u32 length) {
     int sendResult;
     u32 elapsedMilliseconds;
     sendResult = gti2SocketSend(connection->mSocket, connection->mAddress, connection->mPort,
@@ -86,7 +86,7 @@ u32 SendConnectionBytes(Gt2Connection *connection, u8 *data, u32 length) {
     if (sendResult == 0) {
         return 0;
     }
-    elapsedMilliseconds = GetElapsedMilliseconds();
+    elapsedMilliseconds = current_time();
     connection->mLastSendTime = elapsedMilliseconds;
     return 1;
 }
@@ -107,7 +107,7 @@ BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now) {
         if (hasExpired != FALSE) {
             gti2SendClosed(connection);
             gti2ConnectionClosed(connection);
-            if (Gt2SetResultAndCallResultCallback(connection, 6, NULL, 0) == 0) {
+            if (gti2ConnectedCallback(connection, 6, NULL, 0) == 0) {
                 return FALSE;
             }
         }
@@ -119,9 +119,9 @@ BOOL gti2SendRetries(Gt2Connection *connection, u32 now) {
     int len;
     int index;
     GTI2OutgoingBufferMessage *message;
-    len = DarrayGetCount(connection->mOutgoingBufferMessages);
+    len = ArrayLength(connection->mOutgoingBufferMessages);
     for (index = 0; index < len; index++) {
-        message = DarrayGetElement(connection->mOutgoingBufferMessages, index);
+        message = ArrayNth(connection->mOutgoingBufferMessages, index);
         if (now - message->mLastSend > GTI2_RESEND_TIME) {
             if (gti2ResendMessage(connection, message) == 0) {
                 return FALSE;

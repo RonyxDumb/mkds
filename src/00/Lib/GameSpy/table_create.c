@@ -5,6 +5,6 @@
 #include "00/Lib/GameSpy/hash_table.h"
 
 void *TableNew(u32 elemSize, u32 nBuckets, void *hashFn, void *compFn, void *freeFn) {
-    return HashtableCreate(elemSize, nBuckets, 4, (s32(*)(void *, s32))(hashFn), (ElementCompareFunc *) (compFn),
+    return HashtableCreate(elemSize, nBuckets, 4, (s32(*)(void *, s32))(hashFn), (ArrayCompareFn *) (compFn),
                            (void (*)(void *))(freeFn));
 }

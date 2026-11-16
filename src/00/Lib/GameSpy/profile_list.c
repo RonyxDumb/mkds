@@ -14,7 +14,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-void GpiReleaseProfile(GpiProfile *profile) {
+void gpiProfilesTableFree(GpiProfile *profile) {
     if (profile->mBuddyStatus != NULL) {
         DWCi_GsFree(profile->mBuddyStatus->mStatusString);
         profile->mBuddyStatus->mStatusString = NULL;
@@ -30,13 +30,13 @@ void GpiReleaseProfile(GpiProfile *profile) {
     profile->mPeerSig = NULL;
 }
 
-BOOL GpiInitProfileList(GpConnection *connection) {
+BOOL gpiInitProfiles(GpConnection *connection) {
     GpiConnection *gpState;
 
     gpState = connection->mGpiConnection;
     gpState->mBuddyCount = 0;
     gpState->mProfileList.mNum = 0;
-    gpState->mProfileList.mTable = TableNew(0x1c, 4, GpiHashProfile, GpiCompareProfiles, GpiReleaseProfile);
+    gpState->mProfileList.mTable = TableNew(0x1c, 4, gpiProfilesTableHash, gpiProfilesTableCompare, gpiProfilesTableFree);
     if (gpState->mProfileList.mTable != NULL) {
         return TRUE;
     }
@@ -50,17 +50,17 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     s32 result;
     char profileIdText[0x10];
 
-    if (GpiReadError(connection, input, 1) != FALSE) {
+    if (gpiCheckForError(connection, input, 1) != FALSE) {
         return 4;
     }
     if (strncmp(input, "\\npr\\", 5) != 0) {
-        GpiSetError(connection, 1, "Unexpected data was received from the server.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 1, "Unexpected data was received from the server.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
-    if (GpiGetValue(input, "\\profileid\\", profileIdText, 0x10) == FALSE) {
-        GpiSetError(connection, 1, "Unexpected data was received from the server.");
-        GpiQueueErrorCallback(connection, 3, 1);
+    if (gpiValueForKey(input, "\\profileid\\", profileIdText, 0x10) == FALSE) {
+        gpiSetError(connection, 1, "Unexpected data was received from the server.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     profileNumber = StrtolBase10(profileIdText);
@@ -68,21 +68,21 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(8);
         if (arg == NULL) {
-            GpiSetErrorMessage(connection, "Out of memory.");
+            gpiSetErrorString(connection, "Out of memory.");
             return 1;
         }
         arg[1] = profileNumber;
         arg[0] = 0;
-        result = GpiQueueCallback(connection, callback, arg, operation, 0);
+        result = gpiAddCallback(connection, callback, arg, operation, 0);
         if (result != 0) {
             return result;
         }
     }
-    GpiRemoveOperation(connection, operation);
+    gpiRemoveOperation(connection, operation);
     return 0;
 }
 
-GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
+GpiProfile *gpiProfileListAdd(GpConnection *connection, s32 id) {
     GPIProfileList *profileList;
     GpiProfile *profileEntry;
 
@@ -93,7 +93,7 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
     if (id <= 0) {
         return NULL;
     }
-    if (GpiFindProfile(connection, id, &profileEntry) != 0) {
+    if (gpiGetProfile(connection, id, &profileEntry) != 0) {
         return profileEntry;
     }
     {
@@ -105,23 +105,23 @@ GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id) {
         newProfile.mAuthSig = NULL;
         newProfile.mPeerSig = NULL;
         newProfile.mRequestCount = 0;
-        HashtableSet(profileList->mTable, &newProfile);
+        TableEnter(profileList->mTable, &newProfile);
     }
     profileList->mNum = profileList->mNum + 1;
-    if (GpiFindProfile(connection, id, &profileEntry) != 0) {
+    if (gpiGetProfile(connection, id, &profileEntry) != 0) {
         return profileEntry;
     }
     return NULL;
 }
 
-u32 GpiFindProfile(GpConnection *connection, u32 profileid, GpiProfile **profile) {
+u32 gpiGetProfile(GpConnection *connection, u32 profileid, GpiProfile **profile) {
     GpiConnection *gpState;
     GpiProfile lookup;
     GpiProfile *foundProfile;
 
     gpState = connection->mGpiConnection;
     lookup.mProfileId = profileid;
-    foundProfile = HashtableFind(gpState->mProfileList.mTable, &lookup);
+    foundProfile = TableLookup(gpState->mProfileList.mTable, &lookup);
     if (profile != NULL) {
         *profile = foundProfile;
     }
@@ -131,16 +131,16 @@ u32 GpiFindProfile(GpConnection *connection, u32 profileid, GpiProfile **profile
     return 0;
 }
 
-void GpiRemoveProfileById(GpConnection *connection, u32 profileid) {
+void gpiRemoveProfileByID(GpConnection *connection, u32 profileid) {
     GpiConnection *gpState;
     GpiProfile *pProfile;
 
     gpState = connection->mGpiConnection;
-    if (GpiFindProfile(connection, profileid, &pProfile) != 0) {
-        HashtableRemove(gpState->mProfileList.mTable, pProfile);
+    if (gpiGetProfile(connection, profileid, &pProfile) != 0) {
+        TableRemove(gpState->mProfileList.mTable, pProfile);
     }
 }
 
-void GpiRemoveProfile(GpConnection *connection, GpiProfile *profile) {
-    HashtableRemove(connection->mGpiConnection->mProfileList.mTable, profile);
+void gpiRemoveProfile(GpConnection *connection, GpiProfile *profile) {
+    TableRemove(connection->mGpiConnection->mProfileList.mTable, profile);
 }

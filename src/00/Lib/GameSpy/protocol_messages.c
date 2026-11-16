@@ -53,7 +53,7 @@ u32 gti2ConnectionError(Gt2Connection *connection, u32 result, u32 reason) {
     if (state < GT2_CONNECTION_CONNECTED) {
         if (connection->mInitiated != FALSE) {
             gti2ConnectionClosed(connection);
-            if (Gt2SetResultAndCallResultCallback(connection, result, NULL, 0) == FALSE) {
+            if (gti2ConnectedCallback(connection, result, NULL, 0) == FALSE) {
                 return 0;
             }
         } else {
@@ -101,12 +101,12 @@ u32 gti2HandleESN(Gt2Connection *connection, u32 esn) {
     s32 index;
     s32 trimBytes;
     GTI2OutgoingBufferMessage *message;
-    messageCount = DarrayGetCount(connection->mOutgoingBufferMessages);
+    messageCount = ArrayLength(connection->mOutgoingBufferMessages);
     if (messageCount == 0) {
         return 1;
     }
     for (index = 0; index < messageCount; index++) {
-        message = DarrayGetElement(connection->mOutgoingBufferMessages, index);
+        message = ArrayNth(connection->mOutgoingBufferMessages, index);
         if (gti2SNDiff(message->mSerialNumber, esn) >= 0) {
             break;
         }
@@ -115,20 +115,20 @@ u32 gti2HandleESN(Gt2Connection *connection, u32 esn) {
         return 1;
     }
     while (index-- != 0) {
-        DarrayRemove(connection->mOutgoingBufferMessages, index);
+        ArrayDeleteAt(connection->mOutgoingBufferMessages, index);
     }
-    messageCount = DarrayGetCount(connection->mOutgoingBufferMessages);
+    messageCount = ArrayLength(connection->mOutgoingBufferMessages);
     if (messageCount == 0) {
         connection->mSendBuffer.mLength = 0;
         return 1;
     }
-    message = DarrayGetElement(connection->mOutgoingBufferMessages, 0);
+    message = ArrayNth(connection->mOutgoingBufferMessages, 0);
     trimBytes = message->mStart;
     for (index = 0; index < messageCount; index++) {
-        message = DarrayGetElement(connection->mOutgoingBufferMessages, index);
+        message = ArrayNth(connection->mOutgoingBufferMessages, index);
         message->mStart -= trimBytes;
     }
-    RemoveBufferBytes(&connection->mSendBuffer, 0, trimBytes);
+    gti2BufferShorten(&connection->mSendBuffer, 0, trimBytes);
     return 1;
 }
 
@@ -136,13 +136,13 @@ u32 gti2HandleAppUnreliable(Gt2Connection *connection, const u8 *message, s32 le
     if (connection->mState != GT2_CONNECTION_CONNECTED && connection->mState != GT2_CONNECTION_CLOSING) {
         return 1;
     }
-    if (DarrayGetCount(connection->mReceiveFilters) != 0) {
+    if (ArrayLength(connection->mReceiveFilters) != 0) {
         if (gti2ReceiveFilterCallback(connection, 0, message, length, 0) != FALSE) {
             return 1;
         }
         return 0;
     }
-    if (Gt2CallDataCallback(connection, message, length, 0) != FALSE) {
+    if (gti2ReceivedCallback(connection, message, length, 0) != FALSE) {
         return 1;
     }
     return 0;
@@ -154,13 +154,13 @@ u32 gti2HandleAppReliable(Gt2Connection *connection, const u8 *message, u32 leng
             return 0;
         }
     } else {
-        if (DarrayGetCount(connection->mReceiveFilters) != 0) {
+        if (ArrayLength(connection->mReceiveFilters) != 0) {
             if (gti2ReceiveFilterCallback(connection, 0, message, length, 1) != FALSE) {
                 return 1;
             }
             return 0;
         }
-        if (Gt2CallDataCallback(connection, message, length, 1) == FALSE) {
+        if (gti2ReceivedCallback(connection, message, length, 1) == FALSE) {
             return 0;
         }
     }
@@ -253,7 +253,7 @@ u32 gti2HandleClientResponse(Gt2Connection *connection, const u8 *message, int l
     }
     connection->mState = GT2_CONNECTION_AWAIT_DECISION;
     if (CallIncomingConnectionCallback(connection->mSocket, connection, connection->mAddress, connection->mPort,
-                                       GetElapsedMilliseconds() - connection->mChallengeTime, message + 0x20,
+                                       current_time() - connection->mChallengeTime, message + 0x20,
                                        length - 0x20) != FALSE) {
         return 1;
     }
@@ -268,7 +268,7 @@ u32 gti2HandleAccept(Gt2Connection *connection) {
         return 0;
     }
     connection->mState = GT2_CONNECTION_CONNECTED;
-    if (Gt2SetResultAndCallResultCallback(connection, 0, NULL, 0) != 0) {
+    if (gti2ConnectedCallback(connection, 0, NULL, 0) != 0) {
         return 1;
     }
     return 0;
@@ -285,7 +285,7 @@ u32 gti2HandleReject(Gt2Connection *connection, void *message, u32 length) {
     if (gti2SendClosed(connection) == 0) {
         return 0;
     }
-    if (Gt2SetResultAndCallResultCallback(connection, 2, message, length) != FALSE) {
+    if (gti2ConnectedCallback(connection, 2, message, length) != FALSE) {
         return 1;
     }
     return 0;
@@ -360,9 +360,9 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
     s32 num;
     s32 index;
     GTI2IncomingBufferMessage *heldMessage;
-    num = DarrayGetCount(connection->mIncomingBufferMessages);
+    num = ArrayLength(connection->mIncomingBufferMessages);
     for (index = 0; index < num; index++) {
-        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, index);
+        heldMessage = ArrayNth(connection->mIncomingBufferMessages, index);
         if (heldMessage->mSerialNumber == serialNumber) {
             *overflow = 0;
             return 1;
@@ -371,7 +371,7 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
             break;
         }
     }
-    if (GetBufferUnusedSize(&connection->mIncomingBuffer) < len) {
+    if (gti2GetBufferFreeSpace(&connection->mIncomingBuffer) < len) {
         *overflow = 1;
         return 1;
     }
@@ -379,20 +379,20 @@ u32 gti2BufferIncomingMessage(Gt2Connection *connection, s32 type, u32 serialNum
     newEntry.mLen = len;
     newEntry.mType = type;
     newEntry.mSerialNumber = serialNumber;
-    DarrayInsertSorted(connection->mIncomingBufferMessages, &newEntry, gti2IncomingBufferMessageCompare);
-    if (num + 1 != DarrayGetCount(connection->mIncomingBufferMessages)) {
+    ArrayInsertSorted(connection->mIncomingBufferMessages, &newEntry, gti2IncomingBufferMessageCompare);
+    if (num + 1 != ArrayLength(connection->mIncomingBufferMessages)) {
         *overflow = 1;
         return 1;
     }
-    AppendBufferBytes(&connection->mIncomingBuffer, message, len);
+    gti2BufferWriteData(&connection->mIncomingBuffer, message, len);
     if (num == 0) {
         if (gti2SendNack(connection, connection->mExpectedSerialNumber, serialNumber - 1) == FALSE) {
             return 0;
         }
     } else {
-        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num);
+        heldMessage = ArrayNth(connection->mIncomingBufferMessages, num);
         if (heldMessage->mSerialNumber == serialNumber) {
-            heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, num - 1);
+            heldMessage = ArrayNth(connection->mIncomingBufferMessages, num - 1);
             if ((u16) gti2SNDiff(serialNumber, heldMessage->mSerialNumber) > 1) {
                 if (gti2SendNack(connection, heldMessage->mSerialNumber + 1, serialNumber - 1) == FALSE) {
                     return 0;
@@ -411,10 +411,10 @@ void gti2RemoveHoldMessage(Gt2Connection *connection, GTI2IncomingBufferMessage 
     s32 num;
     s32 heldIndex;
     GTI2IncomingBufferMessage *heldMessage;
-    DarrayRemove(connection->mIncomingBufferMessages, index);
-    num = DarrayGetCount(connection->mIncomingBufferMessages);
+    ArrayDeleteAt(connection->mIncomingBufferMessages, index);
+    num = ArrayLength(connection->mIncomingBufferMessages);
     for (heldIndex = 0; heldIndex < num; heldIndex++) {
-        heldMessage = DarrayGetElement(connection->mIncomingBufferMessages, heldIndex);
+        heldMessage = ArrayNth(connection->mIncomingBufferMessages, heldIndex);
         if (heldMessage->mStart > removedStart) {
             heldMessage->mStart -= removedLen;
             if (heldEnd <= heldMessage->mStart + heldMessage->mLen) {
@@ -422,15 +422,15 @@ void gti2RemoveHoldMessage(Gt2Connection *connection, GTI2IncomingBufferMessage 
             }
         }
     }
-    RemoveBufferBytes(&connection->mIncomingBuffer, removedStart, removedLen);
+    gti2BufferShorten(&connection->mIncomingBuffer, removedStart, removedLen);
 }
 
 u32 gti2DeliverHoldMessages(Gt2Connection *connection) {
     s32 index;
     GTI2IncomingBufferMessage *message;
 top:
-    for (index = DarrayGetCount(connection->mIncomingBufferMessages) - 1; index >= 0; index--) {
-        message = DarrayGetElement(connection->mIncomingBufferMessages, index);
+    for (index = ArrayLength(connection->mIncomingBufferMessages) - 1; index >= 0; index--) {
+        message = ArrayNth(connection->mIncomingBufferMessages, index);
         if (message->mSerialNumber == connection->mExpectedSerialNumber) {
             if (gti2DeliverReliableMessage(connection, message->mType,
                                            connection->mIncomingBuffer.mData + message->mStart, message->mLen) == 0) {
@@ -447,7 +447,7 @@ void gti2SetPendingAck(Gt2Connection *connection) {
     u32 now;
     if (connection->mPendingAck == 0) {
         connection->mPendingAck = 1;
-        now = GetElapsedMilliseconds();
+        now = current_time();
         connection->mPendingAckTime = now;
     }
 }
@@ -520,9 +520,9 @@ u32 gti2HandleNack(Gt2Connection *connection, const u8 *message, s32 len) {
         }
         return 0;
     }
-    num = DarrayGetCount(connection->mOutgoingBufferMessages);
+    num = ArrayLength(connection->mOutgoingBufferMessages);
     for (index = 0; index < num; index++) {
-        sentEntry = DarrayGetElement(connection->mOutgoingBufferMessages, index);
+        sentEntry = ArrayNth(connection->mOutgoingBufferMessages, index);
         if (gti2SNDiff(sentEntry->mSerialNumber, firstNumber) >= 0 &&
             gti2SNDiff(sentEntry->mSerialNumber, lastNumber) <= 0) {
             if (gti2ResendMessage(connection, sentEntry) == FALSE) {
@@ -563,7 +563,7 @@ u32 gti2HandlePong(Gt2Connection *connection, u8 *message, s32 len) {
     startTimeBytes[1] = timeData[1];
     startTimeBytes[2] = timeData[2];
     startTimeBytes[3] = timeData[3];
-    if (Gt2CallElapsedTimeCallback(connection, GetElapsedMilliseconds() - pingSentTime) != FALSE) {
+    if (gti2PingCallback(connection, current_time() - pingSentTime) != FALSE) {
         return 1;
     }
     return 0;
@@ -625,7 +625,7 @@ u32 gti2HandleMessage(Gt2Socket *socket, u8 *message, s32 len, u32 address, u32 
         isProtocolMessage = FALSE;
     }
     if (connection == NULL) {
-        if (CallUnmatchedDataCallback(socket, address, port, message, len, &wasHandled) == FALSE) {
+        if (gti2UnrecognizedMessageCallback(socket, address, port, message, len, &wasHandled) == FALSE) {
             return 0;
         }
         if (wasHandled != 0) {
@@ -706,7 +706,7 @@ u32 gti2HandleConnectionReset(Gt2Socket *socket, u32 address, u32 port) {
     }
     if (connection->mState == GT2_CONNECTION_OFFER_SENT) {
         if ((connection->mTimeSinceCreateLimit == 0) ||
-            (now = GetElapsedMilliseconds(),
+            (now = current_time(),
              (now - connection->mCreateTime) < connection->mTimeSinceCreateLimit)) {
             return 1;
         }
@@ -760,17 +760,17 @@ u32 gti2StoreOutgoingReliableMessageInfo(Gt2Connection *connection, u16 serialNu
     newEntry.mStart = connection->mSendBuffer.mLength;
     newEntry.mLen = len;
     newEntry.mSerialNumber = serialNumber;
-    newEntry.mLastSend = GetElapsedMilliseconds();
-    num = DarrayGetCount(connection->mOutgoingBufferMessages);
-    DarrayAppend(connection->mOutgoingBufferMessages, &newEntry);
-    if (num + 1 == DarrayGetCount(connection->mOutgoingBufferMessages)) {
+    newEntry.mLastSend = current_time();
+    num = ArrayLength(connection->mOutgoingBufferMessages);
+    ArrayAppend(connection->mOutgoingBufferMessages, &newEntry);
+    if (num + 1 == ArrayLength(connection->mOutgoingBufferMessages)) {
         return 1;
     }
     return 0;
 }
 
 BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int *overflow) {
-    if (GetBufferUnusedSize(&connection->mSendBuffer) < len) {
+    if (gti2GetBufferFreeSpace(&connection->mSendBuffer) < len) {
         if (gti2ConnectionMemoryError(connection) == 0) {
             return FALSE;
         }
@@ -784,10 +784,10 @@ BOOL gti2BeginReliableMessage(Gt2Connection *connection, u32 type, int len, int 
         *overflow = 1;
         return TRUE;
     }
-    AppendBufferBytes(&connection->mSendBuffer, gGti2MagicString, 2);
-    AppendBufferByte(&connection->mSendBuffer, type);
-    AppendBufferU16(&connection->mSendBuffer, connection->mSerialNumber++);
-    AppendBufferU16(&connection->mSendBuffer, connection->mExpectedSerialNumber);
+    gti2BufferWriteData(&connection->mSendBuffer, gGti2MagicString, 2);
+    gti2BufferWriteByte(&connection->mSendBuffer, type);
+    gti2BufferWriteUShort(&connection->mSendBuffer, connection->mSerialNumber++);
+    gti2BufferWriteUShort(&connection->mSendBuffer, connection->mExpectedSerialNumber);
     *overflow = 0;
     return TRUE;
 }
@@ -798,12 +798,12 @@ u32 gti2EndReliableMessage(Gt2Connection *connection) {
     int checkResult;
     int messageCount;
     int *messageInfo;
-    messageCount = DarrayGetCount(connection->mOutgoingBufferMessages);
+    messageCount = ArrayLength(connection->mOutgoingBufferMessages);
     if (messageCount <= 0) {
         AssertionFailed("len > 0", "gt2Message.c", NULL, 0x475);
     }
-    messageInfo = DarrayGetElement(connection->mOutgoingBufferMessages, messageCount + -1);
-    checkResult = SendConnectionBytes(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);
+    messageInfo = ArrayNth(connection->mOutgoingBufferMessages, messageCount + -1);
+    checkResult = gti2ConnectionSendData(connection, connection->mSendBuffer.mData + *messageInfo, messageInfo[1]);
     if (checkResult == 0) {
         return 0;
     }
@@ -821,7 +821,7 @@ u32 gti2SendAppReliable(Gt2Connection *connection, const u8 *message, int len) {
     if (bufferOverflow[0] != 0) {
         return 1;
     }
-    AppendBufferBytes(&connection->mSendBuffer, message, len);
+    gti2BufferWriteData(&connection->mSendBuffer, message, len);
     result = gti2EndReliableMessage(connection);
     if (result != 0) {
         return 1;
@@ -839,7 +839,7 @@ u32 gti2SendClientChallenge(Gt2Connection *connection, const void *challenge) {
     if (bufferOverflow != 0) {
         return 1;
     }
-    AppendBufferBytes(&connection->mSendBuffer, challenge, 0x20);
+    gti2BufferWriteData(&connection->mSendBuffer, challenge, 0x20);
     result = gti2EndReliableMessage(connection);
     if (result != 0) {
         return 1;
@@ -857,8 +857,8 @@ u32 gti2SendServerChallenge(Gt2Connection *connection, const u8 *response, const
     if (bufferOverflow[0] != 0) {
         return 1;
     }
-    AppendBufferBytes(&connection->mSendBuffer, response, 0x20);
-    AppendBufferBytes(&connection->mSendBuffer, challenge, 0x20);
+    gti2BufferWriteData(&connection->mSendBuffer, response, 0x20);
+    gti2BufferWriteData(&connection->mSendBuffer, challenge, 0x20);
     result = gti2EndReliableMessage(connection);
     if (result == 0) {
         return 0;
@@ -877,8 +877,8 @@ u32 gti2SendClientResponse(Gt2Connection *connection, const u8 *response, const 
     if (bufferOverflow != 0) {
         return 1;
     }
-    AppendBufferBytes(&connection->mSendBuffer, response, 0x20);
-    AppendBufferBytes(&connection->mSendBuffer, message, len);
+    gti2BufferWriteData(&connection->mSendBuffer, response, 0x20);
+    gti2BufferWriteData(&connection->mSendBuffer, message, len);
     result = gti2EndReliableMessage(connection);
     if (result != 0) {
         return 1;
@@ -913,7 +913,7 @@ u32 gti2SendReject(Gt2Connection *connection, const void *message, int len) {
     if (bufferOverflow[0] != 0) {
         return 1;
     }
-    AppendBufferBytes(&connection->mSendBuffer, message, len);
+    gti2BufferWriteData(&connection->mSendBuffer, message, len);
     result = gti2EndReliableMessage(connection);
     if (result != 0) {
         return 1;
@@ -968,22 +968,22 @@ BOOL gti2SendAppUnreliable(Gt2Connection *connection, u8 *message, int len) {
     int totalLength;
     u8 *start;
     if (len < 2 || memcmp(message, gGti2MagicString, 2) != 0) {
-        if (SendConnectionBytes(connection, message, len) == 0) {
+        if (gti2ConnectionSendData(connection, message, len) == 0) {
             return FALSE;
         }
         return TRUE;
     }
     totalLength = len + 2;
-    if (GetBufferUnusedSize(&connection->mSendBuffer) < totalLength) {
+    if (gti2GetBufferFreeSpace(&connection->mSendBuffer) < totalLength) {
         return TRUE;
     }
     start = connection->mSendBuffer.mData + connection->mSendBuffer.mLength;
-    AppendBufferBytes(&connection->mSendBuffer, gGti2MagicString, 2);
-    AppendBufferBytes(&connection->mSendBuffer, message, len);
-    if (SendConnectionBytes(connection, start, totalLength) == 0) {
+    gti2BufferWriteData(&connection->mSendBuffer, gGti2MagicString, 2);
+    gti2BufferWriteData(&connection->mSendBuffer, message, len);
+    if (gti2ConnectionSendData(connection, start, totalLength) == 0) {
         return FALSE;
     }
-    RemoveBufferBytes(&connection->mSendBuffer, -1, totalLength);
+    gti2BufferShorten(&connection->mSendBuffer, -1, totalLength);
     return TRUE;
 }
 
@@ -992,7 +992,7 @@ BOOL gti2SendAck(Gt2Connection *connection) {
     CopyUnalignedHalfword(buffer, gGti2MagicString);
     buffer[2] = 0x64;
     gti2UShortToBuffer(buffer, 3, connection->mExpectedSerialNumber);
-    if (SendConnectionBytes(connection, buffer, 5) == 0) {
+    if (gti2ConnectionSendData(connection, buffer, 5) == 0) {
         return FALSE;
     }
     connection->mPendingAck = 0;
@@ -1011,7 +1011,7 @@ BOOL gti2SendNack(Gt2Connection *connection, u16 firstNumber, u16 lastNumber) {
         gti2UShortToBuffer(buffer, pos, lastNumber);
         pos += 2;
     }
-    if (SendConnectionBytes(connection, buffer, pos) == 0) {
+    if (gti2ConnectionSendData(connection, buffer, pos) == 0) {
         return FALSE;
     }
     return TRUE;
@@ -1025,8 +1025,8 @@ u32 gti2SendPong(Gt2Connection *connection, u8 *message, u32 len) {
     u32 pongType;
     pongType = 103u;
     messageAddress[2] = pongType;
-    pongType = (u32) &SendConnectionBytes;
-    sendResult = SendConnectionBytes(sendConnection, messageAddress, length);
+    pongType = (u32) &gti2ConnectionSendData;
+    sendResult = gti2ConnectionSendData(sendConnection, messageAddress, length);
     return sendResult;
 }
 
@@ -1047,7 +1047,7 @@ BOOL gti2SendClosedOnSocket(Gt2Socket *socket, u32 address, int port) {
 
 BOOL gti2ResendMessage(Gt2Connection *connection, GTI2OutgoingBufferMessage *message) {
     gti2UShortToBuffer(connection->mSendBuffer.mData, message->mStart + 5, connection->mExpectedSerialNumber);
-    if (SendConnectionBytes(connection, connection->mSendBuffer.mData + message->mStart, message->mLen) == 0) {
+    if (gti2ConnectionSendData(connection, connection->mSendBuffer.mData + message->mStart, message->mLen) == 0) {
         return FALSE;
     }
     message->mLastSend = connection->mLastSendTime;

@@ -87,7 +87,7 @@ void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, void 
             if (matchingServerList->mDisconnectFlag != 0) {
                 SBServerListDisconnect(browserList);
             }
-            if (DarrayGetCount(browserList->mServers) == 0 || matchingServerList->mEngine.mQueryList.mCount == 0) {
+            if (ArrayLength(browserList->mServers) == 0 || matchingServerList->mEngine.mQueryList.mCount == 0) {
                 matchingServerList->mBrowserCallback(matchingServerList, sbc_updatecomplete, 0,
                                                      matchingServerList->mBrowserInstance);
             }
@@ -142,7 +142,7 @@ MatchingServerList *ServerBrowserNewA(const char *queryForGameName, const char *
     matchingServerList->mBrowserCallback = callback;
     matchingServerList->mBrowserInstance = instance;
     matchingServerList->mDontUpdate = 0;
-    SbServerListInit(&matchingServerList->mList, queryForGameName, queryFromGameName, queryFromKey, queryFromVersion, lanBrowse,
+    SBServerListInit(&matchingServerList->mList, queryForGameName, queryFromGameName, queryFromKey, queryFromVersion, lanBrowse,
                      ListCallback, matchingServerList);
     SBQueryEngineInit(&matchingServerList->mEngine, maxUpdates, queryVersion, lanBrowse, EngineCallback,
                       matchingServerList);

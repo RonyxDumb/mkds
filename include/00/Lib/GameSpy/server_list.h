@@ -23,7 +23,7 @@ typedef struct UnalignedWord {
     /* 0 */ u8 mBytes[4];
 } UnalignedWord;
 
-void SbServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
+void SBServerListInit(SbServerList *slist, const char *targetName, const char *sourceName, const char *queryFromKey,
                       u32 queryFromVersion, s32 lanBrowse, SbServerListCallback callback, void *instance);
 
 #include "00/Lib/wifi_library_globals.h"

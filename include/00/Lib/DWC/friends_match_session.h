@@ -53,11 +53,11 @@ typedef struct WiFiConnection {
     // Passed to gti2CreateSocket as the send buffer size (0 selects 0x2000).
     /* 14 */ u32 mSendBufferSize;
     // Pair of mSendBufferSize: both come from DWC_InitFriendsMatch's parameters (0 selects 0x2000) and go to
-    // gti2CreateSocket, which stores this one at Gt2Socket.mUnk_3c; the library gives it to the second InitBuffer of
+    // gti2CreateSocket, which stores this one at Gt2Socket.mUnk_3c; the library gives it to the second gti2AllocateBuffer of
     // each connection, the buffer that holds reliable messages arriving ahead of the next expected
     // sequence number.
     /* 18 */ u32 mReceiveBufferSize;
-    // The GP connection object: GpInitialize in state 1, closed by DWC_ShutdownFriendsMatch; the buddy object keeps a
+    // The GP connection object: gpInitialize in state 1, closed by DWC_ShutdownFriendsMatch; the buddy object keeps a
     // pointer to it.
     /* 1c */ GpConnection mGpConnection;
     /* 20 */ void *mUserData;
@@ -81,7 +81,7 @@ typedef struct WiFiConnection {
     /* 34 */ char mPlayerName[0x20];
     // Points at the 0x100-byte game name buffer gcd_gamename (DWC_InitFriendsMatch's fourth argument,
     // "mariokartds"). Its one read is DWC_LoginAsync passing it to GSIStartAvailableCheckA, which copies it to
-    // gGsiAcGamename, the buffer GpiWriteLogin appends after '\gamename\'; the matching
+    // gGsiAcGamename, the buffer gpiSendLogin appends after '\gamename\'; the matching
     // object's mGameName is the same buffer and the stats host name starts with it.
     /* 54 */ char *mGameName;
     // Points at the 0x100-byte buffer gcd_secret_key (DWC_InitFriendsMatch's fifth argument): mixed into the stats

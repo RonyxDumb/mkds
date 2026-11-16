@@ -32,7 +32,7 @@ static s32 GSINitroErrno;
 
 #pragma opt_propagation off
 
-u32 GetElapsedMilliseconds(void) {
+u32 current_time(void) {
     u64 ticks;
     if (OS_IsTickAvailable() != 1) {
         AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x109);
@@ -339,7 +339,7 @@ u32 GOAGetLastError(s32 sock) {
     return GSINitroErrno;
 }
 
-u32 GetUnixTime(u32 *timer) {
+u32 GetTickSeconds(u32 *timer) {
     u32 seconds;
     if (OS_IsTickAvailable() != 1) {
         AssertionFailed("OS_IsTickAvailable() == TRUE", "nonport.c", NULL, 0x667);

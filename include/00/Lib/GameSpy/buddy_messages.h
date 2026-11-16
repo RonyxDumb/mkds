@@ -106,7 +106,7 @@ typedef struct GpiConnection {
     /* 474 */ char mLoginTicket[0x19];
 } GpiConnection;
 
-// Object passed to GpiWriteDelbuddyAndRemoveBuddy as its first argument.
+// Object passed to gpiDeleteBuddy as its first argument.
 typedef struct GpConnection {
     /* 00 */ GpiConnection *mGpiConnection;
 } GpConnection;
@@ -136,8 +136,8 @@ typedef struct GameInviteData {
     /* 008 */ char mLocation[0x100];
 } GameInviteData;
 
-u32 GpiWriteDelbuddyAndRemoveBuddy(GpConnection *connection, u32 profile);
-s32 GpiDecrementBuddyIndexAbove(GpConnection *unused, GpiProfile *profile, void *data);
+u32 gpiDeleteBuddy(GpConnection *connection, u32 profile);
+s32 gpiFixBuddyIndices(GpConnection *unused, GpiProfile *profile, void *data);
 u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile);
 u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);
 u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message);

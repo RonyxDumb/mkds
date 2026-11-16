@@ -1,6 +1,6 @@
 #include "00/Lib/GameSpy/profile_compare.h"
 
-u32 GpiCompareProfiles(u32 leftProfile, u32 rightProfile) {
+u32 gpiProfilesTableCompare(u32 leftProfile, u32 rightProfile) {
     u32 leftAddress = (u32) leftProfile;
     u32 rightAddress = rightProfile;
     u32 leftId;

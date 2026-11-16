@@ -99,14 +99,14 @@ typedef struct Gt2Connection {
     /* 9c */ void *mReceiveFilters;
 } Gt2Connection;
 
-BOOL CallUnmatchedDataCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 len, s32 *handled);
-BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency);
+BOOL gti2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 len, s32 *handled);
+BOOL gti2PingCallback(Gt2Connection *connection, s32 latency);
 
 typedef struct Gt2Socket Gt2Socket;
 typedef struct Gt2Connection Gt2Connection;
 
-BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int reliable);
-BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, void *message, int len);
+BOOL gti2ReceivedCallback(Gt2Connection *connection, void *message, int len, int reliable);
+BOOL gti2ConnectedCallback(Gt2Connection *connection, int result, void *message, int len);
 BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection, int address, int port,
                                     int latency, const u8 *message, int len);
 

@@ -26,7 +26,7 @@
 u32 GpiIsValidDate(int day, int month, int year);
 s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const char *input);
 BOOL gpiOperationsAreBlocking(GpConnection *object);
-BOOL GpiFindOperation(GpConnection *object, GpiOperation **output, u32 key);
-void GpiRemoveOperation(GpConnection *connection, GpiOperation *operation);
-void GpiDeleteOperation(GpConnection *connection, GpiOperation *operation);
-s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation);
+BOOL gpiFindOperationByID(GpConnection *object, GpiOperation **output, u32 key);
+void gpiRemoveOperation(GpConnection *connection, GpiOperation *operation);
+void gpiDestroyOperation(GpConnection *connection, GpiOperation *operation);
+s32 gpiFailedOpCallback(GpConnection *connection, GpiOperation *operation);

@@ -5,4 +5,4 @@
 typedef struct GpConnection GpConnection;
 typedef struct GpiProfile GpiProfile;
 
-GpiProfile *GpiFindProfileByBuddyIndex(GpConnection *gpConnection, u32 buddyIndex);
+GpiProfile *gpiFindBuddy(GpConnection *gpConnection, u32 buddyIndex);

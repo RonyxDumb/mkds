@@ -17,7 +17,7 @@ typedef struct GpiBuffer {
     /* 0c */ s32 mPos;
 } GpiBuffer;
 
-// Callback and its argument, as stored in the object at 0x1a4 and passed by value to GpiQueueCallback.
+// Callback and its argument, as stored in the object at 0x1a4 and passed by value to gpiAddCallback.
 typedef void (*GpiCallbackFn)(void *connection, void *arg, u32 param);
 
 // A callback function and the parameter it is called with.
@@ -40,7 +40,7 @@ typedef struct CallbackArgData {
 } CallbackArgData;
 
 // Values of GpiQueuedCallback.mType; the ones that free members say which CallbackArgData members
-// GpiCallAndFreeCallback frees after the call. The errors are delivered with every callback queue run. STATUS and
+// gpiCallCallback frees after the call. The errors are delivered with every callback queue run. STATUS and
 // REQUEST are queued with the status and buddy request callbacks; FREE_TRANSFER_MESSAGE frees the transfer message
 // and is not queued anywhere.
 enum {
@@ -66,7 +66,7 @@ typedef struct GpiQueuedCallback {
     /* 14 */ struct GpiQueuedCallback *mNext;
 } GpiQueuedCallback;
 
-// Object GpiQueueErrorCallback allocates and hands to GpiQueueCallback.
+// Object gpiCallErrorCallback allocates and hands to gpiAddCallback.
 typedef struct ErrorData {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mErrorCode;

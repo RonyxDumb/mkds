@@ -18,13 +18,13 @@ u32 DWCi_GetFriendBuddyStatus(void *friendData, GpBuddyStatus *status) {
         return 0;
     }
     profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
-    if (profileId > 0 && GpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex) != 0) {
+    if (profileId > 0 && gpGetBuddyIndex(gWiFiBuddySync->mGpConnection, profileId, &buddyIndex) != 0) {
         return 0;
     }
     if (profileId <= 0 || buddyIndex == -1) {
         return 0;
     }
-    if (GpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, status) != 0) {
+    if (gpGetBuddyStatus(gWiFiBuddySync->mGpConnection, buddyIndex, status) != 0) {
         return 0;
     }
     return 1;
@@ -60,7 +60,7 @@ int ReportBuddySyncGpResult(int result) {
     return result;
 }
 
-// Maps a GstatsConnect result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls DWCi_StopFriendProcess;
+// Maps a InitStatsConnection result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls DWCi_StopFriendProcess;
 // returns the result.
 int DWCi_HandlePersError(int error) {
     s32 errorKind;

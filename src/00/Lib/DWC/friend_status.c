@@ -81,7 +81,7 @@ void DWC_DeleteBuddyFriendData(void *friendData) {
     s32 profileId;
     if (gWiFiBuddySync != NULL && DWCi_CheckLogin() != 0 && DWCi_GetUserData() != NULL) {
         profileId = DWC_GetGsProfileId(DWCi_GetUserData(), friendData);
-        if (profileId != 0 && profileId != -1 && GpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
+        if (profileId != 0 && profileId != -1 && gpIsBuddy(gWiFiBuddySync->mGpConnection, profileId) != 0) {
             GpDeleteBuddy(gWiFiBuddySync->mGpConnection, profileId);
         }
     }

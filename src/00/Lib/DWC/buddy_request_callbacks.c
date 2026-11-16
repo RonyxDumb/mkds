@@ -38,7 +38,7 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
             }
             zero = 0;
             for (matchSlot = 0; matchSlot < arg->mNumMatches; matchSlot++) {
-                ReportBuddySyncGpResult(GpGetBuddyIndex(connection, arg->mMatches[matchSlot].mProfile, &buddyIndex));
+                ReportBuddySyncGpResult(gpGetBuddyIndex(connection, arg->mMatches[matchSlot].mProfile, &buddyIndex));
                 if (buddyIndex == ~zero) {
                     DWCi_GPSendBuddyRequest(arg->mMatches[matchSlot].mProfile);
                 } else {

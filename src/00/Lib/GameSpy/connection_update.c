@@ -34,7 +34,7 @@
 #include "00/Lib/GameSpy/profile_find_by_buddy.h"
 #include "00/Lib/GameSpy/profile_info_set.h"
 
-u32 GpiResetConnection(GpConnection *connection) {
+u32 gpiReset(GpConnection *connection) {
     GpiConnection *gpState;
     GpiOperation **operationLink;
     gpState = connection->mGpiConnection;
@@ -75,11 +75,11 @@ u32 GpiResetConnection(GpConnection *connection) {
     gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
     operationLink = &gpState->mOperationList;
     while (*operationLink != NULL) {
-        GpiRemoveOperation(connection, *operationLink);
+        gpiRemoveOperation(connection, *operationLink);
     }
     gpState->mOperationList = NULL;
     gpState->mBuddyCount = 0;
-    GpiForEachProfileWhileNonZero(connection, gpiResetProfile, NULL);
+    gpiProfileMap(connection, gpiResetProfile, NULL);
     gpState->mUserId = 0;
     gpState->mProfileId = 0;
     gpState->mSesskey = 0;
@@ -105,18 +105,18 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
     socketGone = 0;
     gpState = connection->mGpiConnection;
     do {
-        GpiWriteUpdateBuffers(connection, &gpState->mOutputBuffer);
-        result = GpiSendBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1,
+        gpiAddLocalInfo(connection, &gpState->mOutputBuffer);
+        result = gpiSendFromBuffer(connection, gpState->mConnectSocket, &gpState->mOutputBuffer, &socketGone, 1,
                                (s8 *) "CM");
         if (result != 0) {
             return result;
         }
-        result = GpiReceiveBuffer(connection, gpState->mConnectSocket, (GpiBuffer *) &gpState->mInputBuffer,
+        result = gpiRecvToBuffer(connection, gpState->mConnectSocket, (GpiBuffer *) &gpState->mInputBuffer,
                                   &len, &socketGone, (s8 *) "CM");
         if (result != 0) {
             if (result == 3) {
-                GpiSetError(connection, 5, "There was an error reading from the server.");
-                GpiQueueErrorCallback(connection, 3, 1);
+                gpiSetError(connection, 5, "There was an error reading from the server.");
+                gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
             return result;
@@ -134,7 +134,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
                 gpState->mCommandBufferCapacity = gpState->mCommandBufferCapacity + growth;
                 buffer = DWCi_GsRealloc(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
                 if (buffer == NULL) {
-                    GpiSetErrorMessage(connection, "Out of memory.");
+                    gpiSetErrorString(connection, "Out of memory.");
                     return 1;
                 }
                 gpState->mCommandBuffer = buffer;
@@ -146,7 +146,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
             found = strstr(buffer, "\\id\\");
             if (found != NULL) {
                 operationId = StrtolBase10(found + 4);
-                if (GpiFindOperation(connection, &pendingOp, operationId) == FALSE) {
+                if (gpiFindOperationByID(connection, &pendingOp, operationId) == FALSE) {
                     gpiDebug(connection, "No matching operation found for id %d\n", operationId);
                 } else {
                     result = GpiProcessOperation(connection, pendingOp, gpState->mCommandBuffer);
@@ -155,7 +155,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
                     }
                 }
             } else {
-                if (GpiReadError(connection, buffer, 1) != FALSE) {
+                if (gpiCheckForError(connection, buffer, 1) != FALSE) {
                     return 4;
                 }
                 buffer = gpState->mCommandBuffer;
@@ -172,8 +172,8 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
         }
         if (socketGone != 0) {
             gpState->mConnectState = PROFILE_CONNECTION_CLOSED;
-            GpiSetError(connection, 7, "The server has closed the connection.");
-            GpiQueueErrorCallback(connection, 3, 1);
+            gpiSetError(connection, 7, "The server has closed the connection.");
+            gpiCallErrorCallback(connection, 3, 1);
             return 0;
         }
         result = gpiOperationsAreBlocking(connection);
@@ -184,7 +184,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
     return 0;
 }
 
-int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
+int gpiProcess(void *connectionArgument, int blockingOperationID) {
     GpConnection *connection;
     GpiConnection *gpState;
     GpiOperation *operation;
@@ -216,7 +216,7 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             }
         } while (loop != FALSE);
         if (result != 0) {
-            if (GpiFindOperation(connection, &operation, 1) != FALSE) {
+            if (gpiFindOperationByID(connection, &operation, 1) != FALSE) {
                 operation->mResult = GP_REQUEST_CONNECT_FAILED;
             } else {
                 AssertionFailed("0", "gpi.c", NULL, 0x1db);
@@ -228,29 +228,29 @@ int GpiUpdateConnection(void *connectionArgument, int blockingOperationID) {
             result = gpiProcessConnectionManager(connection);
         }
         if (result == 0) {
-            result = GpiUpdatePeers(connection);
+            result = gpiProcessPeers(connection);
         }
     }
     if (result == 0) {
-        result = GpiUpdateSearches(connection);
+        result = gpiProcessSearches(connection);
     }
     operation = gpState->mOperationList;
     if (operation != NULL) {
         do {
             if (operation->mResult != GP_REQUEST_OK) {
-                GpiQueueOperationCallback(connection, operation);
+                gpiFailedOpCallback(connection, operation);
                 opToRemove = operation;
                 operation = operation->mNext;
-                GpiRemoveOperation(connection, opToRemove);
+                gpiRemoveOperation(connection, opToRemove);
             } else {
                 operation = operation->mNext;
             }
         } while (operation != NULL);
     }
-    callbackResult = GpiCallQueuedCallbacks(connection, blockingOperationID);
+    callbackResult = gpiProcessCallbacks(connection, blockingOperationID);
     if (callbackResult == 0) {
         if (gpState->mFatal != FALSE) {
-            GpiCloseConnection(connection, 0);
+            gpiDisconnect(connection, 0);
         }
         callbackResult = result;
     }

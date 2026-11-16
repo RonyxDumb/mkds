@@ -5,7 +5,7 @@
 #include "00/Lib/GameSpy/presence_api.h"
 #include "00/Lib/GameSpy/profile_search.h"
 
-// Buffers made by GpiQueueOperationCallback, one for each request type; the first word is taken from the request.
+// Buffers made by gpiFailedOpCallback, one for each request type; the first word is taken from the request.
 typedef struct ConnectReply {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mProfile;
@@ -35,21 +35,21 @@ typedef struct RegisterNickReply {
     /* 0 */ s32 mResult;
 } RegisterNickReply;
 
-// Three words printed by GpiPeerSendXfer.
+// Three words printed by gpiPeerStartTransferMessage.
 typedef struct GpiTransferId {
     /* 0 */ u32 mProfileId;
     /* 4 */ u32 mCount;
     /* 8 */ u32 mTime;
 } GpiTransferId;
 
-// Output buffer description built by GpiPeerQueueMessage.
+// Output buffer description built by gpiPeerAddMessage.
 typedef struct GPIMessage {
     /* 00 */ GpiBuffer mBuffer;
     /* 10 */ s32 mType;
     /* 14 */ u32 mStart;
 } GPIMessage;
 
-u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
+u32 gpiAddOperation(GpConnection *connection, int type, void *data, GpiOperation **operationOut, int blocking,
                        GpiCallbackFn callback, int param);
 
 #include "00/Lib/GameSpy/error_set.h"
@@ -57,20 +57,20 @@ u32 GpiCreateOperation(GpConnection *connection, int type, void *data, GpiOperat
 #include "00/Lib/GameSpy/socket_calls.h"
 
 
-s32 GpiPeerSendLenMsg(GpConnection *connection, GpiPeer *peer, const char *message, s32 len);
-u32 GpiPeerSendXfer(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID);
-s32 GpiPeerQueueMessage(GpConnection *connection, GpiPeer *peer, u32 type, const char *message);
-s32 GpiPeerConnect(GpConnection *connection, GpiPeer *peer);
+s32 gpiPeerFinishTransferMessage(GpConnection *connection, GpiPeer *peer, const char *message, s32 len);
+u32 gpiPeerStartTransferMessage(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID);
+s32 gpiPeerAddMessage(GpConnection *connection, GpiPeer *peer, u32 type, const char *message);
+s32 gpiPeerStartConnect(GpConnection *connection, GpiPeer *peer);
 int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer);
-GpiPeer *GpiPeerCreate(GpConnection *connection, u32 profileid, u32 initiate);
+GpiPeer *gpiAddPeer(GpConnection *connection, u32 profileid, u32 initiate);
 void gpiFreeMessage(void **bufferPointer);
 GpiPeer *gpiGetConnectedPeer(GpConnection *object, u32 key);
-s32 GpiUpdatePeers(GpConnection *connection);
+s32 gpiProcessPeers(GpConnection *connection);
 void gpiSetPeerSocketSizes(s32 sock);
-void GpiPeerRemoveAndWriteQueuedMessages(GpConnection *connection, GpiPeer *peer);
-void GpiPeerDelete(GpConnection *connection, GpiPeer *peer);
-s32 GpiPeerUpdate(GpConnection *connection, GpiPeer *peer);
+void gpiRemovePeer(GpConnection *connection, GpiPeer *peer);
+void gpiDestroyPeer(GpConnection *connection, GpiPeer *peer);
+s32 gpiProcessPeer(GpConnection *connection, GpiPeer *peer);
 s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peer);
 s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer);
-s32 GpiPeerUpdateWaiting(GpConnection *connection, GpiPeer *peer);
+s32 gpiProcessPeerAcceptingConnection(GpConnection *connection, GpiPeer *peer);
 s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer);

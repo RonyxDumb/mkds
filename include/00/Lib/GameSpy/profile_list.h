@@ -7,10 +7,10 @@
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/info_cache_free.h"
 
-void GpiRemoveProfile(GpConnection *connection, GpiProfile *profile);
-void GpiRemoveProfileById(GpConnection *connection, u32 profileid);
-u32 GpiFindProfile(GpConnection *connection, u32 profileid, GpiProfile **profile);
-GpiProfile *GpiFindOrAddProfile(GpConnection *connection, s32 id);
+void gpiRemoveProfile(GpConnection *connection, GpiProfile *profile);
+void gpiRemoveProfileByID(GpConnection *connection, u32 profileid);
+u32 gpiGetProfile(GpConnection *connection, u32 profileid, GpiProfile **profile);
+GpiProfile *gpiProfileListAdd(GpConnection *connection, s32 id);
 s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, const char *input);
-BOOL GpiInitProfileList(GpConnection *connection);
-void GpiReleaseProfile(GpiProfile *profile);
+BOOL gpiInitProfiles(GpConnection *connection);
+void gpiProfilesTableFree(GpiProfile *profile);

@@ -25,8 +25,8 @@ void gti2CloseConnection(Gt2Connection *connection, int hard) {
 void gti2ConnectionClosed(Gt2Connection *connection, ...) {
     if (connection->mState != GT2_CONNECTION_CLOSED) {
         connection->mState = GT2_CONNECTION_CLOSED;
-        HashtableRemove(connection->mSocket->mConnections, &connection);
-        DarrayAppend(connection->mSocket->mConnectionsToFree, &connection);
+        TableRemove(connection->mSocket->mConnections, &connection);
+        ArrayAppend(connection->mSocket->mConnectionsToFree, &connection);
     }
 }
 
@@ -41,16 +41,16 @@ void gti2ConnectionCleanup(Gt2Connection *connection) {
         DWCi_GsFree(connection->mSendBuffer.mData);
     }
     if (connection->mIncomingBufferMessages != NULL) {
-        DarrayDelete(connection->mIncomingBufferMessages);
+        ArrayFree(connection->mIncomingBufferMessages);
     }
     if (connection->mOutgoingBufferMessages != NULL) {
-        DarrayDelete(connection->mOutgoingBufferMessages);
+        ArrayFree(connection->mOutgoingBufferMessages);
     }
     if (connection->mSendFilters != NULL) {
-        DarrayDelete(connection->mSendFilters);
+        ArrayFree(connection->mSendFilters);
     }
     if (connection->mReceiveFilters != NULL) {
-        DarrayDelete(connection->mReceiveFilters);
+        ArrayFree(connection->mReceiveFilters);
     }
     DWCi_GsFree(connection);
 }
@@ -102,7 +102,7 @@ BOOL CallIncomingConnectionCallback(Gt2Socket *socket, Gt2Connection *connection
     return TRUE;
 }
 
-BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, void *message, int len) {
+BOOL gti2ConnectedCallback(Gt2Connection *connection, int result, void *message, int len) {
     if (connection == NULL) {
         AssertionFailed("connection", "gt2Callback.c", NULL, 0x69);
     }
@@ -129,7 +129,7 @@ BOOL Gt2SetResultAndCallResultCallback(Gt2Connection *connection, int result, vo
     return TRUE;
 }
 
-BOOL Gt2CallDataCallback(Gt2Connection *connection, void *message, int len, int reliable) {
+BOOL gti2ReceivedCallback(Gt2Connection *connection, void *message, int len, int reliable) {
     if (connection == NULL) {
         AssertionFailed("connection", "gt2Callback.c", NULL, 0x94);
     }
@@ -177,7 +177,7 @@ BOOL gti2ClosedCallback(Gt2Connection *connection, void *reason) {
     return TRUE;
 }
 
-BOOL Gt2CallElapsedTimeCallback(Gt2Connection *connection, s32 latency) {
+BOOL gti2PingCallback(Gt2Connection *connection, s32 latency) {
     if (connection == NULL) {
         AssertionFailed("connection", "gt2Callback.c", NULL, 0xd9);
     }
@@ -207,7 +207,7 @@ BOOL gti2SendFilterCallback(Gt2Connection *connection, s32 filterId, void *messa
     if (connection == NULL) {
         return TRUE;
     }
-    filter = DarrayGetElement(connection->mSendFilters, filterId);
+    filter = ArrayNth(connection->mSendFilters, filterId);
     if (filter == NULL) {
         return TRUE;
     }
@@ -235,7 +235,7 @@ BOOL gti2ReceiveFilterCallback(Gt2Connection *connection, s32 filterId, void *me
     if (connection == NULL) {
         return TRUE;
     }
-    filter = DarrayGetElement(connection->mReceiveFilters, filterId);
+    filter = ArrayNth(connection->mReceiveFilters, filterId);
     if (filter == NULL) {
         return TRUE;
     }
@@ -292,7 +292,7 @@ u32 gti2DumpCallback(Gt2Socket *socket, Gt2Connection *connection, u32 address, 
     return 1;
 }
 
-BOOL CallUnmatchedDataCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 len, s32 *handled) {
+BOOL gti2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 len, s32 *handled) {
     *handled = 0;
     if (socket == NULL) {
         AssertionFailed("socket", "gt2Callback.c", NULL, 0x197);

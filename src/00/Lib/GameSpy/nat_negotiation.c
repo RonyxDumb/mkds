@@ -28,18 +28,18 @@ NatTraversalEntry *AddNegotiator(void) {
     NatTraversalEntry negotiator = {0};
 
     if (negotiateList == NULL) {
-        negotiateList = DarrayCreate(0x40, 4, (void (*)(void *)) NegotiatorFree);
+        negotiateList = ArrayNew(0x40, 4, (void (*)(void *)) NegotiatorFree);
     }
-    DarrayAppend(negotiateList, &negotiator);
-    return DarrayGetElement(negotiateList, DarrayGetCount(negotiateList) - 1);
+    ArrayAppend(negotiateList, &negotiator);
+    return ArrayNth(negotiateList, ArrayLength(negotiateList) - 1);
 }
 
 void RemoveNegotiator(NatTraversalEntry *negotiator) {
     s32 index;
 
-    for (index = 0; index < DarrayGetCount(negotiateList); index++) {
-        if (negotiator == DarrayGetElement(negotiateList, index)) {
-            DarrayRemoveWithoutCallback(negotiateList, index);
+    for (index = 0; index < ArrayLength(negotiateList); index++) {
+        if (negotiator == ArrayNth(negotiateList, index)) {
+            ArrayRemoveAt(negotiateList, index);
             return;
         }
     }
@@ -47,7 +47,7 @@ void RemoveNegotiator(NatTraversalEntry *negotiator) {
 
 void NNFreeNegotiateList(void) {
     if (negotiateList != NULL) {
-        DarrayDelete(negotiateList);
+        ArrayFree(negotiateList);
         negotiateList = NULL;
     }
 }
@@ -175,7 +175,7 @@ void SendInitPackets(NatTraversalEntry *negotiator) {
         packetView->mPortType = NN_PT_NN2;
         SendNegotiatorPacket(negotiator->mDescriptor, matchup2ip, MATCHUP_PORT, packetView, packetLength);
     }
-    negotiator->mRetryTime = GetElapsedMilliseconds() + INIT_RETRY_TIME;
+    negotiator->mRetryTime = current_time() + INIT_RETRY_TIME;
     negotiator->mMaxRetryCount = INIT_RETRY_COUNT;
 }
 
@@ -199,7 +199,7 @@ void SendPingPacket(NatTraversalEntry *negotiator) {
         sock = negotiator->mDescriptor;
     }
     SendNegotiatorPacket(sock, negotiator->mGuessedIP, negotiator->mGuessedPort, &packet, 0x14);
-    negotiator->mRetryTime = GetElapsedMilliseconds() + PING_RETRY_TIME;
+    negotiator->mRetryTime = current_time() + PING_RETRY_TIME;
     negotiator->mMaxRetryCount = PING_RETRY_COUNT;
     if (negotiator->mGotRemoteData != 0) {
         negotiator->mSendGotRemoteData = 1;
@@ -322,7 +322,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
         } while (negotiator->mDescriptor != -1);
     }
     if (negotiator->mState == NAT_NEGOTIATION_SEND_INIT || negotiator->mState == NAT_NEGOTIATION_PING) {
-        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+        if (current_time() > negotiator->mRetryTime) {
             if (negotiator->mRetryCount > negotiator->mMaxRetryCount) {
                 negotiator->mCompletedCallback(2, -1, NULL, negotiator->mUserdata);
                 NNCancel(negotiator->mCookie);
@@ -337,7 +337,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
         }
     }
     if (negotiator->mState == NAT_NEGOTIATION_PINGED) {
-        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+        if (current_time() > negotiator->mRetryTime) {
             if (negotiator->mGameSock == -1) {
                 resultAddress.mFamily = SOCKET_FAMILY_IPV4;
                 resultAddress.mPort = negotiator->mGuessedPort >> 8 & 0xff | negotiator->mGuessedPort << 8 & 0xff00;
@@ -349,7 +349,7 @@ void NegotiateThink(NatTraversalEntry *negotiator) {
         }
     }
     if (negotiator->mState == NAT_NEGOTIATION_WAIT_CONNECT) {
-        if (GetElapsedMilliseconds() > negotiator->mRetryTime) {
+        if (current_time() > negotiator->mRetryTime) {
             negotiator->mCompletedCallback(1, -1, NULL, negotiator->mUserdata);
             NNCancel(negotiator->mCookie);
         }
@@ -360,8 +360,8 @@ void NNThink(void) {
     s32 index;
 
     if (negotiateList != NULL) {
-        for (index = DarrayGetCount(negotiateList) - 1; index >= 0; index--) {
-            NegotiateThink(DarrayGetElement(negotiateList, index));
+        for (index = ArrayLength(negotiateList) - 1; index >= 0; index--) {
+            NegotiateThink(ArrayNth(negotiateList, index));
         }
     }
 }
@@ -423,7 +423,7 @@ void ProcessPingPacket(NatTraversalEntry *negotiator, ConnectPacket *packet, SOC
                 SendPingPacket(negotiator);
             }
             negotiator->mState = NAT_NEGOTIATION_PINGED;
-            negotiator->mRetryTime = GetElapsedMilliseconds() + FINISHED_IDLE_TIME;
+            negotiator->mRetryTime = current_time() + FINISHED_IDLE_TIME;
             if (negotiator->mGameSock != -1) {
                 negotiator->mCompletedCallback(0, negotiator->mGameSock, fromAddress, negotiator->mUserdata);
             }
@@ -445,7 +445,7 @@ void ProcessInitPacket(NatTraversalEntry *negotiator, InitPacket *packet, SOCSoc
                     negotiator->mInitAckRecv[NN_PT_NN2] != 0 &&
                     (negotiator->mGameSock == -1 || negotiator->mInitAckRecv[NN_PT_GP] != 0)) {
                     negotiator->mState = NAT_NEGOTIATION_WAIT_CONNECT;
-                    negotiator->mRetryTime = GetElapsedMilliseconds() + 10000;
+                    negotiator->mRetryTime = current_time() + 10000;
                     negotiator->mProgressCallback(negotiator->mState, negotiator->mUserdata);
                 }
             }

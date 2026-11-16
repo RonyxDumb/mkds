@@ -4,7 +4,7 @@
 
 typedef struct Darray Darray;
 
-typedef s32 ElementCompareFunc(const void *first, const void *second);
+typedef s32 ArrayCompareFn(const void *first, const void *second);
 
 // A growable array: count, capacity, element size, growth step, per-element callback and the element data.
 typedef struct Darray {
@@ -16,24 +16,24 @@ typedef struct Darray {
     /* 14 */ u8 *mList;
 } Darray;
 
-void *DarraySearchSorted(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator,
+void *mybsearch(const void *key, u8 *base, s32 count, s32 elemSize, ArrayCompareFn *comparator,
                          s32 *found);
-void *DarraySearchLinear(const void *key, u8 *base, s32 count, s32 elemSize, ElementCompareFunc *comparator);
-void DarrayRemoveAll(Darray *darray);
-void *DarrayFindByFnReverse(Darray *array, ElementCompareFunc *fn, const void *userData);
-void DarrayForEachReverse(Darray *array, void (*fn)(void *, void *), void *userData);
-s32 DarrayFindIndex(Darray *darray, const void *key, ElementCompareFunc *comparator, s32 startIndex, s32 sortedFlag);
-void DarraySort(Darray *darray, unsigned int compareFunc);
-void DarrayReplace(Darray *array, const void *elem, s32 index);
-void DarrayRemove(Darray *array, s32 index);
-void DarrayRemoveWithoutCallback(Darray *array, int index);
-void DarrayInsertSorted(Darray *array, void *elem, ElementCompareFunc *comparator);
-void DarrayInsert(void *darrayArg, void *element, s32 index);
-void DarrayAppend(void *darrayArg, void *element);
-void *DarrayGetElement(void *darrayArg, s32 index);
-s32 DarrayGetCount(void *arrayArg);
-void DarrayDelete(void *arrayArg);
-void *DarrayCreate(s32 elemSize, s32 initialCount, void (*freeElement)(void *));
-void DarraySetElement(Darray *darray, const void *elem, s32 index);
-void DarrayGrow(Darray *dynArray);
-void DarrayCallElemCallback(void *arrayArg, s32 index);
+void *mylsearch(const void *key, u8 *base, s32 count, s32 elemSize, ArrayCompareFn *comparator);
+void ArrayClear(Darray *darray);
+void *ArrayMapBackwards2(Darray *array, ArrayCompareFn *fn, const void *userData);
+void ArrayMapBackwards(Darray *array, void (*fn)(void *, void *), void *userData);
+s32 ArraySearch(Darray *darray, const void *key, ArrayCompareFn *comparator, s32 startIndex, s32 sortedFlag);
+void ArraySort(Darray *darray, unsigned int compareFunc);
+void ArrayReplaceAt(Darray *array, const void *elem, s32 index);
+void ArrayDeleteAt(Darray *array, s32 index);
+void ArrayRemoveAt(Darray *array, int index);
+void ArrayInsertSorted(Darray *array, void *elem, ArrayCompareFn *comparator);
+void ArrayInsertAt(void *darrayArg, void *element, s32 index);
+void ArrayAppend(void *darrayArg, void *element);
+void *ArrayNth(void *darrayArg, s32 index);
+s32 ArrayLength(void *arrayArg);
+void ArrayFree(void *arrayArg);
+void *ArrayNew(s32 elemSize, s32 initialCount, void (*freeElement)(void *));
+void SetElement(Darray *darray, const void *elem, s32 index);
+void ArrayGrow(Darray *dynArray);
+void FreeElement(void *arrayArg, s32 index);

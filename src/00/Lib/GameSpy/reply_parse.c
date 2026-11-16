@@ -8,7 +8,7 @@
 #include "narrow_string_functions.h"
 #include "text_to_number.h"
 
-void GpiCopyString(char *dest, const char *src, s32 len) {
+void CopyStringWithTerminator(char *dest, const char *src, s32 len) {
     if (dest == NULL) {
         AssertionFailed("dest != NULL", "gpiUtility.c", NULL, 0x2f);
     }
@@ -21,29 +21,29 @@ void GpiCopyString(char *dest, const char *src, s32 len) {
 
 void gpiDebug(GpConnection *connection, const char *fmt, ...) {}
 
-BOOL GpiReadError(GpConnection *connection, const char *input, s32 callErrorCallback) {
+BOOL gpiCheckForError(GpConnection *connection, const char *input, s32 callErrorCallback) {
     GpiConnection *gpiConnection;
     BOOL isFatalErr;
     char buffer[0x10];
 
     gpiConnection = connection->mGpiConnection;
     if (strncmp(input, "\\error\\", 7) == 0) {
-        if (GpiGetValue(input, "\\err\\", buffer, 0x10) != FALSE) {
+        if (gpiValueForKey(input, "\\err\\", buffer, 0x10) != FALSE) {
             gpiConnection->mErrorNumber = StrtolBase10(buffer);
         }
-        if (GpiGetValue(input, "\\errmsg\\", gpiConnection->mErrorMessage, 0x100) == FALSE) {
+        if (gpiValueForKey(input, "\\errmsg\\", gpiConnection->mErrorMessage, 0x100) == FALSE) {
             gpiConnection->mErrorMessage[0] = 0;
         }
         if (callErrorCallback != 0) {
             isFatalErr = (strstr(input, "\\fatal\\") != NULL);
-            GpiQueueErrorCallback(connection, 4, (isFatalErr != FALSE) ? 1 : 0);
+            gpiCallErrorCallback(connection, 4, (isFatalErr != FALSE) ? 1 : 0);
         }
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
+BOOL gpiValueForKey(const char *command, const char *key, char *value, s32 len) {
     const char *keyStart;
     const char *start;
     s32 index;
@@ -75,7 +75,7 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     return TRUE;
 }
 
-u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
+u32 gpiCheckSocketConnect(GpConnection *connection, u32 sock, u32 *state) {
     int readyNum;
     u32 canWrite;
     u32 errFlags[2];
@@ -84,8 +84,8 @@ u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
     readyNum = GSISocketSelect((u32) sock, NULL, &canWrite, errFlags);
     if (readyNum == -1) {
         gpiDebug(connection, "Error connecting\n");
-        GpiSetError(connection, 5, "There was an error checking for a completed connection.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 5, "There was an error checking for a completed connection.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     if (0 < readyNum) {
@@ -104,7 +104,7 @@ u32 GpiCheckConnectComplete(GpConnection *connection, u32 sock, u32 *state) {
     return 0;
 }
 
-s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key, char *value) {
+s32 gpiReadKeyAndValue(GpConnection *connection, s8 *buffer, s32 *index, char *key, char *value) {
     s8 *start;
     s8 character;
     s32 length;
@@ -120,8 +120,8 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key,
     }
     start = buffer + *index;
     if (*start != 0x5c) {
-        GpiSetError(connection, 1, "Parse Error.");
-        GpiQueueErrorCallback(connection, 3, 1);
+        gpiSetError(connection, 1, "Parse Error.");
+        gpiCallErrorCallback(connection, 3, 1);
         return 3;
     }
     length = 0;
@@ -130,13 +130,13 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key,
     if (character != 0x5c) {
         do {
             if (character == 0) {
-                GpiSetError(connection, 1, "Parse Error.");
-                GpiQueueErrorCallback(connection, 3, 1);
+                gpiSetError(connection, 1, "Parse Error.");
+                gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
             if (length == 0x1ff) {
-                GpiSetError(connection, 1, "Parse Error.");
-                GpiQueueErrorCallback(connection, 3, 1);
+                gpiSetError(connection, 1, "Parse Error.");
+                gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
             *key = character;
@@ -150,8 +150,8 @@ s32 GpiReadKeyValue(GpConnection *connection, s8 *buffer, s32 *index, char *key,
     length = 0;
     while ((character = *buffer++) != 0x5c && character != 0) {
         if (length == 0x1ff) {
-            GpiSetError(connection, 1, "Parse Error.");
-            GpiQueueErrorCallback(connection, 3, 1);
+            gpiSetError(connection, 1, "Parse Error.");
+            gpiCallErrorCallback(connection, 3, 1);
             return 3;
         }
         *value = character;
