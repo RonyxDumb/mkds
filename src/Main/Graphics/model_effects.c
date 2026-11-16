@@ -57,7 +57,7 @@ ModelEffectKind gModelEffectKinds[MODEL_EFFECT_KIND_COUNT] = {
      1,
      0,
      0,
-     (void (*)(ModelEffect *, s32)) StartDonketuWaterSplashModel,
+     (void (*)(ModelEffect *, s32)) StartModelEffectDonketuWaterSplash,
      UpdateWaterEfctKinds,
      0xb8,
      {NULL, NULL, NULL, NULL}}};
@@ -476,7 +476,7 @@ void StartKartWaterSplashModel(ModelEffect *modelEffect) {
     }
 }
 
-void StartDonketuWaterSplashModel(ModelEffect *modelEffect) {
+void StartModelEffectDonketuWaterSplash(ModelEffect *modelEffect) {
     modelEffect->mScale.x = 0x3d9a;
     modelEffect->mScale.y = 0x3d9a;
     modelEffect->mScale.z = 0x3d9a;

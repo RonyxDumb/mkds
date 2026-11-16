@@ -54,7 +54,7 @@ void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects);
 void UpdateModelEffectBkWave(ModelEffect *modelEffect);
 void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects);
 void UpdateWaterEfctKinds(ModelEffect *modelEffect);
-void StartDonketuWaterSplashModel(ModelEffect *modelEffect);
+void StartModelEffectDonketuWaterSplash(ModelEffect *modelEffect);
 void StartKartWaterSplashModel(ModelEffect *modelEffect);
 void UpdateModelEffectBombcore(ModelEffect *modelEffect);
 void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects);

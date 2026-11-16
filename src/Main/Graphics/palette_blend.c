@@ -168,7 +168,7 @@ void ClearStaffRollTextPointer(void) {
     gStaffRollText = NULL;
 }
 
-void AdvanceStaffRollTextScrolling(void) {
+void ScrollAndDrawStaffRollTextLine(void) {
     s32 tagSize;
     s32 value;
     s32 charCount;
@@ -297,7 +297,7 @@ void AdvanceStaffRollText(void) {
         case STAFF_ROLL_TEXT_IDLE:
             break;
         case STAFF_ROLL_TEXT_SCROLLING:
-            AdvanceStaffRollTextScrolling();
+            ScrollAndDrawStaffRollTextLine();
             break;
         case STAFF_ROLL_TEXT_SCROLL_DONE:
             break;
