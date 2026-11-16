@@ -53,7 +53,9 @@ typedef struct ResultsGp {
     /* 50 */ Bmg *mSecretMessages;
     /* 54 */ s32 mState;
     /* 58 */ u32 mSecretMessageMask;
-    /* 5c */ s32 mStateFrames; /* counted only in state 0 */
+    // Counts the calls in RESULTS_GP_STATE_COUNTING_FRAMES; not reset when the state returns from
+    // RESULTS_GP_STATE_TEXT_OPEN.
+    /* 5c */ s32 mStateFrames;
 } ResultsGp;
 
 

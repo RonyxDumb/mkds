@@ -130,8 +130,9 @@ extern Standings *gStandings;
 // KartStanding.mTeamId of the first and the second battle team (a kart without a team uses its kart index).
 #define STANDINGS_TEAM_ID_FIRST_TEAM 1
 #define STANDINGS_TEAM_ID_SECOND_TEAM 3
-// Distance sound of a course: the sound ids and the radius of the area it covers, the frames between distance level
-// checks, and the volume limits (fixed-point volume 0 to SOUND_VOLUME_MAX).
+// Distance sound of a course: the sound ids, the radius of the area it covers, the value mDistanceLevelTimer is set to
+// after a distance level check (the next check is 16 calls later), and the lowest mSoundVolumeFixed12 while the sound
+// plays.
 #define DISTANCE_SOUND_ID_MANSION 0x121
 #define DISTANCE_SOUND_ID_BEACH 0x111
 #define DISTANCE_SOUND_ID_BEACH_SECOND 0x10a
