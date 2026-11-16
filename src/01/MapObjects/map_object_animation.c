@@ -1796,7 +1796,7 @@ s32 CollideKartWithMissionRunMapObject(MissionRunMapObject *mapObject, Kart *kar
         awayDirection.x = mapObject->mMapObject.mPos.x - kart->mPos.x;
         awayDirection.y = 0;
         awayDirection.z = mapObject->mMapObject.mPos.z - kart->mPos.z;
-        if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
+        if (LENGTH_SQUARED_Z_FIRST(awayDirection) >= 16) {
             Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
             pushStrength = -mapObject->mPrm->mHead.mKartPushPosStep;
             mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(awayDirection.x, pushStrength);
@@ -1826,7 +1826,7 @@ s32 CollideItemWithMissionRunMapObject(MissionRunMapObject *mapObject, ItemObjec
     awayDirection.x = mapObject->mMapObject.mPos.x - itemObject->mPos.x;
     awayDirection.y = 0;
     awayDirection.z = mapObject->mMapObject.mPos.z - itemObject->mPos.z;
-    if ((s64) awayDirection.z * awayDirection.z + SQUARE_SUM2(awayDirection.x, awayDirection.y) >= 16) {
+    if (LENGTH_SQUARED_Z_FIRST(awayDirection) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&awayDirection, &awayDirection);
         VEC_MultAdd(mapObject->mPrm->mHead.mItemPushVelocity, &awayDirection, &mapObject->mVelocity,
                     &mapObject->mVelocity);

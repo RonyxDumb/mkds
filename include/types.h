@@ -115,6 +115,8 @@ typedef s32 BOOL;
 #define SQUARE_SUM3(a, b, c) ((s64) (a) * (a) + (s64) (b) * (b) + (s64) (c) * (c))
 #define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
 #define HORIZONTAL_LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).z * (v).z)
+// The same squared length of a vector with the z term written first and the x and y terms summed apart.
+#define LENGTH_SQUARED_Z_FIRST(v) ((s64) (v).z * (v).z + SQUARE_SUM2((v).x, (v).y))
 
 // Test, set or clear bit n of v.
 #define BIT_IS_SET(v, n) (((v) & (1 << (n))) != 0)

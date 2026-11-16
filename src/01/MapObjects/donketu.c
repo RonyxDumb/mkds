@@ -172,10 +172,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 velocityWhenBoosted = {0, 0, 0};
                 velocityWhenBoosted.x = kart->mVelocity.x;
                 velocityWhenBoosted.z = kart->mVelocity.z;
-                if ((s64) velocityWhenBoosted.z * velocityWhenBoosted.z +
-                        ((s64) velocityWhenBoosted.x * velocityWhenBoosted.x +
-                         (s64) velocityWhenBoosted.y * velocityWhenBoosted.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(velocityWhenBoosted) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&velocityWhenBoosted, &velocityWhenBoosted);
                 }
                 scale = donketu->mPrm->mDonketu.mHitBoostedKartVelocityScale;
@@ -195,8 +192,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
                 Vec3 effectPosition;
 
                 VEC_Subtract(&donketu->mMapObject.mPos, &kart->mCollisionCenter, &effectPosition);
-                if ((s64) effectPosition.z * effectPosition.z + SQUARE_SUM2(effectPosition.x, effectPosition.y) >=
-                    0x10) {
+                if (LENGTH_SQUARED_Z_FIRST(effectPosition) >= 0x10) {
                     Vec3NormalizeAndGetLengthUnchecked(&effectPosition, &effectPosition);
                 }
                 VEC_MultAdd(kart->mRadius, &effectPosition, &kart->mCollisionCenter, &effectPosition);
@@ -227,10 +223,7 @@ void DonketuKartCollisionCallback(MissionRunMapObject *donketu, Kart *kart) {
             Vec3 velocityWhenNotBoosted = {0, 0, 0};
             velocityWhenNotBoosted.x = kart->mVelocity.x;
             velocityWhenNotBoosted.z = kart->mVelocity.z;
-            if ((s64) velocityWhenNotBoosted.z * velocityWhenNotBoosted.z +
-                    ((s64) velocityWhenNotBoosted.x * velocityWhenNotBoosted.x +
-                     (s64) velocityWhenNotBoosted.y * velocityWhenNotBoosted.y) >=
-                0x10) {
+            if (LENGTH_SQUARED_Z_FIRST(velocityWhenNotBoosted) >= 0x10) {
                 Vec3NormalizeAndGetLengthUnchecked(&velocityWhenNotBoosted, &velocityWhenNotBoosted);
             }
             scale = donketu->mPrm->mDonketu.mHitNotBoostedKartVelocityScale;
@@ -410,7 +403,7 @@ void StartDonketuWaterSinkState(MissionRunMapObject *donketu) {
     velocity.x = donketu->mMapObject.mPos.x;
     velocity.y = 0;
     velocity.z = donketu->mMapObject.mPos.z;
-    if ((s64) velocity.z * velocity.z + SQUARE_SUM2(velocity.x, velocity.y) >= 16) {
+    if (LENGTH_SQUARED_Z_FIRST(velocity) >= 16) {
         Vec3NormalizeAndGetLengthUnchecked(&velocity, &velocity);
     }
     horizontalSpeed = donketu->mPrm->mDonketu.mWaterSinkHorizontalSpeed;

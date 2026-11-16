@@ -390,10 +390,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mLeftPlaneNormal.x = nearDistance;
     gViewFrustumBeforeRotation.mLeftPlaneNormal.y = 0;
     gViewFrustumBeforeRotation.mLeftPlaneNormal.z = -left;
-    if ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.z * gViewFrustumBeforeRotation.mLeftPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.x * gViewFrustumBeforeRotation.mLeftPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mLeftPlaneNormal.y * gViewFrustumBeforeRotation.mLeftPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mLeftPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mLeftPlaneNormal,
                                            &gViewFrustumBeforeRotation.mLeftPlaneNormal);
     }
@@ -406,10 +403,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mRightPlaneNormal.x = -nearDistance;
     gViewFrustumBeforeRotation.mRightPlaneNormal.y = 0;
     gViewFrustumBeforeRotation.mRightPlaneNormal.z = right;
-    if ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.z * gViewFrustumBeforeRotation.mRightPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mRightPlaneNormal.x * gViewFrustumBeforeRotation.mRightPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mRightPlaneNormal.y * gViewFrustumBeforeRotation.mRightPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mRightPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mRightPlaneNormal,
                                            &gViewFrustumBeforeRotation.mRightPlaneNormal);
     }
@@ -422,10 +416,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mTopPlaneNormal.x = 0;
     gViewFrustumBeforeRotation.mTopPlaneNormal.y = -nearDistance;
     gViewFrustumBeforeRotation.mTopPlaneNormal.z = top;
-    if ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.z * gViewFrustumBeforeRotation.mTopPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mTopPlaneNormal.x * gViewFrustumBeforeRotation.mTopPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mTopPlaneNormal.y * gViewFrustumBeforeRotation.mTopPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mTopPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mTopPlaneNormal,
                                            &gViewFrustumBeforeRotation.mTopPlaneNormal);
     }
@@ -433,10 +424,7 @@ void RefreshViewFrustumFromProjection(s32 top, s32 bottom, s32 left, s32 right, 
     gViewFrustumBeforeRotation.mBottomPlaneNormal.x = 0;
     gViewFrustumBeforeRotation.mBottomPlaneNormal.y = nearDistance;
     gViewFrustumBeforeRotation.mBottomPlaneNormal.z = -bottom;
-    if ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.z * gViewFrustumBeforeRotation.mBottomPlaneNormal.z +
-            ((s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.x * gViewFrustumBeforeRotation.mBottomPlaneNormal.x +
-             (s64) gViewFrustumBeforeRotation.mBottomPlaneNormal.y * gViewFrustumBeforeRotation.mBottomPlaneNormal.y) >=
-        0x10) {
+    if (LENGTH_SQUARED_Z_FIRST(gViewFrustumBeforeRotation.mBottomPlaneNormal) >= 0x10) {
         Vec3NormalizeAndGetLengthUnchecked(&gViewFrustumBeforeRotation.mBottomPlaneNormal,
                                            &gViewFrustumBeforeRotation.mBottomPlaneNormal);
     }
