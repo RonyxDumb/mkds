@@ -285,10 +285,24 @@ u32 IsWiFiStatesCounterNotNegative(void) {
     return FALSE;
 }
 
+#ifdef version_EUR
+// In language 0 or 1 setting 2 has its own message.
+u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex) {
+    u32 messageIndices[4] = {2, 3, 4, 5};
+    u32 r = messageIndices[settingIndex];
+    // placeholder: the offset from a null byte pointer keeps the copy of the language index (adds r1, r1, #0) that
+    // the original makes before its compare.
+    if (settingIndex == 2 && (u32) ((u8 *) 0 + gStartupWork->mLanguageIndex) <= 1) {
+        r = 6;
+    }
+    return r;
+}
+#else
 u32 LookupWiFiVSSettingMessageIndex(u32 settingIndex) {
     u32 messageIndices[4] = {2, 3, 4, 5};
     return messageIndices[settingIndex];
 }
+#endif
 
 u32 GetWiFiVSSettingIndex(void) {
     return gWiFiStates->mWiFiVSSettingIndex;

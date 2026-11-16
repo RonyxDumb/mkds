@@ -146,8 +146,13 @@ void CreateTitleScene(void) {
     LoadNcgrData(&gTitleScene->mTitleTrueMBOrMBNcgr,
                  FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m_b.NCGR" : "title_m_b.NCGR"));
     LoadNcgrData(&gTitleScene->mTitleSBNcgr, FindSceneFileWrapper("title_s_b.NCGR"));
+#ifdef version_EUR
+    LoadNscrData(&gTitleScene->mTitleTrueM1OrM1Nscr,
+                 FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m1_EU.NSCR" : "title_m1_EU.NSCR"));
+#else
     LoadNscrData(&gTitleScene->mTitleTrueM1OrM1Nscr,
                  FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m1.NSCR" : "title_m1.NSCR"));
+#endif
     LoadNscrData(&gTitleScene->mTitleTrueM2OrM2Nscr,
                  FindSceneFileWrapper(useTrueFiles != 0 ? "title_true_m2.NSCR" : "title_m2.NSCR"));
     LoadNscrData(&gTitleScene->mTitleSBgNscr, FindSceneFileWrapper("title_s_bg.NSCR"));
