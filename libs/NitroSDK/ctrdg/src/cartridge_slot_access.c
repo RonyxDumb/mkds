@@ -43,8 +43,8 @@ void CTRDG_Init(void) {
 void CTRDGi_InitModuleInfo(void) {
     u32 savedIrqMask;
     u16 savedIme;
-    CartridgeAccessSave procLock;
-    CartridgeAccessSave savedAccessCycle;
+    CTRDGLockByProc procLock;
+    CTRDGLockByProc savedAccessCycle;
     s32 savedBit15;
     s32 infoIndex;
     CTRDGModuleInfo *idInfo;
@@ -128,8 +128,8 @@ void CTRDGi_InitCommon(void) {
 
 s32 CTRDG_IsExisting(void) {
     s32 exists;
-    CartridgeAccessSave procLock;
-    CartridgeAccessSave savedAccessCycle;
+    CTRDGLockByProc procLock;
+    CTRDGLockByProc savedAccessCycle;
     CTRDGModuleInfo *idInfo;
     CTRDGHeader *cartridgeHeader;
 
@@ -157,14 +157,14 @@ s32 CTRDG_IsExisting(void) {
     return exists;
 }
 
-void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *r) {
+void CTRDGi_ChangeLatestAccessCycle(CTRDGLockByProc *r) {
     r->mCycle1 = (reg_MI_EXMEMCNT & 0xc) >> 2;
     r->mCycle2 = (reg_MI_EXMEMCNT & 0x10) >> 4;
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0xc) | 0xc;
     reg_MI_EXMEMCNT &= ~0x10;
 }
 
-void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *r) {
+void CTRDGi_RestoreAccessCycle(CTRDGLockByProc *r) {
     u32 cycle1;
     u32 cycle2;
 
@@ -174,7 +174,7 @@ void CTRDGi_RestoreAccessCycle(CartridgeAccessSave *r) {
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x10) | (cycle2 << 4);
 }
 
-void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
+void CTRDGi_LockByProcessor(u16 lockID, CTRDGLockByProc *info) {
     for (;;) {
         info->mSavedIrq = OS_DisableInterrupts();
         info->mOwnerFlag = OS_ReadOwnerOfLockWord(&SYSTEM_WORK->mLockCartridge) & 0x40;
@@ -189,7 +189,7 @@ void CTRDGi_LockByProcessor(u16 lockID, CartridgeAccessSave *info) {
     }
 }
 
-void CTRDGi_UnlockByProcessor(u16 lockID, CartridgeAccessSave *info) {
+void CTRDGi_UnlockByProcessor(u16 lockID, CTRDGLockByProc *info) {
     if (info->mOwnerFlag == 0) {
         OS_UnLockCartridge(lockID);
     }
