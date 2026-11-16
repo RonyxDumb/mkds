@@ -68,7 +68,7 @@
 #define reg_CP_SQRTCNT (*(vu16 *) 0x040002b0)
 #define reg_CP_SQRT_RESULT (*(vu32 *) 0x040002b4)
 #define reg_CP_SQRT_PARAM (*(vu64 *) 0x040002b8)
-#define reg_GX_POSTFLG (*(vu16 *) 0x04000300)
+#define reg_04000300 (*(vu16 *) 0x04000300)
 #define reg_GX_POWCNT (*(vu16 *) 0x04000304)
 #define reg_G3X_ALPHA_TEST_REF (*(vu16 *) 0x04000340)
 #define reg_G3X_CLEAR_COLOR (*(vu32 *) 0x04000350)
@@ -143,7 +143,7 @@
 #define REG_G2S_DB_BG2CNT_MOSAIC_MASK 0x0040
 #define REG_G2S_DB_BG3CNT_MOSAIC_MASK 0x0040
 
-// Memory map addresses.
+// Memory map addresses and register bit masks.
 #define HW_BG_PLTT ((u16 *) 0x05000000)
 #define HW_DB_BG_PLTT ((u16 *) 0x05000400)
 #define HW_OAM ((u16 *) 0x07000000)

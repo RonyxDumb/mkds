@@ -37,7 +37,7 @@ void CTRDG_Init(void) {
     }
 }
 
-// Runs once, and only when bit 0 of reg_GX_POSTFLG is set. Copies the cartridge header bytes under the cartridge lock,
+// Runs once, and only when bit 0 of reg_04000300 is set. Copies the cartridge header bytes under the cartridge lock,
 // fills the module info record from them, and sends the address of the header buffer on tag 13, then waits for the
 // reply.
 void CTRDGi_InitModuleInfo(void) {
@@ -54,7 +54,7 @@ void CTRDGi_InitModuleInfo(void) {
         return;
     }
     gModuleInfoInitStarted = 1;
-    if ((reg_GX_POSTFLG & 1) == 0) {
+    if ((reg_04000300 & 1) == 0) {
         return;
     }
     savedIrqMask = OS_SetIrqMask(0x40000);
