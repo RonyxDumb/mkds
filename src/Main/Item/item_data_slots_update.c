@@ -2,6 +2,7 @@
 #include "Main/Net/slot_result_pending.h"
 #include "Main/Net/wifi_race_sync_advance.h"
 #include "Main/Item/item_koura_w.h"
+#include "Main/Item/item_pool.h"
 #include "Main/Item/item_f_box.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
@@ -214,7 +215,7 @@ void ProcessOtherParticipantItemData(void) {
                     if (slot->mDataSize != 0) {
                         data = slot->mData;
                     }
-                    if (slot->mMessageKind <= 1) {
+                    if (slot->mMessageKind <= ITEM_DATA_MESSAGE_START_GENERIC) {
                         ApplyParticipantPendingItem(participantIndex);
                     }
                     ProcessItemDataMessage(slot->mItemKind, slot->mMessageKind, data,

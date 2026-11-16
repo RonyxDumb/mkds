@@ -25,12 +25,8 @@
 
 // Frames (60 seconds) that ItemObject.mHitLinkTimer counts from when the hit link has an object.
 #define ITEM_OBJECT_HIT_LINK_TIMER_FRAMES 0xe10
-// ItemObject.mOwnerKartIndexAndFlags bit 15: the owner is not a kart.
-#define ITEM_OBJECT_OWNER_NOT_KART 0x8000
-// ItemObject.mFlags: set while the item is on a course hit attribute (the map screen shows it translucent); set when
-// the item ends and fades out.
+// ItemObject.mFlags: set while the item is on a course hit attribute (the map screen shows it translucent).
 #define ITEM_OBJECT_FLAG_COURSE_HIT_ATTRIBUTE 0x40000
-#define ITEM_OBJECT_FLAG_ENDED 0x80000
 
 // One item point: the links that follow it and come before it, and a pointer to its position.
 typedef struct ItemPointLink {

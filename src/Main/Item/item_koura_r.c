@@ -574,9 +574,8 @@ void InitItemKouraRFromData(ItemKouraR *kouraR) {
     ResetItemKouraRKartItems(kouraR);
 }
 
-// Returns 1 while GetKart(b) is within the 0x1d0/0x1d4 radius of the 0x50/0x54/0x58
-// words, or when the 0xda halfword is -1; otherwise sets the 0x24c/0x24e halfwords, returns 0.
-// Returns FALSE when it requested CloseIn because the shell is not yet at the kart.
+// Returns TRUE when the shell is already within hit range of the kart or has no collision slot; otherwise frees the
+// slot, requests CloseIn and returns FALSE.
 BOOL RequestItemKouraRCloseInIfFar(void *kouraParam, s32 kartIndex) {
     ItemKouraR *kouraR;
     Kart *kart;

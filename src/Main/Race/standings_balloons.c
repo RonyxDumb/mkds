@@ -236,10 +236,10 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
         return;
     }
     ownerKartIndexAndFlags = itemObject->mOwnerKartIndexAndFlags;
-    if ((ownerKartIndexAndFlags & 0x8000) != 0) {
+    if ((ownerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) != 0) {
         return;
     }
-    gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~0xff00;
+    gStandings->mKarts[kartIndex].mHitByKartIndex = ownerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK;
 }
 
 void StandingsNop(s32 entryIndex) {}

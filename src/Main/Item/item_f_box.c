@@ -561,7 +561,7 @@ void ProcessItemDataMessage(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex
     if (kind != 0xb) {
         return;
     }
-    if (messageKind != 0) {
+    if (messageKind != ITEM_DATA_MESSAGE_START) {
         return;
     }
     if (packet[1] == 0xff) {

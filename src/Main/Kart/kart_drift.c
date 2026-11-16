@@ -1003,9 +1003,9 @@ void ApplyItemObjectHitToKart(Kart *kart) {
         StartSound(&kart->mSoundSource, 0xe9, SOUND_VOLUME_MAX, 0);
         return;
     }
-    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OBJECT_OWNER_NOT_KART) == 0
-                           ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~0xff00)
-                           : 8);
+    kartIndex = (u16) ((itemObject->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
+                           ? (u16) (itemObject->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
+                           : ITEM_NO_KART_INDEX);
     if (kartIndex >= gRaceSetup->mKartCount) {
         return;
     }

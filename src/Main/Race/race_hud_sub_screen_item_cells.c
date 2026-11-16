@@ -127,7 +127,7 @@ void UpdateRaceHudSubScreenItemCells(void) {
         }
         for (objectIndex = 0; objectIndex < activeCount; objectIndex++) {
             object = objects[objectIndex];
-            if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
+            if ((object->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) != 0) {
                 position = NULL;
             } else {
                 position = &object->mPos;
@@ -293,7 +293,7 @@ void UpdateRaceHudSubScreenKarts(void) {
                     raceHudSubScreenScale = GetRaceHudSubScreenScale();
                     for (objectIndex = 0; objectIndex < objectCount; objectIndex++) {
                         object = objects[objectIndex];
-                        if ((object->mFlags & ITEM_OBJECT_FLAG_ENDED) != 0) {
+                        if ((object->mFlags & ITEM_OBJECT_FLAG_FADING_OUT) != 0) {
                             position = NULL;
                         } else {
                             position = &object->mPos;

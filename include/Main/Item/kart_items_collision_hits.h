@@ -3,7 +3,6 @@
 
 struct KartItems;
 
-// Element 8 is used by kart_contact.c for an owner flagged 0x8000
 extern struct KartItems *gKartItems;
 
 extern s32 gCollisionHitCount;

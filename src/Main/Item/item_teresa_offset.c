@@ -46,7 +46,7 @@ const ItemInfo gItemInfoTeresa = {
     1, 1, 0xb, 1, 0, 1, (void (*)(struct ItemInUse *, struct HeldItem *)) TeresaMarkItemInUseAsActiveItem};
 const Vec3 gItemTeresaItemOffsets[4] = {
     {0x29, 0x47b, 0x29}, {-1556, 0x19a, 0x29}, {0x148, 0x75c, 0x29}, {-737, -819, 0x29}};
-const Vec3 gItemTeresaPathPoints[11] = {
+const Vec3 gItemTeresaPathPoints[ITEM_TERESA_PATH_POINT_COUNT] = {
     {0x8000, 0x1800, 0x4b000},  {0x6000, 0x1800, 0x3e000},  {0x2000, 0xccd, 0x26000},  {-12288, 0xa66, 0x22000},
     {-32768, 0x800, 0x24000},   {-12288, 0x8cd, 0x27000},   {0x2000, 0x99a, 0x26000},  {0xc000, 0xccd, 0x26000},
     {0x14000, 0x1000, 0x2d000}, {0x20000, 0x1000, 0x41000}, {0x20000, 0x1000, 0x4b000}};
@@ -501,7 +501,7 @@ BOOL AdvanceItemTeresaFadeOut(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 
         AdvanceItemTeresaPath(teresa);
     } else {
         if (nextState < ITEM_TERESA_STATE_FINISHED) {
-            teresa->mOffsetVelocityY += 0x133;
+            teresa->mOffsetVelocityY += ITEM_TERESA_TAKE_RISE_ACCELERATION;
             fadeStartFrame = 0x1c;
             fadeStep = 6;
         } else {
@@ -548,7 +548,7 @@ s32 AdvanceItemTeresaFadeIn(ItemTeresa *teresa, s32 shiftAlongCameraSide, s32 ne
         teresa->mOffsetZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetZ, factor);
     } else {
         teresa->mOffsetY += teresa->mOffsetVelocityY;
-        teresa->mOffsetVelocityY += 0x133;
+        teresa->mOffsetVelocityY += ITEM_TERESA_TAKE_RISE_ACCELERATION;
         factor = gItemTeresaFrameScales[stateFrames];
         teresa->mOffsetX = MUL_FIXED12_NO_ROUND(teresa->mOffsetX, factor);
         teresa->mOffsetZ = MUL_FIXED12_NO_ROUND(teresa->mOffsetZ, factor);
@@ -748,11 +748,11 @@ void UpdateItemTeresaFadeInAtPicked(void *stateObject) {
                     }
                 }
             } else if (framesLeft <= 0xa) {
-                if (teresa->mTakenItemCount != -1) {
+                if (teresa->mTakenItemCount != ITEM_TERESA_COUNT_NOT_RECEIVED) {
                     teresa->mItemInfoIndex = teresa->mTakenItemInfoIndex;
                     teresa->mItemCount = teresa->mTakenItemCount;
                     teresa->mTakenItemInfoIndex = ITEM_TERESA_NOT_RECEIVED;
-                    teresa->mTakenItemCount = -1;
+                    teresa->mTakenItemCount = ITEM_TERESA_COUNT_NOT_RECEIVED;
                     if (teresa->mItemInfoIndex == ITEM_INFO_NONE) {
                         teresa->mItemObjectKind = ITEM_TERESA_KIND_TOOK_NOTHING;
                     } else {
@@ -965,13 +965,13 @@ void UpdateItemTeresaFadeInAtOwner(void *stateObject) {
             }
             if (framesLeft == 1) {
                 if (teresa->mActsLocally == FALSE) {
-                    if (teresa->mGivenItemCount == -1) {
+                    if (teresa->mGivenItemCount == ITEM_TERESA_COUNT_NOT_RECEIVED) {
                         receivedItem = FALSE;
                     } else {
                         teresa->mItemInfoIndex = teresa->mGivenItemInfoIndex;
                         teresa->mItemCount = teresa->mGivenItemCount;
                         teresa->mGivenItemInfoIndex = ITEM_TERESA_NOT_RECEIVED;
-                        teresa->mGivenItemCount = -1;
+                        teresa->mGivenItemCount = ITEM_TERESA_COUNT_NOT_RECEIVED;
                         receivedItem = TRUE;
                     }
                     if (receivedItem == FALSE) {

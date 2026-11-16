@@ -164,7 +164,7 @@ int TrySetItemKouraRKartItems(ItemKouraR *item, int kartIndex, s32 maxDistanceSq
                      ~ITEM_OWNER_FLAGS_MASK)
             : ITEM_NO_KART_INDEX;
     kartRank = GetKartRank(kartIndex);
-    if (ownerIndex < 8 && checkRank != 0) {
+    if (ownerIndex < ITEM_NO_KART_INDEX && checkRank != 0) {
         ownerRank = GetKartRank(ownerIndex);
         if (ownerRank <= kartRank) {
             if (ownerRank != 1) {

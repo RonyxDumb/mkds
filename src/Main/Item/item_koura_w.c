@@ -429,7 +429,7 @@ void UpdateItemKouraWPickTarget(void *stateObject) {
         }
         if (item->mRankKartIndex ==
                 (u16) (!(item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject.mOwnerKartIndexAndFlags &
-                         0x8000)
+                         ITEM_OWNER_NO_OWNER)
                            ? (u16) (item->mLinkFollowingItemObject.mDirectedItemObject.mItemObject
                                         .mOwnerKartIndexAndFlags &
                                     ~ITEM_OWNER_FLAGS_MASK)
@@ -1205,6 +1205,9 @@ static inline s32 IsItemObjectHitKart(ItemObject *item, Kart *kart) {
     return fullDistanceSquared < (s64) radius * radius ? 1 : 0;
 }
 
+// Slots of gCollidedItemObjects; one hit check reports at most 15 objects.
+#define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
+
 // Returns how many item objects hit the kart; GetCollidedItemObject reads them.
 s32 CollideKartWithItemObjects(Kart *kart) {
     s32 overlapIndex;
@@ -1217,7 +1220,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
 
     hitCount = 0;
     isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
-    hitCountCap = 0xf;
+    hitCountCap = COLLIDED_ITEM_OBJECT_CAPACITY - 1;
     for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
         if (!(gFoundCollisionSlotFlags[overlapIndex] & 0x4000)) {
             continue;
@@ -1250,7 +1253,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
                 StartItemObjectReleaseSynced(item, 1);
             }
         }
-        if (hitCount >= 0x10) {
+        if (hitCount >= COLLIDED_ITEM_OBJECT_CAPACITY) {
             hitCount = hitCountCap;
         }
     }
@@ -1340,9 +1343,6 @@ void StartCourseMapItemObjects(void) {
         }
     }
 }
-
-// Most item objects that one hit check can collect.
-#define COLLIDED_ITEM_OBJECT_CAPACITY 0x10
 
 void InitItems(void) {
     void *heap;

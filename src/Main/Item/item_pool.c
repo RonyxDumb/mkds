@@ -289,7 +289,7 @@ found:
         value = (u16) ((object->mOwnerKartIndexAndFlags & ITEM_OWNER_NO_OWNER) == 0
                            ? (u16) (object->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
                            : ITEM_NO_KART_INDEX);
-        if (value != 8) {
+        if (value != ITEM_NO_KART_INDEX) {
             StartKartSeqArcSoundOffset7(GetKart(value));
         }
     }

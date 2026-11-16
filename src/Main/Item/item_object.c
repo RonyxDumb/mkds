@@ -164,7 +164,7 @@ BOOL IsItemObjectOverlappingKart(ItemObject *item, Kart *kart) {
     if (item->mCollisionSlotIndex == -1 ||
         kart->mIndex == (u16) ((item->mOwnerKartIndexAndFlags & ITEM_OWNER_EXCLUDED) != 0
                                    ? (u16) (item->mOwnerKartIndexAndFlags & ~ITEM_OWNER_FLAGS_MASK)
-                                   : 8)) {
+                                   : ITEM_NO_KART_INDEX)) {
         return FALSE;
     }
     hitRadius = kart->mRadius + item->mRadius;
