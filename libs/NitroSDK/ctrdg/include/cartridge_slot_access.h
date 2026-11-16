@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-// In the comments below, "cartridge memory" is the memory at 0x08000000, "the record" the object at 0x027ffc30 and "the
-// copy" gCartridgeHeaderCopy.
+// In the comments below, "cartridge memory" is the memory at 0x08000000, "the record" is
+// OSSystemWork.mCartridgeModuleInfo and "the copy" is gCartridgeHeaderCopy.
 
 // Two words filled by CTRDGi_LockByProcessor and CTRDGi_ChangeLatestAccessCycle and read back by
 // CTRDGi_UnlockByProcessor and CTRDGi_RestoreAccessCycle.
@@ -109,10 +109,10 @@ void CTRDGi_RestoreAccessCycle(CTRDGLockByProc *cycleInfo);
 // bit 4 in the second word, then sets bits 2 and 3 and clears bit 4.
 void CTRDGi_ChangeLatestAccessCycle(CTRDGLockByProc *cycleInfo);
 // Returns 0 when the halfword at 0x027ffc30 is 0xffff or bit 1 of the byte at 0x027ffc35 is set. Otherwise locks and
-// compares the record with cartridge memory: the halfword at 0x080000be (0x0801fffe when the byte at 0x080000b2 is not
-// 0x96) against the halfword at 0x027ffc30, and when bit 0 of the byte at 0x027ffc35 is set the word at 0x080000ac
-// against the word at 0x027ffc38. On a difference sets bit 1 of that byte and returns 0, otherwise 1. Its only caller
-// is PM_GoSleepMode.
+// Returns 0 when the record's mIdHalfword is CARTRIDGE_NO_ID_HALFWORD or mDetectPullOut is set. Otherwise locks and
+// compares mIdHalfword with the header's (the halfword at 0x0801fffe unless the header's mIdSelector is
+// CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD), and while mIsAgbCartridge is set mIdWord with the header's mIdWord. On a
+// difference sets mDetectPullOut and returns 0, otherwise 1. Its only caller is PM_GoSleepMode.
 s32 CTRDG_IsExisting(void);
 // Zero-fills the 4 bytes of gCartridgeWork (SVC_CpuSet, one word) and stores OS_GetLockID() in gCartridgeWork.mLockId.
 void CTRDGi_InitCommon(void);
