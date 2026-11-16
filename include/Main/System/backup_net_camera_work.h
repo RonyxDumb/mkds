@@ -1080,7 +1080,7 @@ typedef struct OverlayLoader {
 #define SLOT_RESULT_SYNC_MAX_SENDS 100
 #define SLOT_RESULT_SYNC_CLEAR_FRAMES 20
 
-// The clock sync state of one peer: probe and reply send and receive ticks, round trip total and sample counts.
+// The clock sync state of one peer: request and reply send and receive ticks, round trip total and sample counts.
 typedef struct WiFiRaceSyncPeer {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mProbeSentTickLow;
