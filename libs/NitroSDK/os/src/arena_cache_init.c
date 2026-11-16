@@ -198,7 +198,7 @@ loop_inner:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_InvalidateRange(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
@@ -210,7 +210,7 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_StoreRange(const void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
@@ -222,7 +222,7 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: two mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void DC_FlushRange(const void *address, int size) {
     mov ip, #0x0
     add r1, r1, r0
@@ -236,14 +236,14 @@ loop:
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: a single mcr on coprocessor 15, no loop.
 asm void DC_WaitWriteBufferEmpty(void) {
     mov r0, #0x0
     mcr p15, 0, r0, c7, c10, 4
     bx lr
 }
 
-// Not compiled code: C has no way to write a coprocessor 15 register (mcr).
+// Assembly: one mcr on coprocessor 15 per 0x20 bytes of the range.
 asm void IC_InvalidateRange(void *address, u32 size) {
     add r1, r1, r0
     bic r0, r0, #0x1f
