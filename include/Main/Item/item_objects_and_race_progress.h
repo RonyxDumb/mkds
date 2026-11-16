@@ -93,13 +93,14 @@ extern SegmentProgress gJgSegmentProgress;
 // released.
 #define ITEM_OBJECT_OLD_FRAMES 0x12c
 
-// ItemObject.mCourseReleaseTimer frames after a course hit on a resting object.
+// ItemObject.mCourseReleaseTimer frames after a ground hit with bit 0x400 on a resting object.
 #define ITEM_OBJECT_COURSE_RELEASE_RESTING_FRAMES 0xb4
 // The same, for an object that is not resting.
 #define ITEM_OBJECT_COURSE_RELEASE_NOT_RESTING_FRAMES 2
 // The bits of ItemObject.mDistanceSquaredAndFlags that the view test sets when the object is outside the view.
 #define ITEM_OBJECT_VIEW_TEST_OUTSIDE_BITS 3
-// Object age above which an excluded owner is free again once the object has had a course hit.
+// Object age above which an excluded owner is free again once the object has had a course hit in the last
+// ITEM_OBJECT_RECENT_HIT_FRAMES frames.
 #define ITEM_OBJECT_EXCLUDED_UNTIL_COURSE_HIT_AGE_FRAMES 4
 // Object age above which an excluded owner is free again, without waiting for a course hit.
 #define ITEM_OBJECT_EXCLUDED_AGE_FRAMES 0x1e

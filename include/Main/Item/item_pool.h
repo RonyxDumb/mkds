@@ -44,7 +44,7 @@ typedef enum { KART_ITEMS_SLOT_IDLE, KART_ITEMS_SLOT_SPINNING, KART_ITEMS_SLOT_S
 #define KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_FRAMES 8
 #define KART_ITEMS_SLOT_SHORT_FINAL_SCROLL_SHIFT 3
 
-// Copy of PAD_KEY_DIRECTION_UP in KartItems.mFlags (TryAddKartItemFlags and AdvanceItemInUseOne set it from the input
+// Set when PAD_KEY_DIRECTION_UP is held (TryAddKartItemFlags; AdvanceItemInUseOne when mIsActiveItem is set; the input
 // word).
 #define KART_ITEMS_THROW_FORWARD 0x10
 // The down key was held when the item was used (TryAddKartItemFlags and AdvanceItemInUseOne set it).
