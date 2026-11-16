@@ -4,7 +4,8 @@
 
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
-// 8-byte entries of two words: a string and a number.
+// A course archive name: mName and mMultibootVariant, the byte that is 1 for the courses whose multiboot archive name
+// gets a D.
 typedef struct CourseNameEntry {
     /* 00 */ const char *mName;
     /* 04 */ u8 mMultibootVariant;
@@ -12,7 +13,8 @@ typedef struct CourseNameEntry {
 } CourseNameEntry;
 
 // Slot numbers of gArchiveSlotInfos and gArchiveSlots->mSlots: one per archive the game keeps mounted. Each slot has a
-// mount name in gArchiveNames. The "language" slots load the same archive with the language code in the file name.
+// mount name in gArchiveNames. A "language" slot loads a second archive named like its base one with the language code
+// added to the file name.
 typedef enum ArchiveSlotIndex {
     ARCHIVE_SLOT_NONE = -1,
     ARCHIVE_SLOT_MAIN_RACE = 0,

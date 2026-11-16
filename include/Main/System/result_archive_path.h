@@ -20,7 +20,7 @@ typedef struct ArchiveSlotInfo {
     /* 14 */ s32 mArchiveBufferSize;
 } ArchiveSlotInfo;
 
-// 8-byte entries of a string and a number.
+// A scene's name string (mName) and the archive buffer size (mArchiveBufferSize) it loads with, -1 for most scenes.
 typedef struct SceneName {
     /* 00 */ const char *mName;
     /* 04 */ s32 mArchiveBufferSize;
@@ -36,8 +36,8 @@ typedef struct SceneName {
 #include "Main/System/archive_slots.h"
 #include "Main/System/scene_numbers.h"
 
-// Heap group ids passed to SetHeapGroupId: 0 is the id every expanded heap starts with; 9 is the id restored once the
-// special-purpose allocations of a step are done.
+// Heap group ids passed to SetHeapGroupId: 0 is the id every expanded heap starts with and the one archive slots are
+// loaded under; 9 is the id the scene setup works under, and the one set again after a part of it used another id.
 #define HEAP_GROUP_DEFAULT 0
 #define HEAP_GROUP_SCENE 9
 

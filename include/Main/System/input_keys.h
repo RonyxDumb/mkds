@@ -14,7 +14,7 @@ typedef struct KeyStream {
     /* 18 */ u16 mKeyMask;
 } KeyStream;
 
-// Frames a key is held before it repeats, and frames between two repeats (KeysInputSlot defaults).
+// Frames a key is held before it repeats, and frames between two repeats (the default of every input slot).
 #define KEYS_REPEAT_DELAY_FRAMES 0x14
 #define KEYS_REPEAT_INTERVAL_FRAMES 8
 

@@ -28,14 +28,14 @@
 
 #define PAD_KEY_SELECT 0x4
 
-// A, B, X, Y, Select and Start: every key except the directions and the shoulder keys.
+// A, B, X, Y, Select and Start: every key except the four direction keys, L and R.
 #define PAD_KEYS_NO_DIRECTION_OR_SHOULDER \
     (PAD_KEY_A | PAD_KEY_B | PAD_KEY_SELECT | PAD_KEY_START | PAD_KEY_X | PAD_KEY_Y)
 
-// A, B, X, Y and both shoulder keys.
+// A, B, X, Y, L and R.
 #define PAD_KEYS_FACE_AND_SHOULDER (PAD_KEY_A | PAD_KEY_B | PAD_KEY_X | PAD_KEY_Y | PAD_KEY_L | PAD_KEY_R)
 
-// Both shoulder keys, Select and Start.
+// L, R, Select and Start.
 #define PAD_KEYS_SHOULDER_AND_MENU (PAD_KEY_L | PAD_KEY_R | PAD_KEY_SELECT | PAD_KEY_START)
 
 // All twelve keys.
@@ -53,7 +53,7 @@
 // The four direction keys together.
 #define PAD_KEY_DIRECTIONS 0xf0
 
-// Slots of gInputSlots that the code addresses through a constant, named after the source kind each one gets.
+// Slots 8 and 9 of gInputSlots, named after the source kind each one gets.
 typedef enum InputSlotIndex { INPUT_SLOT_PAD_OR_PARTICIPANT = 8, INPUT_SLOT_PAD_AND_TOUCH = 9 } InputSlotIndex;
 
 // The recorded key pairs (bits, repeat count) and their byte count.
@@ -101,7 +101,7 @@ typedef struct InputSlotPair {
     /* 12 */ u8 mMicOverThreshold[0x2];
 } InputSlotPair;
 
-// A pair missing for fewer frames than this (InputSlotPair.mNoPairCount) still counts as a brief gap.
+// A touch pair lost for fewer frames than this (InputSlotPair.mNoPairCount) still counts as recently lost.
 #define INPUT_NO_PAIR_BRIEF_FRAMES 5
 
 // InputSlotHead.mRepeatState: no masked bit held, held until the first repeat, repeating at the interval.
@@ -221,7 +221,7 @@ typedef struct EmblemInputSlotView {
     /* 22 */ volatile u16 mNextBits;
 } EmblemInputSlotView;
 
-// Slot 8 from mWritesKeyBits on.
+// Slot 8 (INPUT_SLOT_PAD_OR_PARTICIPANT) from mWritesKeyBits on: mPair is the mPair of that slot.
 typedef struct PadOrParticipantSlotPairView {
     /* 00 */ u8 mUnk_00[0x28];
     /* 28 */ volatile InputSlotPair mPair;

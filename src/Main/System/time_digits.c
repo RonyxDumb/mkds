@@ -17,7 +17,8 @@ void SplitTimeDigits(s32 minute, s32 second, s32 millisecond, TimeDigits *timeDi
 }
 
 // Exchange sort in place: afterwards keys[indices[0]] <= keys[indices[1]] <= ... for the first count entries (a smaller
-// key first; unstable); all callers pass 0..mKartCount-1 in indices and negate the keys for a descending order.
+// key first; unstable); all callers pass a permutation of 0..mKartCount-1 in indices (the sub screen passes its
+// previous order) and negate the keys where they want a descending order.
 void SortIndicesByKey(s32 *indices, s32 *keys, s32 count) {
     s32 outerIndex;
     s32 innerIndex;

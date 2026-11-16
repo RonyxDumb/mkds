@@ -20,8 +20,8 @@ s32 RunEmblemScene(void *sceneNumbers);
 void UpdateEmblemScene(SceneNumbers *sceneNumbers);
 void WriteEmblemSceneRegistersCallback(void);
 void EmblemSceneNop(void);
-// Calls StopWvrAndWait, ResetInputSlots and InitEmblem through InitEmblemAndAdvanceKartList (InitEmblem also
-// calls InitEmblemChoises).
+// Calls GetHeap on the current heap call, StopWvrAndWait, ResetInputSlots and InitEmblemAndAdvanceKartList (InitEmblem,
+// which also calls InitEmblemChoises, then AdvanceEmblemKartList).
 void InitEmblemScene(void);
 BOOL IsKeyRecordingPlaybackNearBufferEnd(KeyRecording *keyRecording);
 BOOL IsKeyRecordingFull(KeyRecording *keyRecording);
