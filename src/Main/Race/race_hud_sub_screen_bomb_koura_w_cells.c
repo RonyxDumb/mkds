@@ -42,58 +42,58 @@ void InitRaceHudSubScreenBgColors(void) {
 u8 gRaceHudSubScreenBgColorsOrderPad[24];
 
 void CopyRaceHudSubScreenBgColors(void) {
-    s32 rowIndex;
+    s32 index;
     s32 columnIndex;
 
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
-            for (rowIndex = 0; rowIndex < 9; rowIndex++) {
+            for (index = 0; index < 9; index++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
-                    gRaceHudSubScreenBgColors->mColors.mFrameColors[rowIndex][columnIndex] =
-                        HW_DB_BG_PLTT[rowIndex * 16 + columnIndex + 0x40];
+                    gRaceHudSubScreenBgColors->mColors.mFrameColors[index][columnIndex] =
+                        HW_DB_BG_PLTT[index * 16 + columnIndex + 0x40];
                 }
             }
             break;
         case COURSE_ID_CLOCK: {
             s32 rowOffsets[5] = {0, 5, 10, 16, 21};
 
-            for (rowIndex = 0; rowIndex < 5; rowIndex++) {
+            for (index = 0; index < 5; index++) {
                 for (columnIndex = 0; columnIndex < 4; columnIndex++) {
-                    gRaceHudSubScreenBgColors->mColors.mGearColors[rowIndex][columnIndex] =
-                        HW_DB_BG_PLTT[rowOffsets[rowIndex] + columnIndex + 0x80];
+                    gRaceHudSubScreenBgColors->mColors.mGearColors[index][columnIndex] =
+                        HW_DB_BG_PLTT[rowOffsets[index] + columnIndex + 0x80];
                 }
             }
             break;
         }
         case COURSE_ID_TOWN:
-            for (rowIndex = 0; rowIndex < 20; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0x78 + rowIndex];
+            for (index = 0; index < 20; index++) {
+                gRaceHudSubScreenBgColors->mColors.mColorList[index] = HW_DB_BG_PLTT[0x78 + index];
             }
             gRaceHudSubScreenBgColors->mColors.mColorList[20] = HW_DB_BG_PLTT[0];
             break;
         case COURSE_ID_BEACH:
-            for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0x46 + rowIndex];
+            for (index = 0; index < 3; index++) {
+                gRaceHudSubScreenBgColors->mColors.mColorList[index] = HW_DB_BG_PLTT[0x46 + index];
             }
             break;
         case COURSE_ID_KOOPA:
-            for (rowIndex = 0; rowIndex < 6; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[rowIndex] =
-                    HW_DB_BG_PLTT[0x54 + rowIndex];
+            for (index = 0; index < 6; index++) {
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mSecondObjectColors[index] =
+                    HW_DB_BG_PLTT[0x54 + index];
             }
-            for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+            for (index = 0; index < 2; index++) {
                 for (columnIndex = 0; columnIndex < 3; columnIndex++) {
-                    gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[rowIndex][columnIndex] =
-                        HW_DB_BG_PLTT[rowIndex * 3 + columnIndex + 0x5a];
+                    gRaceHudSubScreenBgColors->mColors.mKoopaColors.mFirstObjectColors[index][columnIndex] =
+                        HW_DB_BG_PLTT[index * 3 + columnIndex + 0x5a];
                 }
             }
-            for (rowIndex = 0; rowIndex < 2; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[rowIndex] = HW_DB_BG_PLTT[rowIndex];
+            for (index = 0; index < 2; index++) {
+                gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[index] = HW_DB_BG_PLTT[index];
             }
             break;
         case COURSE_ID_MINI_STAGE3:
-            for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-                gRaceHudSubScreenBgColors->mColors.mColorList[rowIndex] = HW_DB_BG_PLTT[0xfb + rowIndex];
+            for (index = 0; index < 5; index++) {
+                gRaceHudSubScreenBgColors->mColors.mColorList[index] = HW_DB_BG_PLTT[0xfb + index];
             }
             break;
     }
@@ -101,7 +101,7 @@ void CopyRaceHudSubScreenBgColors(void) {
 }
 
 void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
-    s32 rowIndex;
+    s32 index;
     s32 colorIndex;
     s32 shift;
     s32 limit;
@@ -113,8 +113,8 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_OLD_NOKO_SFC:
             value = GetCourseModelNsbtpFrame();
-            for (rowIndex = 0; rowIndex < 3; rowIndex++) {
-                palette[rowIndex + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[value / 10][rowIndex];
+            for (index = 0; index < 3; index++) {
+                palette[index + 0x40] = gRaceHudSubScreenBgColors->mColors.mFrameColors[value / 10][index];
             }
             DC_FlushRange(&palette[0x40], 6);
             GXS_BeginLoadBGExtPltt();
@@ -133,16 +133,16 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_ROTARY_GEAR);
             if (kindDrawList != NULL) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
-                for (rowIndex = 0; rowIndex < 5; rowIndex++) {
-                    angle = objects[rowIndex]->mAngle;
-                    if (rowIndex == 4) {
+                for (index = 0; index < 5; index++) {
+                    angle = objects[index]->mAngle;
+                    if (index == 4) {
                         shift = (angle * 0xb4) >> 16;
                     } else {
                         shift = (angle * 0x48) >> 16;
                     }
                     for (colorIndex = 0; colorIndex < 4; colorIndex++) {
-                        palette[rowOffsets[rowIndex] + colorIndex + 0x80] =
-                            gRaceHudSubScreenBgColors->mColors.mGearColors[rowIndex][(colorIndex + shift) % 4];
+                        palette[rowOffsets[index] + colorIndex + 0x80] =
+                            gRaceHudSubScreenBgColors->mColors.mGearColors[index][(colorIndex + shift) % 4];
                     }
                 }
             }
@@ -179,8 +179,8 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 colorIndex = 5;
             }
             colorIndexCursor = colorIndexRows[colorIndex];
-            for (rowIndex = 0; rowIndex < 20; rowIndex++) {
-                palette[rowIndex + 0x78] = gRaceHudSubScreenBgColors->mColors.mColorList[*colorIndexCursor];
+            for (index = 0; index < 20; index++) {
+                palette[index + 0x78] = gRaceHudSubScreenBgColors->mColors.mColorList[*colorIndexCursor];
                 colorIndexCursor++;
             }
             DC_FlushRange(&palette[0x78], 0x28);
@@ -229,39 +229,39 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
             if (kindDrawList != NULL) {
                 objects = RaceHudSubScreenGetMapObjects(kindDrawList);
                 value = (objects[1]->mAngle * 0x48) >> 16;
-                for (rowIndex = 0; rowIndex < 6; rowIndex++) {
-                    palette[rowIndex + 0x54] = gRaceHudSubScreenBgColors->mColors.mKoopaColors
-                                                   .mSecondObjectColors[(rowIndex + 0x48 - value) % 6];
+                for (index = 0; index < 6; index++) {
+                    palette[index + 0x54] = gRaceHudSubScreenBgColors->mColors.mKoopaColors
+                                                   .mSecondObjectColors[(index + 0x48 - value) % 6];
                 }
                 offset = (objects[0]->mAngle << 5) >> 16;
-                for (rowIndex = 0; rowIndex < 2; rowIndex++) {
+                for (index = 0; index < 2; index++) {
                     for (colorIndex = 0; colorIndex < 3; colorIndex++) {
-                        palette[colorIndex + rowIndex * 3 + 0x5a] =
+                        palette[colorIndex + index * 3 + 0x5a] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors
-                                .mFirstObjectColors[rowIndex][(colorIndex + 0x20 - offset) % 3];
+                                .mFirstObjectColors[index][(colorIndex + 0x20 - offset) % 3];
                     }
                 }
             }
             kindDrawList = FindMapObjectKindDrawList0(MAP_OBJECT_KIND_KOOPA_BLOCK);
             if (kindDrawList != NULL) {
                 blocks = RaceHudSubScreenGetMapObjects(kindDrawList);
-                for (rowIndex = 0; rowIndex < 4; rowIndex++) {
-                    value = GetKoopaBlockProgress(blocks[rowIndex]);
-                    if (rowIndex % 2 != 0) {
+                for (index = 0; index < 4; index++) {
+                    value = GetKoopaBlockProgress(blocks[index]);
+                    if (index % 2 != 0) {
                         limit = (value << 3) >> 12;
                     } else {
                         limit = 8 - ((value << 3) >> 12);
                     }
                     for (colorIndex = 0; colorIndex < limit; colorIndex++) {
-                        palette[rowIndex * 16 + colorIndex + 0x60] =
+                        palette[index * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
                     for (colorIndex = limit; colorIndex < limit + 8; colorIndex++) {
-                        palette[rowIndex * 16 + colorIndex + 0x60] =
+                        palette[index * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[1];
                     }
                     for (colorIndex = limit + 8; colorIndex < 16; colorIndex++) {
-                        palette[rowIndex * 16 + colorIndex + 0x60] =
+                        palette[index * 16 + colorIndex + 0x60] =
                             gRaceHudSubScreenBgColors->mColors.mKoopaColors.mKoopaBlockColors[0];
                     }
                 }

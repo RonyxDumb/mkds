@@ -12,7 +12,7 @@ void PickRandomKarts(CharacterKartPicks *picks) {
     u32 givenBits;
     u8 entry;
     RandomState64 *random;
-    u8 kartOffset;
+    u8 i;
     u8 candidateBits;
     u8 seen;
     s32 kart;
@@ -46,25 +46,25 @@ void PickRandomKarts(CharacterKartPicks *picks) {
         candidateBits = 0;
         if ((givenBits & (1 << entry)) == 0) {
             picks->mKartIndices[entry] = -1;
-            kartOffset = 0;
+            i = 0;
             firstKart = character * 3;
-            for (; kartOffset < 3; kartOffset++) {
-                if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, kartOffset + firstKart) !=
+            for (; i < 3; i++) {
+                if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, i + firstKart) !=
                     FALSE) {
-                    candidateBits = candidateBits | (1 << kartOffset);
+                    candidateBits = candidateBits | (1 << i);
                 }
             }
-            for (kartOffset = 0; kartOffset < 8; kartOffset++) {
-                if (BIT_IS_SET(givenBits, kartOffset) && picks->mKartIndices[kartOffset] >= firstKart &&
-                    picks->mKartIndices[kartOffset] < (character + 1) * 3) {
-                    candidateBits = candidateBits & ~(1 << (picks->mKartIndices[kartOffset] - firstKart));
+            for (i = 0; i < 8; i++) {
+                if (BIT_IS_SET(givenBits, i) && picks->mKartIndices[i] >= firstKart &&
+                    picks->mKartIndices[i] < (character + 1) * 3) {
+                    candidateBits = candidateBits & ~(1 << (picks->mKartIndices[i] - firstKart));
                 }
             }
             if (candidateBits == 0) {
-                for (kartOffset = 0; kartOffset < 3; kartOffset++) {
-                    if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, kartOffset + firstKart) !=
+                for (i = 0; i < 3; i++) {
+                    if (IsKartAppearWithinParticipantLimit(picks->mKartAppear, character, i + firstKart) !=
                         FALSE) {
-                        candidateBits = candidateBits | (1 << kartOffset);
+                        candidateBits = candidateBits | (1 << i);
                     }
                 }
             }
@@ -80,10 +80,10 @@ void PickRandomKarts(CharacterKartPicks *picks) {
                 }
             }
             seen = 0;
-            for (kartOffset = 0; kartOffset < 3 && kart == -1; kartOffset++) {
-                if (BIT_IS_SET(candidateBits, kartOffset)) {
+            for (i = 0; i < 3 && kart == -1; i++) {
+                if (BIT_IS_SET(candidateBits, i)) {
                     if (seen == (u16) pick) {
-                        kart = kartOffset + firstKart;
+                        kart = i + firstKart;
                     } else {
                         seen = seen + 1;
                     }

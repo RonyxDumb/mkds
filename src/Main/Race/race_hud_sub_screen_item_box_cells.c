@@ -63,7 +63,7 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     u8 bestMinute;
     u8 bestSecond;
     u16 bestMillisecond;
-    s32 recordIndex;
+    s32 recordIndexThenIsRecord;
     s32 finishMs;
     TimeRecord *record;
     TimeRecord *records;
@@ -82,17 +82,17 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
     records = gRaceNewRecordTa->mRecords;
     finishMs = TIME_TO_MS(minute, second, millisecond);
-    for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
-        record = &records[recordIndex];
+    for (recordIndexThenIsRecord = 4; recordIndexThenIsRecord >= 0; recordIndexThenIsRecord--) {
+        record = &records[recordIndexThenIsRecord];
         if (record->mFilled != 0 &&
             finishMs == record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
-            recordIndex = 1;
+            recordIndexThenIsRecord = 1;
             goto found;
         }
     }
-    recordIndex = 0;
+    recordIndexThenIsRecord = 0;
 found:
-    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
+    gRaceNewRecordTa->mFinishTimeIsRecord = recordIndexThenIsRecord;
     record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
     gRaceNewRecordTa->mBestLapNumber =
         GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestMinute, &bestSecond, &bestMillisecond);

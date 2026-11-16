@@ -186,7 +186,7 @@ void UpdateRaceGoalSOffset(void) {
 
 void InitRaceGoalS(void) {
     s32 sortKeys[8];
-    u16 rowIndex;
+    u16 index;
     u32 kartIndex;
     u32 sortIndex;
     s32 firstValue;
@@ -194,11 +194,11 @@ void InitRaceGoalS(void) {
     s32 playerKind;
 
     gRaceGoalS = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(RaceGoalS));
-    for (rowIndex = 0; rowIndex < 8; rowIndex++) {
-        gRaceGoalS->mRowVisible[rowIndex] = 1;
-        gRaceGoalS->mShownNumbers[rowIndex] = 0;
-        gRaceGoalS->mRowKartIndex[rowIndex] = 0;
-        gRaceGoalS->mRankComparison[rowIndex] = 1;
+    for (index = 0; index < 8; index++) {
+        gRaceGoalS->mRowVisible[index] = 1;
+        gRaceGoalS->mShownNumbers[index] = 0;
+        gRaceGoalS->mRowKartIndex[index] = 0;
+        gRaceGoalS->mRankComparison[index] = 1;
     }
     gRaceGoalS->mRunning = 0;
     gRaceGoalS->mHiddenRowCount = 0;
@@ -251,9 +251,9 @@ void InitRaceGoalS(void) {
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[3], FindSceneFileWrapper("race_goal_s_team_bg.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[4], FindSceneFileWrapper("race_goal_s_teamB.NSCR"));
     LoadNscrData(&gRaceGoalS->mRaceGoalSNscrs[5], FindSceneFileWrapper("race_goal_s_teamR.NSCR"));
-    for (rowIndex = 0; rowIndex < 0x800; rowIndex++) {
-        gRaceGoalS->mRaceGoalSSpaceNscrCopies[0][rowIndex] = gRaceGoalS->mRaceGoalSNscrs[1]->mData[rowIndex];
-        gRaceGoalS->mRaceGoalSSpaceNscrCopies[1][rowIndex] = gRaceGoalS->mRaceGoalSNscrs[2]->mData[rowIndex];
+    for (index = 0; index < 0x800; index++) {
+        gRaceGoalS->mRaceGoalSSpaceNscrCopies[0][index] = gRaceGoalS->mRaceGoalSNscrs[1]->mData[index];
+        gRaceGoalS->mRaceGoalSSpaceNscrCopies[1][index] = gRaceGoalS->mRaceGoalSNscrs[2]->mData[index];
     }
 }
 

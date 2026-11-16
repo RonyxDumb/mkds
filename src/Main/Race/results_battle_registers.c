@@ -386,14 +386,14 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
     s32 orderIndex;
     BOOL isTeamIndex1;
     BOOL cellVisible;
-    BOOL isOwnEntry;
+    BOOL entryFlag;
     BOOL isOwnNotTeam1;
 
     subCellFileSet = &gResultsBattle->mCellFileSets[1];
     if (gResultsBattle->mOwnEntryIndex == entryIndex) {
-        isOwnEntry = TRUE;
+        entryFlag = TRUE;
     } else {
-        isOwnEntry = FALSE;
+        entryFlag = FALSE;
     }
     orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
     if (gRaceSetup->mUseTeams != 0) {
@@ -408,38 +408,38 @@ void SetResultsBattleEntryCellsVisible(s32 entryIndex) {
         } else {
             cellVisible = FALSE;
         }
-        if (cellVisible != FALSE && isOwnEntry != FALSE) {
+        if (cellVisible != FALSE && entryFlag != FALSE) {
             isOwnNotTeam1 = TRUE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x10].mVisible = isOwnNotTeam1;
-        if (cellVisible != FALSE && isOwnEntry == FALSE) {
+        if (cellVisible != FALSE && entryFlag == FALSE) {
             cellVisible = TRUE;
         } else {
             cellVisible = FALSE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = cellVisible;
-        if (isTeamIndex1 != FALSE && isOwnEntry != FALSE) {
+        if (isTeamIndex1 != FALSE && entryFlag != FALSE) {
             cellVisible = TRUE;
         } else {
             cellVisible = FALSE;
         }
         subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = cellVisible;
-        if (isTeamIndex1 != FALSE && isOwnEntry == FALSE) {
-            isOwnEntry = TRUE;
+        if (isTeamIndex1 != FALSE && entryFlag == FALSE) {
+            entryFlag = TRUE;
         } else {
-            isOwnEntry = FALSE;
+            entryFlag = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = isOwnEntry;
+        subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = entryFlag;
         subCellFileSet->mCellTable[orderIndex + 8].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex].mVisible = subCellFileSet->mCellTable[orderIndex + 8].mVisible;
     } else {
-        subCellFileSet->mCellTable[orderIndex].mVisible = isOwnEntry;
-        if (isOwnEntry == FALSE) {
-            isOwnEntry = TRUE;
+        subCellFileSet->mCellTable[orderIndex].mVisible = entryFlag;
+        if (entryFlag == FALSE) {
+            entryFlag = TRUE;
         } else {
-            isOwnEntry = FALSE;
+            entryFlag = FALSE;
         }
-        subCellFileSet->mCellTable[orderIndex + 8].mVisible = isOwnEntry;
+        subCellFileSet->mCellTable[orderIndex + 8].mVisible = entryFlag;
         subCellFileSet->mCellTable[orderIndex + 0x28].mVisible = 0;
         subCellFileSet->mCellTable[orderIndex + 0x20].mVisible = subCellFileSet->mCellTable[orderIndex + 0x28].mVisible;
         subCellFileSet->mCellTable[orderIndex + 0x18].mVisible = subCellFileSet->mCellTable[orderIndex + 0x20].mVisible;

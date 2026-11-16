@@ -21,7 +21,7 @@ s32 IsRaceEndConditionMet(void) {
     u16 kartIndex;
     s32 value;
     BOOL flag;
-    s32 participantKart;
+    s32 ownKartIndex;
     s32 kartCount;
     s32 removedCount;
     RaceSetup *raceSetup;
@@ -74,8 +74,8 @@ s32 IsRaceEndConditionMet(void) {
             }
             break;
         case MODE_WIFI:
-            participantKart = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
-            if (participantKart < 0) {
+            ownKartIndex = gParticipantKartMap->mKartOfParticipant[DWC_GetMyAID()];
+            if (ownKartIndex < 0) {
                 endConditionMet = FALSE;
             } else {
                 kartCount = gRaceSetup->mKartCount;
@@ -84,7 +84,7 @@ s32 IsRaceEndConditionMet(void) {
                 if (kartCount - removedCount <= 1) {
                     endConditionMet = FALSE;
                 } else {
-                    value = GetRaceProgressKart(participantKart)->mStatus;
+                    value = GetRaceProgressKart(ownKartIndex)->mStatus;
                     flag = FALSE;
                     switch (value) {
                         case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:

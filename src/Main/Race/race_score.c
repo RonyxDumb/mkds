@@ -250,9 +250,9 @@ void InitRaceProgress(void) {
     s32 index;
     u32 seed;
     s32 checkpointNumber;
-    u64 tickSeed1;
-    u64 tickSeed2;
-    u64 tickSeed3;
+    u64 firstTickSeed;
+    u64 secondTickSeed;
+    u64 thirdTickSeed;
     u16 routeIndex;
     u16 entryInRoute;
     u16 checkpointIndex;
@@ -335,8 +335,8 @@ void InitRaceProgress(void) {
                     if (value != 0) {
                         seed = connectionWork->mRaceSeed;
                     } else {
-                        tickSeed1 = OS_GetTick();
-                        seed = (tickSeed1 << 16) + OS_GetTick();
+                        firstTickSeed = OS_GetTick();
+                        seed = (firstTickSeed << 16) + OS_GetTick();
                     }
                     break;
             }
@@ -345,10 +345,10 @@ void InitRaceProgress(void) {
     RaceProgressInitRandomState(&gRaceProgress->mRandom, seed);
     gRaceProgress->mSeed = seed;
     gRaceSetup->mNextHeader.mSeed = seed;
-    tickSeed1 = OS_GetTick();
-    tickSeed2 = OS_GetTick();
-    tickSeed3 = OS_GetTick();
-    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, tickSeed1 + ((tickSeed2 << 24) + (tickSeed3 << 8)));
+    firstTickSeed = OS_GetTick();
+    secondTickSeed = OS_GetTick();
+    thirdTickSeed = OS_GetTick();
+    RaceProgressInitRandomState(&gRaceProgress->mLocalRandom, firstTickSeed + ((secondTickSeed << 24) + (thirdTickSeed << 8)));
     RaceProgressInitRandomState(&gRaceProgress->mFixedSeedRandom, 0xa094a2f);
     if (gRaceSetup->mMode == MODE_BATTLE) {
         ShuffleCourseMapRespawnSlots(&gRaceProgress->mRandom);

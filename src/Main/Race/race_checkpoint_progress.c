@@ -28,8 +28,8 @@
 
 void UpdateRaceClock(void) {
     RaceProgress *raceProgress;
-    s32 frameFraction;
-    RaceProgress *raceProgressForRandom;
+    s32 frameFractionOrTimeUp;
+    RaceProgress *raceProgressForClock;
     u32 elapsedFrames;
     u32 frameLimit;
     u32 timeLimitFrames;
@@ -41,9 +41,9 @@ void UpdateRaceClock(void) {
     u16 *clock;
     u32 lapFrames;
 
-    frameFraction = 0;
+    frameFractionOrTimeUp = 0;
     raceProgress = gRaceProgress;
-    raceProgressForRandom = raceProgress;
+    raceProgressForClock = raceProgress;
     if (raceProgress->mHeader.mClockEnabled != 0) {
         timeLimitFrames = raceProgress->mTimeLimitFrameCount;
         frameLimit = 0x57e40;
@@ -91,7 +91,7 @@ void UpdateRaceClock(void) {
         if (elapsedFrames <= frameLimit) {
             elapsedFrames++;
         } else if (hasTimeLimit != FALSE) {
-            frameFraction = 1;
+            frameFractionOrTimeUp = 1;
         }
         raceProgress->mHeader.mElapsedFrames = elapsedFrames;
         for (kartIndex = 0; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
@@ -101,7 +101,7 @@ void UpdateRaceClock(void) {
             }
             gRaceProgress->mKarts[kartIndex].mLapFrames = lapFrames;
         }
-        if (frameFraction != 0) {
+        if (frameFractionOrTimeUp != 0) {
             switch (gRaceSetup->mMode) {
                 case MODE_MISSION_RUN:
                     FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, RACE_END_KIND_TIME_UP);
@@ -119,13 +119,13 @@ void UpdateRaceClock(void) {
                     break;
             }
         }
-        raceProgressForRandom = gRaceProgress;
-        random = &raceProgressForRandom->mRandom;
+        raceProgressForClock = gRaceProgress;
+        random = &raceProgressForClock->mRandom;
         random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-        frameFraction = -(s16) (u16) (random->mValue >> 32 >> 20);
+        frameFractionOrTimeUp = -(s16) (u16) (random->mValue >> 32 >> 20);
     }
-    clock = &raceProgressForRandom->mHeader.mClockMillisecond;
-    ComputeRaceTime((u8 *) clock + 2, (u8 *) clock + 3, clock, frameFraction, raceProgress->mHeader.mElapsedFrames);
+    clock = &raceProgressForClock->mHeader.mClockMillisecond;
+    ComputeRaceTime((u8 *) clock + 2, (u8 *) clock + 3, clock, frameFractionOrTimeUp, raceProgress->mHeader.mElapsedFrames);
 }
 
 BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *fromCheckpoint,
@@ -155,7 +155,7 @@ BOOL IsPointBetweenCheckpointLines(const Vec3 *pos, const CourseMapCheckpoint *f
 s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toIndex) {
     CourseMapCheckpoint *fromCheckpoint;
     CourseMapCheckpoint *toCheckpoint;
-    IntPair offsets[3];
+    IntPair pairs[3];
     s64 numerator;
     s64 denominator;
 
@@ -164,14 +164,14 @@ s32 ComputeProgressBetweenCheckpoints(const Vec3 *pos, u16 fromIndex, u16 toInde
     if (IsPointBetweenCheckpointLines(pos, fromCheckpoint, toCheckpoint) == FALSE) {
         return -0x1000;
     }
-    offsets[0].mFirst = pos->x - fromCheckpoint->mPointBX;
-    offsets[0].mSecond = pos->z - fromCheckpoint->mPointBZ;
-    offsets[1].mFirst = pos->x - toCheckpoint->mPointAX;
-    offsets[1].mSecond = pos->z - toCheckpoint->mPointAZ;
-    offsets[2].mFirst = -toCheckpoint->mDirection.mFirst;
-    offsets[2].mSecond = -toCheckpoint->mDirection.mSecond;
-    numerator = ComputeDotOfPairsRoundedS64(&offsets[0], &fromCheckpoint->mDirection);
-    denominator = numerator + ComputeDotOfPairsRoundedS64(&offsets[1], &offsets[2]);
+    pairs[0].mFirst = pos->x - fromCheckpoint->mPointBX;
+    pairs[0].mSecond = pos->z - fromCheckpoint->mPointBZ;
+    pairs[1].mFirst = pos->x - toCheckpoint->mPointAX;
+    pairs[1].mSecond = pos->z - toCheckpoint->mPointAZ;
+    pairs[2].mFirst = -toCheckpoint->mDirection.mFirst;
+    pairs[2].mSecond = -toCheckpoint->mDirection.mSecond;
+    numerator = ComputeDotOfPairsRoundedS64(&pairs[0], &fromCheckpoint->mDirection);
+    denominator = numerator + ComputeDotOfPairsRoundedS64(&pairs[1], &pairs[2]);
     if (numerator > 0x7fffffff || denominator > 0x7fffffff || numerator < -0x80000000LL ||
         denominator < -0x80000000LL) {
         numerator >>= 10;
@@ -315,7 +315,7 @@ void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 fram
     s32 frameScaled;
     s32 secondsScaled;
     s32 totalSeconds;
-    s32 fractionMs;
+    s32 fractionSecondsScaled;
 
     raceProgress = gRaceProgress;
     if (raceProgress->mTimeCountsDown != FALSE) {
@@ -336,8 +336,8 @@ void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 fram
     seconds = totalSeconds % 60;
     milliseconds = (secondsScaled & 0xfff) * 1000 >> 12;
     if (frameFraction != 0) {
-        fractionMs = MUL_FIXED12_ROUNDED(0x44, frameFraction);
-        milliseconds += fractionMs * 1000 >> 12;
+        fractionSecondsScaled = MUL_FIXED12_ROUNDED(0x44, frameFraction);
+        milliseconds += fractionSecondsScaled * 1000 >> 12;
         if (milliseconds < 0) {
             milliseconds += 1000;
             seconds--;

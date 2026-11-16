@@ -347,10 +347,10 @@ void StartRaceNewRecordTa(void) {
     u8 bestLapMinute;
     u8 bestLapSecond;
     u16 bestLapMillisecond;
-    BOOL storeGhost;
+    BOOL result;
     BOOL hasSetupTime;
     s32 totalMilliseconds;
-    s32 recordIndex;
+    s32 recordIndexOrFound;
     s32 unusedCount;
     s32 unusedValue;
     TimeRecord *record;
@@ -371,7 +371,7 @@ void StartRaceNewRecordTa(void) {
             gRaceNewRecordTa->mUpdate = StoreRaceNewRecordTaGhost;
             gRaceNewRecordTa->mUpdateFrames = 0;
         } else {
-            storeGhost = FALSE;
+            result = FALSE;
             if (IsRaceKeyRecordingNotFull() != 0) {
                 if (gRaceSetup->mMode == MODE_TIME_ATTACK && gRaceSetup->mFirstGhostRecordFilled == 1) {
                     MI_CpuCopy8(&gRaceSetup->mFirstGhostRecordMillisecond, &setupTime, 4);
@@ -383,13 +383,13 @@ void StartRaceNewRecordTa(void) {
                     GetKartFinishTime((u16) gRaceSetup->mEntryIndex, &finishTime.mMinute, &finishTime.mSecond,
                                       &finishTime.mMillisecond);
                     if (IsTimeLessThan(&finishTime, &setupTime) != FALSE) {
-                        storeGhost = TRUE;
+                        result = TRUE;
                     }
                 } else {
-                    storeGhost = TRUE;
+                    result = TRUE;
                 }
             }
-            if (storeGhost != FALSE) {
+            if (result != FALSE) {
                 gRaceNewRecordTa->mSaving = 1;
                 FillAndWriteCourseGhostRecord(gRaceSetup->mCourseId, gRaceSetup->mEntryIndex);
                 gRaceNewRecordTa->mUpdate = AdvanceRaceNewRecordTaAfterSave;
@@ -403,27 +403,27 @@ void StartRaceNewRecordTa(void) {
         GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
         records = gRaceNewRecordTa->mRecords;
         totalMilliseconds = TIME_TO_MS(minute, second, millisecond);
-        for (recordIndex = 4; recordIndex >= 0; recordIndex--) {
-            record = &records[recordIndex];
+        for (recordIndexOrFound = 4; recordIndexOrFound >= 0; recordIndexOrFound--) {
+            record = &records[recordIndexOrFound];
             if (record->mFilled != 0 &&
                 totalMilliseconds == record->mMillisecond + (record->mSecond * 1000 + record->mMinute * 60000)) {
-                recordIndex = 1;
+                recordIndexOrFound = 1;
                 goto found;
             }
         }
-        recordIndex = 0;
+        recordIndexOrFound = 0;
     found:
-        gRaceNewRecordTa->mFinishTimeIsRecord = recordIndex;
+        gRaceNewRecordTa->mFinishTimeIsRecord = recordIndexOrFound;
         record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
         gRaceNewRecordTa->mBestLapNumber =
             GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestLapMinute, &bestLapSecond, &bestLapMillisecond);
         if (bestLapMinute == record->mMinute && bestLapSecond == record->mSecond &&
             bestLapMillisecond == record->mMillisecond) {
-            storeGhost = TRUE;
+            result = TRUE;
         } else {
-            storeGhost = FALSE;
+            result = FALSE;
         }
-        gRaceNewRecordTa->mBestLapIsRecord = storeGhost;
+        gRaceNewRecordTa->mBestLapIsRecord = result;
         gRaceNewRecordTa->mUpdate = SlideInRaceNewRecordTa;
         gRaceNewRecordTa->mUpdateFrames = 0;
     }

@@ -245,12 +245,12 @@ void SetKartHitByKartIndexFromItem(s32 kartIndex, ItemObject *itemObject) {
 void StandingsNop(s32 entryIndex) {}
 
 void ClearStandingsHitSeenFromKart(s32 kartIndex) {
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
 
     kartCount = gRaceSetup->mKartCount;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        gStandings->mKarts[otherKartIndex].mHitSeenFromKart[kartIndex] = 0;
+    for (i = 0; i < kartCount; i++) {
+        gStandings->mKarts[i].mHitSeenFromKart[kartIndex] = 0;
     }
 }
 
@@ -267,7 +267,7 @@ static inline u16 FindStandingsKartIndexByRankIndex(Standings *standings, s32 ra
 
 u16 GetBattleItemRank(s32 kartIndex) {
     s32 rank;
-    s32 otherKartIndex;
+    s32 i;
     s32 highestCount;
 
     if (gRaceSetup->mMode == MODE_BATTLE) {
@@ -276,9 +276,9 @@ u16 GetBattleItemRank(s32 kartIndex) {
             rank += 1;
         } else if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
             highestCount = 1;
-            for (otherKartIndex = 0; otherKartIndex < gRaceSetup->mKartCount; otherKartIndex++) {
-                if (gStandings->mKarts[otherKartIndex].mBalloonOrShineCount > highestCount) {
-                    highestCount = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+            for (i = 0; i < gRaceSetup->mKartCount; i++) {
+                if (gStandings->mKarts[i].mBalloonOrShineCount > highestCount) {
+                    highestCount = gStandings->mKarts[i].mBalloonOrShineCount;
                 }
             }
             rank = (highestCount + 1 - gStandings->mKarts[kartIndex].mBalloonOrShineCount) / 2 + 1;
@@ -299,7 +299,7 @@ u16 GetBattleItemRank(s32 kartIndex) {
 
 void MoveKartTowardFirstRank(u16 kartIndex) {
     s32 rankIndex;
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -324,12 +324,12 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+    for (i = 0; i < kartCount; i++) {
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }
@@ -337,7 +337,7 @@ void MoveKartTowardFirstRank(u16 kartIndex) {
 
 void MoveKartTowardLastRank(u16 kartIndex) {
     s32 rankIndex;
-    s32 otherKartIndex;
+    s32 i;
     s32 kartCount;
     s32 count;
     KartStanding *ownStanding;
@@ -362,12 +362,12 @@ void MoveKartTowardLastRank(u16 kartIndex) {
     kartCount = gRaceSetup->mKartCount;
     gStandings->mLowestBalloonOrShineCount = STANDINGS_LOWEST_COUNT_START;
     gStandings->mHighestBalloonOrShineCount = 0;
-    for (otherKartIndex = 0; otherKartIndex < kartCount; otherKartIndex++) {
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+    for (i = 0; i < kartCount; i++) {
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mLowestBalloonOrShineCount = (count < gStandings->mLowestBalloonOrShineCount && count >= 0)
                                                      ? count
                                                      : gStandings->mLowestBalloonOrShineCount;
-        count = gStandings->mKarts[otherKartIndex].mBalloonOrShineCount;
+        count = gStandings->mKarts[i].mBalloonOrShineCount;
         gStandings->mHighestBalloonOrShineCount =
             (count > gStandings->mHighestBalloonOrShineCount) ? count : gStandings->mHighestBalloonOrShineCount;
     }

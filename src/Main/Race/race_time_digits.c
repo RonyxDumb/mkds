@@ -52,7 +52,7 @@ void UpdateRaceTimeDigits(void) {
     u8 minute;
     u8 second;
     u16 millisecond;
-    s32 secondIndex;
+    s32 lastSecondsIndex;
     s32 kartIndex;
     NNSSndSeqPlayer **entryHandle;
 
@@ -74,8 +74,8 @@ void UpdateRaceTimeDigits(void) {
         return;
     }
     if (minute == 0 && second > 6) {
-        for (secondIndex = 0; secondIndex < 6; secondIndex++) {
-            gRaceTimeDigits->mLastSecondsReached[secondIndex] = 0;
+        for (lastSecondsIndex = 0; lastSecondsIndex < 6; lastSecondsIndex++) {
+            gRaceTimeDigits->mLastSecondsReached[lastSecondsIndex] = 0;
         }
         return;
     }

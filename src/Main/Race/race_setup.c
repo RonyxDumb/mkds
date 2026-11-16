@@ -36,13 +36,13 @@ void CreateRaceSetupCopy(void *heap) {
 
 #pragma thumb off
 
-void RaceSetupCopyMI_CpuFillFast(void *destination, u32 value, u32 size) {
-    volatile u32 valueCopy = value;
-    MIi_CpuClearFast(valueCopy, destination, size);
+void RaceSetupCopyMI_CpuFillFast(void *dest, u32 data, u32 size) {
+    volatile u32 dataCopy = data;
+    MIi_CpuClearFast(dataCopy, dest, size);
 }
 
-void RaceSetupCopyMI_CpuClearFast(void *destination, u32 size) {
-    RaceSetupCopyMI_CpuFillFast(destination, 0, size);
+void RaceSetupCopyMI_CpuClearFast(void *dest, u32 size) {
+    RaceSetupCopyMI_CpuFillFast(dest, 0, size);
 }
 
 u32 RaceSetupCopyGetConnectionKind(void) {

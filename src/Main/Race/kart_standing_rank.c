@@ -72,7 +72,7 @@ void FinishRaceProgress(void) {
             break;
         }
         case MODE_BATTLE: {
-            s32 isOnWinningTeam;
+            s32 isWinner;
             if (usesTeams != FALSE) {
                 kartIndex = 0;
                 if (kartIndex < raceSetup->mKartCount) {
@@ -94,25 +94,25 @@ void FinishRaceProgress(void) {
                 gRaceProgress->mKarts[kartIndex].mFlags |= RACE_PROGRESS_KART_FLAG_BATTLE_END;
                 if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_GOAL_REACHED) {
                     if (usesTeams != FALSE) {
-                        isOnWinningTeam =
+                        isWinner =
                             winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
-                        isOnWinningTeam = 1;
+                        isWinner = 1;
                     }
                     SetBattleKartCourseResult(kartIndex, 1);
                 } else {
                     if (usesTeams != FALSE) {
-                        isOnWinningTeam =
+                        isWinner =
                             winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
-                        isOnWinningTeam = 0;
+                        isWinner = 0;
                     }
                     SetBattleKartCourseResult(kartIndex, 0);
                     if (gRaceProgress->mKarts[kartIndex].mStatus == RACE_PROGRESS_KART_STATUS_RACING) {
                         gRaceProgress->mKarts[kartIndex].mStatus = RACE_PROGRESS_KART_STATUS_BATTLE_LOSER;
                     }
                 }
-                FinishKartAtBattleEnd(GetKart(kartIndex), isOnWinningTeam);
+                FinishKartAtBattleEnd(GetKart(kartIndex), isWinner);
             }
             StartRaceEndSeq(0);
             break;

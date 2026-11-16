@@ -127,19 +127,19 @@ void InitSubScreenGraphicsMode0(void) {
 
 void UploadRaceHud(void) {
     s32 kartIndex;
-    u32 kind;
+    u32 raceKindOrMode;
     s32 value;
     s32 scrollOffset;
 
-    kind = gRaceSetup->mRaceKind;
-    if (kind == RACE_KIND_START_GP) {
+    raceKindOrMode = gRaceSetup->mRaceKind;
+    if (raceKindOrMode == RACE_KIND_START_GP) {
         UploadRaceStartGpOam();
         return;
     }
-    if (kind == RACE_KIND_AWARD) {
+    if (raceKindOrMode == RACE_KIND_AWARD) {
         return;
     }
-    if (kind == RACE_KIND_STAFF_ROLL) {
+    if (raceKindOrMode == RACE_KIND_STAFF_ROLL) {
         *(vu16 *) HW_BG_PLTT = 0;
         UploadEndingStaffRollOam();
         SetStaffRollScrollAndDrainQueue();
@@ -176,10 +176,10 @@ void UploadRaceHud(void) {
             }
         }
     }
-    kind = gRaceSetup->mMode;
-    if (kind == MODE_GRAND_PRIX && gRaceHud->mGoalMEnabled != 0) {
+    raceKindOrMode = gRaceSetup->mMode;
+    if (raceKindOrMode == MODE_GRAND_PRIX && gRaceHud->mGoalMEnabled != 0) {
         reg_G2_BG3OFS = 0x01ff0000 & (InterpolateS16(1, -64, 0, GetRaceGoalMUpdateFrames(), 20) << 16);
-    } else if (kind == MODE_MISSION_RUN && gRaceHud->mGoalMEnabled != 0) {
+    } else if (raceKindOrMode == MODE_MISSION_RUN && gRaceHud->mGoalMEnabled != 0) {
         GXS_LoadBG0Char(GetChoisesSBNcgrWithListChars()->mData, 0, 0x3000);
         GXS_LoadBG0Scr(GetChoisesSListScreenMapData(), 0, 0x600);
     }
@@ -758,20 +758,20 @@ void ReleaseRaceHud(void) {
 }
 
 void UpdateRaceHud(void) {
-    u32 kind;
+    u32 raceKindOrMode;
 
     if (gRaceHud != NULL) {
         gRaceHud->mStepHasRun = 1;
     }
-    kind = gRaceSetup->mRaceKind;
-    if (kind == RACE_KIND_START_GP) {
+    raceKindOrMode = gRaceSetup->mRaceKind;
+    if (raceKindOrMode == RACE_KIND_START_GP) {
         UpdateRaceStartGp();
         return;
     }
-    if (kind == RACE_KIND_AWARD) {
+    if (raceKindOrMode == RACE_KIND_AWARD) {
         return;
     }
-    if (kind == RACE_KIND_STAFF_ROLL) {
+    if (raceKindOrMode == RACE_KIND_STAFF_ROLL) {
         UpdateEndingStaffRoll();
         AdvanceStaffRollText();
         return;
@@ -791,9 +791,9 @@ void UpdateRaceHud(void) {
     if (gRaceSetup->mRaceKind == RACE_KIND_START_BATTLE) {
         UpdateRaceStartBattleNop();
     }
-    kind = gRaceSetup->mMode;
-    if ((kind == MODE_BATTLE ? gRaceProgress->mRaceDone
-         : kind == MODE_MISSION_RUN
+    raceKindOrMode = gRaceSetup->mMode;
+    if ((raceKindOrMode == MODE_BATTLE ? gRaceProgress->mRaceDone
+         : raceKindOrMode == MODE_MISSION_RUN
              ? IsFramesSinceFinishPastWait()
              : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
         UpdateRaceItemSlot();
@@ -837,7 +837,7 @@ void UpdateRaceHudSubScreen(void) {
     BOOL switchPressed;
     BOOL switchAllowed;
     BOOL raceKindAllowsSwitch;
-    BOOL condition;
+    BOOL noPairBriefWhileClosed;
     s32 value;
 
     UpdateRaceLinkLevel();
@@ -880,15 +880,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -935,15 +935,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -1011,15 +1011,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }
@@ -1081,15 +1081,15 @@ void UpdateRaceHudSubScreen(void) {
                     if (switchAllowed != FALSE) {
                         switchPressed = TRUE;
                         if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                             if (IsChoisesSOpen() == 0) {
                                 if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                    condition = TRUE;
+                                    noPairBriefWhileClosed = TRUE;
                                 }
                             } else {
-                                condition = FALSE;
+                                noPairBriefWhileClosed = FALSE;
                             }
-                            if (condition == FALSE) {
+                            if (noPairBriefWhileClosed == FALSE) {
                                 switchPressed = FALSE;
                             }
                         }
@@ -1128,15 +1128,15 @@ void UpdateRaceHudSubScreen(void) {
                 if (switchAllowed != FALSE) {
                     switchPressed = TRUE;
                     if ((u16) (gInputSlots[GetPadInputSlot()].mClearedBits & PAD_KEY_Y) == 0) {
-                        condition = FALSE;
+                        noPairBriefWhileClosed = FALSE;
                         if (IsChoisesSOpen() == 0) {
                             if (gInputSlots[GetPadInputSlot()].mPair.mNoPairCount == INPUT_NO_PAIR_BRIEF_FRAMES) {
-                                condition = TRUE;
+                                noPairBriefWhileClosed = TRUE;
                             }
                         } else {
-                            condition = FALSE;
+                            noPairBriefWhileClosed = FALSE;
                         }
-                        if (condition == FALSE) {
+                        if (noPairBriefWhileClosed == FALSE) {
                             switchPressed = FALSE;
                         }
                     }

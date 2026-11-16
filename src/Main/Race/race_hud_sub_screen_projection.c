@@ -283,7 +283,7 @@ static inline s32 ClearFixed12Fraction(s32 value) {
     return wholePart;
 }
 
-BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 subScreenScale, s32 requireNearCenter,
+BOOL ComputeRaceHudSubScreenPosition(const Vec3 *pos, IntPair *out, s32 unusedSubScreenScale, s32 requireNearCenter,
                                      s32 exactCenter) {
     IntPair center = gRaceHudSubScreenProjection->mCenter;
     s32 pairSecondScaled = gRaceHudSubScreenProjection->mAnglePairSecondScaled;

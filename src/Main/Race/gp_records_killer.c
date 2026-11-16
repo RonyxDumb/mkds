@@ -278,9 +278,9 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
     u32 setFlagBits;
     u32 lastGroupBit;
     u32 newBit;
-    s32 firstFlag;
-    s32 secondFlag;
-    s32 thirdFlag;
+    s32 cup2Flag;
+    s32 cups4And5Flag;
+    s32 cup6Flag;
     setFlagBits = 0;
     for (engineClass = 0; engineClass < 4; engineClass++) {
         newBit = 0;
@@ -293,29 +293,29 @@ u32 SetSecretMessageFlagsPerEngineClass(void) {
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        firstFlag = engineClass + 4;
-        if (IsBackupFlagSet(firstFlag) == 0) {
+        cup2Flag = engineClass + 4;
+        if (IsBackupFlagSet(cup2Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(2, engineClass) != FALSE) {
-                SetBackupFlag(firstFlag);
+                SetBackupFlag(cup2Flag);
                 newBit = 2;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        secondFlag = engineClass + 8;
-        if (IsBackupFlagSet(secondFlag) == 0) {
+        cups4And5Flag = engineClass + 8;
+        if (IsBackupFlagSet(cups4And5Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(4, engineClass) != FALSE &&
                 IsGrandPrixRecordFilledTopRank(5, engineClass) != FALSE) {
-                SetBackupFlag(secondFlag);
+                SetBackupFlag(cups4And5Flag);
                 newBit = 4;
             }
         }
         setFlagBits = setFlagBits | newBit;
         newBit = 0;
-        thirdFlag = engineClass + 12;
-        if (IsBackupFlagSet(thirdFlag) == 0) {
+        cup6Flag = engineClass + 12;
+        if (IsBackupFlagSet(cup6Flag) == 0) {
             if (IsGrandPrixRecordFilledTopRank(6, engineClass) != FALSE) {
-                SetBackupFlag(thirdFlag);
+                SetBackupFlag(cup6Flag);
                 newBit = 8;
             }
         }

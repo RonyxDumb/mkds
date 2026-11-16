@@ -95,15 +95,15 @@ static inline u16 GetCheckpointRouteIndex(u16 checkpoint) {
 static inline s16 FindKartCheckpoint(RaceProgressKart *kart, s32 *outProgress, Vec3 *position) {
     u16 routeIndex;
     u16 checkpoint;
-    u16 lo;
-    u16 hi;
+    u16 firstEntry;
+    u16 endEntry;
     CourseMapRoute *route;
 
     for (routeIndex = 0; routeIndex < gCourseMap->mCheckpointRouteCount; routeIndex++) {
         route = &gCourseMap->mCheckpointRoutes[routeIndex];
-        lo = route->mFirstEntry;
-        hi = lo + route->mEntryCount;
-        for (checkpoint = lo; checkpoint < hi; checkpoint++) {
+        firstEntry = route->mFirstEntry;
+        endEntry = firstEntry + route->mEntryCount;
+        for (checkpoint = firstEntry; checkpoint < endEntry; checkpoint++) {
             if (TryGetKartCheckpointProgress(kart, outProgress, position, routeIndex, checkpoint) != 0) {
                 return checkpoint;
             }
@@ -112,7 +112,7 @@ static inline s16 FindKartCheckpoint(RaceProgressKart *kart, s32 *outProgress, V
     return -1;
 }
 
-static inline s32 ComputeRouteLapProgress(CourseMapRoute *route, u16 checkpoint, s32 progress) {
+static inline s32 ComputeRouteLapProgress(CourseMapRoute *route, u16 checkpoint, s32 checkpointProgress) {
     s32 routeProgress;
     s32 value;
 
@@ -120,7 +120,7 @@ static inline s32 ComputeRouteLapProgress(CourseMapRoute *route, u16 checkpoint,
     if (route->mEntryCount == 0) {
         routeProgress = 0;
     } else {
-        routeProgress = FX_Div(value + progress, TO_FIXED12(route->mEntryCount));
+        routeProgress = FX_Div(value + checkpointProgress, TO_FIXED12(route->mEntryCount));
     }
     value = routeProgress + TO_FIXED12(route->mLapProgressBase);
     return MUL_FIXED12_ROUNDED(value, gRaceProgress->mLapProgressScale);
@@ -213,12 +213,12 @@ void CompleteRaceProgressKartLap(RaceProgressKart *kart) {
     }
 }
 
-void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 flag) {
+void SetRaceProgressKartFinishRequest(u32 kartIndex, u32 finished) {
     RaceProgressKart *kart;
     u16 finishRequest;
 
     kart = &gRaceProgress->mKarts[kartIndex];
-    finishRequest = flag != 0 ? 1 : 2;
+    finishRequest = finished != 0 ? 1 : 2;
     kart->mRankIndexRequestBits = (kart->mRankIndexRequestBits & ~0x300) | ((finishRequest & 3) << 8);
     if (gRaceProgress->mHeader.mFinishedCount + gRaceProgress->mHeader.mRemovedCount >= gRaceSetup->mKartCount) {
         FinishRaceProgress();
@@ -332,7 +332,7 @@ void UpdateRaceProgressKarts(void) {
     s32 lapKey;
     s32 kartKey;
     u16 rankSlot;
-    RaceProgressKart *statusKart;
+    RaceProgressKart *progressKart;
 
     for (kartOrRankIndex = 0; kartOrRankIndex < (u32) gRaceSetup->mKartCount; kartOrRankIndex++) {
         kart = &gRaceProgress->mKarts[kartOrRankIndex];
@@ -421,17 +421,17 @@ void UpdateRaceProgressKarts(void) {
     }
     gRaceProgress->mEntryRaceEnded = flag;
     for (kartOrRankIndex = 0; kartOrRankIndex < (u32) gRaceSetup->mKartCount; kartOrRankIndex++) {
-        statusKart = &gRaceProgress->mKarts[kartOrRankIndex];
+        progressKart = &gRaceProgress->mKarts[kartOrRankIndex];
         flag = FALSE;
-        switch (statusKart->mStatus) {
+        switch (progressKart->mStatus) {
             case RACE_PROGRESS_KART_STATUS_GOAL_REACHED:
             case RACE_PROGRESS_KART_STATUS_BATTLE_LOSER:
             case RACE_PROGRESS_KART_STATUS_ENDED_NO_GOAL:
                 flag = TRUE;
                 break;
         }
-        if (flag == FALSE && (statusKart->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_PENDING) != 0) {
-            FinishRaceProgressKart(statusKart, 1);
+        if (flag == FALSE && (progressKart->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_PENDING) != 0) {
+            FinishRaceProgressKart(progressKart, 1);
             if (IsRaceEndConditionMet() != 0) {
                 switch (gRaceSetup->mMode) {
                     case MODE_TIME_ATTACK:
@@ -450,13 +450,13 @@ void UpdateRaceProgressKarts(void) {
                         break;
                 }
             }
-            statusKart->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_PENDING;
+            progressKart->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_PENDING;
         }
-        if ((statusKart->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED) != 0) {
-            statusKart->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED;
+        if ((progressKart->mFlags & RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED) != 0) {
+            progressKart->mFlags &= ~RACE_PROGRESS_KART_FLAG_FINISH_JUST_HAPPENED;
             if (gRaceSetup->mMode != MODE_MISSION_RUN) {
-                StartKartRaceEndWrapper(statusKart->mIndex);
-                if ((statusKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
+                StartKartRaceEndWrapper(progressKart->mIndex);
+                if ((progressKart->mFlags & RACE_PROGRESS_KART_FLAG_LOCAL_ENTRY) != 0) {
                     StartRaceEndSeq(0);
                 }
             }

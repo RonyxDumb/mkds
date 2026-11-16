@@ -568,7 +568,7 @@ void ResetRaceTaKartPositions(s32 kartIndex) {
 
 void InitRaceTaPositions(void) {
     s32 index;
-    s32 sampleIndex;
+    s32 j;
     Vec3 position;
 
     if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
@@ -583,11 +583,11 @@ void InitRaceTaPositions(void) {
     for (index = 0; index < gRaceSetup->mKartCount; index++) {
         u16 angle = (u32) GetRaceHudSubScreenKartAngle(index);
         GetKartPosFromPosSourceCopy(&position, index);
-        for (sampleIndex = 0; sampleIndex < RACE_TA_SAMPLE_COUNT; sampleIndex++) {
-            gRaceTaPositions->mSamples[index][sampleIndex].mPos = position;
-            gRaceTaPositions->mSamples[index][sampleIndex].mAngle = angle;
-            gRaceTaPositions->mSamples[index][sampleIndex].mKind = RACE_TA_SAMPLE_KIND_NONE;
-            gRaceTaPositions->mSamples[index][sampleIndex].mPriority = RACE_HUD_PRIORITY_BACK;
+        for (j = 0; j < RACE_TA_SAMPLE_COUNT; j++) {
+            gRaceTaPositions->mSamples[index][j].mPos = position;
+            gRaceTaPositions->mSamples[index][j].mAngle = angle;
+            gRaceTaPositions->mSamples[index][j].mKind = RACE_TA_SAMPLE_KIND_NONE;
+            gRaceTaPositions->mSamples[index][j].mPriority = RACE_HUD_PRIORITY_BACK;
         }
     }
     index = 0;
@@ -595,10 +595,10 @@ void InitRaceTaPositions(void) {
         Vec3 zeroVector = gVec3Zero;
         do {
             gRaceTaPositions->mKinokoBoostPoints[index].mPointCount = 0;
-            for (sampleIndex = 0; sampleIndex < 3; sampleIndex++) {
-                gRaceTaPositions->mKinokoBoostPoints[index].mPositions[sampleIndex] = zeroVector;
-                gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[sampleIndex] = -1;
-                gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[sampleIndex] = RACE_HUD_PRIORITY_BACK;
+            for (j = 0; j < 3; j++) {
+                gRaceTaPositions->mKinokoBoostPoints[index].mPositions[j] = zeroVector;
+                gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[j] = -1;
+                gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[j] = RACE_HUD_PRIORITY_BACK;
             }
             index++;
         } while (index < gRaceSetup->mKartCount);
@@ -620,7 +620,7 @@ void ClearRaceTaPositionsPointer(void) {
 void UpdateRaceTaPositions(void) {
     Kart *kart;
     RaceTaPositions *positions;
-    u16 sampleIndex;
+    u16 j;
     s32 count;
     u32 kartIndex;
 
@@ -649,10 +649,10 @@ void UpdateRaceTaPositions(void) {
     if (gRaceTaPositions->mSampleFrames > RACE_TA_AGE_INTERVAL_FRAMES) {
         gRaceTaPositions->mSampleFrames = 0;
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            for (sampleIndex = 0; sampleIndex < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount;
-                 sampleIndex = sampleIndex + 1) {
-                if (gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[sampleIndex] < RACE_TA_SAMPLE_COUNT) {
-                    gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[sampleIndex]++;
+            for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[kartIndex].mPointCount;
+                 j = j + 1) {
+                if (gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[j] < RACE_TA_SAMPLE_COUNT) {
+                    gRaceTaPositions->mKinokoBoostPoints[kartIndex].mAgeSamples[j]++;
                 }
             }
         }
@@ -661,8 +661,8 @@ void UpdateRaceTaPositions(void) {
         for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             kart = GetKart(kartIndex);
             positions = gRaceTaPositions;
-            for (sampleIndex = 0x27; sampleIndex != 0; sampleIndex--) {
-                positions->mSamples[kartIndex][sampleIndex] = positions->mSamples[kartIndex][sampleIndex - 1];
+            for (j = 0x27; j != 0; j--) {
+                positions->mSamples[kartIndex][j] = positions->mSamples[kartIndex][j - 1];
             }
             GetKartPosFromPosSourceCopy(&gRaceTaPositions->mSamples[kartIndex][0].mPos, kartIndex);
             gRaceTaPositions->mSamples[kartIndex][0].mPriority =
@@ -695,7 +695,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     s32 roundedProduct;
     s32 scale;
     s32 index;
-    s32 sampleIndex;
+    s32 j;
     u32 trailPriority;
     s32 trailOamIndex;
     RaceHudOamBits *trailOam;
@@ -724,13 +724,13 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
     for (index = 0; index < gRaceSetup->mKartCount; index++) {
         if (gRaceTaPositions->mKartVisible[index] != 0) {
             if (gRaceProgress->mRaceDone == 0) {
-                for (sampleIndex = 0; sampleIndex < gRaceTaPositions->mKinokoBoostPoints[index].mPointCount;
-                     sampleIndex++) {
-                    if (gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[sampleIndex] < RACE_TA_SAMPLE_COUNT) {
+                for (j = 0; j < gRaceTaPositions->mKinokoBoostPoints[index].mPointCount;
+                     j++) {
+                    if (gRaceTaPositions->mKinokoBoostPoints[index].mAgeSamples[j] < RACE_TA_SAMPLE_COUNT) {
                         if (ComputeRaceHudSubScreenPosition(
-                                &gRaceTaPositions->mKinokoBoostPoints[index].mPositions[sampleIndex], &trailPosition,
+                                &gRaceTaPositions->mKinokoBoostPoints[index].mPositions[j], &trailPosition,
                                 scale, 1, 1) != FALSE) {
-                            trailPriority = gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[sampleIndex];
+                            trailPriority = gRaceTaPositions->mKinokoBoostPoints[index].mPriorities[j];
                             trailCell = GetRaceSNcerEntry(0x4f);
                             trailOamIndex = oamBuffer->mOamCount;
                             trailCellPosition[0] = TO_FIXED12(trailPosition.mFirst);
@@ -748,14 +748,14 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                     }
                 }
             }
-            for (sampleIndex = 0; sampleIndex < RACE_TA_SAMPLE_COUNT; sampleIndex++) {
-                u16 angle = (u16) (gRaceTaPositions->mSamples[index][sampleIndex].mAngle +
+            for (j = 0; j < RACE_TA_SAMPLE_COUNT; j++) {
+                u16 angle = (u16) (gRaceTaPositions->mSamples[index][j].mAngle +
                                    GetSubScreenAngleAndClearScrollTimer()) +
                             0x800;
                 u16 rotationIndex = ((angle << 4) / 0x10000) % 16;
-                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][sampleIndex].mPos,
+                if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][j].mPos,
                                                     &samplePosition, scale, 1, 1) != FALSE) {
-                    switch (gRaceTaPositions->mSamples[index][sampleIndex].mKind) {
+                    switch (gRaceTaPositions->mSamples[index][j].mKind) {
                         case RACE_TA_SAMPLE_KIND_NONE:
                             sampleCell = NULL;
                             break;
@@ -770,7 +770,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                             break;
                     }
                     if (sampleCell != NULL) {
-                        priority = gRaceTaPositions->mSamples[index][sampleIndex].mPriority;
+                        priority = gRaceTaPositions->mSamples[index][j].mPriority;
                         sampleOamIndex = oamBuffer->mOamCount;
                         sampleCellPosition[0] = TO_FIXED12(samplePosition.mFirst);
                         sampleCellPosition[1] = TO_FIXED12(samplePosition.mSecond);

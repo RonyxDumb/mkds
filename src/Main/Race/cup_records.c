@@ -168,23 +168,23 @@ void GetKartCourseFinishTime(MinuteSecondMillisecondTime *finishTime, u16 kart, 
     finishTime->mMillisecond = recordTime->mMillisecond;
 }
 
-void SetKartCupRank(s32 kart, u8 rank) {
-    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart)->mCupRank = rank;
+void SetKartCupRank(s32 kart, u8 cupRank) {
+    GetKartCourseResult((gRaceSetup->mCourseNumber - 1) % 4, kart)->mCupRank = cupRank;
 }
 
 // Flags the team as winning this course and clears the flag of the other team.
 void SetCupWinningTeam(s32 team) {
     s32 otherTeam;
-    CourseTeamResult *winningTeams, *otherTeams;
+    CourseTeamResult *courseTeams, *teamsForClear;
 
     otherTeam = 0;
     if (team == 0) {
         otherTeam = 1;
     }
-    winningTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
-    winningTeams[team].mWinning = 1;
-    otherTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
-    otherTeams[otherTeam].mWinning = 0;
+    courseTeams = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
+    courseTeams[team].mWinning = 1;
+    teamsForClear = GetCupCourseTeamResults((gRaceSetup->mCourseNumber - 1) % 4)->mTeams;
+    teamsForClear[otherTeam].mWinning = 0;
 }
 
 // Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
