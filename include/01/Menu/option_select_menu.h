@@ -14,7 +14,7 @@ typedef struct OptionSelectMenuGroupOffset {
 } OptionSelectMenuGroupOffset;
 
 // Values of OptionSelectMenu.mIndex and of the touch rectangle ids 0 to 2: the two setting rows, then the OK entry;
-// mRowValues and mOffsetTimers have one entry per setting row only.
+// mRowValues has one entry and mOffsetTimers a pair of entries per setting row only.
 enum {
     OPTION_SELECT_ROW_SOUND,
     OPTION_SELECT_ROW_LOCATE_FRIEND,

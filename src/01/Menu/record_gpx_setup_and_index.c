@@ -303,7 +303,7 @@ u32 IsRecordGpxCupBackupFlagSet(s32 cupIndex) {
 
 // Values of RecordGpx.mIndex and the cup arguments of the record screen helpers are the cups in the order of the
 // common.bmg entries 0x25 to 0x2c (gRecordGpxCupMessageIndices). Cups 0, 1, 4 and 5 are always selectable; 2, 3, 6 and
-// 7 only when their backup flags are set.
+// 7 only when one of their four backup flags is set.
 u32 IsRecordGpxCupSelectable(u32 cupIndex) {
     u32 result;
     s32 flagIndex;

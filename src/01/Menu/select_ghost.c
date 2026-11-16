@@ -186,7 +186,7 @@ void UpdateSelectGhostCellVisibility(void) {
 }
 
 // Sets the x offset of the two running rows from their timers, then counts each timer down while it is above 0; a timer
-// above 0 shows its running row and hides its zero row, a timer at 0 does the reverse.
+// above 0 shows its running row and hides its zero row, a timer not above 0 does the reverse.
 void AdvanceSelectGhostOffsetTimers(void) {
     s32 timerIndex;
     gSelectGhost->mSelectGhostSTable[gSelectGhostRunningSTableIndices[0]].mOffsetX =
