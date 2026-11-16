@@ -183,7 +183,7 @@ void EnterChoropuLeap(void *stateObject) {
     Choropu *choropu = stateObject;
     choropu->mMapObject.mPos.y = choropu->mBottomY;
     choropu->mMapObject.mPosStep.y = 0x4800;
-    choropu->mMapObject.mFlags &= ~0x1;
+    choropu->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     if ((choropu->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) != 0) {
         if (GetEntryRaceEnded() == 0) {
             return;

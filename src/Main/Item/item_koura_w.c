@@ -1222,7 +1222,7 @@ s32 CollideKartWithItemObjects(Kart *kart) {
     isFarFromEntryKart = (kart->mDriveFlags & KART_DRIVE_FAR_FROM_ENTRY) != 0;
     hitCountCap = COLLIDED_ITEM_OBJECT_CAPACITY - 1;
     for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
-        if (!(gFoundCollisionSlotFlags[overlapIndex] & 0x4000)) {
+        if (!(gFoundCollisionSlotFlags[overlapIndex] & COLLISION_SLOT_FLAG_ITEM_OBJECT)) {
             continue;
         }
         item = gFoundCollisionSlotObjects[overlapIndex];

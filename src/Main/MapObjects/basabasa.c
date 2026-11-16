@@ -140,9 +140,9 @@ void UpdateBasabasa(void *mapObjectList, Basabasa *basabasa) {
             if (basabasa->mDelayTimer-- > 0) {
                 break;
             }
-            basabasa->mMapObject.mFlags &= ~1;
-            basabasa->mMapObject.mFlags &= ~2;
-            basabasa->mMapObject.mFlags &= ~8;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            basabasa->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             basabasa->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             basabasa->mVelocity.x += MUL_FIXED12_NO_ROUND(basabasa->mMapObject.mMatrix.mRows[2].x, 0x19a);
             basabasa->mVelocity.y += -0x19a;

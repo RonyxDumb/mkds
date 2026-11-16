@@ -34,7 +34,7 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
         if (gRaceHudSubScreenItemBoxNearOnly == 0 ||
             IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mObjectPairs[objectIndex]) != FALSE) {
             mapObject = gRaceHudSubScreenItemBoxCells->mObjects[objectIndex];
-            if ((mapObject->mFlags & 1) == 0) {
+            if ((mapObject->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &mapObject->mPos;
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenItemBoxCells->mCells[cellIndex].mDrawPos,

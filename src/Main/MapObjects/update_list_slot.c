@@ -19,7 +19,7 @@ u32 InitMapObjectUpdateList(MapObjectList *list) {
     *(u32 *) ((listPointer) + 0u) = valueA;
     valueB = 0u;
     *(u16 *) ((listPointer) + 4u) = valueB;
-    valueA = 3u;
+    valueA = MAP_OBJECT_LIST_ITEM_FIRST_RESPONSE_UNSET;
     *(u32 *) ((listPointer) + 24u) = valueA;
     *(u32 *) ((listPointer) + 28u) = valueB;
     *(u32 *) ((listPointer) + 32u) = valueA;
@@ -44,7 +44,7 @@ void AddMapObjectToUpdateList(MapObjectList *mapObjectList, MapObject *mapObject
         kindData = mapObject->mKindData;
         mapObjectList->mCollideItemObjectCallback = kindData->mCollideItemObjectCallback;
     }
-    if (mapObjectList->mItemFirstResponse == MAP_OBJECT_LIST_ITEM_RESPONSE_UNSET) {
+    if (mapObjectList->mItemFirstResponse == MAP_OBJECT_LIST_ITEM_FIRST_RESPONSE_UNSET) {
         mapObjectList->mItemFirstResponse = GetItemObjectFirstResponse(6, mapObject);
     }
 }

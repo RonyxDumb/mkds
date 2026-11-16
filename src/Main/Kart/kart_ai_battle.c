@@ -597,7 +597,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
 
     targetShine = kartAi->mTargetShine;
     if (targetShine != NULL) {
-        if (!(targetShine->mFlags & 1)) {
+        if (!(targetShine->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             mapObjectPos = &targetShine->mPos;
             kartPos = &kartAi->mKart->mPos;
             distanceSquared = BattleKartAiXzIntDistanceSquared(kartPos, mapObjectPos);
@@ -678,7 +678,7 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
         if (listIndex >= listCount) {
             listIndex = 0;
         }
-        if (!(shine->mFlags & 1)) {
+        if (!(shine->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             checkedCount++;
             shinePos = &shine->mPos;
             kartPos = &kartAi->mKart->mPos;

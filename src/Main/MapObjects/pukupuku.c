@@ -39,6 +39,7 @@
 #include "Main/System/heap_call.h"
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
+#include "Main/MapObjects/pukupuku_kind_descriptor.h"
 
 MapObjectKindData *CreatePukupukuKindData(void) {
     MapObjectKindData *kindData;
@@ -190,7 +191,7 @@ void UpdatePukupukuHop(void *stateObject) {
 
         pukupuku->mPushedObject.mMapObject.mPosStep.y = 0x3199;
         random = GetMapObjectRandom();
-        pukupuku->mJumpsUntilHighJump = (u16) PukupukuNextRandomBelow(random, 3) + 4;
+        pukupuku->mJumpsUntilHighJump = (u16) PukupukuNextRandomBelow(random, 3) + PUKUPUKU_JUMPS_UNTIL_HIGH_JUMP;
     } else {
         RandomState64 *random;
 

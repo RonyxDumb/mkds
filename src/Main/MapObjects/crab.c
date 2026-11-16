@@ -258,7 +258,8 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
         case CRAB_STATE_WALK:
             crab->mFollower.mSpeed = CRAB_PATH_SPEED;
             crab->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-                crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength, 0x800);
+                crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength,
+                CRAB_PATH_SPEED);
             if (AdvanceGroupFollower(&crab->mFollower) != FALSE) {
                 crab->mHandWobble.mAngle = 0;
                 crab->mHandWobble.mMid = 0;
@@ -345,7 +346,7 @@ void UpdateCrab(void *mapObjectList, Crab *crab) {
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
             crab->mState = CRAB_STATE_WAIT;
-            crab->mMapObject.mFlags &= ~1;
+            crab->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             break;
     }
 }

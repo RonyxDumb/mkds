@@ -759,7 +759,7 @@ void IncrementEntryGroupIndex(MissionRunMapObject *mapObject, s32 groupSpan) {
 void *StartItemBombWithParkedItemBox(u16 forcedRow) {
     ItemBox *parkedMapObject;
 
-    parkedMapObject = FindParkedMapObject(0xc9);
+    parkedMapObject = FindParkedMapObject(MAP_OBJECT_KIND_GROUP_ITEM_BOX);
     if (parkedMapObject != NULL) {
         SetItemBoxFramesSinceHitMax(parkedMapObject);
         parkedMapObject->mForcedRowHumanGhostPeer = forcedRow;

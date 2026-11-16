@@ -97,7 +97,7 @@ void UpdateRaceHudSubScreenBasabasaCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenBasabasaCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenBasabasaCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
             cellKind = GetBasabasaRaceHudSubScreenCellKind((Basabasa *) object);
             if (cellKind != 0) {
                 position = &object->mPos;
@@ -229,7 +229,8 @@ void UpdateRaceHudSubScreenMkdEfBurnerCells(void) {
     inFirstHalf = gRaceHudSubScreenMkdEfBurnerCells->mObjectPairs[0].mSecond < RACE_HUD_BURNER_HALF_FRAMES ? 1 : 0;
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenMkdEfBurnerCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenMkdEfBurnerCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0 && CountMkdEfBurnerScaleThresholds((MkdEfBurner *) object) != 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0 &&
+            CountMkdEfBurnerScaleThresholds((MkdEfBurner *) object) != 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenMkdEfBurnerCells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
@@ -268,7 +269,7 @@ void UpdateRaceHudSubScreenSunFireballCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenSunFireballCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenSunFireballCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(
                     position, &gRaceHudSubScreenSunFireballCells->mCells[cellCount].mDrawPos, scale, 1, 1) != FALSE) {
@@ -305,7 +306,7 @@ void UpdateRaceHudSubScreenIronBallCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenIronBallCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenIronBallCells->mObjects[objectIndex];
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIronBallCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
@@ -344,7 +345,7 @@ void UpdateRaceHudSubScreenKuriboCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKuriboCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKuriboCells->mObjects[objectIndex];
         position = &object->mPos;
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKuriboCells->mCells[cellCount].mDrawPos,
                                                 scale, 0, 1) != FALSE) {
                 gRaceHudSubScreenKuriboCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa3);
@@ -381,7 +382,7 @@ void UpdateRaceHudSubScreenObPakkunSfCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenObPakkunSfCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenObPakkunSfCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenObPakkunSfCells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenObPakkunSfCells->mCells[cellCount].mDrawPos,
@@ -424,7 +425,7 @@ void UpdateRaceHudSubScreenCoverPooHoleCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenCoverPooHoleCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenCoverPooHoleCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenCoverPooHoleCells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(position,
                                                     &gRaceHudSubScreenCoverPooHoleCells->mCells[cellCount].mDrawPos,
@@ -466,7 +467,7 @@ void UpdateRaceHudSubScreenRock2Cells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenRock2Cells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenRock2Cells->mObjects[objectIndex];
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenRock2Cells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
@@ -505,7 +506,7 @@ void UpdateRaceHudSubScreenSanboCells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenSanboCells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenSanboCells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenSanboCells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenSanboCells->mCells[cellCount].mDrawPos,
                                                     scale, 0, 0) != FALSE) {
@@ -543,7 +544,7 @@ void UpdateRaceHudSubScreenRockCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenRockCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenRockCells->mObjects[objectIndex];
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenRockCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
@@ -582,7 +583,7 @@ void UpdateRaceHudSubScreenWoodbox1Cells(void) {
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenWoodbox1Cells->mObjectCount; objectIndex++) {
         if (IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenWoodbox1Cells->mObjectPairs[objectIndex]) != FALSE) {
             object = gRaceHudSubScreenWoodbox1Cells->mObjects[objectIndex];
-            if ((object->mFlags & 1) == 0) {
+            if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                 position = &object->mPos;
                 if (ComputeRaceHudSubScreenPosition(
                         position, &gRaceHudSubScreenWoodbox1Cells->mCells[cellCount].mDrawPos, scale, 0, 0) != FALSE) {
@@ -620,14 +621,14 @@ void UpdateRaceHudSubScreenFlipperCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenFlipperCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenFlipperCells->mObjects[objectIndex];
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenFlipperCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x90);
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mPriority =
                     IsPositionOutsideBox(position) != 0 ? RACE_HUD_PRIORITY_2 : RACE_HUD_PRIORITY_3;
-                gRaceHudSubScreenFlipperCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_FLIPPER_MIRROR;
+                gRaceHudSubScreenFlipperCells->mCells[cellCount].mXlu = object->mFlags & MAP_OBJECT_FLAG_MIRRORED;
                 gRaceHudSubScreenFlipperCells->mCells[cellCount].mAngle = object->mAngle;
                 cellCount++;
             }
@@ -720,7 +721,7 @@ void UpdateRaceHudSubScreenNsKiller2Cells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenNsKiller2Cells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenNsKiller2Cells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0 && (object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0 && (object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                 &gRaceHudSubScreenNsKiller2Cells->mCells[cellCount].mDrawPos, scale, 1,
                                                 1) != FALSE) {
@@ -758,7 +759,7 @@ void UpdateRaceHudSubScreenPendulumCells(void) {
     scale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenPendulumCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenPendulumCells->mObjects[objectIndex];
-        if ((object->mFlags & MAP_OBJECT_FLAG_INVISIBLE) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenPendulumCells->mCells[cellCount].mDrawPos,
                                                 scale, 1, 1) != FALSE) {

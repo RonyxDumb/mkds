@@ -154,8 +154,8 @@ void InitKoopaBlock(KoopaBlock *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mCollisionMapObject.mCollisionData.mShape = COLLISION_SHAPE_BOX;
     koopaBlock->mCollisionMapObject.mCollisionData.mCollisionFlag = 0;
     koopaBlock->mCollisionMapObject.mMapObject.mFlags |= gKoopaBlockFlag;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~2;
-    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~8;
+    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    koopaBlock->mCollisionMapObject.mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     koopaBlock->mCollisionMapObject.mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextState = KOOPA_BLOCK_STATE_ACCELERATE;
     koopaBlock->mCollisionMapObject.mMapObject.mStateMachine.mNextStateRequested = 1;

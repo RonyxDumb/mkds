@@ -67,11 +67,6 @@ typedef struct MapObjectKindData {
 
 // Largest value of MapObject.mAlpha (fully opaque).
 #define MAP_OBJECT_ALPHA_MAX 0x1f
-// MapObject.mFlags: the object is invisible (the map screen draws no cell for it and unparking keeps its alpha);
-// the map screen shows a translucent cell; the flipper is mirrored.
-#define MAP_OBJECT_FLAG_INVISIBLE 0x2
-#define MAP_OBJECT_FLAG_HUD_XLU 0x20
-#define MAP_OBJECT_FLAG_FLIPPER_MIRROR 0x400
 // MapObject.mFlags: the speed tests of kart hits are skipped for the object (spin hits and touch sounds happen at any
 // speed) and its kind sound is started with the full fraction 0x1000.
 #define MAP_OBJECT_FLAG_HIT_AT_ANY_SPEED 0x200
@@ -146,20 +141,23 @@ typedef struct MapObject {
 
 // Bits of MapObject.mFlags. The low nibble (the 1, 2, 4 and 8 bits) is saved in the high nibble while the object is
 // parked.
-#define MAP_OBJECT_FLAG_INACTIVE 0x1 // hit tests answer FALSE and the race HUD leaves the object out
-#define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2 // the view test and the sound source update skip the object
+#define MAP_OBJECT_FLAG_DISABLED 0x1 // hit tests answer FALSE and the race HUD leaves the object out
+// the view test skips the object, the sound source update measures its distance itself and unparking keeps its alpha
+#define MAP_OBJECT_FLAG_NO_VIEW_TEST 0x2
 #define MAP_OBJECT_FLAG_NO_UPDATE 0x4 // the update lists skip the object
-#define MAP_OBJECT_FLAG_NO_ITEM_CALLBACK 0x8 // the item hit callback skips the object
-#define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10 // set by the view test while the object is outside the view planes
-#define MAP_OBJECT_FLAG_NOT_COLLIDABLE 0x40 // the kind's collidable word was 0: kart and item hits skip the object
+// the list-wide callback sweep (CallMapObjectListCallback) skips the object
+#define MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK 0x8
+// set by the view test while the object is outside the view planes or its mDigitMask matches the kart zone mask,
+// cleared when it is back inside
+#define MAP_OBJECT_FLAG_OUT_OF_VIEW 0x10
 #define MAP_OBJECT_FLAG_HUD_XLU 0x20 // the race HUD draws the cell of the object translucent
-#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW                                                                                \
-    0x80 // the course row's number was 10000 or more; the park pass parks the object
-#define MAP_OBJECT_FLAG_PARKED 0x100
+// the course row's number was 10000 or more (or the object was copied from one that had it): ParkFlaggedMapObjects
+// stops its update and collision slot, and the kart and item collision callbacks skip it
+#define MAP_OBJECT_FLAG_NUMBER_OVERFLOW 0x80
 #define MAP_OBJECT_FLAG_MIRRORED 0x400 // the model is drawn mirrored
 #define MAP_OBJECT_FLAG_TIME_ATTACK_OR_WIFI 0x800 // set at creation while gMapObjectsTimeAttackOrWiFi is non-zero
 #define MAP_OBJECT_FLAGS_NOT_DRAWN (MAP_OBJECT_FLAG_NO_VIEW_TEST | MAP_OBJECT_FLAG_OUT_OF_VIEW)
-#define MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK (MAP_OBJECT_FLAG_NO_ITEM_CALLBACK | MAP_OBJECT_FLAG_NUMBER_OVERFLOW)
+#define MAP_OBJECT_FLAGS_SKIP_ITEM_CALLBACK (MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK | MAP_OBJECT_FLAG_NUMBER_OVERFLOW)
 #define MAP_OBJECT_FLAGS_LOW_NIBBLE 0xf
 #define MAP_OBJECT_FLAGS_SAVED_NIBBLE 0xf000
 
@@ -186,7 +184,10 @@ typedef struct AttractorMapObject {
 #define MAP_OBJECT_LIST_PASS_SECOND 2
 #define MAP_OBJECT_LIST_POS_STEP_MEASURED 2
 #define MAP_OBJECT_LIST_POS_STEP_UNSET 3
-#define MAP_OBJECT_LIST_ITEM_RESPONSE_UNSET 3
+#define MAP_OBJECT_LIST_ITEM_FIRST_RESPONSE_UNSET 3
+
+// Size of the found-object arrays that FindMapObjectsTouchingKart fills (the count is held below them).
+#define FOUND_MAP_OBJECT_CAPACITY 0x20
 
 // The update and draw lists call mForEachObject with different arguments and the stored functions take their own object
 // type, so its type is left unprototyped.

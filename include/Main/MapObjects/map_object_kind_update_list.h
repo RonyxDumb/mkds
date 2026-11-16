@@ -26,7 +26,7 @@ extern MapObjectKindRow gMapObjectKindRows[];
 // literals. CarA, BusA and TruckA share one Init: their CreateCarAKindData, CreateBusAKindData and CreateTruckAKindData
 // functions carry it. The class ItemBox also has kind 0xc9 (own Init and update list), which InitItemBox compares to
 // pick the group shadow.
-#define MAP_OBJECT_KIND_ITEM_BOX_GROUP_SHADOW 0xc9
+#define MAP_OBJECT_KIND_GROUP_ITEM_BOX 0xc9
 #define MAP_OBJECT_KIND_ITEM_BOX 0x65
 #define MAP_OBJECT_KIND_WOODBOX1 0x67
 #define MAP_OBJECT_KIND_SHINE16 0x6a

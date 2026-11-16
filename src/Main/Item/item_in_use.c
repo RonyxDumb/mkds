@@ -40,6 +40,7 @@
 #include "Main/Item/item_pool.h"
 #include "fixed_vector_math.h"
 #include "Main/Item/item_link_following.h"
+#include "Main/MapObjects/rock.h"
 
 void (*gItemInUseAdvanceTable[5])(ItemInUse *) = {NULL, AdvanceItemInUseOne, AdvanceItemInUseOneWithOrientation,
                                                   AdvanceItemInUseTrail, AdvanceItemInUseCircle};
@@ -241,9 +242,10 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
             }
             continue;
         }
-        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
+        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex,
+                                          COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
         for (index = 0; index < gFoundCollisionSlotCount; index++) {
-            if ((gFoundCollisionSlotFlags[index] & 0x4000) != 0) {
+            if ((gFoundCollisionSlotFlags[index] & COLLISION_SLOT_FLAG_ITEM_OBJECT) != 0) {
                 ItemObject *other = gFoundCollisionSlotObjects[index];
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
@@ -253,7 +255,7 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                     continue;
                 }
                 CollideItemObjects(object, other);
-            } else if ((gFoundCollisionSlotFlags[index] & 0x2000) != 0) {
+            } else if ((gFoundCollisionSlotFlags[index] & COLLISION_SLOT_FLAG_MAP_OBJECT) != 0) {
                 MapObject *other = gFoundCollisionSlotObjects[index];
                 if (DoesMapObjectRespondToItemObject(other, object) == FALSE) {
                     continue;

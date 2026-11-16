@@ -81,8 +81,8 @@ void ResetRockWithEffects(RockObject *rock, s32 wasHit) {
 
     distanceAndFlags = rock->mMapObject.mDistanceSquaredAndFlags;
     scaleY = rock->mMapObject.mScale.y;
-    if (!(distanceAndFlags & 1)) {
-        if (wasHit != 0 || !(distanceAndFlags & 3)) {
+    if (!(distanceAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE)) {
+        if (wasHit != 0 || !(distanceAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT)) {
             if (scaleY > 0x1000) {
                 scaledRow = 1;
                 baseRow = 0;
@@ -137,8 +137,8 @@ void UpdateRock(void *mapObjectList, RockObject *rock) {
         if (rock->mDelayFramesLeft != 0) {
             return;
         }
-        rock->mMapObject.mFlags &= ~2;
-        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         rock->mMapObject.mAlpha = 1;
         return;
     }
@@ -327,8 +327,8 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
         rock->mMapObject.mFlags |= gRockFirstFlag;
         rock->mMapObject.mFlags |= gRockSecondFlag;
     } else {
-        rock->mMapObject.mFlags &= ~2;
-        rock->mMapObject.mFlags &= ~8;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        rock->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         rock->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     }
     rock->mBounceRatio = TO_FIXED12(courseRow->mSettings[2]) / 100;
@@ -457,7 +457,7 @@ void InitCollisionSlots(void) {
     } while (slotIndex < COLLISION_SLOT_COUNT);
 }
 
-// Returns the new slot index, or -1 when all 0x100 slots are in use.
+// Returns the new slot index, or -1 when all COLLISION_SLOT_COUNT slots are in use.
 s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlot *slot;
     s16 hi;
@@ -577,7 +577,7 @@ u32 FreeCollisionSlot(s32 slotIndex) {
     CollisionSlotEnd *endEntry;
     CollisionSlotEnd *otherEnd;
 
-    if (slotIndex < 0 || slotIndex >= 0x100) {
+    if (slotIndex < 0 || slotIndex >= COLLISION_SLOT_COUNT) {
         return -1;
     }
     slot = &gCollisionSlots[slotIndex];
@@ -690,7 +690,7 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
                 gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
                 gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = slot->mObject;
                 gFoundCollisionSlotCount++;
-                if (gFoundCollisionSlotCount == 0x80) {
+                if (gFoundCollisionSlotCount == FOUND_COLLISION_SLOT_CAPACITY) {
                     return;
                 }
             } else {

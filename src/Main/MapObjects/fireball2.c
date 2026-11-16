@@ -68,9 +68,9 @@ void InitFireball2(Fireball2 *fireball2) {
     fireball2->mRowCount = fireball2->mMapObject.mCourseMapRow->mSettings[0];
     fireball2->mRowElementCount = fireball2->mMapObject.mCourseMapRow->mSettings[3] + 1;
     CreateMapObjectSoundSourceFalloff2(&fireball2->mMapObject);
-    fireball2->mMapObject.mFlags &= ~1;
-    fireball2->mMapObject.mFlags &= ~2;
-    fireball2->mMapObject.mFlags &= ~8;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    fireball2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     fireball2->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 

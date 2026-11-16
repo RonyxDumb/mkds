@@ -106,7 +106,7 @@ void ShowKingTeresaWithEffects(MissionRunMapObject *mapObject) {
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41c, 0);
     StartEffectAtOffset(mapObject, 0, 0, 0, 0x41d, 0);
     StartMapObjectSound(&mapObject->mMapObject, 0x22e);
-    mapObject->mMapObject.mFlags &= ~1;
+    mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
 }
 
 void HideKingTeresaWithEffects(MissionRunMapObject *mapObject) {
@@ -390,7 +390,7 @@ void ShowKingTeresaNearKart(MissionRunMapObject *mapObject) {
     mapObject->mAngle = mapObject->mMoveAngle;
     StartKingTeresaWaitToApproach(mapObject);
     SetBossCoinShownCount(0);
-    mapObject->mMapObject.mFlags &= ~1;
+    mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
 }
 
 void StartKingTeresaHitReaction(MissionRunMapObject *mapObject) {
@@ -645,7 +645,7 @@ void ShowKingTeresaAtEndReached(MissionRunMapObject *mapObject) {
         gPreviousKingTeresaState = gKingTeresaState;
     }
     gKingTeresaState = KING_TERESA_STATE_END_REACHED;
-    mapObject->mMapObject.mFlags &= ~1;
+    mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
 }
 
 void StartKingTeresaWinnerDecidedHold(MissionRunMapObject *mapObject) {
@@ -800,7 +800,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                     IncrementEntryIndex(mapObject);
                 }
                 SetKartCollisionCallback(mapObject, KingTeresaHitReactionCallback);
-                mapObject->mMapObject.mFlags &= ~0x40;
+                mapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_PUSH_OUT;
                 SetBossCoinShownCount(0);
                 StartKingTeresaMoveToGroupEntry(mapObject);
             }
@@ -816,7 +816,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                         SetMissionRunTimer(0);
                     }
                 }
-                if ((mapObject->mMapObject.mFlags & 1) == 0) {
+                if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                     SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
                     mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                     HideKingTeresaWithoutEffects(mapObject);
@@ -826,7 +826,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                 if (IsStateNumberBelow(mapObject, 3) != 0) {
                     if ((gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunTimer() : 0) <
                         mapObject->mPrm->mKingTeresa.mShowNearKartTimerLimit) {
-                        if (mapObject->mMapObject.mFlags & 1) {
+                        if (mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) {
                             SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
                             mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                             ShowKingTeresaNearKart(mapObject);
@@ -835,7 +835,7 @@ void UpdateKingTeresa(u32 unused, MissionRunMapObject *mapObject) {
                             mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                             StartKingTeresaWaitToApproach(mapObject);
                         }
-                    } else if ((mapObject->mMapObject.mFlags & 1) == 0) {
+                    } else if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
                         SetKartCollisionCallback(mapObject, KingTeresaKartCollisionCallback);
                         mapObject->mMapObject.mFlags |= gKingTeresaNoPushOutFlag;
                         HideKingTeresaWithoutEffects(mapObject);

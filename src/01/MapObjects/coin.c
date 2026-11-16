@@ -74,7 +74,7 @@ void DrawCoinShadow(void *mapObjectList, Coin *coin, void *viewMatrix, u32 mapOb
     Vec3 scale;
     Vec3 shadowScale;
 
-    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & 1) == 0 &&
+    if (coin->mScaleFactor > 0 && coin->mModelAlpha != 0 && (coin->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) == 0 &&
         (s32) (coin->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0x3d090) {
         shadowPosition.x = coin->mMapObject.mPos.x;
         shadowPosition.y = coin->mMapObject.mPos.y - 0x16000;
@@ -163,7 +163,7 @@ void StartCoinDrop(void) {
         coin->mMapObject.mPosStep.x = kart->mVelocity.x + MUL_FIXED12_NO_ROUND(speed, FX_SinIdx(angle));
         coin->mMapObject.mPosStep.y = kart->mVelocity.y + 0x4000;
         coin->mMapObject.mPosStep.z = kart->mVelocity.z + MUL_FIXED12_NO_ROUND(speed, FX_CosIdx(angle));
-        coin->mMapObject.mFlags &= ~1;
+        coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         soundArg.mSoundId = COIN_LEAVE_KART_SOUND_ID;
         soundArg.mPositionSource = NULL;
         soundArg.mFalloffIndex = SOUND_FALLOFF_SHORT_RANGE;
@@ -355,7 +355,7 @@ void StartCoinsFadeIn(void) {
                 coin->mState = COIN_STATE_BOUNCE;
                 coin->mScaleFactor = COIN_SCALE_FULL;
                 coin->mModelAlpha = 0;
-                coin->mMapObject.mFlags &= ~1;
+                coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             }
         }
     }
@@ -679,7 +679,7 @@ void UpdateCoin(void *mapObjectList, Coin *coin) {
                 coin->mState = COIN_STATE_BOUNCE;
                 coin->mScaleFactor = COIN_SCALE_FULL;
                 coin->mModelAlpha = 0;
-                coin->mMapObject.mFlags &= ~1;
+                coin->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             }
             break;
         case COIN_STATE_TRANSFER_RISE:

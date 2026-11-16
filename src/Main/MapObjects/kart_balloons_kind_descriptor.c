@@ -99,9 +99,9 @@ BOOL BalloonKartHitByKartCallback(u16 hitKartIndex, u16 hitByKartIndex) {
                 balloonPos.x = kart->mPos.x;
                 balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
                 balloonPos.z = kart->mPos.z;
-                lastBalloon->mMapObject.mFlags &= ~4;
-                lastBalloon->mMapObject.mFlags &= ~2;
-                lastBalloon->mMapObject.mFlags &= ~8;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 StartBalloonWithoutKart(lastBalloon, &balloonPos);
             }
@@ -264,9 +264,9 @@ BOOL BalloonKartHitCallback(u16 kartIndex, u16 hitByKartIndex) {
             balloonPos.x = kart->mPos.x;
             balloonPos.y = kart->mPos.y + GetKartBalloonOrShineHeight(kart) - 0xf666;
             balloonPos.z = kart->mPos.z;
-            lastBalloon->mMapObject.mFlags &= ~4;
-            lastBalloon->mMapObject.mFlags &= ~2;
-            lastBalloon->mMapObject.mFlags &= ~8;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            lastBalloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             lastBalloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             StartBalloonWithoutKart(lastBalloon, &balloonPos);
         }
@@ -595,9 +595,9 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonTargetPosAndVelocity(balloon, &balloonPos, &kart->mVelocity);
                 SetBalloonKartIndex(balloon, kartIndex);
                 SetBalloonDrawCountAndList(balloon, 1, NULL);
-                balloon->mMapObject.mFlags &= ~4;
-                balloon->mMapObject.mFlags &= ~2;
-                balloon->mMapObject.mFlags &= ~8;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             }
         } else {
@@ -608,9 +608,9 @@ void UpdateKartBalloons(void *mapObjectList, KartBalloonsObject *kartBalloonsObj
                 SetBalloonKartIndex(balloon, kartIndex);
                 if (balloonIndex == 0) {
                     SetBalloonDrawCountAndList(balloon, balloonCount, kartBalloons->mBalloons);
-                    balloon->mMapObject.mFlags &= ~4;
-                    balloon->mMapObject.mFlags &= ~2;
-                    balloon->mMapObject.mFlags &= ~8;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                    balloon->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                     balloon->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
                 } else {
                     SetBalloonDrawCountAndList(balloon, 0, NULL);

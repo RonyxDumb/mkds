@@ -83,13 +83,13 @@ void DrawMoveTree(void *mapObjectList, MoveTree *moveTree, u32 unused, u32 alpha
     NNS_G3dGeBufferOP_N(0x14, &gxParam, 1);
     NNS_G3dGeBufferOP_N(0x19, SetViewRotatedMatrixPos(&moveTree->mMapObject.mPos), 12);
     NNS_G3dGeBufferOP_N(0x1b, &moveTree->mMapObject.mScale, 3);
-    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) < 0xc5c10) {
+    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) < 0xc5c10) {
         SetMapObjectModelNsbcaFrameIndex(gMoveTree, moveTree->mNsbcaFrameIndex);
         DrawMapObjectModel(mapObjectList, gMoveTree, moveTree);
     } else {
         DrawMapObjectModel1Mat1Shp(mapObjectList, gMoveTree, moveTree);
     }
-    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x27100) {
+    if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 0x27100) {
         return;
     }
     SetShadowPositionXZ(&moveTree->mShadowMatrix, &moveTree->mMapObject.mPos);
@@ -124,7 +124,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
             if (moveTree->mStartDelayFrames-- <= 0) {
                 moveTree->mState = 1;
             }
-            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 0xc5c10) {
                 return;
             }
             if (moveTree->mKartHitFramesLeft-- > 0) {
@@ -173,7 +173,7 @@ void UpdateMoveTree(void *mapObjectList, MoveTree *moveTree) {
                 moveTree->mState = 0;
             }
             GetGroupFollowerLinearXz(&moveTree->mFollower, &moveTree->mMapObject.mPos);
-            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0xc5c10) {
+            if ((s32) (moveTree->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 0xc5c10) {
                 return;
             }
             if (moveTree->mKartHitFramesLeft-- > 0) {

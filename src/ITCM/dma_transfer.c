@@ -121,7 +121,8 @@ BOOL UpdateItemObject(ItemPool *itemPool, ItemObject *itemObject, s32 skipOverla
     }
     if (!(itemObject->mFlags & ITEM_OBJECT_FLAG_RESTING) && itemObject->mCollisionSlotIndex != -1) {
         if (skipOverlapSearch == 0) {
-            FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex, 0x6000);
+            FindCollisionSlotsOverlappingSlot(itemObject->mCollisionSlotIndex,
+                                              COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
         }
         for (overlapIndex = 0; overlapIndex < gFoundCollisionSlotCount; overlapIndex++) {
             overlapFlags = gFoundCollisionSlotFlags[overlapIndex];

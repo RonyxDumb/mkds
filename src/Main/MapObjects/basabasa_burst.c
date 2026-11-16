@@ -160,7 +160,7 @@ void UpdateBasabasaBurst(void *mapObjectList, BasabasaBurst *burstObject) {
         default:
             return;
     }
-    if (burstObject->mCycleFrames == BASABASA_BURST_CYCLE_FRAMES) {
+    if (burstObject->mCycleFrames == BASABASA_BURST_START_CYCLE_FRAME) {
         for (spawnIndex = 0; spawnIndex < 2; spawnIndex++) {
             BasabasaBurstSetRandomPos(&basabasaPos, burstObject->mMapObject.mPos.x,
                                       burstObject->mMapObject.mPos.y + 0x23000, burstObject->mMapObject.mPos.z);

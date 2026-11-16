@@ -52,7 +52,7 @@ void UpdateRaceHudSubScreenIwanteCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenIwanteCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenIwanteCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIwanteCells->mCells[cellCount].mDrawPos,
                                                 subScreenScale, 1, 1)) {
@@ -100,7 +100,7 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKurikingCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKurikingCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKurikingCells->mCells[cellCount].mDrawPos,
                                                 subScreenScale, 1, 1)) {
@@ -159,7 +159,7 @@ void UpdateRaceHudSubScreenBombKingCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenBombKingCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenBombKingCells->mObjects[objectIndex];
-        if (object->mFlags & 1) {
+        if (object->mFlags & MAP_OBJECT_FLAG_DISABLED) {
             continue;
         }
         position = &object->mPos;
@@ -199,7 +199,7 @@ void UpdateRaceHudSubScreenBossDonketuCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenBossDonketuCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenBossDonketuCells->mObjects[objectIndex];
-        if (object->mFlags & 1) {
+        if (object->mFlags & MAP_OBJECT_FLAG_DISABLED) {
             continue;
         }
         position = &object->mPos;
@@ -314,7 +314,7 @@ void UpdateRaceHudSubScreenHanachanCells(void) {
     subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenHanachanCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenHanachanCells->mObjects[objectIndex];
-        if (object->mFlags & 1) {
+        if (object->mFlags & MAP_OBJECT_FLAG_DISABLED) {
             continue;
         }
         position = &object->mPos;

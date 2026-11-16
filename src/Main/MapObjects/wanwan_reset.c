@@ -142,7 +142,8 @@ void InitWanwanOnChain(Wanwan *wanwan, CourseMapRow *row) {
     SetStateMachineState(&wanwan->mMapObject.mStateMachine, 0);
     wanwan->mForward = wanwan->mMapObject.mMatrix.mRows[2];
     ResetWanwan(wanwan);
-    wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius, 0x400, wanwan);
+    wanwan->mCollisionSlot = CreateCollisionSlot(&wanwan->mMapObject.mPos, wanwan->mMaxRadius,
+                                                 COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE, wanwan);
     wanwan->mMapObject.mFarDistanceSquared = gSoundFalloffs[SOUND_FALLOFF_LONG_RANGE].mFarDistanceSquared;
 }
 #pragma thumb off

@@ -243,7 +243,7 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
             }
             break;
     }
-    if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f) >= 0x3d0900) {
+    if ((s32) (sun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >= 0x3d0900) {
         return;
     }
     if (sun->mState == SUN_STATE_SHOOT_FIREBALLS) {

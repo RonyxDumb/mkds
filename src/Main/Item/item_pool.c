@@ -544,7 +544,8 @@ void UpdateItemPool(ItemPool *pool) {
                     updateCount++;
                 }
             }
-            FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000, 0x6000);
+            FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000,
+                                        COLLISION_SLOT_FLAG_MAP_OBJECT | COLLISION_SLOT_FLAG_ITEM_OBJECT);
             object->mPendingUpdateCount++;
             do {
                 object->mPendingUpdateCount--;

@@ -220,7 +220,8 @@ void UpdateWanwan(void *unused, Wanwan *wanwan) {
             touchesGround != FALSE) {
             firstSoundParams = gWanwanTouchGroundSoundParams;
             firstSoundParams.mPositionSource = &wanwan->mMapObject.mPos;
-            firstSoundParams.mDistanceSquared = wanwan->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f;
+            firstSoundParams.mDistanceSquared =
+                wanwan->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
             StartSoundFromParams(&firstSoundParams);
         }
     }

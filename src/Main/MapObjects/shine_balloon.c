@@ -103,8 +103,8 @@ void UpdateShineBalloon(void *mapObjectList, ShineBalloonObject *shineBalloonObj
             shineBalloonObject->mTimer = SHINE_BALLOON_TIMER_FRAMES;
             shineBalloonObject->mPulseScaleSpeed = SHINE_BALLOON_APPEAR_PULSE_SCALE_SPEED;
             shineBalloonObject->mState = SHINE_BALLOON_STATE_APPEAR;
-            shineBalloonObject->mMapObject.mFlags &= ~2;
-            shineBalloonObject->mMapObject.mFlags &= ~8;
+            shineBalloonObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            shineBalloonObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             shineBalloonObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             break;
         case SHINE_BALLOON_STATE_APPEAR:

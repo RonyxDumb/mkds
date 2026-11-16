@@ -66,17 +66,18 @@ void StartPakkunSpit(GroupFollower *groupFollower, s32 heightOffset) {
     if (pakkunSpit == NULL) {
         return;
     }
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~1;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~2;
-    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~8;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    pakkunSpit->mMapObject.mFlags = pakkunSpit->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     pakkunSpit->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     pakkunSpit->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     pakkunSpit->mFollower.mPath = groupFollower->mPath;
     SetupGroupFollowerAtEntry(&pakkunSpit->mFollower, 0, 1);
-    pakkunSpit->mFollower.mSpeed = PAKKUN_PATH_SPEED;
+    pakkunSpit->mFollower.mSpeed = PAKKUN_SPIT_PATH_SPEED;
     pakkunSpit->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-        pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength, 0x7800);
+        pakkunSpit->mFollower.mPath->mSegments[pakkunSpit->mFollower.mSegmentIndex].mInverseProgressLength,
+        PAKKUN_SPIT_PATH_SPEED);
     pakkunSpit->mHeightOffset = heightOffset;
     pakkunSpit->mHeightSpeed = -0x5000;
     pakkunSpit->mState = 0;
@@ -320,7 +321,8 @@ void UpdatePakkun(void *mapObjectList, Pakkun *pakkun) {
             }
             break;
         case PAKKUN_STATE_WAIT_BODY_SETTLE:
-            if (pakkun->mBodyStretchSpeed >= -4 && pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
+            if (pakkun->mBodyStretchSpeed >= -PAKKUN_BODY_STRETCH_SPEED_LIMIT &&
+                pakkun->mBodyStretchSpeed <= PAKKUN_BODY_STRETCH_SPEED_LIMIT) {
                 pakkun->mTimer = PAKKUN_LEAN_FRAMES;
                 pakkun->mState = PAKKUN_STATE_LEAN_BACK;
             }

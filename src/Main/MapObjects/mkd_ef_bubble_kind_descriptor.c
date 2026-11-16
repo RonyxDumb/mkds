@@ -73,6 +73,6 @@ void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     bubble->mMapObject.mStateMachine.mNextState = MKD_EF_BUBBLE_STATE_LEAP;
     bubble->mMapObject.mStateMachine.mNextStateRequested = 1;
     RefreshShadowMatrix(&bubble->mShadowMatrix, &bubble->mMapObject.mPos,
-                        MUL_FIXED12_NO_ROUND(bubble->mMapObject.mScale.x, 0x18000), 0xd);
+                        MUL_FIXED12_NO_ROUND(bubble->mMapObject.mScale.x, 0x18000), MKD_EF_BUBBLE_SHADOW_ALPHA_CAP);
     bubble->mMapObject.mFlags |= gMkdEfBubbleInitFlag;
 }

@@ -38,7 +38,7 @@ void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
 
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKingIceDonketuCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {
@@ -75,7 +75,7 @@ void UpdateRaceHudSubScreenKingTeresaCells(void) {
 
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKingTeresaCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKingTeresaCells->mObjects[objectIndex];
-        if (!(object->mFlags & 1)) {
+        if (!(object->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             pos = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingTeresaCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {

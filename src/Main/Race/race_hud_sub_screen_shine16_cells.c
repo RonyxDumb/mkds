@@ -27,7 +27,7 @@ void UpdateRaceHudSubScreenShine16Cells(void) {
         MapObject *mapObject;
 
         mapObject = gRaceHudSubScreenShine16Cells->mObjects[objectIndex];
-        if (!(mapObject->mFlags & 1)) {
+        if (!(mapObject->mFlags & MAP_OBJECT_FLAG_DISABLED)) {
             if (ComputeRaceHudSubScreenPosition(
                     &mapObject->mPos, &gRaceHudSubScreenShine16Cells->mCells[cellCount].mDrawPos, scale, 1, 1)) {
                 gRaceHudSubScreenShine16Cells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xb6);

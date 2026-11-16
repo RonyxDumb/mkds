@@ -318,8 +318,8 @@ void UpdateVehicle(u32 unused, Vehicle *vehicle) {
                 QuaternionFromYAxisToVec3(&probeVec, &vehicle->mGroundRotation);
                 AdvanceCourseColorBlend(&vehicle->mCourseColorBlend, (hitFlags & 0x3c000000) >> 26, 0x5000);
                 if (vehicle->mHitReactionTimer != 0 && vehicle->mMapObject.mPosStep.y < 0) {
-                    if (vehicle->mMapObject.mFlags & 1) {
-                        vehicle->mMapObject.mFlags &= ~1;
+                    if (vehicle->mMapObject.mFlags & MAP_OBJECT_FLAG_DISABLED) {
+                        vehicle->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
                         vehicle->mMapObject.mPosStep.y = -MUL_FIXED12_NO_ROUND(
                             vehicle->mMapObject.mPosStep.y, 0x733 + ((vehicle->mExtentPositive.y - 0x14000) >> 9));
                         vehicle->mHitRotation.mComponents[0] = -vehicle->mHitRotation.mComponents[0];

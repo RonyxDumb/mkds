@@ -145,7 +145,7 @@ void UpdateDramSteady(void *stateObject) {
 
 void EnterDramRampDown(void *stateObject) {
     Dram *dram = stateObject;
-    dram->mRamp = 0x1000u;
+    dram->mRamp = DRAM_RAMP_FULL;
 }
 
 void UpdateDramRampDown(void *stateObject) {

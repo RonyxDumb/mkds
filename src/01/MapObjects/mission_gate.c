@@ -123,7 +123,7 @@ void InitMissionGateObjects(MapObjectList *missionGateList) {
                 missionGateObject->mMapObject.mFlags |= gMissionGateMapObjectFlag;
                 missionGateObject->mState = MISSION_GATE_STATE_WAIT_COUNT;
             } else {
-                missionGateObject->mMapObject.mFlags &= ~1;
+                missionGateObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
                 missionGateObject->mState = MISSION_GATE_STATE_IDLE;
             }
         }
@@ -137,7 +137,7 @@ void UpdateMissionGate(void *unused, MissionGateObject *missionGateObject) {
         case MISSION_GATE_STATE_WAIT_COUNT:
             count = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunCount() : 0;
             if (count >= missionGateObject->mMapObject.mCourseMapRow->mSettings[0] - 1) {
-                missionGateObject->mMapObject.mFlags &= ~1;
+                missionGateObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
                 missionGateObject->mState = MISSION_GATE_STATE_IDLE;
             }
             break;

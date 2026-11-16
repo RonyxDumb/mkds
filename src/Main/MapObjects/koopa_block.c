@@ -145,7 +145,7 @@ void DrawMkdEfBubble(void *unused0, MkdEfBubbleObject *bubble, void *unused1, s3
         value = 0x1000 - ((value - 0x10000) >> 8);
         bubble->mShadowMatrix.mAlphaCap = MKD_EF_BUBBLE_SHADOW_ALPHA_CAP;
     } else {
-        amount = 0xd - ((0x10000 - value) >> 13);
+        amount = MKD_EF_BUBBLE_SHADOW_ALPHA_CAP - ((0x10000 - value) >> 13);
         value = 0x1000;
         if (amount < 1) {
             amount = 1;
@@ -187,8 +187,8 @@ void EnterMkdEfBubbleLeap(void *stateObject) {
     bubble->mAngleZ = 0;
     bubble->mMapObject.mPos.y = bubble->mBottomY;
     bubble->mMapObject.mPosStep.y = 0x4b33;
-    bubble->mMapObject.mFlags &= ~2;
-    bubble->mMapObject.mFlags &= ~8;
+    bubble->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    bubble->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     bubble->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
     if ((bubble->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_FAR_DISTANCE) == 0) {
         if (bubble->mMapObject.mFarDistanceSquared == gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE].mFarDistanceSquared) {

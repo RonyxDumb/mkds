@@ -51,8 +51,8 @@ void InitPeriodicEffectObjects(MapObjectList *objectList) {
             localRandom->mValue = (s64) localRandom->mMultiplier * (s64) localRandom->mValue + localRandom->mIncrement;
             object->mEffectDelayFrames =
                 (u16) (((s64) (localRandom->mValue >> 32) * PERIODIC_EFFECT_DELAY_RANDOM_LIMIT) >> 32);
-            object->mMapObject.mFlags &= ~2;
-            object->mMapObject.mFlags &= ~8;
+            object->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            object->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             object->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             objectIndex++;
         }

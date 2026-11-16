@@ -256,9 +256,9 @@ void StartSunFireball(Vec3 *startPos, Vec3 *direction) {
     sunFireball->mEmitterB->mLife = SUN_FIREBALL_SHORT_LIFE_FRAMES;
     sunFireball->mEmitterA->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
     sunFireball->mEmitterB->mEmitInterval = SUN_FIREBALL_SHORT_EMIT_INTERVAL;
-    sunFireball->mMapObject.mFlags &= ~1;
-    sunFireball->mMapObject.mFlags &= ~8;
-    sunFireball->mMapObject.mFlags &= ~2;
-    sunFireball->mMapObject.mFlags &= ~8;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    sunFireball->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     sunFireball->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }

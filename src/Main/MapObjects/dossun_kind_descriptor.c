@@ -164,12 +164,12 @@ void UpdateDossun(void *unused, Dossun *dossun) {
             break;
         case DOSSUN_STATE_HOVER:
             dossun->mTimer--;
-            if (dossun->mTimer < 0 && dossun->mSineAngle < DOSSUN_HOVER_SINE_ANGLE_LIMIT) {
+            if (dossun->mTimer < 0 && dossun->mSineAngle < DOSSUN_HOVER_SINE_ANGLE_STEP) {
                 dossun->mState++;
                 dossun->mDownSpeedOrFollowerSpeed = -dossun->mInitialUpSpeed;
                 return;
             }
-            dossun->mSineAngle += 0x1555;
+            dossun->mSineAngle += DOSSUN_HOVER_SINE_ANGLE_STEP;
             dossun->mMapObject.mPos.y = dossun->mSineBaseY;
             sine = FX_SinIdx(dossun->mSineAngle);
             dossun->mMapObject.mPos.y += MUL_FIXED12_NO_ROUND(sine, dossun->mSineAmplitude);
@@ -242,7 +242,8 @@ void UpdateDossun(void *unused, Dossun *dossun) {
                 soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&dossun->mMapObject.mPos);
                 StartSoundFromParams(&soundRequest);
             }
-            StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f, 0x1000);
+            StartCameraWobbleAtDistance(dossun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,
+                                        0x1000);
             if ((dossun->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_OUT_OF_SIGHT) == 0) {
                 StartEffect(0x59, &fromEntry->mPos);
                 StartEffect(0x5a, &fromEntry->mPos);
@@ -388,9 +389,9 @@ void InitDossun(Dossun *dossun, CourseMapRow *row) {
     dossun->mIsSlowVariant = row->mSettings[0];
     InitGroupFollower(&dossun->mFollower, row, dossun->mIsSlowVariant != 0 ? 0xc00 : 0x3000);
     dossun->mStartEntryIndex = row->mSettings[1];
-    dossun->mXOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
+    dossun->mUnk_f4 = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.x, 0x28000);
     dossun->mHeightOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2d000);
-    dossun->mZOffset = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
+    dossun->mUnk_fc = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.z, 0x1e000);
     dossun->mInitialUpSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0xf000);
     dossun->mDownSpeedStep = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x1000);
     dossun->mFollowerSetSpeed = MUL_FIXED12_NO_ROUND(dossun->mMapObject.mScale.y, 0x2000);

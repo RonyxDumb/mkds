@@ -55,6 +55,7 @@ typedef struct IronBall {
 
 #define IRON_BALL_JUMP_SPEED 0xa000
 #define IRON_BALL_HEIGHT_RANGE_MAX 0x190000
+#define IRON_BALL_HEIGHT_RANGE_MIN -0x1f4000
 
 void PlaceCourseSoundObjectPartSource(CourseSoundObjectPart *soundPart, Vec3 *position);
 typedef struct MapObjectList MapObjectList;

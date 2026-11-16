@@ -284,8 +284,8 @@ void SetMapObjectModelAlpha(MapObjectModel *mapObjectModel, u16 alpha) {
     NsbmdModel *nsbmdModel = mapObjectModel->mNsbmdModel;
 
     if (nsbmdModel != NULL) {
-        nsbmdModel->mPolygonAttributes &= ~0x1f0000;
-        nsbmdModel->mPolygonAttributes |= alpha << 16;
+        nsbmdModel->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        nsbmdModel->mPolygonAttributes |= alpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(mapObjectModel->mAnimatedModel->mResMdl, alpha);
@@ -302,7 +302,7 @@ void SetMapObjectModelPolygonId(MapObjectModel *mapObjectModel, u32 polygonId) {
 
     if (nsbmdModel != NULL) {
         nsbmdModel->mPolygonAttributes &= ~0x3f000000;
-        nsbmdModel->mPolygonAttributes |= polygonId << 24;
+        nsbmdModel->mPolygonAttributes |= polygonId << POLYGON_ATTR_ID_SHIFT;
     }
     if (mapObjectModel->mAnimatedModel != NULL) {
         NNS_G3dMdlSetMdlPolygonIDAll(mapObjectModel->mAnimatedModel->mResMdl, polygonId);

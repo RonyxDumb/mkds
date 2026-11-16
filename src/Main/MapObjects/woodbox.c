@@ -305,9 +305,9 @@ void EnterWoodbox1Fall(void *stateObject) {
     u16 headingOffset;
 
     frameCount = GetRaceUpdateFrames();
-    woodbox->mMapObject.mFlags &= ~1;
-    woodbox->mMapObject.mFlags &= ~2;
-    woodbox->mMapObject.mFlags &= ~8;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    woodbox->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     woodbox->mMapObject.mAlpha = 1;
     woodbox->mTiltOffset = *((frameCount & 1) ? &woodbox->mTiltOffsetOnOddFrame : &woodbox->mTiltOffsetOnEvenFrame);
     if (frameCount & 2) {

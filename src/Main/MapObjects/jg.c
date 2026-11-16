@@ -371,16 +371,16 @@ void DrawJg(void) {
     if (gJgAlpha > 0x1f) {
         gJgAlpha = 0x1f;
     }
-    gJgMain.mPolygonAttributes &= ~0x1f0000;
-    gJgMain.mPolygonAttributes |= gJgAlpha << 16;
-    gJgCloud.mPolygonAttributes &= ~0x1f0000;
-    gJgCloud.mPolygonAttributes |= gJgAlpha << 16;
+    gJgMain.mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+    gJgMain.mPolygonAttributes |= gJgAlpha << POLYGON_ATTR_ALPHA_SHIFT;
+    gJgCloud.mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+    gJgCloud.mPolygonAttributes |= gJgAlpha << POLYGON_ATTR_ALPHA_SHIFT;
     if (kindModel != NULL) {
         NNS_G3dMdlSetMdlAlphaAll(kindModel->mResMdl, gJgAlpha);
     }
     if (lapModel != NULL) {
-        lapModel->mPolygonAttributes &= ~0x1f0000;
-        lapModel->mPolygonAttributes |= gJgAlpha << 16;
+        lapModel->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+        lapModel->mPolygonAttributes |= gJgAlpha << POLYGON_ATTR_ALPHA_SHIFT;
     }
     if (gJgLapKindActive != 0) {
         modeProjection = 0;
@@ -585,11 +585,11 @@ void UpdateJgPosition(void) {
         gJgCourseHitBits = 0;
         if (gJgLapKindActive == 0) {
             if (gJgNearKart != 0 || gJgInView != 0) {
-                FindCollisionSlotsAroundPos(&gJgCollisionCenter, 0x12000, 0x2000);
+                FindCollisionSlotsAroundPos(&gJgCollisionCenter, 0x12000, COLLISION_SLOT_FLAG_MAP_OBJECT);
                 for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
                     MapObject *foundObject = gFoundCollisionSlotObjects[slotIndex];
 
-                    if ((foundObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) == 0 &&
+                    if ((foundObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) == 0 &&
                         IsSphereHittingMapObject(&gJgCollisionCenter, 0x12000, foundObject, &offsetVec) != FALSE) {
                         UpdateJgPosition_inline(&pushMin, &offsetVec, &pushMin);
                         UpdateJgPosition_inline_2(&pushMax, &offsetVec, &pushMax);

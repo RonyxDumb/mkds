@@ -340,7 +340,7 @@ void AdvanceItemBombWithMapObject(ItemBomb *bomb, ItemBomb *bombAlias, ItemBox *
     }
     if (bomb->mTimer == 0) {
         mapObjectToPark = bomb->mPooledMapObject;
-        mapObjectToPark->mMapObject.mFlags &= ~1;
+        mapObjectToPark->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         ParkMapObject(&mapObjectToPark->mMapObject);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,
@@ -475,7 +475,7 @@ void ParkItemBombMapObject(ItemBomb *bomb) {
     if (pooledMapObject == NULL) {
         return;
     }
-    pooledMapObject->mMapObject.mFlags &= ~1;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     ParkMapObject(&pooledMapObject->mMapObject);
 }
 
@@ -541,8 +541,8 @@ void PlaceItemBomb(void *object, Vec3 *normal, Vec3 *position) {
     bomb->mPooledMapObject->mMapObject.mPos = *positionAlias;
     bomb->mPooledMapObject->mMapObject.mPos.y += bomb->mMapObjectOffsetY;
     pooledMapObject = bomb->mPooledMapObject;
-    pooledMapObject->mMapObject.mFlags &= ~2;
-    pooledMapObject->mMapObject.mFlags &= ~8;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
 }
 
@@ -574,12 +574,12 @@ void ThrowItemBombFromSlot(void **bombSlot, Vec3 *velocity, s32 timerStart) {
         bomb->mBouncingItemObject.mItemObject.mAdvance = (void (*)(ItemObject *)) AdvanceItemBomb;
     }
     if (pooledMapObject != NULL) {
-        pooledMapObject->mMapObject.mFlags &= ~2;
-        pooledMapObject->mMapObject.mFlags &= ~8;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
         pooledMapObject->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
-        pooledMapObject->mMapObject.mFlags &= ~4;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
         if (pooledMapObject->mMapObject.mKind != MAP_OBJECT_KIND_KURIBO) {
-            pooledMapObject->mMapObject.mFlags &= ~1;
+            pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         }
     }
     *bombSlot = NULL;
@@ -600,7 +600,7 @@ void ReleaseItemBomb(void **bombSlot) {
     SetStateMachineState(&bomb->mStateMachine, ITEM_BOMB_STATE_BOUNCE);
     pooledMapObject = bomb->mPooledMapObject;
     if (pooledMapObject != NULL) {
-        pooledMapObject->mMapObject.mFlags &= ~1;
+        pooledMapObject->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         ParkMapObject(&pooledMapObject->mMapObject);
         bomb->mPooledMapObject = NULL;
         ReleaseItemPoolObject(gItemPools + bomb->mBouncingItemObject.mItemObject.mKind,

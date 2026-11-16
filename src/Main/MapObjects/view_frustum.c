@@ -348,8 +348,9 @@ void DrawMapObjectList(MapObjectList *list, MtxFx43 *viewMatrix) {
             mapObject = objects[objectIndex];
             if (!(mapObject->mFlags & MAP_OBJECT_FLAGS_NOT_DRAWN) && mapObject->mAlpha != 0) {
                 forEachObject(list, mapObject, viewMatrix, mapObject->mAlpha);
-                if (lastObject != NULL && (s32) (mapObject->mDistanceSquaredAndFlags & ~0xc000001f) >
-                                              (s32) (lastObject->mDistanceSquaredAndFlags & ~0xc000001f)) {
+                if (lastObject != NULL &&
+                    (s32) (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK) >
+                        (s32) (lastObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK)) {
                     objects[lastIndex] = mapObject;
                     objects[objectIndex] = lastObject;
                 } else {
@@ -528,7 +529,7 @@ void UpdateMapObjectViewTests(void) {
     extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
-        mapObject->mDistanceSquaredAndFlags &= ~8;
+        mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_VIEW_TESTED;
         if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
             if (mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_BEYOND_DRAW_DISTANCE) {
                 if (mapObject->mAlpha != 0) {
@@ -588,7 +589,7 @@ void RefreshMapObjectViewTests(void) {
     extraViewFlags = gViewTestResultFlag;
     do {
         mapObject = mapObjects[objectIndex];
-        mapObject->mDistanceSquaredAndFlags &= ~8;
+        mapObject->mDistanceSquaredAndFlags &= ~MAP_OBJECT_VIEW_TESTED;
         if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST)) {
             if (mapObject->mDigitMask & shapeMask) {
                 mapObject->mFlags |= extraFlags;
@@ -748,13 +749,13 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
     foundCount = 0;
     hitOffset->x = hitOffset->y = hitOffset->z = 0;
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
-        if (gFoundCollisionSlotFlags[slotIndex] & 0x2000) {
+        if (gFoundCollisionSlotFlags[slotIndex] & COLLISION_SLOT_FLAG_MAP_OBJECT) {
             mapObject = gFoundCollisionSlotObjects[slotIndex];
             if (kartFlagSet != FALSE && !(mapObject->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_FAR_KART_TOUCH)) {
                 continue;
             }
             if (IsSphereHittingMapObject(&centre, radius, mapObject, foundVector) != FALSE) {
-                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NOT_COLLIDABLE) &&
+                if (!(mapObject->mFlags & MAP_OBJECT_FLAG_NO_PUSH_OUT) &&
                     DoesKartRespondToMapObject(itemEffect, mapObject) != 0) {
                     lo.x = (foundVector->x < lo.x) ? foundVector->x : lo.x;
                     lo.y = (foundVector->y < lo.y) ? foundVector->y : lo.y;
@@ -766,8 +767,8 @@ s32 FindMapObjectsTouchingKart(Kart *kart, Vec3 *position, Vec3 *hitOffset) {
                 gFoundMapObjects[foundCount] = mapObject;
                 foundCount++;
                 foundVector = &gFoundMapObjectVectors[foundCount];
-                if (foundCount >= 0x20) {
-                    foundCount = 0x1f;
+                if (foundCount >= FOUND_MAP_OBJECT_CAPACITY) {
+                    foundCount = FOUND_MAP_OBJECT_CAPACITY - 1;
                 }
             }
         }
@@ -791,7 +792,7 @@ s32 FindMapObjectsOfKindInRadius(Vec3 *position, s32 radius, s32 kind) {
     s32 slotIndex;
 
     foundCount = 0;
-    FindCollisionSlotsAroundPos(position, radius, 0x2000);
+    FindCollisionSlotsAroundPos(position, radius, COLLISION_SLOT_FLAG_MAP_OBJECT);
     for (slotIndex = 0; slotIndex < gFoundCollisionSlotCount; slotIndex++) {
         mapObject = gFoundCollisionSlotObjects[slotIndex];
         if (mapObject->mKind == kind) {
@@ -824,7 +825,7 @@ BOOL IsSphereHittingMapObject(Vec3 *position, s32 radius, MapObject *mapObject, 
     s32 dz;
     BOOL isHit;
     s32 negatedRadius;
-    if (mapObject->mFlags & MAP_OBJECT_FLAG_INACTIVE) {
+    if (mapObject->mFlags & MAP_OBJECT_FLAG_DISABLED) {
         return FALSE;
     }
     switch (mapObject->mKindData->mShapeKind) {

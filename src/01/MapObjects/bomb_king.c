@@ -673,7 +673,7 @@ void UpdateBombKing(u32 unused, MissionRunMapObject *mapObject) {
 }
 
 void InitBombKingMapObject(MissionRunMapObject *mapObject) {
-    CreateParkedMapObjects(0xc9, 0xa, mapObject);
+    CreateParkedMapObjects(MAP_OBJECT_KIND_GROUP_ITEM_BOX, 0xa, mapObject);
     mapObject->mMapObject.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), sizeof(SoundSource));
     InitSoundSource(&mapObject->mMapObject.mSound->mSoundSource, 0xc, &mapObject->mMapObject.mPos);
     mapObject->mMapObject.mFarDistanceSquared = gSoundFalloffs[12].mFarDistanceSquared;

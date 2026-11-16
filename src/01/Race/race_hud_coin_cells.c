@@ -55,7 +55,7 @@ void UpdateRaceHudSubScreenCoinCells(void) {
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenCoinCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenCoinCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1)) {

@@ -327,7 +327,8 @@ void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList) {
             InitGroupFollower(&bound->mFollower, bound->mMapObject.mCourseMapRow, 0);
             bound->mFollower.mSpeed = BOUND_PATH_SPEED;
             bound->mFollower.mProgressStep = MUL_FIXED12_NO_ROUND(
-                bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength, 0x3000);
+                bound->mFollower.mPath->mSegments[bound->mFollower.mSegmentIndex].mInverseProgressLength,
+                BOUND_PATH_SPEED);
         } else {
             bound->mFollower.mGroupIndex = GROUP_FOLLOWER_NO_GROUP;
         }

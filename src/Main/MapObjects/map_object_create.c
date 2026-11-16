@@ -83,10 +83,8 @@ static inline GrpconfTblRow *FindGrpconfTblRowByKind(u16 kind) {
     return NULL;
 }
 
-// Sizes of the map object array (the count is held below it) and of the found-object arrays that
-// FindMapObjectsTouchingKart fills (the count is held below it).
+// Size of the map object array (the count is held below it).
 #define MAP_OBJECT_CAPACITY 0x100
-#define FOUND_MAP_OBJECT_CAPACITY 0x20
 
 MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source) {
     s32 kindIndex;
@@ -263,20 +261,20 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
             SetMapObjectDrawDistance(object, kindData->mDrawDistance);
             object->mUseTwoPlaneViewTest = kindData->mUseTwoPlaneViewTest;
             if (kindData->mShapeKind != MAP_OBJECT_SHAPE_NONE) {
-                object->mFlags &= ~1;
+                object->mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             } else {
                 object->mFlags |= gMapObjectNoShapeFlag;
             }
             if (kindData->mCollidable != 0) {
-                object->mFlags &= ~0x40;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_PUSH_OUT;
             } else {
                 object->mFlags |= gMapObjectNotCollidableFlag;
             }
             if ((descriptor->mLists[0] != NULL && descriptor->mLists[0]->mForEachObject != NULL) ||
                 (descriptor->mLists[1] != NULL && descriptor->mLists[1]->mForEachObject != NULL) ||
                 (descriptor->mLists[2] != NULL && descriptor->mLists[2]->mForEachObject != NULL)) {
-                object->mFlags &= ~2;
-                object->mFlags &= ~8;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+                object->mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
                 object->mAlpha = MAP_OBJECT_ALPHA_MAX;
             } else {
                 object->mFlags |= gMapObjectNoDrawListFlag;
@@ -291,7 +289,7 @@ MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source)
                 }
             }
             if (descriptor->mLists[3] != NULL && descriptor->mLists[3]->mForEachObject != NULL) {
-                object->mFlags &= ~4;
+                object->mFlags &= ~MAP_OBJECT_FLAG_NO_UPDATE;
             } else {
                 object->mFlags |= gMapObjectNoUpdateListFlag;
             }
@@ -611,7 +609,7 @@ void RunMapObjectUpdateListInits(void) {
 const u16 gMapObjectNoUpdateListFlag = 4;
 const u16 gMapObjectNotCollidableFlag = 0x40;
 const u16 gMapObjectTimeAttackOrWiFiFlag = 0x800;
-const u16 gCollisionSlotPosStepFlag = 0x400;
+const u16 gCollisionSlotPosStepFlag = COLLISION_SLOT_FLAG_MARK_RADIUS_CHANGE;
 const u16 gMapObjectNoDrawListFlag = 2;
 const u16 gMapObjectNoDrawListSecondFlag = 8;
 const u16 gMapObjectNoShapeFlag = 1;

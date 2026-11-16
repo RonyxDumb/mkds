@@ -5,7 +5,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject
 
 #define BASABASA_BURST_TIMER_CYCLES 4
-#define BASABASA_BURST_CYCLE_FRAMES 0x14
+#define BASABASA_BURST_START_CYCLE_FRAME 0x14
 
 typedef struct MapObjectList MapObjectList;
 

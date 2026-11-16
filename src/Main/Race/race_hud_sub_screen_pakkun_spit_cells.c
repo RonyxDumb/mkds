@@ -29,7 +29,7 @@ void UpdateRaceHudSubScreenPakkunSpitCells(void) {
     raceHudSubScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenPakkunSpitCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenPakkunSpitCells->mObjects[objectIndex];
-        if ((object->mFlags & 1) == 0) {
+        if ((object->mFlags & MAP_OBJECT_FLAG_DISABLED) == 0) {
             if (ComputeRaceHudSubScreenPosition(&object->mPos,
                                                 &gRaceHudSubScreenPakkunSpitCells->mCells[cellCount].mDrawPos,
                                                 raceHudSubScreenScale, 1, 1) != FALSE) {

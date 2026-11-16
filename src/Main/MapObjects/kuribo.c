@@ -100,7 +100,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
             kuribo->mToggleCountdown--;
             if (kuribo->mToggleCountdown < 0) {
                 kuribo->mToggleCountdown = KURIBO_TOGGLE_COUNTDOWN_START;
-                kuribo->mToggleState = kuribo->mToggleState == 0;
+                kuribo->mUnk_104 = kuribo->mUnk_104 == 0;
             }
         }
     }
@@ -114,7 +114,7 @@ void UpdateKuriboFallToSurface(void *stateObject) {
         kuribo->mMapObject.mPosStep.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {
             QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mTargetOrientation);
-            kuribo->mMapObject.mFlags &= ~1;
+            kuribo->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
         }
     }
     QuaternionBlendTowardNearerSign(&kuribo->mOrientation, &kuribo->mTargetOrientation, &kuribo->mOrientation,
@@ -185,7 +185,7 @@ void EnterKuriboSpringBack(void *stateObject) {
         soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mMapObject.mPos);
         StartSoundFromParams(&soundRequest);
     }
-    kuribo->mMapObject.mFlags &= ~1;
+    kuribo->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     kuribo->mScaleFactorYSpeed = 0;
 }
 

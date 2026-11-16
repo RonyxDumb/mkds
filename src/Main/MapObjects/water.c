@@ -65,8 +65,8 @@ WaterEfct *gWaterEfct;
 // water_efct files into gWater; once per water map object.
 void InitWater(MapObject *mapObject, void *unused, void (*createWater)(void)) {
     gWaterMapObject = mapObject;
-    mapObject->mFlags &= ~2;
-    mapObject->mFlags &= ~8;
+    mapObject->mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+    mapObject->mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
     mapObject->mAlpha = MAP_OBJECT_ALPHA_MAX;
     createWater();
     gWater->mEfctNsbmdFile = FindCourseFile("MapObj/water_efct.nsbmd");
@@ -355,7 +355,7 @@ void CreateWaterEfct(MapObject *mapObject) {
 #pragma thumb off
 
 void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3) {
-    s32 remaining = 0x1000000 - fraction;
+    s32 remaining = SEGMENT_PROGRESS_END - fraction;
     s32 square = MUL_FIXED24_NO_ROUND(remaining, remaining);
     *weight0 = MUL_FIXED24_NO_ROUND(remaining, square);
     *weight1 = MUL_FIXED24_NO_ROUND(remaining, fraction) * 3;
@@ -367,7 +367,7 @@ void GetCurveWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32
 
 void GetCurveAndSlopeWeights(s32 fraction, s32 *weight0, s32 *weight1, s32 *weight2, s32 *weight3, s32 *slopeWeight0,
                              s32 *slopeWeight1, s32 *slopeWeight2, s32 *slopeWeight3) {
-    s32 remaining = 0x1000000 - fraction;
+    s32 remaining = SEGMENT_PROGRESS_END - fraction;
     *slopeWeight0 = MUL_FIXED24_NO_ROUND(remaining, remaining);
     *weight0 = MUL_FIXED24_NO_ROUND(*slopeWeight0, remaining);
     *slopeWeight3 = MUL_FIXED24_NO_ROUND(fraction, fraction);

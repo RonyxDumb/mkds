@@ -202,7 +202,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
         switch (flipper->mMapObject.mCourseMapRow->mSettings[0]) {
             case 0:
                 flipper->mMirror = 0;
-                flipper->mMapObject.mFlags &= ~0x400;
+                flipper->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_MIRRORED;
                 flipper->mMapObject.mAngle = ANGLE_EIGHTH_TURN;
                 flipper->mWaitTimer = FLIPPER_FIRST_WAIT_FRAMES;
                 MTX_RotY33_(&tiltMatrix, SIN_OF_ANGLE(0xefa0), COS_OF_ANGLE(0xefa0));

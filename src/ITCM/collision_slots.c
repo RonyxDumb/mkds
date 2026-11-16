@@ -35,8 +35,8 @@ void UpdateCollisionSlotBounds(void) {
             if (center != NULL) {
                 flags = slot->mFlags;
                 if (flags & 0x600) {
-                    if (flags & 0x100) {
-                        slot->mFlags = flags & ~0x100;
+                    if (flags & COLLISION_SLOT_FLAG_RADIUS_CHANGED) {
+                        slot->mFlags = flags & ~COLLISION_SLOT_FLAG_RADIUS_CHANGED;
                     } else {
                         j++;
                         goto next;
@@ -129,7 +129,7 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
     u32 scanLimit;
     CollisionSlot *otherSlot;
     u16 otherFlags;
-    if (slotId < 0 || slotId >= 0x100) {
+    if (slotId < 0 || slotId >= COLLISION_SLOT_COUNT) {
         return;
     }
     slot = GetCollisionSlot(slotId);
@@ -172,7 +172,7 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
             otherSlot = &gCollisionSlots[gCollisionSlotLowEnds[scanIndex].mSlotIndexOrScanLimit];
             otherFlags = otherSlot->mFlags;
             if (otherSlot->mHighZ < lowZ || otherSlot->mLowZ > highZ || !(otherFlags & flagMask) ||
-                (otherFlags & 0x200)) {
+                (otherFlags & COLLISION_SLOT_FLAG_DISABLED)) {
                 goto next;
             }
             gFoundCollisionSlotIndices[gFoundCollisionSlotCount] =
@@ -180,7 +180,7 @@ void FindCollisionSlotsOverlappingSlot(s32 slotId, s32 flagMask) {
             gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = otherFlags;
             gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = otherSlot->mObject;
             gFoundCollisionSlotCount++;
-            if (gFoundCollisionSlotCount == 0x80) {
+            if (gFoundCollisionSlotCount == FOUND_COLLISION_SLOT_CAPACITY) {
                 return;
             }
         }
@@ -208,13 +208,13 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDistanceSquar
     offsetX = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
     xSquared = offsetX * offsetX;
     horizontalDistanceSquared = offsetZ * offsetZ + xSquared;
-    result = horizontalDistanceSquared & ~0xc000001f;
+    result = horizontalDistanceSquared & MAP_OBJECT_VIEW_DISTANCE_MASK;
     if (horizontalDistanceSquared > farDistanceSquared) {
         result |= gViewTestDistanceLimitFlag;
     }
     if (horizontalDistanceSquared > maxDistance * maxDistance) {
         if (alpha <= 1) {
-            return result | 3;
+            return result | MAP_OBJECT_VIEW_OUT_OF_SIGHT;
         }
         result |= gViewTestMaxDistanceFlag;
     }
@@ -222,27 +222,27 @@ s32 ComputeViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDistanceSquar
     if (offsetX * gViewFrustum.mViewDirection.x + offsetY * gViewFrustum.mViewDirection.y +
             offsetZ * gViewFrustum.mViewDirection.z <
         gViewFrustum.mNear - radius) {
-        return result | 2;
+        return result | MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     if (offsetX * gViewFrustum.mLeftPlaneNormal.x + offsetY * gViewFrustum.mLeftPlaneNormal.y +
             offsetZ * gViewFrustum.mLeftPlaneNormal.z >
         radius) {
-        return result | 2;
+        return result | MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     if (offsetX * gViewFrustum.mRightPlaneNormal.x + offsetY * gViewFrustum.mRightPlaneNormal.y +
             offsetZ * gViewFrustum.mRightPlaneNormal.z >
         radius) {
-        return result | 2;
+        return result | MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     if (offsetX * gViewFrustum.mTopPlaneNormal.x + offsetY * gViewFrustum.mTopPlaneNormal.y +
             offsetZ * gViewFrustum.mTopPlaneNormal.z >
         radius) {
-        return result | 2;
+        return result | MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     bottomDotX = offsetX * gViewFrustum.mBottomPlaneNormal.x;
     if (offsetZ * gViewFrustum.mBottomPlaneNormal.z + (offsetY * gViewFrustum.mBottomPlaneNormal.y + bottomDotX) >
         radius) {
-        result |= 2;
+        result |= MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     return result;
 }
@@ -261,13 +261,13 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDista
     offset.x = FROM_FIXED12(pos->x - gViewFrustum.mCameraPos.x);
     offset.z = FROM_FIXED12(pos->z - gViewFrustum.mCameraPos.z);
     horizontalDistanceSquared = offset.x * offset.x + offset.z * offset.z;
-    result = horizontalDistanceSquared & ~0xc000001f;
+    result = horizontalDistanceSquared & MAP_OBJECT_VIEW_DISTANCE_MASK;
     if (horizontalDistanceSquared > farDistanceSquared) {
         result |= gViewTestDistanceLimitFlag;
     }
     if (horizontalDistanceSquared > maxDistance * maxDistance) {
         if (alpha <= 1) {
-            return result | 3;
+            return result | MAP_OBJECT_VIEW_OUT_OF_SIGHT;
         }
         result |= gViewTestMaxDistanceFlag;
     }
@@ -276,12 +276,12 @@ s32 ComputeTwoPlaneViewTest(Vec3 *pos, s32 radius, s32 maxDistance, s32 farDista
     if (offset.y * GetFrustumLeftPlaneNormalY(&gViewFrustum) + offset.x * gViewFrustum.mLeftPlaneNormal.x +
             offset.z * gViewFrustum.mLeftPlaneNormal.z >
         radius) {
-        return result | 2;
+        return result | MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     if (offsetX * gViewFrustum.mRightPlaneNormal.x + offset.y * gViewFrustum.mRightPlaneNormal.y +
             offset.z * gViewFrustum.mRightPlaneNormal.z >
         radius) {
-        result |= 2;
+        result |= MAP_OBJECT_VIEW_OUTSIDE_PLANES;
     }
     return result;
 }

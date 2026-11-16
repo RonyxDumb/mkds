@@ -139,12 +139,12 @@ void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 maxAlpha) {
         gKuribo->mFrameIndex = kuribo->mFrameIndex;
     } else {
         scale.x = -scale.x;
-        gKuribo->mFrameIndex = kuribo->mFrameIndex - 0x14;
+        gKuribo->mFrameIndex = kuribo->mFrameIndex - KURIBO_WALK_HALF_FRAMES;
     }
     modelAlpha = kuribo->mModelAlpha;
     model = gKuribo;
-    model->mPolygonAttributes &= ~0x1f0000;
-    model->mPolygonAttributes |= modelAlpha << 16;
+    model->mPolygonAttributes &= ~POLYGON_ATTR_ALPHA_MASK;
+    model->mPolygonAttributes |= modelAlpha << POLYGON_ATTR_ALPHA_SHIFT;
     DrawNsbmdModelWithMatrixAndMaxAlpha(gKuribo, &kuribo->mMapObject.mMatrix, &scale, 0, maxAlpha);
 }
 
@@ -177,7 +177,7 @@ void UpdateKuribo(void *unused, Kuribo *kuribo) {
         } else {
             random = &gRaceProgress->mRandom;
             random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-            kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * 0x28) >> 32;
+            kuribo->mFrameIndex = ((u64) (u32) (random->mValue >> 32) * KURIBO_WALK_CYCLE_FRAMES) >> 32;
             kuribo->mFrameRandomized = 1;
         }
     }

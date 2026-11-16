@@ -130,7 +130,7 @@ void InitSmanObjects(SmanList *smanList) {
         sman->mTopRiseProgress = FIXED12_UNIT;
         sman->mBottomScale = FIXED12_UNIT;
         index++;
-        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0xf333);
+        sman->mTopStartHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, SMAN_TOP_HEIGHT);
         sman->mTopLowHeight = MUL_FIXED12_NO_ROUND(sman->mMapObject.mScale.y, 0x2000);
         sman->mTopHeight = sman->mTopStartHeight;
     }
@@ -200,7 +200,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
                 if (sman->mBottomScale >= FIXED12_UNIT) {
                     sman->mStateFrames = 0;
                     sman->mBottomScale = FIXED12_UNIT;
-                    sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~1;
+                    sman->mMapObject.mFlags = sman->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
                     sman->mState = SMAN_STATE_REST;
                 }
             }
@@ -213,7 +213,7 @@ void UpdateSman(void *mapObjectList, Sman *sman) {
     sman->mAngleZ = sman->mAngleZ + sman->mAngleZPerFrame;
     if (sman->mAngleZ >= 0) {
         if (sman->mAngleZPerFrame < 0) {
-            sman->mAngleZPerFrame = -0xf0;
+            sman->mAngleZPerFrame = -SMAN_ANGLE_Z_PER_FRAME;
         } else {
             sman->mAngleZPerFrame = sman->mAngleZPerFrame - 8;
         }

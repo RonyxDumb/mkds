@@ -228,14 +228,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_DROPPING:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -259,14 +259,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_RESTING:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -279,14 +279,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_SHRINKING:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -305,14 +305,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_COLLECTED_BY_KART:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -354,14 +354,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_RISING_FROM_KART:
             shine16->mNsbtpFrameStepProgress += 4;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -376,7 +376,8 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     deltaZ = FROM_FIXED12(forwardBattlePoint->mPos.z - GetKartStandingPos(shine16->mHitByKartIndex)->z);
                     distance = deltaX * deltaX + deltaZ * deltaZ;
                     if (shine16->mHitByKartIndex == shine16->mKartIndex) {
-                        if (distance < 0x9c400 && distance > shine16->mTargetDistanceSquared) {
+                        if (distance < SHINE16_TARGET_DISTANCE_LIMIT_SQUARED &&
+                            distance > shine16->mTargetDistanceSquared) {
                             shine16->mTargetDistanceSquared = distance;
                             shine16->mTargetPos.x = forwardBattlePoint->mPos.x;
                             shine16->mTargetPos.y = forwardBattlePoint->mPos.y;
@@ -384,7 +385,8 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                             shine16->mTargetPickCount++;
                         }
                     } else {
-                        if (distance < 0x9c400 && distance < shine16->mTargetDistanceSquared) {
+                        if (distance < SHINE16_TARGET_DISTANCE_LIMIT_SQUARED &&
+                            distance < shine16->mTargetDistanceSquared) {
                             shine16->mTargetDistanceSquared = distance;
                             shine16->mTargetPos.x = forwardBattlePoint->mPos.x;
                             shine16->mTargetPos.y = forwardBattlePoint->mPos.y;
@@ -422,7 +424,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                 shine16->mMapObject.mPosStep.y = 0x5000;
                 shine16->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(deltaZ, 0x25);
                 shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
-                shine16->mMapObject.mFlags &= ~1;
+                shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
                 return;
             }
             shine16->mState = SHINE16_STATE_LAUNCHED_UP;
@@ -430,19 +432,19 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             shine16->mMapObject.mPosStep.y = 0x5000;
             shine16->mMapObject.mPosStep.z = 0;
             shine16->mDrawScale = SHINE16_DRAW_SCALE_FULL;
-            shine16->mMapObject.mFlags &= ~1;
+            shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
             return;
         case SHINE16_STATE_LAUNCHED_UP:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -461,14 +463,14 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
         case SHINE16_STATE_FLYING_TO_TARGET:
             shine16->mNsbtpFrameStepProgress += 1;
             if (shine16->mNsbtpFrameStepProgress >= SHINE16_NSBTP_FRAME_STEP_LIMIT) {
-                shine16->mNsbtpFrameStepProgress -= 3;
+                shine16->mNsbtpFrameStepProgress -= SHINE16_NSBTP_FRAME_STEP_LIMIT;
                 shine16->mNsbtpFrameIndex++;
                 if (shine16->mNsbtpFrameIndex >= GetMapObjectModelNsbtpFrameCount(gShine16)) {
                     shine16->mNsbtpFrameIndex -= GetMapObjectModelNsbtpFrameCount(gShine16);
                 }
                 shine16->mNsbtpFramesSinceMirror++;
                 if (shine16->mNsbtpFramesSinceMirror >= SHINE16_NSBTP_MIRROR_FRAMES) {
-                    shine16->mNsbtpFramesSinceMirror -= 8;
+                    shine16->mNsbtpFramesSinceMirror -= SHINE16_NSBTP_MIRROR_FRAMES;
                     shine16->mMirror = shine16->mMirror == 0;
                 }
             }
@@ -534,7 +536,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
                     if (hitFlags & 0x1000000) {
                         shine16->mMapObject.mFlags |= gShine16CollisionFlag;
                     } else {
-                        shine16->mMapObject.mFlags &= ~0x20;
+                        shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
                     }
                 }
             }
@@ -619,8 +621,8 @@ void StartShine16(Vec3 *position, s32 spawnObjectIndex, s32 dropFromAbove) {
     shine16->mDrawScale = 0;
     shine16->mPickupTimer = 0;
     shine16->mSpawnObjectIndex = spawnObjectIndex;
-    shine16->mMapObject.mFlags &= ~1;
-    shine16->mMapObject.mFlags &= ~0x20;
+    shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+    shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
     AddShineCount(1);
     QueueShine16Sound(shine16->mMapObject.mSound, SHINE16_SOUND_BASE + SHINE16_SOUND_SPAWNED);
 }
@@ -636,7 +638,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
         return;
     }
     shine16->mMapObject.mFlags = shine16->mMapObject.mFlags | gShine16HitFlag;
-    shine16->mMapObject.mFlags &= ~0x20;
+    shine16->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
     shine16->mMapObject.mPos.x = hitKart->mPos.x;
     shine16->mMapObject.mPos.y = hitKart->mPos.y;
     shine16->mMapObject.mPos.z = hitKart->mPos.z;
@@ -654,7 +656,7 @@ void StartShine16FromKart(Kart *hitKart, Kart *hitByKart) {
     if (hitByKart == hitKart) {
         shine16->mTargetDistanceSquared = 0;
     } else {
-        shine16->mTargetDistanceSquared = SHINE16_TARGET_DISTANCE_SQUARED;
+        shine16->mTargetDistanceSquared = SHINE16_TARGET_DISTANCE_LIMIT_SQUARED;
     }
     shine16->mTargetPickCount = 0;
     shine16->mSpawnObjectIndex = -1;

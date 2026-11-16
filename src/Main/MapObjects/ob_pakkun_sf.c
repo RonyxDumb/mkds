@@ -83,7 +83,7 @@ struct Nsbmd *gSecondHand;
 void DrawObPakkunSf(u32 unused, ObPakkunSf *obPakkunSf, u32 unusedArg, u16 alpha) {
     MtxFx43 *matrix;
     gObPakkunSf->mFrameIndex = ((obPakkunSf->mFramesSinceInit & OB_PAKKUN_SF_FRAME_TOGGLE_BIT) >> 4);
-    if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == 0) {
+    if (obPakkunSf->mPushedObject.mMapObject.mStateMachine.mState == PUSHED_OBJECT_STATE_IDLE) {
         matrix = SetViewRotatedMatrixPos(&obPakkunSf->mPushedObject.mMapObject.mPos);
         DrawNsbmdModelWithMatrixAndMaxAlpha(gObPakkunSf, matrix, &obPakkunSf->mPushedObject.mMapObject.mScale, 0,
                                             alpha);

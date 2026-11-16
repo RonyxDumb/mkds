@@ -8,7 +8,7 @@
 #include "Main/MapObjects/attractor.h" // MapObject, MapObjectList
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-#define PAKKUN_PATH_SPEED 0x7800
+#define PAKKUN_SPIT_PATH_SPEED 0x7800
 #define PAKKUN_HEAD_HEIGHT 0x46000
 #define PAKKUN_BODY_STRETCH_SPEED_LIMIT 4
 #define PAKKUN_LEAN_FRAMES 0x1e

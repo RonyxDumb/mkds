@@ -105,7 +105,7 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
     if ((GetEntryKartZoneMask() & nsKiller2->mMapObject.mDigitMask) != 0) {
         nsKiller2->mMapObject.mFlags |= gNsKiller2SkipViewTestFlag;
     } else {
-        nsKiller2->mMapObject.mFlags &= ~2;
+        nsKiller2->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
     }
     switch (nsKiller2->mMode) {
         case 0:
@@ -113,7 +113,8 @@ void UpdateNsKiller2(void *mapObjectList, NsKiller2 *nsKiller2) {
                 if ((nsKiller2->mMapObject.mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0 &&
                     (nsKiller2->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_TESTED) != 0) {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
-                                                      nsKiller2->mMapObject.mDistanceSquaredAndFlags & ~0xc000001f);
+                                                      nsKiller2->mMapObject.mDistanceSquaredAndFlags &
+                                                          MAP_OBJECT_VIEW_DISTANCE_MASK);
                 } else {
                     AdvanceSoundDistanceSquaredChange(nsKiller2->mSoundDistanceSquaredChange,
                                                       GetHorizontalCameraDistanceSquared(&nsKiller2->mMapObject.mPos));

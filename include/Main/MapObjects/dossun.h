@@ -71,9 +71,9 @@ typedef struct Dossun {
     /* ec */ u16 mStartEntryIndex;
     /* ee */ u8 mUnk_ee[2];
     /* f0 */ s32 mIsSlowVariant;
-    /* f4 */ s32 mXOffset;
+    /* f4 */ s32 mUnk_f4;
     /* f8 */ s32 mHeightOffset;
-    /* fc */ s32 mZOffset;
+    /* fc */ s32 mUnk_fc;
     /* 100 */ s32 mInitialUpSpeed;
     /* 104 */ s32 mDownSpeedStep;
     /* 108 */ s32 mFollowerSetSpeed;

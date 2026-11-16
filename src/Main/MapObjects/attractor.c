@@ -348,7 +348,7 @@ void UpdateMapObjectSoundSource(MapObject *object) {
 
     sound = object->mSound;
     if ((object->mFlags & MAP_OBJECT_FLAG_NO_VIEW_TEST) == 0) {
-        sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & ~0xc000001f;
+        sound->mSoundSource.mDistanceSquared = object->mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK;
         resultIsFalse = (IsMapObjectOutOfRange(object) == FALSE);
         isSoundSourceEnabled = (sound->mSoundSource.mSourceFlags & SOUND_SOURCE_FLAG_ENABLED) != 0;
         if (resultIsFalse != FALSE) {

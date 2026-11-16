@@ -385,8 +385,8 @@ void UpdateSanbo(void *mapObjectList, Sanbo *sanbo) {
             }
             sanbo->mPieceCount = 1;
             sanbo->mState = SANBO_STATE_REGROWING;
-            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~1;
-            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~8;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~MAP_OBJECT_FLAG_DISABLED;
+            sanbo->mMapObject.mFlags = sanbo->mMapObject.mFlags & ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             break;
         case SANBO_STATE_REGROWING:
             sanbo->mPieces[sanbo->mPieceCount - 1].mDrawScale =

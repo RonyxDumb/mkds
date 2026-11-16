@@ -108,7 +108,7 @@ void InitTeresaSpawnerObjects(MapObjectList *mapObjectList) {
     for (mapObjectIndex = 0; mapObjectIndex < mapObjectList->mMapObjectCount &&
                              (spawner = mapObjectList->mMapObjects[mapObjectIndex]) != NULL;
          mapObjectIndex++) {
-        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, 0xf);
+        spawner->mNearCheckTimer = TeresaSpawnerNextRandomBelow(&gRaceProgress->mLocalRandom, TERESA_NEAR_CHECK_FRAMES);
     }
 }
 

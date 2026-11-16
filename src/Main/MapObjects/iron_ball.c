@@ -151,9 +151,9 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             if (ironBall->mStartDelayFrames > 0) {
                 return;
             }
-            ironBall->mMapObject.mFlags &= ~1;
-            ironBall->mMapObject.mFlags &= ~2;
-            ironBall->mMapObject.mFlags &= ~8;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_NO_VIEW_TEST;
+            ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_SKIP_LIST_CALLBACK;
             ironBall->mMapObject.mAlpha = MAP_OBJECT_ALPHA_MAX;
             ironBall->mState = IRON_BALL_STATE_ROLL;
             return;
@@ -246,7 +246,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
     if (ironBall->mFollower.mFromEntry->mFlagBitOn != 0 && ironBall->mFollower.mToEntry->mFlagBitOn != 0) {
         ironBall->mMapObject.mFlags |= gIronBallPathEntryFlag;
     } else {
-        ironBall->mMapObject.mFlags &= ~0x20;
+        ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_HUD_XLU;
     }
     if (ironBall->mHeightOffset > 0 || ironBall->mHeightSpeed != 0) {
         ironBall->mHeightSpeed -= 0x1000;
@@ -316,7 +316,7 @@ void UpdateIronBall(void *mapObjectList, IronBall *ironBall) {
             ironBall->mShadowMatrix.mAlphaCap = value;
             SetShadowPositionRaised(&ironBall->mShadowMatrix, &ironBall->mPathPos);
         }
-        ironBall->mMapObject.mFlags &= ~1;
+        ironBall->mMapObject.mFlags &= ~MAP_OBJECT_FLAG_DISABLED;
     } else {
         ironBall->mMapObject.mFlags |= gIronBallInitFirstFlag;
     }
@@ -327,7 +327,7 @@ MapObjectKindData *CreateIronBallKindData(void) {
 
     mapObjectKindData = CreateMapObjectKindData(CollideKartWithIronBall, NULL, NULL, 1, 1);
     mapObjectKindData->mHeightRangeMax = IRON_BALL_HEIGHT_RANGE_MAX;
-    mapObjectKindData->mHeightRangeMin = -0x1f4000;
+    mapObjectKindData->mHeightRangeMin = IRON_BALL_HEIGHT_RANGE_MIN;
     return mapObjectKindData;
 }
 
