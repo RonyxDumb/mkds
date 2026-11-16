@@ -125,7 +125,7 @@ void GX_SetBankForOBJ(s32 obj) {
         case VRAM_BANK_G:
             reg_GX_VRAMCNT_G = 0x82;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_A | VRAM_BANK_B:
             reg_GX_VRAMCNT_B = 0x8a;
@@ -159,7 +159,7 @@ void GX_SetBankForBGExtPltt(s32 bgExtPltt) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[7]) & ~bgExtPltt;
     gVramBankGroups[7] = bgExtPltt;
     switch (bgExtPltt) {
-        case 0:
+        case VRAM_BANK_NONE:
             reg_GX_DISPCNT &= ~0x40000000;
             break;
         case VRAM_BANK_E:
@@ -192,7 +192,7 @@ void GX_SetBankForOBJExtPltt(u32 objExtPltt) {
             reg_GX_DISPCNT |= 0x80000000;
             reg_GX_VRAMCNT_G = 0x85;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             reg_GX_DISPCNT &= ~0x80000000;
             break;
     }
@@ -263,7 +263,7 @@ void GX_SetBankForTexPltt(s32 texPltt) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[5]) & ~texPltt;
     gVramBankGroups[5] = texPltt;
     switch (texPltt) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_G:
             reg_GX_VRAMCNT_G = 0x83;
@@ -300,7 +300,7 @@ void GX_SetBankForClearImage(u32 clrImg) {
             reg_GX_VRAMCNT_D = 0x9b;
             reg_G3X_DISP3DCNT |= REG_G3X_DISP3DCNT_PRI_MASK;
             break;
-        case 0:
+        case VRAM_BANK_NONE:
             reg_G3X_DISP3DCNT &= ~REG_G3X_DISP3DCNT_PRI_MASK;
             break;
         case VRAM_BANK_A:
@@ -319,7 +319,7 @@ void GX_SetBankForARM7(s32 arm7) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[3]) & ~arm7;
     gVramBankGroups[3] = arm7;
     switch (arm7) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_C | VRAM_BANK_D:
             reg_GX_VRAMCNT_D = 0x8a;
@@ -344,7 +344,7 @@ void GX_SetBankForSubBG(s32 subBg) {
     gVramBankGroups[0] = (gVramBankGroups[0] | gVramBankGroups[9]) & ~subBg;
     gVramBankGroups[9] = subBg;
     switch (subBg) {
-        case 0:
+        case VRAM_BANK_NONE:
             break;
         case VRAM_BANK_C:
             reg_GX_VRAMCNT_C = 0x84;
