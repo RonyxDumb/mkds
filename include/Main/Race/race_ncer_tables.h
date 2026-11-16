@@ -65,7 +65,7 @@ void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s
 
 struct RaceNcerNclrNcgrTables **ClearRaceNcerNclrNcgrTablesPointer(void);
 
-// 16-byte element of the table at 0x7dc of an RaceNcerNclrNcgrTables.
+// A palette and graphics pair of the race tables: mNclr and mNcgr.
 typedef struct RaceNclrNcgr {
     /* 00 */ Nclr *mNclr;
     /* 04 */ Ncgr *mNcgr;

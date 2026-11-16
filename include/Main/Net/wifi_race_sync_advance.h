@@ -45,7 +45,7 @@ typedef struct WiFiRaceSyncPacketBody {
     /* 04 */ u64 mProbeTicks[4];
 } WiFiRaceSyncPacketBody;
 
-// Message of 0x28 bytes from 0x04.
+// A race sync packet: sender, target and kind in the header, the shared state, the dropped mask and mBody.
 typedef struct WiFiRaceSyncPacket {
     /* 00 */ union {
         u8 mHeaderByte;

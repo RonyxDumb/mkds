@@ -8,7 +8,7 @@
 #include "Main/MapObjects/shine16.h" // KartBalloons
 #include "Main/MapObjects/map_object_kind_update_list.h"
 
-// Object with the MapObject base at 0x00 (UpdateDistanceSound, InitDistanceSoundObjects, InitDistanceSound).
+// A map object that plays a sound by distance: its centre, radius, volumes and the timers of its distance level.
 typedef struct DistanceSound {
     /* 00 */ MapObject mMapObject;
     /* a0 */ s32 mSoundVolumeFixed12;

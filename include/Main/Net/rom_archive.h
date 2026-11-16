@@ -13,15 +13,14 @@
 
 typedef struct FSFile FSFile;
 
-// Entry of 0x28 bytes; the table of pointers at the start of the object at 0x440 of gRomArchiveTransfer points to them.
+// One node buffer of a ROM archive transfer: its mBlockSize and the block bytes.
 typedef struct RomArchiveNodeBuffer {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mBlockSize;
     /* 08 */ u8 mUnk_08[0x20];
 } RomArchiveNodeBuffer;
 
-// The object at 0x440 of gRomArchiveTransfer as StartRomArchiveChild and RomArchiveChildCallback use it: three tables
-// of 16 words, then the entries.
+// The child side of a ROM archive transfer: node, block and chunk bitmap tables, mOwnAid and the read position.
 typedef struct RomArchiveChildView {
     /* 000 */ RomArchiveNodeBuffer *mNodeBuffers[16];
     /* 040 */ u32 mBlockBuffers[16];
@@ -53,8 +52,7 @@ enum {
 // RomArchiveFileNode.mLoadingBufferIndex while neither of the two buffers is being loaded.
 #define ROM_ARCHIVE_NODE_NO_BUFFER 2
 
-// Node of 0x8c0 bytes; StartRomArchiveParent chains eight of them from 0xc0 of the object at 0x440 of
-// gRomArchiveTransfer.
+// One file a ROM archive parent sends: its FSFile, block range, load state and the two read buffers (mBuffers).
 typedef struct RomArchiveFileNode {
     /* 000 */ struct RomArchiveFileNode *mNext;
     /* 004 */ WBTBlockInfoList mBlockNode;
@@ -83,7 +81,7 @@ typedef struct RomArchivePortMessage {
     /* 12 */ u16 mFromIndex;
 } RomArchivePortMessage;
 
-// Entries of 0x20 bytes after a count word; SendRomArchiveMessage reads and rewrites the word at 0x18.
+// One entry of the overlay table; SendRomArchiveMessage reads mFileId and rewrites it.
 typedef struct OverlayTableEntry {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ u32 mFileId;

@@ -100,8 +100,7 @@ typedef struct RaceHudSubScreenCells {
     /* 10 */ RaceHudSubScreenCell *mCells;
 } RaceHudSubScreenCells;
 
-// Halfwords from 0x02 of RaceHudSubScreenBgColors read by UpdateRaceHudSubScreenBgPalette when gRaceSetup.mCourseId is
-// COURSE_ID_KOOPA: six, two rows of three and two.
+// The sub screen background colours of the Koopa course: mSecondObjectColors, mFirstObjectColors, mKoopaBlockColors.
 typedef struct RaceHudSubScreenKoopaBgColors {
     /* 00 */ u16 mSecondObjectColors[6];
     /* 0c */ u16 mFirstObjectColors[2][3];
@@ -141,7 +140,7 @@ typedef struct RaceMNumberPair {
 
 typedef struct WaterEfct WaterEfct;
 
-// Object at gViewFrustum: six vectors between words at 0x00/0x04 and 0x50/0x54.
+// The camera view frustum: near and far distance, camera position and direction, and the four side plane normals.
 typedef struct ViewFrustum {
     /* 00 */ s32 mNear;
     /* 04 */ s32 mFar;
@@ -159,8 +158,7 @@ typedef struct ViewFrustum {
 // emblem to the save data and leaves, the third leaves without writing.
 enum { EMBLEM_CHOISE_BACK, EMBLEM_CHOISE_SAVE, EMBLEM_CHOISE_DISCARD };
 
-// Object behind gEmblemChoises, 0x6c bytes (InitEmblemChoises allocates it); DrawEmblemChoises calls the function at
-// 0x0c.
+// The emblem choice screen: mShown, the pick and close frame counts, mResult, mChoisesCount entries and their graphics.
 typedef struct EmblemChoises {
     /* 00 */ s32 mShown;
     /* 04 */ s32 mDrawnShown;
@@ -369,8 +367,7 @@ typedef struct KeyboardRect {
 struct Ncgr;
 struct KeyboardKeys;
 
-// Set up by SetupKeyboardLayout (at 0x1c of KeyboardKeys, which mUnk_2c then points to); mUnk_08 is called with the
-// KeyboardKeys (AsciiLayoutCallback is one).
+// A keyboard layout: its key rectangles (mRects), the graphics (mNcgr) and the mCallback run with the KeyboardKeys.
 typedef struct KeyboardLayout {
     /* 00 */ KeyboardRect *mRects;
     /* 04 */ struct Ncgr *mNcgr;
@@ -383,7 +380,7 @@ static inline KeyboardRect *GetKeyboardLayoutRect(KeyboardLayout *layout, u32 re
     return &layout->mRects[rectIndex];
 }
 
-// Four halfwords at 0x34 of KeyboardKeys (IsRepeatCounterFiring, AdvanceRepeatCounter).
+// A key repeat counter: mRepeatFrames counts against the first and repeat fire frames, mFired marks a repeat.
 typedef struct RepeatCounter {
     /* 00 */ u16 mRepeatFrames;
     /* 02 */ u16 mFirstFireFrame;
@@ -453,8 +450,7 @@ extern u16 *gKbdmapHiraganaSmall;
 extern u16 *gKbdmapAsciiCaps;
 extern u16 *gKbdmapKatakanaHandaku;
 extern u16 *gKbdmapKatakanaSmall;
-// Object behind gKeyboardTextEntry, 0x78 bytes, allocated in InitKeyboardTextEntry. UploadKeyboardBg2Data passes the
-// pointers at 0x00 and 0x04 to DC_FlushRange with the words at 0x08 and 0x0c.
+// The on-screen keyboard's text entry: BG2 data, key graphics, the text buffer (mText) and the two button rectangles.
 typedef struct KeyboardTextEntry {
     /* 00 */ void *mBg2Char;
     /* 04 */ void *mBg2Scr;
@@ -643,7 +639,7 @@ typedef struct RaceRankListPos {
     /* 04 */ s32 mY;
 } RaceRankListPos;
 
-// 0xc-byte elements from 0xfc of RaceRankList.
+// One item in use in the race rank list: mInUseFrames, mItemInfoIndex and mObjectCount.
 typedef struct RaceRankListItemInUse {
     /* 00 */ s32 mInUseFrames;
     /* 04 */ s32 mItemInfoIndex;
@@ -869,8 +865,7 @@ typedef struct RaceHudSubScreenSecondHand {
     /* 2c */ IntPair mEndPositions[3];
 } RaceHudSubScreenSecondHand;
 
-// Object behind gRaceHudSubScreenKarts, 0x194 bytes allocated by CreateRaceHudSubScreenKarts: arrays of eight entries
-// and an RaceHudSubScreenCells pointer at 0x190.
+// The kart markers of the race sub screen: per kart visibility, position, scale, angle, draw order and mCells.
 typedef struct RaceHudSubScreenKarts {
     /* 000 */ s32 mVisible[8];
     /* 020 */ s32 mSpriteHidden[8];

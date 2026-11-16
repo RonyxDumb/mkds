@@ -72,7 +72,7 @@ enum {
     SHINE16_SOUND_LANDED,
 };
 
-// The bytes from 0x450 of an Kart, which UpdateKartSound and AdvanceKartSoundPitch read and write.
+// The sound state of a kart: mSoundId, volume, current and target pitch, pitch rates and the mSoundRow in use.
 typedef struct KartSound {
     /* 00 */ s32 mSoundId;
     /* 04 */ u8 mVolume;

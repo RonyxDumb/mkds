@@ -18,7 +18,7 @@ typedef struct ScanSlotText {
     /* 14 */ u16 mTerminator;
 } ScanSlotText;
 
-// The 0x5c bytes at 0x818 of WLMenuScene.
+// The scan slot picked in the WiFi menu: mSlotIndex and the text of each of the four slots (mSlotTexts).
 typedef struct WLMenuScanSlotPick {
     /* 00 */ s32 mSlotIndex;
     /* 04 */ ScanSlotText mSlotTexts[4];

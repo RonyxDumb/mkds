@@ -43,7 +43,7 @@ enum {
 // Courses in a cup; KartEntry.mCourseNumber counts them from 1.
 #define COURSES_PER_CUP 4
 
-// The 0x28 bytes from 0x08 of each KartEntry entry (code keeps pointers to them).
+// The player of a kart entry: kind, team, index, name, emblem, friend data and region.
 typedef struct KartEntryPlayer {
     /* 00 */ u32 mKind;
     /* 04 */ s32 mTeamIndex;
@@ -81,7 +81,7 @@ enum {
     CHARACTER_HEYHO,
 };
 
-// 0x30-byte entries at 0x68 and 0x250 of the object behind gRaceSetup.
+// One kart of the race setup: its character and kart indices and its player (mPlayer).
 typedef struct KartEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -318,7 +318,7 @@ enum {
     MISSION_NUMBER_KING_TERESA = 0x33,
 };
 
-// The 0x10 bytes at 0x28 of the object behind gRaceSetup (the same bytes as its mUnk_028 to mUnk_37).
+// The mission rules of a race: time limit, time score, mission kind, camera table index and run count limit.
 typedef struct MissionSettings {
     /* 00 */ u16 mMissionTimeLimitFrameCount;
     /* 02 */ u16 mTimeScoreFrameCount;

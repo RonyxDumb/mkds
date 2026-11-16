@@ -34,8 +34,7 @@ enum {
 #define CONNECTION_KIND_WIFI_MENU 3 // set by the title entry of the Wi-Fi menu
 #define CONNECTION_KIND_WIFI_TOP_MENU 4 // set by the Wi-Fi top menu before it starts the next scene
 
-// Object behind gStartupWork (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
-// gBackupBuffers.
+// The startup state: region, language, sound set player, owner text, favourite colour, backlight times and mRandom.
 typedef struct StartupWork {
     /* 00 */ s32 mRegion;
     /* 04 */ s32 mLanguageIndex;
@@ -212,7 +211,7 @@ typedef struct InputState {
     /* 0c */ BOOL mUnk_0c;
 } InputState;
 
-// Entries of 0x0c bytes from 0x9b0 of ArchiveSlots.
+// A loaded archive buffer: its heap, mData and mByteSize with the uncompress flag.
 typedef struct ArchiveBuffer {
     /* 00 */ void *mHeap;
     /* 04 */ void *mData;
@@ -234,7 +233,7 @@ typedef struct ArchiveSlot {
     /* 6c */ void *mData;
 } ArchiveSlot;
 
-// The 0xa0 bytes at 0x8c8 of ArchiveSlots.
+// A request to load an archive file: mPath, source, read buffer, slot, heap end and uncompress flags, buffer size.
 typedef struct ArchiveLoadRequest {
     /* 00 */ u8 mPath[0x80];
     /* 80 */ u32 *mSourceData;
@@ -316,8 +315,7 @@ enum {
     ROM_ARCHIVE_MESSAGE_RELEASE_REPLY
 };
 
-// Entry of the table at 0x440 of gRomArchiveTransfer: a four-bit part in the low bits of the first word, then two
-// words.
+// One block slot of a ROM archive parent: mKind, mBlockId and mBlockData.
 typedef struct RomArchiveParentViewEntry {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mUnk_00_4 : 28;
@@ -339,7 +337,7 @@ struct RomArchiveFileNode;
 
 struct FSFile;
 
-// Part of gRomArchiveTransfer from 0x440: the table, then nine words at 0x46cc.
+// The parent side of a ROM archive transfer: block entries, chunk bitmap, node lists and the send and request masks.
 typedef struct RomArchiveParentView {
     /* 0000 */ RomArchiveParentViewEntry mEntries[32];
     /* 0180 */ u8 mUnk_0180[0x97c];

@@ -239,7 +239,7 @@ typedef struct CourseMapZoneShapeNode {
     /* 04 */ struct CourseMapZoneShapeNode *mNext;
 } CourseMapZoneShapeNode;
 
-// Object behind the word at 0x3c of the object behind gCourseMap: two vectors and the halfword at 0x1a.
+// The race end placement of the course map: mPos, mRotation and mKeepSpeedFlag.
 typedef struct CourseMapRaceEndPlacement {
     /* 00 */ Vec3 mPos;
     /* 0c */ Vec3 mRotation;

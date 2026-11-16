@@ -38,7 +38,7 @@ typedef struct Sman {
     /* c8 */ s32 mState;
 } Sman;
 
-// Array of Sman pointers at 0x00, its count at 0x04.
+// The list of Sman map objects: the mSmans array and mSmanCount.
 typedef struct SmanList {
     /* 00 */ Sman **mSmans;
     /* 04 */ u16 mSmanCount;
