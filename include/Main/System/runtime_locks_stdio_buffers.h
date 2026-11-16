@@ -26,6 +26,6 @@ extern u32 gLockHoldCounts[9];
 // the start of the next entry.
 extern u8 gLockMutexes[9][0x14];
 
-extern u8 gStderrBuffer[0x100];
+extern u8 gStdioFile2Buffer[0x100];
 extern u8 gStdoutBuffer[0x100];
 extern u8 gStdinBuffer[0x100];

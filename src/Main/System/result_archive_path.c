@@ -41,16 +41,16 @@
 
 
 #pragma explicit_zero_data on
-char gArchiveSlotInfosEmptyPath19[] = "";
-char gArchiveSlotInfosEmptyPath4[] = "";
-char gArchiveSlotInfosEmptyPath5[] = "";
-char gArchiveSlotInfosEmptyPath20[] = "";
-char gArchiveSlotInfosEmptyPath11[] = "";
-char gArchiveSlotInfosEmptyPath9[] = "";
-char gCourseArchiveNamesEmptyName0[] = "";
-char gArchiveSlotInfosEmptyPath13[] = "";
-char gArchiveSlotInfosEmptyPath3[] = "";
-char gArchiveSlotInfosEmptyPath12[] = "";
+char gArchiveSlotInfosEmptyPathInMemory[] = "";
+char gArchiveSlotInfosEmptyPathSnd[] = "";
+char gArchiveSlotInfosEmptyPathScene[] = "";
+char gArchiveSlotInfosEmptyPathAtCount[] = "";
+char gArchiveSlotInfosEmptyPathSceneMode[] = "";
+char gArchiveSlotInfosEmptyPathSceneLanguage[] = "";
+char gCourseArchiveNamesEmptyNameFirst[] = "";
+char gArchiveSlotInfosEmptyPathCourseTexture[] = "";
+char gArchiveSlotInfosEmptyPathCourse[] = "";
+char gArchiveSlotInfosEmptyPathSceneModeLanguage[] = "";
 #pragma explicit_zero_data off
 char gModeArchiveNameNt[] = "nt";
 char gModeArchiveNameGp[] = "gp";
@@ -58,12 +58,12 @@ char gLanguageCodeFr[] = "fr";
 char gLanguageCodeGe[] = "ge";
 char gModeArchiveNameVs[] = "vs";
 char gLanguageCodeIt[] = "it";
-char gLanguageCodeUs6[] = "us";
+char gLanguageCodeEuropeEnglish[] = "us";
 char gModeArchiveNameTa[] = "ta";
 char gModeArchiveNameMg[] = "mg";
 char gLanguageCodeEs[] = "es";
 char gModeArchiveNameMr[] = "mr";
-char gLanguageCodeUs1[] = "us";
+char gLanguageCodeEnglish[] = "us";
 char gLanguageCodeJa[] = "ja";
 char gArchiveNameCKL[] = "CKL";
 char gArchiveNameCRS[] = "CRS";
@@ -86,8 +86,8 @@ char gArchiveNameKM1[] = "KM1";
 char gArchiveNameMA2[] = "MA2";
 char gArchiveNameCST[] = "CST";
 char gSceneNameRace[] = "Race";
-char gSceneNameMenu1[] = "Menu";
-char gSceneNameMenu4[] = "Menu";
+char gSceneNameMenu[] = "Menu";
+char gSceneNameSecondMenu[] = "Menu";
 char gSceneNameLogo[] = "Logo";
 char gSceneNameTest[] = "Test";
 char gCourseArchiveNameAward[] = "Award";
@@ -171,10 +171,10 @@ char gArchiveSlotPathDataCharacterKartSelectCarc[] = "/data/CharacterKartSelect.
 
 const SceneName gSceneNames[16] = {
     {gSceneNameTitle, -1},
-    {gSceneNameMenu1, 184320},
+    {gSceneNameMenu, 184320},
     {gSceneNameRace, -1},
     {gSceneNameEmblem, -1},
-    {gSceneNameMenu4, -1},
+    {gSceneNameSecondMenu, -1},
     {gSceneNameTest, -1},
     {gSceneNameWLMenu, -1},
     {gSceneNameOption, -1},
@@ -189,7 +189,7 @@ const SceneName gSceneNames[16] = {
 };
 
 const CourseNameEntry gCourseArchiveNames[55] = {
-    {gCourseArchiveNamesEmptyName0, 2},
+    {gCourseArchiveNamesEmptyNameFirst, 2},
     {gCourseArchiveNameOldYoshiGc, 0},
     {gCourseArchiveNameOldMarioGc, 0},
     {gCourseArchiveNameLuigiCourse, 0},
@@ -250,17 +250,17 @@ const ArchiveSlotInfo gArchiveSlotInfos[21] = {
     {gArchiveSlotPathDataMainRaceCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_RACE, {0, 0, 0}, 0, 0, -1},
     {gArchiveSlotPathDataMain2DCarc, ARCHIVE_SLOT_MAIN_2D_LANGUAGE, ARCHIVE_BUFFER_MAIN_2D, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotPathDataMain2D, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_2D_LANGUAGE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath3, ARCHIVE_SLOT_COURSE_TEXTURE, ARCHIVE_BUFFER_COURSE, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath4, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
-    {gArchiveSlotInfosEmptyPath5, ARCHIVE_SLOT_SCENE_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPathCourse, ARCHIVE_SLOT_COURSE_TEXTURE, ARCHIVE_BUFFER_COURSE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPathSnd, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPathScene, ARCHIVE_SLOT_SCENE_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotPathDataKartModelMainACarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_A, {0, 0, 0}, 1, 1, -1},
     {gArchiveSlotPathDataKartModelMainBCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_KART_MODEL_MAIN_B, {0, 0, 0}, 1, 1, -1},
     {gArchiveSlotPathDataKartModelSubCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotInfosEmptyPath9, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, 286720},
+    {gArchiveSlotInfosEmptyPathSceneLanguage, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, 286720},
     {gArchiveSlotPathDataKartModelMenuCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 1, -1},
-    {gArchiveSlotInfosEmptyPath11, ARCHIVE_SLOT_SCENE_MODE_LANGUAGE, ARCHIVE_BUFFER_RACE_MODE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath12, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath13, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_COURSE_TEXTURE, {0, 0, 0}, 1, 1, -1},
+    {gArchiveSlotInfosEmptyPathSceneMode, ARCHIVE_SLOT_SCENE_MODE_LANGUAGE, ARCHIVE_BUFFER_RACE_MODE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPathSceneModeLanguage, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_RACE_MODE_LANGUAGE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPathCourseTexture, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_COURSE_TEXTURE, {0, 0, 0}, 1, 1, -1},
     {gArchiveSlotPathDataCharacterKartSelectCarc,
      ARCHIVE_SLOT_CHARACTER_KART_SELECT_LANGUAGE,
      ARCHIVE_BUFFER_NONE,
@@ -272,13 +272,13 @@ const ArchiveSlotInfo gArchiveSlotInfos[21] = {
     {gArchiveSlotPathDataGeneralMenuCarc, ARCHIVE_SLOT_GENERAL_MENU_LANGUAGE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotPathDataGeneralMenu, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
     {gArchiveSlotPathDataMainEffectCarc, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_MAIN_EFFECT, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath19, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
-    {gArchiveSlotInfosEmptyPath20, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
+    {gArchiveSlotInfosEmptyPathInMemory, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 1, 0, -1},
+    {gArchiveSlotInfosEmptyPathAtCount, ARCHIVE_SLOT_NONE, ARCHIVE_BUFFER_NONE, {0, 0, 0}, 0, 0, -1},
 };
 
 char gArchiveSlotPathDataKartModelSubCarc[] = "/data/KartModelSub.carc";
-const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeUs1, gLanguageCodeFr, gLanguageCodeGe,
-                                 gLanguageCodeIt, gLanguageCodeEs,  gLanguageCodeUs6};
+const char *gLanguageCodes[7] = {gLanguageCodeJa, gLanguageCodeEnglish, gLanguageCodeFr, gLanguageCodeGe,
+                                 gLanguageCodeIt, gLanguageCodeEs,  gLanguageCodeEuropeEnglish};
 const char *gArchiveNames[20] = {gArchiveNameMAR, gArchiveNameMA2, gArchiveNameM2L, gArchiveNameCRS, gArchiveNameSND,
                                  gArchiveNameK2D, gArchiveNameKM1, gArchiveNameKM2, gArchiveNameKSB, gArchiveNameLOC,
                                  gArchiveNameKME, gArchiveNameR2D, gArchiveNameR2L, gArchiveNameCST, gArchiveNameCKS,
