@@ -11,14 +11,14 @@ typedef void (*PMSleepCallback)(void *arg);
 enum {
     POWER_LED_STATUS_ON = 1,
     POWER_LED_STATUS_BLINK_SLOW,
-    POWER_LED_STATUS_BLINK_FAST,
+    POWER_LED_STATUS_THIRD,
 };
 
 // Utility commands PMi_SetLEDAsync sends.
 enum {
     POWER_UTILITY_LED_ON = 1,
-    POWER_UTILITY_LED_BLINK_FAST,
-    POWER_UTILITY_LED_BLINK_SLOW,
+    POWER_UTILITY_LED_FOR_THIRD_STATUS,
+    POWER_UTILITY_LED_FOR_SECOND_STATUS,
 };
 
 // PMi_ExecuteList calls mCallback with mArg and follows mNext; PMi_DeleteList, PMi_AppendList and

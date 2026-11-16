@@ -213,11 +213,11 @@ u32 PMi_SetLEDAsync(u32 status, PMCallback callback, void *arg) {
         case POWER_LED_STATUS_ON:
             utilityCommand = POWER_UTILITY_LED_ON;
             break;
-        case POWER_LED_STATUS_BLINK_FAST:
-            utilityCommand = POWER_UTILITY_LED_BLINK_FAST;
+        case POWER_LED_STATUS_THIRD:
+            utilityCommand = POWER_UTILITY_LED_FOR_THIRD_STATUS;
             break;
         case POWER_LED_STATUS_BLINK_SLOW:
-            utilityCommand = POWER_UTILITY_LED_BLINK_SLOW;
+            utilityCommand = POWER_UTILITY_LED_FOR_SECOND_STATUS;
             break;
         default:
             utilityCommand = 0;
