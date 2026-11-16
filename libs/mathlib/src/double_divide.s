@@ -40,7 +40,7 @@ _ddiv:
     // twice the first exponent, plus the sign in bit 0; exponent 0 or 0x7ff goes to ddivx_a_special. Replace the
     // exponent bits with the leading one.
     stmfd sp!, {r0, r1, r2, r3, r4, r5, r6, lr}
-    ldr lr, ddiv_exponent_mask          // constant word in DoubleDivSpecial
+    ldr lr, gDoubleDivExponentMask          // constant word in DoubleDivSpecial
     eor r4, r1, r3
     ands ip, lr, r1, lsr #19
     cmpne ip, lr
@@ -199,9 +199,9 @@ DoubleDivSetOverflowInexact:
 
 // Reciprocal table read by _ddiv, indexed by the 8 significand bits below the divisor's leading one: entry i is 0x10000
 // / (256.5 + i) rounded to the nearest integer, 0xff for i = 0 (checked for all 256 entries).
-    .global ddiv_reciprocal_table
-    .type ddiv_reciprocal_table, @object
-ddiv_reciprocal_table:
+    .global gDoubleDivReciprocalTable
+    .type gDoubleDivReciprocalTable, @object
+gDoubleDivReciprocalTable:
     .byte 0xff, 0xff, 0xfe, 0xfd, 0xfc, 0xfb, 0xfa, 0xf9, 0xf8, 0xf7, 0xf6, 0xf5, 0xf4, 0xf3, 0xf2, 0xf1
     .byte 0xf0, 0xf0, 0xef, 0xee, 0xed, 0xec, 0xeb, 0xea, 0xea, 0xe9, 0xe8, 0xe7, 0xe6, 0xe6, 0xe5, 0xe4
     .byte 0xe3, 0xe2, 0xe2, 0xe1, 0xe0, 0xdf, 0xdf, 0xde, 0xdd, 0xdc, 0xdc, 0xdb, 0xda, 0xd9, 0xd9, 0xd8
@@ -220,7 +220,7 @@ ddiv_reciprocal_table:
     .byte 0x8d, 0x8d, 0x8c, 0x8c, 0x8c, 0x8c, 0x8b, 0x8b, 0x8b, 0x8a, 0x8a, 0x8a, 0x8a, 0x89, 0x89, 0x89
     .byte 0x88, 0x88, 0x88, 0x88, 0x87, 0x87, 0x87, 0x86, 0x86, 0x86, 0x86, 0x85, 0x85, 0x85, 0x85, 0x84
     .byte 0x84, 0x84, 0x83, 0x83, 0x83, 0x83, 0x82, 0x82, 0x82, 0x82, 0x81, 0x81, 0x81, 0x81, 0x80, 0x80
-    .size ddiv_reciprocal_table, . - ddiv_reciprocal_table
+    .size gDoubleDivReciprocalTable, . - gDoubleDivReciprocalTable
 
 // Tail of _ddiv, rounding down or toward zero (r3 = the status word, r1 = the result's high word): toward zero keeps
 // the result; down rounds negative results up in magnitude (DoubleDivRoundUpResult).
@@ -706,11 +706,11 @@ ddivx_trap_inexact:
     .size DoubleDivSpecial, . - DoubleDivSpecial
 
 // Constant words: the exponent mask read by _ddiv, then event codes.
-    .global ddiv_exponent_mask
-    .type ddiv_exponent_mask, @object
-ddiv_exponent_mask:
+    .global gDoubleDivExponentMask
+    .type gDoubleDivExponentMask, @object
+gDoubleDivExponentMask:
     .word 0x00000ffe
-    .size ddiv_exponent_mask, . - ddiv_exponent_mask
+    .size gDoubleDivExponentMask, . - gDoubleDivExponentMask
 ddivx_code_overflow:
     .word 0x10000094
 ddivx_code_underflow:
