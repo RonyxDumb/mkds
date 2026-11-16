@@ -219,7 +219,7 @@ typedef struct ChildWaitSessionView {
     /* 648 */ u16 mTgid;
     /* 64a */ u16 mChannel;
     /* 64c */ u8 mNvramEntries[0x404];
-    /* a50 */ u8 mApStoreHeadCopy[0x40];
+    /* a50 */ u8 mApStoreFirstBlockCopy[0x40];
     /* a90 */ u8 mState;
     /* a91 */ u8 mPrevState;
     /* a92 */ u8 mHandshakeByte;
@@ -239,8 +239,8 @@ typedef struct ChildWaitSessionView {
 
 // The child wait session: the session view, the child user, the event callback, step task and event and stop flags.
 typedef struct ChildWaitSession {
-    /* 00000 */ ChildWaitSessionView mSession;
-    /* 00b04 */ u8 pad_00b04[0x1e280 - 0xb04];
+    /* 00000 */ ChildWaitSessionView mSessionView;
+    /* 00b04 */ u8 mMultiBootParentTail[0x1e280 - 0xb04];
     /* 1e280 */ u8 mChildUser[0x18];
     /* 1e298 */ void (*mCallback)(s32 event);
     /* 1e29c */ TaskEntry *mStepTask;
