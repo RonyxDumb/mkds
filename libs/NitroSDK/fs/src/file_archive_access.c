@@ -112,7 +112,7 @@ u32 FS_OpenFileDirect(FSFile *file, FSArchive *archive, u32 imageTop, u32 imageB
     file->mArg.w.mUnk_08 = fileIndex;
     file->mArg.w.mUnk_00 = imageTop;
     file->mArg.w.mUnk_04 = imageBottom;
-    if (FSi_SendCommand(file, 7) == 0) {
+    if (FSi_SendCommand(file, ARCHIVE_COMMAND_OPEN_BY_RANGE) == 0) {
         return 0;
     }
     file->mStat |= FILE_STAT_IS_FILE;
