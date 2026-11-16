@@ -116,8 +116,9 @@ void DWC_InitFriendsMatch(void *connectionObject, void *userData, s32 productId,
     gcd_secret_key[secretKeyLength] = 0;
 }
 
-// Undo of DWC_InitFriendsMatch: frees the matching list, closes stats and GP, closes the socket and clears
-// gWiFiConnection. Called on failure, leave and logout paths.
+// Undo of DWC_InitFriendsMatch: shuts down the matching, login, buddy and message-layer objects, frees the server list,
+// closes stats, GP and the socket, and clears gWiFiConnection. Called by the failed login steps and by
+// ReleaseWiFiConnectionWrapper and ReleaseWiFiSession.
 void DWC_ShutdownFriendsMatch(void) {
     if (gWiFiConnection != NULL) {
         if (gWiFiConnection->mMatching.mQr2 != NULL) {
@@ -270,8 +271,9 @@ void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32
     }
 }
 
-// The connection-level start (state check, BUDDY_SYNC, callbacks); calls StartBuddySync (the two names differ only by
-// WiFi). Refused (FALSE) in IDLE, GP_SETUP, LOGIN and BUDDY_SYNC.
+// Starts the buddy sync: refused (FALSE) when there is no connection object or an error is pending, in IDLE, GP_SETUP,
+// LOGIN and BUDDY_SYNC; copies the name (at most 0x1f bytes) to mPlayerName, stores the callback pair, sets BUDDY_SYNC
+// and calls StartBuddySync.
 BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s32), void *updateParam,
                             void (*statusCallback)(u32, u8), void *statusParam, void (*deleteCallback)(u32, u32),
                             void *deleteParam) {
@@ -303,7 +305,7 @@ BOOL DWC_UpdateServersAsync(const s8 *playerName, void (*updateCallback)(s32, s3
     return TRUE;
 }
 
-// Connection-level start: only in LOGGED_IN and with no error pending; clears the peer tables, stores the callback
+// Connection-level start: only in LOGGED_IN and with no error pending; clears the connection lists, stores the callback
 // pair, sets PARTNER_SEARCH and calls DWCi_ConnectToAnybodyAsync.
 void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallback, void *matchedParam,
                                MatchEvalFunc *evalCallback, u32 evalParam) {
@@ -316,9 +318,9 @@ void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallb
     }
 }
 
-// Connection-level start: only in LOGGED_IN; stores the callback pair, sets PARTNER_SEARCH and calls
-// DWCi_ConnectToFriendsAsync with the given list, or with a list of all buddy entries in random order when it is
-// NULL (the one caller passes NULL).
+// Connection-level start: only in LOGGED_IN and with no error pending; clears the connection lists, stores the callback
+// pair, sets PARTNER_SEARCH and calls DWCi_ConnectToFriendsAsync with the given list, or with all entries of the buddy
+// list in random order when it is NULL (the one caller passes NULL).
 void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32 numEntry, u32 distantFriend,
                                void *matchedCallback, void *matchedParam, MatchEvalFunc *evalCallback, u32 evalParam) {
     u8 orderedIdxList[0x40];
@@ -568,7 +570,9 @@ u32 DWCi_GetAIDBitmapFromList(const u8 *values, s32 count) {
     return mask;
 }
 
-// Maps a GP result 1 to 4 to (kind, code) and reports it by connection state; 0 passes through.
+// Maps a GP result 1 to 4 to (kind, code minus a base chosen by connection state) and reports it: GP_SETUP and LOGIN
+// call DWCi_StopLogin, PARTNER_SEARCH calls DWCi_StopMatching, every nonzero result then goes to
+// DWCi_StopFriendProcess; returns the result, 0 passes through.
 int ReportWiFiGpResult(int result) {
     s32 errorKind;
     s32 errorCode;
@@ -618,8 +622,8 @@ int ReportWiFiGpResult(int result) {
     return result;
 }
 
-// Maps a gti2CreateSocket result (1 to 7; 2 and 5 mean no error and return 0) to (kind, code) and reports it through
-// DWCi_StopLogin; returns the result.
+// Maps a gt2CreateSocket result (1 to 7; 2 and 5 mean no error and return 0) to (kind, code - 0x105b8) and reports it
+// through DWCi_StopLogin; returns the result.
 u32 ReportWiFiSocketResult(u32 result) {
     s32 errorKind;
     s32 errorCode;
@@ -661,8 +665,8 @@ u32 ReportWiFiSocketResult(u32 result) {
     return result;
 }
 
-// Called by the login object with (0, profile id) on success and (code, 0) on failure; passes the result on to
-// mLoginCallback.
+// Called by the login object with (0, profile id) on success and (error kind, 0) on failure: sets LOGGED_IN (and
+// restarts the GP poll count) on success, IDLE on failure, then passes the result on to mLoginCallback when it is set.
 void DWCi_LoginCallback(int error, u32 profileId) {
     DWCLoginCallback callback;
     if (error == 0) {
@@ -719,19 +723,19 @@ void DWCi_MatchedCallback(u32 error, u32 cancel, u32 self, u32 isServer, u32 ind
     }
 }
 
-// GP callback slot 0 (error). Reports error kind 3 through ReportWiFiGpResult only when the GP error number is not
+// GP callback slot 0 (error). Calls ReportWiFiGpResult(PROFILE_RESULT_NETWORK_ERROR) unless the GP error number is
 // 0x603 or 0x901.
 void DWCi_GPErrorCallback(u32 connection, int arg) {
     if ((*(s32 *) (arg + 4) != 0x603) && (*(s32 *) (arg + 4) != 0x901)) {
-        ReportWiFiGpResult(3);
+        ReportWiFiGpResult(PROFILE_RESULT_NETWORK_ERROR);
     }
 }
 
 s32 stLastSocketError;
 
-// GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
-// ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
-// 5 or matching mode 2 and 3.
+// GP callback slot 3 (message). Gives the text to DWCi_GPRecvBuddyAuthCallback first; when that does not take it, text
+// that starts with GPCM, then a number 3 of at most 10 characters and v, then MAT is passed to
+// DWCi_MatchGPRecvBuddyMsgCallback, only in state 5 or matching mode 2 or 3.
 void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData *arg, u32 param) {
     char *message;
     char versionText[12] = {0};
@@ -866,8 +870,8 @@ void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason) {
     }
 }
 
-// Slot 3 of the record (gti2PingCallback): the body only forwards (connection, elapsed time) to
-// DWCi_PingCallback, which calls the layer's mPingCallback, when it is set, with the time and the peer's aid.
+// Slot 3 of the record (gti2PingCallback): the body only forwards (connection, elapsed time) to DWCi_PingCallback,
+// which calls mPingCallback of the message layer, when it is set, with the time and the connection's AID.
 void DWCi_GT2PingCallback(GTI2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }

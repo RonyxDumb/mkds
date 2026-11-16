@@ -25,7 +25,7 @@ typedef struct SOCSockAddr {
     /* 02 */ u8 mData[6];
 } SOCSockAddr;
 
-// Object ServerListConnect builds.
+// A socket address with a port: length, family, port and address.
 typedef struct SOCSockAddrIn {
     /* 0 */ u8 mLen;
     /* 1 */ u8 mFamily;
@@ -33,7 +33,7 @@ typedef struct SOCSockAddrIn {
     /* 4 */ u32 mAddr;
 } SOCSockAddrIn;
 
-// Object SOC_GetHostByName returns; mUnk_0c points at a table of pointers to a word.
+// Host entry SOC_GetHostByName returns: name, aliases, address type, address length and the list of addresses.
 typedef struct SOCHostEnt {
     /* 00 */ char *mName;
     /* 04 */ u8 *mAliases;

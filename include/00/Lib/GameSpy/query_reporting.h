@@ -41,7 +41,7 @@ typedef struct QueryRecord QueryRecord;
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Output buffer the string writers append to: bytes at mUnk_000, used length at mLen.
+// Output buffer the string writers append to: mBuffer holds the bytes, mLen the used length.
 typedef struct QueryBuffer {
     /* 000 */ u8 mBuffer[0x800];
     /* 800 */ s32 mLen;
@@ -54,7 +54,7 @@ typedef struct LocalIpAddressBytes {
 
 typedef struct QueryRecord QueryRecord;
 
-// List of values and their count; filled by the callback at mUnk_094 of a QueryRecord.
+// List of key ids and their count; filled by mKeyListCallback of a QueryRecord and by qr2_keybuffer_add.
 typedef struct MatchingKeyIds {
     /* 000 */ u8 mKeys[0x100];
     /* 100 */ s32 mKeyCount;

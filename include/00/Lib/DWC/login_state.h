@@ -4,7 +4,7 @@
 #include "friend_data_account_fields.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
-// Values of WiFiLogin.mState; see the comment of the struct.
+// Values of WiFiLogin.mState.
 enum {
     WIFI_LOGIN_IDLE = 0,
     WIFI_LOGIN_WAIT_AUTH_REPLY = 1,
@@ -17,12 +17,11 @@ enum {
 // The Wi-Fi login: gets the auth token over HTTP, then connects to the GP server and checks the profile (mState).
 typedef struct WiFiLogin {
     /* 00 */ GPConnection *mGpConnection;
-    // 0 idle, 1 waiting for the HTTP reply, 2 GP connect for a known profile (success: id check, socket, done), 3 GP
-    // connect then 4 profile name check (DWCi_GPGetInfoCallback), 5 done. Written only by the machine; 0 is
-    // DWCi_CloseLogin.
+    // WIFI_LOGIN_*; set by InitWiFiLogin, DWCi_LoginAsync, DWCi_GPConnect (its target state), DWCi_GPConnectCallback,
+    // DWCi_GPGetInfoCallback and DWCi_CloseLogin.
     /* 04 */ s32 mState;
-    // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to gpInitialize, which stores it as
-    // GPIConnection.mProductId and writes it after '\productid\'.
+    // Game id 0x4d6 (DWC_InitFriendsMatch's titleNumber, its third parameter): given to gpInitialize, which stores it
+    // as GPIConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mGamecode;
     /* 10 */ u32 mPlayerName;
@@ -36,8 +35,9 @@ typedef struct WiFiLogin {
     // Http (0x1a60 bytes; declared void *) of the running request: made by DWCi_RemoteLogin, freed when the reply
     // or an error ends the request and by DWCi_ShutdownLogin.
     /* 28 */ void *mHttp;
-    // u64 tick reading (OS_GetTick) taken when the HTTP request started;
-    // DWCi_RemoteLoginProcess reports error 2 when (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000.
+    // u64 tick reading (OS_GetTick) taken when the HTTP request started; while the request is in an error state
+    // DWCi_RemoteLoginProcess reports error 2 once (ticks << 6) / 0x82ea, the milliseconds since then, exceeds 10000,
+    // and otherwise restarts the request.
     /* 2c */ u64 mRequestStartTick;
     // TRUE from DWCi_GPConnect until the GP connect callback or an error; DWCi_LoginProcess times the connect
     // out while it is TRUE.

@@ -45,7 +45,7 @@ enum {
     TLS_HANDSHAKE_OFFER = 1,
     TLS_HANDSHAKE_ANSWER = 2,
     TLS_HANDSHAKE_CERTIFICATE = 0x0b,
-    TLS_HANDSHAKE_REPLY_END = 0x0e,
+    TLS_HANDSHAKE_ANSWER_END = 0x0e,
     TLS_HANDSHAKE_CLIENT_KEY_EXCHANGE = 0x10,
     TLS_HANDSHAKE_DIGESTS = 0x14,
 };
@@ -159,7 +159,7 @@ HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes);
 
 // Set to 1 once bytes have been mixed into gRandomByteState.
 extern u8 gRandomByteStateMixed;
-// Counts the entries made while sending the kind 2 record; its value is written as the last four bytes of each new
+// Counts the entries made while sending the type 2 message; its value is written as the last four bytes of each new
 // entry's first 0x20 bytes.
 extern u32 gNewEntryIdCount;
 extern u8 gRandomByteState[0x14];

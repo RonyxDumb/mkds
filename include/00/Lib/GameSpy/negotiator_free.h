@@ -2,9 +2,10 @@
 
 #include "types.h"
 
-// Values of NatTraversalEntry.mState: sending the init packets until the acks arrive, waiting for the connect packet of
-// the other side, pinging it until it answers, the ping answered (the entry is cancelled after a delay), and cancelled
-// (removed by the next think). The progress callback is called with WAIT_CONNECT and PING.
+// Values of NatNegotiator.mState: sending the init packets until every ack arrives; waiting up to 10 seconds for the
+// connect packet that gives the address to ping; pinging that address until a ping answers with the got-data flag set;
+// ping answered (the entry is cancelled after a delay); cancelled (removed by the next think). The progress callback is
+// called with WAIT_CONNECT and PING.
 enum {
     NAT_NEGOTIATION_SEND_INIT = 0,
     NAT_NEGOTIATION_WAIT_CONNECT = 1,

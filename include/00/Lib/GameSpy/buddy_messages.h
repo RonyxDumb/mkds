@@ -98,7 +98,7 @@ typedef struct GPIConnection {
     /* 474 */ char mLoginTicket[0x19];
 } GPIConnection;
 
-// Object passed to gpiDeleteBuddy as its first argument.
+// The handle every presence call takes as its connection argument: it holds the pointer to the GPIConnection.
 typedef struct GPConnection {
     /* 00 */ GPIConnection *mGpiConnection;
 } GPConnection;

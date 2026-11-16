@@ -5,7 +5,8 @@
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/query_reporting.h"
 
-// Six bytes at NNMagicData, written at the start of each buffer.
+// The six magic bytes (NNMagicData) at the start of every NAT negotiation message; received messages are checked
+// against them.
 typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
@@ -30,11 +31,11 @@ typedef struct NNMagic {
 #define NAT_PING_MAX_RETRY_COUNT 12
 #define NAT_PINGED_CANCEL_DELAY_MS 5000
 
-// Value of the mVersion byte of every message.
+// Value written to the mVersion byte of the messages this file builds; received messages are not checked for it.
 #define NAT_PACKET_VERSION 2
 
-// Values of the mPacketType byte (offset 7 of every message). Types 0 to 3 are InitPacket messages, 5 to 7 are
-// ConnectPacket messages (6 is an InitPacket sent back).
+// Values of the mPacketType byte. INIT, INIT_ACK, ECHO_REQUEST, ECHO_REPLY and CONNECT_ACK are read and written as
+// InitPacket (INIT as InitPacketWithGamename); CONNECT and PING as ConnectPacket.
 enum {
     NAT_PACKET_INIT = 0,
     NAT_PACKET_INIT_ACK = 1,

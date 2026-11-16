@@ -14,7 +14,7 @@
 #include "00/Lib/NitroWiFi/socket_objects.h"
 #include "thread_mutex_types.h"
 
-// One element of the table at gLocalIpList.
+// One IPv4 address as SOC_InetNtoA takes it; gLocalIpList is a table of them.
 typedef struct SOCInAddr {
     /* 0 */ u32 addr;
 } SOCInAddr;
@@ -60,7 +60,8 @@ typedef struct CPSConfig {
     /* 2c */ u32 mYieldWait;
 } CPSConfig;
 
-// Four bytes at gOptSCBlock.
+// Option set by option type 1: mValid is its on/off value; mLock is set once the server is accepting again, after which
+// reserve requests are answered with STOP_MATCHING.
 typedef struct DWCMatchOptSCBlock {
     /* 00 */ u8 mValid;
     /* 01 */ u8 mLock;

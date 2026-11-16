@@ -39,8 +39,8 @@ typedef struct ACSL {
     /* 04 */ u8 mSsid[0x20];
 } ACSL;
 
-// Values of ACFL.mState, which picks the error code block of GetNotFoundInet: ERROR_51100 gives -511xx, ERROR_51200
-// gives -512xx and any other value -513xx.
+// Values of ACFL.mState, copied to ACHOLD.mEndState; while mEndSequence is below 10 GetNotFoundInet picks the error
+// code block from it: ERROR_51100 gives -511xx, ERROR_51200 gives -512xx, any other value -513xx.
 enum {
     AUTO_CONNECT_FIND_FAILED = 1,
     AUTO_CONNECT_FIND_TEST_LINK_DOWN = 2,
@@ -48,7 +48,8 @@ enum {
     AUTO_CONNECT_FIND_ERROR_51200,
 };
 
-// Values of ACWORK.mConnectResult, set by DWCi_AC_CallBackWCM; ConnectAP reacts to the first three.
+// Values of ACWORK.mConnectResult: ConnectStart sets NONE and DWCi_AC_CallBackWCM sets the rest from a failed connect;
+// on a retry ConnectAP reacts to RETRY_AUTH_FALLBACK, ERROR_51100 and ERROR_51200, not to NONE or OTHER.
 enum {
     AUTO_CONNECT_RESULT_NONE,
     AUTO_CONNECT_RESULT_RETRY_AUTH_FALLBACK,

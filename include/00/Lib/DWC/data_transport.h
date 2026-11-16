@@ -15,7 +15,7 @@ enum {
 };
 
 // Values of WiFiPeerMessage.mMessageKind, the kind in the message header. The last three are the control messages of
-// the match start sync: the host sends each participant its position and aid, the participant answers with its latency,
+// the matching sync: the host sends each participant its position and aid, the participant answers with its latency,
 // the host sends the go-ahead.
 enum {
     WIFI_MESSAGE_KIND_NONE,
@@ -32,19 +32,18 @@ typedef struct WiFiPeerMessage {
     /* 08 */ s32 mReceiveBufferSize;
     // Bytes of the current message already handed to the socket (0 at start, += chunk).
     /* 0c */ s32 mSentSize;
-    // Bytes of the current message received so far (reset when a header arrives, += packet size).
+    // Bytes of the current message received so far (reset when a data header arrives, += packet size).
     /* 10 */ s32 mReceivedSize;
     // Total size of the message being sent (the size argument of DWCi_SendReliable); 0 when no send is running.
     /* 14 */ s32 mSendSize;
     // Total size of the message being received, from the header; 0 after the message is complete.
     /* 18 */ s32 mReceiveSize;
     /* 1c */ u8 mSendState;
-    // Receive state, switched on once per received packet in DWCs_HandleReliableMessage (through
-    // the getter DWCs_GetRecvState): 0 initial (only a control header, kind 2 to 4, is accepted); 1 expecting a header
-    // (DWC_SetRecvBuffer, end of a message); 2 header of a data message (kind 1) accepted, body packets are copied
-    // into the buffer; 3 control header (kind 2 to 4) taken, the next packet is the control body (state restored from
-    // mUnk_1e); 4 data header refused (no buffer or too small): the next packet is dropped and the state returns to 1.
-    // Not a per-frame switch.
+    // Receive state, one of WIFI_PEER_RECEIVE_STATE_*, switched on once per received packet in
+    // DWCs_HandleReliableMessage: INITIAL takes only a control header (kinds SYNC_REQUEST to SYNC_GO); EXPECT_HEADER
+    // takes any header (set by DWC_SetRecvBuffer and after a finished message); DATA_BODY copies the packets into the
+    // buffer; CONTROL_BODY takes the next packet as the control body and then restores mLastReceiveState; DROP_BODY
+    // drops the next packet and goes back to EXPECT_HEADER.
     /* 1d */ u8 mReceiveState;
     /* 1e */ u8 mLastReceiveState;
     /* 1f */ u8 pad_1f[3];
@@ -60,19 +59,19 @@ typedef struct WiFiPeerMessage {
 // callbacks report sends, receives, receive timeouts and latency.
 typedef struct WiFiMessageLayer {
     /* 000 */ WiFiPeerMessage mPeers[32];
-    // Called after a send was queued or finished, with (size, index).
+    // Called with (size, aid) once a message was handed to the socket: when the last chunk of a reliable message went
+    // out (data kind in DWCi_SendReliable, any kind in DWCi_TransportProcess) and for each unreliable send.
     /* 600 */ void (*mSendCallback)(s32 size, u32 aid);
-    // Called with (index, buffer, size) when a received message is complete.
+    // Called with (aid, buffer, size) when a reliable message is complete and for each unreliable message.
     /* 604 */ void (*mUdpreadCallback)(u32 aid, u8 *buffer, s32 size);
     /* 608 */ void (*mReceiveTimeoutCallback)(u32 aid);
     /* 60c */ void (*mPingCallback)(u32 latency, u32 aid);
-    // u16 0x5b9 (1465), set by DWCi_InitTransport: the most the layer hands the socket in one call. A message is cut
-    // into chunks of at most this size; a size equal to it is
-    // allowed, the last chunk is shorter and a single-packet send above it is refused.
+    // 0x5b9 (1465), set by DWCi_InitTransport: the most the layer hands the socket in one call. A message is cut into
+    // chunks of at most this size (the last may be shorter); an unreliable send above it is refused.
     /* 610 */ u16 mSendChunkSize;
 } WiFiMessageLayer;
 
-// Local of DWCs_DecodeHeader, filled by a copy of eight bytes.
+// The 8-byte header in front of each message: its size, its kind (mType) and two magic characters.
 typedef struct DWCTransportHeader {
     /* 00 */ u32 mSize;
     /* 04 */ u16 mType;

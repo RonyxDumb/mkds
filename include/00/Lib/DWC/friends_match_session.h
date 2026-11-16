@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/socket_accessors.h" // GTI2Connection
+#include "00/Lib/GameSpy/socket_accessors.h" // GTI2Connection, GTI2Socket
 #include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
 #include "00/Lib/GameSpy/buddy_messages.h" // BuddyMessageData
 #include "00/Lib/DWC/login_state.h"
@@ -20,8 +20,8 @@ void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData 
 
 extern s32 stLastSocketError;
 
-// Values of WiFiConnection.mState and mPrevState: the GP set-up, the login, the logged-in idle state, the buddy list
-// sync, the partner search and the matched state.
+// Values of WiFiConnection.mState and mPrevState, in the order a connection goes through them: not started,
+// availability check, login, logged in and waiting, buddy sync, matching, matched.
 enum {
     WIFI_CONNECTION_IDLE = 0,
     WIFI_CONNECTION_AVAILABLE_CHECK = 1,
@@ -42,8 +42,8 @@ typedef struct WiFiConnection {
     // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect and accept
     // calls): result of a Gt2 connect, DWCi_GT2ConnectedCallback (result 6 retries the connect up to 5 times).
     /* 04 */ void (*mResultCallback)();
-    // Slot 1 of the record at mResultCallback: data received from a peer, forwarded to the net layer
-    // (DWCi_RecvCallback).
+    // Slot 1 of the record at mResultCallback: data received from a peer, forwarded through DWCi_GT2ReceivedCallback to
+    // DWCi_RecvCallback of the message layer.
     /* 08 */ void (*mDataCallback)();
     /* 0c */ s32 (*mClosedCallback)();
     // Slot 3 of the record at mResultCallback: DWCi_GT2PingCallback, which forwards (connection, elapsed time) to
@@ -52,10 +52,10 @@ typedef struct WiFiConnection {
     /* 10 */ void (*mElapsedTimeCallback)();
     // Passed to gti2CreateSocket as the send buffer size (0 selects 0x2000).
     /* 14 */ u32 mSendBufferSize;
-    // Pair of mSendBufferSize: both come from DWC_InitFriendsMatch's parameters (0 selects 0x2000) and go to
-    // gti2CreateSocket, which stores this one at GTI2Socket.mUnk_3c; the library gives it to the second gti2AllocateBuffer of
-    // each connection, the buffer that holds reliable messages arriving ahead of the next expected
-    // sequence number.
+    // Pair of mSendBufferSize: set from DWC_InitFriendsMatch's receive size parameter (0 selects 0x2000) and passed to
+    // gti2CreateSocket as the incoming buffer size; the socket keeps it as GTI2Socket.mIncomingBufferSize, which sizes
+    // the first gti2AllocateBuffer of each connection (mIncomingBuffer), the buffer that holds reliable messages
+    // arriving ahead of the next expected sequence number.
     /* 18 */ u32 mReceiveBufferSize;
     // The GP connection object: gpInitialize in state 1, closed by DWC_ShutdownFriendsMatch; the buddy object keeps a
     // pointer to it.
@@ -65,8 +65,8 @@ typedef struct WiFiConnection {
     /* 24 */ s32 mState;
     // State before the last DWCi_SetState; DWCi_UpdateServersCallback returns to it when the sync ends.
     /* 28 */ s32 mPrevState;
-    // This player's index among the participants: 0 after Init, then taken from the participant table when a
-    // participant id equals mProfileId; read through DWC_GetMyAID.
+    // This player's index among the participants: 0 after Init; set from the participant table when a match completes
+    // (no error, no cancel) and a participant id equals mProfileId; read through DWC_GetMyAID.
     /* 2c */ u8 mOwnIndex;
     // 1 only while DWC_CloseAllConnectionsHard closes every peer connection of the socket (state 5 or 6, other
     // participants present); read by DWCi_GT2ClosedCallback to tell this close from a

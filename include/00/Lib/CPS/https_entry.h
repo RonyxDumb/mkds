@@ -2,7 +2,8 @@
 
 #include "types.h"
 
-// Entry of the four-entry table at gHttpsEntries.
+// One remembered https session: mSessionId, mMasterSecret, mLastUseTime and the mRemoteIp and mRemotePort it was made
+// with; four are kept at gHttpsEntries.
 typedef struct HttpsEntry {
     /* 00 */ u8 mSessionId[0x20];
     /* 20 */ u8 mMasterSecret[0x30];

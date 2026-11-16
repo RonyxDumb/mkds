@@ -203,7 +203,6 @@ typedef struct ArpRequestFrame {
 
 extern void (*gDhcpCallback)(void);
 
-// OSThread entry functions (not lifted yet).
 
 #include "thread_scheduler.h"
 

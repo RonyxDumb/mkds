@@ -43,9 +43,9 @@ typedef struct WiFiSelectHeapHolder {
     /* 0 */ void *mHeap;
 } WiFiSelectHeapHolder;
 
-// Object behind gSortServerList; the 0x5d8 bytes at offset 0x4c of a MatchingServerList.
-// Values of SBServerList.mState: browsing the local network, not connected, taking in the data that follows the list
-// (ad hoc), and receiving the main list.
+// The server list inside a MatchingServerList (its mList); gSortServerList points at it while a sort runs. Values of
+// SBServerList.mState: browsing the local network (only handled, never set here), not connected, taking in the messages
+// that follow the list (ad hoc), and receiving the main list.
 enum {
     SERVER_LIST_STATE_LOCAL_SCAN = 0,
     SERVER_LIST_STATE_NO_SOCKET = 1,
@@ -54,7 +54,7 @@ enum {
 };
 
 // Values of SBServerList.mParseState, the parts of the main list in the order they arrive: the cipher key, the own
-// address, the field names, the popular values, the entries; DONE once the list is complete.
+// address, the field names, the popular values, the entries; DONE once the list is complete or was not sent.
 enum {
     SERVER_LIST_PARSE_CIPHER_KEY = 0,
     SERVER_LIST_PARSE_ADDRESS = 1,

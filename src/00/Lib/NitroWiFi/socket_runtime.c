@@ -46,7 +46,7 @@ u32 SOCLi_RoundUp4(int size) {
     return size + 3U & 0xfffffffc;
 }
 
-// The halfword at 0x70 is read again for every test, through a volatile view of the object.
+// Every access to SOCLSocket.mStatusFlags goes through a volatile view of the socket.
 u32 SOCL_GetStatus(SOCLSocket *socket) {
     u32 status = 0;
     u32 interruptState;

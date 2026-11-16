@@ -22,7 +22,8 @@ typedef struct DWCACConfig {
     /* 0b */ u8 mSkipNetCheck;
 } DWCACConfig;
 
-// Values of WifiReportArgument.mReportCode that DWCi_AC_CallBackWCM turns into a connect result.
+// Values of WifiReportArgument.mReportCode that DWCi_AC_CallBackWCM turns into a connect result when a connect request
+// did not succeed.
 enum {
     WIFI_REPORT_CODE_RETRY_AUTH_FALLBACK = 0xd,
     WIFI_REPORT_CODE_ERROR_51100 = 0xf,

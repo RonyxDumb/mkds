@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-// Result of a GP request, stored in the mResult of the operation and of every response argument.
-// 4 is stored when the connection failed while a blocking request waited for it.
+// Result of a profile request; 0 is OK. 4 is also stored when the connection could not be opened and when the server
+// answered with an error.
 typedef enum ProfileRequestResult {
     PROFILE_REQUEST_OK = 0,
     PROFILE_REQUEST_FAILED = 4
@@ -17,7 +17,7 @@ typedef struct GPIBuffer {
     /* 0c */ s32 mPos;
 } GPIBuffer;
 
-// Callback and its argument, as stored in the object at 0x1a4 and passed by value to gpiAddCallback.
+// A callback function pointer as the library calls it: the connection, the argument and the stored parameter.
 typedef void (*GPCallback)(void *connection, void *arg, u32 param);
 
 // A callback function and the parameter it is called with.
@@ -66,7 +66,7 @@ typedef struct QueuedCallback {
     /* 14 */ struct QueuedCallback *mNext;
 } QueuedCallback;
 
-// Object gpiCallErrorCallback allocates and hands to gpiAddCallback.
+// The argument of the error callback: result, error code, error string and fatal flag.
 typedef struct ErrorData {
     /* 00 */ s32 mResult;
     /* 04 */ u32 mErrorCode;

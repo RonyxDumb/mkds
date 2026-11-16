@@ -60,8 +60,8 @@ int ReportBuddySyncGpResult(int result) {
     return result;
 }
 
-// Maps a InitStatsConnection result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls DWCi_StopFriendProcess;
-// returns the result.
+// Maps an InitStatsConnection result (1, 2, 3, 5, 7, else 11 / -9) to (kind, code - 0x11940) and calls
+// DWCi_StopFriendProcess; returns the result, 0 passes through.
 int DWCi_HandlePersError(int error) {
     s32 errorKind;
     s32 errorCode;

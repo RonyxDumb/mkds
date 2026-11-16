@@ -20,7 +20,8 @@ typedef struct GT2ConnectionCallbacks {
     /* 0c */ void (*mElapsedTimeCallback)(struct GTI2Connection *connection, u32 latency);
 } GT2ConnectionCallbacks;
 
-// Object with the callbacks that the functions of this file call.
+// One socket: mDescriptor, mAddress and mPort, its mConnections, the running callback count, its callbacks and the
+// buffer sizes.
 typedef struct GTI2Socket {
     /* 00 */ s32 mDescriptor;
     /* 04 */ u32 mAddress;
@@ -53,10 +54,10 @@ typedef struct GTI2Buffer {
     /* 8 */ s32 mLength;
 } GTI2Buffer;
 
-// Values of GTI2Connection.mState. A connection that started the exchange has sent its offer (OFFER_SENT) and then its
-// reply (REPLY_SENT); one that received an offer waits for it (AWAIT_OFFER), sends its challenge (CHALLENGE_SENT) and
-// waits for the answer of the incoming connection callback (AWAIT_DECISION). CLOSING follows a close request or a
-// reject; CLOSED connections are freed later.
+// Values of GTI2Connection.mState. The side that started the connection waits for the server challenge and then sends
+// its client response; the other side waits for the client challenge, sends its server challenge and, when the response
+// checks out, waits for the accept or reject call. CLOSING follows a close request or a reject; CLOSED connections are
+// freed later.
 enum {
     SOCKET_CONNECTION_AWAIT_SERVER_CHALLENGE = 0,
     SOCKET_CONNECTION_CLIENT_RESPONSE_SENT = 1,

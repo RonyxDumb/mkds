@@ -37,7 +37,7 @@ static char sPrefixKeyValuesLong[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
 static char sPrefixKeyValuesShort[] = "\x55\x08\x01\x01";
 static char sPrefixMd5Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
 static char sPrefixSha1Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
-u16 gOfferedValues[2] = {4, 5};
+u16 gOfferedValues[2] = {HTTPS_COMMON_VALUE_MD5, HTTPS_COMMON_VALUE_HASH20};
 const char *gTaggedItemPrefixes[6] = {sPrefixNone,       sPrefixKeyValuesLong, sPrefixKeyValuesShort,
                                       sPrefixMd5Digest, sPrefixSha1Digest,   sPrefixHostPattern};
 
@@ -145,8 +145,8 @@ CPSCaInfo *FindAuthorityByName(HttpsState *httpsState, const s8 *name) {
     return 0;
 }
 
-// Reads a length (one byte below 0x80, else 0x80 + n followed by n big-endian bytes) and moves *a past it; -1 when the
-// value would not fit in 32 bits.
+// Reads a length (one byte below 0x80, else 0x80 + n followed by n big-endian bytes) and moves *position past it; -1
+// when the value would not fit in 32 bits.
 s32 ReadLengthAndAdvance(u8 **position) {
     u8 *cursor;
     s32 length;
@@ -186,7 +186,8 @@ void AppendCommaSeparatedText(s8 *dest, const s8 *source, s32 count) {
     *dest = 0;
 }
 
-// Returns year << 16 | month << 8 | day from digit text; the two-digit year tag reads a two-digit year, else four.
+// Returns year << 16 | month << 8 | day from digit text; a tag kind of ITEM_TAG_DATE_TWO_DIGIT_YEAR means a two-digit
+// year (below 50 is 20xx, else 19xx), else four digits.
 u32 ParseDateText(const u8 *digits, u32 tagKind) {
     u32 leadingNumber;
     u32 year;
@@ -514,8 +515,8 @@ s32 GetTextLengthUpToDot(const s8 *text) {
     return text - start;
 }
 
-// Returns FALSE when the texts match; a '*' in the second matches the first characters of one dot-separated part of the
-// first.
+// Returns FALSE when text matches pattern; a '*' in pattern stands for any characters inside one dot-separated part of
+// text.
 BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
     s32 textPartLength;
     s32 patternPartLength;
@@ -540,8 +541,9 @@ BOOL CompareTextWithWildcard(const s8 *text, const s8 *pattern) {
     }
 }
 
-// Parses and checks each item of the list message in turn, passing the flags to mCheckFlagsCallback; mSetupState
-// becomes HTTPS_SETUP_ITEM_LIST_CHECKED when the last result is 0, else HTTPS_SETUP_FAILED.
+// Parses and checks the first item of the list message and goes on to the next only when its check failed but
+// mCheckFlagsCallback cleared the flags; mSetupState becomes HTTPS_SETUP_ITEM_LIST_CHECKED when the final flags are 0,
+// else HTTPS_SETUP_FAILED (also when an item does not parse).
 void ParseAndCheckItemListMessage(HttpsState *httpsState, u8 *cursor) {
     s32 itemIndex;
     s32 remainingLength;
@@ -719,7 +721,8 @@ void ParseOfferMessage(HttpsState *httpsState, const u8 *message) {
     }
 }
 
-// Transforms the bytes in b with the six length and pointer pairs of c and writes 0x30 bytes to a.
+// Transforms the bytes in encrypted with the six length and pointer pairs of privateKey and writes 0x30 bytes to
+// secret; does nothing when privateKey is NULL or its mModulusLength is 0.
 void decrypt_premaster_secret(u8 *secret, const u8 *encrypted, CPSPrivateKey *privateKey) {
     u16 *workBlock;
     u16 *keyBlock;
@@ -799,7 +802,8 @@ void ReplaceEntryBytesWithLabeledDigests(HttpsState *httpsState) {
     MI_CpuCopy8(firstDigest, httpsState->mEntry->mMasterSecret, sizeof(httpsState->mEntry->mMasterSecret));
 }
 
-// Fills mDerivedBytes from digests, splits it between the send and receive members and seeds the two key stream states.
+// Fills mDerivedBytes from digests, points the send and receive members into it (in the order set by
+// mReceivesOfferRecord) and seeds the two key stream states.
 void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     s32 digestLength;
     s32 keyStreamLength;
@@ -865,8 +869,8 @@ void DeriveBytesAndInitKeyStreamStates(HttpsState *httpsState) {
     CPSi_rc4_init(httpsState->mSendKeyStreamState, httpsState->mSendKeyStreamBytes, 0x10);
 }
 
-// Recovers the entry's 0x30 bytes from the encrypted secret, derives the key bytes and sets mSetupState to
-// HTTPS_SETUP_KEYS_DERIVED.
+// Recovers the entry's 0x30 bytes from the encrypted secret, replaces them with labeled digests, derives mDerivedBytes
+// and sets mSetupState to HTTPS_SETUP_KEYS_DERIVED.
 void rcv_client_key_exchange(HttpsState *httpsState, const u8 *encryptedSecret) {
     decrypt_premaster_secret(httpsState->mEntry->mMasterSecret, encryptedSecret, httpsState->mPrivateKey);
     ReplaceEntryBytesWithLabeledDigests(httpsState);
@@ -1095,8 +1099,9 @@ u32 ReadExactReceivedBytes(u8 *dest, s32 count, CPSSoc *connection) {
     return 0;
 }
 
-// Reads one record, checks and xors it when mSetupState is HTTPS_SETUP_CIPHER_RECORD_RECEIVED or
-// HTTPS_SETUP_COMPLETE, runs the handler of its kind and returns mSetupState.
+// Reads one record; xors and checks a non-alert record when mSetupState is HTTPS_SETUP_CIPHER_RECORD_RECEIVED or
+// HTTPS_SETUP_COMPLETE, and an alert only when it is longer than 7 bytes; runs the handler of its kind and returns
+// mSetupState.
 u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u32 length;
@@ -1183,7 +1188,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
                         case TLS_HANDSHAKE_CERTIFICATE:
                             ParseAndCheckItemListMessage(httpsState, body);
                             break;
-                        case TLS_HANDSHAKE_REPLY_END:
+                        case TLS_HANDSHAKE_ANSWER_END:
                             httpsState->mSetupState = HTTPS_SETUP_ANSWER_END_RECEIVED;
                             break;
                         case TLS_HANDSHAKE_DIGESTS:
@@ -1213,7 +1218,7 @@ u8 ReadHttpsRecordAndSetState(CPSSoc *connection) {
     return httpsState->mSetupState;
 }
 
-// Writes n bytes taken from digests of gRandomByteState, skipping zero bytes.
+// Writes count nonzero bytes taken from digests of gRandomByteState.
 void FillNonzeroRandomBytes(u8 *out, s32 count) {
     u8 digest[SHA1_DIGEST_SIZE];
     Hash20Context hashState;
@@ -1349,7 +1354,7 @@ u8 SendReplyRecord(CPSSoc *connection) {
             MI_CpuCopy8(itemList->mBytes, cursor, itemListLength);
             cursor += itemListLength;
         }
-        cursor[0] = TLS_HANDSHAKE_REPLY_END;
+        cursor[0] = TLS_HANDSHAKE_ANSWER_END;
         cursor[1] = 0;
         cursor[2] = 0;
         cursor += 3;
@@ -1746,8 +1751,8 @@ s32 SendHttpsBytesInChunks(const u8 *firstBytes, u32 firstLength, const u8 *seco
     return sentCount;
 }
 
-// When mSetupState is HTTPS_SETUP_COMPLETE sends the 7-byte record that ends with 1, 0, then runs
-// CPSi_TcpShutdownRaw and clears mSetupState.
+// Sends the 7-byte record that ends with 1, 0 when mSetupState is HTTPS_SETUP_COMPLETE; always runs CPSi_TcpShutdownRaw
+// and then sets mSetupState to HTTPS_SETUP_START.
 void CPSi_SslShutdown(CPSSoc *connection) {
     HttpsState *httpsState = connection->mHttpsState;
     u8 alertRecord[0x20];

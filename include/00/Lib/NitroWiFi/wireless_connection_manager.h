@@ -11,9 +11,10 @@ typedef enum WifiReportResult {
     WIFI_REPORT_UNRECOVERABLE = 7
 } WifiReportResult;
 
-// Values of WCMWork.mNotifyId: the request whose answer is reported next (named by the wireless call that starts it).
-// WcmNotify sends it and clears it.
-// SEARCH_FOUND and SCAN_ROUND are also sent on their own while searching.
+// Values of WCMWork.mNotifyId: the request whose answer is reported next, set by the Async call that starts it
+// (WCM_StartupAsync, WCM_CleanupAsync, WCM_BeginSearchAsync, WCM_EndSearchAsync, WCM_ConnectAsync, WCM_DisconnectAsync,
+// WCM_TerminateAsync). WcmNotify sends it and clears it. SEARCH_FOUND and SCAN_ROUND are also sent on their own while
+// searching (SCAN_ROUND once per round, when the round-scan option is set).
 enum {
     WIFI_NOTIFY_NONE = 0,
     WIFI_NOTIFY_STARTUP_REQUEST = 1,
@@ -27,7 +28,7 @@ enum {
     WIFI_NOTIFY_TERMINATE_REQUEST = 9,
 };
 
-// Event the function at mNotify is called with; built by WcmNotifyEx.
+// Notice WcmNotifyEx builds and passes to the function at WCMWork.mNotify.
 typedef struct WCMNotice {
     /* 00 */ u16 mNotify;
     /* 02 */ u16 mResult;
@@ -86,8 +87,9 @@ typedef struct WCMApListHeader {
 
 // Values of WCMWork.mPhase, which WCM_GetPhase returns (NONE before the work area is set up). Each Async call moves the
 // phase to the pending one (STARTING, STOPPING, SEARCH_STARTING, SEARCH_STOPPING, CONNECTING, DISCONNECTING,
-// TERMINATING) and its callback settles it. FAILED is final: WcmSetPhase no longer changes it. A refused request leaves
-// ABORT_PENDING, where the running step ends by resetting.
+// TERMINATING) and its callback settles it. FAILED is final: WcmSetPhase no longer changes it. A request the unit
+// refuses in the common callback, a call that fails with the pipe error, or a fatal pipe event while connecting or
+// disconnecting leaves ABORT_PENDING; the next callback of the running step then resets.
 enum {
     WIFI_LINK_PHASE_NONE = 0,
     WIFI_LINK_PHASE_STOPPED = 1,

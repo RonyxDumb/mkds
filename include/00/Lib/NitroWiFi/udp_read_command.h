@@ -17,7 +17,8 @@ typedef struct SOCLiSocketUdpData {
     /* 0c */ u8 mData[4];
 } SOCLiSocketUdpData;
 
-// An SOCLiCommandPacket entry as SOCLi_ReadCallBack reads it.
+// A SOCLiCommandPacket filled for a read: the buffer to fill and its length, and where to put the sender port and
+// address.
 typedef struct SOCLiCommandRead {
     /* 00 */ SOCLiCommandHandler mUnk_00;
     /* 04 */ SOCLSocket *mSocket;

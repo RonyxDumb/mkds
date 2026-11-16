@@ -11,15 +11,15 @@
 typedef struct HttpsEntry HttpsEntry;
 typedef struct CPSPrivateKey CPSPrivateKey;
 
-// Length and pointer of the item list a reply sends (mItemList).
+// Length and pointer of the item list an answer record sends (mItemList).
 typedef struct ItemList {
     /* 0 */ u32 mLength;
     /* 4 */ u8 *mBytes;
 } ItemList;
 
-// Values of HttpsState.mSetupState; the record handlers set the ones between START and COMPLETE.
-// OFFER and ANSWER are the handshake records of type 1 and 2; REPLY_END is the record of type 0xe, which has no body
-// and ends the reply.
+// Values of HttpsState.mSetupState; the record handlers set the ones between START and COMPLETE. OFFER and ANSWER are
+// the handshake messages of type 1 and 2; ANSWER_END is the message of type 0xe, which has no body and ends the answer
+// record.
 typedef enum HttpsSetupState {
     HTTPS_SETUP_START = 0,
     HTTPS_SETUP_OFFER_RECEIVED = 1,
@@ -36,7 +36,7 @@ typedef enum HttpsSetupState {
 struct HttpsState;
 typedef u32 (*HttpsCheckFlagsCallback)(u32 flags, struct HttpsState *httpsState, s32 itemIndex);
 
-// Values of HttpsState.mCommonValue, the value both sides offered: the record digest is made with the MD5 code (16
+// Values of HttpsState.mCommonValue, the two values in gOfferedValues: the record digest is made with the MD5 code (16
 // bytes) or the 20-byte hash code.
 enum {
     HTTPS_COMMON_VALUE_MD5 = 4,
@@ -67,7 +67,7 @@ typedef struct HttpsState {
     /* 31c */ Hash20Context mScratchHash20;
     /* 378 */ CPSMd5Ctx mMessageHash16;
     /* 3d0 */ CPSMd5Ctx mScratchHash16;
-    // 1 on the side that receives the kind 1 message, 0 on the side that sends it.
+    // 1 on the side that receives the type 1 message, 0 on the side that sends it.
     /* 428 */ u8 mReceivesOfferRecord;
     /* 429 */ u8 mSetupState;
     /* 42c */ s32 mDigestKind;
@@ -98,7 +98,6 @@ typedef struct HttpsState {
     /* 7dc */ s32 mItemLength;
     /* 7e0 */ u32 mCurrentDate;
     /* 7e4 */ HttpsCheckFlagsCallback mCheckFlagsCallback;
-    // Pointer to the table of authority records.
     /* 7e8 */ CPSCaInfo **mAuthorities;
     /* 7ec */ u32 mAuthorityCount;
     /* 7f0 */ CPSPrivateKey *mPrivateKey;

@@ -29,7 +29,7 @@ typedef struct DWCNetcheck {
     /* 1200 */ u8 mThreadStack[0x1000];
 } DWCNetcheck;
 
-// Object filled by DWC_Auth_GetResult.
+// Server login result: mReturnCode, mToken and mChallenge, filled by DWC_Auth_GetResult.
 typedef struct DWCAuthResult {
     /* 000 */ s32 mReturnCode;
     /* 004 */ u8 mUnk_004[0x46];

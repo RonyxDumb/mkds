@@ -376,7 +376,7 @@ void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen,
     DWCi_InitOptMinCompParam(0);
 }
 
-// Per-frame step; the state machine runs only when the parameter is 1.
+// Per-frame step; the state machine runs only when runStateMachine is nonzero (0 only polls qr2 and gt2).
 void DWCi_MatchProcess(s32 runStateMachine) {
     WiFiMatching *wiFiMatching;
     u32 waitMs;
@@ -599,8 +599,8 @@ u32 DWCi_GT2UnrecognizedMessageCallback(GTI2Socket *socket, s32 address, s32 por
     return 1;
 }
 
-// Accepts an incoming connection in the CONNECT_CLIENT state from the expected participant, otherwise refuses it with a
-// reason text.
+// Accepts an incoming connection in the CONNECT_CLIENT state (no stop pending) from the expected participant, otherwise
+// refuses it with a reason text; a full connection list or a failed accept also ends the matching with an error.
 void DWCi_GT2ConnectAttemptCallback(u32 socket, GTI2Connection *connection, u32 address, u32 port, s32 latency,
                                     char *message) {
     WiFiMatching *wiFiMatching;
@@ -659,8 +659,9 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, GTI2Connection *connection, u32 
     DWCi_PostProcessConnection(POST_PROCESS_ACCEPTED_PEER);
 }
 
-// Result of a connect to a peer: 0 adds the peer, 6 retries the connect up to 5 times, 5 is ignored, 2 ends the
-// attempt, other results are reported.
+// Result of a connect to a peer, handled only in the CONNECT_CLIENT and CONNECT_SERVER states: 0 adds the peer, 6
+// retries the connect up to 5 times and then ends the attempt, 5 is ignored, 2 ends the attempt, other results are
+// reported.
 void DWCi_GT2ConnectedCallback(GTI2Connection *connection, s32 result) {
     WiFiMatching *wiFiMatching;
     s32 index;
@@ -2026,7 +2027,8 @@ u32 DWCi_SendResvCommandToFriend(s32 delay, s32 init) {
     }
 }
 
-// Starts the search again: the server list in mode 0, the next buddy in mode 1.
+// Starts the search again: the server list in filter-search mode, the next buddy in buddy-list mode; server-client mode
+// stops matching. Returns 0 after an error was reported.
 u32 DWCi_RetryReserving(void) {
     WiFiMatching *wiFiMatching;
 
@@ -2526,7 +2528,8 @@ void DWCi_CloseAllConnectionsByTimeout(void) {
     gWiFiMatching->mCloseKind = WIFI_MATCH_CLOSE_NONE;
 }
 
-// Tells the participants in the mask to drop the others, then closes the connections to those not in the mask.
+// Tells the participants in the mask to drop the others, then closes the connections to those not in the mask; returns
+// 0 if a send fails.
 u32 DWCi_CloseShutdownClientSC(u32 mask) {
     u32 otherIds[WIFI_MATCH_MAX_PARTICIPANTS];
     u32 inMaskIds[WIFI_MATCH_MAX_PARTICIPANTS];
@@ -3315,8 +3318,9 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SBServer *server, u32 
 
 void DWCi_SBPrintServerData(SBServer *server) {}
 
-// Removes servers already in the list or refused by mEvalCallback and stores the callback's value for each remaining
-// one under dwc_eval.
+// Drops servers that are already participants (filter search) or that mEvalCallback rates 0 or less; stores a value
+// under dwc_eval for each other server (random without a callback) and sorts by it when sort is set; returns FALSE if
+// the callback refused servers and none remain.
 BOOL DWCi_EvaluateServers(s32 sort) {
     BOOL removedAny;
     BOOL removedThis;

@@ -101,11 +101,11 @@ BOOL DWCi_IsSendableReliable(u32 aid, s32 type) {
     return FALSE;
 }
 
-// Starts a send of kind a (1 = data) to peer b: refuses (FALSE) while an error is pending or DWCi_IsSendableReliable
-// says no (peer not usable, kind 1 to a non-participant, already sending, or less send room than the header needs);
+// Starts a send of type (1 = data) to peer aid: refuses (FALSE) while an error is pending or DWCi_IsSendableReliable
+// says no (peer not usable, type 1 to a non-participant, already sending, or less send room than the header needs);
 // marks the peer sending, stores the buffer and size, writes the 8-byte header and the first chunk (when the socket has
 // no room for the chunk it returns TRUE after the header); DWCi_TransportProcess sends the later chunks; calls
-// mSendCallback when the whole message went out at once (kind 1 only).
+// mSendCallback when the whole message went out at once (type 1 only).
 BOOL DWCi_SendReliable(u16 type, u32 aid, u8 *buffer, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     DWCTransportHeader header;
@@ -160,8 +160,9 @@ BOOL DWC_SendUnreliable(u32 aid, void *buffer, s32 size) {
     return TRUE;
 }
 
-// Gives peer a the buffer b of capacity c to receive into and sets mReceiveState to 1 with both received counters 0;
-// refuses (FALSE) while a body is being received into the old buffer (state 2).
+// Gives peer aid the buffer recvBuffer of capacity size to receive into and sets mReceiveState to
+// WIFI_PEER_RECEIVE_STATE_EXPECT_HEADER with mReceivedSize and mReceiveSize 0; refuses (FALSE) while a data body is
+// being received into the old buffer (state WIFI_PEER_RECEIVE_STATE_DATA_BODY).
 BOOL DWC_SetRecvBuffer(u32 aid, void *recvBuffer, s32 size) {
     WiFiPeerMessage *peer = DWCs_GetTransConnection(aid);
     if (DWCs_GetRecvState(aid) == 2) {

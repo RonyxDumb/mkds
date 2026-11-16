@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Values of KeyInfo.mKeyType: how the key's value is stored in a server record, as a string index, one byte or two
+// Values of KeyInfo.mKeyType: how a key's value is laid out in the server list data, as a string, one byte or two
 // bytes.
 enum {
     SERVER_KEY_STORED_AS_STRING,

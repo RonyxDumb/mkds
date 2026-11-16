@@ -45,8 +45,9 @@ void DWCi_LoginAsync(void) {
     gWiFiLogin->mConnectPending = FALSE;
 }
 
-// One step per connection frame in state 2 (DWC_ProcessFriendsMatch returns first when an error is pending); mState 1
-// runs DWCi_RemoteLoginProcess, 2 to 4 pump gpProcess and time the GP connect out (60 s), 5 does nothing.
+// One step per frame while WiFiConnection.mState is 2 (DWC_ProcessFriendsMatch returns first when an error is pending);
+// WiFiLogin.mState 1 runs DWCi_RemoteLoginProcess, 2 to 4 call gpProcess when the GP connection exists and, while
+// mConnectPending is set, stop the login with error 6 after 60 s; 0 and 5 do nothing.
 void DWCi_LoginProcess(void) {
     WiFiLogin *wiFiLogin;
     if (gWiFiLogin == NULL || DWCi_IsError() != 0) {
@@ -82,9 +83,9 @@ DWCAccUserData *DWCi_GetUserData(void) {
     return NULL;
 }
 
-// Records the (kind, code) pair, calls mResultCallback with the kind and resets the machine (DWCi_CloseLogin); does
-// nothing when the object is NULL or the kind is 0. Same extent as DWCi_StopFriendProcess (which closes the stats
-// link).
+// Records the (kind, code) pair with DWCi_SetError, calls mResultCallback (when set) with (kind, 0,
+// mResultCallbackArg), then resets the machine with DWCi_CloseLogin; does nothing when gWiFiLogin is NULL or the kind
+// is 0.
 void DWCi_StopLogin(s32 error, s32 errorCode) {
     if (gWiFiLogin != NULL && error != 0) {
         DWCi_SetError(error, errorCode);
@@ -95,8 +96,8 @@ void DWCi_StopLogin(s32 error, s32 errorCode) {
     }
 }
 
-// Frees the Http (cancel and close the request first) and sets gWiFiLogin to 0; the object itself is part of
-// WiFiConnection and is not freed. Called by DWC_ShutdownFriendsMatch; no NULL test of gWiFiLogin.
+// Frees the Http when there is one (DWC_Auth_Abort and DWC_Auth_Destroy first) and sets gWiFiLogin to NULL; the object
+// itself is part of WiFiConnection and is not freed. Called by DWC_ShutdownFriendsMatch; no NULL test of gWiFiLogin.
 void DWCi_ShutdownLogin(void) {
     if (gWiFiLogin->mHttp != NULL) {
         DWC_Auth_Abort();
@@ -147,10 +148,11 @@ s32 ReportWiFiLoginGpResult(s32 result) {
     return result;
 }
 
-// Callback of the GP connect, given by DWCi_GPConnect: clears mConnectPending; on success in mState 2 checks
-// the saved record's profile id, then (DWCi_GT2Startup, DWCi_QR2Startup with the profile id) sets mState 5 and
-// reports success through mResultCallback (id mismatch: error 6); in mState 3 calls GpGetInfo with the
-// profile id and DWCi_GPGetInfoCallback as its callback; a GP error goes to ReportWiFiLoginGpResult.
+// Callback of the GP connect (DWCi_GPConnect hands it to GpConnectPreAuthenticatedA): clears mConnectPending; on
+// success in mState 2 first sets the GP status online, then checks the saved record's profile id and, only when
+// DWCi_GT2Startup and DWCi_QR2Startup with the profile id both return 0, sets mState 5 and reports success through
+// mResultCallback (id mismatch: error 6); on success in mState 3 calls GpGetInfo with the profile id and
+// DWCi_GPGetInfoCallback; a GP error goes to ReportWiFiLoginGpResult.
 void DWCi_GPConnectCallback(GPConnection *connection, ConnectReply *arg, u32 param) {
     gWiFiLogin->mConnectPending = FALSE;
     if (arg->mResult == PROFILE_REQUEST_OK) {
@@ -182,10 +184,11 @@ void DWCi_RemoteAuthCallback(char *authToken, char *partnerChallenge) {
     DWCi_GPConnect(authToken, partnerChallenge, DWCi_GPConnectCallback, WIFI_LOGIN_CONNECT_KNOWN_ID);
 }
 
-// Copies the token and the second string, sets mConnectStartTime and mConnectPending, starts the GP connect
-// (GpConnectPreAuthenticatedA) with callback c, reporting a failed start through ReportWiFiLoginGpResult, and only when
-// it started sets mState to d (2 from DWCi_RemoteAuthCallback, 3 from DWCi_RemoteLoginProcess); DWCi_LoginProcess then
-// pumps gpProcess and times the connect out.
+// Copies authToken and partnerChallenge, sets mConnectStartTime and mConnectPending, starts the GP connect
+// (GpConnectPreAuthenticatedA) with callback, reporting a failed start through ReportWiFiLoginGpResult, and only when
+// it started sets mState to targetState (WIFI_LOGIN_CONNECT_KNOWN_ID from DWCi_RemoteAuthCallback,
+// WIFI_LOGIN_CONNECT_NEW_ID from DWCi_RemoteLoginProcess); DWCi_LoginProcess then pumps gpProcess and times the connect
+// out.
 void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(), s32 targetState) {
     WiFiLogin *wiFiLogin;
     u32 loginResult;
@@ -206,9 +209,10 @@ void DWCi_GPConnect(char *authToken, char *partnerChallenge, void (*callback)(),
 }
 
 // Stores the done callback and its argument in two globals (stRemoteAuthCallback / pStRemoteAuthParam), formats the
-// login id text (from the saved record's id, or from a 12-byte id it takes or makes), allocates the Http (0x1a60),
-// records the start time and issues the request; DWCi_RemoteLoginProcess polls the reply. Called by DWCi_LoginAsync
-// and by the profile check DWCi_GPGetInfoCallback, which restarts the request.
+// login id text (from the saved record's id when DWCi_Acc_IsAuthentic accepts it, otherwise from mTempLoginId, which it
+// fills from the pseudo id or a new id, or gives a new player id when it already holds one), allocates the Http
+// (0x1a60), records the start time and issues the request; DWCi_RemoteLoginProcess polls the reply. Called by
+// DWCi_LoginAsync and by the profile check DWCi_GPGetInfoCallback, which restarts the request.
 void DWCi_RemoteLogin(void (*callback)(), void *param) {
     AuthCreateParams authParams;
     void *httpBlock;
@@ -243,8 +247,8 @@ void DWCi_RemoteLogin(void (*callback)(), void *param) {
 
 // State 1 step of DWCi_LoginProcess (every frame while mState is 1): when the reply is done (status 0x14) copies the
 // token and the second string, frees the Http and goes on through the stored callback (when DWCi_Acc_IsAuthentic
-// accepts the saved record) or DWCi_GPConnect with state 3; while the request runs, reports error 2 after 10
-// s, otherwise closes it and issues it again.
+// accepts the saved record) or DWCi_GPConnect with state 3; when DWC_Auth_GetError reports any other nonzero status,
+// reports error 2 once 10 s have passed since the request started, otherwise closes the request and issues it again.
 void DWCi_RemoteLoginProcess(void) {
     AuthCreateParams authParams;
     DWCAuthResult authResult;
@@ -320,8 +324,8 @@ void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 par
     }
 }
 
-// 1 only in mState 5 (set on success by DWCi_GPConnectCallback), 0 when the object is NULL; the buddy sync gates on
-// it and DWC_DeleteBuddyFriendData tests it.
+// 1 only in mState WIFI_LOGIN_DONE (set on success by DWCi_GPConnectCallback), 0 when the object is NULL;
+// DWC_DeleteBuddyFriendData and DWCi_GetFriendBuddyStatus test it.
 u32 DWCi_CheckLogin(void) {
     if ((gWiFiLogin != NULL) && (gWiFiLogin->mState == WIFI_LOGIN_DONE)) {
         return 1;

@@ -4,8 +4,6 @@
 
 typedef struct SOCHostEnt SOCHostEnt;
 
-// Entry of the list behind gServerReqs, appended by AddRequestCallback; the function at 0x18 takes the arguments of the
-// entry's type.
 typedef void (*ServerReqAuthCallback)(u32 localId, u32 profileId, u32 authenticated, const void *data, u32 instance);
 typedef void (*ServerReqSaveCallback)(u32 localId, u32 profileId, s32 type, u32 index, s32 success, u32 modified,
                                       u32 instance);
@@ -26,6 +24,8 @@ enum {
     SERVER_REQ_TYPE_PROFILE,
 };
 
+// A request waiting for the stats server's reply, appended by AddRequestCallback; mCallback takes the arguments that go
+// with its mReqType.
 typedef struct ServerReq {
     /* 00 */ s32 mReqType;
     /* 04 */ u32 mLocalId;

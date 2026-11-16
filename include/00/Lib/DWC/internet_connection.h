@@ -4,9 +4,9 @@
 
 u32 DWC_GetLinkLevel(void);
 
-// Values of DWCInetControl.mState, which DWC_GetInetStatus also returns (0 without the object): the connect has not
-// started, the access point connection is being made, it finished, the link is up, the cleanup has started, the link
-// was lost, or the access point connection failed (the code is large or small, as DWC_GetInetStatus sorts it).
+// Values of DWCInetControl.mState. DWC_GetInetStatus returns 0 without the object and otherwise only CONNECTING, ONLINE
+// or one of the two FAILED values; the failed values split the access point error code: -1 to -10 is SMALL_CODE, below
+// -10 is LARGE_CODE.
 enum {
     INET_STATUS_INITIALIZED = 1,
     INET_STATUS_CONNECTING = 2,

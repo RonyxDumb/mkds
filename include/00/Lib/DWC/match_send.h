@@ -6,7 +6,8 @@
 typedef struct WiFiMatching WiFiMatching;
 typedef struct SBServer SBServer;
 
-// The five characters at gMatchingSignature, copied into the first member of MatchingSendHeader.
+// The signature text of gMatchingSignature: four characters and a terminating zero; the send copies all five bytes onto
+// the start of the header and the receive compares four.
 typedef struct MatchingSignatureText {
     /* 0 */ char mText[5];
 } MatchingSignatureText;
