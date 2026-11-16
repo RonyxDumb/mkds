@@ -150,7 +150,7 @@ void StartCoinDrop(void) {
     if (coin != NULL) {
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+        angle = (u16) (((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32);
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
         speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
@@ -187,7 +187,7 @@ void StartCoinBossTransfer(void) {
     if (coin != NULL) {
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-        angle = (u16) (((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32);
+        angle = (u16) (((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32);
         random = GetMapObjectRandom();
         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
         speed = (u32) (((u64) (u32) (random->mValue >> 32) * 0x800) >> 32) + 0x800;
@@ -244,7 +244,7 @@ void SetBossCoinShownCount(s32 shownCount) {
                     if (coin->mTargetPos == NULL) {
                         random = GetMapObjectRandom();
                         random->mValue = (s64) random->mMultiplier * (s64) random->mValue + random->mIncrement;
-                        angle = ((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32;
+                        angle = ((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
                         coin->mScaleFactor = COIN_SCALE_FULL;
                         coin->mModelAlpha = 0;
                         coin->mTargetPos =

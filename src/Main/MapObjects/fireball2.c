@@ -258,14 +258,14 @@ void InitFireball2Objects(MapObjectList *mapObjectList) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         randomBits = mapObjectRandom->mValue >> 32;
-        fireball2->mCenterRotationAngle = (randomBits * 0x10000) >> 32;
+        fireball2->mCenterRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
         for (elementIndex = 0; elementIndex < fireball2->mRowElementCount; elementIndex++) {
             for (rowIndex = 0; rowIndex < fireball2->mRowCount; rowIndex++) {
                 mapObjectRandom = GetMapObjectRandom();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 randomBits = mapObjectRandom->mValue >> 32;
-                fireball2->mElements[rowIndex][elementIndex].mRotationAngle = (randomBits * 0x10000) >> 32;
+                fireball2->mElements[rowIndex][elementIndex].mRotationAngle = (randomBits * ANGLE_FULL_TURN) >> 32;
             }
         }
     }

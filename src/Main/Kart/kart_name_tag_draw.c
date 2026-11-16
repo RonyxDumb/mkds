@@ -302,7 +302,7 @@ void SetupKartEmblemTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     plttBuffer = gKartEmblemPlltBuffer;
     emblemTex = gKartNameTags->mEmblemTex[kartIndex];
     MI_CpuCopy8(gKartNameTags->mEmblemPltt[kartIndex], plttBuffer, texPlttEntry->mPlttByteCount);
-    firstColor = 0x7fff;
+    firstColor = COLOR15_WHITE;
     if (gRaceSetup->mUseTeams != 0) {
         firstColor = gTeamPaletteColors[gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }

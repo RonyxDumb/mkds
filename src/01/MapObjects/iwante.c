@@ -494,9 +494,9 @@ void StartIwanteHandMoveSideways(MissionRunMapObject *mapObject) {
     Vec3 zeroVector = {0, 0, 0};
 
     if ((mapObject->mMapObject.mFlags & MAP_OBJECT_FLAG_MIRRORED) == 0) {
-        mapObject->mMoveAngle = mapObject->mAngle + 0x4000;
+        mapObject->mMoveAngle = mapObject->mAngle + ANGLE_QUARTER_TURN;
     } else {
-        mapObject->mMoveAngle = mapObject->mAngle - 0x4000;
+        mapObject->mMoveAngle = mapObject->mAngle - ANGLE_QUARTER_TURN;
     }
     StartMapObjectState(mapObject, 3, (s32(*)(MissionRunMapObject *)) AdvanceIwanteHandSidewaysSound);
     StartAnimationNoEndCallback(mapObject, mapObject->mPrm->mIwante.mMoveSidewaysAnimationEntry,

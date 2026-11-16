@@ -604,8 +604,8 @@ void InitRaceTaPositions(void) {
         } while (index < gRaceSetup->mKartCount);
     }
     for (index = 0; index < 16; index++) {
-        s32 pairFirst = SIN_OF_ANGLE((u16) (index * 0x10000 / 16));
-        s32 pairSecond = COS_OF_ANGLE((u16) (index * 0x10000 / 16));
+        s32 pairFirst = SIN_OF_ANGLE((u16) (index * ANGLE_FULL_TURN / 16));
+        s32 pairSecond = COS_OF_ANGLE((u16) (index * ANGLE_FULL_TURN / 16));
         gRaceTaPositions->mRotations[index].mElements[0] = pairSecond;
         gRaceTaPositions->mRotations[index].mElements[1] = pairFirst;
         gRaceTaPositions->mRotations[index].mElements[2] = -pairFirst;
@@ -752,7 +752,7 @@ void DrawRaceTaPositions(RaceHudOamBuffer *oamBuffer) {
                 u16 angle = (u16) (gRaceTaPositions->mSamples[index][j].mAngle +
                                    GetSubScreenAngleAndClearScrollTimer()) +
                             0x800;
-                u16 rotationIndex = ((angle << 4) / 0x10000) % 16;
+                u16 rotationIndex = ((angle << 4) / ANGLE_FULL_TURN) % 16;
                 if (ComputeRaceHudSubScreenPosition(&gRaceTaPositions->mSamples[index][j].mPos,
                                                     &samplePosition, scale, 1, 1) != FALSE) {
                     switch (gRaceTaPositions->mSamples[index][j].mKind) {

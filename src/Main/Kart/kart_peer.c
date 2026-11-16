@@ -174,7 +174,7 @@ void AdvancePeerKartOrientation(Kart *kart, Vec3 *groundNormal) {
     QuaternionBlend(&kart->mTiltQuaternion, &kart->mAirTiltQuaternion, &kart->mTiltQuaternion,
                     kart->mQuaternionBlendFactor);
     headingDifference = kart->mHeadingAngle - recordState->mSmoothedHeadingAngle;
-    if ((headingDifference > 0 ? headingDifference : -headingDifference) > 0x7fff) {
+    if ((headingDifference > 0 ? headingDifference : -headingDifference) > ANGLE_HALF_TURN - 1) {
         if (headingDifference > 0) {
             headingDifference = -(0xffff - headingDifference);
         } else {

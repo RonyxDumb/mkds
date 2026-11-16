@@ -73,13 +73,13 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
 
     sine = FX_SinIdx(bridge->mSwingAngle);
     swingMagnitude = bridge->mSwingAmplitude + MUL_FIXED12_NO_ROUND(sine, bridge->mSwingAmplitude);
-    angle = 0x10000 - swingMagnitude;
+    angle = ANGLE_FULL_TURN - swingMagnitude;
     angleDelta = angle - bridge->mAngleX;
-    if (angleDelta > 0x8000) {
-        angleDelta -= 0x10000;
+    if (angleDelta > ANGLE_HALF_TURN) {
+        angleDelta -= ANGLE_FULL_TURN;
     }
-    if (angleDelta < -0x8000) {
-        angleDelta += 0x10000;
+    if (angleDelta < -ANGLE_HALF_TURN) {
+        angleDelta += ANGLE_FULL_TURN;
     }
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.x =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mMatrix.mRows[0].x, angleDelta);
@@ -111,8 +111,9 @@ void UpdateBridge(s32 unused, Bridge *bridge) {
                bridge->mSwingAngle < bridge->mSwingAnglePerFrame + ANGLE_MINUS_QUARTER_TURN) {
         bridge->mPauseTimer = bridge->mTroughPauseFrameCount;
     }
-    angle = 0x10000 - bridge->mAngleX;
-    bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mAngleX) * 0x1680000) + 0x80000) >> 20)
+    angle = ANGLE_FULL_TURN - bridge->mAngleX;
+    bridge->mAnimationFrameIndex = (s32) ((((s64) (s32) (u16) (ANGLE_FULL_TURN - bridge->mAngleX) * 0x1680000)
+        + 0x80000) >> 20)
                                    << 1;
     if (bridge->mAnimationFrameIndex > gBridgeDrawList->mAnimationFrameCount) {
         bridge->mAnimationFrameIndex = gBridgeDrawList->mAnimationFrameCount;

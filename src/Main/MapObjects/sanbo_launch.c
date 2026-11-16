@@ -22,7 +22,7 @@ void StartSanboLaunch(Sanbo *sanbo) {
         mapObjectRandom = GetMapObjectRandom();
         mapObjectRandom->mValue =
             (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
-        randomAngle = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
+        randomAngle = ((u64) (u32) (mapObjectRandom->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
         sanbo->mPieces[pieceIndex].mPos.x = sanbo->mMapObject.mPos.x;
         sanbo->mPieces[pieceIndex].mPos.y = sanbo->mMapObject.mPos.y + pieceIndex * 0x14000;
         sanbo->mPieces[pieceIndex].mPos.z = sanbo->mMapObject.mPos.z;

@@ -75,11 +75,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         zeroedVector->y = 0;
         zeroedVector->z = 0;
         {
-            Quaternion identityA = {0, 0, 0, 0x1000};
+            Quaternion identityA = {0, 0, 0, FIXED12_UNIT};
             kuribo->mOrientation = identityA;
         }
         {
-            Quaternion identityB = {0, 0, 0, 0x1000};
+            Quaternion identityB = {0, 0, 0, FIXED12_UNIT};
             kuribo->mTargetOrientation = identityB;
         }
         kuribo->mFrameIndex = 0;
@@ -94,11 +94,11 @@ void InitKuribo(Kuribo *kuribo, CourseMapRow *row) {
         InitStateMachine(&kuribo->mMapObject.mStateMachine, gKuriboStateTable, 6, kuribo);
         kuribo->mOrientationBlendAmount = FIXED12_UNIT;
         {
-            Quaternion identityA = {0, 0, 0, 0x1000};
+            Quaternion identityA = {0, 0, 0, FIXED12_UNIT};
             kuribo->mOrientation = identityA;
         }
         {
-            Quaternion identityB = {0, 0, 0, 0x1000};
+            Quaternion identityB = {0, 0, 0, FIXED12_UNIT};
             kuribo->mTargetOrientation = identityB;
         }
         SetStateMachineState(&kuribo->mMapObject.mStateMachine, KURIBO_STATE_FALL_TO_SURFACE);

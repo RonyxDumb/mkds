@@ -426,7 +426,7 @@ s32 ComputeSoundPan(SoundParams *soundParams) {
     s32 pan;
 
     angle = FX_Atan2Idx(TO_FIXED12(soundParams->mCameraForwardDistance), -soundParams->mCameraSideDistance << 12);
-    if (angle > 0x7fff) {
+    if (angle > ANGLE_HALF_TURN - 1) {
         angle = (u16) (0xffff - angle);
     }
     pan = FROM_FIXED12(MUL_FIXED12_ROUNDED((s32) TO_FIXED12(angle), -32));

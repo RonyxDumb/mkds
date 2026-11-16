@@ -90,15 +90,15 @@ void Matrix4x3FromQuaternion(MtxFx43 *mtx, const Vec4 *quat) {
     quatXY = quatX * quatY >> 11;
     quatXZ = quatX * quatZ >> 11;
     quatYZ = quatY * quatZ >> 11;
-    elements[0] = 0x1000 - (quatYY + quatZZ);
+    elements[0] = FIXED12_UNIT - (quatYY + quatZZ);
     elements[1] = quatXY + quatWZ;
     elements[2] = quatXZ - quatWY;
     elements[3] = quatXY - quatWZ;
-    elements[4] = 0x1000 - (quatZZ + quatXX);
+    elements[4] = FIXED12_UNIT - (quatZZ + quatXX);
     elements[5] = quatYZ + quatWX;
     elements[6] = quatXZ + quatWY;
     elements[7] = quatYZ - quatWX;
-    elements[8] = 0x1000 - (quatXX + quatYY);
+    elements[8] = FIXED12_UNIT - (quatXX + quatYY);
     elements[9] = 0;
     elements[10] = 0;
     elements[11] = 0;
@@ -134,15 +134,15 @@ void Matrix3x3FromQuaternion(MtxFx33 *mtx, void *quatPtr) {
     quatXY = quatX * quatY >> 11;
     quatXZ = quatX * quatZ >> 11;
     quatYZ = quatY * quatZ >> 11;
-    elements[0] = 0x1000 - (quatYY + quatZZ);
+    elements[0] = FIXED12_UNIT - (quatYY + quatZZ);
     elements[1] = quatXY + quatWZ;
     elements[2] = quatXZ - quatWY;
     elements[3] = quatXY - quatWZ;
-    elements[4] = 0x1000 - (quatZZ + quatXX);
+    elements[4] = FIXED12_UNIT - (quatZZ + quatXX);
     elements[5] = quatYZ + quatWX;
     elements[6] = quatXZ + quatWY;
     elements[7] = quatYZ - quatWX;
-    elements[8] = 0x1000 - (quatXX + quatYY);
+    elements[8] = FIXED12_UNIT - (quatXX + quatYY);
 }
 
 void AdvanceKartMotion(Kart *kart) {
@@ -507,8 +507,8 @@ s32 ApplyKartTurn(Kart *kart, s16 baseTurnRate, s16 turnSign, s32 direction, s32
         kart->mTurnRatio += direction * 0x666;
         if (kart->mTurnRatio > FIXED12_UNIT) {
             kart->mTurnRatio = FIXED12_UNIT;
-        } else if (kart->mTurnRatio < -0x1000) {
-            kart->mTurnRatio = -0x1000;
+        } else if (kart->mTurnRatio < -FIXED12_UNIT) {
+            kart->mTurnRatio = -FIXED12_UNIT;
         }
     }
     if (kart->mVelocityLength != 0 && !(kart->mMotionFlags & KART_MOTION_LOW_SPEED_TURN)) {

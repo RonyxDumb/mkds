@@ -664,7 +664,7 @@ void InitDisplayFromSettings(DisplaySettings *settings) {
         reg_G2_BLDCNT = 0;
         reg_G3_SWAP_BUFFERS = (settings->mG3xParams->mBufferMode << 1) | settings->mG3xParams->mSortMode;
         clearColor = settings->mG3xParams->mClearColor;
-        G3X_SetClearColor((u16) (clearColor & 0x7fff), (u8) ((clearColor & 0x8000) >> 15), 0x7fff, 0x3f, 0);
+        G3X_SetClearColor((u16) (clearColor & COLOR15_MASK), (u8) ((clearColor & 0x8000) >> 15), 0x7fff, 0x3f, 0);
     }
     if (settings->mMainDisplayMask & GX_PLANEMASK_BG0) {
         cnt = &settings->mMainBgRecords.mBg0;

@@ -226,7 +226,7 @@ void SetKoopaCourseLight2(void) {
     }
     lightVector = gKoopaCourseLight2Vector;
     NNS_G3dGlbLightVector(2, lightVector.x, lightVector.y, lightVector.z);
-    NNS_G3dGlbLightColor(2, 0x7fff);
+    NNS_G3dGlbLightColor(2, COLOR15_WHITE);
 }
 
 void InitCourseModelsFogEnableFlags(void) {

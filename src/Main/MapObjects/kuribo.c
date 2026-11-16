@@ -48,8 +48,8 @@ StateCallbacks gKuriboStateTable[6] = {{EnterKuriboWalkPath, UpdateKuriboWalkPat
                                        {EnterKuriboFlatWait, UpdateKuriboFlatWait},
                                        {EnterKuriboSpringBack, UpdateKuriboSpringBack}};
 
-const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, 0x1000}};
-const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, 0x1000}};
+const struct Quaternion gKuriboBombResetOrientation = {{0, 0, 0, FIXED12_UNIT}};
+const struct Quaternion gKuriboBombResetTargetOrientation = {{0, 0, 0, FIXED12_UNIT}};
 
 void EnterKuriboWalkPath(void *stateObject) {
     Kuribo *kuribo = stateObject;

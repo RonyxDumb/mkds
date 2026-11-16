@@ -313,7 +313,7 @@ void EnterWoodbox1Fall(void *stateObject) {
     if (frameCount & 2) {
         headingOffset = woodbox->mStoredHeadingAngleOffset;
     } else {
-        headingOffset = 0x10000 - woodbox->mHeadingAngleOffset;
+        headingOffset = ANGLE_FULL_TURN - woodbox->mHeadingAngleOffset;
     }
     woodbox->mHeadingAngleOffset = headingOffset;
     woodbox->mTiltOffsetPerFrame.x = 0;
@@ -352,10 +352,10 @@ void UpdateWoodbox1Settle(void *stateObject) {
     woodbox->mPosOffset.z -= MUL_FIXED12_NO_ROUND(woodbox->mPosOffset.z, 164);
     VEC_Add(&woodbox->mTiltOffset, &woodbox->mTiltOffsetPerFrame, &woodbox->mTiltOffset);
     headingOffset = woodbox->mHeadingAngleOffset;
-    if ((u32) headingOffset < 0x8000) {
+    if ((u32) headingOffset < ANGLE_HALF_TURN) {
         woodbox->mHeadingAngleOffset = headingOffset - MUL_FIXED12_NO_ROUND(headingOffset, 246);
     } else {
-        woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(0x10000 - headingOffset, 246);
+        woodbox->mHeadingAngleOffset = headingOffset + MUL_FIXED12_NO_ROUND(ANGLE_FULL_TURN - headingOffset, 246);
     }
     woodbox->mMapObject.mPosStep.y -= 655;
     VEC_Add(&woodbox->mPosOffset, &woodbox->mMapObject.mPosStep, &woodbox->mPosOffset);

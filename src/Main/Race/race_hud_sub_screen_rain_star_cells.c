@@ -659,20 +659,24 @@ void DrawRaceHudSubScreenFlipperCells(RaceHudOamBuffer *oamBuffer) {
                 if (gRaceSetup->mMirrorMode != 0) {
                     Matrix2x2ReflectedRotation(
                         &matrix,
-                        (u16) (screenAngle + (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + 0x4000)));
+                        (u16) (screenAngle + (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle
+                            + ANGLE_QUARTER_TURN)));
                 } else {
                     Matrix2x2ReflectedRotation(
                         &matrix,
-                        (u16) (0x4000 - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle - screenAngle));
+                        (u16) (ANGLE_QUARTER_TURN - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle
+                            - screenAngle));
                 }
             } else {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(&matrix, (u16) (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + 0x4000 -
+                    Matrix2x2Rotation(&matrix,
+                        (u16) (gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle + ANGLE_QUARTER_TURN -
                                                       screenAngle));
                 } else {
                     Matrix2x2Rotation(
                         &matrix,
-                        (u16) (screenAngle + (0x4000 - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle)));
+                        (u16) (screenAngle + (ANGLE_QUARTER_TURN
+                            - gRaceHudSubScreenFlipperCells->mCells[cellIndex].mAngle)));
                 }
             }
             matrixIndex = AllocOamMatrixIndex(oamBuffer);

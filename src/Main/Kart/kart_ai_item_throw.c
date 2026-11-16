@@ -546,7 +546,7 @@ void DrawPosStrips(const MtxFx43 *matrix) {
             reg_G3_TEXPLTT_BASE = gPosStripTexture.mPlttBase >> (4 - ((gPosStripTexture.mTexImageParam >> 26 & 7) == 2));
             isDrawStateSet = TRUE;
         }
-        reg_G3_COLOR = 0x7fff;
+        reg_G3_COLOR = COLOR15_WHITE;
         point = NNS_FndGetNextListObject(&strip->mPoints, NULL);
         if (point != NULL && gPosStripDrawEnabled != 0) {
             nextPoint = NNS_FndGetNextListObject(&strip->mPoints, NULL);

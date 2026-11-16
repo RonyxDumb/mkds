@@ -173,7 +173,8 @@ void UpdateSunFireball(void *mapObjectList, SunFireball *sunFireball) {
             sunFireball->mMapObject.mPosStep.y = stepValue;
             sunFireball->mMapObject.mPos.y = sunFireball->mMapObject.mPos.y + sunFireball->mMapObject.mPosStep.y;
             if (sunFireball->mMapObject.mPosStep.y < 0) {
-                sunFireball->mMoveAngle = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * 0x10000) >> 32;
+                sunFireball->mMoveAngle
+                    = ((u64) SunFireballNextRandomU32(GetMapObjectRandom()) * ANGLE_FULL_TURN) >> 32;
                 sunFireball->mState = SUN_FIREBALL_STATE_HIT_SPIRAL;
             }
             break;

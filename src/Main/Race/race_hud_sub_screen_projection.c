@@ -136,7 +136,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
                 camera = GetChaseCamera();
             }
             rawAngle = FX_Atan2Idx(camera->mViewMatrix.mRows[2].z, camera->mViewMatrix.mRows[0].z);
-            angle = (0x14000 - rawAngle) % 0x10000;
+            angle = (0x14000 - rawAngle) % ANGLE_FULL_TURN;
             gRaceHudSubScreenProjection->mScrollTimer = 0;
             break;
         case RACE_HUD_SUB_SCREEN_MAP_FIXED_SCROLL:
@@ -144,7 +144,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
             break;
         case RACE_HUD_SUB_SCREEN_MAP_VIEW:
             rawAngle = GetFixed12Whole(GetCourseMapSubScreenView()->mAngleDegrees);
-            angle = (rawAngle << 16) / 360 + 0x8000;
+            angle = (rawAngle << 16) / 360 + ANGLE_HALF_TURN;
             break;
         default:
             break;
@@ -153,7 +153,7 @@ u16 GetSubScreenAngleAndClearScrollTimer(void) {
 }
 
 u16 GetRaceHudSubScreenKartAngle(s32 kartIndex) {
-    return (0x18000 - GetKartHeadingAngle(kartIndex)) % 0x10000;
+    return (0x18000 - GetKartHeadingAngle(kartIndex)) % ANGLE_FULL_TURN;
 }
 
 void ComputeSubScreenKartIconsKartPosition(s32 kartIndex, IntPair *out) {

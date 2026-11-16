@@ -765,14 +765,14 @@ void EnterJgReverse(void *stateObject) {
     gJgPointPointers[3] = &gJgPoints[2];
     InitSegmentProgress(&gJgSegmentProgress, 0, gJgPointPointers, 0x1ec);
     gJgAngle = 0;
-    rotatedZ = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, COS_OF_ANGLE(0x8000)) -
-               MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, SIN_OF_ANGLE(0x8000));
-    gJgStateCounter = 0x8000;
+    rotatedZ = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, COS_OF_ANGLE(ANGLE_HALF_TURN)) -
+               MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, SIN_OF_ANGLE(ANGLE_HALF_TURN));
+    gJgStateCounter = ANGLE_HALF_TURN;
     gJgTargetPos.z = rotatedZ;
     if (rotatedZ > 0) {
         gJgTargetPos.z = rotatedZ * 3;
     }
-    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, SIN_OF_ANGLE(0x8000)) +
+    gJgTargetPos.x = MUL_FIXED12_NO_ROUND(gJgReverseOffset.z, SIN_OF_ANGLE(ANGLE_HALF_TURN)) +
                      MUL_FIXED12_NO_ROUND(gJgReverseOffset.x, COS_OF_ANGLE(0x8000));
     gJgTargetPos.y = gJgReverseOffset.y;
     MTX_MultVec43(&gJgTargetPos, &gJgMatrix, &gJgTargetPos);

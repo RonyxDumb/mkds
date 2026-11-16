@@ -286,7 +286,7 @@ void Init3dEngine(void) {
     NNS_G3dGlbLightVector(1, 0x93d, 0x93d, 0x93d);
     NNS_G3dGlbLightVector(2, 0, -0x1000, 0);
     NNS_G3dGlbLightVector(3, 0, 0xfff, 0);
-    NNS_G3dGlbLightColor(0, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
     NNS_G3dGlbLightColor(1, 0x6318);
     NNS_G3dGlbLightColor(2, 31);
     NNS_G3dGlbLightColor(3, 0x3ff);
@@ -463,7 +463,7 @@ void DrawRaceWorld(void) {
     ApplyCameraLookAt(gCurrentCamera);
     currentCamera = gCurrentCamera;
     NNS_G3dGlbLightVector(0, gRace->mLightVectorX, gRace->mLightVectorY, gRace->mLightVectorZ);
-    NNS_G3dGlbLightColor(0, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
     cameraUp.x = currentCamera->mViewMatrix.mRows[0].y;
     cameraUp.y = currentCamera->mViewMatrix.mRows[1].y;
     cameraUp.z = currentCamera->mViewMatrix.mRows[2].y;
@@ -476,7 +476,7 @@ void DrawRaceWorld(void) {
         Vec3NormalizeAndGetLengthUnchecked(&lightVector, &lightVector);
     }
     NNS_G3dGlbLightVector(1, (s16) lightVector.x, (s16) lightVector.y, (s16) lightVector.z);
-    NNS_G3dGlbLightColor(1, 0x7fff);
+    NNS_G3dGlbLightColor(1, COLOR15_WHITE);
     NNS_G3dGlbFlushP();
     NNS_G3dGeBufferOP_N(23, gCurrentViewMatrix, 12);
     commandValue = 30;

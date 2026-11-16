@@ -421,7 +421,7 @@ void InitKartEffectTables(void *heap) {
             gKartEffectIdSetIndex[kartIndex] = 1;
         }
     }
-    gKartEffectColor = 0x7fff;
+    gKartEffectColor = COLOR15_WHITE;
     switch (gRaceSetup->mCourseId) {
         case COURSE_ID_MANSION:
         case COURSE_ID_KOOPA:

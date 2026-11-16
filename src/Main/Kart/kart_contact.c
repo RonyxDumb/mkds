@@ -555,7 +555,7 @@ s32 ApplyKartContact(Kart *kart, Vec3 *contactNormal, s32 wasTouching, s32 baseS
             if (kart->mVelocityLength > KART_CONTACT_HEADING_ANGLE_MIN_SPEED &&
                 baseSpeedLimitHitFactor != TO_FIXED12(1)) {
                 headingAnglePerFrame = FROM_FIXED12(kart->mVelocityLength) * 100;
-                if ((u16) kart->mTurnAngle > 0x7fff) {
+                if ((u16) kart->mTurnAngle > ANGLE_HALF_TURN - 1) {
                     headingAnglePerFrame = headingAnglePerFrame * -1;
                 }
                 kart->mHeadingAnglePerFrame = headingAnglePerFrame;

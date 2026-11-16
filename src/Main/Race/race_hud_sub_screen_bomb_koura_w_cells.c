@@ -298,7 +298,7 @@ void UpdateRaceHudSubScreenBgPalette(u16 *palette) {
                 for (colorIndex = offset - 2; colorIndex <= offset; colorIndex++) {
                     palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[2];
                 }
-                if (waterAngle >= 0x4000 && waterAngle < 0xc000) {
+                if (waterAngle >= ANGLE_QUARTER_TURN && waterAngle < ANGLE_MINUS_QUARTER_TURN) {
                     for (colorIndex = offset + 1; colorIndex <= offset + 2 && colorIndex < 0x15; colorIndex++) {
                         palette[colorIndex + 0xe0] = gRaceHudSubScreenBgColors->mColors.mColorList[3];
                     }

@@ -114,7 +114,7 @@ void DeflectItemObjectRandomly(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     }
     random = &gRaceProgress->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
-    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32));
+    angle = (u16) ((((u64) (u32) (random->mValue >> 32) * ANGLE_FULL_TURN) >> 32));
     item->mCoursePointOrParams.z = COS_OF_ANGLE(angle);
     item->mCoursePointOrParams.x = SIN_OF_ANGLE(angle);
     item->mVelocity.z = MUL_FIXED12_NO_ROUND(item->mCoursePointOrParams.z, 0x14cd);

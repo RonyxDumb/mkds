@@ -124,7 +124,7 @@ void SetHanachanSoundCallbacks(MissionRunMapObject *mapObject) {
 void PlaceHanachanFollowerBehindXz(MissionRunMapObject *mapObject) {
     MissionRunMapObject *previousObject = mapObject->mFollowedObject;
     int distance;
-    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + ANGLE_HALF_TURN);
 
     switch (mapObject->mFollowerIndex) {
         case HANACHAN_FOLLOWER_FIRST:
@@ -170,7 +170,7 @@ void TurnHanachanFollowerToPrevious(MissionRunMapObject *mapObject) {
 void PlaceHanachanFollowerBehind(MissionRunMapObject *mapObject) {
     MissionRunMapObject *previousObject = mapObject->mFollowedObject;
     int distance;
-    u16 oppositeAngle = (previousObject->mAngle + 0x8000);
+    u16 oppositeAngle = (previousObject->mAngle + ANGLE_HALF_TURN);
 
     switch (mapObject->mFollowerIndex) {
         case HANACHAN_FOLLOWER_FIRST:
@@ -716,16 +716,20 @@ void HanachanKartHitCallback(MissionRunMapObject *mapObject, Kart *kart) {
             }
             if (angleDifference > 0) {
                 mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSidePosStep,
-                                                                        SIN_OF_ANGLE((u16) moveAngle + 0x4000));
+                                                                        SIN_OF_ANGLE((u16) moveAngle
+                                                                            + ANGLE_QUARTER_TURN));
                 mapObject->mMapObject.mPosStep.y = 0;
                 mapObject->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    mapObject->mPrm->mHanachan.mStarHitSidePosStep, COS_OF_ANGLE((u16) mapObject->mMoveAngle + 0x4000));
+                    mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                        COS_OF_ANGLE((u16) mapObject->mMoveAngle + ANGLE_QUARTER_TURN));
             } else {
                 mapObject->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(mapObject->mPrm->mHanachan.mStarHitSidePosStep,
-                                                                        SIN_OF_ANGLE((u16) moveAngle - 0x4000));
+                                                                        SIN_OF_ANGLE((u16) moveAngle
+                                                                            - ANGLE_QUARTER_TURN));
                 mapObject->mMapObject.mPosStep.y = 0;
                 mapObject->mMapObject.mPosStep.z = MUL_FIXED12_NO_ROUND(
-                    mapObject->mPrm->mHanachan.mStarHitSidePosStep, COS_OF_ANGLE((u16) mapObject->mMoveAngle - 0x4000));
+                    mapObject->mPrm->mHanachan.mStarHitSidePosStep,
+                        COS_OF_ANGLE((u16) mapObject->mMoveAngle - ANGLE_QUARTER_TURN));
             }
             mapObject->mKartResponse = KART_MAP_OBJECT_RESPONSE_CARRY;
             StartCameraWobbleAtDistance(mapObject->mMapObject.mDistanceSquaredAndFlags & MAP_OBJECT_VIEW_DISTANCE_MASK,

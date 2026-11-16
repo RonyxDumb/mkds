@@ -280,7 +280,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
     s32 sumTerms;
 
     currentCamera = GetCurrentCamera();
-    cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
+    cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - ANGLE_QUARTER_TURN;
     VEC_Subtract(&balloon->mMapObject.mPos, &currentCamera->mPos, &cameraOffset);
     pairFirst = SIN_OF_ANGLE(cameraAngle);
     pairSecond = COS_OF_ANGLE(cameraAngle);
@@ -407,7 +407,7 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                 }
             }
         }
-        balloon->mMapObject.mAngle = balloon->mSwingAngle + 0x4000;
+        balloon->mMapObject.mAngle = balloon->mSwingAngle + ANGLE_QUARTER_TURN;
         balloon->mMapObject.mPosStep.y = balloon->mMapObject.mPosStep.y + 0x59a;
         balloon->mTargetVelocity.y = balloon->mTargetVelocity.y - 0x2000;
         balloon->mMapObject.mPosStep.x = MUL_FIXED12_NO_ROUND(balloon->mMapObject.mPosStep.x, 0xc00);

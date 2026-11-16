@@ -201,7 +201,7 @@ void TakeHeldItemObjects(HeldItem *rec) {
     } else {
         generator = &gRaceProgress->mRandom;
     }
-    angle = (u16) TakeHeldItemObjects_inline(generator, 0x10000);
+    angle = (u16) TakeHeldItemObjects_inline(generator, ANGLE_FULL_TURN);
     poolIndex = gItemInfos[kind].mObjectKind;
     if (gItemKinds[poolIndex].mStartsFalling != 0) {
         radius = 0x2000;

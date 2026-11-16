@@ -122,8 +122,8 @@ void InitPakkun(Pakkun *pakkun) {
             InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], setting, 100);
             GetGroupFollowerLinearPosStep(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
             angleDelta = FX_Atan2Idx(step.x, step.z) - pakkun->mBaseYaw;
-            if (angleDelta > 0x8000) {
-                angleDelta -= 0x10000;
+            if (angleDelta > ANGLE_HALF_TURN) {
+                angleDelta -= ANGLE_FULL_TURN;
             }
             pakkun->mFollowerYawOffsets[pakkun->mFollowerCount] = angleDelta;
             pakkun->mHeightAboveFollowerPath = pakkun->mMapObject.mPos.y - position.y;

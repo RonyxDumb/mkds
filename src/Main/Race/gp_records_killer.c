@@ -540,7 +540,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     angleDifference = targetHeadingAngle - kart->mHeadingAngle;
     angleDifferenceAbs = angleDifference;
     angleDifferenceAbs = ABS(angleDifferenceAbs);
-    if (angleDifferenceAbs > 0x7fff) {
+    if (angleDifferenceAbs > ANGLE_HALF_TURN - 1) {
         if (angleDifference > 0) {
             angleDifference = -(0xffff - angleDifference);
         } else {

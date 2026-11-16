@@ -247,9 +247,9 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             matrixIndex = 0;
             if (useRotation != 0) {
                 if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(&rotationMatrix, (cells->mCells[cellIndex].mAngle + 0x8000 - angle));
+                    Matrix2x2Rotation(&rotationMatrix, (cells->mCells[cellIndex].mAngle + ANGLE_HALF_TURN - angle));
                 } else {
-                    Matrix2x2Rotation(&rotationMatrix, (angle + (0x8000 - cells->mCells[cellIndex].mAngle)));
+                    Matrix2x2Rotation(&rotationMatrix, (angle + (ANGLE_HALF_TURN - cells->mCells[cellIndex].mAngle)));
                 }
                 matrixIndex = AllocOamMatrixIndex(oamBuffer);
                 oamBuffer->mMatrices[matrixIndex].mPA = rotationMatrix.mElements[0] >> 4;

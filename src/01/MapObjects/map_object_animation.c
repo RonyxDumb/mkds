@@ -669,7 +669,8 @@ Kart *GetEntryKartFacingObject(MissionRunMapObject *mapObject, s32 radius, s32 h
     if (kart != NULL && (kart->mDriveFlags & KART_DRIVE_SINKING) == 0 && (radius != 0 || halfAngle != 0)) {
         if (radius == 0 || IsWithinXzDistanceOfPoint(mapObject, &kart->mPos, radius) != 0) {
             if (halfAngle == 0 ||
-                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + 0x8000, &kart->mPos, halfAngle) != 0) {
+                IsDirectionToPointWithinAngle(mapObject, kart->mHeadingAngle + ANGLE_HALF_TURN, &kart->mPos,
+                    halfAngle) != 0) {
                 return kart;
             }
         }
@@ -1232,8 +1233,8 @@ u16 StepAngleTowardDirection(Vec3 *target, Vec3 *origin, s32 maxStep, s32 angle)
     if (maxStep < 0) {
         maxStep = -maxStep;
     }
-    if (angleDifference > 0x8000) {
-        angleDifference -= 0x10000;
+    if (angleDifference > ANGLE_HALF_TURN) {
+        angleDifference -= ANGLE_FULL_TURN;
     }
     turn = -maxStep;
     if (angleDifference >= turn) {
@@ -1256,15 +1257,15 @@ u16 StepAngleSidewaysToPoint(Vec3 *targetPoint, Vec3 *origin, s32 signedMaxStep,
     } else {
         maxTurn = signedMaxStep;
     }
-    if (angleDifference > 0x8000) {
-        angleDifference -= 0x10000;
+    if (angleDifference > ANGLE_HALF_TURN) {
+        angleDifference -= ANGLE_FULL_TURN;
     }
     if (signedMaxStep < 0) {
         angleDifference += angleOffset;
-        targetDifference = angleDifference - 0x4000;
+        targetDifference = angleDifference - ANGLE_QUARTER_TURN;
     } else {
         angleDifference -= angleOffset;
-        targetDifference = angleDifference + 0x4000;
+        targetDifference = angleDifference + ANGLE_QUARTER_TURN;
     }
     turn = -maxTurn;
     if (targetDifference >= turn) {

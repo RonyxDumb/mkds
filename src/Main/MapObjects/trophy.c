@@ -83,8 +83,8 @@ void SetupTrophy(void) {
     G2x_SetBlendAlpha_(&reg_G2_BLDCNT, 1, 0x1f, 0x10, 0x10);
     NNS_G3dGlbLightVector(0, gTrophy->mLight0X, gTrophy->mLight0Y, gTrophy->mLight0Z);
     NNS_G3dGlbLightVector(1, gTrophy->mLight1X, gTrophy->mLight1Y, gTrophy->mLight1Z);
-    NNS_G3dGlbLightColor(0, 0x7fff);
-    NNS_G3dGlbLightColor(1, 0x7fff);
+    NNS_G3dGlbLightColor(0, COLOR15_WHITE);
+    NNS_G3dGlbLightColor(1, COLOR15_WHITE);
     frustumTop = MUL_FIXED12_NO_ROUND(FX_Div(SIN_OF_ANGLE(0xaa0), COS_OF_ANGLE(0xaa0)), 0x19a);
     frustumRight = MUL_FIXED12_NO_ROUND(-frustumTop, 0x1555);
     if (gRaceSetup->mMirrorMode != 0) {

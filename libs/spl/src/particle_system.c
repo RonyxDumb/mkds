@@ -419,7 +419,7 @@ void SPLEmitter_EmitParticles(ParticleEmitter *emtr, ParticleList *list) {
     resource = emtr->mResource;
     emitTotal = emtr->mEmitRate + emtr->mEmitFraction;
     header = resource->mHeader;
-    emtr->mEmitFraction = emitTotal & 0xfff;
+    emtr->mEmitFraction = emitTotal & FIXED12_FRACTION_MASK;
     emitCount = FROM_FIXED12(emitTotal);
     if (header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_RANDOM ||
         header->mFlags.mEmitShape == PARTICLE_EMIT_SHAPE_CIRCLE_EVEN ||

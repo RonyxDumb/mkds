@@ -661,7 +661,7 @@ void getJntSRTAnmResult_(const NNSG3dResJntAnm *jntAnm, int node, s32 frame, NNS
         out->mFlag = G3D_JNT_ANM_SRT_IS_IDENTITY;
     } else {
         cursor = tag + 1;
-        if ((frame & 0xfff) && (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_BLEND)) {
+        if ((frame & FIXED12_FRACTION_MASK) && (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_BLEND)) {
             interp = 1;
         } else {
             interp = 0;
@@ -877,7 +877,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
             }
         }
         if (jntAnm->mFlag & G3D_JNT_ANM_RES_FLAG_LOOPS) {
-            stepBits = frame & 0xfff;
+            stepBits = frame & FIXED12_FRACTION_MASK;
             if (info & 0x20000000) {
                 sample0 = ((const s16 *) values)[frameIndex];
                 fraction = ((const s16 *) values)[0];
@@ -918,7 +918,7 @@ void getTransDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
         }
     } else {
     last:
-        fraction = frame & 0xfff;
+        fraction = frame & FIXED12_FRACTION_MASK;
         step = 1;
         stepBits = 0;
     }
@@ -1088,7 +1088,7 @@ void getScaleDataEx_(s32 *out, s32 frame, const u32 *desc, const NNSG3dResJntAnm
     } else {
         nextIndex = frameIndex + 1;
     last:
-        fraction = frame & 0xfff;
+        fraction = frame & FIXED12_FRACTION_MASK;
         step = 1;
         stepBits = 0;
     }
@@ -1320,7 +1320,7 @@ void getRotDataEx_(MtxFx33 *out, s32 frame, const u32 *desc, const NNSG3dResJntA
     }
 interp1:
     step = 1;
-    fraction = frame & 0xfff;
+    fraction = frame & FIXED12_FRACTION_MASK;
 interp:
     needsCross = 0;
     needsCross |= getRotDataByIdx_(&startMtx, rot3Table, rot5Table, values[frameIndex]);

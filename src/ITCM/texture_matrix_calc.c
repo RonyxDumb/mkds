@@ -32,9 +32,9 @@ void texmtxCalc_flagTS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult)
     matrix->mRows[0].y = (-matAnmResult->mSinCosR[0] * FX_GetDivResult()) >> 12;
     FX_DivAsync(widthFixed, heightFixed);
     negSum = -(matAnmResult->mSinCosR[0] + matAnmResult->mSinCosR[1]);
-    matrix->mRows[3].x = (matAnmResult->mOrigWidth * (negSum + 0x1000)) << 3;
-    matrix->mRows[3].y = (matAnmResult->mOrigHeight * (matAnmResult->mSinCosR[0] - matAnmResult->mSinCosR[1] + 0x1000))
-                         << 3;
+    matrix->mRows[3].x = (matAnmResult->mOrigWidth * (negSum + FIXED12_UNIT)) << 3;
+    matrix->mRows[3].y =
+        (matAnmResult->mOrigHeight * (matAnmResult->mSinCosR[0] - matAnmResult->mSinCosR[1] + FIXED12_UNIT)) << 3;
     matrix->mRows[1].x = (matAnmResult->mSinCosR[0] * FX_GetDivResult()) >> 12;
 }
 
@@ -51,10 +51,10 @@ void texmtxCalc_flagTR_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult)
 }
 
 void texmtxCalc_flagTRS_(MtxFx44 *matrix, const NNSG3dMatAnmResult *matAnmResult) {
-    matrix->mRows[0].x = 0x1000;
+    matrix->mRows[0].x = FIXED12_UNIT;
     matrix->mRows[0].y = 0;
     matrix->mRows[1].x = 0;
-    matrix->mRows[1].y = 0x1000;
+    matrix->mRows[1].y = FIXED12_UNIT;
     matrix->mRows[3].x = 0;
     matrix->mRows[3].y = 0;
 }
@@ -78,7 +78,7 @@ void NNSi_G3dSendTexSRTMaya(NNSG3dMatAnmResult *matAnmResult) {
     command.mMatrix.mRows[1].z = 0;
     command.mMatrix.mRows[0].wComponent = 0;
     command.mMatrix.mRows[0].z = 0;
-    command.mMatrix.mRows[3].wComponent = 0x1000;
+    command.mMatrix.mRows[3].wComponent = FIXED12_UNIT;
     calcTexMtx_[matAnmResult->mFlag & TEX_MTX_CALC_FLAG_MASK](&command.mMatrix, matAnmResult);
     if (matAnmResult->mMagW != FIXED12_UNIT) {
         command.mMatrix.mRows[0].x = MUL_FIXED12_NO_ROUND(matAnmResult->mMagW, command.mMatrix.mRows[0].x);

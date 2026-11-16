@@ -133,8 +133,8 @@ BOOL IsDirectionToPointWithinAngle(MissionRunMapObject *mapObject, s32 angle, Ve
         angleDifference =
             (u16) (FX_Atan2Idx(point->x - mapObject->mMapObject.mPos.x, point->z - mapObject->mMapObject.mPos.z) -
                    angle);
-        if (angleDifference > 0x8000) {
-            angleDifference -= 0x10000;
+        if (angleDifference > ANGLE_HALF_TURN) {
+            angleDifference -= ANGLE_FULL_TURN;
         }
         if (-halfAngle <= angleDifference && angleDifference <= halfAngle) {
             return 1;

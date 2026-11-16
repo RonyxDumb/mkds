@@ -215,9 +215,9 @@ void UpdateSun(MapObjectList *mapObjectList, Sun *sun) {
                 break;
             }
             if (sun->mFireballIndex == 0) {
-                sun->mFireballAngle = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * 0x10000) >> 32;
+                sun->mFireballAngle = ((u64) CollideKartWithBound_inline(GetMapObjectRandom()) * ANGLE_FULL_TURN) >> 32;
             } else {
-                sun->mFireballAngle += 0x8000;
+                sun->mFireballAngle += ANGLE_HALF_TURN;
             }
             position.x = sun->mMapObject.mPos.x;
             position.y = sun->mMapObject.mPos.y - 0x1e000;

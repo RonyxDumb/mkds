@@ -54,7 +54,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
     u32 polyAttr;
 
     posScale = resMdl->mInfo.mPosScale;
-    if (posScale != 0x1000) {
+    if (posScale != FIXED12_UNIT) {
         scale[0] = posScale;
         scale[1] = posScale;
         scale[2] = posScale;
@@ -115,7 +115,7 @@ void NNS_G3dDraw1Mat1Shp(NNSG3dResMdl *resMdl, u32 matId, u32 shpId, BOOL sendMa
     shpData = OFFSET_PTR(NNSG3dResShpData, shpBlock, *DICT_ENTRY(u32, entries, shpId));
     NNS_G3dGeSendDL((u8 *) shpData + shpData->mOfsDL, shpData->mSizeDL);
     posScale = resMdl->mInfo.mInvPosScale;
-    if (posScale != 0x1000) {
+    if (posScale != FIXED12_UNIT) {
         invScale[0] = posScale;
         invScale[1] = posScale;
         invScale[2] = posScale;
@@ -685,7 +685,7 @@ BOOL NNSi_G3dAnmBlendJnt(NNSG3dJntAnmResult *result, NNSG3dAnmObj *anmObj, u32 n
         mapValue = anmObj->mMapData[nodeId];
         if ((mapValue & 0x300) == 0x100 && anmObj->mRatio > 0) {
             anmObj->mFuncAnm(&animResult, anmObj, mapValue & 0xff);
-            if (totalWeight == 0x1000) {
+            if (totalWeight == FIXED12_UNIT) {
                 weight = anmObj->mRatio;
             } else {
                 weight = FX_Div(anmObj->mRatio, totalWeight);
@@ -761,7 +761,7 @@ void NNS_G3dGlbInit(void) {
     NNS_G3dGlb.mPrmMatColor1 = 0x4210c210;
     NNS_G3dGlb.mPrmPolygonAttr = 0x1f008f;
     NNS_G3dGlb.mPrmViewPort = VIEWPORT_WHOLE_SCREEN;
-    NNS_G3dGlb.mLightColor[0] = 0x7fff;
+    NNS_G3dGlb.mLightColor[0] = COLOR15_WHITE;
     NNS_G3dGlb.mLightColor[1] = 0x4000001f;
     NNS_G3dGlb.mLightColor[2] = 0x800003e0;
     NNS_G3dGlb.mLightColor[3] = 0xc0007c00;
@@ -779,10 +779,10 @@ void NNS_G3dGlbInit(void) {
     NNS_G3dGlb.mCamPos.x = 0;
     NNS_G3dGlb.mCamUp.z = 0;
     NNS_G3dGlb.mCamUp.x = 0;
-    NNS_G3dGlb.mCamUp.y = 0x1000;
+    NNS_G3dGlb.mCamUp.y = FIXED12_UNIT;
     NNS_G3dGlb.mCamTarget.y = 0;
     NNS_G3dGlb.mCamTarget.x = 0;
-    NNS_G3dGlb.mCamTarget.z = -0x1000;
+    NNS_G3dGlb.mCamTarget.z = -FIXED12_UNIT;
 }
 
 // Sends the matrices, lights, colors, viewport and base transform to the geometry engine as one block.

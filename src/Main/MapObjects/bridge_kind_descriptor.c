@@ -74,15 +74,15 @@ void InitBridge(Bridge *bridge, struct CourseMapRow *courseRow) {
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.y = 0;
     bridge->mCollisionMapObject.mCollisionData.mAngleChangeVector.z = 0;
     bridge->mCollisionMapObject.mCollisionData.mTracksNormal = 1;
-    bridge->mSwingAmplitude = ((courseRow->mSettings[0] * 0x10000) / 0x168) >> 1;
-    bridge->mSwingAnglePerFrame = (0x10000 / courseRow->mSettings[1]) >> 1;
+    bridge->mSwingAmplitude = ((courseRow->mSettings[0] * ANGLE_FULL_TURN) / 0x168) >> 1;
+    bridge->mSwingAnglePerFrame = (ANGLE_FULL_TURN / courseRow->mSettings[1]) >> 1;
     bridge->mPeakPauseFrameCount = courseRow->mSettings[2];
     bridge->mTroughPauseFrameCount = courseRow->mSettings[3];
     bridge->mPauseTimer = 0;
     bridge->mSwingAngle = 0;
     if (gRaceSetup->mMode == MODE_WIFI) {
         bridge->mSwingAnglePerFrame = 0;
-        bridge->mSwingAngle = ((courseRow->mSettings[4] * 0x10000) / 0x168) >> 1;
+        bridge->mSwingAngle = ((courseRow->mSettings[4] * ANGLE_FULL_TURN) / 0x168) >> 1;
     }
     bridge->mCollisionMapObject.mCollisionData.mHalfSizeX =
         MUL_FIXED12_NO_ROUND(bridge->mCollisionMapObject.mMapObject.mScale.x, 0x5a000);

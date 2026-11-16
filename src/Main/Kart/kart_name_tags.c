@@ -428,7 +428,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
     reg_G3_MTX_MODE = 2;
     G3_LoadMtx43(&quadMatrix);
     reg_G3_BEGIN_VTXS = 1;
-    reg_G3_COLOR = 0x7fff;
+    reg_G3_COLOR = COLOR15_WHITE;
     drawVertices(texWidthFixed, texHeightFixed, kartObject->mKartPaletteColor);
     reg_G3_END_VTXS = 0;
 }

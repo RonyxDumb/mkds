@@ -36,9 +36,11 @@ void bindMdlTex_Internal_(NNSG3dResMat *mat, NNSG3dResDictTexToMatIdxData *data,
         width = texData->mExtraParam & G3D_TEX_EXTRA_WIDTH_MASK;
         height = (texData->mExtraParam >> 11) & 0x7ff;
         matEntry->mMagW =
-            (width == matEntry->mOrigWidth) ? 0x1000 : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
+            (width == matEntry->mOrigWidth) ? FIXED12_UNIT
+                                            : FX_Div(TO_FIXED12(width), TO_FIXED12(matEntry->mOrigWidth));
         matEntry->mMagH =
-            (height == matEntry->mOrigHeight) ? 0x1000 : FX_Div(TO_FIXED12(height), TO_FIXED12(matEntry->mOrigHeight));
+            (height == matEntry->mOrigHeight) ? FIXED12_UNIT
+                                              : FX_Div(TO_FIXED12(height), TO_FIXED12(matEntry->mOrigHeight));
     }
     data->mFlag |= 1;
 }

@@ -409,7 +409,7 @@ void UpdateShine16(void *mapObjectList, Shine16 *shine16) {
             if (shine16->mTargetPickCount > 0) {
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
-                randomAngle = ((u64) (u32) (randomState->mValue >> 32) * 0x10000) >> 32;
+                randomAngle = ((u64) (u32) (randomState->mValue >> 32) * ANGLE_FULL_TURN) >> 32;
                 randomState = &gRaceProgress->mRandom;
                 randomState->mValue = randomState->mMultiplier * randomState->mValue + randomState->mIncrement;
                 randomRadius = ((u64) (u32) (randomState->mValue >> 32) * 0x14000) >> 32;

@@ -334,7 +334,7 @@ void ComputeRaceTime(u8 *minuteOut, u8 *secondOut, u16 *millisecondOut, s32 fram
     totalSeconds = FROM_FIXED12(secondsScaled);
     minutes = totalSeconds / 60;
     seconds = totalSeconds % 60;
-    milliseconds = (secondsScaled & 0xfff) * 1000 >> 12;
+    milliseconds = (secondsScaled & FIXED12_FRACTION_MASK) * 1000 >> 12;
     if (frameFraction != 0) {
         fractionSecondsScaled = MUL_FIXED12_ROUNDED(0x44, frameFraction);
         milliseconds += fractionSecondsScaled * 1000 >> 12;
