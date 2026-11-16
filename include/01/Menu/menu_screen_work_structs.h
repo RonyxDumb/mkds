@@ -237,7 +237,7 @@ typedef struct SelectEngine {
     /* 0c */ struct LayoutEntryTable *mSelectEngineAOrBSBncl;
     // same variant as mSelectEngineAOrBSBncl (.bnbl)
     /* 10 */ void *mSelectEngineAOrBSBnbl;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
     /* 14 */ LayoutTableEntry *mSelectEngineMTable;
     // cell records of mSelectEngineAOrBSBncl (variant chosen by IsBackupFlagSet(0x10))
     /* 18 */ LayoutTableEntry *mSelectEngineAOrBSTable;
