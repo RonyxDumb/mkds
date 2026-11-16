@@ -5,7 +5,7 @@
 typedef struct SNDSharedWork SNDSharedWork;
 
 // Command id whose first argument is the address of the shared work area.
-#define SOUND_COMMAND_SET_SHARED_WORK 0x1d
+#define SOUND_COMMAND_ID_PASS_WORK_POINTER 0x1d
 
 // A sound command: mNext, its id mId and four arguments mArg; the free list, the list waiting to be sent and the sent
 // lists are chained through mNext.
