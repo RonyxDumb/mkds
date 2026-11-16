@@ -24,8 +24,10 @@ enum {
 #define COIN_SCALE_FULL TO_FIXED12(1)
 #define COIN_SCALE_GROW_PER_FRAME 0x29
 
-// Frames (mTimer) a coin rises before it is parked; the effect that follows the kart is attached at the timer value
-// COIN_RISE_KART_EFFECT_TIMER, and the coin's own effect stops after COIN_RISE_EFFECT_TIMER_START.
+// mTimer start of a coin that rises over a kart (parked on the call that finds it below 0, the 31st) and of a boss
+// transfer coin (counted only in the transfer fly state, which fades the coin once it is below 0); the kart follow
+// effect starts when mTimer reaches COIN_RISE_KART_EFFECT_TIMER after its decrement, and the coin's own effect stops on
+// the call that finds mEffectTimer below 0 (the 15th call).
 #define COIN_RISE_TIMER_START 0x1e
 #define COIN_RISE_KART_EFFECT_TIMER 3
 #define COIN_RISE_EFFECT_TIMER_START 0xd

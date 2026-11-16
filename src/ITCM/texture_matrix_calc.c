@@ -6,7 +6,6 @@
 
 #pragma opt_arithtransformation off
 
-// The table below is initialized data kept in .text ahead of the code, right before NNSi_G3dSendTexSRTMaya.
 #pragma define_section ITCM ".text"                                                                                    \
                             ".bss" abs32 RWX
 #pragma section ITCM begin

@@ -311,8 +311,9 @@ void AdvanceKartBoosts(Kart *kart) {
     kart->mEffectFlags = kart->mEffectFlags & ~KART_EFFECT_RESPAWN_BOOST_WINDOW;
 }
 
-// Ends the hold TryHoldKartStill started: clears the hold bit and, if the hit link holds an object, moves mPos to the
-// link position; also requests surface sound entry 0 while the race runs.
+// Clears the still-hold bit and, if the hit link holds an object, moves mPos to the link position and drops the object
+// from the link; first requests surface sound entry 0 unless the ground-sound-step flag is set, and only once the race
+// has started.
 void StopKartStillHold(Kart *kart) {
     if (!(kart->mEffectFlags & KART_EFFECT_GROUND_SOUND_STEP)) {
         if (IsRaceStarted() == 1) {
