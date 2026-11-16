@@ -74,18 +74,18 @@ u32 DWCi_AC_SearchAP(void) {
     work = DWCi_AC_GetMemPtr(AC_MEM_WORK);
     phase = DWCi_AC_GetPhase();
     wcmPhase = WCM_GetPhase();
-    if (phase == 2 && wcmPhase == 3) {
+    if (phase == AC_PHASE_STARTING_UP && wcmPhase == 3) {
         phase = SearchStart(work);
-    } else if (phase == 6) {
+    } else if (phase == AC_PHASE_SEARCH_DONE) {
         phase = SearchEndCheck(work, phase);
     } else if (wcmPhase == 3 || wcmPhase == 6) {
         phase = SearchEndCheck(work, phase);
-        if (phase != 7) {
-            if (phase == 3) {
+        if (phase != AC_PHASE_CONNECT_START) {
+            if (phase == AC_PHASE_SEARCH_AROUND) {
                 phase = SearchAround(work);
-            } else if (phase == 4) {
+            } else if (phase == AC_PHASE_SEARCH_DIFFER_CHANNEL) {
                 phase = SearchDifferChannel(work);
-            } else if (phase == 5) {
+            } else if (phase == AC_PHASE_SEARCH_STEALTH) {
                 phase = SearchStealth(work);
             }
         }
@@ -135,12 +135,12 @@ void DWCi_AC_SearchReStart(u32 phase) {
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
             break;
-        case AC_PHASE_SEARCH_LISTED_CHANNELS:
+        case AC_PHASE_SEARCH_DIFFER_CHANNEL:
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
                       work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
             break;
-        case AC_PHASE_SEARCH_HIDDEN:
+        case AC_PHASE_SEARCH_STEALTH:
             work->mTimeOut = OS_GetTick();
             ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
             break;
@@ -152,7 +152,7 @@ u32 SearchStart(ACWORK *work) {
     work->mSearchChannel = 0;
     work->mTimeOut = OS_GetTick();
     ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
-    return 3;
+    return AC_PHASE_SEARCH_AROUND;
 }
 
 u32 SearchAround(ACWORK *work) {
@@ -164,7 +164,7 @@ u32 SearchAround(ACWORK *work) {
         work->mTimeOut = OS_GetTick();
         ScanStart(WCM_Bssid_Any, WCM_Essid_Any, work->mSearchChannel, 0x200000);
     }
-    return 3;
+    return AC_PHASE_SEARCH_AROUND;
 }
 
 u32 SearchAround2ndLap(ACWORK *work) {
@@ -172,7 +172,7 @@ u32 SearchAround2ndLap(ACWORK *work) {
     work->mAroundCount = work->mAroundCount + 1;
     DWCi_AC_MakeSearchList(AC_SEARCH_LIST_AROUND);
     work->mSearchChannel = 1;
-    return 3;
+    return AC_PHASE_SEARCH_AROUND;
 }
 
 u32 SearchDifferChannel(ACWORK *work) {
@@ -188,7 +188,7 @@ u32 SearchDifferChannel(ACWORK *work) {
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid,
                   work->mSearchList[work->mSearchListNo].mChannel, 0x300000);
     }
-    return 4;
+    return AC_PHASE_SEARCH_DIFFER_CHANNEL;
 }
 
 u32 SearchStealth(ACWORK *work) {
@@ -208,7 +208,7 @@ u32 SearchStealth(ACWORK *work) {
         work->mTimeOut = OS_GetTick();
         ScanStart(WCM_Bssid_Any, work->mSearchList[work->mSearchListNo].mSsid, work->mSearchChannel, 0x300000);
     }
-    return 5;
+    return AC_PHASE_SEARCH_STEALTH;
 }
 
 u32 NextSearchCheck(ACWORK *work, u32 phase) {
@@ -216,7 +216,7 @@ u32 NextSearchCheck(ACWORK *work, u32 phase) {
         case AC_PHASE_SEARCH_AROUND:
             if (work->mFindListNum != 0 || work->mStealthChannel != 0) {
                 if (DWCi_AC_MakeSearchList(AC_SEARCH_LIST_DIFFER_CHANNEL) != 0) {
-                    phase = AC_PHASE_SEARCH_LISTED_CHANNELS;
+                    phase = AC_PHASE_SEARCH_DIFFER_CHANNEL;
                 } else {
                     phase = CheckStartStealthSearch(work);
                 }
@@ -226,10 +226,10 @@ u32 NextSearchCheck(ACWORK *work, u32 phase) {
                 phase = AC_PHASE_SEARCH_DONE;
             }
             break;
-        case AC_PHASE_SEARCH_LISTED_CHANNELS:
+        case AC_PHASE_SEARCH_DIFFER_CHANNEL:
             phase = CheckStartStealthSearch(work);
             break;
-        case AC_PHASE_SEARCH_HIDDEN:
+        case AC_PHASE_SEARCH_STEALTH:
             if (work->mAroundCount < 1) {
                 phase = SearchAround2ndLap(work);
             } else {
@@ -245,7 +245,7 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
     u8 findIndex;
     u8 findListNum;
 
-    if (phase == 0x11) {
+    if (phase == AC_PHASE_ERROR) {
         return phase;
     }
     findIndex = 0;
@@ -255,14 +255,14 @@ u32 SearchEndCheck(ACWORK *work, u32 phase) {
             break;
         }
     }
-    if (phase == 6) {
+    if (phase == AC_PHASE_SEARCH_DONE) {
         if (findListNum == findIndex) {
             if (findIndex == 0) {
                 DWCi_AC_SetError(5);
             } else {
                 DWCi_AC_SetError(6);
             }
-            return 0x11;
+            return AC_PHASE_ERROR;
         }
     } else {
         if (findListNum == 0) {

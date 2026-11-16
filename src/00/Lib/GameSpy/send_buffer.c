@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/send_buffer.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/reply_parse.h"
 #include "00/Lib/DWC/memory_allocator.h"
@@ -40,7 +41,7 @@ u32 gpiAppendCharToBuffer(void *connection, GPIBuffer *outputBuffer, s32 byte) {
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return 1;
+            return GP_MEMORY_ERROR;
         }
     }
     buffer[length] = byte;
@@ -76,7 +77,7 @@ u32 gpiAppendStringToBufferLen(void *connection, GPIBuffer *outputBuffer, const 
         buffer = DWCi_GsRealloc(buffer, capacity + 1);
         if (buffer == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return 1;
+            return GP_MEMORY_ERROR;
         }
     }
     memcpy(buffer + length, string, stringLen);
@@ -111,8 +112,8 @@ u32 gpiSendData(GPConnection *connection, s32 sock, const void *data, s32 dataLe
                 return 3;
             }
             gpiSetError(connection, 5, "There was an error sending on a socket.");
-            gpiCallErrorCallback(connection, 3, 0);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
+            return GP_NETWORK_ERROR;
         }
         *bytesSent = 0;
         *wasClosed = 0;
@@ -230,7 +231,7 @@ u32 gpiRecvToBuffer(GPConnection *connection, s32 sock, GPIBuffer *inputBuffer, 
             buffer = DWCi_GsRealloc(buffer, value + 1);
             if (buffer == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
-                return 1;
+                return GP_MEMORY_ERROR;
             }
         }
         recvResult = recv(sock, buffer + length, capacity - length, 0);

@@ -10,12 +10,16 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
-// Port types of an init message (NN_PT_*): NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup server, NAT_PORT_TYPE_MATCHUP1
-// from the negotiation socket to the first, NAT_PORT_TYPE_MATCHUP2 from the negotiation socket to the second; each is answered by
-// its own acknowledgement (mInitAckRecv).
+// Port types of an init message (NN_PT_*): NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup
+// server, NAT_PORT_TYPE_MATCHUP1 from the negotiation socket to the first, NAT_PORT_TYPE_MATCHUP2 from the negotiation
+// socket to the second; each is answered by its own acknowledgement (mInitAckRecv).
 #define NAT_PORT_TYPE_GAME_SOCKET 0
 #define NAT_PORT_TYPE_MATCHUP1 1
 #define NAT_PORT_TYPE_MATCHUP2 2
+
+// How a negotiation ends (NAT_CONNECT_FINISHED_*, the mFinished byte of a connect message), the port of the matchup
+// servers, how often and how long (milliseconds) the init and ping messages are sent again, and how long a pinged
+// entry waits before it is cancelled.
 #define NAT_CONNECT_FINISHED_NO_ERROR 0
 #define NAT_CONNECT_FINISHED_DEADBEAT_PARTNER 1
 #define NAT_CONNECT_FINISHED_INIT_TIMEOUT 2

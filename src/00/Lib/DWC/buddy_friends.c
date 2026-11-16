@@ -1,4 +1,5 @@
 #include "00/Lib/DWC/buddy_friends.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
@@ -38,7 +39,7 @@ void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GPConnection *gpConnection
                      DWCAccFriendData *friendList, s32 friendListLength) {
     WiFiBuddySync *loadedSync;
     gWiFiBuddySync = buddySync;
-    buddySync->mState = 0;
+    buddySync->mState = BUDDY_SYNC_STATE_NONE;
     gWiFiBuddySync->mGpConnection = gpConnection;
     gWiFiBuddySync->mPollCount = 0;
     loadedSync = gWiFiBuddySync;
@@ -123,10 +124,10 @@ void StartBuddySync(const char *authToken, const char *partnerChallenge, void (*
         statsAttempt = attemptIndex;
         for (; attemptIndex < 5; attemptIndex++) {
             statsResult = InitStatsConnection(statsAttempt);
-            if (statsResult == 0) {
+            if (statsResult == GE_NOERROR) {
                 break;
             }
-            if (statsResult != 2 || attemptIndex == 4) {
+            if (statsResult != GE_NODNS || attemptIndex == 4) {
                 DWCi_HandlePersError(statsResult);
                 return;
             }

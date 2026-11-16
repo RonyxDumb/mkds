@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/login_connect_close.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/operation_queue.h"
 #include "00/Lib/GameSpy/profile_walk.h"
@@ -51,31 +52,31 @@ u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation) {
         gpState->mListenSocket = OpenNetSocket(2, 1, 0);
         if (gpState->mListenSocket == -1) {
             gpiSetError(connection, 5, "There was an error creating a socket.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         if (SetSockBlocking(gpState->mListenSocket, 0) == FALSE) {
             gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         __builtin__clear(&address, sizeof(address));
         address.mFamily = SOCKET_FAMILY_IPV4;
         if (bind(gpState->mListenSocket, &address, 8) == -1) {
             gpiSetError(connection, 5, "There was an error binding a socket.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         if (listen(gpState->mListenSocket, 5) == -1) {
             gpiSetError(connection, 5, "There was an error listening on a socket.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         len = 8;
         if (getsockname(gpState->mListenSocket, &address, &len) == -1) {
             gpiSetError(connection, 5, "There was an error getting a socket's addres.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         gpState->mPort = address.mPort;
     } else {
@@ -85,19 +86,19 @@ u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation) {
     gpState->mConnectSocket = OpenNetSocket(2, 1, 0);
     if (gpState->mConnectSocket == -1) {
         gpiSetError(connection, 5, "There was an error creating a socket.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     if (SetSockBlocking(gpState->mConnectSocket, 0) == FALSE) {
         gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     resolvedHost = SOC_GetHostByName(gConnectionManagerName);
     if (resolvedHost == NULL) {
         gpiSetError(connection, 5, "Could not resolve connection mananger host name.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     __builtin__clear(&address, sizeof(address));
     address.mFamily = SOCKET_FAMILY_IPV4;
@@ -110,8 +111,8 @@ u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation) {
         lastError = GOAGetLastError(gpState->mConnectSocket);
         if (lastError != -6 && lastError != -26 && lastError != -76) {
             gpiSetError(connection, 5, "There was an error connecting a socket.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
     }
     operation->mState = PROFILE_CONNECT_STATE_WAIT_CHALLENGE;
@@ -136,7 +137,7 @@ u32 GpiStartConnect(GPConnection *connection, const char *nick, const char *uniq
     }
     if (gpState->mConnectState != PROFILE_CONNECTION_IDLE) {
         gpiSetErrorString(connection, "Invalid connection.");
-        return 2;
+        return GP_PARAMETER_ERROR;
     }
     switch (firewall) {
         case 1:
@@ -147,7 +148,7 @@ u32 GpiStartConnect(GPConnection *connection, const char *nick, const char *uniq
             break;
         default:
             gpiSetErrorString(connection, "Invalid firewall.");
-            return 2;
+            return GP_PARAMETER_ERROR;
     }
     gpState->mFirewall = TRUE;
     CopyStringWithTerminator(gpState->mNick, nick, 0x1f);
@@ -158,7 +159,7 @@ u32 GpiStartConnect(GPConnection *connection, const char *nick, const char *uniq
     data = DWCi_GsMalloc(0x308);
     if (data == NULL) {
         gpiSetErrorString(connection, "Out of memory.");
-        return 1;
+        return GP_MEMORY_ERROR;
     }
     memset(data, 0, sizeof(*data));
     data->mNewuser = newuser;
@@ -344,25 +345,25 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
         }
         if (strstr(input, "\\fatal\\") != NULL) {
             gpiSetError(connection, gpState->mErrorNumber, gpState->mErrorMessage);
-            gpiCallErrorCallback(connection, 4, 1);
-            return 4;
+            gpiCallErrorCallback(connection, GP_SERVER_ERROR, 1);
+            return GP_SERVER_ERROR;
         }
         gpiSetError(connection, gpState->mErrorNumber, gpState->mErrorMessage);
-        gpiCallErrorCallback(connection, 4, 0);
-        return 4;
+        gpiCallErrorCallback(connection, GP_SERVER_ERROR, 0);
+        return GP_SERVER_ERROR;
     }
     data = (GPIConnectData *) operation->mData;
     switch (operation->mState) {
         case PROFILE_CONNECT_STATE_WAIT_CHALLENGE:
             if (strncmp(input, "\\lc\\1", 5) != 0) {
                 gpiSetError(connection, 1, "Unexpected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (gpiValueForKey(input, "\\challenge\\", data->mServerChallenge, 0x80) == FALSE) {
                 gpiSetError(connection, 1, "Unexpected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (data->mNewuser != 0) {
                 result = gpiSendNewuser(connection, data);
@@ -381,19 +382,19 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
         case PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY:
             if (strncmp(input, "\\nur\\", 5) != 0) {
                 gpiSetError(connection, 1, "Unexpected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (gpiValueForKey(input, "\\userid\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             gpState->mUserId = StrtolBase10(buffer);
             if (gpiValueForKey(input, "\\profileid\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             gpState->mProfileId = StrtolBase10(buffer);
             result = gpiSendLogin(connection, data);
@@ -405,25 +406,25 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
         case PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY:
             if (strncmp(input, "\\lc\\2", 5) != 0) {
                 gpiSetError(connection, 1, "Unexpected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (gpiValueForKey(input, "\\sesskey\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             gpState->mSesskey = StrtolBase10(buffer);
             if (gpiValueForKey(input, "\\userid\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             gpState->mUserId = StrtolBase10(buffer);
             if (gpiValueForKey(input, "\\profileid\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             gpState->mProfileId = StrtolBase10(buffer);
             if (gpiValueForKey(input, "\\uniquenick\\", uniqueNickText, 0x15) == FALSE) {
@@ -445,13 +446,13 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
             MD5Digest(buffer, strlen(buffer), digestHex);
             if (gpiValueForKey(input, "\\proof\\", buffer, 0x200) == FALSE) {
                 gpiSetError(connection, 1, "Unexepected data was received from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (memcmp(digestHex, buffer, 0x20) != 0) {
                 gpiSetError(connection, 0x108, "Could not authenticate server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             if (gpState->mInfoCaching != 0) {
                 GPIProfile *profile = gpiProfileListAdd(connection, gpState->mProfileId);
@@ -464,7 +465,7 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(arg, 0, sizeof(*arg));
                 arg->mProfile = gpState->mProfileId;
@@ -490,8 +491,8 @@ int gpiCheckConnect(GPConnection *connection) {
     if (result == 0) {
         if (state == 4) {
             gpiSetError(connection, 0x107u, "The server has refused the connection.");
-            gpiCallErrorCallback(connection, 4, 1);
-            return 4;
+            gpiCallErrorCallback(connection, GP_SERVER_ERROR, 1);
+            return GP_SERVER_ERROR;
         }
         if (state == 0) {
             return 0;

@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/unique_nick_transfer.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/operation_queue.h"
 #include "00/Lib/GameSpy/send_buffer.h"
@@ -36,15 +37,15 @@ s32 gpiProcessRegisterUniqueNick(GPConnection *connection, GPIOperation *operati
     }
     if (strncmp(input, "\\rn\\", 4) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     callback = operation->mCallback;
     if (callback.mCallback != NULL) {
         arg = DWCi_GsMalloc(4);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return 1;
+            return GP_MEMORY_ERROR;
         }
         arg[0] = 0;
         result = gpiAddCallback(connection, callback, arg, operation, 0);

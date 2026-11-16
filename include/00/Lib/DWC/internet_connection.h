@@ -20,9 +20,9 @@ enum {
 
 // Values of the type argument of DWC_SetAuthServer: which authentication server address is set.
 enum {
-    DWC_CONNECTINET_AUTH_TEST,
+    AUTH_SERVER_TEST,
     AUTH_SERVER_DEV,
-    DWC_CONNECTINET_AUTH_RELEASE,
+    AUTH_SERVER_NO_SUBDOMAIN,
 };
 
 typedef struct DWCInetControl {

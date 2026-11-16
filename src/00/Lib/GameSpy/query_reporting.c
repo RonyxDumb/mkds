@@ -213,7 +213,7 @@ void qr2_shutdown(QueryRecord *qrec) {
 void qr2_keybuffer_add(MatchingKeyIds *keybuffer, int keyid) {
     int keyCount;
     keyCount = keybuffer->mKeyCount;
-    if (((keyCount < 0xfe) && (1 <= keyid)) && (keyid <= 254)) {
+    if (((keyCount < REPORT_KEY_MAX) && (1 <= keyid)) && (keyid <= REPORT_KEY_MAX)) {
         keybuffer->mKeyCount = keyCount + 1;
         keybuffer->mKeys[keyCount] = (s8) keyid;
     }

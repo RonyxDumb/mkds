@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/operation_queue.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/reply_parse.h"
@@ -51,7 +52,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 arg = DWCi_GsMalloc(0x20);
                 if (arg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(arg, 0, sizeof(*arg));
                 arg->mResult = operation->mResult;
@@ -68,7 +69,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 newProfileArg = DWCi_GsMalloc(8);
                 if (newProfileArg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(newProfileArg, 0, 8);
                 newProfileArg->mResult = operation->mResult;
@@ -81,7 +82,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 arg = DWCi_GsMalloc(0x204);
                 if (arg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(arg, 0, 0x204);
                 arg->mResult = operation->mResult;
@@ -94,7 +95,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 searchArg = DWCi_GsMalloc(0x10);
                 if (searchArg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(searchArg, 0, sizeof(*searchArg));
                 searchArg->mResult = operation->mResult;
@@ -108,7 +109,7 @@ s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation) {
                 uniquenickArg = DWCi_GsMalloc(4);
                 if (uniquenickArg == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 memset(uniquenickArg, 0, 4);
                 uniquenickArg->mResult = operation->mResult;
@@ -132,7 +133,7 @@ u32 gpiAddOperation(GPConnection *connection, int type, void *data, GPIOperation
 
     if (pendingOp == NULL) {
         gpiSetErrorString(connection, "Out of memory.");
-        return 1;
+        return GP_MEMORY_ERROR;
     }
     pendingOp->mType = type;
     pendingOp->mData = data;

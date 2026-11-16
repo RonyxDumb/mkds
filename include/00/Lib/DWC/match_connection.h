@@ -2,12 +2,13 @@
 
 #include "types.h"
 
-// Values of the type argument of DWCi_PostProcessConnection: what the matching does once a connection is set up.
-// INFORM_PEERS
-// sends the participant list entry on to the next peer (or ends the matching when all were told), the others set
-// the state to connected: FIRST_PEER_CONNECTED keeps the last participant as the event profile, ACCEPTED_PEER sends the
-// acknowledgement for the new entry, OWN_ENTRY_ASSIGNED keeps the profile it was called with, and FINISH reports the
-// result to the game and closes or keeps the matching.
+// Values of the type argument of DWCi_PostProcessConnection: the step the matching takes after a connection event.
+// INFORM_PEERS sends the participant entry to the next peer; once all were told it sets the mode's next state and then
+// either starts the sync (server mode, or when every entry is filled) or sends the participant info. The others set
+// the state to connected: CONNECTED_PEER keeps the last participant as the event profile only in the server-client
+// mode, ACCEPTED_PEER sends the acknowledgement for the new entry only when more than one peer is in,
+// OWN_ENTRY_ASSIGNED clears the event profile, and FINISH reports the result to the game and closes or keeps the
+// matching.
 enum {
     POST_PROCESS_INFORM_PEERS,
     POST_PROCESS_CONNECTED_PEER,

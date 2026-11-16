@@ -150,8 +150,8 @@ enum {
 };
 
 // Timeouts (milliseconds) and retry limits of the matching. A CONNECT_INFO command with
-// no answer is sent again after WIFI_MATCH_COMMAND_WAIT_MSEC; the resend, reserve retry and connect retry counters give up
-// once they pass WIFI_MATCH_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
+// no answer is sent again after WIFI_MATCH_COMMAND_WAIT_MSEC; the resend, reserve retry and connect retry counters
+// give up once they pass WIFI_MATCH_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
 // WIFI_MATCH_COMMAND_WAIT_MSEC in a filter search and after WIFI_MATCH_RESERVE_OK_KEEP_MSEC in every mode.
 #define DWC_MAX_CONNECTIONS 32
 #define WIFI_MATCH_RETRY_MAX 5

@@ -7,22 +7,22 @@ u32 DWCi_AC_CloseNetwork(u8 *phase) {
     u8 phaseValue;
     int result;
     phaseValue = *phase;
-    if (phaseValue <= 10) {
+    if (phaseValue <= AC_PHASE_TEST_START) {
         result = DisConnectAP();
         if (result == 1) {
             *phase = 0;
             return 1;
         }
         if (result == -1) {
-            *phase = 0x12;
+            *phase = AC_PHASE_END;
             return 1;
         }
-    } else if (phaseValue == 0xe) {
+    } else if (phaseValue == AC_PHASE_TEST_PROCESS) {
         DWC_Netcheck_Abort();
         DWC_Netcheck_Destroy();
-        *phase = 0xc;
-    } else if ((phaseValue < 0x12) && (result = CleanupSocketApi(), result == 1)) {
-        *phase = 10;
+        *phase = AC_PHASE_TEST_GET_IP;
+    } else if ((phaseValue < AC_PHASE_END) && (result = CleanupSocketApi(), result == 1)) {
+        *phase = AC_PHASE_TEST_START;
     }
     return 0;
 }

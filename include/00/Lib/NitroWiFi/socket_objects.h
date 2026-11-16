@@ -11,7 +11,6 @@
 #define SOCKET_STATUS_CLOSE_REQUESTED 0x0010
 #define SOCKET_STATUS_TRASHED 0x0020
 #define SOCKET_STATUS_CONNECT_FAILED 0x0040
-#define SOCL_STATUS_RESET 0x0080
 
 typedef struct OSThreadQueue OSThreadQueue;
 typedef struct OSMutex OSMutex;

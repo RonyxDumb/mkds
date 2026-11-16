@@ -65,7 +65,7 @@ int ReportBuddySyncGpResult(int result) {
 int DWCi_HandlePersError(int error) {
     s32 errorKind;
     s32 errorCode;
-    if (error == 0) {
+    if (error == GE_NOERROR) {
         return 0;
     }
     switch (error) {

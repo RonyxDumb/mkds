@@ -14,8 +14,8 @@
 const s8 *gBase64Alphabet = (const s8 *) "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.-";
 
 void FreeDisused(void) {
-    DWCi_AC_Free(8, gNetCheck, 0xc);
-    DWCi_AC_Free(0x10, gAcWork, 0xd18);
+    DWCi_AC_Free(AC_MEM_NETCHECK, gNetCheck, 0xc);
+    DWCi_AC_Free(AC_MEM_WORK, gAcWork, 0xd18);
 }
 
 s32 CheckDuplicate(void) {

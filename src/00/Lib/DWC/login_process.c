@@ -1,4 +1,5 @@
 #include "00/Lib/DWC/friend_status.h"
+#include "00/Lib/GameSpy/profile_info_set.h"
 #include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/DWC/login_process.h"
 
@@ -291,7 +292,7 @@ void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 par
     if (wiFiLogin->mState == WIFI_LOGIN_CONNECT_NEW_ID) {
         if ((s8) arg->mLastname[0] == 0) {
             DWCi_Acc_LoginIdToUserName(&wiFiLogin->mUserData->mPseudo, wiFiLogin->mGamecode, lastNameToSet);
-            if (ReportWiFiLoginGpResult(GpSetInfosA(connection, 0x705, (const s8 *) lastNameToSet)) == 0) {
+            if (ReportWiFiLoginGpResult(GpSetInfosA(connection, GP_LASTNAME, (const s8 *) lastNameToSet)) == 0) {
                 gWiFiLogin->mState = WIFI_LOGIN_CHECK_NEW_ID_NAME;
                 if (ReportWiFiLoginGpResult(GpGetInfo(connection, arg->mProfile, 0, 0, DWCi_GPGetInfoCallback, 0)) !=
                     0) {

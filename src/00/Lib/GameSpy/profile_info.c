@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/profile_info_set.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 
 #include "00/Lib/GameSpy/buddy_messages.h"
 #include "00/Lib/GameSpy/presence_api.h"
@@ -40,7 +41,7 @@ u32 gpiIntToDate(GPConnection *connection, s32 date, u32 *day, u32 *month, u32 *
     isValid = GpiIsValidDate(unpackedDay, unpackedMonth, date);
     if (isValid == 0) {
         gpiSetErrorString(connection, "Invalid date.");
-        return 2;
+        return GP_PARAMETER_ERROR;
     }
     *day = unpackedDay;
     *month = unpackedMonth;
@@ -141,13 +142,13 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
     }
     if (strncmp(input, "\\pi\\", 4) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     if (gpiValueForKey(input, "\\profileid\\", buffer, 0x40) == FALSE) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     profileid = StrtolBase10(buffer);
     if (profileid <= 0) {
@@ -281,8 +282,8 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
         }
         if (gpiValueForKey(input, "\\sig\\", buffer, 0x40) == FALSE) {
             gpiSetError(connection, 1, "Unexpected data was received from the server.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
         savePeerSig = gpState->mInfoCaching;
         peerConn = gpState->mPeerList;
@@ -312,7 +313,7 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
             arg = DWCi_GsMalloc(0x204);
             if (arg == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
-                return 1;
+                return GP_MEMORY_ERROR;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
             arg->mResult = PROFILE_REQUEST_OK;
@@ -834,7 +835,7 @@ u32 gpiGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocki
         arg = DWCi_GsMalloc(0x204);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return 1;
+            return GP_MEMORY_ERROR;
         }
         gpiInfoCacheToArg(profileEntry->mCache, arg);
         arg->mResult = PROFILE_REQUEST_OK;

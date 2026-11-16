@@ -20,7 +20,6 @@
 // local scan also sets two of them itself.
 #define SERVER_FLAG_UDP_QUERY 1
 #define SERVER_FLAG_PRIVATE_IP 2
-#define CONNECT_NEGOTIATE_FLAG 4
 #define SERVER_FLAG_ICMP_IP 8
 #define SERVER_FLAG_NOT_DEFAULT_PORT 16
 #define SERVER_FLAG_NOT_DEFAULT_PRIVATE_PORT 32

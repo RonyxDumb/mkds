@@ -8,8 +8,9 @@
 #include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "cpu_copy_fill.h"
 
-const u32 gAcSearchChannel[13] = {0x8002, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040, 0x8080,
-                                  0x8100, 0x8200, 0x8400, 0x8800, 0x9000, 0xa000};
+const u32 gAcSearchChannel[13] = {WIFI_LINK_OPTION_CHANNEL_1, 0x8004, 0x8008, 0x8010, 0x8020, 0x8040,
+                                  WIFI_LINK_OPTION_CHANNEL_7, 0x8100, 0x8200, 0x8400, 0x8800, 0x9000,
+                                  WIFI_LINK_OPTION_CHANNEL_13};
 
 void ScanStart(const u8 *bssid, const u8 *essid, s32 channel, u32 mode) {
     if (channel > 12) {
@@ -30,7 +31,7 @@ u32 DWCi_AC_ConnectRetryAP(void) {
             if (work->mDuplicateFlag == 1) {
                 work->mFindList[work->mConnectNo].mState = 0;
                 nextPhase = AC_PHASE_CONNECT_START;
-            } else if (nextPhase >= AC_PHASE_SEARCH_AROUND && nextPhase <= AC_PHASE_SEARCH_HIDDEN) {
+            } else if (nextPhase >= AC_PHASE_SEARCH_AROUND && nextPhase <= AC_PHASE_SEARCH_STEALTH) {
                 DWCi_AC_SearchReStart(nextPhase);
             }
             break;

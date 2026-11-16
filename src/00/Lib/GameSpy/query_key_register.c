@@ -33,7 +33,7 @@ char gQr2KeyPidUnderscore[] = "pid_";
 char gQr2KeySkillUnderscore[] = "skill_";
 char gQr2KeyGroupid[] = "groupid";
 
-void *gQr2RegisteredKeyList[254] = {
+void *gQr2RegisteredKeyList[REPORT_KEY_MAX] = {
     gQr2KeyEmpty,    gQr2KeyHostname,     gQr2KeyGamename,   gQr2KeyGamever,     gQr2KeyHostport,
     gQr2KeyMapname,     gQr2KeyGametype,     gQr2KeyGamevariant, gQr2KeyNumplayers, gQr2KeyNumteams,
     gQr2KeyMaxplayers,  gQr2KeyGamemode,     gQr2KeyTeamplay,   gQr2KeyFraglimit,   gQr2KeyTeamfraglimit,
@@ -43,7 +43,7 @@ void *gQr2RegisteredKeyList[254] = {
 };
 
 void qr2_register_keyA(s32 keyid, void *key) {
-    if (keyid >= 0x32 && keyid <= 0xfe) {
+    if (keyid >= REPORT_KEY_REGISTER_FIRST && keyid <= REPORT_KEY_MAX) {
         gQr2RegisteredKeyList[keyid] = key;
     }
 }

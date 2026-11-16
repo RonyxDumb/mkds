@@ -3,6 +3,10 @@
 #include "types.h"
 #include "00/Lib/GameSpy/socket_calls.h" // SOCSockAddrIn
 
+// The first key id a program can register, and the number of key ids of the list.
+#define REPORT_KEY_REGISTER_FIRST 50
+#define REPORT_KEY_MAX 254
+
 // Packet types of the query and reporting protocol (the third byte of a query, the first byte of every packet the
 // reporter sends).
 enum {

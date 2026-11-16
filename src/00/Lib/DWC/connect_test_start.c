@@ -16,7 +16,7 @@ u32 ConnectTestStart(ACWORK *work) {
     result = SOC_Startup(config);
     if (result != 0) {
         DWCi_AC_SetError(2);
-        return 0x11;
+        return AC_PHASE_ERROR;
     }
-    return 0xc;
+    return AC_PHASE_TEST_GET_IP;
 }

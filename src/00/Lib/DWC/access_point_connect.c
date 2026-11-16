@@ -74,17 +74,17 @@ u32 ConnectStart(ACWORK *work) {
         work->mAuthMode = 1;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 0) {
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
-            return 9;
+            return AC_PHASE_CONNECT_RETRY;
         }
         if (work->mConnectApType == AUTO_CONNECT_AP_TYPE_NWCUSBAP_SSID && bssDesc->mSsid[9] == 0) {
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
-            return 9;
+            return AC_PHASE_CONNECT_RETRY;
         }
     } else {
         work->mAuthMode = 0;
         if (((bssDesc->mCapaInfo >> 4) & 1) == 1) {
             work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_ERROR_51100;
-            return 9;
+            return AC_PHASE_CONNECT_RETRY;
         }
     }
     work->mCount = 0;

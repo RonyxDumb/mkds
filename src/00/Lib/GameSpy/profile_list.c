@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/profile_list.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/GameSpy/operation_queue.h"
 #include "narrow_string_functions.h"
 #include "00/Lib/GameSpy/send_buffer.h"
@@ -55,13 +56,13 @@ s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, cons
     }
     if (strncmp(input, "\\npr\\", 5) != 0) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     if (gpiValueForKey(input, "\\profileid\\", profileIdText, 0x10) == FALSE) {
         gpiSetError(connection, 1, "Unexpected data was received from the server.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     profileNumber = StrtolBase10(profileIdText);
     callback = operation->mCallback;
@@ -69,7 +70,7 @@ s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, cons
         arg = DWCi_GsMalloc(8);
         if (arg == NULL) {
             gpiSetErrorString(connection, "Out of memory.");
-            return 1;
+            return GP_MEMORY_ERROR;
         }
         arg[1] = profileNumber;
         arg[0] = 0;

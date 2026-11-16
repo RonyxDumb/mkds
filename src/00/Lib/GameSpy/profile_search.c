@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/profile_search.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
 #include "00/Lib/GameSpy/error_message_set.h"
@@ -54,24 +55,24 @@ s32 gpiStartProfileSearch(GPConnection *connection, GPIOperation *operation) {
     data->mInputBuffer = DWCi_GsMalloc(data->mInputBufferCapacity + 1);
     if (data->mInputBuffer == NULL) {
         gpiSetErrorString(connection, "Out of memory.");
-        return 1;
+        return GP_MEMORY_ERROR;
     }
     data->mSocket = OpenNetSocket(2, 1, 0);
     if (data->mSocket == -1) {
         gpiSetError(connection, 5, "There was an error creating a socket.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     if (SetSockBlocking(data->mSocket, 0) == FALSE) {
         gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     resolvedHost = SOC_GetHostByName(gSearchManagerName);
     if (resolvedHost == NULL) {
         gpiSetError(connection, 5, "Could not resolve search mananger host name.");
-        gpiCallErrorCallback(connection, 3, 1);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+        return GP_NETWORK_ERROR;
     }
     {
         SOCSockAddrIn address = {0};
@@ -86,8 +87,8 @@ s32 gpiStartProfileSearch(GPConnection *connection, GPIOperation *operation) {
             socketError = GOAGetLastError(data->mSocket);
             if (socketError != -6 && socketError != -0x1a && socketError != -0x4c) {
                 gpiSetError(connection, 5, "There was an error connecting a socket.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
         }
     }
@@ -248,8 +249,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
             }
             if (state == 4) {
                 gpiSetError(connection, 0xd01, "Could not connect to the search manager.");
-                gpiCallErrorCallback(connection, 4, 0);
-                return 4;
+                gpiCallErrorCallback(connection, GP_SERVER_ERROR, 0);
+                return GP_SERVER_ERROR;
             }
             if (state == 3) {
                 if (data->mKind == PROFILE_SEARCH_KIND_PROFILES) {
@@ -364,8 +365,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                     return result;
                 }
                 gpiSetError(connection, 0xd01, "There was an error reading from the server.");
-                gpiCallErrorCallback(connection, 3, 0);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
+                return GP_NETWORK_ERROR;
             }
             if (strstr(data->mInputBuffer, "\\final\\") != NULL) {
                 readPos = 0;
@@ -399,7 +400,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             response.mMatches = profileMatches;
                             if (profileMatches == NULL) {
                                 gpiSetErrorString(connection, "Out of memory.");
-                                return 1;
+                                return GP_MEMORY_ERROR;
                             }
                             entryIndex = response.mNumMatches - 1;
                             profileMatch = &profileMatches[entryIndex];
@@ -429,8 +430,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             } while (matchDone == FALSE);
                         } else {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                     } while (isDone == FALSE);
                     previousMore = response.mMore;
@@ -459,13 +460,13 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "vr") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         u2 = DWCi_GsMalloc(0x3c);
                         if (u2 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u2->mResult = PROFILE_REQUEST_OK;
                         CopyStringWithTerminator(u2->mEmail, (const char *) data->mEmail, 0x33);
@@ -486,7 +487,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         u3 = DWCi_GsMalloc(0x44);
                         if (u3 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u3->mResult = PROFILE_REQUEST_OK;
                         strcpy(u3->mEmail, (const char *) data->mEmail);
@@ -499,8 +500,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "nr") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         isDone = FALSE;
                         do {
@@ -512,13 +513,13 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 allocatedBlock = DWCi_GsRealloc(u3->mNicks, (u3->mNumNicks + 1) * 4);
                                 if (allocatedBlock == NULL) {
                                     gpiSetErrorString(connection, "Out of memory.");
-                                    return 1;
+                                    return GP_MEMORY_ERROR;
                                 }
                                 u3->mNicks = (char **) allocatedBlock;
                                 allocatedBlock = DWCi_GsMalloc(0x1f);
                                 if (allocatedBlock == NULL) {
                                     gpiSetErrorString(connection, "Out of memory.");
-                                    return 1;
+                                    return GP_MEMORY_ERROR;
                                 }
                                 u3->mNicks[u3->mNumNicks] = allocatedBlock;
                                 CopyStringWithTerminator(u3->mNicks[u3->mNumNicks], value, 0x1f);
@@ -528,13 +529,13 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                     allocatedBlock = DWCi_GsRealloc(u3->mUniquenicks, u3->mNumNicks * 4);
                                     if (allocatedBlock == NULL) {
                                         gpiSetErrorString(connection, "Out of memory.");
-                                        return 1;
+                                        return GP_MEMORY_ERROR;
                                     }
                                     u3->mUniquenicks = (char **) allocatedBlock;
                                     allocatedBlock = DWCi_GsMalloc(0x15);
                                     if (allocatedBlock == NULL) {
                                         gpiSetErrorString(connection, "Out of memory.");
-                                        return 1;
+                                        return GP_MEMORY_ERROR;
                                     }
                                     u3->mUniquenicks[u3->mNumNicks - 1] = allocatedBlock;
                                     CopyStringWithTerminator(u3->mUniquenicks[u3->mNumNicks - 1], value, 0x15);
@@ -543,8 +544,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 isDone = TRUE;
                             } else {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                         } while (isDone == FALSE);
                         result = gpiAddCallback(connection, nicksCallback, u3, operation,
@@ -559,7 +560,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         u4 = DWCi_GsMalloc(0x10);
                         if (u4 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u4->mProductId = data->mProductId;
                         isDone = FALSE;
@@ -579,7 +580,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 playerMatches = u4->mMatches;
                                 if (playerMatches == NULL) {
                                     gpiSetErrorString(connection, "Out of memory.");
-                                    return 1;
+                                    return GP_MEMORY_ERROR;
                                 }
                                 entryIndex = u4->mNumMatches - 1;
                                 playerMatch = &playerMatches[entryIndex];
@@ -607,8 +608,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 } while (matchDone == FALSE);
                             } else {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                         } while (isDone == FALSE);
                         result = gpiAddCallback(connection, playerMatchCallback, u4, operation,
@@ -626,8 +627,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "cur") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         resultValue = StrtolBase10(value);
                         if (resultValue != 0) {
@@ -636,15 +637,15 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         } else {
                             if (gpiValueForKey(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                             profileValue = StrtolBase10(value);
                         }
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
@@ -663,8 +664,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "nur") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         resultValue = StrtolBase10(value);
                         if (resultValue != 0) {
@@ -673,8 +674,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         if (gpiValueForKey(data->mInputBuffer, "\\pid\\", value, 0x200) == FALSE) {
                             if (resultValue == 0) {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                             profileValue = 0;
                         } else {
@@ -683,7 +684,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         u5 = DWCi_GsMalloc(8);
                         if (u5 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u5->mResult = resultValue;
                         u5->mProfile = profileValue;
@@ -699,7 +700,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         u7 = DWCi_GsMalloc(0xc);
                         if (u7 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u7->mResult = PROFILE_REQUEST_OK;
                         u7->mNumProfiles = 0;
@@ -710,8 +711,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "others") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         isDone = FALSE;
                         do {
@@ -725,7 +726,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 profileMatches = DWCi_GsRealloc(u7->mProfiles, (u7->mNumProfiles + 1) * 0xac);
                                 if (profileMatches == NULL) {
                                     gpiSetErrorString(connection, "Out of memory.");
-                                    return 1;
+                                    return GP_MEMORY_ERROR;
                                 }
                                 u7->mProfiles = profileMatches;
                                 profileMatches = u7->mProfiles;
@@ -758,8 +759,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 } while (matchDone == FALSE);
                             } else {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                         } while (isDone == FALSE);
                         result = gpiAddCallback(connection, othersCallback, u7, operation,
@@ -775,7 +776,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         u9 = DWCi_GsMalloc(0xc);
                         if (u9 == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         u9->mResult = PROFILE_REQUEST_OK;
                         u9->mNumSuggestedNicks = 0;
@@ -786,14 +787,14 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         if (strcmp(key, "us") != 0) {
                             gpiSetError(connection, 1, "Error reading from the search server.");
-                            gpiCallErrorCallback(connection, 3, 1);
-                            return 3;
+                            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                            return GP_NETWORK_ERROR;
                         }
                         u9->mNumSuggestedNicks = StrtolBase10(value);
                         u9->mSuggestedNicks = DWCi_GsMalloc(u9->mNumSuggestedNicks * 4);
                         if (u9->mSuggestedNicks == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         isDone = FALSE;
                         do {
@@ -805,7 +806,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 u9->mSuggestedNicks[entryIndex] = DWCi_GsMalloc(0x15);
                                 if (u9->mSuggestedNicks[entryIndex] == NULL) {
                                     gpiSetErrorString(connection, "Out of memory.");
-                                    return 1;
+                                    return GP_MEMORY_ERROR;
                                 }
                                 CopyStringWithTerminator(u9->mSuggestedNicks[entryIndex], value, 0x15);
                                 entryIndex++;
@@ -817,8 +818,8 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                                 isDone = TRUE;
                             } else {
                                 gpiSetError(connection, 1, "Error reading from the search server.");
-                                gpiCallErrorCallback(connection, 3, 1);
-                                return 3;
+                                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                                return GP_NETWORK_ERROR;
                             }
                         } while (isDone == FALSE);
                         result = gpiAddCallback(connection, uniqueNickCallback, u9, operation,

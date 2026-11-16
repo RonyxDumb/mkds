@@ -12,10 +12,10 @@ typedef struct GPConnection GPConnection;
 
 BOOL gpiCheckForBuddy(GPConnection *unused, GPIProfile *entry, void *data);
 
-// Argument block of the walk over the list at 0x428: the object, the function to call and its argument.
 // Called with the connection, the profile and the user data.
 typedef s32 (*gpiProfileMapFunc)(GPConnection *connection, GPIProfile *profile, void *data);
 
+// Argument block of the walk over the profile list: the connection, the function to call and its argument.
 typedef struct GPIProfileMapData {
     /* 00 */ GPConnection *mConnection;
     /* 04 */ gpiProfileMapFunc mFunc;

@@ -70,8 +70,8 @@ void DWCi_AC_GetBeacon(WMBssDesc *bssdesc) {
                 type = CompareList(bssdesc, work->mSearchListNum, work->mSearchList);
             }
             break;
-        case AC_PHASE_SEARCH_LISTED_CHANNELS:
-        case AC_PHASE_SEARCH_HIDDEN:
+        case AC_PHASE_SEARCH_DIFFER_CHANNEL:
+        case AC_PHASE_SEARCH_STEALTH:
             type = CompareList(bssdesc, 1, work->mSearchList + work->mSearchListNo);
             if (type >= 0) {
                 work->mSearchList[work->mSearchListNo].mBeaconReceived = 1;
@@ -285,29 +285,29 @@ s32 DWC_AC_Process(void) {
     s32 duplicateResult;
 
     phase = DWCi_AC_GetPhase();
-    if (phase == 1) {
+    if (phase == AC_PHASE_START) {
         phase = DWCi_AC_Start();
-    } else if (phase < 7) {
+    } else if (phase < AC_PHASE_CONNECT_START) {
         interruptState = OS_DisableInterrupts();
         phase = ((u8(*)(void)) DWCi_AC_SearchAP)();
         DWCi_AC_SetPhase(phase);
         OS_RestoreInterrupts(interruptState);
-    } else if (phase < 9) {
+    } else if (phase < AC_PHASE_CONNECT_RETRY) {
         phase = ((u8(*)(void)) DWCi_AC_ConnectAP)();
-    } else if (phase < 10) {
+    } else if (phase < AC_PHASE_TEST_START) {
         phase = ((u8(*)(void)) DWCi_AC_ConnectRetryAP)();
-    } else if (phase < 16) {
+    } else if (phase < AC_PHASE_COMPLETE) {
         phase = ((u8(*)(void)) DWCi_AC_ConnectTest)();
-    } else if (phase == 17) {
+    } else if (phase == AC_PHASE_ERROR) {
         phase = DWCi_AC_Error();
     }
     DWCi_AC_SetPhase(phase);
-    if (phase == 16) {
+    if (phase == AC_PHASE_COMPLETE) {
         duplicateResult = CheckDuplicate();
         FreeDisused();
         return duplicateResult;
     }
-    if (phase == 18) {
+    if (phase == AC_PHASE_END) {
         FreeDisused();
         return -1;
     }
@@ -318,28 +318,28 @@ u32 DWC_AC_GetStatus(void) {
     u32 phase;
 
     phase = DWCi_AC_GetPhase();
-    if (phase <= 1) {
+    if (phase <= AC_PHASE_START) {
         return 0;
     }
-    if (phase < 7) {
+    if (phase < AC_PHASE_CONNECT_START) {
         return 1;
     }
-    if (phase == 9) {
+    if (phase == AC_PHASE_CONNECT_RETRY) {
         return 4;
     }
-    if (phase < 10) {
+    if (phase < AC_PHASE_TEST_START) {
         return 2;
     }
-    if (phase == 11) {
+    if (phase == AC_PHASE_TEST_RETRY) {
         return 4;
     }
-    if (phase < 16) {
+    if (phase < AC_PHASE_COMPLETE) {
         return 3;
     }
-    if (phase == 16) {
+    if (phase == AC_PHASE_COMPLETE) {
         return 5;
     }
-    if (phase == 17) {
+    if (phase == AC_PHASE_ERROR) {
         return 4;
     }
     return DWCi_AC_GetResult();
@@ -349,7 +349,7 @@ BOOL DWC_AC_Destroy(void) {
     u8 phase;
 
     phase = DWCi_AC_GetPhase();
-    if (phase == 0 || phase == 0x12) {
+    if (phase == 0 || phase == AC_PHASE_END) {
         DWCi_AC_FreeAll();
         return 1;
     }

@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/presence_api.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "03/Net/essid_packet_steps.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
@@ -116,8 +117,8 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
         if (result != 0) {
             if (result == 3) {
                 gpiSetError(connection, 5, "There was an error reading from the server.");
-                gpiCallErrorCallback(connection, 3, 1);
-                return 3;
+                gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+                return GP_NETWORK_ERROR;
             }
             return result;
         }
@@ -135,7 +136,7 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
                 buffer = DWCi_GsRealloc(gpState->mCommandBuffer, gpState->mCommandBufferCapacity + 1);
                 if (buffer == NULL) {
                     gpiSetErrorString(connection, "Out of memory.");
-                    return 1;
+                    return GP_MEMORY_ERROR;
                 }
                 gpState->mCommandBuffer = buffer;
             }
@@ -173,7 +174,7 @@ u32 gpiProcessConnectionManager(GPConnection *connection) {
         if (socketGone != 0) {
             gpState->mConnectState = PROFILE_CONNECTION_CLOSED;
             gpiSetError(connection, 7, "The server has closed the connection.");
-            gpiCallErrorCallback(connection, 3, 1);
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
             return 0;
         }
         result = gpiOperationsAreBlocking(connection);

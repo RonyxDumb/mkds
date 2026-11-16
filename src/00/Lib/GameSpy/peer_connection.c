@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/peer_connection.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/GameSpy/send_buffer.h"
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/reply_parse.h"
@@ -271,7 +272,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                         arg = DWCi_GsMalloc(0xc);
                         if (arg == NULL) {
                             gpiSetErrorString(connection, "Out of memory.");
-                            return 1;
+                            return GP_MEMORY_ERROR;
                         }
                         arg->mProfile = peerConn->mProfileId;
                         arg->mUnk_08 = goastrdup((const char *) message);
@@ -283,7 +284,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                         }
                     }
                     break;
-                case PROFILE_PEER_STATE_START_CONNECT:
+                case GPI_BM_PING:
                     gpiSendBuddyMessage(connection, peerConn->mProfileId, BUDDY_MESSAGE_TYPE_PONG, "1");
                     break;
                 case GPI_BM_FILE_SEND_REQUEST:
@@ -485,13 +486,13 @@ s32 gpiPeerStartConnect(GPConnection *connection, GPIPeer *peer) {
     peer->mSocket = OpenNetSocket(2, 1, 0);
     if (peer->mSocket == -1) {
         gpiSetError(connection, 5, "There was an error creating a socket.");
-        gpiCallErrorCallback(connection, 3, 0);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
+        return GP_NETWORK_ERROR;
     }
     if (SetSockBlocking(peer->mSocket, 0) == FALSE) {
         gpiSetError(connection, 5, "There was an error making a socket non-blocking.");
-        gpiCallErrorCallback(connection, 3, 0);
-        return 3;
+        gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 0);
+        return GP_NETWORK_ERROR;
     }
     gpiSetPeerSocketSizes(peer->mSocket);
     addressWords = (u32 *) &address;
@@ -505,8 +506,8 @@ s32 gpiPeerStartConnect(GPConnection *connection, GPIPeer *peer) {
         connectResult = GOAGetLastError(peer->mSocket);
         if (connectResult != -6 && connectResult != -0x1a && connectResult != -0x4c) {
             gpiSetError(connection, 5, "There was an error connecting a socket.");
-            gpiCallErrorCallback(connection, 3, 1);
-            return 3;
+            gpiCallErrorCallback(connection, GP_NETWORK_ERROR, 1);
+            return GP_NETWORK_ERROR;
         }
     }
     peer->mState = PROFILE_PEER_STATE_WAIT_CONNECT;

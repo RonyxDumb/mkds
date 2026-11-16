@@ -54,20 +54,17 @@ typedef struct WCMApListHeader {
     /* 0c */ WCMApList mBlocks[1];
 } WCMApListHeader;
 
-// Values of the mode member of a WEP key: 0 for no key, otherwise the key length in bytes (5, 13 or 16).
+// Value of the mode member of a WEP key that has no key; the other values are the AP_WEP_MODE_KEY_ lengths.
 #define WCM_WEPMODE_NONE 0
-#define WEP_KEY_MODE_SHORT 1
-#define WEP_KEY_MODE_LONG 2
-#define WEP_KEY_MODE_LONGEST 3
 
 // Bits of WCMWork.mOption and of the option argument of WCM_UpdateOption: a TEST bit in the argument replaces that
 // setting, the FILTER bit next to it holds its value; channel bit n is channel n (no channel given selects channels 1,
 // 7 and 13).
 #define WIFI_LINK_OPTION_SETS_CHANNELS 0x00008000
-#define WCM_OPTION_CHANNEL_1 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000002)
-#define WCM_OPTION_CHANNEL_7 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000080)
-#define CHANNEL_OPTION_LAST (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00002000)
-#define WIFI_LINK_OPTION_CHANNELS_1_7_13 (WCM_OPTION_CHANNEL_1 | WCM_OPTION_CHANNEL_7 | CHANNEL_OPTION_LAST)
+#define WIFI_LINK_OPTION_CHANNEL_1 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000002)
+#define WIFI_LINK_OPTION_CHANNEL_7 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00000080)
+#define WIFI_LINK_OPTION_CHANNEL_13 (WIFI_LINK_OPTION_SETS_CHANNELS | 0x00002000)
+#define WIFI_LINK_OPTION_CHANNELS_1_7_13 (WIFI_LINK_OPTION_CHANNEL_1 | WIFI_LINK_OPTION_CHANNEL_7 | WIFI_LINK_OPTION_CHANNEL_13)
 #define WIFI_LINK_OPTION_SETS_POWER 0x00020000
 #define WIFI_LINK_OPTION_POWER_SAVE_OFF_BIT 0x00010000
 #define WIFI_LINK_OPTION_POWER_SAVE_OFF (WIFI_LINK_OPTION_SETS_POWER | WIFI_LINK_OPTION_POWER_SAVE_OFF_BIT)

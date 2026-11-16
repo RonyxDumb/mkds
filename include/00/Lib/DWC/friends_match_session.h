@@ -39,8 +39,8 @@ typedef struct WiFiConnection {
     // DWC_ShutdownFriendsMatch; the socket's own error callback DWCi_GT2SocketErrorCallback sets it NULL.
     /* 00 */ GTI2Socket *mSocket;
     // Slot 0 of a GT2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
-    // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect call):
-    // result of a Gt2 connect, DWCi_GT2ConnectedCallback (retries up to 5 times).
+    // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect and accept
+    // calls): result of a Gt2 connect, DWCi_GT2ConnectedCallback (result 6 retries the connect up to 5 times).
     /* 04 */ void (*mResultCallback)();
     // Slot 1 of the record at mResultCallback: data received from a peer, forwarded to the net layer
     // (DWCi_RecvCallback).

@@ -4,5 +4,5 @@
 
 s32 ConnectTestEnd(const ACWORK *work) {
     SetAcHoldApType(work->mConnectApType);
-    return 0x10;
+    return AC_PHASE_COMPLETE;
 }

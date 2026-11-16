@@ -1,4 +1,5 @@
 #include "00/Lib/GameSpy/callback_queue.h"
+#include "00/Lib/DWC/matching_result_codes.h"
 #include "00/Lib/GameSpy/profile_empty_check.h"
 #include "00/Lib/GameSpy/socket_calls.h"
 #include "00/Lib/GameSpy/error_message_set.h"
@@ -62,7 +63,7 @@ u32 gpiAddCallback(GPConnection *connection, GPICallback callback, void *arg, GP
     queued = DWCi_GsMalloc(0x18);
     if (queued == NULL) {
         gpiSetErrorString(connection, "Out of memory.");
-        return 1;
+        return GP_MEMORY_ERROR;
     }
     queued->mCallback = callback;
     queued->mArg = arg;

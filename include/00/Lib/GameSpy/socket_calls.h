@@ -7,12 +7,13 @@
 #define SOCKET_FAMILY_IPV4 2
 #define SOCKET_ADDRESS_LENGTH_IPV4 4
 
-// Bits of the events and revents members of the poll entry; port of the master server for the availability check and
-// the reporter; the numbers of the ports of the profile servers, as the network order words in the address.
+// Bits of the events and revents members of a poll entry (SOCPollFD).
 #define POLL_EVENT_READABLE 0x0001
 #define POLL_EVENT_WRITABLE 0x0008
 #define POLL_EVENT_ERROR 0x0020
 #define POLL_EVENT_NOT_CONNECTED 0x0040
+// Port of the query reporter and the availability check (host order); ports of the profile connection and search
+// managers (network order words).
 #define REPORTING_AND_AVAILABILITY_PORT 0x6cfc
 #define PROFILE_CONNECTION_MANAGER_PORT_NETWORK_ORDER 0xcc74
 #define PROFILE_SEARCH_MANAGER_PORT_NETWORK_ORDER 0xcd74

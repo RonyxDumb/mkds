@@ -13,17 +13,16 @@ void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *u
 // Key ids of the matching server's query reports: two reserved ids of the reporter (the completed and entry counts),
 // then the ids of this matching code, then the game's own keys from SERVER_KEY_GAME_FIRST on (there are
 // DWC_QR2_GAME_RESERVED_KEYS of them).
-#define NUMPLAYERS_KEY 8
-#define MAXPLAYERS_KEY 10
-#define NUM_RESERVED_KEYS 50
-#define MAX_REGISTERED_KEYS 254
-#define DWC_QR2_PID_KEY NUM_RESERVED_KEYS
-#define DWC_QR2_MATCH_TYPE_KEY (NUM_RESERVED_KEYS + 1)
-#define DWC_QR2_MATCH_RESV_KEY (NUM_RESERVED_KEYS + 2)
-#define DWC_QR2_MATCH_VER_KEY (NUM_RESERVED_KEYS + 3)
-#define DWC_QR2_MATCH_EVAL_KEY (NUM_RESERVED_KEYS + 4)
-#define DWC_QR2_GAME_KEY_START 100
-#define DWC_QR2_GAME_RESERVED_KEYS (MAX_REGISTERED_KEYS - NUM_RESERVED_KEYS - (100 - NUM_RESERVED_KEYS))
+#define SERVER_KEY_NN_COMPLETED_COUNT 8
+#define SERVER_KEY_ENTRY_COUNT 10
+#define SERVER_KEY_PROFILE_ID REPORT_KEY_REGISTER_FIRST
+#define SERVER_KEY_MODE (REPORT_KEY_REGISTER_FIRST + 1)
+#define SERVER_KEY_RESERVED_PROFILE_ID (REPORT_KEY_REGISTER_FIRST + 2)
+#define SERVER_KEY_VERSION (REPORT_KEY_REGISTER_FIRST + 3)
+#define SERVER_KEY_EVAL (REPORT_KEY_REGISTER_FIRST + 4)
+#define SERVER_KEY_GAME_FIRST 100
+#define DWC_QR2_GAME_RESERVED_KEYS \
+    (REPORT_KEY_MAX - REPORT_KEY_REGISTER_FIRST - (SERVER_KEY_GAME_FIRST - REPORT_KEY_REGISTER_FIRST))
 
 // The matching version: the value of the version key and the version in the header of every matching command.
 #define WIFI_MATCH_VERSION 3
