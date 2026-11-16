@@ -605,7 +605,7 @@ s32 AdvanceMissionRunLVsel(void) {
         gMissionRunLVsel->mStateFrames >= MISSION_RUN_LVSEL_SLIDE_FRAMES) {
         return gMissionRunLVsel->mResult;
     }
-    return 0;
+    return MISSION_RUN_LVSEL_RESULT_NONE;
 }
 
 void WriteMissionRunLVselBg0Offset(void) {

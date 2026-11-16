@@ -34,8 +34,8 @@ void AdvanceOptionEmbremSelectSlideIn(void);
 void AdvanceOptionEmbremSelectWaitFade(void);
 BOOL IsBackupEmblemOff(void);
 void LocateAndQueueOptionEmbremSelect(void);
-/* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
-   AdvanceOptionStates after it returns */
+/* slot mRelease of OptionStateCallbacks; only clears the global. On a state change AdvanceOptionStates destroys the
+   state heap after it returns */
 void ClearOptionEmbremSelectPointer(void);
 void InitOptionEmbremSelect(void *heap);
 

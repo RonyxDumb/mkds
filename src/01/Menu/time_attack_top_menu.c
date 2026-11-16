@@ -412,7 +412,7 @@ s32 AdvanceTimeAttackTopMenu(void) {
         gTimeAttackTopMenu->mStateFrames >= TIME_ATTACK_TOP_SLIDE_FRAMES) {
         return gTimeAttackTopMenu->mResult;
     }
-    return 0;
+    return TIME_ATTACK_TOP_RESULT_NONE;
 }
 
 void WriteTimeAttackTopMenuBg0Offset(void) {

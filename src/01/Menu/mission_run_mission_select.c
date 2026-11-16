@@ -991,7 +991,7 @@ s32 AdvanceMissionRunMSsel(void) {
         gMissionRunMSsel->mStateFrames >= MISSION_RUN_MSSEL_SLIDE_FRAMES) {
         return gMissionRunMSsel->mResult;
     }
-    return 0;
+    return MISSION_RUN_MSSEL_RESULT_NONE;
 }
 
 void WriteMissionRunMSselBgOffsets(void) {

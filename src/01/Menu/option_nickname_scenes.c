@@ -91,7 +91,7 @@ void UpdateNicknameScene(s16 *sceneNumbers) {
     ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 1);
     AdvanceNicknameScene();
     HideUnusedOams(gNicknameBuffers, gNicknameBuffers + 1);
-    if (sceneNumbers != NULL && GetNicknameSceneNextScene() != -1) {
+    if (sceneNumbers != NULL && GetNicknameSceneNextScene() != NICKNAME_SCENE_NEXT_NONE) {
         sceneNumbers[2] = GetNicknameSceneNextScene();
     }
 }

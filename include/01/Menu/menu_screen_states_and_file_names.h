@@ -46,13 +46,15 @@ enum {
 typedef struct OptionHensyuMenu {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;
-    /* Init leaves it unset when the previous option state is not 0, 3, 5 or 6 (0, 5 -> 0, 3, 6 -> 1) */
+    /* Init sets it from the previous option state (TOP_MENU or SCENE_KEYBOARD -> 0, EMBREM_SELECT or SCENE_EMBLEM ->
+       1) and leaves it unset for any other. */
     /* 08 */ s32 mIndex;
     /* counted only in states 1, 4, 5; zeroed when 1 and 4 hand over; state 5 keeps counting while it requests the
        next option state */
     /* 0c */ s32 mStateFrames;
-    /* option state passed to RequestOptionState (0, 3, 5 or 6); no initial store, set by the input handler (state
-       3); also tested inside the screen */
+    /* option state chosen by the input handler (state 3): the top menu or emblem select state is passed to
+       RequestOptionState, the keyboard and emblem choices request the next scene instead; no initial store; also tested
+       inside the screen */
     /* 10 */ s32 mNextOptionState;
     /* 14 */ BOOL mHighlightVisible;
     /* 18 */ void *mHeap;
@@ -65,7 +67,8 @@ typedef struct OptionHensyuMenu {
     /* 30 */ void *mOptionHensyuMenuSBnbl;
 } OptionHensyuMenu;
 
-// Allocated by InitOptionStates and held in gOptionStates.
+// The option scene's state machine: its heap, state heap, state, next state, previous state, next scene, callbacks and
+// display settings.
 typedef struct OptionStates {
     /* 00 */ void *mHeap;
     /* 04 */ void *mStateHeap;
@@ -139,7 +142,8 @@ enum {
     SELECT_BATTLE_STAGE_STATE_SLIDE_OUT,
 };
 
-// Allocated by InitSelectBattleStage and held in gSelectBattleStage.
+// The select battle stage screen: its state, selected index, slide offsets, result, layout tables, loaded files, oam
+// lists and messages.
 typedef struct SelectBattleStage {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -180,7 +184,7 @@ enum {
     TEST_SCENE_STATE_COUNT = 4,
 };
 
-// Object that InitTestSceneObject allocates and gTestScene points to.
+// The test scene: its state, fonts, char canvases, text canvases, chars and screen map.
 typedef struct TestScene {
     /* 0000 */ s32 mUnk_0000;
     /* 0004 */ s32 mState;
@@ -279,7 +283,7 @@ extern const char *gMissionRunLVselSNcerName;
 extern const char *gMissionRunLVselSONclrName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
-// Values of TimeAttackTopMenu.mIndex: the rows, top to bottom.
+// Values of TimeAttackTopMenu.mIndex: the three rows, in the order the Up and Down buttons step through them.
 enum {
     TIME_ATTACK_TOP_ROW_SELECT_CHARACTER,
     TIME_ATTACK_TOP_ROW_SEND_GHOST,

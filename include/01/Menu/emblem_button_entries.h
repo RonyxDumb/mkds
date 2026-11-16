@@ -3,7 +3,7 @@
 #include "types.h"
 #include "sprite_animation_control.h"
 
-// Object that the per-entry update callbacks around AdvanceEmblemButtonHold work on.
+// One entry of an Lld: its animation index, position, scale, bounds, cell animation and update callback.
 typedef struct LldEntry {
     /* 00 */ u16 mAnimIndex;
     /* 02 */ u8 mUnk_02[0x2];

@@ -6,7 +6,7 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Argument of AdvanceLld.
+// OAM entries (mOams) and how many are used (mOamCount); AdvanceLld appends the cells it draws.
 typedef struct OamBuffer {
     /* 000 */ u8 mOams[0x400];
     /* 400 */ u16 mOamCount;
@@ -40,7 +40,8 @@ enum {
     EMBLEM_STATE_DONE,
 };
 
-// Values of Emblem.mCursorTargetState: which part of the sub screen the cursor is on.
+// Values of Emblem.mCursorTargetState: which part of the sub screen the cursor is on (GRID, BUTTONS, COLORS), or HELD
+// while a press is still held.
 enum {
     EMBLEM_CURSOR_TARGET_GRID,
     EMBLEM_CURSOR_TARGET_BUTTONS,
@@ -48,7 +49,8 @@ enum {
     EMBLEM_CURSOR_TARGET_HELD,
 };
 
-// Values of Emblem.mDisplayState: the screen setup the display step runs next.
+// Values of Emblem.mDisplayState: which graphics work AdvanceEmblemDisplay does while the state is set; IDLE and CAMERA
+// do none.
 enum {
     EMBLEM_DISPLAY_UPLOAD_SCREENS,
     EMBLEM_DISPLAY_IDLE,
@@ -78,7 +80,6 @@ enum {
 // Calls of the screen upload state (mUploadFrames) before the grid is shown.
 #define EMBLEM_UPLOAD_FRAMES 2
 
-// Object behind gEmblem, allocated by InitEmblem.
 typedef void (*EmblemTransitionFunc)(void);
 
 // The emblem editor: its screen graphics, record and grid bytes, cursors, state and fade values.

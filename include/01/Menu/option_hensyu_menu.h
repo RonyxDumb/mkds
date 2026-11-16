@@ -13,8 +13,8 @@ void AdvanceOptionHensyuMenuWaitSelectReturn(void);
 void AdvanceOptionHensyuMenuSlideIn(void);
 void AdvanceOptionHensyuMenuWaitFade(void);
 void LocateAndQueueOptionHensyuMenu(void);
-/* slot mRelease of OptionStateCallbacks; only clears the global, the state heap is destroyed by
-   AdvanceOptionStates after it returns */
+/* slot mRelease of OptionStateCallbacks; only clears the global. On a state change AdvanceOptionStates destroys the
+   state heap after it returns */
 void ReleaseOptionHensyuMenu(void);
 void InitOptionHensyuMenu(void *heap);
 

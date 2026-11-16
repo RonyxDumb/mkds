@@ -105,7 +105,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
         s32 remainingSize = 0x8000;
 
         bmgEntry = GetBmgEntry(gSelectBattleStage->mMenuMessages, 6);
-        if (variant == 0) {
+        if (variant == SELECT_BATTLE_STAGE_VARIANT_SHINE) {
             bmgEntry = GetBmgEntry(gSelectBattleStage->mMenuMessages, 7);
         }
         for (index = 0; index < 2; index++) {
@@ -117,7 +117,7 @@ void InitSelectBattleStage(void *parentHeap, s32 variant, void *mainOam, void *s
                                                bmgEntry, gSelectBattleStage->mSelectBattleStageCellLayouts[0],
                                                gSelectBattleStage->mSelectBattleStageTables[0]);
         }
-        if (variant == 1) {
+        if (variant == SELECT_BATTLE_STAGE_VARIANT_BALLOON) {
             gSelectBattleStage->mSelectBattleStageTables[0][5].mVisible = 0;
         } else {
             gSelectBattleStage->mSelectBattleStageTables[0][6].mVisible = 0;

@@ -13,7 +13,8 @@ enum {
     ENDING_KIND_STAFFROLL_TRUE,
 };
 
-// Values of EndingScene.mState and mNextState; gEndingSceneStateTable holds how long each lasts.
+// Values of EndingScene.mState and mNextState; gEndingSceneStateTable holds a frame count per state: the hold length,
+// the fade length passed to the fade call, or the frames before input is read.
 enum {
     ENDING_SCENE_STATE_WAIT_FADE_IN,
     ENDING_SCENE_STATE_SHOW_LOGO,
@@ -159,7 +160,8 @@ typedef struct MissionRunMSsel {
     // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable
     /* 44 */ LayoutTableEntry *mMissionRunMSselSTable;
     /* 48 */ void *mVramTransferBuffer;
-    // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the mission number
+    // missionTable.mtbl; GetMissionTableValue(table, row, column) returns the cell value, which minus 1 indexes
+    // mMissionFileRows
     /* 4c */ MissionTable *mMissionTableMtbl;
     /* 50 */ MissionFileRow *mMissionFileRows;
     /* 54 */ struct Bmg *mCommonMessages;
@@ -169,11 +171,11 @@ typedef struct MissionRunMSsel {
     /* 64 */ s32 mNextState;
     /* 68 */ s32 mStateFrames; /* counted only in states 1, 4, 8; zeroed by the next-state setter */
     /* 6c */ s32 mIndexCellTimers[9];
-    // X half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // X half of reg_G2_BG0OFS, stored negated (the low half)
     /* 90 */ s32 mBg0OffsetX;
-    // Y half of reg_G2_BG0OFS (0x04000010, main engine BG0), stored negated
+    // Y half of reg_G2_BG0OFS, stored negated (the high half)
     /* 94 */ s32 mBg0OffsetY;
-    // Y half of reg_G2_BG1OFS (0x04000014, main engine BG1), stored negated; X is not written
+    // Y half of reg_G2_BG1OFS, stored negated; the X half is written as 0
     /* 98 */ s32 mBg1Offset;
     /* 9c */ s16 mExitOffsetX;
     /* 9e */ s16 mIndex; /* mission number - 1, 8 = ninth mission */
@@ -255,7 +257,8 @@ typedef struct SelectEngine {
     /* 4c */ s32 mResult;
 } SelectEngine;
 
-// Values of EmblemCursor.mMode: what the cell under the cursor does when pressed.
+// Values of EmblemCursor.mMode: what a press at the cursor does (write the cell value, write 0, fill a region, or read
+// the cell value from the grid).
 enum {
     EMBLEM_CURSOR_MODE_DRAW,
     EMBLEM_CURSOR_MODE_ERASE,
@@ -263,7 +266,8 @@ enum {
     EMBLEM_CURSOR_MODE_PICK_VALUE,
 };
 
-// Values of EmblemCursor.mSizeIndex: the square of cells one press writes.
+// Values of EmblemCursor.mSizeIndex: the side of the square of cells that a draw or erase press writes; fill and pick
+// value keep EMBLEM_BRUSH_1X1.
 enum {
     EMBLEM_BRUSH_1X1,
     EMBLEM_BRUSH_2X2,
@@ -310,7 +314,8 @@ enum {
     EMBLEM_TEMPLATE_ENTRY_FIRST = 3,
 };
 
-// Emblem.mCursorSizeIndex while the grid is pressed: no brush frame is shown.
+// Emblem.mCursorSizeIndex while the grid is pressed: no size index; the cursor frame is hidden and the brush frames are
+// left as they were.
 #define EMBLEM_BRUSH_NONE (-1)
 
 // The emblem editor cursor: its mode and size, the origin, the current and previous cell and the side.
