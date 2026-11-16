@@ -8,7 +8,8 @@ typedef void (*WhPrintFunction)(u32 flags, const char *format, ...);
 
 // Values of WhWork.mConnectMode, given to StartWhParentConnect: what runs on the link once it is up and what is closed
 // first on the way down. MP is plain MP communication, KEY_SHARING and ACTIVE_KEY_SHARING share keys, DATA_SHARING
-// starts the data sharing; END_MP_FIRST and its second value also end MP before the disconnect. StartWhParentConnect
+// starts the data sharing; END_MP_BEFORE_DISCONNECT and END_MP_FIRST_ALSO also end MP before the disconnect.
+// StartWhParentConnect
 // accepts only MP, KEY_SHARING and DATA_SHARING and its only caller passes DATA_SHARING; the other values are only
 // cases in FinalizeWh.
 enum {

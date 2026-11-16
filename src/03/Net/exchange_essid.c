@@ -1332,7 +1332,7 @@ u8 *ReadFirstItem(const u8 *body, u32 *type, s32 *length) {
     return ReadNextItem(&cursor, cursor + SwapBytes16_inline(*(u16 *) body), type, length);
 }
 
-// Writes the body's length into its first two bytes, then frames it: six header bytes, the body (copied, or
+// Writes the body's length minus 8 into its first two bytes, then frames it: six header bytes, the body (copied, or
 // transformed with the key when there is one, which makes it 8 bytes longer), then the byte sum; returns the total
 // size.
 s32 BuildExchangePacket(u8 *packet, u32 kind, u8 *body, u32 length, const void *key) {
