@@ -77,7 +77,7 @@ typedef struct KeyRecording {
     /* 0c */ BOOL mBufferCleared;
 } KeyRecording;
 
-// The 0x14 bytes at 0x48 of an element of gInputSlots (the same bytes as its mUnk_48 to mUnk_5b).
+// The pair state of an input slot: the current and previous point, mHasPair, mNoPairCount and the mic threshold flags.
 typedef struct InputSlotPair {
     union {
         TPData mPoint;

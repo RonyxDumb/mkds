@@ -133,8 +133,7 @@ typedef struct MissionRecord {
     };
 } MissionRecord;
 
-// What member 0x10 of BackupBuffers points to: bytes from 0x04, read in rows of nine (the count is not shown by the
-// code).
+// The saved mission record block: its mRecords.
 typedef struct MissionRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ MissionRecord mRecords[1];
@@ -231,7 +230,7 @@ typedef struct BuddyRecord {
 
 #define BUDDY_RECORD_COUNT 60
 
-// 60 BuddyRecord entries from 0x04, then the 60 buddy friend data of 0xc bytes each from 0x874.
+// The saved buddy block: the mRecords of the buddies and the DWC friend data of each.
 typedef struct BuddyRecordBlock {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ BuddyRecord mRecords[BUDDY_RECORD_COUNT];
@@ -314,7 +313,7 @@ typedef struct SharingSendRecord {
 // ChildEntry.mAid of a child that is not connected.
 #define CHILD_ENTRY_NO_AID 0xffff
 
-// 8-byte entries from 0x44 of ConnectionWork.
+// A child in a connection: its mBytes and mAid.
 typedef struct ChildEntry {
     /* 00 */ u8 mBytes[6];
     /* 06 */ u16 mAid;
@@ -356,7 +355,7 @@ typedef struct ParticipantPosition {
     /* 02 */ u8 mUnk_02[6];
 } ParticipantPosition;
 
-// Part of ConnectionWork from 0x1608.
+// The MP state machine of a connection: the StateMachine, its wait frames, delay timer and chunk send flags.
 typedef struct MPStateMachine {
     /* 00 */ StateMachine mStateMachine;
     /* 14 */ u16 mChildDataWaitFrames;
@@ -391,7 +390,7 @@ typedef struct BlockEntry {
 // Files a parent can hold pending for transfer (BlockEntry elements of mBlockEntries).
 #define CONNECTION_BLOCK_ENTRY_COUNT 12
 
-// Members from 0x16a0 of ConnectionWork as one object.
+// The block transfer state of a connection: mBlockEntries, mMode, mNextLoadIndex, mCompressedBuffer and ghost block count.
 typedef struct BlockTransferView {
     /* 000 */ BlockEntry mBlockEntries[CONNECTION_BLOCK_ENTRY_COUNT];
     /* 660 */ s32 mMode;
@@ -441,7 +440,7 @@ typedef struct ScanMacAddress {
     /* 00 */ u8 mBytes[6];
 } ScanMacAddress;
 
-// 0xe0-byte entries from 0xac of ConnectionWork.
+// One scanned parent: its WMBssDesc, mKey, mName, mChildCount, mAge and flags (in use, language, multiboot, ghost).
 typedef struct ScanSlot {
     /* 00 */ WMBssDesc mUnk_00;
     /* c0 */ ScanMacAddress mKey;
@@ -460,7 +459,7 @@ typedef struct ScanSlot {
     /* dd */ u8 mUnk_dd[3];
 } ScanSlot;
 
-// The 0x3b0 bytes from 0xac of ConnectionWork as one object: the four entries, then the members up to 0x45c.
+// The scan state: the four ScanSlot entries, target address, slot count, channel and repeat flag.
 typedef struct ScanStateView {
     /* 000 */ ScanSlot mSlots[4];
     /* 380 */ u8 mTargetAddress[6];
@@ -518,7 +517,7 @@ typedef struct DataSharing {
     /* 4b */ u8 mUnk_4b[1];
 } DataSharing;
 
-// 8-byte entries from 0x1e4c of ConnectionWork.
+// One row of the participant position table: the mUnk_00 halfwords and mUnk_06.
 typedef struct ParticipantPositionRow {
     /* 00 */ u16 mUnk_00[3];
     /* 06 */ u16 mUnk_06;
@@ -961,7 +960,7 @@ static inline u16 GetParticipantIndexByPos(u16 index) {
 static inline PlayerRecord *GetPlayerRecord(u16 index) {
     return &gConnectionWork->mPlayerRecords[index];
 }
-// Object behind gThreadFunctionQueue; the OSThread at 0x2c is passed to OS_CreateThread and OS_WakeupThreadDirect.
+// The queue of functions a thread runs: mFunctions, the newest index, the OSThread, its stack and mRunRequested.
 typedef struct ThreadFunctionQueue {
     /* 00 */ void (*mFunctions[10])(void);
     /* 28 */ u8 mNewestIndex;
@@ -972,7 +971,7 @@ typedef struct ThreadFunctionQueue {
     /* f8 */ s32 mRunRequested;
 } ThreadFunctionQueue;
 
-// 0xc-byte entries from 0x08 of OverlayLoader.
+// One overlay of the loader: mOverlayId and its mStart and mEnd.
 typedef struct OverlayLoaderEntry {
     /* 00 */ s32 mOverlayId;
     /* 04 */ u32 mStart;
@@ -994,8 +993,7 @@ struct NNSiFndHeapHead;
 #define OVERLAY_LOAD_STARTED 2
 #define OVERLAY_LOAD_UNUSED 3
 
-// Object behind gOverlayLoader; UpdateWiFiSession reads the word at 0. The objects at 0x2c and 0x58 are passed to
-// FS_StartOverlay and FS_InitFile, the pointer at 0xa4 to NNS_FndDestroyExpHeap.
+// The overlay loader: current overlay and load state, three entries, the FSOverlayInfo, the FSFile and the heaps.
 typedef struct OverlayLoader {
     /* 00 */ s32 mCurrentOverlay;
     /* 04 */ s32 mLoadState;
@@ -1082,7 +1080,7 @@ typedef struct OverlayLoader {
 #define SLOT_RESULT_SYNC_MAX_SENDS 100
 #define SLOT_RESULT_SYNC_CLEAR_FRAMES 20
 
-// 0x38-byte entries from 0x14 of WiFiRaceSync.
+// The clock sync state of one peer: probe and reply send and receive ticks, round trip total and sample counts.
 typedef struct WiFiRaceSyncPeer {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ s32 mProbeSentTickLow;
@@ -1102,7 +1100,7 @@ typedef struct WiFiRaceSyncPeer {
     /* 37 */ u8 mUnk_37;
 } WiFiRaceSyncPeer;
 
-// Halfword of the tables at 0x20 of WiFiRaceSyncEntry and WiFiRaceSyncRecord: bits 0 to 6, 7 to 11 and 12 to 13.
+// A packed slot result sync halfword: mFramesRemaining, mItemInfoIndex and mState.
 typedef struct SlotResultSyncHalfword {
     /* 00 */ union {
         u16 mHalfword;
@@ -1114,7 +1112,7 @@ typedef struct SlotResultSyncHalfword {
     };
 } SlotResultSyncHalfword;
 
-// The 0x20 bytes from 0x68 of WiFiRaceSyncEntry.
+// The slot result sync state of one participant: item info indices, end sync frame, mState and mSendCount.
 typedef struct SlotResultSyncState {
     /* 00 */ s32 mItemInfoIndex;
     /* 04 */ s32 mPendingItemInfoIndex;
@@ -1126,7 +1124,7 @@ typedef struct SlotResultSyncState {
     /* 16 */ u8 mUnk_16[0xa];
 } SlotResultSyncState;
 
-// 0x88-byte entries from 0x104 of WiFiRaceSync.
+// The sync entry of one participant: header and progress words, kart record, slot results, item data and round trip average.
 typedef struct WiFiRaceSyncEntry {
     /* 00 */ union {
         s32 mHeaderWord;
@@ -1165,7 +1163,7 @@ typedef struct WiFiRaceSyncEntry {
     };
 } WiFiRaceSyncEntry;
 
-// 0xc-byte entries from 0x324 of WiFiRaceSync.
+// One item data slot: mSendUntilSyncFrame, mData, mState, the item and message kinds and mDataSize.
 typedef struct ItemDataSlot {
     /* 00 */ s32 mSendUntilSyncFrame;
     /* 04 */ void *mData;
@@ -1175,7 +1173,7 @@ typedef struct ItemDataSlot {
     /* 0b */ u8 mDataSize;
 } ItemDataSlot;
 
-// 0x68 bytes from 0x04 of what member 0x754 of WiFiRaceSync points to.
+// A race sync record as sent: header and progress words, kart record, slot results and item data bytes.
 typedef struct WiFiRaceSyncRecord {
     /* 00 */ union {
         u32 mHeaderWord;
@@ -1564,7 +1562,7 @@ typedef struct KartModels {
 typedef struct ModelAnimation ModelAnimation;
 typedef struct KartOffsetData KartOffsetData;
 
-// 0xb8-byte entries from 0x58 of KartModelMenuData.
+// One kart model of the kart menu: character and kart indices, their models, shadow, offsets and emblem texture.
 typedef struct KartModelMenuSlot {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -1582,8 +1580,7 @@ typedef struct KartModelMenuSlot {
 
 struct NNSG3dResFileHeader;
 
-// 0x34-byte entries from 0x1f4 of KartModelMenuData; the pointers at 0x08 to 0x28 are passed to
-// NNS_G3dResDefaultRelease.
+// The loaded files of a kart model menu slot: character, emblem, kart, tire and shadow files and the load step.
 typedef struct KartModelMenuFiles {
     /* 00 */ void *mHeapMemory;
     /* 04 */ struct NNSiFndHeapHead *mHeap;
@@ -1606,7 +1603,7 @@ typedef struct KartMenuParams {
     /* 00 */ u16 mParams[6];
 } KartMenuParams;
 
-// Embedded in KartModelMenuData at 0x24 (0x34 bytes).
+// How a kart model of the menu is shown: indices, mScale, spin, yaw and tilt angles and the background offset.
 typedef struct KartModelMenuView {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -1707,7 +1704,7 @@ typedef struct KartStarEffects {
     /* 00 */ struct ParticleEmitter *mEffects[3];
 } KartStarEffects;
 
-// Entry of the eight 0xc-byte entries at 0xb0 of KartAiShared: a word, then the links of a list (the list offset is 4).
+// A kart AI table index in a list: mTableIndex and the mLink to the next entry.
 typedef struct KartAiTableIndexEntry {
     /* 00 */ s32 mTableIndex;
     /* 04 */ NNSFndLink mLink;
