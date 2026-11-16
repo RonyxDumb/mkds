@@ -105,7 +105,7 @@ typedef struct MbBeacon {
     /* 68 */ u8 mUserVolatData[8];
 } MbBeacon;
 
-typedef void (*EntryCallbackFunc)(u32 event, void *entry, u32 entryIndex);
+typedef void (*MBBeaconMsgCallback)(u32 event, void *entry, u32 entryIndex);
 
 extern MbBeaconRecvStatus *mbrsp;
 extern MbBeacon *gReceivedGameInfo;
@@ -126,9 +126,9 @@ void MBi_CheckSeqNoFixed(u32 entryIndex);
 void MBi_CheckTGID(WMBssDesc *newBlock, int entryIndex);
 
 void MBi_AnalyzeBeacon(WMBssDesc *scanBlock, u32 entryIndex, u32 value);
-void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value);
-void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback);
-s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback);
+void MB_CountGameInfoLifetime(MBBeaconMsgCallback callback, u32 value);
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, MBBeaconMsgCallback callback);
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, MBBeaconMsgCallback callback);
 
 void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value);
 

@@ -316,7 +316,7 @@ void MB_InitRecvGameInfoStatus(void) {
     mbrsp->mScanCountUnit = 1;
 }
 
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock) {
+u32 MB_RecvGameInfoBeacon(MBBeaconMsgCallback callback, u32 value, WMBssDesc *scanBlock) {
     s32 entryIndex;
     if (MBi_CheckMBParent(scanBlock) == 0) {
         return 0;
@@ -359,7 +359,7 @@ void MBi_SetSSIDToBssDesc(WMBssDesc *scanBlock, u32 value) {
 
 #pragma thumb on
 
-s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) {
+s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, MBBeaconMsgCallback callback) {
     s32 entryIndex;
     MbBeaconRecvStatus *entryTable;
     MBGameInfoRecvList *entry;
@@ -403,7 +403,7 @@ s32 MBi_GetStoreElement(const WMBssDesc *scanBlock, EntryCallbackFunc callback) 
     return -1;
 }
 
-void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callback) {
+void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, MBBeaconMsgCallback callback) {
     MBGameInfoRecvList *entry;
     u32 entryBit;
     entry = &mbrsp->mEntries[entryIndex];
@@ -429,7 +429,7 @@ void MBi_CheckCompleteGameInfoFlagments(u32 entryIndex, EntryCallbackFunc callba
     }
 }
 
-void MB_CountGameInfoLifetime(EntryCallbackFunc callback, u32 value) {
+void MB_CountGameInfoLifetime(MBBeaconMsgCallback callback, u32 value) {
     u32 stopFollowing;
     s32 entryIndex;
     stopFollowing = 0;

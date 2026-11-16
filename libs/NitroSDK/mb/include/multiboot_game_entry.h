@@ -106,7 +106,7 @@ extern GameInfoBlock gGameInfoBlock;
 extern WMBssDesc bssDescbuf;
 
 u32 MBi_CheckMBParent(WMBssDesc *scanBlock);
-u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 value, WMBssDesc *scanBlock);
+u32 MB_RecvGameInfoBeacon(MBBeaconMsgCallback callback, u32 value, WMBssDesc *scanBlock);
 void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u32 attr);
 void MBi_InitSendVolatBeacon(void);
 void MBi_SendFixedBeacon(u32 ggid, u16 tgid, u32 attr);
