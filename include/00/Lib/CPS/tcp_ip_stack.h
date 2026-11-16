@@ -5,11 +5,11 @@
 // Constants of the network stack: frame types, the ARP and TCP bits, ICMP types, the DHCP and DNS values. The values
 // with SWAPPED are the ones as the members hold them when the bytes are read as a halfword.
 #define ETHERTYPE_IPV4 0x800
-#define ETHERTYPE_ARP 0x806
-#define ETHERTYPE_ARP_SWAPPED 0x608
+#define FRAME_TYPE_ARP 0x806
+#define FRAME_TYPE_ARP_SWAPPED 0x608
 #define ARP_HARDWARE_TYPE_ETHERNET_SWAPPED 0x100
 #define ARP_OPERATION_REPLY_SWAPPED 0x200
-#define ARP_ADDRESS_LENGTHS_ETHERNET_IPV4 0x406
+#define ARP_ADDRESS_LENGTHS_ETHERNET_IPV4_SWAPPED 0x406
 #define IP_BROADCAST_ADDRESS 0xffffffff
 #define TCP_DEFAULT_MSS 0x218
 #define TCP_DATA_OFFSET_MASK 0xF0
@@ -19,7 +19,7 @@
 
 enum {
     ICMP_ECHO_REPLY = 0,
-    ICMP_ECHO_REQUEST = 8,
+    PING_TYPE_REQUEST = 8,
 };
 
 enum {
@@ -41,25 +41,25 @@ enum {
 };
 
 enum {
-    DHCPOFFER = 2,
-    DHCPACK = 5,
+    MESSAGE_TYPE_OFFERED_ADDRESS = 2,
+    MESSAGE_TYPE_MY_ADDRESS = 5,
 };
 
 enum {
-    DHCP_STATE_INIT,
-    DHCP_STATE_BOUND,
-    DHCP_STATE_REBINDING,
+    ADDRESS_STATE_NONE,
+    ADDRESS_STATE_HELD,
+    ADDRESS_STATE_REBINDING,
     DHCP_STATE_FIXED_IP,
 };
 
 enum {
     DHCP_MODE_REQUEST_IP,
-    DHCP_MODE_RENEW,
-    DHCP_MODE_REBIND,
+    ADDRESS_REQUEST_RENEW,
+    ADDRESS_REQUEST_REBIND,
 };
 
 #define DNS_RCODE_MASK 0xF
-#define DNS_RCODE_NXDOMAIN 3
+#define RESPONSE_CODE_FAIL 3
 
 u32 CPS_Resolve(const char *name);
 

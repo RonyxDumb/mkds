@@ -26,11 +26,11 @@ void DWCi_QR2PlayerKeyCallback(u8 keyId, s32 index, QueryBuffer *buffer, void *u
 #define DWC_QR2_GAME_RESERVED_KEYS (MAX_REGISTERED_KEYS - NUM_RESERVED_KEYS - (100 - NUM_RESERVED_KEYS))
 
 // The matching version: the value of the version key and the version in the header of every matching command.
-#define DWC_MATCHING_VERSION 3
+#define WIFI_MATCH_VERSION 3
 
 // Values of the keytype argument of the key list callback.
 enum {
-    key_server,
-    key_player,
-    key_team,
+    QUERY_KEY_TYPE_SERVER,
+    QUERY_KEY_TYPE_PLAYER,
+    QUERY_KEY_TYPE_TEAM,
 };

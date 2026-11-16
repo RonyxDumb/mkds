@@ -81,7 +81,7 @@ int DWCi_HandlePersError(int error) {
             errorKind = 6;
             errorCode = -20;
             break;
-        case GE_DATAERROR:
+        case STATS_CONNECT_DATA_ERROR:
             errorKind = 6;
             errorCode = -40;
             break;

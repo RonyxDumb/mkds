@@ -215,7 +215,7 @@ u32 NextSearchCheck(ACWORK *work, u32 phase) {
     switch (phase) {
         case AC_PHASE_SEARCH_AROUND:
             if (work->mFindListNum != 0 || work->mStealthChannel != 0) {
-                if (DWCi_AC_MakeSearchList(AC_SEARCH_LIST_OTHER_CHANNELS) != 0) {
+                if (DWCi_AC_MakeSearchList(AC_SEARCH_LIST_DIFFER_CHANNEL) != 0) {
                     phase = AC_PHASE_SEARCH_LISTED_CHANNELS;
                 } else {
                     phase = CheckStartStealthSearch(work);

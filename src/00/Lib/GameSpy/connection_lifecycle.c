@@ -16,7 +16,7 @@ int gti2NewOutgoingConnection(void *socket, GTI2Connection **connection, int add
     if (result != 0) {
         return result;
     }
-    (*connection)->mState = GT2_CONNECTION_OFFER_SENT;
+    (*connection)->mState = SOCKET_CONNECTION_AWAIT_SERVER_CHALLENGE;
     (*connection)->mInitiated = TRUE;
     return 0;
 }
@@ -26,7 +26,7 @@ int gti2NewIncomingConnection(void *socket, GTI2Connection **connection, int add
     if (result != 0) {
         return result;
     }
-    (*connection)->mState = GT2_CONNECTION_AWAIT_OFFER;
+    (*connection)->mState = SOCKET_CONNECTION_AWAIT_CLIENT_CHALLENGE;
     (*connection)->mInitiated = FALSE;
     return 0;
 }
@@ -48,7 +48,7 @@ BOOL gti2StartConnectionAttempt(GTI2Connection *connection, void *message, int l
     gti2GetChallenge(challengeBytes);
     gti2GetResponse(connection->mResponse, challengeBytes);
     gti2SendClientChallenge(connection, challengeBytes);
-    connection->mState = GT2_CONNECTION_OFFER_SENT;
+    connection->mState = SOCKET_CONNECTION_AWAIT_SERVER_CHALLENGE;
     return FALSE;
 }
 
@@ -58,11 +58,11 @@ BOOL gti2AcceptConnection(GTI2Connection *connection, GT2ConnectionCallbacks *ca
         return FALSE;
     }
     connection->mFreeAtAcceptReject = FALSE;
-    if (connection->mState != GT2_CONNECTION_AWAIT_DECISION) {
+    if (connection->mState != SOCKET_CONNECTION_AWAIT_ACCEPT_REJECT) {
         return FALSE;
     }
     gti2SendAccept(connection);
-    connection->mState = GT2_CONNECTION_CONNECTED;
+    connection->mState = SOCKET_CONNECTION_CONNECTED;
     if (callbacks != NULL) {
         connection->mCallbacks = *callbacks;
     }
@@ -71,10 +71,10 @@ BOOL gti2AcceptConnection(GTI2Connection *connection, GT2ConnectionCallbacks *ca
 
 void gti2RejectConnection(GTI2Connection *connection, void *message, u32 len, ...) {
     connection->mFreeAtAcceptReject = FALSE;
-    if (connection->mState == GT2_CONNECTION_AWAIT_DECISION) {
+    if (connection->mState == SOCKET_CONNECTION_AWAIT_ACCEPT_REJECT) {
         gti2MessageCheck((const char **) &message, (s32 *) &len);
         gti2SendReject(connection, message, len);
-        connection->mState = GT2_CONNECTION_CLOSING;
+        connection->mState = SOCKET_CONNECTION_CLOSING;
     }
 }
 
@@ -92,15 +92,15 @@ u32 gti2ConnectionSendData(GTI2Connection *connection, u8 *data, u32 length) {
 }
 
 BOOL gti2CheckTimeout(GTI2Connection *connection, u32 now) {
-    if (connection->mState < GT2_CONNECTION_CONNECTED) {
+    if (connection->mState < SOCKET_CONNECTION_CONNECTED) {
         BOOL hasExpired = FALSE;
         if (connection->mInitiated != FALSE) {
             if (connection->mTimeSinceCreateLimit != 0 &&
                 now - connection->mCreateTime > connection->mTimeSinceCreateLimit) {
                 hasExpired = TRUE;
             }
-        } else if (connection->mState < GT2_CONNECTION_AWAIT_DECISION) {
-            if (now - connection->mCreateTime > GTI2_SERVER_TIMEOUT) {
+        } else if (connection->mState < SOCKET_CONNECTION_AWAIT_ACCEPT_REJECT) {
+            if (now - connection->mCreateTime > CONNECTION_INCOMING_SETUP_MSEC) {
                 hasExpired = TRUE;
             }
         }
@@ -122,7 +122,7 @@ BOOL gti2SendRetries(GTI2Connection *connection, u32 now) {
     len = ArrayLength(connection->mOutgoingBufferMessages);
     for (index = 0; index < len; index++) {
         message = ArrayNth(connection->mOutgoingBufferMessages, index);
-        if (now - message->mLastSend > GTI2_RESEND_TIME) {
+        if (now - message->mLastSend > MESSAGE_RESEND_MSEC) {
             if (gti2ResendMessage(connection, message) == 0) {
                 return FALSE;
             }
@@ -135,7 +135,7 @@ BOOL gti2CheckPendingAck(GTI2Connection *connection, u32 now) {
     if (connection->mPendingAck == 0) {
         return TRUE;
     }
-    if (now - connection->mPendingAckTime > GTI2_PENDING_ACK_TIME) {
+    if (now - connection->mPendingAckTime > ACK_DELAY_MSEC) {
         if (gti2SendAck(connection) == 0) {
             return FALSE;
         }
@@ -144,7 +144,7 @@ BOOL gti2CheckPendingAck(GTI2Connection *connection, u32 now) {
 }
 
 BOOL gti2CheckKeepAlive(GTI2Connection *connection, u32 now) {
-    if (now - connection->mLastSendTime > GTI2_KEEP_ALIVE_TIME) {
+    if (now - connection->mLastSendTime > KEEP_ALIVE_MSEC) {
         if (gti2SendKeepAlive(connection) == 0) {
             return FALSE;
         }

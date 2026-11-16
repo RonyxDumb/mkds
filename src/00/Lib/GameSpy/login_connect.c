@@ -105,7 +105,7 @@ u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation) {
     if (address.mAddr == 0) {
         AssertionFailed("address.sin_addr.s_addr != 0", "gpiConnect.c", NULL, 0x90);
     }
-    address.mPort = GPI_CONNECTION_MANAGER_PORT_NETWORK_ORDER;
+    address.mPort = PROFILE_CONNECTION_MANAGER_PORT_NETWORK_ORDER;
     if (connect(gpState->mConnectSocket, &address, 8) == -1) {
         lastError = GOAGetLastError(gpState->mConnectSocket);
         if (lastError != -6 && lastError != -26 && lastError != -76) {
@@ -468,7 +468,7 @@ u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const c
                 }
                 memset(arg, 0, sizeof(*arg));
                 arg->mProfile = gpState->mProfileId;
-                arg->mResult = GP_REQUEST_OK;
+                arg->mResult = PROFILE_REQUEST_OK;
                 CopyStringWithTerminator(arg->mUniquenick, uniqueNickText, 0x15);
                 result = gpiAddCallback(connection, callback, arg, operation, 0);
                 if (result != 0) {

@@ -83,13 +83,13 @@ s8 *_strlwr(s8 *string) {
 
 BOOL SetSockBlocking(s32 sock, s32 isblocking) {
     s32 flags;
-    flags = SOC_Fcntl((SOCLSocket *) sock, SOC_F_GETFL, 0);
+    flags = SOC_Fcntl((SOCLSocket *) sock, SOCKET_FCNTL_GET_FLAGS, 0);
     if (isblocking != 0) {
-        flags = flags & ~SOC_O_NONBLOCK;
+        flags = flags & ~SOCKET_FLAG_NOT_BLOCKING;
     } else {
-        flags = flags | SOC_O_NONBLOCK;
+        flags = flags | SOCKET_FLAG_NOT_BLOCKING;
     }
-    return SOC_Fcntl((SOCLSocket *) sock, SOC_F_SETFL, flags) == 0;
+    return SOC_Fcntl((SOCLSocket *) sock, SOCKET_FCNTL_SET_FLAGS, flags) == 0;
 }
 
 s32 SetReceiveBufferSize(s32 sock, u32 size) {
@@ -120,10 +120,10 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
     pollEntry.mFd = theSocket;
     pollEntry.mEvents = 0;
     if (theReadFlag != NULL) {
-        pollEntry.mEvents |= SOC_POLLRDNORM;
+        pollEntry.mEvents |= POLL_EVENT_READABLE;
     }
     if (theWriteFlag != NULL) {
-        pollEntry.mEvents |= SOC_POLLWRNORM;
+        pollEntry.mEvents |= POLL_EVENT_WRITABLE;
     }
     pollEntry.mRevents = 0;
     pollResult = SOC_Poll(&pollEntry, 1, 0);
@@ -131,21 +131,21 @@ s32 GSISocketSelect(s32 theSocket, u32 *theReadFlag, u32 *theWriteFlag, u32 *the
         return -1;
     }
     if (theReadFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & (SOC_POLLRDNORM | SOC_POLLHUP)) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & (POLL_EVENT_READABLE | POLL_EVENT_NOT_CONNECTED)) != 0) {
             *theReadFlag = 1;
         } else {
             *theReadFlag = 0;
         }
     }
     if (theWriteFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLWRNORM) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & POLL_EVENT_WRITABLE) != 0) {
             *theWriteFlag = 1;
         } else {
             *theWriteFlag = 0;
         }
     }
     if (theExceptFlag != NULL) {
-        if (pollResult > 0 && (pollEntry.mRevents & SOC_POLLERR) != 0) {
+        if (pollResult > 0 && (pollEntry.mRevents & POLL_EVENT_ERROR) != 0) {
             *theExceptFlag = 1;
         } else {
             *theExceptFlag = 0;

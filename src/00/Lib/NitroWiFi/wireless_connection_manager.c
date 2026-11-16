@@ -227,7 +227,7 @@ s32 WCM_StartupAsync(WCMConfig *config, void (*notify)(WCMNotice *)) {
     switch (result) {
         case WIRELESS_CALL_QUEUED:
             WcmSetPhase(WIFI_LINK_PHASE_STARTING);
-            gWcmWork->mNotifyId = WIFI_NOTIFY_ENABLE_REQUEST;
+            gWcmWork->mNotifyId = WIFI_NOTIFY_STARTUP_REQUEST;
             break;
         case WIRELESS_RESULT_PIPE_ERROR:
             WcmSetPhase(WIFI_LINK_PHASE_ABORT_PENDING);
@@ -269,7 +269,7 @@ s32 WCM_CleanupAsync(void) {
             switch (result) {
                 case WIRELESS_CALL_QUEUED:
                     WcmSetPhase(WIFI_LINK_PHASE_STOPPING);
-                    gWcmWork->mNotifyId = WIFI_NOTIFY_POWER_OFF_REQUEST;
+                    gWcmWork->mNotifyId = WIFI_NOTIFY_CLEANUP_REQUEST;
                     break;
                 case WIRELESS_RESULT_PIPE_ERROR:
                     OS_RestoreInterrupts(savedInterrupts);
@@ -506,7 +506,7 @@ s32 WCM_TerminateAsync(void) {
             return 0;
         case WIFI_LINK_PHASE_SEARCHING:
             WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
-            gWcmWork->mNotifyId = WIFI_NOTIFY_LINK_TERMINATING;
+            gWcmWork->mNotifyId = WIFI_NOTIFY_TERMINATE_REQUEST;
             OS_RestoreInterrupts(savedInterrupts);
             return 3;
         case WIFI_LINK_PHASE_READY:
@@ -519,7 +519,7 @@ s32 WCM_TerminateAsync(void) {
     }
     if (work->mResetting == 1) {
         WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
-        gWcmWork->mNotifyId = WIFI_NOTIFY_LINK_TERMINATING;
+        gWcmWork->mNotifyId = WIFI_NOTIFY_TERMINATE_REQUEST;
     } else {
         wmStatus = WMi_GetStatusAddress();
         DC_InvalidateRange(wmStatus, 2);
@@ -547,7 +547,7 @@ s32 WCM_TerminateAsync(void) {
         switch (result) {
             case WIRELESS_CALL_QUEUED:
                 WcmSetPhase(WIFI_LINK_PHASE_TERMINATING);
-                gWcmWork->mNotifyId = WIFI_NOTIFY_LINK_TERMINATING;
+                gWcmWork->mNotifyId = WIFI_NOTIFY_TERMINATE_REQUEST;
                 break;
             case WIRELESS_RESULT_PIPE_ERROR:
                 OS_RestoreInterrupts(savedInterrupts);
@@ -656,7 +656,7 @@ void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
         maxChannelTime = WM_GetDispersionScanPeriod();
     }
     gWcmWork->mScanExParam.mMaxChannelTime = maxChannelTime;
-    gWcmWork->mScanExParam.mScanType = (gWcmWork->mOption & WCM_OPTION_MASK_SCANTYPE) != WCM_OPTION_MASK_SCANTYPE;
+    gWcmWork->mScanExParam.mScanType = (gWcmWork->mOption & WIFI_LINK_OPTION_SCAN_TYPE_0) != WIFI_LINK_OPTION_SCAN_TYPE_0;
     if (bssid == NULL) {
         MI_CpuCopy8(WCM_Bssid_Any, gWcmWork->mScanExParam.mBssid, 6);
     } else {
@@ -679,8 +679,8 @@ void WcmEditScanExParam(const void *bssid, const u8 *essid, u32 option) {
 }
 
 void WcmInitOption(void) {
-    gWcmWork->mOption = WCM_OPTION_ROUNDSCAN_IGNORE | WCM_OPTION_SCANTYPE_PASSIVE | WCM_OPTION_AUTH_OPENSYSTEM |
-                        WCM_OPTION_POWER_SAVE | WCM_OPTION_CHANNEL_RDC;
+    gWcmWork->mOption = WIFI_LINK_OPTION_SCAN_ROUND_NO_NOTICE | WIFI_LINK_OPTION_SCAN_TYPE_1 | WIFI_LINK_OPTION_AUTH_NOT_SHARED_KEY |
+                        WIFI_LINK_OPTION_POWER_SAVE_ON | WIFI_LINK_OPTION_CHANNELS_1_7_13;
 }
 
 u16 WcmGetNextScanChannel(u16 channel) {
@@ -1185,14 +1185,14 @@ void WcmWmcbReset(WirelessMessage *callback) {
                 failStatus = gWcmWork->mWlStatusOnConnectFail;
                 gWcmWork->mWlStatusOnConnectFail = 0;
                 if (failStatus == 0x12 &&
-                    (gWcmWork->mBssDesc.mRateSet.mSupport & WCM_CAMOUFLAGE_RATESET) != WCM_CAMOUFLAGE_RATESET) {
-                    gWcmWork->mBssDesc.mRateSet.mSupport |= WCM_CAMOUFLAGE_RATESET;
+                    (gWcmWork->mBssDesc.mRateSet.mSupport & WIFI_LINK_RETRY_RATE_SET) != WIFI_LINK_RETRY_RATE_SET) {
+                    gWcmWork->mBssDesc.mRateSet.mSupport |= WIFI_LINK_RETRY_RATE_SET;
                     sharedKeyFlag = 0;
-                    if ((gWcmWork->mOption & WCM_OPTION_MASK_AUTH) == WCM_OPTION_MASK_AUTH) {
+                    if ((gWcmWork->mOption & WIFI_LINK_OPTION_AUTH_SHARED_KEY) == WIFI_LINK_OPTION_AUTH_SHARED_KEY) {
                         sharedKeyFlag = 1;
                     }
                     authMode = sharedKeyFlag;
-                    if ((gWcmWork->mOption & WCM_OPTION_MASK_POWER) == WCM_OPTION_MASK_POWER) {
+                    if ((gWcmWork->mOption & WIFI_LINK_OPTION_POWER_SAVE_OFF) == WIFI_LINK_OPTION_POWER_SAVE_OFF) {
                         powerSave = 0;
                     } else {
                         powerSave = 1;

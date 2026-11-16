@@ -150,22 +150,22 @@ enum {
 };
 
 // Timeouts (milliseconds) and retry limits of the matching. A CONNECT_INFO command with
-// no answer is sent again after DWC_MATCH_CMD_RTT_TIMEOUT; the resend, reserve retry and connect retry counters give up
-// once they pass DWC_MATCH_CMD_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
-// DWC_MATCH_CMD_RTT_TIMEOUT in a filter search and after DWC_MATCH_RESV_KEEP_TIME_FRIEND in every mode.
+// no answer is sent again after WIFI_MATCH_COMMAND_WAIT_MSEC; the resend, reserve retry and connect retry counters give up
+// once they pass WIFI_MATCH_RETRY_MAX; a RESERVE_OK that is not followed up is dropped after
+// WIFI_MATCH_COMMAND_WAIT_MSEC in a filter search and after WIFI_MATCH_RESERVE_OK_KEEP_MSEC in every mode.
 #define DWC_MAX_CONNECTIONS 32
-#define DWC_MATCH_CMD_RETRY_MAX 5
-#define DWC_MATCH_CMD_RTT_TIMEOUT 6000
-#define DWC_MATCH_CMD_RESV_TIMEOUT_MSEC 6000
+#define WIFI_MATCH_RETRY_MAX 5
+#define WIFI_MATCH_COMMAND_WAIT_MSEC 6000
+#define WIFI_MATCH_RESV_TIMEOUT_MSEC 6000
 #define DWC_MATCH_SB_UPDATE_TIMEOUT 13000
-#define DWC_MATCH_RESV_KEEP_TIME_FRIEND (DWC_MATCH_CMD_RTT_TIMEOUT + DWC_MATCH_SB_UPDATE_TIMEOUT)
-#define DWC_WAIT_GT2_CONNECT_TIMEOUT 25000
-#define DWC_MATCH_LINK_CLS_TIMEOUT 30000
-#define DWC_WAIT_NN_RETRY_TIMEOUT 10000
-#define DWC_MATCH_NN_FAILURE_MAX 5
-#define DWC_RESV_COMMAND_RETRY_MAX 16
+#define WIFI_MATCH_RESERVE_OK_KEEP_MSEC (WIFI_MATCH_COMMAND_WAIT_MSEC + DWC_MATCH_SB_UPDATE_TIMEOUT)
+#define WIFI_MATCH_INCOMING_WAIT_MSEC 25000
+#define WIFI_MATCH_PARTICIPANT_INFO_WAIT_MSEC 30000
+#define WIFI_MATCH_NN_FAILED_WAIT_MSEC 10000
+#define WIFI_MATCH_NATNEG_FAILURE_LIMIT 5
+#define WIFI_MATCH_PRIOR_RESV_DELAY_MAX 16
 #define WIFI_MATCH_RESUME_WAIT_MSEC 3000
-#define WIFI_MATCH_RESV_TIMEOUT_WRAPPED_MSEC 3000
+#define MATCH_RESEND_INTERVAL_MS 3000
 
 // Values of WiFiMatching.mLastCommand and the command number of the matching messages DWCi_SendMatchCommand sends and
 // DWCi_ProcessRecvMatchCommand handles. RESERVE asks a host for a place (RESERVE_PRIORITY when a prior host is set);
@@ -200,15 +200,15 @@ enum {
     WIFI_MATCH_CLOSE_NONE = 0,
     WIFI_MATCH_CLOSE_IGNORE_CALLBACK = 1,
     WIFI_MATCH_CLOSE_IGNORE_CALLBACK_AND_SC_CANCEL = 2,
-    WIFI_MATCH_CLOSE_AFTER_FAILURE = 3,
+    WIFI_MATCH_CLOSE_ALL_AFTER_CLOSE = 3,
 };
 
 // Values of WiFiMatching.mServerUpdateWaitKind: no update waits, or one waits 1000 ms or 3000 ms before the server
 // list update is requested.
 enum {
     WIFI_MATCH_UPDATE_WAIT_NONE = 0,
-    WIFI_MATCH_UPDATE_WAIT_SHORT = 1,
-    WIFI_MATCH_UPDATE_WAIT_LONG = 2,
+    WIFI_MATCH_UPDATE_WAIT_1000_MS = 1,
+    WIFI_MATCH_UPDATE_WAIT_3000_MS = 2,
 };
 
 void DWCi_QR2PublicAddrCallback(u32 address, u16 port, void *userData);

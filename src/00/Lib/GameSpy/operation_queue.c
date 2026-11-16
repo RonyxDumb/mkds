@@ -142,11 +142,11 @@ u32 gpiAddOperation(GPConnection *connection, int type, void *data, GPIOperation
         pendingOp->mId = 1;
     } else {
         pendingOp->mId = gpState->mNextOperationId++;
-        if (gpState->mNextOperationId < GPI_FIRST_OPERATION_ID) {
-            gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
+        if (gpState->mNextOperationId < PROFILE_FIRST_OPERATION_ID) {
+            gpState->mNextOperationId = PROFILE_FIRST_OPERATION_ID;
         }
     }
-    pendingOp->mResult = GP_REQUEST_OK;
+    pendingOp->mResult = PROFILE_REQUEST_OK;
     pendingOp->mCallback.mCallback = callback;
     pendingOp->mCallback.mParam = param;
     pendingOp->mNext = gpState->mOperationList;

@@ -35,7 +35,7 @@ void EssidWcmNotifyCallback(s16 *event) {
         return;
     }
     switch (event[0]) {
-        case WIFI_NOTIFY_ENABLE_REQUEST:
+        case WIFI_NOTIFY_STARTUP_REQUEST:
             if (event[1] == 0) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
                     gEssidWcmState = EXCHANGE_WCM_STATE_IDLE;
@@ -168,7 +168,7 @@ void EssidWcmNotifyCallback(s16 *event) {
                 }
             }
             break;
-        case WIFI_NOTIFY_POWER_OFF_REQUEST:
+        case WIFI_NOTIFY_CLEANUP_REQUEST:
             if (event[1] == 0) {
                 if (gEssidWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();

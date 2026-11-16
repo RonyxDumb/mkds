@@ -21,7 +21,7 @@ enum {
 // Values of the type argument of DWC_SetAuthServer: which authentication server address is set.
 enum {
     DWC_CONNECTINET_AUTH_TEST,
-    DWC_CONNECTINET_AUTH_DEVELOP,
+    AUTH_SERVER_DEV,
     DWC_CONNECTINET_AUTH_RELEASE,
 };
 

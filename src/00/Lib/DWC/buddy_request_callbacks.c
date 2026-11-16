@@ -23,7 +23,7 @@ void DWCi_GPProfileSearchCallback(GPConnection *connection, ProfileSearchReply *
     s32 matchSlot;
     s32 zero;
     s32 buddyIndex;
-    if (arg->mResult == GP_REQUEST_OK && arg->mNumMatches != 0 &&
+    if (arg->mResult == PROFILE_REQUEST_OK && arg->mNumMatches != 0 &&
         GetFriendDataType(&gWiFiBuddySync->mBuddies[friendIdx]) != 0) {
         if (gWiFiBuddySync->mState == BUDDY_SYNC_STATE_UPDATING) {
             gWiFiBuddySync->mBuddiesChanged = 1;
@@ -57,7 +57,7 @@ void DWCi_GPProfileSearchCallback(GPConnection *connection, ProfileSearchReply *
             }
         }
     } else {
-        if (arg->mResult != GP_REQUEST_OK) {
+        if (arg->mResult != PROFILE_REQUEST_OK) {
             if (ReportBuddySyncGpResult(arg->mResult) != 0) {
                 return;
             }

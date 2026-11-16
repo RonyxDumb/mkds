@@ -245,13 +245,13 @@ s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode) {
         return -1;
     }
     switch (command) {
-        case SOC_F_GETFL:
+        case SOCKET_FCNTL_GET_FLAGS:
             if (socket->mFlagBlock == 1) {
                 return 0;
             }
             return 4;
-        case SOC_F_SETFL:
-            if (mode & SOC_O_NONBLOCK) {
+        case SOCKET_FCNTL_SET_FLAGS:
+            if (mode & SOCKET_FLAG_NOT_BLOCKING) {
                 socket->mFlagBlock = 0;
             } else {
                 socket->mFlagBlock = 1;

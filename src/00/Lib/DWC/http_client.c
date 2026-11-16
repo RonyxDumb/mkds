@@ -191,7 +191,7 @@ void DWCi_Http_Thread(void *argument) {
     http->mSendBuffer.mEnd = bufferText + strlen(bufferText);
     while (http->mSendBuffer.mCursor < http->mSendBuffer.mEnd) {
         if (CPSMyIp == 0) {
-            http->mResult = HTTP_RESULT_SEND_FAILED;
+            http->mResult = HTTP_RESULT_TRANSFER_FAILED;
             goto fail;
         }
         byteCount = http->mSendBuffer.mEnd - http->mSendBuffer.mCursor;
@@ -200,7 +200,7 @@ void DWCi_Http_Thread(void *argument) {
         }
         byteCount = CPS_SocWrite((const u8 *) http->mSendBuffer.mCursor, byteCount);
         if (byteCount <= 0) {
-            http->mResult = HTTP_RESULT_SEND_FAILED;
+            http->mResult = HTTP_RESULT_TRANSFER_FAILED;
             goto fail;
         }
         CPS_SocFlush();
@@ -241,7 +241,7 @@ void DWCi_Http_Thread(void *argument) {
     OS_UnlockMutex(&http->mReceiveMutex);
     while (1) {
         if (CPSMyIp == 0) {
-            http->mResult = HTTP_RESULT_SEND_FAILED;
+            http->mResult = HTTP_RESULT_TRANSFER_FAILED;
             goto fail;
         }
         OS_LockMutex(&http->mReceiveMutex);

@@ -5,8 +5,8 @@
 // Result of a GP request, stored in the mResult of the operation and of every response argument.
 // 4 is stored when the connection failed while a blocking request waited for it.
 typedef enum ProfileRequestResult {
-    GP_REQUEST_OK = 0,
-    GP_REQUEST_CONNECT_FAILED = 4
+    PROFILE_REQUEST_OK = 0,
+    PROFILE_REQUEST_FAILED = 4
 } ProfileRequestResult;
 
 // A growable byte buffer: its data, capacity, length and the position up to which it was read or sent.

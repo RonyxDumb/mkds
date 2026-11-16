@@ -72,16 +72,16 @@ s32 StrNoCaseKeyCompare(SBServer **firstEntry, SBServer **secondEntry) {
 void SBServerListSort(SBServerList *serverList, s32 ascending, const char *sortKey, u32 compareKind) {
     s32 (*comparator)(SBServer **, SBServer **);
     switch (compareKind) {
-        case sbcm_int:
+        case SORT_COMPARE_INT:
             comparator = IntKeyCompare;
             break;
-        case sbcm_float:
+        case SORT_COMPARE_FLOAT:
             comparator = FloatKeyCompare;
             break;
-        case sbcm_strcase:
+        case SORT_COMPARE_STRING:
             comparator = StrCaseKeyCompare;
             break;
-        case sbcm_stricase:
+        case SORT_COMPARE_STRING_IGNORE_CASE:
             comparator = StrNoCaseKeyCompare;
             break;
         default:
@@ -96,7 +96,7 @@ void SBServerListSort(SBServerList *serverList, s32 ascending, const char *sortK
 
 void SBServerListAppendServer(SBServerList *serverList, SBServer *server) {
     ArrayAppend(serverList->mServers, &server);
-    serverList->mCallback(serverList, slc_serveradded, server, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_ADDED, server, serverList->mInstance);
 }
 
 int SBServerListFindServer(SBServerList *serverList, SBServer *server) {
@@ -151,7 +151,7 @@ void AddServerToDeadlist(SBServerList *serverList, SBServer *server) {
 
 void SBServerListRemoveAt(SBServerList *serverList, s32 index) {
     SBServer *removedServer = *(SBServer **) ArrayNth(serverList->mServers, index);
-    serverList->mCallback(serverList, slc_serverdeleted, removedServer, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_DELETED, removedServer, serverList->mInstance);
     ArrayDeleteAt(serverList->mServers, index);
     AddServerToDeadlist(serverList, removedServer);
 }
@@ -305,11 +305,11 @@ void ErrorDisconnect(SBServerList *serverList) {
             prefixForCompare = queryErrorPrefix;
             if (strncmp(buffer, prefixForCompare, strlen(prefixForCompare)) == 0) {
                 SBSetLastListErrorPtr(serverList, buffer + strlen(prefixForLength));
-                serverList->mCallback(serverList, slc_queryerror, gSBNullServer, serverList->mInstance);
+                serverList->mCallback(serverList, SERVER_LIST_REASON_QUERY_ERROR, gSBNullServer, serverList->mInstance);
             }
         }
     }
-    serverList->mCallback(serverList, slc_disconnected, gSBNullServer, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_DISCONNECTED, gSBNullServer, serverList->mInstance);
     SBServerListDisconnect(serverList);
 }
 
@@ -505,10 +505,10 @@ s32 SBServerListConnectAndQuery(SBServerList *serverList, const char *fieldList,
                  ((options << 24) & 0xff000000) |
                      (((options << 8) & 0xff0000) | (((options >> 24) & 0xff) | ((options >> 8) & 0xff00))),
                  &requestLength);
-    if ((serverList->mQueryOptions & ALTERNATE_SOURCE_IP) != 0) {
+    if ((serverList->mQueryOptions & LIST_OPTION_SEND_SOURCE_IP) != 0) {
         BufferAddInt(&requestCursor, serverList->mSrcIp, &requestLength);
     }
-    if ((serverList->mQueryOptions & LIMIT_RESULT_COUNT) != 0) {
+    if ((serverList->mQueryOptions & LIST_OPTION_SEND_MAX_SERVERS) != 0) {
         BufferAddInt(&requestCursor, maxServers, &requestLength);
     }
     networkLength = (((u16) requestLength >> 8) & 0xff) | (((u16) requestLength << 8) & 0xff00);
@@ -594,16 +594,16 @@ void InitCryptKey(SBServerList *serverList, s8 *serverBytes, s32 length) {
 s32 ServerSizeForFlags(u32 flags) {
     s32 size;
     size = 5;
-    if ((flags & PRIVATE_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_PRIVATE_IP) != 0) {
         size += 4;
     }
-    if ((flags & ICMP_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_ICMP_IP) != 0) {
         size += 4;
     }
-    if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
         size += 2;
     }
-    if ((flags & NONSTANDARD_PRIVATE_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PRIVATE_PORT) != 0) {
         size += 2;
     }
     return size;
@@ -649,7 +649,7 @@ BOOL AllKeysPresent(SBServerList *serverList, u8 *buffer, s32 length) {
                     buffer += 2;
                     length -= 2;
                     break;
-                case SERVER_KEY_STORED_AS_STRING_INDEX:
+                case SERVER_KEY_STORED_AS_STRING:
                     if (length < 1) {
                         return FALSE;
                     }
@@ -689,7 +689,7 @@ void ParseServerIPPort(SBServerList *serverList, u8 *buffer, s32 length, u8 *ipO
         ipOut[1] = cursor[1];
         ipOut[2] = cursor[2];
         ipOut[3] = cursor[3];
-        if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+        if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
             if (length - 5 < 2) {
                 return;
             }
@@ -721,11 +721,11 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
     SBServerSetFlags(server, flags);
     buffer += 5;
     length -= 5;
-    if ((flags & NONSTANDARD_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PORT) != 0) {
         buffer += 2;
         length -= 2;
     }
-    if ((flags & PRIVATE_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_PRIVATE_IP) != 0) {
         valueBytes = (u8 *) &ipAddress;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -736,7 +736,7 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
     } else {
         ipAddress = 0;
     }
-    if ((flags & NONSTANDARD_PRIVATE_PORT_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_NOT_DEFAULT_PRIVATE_PORT) != 0) {
         valueBytes = (u8 *) &privatePort;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -746,7 +746,7 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
         privatePort = serverList->mDefaultPort;
     }
     SBServerSetPrivateAddr(server, ipAddress, privatePort);
-    if ((flags & ICMP_IP_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_ICMP_IP) != 0) {
         valueBytes = (u8 *) &ipAddress;
         valueBytes[0] = buffer[0];
         valueBytes[1] = buffer[1];
@@ -756,7 +756,7 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
         length -= 4;
         SBServerSetICMPIP(server, ipAddress);
     }
-    if ((flags & HAS_KEYS_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_HAS_KEY_VALUES) != 0) {
         keyCount = ArrayLength(serverList->mKeyList);
         keyIndex = 0;
         if (keyCount > 0) {
@@ -777,7 +777,7 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
                         buffer += 2;
                         length -= 2;
                         break;
-                    case SERVER_KEY_STORED_AS_STRING_INDEX:
+                    case SERVER_KEY_STORED_AS_STRING:
                         if (usePopularValues != 0) {
                             stringIndexOrLength = buffer[0];
                             buffer += 1;
@@ -798,9 +798,9 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
                 keyIndex++;
             } while (keyIndex < keyCount);
         }
-        SBServerSetState(server, SBServerGetState(server) | STATE_BASICKEYS);
+        SBServerSetState(server, SBServerGetState(server) | SERVER_STATE_HAS_BASIC_KEYS);
     }
-    flags = flags & HAS_FULL_RULES_FLAG;
+    flags = flags & SERVER_FLAG_HAS_RULE_ENTRIES;
     if (flags != 0) {
         while ((s8) buffer[0] != 0 && length > 0) {
             ruleKey = buffer;
@@ -813,7 +813,7 @@ s32 ParseServer(SBServerList *serverList, void *server, u8 *buffer, s32 length, 
             length -= stringIndexOrLength;
         }
         length -= 1;
-        SBServerSetState(server, SBServerGetState(server) | STATE_FULLKEYS);
+        SBServerSetState(server, SBServerGetState(server) | SERVER_STATE_HAS_FULL_KEYS);
     }
     return startLength - length;
 }
@@ -833,12 +833,12 @@ s32 IncomingListParseServer(SBServerList *serverList, u8 *buffer, s32 length) {
     if (length < entrySize) {
         return 0;
     }
-    if ((flags & HAS_KEYS_FLAG) != 0) {
+    if ((flags & SERVER_FLAG_HAS_KEY_VALUES) != 0) {
         if (AllKeysPresent(serverList, buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
         }
     }
-    flags = flags & HAS_FULL_RULES_FLAG;
+    flags = flags & SERVER_FLAG_HAS_RULE_ENTRIES;
     if (flags != 0) {
         if (FullRulesPresent(buffer + entrySize, length - entrySize) == FALSE) {
             return 0;
@@ -901,25 +901,25 @@ s32 ProcessMainListData(SBServerList *serverList) {
             fieldBytes[1] = data[1];
             fieldBytes[2] = data[2];
             fieldBytes[3] = data[3];
-            serverList->mCallback(serverList, slc_publicipdetermined, gSBNullServer, serverList->mInstance);
+            serverList->mCallback(serverList, SERVER_LIST_REASON_PUBLIC_IP_RECEIVED, gSBNullServer, serverList->mInstance);
             fieldBytes = (u8 *) &serverList->mDefaultPort;
             portBytes = data + 4;
             fieldBytes[0] = portBytes[0];
             fieldBytes[1] = portBytes[1];
-            if (serverList->mDefaultPort == LIST_UNKNOWN_GAME_PORT) {
+            if (serverList->mDefaultPort == LIST_ERROR_PORT) {
                 if (NTSLengthSB(data + 6, length - 6) == -1) {
                     break;
                 }
                 SBSetLastListErrorPtr(serverList, (char *) (data + 6));
-                serverList->mCallback(serverList, slc_queryerror, gSBNullServer, serverList->mInstance);
+                serverList->mCallback(serverList, SERVER_LIST_REASON_QUERY_ERROR, gSBNullServer, serverList->mInstance);
                 if (serverList->mInBuffer == NULL) {
                     break;
                 }
             }
             data += 6;
             length -= 6;
-            if ((serverList->mQueryOptions & NO_SERVER_LIST) != 0 ||
-                serverList->mDefaultPort == LIST_UNKNOWN_GAME_PORT) {
+            if ((serverList->mQueryOptions & LIST_OPTION_SKIP_SERVER_TABLE) != 0 ||
+                serverList->mDefaultPort == LIST_ERROR_PORT) {
                 serverList->mParseState = SERVER_LIST_PARSE_DONE;
                 serverList->mState = SERVER_LIST_STATE_AD_HOC;
                 break;
@@ -996,7 +996,7 @@ s32 ProcessMainListData(SBServerList *serverList) {
                     data += 5;
                     serverList->mParseState = SERVER_LIST_PARSE_DONE;
                     serverList->mState = SERVER_LIST_STATE_AD_HOC;
-                    serverList->mCallback(serverList, slc_initiallistcomplete, gSBNullServer, serverList->mInstance);
+                    serverList->mCallback(serverList, SERVER_LIST_REASON_LIST_FINISHED, gSBNullServer, serverList->mInstance);
                     break;
                 }
                 data += consumed;
@@ -1239,7 +1239,7 @@ s32 ProcessPushServer(SBServerList *serverList, u8 *buffer, s32 length) {
     if (serverIndex == -1) {
         SBServerListAppendServer(serverList, pushedServer);
     }
-    serverList->mCallback(serverList, slc_serverupdated, pushedServer, serverList->mInstance);
+    serverList->mCallback(serverList, SERVER_LIST_REASON_SERVER_UPDATED, pushedServer, serverList->mInstance);
     return 0;
 }
 
@@ -1263,24 +1263,24 @@ s32 ProcessAdHocData(SBServerList *slist) {
             return 0;
         }
         switch ((s8) slist->mInBuffer[2]) {
-            case PUSH_KEYS_MESSAGE:
+            case LIST_MESSAGE_PUSH_KEY_LIST:
                 error = ProcessPushKeyList(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case PUSH_SERVER_MESSAGE:
+            case LIST_IN_ADD_SERVER:
                 error = ProcessPushServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case KEEPALIVE_MESSAGE:
+            case LIST_MESSAGE_ECHO:
                 if (send(slist->mSocket, slist->mInBuffer, messageLength, 0) <= 0) {
                     return 3;
                 }
                 break;
-            case DELETE_SERVER_MESSAGE:
+            case LIST_IN_REMOVE_SERVER:
                 error = ProcessDeleteServer(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case MAPLOOP_MESSAGE:
+            case LIST_IN_MAPLOOP:
                 error = ProcessMaploop(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
-            case PLAYERSEARCH_MESSAGE:
+            case LIST_MESSAGE_PLAYER_SEARCH:
                 error = ProcessPlayerSearch(slist, slist->mInBuffer + 3, messageLength - 3);
                 break;
         }
@@ -1349,7 +1349,7 @@ s32 SBSendMessageToServer(SBServerList *serverList, u32 publicIp, u16 port, u8 *
     source = (u8 *) &request.mNetLength;
     destination[0] = source[0];
     destination[1] = source[1];
-    request.mRequestType = SEND_MESSAGE_REQUEST;
+    request.mRequestType = LIST_REQUEST_RELAY_TO_SERVER;
     destination = request.mRequestIp;
     source = (u8 *) &publicIp;
     destination[0] = source[0];
@@ -1404,16 +1404,16 @@ s32 ProcessLanData(SBServerList *serverList) {
                 if (SBIsNullServer(lanServer) != 0) {
                     return 5;
                 }
-                SBServerSetFlags(lanServer, UNSOLICITED_UDP_FLAG | NONSTANDARD_PORT_FLAG);
+                SBServerSetFlags(lanServer, SERVER_FLAG_UDP_QUERY | SERVER_FLAG_NOT_DEFAULT_PORT);
                 SBServerListAppendServer(serverList, lanServer);
             }
         }
     }
-    if (current_time() - serverList->mLanStartTime > SL_LAN_SEARCH_TIME) {
+    if (current_time() - serverList->mLanStartTime > LOCAL_SCAN_DURATION_MSEC) {
         closesocket(serverList->mSocket);
         serverList->mSocket = -1;
         serverList->mState = SERVER_LIST_STATE_NO_SOCKET;
-        serverList->mCallback(serverList, slc_initiallistcomplete, gSBNullServer, serverList->mInstance);
+        serverList->mCallback(serverList, SERVER_LIST_REASON_LIST_FINISHED, gSBNullServer, serverList->mInstance);
     }
     return 0;
 }

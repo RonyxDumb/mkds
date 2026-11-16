@@ -81,7 +81,7 @@ s32 gpiStartProfileSearch(GPConnection *connection, GPIOperation *operation) {
         if (address.mAddr == 0) {
             AssertionFailed("address.sin_addr.s_addr != 0", "gpiSearch.c", NULL, 0x59);
         }
-        address.mPort = GPI_SEARCH_MANAGER_PORT_NETWORK_ORDER;
+        address.mPort = PROFILE_SEARCH_MANAGER_PORT_NETWORK_ORDER;
         if (connect(data->mSocket, &address, 8) == -1) {
             socketError = GOAGetLastError(data->mSocket);
             if (socketError != -6 && socketError != -0x1a && socketError != -0x4c) {
@@ -308,7 +308,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                     gpiAppendIntToBuffer(connection, &data->mOutputBuffer, gpState->mProfileId);
                     gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\productid\\");
                     gpiAppendIntToBuffer(connection, &data->mOutputBuffer, data->mProductId);
-                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK) {
                     gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\check\\");
                     gpiAppendStringToBuffer(connection, &data->mOutputBuffer, "\\nick\\");
                     gpiAppendStringToBuffer(connection, &data->mOutputBuffer, data->mNick);
@@ -376,7 +376,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                 }
                 if (data->mKind == PROFILE_SEARCH_KIND_PROFILES) {
                     isDone = FALSE;
-                    response.mResult = GP_REQUEST_OK;
+                    response.mResult = PROFILE_REQUEST_OK;
                     response.mNumMatches = 0;
                     response.mMatches = NULL;
                     response.mMore = PROFILE_SEARCH_MORE_DONE;
@@ -467,7 +467,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
-                        u2->mResult = GP_REQUEST_OK;
+                        u2->mResult = PROFILE_REQUEST_OK;
                         CopyStringWithTerminator(u2->mEmail, (const char *) data->mEmail, 0x33);
                         if ((s8) value[0] == 0x30) {
                             u2->mIsValid = FALSE;
@@ -488,7 +488,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
-                        u3->mResult = GP_REQUEST_OK;
+                        u3->mResult = PROFILE_REQUEST_OK;
                         strcpy(u3->mEmail, (const char *) data->mEmail);
                         u3->mNumNicks = 0;
                         u3->mNicks = NULL;
@@ -563,7 +563,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                         }
                         u4->mProductId = data->mProductId;
                         isDone = FALSE;
-                        u4->mResult = GP_REQUEST_OK;
+                        u4->mResult = PROFILE_REQUEST_OK;
                         u4->mNumMatches = 0;
                         u4->mMatches = NULL;
                         do {
@@ -617,7 +617,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             return result;
                         }
                     }
-                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK_NICK) {
+                } else if (data->mKind == PROFILE_SEARCH_KIND_CHECK) {
                     checkNickCallback = operation->mCallback;
                     if (checkNickCallback.mCallback != NULL) {
                         result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
@@ -701,7 +701,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
-                        u7->mResult = GP_REQUEST_OK;
+                        u7->mResult = PROFILE_REQUEST_OK;
                         u7->mNumProfiles = 0;
                         u7->mProfiles = NULL;
                         result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);
@@ -777,7 +777,7 @@ s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
                             gpiSetErrorString(connection, "Out of memory.");
                             return 1;
                         }
-                        u9->mResult = GP_REQUEST_OK;
+                        u9->mResult = PROFILE_REQUEST_OK;
                         u9->mNumSuggestedNicks = 0;
                         u9->mSuggestedNicks = NULL;
                         result = gpiReadKeyAndValue(connection, data->mInputBuffer, &readPos, key, value);

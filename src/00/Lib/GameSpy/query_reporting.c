@@ -85,7 +85,7 @@ s32 qr2_init_socketA(QueryRecord **qrec, s32 socket, s32 boundport, const char *
             sprintf(hostText, "%s.master.gs.nintendowifi.net", gamename);
         }
         resolved =
-            ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, MASTER_PORT, &record->mMasterAddr, NULL);
+            ResolveQueryHostAddress(hostOverride != 0 ? gQr2Hostname : hostText, REPORTING_AND_AVAILABILITY_PORT, &record->mMasterAddr, NULL);
     } else {
         resolved = 1;
     }
@@ -746,24 +746,24 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                 len = len - 7;
                 qr_add_packet_header((u32) &buf, packetType, (u32) requestKey);
                 switch (packetType) {
-                    case PACKET_QUERY:
+                    case QR_PACKET_QUERY:
                         qr_process_query(qrec, &buf, (u8 *) pos, len);
                         break;
-                    case PACKET_CHALLENGE:
+                    case QR_PACKET_CHALLENGE:
                         if (len >= 13 && qrec->mPublicAddressCallback != 0) {
                             handle_public_address(qrec, (const char *) (pos + len - 13));
                         }
                         compute_challenge_response(qrec, &buf, (const char *) pos, len);
                         break;
-                    case PACKET_ECHO:
+                    case QR_PACKET_ECHO:
                         if (len > 0x20) {
                             len = 0x20;
                         }
-                        buf.mBuffer[0] = PACKET_ECHO_RESPONSE;
+                        buf.mBuffer[0] = QR_PACKET_ECHO_RESPONSE;
                         memcpy(&buf.mBuffer[buf.mLen], pos, len);
                         buf.mLen += len;
                         break;
-                    case PACKET_ADDERROR:
+                    case QR_PACKET_ADD_ERROR:
                         if (qrec->mMasterState == -1) {
                             return;
                         }
@@ -778,7 +778,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         qrec->mMasterState = -1;
                         qrec->mAddErrorCallback(pos[0], (u8 *) (pos + 1), qrec->mUserData);
                         return;
-                    case PACKET_CLIENT_MESSAGE:
+                    case QR_PACKET_CLIENT_MESSAGE:
                         for (index = 0; index < 4; index++) {
                             if (requestKey[index] != qrec->mInstanceKey[index]) {
                                 return;
@@ -787,7 +787,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                         if (len < 4) {
                             return;
                         }
-                        buf.mBuffer[0] = PACKET_CLIENT_MESSAGE_ACK;
+                        buf.mBuffer[0] = QR_PACKET_CLIENT_MESSAGE_ACK;
                         __memcpy(&buf.mBuffer[buf.mLen], pos, 4);
                         buf.mLen += 4;
                         __memcpy(&index, pos, 4);
@@ -795,10 +795,10 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
                             qr_process_client_message(qrec, (u8 *) (pos + 4), len - 4);
                         }
                         break;
-                    case PACKET_HEARTBEAT:
-                    case PACKET_ECHO_RESPONSE:
-                    case PACKET_CLIENT_MESSAGE_ACK:
-                    case PACKET_KEEPALIVE:
+                    case QR_PACKET_HEARTBEAT:
+                    case QR_PACKET_ECHO_RESPONSE:
+                    case QR_PACKET_CLIENT_MESSAGE_ACK:
+                    case QR_PACKET_KEEPALIVE:
                     default:
                         return;
                 }
@@ -811,7 +811,7 @@ void qr2_parse_queryA(QueryRecord *qrec, s8 *query, s32 len, void *sender) {
 void send_keepalive(QueryRecord *qrec) {
     QueryBuffer buf;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, PACKET_KEEPALIVE, (u32) qrec->mInstanceKey);
+    qr_add_packet_header((u32) &buf, QR_PACKET_KEEPALIVE, (u32) qrec->mInstanceKey);
     sendto(qrec->mHbSock, &buf, buf.mLen, 0, &qrec->mMasterAddr, 8);
     qrec->mLastKeepalive = current_time();
 }
@@ -821,7 +821,7 @@ void send_heartbeat(QueryRecord *qrec, s32 statechanged) {
     char keyText[0x14];
     s32 index;
     buf.mLen = 0;
-    qr_add_packet_header((u32) &buf, PACKET_HEARTBEAT, (u32) qrec->mInstanceKey);
+    qr_add_packet_header((u32) &buf, QR_PACKET_HEARTBEAT, (u32) qrec->mInstanceKey);
     for (index = 0; index < gNumLocalIps; index++) {
         sprintf(keyText, "localip%d", index);
         qr2_buffer_addA(&buf, keyText);

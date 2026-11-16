@@ -72,7 +72,7 @@ u32 gpiReset(GPConnection *connection) {
     gpState->mUpdateuiBuffer = NULL;
     gpState->mUpdateuiBuffer = NULL;
     gpState->mListenSocket = -1;
-    gpState->mNextOperationId = GPI_FIRST_OPERATION_ID;
+    gpState->mNextOperationId = PROFILE_FIRST_OPERATION_ID;
     operationLink = &gpState->mOperationList;
     while (*operationLink != NULL) {
         gpiRemoveOperation(connection, *operationLink);
@@ -217,7 +217,7 @@ int gpiProcess(void *connectionArgument, int blockingOperationID) {
         } while (loop != FALSE);
         if (result != 0) {
             if (gpiFindOperationByID(connection, &operation, 1) != FALSE) {
-                operation->mResult = GP_REQUEST_CONNECT_FAILED;
+                operation->mResult = PROFILE_REQUEST_FAILED;
             } else {
                 AssertionFailed("0", "gpi.c", NULL, 0x1db);
             }
@@ -237,7 +237,7 @@ int gpiProcess(void *connectionArgument, int blockingOperationID) {
     operation = gpState->mOperationList;
     if (operation != NULL) {
         do {
-            if (operation->mResult != GP_REQUEST_OK) {
+            if (operation->mResult != PROFILE_REQUEST_OK) {
                 gpiFailedOpCallback(connection, operation);
                 opToRemove = operation;
                 operation = operation->mNext;

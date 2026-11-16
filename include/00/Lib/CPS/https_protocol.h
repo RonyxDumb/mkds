@@ -5,17 +5,17 @@
 
 // Tags of the items the certificate reader walks through (the type bits of the tag byte).
 enum {
-    ASN1_TAG_INTEGER = 0x02,
-    ASN1_TAG_BIT_STRING = 0x03,
-    ASN1_TAG_OBJECT_IDENTIFIER = 0x06,
+    ITEM_TAG_INTEGER = 0x02,
+    ITEM_TAG_SKIP_FIRST_BYTE = 0x03,
+    ITEM_TAG_PREFIX_LOOKUP = 0x06,
     ASN1_TAG_UTF8_STRING = 0x0c,
-    ASN1_TAG_SEQUENCE = 0x10,
-    ASN1_TAG_SET = 0x11,
+    ITEM_TAG_SEQUENCE = 0x10,
+    ITEM_TAG_SET = 0x11,
     ASN1_TAG_PRINTABLE_STRING = 0x13,
     ASN1_TAG_T61_STRING = 0x14,
     ASN1_TAG_IA5_STRING = 0x16,
     ASN1_TAG_UTC_TIME = 0x17,
-    ASN1_TAG_GENERALIZED_TIME = 0x18,
+    ITEM_TAG_DATE_FOUR_DIGIT_YEAR = 0x18,
 };
 
 // Values of the mode argument of ParseTaggedItem: 0 keeps the first and second value of the first item, 1 keeps

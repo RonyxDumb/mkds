@@ -152,9 +152,9 @@ s32 ReportWiFiLoginGpResult(s32 result) {
 // profile id and DWCi_GPGetInfoCallback as its callback; a GP error goes to ReportWiFiLoginGpResult.
 void DWCi_GPConnectCallback(GPConnection *connection, ConnectReply *arg, u32 param) {
     gWiFiLogin->mConnectPending = FALSE;
-    if (arg->mResult == GP_REQUEST_OK) {
+    if (arg->mResult == PROFILE_REQUEST_OK) {
         if (gWiFiLogin->mState == WIFI_LOGIN_CONNECT_KNOWN_ID) {
-            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL)) == 0) {
+            if (ReportWiFiLoginGpResult(DWCi_SetGPStatus(FRIEND_STATUS_ONLINE, "", NULL)) == 0) {
                 if (gWiFiLogin->mUserData->mGsProfileId == arg->mProfile) {
                     if (DWCi_GT2Startup() == 0 && DWCi_QR2Startup(arg->mProfile) == 0) {
                         gWiFiLogin->mState = WIFI_LOGIN_DONE;
@@ -284,7 +284,7 @@ void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 par
     char accountName[0x15];
     char tempUserName[0x15];
     WiFiLogin *wiFiLogin;
-    if (arg->mResult != GP_REQUEST_OK) {
+    if (arg->mResult != PROFILE_REQUEST_OK) {
         return;
     }
     wiFiLogin = gWiFiLogin;

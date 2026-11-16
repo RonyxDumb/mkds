@@ -446,7 +446,7 @@ u32 gpSendBuddyMessageA(GPConnection *connection, s32 profile, const char *messa
         gpiSetErrorString(connection, "Invalid message.");
         return 2;
     }
-    return gpiSendBuddyMessage(connection, profile, GPI_BM_MESSAGE, message);
+    return gpiSendBuddyMessage(connection, profile, BUDDY_MESSAGE_TYPE_MESSAGE, message);
 }
 
 static void UnusedLiteralsConnection(GPConnection *connection) {

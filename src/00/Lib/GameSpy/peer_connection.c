@@ -265,7 +265,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
         }
         if (message != 0) {
             switch (type) {
-                case GPI_BM_MESSAGE:
+                case BUDDY_MESSAGE_TYPE_MESSAGE:
                     callback = gpState->mCallbacks[3];
                     if (callback.mCallback != NULL) {
                         arg = DWCi_GsMalloc(0xc);
@@ -284,7 +284,7 @@ s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
                     }
                     break;
                 case PROFILE_PEER_STATE_START_CONNECT:
-                    gpiSendBuddyMessage(connection, peerConn->mProfileId, GPI_BM_PONG, "1");
+                    gpiSendBuddyMessage(connection, peerConn->mProfileId, BUDDY_MESSAGE_TYPE_PONG, "1");
                     break;
                 case GPI_BM_FILE_SEND_REQUEST:
                 case GPI_BM_FILE_SEND_REPLY:
@@ -369,7 +369,7 @@ void gpiRemovePeer(GPConnection *connection, GPIPeer *peer) {
     if (ArrayLength(peer->mQueuedMessages) != 0) {
         do {
             message = ArrayNth(peer->mQueuedMessages, 0);
-            if (message->mType < GPI_BM_STATUS) {
+            if (message->mType < BUDDY_MESSAGE_TYPE_STATUS) {
                 gpiSendServerBuddyMessage(connection, peer->mProfileId, message->mType,
                                           (const char *) message->mBuffer.mBuffer + message->mStart);
             }

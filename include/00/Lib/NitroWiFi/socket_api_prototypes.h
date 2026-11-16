@@ -32,9 +32,9 @@ s32 SOC_Startup(void *configPointer);
 void FreeFunc_SOCL(u32 *memory);
 void *AllocFunc_SOCL(u32 size);
 // Commands of SOC_Fcntl and the bit of the flags that marks a socket as not blocking.
-#define SOC_F_GETFL 3
-#define SOC_F_SETFL 4
-#define SOC_O_NONBLOCK 4
+#define SOCKET_FCNTL_GET_FLAGS 3
+#define SOCKET_FCNTL_SET_FLAGS 4
+#define SOCKET_FLAG_NOT_BLOCKING 4
 
 s32 SOC_Fcntl(SOCLSocket *socket, s32 command, u32 mode);
 s32 SOC_Accept(SOCLSocket *socket, SOCSockAddrIn *sockAddr, s32 unusedFlags);

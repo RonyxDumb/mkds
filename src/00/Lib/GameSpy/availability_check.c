@@ -50,12 +50,12 @@ void GSIStartAvailableCheckA(const char *gamename) {
     if (customHostFirstChar == 0) {
         sprintf(hostBuffer, "%s.available.gs.nintendowifi.net", gamename);
     }
-    if (get_sockaddrin(customHostFirstChar != 0 ? gGsiAcHostname : hostBuffer, MASTER_PORT,
+    if (get_sockaddrin(customHostFirstChar != 0 ? gGsiAcHostname : hostBuffer, REPORTING_AND_AVAILABILITY_PORT,
                        &gGsiAvailableCheck.mAddress) != FALSE) {
         gGsiAvailableCheck.mSocket = OpenNetSocket(2, 2, 0);
         if (gGsiAvailableCheck.mSocket != -1) {
             u32 len;
-            gGsiAvailableCheck.mPacketType = AVAILABLE_PACKET_TYPE;
+            gGsiAvailableCheck.mPacketType = AVAILABILITY_PACKET_TYPE;
             len = strlen(gamename);
             memcpy(gGsiAvailableCheck.mPacketGamename, gamename, len + 1);
             gGsiAvailableCheck.mPacketLength = len + 6;

@@ -180,9 +180,9 @@ void DWC_ProcessFriendsMatch(void) {
         return;
     }
     switch (gWiFiConnection->mState) {
-        case WIFI_CONNECTION_GP_SETUP:
+        case WIFI_CONNECTION_AVAILABLE_CHECK:
             switch (GSIAvailableCheckThink()) {
-                case GSIACAvailable:
+                case SERVICE_CHECK_AVAILABLE:
                     if (ReportWiFiGpResult(gpInitialize(&gWiFiConnection->mGpConnection,
                                                         gWiFiConnection->mLogin.mProductId, 0)) != 0) {
                         return;
@@ -210,10 +210,10 @@ void DWC_ProcessFriendsMatch(void) {
                     DWCi_SetState(WIFI_CONNECTION_LOGIN);
                     DWCi_LoginAsync();
                     break;
-                case GSIACUnavailable:
+                case SERVICE_CHECK_DISABLED_BIT_0:
                     DWCi_StopLogin(3, -20110);
                     return;
-                case GSIACTemporarilyUnavailable:
+                case SERVICE_CHECK_DISABLED_BIT_1:
                     DWCi_StopLogin(4, -20101);
                     return;
             }
@@ -226,7 +226,7 @@ void DWC_ProcessFriendsMatch(void) {
             DWCi_FriendProcess();
             DWCi_MatchProcess(0);
             break;
-        case WIFI_CONNECTION_PARTNER_SEARCH:
+        case WIFI_CONNECTION_MATCHING:
             DWCi_MatchProcess(1);
             DWCi_FriendProcess();
             break;
@@ -264,7 +264,7 @@ void DWC_LoginAsync(u32 playerName, u32 reserved, DWCLoginCallback callback, u32
                 DWCi_StopLogin(2, -60010);
                 return;
             }
-            DWCi_SetState(WIFI_CONNECTION_GP_SETUP);
+            DWCi_SetState(WIFI_CONNECTION_AVAILABLE_CHECK);
             GSIStartAvailableCheckA(gWiFiConnection->mGameName);
         }
     }
@@ -311,7 +311,7 @@ void DWC_ConnectToAnybodyAsync(u32 numEntry, void *addFilter, void *matchedCallb
         DWCi_ClearGT2ConnectionList();
         gWiFiConnection->mMatchingCallback = (void (*)(u32, u32, void *)) matchedCallback;
         gWiFiConnection->mMatchingCallbackArg = matchedParam;
-        DWCi_SetState(WIFI_CONNECTION_PARTNER_SEARCH);
+        DWCi_SetState(WIFI_CONNECTION_MATCHING);
         DWCi_ConnectToAnybodyAsync((u8) (numEntry - 1), addFilter, DWCi_MatchedCallback, 0, evalCallback, evalParam);
     }
 }
@@ -330,7 +330,7 @@ void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32
         DWCi_ClearGT2ConnectionList();
         gWiFiConnection->mMatchingCallback = (void (*)(u32, u32, void *)) matchedCallback;
         gWiFiConnection->mMatchingCallbackArg = matchedParam;
-        DWCi_SetState(WIFI_CONNECTION_PARTNER_SEARCH);
+        DWCi_SetState(WIFI_CONNECTION_MATCHING);
         if (friendIdxList != NULL) {
             DWCi_ConnectToFriendsAsync(friendIdxList, friendIdxListLength, (u8) (numEntry - 1), distantFriend,
                                        DWCi_MatchedCallback, 0, evalCallback, evalParam);
@@ -363,12 +363,12 @@ void DWC_ConnectToFriendsAsync(void *friendIdxList, u32 friendIdxListLength, u32
 s32 DWC_CloseAllConnectionsHard(void) {
     WiFiConnection *wiFiConnection;
     if (gWiFiConnection == NULL || DWCi_IsError() != 0 ||
-        ((wiFiConnection = gWiFiConnection)->mState != WIFI_CONNECTION_PARTNER_SEARCH &&
+        ((wiFiConnection = gWiFiConnection)->mState != WIFI_CONNECTION_MATCHING &&
          wiFiConnection->mState != WIFI_CONNECTION_MATCHED)) {
         return -1;
     }
     if (wiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
+        DWCi_SetGPStatus(FRIEND_STATUS_ONLINE, "", NULL);
         NNFreeNegotiateList();
         DWCi_SetState(WIFI_CONNECTION_LOGGED_IN);
         return 1;
@@ -382,7 +382,7 @@ s32 DWC_CloseAllConnectionsHard(void) {
 s32 DWC_CloseConnectionHard(s32 aid) {
     void *connection;
     if (gWiFiConnection == NULL || DWCi_IsError() != 0 ||
-        (gWiFiConnection->mState != WIFI_CONNECTION_PARTNER_SEARCH &&
+        (gWiFiConnection->mState != WIFI_CONNECTION_MATCHING &&
          gWiFiConnection->mState != WIFI_CONNECTION_MATCHED)) {
         return -1;
     }
@@ -595,7 +595,7 @@ int ReportWiFiGpResult(int result) {
             break;
     }
     switch (gWiFiConnection->mState) {
-        case WIFI_CONNECTION_GP_SETUP:
+        case WIFI_CONNECTION_AVAILABLE_CHECK:
             errorCode -= 0xee48;
             DWCi_StopLogin(errorKind, errorCode);
             break;
@@ -603,7 +603,7 @@ int ReportWiFiGpResult(int result) {
             errorCode -= 0xee48;
             DWCi_StopLogin(errorKind, errorCode);
             break;
-        case WIFI_CONNECTION_PARTNER_SEARCH:
+        case WIFI_CONNECTION_MATCHING:
             errorCode -= 0x13c68;
             DWCi_StopMatching(errorKind, errorCode);
             break;
@@ -628,29 +628,29 @@ u32 ReportWiFiSocketResult(u32 result) {
         return 0;
     }
     switch (result) {
-        case GT2OutOfMemory:
+        case TRANSPORT_RESULT_NO_MEMORY:
             errorKind = 0xb;
             errorCode = -1;
             break;
-        case GT2Rejected:
-        case GT2DuplicateAddress:
+        case TRANSPORT_RESULT_REJECTED:
+        case TRANSPORT_RESULT_CONNECTION_EXISTS:
             errorKind = 0;
             errorCode = 0;
             result = 0;
             break;
-        case GT2NetworkError:
+        case TRANSPORT_RESULT_SOCKET_FAILED:
             errorKind = 6;
             errorCode = -10;
             break;
-        case GT2AddressError:
+        case TRANSPORT_RESULT_BAD_ADDRESS:
             errorKind = 6;
             errorCode = -30;
             break;
-        case GT2TimedOut:
+        case TRANSPORT_RESULT_TIMED_OUT:
             errorKind = 6;
             errorCode = -70;
             break;
-        case GT2NegotiationError:
+        case TRANSPORT_RESULT_COMMUNICATION_ERROR:
             errorKind = 6;
             errorCode = -80;
             break;
@@ -749,7 +749,7 @@ void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData 
                     message += versionLength + 1;
                     if (memcmp(message, "MAT", strlen("MAT")) == 0) {
                         wiFiConnection = gWiFiConnection;
-                        if (wiFiConnection->mState == WIFI_CONNECTION_PARTNER_SEARCH ||
+                        if (wiFiConnection->mState == WIFI_CONNECTION_MATCHING ||
                             wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER ||
                             wiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_SERVER_CLIENT) {
                             message += strlen("MAT");
@@ -786,16 +786,16 @@ void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason) {
         return;
     }
     switch (reason) {
-        case GT2LocalClose:
-        case GT2RemoteClose:
+        case CLOSE_REASON_LOCAL:
+        case CLOSE_REASON_REMOTE:
             kind = 0;
             break;
-        case GT2CommunicationError:
+        case CLOSE_REASON_COMMUNICATION_ERROR:
         case GT2SocketError:
             kind = 6;
             detail = -0x1db0;
             break;
-        case GT2NotEnoughMemory:
+        case CLOSE_REASON_NO_MEMORY:
             kind = 0xb;
             detail = -0x1db1;
             break;
@@ -836,10 +836,10 @@ void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason) {
         if (gWiFiConnection->mOwnCloseFlag == 0) {
             DWCi_GPSetServerStatus();
         } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-            DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
+            DWCi_SetGPStatus(FRIEND_STATUS_ONLINE, "", NULL);
         }
     } else if (gWiFiConnection->mMatching.mLastParticipantPos == 0) {
-        DWCi_SetGPStatus(DWC_STATUS_ONLINE, "", NULL);
+        DWCi_SetGPStatus(FRIEND_STATUS_ONLINE, "", NULL);
     }
     if (gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_FILTER_SEARCH ||
         gWiFiConnection->mMatching.mMode == WIFI_MATCH_MODE_BUDDY_LIST) {

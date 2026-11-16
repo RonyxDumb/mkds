@@ -315,7 +315,7 @@ s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const c
                 return 1;
             }
             gpiInfoCacheToArg(&infoRecord, arg);
-            arg->mResult = GP_REQUEST_OK;
+            arg->mResult = PROFILE_REQUEST_OK;
             arg->mProfile = profileid;
             result = gpiAddCallback(connection, callback, arg, operation, 0);
             if (result != 0) {
@@ -384,7 +384,7 @@ u32 gpiSetInfoi(GPConnection *connection, s32 info, s32 value) {
     u32 result;
 
     switch (info) {
-        case GP_ZIPCODE:
+        case PROFILE_INFO_ZIPCODE:
             if (value < 0) {
                 gpiSetErrorString(connection, "Invalid zipcode.");
                 return 2;
@@ -395,7 +395,7 @@ u32 gpiSetInfoi(GPConnection *connection, s32 info, s32 value) {
                 return result;
             }
             break;
-        case GP_SEX:
+        case PROFILE_INFO_SEX:
             switch (value) {
                 case PROFILE_SEX_CODE_MALE:
                     result = gpiSendLocalInfo(connection, "\\sex\\", "0");
@@ -420,63 +420,63 @@ u32 gpiSetInfoi(GPConnection *connection, s32 info, s32 value) {
                     return 2;
             }
             break;
-        case GP_ICQUIN:
+        case PROFILE_INFO_ICQUIN:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\icquin\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CPUBRANDID:
+        case PROFILE_INFO_CPUBRANDID:
             sprintf(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\cpubrandid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CPUSPEED:
+        case PROFILE_INFO_CPUSPEED:
             sprintf(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\cpuspeed\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_MEMORY:
+        case PROFILE_INFO_MEMORY:
             sprintf(intText, "%d", value / 16);
             result = gpiSendUserInfo(connection, "\\memory\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD1RAM:
+        case PROFILE_INFO_VIDEOCARD1RAM:
             sprintf(intText, "%d", value / 4);
             result = gpiSendUserInfo(connection, "\\videocard1ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD2RAM:
+        case PROFILE_INFO_VIDEOCARD2RAM:
             sprintf(intText, "%d", value / 4);
             result = gpiSendUserInfo(connection, "\\videocard2ram\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CONNECTIONID:
+        case PROFILE_INFO_CONNECTIONID:
             sprintf(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\connectionid\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CONNECTIONSPEED:
+        case PROFILE_INFO_CONNECTIONSPEED:
             sprintf(intText, "%d", value);
             result = gpiSendUserInfo(connection, "\\connectionspeed\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_HASNETWORK:
+        case PROFILE_INFO_HASNETWORK:
             if (value != 0) {
                 value = 1;
             }
@@ -486,49 +486,49 @@ u32 gpiSetInfoi(GPConnection *connection, s32 info, s32 value) {
                 return result;
             }
             break;
-        case GP_PIC:
+        case PROFILE_INFO_PIC:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\pic\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_OCCUPATIONID:
+        case PROFILE_INFO_OCCUPATIONID:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\occ\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INDUSTRYID:
+        case PROFILE_INFO_INDUSTRYID:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\ind\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INCOMEID:
+        case PROFILE_INFO_INCOMEID:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\inc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_MARRIEDID:
+        case PROFILE_INFO_MARRIEDID:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\mar\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CHILDCOUNT:
+        case PROFILE_INFO_CHILDCOUNT:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\chc\\", intText);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INTERESTS1:
+        case PROFILE_INFO_INTERESTS1:
             sprintf(intText, "%d", value);
             result = gpiSendLocalInfo(connection, "\\i1\\", intText);
             if (result != 0) {
@@ -553,7 +553,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
         return 2;
     }
     switch (info) {
-        case GP_NICK:
+        case PROFILE_INFO_NICK:
             if (*value == 0) {
                 gpiSetErrorString(connection, "Invalid value.");
                 return 2;
@@ -565,7 +565,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_UNIQUENICK:
+        case PROFILE_INFO_UNIQUENICK:
             if (*value == 0) {
                 gpiSetErrorString(connection, "Invalid value.");
                 return 2;
@@ -577,7 +577,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_EMAIL:
+        case PROFILE_INFO_EMAIL:
             if (*value == 0) {
                 gpiSetErrorString(connection, "Invalid value.");
                 return 2;
@@ -590,7 +590,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_PASSWORD:
+        case PROFILE_INFO_PASSWORD:
             if (*value == 0) {
                 gpiSetErrorString(connection, "Invalid value.");
                 return 2;
@@ -602,7 +602,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_FIRSTNAME:
+        case PROFILE_INFO_FIRSTNAME:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x1f);
             result = gpiSendLocalInfo(connection, "\\firstname\\", valueCopy);
             if (result != 0) {
@@ -616,21 +616,21 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_HOMEPAGE:
+        case PROFILE_INFO_HOMEPAGE:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x4c);
             result = gpiSendLocalInfo(connection, "\\homepage\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_ZIPCODE:
+        case PROFILE_INFO_ZIPCODE:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0xb);
             result = gpiSendLocalInfo(connection, "\\zipcode\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_COUNTRYCODE:
+        case PROFILE_INFO_COUNTRYCODE:
             if (strlen((const char *) value) != 2) {
                 gpiSetErrorString(connection, "Invalid countrycode.");
                 return 2;
@@ -641,7 +641,7 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
                 return result;
             }
             break;
-        case GP_SEX: {
+        case PROFILE_INFO_SEX: {
             s32 character;
 
             character = *value;
@@ -661,120 +661,120 @@ u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
             }
             break;
         }
-        case GP_ICQUIN:
+        case PROFILE_INFO_ICQUIN:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\icquin\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CPUSPEED:
-            result = gpiSetInfoi(connection, GP_CPUSPEED, StrtolBase10((const char *) value));
+        case PROFILE_INFO_CPUSPEED:
+            result = gpiSetInfoi(connection, PROFILE_INFO_CPUSPEED, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_MEMORY:
-            result = gpiSetInfoi(connection, GP_MEMORY, StrtolBase10((const char *) value));
+        case PROFILE_INFO_MEMORY:
+            result = gpiSetInfoi(connection, PROFILE_INFO_MEMORY, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD1STRING:
+        case PROFILE_INFO_VIDEOCARD1STRING:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\videocard1string\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD1RAM:
-            result = gpiSetInfoi(connection, GP_VIDEOCARD1RAM, StrtolBase10((const char *) value));
+        case PROFILE_INFO_VIDEOCARD1RAM:
+            result = gpiSetInfoi(connection, PROFILE_INFO_VIDEOCARD1RAM, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD2STRING:
+        case PROFILE_INFO_VIDEOCARD2STRING:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\videocard2string\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_VIDEOCARD2RAM:
-            result = gpiSetInfoi(connection, GP_VIDEOCARD2RAM, StrtolBase10((const char *) value));
+        case PROFILE_INFO_VIDEOCARD2RAM:
+            result = gpiSetInfoi(connection, PROFILE_INFO_VIDEOCARD2RAM, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CONNECTIONSPEED:
-            result = gpiSetInfoi(connection, GP_CONNECTIONSPEED, StrtolBase10((const char *) value));
+        case PROFILE_INFO_CONNECTIONSPEED:
+            result = gpiSetInfoi(connection, PROFILE_INFO_CONNECTIONSPEED, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_HASNETWORK:
-            result = gpiSetInfoi(connection, GP_HASNETWORK, StrtolBase10((const char *) value));
+        case PROFILE_INFO_HASNETWORK:
+            result = gpiSetInfoi(connection, PROFILE_INFO_HASNETWORK, StrtolBase10((const char *) value));
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_OSSTRING:
+        case PROFILE_INFO_OSSTRING:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\osstring\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_AIMNAME:
+        case PROFILE_INFO_AIMNAME:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x33);
             result = gpiSendLocalInfo(connection, "\\aim\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_PIC:
+        case PROFILE_INFO_PIC:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\pic\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_OCCUPATIONID:
+        case PROFILE_INFO_OCCUPATIONID:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\occ\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INDUSTRYID:
+        case PROFILE_INFO_INDUSTRYID:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\ind\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INCOMEID:
+        case PROFILE_INFO_INCOMEID:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\inc\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_MARRIEDID:
+        case PROFILE_INFO_MARRIEDID:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\mar\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_CHILDCOUNT:
+        case PROFILE_INFO_CHILDCOUNT:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\chc\\", valueCopy);
             if (result != 0) {
                 return result;
             }
             break;
-        case GP_INTERESTS1:
+        case PROFILE_INFO_INTERESTS1:
             CopyStringWithTerminator(valueCopy, (const char *) value, 0x100);
             result = gpiSendLocalInfo(connection, "\\i1\\", valueCopy);
             if (result != 0) {
@@ -837,7 +837,7 @@ u32 gpiGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocki
             return 1;
         }
         gpiInfoCacheToArg(profileEntry->mCache, arg);
-        arg->mResult = GP_REQUEST_OK;
+        arg->mResult = PROFILE_REQUEST_OK;
         arg->mProfile = profile;
         queuedCallback.mCallback = callback;
         queuedCallback.mParam = param;

@@ -3,14 +3,14 @@
 #include "types.h"
 #include "00/Lib/GameSpy/connection_events.h"
 
-// Milliseconds: an incoming connection that has not reached GT2_CONNECTION_AWAIT_DECISION is dropped after
-// GTI2_SERVER_TIMEOUT (an outgoing one uses its own mTimeSinceCreateLimit), an unconfirmed message is sent
-// again after GTI2_RESEND_TIME, an acknowledgement still unsent GTI2_PENDING_ACK_TIME after it was noted is sent by
-// itself, and a connection that sent nothing for GTI2_KEEP_ALIVE_TIME gets a keep-alive message.
-#define GTI2_SERVER_TIMEOUT 60000
-#define GTI2_RESEND_TIME 1000
-#define GTI2_PENDING_ACK_TIME 100
-#define GTI2_KEEP_ALIVE_TIME 30000
+// Milliseconds: an incoming connection that has not reached SOCKET_CONNECTION_AWAIT_ACCEPT_REJECT is dropped after
+// CONNECTION_INCOMING_SETUP_MSEC (an outgoing one uses its own mTimeSinceCreateLimit), an unconfirmed message is sent
+// again after MESSAGE_RESEND_MSEC, an acknowledgement still unsent ACK_DELAY_MSEC after it was noted is sent by
+// itself, and a connection that sent nothing for KEEP_ALIVE_MSEC gets a keep-alive message.
+#define CONNECTION_INCOMING_SETUP_MSEC 60000
+#define MESSAGE_RESEND_MSEC 1000
+#define ACK_DELAY_MSEC 100
+#define KEEP_ALIVE_MSEC 30000
 
 u32 gti2ConnectionThink(GTI2Connection *connection, u32 now);
 

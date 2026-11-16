@@ -64,11 +64,11 @@ u8 DWCi_AC_MakeSearchList(u32 type) {
         case AC_SEARCH_LIST_AROUND:
             work->mSearchListNum = MakeAroundList(work);
             break;
-        case AC_SEARCH_LIST_OTHER_CHANNELS:
+        case AC_SEARCH_LIST_DIFFER_CHANNEL:
             work->mSearchListNum =
                 MakeDifferChannelList(work->mFindListNum, work->mFindList, work->mSearchList, work->mBssDesc);
             break;
-        case AC_SEARCH_LIST_HIDDEN:
+        case AC_SEARCH_LIST_STEALTH:
             work->mSearchListNum = MakeStealthList(work);
             break;
     }

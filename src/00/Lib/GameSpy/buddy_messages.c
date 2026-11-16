@@ -81,7 +81,7 @@ s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
         date = GetTickSeconds(NULL);
     }
     switch (type) {
-        case GPI_BM_MESSAGE:
+        case BUDDY_MESSAGE_TYPE_MESSAGE:
             messageCallback = gpState->mCallbacks[3];
             if (messageCallback.mCallback == NULL) {
                 break;
@@ -110,7 +110,7 @@ s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
                 return result;
             }
             break;
-        case GPI_BM_REQUEST:
+        case BUDDY_MESSAGE_TYPE_REQUEST:
             profileRec = gpiProfileListAdd(connection, profileNumber);
             if (profileRec == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
@@ -155,7 +155,7 @@ s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
                 return result;
             }
             break;
-        case GPI_BM_STATUS:
+        case BUDDY_MESSAGE_TYPE_STATUS:
             profileRec = gpiProfileListAdd(connection, profileNumber);
             if (profileRec == NULL) {
                 gpiSetErrorString(connection, "Out of memory.");
@@ -236,7 +236,7 @@ s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
                 return result;
             }
             break;
-        case GPI_BM_INVITE:
+        case BUDDY_MESSAGE_TYPE_INVITE:
             if (gpiValueForKey(input, "\\msg\\", buffer, 0x1000) == FALSE) {
                 gpiSetError(connection, 1, "Unexpected data was received from the server.");
                 gpiCallErrorCallback(connection, 3, 1);
@@ -283,7 +283,7 @@ s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
                 gpiCallErrorCallback(connection, 3, 1);
                 return 3;
             }
-            gpiSendBuddyMessage(connection, profileNumber, GPI_BM_PONG, "1");
+            gpiSendBuddyMessage(connection, profileNumber, BUDDY_MESSAGE_TYPE_PONG, "1");
             break;
     }
     return 0;

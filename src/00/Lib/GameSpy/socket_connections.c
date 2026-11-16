@@ -201,7 +201,7 @@ void gti2FreeSocketConnection(GTI2Connection *connection) {
     s32 closedCount;
     s32 index;
     if (connection->mFreeAtAcceptReject == FALSE && connection->mCallbackLevel == 0) {
-        if (connection->mState == GT2_CONNECTION_CLOSED) {
+        if (connection->mState == SOCKET_CONNECTION_CLOSED) {
             closedCount = ArrayLength(connection->mSocket->mConnectionsToFree);
             for (index = 0; index < closedCount; index++) {
                 if (connection ==
@@ -253,10 +253,10 @@ u32 gti2SocketSend(GTI2Socket *socket, u32 address, int port, u32 message, u32 l
 u32 gti2SocketConnectionsThinkMap(GTI2Connection **element, u32 *clientData) {
     GTI2Connection *connection = *element;
     u32 now = *clientData;
-    if (connection->mState != GT2_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
+    if (connection->mState != SOCKET_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
         return 0;
     }
-    if (connection->mState == GT2_CONNECTION_CLOSED && connection->mFreeAtAcceptReject == FALSE &&
+    if (connection->mState == SOCKET_CONNECTION_CLOSED && connection->mFreeAtAcceptReject == FALSE &&
         connection->mCallbackLevel == 0) {
         gti2FreeSocketConnection(connection);
     }

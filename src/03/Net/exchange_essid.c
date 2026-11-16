@@ -379,7 +379,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
         return;
     }
     switch (message->mNotify) {
-        case WIFI_NOTIFY_ENABLE_REQUEST:
+        case WIFI_NOTIFY_STARTUP_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING) {
                     gExchangeWcmState = EXCHANGE_WCM_STATE_IDLE;
@@ -520,7 +520,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 }
             }
             break;
-        case WIFI_NOTIFY_POWER_OFF_REQUEST:
+        case WIFI_NOTIFY_CLEANUP_REQUEST:
             if (message->mResult == 0) {
                 if (gExchangeWcmState == EXCHANGE_WCM_STATE_CLEANING_UP) {
                     WCM_Finish();
@@ -548,7 +548,7 @@ void ExchangeWcmNotifyCallback(WcmNoticeHead *message) {
                 gExchangeEventCallback(EXCHANGE_EVENT_SCAN_ROUND, 0);
             }
             break;
-        case WIFI_NOTIFY_LINK_TERMINATING:
+        case WIFI_NOTIFY_TERMINATE_REQUEST:
             gExchangeWcmState = EXCHANGE_WCM_STATE_STOPPED;
             if (gExchangeEventCallback != NULL) {
                 gExchangeEventCallback(EXCHANGE_EVENT_LINK_TERMINATED, 0);

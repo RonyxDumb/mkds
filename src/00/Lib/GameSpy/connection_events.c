@@ -10,21 +10,21 @@
 
 void gti2CloseConnection(GTI2Connection *connection, int hard) {
     if (hard != 0) {
-        if (connection->mState < GT2_CONNECTION_CLOSED) {
+        if (connection->mState < SOCKET_CONNECTION_CLOSED) {
             gti2ConnectionClosed(connection);
             gti2SendClosed(connection);
             gti2ClosedCallback(connection, NULL);
             gti2FreeSocketConnection(connection);
         }
     } else {
-        connection->mState = GT2_CONNECTION_CLOSING;
+        connection->mState = SOCKET_CONNECTION_CLOSING;
         gti2SendClose(connection);
     }
 }
 
 void gti2ConnectionClosed(GTI2Connection *connection, ...) {
-    if (connection->mState != GT2_CONNECTION_CLOSED) {
-        connection->mState = GT2_CONNECTION_CLOSED;
+    if (connection->mState != SOCKET_CONNECTION_CLOSED) {
+        connection->mState = SOCKET_CONNECTION_CLOSED;
         TableRemove(connection->mSocket->mConnections, &connection);
         ArrayAppend(connection->mSocket->mConnectionsToFree, &connection);
     }

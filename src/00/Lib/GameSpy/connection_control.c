@@ -62,20 +62,20 @@ int gt2Connect(void *socket, GTI2Connection **connection, const char *remoteAddr
     pendingConn->mCallbackLevel++;
     do {
         gt2Think(socket);
-        result = pendingConn->mState >= GT2_CONNECTION_CONNECTED ? 1 : 0;
+        result = pendingConn->mState >= SOCKET_CONNECTION_CONNECTED ? 1 : 0;
         if (result == 0) {
             msleep(1);
         }
     } while (result == 0);
     pendingConn->mCallbackLevel--;
-    if (pendingConn->mState == GT2_CONNECTION_CONNECTED) {
+    if (pendingConn->mState == SOCKET_CONNECTION_CONNECTED) {
         *connection = pendingConn;
     }
     return pendingConn->mResult;
 }
 
 void gt2Send(GTI2Connection *connection, u8 *message, int len, int reliable) {
-    if (connection->mState == GT2_CONNECTION_CONNECTED) {
+    if (connection->mState == SOCKET_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
         if (ArrayLength(connection->mSendFilters) != 0) {
             gti2SendFilterCallback(connection, 0, message, len, reliable);

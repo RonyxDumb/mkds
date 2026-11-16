@@ -10,21 +10,21 @@ typedef struct NNMagic {
     /* 0 */ u8 mUnk_00[6];
 } NNMagic;
 
-// Port types of an init message (NN_PT_*): NN_PT_GP is sent from the game socket to the first matchup server, NN_PT_NN1
-// from the negotiation socket to the first, NN_PT_NN2 from the negotiation socket to the second; each is answered by
+// Port types of an init message (NN_PT_*): NAT_PORT_TYPE_GAME_SOCKET is sent from the game socket to the first matchup server, NAT_PORT_TYPE_MATCHUP1
+// from the negotiation socket to the first, NAT_PORT_TYPE_MATCHUP2 from the negotiation socket to the second; each is answered by
 // its own acknowledgement (mInitAckRecv).
-#define NN_PT_GP 0
-#define NN_PT_NN1 1
-#define NN_PT_NN2 2
-#define FINISHED_NOERROR 0
-#define FINISHED_ERROR_DEADBEAT_PARTNER 1
-#define FINISHED_ERROR_INIT_PACKETS_TIMEDOUT 2
-#define MATCHUP_PORT 0x6cfd
-#define INIT_RETRY_TIME 500
-#define INIT_RETRY_COUNT 30
-#define PING_RETRY_TIME 700
-#define PING_RETRY_COUNT 12
-#define FINISHED_IDLE_TIME 5000
+#define NAT_PORT_TYPE_GAME_SOCKET 0
+#define NAT_PORT_TYPE_MATCHUP1 1
+#define NAT_PORT_TYPE_MATCHUP2 2
+#define NAT_CONNECT_FINISHED_NO_ERROR 0
+#define NAT_CONNECT_FINISHED_DEADBEAT_PARTNER 1
+#define NAT_CONNECT_FINISHED_INIT_TIMEOUT 2
+#define MATCHUP_SERVER_PORT 0x6cfd
+#define NAT_INIT_RETRY_MS 500
+#define NAT_INIT_MAX_RETRY_COUNT 30
+#define NAT_PING_RETRY_MS 700
+#define NAT_PING_MAX_RETRY_COUNT 12
+#define NAT_PINGED_CANCEL_DELAY_MS 5000
 
 // Value of the mVersion byte of every message.
 #define NAT_PACKET_VERSION 2

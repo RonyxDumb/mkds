@@ -51,7 +51,7 @@ u32 DWCi_AC_ConnectTest(void) {
                 DWC_Netcheck_Abort();
                 DWC_Netcheck_Destroy();
             default:
-                work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_TEST_ABORTED;
+                work->mFindList[work->mConnectNo].mState = AUTO_CONNECT_FIND_TEST_LINK_DOWN;
                 phase = AC_PHASE_TEST_RETRY;
         }
     }

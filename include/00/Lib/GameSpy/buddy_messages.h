@@ -30,16 +30,16 @@ enum {
 };
 
 // The first id given to an operation; mNextOperationId wraps back to it.
-#define GPI_FIRST_OPERATION_ID 2
+#define PROFILE_FIRST_OPERATION_ID 2
 
 // Types of buddy messages: the "bm" value of a server message and the type of a message between peers.
 enum {
-    GPI_BM_MESSAGE = 1,
-    GPI_BM_REQUEST = 2,
-    GPI_BM_STATUS = 100,
-    GPI_BM_INVITE = 101,
+    BUDDY_MESSAGE_TYPE_MESSAGE = 1,
+    BUDDY_MESSAGE_TYPE_REQUEST = 2,
+    BUDDY_MESSAGE_TYPE_STATUS = 100,
+    BUDDY_MESSAGE_TYPE_INVITE = 101,
     GPI_BM_PING = 102,
-    GPI_BM_PONG = 103,
+    BUDDY_MESSAGE_TYPE_PONG = 103,
     GPI_BM_FILE_SEND_REQUEST = 200,
     GPI_BM_FILE_SEND_REPLY,
     GPI_BM_FILE_BEGIN,

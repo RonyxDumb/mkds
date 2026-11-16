@@ -41,8 +41,8 @@ enum {
 // Values of the type argument of DWCi_AC_MakeSearchList: which access points the scan list is made from.
 enum {
     AC_SEARCH_LIST_AROUND,
-    AC_SEARCH_LIST_OTHER_CHANNELS,
-    AC_SEARCH_LIST_HIDDEN,
+    AC_SEARCH_LIST_DIFFER_CHANNEL,
+    AC_SEARCH_LIST_STEALTH,
 };
 
 // The access point connection state: allocator, phase, error and end state, beacon flag and access point type.

@@ -481,10 +481,10 @@ void send_arprequest(u32 address) {
     MI_CpuFill8(&frame, 0, sizeof(frame));
     MI_CpuFill8(&frame, 0xff, 6);
     MI_CpuCopy8(CPSMyMac, frame.mSourceMac, 6);
-    frame.mEtherType = ETHERTYPE_ARP_SWAPPED;
+    frame.mEtherType = FRAME_TYPE_ARP_SWAPPED;
     frame.mHardwareTypeLow = 1;
     frame.mProtocolTypeHigh = ETHERTYPE_IPV4 >> 8;
-    frame.mAddressLengths = ARP_ADDRESS_LENGTHS_ETHERNET_IPV4;
+    frame.mAddressLengths = ARP_ADDRESS_LENGTHS_ETHERNET_IPV4_SWAPPED;
     frame.mOperationLow = 1;
     MI_CpuCopy8(CPSMyMac, frame.mSenderMac, 6);
     frame.mSenderAddressHigh = ((u16) (*(u32 *) &CPSMyIp >> 16) >> 8) | ((u16) (*(u32 *) &CPSMyIp >> 16) << 8);
@@ -659,7 +659,7 @@ void send_ping(u8 *pattern, u32 length, CPSSoc *socket) {
 
     sendBuffer = socket->mSendBuffer.mStart;
     icmpHeader = OFFSET_PTR(IcmpHeader, sendBuffer, 0x22);
-    icmpHeader->mTypeAndCode = ICMP_ECHO_REQUEST;
+    icmpHeader->mTypeAndCode = PING_TYPE_REQUEST;
     icmpHeader->mIdentifier = (u32) OSi_ThreadInfo.mCurrentThread;
     icmpHeader->mChecksum = 0;
     sequence = gPingSequence;
@@ -789,7 +789,7 @@ void dispatch_arp(ArpPacket *packet, u32 length) {
     if (packet->mProtocolType != ETHERTYPE_IPV4 >> 8) {
         return;
     }
-    if (packet->mAddressLengths != ARP_ADDRESS_LENGTHS_ETHERNET_IPV4) {
+    if (packet->mAddressLengths != ARP_ADDRESS_LENGTHS_ETHERNET_IPV4_SWAPPED) {
         return;
     }
     operation = (u16) ((packet->mOperation >> 8) | (packet->mOperation << 8));
@@ -901,7 +901,7 @@ void dispatch_icmp(IpHeader *ipHeader, IcmpHeader *icmp, u32 length) {
                 case ICMP_ECHO_REPLY:
                     process_icmp_reply(ipHeader, icmp, length);
                     break;
-                case ICMP_ECHO_REQUEST:
+                case PING_TYPE_REQUEST:
                     if (gIcmpEchoReplyEnabled != 0) {
                         reply_icmp(ipHeader, icmp, length);
                     }
@@ -1548,7 +1548,7 @@ void tcpip(void) {
                 case ETHERTYPE_IPV4:
                     dispatch_ip(&frame->mIp, length - 0xe);
                     break;
-                case ETHERTYPE_ARP:
+                case FRAME_TYPE_ARP:
                     dispatch_arp(&frame->mArp, length - 0xe);
                     break;
             }
@@ -2097,7 +2097,7 @@ void scavenger(void) {
     gScavengerSoc.mSendBuffer.mSize = 0x180;
     gScavengerSoc.mSendBuffer.mStart = gScavengerSendBuffer;
     CPS_SocRegister(&gScavengerSoc);
-    dhcpPhase = DHCP_STATE_INIT;
+    dhcpPhase = ADDRESS_STATE_NONE;
     isFirstPass = TRUE;
     dhcpDelay = 1;
     CPSNoIpReason = 1;
@@ -2111,13 +2111,13 @@ void scavenger(void) {
             dhcpDelay--;
             if (dhcpDelay == 0) {
                 if ((gCPSMode & 1) != 0) {
-                    if (dhcpPhase == DHCP_STATE_INIT) {
+                    if (dhcpPhase == ADDRESS_STATE_NONE) {
                         set_fixed_ip();
-                        dhcpPhase = DHCP_STATE_BOUND;
+                        dhcpPhase = ADDRESS_STATE_HELD;
                     }
                 } else {
                     switch (dhcpPhase) {
-                        case DHCP_STATE_INIT:
+                        case ADDRESS_STATE_NONE:
                             if (isFirstPass != FALSE) {
                                 CPSNoIpReason = 2;
                                 isFirstPass = FALSE;
@@ -2127,20 +2127,20 @@ void scavenger(void) {
                                 set_fixed_ip();
                                 dhcpPhase = DHCP_STATE_FIXED_IP;
                             } else {
-                                dhcpPhase = DHCP_STATE_BOUND;
+                                dhcpPhase = ADDRESS_STATE_HELD;
                             }
                             break;
-                        case DHCP_STATE_BOUND:
-                            if (dhcp_request_server(&dhcpDelay, DHCP_MODE_RENEW) == FALSE && dhcpDelay < 0x3c) {
-                                dhcpPhase = DHCP_STATE_REBINDING;
+                        case ADDRESS_STATE_HELD:
+                            if (dhcp_request_server(&dhcpDelay, ADDRESS_REQUEST_RENEW) == FALSE && dhcpDelay < 0x3c) {
+                                dhcpPhase = ADDRESS_STATE_REBINDING;
                             }
                             break;
-                        case DHCP_STATE_REBINDING:
-                            if (dhcp_request_server(&dhcpDelay, DHCP_MODE_REBIND) != FALSE) {
-                                dhcpPhase = DHCP_STATE_BOUND;
+                        case ADDRESS_STATE_REBINDING:
+                            if (dhcp_request_server(&dhcpDelay, ADDRESS_REQUEST_REBIND) != FALSE) {
+                                dhcpPhase = ADDRESS_STATE_HELD;
                             } else if (dhcpDelay < 0x3c) {
                                 reset_network_vars(3);
-                                dhcpPhase = DHCP_STATE_INIT;
+                                dhcpPhase = ADDRESS_STATE_NONE;
                                 dhcpDelay = 1;
                             }
                             break;
@@ -2151,7 +2151,7 @@ void scavenger(void) {
             }
         } else {
             reset_network_vars(1);
-            dhcpPhase = DHCP_STATE_INIT;
+            dhcpPhase = ADDRESS_STATE_NONE;
             dhcpDelay = 1;
         }
         entryIndex = 0;
@@ -2362,11 +2362,11 @@ s32 dhcp_analyze_response(u32 queryId, s32 retry) {
                                 break;
                             case DHCP_OPTION_MESSAGE_TYPE:
                                 switch (optionCursor[1]) {
-                                    case DHCPOFFER:
+                                    case MESSAGE_TYPE_OFFERED_ADDRESS:
                                         gOfferedMyIp = assignedIp;
                                         result = 1;
                                         break;
-                                    case DHCPACK:
+                                    case MESSAGE_TYPE_MY_ADDRESS:
                                         CPSMyIp = assignedIp;
                                         result = 2;
                                         break;
@@ -2438,13 +2438,13 @@ BOOL dhcp_request_server(u32 *sleep, s32 mode) {
     gSleepSave = savedSleep;
     *sleep = savedSleep;
     switch (mode) {
-        case DHCP_MODE_RENEW:
+        case ADDRESS_REQUEST_RENEW:
             if (savedSleep < 0x3c) {
                 *sleep = 1;
                 gSleepSave = gLeaseTime >> 3;
             }
             break;
-        case DHCP_MODE_REBIND:
+        case ADDRESS_REQUEST_REBIND:
             if (savedSleep < 0x3c) {
                 *sleep = 1;
             }
@@ -2555,7 +2555,7 @@ s32 resolve_common(const char *name, u32 recordType, s32 queryId) {
         readPtr = CPS_SocRead(&query.mUnk_00);
         if (query.mUnk_00 > 0xc && queryId == (u16) ((*(u16 *) readPtr >> 8) | (*(u16 *) readPtr << 8))) {
             responseCode = readPtr[3] & DNS_RCODE_MASK;
-            if (responseCode == DNS_RCODE_NXDOMAIN) {
+            if (responseCode == RESPONSE_CODE_FAIL) {
                 result = failure;
             } else if (responseCode == 0) {
                 labelStart = readPtr + query.mUnk_00;

@@ -15,51 +15,51 @@ enum {
 
 // Errors of the server browser calls.
 enum {
-    sbe_noerror,
-    sbe_socketerror,
-    sbe_dnserror,
-    sbe_connecterror,
-    sbe_dataerror,
-    sbe_allocerror,
-    sbe_paramerror,
+    SERVER_BROWSER_ERROR_NONE,
+    SERVER_BROWSER_ERROR_SOCKET,
+    SERVER_BROWSER_ERROR_HOST_LOOKUP,
+    SERVER_BROWSER_ERROR_CONNECTION,
+    SERVER_BROWSER_ERROR_BAD_DATA,
+    SERVER_BROWSER_ERROR_NO_MEMORY,
+    SERVER_BROWSER_ERROR_PARAM_TOO_LONG,
 };
 
 // Errors of the reporter: the result of starting it and the errors it reports to its add error callback.
 enum {
-    e_qrnoerror,
+    REPORTER_ERROR_NONE,
     e_qrwsockerror,
     e_qrbinderror,
-    e_qrdnserror,
+    REPORTER_ERROR_HOST_LOOKUP,
     e_qrconnerror,
-    e_qrnochallengeerror,
+    REPORTER_ERROR_NO_CHALLENGE,
 };
 
 // Errors of starting a NAT negotiation.
 enum {
-    ne_noerror,
-    ne_allocerror,
+    NAT_START_ERROR_NONE,
+    NAT_START_ERROR_NO_MEMORY,
     ne_socketerror,
-    ne_dnserror,
+    NAT_START_ERROR_HOST_LOOKUP,
 };
 
 // Results of a NAT negotiation.
 enum {
-    nr_success,
-    nr_deadbeatpartner,
-    nr_inittimeout,
-    nr_unknownerror,
+    NAT_RESULT_SUCCESS,
+    NAT_RESULT_PARTNER_FAILED,
+    NAT_RESULT_TIMED_OUT,
+    NAT_RESULT_OTHER_ERROR,
 };
 
 // Results of gt2Connect and gti2CreateSocket.
 enum {
-    GT2Success,
-    GT2OutOfMemory,
-    GT2Rejected,
-    GT2NetworkError,
-    GT2AddressError,
-    GT2DuplicateAddress,
-    GT2TimedOut,
-    GT2NegotiationError,
+    TRANSPORT_RESULT_OK,
+    TRANSPORT_RESULT_NO_MEMORY,
+    TRANSPORT_RESULT_REJECTED,
+    TRANSPORT_RESULT_SOCKET_FAILED,
+    TRANSPORT_RESULT_BAD_ADDRESS,
+    TRANSPORT_RESULT_CONNECTION_EXISTS,
+    TRANSPORT_RESULT_TIMED_OUT,
+    TRANSPORT_RESULT_COMMUNICATION_ERROR,
 };
 
 // Results of the stats connect calls.
@@ -69,24 +69,24 @@ enum {
     GE_NODNS,
     GE_NOCONNECT,
     GE_BUSY,
-    GE_DATAERROR,
+    STATS_CONNECT_DATA_ERROR,
     GE_CONNECTING,
     GE_TIMEDOUT,
 };
 
 // Results of the service availability check.
 enum {
-    GSIACWaiting,
-    GSIACAvailable,
-    GSIACUnavailable,
-    GSIACTemporarilyUnavailable,
+    SERVICE_CHECK_PENDING,
+    SERVICE_CHECK_AVAILABLE,
+    SERVICE_CHECK_DISABLED_BIT_0,
+    SERVICE_CHECK_DISABLED_BIT_1,
 };
 
 // Why a connection was closed.
 enum {
-    GT2LocalClose,
-    GT2RemoteClose,
-    GT2CommunicationError,
+    CLOSE_REASON_LOCAL,
+    CLOSE_REASON_REMOTE,
+    CLOSE_REASON_COMMUNICATION_ERROR,
     GT2SocketError,
-    GT2NotEnoughMemory,
+    CLOSE_REASON_NO_MEMORY,
 };

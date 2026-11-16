@@ -81,13 +81,13 @@ void QEStartQuery(SBQueryEngine *engine, SBServer *server) {
     FIFOAddRear(&engine->mQueryList, server);
     server->mPing = current_time();
     address.mFamily = SOCKET_FAMILY_IPV4;
-    if ((server->mStateFlags & STATE_PENDINGICMPQUERY) == 0) {
+    if ((server->mStateFlags & SERVER_STATE_ICMP_QUERY_PENDING) == 0) {
         if (engine->mQueryVersion == 1) {
-            query[0] = QR2_MAGIC_1;
-            query[1] = QR2_MAGIC_2;
+            query[0] = QUERY_PACKET_FIRST_BYTE;
+            query[1] = QUERY_PACKET_SECOND_BYTE;
             query[2] = 0;
             __memcpy(&query[3], &server->mPing, 4);
-            if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
+            if ((server->mStateFlags & SERVER_STATE_BASIC_QUERY_PENDING) != 0) {
                 query[7] = engine->mNumServerKeys;
                 for (keyIndex = 0; keyIndex < engine->mNumServerKeys; keyIndex++) {
                     query[keyIndex + 8] = engine->mServerKeys[keyIndex];
@@ -101,14 +101,14 @@ void QEStartQuery(SBQueryEngine *engine, SBServer *server) {
                 query[9] = 0xff;
                 queryLength = 10;
             }
-        } else if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
+        } else if ((server->mStateFlags & SERVER_STATE_BASIC_QUERY_PENDING) != 0) {
             __memcpy(query, "\\basic\\\\info\\", 13);
             queryLength = 13;
         } else {
             __memcpy(query, "\\status\\", 8);
             queryLength = 8;
         }
-        if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & PRIVATE_IP_FLAG) != 0) {
+        if (server->mPublicIp == engine->mMyPublicIp && (server->mFlags & SERVER_FLAG_PRIVATE_IP) != 0) {
             address.mAddress = server->mPrivateIp;
             address.mPort = server->mPrivatePort;
         } else {
@@ -156,11 +156,11 @@ void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, s32 atFr
     u8 *statePtr;
     statePtr = &server->mStateFlags;
     server->mStateFlags &=
-        (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY | STATE_QUERYFAILED);
+        (u8) ~(SERVER_STATE_BASIC_QUERY_PENDING | SERVER_STATE_FULL_QUERY_PENDING | SERVER_STATE_ICMP_QUERY_PENDING | SERVER_STATE_QUERY_TIMED_OUT);
     if (updateKind == 0) {
-        *statePtr |= STATE_PENDINGBASICQUERY;
+        *statePtr |= SERVER_STATE_BASIC_QUERY_PENDING;
     } else if (updateKind == 1) {
-        *statePtr |= STATE_PENDINGFULLQUERY;
+        *statePtr |= SERVER_STATE_FULL_QUERY_PENDING;
     } else if (updateKind == 2) {
         return;
     }
@@ -181,7 +181,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 
     if (data[0] == 0) {
         data += 5;
         length -= 5;
-        if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
+        if ((server->mStateFlags & SERVER_STATE_BASIC_QUERY_PENDING) != 0) {
             keyIndex = 0;
             if (engine->mNumServerKeys > 0) {
                 do {
@@ -195,15 +195,15 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 
                     keyIndex++;
                 } while (keyIndex < engine->mNumServerKeys);
             }
-            server->mStateFlags |= STATE_BASICKEYS | STATE_VALIDPING;
+            server->mStateFlags |= SERVER_STATE_HAS_BASIC_KEYS | SERVER_STATE_HAS_PING;
         } else {
             SBServerParseQR2FullKeysSingle(server, data, length);
-            server->mStateFlags |= STATE_FULLKEYS | STATE_BASICKEYS | STATE_VALIDPING;
+            server->mStateFlags |= SERVER_STATE_HAS_FULL_KEYS | SERVER_STATE_HAS_BASIC_KEYS | SERVER_STATE_HAS_PING;
         }
-        server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
+        server->mStateFlags &= (u8) ~(SERVER_STATE_BASIC_QUERY_PENDING | SERVER_STATE_FULL_QUERY_PENDING);
         server->mPing = current_time() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
-        engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
+        engine->mListCallback(engine, QUERY_ENGINE_REASON_REPLY_PARSED, server, engine->mInstance);
     }
 }
 
@@ -216,15 +216,15 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 
     }
     SBServerParseKeyVals(server, data);
     if (isFinal != FALSE) {
-        if ((server->mStateFlags & STATE_PENDINGBASICQUERY) != 0) {
-            server->mStateFlags |= STATE_BASICKEYS | STATE_VALIDPING;
+        if ((server->mStateFlags & SERVER_STATE_BASIC_QUERY_PENDING) != 0) {
+            server->mStateFlags |= SERVER_STATE_HAS_BASIC_KEYS | SERVER_STATE_HAS_PING;
         } else {
-            server->mStateFlags |= STATE_FULLKEYS | STATE_VALIDPING;
+            server->mStateFlags |= SERVER_STATE_HAS_FULL_KEYS | SERVER_STATE_HAS_PING;
         }
-        server->mStateFlags &= (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY);
+        server->mStateFlags &= (u8) ~(SERVER_STATE_BASIC_QUERY_PENDING | SERVER_STATE_FULL_QUERY_PENDING);
         server->mPing = current_time() - server->mPing;
         FIFORemove(&engine->mQueryList, server);
-        engine->mListCallback(engine, qe_updatesuccess, server, engine->mInstance);
+        engine->mListCallback(engine, QUERY_ENGINE_REASON_REPLY_PARSED, server, engine->mInstance);
     }
 }
 
@@ -252,11 +252,11 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 useIcmpSocket) {
         }
         data[length] = 0;
         for (queryEntry = engine->mQueryList.mFirst; queryEntry != NULL; queryEntry = queryEntry->mNext) {
-            if ((useIcmpSocket != 0 && (queryEntry->mFlags & ICMP_IP_FLAG) != 0 &&
+            if ((useIcmpSocket != 0 && (queryEntry->mFlags & SERVER_FLAG_ICMP_IP) != 0 &&
                  queryEntry->mIcmpIp == address.mAddress) ||
                 (queryEntry->mPublicIp == address.mAddress &&
                  (queryEntry->mPublicPort == address.mPort || useIcmpSocket != 0)) ||
-                (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & PRIVATE_IP_FLAG) != 0 &&
+                (queryEntry->mPublicIp == engine->mMyPublicIp && (queryEntry->mFlags & SERVER_FLAG_PRIVATE_IP) != 0 &&
                  queryEntry->mPrivateIp == address.mAddress && queryEntry->mPrivatePort == address.mPort)) {
                 if (useIcmpSocket != 0) {
                     if (ParseSingleICMPReply(engine, queryEntry, data, length) != 0) {
@@ -281,14 +281,14 @@ void TimeoutOldQueries(SBQueryEngine *engine) {
     currentTime = current_time();
     server = engine->mQueryList.mFirst;
     while (server != NULL) {
-        if (currentTime <= server->mPing + MAX_QUERY_MSEC) {
+        if (currentTime <= server->mPing + QUERY_TIMEOUT_MSEC) {
             break;
         }
-        server->mFlags |= STATE_QUERYFAILED;
-        engine->mQueryList.mFirst->mPing = MAX_QUERY_MSEC;
+        server->mFlags |= SERVER_STATE_QUERY_TIMED_OUT;
+        engine->mQueryList.mFirst->mPing = QUERY_TIMEOUT_MSEC;
         engine->mQueryList.mFirst->mFlags &=
-            (u8) ~(STATE_PENDINGBASICQUERY | STATE_PENDINGFULLQUERY | STATE_PENDINGICMPQUERY);
-        engine->mListCallback(engine, qe_updatefailed, engine->mQueryList.mFirst, engine->mInstance);
+            (u8) ~(SERVER_STATE_BASIC_QUERY_PENDING | SERVER_STATE_FULL_QUERY_PENDING | SERVER_STATE_ICMP_QUERY_PENDING);
+        engine->mListCallback(engine, QUERY_ENGINE_REASON_QUERY_TIMED_OUT, engine->mQueryList.mFirst, engine->mInstance);
         FIFOGetFirst(&engine->mQueryList);
         server = engine->mQueryList.mFirst;
     }
@@ -310,7 +310,7 @@ void SBQueryEngineThink(MatchingServerList *matchingServerList) {
             QueueNextQueries(&matchingServerList->mEngine);
         }
         if (matchingServerList->mEngine.mQueryList.mCount == 0) {
-            matchingServerList->mEngine.mListCallback(matchingServerList, qe_engineidle, 0,
+            matchingServerList->mEngine.mListCallback(matchingServerList, QUERY_ENGINE_REASON_QUERY_LIST_EMPTY, 0,
                                                       matchingServerList->mEngine.mInstance);
         }
     }
