@@ -895,7 +895,7 @@ void InitCourseCameraEffects(void) {
             }
             break;
         }
-        case 0x10: {
+        case COURSE_ID_OLD_FRAPPE_64: {
             ParticleEmitter *effect;
 
             if (GetRaceUseChainCameras() != 0) {
