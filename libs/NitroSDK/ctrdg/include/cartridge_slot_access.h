@@ -82,13 +82,13 @@ typedef struct CTRDGHeader {
 // In the comments below, "the window" is the memory at 0x08000000, "the record" the object at 0x027ffc30 and "the
 // copy" gCartridgeHeaderCopy.
 // Two halfwords, mReplyReceived and mLockId; CTRDGi_InitCommon clears and fills them.
-extern CTRDGWork gCartridgeState;
+extern CTRDGWork gCartridgeWork;
 // Tested and set to 1 at the top of CTRDGi_InitModuleInfo, which returns at once when it is not 0.
-extern s32 gHeaderCopyStarted;
+extern s32 gModuleInfoInitStarted;
 // Tested and set to 1 at the top of CTRDG_Init, which does nothing when it is not 0.
 extern s32 gCartridgeInitStarted;
 // Function pointer that CTRDGi_PulledOutCallback calls; CTRDG_Init sets it to 0 and nothing else writes it.
-extern s32 (*gCartridgeRemovalCallback)(void);
+extern s32 (*gCartridgePulledOutCallback)(void);
 // 0xc0 bytes: CTRDGi_InitModuleInfo fills +4 with 0x9c bytes from 0xffff0020 and +0x80 with 0x40 bytes from
 // 0x08000080, reads four fields from the second part, and sends the block's address on tag 13.
 extern CartridgeHeaderCopy gCartridgeHeaderCopy;
@@ -113,19 +113,19 @@ void CTRDGi_ChangeLatestAccessCycle(CartridgeAccessSave *cycleInfo);
 // the word at 0x027ffc38. On a difference sets bit 1 of that byte and returns 0, otherwise 1. Its only caller is
 // PM_GoSleepMode.
 s32 CTRDG_IsExisting(void);
-// Zero-fills the 4 bytes of gCartridgeState (SVC_CpuSet, one word) and stores OS_GetLockID() in gCartridgeState.mLockId.
+// Zero-fills the 4 bytes of gCartridgeWork (SVC_CpuSet, one word) and stores OS_GetLockID() in gCartridgeWork.mLockId.
 void CTRDGi_InitCommon(void);
 // Sends the word 2 with CTRDGi_SendtoPxi, then calls OS_Terminate. Its only caller is
 // CTRDGi_PulledOutCallback.
 void CTRDG_TerminateForPulledOut(void);
-// Tag 13 callback after CTRDG_Init: when the low 6 bits of data are 0x11 calls gCartridgeRemovalCallback if it is not 0
+// Tag 13 callback after CTRDG_Init: when the low 6 bits of data are 0x11 calls gCartridgePulledOutCallback if it is not 0
 // (nothing in the game sets it, so the result is 0) and calls CTRDG_TerminateForPulledOut when the result is not 0; for
 // any other value calls OS_Terminate.
 void CTRDGi_PulledOutCallback(u32 tag, u32 data);
 // Tag 13 callback while CTRDGi_InitModuleInfo waits: when the low 6 bits of the second argument are 1 sets
-// gCartridgeState.mReplyReceived to 1, otherwise calls OS_Terminate.
+// gCartridgeWork.mReplyReceived to 1, otherwise calls OS_Terminate.
 void CTRDGi_CallbackForInitModuleInfo(u32 tag, u32 data);
-// Runs once (gHeaderCopyStarted); returns when bit 0 of the halfword at 0x04000300 is 0. Under the cartridge lock
+// Runs once (gModuleInfoInitStarted); returns when bit 0 of the halfword at 0x04000300 is 0. Under the cartridge lock
 // copies the 0x40 bytes at 0x08000080 to the copy plus 0x80 (MI_DmaCopy16, channel 1), then fills the record from the
 // copy, copies 0x9c bytes from 0xffff0020 to the copy plus 4, flushes the cache, sends ((copy - the start of main RAM)
 // >> 5) << 6 | 1 on tag 13 and waits for mReplyReceived. Its only caller is CTRDG_Init.
@@ -133,5 +133,5 @@ void CTRDGi_InitModuleInfo(void);
 // Runs once (gCartridgeInitStarted). Calls CTRDGi_InitCommon and PXI_Init, loops until PXI_IsCallbackReady(13, 1) is
 // not 0, installs CTRDGi_CallbackForInitModuleInfo as the tag 13 callback, calls CTRDGi_InitModuleInfo, removes the
 // callback (PXI_SetFifoRecvCallback(13, 0)), installs CTRDGi_PulledOutCallback as the tag 13 callback and sets
-// gCartridgeRemovalCallback to 0. OS_Init calls it as its 13th call, before CARD_Init.
+// gCartridgePulledOutCallback to 0. OS_Init calls it as its 13th call, before CARD_Init.
 void CTRDG_Init(void);

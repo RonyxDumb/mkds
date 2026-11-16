@@ -13,11 +13,11 @@
 
 #pragma thumb on
 
-CTRDGWork gCartridgeState;
+CTRDGWork gCartridgeWork;
 s32 gCartridgeInitStarted;
-s32 gHeaderCopyStarted;
+s32 gModuleInfoInitStarted;
 CartridgeHeaderCopy gCartridgeHeaderCopy;
-s32 (*gCartridgeRemovalCallback)(void);
+s32 (*gCartridgePulledOutCallback)(void);
 s32 gCartridgeUnusedWord0;
 s32 gCartridgeUnusedWord1;
 s32 gCartridgeUnusedWord2;
@@ -33,7 +33,7 @@ void CTRDG_Init(void) {
         CTRDGi_InitModuleInfo();
         PXI_SetFifoRecvCallback(13, 0);
         PXI_SetFifoRecvCallback(13, CTRDGi_PulledOutCallback);
-        gCartridgeRemovalCallback = 0;
+        gCartridgePulledOutCallback = 0;
     }
 }
 
@@ -50,17 +50,17 @@ void CTRDGi_InitModuleInfo(void) {
     CTRDGModuleInfo *idInfo;
     CartridgeHeaderCopy *headerCopy;
 
-    if (gHeaderCopyStarted != 0) {
+    if (gModuleInfoInitStarted != 0) {
         return;
     }
-    gHeaderCopyStarted = 1;
+    gModuleInfoInitStarted = 1;
     if ((reg_GX_POSTFLG & 1) == 0) {
         return;
     }
     savedIrqMask = OS_SetIrqMask(0x40000);
     savedIme = reg_OS_IME;
     reg_OS_IME = 1;
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
+    CTRDGi_LockByProcessor(gCartridgeWork.mLockId, &procLock);
     savedBit15 = (reg_MI_EXMEMCNT & 0x8000) >> 15;
     CTRDGi_ChangeLatestAccessCycle(&savedAccessCycle);
     reg_MI_EXMEMCNT = reg_MI_EXMEMCNT & ~0x8000;
@@ -68,7 +68,7 @@ void CTRDGi_InitModuleInfo(void) {
     MI_DmaCopy16(1, (const void *) 0x08000080, OFFSET_PTR(CartridgeHeaderTail, &gCartridgeHeaderCopy, 0x80), 0x40);
     reg_MI_EXMEMCNT = (reg_MI_EXMEMCNT & ~0x8000) | (savedBit15 << 15);
     CTRDGi_RestoreAccessCycle(&savedAccessCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
+    CTRDGi_UnlockByProcessor(gCartridgeWork.mLockId, &procLock);
     headerCopy = &gCartridgeHeaderCopy;
     idInfo = &SYSTEM_WORK->mCartridgeModuleInfo;
     idInfo->mIdHalfword = gCartridgeHeaderCopy.mHeaderTailCopy.mModuleId;
@@ -80,7 +80,7 @@ void CTRDGi_InitModuleInfo(void) {
     MIi_CpuCopy32((void *) 0xffff0020, gCartridgeHeaderCopy.mBiosBytes, 0x9c);
     DC_FlushAll();
     CTRDGi_SendtoPxi(((((u32) &gCartridgeHeaderCopy - 0x02000000) >> 5) << 6) | 1);
-    while (gCartridgeState.mReplyReceived != 1) {
+    while (gCartridgeWork.mReplyReceived != 1) {
         SVC_WaitByLoop(1);
     }
     reg_OS_IME;
@@ -90,7 +90,7 @@ void CTRDGi_InitModuleInfo(void) {
 
 void CTRDGi_CallbackForInitModuleInfo(u32 tag, u32 data) {
     if ((data & 0x3f) == 1) {
-        gCartridgeState.mReplyReceived = 1;
+        gCartridgeWork.mReplyReceived = 1;
     } else {
         OS_Terminate();
     }
@@ -101,8 +101,8 @@ void CTRDGi_PulledOutCallback(u32 tag, u32 data) {
 
     if ((data & 0x3f) == 0x11) {
         terminateNow = 0;
-        if (gCartridgeRemovalCallback != 0) {
-            terminateNow = gCartridgeRemovalCallback();
+        if (gCartridgePulledOutCallback != 0) {
+            terminateNow = gCartridgePulledOutCallback();
         }
         if (terminateNow != 0) {
             CTRDG_TerminateForPulledOut();
@@ -122,8 +122,8 @@ void CTRDGi_InitCommon(void) {
     u32 zero;
 
     zero = 0;
-    SVC_CpuSet(&zero, &gCartridgeState, 0x05000001);
-    gCartridgeState.mLockId = OS_GetLockID();
+    SVC_CpuSet(&zero, &gCartridgeWork, 0x05000001);
+    gCartridgeWork.mLockId = OS_GetLockID();
 }
 
 s32 CTRDG_IsExisting(void) {
@@ -142,7 +142,7 @@ s32 CTRDG_IsExisting(void) {
     if (idInfo->mDetectPullOut == 1) {
         return 0;
     }
-    CTRDGi_LockByProcessor(gCartridgeState.mLockId, &procLock);
+    CTRDGi_LockByProcessor(gCartridgeWork.mLockId, &procLock);
     CTRDGi_ChangeLatestAccessCycle(&savedAccessCycle);
     if ((cartridgeHeader->mIdSelector == CARTRIDGE_ID_SELECTOR_HEADER_HALFWORD &&
          idInfo->mIdHalfword != cartridgeHeader->mIdHalfword) ||
@@ -153,7 +153,7 @@ s32 CTRDG_IsExisting(void) {
         exists = 0;
     }
     CTRDGi_RestoreAccessCycle(&savedAccessCycle);
-    CTRDGi_UnlockByProcessor(gCartridgeState.mLockId, &procLock);
+    CTRDGi_UnlockByProcessor(gCartridgeWork.mLockId, &procLock);
     return exists;
 }
 
