@@ -119,7 +119,7 @@ enum {
 #define WIFI_VS_MATCHING_TOTAL_SCALE_FRAMES 0x1e
 #define WIFI_VS_MATCHING_EMBLEM_SCALE_FRAMES 0x28
 
-// Object behind gWiFiVSMatching; mState selects the handler run by AdvanceWiFiVSMatching.
+// The Wi-Fi VS matching screen: its state, the other players found with names and emblems, heap and layout tables.
 typedef struct WiFiVSMatching {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -159,7 +159,7 @@ typedef struct WiFiVSMatching {
     /* 1704 */ u8 pad_1704[8];
 } WiFiVSMatching;
 
-// 0xc-byte element of the array at member 0x20 of MenuShared.
+// One entry's character, kart and player kind.
 typedef struct EntryCharacterKartKind {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -355,13 +355,13 @@ enum {
     WIFI_LOGIN_STEP_FAILED = 7,
 };
 
-// 0x10-byte object at member 0x1f20 of WiFiSession.
+// The login state of a Wi-Fi session, of which only the step is known.
 typedef struct WiFiSessionLogin {
     /* 00 */ u8 mUnk_00[0xc];
     /* 0c */ s32 mStep;
 } WiFiSessionLogin;
 
-// 0x44-byte elements of the tables at members 0x1d00 and 0x1e10 of WiFiSession.
+// A message between the players of a Wi-Fi session: kind, size, sender, receiver, picked characters, karts and courses.
 typedef struct WiFiSessionMessage {
     /* 00 */ s32 mKind;
     /* 04 */ s32 mSize;
@@ -379,7 +379,7 @@ typedef struct WiFiSessionMessage {
     /* 40 */ s32 mContinueChoice;
 } WiFiSessionMessage;
 
-// 0x244-byte elements of the table at member 0x21c of WiFiSession.
+// A player's record as sent over the net: the message header, the PlayerRecord, the two totals and the seed.
 typedef struct WiFiPlayerRecord {
     /* 000 */ s32 mKind;
     /* 004 */ s32 mSize;
@@ -394,7 +394,7 @@ typedef struct WiFiPlayerRecord {
     /* 240 */ s32 mSeed;
 } WiFiPlayerRecord;
 
-// 8-byte object at member 0x18e0 of WiFiSession.
+// The minimum-complete match option: a valid flag, the minimum entry count and the time limit.
 typedef struct DWCMatchOptMinComplete {
     /* 00 */ u8 mValid;
     /* 01 */ u8 mMinEntry;
@@ -402,19 +402,14 @@ typedef struct DWCMatchOptMinComplete {
     /* 04 */ s32 mTimeLimit;
 } DWCMatchOptMinComplete;
 
-// 0x18-byte elements of the table at member 0x18ec of WiFiSession.
+// A kart key: a value, a name and an id.
 typedef struct KartKey {
     /* 00 */ s32 mValue;
     /* 04 */ char mName[0x10];
     /* 14 */ u8 mId;
 } KartKey;
 
-// Online session object behind gWiFiSession: 0x1f58 bytes allocated once at boot (InitWiFiSession; not created when
-// 0x027ffc40 is 2) and never freed. mStateMachine is its state machine, 7 states each with an (enter, update) pair in
-// gWiFiSessionStateTable: 0 off, 1 login, 2 logged in and idle, 3 partner search with the registered keys, 4 message
-// exchange (mStep 0..12), 5 running match (set by the race), 6 never requested. mState != 0 means a session is running;
-// its own heap exists only while the WiFi scene group runs. Holds the saved buddy list, the per-index records and
-// picks, and the roster (mKartMask, mKartCount) read by the matching screens and the race.
+// The online session: its state machine, per-player records, saved buddy list, picks and the roster of karts.
 typedef struct WiFiSession {
     /* 0000 */ void *mHeap;
     /* 0004 */ void *mHeapBuffer;

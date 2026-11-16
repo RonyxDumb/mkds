@@ -18,7 +18,7 @@ enum {
     WIFI_LOGIN_STATE_ERROR_CODE,
 };
 
-// Object behind gWiFiLoginMenu (0x40 bytes).
+// The Wi-Fi login screen: its state, error code, heap and messages.
 typedef struct WiFiLoginMenu {
     /* 00 */ u32 mState;
     /* 04 */ u32 mNextState;

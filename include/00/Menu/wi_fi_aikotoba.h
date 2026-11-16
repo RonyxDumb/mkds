@@ -27,7 +27,7 @@ enum {
 #define WIFI_AIKOTOBA_PRESS_HIGHLIGHT_FRAMES 5
 #define WIFI_AIKOTOBA_OFFSET_HIDDEN 0xfa
 
-// Object behind gWiFiAikotoba; LocateAndUploadWiFiAikotoba fills 0x20 to 0x30.
+// The Wi-Fi password screen: its state, selected index, heap, cell and layout tables and messages.
 typedef struct WiFiAikotoba {
     /* 00 */ s32 mState;
     /* 04 */ s32 mNextState;

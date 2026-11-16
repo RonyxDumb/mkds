@@ -38,7 +38,7 @@ enum {
 #define WIFI_TOP_MENU_PRESS_HIGHLIGHT_FRAMES 5
 #define WIFI_TOP_MENU_OFFSET_HIDDEN 0xdc
 
-// Object behind gWiFiTopMenu; LocateAndQueueWiFiTopMenu fills 0x20 to 0x30.
+// The Wi-Fi top menu screen: its state, selected index, heap, cell and layout tables and messages.
 typedef struct WiFiTopMenu {
     /* 00 */ s32 mState;
     /* 04 */ u32 mNextState;
