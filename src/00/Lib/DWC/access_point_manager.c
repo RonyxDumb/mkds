@@ -245,7 +245,7 @@ BOOL DWC_AC_Create(DWCACConfig *config) {
     DWCNetcheckParam *netCheckParam;
     s32 result;
 
-    gAcHold = config->mAlloc(1, 0x18);
+    gAcHold = config->mAlloc(AC_MEM_HOLD, 0x18);
     AccessPointMI_CpuClear32(gAcHold, 0x18);
     hold = gAcHold;
     hold->mAlloc = config->mAlloc;

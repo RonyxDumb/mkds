@@ -5,6 +5,9 @@
 #include "00/Lib/CPS/md5_internal_hash.h"
 #include "00/Lib/CPS/sha1_update.h"
 
+#define MD5_DIGEST_SIZE 0x10
+#define SHA1_DIGEST_SIZE 0x14
+
 typedef struct HttpsEntry HttpsEntry;
 typedef struct CPSPrivateKey CPSPrivateKey;
 
@@ -73,7 +76,7 @@ typedef struct HttpsState {
     /* 430 */ s32 mTaggedItemPrefixIndex;
     /* 434 */ u8 *mDigestStart;
     /* 438 */ u8 *mDigestEnd;
-    /* 43c */ u8 mRangeDigest[0x14];
+    /* 43c */ u8 mRangeDigest[SHA1_DIGEST_SIZE];
     /* 450 */ s32 mRangeDigestLength;
     /* 454 */ CPSCaInfo mItemRecord;
     /* 468 */ u8 mFirstValue[0x100];
