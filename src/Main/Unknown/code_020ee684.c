@@ -52,25 +52,25 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 // Hands out count objects from the pool, releasing the first active one while the pool is too full.
-void TakeItemPoolObjects(ItemPool *pool, s32 count, ItemObject **out, u16 kartIndex, Vec3 *pos) {
+void it_itemsetAcquireItems(ItemPool *pool, s32 count, ItemObject **out, u16 kartIndex, Vec3 *pos) {
     s32 i;
 
     if (pool->mTakenCount + count > pool->mObjectCount) {
         while (pool->mTakenCount + count > pool->mObjectCount) {
             if (pool->mActiveCount > 0) {
-                ReleaseItemPoolObject(pool, pool->mObjects[0]);
+                it_itemsetDestroyItem(pool, pool->mObjects[0]);
             }
         }
     }
     i = 0;
     while (i < count) {
         out[i] = pool->mObjects[pool->mTakenCount++];
-        ResetItemObjectAtPos(out[i], pool->mKind, kartIndex, pos);
+        it_20F99B8(out[i], pool->mKind, kartIndex, pos);
         i++;
     }
 }
 
-void ReleaseItemPoolObject(ItemPool *pool, ItemObject *object) {
+void it_itemsetDestroyItem(ItemPool *pool, ItemObject *object) {
     s32 i;
     ItemObject **objects;
     s32 endIndex;
@@ -103,11 +103,11 @@ found:
         i = pool->mTakenCount;
     }
     objects[i] = object;
-    ReleaseItemObject(object);
+    it_destroy(object);
     pool->mReservedCount = pool->mReservedCount - 1;
 }
 
-void StartItemObject(ItemPool *pool, ItemObject *object) {
+void it_itemsetAddItem(ItemPool *pool, ItemObject *object) {
     s32 i;
     s32 takenCount;
     ItemObject **objects;
@@ -136,13 +136,13 @@ found:
     pool->mActiveCount = pool->mActiveCount + 1;
     object->mFlags |= 0x2000;
     kind = pool->mKind;
-    itemKind = gItemKinds + kind;
+    itemKind = it_sItemParams + kind;
     if (itemKind->mUnk_6c != 0) {
         CreateItemObjectCollisionSlot(object);
     }
     object->mAgeFrames = 0;
     kind = object->mKind;
-    itemKind = gItemKinds + kind;
+    itemKind = it_sItemParams + kind;
     if (itemKind->mStart != NULL) {
         itemKind->mStart(object);
     }
@@ -173,11 +173,11 @@ found:
     pool->mUnk_18 = pool->mUnk_18 + 1;
 }
 
-void DrawItemPool(ItemPool *pool, void *viewAxis) {
+void it_renderItemset(ItemPool *pool, void *viewAxis) {
     if (pool->mUnk_24 != NULL) {
-        DrawItemPoolWithCallback(pool, viewAxis, (void (*)(void *, void *, void *)) pool->mUnk_24);
+        it_20ED718(pool, viewAxis, (void (*)(void *, void *, void *)) pool->mUnk_24);
     } else {
-        DrawItemPoolModels(pool, viewAxis);
+        it_20ED79C(pool, viewAxis);
     }
 }
 
@@ -205,10 +205,10 @@ void func_020f0d04(ItemObject *object) {
             StartItemObjectRelease(object);
         }
     } else {
-        copyData = gItemKinds[kind].mCopyData;
+        copyData = it_sItemParams[kind].mCopyData;
         data = copyData(data, object, 1);
         copyData(data, object, 0);
-        gItemKinds[kind].mInitFromData(object);
+        it_sItemParams[kind].mInitFromData(object);
     }
     object->mFlags |= 0x20000000;
 }
@@ -249,19 +249,19 @@ found:
     pool->mActiveCount = pool->mActiveCount + 1;
     object->mFlags |= 0x2000;
     kind = pool->mKind;
-    if (gItemKinds[kind].mUnk_6c != 0) {
+    if (it_sItemParams[kind].mUnk_6c != 0) {
         CreateItemObjectCollisionSlot(object);
     }
     object->mAgeFrames = 0;
     kind = object->mKind;
-    if (gItemKinds[kind].mStart != NULL) {
-        gItemKinds[kind].mStart(object);
+    if (it_sItemParams[kind].mStart != NULL) {
+        it_sItemParams[kind].mStart(object);
     }
     if (c != 0) {
         initFunc = func_020fe4b4;
     } else {
         kind = object->mKind;
-        initFunc = gItemKinds[kind].mInitFromData;
+        initFunc = it_sItemParams[kind].mInitFromData;
     }
     initFunc(object);
     object->mFlags |= 0x20000000;
@@ -281,7 +281,7 @@ found:
     } else if ((object->mUnk_78 & 0x1000) == 0) {
         k = (u16) ((object->mUnk_78 & 0x8000) == 0 ? (u16) (object->mUnk_78 & ~0xff00) : 8);
         if (k != 8) {
-            func_02071894(GetKart(k));
+            driver_tryEmitItemUseVoice(driver_getById(k));
         }
     }
     if (a > 0) {
@@ -398,7 +398,7 @@ void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d) {
     switch (messageKind) {
         case 0:
             kind = pool->mKind;
-            if (!gItemKinds[kind].mCopyData) {
+            if (!it_sItemParams[kind].mCopyData) {
                 return;
             }
             if (packet[1] == 0xff) {
@@ -494,7 +494,7 @@ void UpdateItemPool(ItemPool *pool) {
     activeCount = pool->mActiveCount;
     if (pool->mLimit > 1 && pool->mLimit - pool->mReservedCount < 2) {
         m = pool->mUnk_18;
-        if ((frameMod8 = GetRaceUpdateFramesMod8()) == 0) {
+        if ((frameMod8 = race_getFrameCounterModulo8()) == 0) {
             if (pool->mLimit - pool->mReservedCount < 1 && pool->mActiveCount > 0) {
                 func_020f9ba8(pool->mObjects[0]);
             }
@@ -505,7 +505,7 @@ void UpdateItemPool(ItemPool *pool) {
             func_020f0684(objects, frameMod8, m, 7);
         }
     }
-    if (gRaceSetup->mMode != 5) {
+    if (gRaceMultiConfig->mMode != 5) {
         for (i = 0; i < activeCount; i++) {
             if (UpdateItemObject(pool, objects[i], 0) != 0) {
                 activeCount = pool->mActiveCount, i--;
@@ -534,7 +534,7 @@ void UpdateItemPool(ItemPool *pool) {
                     updateCount++;
                 }
             }
-            FindCollisionSlotsAroundPos(&object->mPos, object->mRadius + updateCount * 0xa000, 0x6000);
+            col_queryBySphere(&object->mPos, object->mRadius + updateCount * 0xa000, 0x6000);
             object->mUnk_7a++;
             do {
                 object->mUnk_7a--;
@@ -546,7 +546,7 @@ void UpdateItemPool(ItemPool *pool) {
                 if (w != 0) {
                     objectPos = object->mUnk_d0;
                     kartIndex = object->mUnk_78 & ~0xff00;
-                    kart = GetKart(kartIndex);
+                    kart = driver_getById(kartIndex);
                     kartPos = &kart->mDrawMatrixPos;
                     distanceSquared = ((kartPos->x - objectPos->x) >> 12) * ((kartPos->x - objectPos->x) >> 12);
                     deltaY = (kartPos->y - objectPos->y) >> 12;
@@ -567,44 +567,44 @@ BOOL TryReleaseFirstItemObject(ItemPool *pool) {
     if (pool->mActiveCount <= 0) {
         return FALSE;
     }
-    ReleaseItemPoolObject(pool, pool->mObjects[0]);
+    it_itemsetDestroyItem(pool, pool->mObjects[0]);
     return TRUE;
 }
 
 #pragma thumb on
-void CreateItemPool(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
+void it_initItemset(ItemPool *pool, s32 kind, s32 *objectIdCounter) {
     void *heap;
     s32 objectCount;
     s32 objectSize;
     s32 objectId;
     s32 i;
 
-    heap = GetHeap(GetCurrentHeapCall());
+    heap = proc_getHeap(proc_getCurrent());
     objectId = *objectIdCounter;
-    objectCount = gItemKinds[kind].mObjectCount;
-    objectSize = gItemKinds[kind].mObjectSize;
+    objectCount = it_sItemParams[kind].mObjectCount;
+    objectSize = it_sItemParams[kind].mObjectSize;
     pool->mKind = kind;
-    pool->mObjects = objectCount != 0 ? (ItemObject **) HeapAlloc(heap, objectCount * 4) : 0;
+    pool->mObjects = objectCount != 0 ? (ItemObject **) heap_alloc(heap, objectCount * 4) : 0;
     pool->mObjectCount = objectCount;
-    pool->mUnk_0c = gItemKinds[kind].mUnk_10;
+    pool->mUnk_0c = it_sItemParams[kind].mUnk_10;
     pool->mTakenCount = 0;
     pool->mActiveCount = 0;
     pool->mUnk_18 = 0;
     pool->mReservedCount = 0;
-    pool->mLimit = gItemKinds[kind].mLimit;
+    pool->mLimit = it_sItemParams[kind].mLimit;
     for (i = 0; i < objectCount; i++) {
-        pool->mObjects[i] = HeapAlloc(heap, objectSize);
+        pool->mObjects[i] = heap_alloc(heap, objectSize);
         InitItemObject(pool->mObjects[i], objectId, kind);
         objectId++;
         pool->mObjects[i]->mPoolIndex = i;
     }
-    pool->mUnk_24 = gItemKinds[kind].mDraw;
-    pool->mUnk_28 = gItemKinds[kind].mViewTest;
-    pool->mUnk_2c = gItemKinds[kind].mUnk_70;
-    pool->mUnk_30 = gItemKinds[kind].mUnk_74;
-    pool->mUnk_34 = gItemKinds[kind].mUnk_78;
-    pool->mUnk_38 = gItemKinds[kind].mUnk_5c;
-    pool->mUnk_3c = gItemKinds[kind].mUnk_a4;
+    pool->mUnk_24 = it_sItemParams[kind].mDraw;
+    pool->mUnk_28 = it_sItemParams[kind].mViewTest;
+    pool->mUnk_2c = it_sItemParams[kind].mUnk_70;
+    pool->mUnk_30 = it_sItemParams[kind].mUnk_74;
+    pool->mUnk_34 = it_sItemParams[kind].mUnk_78;
+    pool->mUnk_38 = it_sItemParams[kind].mUnk_5c;
+    pool->mUnk_3c = it_sItemParams[kind].mUnk_a4;
     *objectIdCounter = objectId;
 }
 
@@ -615,7 +615,7 @@ BOOL func_020f0154(KartItems *kartItems) {
     enum { K0 } entryIndex;
 
     kart = kartItems->mKart;
-    if (IsRaceStarted() == 0) {
+    if (race_getState() == 0) {
         return FALSE;
     }
     if (kart->mState != KART_STATE_NORMAL) {
@@ -648,13 +648,13 @@ void func_020f00f0(KartItems *kartItems) {
     if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         return;
     }
     if (kartItems->mSlotState == 0) {
         return;
     }
-    func_020f81c0(kartItems);
+    it_resetDriverItemStatus(kartItems);
 }
 
 void ReleaseKartItems(KartItems *kartItems) {
@@ -662,30 +662,30 @@ void ReleaseKartItems(KartItems *kartItems) {
         return;
     }
     if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
-        ReleaseHeldItem(&kartItems->mHeldItem, 0);
+        it_destroySlotItem(&kartItems->mHeldItem, 0);
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         return;
     }
     if (kartItems->mSlotState != 0) {
-        func_020f81c0(kartItems);
+        it_resetDriverItemStatus(kartItems);
     }
     if (kartItems->mActiveItem != 0x13) {
         kartItems->mActiveItem = 0x13;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         return;
     }
     if (kartItems->mItemInUse.mObjectKind == 0xf) {
         return;
     }
-    ReleaseItemInUse(&kartItems->mItemInUse);
+    it_destroyDragItem(&kartItems->mItemInUse);
 }
 
-void func_020eff40(KartItems *kartItems) {
+void it_dropDriverItem(KartItems *kartItems) {
     BOOL isMode5;
 
-    isMode5 = gRaceSetup->mMode == 5;
+    isMode5 = gRaceMultiConfig->mMode == 5;
     if ((kartItems->mKart->mUnk_7c & 0x400) != 0) {
         return;
     }
@@ -702,7 +702,7 @@ void func_020eff40(KartItems *kartItems) {
         return;
     }
     if (kartItems->mSlotState != 0) {
-        func_020f81c0(kartItems);
+        it_resetDriverItemStatus(kartItems);
     }
     if (isMode5) {
         return;
@@ -720,7 +720,7 @@ void func_020efea4(KartItems *kartItems) {
     if ((u32) (kartItems->mKart->mItemEffect - 2) <= 1) {
         return;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         return;
     }
     if (kartItems->mItemInUse.mObjectKind == 0xf) {
@@ -750,8 +750,8 @@ BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
     }
     if (kartItems->mSlotState != 0) {
         if (kartItems->mSlotState == 1 && kartItems->mSlotFrames < 0x3c) {
-            objectKind = gItemInfos[itemInfoIndex].mObjectKind;
-            pool = &gItemPools[objectKind];
+            objectKind = it_sItemConfigs[itemInfoIndex].mObjectKind;
+            pool = &it_sItemsets[objectKind];
             pool->mReservedCount--;
             return TRUE;
         }
@@ -759,12 +759,12 @@ BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex) {
         SetHeldItem(heldItem, itemInfoIndex);
     } else {
         if (heldItem->mItemInfoIndex == 0x13 && heldItem->mObjectCount == 0) {
-            objectKind = gItemInfos[itemInfoIndex].mObjectKind;
-            pool = &gItemPools[objectKind];
+            objectKind = it_sItemConfigs[itemInfoIndex].mObjectKind;
+            pool = &it_sItemsets[objectKind];
             pool->mReservedCount--;
         }
     }
-    RemoveHeldItemObjects(heldItem, 1);
+    it_takeSlotItems(heldItem, 1);
     return heldItem->mItemInfoIndex == 0x13;
 }
 
@@ -778,7 +778,7 @@ void func_020efd1c(KartItems *kartItems, ItemObject *object) {
     } else {
         axis = &data_021595d8;
     }
-    func_020f98a0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mUnk_040, func_0206c0a8(kart));
+    it_20F98A0(object, &kart->mDrawMatrixPos, axis, &kart->mKartModelsEntry->mUnk_040, func_0206c0a8(kart));
     if ((kart->mUnk_48 & 1) != 0) {
         object->mFlags |= 0x40000000;
     }
@@ -813,12 +813,12 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
     Unk02175620_060 *courseMap;
 
     kartItems->mKartIndex = kartIndex;
-    kartItems->mKart = GetKart(kartIndex);
-    kartItems->mEntryIndex = ((Unk021759c0_000 *) gRaceSetup)->mUnk_07c[kartIndex].mUnk_00;
+    kartItems->mKart = driver_getById(kartIndex);
+    kartItems->mEntryIndex = ((Unk021759c0_000 *) gRaceMultiConfig)->mUnk_07c[kartIndex].mUnk_00;
     InitItemSlot(kartItems, kartItems);
-    InitHeldItem(&kartItems->mHeldItem, kartItems);
+    it_initSlot(&kartItems->mHeldItem, kartItems);
     InitItemInUse(&kartItems->mItemInUse, kartItems);
-    courseMap = (Unk02175620_060 *) gCourseMap;
+    courseMap = (Unk02175620_060 *) gMapData;
     kartItems->mUnk_1f0.mLink = courseMap->mUnk_060 != 0 ? courseMap->mUnk_0b0 : 0;
     kartItems->mUnk_1f0.mNextLinksUsed = 1;
     kartItems->mKinokoBoostStarted = FALSE;
@@ -828,13 +828,13 @@ void InitKartItems(KartItems *kartItems, s32 kartIndex) {
 
 #pragma thumb off
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
-    StartItemObject(&gItemPools[object->mKind], object);
+    it_itemsetAddItem(&it_sItemsets[object->mKind], object);
     func_020efd1c(itemInUse->mKartItems, object);
     object->mFlags &= ~0x1000;
 }
 
 // Takes the last object out of the record, starts it and runs its kind's Init; the argument says whether to call
-// func_02071894 on the kart.
+// driver_tryEmitItemUseVoice on the kart.
 void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
     ItemObject *object;
     s32 (*initFunc)(void *, void *);
@@ -842,7 +842,7 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
 
     itemInUse->mObjectCount--;
     object = itemInUse->mObjects[itemInUse->mObjectCount];
-    initFunc = gItemKinds[object->mKind].mInit;
+    initFunc = it_sItemParams[object->mKind].mInit;
     StartItemInUseObject(itemInUse, object);
     if (initFunc(itemInUse, object) == 0) {
         if (itemInUse->mKartItems->mUnk_208 != FALSE) {
@@ -851,17 +851,17 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart) {
         }
     }
     object->mDistanceSquaredAndFlags =
-        gItemKinds[object->mKind].mViewTest(object->mUnk_d0, object->mRadius << 1, gItemKinds[object->mKind].mUnk_5c,
-                                            gItemKinds[object->mKind].mUnk_a4, 0x1f);
+        it_sItemParams[object->mKind].mViewTest(object->mUnk_d0, object->mRadius << 1, it_sItemParams[object->mKind].mUnk_5c,
+                                            it_sItemParams[object->mKind].mUnk_a4, 0x1f);
     if (object->mFlags & 0x400000) {
         func_020f90bc(object);
     }
-    advanceFunc = gItemKinds[object->mKind].mAdvance;
+    advanceFunc = it_sItemParams[object->mKind].mAdvance;
     if ((object->mFlags & 0x180000) == 0) {
         object->mAdvance = advanceFunc;
     }
     if (callKart != 0) {
-        func_02071894(itemInUse->mKart);
+        driver_tryEmitItemUseVoice(itemInUse->mKart);
     }
 }
 
@@ -872,8 +872,8 @@ void StartItemInUseObjectAndCountDown(ItemInUse *itemInUse, ItemObject *object) 
 }
 
 // Entry 1 of gItemInUseStartTable. (the same one-line form above the other start, advance and remove entries:
-// StartItemInUseOneWithOrientation :886 entry 2, StartItemInUseCircle :1233 entry 4, AdvanceItemInUseOne :946 entry 1,
-// AdvanceItemInUseOneWithOrientation :983 entry 2,  :1056 entry 3, AdvanceItemInUseCircle :1250 entry 4,  :1162 entry
+// StartItemInUseOneWithOrientation :886 entry 2, StartItemInUseCircle :1233 entry 4, it_deploy_20EF4A0 :946 entry 1,
+// it_20EF350 :983 entry 2,  :1056 entry 3, AdvanceItemInUseCircle :1250 entry 4,  :1162 entry
 // 3, RemoveItemInUseCircle :1306 entry 4)
 void StartItemInUseOne(ItemInUse *itemInUse) {
     ItemInUse *inUseAlias;
@@ -917,7 +917,7 @@ void StartItemInUseOneWithOrientation(ItemInUse *itemInUse) {
     object->mUnk_94.mUnk_00[2].x = -inUseAlias->mBehindDirection.x;
     object->mUnk_94.mUnk_00[2].y = -inUseAlias->mBehindDirection.y;
     object->mUnk_94.mUnk_00[2].z = -inUseAlias->mBehindDirection.z;
-    Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+    vec_crossProduct(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
 }
 
 void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 *behindPos) {
@@ -941,7 +941,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
                     (s64) smoothedDirection->y * smoothedDirection->y +
                     (s64) smoothedDirection->z * smoothedDirection->z;
     if (lengthSquared >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(smoothedDirection, &direction);
+        vec_normalize(smoothedDirection, &direction);
     }
     inUseAlias->mBehindDirection.x = -direction.x;
     inUseAlias->mBehindDirection.y = -direction.y;
@@ -961,7 +961,7 @@ void ComputeItemInUseObjectPosition(ItemInUse *itemInUse, Vec3 *objectPos, Vec3 
                 &itemInUse->mKartOrientation.mUnk_0c, behindPos, objectPos);
 }
 
-void AdvanceItemInUseOne(ItemInUse *itemInUse) {
+void it_deploy_20EF4A0(ItemInUse *itemInUse) {
     ItemObject *object;
     KartItems *kartItems;
     s32 previousScale;
@@ -973,13 +973,13 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     ComputeItemInUseObjectPosition(itemInUse, &object->mPos, &itemInUse->mBehindPos);
     if (object->mAgeFrames > 0xc) {
         kind = object->mKind;
-        if (GrowItemObjectScale(object, gItemKinds[kind].mUnk_70, 0x333) != 0) {
+        if (GrowItemObjectScale(object, it_sItemParams[kind].mUnk_70, 0x333) != 0) {
             SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
                                        itemInUse->mKartScaleFactorTimesBase.y);
         }
     }
-    if (previousScale < 0xccd && object->mScale.z >= 0xccd && itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&kartItems->mKart->mSoundSource, 0xe7);
+    if (previousScale < 0xccd && object->mScale.z >= 0xccd && itemInUse->mKartIndex == gRaceMultiConfig->mEntryIndex) {
+        driver_emitSfx2(&kartItems->mKart->mSoundSource, 0xe7);
     }
     if ((kartItems->mFlags & 0x284) == 0x284 && itemInUse->mObjectKind != 0xf &&
         itemInUse->mObjectStartFramesLeft == 0) {
@@ -1000,7 +1000,7 @@ void AdvanceItemInUseOne(ItemInUse *itemInUse) {
     kartItems->mFlags |= data_021595a8;
 }
 
-void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
+void it_20EF350(ItemInUse *itemInUse) {
     ItemInUse *inUseAlias;
     ItemObject *object;
     Vec3 direction;
@@ -1010,7 +1010,7 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
 
     inUseAlias = itemInUse;
     object = itemInUse->mObjects[0];
-    AdvanceItemInUseOne(itemInUse);
+    it_deploy_20EF4A0(itemInUse);
     if ((object->mFlags & 0x1000) != 0) {
         direction.x = ((s64) inUseAlias->mBehindDirection.x << 13) >> 12;
         direction.y = ((s64) inUseAlias->mBehindDirection.y << 13) >> 12;
@@ -1019,17 +1019,17 @@ void AdvanceItemInUseOneWithOrientation(ItemInUse *itemInUse) {
         lengthSquared =
             (s64) direction.x * direction.x + (s64) direction.y * direction.y + (s64) direction.z * direction.z;
         if (lengthSquared >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&direction, &direction);
+            vec_normalize(&direction, &direction);
         }
         object->mUnk_94.mUnk_00[2].x = -direction.x;
         object->mUnk_94.mUnk_00[2].y = -direction.y;
         object->mUnk_94.mUnk_00[2].z = -direction.z;
         object->mUnk_94.mUnk_00[1] = itemInUse->mKartOrientation.mUnk_0c;
-        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        vec_crossProduct(&object->mUnk_94.mUnk_00[1], &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
     }
     kind = object->mKind;
-    if (gItemKinds[kind].mAdvanceInUse != NULL) {
-        gItemKinds[kind].mAdvanceInUse(itemInUse, object);
+    if (it_sItemParams[kind].mAdvanceInUse != NULL) {
+        it_sItemParams[kind].mAdvanceInUse(itemInUse, object);
     }
 }
 
@@ -1072,8 +1072,8 @@ void StartItemInUseTrail(ItemInUse *itemInUse) {
         itemInUse->mUnk_0ec[0][i] = 0;
         itemInUse->mUnk_0ec[1][i] = 0;
     }
-    if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
+    if (itemInUse->mKartIndex == gRaceMultiConfig->mEntryIndex) {
+        driver_emitSfx2(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
     }
 }
 
@@ -1109,7 +1109,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
     previousPos = &inUseAlias->mBehindPos;
     maxGap = ((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x3000) >> 12;
     behindDirection = &inUseAlias->mBehindDirection;
-    scaleLimit = gItemKinds[object->mKind].mUnk_70;
+    scaleLimit = it_sItemParams[object->mKind].mUnk_70;
     ComputeItemInUseObjectPosition(itemInUse, &object->mPos, previousPos);
     if (GrowItemObjectScale(object, scaleLimit, 0x19a) != 0) {
         SetItemObjectScaleByRatios(object, itemInUse->mKartScaleFactorTimesBase.x,
@@ -1149,7 +1149,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
         if (i > 1) {
             minDistance -= (i - 1) << 13;
         }
-        d = minDistance - Vec3DotUnrounded(&offset, behindDirection);
+        d = minDistance - vec_dotProduct(&offset, behindDirection);
         if (d > 0) {
             VEC_MultAdd(d, behindDirection, trailPos, trailPos);
         }
@@ -1167,7 +1167,7 @@ void AdvanceItemInUseTrail(ItemInUse *itemInUse) {
         if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >=
             (s64) maxGap * maxGap) {
             if ((s64) offset.x * offset.x + (s64) offset.y * offset.y + (s64) offset.z * offset.z >= 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&offset, &offset);
+                vec_normalize(&offset, &offset);
             }
             VEC_MultAdd(maxGap, &offset, previousPos, trailPos);
             if (inUseAlias->mUnk_0cc[i] > 0) {
@@ -1234,8 +1234,8 @@ void PlaceItemInUseCircleObjects(ItemInUse *itemInUse) {
     i = itemInUse->mCircleAngle >> 4;
     objectCount = itemInUse->mObjectCount;
     radius = itemInUse->mCircleRadius;
-    offsetY = ((s64) radius * gPairsByAngle[i * 2 + 1]) >> 12;
-    offsetX = ((s64) radius * gPairsByAngle[i * 2]) >> 12;
+    offsetY = ((s64) radius * FX_SinCosTable_[i * 2 + 1]) >> 12;
+    offsetX = ((s64) radius * FX_SinCosTable_[i * 2]) >> 12;
     t = -offsetY >> 1;
     u = -offsetX >> 1;
     objects = itemInUse->mObjects;
@@ -1272,8 +1272,8 @@ void StartItemInUseCircle(ItemInUse *itemInUse) {
     VEC_MultAdd(((s64) itemInUse->mKartScaleFactorTimesBase.z * 0x4333) >> 12, &itemInUse->mKartOrientation.mUnk_0c,
                 &itemInUse->mKartDrawMatrixPos, &itemInUse->mCircleCenter);
     PlaceItemInUseCircleObjects(itemInUse);
-    if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719bc(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
+    if (itemInUse->mKartIndex == gRaceMultiConfig->mEntryIndex) {
+        driver_emitSfx2(&itemInUse->mKartItems->mKart->mSoundSource, 0xe7);
     }
 }
 
@@ -1315,7 +1315,7 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
     PlaceItemInUseCircleObjects(itemInUse);
     i = 0;
     kind = itemInUse->mObjectKind;
-    scaleLimit = gItemKinds[kind].mUnk_70;
+    scaleLimit = it_sItemParams[kind].mUnk_70;
     for (; i < objectCount; i++) {
         object = itemInUse->mObjects[i];
         if (GrowItemObjectScale(object, scaleLimit, 0x19a) != 0) {
@@ -1323,8 +1323,8 @@ void AdvanceItemInUseCircle(ItemInUse *itemInUse) {
                                        itemInUse->mKartScaleFactorTimesBase.y);
         }
     }
-    if (itemInUse->mKartIndex == gRaceSetup->mEntryIndex) {
-        func_020719a8((u32) kartItems->mKart, objectCount + 0xe0);
+    if (itemInUse->mKartIndex == gRaceMultiConfig->mEntryIndex) {
+        driver_emitSfx((u32) kartItems->mKart, objectCount + 0xe0);
     }
     if ((kartItems->mFlags & 0x244) != 0x244) {
         return;
@@ -1355,7 +1355,7 @@ void RemoveItemInUseCircle(ItemInUse *itemInUse, s32 i, ItemObject *object) {
     StartItemInUseObjectAndCountDown(itemInUse, object);
 }
 
-void ResetItemInUse(ItemInUse *itemInUse) {
+void it_resetDragItem(ItemInUse *itemInUse) {
     s32 i;
 
     itemInUse->mObjectKind = 0xf;
@@ -1372,5 +1372,5 @@ void InitItemInUse(ItemInUse *itemInUse, KartItems *kartItems) {
     itemInUse->mKartItems = kartItems;
     itemInUse->mKart = kartItems->mKart;
     itemInUse->mKartIndex = kartItems->mKartIndex;
-    ResetItemInUse(itemInUse);
+    it_resetDragItem(itemInUse);
 }

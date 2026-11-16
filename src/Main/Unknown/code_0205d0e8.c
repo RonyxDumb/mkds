@@ -6,7 +6,7 @@
 #include "code_0214d018.h"
 
 // Zeroes the ten-byte records of the eight karts in the four courses and the team points and win counts.
-void ResetCupRecords(void) {
+void rres_reset(void) {
     CupRecords *cupRecords;
     s32 course;
     s32 kart;
@@ -15,7 +15,7 @@ void ResetCupRecords(void) {
     BOOL x;
     Unk0217aa1c_144_00 *teamRecord;
 
-    cupRecords = gCupRecords;
+    cupRecords = rres_sRaceResults;
     for (course = 0; course < 4; course++) {
         for (kart = 0; kart < 8; kart++) {
             record = &cupRecords->mKartResults[course][kart];
@@ -35,23 +35,23 @@ void ResetCupRecords(void) {
         }
     }
     x = FALSE;
-    if ((data_0217aa00 == NULL ? 0 : data_0217aa00->mUnk_0000) != 0 && data_0217aa00->mUnk_0004 != 13) {
+    if ((gStruct217AA00 == NULL ? 0 : gStruct217AA00->mUnk_0000) != 0 && gStruct217AA00->mUnk_0004 != 13) {
         x = TRUE;
     }
     if (x != FALSE) {
-        gCupRecords->mUnk_164_0 = 1;
+        rres_sRaceResults->mUnk_164_0 = 1;
     } else {
-        gCupRecords->mUnk_164_0 = 0;
+        rres_sRaceResults->mUnk_164_0 = 0;
     }
     cupRecords->mUnk_140 = 0;
 }
 
-u8 GetCourseIndexInCup(void) {
-    return (gRaceSetup->mCourseNumber - 1) % 4;
+u8 rres_205DB28(void) {
+    return (gRaceMultiConfig->mCourseNumber - 1) % 4;
 }
 
 // Stores rank and points; the total adds the previous course's (max 9999), rank 1 raises the win count (max 99).
-void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
+void rres_setPlaceAndPoints(u32 kart, s32 rank, u32 points) {
     RaceSetup *raceSetup;
     s8 i, j;
     s32 course, k, mode;
@@ -59,7 +59,7 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     u8 winCount;
     KartCourseResult *record;
 
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     course = (raceSetup->mCourseNumber - 1) % 4;
     mode = raceSetup->mMode;
     k = (u8) course - 1;
@@ -72,7 +72,7 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     if (i < 0) {
         previousTotal = 0;
     } else {
-        previousTotal = gCupRecords->mKartResults[i][(u8) kart].mTotalPoints;
+        previousTotal = rres_sRaceResults->mKartResults[i][(u8) kart].mTotalPoints;
     }
     j = k;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == 5) {
@@ -83,9 +83,9 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     if (j < 0) {
         winCount = 0;
     } else {
-        winCount = gCupRecords->mKartResults[j][(u8) kart].mWinCount;
+        winCount = rres_sRaceResults->mKartResults[j][(u8) kart].mWinCount;
     }
-    record = &gCupRecords->mKartResults[(u8) course][(u8) kart];
+    record = &rres_sRaceResults->mKartResults[(u8) course][(u8) kart];
     record->mUnk_03 = rank;
     record->mUnk_04 = points;
     record->mTotalPoints = previousTotal + points;
@@ -101,18 +101,18 @@ void SetKartCourseResult(u32 kart, s32 rank, u32 points) {
     record->mWinCount = winCount;
 }
 
-void ClearKartCourseTotalPoints(u32 kart) {
-    gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart].mTotalPoints = 0;
+void rres_clearTotalRankPoints(u32 kart) {
+    rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart].mTotalPoints = 0;
 }
 
-void func_0205d88c(u32 kart, s32 b) {
+void rres_setBattleResult(u32 kart, s32 b) {
     RaceSetup *raceSetup;
     s8 i;
     s32 mode, course, k;
     u8 winCount;
     KartCourseResult *record;
 
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     course = (raceSetup->mCourseNumber - 1) % 4;
     mode = raceSetup->mMode;
     k = (u8) course - 1;
@@ -125,9 +125,9 @@ void func_0205d88c(u32 kart, s32 b) {
     if (i < 0) {
         winCount = 0;
     } else {
-        winCount = gCupRecords->mKartResults[i][(u8) kart].mWinCount;
+        winCount = rres_sRaceResults->mKartResults[i][(u8) kart].mWinCount;
     }
-    record = &gCupRecords->mKartResults[(u8) course][(u8) kart];
+    record = &rres_sRaceResults->mKartResults[(u8) course][(u8) kart];
     record->mUnk_04 = 0;
     record->mUnk_03 = 1;
     record->mTotalPoints = 0;
@@ -140,34 +140,34 @@ void func_0205d88c(u32 kart, s32 b) {
     record->mWinCount = winCount;
 }
 
-void SetKartCourseFinishTime(u32 kart, Unk0217aa1c_144_00 *finishTime) {
+void rres_setRaceTime(u32 kart, Unk0217aa1c_144_00 *finishTime) {
     KartCourseResult *record;
     Unk0217aa1c_144_00 *recordTime;
 
-    record = &gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart];
+    record = &rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart];
     recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
     recordTime->mUnk_02 = finishTime->mUnk_02;
     recordTime->mUnk_03 = finishTime->mUnk_03;
     recordTime->mUnk_00 = finishTime->mUnk_00;
 }
 
-void GetKartCourseFinishTime(Unk0217aa1c_144_00 *finishTime, u32 kart, u32 course) {
+void rres_getRaceTime(Unk0217aa1c_144_00 *finishTime, u32 kart, u32 course) {
     KartCourseResult *record;
     Unk0217aa1c_144_00 *recordTime;
 
-    record = &gCupRecords->mKartResults[course][(u8) kart];
+    record = &rres_sRaceResults->mKartResults[course][(u8) kart];
     recordTime = (Unk0217aa1c_144_00 *) &record->mUnk_06;
     finishTime->mUnk_02 = recordTime->mUnk_02;
     finishTime->mUnk_03 = recordTime->mUnk_03;
     finishTime->mUnk_00 = recordTime->mUnk_00;
 }
 
-void SetKartCupRank(s32 kart, u8 rank) {
-    gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) kart].mUnk_02 = rank;
+void rres_setGlobalPlace(s32 kart, u8 rank) {
+    rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) kart].mUnk_02 = rank;
 }
 
 // Flags the team as winning this course and clears the flag of the other team.
-void SetCupWinningTeam(s32 team) {
+void rres_205D6D0(s32 team) {
     s32 otherTeam;
     Unk0217aa1c_144_00 *p, *q;
 
@@ -175,14 +175,14 @@ void SetCupWinningTeam(s32 team) {
     if (team == 0) {
         otherTeam = 1;
     }
-    p = gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)].mTeams;
+    p = rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)].mTeams;
     p[team].mUnk_03_0 = 1;
-    q = gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)].mTeams;
+    q = rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)].mTeams;
     q[otherTeam].mUnk_03_0 = 0;
 }
 
 // Stores each team's win count (the winning team gains one, max 99) and its karts' total points (max 9999).
-void SetTeamWinCountsAndPoints(s32 winningTeam) {
+void rres_setTeamsResult(s32 winningTeam) {
     s32 team;
     u16 kart, points;
     u32 winCount;
@@ -192,10 +192,10 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
 
     for (team = 0; team < 2; team++) {
         points = 0;
-        courseTeams = &gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)];
+        courseTeams = &rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)];
         teamRecord = &courseTeams->mTeams[(s32) team];
-        previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
-        if (gRaceSetup->mMode == MODE_BATTLE || gRaceSetup->mMode == MODE_VS || gRaceSetup->mMode == 5) {
+        previousCourse = (u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4) - 1;
+        if (gRaceMultiConfig->mMode == MODE_BATTLE || gRaceMultiConfig->mMode == MODE_VS || gRaceMultiConfig->mMode == 5) {
             if (previousCourse < 0) {
                 previousCourse = previousCourse + 4;
             }
@@ -203,7 +203,7 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
         if (previousCourse < 0) {
             winCount = 0;
         } else {
-            winCount = gCupRecords->mTeamResults[previousCourse].mTeams[team].mUnk_02;
+            winCount = rres_sRaceResults->mTeamResults[previousCourse].mTeams[team].mUnk_02;
         }
         if (team == winningTeam) {
             winCount = (u8) (winCount + 1);
@@ -212,10 +212,10 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
             winCount = 99;
         }
         teamRecord->mUnk_02 = winCount;
-        for (kart = 0; kart < (u32) gRaceSetup->mKartCount; kart++) {
-            if (team == gRaceSetup->mCurrentEntries[kart].mPlayer.mTeamIndex) {
+        for (kart = 0; kart < (u32) gRaceMultiConfig->mKartCount; kart++) {
+            if (team == gRaceMultiConfig->mCurrentEntries[kart].mPlayer.mTeamIndex) {
                 points =
-                    points + gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)][(u8) (s32) (u8) kart]
+                    points + rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)][(u8) (s32) (u8) kart]
                                  .mTotalPoints;
             }
         }
@@ -227,26 +227,26 @@ void SetTeamWinCountsAndPoints(s32 winningTeam) {
 }
 
 // Zero outside Grand Prix, VS and mode 5.
-s32 GetKartCupRank(u32 kart) {
+s32 rres_getGlobalRank(u32 kart) {
     s32 mode;
     KartCourseResult *courseRecords;
     KartCourseResult *record;
 
-    mode = gRaceSetup->mMode;
+    mode = gRaceMultiConfig->mMode;
     if (mode == MODE_GRAND_PRIX || mode == MODE_VS || mode == 5) {
-        courseRecords = gCupRecords->mKartResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)];
+        courseRecords = rres_sRaceResults->mKartResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)];
         record = &courseRecords[(u8) kart];
         return record->mUnk_02;
     }
     return 0;
 }
 
-s32 GetCupWinningTeam(void) {
+s32 rres_205D480(void) {
     s32 team, winningTeam;
     CourseTeamResults *courseTeams;
 
     winningTeam = -1;
-    courseTeams = &gCupRecords->mTeamResults[(u8) ((gRaceSetup->mCourseNumber - 1) % 4)];
+    courseTeams = &rres_sRaceResults->mTeamResults[(u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4)];
     for (team = 0; team < 2; team++) {
         if (courseTeams->mTeams[(u32) team].mUnk_03_0) {
             winningTeam = team;
@@ -257,12 +257,12 @@ s32 GetCupWinningTeam(void) {
 }
 
 // 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
-u16 GetKartPreviousTotalPoints(u32 kart) {
+u16 rres_getTotalRankPoints(u32 kart) {
     s32 mode;
     s8 previousCourse;
 
-    mode = gRaceSetup->mMode;
-    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
+    mode = gRaceMultiConfig->mMode;
+    previousCourse = (u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == 5) {
         if (previousCourse < 0) {
             previousCourse = previousCourse + 4;
@@ -271,16 +271,16 @@ u16 GetKartPreviousTotalPoints(u32 kart) {
     if (previousCourse < 0) {
         return 0;
     }
-    return gCupRecords->mKartResults[previousCourse][(u8) kart].mTotalPoints;
+    return rres_sRaceResults->mKartResults[previousCourse][(u8) kart].mTotalPoints;
 }
 
 // 0 for the first course; battle, VS and mode 5 wrap to the fourth course.
-u8 GetKartPreviousWinCount(u32 kart) {
+u8 rres_getWinCount(u32 kart) {
     s32 mode;
     s8 previousCourse;
 
-    mode = gRaceSetup->mMode;
-    previousCourse = (u8) ((gRaceSetup->mCourseNumber - 1) % 4) - 1;
+    mode = gRaceMultiConfig->mMode;
+    previousCourse = (u8) ((gRaceMultiConfig->mCourseNumber - 1) % 4) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == 5) {
         if (previousCourse < 0) {
             previousCourse = previousCourse + 4;
@@ -289,17 +289,17 @@ u8 GetKartPreviousWinCount(u32 kart) {
     if (previousCourse < 0) {
         return 0;
     }
-    return gCupRecords->mKartResults[previousCourse][(u8) kart].mWinCount;
+    return rres_sRaceResults->mKartResults[previousCourse][(u8) kart].mWinCount;
 }
 
 // The previous course's rank in Grand Prix, VS and mode 5 (VS and mode 5 wrap); else the kart count minus the index.
-u8 GetKartStartRank(u32 kart) {
+u8 rres_getPlace(u32 kart) {
     RaceSetup *raceSetup;
     s32 mode;
     s8 previousCourse;
     u8 rank;
 
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     mode = raceSetup->mMode;
     previousCourse = (u8) ((raceSetup->mCourseNumber - 1) % 4) - 1;
     if (mode == MODE_BATTLE || mode == MODE_VS || mode == 5) {
@@ -311,7 +311,7 @@ u8 GetKartStartRank(u32 kart) {
         if (previousCourse < 0) {
             rank = raceSetup->mKartCount - kart;
         } else {
-            rank = gCupRecords->mKartResults[previousCourse][(u8) kart].mUnk_03;
+            rank = rres_sRaceResults->mKartResults[previousCourse][(u8) kart].mUnk_03;
         }
     } else {
         rank = raceSetup->mKartCount - kart;
@@ -322,15 +322,15 @@ u8 GetKartStartRank(u32 kart) {
     return rank;
 }
 
-s32 func_0205d190(void) {
+s32 rres_calculateGpRank(void) {
     RaceSetup *raceSetup;
     CupRecords *cupRecords;
     s32 a, x, y, z;
     u16 totalPoints, entryIndex;
     u32 d;
 
-    raceSetup = gRaceSetup;
-    cupRecords = gCupRecords;
+    raceSetup = gRaceMultiConfig;
+    cupRecords = rres_sRaceResults;
     entryIndex = raceSetup->mEntryIndex;
     a = cupRecords->mUnk_140;
     d = (u8) entryIndex;
@@ -366,10 +366,10 @@ s32 func_0205d190(void) {
     return 7 - z;
 }
 
-s32 func_0205d140(void) {
+s32 rres_calculateMrRank(void) {
     s32 a;
 
-    a = gCupRecords->mUnk_140;
+    a = rres_sRaceResults->mUnk_140;
     if (a >= 100) {
         return 7;
     }
@@ -389,10 +389,10 @@ s32 func_0205d140(void) {
 }
 
 // Copies the records of kart from over those of kart to in all four courses.
-void CopyKartCupRecords(u8 from, u8 to) {
+void rres_205D0E8(u8 from, u8 to) {
     s32 course;
 
     for (course = 0; course < 4; course++) {
-        MI_CpuCopy8(&gCupRecords->mKartResults[course][from], &gCupRecords->mKartResults[course][to], 10);
+        MI_CpuCopy8(&rres_sRaceResults->mKartResults[course][from], &rres_sRaceResults->mKartResults[course][to], 10);
     }
 }

@@ -4,4 +4,4 @@
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-void SetFriendDataType(DWCAccFriendData *friendData, u32 dataType);
+void DWCi_Acc_SetFlag_DataType(DWCAccFriendData *friendData, u32 dataType);

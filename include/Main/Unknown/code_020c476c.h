@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_020b4000.h"
 #include "Main/Unknown/code_020c06c4.h"
 
-// Object behind gRaceStartGp, 0x41c bytes, allocated by InitRaceStartGp.
+// Object behind cint_sStatus, 0x41c bytes, allocated by cint_init.
 typedef struct RaceStartGp {
     /* 00 */ s32 mUpdateFrames;
     /* 04 */ Nclr *mRaceStartGpMONclr;
@@ -13,17 +13,17 @@ typedef struct RaceStartGp {
     /* 18 */ RaceHudOamBuffer mMainOam;
 } RaceStartGp;
 
-void InitRaceStartGp(void);
+void cint_init(void);
 
 extern const Vec3 gVec3Zero;
 
-u32 ClearRaceTaPositionsPointer(void);
-void InitRaceTaPositions(void);
-void ResetRaceTaKartPositions(s32 kartIndex);
-void HideRaceTaKartPositions(s32 kartIndex);
-void DrawRaceStartGp(void);
-u16 UpdateRaceStartGp(void);
-void UploadRaceStartGpOam(void);
+u32 r2d_finalizeMapPath(void);
+void r2d_initMapPath(void);
+void r2d_showMapPathForDriver(s32 kartIndex);
+void r2d_hideMapPathForDriver(s32 kartIndex);
+void cint_render2d(void);
+u16 cint_update(void);
+void cint_vblank(void);
 void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceLinkLevel(void);
 u32 ClearRaceLinkLevelPointer(void);

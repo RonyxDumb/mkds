@@ -19,7 +19,7 @@ void func_02028fac(void) {
         parts = &gSelectKart->mSelectKartSParts;
         count = func_02029000(parts->mUnk_0c) + func_02028ff8(parts->mUnk_14);
         for (i = 0; i < count; i++) {
-            parts->mUnk_18[i].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
+            parts->mUnk_18[i].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[4]);
         }
     }
 }
@@ -37,10 +37,10 @@ void func_02028f20(void) {
     Unk02174e50_24 *parts;
     void *message;
     if (func_020280dc() == 0) {
-        message = GetBmgEntry(gSelectKart->mKartSelectMessages, GetKartMessageIndex(gSelectKart->mKartIndex));
+        message = jn_msg_getMessage(gSelectKart->mKartSelectMessages, mutil2_getKartNameMsgId(gSelectKart->mKartIndex));
         parts = &gSelectKart->mSelectKartSParts;
         for (i = 8; i >= 7; i--) {
-            func_0212426c(1, data_021537f4[i].mUnk_00, parts->mUnk_14, message, parts->mUnk_0c, parts->mUnk_18);
+            jn_ui_212426C(1, data_021537f4[i].mUnk_00, parts->mUnk_14, message, parts->mUnk_0c, parts->mUnk_18);
         }
     }
 }

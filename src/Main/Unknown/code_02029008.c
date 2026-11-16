@@ -22,7 +22,7 @@
 s32 UpdateSelectKartTouchHold(void) {
     s32 result = -1;
     Unk02174e50_24 *p = &gSelectKart->mSelectKartSParts;
-    u16 slotIndex = func_020435bc();
+    u16 slotIndex = input_getDirectInputUnitId();
     s32 pairX;
     s32 pairY;
     s32 rectIndex;
@@ -74,11 +74,11 @@ void func_02029008(void) {
     Unk02174e50_24 *p;
     if (d->mUnk_104 == FALSE) {
         p = &d->mSelectCharacterGpMParts;
-        p->mUnk_18[1].mOffsetX = GetInterpolatedValue(&d->mInterpolations[0]);
+        p->mUnk_18[1].mOffsetX = interp_interpolate(&d->mInterpolations[0]);
         p->mUnk_18[2].mOffsetX = p->mUnk_18[1].mOffsetX;
-        p->mUnk_18[0].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[1]);
-        p->mUnk_18[3].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[2]);
-        p->mUnk_18[9].mOffsetY = GetInterpolatedValue(&gSelectKart->mInterpolations[3]);
+        p->mUnk_18[0].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[1]);
+        p->mUnk_18[3].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[2]);
+        p->mUnk_18[9].mOffsetY = interp_interpolate(&gSelectKart->mInterpolations[3]);
         p->mUnk_18[8].mOffsetY = p->mUnk_18[9].mOffsetY;
         p->mUnk_18[7].mOffsetY = p->mUnk_18[8].mOffsetY;
         p->mUnk_18[6].mOffsetY = p->mUnk_18[7].mOffsetY;

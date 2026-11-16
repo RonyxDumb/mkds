@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void func_020ad820(unsigned int value);
-void func_020ad834(unsigned int value);
-void func_020ad848(unsigned int value);
-void func_020ad85c(unsigned int value);
+void title_struct217B488_setField14(unsigned int value);
+void title_struct217B488_setField10(unsigned int value);
+void title_struct217B488_setSinglePlayerMenuTarget(unsigned int value);
+void title_struct217B488_setField4(unsigned int value);

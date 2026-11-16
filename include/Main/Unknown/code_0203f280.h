@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-unsigned short GetLeadingKart(void);
-unsigned int func_0203f2a0(void);
+unsigned short rstat_getFirstPlaceDriverId(void);
+unsigned int rstat_rconf_getRules(void);

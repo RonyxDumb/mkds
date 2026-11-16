@@ -17,21 +17,21 @@ void InitWiFiSelectCharacterState(void *a) {
     void *c;
     s32 i;
 
-    gWiFiSelectCharacterState = HeapAlloc(a, 4);
+    gWiFiSelectCharacterState = heap_alloc(a, 4);
     gWiFiSelectCharacterState->mHeap = a;
     func_ov000_02184934();
     if (GetWiFiPrevState() != 5) {
         func_02122728();
         SetRaceSetupCopyEntryIndex((u8) GetPackedIndex(func_ov000_0219bb50()));
-        SetSessionKartCount(gWiFiSession->mKartCount);
+        SetSessionKartCount(gStruct217D384->mKartCount);
     }
     b = func_ov000_021804f4();
-    c = func_ov000_021804e0();
-    InitSelectCharacter(a, 2, b, c);
+    c = test_run();
+    menucs_init(a, 2, b, c);
     SetLinkLevelIconEnabled(1, 1);
-    data_0217b488->mUnk_6c = FALSE;
+    gStruct217B488->mUnk_6c = FALSE;
     for (i = 0; i < 4; i++) {
-        data_0217b488->mUnk_5c[i] = 0;
+        gStruct217B488->mUnk_5c[i] = 0;
     }
 }
 
@@ -45,7 +45,7 @@ void func_ov000_02184934(void) {}
 void AdvanceWiFiSelectCharacterState(void) {
     s32 a;
 
-    a = AdvanceSelectCharacter();
+    a = menucs_render();
     if (a == 1 || a == 3) {
         if (func_02122ae4() != 0) {
             RequestWiFiState(7);
@@ -62,7 +62,7 @@ void AdvanceWiFiSelectCharacterState(void) {
 
 void func_ov000_021848ec(void) {
     u32 value3;
-    WriteSelectCharacterRegisters();
+    menucs_2026058();
 }
 
 void RegisterSelectCharacterCallbacks(void) {

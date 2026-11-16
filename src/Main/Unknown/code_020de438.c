@@ -10,49 +10,49 @@
 #include "Main/Unknown/code_020de4e4.h"
 #include "Main/Unknown/unk_0216b000.h"
 
-void DrawEarthenPipe(u32 unused0, Unk020e43a8 *pipe, u32 unused1, u16 d) {
+void epipe_render(u32 unused0, Unk020e43a8 *pipe, u32 unused1, u16 d) {
     MtxFx43 *matrix;
     if (pipe->mUnk_00.mStateMachine.mState == 0) {
-        matrix = func_020e6cbc(&pipe->mUnk_00.mPos);
-        func_020e67c4(gEarthenPipe1, matrix, &pipe->mUnk_00.mScale, 0, d);
+        matrix = bbm_getYBillboardAtPos(&pipe->mUnk_00.mPos);
+        bbm_renderTransformedScaled(epipe_sModel1, matrix, &pipe->mUnk_00.mScale, 0, d);
         return;
     }
-    func_020e6a18(gEarthenPipe2);
-    matrix = func_020e6cbc(&pipe->mUnk_00.mPos);
-    func_020e66e4(gEarthenPipe2, matrix, *(u16 *) &pipe->mUnk_a0.mUnk_0c.x, &pipe->mUnk_00.mScale, 0, d);
-    func_020e6a18(gEarthenPipe1);
+    bbm_applyMaterial(epipe_sModel2);
+    matrix = bbm_getYBillboardAtPos(&pipe->mUnk_00.mPos);
+    bbm_renderTransformedRotatedScaled(epipe_sModel2, matrix, *(u16 *) &pipe->mUnk_a0.mUnk_0c.x, &pipe->mUnk_00.mScale, 0, d);
+    bbm_applyMaterial(epipe_sModel1);
 }
 
-void func_020de4d4(u32 unused, u32 object) {
+void epipe_update(u32 unused, u32 object) {
     u32 stateMachineAddress;
     u32 objectCopy = object;
     u32 unused12;
     stateMachineAddress = (objectCopy) + (0x80u);
-    AdvanceStateMachine((void *) stateMachineAddress);
+    sm_execute((void *) stateMachineAddress);
 }
 
-u8 func_020de4a0(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
-    if (func_020ec450(pipe, kart, c) != FALSE) {
-        StartSoundIfKartStarOrKiller(&pipe->mUnk_00, kart);
+u8 epipe_onDriverCollide(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
+    if (rdmo_onDriverCollide(pipe, kart, c) != FALSE) {
+        mobj_tryDestroyByDriver(&pipe->mUnk_00, kart);
     }
     return *d;
 }
 
-u8 func_020de488(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
-    func_020ec41c(pipe, kart, c);
+u8 epipe_onItemCollide(Unk020e43a8 *pipe, void *kart, u8 *c, u8 *d) {
+    rdmo_onItemCollide(pipe, kart, c);
     return *d;
 }
 
 #pragma thumb on
 
-void CreateEarthenPipe1AndEarthenPipe2(void) {
+void epipe_loadModels(void) {
     void *nsbmdFile;
-    nsbmdFile = FindCourseMapObjFile(gEarthenPipe1NsbmdName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gEarthenPipe1)), nsbmdFile, 0, 0);
-    nsbmdFile = FindCourseMapObjFile(gEarthenPipe2NsbmdName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gEarthenPipe2)), nsbmdFile, 0, 0);
-    func_020e6ab8(gEarthenPipe1);
-    func_020e6ab8(gEarthenPipe2);
+    nsbmdFile = mobj_getMapObjFile(aEarthen_pipe1_);
+    bbm_createFromNsbmd((NsbmdModel **) (((u32 *) &epipe_sModel1)), nsbmdFile, 0, 0);
+    nsbmdFile = mobj_getMapObjFile(aEarthen_pipe2_);
+    bbm_createFromNsbmd((NsbmdModel **) (((u32 *) &epipe_sModel2)), nsbmdFile, 0, 0);
+    bbm_setDefaultMatParams(epipe_sModel1);
+    bbm_setDefaultMatParams(epipe_sModel2);
 }
 
 #pragma thumb off

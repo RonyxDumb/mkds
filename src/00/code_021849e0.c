@@ -15,12 +15,12 @@ void InitWiFiSelectKartState(void *a) {
     void *b;
     void *c;
 
-    gWiFiSelectKartState = HeapAlloc(a, 4);
+    gWiFiSelectKartState = heap_alloc(a, 4);
     gWiFiSelectKartState->mHeap = a;
     func_ov000_02184a50();
     b = func_ov000_021804f4();
-    c = func_ov000_021804e0();
-    InitSelectKart(a, 2, b, c);
+    c = test_run();
+    SPM_LoadKartSelectionMenu(a, 2, b, c);
 }
 
 void ReleaseWiFiSelectKartState(void) {

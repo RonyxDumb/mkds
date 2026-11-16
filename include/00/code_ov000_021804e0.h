@@ -6,10 +6,10 @@ typedef struct SceneNumbers SceneNumbers;
 
 extern u8 *data_ov000_021b4c60;
 
-void *func_ov000_021804e0(void);
+void *test_run(void);
 void *func_ov000_021804f4(void);
-// Scene function of gSceneFuncs[12] (scene 'WiFiMenu' in gSceneNames): copies the callbacks and
-// calls RunScene. Returns 0.
+// Scene function of scproc_sSceneTable[12] (scene 'WiFiMenu' in sSceneDefs): copies the callbacks and
+// calls scene_runScene. Returns 0.
 s32 RunWiFiMenuScene(SceneNumbers *a);
 void UpdateWiFiMenuScene(SceneNumbers *a);
 void func_ov000_0218058c(void);

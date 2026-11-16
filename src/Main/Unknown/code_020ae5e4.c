@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-void UploadOamLists(void *mainOamList, void *subOamList) {
+void oam_applyBuffers(void *mainOamList, void *subOamList) {
     if (mainOamList != NULL) {
         DC_FlushRange(mainOamList, 0x00000400u);
         GX_LoadOAM(mainOamList, 0, 0x00000400u);
@@ -15,7 +15,7 @@ void UploadOamLists(void *mainOamList, void *subOamList) {
     }
 }
 
-u16 GetOamMatrixCount(const void *oamList) {
+u16 oam_getAffineCount(const void *oamList) {
     return ((u32) * (const u16 *) ((u8 *) oamList + 0 + (0x402u)));
 }
 

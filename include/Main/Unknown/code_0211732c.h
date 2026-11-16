@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void LoadCommonKartIconData(void);
-void LoadKartIconData(void);
+void kic_unpackDataForMenu(void);
+void kic_unpackDataForGhost(void);

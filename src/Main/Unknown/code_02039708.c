@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02039708.h"
 #include "Main/Unknown/unk_02175628.h"
 
-void ResetInputSlot(InputSlot *slot) {
+void pad_init(InputSlot *slot) {
     slot->mPressedBits = 0x0u;
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;
@@ -18,7 +18,7 @@ void ResetInputSlot(InputSlot *slot) {
     slot->mUnk_24 = 0x0u;
 }
 
-void ClearInputSlotBitsAndRepeat(InputSlot *slot) {
+void pad_clear(InputSlot *slot) {
     slot->mPressedBits = 0x0u;
     slot->mBits = 0x0u;
     slot->mClearedBits = 0x0u;

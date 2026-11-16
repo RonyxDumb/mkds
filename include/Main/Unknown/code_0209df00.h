@@ -33,21 +33,21 @@ typedef struct Fireball2 {
     /* 19e4 */ s32 mUnk_19e4;
 } Fireball2;
 
-// Object given to CreateFireball2, which sets the word at 0x1c.
+// Object given to fbal2_loadModel, which sets the word at 0x1c.
 typedef struct Unk0209e950 {
     /* 00 */ u8 mUnk_00[0x1c];
     /* 1c */ s32 mUnk_1c;
 } Unk0209e950;
 
-void *CreateFireball2UpdateList(void);
-void *CreateFireball2DrawList(void);
-void CreateFireball2KindData(void);
-void UpdateFireball2(void *a, Fireball2 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitFireball2Objects(MapObjectList *p);
-void DrawFireball2(void *a, Fireball2 *b);
-void SetupDrawFireball2(void *a);
-void CreateFireball2(Unk0209e950 *a); /* also sets word +0x1c of the group record to 1 */
-BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c);
-u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d);
-void InitFireball2(Fireball2 *a);
-void *CreatePuddleDrawList(void);
+void *fbal2_setupLogicPart(void);
+void *fbal2_setupRenderPart(void);
+void fbal2_setupConfig(void);
+void fbal2_update(void *a, Fireball2 *b); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void fbal2_globalLogicInit(MapObjectList *p);
+void fbal2_render(void *a, Fireball2 *b);
+void fbal2_applyMaterial(void *a);
+void fbal2_loadModel(Unk0209e950 *a); /* also sets word +0x1c of the group record to 1 */
+BOOL fbal2_collide(Fireball2 *a, Vec3 *b, s32 c);
+u8 fbal2_onDriverCollide(Fireball2 *a, Kart *b, u8 *c, u8 *d);
+void fbal2_init(Fireball2 *a);
+void *pud_setupRenderPart(void);

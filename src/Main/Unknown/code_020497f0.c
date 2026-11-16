@@ -4,11 +4,11 @@
 #include "gx.h"
 #include "registers.h"
 
-u32 func_02049838(void) {
-    return (gSceneRunState->mUnk_10c);
+u32 scene_getState(void) {
+    return (scene_sSceneState->mUnk_10c);
 }
 
-u32 func_02049820(void) {
+u32 scene_PAD_DetectFold(void) {
     u32 value0;
     value0 = 0x27fffa8u;
     value0 = *(const u16 *) ((value0) + (0));
@@ -17,10 +17,10 @@ u32 func_02049820(void) {
     return value0;
 }
 
-void SetMainMasterBrightness(s32 brightness) {
+void scene_GX_SetMasterBrightness(s32 brightness) {
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, brightness);
 }
 
-void SetSubMasterBrightness(s32 brightness) {
+void scene_GXS_SetMasterBrightness(s32 brightness) {
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, brightness);
 }

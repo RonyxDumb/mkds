@@ -4,4 +4,4 @@
 
 typedef struct Unk020e43a8 Unk020e43a8;
 
-void InitPushedObjectStates(Unk020e43a8 *object);
+void rdmo_initStateMachine(Unk020e43a8 *object);

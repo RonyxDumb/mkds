@@ -3,12 +3,12 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 #pragma thumb on
-void func_02056d40(void) {
+void savd_flushNksy(void) {
     u32 value0;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 0u);
-    WriteBackupFirstBlock((void *) value0);
+    savd_writeNksy((void *) value0);
 }
 #pragma thumb off

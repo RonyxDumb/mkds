@@ -6,18 +6,18 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateVsSelectRaceRule(void) {
+void menu_state10Render(void) {
     switch (AdvanceSelectRaceRule()) {
         case 1:
-            if (GetRaceSetupCopy()->mCourseListMode == 2) {
-                GetRaceSetupCopy()->mCourseId = COURSE_ID_CROSS;
-                SwitchMenuScreen(0x1d, 0x1f);
+            if (menu_getRaceConfig()->mCourseListMode == 2) {
+                menu_getRaceConfig()->mCourseId = COURSE_ID_CROSS;
+                menu_gotoState(0x1d, 0x1f);
             } else {
-                SwitchMenuScreen(0xb, 0x1f);
+                menu_gotoState(0xb, 0x1f);
             }
             break;
         case 2:
-            SwitchMenuScreen(9, 0x1f);
+            menu_gotoState(9, 0x1f);
             break;
     }
 }

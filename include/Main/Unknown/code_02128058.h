@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 InitSelectChoises(void *heap, void *font, s32 subCharOffset);
+s32 gmenu_initSelectChoises(void *heap, void *font, s32 subCharOffset);

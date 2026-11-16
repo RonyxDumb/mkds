@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void AddShineCount(short amount);
-unsigned int GetShineCount(void);
-u16 GetKartStandingRankIndex(int kartIndex);
+void mgcnt_updateCollectableShineCount(short amount);
+unsigned int mgcnt_getCollectableShineCount(void);
+u16 mgcnt_getDriverPlace(int kartIndex);

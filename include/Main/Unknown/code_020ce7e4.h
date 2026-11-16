@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteVsSelectCupCourseRegisters(void);
+void menu_state13Vblank(void);

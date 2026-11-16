@@ -7,4 +7,4 @@ typedef struct MapObjectFlagsView {
     /* 02 */ u16 mUnk_02;
 } MapObjectFlagsView;
 
-void EnterMkdEfBubbleState1(MapObjectFlagsView *bubble);
+void efbub_waitStateInit(MapObjectFlagsView *bubble);

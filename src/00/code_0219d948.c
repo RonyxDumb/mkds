@@ -65,7 +65,7 @@ s32 func_ov000_0219d9b0(void *a, s32 b) {
         return 0;
     }
     for (i = 0; i < b; i++) {
-        if (func_02152698(d) != 0) {
+        if (DWCi_Acc_IsValidFriendData(d) != 0) {
             c++;
         }
         d++;

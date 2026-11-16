@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenCrabCells(void);
+void mpicn_destroyCrabIcon(void);

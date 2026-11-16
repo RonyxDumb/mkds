@@ -5,5 +5,5 @@
 typedef struct MapObject MapObject;
 typedef struct MapObjectList MapObjectList;
 
-u32 AddMapObjectToDrawList(MapObjectList *list, MapObject *mapObject);
-u32 InitMapObjectDrawList(MapObjectList *list);
+u32 mobj_renderPartAddInstance(MapObjectList *list, MapObject *mapObject);
+u32 mobj_renderPartAllocInstanceList(MapObjectList *list);

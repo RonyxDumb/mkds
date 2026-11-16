@@ -13,10 +13,10 @@
 
 void GpiCopyString(char *dest, const char *src, s32 c) {
     if (dest == NULL) {
-        AssertionFailed(data_ov000_021b3b10, data_ov000_021b3a1c, NULL, 0x2f);
+        __msl_assertion_failed(data_ov000_021b3b10, data_ov000_021b3a1c, NULL, 0x2f);
     }
     if (src == NULL) {
-        AssertionFailed(data_ov000_021b3b20, data_ov000_021b3a1c, NULL, 0x30);
+        __msl_assertion_failed(data_ov000_021b3b20, data_ov000_021b3a1c, NULL, 0x30);
     }
     strncpy(dest, src, c);
     *(dest + c + -1) = 0;
@@ -54,16 +54,16 @@ BOOL GpiGetValue(const char *command, const char *key, char *value, s32 len) {
     s8 g;
 
     if (command == NULL) {
-        AssertionFailed(data_ov000_021b3ad4, data_ov000_021b3a1c, NULL, 0x10d);
+        __msl_assertion_failed(data_ov000_021b3ad4, data_ov000_021b3a1c, NULL, 0x10d);
     }
     if (key == NULL) {
-        AssertionFailed(data_ov000_021b3a2c, data_ov000_021b3a1c, NULL, 0x10e);
+        __msl_assertion_failed(data_ov000_021b3a2c, data_ov000_021b3a1c, NULL, 0x10e);
     }
     if (value == NULL) {
-        AssertionFailed(data_ov000_021b3a38, data_ov000_021b3a1c, NULL, 0x10f);
+        __msl_assertion_failed(data_ov000_021b3a38, data_ov000_021b3a1c, NULL, 0x10f);
     }
     if (len <= 0) {
-        AssertionFailed(data_ov000_021b3ae4, data_ov000_021b3a1c, NULL, 0x110);
+        __msl_assertion_failed(data_ov000_021b3ae4, data_ov000_021b3a1c, NULL, 0x110);
     }
     f = *key;
     p = strstr(command, key);
@@ -113,13 +113,13 @@ s32 GpiReadKeyValue(GpConnection *a, s8 *buffer, s32 *c, s8 *key, s8 *value) {
     s32 i;
 
     if (buffer == NULL) {
-        AssertionFailed(data_ov000_021b3a0c, data_ov000_021b3a1c, NULL, 0x199);
+        __msl_assertion_failed(data_ov000_021b3a0c, data_ov000_021b3a1c, NULL, 0x199);
     }
     if (key == NULL) {
-        AssertionFailed(data_ov000_021b3a2c, data_ov000_021b3a1c, NULL, 0x19a);
+        __msl_assertion_failed(data_ov000_021b3a2c, data_ov000_021b3a1c, NULL, 0x19a);
     }
     if (value == NULL) {
-        AssertionFailed(data_ov000_021b3a38, data_ov000_021b3a1c, NULL, 0x19b);
+        __msl_assertion_failed(data_ov000_021b3a38, data_ov000_021b3a1c, NULL, 0x19b);
     }
     p = buffer + *c;
     if (*p != 0x5c) {

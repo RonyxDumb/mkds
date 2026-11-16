@@ -22,23 +22,23 @@ void LoadSelectRaceRuleAndWaitData(void) {
     bgChars = NULL;
     screenMap = NULL;
     bgPalette[0] = NULL;
-    sceneFile = FindSceneFile(data_0216dbe4);
-    LoadNcgrData(&bgChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbf0);
-    LoadNscrData(&screenMap, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbd8);
-    LoadNclrData(bgPalette, sceneFile);
-    sceneFile = FindSceneFile(data_0216dc08);
-    LoadNcgrData(&bgChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbdc);
-    LoadNscrData(&screenMap, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbf8);
-    LoadNcgrData2(&cellChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216dc04);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbec);
-    LoadNclrData(&cellPalette, sceneFile);
-    LoadWaitData();
+    sceneFile = arc_getSceneArcFile(data_0216dbe4);
+    g2du_unpackCharacterDataBG(&bgChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbf0);
+    g2du_unpackScreenData(&screenMap, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbd8);
+    g2du_unpackPaletteData(bgPalette, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dc08);
+    g2du_unpackCharacterDataBG(&bgChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbdc);
+    g2du_unpackScreenData(&screenMap, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbf8);
+    g2du_unpackCharacterData(&cellChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dc04);
+    g2du_unpackCellBankData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbec);
+    g2du_unpackPaletteData(&cellPalette, sceneFile);
+    wait_unpackData();
 }
 
 void LocateAndQueueSelectRaceRule(void) {
@@ -50,44 +50,44 @@ void LocateAndQueueSelectRaceRule(void) {
     bgChars = NULL;
     bgPalette = NULL;
     if (gSelectRaceRule->mMode == 3) {
-        sceneFile = FindSceneFile(data_0216dc08);
-        LocateNcgr(&bgChars, sceneFile);
-        sceneFile = FindSceneFile(data_0216dbdc);
-        LocateNscr(&gSelectRaceRule->mNscr, sceneFile);
-        sceneFile = FindSceneFile(data_0216dbe0);
+        sceneFile = arc_getSceneArcFile(data_0216dc08);
+        g2du_getCharacterDataBG(&bgChars, sceneFile);
+        sceneFile = arc_getSceneArcFile(data_0216dbdc);
+        g2du_getScreenData(&gSelectRaceRule->mNscr, sceneFile);
+        sceneFile = arc_getSceneArcFile(data_0216dbe0);
         gSelectRaceRule->mBncl = sceneFile;
-        sceneFile = FindSceneFile(data_0216dc00);
+        sceneFile = arc_getSceneArcFile(data_0216dc00);
         gSelectRaceRule->mBnbl = sceneFile;
-        sceneFile = FindSceneFile(data_0216dbfc);
+        sceneFile = arc_getSceneArcFile(data_0216dbfc);
         gSelectRaceRule->mBnll = sceneFile;
     } else {
-        sceneFile = FindSceneFile(data_0216dbe4);
-        LocateNcgr(&bgChars, sceneFile);
-        sceneFile = FindSceneFile(data_0216dbf0);
-        LocateNscr(&gSelectRaceRule->mNscr, sceneFile);
-        sceneFile = FindSceneFile(data_0216dbf4);
+        sceneFile = arc_getSceneArcFile(data_0216dbe4);
+        g2du_getCharacterDataBG(&bgChars, sceneFile);
+        sceneFile = arc_getSceneArcFile(data_0216dbf0);
+        g2du_getScreenData(&gSelectRaceRule->mNscr, sceneFile);
+        sceneFile = arc_getSceneArcFile(data_0216dbf4);
         gSelectRaceRule->mBncl = sceneFile;
-        sceneFile = FindSceneFile(data_0216dbd4);
+        sceneFile = arc_getSceneArcFile(data_0216dbd4);
         gSelectRaceRule->mBnbl = sceneFile;
-        sceneFile = FindSceneFile(data_0216dbe8);
+        sceneFile = arc_getSceneArcFile(data_0216dbe8);
         gSelectRaceRule->mBnll = sceneFile;
     }
-    sceneFile = FindSceneFile(data_0216dbd8);
-    LocateNclr(&bgPalette, sceneFile);
-    sceneFile = HeapAlloc(gSelectRaceRule->mHeap, (0x00000800u));
+    sceneFile = arc_getSceneArcFile(data_0216dbd8);
+    g2du_getPaletteData(&bgPalette, sceneFile);
+    sceneFile = heap_alloc(gSelectRaceRule->mHeap, (0x00000800u));
     gSelectRaceRule->mUnk_24 = sceneFile;
-    sceneFile = FindSceneFile(data_0216dbf8);
-    LocateNcgr2(&cellChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216dc04);
-    LocateNcer(&gSelectRaceRule->mNcer, sceneFile);
-    sceneFile = FindSceneFile(data_0216dbec);
-    LocateNclr(&gSelectRaceRule->mNclr, sceneFile);
-    CallQueueAppend(0x14, 0, bgChars->mData, bgChars->mDataSize);
-    CallQueueAppend(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
-    CallQueueAppend(0x1b, (0x00000800u), gSelectRaceRule->mUnk_24, (0x00000800u));
-    CallQueueAppend(0x1f, 0, bgPalette->mData, 0x80);
-    CallQueueAppend(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    CallQueueAppend(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);
+    sceneFile = arc_getSceneArcFile(data_0216dbf8);
+    g2du_getCharacterData(&cellChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dc04);
+    g2du_getCellBankData(&gSelectRaceRule->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216dbec);
+    g2du_getPaletteData(&gSelectRaceRule->mNclr, sceneFile);
+    NNS_GfdRegisterNewVramTransferTask(0x14, 0, bgChars->mData, bgChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gSelectRaceRule->mNscr->mData, gSelectRaceRule->mNscr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gSelectRaceRule->mUnk_24, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, bgPalette->mData, 0x80);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gSelectRaceRule->mNclr->mData, gSelectRaceRule->mNclr->mDataSize);
 }
 
 #pragma thumb off

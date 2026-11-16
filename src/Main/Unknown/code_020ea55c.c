@@ -7,8 +7,8 @@
 
 #pragma thumb on
 
-void CreateShadowModel(void **slot, void *file, u32 c) {
-    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+void model2_createShadowFromNsbmd(void **slot, void *file, u32 c) {
+    *slot = heap_alloc(proc_getHeap(proc_getCurrent()), 0x74);
     InitShadowModel(*slot, file, (u8) c);
 }
 

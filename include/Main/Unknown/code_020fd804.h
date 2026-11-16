@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ParkItemBombMapObject(u32 bomb);
+void itbomb_destroyInstance(u32 bomb);

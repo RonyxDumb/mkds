@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_02008908.h"
 #include "Main/Unknown/code_0214d000.h"
 
-// Object QueueWorkerTask runs LoadDataRange on: the member at 0x10 is the entry of DataRangeTable that is read.
+// Object CTRDGi_SetTask runs LoadDataRange on: the member at 0x10 is the entry of DataRangeTable that is read.
 typedef struct DataRangeLoadJob {
     /* 00 */ WorkerTask mUnk_00;
     /* 10 */ DataRange *mDataRange;

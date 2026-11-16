@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02039c98(void);
+u32 mproc_main(void);

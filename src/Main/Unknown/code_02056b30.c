@@ -7,7 +7,7 @@
 
 #pragma thumb on
 
-void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
+void savd_unpackNktaEntry(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord) {
     if (packedCourseTimeRecord->mFilled != 0) {
         MI_CpuCopy8(packedCourseTimeRecord->mName, timeRecord->mName, 0x14);
         timeRecord->mCharacterIndex = packedCourseTimeRecord->mCharacterIndex;
@@ -21,14 +21,14 @@ void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, Time
     }
 }
 
-BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
+BOOL savd_getNktaEntry(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
     BOOL found;
     s32 cupCourseIndex;
 
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = rconf_getCourseNumber(courseId);
     found = TRUE;
     if (cupCourseIndex != -1) {
-        UnpackCourseTimeRecord(&data_0217aa08->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex],
+        savd_unpackNktaEntry(&gSaveData->mCourseTimeRecordBlock->mRecords[recordIndex][cupCourseIndex],
                                timeRecord);
     } else {
         found = FALSE;
@@ -39,7 +39,7 @@ BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) 
     return found;
 }
 
-void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
+void savd_packNkgpEntry(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (timeRecord->mFilled != 0) {
         MI_CpuCopy8(timeRecord->mName, packedGrandPrixRecord->mName, 0x14);
         packedGrandPrixRecord->mFilled = 1;

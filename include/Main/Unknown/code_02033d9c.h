@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void StartResultsBattleChoices(void);
+void bres_startSelectChoices(void);

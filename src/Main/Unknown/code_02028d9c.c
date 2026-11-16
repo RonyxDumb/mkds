@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_02027e78.h"
 
 void *func_02028f08(s32 index, Unk0201ea30 *cellLayout) {
-    return func_0201ea30(cellLayout, index);
+    return jn_ui_getBnclElement(cellLayout, index);
 }
 
 #pragma thumb on
@@ -33,7 +33,7 @@ void RefreshKartMenuParamElements(void) {
     short *params;
     result = func_020280dc();
     if (result == 0) {
-        params = ComputeKartMenuParams(gSelectKart->mKartIndex, gSelectKart->mCharacterIndex);
+        params = spm_LoadCharKartParam(gSelectKart->mKartIndex, gSelectKart->mCharacterIndex);
         parts = (CellFileSet *) &gSelectKart->mSelectKartSParts;
         SetKartMenuParamElementOffset(10, 0x10, *params, parts);
         SetKartMenuParamElementOffset(9, 0xf, params[1], parts);
@@ -57,8 +57,8 @@ void func_02028e00(void *destination, u32 size) {
 
 u16 func_02028dd4(void) {
     int index;
-    if (data_0217aa00->mUnk_0000 == 2) {
-        index = data_0217aa00->mOwnIndex;
+    if (gStruct217AA00->mUnk_0000 == 2) {
+        index = gStruct217AA00->mOwnIndex;
     } else {
         index = 0;
     }
@@ -66,7 +66,7 @@ u16 func_02028dd4(void) {
 }
 
 u32 GetParticipantEntryIndex(u32 participantIndex) {
-    return (data_0217aa00->mUnk_1e52[participantIndex].mEntryIndex);
+    return (gStruct217AA00->mUnk_1e52[participantIndex].mEntryIndex);
 }
 
 u32 GetOwnEntryIndex(void) {

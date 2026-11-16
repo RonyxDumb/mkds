@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020de4d4(u32 unused, u32 object);
+void epipe_update(u32 unused, u32 object);

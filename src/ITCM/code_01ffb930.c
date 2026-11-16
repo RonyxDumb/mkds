@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 #include "Main/Unknown/unk_02165000.h"
 
-void func_01ffb9e0(Kart *p) {
+void driver_applyDeceleration(Kart *p) {
     if ((p->mUnk_44 & 0x400) || p->mState != KART_STATE_NORMAL) {
         p->mForwardSpeed = (s64) p->mForwardSpeed * p->mPhysicalParam->mUnk_2c >> 12;
     }
@@ -12,11 +12,11 @@ void func_01ffb9e0(Kart *p) {
     p->mForwardSpeed = (s64) p->mForwardSpeed * 0xe66 >> 12;
 }
 
-void ApplyKartGravity(Kart *p) {
+void driver_1FFB9CC(Kart *p) {
     p->mVerticalSpeed = p->mVerticalSpeed + p->mGravity;
 }
 
-void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p) {
+void driver_applyTurningSpeedLose(s32 *a, Kart *p) {
     s32 b;
     u32 f;
     s32 c;
@@ -38,6 +38,6 @@ void ReduceKartSpeedByTurnRatio(s32 *a, Kart *p) {
     if (b <= 0) {
         b = -b;
     }
-    c = (s64) *a * data_021654d8 >> 12;
+    c = (s64) *a * driver_sTurningSpeedLoose >> 12;
     *a -= (s32) ((s64) c * b >> 12);
 }

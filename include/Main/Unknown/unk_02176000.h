@@ -8,7 +8,7 @@
 extern RomArchiveParentView data_02176300;
 
 // Object at data_02176300; the word at 0x46c8 is a pointer, the bytes at 0x340 and the halfword at 0x4c4 are used
-// by func_0204be0c.
+// by WFS_Start.
 typedef struct Unk021762e0 {
     /* 0000 */ u8 mUnk_0000[0x340];
     /* 0340 */ u8 mUnk_0340[0x184];

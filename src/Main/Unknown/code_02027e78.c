@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_0202b604.h"
 
 u32 func_0202811c(void) {
-    return (data_021759d0->mUnk_20);
+    return (gSystemData->mUnk_20);
 }
 
 u16 *func_02028110(void) {
@@ -47,7 +47,7 @@ void ReleaseSelectKart(void) {
     } else {
         func_0211f498();
     }
-    HeapDestroy(gSelectKart->mHeap);
+    heap_destroySubHeap(gSelectKart->mHeap);
     *&gSelectKart = NULL;
 }
 
@@ -150,7 +150,7 @@ void WriteSubWin0HV(u32 startX, u32 startY, u32 endX, u32 endY) {
 
 void WriteSelectKartRegisters(void) {
     u32 displayBits = 0x16;
-    s32 interpolatedValue = GetInterpolatedValue(&gSelectKart->mInterpolations[4]);
+    s32 interpolatedValue = interp_interpolate(&gSelectKart->mInterpolations[4]);
     if (gSelectKart->mState != 8) {
         displayBits |= 8;
     }

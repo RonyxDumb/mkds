@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitKartModelsEntry(void *entry);
+void chkrt_initCharKart(void *entry);

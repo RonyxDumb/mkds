@@ -203,7 +203,7 @@ int GpiUpdateConnection(void *a, int b) {
     o = p->mGpiConnection;
     r = 0;
     if ((u32) o->mConnectState > 4) {
-        AssertionFailed(data_ov000_021b2528, data_ov000_021b2620, NULL, 0x1b5);
+        __msl_assertion_failed(data_ov000_021b2528, data_ov000_021b2620, NULL, 0x1b5);
     }
     if (o->mConnectState == 1) {
         do {
@@ -221,7 +221,7 @@ int GpiUpdateConnection(void *a, int b) {
             if (GpiFindOperation(p, &n, 1) != FALSE) {
                 n->mUnk_1c = 4;
             } else {
-                AssertionFailed(data_ov000_021b2628, data_ov000_021b2620, NULL, 0x1db);
+                __msl_assertion_failed(data_ov000_021b2628, data_ov000_021b2620, NULL, 0x1db);
             }
         }
     }

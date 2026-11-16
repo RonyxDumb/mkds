@@ -9,14 +9,14 @@
 
 #pragma thumb on
 
-void SetEntryTable(void *entryTable) {
+void MBi_SetBeaconRecvStatusBuffer(void *entryTable) {
     gEntryTable = entryTable;
 }
 
 #pragma thumb off
 
 #pragma thumb on
-u32 SetScanBssidCallbacks(UnkFunc *setCallback, UnkFunc *clearCallback) {
+u32 MBi_SetScanLockFunc(UnkFunc *setCallback, UnkFunc *clearCallback) {
     u32 value0 = (u32) setCallback;
     u32 clearCallbackCopy = (u32) clearCallback;
     u32 setCallbackSlot;
@@ -228,7 +228,7 @@ void func_020094b8(u32 ggid, u16 tgid, u32 attr) {
     gGameInfoBlock.mUnk_04_2 = entry->mUnk_4b5;
     gGameInfoBlock.mSequence = gGameInfoList.mNextSequence++;
     gGameInfoBlock.mChecksum = 0;
-    gGameInfoBlock.mChecksum = ComputeU16Checksum(&gGameInfoBlock.mChecksum, 0x68);
+    gGameInfoBlock.mChecksum = MBi_calc_cksum(&gGameInfoBlock.mChecksum, 0x68);
     gGameInfoList.mUnk_0f++;
     if (gGameInfoList.mUnk_0f < gGameInfoList.mUnk_10) {
         gGameInfoList.mUnk_08 += 0x62;
@@ -297,7 +297,7 @@ void func_020092d0(u32 ggid, u16 tgid, u32 attr) {
         gGameInfoBlock.mUnk_10[recordCount * 0x16] &= ~0xf0;
     }
     gGameInfoBlock.mChecksum = 0;
-    gGameInfoBlock.mChecksum = ComputeU16Checksum(&gGameInfoBlock.mChecksum, 0x68);
+    gGameInfoBlock.mChecksum = MBi_calc_cksum(&gGameInfoBlock.mChecksum, 0x68);
     if (gGameInfoList.mCurrent->mUnk_4b0 == gGameInfoList.mCurrent->mUnk_35a) {
         gGameInfoList.mState = 1;
     }
@@ -308,12 +308,12 @@ void func_020092d0(u32 ggid, u16 tgid, u32 attr) {
     }
 }
 
-void ClearEntryTable(void) {
+void MB_InitRecvGameInfoStatus(void) {
     MemFillWordsByBlock_inline(gEntryTable, 0x5910);
     gEntryTable->mUnk_0c = 1;
 }
 
-u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
     s32 entryIndex;
     if (func_020091fc(scanBlock) == 0) {
         return 0;
@@ -321,7 +321,7 @@ u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock) {
     MIi_CpuCopy16(scanBlock, data_0216fce0, 0xc0);
     scanBlock = (ScanBlock *) data_0216fce0;
     gReceivedGameInfo = data_0216fd30;
-    if (ComputeU16Checksum(OFFSET_PTR(u16, gReceivedGameInfo, 8), 0x68) != 0) {
+    if (MBi_calc_cksum(OFFSET_PTR(u16, gReceivedGameInfo, 8), 0x68) != 0) {
         return 0;
     }
     entryIndex = FindOrAddEntry((u8 *) scanBlock, callback);

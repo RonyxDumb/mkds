@@ -4,16 +4,16 @@
 
 #pragma thumb on
 
-void WriteBackupEmblem(void) {
-    WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
+void savd_flushNkem(void) {
+    savd_writeNkem(gSaveData->mEmblemRecord);
 }
 
-void WriteBackupGrandPrixRecords(void) {
-    WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
+void savd_flushNkgp(void) {
+    savd_writeNkgp(gSaveData->mGrandPrixRecordBlock);
 }
 
-void WriteBackupCourseTimeRecords(void) {
-    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
+void savd_flushNkta(void) {
+    savd_writeNkta(gSaveData->mCourseTimeRecordBlock);
 }
 
 #pragma thumb off

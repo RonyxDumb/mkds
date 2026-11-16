@@ -4,18 +4,18 @@
 
 #pragma thumb on
 
-void func_020cef1c(void) {
-    func_020cef68(data_0217b488, 0x130);
-    data_0217b488->mTitleBlendDone = 0;
-    data_0217b488->mUnk_04 = 0;
-    data_0217b488->mUnk_08 = 0;
-    data_0217b488->mGhostSceneInitialCallbacksIndex = 0;
-    data_0217b488->mUnk_10 = 0;
-    data_0217b488->mUnk_14 = 0;
-    data_0217b488->mUnk_1c = 0;
-    data_0217b488->mUnk_54 = 0;
-    data_0217b488->mUnk_58 = FALSE;
-    data_0217b488->mUnk_70 = 0;
+void struct217B488_reset(void) {
+    struct217B488_MI_CpuClearFast(gStruct217B488, 0x130);
+    gStruct217B488->mTitleBlendDone = 0;
+    gStruct217B488->mUnk_04 = 0;
+    gStruct217B488->mUnk_08 = 0;
+    gStruct217B488->mGhostSceneInitialCallbacksIndex = 0;
+    gStruct217B488->mUnk_10 = 0;
+    gStruct217B488->mUnk_14 = 0;
+    gStruct217B488->mUnk_1c = 0;
+    gStruct217B488->mUnk_54 = 0;
+    gStruct217B488->mUnk_58 = FALSE;
+    gStruct217B488->mUnk_70 = 0;
 }
 
 #pragma thumb off

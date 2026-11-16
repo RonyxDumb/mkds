@@ -25,7 +25,7 @@ typedef struct Unk021025d8 {
     /* 270 */ u32 mUnk_270;
 } Unk021025d8;
 
-void ResetItemTeresa(Unk021025d8 *teresa);
+void ittrsa_21025D8(Unk021025d8 *teresa);
 typedef struct Unk02102668 {
     /* 00 */ u8 mUnk_00[0x170];
     /* 170 */ u32 mUnk_170;

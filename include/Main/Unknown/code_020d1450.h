@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearEndingStaffRollPointer(void);
+u32 r2d_finalizeStaffRoll(void);

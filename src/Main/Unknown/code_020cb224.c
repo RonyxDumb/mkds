@@ -4,12 +4,12 @@
 #include "Main/Unknown/code_020cb3e4.h"
 
 #pragma thumb on
-void func_020cb22c(void) {
+void menu_modeSelectStateVblank(void) {
     u32 unusedValue;
-    SetupSinglePlaySelectGraphics();
+    modeSelectVblank();
 }
 #pragma thumb off
 
-u32 func_020cb224(void) {
+u32 menu_input_getDefaultInputId(void) {
     return 0x8u;
 }

@@ -21,7 +21,7 @@
 
 #pragma thumb on
 
-void PackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
+void savd_packNkmrEntry(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (unpackedMissionRecord->mFilled != 0) {
         missionRecord->mFilled = 1;
         missionRecord->mUnk_00_1 = unpackedMissionRecord->mValue;
@@ -30,7 +30,7 @@ void PackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpa
     }
 }
 
-void UnpackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
+void savd_unpackNkmrEntry(MissionRecord *missionRecord, UnpackedMissionRecord *unpackedMissionRecord) {
     if (missionRecord->mFilled != 0) {
         unpackedMissionRecord->mFilled = 1;
         unpackedMissionRecord->mValue = missionRecord->mUnk_00_1;
@@ -39,23 +39,23 @@ void UnpackMissionRecord(MissionRecord *missionRecord, UnpackedMissionRecord *un
     }
 }
 
-void SetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
-    PackMissionRecord(&data_0217aa08->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1], unpackedMissionRecord);
+void savd_setNkmrEntry(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
+    savd_packNkmrEntry(&gSaveData->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1], unpackedMissionRecord);
 }
 
-s32 GetMissionRecord(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
-    UnpackMissionRecord(&data_0217aa08->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1],
+s32 savd_getNkmrEntry(s32 row, s32 column, UnpackedMissionRecord *unpackedMissionRecord) {
+    savd_unpackNkmrEntry(&gSaveData->mMissionRecordBlock->mRecords[(row - 1) * 9 + column - 1],
                         unpackedMissionRecord);
     return 1;
 }
 
-void SetEmblemRecordAndWriteBackup(void *emblemData) {
-    MI_CpuCopy8(emblemData, data_0217aa08->mEmblemRecord->mEmblemData, 0x200);
-    data_0217aa08->mEmblemRecord->mFilled = 1;
-    WriteBackupEmblem();
+void savd_setEmblem(void *emblemData) {
+    MI_CpuCopy8(emblemData, gSaveData->mEmblemRecord->mEmblemData, 0x200);
+    gSaveData->mEmblemRecord->mFilled = 1;
+    savd_flushNkem();
 }
 
-void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
+void savd_storePersonalGhost(s32 courseId, u16 entryIndex) {
     GhostRecord *ghostRecord;
     s32 playerIndex;
     s32 cupCourseIndex;
@@ -67,38 +67,38 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     u8 lapBytes[0xf];
     u32 tempValue;
 
-    cupCourseIndex = FindCupCourseIndex();
-    playerIndex = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mIndex;
-    ghostRecord = data_0217aa08->mGhostRecords[0];
+    cupCourseIndex = rconf_getCourseNumber();
+    playerIndex = gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mIndex;
+    ghostRecord = gSaveData->mGhostRecords[0];
     if (cupCourseIndex == -1) {
         return;
     }
     MI_CpuFill8(ghostRecord, 0, 0xe00);
-    GetClockDateOrDefault(clockDate);
+    GetDate(clockDate);
     ghostRecord->mYear = clockDate[0];
     ghostRecord->mMonth = clockDate[1];
     ghostRecord->mDay = clockDate[2];
-    tempValue = gRaceSetup->mCurrentEntries[entryIndex].mCharacterIndex;
+    tempValue = gRaceMultiConfig->mCurrentEntries[entryIndex].mCharacterIndex;
     ghostRecord->mCharacterIndex = (u8) tempValue;
-    tempValue = gRaceSetup->mCurrentEntries[entryIndex].mKartIndex;
+    tempValue = gRaceMultiConfig->mCurrentEntries[entryIndex].mKartIndex;
     ghostRecord->mKartIndex = (u8) tempValue;
-    tempValue = gRaceSetup->mCourseId;
+    tempValue = gRaceMultiConfig->mCourseId;
     ghostRecord->mCourseId = (u8) tempValue;
     ghostRecord->mFilled = 1;
     ghostRecord->mUnk_08_1 = 0;
-    ghostRecord->mUnk_08_2 = data_021759d0->mUnk_00;
+    ghostRecord->mUnk_08_2 = gSystemData->mUnk_00;
     ghostRecord->mUnk_08_4 = 0;
     ghostRecord->mUnk_2f_0 = func_02056208();
-    GetKartFinishTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
+    rstat_getDriverTotalTime(entryIndex, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
     ghostRecord->mMinute = kartTime.mMinute;
     ghostRecord->mSecond = kartTime.mSecond;
     ghostRecord->mMillisecond = kartTime.mMillisecond;
-    MI_CpuCopy8(data_0217aa08->mFirstBlock->mPlayerName, ghostRecord->mName, 0x14);
-    MI_CpuCopy8(data_02175628[playerIndex].mUnk_28, ghostRecord->mUnk_30, 0xdcc);
+    MI_CpuCopy8(gSaveData->mFirstBlock->mPlayerName, ghostRecord->mName, 0x14);
+    MI_CpuCopy8(gInputUnits[playerIndex].mUnk_28, ghostRecord->mUnk_30, 0xdcc);
     MI_CpuFill8(lapBytes, 0, 0xf);
-    for (lapNumber = 1; lapNumber <= GetLapCount(); lapNumber++) {
+    for (lapNumber = 1; lapNumber <= rconf_getLapCount(); lapNumber++) {
         byteOffset = (lapNumber - 1) * 3;
-        GetKartLapTime(entryIndex, lapNumber, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
+        rstat_getDriverLapTime(entryIndex, lapNumber, &kartTime.mMinute, &kartTime.mSecond, &kartTime.mMillisecond);
         tempValue = 0;
         tempValue |= (kartTime.mMinute & 0x7f) << 17;
         tempValue |= (kartTime.mSecond & 0x7f) << 10;
@@ -109,30 +109,30 @@ void FillAndWriteCourseGhostRecord(s32 courseId, u16 entryIndex) {
     }
     MI_CpuCopy8(lapBytes, ghostRecord->mLapTimes, 0xf);
     courseIndexByte = cupCourseIndex;
-    WriteBackupCourseGhost(courseIndexByte, ghostRecord);
-    if (IsCourseGhostBitSet(courseIndexByte) == 0) {
-        SetBitArrayBit(courseIndexByte, data_0217aa08->mFirstBlock->mCourseGhostBits, 4);
-        StartWriteBackupFirstBlock();
+    savd_writeNkpg(courseIndexByte, ghostRecord);
+    if (savd_isPersonalGhostAvailable(courseIndexByte) == 0) {
+        savd_setBit(courseIndexByte, gSaveData->mFirstBlock->mCourseGhostBits, 4);
+        savd_writeNksyAsync();
     }
 }
 
-void ReadCourseGhostRecord(u32 courseId) {
+void savd_loadPersonalGhost(u32 courseId) {
     s32 cupCourseIndex;
     BOOL noGhost;
     GhostRecord *ghostRecord;
 
     noGhost = FALSE;
-    cupCourseIndex = FindCupCourseIndex(courseId);
-    ghostRecord = data_0217aa08->mGhostRecords[0];
+    cupCourseIndex = rconf_getCourseNumber(courseId);
+    ghostRecord = gSaveData->mGhostRecords[0];
     if (cupCourseIndex == -1) {
         noGhost = TRUE;
-    } else if (IsCourseGhostBitSet(cupCourseIndex) == 0) {
+    } else if (savd_isPersonalGhostAvailable(cupCourseIndex) == 0) {
         noGhost = TRUE;
     }
     if (noGhost != FALSE) {
         ghostRecord->mFilled = 0;
     } else {
-        ReadBackupCourseGhost(cupCourseIndex, ghostRecord);
+        savd_readNkpg(cupCourseIndex, ghostRecord);
     }
 }
 

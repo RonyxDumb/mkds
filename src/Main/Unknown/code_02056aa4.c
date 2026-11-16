@@ -6,7 +6,7 @@
 
 #pragma thumb on
 
-void UnpackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
+void savd_unpackNkgpEntry(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord) {
     if (packedGrandPrixRecord->mFilled != 0) {
         MI_CpuCopy8(packedGrandPrixRecord->mName, timeRecord->mName, 0x14);
         timeRecord->mCharacterIndex = packedGrandPrixRecord->mCharacterIndex;

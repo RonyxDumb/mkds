@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/code_02008934.h"
 
-// Block the callback behind mScanCallback receives from CallScanCallbackWithEntry.
+// Block the callback behind mScanCallback receives from MBFi_ScanCallback.
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ EntryRecord *mEntry;
@@ -11,7 +11,7 @@ typedef struct ScanEntryArgs {
     /* 0c */ u32 mUnk_0c;
 } ScanEntryArgs;
 
-// Block the callback behind mScanCallback receives from ReportScanError.
+// Block the callback behind mScanCallback receives from MBFi_ScanErrorCallback.
 typedef struct ScanErrorArgs {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
@@ -68,24 +68,24 @@ typedef struct CommandResult {
 extern u8 gDefaultScanBssid[6];
 
 // Declared here until the code that defines it is decompiled.
-void ScanConnectEndScan(void);
+void MBFi_StateInEndScan(void);
 void RequestEndScan(void);
-u32 PickScanChannel(void);
-void EntryCallback(u32 a, void *entry, u32 entryIndex);
-u32 ClearUseScanBssid(void);
-void SetScanBssid(const u8 *a);
-void ReportScanError(u16 a, u16 b);
-void CallScanCallbackWithEntry(u32 a, EntryRecord *entry, u32 entryIndex);
-void ScanConnectStartScanCallback(Unk021425e8 *a);
-void ScanConnectStartScan(void);
-void StartRepeatedScan(UnkFunc *callback, u32 b);
-void SetScanConnectStateAndNotify(u32 state, void *b);
-void SetScanConnectStateCallback(UnkFunc *callback);
-unsigned int GetScanConnectWorkSize(void);
-void FinishScanConnect(void);
-void CloseScanConnect(void);
-void InitScanConnectWork(ScanConnectWork *a, void *b);
-void ClearPortCallback(void);
+u32 RotateChannel(void);
+void MBFi_CommBeaconRecvCallback(u32 a, void *entry, u32 entryIndex);
+u32 MBFi_ScanUnlock(void);
+void MBFi_ScanLock(const u8 *a);
+void MBFi_ScanErrorCallback(u16 a, u16 b);
+void MBFi_ScanCallback(u32 a, EntryRecord *entry, u32 entryIndex);
+void MBFi_StateOutStartScanParent(Unk021425e8 *a);
+void MBFi_StateInStartScan(void);
+void MB_FakeStartScanParent(UnkFunc *callback, u32 b);
+void MBFi_CommChangeChildState(u32 state, void *b);
+void MB_FakeSetCStateCallback(UnkFunc *callback);
+unsigned int MB_FakeGetWorkSize(void);
+void MBFi_EndComplete(void);
+void MB_FakeEnd(void);
+void MB_FakeInit(ScanConnectWork *a, void *b);
+void MBi_WMClearCallback(void);
 void QueueMPDataCallback(Unk021425e8 *a);
 s32 QueueMPDataIfReady(u32 a, u16 b, u8 *c);
 void PortCallback(Unk021425e8 *a);
@@ -97,6 +97,6 @@ void StartResetWithFlag(void);
 void ScanConnectStartMPCallback(Unk021425e8 *a);
 void SetPortCallbackAndStartMP(void *sendBuffer, u8 *receiveBuffer);
 void ScanConnectStartConnectCallback(Unk021425e8 *a);
-void ScanConnectStartConnect(u8 *scanBuffer);
-void SetMPLinkCallback(unsigned int callback);
-u32 SetupMPLink(u32 arg0);
+void MBi_WMStartConnect(u8 *scanBuffer);
+void MBi_WMSetCallback(unsigned int callback);
+u32 MBi_WMSetBuffer(u32 arg0);

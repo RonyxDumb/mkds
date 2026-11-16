@@ -3,13 +3,13 @@
 #include "types.h"
 #include "Main/Unknown/code_020888b4.h"
 
-void SetupKartAiForStaffRoll(KartAi *kartAi, s32 kartIndex);
-void func_0208bdc0(KartAi *kartAi);
+void enmy_initStaffRollEnemy(KartAi *kartAi, s32 kartIndex);
+void enmy_updateAwardEnemy(KartAi *kartAi);
 void func_0208bde0(KartAi *kartAi, PointLink *pointLink);
-void SetupKartAiForAwardMissionRun(KartAi *kartAi, s32 kartIndex);
-void SetupBattleKartAiItemInUseEntry(KartAi *kartAi);
-void SetupBattleKartAiHeldItemEntry(KartAi *kartAi);
-void CopyBattleKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi);
-BOOL IsBattleKartAiLinkRequested(KartAi *kartAi);
-void RequestBattleKartAiPointLink(KartAi *kartAi);
-void AdvanceKartAiForBattle(KartAi *kartAi);
+void enmy_initAwardEnemy(KartAi *kartAi, s32 kartIndex);
+void enmy_notifyDragItemChangedForMg(KartAi *kartAi);
+void enmy_notifySlotItemChangedForMg(KartAi *kartAi);
+void enmy_getTargetMepoPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi);
+BOOL enmy_getIsAreaMepoNotNull(KartAi *kartAi);
+void enmy_recalculateMepoRoute(KartAi *kartAi);
+void enmy_updateMgEnemy(KartAi *kartAi);

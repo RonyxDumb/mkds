@@ -22,81 +22,81 @@
 #include "code_02147cd8.h"
 #include "Main/Unknown/code_021000d0.h"
 
-RaceHudSubScreenCells *gRaceHudSubScreenKingIceDonketuCells;
-RaceHudSubScreenCells *data_ov001_021a9ba4;
+RaceHudSubScreenCells *mpicn_sKingIceDonketuIcon;
+RaceHudSubScreenCells *mpicn_sKingTeresaIcon;
 
 #pragma thumb off
 
-s32 CreateRaceHudSubScreenKingIceDonketuCells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenKingIceDonketuCells, MAP_OBJECT_KIND_KING_ICE_DONKETU);
+s32 mpicn_createKingIceDonketuIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sKingIceDonketuIcon, MAP_OBJECT_KIND_KING_ICE_DONKETU);
 }
 
-void ClearRaceHudSubScreenKingIceDonketuCells(void) {
-    ClearRaceHudSubScreenCells(&gRaceHudSubScreenKingIceDonketuCells);
+void mpicn_destroyKingIceDonketuIcon(void) {
+    mpicn_destroyMObjIcon(&mpicn_sKingIceDonketuIcon);
 }
 
-void UpdateRaceHudSubScreenKingIceDonketuCells(void) {
+void mpicn_updateKingIceDonketuIcon(void) {
     s32 i;
     s32 cellCount = 0;
-    u32 v = GetRaceHudSubScreenScale();
+    u32 v = mpicn_20C0DB0();
     Unk0217b498_00 *object;
     Vec3 *pos;
 
-    for (i = 0; i < gRaceHudSubScreenKingIceDonketuCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenKingIceDonketuCells->mObjects[i];
+    for (i = 0; i < mpicn_sKingIceDonketuIcon->mObjectCount; i++) {
+        object = mpicn_sKingIceDonketuIcon->mObjects[i];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(pos, &gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mDrawPos,
+            if (lmap_20B5AE8(pos, &mpicn_sKingIceDonketuIcon->mCells[cellCount].mDrawPos,
                                                 v, 1, 1) != FALSE) {
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(pos) ? 2 : 3;
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                gRaceHudSubScreenKingIceDonketuCells->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(pos) ? 2 : 3;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                mpicn_sKingIceDonketuIcon->mCells[cellCount].mUnk_10 = object->mAngle;
                 cellCount++;
             }
         }
     }
-    gRaceHudSubScreenKingIceDonketuCells->mCellCount = cellCount;
+    mpicn_sKingIceDonketuIcon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenKingIceDonketuCells(void *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenKingIceDonketuCells, 0);
+void mpicn_renderKingIceDonketuIcon(void *oamBuffer) {
+    mpicn_renderMObjIcon(oamBuffer, mpicn_sKingIceDonketuIcon, 0);
 }
 
-BOOL func_ov001_02189128(void) {
-    return CreateRaceHudSubScreenCells(&data_ov001_021a9ba4, 0x1fd);
+BOOL mpicn_createKingTeresaIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sKingTeresaIcon, 0x1fd);
 }
 
-void func_ov001_02189114(void) {
-    ClearRaceHudSubScreenCells(&data_ov001_021a9ba4);
+void mpicn_destroyKingTeresaIcon(void) {
+    mpicn_destroyMObjIcon(&mpicn_sKingTeresaIcon);
 }
 
-void func_ov001_02188ff8(void) {
+void mpicn_updateKingTeresaIcon(void) {
     s32 i;
     s32 cellCount = 0;
-    u32 v = GetRaceHudSubScreenScale();
+    u32 v = mpicn_20C0DB0();
     Unk0217b498_00 *object;
     Vec3 *pos;
 
-    for (i = 0; i < data_ov001_021a9ba4->mObjectCount; i++) {
-        object = data_ov001_021a9ba4->mObjects[i];
+    for (i = 0; i < mpicn_sKingTeresaIcon->mObjectCount; i++) {
+        object = mpicn_sKingTeresaIcon->mObjects[i];
         if (!(object->mFlags & 1)) {
             pos = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(pos, &data_ov001_021a9ba4->mCells[cellCount].mDrawPos, v, 1, 1) !=
+            if (lmap_20B5AE8(pos, &mpicn_sKingTeresaIcon->mCells[cellCount].mDrawPos, v, 1, 1) !=
                 FALSE) {
-                data_ov001_021a9ba4->mCells[cellCount].mCell = GetRaceSNcerEntry(0xc5);
-                data_ov001_021a9ba4->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(pos) ? 2 : 3;
-                data_ov001_021a9ba4->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
-                data_ov001_021a9ba4->mCells[cellCount].mUnk_10 = object->mAngle;
+                mpicn_sKingTeresaIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xc5);
+                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(pos) ? 2 : 3;
+                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_0e = object->mFlags & 0x20;
+                mpicn_sKingTeresaIcon->mCells[cellCount].mUnk_10 = object->mAngle;
                 cellCount++;
             }
         }
     }
-    data_ov001_021a9ba4->mCellCount = cellCount;
+    mpicn_sKingTeresaIcon->mCellCount = cellCount;
 }
 
-void func_ov001_02188fdc(void *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, data_ov001_021a9ba4, 0);
+void mpicn_renderKingTeresaIcon(void *oamBuffer) {
+    mpicn_renderMObjIcon(oamBuffer, mpicn_sKingTeresaIcon, 0);
 }
 
 #pragma thumb on

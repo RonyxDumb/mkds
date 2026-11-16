@@ -2,7 +2,7 @@
 #include "code_02152a24.h"
 
 #pragma thumb on
-u32 GetFriendDataType(const DWCAccFriendData *friendData) {
+u32 DWC_GetFriendDataType(const DWCAccFriendData *friendData) {
     u32 dataType;
     u32 value3;
     value3 = (u32) &DWCi_Acc_GetFlag_DataType;

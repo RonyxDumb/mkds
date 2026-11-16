@@ -16,7 +16,7 @@ u32 SetBlockEntryBuffer(u32 entryIndex, u32 buffer) {
     u32 value1 = buffer;
     u32 value2;
     u32 value3;
-    value2 = (u32) &data_0217aa00;
+    value2 = (u32) &gStruct217AA00;
     value3 = *(const u32 *) ((value2) + 0u);
     value2 = 136u;
     value0 = (value0) * (value2);
@@ -32,7 +32,7 @@ u32 func_0204ee30(void) {
     u32 value0;
     u32 value1;
     u32 value2;
-    value0 = (u32) &data_0217aa00;
+    value0 = (u32) &gStruct217AA00;
     value1 = *(const u32 *) ((value0) + 0u);
     value0 = 0x1e44u;
     value1 = (value1) + (value0);
@@ -49,28 +49,28 @@ u32 func_0204ee30(void) {
 void func_0204ed84(void) {
     u16 packetSize;
     u16 destMask;
-    if (!(data_0217aa00->mUnk_1e44 & 1)) {
+    if (!(gStruct217AA00->mUnk_1e44 & 1)) {
         u32 v;
-        if (data_0217aa00 == NULL) {
+        if (gStruct217AA00 == NULL) {
             v = 0;
         } else {
-            v = data_0217aa00->mUnk_0000;
+            v = gStruct217AA00->mUnk_0000;
         }
         switch (v) {
             case 1:
                 data_0216522c.mMaxDataSize = 0x192;
-                packetSize = BuildParentPacket(data_0217aa00->mPacketBuffer, 0x192);
-                destMask = data_0217aa00->mUnk_0044.mChildMask;
+                packetSize = WBT_MpParentSendHook(gStruct217AA00->mPacketBuffer, 0x192);
+                destMask = gStruct217AA00->mUnk_0044.mChildMask;
                 break;
             case 2:
                 data_0216522c.mMaxDataSize = 0xe;
-                packetSize = BuildChildPacket(data_0217aa00->mPacketBuffer, 0xe);
+                packetSize = WBT_MpChildSendHook(gStruct217AA00->mPacketBuffer, 0xe);
                 destMask = 1;
                 break;
         }
-        if (QueueMPDataToPort(data_0217aa00->mPacketBuffer, packetSize, destMask, NULL, &data_0216522c) == FALSE) {
-            data_0217aa00->mSendTimer = data_02165228;
-            data_0217aa00->mUnk_1e44 &= ~1;
+        if (QueueMPDataToPort(gStruct217AA00->mPacketBuffer, packetSize, destMask, NULL, &data_0216522c) == FALSE) {
+            gStruct217AA00->mSendTimer = data_02165228;
+            gStruct217AA00->mUnk_1e44 &= ~1;
         }
     }
 }
@@ -88,17 +88,17 @@ void PacketPortCallback(Unk021425e8 *result) {
             return;
         }
         if (result->mUnk_04 == 0x15) {
-            if (data_0217aa00 == NULL) {
+            if (gStruct217AA00 == NULL) {
                 v = 0;
             } else {
-                v = data_0217aa00->mUnk_0000;
+                v = gStruct217AA00->mUnk_0000;
             }
             switch (v) {
                 case 1:
-                    ReceivePacketFromIndexChecked(packet, result->mUnk_10, result->mUnk_12);
+                    WBT_MpParentRecvHook(packet, result->mUnk_10, result->mUnk_12);
                     break;
                 case 2:
-                    ReceiveParentPacketChecked(packet, result->mUnk_10);
+                    WBT_MpChildRecvHook(packet, result->mUnk_10);
                     break;
             }
         }

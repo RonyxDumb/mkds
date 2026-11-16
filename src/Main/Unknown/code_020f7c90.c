@@ -41,7 +41,7 @@ void func_020f80c0(ItemSlotTable *table, s32 kartCount) {
     }
 }
 
-void CreateItemSlotTables(void) {
+void LoadItemSlotList(void) {
     u8 *data;
     enum { K0 } i;
     s32 j;
@@ -49,8 +49,8 @@ void CreateItemSlotTables(void) {
     s32 *entry;
     enum { K1 } k;
 
-    data = FindMainRaceOrMainEffectFile(data_0216c680);
-    switch (gRaceSetup->mMode) {
+    data = arc_getMainRaceMainEffectArcFile(aItemItemslotli);
+    switch (gRaceMultiConfig->mMode) {
         case MODE_GRAND_PRIX:
         case MODE_TIME_ATTACK:
         case MODE_MISSION_RUN:
@@ -70,7 +70,7 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = LoadItemSlotTableData(&data_0217bc74, data);
-            switch (gRaceSetup->mBattleKind) {
+            switch (gRaceMultiConfig->mBattleKind) {
                 case BATTLE_KIND_BALLOON:
                 default:
                     data = LoadItemSlotTableData(&data_0217bc6c, data);
@@ -92,9 +92,9 @@ void CreateItemSlotTables(void) {
             data = ComputeItemSlotTableDataEnd(data);
             data = ComputeItemSlotTableDataEnd(data);
             data = LoadItemSlotTableData(&data_0217bc74, data);
-            if (gRaceSetup->mCpuDifficulty == 0) {
-                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
-                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
+            if (gRaceMultiConfig->mCpuDifficulty == 0) {
+                func_020f80c0(&data_0217bc6c, gRaceMultiConfig->mKartCount);
+                func_020f80c0(&data_0217bc64, gRaceMultiConfig->mKartCount);
             }
             break;
         case 5:
@@ -105,9 +105,9 @@ void CreateItemSlotTables(void) {
             data = LoadItemSlotTableData(&data_0217bc6c, data);
             data = LoadItemSlotTableData(&data_0217bc64, data);
             data = LoadItemSlotTableData(&data_0217bc74, data);
-            if (gRaceSetup->mCpuDifficulty == 0) {
-                func_020f80c0(&data_0217bc6c, gRaceSetup->mKartCount);
-                func_020f80c0(&data_0217bc64, gRaceSetup->mKartCount);
+            if (gRaceMultiConfig->mCpuDifficulty == 0) {
+                func_020f80c0(&data_0217bc6c, gRaceMultiConfig->mKartCount);
+                func_020f80c0(&data_0217bc64, gRaceMultiConfig->mKartCount);
             }
             break;
     }
@@ -146,9 +146,9 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
 
     if (item->mFlags & 0x2000000) {
         if ((s64) normal->x * normal->x + (s64) normal->y * normal->y + (s64) normal->z * normal->z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(normal, normal);
+            vec_normalize(normal, normal);
         }
-        if (Vec3DotUnrounded(normal, &item->mUnk_108) > 0x800) {
+        if (vec_dotProduct(normal, &item->mUnk_108) > 0x800) {
             item->mVelocity.z = ((s64) normal->z * 0x14cd) >> 12;
             item->mVelocity.x = ((s64) normal->x * 0x14cd) >> 12;
         }
@@ -163,14 +163,14 @@ void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal) {
     if (item->mFlags & 0x2000000) {
         return;
     }
-    if (Vec3DotUnrounded(&item->mVelocity, normal) >= 0) {
+    if (vec_dotProduct(&item->mVelocity, normal) >= 0) {
         return;
     }
-    random = &gRaceProgress->mRandom;
+    random = &gRaceStatus->mRandom;
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     angleIndex = (u16) ((((u64) (u32) (random->mValue >> 32) * 0x10000) >> 32)) >> 4;
-    item->mUnk_108.z = gPairsByAngle[angleIndex * 2 + 1];
-    item->mUnk_108.x = gPairsByAngle[angleIndex * 2];
+    item->mUnk_108.z = FX_SinCosTable_[angleIndex * 2 + 1];
+    item->mUnk_108.x = FX_SinCosTable_[angleIndex * 2];
     item->mVelocity.z = ((s64) item->mUnk_108.z * 0x14cd) >> 12;
     item->mVelocity.x = ((s64) item->mUnk_108.x * 0x14cd) >> 12;
     item->mFlags |= 0x2000000;

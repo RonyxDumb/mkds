@@ -6,5 +6,5 @@
 
 typedef struct ItemObject ItemObject;
 
-u8 CollideItemObjectWithSunFireball(SunFireball *sunFireball, ItemObject *itemObject, u8 *c, u8 *d);
-u8 CollideKartWithSunFireball(SunFireball *sunFireball, Kart *kart, u8 *c, u8 *d);
+u8 sfsn_onItemCollide(SunFireball *sunFireball, ItemObject *itemObject, u8 *c, u8 *d);
+u8 sfsn_onDriverCollide(SunFireball *sunFireball, Kart *kart, u8 *c, u8 *d);

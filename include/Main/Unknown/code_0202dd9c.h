@@ -5,14 +5,14 @@
 
 typedef struct SelectCharacter SelectCharacter;
 
-unsigned int GetSlotGhostCount(void);
-unsigned int GetCourseGhostCount(void);
-unsigned int GetGhostCount(void);
+unsigned int ghost_getDlGhostCount(void);
+unsigned int ghost_getMyGhostCount(void);
+unsigned int ghost_getTotalGhostCount(void);
 unsigned int GetSlotGhostBuffer(void);
 void *GetCourseGhostBuffer(void);
 void PrintGhostRecordInfo(SelectCharacter *fileSets, s16 (*labelRows)[4], void *name, s32 characterIndex, s32 kartIndex,
                           s32 courseId, MinuteSecondMillisecondTime *time);
-void func_0202dec8(void);
-void ReleaseGhostScene(void);
-void AdvanceGhostScene(s32 sceneNumbers);
-void InitGhostScene(void *heap);
+void ghost_vblank(void);
+void ghost_finish(void);
+void ghost_render(s32 sceneNumbers);
+void ghost_create(void *heap);

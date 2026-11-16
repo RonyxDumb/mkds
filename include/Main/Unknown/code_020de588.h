@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_020d849c.h"
 #include "Main/Unknown/code_020e516c.h"
 
-// Second argument of InitItemBox: a Vec3 at 0x00 and halfwords at 0x26, 0x28, 0x2a, 0x2c, 0x2e, 0x30 and 0x34.
+// Second argument of ibox_init: a Vec3 at 0x00 and halfwords at 0x26, 0x28, 0x2a, 0x2c, 0x2e, 0x30 and 0x34.
 typedef struct Unk020de6a8_1 {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ u8 mUnk_0c[0x1a];
@@ -22,7 +22,7 @@ typedef struct Unk020de6a8_1 {
     /* 34 */ s16 mUnk_34;
 } Unk020de6a8_1;
 
-// Object of 0x108 or more bytes handled by InitItemBox.
+// Object of 0x108 or more bytes handled by ibox_init.
 typedef struct ItemBox {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ u16 mBoxRotationIndex;
@@ -47,9 +47,9 @@ typedef struct ItemBox {
     /* 108 */ GroupFollowerWithSpeeds mFollower;
 } ItemBox;
 
-void CreateBoxAndQuestion(void);
-void InitItemBox(ItemBox *itemBox, Unk020de6a8_1 *row);
-MapObjectKindData *CreateEarthenPipeKindData(void);
-MapObjectDrawList *CreateEarthenPipeDrawList(void);
-MapObjectList *CreateEarthenPipeUpdateList(void);
-void SetupDrawEarthenPipe(void);
+void ibox_loadModels(void);
+void ibox_init(ItemBox *itemBox, Unk020de6a8_1 *row);
+MapObjectKindData *epipe_setupConfig(void);
+MapObjectDrawList *epipe_setupRenderPart(void);
+MapObjectList *epipe_setupLogicPart(void);
+void epipe_applyMaterial(void);

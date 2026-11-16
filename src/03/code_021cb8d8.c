@@ -172,8 +172,8 @@ void func_ov003_021cb9c8(void) {
 void func_ov003_021cb948(void) {
     Unk021cd5e0 *a = func_ov003_021cd4dc();
     if (func_ov000_02188720() != 0) {
-        MI_CpuCopy8(func_0215109c(), a->mUnk_000[0].mUnk_f0, 0xe);
-        MI_CpuCopy8(func_0215109c(), a->mUnk_000[1].mUnk_f0, 0xe);
+        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->mUnk_000[0].mUnk_f0, 0xe);
+        MI_CpuCopy8(DWCi_BACKUPlGetWifi(), a->mUnk_000[1].mUnk_f0, 0xe);
         func_ov003_021beecc();
         ReleaseBgTextCanvasOfScreen(0);
         ClearDispcntBits(0, 0x15);

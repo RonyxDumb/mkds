@@ -15,7 +15,7 @@
 #include "Main/Unknown/code_020d6000.h"
 #include "Main/Unknown/code_020b4000.h"
 
-BOOL func_020d2234(MapObject *mapObject, ItemObject *itemObject) {
+BOOL mobj_destroysItemOnHit(MapObject *mapObject, ItemObject *itemObject) {
     s32 kindRemainder;
     s32 kindHundreds;
     s32 itemKind;
@@ -26,8 +26,8 @@ BOOL func_020d2234(MapObject *mapObject, ItemObject *itemObject) {
         kindRemainder -= 100;
         kindHundreds++;
     }
-    if (func_020d6d8c(0, itemKind, kindHundreds, kindRemainder) == 0 ||
-        GetItemObjectResponseByKind(0, itemKind, kindHundreds, kindRemainder, 3) != 2) {
+    if (mobj_getItemHitObjResponse(0, itemKind, kindHundreds, kindRemainder) == 0 ||
+        mobj_getItemHitResponse(0, itemKind, kindHundreds, kindRemainder, 3) != 2) {
         return FALSE;
     }
     return TRUE;
@@ -35,19 +35,19 @@ BOOL func_020d2234(MapObject *mapObject, ItemObject *itemObject) {
 
 #pragma thumb on
 
-void *FindMainRaceOrMainEffectMapObjFile(const char *name) {
+void *mobj_getSharedMapObjFile(const char *name) {
     char buf[0x100];
     snprintf(buf, 0x100, "MapObj/%s", name);
-    return FindMainRaceOrMainEffectFile(buf);
+    return arc_getMainRaceMainEffectArcFile(buf);
 }
 
-void *FindCourseMapObjFile(const char *name) {
+void *mobj_getMapObjFile(const char *name) {
     char buf[0x100];
     snprintf(buf, 0x100, "MapObj/%s", name);
-    return FindCourseFile(buf);
+    return arc_getCourseArcFile(buf);
 }
 
-u32 DecimalNonZeroDigitsToBitMask(s32 number) {
+u32 mobj_parseDecimalBits(s32 number) {
     u32 bitMask;
     s32 digit;
     bitMask = 0;
@@ -74,26 +74,26 @@ u32 DecimalNonZeroDigitsToBitMask(s32 number) {
 
 #pragma thumb off
 
-void InitRaceMNumberPair(void) {
+void r2d_initRaceNumber(void) {
     RaceMNumberPair *pair;
-    pair = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+    pair = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
     gRaceMNumberPair = pair;
-    pair->mCourseNumber = gRaceSetup->mCourseNumber;
-    if (gRaceSetup->mMode == 5) {
+    pair->mCourseNumber = gRaceMultiConfig->mCourseNumber;
+    if (gRaceMultiConfig->mMode == 5) {
         gRaceMNumberPair->mCourseCount = 4;
-    } else if (gRaceSetup->mMode == MODE_VS && gRaceSetup->mRuleKind == 2) {
-        gRaceMNumberPair->mCourseCount = gRaceSetup->mCourseCount;
+    } else if (gRaceMultiConfig->mMode == MODE_VS && gRaceMultiConfig->mRuleKind == 2) {
+        gRaceMNumberPair->mCourseCount = gRaceMultiConfig->mCourseCount;
     } else {
         gRaceMNumberPair->mCourseCount = 0;
     }
-    Matrix2x2ReciprocalScale(gRaceMNumberPair->mScaleMatrix, 0x1000);
+    lmap_scaleMtx22(gRaceMNumberPair->mScaleMatrix, 0x1000);
     gRaceMNumberPair->mCellMatrix = NULL;
     gRaceMNumberPair->mScale = 0;
     gRaceMNumberPair->mMatrixIndex = 0;
     gRaceMNumberPair->mOffsetX = 0;
 }
 
-u32 ClearRaceMNumberPairPointer(void) {
+u32 r2d_finalizeRaceNumber(void) {
     u32 address;
     u32 zero;
     address = (u32) &gRaceMNumberPair;
@@ -102,4 +102,4 @@ u32 ClearRaceMNumberPairPointer(void) {
     return address;
 }
 
-void func_020d2090(void) {}
+void r2d_updateRaceNumber(void) {}

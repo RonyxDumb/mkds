@@ -2,17 +2,17 @@
 #include "Main/Unknown/code_02090348.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex) {
+void enmy_initMgEnemy(KartAi *kartAi, s32 kartIndex) {
     Kart *kart;
-    kart = GetKart(kartIndex);
-    SetupBattleKartAi(kartAi, kart);
+    kart = driver_getById(kartIndex);
+    mgen_init(kartAi, kart);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
-    func_02090348(&kartAi->mItemUse);
+    mgenit_init(&kartAi->mItemUse);
     PickBattleKartAiRaceStart(kartAi, &kartAi->mUnk_e8);
 }
 
 void ResetKartAiForBattle(KartAi *kartAi, PointLink *link) {
     ResetBattleKartAiAtPointLink(kartAi, link);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
-    func_02090348(&kartAi->mItemUse);
+    mgenit_init(&kartAi->mItemUse);
 }

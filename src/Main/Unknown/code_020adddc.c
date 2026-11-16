@@ -7,7 +7,7 @@
 void RenderKartEntryNameToTexture(u32 kartIndex, void *texBuffer, u32 textValue, u32 outlineValue) {
     u16 *messageScreenCharBuffer;
     RenderKartEntryName(kartIndex);
-    messageScreenCharBuffer = GetMessageScreenCharBuffer();
+    messageScreenCharBuffer = err_getCharData();
     PlotNibblePixels(messageScreenCharBuffer, texBuffer, textValue, outlineValue, SetPixel2Bit);
 }
 

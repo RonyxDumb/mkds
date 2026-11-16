@@ -21,7 +21,7 @@
 static inline s32 func_02060004_inline(s32 courseId, s32 recordIndex, TimeRecord *timeRecord) {
     BOOL isFilled;
 
-    if (GetCourseTimeRecord(courseId, recordIndex, timeRecord) != 0 && timeRecord->mFilled != 0) {
+    if (savd_getNktaEntry(courseId, recordIndex, timeRecord) != 0 && timeRecord->mFilled != 0) {
         isFilled = TRUE;
     } else {
         isFilled = FALSE;
@@ -30,7 +30,7 @@ static inline s32 func_02060004_inline(s32 courseId, s32 recordIndex, TimeRecord
 }
 
 void CopyWiFiBuddiesToRecordBlock(DWCAccFriendData *buddies) {
-    MI_CpuCopy8(buddies, (u8 *) data_0217aa08->mBuddyRecordBlock + 0x874, 0x2d0);
+    MI_CpuCopy8(buddies, (u8 *) gSaveData->mBuddyRecordBlock + 0x874, 0x2d0);
 }
 
 void RefreshNotYetBuddyFlags(void) {
@@ -41,7 +41,7 @@ void RefreshNotYetBuddyFlags(void) {
         GetBuddyRecord(recordIndex, &buddyRecord);
         if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 &&
             DWC_IsBuddyFriendData(
-                (DWCAccFriendData *) ((u8 *) data_0217aa08->mBuddyRecordBlock + 0x874 + recordIndex * 12)) != 0) {
+                (DWCAccFriendData *) ((u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12)) != 0) {
             buddyRecord.mNotYetBuddy = 0;
             SetBuddyRecord(recordIndex, &buddyRecord);
         }
@@ -173,10 +173,10 @@ s32 RemoveBuddyRecord(u8 recordIndex) {
     MI_CpuFill8(&buddyRecord, 0, 0x24);
     buddyRecord.mFilled = 0;
     SetBuddyRecord(recordIndex, &buddyRecord);
-    if (gWiFiSession->mUnk_0008.mState != 0) {
-        RemoveBuddyEntry((u8 *) data_0217aa08->mBuddyRecordBlock + 0x874 + recordIndex * 12);
+    if (gStruct217D384->mUnk_0008.mState != 0) {
+        RemoveBuddyEntry((u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12);
     } else {
-        MI_CpuFill8((u8 *) data_0217aa08->mBuddyRecordBlock + 0x874 + recordIndex * 12, 0, 0xc);
+        MI_CpuFill8((u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12, 0, 0xc);
     }
     WriteBackupBuddyRecords();
     return wasFilled;
@@ -232,8 +232,8 @@ BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
 
     found = FALSE;
     GetBuddyRecord(recordIndex, &buddyRecord);
-    friendData = (u8 *) data_0217aa08->mBuddyRecordBlock + 0x874 + recordIndex * 12;
-    if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && IsFriendDataTypeNonZero(friendData) != 0) {
+    friendData = (u8 *) gSaveData->mBuddyRecordBlock + 0x874 + recordIndex * 12;
+    if (buddyRecord.mFilled == 1 && buddyRecord.mNotYetBuddy == 1 && DWC_IsValidFriendData(friendData) != 0) {
         hasFriendKey = TRUE;
     } else {
         hasFriendKey = FALSE;
@@ -241,76 +241,76 @@ BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut) {
     if (hasFriendKey != FALSE) {
         u64 friendKey = DWC_GetFriendKey((DWCAccFriendData *) friendData);
 
-        FormatFriendKey(friendKey, friendKey >> 32, (u32) textOut);
+        DWC_Acc_FriendKeyToNumericKey(friendKey, friendKey >> 32, (u32) textOut);
         found = TRUE;
     }
     return found;
 }
 
-s32 IsGrandPrixRecordFilled(s32 cup, s32 engineClass) {
+s32 savd_getIsCupPlayed(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled == 0) {
         return 0;
     }
     return timeRecord.mFilled;
 }
 
-s32 GetGrandPrixRecordCharacterIndex(s32 cup, s32 engineClass) {
+s32 savd_getCupCharacter(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mCharacterIndex;
     }
     return -1;
 }
 
-s32 GetGrandPrixRecordKartIndex(s32 cup, s32 engineClass) {
+s32 savd_getCupKart(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mKartIndex;
     }
     return -1;
 }
 
-s32 GetGrandPrixRecordCupRank(s32 cup, s32 engineClass) {
+s32 savd_getCupTrophy(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mCupRank;
     }
     return 3;
 }
 
-s32 GetGrandPrixRecordTotalPoints(s32 cup, s32 engineClass) {
+s32 savd_getCupRankPoints(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return (s8) timeRecord.mTotalPoints;
     }
     return -1;
 }
 
-s32 func_02060364(s32 cup, s32 engineClass) {
+s32 savd_getCupRank(s32 cup, s32 engineClass) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled != 0) {
         return timeRecord.mUnk_1e;
     }
     return 9;
 }
 
-BOOL GetGrandPrixRecordTime(s32 cup, s32 engineClass, void *timeOut) {
+BOOL savd_getCupTotalRaceTime(s32 cup, s32 engineClass, void *timeOut) {
     TimeRecord timeRecord;
 
-    GetGrandPrixRecord(cup, engineClass, &timeRecord);
+    savd_getNkgpEntry(cup, engineClass, &timeRecord);
     if (timeRecord.mFilled == 0) {
         return FALSE;
     }
@@ -325,11 +325,11 @@ BOOL func_02060268(s32 courseId) {
     TimeRecord timeRecord;
 
     noRecords = TRUE;
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = rconf_getCourseNumber(courseId);
     if (cupCourseIndex == -1) {
         return noRecords;
     }
-    if (IsCourseGhostBitSet(cupCourseIndex) == 0) {
+    if (savd_isPersonalGhostAvailable(cupCourseIndex) == 0) {
         return noRecords;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
@@ -344,7 +344,7 @@ BOOL func_02060268(s32 courseId) {
 BOOL IsTimeRecordFilled(s32 courseId, s32 recordIndex) {
     TimeRecord timeRecord;
 
-    if (GetCourseTimeRecord(courseId, recordIndex, &timeRecord) != 0 && timeRecord.mFilled != 0) {
+    if (savd_getNktaEntry(courseId, recordIndex, &timeRecord) != 0 && timeRecord.mFilled != 0) {
         return TRUE;
     }
     return FALSE;
@@ -403,23 +403,23 @@ void ClearCourseTimeRecords(s32 courseId) {
     s32 cupCourseIndex;
     TimeRecord timeRecord;
 
-    cupCourseIndex = FindCupCourseIndex(courseId);
+    cupCourseIndex = rconf_getCourseNumber(courseId);
     ghostBitCleared = FALSE;
     if (cupCourseIndex == -1) {
         return;
     }
     e = cupCourseIndex;
-    if (IsCourseGhostBitSet(e) != 0) {
-        ClearCourseGhostBit(e);
+    if (savd_isPersonalGhostAvailable(e) != 0) {
+        savd_setPersonalGhostUnavailable(e);
         ghostBitCleared = TRUE;
     }
     for (recordIndex = 0; recordIndex < 6; recordIndex++) {
         MI_CpuFill8(&timeRecord, 0, 0x20);
-        SetCourseTimeRecord(courseId, recordIndex, &timeRecord);
+        savd_setNktaEntry(courseId, recordIndex, &timeRecord);
     }
     if (ghostBitCleared != FALSE) {
         func_020563ec();
     } else {
-        WriteBackupCourseTimeRecords();
+        savd_flushNkta();
     }
 }

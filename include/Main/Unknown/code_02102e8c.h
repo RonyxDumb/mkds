@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int InitItemGesso(unsigned int itemInUse, unsigned int gesso);
+unsigned int itgsso_2102E8C(unsigned int itemInUse, unsigned int gesso);

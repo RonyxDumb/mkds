@@ -10,64 +10,64 @@
 #include "Main/Unknown/code_020ea514.h"
 
 #pragma thumb on
-void *CreateMapObjectModelAnimated(void *a, const char *b) {
+void *mobj_loadModel(void *a, const char *b) {
     MapObjectModel *o;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     if (a != NULL) {
         ((Unk0209bc74_a *) a)->mUnk_18 = 1;
     }
-    o->mNsbmdFile = FindCourseMapObjFile(b);
-    o->mAnimatedModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
-    InitNsbmd(o->mAnimatedModel, o->mNsbmdFile);
-    SetNsbmdEmiAll(o->mAnimatedModel, 0x294a);
-    SetNsbmdLightEnableFlagAll(o->mAnimatedModel, 2);
+    o->mNsbmdFile = mobj_getMapObjFile(b);
+    o->mAnimatedModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
+    model_initFromNsbmd(o->mAnimatedModel, o->mNsbmdFile);
+    model_setEmi(o->mAnimatedModel, 0x294a);
+    model_setLightEnableFlag(o->mAnimatedModel, 2);
     o->mScale = data_021565c4;
     return o;
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbcaAnimation(MapObjectModel *a, const char *b) {
+void mobj_loadNsbcaAnim(MapObjectModel *a, const char *b) {
     void *x;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[0] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(0, a->mAnimatedModel, a->mAnimations[0], a->mNsbmdFile, x);
+    x = mobj_getMapObjFile(b);
+    a->mAnimations[0] = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+    anim_20EA514(0, a->mAnimatedModel, a->mAnimations[0], a->mNsbmdFile, x);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbtaAnimation(MapObjectModel *a, const char *b) {
+void mobj_loadNsbtaAnim(MapObjectModel *a, const char *b) {
     void *x;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[3] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(1, a->mAnimatedModel, a->mAnimations[3], a->mNsbmdFile, x);
+    x = mobj_getMapObjFile(b);
+    a->mAnimations[3] = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+    anim_20EA514(1, a->mAnimatedModel, a->mAnimations[3], a->mNsbmdFile, x);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b) {
+void mobj_loadNsbtpAnim(MapObjectModel *a, const char *b) {
     void *x;
 
-    x = FindCourseMapObjFile(b);
-    a->mAnimations[1] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(2, a->mAnimatedModel, a->mAnimations[1], a->mNsbmdFile, x);
+    x = mobj_getMapObjFile(b);
+    a->mAnimations[1] = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+    anim_20EA514(2, a->mAnimatedModel, a->mAnimations[1], a->mNsbmdFile, x);
 }
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelShadow(void *a, const char *b) {
+void *mobj_loadShadowModel(void *a, const char *b) {
     MapObjectModel *o;
     void *x;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
+    o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    x = mobj_getMapObjFile(b);
     if (a != NULL) {
         ((Unk0209bc74_a *) a)->mUnk_18 = 1;
     }
-    o->mShadowModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x74);
+    o->mShadowModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x74);
     InitShadowModel(o->mShadowModel, x, 0x3f);
     o->mScale = data_021565b8;
     return o;
@@ -75,18 +75,18 @@ void *CreateMapObjectModelShadow(void *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-void *CreateMapObjectModelNsbmd(void *a, const char *b) {
+void *mobj_loadBillboardModel(void *a, const char *b) {
     MapObjectModel *o;
     void *x;
     NsbmdModel *m;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
+    o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    x = mobj_getMapObjFile(b);
     if (a != NULL) {
         ((Unk0209bc74_a *) a)->mUnk_18 = 2;
     }
-    o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(o->mNsbmdModel, x, NULL, 0);
+    o->mNsbmdModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    bbm_initFromNsbmd(o->mNsbmdModel, x, NULL, 0);
     m = o->mNsbmdModel;
     m->mUnk_10 &= 0x8000ffff;
     m->mUnk_10 |= 0x294a0000;
@@ -99,21 +99,21 @@ void *CreateMapObjectModelNsbmd(void *a, const char *b) {
 #pragma thumb off
 
 #pragma thumb on
-// Like CreateMapObjectModelNsbmd with a second file, the .nsbtp (named like Init<Kind><Kind>).
-void *CreateMapObjectModelNsbmdNsbtp(void *a, const char *b, const char *c) {
+// Like mobj_loadBillboardModel with a second file, the .nsbtp (named like Init<Kind><Kind>).
+void *mobj_loadTexAnimBillboardModel(void *a, const char *b, const char *c) {
     MapObjectModel *o;
     void *x;
     void *y;
     NsbmdModel *m;
 
-    o = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    x = FindCourseMapObjFile(b);
-    y = FindCourseMapObjFile(c);
+    o = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    x = mobj_getMapObjFile(b);
+    y = mobj_getMapObjFile(c);
     if (a != NULL) {
         ((Unk0209bc74_a *) a)->mUnk_18 = 2;
     }
-    o->mNsbmdModel = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(o->mNsbmdModel, x, y, 0);
+    o->mNsbmdModel = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    bbm_initFromNsbmd(o->mNsbmdModel, x, y, 0);
     m = o->mNsbmdModel;
     m->mUnk_10 &= 0x8000ffff;
     m->mUnk_10 |= 0x294a0000;

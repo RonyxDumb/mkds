@@ -16,39 +16,39 @@
 #include "frameheap.h"
 #include "Main/Unknown/code_0204aa60.h"
 
-void ReleaseWLMenuSceneCallback(void) {
+void wlmenu_finalize(void) {
     u32 unused;
-    ReleaseWLMenuScene();
+    EndMultiplayerMenu();
 }
 
-void func_0204b024(void) {
+void wlmenu_vblank(void) {
     u32 unused;
     func_0202f160();
 }
 
-void UpdateWLMenuSceneCallback(void *sceneNumbers) {
+void wlmenu_update(void *sceneNumbers) {
     AdvanceWLMenuScene(sceneNumbers);
 }
 
-s32 RunWLMenuScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = gWLMenuSceneCallbacks;
+s32 wlmenu_run(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = multiplayerMenu_vtable;
 
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 
-void func_0204af70(void *heap) {
+void sysdat_init(void *heap) {
     u8 *arenaLo;
     u8 *arenaHi;
 
     arenaLo = OS_GetArenaLo(4);
     arenaHi = OS_GetArenaHi(4);
-    data_021759d0 = HeapAlloc(heap, 0x7c);
-    data_021759d0->mHeap = NNS_FndCreateFrmHeapEx(arenaLo, arenaHi - arenaLo, 1);
-    func_0204ad44();
+    gSystemData = heap_alloc(heap, 0x7c);
+    gSystemData->mHeap = NNS_FndCreateFrmHeapEx(arenaLo, arenaHi - arenaLo, 1);
+    sysdat_initSystemData();
 }
 
-void func_0204ad44(void) {
+void sysdat_initSystemData(void) {
     Unk0200fddc ownerInfo;
     u64 firstTick;
     u64 secondTick;
@@ -56,54 +56,54 @@ void func_0204ad44(void) {
     RandomState64 *random;
 
     OS_GetOwnerInfo(&ownerInfo);
-    MI_CpuFill8(data_021759d0->mOwnerText, 0, 0x14);
-    data_021759d0->mOwnerCharCount = ownerInfo.mUnk_18;
-    MI_CpuCopy8(ownerInfo.mUnk_04, data_021759d0->mOwnerText, data_021759d0->mOwnerCharCount << 1);
-    data_021759d0->mUnk_40 = ownerInfo.mUnk_01;
+    MI_CpuFill8(gSystemData->mOwnerText, 0, 0x14);
+    gSystemData->mOwnerCharCount = ownerInfo.mUnk_18;
+    MI_CpuCopy8(ownerInfo.mUnk_04, gSystemData->mOwnerText, gSystemData->mOwnerCharCount << 1);
+    gSystemData->mUnk_40 = ownerInfo.mUnk_01;
 #ifdef version_EUR
-    data_021759d0->mUnk_00 = 2;
+    gSystemData->mUnk_00 = 2;
 #else
-    data_021759d0->mUnk_00 = 1;
+    gSystemData->mUnk_00 = 1;
 #endif
     switch (ownerInfo.mUnk_00) {
         case 1:
-            data_021759d0->mLanguageIndex = 1;
+            gSystemData->mLanguageIndex = 1;
             break;
         case 2:
-            data_021759d0->mLanguageIndex = 2;
+            gSystemData->mLanguageIndex = 2;
             break;
         case 3:
-            data_021759d0->mLanguageIndex = 3;
+            gSystemData->mLanguageIndex = 3;
             break;
         case 4:
-            data_021759d0->mLanguageIndex = 4;
+            gSystemData->mLanguageIndex = 4;
             break;
         case 5:
-            data_021759d0->mLanguageIndex = 5;
+            gSystemData->mLanguageIndex = 5;
             break;
         default:
-            data_021759d0->mLanguageIndex = 1;
+            gSystemData->mLanguageIndex = 1;
             break;
     }
-    data_021759d0->mUnk_20 = 0;
-    data_021759d0->mUnk_28 = -1;
-    data_021759d0->mUnk_44 = -1;
-    data_021759d0->mSoundSetSeqPlaying = 0;
-    data_021759d0->mSoundSetPlayerInitialized = 0;
-    data_021759d0->mUnk_58 = 0;
-    data_021759d0->mUnk_5c = 0;
+    gSystemData->mUnk_20 = 0;
+    gSystemData->mUnk_28 = -1;
+    gSystemData->mUnk_44 = -1;
+    gSystemData->mSoundSetSeqPlaying = 0;
+    gSystemData->mSoundSetPlayerInitialized = 0;
+    gSystemData->mUnk_58 = 0;
+    gSystemData->mUnk_5c = 0;
     NNS_G3dGeUseFastDma(0);
-    data_021759d0->mUnk_1c_3 = 0;
-    data_021759d0->mUnk_54 = FALSE;
-    data_021759d0->mUnk_50 = 0;
+    gSystemData->mUnk_1c_3 = 0;
+    gSystemData->mUnk_54 = FALSE;
+    gSystemData->mUnk_50 = 0;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        data_021759d0->mUnk_1c_2 = 1;
+        gSystemData->mUnk_1c_2 = 1;
     } else {
-        data_021759d0->mUnk_1c_2 = 0;
+        gSystemData->mUnk_1c_2 = 0;
     }
     firstTick = OS_GetTick();
     secondTick = OS_GetTick();
-    p = data_021759d0;
+    p = gSystemData;
     random = &p->mRandom;
     random->mValue = (u32) ((firstTick << 16) + secondTick);
     random->mMultiplier = 0x5d588b656c078965;
@@ -111,5 +111,5 @@ void func_0204ad44(void) {
     if (PM_GetBackLight(&p->mFirstBackLightOn, &p->mSecondBackLightOn) == 0) {
         return;
     }
-    TrySetBackLights(1, 1);
+    sysdat_configureBackLight(1, 1);
 }

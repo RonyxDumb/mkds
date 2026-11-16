@@ -13,9 +13,9 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "code_0214d018.h"
 
-s32 IsKartEnded(u32 kartIndex) {
+s32 rstat_hasDriverFinished(u32 kartIndex) {
     BOOL ended = FALSE;
-    switch (gRaceProgress->mUnk_000[kartIndex].mStatus) {
+    switch (gRaceStatus->mUnk_000[kartIndex].mStatus) {
         case 1:
         case 2:
         case 3:
@@ -25,11 +25,11 @@ s32 IsKartEnded(u32 kartIndex) {
     return ended;
 }
 
-void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
-    RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+void rstat_getDriverTotalTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+    RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartIndex * 0x8c);
     BOOL g = TRUE;
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        if (gRaceSetup->mBattleKind == BATTLE_KIND_SHINE) {
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_SHINE) {
             g = FALSE;
         }
     }
@@ -55,17 +55,17 @@ void GetKartFinishTime(s32 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     *outMillisecond = 0;
 }
 
-void GetKartLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+void rstat_getDriverLapTime(s32 kartIndex, u16 lap, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     s32 lapSlot = lap - 1;
     Unk0217aa1c_144_00 *kartLapTimes =
-        OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
+        OFFSET_PTR(Unk0217aa1c_144_00, &gRaceStatus->mKarts[0].mLapTimes[0], kartIndex * 0x8c);
     Unk0217aa1c_144_00 *lapTime = &kartLapTimes[lapSlot];
     *outMinute = lapTime->mUnk_02;
     *outSecond = lapTime->mUnk_03;
     *outMillisecond = lapTime->mUnk_00;
 }
 
-u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
+u16 rstat_getDriverBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMillisecond) {
     u16 bestLap = 1;
     u16 lap;
     BOOL first = TRUE;
@@ -75,10 +75,10 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
     BOOL isBest;
     Unk0217aa1c_144_00 *bestTimeRef;
     lap = 1;
-    if (gCourseMap->mSettings->mLapCountOrBattleSeconds >= 1) {
+    if (gMapData->mSettings->mLapCountOrBattleSeconds >= 1) {
         kartOffset = kartIndex * 0x8c;
         do {
-            lapTime = OFFSET_PTR(Unk0217aa1c_144_00, &gRaceProgress->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
+            lapTime = OFFSET_PTR(Unk0217aa1c_144_00, &gRaceStatus->mKarts[0].mLapTimes[0], kartOffset) + (lap - 1);
             if (first != FALSE) {
                 first = FALSE;
                 bestLap = lap;
@@ -103,7 +103,7 @@ u16 GetKartBestLapTime(u16 kartIndex, u8 *outMinute, u8 *outSecond, u16 *outMill
                 }
             }
             lap++;
-        } while (lap <= gCourseMap->mSettings->mLapCountOrBattleSeconds);
+        } while (lap <= gMapData->mSettings->mLapCountOrBattleSeconds);
     }
     *outMinute = bestTime.mUnk_02;
     *outSecond = bestTime.mUnk_03;

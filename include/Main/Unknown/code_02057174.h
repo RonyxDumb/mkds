@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void WriteBackupFirstBlockAndRecords(void);
-void ResetBackupFirstBlockAndRecords(u32 copyOwnerName);
+void savd_eraseAllTask(void);
+void savd_initSections(u32 copyOwnerName);

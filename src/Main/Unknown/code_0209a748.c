@@ -29,7 +29,7 @@
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitCrab(u32 crab) {
+void crab_init(u32 crab) {
     u32 value0 = crab;
     u32 courseMapRow;
     u32 speed;
@@ -37,7 +37,7 @@ void InitCrab(u32 crab) {
     courseMapRow = *(const u32 *) ((value0) + (156));
     value0 = (value0) + (0xf0u);
     speed = 0u;
-    InitGroupFollower((GroupFollower *) value0, (CourseMapRow *) courseMapRow, speed);
+    pw_initFromObject((GroupFollower *) value0, (CourseMapRow *) courseMapRow, speed);
 }
 
 static inline u32 func_0209b388_inline(RandomState64 *random, u32 limit) {
@@ -49,7 +49,7 @@ static inline u32 func_0209b388_inline(RandomState64 *random, u32 limit) {
     }
 }
 
-void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity) {
+void crab_209B388(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Vec3 *sourceVelocity) {
     Vec3 v;
     RandomState64 *mapObjectRandom;
     s32 x;
@@ -74,13 +74,13 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
         crab->mUnk_000.mUnk_10.y = ((s64) v.y * 0x1800) >> 12;
         crab->mUnk_000.mUnk_10.z = ((s64) v.z * 0x1800) >> 12;
     } else {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         z = (u16) func_0209b388_inline(mapObjectRandom, 0x10000);
-        x = gPairsByAngle[((u16) z >> 4) * 2 + 1];
+        x = FX_SinCosTable_[((u16) z >> 4) * 2 + 1];
         x = ((s64) x * 0x1800) >> 12;
         crab->mUnk_000.mUnk_10.x = x;
         crab->mUnk_000.mUnk_10.z = x;
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         if ((u16) func_0209b388_inline(mapObjectRandom, 2) != 0) {
             crab->mRotateZAnglePerFrame = 0x71c;
         } else {
@@ -97,18 +97,18 @@ void StartCrabLaunch(Crab *crab, Vec3 *sourcePosition, Vec3 *sourceDirection, Ve
     crab->mUnk_000.mFlags |= data_0215659c;
 }
 
-u8 CollideKartWithCrab(Crab *crab, Kart *kart, u8 *c, u8 *d) {
+u8 crab_onDriverCollide(Crab *crab, Kart *kart, u8 *c, u8 *d) {
     u32 result;
 
     result = *d;
     if (*c == 1) {
-        StartCrabLaunch(crab, &kart->mPos, &kart->mEasedTurnedForward, &kart->mVelocity);
-        StartSoundIfKartStarOrKiller(&crab->mUnk_000, kart);
+        crab_209B388(crab, &kart->mPos, &kart->mEasedTurnedForward, &kart->mVelocity);
+        mobj_tryDestroyByDriver(&crab->mUnk_000, kart);
     }
     return result;
 }
 
-u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
+u8 crab_onItemCollide(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
     Vec3 direction;
     Kart *entryKart;
     u32 result;
@@ -120,58 +120,58 @@ u8 CollideItemObjectWithCrab(Crab *crab, ItemObject *itemObject, u8 *c, u8 *d) {
                     (s64) itemObject->mVelocity.y * itemObject->mVelocity.y +
                     (s64) itemObject->mVelocity.z * itemObject->mVelocity.z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&itemObject->mVelocity, &direction);
-                StartCrabLaunch(crab, &itemObject->mPos, &direction, NULL);
+                vec_normalize(&itemObject->mVelocity, &direction);
+                crab_209B388(crab, &itemObject->mPos, &direction, NULL);
             } else {
-                StartCrabLaunch(crab, NULL, NULL, NULL);
+                crab_209B388(crab, NULL, NULL, NULL);
             }
-            func_020f8ddc(itemObject);
+            it_emitMissionParticles(itemObject);
         } else {
-            entryKart = GetKart((u16) gRaceSetup->mEntryIndex);
-            StartCrabLaunch(crab, &entryKart->mPos, &entryKart->mEasedTurnedForward, &entryKart->mVelocity);
+            entryKart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
+            crab_209B388(crab, &entryKart->mPos, &entryKart->mEasedTurnedForward, &entryKart->mVelocity);
         }
     }
     return result;
 }
 
-void CreateCrabAndCrabHand(void *a) {
-    gCrab = CreateMapObjectModelNsbmdNsbtp(a, "crab.nsbmd", "crab.nsbtp");
-    gCrabHand = CreateMapObjectModelNsbmdNsbtp(a, "crab_hand.nsbmd", "crab_hand.nsbtp");
-    SetMapObjectModelPolygonId(gCrab, 0x3f);
-    SetMapObjectModelPolygonId(gCrabHand, 0x3f);
+void crab_loadModels(void *a) {
+    gCrab = mobj_loadTexAnimBillboardModel(a, "crab.nsbmd", "crab.nsbtp");
+    gCrabHand = mobj_loadTexAnimBillboardModel(a, "crab_hand.nsbmd", "crab_hand.nsbtp");
+    mobj_setModelPolygonIdAll(gCrab, 0x3f);
+    mobj_setModelPolygonIdAll(gCrabHand, 0x3f);
 }
 
-u32 func_0209b1f8(u32 p0) {
+u32 crab_globalPreRender(u32 p0) {
     return p0;
 }
 
-void DrawCrab(void *a, Crab *crab) {
+void crab_render(void *a, Crab *crab) {
     s32 w;
     s32 crabRotation[9];
     s32 handRotation[9];
 
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_020e6d88(&crab->mUnk_000.mMatrix.mUnk_00[1]);
-    func_01ff9048(0x19, func_020e6bd0(&crab->mUnk_000.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    bbm_setupCustomUpAxisBillboard(&crab->mUnk_000.mMatrix.mUnk_00[1]);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getCustomUpAxisBillboardAtPos(&crab->mUnk_000.mPos), 0xc);
     if (crab->mRotateZAngle != 0) {
-        MTX_RotZ33_(crabRotation, gPairsByAngle[(crab->mRotateZAngle >> 4) * 2],
-                    gPairsByAngle[(crab->mRotateZAngle >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, crabRotation, 9);
+        MTX_RotZ33_(crabRotation, FX_SinCosTable_[(crab->mRotateZAngle >> 4) * 2],
+                    FX_SinCosTable_[(crab->mRotateZAngle >> 4) * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, crabRotation, 9);
     }
-    func_01ff9048(0x1b, &crab->mUnk_000.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
-    func_0209bbd0(a, gCrab);
-    DrawMapObjectModel(a, gCrab, crab);
-    MTX_RotZ33_(handRotation, gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2],
-                gPairsByAngle[((u16) crab->mHandWobble.mValue >> 4) * 2 + 1]);
-    func_01ff9048(0x1a, handRotation, 9);
-    SetMapObjectModelNsbtpFrameIndex(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
-    func_0209bbd0(a, gCrabHand);
-    DrawMapObjectModel(a, gCrabHand, crab);
+    NNS_G3dGeBufferOP_N(0x1b, &crab->mUnk_000.mScale, 3);
+    mobj_setModelNsbtpFrame(gCrab, crab->mCrabNsbtpFrameIndexFixed12 >> 12);
+    mobj_bbModelApplyMaterial(a, gCrab);
+    mobj_renderModel(a, gCrab, crab);
+    MTX_RotZ33_(handRotation, FX_SinCosTable_[((u16) crab->mHandWobble.mValue >> 4) * 2],
+                FX_SinCosTable_[((u16) crab->mHandWobble.mValue >> 4) * 2 + 1]);
+    NNS_G3dGeBufferOP_N(0x1a, handRotation, 9);
+    mobj_setModelNsbtpFrame(gCrabHand, crab->mHandNsbtpFrameIndexFixed12 >> 12);
+    mobj_bbModelApplyMaterial(a, gCrabHand);
+    mobj_renderModel(a, gCrabHand, crab);
 }
 
-void InitCrabObjects(Unk0209af98 *mapObjectList) {
+void crab_globalLogicInit(Unk0209af98 *mapObjectList) {
     s32 i;
     Crab *crab;
     RandomState64 *mapObjectRandom;
@@ -186,18 +186,18 @@ void InitCrabObjects(Unk0209af98 *mapObjectList) {
         crab->mHandWobble.mAmplitudePerFrame = 0;
         crab->mHandWobble.mAnglePerFrame = 0xe39;
         crab->mHandWobble.mUnk_1c = 0;
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
         crab->mState = 0;
     }
 }
 
-s16 func_0209af80(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s16 crab_FX_SinIdx(s32 a) {
+    return FX_SinCosTable_[(a >> 4) * 2];
 }
 
-s32 func_0209af64(s32 a, s32 b) {
+s32 crab_FX_MulInline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
@@ -205,7 +205,7 @@ static inline void func_0209a7dc_inline(TeresaWobble *wobble) {
     s32 t;
 
     wobble->mAngle += wobble->mAnglePerFrame;
-    wobble->mUnk_08 = wobble->mMid + func_0209af64(wobble->mAmplitude, func_0209af80(wobble->mAngle)) - wobble->mValue;
+    wobble->mUnk_08 = wobble->mMid + crab_FX_MulInline(wobble->mAmplitude, crab_FX_SinIdx(wobble->mAngle)) - wobble->mValue;
     wobble->mValue += wobble->mUnk_08;
     if (wobble->mAmplitude > 0) {
         t = wobble->mAmplitude + wobble->mAmplitudePerFrame;
@@ -235,7 +235,7 @@ static inline void func_0209a7dc_inline(TeresaWobble *wobble) {
     }
 }
 
-void UpdateCrab(void *a, Crab *crab) {
+void crab_update(void *a, Crab *crab) {
     Vec3 v;
     RandomState64 *mapObjectRandom;
 
@@ -243,9 +243,9 @@ void UpdateCrab(void *a, Crab *crab) {
         case 0:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
+                (s32) (mobj_getModelNsbtpFrameCount(gCrabHand) > 0
+                           ? 0.5f + (mobj_getModelNsbtpFrameCount(gCrabHand) << 12)
+                           : (mobj_getModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             if (crab->mTimer-- > 0) {
@@ -261,14 +261,14 @@ void UpdateCrab(void *a, Crab *crab) {
                 ((s64) crab->mFollower.mPath->mSegments[crab->mFollower.mSegmentIndex].mInverseProgressLength *
                  0x800) >>
                 12;
-            if (AdvanceGroupFollower(&crab->mFollower) != FALSE) {
+            if (pw_update(&crab->mFollower) != FALSE) {
                 crab->mHandWobble.mAngle = 0;
                 crab->mHandWobble.mMid = 0;
                 crab->mHandWobble.mAmplitude = 0x1c7;
                 crab->mHandWobble.mAmplitudePerFrame = 0;
                 crab->mHandWobble.mAnglePerFrame = 0xe39;
                 crab->mHandWobble.mUnk_1c = 0;
-                mapObjectRandom = GetMapObjectRandom();
+                mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
@@ -276,13 +276,13 @@ void UpdateCrab(void *a, Crab *crab) {
             }
             crab->mCrabNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mCrabNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrab) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrab) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrab) << 12) - 0.5f)) {
+                (s32) (mobj_getModelNsbtpFrameCount(gCrab) > 0
+                           ? 0.5f + (mobj_getModelNsbtpFrameCount(gCrab) << 12)
+                           : (mobj_getModelNsbtpFrameCount(gCrab) << 12) - 0.5f)) {
                 crab->mCrabNsbtpFrameIndexFixed12 = 0;
             }
             func_0209a7dc_inline(&crab->mHandWobble);
-            GetGroupFollowerLinearPosition(&crab->mFollower, &crab->mUnk_000.mPos);
+            pw_calcCurrentPointLinearXYZ(&crab->mFollower, &crab->mUnk_000.mPos);
             v = *GetGroupFollowerSegmentUp(&crab->mFollower);
             VEC_Subtract(&v, &crab->mUnk_000.mMatrix.mUnk_00[1], &v);
             v.x = ((s64) v.x * 0x800) >> 12;
@@ -293,7 +293,7 @@ void UpdateCrab(void *a, Crab *crab) {
                     (s64) crab->mUnk_000.mMatrix.mUnk_00[1].y * crab->mUnk_000.mMatrix.mUnk_00[1].y +
                     (s64) crab->mUnk_000.mMatrix.mUnk_00[1].z * crab->mUnk_000.mMatrix.mUnk_00[1].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&crab->mUnk_000.mMatrix.mUnk_00[1],
+                vec_normalize(&crab->mUnk_000.mMatrix.mUnk_00[1],
                                                    &crab->mUnk_000.mMatrix.mUnk_00[1]);
             }
             break;
@@ -304,7 +304,7 @@ void UpdateCrab(void *a, Crab *crab) {
                 crab->mRotateZAngle += crab->mRotateZAnglePerFrame;
                 return;
             }
-            SetupGroupFollowerAtEntry(&crab->mFollower, 0, 0);
+            pw_init(&crab->mFollower, 0, 0);
             GetGroupFollowerLinearXz(&crab->mFollower, &crab->mUnk_000.mPos);
             crab->mUnk_000.mPos.y = crab->mUnk_000.mCourseMapRow->mUnk_00.y - 0x5000;
             crab->mCrabWobble.mAngle = 0;
@@ -320,9 +320,9 @@ void UpdateCrab(void *a, Crab *crab) {
         case 3:
             crab->mHandNsbtpFrameIndexFixed12 += 0x200;
             if (crab->mHandNsbtpFrameIndexFixed12 >=
-                (s32) (GetMapObjectModelNsbtpFrameCount(gCrabHand) > 0
-                           ? 0.5f + (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12)
-                           : (GetMapObjectModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
+                (s32) (mobj_getModelNsbtpFrameCount(gCrabHand) > 0
+                           ? 0.5f + (mobj_getModelNsbtpFrameCount(gCrabHand) << 12)
+                           : (mobj_getModelNsbtpFrameCount(gCrabHand) << 12) - 0.5f)) {
                 crab->mHandNsbtpFrameIndexFixed12 = 0;
             }
             func_0209a7dc_inline(&crab->mCrabWobble);
@@ -342,7 +342,7 @@ void UpdateCrab(void *a, Crab *crab) {
             crab->mHandWobble.mAmplitudePerFrame = 0;
             crab->mHandWobble.mAnglePerFrame = 0xe39;
             crab->mHandWobble.mUnk_1c = 0;
-            mapObjectRandom = GetMapObjectRandom();
+            mapObjectRandom = mobj_getRng1();
             mapObjectRandom->mValue =
                 mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
             crab->mTimer = (u16) ((u16) (((u64) (u32) (mapObjectRandom->mValue >> 32) * 60) >> 32) + 30);
@@ -352,17 +352,17 @@ void UpdateCrab(void *a, Crab *crab) {
     }
 }
 
-void CreateCrabKindData(void) {
+void crab_setupConfig(void) {
     MapObjectKindData *kindData;
 
-    kindData = func_0209bf70(CollideKartWithCrab, CollideItemObjectWithCrab, NULL, 2, 1, 0x10e);
+    kindData = mobj_createConfigEx(crab_onDriverCollide, crab_onItemCollide, NULL, 2, 1, 0x10e);
     kindData->mUnk_28 = 0x10f;
 }
 
-void *CreateCrabDrawList(void) {
-    return CreateMapObjectDrawList2(CreateCrabAndCrabHand, DrawCrab, func_0209b1f8);
+void *crab_setupRenderPart(void) {
+    return mobj_createRenderPart2d(crab_loadModels, crab_render, crab_globalPreRender);
 }
 
-void *CreateCrabUpdateList(void) {
-    return CreateMapObjectUpdateList(InitCrabObjects, UpdateCrab, NULL);
+void *crab_setupLogicPart(void) {
+    return mobj_createLogicPart(crab_globalLogicInit, crab_update, NULL);
 }

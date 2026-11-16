@@ -41,6 +41,6 @@ void func_ov001_0218ac04(Unk02188950 *mapObject) {
     SetSpeedTargetAndPerCall(mapObject, mapObject->mPrm->mUnk_1b0, mapObject->mPrm->mUnk_1b4);
     SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
     StartStateFrameCountCallback(mapObject, mapObject->mPrm->mUnk_1bc, func_ov001_0218acb4);
-    StartMapObjectSound(&mapObject->mUnk_000, 0x239);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x239);
     mapObject->mUnk_000.mFlags |= data_ov001_021a6594;
 }

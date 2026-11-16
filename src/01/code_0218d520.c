@@ -51,8 +51,8 @@ void func_ov001_0218dc20(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * gPairsByAngle[idx]) >> 12);
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * gPairsByAngle[idx + 1]) >> 12);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dba8(Unk02188950 *a) {
@@ -97,9 +97,9 @@ void func_ov001_0218dadc(Unk02188950 *a) {
             break;
     }
     idx = (ang >> 4) * 2;
-    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * gPairsByAngle[idx]) >> 12);
+    a->mUnk_000.mPos.x = r7->mUnk_004 + (s32) (((s64) r5 * FX_SinCosTable_[idx]) >> 12);
     a->mUnk_000.mPos.y = a->mUnk_0a4->mUnk_008;
-    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * gPairsByAngle[idx + 1]) >> 12);
+    a->mUnk_000.mPos.z = a->mUnk_0a4->mUnk_00c + (s32) (((s64) r5 * FX_SinCosTable_[idx + 1]) >> 12);
 }
 
 void func_ov001_0218dabc(Unk02188950 *a) {
@@ -111,14 +111,14 @@ void func_ov001_0218da1c(Unk02188950 *a) {
     ReleaseEffects(a);
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x427, 0xf);
     StartEffectAtOffset(a, 0, a->mOffset.y >> 4, 0, 0x426, 0xf);
-    StartMapObjectSound(&a->mUnk_000, 0x24d);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24d);
     func_ov001_02188230(a);
     if (func_ov001_02188220(a) == 2) {
-        StartMapObjectSound(&a->mUnk_000, 0x24c);
+        mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24c);
     } else if (func_ov001_02188220(a) >= 3) {
         a->mUnk_0ac = 0;
     }
-    SetMapObjectModelNsbtpFrameIndex(a->mNsbmd, func_ov001_02188220(a));
+    mobj_setModelNsbtpFrame(a->mNsbmd, func_ov001_02188220(a));
 }
 
 void func_ov001_0218d9cc(Unk02188950 *a) {
@@ -126,7 +126,7 @@ void func_ov001_0218d9cc(Unk02188950 *a) {
     int i;
     Unk02188950 *q;
 
-    list = FindMapObjectKindUpdateList(0x1fe);
+    list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != NULL; i++) {
             StartStateFrameCountCallback(q, (q->mUnk_0a8 * 15), (UnkFunc *) func_ov001_0218da1c);
@@ -157,7 +157,7 @@ void func_ov001_0218d8f4(Unk02188950 *a, int b) {
     Unk0218d87c *list;
     int i;
 
-    list = FindMapObjectKindUpdateList(0x1fe);
+    list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && list->mUnk_00[i] != NULL; i++) {
             StartAnimationNoEndCallback(a, a->mPrm->mUnk_088, (a->mPrm->mUnk_08c * b / 100));
@@ -170,7 +170,7 @@ void func_ov001_0218d87c(Unk02188950 *a, int b) {
     int i;
     Unk02188950 *q;
 
-    list = FindMapObjectKindUpdateList(0x1fe);
+    list = mobj_getLogicPartForObjectId(0x1fe);
     if (list != NULL) {
         for (i = 0; i < list->mUnk_04 && (q = list->mUnk_00[i]) != NULL; i++) {
             q->mUnk_13c = q->mPrm->mUnk_0d8 * q->mUnk_0a8 * 100 / b;
@@ -200,11 +200,11 @@ int func_ov001_0218d520(Unk02188950 *a) {
     s32 *v;
 
     if (IsPointInRange(a, &GetCurrentGroupEntry(a)->mPos, a->mPrm->mUnk_0a0, 0)) {
-        if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 1) {
+        if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 1) {
             r4 = 0x1000 - a->mPrm->mUnk_0ac;
             t = func_ov001_02187f38(a);
             r4 = (((s64) t * r4) >> 12);
-        } else if (GetBalloonOrShineCount(gRaceSetup->mEntryIndex) <= 2) {
+        } else if (mgcnt_getDriverBalloonShineCount(gRaceMultiConfig->mEntryIndex) <= 2) {
             r4 = 0x1000 - a->mPrm->mUnk_0a8;
             t = func_ov001_02187f38(a);
             r4 = (((s64) t * r4) >> 12);
@@ -214,20 +214,20 @@ int func_ov001_0218d520(Unk02188950 *a) {
         if (func_ov001_02187f7c(a) >= 1) {
             func_ov001_0218d9cc(a);
         }
-        if ((gRaceSetup->mMode == MODE_MISSION_RUN ? IsWinnerDecided() : 0) == FALSE && a->mUnk_0a8 == 0 &&
+        if ((gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0) == FALSE && a->mUnk_0a8 == 0 &&
             func_ov001_021871f8(a, 3) != 0) {
             if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_120, a->mPrm->mUnk_124, a->mPrm->mUnk_128)) {
                 a->mUnk_0a8 = a->mPrm->mUnk_12c;
                 a->mUnk_150 = 3;
                 StartAnimationWithEndCallback(a, a->mPrm->mUnk_118, a->mPrm->mUnk_11c, (UnkFunc *) func_ov001_0218d800);
                 r4 -= a->mPrm->mUnk_130;
-                StartMapObjectSound(&a->mUnk_000, 0x24b);
+                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24b);
             } else if (GetEntryKartInAngleRange(a, a->mPrm->mUnk_10c, a->mPrm->mUnk_110, a->mPrm->mUnk_114)) {
                 a->mUnk_0a8 = a->mPrm->mUnk_12c;
                 a->mUnk_150 = 3;
                 StartAnimationWithEndCallback(a, a->mPrm->mUnk_104, a->mPrm->mUnk_108, (UnkFunc *) func_ov001_0218d800);
                 r4 -= a->mPrm->mUnk_130;
-                StartMapObjectSound(&a->mUnk_000, 0x24b);
+                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24b);
             }
         }
         func_ov001_0218d824(a, r4);
@@ -248,13 +248,13 @@ int func_ov001_0218d520(Unk02188950 *a) {
             }
             a->mUnk_144 = a->mUnk_144 + 1 >= 0x12 ? 0 : a->mUnk_144 + 1;
             if (a->mUnk_144 == 0) {
-                StartMapObjectSound(&a->mUnk_000, 0x24f);
+                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24f);
             }
         } else if (func_ov001_02188220(a) == 1) {
             a->mUnk_140 = a->mUnk_140 + 1 >= 0x12 ? 0 : a->mUnk_140 + 1;
             if (a->mUnk_140 == 0) {
                 StartEffectAtOffset(a, 0, 0, 0, 0x3f8, 0x1c);
-                StartMapObjectSound(&a->mUnk_000, 0x24e);
+                mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x24e);
             }
         }
     }

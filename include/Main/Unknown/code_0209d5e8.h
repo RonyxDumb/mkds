@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_0209d5e8(unsigned int p0);
+unsigned int sun_globalPreRender(unsigned int p0);

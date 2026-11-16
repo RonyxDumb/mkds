@@ -2,7 +2,7 @@
 #include "Main/Course/ShineBalloon.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void InitKanoke64(u32 arg0) {
+void kan64_init(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     u32 value2;
@@ -10,5 +10,5 @@ void InitKanoke64(u32 arg0) {
     value2 = value0;
     value0 = MAP_OBJECT_KIND_BASABASA;
     value1 = 0xau;
-    CreateParkedMapObjects(value0, value1, (void *) value2);
+    mobj_createSubObjects(value0, value1, (void *) value2);
 }

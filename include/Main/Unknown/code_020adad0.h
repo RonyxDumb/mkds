@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetTitleState(u32 a, u32 b);
+void title_gotoState(u32 a, u32 b);

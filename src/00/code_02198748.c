@@ -42,7 +42,7 @@ BOOL func_ov000_021987c8(Gt2Connection *a, void *b, int c, Gt2ConnectionCallback
         a->mCallbacks = *d;
     }
     func_ov000_02197be0(e);
-    func_ov000_02197b34((s8 *) a->mUnk_68, e);
+    menu_ta_updateMainText((s8 *) a->mUnk_68, e);
     func_ov000_02198f24(a, e);
     a->mUnk_0c = 0;
     return FALSE;

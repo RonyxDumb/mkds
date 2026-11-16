@@ -3,8 +3,8 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 func_020c3db4(void) {
-    u32 v = gRaceGoalS->mUnk_00b4;
-    RaceSetup *setup = gRaceSetup;
+    u32 v = r2d_sResults->mUnk_00b4;
+    RaceSetup *setup = gRaceMultiConfig;
 
     if (setup->mMode == MODE_VS || setup->mMode == 5 || setup->mMode == MODE_BATTLE) {
         if (setup->mRuleKind != 0) {

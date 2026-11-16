@@ -36,7 +36,7 @@
 #pragma optimize_for_size on
 
 #pragma thumb on
-void InitSelectKart(void *a, s32 b, void *c, void *d) {
+void SPM_LoadKartSelectionMenu(void *a, s32 b, void *c, void *d) {
     void *h;
     Unk02174e50_24 *p;
     Unk02174e50_24 e;
@@ -47,32 +47,32 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     s32 n;
     u32 v;
     void *w;
-    h = CreateFrmHeapFromMaxFree(a);
-    gSelectKart = HeapAlloc(h, 0x118);
+    h = heap_createSubFrmHeap(a);
+    gSelectKart = heap_alloc(h, 0x118);
     func_02028e00(gSelectKart, 0x118);
     gSelectKart->mHeap = h;
     gSelectKart->mMode = b;
     gSelectKart->mTouchRect = -1;
-    switch (GetRaceSetupCopy()->mUnk_108) {
+    switch (menu_getRaceConfig()->mUnk_108) {
         case 1:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
+            interp_init(&gSelectKart->mInterpolations[0], 1, 10, -0x80, 0);
+            interp_init(&gSelectKart->mInterpolations[2], 1, 10, 0x60, 0);
             break;
         case 0:
-            SetupInterpolation(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
-            SetupInterpolation(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
+            interp_init(&gSelectKart->mInterpolations[0], 0, 10, -0x80, 0);
+            interp_init(&gSelectKart->mInterpolations[2], 0, 10, 0x60, 0);
             if (func_020280dc() == 0) {
                 StartKartModelMenuBg0Increase();
                 func_02077f48(0);
             }
             break;
     }
-    SetupInterpolation(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
-    SetupInterpolation(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
+    interp_init(&gSelectKart->mInterpolations[1], 0, 10, -0x40, 0);
+    interp_init(&gSelectKart->mInterpolations[3], 0, 10, 0x40, 0);
+    interp_init(&gSelectKart->mInterpolations[4], 0, 10, -0xc0, 0);
     gSelectKart->mUnk_080 = c;
     gSelectKart->mUnk_084 = d;
-    if (gSelectKart->mMode != 0 || GetRaceSetupCopy()->mMode == 3 || GetRaceSetupCopy()->mMode == 2) {
+    if (gSelectKart->mMode != 0 || menu_getRaceConfig()->mMode == 3 || menu_getRaceConfig()->mMode == 2) {
         v = 1;
     } else {
         v = 0;
@@ -100,68 +100,68 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
             gSelectKart->mEntryIndex = GetOwnEntryIndex();
             break;
         case 2:
-            gSelectKart->mEntryIndex = GetRaceSetupCopyEntryIndex();
+            gSelectKart->mEntryIndex = menu_getRaceConfigField10C();
             break;
     }
     if (func_020280dc() == 0) {
-        gSelectKart->mKartSelectMessages = FindFileInLoadedArchives(gKartSelectBmgName);
+        gSelectKart->mKartSelectMessages = arc_get2dArcFile(aKart_select_bmg);
         gSelectKart->mUnk_098 = CreateKartAppear(gSelectKart->mHeap);
     }
     g = gSelectKart;
-    g->mCharacterIndex = GetRaceSetupCopy()->mEntries[g->mEntryIndex].mCharacterIndex;
+    g->mCharacterIndex = menu_getRaceConfig()->mEntries[g->mEntryIndex].mCharacterIndex;
     g = gSelectKart;
-    g->mKartIndex = GetRaceSetupCopy()->mEntries[g->mEntryIndex].mKartIndex;
+    g->mKartIndex = menu_getRaceConfig()->mEntries[g->mEntryIndex].mKartIndex;
     if (gSelectKart->mCharacterIndex == -1) {
         gSelectKart->mCharacterIndex = 0;
     }
     if (gSelectKart->mKartIndex == -1) {
         gSelectKart->mKartIndex = 0;
     }
-    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
-    GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 0;
+    menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mKartIndex = -1;
+    menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 0;
     gSelectKart->mKartTableIndex = FindKartTableIndex(gSelectKart->mKartIndex);
     if (func_020280dc() == 0) {
         g = gSelectKart;
         if (g->mUnk_104 == FALSE) {
             p = &g->mSelectCharacterGpMParts;
-            LocateCellFileSet(p, gSelectCharacterGpMNcgrName2, gSelectCharacterGpMNcerName2,
-                              gSelectCharacterGpMONclrName2, gSelectCharacterGpMBnclName2, NULL, NULL,
-                              FindFileInLoadedArchives);
-            func_02025a50(0, gSelectKart->mHeap, p);
-            LocateCellFileSet(&e, gSelectCharacterGpTitleMNcgrName2, gSelectCharacterGpTitleMNcerName2, NULL,
-                              gSelectCharacterGpTitleMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(1, e.mUnk_08, e.mUnk_00, e.mUnk_0c, 0, 0, p->mUnk_08, p->mUnk_0c);
-            LocateCellFileSet(&f, gSelectCharacterGpNameMNcgrName2, gSelectCharacterGpNameMNcerName2, NULL,
-                              gSelectCharacterGpNameMBnclName2, NULL, NULL, FindFileInLoadedArchives);
-            QueueCellChars(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 2,
+            mutil2_loadLayout(p, aSelect_character_gp_m_nce_ncgr_1, aSelect_character_gp_m_nce_ncer_1,
+                              aSelect_character_gp_m_o_nclr_1, aSelect_character_gp_m_bncl_0, NULL, NULL,
+                              arc_get2dArcFile);
+            mutil2_initLayout(0, gSelectKart->mHeap, p);
+            mutil2_loadLayout(&e, aSelect_character_gp_title_m_nce_ncg_1, aSelect_character_gp_title_m_nce_nce_1, NULL,
+                              aSelect_character_gp_title_m_bncl_0, NULL, NULL, arc_get2dArcFile);
+            jn_ui_fillPlaceholder(1, e.mUnk_08, e.mUnk_00, e.mUnk_0c, 0, 0, p->mUnk_08, p->mUnk_0c);
+            mutil2_loadLayout(&f, aSelect_character_gp_name_m_nce_ncgr_1, aSelect_character_gp_name_m_nce_ncer_1, NULL,
+                              aSelect_character_gp_name_m_bncl_0, NULL, NULL, arc_get2dArcFile);
+            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 2,
                            p->mUnk_08, p->mUnk_0c);
-            QueueCellChars(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 1,
+            jn_ui_fillPlaceholder(data_021537dc[gSelectKart->mCharacterIndex], f.mUnk_08, f.mUnk_00, f.mUnk_0c, 0, 1,
                            p->mUnk_08, p->mUnk_0c);
         }
     }
     if (func_020280dc() == 0) {
-        func_020258d4(1, &gSelectKart->mSelectKartSBParts, gSelectKartSBNcgrName, gSelectKartSBNclrName,
-                      gSelectKartSNscrName, 3, FindFileInLoadedArchives);
+        mutil2_initBgGraphics(1, &gSelectKart->mSelectKartSBParts, aSelect_kart_s_b_ncgr_0, aSelect_kart_s_b_nclr_0,
+                      aSelect_kart_s_nscr_0, 3, arc_get2dArcFile);
     }
     if (func_020280dc() == 0) {
         n = GX_GetSizeOfSubOBJ();
         p = &gSelectKart->mSelectKartSParts;
-        LocateCellFileSet(p, gSelectKartSNcgrName, gSelectKartSNcerName, gSelectKartSONclrName, gSelectKartSBnclName,
-                          gSelectKartSBnllName, gSelectKartSBnblName, FindFileInLoadedArchives);
-        func_02025a50(1, gSelectKart->mHeap, p);
+        mutil2_loadLayout(p, aSelect_kart_s_nce_ncgr_0, aSelect_kart__3, aSelect_kart__2, aSelect_kart__1,
+                          aSelect_kart__0, aSelect_kart_s_, arc_get2dArcFile);
+        mutil2_initLayout(1, gSelectKart->mHeap, p);
         for (i = 0; i < 9; i++) {
-            n -= func_02025a00(1, gSelectKart->mHeap, p, &data_021537f4[i], n);
+            n -= mutil2_initLabel(1, gSelectKart->mHeap, p, &data_021537f4[i], n);
         }
         for (i = 0; i < 6; i++) {
-            w = GetBmgEntry(gSelectKart->mKartSelectMessages, data_021537f4[i].mUnk_08);
+            w = jn_msg_getMessage(gSelectKart->mKartSelectMessages, data_021537f4[i].mUnk_08);
             n = data_021537f4[i].mUnk_00;
-            func_0212426c(1, n, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-            func_02124094(n, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+            jn_ui_212426C(1, n, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
+            jn_ui_setLabelPriority(n, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         }
-        w = GetBmgEntry(FindFileInLoadedArchives(gCommonBmgName2), data_021537f4[6].mUnk_08);
+        w = jn_msg_getMessage(arc_get2dArcFile(aCommon_bmg_14), data_021537f4[6].mUnk_08);
         i = data_02153834[4];
-        func_0212426c(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
-        SetLabelPaletteIndex(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+        jn_ui_212426C(1, i, p->mUnk_14, w, p->mUnk_0c, p->mUnk_18);
+        jn_ui_setLabelColorParam(i, 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
         InitPaletteBlend(gSelectKart->mHeap, (Nclr *) p->mUnk_04, 1);
         p->mUnk_18[2].mVisible = 0;
         p->mUnk_18[3].mVisible = p->mUnk_18[2].mVisible;
@@ -181,6 +181,6 @@ void InitSelectKart(void *a, s32 b, void *c, void *d) {
     if (gSelectKart->mMode == 0) {
         func_02117060();
     }
-    FrmHeapShrinkInParent(h);
+    heap_adjustSubFrmHeap(h);
 }
 #pragma thumb off

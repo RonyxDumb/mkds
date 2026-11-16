@@ -11,7 +11,7 @@
 #include "00/code_02181f98.h"
 
 #pragma thumb on
-u32 func_020acb00(u32 arg0) {
+u32 title_selectedOutEffectVblank(u32 arg0) {
     u32 value0 = arg0;
     u32 value3;
     value3 = (u32) &func_020ad230;
@@ -22,25 +22,25 @@ u32 func_020acb00(u32 arg0) {
 
 #pragma thumb on
 
-void UpdateTitleState4(void) {
+void title_selectedOutEffectRender(void) {
     s32 titleStateFrames;
 
-    titleStateFrames = GetTitleStateFrames();
-    gTitleScene->mSelectedOffset = func_020ae488(titleStateFrames);
+    titleStateFrames = title_getFrameCounter();
+    sTitleSceneState->mSelectedOffset = mutil_getButtonOutEffectOffset(titleStateFrames);
     if (titleStateFrames >= 10) {
-        SetTitleState(3, 5);
+        title_gotoState(3, 5);
     }
-    SetupAndDrawTitleTable();
+    title_renderUI();
 }
 
-void func_020acacc(void) {}
+void title_gotoSelectedVblank(void) {}
 
 #pragma thumb off
 
-void func_020acab8(u32 p0) {
-    data_021759d0->mUnk_20 = p0;
+void title_sysdat_setOverlayRelatedNum(u32 p0) {
+    gSystemData->mUnk_20 = p0;
 }
 
-void func_020acaa4(u32 p0) {
-    data_0217b488->mUnk_74 = p0;
+void title_struct217B488_setField74(u32 p0) {
+    gStruct217B488->mUnk_74 = p0;
 }

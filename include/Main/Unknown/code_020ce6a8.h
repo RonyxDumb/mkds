@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-s32 CreateRaceHudSubScreenRainStarCells(void);
-void UpdateVsSelectCupM(void);
+s32 mpicn_createRainStarIcon(void);
+void menu_state12Render(void);

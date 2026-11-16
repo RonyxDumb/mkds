@@ -4,4 +4,4 @@
 
 struct Unk0217b498_00;
 
-unsigned int func_02092194(struct Unk0217b498_00 *object);
+unsigned int basa_getMapIconType(struct Unk0217b498_00 *object);

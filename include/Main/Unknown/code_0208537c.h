@@ -25,4 +25,4 @@ void InitKartAiTableIndices(void);
 void func_02085bec(void);
 void InitKartAiNonCpuCounts(void);
 void InitKartAiShared(void);
-void SetKartAiParamRow(void);
+void loadKartAIParams(void);

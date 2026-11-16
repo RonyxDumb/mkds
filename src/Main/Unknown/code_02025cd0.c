@@ -2,7 +2,7 @@
 
 #pragma thumb on
 
-void WriteMinuteSecondMillisecondText(short *text, u32 minute, u32 second, u32 millisecond) {
+void mutil2_timeToString(short *text, u32 minute, u32 second, u32 millisecond) {
     text[0] = (minute / 10) % 10 + '0';
     text[1] = minute % 10 + '0';
     text[2] = ':';

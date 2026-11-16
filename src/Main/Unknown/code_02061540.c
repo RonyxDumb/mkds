@@ -4,33 +4,33 @@
 #include "Main/Unknown/code_02057800.h"
 #include "01/code_021956dc.h"
 
-void ReadCourseGhostRecords(void) {
+void ghdat_loadPersonalGhostsTask(void) {
     u8 i;
     u8 *records;
     GhostRecord *record;
 
-    records = data_0217aa08->mReadDestination;
+    records = gSaveData->mReadDestination;
     for (i = 0; i < 0x20; i++) {
         record = (GhostRecord *) (records + i * 0x30);
-        if (IsCourseGhostBitSet(i) != 0) {
-            func_0205786c(1, i, record);
-            if (gBackupAccess->mBackupEnabled != 0) {
+        if (savd_isPersonalGhostAvailable(i) != 0) {
+            savd_readGhostHeader(1, i, record);
+            if (gSaveCore->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
-            if (gBackupAccess->mErrorCode != 0) {
+            if (gSaveCore->mErrorCode != 0) {
                 record->mFilled = 0;
             }
         } else {
             record->mFilled = 0;
         }
     }
-    data_0217aa08->mReadDestination = NULL;
-    ClearBackupBusy();
+    gSaveData->mReadDestination = NULL;
+    savd_endOperation();
 }
 
-void StartReadCourseGhostRecords(void *records) {
-    data_0217aa08->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadCourseGhostRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void ghdat_loadPersonalGhostsAsync(void *records) {
+    gSaveData->mReadDestination = records;
+    savd_beginOperation();
+    bgwkr_enqueueTask((void (*)(void)) ghdat_loadPersonalGhostsTask);
+    gBgWkrState->mRunRequested = 1;
 }

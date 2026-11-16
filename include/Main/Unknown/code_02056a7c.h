@@ -4,4 +4,4 @@
 
 typedef struct TimeRecord TimeRecord;
 
-u32 GetGrandPrixRecord(int cup, int engineClass, TimeRecord *record);
+u32 savd_getNkgpEntry(int cup, int engineClass, TimeRecord *record);

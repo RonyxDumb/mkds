@@ -1,10 +1,10 @@
 #include "Main/Unknown/code_0203f280.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-u32 func_0203f2a0(void) {
-    return (gRaceSetup->mRuleKind);
+u32 rstat_rconf_getRules(void) {
+    return (gRaceMultiConfig->mRuleKind);
 }
 
-u16 GetLeadingKart(void) {
-    return gRaceProgress->mKartAtRank[0];
+u16 rstat_getFirstPlaceDriverId(void) {
+    return gRaceStatus->mKartAtRank[0];
 }

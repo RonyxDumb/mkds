@@ -7,7 +7,7 @@
 void ParkPooledMapObject(u32 pooledMapObject) {
     u32 parkedObject = pooledMapObject;
     u32 value12;
-    ParkMapObject((void *) parkedObject);
+    mobj_setInvisible((void *) parkedObject);
 }
 
 void SetPooledMapObjectFromItem(PooledMapObject *object, s32 alpha, Vec3 *scale) {

@@ -3,11 +3,11 @@
 #include "types.h"
 #include "Main/Unknown/code_020888b4.h"
 
-void CallKartAiSetupItemInUseEntry(KartAi *kartAi);
-void CallKartAiSetupHeldItemEntry(KartAi *kartAi);
-void CallKartAiLinkPosAndDirection(Vec3 *position, Vec3 *direction, KartAi *kartAi);
-void CallKartAiRequestLink(KartAi *kartAi);
-void CallKartAiAdvance(KartAi *kartAi);
-void CallKartAiReset(KartAi *kartAi, PointLink *link);
-void CallKartAiSetup(KartAi *kartAi, s32 kartIndex);
-void RegisterKartAiCallbacks(void);
+void enmy_notifyDragItemChanged(KartAi *kartAi);
+void enmy_notifySlotItemChanged(KartAi *kartAi);
+void enmy_getTargetPosDir(Vec3 *position, Vec3 *direction, KartAi *kartAi);
+void enmy_recalculateRoute(KartAi *kartAi);
+void enmy_update(KartAi *kartAi);
+void enmy_208C23C(KartAi *kartAi, PointLink *link);
+void enmy_init(KartAi *kartAi, s32 kartIndex);
+void enmy_setupFunctions(void);

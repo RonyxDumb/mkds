@@ -27,14 +27,14 @@ u16 func_0202ec98(InputSlot *slot, u32 mask) {
 }
 
 u16 func_0202ec7c(u32 slotIndex, u32 mask) {
-    return func_0202ec98(&data_02175628[slotIndex], mask);
+    return func_0202ec98(&gInputUnits[slotIndex], mask);
 }
 
 #pragma thumb on
 
 // State 0: starts a pick, a selection move or a scroll from the keys and the touch.
 void AdvanceScrollListState0(void) {
-    u32 slotIndex = func_020435bc();
+    u32 slotIndex = input_getDirectInputUnitId();
     BOOL rowChanged;
     if (gScrollList->mEnabled == 0) {
         return;
@@ -158,7 +158,7 @@ void AdvanceScrollListScrollUp(void) {
                 entry->mOffsetY = distance;
             } else {
                 entry->mOffsetY =
-                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+                    mutil_interpolate(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
             }
         }
     }
@@ -200,7 +200,7 @@ void AdvanceScrollListScrollDown(void) {
                 entry->mOffsetY = distance;
             } else {
                 entry->mOffsetY =
-                    InterpolateS16(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
+                    mutil_interpolate(1, distance, zero, gScrollList->mTimer, gScrollList->mScrollFrameCount);
             }
         }
     }

@@ -51,9 +51,9 @@ u32 func_021205e8(void) {
 void InitWiFiSession(void *heap) {
     StateMachine *stateMachine;
 
-    gWiFiSession = HeapAllocAligned(heap, 0x1f58, 0x20);
-    InitStateMachine(&gWiFiSession->mUnk_0008, data_0216e21c, 8, NULL);
-    stateMachine = &gWiFiSession->mUnk_0008;
+    gStruct217D384 = heap_allocEx(heap, 0x1f58, 0x20);
+    sm_init(&gStruct217D384->mUnk_0008, data_0216e21c, 8, NULL);
+    stateMachine = &gStruct217D384->mUnk_0008;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -61,9 +61,9 @@ void InitWiFiSession(void *heap) {
 // Creates the 0x3e800-byte exp heap and registers WiFiSessionHeapAlloc / Free with the net layer (the heap is used only
 // through them).
 void CreateWiFiSessionHeap(void *heap) {
-    gWiFiSession->mHeapBuffer = HeapAllocAligned(heap, 0x3e800, 0x20);
-    gWiFiSession->mHeap = NNS_FndCreateExpHeapEx(gWiFiSession->mHeapBuffer, 0x3e800, 1);
-    gWiFiSession->mHeapCreated = TRUE;
+    gStruct217D384->mHeapBuffer = heap_allocEx(heap, 0x3e800, 0x20);
+    gStruct217D384->mHeap = NNS_FndCreateExpHeapEx(gStruct217D384->mHeapBuffer, 0x3e800, 1);
+    gStruct217D384->mHeapCreated = TRUE;
     func_ov000_021a3744(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
 }
 
@@ -71,12 +71,12 @@ void CreateWiFiSessionHeap(void *heap) {
 void DeleteWiFiSessionHeap(void) {
     StateMachine *stateMachine;
 
-    if (gWiFiSession->mHeap != NULL) {
-        NNS_FndDestroyExpHeap(gWiFiSession->mHeap);
-        HeapFree(GetHeap(GetCurrentHeapCall()), gWiFiSession->mHeapBuffer);
+    if (gStruct217D384->mHeap != NULL) {
+        NNS_FndDestroyExpHeap(gStruct217D384->mHeap);
+        heap_free(proc_getHeap(proc_getCurrent()), gStruct217D384->mHeapBuffer);
     }
-    gWiFiSession->mHeapCreated = FALSE;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    gStruct217D384->mHeapCreated = FALSE;
+    stateMachine = &gStruct217D384->mUnk_0008;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -86,8 +86,8 @@ void func_021204d0(void) {
     StateMachine *stateMachine;
 
     ResetWiFiSession();
-    gWiFiSession->mUnk_1f34 = TRUE;
-    stateMachine = &gWiFiSession->mUnk_0008;
+    gStruct217D384->mUnk_1f34 = TRUE;
+    stateMachine = &gStruct217D384->mUnk_0008;
     stateMachine->mNextState = 0;
     stateMachine->mNextStateRequested = 1;
 }
@@ -99,14 +99,14 @@ void UpdateBuddyStatuses(void) {
     WiFiSession *countSession;
     u8 i;
 
-    if (gWiFiSession->mBuddyPollIndex >= 0x3c) {
-        gWiFiSession->mBuddyPollIndex = 0;
+    if (gStruct217D384->mBuddyPollIndex >= 0x3c) {
+        gStruct217D384->mBuddyPollIndex = 0;
     }
-    session = gWiFiSession;
+    session = gStruct217D384;
     session->mBuddyStatuses[session->mBuddyPollIndex] =
         func_ov000_0219daa8(&session->mBuddies[session->mBuddyPollIndex], NULL);
-    gWiFiSession->mBuddyPollIndex++;
-    countSession = gWiFiSession;
+    gStruct217D384->mBuddyPollIndex++;
+    countSession = gStruct217D384;
     i = 0;
     do {
         switch (countSession->mBuddyStatuses[i]) {
@@ -122,21 +122,21 @@ void UpdateBuddyStatuses(void) {
 }
 
 void UpdateWiFiSession(void) {
-    if (gWiFiSession == NULL) {
+    if (gStruct217D384 == NULL) {
         return;
     }
-    if (data_0217aa10->mCurrentOverlay != 0) {
+    if (gOverlayData->mCurrentOverlay != 0) {
         return;
     }
     UpdateWiFiConnection();
     if (func_ov000_0219c3cc(NULL) != 0) {
-        gWiFiSession->mUnk_1f44 = func_ov000_0219c3cc(&gWiFiSession->mUnk_1f48);
+        gStruct217D384->mUnk_1f44 = func_ov000_0219c3cc(&gStruct217D384->mUnk_1f48);
         func_ov000_0219c3b0();
     }
-    if (gWiFiSession->mUnk_0008.mState != 0) {
+    if (gStruct217D384->mUnk_0008.mState != 0) {
         UpdateBuddyStatuses();
     }
-    AdvanceStateMachine(&gWiFiSession->mUnk_0008);
+    sm_execute(&gStruct217D384->mUnk_0008);
 }
 
 s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void)) {
@@ -145,7 +145,7 @@ s32 func_02120340(u32 a, void *b, s32 c, u32 (*d)(void)) {
 
 // Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
 void *GetWiFiSessionPlayerRecordData(u32 index) {
-    WiFiSession *session = gWiFiSession;
+    WiFiSession *session = gStruct217D384;
 
     if (session->mKartMask & (1 << index)) {
         return &session->mPlayerRecords[index].mName;

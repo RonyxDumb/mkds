@@ -13,14 +13,14 @@ typedef struct EmblemBlock {
     /* 04 */ EmblemBlockData mUnk_04;
 } EmblemBlock;
 
-void CreateShapeMapObjectCountList(void *heap);
-// Scene function of gSceneFuncs[13] (scene 'Ghost' in gSceneNames): copies the callbacks and calls
-// RunScene. Returns 0.
-s32 RunGhostScene(SceneNumbers *sceneNumbers);
-void func_0205e518(u32 sceneNumbers);
-void func_0205e520(void);
-void func_0205e528(void);
-void func_0205e530(void);
+void area_initMissionRivalPassAreas(void *heap);
+// Scene function of scproc_sSceneTable[13] (scene 'Ghost' in sSceneDefs): copies the callbacks and calls
+// scene_runScene. Returns 0.
+s32 ghost_run(SceneNumbers *sceneNumbers);
+void ghostdef_render(u32 sceneNumbers);
+void ghostdef_vblank(void);
+void ghostdef_finish(void);
+void ghostdef_create(void);
 u8 CountEmblemEntries(void);
 void StartCopyOtherEmblems(s32 useConnection);
 void CopyWiFiOtherEmblemsToBlocks(void);

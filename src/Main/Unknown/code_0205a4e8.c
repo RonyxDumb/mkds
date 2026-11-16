@@ -6,7 +6,7 @@ Unk0217aa14_104_20 *func_0205a4e8(u32 entryIndex, u32 halfwordIndex) {
     u32 value1 = halfwordIndex;
     u32 value2;
     u32 value3;
-    value3 = (u32) &data_0217aa14;
+    value3 = (u32) &gStruct217AA14;
     value2 = 0x88u;
     value3 = *(const u32 *) ((value3) + (0));
     value3 = (value3) + (0x104u);

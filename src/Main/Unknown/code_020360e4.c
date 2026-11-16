@@ -32,10 +32,10 @@ void SetupWLMenuCommonMessage(void *heap) {
 
     InitWLMenuMessage(heap);
     gWLMenuMessage->mState = 9;
-    gWLMenuMessage->mCommonMessages = FindFileInLoadedArchives(data_021646e0);
-    gWLMenuMessage->mFont = GetFontByIndex(0);
+    gWLMenuMessage->mCommonMessages = arc_get2dArcFile(aCommon_bmg_28);
+    gWLMenuMessage->mFont = m2d_getFont(0);
     charBase = G2S_GetBG1CharPtr();
-    text = GetBmgEntry(gWLMenuMessage->mCommonMessages, 0x79);
+    text = jn_msg_getMessage(gWLMenuMessage->mCommonMessages, 0x79);
     NNS_G2dCharCanvasInitForBG(gWLMenuMessage->mCharCanvas, (u8 *) charBase + 0x400, 0x20, 4, 4);
     func_020362c4(&gWLMenuMessage->mTextCanvas, gWLMenuMessage->mCharCanvas, gWLMenuMessage->mFont, 1, 4);
     func_0203629c(&gWLMenuMessage->mTextCanvas, 8, 0, 3, 0x209, text);
@@ -58,11 +58,11 @@ void SetupWLMenuCommonMessage(void *heap) {
     if (func_02035e44() != 0) {
         func_02036258();
     }
-    FrmHeapShrinkInParent(gWLMenuMessage->mHeap);
+    heap_adjustSubFrmHeap(gWLMenuMessage->mHeap);
 }
 
 #pragma thumb off
 
 u32 func_020360e4(void) {
-    return (data_0217aa00->mUnk_0454 & 0x40) != 0;
+    return (gStruct217AA00->mUnk_0454 & 0x40) != 0;
 }

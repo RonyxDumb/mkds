@@ -5,10 +5,10 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "g2d_NAN_load.h" // Unk02021dc8
 
-// Objects stored through the first parameter: Nscr by LocateNscr and LoadNscrData, Ncgr by
-// LocateNcgr, LoadNcgrData, LocateNcgr2 and LoadNcgrData2, Nclr by LocateNclr and LoadNclrData,
-// Unk02021dc8 by LoadNanrData, LocateNcer and LoadNcerData (LoadNanrData passes it to NNS_G2dUnpackNAN,
-// LoadNcerData to NNS_G2dUnpackNCE; LocateNcer looks up the same block tag as LoadNcerData).
+// Objects stored through the first parameter: Nscr by g2du_getScreenData and g2du_unpackScreenData, Ncgr by
+// g2du_getCharacterDataBG, g2du_unpackCharacterDataBG, g2du_getCharacterData and g2du_unpackCharacterData, Nclr by g2du_getPaletteData and g2du_unpackPaletteData,
+// Unk02021dc8 by g2du_unpackAnimBank, g2du_getCellBankData and g2du_unpackCellBankData (g2du_unpackAnimBank passes it to NNS_G2dUnpackNAN,
+// g2du_unpackCellBankData to NNS_G2dUnpackNCE; g2du_getCellBankData looks up the same block tag as g2du_unpackCellBankData).
 typedef struct Ncgr {
     /* 0000 */ u16 mUnk_00;
     /* 0002 */ u16 mUnk_02;
@@ -39,15 +39,15 @@ typedef union LoadedPartPointer {
 } LoadedPartPointer;
 
 // Declared here until the code that defines them is decompiled.
-void *GetPlayerCharacterBncl(int param_1);
-Unk02021dc8 *GetPlayerCharacterNcer(int param_1);
-Ncgr *GetPlayerCharacterNcgr(int param_1);
-void *GetPlayerCharacterNclr(int param_1);
+void *m2d_getPortraitBncl(int param_1);
+Unk02021dc8 *m2d_getPortraitNceNcer(int param_1);
+Ncgr *m2d_getPortraitNceNcgr(int param_1);
+void *m2d_getPortraitONclr(int param_1);
 #include "Main/Unknown/code_020b41e8.h"
 #include "Main/Unknown/code_020b47d8.h"
 #include "Main/Unknown/code_020b4e70.h"
-Unk02022aa8 *GetFontByIndex(s32 index);
-Nclr *GetPlayerCharacterShyguyNclr(u32 index);
+Unk02022aa8 *m2d_getFont(s32 index);
+Nclr *m2d_getPortraitShyGuyONclr(u32 index);
 #include "Main/Unknown/code_020b4048.h"
 #include "Main/Unknown/code_020b4e0c.h"
 #include "code_02022aa8.h" // Unk02022aa8

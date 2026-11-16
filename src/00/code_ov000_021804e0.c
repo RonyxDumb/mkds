@@ -16,8 +16,8 @@ u8 *data_ov000_021b4c60;
 
 void InitWiFiMenuScene(s16 *a) {
     void *b;
-    b = GetHeap(GetCurrentHeapCall());
-    data_ov000_021b4c60 = HeapAlloc(b, 0x808);
+    b = proc_getHeap(proc_getCurrent());
+    data_ov000_021b4c60 = heap_alloc(b, 0x808);
     InitWiFiStates(b, *a);
 }
 
@@ -29,17 +29,17 @@ void ReleaseWiFiMenuScene(void) {
 void func_ov000_0218058c(void) {
     AdvanceKartModelMenuLoad();
     func_ov000_02180704();
-    UploadOamLists(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+    oam_applyBuffers(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
 }
 
 void UpdateWiFiMenuScene(SceneNumbers *a) {
-    ClearOamListCounts(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+    oam_resetBuffers(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
     AdvanceWiFiStates();
-    func_020ae630(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
+    oam_prepareBuffers(data_ov000_021b4c60, data_ov000_021b4c60 + 0x404);
     if (a != NULL) {
         if (GetWiFiNextScene() != -1) {
             if (GetWiFiNextScene() == 0) {
-                data_021759d0->mUnk_20 = 0;
+                gSystemData->mUnk_20 = 0;
             }
             a->mNextScene = GetWiFiNextScene();
         }
@@ -49,7 +49,7 @@ void UpdateWiFiMenuScene(SceneNumbers *a) {
 s32 RunWiFiMenuScene(SceneNumbers *a) {
     SceneCallbacks b = {
         InitWiFiMenuScene, UpdateWiFiMenuScene, ReleaseWiFiMenuScene, func_ov000_0218058c, 0, 0, 10, 10, 0};
-    RunScene(a, &b);
+    scene_runScene(a, &b);
     return 0;
 }
 
@@ -57,6 +57,6 @@ void *func_ov000_021804f4(void) {
     return data_ov000_021b4c60;
 }
 
-void *func_ov000_021804e0(void) {
+void *test_run(void) {
     return data_ov000_021b4c60 + 0x404;
 }

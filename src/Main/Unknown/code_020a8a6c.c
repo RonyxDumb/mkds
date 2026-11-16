@@ -10,7 +10,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void func_020a8a6c(Unk020a8a6c *a) {
+void mobj0008_initLogicPart(Unk020a8a6c *a) {
     s32 i;
     Unk020a826c *p;
     CourseMapRow *q;
@@ -35,8 +35,8 @@ void func_020a8a6c(Unk020a8a6c *a) {
         return;
     }
     for (i = 0; i < a->mMapObjectCount && (p = a->mMapObjects[i]) != NULL; i++) {
-        if (GetRaceUseChainCameras() != 0) {
-            switch (gRaceSetup->mCourseId) {
+        if (race_isCamAnimMode() != 0) {
+            switch (gRaceMultiConfig->mCourseId) {
                 case COURSE_ID_CROSS:
                     p->mState = 4;
                     q = p->mUnk_000.mCourseMapRow;
@@ -87,12 +87,12 @@ void func_020a8a6c(Unk020a8a6c *a) {
                     break;
                 default:
                     if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&p->mUnk_000);
+                        mobj_setInvisible(&p->mUnk_000);
                     }
                     break;
             }
         } else {
-            switch (gRaceSetup->mCourseId) {
+            switch (gRaceMultiConfig->mCourseId) {
                 case COURSE_ID_CROSS:
                     p->mState = 1;
                     p->mUnk_0a0.mUnk_00.mSoundId = 0x108;
@@ -109,7 +109,7 @@ void func_020a8a6c(Unk020a8a6c *a) {
                     p->mUnk_0c8.mSourcePos.x = 0;
                     p->mUnk_0c8.mSourcePos.y = 0;
                     p->mUnk_0c8.mSourcePos.z = 0;
-                    func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
                     break;
                 case COURSE_ID_MARIO:
                     p->mState = 1;
@@ -127,7 +127,7 @@ void func_020a8a6c(Unk020a8a6c *a) {
                     p->mUnk_0c8.mSourcePos.x = 0;
                     p->mUnk_0c8.mSourcePos.y = 0;
                     p->mUnk_0c8.mSourcePos.z = 0;
-                    func_020a8ed8(&p->mUnk_0a0, &p->mUnk_000.mPos);
+                    mobj0008_20A8ED8(&p->mUnk_0a0, &p->mUnk_000.mPos);
                     break;
                 case COURSE_ID_BANK:
                     p->mState = 6;
@@ -160,7 +160,7 @@ void func_020a8a6c(Unk020a8a6c *a) {
                     break;
                 default:
                     if ((p->mUnk_000.mFlags & 0x100) == 0) {
-                        ParkMapObject(&p->mUnk_000);
+                        mobj_setInvisible(&p->mUnk_000);
                     }
                     break;
             }

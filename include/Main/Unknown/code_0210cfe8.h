@@ -4,4 +4,4 @@
 
 typedef struct PlayingSound PlayingSound;
 
-void ResetPlayingSound(PlayingSound *sound);
+void sfx_initSfx(PlayingSound *sound);

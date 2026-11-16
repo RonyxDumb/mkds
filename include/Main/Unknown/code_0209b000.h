@@ -4,10 +4,10 @@
 
 typedef struct MapObjectModel MapObjectModel;
 
-void CreateMapObjectModelNsbcaAnimation(MapObjectModel *a, const char *b);
-void *CreateMapObjectModelAnimated(void *a, const char *b);
-void *CreateMapObjectModelNsbmdNsbtp(void *a, const char *b, const char *c);
-void *CreateMapObjectModelNsbmd(void *a, const char *b);
-void *CreateMapObjectModelShadow(void *a, const char *b);
-void CreateMapObjectModelNsbtpAnimation(MapObjectModel *a, const char *b);
-void CreateMapObjectModelNsbtaAnimation(MapObjectModel *a, const char *b);
+void mobj_loadNsbcaAnim(MapObjectModel *a, const char *b);
+void *mobj_loadModel(void *a, const char *b);
+void *mobj_loadTexAnimBillboardModel(void *a, const char *b, const char *c);
+void *mobj_loadBillboardModel(void *a, const char *b);
+void *mobj_loadShadowModel(void *a, const char *b);
+void mobj_loadNsbtpAnim(MapObjectModel *a, const char *b);
+void mobj_loadNsbtaAnim(MapObjectModel *a, const char *b);

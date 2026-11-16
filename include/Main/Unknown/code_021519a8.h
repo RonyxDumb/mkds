@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ReadNvramFirstThreeEntries(void *buffer);
+u32 DWCi_BM_GetApInfo(void *buffer);

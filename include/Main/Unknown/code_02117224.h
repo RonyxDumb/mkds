@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateCommonKartIcon(void *heap);
+void kic_initForMenu(void *heap);

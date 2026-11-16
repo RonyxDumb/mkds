@@ -4,6 +4,6 @@
 #include "Main/Unknown/code_0206bcb0.h" // Kart
 
 extern const Vec3 data_02154a3c;
-extern const Vec3 data_0216549c[];
+extern const Vec3 AwardCeremonyStartPositions[];
 
-void func_020646f0(Kart *kart, s32 b);
+void driver_initToNkmPos(Kart *kart, s32 b);

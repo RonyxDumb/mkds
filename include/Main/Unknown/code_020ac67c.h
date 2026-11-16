@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateShineBalloonKindData(void);
+void sblln_setupConfig(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CreateSlotGhostRecords(u32 heap);
+u32 ghdat_allocDownloadGhostsStruct(u32 heap);

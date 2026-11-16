@@ -3,15 +3,15 @@
 #include "Main/Unknown/code_020cab8c.h"
 
 #pragma thumb on
-void func_020ca83c(void) {
+void echoi_render(void) {
     u32 unusedValue;
-    func_020cab8c();
+    echoi_renderMenu();
 }
 #pragma thumb off
 
-void *func_020ca820(void) {
+void *echoi_proc_getCurrentHeap(void) {
     void *value0;
-    value0 = GetCurrentHeapCall();
-    value0 = GetHeap(value0);
+    value0 = proc_getCurrent();
+    value0 = proc_getHeap(value0);
     return value0;
 }

@@ -4,4 +4,4 @@
 
 typedef struct Unk020e43a8 Unk020e43a8;
 
-void EnterPukupukuState1(Unk020e43a8 *pukupuku);
+void puku_state1Init(Unk020e43a8 *pukupuku);

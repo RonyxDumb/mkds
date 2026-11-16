@@ -11,42 +11,42 @@
 
 #pragma thumb on
 
-void ResetBackupFirstBlockAndRecords(u32 copyOwnerName) {
-    ClearEmblemRecord();
-    ClearGrandPrixRecordBlock();
-    ClearCourseTimeRecordBlock();
-    ClearMissionRecordBlock();
-    func_02057260();
-    ClearBuddyRecordBlock();
-    ResetBackupFirstBlock(copyOwnerName);
+void savd_initSections(u32 copyOwnerName) {
+    savd_initNkem();
+    savd_initNkgp();
+    savd_initNkta();
+    savd_initNkmr();
+    savd_initGhosts();
+    savd_initNkfl();
+    savd_initNksy(copyOwnerName);
 }
 
-void WriteBackupFirstBlockAndRecords(void) {
-    WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
-    if (gBackupAccess->mBackupEnabled != 0) {
+void savd_eraseAllTask(void) {
+    savd_writeNkem(gSaveData->mEmblemRecord);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkgp(gSaveData->mGrandPrixRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkta(gSaveData->mCourseTimeRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkmr(gSaveData->mMissionRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkfl(gSaveData->mBuddyRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNksy(gSaveData->mFirstBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    ClearBackupBusy();
+    savd_endOperation();
 }
 
 #pragma thumb off

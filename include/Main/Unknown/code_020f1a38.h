@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void CreateItemKinds(void);
+void items_initItemParams(void);
 void ComputeItemKindObjectCounts(void);

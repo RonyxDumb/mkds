@@ -9,7 +9,7 @@ u32 GetCurrentCharacterIndex(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -21,7 +21,7 @@ u32 GetCurrentKartIndex(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -33,7 +33,7 @@ u32 GetCurrentPlayerKind(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -41,15 +41,15 @@ u32 GetCurrentPlayerKind(u32 entryIndex) {
     return value0;
 }
 
-u32 GetCurrentUseTeams(void) {
-    return (gRaceSetup->mUseTeams);
+u32 RData_GetCurrentTeamMode(void) {
+    return (gRaceMultiConfig->mUseTeams);
 }
 
 u32 GetCurrentTeamIndex(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -61,7 +61,7 @@ u32 func_020cc6a4(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -69,42 +69,42 @@ u32 func_020cc6a4(u32 entryIndex) {
     return value0;
 }
 
-u32 GetCurrentCupIndex(void) {
-    return (gRaceSetup->mCupIndex);
+u32 RData_GetCurrentCup(void) {
+    return (gRaceMultiConfig->mCupIndex);
 }
 
-u32 GetCurrentCpuDifficulty(void) {
-    return (gRaceSetup->mCpuDifficulty);
+u32 RData_GetCurrentCPUMode(void) {
+    return (gRaceMultiConfig->mCpuDifficulty);
 }
 
-u32 GetCurrentKartCount(void) {
-    return (gRaceSetup->mKartCount);
+u32 menu_race_getNrDrivers(void) {
+    return (gRaceMultiConfig->mKartCount);
 }
 
-u32 GetCurrentMode(void) {
-    return (gRaceSetup->mMode);
+u32 RData_GetCurrentRaceMode(void) {
+    return (gRaceMultiConfig->mMode);
 }
 
-u32 GetCurrentCourseId(void) {
-    return (gRaceSetup->mCourseId);
+u32 RData_GetCurrentCourse(void) {
+    return (gRaceMultiConfig->mCourseId);
 }
 
-u32 GetCurrentEngineIndex(void) {
-    return (gRaceSetup->mEngineIndex);
+u32 RData_GetCurrentCCMode(void) {
+    return (gRaceMultiConfig->mEngineIndex);
 }
 
-u32 GetCurrentMirrorMode(void) {
-    return (gRaceSetup->mMirrorMode);
+u32 RData_GetCurrentMirrorMode(void) {
+    return (gRaceMultiConfig->mMirrorMode);
 }
 
-u32 GetCurrentBattleKind(void) {
-    return (gRaceSetup->mBattleKind);
+u32 RData_GetBattleMode(void) {
+    return (gRaceMultiConfig->mBattleKind);
 }
 
-u32 GetCurrentCourseCount(void) {
-    return (gRaceSetup->mCourseCount);
+u32 RData_GetNrRacesNrWins(void) {
+    return (gRaceMultiConfig->mCourseCount);
 }
 
-u32 GetCurrentRuleKind(void) {
-    return (gRaceSetup->mRuleKind);
+u32 RData_GetRules(void) {
+    return (gRaceMultiConfig->mRuleKind);
 }

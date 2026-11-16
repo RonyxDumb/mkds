@@ -7,14 +7,14 @@
 #include "Main/Unknown/code_020ec504.h"
 #include "Main/Unknown/unk_02159000.h"
 
-void EnterPushedObjectState1(MapObject *object) {
+void rdmo_rotDieStateInit(MapObject *object) {
     u16 newSlot;
     object->mFlags = object->mFlags | (*(u16 *) &data_02159578);
-    newSlot = FreeCollisionSlot(object->mCollisionSlotIndex);
+    newSlot = col_deleteColEntry(object->mCollisionSlotIndex);
     object->mCollisionSlotIndex = newSlot;
 }
 
-void UpdatePushedObjectState1(Unk020e43a8 *object) {
+void rdmo_rotDieStateUpdate(Unk020e43a8 *object) {
     if (object->mUnk_0a8) {
         object->mUnk_0ac = object->mUnk_0ac + object->mUnk_0ae;
     } else {
@@ -28,8 +28,8 @@ void UpdatePushedObjectState1(Unk020e43a8 *object) {
     }
 }
 
-void EnterPushedObjectState2(u32 objectAddress) {
+void rdmo_deadStateInit(u32 objectAddress) {
     u32 object = objectAddress;
     u32 value12;
-    ParkMapObject((void *) object);
+    mobj_setInvisible((void *) object);
 }

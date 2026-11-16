@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void InitModelAnimationWithEntries(u32 animationKind, void *model, void *animation, void *nsbmdFile,
+void anim_20EA514(u32 animationKind, void *model, void *animation, void *nsbmdFile,
                                    void *animationFile);

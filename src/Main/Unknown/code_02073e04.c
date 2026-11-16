@@ -4,26 +4,26 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "code_02147cd8.h"
 
-u32 GetCameraEntryChanged(void) {
+u32 cam_2073E88(void) {
     return gCameraEntryChanged;
 }
 
 // Distance of the point a along the forward axis of the current camera.
-int GetCameraForwardDistance(u32 a) {
+int cam_2073E4C(u32 a) {
     Camera *v1;
     u8 v2[12];
-    v1 = GetCurrentCamera();
+    v1 = race_getCamera();
     VEC_Subtract((const Vec3 *) a, &v1->mPos, (Vec3 *) v2);
-    return Vec3DotUnrounded(&v1->mForward, (const Vec3 *) v2);
+    return vec_dotProduct(&v1->mForward, (const Vec3 *) v2);
 }
 
 // Distance of the point a along mSide of the current camera, times mSideDistanceSign (-1 in mirror mode).
-int GetCameraSideDistance(u32 a) {
+int cam_2073E04(u32 a) {
     Camera *v1;
     int v2;
     u8 v3[12];
-    v1 = GetCurrentCamera();
+    v1 = race_getCamera();
     VEC_Subtract((const Vec3 *) a, &v1->mPos, (Vec3 *) v3);
-    v2 = ((u32) Vec3DotUnrounded(&v1->mSide, (const Vec3 *) v3));
+    v2 = ((u32) vec_dotProduct(&v1->mSide, (const Vec3 *) v3));
     return v1->mSideDistanceSign * v2;
 }

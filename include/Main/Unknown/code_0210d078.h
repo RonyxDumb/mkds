@@ -4,4 +4,4 @@
 
 typedef struct PlayingSound PlayingSound;
 
-void SetPlayingSoundTrackParams(u32 a, PlayingSound *sound);
+void sfx_updateVolumePitch(u32 a, PlayingSound *sound);

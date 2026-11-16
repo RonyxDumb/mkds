@@ -17,18 +17,18 @@ typedef struct RaceGoalTimes {
     /* ac */ s32 mCellIndexAdd;
 } RaceGoalTimes;
 
-void DrawRaceHudSubScreenCreamCells(RaceHudOamBuffer *oamBuffer);
-void UpdateRaceHudSubScreenCreamCells(void);
-s32 CreateRaceHudSubScreenCreamCells(void);
-void DrawRaceHudSubScreenBerryCells(void *oamBuffer);
-void UpdateRaceHudSubScreenBerryCells(void);
-void ClearRaceHudSubScreenBerryCells(void);
-s32 CreateRaceHudSubScreenBerryCells(void);
+void mpicn_renderCreamIcon(RaceHudOamBuffer *oamBuffer);
+void mpicn_updateCreamIcon(void);
+s32 mpicn_createCreamIcon(void);
+void mpicn_renderBerryIcon(void *oamBuffer);
+void mpicn_updateBerryIcon(void);
+void mpicn_destroyBerryIcon(void);
+s32 mpicn_createBerryIcon(void);
 void DrawRaceGoalTimeDigits(RaceHudOamBuffer *oamBuffer, s32 originX, s32 originY, TimeDigits *digits, s32 cellOffset);
 void DrawRaceGoalTimes(RaceHudOamBuffer *oamBuffer);
 void UpdateRaceGoalTimes(void);
 u32 ClearRaceGoalTimesPointer(void);
 void InitRaceGoalTimes(void);
-void DrawRaceHudSubScreenFireball2Cells(void *oamBuffer);
-void UpdateRaceHudSubScreenFireball2Cells(void);
-void ClearRaceHudSubScreenFireball2Cells(void);
+void mpicn_renderFireball2Icon(void *oamBuffer);
+void mpicn_updateFireball2Icon(void);
+void mpicn_destroyFireball2Icon(void);

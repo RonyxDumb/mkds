@@ -136,7 +136,7 @@ u32 IsCharInTable3(u16 a) {
     return 0;
 }
 
-void AddToNonzeroNibblesInTile(u32 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
+void AddGridRectangle(u32 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
     u32 v1;
     u32 m;
     u32 *p;
@@ -185,13 +185,13 @@ void AddToNonzeroNibblesInTile(u32 *a, u32 b, s32 c, s32 d, s32 e, s32 f) {
 }
 
 void AddToNonzeroNibblesOnRectEdge(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s32 g) {
-    AddToNonzeroNibblesInRect(a, b, c, d, e, f, e + 1);
-    AddToNonzeroNibblesInRect(a, b, c, d, g - 1, f, g);
-    AddToNonzeroNibblesInRect(a, b, c, d, e + 1, d + 1, g - 1);
-    AddToNonzeroNibblesInRect(a, b, c, f - 1, e + 1, f, g - 1);
+    AddBGCharRectangle(a, b, c, d, e, f, e + 1);
+    AddBGCharRectangle(a, b, c, d, g - 1, f, g);
+    AddBGCharRectangle(a, b, c, d, e + 1, d + 1, g - 1);
+    AddBGCharRectangle(a, b, c, f - 1, e + 1, f, g - 1);
 }
 
-void AddToNonzeroNibblesInRect(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s32 g) {
+void AddBGCharRectangle(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s32 g) {
     s32 y;
     s32 x0;
     s32 x1;
@@ -228,7 +228,7 @@ void AddToNonzeroNibblesInRect(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s
                         u = 8;
                     }
                     v = g - v1 > 8 ? 8 : g - v1;
-                    AddToNonzeroNibblesInTile(a[x + v2], c, s, t, u, v);
+                    AddGridRectangle(a[x + v2], c, s, t, u, v);
                 }
                 v1 += 8;
                 v2 += w;
@@ -238,7 +238,7 @@ void AddToNonzeroNibblesInRect(u32 (*a)[8], s32 b, u32 c, s32 d, s32 e, s32 f, s
     }
 }
 
-void RefreshKeyboardCursor(KeyboardKeys *a) {
+void RelocateCursor(KeyboardKeys *a) {
     KeyboardRect *q;
     KeyboardRect *r;
     s32 x;
@@ -256,7 +256,7 @@ void RefreshKeyboardCursor(KeyboardKeys *a) {
         x = ((q->mX << 1) + q->mWidth) / 2 + 3;
         y = ((q->mY << 1) + q->mHeight) / 2 - 3;
     }
-    r = FindKeyboardRectAt(a, x, y);
+    r = SearchButton(a, x, y);
     if (r != NULL) {
         a->mCursorRect = r;
         return;
@@ -264,7 +264,7 @@ void RefreshKeyboardCursor(KeyboardKeys *a) {
     a->mCursorRect = a->mCurrentLayout->mRects + a->mCurrentLayout->mFixedKeyCount;
 }
 
-KeyboardRect *FindKeyboardRectInDirection(u32 a, KeyboardRect *b, KeyboardRect *c) {
+KeyboardRect *MoveCursor(u32 a, KeyboardRect *b, KeyboardRect *c) {
     s32 x0;
     s32 x1;
     s32 y0;
@@ -355,7 +355,7 @@ KeyboardRect *FindKeyboardRectInDirection(u32 a, KeyboardRect *b, KeyboardRect *
                 } else if (v6 > w8 + k) {
                     y2 = y2 - (w8 + k * 2);
                 }
-                e = FindKeyboardRectAt(&gKeyboardKeys, x2, y2);
+                e = SearchButton(&gKeyboardKeys, x2, y2);
                 if (e != NULL && e != b) {
                     return e;
                 }
@@ -398,12 +398,12 @@ void SetupKeyboardLayout(KeyboardRect *a, Ncgr *b, void (*c)(KeyboardKeys *), s3
     if (gKeyboardKeys.mTouchStartRect != NULL) {
         x = GetKeyboardLastTouchX();
         y = GetKeyboardLastTouchY();
-        gKeyboardKeys.mTouchStartRect = FindKeyboardRectAt(&gKeyboardKeys, x, y);
+        gKeyboardKeys.mTouchStartRect = SearchButton(&gKeyboardKeys, x, y);
     }
     FillKeyboardBg2Scr(&gKeyboardKeys);
-    DrawKeyboardGlyphs(&gKeyboardKeys);
-    MarkKeyboardRects(&gKeyboardKeys);
-    RefreshKeyboardCursor(&gKeyboardKeys);
+    RedrawKeytop(&gKeyboardKeys);
+    DrawKeyboard(&gKeyboardKeys);
+    RelocateCursor(&gKeyboardKeys);
 }
 
 void SetupKeyboardLayoutHiragana(KeyboardRect *a, Ncgr *b, u32 c) {

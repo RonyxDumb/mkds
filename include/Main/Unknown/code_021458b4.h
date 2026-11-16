@@ -3,4 +3,4 @@
 #include "types.h"
 
 // Returns the enable flag.
-u32 CARD_IsEnabled(void);
+u32 OS_IsThreadAvailable_15(void);

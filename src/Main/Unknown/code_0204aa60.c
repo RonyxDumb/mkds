@@ -7,55 +7,55 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "pm.h"
 
-void InitSceneSoundSetPlayer(s32 seqId) {
-    if (data_021759d0->mSoundSetPlayerInitialized) {
+void sysdat_loadSeq(s32 seqId) {
+    if (gSystemData->mSoundSetPlayerInitialized) {
         return;
     }
-    data_021759d0->mSoundSetPlayerInitialized = 1;
-    func_0210f8b0(&data_021759d0->mSoundSetPlayer, seqId, 0xff);
+    gSystemData->mSoundSetPlayerInitialized = 1;
+    func_0210f8b0(&gSystemData->mSoundSetPlayer, seqId, 0xff);
 }
 
-void StartSceneSoundSetSeq(void) {
-    if (!data_021759d0->mSoundSetPlayerInitialized) {
+void sysdat_startSeq(void) {
+    if (!gSystemData->mSoundSetPlayerInitialized) {
         return;
     }
-    if (data_021759d0->mSoundSetSeqPlaying) {
+    if (gSystemData->mSoundSetSeqPlaying) {
         return;
     }
-    data_021759d0->mSoundSetSeqPlaying = 1;
-    StartSoundSetSeq(&data_021759d0->mSoundSetPlayer, data_0216cb28);
+    gSystemData->mSoundSetSeqPlaying = 1;
+    sound_seqHandleStart(&gSystemData->mSoundSetPlayer, data_0216cb28);
 }
 
-void StopSceneSoundSetSeq(void) {
-    Unk021759d0 *p = data_021759d0;
+void sysdat_stopSeq(void) {
+    Unk021759d0 *p = gSystemData;
 
     if (!p->mSoundSetSeqPlaying) {
         return;
     }
-    StopSoundSetSeq(&p->mSoundSetPlayer, GetSoundFadeSteps());
-    data_021759d0->mSoundSetSeqPlaying = 0;
+    sound_seqHandleStop(&p->mSoundSetPlayer, sound_getFadeFrameCount());
+    gSystemData->mSoundSetSeqPlaying = 0;
 }
 
-void ReleaseSceneSoundSetPlayer(void) {
-    if (data_021759d0->mSoundSetSeqPlaying) {
+void sysdat_unloadSeq(void) {
+    if (gSystemData->mSoundSetSeqPlaying) {
         return;
     }
-    if (!data_021759d0->mSoundSetPlayerInitialized) {
+    if (!gSystemData->mSoundSetPlayerInitialized) {
         return;
     }
-    ReleaseSoundSetPlayer(&data_021759d0->mSoundSetPlayer);
-    data_021759d0->mSoundSetPlayerInitialized = 0;
+    sound_seqHandleUnload(&gSystemData->mSoundSetPlayer);
+    gSystemData->mSoundSetPlayerInitialized = 0;
 }
 
-void StopSceneSoundSetSeqWithSteps(u32 fadeSteps) {
-    if (!data_021759d0->mSoundSetSeqPlaying) {
+void sysdat_204AB64(u32 fadeSteps) {
+    if (!gSystemData->mSoundSetSeqPlaying) {
         return;
     }
-    StopSoundSetSeq(&data_021759d0->mSoundSetPlayer, fadeSteps);
+    sound_seqHandleStop(&gSystemData->mSoundSetPlayer, fadeSteps);
 }
 
-BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
-    Unk021759d0 *p = data_021759d0;
+BOOL sysdat_configureBackLight(s32 firstRequest, s32 secondRequest) {
+    Unk021759d0 *p = gSystemData;
     s32 firstBackLightOn = p->mFirstBackLightOn;
     s32 secondBackLightOn = p->mSecondBackLightOn;
     BOOL allSet = TRUE;
@@ -72,14 +72,14 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
     }
     if (firstBackLightOn != p->mFirstBackLightOn) {
         if (PM_SetBackLight(0, firstBackLightOn) == 0) {
-            data_021759d0->mFirstBackLightOn = firstBackLightOn;
+            gSystemData->mFirstBackLightOn = firstBackLightOn;
         } else {
             allSet = FALSE;
         }
     }
-    if (secondBackLightOn != data_021759d0->mSecondBackLightOn) {
+    if (secondBackLightOn != gSystemData->mSecondBackLightOn) {
         if (PM_SetBackLight(1, secondBackLightOn) == 0) {
-            data_021759d0->mSecondBackLightOn = secondBackLightOn;
+            gSystemData->mSecondBackLightOn = secondBackLightOn;
         } else {
             allSet = FALSE;
         }
@@ -87,9 +87,9 @@ BOOL TrySetBackLights(s32 firstRequest, s32 secondRequest) {
     return allSet;
 }
 
-RandomState64 *GetRandomState(void) {
+RandomState64 *sysdat_getRandom(void) {
     void *random = NULL;
-    Unk021759d0 *p = data_021759d0;
+    Unk021759d0 *p = gSystemData;
 
     switch (p->mUnk_20) {
         case 0:
@@ -98,7 +98,7 @@ RandomState64 *GetRandomState(void) {
             break;
         case 1:
         case 2:
-            random = &data_0217aa00->mUnk_1ee8;
+            random = &gStruct217AA00->mUnk_1ee8;
             break;
     }
     return random;

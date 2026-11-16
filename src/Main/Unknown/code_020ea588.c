@@ -14,17 +14,17 @@ void func_020ea5b0(NsbmdModel *model, u32 maxAlpha, Vec3 *position) {
         shiftedPosition.x = position->x >> 4;
         shiftedPosition.y = position->y >> 4;
         shiftedPosition.z = position->z >> 4;
-        func_020e6854(model, &shiftedPosition, 1, maxAlpha);
+        bbm_render(model, &shiftedPosition, 1, maxAlpha);
     } else {
-        func_020e6854(model, NULL, 0, maxAlpha);
+        bbm_render(model, NULL, 0, maxAlpha);
     }
 }
 
 #pragma thumb on
 
-void CreateNsbmd(void **slot, void *file, void *unused) {
-    *slot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
-    InitNsbmd(*slot, file);
+void model2_createFromNsbmd(void **slot, void *file, void *unused) {
+    *slot = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
+    model_initFromNsbmd(*slot, file);
 }
 
 #pragma thumb off

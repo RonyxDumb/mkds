@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ReceivePacketFromIndexChecked(const u8 *data, int size, u32 fromIndex);
+void WBT_MpParentRecvHook(const u8 *data, int size, u32 fromIndex);

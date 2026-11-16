@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetEmblemChoisesResult(void);
+unsigned int echoi_getActivatedOption(void);

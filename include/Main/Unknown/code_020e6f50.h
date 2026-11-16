@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetUpdateListSlot(void *listSlot);
+void mobj_logicPartSetThisPointer(void *listSlot);

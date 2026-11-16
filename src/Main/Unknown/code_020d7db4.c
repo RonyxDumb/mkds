@@ -27,14 +27,14 @@
 
 #pragma thumb off
 
-void GetSegmentProgressPointXzLinearY(void *segmentProgressPointer, Vec3 *position) {
+void pwex_interpolateXZLinearY(void *segmentProgressPointer, Vec3 *position) {
     SegmentProgress *segmentProgress = segmentProgressPointer;
-    GetSegmentCurveXzLinearY(&segmentProgress->mUnk_00, segmentProgress->mUnk_5c, position);
+    pw_interpolateXZLinearY(&segmentProgress->mUnk_00, segmentProgress->mUnk_5c, position);
 }
 
 #pragma thumb on
 
-void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *previousPoint, Vec3 *startPoint,
+void pw_setupPoint(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *previousPoint, Vec3 *startPoint,
                   Vec3 *endPoint, Vec3 *nextPoint) {
     Vec3 startToEnd;
     Vec3 direction;
@@ -51,7 +51,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     segment->mPoints[0] = *startPoint;
     segment->mPoints[3] = *endPoint;
     VEC_Subtract(endPoint, startPoint, &startToEnd);
-    length = Vec3NormalizeAndGetLengthOrZero(&startToEnd, &direction);
+    length = vec_normalizeFast(&startToEnd, &direction);
     if (length == 0) {
         segment->mPoints[1] = segment->mPoints[0];
         segment->mPoints[2] = segment->mPoints[3];
@@ -64,8 +64,8 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     }
     if (previousPoint != NULL) {
         VEC_Subtract(endPoint, previousPoint, &previousToEnd);
-        if (Vec3NormalizeAndGetLengthOrZero(&previousToEnd, &previousToEnd) != 0) {
-            bend = (0x1000 - Vec3DotUnrounded(&direction, &previousToEnd)) >> 1;
+        if (vec_normalizeFast(&previousToEnd, &previousToEnd) != 0) {
+            bend = (0x1000 - vec_dotProduct(&direction, &previousToEnd)) >> 1;
             startExtra = ((s64) length * (s64) bend) >> 12;
             if (useStraightLength != 0) {
                 startSlope.x = ((s64) previousToEnd.x * length) >> 12;
@@ -86,8 +86,8 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     }
     if (nextPoint != NULL) {
         VEC_Subtract(nextPoint, startPoint, &startToNext);
-        if (Vec3NormalizeAndGetLengthOrZero(&startToNext, &startToNext) != 0) {
-            bend = (0x1000 - Vec3DotUnrounded(&direction, &startToNext)) >> 1;
+        if (vec_normalizeFast(&startToNext, &startToNext) != 0) {
+            bend = (0x1000 - vec_dotProduct(&direction, &startToNext)) >> 1;
             endExtra = ((s64) length * (s64) bend) >> 12;
             if (useStraightLength != 0) {
                 endSlope.x = ((s64) startToNext.x * length) >> 12;
@@ -122,7 +122,7 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
         if (squaredUpLength < 16) {
             r = 0;
         } else {
-            r = Vec3NormalizeAndGetLengthUnchecked(&segment->mUp, &segment->mUp);
+            r = vec_normalize(&segment->mUp, &segment->mUp);
         }
         if (r == 0) {
             segment->mUp = data_02158088;
@@ -130,11 +130,11 @@ void BuildSegment(Segment *segment, s32 useStraightLength, s32 computeUp, Vec3 *
     }
 }
 
-void BuildGroupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup) {
+void pw_setupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup) {
     GroupPath *path;
     s32 entryCount;
     s32 segmentIndex;
-    path = &gGroupPaths[groupIndex];
+    path = &pRTPathArray[groupIndex];
     if (path->mSegments != NULL) {
         return;
     }
@@ -144,55 +144,55 @@ void BuildGroupPath(u32 groupIndex, CourseMapEntryGroup *entryGroup) {
     if (path->mWraps == 0) {
         path->mSegmentCount = path->mSegmentCount - 1;
     }
-    path->mSegments = HeapAlloc(GetHeap(GetCurrentHeapCall()), path->mSegmentCount * 0x54);
+    path->mSegments = heap_alloc(proc_getHeap(proc_getCurrent()), path->mSegmentCount * 0x54);
     if (entryCount == 2) {
-        BuildSegment(path->mSegments, 0, 1, NULL, &GetCourseMapGroupEntry(groupIndex, 0)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 1)->mPos, NULL);
+        pw_setupPoint(path->mSegments, 0, 1, NULL, &mdat_getPathPoint(groupIndex, 0)->mPos,
+                     &mdat_getPathPoint(groupIndex, 1)->mPos, NULL);
         if (path->mWraps != 0) {
-            BuildSegment(&path->mSegments[1], 0, 1, NULL, &GetCourseMapGroupEntry(groupIndex, 1)->mPos,
-                         &GetCourseMapGroupEntry(groupIndex, 0)->mPos, NULL);
+            pw_setupPoint(&path->mSegments[1], 0, 1, NULL, &mdat_getPathPoint(groupIndex, 1)->mPos,
+                         &mdat_getPathPoint(groupIndex, 0)->mPos, NULL);
         }
         return;
     }
     if (path->mWraps != 0) {
-        BuildSegment(path->mSegments, 0, 1, &GetCourseMapGroupEntry(groupIndex, entryCount - 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 0)->mPos, &GetCourseMapGroupEntry(groupIndex, 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 2)->mPos);
+        pw_setupPoint(path->mSegments, 0, 1, &mdat_getPathPoint(groupIndex, entryCount - 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, 0)->mPos, &mdat_getPathPoint(groupIndex, 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, 2)->mPos);
     } else {
-        BuildSegment(path->mSegments, 0, 1, NULL, &GetCourseMapGroupEntry(groupIndex, 0)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 1)->mPos, &GetCourseMapGroupEntry(groupIndex, 2)->mPos);
+        pw_setupPoint(path->mSegments, 0, 1, NULL, &mdat_getPathPoint(groupIndex, 0)->mPos,
+                     &mdat_getPathPoint(groupIndex, 1)->mPos, &mdat_getPathPoint(groupIndex, 2)->mPos);
     }
     for (segmentIndex = 1; segmentIndex < entryCount - 2; segmentIndex++) {
-        BuildSegment(&path->mSegments[segmentIndex], 0, 1, &GetCourseMapGroupEntry(groupIndex, segmentIndex - 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex + 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex + 2)->mPos);
+        pw_setupPoint(&path->mSegments[segmentIndex], 0, 1, &mdat_getPathPoint(groupIndex, segmentIndex - 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex + 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex + 2)->mPos);
     }
     if (path->mWraps != 0) {
-        BuildSegment(&path->mSegments[segmentIndex], 0, 1, &GetCourseMapGroupEntry(groupIndex, segmentIndex - 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex + 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 0)->mPos);
+        pw_setupPoint(&path->mSegments[segmentIndex], 0, 1, &mdat_getPathPoint(groupIndex, segmentIndex - 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex + 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, 0)->mPos);
     } else {
-        BuildSegment(&path->mSegments[segmentIndex], 0, 1, &GetCourseMapGroupEntry(groupIndex, segmentIndex - 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex + 1)->mPos, NULL);
+        pw_setupPoint(&path->mSegments[segmentIndex], 0, 1, &mdat_getPathPoint(groupIndex, segmentIndex - 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex + 1)->mPos, NULL);
     }
     if (path->mWraps != 0) {
-        BuildSegment(&path->mSegments[segmentIndex + 1], 0, 1, &GetCourseMapGroupEntry(groupIndex, segmentIndex)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, segmentIndex + 1)->mPos,
-                     &GetCourseMapGroupEntry(groupIndex, 0)->mPos, &GetCourseMapGroupEntry(groupIndex, 1)->mPos);
+        pw_setupPoint(&path->mSegments[segmentIndex + 1], 0, 1, &mdat_getPathPoint(groupIndex, segmentIndex)->mPos,
+                     &mdat_getPathPoint(groupIndex, segmentIndex + 1)->mPos,
+                     &mdat_getPathPoint(groupIndex, 0)->mPos, &mdat_getPathPoint(groupIndex, 1)->mPos);
     }
 }
 
-void InitGroupPaths(void) {
-    s32 groupCount = gCourseMap->mEntryGroupCount;
+void pw_setupPaths(void) {
+    s32 groupCount = gMapData->mEntryGroupCount;
     s32 groupIndex;
     if (groupCount != 0) {
-        gGroupPaths = HeapAlloc(GetHeap(GetCurrentHeapCall()), groupCount * 0xc);
+        pRTPathArray = heap_alloc(proc_getHeap(proc_getCurrent()), groupCount * 0xc);
     }
     for (groupIndex = 0; groupIndex < groupCount; groupIndex++) {
-        gGroupPaths[groupIndex].mSegments = NULL;
+        pRTPathArray[groupIndex].mSegments = NULL;
     }
 }
 
@@ -200,12 +200,12 @@ void InitGroupPaths(void) {
 
 #pragma thumb on
 
-void InitGroupFollowerForGroup(GroupFollower *follower, u16 groupIndex, int speed) {
+void pw_initFromPathId(GroupFollower *follower, u16 groupIndex, int speed) {
     follower->mGroupIndex = groupIndex;
-    BuildGroupPath(follower->mGroupIndex, &gCourseMap->mEntryGroups[follower->mGroupIndex]);
-    follower->mPath = &gGroupPaths[follower->mGroupIndex];
+    pw_setupPath(follower->mGroupIndex, &gMapData->mEntryGroups[follower->mGroupIndex]);
+    follower->mPath = &pRTPathArray[follower->mGroupIndex];
     follower->mSpeed = speed;
-    SetupGroupFollowerAtEntry(follower, 0, 1);
+    pw_init(follower, 0, 1);
 }
 
 #pragma thumb off

@@ -113,8 +113,8 @@ void RequestRecordVSEraseState0(void) {
         gRecordVSErase->mRecordVSSEraseTable[eraseCellCount + data_0215c4b8[i]].mOffsetX = 0x100;
     }
     PrintRecordVSEraseShownRecord();
-    SetupTxtSystemSubTextButtonEx(GetBmgEntry(gRecordVSErase->mRecordMessages, 4),
-                                  GetBmgEntry(gRecordVSErase->mCommonMessages, 6), 0, 1, 1, 1);
+    gmenu_createSubMessageBoxConfirm(jn_msg_getMessage(gRecordVSErase->mRecordMessages, 4),
+                                  jn_msg_getMessage(gRecordVSErase->mCommonMessages, 6), 0, 1, 1, 1);
     for (i = 0; i < 2; i++) {
         gRecordVSErase->mRecordVSSEraseTable[data_0215c4a8[i]].mVisible = 0;
     }
@@ -178,9 +178,9 @@ void RequestRecordVSEraseState8(void) {
     gRecordVSErase->mStateFrames = 0;
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     CopyRecordText(firstRecordIndex + gRecordVSErase->mIndex, recordName, 0x20);
-    FormatMessageWithText(recordName, GetBmgEntry(gRecordVSErase->mRecordMessages, 5), messageText, 0x200);
-    SetupTxtSystemSubTextTwoButtonsEx(messageText, GetBmgEntry(gRecordVSErase->mCommonMessages, 0),
-                                      GetBmgEntry(gRecordVSErase->mCommonMessages, 1), 1, 0, 1, 1, 1);
+    FormatMessageWithText(recordName, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 5), messageText, 0x200);
+    CreateSubMessageBoxSubYesNo(messageText, jn_msg_getMessage(gRecordVSErase->mCommonMessages, 0),
+                                      jn_msg_getMessage(gRecordVSErase->mCommonMessages, 1), 1, 0, 1, 1, 1);
 }
 
 void RequestRecordVSEraseState9(void) {
@@ -225,7 +225,7 @@ void InitRecordVSErase(void *heap) {
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x9810;
-    gRecordVSErase = HeapAlloc(heap, 0xa4);
+    gRecordVSErase = heap_alloc(heap, 0xa4);
     gRecordVSErase->mHeap = heap;
     gRecordVSErase->mState = 3;
     gRecordVSErase->mPageIndex = GetRecordScenePageIndex();
@@ -242,77 +242,77 @@ void InitRecordVSErase(void *heap) {
     }
     LoadEmblemSBNclr(heap);
     LocateAndQueueRecordVSErase();
-    InitLayoutTable(heap, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMBnll,
+    jn_ui_initLayout(heap, gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMBnll,
                     &gRecordVSErase->mRecordVSMTable);
-    InitLayoutTable(heap, gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientBnll,
+    jn_ui_initLayout(heap, gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientBnll,
                     &gRecordVSErase->mRecordVSMTransientTable);
-    InitLayoutTable(heap, gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseBnll,
+    jn_ui_initLayout(heap, gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseBnll,
                     &gRecordVSErase->mRecordVSSEraseTable);
-    gRecordVSErase->mCommonMessages = FindFileInLoadedArchives(data_0216d4a4);
-    gRecordVSErase->mRecordMessages = FindSceneFile(data_0216d4b0);
+    gRecordVSErase->mCommonMessages = arc_get2dArcFile(aCommon_bmg_10);
+    gRecordVSErase->mRecordMessages = arc_getSceneArcFile(aRecord_bmg_0);
     remainingSize = 0x8000;
     remainingSize -=
-        InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVSErase->mRecordVSMNcer,
+        jn_ui_initLabel(heap, 0, gRecordVSErase->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVSErase->mRecordVSMNcer,
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
     remainingSize -=
-        InitLabelCanvas(heap, 1, gRecordVSErase->mRecordVSMBnll, 0xaa, 0xe, 1, gRecordVSErase->mRecordVSMNcer,
+        jn_ui_initLabel(heap, 1, gRecordVSErase->mRecordVSMBnll, 0xaa, 0xe, 1, gRecordVSErase->mRecordVSMNcer,
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
-    func_0212426c(0, 1, gRecordVSErase->mRecordVSMBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 0),
+    jn_ui_212426C(0, 1, gRecordVSErase->mRecordVSMBnll, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 0),
                   gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
     remainingSize -=
-        InitLabelCanvas(heap, 0xb, gRecordVSErase->mRecordVSMBnll, 0x96, 0xe, 2, gRecordVSErase->mRecordVSMNcer,
+        jn_ui_initLabel(heap, 0xb, gRecordVSErase->mRecordVSMBnll, 0x96, 0xe, 2, gRecordVSErase->mRecordVSMNcer,
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
-    func_0212426c(0, 0xb, gRecordVSErase->mRecordVSMBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 1),
+    jn_ui_212426C(0, 0xb, gRecordVSErase->mRecordVSMBnll, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 1),
                   gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable);
     remainingSize -=
-        InitLabelCanvas(heap, 0xc, gRecordVSErase->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVSErase->mRecordVSMNcer,
+        jn_ui_initLabel(heap, 0xc, gRecordVSErase->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVSErase->mRecordVSMNcer,
                         gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
     cellIndex = 4;
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             remainingSize -=
-                InitLabelCanvas(heap, data_0215c530[i][j], gRecordVSErase->mRecordVSMBnll, data_0215c544[i][j],
+                jn_ui_initLabel(heap, data_0215c530[i][j], gRecordVSErase->mRecordVSMBnll, aPpp_0[i][j],
                                 data_0215c558[i][j], cellIndex, gRecordVSErase->mRecordVSMNcer,
                                 gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMTable, remainingSize);
             cellIndex = mainCellCount + data_0215c530[i][j];
         }
     }
     for (i = 0; i < 3; i++) {
-        func_0212426c(0, data_0215c530[0][i], gRecordVSErase->mRecordVSMBnll,
-                      GetBmgEntry(gRecordVSErase->mRecordMessages, data_0215c4b0[i]), gRecordVSErase->mRecordVSMBncl,
+        jn_ui_212426C(0, data_0215c530[0][i], gRecordVSErase->mRecordVSMBnll,
+                      jn_msg_getMessage(gRecordVSErase->mRecordMessages, data_0215c4b0[i]), gRecordVSErase->mRecordVSMBncl,
                       gRecordVSErase->mRecordVSMTable);
     }
-    remainingSize -= InitLabelCanvas(heap, 0, gRecordVSErase->mRecordVSMTransientBnll, 0x8c, 0x10, 0,
+    remainingSize -= jn_ui_initLabel(heap, 0, gRecordVSErase->mRecordVSMTransientBnll, 0x8c, 0x10, 0,
                                      gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
                                      gRecordVSErase->mRecordVSMTransientTable, remainingSize);
-    remainingSize -= InitLabelCanvas(heap, 1, gRecordVSErase->mRecordVSMTransientBnll, 0x70, 0x10, 1,
+    remainingSize -= jn_ui_initLabel(heap, 1, gRecordVSErase->mRecordVSMTransientBnll, 0x70, 0x10, 1,
                                      gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
                                      gRecordVSErase->mRecordVSMTransientTable, remainingSize);
-    func_0212426c(0, 1, gRecordVSErase->mRecordVSMTransientBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 0xb),
+    jn_ui_212426C(0, 1, gRecordVSErase->mRecordVSMTransientBnll, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 0xb),
                   gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
-    remainingSize -= InitLabelCanvas(heap, 0xe, gRecordVSErase->mRecordVSMTransientBnll, 0xe0, 0x38, 2,
+    remainingSize -= jn_ui_initLabel(heap, 0xe, gRecordVSErase->mRecordVSMTransientBnll, 0xe0, 0x38, 2,
                                      gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl,
                                      gRecordVSErase->mRecordVSMTransientTable, remainingSize);
-    func_0212426c(0, 0xe, gRecordVSErase->mRecordVSMTransientBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 0xc),
+    jn_ui_212426C(0, 0xe, gRecordVSErase->mRecordVSMTransientBnll, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 0xc),
                   gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
     for (i = 0; i < 12; i++) {
-        remainingSize -= InitLabelCanvas(heap, data_0215c584[i], gRecordVSErase->mRecordVSMTransientBnll,
+        remainingSize -= jn_ui_initLabel(heap, data_0215c584[i], gRecordVSErase->mRecordVSMTransientBnll,
                                          data_0215c59c[i], data_0215c56c[i], i + 3, gRecordVSErase->mRecordVSMNcer,
                                          gRecordVSErase->mRecordVSMTransientBncl,
                                          gRecordVSErase->mRecordVSMTransientTable, remainingSize);
     }
     remainingSubSize = GX_GetSizeOfSubOBJ();
     for (i = 0, cellIndexCursor = data_0215c50c; i < 5; i++) {
-        remainingSubSize -= InitLabelCanvas(heap, data_0215c4b8[i], gRecordVSErase->mRecordVSSEraseBnll,
+        remainingSubSize -= jn_ui_initLabel(heap, data_0215c4b8[i], gRecordVSErase->mRecordVSSEraseBnll,
                                             data_0215c4c4[i], data_0215c4dc[i], *cellIndexCursor,
                                             gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl,
                                             gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
         cellIndexCursor++;
     }
-    InitLabelCanvas(heap, 5, gRecordVSErase->mRecordVSSEraseBnll, 0xfa, 0x10, 5, gRecordVSErase->mRecordVSSNcer,
+    jn_ui_initLabel(heap, 5, gRecordVSErase->mRecordVSSEraseBnll, 0xfa, 0x10, 5, gRecordVSErase->mRecordVSSNcer,
                     gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable, remainingSubSize);
-    func_0212426c(1, 5, gRecordVSErase->mRecordVSSEraseBnll, GetBmgEntry(gRecordVSErase->mRecordMessages, 2),
+    jn_ui_212426C(1, 5, gRecordVSErase->mRecordVSSEraseBnll, jn_msg_getMessage(gRecordVSErase->mRecordMessages, 2),
                   gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
     p0 = 0;
     p1 = 0;
@@ -320,17 +320,17 @@ void InitRecordVSErase(void *heap) {
     p3 = 0;
     p4 = 0;
     for (i = 0; i < 5; i++) {
-        func_02124a98(data_0215c4e8[i], p0, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
-        func_02124a98(data_0215c4f4[i], p1, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
-        func_02124a98(data_0215c500[i], p2, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
-        func_02124a98(data_0215c50c[i], p3, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
-        func_02124140(data_0215c4b8[i], p4, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+        jn_ui_setCellIsTranslucent(data_0215c4e8[i], p0, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
+        jn_ui_setCellIsTranslucent(data_0215c4f4[i], p1, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
+        jn_ui_setCellIsTranslucent(data_0215c500[i], p2, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
+        jn_ui_setCellIsTranslucent(data_0215c50c[i], p3, gRecordVSErase->mRecordVSSNcer, gRecordVSErase->mRecordVSSEraseBncl);
+        jn_ui_setLabelIsTranslucent(data_0215c4b8[i], p4, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
                       gRecordVSErase->mRecordVSSEraseBncl);
     }
-    func_02124140(5, 0, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
+    jn_ui_setLabelIsTranslucent(5, 0, gRecordVSErase->mRecordVSSEraseBnll, gRecordVSErase->mRecordVSSEraseTable,
                   gRecordVSErase->mRecordVSSEraseBncl);
-    gRecordVSErase->mEmblem = HeapAlloc(heap, 0x201);
-    gRecordVSErase->mEmblemConverted = HeapAlloc(heap, 0x200);
+    gRecordVSErase->mEmblem = heap_alloc(heap, 0x201);
+    gRecordVSErase->mEmblemConverted = heap_alloc(heap, 0x200);
     RequestRecordVSEraseState0();
 }
 
@@ -385,8 +385,8 @@ void AdvanceRecordVSEraseState3(void) {
 
     AdvanceRecordVSEraseOffsetTimers();
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 0xa);
-    offsetY = InterpolateS16(1, ~0xbf, 0, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = mutil_interpolate(1, 0x100, 0, gRecordVSErase->mStateFrames, 0xa);
+    offsetY = mutil_interpolate(1, ~0xbf, 0, gRecordVSErase->mStateFrames, 0xa);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
@@ -423,13 +423,13 @@ void AdvanceRecordVSEraseState4(void) {
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     n = (data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) || data_02175674[i].mPressedBits != 0;
     if (n) {
-        v = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
+        v = jn_ui_checkTouch(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
                                     data_02175672[i].mPressedBits);
     }
     n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
         (data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0);
     if (n) {
-        w = RectTableFindContaining(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
+        w = jn_ui_checkTouch(gRecordVSErase->mRecordVSSEraseBnbl, data_02175670[i].mPressedBits,
                                     data_02175672[i].mPressedBits);
     }
     if (v != 5) {
@@ -438,10 +438,10 @@ void AdvanceRecordVSEraseState4(void) {
     if (v != 6) {
         gRecordVSErase->mUnk_9c = FALSE;
     }
-    if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) != 0 ||
+    if ((u16) (gInputUnits[i].mPressedBits & PAD_KEY_B) != 0 ||
         ((n = !(data_02175674[i].mPressedBits == 0 && data_02175680[i].mPressedBits < 5) &&
               (data_0217567c[i].mPressedBits == 0 && data_02175674[i].mPressedBits != 0)) &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[i].mPressedBits,
+         gmenu_checkSelectReturnTouch(data_02175670[i].mPressedBits,
                                                          data_02175672[i].mPressedBits) != FALSE)) {
         if (IsRecordVSEraseIndexChangeRunning() != 0) {
             return;
@@ -500,7 +500,7 @@ void AdvanceRecordVSEraseState4(void) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         }
     } else {
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_A) != 0) {
+        if ((u16) (gInputUnits[i].mPressedBits & PAD_KEY_A) != 0) {
             if (IsRecordFlagged(firstRecordIndex + gRecordVSErase->mIndex) == 0) {
                 if (IsRecordVSEraseIndexChangeRunning() == 0) {
                     RequestRecordVSEraseState7();
@@ -512,11 +512,11 @@ void AdvanceRecordVSEraseState4(void) {
             }
             return;
         }
-        if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
             DecrementRecordVSEraseIndex();
             return;
         }
-        if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
             IncrementRecordVSEraseIndex();
         }
     }
@@ -545,7 +545,7 @@ void AdvanceRecordVSEraseState5(void) {
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
-    offsetX = InterpolateS16(1, 0, targetOffsetX, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = mutil_interpolate(1, 0, targetOffsetX, gRecordVSErase->mStateFrames, 0xa);
     gRecordVSErase->mBg0OffsetX = offsetX;
     gRecordVSErase->mBg1OffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[1].mOffsetX = offsetX;
@@ -604,7 +604,7 @@ void AdvanceRecordVSEraseState6(void) {
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
-    offsetX = InterpolateS16(1, startOffsetX, 0, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = mutil_interpolate(1, startOffsetX, 0, gRecordVSErase->mStateFrames, 0xa);
     gRecordVSErase->mBg0OffsetX = offsetX;
     gRecordVSErase->mBg1OffsetX = offsetX;
     gRecordVSErase->mRecordVSMTable[1].mOffsetX = offsetX;
@@ -647,8 +647,8 @@ void AdvanceRecordVSEraseState7(void) {
     s32 i;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 0xa);
-    offsetY = InterpolateS16(1, 0, ~0xbf, gRecordVSErase->mStateFrames, 0xa);
+    offsetX = mutil_interpolate(1, 0, 0x100, gRecordVSErase->mStateFrames, 0xa);
+    offsetY = mutil_interpolate(1, 0, ~0xbf, gRecordVSErase->mStateFrames, 0xa);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
@@ -710,7 +710,7 @@ void AdvanceRecordVSEraseState10(void) {
     u16 firstRecordIndex;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, -0x100, gRecordVSErase->mStateFrames, 10);
+    offsetX = mutil_interpolate(1, 0, -0x100, gRecordVSErase->mStateFrames, 10);
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
     if (GetRecordCount() != 0 && gRecordVSErase->mErased != 0) {
@@ -759,8 +759,8 @@ void AdvanceRecordVSEraseState11(void) {
     u16 eraseCellCount;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0x100, 0, gRecordVSErase->mStateFrames, 10);
-    offsetY = InterpolateS16(1, -0xc0, 0, gRecordVSErase->mStateFrames, 10);
+    offsetX = mutil_interpolate(1, 0x100, 0, gRecordVSErase->mStateFrames, 10);
+    offsetY = mutil_interpolate(1, -0xc0, 0, gRecordVSErase->mStateFrames, 10);
     mainCellCount = gRecordVSErase->mRecordVSMBncl->mUnk_06;
     transientCellCount = gRecordVSErase->mRecordVSMTransientBncl->mUnk_06;
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
@@ -813,8 +813,8 @@ void AdvanceRecordVSEraseState12(void) {
     u16 eraseCellCount;
 
     gRecordVSErase->mStateFrames++;
-    offsetX = InterpolateS16(1, 0, 0x100, gRecordVSErase->mStateFrames, 10);
-    offsetY = InterpolateS16(1, 0, -0xc0, gRecordVSErase->mStateFrames, 10);
+    offsetX = mutil_interpolate(1, 0, 0x100, gRecordVSErase->mStateFrames, 10);
+    offsetY = mutil_interpolate(1, 0, -0xc0, gRecordVSErase->mStateFrames, 10);
     eraseCellCount = gRecordVSErase->mRecordVSSEraseBncl->mUnk_06;
     gRecordVSErase->mBg3Offset = offsetY;
     gRecordVSErase->mRecordVSSEraseTable[30].mOffsetX = offsetX;
@@ -880,16 +880,16 @@ void AdvanceRecordVSErase(void) {
     UpdateRecordVSEraseRows();
     switch (gRecordVSErase->mTransientDrawn) {
         case 0:
-            DrawLayoutTable(gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMNcer,
+            jn_ui_renderElements(gRecordVSErase->mRecordVSMBncl, gRecordVSErase->mRecordVSMNcer,
                             gRecordVSErase->mRecordVSMBnll, GetRecordMainOam(), gRecordVSErase->mRecordVSMTable);
             break;
         case 1:
-            DrawLayoutTable(gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMNcer,
+            jn_ui_renderElements(gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMNcer,
                             gRecordVSErase->mRecordVSMTransientBnll, GetRecordMainOam(),
                             gRecordVSErase->mRecordVSMTransientTable);
             break;
     }
-    DrawLayoutTable(gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSNcer,
+    jn_ui_renderElements(gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSNcer,
                     gRecordVSErase->mRecordVSSEraseBnll, GetRecordSubOam(), gRecordVSErase->mRecordVSSEraseTable);
 }
 

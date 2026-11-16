@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_020e516c.h"
 #include "Main/Unknown/code_020e5684.h"
 
-// Second argument of InitPendulum, read at 0x00..0x2b.
+// Second argument of pend_init, read at 0x00..0x2b.
 typedef struct Unk020e5e24_2 {
     /* 00 */ Vec3 mUnk_00;
     /* 0c */ Vec3 mUnk_0c;
@@ -23,8 +23,8 @@ typedef struct Unk020e5e24_98 {
     /* 10 */ s32 mUnk_10;
 } Unk020e5e24_98;
 
-// Object handled by InitPendulum, ComputeSphereHitOnPendulum, UpdatePendulum and
-// DrawPendulum; at least 0x110 bytes.
+// Object handled by pend_init, pend_collide, pend_update and
+// pend_render; at least 0x110 bytes.
 typedef struct PendulumObject {
     /* 00 */ u8 mUnk_00[0x04];
     /* 04 */ Vec3 mUnk_04;
@@ -56,7 +56,7 @@ typedef struct PendulumObject {
     /* 10c */ BOOL mUnk_10c;
 } PendulumObject;
 
-// Allocated by func_020e6488 and CreateItemModel, filled in by func_020e6514, 0x2c bytes.
+// Allocated by bbm_createFromNsbmd and it_loadItemBillboardModel, filled in by bbm_initFromModel, 0x2c bytes.
 typedef struct NsbmdModel {
     /* 00 */ u8 *mUnk_00;
     /* 04 */ u32 mUnk_04;
@@ -72,11 +72,11 @@ typedef struct NsbmdModel {
     /* 28 */ void *mUnk_28;
 } NsbmdModel;
 
-extern NsbmdModel gJgCloud;
+extern NsbmdModel jg_sCloudModel;
 
-extern NsbmdModel gJgMain;
+extern NsbmdModel jg_sMainModel;
 
-// Second argument of func_020e6514, allocated as 0x38 bytes by func_020e64b8.
+// Second argument of bbm_initFromModel, allocated as 0x38 bytes by bbm_initFromNsbmd.
 typedef struct Unk020e6514 {
     /* 000 */ u8 mUnk_000[0x0c];
     /* 00c */ u32 mUnk_00c;
@@ -86,7 +86,7 @@ typedef struct Unk020e6514 {
     /* 020 */ u8 mUnk_020[0x18];
 } Unk020e6514;
 
-// Work area of func_020e6514 on the stack: two words, then the object
+// Work area of bbm_initFromModel on the stack: two words, then the object
 // NNSi_G3dAnmCalcNsBtp fills in.
 typedef struct Unk020e6514_8 {
     /* 00 */ u32 mUnk_00;
@@ -94,18 +94,18 @@ typedef struct Unk020e6514_8 {
     /* 08 */ NNSG3dMatAnmResult mUnk_08;
 } Unk020e6514_8;
 
-void SetupDrawObPakkunSf(void);
-Unk020e59e4 *CreateObPakkunSfUpdateList(void);
-Unk020e5a40 *CreateObPakkunSfDrawList(void);
-Unk020e5a9c *CreateObPakkunSfKindData(void);
-void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow);
-void CreatePendulumAndPendulumShadow(void);
-BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out);
-void UpdatePendulum(u32 param_1, PendulumObject *pendulum);
-void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha);
-Unk020e59e4 *CreatePendulumUpdateList(void);
-Unk020e5a40 *CreatePendulumDrawList(void);
-Unk020e5a9c *CreatePendulumKindData(void);
-void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
-void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
-void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record);
+void obpak_globalPreRender(void);
+Unk020e59e4 *obpak_setupLogicPart(void);
+Unk020e5a40 *obpak_setupRenderPart(void);
+Unk020e5a9c *obpak_setupConfig(void);
+void pend_init(PendulumObject *pendulum, Unk020e5e24_2 *courseRow);
+void pend_loadModels(void);
+BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out);
+void pend_update(u32 param_1, PendulumObject *pendulum);
+void pend_render(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha);
+Unk020e59e4 *pend_setupLogicPart(void);
+Unk020e5a40 *pend_setupRenderPart(void);
+Unk020e5a9c *pend_setupConfig(void);
+void bbm_createFromNsbmd(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4);
+void bbm_initFromNsbmd(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c);
+void bbm_initFromModel(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record);

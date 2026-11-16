@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void *GetWaterEfctNsbmaFile(void);
-void *GetWaterEfctNsbcaFile(void);
-void *GetWaterEfctNsbmdFile(void);
-unsigned int GetMapObjectKindCount(void);
+void *mobj_getWaterEffectNsbma(void);
+void *mobj_getWaterEffectNsbca(void);
+void *mobj_getWaterEffectNsbmd(void);
+unsigned int mobj_getAvailableObjectCount(void);

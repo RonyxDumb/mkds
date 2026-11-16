@@ -20,49 +20,49 @@
 u8 *gNicknameBuffers;
 u8 *gOptionBuffers;
 
-static SceneCallbacks gOptionSceneCallbacks = {
-    InitOptionScene, UpdateOptionScene, ReleaseOptionScene, func_ov001_0219e9a4, 0, 0, 10, 10, 0};
+static SceneCallbacks SettingsMenuVtable = {
+    settingsMenu_onCreate, settingsMenu_onDraw, settingsMenu_onDelete, settingsMenu_afterDraw, 0, 0, 10, 10, 0};
 static SceneCallbacks gEndingSceneCallbacks = {
-    InitEndingScene, UpdateEndingScene, ReleaseEndingScene, func_ov001_0219ea6c, 0, 0, 30, 1, 0};
+    ending_init, ending_update, ending_finalize, ending_vblank, 0, 0, 30, 1, 0};
 
-int RunEndingScene(void *a) {
+int ending_run(void *a) {
     SceneCallbacks local = gEndingSceneCallbacks;
 
-    RunScene(a, &local);
+    scene_runScene(a, &local);
     return 0;
 }
 
-void InitOptionScene(s16 *a) {
+void settingsMenu_onCreate(s16 *a) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gOptionBuffers = HeapAlloc(heap, 0x808);
+    heap = proc_getHeap(proc_getCurrent());
+    gOptionBuffers = heap_alloc(heap, 0x808);
     InitOptionStates((heap), *a);
 }
 
-void ReleaseOptionScene(void) {
+void settingsMenu_onDelete(void) {
     func_ov001_02192f8c();
     gOptionBuffers = NULL;
 }
 
-void func_ov001_0219e9a4(void) {
+void settingsMenu_afterDraw(void) {
     func_ov001_02192ec4();
-    UploadOamLists(gOptionBuffers, gOptionBuffers + 0x404);
+    oam_applyBuffers(gOptionBuffers, gOptionBuffers + 0x404);
 }
 
-void UpdateOptionScene(s16 *a) {
-    ClearOamListCounts(gOptionBuffers, gOptionBuffers + 0x404);
+void settingsMenu_onDraw(s16 *a) {
+    oam_resetBuffers(gOptionBuffers, gOptionBuffers + 0x404);
     AdvanceOptionStates();
-    func_020ae630(gOptionBuffers, gOptionBuffers + 0x404);
+    oam_prepareBuffers(gOptionBuffers, gOptionBuffers + 0x404);
     if (a != NULL && func_ov001_02192e84() != -1) {
         a[2] = func_ov001_02192e84();
     }
 }
 
-int RunOptionScene(void *a) {
-    SceneCallbacks local = gOptionSceneCallbacks;
+int option_run(void *a) {
+    SceneCallbacks local = SettingsMenuVtable;
 
-    RunScene(a, &local);
+    scene_runScene(a, &local);
     return 0;
 }
 
@@ -74,41 +74,41 @@ u8 *GetOptionSecondBuffer(void) {
     return gOptionBuffers + 0x404;
 }
 
-void InitNicknameScene(s16 *a) {
+void StartFirstTimeStartNicknameScreen(s16 *a) {
     void *heap;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gNicknameBuffers = HeapAlloc(heap, 0x808);
+    heap = proc_getHeap(proc_getCurrent());
+    gNicknameBuffers = heap_alloc(heap, 0x808);
     func_ov001_021987d4(heap, *a);
 }
 
-void ReleaseNicknameScene(void) {
+void EndFirstTimeStartNicknameScreen(void) {
     func_ov001_021987bc();
     gNicknameBuffers = NULL;
 }
 
-void func_ov001_0219e89c(void) {
+void PostRenderFirstTimeStartNicknameScreen(void) {
     u8 *p;
 
     func_ov001_0219854c();
     p = gNicknameBuffers;
-    UploadOamLists(p, p + 0x404);
+    oam_applyBuffers(p, p + 0x404);
 }
 
-void UpdateNicknameScene(s16 *a) {
-    ClearOamListCounts(gNicknameBuffers, gNicknameBuffers + 0x404);
+void PreRenderFirstTimeStartNicknameScreen(s16 *a) {
+    oam_resetBuffers(gNicknameBuffers, gNicknameBuffers + 0x404);
     func_ov001_02198554();
-    func_020ae630(gNicknameBuffers, gNicknameBuffers + 0x404);
+    oam_prepareBuffers(gNicknameBuffers, gNicknameBuffers + 0x404);
     if (a != NULL && func_ov001_0219853c() != -1) {
         a[2] = func_ov001_0219853c();
     }
 }
 
-int RunNicknameScene(void *a) {
+int nickname_run(void *a) {
     SceneCallbacks callbacks = {
-        InitNicknameScene, UpdateNicknameScene, ReleaseNicknameScene, func_ov001_0219e89c, 0, 0, 10, 10, 0,
+        StartFirstTimeStartNicknameScreen, PreRenderFirstTimeStartNicknameScreen, EndFirstTimeStartNicknameScreen, PostRenderFirstTimeStartNicknameScreen, 0, 0, 10, 10, 0,
     };
 
-    RunScene(a, &callbacks);
+    scene_runScene(a, &callbacks);
     return 0;
 }

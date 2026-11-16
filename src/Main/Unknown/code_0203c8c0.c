@@ -1,11 +1,11 @@
 #include "Main/Unknown/code_0203c8c0.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-u16 GetKartHighestLap(int kart) {
+u16 rstat_getDriverHighestReachedLap(int kart) {
     u32 value0 = kart;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceProgress;
+    value2 = (u32) &gRaceStatus;
     value1 = 0x8cu;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);

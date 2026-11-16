@@ -4,4 +4,4 @@
 
 typedef struct GroupFollower GroupFollower;
 
-void SetGroupFollowerSegmentEnd(GroupFollower *follower);
+void pw_20D8648(GroupFollower *follower);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020acfec(u32 value);
+u32 title_buttonsInStateVblank(u32 value);

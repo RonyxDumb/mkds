@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0210e33c.h"
 #include "code_0212d214.h"
 
-void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entrySize) {
+void sp_init(Unk0217c7c4 *pool, void *entries, s32 count, s32 entrySize) {
     s32 i;
     u8 *entryAddress;
 
@@ -23,7 +23,7 @@ void InitSoundHandlePool(Unk0217c7c4 *pool, void *entries, s32 count, s32 entryS
     }
 }
 
-void IncrementSoundHandleAges(Unk0217c7c4 *pool) {
+void sp_updateAges(Unk0217c7c4 *pool) {
     s32 i;
     u8 *entryAddress;
 
@@ -35,7 +35,7 @@ void IncrementSoundHandleAges(Unk0217c7c4 *pool) {
     }
 }
 
-void *TakeSoundHandleEntry(Unk0217c7c4 *pool) {
+void *sp_acquireElement(Unk0217c7c4 *pool) {
     s32 i;
     s32 oldestAge;
     s32 oldestIndex;
@@ -180,7 +180,7 @@ void RunSoundRequests(SoundRequestQueue *queue) {
     }
 }
 
-u32 InitSoundSetPlayer(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 secondBankId,
+u32 sound_210DCCC(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 secondBankId,
                        LoadedSoundSet *loadedSet) {
     SoundSet soundSet;
 
@@ -198,15 +198,15 @@ u32 InitSoundSetPlayer(SoundSetPlayer *player, u32 seqId, u32 firstBankId, u32 s
     return 1;
 }
 
-void StartSoundSetSeq(SoundSetPlayer *player, u32 volume) {
-    StartSeqAtVolume(player->mSoundSet.mSeqId, volume, &player->mSeqPlayer);
+void sound_seqHandleStart(SoundSetPlayer *player, u32 volume) {
+    sound_startSeq(player->mSoundSet.mSeqId, volume, &player->mSeqPlayer);
 }
 
-void StopSoundSetSeq(SoundSetPlayer *player, u32 fadeSteps) {
+void sound_seqHandleStop(SoundSetPlayer *player, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&player->mSeqPlayer, fadeSteps);
 }
 
-void ReleaseSoundSetPlayer(SoundSetPlayer *player) {
+void sound_seqHandleUnload(SoundSetPlayer *player) {
     ReleaseSoundSet(player->mLoadedSet);
     data_0217d060 = NULL;
 }

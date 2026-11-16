@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_020d26e0(void *soundSource, u32 soundId);
-void func_020d26ec(void *soundSource, u32 soundId);
+void mobj_driverEmitSfx(void *soundSource, u32 soundId);
+void mobj_driverEmitSfx2(void *soundSource, u32 soundId);

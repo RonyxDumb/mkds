@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void StartChoisesSSelectedValueSeq(void);
+void rchoi_emitOptionActivationSound(void);

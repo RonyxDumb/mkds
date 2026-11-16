@@ -10,9 +10,9 @@ typedef struct KartNameTag KartNameTag;
 #include "Main/Unknown/unk_0217a000.h"
 
 void UploadTextureAndPalette(TexPlttEntry *texPlttEntry);
-void UploadKartEmblem(u32 kartIndex, void *texData, void *plttData);
-void UploadKartEmblems(void);
-void InitKartEmblemPointers(void);
+void driver_setupEmblem(u32 kartIndex, void *texData, void *plttData);
+void driver_setupAllEmblems(void);
+void driver_loadEmblems(void);
 void func_020870ec(TexPlttEntry *texPlttEntry, u16 kartIndex);
 void SetPaletteKartColor(TexPlttEntry *texPlttEntry, u32 kartIndex);
 void SetupKartEntryNameTexture(TexPlttEntry *texPlttEntry, u32 kartIndex);

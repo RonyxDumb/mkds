@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Six bytes that ReadParentMessage fills and WriteParentMessage writes out.
+// Six bytes that MBi_SetRecvBufferFromParent fills and WriteParentMessage writes out.
 typedef struct ParentMessage {
     /* 0 */ u8 mKind;
     /* 1 */ u8 mUnk_01;
@@ -28,7 +28,7 @@ typedef struct Unk0200c12c {
     /* 1d */ u8 mUnk_1d[3];
 } Unk0200c12c;
 
-u8 *ReadParentMessage(ParentMessage *message, u8 *buffer);
+u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer);
 u8 CopyNextPiece(void *output, void *pieces);
 u8 *WriteChildMessage(ChildMessage *message, u8 *buffer);
 u32 AreAllPiecesReceived(u32 child);

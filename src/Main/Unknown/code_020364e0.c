@@ -5,31 +5,31 @@
 #include "Main/System/Heap.h"
 #include "Main/Unknown/unk_02174000.h"
 
-u32 RunHeapCall(HeapCall *call, u32 argument) {
+u32 proc_run(HeapCall *call, u32 argument) {
     u32 result;
     void *outerHeap;
-    call->mParent = gCurrentHeapCall;
+    call->mParent = sCurProcess;
     if (call->mParent != NULL) {
         outerHeap = call->mParent->mHeap;
     } else {
-        outerHeap = GetArenaHeap();
+        outerHeap = getMainHeapHandle();
     }
-    call->mHeap = CreateExpHeapFromMaxFree(outerHeap);
-    gCurrentHeapCall = call;
+    call->mHeap = heap_createSubExpHeap(outerHeap);
+    sCurProcess = call;
     result = ((u32(*)(u32)) call->mFunc)(argument);
     if (call->mAfterFunc != 0) {
         ((void (*)(void)) call->mAfterFunc)();
     }
-    gCurrentHeapCall = call->mParent;
-    HeapDestroy(call->mHeap);
+    sCurProcess = call->mParent;
+    heap_destroySubHeap(call->mHeap);
     call->mHeap = NULL;
     return result;
 }
 
-void *GetCurrentHeapCall(void) {
-    return gCurrentHeapCall;
+void *proc_getCurrent(void) {
+    return sCurProcess;
 }
 
-void *GetHeap(HeapCall *call) {
+void *proc_getHeap(HeapCall *call) {
     return call->mHeap;
 }

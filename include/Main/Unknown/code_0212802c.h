@@ -3,4 +3,4 @@
 #include "types.h"
 
 u32 InitSelectChoisesDisplay(void);
-void ClearSelectChoisesPointer(void);
+void gmenu_finishSelectChoises(void);

@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_020e5d0c.h"
 #include "Main/Unknown/code_020f36d8.h"
 
-// Object of item kind 10, element of gItemPools[10].
+// Object of item kind 10, element of it_sItemsets[10].
 typedef struct ItemGesso {
     /* 000 */ ItemObject mUnk_000;
     /* 12c */ Kart *mKart;
@@ -48,8 +48,8 @@ typedef struct ItemGessoStep {
 extern ItemGessoStep gItemGessoSteps[];
 
 void CreateItemTeresaFrameScaleTable(void);
-void ComputeItemGessoFrameCount(void);
-void InitItemGessoFromData(ItemGesso *gesso);
-void CopyItemGessoData(void *data, ItemGesso *gesso, void *toData);
-void DrawItemGesso(ItemGesso *p, s32 param_2, NsbmdModel *t);
-void AdvanceItemGesso(ItemGesso *p);
+void itgsso_2102718(void);
+void itgsso_2102744(ItemGesso *gesso);
+void itgsso_2102764(void *data, ItemGesso *gesso, void *toData);
+void itgsso_21027AC(ItemGesso *p, s32 param_2, NsbmdModel *t);
+void itgsso_210298C(ItemGesso *p);

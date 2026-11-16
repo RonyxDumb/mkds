@@ -4,25 +4,25 @@
 
 typedef struct Bg1Files Bg1Files;
 
-// Object whose halfword at 0x04 UpdateLogoScene clears.
+// Object whose halfword at 0x04 logo_render clears.
 typedef struct SceneNumbersView {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ u16 mNextScene;
 } SceneNumbersView;
 
-extern const char data_ov001_021a76ac[];
-extern const char data_ov001_021a76c8[];
-extern const char data_ov001_021a76e4[];
-extern const char data_ov001_021a76fc[];
-extern const char data_ov001_021a7718[];
-extern const char data_ov001_021a7734[];
-extern const char data_ov001_021a7750[];
+extern const char aLogo_r_ninte_1[];
+extern const char aLogo_r_ninte_2[];
+extern const char aLogo_r_nintend[];
+extern const char aAllrightsres_1[];
+extern const char aAllrightsres_2[];
+extern const char aAllrightsreser[];
+extern const char aCommon_bmg[];
 
-void UpdateLogoState0(void);
-void EnterLogoState0(void);
-void UpdateLogoScene(SceneNumbersView *sceneNumbers);
-void WriteLogoSceneRegisters(void);
-void ApplySavedSoundMode(void);
-void InitLogoScene(void *heap);
-void LoadBg1FromSceneFiles(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
+void logo_fadeInStateUpdate(void);
+void logo_fadeInStateInit(void);
+void logo_render(SceneNumbersView *sceneNumbers);
+void logo_vblank(void);
+void logo_finish(void);
+void logo_create(void *heap);
+void logo_loadBg(Bg1Files *files, s32 mainScreen, const char *paletteFileName, const char *charsFileName,
                            const char *screenMapFileName);

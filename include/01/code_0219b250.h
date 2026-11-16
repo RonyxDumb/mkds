@@ -55,5 +55,5 @@ void LoadMapObjectModelNsbmaAnimation(Unk0219b250 *p0, const char *p1);
 void LoadMapObjectModelNsbcaAnimation(Unk0219b250 *p0, const char *p1);
 Unk0219b250 *LoadMapObjectModelShadow(Unk0219b478 *p0, const char *p1);
 Unk0219b250 *LoadMapObjectModelAnimated(Unk0219b478 *p0, const char *p1);
-void *LoadMissionRunFile(const char *p0);
+void *LoadFileInMissionRunFolder(const char *p0);
 void *func_ov001_0219b510(void *p0, void *p1, void *p2, u32 p3, u16 p4, u16 p5, u16 p6);

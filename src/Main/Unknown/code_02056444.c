@@ -7,8 +7,8 @@
 
 KartAppear *CreateKartAppear(void *heap) {
     KartAppear *kartAppear;
-    kartAppear = HeapAlloc(heap, 4);
-    kartAppear->mFileData = FindFileInLoadedArchives(gKartAppearFileName);
+    kartAppear = heap_alloc(heap, 4);
+    kartAppear->mFileData = arc_get2dArcFile(aKart_appear_kt);
     return kartAppear;
 }
 

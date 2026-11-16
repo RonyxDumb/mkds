@@ -15,7 +15,7 @@ typedef enum {
 } ModelAnimationKind;
 
 // One model's animations: a table of animation objects and one loop flag per entry; one entry plays at a time.
-// A change of entry can fade from the old one (StartModelAnimationBlend).
+// A change of entry can fade from the old one (anim_setAnimWithBlend).
 typedef struct ModelAnimation {
     /* 00 */ u16 mLoopMode;
     /* 02 */ u16 mDone;
@@ -36,7 +36,7 @@ typedef struct ModelAnimation {
     /* 34 */ NNSG3dAnmObj *mPreviousAnmObj;
 } ModelAnimation;
 
-extern s32 (*gAnmFrameCountGetters[])(NNSG3dAnmObj *a);
+extern s32 (*anim_sGetFrameCountFuncs[])(NNSG3dAnmObj *a);
 
 typedef struct Unk020882fc_08 {
     /* 00 */ u8 mUnk_00[4];
@@ -48,18 +48,18 @@ typedef struct Unk020882fc {
     /* 08 */ Unk020882fc_08 *mUnk_08;
 } Unk020882fc;
 
-extern u32 gAnmObjSizeRequired;
+extern u32 anim_sLastAnmObjAllocSize;
 
-s32 GetModelAnimationFrameCountFixed(void *animation);
-void AdvanceModelAnimationBlend(ModelAnimation *modelAnimation);
-void AdvanceModelAnimation(void *animation);
-void StartModelAnimationBlend(void *entryIndex, u16 animation);
-void SetModelAnimation(void *entryIndex, s32 animation);
-void InitModelAnimationEntries(void *animation, void *anmFile, void *heap);
-void InitModelAnimationEntry(void *animation, s32 entryIndex, void *anmResource, u32 loopFlag, void *heap);
-void InitModelAnimation(u32 kind, void *animation, void *renderObject, u32 anmObjCount, void *heap, void *f);
-unsigned int func_020882fc(Unk020882fc *anmObj);
-unsigned int func_02088308(Unk020882fc *anmObj);
-unsigned int func_02088314(Unk020882fc *anmObj);
-unsigned int func_02088320(Unk020882fc *anmObj);
-unsigned int func_0208832c(Unk020882fc *anmObj);
+s32 anim_getAnimLength(void *animation);
+void anim_updateBlend(ModelAnimation *modelAnimation);
+void anim_update(void *animation);
+void anim_setAnimWithBlend(void *entryIndex, u16 animation);
+void anim_setAnim(void *entryIndex, s32 animation);
+void anim_registerAllAnims(void *animation, void *anmFile, void *heap);
+void anim_registerAnim(void *animation, s32 entryIndex, void *anmResource, u32 loopFlag, void *heap);
+void anim_initManager(u32 kind, void *animation, void *renderObject, u32 anmObjCount, void *heap, void *f);
+unsigned int anim_getMatFrameCount(Unk020882fc *anmObj);
+unsigned int anim_getVisFrameCount(Unk020882fc *anmObj);
+unsigned int anim_getPatFrameCount(Unk020882fc *anmObj);
+unsigned int anim_getSrtFrameCount(Unk020882fc *anmObj);
+unsigned int anim_getJntFrameCount(Unk020882fc *anmObj);

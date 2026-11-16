@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0208ab00(void);
-void func_0208ab4c(u16 *colorPtr);
+void light_applyDefault(void);
+void light_apply(u16 *colorPtr);

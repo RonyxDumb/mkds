@@ -40,67 +40,67 @@
 
 #pragma thumb on
 
-void BuildResultArchivePath(char *path) {
+void arc_getResultSceneArcPath(char *path) {
     const char *suffix;
 
-    if (data_0217b488->mUnk_78 == 1) {
-        suffix = data_02165108;
+    if (gStruct217B488->mUnk_78 == 1) {
+        suffix = aDl;
     } else {
         suffix = data_0216510c;
     }
-    OS_SNPrintf(path, 0x80, gResultArchivePathFormat, gSceneNames[10].mName, suffix, data_02165124);
+    OS_SNPrintf(path, 0x80, aDataSceneSSS, sSceneDefs[10].mName, suffix, a_carc_3);
 }
 
-void BuildResultArchivePathWithLanguage(char *path) {
+void arc_getLocalizedResultSceneArcPath(char *path) {
     const char *suffix;
     u32 languageCode;
 
-    if (data_0217b488->mUnk_78 == 1) {
-        suffix = data_021650e0;
+    if (gStruct217B488->mUnk_78 == 1) {
+        suffix = aDl_0;
     } else {
         suffix = data_021650e4;
     }
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gResultLanguageArchivePathFormat, gSceneNames[10].mName, suffix, languageCode,
-                data_02165100);
+    languageCode = arc_getLocalizationPostfix();
+    OS_SNPrintf(path, 0x80, aDataSceneSS_SS, sSceneDefs[10].mName, suffix, languageCode,
+                a_carc_2);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void BuildStaffRollArchivePath(char *path) {
+void arc_getLocalizedStaffrollSceneArcPath(char *path) {
     u32 languageCode;
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gStaffRollLanguageArchivePathFormat, languageCode, data_021650d8);
+    languageCode = arc_getLocalizationPostfix();
+    OS_SNPrintf(path, 0x80, aDataSceneSta_0, languageCode, a_carc_1);
 }
 
-void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode) {
+void arc_getRaceSceneArcPath(char *path, const char *sceneName, int mode) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, gSceneModeArchivePathFormat, sceneName, gModeArchiveNames[mode], data_021650b4);
+        OS_SNPrintf(path, 0x80, aDataSceneS_SS, sceneName, sRaceModeNames[mode], a_carc_0);
     }
 }
 
-void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mode) {
+void arc_getLocalizedRaceSceneArcPath(char *path, const char *sceneName, int mode) {
     u32 languageCode;
     if (*sceneName != 0) {
-        languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, gSceneModeLanguageArchivePathFormat, sceneName, gModeArchiveNames[mode], languageCode,
-                    data_02165098);
+        languageCode = arc_getLocalizationPostfix();
+        OS_SNPrintf(path, 0x80, aDataSceneS_S_S, sceneName, sRaceModeNames[mode], languageCode,
+                    a_carc);
     }
 }
 
-void BuildArchivePathWithLanguage(const char *prefix, char *path) {
+void arc_getLocalizedArcPath(const char *prefix, char *path) {
     u32 languageCode;
-    languageCode = GetLanguageCode();
-    OS_SNPrintf(path, 0x80, gLanguageArchivePathFormat, prefix, languageCode);
+    languageCode = arc_getLocalizationPostfix();
+    OS_SNPrintf(path, 0x80, aS_S_carc, prefix, languageCode);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
+void arc_loadArchiveForScene(int slotIndex, int sceneNumber) {
     char path[0x80] = {0};
     u32 *bufferData;
     s32 f;
@@ -109,88 +109,88 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
     s32 h;
 
     bufferData = NULL;
-    if (data_021759c8->mUnk_00[slotIndex].mLoaded != 0) {
+    if (gArcData->mUnk_00[slotIndex].mLoaded != 0) {
         return;
     }
-    uncompressSource = gArchiveSlotInfos[slotIndex].mUncompressSource;
-    f = gArchiveSlotInfos[slotIndex].mUnk_10;
-    g = gArchiveSlotInfos[slotIndex].mUnk_14;
-    h = gArchiveSlotInfos[slotIndex].mBufferIndex;
+    uncompressSource = sArcDefs[slotIndex].mUncompressSource;
+    f = sArcDefs[slotIndex].mUnk_10;
+    g = sArcDefs[slotIndex].mUnk_14;
+    h = sArcDefs[slotIndex].mBufferIndex;
     if (h != -1) {
-        bufferData = data_021759c8->mBuffers[h].mData;
+        bufferData = gArcData->mBuffers[h].mData;
     }
     switch (slotIndex) {
         case 3:
         case 13:
-            BuildCourseArchivePath(path, gRaceSetup->mCourseId, slotIndex != 3);
+            arc_getCourseArcPath(path, gRaceMultiConfig->mCourseId, slotIndex != 3);
             break;
         case 5:
             switch (sceneNumber) {
                 case 2:
-                    bufferData = data_021759c8->mBuffers[2].mData;
+                    bufferData = gArcData->mBuffers[2].mData;
                     break;
                 case 1:
-                    bufferData = data_021759c8->mBuffers[0].mData;
+                    bufferData = gArcData->mBuffers[0].mData;
                     break;
                 case 10:
-                    bufferData = data_021759c8->mBuffers[14].mData;
+                    bufferData = gArcData->mBuffers[14].mData;
                     break;
             }
             switch (sceneNumber) {
                 case 10:
-                    BuildResultArchivePath(path);
+                    arc_getResultSceneArcPath(path);
                     break;
                 case 2:
-                    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        OS_SNPrintf(path, 0x80, gStaffRollArchivePath);
+                    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                        OS_SNPrintf(path, 0x80, aDataSceneStaff);
                     } else {
-                        BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
+                        arc_getSceneArcPath(path, sSceneDefs[sceneNumber].mName);
                     }
                     break;
                 default:
-                    BuildSceneArchivePath(path, gSceneNames[sceneNumber].mName);
+                    arc_getSceneArcPath(path, sSceneDefs[sceneNumber].mName);
                     break;
             }
-            g = gSceneNames[sceneNumber].mUnk_04;
+            g = sSceneDefs[sceneNumber].mUnk_04;
             break;
         case 9:
             switch (sceneNumber) {
                 case 2:
-                    bufferData = data_021759c8->mBuffers[3].mData;
+                    bufferData = gArcData->mBuffers[3].mData;
                     break;
                 case 1:
-                    bufferData = data_021759c8->mBuffers[1].mData;
+                    bufferData = gArcData->mBuffers[1].mData;
                     break;
                 case 10:
-                    bufferData = data_021759c8->mBuffers[15].mData;
+                    bufferData = gArcData->mBuffers[15].mData;
                     break;
             }
             switch (sceneNumber) {
                 case 10:
-                    BuildResultArchivePathWithLanguage(path);
+                    arc_getLocalizedResultSceneArcPath(path);
                     break;
                 case 2:
-                    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-                        BuildStaffRollArchivePath(path);
+                    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
+                        arc_getLocalizedStaffrollSceneArcPath(path);
                     } else {
-                        BuildSceneArchivePathWithLanguage(path, gSceneNames[sceneNumber].mName);
+                        arc_getLocalizedSceneArcPath(path, sSceneDefs[sceneNumber].mName);
                     }
                     break;
                 default:
-                    BuildSceneArchivePathWithLanguage(path, gSceneNames[sceneNumber].mName);
+                    arc_getLocalizedSceneArcPath(path, sSceneDefs[sceneNumber].mName);
                     break;
             }
             break;
         case 11:
-            BuildSceneModeArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
+            arc_getRaceSceneArcPath(path, sSceneDefs[sceneNumber].mName, gRaceMultiConfig->mMode);
             break;
         case 12:
-            BuildSceneModeLanguageArchivePath(path, gSceneNames[sceneNumber].mName, gRaceSetup->mMode);
+            arc_getLocalizedRaceSceneArcPath(path, sSceneDefs[sceneNumber].mName, gRaceMultiConfig->mMode);
             break;
         case 2:
         case 15:
         case 17:
-            BuildArchivePathWithLanguage(gArchiveSlotInfos[slotIndex].mPath, path);
+            arc_getLocalizedArcPath(sArcDefs[slotIndex].mPath, path);
             break;
         case 0:
         case 1:
@@ -201,23 +201,23 @@ void LoadArchiveSlotForScene(int slotIndex, int sceneNumber) {
         case 14:
         case 16:
         case 18:
-            strncpy(path, gArchiveSlotInfos[(s32) slotIndex].mPath, 0x80);
+            strncpy(path, sArcDefs[(s32) slotIndex].mPath, 0x80);
             break;
     }
     if (path[0] != 0) {
-        LoadArchiveSlot(slotIndex, path, bufferData, NULL, f, uncompressSource, g);
+        arc_loadArchive(slotIndex, path, bufferData, NULL, f, uncompressSource, g);
     }
-    h = *(s32 *) ((s32) &gArchiveSlotInfos[0].mNextSlot + slotIndex * 0x18);
+    h = *(s32 *) ((s32) &sArcDefs[0].mNextSlot + slotIndex * 0x18);
     if (h != -1) {
-        LoadArchiveSlotForScene(h, sceneNumber);
+        arc_loadArchiveForScene(h, sceneNumber);
     }
 }
 
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 e, s32 uncompressSource, s32 g) {
+void arc_loadArchive(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 e, s32 uncompressSource, s32 g) {
     ArchiveLoadRequest *request;
     s32 bufferIndex;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &gArcData->mUnk_8c8;
     strncpy((char *) request->mPath, path, 0x80);
     request->mSlotIndex = slotIndex;
     request->mSourceData = sourceData;
@@ -228,34 +228,34 @@ void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *dat
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         if (request->mSourceData != NULL) {
             if (request->mUncompressSource != 0) {
-                bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
+                bufferIndex = sArcDefs[slotIndex].mBufferIndex;
                 if (bufferIndex != -1) {
-                    data_021759c8->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                    gArcData->mBuffers[bufferIndex].mUnk_08_31 = 1;
                 }
-                UncompressArchiveMemory();
+                arc_loadArchiveFromMem();
             } else {
                 request->mData = request->mSourceData;
             }
-            LoadArchiveSlotData();
+            arc_mountArchive();
         }
     } else {
         if (slotIndex == 0x13) {
-            UncompressArchiveMemory();
+            arc_loadArchiveFromMem();
         } else {
-            UncompressArchiveFile();
+            arc_loadArchiveFromFile();
         }
-        LoadArchiveSlotData();
+        arc_mountArchive();
     }
 }
 
-void UncompressArchiveFile(void) {
+void arc_loadArchiveFromFile(void) {
     ArchiveLoadRequest *request;
     FSFile file;
     MIUncompContextLZ uncompContext;
     u32 uncompressedSize;
     s32 bytesRead;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &gArcData->mUnk_8c8;
     FS_InitFile(&file);
     if (FS_OpenFile(&file, request->mPath) == 0) {
         return;
@@ -268,9 +268,9 @@ void UncompressArchiveFile(void) {
         return;
     }
     if (request->mUnk_90 != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);
+        request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, 0x20);
     }
     MI_InitUncompContextLZ(&uncompContext, request->mData, (const MICompressionHeader *) request->mReadBuffer);
     do {
@@ -280,33 +280,33 @@ void UncompressArchiveFile(void) {
         }
     } while (MI_ReadUncompLZ8(&uncompContext, (const u8 *) request->mReadBuffer, bytesRead) != 0);
     DC_StoreRange(request->mData, uncompressedSize);
-    NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+    NNS_FndGetTotalFreeSizeForExpHeap(proc_getHeap(proc_getCurrent()));
 }
 
-void UncompressArchiveMemory(void) {
+void arc_loadArchiveFromMem(void) {
     ArchiveLoadRequest *request;
     u32 uncompressedSize;
 
-    request = &data_021759c8->mUnk_8c8;
+    request = &gArcData->mUnk_8c8;
     uncompressedSize = *request->mSourceData >> 8;
     if (request->mUnk_90 != 0) {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, -0x20);
+        request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, -0x20);
     } else {
-        request->mData = HeapAllocAligned(GetHeap(GetCurrentHeapCall()), uncompressedSize, 0x20);
+        request->mData = heap_allocEx(proc_getHeap(proc_getCurrent()), uncompressedSize, 0x20);
     }
     MI_UncompressLZ8(request->mSourceData, request->mData);
     DC_StoreRange(request->mData, uncompressedSize);
-    NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+    NNS_FndGetTotalFreeSizeForExpHeap(proc_getHeap(proc_getCurrent()));
 }
 
-void LoadArchiveSlotData(void) {
+void arc_mountArchive(void) {
     ArchiveLoadRequest *request;
     ArchiveSlot *slot;
 
-    request = &data_021759c8->mUnk_8c8;
-    slot = &data_021759c8->mUnk_00[request->mSlotIndex];
+    request = &gArcData->mUnk_8c8;
+    slot = &gArcData->mUnk_00[request->mSlotIndex];
     if (request->mData != NULL) {
-        if (ArchiveLoadFromMemory(&slot->mArchive, (const u8 *) gArchiveNames[request->mSlotIndex], request->mData) !=
+        if (NNS_FndMountArchive(&slot->mArchive, (const u8 *) sArcNames[request->mSlotIndex], request->mData) !=
             0) {
             slot->mLoaded = 1;
             slot->mData = request->mData;
@@ -314,62 +314,62 @@ void LoadArchiveSlotData(void) {
     }
 }
 
-void ReleaseArchiveSlot(int slotIndex) {
+void arc_unloadArchive(int slotIndex) {
     BOOL shouldFree;
     s32 bufferIndex;
 
     shouldFree = TRUE;
-    if (data_021759c8->mUnk_00[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
-        ArchiveUnload(&data_021759c8->mUnk_00[slotIndex].mArchive.mUnk_00);
+    if (gArcData->mUnk_00[slotIndex].mLoaded != 0 && slotIndex != 0x13) {
+        NNS_FndUnmountArchive(&gArcData->mUnk_00[slotIndex].mArchive.mUnk_00);
         if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-            bufferIndex = gArchiveSlotInfos[slotIndex].mBufferIndex;
-            if (bufferIndex != -1 && data_021759c8->mBuffers[bufferIndex].mUncompress != 0) {
+            bufferIndex = sArcDefs[slotIndex].mBufferIndex;
+            if (bufferIndex != -1 && gArcData->mBuffers[bufferIndex].mUncompress != 0) {
                 shouldFree = FALSE;
             } else {
-                data_021759c8->mBuffers[bufferIndex].mUnk_08_31 = 1;
+                gArcData->mBuffers[bufferIndex].mUnk_08_31 = 1;
             }
         }
         if (shouldFree != FALSE) {
-            HeapFree(GetHeap(GetCurrentHeapCall()), data_021759c8->mUnk_00[slotIndex].mData);
+            heap_free(proc_getHeap(proc_getCurrent()), gArcData->mUnk_00[slotIndex].mData);
         }
-        data_021759c8->mUnk_00[slotIndex].mLoaded = 0;
-        data_021759c8->mUnk_00[slotIndex].mData = 0;
-        NNS_FndGetTotalFreeSizeForExpHeap(GetHeap(GetCurrentHeapCall()));
+        gArcData->mUnk_00[slotIndex].mLoaded = 0;
+        gArcData->mUnk_00[slotIndex].mData = 0;
+        NNS_FndGetTotalFreeSizeForExpHeap(proc_getHeap(proc_getCurrent()));
     }
 }
 
-void LoadArchiveSlotsForScene(s32 sceneNumber) {
-    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sceneNumber == 6 && data_0217b488->mUnk_74 == 0) {
+void arc_loadArchivesForScene(s32 sceneNumber) {
+    if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2 && sceneNumber == 6 && gStruct217B488->mUnk_74 == 0) {
     } else {
-        LoadArchiveSlotForScene(1, sceneNumber);
+        arc_loadArchiveForScene(1, sceneNumber);
     }
     switch (sceneNumber) {
         case 1:
         case 12:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(14, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+            arc_loadArchiveForScene(5, sceneNumber);
+            arc_loadArchiveForScene(14, sceneNumber);
+            arc_loadArchiveForScene(16, sceneNumber);
             break;
         case 10:
-            LoadArchiveSlotForScene(0, sceneNumber);
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
-            LoadArchiveSlotForScene(18, sceneNumber);
+            arc_loadArchiveForScene(0, sceneNumber);
+            arc_loadArchiveForScene(5, sceneNumber);
+            arc_loadArchiveForScene(16, sceneNumber);
+            arc_loadArchiveForScene(18, sceneNumber);
             break;
         case 2:
-            LoadArchiveSlotForScene(18, sceneNumber);
-            LoadArchiveSlotForScene(6, sceneNumber);
-            LoadArchiveSlotForScene(8, sceneNumber);
+            arc_loadArchiveForScene(18, sceneNumber);
+            arc_loadArchiveForScene(6, sceneNumber);
+            arc_loadArchiveForScene(8, sceneNumber);
             break;
         case 3:
-            LoadArchiveSlotForScene(0, sceneNumber);
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+            arc_loadArchiveForScene(0, sceneNumber);
+            arc_loadArchiveForScene(5, sceneNumber);
+            arc_loadArchiveForScene(16, sceneNumber);
             break;
         case 5:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(14, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+            arc_loadArchiveForScene(5, sceneNumber);
+            arc_loadArchiveForScene(14, sceneNumber);
+            arc_loadArchiveForScene(16, sceneNumber);
             break;
         case 0:
         case 7:
@@ -379,62 +379,62 @@ void LoadArchiveSlotsForScene(s32 sceneNumber) {
         case 13:
         case 14:
         case 15:
-            LoadArchiveSlotForScene(5, sceneNumber);
-            LoadArchiveSlotForScene(16, sceneNumber);
+            arc_loadArchiveForScene(5, sceneNumber);
+            arc_loadArchiveForScene(16, sceneNumber);
             break;
         case 4:
             if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-                LoadArchiveSlotForScene(5, sceneNumber);
-                LoadArchiveSlotForScene(16, sceneNumber);
+                arc_loadArchiveForScene(5, sceneNumber);
+                arc_loadArchiveForScene(16, sceneNumber);
             }
             break;
         case 6:
             if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-                LoadArchiveSlotForScene(5, sceneNumber);
-                LoadArchiveSlotForScene(16, sceneNumber);
+                arc_loadArchiveForScene(5, sceneNumber);
+                arc_loadArchiveForScene(16, sceneNumber);
             }
             break;
     }
 }
 
-void ReleaseArchiveSlots(void) {
+void arc_unloadAllArchives(void) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        ReleaseArchiveSlot(i);
+        arc_unloadArchive(i);
     }
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void SetHeapGroupId(u32 groupId) {
-    NNS_FndSetGroupIDForExpHeap(GetHeap(GetCurrentHeapCall()), groupId);
+void arc_setHeapGroupId(u32 groupId) {
+    NNS_FndSetGroupIDForExpHeap(proc_getHeap(proc_getCurrent()), groupId);
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void *FindArchiveFile(u32 archiveName, const char *path) {
+void *arc_getArchiveFile(u32 archiveName, const char *path) {
     char fullPath[0x80];
 
     if (path[0] == '/') {
-        OS_SNPrintf(fullPath, 0x80, gArchiveColonFormat, archiveName, path);
+        OS_SNPrintf(fullPath, 0x80, aSS_8, archiveName, path);
     } else {
-        OS_SNPrintf(fullPath, 0x80, gArchiveColonSlashFormat, archiveName, path);
+        OS_SNPrintf(fullPath, 0x80, aSS_9, archiveName, path);
     }
-    return ArchiveFileGetAddress((const u8 *) fullPath);
+    return NNS_FndGetArchiveFileByName((const u8 *) fullPath);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void *FindMainRaceOrMainEffectFile(const char *path) {
+void *arc_getMainRaceMainEffectArcFile(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[0], path);
+    file = arc_getArchiveFile(sArcNames[0], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[18], path);
+        file = arc_getArchiveFile(sArcNames[18], path);
     }
     return file;
 }
@@ -444,47 +444,47 @@ void *FindMainRaceOrMainEffectFile(const char *path) {
 #pragma thumb on
 
 // Searches the archives that are loaded, in a fixed order, and returns the first match.
-void *FindFileInLoadedArchives(const char *path) {
+void *arc_get2dArcFile(const char *path) {
     void *file;
 
     file = NULL;
-    if (data_021759c8->mUnk_7d8 != 0) {
-        file = FindArchiveFile(gArchiveNames[17], path);
+    if (gArcData->mUnk_7d8 != 0) {
+        file = arc_getArchiveFile(sArcNames[17], path);
     }
-    if (file == NULL && data_021759c8->mUnk_768 != 0) {
-        file = FindArchiveFile(gArchiveNames[16], path);
+    if (file == NULL && gArcData->mUnk_768 != 0) {
+        file = arc_getArchiveFile(sArcNames[16], path);
     }
-    if (file == NULL && data_021759c8->mUnk_6f8 != 0) {
-        file = FindArchiveFile(gArchiveNames[15], path);
+    if (file == NULL && gArcData->mUnk_6f8 != 0) {
+        file = arc_getArchiveFile(sArcNames[15], path);
     }
-    if (file == NULL && data_021759c8->mUnk_688 != 0) {
-        file = FindArchiveFile(gArchiveNames[14], path);
+    if (file == NULL && gArcData->mUnk_688 != 0) {
+        file = arc_getArchiveFile(sArcNames[14], path);
     }
-    if (file == NULL && data_021759c8->mUnk_8b8 != 0) {
-        file = FindArchiveFile(gArchiveNames[19], path);
+    if (file == NULL && gArcData->mUnk_8b8 != 0) {
+        file = arc_getArchiveFile(sArcNames[19], path);
     }
-    if (file == NULL && data_021759c8->mUnk_148 != 0) {
-        file = FindArchiveFile(gArchiveNames[2], path);
+    if (file == NULL && gArcData->mUnk_148 != 0) {
+        file = arc_getArchiveFile(sArcNames[2], path);
     }
-    if (file == NULL && data_021759c8->mUnk_d8 != 0) {
-        file = FindArchiveFile(gArchiveNames[1], path);
+    if (file == NULL && gArcData->mUnk_d8 != 0) {
+        file = arc_getArchiveFile(sArcNames[1], path);
     }
     return file;
 }
 
-void *FindSceneFile(const char *path) {
+void *arc_getSceneArcFile(const char *path) {
     void *file;
 
-    file = FindArchiveFile(gArchiveNames[5], path);
-    if (file == NULL && data_021759c8->mUnk_458 != 0) {
-        file = FindArchiveFile(gArchiveNames[9], path);
+    file = arc_getArchiveFile(sArcNames[5], path);
+    if (file == NULL && gArcData->mUnk_458 != 0) {
+        file = arc_getArchiveFile(sArcNames[9], path);
     }
-    if (GetCurrentSceneNumber() == 2) {
-        if (file == NULL && data_021759c8->mUnk_538 != 0) {
-            file = FindArchiveFile(gArchiveNames[11], path);
+    if (scproc_getCurrentScene() == 2) {
+        if (file == NULL && gArcData->mUnk_538 != 0) {
+            file = arc_getArchiveFile(sArcNames[11], path);
         }
-        if (file == NULL && data_021759c8->mUnk_5a8 != 0) {
-            file = FindArchiveFile(gArchiveNames[12], path);
+        if (file == NULL && gArcData->mUnk_5a8 != 0) {
+            file = arc_getArchiveFile(sArcNames[12], path);
         }
     }
     return file;
@@ -494,40 +494,40 @@ void *FindSceneFile(const char *path) {
 
 #pragma thumb on
 
-void *FindCourseFile(const char *path) {
+void *arc_getCourseArcFile(const char *path) {
     void *file;
-    file = FindArchiveFile(gArchiveNames[3], path);
+    file = arc_getArchiveFile(sArcNames[3], path);
     if (file == NULL) {
-        file = FindArchiveFile(gArchiveNames[13], path);
+        file = arc_getArchiveFile(sArcNames[13], path);
     }
     return file;
 }
 
-void *func_02047950(const char *path) {
+void *arc_getKartModelArcFileSafe(const char *path) {
     int currentSceneNumber;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = scproc_getCurrentScene();
     if (currentSceneNumber == 3) {
-        return FindKartModelFile(path);
+        return arc_getKartModelArcFile(path);
     }
-    return LoadKartModelFile(path);
+    return arc_getKartModelArcFileCopy(path);
 }
 
-void *FindKartModelFile(const char *path) {
+void *arc_getKartModelArcFile(const char *path) {
     int currentSceneNumber;
     void *file;
     file = NULL;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = scproc_getCurrentScene();
     if (((currentSceneNumber == 1) || (currentSceneNumber == 3)) || (currentSceneNumber == 0xc)) {
-        file = FindArchiveFile(gArchiveNames[10], path);
+        file = arc_getArchiveFile(sArcNames[10], path);
     } else {
-        if (data_021759c8->mUnk_308 != 0) {
-            file = FindArchiveFile(gArchiveNames[6], path);
+        if (gArcData->mUnk_308 != 0) {
+            file = arc_getArchiveFile(sArcNames[6], path);
         }
-        if ((file == NULL) && (data_021759c8->mUnk_378 != 0)) {
-            file = FindArchiveFile(gArchiveNames[7], path);
+        if ((file == NULL) && (gArcData->mUnk_378 != 0)) {
+            file = arc_getArchiveFile(sArcNames[7], path);
         }
-        if ((file == NULL) && (data_021759c8->mUnk_3e8 != 0)) {
-            file = FindArchiveFile(gArchiveNames[8], path);
+        if ((file == NULL) && (gArcData->mUnk_3e8 != 0)) {
+            file = arc_getArchiveFile(sArcNames[8], path);
         }
     }
     return file;
@@ -537,49 +537,49 @@ void *FindKartModelFile(const char *path) {
 
 #pragma thumb on
 
-void *LoadKartModelFile(const char *path) {
+void *arc_getKartModelArcFileCopy(const char *path) {
     void *file;
     s32 currentSceneNumber;
     char fullPath[0x80];
     u32 archiveName;
 
     file = NULL;
-    currentSceneNumber = GetCurrentSceneNumber();
+    currentSceneNumber = scproc_getCurrentScene();
     if (currentSceneNumber == 1 || currentSceneNumber == 3 || currentSceneNumber == 0xc) {
-        archiveName = gArchiveNames[10];
+        archiveName = sArcNames[10];
         if (path[0] == '/') {
-            OS_SNPrintf(fullPath, 0x80, data_02165008, archiveName, path);
+            OS_SNPrintf(fullPath, 0x80, aSS_0, archiveName, path);
         } else {
-            OS_SNPrintf(fullPath, 0x80, data_02165010, archiveName, path);
+            OS_SNPrintf(fullPath, 0x80, aSS_1, archiveName, path);
         }
-        file = LoadFileAligned(fullPath, 8);
+        file = arc_loadFileToHeap(fullPath, 8);
     } else {
-        if (data_021759c8->mUnk_00[6].mLoaded != 0) {
-            archiveName = gArchiveNames[6];
+        if (gArcData->mUnk_00[6].mLoaded != 0) {
+            archiveName = sArcNames[6];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_02165018, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_2, archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_02165020, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_3, archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = arc_loadFileToHeap(fullPath, 8);
         }
-        if (file == NULL && data_021759c8->mUnk_00[7].mLoaded != 0) {
-            archiveName = gArchiveNames[7];
+        if (file == NULL && gArcData->mUnk_00[7].mLoaded != 0) {
+            archiveName = sArcNames[7];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_02165028, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_4, archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_02165030, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_5, archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = arc_loadFileToHeap(fullPath, 8);
         }
-        if (file == NULL && data_021759c8->mUnk_00[8].mLoaded != 0) {
-            archiveName = gArchiveNames[8];
+        if (file == NULL && gArcData->mUnk_00[8].mLoaded != 0) {
+            archiveName = sArcNames[8];
             if (path[0] == '/') {
-                OS_SNPrintf(fullPath, 0x80, data_02165038, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_6, archiveName, path);
             } else {
-                OS_SNPrintf(fullPath, 0x80, data_02165040, archiveName, path);
+                OS_SNPrintf(fullPath, 0x80, aSS_7, archiveName, path);
             }
-            file = LoadFileAligned(fullPath, 8);
+            file = arc_loadFileToHeap(fullPath, 8);
         }
     }
     return file;
@@ -589,48 +589,48 @@ void *LoadKartModelFile(const char *path) {
 
 #pragma thumb on
 
-void func_0204775c(void) {
-    ReleaseArchiveSlot(6);
-    SetHeapGroupId((u16) 0);
-    LoadArchiveSlotForScene(7, 2);
-    SetHeapGroupId((u16) 9);
+void arc_switchKartModelMainAtoB(void) {
+    arc_unloadArchive(6);
+    arc_setHeapGroupId((u16) 0);
+    arc_loadArchiveForScene(7, 2);
+    arc_setHeapGroupId((u16) 9);
 }
 
-void func_02047728(void) {
+void arc_switchKartModelBSubToCourse(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(7);
-    ReleaseArchiveSlot(8);
-    SetHeapGroupId((u16) 0);
-    currentSceneNumber = GetCurrentSceneNumber();
+    arc_unloadArchive(7);
+    arc_unloadArchive(8);
+    arc_setHeapGroupId((u16) 0);
+    currentSceneNumber = scproc_getCurrentScene();
     if (currentSceneNumber == 2) {
-        LoadArchiveSlotForScene(3, 2);
+        arc_loadArchiveForScene(3, 2);
     }
-    SetHeapGroupId((u16) 9);
+    arc_setHeapGroupId((u16) 9);
 }
 
-void func_020476ec(void) {
+void arc_switchCourseTexToSceneRace(void) {
     int currentSceneNumber;
-    ReleaseArchiveSlot(0xd);
-    SetHeapGroupId((u16) 0);
-    currentSceneNumber = GetCurrentSceneNumber();
+    arc_unloadArchive(0xd);
+    arc_setHeapGroupId((u16) 0);
+    currentSceneNumber = scproc_getCurrentScene();
     if (currentSceneNumber == 2) {
-        LoadArchiveSlotForScene(5, 2);
-        LoadArchiveSlotForScene(0xb, 2);
-        LoadArchiveSlotForScene(0, 2);
+        arc_loadArchiveForScene(5, 2);
+        arc_loadArchiveForScene(0xb, 2);
+        arc_loadArchiveForScene(0, 2);
     }
-    SetHeapGroupId((u16) 9);
+    arc_setHeapGroupId((u16) 9);
 }
 
 void func_020476ac(void) {
     u32 currentSceneNumber;
-    currentSceneNumber = GetCurrentSceneNumber();
-    ReleaseArchiveSlot(10);
-    SetHeapGroupId((u16) 0);
-    LoadArchiveSlotForScene(1, currentSceneNumber);
-    LoadArchiveSlotForScene(5, currentSceneNumber);
-    LoadArchiveSlotForScene(0xe, currentSceneNumber);
-    LoadArchiveSlotForScene(0x10, currentSceneNumber);
-    SetHeapGroupId((u16) 9);
+    currentSceneNumber = scproc_getCurrentScene();
+    arc_unloadArchive(10);
+    arc_setHeapGroupId((u16) 0);
+    arc_loadArchiveForScene(1, currentSceneNumber);
+    arc_loadArchiveForScene(5, currentSceneNumber);
+    arc_loadArchiveForScene(0xe, currentSceneNumber);
+    arc_loadArchiveForScene(0x10, currentSceneNumber);
+    arc_setHeapGroupId((u16) 9);
 }
 
 #pragma thumb off
@@ -638,7 +638,7 @@ void func_020476ac(void) {
 #pragma thumb on
 
 void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncompress, u32 e) {
-    ArchiveBuffer *buffer = &data_021759c8->mBuffers[bufferIndex];
+    ArchiveBuffer *buffer = &gArcData->mBuffers[bufferIndex];
     buffer->mHeap = heap;
     buffer->mData = NULL;
     buffer->mUnk_08_0 = c << 10;
@@ -665,16 +665,16 @@ void InitArchiveBuffers(NNSiFndHeapHead *a, NNSiFndHeapHead *courseBufferHeap, N
     InitArchiveBuffer(courseBufferHeap, 7, 200, 0, 1);
     InitArchiveBuffer(a, 8, 0x46, 1, 0);
     InitArchiveBuffer(a, 0xd, 0x1e, 0, 0);
-    data_021759c8->mUnk_a78 = a;
-    data_021759c8->mCourseBufferHeap = courseBufferHeap;
-    data_021759c8->mUnk_a80 = c;
+    gArcData->mUnk_a78 = a;
+    gArcData->mCourseBufferHeap = courseBufferHeap;
+    gArcData->mUnk_a80 = c;
 }
 
 void func_020474e4(void) {
-    InitArchiveBuffer(data_0217aa10->mFrmHeap, 0xb, 0xaa, 0, 0);
-    InitArchiveBuffer(data_0217aa10->mFrmHeap, 0xc, 0x6e, 0, 0);
-    InitArchiveBuffer(data_0217aa10->mFrmHeap, 9, 0x1e, 0, 0);
-    InitArchiveBuffer(data_0217aa10->mFrmHeap, 10, 0x1e, 0, 0);
+    InitArchiveBuffer(gOverlayData->mFrmHeap, 0xb, 0xaa, 0, 0);
+    InitArchiveBuffer(gOverlayData->mFrmHeap, 0xc, 0x6e, 0, 0);
+    InitArchiveBuffer(gOverlayData->mFrmHeap, 9, 0x1e, 0, 0);
+    InitArchiveBuffer(gOverlayData->mFrmHeap, 10, 0x1e, 0, 0);
 }
 
 #pragma thumb off
@@ -682,7 +682,7 @@ void func_020474e4(void) {
 #pragma thumb on
 
 void RequestArchiveLoad(const void *path, s32 bufferIndex) {
-    ArchiveBuffer *buffer = &data_021759c8->mBuffers[bufferIndex];
+    ArchiveBuffer *buffer = &gArcData->mBuffers[bufferIndex];
     AddPendingFile(path, buffer->mHeap, &buffer->mData, buffer->mUnk_08_0, buffer->mUncompress);
     buffer->mUnk_08_31 = 1;
 }
@@ -695,28 +695,28 @@ void RequestArchiveLoadWithLanguage(const void *prefix, u32 bufferIndex) {
     u32 languageCode;
     char path[128];
     languageCode = GetMPLanguageCode();
-    OS_SNPrintf(path, 0x80, gArchivePrefixFormat, prefix, languageCode);
+    OS_SNPrintf(path, 0x80, aSS_carc, prefix, languageCode);
     RequestArchiveLoad(path, bufferIndex);
 }
 
 void func_020473e4(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(data_021759c8->mUnk_a80, 3);
-    RequestArchiveLoad(gKartModelMainAArchivePath, 0xb);
-    RequestArchiveLoad(gKartModelMainBArchivePath, 0xc);
-    RequestArchiveLoad(gMenuDLArchivePath2, 0);
-    RequestArchiveLoadWithLanguage(gMenuDLArchivePrefix2, 1);
-    RequestArchiveLoad(gMainRaceArchivePath, 8);
-    RequestArchiveLoad(gMain2DArchivePath, 9);
-    RequestArchiveLoadWithLanguage(gMain2DArchivePrefix, 10);
-    RequestArchiveLoad(gMainEffectArchivePath, 0xd);
+    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    RequestArchiveLoad(aDataKartmode_4, 0xb);
+    RequestArchiveLoad(aDataKartmode_5, 0xc);
+    RequestArchiveLoad(aDataSceneMen_1, 0);
+    RequestArchiveLoadWithLanguage(aDataSceneMen_2, 1);
+    RequestArchiveLoad(aDataMainrace_0, 8);
+    RequestArchiveLoad(aDataMain2d_c_0, 9);
+    RequestArchiveLoadWithLanguage(aDataMain2d_, 10);
+    RequestArchiveLoad(aDataMaineffe_0, 0xd);
 }
 
 void RequestMenuDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(data_021759c8->mUnk_a80, 3);
-    RequestArchiveLoad(gMenuDLArchivePath, 0);
-    RequestArchiveLoadWithLanguage(gMenuDLArchivePrefix, 1);
+    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    RequestArchiveLoad(aDataSceneMenud, 0);
+    RequestArchiveLoadWithLanguage(aDataSceneMen_0, 1);
 }
 
 #pragma thumb off
@@ -726,23 +726,23 @@ void RequestMenuDLArchives(void) {
 void RequestRaceArchives(void *courseId, void *b) {
     char path[128];
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(data_021759c8->mUnk_a80, 3);
-    RequestArchiveLoad(gRaceArchivePath, 2);
-    RequestArchiveLoadWithLanguage(gRaceArchivePrefix, 3);
+    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    RequestArchiveLoad(aDataSceneRace_, 2);
+    RequestArchiveLoadWithLanguage(aDataSceneRac_0, 3);
     if (b == (void *) 3) {
-        RequestArchiveLoad(gRaceVsArchivePath, 4);
-        RequestArchiveLoadWithLanguage(gRaceVsArchivePrefix, 5);
+        RequestArchiveLoad(aDataSceneRac_1, 4);
+        RequestArchiveLoadWithLanguage(aDataSceneRac_2, 5);
     } else {
-        RequestArchiveLoad(gRaceMgArchivePath, 4);
-        RequestArchiveLoadWithLanguage(gRaceMgArchivePrefix, 5);
+        RequestArchiveLoad(aDataSceneRac_3, 4);
+        RequestArchiveLoadWithLanguage(aDataSceneRac_4, 5);
     }
-    data_021759c8->mUnk_a74 = b;
-    NNS_FndFreeToFrmHeap(data_021759c8->mCourseBufferHeap, 3);
-    BuildCourseArchivePath(path, (s32) courseId, 0);
+    gArcData->mUnk_a74 = b;
+    NNS_FndFreeToFrmHeap(gArcData->mCourseBufferHeap, 3);
+    arc_getCourseArcPath(path, (s32) courseId, 0);
     RequestArchiveLoad(path, 6);
-    BuildCourseArchivePath(path, (s32) courseId, 1);
+    arc_getCourseArcPath(path, (s32) courseId, 1);
     RequestArchiveLoad(path, 7);
-    data_021759c8->mUnk_a70 = courseId;
+    gArcData->mUnk_a70 = courseId;
 }
 
 #pragma thumb off
@@ -751,55 +751,55 @@ void RequestRaceArchives(void *courseId, void *b) {
 
 void RequestResultDLArchives(void) {
     ResetPendingFiles();
-    NNS_FndFreeToFrmHeap(data_021759c8->mUnk_a80, 3);
-    RequestArchiveLoad(gResultDLArchivePath, 0xe);
-    RequestArchiveLoadWithLanguage(gResultDLArchivePrefix, 0xf);
+    NNS_FndFreeToFrmHeap(gArcData->mUnk_a80, 3);
+    RequestArchiveLoad(aDataSceneResul, 0xe);
+    RequestArchiveLoadWithLanguage(aDataSceneRes_0, 0xf);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_02047274(void) {
+void arc_2047274(void) {
     s32 i;
 
     for (i = 0; i < 16; i++) {
-        *OFFSET_PTR(u32, &data_021759c8->mBuffers[0].mUnk_08, i * 12) &= 0x7fffffff;
+        *OFFSET_PTR(u32, &gArcData->mBuffers[0].mUnk_08, i * 12) &= 0x7fffffff;
     }
 }
 
-s32 func_02047250(void) {
+s32 arc_isCourseTexAvailable(void) {
     if (*(vu16 *) 0x027ffc40 == 2) {
-        return data_021759c8->mBuffers[7].mUnk_08 >> 31;
+        return gArcData->mBuffers[7].mUnk_08 >> 31;
     }
     return 1;
 }
 
 // Resizes the block that holds the MainEffect archive so it ends where the caller says.
-void ResizeMainEffectArchiveBlock(u8 *a, u32 b) {
+void arc_resizeMainEffectArc(u8 *a, u32 b) {
     u8 *block;
 
-    block = data_021759c8->mUnk_84c;
-    NNS_FndResizeForMBlockExpHeap(GetHeap(GetCurrentHeapCall()), block, b + (a - block));
+    block = gArcData->mUnk_84c;
+    NNS_FndResizeForMBlockExpHeap(proc_getHeap(proc_getCurrent()), block, b + (a - block));
 }
 
-void func_020471b0(void *heap) {
+void arc_loadStatic2D(void *heap) {
     u32 uncompressedSize;
     void *data;
 
-    uncompressedSize = *func_020cade8() >> 8;
-    data_021759c8->mUnk_8b8 = 0;
-    data = HeapAllocAligned(heap, uncompressedSize, 0x20);
-    func_020487e0(func_020cade8(), data, uncompressedSize);
-    ArchiveLoadFromMemory(&data_021759c8->mUnk_850, (const u8 *) gArchiveNames[19], data);
-    data_021759c8->mUnk_8bc = data;
-    data_021759c8->mUnk_8b8 = 1;
-    CreateSearchIconMBChildAndMultiDownload(heap);
+    uncompressedSize = *s2d_getArcData() >> 8;
+    gArcData->mUnk_8b8 = 0;
+    data = heap_allocEx(heap, uncompressedSize, 0x20);
+    arc_decompressLZ(s2d_getArcData(), data, uncompressedSize);
+    NNS_FndMountArchive(&gArcData->mUnk_850, (const u8 *) sArcNames[19], data);
+    gArcData->mUnk_8bc = data;
+    gArcData->mUnk_8b8 = 1;
+    s2d_init(heap);
 }
 
 #pragma thumb off
 
-void InitTouchPanelAndSetCalibration(void) {
+void spi_initTouch(void) {
     TPCalibrateParam calibrateParam;
 
     TP_Init();
@@ -809,12 +809,12 @@ void InitTouchPanelAndSetCalibration(void) {
     TP_SetCalibrateParam(&calibrateParam);
 }
 
-void InitTouchMicInput(void *heap) {
-    gTouchMicInput = HeapAlloc(heap, 0x40);
-    gTouchMicInput->mTouchAutoSampling = 0;
-    gTouchMicInput->mMicAutoSampling = 0;
-    gTouchMicInput->mUnk_30_2 = 0;
-    gTouchMicInput->mMicOverThreshold = 0;
-    gTouchMicInput->mMicBuffer = NULL;
-    InitMicAndAmp();
+void spi_init(void *heap) {
+    gSpiData = heap_alloc(heap, 0x40);
+    gSpiData->mTouchAutoSampling = 0;
+    gSpiData->mMicAutoSampling = 0;
+    gSpiData->mUnk_30_2 = 0;
+    gSpiData->mMicOverThreshold = 0;
+    gSpiData->mMicBuffer = NULL;
+    mic_init();
 }

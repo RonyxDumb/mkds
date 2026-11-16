@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_020d159c(void);
-void InitEndingStaffRoll(void);
+void r2d_vblankUpdateStaffRoll(void);
+void r2d_initStaffRoll(void);

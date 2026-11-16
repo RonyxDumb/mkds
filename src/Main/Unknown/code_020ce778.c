@@ -5,13 +5,13 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateVsSelectCupCourse(void) {
+void menu_state13Render(void) {
     switch (AdvanceSelectCupCourse()) {
         case 1:
-            SwitchMenuScreen(0x1d, 0x1f);
+            menu_gotoState(0x1d, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0xc, 0x1f);
+            menu_gotoState(0xc, 0x1f);
             break;
     }
 }

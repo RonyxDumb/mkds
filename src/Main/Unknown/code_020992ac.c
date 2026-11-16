@@ -10,616 +10,616 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "ITCM/code_01ff8000.h"
 
-void *gDeTree1;
-void *gCrossTree1;
-void *gNsCannon1;
-void *gBeachTree1;
-void *gMiniDokan;
-void *gOm6Tree1;
-void *gKinoHouse2;
-void *gOsaTree1c;
-void *gTownTree1;
-void *gOf6Tree1;
-void *gMarioTree3;
-void *gOlgMush1;
-void *gOlaTree1c;
-void *gKinoHouse1;
-void *gBankTree1;
-void *gOlgPipe1;
-void *gOpaTree1;
-void *gGardenTree1;
-void *gKinoMount2;
-void *gSnowTree1;
-void *gBankEgg1;
-void *gKinoMount1;
-void *gOf6yoshi1;
+void *bbobj_sDeTree1Model;
+void *bbobj_sCrossTree1Model;
+void *bbobj_sNsCannon1Model;
+void *bbobj_sBeachTree1Model;
+void *bbobj_sMiniDokanModel;
+void *bbobj_sOm6Tree1Model;
+void *bbobj_sKinoHouse2Model;
+void *bbobj_sOsaTree1cModel;
+void *bbobj_sTownTree1Model;
+void *bbobj_sOf6Tree1Model;
+void *bbobj_sMarioTree3Model;
+void *bbobj_sOlgMush1Model;
+void *bbobj_sOlaTree1cModel;
+void *bbobj_sKinoHouse1Model;
+void *bbobj_sBankTree1Model;
+void *bbobj_sOlgPipe1Model;
+void *bbobj_sOpaTree1Model;
+void *bbobj_sGardenTree1Model;
+void *bbobj_sKinoMount2Model;
+void *bbobj_sSnowTree1Model;
+void *bbobj_sBankEgg1Model;
+void *bbobj_sKinoMount1Model;
+void *bbobj_sOf6yoshi1Model;
 
-MapObjectKindDescriptor data_02166b44 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6Tree1DrawList};
-MapObjectKindDescriptor gOlaTree1cKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlaTree1cDrawList};
-MapObjectKindDescriptor data_02166f88 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateDeTree1DrawList};
-MapObjectKindDescriptor gOlgMush1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlgMush1DrawList};
-MapObjectKindDescriptor gOlgPipe1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOlgPipe1DrawList};
-MapObjectKindDescriptor data_02166eec = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBeachTree1DrawList};
-MapObjectKindDescriptor gNsCannon1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateNsCannon1DrawList};
-MapObjectKindDescriptor gCrossTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateCrossTree1DrawList};
-MapObjectKindDescriptor gBankTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBankTree1DrawList};
-MapObjectKindDescriptor gOf6yoshi1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6yoshi1DrawList};
-MapObjectKindDescriptor data_02166d4c = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateGardenTree1DrawList};
-MapObjectKindDescriptor data_02166d80 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateGardenTree1DrawList};
-MapObjectKindDescriptor data_02166db4 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateTownTree1DrawList};
-MapObjectKindDescriptor data_02166de8 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateTownTree1DrawList};
-MapObjectKindDescriptor gMarioTree3KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateMarioTree3DrawList};
-MapObjectKindDescriptor data_02166e84 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateSnowTree1DrawList};
-MapObjectKindDescriptor gOpaTree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOpaTree1DrawList};
-MapObjectKindDescriptor data_02166f20 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateSnowTree1DrawList};
-MapObjectKindDescriptor data_02166f54 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateDeTree1DrawList};
-MapObjectKindDescriptor gOsaTree1cKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOsaTree1cDrawList};
-MapObjectKindDescriptor gKinoHouse1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoHouse1DrawList};
-MapObjectKindDescriptor data_02166bac = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOf6Tree1DrawList};
-MapObjectKindDescriptor gKinoHouse2KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoHouse2DrawList};
-MapObjectKindDescriptor gKinoMount1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoMount1DrawList};
-MapObjectKindDescriptor gKinoMount2KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateKinoMount2DrawList};
-MapObjectKindDescriptor gOm6Tree1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateOm6Tree1DrawList};
-MapObjectKindDescriptor data_02166b78 = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBeachTree1DrawList};
-MapObjectKindDescriptor gBankEgg1KindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateBankEgg1DrawList};
-MapObjectKindDescriptor gMiniDokanKindDescriptor = {0, {0, 0}, 0xa0, 0, func_0209a728, CreateMiniDokanDrawList};
+MapObjectKindDescriptor gOf6Tree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOf6Tree1RenderPart};
+MapObjectKindDescriptor gOlaTree1cMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOlaTree1cRenderPart};
+MapObjectKindDescriptor gDeTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupDeTree1RenderPart};
+MapObjectKindDescriptor gOlgMush1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOlgMush1RenderPart};
+MapObjectKindDescriptor gOlgPipe1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOlgPipe1RenderPart};
+MapObjectKindDescriptor gBeachTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupBeachTree1RenderPart};
+MapObjectKindDescriptor gNsCannon1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupNsCannon1RenderPart};
+MapObjectKindDescriptor gCrossTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupCrossTree1RenderPart};
+MapObjectKindDescriptor gBankTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupBankTree1RenderPart};
+MapObjectKindDescriptor gOf6yoshi1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOf6yoshi1RenderPart};
+MapObjectKindDescriptor gGardenTree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupGardenTree1RenderPart};
+MapObjectKindDescriptor gGardenTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupGardenTree1RenderPart};
+MapObjectKindDescriptor gTownTree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupTownTree1RenderPart};
+MapObjectKindDescriptor gTownTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupTownTree1RenderPart};
+MapObjectKindDescriptor gMarioTree3MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupMarioTree3RenderPart};
+MapObjectKindDescriptor gSnowTree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupSnowTree1RenderPart};
+MapObjectKindDescriptor gOpaTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOpaTree1RenderPart};
+MapObjectKindDescriptor gSnowTree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupSnowTree1RenderPart};
+MapObjectKindDescriptor gDeTree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupDeTree1RenderPart};
+MapObjectKindDescriptor gOsaTree1cMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOsaTree1cRenderPart};
+MapObjectKindDescriptor gKinoHouse1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupKinoHouse1RenderPart};
+MapObjectKindDescriptor gOf6Tree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOf6Tree1RenderPart};
+MapObjectKindDescriptor gKinoHouse2MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupKinoHouse2RenderPart};
+MapObjectKindDescriptor gKinoMount1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupKinoMount1RenderPart};
+MapObjectKindDescriptor gKinoMount2MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupKinoMount2RenderPart};
+MapObjectKindDescriptor gOm6Tree1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupOm6Tree1RenderPart};
+MapObjectKindDescriptor gBeachTree1NoColMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupBeachTree1RenderPart};
+MapObjectKindDescriptor gBankEgg1MObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupBankEgg1RenderPart};
+MapObjectKindDescriptor gMiniDokanMObjDef = {0, {0, 0}, 0xa0, 0, bbobj_setupConfig, bbobj_setupMiniDokanRenderPart};
 
-MapObjectKindData *func_0209a728(void) {
+MapObjectKindData *bbobj_setupConfig(void) {
     MapObjectKindData *kindData;
 
-    kindData = (MapObjectKindData *) CreateEmptyMapObjectKindData();
+    kindData = (MapObjectKindData *) mobj_createDummyConfig();
     kindData->mUnk_24 = 0x84;
     return kindData;
 }
 
-void CreateBeachTree1(void *a) {
-    gBeachTree1 = CreateMapObjectModelNsbmd(a, "BeachTree1.nsbmd");
-    SetMapObjectModelPolygonId(gBeachTree1, 0x3f);
+void bbobj_loadBeachTree1Model(void *a) {
+    bbobj_sBeachTree1Model = mobj_loadBillboardModel(a, "BeachTree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sBeachTree1Model, 0x3f);
 }
 
-void SetupDrawBeachTree1(void *a) {
-    func_0209bbd0(a, gBeachTree1);
+void bbobj_applyBeachTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sBeachTree1Model);
 }
 
-void DrawBeachTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderBeachTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gBeachTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sBeachTree1Model, mapObject);
 }
 
-MapObjectList *CreateBeachTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateBeachTree1, DrawBeachTree1, SetupDrawBeachTree1);
+MapObjectList *bbobj_setupBeachTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadBeachTree1Model, bbobj_renderBeachTree1, bbobj_applyBeachTree1Material);
 }
 
-void CreateOpaTree1(void *a) {
-    gOpaTree1 = CreateMapObjectModelNsbmd(a, "opa_tree1.nsbmd");
-    SetMapObjectModelPolygonId(gOpaTree1, 0x3f);
+void bbobj_loadOpaTree1Model(void *a) {
+    bbobj_sOpaTree1Model = mobj_loadBillboardModel(a, "opa_tree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOpaTree1Model, 0x3f);
 }
 
-void SetupDrawOpaTree1(void *a) {
-    func_0209bbd0(a, gOpaTree1);
+void bbobj_applyOpaTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOpaTree1Model);
 }
 
-void DrawOpaTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderOpaTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOpaTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOpaTree1Model, mapObject);
 }
 
-MapObjectList *CreateOpaTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOpaTree1, DrawOpaTree1, SetupDrawOpaTree1);
+MapObjectList *bbobj_setupOpaTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOpaTree1Model, bbobj_renderOpaTree1, bbobj_applyOpaTree1Material);
 }
 
-void CreateOlgMush1(void *a) {
-    gOlgMush1 = CreateMapObjectModelNsbmd(a, "OlgMush1.nsbmd");
-    SetMapObjectModelPolygonId(gOlgMush1, 0x3f);
+void bbobj_loadOlgMush1Model(void *a) {
+    bbobj_sOlgMush1Model = mobj_loadBillboardModel(a, "OlgMush1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOlgMush1Model, 0x3f);
 }
 
-void SetupDrawOlgMush1(void *a) {
-    func_0209bbd0(a, gOlgMush1);
+void bbobj_applyOlgMush1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOlgMush1Model);
 }
 
-void DrawOlgMush1(u32 a, MapObject *mapObject) {
+void bbobj_renderOlgMush1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOlgMush1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOlgMush1Model, mapObject);
 }
 
-MapObjectList *CreateOlgMush1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOlgMush1, DrawOlgMush1, SetupDrawOlgMush1);
+MapObjectList *bbobj_setupOlgMush1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOlgMush1Model, bbobj_renderOlgMush1, bbobj_applyOlgMush1Material);
 }
 
-void CreateOlgPipe1(void *a) {
-    gOlgPipe1 = CreateMapObjectModelNsbmd(a, "OlgPipe1.nsbmd");
-    SetMapObjectModelPolygonId(gOlgPipe1, 0x3f);
+void bbobj_loadOlgPipe1Model(void *a) {
+    bbobj_sOlgPipe1Model = mobj_loadBillboardModel(a, "OlgPipe1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOlgPipe1Model, 0x3f);
 }
 
-void SetupDrawOlgPipe1(void *a) {
-    func_0209bbd0(a, gOlgPipe1);
+void bbobj_applyOlgPipe1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOlgPipe1Model);
 }
 
-void DrawOlgPipe1(u32 a, MapObject *mapObject) {
+void bbobj_renderOlgPipe1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOlgPipe1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOlgPipe1Model, mapObject);
 }
 
-MapObjectList *CreateOlgPipe1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOlgPipe1, DrawOlgPipe1, SetupDrawOlgPipe1);
+MapObjectList *bbobj_setupOlgPipe1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOlgPipe1Model, bbobj_renderOlgPipe1, bbobj_applyOlgPipe1Material);
 }
 
-void CreateOf6yoshi1(void *a) {
-    gOf6yoshi1 = CreateMapObjectModelNsbmd(a, "of6yoshi1.nsbmd");
-    SetMapObjectModelPolygonId(gOf6yoshi1, 0x3f);
+void bbobj_loadOf6yoshi1Model(void *a) {
+    bbobj_sOf6yoshi1Model = mobj_loadBillboardModel(a, "of6yoshi1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOf6yoshi1Model, 0x3f);
 }
 
-void SetupDrawOf6yoshi1(void *a) {
-    func_0209bbd0(a, gOf6yoshi1);
+void bbobj_applyOf6yoshi1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOf6yoshi1Model);
 }
 
-void DrawOf6yoshi1(u32 a, MapObject *mapObject) {
+void bbobj_renderOf6yoshi1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOf6yoshi1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOf6yoshi1Model, mapObject);
 }
 
-MapObjectList *CreateOf6yoshi1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOf6yoshi1, DrawOf6yoshi1, SetupDrawOf6yoshi1);
+MapObjectList *bbobj_setupOf6yoshi1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOf6yoshi1Model, bbobj_renderOf6yoshi1, bbobj_applyOf6yoshi1Material);
 }
 
-void CreateNsCannon1(void *a) {
-    gNsCannon1 = CreateMapObjectModelNsbmd(a, "NsCannon1.nsbmd");
-    SetMapObjectModelPolygonId(gNsCannon1, 0x3f);
+void bbobj_loadNsCannon1Model(void *a) {
+    bbobj_sNsCannon1Model = mobj_loadBillboardModel(a, "NsCannon1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sNsCannon1Model, 0x3f);
 }
 
-void SetupDrawNsCannon1(void *a) {
-    func_0209bbd0(a, gNsCannon1);
+void bbobj_applyNsCannon1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sNsCannon1Model);
 }
 
-void DrawNsCannon1(u32 a, MapObject *mapObject) {
+void bbobj_renderNsCannon1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gNsCannon1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sNsCannon1Model, mapObject);
 }
 
-MapObjectList *CreateNsCannon1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateNsCannon1, DrawNsCannon1, SetupDrawNsCannon1);
+MapObjectList *bbobj_setupNsCannon1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadNsCannon1Model, bbobj_renderNsCannon1, bbobj_applyNsCannon1Material);
 }
 
-void CreateCrossTree1(void *a) {
-    gCrossTree1 = CreateMapObjectModelNsbmd(a, "CrossTree1.nsbmd");
-    SetMapObjectModelPolygonId(gCrossTree1, 0x3f);
+void bbobj_loadCrossTree1Model(void *a) {
+    bbobj_sCrossTree1Model = mobj_loadBillboardModel(a, "CrossTree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sCrossTree1Model, 0x3f);
 }
 
-void SetupDrawCrossTree1(void *a) {
-    func_0209bbd0(a, gCrossTree1);
+void bbobj_applyCrossTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sCrossTree1Model);
 }
 
-void DrawCrossTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderCrossTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gCrossTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sCrossTree1Model, mapObject);
 }
 
-MapObjectList *CreateCrossTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateCrossTree1, DrawCrossTree1, SetupDrawCrossTree1);
+MapObjectList *bbobj_setupCrossTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadCrossTree1Model, bbobj_renderCrossTree1, bbobj_applyCrossTree1Material);
 }
 
-void CreateBankTree1(void *a) {
-    gBankTree1 = CreateMapObjectModelNsbmd(a, "Bank_Tree1.nsbmd");
-    SetMapObjectModelPolygonId(gBankTree1, 0x3f);
+void bbobj_loadBankTree1Model(void *a) {
+    bbobj_sBankTree1Model = mobj_loadBillboardModel(a, "Bank_Tree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sBankTree1Model, 0x3f);
 }
 
-void SetupDrawBankTree1(void *a) {
-    func_0209bbd0(a, gBankTree1);
+void bbobj_applyBankTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sBankTree1Model);
 }
 
-void DrawBankTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderBankTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gBankTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sBankTree1Model, mapObject);
 }
 
-MapObjectList *CreateBankTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateBankTree1, DrawBankTree1, SetupDrawBankTree1);
+MapObjectList *bbobj_setupBankTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadBankTree1Model, bbobj_renderBankTree1, bbobj_applyBankTree1Material);
 }
 
-void CreateGardenTree1(void *a) {
-    gGardenTree1 = CreateMapObjectModelNsbmd(a, "GardenTree1.nsbmd");
-    SetMapObjectModelPolygonId(gGardenTree1, 0x3f);
+void bbobj_loadGardenTree1Model(void *a) {
+    bbobj_sGardenTree1Model = mobj_loadBillboardModel(a, "GardenTree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sGardenTree1Model, 0x3f);
 }
 
-void SetupDrawGardenTree1(void *a) {
-    func_0209bbd0(a, gGardenTree1);
+void bbobj_applyGardenTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sGardenTree1Model);
 }
 
-void DrawGardenTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderGardenTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gGardenTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sGardenTree1Model, mapObject);
 }
 
-MapObjectList *CreateGardenTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateGardenTree1, DrawGardenTree1, SetupDrawGardenTree1);
+MapObjectList *bbobj_setupGardenTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadGardenTree1Model, bbobj_renderGardenTree1, bbobj_applyGardenTree1Material);
 }
 
-void CreateTownTree1(void *a) {
-    gTownTree1 = CreateMapObjectModelNsbmd(a, "TownTree1.nsbmd");
-    SetMapObjectModelPolygonId(gTownTree1, 0x3f);
+void bbobj_loadTownTree1Model(void *a) {
+    bbobj_sTownTree1Model = mobj_loadBillboardModel(a, "TownTree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sTownTree1Model, 0x3f);
 }
 
-void SetupDrawTownTree1(void *a) {
-    func_0209bbd0(a, gTownTree1);
+void bbobj_applyTownTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sTownTree1Model);
 }
 
-void DrawTownTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderTownTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gTownTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sTownTree1Model, mapObject);
 }
 
-MapObjectList *CreateTownTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateTownTree1, DrawTownTree1, SetupDrawTownTree1);
+MapObjectList *bbobj_setupTownTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadTownTree1Model, bbobj_renderTownTree1, bbobj_applyTownTree1Material);
 }
 
-void CreateMarioTree3(void *a) {
-    gMarioTree3 = CreateMapObjectModelNsbmd(a, "MarioTree3.nsbmd");
-    SetMapObjectModelPolygonId(gMarioTree3, 0x3f);
+void bbobj_loadMarioTree3Model(void *a) {
+    bbobj_sMarioTree3Model = mobj_loadBillboardModel(a, "MarioTree3.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sMarioTree3Model, 0x3f);
 }
 
-void SetupDrawMarioTree3(void *a) {
-    func_0209bbd0(a, gMarioTree3);
+void bbobj_applyMarioTree3Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sMarioTree3Model);
 }
 
-void DrawMarioTree3(u32 a, MapObject *mapObject) {
+void bbobj_renderMarioTree3(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gMarioTree3, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sMarioTree3Model, mapObject);
 }
 
-MapObjectList *CreateMarioTree3DrawList(void) {
-    return CreateMapObjectDrawList2(CreateMarioTree3, DrawMarioTree3, SetupDrawMarioTree3);
+MapObjectList *bbobj_setupMarioTree3RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadMarioTree3Model, bbobj_renderMarioTree3, bbobj_applyMarioTree3Material);
 }
 
-void CreateSnowTree1(void *a) {
-    gSnowTree1 = CreateMapObjectModelNsbmd(a, "Snow_Tree1.nsbmd");
-    SetMapObjectModelPolygonId(gSnowTree1, 0x3f);
+void bbobj_loadSnowTree1Model(void *a) {
+    bbobj_sSnowTree1Model = mobj_loadBillboardModel(a, "Snow_Tree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sSnowTree1Model, 0x3f);
 }
 
-void SetupDrawSnowTree1(void *a) {
-    func_0209bbd0(a, gSnowTree1);
+void bbobj_applySnowTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sSnowTree1Model);
 }
 
-void DrawSnowTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderSnowTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gSnowTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sSnowTree1Model, mapObject);
 }
 
-MapObjectList *CreateSnowTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateSnowTree1, DrawSnowTree1, SetupDrawSnowTree1);
+MapObjectList *bbobj_setupSnowTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadSnowTree1Model, bbobj_renderSnowTree1, bbobj_applySnowTree1Material);
 }
 
-void CreateDeTree1(void *a) {
-    gDeTree1 = CreateMapObjectModelNsbmd(a, "DeTree1.nsbmd");
-    SetMapObjectModelPolygonId(gDeTree1, 0x3f);
+void bbobj_loadDeTree1Model(void *a) {
+    bbobj_sDeTree1Model = mobj_loadBillboardModel(a, "DeTree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sDeTree1Model, 0x3f);
 }
 
-void SetupDrawDeTree1(void *a) {
-    func_0209bbd0(a, gDeTree1);
+void bbobj_applyDeTree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sDeTree1Model);
 }
 
-void DrawDeTree1(u32 a, MapObject *mapObject) {
+void bbobj_renderDeTree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gDeTree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sDeTree1Model, mapObject);
 }
 
-MapObjectList *CreateDeTree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateDeTree1, DrawDeTree1, SetupDrawDeTree1);
+MapObjectList *bbobj_setupDeTree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadDeTree1Model, bbobj_renderDeTree1, bbobj_applyDeTree1Material);
 }
 
-void CreateOlaTree1c(void *a) {
-    gOlaTree1c = CreateMapObjectModelNsbmd(a, "olaTree1c.nsbmd");
-    SetMapObjectModelPolygonId(gOlaTree1c, 0x3f);
+void bbobj_loadOlaTree1cModel(void *a) {
+    bbobj_sOlaTree1cModel = mobj_loadBillboardModel(a, "olaTree1c.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOlaTree1cModel, 0x3f);
 }
 
-void SetupDrawOlaTree1c(void *a) {
-    func_0209bbd0(a, gOlaTree1c);
+void bbobj_applyOlaTree1cMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOlaTree1cModel);
 }
 
-void DrawOlaTree1c(u32 a, MapObject *mapObject) {
+void bbobj_renderOlaTree1c(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOlaTree1c, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOlaTree1cModel, mapObject);
 }
 
-MapObjectList *CreateOlaTree1cDrawList(void) {
-    return CreateMapObjectDrawList2(CreateOlaTree1c, DrawOlaTree1c, SetupDrawOlaTree1c);
+MapObjectList *bbobj_setupOlaTree1cRenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOlaTree1cModel, bbobj_renderOlaTree1c, bbobj_applyOlaTree1cMaterial);
 }
 
-void CreateOsaTree1c(void *a) {
-    gOsaTree1c = CreateMapObjectModelNsbmd(a, "osaTree1c.nsbmd");
-    SetMapObjectModelPolygonId(gOsaTree1c, 0x3f);
+void bbobj_loadOsaTree1cModel(void *a) {
+    bbobj_sOsaTree1cModel = mobj_loadBillboardModel(a, "osaTree1c.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOsaTree1cModel, 0x3f);
 }
 
-void SetupDrawOsaTree1c(void *a) {
-    func_0209bbd0(a, gOsaTree1c);
+void bbobj_applyOsaTree1cMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOsaTree1cModel);
 }
 
-void DrawOsaTree1c(u32 a, MapObject *mapObject) {
+void bbobj_renderOsaTree1c(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOsaTree1c, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOsaTree1cModel, mapObject);
 }
 
-MapObjectList *CreateOsaTree1cDrawList(void) {
-    return CreateMapObjectDrawList2(CreateOsaTree1c, DrawOsaTree1c, SetupDrawOsaTree1c);
+MapObjectList *bbobj_setupOsaTree1cRenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOsaTree1cModel, bbobj_renderOsaTree1c, bbobj_applyOsaTree1cMaterial);
 }
 
-void CreateKinoHouse1(void *a) {
-    gKinoHouse1 = CreateMapObjectModelNsbmd(a, "KinoHouse1.nsbmd");
-    SetMapObjectModelPolygonId(gKinoHouse1, 0x3f);
+void bbobj_loadKinoHouse1Model(void *a) {
+    bbobj_sKinoHouse1Model = mobj_loadBillboardModel(a, "KinoHouse1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sKinoHouse1Model, 0x3f);
 }
 
-void SetupDrawKinoHouse1(void *a) {
-    func_0209bbd0(a, gKinoHouse1);
+void bbobj_applyKinoHouse1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sKinoHouse1Model);
 }
 
-void DrawKinoHouse1(u32 a, MapObject *mapObject) {
+void bbobj_renderKinoHouse1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gKinoHouse1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sKinoHouse1Model, mapObject);
 }
 
-MapObjectList *CreateKinoHouse1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateKinoHouse1, DrawKinoHouse1, SetupDrawKinoHouse1);
+MapObjectList *bbobj_setupKinoHouse1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadKinoHouse1Model, bbobj_renderKinoHouse1, bbobj_applyKinoHouse1Material);
 }
 
-void CreateKinoHouse2(void *a) {
-    gKinoHouse2 = CreateMapObjectModelNsbmd(a, "KinoHouse2.nsbmd");
-    SetMapObjectModelPolygonId(gKinoHouse2, 0x3f);
+void bbobj_loadKinoHouse2Model(void *a) {
+    bbobj_sKinoHouse2Model = mobj_loadBillboardModel(a, "KinoHouse2.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sKinoHouse2Model, 0x3f);
 }
 
-void SetupDrawKinoHouse2(void *a) {
-    func_0209bbd0(a, gKinoHouse2);
+void bbobj_applyKinoHouse2Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sKinoHouse2Model);
 }
 
-void DrawKinoHouse2(u32 a, MapObject *mapObject) {
+void bbobj_renderKinoHouse2(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gKinoHouse2, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sKinoHouse2Model, mapObject);
 }
 
-MapObjectList *CreateKinoHouse2DrawList(void) {
-    return CreateMapObjectDrawList2(CreateKinoHouse2, DrawKinoHouse2, SetupDrawKinoHouse2);
+MapObjectList *bbobj_setupKinoHouse2RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadKinoHouse2Model, bbobj_renderKinoHouse2, bbobj_applyKinoHouse2Material);
 }
 
-void CreateKinoMount1(void *a) {
-    gKinoMount1 = CreateMapObjectModelNsbmd(a, "KinoMount1.nsbmd");
-    SetMapObjectModelPolygonId(gKinoMount1, 0x3f);
+void bbobj_loadKinoMount1Model(void *a) {
+    bbobj_sKinoMount1Model = mobj_loadBillboardModel(a, "KinoMount1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sKinoMount1Model, 0x3f);
 }
 
-void SetupDrawKinoMount1(void *a) {
-    func_0209bbd0(a, gKinoMount1);
+void bbobj_applyKinoMount1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sKinoMount1Model);
 }
 
-void DrawKinoMount1(u32 a, MapObject *mapObject) {
+void bbobj_renderKinoMount1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gKinoMount1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sKinoMount1Model, mapObject);
 }
 
-MapObjectList *CreateKinoMount1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateKinoMount1, DrawKinoMount1, SetupDrawKinoMount1);
+MapObjectList *bbobj_setupKinoMount1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadKinoMount1Model, bbobj_renderKinoMount1, bbobj_applyKinoMount1Material);
 }
 
-void CreateKinoMount2(void *a) {
-    gKinoMount2 = CreateMapObjectModelNsbmd(a, "KinoMount2.nsbmd");
-    SetMapObjectModelPolygonId(gKinoMount2, 0x3f);
+void bbobj_loadKinoMount2Model(void *a) {
+    bbobj_sKinoMount2Model = mobj_loadBillboardModel(a, "KinoMount2.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sKinoMount2Model, 0x3f);
 }
 
-void SetupDrawKinoMount2(void *a) {
-    func_0209bbd0(a, gKinoMount2);
+void bbobj_applyKinoMount2Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sKinoMount2Model);
 }
 
-void DrawKinoMount2(u32 a, MapObject *mapObject) {
+void bbobj_renderKinoMount2(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gKinoMount2, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sKinoMount2Model, mapObject);
 }
 
-MapObjectList *CreateKinoMount2DrawList(void) {
-    return CreateMapObjectDrawList2(CreateKinoMount2, DrawKinoMount2, SetupDrawKinoMount2);
+MapObjectList *bbobj_setupKinoMount2RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadKinoMount2Model, bbobj_renderKinoMount2, bbobj_applyKinoMount2Material);
 }
 
-void CreateOm6Tree1(void *a) {
-    gOm6Tree1 = CreateMapObjectModelNsbmd(a, "om6Tree1.nsbmd");
-    SetMapObjectModelPolygonId(gOm6Tree1, 0x3f);
+void bbobj_loadOm6Tree1Model(void *a) {
+    bbobj_sOm6Tree1Model = mobj_loadBillboardModel(a, "om6Tree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOm6Tree1Model, 0x3f);
 }
 
-void SetupDrawOm6Tree1(void *a) {
-    func_0209bbd0(a, gOm6Tree1);
+void bbobj_applyOm6Tree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOm6Tree1Model);
 }
 
-void DrawOm6Tree1(u32 a, MapObject *mapObject) {
+void bbobj_renderOm6Tree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOm6Tree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOm6Tree1Model, mapObject);
 }
 
-MapObjectList *CreateOm6Tree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOm6Tree1, DrawOm6Tree1, SetupDrawOm6Tree1);
+MapObjectList *bbobj_setupOm6Tree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOm6Tree1Model, bbobj_renderOm6Tree1, bbobj_applyOm6Tree1Material);
 }
 
-void CreateOf6Tree1(void *a) {
-    gOf6Tree1 = CreateMapObjectModelNsbmd(a, "Of6Tree1.nsbmd");
-    SetMapObjectModelPolygonId(gOf6Tree1, 0x3f);
+void bbobj_loadOf6Tree1Model(void *a) {
+    bbobj_sOf6Tree1Model = mobj_loadBillboardModel(a, "Of6Tree1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sOf6Tree1Model, 0x3f);
 }
 
-void SetupDrawOf6Tree1(void *a) {
-    func_0209bbd0(a, gOf6Tree1);
+void bbobj_applyOf6Tree1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sOf6Tree1Model);
 }
 
-void DrawOf6Tree1(u32 a, MapObject *mapObject) {
+void bbobj_renderOf6Tree1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gOf6Tree1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sOf6Tree1Model, mapObject);
 }
 
-MapObjectList *CreateOf6Tree1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateOf6Tree1, DrawOf6Tree1, SetupDrawOf6Tree1);
+MapObjectList *bbobj_setupOf6Tree1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadOf6Tree1Model, bbobj_renderOf6Tree1, bbobj_applyOf6Tree1Material);
 }
 
-void CreateBankEgg1(void *a) {
-    gBankEgg1 = CreateMapObjectModelNsbmd(a, "BankEgg1.nsbmd");
-    SetMapObjectModelPolygonId(gBankEgg1, 0x3f);
+void bbobj_loadBankEgg1Model(void *a) {
+    bbobj_sBankEgg1Model = mobj_loadBillboardModel(a, "BankEgg1.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sBankEgg1Model, 0x3f);
 }
 
-void SetupDrawBankEgg1(void *a) {
-    func_0209bbd0(a, gBankEgg1);
+void bbobj_applyBankEgg1Material(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sBankEgg1Model);
 }
 
-void DrawBankEgg1(u32 a, MapObject *mapObject) {
+void bbobj_renderBankEgg1(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gBankEgg1, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sBankEgg1Model, mapObject);
 }
 
-MapObjectList *CreateBankEgg1DrawList(void) {
-    return CreateMapObjectDrawList2(CreateBankEgg1, DrawBankEgg1, SetupDrawBankEgg1);
+MapObjectList *bbobj_setupBankEgg1RenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadBankEgg1Model, bbobj_renderBankEgg1, bbobj_applyBankEgg1Material);
 }
 
-void CreateMiniDokan(void *a) {
-    gMiniDokan = CreateMapObjectModelNsbmd(a, "mini_dokan.nsbmd");
-    SetMapObjectModelPolygonId(gMiniDokan, 0x3f);
+void bbobj_loadMiniDokanModel(void *a) {
+    bbobj_sMiniDokanModel = mobj_loadBillboardModel(a, "mini_dokan.nsbmd");
+    mobj_setModelPolygonIdAll(bbobj_sMiniDokanModel, 0x3f);
 }
 
-void SetupDrawMiniDokan(void *a) {
-    func_0209bbd0(a, gMiniDokan);
+void bbobj_applyMiniDokanMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, bbobj_sMiniDokanModel);
 }
 
-void DrawMiniDokan(u32 a, MapObject *mapObject) {
+void bbobj_renderMiniDokan(u32 a, MapObject *mapObject) {
     MtxFx43 *matrix;
     u32 v2;
     v2 = 0x1e;
-    func_01ff9048(0x14, &v2, 1);
-    matrix = func_020e6cbc(&mapObject->mPos);
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &mapObject->mScale, 3);
-    DrawMapObjectModelWithPos(a, gMiniDokan, mapObject);
+    NNS_G3dGeBufferOP_N(0x14, &v2, 1);
+    matrix = bbm_getYBillboardAtPos(&mapObject->mPos);
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &mapObject->mScale, 3);
+    mobj_renderModelInPlace(a, bbobj_sMiniDokanModel, mapObject);
 }
 
-MapObjectList *CreateMiniDokanDrawList(void) {
-    return CreateMapObjectDrawList2(CreateMiniDokan, DrawMiniDokan, SetupDrawMiniDokan);
+MapObjectList *bbobj_setupMiniDokanRenderPart(void) {
+    return mobj_createRenderPart2d(bbobj_loadMiniDokanModel, bbobj_renderMiniDokan, bbobj_applyMiniDokanMaterial);
 }

@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_020d3000.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-void InitShineBattleObjects(MapObject *a);
+void shinc_init(MapObject *a);

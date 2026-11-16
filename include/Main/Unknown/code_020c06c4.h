@@ -37,5 +37,5 @@ typedef struct RaceHudOamBuffer {
     /* 400 */ u16 mOamCount;
 } RaceHudOamBuffer;
 
-void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation);
-void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation);
+void mpicn_renderMObjIcon(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation);
+void mpicn_20C06C4(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation);

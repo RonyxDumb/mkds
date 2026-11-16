@@ -28,12 +28,12 @@
 #include "code_02147cd8.h"
 #include "code_02148538.h"
 
-void InitFlipper(Flipper *flipper) {
+void flip_init(Flipper *flipper) {
     flipper->mUnk_00.mFlags = flipper->mUnk_00.mFlags | data_0215658c;
-    RefreshMapObjectMatrixFromHitNormal(flipper);
+    mobj_setDirectionFromFloor(flipper);
 }
 
-u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
+u32 flip_onDriverCollide(Flipper *flipper, Kart *kart, void *b, u8 *c) {
     u32 v;
     BOOL t;
     s32 f;
@@ -64,7 +64,7 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
             flipper->mUnk_00.mUnk_10.y = ((s64) e->y * f) >> 12;
             flipper->mUnk_00.mUnk_10.z = ((s64) e->z * f) >> 12;
             flipper->mUnk_00.mDistanceSquaredAndFlags = flipper->mUnk_00.mDistanceSquaredAndFlags | data_02156588;
-            func_020d26ec(kart, 0x1d1);
+            mobj_driverEmitSfx2(kart, 0x1d1);
         }
         if (flipper->mUnk_ec8 != 0) {
             return 0xe;
@@ -77,14 +77,14 @@ u32 CollideKartWithFlipper(Flipper *flipper, Kart *kart, void *b, u8 *c) {
     return v;
 }
 
-u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
+u32 flip_collide(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
     s32 r;
 
     flipper->mUnk_a0 = 0;
-    if (ComputeSphereHitOnRotatedBox(
+    if (col_collideSphereBox(
             sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
             &data_0215650c[flipper->mMirror], &data_0215653c[flipper->mMirror], b, NULL) != 0) {
-        r = ComputeSphereHitOnRotatedBox(
+        r = col_collideSphereBox(
             sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
             &data_02156554[flipper->mMirror], &data_021564dc[flipper->mMirror], b, pushOut);
         if (r == 4 || flipper->mState == 2) {
@@ -93,10 +93,10 @@ u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
             flipper->mUnk_a0 = -1;
         }
     } else {
-        if (ComputeSphereHitOnRotatedBox(
+        if (col_collideSphereBox(
                 sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0],
                 &data_021564c4[flipper->mMirror], &data_02156524[flipper->mMirror], b, NULL) != 0) {
-            r = ComputeSphereHitOnRotatedBox(
+            r = col_collideSphereBox(
                 sphereCenter, &flipper->mUnk_00.mPos, &flipper->mUnk_648[flipper->mUnk_ec0].mUnk_00[0],
                 &data_0215656c[flipper->mMirror], &data_021564f4[flipper->mMirror], b, pushOut);
             if (r == 4 || flipper->mState == 3) {
@@ -105,7 +105,7 @@ u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
                 flipper->mUnk_a0 = 1;
             }
         } else {
-            r = ComputeSphereHitOnRotatedCylinder(sphereCenter, &flipper->mUnk_00.mPos,
+            r = col_collideSphereCylinder(sphereCenter, &flipper->mUnk_00.mPos,
                                                   &flipper->mUnk_a8[flipper->mUnk_ec0].mUnk_00[0], 0x32000, 0x3c000, 0,
                                                   b, pushOut);
         }
@@ -113,36 +113,36 @@ u32 func_02097ed0(Flipper *flipper, Vec3 *sphereCenter, s32 b, Vec3 *pushOut) {
     return r != 0;
 }
 
-void CreateFlipper(void *a) {
-    gFlipper = CreateMapObjectModelAnimated(a, gFlipperNsbmdName);
-    CreateMapObjectModelNsbtpAnimation(gFlipper, gFlipperNsbtpName);
-    CreateMapObjectModelNsbtaAnimation(gFlipper, gFlipperNsbtaName);
+void flip_loadModel(void *a) {
+    flip_sModel = mobj_loadModel(a, aFlipper_nsbmd);
+    mobj_loadNsbtpAnim(flip_sModel, aFlipper_nsbtp);
+    mobj_loadNsbtaAnim(flip_sModel, aFlipper_nsbta);
 }
 
-void DrawFlipper(void *a, Flipper *flipper) {
+void flip_render(void *a, Flipper *flipper) {
     s32 v;
     MtxFx43 *matrix;
     ModelAnimation *s;
 
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     matrix = &flipper->mUnk_a8[flipper->mUnk_ec0];
     matrix->mUnk_00[3].x = flipper->mUnk_00.mPos.x >> 4;
     matrix->mUnk_00[3].y = flipper->mUnk_00.mPos.y >> 4;
     matrix->mUnk_00[3].z = flipper->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, matrix, 0xc);
-    func_01ff9048(0x1b, &flipper->mUnk_00.mScale, 3);
-    SetMapObjectModelMirror(gFlipper, flipper->mMirror, 0);
-    s = gFlipper->mAnimations[1];
+    NNS_G3dGeBufferOP_N(0x19, matrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &flipper->mUnk_00.mScale, 3);
+    mobj_setModelFlip(flip_sModel, flipper->mMirror, 0);
+    s = flip_sModel->mAnimations[1];
     s->mFrameIndex = flipper->mNsbtpFrameIndex << 12;
     s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mFrameIndex;
-    s = gFlipper->mAnimations[3];
+    s = flip_sModel->mAnimations[3];
     s->mFrameIndex = flipper->mNsbtaFrameIndex << 12;
     s->mAnmObjs[s->mCurrentIndex]->mFrame = s->mFrameIndex;
-    DrawMapObjectModel(a, gFlipper, flipper);
+    mobj_renderModel(a, flip_sModel, flipper);
 }
 
-void InitFlipperObjects(MapObjectList *mapObjectList) {
+void flip_globalLogicInit(MapObjectList *mapObjectList) {
     s32 i;
     s32 j;
     s32 v1;
@@ -189,7 +189,7 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             }
             e = e - d;
             k = (u16) e >> 4;
-            MTX_RotY33_(m1, gPairsByAngle[k * 2], gPairsByAngle[k * 2 + 1]);
+            MTX_RotY33_(m1, FX_SinCosTable_[k * 2], FX_SinCosTable_[k * 2 + 1]);
             q = &flipper->mUnk_a8[j];
             MTX_Concat33(m1, &flipper->mUnk_00.mMatrix.mUnk_00[0].x, &q->mUnk_00[0].x);
             MTX_Concat33(m2, &q->mUnk_00[0].x, &flipper->mUnk_648[j].mUnk_00[0].x);
@@ -199,23 +199,23 @@ void InitFlipperObjects(MapObjectList *mapObjectList) {
             if (flipper->mMirror == 0) {
                 k = (u16) (-e + FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x + (s32) (((s64) v1 * gPairsByAngle[k * 2 + 1]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.x + (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z + (s32) (((s64) v1 * gPairsByAngle[k * 2]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.z + (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
             } else {
                 k = (u16) (-e - FX_Atan2Idx(-2, -10)) >> 4;
                 flipper->mUnk_d50[j].x =
-                    (flipper->mUnk_00.mPos.x - (s32) (((s64) v1 * gPairsByAngle[k * 2 + 1]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.x - (s32) (((s64) v1 * FX_SinCosTable_[k * 2 + 1]) >> 12)) >> 4;
                 flipper->mUnk_d50[j].y = flipper->mUnk_00.mPos.y >> 4;
                 flipper->mUnk_d50[j].z =
-                    (flipper->mUnk_00.mPos.z - (s32) (((s64) v1 * gPairsByAngle[k * 2]) >> 12)) >> 4;
+                    (flipper->mUnk_00.mPos.z - (s32) (((s64) v1 * FX_SinCosTable_[k * 2]) >> 12)) >> 4;
             }
         }
     }
 }
 
-void UpdateFlipper(void *a, Flipper *flipper) {
+void flip_update(void *a, Flipper *flipper) {
     s32 i;
     s32 kartCount;
     RandomState64 *mapObjectRandom;
@@ -225,7 +225,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
     flipper->mUnk_ebc = flipper->mUnk_ebc - (flipper->mUnk_ebc > 0);
     switch (flipper->mState) {
         case 0:
-            flipper->mUnk_ed0 = StartEffect(0x5f, &flipper->mUnk_00.mPos);
+            flipper->mUnk_ed0 = ptcm_createEmitter(0x5f, &flipper->mUnk_00.mPos);
             flipper->mState = 1;
             break;
         case 1:
@@ -259,7 +259,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
             flipper->mUnk_ec0 = flipper->mUnk_ec0 - 1;
             if (flipper->mUnk_ec0 <= 0) {
                 flipper->mUnk_ec0 = 0;
-                mapObjectRandom = GetMapObjectRandom();
+                mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 r = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
@@ -293,7 +293,7 @@ void UpdateFlipper(void *a, Flipper *flipper) {
             flipper->mUnk_ec0 = flipper->mUnk_ec0 - 2;
             if (flipper->mUnk_ec0 <= 0) {
                 flipper->mUnk_ec0 = 0;
-                mapObjectRandom = GetMapObjectRandom();
+                mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 r = ((u64) (u32) (mapObjectRandom->mValue >> 32) * 12) >> 32;
@@ -304,24 +304,24 @@ void UpdateFlipper(void *a, Flipper *flipper) {
     }
     if (flipper->mUnk_ec8 != 0 && (flipper->mUnk_00.mFlags & 0x12) == 0) {
         w = flipper->mNsbtpFrameIndex + 1;
-        if (w >= GetMapObjectModelNsbtpFrameCount(gFlipper)) {
+        if (w >= mobj_getModelNsbtpFrameCount(flip_sModel)) {
             w = 1;
         }
         flipper->mNsbtpFrameIndex = w;
         w = flipper->mNsbtaFrameIndex + 1;
-        if (w >= GetMapObjectModelNsbtaFrameCount(gFlipper)) {
+        if (w >= mobj_getModelNsbtaFrameCount(flip_sModel)) {
             w = 1;
         }
         flipper->mNsbtaFrameIndex = w;
         flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 0;
-        SPLUtil_SetCylinderEmitterDir(flipper->mUnk_ed0, &flipper->mUnk_be8[flipper->mUnk_ec0],
+        spa_setCylinderEmitterDirection(flipper->mUnk_ed0, &flipper->mUnk_be8[flipper->mUnk_ec0],
                                       &flipper->mUnk_d50[flipper->mUnk_ec0]);
     } else {
         flipper->mNsbtpFrameIndex = 0;
         flipper->mNsbtaFrameIndex = 0;
         flipper->mUnk_ed0->mUnk_24.mUnk_00_1 = 1;
     }
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = gRaceMultiConfig->mKartCount;
     for (i = 0; i < kartCount; i++) {
         if (flipper->mUnk_ed4[i] > 0) {
             flipper->mUnk_ed4[i] = flipper->mUnk_ed4[i] - 1;
@@ -329,14 +329,14 @@ void UpdateFlipper(void *a, Flipper *flipper) {
     }
 }
 
-void CreateFlipperKindData(void) {
-    func_0209bf70(CollideKartWithFlipper, NULL, func_02097ed0, 0, 1, 0x1d0);
+void flip_setupConfig(void) {
+    mobj_createConfigEx(flip_onDriverCollide, NULL, flip_collide, 0, 1, 0x1d0);
 }
 
-void *CreateFlipperDrawList(void) {
-    return CreateMapObjectDrawList1(CreateFlipper, DrawFlipper, NULL);
+void *flip_setupRenderPart(void) {
+    return mobj_createRenderPart3d(flip_loadModel, flip_render, NULL);
 }
 
-void *CreateFlipperUpdateList(void) {
-    return CreateMapObjectUpdateList(InitFlipperObjects, UpdateFlipper, NULL);
+void *flip_setupLogicPart(void) {
+    return mobj_createLogicPart(flip_globalLogicInit, flip_update, NULL);
 }

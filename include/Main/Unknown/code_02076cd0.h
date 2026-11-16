@@ -22,30 +22,30 @@ typedef struct Unk02077750 {
 } Unk02077750;
 
 // Declared here until the code that defines them is decompiled.
-extern const char data_02165714[];
+extern const char aEmblem_s_b_ncl[];
 
-void UpdateCameraView(Camera *camera);
-void UpdateCameraViewWithWorldUp(Camera *camera);
-void RefreshCameraProjection(Camera *camera);
-void SetupCamera(Camera *camera);
-// Allocates gFirstChainCamera (0x270 bytes), sets gSecondChainCamera to NULL, runs SetupCamera, sets mKind 2, starts it
+void cam_updateLookAtEx(Camera *camera);
+void cam_updateLookAt(Camera *camera);
+void cam_updateFrustum(Camera *camera);
+void cam_init(Camera *camera);
+// Allocates cam_sIntroCameraTop (0x270 bytes), sets cam_sIntroCameraBottom to NULL, runs cam_init, sets mKind 2, starts it
 // at CourseMap.mFirstChainStartEntry and sets up its mPosCurve when the entry has a group. With no entry it sets
-// gRaceProgress->mUnk_4d0 to 1 and returns. InitRace calls it when gRaceSetup->mUnk_00c is 4.
-void CreateFirstChainCamera(void);
-// Allocates gFirstChainCamera and gSecondChainCamera (0x270 bytes each), runs SetupCamera on both, sets mKind 2, starts
+// gRaceStatus->mUnk_4d0 to 1 and returns. race_init calls it when gRaceMultiConfig->mUnk_00c is 4.
+void cam_setupIntroCamSingle(void);
+// Allocates cam_sIntroCameraTop and cam_sIntroCameraBottom (0x270 bytes each), runs cam_init on both, sets mKind 2, starts
 // them at CourseMap.mFirstChainStartEntry and mSecondChainStartEntry and sets up their mPosCurve when the entries have
-// a group. With no first entry it sets gRaceProgress->mUnk_4d0 to 1 and returns. InitRace calls it when
-// gRaceSetup->mUnk_00c is 3 or 5.
-void CreateChainCameraPair(void);
-void func_02077750(Unk02077750 *a, CourseMapCamera *courseMapCamera);
-void CreateEntryCamera(u32 followedKartIndex);
-// Allocates the chase camera (gChaseCamera), sets it up behind the selected Kart (SetupCameraBehindKart), keeps that
+// a group. With no first entry it sets gRaceStatus->mUnk_4d0 to 1 and returns. race_init calls it when
+// gRaceMultiConfig->mUnk_00c is 3 or 5.
+void cam_setupIntroCamDouble(void);
+void cam_2077750(Unk02077750 *a, CourseMapCamera *courseMapCamera);
+void cam_20777AC(u32 followedKartIndex);
+// Allocates the chase camera (cam_sPlayerCamera), sets it up behind the selected Kart (cam_resetPlayerCamera), keeps that
 // Kart's forward vector in mSavedKartForward and refreshes the projection.
-void CreateChaseCamera(void);
-void func_02077998(void);
+void cam_setupPlayerCamera(void);
+void cam_setupRaceParams(void);
 void LoadEmblemSBNclr(void *a);
 u16 GetKartListCount(void);
 u16 func_02077a5c(void);
 BOOL func_02077a70(s32 *characterIndex, u32 kartIndex);
 void ClearKartModelMenuRequests(void);
-void QueueKartModelMenuLoad(void);
+void SPM_2077B3C(void);

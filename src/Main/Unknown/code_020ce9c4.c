@@ -6,9 +6,9 @@
 
 #pragma thumb on
 
-void WriteVsSelectKartRegisters(void) {
+void menu_state9Vblank(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = menu_getField4();
     if (screenChanged != 0) {
         GxDispCntBits8To12Write(0xb);
         GX_SetGraphicsMode(1, 0, 1);

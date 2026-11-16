@@ -16,7 +16,7 @@
 #include "Main/Unknown/code_020d278c.h"
 #include "Main/Unknown/unk_02156000.h"
 
-void func_02099278(u32 mapObject) {
+void pknf_init(u32 mapObject) {
     u32 addedFlagsAddress = ((u32) (&data_02156598));
     u32 flags = (*(u16 *) ((mapObject) + (2)));
     u32 addedFlags = (*(u16 *) ((addedFlagsAddress) + (0)));
@@ -24,11 +24,11 @@ void func_02099278(u32 mapObject) {
     u32 v7;
     u32 v9;
     *(u16 *) ((mapObject) + (2)) = newFlags;
-    ParkMapObject((void *) mapObject);
-    CreateMapObjectSoundSourceFalloff2((MapObject *) mapObject);
+    mobj_setInvisible((void *) mapObject);
+    mobj_initSoundEmitterForObjectSfxParam2((MapObject *) mapObject);
 }
 
-u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
+u32 pknf_onDriverCollide(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
     u32 v1 = *c;
     u8 result = *d;
     if (v1 == 1) {
@@ -37,12 +37,12 @@ u32 func_02099208(Unk0209905c *a, Kart *kart, u8 *c, u8 *d) {
         if (kart->mItemEffect == 1 || kart->mItemEffect == 3) {
             a->mUnk_00.mDistanceSquaredAndFlags = a->mUnk_00.mDistanceSquaredAndFlags | data_02156594;
         }
-        StartSoundIfKartStarOrKiller(&a->mUnk_00, kart);
+        mobj_tryDestroyByDriver(&a->mUnk_00, kart);
     }
     return result;
 }
 
-void func_0209905c(void *a, Unk0209905c *p) {
+void pknf_update(void *a, Unk0209905c *p) {
     s32 falloffIndex;
     Unk0210b7a8 soundRequest;
     Unk0209905c_d0_08 *entry;
@@ -54,9 +54,9 @@ void func_0209905c(void *a, Unk0209905c *p) {
                 p->mHeightOffset = 0;
                 p->mUnk_c8 = 0x5800;
                 if ((p->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (p->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                         falloffIndex = 2;
-                    } else if (p->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (p->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                         falloffIndex = 3;
                     } else {
                         falloffIndex = 4;
@@ -64,14 +64,14 @@ void func_0209905c(void *a, Unk0209905c *p) {
                     soundRequest.mSoundId = 0x1af;
                     soundRequest.mPositionSource = &p->mUnk_00.mPos;
                     soundRequest.mUnk_08 = falloffIndex;
-                    soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_00.mPos);
+                    soundRequest.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_00.mPos);
                     func_0210b7a8(&soundRequest);
                 }
             }
-            if (AdvanceGroupFollower(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {
+            if (pw_update(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {
                 p->mState = 1;
             } else {
-                GetGroupFollowerLinearPosStep(&p->mFollower, &p->mUnk_00.mPos, &p->mUnk_00.mUnk_10);
+                pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->mUnk_00.mPos, &p->mUnk_00.mUnk_10);
                 p->mUnk_00.mPos.y = p->mUnk_00.mPos.y + (p->mHeightOffset + 0xf000);
             }
             if (p->mEmitter == NULL) {
@@ -81,7 +81,7 @@ void func_0209905c(void *a, Unk0209905c *p) {
                 p->mEmitter->mUnk_24 |= 2;
                 return;
             }
-            PlaceEffect(p->mEmitter, &p->mUnk_00.mPos);
+            ptcm_setEmitterPosition(p->mEmitter, &p->mUnk_00.mPos);
             p->mEmitter->mUnk_24 &= ~2;
             return;
         case 1:
@@ -89,13 +89,13 @@ void func_0209905c(void *a, Unk0209905c *p) {
                 for (entry = p->mEmitter->mUnk_08; entry != NULL; entry = entry->mUnk_00) {
                     entry->mUnk_26 = entry->mUnk_24;
                 }
-                func_0208b6b0((void **) &p->mEmitter);
+                ptcm_killEmitter((void **) &p->mEmitter);
             }
-            ParkMapObject(&p->mUnk_00);
+            mobj_setInvisible(&p->mUnk_00);
             return;
     }
 }
 
-void func_02099020(void) {
-    func_0209bf70(&func_02099208, NULL, NULL, 1, 1, (0x0000018du));
+void pknf_setupConfig(void) {
+    mobj_createConfigEx(&pknf_onDriverCollide, NULL, NULL, 1, 1, (0x0000018du));
 }

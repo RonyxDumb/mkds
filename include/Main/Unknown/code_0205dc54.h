@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 CreateCupRecords(void *heap);
+u32 rres_init(void *heap);

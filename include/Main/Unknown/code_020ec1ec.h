@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void AdvanceWoodbox1(u32 unused, u32 woodbox);
+void wbox_update(u32 unused, u32 woodbox);

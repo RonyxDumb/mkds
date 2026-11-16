@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteSelectGameRegisters(void);
+void menu_state14Vblank(void);

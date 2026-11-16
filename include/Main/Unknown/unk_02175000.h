@@ -10,8 +10,8 @@
 #include "pm.h" // PMSleepCallbackInfo
 #include "Main/Unknown/code_02105ec0.h" // SoundSetPlayer
 
-// Object behind data_021759d0 (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
-// data_0217aa08.
+// Object behind gSystemData (0x7c bytes); the 0x14 bytes at 0x2a are the source of a block move into
+// gSaveData.
 typedef struct Unk021759d0 {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mLanguageIndex;
@@ -44,21 +44,21 @@ typedef struct Unk021759d0 {
     /* 78 */ s32 mUnk_78;
 } Unk021759d0;
 
-// The callbacks of one scene (0x20 bytes). RunScene copies it to mSceneCallbacks and calls mInit
+// The callbacks of one scene (0x20 bytes). scene_runScene copies it to mSceneCallbacks and calls mInit
 // once, then mUpdate and the unnamed slot 0x0c every frame, then mRelease once. 0x0c is the second
 // per-frame slot (it runs after mUpdate in the same pass and mostly copies the two 2D lists). 0x10
-// and 0x14 are called from two library callbacks registered in InitSceneRunState; 0x18 and 0x1a are
-// fade lengths passed to StartFadeToClear / StartFadeToFadedPositive; 0x1c is a flag for func_02037658; all stay
-// unnamed. One instance per scene (the 16 entries of gSceneFuncs): seven tables are named, the
+// and 0x14 are called from two library callbacks registered in scene_init; 0x18 and 0x1a are
+// fade lengths passed to mbright_fadeIn / mbright_fadeToWhite; 0x1c is a flag for dc_2037658; all stay
+// unnamed. One instance per scene (the 16 entries of scproc_sSceneTable): seven tables are named, the
 // others are unnamed tables or stack literals.
 typedef struct SceneCallbacks {
     // Called once before the scene's frames with the scene numbers. Allocates the scene's objects
-    // from the scene heap (the heap of RunScenes' frame, destroyed when the scene ends).
+    // from the scene heap (the heap of scproc_sceneProcMain' frame, destroyed when the scene ends).
     /* 00 */ void (*mInit)();
     // One per-frame step, called every pass of the update loops and of the fade-out loop (then with
     // a == NULL), with the scene numbers and mSceneFrames. A second per-frame slot (0x0c) runs
     // after it. Scenes write their next scene into a->mNextScene here; the Menu scene does not
-    // (RunScene ends it).
+    // (scene_runScene ends it).
     /* 04 */ void (*mUpdate)();
     // Called once after the loops. Calls the scene's undo functions and clears the scene's globals;
     // it frees nothing by itself except in the WiFi scene (the heap of ReleasePlayerEntryList): the scene
@@ -72,7 +72,7 @@ typedef struct SceneCallbacks {
     /* 1c */ int mUnk_1c;
 } SceneCallbacks;
 
-// Object behind gSceneRunState.
+// Object behind scene_sSceneState.
 typedef struct SceneRunState {
     /* 000 */ void *mThreadStack;
     /* 004 */ OSThread mThread;
@@ -80,13 +80,13 @@ typedef struct SceneRunState {
     /* 0c4 */ OSThreadQueue mThreadQueue;
     /* 0cc */ PMSleepCallbackInfo mPreSleepCallback;
     /* 0d8 */ PMSleepCallbackInfo mPostSleepCallback;
-    // Passes of RunScene's update loop and fade-out loop since they began (RunScene zeroes it at
+    // Passes of scene_runScene's update loop and fade-out loop since they began (scene_runScene zeroes it at
     // :192 and :376); not counted while func_020487fc_inline6 is true (mode 5 with a flag, or the
-    // data_0217aa00 flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
+    // gStruct217AA00 flag tests). Only the Race slots use it (kind 6: the first 0x708 frames,
     // thresholds 0x5a ...).
     /* 0e4 */ s32 mSceneFrames;
     /* 0e8 */ s32 mPassCount;
-    // Copy of the running scene's SceneCallbacks, written once by RunScene; slots 0x10 / 0x14 and
+    // Copy of the running scene's SceneCallbacks, written once by scene_runScene; slots 0x10 / 0x14 and
     // the fade lengths are read from it (code_0204984c.c:125, :132, :431-438).
     /* 0ec */ SceneCallbacks mSceneCallbacks;
     /* 10c */ s32 mUnk_10c;
@@ -116,7 +116,7 @@ typedef struct G3xParams {
     /* 03 */ u8 mSwapBit1;
 } G3xParams;
 
-// Object behind gDisplaySettings.
+// Object behind gCurDisplayConfig.
 typedef struct DisplaySettings {
     /* 00 */ u16 mWaitIrqCount;
     /* 02 */ u16 mMainDisplayMask;
@@ -162,7 +162,7 @@ typedef struct DisplaySettings {
 } DisplaySettings;
 
 // Objects whose layout isn't known yet.
-extern DisplaySettings *gDisplaySettings;
+extern DisplaySettings *gCurDisplayConfig;
 extern InputSlot data_021755dc;
 // Set from the start of a race; recording and playback slots read keys only while set.
 #define INPUT_STATE_READ_RACE_KEYS 2
@@ -177,8 +177,8 @@ typedef struct InputState {
     /* 0c */ BOOL mUnk_0c;
 } InputState;
 
-extern InputState *data_02175624;
-// 0x5c-byte entries; AdvanceKartToKeyedPlacement writes the halfword at 0x00 of entry Kart.mEntryIndex.
+extern InputState *input_sPadData;
+// 0x5c-byte entries; driver_handleCannon writes the halfword at 0x00 of entry Kart.mEntryIndex.
 typedef struct Unk0217566a {
     /* 00 */ u16 mBitMask;
     /* 02 */ u8 mUnk_02[0x5a];
@@ -267,9 +267,9 @@ typedef struct Unk021759c8 {
     /* a80 */ NNSiFndHeapHead *mUnk_a80;
 } Unk021759c8;
 
-extern Unk021759c8 *data_021759c8;
-extern SceneRunState *gSceneRunState;
-extern Unk021759d0 *data_021759d0;
+extern Unk021759c8 *gArcData;
+extern SceneRunState *scene_sSceneState;
+extern Unk021759d0 *gSystemData;
 
 // Object at gFileReadThread: 0x400 bytes (the end of them is the top of the stack of the OSThread) and two words.
 typedef struct FileReadThread {
@@ -284,13 +284,13 @@ extern FileReadThread gFileReadThread;
 extern vu16 data_021758e8[];
 extern vu16 data_02175928[];
 extern u8 data_02175dd8[];
-// Object at data_02175614: a word and a function pointer.
+// Object at gVramWvrStatus: a word and a function pointer.
 typedef struct WvrState {
     /* 00 */ volatile s32 mUnk_00;
     /* 04 */ s32 (*mCallback)();
 } WvrState;
 
-extern WvrState data_02175614;
+extern WvrState gVramWvrStatus;
 
 // Eight halfwords at data_02175604: two groups of four.
 typedef struct Unk021755e4 {
@@ -306,7 +306,7 @@ typedef struct Unk021755e4 {
 
 extern Unk021755e4 data_02175604;
 
-// Object func_0204a620 to StartKeyRecording take: a buffer, two halfword counters and two words. The buffer holds a
+// Object irec_isAlmostAtPlayBufferEnd to irec_startRecording take: a buffer, two halfword counters and two words. The buffer holds a
 // word at 0x00 and byte pairs from 0x04; its size is 0xdcc bytes.
 extern KeyRecording data_02175650[];
 
@@ -319,7 +319,7 @@ typedef struct RomArchiveParentViewEntry {
     /* 08 */ u8 *mUnk_08;
 } RomArchiveParentViewEntry;
 
-// Nine bytes that SendRomArchiveMessage builds on the stack and passes to RequestSendBytes: two four-bit parts, a
+// Nine bytes that WFSi_SendAck builds on the stack and passes to RequestSendBytes: two four-bit parts, a
 // 24-bit part, a word and a byte.
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;

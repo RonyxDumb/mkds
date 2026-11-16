@@ -6,12 +6,12 @@
 #include "Main/Unknown/code_021000d0.h"
 
 #pragma thumb on
-void SetEmblemChoisesShownAndReset(u32 shown) {
-    gEmblemChoises->mShown = shown;
-    ResetEmblemChoisesState();
+void echoi_setMenuVisible(u32 shown) {
+    echoi_sState->mShown = shown;
+    echoi_resetSelectedOption();
 }
 #pragma thumb off
 
-s32 CreateRaceHudSubScreenShine16Cells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenShine16Cells, MAP_OBJECT_KIND_SHINE16);
+s32 mpicn_createShine16Icon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sShine16Icon, MAP_OBJECT_KIND_SHINE16);
 }

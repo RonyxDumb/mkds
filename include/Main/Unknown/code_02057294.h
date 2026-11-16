@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void ClearMissionRecordBlock(void);
-void ClearCourseTimeRecordBlock(void);
-void ClearGrandPrixRecordBlock(void);
-void ClearEmblemRecord(void);
+void savd_initNkmr(void);
+void savd_initNkta(void);
+void savd_initNkgp(void);
+void savd_initNkem(void);

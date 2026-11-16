@@ -16,16 +16,16 @@
 #include "Main/Unknown/code_020d411c.h"
 #include "Main/Unknown/unk_0217a000.h"
 
-u32 func_0205e2b8(void) {
+u32 area_finalizeMissionRivalPassAreas(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) &data_0217aa24;
+    value0 = (u32) &area_sMissionRivalPassAreaStatus;
     value1 = 0u;
     *(u32 *) ((value0) + (0)) = value1;
     return value0;
 }
 
-s32 func_0205e1c4(void) {
+s32 area_updateMissionRivalPassAreas(void) {
     BOOL result = FALSE;
     u16 i = 0;
     ShapeMapObjectCount *entry;
@@ -33,13 +33,13 @@ s32 func_0205e1c4(void) {
     s32 mapObjectCount;
     u16 j;
     u8 insideCount;
-    for (i = 0; i < data_0217aa24->mEntryCount; i++) {
-        entry = &data_0217aa24->mEntries[i];
-        courseMapShape = GetCourseMapShape(entry->mShapeIndex);
-        mapObjectCount = FindMapObjectsOfKindInRadius(&courseMapShape->mPos, entry->mRadius, courseMapShape->mUnk_3c);
+    for (i = 0; i < area_sMissionRivalPassAreaStatus->mEntryCount; i++) {
+        entry = &area_sMissionRivalPassAreaStatus->mEntries[i];
+        courseMapShape = mdat_getAreaEntryByIndex(entry->mShapeIndex);
+        mapObjectCount = mobj_queryBySphere(&courseMapShape->mPos, entry->mRadius, courseMapShape->mUnk_3c);
         insideCount = 0;
         for (j = 0; j < mapObjectCount; j++) {
-            if (IsPosInCourseMapShape(&GetFoundMapObject(j)->mPos, courseMapShape) != 0) {
+            if (mdat_isPointInsideArea(&mobj_getQueryResult(j)->mPos, courseMapShape) != 0) {
                 insideCount = insideCount + 1;
             }
         }
@@ -55,53 +55,53 @@ s32 func_0205e1c4(void) {
     return result;
 }
 
-void CreateRunScenesState(void *heap) {
-    gRunScenesState = HeapAlloc(heap, 0x10);
-    gRunScenesState->mUnk_00 = 0;
-    gRunScenesState->mUnk_04 = 3;
-    gRunScenesState->mSndHeapsBuffer = NULL;
+void scproc_init(void *heap) {
+    scproc_sSceneProc = heap_alloc(heap, 0x10);
+    scproc_sSceneProc->mUnk_00 = 0;
+    scproc_sSceneProc->mUnk_04 = 3;
+    scproc_sSceneProc->mSndHeapsBuffer = NULL;
 }
 
-void func_0205e0b0(void) {
+void scproc_overlay_205E0B0(void) {
     void *h;
     s32 m;
-    h = GetHeap(GetCurrentHeapCall());
-    switch (gRunScenesState->mUnk_00) {
+    h = proc_getHeap(proc_getCurrent());
+    switch (scproc_sSceneProc->mUnk_00) {
         case 0:
             if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
                 m = 2;
             } else {
                 m = 0;
-                StartLoadOverlay(1);
-                FinishOverlayLoad();
+                overlay_beginLoad(1);
+                overlay_finishLoad();
             }
             InitConnectionBuffers(h);
             break;
         case 1:
             m = 1;
-            StartLoadOverlay(0);
-            FinishOverlayLoad();
+            overlay_beginLoad(0);
+            overlay_finishLoad();
             CreateWiFiSessionHeap(h);
             break;
     }
     if (m == 2) {
         return;
     }
-    h = HeapAlloc(h, GetSndHeapsBufferSize(m));
+    h = heap_alloc(h, sound_getSomeSize2(m));
     CreateSndHeaps(m, (u32) h);
-    gRunScenesState->mSndHeapsBuffer = h;
+    scproc_sSceneProc->mSndHeapsBuffer = h;
 }
 
-int GetCurrentSceneNumber(void) {
+int scproc_getCurrentScene(void) {
     u32 value0;
-    value0 = (u32) &gSceneNumbers;
+    value0 = (u32) &scproc_sSceneManager;
     value0 = *(const s16 *) ((value0) + (2));
     return value0;
 }
 
-u32 GetNextSceneNumber(void) {
+u32 scproc_getNextScene(void) {
     u32 value0;
-    value0 = (u32) &gSceneNumbers;
+    value0 = (u32) &scproc_sSceneManager;
     value0 = *(const s16 *) ((value0) + (4));
     return value0;
 }

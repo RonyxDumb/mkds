@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitRecordScene(s16 *sceneNumbers);
+void recordsMenu_onCreate(s16 *sceneNumbers);

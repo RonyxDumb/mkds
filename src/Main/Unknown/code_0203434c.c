@@ -64,7 +64,7 @@
 #pragma thumb on
 
 static inline s32 func_02034370_inline(void) {
-    BackupAccess *p = gBackupAccess;
+    BackupAccess *p = gSaveCore;
     if (p->mBackupEnabled != 0) {
         return p->mCommandRunning;
     }
@@ -72,7 +72,7 @@ static inline s32 func_02034370_inline(void) {
 }
 
 static inline s32 func_02034370_inline_2(void) {
-    if (data_0217aa08->mBusy == 0) {
+    if (gSaveData->mBusy == 0) {
         return func_02034370_inline();
     }
     return 1;
@@ -101,25 +101,25 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
     GhostRecordInfo ghostRecordInfo;
     u16 formattedText[0x100];
 
-    previousSelectedIndex = data_02174e64->mSelectedIndex;
-    slotIndex = func_020435bc();
+    previousSelectedIndex = sGhostReceiveState->mSelectedIndex;
+    slotIndex = input_getDirectInputUnitId();
     touchInReturnRect = 0;
     result = -1;
     rectIndex = -1;
-    subCellFileSet = &data_02174e64->mCellFileSets[1];
-    AdvanceInterpolation(&data_02174e64->mUnk_194);
-    switch (data_02174e64->mState) {
+    subCellFileSet = &sGhostReceiveState->mCellFileSets[1];
+    interp_update(&sGhostReceiveState->mUnk_194);
+    switch (sGhostReceiveState->mState) {
         case 0:
-            if (AreBrightnessFadesClear() == 0) {
+            if (mbright_isFadedIn() == 0) {
                 RequestSelectReturnState1();
                 func_02035378();
-                func_02025f14(&data_02174e64->mUnk_194, 0);
-                data_02174e64->mState = 1;
+                interp_setState(&sGhostReceiveState->mUnk_194, 0);
+                sGhostReceiveState->mState = 1;
             }
             break;
         case 1:
-            if (data_02174e64->mUnk_194.mState == 1) {
-                data_02174e64->mState = 2;
+            if (sGhostReceiveState->mUnk_194.mState == 1) {
+                sGhostReceiveState->mState = 2;
             } else {
                 func_02034fec();
             }
@@ -127,20 +127,20 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
         case 2:
             switch (AdvanceConnectionSetup(0, NULL)) {
                 case 1:
-                    SetupTxtSystemSubText(GetBmgEntry(data_02174e64->mGhostMessages, 0xf));
-                    NNS_SndArcSetCurrent(&data_0217c868);
+                    SetupTxtSystemSubText(jn_msg_getMessage(sGhostReceiveState->mGhostMessages, 0xf));
+                    NNS_SndArcSetCurrent(&SDATFile);
                     NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 9);
-                    NNS_SndArcSetCurrent(&data_0217d0a0);
-                    data_02174e64->mState = 5;
+                    NNS_SndArcSetCurrent(&gSdatFileSndArc);
+                    sGhostReceiveState->mState = 5;
                     break;
                 case 0:
-                    if (data_02174e64->mUnk_18c != FALSE) {
+                    if (sGhostReceiveState->mUnk_18c != FALSE) {
                         break;
                     }
                     if (IsTxtSystemState0NoOpenRequest() != 0) {
                         func_02035378();
                     }
-                    data_02174e64->mFilledCount = 0;
+                    sGhostReceiveState->mFilledCount = 0;
                     for (i = 0; i < 4; i++) {
                         j = i + 4;
                         if (TryGetScanGhostInfo(i, &ghostRecordInfo, &idBytes[0], &idBytes[1], &idBytes[2],
@@ -149,30 +149,30 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                             ghostRecordInfo.mUnk_18[1] = idBytes[0];
                             ghostRecordInfo.mUnk_18[0] = idBytes[1];
                             ghostRecordInfo.mUnk_18[2] = idBytes[2];
-                            data_02174e64->mFilledCount++;
-                            if (data_02174e64->mGhostInfoEntries[i].mFilled == FALSE ||
-                                AreGhostRecordInfosDifferent(&data_02174e64->mGhostInfoEntries[i].mInfo,
+                            sGhostReceiveState->mFilledCount++;
+                            if (sGhostReceiveState->mGhostInfoEntries[i].mFilled == FALSE ||
+                                AreGhostRecordInfosDifferent(&sGhostReceiveState->mGhostInfoEntries[i].mInfo,
                                                              &ghostRecordInfo) != FALSE) {
-                                courseMessageIndex = func_02025d74(ghostRecordInfo.mUnk_18[2]);
+                                courseMessageIndex = mutil2_getCourseNameGhostMsgId(ghostRecordInfo.mUnk_18[2]);
                                 ghostRecordInfo.mName[10] = 0;
-                                func_0212426c(1, data_02164254[i][0], subCellFileSet->mLabelLayout, &ghostRecordInfo,
+                                jn_ui_212426C(1, data_02164254[i][0], subCellFileSet->mLabelLayout, &ghostRecordInfo,
                                               subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-                                func_0212426c(1, data_02164254[j][0], subCellFileSet->mLabelLayout,
-                                              GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex),
+                                jn_ui_212426C(1, data_02164254[j][0], subCellFileSet->mLabelLayout,
+                                              jn_msg_getMessage(sGhostReceiveState->mGhostMessages, courseMessageIndex),
                                               subCellFileSet->mCellLayout, subCellFileSet->mCellTable);
-                                MIi_CpuCopyFast(&ghostRecordInfo, &data_02174e64->mGhostInfoEntries[i].mInfo, 0x28);
-                                data_02174e64->mGhostInfoEntries[i].mFilled = TRUE;
-                                func_02025f14(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 0);
-                                if (data_02174e64->mSelectedIndex == i) {
+                                MIi_CpuCopyFast(&ghostRecordInfo, &sGhostReceiveState->mGhostInfoEntries[i].mInfo, 0x28);
+                                sGhostReceiveState->mGhostInfoEntries[i].mFilled = TRUE;
+                                interp_setState(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation, 0);
+                                if (sGhostReceiveState->mSelectedIndex == i) {
                                     func_02034f60();
                                 }
-                                NNS_SndArcSetCurrent(&data_0217c868);
+                                NNS_SndArcSetCurrent(&SDATFile);
                                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 7);
-                                NNS_SndArcSetCurrent(&data_0217d0a0);
+                                NNS_SndArcSetCurrent(&gSdatFileSndArc);
                             }
                         } else {
-                            func_02025f14(&data_02174e64->mGhostInfoEntries[i].mInterpolation, 2);
-                            data_02174e64->mGhostInfoEntries[i].mFilled = FALSE;
+                            interp_setState(&sGhostReceiveState->mGhostInfoEntries[i].mInterpolation, 2);
+                            sGhostReceiveState->mGhostInfoEntries[i].mFilled = FALSE;
                         }
                     }
                     func_02035114();
@@ -188,41 +188,41 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                     if (pairIsNew != FALSE) {
                         pairX = data_02175670[slotIndex].mPressedBits;
                         pairY = data_02175672[slotIndex].mPressedBits;
-                        touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(pairX, pairY);
-                        rectIndex = RectTableFindContaining(subCellFileSet->mRects, pairX, pairY);
+                        touchInReturnRect = gmenu_checkSelectReturnTouch(pairX, pairY);
+                        rectIndex = jn_ui_checkTouch(subCellFileSet->mRects, pairX, pairY);
                     }
-                    if (rectIndex >= 0 && data_02174e64->mGhostInfoEntries[rectIndex].mFilled != FALSE) {
+                    if (rectIndex >= 0 && sGhostReceiveState->mGhostInfoEntries[rectIndex].mFilled != FALSE) {
                         SetupGhostSubTextTwoButtons();
-                        func_02035228(data_02174e64->mSelectedIndex != rectIndex ? 1 : 0);
-                        data_02174e64->mSelectedIndex = rectIndex;
+                        func_02035228(sGhostReceiveState->mSelectedIndex != rectIndex ? 1 : 0);
+                        sGhostReceiveState->mSelectedIndex = rectIndex;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        data_02174e64->mUnk_18c = TRUE;
-                        data_02174e64->mStateFrames = 0;
-                        data_02174e64->mState = 3;
-                    } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
-                               data_02174e64->mSelectedIndex >= 0) {
+                        sGhostReceiveState->mUnk_18c = TRUE;
+                        sGhostReceiveState->mStateFrames = 0;
+                        sGhostReceiveState->mState = 3;
+                    } else if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_A) != 0 &&
+                               sGhostReceiveState->mSelectedIndex >= 0) {
                         SetupGhostSubTextTwoButtons();
                         func_02035228(0);
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         RequestSelectReturnState4();
-                        data_02174e64->mUnk_18c = TRUE;
-                        data_02174e64->mStateFrames = 0;
-                        data_02174e64->mState = 3;
-                    } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 ||
+                        sGhostReceiveState->mUnk_18c = TRUE;
+                        sGhostReceiveState->mStateFrames = 0;
+                        sGhostReceiveState->mState = 3;
+                    } else if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_B) != 0 ||
                                touchInReturnRect != 0) {
-                        data_02174e64->mState = 12;
+                        sGhostReceiveState->mState = 12;
                         RequestSelectReturnState3WithSound(0);
-                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP)) {
-                        if (data_02174e64->mFilledCount == 2) {
+                    } else if (mutil_checkKeys(slotIndex, PAD_KEY_UP)) {
+                        if (sGhostReceiveState->mFilledCount == 2) {
                             MoveSelectedGhostUp(0);
-                        } else if (data_02174e64->mFilledCount > 2) {
+                        } else if (sGhostReceiveState->mFilledCount > 2) {
                             MoveSelectedGhostUp(1);
                         }
-                    } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN)) {
-                        if (data_02174e64->mFilledCount == 2) {
+                    } else if (mutil_checkKeys(slotIndex, PAD_KEY_DOWN)) {
+                        if (sGhostReceiveState->mFilledCount == 2) {
                             MoveSelectedGhostDown(0);
-                        } else if (data_02174e64->mFilledCount > 2) {
+                        } else if (sGhostReceiveState->mFilledCount > 2) {
                             MoveSelectedGhostDown(1);
                         }
                     }
@@ -230,29 +230,29 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 case 2:
                     break;
             }
-            if (previousSelectedIndex != data_02174e64->mSelectedIndex) {
+            if (previousSelectedIndex != sGhostReceiveState->mSelectedIndex) {
                 func_02034f60();
                 func_02034ef0();
             }
             break;
         case 3:
-            data_02174e64->mStateFrames++;
-            if (data_02174e64->mStateFrames > 5) {
+            sGhostReceiveState->mStateFrames++;
+            if (sGhostReceiveState->mStateFrames > 5) {
                 func_02035228(1);
-                data_02174e64->mStateFrames = 0;
-                data_02174e64->mState = 4;
+                sGhostReceiveState->mStateFrames = 0;
+                sGhostReceiveState->mState = 4;
             }
             break;
         case 4:
             if (GetTxtSystemDone() != 0) {
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    func_0204ece0(data_02174e64->mSelectedIndex);
+                    func_0204ece0(sGhostReceiveState->mSelectedIndex);
                 } else {
                     RequestSelectReturnState1();
-                    data_02174e64->mUnk_18c = FALSE;
+                    sGhostReceiveState->mUnk_18c = FALSE;
                 }
                 RequestTxtSystemClose();
-                data_02174e64->mState = 2;
+                sGhostReceiveState->mState = 2;
             }
             break;
         case 5:
@@ -260,7 +260,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 case 1:
                     ResetPendingFiles();
                     SetBlockEntryBuffer(0, GetSlotGhostBuffer());
-                    data_02174e64->mState = 6;
+                    sGhostReceiveState->mState = 6;
                     break;
                 case 2:
                     func_020353a4();
@@ -270,7 +270,7 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
         case 6:
             switch (AdvanceBlockReceive()) {
                 case 1:
-                    data_02174e64->mState = 7;
+                    sGhostReceiveState->mState = 7;
                     break;
                 case 2:
                     func_020353a4();
@@ -279,83 +279,83 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
             break;
         case 7:
             if (func_02054f58() == 1) {
-                func_0204f804();
-                data_02174e64->mState = 8;
+                LEDBlink_Wireless();
+                sGhostReceiveState->mState = 8;
             }
             break;
         case 12:
             if (func_02054f58() == 1) {
-                func_0204f804();
-                data_0217b488->mUnk_08 = 5;
+                LEDBlink_Wireless();
+                gStruct217B488->mUnk_08 = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                data_02174e64->mState = 16;
+                sGhostReceiveState->mState = 16;
             }
             break;
         case 8:
             if (DoesAnySlotGhostMatchCourse(
-                    data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]) != 0) {
+                    sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]) != 0) {
                 courseMessageIndex =
-                    func_02025d74(data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]);
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x55);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 0);
-                secondButtonText = GetBmgEntry(data_02174e64->mCommonMessages, 1);
-                FormatMessageWithText(GetBmgEntry(data_02174e64->mGhostMessages, courseMessageIndex), message,
+                    mutil2_getCourseNameGhostMsgId(sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]);
+                message = jn_msg_getMessage(sGhostReceiveState->mGhostMessages, 0x55);
+                buttonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 0);
+                secondButtonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 1);
+                FormatMessageWithText(jn_msg_getMessage(sGhostReceiveState->mGhostMessages, courseMessageIndex), message,
                                       formattedText, 0x100);
                 SetTxtSystemSoundId(0, -1);
-                SetupTxtSystemSubTextTwoButtonsEx(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
-                data_02174e64->mState = 9;
-            } else if (GetSlotGhostCount() == 10) {
+                CreateSubMessageBoxSubYesNo(formattedText, buttonText, secondButtonText, 1, 0, 1, 1, 0);
+                sGhostReceiveState->mState = 9;
+            } else if (ghost_getDlGhostCount() == 10) {
                 RequestTxtSystemClose();
-                data_02174e64->mNextCallbacksIndex = 2;
-                data_02174e64->mState = 13;
-                func_02025f14(&data_02174e64->mUnk_194, 2);
+                sGhostReceiveState->mNextCallbacksIndex = 2;
+                sGhostReceiveState->mState = 13;
+                interp_setState(&sGhostReceiveState->mUnk_194, 2);
             } else {
-                data_02174e64->mGhostSlot = FindUnfilledGhostSlot();
+                sGhostReceiveState->mGhostSlot = FindUnfilledGhostSlot();
                 ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
-                WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
-                NNS_SndArcSetCurrent(&data_0217c868);
+                savd_storeDownloadGhost((u8) sGhostReceiveState->mGhostSlot, GetSlotGhostBuffer());
+                NNS_SndArcSetCurrent(&SDATFile);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
-                data_02174e64->mState = 11;
+                NNS_SndArcSetCurrent(&gSdatFileSndArc);
+                sGhostReceiveState->mState = 11;
             }
             break;
         case 9:
             if (GetTxtSystemInputAccepted() != 0 && GetTxtSystemSelectedIndex() == 0) {
-                NNS_SndArcSetCurrent(&data_0217c868);
+                NNS_SndArcSetCurrent(&SDATFile);
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 10);
-                NNS_SndArcSetCurrent(&data_0217d0a0);
+                NNS_SndArcSetCurrent(&gSdatFileSndArc);
             }
             if (GetTxtSystemDone() != 0) {
                 RequestTxtSystemClose();
                 if (GetTxtSystemSelectedIndex() == 0) {
-                    data_02174e64->mGhostSlot = FindSlotGhostForCourse(
-                        data_02174e64->mGhostInfoEntries[data_02174e64->mSelectedIndex].mInfo.mUnk_18[2]);
+                    sGhostReceiveState->mGhostSlot = FindSlotGhostForCourse(
+                        sGhostReceiveState->mGhostInfoEntries[sGhostReceiveState->mSelectedIndex].mInfo.mUnk_18[2]);
                     ((Unk0202ddd8 *) GetSlotGhostBuffer())->mUnk_08_0 = 1;
-                    WriteSlotGhostRecord((u8) data_02174e64->mGhostSlot, GetSlotGhostBuffer());
-                    data_02174e64->mState = 11;
+                    savd_storeDownloadGhost((u8) sGhostReceiveState->mGhostSlot, GetSlotGhostBuffer());
+                    sGhostReceiveState->mState = 11;
                 } else {
-                    data_02174e64->mState = 10;
+                    sGhostReceiveState->mState = 10;
                 }
             }
             break;
         case 10:
             if (IsTxtSystemState0NoOpenRequest() != 0) {
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x54);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 4);
+                message = jn_msg_getMessage(sGhostReceiveState->mGhostMessages, 0x54);
+                buttonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e64->mState = 14;
+                sGhostReceiveState->mState = 14;
             }
             break;
         case 11:
             if (func_02034370_inline_2() != 0) {
-                message = GetBmgEntry(data_02174e64->mGhostMessages, 0x10);
-                buttonText = GetBmgEntry(data_02174e64->mCommonMessages, 4);
+                message = jn_msg_getMessage(sGhostReceiveState->mGhostMessages, 0x10);
+                buttonText = jn_msg_getMessage(sGhostReceiveState->mCommonMessages, 4);
                 SetTxtSystemSoundId(0, 5);
                 SetupTxtSystemSubTextButton(message, buttonText);
-                data_02174e64->mState = 14;
+                sGhostReceiveState->mState = 14;
             }
             break;
         case 15:
@@ -363,24 +363,24 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x15);
             }
             if (GetTxtSystemDone() != 0) {
-                data_02174e64->mStateFrames = 0;
-                data_02174e64->mState = 12;
+                sGhostReceiveState->mStateFrames = 0;
+                sGhostReceiveState->mState = 12;
                 RequestTxtSystemClose();
             }
             break;
         case 14:
             if (GetTxtSystemDone() != 0) {
-                data_0217b488->mUnk_08 = 5;
+                gStruct217B488->mUnk_08 = 5;
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 1;
                 }
-                data_02174e64->mState = 16;
+                sGhostReceiveState->mState = 16;
             }
             break;
         case 13:
-            if (data_02174e64->mUnk_194.mState == 3) {
-                result = data_02174e64->mNextCallbacksIndex;
-                data_02174e64->mState = 16;
+            if (sGhostReceiveState->mUnk_194.mState == 3) {
+                result = sGhostReceiveState->mNextCallbacksIndex;
+                sGhostReceiveState->mState = 16;
             } else {
                 func_02034fec();
             }
@@ -389,9 +389,9 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
     func_02035060();
     func_02054aa0();
     for (i = 0; i < 2; i++) {
-        cellFileSet = &data_02174e64->mCellFileSets[i];
-        DrawLayoutTable(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
-                        data_02174e64->mUnk_024[i], cellFileSet->mCellTable);
+        cellFileSet = &sGhostReceiveState->mCellFileSets[i];
+        jn_ui_renderElements(cellFileSet->mCellLayout, cellFileSet->mCells, cellFileSet->mLabelLayout,
+                        sGhostReceiveState->mUnk_024[i], cellFileSet->mCellTable);
     }
     return result;
 }
@@ -401,8 +401,8 @@ s32 func_02034370(SceneNumbersView *sceneNumbers) {
 #pragma thumb on
 
 void func_0203434c(void) {
-    HeapDestroy((void *) ((u32) data_02174e64->mHeap));
-    *&data_02174e64 = NULL;
+    heap_destroySubHeap((void *) ((u32) sGhostReceiveState->mHeap));
+    *&sGhostReceiveState = NULL;
 }
 
 #pragma thumb off

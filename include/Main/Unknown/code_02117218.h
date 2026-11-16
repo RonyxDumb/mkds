@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearKartIconPointer(void);
+void kic_free(void);

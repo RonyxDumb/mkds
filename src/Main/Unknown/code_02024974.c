@@ -64,7 +64,7 @@ void func_02025030(Kart *kart, KartSound *soundRecord) {
 void func_02024fe8(Kart *kart, KartSound *soundRecord) {
     u32 soundId;
 
-    soundId = GetSurfaceSoundId(3, kart->mSurfaceKind, kart->mSurfaceVariant);
+    soundId = csfx_getFloorSfx(3, kart->mSurfaceKind, kart->mSurfaceVariant);
     StartSoundWhileRequested(&kart->mSoundSource, soundId, soundRecord->mUnk_04, (soundRecord->mUnk_08 << 4) >> 16);
 }
 
@@ -152,12 +152,12 @@ void func_02024a88(Kart *kart) {
         StartSoundWhileRequested(&kart->mSoundSource, 0xfc, 0x7f, 0);
         return;
     }
-    if ((s32) GetRaceUpdateFrames() < 5) {
+    if ((s32) race_getFrameCounter() < 5) {
         return;
     }
     if (gSceneSoundState.mRaceState == 0) {
         h = kart->mUnk_4d4;
-        if (h > 0xcd && gRaceSetup->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
+        if (h > 0xcd && gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind != PLAYER_KIND_CPU) {
             if (f != 0) {
                 if ((kart->mUnk_4c & KART_4C_HEADING_SWING) != 0) {
                     i = 0;
@@ -236,7 +236,7 @@ void func_02024a88(Kart *kart) {
     soundRecord->mUnk_14 = f;
 }
 
-void func_02024a28(SoundSource *soundSource, u16 soundId, s32 b, s32 c) {
+void snd_emitDriverMObjHitSfx(SoundSource *soundSource, u16 soundId, s32 b, s32 c) {
     u8 t;
     u8 volume;
 
@@ -251,10 +251,10 @@ void func_02024a28(SoundSource *soundSource, u16 soundId, s32 b, s32 c) {
     } else {
         volume = 0x7f;
     }
-    StartSoundEx(soundSource, 0, soundId, volume, 0);
+    sfx_emitSfx(soundSource, 0, soundId, volume, 0);
 }
 
-void func_020249b8(Kart *kart, s32 b, s32 c) {
+void snd_emitBalloonInflationSfx(Kart *kart, s32 b, s32 c) {
     s32 d;
     u8 volume;
 
@@ -275,7 +275,7 @@ void func_020249b8(Kart *kart, s32 b, s32 c) {
     StartSoundWhileRequested(&kart->mSoundSource, c > 0 ? 0x150 : 0x151, volume, d);
 }
 
-s32 func_02024974(s32 a, s32 b, u32 c, u32 d) {
+s32 snd_getShineLoseSfxId(s32 a, s32 b, u32 c, u32 d) {
     s32 r;
     s32 t;
 

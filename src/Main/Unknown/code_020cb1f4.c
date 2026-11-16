@@ -7,5 +7,5 @@ u16 func_020cb210(InputSlot *slot, u32 mask) {
 }
 
 u16 func_020cb1f4(u32 slotIndex, u32 mask) {
-    return func_020cb210(&data_02175628[slotIndex], mask);
+    return func_020cb210(&gInputUnits[slotIndex], mask);
 }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetTitleBlendDone(void);
+unsigned int title_struct217B488_getTitleMenuSkipIntro(void);

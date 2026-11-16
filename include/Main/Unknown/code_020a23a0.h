@@ -4,10 +4,10 @@
 
 typedef struct Kart Kart;
 
-s32 func_020a23a0(Kart *kart);
-void DrawTrophy(void);
-void AdvanceTrophy(void);
-s32 func_020a2668(s32 a, s32 b);
-s16 func_020a2684(s32 angle);
-void InitTrophy(s32 modelIndex, u32 rankIndex);
-void func_020a29cc(void);
+s32 mgcnt_20A23A0(Kart *kart);
+void trophy_render(void);
+void trophy_update(void);
+s32 trophy_FX_MulInline(s32 a, s32 b);
+s16 trophy_FX_SinIdx(s32 angle);
+void trophy_init(s32 modelIndex, u32 rankIndex);
+void trophy_init3d(void);

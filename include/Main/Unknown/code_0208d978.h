@@ -30,26 +30,26 @@ typedef struct ModelEffect {
     /* b4 */ s32 mVisible;
 } ModelEffect;
 
-void func_0208d978(const Vec3 *position, s32 startModel);
-void UpdateModelEffectBombcore2(ModelEffect *modelEffect);
-void StartModelEffectBombcore2(ModelEffect *modelEffect, s32 startEffects);
-void UpdateModelEffectBkWave(ModelEffect *modelEffect);
-void StartModelEffectBkWave(ModelEffect *modelEffect, s32 startEffects);
-void UpdateWaterEfctKinds(ModelEffect *modelEffect);
-void StartWaterEfctKind4(ModelEffect *modelEffect);
-void StartWaterEfctKind2(ModelEffect *modelEffect);
-void UpdateModelEffectBombcore(ModelEffect *modelEffect);
-void StartModelEffectBombcore(ModelEffect *modelEffect, s32 startEffects);
-void SetupModelEffectKind(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,
+void expl_spawnSplash(const Vec3 *position, s32 startModel);
+void expl_updateBombcore2Instance(ModelEffect *modelEffect);
+void expl_initBombcore2Instance(ModelEffect *modelEffect, s32 startEffects);
+void expl_updateBkWaveInstance(ModelEffect *modelEffect);
+void expl_initBkWaveInstance(ModelEffect *modelEffect, s32 startEffects);
+void expl_updateSplashInstance(ModelEffect *modelEffect);
+void expl_initMissionSplashInstance(ModelEffect *modelEffect);
+void expl_initSplashInstance(ModelEffect *modelEffect);
+void expl_updateBombcoreInstance(ModelEffect *modelEffect);
+void expl_initBombcoreInstance(ModelEffect *modelEffect, s32 startEffects);
+void expl_setModel(void *heap, s32 kind, NNSG3dResFileHeader *modelFile, void *nsbcaFile, void *nsbmaFile,
                           void *nsbtaFile);
-void InitModelEffectObjects(void *heap);
-void SetupBkWaveKind(void);
-void SetupWaterEfctKindRow(ModelEffectKind *kindRow, s32 objectCount);
-void DrawModelEffects(void);
-void UpdateModelEffects(void);
-ModelEffect *StartModelEffect(u32 kind, const Vec3 *position, s32 startEffects);
-void InitModelEffects(void *heap);
-void SetAwardPosStripDrawEnabled(s32 drawEnabled);
-void DrawPosStripQuad(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosStripPoint *secondPoint,
+void expl_initEffects(void *heap);
+void expl_initBkWave(void);
+void expl_initWaterEffect(ModelEffectKind *kindRow, s32 objectCount);
+void expl_render(void);
+void expl_update(void);
+ModelEffect *expl_spawnEffect(u32 kind, const Vec3 *position, s32 startEffects);
+void expl_init(void *heap);
+void trl_setVisibleForAward(s32 drawEnabled);
+void trl_renderSegment(const MtxFx43 *viewMatrix, PosStripPoint *firstPoint, PosStripPoint *secondPoint,
                       PosStripTexture *posStripTexture);
-void UpdatePosStrip(PosStrip *posStrip);
+void trl_updateTrail(PosStrip *posStrip);

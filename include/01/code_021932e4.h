@@ -6,8 +6,8 @@ typedef struct OptionTopMenu OptionTopMenu;
 
 extern u8 data_ov001_021a65dc[];
 extern s32 data_ov001_021a65e4[];
-extern const char data_ov001_021a8254[];
-extern const char data_ov001_021a8260[];
+extern const char aOptionBmg[];
+extern const char aCommonBmg[];
 
 void RegisterOptionTopMenuCallbacks(void);
 void func_ov001_02193308(void);

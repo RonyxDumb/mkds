@@ -4,6 +4,6 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "Main/Unknown/code_0209bf70.h"
 
-void CreatePuddleKindData(void) {
-    CreateMapObjectKindData(NULL, NULL, NULL, 0, 0);
+void pud_setupConfig(void) {
+    mobj_createConfig(NULL, NULL, NULL, 0, 0);
 }

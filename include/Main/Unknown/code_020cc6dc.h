@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetCurrentUseTeams(void);
+unsigned int RData_GetCurrentTeamMode(void);

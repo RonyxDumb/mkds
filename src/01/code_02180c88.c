@@ -4,7 +4,7 @@
 #pragma thumb off
 
 u32 GetDisplaySettings(void) {
-    return ((u32) gDisplaySettings);
+    return ((u32) gCurDisplayConfig);
 }
 
 void func_ov001_02180c88(s32 *matrix) {

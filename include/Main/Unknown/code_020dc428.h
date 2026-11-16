@@ -5,7 +5,7 @@
 
 typedef struct Wanwan Wanwan;
 
-// Object of CreateWanwanDrawList: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
+// Object of wanwan_setupRenderPart: functions at 0x08 and 0x10, a word at 0x18 and the address of the pointer that holds
 // it at 0x28.
 typedef struct Unk020dd804 {
     /* 00 */ u8 mUnk_00[8];
@@ -18,7 +18,7 @@ typedef struct Unk020dd804 {
     /* 28 */ struct Unk020dd804 **mUnk_28;
 } Unk020dd804;
 
-// Object of CreateWanwanKindData: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
+// Object of wanwan_setupCollision: two functions and words at 0x08, 0x0c, 0x1c, 0x20 and 0x24.
 typedef struct Unk020dd860 {
     /* 00 */ u8 (*mUnk_00)(Wanwan *, void *, u8 *, u8 *);
     /* 04 */ u8 (*mUnk_04)(Wanwan *, void *, u8 *, u8 *);
@@ -34,21 +34,21 @@ typedef struct Unk020dd860 {
 extern const MapObjectList data_02158334;
 extern const Unk020dd804 data_0215835c;
 extern const Unk020dd860 data_02158388;
-extern MapObjectList *gWanwanUpdateList;
-extern Unk020dd804 *gWanwanDrawList;
+extern MapObjectList *wanwan_sLogicPart;
+extern Unk020dd804 *wanwan_sRenderPart;
 
-void EnterWanwanState5(Wanwan *wanwan);
-void func_020dc444(Wanwan *wanwan);
-void UpdateWanwanState2(Wanwan *wanwan);
-void EnterWanwanState2(Wanwan *wanwan);
-void UpdateWanwanState1(Wanwan *wanwan);
-void EnterWanwanState1(Wanwan *wanwan);
-void UpdateWanwanState0(Wanwan *wanwan);
-void EnterWanwanState0(Wanwan *wanwan);
-u8 func_020dd1f4(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
-u8 func_020dd230(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
-void UpdateWanwan(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void func_020dd6c8(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
-MapObjectList *CreateWanwanUpdateList(void);
-Unk020dd804 *CreateWanwanDrawList(void);
-Unk020dd860 *CreateWanwanKindData(void);
+void wanwan_state5Init(Wanwan *wanwan);
+void wanwan_state4Update(Wanwan *wanwan);
+void wanwan_state2Update(Wanwan *wanwan);
+void wanwan_state2Init(Wanwan *wanwan);
+void wanwan_state1Update(Wanwan *wanwan);
+void wanwan_state1Init(Wanwan *wanwan);
+void wanwan_state0Update(Wanwan *wanwan);
+void wanwan_state0Init(Wanwan *wanwan);
+u8 wanwan_onItemCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
+u8 wanwan_onDriverCollide(Wanwan *wanwan, void *kart, u8 *b, u8 *c);
+void wanwan_update(void *unused, Wanwan *wanwan); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void wanwan_render(void *unused0, Wanwan *wanwan, void *unused1, u32 maxAlpha);
+MapObjectList *wanwan_setupLogicPart(void);
+Unk020dd804 *wanwan_setupRenderPart(void);
+Unk020dd860 *wanwan_setupCollision(void);

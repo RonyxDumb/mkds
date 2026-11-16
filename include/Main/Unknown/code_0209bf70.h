@@ -39,7 +39,7 @@ typedef struct Bound {
     /* 120 */ s32 mKartTimers[8];
 } Bound;
 
-// Sun, kind 0x1ad: UpdateSun steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice per cycle.
+// Sun, kind 0x1ad: sun_update steps mState 0 to 4 and back; state 3 unparks a MAP_OBJECT_KIND_SUN_FIREBALL object twice per cycle.
 typedef struct Sun {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ u32 mUnk_0a0;
@@ -55,20 +55,20 @@ typedef struct Sun {
     /* 0dc */ s32 mState;
 } Sun;
 
-extern const char gBerryNsbmdName[];
-extern const char gCreamEffectNsbmdName[];
-extern const char gCreamNsbmdName[];
-extern const char gBoundNsbmdName[];
-extern const char gBoundNsbtpName[];
-extern const char gSunNsbmdName[];
-extern const char gSunNsbcaName[];
-extern const char gSunLODNsbmdName[];
+extern const char aBerry_nsbmd[];
+extern const char aCream_effect_n[];
+extern const char aCream_nsbmd[];
+extern const char aBound_nsbmd[];
+extern const char aBound_nsbtp[];
+extern const char aSun_nsbmd[];
+extern const char aSun_nsbca[];
+extern const char aSun_lod_nsbmd[];
 
-void CreateBound(void *a);
+void bnd_loadBoundModel(void *a);
 
 // Declared here until the code that defines it is decompiled.
 
-// The Sun object as DrawSun takes it: mState at 0xdc and mNsbcaFrameIndex at 0xb2.
+// The Sun object as sun_render takes it: mState at 0xdc and mNsbcaFrameIndex at 0xb2.
 typedef struct Unk0209d3fc {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ u8 mUnk_a0[0xc];
@@ -81,36 +81,36 @@ typedef struct Unk0209d3fc {
 
 extern u32 data_021565d0;
 extern u16 data_021565d4;
-extern const char data_02167328[];
+extern const char aCream_effect_1[];
 
-MapObjectKindData *func_0209bf70(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
+MapObjectKindData *mobj_createConfigEx(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                                  u32 d, u16 e, u16 f);
-u32 CreateEmptyMapObjectKindData(void);
-void *CreateMapObjectKindData(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
+u32 mobj_createDummyConfig(void);
+void *mobj_createConfig(void *collideKartCallback, void *collideItemObjectCallback, void *sphereHitCallback,
                               u32 param_4, u16 param_5);
-BOOL StartBoundWobble(s32 a);
-void CreateBoundUpdateList(void);
-void CreateBerryDrawList(void);
-void CreateCreamDrawList(void);
-void CreateBoundDrawList(void);
-void CreateBerryKindData(void);
-void CreateCreamKindData(void);
-void CreateBoundKindData(void);
-void UpdateBoundAndCreamAndBerry(MapObjectList *mapObjectList, Bound *bound);
-s32 func_0209c4bc(s32 a, s32 b);
-s16 func_0209c4d8(s32 a);
-void InitBoundAndCreamAndBerryObjects(MapObjectList *mapObjectList);
-void DrawBerry(MapObjectList *mapObjectList, Bound *bound);
-void DrawCream(MapObjectList *mapObjectList, Bound *bound);
-void CreateBerry(void *a); /* also loads cream_effect.nsbmd */
-void CreateCream(void *a); /* also loads cream_effect.nsbmd */
-void DrawBound(MapObjectList *mapObjectList, Bound *bound);
-BOOL ComputeSphereHitOnBound(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
-u8 CollideItemObjectWithBound(Bound *bound, void *a, u8 *b, u8 *c);
-s32 CollideKartWithBound(Bound *bound, Kart *kart, u8 *b, u8 *c);
-void InitBound(Bound *bound);
-void CreateSunUpdateList(void);
-void CreateSunDrawList(void);
-void UpdateSun(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitSunObjects(MapObjectList *mapObjectList);
-void DrawSun(void *a, Unk0209d3fc *b);
+BOOL bnd_handleBallHit(s32 a);
+void bnd_setupLogicPart(void);
+void bnd_setupBerryRenderPart(void);
+void bnd_setupCreamRenderPart(void);
+void bnd_setupBoundRenderPart(void);
+void bnd_setupBerryConfig(void);
+void bnd_setupCreamConfig(void);
+void bnd_setupBoundConfig(void);
+void bnd_update(MapObjectList *mapObjectList, Bound *bound);
+s32 bnd_FX_MulInline(s32 a, s32 b);
+s16 bnd_FX_SinIdx(s32 a);
+void bnd_globalLogicInit(MapObjectList *mapObjectList);
+void bnd_renderBerry(MapObjectList *mapObjectList, Bound *bound);
+void bnd_renderCream(MapObjectList *mapObjectList, Bound *bound);
+void bnd_loadBerryModels(void *a); /* also loads cream_effect.nsbmd */
+void bnd_loadCreamModels(void *a); /* also loads cream_effect.nsbmd */
+void bnd_renderBound(MapObjectList *mapObjectList, Bound *bound);
+BOOL bnd_collide(Bound *bound, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *pushOut);
+u8 bnd_onItemCollide(Bound *bound, void *a, u8 *b, u8 *c);
+s32 bnd_onDriverCollide(Bound *bound, Kart *kart, u8 *b, u8 *c);
+void bnd_init(Bound *bound);
+void sun_setupLogicPart(void);
+void sun_setupRenderPart(void);
+void sun_update(MapObjectList *mapObjectList, Sun *sun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void sun_globalLogicInit(MapObjectList *mapObjectList);
+void sun_render(void *a, Unk0209d3fc *b);

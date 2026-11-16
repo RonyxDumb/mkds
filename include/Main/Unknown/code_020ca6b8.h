@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearEmblemChoisesPointer(void);
+void echoi_finalize(void);

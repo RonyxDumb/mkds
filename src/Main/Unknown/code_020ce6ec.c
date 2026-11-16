@@ -8,9 +8,9 @@
 
 #pragma thumb on
 
-void WriteVsSelectCupMRegisters(void) {
+void menu_state12Vblank(void) {
     int flag;
-    flag = func_020cccc0();
+    flag = menu_getField4();
     if (flag != 0) {
         flag = func_020ce778();
         if (flag == 0) {

@@ -2,22 +2,22 @@
 
 #include "types.h"
 
-extern char gSelectMenuEtcDownloadMBNcgrName[];
-extern char gSelectMenuEtcDownloadMNcgrName[];
-extern char gSelectMenuEtcDownloadMNcerName[];
-extern char gSelectMenuEtcDownloadMONclrName[];
-extern char gSelectMenuEtcDownloadMBNclrName[];
-extern char gSelectMenuEtcDownloadMBg00NscrName[];
-extern char gSelectMenuEtcDownloadMBg01NscrName[];
-extern char gSelectMenuEtcMBNcgrName[];
-extern char gSelectMenuEtcMNcgrName[];
-extern char gSelectMenuEtcTitleMNcgrName[];
-extern char gSelectMenuEtcMNcerName[];
-extern char gSelectMenuEtcTitleMNcerName[];
-extern char gSelectMenuEtcMONclrName[];
-extern char gSelectMenuEtcMBNclrName[];
-extern char gSelectMenuEtcMBg00NscrName[];
-extern char gSelectMenuEtcMBg01NscrName[];
+extern char aMbSelect_menu_[];
+extern char aMbSelect_men_0[];
+extern char aMbSelect_men_1[];
+extern char aMbSelect_men_2[];
+extern char aMbSelect_men_3[];
+extern char aMbSelect_men_4[];
+extern char aMbSelect_menu_etc_download_m_bg_01_ns[];
+extern char aSelect_menu_etc_m_b_ncgr[];
+extern char aSelect_menu_etc_m_nce_ncgr[];
+extern char aSelect_menu_etc_title_m_nce_ncgr[];
+extern char aSelect_menu_etc_m_nce_ncer[];
+extern char aSelect_menu_etc_title_m_nce_ncer[];
+extern char aSelect_menu_etc_m_o_nclr[];
+extern char aSelect_menu_etc_m_b_nclr[];
+extern char aSelect_menu_etc_m_bg_00_nscr[];
+extern char aSelect_menu_etc_m_bg_01_nscr[];
 
 void RequestPlayerEntryListSetup(void);
 void func_0202b618(s32 a);

@@ -12,7 +12,7 @@ void *AllocArrayFromCurrentHeap(s32 count, s32 elementSize) {
 
     memory = NULL;
     if (count > 0) {
-        memory = HeapAlloc((void *) GetCurrentHeap(), elementSize * count);
+        memory = heap_alloc((void *) GetCurrentHeap(), elementSize * count);
     }
     return memory;
 }

@@ -33,22 +33,22 @@
 #include "code_0212df7c.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void *CreatePuddleDrawList(void) {
-    return CreateMapObjectDrawList2(CreatePuddle, DrawPuddle, SetupDrawPuddle);
+void *pud_setupRenderPart(void) {
+    return mobj_createRenderPart2d(pud_loadModel, pud_render, pud_globalPreRender);
 }
 
-void InitFireball2(Fireball2 *a) {
+void fbal2_init(Fireball2 *a) {
     a->mUnk_00.mFlags |= data_021565ec;
     a->mUnk_a0 = a->mUnk_00.mCourseMapRow->mUnk_28;
     a->mUnk_a2 = a->mUnk_00.mCourseMapRow->mUnk_2e + 1;
-    CreateMapObjectSoundSourceFalloff2(&a->mUnk_00);
+    mobj_initSoundEmitterForObjectSfxParam2(&a->mUnk_00);
     a->mUnk_00.mFlags &= ~1;
     a->mUnk_00.mFlags &= ~2;
     a->mUnk_00.mFlags &= ~8;
     a->mUnk_00.mAlpha = 0x1f;
 }
 
-u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
+u8 fbal2_onDriverCollide(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
     u8 v;
 
     v = *d;
@@ -56,7 +56,7 @@ u8 CollideKartWithFireball2(Fireball2 *a, Kart *b, u8 *c, u8 *d) {
         if (b->mItemEffect == 1 || b->mItemEffect == 3) {
             a->mUnk_00.mDistanceSquaredAndFlags |= data_021565e8;
         }
-        StartSoundIfKartStarOrKiller(&a->mUnk_00, b);
+        mobj_tryDestroyByDriver(&a->mUnk_00, b);
     }
     a->mUnk_19c4[b->mIndex] = 0xb;
     return v;
@@ -84,7 +84,7 @@ static inline BOOL func_0209df84_inline(Kart *p, Fireball2 *b, s32 t) {
     return (s64) x * x + (s64) y * y + (s64) z * z < (s64) t * t;
 }
 
-BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c) {
+BOOL fbal2_collide(Fireball2 *a, Vec3 *b, s32 c) {
     s32 i;
     s32 d;
     s32 e;
@@ -101,17 +101,17 @@ BOOL IsPosNearFireball2(Fireball2 *a, Vec3 *b, s32 c) {
     return FALSE;
 }
 
-void CreateFireball2(Unk0209e950 *a) {
-    gFireball2 = CreateMapObjectModelNsbmd(a, gFireball2NsbmdName);
-    SetMapObjectModelPolygonId(gFireball2, 0x3f);
+void fbal2_loadModel(Unk0209e950 *a) {
+    fbal2_sModel = mobj_loadBillboardModel(a, aFireball2_nsbm);
+    mobj_setModelPolygonIdAll(fbal2_sModel, 0x3f);
     a->mUnk_1c = 1;
 }
 
-void SetupDrawFireball2(void *a) {
-    func_0209bbd0(a, gFireball2);
+void fbal2_applyMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, fbal2_sModel);
 }
 
-void DrawFireball2(void *a, Fireball2 *b) {
+void fbal2_render(void *a, Fireball2 *b) {
     s32 s1;
     s32 s2;
     s32 s3;
@@ -125,8 +125,8 @@ void DrawFireball2(void *a, Fireball2 *b) {
     s32 g;
     Camera *q;
 
-    q = GetCurrentCamera();
-    c = Vec3DotUnrounded(&b->mUnk_00.mMatrix.mUnk_00[0], &q->mForward);
+    q = race_getCamera();
+    c = vec_dotProduct(&b->mUnk_00.mMatrix.mUnk_00[0], &q->mForward);
     for (i = 0; i < b->mUnk_a0; i++) {
         if (c >= 0) {
             f = 1;
@@ -141,30 +141,30 @@ void DrawFireball2(void *a, Fireball2 *b) {
         if (f ^ g) {
             for (j = 0; j < b->mUnk_a2; j++) {
                 s1 = 0x1e;
-                func_01ff9048(0x14, &s1, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_c4[i][j].mUnk_00), 0xc);
+                NNS_G3dGeBufferOP_N(0x14, &s1, 1);
+                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_c4[i][j].mUnk_00), 0xc);
                 if (b->mUnk_c4[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(m1, gPairsByAngle[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2],
-                                gPairsByAngle[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, m1, 9);
+                    MTX_RotZ33_(m1, FX_SinCosTable_[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2],
+                                FX_SinCosTable_[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2 + 1]);
+                    NNS_G3dGeBufferOP_N(0x1a, m1, 9);
                 }
-                func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
-                SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-                DrawMapObjectModel(a, gFireball2, b);
+                NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+                mobj_setModelPolygonIdAll(fbal2_sModel, mobj_getCyclicPolygonId());
+                mobj_renderModel(a, fbal2_sModel, b);
             }
         }
     }
     if (b->mUnk_a2 > 1) {
         s2 = 0x1e;
-        func_01ff9048(0x14, &s2, 1);
-        func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_b4), 0xc);
+        NNS_G3dGeBufferOP_N(0x14, &s2, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_b4), 0xc);
         if (b->mUnk_c2 != 0) {
-            MTX_RotZ33_(m2, gPairsByAngle[(b->mUnk_c2 >> 4) * 2], gPairsByAngle[(b->mUnk_c2 >> 4) * 2 + 1]);
-            func_01ff9048(0x1a, m2, 9);
+            MTX_RotZ33_(m2, FX_SinCosTable_[(b->mUnk_c2 >> 4) * 2], FX_SinCosTable_[(b->mUnk_c2 >> 4) * 2 + 1]);
+            NNS_G3dGeBufferOP_N(0x1a, m2, 9);
         }
-        func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
-        SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-        DrawMapObjectModel(a, gFireball2, b);
+        NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+        mobj_setModelPolygonIdAll(fbal2_sModel, mobj_getCyclicPolygonId());
+        mobj_renderModel(a, fbal2_sModel, b);
     }
     for (i = 0; i < b->mUnk_a0; i++) {
         if (c >= 0) {
@@ -180,22 +180,22 @@ void DrawFireball2(void *a, Fireball2 *b) {
         if ((f ^ g) == 0) {
             for (j = b->mUnk_a2 - 1; j >= 0; j--) {
                 s3 = 0x1e;
-                func_01ff9048(0x14, &s3, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&b->mUnk_c4[i][j].mUnk_00), 0xc);
+                NNS_G3dGeBufferOP_N(0x14, &s3, 1);
+                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&b->mUnk_c4[i][j].mUnk_00), 0xc);
                 if (b->mUnk_c4[i][j].mUnk_0e != 0) {
-                    MTX_RotZ33_(m3, gPairsByAngle[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2],
-                                gPairsByAngle[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2 + 1]);
-                    func_01ff9048(0x1a, m3, 9);
+                    MTX_RotZ33_(m3, FX_SinCosTable_[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2],
+                                FX_SinCosTable_[(b->mUnk_c4[i][j].mUnk_0e >> 4) * 2 + 1]);
+                    NNS_G3dGeBufferOP_N(0x1a, m3, 9);
                 }
-                func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
-                SetMapObjectModelPolygonId(gFireball2, AllocPolygonIdWrapping());
-                DrawMapObjectModel(a, gFireball2, b);
+                NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
+                mobj_setModelPolygonIdAll(fbal2_sModel, mobj_getCyclicPolygonId());
+                mobj_renderModel(a, fbal2_sModel, b);
             }
         }
     }
 }
 
-void InitFireball2Objects(MapObjectList *p) {
+void fbal2_globalLogicInit(MapObjectList *p) {
     s32 i;
     s32 j;
     s32 k;
@@ -219,13 +219,13 @@ void InitFireball2Objects(MapObjectList *p) {
         e->mUnk_b0 = (e->mUnk_00.mCourseMapRow->mUnk_2c * 0x16c) / 100;
         e->mUnk_a4 = 0x10000 / e->mUnk_a0;
         e->mUnk_a8 = e->mUnk_ac / e->mUnk_a2;
-        r = GetMapObjectRandom();
+        r = mobj_getRng1();
         r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
         t = r->mValue >> 32;
         e->mUnk_c2 = (t * 0x10000) >> 32;
         for (j = 0; j < e->mUnk_a2; j++) {
             for (k = 0; k < e->mUnk_a0; k++) {
-                r = GetMapObjectRandom();
+                r = mobj_getRng1();
                 r->mValue = r->mMultiplier * r->mValue + r->mIncrement;
                 t = r->mValue >> 32;
                 e->mUnk_c4[k][j].mUnk_0e = (t * 0x10000) >> 32;
@@ -234,7 +234,7 @@ void InitFireball2Objects(MapObjectList *p) {
     }
 }
 
-void UpdateFireball2(void *a, Fireball2 *b) {
+void fbal2_update(void *a, Fireball2 *b) {
     s32 i;
     s32 j;
     s32 n;
@@ -247,14 +247,14 @@ void UpdateFireball2(void *a, Fireball2 *b) {
     n = b->mUnk_ac;
     b->mUnk_b4 = b->mUnk_00.mPos;
     if (b->mUnk_a2 == 1) {
-        p = GetKart((u16) gRaceSetup->mEntryIndex);
+        p = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
         if (func_0209df84_inline(p, b, n - 0xf000) != FALSE) {
             VEC_Subtract(&p->mPos, &b->mUnk_00.mPos, &v);
-            d = Vec3DotUnrounded(&v, &b->mUnk_00.mMatrix.mUnk_00[2]);
+            d = vec_dotProduct(&v, &b->mUnk_00.mMatrix.mUnk_00[2]);
             if ((b->mUnk_19e4 < 0 && d > 0) || (b->mUnk_19e4 > 0 && d < 0)) {
                 func_02108e38();
                 h = GetSndHandleSlot(7);
-                if ((data_0217c780 & 1) && data_0217d084.mUnk_0c != 0) {
+                if ((data_0217c780 & 1) && SoundHandle_217D084.mUnk_0c != 0) {
                     if (h[0] != NULL) {
                         NNS_SndPlayerStopSeq(h, 0);
                     }
@@ -279,31 +279,31 @@ void UpdateFireball2(void *a, Fireball2 *b) {
         for (j = 0; j < b->mUnk_a0; j++) {
             w = w + b->mUnk_a4;
             b->mUnk_c4[j][i].mUnk_0c = w;
-            VEC_MultAdd(((s64) n * gPairsByAngle[(w >> 4) * 2 + 1]) >> 12, &b->mUnk_00.mMatrix.mUnk_00[0],
+            VEC_MultAdd(((s64) n * FX_SinCosTable_[(w >> 4) * 2 + 1]) >> 12, &b->mUnk_00.mMatrix.mUnk_00[0],
                         &b->mUnk_00.mPos, &b->mUnk_c4[j][i].mUnk_00);
-            VEC_MultAdd(((s64) n * gPairsByAngle[(w >> 4) * 2]) >> 12, &b->mUnk_00.mMatrix.mUnk_00[1],
+            VEC_MultAdd(((s64) n * FX_SinCosTable_[(w >> 4) * 2]) >> 12, &b->mUnk_00.mMatrix.mUnk_00[1],
                         &b->mUnk_c4[j][i].mUnk_00, &b->mUnk_c4[j][i].mUnk_00);
             b->mUnk_c4[j][i].mUnk_0e = b->mUnk_c4[j][i].mUnk_0e + 0x51e;
         }
         n = n - b->mUnk_a8;
     }
     b->mUnk_b2 = b->mUnk_b2 - b->mUnk_b0;
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
         if (b->mUnk_19c4[i] > 0) {
             b->mUnk_19c4[i] = b->mUnk_19c4[i] - 1;
         }
     }
-    StartMapObjectSoundWhileRequested(&b->mUnk_00, 0x160);
+    mobj_emitSfxFromEmitter(&b->mUnk_00, 0x160);
 }
 
-void CreateFireball2KindData(void) {
-    func_0209bf70(CollideKartWithFireball2, NULL, IsPosNearFireball2, 0, 0, 0x18d);
+void fbal2_setupConfig(void) {
+    mobj_createConfigEx(fbal2_onDriverCollide, NULL, fbal2_collide, 0, 0, 0x18d);
 }
 
-void *CreateFireball2DrawList(void) {
-    return CreateMapObjectDrawList2(CreateFireball2, DrawFireball2, SetupDrawFireball2);
+void *fbal2_setupRenderPart(void) {
+    return mobj_createRenderPart2d(fbal2_loadModel, fbal2_render, fbal2_applyMaterial);
 }
 
-void *CreateFireball2UpdateList(void) {
-    return CreateMapObjectUpdateList(InitFireball2Objects, UpdateFireball2, NULL);
+void *fbal2_setupLogicPart(void) {
+    return mobj_createLogicPart(fbal2_globalLogicInit, fbal2_update, NULL);
 }

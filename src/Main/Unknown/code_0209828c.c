@@ -37,13 +37,13 @@
 #include "code_02146cbc.h"
 #include "code_02148538.h"
 
-void *func_02099004(void) {
-    return CreateMapObjectUpdateList(NULL, func_0209905c, NULL);
+void *pknf_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, pknf_update, NULL);
 }
 
-void func_02098f18(GroupFollower *groupFollower, s32 b) {
+void pknf_spawn(GroupFollower *groupFollower, s32 b) {
     Unk0209905c *p;
-    p = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(0x1ab));
+    p = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(0x1ab));
     if (p == NULL) {
         return;
     }
@@ -54,17 +54,17 @@ void func_02098f18(GroupFollower *groupFollower, s32 b) {
     p->mUnk_00.mAlpha = 0x1f;
     p->mFollower.mGroupIndex = groupFollower->mGroupIndex;
     p->mFollower.mPath = groupFollower->mPath;
-    SetupGroupFollowerAtEntry(&p->mFollower, 0, 1);
+    pw_init(&p->mFollower, 0, 1);
     p->mFollower.mSpeed = 0x7800;
     p->mFollower.mProgressStep =
         ((s64) p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength * 0x7800) >> 12;
     p->mHeightOffset = b;
     p->mUnk_c8 = -0x5000;
     p->mState = 0;
-    p->mEmitter = StartEffect(0x33, &p->mUnk_00.mPos);
+    p->mEmitter = ptcm_createEmitter(0x33, &p->mUnk_00.mPos);
 }
 
-void InitPakkun(Pakkun *pakkun) {
+void pakn_init(Pakkun *pakkun) {
     s32 v;
     s32 d;
     Vec3 position;
@@ -98,8 +98,8 @@ void InitPakkun(Pakkun *pakkun) {
             v = pakkun->mUnk_000.mCourseMapRow->mUnk_34;
         }
         if (v >= 0) {
-            InitGroupFollowerForGroup(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);
-            GetGroupFollowerLinearPosStep(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
+            pw_initFromPathId(&pakkun->mFollowers[pakkun->mFollowerCount], v, 100);
+            pw_calcCurrentPointLinearXYZSpecial(&pakkun->mFollowers[pakkun->mFollowerCount], &position, &step);
             d = FX_Atan2Idx(step.x, step.z) - pakkun->mUnk_1d8;
             if (d > 0x8000) {
                 d -= 0x10000;
@@ -109,14 +109,14 @@ void InitPakkun(Pakkun *pakkun) {
             pakkun->mFollowerCount++;
         }
     }
-    pakkun->mPolygonId = AllocPolygonId();
-    CreateParkedMapObjects(0x1ab, 0x14, pakkun);
+    pakkun->mPolygonId = mobj_getStaticPolygonId();
+    mobj_createSubObjects(0x1ab, 0x14, pakkun);
 }
 
-void CreatePakkunMouth(void *a) {
-    gPakkunMouth = CreateMapObjectModelAnimated(a, "PakkunMouth.nsbmd");
-    CreateMapObjectModelNsbcaAnimation(gPakkunMouth, "PakkunMouth.nsbca");
-    SetMapObjectModelAlpha(gPakkunMouth, 0x1f);
+void pakn_loadMouthModel(void *a) {
+    gPakkunMouth = mobj_loadModel(a, "PakkunMouth.nsbmd");
+    mobj_loadNsbcaAnim(gPakkunMouth, "PakkunMouth.nsbca");
+    mobj_setModelAlpha(gPakkunMouth, 0x1f);
 }
 
 static inline u32 func_020983c4_inline(u32 n) {
@@ -124,12 +124,12 @@ static inline u32 func_020983c4_inline(u32 n) {
     u32 t;
     u32 m;
     if (n == 0x10000) {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue =
             mapObjectRandom->mIncrement + (s64) mapObjectRandom->mMultiplier * (s64) mapObjectRandom->mValue;
         return (u16) ((mapObjectRandom->mValue >> 32) * 0x10000 >> 32);
     }
-    mapObjectRandom = GetMapObjectRandom();
+    mapObjectRandom = mobj_getRng1();
     m = (u16) n;
     if (m == 0) {
         t = 0;
@@ -145,7 +145,7 @@ static inline u32 func_020983c4_inline(u32 n) {
     return (u16) t;
 }
 
-void DrawPakkunMouth(void *a, Pakkun *pakkun) {
+void pakn_renderMouth(void *a, Pakkun *pakkun) {
     s32 w;
     s32 m[9];
     s32 n[9];
@@ -153,46 +153,46 @@ void DrawPakkunMouth(void *a, Pakkun *pakkun) {
     s32 g[3];
     s32 t;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
     pakkun->mUnk_000.mMatrix.mUnk_00[3].x = pakkun->mUnk_000.mPos.x >> 4;
     pakkun->mUnk_000.mMatrix.mUnk_00[3].y = pakkun->mUnk_000.mPos.y >> 4;
     pakkun->mUnk_000.mMatrix.mUnk_00[3].z = pakkun->mUnk_000.mPos.z >> 4;
-    func_01ff9048(0x19, &pakkun->mUnk_000.mMatrix, 12);
+    NNS_G3dGeBufferOP_N(0x19, &pakkun->mUnk_000.mMatrix, 12);
     f[1] = pakkun->mUnk_1f8 >> 4;
     f[0] = 0;
     f[2] = 0;
-    func_01ff9048(0x1c, f, 3);
+    NNS_G3dGeBufferOP_N(0x1c, f, 3);
     if (pakkun->mUnk_1dc != 0) {
-        MTX_RotY33_(m, gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2],
-                    gPairsByAngle[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, m, 9);
+        MTX_RotY33_(m, FX_SinCosTable_[((u16) pakkun->mUnk_1dc >> 4) * 2],
+                    FX_SinCosTable_[((u16) pakkun->mUnk_1dc >> 4) * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, m, 9);
     }
     if (pakkun->mUnk_1e0 != 0) {
-        MTX_RotX33_(n, gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2],
-                    gPairsByAngle[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
-        func_01ff9048(0x1a, n, 9);
+        MTX_RotX33_(n, FX_SinCosTable_[((u16) pakkun->mUnk_1e0 >> 4) * 2],
+                    FX_SinCosTable_[((u16) pakkun->mUnk_1e0 >> 4) * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, n, 9);
     }
     t = pakkun->mUnk_1f0;
     g[0] = t;
     g[1] = t;
     g[2] = t;
-    func_01ff9048(0x1b, g, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
-    SetMapObjectModelPolygonId(gPakkunMouth, pakkun->mPolygonId);
-    SetMapObjectModelNsbcaFrameIndex(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
-    DrawMapObjectModel(a, gPakkunMouth, pakkun);
+    NNS_G3dGeBufferOP_N(0x1b, g, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    mobj_setModelPolygonIdAll(gPakkunMouth, pakkun->mPolygonId);
+    mobj_setModelNsbcaFrame(gPakkunMouth, pakkun->mUnk_0a4 >> 12);
+    mobj_renderModel(a, gPakkunMouth, pakkun);
 }
 
-void CreatePakkunZHead(void *a) {
-    gPakkunZHead = CreateMapObjectModelNsbmd(a, "PakkunZHead.nsbmd");
-    SetMapObjectModelAlpha(gPakkunZHead, 0x1e);
+void pakn_loadHeadModel(void *a) {
+    gPakkunZHead = mobj_loadBillboardModel(a, "PakkunZHead.nsbmd");
+    mobj_setModelAlpha(gPakkunZHead, 0x1e);
 }
 
-void SetupDrawPakkunZHead(void *a) {
-    func_0209bbd0(a, gPakkunZHead);
+void pakn_applyHeadMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, gPakkunZHead);
 }
 
-void DrawPakkunZHead(void *a, Pakkun *pakkun) {
+void pakn_renderHead(void *a, Pakkun *pakkun) {
     s32 w;
     Vec3 position;
     s32 f[3];
@@ -201,29 +201,29 @@ void DrawPakkunZHead(void *a, Pakkun *pakkun) {
     position.y = pakkun->mUnk_000.mPos.y + pakkun->mUnk_1f8;
     position.z = pakkun->mUnk_000.mPos.z;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&position), 12);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&position), 12);
     t = pakkun->mUnk_1f0;
     f[0] = t;
     f[1] = t;
     f[2] = t;
-    func_01ff9048(0x1b, f, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
-    SetMapObjectModelPolygonId(gPakkunZHead, pakkun->mPolygonId);
-    DrawMapObjectModel(a, gPakkunZHead, pakkun);
+    NNS_G3dGeBufferOP_N(0x1b, f, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    mobj_setModelPolygonIdAll(gPakkunZHead, pakkun->mPolygonId);
+    mobj_renderModel(a, gPakkunZHead, pakkun);
 }
 
-void CreatePakkunBody(void *a) {
-    gPakkunBody = CreateMapObjectModelNsbmd(a, "PakkunBody.nsbmd");
-    SetMapObjectModelPolygonId(gPakkunBody, 0x3f);
-    SetMapObjectModelAlpha(gPakkunBody, 0x1f);
+void pakn_loadBodyModel(void *a) {
+    gPakkunBody = mobj_loadBillboardModel(a, "PakkunBody.nsbmd");
+    mobj_setModelPolygonIdAll(gPakkunBody, 0x3f);
+    mobj_setModelAlpha(gPakkunBody, 0x1f);
 }
 
-void SetupDrawPakkunBody(void *a) {
-    func_0209bbd0(a, gPakkunBody);
+void pakn_applyBodyMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, gPakkunBody);
 }
 
-void DrawPakkunBody(void *a, Pakkun *pakkun) {
+void pakn_renderBody(void *a, Pakkun *pakkun) {
     s32 w;
     s32 v[3];
     s32 d;
@@ -233,28 +233,28 @@ void DrawPakkunBody(void *a, Pakkun *pakkun) {
     y = pakkun->mUnk_1f0;
     d = 0x3000 - x - y;
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, func_020e6cbc(&pakkun->mUnk_000.mPos), 12);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&pakkun->mUnk_000.mPos), 12);
     v[0] = d;
     v[1] = x + y - 0x1000;
     v[2] = d;
-    func_01ff9048(0x1b, v, 3);
-    func_01ff9048(0x1b, &pakkun->mUnk_000.mScale, 3);
-    DrawMapObjectModel(a, gPakkunBody, pakkun);
+    NNS_G3dGeBufferOP_N(0x1b, v, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &pakkun->mUnk_000.mScale, 3);
+    mobj_renderModel(a, gPakkunBody, pakkun);
 }
 
-void InitPakkunObjects(void) {
+void pakn_globalLogicInit(void) {
     s32 i;
     Pakkun *pakkun;
     float f;
-    if (gPakkunUpdateList == NULL) {
+    if (pakn_sLogicPart == NULL) {
         return;
     }
-    for (i = 0; i < gPakkunUpdateList->mMapObjectCount && (pakkun = gPakkunUpdateList->mMapObjects[i]) != NULL; i++) {
-        if (GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1 > 0) {
-            f = 0.5f + ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12);
+    for (i = 0; i < pakn_sLogicPart->mMapObjectCount && (pakkun = pakn_sLogicPart->mMapObjects[i]) != NULL; i++) {
+        if (mobj_getModelNsbcaFrameCount(gPakkunMouth) - 1 > 0) {
+            f = 0.5f + ((mobj_getModelNsbcaFrameCount(gPakkunMouth) - 1) << 12);
         } else {
-            f = ((GetMapObjectModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
+            f = ((mobj_getModelNsbcaFrameCount(gPakkunMouth) - 1) << 12) - 0.5f;
         }
         pakkun->mUnk_0a4 = 0;
         pakkun->mUnk_0a8 = 0x1000;
@@ -264,7 +264,7 @@ void InitPakkunObjects(void) {
     }
 }
 
-void UpdatePakkun(void *a, Pakkun *pakkun) {
+void pakn_update(void *a, Pakkun *pakkun) {
     BOOL f;
     s32 t;
     s32 x;
@@ -338,11 +338,11 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                 pakkun->mUnk_0a4 = pakkun->mUnk_0ac;
             }
             if ((pakkun->mUnk_0a4 >> 12) == 10) {
-                func_02098f18(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
+                pknf_spawn(&pakkun->mFollowers[pakkun->mFollowerIndex], pakkun->mUnk_1fc + 0x46000);
                 if ((pakkun->mUnk_000.mDistanceSquaredAndFlags & 4) == 0) {
-                    if (pakkun->mUnk_000.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (pakkun->mUnk_000.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                         t = 2;
-                    } else if (pakkun->mUnk_000.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                    } else if (pakkun->mUnk_000.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                         t = 3;
                     } else {
                         t = 4;
@@ -350,7 +350,7 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
                     s.mSoundId = 0x171;
                     s.mPositionSource = &pakkun->mUnk_000.mPos;
                     s.mUnk_08 = t;
-                    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pakkun->mUnk_000.mPos);
+                    s.mDistanceSquared = mobj_calcXZCamDist(&pakkun->mUnk_000.mPos);
                     func_0210b7a8(&s);
                 }
             } else if (pakkun->mUnk_0a4 == 0) {
@@ -379,28 +379,28 @@ void UpdatePakkun(void *a, Pakkun *pakkun) {
     pakkun->mUnk_1f8 = x + y;
 }
 
-void *CreatePakkunMouthDrawList(void) {
-    gPakkunMouthDrawList = CreateMapObjectDrawList1(CreatePakkunMouth, DrawPakkunMouth, NULL);
-    gPakkunMouthDrawList->mUnk_1c = TRUE;
-    func_020d49d8(&gPakkunMouthDrawList);
-    return gPakkunMouthDrawList;
+void *pakn_setupMouthRenderPart(void) {
+    pakn_sMouthRenderPart = mobj_createRenderPart3d(pakn_loadMouthModel, pakn_renderMouth, NULL);
+    pakn_sMouthRenderPart->mUnk_1c = TRUE;
+    mobj_renderPartSetThisPointer(&pakn_sMouthRenderPart);
+    return pakn_sMouthRenderPart;
 }
 
-void *CreatePakkunBodyDrawList(void) {
-    gPakkunBodyDrawList = CreateMapObjectDrawList2(CreatePakkunBody, DrawPakkunBody, SetupDrawPakkunBody);
-    func_020d49d8(&gPakkunBodyDrawList);
-    return gPakkunBodyDrawList;
+void *pakn_setupBodyRenderPart(void) {
+    pakn_sBodyRenderPart = mobj_createRenderPart2d(pakn_loadBodyModel, pakn_renderBody, pakn_applyBodyMaterial);
+    mobj_renderPartSetThisPointer(&pakn_sBodyRenderPart);
+    return pakn_sBodyRenderPart;
 }
 
-void *CreatePakkunZHeadDrawList(void) {
-    gPakkunZHeadDrawList = CreateMapObjectDrawList2(CreatePakkunZHead, DrawPakkunZHead, SetupDrawPakkunZHead);
-    gPakkunZHeadDrawList->mUnk_1c = TRUE;
-    func_020d49d8(&gPakkunZHeadDrawList);
-    return gPakkunZHeadDrawList;
+void *pakn_setupZHeadRenderPart(void) {
+    pakn_sHeadRenderPart = mobj_createRenderPart2d(pakn_loadHeadModel, pakn_renderHead, pakn_applyHeadMaterial);
+    pakn_sHeadRenderPart->mUnk_1c = TRUE;
+    mobj_renderPartSetThisPointer(&pakn_sHeadRenderPart);
+    return pakn_sHeadRenderPart;
 }
 
-void *CreatePakkunUpdateList(void) {
-    gPakkunUpdateList = CreateMapObjectUpdateList(InitPakkunObjects, UpdatePakkun, NULL);
-    SetUpdateListSlot(&gPakkunUpdateList);
-    return gPakkunUpdateList;
+void *pakn_setupLogicPart(void) {
+    pakn_sLogicPart = mobj_createLogicPart(pakn_globalLogicInit, pakn_update, NULL);
+    mobj_logicPartSetThisPointer(&pakn_sLogicPart);
+    return pakn_sLogicPart;
 }

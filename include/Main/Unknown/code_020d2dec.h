@@ -5,9 +5,9 @@
 typedef struct MapObject MapObject;
 typedef struct CourseMapRow CourseMapRow;
 
-MapObject *CreateMapObject(u32 kind, CourseMapRow *courseRow, MapObject *source);
-MapObject *CreateMapObjectFromObject(MapObject *source, s32 kind);
-MapObject *CreateMapObjectFromCourseMapRow(CourseMapRow *courseRow, s32 kind);
-void InitMapObjects(void);
-void func_020d2e24(void);
-void RunMapObjectUpdateListInits(void);
+MapObject *mobj_createObject(u32 kind, CourseMapRow *courseRow, MapObject *source);
+MapObject *mobj_createSubObject(MapObject *source, s32 kind);
+MapObject *mobj_createObjectFromObji(CourseMapRow *courseRow, s32 kind);
+void mobj_init(void);
+void mobj_initAllRenderParts(void);
+void mobj_initAllLogicParts(void);

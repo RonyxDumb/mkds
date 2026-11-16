@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitMatrices(void);
+void bbm_init(void);

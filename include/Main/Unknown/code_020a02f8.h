@@ -4,7 +4,7 @@
 #include "code_02146d78.h"
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 
-// Object with the MapObject base at 0x00 (func_020a0318, func_020a066c, func_020a089c).
+// Object with the MapObject base at 0x00 (bsfx_update, bsfx_globalLogicInit, bsfx_init).
 typedef struct Unk020a0318 {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mUnk_a0;
@@ -22,7 +22,7 @@ typedef struct Unk020a0318 {
     /* c8 */ s32 mSoundTimer;
 } Unk020a0318;
 
-// Array of object pointers: pointer to the array and the number of entries (func_020a066c).
+// Array of object pointers: pointer to the array and the number of entries (bsfx_globalLogicInit).
 typedef struct Unk020a066c {
     /* 00 */ Unk020a0318 **mMapObjects;
     /* 04 */ u16 mMapObjectCount;
@@ -40,24 +40,24 @@ typedef struct Unk020a066c {
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h" // CourseMapPoint
 
-void *func_020a02f8(void);
-void func_020a0318(void *mapObjectList, Unk020a0318 *mapObject);
-void func_020a066c(MapObjectList *mapObjectList);
-void func_020a089c(Unk020a0318 *mapObject);
-// Steps Standings once per UpdateRace call in battle and mission run: the end timer and end callback, the hand- over of
+void *bsfx_setupLogicPart(void);
+void bsfx_update(void *mapObjectList, Unk020a0318 *mapObject);
+void bsfx_globalLogicInit(MapObjectList *mapObjectList);
+void bsfx_init(Unk020a0318 *mapObject);
+// Steps Standings once per race_update call in battle and mission run: the end timer and end callback, the hand- over of
 // eliminated karts, the hit tracking, and the copy of each kart's position.
-void UpdateStandings(void);
+void mgcnt_update(void);
 // Ends the Standings end timer (mEndTimer = -1) and runs mEndCallback when it is set; the mode 4 end step of the race
 // progress calls it.
-void FinishStandings(void);
-void InitStandings(void);
-CourseMapPoint *MoveToRandomForwardBattlePoint(void);
-Vec3 *GetKartStandingPos(int kartIndex);
-void CallKartHitCallbackForSelf(u16 kartIndex);
-void SetWinnerIfOneTeamLeft(void);
-void EliminateKart(u16 kartIndex);
-void MoveKartTowardLastRank(u16 kartIndex);
-void MoveKartTowardFirstRank(u16 kartIndex);
-u16 GetBattleItemRank(s32 kartIndex);
-void func_020a1ddc(s32 kartIndex);
-unsigned int func_020a1e3c(unsigned int value);
+void mgcnt_forceEnd(void);
+void mgcnt_init(void);
+CourseMapPoint *mgcnt_getRandomShineMepo(void);
+Vec3 *mgcnt_getDriverPosition(int kartIndex);
+void mgcnt_20A1748(u16 kartIndex);
+void mgcnt_checkMgEnd(void);
+void mgcnt_killDriverDirect(u16 kartIndex);
+void mgcnt_handleDriverBalloonShineCountDecrease(u16 kartIndex);
+void mgcnt_handleDriverBalloonShineCountIncrease(u16 kartIndex);
+u16 mgcnt_20A1CD8(s32 kartIndex);
+void mgcnt_20A1DDC(s32 kartIndex);
+unsigned int mgcnt_notifyStarInvincibilityStart(unsigned int value);

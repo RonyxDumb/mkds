@@ -19,26 +19,26 @@
 
 #pragma opt_loop_invariants off
 
-void ReadGhostFileRecords(void) {
+void ghdat_loadStaffGhostsTask(void) {
     u8 i;
     u8 *records;
     char path[0x80];
 
     i = 0;
-    records = data_0217aa08->mReadDestination;
+    records = gSaveData->mReadDestination;
     for (; i < 0x20; i++) {
-        FormatGhostFilePath(i, path, 0x80);
-        ReadFileBytes(path, records + i * 0x230, 0x230);
+        race_getGhostFileName(i, path, 0x80);
+        arc_readFile(path, records + i * 0x230, 0x230);
     }
-    ClearBackupBusy();
-    data_0217aa08->mReadDestination = NULL;
+    savd_endOperation();
+    gSaveData->mReadDestination = NULL;
 }
 
-void StartReadGhostFileRecords(void *records) {
-    data_0217aa08->mReadDestination = records;
-    SetBackupBusy();
-    QueueThreadFunction((void (*)(void)) ReadGhostFileRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void ghdat_loadStaffGhostsAsync(void *records) {
+    gSaveData->mReadDestination = records;
+    savd_beginOperation();
+    bgwkr_enqueueTask((void (*)(void)) ghdat_loadStaffGhostsTask);
+    gBgWkrState->mRunRequested = 1;
 }
 
 void func_020612b0(void) {
@@ -46,29 +46,29 @@ void func_020612b0(void) {
     u32 total;
     u32 limit;
 
-    gWiFiSession->mKartCountCopy = gWiFiSession->mKartCount;
-    firstBlock = data_0217aa08->mFirstBlock;
-    total = firstBlock->mUnk_34[5] + (u8) (gWiFiSession->mKartCountCopy - 1);
+    gStruct217D384->mKartCountCopy = gStruct217D384->mKartCount;
+    firstBlock = gSaveData->mFirstBlock;
+    total = firstBlock->mUnk_34[5] + (u8) (gStruct217D384->mKartCountCopy - 1);
     limit = data_021653e4 + 3;
     if (total > limit) {
         total = limit;
     }
-    data_0217aa08->mFirstBlock->mUnk_34[5] = total;
-    WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    gSaveData->mFirstBlock->mUnk_34[5] = total;
+    savd_writeNksy(gSaveData->mFirstBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
 }
 
 s32 CheckUserDataValidConsole(void) {
-    return DWC_CheckValidConsole((DWCAccUserData *) data_0217aa08->mFirstBlock->mUserData);
+    return DWC_CheckValidConsole((DWCAccUserData *) gSaveData->mFirstBlock->mUserData);
 }
 
 s32 func_02061250(void) {
     u64 friendKey;
     s32 result;
 
-    friendKey = DWC_CreateFriendKey((DWCAccUserData *) data_0217aa08->mFirstBlock->mUserData);
+    friendKey = DWC_CreateFriendKey((DWCAccUserData *) gSaveData->mFirstBlock->mUserData);
     result = 0;
     if (friendKey != result) {
         result = 1;
@@ -79,8 +79,8 @@ s32 func_02061250(void) {
 void FormatUserDataFriendKey(u32 buffer) {
     u64 friendKey;
 
-    friendKey = DWC_CreateFriendKey((DWCAccUserData *) data_0217aa08->mFirstBlock->mUserData);
-    FormatFriendKey(friendKey, friendKey >> 32, buffer);
+    friendKey = DWC_CreateFriendKey((DWCAccUserData *) gSaveData->mFirstBlock->mUserData);
+    DWC_Acc_FriendKeyToNumericKey(friendKey, friendKey >> 32, buffer);
 }
 
 s32 CheckFriendKeyString(const void *keyString) {
@@ -91,15 +91,15 @@ s32 CheckFriendKeyString(const void *keyString) {
     u8 i;
     u8 *friendDataList;
 
-    friendKey = DWC_StringToFriendKey(keyString);
+    friendKey = DWC_Acc_NumericKeyToFriendKey(keyString);
     if (DWC_Acc_CheckFriendKey(friendKey, 0x414d434a) == 0) {
         return 1;
     }
-    if (friendKey == DWC_CreateFriendKey((DWCAccUserData *) data_0217aa08->mFirstBlock->mUserData)) {
+    if (friendKey == DWC_CreateFriendKey((DWCAccUserData *) gSaveData->mFirstBlock->mUserData)) {
         return 1;
     }
-    InitFriendDataFromFriendKey(friendData, friendKey, friendKey >> 32);
-    friendDataList = (u8 *) data_0217aa08->mBuddyRecordBlock + 0x874;
+    DWC_CreateFriendKeyToken(friendData, friendKey, friendKey >> 32);
+    friendDataList = (u8 *) gSaveData->mBuddyRecordBlock + 0x874;
     foundIndex = -1;
     for (i = 0; i < 60; i++) {
         u8 *entry;
@@ -107,7 +107,7 @@ s32 CheckFriendKeyString(const void *keyString) {
         GetBuddyRecord(i, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + i * 12;
-            if (func_02152698(entry) != 0 &&
+            if (DWCi_Acc_IsValidFriendData(entry) != 0 &&
                 DWC_IsEqualFriendData((DWCAccFriendData *) entry, (DWCAccFriendData *) friendData) != 0) {
                 foundIndex = (s8) i;
                 break;
@@ -126,7 +126,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
     u8 i;
     u8 *friendDataList;
 
-    friendDataList = (u8 *) data_0217aa08->mBuddyRecordBlock + 0x874;
+    friendDataList = (u8 *) gSaveData->mBuddyRecordBlock + 0x874;
     foundIndex = -1;
     for (i = 0; i < 60; i++) {
         u8 *entry;
@@ -134,7 +134,7 @@ s32 FindBuddyIndexByFriendData(const void *friendData) {
         GetBuddyRecord(i, &buddyRecord);
         if (buddyRecord.mFilled == 1) {
             entry = friendDataList + i * 12;
-            if (func_02152698(entry) != 0 && DWC_IsEqualFriendData((DWCAccFriendData *) entry, friendData) != 0) {
+            if (DWCi_Acc_IsValidFriendData(entry) != 0 && DWC_IsEqualFriendData((DWCAccFriendData *) entry, friendData) != 0) {
                 foundIndex = (s8) i;
                 break;
             }
@@ -160,14 +160,14 @@ s32 AddOrUpdateBuddyRecord(u8 *friendDataList, void *name, u8 *friendData, s32 n
 
     slotIndex = -1;
     found = FALSE;
-    GetClockDateOrDefault(today);
+    GetDate(today);
     year = today[0];
     month = today[1];
     day = today[2];
     entry = friendDataList;
     for (i = 0; i < 60; i = (s8) (i + 1), entry += 12) {
         GetBuddyRecord((u8) i, &buddyRecord);
-        if (buddyRecord.mFilled == 1 && func_02152698(friendData) != 0 && func_02152698(entry) != 0 &&
+        if (buddyRecord.mFilled == 1 && DWCi_Acc_IsValidFriendData(friendData) != 0 && DWCi_Acc_IsValidFriendData(entry) != 0 &&
             DWC_IsEqualFriendData((DWCAccFriendData *) entry, (DWCAccFriendData *) friendData) != 0) {
             slotIndex = i;
             found = TRUE;
@@ -237,7 +237,7 @@ s32 AddBuddyFromFriendKey(const void *keyString, void *name) {
     u8 friendData[12];
     u64 friendKey;
 
-    friendKey = DWC_StringToFriendKey(keyString);
-    InitFriendDataFromFriendKey(friendData, friendKey, friendKey >> 32);
-    return AddOrUpdateBuddyRecord((u8 *) data_0217aa08->mBuddyRecordBlock + 0x874, name, friendData, 1, 0, 1);
+    friendKey = DWC_Acc_NumericKeyToFriendKey(keyString);
+    DWC_CreateFriendKeyToken(friendData, friendKey, friendKey >> 32);
+    return AddOrUpdateBuddyRecord((u8 *) gSaveData->mBuddyRecordBlock + 0x874, name, friendData, 1, 0, 1);
 }

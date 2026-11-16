@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteSlotGhostRecord(u32 index, int source);
+void savd_storeDownloadGhost(u32 index, int source);

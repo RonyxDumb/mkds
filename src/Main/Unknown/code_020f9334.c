@@ -56,10 +56,10 @@ void func_020f9b0c(ItemObject *item) {
     func_020f6fc4(item, 1);
 }
 
-void ResetItemObject(ItemObject *item, s32 kind) {
+void it_initInstance(ItemObject *item, s32 kind) {
     void (*reset)(void *);
 
-    reset = gItemKinds[kind].mReset;
+    reset = it_sItemParams[kind].mReset;
     item->mKind = kind;
     item->mFlags = 0;
     item->mUnk_7a = 0;
@@ -77,11 +77,11 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mUnk_d0 = &item->mPos;
     item->mCollisionSlotIndex = -1;
     item->mUnk_104->mUnk_00 = NULL;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         item->mFlags |= 0x8000000;
     }
     item->mUnk_78 |= data_02159cac;
-    InitCourseColorBlend(&item->mColorBlend, 1);
+    light_init(&item->mColorBlend, 1);
     item->mUnk_90 = NULL;
     if (reset != NULL) {
         reset(item);
@@ -89,21 +89,21 @@ void ResetItemObject(ItemObject *item, s32 kind) {
     item->mUnk_128 = 0;
 }
 
-void ResetItemObjectAtPos(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos) {
+void it_20F99B8(ItemObject *item, s32 kind, u16 ownerAndFlags, Vec3 *pos) {
     item->mPos = *pos;
     item->mUnk_78 = ownerAndFlags;
-    ResetItemObject(item, kind);
+    it_initInstance(item, kind);
     if ((item->mFlags & 0x8000000) == 0) {
         return;
     }
     item->mId = ComputeItemObjectId(item);
 }
 
-void ReleaseItemObject(ItemObject *item) {
+void it_destroy(ItemObject *item) {
     enum { K0 } kind;
 
     if (item->mCollisionSlotIndex != -1) {
-        item->mCollisionSlotIndex = FreeCollisionSlot(item->mCollisionSlotIndex);
+        item->mCollisionSlotIndex = col_deleteColEntry(item->mCollisionSlotIndex);
     }
     if ((item->mFlags & 0x400000) != 0) {
         func_02109054(&item->mSoundSource);
@@ -112,28 +112,28 @@ void ReleaseItemObject(ItemObject *item) {
     }
     item->mFlags |= 4;
     kind = item->mKind;
-    if (gItemKinds[kind].mRelease != NULL) {
-        gItemKinds[kind].mRelease(item);
+    if (it_sItemParams[kind].mRelease != NULL) {
+        it_sItemParams[kind].mRelease(item);
     }
 }
 
-void func_020f98a0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, u16 *colorBlend, s32 param_5) {
+void it_20F98A0(ItemObject *itemParam, Vec3 *prevPos, Vec3 *normal, u16 *colorBlend, s32 param_5) {
     ItemObject *item = itemParam;
     item->mPrevPos = *prevPos;
     if (colorBlend != NULL) {
         item->mColorBlend = *(CourseColorBlend *) colorBlend;
     } else {
-        InitCourseColorBlend(&item->mColorBlend, 1);
+        light_init(&item->mColorBlend, 1);
     }
     item->mNormal = *normal;
     item->mUnk_116 = param_5 != 0 ? 0 : 5;
 }
 
 s32 func_020f9880(ItemObject *item) {
-    return gItemKinds[item->mKind].mUnk_84;
+    return it_sItemParams[item->mKind].mUnk_84;
 }
 
-BOOL func_020f97e0(ItemObject *item, Kart *kart) {
+BOOL it_20F97E0(ItemObject *item, Kart *kart) {
     Vec3 offset;
     s32 hitRadius;
 
@@ -193,8 +193,8 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     itemVelocity = item->mVelocity;
     hitType = GetItemObjectHitType(item, other);
     otherHitType = GetItemObjectHitType(other, item);
-    func_020f77f8(item, hitType, &other->mPos, &other->mVelocity, NULL);
-    func_020f77f8(other, otherHitType, &item->mPos, &itemVelocity, NULL);
+    it_20F77F8(item, hitType, &other->mPos, &other->mVelocity, NULL);
+    it_20F77F8(other, otherHitType, &item->mPos, &itemVelocity, NULL);
     if (item->mKind == 1) {
         func_020f5614(item, hitType, other);
     }
@@ -204,7 +204,7 @@ void func_020f95d4(ItemObject *item, ItemObject *other) {
     func_020f5614(other, otherHitType, item);
 }
 
-void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
+void it_20F944C(ItemObject *itemParam, MapObject *mapObjectParam) {
     Vec3 a;
     Vec3 otherPos;
     s32 b;
@@ -212,14 +212,14 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
     ItemObject *item = itemParam;
     MapObject *mapObject = mapObjectParam;
 
-    if (IsSphereHittingMapObject(&item->mPos, item->mRadius, mapObject, &a) == FALSE) {
+    if (mobj_sphereCollide(&item->mPos, item->mRadius, mapObject, &a) == FALSE) {
         return;
     }
     if ((mapObject->mFlags & 0x40) == 0 && (item->mFlags & 0x80000) == 0 &&
-        DoesItemObjectRespondToMapObject(item->mKind, mapObject) != 0) {
+        mobj_getCollidesWithItem(item->mKind, mapObject) != 0) {
         VEC_Add(&item->mPos, &a, &item->mPos);
     }
-    switch (func_020d6a54(item, mapObject, &b)) {
+    switch (mobj_handleItemCollision(item, mapObject, &b)) {
         case 1:
             otherPos.x = mapObject->mPos.x;
             otherPos.y = item->mPos.y;
@@ -232,7 +232,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            func_020f77f8(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
+            it_20F77F8(item, 1, &a, &mapObject->mUnk_10, reportedMapObject);
             item->mUnk_78 &= ~0x4000;
             return;
         case 2:
@@ -243,7 +243,7 @@ void func_020f944c(ItemObject *itemParam, MapObject *mapObjectParam) {
                 mapObject->mDistanceSquaredAndFlags &= ~0x80000000;
                 reportedMapObject = NULL;
             }
-            func_020f77f8(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
+            it_20F77F8(item, 2, &mapObject->mPos, &mapObject->mUnk_10, reportedMapObject);
             return;
     }
 }
@@ -264,7 +264,7 @@ void func_020f9334(void *itemParam, Vec3 *pos, Vec3 *velocity, s32 minFallSpeed,
     lowerPos.y = y;
     lowerPos.z = z;
 
-    func_01ffdee4(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
+    col_collide(&lowerPos, pos, 0, item->mUnk_dc >> 1, 0x24, item->mCollisionSlotIndex, NULL, NULL, NULL,
                   &collisionBits, NULL, NULL, NULL, NULL);
     if ((collisionBits & 0x1e34ef) != 0 || (item->mCollisionBits & 0x80000) != 0) {
         if ((item->mFlags & 0x4000000) != 0) {

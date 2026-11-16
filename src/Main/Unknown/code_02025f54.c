@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-void SetInterpolationState(Interpolation *interpolation, u32 state) {
+void interp_setStateDirect(Interpolation *interpolation, u32 state) {
     interpolation->mState = state;
     switch (interpolation->mState) {
         case 0:

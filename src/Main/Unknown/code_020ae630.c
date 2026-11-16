@@ -7,7 +7,7 @@
 
 #pragma thumb on
 
-void ResetOamLists(void *mainOam, void *subOam) {
+void oam_clearResetBuffers(void *mainOam, void *subOam) {
     Unk020ae630 *mainOamList = mainOam;
     Unk020ae630 *subOamList = subOam;
 
@@ -23,7 +23,7 @@ void ResetOamLists(void *mainOam, void *subOam) {
     }
 }
 
-void ClearOamListCounts(void *mainOam, void *subOam) {
+void oam_resetBuffers(void *mainOam, void *subOam) {
     Unk020ae630 *mainOamList = mainOam;
     Unk020ae630 *subOamList = subOam;
 
@@ -37,7 +37,7 @@ void ClearOamListCounts(void *mainOam, void *subOam) {
     }
 }
 
-void func_020ae630(void *mainOam, void *subOam) {
+void oam_prepareBuffers(void *mainOam, void *subOam) {
     Unk020ae630 *mainOamList = mainOam;
     Unk020ae630 *subOamList = subOam;
     u16 usedEntryCount;

@@ -4,12 +4,12 @@
 
 #pragma thumb on
 
-void StartResultsBattleChoices(void) {
+void bres_startSelectChoices(void) {
     void *firstText;
     void *secondText;
-    firstText = GetBmgEntry(gResultsBattle->mCommonMessages, 0x5d);
-    secondText = GetBmgEntry(gResultsBattle->mCommonMessages, 0x5f);
-    StartSelectChoises(firstText, secondText, 0);
+    firstText = jn_msg_getMessage(bres_sState->mCommonMessages, 0x5d);
+    secondText = jn_msg_getMessage(bres_sState->mCommonMessages, 0x5f);
+    gmenu_startSelectChoices(firstText, secondText, 0);
 }
 
 #pragma thumb off

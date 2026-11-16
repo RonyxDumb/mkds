@@ -75,14 +75,14 @@ static inline void func_02032f94_inline(void *buffer, s32 byteCount) {
 }
 
 static inline Unk0217aa1c_144_00 *func_02032f94_inline_2(s32 index) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[index];
+    return &rres_sRaceResults->mTeamResults[rres_205DB28()].mTeams[index];
 }
 
 static inline CourseTeamResults *func_02032f94_inline_3(void) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()];
+    return &rres_sRaceResults->mTeamResults[rres_205DB28()];
 }
 
-void InitResultsBattle(void *heap, s32 b, s32 c) {
+void bres_init(void *heap, s32 b, s32 c) {
     Unk02180774 *displaySettings;
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
@@ -99,64 +99,64 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
     Unk02125de0Arg v;
     s32 orderUsed[8];
 
-    gResultsBattle = HeapAlloc(heap, 0x154);
-    MemFillWordsByBlock_inline(gResultsBattle, 0x154);
-    gResultsBattle->mUnk_0b8[0] = b;
-    gResultsBattle->mUnk_0b8[1] = c;
-    gResultsBattle->mMode = data_021759d0->mUnk_20;
-    if (gResultsBattle->mMode == 3) {
+    bres_sState = heap_alloc(heap, 0x154);
+    MemFillWordsByBlock_inline(bres_sState, 0x154);
+    bres_sState->mUnk_0b8[0] = b;
+    bres_sState->mUnk_0b8[1] = c;
+    bres_sState->mMode = gSystemData->mUnk_20;
+    if (bres_sState->mMode == 3) {
         SetupWiFiSession(3);
     }
-    Init3dEngine();
-    displaySettings = CreateDisplaySettings(heap, data_021547f0);
-    SetBg0Record(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
-    SetBg1Record(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
-    SetBg2RecordParams(displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
-    SetBg3RecordParams(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
-    SetBg3RecordParams(displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
-    InitDisplayFromSettings(displaySettings);
+    race_initG3d();
+    displaySettings = dc_createDisplayConfig(heap, data_021547f0);
+    dc_setBg0Config(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0xd, 2, 0);
+    dc_setBg1Config(displaySettings->mMainBgRecords, 0, 0, 0, 0, 0xc, 0, 0);
+    dc_setBg2Config(displaySettings->mMainBgRecords, 2, 0, 0, 0, 0x1e, 6);
+    dc_setBg3Config(displaySettings->mMainBgRecords, 3, 0, 0, 0, 0x1d, 6);
+    dc_setBg3Config(displaySettings->mSubBgRecords, 3, 0, 0, 0, 1, 6);
+    dc_setDisplayConfig(displaySettings);
     v.mUnk_00 = 0;
     v.mUnk_04 = NULL;
     v.mUnk_08 = 0;
     v.mUnk_0c = 0;
     v.mUnk_10 = 0;
     v.mUnk_14 = 1;
-    v.mUnk_18 = GetFontByIndex(2);
+    v.mUnk_18 = m2d_getFont(2);
     v.mUnk_1c = 0;
     v.mUnk_20 = 0;
     v.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &v);
-    func_020629a4();
-    gResultsBattle->mCommonMessages = FindFileInLoadedArchives(data_0216416c);
-    switch (gResultsBattle->mMode) {
+    gmenu_unpackData();
+    gmenu_init(heap, &v);
+    race_initResManagement();
+    bres_sState->mCommonMessages = arc_get2dArcFile(aCommon_bmg_7);
+    switch (bres_sState->mMode) {
         case 0:
-            gResultsBattle->mOwnEntryIndex = 0;
-            gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = 2;
+            bres_sState->mOwnEntryIndex = 0;
+            bres_sState->mKartCount = gRaceMultiConfig->mKartCount;
+            bres_sState->mState = 2;
             break;
         case 1:
         case 2:
             SetSelectChoisesSoundId(1, 0xf);
-            gResultsBattle->mOwnEntryIndex =
-                data_0217aa00->mUnk_1e52[(u16) (data_0217aa00->mUnk_0000 == 2 ? data_0217aa00->mOwnIndex : 0)]
+            bres_sState->mOwnEntryIndex =
+                gStruct217AA00->mUnk_1e52[(u16) (gStruct217AA00->mUnk_0000 == 2 ? gStruct217AA00->mOwnIndex : 0)]
                     .mEntryIndex;
-            gResultsBattle->mKartCount = gRaceSetup->mKartCount;
-            gResultsBattle->mState = 0;
+            bres_sState->mKartCount = gRaceMultiConfig->mKartCount;
+            bres_sState->mState = 0;
             break;
         case 3:
-            gResultsBattle->mOwnEntryIndex = GetPackedIndex(func_ov000_0219bb50());
-            gResultsBattle->mKartCount = gWiFiSession->mKartCount;
-            gResultsBattle->mUseTimer = TRUE;
-            gResultsBattle->mTimer = 0x384;
-            gResultsBattle->mState = 2;
+            bres_sState->mOwnEntryIndex = GetPackedIndex(func_ov000_0219bb50());
+            bres_sState->mKartCount = gStruct217D384->mKartCount;
+            bres_sState->mUseTimer = TRUE;
+            bres_sState->mTimer = 0x384;
+            bres_sState->mState = 2;
             break;
     }
-    FillResultsBattleEntries();
-    if (gRaceSetup->mUseTeams != 0) {
+    bres_2033E6C();
+    if (gRaceMultiConfig->mUseTeams != 0) {
         j = 0;
         k = 0;
-        switch (gRaceSetup->mRuleKind) {
+        switch (gRaceMultiConfig->mRuleKind) {
             case 1:
                 j = func_02032f94_inline_2(0)->mUnk_02;
                 k = func_02032f94_inline_2(1)->mUnk_02;
@@ -167,97 +167,97 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
                 break;
         }
         if (j == k) {
-            gResultsBattle->mUnk_0d4 = gResultsBattle->mKartCount;
-            gResultsBattle->mFileSetKind = 2;
+            bres_sState->mUnk_0d4 = bres_sState->mKartCount;
+            bres_sState->mFileSetKind = 2;
         } else if (j > k) {
-            gResultsBattle->mUnk_0d4 = gRaceSetup->mTeamKartCounts[0];
-            gResultsBattle->mFileSetKind = 3;
+            bres_sState->mUnk_0d4 = gRaceMultiConfig->mTeamKartCounts[0];
+            bres_sState->mFileSetKind = 3;
         } else if (k > j) {
-            gResultsBattle->mUnk_0d4 = gRaceSetup->mTeamKartCounts[1];
-            gResultsBattle->mFileSetKind = 4;
+            bres_sState->mUnk_0d4 = gRaceMultiConfig->mTeamKartCounts[1];
+            bres_sState->mFileSetKind = 4;
         }
-    } else if (AreResultsBattleRanksAllZero() != 0) {
-        gResultsBattle->mUnk_0d4 = gResultsBattle->mKartCount;
-        gResultsBattle->mFileSetKind = 2;
-    } else if (gResultsBattle->mEntries[gResultsBattle->mOwnEntryIndex].mRank == 0) {
-        gResultsBattle->mFileSetKind = 0;
+    } else if (bres_2033E24() != 0) {
+        bres_sState->mUnk_0d4 = bres_sState->mKartCount;
+        bres_sState->mFileSetKind = 2;
+    } else if (bres_sState->mEntries[bres_sState->mOwnEntryIndex].mRank == 0) {
+        bres_sState->mFileSetKind = 0;
     } else {
-        gResultsBattle->mFileSetKind = 1;
+        bres_sState->mFileSetKind = 1;
     }
-    func_02025b84(1, &gResultsBattle->mCellFileSets[2]);
-    func_02025b84(0, &gResultsBattle->mCellFileSets[3]);
-    gResultsBattle->mUnk_0c0 = GetPlayerCharacterShyguyNclr(1);
-    gResultsBattle->mUnk_0c4 = GetPlayerCharacterShyguyNclr(0);
-    screenMapFileSet = &gResultsBattle->mScreenMapFileSets[0];
-    LoadScreenMapFileSet(screenMapFileSet, data_02153f80[gResultsBattle->mFileSetKind][0],
-                         data_02153f84[gResultsBattle->mFileSetKind][0], data_02153f8c[gResultsBattle->mFileSetKind][0],
-                         3, FindSceneFile);
-    LoadNscrData(&screenMapFileSet->mScreenMaps[2], FindSceneFile(data_02153f88[gResultsBattle->mFileSetKind][0]));
+    mutil2_loadPortraits(1, &bres_sState->mCellFileSets[2]);
+    mutil2_loadPortraits(0, &bres_sState->mCellFileSets[3]);
+    bres_sState->mUnk_0c0 = m2d_getPortraitShyGuyONclr(1);
+    bres_sState->mUnk_0c4 = m2d_getPortraitShyGuyONclr(0);
+    screenMapFileSet = &bres_sState->mScreenMapFileSets[0];
+    mutil2_loadUnpackBgGraphics(screenMapFileSet, data_02153f80[bres_sState->mFileSetKind][0],
+                         data_02153f84[bres_sState->mFileSetKind][0], data_02153f8c[bres_sState->mFileSetKind][0],
+                         3, arc_getSceneArcFile);
+    g2du_unpackScreenData(&screenMapFileSet->mScreenMaps[2], arc_getSceneArcFile(data_02153f88[bres_sState->mFileSetKind][0]));
     GX_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GX_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GX_LoadBG2Scr(screenMapFileSet->mScreenMaps[2]->mData, 0, screenMapFileSet->mScreenMaps[2]->mDataSize);
     GX_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    LoadCellFileSet(mainCellFileSet, data_02153f90[gResultsBattle->mFileSetKind][0],
-                    data_02153f94[gResultsBattle->mFileSetKind][0], data_02153f98[gResultsBattle->mFileSetKind][0],
-                    data_02153f9c[gResultsBattle->mFileSetKind][0], data_02153fa0[gResultsBattle->mFileSetKind][0],
-                    NULL, FindSceneFile);
-    func_02025a50(0, heap, mainCellFileSet);
-    switch (gResultsBattle->mFileSetKind) {
+    mainCellFileSet = &bres_sState->mCellFileSets[0];
+    mutil2_loadUnpackLayout(mainCellFileSet, data_02153f90[bres_sState->mFileSetKind][0],
+                    data_02153f94[bres_sState->mFileSetKind][0], data_02153f98[bres_sState->mFileSetKind][0],
+                    data_02153f9c[bres_sState->mFileSetKind][0], data_02153fa0[bres_sState->mFileSetKind][0],
+                    NULL, arc_getSceneArcFile);
+    mutil2_initLayout(0, heap, mainCellFileSet);
+    switch (bres_sState->mFileSetKind) {
         case 0:
-            func_02033a0c(heap);
+            bres_initVictory(heap);
             break;
         case 1:
-            func_020338f8(heap);
+            bres_initLose(heap);
             break;
         case 2:
-            func_02033840(heap);
+            bres_initDraw(heap);
             break;
         case 3:
         case 4:
-            func_020336ec(heap);
+            bres_initVSTeams(heap);
             break;
     }
     cellLayout = mainCellFileSet->mCellLayout;
     for (i = 0; i < cellLayout->mUnk_06; i++) {
-        func_0201ea30(mainCellFileSet->mCellLayout, i);
+        jn_ui_getBnclElement(mainCellFileSet->mCellLayout, i);
     }
-    screenMapFileSet = &gResultsBattle->mScreenMapFileSets[1];
-    LoadScreenMapFileSet(screenMapFileSet, gResultsBattleSBNcgrName, gResultsBattleSBNclrName,
-                         gResultsBattleSBgNscrName, 3, FindSceneFile);
+    screenMapFileSet = &bres_sState->mScreenMapFileSets[1];
+    mutil2_loadUnpackBgGraphics(screenMapFileSet, aResults_battle, aResults_batt_0,
+                         aResults_batt_1, 3, arc_getSceneArcFile);
     GXS_LoadBG3Char(screenMapFileSet->mChars[3]->mData, 0, screenMapFileSet->mChars[3]->mDataSize);
     GXS_LoadBGPltt(screenMapFileSet->mPalette->mData, 0, 0x140);
     GXS_LoadBG3Scr(screenMapFileSet->mScreenMaps[3]->mData, 0, screenMapFileSet->mScreenMaps[3]->mDataSize);
     remainingObjSize = GX_GetSizeOfSubOBJ();
-    results = gResultsBattle;
+    results = bres_sState;
     subCellFileSet = &results->mCellFileSets[1];
-    LoadCellFileSet(subCellFileSet, gResultsBattleSNcgrName, gResultsBattleSNcerName, gResultsBattleSONclrName,
-                    gResultsBattleSBnclName, gResultsBattleSBnllName, NULL, FindSceneFile);
-    InitLayoutTable(heap, subCellFileSet->mCellLayout, subCellFileSet->mLabelLayout, &subCellFileSet->mCellTable);
+    mutil2_loadUnpackLayout(subCellFileSet, aResults_batt_4, aResults_batt_5, aResults_batt_6,
+                    aResults_batt_2, aResults_batt_3, NULL, arc_getSceneArcFile);
+    jn_ui_initLayout(heap, subCellFileSet->mCellLayout, subCellFileSet->mLabelLayout, &subCellFileSet->mCellTable);
     GXS_LoadOBJ(((Ncgr *) results->mCellFileSets[1].mChars)->mData, 0,
                 ((Ncgr *) results->mCellFileSets[1].mChars)->mDataSize);
     GXS_LoadOBJPltt(((Nclr *) subCellFileSet->mPalette)->mData, 0, ((Nclr *) subCellFileSet->mPalette)->mDataSize);
     for (i = 0; i < subCellFileSet->mLabelLayout->mUnk_06; i++) {
-        remainingObjSize -= func_02025a00(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
+        remainingObjSize -= mutil2_initLabel(1, heap, subCellFileSet, data_02153f00[i], remainingObjSize);
     }
     for (i = 0; i < subCellFileSet->mCellLayout->mUnk_06; i++) {
-        func_021249a8(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
+        jn_ui_setCellPriority(i, 2, subCellFileSet->mCells, subCellFileSet->mCellLayout);
     }
     for (i = 0; i < 8; i++) {
         orderUsed[i] = 0;
     }
     for (entryIndex = 0; entryIndex < 8; entryIndex++) {
-        orderIndex = gResultsBattle->mEntries[entryIndex].mOrderIndex;
-        k = gRaceSetup->mCurrentEntries[entryIndex].mPlayer.mKind;
+        orderIndex = bres_sState->mEntries[entryIndex].mOrderIndex;
+        k = gRaceMultiConfig->mCurrentEntries[entryIndex].mPlayer.mKind;
         if ((k == PLAYER_KIND_HUMAN || k == PLAYER_KIND_CPU || k == PLAYER_KIND_PEER) &&
-            (gResultsBattle->mMode != 3 || gResultsBattle->mEntries[entryIndex].mScore != 0)) {
-            func_02033ab8(1, entryIndex, orderIndex + 0x30, 1);
+            (bres_sState->mMode != 3 || bres_sState->mEntries[entryIndex].mScore != 0)) {
+            bres_2033AB8(1, entryIndex, orderIndex + 0x30, 1);
             func_02032f94_inline(entryName, 0x16);
             CopyKartEntryName(entryIndex, entryName, 0);
-            func_0212426c(1, orderIndex, subCellFileSet->mLabelLayout, entryName, subCellFileSet->mCellLayout,
+            jn_ui_212426C(1, orderIndex, subCellFileSet->mLabelLayout, entryName, subCellFileSet->mCellLayout,
                           subCellFileSet->mCellTable);
-            func_02033b80(entryIndex);
-            func_02033c80(entryIndex);
+            bres_2033B80(entryIndex);
+            bres_2033C80(entryIndex);
             orderUsed[orderIndex] = 1;
         }
     }
@@ -274,16 +274,16 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
             subCellFileSet->mCellTable[i].mVisible = subCellFileSet->mCellTable[i + 0x08].mVisible;
         }
     }
-    switch (gResultsBattle->mFileSetKind) {
+    switch (bres_sState->mFileSetKind) {
         case 3:
-            if (gRaceSetup->mCurrentEntries[(u16) gResultsBattle->mOwnEntryIndex].mPlayer.mTeamIndex == 0) {
+            if (gRaceMultiConfig->mCurrentEntries[(u16) bres_sState->mOwnEntryIndex].mPlayer.mTeamIndex == 0) {
                 k = 0;
             } else {
                 k = 7;
             }
             break;
         case 4:
-            if (gRaceSetup->mCurrentEntries[(u16) gResultsBattle->mOwnEntryIndex].mPlayer.mTeamIndex == 1) {
+            if (gRaceMultiConfig->mCurrentEntries[(u16) bres_sState->mOwnEntryIndex].mPlayer.mTeamIndex == 1) {
                 k = 0;
             } else {
                 k = 7;
@@ -296,14 +296,14 @@ void InitResultsBattle(void *heap, s32 b, s32 c) {
             k = 7;
             break;
     }
-    InitTrophy(8, (u16) k);
+    trophy_init(8, (u16) k);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
+void bres_update(SceneNumbersView *sceneNumbers) {
     CellFileSet *mainCellFileSet;
     CellFileSet *subCellFileSet;
     InputSlotIndex inputSlotIndex;
@@ -316,16 +316,16 @@ void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
     s32 i;
     s32 frameLimit;
 
-    subCellFileSet = &gResultsBattle->mCellFileSets[1];
-    mainCellFileSet = &gResultsBattle->mCellFileSets[0];
-    if (gResultsBattle->mUseTimer != FALSE) {
-        if (gResultsBattle->mTimer != 0) {
-            gResultsBattle->mTimer = gResultsBattle->mTimer - 1;
-            shownTimer = (gResultsBattle->mTimer + 0x3c) / 0x3c;
-            mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
-            if (gResultsBattle->mTimer == 0) {
+    subCellFileSet = &bres_sState->mCellFileSets[1];
+    mainCellFileSet = &bres_sState->mCellFileSets[0];
+    if (bres_sState->mUseTimer != FALSE) {
+        if (bres_sState->mTimer != 0) {
+            bres_sState->mTimer = bres_sState->mTimer - 1;
+            shownTimer = (bres_sState->mTimer + 0x3c) / 0x3c;
+            mainCellFileSet->mCellTable[bres_sState->mTimerTensCell].mVisible = shownTimer >= 10 ? 1 : 0;
+            if (bres_sState->mTimer == 0) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x51);
-            } else if ((gResultsBattle->mTimer + 0x3c) % 0x3c == 0 && shownTimer <= 4) {
+            } else if ((bres_sState->mTimer + 0x3c) % 0x3c == 0 && shownTimer <= 4) {
                 NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x50);
             }
         } else {
@@ -333,120 +333,120 @@ void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
         }
         tensCellLayout = mainCellFileSet->mCellLayout;
         tensCells = mainCellFileSet->mCells;
-        QueueCellChars(gResultsBattle->mTimerDigitCellBase + (shownTimer / 10) % 10, tensCells, mainCellFileSet->mChars,
-                       tensCellLayout, 0, gResultsBattle->mTimerTensCell, tensCells, tensCellLayout);
+        jn_ui_fillPlaceholder(bres_sState->mTimerDigitCellBase + (shownTimer / 10) % 10, tensCells, mainCellFileSet->mChars,
+                       tensCellLayout, 0, bres_sState->mTimerTensCell, tensCells, tensCellLayout);
         unitsCellLayout = mainCellFileSet->mCellLayout;
         unitsCells = mainCellFileSet->mCells;
-        QueueCellChars(gResultsBattle->mTimerDigitCellBase + shownTimer % 10, unitsCells, mainCellFileSet->mChars,
-                       unitsCellLayout, 0, gResultsBattle->mTimerTensCell + 1, unitsCells, unitsCellLayout);
+        jn_ui_fillPlaceholder(bres_sState->mTimerDigitCellBase + shownTimer % 10, unitsCells, mainCellFileSet->mChars,
+                       unitsCellLayout, 0, bres_sState->mTimerTensCell + 1, unitsCells, unitsCellLayout);
     } else {
-        mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell + 1].mVisible = 0;
-        mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell].mVisible =
-            mainCellFileSet->mCellTable[gResultsBattle->mTimerTensCell + 1].mVisible;
+        mainCellFileSet->mCellTable[bres_sState->mTimerTensCell + 1].mVisible = 0;
+        mainCellFileSet->mCellTable[bres_sState->mTimerTensCell].mVisible =
+            mainCellFileSet->mCellTable[bres_sState->mTimerTensCell + 1].mVisible;
     }
-    switch (gResultsBattle->mState) {
+    switch (bres_sState->mState) {
         case 0:
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
+            bres_sState->mState0To2Frames = bres_sState->mState0To2Frames + 1;
             if (StartDataSharingSync() == 1) {
-                gResultsBattle->mState = 1;
+                bres_sState->mState = 1;
             }
             break;
         case 1:
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
+            bres_sState->mState0To2Frames = bres_sState->mState0To2Frames + 1;
             if (FinishDataSharingSync() == 1) {
-                gResultsBattle->mState = 2;
+                bres_sState->mState = 2;
             }
             break;
         case 2:
             frameLimit = func_0210f714();
-            gResultsBattle->mState0To2Frames = gResultsBattle->mState0To2Frames + 1;
-            if (gResultsBattle->mState0To2Frames > frameLimit) {
-                gResultsBattle->mState0To2Frames = 0;
-                gResultsBattle->mState = 3;
+            bres_sState->mState0To2Frames = bres_sState->mState0To2Frames + 1;
+            if (bres_sState->mState0To2Frames > frameLimit) {
+                bres_sState->mState0To2Frames = 0;
+                bres_sState->mState = 3;
             }
             break;
         case 3:
-            switch (gResultsBattle->mMode) {
+            switch (bres_sState->mMode) {
                 case 0:
-                    if ((u16) (data_02175628[func_020435bc()].mPressedBits & PAD_KEY_A) != 0) {
+                    if ((u16) (gInputUnits[input_getDirectInputUnitId()].mPressedBits & PAD_KEY_A) != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                         if (sceneNumbers != NULL) {
                             sceneNumbers->mNextScene = 1;
                         }
-                        gResultsBattle->mState = 7;
+                        bres_sState->mState = 7;
                     }
                     break;
                 case 1:
                 case 2:
                     inputSlotIndex = UNK_02175628_INDEX_8;
-                    if ((u16) (data_02175628[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
-                        StartResultsBattleChoices();
-                        gResultsBattle->mState = 4;
+                    if ((u16) (gInputUnits[inputSlotIndex].mPressedBits & PAD_KEY_A) != 0) {
+                        bres_startSelectChoices();
+                        bres_sState->mState = 4;
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
                     }
                     break;
                 case 3:
-                    if (IsResultsBattleTimerRunOut() != 0) {
+                    if (bres_2033DFC() != 0) {
                         func_02121dec(1);
-                        gResultsBattle->mState = 5;
-                    } else if ((u16) (data_02175628[func_020435bc()].mPressedBits & PAD_KEY_A) != 0 ||
-                               func_02033dd0() != 0) {
-                        StartResultsBattleChoices();
+                        bres_sState->mState = 5;
+                    } else if ((u16) (gInputUnits[input_getDirectInputUnitId()].mPressedBits & PAD_KEY_A) != 0 ||
+                               bres_2033DD0() != 0) {
+                        bres_startSelectChoices();
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 5);
-                        gResultsBattle->mState = 4;
+                        bres_sState->mState = 4;
                     }
                     break;
             }
             break;
         case 4:
-            switch (gResultsBattle->mMode) {
+            switch (bres_sState->mMode) {
                 case 1:
                 case 2:
                     if (GetSelectChoisesDone() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                if (data_021759d0->mUnk_1c_2 != 0) {
-                                    data_0217b488->mUnk_74 = 3;
-                                    data_0217b488->mUnk_08 = 4;
+                                if (gSystemData->mUnk_1c_2 != 0) {
+                                    gStruct217B488->mUnk_74 = 3;
+                                    gStruct217B488->mUnk_08 = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 6;
                                     }
                                 } else {
-                                    data_0217b488->mUnk_08 = 4;
+                                    gStruct217B488->mUnk_08 = 4;
                                     if (sceneNumbers != NULL) {
                                         sceneNumbers->mNextScene = 1;
                                     }
                                 }
-                                gResultsBattle->mState = 7;
+                                bres_sState->mState = 7;
                                 break;
                             case 1:
-                                data_0217aa00->mUnk_0454 = data_0217aa00->mUnk_0454 | 0x80;
-                                gResultsBattle->mState = 6;
+                                gStruct217AA00->mUnk_0454 = gStruct217AA00->mUnk_0454 | 0x80;
+                                bres_sState->mState = 6;
                                 break;
                             case -1:
-                                gResultsBattle->mState = 3;
+                                bres_sState->mState = 3;
                                 break;
                         }
                         RequestSelectChoisesState0();
                     }
                     break;
                 case 3:
-                    if (GetSelectChoisesDone() != 0 || IsResultsBattleTimerRunOut() != 0) {
+                    if (GetSelectChoisesDone() != 0 || bres_2033DFC() != 0) {
                         switch (GetSelectChoisesIndex()) {
                             case 0:
-                                gResultsBattle->mState = 5;
+                                bres_sState->mState = 5;
                                 func_02121dec(1);
                                 break;
                             case 1:
                                 func_02121dec(0);
-                                data_0217b488->mUnk_1c = 1;
+                                gStruct217B488->mUnk_1c = 1;
                                 if (sceneNumbers != NULL) {
                                     sceneNumbers->mNextScene = 0xc;
                                 }
-                                gResultsBattle->mState = 7;
+                                bres_sState->mState = 7;
                                 break;
                             case -1:
-                                gResultsBattle->mState = 3;
+                                bres_sState->mState = 3;
                                 break;
                         }
                         RequestSelectChoisesState0();
@@ -458,16 +458,16 @@ void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
             if (func_02121c78() != 0) {
                 switch (func_02121c78()) {
                     case 1:
-                        data_0217b488->mUnk_1c = 2;
+                        gStruct217B488->mUnk_1c = 2;
                         break;
                     case 2:
-                        data_0217b488->mUnk_1c = 1;
+                        gStruct217B488->mUnk_1c = 1;
                         break;
                 }
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0xc;
                 }
-                gResultsBattle->mState = 7;
+                bres_sState->mState = 7;
             }
             break;
         case 6:
@@ -475,35 +475,35 @@ void AdvanceResultsBattle(SceneNumbersView *sceneNumbers) {
                 if (sceneNumbers != NULL) {
                     sceneNumbers->mNextScene = 0;
                 }
-                gResultsBattle->mState = 7;
+                bres_sState->mState = 7;
             }
             break;
     }
-    AdvanceTrophy();
-    DrawTrophy();
+    trophy_update();
+    trophy_render();
     for (i = 0; i < 2; i++) {
-        DrawLayoutTable(gResultsBattle->mCellFileSets[i].mCellLayout, gResultsBattle->mCellFileSets[i].mCells,
-                        gResultsBattle->mCellFileSets[i].mLabelLayout, (void *) gResultsBattle->mUnk_0b8[i],
-                        gResultsBattle->mCellFileSets[i].mCellTable);
+        jn_ui_renderElements(bres_sState->mCellFileSets[i].mCellLayout, bres_sState->mCellFileSets[i].mCells,
+                        bres_sState->mCellFileSets[i].mLabelLayout, (void *) bres_sState->mUnk_0b8[i],
+                        bres_sState->mCellFileSets[i].mCellTable);
     }
     cellCount = subCellFileSet->mCellLayout->mUnk_06;
     for (i = 0; i < 8; i++) {
         subCellFileSet->mCellTable[i + cellCount].mOffsetY = subCellFileSet->mCellTable[i + cellCount].mOffsetY + 1;
-        SetLabelPaletteIndex(i, 0xe, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+        jn_ui_setLabelColorParam(i, 0xe, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
-        DrawLayoutTableEntry(i + cellCount, subCellFileSet->mCellLayout, subCellFileSet->mCells,
-                             subCellFileSet->mLabelLayout, (void *) gResultsBattle->mUnk_0b8[1],
+        jn_ui_renderElement(i + cellCount, subCellFileSet->mCellLayout, subCellFileSet->mCells,
+                             subCellFileSet->mLabelLayout, (void *) bres_sState->mUnk_0b8[1],
                              subCellFileSet->mCellTable);
-        SetLabelPaletteIndex(i, 0xf, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
+        jn_ui_setLabelColorParam(i, 0xf, subCellFileSet->mLabelLayout, subCellFileSet->mCellTable,
                              subCellFileSet->mCellLayout);
         subCellFileSet->mCellTable[i + cellCount].mOffsetY = subCellFileSet->mCellTable[i + cellCount].mOffsetY - 1;
     }
-    func_02125928();
+    gmenu_render();
 }
 
-void func_02032ab0(void) {
-    data_0217b488->mUnk_04 = 1;
-    func_02125da0();
+void bres_finalize(void) {
+    gStruct217B488->mUnk_04 = 1;
+    gmenu_finish();
 }
 
 #pragma thumb off

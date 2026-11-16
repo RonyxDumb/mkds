@@ -5,7 +5,7 @@
 
 #pragma thumb on
 
-void func_0205786c(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
+void savd_readGhostHeader(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
     BackupAccess *backupAccess;
     u32 sectionOffset;
     u32 recordOffset;
@@ -13,7 +13,7 @@ void func_0205786c(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
     u32 magic;
     void *buffer;
 
-    backupAccess = gBackupAccess;
+    backupAccess = gSaveCore;
     if (backupAccess->mBackupEnabled != 0) {
         if (isCourseGhost != 0) {
             sectionOffset = 0;
@@ -29,11 +29,11 @@ void func_0205786c(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
             magic = 0x47444b4e;
         }
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, func_020578e8, magic);
+        savc_readBlock(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, func_020578e8, magic);
     }
 }
 
-void func_02057800(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
+void savd_readGhostHeaderWithEmblem(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
     void (*readCallback)(u32, u32);
     BackupAccess *backupAccess;
     u32 sectionOffset;
@@ -42,7 +42,7 @@ void func_02057800(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
     u32 magic;
     void *buffer;
 
-    backupAccess = gBackupAccess;
+    backupAccess = gSaveCore;
     if (backupAccess->mBackupEnabled != 0) {
         if (isCourseGhost != 0) {
             sectionOffset = 0;
@@ -60,7 +60,7 @@ void func_02057800(u32 isCourseGhost, u32 index, GhostRecord *ghostRecord) {
             readCallback = func_020578d0;
         }
         backupAccess->mReadTarget = ghostRecord;
-        StartBackupReadOneCopy(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, readCallback, magic);
+        savc_readBlock(recordOffset + (sectionOffset + 0xaf00), buffer, recordSize, readCallback, magic);
     }
 }
 

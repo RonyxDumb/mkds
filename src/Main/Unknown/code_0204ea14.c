@@ -9,29 +9,29 @@
 
 #pragma thumb on
 
-u32 func_0204ea3c(void) {
+u32 mbp_204EA3C(void) {
     u32 size;
     int v2;
     u32 result;
     result = 0;
-    size = func_02008880(NULL);
+    size = MB_GetSegmentLength(NULL);
     if ((0x00010000u) <= size) {
-        v2 = func_02008570(NULL, data_0217aa00->mUnk_1658, data_0217aa00->mUnk_168c);
-        if ((v2 != 0) && (v2 = func_02008310(data_0215472c, data_0217aa00->mUnk_1658), v2 != 0)) {
+        v2 = MB_ReadSegment(NULL, gStruct217AA00->mUnk_1658, gStruct217AA00->mUnk_168c);
+        if ((v2 != 0) && (v2 = MB_RegisterFile(sMBGameRegistry, gStruct217AA00->mUnk_1658), v2 != 0)) {
             result = 1;
         }
     }
     return result;
 }
 
-void func_0204ea14(Bmg *bmg) {
+void mbp_loadBannerText(Bmg *bmg) {
     void **table;
     void *firstEntry;
     void *secondEntry;
-    firstEntry = GetBmgEntry(bmg, 0);
-    secondEntry = GetBmgEntry(bmg, 1);
-    table = data_0215472c;
-    data_0215472c[1] = firstEntry;
+    firstEntry = jn_msg_getMessage(bmg, 0);
+    secondEntry = jn_msg_getMessage(bmg, 1);
+    table = sMBGameRegistry;
+    sMBGameRegistry[1] = firstEntry;
     table[2] = secondEntry;
 }
 

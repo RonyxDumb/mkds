@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-void ShineEndCallback(void);
-void ShineKartEliminatedCallback(u16 a);
-BOOL ShineKartHitCallback(u16 a, u16 b);
-void *CreateSanboUpdateList(void);
-void *CreateSanboDrawList(void);
+void shinc_onMgEnd(void);
+void shinc_onDriverKill(u16 a);
+BOOL shinc_onDriverDamage(u16 a, u16 b);
+void *sanbo_setupLogicPart(void);
+void *sanbo_setupRenderPart(void);

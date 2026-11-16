@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u8 *GetBitArrayByte(u32 bitIndex, u8 *bytes);
+u8 *savd_getByteForBit(u32 bitIndex, u8 *bytes);

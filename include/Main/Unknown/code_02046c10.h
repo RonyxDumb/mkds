@@ -4,13 +4,13 @@
 
 typedef struct InputSlotPair InputSlotPair;
 
-u16 GetPackedTouchPoint(void);
-void func_02046c74(void);
-void func_02046ca8(InputSlotPair *pair, s32 b, s32 c);
-void UpdateTouchMicInput(void);
-void func_02046e24(void);
-void func_02046e84(void);
-void StopMicInput(void);
-void StopTouchAutoSampling(void);
-void StartMicInput(void *heap);
-void StartTouchAutoSampling(void);
+u16 spi_getTouchPos(void);
+void spi_finalize(void);
+void spi_updateTpMic(InputSlotPair *pair, s32 b, s32 c);
+void spi_update(void);
+void spi_handlePostSleep(void);
+void spi_handlePreSleep(void);
+void spi_stopMicAutoSampling(void);
+void spi_stopTouchAutoSampling(void);
+void spi_startMicAutoSampling(void *heap);
+void spi_startTouchAutoSampling(void);

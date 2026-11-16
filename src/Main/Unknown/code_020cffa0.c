@@ -6,10 +6,10 @@
 u32 func_020cffa0(void) {
     u32 value0;
     u32 value1;
-    value0 = (u32) GetCurrentHeapCall();
-    value0 = (u32) GetHeap((void *) value0);
+    value0 = (u32) proc_getCurrent();
+    value0 = (u32) proc_getHeap((void *) value0);
     value1 = 0x38u;
-    value0 = (u32) HeapAlloc((void *) value0, value1);
+    value0 = (u32) heap_alloc((void *) value0, value1);
     value1 = (u32) &data_0217b490;
     *(u32 *) ((value1) + (0)) = value0;
     return value0;

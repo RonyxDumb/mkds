@@ -17,7 +17,7 @@
 #define PLAYER_ENTRY_LIST_KART 1
 #define PLAYER_ENTRY_LIST_RACE_RULE 2
 
-// One entry of mEntries: character, kart, team and player kind; mUnk_10 is passed on as SetNextRaceEntry's sixth
+// One entry of mEntries: character, kart, team and player kind; mUnk_10 is passed on as rconf_setDriverConfigNext's sixth
 // argument. 0x18-byte elements of the table at member 0 of RaceSetupCopy.
 typedef struct RaceSetupCopyEntry {
     /* 00 */ s32 mCharacterIndex;
@@ -29,15 +29,15 @@ typedef struct RaceSetupCopyEntry {
     /* 14 */ s32 mUnk_14;
 } RaceSetupCopyEntry;
 
-// Copy of the race setup that the screens edit: filled from the current half of gRaceSetup (or from the Wi-Fi
-// session), written to the next half by func_020cc744 or func_020297bc. Object behind gRaceSetupCopy, returned by
-// GetRaceSetupCopy.
+// Copy of the race setup that the screens edit: filled from the current half of gRaceMultiConfig (or from the Wi-Fi
+// session), written to the next half by menu_configureRace or func_020297bc. Object behind menu_sRaceConfig, returned by
+// menu_getRaceConfig.
 typedef struct RaceSetupCopy {
     /* 00 */ RaceSetupCopyEntry mEntries[8];
     /* c0 */ s32 mCpuDifficulty;
     /* c4 */ s32 mKartCount;
     // A MODE_* value of unk_021759c0.h: copied from the current mode (3 for most modes in a Wi-Fi race), set by the
-    // select screens, stored as the next mode by func_020cc744.
+    // select screens, stored as the next mode by menu_configureRace.
     /* c8 */ s32 mMode;
     /* cc */ s32 mCupIndex;
     /* d0 */ s32 mCourseId;
@@ -63,12 +63,12 @@ typedef struct RaceSetupCopy {
     /* 10d */ u8 mSessionKartCount;
 } RaceSetupCopy;
 
-extern RaceSetupCopy *gRaceSetupCopy;
+extern RaceSetupCopy *menu_sRaceConfig;
 
 // 0x118-byte object that gSelectKart points to.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
-    // The 0x24-byte record of func_020258d4 starts here and runs into mUnk_040.
+    // The 0x24-byte record of mutil2_initBgGraphics starts here and runs into mUnk_040.
     /* 024 */ Unk02174e50_24 mSelectKartSBParts;
     /* 040 */ u8 mUnk_040[8];
     /* 048 */ Unk02174e50_24 mSelectCharacterGpMParts;
@@ -83,7 +83,7 @@ typedef struct SelectKart {
     // Position of the kart in the table gKartIndexTable that the player steps through; mKartIndex is the kart at that
     // position, -1 when the kart is not in the table.
     /* 09c */ s32 mKartTableIndex;
-    // Index of the entry (element of the array behind gRaceSetupCopy) whose character and kart this screen edits.
+    // Index of the entry (element of the array behind menu_sRaceConfig) whose character and kart this screen edits.
     /* 0a0 */ s32 mEntryIndex;
     /* 0a4 */ s32 mCharacterIndex;
     /* 0a8 */ s32 mKartIndex;
@@ -115,10 +115,10 @@ typedef struct PlayerEntryRow {
     /* 14 */ u16 mName[0xc];
 } PlayerEntryRow;
 
-extern HeapCall gRootHeapCall;
+extern HeapCall sMainProcess;
 
-// 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; InitSelectCharacter has two on the stack, one filled by
-// func_02025b84. ResultsBattle has four from 0x48.
+// 0x1c-byte part of SelectCharacter, at 0x00, 0x1c and 0x38; menucs_init has two on the stack, one filled by
+// mutil2_loadPortraits. ResultsBattle has four from 0x48.
 typedef struct CellFileSet {
     /* 00 */ struct Unk0212463c_c *mChars;
     /* 04 */ struct Unk0212463c_d *mPalette;
@@ -130,7 +130,7 @@ typedef struct CellFileSet {
 } CellFileSet;
 
 // Object behind gPlayerEntryList.
-// Object behind gSelectCharacter.
+// Object behind sMenuCsState.
 typedef struct SelectCharacter {
     /* 000 */ CellFileSet mUnk_000;
     /* 01c */ CellFileSet mUnk_01c;
@@ -158,7 +158,7 @@ typedef struct SelectCharacter {
     /* 128 */ BOOL mUnk_128;
 } SelectCharacter;
 
-extern SelectCharacter *gSelectCharacter;
+extern SelectCharacter *sMenuCsState;
 
 // Object behind gPlayerEntryList, 0x258 bytes (InitPlayerEntryList allocates it).
 typedef struct PlayerEntryList {
@@ -185,7 +185,7 @@ typedef struct PlayerEntryList {
 
 extern PlayerEntryList *gPlayerEntryList;
 
-// 0x24-byte part of ResultsBattle, at 0x00 and 0x24, filled by LoadScreenMapFileSet.
+// 0x24-byte part of ResultsBattle, at 0x00 and 0x24, filled by mutil2_loadUnpackBgGraphics.
 typedef struct ScreenMapFileSet {
     /* 00 */ Ncgr *mChars[4];
     /* 10 */ Nclr *mPalette;
@@ -221,7 +221,7 @@ typedef struct ResultsBattle {
     /* 150 */ s32 mState;
 } ResultsBattle;
 
-extern ResultsBattle *gResultsBattle;
+extern ResultsBattle *bres_sState;
 
 // 0x28-byte part of the entries from 0x9c of Unk02174e64; func_02034370 fills one on the stack through
 // TryGetScanGhostInfo and AreGhostRecordInfosDifferent compares two.
@@ -241,7 +241,7 @@ typedef struct GhostInfoEntry {
     /* 2c */ Interpolation mInterpolation;
 } GhostInfoEntry;
 
-// Object behind data_02174e64.
+// Object behind sGhostReceiveState.
 typedef struct Unk02174e64 {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ void *mUnk_024[2];
@@ -261,10 +261,10 @@ typedef struct Unk02174e64 {
     /* 1a4 */ void *mHeap;
 } Unk02174e64;
 
-extern Unk02174e64 *data_02174e64;
+extern Unk02174e64 *sGhostReceiveState;
 
 // Objects whose layout isn't known yet.
-extern struct ResultScene *gResultScene;
+extern struct ResultScene *result_sState;
 extern struct WiFiVSCourseSelect *gWiFiVSCourseSelect;
 // 0x20 bytes, then the word at 0x44 the code addresses 0xc past.
 typedef struct Unk02174e40_24 {
@@ -288,7 +288,7 @@ typedef struct TimeAttackGhostSend {
     /* 0dc */ void *mHeap;
 } TimeAttackGhostSend;
 
-extern TimeAttackGhostSend *gTimeAttackGhostSend;
+extern TimeAttackGhostSend *sGhostSendState;
 
 struct GhostScene;
 
@@ -301,7 +301,7 @@ typedef struct GhostSceneCallbacks {
     /* 0c */ void (*mUnk_0c)(void);
 } GhostSceneCallbacks;
 
-// Object behind gGhostScene, 0x8dc bytes.
+// Object behind sGhostSceneState, 0x8dc bytes.
 typedef struct GhostScene {
     /* 000 */ u8 mMainOam[0x404];
     /* 404 */ u8 mSubOam[0x404];
@@ -326,7 +326,7 @@ typedef struct GhostScene {
     /* 8d8 */ void *mHeap;
 } GhostScene;
 
-extern GhostScene *gGhostScene;
+extern GhostScene *sGhostSceneState;
 typedef struct ScrollList {
     /* 000 */ s32 mGroupCount;
     /* 004 */ u16 *mGroupFirstEntries;
@@ -391,10 +391,10 @@ typedef struct Unk02174e68 {
 extern Unk02174e68 *data_02174e68;
 struct WLMenuMessage;
 extern struct WLMenuMessage *gWLMenuMessage;
-extern HeapCall *gCurrentHeapCall;
+extern HeapCall *sCurProcess;
 
-// Object at data_02174e78: mUnk_0c is the pointer GetArenaHeap returns; mUnk_10 overlaps the first member of
-// gRootHeapCall.
+// Object at gMainHeap: mUnk_0c is the pointer getMainHeapHandle returns; mUnk_10 overlaps the first member of
+// sMainProcess.
 typedef struct Unk02174e78 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ u32 mArm9TextStart;
@@ -403,8 +403,8 @@ typedef struct Unk02174e78 {
     /* 10 */ const char *mUnk_10;
 } Unk02174e78;
 
-extern Unk02174e78 data_02174e78;
-extern u8 data_02174ea0[];
+extern Unk02174e78 gMainHeap;
+extern u8 sDwcWork[];
 
 extern NNSG2dCellTransferState *data_02174e04; // first word of the cell transfer state manager
 extern s32 data_02174e08;

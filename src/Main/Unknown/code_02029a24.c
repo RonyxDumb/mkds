@@ -10,24 +10,24 @@
 
 #pragma thumb on
 
-void CreateRaceSetupCopy(void *heap) {
+void menu_createRaceConfig(void *heap) {
     u32 setupCopyAddress;
-    setupCopyAddress = ((u32) HeapAlloc(heap, (0x00000110u)));
-    *(u32 *) &gRaceSetupCopy = setupCopyAddress;
-    ResetRaceSetupCopy();
+    setupCopyAddress = ((u32) heap_alloc(heap, (0x00000110u)));
+    *(u32 *) &menu_sRaceConfig = setupCopyAddress;
+    menu_initRaceConfig();
 }
 
 #pragma thumb off
 
-void func_02029a4c(void *destination, u32 value, u32 size) {
+void menu_MI_CpuFillFast(void *destination, u32 value, u32 size) {
     volatile u32 valueCopy = value;
     MIi_CpuClearFast(valueCopy, destination, size);
 }
 
-void func_02029a38(void *destination, u32 size) {
-    func_02029a4c(destination, 0, size);
+void menu_MI_CpuClearFast(void *destination, u32 size) {
+    menu_MI_CpuFillFast(destination, 0, size);
 }
 
-u32 func_02029a24(void) {
-    return (data_021759d0->mUnk_20);
+u32 menu_sysdat_getOverlay(void) {
+    return (gSystemData->mUnk_20);
 }

@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 InitKeyRecordingBuffer(u32 recordAddress, u32 heap);
-u32 func_0204aa28(u32 flag);
+u32 irec_allocBuffer(u32 recordAddress, u32 heap);
+u32 sysdat_setIsMBChild(u32 flag);

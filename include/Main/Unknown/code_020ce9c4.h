@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteVsSelectKartRegisters(void);
+void menu_state9Vblank(void);

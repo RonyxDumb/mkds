@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_020e6fd4.h" // MapObject
 #include "Main/Unknown/code_020e005c.h"
 
-// Object updated by UpdateCoin, one state per value of mUnk_0f8.
+// Object updated by coin_update, one state per value of mUnk_0f8.
 typedef struct Coin {
     /* 000 */ MapObject mUnk_000;
     /* 0a0 */ u16 mModelAlpha;
@@ -24,7 +24,7 @@ typedef struct Coin {
     /* 100 */ s32 mEffectTimer;
 } Coin;
 
-// List of objects, as returned by FindMapObjectKindUpdateList(0x68).
+// List of objects, as returned by mobj_getLogicPartForObjectId(0x68).
 typedef struct CoinList {
     /* 00 */ Coin **mObjects;
     /* 04 */ u16 mObjectCount;
@@ -66,27 +66,27 @@ typedef struct CoinList {
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_020d4000.h"
 
-void *func_ov001_02181bd0(void);
-void *func_ov001_02181bec(void);
-void *func_ov001_02181c08(void);
-void CreateCoinKindData(void);
-void UpdateCoin(void *a, Coin *coin);
-void func_ov001_0218254c(void);
-void InitCoinObjects(CoinList *coinList);
-void DrawCoin(void *b, Coin *coin);
-void LoadCoin(Unk0219b478 *a);
-u8 CollideKartWithCoin(Coin *coin, Kart *kart, u8 *e, u8 *f);
-void func_ov001_021827a4(void);
+void *coin_setupLogicPart(void);
+void *coin_setupShadowRenderPart(void);
+void *coin_setupRenderPart(void);
+void coin_setupCollision(void);
+void coin_update(void *a, Coin *coin);
+void coin_globalLogicPreUpdate(void);
+void coin_globalLogicInit(CoinList *coinList);
+void coin_render(void *b, Coin *coin);
+void coin_loadModel(Unk0219b478 *a);
+u8 coin_onDriverCollide(Coin *coin, Kart *kart, u8 *e, u8 *f);
+void coin_init(void);
 void func_ov001_021827f0(void);
 void func_ov001_021828f0(void);
 void func_ov001_021829ac(s32 a);
 void func_ov001_02182a3c(s32 a);
-void func_ov001_02182bbc(u32 amount);
-void func_ov001_02182bdc(void);
-void func_ov001_02182d30(void);
-void func_ov001_02182e84(void);
-void func_ov001_02182eb8(Coin *coin, s32 b);
-void func_ov001_02182f1c(Coin *coin, Kart *kart);
+void coin_steal(u32 amount);
+void coin_handleSteal(void);
+void coin_handleLose(void);
+void coin_handleCollect(void);
+void coin_updateAnim(Coin *coin, s32 b);
+void coin_initForCollect(Coin *coin, Kart *kart);
 
 #include "01/code_0219b540.h"
 #include "Main/Unknown/code_02081000.h"

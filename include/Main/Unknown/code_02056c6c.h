@@ -4,4 +4,4 @@
 
 typedef struct TimeRecord TimeRecord;
 
-void SetCourseTimeRecord(u32 courseId, int recordIndex, TimeRecord *timeRecord);
+void savd_setNktaEntry(u32 courseId, int recordIndex, TimeRecord *timeRecord);

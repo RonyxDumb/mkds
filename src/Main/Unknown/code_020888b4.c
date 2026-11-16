@@ -57,11 +57,11 @@ static inline s32 func_020888b4_inline(const Vec3 *a, const Vec3 *b) {
 }
 
 // Recomputes the CPU kart's speed limit on its own turn of eight frames and sets the kart's limit from it.
-void AdvanceBattleKartAiSpeedLimit(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi) {
+void mgenrb_update(KartAiSpeedLimit *kartAiSpeedLimit, KartAi *kartAi) {
     s32 speedLimit;
     Kart *kart;
 
-    if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
+    if (kartAi->mIndex == race_getFrameCounterModulo8()) {
         kartAiSpeedLimit->mUnk_0c = FALSE;
         speedLimit = kartAi->mKart->mSpeedLimitGoal;
         if (speedLimit > 0xa000) {
@@ -120,7 +120,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
     raceSpeedLimit->mUnk_28 = 0;
     raceSpeedLimit->mBoostsAtRaceStart = 0;
     raceSpeedLimit->mRaceStartBoostChoice = 0;
-    v = gRaceSetup->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
+    v = gRaceMultiConfig->mCurrentEntries[kartAi->mIndex].mPlayer.mKind;
     if ((u32) v <= 3) {
         if ((1 << v) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
             isHumanGhostOrPeer = TRUE;
@@ -129,14 +129,14 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
     if (isHumanGhostOrPeer != FALSE) {
         return;
     }
-    if (gRaceSetup->mBattleKind != BATTLE_KIND_SHINE) {
+    if (gRaceMultiConfig->mBattleKind != BATTLE_KIND_SHINE) {
         return;
     }
     kartAiRandom = GetKartAiRandom();
     kartAiRandom->mValue = kartAiRandom->mMultiplier * kartAiRandom->mValue + kartAiRandom->mIncrement;
     v = (s16) (u16) (kartAiRandom->mValue >> 52);
     boostChanceLimit = 0x333;
-    switch (gRaceSetup->mCpuDifficulty) {
+    switch (gRaceMultiConfig->mCpuDifficulty) {
         case CPU_DIFFICULTY_NORMAL:
             boostChanceLimit = 0x666;
             break;
@@ -156,7 +156,7 @@ void SetupBattleKartAiParams(void) {
 
     gSearchStartIndex = 0;
     data_0217b030 = &data_0216600c;
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     if (raceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
         switch (raceSetup->mCpuDifficulty) {
             case CPU_DIFFICULTY_NORMAL:
@@ -204,7 +204,7 @@ void ResetBattleKartAi(KartAi *kartAi) {
     kartAi->mTargetShinePos = zeroVector;
 }
 
-void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
+void mgen_init(KartAi *kartAi, Kart *kart) {
     Unk02165ff0 *t;
     RandomState64 *kartAiRandom;
     s16 j;
@@ -217,7 +217,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     ResetBattlePointLinkCursorNear(&kartAi->mBattleLinkCursor, &kart->mPos, &kart->mUnk_138, kart->mIndex);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mUnk_20;
     ResetBattleKartAi(kartAi);
-    if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         t = data_0217b030;
         balloonCountGoal = 0;
         kartAiRandom = GetKartAiRandom();
@@ -241,23 +241,23 @@ void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
     ResetBattleKartAi(kartAi);
 }
 
-void AdvanceBattleKartAi(KartAi *kartAi) {
-    func_02088d34(kartAi);
+void mgen_update(KartAi *kartAi) {
+    mgen_updateBalloonInflationState(kartAi);
     if (kartAi->mUnk_c4 == FALSE) {
         func_0207e668(kartAi);
     }
-    func_02089494(kartAi);
-    if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
-        AdvanceBattleKartAiTargetKart(kartAi);
+    mgen_updateDriving(kartAi);
+    if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
+        mgen_updateTargetDriver(kartAi);
         return;
     }
     if (kartAi->mTargetShine != NULL) {
-        AdvanceBattleKartAiTargetKart(kartAi);
+        mgen_updateTargetDriver(kartAi);
     }
-    AdvanceBattleKartAiTargetShine(kartAi);
+    mgen_updateTargetShine(kartAi);
 }
 
-void func_02089494(KartAi *kartAi) {
+void mgen_updateDriving(KartAi *kartAi) {
     LinkCursor *linkCursor;
     Kart *kart;
     PointLink *requestedLink;
@@ -276,7 +276,7 @@ void func_02089494(KartAi *kartAi) {
     linkCursor = &kartAi->mBattleLinkCursor;
     g = &kart->mUnk_138;
     requestedLink = linkCursor->mRequestedLink;
-    GetKartPos(&kartPos, kartAi->mIndex);
+    driver_getPosition(&kartPos, kartAi->mIndex);
     if (kart->mUnk_48 & 0x3840) {
         return;
     }
@@ -287,7 +287,7 @@ void func_02089494(KartAi *kartAi) {
         kartAi->mLinkPosWithSideOffset = *linkCursor->mLink->mUnk_20;
         VEC_Add(&kartAi->mLinkPosWithSideOffset, &kartAi->mSideOffset, &kartAi->mLinkPosWithSideOffset);
     } else {
-        if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
+        if (kartAi->mIndex == race_getFrameCounterModulo8()) {
             headingPos = kartAi->mHeadingPos;
             z = *g;
             VEC_Subtract(headingPos, &kart->mPos, &headingOffsetFlat);
@@ -299,8 +299,8 @@ void func_02089494(KartAi *kartAi) {
                 ((s64) FX_Atan2(crossLength, VEC_DotProduct(&z, &headingOffsetFlat)) * 0x394bb834c8LL + 0x80000000LL) >>
                 32;
         }
-        if (IsWithinBattlePointLinkDistance(linkCursor, &kartPos) != 0 ||
-            IsPastBattlePointLink(linkCursor, &kartPos) != 0) {
+        if (mepo_isPointInMepo(linkCursor, &kartPos) != 0 ||
+            mepo_2080DBC(linkCursor, &kartPos) != 0) {
             hasTargetAhead = FALSE;
             if (kartAi->mTargetKart != NULL && kartAi->mTargetAhead != 0) {
                 hasTargetAhead = TRUE;
@@ -326,7 +326,7 @@ void func_02089494(KartAi *kartAi) {
     if (kartAi->mUnk_c4 != FALSE) {
         return;
     }
-    RequestBits(kartAi->mKart->mEntryIndex, PAD_KEY_A);
+    input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, PAD_KEY_A);
     VEC_Subtract(kartAi->mHeadingPos, &kartPos, &headingOffset);
     AdvanceKartAiHeading(kartAi, &headingOffset, g);
 }
@@ -353,7 +353,7 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
         centeredRandom = (s32) (((s64) randomValue * 0x2000 + 0x800) >> 12) - 0x1000;
         ratioChange = ((s64) centeredRandom * 0x4ce + 0x800) >> 12;
         newSideOffsetRatio = kartAi->mSideOffsetRatio + ratioChange;
-        if (GetAbsoluteValue(newSideOffsetRatio) > 0xb36) {
+        if (math_abs(newSideOffsetRatio) > 0xb36) {
             if (newSideOffsetRatio > 0) {
                 newSideOffsetRatio = 0xb36;
             } else {
@@ -368,7 +368,7 @@ void AdvanceBattleKartAiSideOffset(KartAi *kartAi) {
     kartAi->mSideOffset.z = ((s64) kartAi->mSideOffset.z * sideOffsetScale) >> 12;
 }
 
-void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
+void mgen_updateTargetDriver(KartAi *kartAi) {
     Kart *kart;
     Kart *targetKart;
     KartItems *kartItems;
@@ -389,29 +389,29 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     Vec3 *kartPos;
 
     kartIndex = kartAi->mIndex;
-    if (kartIndex != GetRaceUpdateFramesMod8()) {
+    if (kartIndex != race_getFrameCounterModulo8()) {
         return;
     }
-    if (gRaceSetup->mCpuDifficulty == CPU_DIFFICULTY_EASY) {
+    if (gRaceMultiConfig->mCpuDifficulty == CPU_DIFFICULTY_EASY) {
         return;
     }
     if (kartAi->mTargetKart == NULL) {
         kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
         candidateKartIndex = gSearchStartIndex;
-        for (n = 0; n < (u32) gRaceSetup->mKartCount; n++) {
+        for (n = 0; n < (u32) gRaceMultiConfig->mKartCount; n++) {
             if (ShouldKartAiTargetKart(kartAi->mIndex, candidateKartIndex) != 0) {
-                targetKart = GetKart(candidateKartIndex);
+                targetKart = driver_getById(candidateKartIndex);
                 kartPos = &kartAi->mKart->mPos;
                 d = func_020888b4_inline(kartPos, &targetKart->mPos);
                 c = 0;
                 if (d < 0x895440) {
-                    if (GetAbsoluteValue(kartAi->mKart->mPos.y - targetKart->mPos.y) < 0x3c000) {
+                    if (math_abs(kartAi->mKart->mPos.y - targetKart->mPos.y) < 0x3c000) {
                         c = 1;
                         kartAi->mTargetDistanceSquared = d;
                     }
                 }
                 if (c != 0) {
-                    kartCount = gRaceSetup->mKartCount;
+                    kartCount = gRaceMultiConfig->mKartCount;
                     gSearchStartIndex++;
                     if (gSearchStartIndex >= kartCount) {
                         gSearchStartIndex = 0;
@@ -420,7 +420,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
                 }
             }
             candidateKartIndex++;
-            if (candidateKartIndex >= (u32) gRaceSetup->mKartCount) {
+            if (candidateKartIndex >= (u32) gRaceMultiConfig->mKartCount) {
                 candidateKartIndex = 0;
             }
         }
@@ -429,7 +429,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
         kartAi->mTargetKart = targetKart;
         return;
     }
-    kartItems = &gKartItems[kartIndex];
+    kartItems = &it_sDriverItemStatus[kartIndex];
     if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13 &&
         (kartAi->mKart->mUnk_4c & 0x40) == 0) {
         goto clear;
@@ -443,7 +443,7 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     d = func_020888b4_inline(kartPos, &targetKart->mPos);
     c = 0;
     if (d < 0xf42400) {
-        if (GetAbsoluteValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) < 0x3c000) {
+        if (math_abs(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) < 0x3c000) {
             kartAi->mTargetDistanceSquared = d;
             c = 1;
         }
@@ -451,24 +451,24 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
     if (c == 0) {
         goto clear;
     }
-    if (GetAbsoluteValue(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) >= 0x3c000) {
+    if (math_abs(kartAi->mKart->mPos.y - kartAi->mTargetKart->mPos.y) >= 0x3c000) {
         goto clear;
     }
     c = 0;
     VEC_Subtract(&kartAi->mTargetKart->mPos, &kartAi->mKart->mPos, &toTarget);
     if (VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138) > 0) {
         if ((s64) toTarget.x * toTarget.x + (s64) toTarget.y * toTarget.y + (s64) toTarget.z * toTarget.z >= 0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&toTarget, &toTarget);
+            vec_normalize(&toTarget, &toTarget);
         }
         kartAi->mTargetForwardDot = VEC_DotProduct(&toTarget, &kartAi->mKart->mUnk_138);
         c = 1;
     }
     kartAi->mTargetAhead = c != 0;
     if (kartAi->mTargetAhead != 0) {
-        kartItems = &gKartItems[kartAi->mIndex];
+        kartItems = &it_sDriverItemStatus[kartAi->mIndex];
         c = 1;
         if (kartItems->mItemInUse.mObjectKind == 0xf && kartItems->mHeldItem.mItemInfoIndex == 0x13) {
-            if ((GetKart(kartAi->mIndex)->mUnk_4c & 0x40) == 0) {
+            if ((driver_getById(kartAi->mIndex)->mUnk_4c & 0x40) == 0) {
                 c = 0;
             }
         }
@@ -481,9 +481,9 @@ void AdvanceBattleKartAiTargetKart(KartAi *kartAi) {
             vec3UnitY = gVec3UnitY;
             VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
             VEC_Subtract(&targetPos, &linkPos, &linkToTarget);
-            d = Vec3DotUnrounded(&linkToTarget, &sideDirection);
+            d = vec_dotProduct(&linkToTarget, &sideDirection);
             c = kartAi->mBattleLinkCursor.mLink->mUnk_24;
-            if (GetAbsoluteValue(d) >= c) {
+            if (math_abs(d) >= c) {
                 kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
             } else {
                 kartAi->mTargetKartPos = targetPos;
@@ -501,27 +501,27 @@ clear:
     kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
 }
 
-void func_02088d34(KartAi *kartAi) {
+void mgen_updateBalloonInflationState(KartAi *kartAi) {
     s32 balloonOrShineCount;
     u16 balloonsLeftToMake;
     BOOL c;
 
     kartAi->mUnk_c4 = FALSE;
-    if (gRaceSetup->mBattleKind != BATTLE_KIND_BALLOON) {
+    if (gRaceMultiConfig->mBattleKind != BATTLE_KIND_BALLOON) {
         return;
     }
     if (func_01ffc67c(kartAi->mKart) != FALSE) {
-        func_020a228c(kartAi->mIndex);
+        mgcnt_driverStopInflateBalloonByMic(kartAi->mIndex);
         return;
     }
-    balloonOrShineCount = GetBalloonOrShineCount(kartAi->mIndex);
-    balloonsLeftToMake = GetBalloonsLeftToMake(kartAi->mIndex);
+    balloonOrShineCount = mgcnt_getDriverBalloonShineCount(kartAi->mIndex);
+    balloonsLeftToMake = mgcnt_getDriverBalloonShineInventoryCount(kartAi->mIndex);
     if (balloonOrShineCount >= kartAi->mBalloonCountGoal) {
         return;
     }
     c = FALSE;
     if (balloonsLeftToMake > data_0217b030->mUnk_1a ||
-        (balloonsLeftToMake == data_0217b030->mUnk_1a && IsKartInflatingBalloon(kartAi->mIndex) != 0)) {
+        (balloonsLeftToMake == data_0217b030->mUnk_1a && mgcnt_getDriverIsInflating(kartAi->mIndex) != 0)) {
         c = TRUE;
     }
     if (c == FALSE) {
@@ -529,7 +529,7 @@ void func_02088d34(KartAi *kartAi) {
     }
     kartAi->mUnk_c2++;
     if (kartAi->mUnk_c2 > data_0217b030->mUnk_18) {
-        func_020a22ac(kartAi->mIndex);
+        mgcnt_driverInflateBalloonByMic(kartAi->mIndex);
         kartAi->mUnk_c2 = 0;
     }
     kartAi->mUnk_c4 = TRUE;
@@ -554,7 +554,7 @@ void PickKartAiBalloonCountGoal(KartAi *kartAi) {
     kartAi->mBalloonCountGoal = balloonCountGoal;
 }
 
-void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
+void mgen_updateTargetShine(KartAi *kartAi) {
     MapObject *targetShine;
     Vec3 shinePos;
     Vec3 toShine;
@@ -577,7 +577,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
             kartPos = &kartAi->mKart->mPos;
             d = func_020888b4_inline(kartPos, mapObjectPos);
             m = gEntryYDifferenceLimit;
-            if (d < 0x15f900 && GetAbsoluteValue(kartAi->mKart->mPos.y - targetShine->mPos.y) < m) {
+            if (d < 0x15f900 && math_abs(kartAi->mKart->mPos.y - targetShine->mPos.y) < m) {
                 isInRange = TRUE;
             } else {
                 isInRange = FALSE;
@@ -588,7 +588,7 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                 if (VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138) > 0) {
                     if ((s64) toShine.x * toShine.x + (s64) toShine.y * toShine.y + (s64) toShine.z * toShine.z >=
                         0x10) {
-                        Vec3NormalizeAndGetLengthUnchecked(&toShine, &toShine);
+                        vec_normalize(&toShine, &toShine);
                     }
                     kartAi->mEntryForwardDot = VEC_DotProduct(&toShine, &kartAi->mKart->mUnk_138);
                     isAhead = TRUE;
@@ -600,9 +600,9 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
                     vec3UnitY = gVec3UnitY;
                     VEC_CrossProduct(&kartAi->mBattleLinkCursor.mDirection, &vec3UnitY, &sideDirection);
                     VEC_Subtract(&shinePos, &linkPos, &linkToShine);
-                    m = Vec3DotUnrounded(&linkToShine, &sideDirection);
+                    m = vec_dotProduct(&linkToShine, &sideDirection);
                     x = kartAi->mBattleLinkCursor.mLink->mUnk_24;
-                    if (GetAbsoluteValue(m) >= x) {
+                    if (math_abs(m) >= x) {
                         kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
                     } else {
                         kartAi->mTargetShinePos = shinePos;
@@ -620,14 +620,14 @@ void AdvanceBattleKartAiTargetShine(KartAi *kartAi) {
             kartAi->mHeadingPos = &kartAi->mLinkPosWithSideOffset;
         }
     } else {
-        if (kartAi->mIndex == GetRaceUpdateFramesMod8()) {
-            FindKartAiTargetShine(kartAi, 0x17d7840, gEntryYDifferenceLimit);
+        if (kartAi->mIndex == race_getFrameCounterModulo8()) {
+            mgen_findTargetShine(kartAi, 0x17d7840, gEntryYDifferenceLimit);
         }
     }
 }
 
 // Picks a Shine16 object within the given x/z and y ranges as the CPU kart's target; TRUE if one was found.
-BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDifferenceLimit) {
+BOOL mgen_findTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDifferenceLimit) {
     MapObjectList *shineList;
     s16 i;
     s32 listCount;
@@ -641,15 +641,15 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
     s32 distanceSquared;
     BOOL isInRange;
 
-    shineList = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE16);
-    listCount = GetMapObjectListCount(shineList);
+    shineList = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE16);
+    listCount = mobj_logicPartGetInstanceCount(shineList);
     longestDistanceSquared = 0;
     farthestShine = NULL;
     i = 0;
     checkedCount = 0;
     listIndex = kartAi->mEntrySearchStartIndex;
     for (; i < listCount; i++) {
-        shine = GetMapObjects(shineList)[listIndex];
+        shine = mobj_logicPartGetInstanceList(shineList)[listIndex];
         listIndex++;
         if (listIndex >= listCount) {
             listIndex = 0;
@@ -660,7 +660,7 @@ BOOL FindKartAiTargetShine(KartAi *kartAi, s32 distanceSquaredLimit, s32 yDiffer
             kartPos = &kartAi->mKart->mPos;
             distanceSquared = func_020888b4_inline(kartPos, shinePos);
             if (distanceSquared < distanceSquaredLimit &&
-                GetAbsoluteValue(kartAi->mKart->mPos.y - shine->mPos.y) < yDifferenceLimit) {
+                math_abs(kartAi->mKart->mPos.y - shine->mPos.y) < yDifferenceLimit) {
                 isInRange = TRUE;
             } else {
                 isInRange = FALSE;

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateVsSelectCupGrid(void);
+void menu_state11Render(void);

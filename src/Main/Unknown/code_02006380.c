@@ -12,15 +12,15 @@ static inline u8 *func_0214d1fc_inline(const void *v1, u8 *v2, u32 n) {
     return v2 + n;
 }
 
-u32 BuildChildPacket(u8 *buffer, s32 bufferSize) {
+u32 WBT_MpChildSendHook(u8 *buffer, s32 bufferSize) {
     if (bufferSize > 0 && buffer != NULL) {
         BuildChildPacketUnchecked(buffer, bufferSize);
     }
 }
 
-void ReceiveParentPacketChecked(const u8 *packet, u32 size) {
+void WBT_MpChildRecvHook(const u8 *packet, u32 size) {
     if (packet != NULL && size != 0 && size != 0xffff) {
-        ReceiveParentPacket(packet, size);
+        wbt_child_recv_data_parse(packet, size);
     }
 }
 
@@ -287,7 +287,7 @@ u32 GetBlockChunkAddress(u32 blockIdOrPosition, u32 chunkIndex) {
 
 void SetupChunkReceiveState(ChunkReceiveState *state, s32 size, void *chunkBitmap, u32 buffer) {
     s32 chunkSize;
-    chunkSize = GetReceiveChunkSize();
+    chunkSize = WBTi_get_peer_data_packet_size();
     state->mSize = size;
     state->mPickedChunkIndex = 0;
     state->mLastReceivedChunkIndex = 0;

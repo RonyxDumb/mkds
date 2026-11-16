@@ -12,16 +12,16 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02070398.h"
 
-void func_020d26ec(void *soundSource, u32 soundId) {
+void mobj_driverEmitSfx2(void *soundSource, u32 soundId) {
     u32 value0 = (u32) soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    value0 = (u32) func_020719bc((SoundSource *) value0, soundIdCopy);
+    value0 = (u32) driver_emitSfx2((SoundSource *) value0, soundIdCopy);
 }
 
-void func_020d26e0(void *soundSource, u32 soundId) {
+void mobj_driverEmitSfx(void *soundSource, u32 soundId) {
     u32 soundSourceCopy = (u32) soundSource;
     u32 soundIdCopy = soundId;
     u32 unused;
-    func_020719a8(soundSourceCopy, soundIdCopy);
+    driver_emitSfx(soundSourceCopy, soundIdCopy);
 }

@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-// Six words of a table written by func_01ff9598 and the functions after it, at 0x00, 0x04, 0x10, 0x14, 0x30 and 0x34.
+// Six words of a table written by texmtxCalc_flagT_ and the functions after it, at 0x00, 0x04, 0x10, 0x14, 0x30 and 0x34.
 typedef struct Unk01ff9598_A {
     /* 00 */ s32 mUnk_00;
     /* 04 */ s32 mUnk_04;
@@ -16,7 +16,7 @@ typedef struct Unk01ff9598_A {
     /* 34 */ s32 mUnk_34;
 } Unk01ff9598_A;
 
-// Read by func_01ff9598, func_01ff9684, func_01ff96cc, func_01ff974c and func_01ff9828.
+// Read by texmtxCalc_flagT_, texmtxCalc_flagRS_, texmtxCalc_flagR_, texmtxCalc_flagS_ and texmtxCalc_flag_.
 typedef struct Unk01ff9598 {
     /* 00 */ u8 mUnk_00[0x18];
     /* 18 */ s32 mUnk_18;
@@ -29,7 +29,7 @@ typedef struct Unk01ff9598 {
     /* 2e */ u16 mUnk_2e;
 } Unk01ff9598;
 
-// Object with a flag word at 0x00, vectors at 0x04 and 0x10, and blocks at 0x28 and 0x4c passed to func_01ff9048.
+// Object with a flag word at 0x00, vectors at 0x04 and 0x10, and blocks at 0x28 and 0x4c passed to NNS_G3dGeBufferOP_N.
 typedef struct Unk01ff9940 {
     /* 00 */ u32 mUnk_00;
     /* 04 */ Vec3 mUnk_04;
@@ -51,24 +51,24 @@ typedef struct Unk01ff9940_C {
     /* 03 */ u8 mUnk_03;
 } Unk01ff9940_C;
 
-void func_01ff9598(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff9684(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff96cc(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff974c(Unk01ff9598_A *a, Unk01ff9598 *b);
-void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b);
+void texmtxCalc_flagT_(Unk01ff9598_A *a, Unk01ff9598 *b);
+void texmtxCalc_flagRS_(Unk01ff9598_A *a, Unk01ff9598 *b);
+void texmtxCalc_flagR_(Unk01ff9598_A *a, Unk01ff9598 *b);
+void texmtxCalc_flagS_(Unk01ff9598_A *a, Unk01ff9598 *b);
+void texmtxCalc_flag_(Unk01ff9598_A *a, Unk01ff9598 *b);
 void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d);
-void func_01ff9a94(Unk01ff9940 *a);
-void AdvanceKartEffects(Kart *p);
+void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *a);
+void driver_updateDriftEffects(Kart *p);
 void AdvanceKartHop(Kart *p);
-void func_01ff9c9c(Kart *p, u32 a);
+void driver_updateMap2DShadowFlag(Kart *p, u32 a);
 void func_01ff9cb0(Kart *p);
-void func_01ff9d18(Kart *p);
-void RefreshKartSurface(Kart *p);
+void driver_handleSpecialBoosts(Kart *p);
+void driver_handleFloorCollision(Kart *p);
 void AdvanceKartOrientation(Kart *p, Vec3 *a);
 void UpdateKartAirborne(Kart *p);
 void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a);
-BOOL func_01ffa1f8(Kart *p);
-void func_01ffa350(Kart *p, u32 a);
+BOOL driver_handleFallBelow0(Kart *p);
+void driver_1FFA350(Kart *p, u32 a);
 BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b);
 BOOL func_01ffa41c(Kart *p, u32 a, Vec3 *b);
 BOOL func_01ffa478(Kart *p, u32 a, Vec3 *b);

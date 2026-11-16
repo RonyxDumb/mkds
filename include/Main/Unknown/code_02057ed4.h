@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02057ed4(void);
+void bgwkr_2057ED4(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearKeyboardInput(void);
+void KBD_ClearPadTpInput(void);

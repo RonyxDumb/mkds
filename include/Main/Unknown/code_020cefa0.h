@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020cefa0(void *heap);
+void struct217B488_init(void *heap);

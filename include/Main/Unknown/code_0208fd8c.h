@@ -5,7 +5,7 @@
 struct KartAiItemUse;
 struct KartAi;
 
-// Entry of the tables at gBattleItemInUseEntries, gCurrentItemInUseEntries and gCurrentHeldItemEntries, 0xc bytes: a
+// Entry of the tables at gBattleItemInUseEntries, enit_sDragItemParamsPtr and enit_sSlotItemParamsPtr, 0xc bytes: a
 // function called with the KartAiItemUse and the KartAi at 0x00 and halfwords at 0x08 and 0x0a.
 typedef struct KartAiItemUseEntry {
     /* 00 */ void (*mHandler)(struct KartAiItemUse *a, struct KartAi *b);
@@ -16,7 +16,7 @@ typedef struct KartAiItemUseEntry {
 } KartAiItemUseEntry;
 
 // Object of 0x24 bytes at 0x11c of the object KartAi starts: pointers to entries of the tables at
-// gCurrentHeldItemEntries (0x04) and gBattleItemInUseEntries or gCurrentItemInUseEntries (0x08).
+// enit_sSlotItemParamsPtr (0x04) and gBattleItemInUseEntries or enit_sDragItemParamsPtr (0x08).
 typedef struct KartAiItemUse {
     /* 00 */ s16 mHeldItemTimer;
     /* 02 */ s16 mItemInUseTimer;
@@ -25,10 +25,10 @@ typedef struct KartAiItemUse {
     /* 0c */ s32 mUnk_0c;
 // While non-zero, the item bits are requested on every call.
     /* 10 */ s32 mItemBitsEveryCall;
-// While set, AdvanceItemBitRequests sends ITEM_THROW_FORWARD_BIT on its calls that do not run the entry function;
+// While set, enit_update sends ITEM_THROW_FORWARD_BIT on its calls that do not run the entry function;
 // mBit6Timer (set to 2) counts those calls down.
     /* 14 */ s32 mThrowForwardPending;
-// While set, AdvanceItemBitRequests sends the item bit 0x80 on its calls that do not run the entry function and no
+// While set, enit_update sends the item bit 0x80 on its calls that do not run the entry function and no
 // bit 0x40 is pending; mBit7Timer (set to 2) counts those calls down.
     /* 18 */ s32 mThrowBehindPending;
     /* 1c */ s16 mThrowForwardTimer;
@@ -36,7 +36,7 @@ typedef struct KartAiItemUse {
     /* 20 */ s32 mRandomValue;
 } KartAiItemUse;
 
-void SetupBattleItemInUseEntry(KartAiItemUse *itemUse, struct KartAi *kartAi);
+void mgenit_notifyDragItemChanged(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0208fdcc(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0208fe1c(KartAiItemUse *itemUse, struct KartAi *kartAi);
 void func_0208fe58(KartAiItemUse *itemUse, struct KartAi *kartAi);

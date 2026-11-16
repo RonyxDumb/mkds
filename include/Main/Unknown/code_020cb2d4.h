@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void DrawSinglePlaySelectCells(void);
+void menu_renderModeSelectUI(void);

@@ -14,4 +14,4 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h" // CourseMap
 
-CourseMap *AllocCourseMap(void *heap);
+CourseMap *mdat_allocMapDataStruct(void *heap);

@@ -5,10 +5,10 @@
 
 #pragma thumb on
 
-void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh) {
+void DWC_CreateFriendKeyToken(void *friendData, u32 friendKeyLow, u32 friendKeyHigh) {
     MI_CpuFill8(friendData, 0, 0xc);
     DWCi_Acc_SetFriendKey(friendData, friendKeyLow, friendKeyHigh);
-    SetFriendDataType(friendData, 2);
+    DWCi_Acc_SetFlag_DataType(friendData, 2);
 }
 
 #pragma thumb off

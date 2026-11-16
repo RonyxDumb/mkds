@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_020f7c60.h"
 #include "Main/Unknown/code_02109054.h"
 
-void *func_020f7c60(SoundSource *source, u32 soundId) {
+void *it_emitSfx(SoundSource *source, u32 soundId) {
     SoundSource *sourceCopy = source;
     u32 soundIdCopy = soundId;
     u32 volume;
@@ -19,5 +19,5 @@ void *func_020f7c60(SoundSource *source, u32 soundId) {
     }
     volume = 0x7fu;
     zero = 0u;
-    return StartSound(sourceCopy, soundIdCopy, volume, zero);
+    return sfx_21090C4(sourceCopy, soundIdCopy, volume, zero);
 }

@@ -8,16 +8,16 @@
 #include "Main/Kart/KartStates.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
+int driver_initSingleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
-        if (TrySpinKart(p, 1, 0)) {
+        if (driver_tryStartSpinOut(p, 1, 0)) {
             if (p->mKartModelsEntry->mUnk_058 == 0) {
-                StartEffect(0xc, &p->mPos);
-                StartEffect(0xd, &p->mPos);
-                StartEffect(0xe, &p->mPos);
+                ptcm_createEmitter(0xc, &p->mPos);
+                ptcm_createEmitter(0xd, &p->mPos);
+                ptcm_createEmitter(0xe, &p->mPos);
             }
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                driver_getPlayerStatistics()->mUnk_14++;
             }
         }
         *a = 3;
@@ -27,16 +27,16 @@ int CollideKartWithMapObjectResponse3(Kart *p, s32 *a, MapObject *c) {
     return 0xb;
 }
 
-int CollideKartWithMapObjectResponse4(Kart *p, s32 *a, MapObject *c) {
+int driver_initDoubleSpinOutReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
-        if (TrySpinKart(p, 2, 0)) {
+        if (driver_tryStartSpinOut(p, 2, 0)) {
             if (p->mKartModelsEntry->mUnk_058 == 0) {
-                StartEffect(0xc, &p->mPos);
-                StartEffect(0xd, &p->mPos);
-                StartEffect(0xe, &p->mPos);
+                ptcm_createEmitter(0xc, &p->mPos);
+                ptcm_createEmitter(0xd, &p->mPos);
+                ptcm_createEmitter(0xe, &p->mPos);
             }
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                driver_getPlayerStatistics()->mUnk_14++;
             }
         }
         *a = 4;
@@ -46,13 +46,13 @@ int CollideKartWithMapObjectResponse4(Kart *p, s32 *a, MapObject *c) {
     return 0xb;
 }
 
-int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c) {
+int driver_initDoubleSpinOutWaterReaction(Kart *p, s32 *a, MapObject *c) {
     if (p->mVelocityLength > 0x3000 || (c->mFlags & 0x200)) {
-        if (TrySpinKart(p, 2, 0)) {
+        if (driver_tryStartSpinOut(p, 2, 0)) {
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                GetEntryKartCounters()->mUnk_14++;
+                driver_getPlayerStatistics()->mUnk_14++;
             }
-            func_020812d0(p->mIndex);
+            rptc_startWaterEffect(p->mIndex);
         }
         *a = 4;
     } else {
@@ -61,23 +61,23 @@ int CollideKartWithMapObjectResponse6(Kart *p, s32 *a, MapObject *c) {
     return 0;
 }
 
-int CollideKartWithMapObjectResponse5(Kart *p, s32 *a) {
-    if (TrySpinKart(p, 2, 0)) {
+int driver_initDoubleSpinOutFireReaction(Kart *p, s32 *a) {
+    if (driver_tryStartSpinOut(p, 2, 0)) {
         if (p->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
-            SetupKartFollowEffectWithVelocity(StartEffect(0x4f, &p->mPos), p->mIndex, 0x46);
+            rptc_2081E3C(ptcm_createEmitter(0x4f, &p->mPos), p->mIndex, 0x46);
         }
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            GetEntryKartCounters()->mUnk_14++;
+            driver_getPlayerStatistics()->mUnk_14++;
         }
     }
     *a = 5;
     return 0;
 }
 
-int CollideKartWithMapObjectResponse7(Kart *p, s32 *a) {
-    if (TryStartKartState3(p)) {
+int driver_initForwardFlipReaction(Kart *p, s32 *a) {
+    if (driver_tryStartForwardFlip(p)) {
         if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            GetEntryKartCounters()->mUnk_14++;
+            driver_getPlayerStatistics()->mUnk_14++;
         }
         p->mUnk_48 |= 0x20000;
     }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteVsSelectCupMRegisters(void);
+void menu_state12Vblank(void);

@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_02046be8.h"
 #include "Main/Unknown/code_020e005c.h"
 
-void InitStateMachine(void *rawStateMachine, UnkFunc *const *stateTable, s32 stateCount, void *object) {
+void sm_init(void *rawStateMachine, UnkFunc *const *stateTable, s32 stateCount, void *object) {
     Unk020e005c_080 *stateMachine = rawStateMachine;
     stateMachine->mObject = object;
     stateMachine->mStateTable = stateTable;

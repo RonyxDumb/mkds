@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 GetRaceElapsedFrames(void);
+s32 rstat_getFrameCounter(void);

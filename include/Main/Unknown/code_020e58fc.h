@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020e58fc(unsigned int value);
+unsigned int shand_moveStateInit(unsigned int value);

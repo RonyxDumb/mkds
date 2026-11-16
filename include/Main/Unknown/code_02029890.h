@@ -13,4 +13,4 @@ void func_020298e0(unsigned int engineIndex);
 void func_020298f4(unsigned int courseId);
 void func_02029908(unsigned int mode);
 void func_0202991c(unsigned int cpuDifficulty);
-RaceSetupCopy *GetRaceSetupCopy(void);
+RaceSetupCopy *menu_getRaceConfig(void);

@@ -3,172 +3,172 @@
 
 #pragma thumb on
 
-u32 GetCourseId(void) {
-    return (gRaceSetupCopy->mCourseId);
+u32 SPM_GetSelectedCourse(void) {
+    return (menu_sRaceConfig->mCourseId);
 }
 
-u32 GetCharacterIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex);
+u32 SPM_GetDriverXCharacterID(u16 entryIndex) {
+    return (menu_sRaceConfig->mEntries[entryIndex].mCharacterIndex);
 }
 
-u32 GetKartIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mKartIndex);
+u32 SPM_GetDriverXKartID(u16 entryIndex) {
+    return (menu_sRaceConfig->mEntries[entryIndex].mKartIndex);
 }
 
 u32 GetPlayerKind(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mPlayerKind);
+    return (menu_sRaceConfig->mEntries[entryIndex].mPlayerKind);
 }
 
 u32 GetEngineIndex(void) {
-    return (gRaceSetupCopy->mEngineIndex);
+    return (menu_sRaceConfig->mEngineIndex);
 }
 
-u32 GetCupIndex(void) {
-    return (gRaceSetupCopy->mCupIndex);
+u32 SPM_GetSelectedCup(void) {
+    return (menu_sRaceConfig->mCupIndex);
 }
 
 u32 GetMirrorMode(void) {
-    return (gRaceSetupCopy->mMirrorMode);
+    return (menu_sRaceConfig->mMirrorMode);
 }
 
 u32 GetCpuDifficulty(void) {
-    return (gRaceSetupCopy->mCpuDifficulty);
+    return (menu_sRaceConfig->mCpuDifficulty);
 }
 
 u32 GetCourseListMode(void) {
-    return (gRaceSetupCopy->mCourseListMode);
+    return (menu_sRaceConfig->mCourseListMode);
 }
 
 u32 GetRaceSetupCopyCourseCount(void) {
-    return (gRaceSetupCopy->mCourseCount);
+    return (menu_sRaceConfig->mCourseCount);
 }
 
 u32 GetRuleKind(void) {
-    return (gRaceSetupCopy->mRuleKind);
+    return (menu_sRaceConfig->mRuleKind);
 }
 
 u32 GetUseTeams(void) {
-    return (gRaceSetupCopy->mUseTeams);
+    return (menu_sRaceConfig->mUseTeams);
 }
 
 u32 GetTeamIndex(u16 entryIndex) {
-    return (gRaceSetupCopy->mEntries[entryIndex].mTeamIndex);
+    return (menu_sRaceConfig->mEntries[entryIndex].mTeamIndex);
 }
 
 u32 GetMissionTableRow(void) {
-    return (gRaceSetupCopy->mMissionTableRow);
+    return (menu_sRaceConfig->mMissionTableRow);
 }
 
 u32 GetMissionTableColumn(void) {
-    return (gRaceSetupCopy->mMissionTableColumn);
+    return (menu_sRaceConfig->mMissionTableColumn);
 }
 
-u32 GetRaceSetupCopyEntryIndex(void) {
-    return (gRaceSetupCopy->mEntryIndex);
+u32 menu_getRaceConfigField10C(void) {
+    return (menu_sRaceConfig->mEntryIndex);
 }
 
 u32 GetSessionKartCount(void) {
-    return (gRaceSetupCopy->mSessionKartCount);
+    return (menu_sRaceConfig->mSessionKartCount);
 }
 
-void SetEngineIndex(u32 engineIndex) {
-    gRaceSetupCopy->mEngineIndex = engineIndex;
+void SPM_SetCCMode(u32 engineIndex) {
+    menu_sRaceConfig->mEngineIndex = engineIndex;
 }
 
-void SetMirrorMode(void) {
-    gRaceSetupCopy->mMirrorMode = 1;
+void SPM_EnableMirrorMode(void) {
+    menu_sRaceConfig->mMirrorMode = 1;
 }
 
-void ClearMirrorMode(void) {
-    gRaceSetupCopy->mMirrorMode = 0;
+void SPM_DisableMirrorMode(void) {
+    menu_sRaceConfig->mMirrorMode = 0;
 }
 
-void SetCupIndex(u32 cupIndex) {
-    gRaceSetupCopy->mCupIndex = cupIndex;
+void SPM_SetCup(u32 cupIndex) {
+    menu_sRaceConfig->mCupIndex = cupIndex;
 }
 
-void SetCourseId(u32 courseId) {
-    gRaceSetupCopy->mCourseId = courseId;
+void SPM_SetCourse(u32 courseId) {
+    menu_sRaceConfig->mCourseId = courseId;
 }
 
-void SetCpuDifficulty(u32 cpuDifficulty) {
-    gRaceSetupCopy->mCpuDifficulty = cpuDifficulty;
+void SPM_SetCPUMode(u32 cpuDifficulty) {
+    menu_sRaceConfig->mCpuDifficulty = cpuDifficulty;
 }
 
-void SetCourseListMode(u32 courseListMode) {
-    gRaceSetupCopy->mCourseListMode = courseListMode;
+void SPM_SetCourseMode(u32 courseListMode) {
+    menu_sRaceConfig->mCourseListMode = courseListMode;
 }
 
-void SetRaceSetupCopyCourseCount(u16 courseCount) {
-    gRaceSetupCopy->mCourseCount = courseCount;
+void SPM_SetNrRacesNrWins(u16 courseCount) {
+    menu_sRaceConfig->mCourseCount = courseCount;
 }
 
-void SetRuleKind(u32 ruleKind) {
-    gRaceSetupCopy->mRuleKind = ruleKind;
+void SPM_SetRules(u32 ruleKind) {
+    menu_sRaceConfig->mRuleKind = ruleKind;
 }
 
-void SetUseTeams(void) {
-    gRaceSetupCopy->mUseTeams = 1;
+void SPM_EnableTeamMode(void) {
+    menu_sRaceConfig->mUseTeams = 1;
 }
 
-void ClearUseTeams(void) {
-    gRaceSetupCopy->mUseTeams = 0;
+void SPM_DisableTeamMode(void) {
+    menu_sRaceConfig->mUseTeams = 0;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void SetTeamIndex(u16 entryIndex, u32 teamIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mTeamIndex = teamIndex;
+void SPM_SetDriverXTeam(u16 entryIndex, u32 teamIndex) {
+    menu_sRaceConfig->mEntries[entryIndex].mTeamIndex = teamIndex;
 }
 
-void SetCharacterIndex(u16 entryIndex, u32 characterIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mCharacterIndex = characterIndex;
+void SPM_SetDriverXCharacterID(u16 entryIndex, u32 characterIndex) {
+    menu_sRaceConfig->mEntries[entryIndex].mCharacterIndex = characterIndex;
 }
 
-void SetKartIndex(u16 entryIndex, u32 kartIndex) {
-    gRaceSetupCopy->mEntries[entryIndex].mKartIndex = kartIndex;
+void SPM_SetDriverXKartID(u16 entryIndex, u32 kartIndex) {
+    menu_sRaceConfig->mEntries[entryIndex].mKartIndex = kartIndex;
 }
 
 void SetPlayerKind(u16 entryIndex, u32 playerKind) {
-    gRaceSetupCopy->mEntries[entryIndex].mPlayerKind = playerKind;
+    menu_sRaceConfig->mEntries[entryIndex].mPlayerKind = playerKind;
 }
 
 void func_020294c0(u16 entryIndex, u32 b) {
-    gRaceSetupCopy->mEntries[entryIndex].mUnk_10 = b;
+    menu_sRaceConfig->mEntries[entryIndex].mUnk_10 = b;
 }
 
 void func_020294ac(u16 entryIndex, u32 b) {
-    gRaceSetupCopy->mEntries[entryIndex].mUnk_14 = b;
+    menu_sRaceConfig->mEntries[entryIndex].mUnk_14 = b;
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void func_0202949c(u32 p0) {
-    gRaceSetupCopy->mUnk_e0 = p0;
+void SPM_SetTTGhost(u32 p0) {
+    menu_sRaceConfig->mUnk_e0 = p0;
 }
 
-void SetMissionTableRow(u32 missionTableRow) {
-    gRaceSetupCopy->mMissionTableRow = (u8) missionTableRow;
+void SPM_SetMissionLevel(u32 missionTableRow) {
+    menu_sRaceConfig->mMissionTableRow = (u8) missionTableRow;
 }
 
-void SetMissionTableColumn(u32 missionTableColumn) {
-    gRaceSetupCopy->mMissionTableColumn = (u8) missionTableColumn;
+void SPM_SetMissionIdx(u32 missionTableColumn) {
+    menu_sRaceConfig->mMissionTableColumn = (u8) missionTableColumn;
 }
 
 void SetMissionFileRowIndex(u32 missionFileRowIndex) {
-    gRaceSetupCopy->mMissionFileRowIndex = missionFileRowIndex;
+    menu_sRaceConfig->mMissionFileRowIndex = missionFileRowIndex;
 }
 
 void SetRaceSetupCopyEntryIndex(u32 entryIndex) {
-    gRaceSetupCopy->mEntryIndex = entryIndex;
+    menu_sRaceConfig->mEntryIndex = entryIndex;
 }
 
 void SetSessionKartCount(u32 sessionKartCount) {
-    gRaceSetupCopy->mSessionKartCount = sessionKartCount;
+    menu_sRaceConfig->mSessionKartCount = sessionKartCount;
 }
 
 #pragma thumb off

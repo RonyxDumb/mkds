@@ -18,36 +18,36 @@
 
 Unk0219b250 *gStopSign;
 
-void InitStopSign(Unk02188950 *a) {
+void stsig_init(Unk02188950 *a) {
     s32 m[9];
-    RefreshMapObjectMatrixFromHitNormal(a);
+    mobj_setDirectionFromFloor(a);
     a->mUnk_000.mAngle = (a->mUnk_000.mCourseMapRow->mUnk_0c.y * 0xb60b60b60bLL + 0x80000000000LL) >> 44;
-    MTX_RotY33_(m, gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2], gPairsByAngle[(a->mUnk_000.mAngle >> 4) * 2 + 1]);
+    MTX_RotY33_(m, FX_SinCosTable_[(a->mUnk_000.mAngle >> 4) * 2], FX_SinCosTable_[(a->mUnk_000.mAngle >> 4) * 2 + 1]);
     MTX_Concat33(m, &a->mUnk_000.mMatrix.mUnk_00[0].x, &a->mUnk_000.mMatrix.mUnk_00[0].x);
 }
 
 void LoadStopSign(Unk0219b478 *a) {
     gStopSign = LoadMapObjectModelAnimated(a, "StopSign.nsbmd");
-    SetMapObjectModelPolygonId(gStopSign, 0x3f);
-    SetMapObjectModelLightEnableFlag(gStopSign, 2);
-    SetNsbmdEmiAll(gStopSign->mAnimatedModel, 0x294a);
+    mobj_setModelPolygonIdAll(gStopSign, 0x3f);
+    mobj_setModelLightMask(gStopSign, 2);
+    model_setEmi(gStopSign->mAnimatedModel, 0x294a);
 }
 
 void DrawStopSign(void *a, StopSignObject *b) {
     s32 v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     b->mUnk_4c = b->mUnk_04 >> 4;
     b->mUnk_50 = b->mUnk_08 >> 4;
     b->mUnk_54 = b->mUnk_0c >> 4;
-    func_01ff9048(0x19, b->mUnk_28, 0xc);
-    func_01ff9048(0x1b, b->mUnk_1c, 3);
-    DrawMapObjectModel(a, gStopSign, b);
+    NNS_G3dGeBufferOP_N(0x19, b->mUnk_28, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, b->mUnk_1c, 3);
+    mobj_renderModel(a, gStopSign, b);
 }
 
-void func_ov001_02192d60(void) {
-    CreateMapObjectKindData(NULL, NULL, NULL, 0, 1);
+void stsig_setupCollision(void) {
+    mobj_createConfig(NULL, NULL, NULL, 0, 1);
 }
 
-void *func_ov001_02192d48(void) {
-    return CreateMapObjectDrawList1(LoadStopSign, DrawStopSign, NULL);
+void *stsig_setupRenderPart(void) {
+    return mobj_createRenderPart3d(LoadStopSign, DrawStopSign, NULL);
 }

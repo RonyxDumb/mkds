@@ -4,9 +4,9 @@
 #include "Main/Unknown/code_02069000.h"
 #include "Main/Unknown/code_020ee684.h"
 
-void StartItemKinokoPBoost(ItemInUse *inUse, HeldItem *heldItem) {
-    StartHeldItemTimer(heldItem, 0x1c2);
-    StartKartKinokoBoost(heldItem->mKartItems->mKart);
+void itkinop_activate(ItemInUse *inUse, HeldItem *heldItem) {
+    it_setSlotTimeout(heldItem, 0x1c2);
+    driver_startShroomBoost(heldItem->mKartItems->mKart);
     inUse->mKartItems->mKinokoBoostStarted = TRUE;
-    func_020f4188(heldItem, 0xc);
+    it_20F4188(heldItem, 0xc);
 }

@@ -10,8 +10,8 @@
 #include "fs_file.h"
 #include "Main/Unknown/code_02008e10.h"
 
-// Entry of the list that gGameInfoList walks (the lists are chained through mUnk_4bc). GetEntryOrNull returns one;
-// the 0xc0 bytes at 0x4c0 are moved out by func_0200b1b0.
+// Entry of the list that gGameInfoList walks (the lists are chained through mUnk_4bc). MB_GetGameInfoRecvList returns one;
+// the 0xc0 bytes at 0x4c0 are moved out by MB_FakeGetParentBssDesc.
 typedef struct GameInfoEntry {
     /* 000 */ u8 mUnk_000[0x220];
     /* 220 */ u8 mUnk_220[0x16];
@@ -97,7 +97,7 @@ extern u8 data_0216fce0[0xc0];
 extern Unk0216fc1c data_0216fd30[1];
 
 u32 func_020091fc(ScanBlock *scanBlock);
-u32 AddScanResult(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
+u32 MB_RecvGameInfoBeacon(EntryCallbackFunc callback, u32 b, ScanBlock *scanBlock);
 void func_020092d0(u32 ggid, u16 tgid, u32 attr);
 void func_02009494(void);
 void func_020094b8(u32 ggid, u16 tgid, u32 attr);

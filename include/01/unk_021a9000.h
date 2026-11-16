@@ -35,7 +35,7 @@ typedef struct OptionHensyuMenu {
     /* 10 */ s32 mNextOptionState;
     /* 14 */ BOOL mUnk_14;
     /* 18 */ void *mUnk_18;
-    // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl member, built by jn_ui_initLayout
     /* 1c */ LayoutTableEntry *mOptionHensyuMenuSTable;
     /* 20 */ struct Unk02021dc8 *mOptionHensyuMenuSNcer;
     /* 24 */ Ncgr *mOptionHensyuMenuSNcgr;
@@ -93,7 +93,7 @@ typedef struct EmblemGrid {
     /* 1c */ u8 *mBuffers[5];
 } EmblemGrid;
 
-// Allocated by InitSelectBattleStage and held in gSelectBattleStage.
+// Allocated by SPM_LoadBattleStageSelectionMenu and held in gSelectBattleStage.
 typedef struct SelectBattleStage {
     /* 0000 */ s32 mState;
     /* 0004 */ s32 mNextState;
@@ -125,7 +125,7 @@ typedef struct SelectBattleStage {
     /* 1084 */ struct Bmg *mCommonMessages;
 } SelectBattleStage;
 
-// Object that func_ov001_02180610 allocates and gTestScene points to.
+// Object that test_init allocates and gTestScene points to.
 typedef struct TestScene {
     /* 0000 */ s32 mUnk_0000;
     /* 0004 */ s32 mState;
@@ -220,15 +220,15 @@ extern const char *gSelectEngineMONclrName;
 extern const char *gSelectEngineBSBnblName;
 extern s32 gTestSceneCharTableIndex;
 extern u16 gTestSceneCharText[];
-extern char data_ov001_021a94a4[];
-extern char data_ov001_021a94b0[];
-extern char data_ov001_021a94bc[];
-extern char data_ov001_021a94d0[];
+extern char aCommon_bmg_30[];
+extern char aMission_bmg[];
+extern char aMissiontable_mtbl[];
+extern char aMission_mr_1[];
 typedef struct TimeAttackTopMenu {
     /* 00 */ struct Unk02021dc8 *mTimeAttackTopMenuSNcer;
     /* 04 */ struct Unk0201ea30 *mTimeAttackTopMenuSBncl;
     /* 08 */ void *mTimeAttackTopMenuSBnbl;
-    // one 0x40-byte record per cell of the Bncl member, built by InitLayoutTable
+    // one 0x40-byte record per cell of the Bncl member, built by jn_ui_initLayout
     /* 0c */ LayoutTableEntry *mTimeAttackTopMenuSTable;
     /* 10 */ void *mUnk_10;
     /* 14 */ void *mHeap;
@@ -242,7 +242,7 @@ typedef struct TimeAttackTopMenu {
     /* 34 */ s32 mResult;
 } TimeAttackTopMenu;
 
-extern RaceHudSubScreenCells *gRaceHudSubScreenKurikingCells;
+extern RaceHudSubScreenCells *mpicn_sKurikingIcon;
 extern u16 data_ov001_021a9b94;
 extern const char *data_ov001_021a90e8[5];
 extern const char *data_ov001_021a92c8[5];

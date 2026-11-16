@@ -44,13 +44,13 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
     s32 g;
 
     if (connection == NULL) {
-        AssertionFailed(data_ov000_021b32f0, data_ov000_021b32b0, NULL, 0x22);
+        __msl_assertion_failed(data_ov000_021b32f0, data_ov000_021b32b0, NULL, 0x22);
     }
     if (connection->mGpiConnection == NULL) {
-        AssertionFailed(data_ov000_021b3304, data_ov000_021b32b0, NULL, 0x23);
+        __msl_assertion_failed(data_ov000_021b3304, data_ov000_021b32b0, NULL, 0x23);
     }
     if (operation == NULL) {
-        AssertionFailed(data_ov000_021b3318, data_ov000_021b32b0, NULL, 0x24);
+        __msl_assertion_failed(data_ov000_021b3318, data_ov000_021b32b0, NULL, 0x24);
     }
     b = operation->mUnk_0c;
     if (b.mCallback != NULL) {
@@ -126,7 +126,7 @@ s32 GpiQueueOperationCallback(GpConnection *connection, GpiOperation *operation)
                 }
                 break;
             default:
-                AssertionFailed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x6b);
+                __msl_assertion_failed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x6b);
                 break;
         }
     }
@@ -171,7 +171,7 @@ void GpiDeleteOperation(GpConnection *param_1, GpiOperation *param_2) {
         b = (Unk02193858 *) param_2->mUnk_04;
         a->mSearchCount--;
         if (a->mSearchCount < 0) {
-            AssertionFailed(data_ov000_021b32c0, data_ov000_021b32b0, NULL, 0xb6);
+            __msl_assertion_failed(data_ov000_021b32c0, data_ov000_021b32b0, NULL, 0xb6);
         }
         func_ov000_0218e524(b->mUnk_04, 2);
         func_ov000_0218e53c(b->mUnk_04);
@@ -252,7 +252,7 @@ s32 GpiProcessOperation(GpConnection *c, GpiOperation *d, const char *e) {
             break;
         default:
             func_ov000_0219690c(c, data_ov000_021b3264, b);
-            AssertionFailed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x146);
+            __msl_assertion_failed(data_ov000_021b32ac, data_ov000_021b32b0, NULL, 0x146);
             break;
     }
     if (a != 0) {

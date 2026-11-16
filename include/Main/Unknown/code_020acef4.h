@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020acef4(void);
+unsigned int title_input_getMasterInputUnitId(void);

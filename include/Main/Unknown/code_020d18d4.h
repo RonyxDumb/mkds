@@ -7,7 +7,7 @@
 #include "Main/Unknown/code_020cffd0.h"
 #include "Main/Unknown/code_020b4000.h"
 
-void DrawRaceMNumberPair(RaceHudOamBuffer *oamBuffer);
-void func_020d1de8(RaceHudOamBuffer *oamBuffer, s32 startFrames);
-void DrawRaceMNumberPairTwoDigit(RaceHudOamBuffer *oamBuffer);
-void DrawRaceMNumberPairOneDigit(RaceHudOamBuffer *oamBuffer);
+void r2d_renderRaceNumber(RaceHudOamBuffer *oamBuffer);
+void r2d_20D1DE8(RaceHudOamBuffer *oamBuffer, s32 startFrames);
+void r2d_renderRaceNumberDoubleDigit(RaceHudOamBuffer *oamBuffer);
+void r2d_renderRaceNumberSingleDigit(RaceHudOamBuffer *oamBuffer);

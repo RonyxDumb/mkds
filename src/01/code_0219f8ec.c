@@ -51,16 +51,16 @@ void LoadMissionRunMSselAndBossIconData(void) {
     Nscr *i = NULL;
     Nclr *j = NULL;
 
-    LoadNcgrData(&g, FindSceneFile(gMissionRunMSselMBNcgrName));
-    LoadNclrData(&j, FindSceneFile(gMissionRunMSselMBNclrName));
-    LoadNscrData(&h, FindSceneFile(gMissionRunMSselMWNscrName));
-    LoadNscrData(&i, FindSceneFile(gMissionRunMSselMNscrName));
-    LoadNcgrData2(&a, FindSceneFile(gMissionRunMSselMNcgrName));
-    LoadNcerData(&b, FindSceneFile(gMissionRunMSselMNcerName));
-    LoadNclrData(&c, FindSceneFile(gMissionRunMSselMONclrName));
-    LoadNcgrData2(&d, FindSceneFile(gMissionRunMSselSNcgrName));
-    LoadNcerData(&e, FindSceneFile(gMissionRunMSselSNcerName));
-    LoadNclrData(&f, FindSceneFile(gMissionRunMSselSONclrName));
+    g2du_unpackCharacterDataBG(&g, arc_getSceneArcFile(gMissionRunMSselMBNcgrName));
+    g2du_unpackPaletteData(&j, arc_getSceneArcFile(gMissionRunMSselMBNclrName));
+    g2du_unpackScreenData(&h, arc_getSceneArcFile(gMissionRunMSselMWNscrName));
+    g2du_unpackScreenData(&i, arc_getSceneArcFile(gMissionRunMSselMNscrName));
+    g2du_unpackCharacterData(&a, arc_getSceneArcFile(gMissionRunMSselMNcgrName));
+    g2du_unpackCellBankData(&b, arc_getSceneArcFile(gMissionRunMSselMNcerName));
+    g2du_unpackPaletteData(&c, arc_getSceneArcFile(gMissionRunMSselMONclrName));
+    g2du_unpackCharacterData(&d, arc_getSceneArcFile(gMissionRunMSselSNcgrName));
+    g2du_unpackCellBankData(&e, arc_getSceneArcFile(gMissionRunMSselSNcerName));
+    g2du_unpackPaletteData(&f, arc_getSceneArcFile(gMissionRunMSselSONclrName));
     LoadMissionRunBossIconData();
 }
 
@@ -74,36 +74,36 @@ void LocateAndQueueMissionRunMSsel(void) {
     Nclr *g = NULL;
     u16 *p;
 
-    LocateNcgr(&d, FindSceneFile(gMissionRunMSselMBNcgrName));
-    LocateNclr(&g, FindSceneFile(gMissionRunMSselMBNclrName));
-    LocateNscr(&e, FindSceneFile(gMissionRunMSselMWNscrName));
-    LocateNscr(&f, FindSceneFile(gMissionRunMSselMNscrName));
-    gMissionRunMSsel->mUnk_48 = HeapAlloc(gMissionRunMSsel->mHeap, 0x800);
-    gMissionRunMSsel->mMissionRunMSselMBncl = FindSceneFile(gMissionRunMSselMBnclName);
-    gMissionRunMSsel->mMissionRunMSselMBnll = FindSceneFile(gMissionRunMSselMBnllName);
-    LocateNcgr2(&a, FindSceneFile(gMissionRunMSselMNcgrName));
-    LocateNcer(&gMissionRunMSsel->mMissionRunMSselMNcer, FindSceneFile(gMissionRunMSselMNcerName));
-    LocateNclr(&b, FindSceneFile(gMissionRunMSselMONclrName));
-    gMissionRunMSsel->mMissionRunMSselSBncl = FindSceneFile(gMissionRunMSselSBnclName);
-    gMissionRunMSsel->mMissionRunMSselSBnbl = FindSceneFile(gMissionRunMSselSBnblName);
-    gMissionRunMSsel->mMissionRunMSselSBnll = FindSceneFile(gMissionRunMSselSBnllName);
-    LocateNcgr2(&c, FindSceneFile(gMissionRunMSselSNcgrName));
-    LocateNcer(&gMissionRunMSsel->mMissionRunMSselSNcer, FindSceneFile(gMissionRunMSselSNcerName));
-    LocateNclr((Nclr **) &gMissionRunMSsel->mUnk_1c, FindSceneFile(gMissionRunMSselSONclrName));
+    g2du_getCharacterDataBG(&d, arc_getSceneArcFile(gMissionRunMSselMBNcgrName));
+    g2du_getPaletteData(&g, arc_getSceneArcFile(gMissionRunMSselMBNclrName));
+    g2du_getScreenData(&e, arc_getSceneArcFile(gMissionRunMSselMWNscrName));
+    g2du_getScreenData(&f, arc_getSceneArcFile(gMissionRunMSselMNscrName));
+    gMissionRunMSsel->mUnk_48 = heap_alloc(gMissionRunMSsel->mHeap, 0x800);
+    gMissionRunMSsel->mMissionRunMSselMBncl = arc_getSceneArcFile(gMissionRunMSselMBnclName);
+    gMissionRunMSsel->mMissionRunMSselMBnll = arc_getSceneArcFile(gMissionRunMSselMBnllName);
+    g2du_getCharacterData(&a, arc_getSceneArcFile(gMissionRunMSselMNcgrName));
+    g2du_getCellBankData(&gMissionRunMSsel->mMissionRunMSselMNcer, arc_getSceneArcFile(gMissionRunMSselMNcerName));
+    g2du_getPaletteData(&b, arc_getSceneArcFile(gMissionRunMSselMONclrName));
+    gMissionRunMSsel->mMissionRunMSselSBncl = arc_getSceneArcFile(gMissionRunMSselSBnclName);
+    gMissionRunMSsel->mMissionRunMSselSBnbl = arc_getSceneArcFile(gMissionRunMSselSBnblName);
+    gMissionRunMSsel->mMissionRunMSselSBnll = arc_getSceneArcFile(gMissionRunMSselSBnllName);
+    g2du_getCharacterData(&c, arc_getSceneArcFile(gMissionRunMSselSNcgrName));
+    g2du_getCellBankData(&gMissionRunMSsel->mMissionRunMSselSNcer, arc_getSceneArcFile(gMissionRunMSselSNcerName));
+    g2du_getPaletteData((Nclr **) &gMissionRunMSsel->mUnk_1c, arc_getSceneArcFile(gMissionRunMSselSONclrName));
     p = b->mData;
-    CallQueueAppend(4, 0, d->mData, d->mDataSize);
-    CallQueueAppend(0xf, 0, g->mData, 0x40);
-    CallQueueAppend(8, 0, e->mData, e->mDataSize);
-    CallQueueAppend(8, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(8, 0x1000, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(8, 0x1800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(9, 0, f->mData, f->mDataSize);
-    CallQueueAppend(9, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
-    CallQueueAppend(0x13, 0, a->mData, a->mDataSize);
-    CallQueueAppend(0xe, 0, b->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, p + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, c->mData, c->mDataSize);
-    CallQueueAppend(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, d->mData, d->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, g->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, e->mData, e->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1000, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(8, 0x1800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(9, 0, f->mData, f->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(9, 0x800, gMissionRunMSsel->mUnk_48, 0x800);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, b->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, p + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, c->mData, c->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gMissionRunMSsel->mUnk_1c->mUnk_0c, gMissionRunMSsel->mUnk_1c->mUnk_08);
 }
 
 void func_ov001_021a0e34(void) {
@@ -166,7 +166,7 @@ void func_ov001_021a0b3c(void) {
             if (out <= 4) {
                 gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][5]].mVisible = 1;
                 gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][0]].mVisible = 1;
-                func_0212426c(1, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
+                jn_ui_212426C(1, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
                               data_ov001_021a92c8[out], gMissionRunMSsel->mMissionRunMSselSBncl,
                               gMissionRunMSsel->mMissionRunMSselSTable);
             } else if (out <= 7) {
@@ -178,19 +178,19 @@ void func_ov001_021a0b3c(void) {
         }
         func_021057f0(0, GetMissionTableRow());
         if (i == 8) {
-            SetCellPaletteIndex(data_ov001_021a6e7c[i][2], 2, gMissionRunMSsel->mMissionRunMSselSNcer,
+            jn_ui_setCellCparam(data_ov001_021a6e7c[i][2], 2, gMissionRunMSsel->mMissionRunMSselSNcer,
                                 gMissionRunMSsel->mMissionRunMSselSBncl);
-            SetCellPaletteIndex(data_ov001_021a6e7c[i][1], 5, gMissionRunMSsel->mMissionRunMSselSNcer,
+            jn_ui_setCellCparam(data_ov001_021a6e7c[i][1], 5, gMissionRunMSsel->mMissionRunMSselSNcer,
                                 gMissionRunMSsel->mMissionRunMSselSBncl);
             if (gMissionRunMSsel->mUnk_a0 != 0) {
-                if (GetPreviousMenuScreenNumber() == SCREEN_MISSION_RUN_LVSEL) {
+                if (menu_getPrevState() == SCREEN_MISSION_RUN_LVSEL) {
                     gMissionRunMSsel->mIndex = 8;
                 }
                 if (gMissionRunMSsel->mUnk_a4 == FALSE) {
                     gMissionRunMSsel->mIndex = 8;
-                    SetCellPaletteIndex(data_ov001_021a6e7c[i][2], 0xb, gMissionRunMSsel->mMissionRunMSselSNcer,
+                    jn_ui_setCellCparam(data_ov001_021a6e7c[i][2], 0xb, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
-                    SetCellPaletteIndex(data_ov001_021a6e7c[i][1], 0xe, gMissionRunMSsel->mMissionRunMSselSNcer,
+                    jn_ui_setCellCparam(data_ov001_021a6e7c[i][1], 0xe, gMissionRunMSsel->mMissionRunMSselSNcer,
                                         gMissionRunMSsel->mMissionRunMSselSBncl);
                     func_021057f0(3, GetMissionTableRow());
                 }
@@ -198,9 +198,9 @@ void func_ov001_021a0b3c(void) {
         }
         gMissionRunMSsel->mMissionRunMSselSTable[cnt10 + data_ov001_021a6e10[i][1]].mVisible = 1;
         func_ov001_021a0e08((s16) i, buf);
-        func_0212426c(1, data_ov001_021a6e10[i][1], gMissionRunMSsel->mMissionRunMSselSBnll, buf,
+        jn_ui_212426C(1, data_ov001_021a6e10[i][1], gMissionRunMSsel->mMissionRunMSselSBnll, buf,
                       gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSTable);
-        func_02124a98(data_ov001_021a6e7c[i][0], 1, gMissionRunMSsel->mMissionRunMSselSNcer,
+        jn_ui_setCellIsTranslucent(data_ov001_021a6e7c[i][0], 1, gMissionRunMSsel->mMissionRunMSselSNcer,
                       gMissionRunMSsel->mMissionRunMSselSBncl);
     }
     gMissionRunMSsel->mMissionRunMSselSTable[45].mVisible = 1;
@@ -272,7 +272,7 @@ void func_ov001_021a09a4(void) {
                 gMissionRunMSsel->mUnk_20[k] = r | ((bl << 10) | (g << 5));
             }
             DC_FlushRange(gMissionRunMSsel->mUnk_20, 0x20);
-            CallQueueAppend(0x1e, c2 << 5, gMissionRunMSsel->mUnk_20, 0x20);
+            NNS_GfdRegisterNewVramTransferTask(0x1e, c2 << 5, gMissionRunMSsel->mUnk_20, 0x20);
         }
     }
 }
@@ -338,9 +338,9 @@ void func_ov001_021a0774(void) {
         gMissionRunMSsel->mMissionRunMSselMTable[data_ov001_021a6d7c[out - 2]].mVisible = 1;
     }
     d = gMissionRunMSsel;
-    func_0212426c(
+    jn_ui_212426C(
         0, 0, gMissionRunMSsel->mMissionRunMSselMBnll,
-        GetBmgEntry(d->mMissionMessages, d->mUnk_50[GetMissionTableValue((u32) (gMissionRunMSsel->mMissionTableMtbl),
+        jn_msg_getMessage(d->mMissionMessages, d->mUnk_50[GetMissionTableValue((u32) (gMissionRunMSsel->mMissionTableMtbl),
                                                                          GetMissionTableRow(), d->mIndex + 1) -
                                                     1]
                                              .mUnk_0c),
@@ -351,7 +351,7 @@ void func_ov001_021a0734(void) {
     u32 v0;
     u32 v1;
 
-    SetMissionTableColumn((s8) (gMissionRunMSsel->mIndex + 1));
+    SPM_SetMissionIdx((s8) (gMissionRunMSsel->mIndex + 1));
     v0 = GetMissionTableRow();
     v1 = GetMissionTableColumn();
     SetMissionFileRowIndex((u16) (GetMissionTableValue((u32) (gMissionRunMSsel->mMissionTableMtbl), v0, v1) - 1));
@@ -466,8 +466,8 @@ void func_ov001_021a0428(void) {
 
     gMissionRunMSsel->mNextState = 5;
     gMissionRunMSsel->mStateFrames = 0;
-    v0 = GetBmgEntry(gMissionRunMSsel->mCommonMessages, 4);
-    StartSelectChoises(v0, GetBmgEntry(gMissionRunMSsel->mCommonMessages, 2), 0);
+    v0 = jn_msg_getMessage(gMissionRunMSsel->mCommonMessages, 4);
+    gmenu_startSelectChoices(v0, jn_msg_getMessage(gMissionRunMSsel->mCommonMessages, 2), 0);
     for (i = 0; i < 9; i++) {
         gMissionRunMSsel->mMissionRunMSselSTable[data_ov001_021a6e7c[i][0]].mVisible = 0;
     }
@@ -500,7 +500,7 @@ void func_ov001_021a03a0(void) {
     }
 }
 
-void InitMissionRunMSsel(void *a, void *b, void *c) {
+void SPM_LoadMissionRunLevelMenu(void *a, void *b, void *c) {
     s32 i;
     void *heap;
     s32 rem;
@@ -510,8 +510,8 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
     reg_G2_BG1CNT = (reg_G2_BG1CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd204;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0x9004;
-    heap = CreateFrmHeapFromMaxFree(a);
-    gMissionRunMSsel = HeapAlloc(heap, 0xc0);
+    heap = heap_createSubFrmHeap(a);
+    gMissionRunMSsel = heap_alloc(heap, 0xc0);
     gMissionRunMSsel->mHeap = heap;
     gMissionRunMSsel->mState = 0;
     gMissionRunMSsel->mIndex = GetMissionTableColumn() - 1;
@@ -526,27 +526,27 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
     }
     func_ov001_021a0e34();
     LocateAndQueueMissionRunMSsel();
-    ResetOamLists(gMissionRunMSsel->mUnk_b4, gMissionRunMSsel->mUnk_b8);
-    InitLayoutTable(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselMBncl,
+    oam_clearResetBuffers(gMissionRunMSsel->mUnk_b4, gMissionRunMSsel->mUnk_b8);
+    jn_ui_initLayout(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMBnll, &gMissionRunMSsel->mMissionRunMSselMTable);
-    InitLayoutTable(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselSBncl,
+    jn_ui_initLayout(gMissionRunMSsel->mHeap, gMissionRunMSsel->mMissionRunMSselSBncl,
                     gMissionRunMSsel->mMissionRunMSselSBnll, &gMissionRunMSsel->mMissionRunMSselSTable);
-    gMissionRunMSsel->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a94a4);
-    gMissionRunMSsel->mMissionMessages = FindSceneFile(data_ov001_021a94b0);
-    gMissionRunMSsel->mMissionTableMtbl = FindFileInLoadedArchives(data_ov001_021a94bc);
-    gMissionRunMSsel->mUnk_50 = (Unk021ca414_50 *) ((u8 *) FindSceneFile(data_ov001_021a94d0) + 8);
-    InitLabelCanvas(gMissionRunMSsel->mHeap, 0, gMissionRunMSsel->mMissionRunMSselMBnll, 0xd2, 0x46, 0,
+    gMissionRunMSsel->mCommonMessages = arc_get2dArcFile(aCommon_bmg_30);
+    gMissionRunMSsel->mMissionMessages = arc_getSceneArcFile(aMission_bmg);
+    gMissionRunMSsel->mMissionTableMtbl = arc_get2dArcFile(aMissiontable_mtbl);
+    gMissionRunMSsel->mUnk_50 = (Unk021ca414_50 *) ((u8 *) arc_getSceneArcFile(aMission_mr_1) + 8);
+    jn_ui_initLabel(gMissionRunMSsel->mHeap, 0, gMissionRunMSsel->mMissionRunMSselMBnll, 0xd2, 0x46, 0,
                     gMissionRunMSsel->mMissionRunMSselMNcer, gMissionRunMSsel->mMissionRunMSselMBncl,
                     gMissionRunMSsel->mMissionRunMSselMTable, 0x8000);
     rem = GX_GetSizeOfSubOBJ();
     for (i = 0; i < 9; i++) {
         rem -=
-            InitLabelCanvas(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
+            jn_ui_initLabel(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][0], gMissionRunMSsel->mMissionRunMSselSBnll,
                             data_ov001_021a6e34[i][0], data_ov001_021a6e58[i][0], data_ov001_021a6e7c[i][5],
                             gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
                             gMissionRunMSsel->mMissionRunMSselSTable, rem);
         base = data_ov001_021a6e10[i][0];
-        rem -= InitLabelCanvas(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][1],
+        rem -= jn_ui_initLabel(gMissionRunMSsel->mHeap, data_ov001_021a6e10[i][1],
                                gMissionRunMSsel->mMissionRunMSselSBnll, data_ov001_021a6e34[i][1],
                                data_ov001_021a6e58[i][1], base + gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06,
                                gMissionRunMSsel->mMissionRunMSselSNcer, gMissionRunMSsel->mMissionRunMSselSBncl,
@@ -557,7 +557,7 @@ void InitMissionRunMSsel(void *a, void *b, void *c) {
     gMissionRunMSsel->mUnk_b0 = gMissionRunMSsel->mIndex;
     func_ov001_021a0774();
     func_ov001_021a04f0();
-    FrmHeapShrinkInParent(gMissionRunMSsel->mHeap);
+    heap_adjustSubFrmHeap(gMissionRunMSsel->mHeap);
 }
 
 void ReleaseMissionRunMSsel(void) {
@@ -570,13 +570,13 @@ void ReleaseMissionRunMSsel(void) {
             break;
     }
     func_ov001_021a64a0();
-    HeapDestroy(gMissionRunMSsel->mHeap);
+    heap_destroySubHeap(gMissionRunMSsel->mHeap);
     gMissionRunMSsel = NULL;
 }
 
 void AdvanceMissionRunMSselState0(void) {
     func_021055b0(gMissionRunMSsel->mUnk_a8);
-    if (AreBrightnessFadesClear() != 0) {
+    if (mbright_isFadedIn() != 0) {
         RequestMissionRunMSselState1();
     }
 }
@@ -593,8 +593,8 @@ void AdvanceMissionRunMSselState1(void) {
     a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
     b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    v0 = InterpolateS16(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
-    v1 = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
+    v0 = mutil_interpolate(1, 0x100, 0, gMissionRunMSsel->mStateFrames, 10);
+    v1 = mutil_interpolate(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
     gMissionRunMSsel->mBg0OffsetX = v0;
     gMissionRunMSsel->mBg1Offset = v1;
     gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = v0;
@@ -644,36 +644,36 @@ void AdvanceMissionRunMSselState3(void) {
     func_ov001_021a0620();
     flag_b = FALSE;
     flag_a = FALSE;
-    value = data_02175628[slot].mHasPair;
-    if (value == 0 && data_02175628[slot].mNoPairCount < 5) {
+    value = gInputUnits[slot].mHasPair;
+    if (value == 0 && gInputUnits[slot].mNoPairCount < 5) {
         flag_a = TRUE;
     }
-    if (flag_a == FALSE && data_02175628[slot].mPrevHasPair == 0 && value != 0) {
+    if (flag_a == FALSE && gInputUnits[slot].mPrevHasPair == 0 && value != 0) {
         flag_b = TRUE;
     }
     if (flag_b) {
-        result = RectTableFindContaining(gMissionRunMSsel->mMissionRunMSselSBnbl, data_02175628[slot].mPairX,
-                                         data_02175628[slot].mPairY);
+        result = jn_ui_checkTouch(gMissionRunMSsel->mMissionRunMSselSBnbl, gInputUnits[slot].mPairX,
+                                         gInputUnits[slot].mPairY);
     }
-    if ((u16) (data_02175628[slot].mPressedBits & PAD_KEY_B) == 0) {
+    if ((u16) (gInputUnits[slot].mPressedBits & PAD_KEY_B) == 0) {
         flag_b = FALSE;
         flag_a = FALSE;
-        value = data_02175628[slot].mHasPair;
-        if (value == 0 && data_02175628[slot].mNoPairCount < 5) {
+        value = gInputUnits[slot].mHasPair;
+        if (value == 0 && gInputUnits[slot].mNoPairCount < 5) {
             flag_a = TRUE;
         }
-        if (flag_a == FALSE && data_02175628[slot].mPrevHasPair == 0 && value != 0) {
+        if (flag_a == FALSE && gInputUnits[slot].mPrevHasPair == 0 && value != 0) {
             flag_b = TRUE;
         }
-        if (!flag_b || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[slot].mPairX,
-                                                                       data_02175628[slot].mPairY) == FALSE) {
+        if (!flag_b || gmenu_checkSelectReturnTouch(gInputUnits[slot].mPairX,
+                                                                       gInputUnits[slot].mPairY) == FALSE) {
             goto skip;
         }
     }
     if (func_ov001_021a071c() != FALSE) {
         return;
     }
-    SetSelectReturnSoundId(0xe);
+    gmenu_setSeqArcIndex(0xe);
     gMissionRunMSsel->mUnk_9c = 0x100;
     gMissionRunMSsel->mResult = 2;
     func_ov001_021a03a0();
@@ -691,12 +691,12 @@ skip:
         func_ov001_021a0488();
         return;
     }
-    if ((u16) (data_02175628[slot].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputUnits[slot].mPressedBits & PAD_KEY_A) != 0) {
         gMissionRunMSsel->mUnk_6c[gMissionRunMSsel->mIndex] = 5;
         func_ov001_021a0488();
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP)) {
+    if (mutil_checkKeys(8, PAD_KEY_UP)) {
         current = gMissionRunMSsel->mIndex;
         delta = data_ov001_021a6de8[current];
         if (delta == 0) {
@@ -711,7 +711,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN)) {
+    if (mutil_checkKeys(8, PAD_KEY_DOWN)) {
         current = gMissionRunMSsel->mIndex;
         delta = data_ov001_021a6dac[current];
         if (delta == 0) {
@@ -726,7 +726,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_LEFT)) {
+    if (mutil_checkKeys(8, PAD_KEY_LEFT)) {
         current = gMissionRunMSsel->mIndex;
         delta = data_ov001_021a6dc0[current];
         if (delta == 0) {
@@ -741,7 +741,7 @@ skip:
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0);
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_RIGHT)) {
+    if (mutil_checkKeys(8, PAD_KEY_RIGHT)) {
         current = gMissionRunMSsel->mIndex;
         delta = data_ov001_021a6dfc[current];
         if (delta == 0) {
@@ -821,8 +821,8 @@ void AdvanceMissionRunMSselState8(void) {
     a = gMissionRunMSsel->mMissionRunMSselMBncl->mUnk_06;
     b = gMissionRunMSsel->mMissionRunMSselSBncl->mUnk_06;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    first = InterpolateS16(1, 0, gMissionRunMSsel->mUnk_9c, gMissionRunMSsel->mStateFrames, 10);
-    second = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
+    first = mutil_interpolate(1, 0, gMissionRunMSsel->mUnk_9c, gMissionRunMSsel->mStateFrames, 10);
+    second = mutil_interpolate(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
     gMissionRunMSsel->mBg0OffsetX = first;
     gMissionRunMSsel->mBg1Offset = second;
     gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = first;
@@ -847,7 +847,7 @@ void AdvanceMissionRunMSselState8(void) {
         }
     }
     if (gMissionRunMSsel->mStateFrames == 5) {
-        CallQueueAppend(9, 0, gMissionRunMSsel->mUnk_48, 0x800);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gMissionRunMSsel->mUnk_48, 0x800);
     }
 }
 
@@ -884,10 +884,10 @@ s32 AdvanceMissionRunMSsel(void) {
     }
     func_ov001_021a08d8();
     func_ov001_021a09a4();
-    DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselMBncl, gMissionRunMSsel->mMissionRunMSselMNcer,
+    jn_ui_renderElements(gMissionRunMSsel->mMissionRunMSselMBncl, gMissionRunMSsel->mMissionRunMSselMNcer,
                     gMissionRunMSsel->mMissionRunMSselMBnll, gMissionRunMSsel->mUnk_b4,
                     gMissionRunMSsel->mMissionRunMSselMTable);
-    DrawLayoutTable(gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSNcer,
+    jn_ui_renderElements(gMissionRunMSsel->mMissionRunMSselSBncl, gMissionRunMSsel->mMissionRunMSselSNcer,
                     gMissionRunMSsel->mMissionRunMSselSBnll, gMissionRunMSsel->mUnk_b8,
                     gMissionRunMSsel->mMissionRunMSselSTable);
     if (gMissionRunMSsel->mState == 8 && gMissionRunMSsel->mStateFrames >= 10) {

@@ -7,16 +7,16 @@
 #include "registers.h"
 
 static inline u32 func_020399a8_inline(void) {
-    return data_02175614.mUnk_00 == 2;
+    return gVramWvrStatus.mUnk_00 == 2;
 }
 
-void InitWvrState(void) {
-    data_02175614.mUnk_00 = 1;
-    data_02175614.mCallback = NULL;
+void vram_initializeWvrStatus(void) {
+    gVramWvrStatus.mUnk_00 = 1;
+    gVramWvrStatus.mCallback = NULL;
 }
 
-void ClearLcdcBanksByState(void) {
-    switch (data_02175614.mUnk_00) {
+void vram_clearDisableAll(void) {
+    switch (gVramWvrStatus.mUnk_00) {
         case 0:
             GX_SetBankForLCDC(0x1f7);
             MemFillWordsByBlock_inline((void *) 0x6800000, 0x60000);
@@ -33,8 +33,8 @@ void ClearLcdcBanksByState(void) {
     GX_DisableBankForLCDC();
 }
 
-void SetBankForARM7ByState(u32 bank) {
-    switch (data_02175614.mUnk_00) {
+void vram_setBankForARM7(u32 bank) {
+    switch (gVramWvrStatus.mUnk_00) {
         case 0:
         case 2:
             break;
@@ -45,7 +45,7 @@ void SetBankForARM7ByState(u32 bank) {
     }
 }
 
-void DisableAllBanks(void) {
+void vram_disableAll(void) {
     GX_DisableBankForBG();
     GX_DisableBankForOBJ();
     GX_DisableBankForBGExtPltt();
@@ -58,7 +58,7 @@ void DisableAllBanks(void) {
     GX_DisableBankForSubBGExtPltt();
     GX_DisableBankForSubOBJExtPltt();
     GX_DisableBankForLCDC();
-    switch (data_02175614.mUnk_00) {
+    switch (gVramWvrStatus.mUnk_00) {
         case 0:
         case 2:
             break;
@@ -70,31 +70,31 @@ void DisableAllBanks(void) {
 }
 
 // Stores the state; for states 0 and 1 calls the stored callback with 0 or 1.
-void WvrCallback(u32 state, s32 b) {
+void wvrStartupCallback(u32 state, s32 b) {
     if (b != 0) {
         OS_Terminate();
     }
-    data_02175614.mUnk_00 = state;
-    if (data_02175614.mCallback == NULL) {
+    gVramWvrStatus.mUnk_00 = state;
+    if (gVramWvrStatus.mCallback == NULL) {
         return;
     }
     switch (state) {
         case 0:
-            data_02175614.mCallback(0);
+            gVramWvrStatus.mCallback(0);
             break;
         case 1:
-            data_02175614.mCallback(1);
+            gVramWvrStatus.mCallback(1);
             break;
     }
 }
 
-void ClearLcdcBankAndStartWvrAndWait(void) {
-    if (data_02175614.mUnk_00 != 0 && data_02175614.mUnk_00 != 3) {
-        data_02175614.mUnk_00 = 2;
+void vram_startUpWifiVram(void) {
+    if (gVramWvrStatus.mUnk_00 != 0 && gVramWvrStatus.mUnk_00 != 3) {
+        gVramWvrStatus.mUnk_00 = 2;
         GX_SetBankForLCDC(8);
         MemFillWordsByBlock_inline((void *) 0x6860000, 0x20000);
         GX_DisableBankForLCDC();
-        if (WVR_StartUpAsync(8, WvrCallback, 0) != 1) {
+        if (WVR_StartUpAsync(8, wvrStartupCallback, 0) != 1) {
             OS_Terminate();
         }
     }
@@ -102,10 +102,10 @@ void ClearLcdcBankAndStartWvrAndWait(void) {
     }
 }
 
-void StopWvrAndWait(void) {
-    if (data_02175614.mUnk_00 != 1 && data_02175614.mUnk_00 != 3) {
-        data_02175614.mUnk_00 = 2;
-        if (WVR_TerminateAsync(WvrCallback, 1) != 1) {
+void vram_terminateWifiVram(void) {
+    if (gVramWvrStatus.mUnk_00 != 1 && gVramWvrStatus.mUnk_00 != 3) {
+        gVramWvrStatus.mUnk_00 = 2;
+        if (WVR_TerminateAsync(wvrStartupCallback, 1) != 1) {
             OS_Terminate();
         }
     }
@@ -113,7 +113,7 @@ void StopWvrAndWait(void) {
     }
 }
 
-s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *v, Vec3 *dst) {
+s32 vec_normalize(const Vec3 *v, Vec3 *dst) {
     s64 lengthSquared;
     s32 sqrtResult;
     s64 divResult;
@@ -139,11 +139,11 @@ s32 Vec3NormalizeAndGetLengthUnchecked(const Vec3 *v, Vec3 *dst) {
     return (sqrtResult + 1) >> 1;
 }
 
-s32 Vec3DotUnrounded(const Vec3 *a, const Vec3 *b) {
+s32 vec_dotProduct(const Vec3 *a, const Vec3 *b) {
     return ((s64) a->x * b->x + (s64) a->y * b->y + (s64) a->z * b->z) >> 12;
 }
 
-void Vec3CrossUnrounded(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
+void vec_crossProduct(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
     s64 x;
     s64 y;
     s64 z;

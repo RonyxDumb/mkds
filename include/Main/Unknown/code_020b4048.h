@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void LoadFontAndPlayerCharacterData(void);
-void ClearFontAndPlayerCharacterTables(void);
+void m2d_load(void);
+void m2d_unload(void);

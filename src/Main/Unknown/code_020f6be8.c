@@ -38,7 +38,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     }
     if (b == 0) {
         kind = item->mKind;
-        kindInfo = &gItemKinds[kind];
+        kindInfo = &it_sItemParams[kind];
         if (kindInfo->mUnk_34 != NULL) {
             r = kindInfo->mUnk_34(item);
             if (r == 0) {
@@ -61,7 +61,7 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
         }
     }
     kind = item->mKind;
-    kindInfo = &gItemKinds[kind];
+    kindInfo = &it_sItemParams[kind];
     if (kindInfo->mUnk_40 == 0) {
         item->mAdvance = func_020f6e58;
     }
@@ -69,14 +69,14 @@ s32 func_020f7184(ItemObject *item, s32 b, s32 c) {
     if (item->mNormal.y != 0) {
         Vec3 *normal = &item->mNormal;
 
-        r = Vec3DotUnrounded(velocity, normal);
+        r = vec_dotProduct(velocity, normal);
         if (r < 0x3000) {
             VEC_MultAdd(0x3000 - r, normal, velocity, velocity);
         }
     }
     item->mFlags |= 0x80001;
     FreeItemObjectCollisionSlot((s32) item);
-    r = Vec3DotUnrounded(velocity, func_020e6b28());
+    r = vec_dotProduct(velocity, bbm_getBillboardRightVec());
     if (r > 1) {
         item->mUnk_108.x = 1;
     } else {
@@ -136,7 +136,7 @@ void func_020f6fc4(void *objectParam, s32 b) {
     result = func_020f7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        func_020f91fc(item, gItemKinds[kind].mUnk_94);
+        it_20F91FC(item, it_sItemParams[kind].mUnk_94);
     }
     if (result != 0) {
         return;
@@ -160,7 +160,7 @@ void func_020f6f10(ItemObject *item, s32 b, s32 c) {
     result = func_020f7184(item, 0, 0);
     if (result <= 1) {
         kind = item->mKind;
-        func_020f91fc(item, gItemKinds[kind].mUnk_98);
+        it_20F91FC(item, it_sItemParams[kind].mUnk_98);
     }
     if (result != 0) {
         return;
@@ -180,7 +180,7 @@ void func_020f6f10(ItemObject *item, s32 b, s32 c) {
 void func_020f6e58(ItemObject *item) {
     Vec3 direction;
 
-    Vec3CrossUnrounded(&item->mNormal, GetViewTransposeMatrixAxis2(), &direction);
+    vec_crossProduct(&item->mNormal, bbm_getBillboardForwardVec(), &direction);
     VEC_MultAdd(item->mUnk_108.x != 0 ? item->mUnk_108.y : -item->mUnk_108.y, &direction, &item->mNormal,
                 &item->mNormal);
     item->mFlags |= 0x80;
@@ -190,7 +190,7 @@ void func_020f6e58(ItemObject *item) {
     if (item->mAlpha > 0) {
         return;
     }
-    ReleaseItemPoolObject(&gItemPools[item->mKind], item);
+    it_itemsetDestroyItem(&it_sItemsets[item->mKind], item);
 }
 
 void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *normal) {
@@ -208,7 +208,7 @@ void func_020f6be8(ItemObject *item, Vec3 *otherPos, Vec3 *otherVelocity, Vec3 *
     away.z -= (s32) (((s64) normal->z * dot) >> 12);
     lengthSquared = (s64) away.x * away.x + (s64) away.y * away.y + (s64) away.z * away.z;
     if (lengthSquared >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&away, &away);
+        vec_normalize(&away, &away);
     }
     if (item->mFlags & 0x8000) {
         VEC_MultAdd(0x666, &relativeVelocity, &item->mVelocity, &item->mVelocity);

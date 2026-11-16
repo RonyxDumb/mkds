@@ -40,13 +40,13 @@
 #pragma optimize_for_size on
 
 // Course ids, four per cup.
-u32 gCupCourseIds[] = {20, 22, 31, 18, 27, 28, 33, 24, 30, 17, 25, 19, 34, 26, 32, 29, 10, 11, 13,
+u32 CourseOrderAll[] = {20, 22, 31, 18, 27, 28, 33, 24, 30, 17, 25, 19, 34, 26, 32, 29, 10, 11, 13,
                        14, 35, 16, 12, 9,  15, 36, 37, 38, 39, 23, 40, 1,  3,  4,  5,  6,  7,  8,
                        2,  21, 42, 43, 44, 45, 46, 47, 41, 48, 49, 50, 51, 52, 53, 54, 0};
 
 #pragma thumb on
 
-u16 AllocOamMatrixIndex(void *oamList) {
+u16 oam_getAffineId(void *oamList) {
     u16 *countPointer;
     u16 matrixIndex;
 
@@ -70,11 +70,11 @@ s32 func_020ae584(s32 index) {
 
 #pragma thumb off
 
-s16 func_020ae564(s32 angle) {
-    return gPairsByAngle[(angle >> 4) * 2 + 1];
+s16 mutil_FX_CosIdx(s32 angle) {
+    return FX_SinCosTable_[(angle >> 4) * 2 + 1];
 }
 
-s32 func_020ae554(s32 value, s32 factor) {
+s32 mutil_FX_TRUNC_MUL(s32 value, s32 factor) {
     return ((s64) value * factor) >> 12;
 }
 
@@ -85,7 +85,7 @@ s32 func_020ae54c(s32 value) {
 #pragma thumb on
 
 // Mode 0 is linear, mode 1 eases the difference; returns b for d <= 0 and c for d >= e.
-s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames) {
+s16 mutil_interpolate(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames) {
     s32 easeValue;
     s32 difference;
     float scaledDifference;
@@ -100,18 +100,18 @@ s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 duration
         case 0:
             return start + elapsedFrames * (end - start) / durationFrames;
         case 1:
-            easeValue = func_020ae564((elapsedFrames << 15) / durationFrames);
+            easeValue = mutil_FX_CosIdx((elapsedFrames << 15) / durationFrames);
             difference = end - start;
             if (difference > 0) {
                 scaledDifference = 0.5f + (difference << 12);
             } else {
                 scaledDifference = (difference << 12) - 0.5f;
             }
-            return start + func_020ae54c(func_020ae554(scaledDifference, 0x1000 - easeValue)) / 2;
+            return start + func_020ae54c(mutil_FX_TRUNC_MUL(scaledDifference, 0x1000 - easeValue)) / 2;
     }
 }
 
-s16 func_020ae488(s32 frame) {
+s16 mutil_getButtonOutEffectOffset(s32 frame) {
     if (frame < 0) {
         return 0;
     }
@@ -129,42 +129,42 @@ s16 func_020ae488(s32 frame) {
 
 #pragma thumb off
 
-u16 func_020ae474(InputSlot *inputSlot, u32 mask) {
+u16 mutil_input_getTriggeredKeysWithMask(InputSlot *inputSlot, u32 mask) {
     return inputSlot->mPressedBits & mask;
 }
 
-u16 GetNewBits(u32 slotIndex, u32 mask) {
-    return func_020ae474(&data_02175628[slotIndex], mask);
+u16 mutil_input_getTriggeredKeysWithMaskById(u32 slotIndex, u32 mask) {
+    return mutil_input_getTriggeredKeysWithMask(&gInputUnits[slotIndex], mask);
 }
 
 // Returns the masked bits in place, not 0 or 1.
-u16 func_020ae444(InputSlot *inputSlot, u32 mask) {
+u16 mutil_input_getRepeatedKeysWithMask(InputSlot *inputSlot, u32 mask) {
     return inputSlot->mRepeatBits & mask;
 }
 
 // Returns the masked bits in place, not 0 or 1.
-u16 GetRepeatBits(u32 slotIndex, u32 mask) {
-    return func_020ae444(&data_02175628[slotIndex], mask);
+u16 mutil_input_getRepeatedKeysWithMaskById(u32 slotIndex, u32 mask) {
+    return mutil_input_getRepeatedKeysWithMask(&gInputUnits[slotIndex], mask);
 }
 
 #pragma thumb on
 
-u16 GetNewOrRepeatBits(u32 slotIndex, u32 mask) {
+u16 mutil_checkKeys(u32 slotIndex, u32 mask) {
     int newBits;
     int repeatBits;
-    newBits = GetNewBits(slotIndex, mask);
-    repeatBits = GetRepeatBits(slotIndex, mask);
+    newBits = mutil_input_getTriggeredKeysWithMaskById(slotIndex, mask);
+    repeatBits = mutil_input_getRepeatedKeysWithMaskById(slotIndex, mask);
     return newBits | repeatBits;
 }
 
 #pragma thumb off
 
 u32 func_020ae3f4(void) {
-    return (data_021759d0->mUnk_20);
+    return (gSystemData->mUnk_20);
 }
 
 u32 func_020ae3d8(void) {
-    return ((u32) &data_0217aa00->mUnk_1ee8);
+    return ((u32) &gStruct217AA00->mUnk_1ee8);
 }
 
 #pragma thumb on
@@ -174,7 +174,7 @@ u32 func_020ae3b4(u32 limit) {
     u32 randomState;
     v1 = func_020ae3f4();
     if (v1 == 0) {
-        randomState = (u32) GetRandomState();
+        randomState = (u32) sysdat_getRandom();
     } else {
         randomState = func_020ae3d8();
     }
@@ -185,8 +185,8 @@ u32 func_020ae3b4(u32 limit) {
 
 #pragma thumb on
 
-u32 GetCupCourseId(s32 cupIndex, s32 courseIndex) {
-    return gCupCourseIds[cupIndex * 4 + courseIndex];
+u32 SPM_GetCourseIDByCupIndex(s32 cupIndex, s32 courseIndex) {
+    return CourseOrderAll[cupIndex * 4 + courseIndex];
 }
 
 void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
@@ -196,7 +196,7 @@ void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn) {
     u8 row;
     u8 column;
 
-    table = (u32) FindFileInLoadedArchives("/missionTable.mtbl");
+    table = (u32) arc_get2dArcFile("/missionTable.mtbl");
     rowCount = GetMissionTableRowCount(table);
     columnCount = GetMissionTableColumnCount(table);
     for (row = 1; row <= rowCount; row++) {
@@ -237,7 +237,7 @@ BOOL func_020ae2b0(InputSlotPair *inputSlotPair) {
 }
 
 BOOL IsSlotPairNew(u32 slotIndex) {
-    return func_020ae2b0((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return func_020ae2b0((InputSlotPair *) &gInputUnits[slotIndex].mPairX);
 }
 
 #pragma thumb on
@@ -268,7 +268,7 @@ u32 GetSlotPairX(u32 slotIndex) {
     u32 value1;
     u32 inputSlots;
     u32 value12;
-    inputSlots = (u32) &data_02175628;
+    inputSlots = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (inputSlots);
     value12 = (u32) &GetPairX;
@@ -286,7 +286,7 @@ u32 GetSlotPairY(u32 slotIndex) {
     u32 value1;
     u32 inputSlots;
     u32 value12;
-    inputSlots = (u32) &data_02175628;
+    inputSlots = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (inputSlots);
     value12 = (u32) &GetPairY;
@@ -312,7 +312,7 @@ void *GetCharacterBmgEntry(u32 characterIndex, u32 b) {
     } else {
         messageIndex = messageIndexes[characterIndex];
     }
-    return GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), messageIndex);
+    return jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), messageIndex);
 }
 
 #pragma thumb off
@@ -321,7 +321,7 @@ u32 func_020ae15c(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -340,7 +340,7 @@ u32 GetKartEntryName(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -349,14 +349,14 @@ u32 GetKartEntryName(u32 entryIndex) {
 }
 
 u32 func_020ae0e4(void) {
-    return (gRaceSetup->mMode);
+    return (gRaceMultiConfig->mMode);
 }
 
 u32 func_020ae0c8(u32 entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -368,7 +368,7 @@ int GetKartEntryNumber(int entryIndex) {
     u32 value0 = entryIndex;
     u32 value1;
     u32 value2;
-    value2 = (u32) &gRaceSetup;
+    value2 = (u32) &gRaceMultiConfig;
     value1 = 0x30u;
     value2 = *(const u32 *) ((value2) + (0));
     value1 = (value0) * (value1) + (value2);
@@ -404,7 +404,7 @@ void CopyKartEntryName(u32 entryIndex, u16 *nameOut, u32 c) {
             source = GetCharacterBmgEntry(func_020ae0c8(entryIndex), c);
             charCount = 20;
         } else {
-            wcsncpy(numberedName, GetBmgEntry(FindFileInLoadedArchivesWrapper("common.bmg"), 0x72), 9);
+            wcsncpy(numberedName, jn_msg_getMessage(m2d_get2dArcFile("common.bmg"), 0x72), 9);
             swprintf(numberText, 2, L"%d", GetKartEntryNumber(entryIndex));
             wcsncat(numberedName, numberText, 1);
             source = numberedName;
@@ -441,9 +441,9 @@ void RenderKartEntryName(u32 entryIndex) {
     s32 i;
     s32 j;
 
-    font = GetFontByIndex(0);
-    messageScreenCharBuffer = GetMessageScreenCharBuffer();
-    ClearMessageScreenChars();
+    font = m2d_getFont(0);
+    messageScreenCharBuffer = err_getCharData();
+    err_clearCharData();
     for (i = 0; i < 0x100; i++) {
         messageScreenCharBuffer[i] = 0;
     }
@@ -456,7 +456,7 @@ void RenderKartEntryName(u32 entryIndex) {
         }
     }
     DrawTextOnCanvas(&textCanvas, 0x20, 8, 1, 0x412, name);
-    DC_FlushRange(GetMessageScreenCharBuffer(), 0x200);
+    DC_FlushRange(err_getCharData(), 0x200);
 }
 
 void SetPixel2Bit(u16 *pixels, s32 pixelX, s32 pixelY, s32 value) {

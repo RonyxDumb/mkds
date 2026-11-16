@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int ComputeSecondsOfDay(const void *values);
+unsigned int RTCi_ConvertTimeToSecond(const void *values);

@@ -5,11 +5,11 @@
 
 #pragma thumb on
 
-void func_020cefa0(void *heap) {
+void struct217B488_init(void *heap) {
     u32 allocation;
-    allocation = ((u32) HeapAlloc(heap, (0x00000130u)));
-    *(u32 *) &data_0217b488 = allocation;
-    func_020cef1c();
+    allocation = ((u32) heap_alloc(heap, (0x00000130u)));
+    *(u32 *) &gStruct217B488 = allocation;
+    struct217B488_reset();
 }
 
 #pragma thumb off

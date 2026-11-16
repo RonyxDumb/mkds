@@ -27,7 +27,7 @@
 EmblemInput *gEmblemInput;
 
 void CreateEmblemInput(void) {
-    gEmblemInput = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x54);
+    gEmblemInput = heap_alloc(proc_getHeap(proc_getCurrent()), 0x54);
 }
 
 void AdvanceEmblemInput(void) {
@@ -56,8 +56,8 @@ void AdvanceEmblemInput(void) {
     idx = UNK_02175628_INDEX_8;
     f1 = TRUE;
     f0 = 0;
-    v = data_02175628[idx].mHasPair;
-    if (v == 0 && data_02175628[idx].mNoPairCount < 5) {
+    v = gInputUnits[idx].mHasPair;
+    if (v == 0 && gInputUnits[idx].mNoPairCount < 5) {
         f0 = f1;
     }
     if (f0 == 0 && v == 0) {

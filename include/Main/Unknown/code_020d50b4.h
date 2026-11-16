@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 GetViewTestRefreshPending(void);
+u32 mobj_getIsObjFadeDisabled(void);

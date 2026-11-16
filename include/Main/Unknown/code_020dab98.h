@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020dab98(unsigned int value);
+unsigned int kuribo_deadStateInit(unsigned int value);

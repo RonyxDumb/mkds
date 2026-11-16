@@ -34,41 +34,41 @@
 #include "01/code_0218155c.h"
 #include "Main/Unknown/code_0203e74c.h"
 
-void func_0203c1a8(Vec3 *position, u32 kartIndex) {
+void rstat_handleMissionEndAreas(Vec3 *position, u32 kartIndex) {
     s32 v;
-    if (func_0204176c(position, &v) == 0) {
+    if (mdat_isInsideMissionEndArea(position, &v) == 0) {
         return;
     }
     if (v != 0) {
-        if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-            func_ov001_021816fc();
+        if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+            mrcnt_notifyMissionEndWinAreaReached();
         }
-        if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+        if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
             return;
         }
-        FinishRaceProgressKartWithEndKind(kartIndex, 0);
+        rstat_finishMission(kartIndex, 0);
     } else {
-        FinishRaceProgressKartWithEndKind(kartIndex, 6);
+        rstat_finishMission(kartIndex, 6);
     }
 }
 
-BOOL IsFramesSinceFinishPastWait(void) {
-    return gRaceProgress->mFramesSinceFinish > gRaceSetup->mFinishWaitFrameCount;
+BOOL rstat_isMrWinDelayOver(void) {
+    return gRaceStatus->mFramesSinceFinish > gRaceMultiConfig->mFinishWaitFrameCount;
 }
 
-u32 func_0203c0bc(void) {
+u32 rstat_203C0BC(void) {
     u32 framesSinceEntryEnd;
-    s32 entryIndex = gRaceSetup->mEntryIndex;
+    s32 entryIndex = gRaceMultiConfig->mEntryIndex;
     if (entryIndex == -1) {
         return 0;
     }
-    if (gRaceProgress->mUnk_000[0].mUnk_0a >= 7) {
+    if (gRaceStatus->mUnk_000[0].mUnk_0a >= 7) {
         return 1;
     }
-    if (func_0204a620((KeyRecording *) &data_02175628[entryIndex].mUnk_28) != FALSE) {
+    if (irec_isAlmostAtPlayBufferEnd((KeyRecording *) &gInputUnits[entryIndex].mUnk_28) != FALSE) {
         return 1;
     }
-    if (TryGetRaceUpdateFramesSinceEntryEnd(&framesSinceEntryEnd) != 0) {
+    if (race_20617A8(&framesSinceEntryEnd) != 0) {
         if (framesSinceEntryEnd > 0x384) {
             return 1;
         }
@@ -76,35 +76,35 @@ u32 func_0203c0bc(void) {
     return 0;
 }
 
-void InitTitleScene(void) {
-    GetHeap(GetCurrentHeapCall());
-    ClearLcdcBankAndStartWvrAndWait();
-    CreateTitleScene();
-    ResetInputSlots();
+void titlesc_init(void) {
+    proc_getHeap(proc_getCurrent());
+    vram_startUpWifiVram();
+    title_init();
+    input_initUnits();
 }
 
-void ReleaseTitleScene(void) {
+void titlesc_finalize(void) {
     u32 unused;
-    func_020ad32c();
+    title_finalize();
 }
 
-void func_0203c07c(void) {
+void titlesc_vblank(void) {
     u32 unused;
-    func_020ada94();
+    title_vblank();
 }
 
-void UpdateTitleScene(s32 a) {
-    PrepareDisplayFrame();
-    AdvanceTitleStates(a);
+void titlesc_update(s32 a) {
+    dc_handleStartOfFrame();
+    title_update(a);
 }
 
-u32 RunTitleScene(SceneNumbers *sceneNumbers) {
+u32 titlesc_run(SceneNumbers *sceneNumbers) {
     SceneCallbacks callbacks = gTitleSceneCallbacks;
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 
-void GetClockDateOrDefault(s32 *date) {
+void GetDate(s32 *date) {
     if (RTC_GetDate((RTCDate *) date) != 0) {
         date[0] = 5;
         date[1] = 1;
@@ -112,7 +112,7 @@ void GetClockDateOrDefault(s32 *date) {
     }
 }
 
-void GetClockTimeOrZero(RTCTime *time) {
+void GetTime(RTCTime *time) {
     if (RTC_GetTime(time) != 0) {
         time->mHour = 0;
         time->mMinute = 0;
@@ -123,8 +123,8 @@ void GetClockTimeOrZero(RTCTime *time) {
 void func_0203bf04(GhostRecordView *courseGhost, SlotGhostBufferView *slotGhost) {
     MI_CpuCopy8(courseGhost, slotGhost, 0x30);
     MI_CpuCopy8(courseGhost->mUnk_030, slotGhost->mUnk_230, 0xdcc);
-    if (data_0217aa08->mEmblemRecord->mFilled != 0 && data_0217aa08->mFirstBlock->mUnk_31_3 == 0) {
-        MI_CpuCopy8(data_0217aa08->mEmblemRecord->mEmblemData, slotGhost->mUnk_030, 0x200);
+    if (gSaveData->mEmblemRecord->mFilled != 0 && gSaveData->mFirstBlock->mUnk_31_3 == 0) {
+        MI_CpuCopy8(gSaveData->mEmblemRecord->mEmblemData, slotGhost->mUnk_030, 0x200);
         slotGhost->mUnk_008 |= 2;
     } else {
         MI_CpuFill8(slotGhost->mUnk_030, 0, 0x200);
@@ -138,7 +138,7 @@ void func_0203bf04(GhostRecordView *courseGhost, SlotGhostBufferView *slotGhost)
 u8 *func_0203bedc(void *heap) {
     CharacterKartPicks *picks;
     void *kartAppear;
-    picks = HeapAlloc(heap, 0x48);
+    picks = heap_alloc(heap, 0x48);
     kartAppear = CreateKartAppear(heap);
     picks->mKartAppear = kartAppear;
     InitCharacterKartPicks((u8 *) picks);

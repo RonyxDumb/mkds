@@ -19,7 +19,7 @@
 #include "03/code_021b7bb4.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void ResetItemGesso(ItemGesso *gesso) {
+void itgsso_21031AC(ItemGesso *gesso) {
     s32 i;
 
     gesso->mKart = NULL;
@@ -32,7 +32,7 @@ void ResetItemGesso(ItemGesso *gesso) {
     gesso->mUnk_160 = FALSE;
 }
 
-BOOL SetupNextItemGessoStep(ItemGesso *gesso) {
+BOOL itgsso_210300C(ItemGesso *gesso) {
     ItemGessoStep *step;
     s32 stepIndex;
     BOOL f;
@@ -86,33 +86,33 @@ done:
     return TRUE;
 }
 
-u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
+u32 itgsso_2102EB8(ItemGesso *gesso, s32 fromData) {
     Camera *camera;
     s32 entryIndex;
     s32 kartIndex;
 
-    entryIndex = gRaceSetup->mEntryIndex;
-    camera = GetChaseCamera();
+    entryIndex = gRaceMultiConfig->mEntryIndex;
+    camera = cam_getPlayerCamera();
     func_020f82a4(0);
     if (entryIndex < 0) {
         kartIndex = (u16) (gesso->mUnk_000.mUnk_78 & ~0xff00);
     } else {
         kartIndex = entryIndex;
     }
-    gesso->mKart = GetKart(kartIndex);
+    gesso->mKart = driver_getById(kartIndex);
     gesso->mUnk_000.mPos = gesso->mKart->mDrawMatrixPos;
     VEC_MultAdd(0x5800, &camera->mUp, &gesso->mUnk_000.mPos, &gesso->mUnk_000.mPos);
-    VEC_MultAdd(func_0203c5e4() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mUnk_000.mPos,
+    VEC_MultAdd(rstat_getUncontrollable() != 0 ? 0x5800 : 0xa800, &camera->mForward, &gesso->mUnk_000.mPos,
                 &gesso->mUnk_000.mPos);
     VEC_Subtract(&gesso->mUnk_000.mPos, &camera->mPos, &gesso->mViewOffset);
     MTX_MultVec33(&gesso->mViewOffset, &camera->mViewMatrix.mUnk_00[0].x, &gesso->mViewOffset);
     if (fromData != 0) {
         if (gesso->mUnk_000.mFlags & 0x10000000) {
-            SetupNextItemGessoStep(gesso);
+            itgsso_210300C(gesso);
             gesso->mStepTimer = gesso->mStepTimer - 1;
         }
     } else {
-        SetupNextItemGessoStep(gesso);
+        itgsso_210300C(gesso);
     }
     gesso->mVelocityX = gesso->mTargetVelocityX;
     gesso->mVelocityY = gesso->mTargetVelocityY;
@@ -125,5 +125,5 @@ u32 SetupItemGesso(ItemGesso *gesso, s32 fromData) {
     }
     gesso->mVisible = entryIndex == (u16) kartIndex;
     FreeItemObjectCollisionSlot((s32) gesso);
-    return (u32) InitCourseColorBlend(&gesso->mUnk_000.mColorBlend, 1);
+    return (u32) light_init(&gesso->mUnk_000.mColorBlend, 1);
 }

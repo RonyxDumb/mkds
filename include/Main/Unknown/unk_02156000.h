@@ -4,7 +4,7 @@
 #include "Main/Unknown/code_0208fd8c.h" // KartAiItemUseEntry
 
 // Objects whose layout isn't known yet.
-extern u8 data_0215688c[];
+extern u8 menu_sDisplayConfigBase[];
 extern u8 data_02156458[];
 extern u16 data_0215645c;
 extern u16 data_021564c0;
@@ -16,7 +16,7 @@ extern u32 data_021564b8;
 extern u32 data_021564bc;
 extern u8 data_02156598[];
 extern u8 data_021565e4[];
-extern u32 data_021565f0[];
+extern u32 mgcnt_sShineRunnersRoundDuration[];
 extern u16 data_021568e8;
 extern const u16 data_021568b4;
 extern const u16 data_021568b8;
@@ -70,14 +70,14 @@ extern u16 data_021567f0;
 extern u16 data_021567f4;
 extern u16 data_021567f8;
 extern s32 data_02156600[];
-extern s16 data_02156640[];
-extern s16 data_02156654[];
-extern s16 data_02156668[];
-extern s16 data_0215667c[];
-extern s16 data_02156690[];
-extern s16 data_021566a4[];
-extern s32 data_021566b8[];
-extern s32 data_021566dc[];
+extern s16 trophy_sLight0DirX[];
+extern s16 trophy_sLight0DirY[];
+extern s16 trophy_sLight0DirZ[];
+extern s16 trophy_sLight1DirX[];
+extern s16 trophy_sLight1DirY[];
+extern s16 trophy_sLight1DirZ[];
+extern s32 trophy_sSparkleEmitterRadius[];
+extern s32 trophy_sSparkleEmitterY[];
 extern const u16 data_02156700[4][4];
 extern const s32 data_02156720[4][4];
 extern u16 data_02156838;
@@ -85,7 +85,7 @@ extern u16 data_0215683c;
 extern u16 data_021567e4;
 extern u16 data_021567e8;
 
-// 8-byte entries of the table at data_02156808.
+// 8-byte entries of the table at a079.
 typedef struct Unk02156808 {
     /* 00 */ u16 mUnk_00;
     /* 02 */ u16 mUnk_02;
@@ -93,10 +93,10 @@ typedef struct Unk02156808 {
     /* 06 */ u16 mUnk_06;
 } Unk02156808;
 
-extern Unk02156808 data_02156808[];
+extern Unk02156808 a079[];
 extern u16 gKeyboardLayoutRectCounts[6];
 extern const s16 data_02156868[6];
-extern const u16 data_02156840[20];
+extern const u16 sTitleSceneDisplayConfigBase[20];
 extern u16 data_0215646c;
 extern u32 data_02156470;
 extern u16 data_021565d8;

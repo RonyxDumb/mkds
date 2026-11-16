@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteVsSelectCharacterRegisters(void);
+void menu_state8Vblank(void);

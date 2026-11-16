@@ -4,5 +4,5 @@
 
 typedef struct RepeatCounter RepeatCounter;
 
-void SetupRepeatCounter(RepeatCounter *repeatCounter, unsigned int firstFireFrame, unsigned int repeatGap);
-void SetupRepeatCounterDefault(RepeatCounter *repeatCounter);
+void KBD_InitAutoRepeatValue(RepeatCounter *repeatCounter, unsigned int firstFireFrame, unsigned int repeatGap);
+void KBD_InitAutoRepeat(RepeatCounter *repeatCounter);

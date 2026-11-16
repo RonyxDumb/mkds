@@ -59,14 +59,14 @@
 #include "Main/Unknown/unk_0217a000.h"
 #include "Main/Unknown/code_02061654.h"
 
-void *CreateDonketuUpdateList(void);
-void *CreateKingIceDonketuDrawList(void);
-void *CreateBossDonketuDrawList(void);
-void func_ov001_02183104(void);
+void *donk_setupLogicPart(void);
+void *donk_setupKingIceRenderPart(void);
+void *donk_setupBossRenderPart(void);
+void donk_setupCollision(void);
 void func_ov001_02183138(void *a, Unk02188950 *donketu);
-void InitKingIceDonketu(Unk0218fa78 *list);
-void InitBossDonketu(Unk0218fa78 *list);
-void func_ov001_02183294(Unk02188950 *donketu);
+void LoadKing_ice_donketu(Unk0218fa78 *list);
+void LoadBoss_donketu(Unk0218fa78 *list);
+void donk_init(Unk02188950 *donketu);
 void UpdateDonketu(u32 b, Unk02188950 *donketu);
 void InitDonketuObjects(Unk0218fa78 *list);
 void func_ov001_021834c4(Unk02188950 *donketu);

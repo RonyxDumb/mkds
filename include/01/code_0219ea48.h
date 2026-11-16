@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-void UpdateEndingScene(int a);
-void func_ov001_0219ea6c(void);
-void ReleaseEndingScene(void);
-void InitEndingScene(void);
+void ending_update(int a);
+void ending_vblank(void);
+void ending_finalize(void);
+void ending_init(void);

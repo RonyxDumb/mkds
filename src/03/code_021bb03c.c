@@ -269,7 +269,7 @@ void func_ov003_021be1fc(void) {
     }
     if (data_ov003_021d8bf4 != 0) {
         data_ov003_021d8bf4 = 0;
-        func_ov000_021a8c8c();
+        aMgSelect_battle_stage_s_nce_ncer();
     }
 }
 
@@ -1060,7 +1060,7 @@ s32 RunExchange(void) {
                 break;
             case 4:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
-                    func_ov000_021a9008(descriptor);
+                    aEndingThanks01(descriptor);
                     result = -3;
                     done = TRUE;
                     break;
@@ -1084,7 +1084,7 @@ s32 RunExchange(void) {
                 break;
             case 6:
                 if (GetTickMilliseconds() >= gTimeoutAtMs) {
-                    func_ov000_021a9008(descriptor);
+                    aEndingThanks01(descriptor);
                     result = -4;
                     done = TRUE;
                     break;
@@ -1132,7 +1132,7 @@ s32 RunExchange(void) {
                 if (GetTickMilliseconds() >= stamp + 1000) {
                     retryCount++;
                     if (retryCount >= 10) {
-                        func_ov000_021a9008(descriptor);
+                        aEndingThanks01(descriptor);
                         result = -2;
                         done = TRUE;
                     } else {
@@ -1168,7 +1168,7 @@ s32 RunExchange(void) {
         }
     }
     if (descriptor != 0) {
-        func_ov000_021a9008(descriptor);
+        aEndingThanks01(descriptor);
     }
     if (gStopRequested != 0) {
         result = -8;

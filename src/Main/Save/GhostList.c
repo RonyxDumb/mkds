@@ -12,7 +12,7 @@
 
 // Returns 1 when the list position is a slot ghost, 0 for a course ghost.
 s32 IsSlotGhostIndex(s32 index) {
-    return index < gGhostScene->mCourseGhostCount ? 0 : 1;
+    return index < sGhostSceneState->mCourseGhostCount ? 0 : 1;
 }
 
 void GetListedGhostTime(u32 index, void *time) {
@@ -20,13 +20,13 @@ void GetListedGhostTime(u32 index, void *time) {
     u8 *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
-        courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
-        GetGhostRecordTime(courseRecords + cupCourseIndex * 0x30, time);
+        courseId = ghost_getCourseId(sGhostSceneState->mCupCourseIndices[index]);
+        courseRecords = sGhostSceneState->mCourseGhostRecords;
+        cupCourseIndex = rconf_getCourseNumber(courseId);
+        ghdat_getGhostTime(courseRecords + cupCourseIndex * 0x30, time);
     } else {
-        index -= gGhostScene->mCourseGhostCount;
-        GetGhostRecordTime((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords, time);
+        index -= sGhostSceneState->mCourseGhostCount;
+        ghdat_getGhostTime((u8) sGhostSceneState->mSlotIndices[index] * 0x230 + sGhostSceneState->mSlotGhostRecords, time);
     }
 }
 
@@ -35,13 +35,13 @@ void GetListedGhostName(u32 index, void *name) {
     u8 *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
-        courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
-        GetGhostRecordName(courseRecords + cupCourseIndex * 0x30, name);
+        courseId = ghost_getCourseId(sGhostSceneState->mCupCourseIndices[index]);
+        courseRecords = sGhostSceneState->mCourseGhostRecords;
+        cupCourseIndex = rconf_getCourseNumber(courseId);
+        ghdat_getGhostNickName(courseRecords + cupCourseIndex * 0x30, name);
     } else {
-        index -= gGhostScene->mCourseGhostCount;
-        GetGhostRecordName((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords, name);
+        index -= sGhostSceneState->mCourseGhostCount;
+        ghdat_getGhostNickName((u8) sGhostSceneState->mSlotIndices[index] * 0x230 + sGhostSceneState->mSlotGhostRecords, name);
     }
 }
 
@@ -50,13 +50,13 @@ u32 GetListedGhostCharacterIndex(u32 index) {
     u8 *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
-        courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
-        return GetGhostRecordCharacterIndex(courseRecords + cupCourseIndex * 0x30);
+        courseId = ghost_getCourseId(sGhostSceneState->mCupCourseIndices[index]);
+        courseRecords = sGhostSceneState->mCourseGhostRecords;
+        cupCourseIndex = rconf_getCourseNumber(courseId);
+        return ghdat_getGhostCharacter(courseRecords + cupCourseIndex * 0x30);
     }
-    index -= gGhostScene->mCourseGhostCount;
-    return GetGhostRecordCharacterIndex((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords);
+    index -= sGhostSceneState->mCourseGhostCount;
+    return ghdat_getGhostCharacter((u8) sGhostSceneState->mSlotIndices[index] * 0x230 + sGhostSceneState->mSlotGhostRecords);
 }
 
 u32 GetListedGhostKartIndex(u32 index) {
@@ -64,33 +64,33 @@ u32 GetListedGhostKartIndex(u32 index) {
     u8 *courseRecords;
     s32 cupCourseIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        courseId = func_0202e43c(gGhostScene->mCupCourseIndices[index]);
-        courseRecords = gGhostScene->mCourseGhostRecords;
-        cupCourseIndex = FindCupCourseIndex(courseId);
-        return GetGhostRecordKartIndex(courseRecords + cupCourseIndex * 0x30);
+        courseId = ghost_getCourseId(sGhostSceneState->mCupCourseIndices[index]);
+        courseRecords = sGhostSceneState->mCourseGhostRecords;
+        cupCourseIndex = rconf_getCourseNumber(courseId);
+        return ghdat_getGhostKart(courseRecords + cupCourseIndex * 0x30);
     }
-    index -= gGhostScene->mCourseGhostCount;
-    return GetGhostRecordKartIndex((u8) gGhostScene->mSlotIndices[index] * 0x230 + gGhostScene->mSlotGhostRecords);
+    index -= sGhostSceneState->mCourseGhostCount;
+    return ghdat_getGhostKart((u8) sGhostSceneState->mSlotIndices[index] * 0x230 + sGhostSceneState->mSlotGhostRecords);
 }
 
 u32 GetListedGhostCourseId(u32 index) {
     u8 *slotRecords;
     if (IsSlotGhostIndex(index) == 0) {
-        return func_0202e43c(gGhostScene->mCupCourseIndices[index]);
+        return ghost_getCourseId(sGhostSceneState->mCupCourseIndices[index]);
     }
-    index -= gGhostScene->mCourseGhostCount;
-    slotRecords = gGhostScene->mSlotGhostRecords;
-    return GetGhostRecordCourseId(slotRecords + (u8) gGhostScene->mSlotIndices[index] * 0x230);
+    index -= sGhostSceneState->mCourseGhostCount;
+    slotRecords = sGhostSceneState->mSlotGhostRecords;
+    return ghdat_getGhostCourse(slotRecords + (u8) sGhostSceneState->mSlotIndices[index] * 0x230);
 }
 
 void StartReadListedGhost(s32 index) {
     s32 recordIndex;
     if (IsSlotGhostIndex(index) == 0) {
-        recordIndex = gGhostScene->mCupCourseIndices[index];
-        ReadBackupCourseGhost(recordIndex, GetCourseGhostBuffer());
+        recordIndex = sGhostSceneState->mCupCourseIndices[index];
+        savd_readNkpg(recordIndex, GetCourseGhostBuffer());
     } else {
-        recordIndex = gGhostScene->mSlotIndices[index - GetCourseGhostCount()];
-        ReadBackupSlotGhost((u8) recordIndex, (GhostRecord *) GetSlotGhostBuffer());
+        recordIndex = sGhostSceneState->mSlotIndices[index - ghost_getMyGhostCount()];
+        savd_readNkdg((u8) recordIndex, (GhostRecord *) GetSlotGhostBuffer());
     }
 }
 
@@ -98,9 +98,9 @@ s32 DoesAnySlotGhostMatchCourse(s32 courseId) {
     s32 i;
     BOOL found;
     found = FALSE;
-    for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
+    for (i = 0; i < (s32) ghost_getDlGhostCount(); i++) {
         if (courseId ==
-            GetGhostRecordCourseId((u8) gGhostScene->mSlotIndices[i] * 0x230 + gGhostScene->mSlotGhostRecords)) {
+            ghdat_getGhostCourse((u8) sGhostSceneState->mSlotIndices[i] * 0x230 + sGhostSceneState->mSlotGhostRecords)) {
             found = TRUE;
             break;
         }
@@ -111,7 +111,7 @@ s32 DoesAnySlotGhostMatchCourse(s32 courseId) {
 s32 FindUnfilledGhostSlot(void) {
     s32 slot;
     for (slot = 0; slot < 10; slot++) {
-        if (IsGhostRecordFilled(gGhostScene->mSlotGhostRecords + (u8) slot * 0x230) == FALSE) {
+        if (ghdat_getIsGhostValid(sGhostSceneState->mSlotGhostRecords + (u8) slot * 0x230) == FALSE) {
             return slot;
         }
     }
@@ -122,10 +122,10 @@ s32 FindSlotGhostForCourse(s32 courseId) {
     s32 i;
     s32 slot;
     slot = -1;
-    for (i = 0; i < (s32) GetSlotGhostCount(); i++) {
+    for (i = 0; i < (s32) ghost_getDlGhostCount(); i++) {
         if (courseId ==
-            GetGhostRecordCourseId((u8) gGhostScene->mSlotIndices[i] * 0x230 + gGhostScene->mSlotGhostRecords)) {
-            slot = gGhostScene->mSlotIndices[i];
+            ghdat_getGhostCourse((u8) sGhostSceneState->mSlotIndices[i] * 0x230 + sGhostSceneState->mSlotGhostRecords)) {
+            slot = sGhostSceneState->mSlotIndices[i];
             break;
         }
     }

@@ -4,8 +4,8 @@
 #include "Main/Unknown/unk_0217a000.h"
 
 void func_0205b0b4(void) {
-    if ((data_0217aa14->mUnk_75c & 0x80) != 0) {
+    if ((gStruct217AA14->mUnk_75c & 0x80) != 0) {
         func_0205b0f4();
     }
-    AdvanceStateMachine((void *) (u32) data_0217aa14);
+    sm_execute((void *) (u32) gStruct217AA14);
 }

@@ -18,11 +18,11 @@ void func_ov001_021882b8(void) {
     Unk02188950 *obj;
     Unk0218d87c *table;
 
-    if (!(gRaceSetup->mMode == MODE_MISSION_RUN ? IsKartEliminated((u16) gRaceSetup->mEntryIndex) : 0)) {
-        for (i = gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : (u8) 0;
-             i <= (gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
-            obj = gRaceSetup->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
-            table = FindMapObjectKindUpdateList(0x1ff);
+    if (!(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_isDriverDead((u16) gRaceMultiConfig->mEntryIndex) : 0)) {
+        for (i = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : (u8) 0;
+             i <= (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunMapObjectLastIndex() : (u16) 0); i++) {
+            obj = gRaceMultiConfig->mMode == MODE_MISSION_RUN ? GetMissionRunMapObject(i) : 0;
+            table = mobj_getLogicPartForObjectId(0x1ff);
             func_ov001_02188e88(obj);
             obj->mGravityEnabled = FALSE;
             obj->mUnk_2b8 = 3;
@@ -34,13 +34,13 @@ void func_ov001_021882b8(void) {
             obj->mVelocity.x = obj->mVelocity.y = obj->mVelocity.z = 0;
             obj->mAlphaLimit = obj->mAlphaLimitTarget = 0x1f000;
             obj->mAlphaLimitPerCall = 0;
-            if (i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) < table->mUnk_04) {
+            if (i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0) < table->mUnk_04) {
                 obj->mUnk_000.mPos =
-                    table->mUnk_00[i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
+                    table->mUnk_00[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
                         ->mUnk_000.mCourseMapRow->mUnk_00;
                 obj->mAngle =
                     (u16) (((s64) table
-                                    ->mUnk_00[i - (gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
+                                    ->mUnk_00[i - (gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0)]
                                     ->mUnk_000.mCourseMapRow->mUnk_0c.y *
                                 0xb60b60b60bLL +
                             0x80000000000LL) >>

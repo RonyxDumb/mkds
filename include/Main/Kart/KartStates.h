@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-// Object read by TryStartKartState4: vectors at 0x04, 0x28, 0x34 and 0x40.
+// Object read by driver_tryStartBackwardFlip: vectors at 0x04, 0x28, 0x34 and 0x40.
 typedef struct Unk0206b020 {
     /* 00 */ u8 mUnk_00[4];
     /* 04 */ Vec3 mUnk_04;
@@ -14,7 +14,7 @@ typedef struct Unk0206b020 {
     /* 40 */ Vec3 mUnk_40;
 } Unk0206b020;
 
-extern const s16 data_02154a54[];
+extern const s16 driver_sThunderShrinkTimes[];
 extern const s16 data_021654c4;
 extern const s32 data_021654d0;
 extern const s32 data_021654d4;
@@ -26,18 +26,18 @@ extern const s32 data_02165508;
 extern const s32 data_0216550c;
 extern const Vec4 data_0216556c;
 
-void AdvanceKartThunderShrink(Kart *p);
-void StartKartThunderShrink(Kart *p);
-void AdvanceKartState5(Kart *p);
-s32 StartKartState5(Kart *p, const Vec3 *a, s32 b);
-void AdvanceKartState4(Kart *p);
-void StartKartState4(Kart *p, const Vec3 *a, s32 b);
-BOOL TryStartKartState4(Kart *p, Unk0206b020 *a);
-void AdvanceKartState3(Kart *p);
-void StartKartState3(Kart *p);
-BOOL TryStartKartState3(Kart *p);
-void AdvanceKartState6(Kart *p);
-void StartKartState6(Kart *p);
-BOOL TryStartKartState6(Kart *p);
-void AdvanceKartState1And2(Kart *p);
-void StartKartState2(Kart *p, int a, int b);
+void driver_updateThunderShrinkEffect(Kart *p);
+void driver_startThunderShrinkEffect(Kart *p);
+void driver_updateDoubleBackwardFlip(Kart *p);
+s32 driver_startDoubleBackwardFlip(Kart *p, const Vec3 *a, s32 b);
+void driver_updateBackwardFlip(Kart *p);
+void driver_startBackwardFlip(Kart *p, const Vec3 *a, s32 b);
+BOOL driver_tryStartBackwardFlip(Kart *p, Unk0206b020 *a);
+void driver_updateForwardFlip(Kart *p);
+void driver_startForwardFlip(Kart *p);
+BOOL driver_tryStartForwardFlip(Kart *p);
+void driver_updateThrowUp(Kart *p);
+void driver_throwUp(Kart *p);
+BOOL driver_tryThrowUp(Kart *p);
+void driver_updateSpinOut(Kart *p);
+void driver_startSpinOut(Kart *p, int a, int b);

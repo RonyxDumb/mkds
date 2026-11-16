@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearStaffRollTextPointer(void);
+u32 srol_finalize(void);

@@ -85,7 +85,7 @@ void RequestSelectCupCourseState0(void) {
     gSelectCupCourse->mNextState = 0;
     gSelectCupCourse->mStateFrames = 0;
     if (*(vu16 *) 0x027ffc40 != 2) {
-        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+        if (menu_getPrevState() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
             gSelectCupCourse->mBg0Offset = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = -0xc0;
@@ -101,7 +101,7 @@ void RequestSelectCupCourseState0(void) {
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 4].mOffsetY = -0xc0;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = -0xc0;
         }
-        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+        if (menu_getPrevState() != SCREEN_SELECT_GHOST) {
             subOffsetY = -0x20;
         } else {
             subOffsetY = -0xe0;
@@ -162,17 +162,17 @@ void RequestSelectCupCourseState5(void) {
         case 0:
         case 1:
         case 3:
-            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
-                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            gmenu_startSelectChoices(jn_msg_getMessage(selectCupCourse->mCommonMessages, 4),
+                               jn_msg_getMessage(selectCupCourse->mCommonMessages, 2), 0);
             break;
         case 2:
-            StartSelectChoises(GetBmgEntry(selectCupCourse->mCommonMessages, 4),
-                               GetBmgEntry(selectCupCourse->mCommonMessages, 2), 0);
+            gmenu_startSelectChoices(jn_msg_getMessage(selectCupCourse->mCommonMessages, 4),
+                               jn_msg_getMessage(selectCupCourse->mCommonMessages, 2), 0);
             if (*(vu16 *) 0x027ffc40 == 2) {
                 FormatMessageWithText(
-                    GetBmgEntry(gSelectCupCourse->mGhostMessages,
-                                data_0215cb3c[data_0215cadc[GetCupIndex()]][gSelectCupCourse->mIndex]),
-                    GetBmgEntry(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
+                    jn_msg_getMessage(gSelectCupCourse->mGhostMessages,
+                                data_0215cb3c[data_0215cadc[SPM_GetSelectedCup()]][gSelectCupCourse->mIndex]),
+                    jn_msg_getMessage(gSelectCupCourse->mCommonMessages, 0x8b), messageText, 0x200);
                 SetTxtSystemOpenSoundId(0x23);
                 func_021266e4(messageText);
             }
@@ -236,11 +236,11 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & ~3) | 1;
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0x9004;
     reg_G2S_DB_BG3CNT = (reg_G2S_DB_BG3CNT & 0x43) | 0x8300;
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectCupCourse = HeapAlloc(heap, 0x70);
+    heap = heap_createSubFrmHeap(parentHeap);
+    gSelectCupCourse = heap_alloc(heap, 0x70);
     gSelectCupCourse->mHeap = heap;
     gSelectCupCourse->mState = 0;
-    gSelectCupCourse->mIndex = data_0215cb7c[GetCourseId()];
+    gSelectCupCourse->mIndex = data_0215cb7c[SPM_GetSelectedCourse()];
     gSelectCupCourse->mUnk_54 = TRUE;
     gSelectCupCourse->mIndexChangeTimer = 0;
     gSelectCupCourse->mMode = mode;
@@ -250,39 +250,39 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
     gSelectCupCourse->mSubOam = subOam;
     gSelectCupCourse->mResult = 0;
     LocateAndQueueSelectCupCourse();
-    gSelectCupCourse->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    gSelectCupCourse->mCommonMessages = arc_get2dArcFile("common.bmg");
     if (*(vu16 *) 0x027ffc40 != 2) {
-        InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
+        jn_ui_initLayout(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, &gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
-        InitLayoutTable(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMBnll,
+        jn_ui_initLayout(gSelectCupCourse->mHeap, gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMBnll,
                         &gSelectCupCourse->mSelectCupMTable);
         remainingSize = 0x8000;
         remainingSize -=
-            InitLabelCanvas(gSelectCupCourse->mHeap, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 0,
+            jn_ui_initLabel(gSelectCupCourse->mHeap, 0, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 0,
                             gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                             gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSize -=
-            InitLabelCanvas(gSelectCupCourse->mHeap, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 1,
+            jn_ui_initLabel(gSelectCupCourse->mHeap, 1, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0xb4, 0xd, 1,
                             gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                             gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSize -=
-            InitLabelCanvas(gSelectCupCourse->mHeap, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 2,
+            jn_ui_initLabel(gSelectCupCourse->mHeap, 2, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 2,
                             gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                             gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSize -=
-            InitLabelCanvas(gSelectCupCourse->mHeap, 3, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 3,
+            jn_ui_initLabel(gSelectCupCourse->mHeap, 3, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 3,
                             gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                             gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSize -=
-            InitLabelCanvas(gSelectCupCourse->mHeap, 4, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 4,
+            jn_ui_initLabel(gSelectCupCourse->mHeap, 4, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x96, 0xd, 4,
                             gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                             gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
-        InitLabelCanvas(gSelectCupCourse->mHeap, 5, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 5,
+        jn_ui_initLabel(gSelectCupCourse->mHeap, 5, gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, 0x50, 0xd, 5,
                         gSelectCupCourse->mSelectCupCourseMNcer, gSelectCupCourse->mSelectCupCourseTaOrVsMBncl,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMTable, remainingSize);
         remainingSubSize = GX_GetSizeOfSubOBJ();
         for (i = 0; i < 4; i++) {
-            remainingSubSize -= InitLabelCanvas(
+            remainingSubSize -= jn_ui_initLabel(
                 gSelectCupCourse->mHeap, data_0215cab4[i], gSelectCupCourse->mSelectCupMBnll, data_0215cabc[i],
                 data_0215cac4[i], data_0215caa4[i], gSelectCupCourse->mSelectCupMNcer,
                 gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMTable, remainingSubSize);
@@ -290,14 +290,14 @@ void InitSelectCupCourse(void *parentHeap, void *mainOam, void *subOam, s32 mode
         CreateSelectCupNameM(gSelectCupCourse->mHeap);
         CreateCommonCupMark(gSelectCupCourse->mHeap);
     } else {
-        gSelectCupCourse->mGhostMessages = FindSceneFile("ghost.bmg");
+        gSelectCupCourse->mGhostMessages = arc_getSceneArcFile("ghost.bmg");
         InitSelectRaceRuleWait(gSelectCupCourse->mHeap, gSelectCupCourse->mSubOam);
         func_0211f380();
     }
     SetupSelectCupCourseObjects();
     RefreshSelectCupCourseForIndex();
     RequestSelectCupCourseState0();
-    FrmHeapShrinkInParent(gSelectCupCourse->mHeap);
+    heap_adjustSubFrmHeap(gSelectCupCourse->mHeap);
 }
 
 void ReleaseSelectCupCourse(void) {
@@ -316,7 +316,7 @@ void ReleaseSelectCupCourse(void) {
     } else {
         func_0211f498();
     }
-    HeapDestroy(gSelectCupCourse->mHeap);
+    heap_destroySubHeap(gSelectCupCourse->mHeap);
     gSelectCupCourse = NULL;
 }
 #pragma thumb off
@@ -325,7 +325,7 @@ void ReleaseSelectCupCourse(void) {
 
 void AdvanceSelectCupCourseState0(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         RequestSelectCupCourseState1();
     }
@@ -341,9 +341,9 @@ void AdvanceSelectCupCourseState1(void) {
 
     gSelectCupCourse->mStateFrames++;
     if (*(vu16 *) 0x027ffc40 != 2) {
-        InterpolateS16(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
-        offsetY = InterpolateS16(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
-        if (GetPreviousMenuScreenNumber() != SCREEN_SELECT_GHOST) {
+        mutil_interpolate(1, 0x100, 0, gSelectCupCourse->mStateFrames, 10);
+        offsetY = mutil_interpolate(1, -0xc0, 0, gSelectCupCourse->mStateFrames, 10);
+        if (menu_getPrevState() != SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
             gSelectCupCourse->mBg0Offset = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[0].mOffsetY = offsetY;
@@ -359,7 +359,7 @@ void AdvanceSelectCupCourseState1(void) {
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 4].mOffsetY = offsetY;
             gSelectCupCourse->mSelectCupCourseTaOrVsMTable[taOrVsCellCount + 5].mOffsetY = offsetY;
         }
-        if (GetPreviousMenuScreenNumber() == SCREEN_SELECT_GHOST) {
+        if (menu_getPrevState() == SCREEN_SELECT_GHOST) {
             taOrVsCellCount = gSelectCupCourse->mSelectCupMBncl->mUnk_06;
             gSelectCupCourse->mBg3Offset = offsetY - 0x20;
             gSelectCupCourse->mSelectCupMTable[0x14].mOffsetY = offsetY - 0x20;

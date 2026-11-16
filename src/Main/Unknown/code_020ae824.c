@@ -29,76 +29,76 @@
 #include "code_0214c778.h"
 #include "Main/Kart/KartTimes.h"
 
-void func_020ae824(void) {
+void r2d_render(void) {
     u32 v;
     s32 subScreenState;
 
-    v = gRaceSetup->mRaceKind;
+    v = gRaceMultiConfig->mRaceKind;
     if (v == RACE_KIND_START_GP) {
-        DrawRaceStartGp();
+        cint_render2d();
         return;
     }
     if (v == RACE_KIND_AWARD) {
         return;
     }
     if (v == RACE_KIND_STAFF_ROLL) {
-        DrawEndingStaffRoll();
+        r2d_renderStaffRoll();
         return;
     }
-    if (gRaceHud->mEnabled == FALSE) {
+    if (r2d_sStatus->mEnabled == FALSE) {
         return;
     }
     UpdateRaceStartSequenceSounds();
     RaceHudDrawNop();
-    gRaceHud->mMainOamCount = 0;
-    gRaceHud->mMainMatrixCount = 0;
-    if (gRaceSetup->mRaceKind == 4) {
-        func_020d1198((RaceHudOamBuffer *) gRaceHud->mMainOam);
+    r2d_sStatus->mMainOamCount = 0;
+    r2d_sStatus->mMainMatrixCount = 0;
+    if (gRaceMultiConfig->mRaceKind == 4) {
+        r2d_renderBattleIntro((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
     }
-    v = gRaceSetup->mMode;
-    if ((v == MODE_BATTLE ? gRaceProgress->mRaceDone
+    v = gRaceMultiConfig->mMode;
+    if ((v == MODE_BATTLE ? gRaceStatus->mRaceDone
          : v == MODE_MISSION_RUN
-             ? IsFramesSinceFinishPastWait()
-             : (IsKartEnded(GetFollowedKartOrEntryIndex()) != 0 && gRaceHud->mShowLapTime == 0)) == 0) {
-        DrawRaceItemSlot((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLapAndTimeDifference((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceMNumberPair((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalTimes((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLinkLevel((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceModeCount((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalM((RaceHudOamBuffer *) gRaceHud->mMainOam);
+             ? rstat_isMrWinDelayOver()
+             : (rstat_hasDriverFinished(Race_GetPlayerId()) != 0 && r2d_sStatus->mShowLapTime == 0)) == 0) {
+        r2d_renderItemSpinner((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        r2d_renderLapAndTimeDiff((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        r2d_renderRaceNumber((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        DrawRaceGoalTimes((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        DrawRaceLinkLevel((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        r2d_20B9DFC((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        DrawRaceGoalM((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
     } else {
-        DrawRaceGoalTimes((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceLinkLevel((RaceHudOamBuffer *) gRaceHud->mMainOam);
-        DrawRaceGoalM((RaceHudOamBuffer *) gRaceHud->mMainOam);
+        DrawRaceGoalTimes((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        DrawRaceLinkLevel((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
+        DrawRaceGoalM((RaceHudOamBuffer *) r2d_sStatus->mMainOam);
     }
-    DC_FlushRange(gRaceHud->mMainOam, 0x400);
-    MI_DmaFill32(3, gRaceHud->mMainOam + gRaceHud->mMainOamCount * 8, 0xc0, (0x80 - gRaceHud->mMainOamCount) << 3);
-    gRaceHud->mSubOamCount = 0;
-    gRaceHud->mSubMatrixCount = 0;
-    subScreenState = gRaceHud->mSubScreenState;
+    DC_FlushRange(r2d_sStatus->mMainOam, 0x400);
+    MI_DmaFill32(3, r2d_sStatus->mMainOam + r2d_sStatus->mMainOamCount * 8, 0xc0, (0x80 - r2d_sStatus->mMainOamCount) << 3);
+    r2d_sStatus->mSubOamCount = 0;
+    r2d_sStatus->mSubMatrixCount = 0;
+    subScreenState = r2d_sStatus->mSubScreenState;
     if (subScreenState != 4 && subScreenState != 5) {
-        DrawRaceTimeDigits((RaceHudOamBuffer *) gRaceHud->mSubOam);
+        DrawRaceTimeDigits((RaceHudOamBuffer *) r2d_sStatus->mSubOam);
     }
-    DrawRaceRankList((RaceHudOamBuffer *) gRaceHud->mSubOam);
-    DC_FlushRange(gRaceHud->mSubOam, 0x400);
-    MI_DmaFill32(3, gRaceHud->mSubOam + gRaceHud->mSubOamCount * 8, 0xc0, (0x80 - gRaceHud->mSubOamCount) << 3);
-    switch (gRaceHud->mSubScreenState) {
+    DrawRaceRankList((RaceHudOamBuffer *) r2d_sStatus->mSubOam);
+    DC_FlushRange(r2d_sStatus->mSubOam, 0x400);
+    MI_DmaFill32(3, r2d_sStatus->mSubOam + r2d_sStatus->mSubOamCount * 8, 0xc0, (0x80 - r2d_sStatus->mSubOamCount) << 3);
+    switch (r2d_sStatus->mSubScreenState) {
         case 0:
-            DrawRaceHudSubScreenCellGroups(gRaceHud->mSubOam);
+            mpicn_render(r2d_sStatus->mSubOam);
             break;
         case 1:
         case 2:
         case 3:
-            DrawRaceHudSubScreenCellGroups(gRaceHud->mSubOam);
-            DrawRaceTaPositions((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            mpicn_render(r2d_sStatus->mSubOam);
+            r2d_renderMapPath((RaceHudOamBuffer *) r2d_sStatus->mSubOam);
             break;
         case 4:
         case 5:
-            DrawRaceGoalS((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            r2dres_render((RaceHudOamBuffer *) r2d_sStatus->mSubOam);
             break;
         case 6:
-            DrawRaceNewRecordTa((RaceHudOamBuffer *) gRaceHud->mSubOam);
+            r2dtar_render((RaceHudOamBuffer *) r2d_sStatus->mSubOam);
             break;
     }
 }

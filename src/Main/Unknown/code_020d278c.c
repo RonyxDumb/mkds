@@ -9,7 +9,7 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "code_02147cd8.h"
 
-void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
+void mobj_setScale(MapObject *mapObject, Vec3 *scale) {
     s32 a;
     MapObjectKindData *kindData;
     s32 kindViewRadius;
@@ -31,7 +31,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
                 a = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, a);
     }
     mapObject->mExtent.y = (s64) mapObject->mKindData->mUnk_10 * mapObject->mScale.y >> 12;
     if (mapObject->mCollisionSlotIndex >= 0) {
@@ -48,7 +48,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
                 a = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, a);
     }
     mapObject->mExtent.z = (s64) mapObject->mKindData->mUnk_14 * mapObject->mScale.z >> 12;
     if (mapObject->mCollisionSlotIndex >= 0) {
@@ -65,7 +65,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
                 a = mapObject->mExtent.x;
                 break;
         }
-        SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, a);
+        col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, a);
     }
     a = mapObject->mScale.x;
     kindData = mapObject->mKindData;
@@ -79,7 +79,7 @@ void SetMapObjectScale(MapObject *mapObject, Vec3 *scale) {
     mapObject->mViewRadius = (s64) kindViewRadius * a >> 12;
 }
 
-void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
+void mobj_setSizeX(MapObject *mapObject, s32 baseSize) {
     s32 radius;
     mapObject->mExtent.x = (s64) baseSize * mapObject->mScale.x >> 12;
     if (mapObject->mCollisionSlotIndex < 0) {
@@ -98,45 +98,45 @@ void SetMapObjectExtentX(MapObject *mapObject, s32 baseSize) {
             radius = mapObject->mExtent.x;
             break;
     }
-    SetCollisionSlotRadius(mapObject->mCollisionSlotIndex, radius);
+    col_setBoundingSphereRadius(mapObject->mCollisionSlotIndex, radius);
 }
 
-void CreateMapObjectSoundSourceFalloff2(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void mobj_initSoundEmitterForObjectSfxParam2(MapObject *mapObject) {
+    mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mUnk_20;
-    SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
+    mapObject->mFarDistanceSquared = gSfxParams[2].mUnk_20;
+    sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }
 }
 
-SoundDistanceSquaredChange *func_020d286c(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x60);
+SoundDistanceSquaredChange *mobj_initSoundEmitterExForObjectSfxParam2(MapObject *mapObject) {
+    mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x60);
     InitSoundSource(&mapObject->mSound->mSoundSource, 2, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[2].mUnk_20;
-    SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
+    mapObject->mFarDistanceSquared = gSfxParams[2].mUnk_20;
+    sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }
     return &mapObject->mSound->mUnk_44;
 }
 
-void CreateMapObjectSoundSourceFalloff3(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void mobj_initSoundEmitterForObjectSfxParam3(MapObject *mapObject) {
+    mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 3, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
-    SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
+    mapObject->mFarDistanceSquared = gSfxParams[3].mUnk_20;
+    sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }
 }
 
-void CreateMapObjectSoundSourceFalloff4(MapObject *mapObject) {
-    mapObject->mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+void mobj_initSoundEmitterForObjectSfxParam4(MapObject *mapObject) {
+    mapObject->mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&mapObject->mSound->mSoundSource, 4, &mapObject->mPos);
-    mapObject->mFarDistanceSquared = gSoundFalloffs[4].mUnk_20;
-    SetSoundSourceEnabled(&mapObject->mSound->mSoundSource, 0);
+    mapObject->mFarDistanceSquared = gSfxParams[4].mUnk_20;
+    sfx_210CF9C(&mapObject->mSound->mSoundSource, 0);
     if (mapObject->mSound->mSoundSource.mSourceFlags & 1) {
         SetSoundSourceFlagBit(&mapObject->mSound->mSoundSource, 2, 1);
     }

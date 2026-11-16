@@ -11,7 +11,7 @@
 #include "Main/Unknown/code_0207a880.h"
 #include "Main/Unknown/code_020b502c.h"
 
-void *InitCourseColorBlend(void *object, u32 colorMask) {
+void *light_init(void *object, u32 colorMask) {
     CourseColorBlend *blend = object;
     u16 colorIndex;
     u16 color;
@@ -21,7 +21,7 @@ void *InitCourseColorBlend(void *object, u32 colorMask) {
             break;
         }
     }
-    color = gCourseMap->mSettings->mColors[colorIndex];
+    color = gMapData->mSettings->mColors[colorIndex];
     blend->mColor = color;
     blend->mColorBit = 1 << colorIndex;
     blend->mStartComponent0 = blend->mColor & 0x1f;
@@ -34,7 +34,7 @@ void *InitCourseColorBlend(void *object, u32 colorMask) {
     return object;
 }
 
-void SetCourseColorBlendColor(void *object, u32 colorMask) {
+void light_setToKclColor(void *object, u32 colorMask) {
     CourseColorBlend *blend = object;
     u16 colorIndex;
 
@@ -43,11 +43,11 @@ void SetCourseColorBlendColor(void *object, u32 colorMask) {
             break;
         }
     }
-    blend->mColor = gCourseMap->mSettings->mColors[colorIndex];
+    blend->mColor = gMapData->mSettings->mColors[colorIndex];
     blend->mColorBit = 1 << colorIndex;
 }
 
-void AdvanceCourseColorBlend(void *object, u16 colorMask, s32 c) {
+void light_interpolateToKclColor(void *object, u16 colorMask, s32 c) {
     CourseColorBlend *blend = object;
     u16 newColorBits = ~blend->mColorBit & colorMask;
     u16 colorIndex;
@@ -60,7 +60,7 @@ void AdvanceCourseColorBlend(void *object, u16 colorMask, s32 c) {
                 break;
             }
         }
-        color = gCourseMap->mSettings->mColors[colorIndex];
+        color = gMapData->mSettings->mColors[colorIndex];
         blend->mStartComponent0 = blend->mColor & 0x1f;
         blend->mComponentDelta0 = (s16) (color & 0x1f) - blend->mStartComponent0;
         blend->mStartComponent1 = (blend->mColor >> 5) & 0x1f;

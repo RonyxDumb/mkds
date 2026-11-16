@@ -5,7 +5,7 @@
 #include "Main/Unknown/unk_02165000.h"
 #include "registers.h"
 
-void ResetModelAnimationWithLoopFlag(ModelAnimation *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
+void anim_initAnimator(ModelAnimation *modelAnimation, s32 frameCountFixed, u16 loopFlag) {
     modelAnimation->mLoopMode = loopFlag == 0 ? UNK_02087CFC_KIND_0 : UNK_02087CFC_KIND_1;
     modelAnimation->mDone = 0;
     modelAnimation->mFrameStep = 0x1000;
@@ -15,7 +15,7 @@ void ResetModelAnimationWithLoopFlag(ModelAnimation *modelAnimation, s32 frameCo
     modelAnimation->mLoopCount = 0;
 }
 
-void func_02087b9c(ModelAnimation *modelAnimation) {
+void anim_handleLooping(ModelAnimation *modelAnimation) {
     s32 frameIndex;
     switch (modelAnimation->mLoopMode) {
         case 1:
@@ -54,10 +54,10 @@ void func_02087b9c(ModelAnimation *modelAnimation) {
     }
 }
 
-void AdvanceModelAnimationFrame(ModelAnimation *modelAnimation) {
+void anim_updateAnimator(ModelAnimation *modelAnimation) {
     modelAnimation->mDone = 0;
     modelAnimation->mFrameIndex = modelAnimation->mFrameIndex + modelAnimation->mFrameStep;
-    func_02087b9c(modelAnimation);
+    anim_handleLooping(modelAnimation);
 }
 
 void func_02087ab0(s32 texWidthFixed, s32 texHeightFixed) {

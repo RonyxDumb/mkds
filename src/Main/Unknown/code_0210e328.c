@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0210e328.h"
 #include "code_0212bcac.h"
 
-void ResetPlayingSoundHandle(PlayingSound *sound) {
+void sp_initHandle(PlayingSound *sound) {
     u32 soundAddress = (u32) sound;
     u32 zero;
     u32 unused;

@@ -23,144 +23,144 @@
 #include "Main/Unknown/code_020acde4.h"
 #include "Main/Unknown/code_020ace0c.h"
 
-u32 func_020ace0c(u32 pair) {
+u32 title_spi_getTpX(u32 pair) {
     return (*OFFSET_PTR(const u16, pair, 0));
 }
 
-u32 func_020acdec(u32 slotIndex) {
+u32 title_input_getTpXById(u32 slotIndex) {
     u32 value0 = slotIndex;
     u32 value1;
     u32 slotsAddress;
     u32 functionAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
-    functionAddress = (u32) &func_020ace0c;
+    functionAddress = (u32) &title_spi_getTpX;
     value0 = (value1) + (0x48u);
-    value0 = func_020ace0c(value0);
+    value0 = title_spi_getTpX(value0);
     return value0;
 }
 
-u32 func_020acde4(u32 pair) {
+u32 title_spi_getTpY(u32 pair) {
     return (*OFFSET_PTR(const u16, pair, 2));
 }
 
-u32 func_020acdc4(u32 slotIndex) {
+u32 title_input_getTpYById(u32 slotIndex) {
     u32 value0 = slotIndex;
     u32 value1;
     u32 slotsAddress;
     u32 functionAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
-    functionAddress = (u32) &func_020acde4;
+    functionAddress = (u32) &title_spi_getTpY;
     value0 = (value1) + (0x48u);
-    value0 = func_020acde4(value0);
+    value0 = title_spi_getTpY(value0);
     return value0;
 }
 
 #pragma thumb on
 
-void UpdateTitleState2(Unk020aca24 *a) {
+void title_mainStateRender(Unk020aca24 *a) {
     u32 slotIndex;
     s32 previousIndex;
     s32 rectIndex;
 
     if (a != NULL) {
-        slotIndex = func_020acef4();
-        if (func_020acec4(slotIndex, PAD_KEY_A) != 0) {
-            SetTitleState(4, 8);
-            StartTitleSelectedSound();
-            gTitleScene->mSelectedPressed = TRUE;
-        } else if (GetNewOrRepeatBits(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+        slotIndex = title_input_getMasterInputUnitId();
+        if (title_input_isSetPadTrigById(slotIndex, PAD_KEY_A) != 0) {
+            title_gotoState(4, 8);
+            title_playActivationSound();
+            sTitleSceneState->mSelectedPressed = TRUE;
+        } else if (mutil_checkKeys(slotIndex, (PAD_KEY_LEFT | PAD_KEY_RIGHT)) != 0) {
+            switch (sTitleSceneState->mSelectedIndex) {
                 case 3:
-                    gTitleScene->mSelectedIndex = 4;
-                    gTitleScene->mPreferEntry4 = TRUE;
-                    StartSoundOncePerFrame(0);
+                    sTitleSceneState->mSelectedIndex = 4;
+                    sTitleSceneState->mPreferEntry4 = TRUE;
+                    sfx_2105AC0(0);
                     break;
                 case 4:
-                    gTitleScene->mSelectedIndex = 3;
-                    gTitleScene->mPreferEntry4 = FALSE;
-                    StartSoundOncePerFrame(0);
+                    sTitleSceneState->mSelectedIndex = 3;
+                    sTitleSceneState->mPreferEntry4 = FALSE;
+                    sfx_2105AC0(0);
                     break;
             }
-            gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_UP) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+            sTitleSceneState->mNoInputFrames = 0;
+        } else if (mutil_checkKeys(slotIndex, PAD_KEY_UP) != 0) {
+            switch (sTitleSceneState->mSelectedIndex) {
                 case 0:
-                    if (gTitleScene->mPreferEntry4 != FALSE) {
-                        gTitleScene->mSelectedIndex = 4;
+                    if (sTitleSceneState->mPreferEntry4 != FALSE) {
+                        sTitleSceneState->mSelectedIndex = 4;
                     } else {
-                        gTitleScene->mSelectedIndex = 3;
+                        sTitleSceneState->mSelectedIndex = 3;
                     }
                     break;
                 case 1:
-                    gTitleScene->mSelectedIndex = 0;
+                    sTitleSceneState->mSelectedIndex = 0;
                     break;
                 case 2:
-                    gTitleScene->mSelectedIndex = 1;
+                    sTitleSceneState->mSelectedIndex = 1;
                     break;
                 case 3:
                 case 4:
-                    gTitleScene->mSelectedIndex = 2;
+                    sTitleSceneState->mSelectedIndex = 2;
                     break;
             }
-            StartSoundOncePerFrame(0);
-            gTitleScene->mNoInputFrames = 0;
-        } else if (GetNewOrRepeatBits(slotIndex, PAD_KEY_DOWN) != 0) {
-            switch (gTitleScene->mSelectedIndex) {
+            sfx_2105AC0(0);
+            sTitleSceneState->mNoInputFrames = 0;
+        } else if (mutil_checkKeys(slotIndex, PAD_KEY_DOWN) != 0) {
+            switch (sTitleSceneState->mSelectedIndex) {
                 case 0:
-                    gTitleScene->mSelectedIndex = 1;
+                    sTitleSceneState->mSelectedIndex = 1;
                     break;
                 case 1:
-                    gTitleScene->mSelectedIndex = 2;
+                    sTitleSceneState->mSelectedIndex = 2;
                     break;
                 case 2:
-                    if (gTitleScene->mPreferEntry4 != FALSE) {
-                        gTitleScene->mSelectedIndex = 4;
+                    if (sTitleSceneState->mPreferEntry4 != FALSE) {
+                        sTitleSceneState->mSelectedIndex = 4;
                     } else {
-                        gTitleScene->mSelectedIndex = 3;
+                        sTitleSceneState->mSelectedIndex = 3;
                     }
                     break;
                 case 3:
                 case 4:
-                    gTitleScene->mSelectedIndex = 0;
+                    sTitleSceneState->mSelectedIndex = 0;
                     break;
             }
-            StartSoundOncePerFrame(0);
-            gTitleScene->mNoInputFrames = 0;
-        } else if (func_020ace14(slotIndex) != 0) {
-            u32 pointX = func_020acdec(slotIndex);
-            u32 pointY = func_020acdc4(slotIndex);
-            previousIndex = gTitleScene->mSelectedIndex;
-            rectIndex = FindRectContainingPoint(pointX, pointY, gTitleScene->mTitleSBnbl);
+            sfx_2105AC0(0);
+            sTitleSceneState->mNoInputFrames = 0;
+        } else if (title_input_isValidPenDownEventById(slotIndex) != 0) {
+            u32 pointX = title_input_getTpXById(slotIndex);
+            u32 pointY = title_input_getTpYById(slotIndex);
+            previousIndex = sTitleSceneState->mSelectedIndex;
+            rectIndex = FindRectContainingPoint(pointX, pointY, sTitleSceneState->mTitleSBnbl);
             if (rectIndex != -1) {
                 if (previousIndex == rectIndex) {
-                    gTitleScene->mSelectedPressed = TRUE;
+                    sTitleSceneState->mSelectedPressed = TRUE;
                 }
-                gTitleScene->mSelectedIndex = rectIndex;
-                SetTitleState(4, 8);
-                StartTitleSelectedSound();
+                sTitleSceneState->mSelectedIndex = rectIndex;
+                title_gotoState(4, 8);
+                title_playActivationSound();
             }
         } else {
-            s32 noInputFrameLimit = GetTitleNoInputFrameLimit();
-            gTitleScene->mNoInputFrames++;
-            if (gTitleScene->mNoInputFrames > noInputFrameLimit) {
-                if (IsSeqVariableChanged(0) != 0) {
+            s32 noInputFrameLimit = sndvar_getDemoRaceDelay();
+            sTitleSceneState->mNoInputFrames++;
+            if (sTitleSceneState->mNoInputFrames > noInputFrameLimit) {
+                if (sndvar_getVarField4IsZero(0) != 0) {
                     a->mNextScene = 2;
-                    SetNextDemoRace(gTitleScene->mCharacterKartPicks);
+                    SetNextDemoRace(sTitleSceneState->mCharacterKartPicks);
                 }
             }
         }
     }
-    SetupAndDrawTitleTable();
+    title_renderUI();
 }
 
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020acbf0(u32 value) {
+u32 title_buttonsOutVblank(u32 value) {
     u32 value0 = value;
     u32 functionAddress;
     functionAddress = (u32) &func_020ad230;
@@ -169,6 +169,6 @@ u32 func_020acbf0(u32 value) {
 }
 #pragma thumb off
 
-u32 func_020acbe8(Unk0201ea30 *p0) {
+u32 title_jn_ui_getBnclElementCount(Unk0201ea30 *p0) {
     return (*OFFSET_PTR(const u16, p0, 6));
 }

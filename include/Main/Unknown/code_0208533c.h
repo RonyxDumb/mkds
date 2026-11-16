@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ResetResFileEntries(void);
+void model_initResList(void);

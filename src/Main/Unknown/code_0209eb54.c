@@ -13,39 +13,39 @@
 #include "Main/Unknown/unk_0217c000.h"
 #include "Main/Unknown/unk_02167000.h"
 
-void CreatePicture1AndPicture2(void *a) {
-    gPicture1 = CreateMapObjectModelAnimated(a, gPicture1NsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gPicture1, gPicture1NsbcaName);
-    gPicture2 = CreateMapObjectModelAnimated(a, gPicture2NsbmdName);
-    CreateMapObjectModelNsbcaAnimation(gPicture2, gPicture2NsbcaName);
-    SetMapObjectModelPolygonId(gPicture1, 0x3f);
-    SetMapObjectModelPolygonId(gPicture2, 0x3f);
+void pict_loadModels(void *a) {
+    pict_sPicture1Model = mobj_loadModel(a, aPicture1_nsbmd);
+    mobj_loadNsbcaAnim(pict_sPicture1Model, aPicture1_nsbca);
+    pict_sPicture2Model = mobj_loadModel(a, aPicture2_nsbmd);
+    mobj_loadNsbcaAnim(pict_sPicture2Model, aPicture2_nsbca);
+    mobj_setModelPolygonIdAll(pict_sPicture1Model, 0x3f);
+    mobj_setModelPolygonIdAll(pict_sPicture2Model, 0x3f);
 }
 
-void DrawPicture(void *a, Picture *b) {
+void pict_render(void *a, Picture *b) {
     s32 s;
 
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
     b->mUnk_00.mMatrix.mUnk_00[3].x = b->mUnk_00.mPos.x >> 4;
     b->mUnk_00.mMatrix.mUnk_00[3].y = b->mUnk_00.mPos.y >> 4;
     b->mUnk_00.mMatrix.mUnk_00[3].z = b->mUnk_00.mPos.z >> 4;
-    func_01ff9048(0x19, &b->mUnk_00.mMatrix, 0xc);
-    func_01ff9048(0x1b, &b->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x19, &b->mUnk_00.mMatrix, 0xc);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mUnk_00.mScale, 3);
     switch (b->mPictureIndex) {
         case 0:
-            SetMapObjectModelNsbcaFrameIndex(gPicture1, b->mNsbcaFrameIndex);
-            DrawMapObjectModel(a, gPicture1, b);
+            mobj_setModelNsbcaFrame(pict_sPicture1Model, b->mNsbcaFrameIndex);
+            mobj_renderModel(a, pict_sPicture1Model, b);
             break;
         case 1:
-            SetMapObjectModelNsbcaFrameIndex(gPicture2, b->mNsbcaFrameIndex);
-            DrawMapObjectModel(a, gPicture2, b);
+            mobj_setModelNsbcaFrame(pict_sPicture2Model, b->mNsbcaFrameIndex);
+            mobj_renderModel(a, pict_sPicture2Model, b);
             break;
     }
 }
 
 // mState stays 0: nothing in the code sets state 1.
-void UpdatePicture(void *a, Picture *b) {
+void pict_update(void *a, Picture *b) {
     Unk0210b7a8 s1;
     Unk0210b7a8 s2;
     Unk0210b7a8 s3;
@@ -63,16 +63,16 @@ void UpdatePicture(void *a, Picture *b) {
         case 2:
             if (b->mPictureIndex == 0) {
                 nextFrameIndex = b->mNsbcaFrameIndex + 1;
-                if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gPicture1)) {
+                if (nextFrameIndex >= mobj_getModelNsbcaFrameCount(pict_sPicture1Model)) {
                     nextFrameIndex = 0;
                 }
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0 || b->mNsbcaFrameIndex == 0xf || b->mNsbcaFrameIndex == 0x1f ||
                     b->mNsbcaFrameIndex == 0x37 || b->mNsbcaFrameIndex == 0x51) {
-                    if (func_020d4ddc(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
+                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -80,15 +80,15 @@ void UpdatePicture(void *a, Picture *b) {
                         s1.mSoundId = 0x116;
                         s1.mPositionSource = &b->mUnk_00.mPos;
                         s1.mUnk_08 = t;
-                        s1.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s1.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
                         func_0210b7a8(&s1);
                     }
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
-                    if (func_020d4ddc(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
+                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -96,14 +96,14 @@ void UpdatePicture(void *a, Picture *b) {
                         s2.mSoundId = 0x117;
                         s2.mPositionSource = &b->mUnk_00.mPos;
                         s2.mUnk_08 = t;
-                        s2.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s2.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
                         func_0210b7a8(&s2);
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
-                    if (func_020d4ddc(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
+                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -111,21 +111,21 @@ void UpdatePicture(void *a, Picture *b) {
                         s3.mSoundId = 0x115;
                         s3.mPositionSource = &b->mUnk_00.mPos;
                         s3.mUnk_08 = t;
-                        s3.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s3.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
                         func_0210b7a8(&s3);
                     }
                 }
             } else if (b->mPictureIndex == 1) {
                 nextFrameIndex = b->mNsbcaFrameIndex + 1;
-                if (nextFrameIndex >= GetMapObjectModelNsbcaFrameCount(gPicture2)) {
+                if (nextFrameIndex >= mobj_getModelNsbcaFrameCount(pict_sPicture2Model)) {
                     nextFrameIndex = 0;
                 }
                 b->mNsbcaFrameIndex = nextFrameIndex;
                 if (b->mNsbcaFrameIndex == 0) {
-                    if (func_020d4ddc(&b->mUnk_00) == FALSE) {
-                        if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+                    if (mobj_isInaudible(&b->mUnk_00) == FALSE) {
+                        if (b->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
                             t = 2;
-                        } else if (b->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+                        } else if (b->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
                             t = 3;
                         } else {
                             t = 4;
@@ -133,7 +133,7 @@ void UpdatePicture(void *a, Picture *b) {
                         s4.mSoundId = 0x118;
                         s4.mPositionSource = &b->mUnk_00.mPos;
                         s4.mUnk_08 = t;
-                        s4.mDistanceSquared = GetHorizontalCameraDistanceSquared(&b->mUnk_00.mPos);
+                        s4.mDistanceSquared = mobj_calcXZCamDist(&b->mUnk_00.mPos);
                         func_0210b7a8(&s4);
                     }
                 }
@@ -141,7 +141,7 @@ void UpdatePicture(void *a, Picture *b) {
             if (b->mNsbcaFrameIndex != 0) {
                 return;
             }
-            randomState64 = &gRaceProgress->mLocalRandom;
+            randomState64 = &gRaceStatus->mLocalRandom;
             randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
             b->mState1Timer = (u16) (((randomState64->mValue >> 32) * 0x78) >> 32) + 0x3c;
             b->mState = 1;
@@ -149,23 +149,23 @@ void UpdatePicture(void *a, Picture *b) {
     }
 }
 
-void *CreatePictureDrawList(void) {
-    return CreateMapObjectDrawList1(CreatePicture1AndPicture2, DrawPicture, NULL);
+void *pict_setupRenderPart(void) {
+    return mobj_createRenderPart3d(pict_loadModels, pict_render, NULL);
 }
 
-void *CreatePictureUpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, UpdatePicture, NULL);
+void *pict_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, pict_update, NULL);
 }
 
-void CreatePuddle(void *a) {
-    gPuddle = CreateMapObjectModelNsbmd(a, gPuddleNsbmdName);
+void pud_loadModel(void *a) {
+    pud_sModel = mobj_loadBillboardModel(a, aPuddle_nsbmd);
 }
 
-void SetupDrawPuddle(void *a) {
-    func_0209bbd0(a, gPuddle);
+void pud_globalPreRender(void *a) {
+    mobj_bbModelApplyMaterial(a, pud_sModel);
 }
 
-void DrawPuddle(void *a, MapObject *b) {
+void pud_render(void *a, MapObject *b) {
     s32 s;
     s32 x;
     s32 y;
@@ -173,15 +173,15 @@ void DrawPuddle(void *a, MapObject *b) {
     Vec3 v;
 
     s = 0x1e;
-    func_01ff9048(0x14, &s, 1);
+    NNS_G3dGeBufferOP_N(0x14, &s, 1);
     z = b->mPos.z >> 4;
     y = (b->mPos.y + 0x1ccd) >> 4;
     x = b->mPos.x >> 4;
     v.x = x;
     v.y = y;
     v.z = z;
-    func_01ff9048(0x1c, &v, 3);
-    func_01ff9048(0x1b, &b->mScale, 3);
-    func_01ff9048(0x1a, &b->mMatrix, 9);
-    DrawMapObjectModel(a, gPuddle, b);
+    NNS_G3dGeBufferOP_N(0x1c, &v, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &b->mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1a, &b->mMatrix, 9);
+    mobj_renderModel(a, pud_sModel, b);
 }

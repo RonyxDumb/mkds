@@ -21,13 +21,13 @@
 #include "Main/Unknown/code_02077bc0.h"
 
 static inline s32 func_0203ca38_inline(u32 i) {
-    return GetKartStandingRankIndex(i) + 1;
+    return mgcnt_getDriverPlace(i) + 1;
 }
 
-void FinishRaceProgress(void) {
+void rstat_storeRaceResults(void) {
     RaceProgress *raceProgress;
     s32 winningTeamIndex = -1;
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = gRaceMultiConfig;
     s32 mode = raceSetup->mMode;
     u32 kartIndex;
     BOOL usesTeams = FALSE;
@@ -48,27 +48,27 @@ void FinishRaceProgress(void) {
                 u8 rank;
                 u32 rankPoints = 0;
                 if (raceSetup->mMode == 5) {
-                    t = data_0217aa14->mUnk_104[gParticipantKartMap->mParticipantOfKart[kartIndex & 0xff]].mRank;
+                    t = gStruct217AA14->mUnk_104[gStruct217AA18->mParticipantOfKart[kartIndex & 0xff]].mRank;
                 } else {
-                    t = gRaceProgress->mKarts[kartIndex].mRank;
+                    t = gRaceStatus->mKarts[kartIndex].mRank;
                 }
                 rank = t;
-                if (gRaceProgress->mUnk_000[kartIndex].mStatus != 4) {
-                    rankPoints = LookupRankPoints(rank);
+                if (gRaceStatus->mUnk_000[kartIndex].mStatus != 4) {
+                    rankPoints = rstat_getRankPoints(rank);
                 }
-                SetKartCourseResult(kartIndex, rank, rankPoints);
-                SetKartCourseFinishTime(kartIndex, &gRaceProgress->mKarts[kartIndex].mLapTimes[5]);
-                if (gRaceSetup->mMode == 5) {
-                    if (gRaceProgress->mUnk_000[kartIndex].mStatus == 4) {
-                        ClearKartCourseTotalPoints(kartIndex);
+                rres_setPlaceAndPoints(kartIndex, rank, rankPoints);
+                rres_setRaceTime(kartIndex, &gRaceStatus->mKarts[kartIndex].mLapTimes[5]);
+                if (gRaceMultiConfig->mMode == 5) {
+                    if (gRaceStatus->mUnk_000[kartIndex].mStatus == 4) {
+                        rres_clearTotalRankPoints(kartIndex);
                     }
                 }
                 if (usesTeams != FALSE) {
                     if (rank == 1) {
-                        winningTeamIndex = gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex;
+                        winningTeamIndex = gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex;
                     }
                 }
-                raceSetup = gRaceSetup;
+                raceSetup = gRaceMultiConfig;
             }
             break;
         }
@@ -77,12 +77,12 @@ void FinishRaceProgress(void) {
             if (usesTeams != FALSE) {
                 kartIndex = 0;
                 if (kartIndex < raceSetup->mKartCount) {
-                    raceProgress = gRaceProgress;
+                    raceProgress = gRaceStatus;
                     do {
                         if (raceProgress->mUnk_000[kartIndex].mStatus == 1) {
                             if (usesTeams != FALSE) {
                                 if (winningTeamIndex == -1) {
-                                    raceSetup = gRaceSetup;
+                                    raceSetup = gRaceMultiConfig;
                                     winningTeamIndex = raceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex;
                                 }
                             }
@@ -91,45 +91,45 @@ void FinishRaceProgress(void) {
                     } while (kartIndex < raceSetup->mKartCount);
                 }
             }
-            for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-                gRaceProgress->mUnk_000[kartIndex].mFlags |= 2;
-                if (gRaceProgress->mUnk_000[kartIndex].mStatus == 1) {
+            for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+                gRaceStatus->mUnk_000[kartIndex].mFlags |= 2;
+                if (gRaceStatus->mUnk_000[kartIndex].mStatus == 1) {
                     if (usesTeams != FALSE) {
-                        e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
+                        e = winningTeamIndex == gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
                         e = 1;
                     }
-                    func_0205d88c(kartIndex, 1);
+                    rres_setBattleResult(kartIndex, 1);
                 } else {
                     if (usesTeams != FALSE) {
-                        e = winningTeamIndex == gRaceSetup->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
+                        e = winningTeamIndex == gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex ? 1 : 0;
                     } else {
                         e = 0;
                     }
-                    func_0205d88c(kartIndex, 0);
-                    if (gRaceProgress->mUnk_000[kartIndex].mStatus == 0) {
-                        gRaceProgress->mUnk_000[kartIndex].mStatus = 2;
+                    rres_setBattleResult(kartIndex, 0);
+                    if (gRaceStatus->mUnk_000[kartIndex].mStatus == 0) {
+                        gRaceStatus->mUnk_000[kartIndex].mStatus = 2;
                     }
                 }
-                func_02068640(GetKart(kartIndex), e);
+                func_02068640(driver_getById(kartIndex), e);
             }
             func_02110cc8(0);
             break;
         }
     }
     if (usesTeams != FALSE) {
-        SetTeamWinCountsAndPoints(winningTeamIndex);
+        rres_setTeamsResult(winningTeamIndex);
     }
-    gRaceProgress->mRaceDone = 1;
+    gRaceStatus->mRaceDone = 1;
 }
 
-void func_0203d078(void) {
+void rstat_203D078(void) {
     u32 kartIndex;
-    if (IsWinnerDecidedAndEndReached() != 0) {
-        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    if (mgcnt_hasMgEnded() != 0) {
+        for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartIndex * 0x8c);
             if (kart->mStatus == 0) {
-                if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
+                if (mgcnt_hasDriverWon(kartIndex) != 0) {
                     kart->mStatus = 1;
                 } else {
                     kart->mStatus = 2;
@@ -139,11 +139,11 @@ void func_0203d078(void) {
         }
         return;
     }
-    for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
-        if (IsKartEliminated(kartIndex) != FALSE) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartIndex * 0x8c);
+    for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+        if (mgcnt_isDriverDead(kartIndex) != FALSE) {
+            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartIndex * 0x8c);
             if (kart->mStatus == 0) {
-                if (IsKartOnWinningTeamAtEnd(kartIndex) != 0) {
+                if (mgcnt_hasDriverWon(kartIndex) != 0) {
                     kart->mStatus = 1;
                 } else {
                     kart->mStatus = 2;
@@ -152,21 +152,21 @@ void func_0203d078(void) {
             }
         }
     }
-    if (IsRaceEndConditionMet() != 0) {
-        switch (gRaceSetup->mMode) {
+    if (rstat_shouldTryFinish() != 0) {
+        switch (gRaceMultiConfig->mMode) {
             case MODE_TIME_ATTACK:
                 break;
             case MODE_BATTLE:
-                EliminateKartsUntilWinnerDecided();
+                mgcnt_tryFinish();
                 break;
             case MODE_MISSION_RUN:
-                FinishRemainingMissionRunKarts();
+                rstat_tryFinishMr();
                 break;
             case 5:
-                func_0203ecf0();
+                rstat_tryFinishNt();
                 break;
             default:
-                FinishRemainingRaceProgressKarts();
+                rstat_tryFinishGpVs();
                 break;
         }
     }
@@ -177,17 +177,17 @@ static inline u16 func_0203cd14_inline(s32 v) {
 }
 
 // TRUE once no kart is still racing in battle, until the race is marked done.
-BOOL ShouldFinishBattle(void) {
+BOOL rstat_shouldStoreMgResults(void) {
     u32 kartIndex;
     s32 racingCount;
     BOOL noneRacing = TRUE;
-    RaceProgress *raceProgress = gRaceProgress;
+    RaceProgress *raceProgress = gRaceStatus;
     if (raceProgress->mRaceDone != 0) {
         return FALSE;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
         racingCount = 0;
-        for (kartIndex = 0; kartIndex < gRaceSetup->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
+        for (kartIndex = 0; kartIndex < gRaceMultiConfig->mKartCount; kartIndex = (u16) (kartIndex + 1)) {
             if (raceProgress->mUnk_000[kartIndex].mStatus == 0) {
                 racingCount++;
                 if (racingCount > 0) {
@@ -201,10 +201,10 @@ BOOL ShouldFinishBattle(void) {
     return FALSE;
 }
 
-void AdvanceMissionRunEnd(void) {
+void rstat_handleMissionMode(void) {
     BOOL endFound = FALSE;
     s32 endKind = 2;
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = gRaceMultiConfig;
     s32 entryIndex = raceSetup->mEntryIndex;
     u16 w;
     u32 kartOffset;
@@ -215,7 +215,7 @@ void AdvanceMissionRunEnd(void) {
     }
     w = entryIndex;
     kartOffset = w * 0x8c;
-    kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+    kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartOffset);
     hasEnded = FALSE;
     switch (kart->mStatus) {
         case 1:
@@ -226,59 +226,59 @@ void AdvanceMissionRunEnd(void) {
     }
     if (hasEnded != FALSE) {
         if ((kart->mFlags & 0x10) != 0) {
-            gRaceProgress->mFramesSinceFinish++;
-            if (gRaceProgress->mFramesSinceFinish <= gRaceSetup->mFinishWaitFrameCount) {
+            gRaceStatus->mFramesSinceFinish++;
+            if (gRaceStatus->mFramesSinceFinish <= gRaceMultiConfig->mFinishWaitFrameCount) {
                 return;
             }
-            func_020688a0(GetKart((u16) entryIndex));
+            func_020688a0(driver_getById((u16) entryIndex));
             func_0207a828(func_0203cd14_inline(entryIndex));
             RequestRaceEndStemSet();
             func_02110cc8(0);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                FinishStandings();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mgcnt_forceEnd();
             }
-            kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+            kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartOffset);
             kart->mFlags &= ~0x10;
         } else if ((kart->mFlags & 0x20) != 0) {
             if (func_0207a218() != 0) {
-                gRaceProgress->mFramesSinceFailure++;
+                gRaceStatus->mFramesSinceFailure++;
             }
-            if (gRaceProgress->mFramesSinceFailure <= 0x3c) {
+            if (gRaceStatus->mFramesSinceFailure <= 0x3c) {
                 return;
             }
-            func_020688a0(GetKart(entryIndex));
+            func_020688a0(driver_getById(entryIndex));
             func_0207a828((u16) entryIndex);
             func_02110cc8(0);
-            if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-                FinishStandings();
+            if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+                mgcnt_forceEnd();
             }
-            kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], kartOffset);
+            kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], kartOffset);
             kart->mFlags &= ~0x20;
         }
         return;
     }
     if ((raceSetup->mUnk_044 & 2) != 0) {
-        if (func_0207a574() != FALSE) {
+        if (driver_isPlayerHit() != FALSE) {
             endFound = TRUE;
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceSetup->mUnk_044 & 4) != 0) {
-            if (func_0207a538() != 0) {
+        if ((gRaceMultiConfig->mUnk_044 & 4) != 0) {
+            if (driver_isPlayerHittingWall() != 0) {
                 endKind = 3;
                 endFound = TRUE;
             }
         }
     }
     if (endFound == FALSE) {
-        if ((gRaceSetup->mUnk_044 & 8) != 0) {
-            if (func_0207a4fc() != 0) {
+        if ((gRaceMultiConfig->mUnk_044 & 8) != 0) {
+            if (driver_isPlayerRespawning() != 0) {
                 endFound = TRUE;
             }
         }
     }
     if (endFound == FALSE) {
-        if (func_0205e1c4() != 0) {
+        if (area_updateMissionRivalPassAreas() != 0) {
             endKind = 4;
             endFound = TRUE;
         }
@@ -286,36 +286,36 @@ void AdvanceMissionRunEnd(void) {
     if (endFound == FALSE) {
         return;
     }
-    FinishRaceProgressKartWithEndKind((u16) gRaceSetup->mEntryIndex, endKind);
+    rstat_finishMission((u16) gRaceMultiConfig->mEntryIndex, endKind);
 }
 
-void FinishRaceProgressKartWithEndKind4(u16 kartIndex) {
-    FinishRaceProgressKartWithEndKind(kartIndex, 4);
+void rstat_loseMission(u16 kartIndex) {
+    rstat_finishMission(kartIndex, 4);
 }
 
-void UpdateRaceProgress(void) {
+void rstat_update(void) {
     u32 i;
-    UpdateRaceClock();
-    if (gRaceSetup->mMode == 5) {
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
-            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], i * 0x8c);
+    rstat_updateTime();
+    if (gRaceMultiConfig->mMode == 5) {
+        for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
+            RaceProgressKart *kart = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], i * 0x8c);
             if (kart->mFinishRequest != 0) {
-                FinishRaceProgressKart(kart, kart->mFinishRequest == 1 ? 1 : 0);
-                if (IsRaceEndConditionMet() != 0) {
-                    switch (gRaceSetup->mMode) {
+                rstat_finishDriver(kart, kart->mFinishRequest == 1 ? 1 : 0);
+                if (rstat_shouldTryFinish() != 0) {
+                    switch (gRaceMultiConfig->mMode) {
                         case MODE_TIME_ATTACK:
                             break;
                         case MODE_BATTLE:
-                            EliminateKartsUntilWinnerDecided();
+                            mgcnt_tryFinish();
                             break;
                         case MODE_MISSION_RUN:
-                            FinishRemainingMissionRunKarts();
+                            rstat_tryFinishMr();
                             break;
                         case 5:
-                            func_0203ecf0();
+                            rstat_tryFinishNt();
                             break;
                         default:
-                            FinishRemainingRaceProgressKarts();
+                            rstat_tryFinishGpVs();
                             break;
                     }
                 }
@@ -323,45 +323,45 @@ void UpdateRaceProgress(void) {
             }
         }
     }
-    if (gCourseMap->mCheckpoints != NULL) {
-        UpdateRaceProgressKarts();
+    if (gMapData->mCheckpoints != NULL) {
+        rstat_handleCheckPoints();
     } else {
         BOOL t = FALSE;
-        switch (gRaceSetup->mRaceKind) {
+        switch (gRaceMultiConfig->mRaceKind) {
             case RACE_KIND_DEMO:
             case 2:
             case RACE_KIND_STAFF_ROLL:
                 t = TRUE;
                 break;
             case RACE_KIND_NORMAL:
-                if (func_02040bc0() != 0) {
+                if (rstat_calcUncontrollableRaceDisplayMode() != 0) {
                     t = TRUE;
                 }
                 break;
         }
-        gRaceProgress->mUnk_4f0 = t;
+        gRaceStatus->mUnk_4f0 = t;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        for (i = 0; i < gRaceSetup->mKartCount; i = (u16) (i + 1)) {
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        for (i = 0; i < gRaceMultiConfig->mKartCount; i = (u16) (i + 1)) {
             u16 *q;
             u8 standingRank = func_0203ca38_inline(i);
-            q = OFFSET_PTR(u16, &gRaceProgress->mUnk_000[0].mUnk_50, i * 0x8c);
+            q = OFFSET_PTR(u16, &gRaceStatus->mUnk_000[0].mUnk_50, i * 0x8c);
             *q = (*q & ~0xf) | (standingRank & 0xf);
         }
         for (i = 0; i < 8; i = (u16) (i + 1)) {
-            gRaceProgress->mKartAtRank[i] = -1;
+            gRaceStatus->mKartAtRank[i] = -1;
         }
-        func_0203d078();
-        if (ShouldFinishBattle() != 0) {
-            FinishRaceProgress();
+        rstat_203D078();
+        if (rstat_shouldStoreMgResults() != 0) {
+            rstat_storeRaceResults();
         }
     }
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        AdvanceMissionRunEnd();
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        rstat_handleMissionMode();
     }
-    if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
         BOOL f = FALSE;
-        switch (gRaceProgress->mUnk_000[0].mStatus) {
+        switch (gRaceStatus->mUnk_000[0].mStatus) {
             case 1:
             case 2:
             case 3:
@@ -371,16 +371,16 @@ void UpdateRaceProgress(void) {
         if (f == FALSE) {
             return;
         }
-        if (gRaceProgress->mRaceDone == 0) {
-            gRaceProgress->mRaceDone = 1;
+        if (gRaceStatus->mRaceDone == 0) {
+            gRaceStatus->mRaceDone = 1;
         }
         return;
     }
-    if ((u32) gRaceProgress->mUnk_000[0].mFinishedCount < gRaceSetup->mKartCount) {
+    if ((u32) gRaceStatus->mUnk_000[0].mFinishedCount < gRaceMultiConfig->mKartCount) {
         return;
     }
-    if (gRaceProgress->mRaceDone != 0) {
+    if (gRaceStatus->mRaceDone != 0) {
         return;
     }
-    FinishRaceProgress();
+    rstat_storeRaceResults();
 }

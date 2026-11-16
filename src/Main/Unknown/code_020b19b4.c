@@ -2,6 +2,6 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void GetRaceHudTimeDifference(s32 **a, TimeDigits **b) {
-    *a = &gRaceHud->mTimeDifferenceSign;
-    *b = &gRaceHud->mTimeDifferenceDigits;
+    *a = &r2d_sStatus->mTimeDifferenceSign;
+    *b = &r2d_sStatus->mTimeDifferenceDigits;
 }

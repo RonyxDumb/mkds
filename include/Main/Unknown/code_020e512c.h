@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_020e512c(Vec3 *position);
+u32 oshd_20E512C(Vec3 *position);

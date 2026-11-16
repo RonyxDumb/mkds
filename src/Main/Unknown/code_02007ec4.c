@@ -8,7 +8,7 @@
 
 #pragma thumb on
 
-u32 func_02008310(void *rangeTable, Unk02008188 *source) {
+u32 MB_RegisterFile(void *rangeTable, Unk02008188 *source) {
     u32 entryIndex;
     u32 savedInterrupts;
     u32 entryOffset;
@@ -43,9 +43,9 @@ u32 func_02008310(void *rangeTable, Unk02008188 *source) {
     entryOffset = entryIndex * 0x5d4;
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d40 = rangeTable;
     record = (Unk020082b4 *) (data_0216fdac->mUnk_1788 + entryOffset);
-    func_020082b4(record, source);
+    MBi_MakeDownloadFileInfo(record, source);
     MI_CpuCopy8((u8 *) rangeTable + 0x1c, record->mUnk_c4, 0x20);
-    if (func_020080e8((ChunkTable *) (data_0216fdac->mUnk_1d2c + entryOffset), record) == 0) {
+    if (MBi_MakeBlockInfoTable((ChunkTable *) (data_0216fdac->mUnk_1d2c + entryOffset), record) == 0) {
         OS_RestoreInterrupts(savedInterrupts);
         return 0;
     }
@@ -59,9 +59,9 @@ u32 func_02008310(void *rangeTable, Unk02008188 *source) {
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54 = &source->mUnk_1e8;
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d58 = source->mUnk_258;
     if ((OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mUnk_1d54->mUnk_30[3].mUnk_0c != 0) {
-        if (IsWorkerActive() == 0) {
-            func_0200b00c(data_0216fdac->mUnk_7ce0);
-            StartWorkerThread(&data_0216fdac->mUnk_74e0, 0x800);
+        if (CTRDGi_IsTaskAvailable() == 0) {
+            CTRDGi_InitTaskInfo(data_0216fdac->mUnk_7ce0);
+            CTRDGi_InitTaskThread(&data_0216fdac->mUnk_74e0, 0x800);
         }
     }
     (OFFSET_PTR(Unk0216fdac, data_0216fdac, entryOffset))->mEntryUsed = 1;
@@ -70,7 +70,7 @@ u32 func_02008310(void *rangeTable, Unk02008188 *source) {
     return 1;
 }
 
-void func_020082b4(Unk020082b4 *record, Unk02008188 *source) {
+void MBi_MakeDownloadFileInfo(Unk020082b4 *record, Unk02008188 *source) {
     u32 nextAddress;
     u8 *headerTail;
     u32 *kinds;
@@ -83,14 +83,14 @@ void func_020082b4(Unk020082b4 *record, Unk02008188 *source) {
     range = record->mUnk_0c;
     kinds = data_02152bc0;
     for (i = 0; i < 3; i++) {
-        func_02008188(source, kinds, range, &nextAddress);
+        MBi_SetSegmentInfo(source, kinds, range, &nextAddress);
         range++;
         kinds++;
     }
     MI_CpuCopy8(headerTail, record->mUnk_3c, 0x88);
 }
 
-void func_02008188(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u32 *nextAddress) {
+void MBi_SetSegmentInfo(Unk02008188 *source, u32 *kindWord, Unk020082b4_0c *range, u32 *nextAddress) {
     u32 outOfBounds;
     u32 useNextAddress;
     u32 *pair;
@@ -156,7 +156,7 @@ static inline struct Unk0216fdac *func_0200806c_inline(void) {
     return data_0216fdac;
 }
 
-u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
+u32 MBi_MakeBlockInfoTable(ChunkTable *chunkTable, Unk020082b4 *record) {
     u32 offset;
     u16 nextChunk;
     u8 i;
@@ -175,7 +175,7 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
     for (i = 0; i < 3; i++) {
         range = &record->mUnk_0c[i];
         nextChunk = chunkStarts[i] + (u16) ((range->mUnk_08 + data_0216fdac->mUnk_1318 - 1) / data_0216fdac->mUnk_1318);
-        if (func_02007f38(i, range->mUnk_04, range->mUnk_08) == 0) {
+        if (IsAbleToLoad(i, range->mUnk_04, range->mUnk_08) == 0) {
             return 0;
         }
         if (i < 2) {
@@ -187,7 +187,7 @@ u32 func_020080e8(ChunkTable *chunkTable, Unk020082b4 *record) {
     return 1;
 }
 
-BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
+BOOL MBi_get_blockinfo(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     u32 offset;
     Unk020082b4 *record;
     Unk020082b4_0c *range;
@@ -218,7 +218,7 @@ BOOL func_0200806c(Unk020072c0_buf *result, void *b, u16 chunk, void *d) {
     return TRUE;
 }
 
-u32 func_02007ff0(u32 rangeIndex, u32 address, u32 size) {
+u32 MBi_IsAbleToRecv(u32 rangeIndex, u32 address, u32 size) {
     switch (data_02152bc0[rangeIndex]) {
         case 2:
             if (address >= 0x027ffe00 && address + size <= 0x027fff60) {
@@ -244,12 +244,12 @@ u32 func_02007ff0(u32 rangeIndex, u32 address, u32 size) {
     return 0;
 }
 
-u32 func_02007f38(u32 rangeIndex, u32 address, u32 size) {
+u32 IsAbleToLoad(u32 rangeIndex, u32 address, u32 size) {
     u32 end;
     switch (data_02152bc0[rangeIndex]) {
         case 0:
         case 2:
-            return func_02007ff0(rangeIndex, address, size);
+            return MBi_IsAbleToRecv(rangeIndex, address, size);
         case 1:
             if (address >= 0x02000000 && address < 0x023fe800) {
                 end = address + size;

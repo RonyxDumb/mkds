@@ -22,6 +22,6 @@ u32 AdvancePointLinkCursorToFirstNext(u32 cursor) {
     VEC_Subtract((const Vec3 *) value0, (const Vec3 *) value1, (Vec3 *) directionAddress);
     value0 = (cursorAddress) + (8u);
     value1 = value0;
-    value0 = Vec3NormalizeAndGetLengthUnchecked((const Vec3 *) value0, (Vec3 *) value1);
+    value0 = vec_normalize((const Vec3 *) value0, (Vec3 *) value1);
     return value0;
 }

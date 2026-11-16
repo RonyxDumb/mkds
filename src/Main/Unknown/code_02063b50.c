@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0206bcb0.h"
 
 // Copies row 0 of the kart's matrix at 0x120 to the given vector.
-u32 GetKartMatrixRow0(Kart *kart, Vec3 *out) {
+u32 driver_getShadowXDirection(Kart *kart, Vec3 *out) {
     Vec3 *row;
     s32 value0;
     s32 rowX = kart->mUnk_120.x;

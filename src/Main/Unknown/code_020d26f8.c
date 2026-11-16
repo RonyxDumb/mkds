@@ -14,14 +14,14 @@
 #include "Main/Unknown/code_02070398.h"
 #include "Main/Unknown/code_02109054.h"
 
-u32 StartSoundIfKartStarOrKiller(MapObject *mapObject, Kart *kart) {
+u32 mobj_tryDestroyByDriver(MapObject *mapObject, Kart *kart) {
     if (kart->mItemEffect != 1 && kart->mItemEffect != 3) {
         return 0;
     }
     if (mapObject->mSound != NULL) {
-        StartSound(&mapObject->mSound->mSoundSource, 0xe8, 0x7f, 0);
+        sfx_21090C4(&mapObject->mSound->mSoundSource, 0xe8, 0x7f, 0);
     } else {
-        func_020719bc(&kart->mSoundSource, 0xe8);
+        driver_emitSfx2(&kart->mSoundSource, 0xe8);
     }
     return 1;
 }

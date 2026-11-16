@@ -28,13 +28,13 @@
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Unknown/code_0214d000.h"
 
-RaceHudSubScreenCells *gRaceHudSubScreenCoinCells;
+RaceHudSubScreenCells *mpicn_sCoinIcon;
 
 s32 func_ov001_02181528(void) {
     Unk02188950 *mapObject;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        mapObject = GetMissionRunMapObject(gRaceSetup->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mapObject = GetMissionRunMapObject(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? func_ov001_02181b54() : 0);
     } else {
         mapObject = NULL;
     }
@@ -43,15 +43,15 @@ s32 func_ov001_02181528(void) {
 
 #pragma thumb off
 
-s32 CreateRaceHudSubScreenCoinCells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenCoinCells, 0x68);
+s32 mpicn_createCoinIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sCoinIcon, 0x68);
 }
 
-void ClearRaceHudSubScreenCoinCells(void) {
-    ClearRaceHudSubScreenCells(&gRaceHudSubScreenCoinCells);
+void mpicn_destroyCoinIcon(void) {
+    mpicn_destroyMObjIcon(&mpicn_sCoinIcon);
 }
 
-void UpdateRaceHudSubScreenCoinCells(void) {
+void mpicn_updateCoinIcon(void) {
     s32 i;
     s32 cellCount;
     Unk0217b498_00 *object;
@@ -59,24 +59,24 @@ void UpdateRaceHudSubScreenCoinCells(void) {
     u32 v;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
-    for (i = 0; i < gRaceHudSubScreenCoinCells->mObjectCount; i++) {
-        object = gRaceHudSubScreenCoinCells->mObjects[i];
+    v = mpicn_20C0DB0();
+    for (i = 0; i < mpicn_sCoinIcon->mObjectCount; i++) {
+        object = mpicn_sCoinIcon->mObjects[i];
         if ((object->mFlags & 1) == 0) {
             position = &object->mPos;
-            if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenCoinCells->mCells[cellCount].mDrawPos, v, 1,
+            if (lmap_20B5AE8(position, &mpicn_sCoinIcon->mCells[cellCount].mDrawPos, v, 1,
                                                 1)) {
-                gRaceHudSubScreenCoinCells->mCells[cellCount].mCell = GetRaceSNcerEntry(0x58);
-                gRaceHudSubScreenCoinCells->mCells[cellCount].mUnk_0c = IsPositionOutsideBox(position) != 0 ? 2 : 3;
+                mpicn_sCoinIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0x58);
+                mpicn_sCoinIcon->mCells[cellCount].mUnk_0c = m2d_isPointOnLowerMap(position) != 0 ? 2 : 3;
                 cellCount++;
             }
         }
     }
-    gRaceHudSubScreenCoinCells->mCellCount = cellCount;
+    mpicn_sCoinIcon->mCellCount = cellCount;
 }
 
-void DrawRaceHudSubScreenCoinCells(void *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, gRaceHudSubScreenCoinCells, 0);
+void mpicn_renderCoinIcon(void *oamBuffer) {
+    mpicn_renderMObjIcon(oamBuffer, mpicn_sCoinIcon, 0);
 }
 
 #pragma thumb on

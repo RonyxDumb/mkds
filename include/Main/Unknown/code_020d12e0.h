@@ -16,5 +16,5 @@ typedef struct EndingStaffRollObject {
     /* 010 */ RaceHudOamBuffer mOamBuffer;
 } EndingStaffRollObject;
 
-u16 UpdateEndingStaffRoll(void);
-void DrawEndingStaffRoll(void);
+u16 r2d_updateStaffRoll(void);
+void r2d_renderStaffRoll(void);

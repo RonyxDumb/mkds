@@ -2,11 +2,11 @@
 #include "Main/Unknown/unk_02175000.h"
 #include "frameheap.h"
 
-void func_0204ad24(void) {
+void sysdat_resetDtcmHeap(void) {
     u32 value0;
     u32 mode;
     u32 unused;
-    value0 = (u32) &data_021759d0;
+    value0 = (u32) &gSystemData;
     value0 = *(const u32 *) ((value0) + (0));
     mode = 3u;
     value0 = *(const u32 *) ((value0) + (36));

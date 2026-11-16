@@ -16,11 +16,11 @@
 BOOL IsFollowedKartOutsideBox(void) {
     s32 isOutside = 1;
     Vec3 position;
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = m2d_race_getCurrentCourse();
 
     if (courseId == COURSE_ID_CLOCK || courseId == COURSE_ID_AIRSHIP) {
-        GetKartPosFromPosSourceCopy(&position, GetFollowedKartOrEntryIndex());
-        isOutside = IsPositionOutsideBox(&position);
+        GetKartPosFromPosSourceCopy(&position, Race_GetPlayerId());
+        isOutside = m2d_isPointOnLowerMap(&position);
     }
     return isOutside;
 }

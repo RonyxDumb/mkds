@@ -15,7 +15,7 @@ typedef struct Unk0209d694_bc {
     /* 80 */ u8 mUnk_80;
 } Unk0209d694_bc;
 
-// Object of StartSunFireball: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
+// Object of sfsn_spawn: after the shared part, a halfword at 0xa0, a counter at 0xa4, a position at 0xa8, a
 // halfword at 0xb4, a state at 0xb8 and two objects at 0xbc and 0xc0.
 typedef struct SunFireball {
     /* 00 */ MapObject mUnk_00;
@@ -30,7 +30,7 @@ typedef struct SunFireball {
     /* c0 */ Unk0209d694_bc *mUnk_c0;
 } SunFireball;
 
-void StartSunFireball(Vec3 *startPos, Vec3 *direction);
-void CreateSunFireballUpdateList(void);
-void CreateSunFireballKindData(void);
-void UpdateSunFireball(void *a, SunFireball *sunFireball);
+void sfsn_spawn(Vec3 *startPos, Vec3 *direction);
+void sfsn_setupLogicPart(void);
+void sfsn_setupConfig(void);
+void sfsn_update(void *a, SunFireball *sunFireball);

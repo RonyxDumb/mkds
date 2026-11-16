@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateSanboKindData(void);
+void sanbo_setupConfig(void);

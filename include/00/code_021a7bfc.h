@@ -26,7 +26,7 @@ typedef struct Unk021a7eec {
 } Unk021a7eec;
 
 u8 *func_ov000_021a7bfc(Unk021a6fa8 *a, s32 *b, u16 *c, u16 *d, u32 *e);
-s32 func_ov000_021a7c4c(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e);
+s32 gHanachanBodyPartMObjDef(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e);
 s32 func_ov000_021a7d14(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f);
 s32 func_ov000_021a7d68(Unk021a6fa8 *a, void *b, s32 c, u16 *d, u32 *e, s32 f, s32 g);
 unsigned int func_ov000_021a7de0(unsigned int a, void *b, unsigned int c, unsigned int d, u32 *e, unsigned int f);

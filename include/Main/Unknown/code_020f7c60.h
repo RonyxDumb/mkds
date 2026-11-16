@@ -4,4 +4,4 @@
 
 typedef struct SoundSource SoundSource;
 
-void *func_020f7c60(SoundSource *source, u32 soundId);
+void *it_emitSfx(SoundSource *source, u32 soundId);

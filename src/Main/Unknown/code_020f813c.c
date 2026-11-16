@@ -57,18 +57,18 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
     row = table->mRows[param_3];
     acc = 0;
     t = 0;
-    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         for (i = 0; i < 0xe; i++) {
-            t += (u16) (gItemKinds[(s32) i].mUnk_90 *
-                        (gItemPools[(s32) i].mReservedCount - gItemPools[(s32) i].mUnk_18));
+            t += (u16) (it_sItemParams[(s32) i].mUnk_90 *
+                        (it_sItemsets[(s32) i].mReservedCount - it_sItemsets[(s32) i].mUnk_18));
         }
     }
     for (j = 0; j < itemCount; j++) {
-        objectKind = gItemInfos[(s32) j].mObjectKind;
+        objectKind = it_sItemConfigs[(s32) j].mObjectKind;
         if (!((j == 8 && data_0217bc60 > 0) || (j == 7 && data_0217bc5c > 0) || (j == 0xf && data_0217bc58 > 0))) {
-            if (gItemPools[objectKind].mLimit - gItemPools[objectKind].mReservedCount > 0 &&
-                gItemInfos[(s32) j].mEnabled != FALSE) {
-                x = gItemKinds[objectKind].mUnk_90 * gItemInfos[(s32) j].mObjectCount;
+            if (it_sItemsets[objectKind].mLimit - it_sItemsets[objectKind].mReservedCount > 0 &&
+                it_sItemConfigs[(s32) j].mEnabled != FALSE) {
+                x = it_sItemParams[objectKind].mUnk_90 * it_sItemConfigs[(s32) j].mObjectCount;
                 if (x == 0 || x + t <= 0x28) {
                     if (j >= 9 && variant != 0) {
                         if (variant == 1) {
@@ -84,7 +84,7 @@ s32 PickItem(s32 kartVariant, s32 forcedRowHandle, s32 param_3, s32 param_4, s32
         }
         gItemWeightSums[j] = acc;
     }
-    random = &gRaceProgress->mRandom;
+    random = &gRaceStatus->mRandom;
     if (acc == 0) {
         x = 0;
     } else {
@@ -123,7 +123,7 @@ void InitItemSlot(KartItems *slot, KartItems *kartItems) {
     slot->mSlotResult = 0x13;
     slot->mActiveItem = 0x13;
     slot->mResultPending = FALSE;
-    slot->mIsPeer = gRaceSetup->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
+    slot->mIsPeer = gRaceMultiConfig->mCurrentEntries[kartItems->mKartIndex].mPlayer.mKind == PLAYER_KIND_PEER;
 }
 
 void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin) {
@@ -135,7 +135,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     BOOL isEntryKart;
 
     kartItems = slot->mSelf;
-    isMode5 = gRaceSetup->mMode == 5;
+    isMode5 = gRaceMultiConfig->mMode == 5;
     if (slot->mSlotState != 0) {
         return;
     }
@@ -166,11 +166,11 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         slot->mSlotFinalScrollFrameCount = 0x10;
         slot->mSlotFinalScrollFrameShift = 4;
     }
-    isEntryKart = kartItems->mKartIndex == gRaceSetup->mEntryIndex;
+    isEntryKart = kartItems->mKartIndex == gRaceMultiConfig->mEntryIndex;
     if (kartItems->mItemInUse.mObjectKind != 0xf && kartItems->mItemInUse.mItemInfoIndex >= 9) {
         slot->mSlotResult = PickItem(0, forcedRowHandle, rank, isHumanGhostOrPeer, isEntryKart, 9);
     } else {
-        slot->mSlotResult = PickItem(GetKartVariant(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
+        slot->mSlotResult = PickItem(chkrt_getKartABC(kartItems->mKartIndex), forcedRowHandle, rank, isHumanGhostOrPeer,
                                      isEntryKart, 0x12);
     }
     if (isMode5) {
@@ -179,9 +179,9 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
         return;
     }
     itemIndex = slot->mSlotResult;
-    itemInfo = &gItemInfos[itemIndex];
+    itemInfo = &it_sItemConfigs[itemIndex];
     objectKind = itemInfo->mObjectKind;
-    pool = &gItemPools[objectKind];
+    pool = &it_sItemsets[objectKind];
     pool->mReservedCount += itemInfo->mObjectCount;
 }
 
@@ -198,9 +198,9 @@ void func_020f86c4(KartItems *slot) {
     if (slot->mSlotState != 0) {
         if (kartItems->mResultPending == FALSE) {
             itemIndex = kartItems->mSlotResult;
-            itemInfo = &gItemInfos[itemIndex];
+            itemInfo = &it_sItemConfigs[itemIndex];
             objectKind = itemInfo->mObjectKind;
-            pool = &gItemPools[objectKind];
+            pool = &it_sItemsets[objectKind];
             pool->mReservedCount -= itemInfo->mObjectCount;
         }
         kartItems->mSlotState = 0;
@@ -211,7 +211,7 @@ void func_020f86c4(KartItems *slot) {
         kartItems->mResultPending = FALSE;
     } else {
         if (kartItems->mHeldItem.mItemInfoIndex != 0x13) {
-            ReleaseHeldItem(&kartItems->mHeldItem, 1);
+            it_destroySlotItem(&kartItems->mHeldItem, 1);
         }
     }
     slot->mSlotState = 1;
@@ -233,17 +233,17 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
     switch (slot->mSlotState) {
         case 1:
             slot->mSlotFrames++;
-            mode = gRaceSetup->mMode;
+            mode = gRaceMultiConfig->mMode;
             if (mode == 5 && slot->mResultPending != FALSE) {
                 b = kartItems->mKartIndex & 0xff;
-                if (func_0205a310(((u8 *) gParticipantKartMap)[b]) == 0) {
-                    b = func_0205a2ac(((u8 *) gParticipantKartMap)[b]);
+                if (func_0205a310(((u8 *) gStruct217AA18)[b]) == 0) {
+                    b = func_0205a2ac(((u8 *) gStruct217AA18)[b]);
                     if (IsItemInfoObjectCountFree(b) != FALSE) {
                         TryReleaseItemObjectsForItemInfo(b);
                     }
-                    itemInfo = &gItemInfos[b];
+                    itemInfo = &it_sItemConfigs[b];
                     objectKind = itemInfo->mObjectKind;
-                    pool = &gItemPools[objectKind];
+                    pool = &it_sItemsets[objectKind];
                     pool->mReservedCount += itemInfo->mObjectCount;
                     slot->mSlotResult = b;
                     slot->mResultPending = FALSE;
@@ -276,9 +276,9 @@ void FinishItemSlot(KartItems *slot) {
     enum { K0 } itemIndex, objectKind;
 
     itemIndex = slot->mSlotResult;
-    itemInfo = &gItemInfos[itemIndex];
+    itemInfo = &it_sItemConfigs[itemIndex];
     objectKind = itemInfo->mObjectKind;
-    pool = &gItemPools[objectKind];
+    pool = &it_sItemsets[objectKind];
     pool->mReservedCount -= itemInfo->mObjectCount;
     slot->mSlotState = 0;
     slot->mSlotFrames = 0;
@@ -295,9 +295,9 @@ void StopItemSlot(KartItems *slot) {
 
     if (slot->mResultPending == FALSE) {
         itemIndex = slot->mSlotResult;
-        itemInfo = &gItemInfos[itemIndex];
+        itemInfo = &it_sItemConfigs[itemIndex];
         objectKind = itemInfo->mObjectKind;
-        pool = &gItemPools[objectKind];
+        pool = &it_sItemsets[objectKind];
         pool->mReservedCount -= itemInfo->mObjectCount;
     }
     slot->mSlotState = 0;
@@ -340,7 +340,7 @@ void PickItemSlotShownItem(KartItems *slot) {
                 itemCount = gItemSlotPossibleItemCount;
                 items = gItemSlotPossibleItems;
             }
-            random = &gRaceProgress->mLocalRandom;
+            random = &gRaceStatus->mLocalRandom;
             index = func_020f830c_inline(random, itemCount);
             if (slot->mSlotShownItem == items[index]) {
                 index = (u16) (index + 1);
@@ -389,18 +389,18 @@ void func_020f8258(void) {
     }
 }
 
-void func_020f81c0(KartItems *slot) {
+void it_resetDriverItemStatus(KartItems *slot) {
     ItemInfo *itemInfo;
     ItemPool *pool;
     enum { K0 } itemIndex, objectKind;
 
-    if (slot->mSelf->mKartIndex == gRaceSetup->mEntryIndex) {
+    if (slot->mSelf->mKartIndex == gRaceMultiConfig->mEntryIndex) {
         StopRaceItemSlotSound();
     }
     itemIndex = slot->mSlotResult;
-    itemInfo = &gItemInfos[itemIndex];
+    itemInfo = &it_sItemConfigs[itemIndex];
     objectKind = itemInfo->mObjectKind;
-    pool = &gItemPools[objectKind];
+    pool = &it_sItemsets[objectKind];
     pool->mReservedCount -= itemInfo->mObjectCount;
     slot->mSlotState = 0;
     slot->mSlotFrames = 0;
@@ -426,7 +426,7 @@ u8 *LoadItemSlotTableData(ItemSlotTable *table, u8 *data) {
     rowCount = *data++;
     columnCount = *data++;
     table->mRowCount = rowCount;
-    table->mRows = HeapAlloc(GetHeap(GetCurrentHeapCall()), (rowCount + 1) * 0x24);
+    table->mRows = heap_alloc(proc_getHeap(proc_getCurrent()), (rowCount + 1) * 0x24);
     tab = table->mRows;
     for (i = 0; i < columnCount; i++) {
         for (j = 0; j < rowCount; j++) {

@@ -49,17 +49,17 @@ s32 GetKeyboardChosenKeyValue(void) {
 
 #pragma thumb off
 
-void InitIronBall(IronBall *ironBall) {
+void ibal_init(IronBall *ironBall) {
     Vec3 scale = data_02167974;
 
-    SetMapObjectScale(&ironBall->mUnk_000, &scale);
-    ironBall->mUnk_000.mSound = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x44);
+    mobj_setScale(&ironBall->mUnk_000, &scale);
+    ironBall->mUnk_000.mSound = heap_alloc(proc_getHeap(proc_getCurrent()), 0x44);
     InitSoundSource(&ironBall->mUnk_000.mSound->mSoundSource, 10, &ironBall->mUnk_000.mPos);
-    ironBall->mUnk_000.mFarDistanceSquared = gSoundFalloffs[10].mUnk_20;
-    ironBall->mUnk_128 = DecimalNonZeroDigitsToBitMask(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
+    ironBall->mUnk_000.mFarDistanceSquared = gSfxParams[10].mUnk_20;
+    ironBall->mUnk_128 = mobj_parseDecimalBits(ironBall->mUnk_000.mCourseMapRow->mUnk_34);
 }
 
-u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
+u32 ibal_onDriverCollide(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
     u32 x = *b;
     u32 y = *c;
 
@@ -70,28 +70,28 @@ u32 CollideKartWithIronBall(IronBall *ironBall, void *kart, u8 *b, u8 *c) {
     return (u8) y;
 }
 
-void CreateIronBall(void *a) {
-    gIronBall = CreateMapObjectModelNsbmd(a, gIronBallNsbmdName);
-    SetMapObjectModelPolygonId(gIronBall, 0x3f);
+void iball_loadBallModel(void *a) {
+    iball_sModel = mobj_loadBillboardModel(a, aIronball_nsbmd);
+    mobj_setModelPolygonIdAll(iball_sModel, 0x3f);
 }
 
-void SetupDrawIronBall(void *a) {
-    func_0209bbd0(a, gIronBall);
+void iball_applyBallMaterial(void *a) {
+    mobj_bbModelApplyMaterial(a, iball_sModel);
 }
 
-void DrawIronBall(void *a, IronBall *ironBall) {
+void iball_renderBall(void *a, IronBall *ironBall) {
     u32 v;
     u8 rotationMatrix[0x28];
     s32 pairIndex;
 
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&ironBall->mUnk_000.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&ironBall->mUnk_000.mPos), 0xc);
     if (ironBall->mRotateZAngle != 0) {
         pairIndex = (u16) ironBall->mRotateZAngle >> 4;
-        MTX_RotZ33_((s32 *) rotationMatrix, gPairsByAngle[pairIndex * 2], gPairsByAngle[pairIndex * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotZ33_((s32 *) rotationMatrix, FX_SinCosTable_[pairIndex * 2], FX_SinCosTable_[pairIndex * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &ironBall->mUnk_000.mScale, 3);
-    DrawMapObjectModel(a, gIronBall, ironBall);
+    NNS_G3dGeBufferOP_N(0x1b, &ironBall->mUnk_000.mScale, 3);
+    mobj_renderModel(a, iball_sModel, ironBall);
 }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearOrthoQuadCreamEffectPointer(void);
+u32 cspl_unloadCustomSplashModel(void);

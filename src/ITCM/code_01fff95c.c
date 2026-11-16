@@ -11,7 +11,7 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "code_0200fc8c.h"
 
-void StartDmaTransfer(u32 a, const void *b, void *c, u32 d) {
+void MIi_DmaSetParams(u32 a, const void *b, void *c, u32 d) {
     vu32 *e;
     u32 s = OS_DisableInterrupts();
 
@@ -22,7 +22,7 @@ void StartDmaTransfer(u32 a, const void *b, void *c, u32 d) {
     OS_RestoreInterrupts(s);
 }
 
-void StartDmaTransferAndChannel0Dummy(u32 a, const void *b, void *c, u32 d) {
+void MIi_DmaSetParams_wait(u32 a, const void *b, void *c, u32 d) {
     vu32 *r = (vu32 *) 0x40000b0;
     vu32 *e;
     u32 s = OS_DisableInterrupts();
@@ -41,7 +41,7 @@ void StartDmaTransferAndChannel0Dummy(u32 a, const void *b, void *c, u32 d) {
     OS_RestoreInterrupts(s);
 }
 
-void StartDmaTransferWithoutIrqDisable(u32 a, const void *b, void *c, u32 d) {
+void MIi_DmaSetParams_noInt(u32 a, const void *b, void *c, u32 d) {
     u32 o = a * 12;
     vu32 *e = (vu32 *) (0x40000b0 + o);
 
@@ -50,7 +50,7 @@ void StartDmaTransferWithoutIrqDisable(u32 a, const void *b, void *c, u32 d) {
     e[2] = d;
 }
 
-void StartDmaTransferAndChannel0DummyWithoutIrqDisable(u32 a, const void *b, void *c, u32 d) {
+void MIi_DmaSetParams_wait_noInt(u32 a, const void *b, void *c, u32 d) {
     vu32 *r = (vu32 *) 0x40000b0;
     vu32 *e;
 
@@ -117,18 +117,18 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     }
     if (!(p->mFlags & 0x8000) && p->mCollisionSlotIndex != -1) {
         if (f == 0) {
-            FindCollisionSlotsOverlappingSlot(p->mCollisionSlotIndex, 0x6000);
+            col_queryByColEntry(p->mCollisionSlotIndex, 0x6000);
         }
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            w = gFoundCollisionSlotFlags[i];
+        for (i = 0; i < gColQueryResultCount; i++) {
+            w = gColQueryResultFlags[i];
             if (w & 0x4000) {
-                if (p->mCollisionSlotIndex != gFoundCollisionSlotIndices[i]) {
-                    func_020f95d4(p, gFoundCollisionSlotObjects[i]);
+                if (p->mCollisionSlotIndex != gColQueryResultEntryIds[i]) {
+                    func_020f95d4(p, gColQueryResultObjects[i]);
                 } else {
                     continue;
                 }
             } else if (w & 0x2000) {
-                func_020f944c(p, gFoundCollisionSlotObjects[i]);
+                it_20F944C(p, gColQueryResultObjects[i]);
             }
             if (p->mCollisionSlotIndex == -1) {
                 break;
@@ -137,9 +137,9 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
     }
     v = p->mCollisionBits;
     if (p->mFlags & 0x8000) {
-        AdvanceCourseColorBlend(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x800);
+        light_interpolateToKclColor(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x800);
     } else {
-        AdvanceCourseColorBlend(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x5000);
+        light_interpolateToKclColor(&p->mColorBlend, (v & 0x3c000000) >> 26, 0x5000);
     }
     if (v & 0x1e34ef) {
         p->mUnk_114 = 0;
@@ -188,7 +188,7 @@ BOOL UpdateItemObject(ItemPool *a, ItemObject *p, s32 f) {
         p->mFlags &= ~0x40000;
     }
     k = p->mKind;
-    m = gItemKinds[k].mUnk_60;
+    m = it_sItemParams[k].mUnk_60;
     p->mDistanceSquaredAndFlags = a->mUnk_28(p->mUnk_d0, p->mRadius * m, a->mUnk_38, a->mUnk_3c, 0x1f);
     if (p->mDistanceSquaredAndFlags & 3) {
         p->mFlags |= 0x10000;

@@ -17,7 +17,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "Main/Unknown/code_021000d0.h"
 
-void func_020954e4(u32 mapObject) {
+void tsacnt_init(u32 mapObject) {
     u32 value0 = mapObject;
     u32 value1;
     u32 value2;
@@ -25,7 +25,7 @@ void func_020954e4(u32 mapObject) {
     value1 = *(const u32 *) ((value2) + (156));
     value0 = MAP_OBJECT_KIND_TERESA;
     value1 = *(const s16 *) ((value1) + (42));
-    CreateParkedMapObjects(value0, value1, (void *) value2);
+    mobj_createSubObjects(value0, value1, (void *) value2);
 }
 
 static inline u32 func_02095228_inline(RandomState64 *randomState64, u32 n) {
@@ -41,11 +41,11 @@ static inline u16 func_020952dc_inline(u32 n) {
     u32 t;
     u32 m;
     if (n == 0x10000) {
-        randomState64 = &gRaceProgress->mLocalRandom;
+        randomState64 = &gRaceStatus->mLocalRandom;
         randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
         return (randomState64->mValue >> 32) * 0x10000 >> 32;
     }
-    randomState64 = &gRaceProgress->mLocalRandom;
+    randomState64 = &gRaceStatus->mLocalRandom;
     m = (u16) n;
     if (m == 0) {
         t = 0;
@@ -71,7 +71,7 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
     u16 angle;
     Vec3 position;
 
-    if (GetUnparkedTeresaCount() < teresaCountLimit) {
+    if (tesa_getActiveInstanceCount() < teresaCountLimit) {
         k = i = 0;
         for (; i < spawnCount; i++) {
             if (distanceLimit > 0) {
@@ -82,18 +82,18 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
             z = 0;
             y = a->mUnk_00.mPos.y;
             x = 0;
-            distance = NextRandomBelow(GetRaceLocalRandom(), (s32) f);
+            distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
             angle = func_020951b4(GetRaceLocalRandom());
-            position.x = x + func_0209518c(distance, func_0209519c(angle));
-            position.y = y + NextRandomBelow(GetRaceLocalRandom(), k);
-            position.z = z + func_0209518c(distance, func_0209516c(angle));
-            StartTeresa(&position);
+            position.x = x + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetSinIdx(angle));
+            position.y = y + kan64_mobj_getRandom32(GetRaceLocalRandom(), k);
+            position.z = z + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetCosIdx(angle));
+            tesa_spawn(&position);
         }
         a->mUnk_a8 = func_020952dc_inline((u16) timerLimit);
     }
 }
 
-void func_02095228(MapObjectList *mapObjectList) {
+void tsacnt_globalLogicInit(MapObjectList *mapObjectList) {
     s32 i;
     Unk02094e8c *o;
 
@@ -101,12 +101,12 @@ void func_02095228(MapObjectList *mapObjectList) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (o = mapObjectList->mMapObjects[i]) != NULL; i++) {
-        o->mUnk_a0 = (u16) func_02095228_inline(&gRaceProgress->mLocalRandom, 0xf);
+        o->mUnk_a0 = (u16) func_02095228_inline(&gRaceStatus->mLocalRandom, 0xf);
     }
 }
 
 RandomState64 *GetRaceLocalRandom(void) {
-    return &gRaceProgress->mLocalRandom;
+    return &gRaceStatus->mLocalRandom;
 }
 
 u16 func_020951b4(RandomState64 *randomState64) {
@@ -114,19 +114,19 @@ u16 func_020951b4(RandomState64 *randomState64) {
     return ((randomState64->mValue >> 32) * 0x10000) >> 32;
 }
 
-s16 func_0209519c(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s16 tsacnt_FX_GetSinIdx(s32 a) {
+    return FX_SinCosTable_[(a >> 4) * 2];
 }
 
-s32 func_0209518c(s32 a, s32 b) {
+s32 tsacnt_FX_TRUNC_MUL(s32 a, s32 b) {
     return ((s64) a * b) >> 12;
 }
 
-s16 func_0209516c(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2 + 1];
+s16 tsacnt_FX_GetCosIdx(s32 a) {
+    return FX_SinCosTable_[(a >> 4) * 2 + 1];
 }
 
-void func_02094e8c(void *a, Unk02094e8c *o) {
+void tsacnt_update(void *a, Unk02094e8c *o) {
     s32 t;
     s32 c;
     s32 e;
@@ -149,7 +149,7 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
     if (t <= 0) {
         o->mUnk_a0 = 0xf;
         c = o->mUnk_00.mCourseMapRow->mUnk_28;
-        kart = GetKart((u16) gRaceSetup->mEntryIndex);
+        kart = driver_getById((u16) gRaceMultiConfig->mEntryIndex);
         e = c << 12;
         kartPos = &kart->mPos;
         deltaX = kartPos->x - o->mUnk_00.mPos.x;
@@ -163,7 +163,7 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
     switch (o->mUnk_ac) {
         case 0:
             k = FALSE;
-            if (GetCurrentCameraKind() == 2) {
+            if (race_getCameraField250() == 2) {
                 for (i = 0; i < o->mUnk_00.mCourseMapRow->mUnk_2a; i++) {
                     if (o->mUnk_00.mCourseMapRow->mUnk_28 > 0) {
                         f = 0.5f + (o->mUnk_00.mCourseMapRow->mUnk_28 << 12);
@@ -173,23 +173,23 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
                     z = o->mUnk_00.mPos.z;
                     y = o->mUnk_00.mPos.y;
                     x = o->mUnk_00.mPos.x;
-                    distance = NextRandomBelow(GetRaceLocalRandom(), (s32) f);
+                    distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
                     angle = func_020951b4(GetRaceLocalRandom());
-                    position.x = x + func_0209518c(distance, func_0209519c(angle));
-                    position.y = y + NextRandomBelow(GetRaceLocalRandom(), k);
-                    position.z = z + func_0209518c(distance, func_0209516c(angle));
-                    StartTeresa(&position);
+                    position.x = x + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetSinIdx(angle));
+                    position.y = y + kan64_mobj_getRandom32(GetRaceLocalRandom(), k);
+                    position.z = z + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetCosIdx(angle));
+                    tesa_spawn(&position);
                 }
             }
             o->mUnk_ac = 1;
         case 1:
-            if (GetCurrentCameraKind() == 2) {
+            if (race_getCameraField250() == 2) {
                 break;
             }
             if (o->mUnk_a4 == FALSE) {
                 break;
             }
-            if (GetCurrentCameraKind() != 0) {
+            if (race_getCameraField250() != 0) {
                 func_020952dc(o, 0x1e, 0x14, 0x1f4, 4);
             } else {
                 func_020952dc(o, 6, 4, 0xa, 0x14);
@@ -203,34 +203,34 @@ void func_02094e8c(void *a, Unk02094e8c *o) {
                 break;
             }
             if (o->mUnk_a4 != FALSE) {
-                if (GetCurrentCameraKind() != 0) {
+                if (race_getCameraField250() != 0) {
                     func_020952dc(o, 0x1e, 1, 0x1f4, 4);
                 } else {
                     func_020952dc(o, 6, 1, 0xa, 0x14);
                 }
             } else {
-                ClearTeresaTimers();
+                tesa_20946B8();
                 o->mUnk_ac = 1;
             }
             break;
     }
-    if (GetUnparkedTeresaCount() > 0) {
-        func_020d26e0(GetKart((u16) gRaceSetup->mEntryIndex), 0x11e);
+    if (tesa_getActiveInstanceCount() > 0) {
+        mobj_driverEmitSfx(driver_getById((u16) gRaceMultiConfig->mEntryIndex), 0x11e);
     }
 }
 
-u32 func_02094e3c(void) {
+u32 tsacnt_setupConfig(void) {
     s32 mode;
 
-    mode = gRaceSetup->mMode;
+    mode = gRaceMultiConfig->mMode;
     if (mode == MODE_VS || mode == 5) {
-        if (GetCurrentCameraKind() == 0) {
+        if (race_getCameraField250() == 0) {
             return 0;
         }
     }
-    return CreateEmptyMapObjectKindData();
+    return mobj_createDummyConfig();
 }
 
-void func_02094e1c(void) {
-    CreateMapObjectUpdateList(func_02095228, func_02094e8c, NULL);
+void tsacnt_setupLogicPart(void) {
+    mobj_createLogicPart(tsacnt_globalLogicInit, tsacnt_update, NULL);
 }

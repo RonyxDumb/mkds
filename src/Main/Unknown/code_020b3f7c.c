@@ -6,7 +6,7 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void LocateBmgSections(Bmg *bmg) {
+void setupBmg(Bmg *bmg) {
     u32 i;
     u32 p;
     u32 section;
@@ -19,17 +19,17 @@ void LocateBmgSections(Bmg *bmg) {
         tag = ReverseBytes32(((BmgSectionHeader *) section)->mTag);
         switch (tag) {
             case 0x494e4631:
-                data_0217b360 = (Unk0217b340 *) section;
+                BMG_INF1_Pointer = (Unk0217b340 *) section;
                 break;
             case 0x44415431:
-                data_0217b364 = (BmgBodySection *) section;
+                BMG_DAT1_Pointer = (BmgBodySection *) section;
                 break;
         }
     }
 }
 
-void *GetBmgEntry(Bmg *bmg, s32 index) {
-    LocateBmgSections(bmg);
-    return &data_0217b364->mBody[data_0217b360->mEntryOffsets[index % 0x10000]];
+void *jn_msg_getMessage(Bmg *bmg, s32 index) {
+    setupBmg(bmg);
+    return &BMG_DAT1_Pointer->mBody[BMG_INF1_Pointer->mEntryOffsets[index % 0x10000]];
 }
 #pragma thumb off

@@ -29,7 +29,7 @@
 #pragma opt_rebuildconditionals off
 
 EmblemBlock *CreateEmblemBlock(void *heap) {
-    EmblemBlock *emblemBlock = HeapAlloc(heap, 0xb04);
+    EmblemBlock *emblemBlock = heap_alloc(heap, 0xb04);
     if (emblemBlock != NULL) {
         emblemBlock->mBlockIndex = -1;
     }
@@ -45,7 +45,7 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
     if (blockIndex != emblemBlock->mBlockIndex) {
         return FALSE;
     }
-    MI_CpuCopy8(&data_0217aa08->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, 0x24);
+    MI_CpuCopy8(&gSaveData->mBuddyRecordBlock->mRecords[buddyIndex], &buddyRecord, 0x24);
     if (buddyRecord.mFilled == 0 || buddyRecord.mUnk_22_2 == 0) {
         return FALSE;
     }
@@ -58,14 +58,14 @@ BOOL CopyEmblemFromBlock(EmblemBlock *emblemBlock, u8 buddyIndex, EmblemData *em
 
 void SetupEmblemBlock(EmblemBlock *emblemBlock, u8 buddyIndex) {
     u8 blockIndex = buddyIndex / 5;
-    if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) == 0) {
+    if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) == 0) {
         emblemBlock->mBlockIndex = -1;
         return;
     }
     if (blockIndex == emblemBlock->mBlockIndex) {
         return;
     }
-    ReadBackupEmblemBlock(&emblemBlock->mUnk_04, blockIndex);
+    savd_readNkfe(&emblemBlock->mUnk_04, blockIndex);
     emblemBlock->mBlockIndex = blockIndex;
 }
 
@@ -88,15 +88,15 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
     }
     for (playerIndex = 0; playerIndex < 8; playerIndex++) {
         buddyIndexOfPlayer[playerIndex] = -1;
-        if (data_0217aa00->mUnk_0000 == 2) {
-            ownIndex = data_0217aa00->mOwnIndex;
+        if (gStruct217AA00->mUnk_0000 == 2) {
+            ownIndex = gStruct217AA00->mOwnIndex;
         } else {
             ownIndex = 0;
         }
         if (playerIndex != (u16) ownIndex) {
-            if ((data_0217aa00->mUnk_0457 & (1 << data_0217aa00->mUnk_1e8c[playerIndex])) == 0) {
-                if ((data_0217aa00->mParticipantMask & (1 << playerIndex)) != 0) {
-                    playerEntry = &data_0217aa00->mUnk_045c[playerIndex];
+            if ((gStruct217AA00->mUnk_0457 & (1 << gStruct217AA00->mUnk_1e8c[playerIndex])) == 0) {
+                if ((gStruct217AA00->mParticipantMask & (1 << playerIndex)) != 0) {
+                    playerEntry = &gStruct217AA00->mUnk_045c[playerIndex];
                     buddyIndex = SetBuddyRecordFromPlayer(playerEntry, 1);
                     if (buddyIndex != -1) {
                         if (playerEntry->mUnk_214 != 0) {
@@ -108,21 +108,21 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
             }
         }
     }
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkfl(gSaveData->mBuddyRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
-            blockData = data_0217aa08->mEmblemBlockData;
-            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
-                ReadBackupEmblemBlock(blockData, blockIndex);
-                if (gBackupAccess->mBackupEnabled != 0) {
+            blockData = gSaveData->mEmblemBlockData;
+            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) != 0) {
+                savd_readNkfe(blockData, blockIndex);
+                if (gSaveCore->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
+                savd_setBit(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2);
                 blockCreated = TRUE;
             }
             firstBuddyIndex = blockIndex * 5;
@@ -132,22 +132,22 @@ void CopyOtherPlayerEmblemsToBlocks(void) {
                 if (buddyIndex >= firstBuddyIndex && buddyIndex < endBuddyIndex) {
                     slotIndex = buddyIndex % 5;
                     blockData->mFilledBits |= 1 << slotIndex;
-                    MI_CpuCopy8((u8 *) &data_0217aa00->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
+                    MI_CpuCopy8((u8 *) &gStruct217AA00->mUnk_045c[k] + 0x14, blockData->mEmblems[slotIndex], 0x200);
                 }
             }
-            WriteBackupEmblemBlock(blockData, blockIndex);
-            if (gBackupAccess->mBackupEnabled != 0) {
+            savd_writeNkfe(blockData, blockIndex);
+            if (gSaveCore->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
         }
     }
     if (blockCreated != FALSE) {
-        WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+        savd_writeNksy(gSaveData->mFirstBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    ClearBackupBusy();
+    savd_endOperation();
 }
 
 void CopyWiFiOtherEmblemsToBlocks(void) {
@@ -181,21 +181,21 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
             }
         }
     }
-    WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_writeNkfl(gSaveData->mBuddyRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
     for (blockIndex = 0; blockIndex < 12; blockIndex++) {
         if (blockHasEmblem[blockIndex] != 0) {
-            blockData = data_0217aa08->mEmblemBlockData;
-            if (IsBitArrayBitSet(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2) != 0) {
-                ReadBackupEmblemBlock(blockData, blockIndex);
-                if (gBackupAccess->mBackupEnabled != 0) {
+            blockData = gSaveData->mEmblemBlockData;
+            if (savd_isBitSet(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2) != 0) {
+                savd_readNkfe(blockData, blockIndex);
+                if (gSaveCore->mBackupEnabled != 0) {
                     CARD_WaitBackupAsync();
                 }
             } else {
                 MI_CpuFill8(blockData, 0, 0xb00);
-                SetBitArrayBit(blockIndex, &data_0217aa08->mFirstBlock->mUnk_2c[2], 2);
+                savd_setBit(blockIndex, &gSaveData->mFirstBlock->mUnk_2c[2], 2);
             }
             firstBuddyIndex = blockIndex * 5;
             endBuddyIndex = (blockIndex + 1) * 5;
@@ -209,20 +209,20 @@ void CopyWiFiOtherEmblemsToBlocks(void) {
                                 0x200);
                 }
             }
-            WriteBackupEmblemBlock(blockData, blockIndex);
-            if (gBackupAccess->mBackupEnabled != 0) {
+            savd_writeNkfe(blockData, blockIndex);
+            if (gSaveCore->mBackupEnabled != 0) {
                 CARD_WaitBackupAsync();
             }
         }
     }
-    ClearBackupBusy();
+    savd_endOperation();
 }
 
 static inline s32 func_0205e5c4_inline(void) {
-    if (data_0217aa00 == NULL) {
+    if (gStruct217AA00 == NULL) {
         return 0;
     }
-    return data_0217aa00->mUnk_0000;
+    return gStruct217AA00->mUnk_0000;
 }
 
 void StartCopyOtherEmblems(s32 useConnection) {
@@ -233,7 +233,7 @@ void StartCopyOtherEmblems(s32 useConnection) {
         connectionReady = FALSE;
         d = func_0205e5c4_inline();
         if (d != 0) {
-            if (data_0217aa00->mUnk_0004 != 13) {
+            if (gStruct217AA00->mUnk_0004 != 13) {
                 connectionReady = TRUE;
             }
         }
@@ -243,8 +243,8 @@ void StartCopyOtherEmblems(s32 useConnection) {
         copyFunction = CopyOtherPlayerEmblemsToBlocks;
     } else {
         d = 0;
-        if (gWiFiSession != NULL) {
-            if (gWiFiSession->mHeapCreated != FALSE) {
+        if (gStruct217D384 != NULL) {
+            if (gStruct217D384->mHeapCreated != FALSE) {
                 d = 1;
             }
         }
@@ -253,9 +253,9 @@ void StartCopyOtherEmblems(s32 useConnection) {
         }
         copyFunction = CopyWiFiOtherEmblemsToBlocks;
     }
-    SetBackupBusy();
-    QueueThreadFunction(copyFunction);
-    gThreadFunctionQueue->mRunRequested = 1;
+    savd_beginOperation();
+    bgwkr_enqueueTask(copyFunction);
+    gBgWkrState->mRunRequested = 1;
 }
 
 static inline u8 func_0205e548_inline(void *recordOut) {
@@ -263,9 +263,9 @@ static inline u8 func_0205e548_inline(void *recordOut) {
     u8 recordIndex = 0;
     do {
         if (recordOut != 0) {
-            MI_CpuCopy8(&data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex], recordOut, 0x24);
+            MI_CpuCopy8(&gSaveData->mBuddyRecordBlock->mRecords[recordIndex], recordOut, 0x24);
         }
-        if (data_0217aa08->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0) {
+        if (gSaveData->mBuddyRecordBlock->mRecords[recordIndex].mFilled != 0) {
             filledCount = filledCount + 1;
         }
         recordIndex = recordIndex + 1;
@@ -279,26 +279,26 @@ u8 CountEmblemEntries(void) {
 
 #pragma thumb on
 
-void func_0205e530(void) {
-    InitGhostScene(GetHeap(GetCurrentHeapCall()));
+void ghostdef_create(void) {
+    ghost_create(proc_getHeap(proc_getCurrent()));
 }
 
-void func_0205e528(void) {
-    ReleaseGhostScene();
+void ghostdef_finish(void) {
+    ghost_finish();
 }
 
-void func_0205e520(void) {
-    func_0202dec8();
+void ghostdef_vblank(void) {
+    ghost_vblank();
 }
 
-void func_0205e518(u32 sceneNumbers) {
-    AdvanceGhostScene(sceneNumbers);
+void ghostdef_render(u32 sceneNumbers) {
+    ghost_render(sceneNumbers);
 }
 
-s32 RunGhostScene(SceneNumbers *sceneNumbers) {
-    SceneCallbacks callbacks = data_021653c0;
+s32 ghost_run(SceneNumbers *sceneNumbers) {
+    SceneCallbacks callbacks = ghost_sceneDef;
 
-    RunScene(sceneNumbers, &callbacks);
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 
@@ -308,7 +308,7 @@ static inline s32 func_0205e2cc_inline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
-void CreateShapeMapObjectCountList(void *heap) {
+void area_initMissionRivalPassAreas(void *heap) {
     u16 shapeCount;
     u16 i;
     u16 entryIndex;
@@ -320,36 +320,36 @@ void CreateShapeMapObjectCountList(void *heap) {
     s32 v;
     s32 w;
     s32 y;
-    shapeCount = gCourseMap->mShapeCount;
+    shapeCount = gMapData->mShapeCount;
     entryCount = 0;
-    data_0217aa24 = HeapAlloc(heap, 8);
+    area_sMissionRivalPassAreaStatus = heap_alloc(heap, 8);
     for (i = 0; i < shapeCount; i++) {
-        if (GetCourseMapShape(i)->mKind == 5) {
+        if (mdat_getAreaEntryByIndex(i)->mKind == 5) {
             entryCount = entryCount + 1;
         }
     }
     if (entryCount != 0) {
-        data_0217aa24->mEntries = HeapAlloc(heap, entryCount * 0xc);
+        area_sMissionRivalPassAreaStatus->mEntries = heap_alloc(heap, entryCount * 0xc);
     }
     entryIndex = 0;
-    data_0217aa24->mEntryCount = entryCount;
+    area_sMissionRivalPassAreaStatus->mEntryCount = entryCount;
     for (shapeIndex = 0; shapeIndex < shapeCount; shapeIndex++) {
-        courseMapShape = GetCourseMapShape(shapeIndex);
+        courseMapShape = mdat_getAreaEntryByIndex(shapeIndex);
         if (courseMapShape->mKind == 5) {
-            entry = &data_0217aa24->mEntries[entryIndex];
+            entry = &area_sMissionRivalPassAreaStatus->mEntries[entryIndex];
             entry->mShapeIndex = shapeIndex;
             u = 0;
             switch (courseMapShape->mShapeKind) {
                 case 0:
-                    u = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.x);
-                    v = func_0205e2cc_inline(func_020431d4(), courseMapShape->mScale.y) >> 1;
-                    y = func_0205e2cc_inline(func_020431cc(), courseMapShape->mScale.z);
+                    u = func_0205e2cc_inline(mdat_getAreaBoxXZHalfScale(), courseMapShape->mScale.x);
+                    v = func_0205e2cc_inline(mdat_getAreaBoxYScale(), courseMapShape->mScale.y) >> 1;
+                    y = func_0205e2cc_inline(mdat_getAreaBoxXZHalfScale(), courseMapShape->mScale.z);
                     w = func_0205e2cc_inline(u, u) + func_0205e2cc_inline(v, v);
                     y = func_0205e2cc_inline(y, y);
                     u = FX_Sqrt(y + w);
                     break;
                 case 1:
-                    u = func_0205e2cc_inline(func_020431dc(), courseMapShape->mScale.x);
+                    u = func_0205e2cc_inline(mdat_getAreaCylinderHalfScale(), courseMapShape->mScale.x);
                     break;
             }
             entry->mRadius = u;

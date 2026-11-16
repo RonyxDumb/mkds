@@ -40,10 +40,10 @@ void func_02086a04(void) {
     u16 objectCount;
     s32 orderIndex;
     viewFrustum = GetViewFrustum();
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        GetKart(i);
+    for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
+        driver_getById(i);
         data_0217aed0->mNameTagBeyondTwoNearest[i] = 0;
-        kart = GetKart(i);
+        kart = driver_getById(i);
         margin = kart->mRadius * 3;
         modelsEntry = kart->mKartModelsEntry;
         VEC_Subtract(kart->mPosSource, &viewFrustum->mCameraPos, &cameraToKart);
@@ -62,9 +62,9 @@ void func_02086a04(void) {
         data_0217aed0->mSortedDistanceSquared[(u16) (data_0217aed0->mUnk_024[kart->mIndex] +
                                                      data_0217aed0->mDistanceSquaredOrderOffset[kart->mIndex])] =
             distanceSquared;
-        if (kart->mIndex != gRaceSetup->mEntryIndex) {
+        if (kart->mIndex != gRaceMultiConfig->mEntryIndex) {
             isWithinFalloff = TRUE;
-            if (distanceSquared > gSoundFalloffs[0].mUnk_20) {
+            if (distanceSquared > gSfxParams[0].mUnk_20) {
                 isWithinFalloff = FALSE;
             }
             if (kart->mSoundSource.mSourceFlags & 1) {
@@ -109,10 +109,10 @@ void func_02086a04(void) {
             }
         }
     }
-    if (GetCurrentCameraKind() != 3) {
+    if (race_getCameraField250() != 3) {
         objectCount = 0;
-        for (orderIndex = data_0217aed0->mAlongViewOrderIndex[gRaceSetup->mEntryIndex] + 1;
-             orderIndex < gRaceSetup->mKartCount; orderIndex++) {
+        for (orderIndex = data_0217aed0->mAlongViewOrderIndex[gRaceMultiConfig->mEntryIndex] + 1;
+             orderIndex < gRaceMultiConfig->mKartCount; orderIndex++) {
             KartNameTag *kartObject;
             kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[orderIndex]];
             if (kartObject != NULL) {
@@ -124,7 +124,7 @@ void func_02086a04(void) {
         }
     } else {
         objectCount = 0;
-        for (orderIndex = 0; orderIndex < gRaceSetup->mKartCount; orderIndex++) {
+        for (orderIndex = 0; orderIndex < gRaceMultiConfig->mKartCount; orderIndex++) {
             KartNameTag *kartObject;
             kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[orderIndex]];
             if (kartObject != NULL) {
@@ -148,7 +148,7 @@ void func_0208677c(void) {
     KartNameTag *kartObject;
     Vec3 *posSource;
     Kart *kart;
-    if (GetCurrentCameraKind() == 0) {
+    if (race_getCameraField250() == 0) {
         gKartDistanceLimitsSquared = &data_02155a3c;
     } else {
         gKartDistanceLimitsSquared = &data_02155a48;
@@ -157,13 +157,13 @@ void func_0208677c(void) {
     i = 0;
     while (i < data_0217aed0->mNameTagCount) {
         kartObject = data_0217aed0->mNameTags[i];
-        kart = GetKart(kartObject->mKartIndex);
+        kart = driver_getById(kartObject->mKartIndex);
         posSource = kart->mPosSource;
         objectPosition = *posSource;
         x = data_0217aed0->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
         alphaScale = 0x1000;
         if (x > 0) {
-            if (data_0217aed0->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || GetCurrentCameraKind() == 3) {
+            if (data_0217aed0->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || race_getCameraField250() == 3) {
                 x -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->mUnk_14 = 1;
@@ -177,13 +177,13 @@ void func_0208677c(void) {
             }
         }
         if (data_0217aed0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
-            (GetKart(kartObject->mKartIndex)->mUnk_7c & 0x402020) != 0 ||
-            (GetAbsoluteValue(posSource->y - GetKart(gRaceSetup->mEntryIndex)->mPos.y) > 0x96000 &&
-             GetCurrentCameraKind() != 3)) {
+            (driver_getById(kartObject->mKartIndex)->mUnk_7c & 0x402020) != 0 ||
+            (math_abs(posSource->y - driver_getById(gRaceMultiConfig->mEntryIndex)->mPos.y) > 0x96000 &&
+             race_getCameraField250() != 3)) {
             kartObject->mFadeLevelPerCall = -1;
         }
         if (kartObject->mFadeStopped != FALSE) {
-            if (GetRaceElapsedFrames() - 0x3c > 0) {
+            if (rstat_getFrameCounter() - 0x3c > 0) {
                 kartObject->mFadeStopped = FALSE;
             }
         } else if (kartObject->mFadeLevelPerCall != 0) {
@@ -221,7 +221,7 @@ void func_020866b4(void) {
     s32 distance;
     u16 savedKartIndex;
     distancesAlongView = data_0217aed0->mSortedDistanceAlongView;
-    for (i = 1; (u32) i < gRaceSetup->mKartCount; i++) {
+    for (i = 1; (u32) i < gRaceMultiConfig->mKartCount; i++) {
         previousIndex = i - 1;
         previousDistance = distancesAlongView[previousIndex];
         distance = distancesAlongView[i];
@@ -249,7 +249,7 @@ void func_020865ec(void) {
     u32 distanceSquared;
     u16 savedKartIndex;
     distancesSquared = data_0217aed0->mSortedDistanceSquared;
-    for (i = 1; (u32) i < gRaceSetup->mKartCount; i++) {
+    for (i = 1; (u32) i < gRaceMultiConfig->mKartCount; i++) {
         previousIndex = i - 1;
         previousDistanceSquared = distancesSquared[previousIndex];
         distanceSquared = distancesSquared[i];
@@ -267,7 +267,7 @@ void func_020865ec(void) {
     }
 }
 
-void DrawKartNameTags(MtxFx43 *viewMatrix) {
+void driver_renderLabels(MtxFx43 *viewMatrix) {
     s32 i;
     s16 alpha;
     s32 screenY;
@@ -277,17 +277,17 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
     MtxFx43 *projectionMatrix;
     KartNameTag *kartObject;
     BOOL isProjected;
-    if (GetCurrentCameraKind() != 0 && GetCurrentCameraKind() != 3) {
+    if (race_getCameraField250() != 0 && race_getCameraField250() != 3) {
         return;
     }
     reg_G3X_DISP3DCNT = (reg_G3X_DISP3DCNT & ~0x3000) | 8;
     reg_G3_SPE_EMI = 0x4210;
     reg_G3_DIF_AMB = 0x42100000;
     reg_G3_MTX_MODE = 0;
-    G3_LoadMtx44(&data_0217aee0);
+    G3_LoadMtx44(&PlayerLabelProjMtx);
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
-    for (i = gRaceSetup->mKartCount - 1; i >= 0; i--) {
+    for (i = gRaceMultiConfig->mKartCount - 1; i >= 0; i--) {
         kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[i]];
         if (kartObject == NULL) {
             continue;
@@ -299,14 +299,14 @@ void DrawKartNameTags(MtxFx43 *viewMatrix) {
         if (alpha == 0) {
             continue;
         }
-        if ((GetKart(data_0217aed0->mKartIndicesByDistanceAlongView[i])->mUnk_7c & 0xe0) != 0) {
+        if ((driver_getById(data_0217aed0->mKartIndicesByDistanceAlongView[i])->mUnk_7c & 0xe0) != 0) {
             continue;
         }
         MTX_MultVec43(&kartObject->mPos, viewMatrix, &viewPos);
         if (viewPos.z >= 0) {
             isProjected = FALSE;
         } else {
-            projectionMatrix = GetProjectionMatrix();
+            projectionMatrix = cam_getProjectionMtx();
             screenX =
                 ((s64) viewPos.x * projectionMatrix->mUnk_00[0].x + (s64) viewPos.z * projectionMatrix->mUnk_00[2].z) >>
                 12;

@@ -4,4 +4,4 @@
 
 typedef struct Dram Dram;
 
-void UpdateDramState3(Dram *dram);
+void dram_spinningStateUpdate(Dram *dram);

@@ -37,37 +37,37 @@ void func_02039cbc(void) {
     void *thirdFrontHeap;
     void *soundBuffer;
     u32 soundBufferSize;
-    soundBufferSize = func_02039e08(GetHeap(GetCurrentHeapCall()), &backHeap, &soundBuffer, &firstFrontHeap,
+    soundBufferSize = func_02039e08(proc_getHeap(proc_getCurrent()), &backHeap, &soundBuffer, &firstFrontHeap,
                                     &secondFrontHeap, &thirdFrontHeap);
-    CARD_SetPulledOutCallback(func_02039e00);
-    CreateRunScenesState(backHeap);
-    InitSceneRunState(backHeap);
-    InitArchiveSlots(backHeap);
-    func_0204af70(backHeap);
+    CARD_SetPulledOutCallback(mproc_cardPulledOutCallback);
+    scproc_init(backHeap);
+    scene_init(backHeap);
+    arc_init(backHeap);
+    sysdat_init(backHeap);
     InitConnection(backHeap);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         InitWiFiSession(backHeap);
     }
-    func_02046a3c(backHeap);
-    InitBackupBuffers(backHeap);
-    InitSound(soundBuffer, soundBufferSize, ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2);
-    SetSoundOutputEffect(1);
+    rconf_init(backHeap);
+    savd_init(backHeap);
+    sound_loadSdat(soundBuffer, soundBufferSize, ((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2);
+    sound_2108E94(1);
     if (OS_IsRunOnEmulator() == 0) {
         RTC_Init();
     }
-    func_02043d10(backHeap);
-    CreateBackupAccess(backHeap);
-    func_02057ed8(backHeap);
-    InitOverlayTable(backHeap);
-    func_020cefa0(backHeap);
-    func_020471b0(backHeap);
-    InitMessageScreen(backHeap);
-    func_02057ed4();
+    input_init(backHeap);
+    savc_init(backHeap);
+    bgwkr_init(backHeap);
+    overlay_init(backHeap);
+    struct217B488_init(backHeap);
+    arc_loadStatic2D(backHeap);
+    err_init(backHeap);
+    bgwkr_2057ED4();
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
         InitArchiveBuffers(firstFrontHeap, secondFrontHeap, thirdFrontHeap);
     }
-    ResetRaceSetup();
-    InitBackupAccess();
-    ResetCurrentOverlay();
-    func_020cef1c();
+    rconf_reset();
+    savc_initBackup();
+    overlay_reset();
+    struct217B488_reset();
 }

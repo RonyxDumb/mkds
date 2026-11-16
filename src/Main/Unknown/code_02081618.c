@@ -28,27 +28,27 @@
 #include "code_02147288.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-KartEffects *GetKartEffects(int kartIndex) {
+KartEffects *rptc_getEffectControllerForDriver(int kartIndex) {
     u32 value0 = kartIndex;
     u32 entrySize;
     u32 value2;
-    value2 = (u32) &gKartEffects;
+    value2 = (u32) &rptc_sDriverEffects;
     entrySize = 0x58u;
     value2 = *(const u32 *) ((value2) + (0));
     value0 = (entrySize) * (value0) + (value2);
     return (KartEffects *) value0;
 }
 
-void InitKartEffects(u32 kartCount) {
+void rptc_initForDrivers(u32 kartCount) {
     KartEffects *kartEffects;
     u16 i;
     u16 j;
 
     i = 0;
-    gKartEffects = HeapAlloc(GetHeap(GetCurrentHeapCall()), kartCount * 0x58);
+    rptc_sDriverEffects = heap_alloc(proc_getHeap(proc_getCurrent()), kartCount * 0x58);
     data_0217ae70 = kartCount;
     for (; i < kartCount; i++) {
-        kartEffects = &gKartEffects[i];
+        kartEffects = &rptc_sDriverEffects[i];
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mUnk_28 = NULL;
         kartEffects->mKillerEffect = NULL;
@@ -60,17 +60,17 @@ void InitKartEffects(u32 kartCount) {
             kartEffects->mEffectIds[j] = -1;
         }
     }
-    gKartBoostCameraEffect = NULL;
+    rptc_sBoostEmitter = NULL;
 }
 
-void ComputeKartSidePoints(Kart *kart) {
+void rptc_updateDriverEffects(Kart *kart) {
     u16 i;
     KartEffects *kartEffects;
     Vec3 scaledPoint;
     Vec3 sideDirection;
     Vec3 modelPoint;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     kart->mUnk_174 = *kart->mPosSource;
     for (i = 0; i < 2; i++) {
         modelPoint = kart->mKartModelsEntry->mKartOffsetData->mUnk_14[i + 2];
@@ -90,135 +90,135 @@ void ComputeKartSidePoints(Kart *kart) {
     }
 }
 
-void func_0208442c(Kart *kart) {
+void rptc_killDriverEffects(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
+    rptc_killDriverEffects2(kart, 0);
 }
 
 void func_020843d8(Kart *kart) {
-    gKartSurfaceEffectRows[0].mStartEffects(
-        &gKartSurfaceEffectRows[0].mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
-        gKartSurfaceEffectRows[0].mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    rptc_sColEffects[0].mStartEffects(
+        &rptc_sColEffects[0].mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
+        rptc_sColEffects[0].mVelocityFactorIndex, kart);
+    rptc_killDriverEffects2(kart, 0);
 }
 
-void func_02084384(Kart *kart) {
-    gKartSurfaceEffectRow1.mStartEffects(&gKartSurfaceEffectRow1.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+void rptc_2084384(Kart *kart) {
+    gKartSurfaceEffectRow1.mStartEffects(&gKartSurfaceEffectRow1.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow1.mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    rptc_killDriverEffects2(kart, 0);
 }
 
 void func_02084334(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    func_02083de8(2, kart);
+    rptc_2083DE8(2, kart);
 }
 
-void func_020842ac(Kart *kart) {
+void rptc_startRoadWaterEffect(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow3.mStartEffects(&gKartSurfaceEffectRow3.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+    gKartSurfaceEffectRow3.mStartEffects(&gKartSurfaceEffectRow3.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow3.mVelocityFactorIndex, kart);
 }
 
-void func_02084224(Kart *kart) {
+void rptc_startRoadMudEffect(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow4.mStartEffects(&gKartSurfaceEffectRow4.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+    gKartSurfaceEffectRow4.mStartEffects(&gKartSurfaceEffectRow4.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow4.mVelocityFactorIndex, kart);
 }
 
-void func_0208419c(Kart *kart) {
+void rptc_startRoadGBASkyGardenEffect(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow5.mStartEffects(&gKartSurfaceEffectRow5.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+    gKartSurfaceEffectRow5.mStartEffects(&gKartSurfaceEffectRow5.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow5.mVelocityFactorIndex, kart);
 }
 
-void func_02084114(Kart *kart) {
+void rptc_startRoadSnowEffect(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    gKartSurfaceEffectRow6.mStartEffects(&gKartSurfaceEffectRow6.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+    gKartSurfaceEffectRow6.mStartEffects(&gKartSurfaceEffectRow6.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow6.mVelocityFactorIndex, kart);
 }
 
-void func_020840c0(Kart *kart) {
-    gKartSurfaceEffectRow7.mStartEffects(&gKartSurfaceEffectRow7.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]],
+void rptc_startRoadFlowerEffect(Kart *kart) {
+    gKartSurfaceEffectRow7.mStartEffects(&gKartSurfaceEffectRow7.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]],
                                          gKartSurfaceEffectRow7.mVelocityFactorIndex, kart);
-    StopKartEffectPairs(kart, 0);
+    rptc_killDriverEffects2(kart, 0);
 }
 
 // Starts the boost effect in front of the chase camera; the previous one is told to end.
-void StartKartBoostCameraEffect(u32 effectIdIndex, Kart *kart) {
+void rptc_startBoostEffect(u32 effectIdIndex, Kart *kart) {
     Unk0201ca6c *effect;
 
-    if (GetCurrentCameraKind() != 0) {
+    if (race_getCameraField250() != 0) {
         return;
     }
-    GetChaseCamera();
-    if (gKartBoostCameraEffect != NULL) {
-        gKartBoostCameraEffect->mUnk_24.mUnk_00_0 = 1;
+    cam_getPlayerCamera();
+    if (rptc_sBoostEmitter != NULL) {
+        rptc_sBoostEmitter->mUnk_24.mUnk_00_0 = 1;
     }
-    effect = StartEffect(gKartBoostCameraEffectIds[effectIdIndex], &data_02155a14);
+    effect = ptcm_createEmitter(gKartBoostCameraEffectIds[effectIdIndex], &rptc_sEmitterPos);
     effect->mUnk_98 = 0;
     effect->mUnk_94 = kart;
-    effect->mUnk_90 = AdvanceKartBoostCameraEffect;
-    gKartBoostCameraEffect = effect;
+    effect->mUnk_90 = rptc_boostEmitterCallback;
+    rptc_sBoostEmitter = effect;
 }
 
 // Runs entry a of the effect table while the kart flag is set, otherwise ends the kart effects.
-void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart) {
+void rptc_collisionParticleRender(s32 functionIndex, Kart *kart) {
     KartEffects *kartEffects;
 
     if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        gKartSurfaceEffectFunctions[functionIndex](kart);
+        CollisionParticleRenderArray[functionIndex](kart);
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
-    kartEffects = &gKartEffects[kart->mIndex];
+    rptc_killDriverEffects2(kart, 0);
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mUnk_98_8 = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -230,14 +230,14 @@ void ApplyKartSurfaceEffect(s32 functionIndex, Kart *kart) {
 }
 
 // Starts the water effects while the kart flag is set, otherwise ends them.
-void ApplyKartWaterEffects(Kart *kart) {
+void rptc_2083EC4(Kart *kart) {
     KartEffects *kartEffects;
 
     if (kart->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        StartKartWaterEffects(&gKartSurfaceEffectRow3.mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]], 1, kart);
+        rptc_2083A24(&gKartSurfaceEffectRow3.mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]], 1, kart);
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mUnk_98_8 = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -248,40 +248,40 @@ void ApplyKartWaterEffects(Kart *kart) {
     }
 }
 
-void func_02083de8(s32 rowIndex, Kart *kart) {
+void rptc_2083DE8(s32 rowIndex, Kart *kart) {
     KartSurfaceEffectRow *row;
     KartEffectIdSet *effectIdSet;
     KartEffects *kartEffects;
     u16 i;
     u16 j;
 
-    row = &gKartSurfaceEffectRows[rowIndex];
-    effectIdSet = &row->mEffectIdSets[gKartEffectIdSetIndex[kart->mIndex]];
+    row = &rptc_sColEffects[rowIndex];
+    effectIdSet = &row->mEffectIdSets[rptc_sDriverEffectVariantTable[kart->mIndex]];
     if (row->mStartEffects(effectIdSet, row->mVelocityFactorIndex, kart) == 0) {
         return;
     }
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     for (i = 0; i < effectIdSet->mCount; i++) {
         for (j = 0; j < 2; j++) {
             if (kartEffects->mEffectPairs[i].mUnk_00_a[j] != 0) {
-                kartEffects->mEffectPairs[i].mUnk_00_a[j]->mUnk_72 = data_0217ae6c;
+                kartEffects->mEffectPairs[i].mUnk_00_a[j]->mUnk_72 = rptc_sEffectColor;
             }
         }
     }
 }
 
-BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+BOOL rptc_DriveOnSand(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     Unk0201ca6c *effect;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (effectIdSet->mEffectIds[0] == kartEffects->mCurrentEffectId) {
         return FALSE;
     }
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
     }
-    effect = StartEffect(effectIdSet->mEffectIds[0], &data_02155a14);
+    effect = ptcm_createEmitter(effectIdSet->mEffectIds[0], &rptc_sEmitterPos);
     kartEffects->mCurrentEffect = effect;
     kartEffects->mCurrentEffectId = effectIdSet->mEffectIds[0];
     effect->mUnk_94 = kart;
@@ -291,7 +291,7 @@ BOOL StartKartCurrentEffect(KartEffectIdSet *effectIdSet, s32 velocityFactorInde
 }
 
 // Starts one effect per side of the kart for each id that is not running yet.
-s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart) {
+s32 rptc_DriveOnMud(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     Unk0201ca6c *effect;
     s32 started;
@@ -300,7 +300,7 @@ s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorI
 
     started = i = 0;
     for (; i < effectIdSet->mCount; i++) {
-        kartEffects = &gKartEffects[kart->mIndex];
+        kartEffects = &rptc_sDriverEffects[kart->mIndex];
         j = 0;
         if (effectIdSet->mEffectIds[i] != kartEffects->mEffectIds[i]) {
             if (kartEffects->mEffectPairs[i].mEffect0 != 0) {
@@ -311,12 +311,12 @@ s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorI
             }
             kartEffects->mEffectIds[i] = effectIdSet->mEffectIds[i];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[i], &data_02155a14);
-                gKartEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
+                effect = ptcm_createEmitter(kartEffects->mEffectIds[i], &rptc_sEmitterPos);
+                rptc_sDriverEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = j;
                 j++;
-                effect->mUnk_90 = AdvanceKartSideEffect;
+                effect->mUnk_90 = rptc_208335C;
             } while (j < 2);
             started = 1;
         }
@@ -324,7 +324,7 @@ s32 StartKartSideEffects(KartEffectIdSet *effectIdSet, s32 unusedVelocityFactorI
     return started;
 }
 
-s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+s32 rptc_DriveOnGrassSnowWater(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     Unk0201ca6c *effect;
     s32 started;
@@ -333,7 +333,7 @@ s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityF
 
     started = i = 0;
     for (; i < effectIdSet->mCount; i++) {
-        kartEffects = &gKartEffects[kart->mIndex];
+        kartEffects = &rptc_sDriverEffects[kart->mIndex];
         j = 0;
         if (effectIdSet->mEffectIds[i] != kartEffects->mEffectIds[i]) {
             if (kartEffects->mEffectPairs[i].mEffect0 != 0) {
@@ -344,13 +344,13 @@ s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityF
             }
             kartEffects->mEffectIds[i] = effectIdSet->mEffectIds[i];
             do {
-                effect = StartEffect(kartEffects->mEffectIds[i], &data_02155a14);
-                gKartEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
+                effect = ptcm_createEmitter(kartEffects->mEffectIds[i], &rptc_sEmitterPos);
+                rptc_sDriverEffects[kart->mIndex].mEffectPairs[i].mUnk_00_a[j] = effect;
                 effect->mUnk_94 = kart;
                 effect->mUnk_98_24 = j;
                 j++;
                 effect->mUnk_98_0 = velocityFactorIndex;
-                effect->mUnk_90 = AdvanceKartSideEffectWithVelocity;
+                effect->mUnk_90 = rptc_20831BC;
             } while (j < 2);
             started = 1;
         }
@@ -358,51 +358,51 @@ s32 StartKartSideEffectsWithVelocity(KartEffectIdSet *effectIdSet, s32 velocityF
     return started;
 }
 
-BOOL StartKartWaterEffects(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
+BOOL rptc_2083A24(KartEffectIdSet *effectIdSet, s32 velocityFactorIndex, Kart *kart) {
     KartEffects *kartEffects;
     Unk0201ca6c *effect;
     u16 i;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0 || kartEffects->mWaterEffect1 != 0) {
         return FALSE;
     }
     for (i = 0; i < 2; i++) {
-        effect = StartEffect(effectIdSet->mEffectIds[0], &data_02155a14);
-        gKartEffects[kart->mIndex].mUnk_20_a[i] = effect;
+        effect = ptcm_createEmitter(effectIdSet->mEffectIds[0], &rptc_sEmitterPos);
+        rptc_sDriverEffects[kart->mIndex].mUnk_20_a[i] = effect;
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = i;
         effect->mUnk_98_0 = velocityFactorIndex;
-        effect->mUnk_90 = AdvanceKartWaterEffect;
+        effect->mUnk_90 = rptc_2082FEC;
     }
     return TRUE;
 }
 
-void StopKartCurrentEffects(Kart *kart) {
+void rptc_killDriverEffects_copy(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
         kartEffects->mCurrentEffect->mUnk_98_8 = 1;
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 0);
+    rptc_killDriverEffects2(kart, 0);
 }
 
-void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce) {
+void rptc_killDriverEffects2(Kart *kart, s32 deleteAtOnce) {
     u16 i;
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     for (i = 0; i < 2; i++) {
         if (kartEffects->mEffectPairs[i].mEffect0 != 0 || kartEffects->mEffectPairs[i].mEffect1 != 0) {
             if (deleteAtOnce == 0) {
                 kartEffects->mEffectPairs[i].mEffect0->mUnk_98_8 = 1;
                 kartEffects->mEffectPairs[i].mEffect1->mUnk_98_8 = 1;
             } else {
-                DeleteEffect(kartEffects->mEffectPairs[i].mEffect0);
-                DeleteEffect(kartEffects->mEffectPairs[i].mEffect1);
+                ptcm_killEmitterDirect(kartEffects->mEffectPairs[i].mEffect0);
+                ptcm_killEmitterDirect(kartEffects->mEffectPairs[i].mEffect1);
             }
             kartEffects->mEffectPairs[i].mEffect0 = kartEffects->mEffectPairs[i].mEffect1 = 0;
             kartEffects->mEffectIds[i] = -1;
@@ -410,10 +410,10 @@ void StopKartEffectPairs(Kart *kart, s32 deleteAtOnce) {
     }
 }
 
-void StopKartWaterEffects(Kart *kart) {
+void rptc_20838DC(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
         kartEffects->mWaterEffect0->mUnk_98_8 = 1;
         kartEffects->mWaterEffect0 = 0;
@@ -425,29 +425,29 @@ void StopKartWaterEffects(Kart *kart) {
 }
 
 // Deletes the current, side and water effects of the kart at once.
-void ReleaseKartSurfaceEffects(Kart *kart) {
+void rptc_2083834(Kart *kart) {
     KartEffects *kartEffects;
 
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mCurrentEffect != NULL) {
-        DeleteEffect(kartEffects->mCurrentEffect);
+        ptcm_killEmitterDirect(kartEffects->mCurrentEffect);
         kartEffects->mCurrentEffect = NULL;
         kartEffects->mCurrentEffectId = -1;
     }
-    StopKartEffectPairs(kart, 1);
-    kartEffects = &gKartEffects[kart->mIndex];
+    rptc_killDriverEffects2(kart, 1);
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     if (kartEffects->mWaterEffect0 != 0) {
-        DeleteEffect(kartEffects->mWaterEffect0);
+        ptcm_killEmitterDirect(kartEffects->mWaterEffect0);
         kartEffects->mWaterEffect0 = 0;
     }
     if (kartEffects->mWaterEffect1 == 0) {
         return;
     }
-    DeleteEffect(kartEffects->mWaterEffect1);
+    ptcm_killEmitterDirect(kartEffects->mWaterEffect1);
     kartEffects->mWaterEffect1 = 0;
 }
 
-void AdvanceKartBoostCameraEffect(Unk0201ca6c *effect, s32 a) {
+void rptc_boostEmitterCallback(Unk0201ca6c *effect, s32 a) {
     Vec3s16 backwardDirection;
     Vec3 viewPos;
     Vec3 forwardOffset;
@@ -458,12 +458,12 @@ void AdvanceKartBoostCameraEffect(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
+    chaseCamera = cam_getPlayerCamera();
     kart = effect->mUnk_94;
-    if (GetCurrentCameraKind() != 0 ||
+    if (race_getCameraField250() != 0 ||
         (effect->mUnk_24.mUnk_00_1 != 0 && (effect->mUnk_98 = effect->mUnk_98 + 1, effect->mUnk_98 > 5))) {
         effect->mUnk_24.mUnk_00_0 = 1;
-        gKartBoostCameraEffect = NULL;
+        rptc_sBoostEmitter = NULL;
         return;
     }
     if (!(kart->mUnk_48 & KART_48_BOOST)) {
@@ -533,7 +533,7 @@ void AdvanceKartCurrentEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_40 = velocity;
 }
 
-void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
+void rptc_208335C(Unk0201ca6c *effect, s32 a) {
     s32 x;
     Kart *kart;
     u32 stepCount;
@@ -546,7 +546,7 @@ void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
         return;
     }
     kart = effect->mUnk_94;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     stepCount = effect->mUnk_98_b.mUnk_02;
     counting = effect->mUnk_98_b.mUnk_01;
     sideIndex = effect->mUnk_98_b.mUnk_03;
@@ -573,7 +573,7 @@ void AdvanceKartSideEffect(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = x + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
+void rptc_20831BC(Unk0201ca6c *effect, s32 a) {
     s32 x;
     Vec3 velocity;
     Kart *kart;
@@ -588,7 +588,7 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
         return;
     }
     kart = effect->mUnk_94;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     velocity = kart->mEffectVelocity;
     stepCount = effect->mUnk_98_b.mUnk_02;
     counting = effect->mUnk_98_b.mUnk_01;
@@ -622,7 +622,7 @@ void AdvanceKartSideEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
 }
 
 // Keeps the water effect at the kart's side, raised by the depth below the water surface.
-void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
+void rptc_2082FEC(Unk0201ca6c *effect, s32 a) {
     s32 x;
     Vec3 velocity;
     u32 counting;
@@ -638,7 +638,7 @@ void AdvanceKartWaterEffect(Unk0201ca6c *effect, s32 a) {
         return;
     }
     kart = effect->mUnk_94;
-    kartEffects = &gKartEffects[kart->mIndex];
+    kartEffects = &rptc_sDriverEffects[kart->mIndex];
     velocity = kart->mEffectVelocity;
     g = 1;
     f = 1;
@@ -724,7 +724,7 @@ void StartEffectsAtOtherKarts(s32 pairSetIndex) {
             if (pair->mFirst < 0) {
                 break;
             }
-            effect = func_0208b60c(effectKind->mEffectId, &data_02155a14);
+            effect = ptcm_createFogOffEmitter(effectKind->mEffectId, &rptc_sEmitterPos);
             startedCount++;
             effect->mUnk_90 = effectKind->mAdvance;
             effect->mUnk_98_0 = pair->mFirst;
@@ -761,7 +761,7 @@ void PlaceOtherKartEffect(Unk0201ca6c *effect, s32 a) {
         }
         kartIndex = s->mUnk_00;
     }
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     pointX = kart->mPointAlongUp.x;
     pointY = kart->mPointAlongUp.y;
     pointZ = kart->mPointAlongUp.z;
@@ -779,11 +779,11 @@ void PlaceOtherKartEffect(Unk0201ca6c *effect, s32 a) {
 }
 
 // Sets the effect speed scale, then starts the effects of two courses and ties them to the camera.
-void InitCourseCameraEffects(void) {
+void rptc_initWeather(void) {
     s32 engineScale;
     s32 engineIndex;
 
-    engineIndex = gRaceSetup->mEngineIndex;
+    engineIndex = gRaceMultiConfig->mEngineIndex;
     engineScale = 0x1000;
     switch (engineIndex) {
         case 1:
@@ -794,61 +794,61 @@ void InitCourseCameraEffects(void) {
             break;
     }
     data_0217ae9c = FX_Div(0x1000, ((s64) engineScale * 0x779a + 0x800) >> 12);
-    gSecondCourseCameraEffect = NULL;
-    gFirstCourseCameraEffect = NULL;
-    switch (gRaceSetup->mCourseId) {
+    rptc_sWeatherEmitter2 = NULL;
+    rptc_sWeatherEmitter1 = NULL;
+    switch (gRaceMultiConfig->mCourseId) {
         case 0x25: {
             Unk0201ca6c *effect;
 
-            if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x24, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082750;
-                effect = StartEffect(0x27, &data_02155a14);
-                gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082a10;
-            } else if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3d, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
-                effect = StartEffect(0x3f, &data_02155a14);
-                gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_0208266c;
+            if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+                effect = ptcm_createEmitter(0x24, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_rainCallback1;
+                effect = ptcm_createEmitter(0x27, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter2 = effect;
+                effect->mUnk_90 = rptc_rainCallback2;
+            } else if (race_isCamAnimMode() != 0) {
+                effect = ptcm_createEmitter(0x3d, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_rainCallback3;
+                effect = ptcm_createEmitter(0x3f, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter2 = effect;
+                effect->mUnk_90 = rptc_rainCallback4;
             } else {
-                effect = StartEffect(0x3c, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
-                effect = StartEffect(0x3f, &data_02155a14);
-                gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_0208266c;
+                effect = ptcm_createEmitter(0x3c, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_rainCallback3;
+                effect = ptcm_createEmitter(0x3f, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter2 = effect;
+                effect->mUnk_90 = rptc_rainCallback4;
             }
             break;
         }
         case 0x10: {
             Unk0201ca6c *effect;
 
-            if (GetRaceUseChainCameras() != 0) {
-                effect = StartEffect(0x3e, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082034;
-            } else if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-                effect = StartEffect(0x29, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020821cc;
-                effect = StartEffect(0x25, &data_02155a14);
-                gSecondCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082368;
+            if (race_isCamAnimMode() != 0) {
+                effect = ptcm_createEmitter(0x3e, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_snowCallback1;
+            } else if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+                effect = ptcm_createEmitter(0x29, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_snowCallback2;
+                effect = ptcm_createEmitter(0x25, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter2 = effect;
+                effect->mUnk_90 = rptc_snowCallback3;
             } else {
-                effect = StartEffect(0x29, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_02082034;
+                effect = ptcm_createEmitter(0x29, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_snowCallback1;
             }
             break;
         }
     }
 }
 
-void func_02082a10(Unk0201ca6c *effect, s32 a) {
+void rptc_rainCallback2(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
@@ -856,13 +856,13 @@ void func_02082a10(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
+    chaseCamera = cam_getPlayerCamera();
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_MultAdd(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
     effectPos.y = 0x1f400;
@@ -871,7 +871,7 @@ void func_02082a10(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_02082750(Unk0201ca6c *effect, s32 a) {
+void rptc_rainCallback1(Unk0201ca6c *effect, s32 a) {
     Vec3s16 h;
     Vec3 forwardFlat;
     Vec3 axis;
@@ -888,14 +888,14 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = cam_getPlayerCamera();
+    kart = driver_getById(gRaceMultiConfig->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_CrossProduct(&data_02155a08, &forwardFlat, &axis);
     speedRatio = ((s64) kart->mVelocityLength * data_0217ae9c + 0x800) >> 12;
@@ -909,7 +909,7 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
         k = data_02165938;
     }
     angle = (s32) (((s64) speedRatio * 0x38e3 + 0x800) >> 12);
-    MTX_RotAxis33((MtxFx43 *) &rotation, &axis, gPairsByAngle[(angle >> 4) * 2], gPairsByAngle[(angle >> 4) * 2 + 1]);
+    MTX_RotAxis33((MtxFx43 *) &rotation, &axis, FX_SinCosTable_[(angle >> 4) * 2], FX_SinCosTable_[(angle >> 4) * 2 + 1]);
     MTX_MultVec33(&rotatedVector, rotation.mUnk_00, &rotatedVector);
     h.x = rotatedVector.x;
     h.y = rotatedVector.y;
@@ -919,14 +919,14 @@ void func_02082750(Unk0201ca6c *effect, s32 a) {
     s = data_02165954 + k;
     VEC_MultAdd(data_02165938 + (s32) (((s64) s * (s64) speedRatio + 0x800) >> 12), &forwardFlat,
                 &chaseCamera->mViewPos, &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    effectPos.y = driver_getById(gRaceMultiConfig->mEntryIndex)->mPosSource->y >> 4;
     effectPos.y = effectPos.y - (s32) (((s64) data_02165934 * speedRatio + 0x800) >> 12);
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_0208266c(Unk0201ca6c *effect, s32 a) {
+void rptc_rainCallback4(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *currentCamera;
@@ -934,13 +934,13 @@ void func_0208266c(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
+    currentCamera = race_getCamera();
     forwardFlat = currentCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_MultAdd(data_02165958, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y = 0x1f400;
@@ -949,7 +949,7 @@ void func_0208266c(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_020824d0(Unk0201ca6c *effect, s32 a) {
+void rptc_rainCallback3(Unk0201ca6c *effect, s32 a) {
     Vec3s16 h;
     Vec3 forwardFlat;
     Vec3 x;
@@ -960,15 +960,15 @@ void func_020824d0(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
-    GetKart(gRaceSetup->mEntryIndex);
+    currentCamera = race_getCamera();
+    driver_getById(gRaceMultiConfig->mEntryIndex);
     forwardFlat = currentCamera->mForward;
     w = data_02155a08;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_CrossProduct(&data_02155a08, &forwardFlat, &x);
     w.y = w.y * 0xffffffff;
@@ -985,7 +985,7 @@ void func_020824d0(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
 }
 
-void func_02082368(Unk0201ca6c *effect, s32 a) {
+void rptc_snowCallback3(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
@@ -995,17 +995,17 @@ void func_02082368(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = cam_getPlayerCamera();
+    kart = driver_getById(gRaceMultiConfig->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     forwardFlat.y = 0;
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_MultAdd(0x5800, &forwardFlat, &chaseCamera->mViewPos, &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    effectPos.y = driver_getById(gRaceMultiConfig->mEntryIndex)->mPosSource->y >> 4;
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
@@ -1016,7 +1016,7 @@ void func_02082368(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_58 = ((s64) (0x1000 - speedRatio) * 0x400 + 0x800) >> 12;
 }
 
-void func_020821cc(Unk0201ca6c *effect, s32 a) {
+void rptc_snowCallback2(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Camera *chaseCamera;
@@ -1027,8 +1027,8 @@ void func_020821cc(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    chaseCamera = GetChaseCamera();
-    kart = GetKart(gRaceSetup->mEntryIndex);
+    chaseCamera = cam_getPlayerCamera();
+    kart = driver_getById(gRaceMultiConfig->mEntryIndex);
     forwardFlat = chaseCamera->mForward;
     speedRatio = ((s64) kart->mVelocityLength * data_0217ae9c + 0x800) >> 12;
     k = 0;
@@ -1042,19 +1042,19 @@ void func_020821cc(Unk0201ca6c *effect, s32 a) {
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     k = k * 3;
     VEC_MultAdd((s32) (((s64) k * (s64) speedRatio + 0x800) >> 12) + 0x5800, &forwardFlat, &chaseCamera->mViewPos,
                 &effectPos);
-    effectPos.y = GetKart(gRaceSetup->mEntryIndex)->mPosSource->y >> 4;
+    effectPos.y = driver_getById(gRaceMultiConfig->mEntryIndex)->mPosSource->y >> 4;
     effect->mUnk_28.x = effectPos.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = effectPos.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = effectPos.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
     effect->mUnk_58 = ((s64) 0x800 * speedRatio + 0x800) >> 12;
 }
 
-void func_02082034(Unk0201ca6c *effect, s32 a) {
+void rptc_snowCallback1(Unk0201ca6c *effect, s32 a) {
     Vec3 forwardFlat;
     Vec3 effectPos;
     Vec3 extraOffset;
@@ -1063,10 +1063,10 @@ void func_02082034(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    currentCamera = GetCurrentCamera();
+    currentCamera = race_getCamera();
     forwardFlat = currentCamera->mForward;
-    extraOffset = data_02155a14;
-    if (func_0203c5e4() != 0) {
+    extraOffset = rptc_sEmitterPos;
+    if (rstat_getUncontrollable() != 0) {
         FX_Atan2Idx(currentCamera->mHalfFovPairFirst, currentCamera->mHalfFovPairSecond);
         VEC_Subtract(&currentCamera->mPos, &currentCamera->mPrevPos, &extraOffset);
         extraOffset.x = extraOffset.x >> 4;
@@ -1077,7 +1077,7 @@ void func_02082034(Unk0201ca6c *effect, s32 a) {
     if ((s64) forwardFlat.z * forwardFlat.z +
             ((s64) forwardFlat.x * forwardFlat.x + (s64) forwardFlat.y * forwardFlat.y) >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&forwardFlat, &forwardFlat);
+        vec_normalize(&forwardFlat, &forwardFlat);
     }
     VEC_MultAdd(data_02165958, &forwardFlat, &currentCamera->mViewPos, &effectPos);
     effectPos.y =
@@ -1089,39 +1089,39 @@ void func_02082034(Unk0201ca6c *effect, s32 a) {
     effect->mUnk_58 = 0x800;
 }
 
-void func_02081f30(void) {
+void rptc_2081F30(void) {
     Unk0201ca6c *effect;
 
-    switch (gRaceSetup->mCourseId) {
+    switch (gRaceMultiConfig->mCourseId) {
         case COURSE_ID_OLD_LUIGI_AGB:
-            if (gFirstCourseCameraEffect != NULL) {
-                DeleteEffect(gFirstCourseCameraEffect);
-                effect = StartEffect(0x3c, &data_02155a14);
-                gFirstCourseCameraEffect = effect;
-                effect->mUnk_90 = func_020824d0;
+            if (rptc_sWeatherEmitter1 != NULL) {
+                ptcm_killEmitterDirect(rptc_sWeatherEmitter1);
+                effect = ptcm_createEmitter(0x3c, &rptc_sEmitterPos);
+                rptc_sWeatherEmitter1 = effect;
+                effect->mUnk_90 = rptc_rainCallback3;
             }
-            if (gSecondCourseCameraEffect == NULL) {
+            if (rptc_sWeatherEmitter2 == NULL) {
                 return;
             }
-            DeleteEffect(gSecondCourseCameraEffect);
-            effect = StartEffect(0x3f, &data_02155a14);
-            gSecondCourseCameraEffect = effect;
-            effect->mUnk_90 = func_0208266c;
+            ptcm_killEmitterDirect(rptc_sWeatherEmitter2);
+            effect = ptcm_createEmitter(0x3f, &rptc_sEmitterPos);
+            rptc_sWeatherEmitter2 = effect;
+            effect->mUnk_90 = rptc_rainCallback4;
             break;
         case COURSE_ID_OLD_FRAPPE_64:
-            if (gFirstCourseCameraEffect != NULL) {
-                gFirstCourseCameraEffect->mUnk_90 = func_02082034;
+            if (rptc_sWeatherEmitter1 != NULL) {
+                rptc_sWeatherEmitter1->mUnk_90 = rptc_snowCallback1;
             }
-            if (gSecondCourseCameraEffect == NULL) {
+            if (rptc_sWeatherEmitter2 == NULL) {
                 return;
             }
-            DeleteEffect(gSecondCourseCameraEffect);
-            gSecondCourseCameraEffect = NULL;
+            ptcm_killEmitterDirect(rptc_sWeatherEmitter2);
+            rptc_sWeatherEmitter2 = NULL;
             break;
     }
 }
 
-void SetupKartFollowEffect(KartFollowEffect *effect, u32 kartIndex, u32 countLimit) {
+void rptc_2081F10(KartFollowEffect *effect, u32 kartIndex, u32 countLimit) {
     effect->mCount = 0x0u;
     effect->mCountLimit = countLimit;
     effect->mKartIndex = kartIndex;
@@ -1142,7 +1142,7 @@ void AdvanceKartFollowEffect(Unk0201ca6c *effect, s32 a) {
     }
     kartIndex = effect->mUnk_98_24;
     stepCount = effect->mUnk_98_16;
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
     posY = kartPos->y;
@@ -1159,7 +1159,7 @@ void AdvanceKartFollowEffect(Unk0201ca6c *effect, s32 a) {
     }
 }
 
-void SetupKartFollowEffectWithVelocity(KartFollowEffect *effect, u32 kartIndex, u32 countLimit) {
+void rptc_2081E3C(KartFollowEffect *effect, u32 kartIndex, u32 countLimit) {
     effect->mCount = 0x0u;
     effect->mCountLimit = countLimit;
     effect->mKartIndex = kartIndex;
@@ -1180,7 +1180,7 @@ void AdvanceKartFollowEffectWithVelocity(Unk0201ca6c *effect, s32 a) {
     }
     kartIndex = effect->mUnk_98_24;
     stepCount = effect->mUnk_98_16;
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     kartPos = kart->mPosSource;
     posX = kartPos->x;
     posY = kartPos->y;
@@ -1234,7 +1234,7 @@ void PlaceEffectAheadAndUpOfKart(Unk0201ca6c *effect, Kart *kart, s32 upDistance
     effect->mUnk_28.x = position.x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = position.y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = position.z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    GetKartForward(kart, &w);
+    driver_getShadowZDirection(kart, &w);
     w.x = -w.x;
     w.y = -w.y;
     w.z = -w.z;
@@ -1248,7 +1248,7 @@ void AdvanceKartAheadEffect(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    PlaceKartAheadEffect(effect, GetKart(effect->mUnk_98_24), effect->mUnk_94);
+    PlaceKartAheadEffect(effect, driver_getById(effect->mUnk_98_24), effect->mUnk_94);
 }
 
 void AdvanceKartAheadEffectWithLimit(Unk0201ca6c *effect, s32 a) {
@@ -1260,7 +1260,7 @@ void AdvanceKartAheadEffectWithLimit(Unk0201ca6c *effect, s32 a) {
     }
     kartIndex = effect->mUnk_98_24;
     stepCount = effect->mUnk_98_16;
-    PlaceKartAheadEffect(effect, GetKart(kartIndex), effect->mUnk_94);
+    PlaceKartAheadEffect(effect, driver_getById(kartIndex), effect->mUnk_94);
     if (stepCount >= effect->mUnk_98_8) {
         if (stepCount == effect->mUnk_98_8) {
             effect->mUnk_24.mUnk_00_0 = 1;
@@ -1270,16 +1270,16 @@ void AdvanceKartAheadEffectWithLimit(Unk0201ca6c *effect, s32 a) {
     }
 }
 
-void StartKartStarEffects(s32 kartIndex) {
-    KartStarEffects *starEffects = &gKartStarEffects[kartIndex];
+void rptc_startRainbowEffect(s32 kartIndex) {
+    KartStarEffects *starEffects = &rptc_sRainbowEffectEmitters[kartIndex];
     u16 i;
 
     i = 0;
     do {
         if (starEffects->mEffects[i] != NULL) {
-            DeleteEffect(starEffects->mEffects[i]);
+            ptcm_killEmitterDirect(starEffects->mEffects[i]);
         }
-        starEffects->mEffects[i] = StartEffect(gKartStarEffectIds[i], &GetKart(kartIndex)->mPointAlongUp);
+        starEffects->mEffects[i] = ptcm_createEmitter(rptc_sRainbowEffectEmitterIds[i], &driver_getById(kartIndex)->mPointAlongUp);
         i = i + 1;
     } while (i < 3);
 }
@@ -1288,8 +1288,8 @@ static inline s32 func_0208181c_inline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
-void AdvanceKartStarEffects(s32 kartIndex) {
-    KartStarEffects *starEffects = &gKartStarEffects[kartIndex];
+void rptc_updateRainbowEffect(s32 kartIndex) {
+    KartStarEffects *starEffects = &rptc_sRainbowEffectEmitters[kartIndex];
     u16 i;
     s16 y;
     s16 x;
@@ -1297,7 +1297,7 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     Vec3 velocity;
     Vec3 effectPos;
 
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     y = func_0208181c_inline(
         data_0216593c + func_0208181c_inline(kart->mVelocityLengthRatio, data_02165950 - data_0216593c), data_02165948);
     x = func_0208181c_inline(
@@ -1307,7 +1307,7 @@ void AdvanceKartStarEffects(s32 kartIndex) {
         if (starEffects->mEffects[i] != NULL) {
             VEC_MultAdd(((s64) kart->mScale.y * data_02155854[kart->mKartModelsEntry->mCharacterIndex] + 0x800) >> 12,
                         &kart->mUnk_12c, &kart->mPos, &effectPos);
-            PlaceEffect(starEffects->mEffects[i], &effectPos);
+            ptcm_setEmitterPosition(starEffects->mEffects[i], &effectPos);
             velocity.x = ((s64) kart->mEffectVelocity.x * 0xc00) >> 12;
             velocity.y = ((s64) kart->mEffectVelocity.y * 0xc00) >> 12;
             velocity.z = ((s64) kart->mEffectVelocity.z * 0xc00) >> 12;
@@ -1320,8 +1320,8 @@ void AdvanceKartStarEffects(s32 kartIndex) {
     } while (i < 3);
 }
 
-void StopKartStarEffects(s32 kartIndex) {
-    KartStarEffects *starEffects = &gKartStarEffects[kartIndex];
+void rptc_stopRainbowEffect(s32 kartIndex) {
+    KartStarEffects *starEffects = &rptc_sRainbowEffectEmitters[kartIndex];
     u16 i;
 
     i = 0;
@@ -1334,32 +1334,32 @@ void StopKartStarEffects(s32 kartIndex) {
     } while (i < 3);
 }
 
-void ReleaseKartStarEffects(s32 kartIndex) {
-    KartStarEffects *starEffects = &gKartStarEffects[kartIndex];
+void rptc_stopRainbowEffectDirect(s32 kartIndex) {
+    KartStarEffects *starEffects = &rptc_sRainbowEffectEmitters[kartIndex];
     u16 i;
 
     i = 0;
     do {
         if (starEffects->mEffects[i] != NULL) {
-            DeleteEffect(starEffects->mEffects[i]);
+            ptcm_killEmitterDirect(starEffects->mEffects[i]);
             starEffects->mEffects[i] = NULL;
         }
         i = i + 1;
     } while (i < 3);
 }
 
-void StartKartKillerEffect(s32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+void rptc_startKillerEffect(s32 kartIndex) {
+    KartEffects *kartEffects = &rptc_sDriverEffects[kartIndex];
 
     if (kartEffects->mKillerEffect != NULL) {
-        DeleteEffect(kartEffects->mKillerEffect);
+        ptcm_killEmitterDirect(kartEffects->mKillerEffect);
     }
-    kartEffects->mKillerEffect = StartEffect(0x63, &data_02155a14);
+    kartEffects->mKillerEffect = ptcm_createEmitter(0x63, &rptc_sEmitterPos);
 }
 
 // Moves the Killer effect to point b and gives it the kart's velocity.
-void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+void rptc_updateBulletBillEffect(s32 kartIndex, Vec3 *position) {
+    KartEffects *kartEffects = &rptc_sDriverEffects[kartIndex];
     Unk0201ca6c *effect = kartEffects->mKillerEffect;
     Kart *kart;
     Vec3 *kartVelocity;
@@ -1371,7 +1371,7 @@ void PlaceKartKillerEffect(s32 kartIndex, Vec3 *position) {
     effect->mUnk_28.x = position->x + effect->mUnk_20->mUnk_00->mUnk_04.x;
     effect->mUnk_28.y = position->y + effect->mUnk_20->mUnk_00->mUnk_04.y;
     effect->mUnk_28.z = position->z + effect->mUnk_20->mUnk_00->mUnk_04.z;
-    kart = GetKart(kartIndex);
+    kart = driver_getById(kartIndex);
     kartVelocity = &kart->mEffectVelocity;
     velocity.x = ((s64) kartVelocity->x * 0xe66) >> 12;
     velocity.y = ((s64) kartVelocity->y * 0xe66) >> 12;

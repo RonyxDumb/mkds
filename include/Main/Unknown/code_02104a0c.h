@@ -8,7 +8,7 @@
 #include "Main/Unknown/code_020f2dac.h"
 #include "Main/Unknown/code_020f36d8.h" // ItemKind, ItemInfo
 
-// Element of gItemPools[8]: 0x14c bytes (the size in gItemKinds[8]), handled by AdvanceBouncingItemBox to
+// Element of it_sItemsets[8]: 0x14c bytes (the size in it_sItemParams[8]), handled by AdvanceBouncingItemBox to
 // StartBouncingItemBox: the BouncingItemObject part, words at 0x130 and 0x138, the PooledMapObject at 0x134, a vector
 // at 0x13c and a word at 0x148.
 typedef struct BouncingItemBox {
@@ -27,9 +27,9 @@ extern Vec3 data_0217c73c;
 extern struct CourseMapRow gPooledMapObjectRow;
 
 extern const u16 data_0215a584;
-extern const ItemInfo gItemInfoKiller;
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern const ItemKind gItemKindKiller;
+extern const ItemInfo it_sKillerConfig;
+// Default record: its only function pointer is the shared mobj_calcVisibilityFlags2d hook.
+extern const ItemKind it_sKillerDef;
 
 void CreatePooledMapObjects(void);
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem);

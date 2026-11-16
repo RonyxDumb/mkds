@@ -149,7 +149,7 @@ void func_021106a8(s32 pairNo, s32 pairSide) {
 }
 
 void func_02110698(void) {
-    StartSoundOncePerFrame(0);
+    sfx_2105AC0(0);
 }
 
 s32 StepValueTowardTarget(Unk0217c7f0 *a, s32 target) {
@@ -179,7 +179,7 @@ void InitSoundRequestQueues(void) {
     SoundRequestQueue *queue;
     for (i = 0, queue = data_0217d26c; i < 7; i++, queue++) {
         s32 capacities[7] = {1, 3, 2, 1, 3, 2, 3};
-        InitSoundRequestQueue(queue, capacities[i], data_0217d130);
+        InitSoundRequestQueue(queue, capacities[i], gSndHeapHandle);
     }
 }
 
@@ -191,22 +191,22 @@ void ResetSoundRequestQueues(void) {
     }
 }
 
-s32 GetLapProgressSoundGap(u32 arg0) {
+s32 sfx_getKaidanKibashiProgressDistance(u32 arg0) {
     u32 value0 = arg0;
     u32 tableAddress;
-    tableAddress = (u32) &gLapProgressSoundGaps;
+    tableAddress = (u32) &sfx_sKaidanKibashiProgressDistance;
     value0 = *(const u32 *) ((tableAddress) + ((value0 << 2)));
     return value0;
 }
 
-u16 GetLapProgressSoundId(int index) {
-    return data_0216cba0[index];
+u16 sfx_getKaidanKibashiBaseSfxId(int index) {
+    return sfx_sKaidanKibashiBaseSfxIds[index];
 }
 
 void SetLapProgressSoundGaps(u32 divisor) {
     s32 i;
     for (i = 0; i < 2; i++) {
-        gLapProgressSoundGaps[i] = FX_Div(data_0215c3a4[i], divisor);
+        sfx_sKaidanKibashiProgressDistance[i] = FX_Div(data_0215c3a4[i], divisor);
     }
 }
 
@@ -416,7 +416,7 @@ void func_0211003c(u32 soundId, NNSSndSeqPlayer **handle) {
     if ((data_0217c780 & 1) == 0) {
         return;
     }
-    if (data_0217d084.mUnk_0c == 0) {
+    if (SoundHandle_217D084.mUnk_0c == 0) {
         return;
     }
     if (*handle != NULL) {
@@ -534,7 +534,7 @@ void func_0210fb88(SeqPlayerControl *control, NNSSndSeqPlayer **handle) {
     } else if ((control->mFlags >> 1) & 1) {
         control->mPitchAngle += 0x1111;
         control->mPitchAngle &= 0xffff;
-        pitch = (s32) (((s64) gPairsByAngle[(control->mPitchAngle >> 4) * 2] * 0x30000 + 0x800) >> 12) >> 12;
+        pitch = (s32) (((s64) FX_SinCosTable_[(control->mPitchAngle >> 4) * 2] * 0x30000 + 0x800) >> 12) >> 12;
         pitch += 0x80;
         if (targetVolume > 0x3c) {
             targetVolume = 0x3c;
@@ -595,7 +595,7 @@ void func_0210fb10(void) {
     NNSSndSeqPlayer **handle;
     handle = &data_0217d07c;
     *((u32 *) ((u32) (&data_0217d244))) = 2;
-    NNS_SndPlayerSetTrackMuteEx(handle, 1, 1);
+    NNS_SndPlayerSetTrackMute(handle, 1, 1);
     NNS_SndPlayerSetTempoRatio(&data_0217d07c, 0xd9);
 }
 
@@ -663,7 +663,7 @@ void func_0210f9f0(void *kartAddress, int b) {
     Kart *kart = kartAddress;
     u32 counter = data_0217d1f0;
     data_0217d1f0 = counter + 1;
-    StartSound(&kart->mSoundSource, counter + 0xea, 0x7f, 0);
+    sfx_21090C4(&kart->mSoundSource, counter + 0xea, 0x7f, 0);
 }
 
 void func_0210f9ac(Kart *kart) {
@@ -677,7 +677,7 @@ void func_0210f8b0(SoundSetPlayer *player, s32 seqId, s32 firstBankId) {
     if (seqId == 4) {
         firstBankId = 0x23;
     }
-    InitSoundSetPlayer(player, seqId, firstBankId, 0xff, GetLoadedSoundSet());
+    sound_210DCCC(player, seqId, firstBankId, 0xff, sound_getSeqHeapState());
     for (i = 0; i < 2; i++) {
         gSeqVariableReadings[i].mValue = -1;
         gSeqVariableReadings[i].mPrevValue = -1;
@@ -728,7 +728,7 @@ void ResetSeqVariableReadings(void) {
 }
 
 // Reads each enabled slot's sequence variable and counts the updates since it last changed.
-void UpdateSeqVariableReadings(NNSSndSeqPlayer **handle) {
+void sndvar_update(NNSSndSeqPlayer **handle) {
     SeqVariableReading *reading;
     s32 i;
 
@@ -751,10 +751,10 @@ void UpdateSeqVariableReadings(NNSSndSeqPlayer **handle) {
     }
 }
 
-u32 IsSeqVariableChanged(u32 slot) {
+u32 sndvar_getVarField4IsZero(u32 slot) {
     return gSeqVariableReadings[slot].mSinceChangeFrames == 0;
 }
 
-u32 GetSeqVariableSinceChangeFrames(u32 slot) {
+u32 sndvar_getVarField4(u32 slot) {
     return gSeqVariableReadings[slot].mSinceChangeFrames;
 }

@@ -26,26 +26,26 @@ BOOL func_0203b96c(s32 cupIndex) {
         case 5:
             return TRUE;
         case 2:
-            if (IsBackupFlagSet(0) != 0 || IsBackupFlagSet(1) != 0 || IsBackupFlagSet(2) != 0 ||
-                IsBackupFlagSet(3) != 0) {
+            if (savd_isUnlockBitSet(0) != 0 || savd_isUnlockBitSet(1) != 0 || savd_isUnlockBitSet(2) != 0 ||
+                savd_isUnlockBitSet(3) != 0) {
                 return TRUE;
             }
             break;
         case 3:
-            if (IsBackupFlagSet(4) != 0 || IsBackupFlagSet(5) != 0 || IsBackupFlagSet(6) != 0 ||
-                IsBackupFlagSet(7) != 0) {
+            if (savd_isUnlockBitSet(4) != 0 || savd_isUnlockBitSet(5) != 0 || savd_isUnlockBitSet(6) != 0 ||
+                savd_isUnlockBitSet(7) != 0) {
                 return TRUE;
             }
             break;
         case 6:
-            if (IsBackupFlagSet(8) != 0 || IsBackupFlagSet(9) != 0 || IsBackupFlagSet(10) != 0 ||
-                IsBackupFlagSet(11) != 0) {
+            if (savd_isUnlockBitSet(8) != 0 || savd_isUnlockBitSet(9) != 0 || savd_isUnlockBitSet(10) != 0 ||
+                savd_isUnlockBitSet(11) != 0) {
                 return TRUE;
             }
             break;
         case 7:
-            if (IsBackupFlagSet(12) != 0 || IsBackupFlagSet(13) != 0 || IsBackupFlagSet(14) != 0 ||
-                IsBackupFlagSet(15) != 0) {
+            if (savd_isUnlockBitSet(12) != 0 || savd_isUnlockBitSet(13) != 0 || savd_isUnlockBitSet(14) != 0 ||
+                savd_isUnlockBitSet(15) != 0) {
                 return TRUE;
             }
             break;
@@ -115,22 +115,22 @@ void SetNextDemoRace(u8 *picks) {
     random.mValue = (u32) ((time.mHour * 60 + time.mMinute) * 60 + time.mSecond + OS_GetTick());
     random.mMultiplier = 0x5d588b656c078965ULL;
     random.mIncrement = 0x269ec3;
-    gRaceSetup->mNextHeader.mMode = MODE_GRAND_PRIX;
-    gRaceSetup->mNextHeader.mRaceKind = RACE_KIND_DEMO;
-    gRaceSetup->mNextHeader.mEngineIndex = 2;
-    gRaceSetup->mNextHeader.mUseTeams = 0;
-    gRaceSetup->mNextHeader.mRuleKind = 0;
-    gRaceSetup->mNextHeader.mCourseListMode = 0;
-    gRaceSetup->mNextHeader.mMirrorMode = 0;
-    gRaceSetup->mNextHeader.mLapCount = -1;
-    gRaceSetup->mNextHeader.mCpuDifficulty = 2;
+    gRaceMultiConfig->mNextHeader.mMode = MODE_GRAND_PRIX;
+    gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_DEMO;
+    gRaceMultiConfig->mNextHeader.mEngineIndex = 2;
+    gRaceMultiConfig->mNextHeader.mUseTeams = 0;
+    gRaceMultiConfig->mNextHeader.mRuleKind = 0;
+    gRaceMultiConfig->mNextHeader.mCourseListMode = 0;
+    gRaceMultiConfig->mNextHeader.mMirrorMode = 0;
+    gRaceMultiConfig->mNextHeader.mLapCount = -1;
+    gRaceMultiConfig->mNextHeader.mCpuDifficulty = 2;
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     courseIndexInCup = (u64) (u32) (random.mValue >> 32) * 4 >> 32;
     cupIndex = func_0203b8e4(&random);
-    gRaceSetup->mNextHeader.mCourseId = gCupCourseIdTable[cupIndex][courseIndexInCup];
+    gRaceMultiConfig->mNextHeader.mCourseId = sCupDefs[cupIndex][courseIndexInCup];
     random.mValue = _ll_mul(random.mMultiplier, random.mValue) + random.mIncrement;
     followedKartIndex = (u64) (u32) (random.mValue >> 32) * 8 >> 32;
-    gRaceSetup->mNextHeader.mFollowedKartIndex = followedKartIndex;
+    gRaceMultiConfig->mNextHeader.mFollowedKartIndex = followedKartIndex;
     for (k = 0; k < 2; k++) {
         for (j = 0; j < 8; j++) {
             if (j != followedKartIndex) {
@@ -161,9 +161,9 @@ void SetNextDemoRace(u8 *picks) {
             l = 1;
         }
         GetEntryCharacterAndKart(picks, i, &characterIndex, &kartIndex);
-        SetNextRaceEntry(i, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, l);
+        rconf_setDriverConfigNext(i, characterIndex, kartIndex, PLAYER_KIND_CPU, -1, l);
     }
-    ResetCupToFirstCourse();
+    rconf_resetMatch();
 }
 
 #pragma thumb off

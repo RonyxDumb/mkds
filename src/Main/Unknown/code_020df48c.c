@@ -19,20 +19,20 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 #pragma thumb on
-void CreateMkdEfBubble(void) {
+void efbub_loadModel(void) {
     void *nsbmd;
 
-    nsbmd = FindCourseMapObjFile("mkd_ef_bubble.nsbmd");
-    CreateNsbmd(&gMkdEfBubble, nsbmd, NULL);
-    func_02084968(gMkdEfBubble, 0x3f, 2, 0x294a);
-    gMkdEfBubbleNsbta = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-    InitModelAnimationWithEntries(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
-                                  FindCourseMapObjFile("mkd_ef_bubble.nsbta"));
-    func_02087cfc(gMkdEfBubbleNsbta, 0, 1);
+    nsbmd = mobj_getMapObjFile("mkd_ef_bubble.nsbmd");
+    model2_createFromNsbmd(&gMkdEfBubble, nsbmd, NULL);
+    model_setPolyIdLightFlagsEmi(gMkdEfBubble, 0x3f, 2, 0x294a);
+    gMkdEfBubbleNsbta = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+    anim_20EA514(1, gMkdEfBubble, gMkdEfBubbleNsbta, nsbmd,
+                                  mobj_getMapObjFile("mkd_ef_bubble.nsbta"));
+    anim_setLoop(gMkdEfBubbleNsbta, 0, 1);
 }
 
-void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
-    InitStateMachine(&bubble->mUnk_00.mStateMachine, data_0216bfc0, 2, bubble);
+void efbub_init(MkdEfBubbleObject *bubble, CourseMapRow *row) {
+    sm_init(&bubble->mUnk_00.mStateMachine, efbub_sStates, 2, bubble);
     bubble->mUnk_a0 = row->mUnk_28;
     bubble->mUnk_ac = bubble->mUnk_00.mPos.y;
     bubble->mUnk_a4 = bubble->mUnk_00.mPos.y - 0x10000;
@@ -42,30 +42,30 @@ void InitMkdEfBubble(MkdEfBubbleObject *bubble, CourseMapRow *row) {
     bubble->mUnk_a8 = 0;
     bubble->mUnk_00.mStateMachine.mNextState = 0;
     bubble->mUnk_00.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&bubble->mUnk_b0, &bubble->mUnk_00.mPos, ((s64) bubble->mUnk_00.mScale.x * 0x18000) >> 12, 0xd);
+    oshd_setParams(&bubble->mUnk_b0, &bubble->mUnk_00.mPos, ((s64) bubble->mUnk_00.mScale.x * 0x18000) >> 12, 0xd);
     bubble->mUnk_00.mFlags |= data_02158740;
 }
 #pragma thumb off
 
-MapObjectKindData *CreateGroupItemBoxKindData(void) {
+MapObjectKindData *mibox_setupCollision(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_02158700;
     return kindData;
 }
 
-MapObjectList *CreateGroupItemBoxUpdateList(void) {
-    gGroupItemBoxUpdateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    *gGroupItemBoxUpdateList = data_021586d8;
-    SetUpdateListSlot(&gGroupItemBoxUpdateList);
-    return gGroupItemBoxUpdateList;
+MapObjectList *mibox_setupLogicPart(void) {
+    mibox_sLogicPart = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    *mibox_sLogicPart = data_021586d8;
+    mobj_logicPartSetThisPointer(&mibox_sLogicPart);
+    return mibox_sLogicPart;
 }
 
-void func_020df58c(void) {
+void mibox_globalPreUpdate(void) {
     s32 sine;
 
-    sine = gPairsByAngle[(data_0217b750 >> 4) * 2];
+    sine = FX_SinCosTable_[(data_0217b750 >> 4) * 2];
     data_0217b754 = ((s64) sine * 0x4000) >> 12;
     data_0217b750 += 0x2d8;
     data_0217b75c = 0xf00 - (sine >> 4);
@@ -74,14 +74,14 @@ void func_020df58c(void) {
     data_0217b760.z = 0x1666;
 }
 
-void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
+void mibox_update(void *unused, ItemBox *itemBox) {
     if (itemBox->mFollower.mUnk_00.mGroupIndex != 0xffff) {
-        if (AdvanceGroupFollowerWithSpeeds(&itemBox->mFollower) != 0) {
+        if (pwex_update(&itemBox->mFollower) != 0) {
             if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_10 != 0) {
-                SetupGroupFollowerWithSpeeds(&itemBox->mFollower, 0, 1);
+                pwex_init(&itemBox->mFollower, 0, 1);
             }
         }
-        GetGroupFollowerCurvePosition(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
+        pw_calcCurrentPointXYZ(&itemBox->mFollower.mUnk_00, &itemBox->mUnk_000.mPos);
         if (itemBox->mFollower.mUnk_00.mFromEntry->mUnk_0d != 0 && itemBox->mFollower.mUnk_00.mToEntry->mUnk_0d != 0) {
             itemBox->mUnk_000.mFlags |= data_021586d4;
         } else {
@@ -91,7 +91,7 @@ void UpdateGroupItemBox(void *unused, ItemBox *itemBox) {
         itemBox->mUnk_000.mPos.y += 0x10000;
     }
     if (itemBox->mUnk_0b0 == 0) {
-        SetShadowPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
+        oshd_setPositionXZ(&itemBox->mUnk_0b4, &itemBox->mUnk_000.mPos);
     }
-    UpdateItemBox(unused, itemBox);
+    ibox_update(unused, itemBox);
 }

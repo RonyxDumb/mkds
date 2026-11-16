@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void UpdateTitleState3(void);
-u32 func_020acbc0(void);
+void title_buttonsOutRender(void);
+u32 title_savd_getNksyOffs31Bit0(void);

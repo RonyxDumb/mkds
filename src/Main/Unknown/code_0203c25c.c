@@ -7,18 +7,18 @@
 #include "Main/Unknown/code_02068eac.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u16 LookupRankPoints(u8 a) {
+u16 rstat_getRankPoints(u8 a) {
     u16 r = 0;
-    RankPointRow *t = gRaceProgress->mRankPointFile;
+    RankPointRow *t = gRaceStatus->mRankPointFile;
     if (t != NULL) {
-        switch (gRaceSetup->mMode) {
+        switch (gRaceMultiConfig->mMode) {
             case MODE_GRAND_PRIX:
                 break;
             case MODE_VS: {
                 u16 k = 1;
-                if (gRaceSetup->mUseTeams != 0) {
-                    if (gRaceSetup->mKartCount > 3) {
-                        if (gRaceSetup->mTeamKartCounts[0] <= 1 || gRaceSetup->mTeamKartCounts[1] <= 1) {
+                if (gRaceMultiConfig->mUseTeams != 0) {
+                    if (gRaceMultiConfig->mKartCount > 3) {
+                        if (gRaceMultiConfig->mTeamKartCounts[0] <= 1 || gRaceMultiConfig->mTeamKartCounts[1] <= 1) {
                             k = 8;
                         } else {
                             k = 0xf;
@@ -27,11 +27,11 @@ u16 LookupRankPoints(u8 a) {
                         k = 8;
                     }
                 }
-                r = k + 8 - gRaceSetup->mKartCount;
+                r = k + 8 - gRaceMultiConfig->mKartCount;
                 break;
             }
             case 5:
-                r = 9 - gRaceSetup->mKartCount;
+                r = 9 - gRaceMultiConfig->mKartCount;
                 break;
         }
         r = (t + r + 1)->mPoints[a - 1];
@@ -39,9 +39,9 @@ u16 LookupRankPoints(u8 a) {
     return r;
 }
 
-void RemoveRaceProgressKart(u16 a) {
+void rstat_203C2E4(u16 a) {
     u32 o;
-    RaceProgressKart *p = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], a * 0x8c);
+    RaceProgressKart *p = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], a * 0x8c);
     BOOL f = FALSE;
     switch (p->mStatus) {
         case 1:
@@ -54,10 +54,10 @@ void RemoveRaceProgressKart(u16 a) {
         u32 v;
         s32 i;
         o = p->mRank;
-        v = (u16) (gRaceSetup->mKartCount - gRaceProgress->mUnk_000[0].mRemovedCount);
-        p->mRank = gRaceSetup->mKartCount - gRaceProgress->mUnk_000[0].mRemovedCount;
-        for (i = 0; i < gRaceSetup->mKartCount; i++) {
-            RaceProgressKart *q = OFFSET_PTR(RaceProgressKart, &gRaceProgress->mKarts[0], i * 0x8c);
+        v = (u16) (gRaceMultiConfig->mKartCount - gRaceStatus->mUnk_000[0].mRemovedCount);
+        p->mRank = gRaceMultiConfig->mKartCount - gRaceStatus->mUnk_000[0].mRemovedCount;
+        for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
+            RaceProgressKart *q = OFFSET_PTR(RaceProgressKart, &gRaceStatus->mKarts[0], i * 0x8c);
             if (i != a) {
                 u32 m = q->mRank;
                 if (m > o && m <= v) {
@@ -65,38 +65,38 @@ void RemoveRaceProgressKart(u16 a) {
                 }
             }
         }
-        gRaceProgress->mUnk_000[0].mRemovedCount++;
+        gRaceStatus->mUnk_000[0].mRemovedCount++;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        EliminateKartAndCheckWinner(a);
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        mgcnt_killDriver(a);
     }
     p->mStatus = 4;
-    func_02069044(GetKart(a));
+    func_02069044(driver_getById(a));
     SetRaceHudKartRemoved(a, 1);
-    if (IsRaceEndConditionMet() != 0) {
-        switch (gRaceSetup->mMode) {
+    if (rstat_shouldTryFinish() != 0) {
+        switch (gRaceMultiConfig->mMode) {
             case MODE_TIME_ATTACK:
                 break;
             case MODE_BATTLE:
-                EliminateKartsUntilWinnerDecided();
+                mgcnt_tryFinish();
                 break;
             case MODE_MISSION_RUN:
-                FinishRemainingMissionRunKarts();
+                rstat_tryFinishMr();
                 break;
             case 5:
-                func_0203ecf0();
+                rstat_tryFinishNt();
                 break;
             default:
-                FinishRemainingRaceProgressKarts();
+                rstat_tryFinishGpVs();
                 break;
         }
     }
 }
 
-BOOL IsKartOnLastLap(u16 a) {
+BOOL rstat_isDriverInFinalLap(u16 a) {
     BOOL f = FALSE;
     BOOL r;
-    switch (gRaceProgress->mUnk_000[a].mStatus) {
+    switch (gRaceStatus->mUnk_000[a].mStatus) {
         case 1:
         case 2:
         case 3:
@@ -105,7 +105,7 @@ BOOL IsKartOnLastLap(u16 a) {
     }
     r = f == FALSE;
     if (r != FALSE) {
-        r = GetLapCount() == gRaceProgress->mUnk_000[a].mLap;
+        r = rconf_getLapCount() == gRaceStatus->mUnk_000[a].mLap;
     }
     return r != FALSE;
 }

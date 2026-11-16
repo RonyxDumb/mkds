@@ -27,17 +27,17 @@
 #pragma thumb on
 
 void InitGhostRecordSet(void *heap) {
-    gGhostRecordSet = HeapAlloc(heap, 0x14);
-    gGhostRecordSet->mCourseGhostRecords = (u8 *) CreateCourseGhostRecords((u32) heap);
-    StartReadCourseGhostRecords(gGhostRecordSet->mCourseGhostRecords);
-    WaitThreadFunctionsDone();
-    gGhostRecordSet->mSlotGhostRecords = (u8 *) CreateSlotGhostRecords((u32) heap);
-    StartReadSlotGhostRecords(gGhostRecordSet->mSlotGhostRecords);
-    WaitThreadFunctionsDone();
-    gGhostRecordSet->mGhostFileRecords = (u8 *) CreateGhostFileRecords((u32) heap);
-    StartReadGhostFileRecords(gGhostRecordSet->mGhostFileRecords);
-    WaitThreadFunctionsDone();
-    LoadStaffGhostTime(heap);
+    gGhostRecordSet = heap_alloc(heap, 0x14);
+    gGhostRecordSet->mCourseGhostRecords = (u8 *) ghdat_allocPersonalGhostsStruct((u32) heap);
+    ghdat_loadPersonalGhostsAsync(gGhostRecordSet->mCourseGhostRecords);
+    bgwkr_waitForCompletion();
+    gGhostRecordSet->mSlotGhostRecords = (u8 *) ghdat_allocDownloadGhostsStruct((u32) heap);
+    ghdat_loadDownloadGhostsAsync(gGhostRecordSet->mSlotGhostRecords);
+    bgwkr_waitForCompletion();
+    gGhostRecordSet->mGhostFileRecords = (u8 *) ghdat_allocStaffGhostsStruct((u32) heap);
+    ghdat_loadStaffGhostsAsync(gGhostRecordSet->mGhostFileRecords);
+    bgwkr_waitForCompletion();
+    unlock_loadStaffGhostTime(heap);
 }
 
 void ClearGhostRecordSetPointer(void) {
@@ -50,8 +50,8 @@ void SetupGhostRecordSetForCourse(u32 courseId) {
     gGhostRecordSet->mCourseId = courseId;
     gGhostRecordSet->mSlotIndex = -1;
     for (i = 0; i < 0xa; i++) {
-        if (IsGhostRecordFilled(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) != FALSE &&
-            GetGhostRecordCourseId(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) == courseId) {
+        if (ghdat_getIsGhostValid(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) != FALSE &&
+            ghdat_getGhostCourse(gGhostRecordSet->mSlotGhostRecords + (u8) i * 0x230) == courseId) {
             gGhostRecordSet->mSlotIndex = i;
             return;
         }
@@ -64,14 +64,14 @@ void GetGhostRecordSetTime(u32 kind, void *time) {
     switch (kind) {
         case 0:
             records = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordTime(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30, time);
+            ghdat_getGhostTime(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x30, time);
             break;
         case 1:
-            GetGhostRecordTime(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230, time);
+            ghdat_getGhostTime(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230, time);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordTime(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230, time);
+            ghdat_getGhostTime(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x230, time);
             break;
         case 4:
             break;
@@ -85,15 +85,15 @@ void GetGhostRecordSetName(u32 kind, void *name) {
     switch (kind) {
         case 0:
             records = gGhostRecordSet->mCourseGhostRecords;
-            GetGhostRecordName(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30, ghostName);
+            ghdat_getGhostNickName(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x30, ghostName);
             break;
         case 1:
-            GetGhostRecordName(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230,
+            ghdat_getGhostNickName(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230,
                                ghostName);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            GetGhostRecordName(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230, ghostName);
+            ghdat_getGhostNickName(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x230, ghostName);
             break;
         case 4:
             break;
@@ -113,16 +113,16 @@ s32 GetGhostRecordSetCharacterIndex(u32 kind) {
         case 0:
             records = gGhostRecordSet->mCourseGhostRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+                ghdat_getGhostCharacter(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x30);
             break;
         case 1:
-            characterIndex = GetGhostRecordCharacterIndex(gGhostRecordSet->mSlotGhostRecords +
+            characterIndex = ghdat_getGhostCharacter(gGhostRecordSet->mSlotGhostRecords +
                                                           (u8) gGhostRecordSet->mSlotIndex * 0x230);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
             characterIndex =
-                GetGhostRecordCharacterIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230);
+                ghdat_getGhostCharacter(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x230);
             break;
     }
     return characterIndex;
@@ -138,15 +138,15 @@ s32 GetGhostRecordSetKartIndex(u32 kind) {
             break;
         case 0:
             records = gGhostRecordSet->mCourseGhostRecords;
-            kartIndex = GetGhostRecordKartIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+            kartIndex = ghdat_getGhostKart(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x30);
             break;
         case 1:
             kartIndex =
-                GetGhostRecordKartIndex(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230);
+                ghdat_getGhostKart(gGhostRecordSet->mSlotGhostRecords + (u8) gGhostRecordSet->mSlotIndex * 0x230);
             break;
         case 2:
             records = gGhostRecordSet->mGhostFileRecords;
-            kartIndex = GetGhostRecordKartIndex(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x230);
+            kartIndex = ghdat_getGhostKart(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x230);
             break;
     }
     return kartIndex;
@@ -162,7 +162,7 @@ s32 func_0211e160(u32 kind) {
             break;
         case 0:
             records = gGhostRecordSet->mCourseGhostRecords;
-            result = IsGhostRecordFilled(records + FindCupCourseIndex(gGhostRecordSet->mCourseId) * 0x30);
+            result = ghdat_getIsGhostValid(records + rconf_getCourseNumber(gGhostRecordSet->mCourseId) * 0x30);
             break;
         case 1:
             if (gGhostRecordSet->mSlotIndex != -1) {
@@ -174,7 +174,7 @@ s32 func_0211e160(u32 kind) {
                 u32 time;
 
                 GetTimeRecordTime(gGhostRecordSet->mCourseId, 0, &time);
-                result = IsTimeLessThanStaffGhostTime(gGhostRecordSet->mCourseId, &time);
+                result = unlock_isFasterThanStaffGhost(gGhostRecordSet->mCourseId, &time);
             } else {
                 result = 0;
             }

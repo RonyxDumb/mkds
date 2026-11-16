@@ -4,7 +4,7 @@
 u32 BuddyChangedCallback(void) {
     u32 address;
     u32 flag;
-    address = (u32) &gWiFiSession;
+    address = (u32) &gStruct217D384;
     flag = 1u;
     address = *(const u32 *) ((address) + (0));
     address = (address) + (0x1000u);

@@ -2,15 +2,15 @@
 #include "Main/Ui/BackScreen.h"
 
 #pragma thumb on
-void func_02029a98(void) {
+void gpres_finalize(void) {
     u32 unused;
-    func_02125da0();
+    gmenu_finish();
 }
 #pragma thumb off
 
 #pragma thumb on
-void func_02029a90(void) {
+void gpres_vblank(void) {
     u32 unused;
-    func_021258f0();
+    gmenu_vblank();
 }
 #pragma thumb off

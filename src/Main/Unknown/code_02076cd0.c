@@ -31,21 +31,21 @@
 
 #pragma thumb on
 
-void QueueKartModelMenuLoad(void) {
-    if (gKartModelMenu->mCharacterRequested != 0 || gKartModelMenu->mKartRequested != 0) {
-        gKartModelMenu->mFiles[gKartModelMenu->mLoadSlotIndex].mLoadRequested = TRUE;
-        gKartModelMenu->mLoadSlot->mCharacterIndex = gKartModelMenu->mView.mCharacterIndex;
-        gKartModelMenu->mLoadSlot->mKartIndex = gKartModelMenu->mView.mKartIndex;
-        gKartModelMenu->mLoadSlot->mKartOffsetData =
-            gKartModelMenu->mKartOffsetTable + gKartModelMenu->mView.mKartIndex;
-        QueueThreadFunction(LoadKartAndCharacterFiles);
-        gThreadFunctionQueue->mRunRequested = 1;
+void SPM_2077B3C(void) {
+    if (gCharKartSelectState->mCharacterRequested != 0 || gCharKartSelectState->mKartRequested != 0) {
+        gCharKartSelectState->mFiles[gCharKartSelectState->mLoadSlotIndex].mLoadRequested = TRUE;
+        gCharKartSelectState->mLoadSlot->mCharacterIndex = gCharKartSelectState->mView.mCharacterIndex;
+        gCharKartSelectState->mLoadSlot->mKartIndex = gCharKartSelectState->mView.mKartIndex;
+        gCharKartSelectState->mLoadSlot->mKartOffsetData =
+            gCharKartSelectState->mKartOffsetTable + gCharKartSelectState->mView.mKartIndex;
+        bgwkr_enqueueTask(SPM_2077D68);
+        gBgWkrState->mRunRequested = 1;
     }
 }
 
 void ClearKartModelMenuRequests(void) {
-    gKartModelMenu->mKartRequested = 0;
-    gKartModelMenu->mCharacterRequested = gKartModelMenu->mKartRequested;
+    gCharKartSelectState->mKartRequested = 0;
+    gCharKartSelectState->mCharacterRequested = gCharKartSelectState->mKartRequested;
 }
 
 BOOL func_02077a70(s32 *characterIndex, u32 kartIndex) {
@@ -68,10 +68,10 @@ BOOL func_02077a70(s32 *characterIndex, u32 kartIndex) {
                 n = 0x17;
                 break;
         }
-        if (IsBackupFlagSet(n) == 0) {
+        if (savd_isUnlockBitSet(n) == 0) {
             *characterIndex = -1;
             for (i = 0; i < 8; i++) {
-                if (IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, i, kartIndex) != 0) {
+                if (IsKartAppearWithinLimit(gCharKartSelectState->mKartAppear, i, kartIndex) != 0) {
                     *characterIndex = i;
                     break;
                 }
@@ -82,58 +82,58 @@ BOOL func_02077a70(s32 *characterIndex, u32 kartIndex) {
             return 0;
         }
     }
-    return IsKartAppearWithinLimit(gKartModelMenu->mKartAppear, *characterIndex, kartIndex);
+    return IsKartAppearWithinLimit(gCharKartSelectState->mKartAppear, *characterIndex, kartIndex);
 }
 
 u16 func_02077a5c(void) {
-    return gKartModelMenu->mKartListPos + 1;
+    return gCharKartSelectState->mKartListPos + 1;
 }
 
 u16 GetKartListCount(void) {
-    return gKartModelMenu->mKartListCount;
+    return gCharKartSelectState->mKartListCount;
 }
 
 void LoadEmblemSBNclr(void *a) {
     void *nclrFile;
 
-    LoadKartModelMenuFile(a, data_02165714, &nclrFile);
-    LoadNclrData(&gEmblemSBNclr, nclrFile);
+    LoadFileInKartModelMenuFolder(a, aEmblem_s_b_ncl, &nclrFile);
+    g2du_unpackPaletteData(&gEmblemSBNclr, nclrFile);
 }
 
-void func_02077998(void) {
+void cam_setupRaceParams(void) {
     u32 i;
 
     *(u32 *) 0x4000580 = 0xbfff0000;
     gCameraEntryChanged = 1;
     i = gEntryCameraUpdateRan = 0;
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        i = gRaceSetup->mUnk_036;
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        i = gRaceMultiConfig->mUnk_036;
         i = (u16) i;
     } else {
         i = (u16) i;
         i = (u16) i;
     }
-    gDefaultFollowDistance = data_02154fa0[i][0];
-    gFollowHeight = data_02154fa4[i][0];
-    gDefaultLookAtHeight = data_02154fa8[i][0];
-    if (gRaceSetup->mCourseId == COURSE_ID_AIRSHIP) {
-        gCourseWobbleAmplitude = 0xa000;
+    cam_sCameraDistance = cam_sCamParams[i][0];
+    cam_sCameraElevation = data_02154fa4[i][0];
+    cam_sMaxTargetElevation = data_02154fa8[i][0];
+    if (gRaceMultiConfig->mCourseId == COURSE_ID_AIRSHIP) {
+        cam_sCannonShakeAmount = 0xa000;
     } else {
-        gCourseWobbleAmplitude = 0x5000;
+        cam_sCannonShakeAmount = 0x5000;
     }
 }
 
-void CreateChaseCamera(void) {
-    Kart *kart = GetKart(gRaceSetup->mEntryIndex);
+void cam_setupPlayerCamera(void) {
+    Kart *kart = driver_getById(gRaceMultiConfig->mEntryIndex);
 
-    gChaseCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x270);
-    SetupCameraBehindKart();
-    GetKartForward(kart, &gChaseCamera->mSavedKartForward);
-    RefreshCameraProjection(gChaseCamera);
+    cam_sPlayerCamera = heap_alloc(proc_getHeap(proc_getCurrent()), 0x270);
+    cam_resetPlayerCamera();
+    driver_getShadowZDirection(kart, &cam_sPlayerCamera->mSavedKartForward);
+    cam_updateFrustum(cam_sPlayerCamera);
 }
 
-void CreateEntryCamera(u32 followedKartIndex) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+void cam_20777AC(u32 followedKartIndex) {
+    void *heap = proc_getHeap(proc_getCurrent());
     u16 i;
     u16 kind7EntryCount;
     CourseMapCamera *courseMapCamera;
@@ -141,53 +141,53 @@ void CreateEntryCamera(u32 followedKartIndex) {
     u16 listIndex;
     s32 nextIndex;
 
-    gEntryCamera = HeapAlloc(heap, 0x270);
-    SetupCamera(gEntryCamera);
-    gEntryCamera->mFollowedKartIndex = followedKartIndex;
-    gEntryCamera->mCourseMapCamera = NULL;
-    gEntryCamera->mFrustumShift = 0;
-    gEntryCamera->mKind = 1;
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL) {
-        gEntryCamera->mCourseMapCamera = gCourseMap->mCameras;
+    cam_sReplayCamera = heap_alloc(heap, 0x270);
+    cam_init(cam_sReplayCamera);
+    cam_sReplayCamera->mFollowedKartIndex = followedKartIndex;
+    cam_sReplayCamera->mCourseMapCamera = NULL;
+    cam_sReplayCamera->mFrustumShift = 0;
+    cam_sReplayCamera->mKind = 1;
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL) {
+        cam_sReplayCamera->mCourseMapCamera = gMapData->mCameras;
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        gEntryCamera->mCourseMapCamera = gCourseMap->mFirstKind7EntryInMode2;
-        if (gEntryCamera->mCourseMapCamera != NULL) {
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        cam_sReplayCamera->mCourseMapCamera = gMapData->mFirstKind7EntryInMode2;
+        if (cam_sReplayCamera->mCourseMapCamera != NULL) {
             kind7EntryCount = 0;
             nextIndex = -1;
-            for (i = 0; i < gCourseMap->mCameraCount; i++) {
-                if (gCourseMap->mCameras[i].mKind == 7) {
+            for (i = 0; i < gMapData->mCameraCount; i++) {
+                if (gMapData->mCameras[i].mKind == 7) {
                     kind7EntryCount++;
                 }
             }
-            gKind7EntryCount = kind7EntryCount;
-            gEntryCamera->mUnk_21c = HeapAlloc(heap, kind7EntryCount * 0x88);
-            courseMapCamera = gEntryCamera->mCourseMapCamera;
+            cam_sMgIntroCamCount = kind7EntryCount;
+            cam_sReplayCamera->mUnk_21c = heap_alloc(heap, kind7EntryCount * 0x88);
+            courseMapCamera = cam_sReplayCamera->mCourseMapCamera;
             m = 0;
             listIndex = 0;
-            for (; m < gCourseMap->mCameraCount; m++) {
+            for (; m < gMapData->mCameraCount; m++) {
                 if (nextIndex != -1) {
-                    courseMapCamera = &gCourseMap->mCameras[(u16) nextIndex];
-                    if (courseMapCamera == gEntryCamera->mCourseMapCamera) {
+                    courseMapCamera = &gMapData->mCameras[(u16) nextIndex];
+                    if (courseMapCamera == cam_sReplayCamera->mCourseMapCamera) {
                         break;
                     }
                 }
                 if (courseMapCamera->mKind == 7) {
-                    func_02077750(&gEntryCamera->mUnk_21c[listIndex], courseMapCamera);
+                    cam_2077750(&cam_sReplayCamera->mUnk_21c[listIndex], courseMapCamera);
                     listIndex++;
                     nextIndex = courseMapCamera->mNextIndex;
                 }
             }
-            gEntryCamera->mUnk_220 = gEntryCamera->mUnk_21c;
-            gEntryCamera->mUnk_224 = 0;
-            gEntryCamera->mKind = 3;
+            cam_sReplayCamera->mUnk_220 = cam_sReplayCamera->mUnk_21c;
+            cam_sReplayCamera->mUnk_224 = 0;
+            cam_sReplayCamera->mKind = 3;
             gCameraEntryChanged = 1;
         }
     }
 }
 
-void func_02077750(Unk02077750 *a, CourseMapCamera *courseMapCamera) {
-    CourseMapEntryGroup *entryGroup = &gCourseMap->mEntryGroups[courseMapCamera->mEntryGroupIndex];
+void cam_2077750(Unk02077750 *a, CourseMapCamera *courseMapCamera) {
+    CourseMapEntryGroup *entryGroup = &gMapData->mEntryGroups[courseMapCamera->mEntryGroupIndex];
 
     a->mUnk_7c = courseMapCamera->mPosCurvePerFrame;
     a->mUnk_7e = 2;
@@ -195,54 +195,54 @@ void func_02077750(Unk02077750 *a, CourseMapCamera *courseMapCamera) {
     a->mUnk_80 = 0;
     a->mUnk_84 = 0;
     if (entryGroup->mEntryCount >= 4) {
-        SetupPosCurve(&a->mUnk_04, courseMapCamera);
-        func_0207bd6c(&a->mUnk_40, courseMapCamera);
+        camr_initRouteStat(&a->mUnk_04, courseMapCamera);
+        camr_initRouteStatReversed(&a->mUnk_40, courseMapCamera);
     }
 }
 
-void CreateChainCameraPair(void) {
-    void *heap = GetHeap(GetCurrentHeapCall());
+void cam_setupIntroCamDouble(void) {
+    void *heap = proc_getHeap(proc_getCurrent());
 
-    gFirstChainCamera = HeapAlloc(heap, 0x270);
-    gSecondChainCamera = HeapAlloc(heap, 0x270);
-    SetupCamera(gFirstChainCamera);
-    SetupCamera(gSecondChainCamera);
-    gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
-    gSecondChainCamera->mCourseMapCamera = gCourseMap->mSecondChainStartEntry;
-    gFirstChainCamera->mKind = 2;
-    gSecondChainCamera->mKind = 2;
-    if (gFirstChainCamera->mCourseMapCamera == NULL) {
-        gRaceProgress->mCameraChainEnded = 1;
+    cam_sIntroCameraTop = heap_alloc(heap, 0x270);
+    cam_sIntroCameraBottom = heap_alloc(heap, 0x270);
+    cam_init(cam_sIntroCameraTop);
+    cam_init(cam_sIntroCameraBottom);
+    cam_sIntroCameraTop->mCourseMapCamera = gMapData->mFirstChainStartEntry;
+    cam_sIntroCameraBottom->mCourseMapCamera = gMapData->mSecondChainStartEntry;
+    cam_sIntroCameraTop->mKind = 2;
+    cam_sIntroCameraBottom->mKind = 2;
+    if (cam_sIntroCameraTop->mCourseMapCamera == NULL) {
+        gRaceStatus->mCameraChainEnded = 1;
         return;
     }
-    if ((s16) gFirstChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gFirstChainCamera->mPosCurve, gFirstChainCamera->mCourseMapCamera);
+    if ((s16) cam_sIntroCameraTop->mCourseMapCamera->mEntryGroupIndex != -1) {
+        camr_initRouteStat(&cam_sIntroCameraTop->mPosCurve, cam_sIntroCameraTop->mCourseMapCamera);
     }
-    if ((s16) gSecondChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gSecondChainCamera->mPosCurve, gSecondChainCamera->mCourseMapCamera);
+    if ((s16) cam_sIntroCameraBottom->mCourseMapCamera->mEntryGroupIndex != -1) {
+        camr_initRouteStat(&cam_sIntroCameraBottom->mPosCurve, cam_sIntroCameraBottom->mCourseMapCamera);
     }
 }
 
-void CreateFirstChainCamera(void) {
-    gFirstChainCamera = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x270);
-    gSecondChainCamera = NULL;
-    SetupCamera(gFirstChainCamera);
-    gFirstChainCamera->mCourseMapCamera = gCourseMap->mFirstChainStartEntry;
-    gFirstChainCamera->mKind = 2;
-    gFirstChainCamera->mFrustumShift = 0;
-    if (gFirstChainCamera->mCourseMapCamera == NULL) {
-        gRaceProgress->mCameraChainEnded = 1;
+void cam_setupIntroCamSingle(void) {
+    cam_sIntroCameraTop = heap_alloc(proc_getHeap(proc_getCurrent()), 0x270);
+    cam_sIntroCameraBottom = NULL;
+    cam_init(cam_sIntroCameraTop);
+    cam_sIntroCameraTop->mCourseMapCamera = gMapData->mFirstChainStartEntry;
+    cam_sIntroCameraTop->mKind = 2;
+    cam_sIntroCameraTop->mFrustumShift = 0;
+    if (cam_sIntroCameraTop->mCourseMapCamera == NULL) {
+        gRaceStatus->mCameraChainEnded = 1;
         return;
     }
-    if ((s16) gFirstChainCamera->mCourseMapCamera->mEntryGroupIndex != -1) {
-        SetupPosCurve(&gFirstChainCamera->mPosCurve, gFirstChainCamera->mCourseMapCamera);
+    if ((s16) cam_sIntroCameraTop->mCourseMapCamera->mEntryGroupIndex != -1) {
+        camr_initRouteStat(&cam_sIntroCameraTop->mPosCurve, cam_sIntroCameraTop->mCourseMapCamera);
     }
 }
 
 #pragma thumb off
 
-// Writes the default values of 76 members; re-run by SetupCameraBehindKart when a kart is placed.
-void SetupCamera(Camera *camera) {
+// Writes the default values of 76 members; re-run by cam_resetPlayerCamera when a kart is placed.
+void cam_init(Camera *camera) {
     Vec3 worldUp;
     Vec3 initialLookAt;
     Vec3 zero;
@@ -250,22 +250,22 @@ void SetupCamera(Camera *camera) {
     camera->mPos.x = 0x1e3000;
     camera->mPos.y = 0x4bd000;
     camera->mPos.z = 0xc6b000;
-    initialLookAt = *(volatile Vec3 *) &data_02154fdc;
+    initialLookAt = *(volatile Vec3 *) &cam_sVecNull;
     camera->mLookAt = initialLookAt;
-    worldUp = *(volatile Vec3 *) &data_02154fc4;
-    camera->mUp = data_02154fc4;
-    camera->mSide = data_02154fd0;
+    worldUp = *(volatile Vec3 *) &cam_sVecUp;
+    camera->mUp = cam_sVecUp;
+    camera->mSide = cam_sVecRight;
     MTX_Identity43_(&camera->mViewMatrix);
-    camera->mForward = data_02154fb8;
+    camera->mForward = cam_sVecForward;
     camera->mPosGoalYOffset = 0;
-    camera->mHalfFovAngleGoal = gDefaultHalfFovAngle;
-    camera->mHalfFovAngle = gDefaultHalfFovAngle + 5;
-    camera->mHalfFovPairFirst = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2];
-    camera->mHalfFovPairSecond = gPairsByAngle[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
+    camera->mHalfFovAngleGoal = cam_sDefaultFov;
+    camera->mHalfFovAngle = cam_sDefaultFov + 5;
+    camera->mHalfFovPairFirst = FX_SinCosTable_[((u16) camera->mHalfFovAngle >> 4) * 2];
+    camera->mHalfFovPairSecond = FX_SinCosTable_[((u16) camera->mHalfFovAngle >> 4) * 2 + 1];
     camera->mAspectRatio = 0x1555;
     camera->mNear = 0x400;
     camera->mUnk_08c = 0x640000;
-    camera->mFar = gCourseMap->mSettings->mCameraFar;
+    camera->mFar = gMapData->mSettings->mCameraFar;
     if (camera->mFar < 0x1000) {
         camera->mFar = 0x640000;
     }
@@ -273,14 +273,14 @@ void SetupCamera(Camera *camera) {
     camera->mFrustumBottom = 0;
     camera->mFrustumLeft = 0;
     camera->mFrustumRight = 0;
-    zero = data_02154fdc;
+    zero = cam_sVecNull;
     camera->mViewPos = zero;
     camera->mViewLookAt = zero;
     camera->mBaseUp = worldUp;
     camera->mHeldHeight = 0;
-    camera->mLookAtHeight = gDefaultLookAtHeight;
+    camera->mLookAtHeight = cam_sMaxTargetElevation;
     camera->mUnk_0d8 = 1;
-    camera->mFollowDistance = gDefaultFollowDistance;
+    camera->mFollowDistance = cam_sCameraDistance;
     camera->mUnk_0e0 = camera->mFollowDistance;
     camera->mLookAtLowering = 0;
     camera->mFollowDistanceScale = 0x1000;
@@ -324,7 +324,7 @@ void SetupCamera(Camera *camera) {
     camera->mSavedKartForward = zero;
     camera->mUnk_0a8 = zero;
     camera->mUnk_0b4 = zero;
-    camera->mSideDistanceSign = gRaceSetup->mMirrorMode ? -1 : 1;
+    camera->mSideDistanceSign = gRaceMultiConfig->mMirrorMode ? -1 : 1;
     camera->mUnk_21c = NULL;
     camera->mUnk_220 = NULL;
     camera->mUnk_20c = 0;
@@ -333,17 +333,17 @@ void SetupCamera(Camera *camera) {
     camera->mKartMoveScale = 0x1000;
 }
 
-void RefreshCameraProjection(Camera *camera) {
+void cam_updateFrustum(Camera *camera) {
     s32 top;
     s32 bottom;
     s32 staffRollShift;
     s32 d;
 
-    if (camera == gChaseCamera) {
+    if (camera == cam_sPlayerCamera) {
         if (camera->mHalfFovAngle == camera->mHalfFovAngleGoal && gEntryCameraUpdateRan == 0) {
             return;
         }
-        if (GetAbsoluteValue(camera->mHalfFovAngle - camera->mHalfFovAngleGoal) < 10) {
+        if (math_abs(camera->mHalfFovAngle - camera->mHalfFovAngleGoal) < 10) {
             camera->mHalfFovAngle = camera->mHalfFovAngleGoal;
         }
     }
@@ -366,37 +366,37 @@ void RefreshCameraProjection(Camera *camera) {
             camera->mFrustumTop = ((s64) bottom * data_021656b8) >> 12;
             break;
     }
-    if (gRaceSetup->mMirrorMode != 0) {
+    if (gRaceMultiConfig->mMirrorMode != 0) {
         camera->mFrustumLeft = -camera->mFrustumLeft;
     }
     camera->mFrustumRight = -camera->mFrustumLeft;
-    if (gRaceSetup->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_STAFF_ROLL && camera->mCourseMapCamera != NULL) {
         staffRollShift = ((s64) camera->mFrustumTop * camera->mCourseMapCamera->mUnk_00.y + 0x800) >> 12;
         camera->mFrustumBottom += staffRollShift;
         camera->mFrustumTop += staffRollShift;
     }
-    RefreshViewFrustumFromProjection(top, bottom, camera->mFrustumLeft, camera->mFrustumRight, camera->mNear,
+    mobj_setFrustum(top, bottom, camera->mFrustumLeft, camera->mFrustumRight, camera->mNear,
                                      camera->mFar);
     reg_G3_MTX_MODE = 0;
     G3i_FrustumW_(camera->mFrustumTop, camera->mFrustumBottom, camera->mFrustumLeft, camera->mFrustumRight,
-                  camera->mNear, camera->mFar, 0x1000, 1, (Unk0214ad4c *) data_0217acc0);
+                  camera->mNear, camera->mFar, 0x1000, 1, (Unk0214ad4c *) cam_sProjectionMtx);
 }
 
-void UpdateCameraViewWithWorldUp(Camera *camera) {
+void cam_updateLookAt(Camera *camera) {
     Vec3 side;
     Vec3 forward;
     Vec3 worldUp;
     Vec3 eyePos;
     Vec3 lookAtPos;
 
-    worldUp = data_02154fc4;
+    worldUp = cam_sVecUp;
     VEC_Subtract(&camera->mLookAt, &camera->mPos, &forward);
     if ((s64) forward.x * forward.x + (s64) forward.y * forward.y + (s64) forward.z * forward.z >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
+        vec_normalize(&forward, &forward);
     }
     camera->mForward = forward;
-    Vec3CrossUnrounded(&worldUp, &forward, &side);
-    Vec3CrossUnrounded(&forward, &side, &camera->mUp);
+    vec_crossProduct(&worldUp, &forward, &side);
+    vec_crossProduct(&forward, &side, &camera->mUp);
     if (camera->mUp.x == 0 && camera->mUp.y == 0 && camera->mUp.z == 0) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
@@ -404,7 +404,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
         if ((s64) camera->mUp.x * camera->mUp.x + (s64) camera->mUp.y * camera->mUp.y +
                 (s64) camera->mUp.z * camera->mUp.z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
+            vec_normalize(&camera->mUp, &camera->mUp);
         }
     }
     reg_G3_MTX_MODE = 2;
@@ -418,7 +418,7 @@ void UpdateCameraViewWithWorldUp(Camera *camera) {
 }
 
 // Per frame for each camera in use: axes, shake, view position and look-at in 1/16 scale, loads the view matrix.
-void UpdateCameraView(Camera *camera) {
+void cam_updateLookAtEx(Camera *camera) {
     Vec3 forward;
     Vec3 baseUp;
     Vec3 eyePos;
@@ -430,11 +430,11 @@ void UpdateCameraView(Camera *camera) {
     lookAtPos.y += camera->mWobbleOffset;
     VEC_Subtract(&lookAtPos, &eyePos, &forward);
     if ((s64) forward.x * forward.x + (s64) forward.y * forward.y + (s64) forward.z * forward.z >= 0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&forward, &forward);
+        vec_normalize(&forward, &forward);
     }
     camera->mForward = forward;
-    Vec3CrossUnrounded(&baseUp, &forward, &camera->mSide);
-    Vec3CrossUnrounded(&forward, &camera->mSide, &camera->mUp);
+    vec_crossProduct(&baseUp, &forward, &camera->mSide);
+    vec_crossProduct(&forward, &camera->mSide, &camera->mUp);
     if (camera->mUp.x == 0 && camera->mUp.y == 0 && camera->mUp.z == 0) {
         camera->mUp.x = 0x1000;
         camera->mUp.y = 0x1000;
@@ -442,11 +442,11 @@ void UpdateCameraView(Camera *camera) {
         if ((s64) camera->mUp.x * camera->mUp.x + (s64) camera->mUp.y * camera->mUp.y +
                 (s64) camera->mUp.z * camera->mUp.z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&camera->mUp, &camera->mUp);
+            vec_normalize(&camera->mUp, &camera->mUp);
         }
     }
     if (camera->mShakeKind != 0) {
-        UpdateCameraShake(camera);
+        cam_2073904(camera);
         VEC_Add(&eyePos, &camera->mShakePosOffset, &eyePos);
         VEC_Add(&lookAtPos, &camera->mShakeLookAtOffset, &lookAtPos);
         VEC_Add(&camera->mShakeLookAtCounterOffset, &lookAtPos, &lookAtPos);

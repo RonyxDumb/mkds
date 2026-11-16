@@ -18,9 +18,9 @@ extern ItemDataRecord gItemDataDelayed[];
 
 extern ItemDataRecord gItemDataQueue[];
 
-u8 *func_020ff2b0(u8 *cursor, ItemFBox *fbox, void *toData);
-void InitItemFBoxFromData(ItemFBox *fbox);
-void func_020ff1d8(void);
+u8 *itfbox_20FF2B0(u8 *cursor, ItemFBox *fbox, void *toData);
+void itfbox_20FF25C(ItemFBox *fbox);
+void itfbox_load(void);
 void func_020ff1b8(s32 flag, s32 *word);
 void func_020ff1a0(s32 word, s32 *flag);
 s32 ComputeItemObjectId(ItemObject *item);

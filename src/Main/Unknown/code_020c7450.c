@@ -2,9 +2,9 @@
 #include "Main/Unknown/code_020c0b84.h"
 #include "Main/Unknown/unk_0217b000.h"
 
-void ClearRaceHudSubScreenItemBoxCells(void) {
+void mpicn_destroyItemboxIcon(void) {
     u32 address;
     u32 value12;
-    address = (u32) &gRaceHudSubScreenItemBoxCells;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) address);
+    address = (u32) &mpicn_sItemboxIcon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) address);
 }

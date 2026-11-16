@@ -3,7 +3,7 @@
 #include "types.h"
 
 extern s32 data_021658bc;
-extern u16 gKartCount;
+extern u16 driver_sDriverCount;
 
 void SetKartNearPlayerRankBits(void);
-BOOL func_0207a5c4(s32 kartIndex);
+BOOL driver_isFalling(s32 kartIndex);

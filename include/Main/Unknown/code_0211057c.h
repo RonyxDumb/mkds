@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u16 GetLapProgressSoundId(int index);
+u16 sfx_getKaidanKibashiBaseSfxId(int index);

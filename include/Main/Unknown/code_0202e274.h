@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void LoadGhostSceneFiles(void);
+void ghost_loadFiles(void);

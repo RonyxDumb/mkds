@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearThreeWords(u32 *words);
+void list_initLink(u32 *words);

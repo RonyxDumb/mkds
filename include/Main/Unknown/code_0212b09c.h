@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearMessageScreenChars(void);
+void err_clearCharData(void);

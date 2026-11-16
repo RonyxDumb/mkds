@@ -29,12 +29,12 @@ typedef struct IronBall {
 
 #include "Main/Unknown/code_020a826c.h" // Unk020a826c_a0
 
-void func_020a8ed8(Unk020a826c_a0 *soundPart, Vec3 *position);
-void *CreateIronBallUpdateList(void);
-void *CreateIronBallDrawList(void);
-void *CreateIronBallShadowDrawList(void);
-void CreateIronBallKindData(void);
-void UpdateIronBall(void *a, IronBall *ironBall); /* kind 0x1b0 only */
-void InitIronBallObjects(MapObjectList *mapObjectList);
-void DrawIronBallShadow(void *a, IronBall *ironBall, u32 c, u32 d);
-unsigned int func_020a9cd0(unsigned int p0);
+void mobj0008_20A8ED8(Unk020a826c_a0 *soundPart, Vec3 *position);
+void *ibal_setupLogicPart(void);
+void *ibal_setupBallRenderPart(void);
+void *ibal_setupShadowRenderPart(void);
+void ibal_setupConfig(void);
+void ibal_update(void *a, IronBall *ironBall); /* kind 0x1b0 only */
+void ibal_globalLogicInit(MapObjectList *mapObjectList);
+void ibal_renderShadow(void *a, IronBall *ironBall, u32 c, u32 d);
+unsigned int ibal_globalInitShadow(unsigned int p0);

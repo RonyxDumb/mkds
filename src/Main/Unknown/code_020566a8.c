@@ -7,17 +7,17 @@
 
 #pragma thumb on
 
-void WriteSlotGhostRecord(u32 index, int source) {
+void savd_storeDownloadGhost(u32 index, int source) {
     int slotBit;
     GhostRecord *destination;
-    destination = data_0217aa08->mGhostRecords[1];
+    destination = gSaveData->mGhostRecords[1];
     *(u32 *) (source + 8) = *(u32 *) (source + 8) & 0xfffffffe | 1;
     MI_CpuCopy8(((u16 *) (u32) source), ((u32 *) destination), (0x00001000u));
-    WriteBackupSlotGhost(index, destination);
-    slotBit = IsSlotGhostBitSet(index);
+    savd_writeNkdg(index, destination);
+    slotBit = savd_isDownloadGhostAvailable(index);
     if (slotBit == 0) {
-        SetBitArrayBit(index, data_0217aa08->mFirstBlock->mSlotGhostBits, 2);
-        StartWriteBackupFirstBlock();
+        savd_setBit(index, gSaveData->mFirstBlock->mSlotGhostBits, 2);
+        savd_writeNksyAsync();
     }
 }
 

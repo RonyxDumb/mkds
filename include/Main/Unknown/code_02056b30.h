@@ -23,6 +23,6 @@ typedef struct TimeRecord {
 // Slot of a course's time records that holds the best lap; slots 0 to 4 are the ranked race times.
 #define TIME_RECORD_BEST_LAP 5
 
-void PackGrandPrixRecord(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord);
-BOOL GetCourseTimeRecord(s32 courseId, s32 recordIndex, TimeRecord *timeRecord);
-void UnpackCourseTimeRecord(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord);
+void savd_packNkgpEntry(PackedGrandPrixRecord *packedGrandPrixRecord, TimeRecord *timeRecord);
+BOOL savd_getNktaEntry(s32 courseId, s32 recordIndex, TimeRecord *timeRecord);
+void savd_unpackNktaEntry(PackedCourseTimeRecord *packedCourseTimeRecord, TimeRecord *timeRecord);

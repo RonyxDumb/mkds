@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceMNumberPairPointer(void);
+u32 r2d_finalizeRaceNumber(void);

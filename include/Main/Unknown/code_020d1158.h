@@ -4,13 +4,13 @@
 
 typedef struct RaceHudOamBuffer RaceHudOamBuffer;
 
-// The two values func_020d1198 passes to GetRaceStartBattleMNcerEntry.
+// The two values r2d_renderBattleIntro passes to r2d_getRaceStartBattleMCell.
 enum {
     VALUE_0 = 0,
     VALUE_1 = 1,
 };
 
-void func_020d1198(RaceHudOamBuffer *oamBuffer);
-u16 *func_020d118c(void);
-u32 func_020d1164(void);
-u32 func_020d1158(void);
+void r2d_renderBattleIntro(RaceHudOamBuffer *oamBuffer);
+u16 *cpic_MB_GetMultiBootParam(void);
+u32 cpic_MB_IsMultiBootChild(void);
+u32 cpic_MB_IsMultiBootChild_2(void);

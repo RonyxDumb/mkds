@@ -42,7 +42,7 @@
 
 #pragma thumb off
 
-void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
+void kblock_slowDownStateUpdate(Unk020e005c *koopaBlock) {
     GroupFollower *follower;
     s32 progress;
     s32 speed;
@@ -50,9 +50,9 @@ void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
     s32 sine;
 
     follower = &koopaBlock->mUnk_144;
-    progress = GetGroupFollowerProgress(follower);
+    progress = pw_getProgress(follower);
     angle = (s32) (((s64) progress * 0x40000) >> 12);
-    sine = gPairsByAngle[(angle >> 4) * 2];
+    sine = FX_SinCosTable_[(angle >> 4) * 2];
     speed = ((s64) -sine * koopaBlock->mUnk_168) >> 12;
     follower->mSpeed = speed > 0x200 ? speed : 0x200;
     if (speed <= 0x200) {
@@ -62,11 +62,11 @@ void UpdateKoopaBlockState2(Unk020e005c *koopaBlock) {
         ((s64) speed * follower->mPath->mSegments[follower->mSegmentIndex].mInverseProgressLength) >> 12;
 }
 
-void DrawAllKoopaBlocks(void *viewMatrix) {
-    func_020e1e38(data_0217b784, viewMatrix, func_020e1dec);
+void kblock_renderAll(void *viewMatrix) {
+    dcol_render(kblock_sRenderPart, viewMatrix, dcol_commonRender);
 }
 
-u32 IsKoopaBlockKind(u32 kind) {
+u32 kblock_isKoopaBlock(u32 kind) {
     switch (kind) {
         case 0xca:
             return 1;
@@ -75,12 +75,12 @@ u32 IsKoopaBlockKind(u32 kind) {
     }
 }
 
-s32 func_020dff4c(Unk020e005c *koopaBlock) {
+s32 kblock_getRouteProgress(Unk020e005c *koopaBlock) {
     s32 progress;
     GroupFollower *follower;
 
     follower = &koopaBlock->mUnk_144;
-    progress = GetGroupFollowerProgress(follower);
+    progress = pw_getProgress(follower);
     if (follower->mForward == 0) {
         progress = 0x1000 - progress;
     }
@@ -88,19 +88,19 @@ s32 func_020dff4c(Unk020e005c *koopaBlock) {
 }
 
 #pragma thumb on
-void CreateKoopaBlock(void) {
+void kblock_loadModel(void) {
     void *file;
 
-    file = FindCourseMapObjFile("koopa_block.nsbmd");
-    CreateNsbmd(&gKoopaBlock, file, NULL);
-    func_02084968(gKoopaBlock, 0x3f, 2, 0x294a);
-    SetMapObjectsModel(data_0217b784, gKoopaBlock);
+    file = mobj_getMapObjFile("koopa_block.nsbmd");
+    model2_createFromNsbmd(&kblock_sModel, file, NULL);
+    model_setPolyIdLightFlagsEmi(kblock_sModel, 0x3f, 2, 0x294a);
+    dcol_setModel(kblock_sRenderPart, kblock_sModel);
 }
 
-void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
-    InitStateMachine(&koopaBlock->mStateMachine, data_0216bff8, 3, koopaBlock);
+void kblock_init(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
+    sm_init(&koopaBlock->mStateMachine, kblock_sStates, 3, koopaBlock);
     koopaBlock->mUnk_168 = (courseRow->mUnk_28 << 12) / 100;
-    InitGroupFollower(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
+    pw_initFromObject(&koopaBlock->mUnk_144, courseRow, koopaBlock->mUnk_168);
     koopaBlock->mUnk_16c = 0;
     *(Unk020e43a8_28 *) &koopaBlock->mUnk_0a0 = *(Unk020e43a8_28 *) &koopaBlock->mUnk_028;
     koopaBlock->mUnk_124.x = 0;
@@ -116,8 +116,8 @@ void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mUnk_114.y = 0;
     koopaBlock->mUnk_114.z = 0;
     koopaBlock->mUnk_120 = 0x800;
-    SetupGroupFollowerAtEntry(&koopaBlock->mUnk_144, 0, 1);
-    GetGroupFollowerLinearPosStep(&koopaBlock->mUnk_144, &koopaBlock->mPos, &koopaBlock->mUnk_010);
+    pw_init(&koopaBlock->mUnk_144, 0, 1);
+    pw_calcCurrentPointLinearXYZSpecial(&koopaBlock->mUnk_144, &koopaBlock->mPos, &koopaBlock->mUnk_010);
     koopaBlock->mUnk_0e8 = koopaBlock->mPos;
     koopaBlock->mUnk_134 = 0;
     koopaBlock->mUnk_138 = 0;
@@ -127,34 +127,34 @@ void InitKoopaBlock(Unk020e005c *koopaBlock, CourseMapRow *courseRow) {
     koopaBlock->mAlpha = 0x1f;
     koopaBlock->mStateMachine.mNextState = 0;
     koopaBlock->mStateMachine.mNextStateRequested = 1;
-    koopaBlock->mFarDistanceSquared = gSoundFalloffs[3].mUnk_20;
+    koopaBlock->mFarDistanceSquared = gSfxParams[3].mUnk_20;
 }
 #pragma thumb off
 
-MapObjectKindData *CreateMkdEfBubbleKindData(void) {
+MapObjectKindData *efbub_setupConfig(void) {
     MapObjectKindData *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_021587dc;
     return kindData;
 }
 
-MapObjectDrawList *CreateMkdEfBubbleDrawList(void) {
-    data_0217b774 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+MapObjectDrawList *efbub_setupRenderPart(void) {
+    data_0217b774 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *data_0217b774 = data_021587b0;
-    func_020d49d8(&data_0217b774);
+    mobj_renderPartSetThisPointer(&data_0217b774);
     return data_0217b774;
 }
 
-Unk020dfc44 *CreateMkdEfBubbleUpdateList(void) {
-    data_0217b76c = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+Unk020dfc44 *efbub_setupLogicPart(void) {
+    data_0217b76c = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     *data_0217b76c = data_02158784;
-    SetUpdateListSlot(&data_0217b76c);
+    mobj_logicPartSetThisPointer(&data_0217b76c);
     data_0217b76c->mUnk_28 = FX_Div(0x4000000, 0x1333);
     return data_0217b76c;
 }
 
-void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
+void efbub_render(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     s32 v;
     s32 w;
     s32 rotationMatrix[9];
@@ -164,14 +164,14 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
         return;
     }
     w = 0x1e;
-    func_01ff9048(0x14, &w, 1);
-    func_01ff9048(0x19, SetViewTransposeMatrixPos(&bubble->mUnk_00.mPos), 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &w, 1);
+    NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&bubble->mUnk_00.mPos), 0xc);
     if (bubble->mUnk_a8 != 0) {
         n = bubble->mUnk_a8 >> 4;
-        MTX_RotZ33_(rotationMatrix, gPairsByAngle[n * 2], gPairsByAngle[n * 2 + 1]);
-        func_01ff9048(0x1a, rotationMatrix, 9);
+        MTX_RotZ33_(rotationMatrix, FX_SinCosTable_[n * 2], FX_SinCosTable_[n * 2 + 1]);
+        NNS_G3dGeBufferOP_N(0x1a, rotationMatrix, 9);
     }
-    func_01ff9048(0x1b, &bubble->mUnk_00.mScale, 3);
+    NNS_G3dGeBufferOP_N(0x1b, &bubble->mUnk_00.mScale, 3);
     DrawNsbmdWithMaxAlpha(gMkdEfBubble, alpha);
     v = bubble->mUnk_00.mPos.y - bubble->mUnk_ac;
     if (v > 0x10000) {
@@ -188,15 +188,15 @@ void DrawMkdEfBubble(void *a, MkdEfBubbleObject *bubble, void *c, s32 alpha) {
     if (v <= 0) {
         return;
     }
-    func_020e53ac(&bubble->mUnk_b0, &v, 0, alpha);
+    oshd_renderMat(&bubble->mUnk_b0, &v, 0, alpha);
 }
 
-void AdvanceMkdEfBubbleAnimation(void) {
-    AdvanceModelAnimation(gMkdEfBubbleNsbta);
+void efbub_globalPreUpdate(void) {
+    anim_update(gMkdEfBubbleNsbta);
 }
 
-void UpdateMkdEfBubble(void *a, MkdEfBubbleObject *bubble) {
-    AdvanceStateMachine(&bubble->mUnk_00.mStateMachine);
+void efbub_update(void *a, MkdEfBubbleObject *bubble) {
+    sm_execute(&bubble->mUnk_00.mStateMachine);
     if (bubble->mUnk_f0 != 0) {
         return;
     }
@@ -207,11 +207,11 @@ void UpdateMkdEfBubble(void *a, MkdEfBubbleObject *bubble) {
     }
     bubble->mUnk_e8->mUnk_24 &= ~8;
     bubble->mUnk_ec->mUnk_24 &= ~8;
-    PlaceEffect(bubble->mUnk_e8, &bubble->mUnk_00.mPos);
-    PlaceEffect(bubble->mUnk_ec, &bubble->mUnk_00.mPos);
+    ptcm_setEmitterPosition(bubble->mUnk_e8, &bubble->mUnk_00.mPos);
+    ptcm_setEmitterPosition(bubble->mUnk_ec, &bubble->mUnk_00.mPos);
 }
 
-void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
+void efbub_state0Init(MkdEfBubbleObject *bubble) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
     BOOL effectMissing;
@@ -223,9 +223,9 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     bubble->mUnk_00.mFlags &= ~8;
     bubble->mUnk_00.mAlpha = 0x1f;
     if ((bubble->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (bubble->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (bubble->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
             falloffIndex = 2;
-        } else if (bubble->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (bubble->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
@@ -233,15 +233,15 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
         soundRequest.mSoundId = 0x18c;
         soundRequest.mPositionSource = &bubble->mUnk_00.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&bubble->mUnk_00.mPos);
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&bubble->mUnk_00.mPos);
         func_0210b7a8(&soundRequest);
     }
     bubble->mUnk_e4 = 0;
     if (bubble->mUnk_e8 == NULL) {
-        bubble->mUnk_e8 = StartEffect(0x45, &bubble->mUnk_00.mPos);
+        bubble->mUnk_e8 = ptcm_createEmitter(0x45, &bubble->mUnk_00.mPos);
     }
     if (bubble->mUnk_ec == NULL) {
-        bubble->mUnk_ec = StartEffect(0x46, &bubble->mUnk_00.mPos);
+        bubble->mUnk_ec = ptcm_createEmitter(0x46, &bubble->mUnk_00.mPos);
     }
     if (bubble->mUnk_e8 == NULL || bubble->mUnk_ec == NULL) {
         effectMissing = TRUE;
@@ -251,7 +251,7 @@ void EnterMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
     bubble->mUnk_f0 = effectMissing;
 }
 
-void UpdateMkdEfBubbleState0(MkdEfBubbleObject *bubble) {
+void efbub_state0Update(MkdEfBubbleObject *bubble) {
     if (bubble->mUnk_00.mUnk_10.y < 0x1333) {
         if (bubble->mUnk_00.mUnk_10.y <= -0x1333) {
             bubble->mUnk_a8 = 0x8000;

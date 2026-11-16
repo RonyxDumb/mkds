@@ -4,7 +4,7 @@
 
 typedef struct GhostRecord GhostRecord;
 
-void ReadBackupSlotGhost(u32 index, GhostRecord *ghostRecord);
-void WriteBackupSlotGhost(s32 index, const void *record);
-void ReadBackupCourseGhost(u8 index, GhostRecord *ghostRecord);
-void WriteBackupCourseGhost(u32 index, const void *record);
+void savd_readNkdg(u32 index, GhostRecord *ghostRecord);
+void savd_writeNkdg(s32 index, const void *record);
+void savd_readNkpg(u8 index, GhostRecord *ghostRecord);
+void savd_writeNkpg(u32 index, const void *record);

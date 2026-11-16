@@ -9,22 +9,22 @@
 
 #pragma thumb on
 
-void DrawSinglePlaySelectCells(void) {
+void menu_renderModeSelectUI(void) {
     MenuScene *menu;
-    func_020cb340();
-    menu = data_0217b43c;
-    DrawLayoutTable(menu->mSinglePlaySelectModeMBncl, menu->mSinglePlaySelectModeMNcer, NULL, menu->mMainOam,
+    menu_updateModeSelectUI();
+    menu = gMenuSceneState;
+    jn_ui_renderElements(menu->mSinglePlaySelectModeMBncl, menu->mSinglePlaySelectModeMNcer, NULL, menu->mMainOam,
                     menu->mSinglePlaySelectModeMLayoutTable);
-    menu = data_0217b43c;
-    DrawLayoutTable(menu->mSinglePlaySelectModeSBncl, menu->mSinglePlaySelectModeSNcer, NULL, menu->mSubOam,
+    menu = gMenuSceneState;
+    jn_ui_renderElements(menu->mSinglePlaySelectModeSBncl, menu->mSinglePlaySelectModeSNcer, NULL, menu->mSubOam,
                     menu->mSinglePlaySelectModeSLayoutTable);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void func_020cb2cc(void) {
+void menu_modeSelectInStateVblank(void) {
     u32 unusedValue;
-    SetupSinglePlaySelectGraphics();
+    modeSelectVblank();
 }
 #pragma thumb off

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02105e98(void);
+void sound_2105E98(void);

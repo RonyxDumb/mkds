@@ -20,8 +20,8 @@ typedef struct Unk0206390c {
     /* ae */ u8 mUnk_ae;
 } Unk0206390c;
 
-extern const u32 data_02154a2c[];
+extern const u32 aKilleritem[];
 
-void PlaceKartKillerEffectCallback(Unk0206390c *renderState);
+void driver_killerItemRenderObjCallback(Unk0206390c *renderState);
 void func_02063a68(Kart *kart);
 void func_02063ad0(Kart *kart);

@@ -2,16 +2,16 @@
 
 #include "types.h"
 
-char *BuildTeamEmblemNsbtxPath(s32 a);
-char *BuildEmblemNsbtxPath(u16 a);
-s8 *BuildPFaceanimNsbtpPath(void);
-char *BuildCharacterDirPath(s32 a);
-const char *LookupCharacterPOrEName(s32 a, s32 b);
-char *BuildKartShadowNsbmdPath(u16 a);
-char *BuildTireNsbtxPath(u16 a, const char *name);
-char *BuildTireNsbmdPath(u16 a, const char *name);
-char *BuildKartNsbtxPath(u16 a);
-char *BuildKartNsbmdPath(u16 a);
-char *BuildCharacterNsbtxPath(u16 a, s32 b);
-char *BuildCharacterNsbmdPath(u16 a, s32 b);
-void SetKartModelPathPrefix(int value);
+char *cklcr_getTeamEmblemPath(s32 a);
+char *cklcr_getCharacterEmblemPath(u16 a);
+s8 *cklcr_getFaceAnimPath(void);
+char *cklcr_getCharacterFolderPath(s32 a);
+const char *cklcr_getCharacterModelName(s32 a, s32 b);
+char *cklcr_getKartShadowPath(u16 a);
+char *cklcr_getTireNsbtxPath(u16 a, const char *name);
+char *cklcr_getTireNsbmdPath(u16 a, const char *name);
+char *cklcr_getKartNsbtxPath(u16 a);
+char *cklcr_getKartNsbmdPath(u16 a);
+char *cklcr_getCharacterNsbtxPath(u16 a, s32 b);
+char *cklcr_getCharacterNsbmdPath(u16 a, s32 b);
+void cklcr_setLoadFromFolder(int value);

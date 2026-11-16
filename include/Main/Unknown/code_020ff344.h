@@ -36,7 +36,7 @@ typedef struct Unk020ff97c {
     /* 140 */ u8 mUnk_140[4];
 } Unk020ff97c;
 
-// Object of item kind 7, element of gItemPools[7].
+// Object of item kind 7, element of it_sItemsets[7].
 typedef struct ItemFBox {
     /* 000 */ BouncingItemObject mUnk_000;
     /* 130 */ Vec3 mUnk_130;
@@ -44,17 +44,17 @@ typedef struct ItemFBox {
     /* 140 */ PooledMapObject *mPooledMapObject;
 } ItemFBox;
 
-void func_020ff344(ItemFBox *fbox);
-s32 func_020ff3c4(ItemFBox *fbox);
-void AdvanceItemFBox(ItemFBox *fbox);
-u32 InitItemFBox(ItemInUse *inUse, ItemFBox *fbox);
-void AdvanceItemFBoxInUse(ItemInUse *inUse, ItemFBox *fbox);
-void StartItemFBox(ItemFBox *fbox);
-void ResetItemFBox(ItemFBox *fbox);
+void itfbox_20FF344(ItemFBox *fbox);
+s32 itfbox_20FF3C4(ItemFBox *fbox);
+void itfbox_20FF438(ItemFBox *fbox);
+u32 itfbox_20FF538(ItemInUse *inUse, ItemFBox *fbox);
+void itfbox_20FF638(ItemInUse *inUse, ItemFBox *fbox);
+void itfbox_20FF654(ItemFBox *fbox);
+void itfbox_initInstance(ItemFBox *fbox);
 void func_020ff6d8(ItemFBox *fbox, MtxFx43 *out);
 void SetItemFBoxDrawMatrix(ItemFBox *fbox, MtxFx43 *out);
 void func_020ff97c(Unk020ff97c *object);
-BOOL func_020ffabc(u32 kind);
+BOOL IsWall(u32 kind);
 Unk02100004 *func_020ffacc(void);
-void InitDram(Dram *dram, struct CourseMapRow *courseRow);
-void CreateDram(void);
+void dram_init(Dram *dram, struct CourseMapRow *courseRow);
+void dram_loadModel(void);

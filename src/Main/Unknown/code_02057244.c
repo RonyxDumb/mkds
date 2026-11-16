@@ -3,12 +3,12 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-void ClearBuddyRecordBlock(void) {
+void savd_initNkfl(void) {
     u32 value0;
     u32 fillValue;
     u32 size;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 32u);
     fillValue = 0u;

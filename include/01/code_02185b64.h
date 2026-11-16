@@ -7,14 +7,14 @@ typedef struct Kart Kart;
 typedef struct MissionGateList MissionGateList;
 typedef struct Unk0219b250 Unk0219b250;
 
-void CreateMissionGateUpdateList(void);
-void CreateMissionGateDrawList(void);
-void CreateMissionGateKindData(void);
-void UpdateMissionGate(
+void mgat_setupLogicPart(void);
+void mgat_setupRenderPart(void);
+void mgat_setupCollision(void);
+void mgat_update(
     void *a, MissionGateObject *missionGateObject); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitMissionGateObjects(MissionGateList *missionGateList);
-void DrawMissionGate(void *mapObjectList, MissionGateObject *missionGateObject);
-void func_ov001_02185d18(void);
-void LoadMissionGate(void *a);
-u32 CollideKartWithMissionGate(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f);
-void InitMissionGate(MissionGateObject *missionGateObject);
+void mgat_globalInitLogic(MissionGateList *missionGateList);
+void mgat_render(void *mapObjectList, MissionGateObject *missionGateObject);
+void mgat_globalPreRender(void);
+void mgat_loadModel(void *a);
+u32 mgat_onDriverCollide(MissionGateObject *missionGateObject, Kart *kart, u8 *e, u8 *f);
+void mgat_init(MissionGateObject *missionGateObject);

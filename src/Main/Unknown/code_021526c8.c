@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-u32 IsFriendDataLoginId(const DWCAccFriendData *friendData) {
+u32 DWCi_Acc_IsValidLoginId(const DWCAccFriendData *friendData) {
     int dataType;
     dataType = DWCi_Acc_GetFlag_DataType(friendData);
     if (dataType == 1) {

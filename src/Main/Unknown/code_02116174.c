@@ -28,46 +28,46 @@ void LocateAndQueueRecordVSErase(void) {
     sbChars = NULL;
     sbPalette = NULL;
     eraseScreenMap[0] = NULL;
-    sceneFile = FindSceneFile(gRecordVSMNcgrName);
-    LocateNcgr2((Ncgr **) gRecordVSErase, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSMNcerName);
-    LocateNcer(&gRecordVSErase->mRecordVSMNcer, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSMBnclName);
+    sceneFile = arc_getSceneArcFile(gRecordVSMNcgrName);
+    g2du_getCharacterData((Ncgr **) gRecordVSErase, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSMNcerName);
+    g2du_getCellBankData(&gRecordVSErase->mRecordVSMNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSMBnclName);
     gRecordVSErase->mRecordVSMBncl = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSMBnllName);
+    sceneFile = arc_getSceneArcFile(gRecordVSMBnllName);
     gRecordVSErase->mRecordVSMBnll = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSMTransientBnclName);
+    sceneFile = arc_getSceneArcFile(gRecordVSMTransientBnclName);
     gRecordVSErase->mRecordVSMTransientBncl = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSMTransientBnllName);
+    sceneFile = arc_getSceneArcFile(gRecordVSMTransientBnllName);
     gRecordVSErase->mRecordVSMTransientBnll = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSSNcgrName);
-    LocateNcgr2(&gRecordVSErase->mRecordVSSNcgr, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSSNcerName);
-    LocateNcer(&gRecordVSErase->mRecordVSSNcer, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSSEraseBnclName);
+    sceneFile = arc_getSceneArcFile(gRecordVSSNcgrName);
+    g2du_getCharacterData(&gRecordVSErase->mRecordVSSNcgr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSSNcerName);
+    g2du_getCellBankData(&gRecordVSErase->mRecordVSSNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSSEraseBnclName);
     gRecordVSErase->mRecordVSSEraseBncl = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSSEraseBnblName);
+    sceneFile = arc_getSceneArcFile(gRecordVSSEraseBnblName);
     gRecordVSErase->mRecordVSSEraseBnbl = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSSEraseBnllName);
+    sceneFile = arc_getSceneArcFile(gRecordVSSEraseBnllName);
     gRecordVSErase->mRecordVSSEraseBnll = sceneFile;
-    sceneFile = HeapAlloc(gRecordVSErase->mHeap, (0x00000800u));
+    sceneFile = heap_alloc(gRecordVSErase->mHeap, (0x00000800u));
     gRecordVSErase->mUnk_4c = sceneFile;
-    sceneFile = FindSceneFile(gRecordVSSBNcgrName);
-    LocateNcgr(&sbChars, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSSEraseNscrName);
-    LocateNscr(eraseScreenMap, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSSBNclrName);
-    LocateNclr(&sbPalette, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSM02NscrName);
-    LocateNscr(&gRecordVSErase->mRecordVSM02Nscr, sceneFile);
-    sceneFile = FindSceneFile(gRecordVSM03NscrName);
-    LocateNscr(&gRecordVSErase->mRecordVSM03Nscr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSSBNcgrName);
+    g2du_getCharacterDataBG(&sbChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSSEraseNscrName);
+    g2du_getScreenData(eraseScreenMap, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSSBNclrName);
+    g2du_getPaletteData(&sbPalette, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSM02NscrName);
+    g2du_getScreenData(&gRecordVSErase->mRecordVSM02Nscr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gRecordVSM03NscrName);
+    g2du_getScreenData(&gRecordVSErase->mRecordVSM03Nscr, sceneFile);
     emblemPalette = GetEmblemSBNclr();
-    CallQueueAppend(0x17, 0, sbChars->mData, sbChars->mDataSize);
-    CallQueueAppend(0x1b, 0, eraseScreenMap[0]->mData, eraseScreenMap[0]->mDataSize);
-    CallQueueAppend(0x1b, (0x00000800u), gRecordVSErase->mUnk_4c, (0x00000800u));
-    CallQueueAppend(0x1f, 0, sbPalette->mData, 0x40);
-    CallQueueAppend(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x17, 0, sbChars->mData, sbChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, eraseScreenMap[0]->mData, eraseScreenMap[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, (0x00000800u), gRecordVSErase->mUnk_4c, (0x00000800u));
+    NNS_GfdRegisterNewVramTransferTask(0x1f, 0, sbPalette->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -118,21 +118,21 @@ void UpdateRecordVSEraseRows(void) {
             if (gRecordVSErase->mIndex == i) {
                 if (IsRecordFlagged(firstRecordIndex)) {
                     gRecordVSErase->mRecordVSSEraseTable[data_0215c50c[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    jn_ui_setLabelColorParam(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
                     gRecordVSErase->mRecordVSSEraseTable[data_0215c4f4[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    jn_ui_setLabelColorParam(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 }
             } else {
                 if (IsRecordFlagged(firstRecordIndex)) {
                     gRecordVSErase->mRecordVSSEraseTable[data_0215c500[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
+                    jn_ui_setLabelColorParam(data_0215c4b8[i], 0xe, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 } else {
                     gRecordVSErase->mRecordVSSEraseTable[data_0215c4e8[i]].mVisible = 1;
-                    SetLabelPaletteIndex(data_0215c4b8[i], 0xf, gRecordVSErase->mRecordVSSEraseBnll,
+                    jn_ui_setLabelColorParam(data_0215c4b8[i], 0xf, gRecordVSErase->mRecordVSSEraseBnll,
                                          gRecordVSErase->mRecordVSSEraseTable, gRecordVSErase->mRecordVSSEraseBncl);
                 }
             }
@@ -157,15 +157,15 @@ void PrintRecordVSEraseShownRecord(void) {
     firstRecordIndex = GetRecordVSEraseFirstRecordIndex();
     if (GetRecordFriendKeyText(firstRecordIndex + gRecordVSErase->mShownIndex, friendKeyText)) {
         gRecordVSErase->mTransientDrawn = 1;
-        CallQueueAppend(9, 0, gRecordVSErase->mRecordVSM03Nscr->mData, gRecordVSErase->mRecordVSM03Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM03Nscr->mData, gRecordVSErase->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVSErase->mTransientDrawn = 0;
-        CallQueueAppend(9, 0, gRecordVSErase->mRecordVSM02Nscr->mData, gRecordVSErase->mRecordVSM02Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, gRecordVSErase->mRecordVSM02Nscr->mData, gRecordVSErase->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVSErase->mTransientDrawn) {
         case 0:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
-            func_0212426c(0, 0, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_212426C(0, 0, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable);
             counts[1][0] = func_0211437c(firstRecordIndex + gRecordVSErase->mShownIndex);
             counts[1][1] = func_02114360(firstRecordIndex + gRecordVSErase->mShownIndex);
@@ -181,46 +181,46 @@ void PrintRecordVSEraseShownRecord(void) {
                 }
             }
             FormatAsciiNumber(counts[1][0], text);
-            func_02124248(0, data_0215c530[1][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[1][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][1], text);
-            func_02124248(0, data_0215c530[1][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[1][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][2], text);
-            func_02124248(0, data_0215c530[1][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[1][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][0], text);
-            func_02124248(0, data_0215c530[2][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[2][0], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][1], text);
-            func_02124248(0, data_0215c530[2][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[2][1], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][2], text);
-            func_02124248(0, data_0215c530[2][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124248(0, data_0215c530[2][2], gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             GetRecordDate(firstRecordIndex + gRecordVSErase->mShownIndex, &date);
             FormatDate(&date, text);
-            func_02124224(0, 0xc, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
+            jn_ui_2124224(0, 0xc, gRecordVSErase->mRecordVSMBnll, text, gRecordVSErase->mRecordVSMBncl,
                           gRecordVSErase->mRecordVSMTable, 6);
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
-            CallQueueAppend(0x13,
+            NNS_GfdRegisterNewVramTransferTask(0x13,
                             GetCellCharIndex(3, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMBncl) << 5,
                             gRecordVSErase->mEmblemConverted, 0x200);
             break;
         case 1:
             CopyRecordText(firstRecordIndex + gRecordVSErase->mShownIndex, text, 0x20);
-            func_0212426c(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
+            jn_ui_212426C(0, 0, gRecordVSErase->mRecordVSMTransientBnll, text, gRecordVSErase->mRecordVSMTransientBncl,
                           gRecordVSErase->mRecordVSMTransientTable);
             z = FALSE;
             for (i = 0; i < 12; i++) {
                 FormatAsciiNumber(friendKeyText[i] - 0x30, text);
-                func_0212426c(z, data_0215c584[i], gRecordVSErase->mRecordVSMTransientBnll, text,
+                jn_ui_212426C(z, data_0215c584[i], gRecordVSErase->mRecordVSMTransientBnll, text,
                               gRecordVSErase->mRecordVSMTransientBncl, gRecordVSErase->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstRecordIndex + gRecordVSErase->mShownIndex, gRecordVSErase->mEmblem,
                              gRecordVSErase->mEmblemConverted);
-            CallQueueAppend(
+            NNS_GfdRegisterNewVramTransferTask(
                 0x13, GetCellCharIndex(1, gRecordVSErase->mRecordVSMNcer, gRecordVSErase->mRecordVSMTransientBncl) << 5,
                 gRecordVSErase->mEmblemConverted, 0x200);
             break;
@@ -236,7 +236,7 @@ void func_02116244(void) {
     for (i = 0; i < 5; i++) {
         if (GetRecordCount() > firstRecordIndex + i) {
             CopyRecordText(firstRecordIndex + i, nameText, 0x20);
-            func_0212426c(1, data_0215c4b8[i], gRecordVSErase->mRecordVSSEraseBnll, nameText,
+            jn_ui_212426C(1, data_0215c4b8[i], gRecordVSErase->mRecordVSSEraseBnll, nameText,
                           gRecordVSErase->mRecordVSSEraseBncl, gRecordVSErase->mRecordVSSEraseTable);
         }
     }

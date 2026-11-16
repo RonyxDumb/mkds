@@ -4,4 +4,4 @@
 
 typedef struct RaceHudSubScreenCells RaceHudSubScreenCells;
 
-void ClearRaceHudSubScreenCells(RaceHudSubScreenCells **cellsPointerAddress);
+void mpicn_destroyMObjIcon(RaceHudSubScreenCells **cellsPointerAddress);

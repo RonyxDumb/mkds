@@ -93,13 +93,13 @@ void SortRecordRange(s32 first, u16 count) {
 void CreateRecordList(void *heap) {
     int listAddress;
     void *v2;
-    listAddress = ((u32) HeapAlloc(heap, 0x10));
+    listAddress = ((u32) heap_alloc(heap, 0x10));
     *(s32 *) &gRecordList = listAddress;
-    v2 = HeapAlloc(heap, 0x78);
+    v2 = heap_alloc(heap, 0x78);
     gRecordList->mUnk_04 = v2;
     v2 = CreateEmblemBlock(heap);
     gRecordList->mEmblemBlock = v2;
-    v2 = FindSceneFile(gEmblem2BinName);
+    v2 = arc_getSceneArcFile(aEmblem2_bin);
     gRecordList->mUnk_0c = v2;
 }
 
@@ -222,9 +222,9 @@ void ReadRecordEmblem(u16 listIndex, EmblemData *emblem, void *tiles) {
     u8 d;
 
     SetupEmblemBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00);
-    d = data_0217aa08->mBusy;
+    d = gSaveData->mBusy;
     do {
-    } while (d == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
+    } while (d == 0 ? (gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0) : 1);
     if (!CopyEmblemFromBlock(gRecordList->mEmblemBlock, gRecordList->mUnk_04[listIndex].mUnk_00, emblem) ||
         emblem->mUnk_200 == 0) {
         emblem->mUnk_200 = 1;
@@ -238,9 +238,9 @@ void EraseRecord(u16 listIndex) {
     u8 d;
 
     RemoveBuddyRecord(gRecordList->mUnk_04[listIndex].mUnk_00);
-    d = data_0217aa08->mBusy;
+    d = gSaveData->mBusy;
     do {
-    } while (d == 0 ? (gBackupAccess->mBackupEnabled != 0 ? gBackupAccess->mCommandRunning : 0) : 1);
+    } while (d == 0 ? (gSaveCore->mBackupEnabled != 0 ? gSaveCore->mCommandRunning : 0) : 1);
     BuildRecordList();
 }
 
@@ -267,53 +267,53 @@ void LocateAndQueueRecordVS(void) {
     v6 = NULL;
     v7 = NULL;
     v8 = NULL;
-    file = FindSceneFile(gRecordVSMNcgrName);
-    LocateNcgr2(&gRecordVS->mRecordVSMNcgr, file);
-    file = FindSceneFile(gRecordVSMNcerName);
-    LocateNcer(&gRecordVS->mRecordVSMNcer, file);
-    file = FindSceneFile(gRecordVSMONclrName);
-    LocateNclr(&v4, file);
-    file = FindSceneFile(gRecordVSMBnclName);
+    file = arc_getSceneArcFile(gRecordVSMNcgrName);
+    g2du_getCharacterData(&gRecordVS->mRecordVSMNcgr, file);
+    file = arc_getSceneArcFile(gRecordVSMNcerName);
+    g2du_getCellBankData(&gRecordVS->mRecordVSMNcer, file);
+    file = arc_getSceneArcFile(gRecordVSMONclrName);
+    g2du_getPaletteData(&v4, file);
+    file = arc_getSceneArcFile(gRecordVSMBnclName);
     gRecordVS->mRecordVSMBncl = file;
-    file = FindSceneFile(gRecordVSMBnllName);
+    file = arc_getSceneArcFile(gRecordVSMBnllName);
     gRecordVS->mRecordVSMBnll = file;
-    file = FindSceneFile(gRecordVSMTransientBnclName);
+    file = arc_getSceneArcFile(gRecordVSMTransientBnclName);
     gRecordVS->mRecordVSMTransientBncl = file;
-    file = FindSceneFile(gRecordVSMTransientBnllName);
+    file = arc_getSceneArcFile(gRecordVSMTransientBnllName);
     gRecordVS->mRecordVSMTransientBnll = file;
-    file = FindSceneFile(gRecordVSSNcgrName);
-    LocateNcgr2(&gRecordVS->mRecordVSSNcgr, file);
-    file = FindSceneFile(gRecordVSSNcerName);
-    LocateNcer(&gRecordVS->mRecordVSSNcer, file);
-    file = FindSceneFile(gRecordVSSONclrName);
-    LocateNclr(&v8, file);
-    file = FindSceneFile(gRecordVSSBnclName);
+    file = arc_getSceneArcFile(gRecordVSSNcgrName);
+    g2du_getCharacterData(&gRecordVS->mRecordVSSNcgr, file);
+    file = arc_getSceneArcFile(gRecordVSSNcerName);
+    g2du_getCellBankData(&gRecordVS->mRecordVSSNcer, file);
+    file = arc_getSceneArcFile(gRecordVSSONclrName);
+    g2du_getPaletteData(&v8, file);
+    file = arc_getSceneArcFile(gRecordVSSBnclName);
     gRecordVS->mRecordVSSBncl = file;
-    file = FindSceneFile(gRecordVSSBnblName);
+    file = arc_getSceneArcFile(gRecordVSSBnblName);
     gRecordVS->mRecordVSSBnbl = file;
-    file = FindSceneFile(gRecordVSSBnllName);
+    file = arc_getSceneArcFile(gRecordVSSBnllName);
     gRecordVS->mRecordVSSBnll = file;
     emblemPalette = GetEmblemSBNclr();
-    file = FindSceneFile(gRecordVSMBNcgrName);
-    LocateNcgr(&v5, file);
-    file = FindSceneFile(gRecordVSMNscrName);
-    LocateNscr(&v6, file);
-    file = FindSceneFile(gRecordVSM02NscrName);
-    LocateNscr(&gRecordVS->mRecordVSM02Nscr, file);
-    file = FindSceneFile(gRecordVSM03NscrName);
-    LocateNscr(&gRecordVS->mRecordVSM03Nscr, file);
-    file = FindSceneFile(gRecordVSMBNclrName);
-    LocateNclr(&v7, file);
+    file = arc_getSceneArcFile(gRecordVSMBNcgrName);
+    g2du_getCharacterDataBG(&v5, file);
+    file = arc_getSceneArcFile(gRecordVSMNscrName);
+    g2du_getScreenData(&v6, file);
+    file = arc_getSceneArcFile(gRecordVSM02NscrName);
+    g2du_getScreenData(&gRecordVS->mRecordVSM02Nscr, file);
+    file = arc_getSceneArcFile(gRecordVSM03NscrName);
+    g2du_getScreenData(&gRecordVS->mRecordVSM03Nscr, file);
+    file = arc_getSceneArcFile(gRecordVSMBNclrName);
+    g2du_getPaletteData(&v7, file);
     v3 = v4->mData;
-    CallQueueAppend(0x13, 0, (gRecordVS->mRecordVSMNcgr->mData), gRecordVS->mRecordVSMNcgr->mDataSize);
-    CallQueueAppend(0xe, 0, v4->mData, (0x000001a0u));
-    CallQueueAppend(0xe, 0x1c0, v3 + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, (gRecordVS->mRecordVSSNcgr->mData), gRecordVS->mRecordVSSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, v8->mData, v8->mDataSize);
-    CallQueueAppend(4, 0, v5->mData, v5->mDataSize);
-    CallQueueAppend(8, 0, v6->mData, v6->mDataSize);
-    CallQueueAppend(0xf, 0, v7->mData, 0x40);
-    CallQueueAppend(0xe, 0x40, emblemPalette->mData, 0x20);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, (gRecordVS->mRecordVSMNcgr->mData), gRecordVS->mRecordVSMNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, v4->mData, (0x000001a0u));
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, v3 + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, (gRecordVS->mRecordVSSNcgr->mData), gRecordVS->mRecordVSSNcgr->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, v8->mData, v8->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(4, 0, v5->mData, v5->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, v6->mData, v6->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xf, 0, v7->mData, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x40, emblemPalette->mData, 0x20);
 }
 
 #pragma thumb off
@@ -362,11 +362,11 @@ void AdvanceRecordVSRowObjects(void) {
         if (IsRecordVSRowFilled((s16) i)) {
             if (gRecordVS->mIndex == i) {
                 gRecordVS->mRecordVSSTable[gRecordVSHighlightObjectIndices[i]].mVisible = 1;
-                SetLabelPaletteIndex(gRecordVSRowLabelIndices[i], 0xe, gRecordVS->mRecordVSSBnll,
+                jn_ui_setLabelColorParam(gRecordVSRowLabelIndices[i], 0xe, gRecordVS->mRecordVSSBnll,
                                      gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
             } else {
                 gRecordVS->mRecordVSSTable[gRecordVSUnhighlightedObjectIndices[i]].mVisible = 1;
-                SetLabelPaletteIndex(gRecordVSRowLabelIndices[i], 0xf, gRecordVS->mRecordVSSBnll,
+                jn_ui_setLabelColorParam(gRecordVSRowLabelIndices[i], 0xf, gRecordVS->mRecordVSSBnll,
                                      gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
             }
             gRecordVS->mRecordVSSTable[gRecordVSUnflaggedObjectIndices[i]].mVisible = !IsRecordFlagged(firstIndex + i);
@@ -389,15 +389,15 @@ void PrintRecordVSShownRecord(void) {
     firstIndex = GetRecordVSFirstRecordIndex();
     if (GetRecordFriendKeyText(firstIndex + gRecordVS->mShownIndex, friendKey)) {
         gRecordVS->mShowsFriendKey = 1;
-        CallQueueAppend(9, 0, &gRecordVS->mRecordVSM03Nscr->mData, gRecordVS->mRecordVSM03Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM03Nscr->mData, gRecordVS->mRecordVSM03Nscr->mDataSize);
     } else {
         gRecordVS->mShowsFriendKey = 0;
-        CallQueueAppend(9, 0, &gRecordVS->mRecordVSM02Nscr->mData, gRecordVS->mRecordVSM02Nscr->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(9, 0, &gRecordVS->mRecordVSM02Nscr->mData, gRecordVS->mRecordVSM02Nscr->mDataSize);
     }
     switch (gRecordVS->mShowsFriendKey) {
         case 0:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
-            func_0212426c(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
+            jn_ui_212426C(0, 0, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
             counts[1][0] = func_0211437c(firstIndex + gRecordVS->mShownIndex);
             counts[1][1] = func_02114360(firstIndex + gRecordVS->mShownIndex);
             counts[1][2] = func_02114344(firstIndex + gRecordVS->mShownIndex);
@@ -412,44 +412,44 @@ void PrintRecordVSShownRecord(void) {
                 }
             }
             FormatAsciiNumber(counts[1][0], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[1][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][1], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[1][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[1][2], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[1][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[1][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][0], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[2][0], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][1], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[2][1], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             FormatAsciiNumber(counts[2][2], buf);
-            func_02124248(0, gRecordVSGridLabelIndices[2][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
+            jn_ui_2124248(0, gRecordVSGridLabelIndices[2][2], gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl,
                           gRecordVS->mRecordVSMTable, 6);
             GetRecordDate(firstIndex + gRecordVS->mShownIndex, &date);
             FormatDate(&date, buf);
-            func_02124224(0, 0xc, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable,
+            jn_ui_2124224(0, 0xc, gRecordVS->mRecordVSMBnll, buf, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable,
                           6);
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
-            CallQueueAppend(0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
+            NNS_GfdRegisterNewVramTransferTask(0x13, GetCellCharIndex(3, recordVS->mRecordVSMNcer, recordVS->mRecordVSMBncl) << 5,
                             recordVS->mEmblemConverted, 0x200);
             break;
         case 1:
             CopyRecordText(firstIndex + gRecordVS->mShownIndex, buf, 0x20);
-            func_0212426c(0, 0, gRecordVS->mRecordVSMTransientBnll, buf, gRecordVS->mRecordVSMTransientBncl,
+            jn_ui_212426C(0, 0, gRecordVS->mRecordVSMTransientBnll, buf, gRecordVS->mRecordVSMTransientBncl,
                           gRecordVS->mRecordVSMTransientTable);
             for (i = 0; i < 12; i++) {
                 FormatAsciiNumber(friendKey[i] - 0x30, buf);
-                func_0212426c(0, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll, buf,
+                jn_ui_212426C(0, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll, buf,
                               gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
             }
             ReadRecordEmblem(firstIndex + gRecordVS->mShownIndex, gRecordVS->mEmblem, gRecordVS->mEmblemConverted);
             recordVS = gRecordVS;
-            CallQueueAppend(0x13, GetCellCharIndex(1, recordVS->mRecordVSMNcer, recordVS->mRecordVSMTransientBncl) << 5,
+            NNS_GfdRegisterNewVramTransferTask(0x13, GetCellCharIndex(1, recordVS->mRecordVSMNcer, recordVS->mRecordVSMTransientBncl) << 5,
                             recordVS->mEmblemConverted, 0x200);
             break;
     }
@@ -466,7 +466,7 @@ void RefreshRecordVSPage(void) {
         listIndex = firstIndex + i;
         if (GetRecordCount() > listIndex) {
             CopyRecordText(listIndex, buf, 0x20);
-            func_0212426c(1, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, buf, gRecordVS->mRecordVSSBncl,
+            jn_ui_212426C(1, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, buf, gRecordVS->mRecordVSSBncl,
                           gRecordVS->mRecordVSSTable);
         }
     }
@@ -818,7 +818,7 @@ void InitRecordVS(void *heap) {
     reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xc800;
     reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xcc00;
     reg_G2S_DB_BG1CNT = (reg_G2S_DB_BG1CNT & 0x43) | 0x1018;
-    gRecordVS = HeapAlloc(heap, 0x94);
+    gRecordVS = heap_alloc(heap, 0x94);
     gRecordVS->mHeap = heap;
     gRecordVS->mPageIndex = GetRecordScenePageIndex();
     gRecordVS->mIndex = GetRecordSceneIndex();
@@ -833,78 +833,78 @@ void InitRecordVS(void *heap) {
     }
     LoadEmblemSBNclr(heap);
     LocateAndQueueRecordVS();
-    InitLayoutTable(heap, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMBnll, &gRecordVS->mRecordVSMTable);
-    InitLayoutTable(heap, gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientBnll,
+    jn_ui_initLayout(heap, gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMBnll, &gRecordVS->mRecordVSMTable);
+    jn_ui_initLayout(heap, gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientBnll,
                     &gRecordVS->mRecordVSMTransientTable);
-    InitLayoutTable(heap, gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSBnll, &gRecordVS->mRecordVSSTable);
-    gRecordVS->mRecordMessages = FindSceneFile("record.bmg");
+    jn_ui_initLayout(heap, gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSBnll, &gRecordVS->mRecordVSSTable);
+    gRecordVS->mRecordMessages = arc_getSceneArcFile("record.bmg");
     remaining = 0x8000;
-    remaining -= InitLabelCanvas(heap, 0, gRecordVS->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 0, gRecordVS->mRecordVSMBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
-    remaining -= InitLabelCanvas(heap, 1, gRecordVS->mRecordVSMBnll, 0xaa, 0xe, 1, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 1, gRecordVS->mRecordVSMBnll, 0xaa, 0xe, 1, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
-    func_0212426c(0, 1, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0),
+    jn_ui_212426C(0, 1, gRecordVS->mRecordVSMBnll, jn_msg_getMessage(gRecordVS->mRecordMessages, 0),
                   gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
-    remaining -= InitLabelCanvas(heap, 0xb, gRecordVS->mRecordVSMBnll, 0x96, 0xe, 2, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 0xb, gRecordVS->mRecordVSMBnll, 0x96, 0xe, 2, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
-    func_0212426c(0, 0xb, gRecordVS->mRecordVSMBnll, GetBmgEntry(gRecordVS->mRecordMessages, 1),
+    jn_ui_212426C(0, 0xb, gRecordVS->mRecordVSMBnll, jn_msg_getMessage(gRecordVS->mRecordMessages, 1),
                   gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
-    remaining -= InitLabelCanvas(heap, 0xc, gRecordVS->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 0xc, gRecordVS->mRecordVSMBnll, 0x46, 0x10, 3, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable, remaining);
     objectIndex = 4;
     mainBase = gRecordVS->mRecordVSMBncl->mUnk_06;
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
             remaining -=
-                InitLabelCanvas(heap, gRecordVSGridLabelIndices[i][j], gRecordVS->mRecordVSMBnll, data_0215c424[i][j],
+                jn_ui_initLabel(heap, gRecordVSGridLabelIndices[i][j], gRecordVS->mRecordVSMBnll, aPpp[i][j],
                                 data_0215c438[i][j], objectIndex, gRecordVS->mRecordVSMNcer, gRecordVS->mRecordVSMBncl,
                                 gRecordVS->mRecordVSMTable, remaining);
             objectIndex = mainBase + gRecordVSGridLabelIndices[i][j];
         }
     }
     for (i = 0; i < 3; i++) {
-        func_0212426c(0, gRecordVSGridLabelIndices[0][i], gRecordVS->mRecordVSMBnll,
-                      GetBmgEntry(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[i]),
+        jn_ui_212426C(0, gRecordVSGridLabelIndices[0][i], gRecordVS->mRecordVSMBnll,
+                      jn_msg_getMessage(gRecordVS->mRecordMessages, gRecordVSGridRow0MessageIndices[i]),
                       gRecordVS->mRecordVSMBncl, gRecordVS->mRecordVSMTable);
     }
-    remaining -= InitLabelCanvas(heap, 0, gRecordVS->mRecordVSMTransientBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 0, gRecordVS->mRecordVSMTransientBnll, 0x8c, 0x10, 0, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
-    remaining -= InitLabelCanvas(heap, 1, gRecordVS->mRecordVSMTransientBnll, 0x70, 0x10, 1, gRecordVS->mRecordVSMNcer,
+    remaining -= jn_ui_initLabel(heap, 1, gRecordVS->mRecordVSMTransientBnll, 0x70, 0x10, 1, gRecordVS->mRecordVSMNcer,
                                  gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
-    func_0212426c(0, 1, gRecordVS->mRecordVSMTransientBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0xb),
+    jn_ui_212426C(0, 1, gRecordVS->mRecordVSMTransientBnll, jn_msg_getMessage(gRecordVS->mRecordMessages, 0xb),
                   gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
     remaining -=
-        InitLabelCanvas(heap, 0xe, gRecordVS->mRecordVSMTransientBnll, 0xe0, 0x38, 2, gRecordVS->mRecordVSMNcer,
+        jn_ui_initLabel(heap, 0xe, gRecordVS->mRecordVSMTransientBnll, 0xe0, 0x38, 2, gRecordVS->mRecordVSMNcer,
                         gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
-    func_0212426c(0, 0xe, gRecordVS->mRecordVSMTransientBnll, GetBmgEntry(gRecordVS->mRecordMessages, 0xc),
+    jn_ui_212426C(0, 0xe, gRecordVS->mRecordVSMTransientBnll, jn_msg_getMessage(gRecordVS->mRecordMessages, 0xc),
                   gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable);
     for (i = 0; i < 12; i++) {
         remaining -=
-            InitLabelCanvas(heap, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll,
+            jn_ui_initLabel(heap, gRecordVSFriendKeyLabelIndices[i], gRecordVS->mRecordVSMTransientBnll,
                             data_0215c490[i], data_0215c460[i], i + 3, gRecordVS->mRecordVSMNcer,
                             gRecordVS->mRecordVSMTransientBncl, gRecordVS->mRecordVSMTransientTable, remaining);
     }
     remaining = GX_GetSizeOfSubOBJ();
     for (i = 0; i < 5; i++) {
-        remaining -= InitLabelCanvas(heap, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, data_0215c3c8[i],
+        remaining -= jn_ui_initLabel(heap, gRecordVSRowLabelIndices[i], gRecordVS->mRecordVSSBnll, data_0215c3c8[i],
                                      data_0215c3d4[i], gRecordVSHighlightObjectIndices[i], gRecordVS->mRecordVSSNcer,
                                      gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
     }
-    InitLabelCanvas(heap, 5, gRecordVS->mRecordVSSBnll, 0x98, 0x10, 0x19, gRecordVS->mRecordVSSNcer,
+    jn_ui_initLabel(heap, 5, gRecordVS->mRecordVSSBnll, 0x98, 0x10, 0x19, gRecordVS->mRecordVSSNcer,
                     gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable, remaining);
-    func_0212426c(1, 5, gRecordVS->mRecordVSSBnll, GetBmgEntry(gRecordVS->mRecordMessages, 3),
+    jn_ui_212426C(1, 5, gRecordVS->mRecordVSSBnll, jn_msg_getMessage(gRecordVS->mRecordMessages, 3),
                   gRecordVS->mRecordVSSBncl, gRecordVS->mRecordVSSTable);
     for (i = 0; i < 5; i++) {
-        func_02124a98(gRecordVSUnhighlightedObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-        func_02124a98(gRecordVSHighlightObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-        func_02124140(gRecordVSRowLabelIndices[i], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
+        jn_ui_setCellIsTranslucent(gRecordVSUnhighlightedObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+        jn_ui_setCellIsTranslucent(gRecordVSHighlightObjectIndices[i], 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+        jn_ui_setLabelIsTranslucent(gRecordVSRowLabelIndices[i], 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable,
                       gRecordVS->mRecordVSSBncl);
     }
-    func_02124a98(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-    func_02124a98(0x19, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
-    func_02124140(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
-    gRecordVS->mEmblem = HeapAlloc(heap, 0x201);
-    gRecordVS->mEmblemConverted = HeapAlloc(heap, 0x200);
+    jn_ui_setCellIsTranslucent(0x18, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+    jn_ui_setCellIsTranslucent(0x19, 0, gRecordVS->mRecordVSSNcer, gRecordVS->mRecordVSSBncl);
+    jn_ui_setLabelIsTranslucent(5, 0, gRecordVS->mRecordVSSBnll, gRecordVS->mRecordVSSTable, gRecordVS->mRecordVSSBncl);
+    gRecordVS->mEmblem = heap_alloc(heap, 0x201);
+    gRecordVS->mEmblemConverted = heap_alloc(heap, 0x200);
     if (GetRecordPrevScreen() == 4) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = 11;
@@ -921,7 +921,7 @@ void InitRecordVS(void *heap) {
     } else {
         gRecordVS->mState = 0;
         RequestRecordVSState0();
-        ResetOamLists(GetRecordMainOam(), GetRecordSubOam());
+        oam_clearResetBuffers(GetRecordMainOam(), GetRecordSubOam());
     }
     gRecordVS->mRecordVSSTable[24].mVisible = 0;
     gRecordVS->mRecordVSSTable[25].mVisible = 0;

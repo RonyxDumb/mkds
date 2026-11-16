@@ -31,10 +31,10 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020681f0.h"
 
-void StartKartState2(Kart *p, int a, int b) {
+void driver_startSpinOut(Kart *p, int a, int b) {
     int d = 1;
 
-    StartKartState(p, KART_STATE_SPIN);
+    driver_beginColReaction(p, KART_STATE_SPIN);
     if (p->mUnk_44 & 0xa) {
         if (p->mTurnDirection == 1) {
             d = -1;
@@ -48,9 +48,9 @@ void StartKartState2(Kart *p, int a, int b) {
     p->mYRotationAngleSum = 0;
     p->mYRotationCount = a;
     p->mUnk_4c |= 0x20;
-    func_020efea4(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    func_020efea4(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
     if (b != 0) {
         return;
@@ -58,10 +58,10 @@ void StartKartState2(Kart *p, int a, int b) {
     if (p->mUnk_48 & 0x840) {
         return;
     }
-    func_0210af40(p, p->mSoundIndex, 1);
+    sfx_emitDriverVoice(p, p->mSoundIndex, 1);
 }
 
-void AdvanceKartState1And2(Kart *p) {
+void driver_updateSpinOut(Kart *p) {
     if (p->mUnk_4c & 0x20) {
         return;
     }
@@ -70,25 +70,25 @@ void AdvanceKartState1And2(Kart *p) {
     p->mState = KART_STATE_NORMAL;
     p->mUnk_4c &= ~0x30;
     p->mUnk_48 &= ~0x20000;
-    func_02068a64(p, 0, 1);
+    driver_2068A64(p, 0, 1);
     p->mUnk_44 |= 0x80000000;
-    if ((p->mUnk_7c & 0x2) && gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if ((p->mUnk_7c & 0x2) && gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         PickKartAiBalloonCountGoal(p->mAi);
     }
 }
 
-BOOL TryStartKartState6(Kart *p) {
+BOOL driver_tryThrowUp(Kart *p) {
     if (!TryStartKartState(p, KART_STATE_LAUNCH_DOUBLE_FLIP)) {
         return FALSE;
     }
-    StartKartState6(p);
+    driver_throwUp(p);
     if (p->mUnk_7c & 0x200) {
         p->mUnk_514->mUnk_2c ^= 0x20000;
     }
     return TRUE;
 }
 
-void StartKartState6(Kart *p) {
+void driver_throwUp(Kart *p) {
     p->mForwardSpeed = 0;
     p->mTurnAngle = 0;
     p->mUnk_48 &= 0xdfe77fdf;
@@ -97,17 +97,17 @@ void StartKartState6(Kart *p) {
     p->mMiniTurboTimer = 0;
     if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         if (!(p->mUnk_4c & 0x10000000) && !(p->mUnk_48 & 0x4000000)) {
-            ResetCameraHalfFovAngleGoal();
+            cam_resetPlayerCameraTargetFov();
         }
-        StopDispCapBlend();
+        dce_stopBlur();
     }
     if (p->mUnk_4c & 0x2000) {
         p->mUnk_4c &= ~0x2000;
         p->mUnk_d8 = 0x1000;
         if (!(p->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(p);
+            driver_disableSlipStreamToonMode(p);
         }
-        func_02080ee4(p);
+        rptc_stopSlipstreamEffect(p);
     }
     p->mState = KART_STATE_LAUNCH_DOUBLE_FLIP;
     p->mUnk_4c |= 0x10;
@@ -116,28 +116,28 @@ void StartKartState6(Kart *p) {
     p->mRotationAngle = 0;
     p->mRotationAnglePerFrame = 0xfa0;
     p->mRotationEndFrames = 0;
-    GetKartMatrixRow0(p, &p->mRotationAxis);
-    GetKartForward(p, &p->mLaunchForward);
+    driver_getShadowXDirection(p, &p->mRotationAxis);
+    driver_getShadowZDirection(p, &p->mLaunchForward);
     p->mUnk_334 = 0;
     p->mUnk_338 = 0;
     p->mUnk_33c = 0;
     p->mUnk_344 = 0;
     p->mLaunchStartY = p->mPos.y;
     p->mLaunchFrames = 0;
-    func_020eff40(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    it_dropDriverItem(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        sfx_emitDriverVoice(p, p->mSoundIndex, 2);
     }
     p->mUnk_4c &= ~0x80000000;
     if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        SetCameraHeightHold(1);
+        cam_20747F4(1);
     }
 }
 
-void AdvanceKartState6(Kart *p) {
+void driver_updateThrowUp(Kart *p) {
     Vec3 a;
     s32 c;
     u16 i;
@@ -169,23 +169,23 @@ void AdvanceKartState6(Kart *p) {
         } else {
             p->mUnk_338 += 0x3e8;
             p->mUnk_33c += 0x3e8;
-            p->mUnk_334 = gPairsByAngle[(p->mUnk_338 >> 4) * 2];
+            p->mUnk_334 = FX_SinCosTable_[(p->mUnk_338 >> 4) * 2];
         }
         i = ((s64) p->mUnk_334 * 0xce4) >> 12;
-        MTX_RotAxis33((MtxFx43 *) &m, &p->mLaunchForward, gPairsByAngle[(i >> 4) * 2], gPairsByAngle[(i >> 4) * 2 + 1]);
+        MTX_RotAxis33((MtxFx43 *) &m, &p->mLaunchForward, FX_SinCosTable_[(i >> 4) * 2], FX_SinCosTable_[(i >> 4) * 2 + 1]);
         MTX_MultVec33(&p->mRotationAxis, m.mUnk_00, &a);
-        QuaternionFromAxisAngle(&a, p->mRotationAngle, &p->mRotationQuaternion);
+        qrtn_fromAxisAngle(&a, p->mRotationAngle, &p->mRotationQuaternion);
     } else {
         Vec4 q;
 
         q = data_0216556c;
-        QuaternionBlend(&p->mRotationQuaternion, &q, &p->mRotationQuaternion, 0x266);
+        qrtn_lerp(&p->mRotationQuaternion, &q, &p->mRotationQuaternion, 0x266);
     }
-    QuaternionNormalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
+    qrtn_normalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
     if (!(p->mUnk_4c & 0x80000000)) {
         if ((u32) p->mLaunchFrames > 2 && (p->mLaunchStartY >= p->mPos.y || (p->mUnk_44 & KART_44_ON_GROUND))) {
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                SetCameraHeightHold(0);
+                cam_20747F4(0);
             }
             if (p->mRotationEndFrames != 0) {
                 return;
@@ -207,9 +207,9 @@ void AdvanceKartState6(Kart *p) {
     p->mState = KART_STATE_NORMAL;
     p->mUnk_4c &= ~0x30;
     p->mUnk_48 &= ~0x20000;
-    func_02068a64(p, 0, 1);
+    driver_2068A64(p, 0, 1);
     p->mUnk_44 |= 0x80000000;
-    if ((p->mUnk_7c & 0x2) && gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if ((p->mUnk_7c & 0x2) && gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         PickKartAiBalloonCountGoal(p->mAi);
     }
     p->mUnk_4c &= ~0x80000010;
@@ -218,7 +218,7 @@ void AdvanceKartState6(Kart *p) {
     }
 }
 
-BOOL TryStartKartState3(Kart *p) {
+BOOL driver_tryStartForwardFlip(Kart *p) {
     BOOL v1;
     BOOL v2;
     BOOL c;
@@ -250,17 +250,17 @@ BOOL TryStartKartState3(Kart *p) {
     if (!v1) {
         return FALSE;
     }
-    StartKartState3(p);
+    driver_startForwardFlip(p);
     if (p->mUnk_7c & 0x200) {
         p->mUnk_514->mUnk_2c ^= 0x10;
     }
     return TRUE;
 }
 
-void StartKartState3(Kart *p) {
+void driver_startForwardFlip(Kart *p) {
     Vec3 v;
 
-    StartKartState(p, KART_STATE_FLIP);
+    driver_beginColReaction(p, KART_STATE_FLIP);
     p->mUnk_4c |= 0x10;
     p->mRotationAngle = 0;
     p->mRotationAnglePerFrame = 0x666;
@@ -268,27 +268,27 @@ void StartKartState3(Kart *p) {
     p->mRotationEndFrames = 0;
     p->mRotationAngleSum = 0;
     p->mForwardSpeed = p->mForwardSpeed + 0x800;
-    GetKartMatrixRow0(p, &p->mRotationAxis);
-    GetKartForward(p, &v);
+    driver_getShadowXDirection(p, &p->mRotationAxis);
+    driver_getShadowZDirection(p, &v);
     VEC_MultAdd(0x2e2, &v, &p->mRotationAxis, &p->mRotationAxis);
-    Vec3NormalizeAndGetLengthUnchecked(&p->mRotationAxis, &p->mRotationAxis);
-    QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+    vec_normalize(&p->mRotationAxis, &p->mRotationAxis);
+    qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
     p->mForwardSpeed = ((s64) p->mForwardSpeed * 0x99a) >> 12;
     if (p->mKartModelsEntry->mUnk_058 == 0) {
-        StartEffect(0xc, &p->mPos);
-        StartEffect(0xd, &p->mPos);
-        StartEffect(0xe, &p->mPos);
+        ptcm_createEmitter(0xc, &p->mPos);
+        ptcm_createEmitter(0xd, &p->mPos);
+        ptcm_createEmitter(0xe, &p->mPos);
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        sfx_emitDriverVoice(p, p->mSoundIndex, 2);
     }
-    func_020efea4(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    func_020efea4(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
 }
 
-void AdvanceKartState3(Kart *p) {
+void driver_updateForwardFlip(Kart *p) {
     s16 n;
 
     if (p->mRotationAngleSum == 0) {
@@ -312,8 +312,8 @@ void AdvanceKartState3(Kart *p) {
             p->mRotationAngle = p->mRotationAngle + p->mRotationAnglePerFrame;
         }
         p->mRotationAnglePerFrame = p->mRotationAnglePerFrame - 0xa;
-        QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-        QuaternionNormalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
+        qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+        qrtn_normalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
         return;
     }
     n = p->mRotationEndFrames;
@@ -329,14 +329,14 @@ void AdvanceKartState3(Kart *p) {
     p->mState = KART_STATE_NORMAL;
     p->mUnk_4c &= ~0x30;
     p->mUnk_48 &= ~0x20000;
-    func_02068a64(p, 0, 1);
+    driver_2068A64(p, 0, 1);
     p->mUnk_44 |= 0x80000000;
-    if ((p->mUnk_7c & 0x2) && gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if ((p->mUnk_7c & 0x2) && gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         PickKartAiBalloonCountGoal(p->mAi);
     }
 }
 
-BOOL TryStartKartState4(Kart *p, Unk0206b020 *a) {
+BOOL driver_tryStartBackwardFlip(Kart *p, Unk0206b020 *a) {
     Vec3 t;
     Vec3 u;
     Vec3 w;
@@ -379,29 +379,29 @@ BOOL TryStartKartState4(Kart *p, Unk0206b020 *a) {
         t.y = -t.y;
         t.z = -t.z;
     }
-    StartKartState4(p, &t, 0);
+    driver_startBackwardFlip(p, &t, 0);
     return TRUE;
 }
 
-void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
+void driver_startBackwardFlip(Kart *p, const Vec3 *a, s32 b) {
     Vec3 v;
     s32 r;
     s32 x;
     s32 y;
     s32 z;
 
-    StartKartState(p, KART_STATE_PUSH_FLIP);
+    driver_beginColReaction(p, KART_STATE_PUSH_FLIP);
     p->mUnk_4c |= 0x10;
     p->mRotationAngle = 0;
     p->mRotationAngleSum = 0;
     p->mRotationAnglePerFrame = data_021654d4;
     p->mUnk_370 = 0;
     p->mRotationEndFrames = 0;
-    v = data_02154f7c;
-    Vec3CrossUnrounded(&v, a, &p->mRotationAxis);
-    func_020eff40(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    v = driverCore_sUpVec;
+    vec_crossProduct(&v, a, &p->mRotationAxis);
+    it_dropDriverItem(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
     if (!(p->mUnk_7c & 0x400)) {
         x = ((s64) a->x * 0x1b33) >> 12;
@@ -410,22 +410,22 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
         p->mHitVelocity.x += x;
         p->mHitVelocity.z += z;
         p->mVerticalSpeed += y;
-        r = Vec3DotUnrounded(&p->mTurnedForward, a);
+        r = vec_dotProduct(&p->mTurnedForward, a);
         if (r <= 0) {
             p->mForwardSpeed = 0;
         } else {
             p->mForwardSpeed = (s32) (((s64) p->mForwardSpeed * r) >> 12) >> 2;
         }
     }
-    QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+    qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
     if (p->mKartModelsEntry->mUnk_058 == 0) {
-        StartEffect(0xc, &p->mPos);
-        StartEffect(0xd, &p->mPos);
-        StartEffect(0xe, &p->mPos);
+        ptcm_createEmitter(0xc, &p->mPos);
+        ptcm_createEmitter(0xd, &p->mPos);
+        ptcm_createEmitter(0xe, &p->mPos);
     }
     p->mUnk_4c |= 0x1;
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        sfx_emitDriverVoice(p, p->mSoundIndex, 2);
     }
     if (b == 0) {
         return;
@@ -439,7 +439,7 @@ void StartKartState4(Kart *p, const Vec3 *a, s32 b) {
     }
 }
 
-void AdvanceKartState4(Kart *p) {
+void driver_updateBackwardFlip(Kart *p) {
     s16 n;
 
     if (p->mRotationAngleSum == 0) {
@@ -455,8 +455,8 @@ void AdvanceKartState4(Kart *p) {
         }
         p->mRotationAnglePerFrame =
             p->mRotationAnglePerFrame - (p->mRotationAnglePerFrame > 0 ? data_021654d0 : -data_021654d0);
-        QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-        QuaternionNormalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
+        qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+        qrtn_normalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
         return;
     }
     n = p->mRotationEndFrames;
@@ -472,9 +472,9 @@ void AdvanceKartState4(Kart *p) {
     p->mState = KART_STATE_NORMAL;
     p->mUnk_4c &= ~0x30;
     p->mUnk_48 &= ~0x20000;
-    func_02068a64(p, 0, 1);
+    driver_2068A64(p, 0, 1);
     p->mUnk_44 |= 0x80000000;
-    if ((p->mUnk_7c & 0x2) && gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if ((p->mUnk_7c & 0x2) && gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         PickKartAiBalloonCountGoal(p->mAi);
     }
     if (p->mUnk_44 & KART_44_ON_GROUND) {
@@ -482,7 +482,7 @@ void AdvanceKartState4(Kart *p) {
     }
 }
 
-s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
+s32 driver_startDoubleBackwardFlip(Kart *p, const Vec3 *a, s32 b) {
     Vec3 v;
     Vec3 w;
     s32 r;
@@ -490,16 +490,16 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     s32 y;
     s32 z;
 
-    StartKartState(p, KART_STATE_PUSH_DOUBLE_FLIP);
+    driver_beginColReaction(p, KART_STATE_PUSH_DOUBLE_FLIP);
     v = *a;
     v.y = 0;
     if ((s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z >= 16) {
-        r = Vec3NormalizeAndGetLengthUnchecked(&v, &v);
+        r = vec_normalize(&v, &v);
     } else {
         r = 0;
     }
     if (r == 0) {
-        v = data_02154f88;
+        v = driverCore_sRightVec;
     }
     p->mUnk_4c |= 0x10;
     p->mRotationAngle = 0;
@@ -507,8 +507,8 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     p->mRotationAnglePerFrame = data_021654e0;
     p->mUnk_370 = 0;
     p->mRotationEndFrames = 0;
-    w = data_02154f7c;
-    Vec3CrossUnrounded(&w, &v, &p->mRotationAxis);
+    w = driverCore_sUpVec;
+    vec_crossProduct(&w, &v, &p->mRotationAxis);
     if (!(p->mUnk_7c & 0x400)) {
         x = ((s64) v.x << 14) >> 12;
         y = ((s64) v.y << 14) >> 12;
@@ -516,25 +516,25 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
         p->mHitVelocity.x += x;
         p->mHitVelocity.z += z;
         p->mVerticalSpeed += y;
-        r = Vec3DotUnrounded(&p->mTurnedForward, &v);
+        r = vec_dotProduct(&p->mTurnedForward, &v);
         if (r <= 0) {
             p->mForwardSpeed = 0;
         } else {
             p->mForwardSpeed = (s32) (((s64) p->mForwardSpeed * r) >> 12) >> 2;
         }
     }
-    QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-    func_020eff40(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+    it_dropDriverItem(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
     if (p->mKartModelsEntry->mUnk_058 == 0) {
-        StartEffect(0xc, &p->mPos);
-        StartEffect(0xd, &p->mPos);
-        StartEffect(0xe, &p->mPos);
+        ptcm_createEmitter(0xc, &p->mPos);
+        ptcm_createEmitter(0xd, &p->mPos);
+        ptcm_createEmitter(0xe, &p->mPos);
     }
     if (!(p->mUnk_48 & 0x840)) {
-        func_0210af40(p, p->mSoundIndex, 2);
+        sfx_emitDriverVoice(p, p->mSoundIndex, 2);
     }
     p->mUnk_4c |= 0x1;
     if (b != 0) {
@@ -549,7 +549,7 @@ s32 StartKartState5(Kart *p, const Vec3 *a, s32 b) {
     return 1;
 }
 
-void AdvanceKartState5(Kart *p) {
+void driver_updateDoubleBackwardFlip(Kart *p) {
     s16 n;
 
     if (p->mRotationAngleSum == 0) {
@@ -570,8 +570,8 @@ void AdvanceKartState5(Kart *p) {
         }
         p->mRotationAnglePerFrame =
             p->mRotationAnglePerFrame - (p->mRotationAnglePerFrame > 0 ? data_021654d0 : -data_021654d0);
-        QuaternionFromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
-        QuaternionNormalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
+        qrtn_fromAxisAngle(&p->mRotationAxis, p->mRotationAngle, &p->mRotationQuaternion);
+        qrtn_normalize(&p->mRotationQuaternion, &p->mRotationQuaternion);
         return;
     }
     n = p->mRotationEndFrames;
@@ -587,9 +587,9 @@ void AdvanceKartState5(Kart *p) {
     p->mState = KART_STATE_NORMAL;
     p->mUnk_4c &= ~0x30;
     p->mUnk_48 &= ~0x20000;
-    func_02068a64(p, 0, 1);
+    driver_2068A64(p, 0, 1);
     p->mUnk_44 |= 0x80000000;
-    if ((p->mUnk_7c & 0x2) && gRaceSetup->mMode == MODE_BATTLE && gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON) {
+    if ((p->mUnk_7c & 0x2) && gRaceMultiConfig->mMode == MODE_BATTLE && gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
         PickKartAiBalloonCountGoal(p->mAi);
     }
     if (p->mUnk_44 & KART_44_ON_GROUND) {
@@ -597,7 +597,7 @@ void AdvanceKartState5(Kart *p) {
     }
 }
 
-void StartKartThunderShrink(Kart *p) {
+void driver_startThunderShrinkEffect(Kart *p) {
     KartItemEffectState *q = &p->mUnk_538;
 
     if (p->mUnk_4c & 0x10000040) {
@@ -609,21 +609,21 @@ void StartKartThunderShrink(Kart *p) {
     if (p->mUnk_48 & 0x10040) {
         return;
     }
-    q->mUnk_02 = data_02154a54[GetKartRank(p->mIndex) - 1];
+    q->mUnk_02 = driver_sThunderShrinkTimes[rstat_getPlace(p->mIndex) - 1];
     q->mUnk_04 = 0;
     p->mUnk_394 = 0xb33;
     p->mUnk_4c |= KART_4C_THUNDER_SHRINK;
-    TrySpinKart(p, 2, 1);
+    driver_tryStartSpinOut(p, 2, 1);
     func_0210f9ac(p);
-    func_020eff40(&(gKartItems)[p->mIndex]);
-    if (gRaceSetup->mMode == MODE_MISSION_RUN && gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218173c();
+    it_dropDriverItem(&(it_sDriverItemStatus)[p->mIndex]);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyPlayerDamage();
     }
     p->mScaleFactor.x = 0x1000;
     p->mScaleFactor.y = 0x1000;
     p->mScaleFactor.z = 0x1000;
     func_0210a644(p);
-    if (p->mIndex == gRaceSetup->mEntryIndex) {
+    if (p->mIndex == gRaceMultiConfig->mEntryIndex) {
         func_0210fa74(1);
     }
     if (p->mUnk_7c & 0x200) {
@@ -631,12 +631,12 @@ void StartKartThunderShrink(Kart *p) {
     }
 }
 
-void AdvanceKartThunderShrink(Kart *p) {
+void driver_updateThunderShrinkEffect(Kart *p) {
     KartItemEffectState *q = &p->mUnk_538;
 
     if (q->mUnk_02 <= 0) {
         if (q->mUnk_04 == 0) {
-            StartSound(&p->mSoundSource, 0xed, 0x7f, 0);
+            sfx_21090C4(&p->mSoundSource, 0xed, 0x7f, 0);
         }
         q->mUnk_04 = q->mUnk_04 + 1;
         if (q->mUnk_04 >= 0x19) {
@@ -655,7 +655,7 @@ void AdvanceKartThunderShrink(Kart *p) {
                 if (!(p->mUnk_4c & 0x10080)) {
                     p->mUnk_394 = 0x1000;
                 }
-                if (p->mIndex == gRaceSetup->mEntryIndex) {
+                if (p->mIndex == gRaceMultiConfig->mEntryIndex) {
                     func_0210fa74(0);
                 }
                 func_0210a664(p);

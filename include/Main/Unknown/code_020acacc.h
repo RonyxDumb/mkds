@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_020acacc(void);
-void UpdateTitleState4(void);
+void title_gotoSelectedVblank(void);
+void title_selectedOutEffectRender(void);

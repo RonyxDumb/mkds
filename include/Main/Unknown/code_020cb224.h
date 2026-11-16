@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020cb224(void);
+unsigned int menu_input_getDefaultInputId(void);

@@ -4,5 +4,5 @@
 
 typedef struct Interpolation Interpolation;
 
-void AdvanceInterpolation(Interpolation *interpolation);
-void func_02025f14(Interpolation *interpolation, s32 requestedState);
+void interp_update(Interpolation *interpolation);
+void interp_setState(Interpolation *interpolation, s32 requestedState);

@@ -1,7 +1,7 @@
 # Data symbols the original link kept although nothing references them.
-WriteSelectKartScreenRegisters
-func_ov001_02185828
-func_02133e04
+menu_state6Vblank
+menu_state25Vblank
+__fp_status
 data_02001e54
 data_0216fe14
 data_0216fe18

@@ -19,11 +19,11 @@ void InitScrollList(void *heap, s32 b, const void *groupFirstEntries, u16 cursor
                     s32 firstRowRectIndex, s32 rowCount,
                     void (*callback)(int heap, int b, int groupFirstEntries, int cursorEntry)) {
     s32 row;
-    gScrollList = HeapAlloc(heap, 0x674);
+    gScrollList = heap_alloc(heap, 0x674);
     func_0202e68c(gScrollList, 0x674);
     gScrollList->mGroupCount = b;
     b = b * 2;
-    gScrollList->mGroupFirstEntries = HeapAllocAligned(heap, b, 0x20);
+    gScrollList->mGroupFirstEntries = heap_allocEx(heap, b, 0x20);
     func_0202e680(groupFirstEntries, gScrollList->mGroupFirstEntries, b);
     func_0202e680(screenMap, gScrollList->mScreenMap, 0x600);
     gScrollList->mCursorEntry = cursorEntry;

@@ -3,8 +3,8 @@
 #include "ITCM/code_01ffba68.h"
 
 void func_020646c0(Kart *kart) {
-    if (IsMissionRunWithKind2Shapes() != 0) {
-        func_0203c1a8(&kart->mPos, kart->mIndex);
+    if (driver_getCheckMissionEndArea() != 0) {
+        rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
-    AdvanceKartMotion(kart);
+    driver_1FFCC50(kart);
 }

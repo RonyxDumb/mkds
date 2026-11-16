@@ -4,11 +4,11 @@
 
 #pragma thumb on
 
-GhostRecord *LoadGhostRecordFile(const char *path) {
+GhostRecord *savd_loadStaffGhost(const char *path) {
     int result;
-    result = ReadWholeFile(path, data_0217aa08->mGhostRecords[2], (0x00001000u));
+    result = arc_readFileToEnd(path, gSaveData->mGhostRecords[2], (0x00001000u));
     if (result != 0) {
-        return data_0217aa08->mGhostRecords[2];
+        return gSaveData->mGhostRecords[2];
     }
     return NULL;
 }

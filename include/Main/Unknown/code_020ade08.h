@@ -22,7 +22,7 @@ void FindMissionTableCell(u32 value, u8 *outRow, u8 *outColumn);
 
 typedef struct InputSlot InputSlot;
 
-extern u32 gCupCourseIds[];
+extern u32 CourseOrderAll[];
 
 void PlotNibblePixels(const u16 *sourcePixels, u16 *dest, s32 colorForValue1, s32 colorForValue2,
                       PixelSetFunc *pixelSetFunc);
@@ -40,16 +40,16 @@ BOOL func_020ae2b0(InputSlotPair *inputSlotPair);
 BOOL IsPairNew(InputSlotPair *inputSlotPair);
 BOOL func_020ae308(InputSlotPair *inputSlotPair);
 unsigned int func_020ae338(InputSlotPair *inputSlotPair);
-u32 GetCupCourseId(s32 cupIndex, s32 courseIndex);
+u32 SPM_GetCourseIDByCupIndex(s32 cupIndex, s32 courseIndex);
 u32 func_020ae3b4(u32 limit);
-u16 GetRepeatBits(u32 slotIndex, u32 mask);
-u16 func_020ae444(InputSlot *inputSlot, u32 mask);
-u16 GetNewBits(u32 slotIndex, u32 mask);
-u16 func_020ae474(InputSlot *inputSlot, u32 mask);
-s16 func_020ae488(s32 frame);
-s16 InterpolateS16(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
+u16 mutil_input_getRepeatedKeysWithMaskById(u32 slotIndex, u32 mask);
+u16 mutil_input_getRepeatedKeysWithMask(InputSlot *inputSlot, u32 mask);
+u16 mutil_input_getTriggeredKeysWithMaskById(u32 slotIndex, u32 mask);
+u16 mutil_input_getTriggeredKeysWithMask(InputSlot *inputSlot, u32 mask);
+s16 mutil_getButtonOutEffectOffset(s32 frame);
+s16 mutil_interpolate(s32 mode, s16 start, s16 end, s32 elapsedFrames, s32 durationFrames);
 s32 func_020ae54c(s32 value);
-s32 func_020ae554(s32 value, s32 factor);
-s16 func_020ae564(s32 angle);
+s32 mutil_FX_TRUNC_MUL(s32 value, s32 factor);
+s16 mutil_FX_CosIdx(s32 angle);
 s32 func_020ae584(s32 index);
-u16 AllocOamMatrixIndex(void *oamList);
+u16 oam_getAffineId(void *oamList);

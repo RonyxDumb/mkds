@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-s32 func_020a223c(u16 kartIndex);
-s32 func_020a2264(u16 kartIndex);
+s32 mgcnt_getDriverKeyInflating(u16 kartIndex);
+s32 mgcnt_getDriverMicInflatingCounter(u16 kartIndex);

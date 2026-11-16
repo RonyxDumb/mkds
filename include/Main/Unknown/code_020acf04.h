@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void StartTitleSelectedSound(void);
-void UpdateTitleState1(void);
+void title_playActivationSound(void);
+void title_buttonsInStateRender(void);

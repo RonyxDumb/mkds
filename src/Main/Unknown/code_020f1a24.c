@@ -3,8 +3,8 @@
 
 #pragma thumb on
 
-void InitItemKinds(void) {
-    CreateItemKinds();
+void items_20F1A24(void) {
+    items_initItemParams();
     ComputeItemKindObjectCounts();
 }
 

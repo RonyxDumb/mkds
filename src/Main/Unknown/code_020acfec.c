@@ -8,18 +8,18 @@
 
 #pragma thumb on
 
-void SetupAndDrawTitleTable(void) {
+void title_renderUI(void) {
     TitleScene *titleScene;
-    SetupTitleTable();
-    titleScene = gTitleScene;
-    DrawLayoutTable(titleScene->mTitleSBncl, titleScene->mTitleSNceNcer, titleScene->mTitleSBnll, &titleScene->mSubOam,
+    title_updateUI();
+    titleScene = sTitleSceneState;
+    jn_ui_renderElements(titleScene->mTitleSBncl, titleScene->mTitleSNceNcer, titleScene->mTitleSBnll, &titleScene->mSubOam,
                     titleScene->mTitleTable);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-u32 func_020acfec(u32 value) {
+u32 title_buttonsInStateVblank(u32 value) {
     u32 value0 = value;
     u32 functionAddress;
     functionAddress = (u32) &func_020ad230;

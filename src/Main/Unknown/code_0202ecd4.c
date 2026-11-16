@@ -31,7 +31,7 @@ void SetScrollListRightColumnHighBits(s32 highBits) {
     }
     gScrollList->mRightColumnHighBitsTimer = 5;
     gScrollList->mRightColumnHighBits = highBits;
-    CallQueueAppend(0x1b, 0, gScrollList->mScreenMap, 0x600);
+    NNS_GfdRegisterNewVramTransferTask(0x1b, 0, gScrollList->mScreenMap, 0x600);
 }
 
 void AdvanceScrollListRightColumnTimer(void) {
@@ -54,5 +54,5 @@ u16 func_0202ecf0(InputSlot *slot, u32 mask) {
 }
 
 u16 func_0202ecd4(u32 slotIndex, u32 mask) {
-    return func_0202ecf0(&data_02175628[slotIndex], mask);
+    return func_0202ecf0(&gInputUnits[slotIndex], mask);
 }

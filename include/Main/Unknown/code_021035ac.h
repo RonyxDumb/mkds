@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Two halfwords passed and stored as one value (rows of OrthoQuad, SetupOrthoQuad's second argument).
+// Two halfwords passed and stored as one value (rows of OrthoQuad, cspl_emitSplash's second argument).
 typedef union {
     u32 mWord;
     struct {
@@ -16,7 +16,7 @@ typedef struct OrthoQuad OrthoQuad;
 
 struct OrthoQuad {
     /* 00 */ s16 mCorners[4][2];
-    // Per corner: the offset SetupOrthoQuad picks, scaled by a motion table; later a velocity added to the corners.
+    // Per corner: the offset cspl_emitSplash picks, scaled by a motion table; later a velocity added to the corners.
     /* 10 */ s16 mCornerVelocities[4][2];
     /* 20 */ s16 mStartPair[2];
     /* 24 */ void (*mUpdateFunction)(OrthoQuad *p);
@@ -28,5 +28,5 @@ struct OrthoQuad {
     /* 30 */ u32 mPickedCornerIndex;
 };
 
-void SkipOrthoQuadsHoldAndSetVelocities(int kartIndex);
-void SetOrthoQuadVelocitiesFromCorners(OrthoQuad *quad);
+void cspl_speedClearSplashes(int kartIndex);
+void cspl_speedClearSplash(OrthoQuad *quad);

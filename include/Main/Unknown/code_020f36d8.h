@@ -51,13 +51,13 @@ typedef struct {
 
 extern SegmentPoints data_0217bb88;
 
-// Element returned through gItemPools: the first 0x12c bytes that every pool object shares; the per-kind objects
+// Element returned through it_sItemsets: the first 0x12c bytes that every pool object shares; the per-kind objects
 // embed it as their first member and run from 0x12c (kinds 4, 6 and 13) to 0x31c bytes. One is also embedded in
 // MapObjects at 0x18c.
 typedef struct ItemObject {
     // Sound source of the item object (the sounds started on it).
     /* 00 */ SoundSource mSoundSource;
-    // Kind number of the object's pool; ResetItemObject writes it each time the object is set up or handed out.
+    // Kind number of the object's pool; it_initInstance writes it each time the object is set up or handed out.
     /* 44 */ s32 mKind;
     /* 48 */ s32 mUnk_48;
     // Index the object was allocated at in its pool; mObjects is reordered later, so this is not its position now.
@@ -111,10 +111,10 @@ typedef struct RaceProgressKart {
     /* 04 */ s32 mLapFrames;
     /* 08 */ s32 mUnk_08;
     // Slot k-1 holds lap k, slot 5 the finish time. Laps not yet run still hold the value written at init, so
-    // GetKartBestLapTime is only meaningful after all laps.
+    // rstat_getDriverBestLapTime is only meaningful after all laps.
     /* 0c */ Unk0217aa1c_144_00 mLapTimes[6];
     /* 24 */ s32 mLap;
-    // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by ComputeGrandPrixScoreTerms.
+    // Counted for the leader at each ranking step (kart 0 in a one-kart race); read by rstat_calculateSkillRankPointsGp.
     /* 28 */ s32 mFirstPlaceFrames;
     /* 2c */ s32 mFinishTimeMs;
     // 0x1 local entry, 0x2 ended by the mode 2 end, 0x4 facing against the checkpoint, 0x8 finish just happened, 0x10
@@ -139,14 +139,14 @@ typedef struct RaceProgressKart {
             u16 mFinishRequest : 2;
         };
     };
-    // Set by FinishRaceProgressKart for the local entry in modes 0 and 4; 0 otherwise.
+    // Set by rstat_finishDriver for the local entry in modes 0 and 4; 0 otherwise.
     /* 3e */ s16 mScore;
     // Position between the kart's checkpoint and the next one as of the last update, fixed point about 0 to 0x1000 (the
     // tests accept -2 to 0x1002); it is used again as the position when the checkpoint search found no new one.
     /* 40 */ s32 mCheckpointProgress;
     // ((mLap - 1) << 12 + mLapProgress) scaled by 1/laps, fixed point; the rank sort uses it after mLap.
     /* 44 */ s32 mRaceProgress;
-    // Position within the lap, fixed point, scaled by 1/(gCourseMap->mLapProgressBaseMax + 1).
+    // Position within the lap, fixed point, scaled by 1/(gMapData->mLapProgressBaseMax + 1).
     /* 48 */ s32 mLapProgress;
     // One bit per checkpoint index over 16 words: set when the checkpoint was already tested in this update's search,
     // tested to skip it, cleared for all words before each update.
@@ -157,8 +157,8 @@ typedef struct RaceProgressKart {
 // Entry 0 also holds the clock header at 0x00..0x13.
 typedef struct Unk0217561c_000 {
     /* 00 */ s32 mElapsedFrames;
-    // Gate of the clock; cleared by FinishRaceProgressKartWithEndKind (finish request for ANY entry: mission goal,
-    // forced finish, kind 6), not by the normal goal crossing; set only by StartRaceClock.
+    // Gate of the clock; cleared by rstat_finishMission (finish request for ANY entry: mission goal,
+    // forced finish, kind 6), not by the normal goal crossing; set only by rstat_startTime.
     /* 04 */ s32 mClockEnabled;
     /* 08 */ union {
         struct {
@@ -170,7 +170,7 @@ typedef struct Unk0217561c_000 {
     };
     // Frames from the file, 0 = course absent. Compared with mElapsedFrames.
     /* 0c */ u16 mRankTime;
-    // Calls of FinishRaceProgressKart; set to the kart count when the race is over.
+    // Calls of rstat_finishDriver; set to the kart count when the race is over.
     /* 0e */ u16 mFinishedCount;
     // Only karts removed while not ended.
     /* 10 */ u16 mRemovedCount;
@@ -235,7 +235,7 @@ typedef struct RankTimeGpEntry {
     /* 06 */ u16 mUnk_06;
 } RankTimeGpEntry;
 
-// Object behind RaceProgress.mRankTimeGpFile: header 0x1c bytes (score weights read by ComputeGrandPrixScoreTerms:
+// Object behind RaceProgress.mRankTimeGpFile: header 0x1c bytes (score weights read by rstat_calculateSkillRankPointsGp:
 // halfwords 0x0a..0x1a), then mEntryCount entries of 8 bytes.
 typedef struct RankTimeGp {
     /* 00 */ u8 mUnk_00[0x8];
@@ -257,8 +257,8 @@ typedef struct RankPointRow {
     /* 00 */ u8 mPoints[8];
 } RankPointRow;
 
-// Race object behind gRaceProgress (0x524 bytes, made by CreateRaceProgress from InitRace, stepped every frame by
-// UpdateRaceProgress). Per-kart progress and status (mKarts, 8 entries), the rank order (mKartAtRank), the race clock
+// Race object behind gRaceStatus (0x524 bytes, made by rstat_init from race_init, stepped every frame by
+// rstat_update). Per-kart progress and status (mKarts, 8 entries), the rank order (mKartAtRank), the race clock
 // in the header bytes (the second view Unk0217561c_000 gives its first 0x14 bytes), two loaded files (rankpoint.rpt,
 // ranktimeGP.rtt), three random generators (mRandom synced, mLocalRandom per console, a third with a fixed seed used in
 // mode 5) and race-done / time-limit flags. 17 files use only the generators.
@@ -275,7 +275,7 @@ typedef struct RaceProgress {
     };
     /* 474 */ s8 mKartAtRank[8];
     // Synced random generator; also stepped at each clock update while the clock gate is on, for the jitter that
-    // GetRaceClockTime shows.
+    // rstat_getLapTime shows.
     /* 47c */ RandomState64 mRandom;
     // Written once, never read; mNextHeader.mUnk_5c holds the same value.
     /* 494 */ s32 mSeed;
@@ -294,15 +294,15 @@ typedef struct RaceProgress {
     /* 4d8 */ u8 mUnk_4d8[0x4];
     /* 4dc */ RankPointRow *mRankPointFile;
     // How the race of the entry flagged local in RaceProgressKart.mFlags ended: the second argument of
-    // FinishRaceProgressKartWithEndKind (0 goal reached, other values the other ends), 6 until it has ended.
+    // rstat_finishMission (0 goal reached, other values the other ends), 6 until it has ended.
     /* 4e0 */ s32 mEntryEndKind;
-    // Reciprocal of one more than gCourseMap's mLapProgressBaseMax, as a fixed-point factor: multiplied with a position
+    // Reciprocal of one more than gMapData's mLapProgressBaseMax, as a fixed-point factor: multiplied with a position
     // in the route to get RaceProgressKart.mLapProgress and mCheckpointLapProgress.
     /* 4e4 */ s32 mLapProgressScale;
     // Reciprocal of the lap count as a fixed-point factor: multiplied with (mLap - 1, mLapProgress) to get
     // RaceProgressKart.mRaceProgress.
     /* 4e8 */ s32 mRaceProgressScale;
-    // Read only by ComputeRaceTime: when set, the clock counts down from mTimeLimitFrameCount. Set at init in mode 4
+    // Read only by rstat_calculateTime: when set, the clock counts down from mTimeLimitFrameCount. Set at init in mode 4
     // (unless mUnk_2f is 6) and in mode 2 when mUnk_18 is 1.
     /* 4ec */ BOOL mTimeCountsDown;
     /* 4f0 */ s32 mUnk_4f0;
@@ -310,7 +310,7 @@ typedef struct RaceProgress {
     /* 4f4 */ u32 mTimeLimitFrameCount;
     /* 4f8 */ u8 mStartPlacementOffset;
     /* 4f9 */ u8 mUnk_4f9;
-    // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by FinishRaceProgressKartWithEndKind. No
+    // Mode 4 only: counted while the local entry ended with flag 0x10, zeroed by rstat_finishMission. No
     // init write (zero from the allocation).
     /* 4fa */ u16 mFramesSinceFinish;
     // Calls of the end step, counted while func_0207a218 returns non-zero, since the selected entry ended without the
@@ -320,11 +320,11 @@ typedef struct RaceProgress {
     /* 500 */ RaceProgressScoreTerms mScoreTerms;
 } RaceProgress;
 
-// Entry of the table behind gItemKinds: one record per object kind (14, 0xa8 bytes each), a heap copy of the static
+// Entry of the table behind it_sItemParams: one record per object kind (14, 0xa8 bytes each), a heap copy of the static
 // gItemKind records, indexed by the kind number.
 typedef struct ItemKind {
     /* 00 */ s32 mObjectSize;
-    // Most objects of the kind that may be in use, copied to the pool; CreateItemKinds changes it in modes 2, 4 and 5.
+    // Most objects of the kind that may be in use, copied to the pool; items_initItemParams changes it in modes 2, 4 and 5.
     /* 04 */ s32 mLimit;
     /* 08 */ s32 mUnk_08;
     // Number of objects the kind's pool preallocates: mLimit - 1 plus the largest object count of an enabled ItemInfo,
@@ -332,11 +332,11 @@ typedef struct ItemKind {
     /* 0c */ s32 mObjectCount;
     /* 10 */ s32 mUnk_10;
     /* 14 */ void (*mSetup)(void);
-    // Called with the object by ResetItemObject after it has reset the common fields.
+    // Called with the object by it_initInstance after it has reset the common fields.
     /* 18 */ void (*mReset)(void *);
-    // Called with the object when StartItemObject moves it into the started part of its pool.
+    // Called with the object when it_itemsetAddItem moves it into the started part of its pool.
     /* 1c */ void (*mStart)(void *);
-    // Called by AdvanceItemInUseOneWithOrientation with the item-in-use record and its first object, which is not
+    // Called by it_20EF350 with the item-in-use record and its first object, which is not
     // started yet.
     /* 20 */ void (*mAdvanceInUse)(void *, void *);
     // Called with the item-in-use record and the object by StartLastItemInUseObjectAndInit after it takes the object
@@ -353,10 +353,10 @@ typedef struct ItemKind {
     // Called with the object by func_020f7184 when its second argument is 0; returns 0 to end the call with 2, 1 to end
     // it with 0, anything else lets it continue.
     /* 34 */ UnkWordFunc *mUnk_34;
-    // Called with the object after StartItemObject and func_020f6630 have set it up from a kart; the entries that exist
+    // Called with the object after it_itemsetAddItem and it_startThrowAnim have set it up from a kart; the entries that exist
     // set the object's mUnk_120 to the kind's mAdvance unless flags 0x180000 are set.
     /* 38 */ void (*mUnk_38)(void *);
-    // Called with the object at the end of ReleaseItemObject.
+    // Called with the object at the end of it_destroy.
     /* 3c */ void (*mRelease)(void *);
     /* 40 */ s32 mUnk_40;
     /* 44 */ s32 mUnk_44;
@@ -370,7 +370,7 @@ typedef struct ItemKind {
     // func_020f8e78.
     /* 50 */ void (*mInitFromData)(void *);
     /* 54 */ s32 mUnk_54;
-    // Returns the kind's far distance squared; when NULL the value of gSoundFalloffs[1].mUnk_20 is used.
+    // Returns the kind's far distance squared; when NULL the value of gSfxParams[1].mUnk_20 is used.
     /* 58 */ u32 mGetFarDistanceSquared;
     /* 5c */ s32 mUnk_5c;
     /* 60 */ s32 mUnk_60;
@@ -393,34 +393,34 @@ typedef struct ItemKind {
     /* a4 */ s32 mUnk_a4;
 } ItemKind;
 
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindKinokoP;
+// Default record: its only function pointer is the shared mobj_calcVisibilityFlags2d hook.
+extern ItemKind it_sKinokoPDef;
 
-extern ItemKind gItemKindTeresa;
+extern ItemKind it_sTeresaDef;
 
-extern ItemKind gItemKindGesso;
+extern ItemKind it_sGessoDef;
 
-extern ItemKind gItemKindBomb;
+extern ItemKind it_sBombDef;
 
-extern ItemKind data_0215a4dc;
+extern ItemKind it_sItemBoxDef;
 
-extern ItemKind gItemKindFBox;
+extern ItemKind it_sFBoxDef;
 
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindThunder;
+// Default record: its only function pointer is the shared mobj_calcVisibilityFlags2d hook.
+extern ItemKind it_sThunderDef;
 
-extern ItemKind gItemKindKouraW;
+extern ItemKind it_sKouraWDef;
 
-// Default record: its only function pointer is the shared ComputeViewTest hook.
-extern ItemKind gItemKindStar;
+// Default record: its only function pointer is the shared mobj_calcVisibilityFlags2d hook.
+extern ItemKind it_sStarDef;
 
-extern ItemKind gItemKindKinoko;
+extern ItemKind it_sKinokoDef;
 
-extern ItemKind gItemKindBanana;
+extern ItemKind it_sBananaDef;
 
-extern ItemKind gItemKindKouraR;
+extern ItemKind it_sKouraRDef;
 
-extern ItemKind gItemKindKouraG;
+extern ItemKind it_sKouraGDef;
 
 // Two words of a row of gItemSpreadRows.
 typedef struct {
@@ -441,10 +441,10 @@ typedef enum {
     ITEM_USE_KIND_CIRCLE
 } ItemUseKind;
 // One of the 18 items: the object kind and the number of objects it takes from the pool, the use kind and the hook
-// called after its use. gItemInfos holds the heap copy of 18 static records of this type; the roulette may roll an item
+// called after its use. it_sItemConfigs holds the heap copy of 18 static records of this type; the roulette may roll an item
 // only while mEnabled is set.
 typedef struct ItemInfo {
-    // Gate of the roll and of the hand-over of the rolled item; set per mode by CreateItemInfos
+    // Gate of the roll and of the hand-over of the rolled item; set per mode by it_initItemConfig
     /* 00 */ BOOL mEnabled;
     /* 04 */ s32 mUnk_04;
     /* 08 */ s32 mObjectKind;
@@ -455,41 +455,41 @@ typedef struct ItemInfo {
     /* 18 */ UnkFunc *mUseHook;
 } ItemInfo;
 
-extern ItemInfo data_0215a4c0;
+extern ItemInfo it_sItemBoxConfig;
 
-extern ItemInfo data_0215a174;
+extern ItemInfo it_sTeresaConfig;
 
-extern ItemInfo data_0215a2ec;
+extern ItemInfo it_sGessoConfig;
 
-extern ItemInfo data_02159d90;
+extern ItemInfo it_sKinokoPConfig;
 
-extern ItemInfo data_021599dc;
+extern ItemInfo it_sStarConfig;
 
-extern ItemInfo data_021598fc;
+extern ItemInfo it_sKouraRTripleConfig;
 
-extern ItemInfo data_02159680;
+extern ItemInfo it_sBananaTripleConfig;
 
-extern ItemInfo data_02159f4c;
+extern ItemInfo it_sKouraGTripleConfig;
 
-extern ItemInfo data_02159aa0;
+extern ItemInfo it_sThunderConfig;
 
-extern ItemInfo data_02159cc0;
+extern ItemInfo it_sKouraWConfig;
 
-extern ItemInfo data_02159e54;
+extern ItemInfo it_sBombConfig;
 
-extern ItemInfo data_02159664;
+extern ItemInfo it_sKinokoTripleConfig;
 
-extern ItemInfo data_021596a0;
+extern ItemInfo it_sKinokoSingleConfig;
 
-extern ItemInfo data_02159f68;
+extern ItemInfo it_sFBoxConfig;
 
-extern ItemInfo data_02159770;
+extern ItemInfo it_sBananaSingleConfig;
 
-extern ItemInfo data_02159838;
+extern ItemInfo it_sKouraRSingleConfig;
 
-extern ItemInfo data_02159918;
+extern ItemInfo it_sKouraGSingleConfig;
 
-// Entry of the table behind gItemPools: one pool per object kind (14), indexed by the kind number. The pool's objects
+// Entry of the table behind it_sItemsets: one pool per object kind (14), indexed by the kind number. The pool's objects
 // sit in one array: the first mActiveCount are started, up to mTakenCount are handed out, the rest are free. Item,
 // roulette, per-kind and HUD map code use it.
 typedef struct ItemPool {
@@ -539,11 +539,11 @@ typedef struct HeldItem {
 #include "Main/Unknown/code_020d6dc0.h"
 
 extern s32 data_0217bc38[];
-extern ItemKind *gItemKinds;
-extern RaceProgress *gRaceProgress;
+extern ItemKind *it_sItemParams;
+extern RaceProgress *gRaceStatus;
 extern ItemSpreadRow gItemSpreadRows[];
-extern ItemInfo *gItemInfos;
-extern ItemPool *gItemPools;
+extern ItemInfo *it_sItemConfigs;
+extern ItemPool *it_sItemsets;
 
 u8 GetItemPointLinkIndex(ItemPointLinkRef *ref);
 void PickNextItemPointLink(ItemPointLinkRef *in, ItemPointLinkRef *out, u32 idx, s32 flag);
@@ -556,13 +556,13 @@ void InitSegmentPoints(SegmentPoints *segmentPoints, Vec3 *points, s32 scale);
 s32 func_020f4090(s32 idx);
 void RemoveReservedItemObjects(s32 itemInfoIndex, s32 amount);
 void SetHeldItemWithCount(HeldItem *rec, s32 kind, s32 count);
-void RemoveHeldItem(HeldItem *rec, s32 *kind, s32 *count);
-void func_020f4188(HeldItem *rec, s32 v);
-BOOL StartHeldItemTimer(HeldItem *rec, s32 v);
+void it_stealSlotItem(HeldItem *rec, s32 *kind, s32 *count);
+void it_20F4188(HeldItem *rec, s32 v);
+BOOL it_setSlotTimeout(HeldItem *rec, s32 v);
 void StartHeldItemObjects(HeldItem *rec);
 void TakeHeldItemObjects(HeldItem *rec);
-void ReleaseHeldItem(HeldItem *rec, s32 keep);
-void ResetHeldItem(HeldItem *rec);
-void RemoveHeldItemObjects(HeldItem *rec, s32 n);
+void it_destroySlotItem(HeldItem *rec, s32 keep);
+void it_resetSlot(HeldItem *rec);
+void it_takeSlotItems(HeldItem *rec, s32 n);
 void SetHeldItem(HeldItem *rec, s32 kind);
 void UpdateHeldItem(HeldItem *rec);

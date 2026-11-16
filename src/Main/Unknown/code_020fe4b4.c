@@ -26,7 +26,7 @@
 
 #pragma thumb off
 
-u8 *func_020ff2b0(u8 *cursor, ItemFBox *fbox, void *toData) {
+u8 *itfbox_20FF2B0(u8 *cursor, ItemFBox *fbox, void *toData) {
     u8 *nextCursor;
 
     if (fbox != NULL && toData != NULL) {
@@ -42,7 +42,7 @@ u8 *func_020ff2b0(u8 *cursor, ItemFBox *fbox, void *toData) {
     return nextCursor;
 }
 
-void InitItemFBoxFromData(ItemFBox *fbox) {
+void itfbox_20FF25C(ItemFBox *fbox) {
     func_020f8e78(fbox);
     StartItemObjectBouncing(&fbox->mUnk_000, 0);
     if ((fbox->mUnk_000.mItemObject.mFlags & 0x10000000) == 0) {
@@ -51,12 +51,12 @@ void InitItemFBoxFromData(ItemFBox *fbox) {
     if (fbox->mThrownForward == 0) {
         return;
     }
-    StartSound(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+    sfx_21090C4(&fbox->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
 }
 
 #pragma thumb on
 
-void func_020ff1d8(void) {
+void itfbox_load(void) {
     Vec3 axis;
     ItemPool *pool;
     ItemFBox *fbox;
@@ -64,12 +64,12 @@ void func_020ff1d8(void) {
     s32 objectCount;
     s32 index;
 
-    if (gItemInfos[3].mEnabled == FALSE) {
+    if (it_sItemConfigs[3].mEnabled == FALSE) {
         return;
     }
     axis = data_0216c734;
     MTX_RotAxis33(&data_0217c600, &axis, 0xb50, 0xb50);
-    pool = &gItemPools[7];
+    pool = &it_sItemsets[7];
     objectCursor = pool->mObjects;
     objectCount = pool->mObjectCount;
     for (index = 0; index < objectCount; index++) {
@@ -294,7 +294,7 @@ void func_020fec30(void) {
         return;
     }
     do {
-        available = data_0217aa14->mUnk_724;
+        available = gStruct217AA14->mUnk_724;
         nextIndex = gItemDataQueueLinks[index][0];
         if (available < gItemDataQueueLinks[index][1]) {
             return;
@@ -320,7 +320,7 @@ void func_020feb44(void) {
     u32 freeHead;
     ItemDataRecord *record;
 
-    raceUpdateFrames = GetRaceUpdateFrames();
+    raceUpdateFrames = race_getFrameCounter();
     index = gItemDataDelayedUsedHead[0];
     previousIndex = 0xff;
     while (index != 0xff) {
@@ -339,7 +339,7 @@ void func_020feb44(void) {
             record = &gItemDataDelayed[index];
             if (record->mRaceUpdateFramesStamp == 0 || (record->mRaceUpdateFramesStamp + 0x100) >= raceUpdateFrames) {
                 u32 k = *(vu32 *) &record->mKind;
-                func_020f0758(gItemPools + k, record->mUnk_18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
+                func_020f0758(it_sItemsets + k, record->mUnk_18, 0, (u8 *) record, record->mRaceUpdateFramesStamp);
             }
         } else {
             previousIndex = index;
@@ -405,8 +405,8 @@ void func_020fe9d0(u32 kind, u32 messageKind, s32 frameDifference, void *packet,
 u8 *func_020fe958(u32 kind) {
     s32 available;
 
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 1 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 1);
     } else {
@@ -419,9 +419,9 @@ u8 *func_020fe8ac(u32 kind) {
     u32 dataSize;
     s32 available;
 
-    dataSize = gItemKinds[kind].mDataSize & 0xff;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    dataSize = it_sItemParams[kind].mDataSize & 0xff;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= (u8) (dataSize + 1) && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, dataSize + 1);
     } else {
@@ -434,8 +434,8 @@ u8 *func_020fe828(u32 kind) {
     s32 available;
 
     gItemDataBuffer[1] = 0xff;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 2 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 0, gItemDataBuffer, 2);
     } else {
@@ -449,8 +449,8 @@ u8 *func_020fe7a0(u32 kind, u32 b, u32 c, u32 itemId) {
 
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = b | (c << 4);
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 2, gItemDataBuffer, 3);
     } else {
@@ -464,8 +464,8 @@ u8 *func_020fe71c(u32 kind, u32 kartIndex, u32 itemId) {
 
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = kartIndex;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 3 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 3);
     } else {
@@ -480,8 +480,8 @@ u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
     gItemDataBuffer[1] = itemId;
     gItemDataBuffer[2] = c;
     gItemDataBuffer[3] = d;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 4 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 3, gItemDataBuffer, 4);
     } else {
@@ -493,9 +493,9 @@ u8 *func_020fe694(u32 kind, u32 itemId, u32 c, u32 d) {
 void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     s8 frameDifference;
 
-    frameDifference = (u8) GetRaceUpdateFrames() - packet[0];
+    frameDifference = (u8) race_getFrameCounter() - packet[0];
     if (frameDifference >= 0) {
-        func_020f0758(gItemPools + kind, messageKind, frameDifference, packet, 0);
+        func_020f0758(it_sItemsets + kind, messageKind, frameDifference, packet, 0);
     } else {
         func_020fe9d0(kind, messageKind, frameDifference, packet, 0);
     }
@@ -508,7 +508,7 @@ void func_020fe5b8(u32 kind, u32 messageKind, u8 *packet, u32 kartIndex) {
     if (packet[1] == 0xff) {
         return;
     }
-    SetActiveItem(&gKartItems[(u16) kartIndex], 0x10);
+    SetActiveItem(&it_sDriverItemStatus[(u16) kartIndex], 0x10);
 }
 
 void func_020fe56c(u32 kind, u32 messageKind, u32 frameDifference, void *packet, u32 frameStamp) {
@@ -516,7 +516,7 @@ void func_020fe56c(u32 kind, u32 messageKind, u32 frameDifference, void *packet,
 
     storedFrameStamp = frameStamp;
     if (storedFrameStamp == 0) {
-        storedFrameStamp = GetRaceUpdateFrames();
+        storedFrameStamp = race_getFrameCounter();
     }
     func_020fe9d0(kind, messageKind, frameDifference, packet, storedFrameStamp);
 }
@@ -536,8 +536,8 @@ void *func_020fe4c0(void *cursor, void *object, s32 toData) {
         return nextCursor;
     }
     kind = item->mKind;
-    gItemDataBuffer[0] = GetRaceUpdateFrames();
-    available = data_0217aa14->mUnk_724;
+    gItemDataBuffer[0] = race_getFrameCounter();
+    available = gStruct217AA14->mUnk_724;
     if (available >= 0x12 && IsAnyItemDataSlotFree() != FALSE) {
         AddItemData(kind, 1, gItemDataBuffer, 0x12);
     } else {

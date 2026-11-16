@@ -34,16 +34,16 @@
 #include "Main/Unknown/code_020d8cac.h"
 #include "Main/Unknown/code_020daf0c.h"
 
-void EnterKuriboState0(Kuribo *kuribo) {
+void kuribo_routeIdleStateInit(Kuribo *kuribo) {
     kuribo->mUnk_c4 = 0x1000u;
     kuribo->mUnk_c8 = 0x0u;
 }
 
-void UpdateKuriboState0(Kuribo *kuribo) {
+void kuribo_routeIdleStateUpdate(Kuribo *kuribo) {
     if (kuribo->mUnk_f0 >= 0xa && (kuribo->mUnk_f0 < 0x14 || kuribo->mUnk_f0 >= 0x1e)) {
-        AdvanceGroupFollower(&kuribo->mUnk_cc);
+        pw_update(&kuribo->mUnk_cc);
     }
-    GetGroupFollowerCurvePosition(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
+    pw_calcCurrentPointXYZ(&kuribo->mUnk_cc, &kuribo->mUnk_00.mPos);
     if (kuribo->mUnk_c4 == 0x1000 && kuribo->mUnk_c8 == 0) {
         return;
     }
@@ -56,12 +56,12 @@ void UpdateKuriboState0(Kuribo *kuribo) {
     }
 }
 
-void EnterKuriboState1(Kuribo *kuribo) {
+void kuribo_groundRoamIdleStateInit(Kuribo *kuribo) {
     kuribo->mUnk_c4 = 0x1000u;
     kuribo->mUnk_c8 = 0x0u;
 }
 
-void UpdateKuriboState1(Kuribo *kuribo) {
+void kuribo_groundRoamIdleStateUpdate(Kuribo *kuribo) {
     u32 surfaceFlags;
     Vec3 probePos;
     Vec3 correction;
@@ -79,26 +79,26 @@ void UpdateKuriboState1(Kuribo *kuribo) {
     kuribo->mUnk_00.mPos.y += kuribo->mUnk_00.mUnk_10.y;
     probePos = kuribo->mUnk_00.mPos;
     probePos.y += 0xa000;
-    if (func_01ffdee4(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL, NULL,
+    if (col_collide(&probePos, NULL, 0, 0xa000, 8, -2, &correction, &surfaceNormal, NULL, &surfaceFlags, NULL, NULL,
                       NULL, NULL) != 0) {
         VEC_Add(&kuribo->mUnk_00.mPos, &correction, &kuribo->mUnk_00.mPos);
         kuribo->mUnk_00.mUnk_10.y = 0;
         if ((surfaceFlags & 0x1e34ef) != 0) {
-            QuaternionFromYAxisToVec3(&surfaceNormal, &kuribo->mUnk_b4);
+            qrtn_fromForwardVec(&surfaceNormal, &kuribo->mUnk_b4);
             kuribo->mUnk_00.mFlags &= ~1;
         }
     }
-    QuaternionBlendTowardNearerSign(&kuribo->mUnk_a4, &kuribo->mUnk_b4, &kuribo->mUnk_a4, kuribo->mUnk_f8);
+    qrtn_slerp(&kuribo->mUnk_a4, &kuribo->mUnk_b4, &kuribo->mUnk_a4, kuribo->mUnk_f8);
     if (kuribo->mUnk_f8 > 0xb4) {
         kuribo->mUnk_f8 = 0xb4;
     }
 }
 
-void EnterKuriboState2(Kuribo *kuribo) {
-    kuribo->mUnk_00.mFlags = (((kuribo->mUnk_00.mFlags)) | ((data_02158160)));
+void kuribo_hitGrowStateInit(Kuribo *kuribo) {
+    kuribo->mUnk_00.mFlags = (((kuribo->mUnk_00.mFlags)) | ((kuribo_sSomeFlag)));
 }
 
-void UpdateKuriboState2(Kuribo *kuribo) {
+void kuribo_hitGrowStateUpdate(Kuribo *kuribo) {
     kuribo->mUnk_c4 = ((s64) kuribo->mUnk_c4 * 0x1266) >> 12;
     if (kuribo->mUnk_c4 > 0x1800) {
         kuribo->mUnk_00.mStateMachine.mNextState = 3;
@@ -106,11 +106,11 @@ void UpdateKuriboState2(Kuribo *kuribo) {
     }
 }
 
-u32 func_020dabfc(u32 value) {
+u32 kuribo_hitShrinkStateInit(u32 value) {
     return value;
 }
 
-void UpdateKuriboState3(Kuribo *kuribo) {
+void kuribo_hitShrinkStateUpdate(Kuribo *kuribo) {
     kuribo->mUnk_c4 = ((s64) kuribo->mUnk_c4 * 0xd99) >> 12;
     if (kuribo->mUnk_c4 < 0x333) {
         kuribo->mUnk_00.mStateMachine.mNextState = 4;
@@ -118,11 +118,11 @@ void UpdateKuriboState3(Kuribo *kuribo) {
     }
 }
 
-u32 func_020dab98(u32 value) {
+u32 kuribo_deadStateInit(u32 value) {
     return value;
 }
 
-void UpdateKuriboState4(Kuribo *kuribo) {
+void kuribo_deadStateUpdate(Kuribo *kuribo) {
     if (kuribo->mUnk_fc != 0) {
         if (kuribo->mUnk_00.mStateMachine.mStateFrames > 0x12c) {
             kuribo->mUnk_00.mStateMachine.mNextState = 5;
@@ -132,17 +132,17 @@ void UpdateKuriboState4(Kuribo *kuribo) {
     }
     kuribo->mUnk_100--;
     if (kuribo->mUnk_100 == 0) {
-        ParkMapObject(&kuribo->mUnk_00);
+        mobj_setInvisible(&kuribo->mUnk_00);
     }
 }
 
-void EnterKuriboState5(Kuribo *kuribo) {
+void kuribo_reappearStateInit(Kuribo *kuribo) {
     Unk0210b7a8 soundRequest;
     s32 falloffIndex;
     if ((kuribo->mUnk_00.mDistanceSquaredAndFlags & 4) == 0) {
-        if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+        if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
             falloffIndex = 2;
-        } else if (kuribo->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+        } else if (kuribo->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
             falloffIndex = 3;
         } else {
             falloffIndex = 4;
@@ -150,14 +150,14 @@ void EnterKuriboState5(Kuribo *kuribo) {
         soundRequest.mSoundId = 0x183;
         soundRequest.mPositionSource = &kuribo->mUnk_00.mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&kuribo->mUnk_00.mPos);
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&kuribo->mUnk_00.mPos);
         func_0210b7a8(&soundRequest);
     }
     kuribo->mUnk_00.mFlags &= ~1;
     kuribo->mUnk_c8 = 0;
 }
 
-void UpdateKuriboState5(Kuribo *kuribo) {
+void kuribo_reappearStateUpdate(Kuribo *kuribo) {
     kuribo->mUnk_c8 += (s32) (((s64) (0x1000 - kuribo->mUnk_c4) * 0x200) >> 12);
     kuribo->mUnk_c8 = ((s64) kuribo->mUnk_c8 * 0xd99) >> 12;
     kuribo->mUnk_c4 += kuribo->mUnk_c8;
@@ -167,7 +167,7 @@ void UpdateKuriboState5(Kuribo *kuribo) {
     }
 }
 
-void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
+void kuribo_handleShroomSpawn(Kuribo *kuribo, Vec3 *hitVector) {
     Vec3 launchDirection;
     ItemObject *itemObject;
     s32 d;
@@ -178,7 +178,7 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
     if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
             (s64) launchDirection.z * launchDirection.z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
+        vec_normalize(&launchDirection, &launchDirection);
     }
     {
         Vec3 t = {0, 0, 0};
@@ -192,9 +192,9 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
     if ((s64) launchDirection.x * launchDirection.x + (s64) launchDirection.y * launchDirection.y +
             (s64) launchDirection.z * launchDirection.z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&launchDirection, &launchDirection);
+        vec_normalize(&launchDirection, &launchDirection);
     }
-    itemObject = StartItemObjectOrZero(3, 8, &kuribo->mUnk_00.mPos, &data_021581f8);
+    itemObject = it_spawnItem(3, 8, &kuribo->mUnk_00.mPos, &kuribo_sUpVec);
     if (itemObject == NULL) {
         return;
     }
@@ -207,10 +207,10 @@ void func_020da820(Kuribo *kuribo, Vec3 *hitVector) {
     itemObject->mVelocity.z = ((s64) launchDirection.z * d) >> 12;
     itemObject->mVelocity.y += 0xf000;
     VEC_Add(&itemObject->mPos, &itemObject->mVelocity, &itemObject->mPos);
-    func_020f6630(itemObject, 0, &kuribo->mUnk_00.mPos, hitVector, &data_021581f8);
+    it_startThrowAnim(itemObject, 0, &kuribo->mUnk_00.mPos, hitVector, &kuribo_sUpVec);
 }
 
-u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
+u32 kuribo_onDriverCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
     switch (*b) {
         case 0:
             if (kuribo->mUnk_c4 == 0x1000) {
@@ -224,17 +224,17 @@ u32 func_020da73c(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
                 kuribo->mUnk_00.mStateMachine.mState == 1) {
                 kuribo->mUnk_00.mStateMachine.mNextState = 2;
                 kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
-                func_020d26ec(&kart->mSoundSource, 0x185);
-                StartSoundIfKartStarOrKiller(&kuribo->mUnk_00, kart);
-                func_020da820(kuribo, &kart->mVelocity);
-                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | data_02158160;
+                mobj_driverEmitSfx2(&kart->mSoundSource, 0x185);
+                mobj_tryDestroyByDriver(&kuribo->mUnk_00, kart);
+                kuribo_handleShroomSpawn(kuribo, &kart->mVelocity);
+                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | kuribo_sSomeFlag;
             }
             break;
     }
     return *c;
 }
 
-u32 func_020da684(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
+u32 kuribo_onItemCollide(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
     switch (*b) {
         case 0:
             if (kuribo->mUnk_c4 == 0x1000) {
@@ -248,22 +248,22 @@ u32 func_020da684(Kuribo *kuribo, Kart *kart, u8 *b, u8 *c) {
                 kuribo->mUnk_00.mStateMachine.mState == 1) {
                 kuribo->mUnk_00.mStateMachine.mNextState = 2;
                 kuribo->mUnk_00.mStateMachine.mNextStateRequested = 1;
-                func_020f8ddc(kart);
+                it_emitMissionParticles(kart);
                 if (kart != NULL) {
-                    func_020da820(kuribo, &kart->mSignedTurnedForward);
+                    kuribo_handleShroomSpawn(kuribo, &kart->mSignedTurnedForward);
                 }
-                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | data_02158160;
+                kuribo->mUnk_00.mFlags = kuribo->mUnk_00.mFlags | kuribo_sSomeFlag;
             }
             break;
     }
     return *c;
 }
 
-void func_020da628(Kuribo *kuribo) {
+void kuribo_resetRoaming(Kuribo *kuribo) {
     kuribo->mUnk_f8 = 0x1000;
     kuribo->mUnk_a4 = data_02158140;
     kuribo->mUnk_b4 = data_02158150;
-    SetStateMachineState(&kuribo->mUnk_00.mStateMachine, 1);
+    sm_gotoState(&kuribo->mUnk_00.mStateMachine, 1);
     kuribo->mUnk_00.mUnk_10.x = 0;
     kuribo->mUnk_00.mUnk_10.y = 0;
     kuribo->mUnk_00.mUnk_10.z = 0;
@@ -271,13 +271,13 @@ void func_020da628(Kuribo *kuribo) {
 
 #pragma thumb on
 
-void CreateKuribo(void) {
+void kuribo_loadModels(void) {
     void *nsbmdFile;
     void *nsbtpFile;
-    nsbmdFile = FindCourseMapObjFile(gKuriboNsbmdName);
-    nsbtpFile = FindCourseMapObjFile(gKuriboNsbtpName);
-    func_020e6488((NsbmdModel **) (((u32 *) &gKuribo)), nsbmdFile, nsbtpFile, 0);
-    func_020e6ab8(gKuribo);
+    nsbmdFile = mobj_getMapObjFile(aKuribo_nsbmd);
+    nsbtpFile = mobj_getMapObjFile(aKuribo_nsbtp);
+    bbm_createFromNsbmd((NsbmdModel **) (((u32 *) &kuribo_sModel)), nsbmdFile, nsbtpFile, 0);
+    bbm_setDefaultMatParams(kuribo_sModel);
 }
 
 #pragma thumb off

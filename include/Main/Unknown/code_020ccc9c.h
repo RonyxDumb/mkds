@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-unsigned int GetNextMenuScreenNumber(void);
-unsigned int GetMenuScreenNumber(void);
-unsigned int GetPreviousMenuScreenNumber(void);
-unsigned int func_020cccc0(void);
-s32 GetFramesSinceMenuScreenSwitch(void);
+unsigned int menu_getField10(void);
+unsigned int menu_getCurState(void);
+unsigned int menu_getPrevState(void);
+unsigned int menu_getField4(void);
+s32 menu_getFrameCounter(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearTxtSystemPointer(void);
+void gmenu_finishUnknown(void);

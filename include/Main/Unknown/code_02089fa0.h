@@ -13,9 +13,9 @@ typedef struct StemSet {
     /* 10 */ u16 mNsbmdCount;
 } StemSet;
 
-void DrawStemSets(void);
-void UpdateStemSets(void);
+void rwrd_render(void);
+void rwrd_update(void);
 void StartStemSet(s32 setIndex);
-void InitStemSetArray(void *heap);
-void InitNsbmdNsbcaNsbmaNsbtp(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex);
-void InitStemSets(void *heap);
+void rwrd_loadWords(void *heap);
+void rwrd_loadWord(void *heap, StemSet *stemSet, const StemSetParams *stemSetParams, u16 setIndex);
+void rwrd_init(void *heap);

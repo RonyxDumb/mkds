@@ -4,4 +4,4 @@
 
 typedef struct InputSlot InputSlot;
 
-void UpdateInputSlot(u32 keys, InputSlot *slot);
+void pad_update(u32 keys, InputSlot *slot);

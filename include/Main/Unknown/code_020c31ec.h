@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 ClearRaceGoalSPointer(void);
+u32 r2dres_finalize(void);

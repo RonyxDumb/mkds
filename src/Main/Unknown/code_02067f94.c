@@ -5,7 +5,7 @@
 #include "Main/Unknown/code_0207a6b0.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_020680e0(Kart *kart, const Vec3 *direction) {
+void driver_handleSingleBackwardFlip1Reaction(Kart *kart, const Vec3 *direction) {
     s32 c;
     BOOL d;
     s32 e;
@@ -37,7 +37,7 @@ void func_020680e0(Kart *kart, const Vec3 *direction) {
         c = d == FALSE ? 1 : 0;
     }
     if (c != 0) {
-        StartKartState4(kart, direction, 0);
+        driver_startBackwardFlip(kart, direction, 0);
         started = TRUE;
     } else {
         started = FALSE;
@@ -46,22 +46,22 @@ void func_020680e0(Kart *kart, const Vec3 *direction) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        driver_getPlayerStatistics()->mUnk_14++;
     }
     kart->mUnk_48 |= 0x20000;
 }
 
-void func_02068094(Kart *kart, s32 b, Unk0206b020 *mapObject) {
-    if (TryStartKartState4(kart, mapObject) == FALSE) {
+void driver_handleSingleBackwardFlip2Reaction(Kart *kart, s32 b, Unk0206b020 *mapObject) {
+    if (driver_tryStartBackwardFlip(kart, mapObject) == FALSE) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        driver_getPlayerStatistics()->mUnk_14++;
     }
     kart->mUnk_48 |= 0x20000;
 }
 
-void func_02067f94(Kart *kart, const Vec3 *direction) {
+void driver_handleDoubleBackwardFlipReaction(Kart *kart, const Vec3 *direction) {
     s32 c;
     BOOL d;
     s32 e;
@@ -93,7 +93,7 @@ void func_02067f94(Kart *kart, const Vec3 *direction) {
         c = d == FALSE ? 1 : 0;
     }
     if (c != 0) {
-        StartKartState5(kart, direction, 0);
+        driver_startDoubleBackwardFlip(kart, direction, 0);
         started = TRUE;
     } else {
         started = FALSE;
@@ -102,7 +102,7 @@ void func_02067f94(Kart *kart, const Vec3 *direction) {
         return;
     }
     if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) != 0) {
-        GetEntryKartCounters()->mUnk_14++;
+        driver_getPlayerStatistics()->mUnk_14++;
     }
     kart->mUnk_48 |= 0x20000;
 }

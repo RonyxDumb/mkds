@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-BOOL IsKartLastByBalloonOrShineCount(u16 kartIndex);
-BOOL IsKartEliminated(int kartIndex);
-void AddBalloonsLeftToMake(u16 kartIndex, s32 amount);
+BOOL mgcnt_isDriverShineCountLow(u16 kartIndex);
+BOOL mgcnt_isDriverDead(int kartIndex);
+void mgcnt_updateDriverBalloonShineInventoryCount(u16 kartIndex, s32 amount);
 // TRUE when the kart's mTeamId equals Standings.mWinnerTeamId and mEndTimer is below 0, the end being reached.
-BOOL IsKartOnWinningTeamAtEnd(s32 kartIndex);
+BOOL mgcnt_hasDriverWon(s32 kartIndex);

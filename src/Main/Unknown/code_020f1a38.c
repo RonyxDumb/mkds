@@ -11,51 +11,51 @@
 
 #pragma thumb on
 
-void CreateItemKinds(void) {
+void items_initItemParams(void) {
     ItemKind *p;
     enum { K0 } i;
     enum { K1 } j;
     s32 m;
     u32 v;
 
-    p = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x930);
-    gItemKinds = p;
-    p[0] = gItemKindKouraG;
-    p[1] = gItemKindKouraR;
-    p[2] = gItemKindBanana;
-    p[3] = gItemKindKinoko;
-    p[4] = gItemKindStar;
-    p[5] = gItemKindKouraW;
-    p[6] = gItemKindThunder;
-    p[7] = gItemKindFBox;
-    p[8] = data_0215a4dc;
-    p[9] = gItemKindBomb;
-    p[10] = gItemKindGesso;
-    p[11] = gItemKindTeresa;
-    p[12] = gItemKindKinokoP;
-    p[13] = gItemKindKiller;
+    p = heap_alloc(proc_getHeap(proc_getCurrent()), 0x930);
+    it_sItemParams = p;
+    p[0] = it_sKouraGDef;
+    p[1] = it_sKouraRDef;
+    p[2] = it_sBananaDef;
+    p[3] = it_sKinokoDef;
+    p[4] = it_sStarDef;
+    p[5] = it_sKouraWDef;
+    p[6] = it_sThunderDef;
+    p[7] = it_sFBoxDef;
+    p[8] = it_sItemBoxDef;
+    p[9] = it_sBombDef;
+    p[10] = it_sGessoDef;
+    p[11] = it_sTeresaDef;
+    p[12] = it_sKinokoPDef;
+    p[13] = it_sKillerDef;
     for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mDataSize = GetItemKindCopyDataSize(i);
-        v = gItemKinds[i].mGetFarDistanceSquared;
+        it_sItemParams[i].mDataSize = GetItemKindCopyDataSize(i);
+        v = it_sItemParams[i].mGetFarDistanceSquared;
         if (v != 0) {
             v = ((u32(*)(void)) v)();
         } else {
-            v = gSoundFalloffs[1].mUnk_20;
+            v = gSfxParams[1].mUnk_20;
         }
-        gItemKinds[i].mUnk_a4 = v;
+        it_sItemParams[i].mUnk_a4 = v;
     }
-    m = gRaceSetup->mMode;
+    m = gRaceMultiConfig->mMode;
     switch (m) {
         case MODE_BATTLE:
-            gItemKinds[8].mLimit = 8;
+            it_sItemParams[8].mLimit = 8;
             break;
         case MODE_MISSION_RUN:
             for (j = 0; j < 0xe; j++) {
-                gItemKinds[j].mLimit = gItemKinds[j].mUnk_08;
+                it_sItemParams[j].mLimit = it_sItemParams[j].mUnk_08;
             }
             break;
         case 5:
-            gItemKinds[3].mLimit = 0x20;
+            it_sItemParams[3].mLimit = 0x20;
             break;
     }
 }
@@ -67,28 +67,28 @@ void ComputeItemKindObjectCounts(void) {
     s32 n;
 
     for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mUnk_10 = gItemKinds[i].mLimit - 1;
+        it_sItemParams[i].mUnk_10 = it_sItemParams[i].mLimit - 1;
         a[i] = 1;
     }
     for (j = 0; j < 0x12; j++) {
-        if (gItemInfos[j].mEnabled != FALSE) {
-            i = gItemInfos[j].mObjectKind;
-            n = gItemInfos[j].mObjectCount;
+        if (it_sItemConfigs[j].mEnabled != FALSE) {
+            i = it_sItemConfigs[j].mObjectKind;
+            n = it_sItemConfigs[j].mObjectCount;
             if (a[i] < n) {
                 a[i] = n;
             }
         }
     }
     for (i = 0; i < 0xe; i++) {
-        gItemKinds[i].mUnk_10 = gItemKinds[i].mUnk_10 + a[i];
-        gItemKinds[i].mObjectCount = gItemKinds[i].mUnk_10;
+        it_sItemParams[i].mUnk_10 = it_sItemParams[i].mUnk_10 + a[i];
+        it_sItemParams[i].mObjectCount = it_sItemParams[i].mUnk_10;
     }
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         for (i = 0; i < 0xe; i++) {
-            gItemKinds[i].mObjectCount = gItemKinds[i].mObjectCount + 3;
+            it_sItemParams[i].mObjectCount = it_sItemParams[i].mObjectCount + 3;
         }
     } else {
-        gItemKinds[2].mObjectCount = gItemKinds[2].mObjectCount + 0x10;
+        it_sItemParams[2].mObjectCount = it_sItemParams[2].mObjectCount + 0x10;
     }
 }
 

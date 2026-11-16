@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetupDrawChoropuShadow(void);
+void choro_applyShadowMaterial(void);

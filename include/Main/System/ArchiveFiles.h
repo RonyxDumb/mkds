@@ -11,20 +11,20 @@ typedef struct Unk02154228 {
     /* 05 */ u8 mUnk_05[0x3];
 } Unk02154228;
 
-extern Unk02154228 data_02154228[];
-extern const char data_02165164[];
+extern Unk02154228 sCourseDefs[];
+extern const char aTex[];
 extern const char data_02165168[];
-extern const char data_0216516c[];
+extern const char aD_0[];
 extern const char data_02165170[];
-extern const char data_02165174[];
+extern const char aDataCourseSSS_[];
 
-void BuildSceneArchivePath(char *path, const char *sceneName);
-void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName);
+void arc_getSceneArcPath(char *path, const char *sceneName);
+void arc_getLocalizedSceneArcPath(char *path, const char *sceneName);
 u32 GetMPLanguageCode(void);
-u32 GetLanguageCode(void);
-void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture);
-void *LoadFileAligned(const char *path, s32 alignment);
-u32 LoadFileIntoHeap(char *path, NNSiFndHeapHead *heap, void **outData);
-u32 ReadFileBytes(void *path, void *buffer, u32 size);
-int ReadWholeFile(const char *path, void *buffer, u32 maxSize);
-void InitArchiveSlots(void *heap);
+u32 arc_getLocalizationPostfix(void);
+void arc_getCourseArcPath(char *path, s32 courseId, s32 useTexture);
+void *arc_loadFileToHeap(const char *path, s32 alignment);
+u32 arc_loadFile(char *path, NNSiFndHeapHead *heap, void **outData);
+u32 arc_readFile(void *path, void *buffer, u32 size);
+int arc_readFileToEnd(const char *path, void *buffer, u32 maxSize);
+void arc_init(void *heap);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateSelectGame(void);
+void menu_state14Render(void);

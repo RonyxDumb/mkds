@@ -2,5 +2,5 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 u32 GetRaceHudStepHasRun(void) {
-    return (gRaceHud->mStepHasRun);
+    return (r2d_sStatus->mStepHasRun);
 }

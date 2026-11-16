@@ -7,7 +7,7 @@
 
 s32 func_0212a8d0(void) {
     BOOL result = FALSE;
-    if (!data_0217aa08->mFirstBlock->mLocateFriendOff) {
+    if (!gSaveData->mFirstBlock->mLocateFriendOff) {
         if (func_021213f4() != FALSE) {
             result = TRUE;
         }
@@ -27,18 +27,18 @@ void InitKeyboardLabelCanvases(void) {
     s32 l;
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            remaining[1] -= InitLabelCanvas(
-                gKeyboard->mHeap, data_0215d0e4[i][j], gKeyboard->mBnlls[i], buttonSizes[i][j][0], buttonSizes[i][j][1],
-                data_0215d128[i][j][0], gKeyboard->mNcer, gKeyboard->mBncls[i], gKeyboard->mTables[i][1], remaining[1]);
+            remaining[1] -= jn_ui_initLabel(
+                nickname_sState->mHeap, data_0215d0e4[i][j], nickname_sState->mBnlls[i], buttonSizes[i][j][0], buttonSizes[i][j][1],
+                data_0215d128[i][j][0], nickname_sState->mNcer, nickname_sState->mBncls[i], nickname_sState->mTables[i][1], remaining[1]);
         }
     }
     for (j = 0; j < 2; j++) {
         for (l = 0; l < 2; l++) {
             for (i = 0; i < gKeyboardTextLimits[j]; i++) {
                 remaining[l] -=
-                    InitLabelCanvas(gKeyboard->mHeap, data_0215d134[j][i], gKeyboard->mBnlls[j], charSizes[j][i][0],
-                                    charSizes[j][i][1], data_0215d14c[j][i], gKeyboard->mNcer, gKeyboard->mBncls[j],
-                                    gKeyboard->mTables[j][l], remaining[l]);
+                    jn_ui_initLabel(nickname_sState->mHeap, data_0215d134[j][i], nickname_sState->mBnlls[j], charSizes[j][i][0],
+                                    charSizes[j][i][1], data_0215d14c[j][i], nickname_sState->mNcer, nickname_sState->mBncls[j],
+                                    nickname_sState->mTables[j][l], remaining[l]);
             }
         }
     }

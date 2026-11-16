@@ -19,102 +19,102 @@
 #include "Main/Unknown/code_020e55b4.h"
 #include "code_02146cbc.h"
 
-void func_020e55b4(void) {
+void oshd_applyMaterial(void) {
     u32 value;
-    value = data_0217b814->mUnk_01c;
-    func_01ff9048(0x2b, &value, 1);
-    func_01ff9048(0x2a, &data_0217b814->mUnk_014, 1);
-    func_01ff9048(0x30, &data_0217b814->mUnk_004, 1);
-    func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
+    value = oshd_sModelMat->mUnk_01c;
+    NNS_G3dGeBufferOP_N(0x2b, &value, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->mUnk_008, 1);
 }
 
-void func_020e54e4(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
+void oshd_render(void *shadowData, void *wordPointer, u32 unused, u32 alpha) {
     u32 word;
     u32 b;
     u32 threeWords[3];
     ShadowMatrix *shadow = shadowData;
 
     b = 0x1e;
-    func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, shadowData, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    NNS_G3dGeBufferOP_N(0x19, shadowData, 0xc);
     if (wordPointer != NULL) {
         u32 firstWord;
         firstWord = *(u32 *) wordPointer;
         threeWords[0] = firstWord;
         threeWords[1] = firstWord;
         threeWords[2] = firstWord;
-        func_01ff9048(0x1b, threeWords, 3);
+        NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = data_0217b814->mUnk_00c;
+    word = oshd_sModelMat->mUnk_00c;
     alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
-    func_01ff9048(0x29, &word, 1);
-    func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    NNS_G3dGeBufferOP_N(0x29, &word, 1);
+    NNS_G3dGeSendDL(&oshd_sModelShp->mUnk_000[oshd_sModelShp->mUnk_008], oshd_sModelShp->mUnk_00c);
 }
 
-void func_020e53ac(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
+void oshd_renderMat(ShadowMatrix *shadow, void *wordPointer, u32 unused, u32 alpha) {
     u32 x;
     u32 word;
     u32 b;
     u32 threeWords[3];
 
-    x = data_0217b814->mUnk_01c;
-    func_01ff9048(0x2b, &x, 1);
-    func_01ff9048(0x2a, &data_0217b814->mUnk_014, 1);
-    func_01ff9048(0x30, &data_0217b814->mUnk_004, 1);
-    func_01ff9048(0x31, &data_0217b814->mUnk_008, 1);
+    x = oshd_sModelMat->mUnk_01c;
+    NNS_G3dGeBufferOP_N(0x2b, &x, 1);
+    NNS_G3dGeBufferOP_N(0x2a, &oshd_sModelMat->mUnk_014, 1);
+    NNS_G3dGeBufferOP_N(0x30, &oshd_sModelMat->mUnk_004, 1);
+    NNS_G3dGeBufferOP_N(0x31, &oshd_sModelMat->mUnk_008, 1);
     b = 0x1e;
-    func_01ff9048(0x14, &b, 1);
-    func_01ff9048(0x19, shadow, 0xc);
+    NNS_G3dGeBufferOP_N(0x14, &b, 1);
+    NNS_G3dGeBufferOP_N(0x19, shadow, 0xc);
     if (wordPointer != NULL) {
         u32 wordCopy;
         wordCopy = *(u32 *) wordPointer;
         threeWords[0] = wordCopy;
         threeWords[1] = wordCopy;
         threeWords[2] = wordCopy;
-        func_01ff9048(0x1b, threeWords, 3);
+        NNS_G3dGeBufferOP_N(0x1b, threeWords, 3);
     }
-    word = data_0217b814->mUnk_00c;
+    word = oshd_sModelMat->mUnk_00c;
     alpha = alpha < shadow->mUnk_030 ? alpha : shadow->mUnk_030;
     word = word & ~0x1f0000;
     word = word | (alpha << 16);
-    func_01ff9048(0x29, &word, 1);
-    func_01ff9144(&data_0217b818->mUnk_000[data_0217b818->mUnk_008], data_0217b818->mUnk_00c);
+    NNS_G3dGeBufferOP_N(0x29, &word, 1);
+    NNS_G3dGeSendDL(&oshd_sModelShp->mUnk_000[oshd_sModelShp->mUnk_008], oshd_sModelShp->mUnk_00c);
 }
 
-void DrawJgShadowWithMatrix(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
-    gJgShadow->mUnk_06e = c < d ? c : d;
-    DrawShadowWithMatrix(gJgShadow, matrix, scale);
+void oshd_renderJgShadowTransformed(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) {
+    oshd_sJgModel->mUnk_06e = c < d ? c : d;
+    DrawShadowWithMatrix(oshd_sJgModel, matrix, scale);
 }
 
-void func_020e5348(u32 a, u32 b) {
-    gJgShadow->mUnk_06e = a < b ? a : b;
-    func_0207ad88(gJgShadow);
+void oshd_renderJgShadow(u32 a, u32 b) {
+    oshd_sJgModel->mUnk_06e = a < b ? a : b;
+    func_0207ad88(oshd_sJgModel);
 }
 
 #pragma thumb on
 
-void CreateObjShadowAndJgShadow(void) {
+void oshd_init(void) {
     Unk020e52bc_4 *a;
     Unk020e52bc_8 *b;
     Unk020e52bc_c *c;
 
-    CreateNsbmd((void **) &gObjShadow, FindMainRaceOrMainEffectMapObjFile(gObjShadowNsbmdName), NULL);
-    SetNsbmdPolygonIdAll(gObjShadow, 0x3f);
-    SetNsbmdLightEnableFlagAll(gObjShadow, 0);
-    a = gObjShadow->mUnk_004;
+    model2_createFromNsbmd((void **) &oshd_sModel, mobj_getSharedMapObjFile(aObj_shadow_nsb), NULL);
+    model_setPolygonId(oshd_sModel, 0x3f);
+    model_setLightEnableFlag(oshd_sModel, 0);
+    a = oshd_sModel->mUnk_004;
     b = (Unk020e52bc_8 *) &a->mUnk_000[a->mUnk_008];
-    data_0217b814 = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];
-    a = gObjShadow->mUnk_004;
+    oshd_sModelMat = (Unk020e53ac *) &b->mUnk_000[((u32 *) &b->mUnk_000[b->mUnk_00a])[2]];
+    a = oshd_sModel->mUnk_004;
     c = (Unk020e52bc_c *) &a->mUnk_000[a->mUnk_00c];
-    data_0217b818 = (Unk020e54e4 *) &c->mUnk_000[((u32 *) &c->mUnk_000[c->mUnk_006])[1]];
-    if (gRaceSetup->mRaceKind != RACE_KIND_STAFF_ROLL) {
-        CreateShadowModel((void **) &gJgShadow, FindSceneFile(gJgShadowNsbmdName), 0x3f);
+    oshd_sModelShp = (Unk020e54e4 *) &c->mUnk_000[((u32 *) &c->mUnk_000[c->mUnk_006])[1]];
+    if (gRaceMultiConfig->mRaceKind != RACE_KIND_STAFF_ROLL) {
+        model2_createShadowFromNsbmd((void **) &oshd_sJgModel, arc_getSceneArcFile(aJg_shadow_nsbm), 0x3f);
     }
 }
 
-s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
+s32 oshd_setParams(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
     Quaternion rotation;
     Vec3 direction;
     Vec3 raisedPosition;
@@ -125,11 +125,11 @@ s32 RefreshShadowMatrix(void *shadow, Vec3 *position, s32 scale, u32 alphaCap) {
     raisedPosition = *position;
     hit = FALSE;
     raisedPosition.y = raisedPosition.y + 0x1999;
-    if (func_01ffdee4(&raisedPosition, NULL, 0, 0xa000, 8, -2, NULL, &direction, NULL, NULL, NULL, NULL, NULL, NULL) !=
+    if (col_collide(&raisedPosition, NULL, 0, 0xa000, 8, -2, NULL, &direction, NULL, NULL, NULL, NULL, NULL, NULL) !=
         0) {
         hit = TRUE;
-        QuaternionFromYAxisToVec3(&direction, &rotation);
-        Matrix3x3FromQuaternion(shadow, &rotation);
+        qrtn_fromForwardVec(&direction, &rotation);
+        qtrn_toMtx33(shadow, &rotation);
         scaleTenth = scale / 10;
         shadowCopy->mUnk_000[0] = ((s64) shadowCopy->mUnk_000[0] * scaleTenth) >> 12;
         shadowCopy->mUnk_000[1] = ((s64) shadowCopy->mUnk_000[1] * scaleTenth) >> 12;

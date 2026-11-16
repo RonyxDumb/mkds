@@ -35,37 +35,37 @@
 #include "Main/Unknown/code_020a3f18.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitBalloon(u32 balloon) {
+void blln_init(u32 balloon) {
     u32 balloonAddress = balloon;
     u32 noKartIndex;
     u32 value12;
     noKartIndex = ~(0u);
     *(u32 *) ((balloonAddress) + (164)) = noKartIndex;
-    ParkMapObject((void *) balloonAddress);
+    mobj_setInvisible((void *) balloonAddress);
 }
 
-void CreateBalloon(Unk020a3eb8 *a) {
-    gBalloon = CreateMapObjectModelNsbmdNsbtp(a, gBalloonNsbmdName, gBalloonNsbtpName);
-    SetMapObjectModelPolygonId(gBalloon, 0x3f);
-    SetMapObjectModelAlpha(gBalloon, 0x1a);
-    SetMapObjectModelFogEnabled(gBalloon, 0);
+void blln_loadModel(Unk020a3eb8 *a) {
+    blln_sModel = mobj_loadTexAnimBillboardModel(a, aBalloon_nsbmd, aBalloon_nsbtp);
+    mobj_setModelPolygonIdAll(blln_sModel, 0x3f);
+    mobj_setModelAlpha(blln_sModel, 0x1a);
+    mobj_setModelFogEnableFlag(blln_sModel, 0);
     a->mUnk_1c = 1;
 }
 
-void SetupDrawBalloon(void *mapObjectList) {
+void blln_globalPreRender(void *mapObjectList) {
     Camera *currentCamera;
 
-    currentCamera = GetCurrentCamera();
+    currentCamera = race_getCamera();
     data_0217b214.x = currentCamera->mPos.x >> 1;
     data_0217b214.y = currentCamera->mPos.y >> 1;
     data_0217b214.z = currentCamera->mPos.z >> 1;
     data_0217b208.x = currentCamera->mPos.x >> 3;
     data_0217b208.y = currentCamera->mPos.y >> 3;
     data_0217b208.z = currentCamera->mPos.z >> 3;
-    func_0209bbd0(mapObjectList, gBalloon);
+    mobj_bbModelApplyMaterial(mapObjectList, blln_sModel);
 }
 
-void DrawBalloon(void *mapObjectList, Balloon *balloon) {
+void blln_render(void *mapObjectList, Balloon *balloon) {
     s32 j;
     s32 drawCount;
     s32 i;
@@ -86,7 +86,7 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
     Balloon *listBalloon;
 
     if (balloon->mKartIndex >= 0) {
-        if (GetKart(balloon->mKartIndex)->mVisible == 0) {
+        if (driver_getById(balloon->mKartIndex)->mVisible == 0) {
             return;
         }
     }
@@ -108,28 +108,28 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawScale = 0x1000;
         }
         w0 = 0x1e;
-        func_01ff9048(0x14, &w0, 1);
-        func_01ff9048(0x19, SetViewTransposeMatrixPos(&balloon->mDrawPos), 12);
+        NNS_G3dGeBufferOP_N(0x14, &w0, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&balloon->mDrawPos), 12);
         if (balloon->mUnk_00.mAngle != 0) {
             i = (balloon->mUnk_00.mAngle >> 4) * 2;
-            MTX_RotZ33_(m0, gPairsByAngle[i + 1], gPairsByAngle[i]);
-            func_01ff9048(0x1a, m0, 9);
+            MTX_RotZ33_(m0, FX_SinCosTable_[i + 1], FX_SinCosTable_[i]);
+            NNS_G3dGeBufferOP_N(0x1a, m0, 9);
         }
         drawScale = balloon->mDrawScale;
         f0[0] = drawScale;
         f0[1] = drawScale;
         f0[2] = drawScale;
-        func_01ff9048(0x1b, f0, 3);
+        NNS_G3dGeBufferOP_N(0x1b, f0, 3);
         t = balloon->mScaleFactor + balloon->mUnk_d8;
         if (t != 0x1000) {
             g0[0] = t;
             g0[1] = t;
             g0[2] = t;
-            func_01ff9048(0x1b, g0, 3);
+            NNS_G3dGeBufferOP_N(0x1b, g0, 3);
         }
-        SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
-        SetMapObjectModelNsbtpFrameIndex(gBalloon, balloon->mNsbtpFrameIndex);
-        DrawMapObjectModel(mapObjectList, gBalloon, balloon);
+        mobj_setModelPolygonIdAll(blln_sModel, mobj_getCyclicPolygonId());
+        mobj_setModelNsbtpFrame(blln_sModel, balloon->mNsbtpFrameIndex);
+        mobj_renderModel(mapObjectList, blln_sModel, balloon);
     } else if (drawCount > 0) {
         distanceSquared = balloon->mUnk_00.mDistanceSquaredAndFlags & ~0xc000001f;
         if (distanceSquared < 0x2710) {
@@ -147,41 +147,41 @@ void DrawBalloon(void *mapObjectList, Balloon *balloon) {
             balloon->mDrawScale = 0x1000;
         }
         w1 = 0x1e;
-        func_01ff9048(0x14, &w1, 1);
-        func_01ff9048(0x19, func_020e6cbc(&balloon->mDrawPos), 12);
+        NNS_G3dGeBufferOP_N(0x14, &w1, 1);
+        NNS_G3dGeBufferOP_N(0x19, bbm_getYBillboardAtPos(&balloon->mDrawPos), 12);
         drawScale = balloon->mDrawScale;
         f1[0] = drawScale;
         f1[1] = drawScale;
         f1[2] = drawScale;
-        func_01ff9048(0x1b, f1, 3);
+        NNS_G3dGeBufferOP_N(0x1b, f1, 3);
         for (j = 0; j < drawCount; j++) {
             i = data_02156720[drawCount - 1][j];
             listBalloon = balloon->mDrawList[i];
-            func_01ff9048(0x11, NULL, 0);
+            NNS_G3dGeBufferOP_N(0x11, NULL, 0);
             k = data_02156700[drawCount - 1][i];
-            MTX_RotZ33_(m1, gPairsByAngle[(k >> 4) * 2 + 1], gPairsByAngle[(k >> 4) * 2]);
-            func_01ff9048(0x1a, m1, 9);
+            MTX_RotZ33_(m1, FX_SinCosTable_[(k >> 4) * 2 + 1], FX_SinCosTable_[(k >> 4) * 2]);
+            NNS_G3dGeBufferOP_N(0x1a, m1, 9);
             t = listBalloon->mScaleFactor;
             if (t != 0x1000) {
                 g1[0] = t;
                 g1[1] = t;
                 g1[2] = t;
-                func_01ff9048(0x1b, g1, 3);
+                NNS_G3dGeBufferOP_N(0x1b, g1, 3);
             }
             h[0] = 0;
             h[1] = 0xf66;
             h[2] = 0;
-            func_01ff9048(0x1c, h, 3);
-            SetMapObjectModelPolygonId(gBalloon, AllocPolygonIdWrapping());
-            SetMapObjectModelNsbtpFrameIndex(gBalloon, listBalloon->mNsbtpFrameIndex);
-            DrawMapObjectModel(mapObjectList, gBalloon, balloon);
+            NNS_G3dGeBufferOP_N(0x1c, h, 3);
+            mobj_setModelPolygonIdAll(blln_sModel, mobj_getCyclicPolygonId());
+            mobj_setModelNsbtpFrame(blln_sModel, listBalloon->mNsbtpFrameIndex);
+            mobj_renderModel(mapObjectList, blln_sModel, balloon);
             w2 = 1;
-            func_01ff9048(0x12, &w2, 1);
+            NNS_G3dGeBufferOP_N(0x12, &w2, 1);
         }
     }
 }
 
-void func_020a392c(Unk0201ca6c *effect, Balloon *balloon) {
+void blln_setParticleColor(Unk0201ca6c *effect, Balloon *balloon) {
     effect->mUnk_72 = func_0208606c(balloon->mNsbtpFrameIndex);
 }
 
@@ -202,7 +202,7 @@ void func_020a36a8(Balloon *balloon) {
     if (balloon->mKartIndex < 0) {
         balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + 0x1800;
     } else {
-        kart = GetKart((u16) balloon->mKartIndex);
+        kart = driver_getById((u16) balloon->mKartIndex);
         q = &kart->mUnk_12c;
         balloon->mUnk_00.mUnk_10.x = balloon->mUnk_00.mUnk_10.x + (q->x + (q->x >> 1));
         balloon->mUnk_00.mUnk_10.y = balloon->mUnk_00.mUnk_10.y + (q->y + (q->y >> 1));
@@ -268,12 +268,12 @@ void UpdateBalloonAngle(Balloon *balloon) {
     s32 u;
     s32 w;
 
-    currentCamera = GetCurrentCamera();
+    currentCamera = race_getCamera();
     cameraAngle = FX_Atan2Idx(currentCamera->mForward.x, currentCamera->mForward.z) - 0x4000;
     VEC_Subtract(&balloon->mUnk_00.mPos, &currentCamera->mPos, &v);
     i = (cameraAngle >> 4) * 2;
-    s = gPairsByAngle[i];
-    c = gPairsByAngle[i + 1];
+    s = FX_SinCosTable_[i];
+    c = FX_SinCosTable_[i + 1];
     x = ((s64) v.z * c) >> 12;
     y = ((s64) v.x * s) >> 12;
     u = v.y;
@@ -282,7 +282,7 @@ void UpdateBalloonAngle(Balloon *balloon) {
     balloon->mUnk_00.mAngle = FX_Atan2Idx(u - v.y, -(y + x - w));
 }
 
-void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
+void blln_update(void *mapObjectList, Balloon *balloon) {
     Kart *kart;
 
     if (balloon->mKartIndex >= 0) {
@@ -302,10 +302,10 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
                         balloon->mUnk_dc = balloon->mUnk_dc + 10;
                     }
                 }
-                if (balloon->mKartIndex == gRaceSetup->mEntryIndex) {
-                    if (IsRaceStarted() == 1) {
-                        kart = GetKart((u16) balloon->mKartIndex);
-                        func_020249b8(kart, balloon->mScaleFactor + balloon->mUnk_d8, balloon->mUnk_d4);
+                if (balloon->mKartIndex == gRaceMultiConfig->mEntryIndex) {
+                    if (race_getState() == 1) {
+                        kart = driver_getById((u16) balloon->mKartIndex);
+                        snd_emitBalloonInflationSfx(kart, balloon->mScaleFactor + balloon->mUnk_d8, balloon->mUnk_d4);
                     }
                 }
                 if (balloon->mDrawCount == 1 && balloon->mDrawList == NULL) {
@@ -375,11 +375,11 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
         balloon->mUnk_d8 = 0;
         balloon->mScaleFactor = 0x1000;
         if (balloon->mNoKartTimer-- <= 0) {
-            StartEffectWithCallback(0x5b, &balloon->mUnk_00.mPos, balloon, func_020a392c);
-            StartEffectWithCallback(0x5c, &balloon->mUnk_00.mPos, balloon, func_020a392c);
-            StartEffectWithCallback(0x5d, &balloon->mUnk_00.mPos, balloon, func_020a392c);
-            func_0210b8f4(&balloon->mUnk_00.mPos, GetHorizontalCameraDistanceSquared(&balloon->mUnk_00.mPos));
-            ParkMapObject(&balloon->mUnk_00);
+            ptcm_createEmitterNoUpdateSkip(0x5b, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
+            ptcm_createEmitterNoUpdateSkip(0x5c, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
+            ptcm_createEmitterNoUpdateSkip(0x5d, &balloon->mUnk_00.mPos, balloon, blln_setParticleColor);
+            func_0210b8f4(&balloon->mUnk_00.mPos, mobj_calcXZCamDist(&balloon->mUnk_00.mPos));
+            mobj_setInvisible(&balloon->mUnk_00);
         } else {
             balloon->mUnk_c8 = balloon->mUnk_c8 + balloon->mUnk_cc;
             if (balloon->mUnk_c8 >= 0) {
@@ -407,12 +407,12 @@ void UpdateBalloon(void *mapObjectList, Balloon *balloon) {
     }
 }
 
-void *CreateBalloonDrawList(void) {
-    return CreateMapObjectDrawList2(CreateBalloon, DrawBalloon, SetupDrawBalloon);
+void *blln_setupRenderPart(void) {
+    return mobj_createRenderPart2d(blln_loadModel, blln_render, blln_globalPreRender);
 }
 
-void *CreateBalloonUpdateList(void) {
-    return CreateMapObjectUpdateList(NULL, UpdateBalloon, NULL);
+void *blln_setupLogicPart(void) {
+    return mobj_createLogicPart(NULL, blln_update, NULL);
 }
 
 void func_020a305c(void) {
@@ -420,28 +420,28 @@ void func_020a305c(void) {
     MapObjectList *mapObjectList;
     Balloon *balloon;
 
-    mapObjectList = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BALLOON);
+    mapObjectList = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_BALLOON);
     if (mapObjectList == NULL) {
         return;
     }
     for (i = 0; i < mapObjectList->mMapObjectCount && (balloon = mapObjectList->mMapObjects[i]) != NULL; i++) {
         if (balloon->mKartIndex >= 0) {
-            balloon->mKartIndex = (u16) gRaceSetup->mEntryIndex;
+            balloon->mKartIndex = (u16) gRaceMultiConfig->mEntryIndex;
             balloon->mScaleFactor = 0x1000;
             balloon->mUnk_d4 = 0;
             balloon->mUnk_d8 = 0;
             balloon->mUnk_dc = 0;
             balloon->mState = 2;
         } else if ((balloon->mUnk_00.mFlags & 0x100) == 0) {
-            ParkMapObject(&balloon->mUnk_00);
+            mobj_setInvisible(&balloon->mUnk_00);
         }
     }
 }
 
-Balloon *StartBalloon(u16 nsbtpFrameIndex, Vec3 *targetPos) {
+Balloon *blln_spawn(u16 nsbtpFrameIndex, Vec3 *targetPos) {
     Balloon *balloon;
 
-    balloon = UnparkFirstParkedMapObject(FindMapObjectKindUpdateList(MAP_OBJECT_KIND_BALLOON));
+    balloon = mobj_acquireFreeObject(mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_BALLOON));
     if (balloon == NULL) {
         return NULL;
     }
@@ -457,7 +457,7 @@ Balloon *StartBalloon(u16 nsbtpFrameIndex, Vec3 *targetPos) {
     return balloon;
 }
 
-void func_020a2f9c(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
+void blln_inflate(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = kartIndex;
     balloon->mUnk_d4 = scaleStep;
     balloon->mScaleFactor = balloon->mScaleFactor + balloon->mUnk_d4;
@@ -471,7 +471,7 @@ void func_020a2f9c(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     }
 }
 
-void func_020a2f30(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
+void blln_deflate(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = kartIndex;
     balloon->mUnk_d4 = -scaleStep;
     balloon->mScaleFactor = balloon->mScaleFactor + balloon->mUnk_d4;
@@ -484,5 +484,5 @@ void func_020a2f30(Balloon *balloon, u16 kartIndex, s32 scaleStep) {
     balloon->mKartIndex = -1;
     balloon->mDrawCount = 1;
     balloon->mDrawList = NULL;
-    ParkMapObject(&balloon->mUnk_00);
+    mobj_setInvisible(&balloon->mUnk_00);
 }

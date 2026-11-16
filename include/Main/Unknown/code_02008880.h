@@ -13,5 +13,5 @@ typedef struct Unk02008880 {
     /* 40 */ u8 mUnk_40[0x20];
 } Unk02008880;
 
-u32 func_02008880(FSFile *a);
-u16 ComputeU16Checksum(const u16 *data, s32 byteCount);
+u32 MB_GetSegmentLength(FSFile *a);
+u16 MBi_calc_cksum(const u16 *data, s32 byteCount);

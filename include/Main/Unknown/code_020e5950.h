@@ -4,4 +4,4 @@
 
 typedef struct Unk020e58b8 Unk020e58b8;
 
-void EnterSecondHandState0(Unk020e58b8 *secondHand);
+void shand_accelerateStateInit(Unk020e58b8 *secondHand);

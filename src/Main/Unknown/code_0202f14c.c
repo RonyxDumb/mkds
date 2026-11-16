@@ -42,15 +42,15 @@ void InitWLMenuScene(void *heap) {
     Unk02180774 *displaySettings;
     Unk02125de0Arg v1;
 
-    gWLMenuScene = HeapAllocAligned(heap, 0x874, 0x20);
+    gWLMenuScene = heap_allocEx(heap, 0x874, 0x20);
     func_0202f51c(gWLMenuScene, 0x874);
-    displaySettings = CreateDisplaySettings(heap, data_02154818);
+    displaySettings = dc_createDisplayConfig(heap, data_02154818);
     func_0202f4e0(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     func_0202f4ac(displaySettings, 2, 0, 0, 0, 0xf, 6);
-    InitDisplayFromSettings(displaySettings);
+    dc_setDisplayConfig(displaySettings);
     if (func_0202f19c() == 0) {
         v1.mUnk_00 = 1;
-        v1.mUnk_04 = GetFontByIndex(1);
+        v1.mUnk_04 = m2d_getFont(1);
         v1.mUnk_08 = 0;
         v1.mUnk_0c = 1;
         v1.mUnk_10 = 0;
@@ -59,8 +59,8 @@ void InitWLMenuScene(void *heap) {
         v1.mUnk_1c = 1;
         v1.mUnk_20 = func_0202f498() == 0;
         v1.mUnk_24 = 0;
-        LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-        func_02125de0(heap, &v1);
+        gmenu_unpackData();
+        gmenu_init(heap, &v1);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
     switch (func_0202f498()) {
@@ -84,11 +84,11 @@ void InitWLMenuScene(void *heap) {
     }
     gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
     gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[gWLMenuScene->mRequestedCallbacksIndex];
-    gWLMenuScene->mHeap = CreateExpHeapFromMaxFree(heap);
+    gWLMenuScene->mHeap = heap_createSubExpHeap(heap);
     if (func_0202f19c() == 0) {
         LoadMultiSelectFiles();
     }
-    ResetOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
+    oam_clearResetBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
     func_0202f478(0x10);
     func_0202f454(0x10);
     gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
@@ -105,16 +105,16 @@ void AdvanceWLMenuScene(void *a) {
         previousCallbacks->mUnk_08();
         gWLMenuScene->mCurrentCallbacks->mUnk_00(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
     } else {
-        ClearOamListCounts(gWLMenuScene, gWLMenuScene->mSubOam);
+        oam_resetBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
         callbacksIndex = gWLMenuScene->mCurrentCallbacks->mUnk_04(a);
         if (callbacksIndex != -1) {
             gWLMenuScene->mRequestedCallbacksIndex = callbacksIndex;
         }
         AdvanceLinkLevelIcons();
-        func_020ae630(gWLMenuScene, gWLMenuScene->mSubOam);
+        oam_prepareBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
     }
     if (func_0202f19c() == 0) {
-        func_02125928();
+        gmenu_render();
     }
 }
 
@@ -122,12 +122,12 @@ void AdvanceWLMenuScene(void *a) {
 
 #pragma thumb on
 
-void ReleaseWLMenuScene(void) {
+void EndMultiplayerMenu(void) {
     int v1;
     gWLMenuScene->mCurrentCallbacks->mUnk_08();
     v1 = func_0202f19c();
     if (v1 == 0) {
-        func_02125da0();
+        gmenu_finish();
     }
     ClearLinkLevelIconsPointer();
 }
@@ -152,10 +152,10 @@ void func_0202f160(void) {
     int v1;
     v1 = func_0202f19c();
     if (v1 == 0) {
-        func_021258f0();
+        gmenu_vblank();
     }
     gWLMenuScene->mCurrentCallbacks->mUnk_0c();
-    UploadOamLists(gWLMenuScene, gWLMenuScene->mSubOam);
+    oam_applyBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
 Unk02174e4c_818 *func_0202f14c(void) {

@@ -62,14 +62,14 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void InitMenu(void) {
+void menu_create(void) {
     MenuScene *menu;
     Unk02125de0Arg config;
     Unk02180774 *displaySettings;
 
-    data_0217b43c = HeapAlloc(func_020cb99c(), 0x960);
-    CreateRaceSetupCopy(func_020cb99c());
-    displaySettings = CreateDisplaySettings(func_020cb99c(), data_0215688c);
+    gMenuSceneState = heap_alloc(menu_process_getCurrentHeapHandle(), 0x960);
+    menu_createRaceConfig(menu_process_getCurrentHeapHandle());
+    displaySettings = dc_createDisplayConfig(menu_process_getCurrentHeapHandle(), menu_sDisplayConfigBase);
     SetMainBg0Record(displaySettings, 1, 0, 0, 0, 0xd, 2, 0);
     func_020cc2f4(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
     func_020cc2c0(displaySettings, 0, 0, 0, 0, 0x1e, 6);
@@ -78,74 +78,74 @@ void InitMenu(void) {
     SetSubBg1Record(displaySettings, 3, 0, 0, 0, 0xd, 0, 0);
     func_020cc1e0(displaySettings, 0, 0, 0, 0, 0xe, 0);
     func_020cc1ac(displaySettings, 2, 0, 0, 0, 0xf, 0);
-    InitDisplayFromSettings(displaySettings);
-    data_0217b43c->mFramesSinceScreenSwitch = 0;
-    data_0217b43c->mUnk_004 = 1;
-    data_0217b43c->mPreviousScreenNumber = 0x1f;
-    data_0217b43c->mScreenNumber = 0x1f;
-    data_0217b43c->mNextScreenNumber = 0x1f;
-    data_0217b43c->mScreenInitPending = TRUE;
-    data_0217b43c->mUnk_958 = TRUE;
-    data_0217b43c->mUnk_95c = TRUE;
-    CopyMenuScreenCallbacks();
-    ResetOamLists(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
-    SetHeapGroupId(9);
-    Init3dEngine();
-    SetHeapGroupId(5);
-    func_020629a4();
-    SetHeapGroupId(9);
-    if (func_020cbad0() == 0) {
-        func_02078d64(func_020cb99c());
+    dc_setDisplayConfig(displaySettings);
+    gMenuSceneState->mFramesSinceScreenSwitch = 0;
+    gMenuSceneState->mUnk_004 = 1;
+    gMenuSceneState->mPreviousScreenNumber = 0x1f;
+    gMenuSceneState->mScreenNumber = 0x1f;
+    gMenuSceneState->mNextScreenNumber = 0x1f;
+    gMenuSceneState->mScreenInitPending = TRUE;
+    gMenuSceneState->mUnk_958 = TRUE;
+    gMenuSceneState->mUnk_95c = TRUE;
+    menu_setupStates();
+    oam_clearResetBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
+    arc_setHeapGroupId(9);
+    race_initG3d();
+    arc_setHeapGroupId(5);
+    race_initResManagement();
+    arc_setHeapGroupId(9);
+    if (menu_MB_IsMultiBootChild_22() == 0) {
+        SPM_InitCharacterKartSelect(menu_process_getCurrentHeapHandle());
         RequestKartModelMenuCharacter(-1);
         RequestKartModelMenuKart(-1);
     }
-    SetHeapGroupId(5);
-    if (func_020cbad0() == 0) {
-        InitGhostRecordSet(func_020cb99c());
-        InitCupPicture();
-        LoadNclrData(&data_0217b43c->mSinglePlaySelectModeMONclr,
-                     FindSceneFileWrapper("common/single_play_select_mode_m_o.NCLR"));
-        LoadNcgrData2(&data_0217b43c->mSinglePlaySelectModeMNcgr,
-                      FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncgr"));
-        LoadNcerData(&data_0217b43c->mSinglePlaySelectModeMNcer,
-                     FindSceneFileWrapper("common/single_play_select_mode_m.nce.ncer"));
-        data_0217b43c->mSinglePlaySelectModeMBncl = FindSceneFileWrapper("common/single_play_select_mode_m.bncl");
-        data_0217b43c->mUnk_944 = 0;
-        LoadNclrData(&data_0217b43c->mSinglePlaySelectModeSONclr,
-                     FindSceneFileWrapper("common/single_play_select_mode_s_o.NCLR"));
-        LoadNcgrData2(&data_0217b43c->mSinglePlaySelectModeSNcgr,
-                      FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncgr"));
-        LoadNcerData(&data_0217b43c->mSinglePlaySelectModeSNcer,
-                     FindSceneFileWrapper("common/single_play_select_mode_s.nce.ncer"));
-        data_0217b43c->mSinglePlaySelectModeSBncl = FindSceneFileWrapper("common/single_play_select_mode_s.bncl");
-        data_0217b43c->mSinglePlaySelectModeSBnbl = FindSceneFileWrapper("common/single_play_select_mode_s.bnbl");
-        menu = data_0217b43c;
-        InitLayoutTable(func_020cb99c(), menu->mSinglePlaySelectModeMBncl, NULL,
+    arc_setHeapGroupId(5);
+    if (menu_MB_IsMultiBootChild_22() == 0) {
+        InitGhostRecordSet(menu_process_getCurrentHeapHandle());
+        cpic_init();
+        g2du_unpackPaletteData(&gMenuSceneState->mSinglePlaySelectModeMONclr,
+                     m2d_getSceneArcFile("common/single_play_select_mode_m_o.NCLR"));
+        g2du_unpackCharacterData(&gMenuSceneState->mSinglePlaySelectModeMNcgr,
+                      m2d_getSceneArcFile("common/single_play_select_mode_m.nce.ncgr"));
+        g2du_unpackCellBankData(&gMenuSceneState->mSinglePlaySelectModeMNcer,
+                     m2d_getSceneArcFile("common/single_play_select_mode_m.nce.ncer"));
+        gMenuSceneState->mSinglePlaySelectModeMBncl = m2d_getSceneArcFile("common/single_play_select_mode_m.bncl");
+        gMenuSceneState->mUnk_944 = 0;
+        g2du_unpackPaletteData(&gMenuSceneState->mSinglePlaySelectModeSONclr,
+                     m2d_getSceneArcFile("common/single_play_select_mode_s_o.NCLR"));
+        g2du_unpackCharacterData(&gMenuSceneState->mSinglePlaySelectModeSNcgr,
+                      m2d_getSceneArcFile("common/single_play_select_mode_s.nce.ncgr"));
+        g2du_unpackCellBankData(&gMenuSceneState->mSinglePlaySelectModeSNcer,
+                     m2d_getSceneArcFile("common/single_play_select_mode_s.nce.ncer"));
+        gMenuSceneState->mSinglePlaySelectModeSBncl = m2d_getSceneArcFile("common/single_play_select_mode_s.bncl");
+        gMenuSceneState->mSinglePlaySelectModeSBnbl = m2d_getSceneArcFile("common/single_play_select_mode_s.bnbl");
+        menu = gMenuSceneState;
+        jn_ui_initLayout(menu_process_getCurrentHeapHandle(), menu->mSinglePlaySelectModeMBncl, NULL,
                         &menu->mSinglePlaySelectModeMLayoutTable);
-        menu = data_0217b43c;
-        InitLayoutTable(func_020cb99c(), menu->mSinglePlaySelectModeSBncl, NULL,
+        menu = gMenuSceneState;
+        jn_ui_initLayout(menu_process_getCurrentHeapHandle(), menu->mSinglePlaySelectModeSBncl, NULL,
                         &menu->mSinglePlaySelectModeSLayoutTable);
-        menu = data_0217b43c;
-        func_02124a98(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
-        func_02124a98(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
-        func_02124a98(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
-        func_02124a98(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
-        menu = data_0217b43c;
-        func_02124a98(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = gMenuSceneState;
+        jn_ui_setCellIsTranslucent(0, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = gMenuSceneState;
+        jn_ui_setCellIsTranslucent(1, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = gMenuSceneState;
+        jn_ui_setCellIsTranslucent(2, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = gMenuSceneState;
+        jn_ui_setCellIsTranslucent(3, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
+        menu = gMenuSceneState;
+        jn_ui_setCellIsTranslucent(4, 1, menu->mSinglePlaySelectModeSNcer, menu->mSinglePlaySelectModeSBncl);
     }
     LoadPlayerEntryListFiles();
-    InitPlayerEntryList(func_020cb99c(), data_0217b43c->mMainOam);
-    data_0217b43c->mUnk_954 = func_0203bedc(func_020cb99c());
-    func_020cc18c(0x10);
-    SetSubDispcntBits(0x10);
-    func_020cba6c(0, 0x3f, 6, 10);
-    func_020cba30(0, 0x3f, 6, 10);
-    func_020cc150(0);
-    func_020cc134(0);
-    if (func_020cbad0() == 0) {
+    InitPlayerEntryList(menu_process_getCurrentHeapHandle(), gMenuSceneState->mMainOam);
+    gMenuSceneState->mUnk_954 = func_0203bedc(menu_process_getCurrentHeapHandle());
+    menu_GX_SetOBJVRamModeChar(0x10);
+    menu_GXS_SetOBJVRamModeChar(0x10);
+    menu_G2_SetBlendAlpha(0, 0x3f, 6, 10);
+    menu_G2S_SetBlendAlpha(0, 0x3f, 6, 10);
+    menu_GX_SetVisibleWnd(0);
+    menu_GXS_SetVisibleWnd(0);
+    if (menu_MB_IsMultiBootChild_22() == 0) {
         func_02025f90();
         func_02027df8();
         LoadTimeAttackTopMenuData();
@@ -160,117 +160,117 @@ void InitMenu(void) {
     }
     LoadSelectGameData();
     LoadSelectRaceRuleAndWaitData();
-    config.mUnk_00 = func_020cbad0();
-    config.mUnk_04 = GetFontByIndex(1);
+    config.mUnk_00 = menu_MB_IsMultiBootChild_22();
+    config.mUnk_04 = m2d_getFont(1);
     config.mUnk_08 = 0;
     config.mUnk_0c = 1;
     config.mUnk_10 = 0;
     config.mUnk_14 = 1;
-    config.mUnk_18 = GetFontByIndex(2);
+    config.mUnk_18 = m2d_getFont(2);
     config.mUnk_1c = 1;
     config.mUnk_20 = 1;
     config.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(func_020cb99c(), &config);
-    if (func_020cae54() == 2) {
+    gmenu_unpackData();
+    gmenu_init(menu_process_getCurrentHeapHandle(), &config);
+    if (menu_sysdat_getOverlayRelatedNum() == 2) {
         ClearSelectReturnDisplayBitOn();
     }
-    InitLinkLevelIcons(func_020cb99c(), data_0217b43c->mMainOam);
+    InitLinkLevelIcons(menu_process_getCurrentHeapHandle(), gMenuSceneState->mMainOam);
     switch (func_020cc120()) {
         case 0:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             func_020cc10c(1);
             break;
         case 1:
-            CopyCurrentToRaceSetupCopy();
-            switch (GetRaceSetupCopy()->mMode) {
+            menu_loadLastRaceConfig();
+            switch (menu_getRaceConfig()->mMode) {
                 case 0:
-                    SwitchMenuScreen(5, 0x1f);
+                    menu_gotoState(5, 0x1f);
                     func_020cbabc(0);
                     func_020cc10c(1);
                     break;
                 case 3:
-                    SwitchMenuScreen(8, 0x1f);
+                    menu_gotoState(8, 0x1f);
                     break;
                 case 2:
-                    SwitchMenuScreen(0xf, 0x1f);
+                    menu_gotoState(0xf, 0x1f);
                     break;
                 case 1:
-                    SwitchMenuScreen(0x15, 0x1f);
+                    menu_gotoState(0x15, 0x1f);
                     func_020cbabc(0);
                     func_020cc10c(1);
                     break;
             }
             break;
         case 2:
-            CopyCurrentToRaceSetupCopy();
-            switch (GetRaceSetupCopy()->mMode) {
+            menu_loadLastRaceConfig();
+            switch (menu_getRaceConfig()->mMode) {
                 case 3:
-                    SwitchMenuScreen(0xb, 0x1f);
+                    menu_gotoState(0xb, 0x1f);
                     break;
                 case 2:
-                    SwitchMenuScreen(SCREEN_SELECT_BATTLE_STAGE, 0x1f);
+                    menu_gotoState(SCREEN_SELECT_BATTLE_STAGE, 0x1f);
                     break;
                 case 1:
-                    SwitchMenuScreen(0x17, 0x1f);
+                    menu_gotoState(0x17, 0x1f);
                     func_020cbabc(0);
                     func_020cc10c(1);
                     break;
             }
             break;
         case 3:
-            CopyCurrentToRaceSetupCopy();
+            menu_loadLastRaceConfig();
             if (func_020cc0f8() != 0 || func_020cc0e4() != 0) {
-                SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
+                menu_gotoState(SCREEN_MISSION_RUN_LVSEL, 0x1f);
             } else {
-                SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
+                menu_gotoState(SCREEN_MISSION_RUN_MSSEL, 0x1f);
             }
             func_020cbabc(0);
             func_020cc10c(1);
             break;
         case 4:
-            SwitchMenuScreen(0xe, 0x1f);
+            menu_gotoState(0xe, 0x1f);
             break;
         case 5:
-            CopyCurrentToRaceSetupCopy();
-            GetRaceSetupCopy()->mMode = 1;
-            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
+            menu_loadLastRaceConfig();
+            menu_getRaceConfig()->mMode = 1;
+            menu_gotoState(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
             func_020cbabc(0);
             func_020cc10c(1);
             break;
     }
-    CreateCharacterKartPicks(func_020cb99c());
-    switch (GetRaceSetupCopy()->mMode) {
+    AllocSinglePlayerMenuInfo(menu_process_getCurrentHeapHandle());
+    switch (menu_getRaceConfig()->mMode) {
         case 0:
         default:
-            data_0217b43c->mSinglePlaySelectModeIndex = 0;
+            gMenuSceneState->mSinglePlaySelectModeIndex = 0;
             break;
         case 1:
-            data_0217b43c->mSinglePlaySelectModeIndex = 1;
+            gMenuSceneState->mSinglePlaySelectModeIndex = 1;
             break;
         case 2:
-            data_0217b43c->mSinglePlaySelectModeIndex = 3;
+            gMenuSceneState->mSinglePlaySelectModeIndex = 3;
             break;
         case 3:
-            data_0217b43c->mSinglePlaySelectModeIndex = 2;
+            gMenuSceneState->mSinglePlaySelectModeIndex = 2;
             break;
         case 4:
-            data_0217b43c->mSinglePlaySelectModeIndex = 4;
+            gMenuSceneState->mSinglePlaySelectModeIndex = 4;
             break;
     }
-    data_0217b43c->mUnk_934 = FALSE;
-    data_0217b43c->mUnk_938 = 0;
+    gMenuSceneState->mUnk_934 = FALSE;
+    gMenuSceneState->mUnk_938 = 0;
 }
 #pragma thumb off
 
-u16 *func_020cbb04(void) {
+u16 *menu_MB_GetMultiBootParam2(void) {
     return (u16 *) 0x27ffc40;
 }
 
-BOOL func_020cbadc(void) {
-    return *func_020cbb04() == 2;
+BOOL menu_MB_IsMultiBootChild2(void) {
+    return *menu_MB_GetMultiBootParam2() == 2;
 }
 
-s32 func_020cbad0(void) {
-    return func_020cbadc();
+s32 menu_MB_IsMultiBootChild_22(void) {
+    return menu_MB_IsMultiBootChild2();
 }

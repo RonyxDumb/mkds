@@ -18,7 +18,7 @@
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Kart/KartTimes.h"
 
-void UpdateRaceHudSubScreenItemBoxCells(void) {
+void mpicn_updateItemboxIcon(void) {
     s32 i;
     s32 k;
     s32 n;
@@ -27,33 +27,33 @@ void UpdateRaceHudSubScreenItemBoxCells(void) {
     Vec3 *v;
 
     n = 0;
-    c = GetRaceHudSubScreenScale();
+    c = mpicn_20C0DB0();
     k = 0;
-    for (i = 0; i < gRaceHudSubScreenItemBoxCells->mObjectCount; i++) {
+    for (i = 0; i < mpicn_sItemboxIcon->mObjectCount; i++) {
         if (data_0217b3f8 == 0 ||
-            IsRaceHudSubScreenPairNearCenter(&gRaceHudSubScreenItemBoxCells->mUnk_0c[i]) != FALSE) {
-            p = gRaceHudSubScreenItemBoxCells->mObjects[i];
+            IsRaceHudSubScreenPairNearCenter(&mpicn_sItemboxIcon->mUnk_0c[i]) != FALSE) {
+            p = mpicn_sItemboxIcon->mObjects[i];
             if ((p->mFlags & 1) == 0) {
                 v = &p->mPos;
-                if (ComputeRaceHudSubScreenPosition(v, &gRaceHudSubScreenItemBoxCells->mCells[k].mDrawPos, c, 0, 0) !=
+                if (lmap_20B5AE8(v, &mpicn_sItemboxIcon->mCells[k].mDrawPos, c, 0, 0) !=
                     FALSE) {
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mCell = GetRaceSNcerEntry(0x4e);
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mUnk_0c = IsPositionOutsideBox(v) != 0 ? 2 : 3;
-                    gRaceHudSubScreenItemBoxCells->mCells[k].mUnk_0e = p->mFlags & 0x20;
+                    mpicn_sItemboxIcon->mCells[k].mCell = r2d_getRaceSCell(0x4e);
+                    mpicn_sItemboxIcon->mCells[k].mUnk_0c = m2d_isPointOnLowerMap(v) != 0 ? 2 : 3;
+                    mpicn_sItemboxIcon->mCells[k].mUnk_0e = p->mFlags & 0x20;
                     n++;
                     k++;
                 }
             }
         }
     }
-    gRaceHudSubScreenItemBoxCells->mCellCount = n;
+    mpicn_sItemboxIcon->mCellCount = n;
 }
 
-void DrawRaceHudSubScreenItemBoxCells(RaceHudOamBuffer *a) {
-    DrawRaceHudSubScreenCells(a, gRaceHudSubScreenItemBoxCells, 0);
+void mpicn_renderItemboxIcon(RaceHudOamBuffer *a) {
+    mpicn_renderMObjIcon(a, mpicn_sItemboxIcon, 0);
 }
 
-void RefreshRaceNewRecordTaRecordFlags(void) {
+void r2dtar_20C7164(void) {
     u8 minute;
     u8 second;
     u16 millisecond;
@@ -65,19 +65,19 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     TimeRecord *record;
     TimeRecord *records;
 
-    if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+    if (gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
         return;
     }
-    if (gRaceNewRecordTa == NULL) {
+    if (r2dtar_sStatus == NULL) {
         return;
     }
-    if (gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        gRaceNewRecordTa->mFinishTimeIsRecord = func_020c657c(0);
-        gRaceNewRecordTa->mBestLapIsRecord = func_020c6428(0);
+    if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        r2dtar_sStatus->mFinishTimeIsRecord = r2dtar_20C657C(0);
+        r2dtar_sStatus->mBestLapIsRecord = r2dtar_20C6428(0);
         return;
     }
-    GetKartFinishTime(GetFollowedKartOrEntryIndex(), &minute, &second, &millisecond);
-    records = gRaceNewRecordTa->mRecords;
+    rstat_getDriverTotalTime(Race_GetPlayerId(), &minute, &second, &millisecond);
+    records = r2dtar_sStatus->mRecords;
     finishMs = second * 1000 + minute * 60000 + millisecond;
     for (j = 4; j >= 0; j--) {
         record = &records[j];
@@ -89,23 +89,23 @@ void RefreshRaceNewRecordTaRecordFlags(void) {
     }
     j = 0;
 found:
-    gRaceNewRecordTa->mFinishTimeIsRecord = j;
-    record = &gRaceNewRecordTa->mRecords[TIME_RECORD_BEST_LAP];
-    gRaceNewRecordTa->mBestLapNumber =
-        GetKartBestLapTime(GetFollowedKartOrEntryIndex(), &bestMinute, &bestSecond, &bestMillisecond);
-    gRaceNewRecordTa->mBestLapIsRecord =
+    r2dtar_sStatus->mFinishTimeIsRecord = j;
+    record = &r2dtar_sStatus->mRecords[TIME_RECORD_BEST_LAP];
+    r2dtar_sStatus->mBestLapNumber =
+        rstat_getDriverBestLapTime(Race_GetPlayerId(), &bestMinute, &bestSecond, &bestMillisecond);
+    r2dtar_sStatus->mBestLapIsRecord =
         (bestMinute == record->mMinute && bestSecond == record->mSecond && bestMillisecond == record->mMillisecond) ? 1
                                                                                                                     : 0;
 }
 
 s32 IsRaceNewRecordTaFinishRecord(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mFinishTimeIsRecord : 0;
+    return r2dtar_sStatus != NULL ? r2dtar_sStatus->mFinishTimeIsRecord : 0;
 }
 
 BOOL IsRaceNewRecordTaFinishRecordFirst(void) {
-    if (gRaceNewRecordTa != NULL) {
-        if (gRaceNewRecordTa->mFinishTimeIsRecord != 0) {
-            if (gRaceNewRecordTa->mFinishRecordIndex == 0) {
+    if (r2dtar_sStatus != NULL) {
+        if (r2dtar_sStatus->mFinishTimeIsRecord != 0) {
+            if (r2dtar_sStatus->mFinishRecordIndex == 0) {
                 return TRUE;
             }
         }
@@ -115,5 +115,5 @@ BOOL IsRaceNewRecordTaFinishRecordFirst(void) {
 }
 
 s32 IsRaceNewRecordTaBestLapRecord(void) {
-    return gRaceNewRecordTa != NULL ? gRaceNewRecordTa->mBestLapIsRecord : 0;
+    return r2dtar_sStatus != NULL ? r2dtar_sStatus->mBestLapIsRecord : 0;
 }

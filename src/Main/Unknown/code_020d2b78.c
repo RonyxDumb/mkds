@@ -15,13 +15,13 @@
 
 #pragma thumb on
 
-void func_020d2d94(void) {
+void mobj_finalize(void) {
     int index;
     MapObjectList **drawListSlot;
     void **listSlot;
     MapObjectList **updateListSlot;
-    drawListSlot = gMapObjects->mDrawLists;
-    updateListSlot = gMapObjects->mUpdateLists;
+    drawListSlot = gMapObjState->mDrawLists;
+    updateListSlot = gMapObjState->mUpdateLists;
     index = 0;
     do {
         if (*drawListSlot != NULL) {
@@ -52,13 +52,13 @@ void func_020d2d94(void) {
 
 #pragma thumb on
 
-s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind, Vec3 *hitOffset) {
+s32 mobj_collideAsItemDirect(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotIndex, s32 itemKind, Vec3 *hitOffset) {
     s32 bestResponse;
     s32 i;
     bestResponse = 0;
-    FindCollisionSlotsOverlappingSlot(collisionSlotIndex, 0x2000);
+    col_queryByColEntry(collisionSlotIndex, 0x2000);
     i = 0;
-    if (gFoundCollisionSlotCount != 0) {
+    if (gColQueryResultCount != 0) {
         Vec3 overlapOffset;
         Vec3 lowest;
         Vec3 highest;
@@ -74,11 +74,11 @@ s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotI
             Vec3 zeroHigh = {0, 0, 0};
             highest = zeroHigh;
         }
-        itemObject = &gMapObjects->mUnk_18c;
-        for (; i < gFoundCollisionSlotCount; i++) {
-            mapObject = gFoundCollisionSlotObjects[i];
-            if (IsSphereHittingMapObject(position, radius, mapObject, &overlapOffset) != FALSE) {
-                if (!(mapObject->mFlags & 0x40) && DoesItemObjectRespondToMapObject(itemKind, mapObject) != 0) {
+        itemObject = &gMapObjState->mUnk_18c;
+        for (; i < gColQueryResultCount; i++) {
+            mapObject = gColQueryResultObjects[i];
+            if (mobj_sphereCollide(position, radius, mapObject, &overlapOffset) != FALSE) {
+                if (!(mapObject->mFlags & 0x40) && mobj_getCollidesWithItem(itemKind, mapObject) != 0) {
                     overlapX = overlapOffset.x;
                     lowest.x = ((const Vec3 *) &overlapOffset)->x < lowest.x ? overlapX : lowest.x;
                     lowest.y = overlapOffset.y < lowest.y ? overlapOffset.y : lowest.y;
@@ -90,7 +90,7 @@ s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotI
                 itemObject->mPos = *position;
                 itemObject->mVelocity = *velocity;
                 itemObject->mKind = itemKind;
-                response = func_020d6a54(itemObject, mapObject, NULL);
+                response = mobj_handleItemCollision(itemObject, mapObject, NULL);
                 if (response > bestResponse) {
                     bestResponse = response;
                 }
@@ -112,44 +112,44 @@ s32 func_020d2c2c(Vec3 *position, Vec3 *velocity, s32 radius, s16 collisionSlotI
 
 #pragma thumb on
 
-u32 GetMapObjectKindCount(void) {
-    return (gMapObjectKindCount);
+u32 mobj_getAvailableObjectCount(void) {
+    return (mobj_sAvailableObjectCount);
 }
 
-// The water_efct.nsbmd file: WaterEfct's if gCourseWaterEfct exists, else the Water's own when mUnk_170 is non-zero,
-// else NULL; passed as an effect model file to SetupModelEffectKind.
-void *GetWaterEfctNsbmdFile(void) {
+// The water_efct.nsbmd file: WaterEfct's if gMObjSplashState exists, else the Water's own when mUnk_170 is non-zero,
+// else NULL; passed as an effect model file to expl_setModel.
+void *mobj_getWaterEffectNsbmd(void) {
     Water *water;
-    if (gCourseWaterEfct != NULL) {
-        return gCourseWaterEfct->mNsbmdFile;
+    if (gMObjSplashState != NULL) {
+        return gMObjSplashState->mNsbmdFile;
     }
-    water = gCourseWater;
+    water = gMObjWaterState;
     if ((water != NULL) && (water->mUnk_170 != 0)) {
         return water->mEfctNsbmdFile;
     }
     return NULL;
 }
 
-// The water_efct.nsbca file, same rule as GetWaterEfctNsbmdFile.
-void *GetWaterEfctNsbcaFile(void) {
+// The water_efct.nsbca file, same rule as mobj_getWaterEffectNsbmd.
+void *mobj_getWaterEffectNsbca(void) {
     Water *water;
-    if (gCourseWaterEfct != NULL) {
-        return gCourseWaterEfct->mNsbcaFile;
+    if (gMObjSplashState != NULL) {
+        return gMObjSplashState->mNsbcaFile;
     }
-    water = gCourseWater;
+    water = gMObjWaterState;
     if ((water != NULL) && (water->mUnk_170 != 0)) {
         return water->mEfctNsbcaFile;
     }
     return NULL;
 }
 
-// The water_efct.nsbma file, same rule as GetWaterEfctNsbmdFile.
-void *GetWaterEfctNsbmaFile(void) {
+// The water_efct.nsbma file, same rule as mobj_getWaterEffectNsbmd.
+void *mobj_getWaterEffectNsbma(void) {
     Water *water;
-    if (gCourseWaterEfct != NULL) {
-        return gCourseWaterEfct->mNsbmaFile;
+    if (gMObjSplashState != NULL) {
+        return gMObjSplashState->mNsbmaFile;
     }
-    water = gCourseWater;
+    water = gMObjWaterState;
     if ((water != NULL) && (water->mUnk_170 != 0)) {
         return water->mEfctNsbmaFile;
     }

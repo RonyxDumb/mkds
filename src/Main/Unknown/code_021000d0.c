@@ -2,25 +2,25 @@
 
 #include "Main/Unknown/code_020d2b78.h"
 
-void *FindMapObjectKindUpdateList(u32 a) {
-    s32 n = GetMapObjectKindCount();
+void *mobj_getLogicPartForObjectId(u32 a) {
+    s32 n = mobj_getAvailableObjectCount();
     s32 i;
 
     for (i = 0; i < n; i++) {
-        if (data_0216b288[i].mKind == a) {
-            return data_0216b288[i].mUnk_04->mLists[3];
+        if (gMapObjTable[i].mKind == a) {
+            return gMapObjTable[i].mUnk_04->mLists[3];
         }
     }
     return NULL;
 }
 
-void *FindMapObjectKindDrawList0(u32 a) {
-    s32 n = GetMapObjectKindCount();
+void *mobj_getRenderPart0ForObjectId(u32 a) {
+    s32 n = mobj_getAvailableObjectCount();
     s32 i;
 
     for (i = 0; i < n; i++) {
-        if (data_0216b288[i].mKind == a) {
-            return data_0216b288[i].mUnk_04->mLists[0];
+        if (gMapObjTable[i].mKind == a) {
+            return gMapObjTable[i].mUnk_04->mLists[0];
         }
     }
     return NULL;

@@ -6,7 +6,7 @@
 
 #pragma thumb on
 // While still unset, also fills the list's words 0x18 to 0x20.
-void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
+void mobj_logicPartAddInstance(MapObjectList *p, MapObject *q) {
     u16 n;
     MapObjectKindData *t;
 
@@ -22,7 +22,7 @@ void AddMapObjectToUpdateList(MapObjectList *p, MapObject *q) {
         p->mUnk_1c = t->mUnk_04;
     }
     if (p->mUnk_20 == 3) {
-        p->mUnk_20 = func_020d6910(6, q);
+        p->mUnk_20 = mobj_getItemHitObjResponseForMObj(6, q);
     }
 }
 #pragma thumb off

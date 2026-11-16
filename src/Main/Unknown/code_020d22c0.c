@@ -9,7 +9,7 @@
 
 // Puts a pooled map object aside: saves the low flag nibble in the high nibble, sets flags 1, 2, 8 and 4 (the update
 // walk skips flag 4) and the parked bit 0x100, and disables its collision slot if it has one.
-void ParkMapObject(MapObject *mapObject) {
+void mobj_setInvisible(MapObject *mapObject) {
     mapObject->mFlags &= ~0xf000;
     mapObject->mFlags |= (mapObject->mFlags & 0xf) << 12;
     mapObject->mFlags |= data_021568b4;
@@ -17,34 +17,34 @@ void ParkMapObject(MapObject *mapObject) {
     mapObject->mFlags |= data_021568bc;
     mapObject->mFlags |= data_021568c0;
     if (mapObject->mCollisionSlotIndex != -1) {
-        DisableCollisionSlot(mapObject->mCollisionSlotIndex);
+        col_disableColEntry(mapObject->mCollisionSlotIndex);
     }
     mapObject->mFlags |= data_021568c4;
 }
 
 // Brings a parked map object back: restores the low flag nibble from the high one, sets mUnk_66 to 0x1f unless the
 // restored flags contain 2, enables its collision slot if it has one and clears the parked bit 0x100.
-void UnparkMapObject(MapObject *mapObject) {
+void mobj_setVisible(MapObject *mapObject) {
     mapObject->mFlags &= ~0xf;
     mapObject->mFlags |= (mapObject->mFlags & 0xf000) >> 12;
     if (!(mapObject->mFlags & 2)) {
         mapObject->mAlpha = 0x1f;
     }
     if (mapObject->mCollisionSlotIndex != -1) {
-        EnableCollisionSlot(mapObject->mCollisionSlotIndex);
+        col_enableColEntry(mapObject->mCollisionSlotIndex);
     }
     mapObject->mFlags &= ~0x100;
 }
 
-void SetRaceRandomPointers(void) {
-    gMapObjectRandom = gRaceSetup->mMode == 5 ? &gRaceProgress->mFixedSeedRandom : &gRaceProgress->mRandom;
-    gRaceRandom = &gRaceProgress->mRandom;
+void mobj_initRng(void) {
+    mobj_sRng1 = gRaceMultiConfig->mMode == 5 ? &gRaceStatus->mFixedSeedRandom : &gRaceStatus->mRandom;
+    mobj_sSafeRng = &gRaceStatus->mRandom;
 }
 
-RandomState64 *GetMapObjectRandom(void) {
-    return (RandomState64 *) ((u32) gMapObjectRandom);
+RandomState64 *mobj_getRng1(void) {
+    return (RandomState64 *) ((u32) mobj_sRng1);
 }
 
-RandomState64 *GetRaceRandom(void) {
-    return (RandomState64 *) ((u32) gRaceRandom);
+RandomState64 *mobj_getSafeRng(void) {
+    return (RandomState64 *) ((u32) mobj_sSafeRng);
 }

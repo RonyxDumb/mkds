@@ -6,7 +6,7 @@
 #include "01/code_0219b250.h"
 #include "Main/Unknown/code_02093ff0.h" // TeresaWobble
 
-// Object behind gTrophy (a 0x124-byte allocation).
+// Object behind trophy_sState (a 0x124-byte allocation).
 typedef struct Trophy {
     /* 000 */ u16 mModelIndex;
     /* 002 */ u16 mRankIndex;
@@ -29,4 +29,4 @@ typedef struct Trophy {
     /* 120 */ Unk0201ca6c *mEffect5;
 } Trophy;
 
-extern Trophy *gTrophy;
+extern Trophy *trophy_sState;

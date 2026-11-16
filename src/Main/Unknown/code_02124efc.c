@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-void InitLayoutTableEntries(LayoutTableEntry *entry, s32 count) {
+void initLayoutElements(LayoutTableEntry *entry, s32 count) {
     s32 i;
 
     for (i = 0; i < count; i++) {

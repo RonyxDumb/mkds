@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void RefreshMapObjectMatrixFromHitNormal(void *mapObject);
+void mobj_setDirectionFromFloor(void *mapObject);

@@ -26,18 +26,18 @@ void LocateAndQueueSelectRaceRuleWait(void) {
     Nclr *cellPalette[1];
     cellChars = NULL;
     cellPalette[0] = NULL;
-    sceneFile = FindSceneFile(data_0216e128);
-    LocateNcer(&gSelectRaceRuleWait->mNcer, sceneFile);
-    sceneFile = FindSceneFile(data_0216e134);
-    LocateNcgr2(&cellChars, sceneFile);
-    sceneFile = FindSceneFile(data_0216e130);
-    LocateNclr(cellPalette, sceneFile);
-    sceneFile = FindSceneFile(data_0216e124);
+    sceneFile = arc_getSceneArcFile(data_0216e128);
+    g2du_getCellBankData(&gSelectRaceRuleWait->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216e134);
+    g2du_getCharacterData(&cellChars, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216e130);
+    g2du_getPaletteData(cellPalette, sceneFile);
+    sceneFile = arc_getSceneArcFile(data_0216e124);
     gSelectRaceRuleWait->mBncl = sceneFile;
-    sceneFile = FindSceneFile(data_0216e12c);
+    sceneFile = arc_getSceneArcFile(data_0216e12c);
     gSelectRaceRuleWait->mBnll = sceneFile;
-    CallQueueAppend(0x23, 0, cellChars->mData, cellChars->mDataSize);
-    CallQueueAppend(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, cellChars->mData, cellChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, cellPalette[0]->mData, cellPalette[0]->mDataSize);
 }
 
 #pragma thumb off
@@ -75,17 +75,17 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
     u16 cellEntryCount;
     u32 subObjSize;
 
-    gSelectRaceRuleWait = HeapAlloc(heap, 0x28);
+    gSelectRaceRuleWait = heap_alloc(heap, 0x28);
     gSelectRaceRuleWait->mState = 1;
     gSelectRaceRuleWait->mOamList = oamList;
     LocateAndQueueSelectRaceRuleWait();
-    InitLayoutTable(heap, gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mBnll, &gSelectRaceRuleWait->mTable);
-    gSelectRaceRuleWait->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    jn_ui_initLayout(heap, gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mBnll, &gSelectRaceRuleWait->mTable);
+    gSelectRaceRuleWait->mCommonMessages = arc_get2dArcFile("common.bmg");
     subObjSize = GX_GetSizeOfSubOBJ();
-    InitLabelCanvas(heap, 0xe, gSelectRaceRuleWait->mBnll, 0xc8, 0xd, 0, gSelectRaceRuleWait->mNcer,
+    jn_ui_initLabel(heap, 0xe, gSelectRaceRuleWait->mBnll, 0xc8, 0xd, 0, gSelectRaceRuleWait->mNcer,
                     gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mTable, subObjSize);
     selectRaceRuleWait = gSelectRaceRuleWait;
-    func_0212426c(1, 0xe, gSelectRaceRuleWait->mBnll, GetBmgEntry(selectRaceRuleWait->mCommonMessages, 0x79),
+    jn_ui_212426C(1, 0xe, gSelectRaceRuleWait->mBnll, jn_msg_getMessage(selectRaceRuleWait->mCommonMessages, 0x79),
                   selectRaceRuleWait->mBncl, selectRaceRuleWait->mTable);
     i = 0;
     cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
@@ -93,7 +93,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
         gSelectRaceRuleWait->mTable[i].mVisible = 0;
     }
     gSelectRaceRuleWait->mTable[0x2a].mVisible = 1;
-    CreateWait(heap, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBncl, 0x2a, 0xe, 1);
+    wait_init(heap, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBncl, 0x2a, 0xe, 1);
     RequestSelectRaceRuleWaitState0();
     RequestSelectRaceRuleWaitState1();
     AdvanceSelectRaceRuleWait();
@@ -104,7 +104,7 @@ void InitSelectRaceRuleWait(void *heap, void *oamList) {
 #pragma thumb on
 
 void func_0211f498(void) {
-    ClearWaitPointer();
+    wait_free();
     *(u32 *) &gSelectRaceRuleWait = 0;
 }
 
@@ -118,7 +118,7 @@ void AdvanceSelectRaceRuleWaitState0(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = mutil_interpolate(1, 0xc0, 0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= 10) {
@@ -132,7 +132,7 @@ void AdvanceSelectRaceRuleWaitState2(void) {
 
     cellEntryCount = gSelectRaceRuleWait->mBncl->mUnk_06;
     gSelectRaceRuleWait->mStateFrames++;
-    offsetY = InterpolateS16(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
+    offsetY = mutil_interpolate(1, 0, 0xc0, gSelectRaceRuleWait->mStateFrames, 10);
     gSelectRaceRuleWait->mTable[0x2a].mOffsetY = offsetY;
     gSelectRaceRuleWait->mTable[cellEntryCount + 0xe].mOffsetY = offsetY;
     if (gSelectRaceRuleWait->mStateFrames >= 10) {
@@ -152,8 +152,8 @@ void AdvanceSelectRaceRuleWait(void) {
             AdvanceSelectRaceRuleWaitState2();
             break;
     }
-    AdvanceWait();
-    DrawLayoutTable(gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBnll,
+    wait_update();
+    jn_ui_renderElements(gSelectRaceRuleWait->mBncl, gSelectRaceRuleWait->mNcer, gSelectRaceRuleWait->mBnll,
                     gSelectRaceRuleWait->mOamList, gSelectRaceRuleWait->mTable);
 }
 

@@ -6,7 +6,7 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Object behind gCupPicture: three pointers that LoadNclrData, LoadNcgrData and LoadNscrData fill from
+// Object behind gCupPicture: three pointers that g2du_unpackPaletteData, g2du_unpackCharacterDataBG and g2du_unpackScreenData fill from
 // the three buffers at 0x10, 0x238 and 0x1038, then a word at 0xc.
 typedef struct CupPicture {
     /* 0000 */ Nclr *mCupPictureNclr;
@@ -18,7 +18,7 @@ typedef struct CupPicture {
     /* 1038 */ u8 mCupPictureNscrFile[0x824];
 } CupPicture;
 
-void ClearCupPicturePointer(void);
-void LoadCupPictureNclr(void);
-void LoadCupPictureNcgr(void);
-void LoadCupPictureNscr(void);
+void cpic_finalize(void);
+void cpic_loadPalette(void);
+void cpic_loadCharacter(void);
+void cpic_loadScreen(void);

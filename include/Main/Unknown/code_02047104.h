@@ -2,12 +2,12 @@
 
 #include "types.h"
 
-void *LoadKartModelFile(const char *path);
-void *FindKartModelFile(const char *path);
-void *FindCourseFile(const char *path);
-void *FindSceneFile(const char *name);
-void *FindMainRaceOrMainEffectFile(const char *path);
-void *FindArchiveFile(u32 archiveName, const char *path);
+void *arc_getKartModelArcFileCopy(const char *path);
+void *arc_getKartModelArcFile(const char *path);
+void *arc_getCourseArcFile(const char *path);
+void *arc_getSceneArcFile(const char *name);
+void *arc_getMainRaceMainEffectArcFile(const char *path);
+void *arc_getArchiveFile(u32 archiveName, const char *path);
 
 // 0x18-byte entries.
 typedef struct ArchiveSlotInfo {
@@ -28,35 +28,35 @@ typedef struct SceneName {
 
 #include "Main/Unknown/unk_02175000.h"
 
-// The scene-name table, 16 rows indexed by scene number like gSceneFuncs: 0 'Title', 1 'Menu', 2 'Race', 3 'Emblem',
+// The scene-name table, 16 rows indexed by scene number like scproc_sSceneTable: 0 'Title', 1 'Menu', 2 'Race', 3 'Emblem',
 // 4 'Menu', 5 'Test', 6 'WLMenu', 7 'Option', 8 'Record', 9 'Logo', 10 'Result', 11 'Nickname', 12 'WiFiMenu',
 // 13 'Ghost', 14 'Keyboard', 15 'Ending'.
-extern SceneName gSceneNames[];
-extern ArchiveSlotInfo gArchiveSlotInfos[];
-extern const char data_02165008[];
-extern const char data_02165010[];
-extern const char data_02165018[];
-extern const char data_02165020[];
-extern const char data_02165028[];
-extern const char data_02165030[];
-extern const char data_02165038[];
-extern const char data_02165040[];
-extern const char gStaffRollArchivePath[];
-extern const char data_021650e0[];
+extern SceneName sSceneDefs[];
+extern ArchiveSlotInfo sArcDefs[];
+extern const char aSS_0[];
+extern const char aSS_1[];
+extern const char aSS_2[];
+extern const char aSS_3[];
+extern const char aSS_4[];
+extern const char aSS_5[];
+extern const char aSS_6[];
+extern const char aSS_7[];
+extern const char aDataSceneStaff[];
+extern const char aDl_0[];
 extern const char data_021650e4[];
-extern const char gResultLanguageArchivePathFormat[];
-extern const char data_02165100[];
-extern const char data_02165108[];
+extern const char aDataSceneSS_SS[];
+extern const char a_carc_2[];
+extern const char aDl[];
 extern const char data_0216510c[];
-extern const char gResultArchivePathFormat[];
-extern const char data_02165124[];
+extern const char aDataSceneSSS[];
+extern const char a_carc_3[];
 
-void InitTouchMicInput(void *heap);
-void InitTouchPanelAndSetCalibration(void);
-void func_020471b0(void *heap);
-void ResizeMainEffectArchiveBlock(u8 *a, u32 b);
-s32 func_02047250(void);
-void func_02047274(void);
+void spi_init(void *heap);
+void spi_initTouch(void);
+void arc_loadStatic2D(void *heap);
+void arc_resizeMainEffectArc(u8 *a, u32 b);
+s32 arc_isCourseTexAvailable(void);
+void arc_2047274(void);
 void RequestResultDLArchives(void);
 void RequestRaceArchives(void *courseId, void *b);
 void RequestMenuDLArchives(void);
@@ -67,23 +67,23 @@ void func_020474e4(void);
 void InitArchiveBuffers(NNSiFndHeapHead *a, NNSiFndHeapHead *courseBufferHeap, NNSiFndHeapHead *c);
 void InitArchiveBuffer(NNSiFndHeapHead *heap, s32 bufferIndex, s32 c, u32 uncompress, u32 e);
 void func_020476ac(void);
-void func_020476ec(void);
-void func_02047728(void);
-void func_0204775c(void);
-void *func_02047950(const char *path);
-void *FindFileInLoadedArchives(const char *name);
-void SetHeapGroupId(u32 groupId);
-void ReleaseArchiveSlots(void);
-void LoadArchiveSlotsForScene(s32 sceneNumber);
-void ReleaseArchiveSlot(int slotIndex);
-void LoadArchiveSlotData(void);
-void UncompressArchiveMemory(void);
-void UncompressArchiveFile(void);
-void LoadArchiveSlot(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 e, s32 uncompressSource, s32 g);
-void LoadArchiveSlotForScene(int slotIndex, int sceneNumber);
-void BuildArchivePathWithLanguage(const char *prefix, char *path);
-void BuildSceneModeLanguageArchivePath(char *path, const char *sceneName, int mode);
-void BuildSceneModeArchivePath(char *path, const char *sceneName, int mode);
-void BuildStaffRollArchivePath(char *path);
-void BuildResultArchivePathWithLanguage(char *path);
-void BuildResultArchivePath(char *path);
+void arc_switchCourseTexToSceneRace(void);
+void arc_switchKartModelBSubToCourse(void);
+void arc_switchKartModelMainAtoB(void);
+void *arc_getKartModelArcFileSafe(const char *path);
+void *arc_get2dArcFile(const char *name);
+void arc_setHeapGroupId(u32 groupId);
+void arc_unloadAllArchives(void);
+void arc_loadArchivesForScene(s32 sceneNumber);
+void arc_unloadArchive(int slotIndex);
+void arc_mountArchive(void);
+void arc_loadArchiveFromMem(void);
+void arc_loadArchiveFromFile(void);
+void arc_loadArchive(s32 slotIndex, const char *path, u32 *sourceData, void *data, s32 e, s32 uncompressSource, s32 g);
+void arc_loadArchiveForScene(int slotIndex, int sceneNumber);
+void arc_getLocalizedArcPath(const char *prefix, char *path);
+void arc_getLocalizedRaceSceneArcPath(char *path, const char *sceneName, int mode);
+void arc_getRaceSceneArcPath(char *path, const char *sceneName, int mode);
+void arc_getLocalizedStaffrollSceneArcPath(char *path);
+void arc_getLocalizedResultSceneArcPath(char *path);
+void arc_getResultSceneArcPath(char *path);

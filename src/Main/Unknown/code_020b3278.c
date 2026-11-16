@@ -5,31 +5,31 @@
 #pragma thumb on
 #pragma optimize_for_size on
 // In mode 5 the sequence index is always 4, whatever the selected value.
-void StartChoisesSSelectedValueSeq(void) {
-    if (func_020b252c() == 5) {
-        func_02105b64(4);
+void rchoi_emitOptionActivationSound(void) {
+    if (rchoi_race_getCurrentRaceMode() == 5) {
+        sfx_emitRaceChoiceActivationSound(4);
     } else {
-        switch (gChoisesS->mSelectedValue) {
+        switch (rchoi_sState->mSelectedValue) {
             case 0:
             case 8:
-                func_02105b64(0);
+                sfx_emitRaceChoiceActivationSound(0);
                 break;
             case 1:
             case 3:
-                func_02105b64(1);
+                sfx_emitRaceChoiceActivationSound(1);
                 break;
             case 2:
             case 7:
             case 10:
-                func_02105b64(5);
+                sfx_emitRaceChoiceActivationSound(5);
                 break;
             case 4:
             case 5:
             case 6:
-                func_02105b64(2);
+                sfx_emitRaceChoiceActivationSound(2);
                 break;
             case 9:
-                func_02105b64(3);
+                sfx_emitRaceChoiceActivationSound(3);
                 break;
         }
     }

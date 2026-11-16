@@ -66,35 +66,35 @@ void UpdateSoundPitchSwing(void) {
     angle = *(u32 *) gSoundPitchSwingAngle + 0x1999;
     *(u32 *) gSoundPitchSwingAngle = angle;
     wrappedAngle = angle & 0xffff;
-    c = gPairsByAngle[(wrappedAngle >> 4) * 2];
+    c = FX_SinCosTable_[(wrappedAngle >> 4) * 2];
     d = (s64) c * 0x90000 + 0x800;
     *(u32 *) gSoundPitchSwingAngle = wrappedAngle;
     gSoundPitchSwing = (s32) (d >> 12) >> 12;
 }
 
-void StartSurfaceSound(SoundSource *source, int entryIndex, u32 surfaceKind, u32 surfaceVariant, u32 waterDepth) {
+void sfx_emitFloorSfx2(SoundSource *source, int entryIndex, u32 surfaceKind, u32 surfaceVariant, u32 waterDepth) {
     int v1;
     if ((source->mSourceFlags & 1) == 0) {
         return;
     }
     if (entryIndex == 2) {
         if ((0x00009c40u) < waterDepth) {
-            StartSound(source, 0x70, 0x7f, 0);
+            sfx_21090C4(source, 0x70, 0x7f, 0);
             return;
         }
         if (waterDepth != 0) {
-            StartSound(source, 0x6f, 0x7f, 0);
+            sfx_21090C4(source, 0x6f, 0x7f, 0);
             return;
         }
     }
-    v1 = GetSurfaceSoundId(entryIndex, surfaceKind, surfaceVariant);
+    v1 = csfx_getFloorSfx(entryIndex, surfaceKind, surfaceVariant);
     if (v1 != 0xffff) {
-        StartSound(source, v1, 0x7f, 0);
+        sfx_21090C4(source, v1, 0x7f, 0);
         return;
     }
 }
 
-void func_0210b4e0(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant) {
+void sfx_emitWheelSpinSfx(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant) {
     u32 soundId;
 
     switch (kart->mUnk_490) {
@@ -109,12 +109,12 @@ void func_0210b4e0(Kart *kart, s32 b, s32 surfaceKind, s32 surfaceVariant) {
             break;
     }
     if (b != 0) {
-        StartSoundWhileRequested(&kart->mSoundSource, GetSurfaceSoundId(1, surfaceKind, surfaceVariant), 0x5f, -0x345);
+        StartSoundWhileRequested(&kart->mSoundSource, csfx_getFloorSfx(1, surfaceKind, surfaceVariant), 0x5f, -0x345);
     }
     StartSoundWhileRequested(&kart->mSoundSource, soundId, 0x7f, 0);
 }
 
-void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,
+void sfx_emitFloorSfx(Kart *kart, s32 entryIndex, s32 surfaceKind, s32 surfaceVariant,
                                          u32 waterDepth) {
     Unk0206bcb0_A *soundState;
     s16 f;
@@ -149,7 +149,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
     }
     if (waterDepth != 0) {
         depthPitch = 0;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == gRaceMultiConfig->mEntryIndex;
         if (waterDepth > 0x11170) {
             depthPitch = 0x384;
             if (isEntryKart != FALSE) {
@@ -163,7 +163,7 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
         }
         StartSoundWhileRequested(&kart->mSoundSource, 0x74, volume & 0xff, (s16) (f - depthPitch));
     } else {
-        soundId = GetSurfaceSoundId(entryIndex, surfaceKind, surfaceVariant);
+        soundId = csfx_getFloorSfx(entryIndex, surfaceKind, surfaceVariant);
         if (soundId == 0xffff) {
             return;
         }
@@ -171,15 +171,15 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
             case 0xffd0:
             case 0xffd1:
                 m = soundId & 1;
-                lapProgress = GetKartLapProgress(kart->mIndex);
+                lapProgress = rstat_getLapProgress(kart->mIndex);
                 k = lapProgress - soundState->mUnk_28;
                 if (k < 0) {
                     k = -k;
                 }
-                if (k > GetLapProgressSoundGap(m)) {
-                    baseSoundId = GetLapProgressSoundId(m);
+                if (k > sfx_getKaidanKibashiProgressDistance(m)) {
+                    baseSoundId = sfx_getKaidanKibashiBaseSfxId(m);
                     soundState->mUnk_2c++;
-                    StartSound(&kart->mSoundSource, (u16) ((soundState->mUnk_2c & 1) + baseSoundId), 0x7f, 0);
+                    sfx_21090C4(&kart->mSoundSource, (u16) ((soundState->mUnk_2c & 1) + baseSoundId), 0x7f, 0);
                     soundState->mUnk_28 = lapProgress;
                 }
                 break;
@@ -190,20 +190,20 @@ void StartKartSurfaceSoundWhileRequested(Kart *kart, s32 entryIndex, s32 surface
     }
 }
 
-void func_0210b234(Kart *kart, s32 b, s32 c, s32 d, s32 f) {
+void sfx_emitWallSfx(Kart *kart, s32 b, s32 c, s32 d, s32 f) {
     u32 soundId;
 
     if (!(kart->mSoundSource.mSourceFlags & 1)) {
         return;
     }
-    soundId = func_0210bafc(b, c, d);
+    soundId = csfx_getWallSfx(b, c, d);
     if (soundId == 0xffff) {
         return;
     }
-    if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW) {
+    if (gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW) {
         soundId = 0x1b6;
     }
-    StartSound(&kart->mSoundSource, soundId, 0x7f, 0);
+    sfx_21090C4(&kart->mSoundSource, soundId, 0x7f, 0);
 }
 
 void func_0210b198(s32 a, s32 b, u32 volume, s32 d, s32 e) {
@@ -223,7 +223,7 @@ void func_0210b198(s32 a, s32 b, u32 volume, s32 d, s32 e) {
     NNS_SndHandleReleaseSeq(&sndHandle);
 }
 
-void StartKartCollisionSound(Kart *kart, s32 b, s16 d) {
+void sfx_210B12C(Kart *kart, s32 b, s16 d) {
     PlayingSound *playingSound;
     s32 soundId;
 
@@ -231,7 +231,7 @@ void StartKartCollisionSound(Kart *kart, s32 b, s16 d) {
     if (gSceneSoundState.mRaceFrames < 0x78) {
         return;
     }
-    playingSound = StartSoundEx(&kart->mSoundSource, 0, soundId, 0x7f, 0);
+    playingSound = sfx_emitSfx(&kart->mSoundSource, 0, soundId, 0x7f, 0);
     if (playingSound == NULL) {
         return;
     }
@@ -239,7 +239,7 @@ void StartKartCollisionSound(Kart *kart, s32 b, s16 d) {
     playingSound->mFlags |= 0x40;
 }
 
-void func_0210af40(Kart *kart, s32 b, s32 c) {
+void sfx_emitDriverVoice(Kart *kart, s32 b, s32 c) {
     NNSSndSeqPlayer *sndHandle;
     Unk0206bcb0_A *soundState;
     u32 raceFrames;
@@ -265,7 +265,7 @@ void func_0210af40(Kart *kart, s32 b, s32 c) {
             return;
         }
         volume = 0x7f;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == gRaceMultiConfig->mEntryIndex;
         if (c == 5) {
             volume = 0x7f;
         } else if (c == 3) {
@@ -287,7 +287,7 @@ void func_0210af40(Kart *kart, s32 b, s32 c) {
             if (c != 3 && c != 5) {
                 return;
             }
-            StartSoundEx(&kart->mSoundSource, 2, b * 0xe + (c + 1), 0x73, 0);
+            sfx_emitSfx(&kart->mSoundSource, 2, b * 0xe + (c + 1), 0x73, 0);
         }
     } else {
         minFrames = 0xf0;
@@ -302,7 +302,7 @@ void func_0210af40(Kart *kart, s32 b, s32 c) {
         if (raceFrames - soundState->mUnk_30 < minFrameGap) {
             return;
         }
-        StartSoundEx(&kart->mSoundSource, 2, b * 0xe + c, 0x7f, 0);
+        sfx_emitSfx(&kart->mSoundSource, 2, b * 0xe + c, 0x7f, 0);
         soundState->mUnk_30 = raceFrames;
     }
 }
@@ -359,13 +359,13 @@ void UpdateKartSoundQueue(void) {
     }
 }
 
-void QueueKartSound(Kart *kart, s32 b) {
+void sfx_210AD58(Kart *kart, s32 b) {
     KartSoundQueue *queue = &gKartSoundQueue;
 
     if (queue->mDisabled != FALSE) {
         return;
     }
-    if (kart->mIndex == gRaceSetup->mEntryIndex) {
+    if (kart->mIndex == gRaceMultiConfig->mEntryIndex) {
         StartQueuedKartSound(kart, b, 1, 0x6e);
         queue->mDelayFrames = 0;
         return;
@@ -389,14 +389,14 @@ void StartQueuedKartSound(Kart *kart, s32 b, s32 c, s32 volume) {
             if (playingSound->mSeqArcNo == 2) {
                 stoppedSound = playingSound;
                 playingSound = NNS_FndGetNextListObject(&kart->mSoundSource.mPlayingSounds, playingSound);
-                StopPlayingSound(&kart->mSoundSource, stoppedSound, 0);
+                sfx_stopSfx(&kart->mSoundSource, stoppedSound, 0);
             } else {
                 playingSound = NNS_FndGetNextListObject(&kart->mSoundSource.mPlayingSounds, playingSound);
             }
         } while (playingSound != NULL);
     }
     e = TRUE;
-    if (data_0217d084.mMode != 2 && data_0217d084.mMode != 3) {
+    if (SoundHandle_217D084.mMode != 2 && SoundHandle_217D084.mMode != 3) {
         e = FALSE;
     }
     if (e == FALSE) {
@@ -404,7 +404,7 @@ void StartQueuedKartSound(Kart *kart, s32 b, s32 c, s32 volume) {
     }
     k = 0xd;
     if (c != 0) {
-        StartSoundEx(&kart->mSoundSource, 2, b * 0xe + k, 0x7f, 0);
+        sfx_emitSfx(&kart->mSoundSource, 2, b * 0xe + k, 0x7f, 0);
         return;
     }
     if (func_02105504() == 0) {
@@ -458,7 +458,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 c) {
     d = playingSound->mSeqArcNo;
     soundId = playingSound->mSoundId;
     f = -1;
-    if (kart->mIndex == gRaceSetup->mEntryIndex) {
+    if (kart->mIndex == gRaceMultiConfig->mEntryIndex) {
         seqParam = NNS_SndArcGetSeqArcParam(d, soundId);
         g = seqParam->mPlayerNo;
         if (g == 2) {
@@ -472,7 +472,7 @@ void StartKartPlayingSoundSeq(Kart *kart, PlayingSound *playingSound, s32 c) {
         }
     }
     if ((playingSound->mFlags & 0x20) && (playingSound->mFlags & 0x40)) {
-        g = GetKartVariant(kart->mIndex) + 0x2d;
+        g = chkrt_getKartABC(kart->mIndex) + 0x2d;
         NNS_SndArcPlayerStartSeqArcEx(&playingSound->mSeqPlayer, f, g, c, d, soundId);
         if (playingSound == NULL) {
             return;
@@ -499,7 +499,7 @@ void SetKartPlayingSoundVolumePitch(Kart *kart, PlayingSound *playingSound, s32 
     if (playingSound->mSeqArcNo != 2) {
         waterDepth = kart->mWaterDepth;
         depthPitch = 0;
-        isEntryKart = kart->mIndex == gRaceSetup->mEntryIndex;
+        isEntryKart = kart->mIndex == gRaceMultiConfig->mEntryIndex;
         if (waterDepth > 0x11170) {
             depthPitch = 0x384;
             if (isEntryKart != FALSE) {
@@ -542,7 +542,7 @@ void func_0210a77c(Kart *kart, PlayingSound *playingSound) {
         o = (Vec3 *) &kart->mUnk_250.z;
     }
     v += o->z;
-    heightAboveWater = GetHeightAboveWaterOrEfct(kart->mTurnedForward.y);
+    heightAboveWater = mobj_getWaterPlaneDistance1(kart->mTurnedForward.y);
     if (heightAboveWater < 0) {
         depth = -heightAboveWater;
         depthPitch = 0;

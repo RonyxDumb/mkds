@@ -5,19 +5,19 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateVsSelectCupGrid(void) {
+void menu_state11Render(void) {
     switch (AdvanceSelectCupGrid()) {
         case 1:
-            SwitchMenuScreen(0xc, 0x1f);
+            menu_gotoState(0xc, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0xa, 0x1f);
+            menu_gotoState(0xa, 0x1f);
             break;
         case 3:
             if (func_020ce8bc() == 0) {
-                SwitchMenuScreen(0, 0x1f);
+                menu_gotoState(0, 0x1f);
             } else {
-                SwitchMenuScreen(0xe, 0x1f);
+                menu_gotoState(0xe, 0x1f);
             }
             func_020ce8a8(0);
             func_020ce894(1);

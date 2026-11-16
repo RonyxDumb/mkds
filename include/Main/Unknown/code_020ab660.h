@@ -4,4 +4,4 @@
 
 typedef struct TPData TPData;
 
-void AdvanceKeyboardInput(u16 keys, volatile TPData touchPoint);
+void KBD_UpdatePadTpInputValue(u16 keys, volatile TPData touchPoint);

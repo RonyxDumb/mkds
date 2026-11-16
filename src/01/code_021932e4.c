@@ -27,7 +27,7 @@ void InitOptionTopMenu(void *heap) {
     s32 i;
     s32 j;
 
-    gOptionTopMenu = HeapAlloc(heap, 0x40);
+    gOptionTopMenu = heap_alloc(heap, 0x40);
     gOptionTopMenu->mUnk_1c = heap;
     gOptionTopMenu->mState = 0;
     gOptionTopMenu->mNextState = 0;
@@ -42,8 +42,8 @@ void InitOptionTopMenu(void *heap) {
     }
     gOptionTopMenu->mStateFrames = 0;
     gOptionTopMenu->mUnk_14 = TRUE;
-    gOptionTopMenu->mOptionMessages = FindSceneFile(data_ov001_021a8254);
-    gOptionTopMenu->mCommonMessages = FindFileInLoadedArchives(data_ov001_021a8260);
+    gOptionTopMenu->mOptionMessages = arc_getSceneArcFile(aOptionBmg);
+    gOptionTopMenu->mCommonMessages = arc_get2dArcFile(aCommonBmg);
     if (GetOptionPrevState() == 1) {
         gOptionTopMenu->mBg0Offset = 0x32;
     } else {
@@ -51,11 +51,11 @@ void InitOptionTopMenu(void *heap) {
     }
     LocateAndQueueOptionTopMenu();
     for (i = 0; i < 3; i++) {
-        func_02124a98(data_ov001_021a65dc[i], 1, gOptionTopMenu->mOptionTopMenuSNcer,
+        jn_ui_setCellIsTranslucent(data_ov001_021a65dc[i], 1, gOptionTopMenu->mOptionTopMenuSNcer,
                       gOptionTopMenu->mOptionTopMenuSBncl);
     }
-    ResetOamLists(GetOptionFirstBuffer(), GetOptionSecondBuffer());
-    InitLayoutTable(heap, gOptionTopMenu->mOptionTopMenuSBncl, NULL, &gOptionTopMenu->mOptionTopMenuSTable);
+    oam_clearResetBuffers(GetOptionFirstBuffer(), GetOptionSecondBuffer());
+    jn_ui_initLayout(heap, gOptionTopMenu->mOptionTopMenuSBncl, NULL, &gOptionTopMenu->mOptionTopMenuSTable);
     for (i = 0; i < 3; i++) {
         for (j = 0; j < data_ov001_021a65e4[i]; j++) {
             if (i == 1) {
@@ -65,7 +65,7 @@ void InitOptionTopMenu(void *heap) {
             }
         }
     }
-    SetSelectReturnSoundId(0xf);
+    gmenu_setSeqArcIndex(0xf);
 }
 
 void ReleaseOptionTopMenu(void) {
@@ -77,26 +77,26 @@ void LocateAndQueueOptionTopMenu(void) {
     Nscr *b;
     Nclr *c;
 
-    LocateNcgr(&a, FindSceneFile(data_ov001_021a8180));
-    LocateNscr(&b, FindSceneFile(data_ov001_021a819c));
-    LocateNclr(&c, FindSceneFile(data_ov001_021a81b4));
-    gOptionTopMenu->mOptionTopMenuSBncl = FindSceneFile(data_ov001_021a81d0);
-    gOptionTopMenu->mOptionTopMenuSBnbl = FindSceneFile(data_ov001_021a81e8);
-    LocateNcgr2(&gOptionTopMenu->mOptionTopMenuSNcgr, FindSceneFile(data_ov001_021a8200));
-    LocateNcer(&gOptionTopMenu->mOptionTopMenuSNcer, FindSceneFile(data_ov001_021a821c));
-    LocateNclr(&gOptionTopMenu->mOptionTopMenuSONclr, FindSceneFile(data_ov001_021a8238));
-    CallQueueAppend(4, 0, a->mData, a->mDataSize);
-    CallQueueAppend(8, 0, b->mData, b->mDataSize);
-    CallQueueAppend(15, 0, c->mData, 0x100);
-    CallQueueAppend(0x23, 0, gOptionTopMenu->mOptionTopMenuSNcgr->mData,
+    g2du_getCharacterDataBG(&a, arc_getSceneArcFile(aOptionTopMenuM));
+    g2du_getScreenData(&b, arc_getSceneArcFile(aOptionTopMenuM_0));
+    g2du_getPaletteData(&c, arc_getSceneArcFile(aOptionTopMenuM_1));
+    gOptionTopMenu->mOptionTopMenuSBncl = arc_getSceneArcFile(aOptionTopMenuS);
+    gOptionTopMenu->mOptionTopMenuSBnbl = arc_getSceneArcFile(aOptionTopMenuS_0);
+    g2du_getCharacterData(&gOptionTopMenu->mOptionTopMenuSNcgr, arc_getSceneArcFile(aOptionTopMenuS_1));
+    g2du_getCellBankData(&gOptionTopMenu->mOptionTopMenuSNcer, arc_getSceneArcFile(aOptionTopMenuS_2));
+    g2du_getPaletteData(&gOptionTopMenu->mOptionTopMenuSONclr, arc_getSceneArcFile(aOptionTopMenuS_3));
+    NNS_GfdRegisterNewVramTransferTask(4, 0, a->mData, a->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(8, 0, b->mData, b->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(15, 0, c->mData, 0x100);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, gOptionTopMenu->mOptionTopMenuSNcgr->mData,
                     gOptionTopMenu->mOptionTopMenuSNcgr->mDataSize);
-    CallQueueAppend(0x1e, 0, gOptionTopMenu->mOptionTopMenuSONclr->mData,
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, gOptionTopMenu->mOptionTopMenuSONclr->mData,
                     gOptionTopMenu->mOptionTopMenuSONclr->mDataSize);
 }
 
 void AdvanceOptionTopMenuState0(void) {
     int v1;
-    v1 = AreBrightnessFadesClear();
+    v1 = mbright_isFadedIn();
     if (v1 != 0) {
         gOptionTopMenu->mNextState = 1;
     }
@@ -108,7 +108,7 @@ void AdvanceOptionTopMenuState1(void) {
     s32 j;
 
     gOptionTopMenu->mStateFrames++;
-    amount = InterpolateS16(1, 250, 0, gOptionTopMenu->mStateFrames, 10);
+    amount = mutil_interpolate(1, 250, 0, gOptionTopMenu->mStateFrames, 10);
     for (i = 0; i < 3; i++) {
         for (j = 0; j < data_ov001_021a65e4[i]; j++) {
             if (i == 1) {
@@ -119,7 +119,7 @@ void AdvanceOptionTopMenuState1(void) {
         }
     }
     if (GetOptionPrevState() == 1 && gOptionTopMenu->mIndex != 2) {
-        gOptionTopMenu->mBg0Offset = InterpolateS16(1, 50, 0, gOptionTopMenu->mStateFrames, 10);
+        gOptionTopMenu->mBg0Offset = mutil_interpolate(1, 50, 0, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10) {
         gOptionTopMenu->mNextState = 2;
@@ -145,28 +145,28 @@ void AdvanceOptionTopMenuState3(void) {
     s32 old;
     s32 flagB;
 
-    if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+    if (gInputUnits[idx].mHasPair == 0 && gInputUnits[idx].mNoPairCount < 5) {
         a = TRUE;
     }
-    if (a == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+    if (a == FALSE && gInputUnits[idx].mPrevHasPair == 0 && gInputUnits[idx].mHasPair != 0) {
         b = TRUE;
     }
     if (b != FALSE) {
-        result = RectTableFindContaining(gOptionTopMenu->mOptionTopMenuSBnbl, data_02175628[idx].mPairX,
-                                         data_02175628[idx].mPairY);
+        result = jn_ui_checkTouch(gOptionTopMenu->mOptionTopMenuSBnbl, gInputUnits[idx].mPairX,
+                                         gInputUnits[idx].mPairY);
     }
-    flagA = data_02175628[idx].mPressedBits & PAD_KEY_B;
+    flagA = gInputUnits[idx].mPressedBits & PAD_KEY_B;
     if (flagA == 0) {
         BOOL b2 = FALSE;
         BOOL a2 = FALSE;
-        if (data_02175628[idx].mHasPair == 0 && data_02175628[idx].mNoPairCount < 5) {
+        if (gInputUnits[idx].mHasPair == 0 && gInputUnits[idx].mNoPairCount < 5) {
             a2 = TRUE;
         }
-        if (a2 == FALSE && data_02175628[idx].mPrevHasPair == 0 && data_02175628[idx].mHasPair != 0) {
+        if (a2 == FALSE && gInputUnits[idx].mPrevHasPair == 0 && gInputUnits[idx].mHasPair != 0) {
             b2 = TRUE;
         }
-        if (b2 != FALSE && IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[idx].mPairX,
-                                                                           data_02175628[idx].mPairY) != FALSE) {
+        if (b2 != FALSE && gmenu_checkSelectReturnTouch(gInputUnits[idx].mPairX,
+                                                                           gInputUnits[idx].mPairY) != FALSE) {
             goto leave;
         }
     } else {
@@ -176,7 +176,7 @@ void AdvanceOptionTopMenuState3(void) {
         RequestSelectReturnState3WithSound(1);
         return;
     }
-    flagB = data_02175628[idx].mPressedBits & PAD_KEY_A;
+    flagB = gInputUnits[idx].mPressedBits & PAD_KEY_A;
     if ((u16) flagB != 0 || result <= 2) {
         old = gOptionTopMenu->mIndex;
         if ((u16) flagB == 0) {
@@ -206,19 +206,19 @@ void AdvanceOptionTopMenuState3(void) {
         if (gOptionTopMenu->mIndex == old) {
             gOptionTopMenu->mUnk_14 = FALSE;
         }
-        StartSoundOncePerFrame(5);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+        sfx_2105AC0(5);
+    } else if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
         gOptionTopMenu->mIndex--;
         if (gOptionTopMenu->mIndex < 0) {
             gOptionTopMenu->mIndex = 2;
         }
-        StartSoundOncePerFrame(0);
-    } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+        sfx_2105AC0(0);
+    } else if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
         gOptionTopMenu->mIndex++;
         if (gOptionTopMenu->mIndex > 2) {
             gOptionTopMenu->mIndex = 0;
         }
-        StartSoundOncePerFrame(0);
+        sfx_2105AC0(0);
     }
 }
 
@@ -245,7 +245,7 @@ void AdvanceOptionTopMenuState5(void) {
     }
     gOptionTopMenu->mStateFrames++;
     if (gOptionTopMenu->mStateFrames <= 10) {
-        amount = InterpolateS16(1, 0, 250, gOptionTopMenu->mStateFrames, 10);
+        amount = mutil_interpolate(1, 0, 250, gOptionTopMenu->mStateFrames, 10);
     } else {
         amount = 250;
     }
@@ -259,16 +259,16 @@ void AdvanceOptionTopMenuState5(void) {
         }
     }
     if (gOptionTopMenu->mNextOptionState == 1) {
-        gOptionTopMenu->mBg0Offset = InterpolateS16(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
+        gOptionTopMenu->mBg0Offset = mutil_interpolate(1, 0, 50, gOptionTopMenu->mStateFrames, 10);
     }
     if (gOptionTopMenu->mStateFrames >= 10 &&
         (gOptionTopMenu->mIndex != 2 || IsSelectReturnState0NoState1Request() != 0) && func_ov001_02192e84() == -1) {
         if (gOptionTopMenu->mIndex == 2) {
             gOptionTopMenu->mNextState = 6;
             gOptionTopMenu->mStateFrames = 0;
-            SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 3),
-                                            GetBmgEntry(gOptionTopMenu->mCommonMessages, 0),
-                                            GetBmgEntry(gOptionTopMenu->mCommonMessages, 1), 1);
+            SetupTxtSystemSubTextTwoButtons(jn_msg_getMessage(gOptionTopMenu->mOptionMessages, 3),
+                                            jn_msg_getMessage(gOptionTopMenu->mCommonMessages, 0),
+                                            jn_msg_getMessage(gOptionTopMenu->mCommonMessages, 1), 1);
         } else {
             RequestOptionState(gOptionTopMenu->mNextOptionState);
         }
@@ -282,9 +282,9 @@ void AdvanceOptionTopMenuState6(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            SetupTxtSystemSubTextTwoButtons(GetBmgEntry(gOptionTopMenu->mOptionMessages, 4),
-                                            GetBmgEntry(gOptionTopMenu->mCommonMessages, 0),
-                                            GetBmgEntry(gOptionTopMenu->mCommonMessages, 1), 1);
+            SetupTxtSystemSubTextTwoButtons(jn_msg_getMessage(gOptionTopMenu->mOptionMessages, 4),
+                                            jn_msg_getMessage(gOptionTopMenu->mCommonMessages, 0),
+                                            jn_msg_getMessage(gOptionTopMenu->mCommonMessages, 1), 1);
             gOptionTopMenu->mNextState = 7;
         } else {
             gOptionTopMenu->mNextState = 1;
@@ -299,9 +299,9 @@ void AdvanceOptionTopMenuState7(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
-            func_02057130();
+            savd_eraseAllAsync();
             gOptionTopMenu->mNextState = 8;
-            SetupTxtSystemSubTextEx(GetBmgEntry(gOptionTopMenu->mOptionMessages, 5), 1, 1, 1, 0, 1);
+            SetupTxtSystemSubTextEx(jn_msg_getMessage(gOptionTopMenu->mOptionMessages, 5), 1, 1, 1, 0, 1);
         } else {
             gOptionTopMenu->mNextState = 1;
         }
@@ -314,9 +314,9 @@ void AdvanceOptionTopMenuState8(void) {
     if (IsTxtSystemState2AfterState1() != 0) {
         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x22);
     }
-    if (data_0217aa08->mBusy == 0) {
-        if (gBackupAccess->mBackupEnabled != 0) {
-            flag = gBackupAccess->mCommandRunning;
+    if (gSaveData->mBusy == 0) {
+        if (gSaveCore->mBackupEnabled != 0) {
+            flag = gSaveCore->mCommandRunning;
         } else {
             flag = 0;
         }
@@ -326,8 +326,8 @@ void AdvanceOptionTopMenuState8(void) {
     if (flag == 0 && IsTxtSystemState2NoCloseRequest() != 0) {
         gOptionTopMenu->mNextState = 9;
         SetTxtSystemOpenSoundId(0x21);
-        SetupTxtSystemSubTextButton(GetBmgEntry(gOptionTopMenu->mOptionMessages, 6),
-                                    GetBmgEntry(gOptionTopMenu->mCommonMessages, 4));
+        SetupTxtSystemSubTextButton(jn_msg_getMessage(gOptionTopMenu->mOptionMessages, 6),
+                                    jn_msg_getMessage(gOptionTopMenu->mCommonMessages, 4));
     }
 }
 
@@ -352,11 +352,11 @@ void func_ov001_021933dc(void) {
     for (i = 0; i < 3; i++) {
         if (i == gOptionTopMenu->mIndex && gOptionTopMenu->mUnk_14 != FALSE) {
             gOptionTopMenu->mOptionTopMenuSTable[data_ov001_021a65e0[i]].mVisible = 1;
-            SetCellPaletteIndex(data_ov001_021a65d8[i], 14, gOptionTopMenu->mOptionTopMenuSNcer,
+            jn_ui_setCellCparam(data_ov001_021a65d8[i], 14, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);
         } else {
             gOptionTopMenu->mOptionTopMenuSTable[data_ov001_021a65e0[i]].mVisible = zero;
-            SetCellPaletteIndex(data_ov001_021a65d8[i], 15, gOptionTopMenu->mOptionTopMenuSNcer,
+            jn_ui_setCellCparam(data_ov001_021a65d8[i], 15, gOptionTopMenu->mOptionTopMenuSNcer,
                                 gOptionTopMenu->mOptionTopMenuSBncl);
         }
     }
@@ -400,7 +400,7 @@ void AdvanceOptionTopMenu(void) {
     }
     func_ov001_021933dc();
     obj = gOptionTopMenu;
-    DrawLayoutTable(obj->mOptionTopMenuSBncl, obj->mOptionTopMenuSNcer, NULL, GetOptionSecondBuffer(),
+    jn_ui_renderElements(obj->mOptionTopMenuSBncl, obj->mOptionTopMenuSNcer, NULL, GetOptionSecondBuffer(),
                     obj->mOptionTopMenuSTable);
 }
 

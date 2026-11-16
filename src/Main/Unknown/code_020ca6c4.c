@@ -10,47 +10,47 @@
 #include "Main/Unknown/unk_0217b000.h"
 #include "g2d_CharCanvas.h"
 
-void func_020ca808(TextCanvas *textCanvas, void *charCanvas, void *c, s32 d, s32 e) {
+void echoi_NNS_G2dTextCanvasInit(TextCanvas *textCanvas, void *charCanvas, void *c, s32 d, s32 e) {
     textCanvas->mCharCanvas = charCanvas;
     textCanvas->mFont = c;
     textCanvas->mCharSpacing = d;
     textCanvas->mLineSpacing = e;
 }
 
-u32 func_020ca7e0(TextCanvas *textCanvas, s32 x, s32 y, u32 d, u32 e, void *text) {
+u32 echoi_NNS_G2dTextCanvasDrawText(TextCanvas *textCanvas, s32 x, s32 y, u32 d, u32 e, void *text) {
     return NNSi_G2dTextCanvasDrawText(textCanvas, x, y, d, e, text);
 }
 
 #pragma thumb on
 #pragma optimize_for_size on
-void InitEmblemChoises(void) {
+void echoi_init(void) {
     EmblemChoises *emblemChoises;
 
-    gEmblemChoises = HeapAlloc(func_020ca820(), 0x6c);
-    gEmblemChoises->mShown = 0;
-    gEmblemChoises->mUnk_04 = 1;
-    gEmblemChoises->mGraphicsUploadRequested = FALSE;
-    gEmblemChoises->mUnk_0c = NULL;
-    ResetEmblemChoisesState();
-    gEmblemChoises->mUnk_24 = 0;
-    gEmblemChoises->mUnk_10 = FALSE;
-    gEmblemChoises->mUnk_14 = 0;
-    gEmblemChoises->mUnk_18 = 0;
-    gEmblemChoises->mChoisesCount = 3;
-    LoadNclrData(&gEmblemChoises->mChoisesSBNclr, FindSceneFileWrapper("choises_s_b.NCLR"));
-    LoadNcgrData(&gEmblemChoises->mChoisesSBNcgr, FindSceneFileWrapper("choises_s_b.NCGR"));
-    LoadNscrData(&gEmblemChoises->mChoisesS3Nscr, FindSceneFileWrapper("choises_s_3.NSCR"));
-    gEmblemChoises->mUnk_2c = GetFontByIndex(2);
-    NNS_G2dCharCanvasInitForBG(&gEmblemChoises->mUnk_30, gEmblemChoises->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
-    emblemChoises = gEmblemChoises;
-    func_020ca808(&emblemChoises->mUnk_50, &emblemChoises->mUnk_30, emblemChoises->mUnk_2c, IsLanguageJa(), 0);
+    echoi_sState = heap_alloc(echoi_proc_getCurrentHeap(), 0x6c);
+    echoi_sState->mShown = 0;
+    echoi_sState->mUnk_04 = 1;
+    echoi_sState->mGraphicsUploadRequested = FALSE;
+    echoi_sState->mUnk_0c = NULL;
+    echoi_resetSelectedOption();
+    echoi_sState->mUnk_24 = 0;
+    echoi_sState->mUnk_10 = FALSE;
+    echoi_sState->mUnk_14 = 0;
+    echoi_sState->mUnk_18 = 0;
+    echoi_sState->mChoisesCount = 3;
+    g2du_unpackPaletteData(&echoi_sState->mChoisesSBNclr, m2d_getSceneArcFile("choises_s_b.NCLR"));
+    g2du_unpackCharacterDataBG(&echoi_sState->mChoisesSBNcgr, m2d_getSceneArcFile("choises_s_b.NCGR"));
+    g2du_unpackScreenData(&echoi_sState->mChoisesS3Nscr, m2d_getSceneArcFile("choises_s_3.NSCR"));
+    echoi_sState->mUnk_2c = m2d_getFont(2);
+    NNS_G2dCharCanvasInitForBG(&echoi_sState->mUnk_30, echoi_sState->mChoisesSBNcgr->mData, 0x20, 0xc, 4);
+    emblemChoises = echoi_sState;
+    echoi_NNS_G2dTextCanvasInit(&emblemChoises->mUnk_50, &emblemChoises->mUnk_30, emblemChoises->mUnk_2c, g2du_getTextHSpace(), 0);
     {
         s32 bmgIndices[3] = {2, 0, 1};
         s32 i;
 
-        for (i = 0; i < gEmblemChoises->mChoisesCount; i++) {
-            func_020ca7e0(&gEmblemChoises->mUnk_50, 0x90, i * 16 + 9, 12, 0x412,
-                          GetBmgEntry(FindSceneFileWrapper("emblem.bmg"), bmgIndices[i]));
+        for (i = 0; i < echoi_sState->mChoisesCount; i++) {
+            echoi_NNS_G2dTextCanvasDrawText(&echoi_sState->mUnk_50, 0x90, i * 16 + 9, 12, 0x412,
+                          jn_msg_getMessage(m2d_getSceneArcFile("emblem.bmg"), bmgIndices[i]));
         }
     }
 }

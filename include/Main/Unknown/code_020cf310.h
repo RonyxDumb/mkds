@@ -7,6 +7,6 @@ typedef struct RaceHudSubScreenBgPalette {
     /* 000 */ u16 mUnk_00[0xf6];
 } RaceHudSubScreenBgPalette;
 
-s32 CreateRaceHudSubScreenBombKouraWCells(void);
+s32 mpicn_createExplosionIcon(void);
 void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette);
 void func_020cfca4(void);

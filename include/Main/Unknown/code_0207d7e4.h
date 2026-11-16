@@ -5,4 +5,4 @@
 struct KartAiRaceSpeedLimit;
 struct KartAi;
 
-void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi);
+void enrb_207D7E4(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi);

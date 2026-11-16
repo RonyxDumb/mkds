@@ -2,14 +2,14 @@
 
 #include "types.h"
 
-void func_02056d54(u32 value);
-u8 func_02056d98(void);
-u8 func_02056dac(u8 *bytes);
-BOOL IsBackupFlagSet(u32 flagIndex);
-BOOL func_02056e00(s32 bitIndex, u8 *bytes);
-void SetBackupFlag(s32 flagIndex);
-void StartResetFailedBackupBlocks(void);
-void ResetFailedBackupBlocks(void);
-void StartReadBackupFirstBlockAndRecords(void);
-void ReadBackupFirstBlockAndRecords(void);
-void func_02057130(void);
+void savd_setKartUnlockLevel(u32 value);
+u8 savd_getKartUnlockLevel(void);
+u8 savd_calcKartUnlockLevel(u8 *bytes);
+BOOL savd_isUnlockBitSet(u32 flagIndex);
+BOOL savd_isBitSet2(s32 bitIndex, u8 *bytes);
+void savd_setUnlockBit(s32 flagIndex);
+void savd_repairErrorsAsync(void);
+void savd_repairErrorsTask(void);
+void savd_loadAsync(void);
+void savd_loadTask(void);
+void savd_eraseAllAsync(void);

@@ -20,12 +20,12 @@ void InitWiFiVSCourseSelectState(u32 a) {
     int v1;
     void *v2;
     void *v3;
-    v1 = ((u32) HeapAlloc((void *) a, 8));
+    v1 = ((u32) heap_alloc((void *) a, 8));
     *(s32 *) &gWiFiVSCourseSelectState = v1;
     *(u32 *) (v1 + 4) = a;
     func_ov000_02184b4c();
     v2 = func_ov000_021804f4();
-    v3 = func_ov000_021804e0();
+    v3 = test_run();
     InitWiFiVSCourseSelect((void *) a, v2, v3);
     SetLinkLevelIconEnabled(1, 1);
 }
@@ -47,13 +47,13 @@ void AdvanceWiFiVSCourseSelectState(void) {
             RequestWiFiState(7);
             return;
         }
-        b = gWiFiSession->mKartCount;
-        GetRaceSetupCopy()->mKartCount = b;
+        b = gStruct217D384->mKartCount;
+        menu_getRaceConfig()->mKartCount = b;
         func_020297bc();
-        if ((u32) data_0217b488->mUnk_1c <= 2) {
-            func_02045ed0();
+        if ((u32) gStruct217B488->mUnk_1c <= 2) {
+            rconf_2045ED0();
             func_020612b0();
-            data_0217b488->mUnk_6c = TRUE;
+            gStruct217B488->mUnk_6c = TRUE;
         }
         func_02029758();
         SetWiFiNextScene(2);

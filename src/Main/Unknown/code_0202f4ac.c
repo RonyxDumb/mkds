@@ -15,9 +15,9 @@ void func_0202f51c(void *dest, u32 size) {
 }
 
 void func_0202f4e0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
-    SetBg1Record(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
+    dc_setBg1Config(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
 }
 
 void func_0202f4ac(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
-    SetBg3RecordParams(displaySettings->mSubBgRecords, b, c, d, e, f, g);
+    dc_setBg3Config(displaySettings->mSubBgRecords, b, c, d, e, f, g);
 }

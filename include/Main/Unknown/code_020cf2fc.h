@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenBombKouraWCells(void);
+void mpicn_destroyExplosionIcon(void);

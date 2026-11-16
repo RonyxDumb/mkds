@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void ReadBackupBuddyRecordBlock(void *block);
-void WriteBackupBuddyRecordBlock(void *block);
+void savd_readNkfl(void *block);
+void savd_writeNkfl(void *block);

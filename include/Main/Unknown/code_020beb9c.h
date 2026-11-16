@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// The 49 entries of gRaceHudSubScreenCellGroupFunctions.
+// The 49 entries of mpicn_sIconDefs.
 typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 00 */ s32 (*mCreate)(void);
     /* 04 */ void (*mClear)(void);
@@ -10,4 +10,4 @@ typedef struct RaceHudSubScreenCellGroupFunctions {
     /* 0c */ void (*mDraw)(void *);
 } RaceHudSubScreenCellGroupFunctions;
 
-void InitRaceHudSubScreenCellGroups(void);
+void mpicn_init(void);

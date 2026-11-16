@@ -24,20 +24,20 @@ void LoadMissionRunBossIconData(void) {
     v2 = NULL;
     v3 = NULL;
     v4[0] = NULL;
-    v1 = FindSceneFile(gMissionRunBossIconSNcgrName);
-    LoadNcgrData(&v2, v1);
-    v1 = FindSceneFile(gMissionRunBossIconSNcerName);
-    LoadNcerData(&v3, v1);
-    v1 = FindSceneFile(gMissionRunBossIconSONclrName);
-    LoadNclrData(v4, v1);
+    v1 = arc_getSceneArcFile(gMissionRunBossIconSNcgrName);
+    g2du_unpackCharacterDataBG(&v2, v1);
+    v1 = arc_getSceneArcFile(gMissionRunBossIconSNcerName);
+    g2du_unpackCellBankData(&v3, v1);
+    v1 = arc_getSceneArcFile(gMissionRunBossIconSONclrName);
+    g2du_unpackPaletteData(v4, v1);
 }
 
 void CreateMissionRunBossIcon(void *a) {
-    gMissionRunBossIcon = HeapAlloc(a, 0x10);
-    LocateNcgr2(&gMissionRunBossIcon->mNcgr, FindSceneFile(gMissionRunBossIconSNcgrName));
-    LocateNcer(&gMissionRunBossIcon->mNcer, FindSceneFile(gMissionRunBossIconSNcerName));
-    LocateNclr((Nclr **) &gMissionRunBossIcon->mNclr, FindSceneFile(gMissionRunBossIconSONclrName));
-    gMissionRunBossIcon->mBncl = FindSceneFile(gMissionRunBossIconSBnclName);
+    gMissionRunBossIcon = heap_alloc(a, 0x10);
+    g2du_getCharacterData(&gMissionRunBossIcon->mNcgr, arc_getSceneArcFile(gMissionRunBossIconSNcgrName));
+    g2du_getCellBankData(&gMissionRunBossIcon->mNcer, arc_getSceneArcFile(gMissionRunBossIconSNcerName));
+    g2du_getPaletteData((Nclr **) &gMissionRunBossIcon->mNclr, arc_getSceneArcFile(gMissionRunBossIconSONclrName));
+    gMissionRunBossIcon->mBncl = arc_getSceneArcFile(gMissionRunBossIconSBnclName);
 }
 
 void func_ov001_021a64a0(void) {
@@ -56,12 +56,12 @@ void QueueMissionRunBossIcon(s32 a, s32 flagB, void *c, void *d, u32 e, u16 f, s
         }
     }
     p = gMissionRunBossIcon;
-    QueueCellChars(data_ov001_021a7664[a], p->mNcer, p->mNcgr, p->mBncl, flagG, e, (c), (d));
+    jn_ui_fillPlaceholder(data_ov001_021a7664[a], p->mNcer, p->mNcgr, p->mBncl, flagG, e, (c), (d));
     dst = gMissionRunBossIcon->mNclr->mUnk_0c;
     if (flagB != 0) {
         v1 = data_ov001_021a7674[a];
     } else {
         v1 = 7;
     }
-    CallQueueAppend(v0, f << 5, dst + (v1 << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(v0, f << 5, dst + (v1 << 5), 32);
 }

@@ -32,13 +32,13 @@ u32 func_0202efe8(InputSlotPair *pair) {
 }
 
 u32 func_0202efc8(u32 slotIndex) {
-    return func_0202efe8((InputSlotPair *) &data_02175628[slotIndex].mPairX);
+    return func_0202efe8((InputSlotPair *) &gInputUnits[slotIndex].mPairX);
 }
 
 #pragma thumb on
 
 void AdvanceScrollListInput(void) {
-    u32 slotIndex = func_020435bc();
+    u32 slotIndex = input_getDirectInputUnitId();
     u32 pairX;
     u32 pairY;
     s32 rectIndex;

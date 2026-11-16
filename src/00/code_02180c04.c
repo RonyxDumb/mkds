@@ -31,18 +31,18 @@
 #include "Main/Unknown/code_02047104.h"
 
 void func_ov000_021816b0(void *heap) {
-    data_ov000_021b4c68 = HeapAlloc(heap, 0x40);
+    data_ov000_021b4c68 = heap_alloc(heap, 0x40);
     data_ov000_021b4c68->mHeap = heap;
     data_ov000_021b4c68->mState = 0;
     data_ov000_021b4c68->mNextState = 0;
     data_ov000_021b4c68->mPendingWiFiState = -1;
     data_ov000_021b4c68->mUnk_08 = 0;
-    data_ov000_021b4c68->mWiFiMessages = FindSceneFile("wifi.bmg");
-    data_ov000_021b4c68->mCommonMessages = FindFileInLoadedArchives("common.bmg");
+    data_ov000_021b4c68->mWiFiMessages = arc_getSceneArcFile("wifi.bmg");
+    data_ov000_021b4c68->mCommonMessages = arc_get2dArcFile("common.bmg");
     func_ov000_021816a0();
     SetLinkLevelIconEnabled(1, 1);
-    SetSelectReturnSoundId(0xe);
-    func_0204f804();
+    gmenu_setSeqArcIndex(0xe);
+    LEDBlink_Wireless();
 }
 
 void func_ov000_021816a4(void) {
@@ -76,9 +76,9 @@ WiFiStateCallbacks data_ov000_021b0a98 = {func_ov000_021816b0, func_ov000_021816
                                           (void (*)(void)) func_ov000_02180c28};
 
 static inline s32 func_ov000_02180e58_inline(void) {
-    if (data_0217aa08->mBusy == 0) {
-        if (gBackupAccess->mBackupEnabled != 0) {
-            return gBackupAccess->mCommandRunning;
+    if (gSaveData->mBusy == 0) {
+        if (gSaveCore->mBackupEnabled != 0) {
+            return gSaveCore->mCommandRunning;
         }
         return 0;
     }
@@ -119,21 +119,21 @@ s32 func_ov000_0218151c(s32 a, s32 b, s32 *c) {
 void func_ov000_02181458(void) {
     if (func_ov000_02181684() != FALSE) {
         data_ov000_021b4c68->mNextState = 1;
-        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x1c),
-                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+        SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x1c),
+                                     jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
         data_ov000_021b4c68->mMessageTableIndex = 0;
         return;
     }
     if (func_ov000_0218167c() != 0) {
         data_ov000_021b4c68->mNextState = 6;
-        SetupTxtSystemMainTextTwoButtons(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x13),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 1), 0);
+        SetupTxtSystemMainTextTwoButtons(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x13),
+                                         jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 0),
+                                         jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 1), 0);
         return;
     }
     data_ov000_021b4c68->mNextState = 2;
-    SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x20),
-                                 GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+    SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x20),
+                                 jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
 }
 
 void func_ov000_0218134c(void) {
@@ -147,21 +147,21 @@ void func_ov000_0218134c(void) {
         if (data_ov000_021b4c68->mMessageTableIndex < 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                         jn_msg_getMessage(p->mCommonMessages, 6));
             return;
         }
         if (data_ov000_021b4c68->mMessageTableIndex == 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 0);
+            SetupTxtSystemMainTextTwoButtons(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                             jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 0),
+                                             jn_msg_getMessage(p->mCommonMessages, 1), 0);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
             func_02108bb4();
@@ -179,8 +179,8 @@ void func_ov000_021812f4(void) {
     }
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         data_ov000_021b4c68->mNextState = 3;
-        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x21),
-                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+        SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x21),
+                                     jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
         data_ov000_021b4c68->mMessageTableIndex = 0;
     }
 }
@@ -196,22 +196,22 @@ void func_ov000_021811ec(void) {
         if (data_ov000_021b4c68->mMessageTableIndex < 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                         jn_msg_getMessage(p->mCommonMessages, 6));
             return;
         }
         if (data_ov000_021b4c68->mMessageTableIndex == 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 1);
+            SetupTxtSystemMainTextTwoButtons(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                             jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 0),
+                                             jn_msg_getMessage(p->mCommonMessages, 1), 1);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 4;
-            SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x23),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x23),
+                                         jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
             data_ov000_021b4c68->mMessageTableIndex = 0;
             return;
         }
@@ -231,21 +231,21 @@ void func_ov000_021810dc(void) {
         if (data_ov000_021b4c68->mMessageTableIndex < 1) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                         jn_msg_getMessage(p->mCommonMessages, 6));
             return;
         }
         if (data_ov000_021b4c68->mMessageTableIndex == 1) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextTwoButtons(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 0),
-                                             GetBmgEntry(p->mCommonMessages, 1), 1);
+            SetupTxtSystemMainTextTwoButtons(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                             jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 0),
+                                             jn_msg_getMessage(p->mCommonMessages, 1), 1);
             return;
         }
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = TRUE;
             func_02108bb4();
@@ -267,15 +267,15 @@ void func_ov000_02180ffc(void) {
         if (data_ov000_021b4c68->mMessageTableIndex < 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                         jn_msg_getMessage(p->mCommonMessages, 6));
             return;
         }
         if (data_ov000_021b4c68->mMessageTableIndex == 0) {
             data_ov000_021b4c68->mMessageTableIndex++;
             p = data_ov000_021b4c68;
-            SetupTxtSystemMainTextButton(GetBmgEntry(p->mWiFiMessages, a[p->mMessageTableIndex]),
-                                         GetBmgEntry(p->mCommonMessages, 4));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(p->mWiFiMessages, a[p->mMessageTableIndex]),
+                                         jn_msg_getMessage(p->mCommonMessages, 4));
             return;
         }
         if (func_ov000_02180e58_inline() == 0) {
@@ -293,7 +293,7 @@ void func_ov000_02180f80(void) {
     if (IsTxtSystemState0NoOpenRequest() != 0) {
         if (GetTxtSystemSelectedIndex() == 0) {
             data_ov000_021b4c68->mNextState = 7;
-            func_02126638(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
+            CreateMainMessageBoxBig(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x14), 1, 1, 1, 0, 1, 0);
             RequestWiFiSessionLogin();
             data_ov000_021b4c68->mUnk_14 = FALSE;
             func_02108bb4();
@@ -322,8 +322,8 @@ void func_ov000_02180e58(void) {
                 }
                 v = func_ov000_0218151c(data_ov000_021b4c68->mErrorCode, 0, &v1);
                 data_ov000_021b4c68->mNextState = 8;
-                SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, v),
-                                             GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+                SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, v),
+                                             jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
                 data_ov000_021b4c68->mMessageTableIndex = 0;
                 func_021089f4();
                 break;
@@ -333,8 +333,8 @@ void func_ov000_02180e58(void) {
                 if (func_ov000_021806a0() != 0) {
                     if (data_ov000_021b4c68->mUnk_14 != FALSE) {
                         data_ov000_021b4c68->mNextState = 5;
-                        SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x1e),
-                                                     GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+                        SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x1e),
+                                                     jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
                         data_ov000_021b4c68->mMessageTableIndex = 0;
                     } else {
                         data_ov000_021b4c68->mPendingWiFiState = 2;
@@ -361,14 +361,14 @@ void func_ov000_02180d94(void) {
         data_ov000_021b4c68->mMessageTableIndex++;
         v = func_ov000_0218151c(data_ov000_021b4c68->mErrorCode, data_ov000_021b4c68->mMessageTableIndex, &v2);
         if (v != -1) {
-            SetupTxtSystemMainTextButton(GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, v),
-                                         GetBmgEntry(data_ov000_021b4c68->mCommonMessages, 6));
+            SetupTxtSystemMainTextButton(jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, v),
+                                         jn_msg_getMessage(data_ov000_021b4c68->mCommonMessages, 6));
             return;
         }
         v1 = 0;
         MIi_CpuClear16(v1, v3, 0x14);
         FormatAsciiNumber(data_ov000_021b4c68->mErrorCode, v3);
-        FormatMessageWithText(v3, GetBmgEntry(data_ov000_021b4c68->mWiFiMessages, 0x30), v4, 0x258);
+        FormatMessageWithText(v3, jn_msg_getMessage(data_ov000_021b4c68->mWiFiMessages, 0x30), v4, 0x258);
         data_ov000_021b4c68->mNextState = 9;
         func_021266e4(v4);
         RequestSelectReturnState1();
@@ -381,17 +381,17 @@ void func_ov000_02180cdc(void) {
     BOOL b;
     u32 v;
     if (IsTxtSystemState2NoCloseRequest() != 0 && IsSelectReturnState2NoState3Or4Request() != 0) {
-        if ((u16) (data_02175628[i].mPressedBits & PAD_KEY_B) == 0) {
+        if ((u16) (gInputUnits[i].mPressedBits & PAD_KEY_B) == 0) {
             a = b = FALSE;
-            v = data_02175628[i].mHasPair;
-            if (v == 0 && data_02175628[i].mNoPairCount < 5) {
+            v = gInputUnits[i].mHasPair;
+            if (v == 0 && gInputUnits[i].mNoPairCount < 5) {
                 a = 1;
             }
-            if (a == 0 && data_02175628[i].mPrevHasPair == 0 && v != 0) {
+            if (a == 0 && gInputUnits[i].mPrevHasPair == 0 && v != 0) {
                 b = TRUE;
             }
-            if (b == FALSE || IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175628[i].mPairX,
-                                                                              data_02175628[i].mPairY) == FALSE) {
+            if (b == FALSE || gmenu_checkSelectReturnTouch(gInputUnits[i].mPairX,
+                                                                              gInputUnits[i].mPairY) == FALSE) {
                 goto next;
             }
         }

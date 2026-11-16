@@ -2,13 +2,13 @@
 #include "Main/Unknown/unk_0217b000.h"
 
 void RequestRaceHudSubScreenState5(void) {
-    gRaceHud->mSubScreenState = 5;
-    gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenState5LoadPending = TRUE;
+    r2d_sStatus->mSubScreenState = 5;
+    r2d_sStatus->mSubScreenEnabled = TRUE;
+    r2d_sStatus->mSubScreenState5LoadPending = TRUE;
 }
 
 void RequestRaceHudSubScreenState6(void) {
-    gRaceHud->mSubScreenState = 6;
-    gRaceHud->mSubScreenEnabled = TRUE;
-    gRaceHud->mSubScreenState6LoadPending = TRUE;
+    r2d_sStatus->mSubScreenState = 6;
+    r2d_sStatus->mSubScreenEnabled = TRUE;
+    r2d_sStatus->mSubScreenState6LoadPending = TRUE;
 }

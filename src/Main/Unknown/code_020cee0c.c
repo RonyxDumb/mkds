@@ -19,7 +19,7 @@ void FillShuffledIndices(void) {
     RandomState64 *random;
 
     remainingCount = 8;
-    if (data_0217b488->mIndicesShuffled == 0) {
+    if (gStruct217B488->mIndicesShuffled == 0) {
         if (func_020cef08() == 1 || func_020cef08() == 2) {
             random = func_020ceeec();
             for (i = 0; i < 8; i++) {
@@ -27,13 +27,13 @@ void FillShuffledIndices(void) {
             }
             for (i = 0; i < 8; i++) {
                 pickIndex = (func_020951b4(random) >> 8) % remainingCount;
-                data_0217b488->mShuffledIndices[i] = remaining[pickIndex];
+                gStruct217B488->mShuffledIndices[i] = remaining[pickIndex];
                 remainingCount--;
                 for (k = pickIndex; k < remainingCount; k++) {
                     remaining[k] = remaining[k + 1];
                 }
             }
-            data_0217b488->mIndicesShuffled = 1;
+            gStruct217B488->mIndicesShuffled = 1;
         }
     }
 }
@@ -44,12 +44,12 @@ void ClearShuffledIndices(void) {
 
     v = FALSE;
     for (i = 0; i < 8; i++) {
-        data_0217b488->mShuffledIndices[i] = v;
+        gStruct217B488->mShuffledIndices[i] = v;
     }
-    data_0217b488->mIndicesShuffled = v;
+    gStruct217B488->mIndicesShuffled = v;
 }
 #pragma thumb off
 
-BOOL func_020cee0c(void) {
-    return CreateRaceHudSubScreenCells(&data_0217b484, 0x1ab);
+BOOL mpicn_createPakkunFireIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sPakkunFireIcon, 0x1ab);
 }

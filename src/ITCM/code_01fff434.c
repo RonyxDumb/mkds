@@ -13,7 +13,7 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void UpdateKartItems(KartItems *p) {
+void it_driverUpdateItemStatus(KartItems *p) {
     HeldItem *b = &p->mHeldItem;
     ItemInUse *a = &p->mItemInUse;
     Kart *q;
@@ -60,18 +60,18 @@ void UpdateKartItems(KartItems *p) {
     if (b->mItemInfoIndex != 0x13) {
         if ((p->mFlags & 0x242) == 0x242 && b->mItemInfoIndex != 0x13 && b->mObjectStartFramesLeft == 0 &&
             (p->mFlags & 0x200) && q->mState == KART_STATE_NORMAL) {
-            StartItemInUse(a, b);
+            it_20EE2E4(a, b);
         }
         UpdateHeldItem(b);
     }
     if (p->mSlotState != 0 && UpdateItemSlot(p, p) != FALSE) {
         k = p->mSlotResult;
         FinishItemSlot(p);
-        if (gItemInfos[k].mEnabled != FALSE) {
+        if (it_sItemConfigs[k].mEnabled != FALSE) {
             SetHeldItem(b, k);
         }
     }
-    if (p->mKartIndex == GetRaceUpdateFramesMod8() && (r = &p->mUnk_1f0)->mLink != NULL) {
+    if (p->mKartIndex == race_getFrameCounterModulo8() && (r = &p->mUnk_1f0)->mLink != NULL) {
         q = p->mKart;
         v = &q->mDrawMatrixPos;
         PickNearestNearbyItemPointLink(r, r, v);
@@ -88,12 +88,12 @@ void func_01fff524(KartItems *p) {
     BOOL r;
     s32 a;
     p->mFlags &= ~0xff;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         a = p->mHeldItem.mItemInfoIndex;
         if (a == 0x13 || p->mItemInUse.mObjectKind != 0xf) {
             r = FALSE;
         } else {
-            r = (u32) (gItemInfos[a].mUseKind - 1) <= 1;
+            r = (u32) (it_sItemConfigs[a].mUseKind - 1) <= 1;
         }
         if (r != FALSE) {
             if ((p->mFlags & 0x4000) && func_020f0154(p) != FALSE) {
@@ -110,7 +110,7 @@ after:
         return;
     }
     p->mFlags &= ~0x100;
-    if (gRaceSetup->mMode != 5 && (p->mFlags & 0x1000)) {
+    if (gRaceMultiConfig->mMode != 5 && (p->mFlags & 0x1000)) {
         return;
     }
     if (func_020f0154(p) == FALSE) {

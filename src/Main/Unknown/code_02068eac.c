@@ -61,7 +61,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "Main/Unknown/code_020681f0.h"
 
-BOOL func_0206a24c(Kart *kart) {
+BOOL driver_startDossunFlatEffect(Kart *kart) {
     KartItemEffectState *effectState;
     s32 mode;
 
@@ -78,29 +78,29 @@ BOOL func_0206a24c(Kart *kart) {
     kart->mUnk_4c |= 0x10000;
     kart->mUnk_48 |= 0x4000000;
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        SetCameraHalfFovAngleGoal(0x1f40);
+        cam_setPlayerCameraTargetFov(0x1f40);
     }
     kart->mUnk_394 = 0xb33;
-    func_020eff40(&(gKartItems)[kart->mIndex]);
-    mode = gRaceSetup->mMode;
+    it_dropDriverItem(&(it_sDriverItemStatus)[kart->mIndex]);
+    mode = gRaceMultiConfig->mMode;
     if (mode == MODE_MISSION_RUN) {
         if (mode == MODE_MISSION_RUN) {
-            func_ov001_0218173c();
+            mrcnt_notifyPlayerDamage();
         }
     }
     if (!(kart->mUnk_48 & 0x840)) {
-        func_0210af40(kart, kart->mSoundIndex, 0);
+        sfx_emitDriverVoice(kart, kart->mSoundIndex, 0);
     }
     return TRUE;
 }
 
-void func_02069f6c(Kart *kart) {
+void driver_updateDossunFlatEffect(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
     if (effectState->mUnk_0e <= 0) {
         if (effectState->mUnk_0c == 0) {
-            StartSound(&kart->mSoundSource, 0xed, 0x7f, 0);
+            sfx_21090C4(&kart->mSoundSource, 0xed, 0x7f, 0);
         }
         effectState->mUnk_0c++;
         if (effectState->mUnk_0c >= 0x19) {
@@ -139,7 +139,7 @@ void func_02069f6c(Kart *kart) {
     if (effectState->mUnk_0e == 0x1c2) {
         kart->mUnk_48 &= ~0x4000000;
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            ResetCameraHalfFovAngleGoal();
+            cam_resetPlayerCameraTargetFov();
         }
     }
     if (kart->mUnk_48 & 0x4000000) {
@@ -157,7 +157,7 @@ void func_02069f6c(Kart *kart) {
     kart->mScale.y = ((s64) kart->mScaleYFactor * kart->mScale.y) >> 12;
 }
 
-void func_02069ea8(Kart *kart) {
+void driver_resetScaleEffects(Kart *kart) {
     kart->mUnk_398 = 0x1000;
     kart->mScaleYFactor = 0x1000;
     kart->mScale.y = 0x1000;
@@ -167,7 +167,7 @@ void func_02069ea8(Kart *kart) {
         kart->mScaleBase.x = 0x1000;
         kart->mScaleBase.y = 0x1000;
         kart->mScaleBase.z = 0x1000;
-        if (kart->mIndex == gRaceSetup->mEntryIndex) {
+        if (kart->mIndex == gRaceMultiConfig->mEntryIndex) {
             func_0210fa74(0);
         }
         func_0210a664(kart);
@@ -182,16 +182,16 @@ void func_02069ea8(Kart *kart) {
         kart->mUnk_394 = 0x1000;
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        ResetCameraHalfFovAngleGoal();
+        cam_resetPlayerCameraTargetFov();
     }
 }
 
-void StartKartThunder(Kart *kart) {
+void driver_invokeThunder(Kart *kart) {
     u16 kartIndex;
     u32 bit200;
 
     kartIndex = 0;
-    StartFadeFog();
+    race_startDarkening();
     StartEffectsAtOtherKarts(kart->mIndex);
     bit200 = kart->mUnk_7c & 0x200;
     if (bit200 != 0) {
@@ -200,24 +200,24 @@ void StartKartThunder(Kart *kart) {
         }
         return;
     }
-    for (; kartIndex < (u32) gRaceSetup->mKartCount; kartIndex++) {
+    for (; kartIndex < (u32) gRaceMultiConfig->mKartCount; kartIndex++) {
         if (kartIndex != kart->mIndex) {
-            StartKartThunderShrink(GetKart(kartIndex));
+            driver_startThunderShrinkEffect(driver_getById(kartIndex));
         }
     }
 }
 
-void StartKartKinokoBoost(Kart *kart) {
-    StartKartBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
+void driver_startShroomBoost(Kart *kart) {
+    driver_addBoost(kart, KART_BOOST_ITEM_OR_SURFACE, 0x5a);
     kart->mUnk_48 |= 0x100000;
     kart->mUnk_538.mUnk_00 = 0x5a;
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
-    func_020a1ddc(kart->mIndex);
+    mgcnt_20A1DDC(kart->mIndex);
 }
 
-void StartKartStar(Kart *kart) {
+void driver_startStarInvincibility(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
@@ -229,39 +229,39 @@ void StartKartStar(Kart *kart) {
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+            dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
         func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            driver_enableSlipStreamToonMode(kart);
         }
-        SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+        chkrt_applyKartCrsMat(kart->mKartModelsEntry);
     }
-    SkipOrthoQuadsHold(kart->mIndex);
+    cspl_clearSplashes(kart->mIndex);
     effectState->mUnk_06 = 0;
     kart->mUnk_4c |= 0x40;
     kart->mItemEffect = 1;
-    StartKartStarModels(kart);
-    StartKartStarEffects(kart->mIndex);
-    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-        StartKartStarSeq();
+    driver_enableStarToonMode(kart);
+    rptc_startRainbowEffect(kart->mIndex);
+    if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+        snd_startStarMusic();
     }
-    if (gRaceSetup->mMode == MODE_BATTLE) {
-        func_020a1e3c(kart->mIndex);
+    if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+        mgcnt_notifyStarInvincibilityStart(kart->mIndex);
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x2000;
     }
-    func_02068a64(kart, 2, 1);
+    driver_2068A64(kart, 2, 1);
 }
 
 // Teresa: the Boo item (mItemEffect 2).
-void StartKartTeresa(Kart *kart) {
+void driver_startTeresaEffect(Kart *kart) {
     KartItemEffectState *effectState;
     KartItemEffectState *effectStateAgain;
     u32 kartBits;
@@ -270,28 +270,28 @@ void StartKartTeresa(Kart *kart) {
     effectState->mTeresaFrames = 0;
     if (kart->mUnk_4c & 0x10000040) {
         kart->mUnk_4c &= ~0x40;
-        StopKartStarModels(kart);
+        driver_disableStarToonMode(kart);
         kart->mItemEffect = 0;
-        StopKartStarEffects(kart->mIndex);
-        func_02068a64(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+        rptc_stopRainbowEffect(kart->mIndex);
+        driver_2068A64(kart, 0, 1);
+        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+            snd_stopStarMusic();
         }
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            driver_enableSlipStreamToonMode(kart);
         }
     }
     kart->mUnk_7c |= 0x2000;
     kart->mItemEffect = 2;
-    SkipOrthoQuadsHold(kart->mIndex);
+    cspl_clearSplashes(kart->mIndex);
     kartBits = kart->mUnk_4c;
     if (!(kartBits & 0x20000) && (kartBits & 0x8000000)) {
         effectStateAgain = &kart->mUnk_538;
         if (effectStateAgain->mUnk_1c <= 0x190) {
             effectStateAgain->mUnk_1c = 0x190;
             kart->mUnk_4c |= 0x20000;
-            StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
-                                     GetKartCourseAmbColor());
+            chkrt_setTargetColors(kart->mKartModelsEntry, chkrt_getKartCrsMatDiffuse(), chkrt_getKartCrsMatEmission(),
+                                     chkrt_getKartCrsMatAmbient());
         }
     }
     func_0210fa40(1, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
@@ -309,7 +309,7 @@ void StartKartTeresa(Kart *kart) {
     }
 }
 
-void AdvanceKartTeresa(Kart *kart) {
+void driver_updateTeresaEffect(Kart *kart) {
     KartItemEffectState *effectState;
     Vec3 entryPos;
     Vec3 kartPos;
@@ -345,7 +345,7 @@ void AdvanceKartTeresa(Kart *kart) {
             effectState->mUnk_1a = -1;
             effectState->mUnk_16 = 0;
         }
-        HideKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+        dptc_hideAll(dptc_getControllerForDriver(kart->mIndex));
     }
     effectState->mTeresaFrames++;
     if (effectState->mTeresaFrames > KART_TERESA_MAX_FRAMES && (kart->mUnk_7c & 0x2000)) {
@@ -353,17 +353,17 @@ void AdvanceKartTeresa(Kart *kart) {
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+            dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
         func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         return;
     }
-    GetKartPos(&entryPos, (u16) gRaceSetup->mEntryIndex);
-    GetKartPos(&kartPos, kart->mIndex);
+    driver_getPosition(&entryPos, (u16) gRaceMultiConfig->mEntryIndex);
+    driver_getPosition(&kartPos, kart->mIndex);
     diffX = (entryPos.x - kartPos.x) >> 12;
     diffY = (entryPos.y - kartPos.y) >> 12;
     diffZ = (entryPos.z - kartPos.z) >> 12;
@@ -371,22 +371,22 @@ void AdvanceKartTeresa(Kart *kart) {
 }
 
 // Killer: the Bullet Bill item (mItemEffect 3).
-void StartKartKiller(Kart *kart) {
+void driver_startKillerMode(Kart *kart) {
     KartItemEffectState *effectState;
     KartKillerEndRankOffsets rankOffsets;
     KartFollowEffectIds effectIds;
     s32 i;
     u8 kartCount;
 
-    rankOffsets = data_0216557c;
+    rankOffsets = driver_sKillerPlaceImprovement;
     effectState = &kart->mUnk_538;
     effectState->mKillerFrames = 0;
     effectState->mUnk_20 = 0;
     effectState->mKillerEnding = FALSE;
     SetupKartKillerCursor(&effectState->mKillerCursor, kart->mIndex);
     kart->mUnk_4c |= 0x10000000;
-    kartCount = gRaceSetup->mKartCount;
-    effectState->mKillerEndRank = GetKartRank(kart->mIndex) - rankOffsets.mUnk_00[kartCount - 1];
+    kartCount = gRaceMultiConfig->mKartCount;
+    effectState->mKillerEndRank = rstat_getPlace(kart->mIndex) - rankOffsets.mUnk_00[kartCount - 1];
     if (effectState->mKillerEndRank <= 0) {
         effectState->mKillerEndRank = 1;
     }
@@ -396,31 +396,31 @@ void StartKartKiller(Kart *kart) {
         kart->mUnk_7c &= ~0xc000;
         kart->mItemEffect = 0;
         if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-            ShowKartTurnEffects(GetKartTurnEffects(kart->mIndex));
+            dptc_showAll(dptc_getControllerForDriver(kart->mIndex));
         } else {
-            StartSound(&kart->mSoundSource, 0xf9, 0x7f, 0);
+            sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
         func_0210fa40(0, (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
     if (kart->mUnk_4c & 0x8000000) {
         kart->mUnk_4c &= ~0x8020000;
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            driver_enableSlipStreamToonMode(kart);
         }
-        SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+        chkrt_applyKartCrsMat(kart->mKartModelsEntry);
     }
-    SkipOrthoQuadsHoldAndSetVelocities(kart->mIndex);
+    cspl_speedClearSplashes(kart->mIndex);
     if (kart->mUnk_4c & 0x40) {
         kart->mUnk_4c &= ~0x40;
-        StopKartStarModels(kart);
+        driver_disableStarToonMode(kart);
         kart->mItemEffect = 0;
-        StopKartStarEffects(kart->mIndex);
-        func_02068a64(kart, 0, 1);
-        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceSetup->mRaceKind == RACE_KIND_NORMAL) {
-            func_02106dc8();
+        rptc_stopRainbowEffect(kart->mIndex);
+        driver_2068A64(kart, 0, 1);
+        if ((kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) && gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL) {
+            snd_stopStarMusic();
         }
         if (kart->mUnk_4c & 0x2000) {
-            func_0207b13c(kart);
+            driver_enableSlipStreamToonMode(kart);
         }
     }
     kart->mItemEffect = 3;
@@ -428,27 +428,27 @@ void StartKartKiller(Kart *kart) {
         kart->mUnk_4c &= ~0x2000;
         kart->mUnk_d8 = 0x1000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b0d0(kart);
+            driver_disableSlipStreamToonMode(kart);
         }
-        func_02080ee4(kart);
+        rptc_stopSlipstreamEffect(kart);
     }
     if (kart->mKartModelsEntry->mUnk_058 == 0) {
         effectIds = gKartFollowEffectIds;
         for (i = 0; i < 3; i++) {
-            SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+            rptc_2081F10(ptcm_createEmitter(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
         }
     }
-    StartKartKillerEffect(kart->mIndex);
-    func_02069ea8(kart);
+    rptc_startKillerEffect(kart->mIndex);
+    driver_resetScaleEffects(kart);
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x100000;
     }
     if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-        SetCameraHalfFovAngleGoal(0x1d4c);
+        cam_setPlayerCameraTargetFov(0x1d4c);
     }
 }
 
-void AdvanceKartKiller(Kart *kart) {
+void driver_updateKillerMode(Kart *kart) {
     KartItemEffectState *effectState;
     KartItemEffectState *effectStateAgain;
     s32 i;
@@ -469,7 +469,7 @@ void AdvanceKartKiller(Kart *kart) {
             }
         }
     }
-    AdvanceModelAnimationFrame((ModelAnimation *) &kart->mKartModelsEntry->mUnk_098);
+    anim_updateAnimator((ModelAnimation *) &kart->mKartModelsEntry->mUnk_098);
     if (effectState->mKillerEnding != FALSE) {
         kart->mRadiusFactor -= 0x52;
         if (kart->mRadiusFactor > 0x1000) {
@@ -478,7 +478,7 @@ void AdvanceKartKiller(Kart *kart) {
         kart->mUnk_4c &= ~0x10000000;
         func_0210515c(kart->mIndex);
         if (kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-            ResetCameraHalfFovAngleGoal();
+            cam_resetPlayerCameraTargetFov();
         }
         kart->mRadiusFactor = 0x1000;
         kart->mSurfaceGroup = -1;
@@ -487,11 +487,11 @@ void AdvanceKartKiller(Kart *kart) {
         if (kart->mKartModelsEntry->mUnk_058 == 0) {
             effectIds = gKartFollowEffectIds;
             for (i = 0; i < 3; i++) {
-                SetupKartFollowEffect(StartEffect(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
+                rptc_2081F10(ptcm_createEmitter(effectIds.mEffectIds[i], &kart->mPos), kart->mIndex, 0x14);
             }
         }
-        StopKartKillerEffect(kart->mIndex);
-        StartSound(&kart->mSoundSource, 0xfd, 0x7f, 0);
+        rptc_stopBulletBillEffect(kart->mIndex);
+        sfx_21090C4(&kart->mSoundSource, 0xfd, 0x7f, 0);
         return;
     }
     kart->mRadiusFactor += 0x52;
@@ -504,9 +504,9 @@ void AdvanceKartKiller(Kart *kart) {
     rankReached = FALSE;
     endEarly = FALSE;
     if (!(kart->mUnk_7c & 0x400)) {
-        if (GetKartRank(kart->mIndex) == 1) {
+        if (rstat_getPlace(kart->mIndex) == 1) {
             rankReached = TRUE;
-        } else if ((s32) GetKartRank(kart->mIndex) <= effectState->mKillerEndRank) {
+        } else if ((s32) rstat_getPlace(kart->mIndex) <= effectState->mKillerEndRank) {
             rankReached = TRUE;
         }
         if (effectState->mKillerFrames > KART_KILLER_RANK_END_FRAMES && rankReached != FALSE) {
@@ -522,13 +522,13 @@ void AdvanceKartKiller(Kart *kart) {
     }
 }
 
-void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
+void driver_startGessoInk(Kart *kart, u32 orthoQuadCount) {
     u32 kartBits;
 
     if (kart->mUnk_7c & 0x400) {
         return;
     }
-    if (IsKartEnded(kart->mIndex) != 0) {
+    if (rstat_hasDriverFinished(kart->mIndex) != 0) {
         return;
     }
     kartBits = kart->mUnk_7c;
@@ -545,23 +545,23 @@ void StartKartGesso(Kart *kart, u32 orthoQuadCount) {
     kart->mUnk_4c |= 0x8000000;
     kart->mUnk_4c &= ~0x20000;
     if (kart->mUnk_4c & 0x2000) {
-        func_0207b0d0(kart);
+        driver_disableSlipStreamToonMode(kart);
     }
-    StartKartModelColorBlend(kart->mKartModelsEntry, 0, 0x1084, 0);
+    chkrt_setTargetColors(kart->mKartModelsEntry, 0, 0x1084, 0);
     if (kart->mUnk_7c & KART_7C_MODELS_ENTRY_008_SET) {
-        StartKartCharacterAnimationOnce(kart, 1, 0);
-        SetCharacterFaceFrameIndex(kart->mKartModelsEntry, 1);
+        driver_setAnimation(kart, 1, 0);
+        driver_setFaceExpression(kart->mKartModelsEntry, 1);
     }
     if (!(kart->mUnk_48 & 0x840)) {
-        func_0210af40(kart, kart->mSoundIndex, 0);
+        sfx_emitDriverVoice(kart, kart->mSoundIndex, 0);
     }
-    StartOrthoQuadsGesoSumi(kart->mIndex, orthoQuadCount);
+    cspl_emitGessoSplash(kart->mIndex, orthoQuadCount);
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x80000;
     }
 }
 
-void AdvanceKartGesso(Kart *kart) {
+void driver_updateGessoInk(Kart *kart) {
     KartItemEffectState *effectState;
     u32 kartBits;
 
@@ -572,10 +572,10 @@ void AdvanceKartGesso(Kart *kart) {
             effectState->mUnk_1c <= 0x190) {
             effectState->mUnk_1c = 0x190;
             kart->mUnk_4c |= 0x20000;
-            StartKartModelColorBlend(kart->mKartModelsEntry, GetKartCourseDiffColor(), GetKartCourseEmiColor(),
-                                     GetKartCourseAmbColor());
+            chkrt_setTargetColors(kart->mKartModelsEntry, chkrt_getKartCrsMatDiffuse(), chkrt_getKartCrsMatEmission(),
+                                     chkrt_getKartCrsMatAmbient());
         }
-        AdvanceKartModelColorBlend(kart->mKartModelsEntry, (kart->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
+        chkrt_progressColorInterpolation(kart->mKartModelsEntry, (kart->mUnk_4c & 0x20000) ? 0x52 : 0x19a);
     }
     effectState->mUnk_1c++;
     if (effectState->mUnk_1c <= 0x1c2) {
@@ -586,12 +586,12 @@ void AdvanceKartGesso(Kart *kart) {
     }
     kart->mUnk_4c &= ~0x8020000;
     if (kart->mUnk_4c & 0x2000) {
-        func_0207b13c(kart);
+        driver_enableSlipStreamToonMode(kart);
     }
-    SetKartModelsEntryCourseColors(kart->mKartModelsEntry);
+    chkrt_applyKartCrsMat(kart->mKartModelsEntry);
 }
 
-void func_02069068(Kart *kart) {
+void driver_startSlipstream(Kart *kart) {
     KartItemEffectState *effectState;
 
     effectState = &kart->mUnk_538;
@@ -602,16 +602,16 @@ void func_02069068(Kart *kart) {
     if (!(kart->mUnk_4c & 0x2000)) {
         kart->mUnk_4c |= 0x2000;
         if (!(kart->mUnk_4c & 0x8000000)) {
-            func_0207b13c(kart);
+            driver_enableSlipStreamToonMode(kart);
         }
     }
     if (kart->mUnk_4c & 0x48000) {
-        func_02080f44(kart);
+        rptc_startSlipstreamEffect(kart);
     }
-    func_02081000(kart);
+    rptc_stopSlipstreamBeginEffect(kart);
     StopKartSoundWhileRequested(kart);
     if (!(kart->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
-        StartSound(&kart->mSoundSource, 0xa4, 0x7f, 0);
+        sfx_21090C4(&kart->mSoundSource, 0xa4, 0x7f, 0);
     }
     if (kart->mUnk_7c & 0x200) {
         kart->mUnk_514->mUnk_2c ^= 0x40000;
@@ -647,16 +647,16 @@ s32 func_02068ec0(Kart *kart, s32 a) {
         }
         kart->mUnk_7c |= 0x20;
         if (kart->mCollisionSlot != -1) {
-            kart->mCollisionSlot = FreeCollisionSlot(kart->mCollisionSlot);
+            kart->mCollisionSlot = col_deleteColEntry(kart->mCollisionSlot);
         }
         if (kart->mUnk_2ca != -1) {
-            kart->mUnk_2ca = FreeCollisionSlot(kart->mUnk_2ca);
+            kart->mUnk_2ca = col_deleteColEntry(kart->mUnk_2ca);
         }
-        if (gRaceSetup->mMode == MODE_BATTLE && a == 0) {
-            StartSound(&kart->mSoundSource, 0xd3, 0x7f, 0);
-            if (gRaceSetup->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
-                seqPlayerHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                if (data_0217d084.mUnk_0c != 0) {
+        if (gRaceMultiConfig->mMode == MODE_BATTLE && a == 0) {
+            sfx_21090C4(&kart->mSoundSource, 0xd3, 0x7f, 0);
+            if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON && (data_0217c780 & 1)) {
+                seqPlayerHandle = sp_acquireElement(sound_getPoolById(0));
+                if (SoundHandle_217D084.mUnk_0c != 0) {
                     if (seqPlayerHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(seqPlayerHandle, 0);
                     }
@@ -668,7 +668,7 @@ s32 func_02068ec0(Kart *kart, s32 a) {
             }
         }
         kart->mUnk_3c8 = 0;
-        func_02072930(kart);
+        driver_reset(kart);
     }
     return removed;
 }

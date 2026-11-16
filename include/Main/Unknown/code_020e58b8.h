@@ -7,4 +7,4 @@ typedef struct Unk020e58b8 {
     /* c8 */ u32 mUnk_c8;
 } Unk020e58b8;
 
-void EnterSecondHandState2(Unk020e58b8 *secondHand);
+void shand_decelerateStateInit(Unk020e58b8 *secondHand);

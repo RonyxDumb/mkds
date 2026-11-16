@@ -8,4 +8,4 @@
 #include "Main/Unknown/code_020f36d8.h"
 
 void ResetKartAiForBattle(KartAi *kartAi, PointLink *link);
-void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex);
+void enmy_initMgEnemy(KartAi *kartAi, s32 kartIndex);

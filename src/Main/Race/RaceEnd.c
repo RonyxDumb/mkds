@@ -49,7 +49,7 @@ u32 RequestRaceEndStemSet(void) {
 }
 
 void SetKartCupRanks(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = gRaceMultiConfig;
     s32 sortKeys[8];
     s32 sortedIndices[8];
     u16 i;
@@ -68,43 +68,43 @@ void SetKartCupRanks(void) {
     if (raceSetup->mMode == MODE_MISSION_RUN) {
         return;
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        if (gRaceSetup->mRuleKind == 1 || gRaceSetup->mMode == MODE_BATTLE) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        if (gRaceMultiConfig->mRuleKind == 1 || gRaceMultiConfig->mMode == MODE_BATTLE) {
             isHumanGhostOrPeer = FALSE;
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3) {
-                if ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+            if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind <= 3) {
+                if ((1 << gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isHumanGhostOrPeer = TRUE;
                 }
             }
             humanGhostOrPeerBit = isHumanGhostOrPeer != FALSE ? 1 : 0;
-            lowByte = GetLowByte(i);
-            courseIndexInCup = GetCourseIndexInCup();
-            cupScore = gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)].mWinCount;
-            sortKeys[i] = (cupScore << 4) + (humanGhostOrPeerBit << 3) + 8 - GetKartRank(i);
+            lowByte = rres_205DC7C(i);
+            courseIndexInCup = rres_205DB28();
+            cupScore = rres_sRaceResults->mKartResults[courseIndexInCup][rres_205DC7C(lowByte)].mWinCount;
+            sortKeys[i] = (cupScore << 4) + (humanGhostOrPeerBit << 3) + 8 - rstat_getPlace(i);
         } else {
             isHumanGhostOrPeer = FALSE;
-            if (gRaceSetup->mCurrentEntries[i].mPlayer.mKind <= 3) {
-                if ((1 << gRaceSetup->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+            if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind <= 3) {
+                if ((1 << gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                     isHumanGhostOrPeer = TRUE;
                 }
             }
             humanGhostOrPeerBit = isHumanGhostOrPeer != FALSE ? 1 : 0;
-            lowByte = GetLowByte(i);
-            courseIndexInCup = GetCourseIndexInCup();
-            courseResult = &gCupRecords->mKartResults[courseIndexInCup][GetLowByte(lowByte)];
+            lowByte = rres_205DC7C(i);
+            courseIndexInCup = rres_205DB28();
+            courseResult = &rres_sRaceResults->mKartResults[courseIndexInCup][rres_205DC7C(lowByte)];
             cupScore = courseResult->mTotalPoints;
-            sortKeys[i] = (cupScore << 4) + (humanGhostOrPeerBit << 3) + 8 - GetKartRank(i);
+            sortKeys[i] = (cupScore << 4) + (humanGhostOrPeerBit << 3) + 8 - rstat_getPlace(i);
         }
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
         sortedIndices[i] = i;
         sortKeys[i] = sortKeys[i] * keySign;
     }
-    SortIndicesByKey(sortedIndices, sortKeys, gRaceSetup->mKartCount);
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        for (j = 0; j < (u32) gRaceSetup->mKartCount; j++) {
+    SortIndicesByKey(sortedIndices, sortKeys, gRaceMultiConfig->mKartCount);
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        for (j = 0; j < (u32) gRaceMultiConfig->mKartCount; j++) {
             if (i == sortedIndices[j]) {
-                SetKartCupRank(i, j + 1);
+                rres_setGlobalPlace(i, j + 1);
                 break;
             }
         }
@@ -112,15 +112,15 @@ void SetKartCupRanks(void) {
 }
 
 static inline Unk0217aa1c_144_00 *func_020b3b58_inline(s32 teamIndex) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[teamIndex];
+    return &rres_sRaceResults->mTeamResults[rres_205DB28()].mTeams[teamIndex];
 }
 
 static inline CourseTeamResults *func_020b3b58_inline2(void) {
-    return &gCupRecords->mTeamResults[GetCourseIndexInCup()];
+    return &rres_sRaceResults->mTeamResults[rres_205DB28()];
 }
 
 void SetCupWinningTeamFromRecords(void) {
-    RaceSetup *raceSetup = gRaceSetup;
+    RaceSetup *raceSetup = gRaceMultiConfig;
     s32 firstTeamScore;
     s32 secondTeamScore;
     BOOL isRuleKind1OrBattle;
@@ -133,10 +133,10 @@ void SetCupWinningTeamFromRecords(void) {
     if (raceSetup->mRuleKind == 1 || raceSetup->mMode == MODE_BATTLE) {
         firstTeamScore = func_020b3b58_inline(0)->mUnk_02;
     } else {
-        firstTeamRecord = &gCupRecords->mTeamResults[GetCourseIndexInCup()].mTeams[0];
+        firstTeamRecord = &rres_sRaceResults->mTeamResults[rres_205DB28()].mTeams[0];
         firstTeamScore = firstTeamRecord->mUnk_00;
     }
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     isRuleKind1OrBattle = TRUE;
     if (raceSetup->mRuleKind != 1 && raceSetup->mMode != MODE_BATTLE) {
         isRuleKind1OrBattle = FALSE;
@@ -147,23 +147,23 @@ void SetCupWinningTeamFromRecords(void) {
         secondTeamScore = func_020b3b58_inline2()->mTeams[1].mUnk_00;
     }
     if (firstTeamScore > secondTeamScore) {
-        SetCupWinningTeam(0);
+        rres_205D6D0(0);
         return;
     }
     if (secondTeamScore > firstTeamScore) {
-        SetCupWinningTeam(1);
+        rres_205D6D0(1);
         return;
     }
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        if (GetKartRank(i) == 1) {
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        if (rstat_getPlace(i) == 1) {
             break;
         }
     }
-    SetCupWinningTeam(gRaceSetup->mCurrentEntries[i].mPlayer.mTeamIndex);
+    rres_205D6D0(gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex);
 }
 
 void InitRaceEnd(void) {
-    gRaceEnd = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x10);
+    gRaceEnd = heap_alloc(proc_getHeap(proc_getCurrent()), 0x10);
     gRaceEnd->mEndFrames = 0;
     gRaceEnd->mStemSetRequested = FALSE;
     gRaceEnd->mStemSetRequestFrames = 0;
@@ -196,21 +196,21 @@ void UpdateRaceEnd(void) {
     BOOL playsRaceEndSound;
     u16 followedKartIndex;
 
-    if (gRaceProgress->mRaceDone != 0 && gRaceEnd->mResultsSet == FALSE) {
+    if (gRaceStatus->mRaceDone != 0 && gRaceEnd->mResultsSet == FALSE) {
         SetKartCupRanks();
         SetCupWinningTeamFromRecords();
         SetRaceResultRecords();
         gRaceEnd->mResultsSet = TRUE;
     }
-    followedKartIndex = GetFollowedKartOrEntryIndex();
-    if (gRaceProgress->mUnk_000[followedKartIndex].mStatus != 1 && gRaceProgress->mRaceDone == 0) {
+    followedKartIndex = Race_GetPlayerId();
+    if (gRaceStatus->mUnk_000[followedKartIndex].mStatus != 1 && gRaceStatus->mRaceDone == 0) {
         return;
     }
     a = gRaceEnd->mEndFrames;
     if (a < 11) {
         gRaceEnd->mEndFrames = a + 1;
         if (a == 0) {
-            raceSetup = gRaceSetup;
+            raceSetup = gRaceMultiConfig;
             switch (raceSetup->mMode) {
                 case MODE_GRAND_PRIX:
                 case MODE_TIME_ATTACK:
@@ -219,14 +219,14 @@ void UpdateRaceEnd(void) {
                 case MODE_VS:
                 case 5:
                     if (raceSetup->mRuleKind != 1) {
-                        if (gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus == 1) {
+                        if (gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus == 1) {
                             SetStemSet(3);
                         }
                     }
                     break;
             }
-            if ((data_0217d084.mMode - 2) <= 1 && gRaceSetup->mMode != MODE_BATTLE) {
-                raceSetup = gRaceSetup;
+            if ((SoundHandle_217D084.mMode - 2) <= 1 && gRaceMultiConfig->mMode != MODE_BATTLE) {
+                raceSetup = gRaceMultiConfig;
                 playsRaceEndSound = TRUE;
                 if (raceSetup->mRaceKind == RACE_KIND_DEMO) {
                     playsRaceEndSound = FALSE;
@@ -236,7 +236,7 @@ void UpdateRaceEnd(void) {
                         case 4:
                         case 6:
                         case 10:
-                            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
+                            if ((rstat_hasDriverFinished((u16) raceSetup->mEntryIndex) ? gRaceStatus->mEntryEndKind : 6) != 0) {
                                 playsRaceEndSound = FALSE;
                             }
                             break;
@@ -249,7 +249,7 @@ void UpdateRaceEnd(void) {
                     if (IsRaceNewRecordTaFinishRecord() != 0 || IsRaceNewRecordTaBestLapRecord() != 0) {
                         NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x44);
                     } else {
-                        followedKartStatus = gRaceProgress->mUnk_000[GetFollowedKartOrEntryIndex()].mStatus;
+                        followedKartStatus = gRaceStatus->mUnk_000[Race_GetPlayerId()].mStatus;
                         if (followedKartStatus == 3) {
                             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x43);
                         } else {
@@ -259,18 +259,18 @@ void UpdateRaceEnd(void) {
                 }
             }
         } else if (a == 10) {
-            raceSetup = gRaceSetup;
+            raceSetup = gRaceMultiConfig;
             switch (raceSetup->mMode) {
                 case MODE_VS:
                     if (raceSetup->mRuleKind == 1) {
-                        SetStemSet((GetKart(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                        SetStemSet((driver_getById(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
                     }
                     break;
                 case MODE_BATTLE:
-                    SetStemSet((GetKart(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
+                    SetStemSet((driver_getById(raceSetup->mEntryIndex)->mUnk_7c & 0x2000000) ? 4 : 5);
                     break;
                 case MODE_MISSION_RUN:
-                    if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) != 0) {
+                    if ((rstat_hasDriverFinished((u16) raceSetup->mEntryIndex) ? gRaceStatus->mEntryEndKind : 6) != 0) {
                         SetStemSet(7);
                     }
                     break;
@@ -289,10 +289,10 @@ void UpdateRaceEnd(void) {
     if (a != 10) {
         return;
     }
-    raceSetup = gRaceSetup;
+    raceSetup = gRaceMultiConfig;
     switch (raceSetup->mMode) {
         case MODE_MISSION_RUN:
-            if ((IsKartEnded((u16) raceSetup->mEntryIndex) ? gRaceProgress->mEntryEndKind : 6) == 0) {
+            if ((rstat_hasDriverFinished((u16) raceSetup->mEntryIndex) ? gRaceStatus->mEntryEndKind : 6) == 0) {
                 SetStemSet(6);
             }
             break;

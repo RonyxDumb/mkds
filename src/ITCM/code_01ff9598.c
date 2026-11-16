@@ -88,14 +88,14 @@ BOOL func_01ffa380(Kart *p, u32 a, Vec3 *b) {
     return r != FALSE;
 }
 
-void func_01ffa350(Kart *p, u32 a) {
+void driver_1FFA350(Kart *p, u32 a) {
     p->mUnk_44 = p->mUnk_44 & ~a;
     p->mUnk_208->mUnk_00 = FALSE;
     p->mSurfaceGroup = -1;
-    StopKartCurrentEffects(p);
+    rptc_killDriverEffects_copy(p);
 }
 
-BOOL func_01ffa1f8(Kart *p) {
+BOOL driver_handleFallBelow0(Kart *p) {
     void *q;
     u32 i;
     u32 r;
@@ -104,16 +104,16 @@ BOOL func_01ffa1f8(Kart *p) {
         if (!(p->mUnk_7c & 0x400) && !(p->mUnk_48 & 0x800)) {
             p->mUnk_48 = p->mUnk_48 | 0x800;
             i = p->mIndex;
-            if (gRaceSetup->mMode == MODE_BATTLE) {
-                r = GetCourseMapRespawnSlot(0);
+            if (gRaceMultiConfig->mMode == MODE_BATTLE) {
+                r = mdat_getRespawnId(0);
             } else {
-                r = GetCourseMapRespawnSlot(gRaceProgress->mUnk_000[i].mCheckpoint);
+                r = mdat_getRespawnId(gRaceStatus->mUnk_000[i].mCheckpoint);
             }
             p->mRespawnSlot = r;
             if (p->mUnk_7c & KART_7C_INDEX_IS_SELECTED_ENTRY) {
-                if (gRaceSetup->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
-                    q = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                    if (data_0217d084.mUnk_0c != 0) {
+                if (gRaceMultiConfig->mCourseId == COURSE_ID_RAINBOW && (data_0217c780 & 1)) {
+                    q = sp_acquireElement(sound_getPoolById(0));
+                    if (SoundHandle_217D084.mUnk_0c != 0) {
                         if (*(u32 *) q != 0) {
                             NNS_SndPlayerStopSeq(q, 0);
                         }
@@ -133,7 +133,7 @@ BOOL func_01ffa1f8(Kart *p) {
 }
 
 void AdvanceKartQuaternionBlendFactor(Kart *p, const Vec3 *a) {
-    s32 d = Vec3DotUnrounded(&p->mGroundNormal, a);
+    s32 d = vec_dotProduct(&p->mGroundNormal, a);
     s32 m;
 
     if (p->mUnk_48 & 1) {
@@ -189,11 +189,11 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
         p->mQuaternionBlendFactor = 0xf6;
         func_02070484(p, &p->mUnk_100_q);
     } else {
-        AdvanceKartQuaternionFromVector(p, a);
+        driver_1FFAD14(p, a);
     }
-    QuaternionBlend(&p->mUnk_f0_q, &p->mUnk_100_q, &p->mUnk_f0_q, p->mQuaternionBlendFactor);
-    QuaternionFromAxisAngle(&data_02154f7c, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
-    QuaternionMultiply(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
+    qrtn_lerp(&p->mUnk_f0_q, &p->mUnk_100_q, &p->mUnk_f0_q, p->mQuaternionBlendFactor);
+    qrtn_fromAxisAngle(&driverCore_sUpVec, (u16) (p->mHeadingAngle + p->mHeadingAngleOffset), &p->mUnk_e0_m);
+    qrtn_mult(&p->mUnk_f0_q, &p->mUnk_e0_m, &p->mUnk_110_q);
     if (p->mUnk_44 & 2) {
         if (p->mHopSpeed > 0) {
             p->mHopTiltAngle = 0x9c4 - (u16) ((s64) p->mHopHeight * 500 >> 12);
@@ -203,17 +203,17 @@ void AdvanceKartOrientation(Kart *p, Vec3 *a) {
         } else {
             p->mHopTiltAngle = 0;
         }
-        QuaternionFromAxisAngle(&data_02154f88, (u16) -p->mHopTiltAngle, &v);
-        QuaternionMultiply(&p->mUnk_110_q, &v, &p->mUnk_110_q);
+        qrtn_fromAxisAngle(&driverCore_sRightVec, (u16) -p->mHopTiltAngle, &v);
+        qrtn_mult(&p->mUnk_110_q, &v, &p->mUnk_110_q);
     } else {
         p->mHopTiltAngle = 0;
     }
-    QuaternionNormalize(&p->mUnk_110_q, &p->mUnk_110_q);
+    qrtn_normalize(&p->mUnk_110_q, &p->mUnk_110_q);
 }
 
 // Runs only on a step with a ground hit (non-zero normal).
-void RefreshKartSurface(Kart *p) {
-    s32 r = PickCollisionHitValue(0x1e34ef);
+void driver_handleFloorCollision(Kart *p) {
+    s32 r = col_findResponsePrismAttribute(0x1e34ef);
     s32 k;
     s32 a;
     s32 b;
@@ -222,7 +222,7 @@ void RefreshKartSurface(Kart *p) {
     p->mSurfaceKind = (r & 0x1f00) >> 8;
     p->mSurfaceVariant = (u32) ((r & 0xe0) << 11) >> 16;
     a = 0x1000;
-    k = gKartSurfaceFunctions[p->mSurfaceKind](p);
+    k = driver_sHandleFloorCollisionFuncs[p->mSurfaceKind](p);
     if (k != 0) {
         a = p->mPhysicalParam->mSurfaceSpeedLimitFactors[k];
     }
@@ -248,7 +248,7 @@ void RefreshKartSurface(Kart *p) {
     p->mSurfaceGroup = k;
 }
 
-void func_01ff9d18(Kart *p) {
+void driver_handleSpecialBoosts(Kart *p) {
     u32 r;
     s32 d;
     enum { K0 } j;
@@ -268,15 +268,15 @@ void func_01ff9d18(Kart *p) {
         }
     }
     if (!(p->mUnk_44 & 0x1000000) && !(p->mUnk_7c & 0x400)) {
-        AdvanceKartRaceStartBoost(p);
+        driver_handleStartBoost(p);
     }
     if (!(p->mUnk_4c & 0x400)) {
         return;
     }
-    r = GetRaceUpdateFrames();
+    r = race_getFrameCounter();
     if (p->mUnk_410 == 0) {
         j = p->mEntryIndex;
-        if ((u16) (data_02175628[j].mPressedBits & PAD_KEY_A) != 0) {
+        if ((u16) (gInputUnits[j].mPressedBits & PAD_KEY_A) != 0) {
             p->mUnk_410 = r;
         }
     }
@@ -291,14 +291,14 @@ void func_01ff9d18(Kart *p) {
         d = -d;
     }
     if (d <= 2) {
-        StartKartBoost(p, KART_BOOST_RESPAWN, 10);
+        driver_addBoost(p, KART_BOOST_RESPAWN, 10);
     }
     p->mUnk_4c = p->mUnk_4c & ~0x400;
 }
 
 void func_01ff9cb0(Kart *p) {
     if (!(p->mUnk_4c & 2)) {
-        if (IsRaceStarted() == 1) {
+        if (race_getState() == 1) {
             func_01ffc9e8(p, 0);
         }
     }
@@ -310,7 +310,7 @@ void func_01ff9cb0(Kart *p) {
     p->mUnk_208->mUnk_00 = FALSE;
 }
 
-void func_01ff9c9c(Kart *p, u32 a) {
+void driver_updateMap2DShadowFlag(Kart *p, u32 a) {
     u32 b = a & 0x1000000;
 
     if (b != p->mUnk_4c0) {
@@ -331,20 +331,20 @@ void AdvanceKartHop(Kart *p) {
     }
 }
 
-void AdvanceKartEffects(Kart *p) {
+void driver_updateDriftEffects(Kart *p) {
     KartTurnEffects *a;
     KartEffects *b;
     u32 f;
 
     if (p->mUnk_4c & KART_4C_NEAR_PLAYER_RANK) {
-        a = GetKartTurnEffects(p->mIndex);
-        b = GetKartEffects(p->mIndex);
-        AdvanceKartLevel4Effects(a, p);
-        AdvanceKartTurnStartEffects(a, p);
-        AdvanceKartLevel3Effects(a, b->mSideDirections, b->mSidePositions);
-        AdvanceKartLevel2Effects(a, b->mSideDirections, b->mSidePositions);
+        a = dptc_getControllerForDriver(p->mIndex);
+        b = rptc_getEffectControllerForDriver(p->mIndex);
+        dptc_updateContRedSparks(a, p);
+        dptc_updateDustClouds(a, p);
+        dptc_updateRedSparks(a, b->mSideDirections, b->mSidePositions);
+        dptc_updateBlueSparks(a, b->mSideDirections, b->mSidePositions);
     } else {
-        StopKartTurnEffects(GetKartTurnEffects(p->mIndex));
+        dptc_208C534(dptc_getControllerForDriver(p->mIndex));
     }
     p->mEffectVelocity = p->mVelocity;
     f = p->mUnk_44;
@@ -358,7 +358,7 @@ void AdvanceKartEffects(Kart *p) {
     p->mEffectVelocity.z = p->mEffectVelocity.z >> 4;
 }
 
-void func_01ff9a94(Unk01ff9940 *a) {
+void NNSi_G3dSendJointSRTMaya(Unk01ff9940 *a) {
     BOOL r;
     u32 w = a->mUnk_00;
 
@@ -368,22 +368,22 @@ void func_01ff9a94(Unk01ff9940 *a) {
     }
     if ((w & 0x20) && !(w & 8)) {
         if (r) {
-            func_01ff9048(0x1c, &a->mUnk_4c, 3);
+            NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
             r = FALSE;
         }
-        func_01ff9048(0x1b, &a->mUnk_10, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_10, 3);
     }
     if (!(a->mUnk_00 & 2)) {
         if (r) {
-            func_01ff9048(0x19, &a->mUnk_28, 0xc);
+            NNS_G3dGeBufferOP_N(0x19, &a->mUnk_28, 0xc);
         } else {
-            func_01ff9048(0x1a, &a->mUnk_28, 9);
+            NNS_G3dGeBufferOP_N(0x1a, &a->mUnk_28, 9);
         }
     } else if (r) {
-        func_01ff9048(0x1c, &a->mUnk_4c, 3);
+        NNS_G3dGeBufferOP_N(0x1c, &a->mUnk_4c, 3);
     }
     if (!(a->mUnk_00 & 1)) {
-        func_01ff9048(0x1b, &a->mUnk_04, 3);
+        NNS_G3dGeBufferOP_N(0x1b, &a->mUnk_04, 3);
     }
 }
 
@@ -421,7 +421,7 @@ void func_01ff9940(Unk01ff9940 *a, Unk01ff9940_B *b, Unk01ff9940_C *c, u32 d) {
     a->mUnk_00 |= 0x10;
 }
 
-void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b) {
+void texmtxCalc_flag_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     s32 w = b->mUnk_2c << 12;
     s32 h = b->mUnk_2e << 12;
     s32 k22;
@@ -452,7 +452,7 @@ void func_01ff9828(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_10 = d * FX_GetDivResult() >> 12;
 }
 
-void func_01ff974c(Unk01ff9598_A *a, Unk01ff9598 *b) {
+void texmtxCalc_flagS_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     s32 w = b->mUnk_2c << 12;
     s32 h = b->mUnk_2e << 12;
     s32 t;
@@ -468,7 +468,7 @@ void func_01ff974c(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_10 = b->mUnk_20 * FX_GetDivResult() >> 12;
 }
 
-void func_01ff96cc(Unk01ff9598_A *a, Unk01ff9598 *b) {
+void texmtxCalc_flagR_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_00 = b->mUnk_18;
     a->mUnk_14 = b->mUnk_1c;
     a->mUnk_04 = 0;
@@ -478,7 +478,7 @@ void func_01ff96cc(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_10 = 0;
 }
 
-void func_01ff9684(Unk01ff9598_A *a, Unk01ff9598 *b) {
+void texmtxCalc_flagRS_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_00 = 0x1000;
     a->mUnk_14 = 0x1000;
     a->mUnk_04 = 0;
@@ -487,7 +487,7 @@ void func_01ff9684(Unk01ff9598_A *a, Unk01ff9598 *b) {
     a->mUnk_10 = 0;
 }
 
-void func_01ff9598(Unk01ff9598_A *a, Unk01ff9598 *b) {
+void texmtxCalc_flagT_(Unk01ff9598_A *a, Unk01ff9598 *b) {
     s32 w = b->mUnk_2c << 12;
     s32 h = b->mUnk_2e << 12;
     s32 k22;

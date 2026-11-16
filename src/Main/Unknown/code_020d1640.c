@@ -13,47 +13,47 @@
 #include "Main/Unknown/code_020b3000.h"
 #include "Main/Unknown/code_020b4000.h"
 
-void CreateSearchIconMBChildAndMultiDownload(void *heap) {
-    data_0217b4b0 = HeapAlloc(heap, 0x2c);
-    data_0217b4b0->mUnk_00 = FindFileInLoadedArchives("search_icon_00.bncl");
-    data_0217b4b0->mUnk_04 = FindFileInLoadedArchives("search_icon_layout_00.bncl");
-    LoadNcgrData2(&data_0217b4b0->mUnk_08, FindFileInLoadedArchives("search_icon_00.nce.ncgr"));
-    LoadNcerData(&data_0217b4b0->mUnk_0c, FindFileInLoadedArchives("search_icon_00.nce.ncer"));
-    LoadNclrData(&data_0217b4b0->mUnk_10, FindFileInLoadedArchives("search_icon_00_o.nclr"));
-    switch (data_021759d0->mLanguageIndex) {
+void s2d_init(void *heap) {
+    sStatic2dData = heap_alloc(heap, 0x2c);
+    sStatic2dData->mUnk_00 = arc_get2dArcFile("search_icon_00.bncl");
+    sStatic2dData->mUnk_04 = arc_get2dArcFile("search_icon_layout_00.bncl");
+    g2du_unpackCharacterData(&sStatic2dData->mUnk_08, arc_get2dArcFile("search_icon_00.nce.ncgr"));
+    g2du_unpackCellBankData(&sStatic2dData->mUnk_0c, arc_get2dArcFile("search_icon_00.nce.ncer"));
+    g2du_unpackPaletteData(&sStatic2dData->mUnk_10, arc_get2dArcFile("search_icon_00_o.nclr"));
+    switch (gSystemData->mLanguageIndex) {
         default:
-            InitFontIfLoaded(&data_0217b4b0->mUnk_14, FindFileInLoadedArchives("MBChild_us.NFTR"));
+            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_us.NFTR"));
             break;
         case 2:
-            InitFontIfLoaded(&data_0217b4b0->mUnk_14, FindFileInLoadedArchives("MBChild_fr.NFTR"));
+            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_fr.NFTR"));
             break;
         case 3:
-            InitFontIfLoaded(&data_0217b4b0->mUnk_14, FindFileInLoadedArchives("MBChild_ge.NFTR"));
+            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_ge.NFTR"));
             break;
         case 4:
-            InitFontIfLoaded(&data_0217b4b0->mUnk_14, FindFileInLoadedArchives("MBChild_it.NFTR"));
+            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_it.NFTR"));
             break;
         case 5:
-            InitFontIfLoaded(&data_0217b4b0->mUnk_14, FindFileInLoadedArchives("MBChild_es.NFTR"));
+            m2d_initFont(&sStatic2dData->mUnk_14, arc_get2dArcFile("MBChild_es.NFTR"));
             break;
     }
-    switch (data_021759d0->mLanguageIndex) {
+    switch (gSystemData->mLanguageIndex) {
         default:
-            data_0217b4b0->mUnk_20 = FindFileInLoadedArchives("MBChild_us.bmg");
+            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_us.bmg");
             break;
         case 2:
-            data_0217b4b0->mUnk_20 = FindFileInLoadedArchives("MBChild_fr.bmg");
+            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_fr.bmg");
             break;
         case 3:
-            data_0217b4b0->mUnk_20 = FindFileInLoadedArchives("MBChild_ge.bmg");
+            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_ge.bmg");
             break;
         case 4:
-            data_0217b4b0->mUnk_20 = FindFileInLoadedArchives("MBChild_it.bmg");
+            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_it.bmg");
             break;
         case 5:
-            data_0217b4b0->mUnk_20 = FindFileInLoadedArchives("MBChild_es.bmg");
+            sStatic2dData->mUnk_20 = arc_get2dArcFile("MBChild_es.bmg");
             break;
     }
-    LoadNcgrData(&data_0217b4b0->mUnk_24, FindFileInLoadedArchives("multi_download_00_b.NCGR"));
-    LoadNclrData(&data_0217b4b0->mUnk_28, FindFileInLoadedArchives("multi_download_00_b.NCLR"));
+    g2du_unpackCharacterDataBG(&sStatic2dData->mUnk_24, arc_get2dArcFile("multi_download_00_b.NCGR"));
+    g2du_unpackPaletteData(&sStatic2dData->mUnk_28, arc_get2dArcFile("multi_download_00_b.NCLR"));
 }

@@ -7,7 +7,7 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateSelectBattleStage(void) {
+void menu_state17Render(void) {
     s32 courseIds[6] = {COURSE_ID_MINI_STAGE1, COURSE_ID_MINI_STAGE2,   COURSE_ID_MINI_STAGE3,
                         COURSE_ID_MINI_STAGE4, COURSE_ID_MINI_BLOCK_64, COURSE_ID_MINI_DOKAN_GC};
     s32 result;
@@ -20,19 +20,19 @@ void UpdateSelectBattleStage(void) {
         case 3:
         case 4:
         case 5:
-            GetRaceSetupCopy()->mCourseId = courseIds[result];
-            SwitchMenuScreen(0x1d, 0x1f);
+            menu_getRaceConfig()->mCourseId = courseIds[result];
+            menu_gotoState(0x1d, 0x1f);
             break;
         case -3:
-            SwitchMenuScreen(0x10, 0x1f);
+            menu_gotoState(0x10, 0x1f);
             break;
         case -2:
-            SwitchMenuScreen(0xe, 0x1f);
+            menu_gotoState(0xe, 0x1f);
             func_020ceb0c(0);
             func_020ceaf8(1);
             break;
         case -1:
-            SwitchMenuScreen(0x1b, 0x1f);
+            menu_gotoState(0x1b, 0x1f);
             func_020ceb0c(0);
             func_020ceaf8(1);
             break;

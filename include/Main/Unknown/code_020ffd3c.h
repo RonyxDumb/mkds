@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020ffd3c(unsigned int value);
+unsigned int dram_spinningStateInit(unsigned int value);

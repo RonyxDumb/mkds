@@ -1,7 +1,7 @@
 #include "Main/Unknown/code_0207d7e4.h"
 #include "Main/Unknown/code_020888b4.h"
 
-void ResetAwardMissionRunKartAiSpeedLimit(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi) {
+void enrb_207D7E4(struct KartAiRaceSpeedLimit *p0, struct KartAi *kartAi) {
     p0->mSpeedLimit = (u32) (((u32) p0->mBaseSpeedLimit));
     p0->mSpeedLimitAddition = 0x0u;
     p0->mTurnSpeedLimit = 0x0u;

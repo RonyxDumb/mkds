@@ -9,29 +9,29 @@
 
 #pragma thumb on
 
-const u16 gWaitBnclIndices[4] = {0, 1, 2, 0};
+const u16 wait_sFrameBnclIndex[4] = {0, 1, 2, 0};
 
-void AdvanceWait(void) {
+void wait_update(void) {
     u16 *q;
     Wait *p;
 
-    gWait->mFrameIndexFrames++;
-    if (gWait->mFrameIndexFrames >= 4) {
-        gWait->mFrameIndex++;
-        if (gWait->mFrameIndex >= 3) {
-            gWait->mFrameIndex = 0;
+    sWaitData->mFrameIndexFrames++;
+    if (sWaitData->mFrameIndexFrames >= 4) {
+        sWaitData->mFrameIndex++;
+        if (sWaitData->mFrameIndex >= 3) {
+            sWaitData->mFrameIndex = 0;
         }
-        gWait->mFrameIndexFrames = 0;
-        QueueCellChars(gWaitBnclIndices[gWait->mFrameIndex], gWait->mNcer, gWait->mNcgr, gWait->mBncl, gWait->mUnk_20,
-                       gWait->mDestinationBnclIndex, gWait->mDestinationNcer, gWait->mDestinationBncl);
-        p = gWait;
+        sWaitData->mFrameIndexFrames = 0;
+        jn_ui_fillPlaceholder(wait_sFrameBnclIndex[sWaitData->mFrameIndex], sWaitData->mNcer, sWaitData->mNcgr, sWaitData->mBncl, sWaitData->mUnk_20,
+                       sWaitData->mDestinationBnclIndex, sWaitData->mDestinationNcer, sWaitData->mDestinationBncl);
+        p = sWaitData;
         q = p->mNclr->mData;
         switch (p->mUnk_20) {
             case 0:
-                CallQueueAppend(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0xe, p->mPaletteIndex << 5, q + 0xe0, 0x20);
                 break;
             case 1:
-                CallQueueAppend(0x1e, p->mPaletteIndex << 5, q + 0xe0, 0x20);
+                NNS_GfdRegisterNewVramTransferTask(0x1e, p->mPaletteIndex << 5, q + 0xe0, 0x20);
                 break;
         }
     }

@@ -12,7 +12,7 @@
 
 typedef struct SceneNumbersView SceneNumbersView;
 
-// Object behind gResultsGp, allocated by InitResultsGp.
+// Object behind gpres_sState, allocated by gpres_init.
 typedef struct ResultsGp {
     /* 00 */ CellFileSet mCellFileSets[2];
     /* 38 */ void *mOamLists[2];
@@ -26,36 +26,36 @@ typedef struct ResultsGp {
     /* 5c */ s32 mState0Frames;
 } ResultsGp;
 
-extern ResultsGp *gResultsGp;
+extern ResultsGp *gpres_sState;
 
-extern const char data_02162138[];
-extern const char gSecretBmgName[];
-extern const char gResultsGpMBNcgrName[];
-extern const char gResultsGpMBNclrName[];
-extern const char gResultsGpM1NscrName[];
-extern const char gResultsGpM2NscrName[];
-extern const char gResultsGpMNcgrName[];
-extern const char gResultsGpMNcerName[];
-extern const char gResultsGpMONclrName[];
-extern const char gResultsGpMBnclName[];
-extern const char gResultsGpMBnllName[];
-extern const char gResultsGpSBNcgrName[];
-extern const char gResultsGpSBNclrName[];
-extern const char gResultsGpSNscrName[];
-extern const char gResultsGpSNcgrName[];
-extern const char gResultsGpSNcerName[];
-extern const char gResultsGpSONclrName[];
-extern const char gResultsGpSBnclName[];
-extern const char gResultsGpSBnllName[];
-extern const char gCupNameLeftNcgrName[];
-extern const char gCupNameLeftNcerName[];
-extern const char gCupNameLeftBnclName[];
-extern u16 gEngineMessageIndexTable[];
-extern u16 data_02153868[];
+extern const char aCommon_bmg_13[];
+extern const char aSecret_bmg[];
+extern const char aResults_gp_m_b[];
+extern const char aResults_gp_m_0[];
+extern const char aResults_gp_m1_[];
+extern const char aResults_gp_m2_[];
+extern const char aResults_gp_m_n[];
+extern const char aResults_gp_m_1[];
+extern const char aResults_gp_m_o[];
+extern const char aResults_gp_m_2[];
+extern const char aResults_gp_m_4[];
+extern const char aResults_gp_s_b[];
+extern const char aResults_gp_s_0[];
+extern const char aResults_gp_s_n[];
+extern const char aResults_gp_s_5[];
+extern const char aResults_gp_s_3[];
+extern const char aResults_gp_s_o[];
+extern const char aResults_gp_s_4[];
+extern const char aResults_gp_s_1[];
+extern const char aCup_name_lef_2[];
+extern const char aCup_name_lef_0[];
+extern const char aCup_name_left_[];
+extern u16 gpres_sCCModeStringIds[];
+extern u16 gpres_sCupCellIds[];
 extern u16 gCupRankCellIndexTable[];
 extern u16 data_02153888[];
-extern u32 data_02153898[][4];
+extern u32 gpres_sCupCourses[][4];
 extern Unk02153918 data_02153918[];
 
-void AdvanceResultsGp(SceneNumbersView *sceneNumbers);
-void InitResultsGp(void *heap, void *firstOamList, void *secondOamList);
+void gpres_update(SceneNumbersView *sceneNumbers);
+void gpres_init(void *heap, void *firstOamList, void *secondOamList);

@@ -158,7 +158,7 @@ void func_0200895c(u32 entryIndex) {
     MIi_CpuClear16(clearValue, &gEntryTable->mEntries[entryIndex], 0x4c0);
 }
 
-EntryRecord *GetEntryOrNull(u32 entryIndex) {
+EntryRecord *MB_GetGameInfoRecvList(u32 entryIndex) {
     if ((gEntryTable->mUnk_02 & (1 << entryIndex)) == 0) {
         return NULL;
     }

@@ -4,7 +4,7 @@
 
 typedef struct Kart Kart;
 
-// The kind passed to StartKartBoost.
+// The kind passed to driver_addBoost.
 typedef enum {
     // The mushroom and the boost surfaces.
     KART_BOOST_ITEM_OR_SURFACE,
@@ -16,10 +16,10 @@ typedef enum {
     KART_BOOST_RESPAWN
 } KartBoostKind;
 
-void StartKartBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
+void driver_addBoost(Kart *kart, KartBoostKind boostKind, int boostFrames);
 void func_0206d138(Kart *kart);
-void func_0206d18c(Kart *kart);
-void func_0206d578(Kart *kart);
-void func_0206d7c8(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Vec3 *out);
+void driver_handleItems(Kart *kart);
+void driver_handleSlipstream(Kart *kart);
+void OtherKartCollide(Kart *pushingKart, Kart *pushedKart, const Vec3 *v, s32 c, Vec3 *out);
 BOOL TryStartKartPushDoubleFlip(Kart *killerKart, Kart *hitKart);
 BOOL TryStartKartPushFlip(Kart *starKart, Kart *hitKart, const Vec3 *v);

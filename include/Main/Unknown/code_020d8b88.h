@@ -4,4 +4,4 @@
 
 typedef struct GroupFollower GroupFollower;
 
-void GetGroupFollowerCurveXz(GroupFollower *follower, Vec3 *output);
+void pw_calcCurrentPointXZ(GroupFollower *follower, Vec3 *output);

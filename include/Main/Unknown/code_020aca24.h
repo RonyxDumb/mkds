@@ -7,4 +7,4 @@ typedef struct Unk020aca24 {
     /* 04 */ u16 mNextScene;
 } Unk020aca24;
 
-void UpdateTitleState5(Unk020aca24 *a);
+void title_gotoSelectedRender(Unk020aca24 *a);

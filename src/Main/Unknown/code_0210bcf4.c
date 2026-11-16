@@ -15,44 +15,44 @@
 #include "Main/Unknown/code_0210d0b4.h"
 #include "code_0201750c.h"
 
-void func_0210c134(SoundSource *source, u32 positionSource) {
+void sfx_initEmitter2(SoundSource *source, u32 positionSource) {
     void *startFunction;
     void *trackParamsFunction;
     NNS_FndInitList(&source->mPlayingSounds, 8);
-    startFunction = (void *) StartPlayingSoundSeqArc;
+    startFunction = (void *) sfx_startSeqArcEx;
     source->mUnk_38 = 1;
-    trackParamsFunction = (void *) SetPlayingSoundTrackParams;
+    trackParamsFunction = (void *) sfx_updateVolumePitch;
     source->mStartSeqFunction = startFunction;
     source->mTrackParamsFunction = trackParamsFunction;
     source->mSourceFlags = 0;
     source->mOwnerPosSource = positionSource;
     source->mUpdateListIndex = 3;
-    ClearThreeWords((u32 *) source->mUnk_1c);
-    ClearThreeWords((u32 *) source);
-    TryAppendListObject(&data_0217d028, source);
+    list_initLink((u32 *) source->mUnk_1c);
+    list_initLink((u32 *) source);
+    list_append(&sfx_sActiveEmitterList, source);
 }
 
 void func_0210c0bc(SoundSource *source) {
     void *sound;
 
-    StopSoundsStartedWhileRequested(source, 0);
+    sfx_210C238(source, 0);
     for (sound = source->mPlayingSounds.mHead; sound != NULL; sound = source->mPlayingSounds.mHead) {
-        RemoveListObject(&source->mPlayingSounds, (u8 *) sound);
+        list_remove(&source->mPlayingSounds, (u8 *) sound);
     }
     if (source->mUpdateListIndex != 3) {
-        RemoveListObject(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
+        list_remove(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
         source->mUpdateListIndex = 3;
     }
 }
 
-void func_0210c084(PlayingSound *sound, u32 fadeSteps) {
+void sfx_stopSfxStandalone(PlayingSound *sound, u32 fadeSteps) {
     NNS_SndPlayerStopSeq(&sound->mSeqPlayer, fadeSteps);
     sound->mFlags &= ~4;
     sound->mFlags &= ~8;
     sound->mFlags &= ~2;
 }
 
-void RefreshSoundSourceUpdateList(SoundSource *source) {
+void sfx_updateEmitterStatus(SoundSource *source) {
     PlayingSound *sound;
     u32 updateListIndex;
     u8 soundFlags;
@@ -71,36 +71,36 @@ void RefreshSoundSourceUpdateList(SoundSource *source) {
     }
     if (source->mUpdateListIndex != updateListIndex) {
         if (source->mUpdateListIndex != 3) {
-            RemoveListObject(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
+            list_remove(&data_0217d048[source->mUpdateListIndex], (u8 *) source);
             source->mUpdateListIndex = 3;
         }
         if (updateListIndex != 3) {
-            TryAppendListObject(&data_0217d048[updateListIndex], source);
+            list_append(&data_0217d048[updateListIndex], source);
             source->mUpdateListIndex = updateListIndex;
         }
     }
 }
 
-void func_0210bf24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
+void sfx_210BF24(u32 seqArcNo, u32 soundId, u32 positionSource, void *request) {
     PlayingSound *sound;
     NNSFndList *sourceList;
 
-    if (data_0217d084.mUnk_10 == 0) {
+    if (SoundHandle_217D084.mUnk_10 == 0) {
         return;
     }
-    sound = TakeSoundHandleEntry(&data_0217d034);
-    func_0210c084(sound, 0);
+    sound = sp_acquireElement(&sfx_sSfxPool);
+    sfx_stopSfxStandalone(sound, 0);
     sourceList = sound->mUnk_10;
     if (sourceList != NULL) {
-        RemoveListObject(sourceList, (u8 *) sound);
-        RefreshSoundSourceUpdateList((SoundSource *) (sourceList - 1));
+        list_remove(sourceList, (u8 *) sound);
+        sfx_updateEmitterStatus((SoundSource *) (sourceList - 1));
     }
-    ResetPlayingSound(sound);
+    sfx_initSfx(sound);
     func_0210bcf4(seqArcNo, soundId, positionSource, &sound->mSeqPlayer, request);
 }
 
 u32 func_0210bee8(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer **handle, void *request) {
-    if (data_0217d084.mUnk_10 == 0) {
+    if (SoundHandle_217D084.mUnk_10 == 0) {
         return seqArcNo;
     }
     return func_0210bcf4(seqArcNo, soundId, positionSource, handle, request);
@@ -116,10 +116,10 @@ u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer
 
     v = 0;
     runThisCall = v;
-    if (data_0217d084.mMode == 4) {
+    if (SoundHandle_217D084.mMode == 4) {
         return v;
     }
-    if (data_0217d084.mMode == 0) {
+    if (SoundHandle_217D084.mMode == 0) {
         return v;
     }
     if (*handle == NULL) {
@@ -148,8 +148,8 @@ u32 func_0210bcf4(u32 seqArcNo, u32 soundId, u32 positionSource, NNSSndSeqPlayer
         params.mPan = 0;
     } else {
         params.mDistance = data_0217d018(&params);
-        params.mUnk_1c = params.mVolume = data_0217d014(&params);
-        params.mPan = data_0217d01c(&params);
+        params.mUnk_1c = params.mVolume = sfx_sCalcVolumeFunc(&params);
+        params.mPan = sfx_sCalcPanFunc(&params);
     }
     if (params.mVolume <= 0) {
         if (*handle == NULL) {

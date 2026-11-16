@@ -9,10 +9,10 @@ extern u16 data_02153eb0[];
 extern u8 data_02153e98[];
 extern u8 data_02153ec0[];
 
-void func_020336ec(void *heap);
-void func_02033840(void *heap);
-void func_020338f8(void *heap);
-void func_02033a0c(void *heap);
-void func_02033ab8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d);
-void func_02033b80(s32 entryIndex);
-void func_02033c80(s32 entryIndex);
+void bres_initVSTeams(void *heap);
+void bres_initDraw(void *heap);
+void bres_initLose(void *heap);
+void bres_initVictory(void *heap);
+void bres_2033AB8(s32 cellFileSetIndex, s32 entryIndex, s32 cellIndex, s32 d);
+void bres_2033B80(s32 entryIndex);
+void bres_2033C80(s32 entryIndex);

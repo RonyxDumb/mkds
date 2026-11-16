@@ -12,7 +12,7 @@ typedef struct Bakubaku {
     /* 00 */ MapObject mUnk_00;
     /* a0 */ s32 mState4Timer;
     /* a4 */ Vec3 mUnk_a4;
-    /* State number of this kind's own per-frame switch in UpdateBakubaku; this object does not use
+    /* State number of this kind's own per-frame switch in baku_update; this object does not use
        MapObject.mUnk_80's state machine; also read by the draw (state 2 = drawn) */
     /* b0 */ u32 mState;
 } Bakubaku;
@@ -28,23 +28,23 @@ typedef struct MoveTree {
     /* ae */ u8 mUnk_ae[2];
     /* b0 */ s32 mNsbcaFrameStep;
     /* b4 */ GroupFollower mFollower;
-    /* State number of this kind's own per-frame switch in UpdateMoveTree; this object does not use
+    /* State number of this kind's own per-frame switch in mtree_update; this object does not use
        MapObject.mUnk_80's state machine */
     /* d8 */ u32 mState;
     /* dc */ ShadowMatrix mUnk_dc;
 } MoveTree;
 
-void CreateBakubakuUpdateList(void);
-void CreateBakubakuDrawList(void);
-void UpdateBakubaku(void *a, Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitBakubakuObjects(MapObjectList *mapObjectList);
-void DrawBakubaku(void *a, Bakubaku *bakubaku);
-void CreateBakubakuAndBakuShadow(void *a);
-void CreateMoveTreeUpdateList(void);
-void CreateMoveTreeDrawList(void);
-void CreateMoveTreeKindData(void);
-void UpdateMoveTree(void *a, MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitMoveTreeObjects(MapObjectList *mapObjectList);
-void DrawMoveTree(void *a, MoveTree *moveTree, u32 c, u32 d);
-void CreateMoveTree(void *a);
-u8 CollideKartWithMoveTree(MoveTree *moveTree, Kart *kart, u8 *c, u8 *d);
+void baku_setupLogicPart(void);
+void baku_setupRenderPart(void);
+void baku_update(void *a, Bakubaku *bakubaku); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void baku_globalLogicInit(MapObjectList *mapObjectList);
+void baku_render(void *a, Bakubaku *bakubaku);
+void baku_loadModels(void *a);
+void mtree_setupLogicPart(void);
+void mtree_setupRenderPart(void);
+void mtree_setupConfig(void);
+void mtree_update(void *a, MoveTree *moveTree); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void mtree_globalLogicInit(MapObjectList *mapObjectList);
+void mtree_render(void *a, MoveTree *moveTree, u32 c, u32 d);
+void mtree_loadModel(void *a);
+u8 mtree_onDriverCollide(MoveTree *moveTree, Kart *kart, u8 *c, u8 *d);

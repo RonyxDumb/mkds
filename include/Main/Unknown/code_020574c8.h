@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void WriteBackupFirstBlockAndWait(void);
-void ClearBackupBusy(void);
-void SetBackupBusy(void);
+void savd_writeNksyTask(void);
+void savd_endOperation(void);
+void savd_beginOperation(void);

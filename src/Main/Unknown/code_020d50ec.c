@@ -26,7 +26,7 @@
 #include "Main/Unknown/unk_02156000.h"
 #include "Main/Unknown/code_020d8654.h"
 
-// Calls StartEffectWithCallback twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
+// Calls ptcm_createEmitterNoUpdateSkip twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
 // 0 and bit 1 is set. Then resets the rock.
 void func_020d634c(RockObject *rock, s32 b) {
     EmitterParams firstEmitterParams;
@@ -72,18 +72,18 @@ void func_020d634c(RockObject *rock, s32 b) {
             secondEmitterParams.mUnk_06 = data_02156930[j] + (s32) (((s64) c * scaleY) >> 12);
             secondEmitterParams.mUnk_08 = data_02156938[j] + (s32) (((s64) d * scaleY) >> 12);
             if (rock->mMapObject.mKind == 0x192) {
-                StartEffectWithCallback(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
-                StartEffectWithCallback(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
+                ptcm_createEmitterNoUpdateSkip(0x54, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
+                ptcm_createEmitterNoUpdateSkip(0x57, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
             } else {
-                StartEffectWithCallback(0x56, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
-                StartEffectWithCallback(0x55, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
+                ptcm_createEmitterNoUpdateSkip(0x56, &rock->mMapObject.mPos, &firstEmitterParams, func_020d6538);
+                ptcm_createEmitterNoUpdateSkip(0x55, &rock->mMapObject.mPos, &secondEmitterParams, func_020d6538);
             }
         }
     }
     ResetRock(rock);
 }
 
-void UpdateRock(void *a, RockObject *rock) {
+void rock_update(void *a, RockObject *rock) {
     s32 oldBaseX;
     s32 oldBaseZ;
     s32 depthBelowBase;
@@ -105,8 +105,8 @@ void UpdateRock(void *a, RockObject *rock) {
     }
     oldBaseX = rock->mBasePos.x;
     oldBaseZ = rock->mBasePos.z;
-    AdvanceGroupFollowerWithSpeeds(&rock->mUnk_0a4);
-    GetGroupFollowerCurveXzLinearY(&rock->mUnk_0a4.mUnk_00, &rock->mBasePos);
+    pwex_update(&rock->mUnk_0a4);
+    pw_calcCurrentPointXZLinearY(&rock->mUnk_0a4.mUnk_00, &rock->mBasePos);
     rock->mMapObject.mUnk_10.x = rock->mBasePos.x - oldBaseX;
     rock->mMapObject.mUnk_10.z = rock->mBasePos.z - oldBaseZ;
     rock->mOffsetX += rock->mOffsetVelocityX;
@@ -148,7 +148,7 @@ void UpdateRock(void *a, RockObject *rock) {
         rock->mSinceGroundFrames += 1;
     }
     if (rock->mSinceGroundFrames < 10) {
-        StartMapObjectSoundWhileRequested(&rock->mMapObject, 0x179);
+        mobj_emitSfxFromEmitter(&rock->mMapObject, 0x179);
     }
     rock->mMapObject.mUnk_10.y = rock->mMapObject.mUnk_10.y - 0x400;
     rock->mMapObject.mPos.y = rock->mMapObject.mPos.y + rock->mMapObject.mUnk_10.y;
@@ -163,7 +163,7 @@ void UpdateRock(void *a, RockObject *rock) {
         rock->mBottomOffset = newBottomOffset;
         rock->mMapObject.mExtent.x = (newScale * 0x1b000) >> 12;
         if (rock->mMapObject.mCollisionSlotIndex >= 0) {
-            SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
+            col_setBoundingSphereRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
         }
         rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * newScale) >> 12;
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
@@ -176,15 +176,15 @@ void UpdateRock(void *a, RockObject *rock) {
 }
 
 // Calls func_020d634c with b = 1 when the byte at c is 1; returns the byte at d.
-u8 func_020d5f8c(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+u8 rock_onDriverCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
         func_020d634c(rock, 1);
     }
     return *secondResponsePtr;
 }
 
-// Same body as func_020d5f8c.
-u8 func_020d5f64(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
+// Same body as rock_onDriverCollide.
+u8 rock_onItemCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
         func_020d634c(rock, 1);
     }
@@ -198,8 +198,8 @@ void ResetRock(RockObject *rock) {
     s32 zero;
     Vec3 *scale;
 
-    SetupGroupFollowerWithSpeeds(&rock->mUnk_0a4, 0, 1);
-    GetGroupFollowerCurvePosStepXz(&rock->mUnk_0a4.mUnk_00, &rock->mMapObject.mPos, &rock->mMapObject.mUnk_10);
+    pwex_init(&rock->mUnk_0a4, 0, 1);
+    pw_20D8B18_XZ(&rock->mUnk_0a4.mUnk_00, &rock->mMapObject.mPos, &rock->mMapObject.mUnk_10);
     rock->mUnk_0e0 = rock->mUnk_0dc;
     if (rock->mUnk_0e0 != 0) {
         rock->mMapObject.mFlags |= data_0215691c;
@@ -227,44 +227,44 @@ void ResetRock(RockObject *rock) {
     rock->mBottomOffset = bottomOffset;
     rock->mMapObject.mExtent.x = (startScale * 0x1b000) >> 12;
     if (rock->mMapObject.mCollisionSlotIndex >= 0) {
-        SetCollisionSlotRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
+        col_setBoundingSphereRadius(rock->mMapObject.mCollisionSlotIndex, rock->mMapObject.mExtent.x);
     }
     rock->mMapObject.mViewRadius = ((s64) rock->mMapObject.mKindData->mUnk_2c * startScale) >> 12;
     rock->mBottomOffsetReciprocal = FX_GetDivResult();
 }
 
 #pragma thumb on
-void CreateNsbmdAndShadowNsbmd(void *a, const char *name, const char *shadowName) {
-    CreateNsbmd((void **) &gRock, FindCourseMapObjFile(name), NULL);
-    CreateShadowModel((void **) &gRockShadow, FindCourseMapObjFile(shadowName), 7);
-    func_02084968(gRock, 0x3f, 2, 0x294a);
-    SetNsbmdPolygonIdAll(gRock, 7);
+void rock_loadModels(void *a, const char *name, const char *shadowName) {
+    model2_createFromNsbmd((void **) &gRock, mobj_getMapObjFile(name), NULL);
+    model2_createShadowFromNsbmd((void **) &gRockShadow, mobj_getMapObjFile(shadowName), 7);
+    model_setPolyIdLightFlagsEmi(gRock, 0x3f, 2, 0x294a);
+    model_setPolygonId(gRock, 7);
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateRock(void *a) {
-    CreateNsbmdAndShadowNsbmd(a, "rock.nsbmd", "rock_shadow.nsbmd");
+void rock_loadRockModels(void *a) {
+    rock_loadModels(a, "rock.nsbmd", "rock_shadow.nsbmd");
 }
 #pragma thumb off
 
 #pragma thumb on
-void CreateRock2(void *a) {
-    CreateNsbmdAndShadowNsbmd(a, "rock2.nsbmd", "rock2_shadow.nsbmd");
+void rock_loadRock2Models(void *a) {
+    rock_loadModels(a, "rock2.nsbmd", "rock2_shadow.nsbmd");
 }
 #pragma thumb off
 
 #pragma thumb on
 // Fills a Rock from its course map row; both Rock kinds use it.
-void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
+void rock_init(RockObject *rock, struct CourseMapRow *courseRow) {
     CourseMapGroupEntry *startEntry;
     s32 rowValue;
     float scaledValue;
 
-    func_020d7d4c(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mUnk_2a);
+    pwex_initFromObject(&rock->mUnk_0a4, courseRow, 0x3000, courseRow->mUnk_2a);
     rock->mUnk_0dc = courseRow->mUnk_28;
     rock->mSideVectors = CreateCourseMapGroupSideVectors(courseRow);
-    startEntry = GetCourseMapGroupEntry(courseRow->mUnk_26, 0);
+    startEntry = mdat_getPathPoint(courseRow->mUnk_26, 0);
     rock->mStartY = startEntry->mPos.y;
     rock->mStartScale = rock->mMapObject.mScale.y;
     rowValue = courseRow->mUnk_2e;
@@ -294,9 +294,9 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
     }
     rock->mBounceRatio = (courseRow->mUnk_2c << 12) / 100;
     if (rock->mMapObject.mKind == 0x192) {
-        CreateMapObjectSoundSourceFalloff4(&rock->mMapObject);
+        mobj_initSoundEmitterForObjectSfxParam4(&rock->mMapObject);
     } else {
-        CreateMapObjectSoundSourceFalloff3(&rock->mMapObject);
+        mobj_initSoundEmitterForObjectSfxParam3(&rock->mMapObject);
     }
     rock->mMapObject.mFlags |= data_02156918;
 }
@@ -304,19 +304,19 @@ void InitRock(RockObject *rock, struct CourseMapRow *courseRow) {
 
 #pragma thumb on
 // Turns the stored offsets of the loaded collision file into pointers.
-void LoadCourseCollisionData(CourseCollision *collision, CourseCollision *file) {
+void col_initFromKcl(CourseCollision *collision, CourseCollision *file) {
     *collision = *file;
     collision->mUnk_00 = OFFSET_PTR(Vec3, file, (u32) collision->mUnk_00);
     collision->mUnk_04 = OFFSET_PTR(Vec3s16, file, (u32) collision->mUnk_04);
     collision->mUnk_08 = OFFSET_PTR(Unk0217b614_08, file, (u32) collision->mUnk_08);
     collision->mUnk_0c = OFFSET_PTR(u8, file, (u32) collision->mUnk_0c);
-    data_0217b610 = 0;
+    gUsesDynamicCollision = 0;
 }
 #pragma thumb off
 
 #pragma thumb on
-void InitCourseCollision(void) {
-    LoadCourseCollisionData(&gCourseCollision, FindCourseFile("course_collision.kcl"));
+void col_loadCourseCollision(void) {
+    col_initFromKcl(&gKCollisionData, arc_getCourseArcFile("course_collision.kcl"));
 }
 #pragma thumb off
 
@@ -366,7 +366,7 @@ BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link) {
 }
 
 // Returns the value of the recorded hit with the highest bits inside the mask a.
-u16 PickCollisionHitValue(u32 mask) {
+u16 col_findResponsePrismAttribute(u32 mask) {
     s32 i;
     s32 bestIndex;
     u32 maskedBits;
@@ -375,10 +375,10 @@ u16 PickCollisionHitValue(u32 mask) {
 
     bestIndex = -1;
     i = 0;
-    hitCount = gCollisionHitCount;
+    hitCount = col_sColResponseCount;
     if (hitCount > 0) {
         do {
-            maskedBits = mask & gCollisionHitBits[i];
+            maskedBits = mask & col_sColResponseColFlags[i];
             if (maskedBits != 0) {
                 if (bestIndex < 0 || maskedBits > bestBits) {
                     bestIndex = i;
@@ -388,38 +388,38 @@ u16 PickCollisionHitValue(u32 mask) {
             i++;
         } while (i < hitCount);
     }
-    return gCollisionHitValues[bestIndex];
+    return col_sColResponsePrismAttributes[bestIndex];
 }
 
-void InitCollisionSlots(void) {
+void col_init(void) {
     void *heap;
     s16 i;
     s16 j;
 
-    heap = GetHeap(GetCurrentHeapCall());
-    gCollisionSlotCount = 0;
-    gFirstFreeCollisionSlot = 0;
-    gCollisionSlotHighEnds = HeapAlloc(heap, 0x400);
-    gCollisionSlotLowEnds = HeapAlloc(heap, 0x400);
-    gCollisionSlots = HeapAlloc(heap, 0x1c00);
-    gCollisionSlotNextFree = HeapAlloc(heap, 0x200);
-    gFoundCollisionSlotIndices = HeapAlloc(heap, 0x100);
-    gFoundCollisionSlotFlags = HeapAlloc(heap, 0x100);
-    gFoundCollisionSlotObjects = HeapAlloc(heap, 0x200);
+    heap = proc_getHeap(proc_getCurrent());
+    col_sEntryCount = 0;
+    col_sCurAllocIdx = 0;
+    col_sSegRightEndpoints = heap_alloc(heap, 0x400);
+    col_sSegLeftEndpoints = heap_alloc(heap, 0x400);
+    col_sColEntries = heap_alloc(heap, 0x1c00);
+    col_sAllocTable = heap_alloc(heap, 0x200);
+    gColQueryResultEntryIds = heap_alloc(heap, 0x100);
+    gColQueryResultFlags = heap_alloc(heap, 0x100);
+    gColQueryResultObjects = heap_alloc(heap, 0x200);
     i = 0;
     do {
-        gCollisionSlotNextFree[i] = i + 1;
+        col_sAllocTable[i] = i + 1;
         i++;
     } while (i < 0x100);
     j = 0;
     do {
-        gCollisionSlots[j].mCenterPos = NULL;
+        col_sColEntries[j].mCenterPos = NULL;
         j++;
     } while (j < 0x100);
 }
 
 // Returns the new slot index, or -1 when all 0x100 slots are in use.
-s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
+s32 col_createColEntry(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlot *slot;
     s16 hi;
     s16 lo;
@@ -433,12 +433,12 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     CollisionSlotEnd *endEntry;
     CollisionSlotEnd *otherEnd;
 
-    if (gCollisionSlotCount >= 0x100) {
+    if (col_sEntryCount >= 0x100) {
         return -1;
     }
-    slotIndex = gFirstFreeCollisionSlot;
-    gFirstFreeCollisionSlot = gCollisionSlotNextFree[slotIndex];
-    slot = &gCollisionSlots[slotIndex];
+    slotIndex = col_sCurAllocIdx;
+    col_sCurAllocIdx = col_sAllocTable[slotIndex];
+    slot = &col_sColEntries[slotIndex];
     slot->mHighZ = centerPos->z + radius;
     slot->mLowZ = centerPos->z - radius;
     slot->mCenterPos = centerPos;
@@ -447,32 +447,32 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     slot->mObject = object;
     hi = (centerPos->x + radius) >> 11;
     lo = (centerPos->x - radius) >> 11;
-    if (gCollisionSlotCount == 0) {
-        gCollisionSlotHighEnds[0].mOtherEndIndex = 0;
-        gCollisionSlotHighEnds[0].mUnk_01 = 0;
-        gCollisionSlotHighEnds[0].mEndX = hi;
-        gCollisionSlotLowEnds[0].mOtherEndIndex = 0;
-        gCollisionSlotLowEnds[0].mUnk_01 = slotIndex;
-        gCollisionSlotLowEnds[0].mEndX = lo;
-        gCollisionSlots[0].mHighEndIndex = 0;
-        gCollisionSlots[0].mLowEndIndex = 0;
-        gCollisionSlotCount = 1;
+    if (col_sEntryCount == 0) {
+        col_sSegRightEndpoints[0].mOtherEndIndex = 0;
+        col_sSegRightEndpoints[0].mUnk_01 = 0;
+        col_sSegRightEndpoints[0].mEndX = hi;
+        col_sSegLeftEndpoints[0].mOtherEndIndex = 0;
+        col_sSegLeftEndpoints[0].mUnk_01 = slotIndex;
+        col_sSegLeftEndpoints[0].mEndX = lo;
+        col_sColEntries[0].mHighEndIndex = 0;
+        col_sColEntries[0].mLowEndIndex = 0;
+        col_sEntryCount = 1;
         return slotIndex;
     }
     highPosition = 0;
     lowPosition = 0;
-    searchStep = gCollisionSlotCount;
-    m = gCollisionSlotCount;
+    searchStep = col_sEntryCount;
+    m = col_sEntryCount;
     for (;;) {
         highProbe = highPosition + searchStep;
         j = lowPosition + searchStep;
         if (highProbe <= m) {
-            if (hi > gCollisionSlotHighEnds[highProbe - 1].mEndX) {
+            if (hi > col_sSegRightEndpoints[highProbe - 1].mEndX) {
                 highPosition = highProbe;
             }
         }
         if (j <= m) {
-            if (lo > gCollisionSlotLowEnds[j - 1].mEndX) {
+            if (lo > col_sSegLeftEndpoints[j - 1].mEndX) {
                 lowPosition = j;
             }
         }
@@ -483,49 +483,49 @@ s32 CreateCollisionSlot(Vec3 *centerPos, s32 radius, s32 flags, void *object) {
     }
     slot->mHighEndIndex = highPosition;
     slot->mLowEndIndex = lowPosition;
-    m = gCollisionSlotCount;
+    m = col_sEntryCount;
     if (m > highPosition) {
         do {
-            endEntry = &gCollisionSlotHighEnds[m];
-            *endEntry = gCollisionSlotHighEnds[m - 1];
-            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            endEntry = &col_sSegRightEndpoints[m];
+            *endEntry = col_sSegRightEndpoints[m - 1];
+            otherEnd = &col_sSegLeftEndpoints[endEntry->mOtherEndIndex];
             otherEnd->mOtherEndIndex += 1;
-            gCollisionSlots[otherEnd->mUnk_01].mHighEndIndex += 1;
+            col_sColEntries[otherEnd->mUnk_01].mHighEndIndex += 1;
             m--;
             if (endEntry->mUnk_01 >= lowPosition) {
                 endEntry->mUnk_01 += 1;
             }
         } while (m > highPosition);
     }
-    gCollisionSlotHighEnds[highPosition].mOtherEndIndex = lowPosition;
-    gCollisionSlotHighEnds[highPosition].mEndX = hi;
-    if (highPosition == gCollisionSlotCount || gCollisionSlotHighEnds[highPosition + 1].mUnk_01 > lowPosition) {
-        gCollisionSlotHighEnds[highPosition].mUnk_01 = lowPosition;
-        for (j = highPosition - 1; j >= 0 && gCollisionSlotHighEnds[j].mUnk_01 > lowPosition; j--) {
-            gCollisionSlotHighEnds[j].mUnk_01 = lowPosition;
+    col_sSegRightEndpoints[highPosition].mOtherEndIndex = lowPosition;
+    col_sSegRightEndpoints[highPosition].mEndX = hi;
+    if (highPosition == col_sEntryCount || col_sSegRightEndpoints[highPosition + 1].mUnk_01 > lowPosition) {
+        col_sSegRightEndpoints[highPosition].mUnk_01 = lowPosition;
+        for (j = highPosition - 1; j >= 0 && col_sSegRightEndpoints[j].mUnk_01 > lowPosition; j--) {
+            col_sSegRightEndpoints[j].mUnk_01 = lowPosition;
         }
     } else {
-        gCollisionSlotHighEnds[highPosition].mUnk_01 = gCollisionSlotHighEnds[highPosition + 1].mUnk_01;
+        col_sSegRightEndpoints[highPosition].mUnk_01 = col_sSegRightEndpoints[highPosition + 1].mUnk_01;
     }
-    m = gCollisionSlotCount;
+    m = col_sEntryCount;
     if (m > lowPosition) {
         do {
-            endEntry = &gCollisionSlotLowEnds[m];
-            *endEntry = gCollisionSlotLowEnds[m - 1];
-            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex += 1;
-            gCollisionSlots[endEntry->mUnk_01].mLowEndIndex += 1;
+            endEntry = &col_sSegLeftEndpoints[m];
+            *endEntry = col_sSegLeftEndpoints[m - 1];
+            col_sSegRightEndpoints[endEntry->mOtherEndIndex].mOtherEndIndex += 1;
+            col_sColEntries[endEntry->mUnk_01].mLowEndIndex += 1;
             m--;
         } while (m > lowPosition);
     }
-    gCollisionSlotLowEnds[lowPosition].mOtherEndIndex = highPosition;
-    gCollisionSlotLowEnds[lowPosition].mUnk_01 = slotIndex;
-    gCollisionSlotLowEnds[lowPosition].mEndX = lo;
-    gCollisionSlotCount += 1;
+    col_sSegLeftEndpoints[lowPosition].mOtherEndIndex = highPosition;
+    col_sSegLeftEndpoints[lowPosition].mUnk_01 = slotIndex;
+    col_sSegLeftEndpoints[lowPosition].mEndX = lo;
+    col_sEntryCount += 1;
     return slotIndex;
 }
 
 // Always returns -1, which the caller stores as its slot index.
-u32 FreeCollisionSlot(s32 slotIndex) {
+u32 col_deleteColEntry(s32 slotIndex) {
     CollisionSlot *slot;
     s32 highIndex;
     s32 lowIndex;
@@ -538,57 +538,57 @@ u32 FreeCollisionSlot(s32 slotIndex) {
     if (slotIndex < 0 || slotIndex >= 0x100) {
         return -1;
     }
-    slot = &gCollisionSlots[slotIndex];
+    slot = &col_sColEntries[slotIndex];
     highIndex = slot->mHighEndIndex;
     lowIndex = slot->mLowEndIndex;
     if (slot->mCenterPos == NULL) {
         return -1;
     }
     k = highIndex;
-    if (k < gCollisionSlotCount - 1) {
+    if (k < col_sEntryCount - 1) {
         do {
-            endEntry = &gCollisionSlotHighEnds[k];
-            *endEntry = gCollisionSlotHighEnds[k + 1];
-            otherEnd = &gCollisionSlotLowEnds[endEntry->mOtherEndIndex];
+            endEntry = &col_sSegRightEndpoints[k];
+            *endEntry = col_sSegRightEndpoints[k + 1];
+            otherEnd = &col_sSegLeftEndpoints[endEntry->mOtherEndIndex];
             otherEnd->mOtherEndIndex -= 1;
-            gCollisionSlots[otherEnd->mUnk_01].mHighEndIndex -= 1;
+            col_sColEntries[otherEnd->mUnk_01].mHighEndIndex -= 1;
             if (endEntry->mUnk_01 > lowIndex) {
                 endEntry->mUnk_01 -= 1;
             }
             k++;
-        } while (k < gCollisionSlotCount - 1);
+        } while (k < col_sEntryCount - 1);
     }
     k = lowIndex;
-    if (k < gCollisionSlotCount - 1) {
+    if (k < col_sEntryCount - 1) {
         do {
-            endEntry = &gCollisionSlotLowEnds[k];
-            *endEntry = gCollisionSlotLowEnds[k + 1];
-            gCollisionSlotHighEnds[endEntry->mOtherEndIndex].mOtherEndIndex -= 1;
-            gCollisionSlots[endEntry->mUnk_01].mLowEndIndex -= 1;
+            endEntry = &col_sSegLeftEndpoints[k];
+            *endEntry = col_sSegLeftEndpoints[k + 1];
+            col_sSegRightEndpoints[endEntry->mOtherEndIndex].mOtherEndIndex -= 1;
+            col_sColEntries[endEntry->mUnk_01].mLowEndIndex -= 1;
             otherIndex = endEntry->mOtherEndIndex;
             if (otherIndex < highIndex) {
-                otherEnd = &gCollisionSlotHighEnds[otherIndex];
+                otherEnd = &col_sSegRightEndpoints[otherIndex];
                 j = otherEnd->mUnk_01;
                 if (j == lowIndex) {
-                    while (gCollisionSlotLowEnds[j].mOtherEndIndex < (u32) otherIndex) {
+                    while (col_sSegLeftEndpoints[j].mOtherEndIndex < (u32) otherIndex) {
                         j++;
                     }
                     otherEnd->mUnk_01 = j;
                 }
             }
             k++;
-        } while (k < gCollisionSlotCount - 1);
+        } while (k < col_sEntryCount - 1);
     }
     slot->mCenterPos = NULL;
-    gCollisionSlotNextFree[slotIndex] = gFirstFreeCollisionSlot;
-    gFirstFreeCollisionSlot = slotIndex;
-    gCollisionSlotCount -= 1;
+    col_sAllocTable[slotIndex] = col_sCurAllocIdx;
+    col_sCurAllocIdx = slotIndex;
+    col_sEntryCount -= 1;
     return -1;
 }
 
 // Fills the Found arrays with the slots whose x and z ranges lie within b of position a, whose flags share a bit with
 // mask c and that are not disabled.
-void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
+void col_queryBySphere(Vec3 *position, s32 radius, s32 flagMask) {
     Vec3 *centerPos = position;
     s32 hi;
     s32 lo;
@@ -604,13 +604,13 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
     CollisionSlot *slot;
     s32 slotFlags;
 
-    slotCount = gCollisionSlotCount;
+    slotCount = col_sEntryCount;
     k = centerPos->x;
     centerZ = centerPos->z;
     hi = (s16) ((k + radius) >> 11);
     lo = (s16) ((k - radius) >> 11);
     p = 0;
-    gFoundCollisionSlotCount = 0;
+    gColQueryResultCount = 0;
     k = 0;
     zhi = centerZ + radius;
     zlo = centerZ - radius;
@@ -619,12 +619,12 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
         t = p + searchStep;
         j = k + searchStep;
         if (t <= slotCount) {
-            if (lo > gCollisionSlotHighEnds[t - 1].mEndX) {
+            if (lo > col_sSegRightEndpoints[t - 1].mEndX) {
                 p = t;
             }
         }
         if (j <= slotCount) {
-            if (hi >= gCollisionSlotLowEnds[j].mEndX) {
+            if (hi >= col_sSegLeftEndpoints[j].mEndX) {
                 k = j;
             }
         }
@@ -633,20 +633,20 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
         }
         searchStep = (searchStep + 1) >> 1;
     }
-    searchStep = gCollisionSlotHighEnds[p].mUnk_01;
+    searchStep = col_sSegRightEndpoints[p].mUnk_01;
     if (k < searchStep) {
         return;
     }
     do {
-        if (gCollisionSlotLowEnds[k].mOtherEndIndex >= p) {
-            slot = &gCollisionSlots[gCollisionSlotLowEnds[k].mUnk_01];
+        if (col_sSegLeftEndpoints[k].mOtherEndIndex >= p) {
+            slot = &col_sColEntries[col_sSegLeftEndpoints[k].mUnk_01];
             slotFlags = slot->mFlags;
             if (slot->mHighZ >= zlo && slot->mLowZ <= zhi && (slotFlags & flagMask) && !(slotFlags & 0x200)) {
-                gFoundCollisionSlotIndices[gFoundCollisionSlotCount] = gCollisionSlotLowEnds[k].mUnk_01;
-                gFoundCollisionSlotFlags[gFoundCollisionSlotCount] = slotFlags;
-                gFoundCollisionSlotObjects[gFoundCollisionSlotCount] = slot->mObject;
-                gFoundCollisionSlotCount++;
-                if (gFoundCollisionSlotCount == 0x80) {
+                gColQueryResultEntryIds[gColQueryResultCount] = col_sSegLeftEndpoints[k].mUnk_01;
+                gColQueryResultFlags[gColQueryResultCount] = slotFlags;
+                gColQueryResultObjects[gColQueryResultCount] = slot->mObject;
+                gColQueryResultCount++;
+                if (gColQueryResultCount == 0x80) {
                     return;
                 }
             } else {
@@ -660,20 +660,20 @@ void FindCollisionSlotsAroundPos(Vec3 *position, s32 radius, s32 flagMask) {
 }
 
 // A slot with flag 0x400 also gets the flags of data_02156900 set.
-void SetCollisionSlotRadius(s16 slotIndex, s32 radius) {
+void col_setBoundingSphereRadius(s16 slotIndex, s32 radius) {
     CollisionSlot *slot;
 
-    slot = &gCollisionSlots[slotIndex];
+    slot = &col_sColEntries[slotIndex];
     slot->mRadius = radius;
     if (slot->mFlags & 0x400) {
         slot->mFlags |= data_02156900;
     }
 }
 
-void DisableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags |= data_021568fc;
+void col_disableColEntry(s16 slotIndex) {
+    col_sColEntries[slotIndex].mFlags |= data_021568fc;
 }
 
-void EnableCollisionSlot(s16 slotIndex) {
-    gCollisionSlots[slotIndex].mFlags &= ~0x200;
+void col_enableColEntry(s16 slotIndex) {
+    col_sColEntries[slotIndex].mFlags &= ~0x200;
 }

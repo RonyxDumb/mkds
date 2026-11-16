@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-void *FindCourseFileWrapper(const char *path);
-void *FindSceneFileWrapper(const char *name);
-void *FindFileInLoadedArchivesWrapper(const char *name);
+void *m2d_getCourseArcFile(const char *path);
+void *m2d_getSceneArcFile(const char *name);
+void *m2d_get2dArcFile(const char *name);

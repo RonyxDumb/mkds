@@ -24,14 +24,14 @@ void SetNextGrandPrixEntries(void) {
     if (a <= b) {
         b++;
     }
-    SetGivenCharacterAndKart(data_0217b43c->mUnk_954, 0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex,
-                             GetRaceSetupCopy()->mEntries[0].mKartIndex);
-    PickRandomCharactersAndKarts(data_0217b43c->mUnk_954);
-    SetNextRaceEntry(0, GetRaceSetupCopy()->mEntries[0].mCharacterIndex, GetRaceSetupCopy()->mEntries[0].mKartIndex, 0,
+    SetGivenCharacterAndKart(gMenuSceneState->mUnk_954, 0, menu_getRaceConfig()->mEntries[0].mCharacterIndex,
+                             menu_getRaceConfig()->mEntries[0].mKartIndex);
+    PickRandomCharactersAndKarts(gMenuSceneState->mUnk_954);
+    rconf_setDriverConfigNext(0, menu_getRaceConfig()->mEntries[0].mCharacterIndex, menu_getRaceConfig()->mEntries[0].mKartIndex, 0,
                      -1, 3);
     for (i = 1; i < 8; i++) {
-        GetEntryCharacterAndKart(data_0217b43c->mUnk_954, i, &characterIndex, &kartIndex);
-        SetNextRaceEntry(i, characterIndex, kartIndex, 1, -1, i == a ? 0 : i == b ? 1 : 3);
+        GetEntryCharacterAndKart(gMenuSceneState->mUnk_954, i, &characterIndex, &kartIndex);
+        rconf_setDriverConfigNext(i, characterIndex, kartIndex, 1, -1, i == a ? 0 : i == b ? 1 : 3);
     }
 }
 #pragma thumb off
@@ -42,9 +42,9 @@ void SetNextTimeAttackEntries(void) {
     u8 entryIndex;
     RaceSetupCopy *setupCopy;
     RaceSetupCopy *setupCopyForKart;
-    setupCopy = GetRaceSetupCopy();
-    setupCopyForKart = GetRaceSetupCopy();
-    SetNextRaceEntry(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex, 0, 0xffffffff,
+    setupCopy = menu_getRaceConfig();
+    setupCopyForKart = menu_getRaceConfig();
+    rconf_setDriverConfigNext(0, setupCopy->mEntries[0].mCharacterIndex, setupCopyForKart->mEntries[0].mKartIndex, 0, 0xffffffff,
                      3);
     entryIndex = 1;
     do {
@@ -56,5 +56,5 @@ void SetNextTimeAttackEntries(void) {
 #pragma thumb off
 
 void SetNextRaceEntryNone(u32 entryIndex) {
-    SetNextRaceEntry(entryIndex, 0xffffffff, 0xffffffff, 4, 0xffffffff, 3);
+    rconf_setDriverConfigNext(entryIndex, 0xffffffff, 0xffffffff, 4, 0xffffffff, 3);
 }

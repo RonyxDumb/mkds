@@ -84,19 +84,19 @@ Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {
     CourseMapGroupEntry *startEntry;
     s32 savedZ;
     groupIndex = row->mUnk_26;
-    entryCount = gCourseMap->mEntryGroups[groupIndex].mEntryCount;
-    sideVectors = HeapAlloc(GetHeap(GetCurrentHeapCall()), entryCount * 12);
+    entryCount = gMapData->mEntryGroups[groupIndex].mEntryCount;
+    sideVectors = heap_alloc(proc_getHeap(proc_getCurrent()), entryCount * 12);
     for (entryIndex = 0; entryIndex < entryCount; entryIndex++) {
         if (entryIndex == entryCount - 1) {
-            if (*(u8 *) ((u32) gCourseMap->mEntryGroups + groupIndex * 4 + 1) == 0) {
+            if (*(u8 *) ((u32) gMapData->mEntryGroups + groupIndex * 4 + 1) == 0) {
                 continue;
             }
-            endEntry = GetCourseMapGroupEntry(groupIndex, 0);
-            startEntry = GetCourseMapGroupEntry(groupIndex, entryCount - 1);
+            endEntry = mdat_getPathPoint(groupIndex, 0);
+            startEntry = mdat_getPathPoint(groupIndex, entryCount - 1);
             VEC_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
         } else {
-            endEntry = GetCourseMapGroupEntry(groupIndex, entryIndex + 1);
-            startEntry = GetCourseMapGroupEntry(groupIndex, entryIndex);
+            endEntry = mdat_getPathPoint(groupIndex, entryIndex + 1);
+            startEntry = mdat_getPathPoint(groupIndex, entryIndex);
             VEC_Subtract(&endEntry->mPos, &startEntry->mPos, &direction);
         }
         savedZ = direction.z;
@@ -104,7 +104,7 @@ Vec3 *CreateCourseMapGroupSideVectors(CourseMapRow *row) {
         direction.y = 0;
         direction.x = savedZ;
         direction.y = 0;
-        Vec3NormalizeAndGetLengthUnchecked(&direction, &sideVectors[entryIndex]);
+        vec_normalize(&direction, &sideVectors[entryIndex]);
     }
     return sideVectors;
 }

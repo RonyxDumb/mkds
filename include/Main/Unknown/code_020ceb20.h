@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteBattleStageScreenRegisters(void);
+void menu_state17Vblank(void);

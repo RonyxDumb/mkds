@@ -14,48 +14,48 @@
 #include "Main/Unknown/unk_0217d068.h"
 #include "Main/Unknown/code_0210d960.h"
 
-void func_0210d990(u32 flag) {
-    data_0217d064 = flag;
+void sound_setIsSdatLoaded(u32 flag) {
+    sSdatFileLoaded = flag;
 }
 
-u32 func_0210d980(void) {
-    return data_0217d064;
+u32 sound_getIsSdatLoaded(void) {
+    return sSdatFileLoaded;
 }
 
-void SetSoundFadeSteps(u32 fadeSteps) {
-    gSoundFadeSteps = fadeSteps;
+void sound_setFadeFrameCount(u32 fadeSteps) {
+    sFadeFrameCount = fadeSteps;
 }
 
-u32 GetSoundFadeSteps(void) {
-    return gSoundFadeSteps;
+u32 sound_getFadeFrameCount(void) {
+    return sFadeFrameCount;
 }
 
 void func_0210d894(void *heapMemory, u32 heapSize, const u8 *filePath) {
     NNS_SndInit();
-    data_0217d130 = NNS_SndHeapCreate(heapMemory, heapSize);
-    data_0217d06c = NNS_SndHeapAlloc(data_0217d130, 0x1020, func_0210d890, NULL, 0);
+    gSndHeapHandle = NNS_SndHeapCreate(heapMemory, heapSize);
+    sOutputEffectBuffer = NNS_SndHeapAlloc(gSndHeapHandle, 0x1020, outputEffectBufferDisposeCallback, NULL, 0);
     if (filePath != NULL) {
-        NNS_SndArcInit(&data_0217d0a0, filePath, data_0217d130, 0);
-        data_0217d064 = 1;
-        NNS_SndArcPlayerSetup(data_0217d130);
+        NNS_SndArcInit(&gSdatFileSndArc, filePath, gSndHeapHandle, 0);
+        sSdatFileLoaded = 1;
+        NNS_SndArcPlayerSetup(gSndHeapHandle);
     }
     NNS_SndHandleInit(&data_0217d068);
-    SetupSoundMode(&data_0217d084, &data_0217d070, 0);
+    SetupSoundMode(&SoundHandle_217D084, &data_0217d070, 0);
 }
 
-void func_0210d890(void *memory, u32 size, void *data1, u32 data2) {}
+void outputEffectBufferDisposeCallback(void *memory, u32 size, void *data1, u32 data2) {}
 
-void StartSoundOutputEffect(u32 type) {
-    NNS_SndCaptureStartOutputEffect((void *) (((u32) data_0217d06c + 0x1f) & ~0x1f), 0x1000, type);
-    gSoundOutputEffectType = type;
+void sound_startOutputEffect(u32 type) {
+    NNS_SndCaptureStartOutputEffect((void *) (((u32) sOutputEffectBuffer + 0x1f) & ~0x1f), 0x1000, type);
+    sCurOutputEffect = type;
 }
 
-void ChangeSoundOutputEffect(s32 type) {
+void sound_changeOutputEffect(s32 type) {
     NNS_SndCaptureChangeOutputEffect(type);
-    gSoundOutputEffectType = type;
+    sCurOutputEffect = type;
 }
 
-void StartSeqAtVolume(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
+void sound_startSeq(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
     if (*handle != NULL) {
         NNS_SndPlayerStopSeq(handle, 0);
     }
@@ -72,7 +72,7 @@ void func_0210d7ac(void) {
 }
 
 void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
-    SetupSoundMode(&data_0217d084, scenePlayers, 0);
+    SetupSoundMode(&SoundHandle_217D084, scenePlayers, 0);
     *(Unk021073ec *) &scenePlayers->mUnk_09 = d;
     scenePlayers->mUnk_04 = sceneSoundState;
     scenePlayers->mUnk_08 = c;

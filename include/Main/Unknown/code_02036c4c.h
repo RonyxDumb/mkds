@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *CreateExpHeapOverBlock(void *start, u32 size);
+void *heap_create(void *start, u32 size);

@@ -55,16 +55,16 @@
 #include "01/code_0218155c.h"
 
 const Unk021594e4 data_021594e4 = {
-    0, 0, (u32) &ClearWoodbox1Pointer, 0, (u32) &AdvanceWoodbox1, 0, 0, 0, 0, 0,
+    0, 0, (u32) &wbox_globalLogicInit, 0, (u32) &wbox_update, 0, 0, 0, 0, 0,
 };
 
 const Woodbox1DrawList data_0215950c = {
-    0, 0, (u32) &CreateWoodbox1, 0, (u32) &DrawWoodbox1, 0, 1, 0, 0, 0, 0,
+    0, 0, (u32) &wbox_loadModel, 0, (u32) &wbox_render, 0, 1, 0, 0, 0, 0,
 };
 
-const Unk02159538 data_02159538 = {
-    (u32) &CollideKartWithWoodbox1,
-    (u32) &CollideItemObjectWithWoodbox1,
+const Unk02159538 wbox_sCollisionInfo = {
+    (u32) &wbox_onDriverCollide,
+    (u32) &wbox_onItemCollide,
     4,
     0xa000,
     0xa000,
@@ -81,55 +81,55 @@ const Unk02159538 data_02159538 = {
     0,
 };
 
-BOOL func_020ec450(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
+BOOL rdmo_onDriverCollide(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
-    SetPushedMotionFromKart(mapObject, other);
+    rdmo_20EC6E4(mapObject, other);
     mapObject->mUnk_00.mStateMachine.mNextState = 1;
     mapObject->mUnk_00.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
 
-BOOL func_020ec41c(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
+BOOL rdmo_onItemCollide(Unk020e43a8 *mapObject, void *other, u8 *firstResponse) {
     if (*firstResponse != 1) {
         return FALSE;
     }
-    SetPushedMotionFromItemObject(mapObject, other);
+    rdmo_20EC538(mapObject, other);
     mapObject->mUnk_00.mStateMachine.mNextState = 1;
     mapObject->mUnk_00.mStateMachine.mNextStateRequested = 1;
     return TRUE;
 }
 
-Unk02159538 *CreateWoodbox1KindData(void) {
+Unk02159538 *wbox_setupCollision(void) {
     Unk02159538 *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_02159538;
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
+    *kindData = wbox_sCollisionInfo;
     return kindData;
 }
 
-Woodbox1DrawList *CreateWoodbox1DrawList(void) {
+Woodbox1DrawList *wbox_setupRenderPart(void) {
     Woodbox1DrawList *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
     data_0217bbec = drawList;
     *drawList = data_0215950c;
-    func_020d49d8(&data_0217bbec);
+    mobj_renderPartSetThisPointer(&data_0217bbec);
     return data_0217bbec;
 }
 
-Unk021594e4 *CreateWoodbox1UpdateList(void) {
+Unk021594e4 *wbox_setupLogicPart(void) {
     Unk021594e4 *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217bbf4 = updateList;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    wbox_sLogicPart = updateList;
     *updateList = data_021594e4;
-    SetUpdateListSlot(&data_0217bbf4);
-    return data_0217bbf4;
+    mobj_logicPartSetThisPointer(&wbox_sLogicPart);
+    return wbox_sLogicPart;
 }
 
-void DrawWoodbox1(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha) {
+void wbox_render(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha) {
     u16 state;
     s32 t;
     Vec3 shadowPos;
@@ -138,7 +138,7 @@ void DrawWoodbox1(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha) {
     woodbox->mUnk_00.mMatrix.mUnk_00[3].x = woodbox->mUnk_00.mPos.x >> 4;
     woodbox->mUnk_00.mMatrix.mUnk_00[3].y = woodbox->mUnk_00.mPos.y >> 4;
     woodbox->mUnk_00.mMatrix.mUnk_00[3].z = woodbox->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gWoodbox1, &woodbox->mUnk_00.mMatrix, &woodbox->mUnk_00.mScale, maxAlpha);
+    model2_renderModel(wbox_sModel, &woodbox->mUnk_00.mMatrix, &woodbox->mUnk_00.mScale, maxAlpha);
     if (state == 0) {
         return;
     }
@@ -148,19 +148,19 @@ void DrawWoodbox1(void *a, Unk020e43a8 *woodbox, void *c, u32 maxAlpha) {
     shadowPos.y = woodbox->mUnk_0b4 - (s32) (((s64) woodbox->mUnk_0bc * woodbox->mUnk_cc) >> 12) -
                   (s32) (((s64) woodbox->mUnk_0c4 * woodbox->mUnk_d4) >> 12);
     VEC_MultAdd(-woodbox->mUnk_00.mExtent.x, (const Vec3 *) &woodbox->mUnk_0bc, &shadowPos, &shadowPos);
-    SetShadowPositionRaised((ShadowMatrix *) &woodbox->mUnk_114, &shadowPos);
-    func_020e53ac((ShadowMatrix *) &woodbox->mUnk_114, &t, 0, maxAlpha);
+    oshd_setPosition((ShadowMatrix *) &woodbox->mUnk_114, &shadowPos);
+    oshd_renderMat((ShadowMatrix *) &woodbox->mUnk_114, &t, 0, maxAlpha);
 }
 
-void AdvanceWoodbox1(u32 unused, u32 woodbox) {
+void wbox_update(u32 unused, u32 woodbox) {
     u32 stateMachineAddress;
     u32 woodboxAddress = woodbox;
     u32 value12;
     stateMachineAddress = (woodboxAddress) + (0x80u);
-    AdvanceStateMachine((void *) stateMachineAddress);
+    sm_execute((void *) stateMachineAddress);
 }
 
-void EnterWoodbox1State0(Unk020ec194 *woodbox) {
+void wbox_state0Init(Unk020ec194 *woodbox) {
     Vec3 rotation;
     Vec3 *velocity;
 
@@ -169,12 +169,12 @@ void EnterWoodbox1State0(Unk020ec194 *woodbox) {
     velocity->y = 0;
     velocity->z = 0;
     woodbox->mUnk_004 = woodbox->mUnk_0b0;
-    QuaternionFromVec3AndAngleAroundY(&woodbox->mUnk_0bc, woodbox->mUnk_0c8, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_028, &rotation);
+    qrtn_20D7A3C(&woodbox->mUnk_0bc, woodbox->mUnk_0c8, &rotation);
+    qtrn_toMtx33(&woodbox->mUnk_028, &rotation);
 }
 
 // With a chance given by the box, starts one item object that moves off with the given velocity.
-void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
+void wbox_trySpawnItem(Woodbox1 *woodbox, Vec3 *velocity) {
     s32 spawnDistance;
     Vec3 direction;
     Vec3 sideDirection;
@@ -182,14 +182,14 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     ItemObject *itemObject;
     s32 itemIndex;
 
-    if (gRaceSetup->mMode == MODE_MISSION_RUN) {
-        func_ov001_0218175c(woodbox->mUnk_000.mKind);
+    if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
+        mrcnt_notifyMObjDamage(woodbox->mUnk_000.mKind);
     }
     woodbox->mUnk_000.mFlags |= data_021594d8;
-    if (gRaceSetup->mMode == 5) {
+    if (gRaceMultiConfig->mMode == 5) {
         return;
     }
-    raceRandom = GetRaceRandom();
+    raceRandom = mobj_getSafeRng();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     if (woodbox->mItemChancePercent <= (u16) (((u64) (u32) (raceRandom->mValue >> 32) * 100) >> 32)) {
         return;
@@ -199,19 +199,19 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     }
     itemIndex = PickItem(0, woodbox->mItemRowHandle, 1, 1, 0, 0x12);
     itemObject =
-        StartItemObjectOrZero(gItemInfos[itemIndex].mObjectKind, 8, &woodbox->mUnk_000.mPos, &woodbox->mGroundUp);
+        it_spawnItem(it_sItemConfigs[itemIndex].mObjectKind, 8, &woodbox->mUnk_000.mPos, &woodbox->mGroundUp);
     if (itemObject == NULL) {
         return;
     }
     if ((s64) velocity->x * velocity->x + (s64) velocity->y * velocity->y + (s64) velocity->z * velocity->z >= 16) {
-        Vec3NormalizeAndGetLengthUnchecked(velocity, &direction);
+        vec_normalize(velocity, &direction);
     }
-    Vec3CrossUnrounded(&woodbox->mGroundUp, &direction, &sideDirection);
-    raceRandom = GetRaceRandom();
+    vec_crossProduct(&woodbox->mGroundUp, &direction, &sideDirection);
+    raceRandom = mobj_getSafeRng();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     spawnDistance =
         ((s64) (s32) ((u32) (((u64) (u32) (raceRandom->mValue >> 32) * 0x1800) >> 32) + 0x119a) << 12) >> 12;
-    raceRandom = GetRaceRandom();
+    raceRandom = mobj_getSafeRng();
     raceRandom->mValue = raceRandom->mMultiplier * raceRandom->mValue + raceRandom->mIncrement;
     itemObject->mVelocity = *velocity;
     VEC_MultAdd(spawnDistance, &direction, &woodbox->mUnk_000.mPos, &itemObject->mPos);
@@ -219,10 +219,10 @@ void StartWoodbox1ItemObject(Woodbox1 *woodbox, Vec3 *velocity) {
     itemObject->mScale.x = 0xcd;
     itemObject->mScale.y = 0xcd;
     itemObject->mScale.z = 0xcd;
-    func_020f6630(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
+    it_startThrowAnim(itemObject, 2, &woodbox->mUnk_000.mPos, velocity, &woodbox->mGroundUp);
 }
 
-void EnterWoodbox1State1(MapObjectFlagsView *woodbox) {
+void wbox_state1Init(MapObjectFlagsView *woodbox) {
     woodbox->mUnk_02 |= data_021594d8;
     woodbox->mUnk_02 |= data_021594dc;
     woodbox->mUnk_02 |= data_021594e0;
@@ -230,7 +230,7 @@ void EnterWoodbox1State1(MapObjectFlagsView *woodbox) {
 
 #pragma thumb off
 
-void UpdateWoodbox1State1(Woodbox1 *woodbox) {
+void wbox_state1Update(Woodbox1 *woodbox) {
     if (woodbox->mUnk_000.mStateMachine.mStateFrames < 900) {
         return;
     }
@@ -244,7 +244,7 @@ void UpdateWoodbox1State1(Woodbox1 *woodbox) {
     }
 }
 
-BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
+BOOL wbox_20EBC2C(Woodbox1 *woodbox) {
     Vec3 v;
     Vec3 *axis;
     s32 dot;
@@ -253,7 +253,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     v = woodbox->mUnk_000.mPos;
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[0];
     extent = woodbox->mUnk_000.mExtent.x;
-    dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
+    dot = vec_dotProduct(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &v, &v);
     } else {
@@ -261,7 +261,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     }
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[1];
     extent = woodbox->mUnk_000.mExtent.x;
-    dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
+    dot = vec_dotProduct(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &v, &v);
     } else {
@@ -269,7 +269,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     }
     axis = &woodbox->mUnk_000.mMatrix.mUnk_00[2];
     extent = woodbox->mUnk_000.mExtent.x;
-    dot = Vec3DotUnrounded(&woodbox->mGroundUp, axis);
+    dot = vec_dotProduct(&woodbox->mGroundUp, axis);
     if (dot > 0) {
         VEC_MultAdd(-extent, axis, &v, &v);
     } else {
@@ -277,7 +277,7 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     }
     VEC_Subtract(&v, &woodbox->mBasePos, &v);
     v.y = v.y + woodbox->mUnk_000.mExtent.x;
-    dot = -Vec3DotUnrounded(&v, &woodbox->mGroundUp);
+    dot = -vec_dotProduct(&v, &woodbox->mGroundUp);
     if (dot > 0 && woodbox->mUnk_000.mUnk_10.y < 0) {
         woodbox->mPosOffset.y = woodbox->mPosOffset.y + dot;
         woodbox->mUnk_000.mUnk_10.y = ((s64) -woodbox->mUnk_000.mUnk_10.y * 0x400) >> 12;
@@ -291,12 +291,12 @@ BOOL BounceWoodbox1OffGround(Woodbox1 *woodbox) {
     return FALSE;
 }
 
-void EnterWoodbox1State2(Woodbox1 *woodbox) {
+void wbox_state2Init(Woodbox1 *woodbox) {
     Vec3 rotation;
     u32 frameCount;
     u16 headingOffset;
 
-    frameCount = GetRaceUpdateFrames();
+    frameCount = race_getFrameCounter();
     woodbox->mUnk_000.mFlags &= ~1;
     woodbox->mUnk_000.mFlags &= ~2;
     woodbox->mUnk_000.mFlags &= ~8;
@@ -319,12 +319,12 @@ void EnterWoodbox1State2(Woodbox1 *woodbox) {
     woodbox->mUnk_000.mUnk_10.z = 0;
     VEC_Add(&woodbox->mGroundUp, &woodbox->mTiltOffset, &woodbox->mTiltedUp);
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
-    QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    qrtn_20D7A3C(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
+    qtrn_toMtx33(&woodbox->mUnk_000.mMatrix, &rotation);
 }
 
-void UpdateWoodbox1State2(Woodbox1 *woodbox) {
-    if (BounceWoodbox1OffGround(woodbox) != FALSE) {
+void wbox_state2Update(Woodbox1 *woodbox) {
+    if (wbox_20EBC2C(woodbox) != FALSE) {
         woodbox->mUnk_000.mStateMachine.mNextState = 3;
         woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
     }
@@ -333,11 +333,11 @@ void UpdateWoodbox1State2(Woodbox1 *woodbox) {
     VEC_Add(&woodbox->mBasePos, &woodbox->mPosOffset, &woodbox->mUnk_000.mPos);
 }
 
-void UpdateWoodbox1State3(Woodbox1 *woodbox) {
+void wbox_state3Update(Woodbox1 *woodbox) {
     Vec3 rotation;
     s32 headingOffset;
 
-    BounceWoodbox1OffGround(woodbox);
+    wbox_20EBC2C(woodbox);
     woodbox->mPosOffset.x -= (s32) (((s64) woodbox->mPosOffset.x * 164) >> 12);
     woodbox->mPosOffset.z -= (s32) (((s64) woodbox->mPosOffset.z * 164) >> 12);
     VEC_Add(&woodbox->mTiltOffset, &woodbox->mTiltOffsetPerFrame, &woodbox->mTiltOffset);
@@ -354,11 +354,11 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     if ((s64) woodbox->mTiltedUp.x * woodbox->mTiltedUp.x + (s64) woodbox->mTiltedUp.y * woodbox->mTiltedUp.y +
             (s64) woodbox->mTiltedUp.z * woodbox->mTiltedUp.z >=
         16) {
-        Vec3NormalizeAndGetLengthUnchecked(&woodbox->mTiltedUp, &woodbox->mTiltedUp);
+        vec_normalize(&woodbox->mTiltedUp, &woodbox->mTiltedUp);
     }
     woodbox->mMatrixHeadingAngle = woodbox->mHeadingAngle + woodbox->mHeadingAngleOffset;
-    QuaternionFromVec3AndAngleAroundY(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    qrtn_20D7A3C(&woodbox->mTiltedUp, woodbox->mMatrixHeadingAngle, &rotation);
+    qtrn_toMtx33(&woodbox->mUnk_000.mMatrix, &rotation);
     if (woodbox->mUnk_000.mStateMachine.mStateFrames >= 90) {
         data_0217bbf0 = NULL;
         woodbox->mUnk_000.mStateMachine.mNextState = 0;
@@ -366,26 +366,26 @@ void UpdateWoodbox1State3(Woodbox1 *woodbox) {
     }
 }
 
-u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response) {
+u32 wbox_onDriverCollide(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstResponse, u8 *response) {
     if (*firstResponse == 3) {
-        if (gRaceSetup->mMode != MODE_TIME_ATTACK) {
+        if (gRaceMultiConfig->mMode != MODE_TIME_ATTACK) {
             if (kart->mUnk_29c == 1 || kart->mUnk_2a4 > 0x3000) {
-                StartWoodbox1ItemObject(woodbox, &kart->mUnk_0a4);
+                wbox_trySpawnItem(woodbox, &kart->mUnk_0a4);
                 if (data_0217bbf0 == woodbox) {
                     data_0217bbf0 = NULL;
                 }
                 woodbox->mUnk_000.mStateMachine.mNextState = 1;
                 woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-                func_020d26ec(kart, 0x167);
+                mobj_driverEmitSfx2(kart, 0x167);
                 woodbox->mUnk_000.mDistanceSquaredAndFlags |= *(u32 *) data_021594d4;
-                StartSoundIfKartStarOrKiller(&woodbox->mUnk_000, (Kart *) kart);
+                mobj_tryDestroyByDriver(&woodbox->mUnk_000, (Kart *) kart);
                 if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {
                     if (*response == 0) {
-                        StartEffectWithKartVelocity(0x31, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
-                        StartEffectWithKartVelocity(0x32, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
+                        ptcm_208B498(0x31, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
+                        ptcm_208B498(0x32, &woodbox->mUnk_000.mPos, kart->mUnk_074, 0x1000);
                     } else {
-                        StartEffect(0x31, &woodbox->mUnk_000.mPos);
-                        StartEffect(0x32, &woodbox->mUnk_000.mPos);
+                        ptcm_createEmitter(0x31, &woodbox->mUnk_000.mPos);
+                        ptcm_createEmitter(0x32, &woodbox->mUnk_000.mPos);
                     }
                 }
             }
@@ -394,20 +394,20 @@ u32 CollideKartWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *kart, u8 *firstRespo
     return *response;
 }
 
-u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response) {
+u32 wbox_onItemCollide(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8 *firstResponse, u8 *response) {
     u32 firstResponseMinusOne;
 
     firstResponseMinusOne = *firstResponse - 1;
     if (firstResponseMinusOne <= 1) {
-        StartWoodbox1ItemObject(woodbox, &itemObject->mUnk_05c);
+        wbox_trySpawnItem(woodbox, &itemObject->mUnk_05c);
         if (data_0217bbf0 == woodbox) {
             data_0217bbf0 = NULL;
         }
         woodbox->mUnk_000.mStateMachine.mNextState = 1;
         woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
         if ((woodbox->mUnk_000.mDistanceSquaredAndFlags & 3) == 0) {
-            StartEffect(0x31, &woodbox->mUnk_000.mPos);
-            StartEffect(0x32, &woodbox->mUnk_000.mPos);
+            ptcm_createEmitter(0x31, &woodbox->mUnk_000.mPos);
+            ptcm_createEmitter(0x32, &woodbox->mUnk_000.mPos);
         }
     }
     return *response;
@@ -415,20 +415,20 @@ u32 CollideItemObjectWithWoodbox1(Woodbox1 *woodbox, Unk020eb498 *itemObject, u8
 
 #pragma thumb on
 
-void CreateWoodbox1(void) {
-    CreateNsbmd((void **) &gWoodbox1, FindCourseMapObjFile(gWoodbox1NsbmdName), NULL);
-    func_02084968(gWoodbox1, 0x3f, 2, 0x294a);
+void wbox_loadModel(void) {
+    model2_createFromNsbmd((void **) &wbox_sModel, mobj_getMapObjFile(aWoodbox1_nsbmd), NULL);
+    model_setPolyIdLightFlagsEmi(wbox_sModel, 0x3f, 2, 0x294a);
 }
 
-void ClearWoodbox1Pointer(void) {
+void wbox_globalLogicInit(void) {
     data_0217bbf0 = NULL;
 }
 
-void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
+void wbox_init(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     Vec3 rotation;
     s32 length;
 
-    if (func_01ffdee4(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL, NULL,
+    if (col_collide(&woodbox->mUnk_000.mPos, NULL, 0, 0xa000, 8, -2, NULL, &woodbox->mGroundUp, NULL, NULL, NULL,
                       NULL, NULL, NULL) == 0) {
         woodbox->mGroundUp = data_0216c3d8;
     }
@@ -438,8 +438,8 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     woodbox->mUnk_000.mUnk_10.y = 0;
     woodbox->mUnk_000.mUnk_10.z = 0;
     woodbox->mHeadingAngle = (((s64) courseRow->mUnk_010 * 0xB60B60B60BLL) + 0x80000000000LL) >> 44;
-    QuaternionFromVec3AndAngleAroundY(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
-    Matrix3x3FromQuaternion(&woodbox->mUnk_000.mMatrix, &rotation);
+    qrtn_20D7A3C(&woodbox->mGroundUp, woodbox->mHeadingAngle, &rotation);
+    qtrn_toMtx33(&woodbox->mUnk_000.mMatrix, &rotation);
     woodbox->mUnk_0f4.x = -woodbox->mGroundUp.x;
     woodbox->mUnk_0f4.y = 0;
     woodbox->mUnk_0f4.z = -woodbox->mGroundUp.z;
@@ -448,14 +448,14 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
         16) {
         length = 0;
     } else {
-        length = Vec3NormalizeAndGetLengthUnchecked(&woodbox->mUnk_0f4, &woodbox->mUnk_0f4);
+        length = vec_normalize(&woodbox->mUnk_0f4, &woodbox->mUnk_0f4);
     }
     if (length == 0) {
         woodbox->mUnk_0f4.x = -woodbox->mUnk_000.mMatrix.mUnk_00[2].x;
         woodbox->mUnk_0f4.z = -woodbox->mUnk_000.mMatrix.mUnk_00[2].z;
     }
-    Vec3RotateAroundY(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
-    Vec3RotateAroundY(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);
+    vec_rotate(&woodbox->mUnk_0f4, 0x0aab, &woodbox->mUnk_100);
+    vec_rotate(&woodbox->mUnk_0f4, 0xf555, &woodbox->mUnk_0f4);
     woodbox->mUnk_0f4.x = ((s64) woodbox->mUnk_0f4.x * 0x800) >> 12;
     woodbox->mUnk_0f4.y = ((s64) woodbox->mUnk_0f4.y * 0x800) >> 12;
     woodbox->mUnk_0f4.z = ((s64) woodbox->mUnk_0f4.z * 0x800) >> 12;
@@ -465,21 +465,21 @@ void InitWoodbox1(Woodbox1 *woodbox, Unk020eb498 *courseRow) {
     woodbox->mUnk_10c = 0x1555;
     woodbox->mItemRowHandle = courseRow->mUnk_028;
     woodbox->mItemChancePercent = courseRow->mUnk_02a;
-    InitStateMachine(&woodbox->mUnk_000.mStateMachine, (UnkFunc *const *) gWoodbox1StateTable, 4, woodbox);
+    sm_init(&woodbox->mUnk_000.mStateMachine, (UnkFunc *const *) wbox_sStates, 4, woodbox);
     woodbox->mUnk_000.mStateMachine.mNextState = 0;
     woodbox->mUnk_000.mStateMachine.mNextStateRequested = 1;
-    RefreshShadowMatrix(&woodbox->mUnk_114, &courseRow->mUnk_000, ((s64) woodbox->mUnk_000.mScale.x * 0x19000) >> 12,
+    oshd_setParams(&woodbox->mUnk_114, &courseRow->mUnk_000, ((s64) woodbox->mUnk_000.mScale.x * 0x19000) >> 12,
                         13);
 }
 
 #pragma thumb off
 
-void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset) {
+void col_collidePointSphere(Vec3 *position, Vec3 *center, s32 radius, Vec3 *offset) {
     Vec3 direction;
 
     VEC_Subtract(position, center, offset);
     if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
-        Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
+        vec_normalize(offset, &direction);
     }
     direction.x = ((s64) direction.x * radius) >> 12;
     direction.y = ((s64) direction.y * radius) >> 12;
@@ -487,7 +487,7 @@ void ComputeSphereOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, Vec3 *
     VEC_Subtract(&direction, offset, offset);
 }
 
-void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset) {
+void col_collidePointSpheroid(Vec3 *position, Vec3 *center, s32 radius, s32 halfHeight, Vec3 *offset) {
     Vec3 direction;
     s32 limit;
 
@@ -495,7 +495,7 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     offset->y = 0;
     offset->z = position->z - center->z;
     if ((s64) offset->x * offset->x + (s64) offset->y * offset->y + (s64) offset->z * offset->z >= 16) {
-        Vec3NormalizeAndGetLengthUnchecked(offset, &direction);
+        vec_normalize(offset, &direction);
     }
     offset->x = (s32) (((s64) direction.x * radius) >> 12) - offset->x;
     offset->z = (s32) (((s64) direction.z * radius) >> 12) - offset->z;
@@ -524,7 +524,7 @@ void ComputeCylinderOverlapOffset(Vec3 *position, Vec3 *center, s32 radius, s32 
     offset->y = 0;
 }
 
-s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
+s32 col_collideSphereBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes, Vec3 *halfSizesPositive,
                                  Vec3 *halfSizesNegative, s32 radius, Vec3 *pushOut) {
     Vec3 delta;
     s32 overlapY;
@@ -539,7 +539,7 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
     axisY = &axes[1];
     axisZ = &axes[2];
     VEC_Subtract(sphereCenter, boxCenter, &delta);
-    distanceX = Vec3DotUnrounded(&delta, axes);
+    distanceX = vec_dotProduct(&delta, axes);
     if (distanceX >= halfSizesPositive->x + radius || distanceX <= -(halfSizesNegative->x + radius)) {
         return 0;
     }
@@ -548,7 +548,7 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
     } else {
         overlapX = distanceX + (halfSizesNegative->x + radius);
     }
-    distanceY = Vec3DotUnrounded(&delta, axisY);
+    distanceY = vec_dotProduct(&delta, axisY);
     if (distanceY >= halfSizesPositive->y + radius || distanceY <= -(halfSizesNegative->y + radius)) {
         return 0;
     }
@@ -558,7 +558,7 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
     } else {
         overlapY = distanceY + (halfSizesNegative->y + radius);
     }
-    distanceZ = Vec3DotUnrounded(&delta, axisZ);
+    distanceZ = vec_dotProduct(&delta, axisZ);
     if (distanceZ >= halfSizesPositive->z + radius || distanceZ <= -(halfSizesNegative->z + radius)) {
         return 0;
     }
@@ -607,7 +607,7 @@ s32 ComputeSphereHitOnRotatedBox(Vec3 *sphereCenter, Vec3 *boxCenter, Vec3 *axes
     return 3;
 }
 
-s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *axes, s32 cylinderRadius,
+s32 col_collideSphereCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *axes, s32 cylinderRadius,
                                       s32 halfHeightPositive, s32 halfHeightNegative, s32 sphereRadius, Vec3 *pushOut) {
     Vec3 delta;
     Vec3 local;
@@ -621,7 +621,7 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
     axisZ = &axes[2];
 
     VEC_Subtract(sphereCenter, cylinderCenter, &delta);
-    local.y = Vec3DotUnrounded(&delta, axisY);
+    local.y = vec_dotProduct(&delta, axisY);
     if (local.y >= halfHeightPositive + sphereRadius || local.y <= -(halfHeightNegative + sphereRadius)) {
         return 0;
     }
@@ -630,9 +630,9 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
     } else {
         overlapY = local.y + (halfHeightNegative + sphereRadius);
     }
-    local.x = Vec3DotUnrounded(&delta, axes);
+    local.x = vec_dotProduct(&delta, axes);
     local.y = 0;
-    local.z = Vec3DotUnrounded(&delta, axisZ);
+    local.z = vec_dotProduct(&delta, axisZ);
     horizontalDistance = VEC_Mag(&local);
     if (horizontalDistance >= cylinderRadius + sphereRadius) {
         return 0;
@@ -650,7 +650,7 @@ s32 ComputeSphereHitOnRotatedCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, 
         Vec3 w = {0};
 
         if ((s64) local.x * local.x + (s64) local.y * local.y + (s64) local.z * local.z >= 16) {
-            Vec3NormalizeAndGetLengthUnchecked(&local, &w);
+            vec_normalize(&local, &w);
         }
         w.x = ((s64) w.x * overlapRadial) >> 12;
         w.y = 0;
@@ -671,7 +671,7 @@ void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result)
     s32 directionScale;
     s32 extra;
 
-    negatedDot = -Vec3DotUnrounded(direction, target);
+    negatedDot = -vec_dotProduct(direction, target);
     blend = ((s64) (0x1000 - negatedDot) * blendFactor) >> 12;
     if (blend > 0x1000) {
         blend = 0x1000;
@@ -724,7 +724,7 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
         normal.y = 0;
         length = 0;
         if ((s64) normal.x * normal.x + (s64) normal.y * normal.y + (s64) normal.z * normal.z >= 16) {
-            length = Vec3NormalizeAndGetLengthUnchecked(&normal, &normal);
+            length = vec_normalize(&normal, &normal);
         }
         if (length == 0) {
             *result = *velocity;
@@ -762,7 +762,7 @@ void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bo
         normal = *surfaceNormal;
         length = 0;
         if ((s64) normal.x * normal.x + (s64) normal.y * normal.y + (s64) normal.z * normal.z >= 16) {
-            length = Vec3NormalizeAndGetLengthUnchecked(&normal, &normal);
+            length = vec_normalize(&normal, &normal);
         }
         if (length == 0) {
             *result = *velocity;
@@ -774,7 +774,7 @@ void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bo
     }
 }
 
-void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha) {
+void model2_renderModel(Nsbmd *model, void *matrix, void *scale, s32 maxAlpha) {
     void *resMdl;
     s32 modelAlpha;
     s32 polygonId;
@@ -783,17 +783,17 @@ void DrawNsbmdWithMatrixAndMaxAlpha(Nsbmd *model, void *matrix, void *scale, s32
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
     if (maxAlpha < modelAlpha) {
         polygonId = NNS_G3dMdlGetMdlPolygonID(resMdl, 0);
-        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
+        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, mobj_getCyclicPolygonId());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
-        DrawNsbmdWithMatrix(model, matrix, scale);
+        model_drawTransformed(model, matrix, scale);
         NNS_G3dMdlSetMdlPolygonIDAll(resMdl, polygonId);
         NNS_G3dMdlSetMdlAlphaAll(resMdl, modelAlpha);
     } else {
-        DrawNsbmdWithMatrix(model, matrix, scale);
+        model_drawTransformed(model, matrix, scale);
     }
 }
 
-void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha) {
+void model2_renderShadowModel(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 maxAlpha) {
     u16 savedAlpha;
 
     savedAlpha = shadow->mAlpha;
@@ -807,7 +807,7 @@ void DrawShadowWithMaxAlpha(ShadowModel *shadow, void *matrix, Vec3 *scale, u32 
 }
 
 void func_020ea84c(void) {
-    func_01ff9048(0x29, &data_0217bbe8, 1);
+    NNS_G3dGeBufferOP_N(0x29, &data_0217bbe8, 1);
 }
 
 void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
@@ -819,10 +819,10 @@ void DrawNsbmdWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
     data_0216c3d4 = modelAlpha;
     if (maxAlpha < modelAlpha) {
-        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
+        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, mobj_getCyclicPolygonId());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
-    DrawNsbmd(model);
+    model_render(model);
     savedAlpha = data_0216c3d4;
     if (maxAlpha < savedAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, savedAlpha);
@@ -839,7 +839,7 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
     data_0216c3d4 = modelAlpha;
     if (maxAlpha < modelAlpha) {
-        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
+        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, mobj_getCyclicPolygonId());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
     NNS_G3dDraw1Mat1Shp(model->mResMdl, 0, 0, 1);
@@ -860,7 +860,7 @@ void func_020ea670(Nsbmd *model, s32 maxAlpha) {
     modelAlpha = NNS_G3dMdlGetMdlAlpha(resMdl, 0);
     data_0216c3d4 = modelAlpha;
     if (maxAlpha < modelAlpha) {
-        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, AllocPolygonIdWrapping());
+        NNS_G3dMdlSetMdlPolygonIDAll(resMdl, mobj_getCyclicPolygonId());
         NNS_G3dMdlSetMdlAlphaAll(resMdl, maxAlpha);
     }
     modelData = (u8 *) resMdl + ((Unk020ea670_08 *) resMdl)->mUnk_008;
@@ -869,7 +869,7 @@ void func_020ea670(Nsbmd *model, s32 maxAlpha) {
                              ((Unk020ea670_08 *) (modelData + ((Unk020ea670_0a *) modelData)->mUnk_00a))->mUnk_008))
             ->mUnk_00c;
     NNS_G3dRenderObjSetCallBack((NNSG3dRenderObj *) model, (NNSG3dSbcCallBackFunc) func_020ea84c, 0, 4, 3);
-    DrawNsbmd(model);
+    model_render(model);
     savedAlpha = data_0216c3d4;
     if (maxAlpha < savedAlpha) {
         NNS_G3dMdlSetMdlAlphaAll(resMdl, savedAlpha);

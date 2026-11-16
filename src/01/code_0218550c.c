@@ -40,123 +40,123 @@ void func_ov001_02185740(u32 a, u32 b, u32 c, u32 d, u32 e) {
 
 #pragma thumb on
 
-void WriteSelectGhostScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
-        func_ov001_021856a8(0x19);
+void menu_state26Vblank(void) {
+    if (menu_getField4() != 0) {
+        menu_ta_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         WriteMainBg1Offset(0, 0);
         func_ov001_021857a4(0);
         func_ov001_02185778(0);
         func_ov001_02185740(0, 0, 0xc, 0, 0);
-        func_ov001_0218568c(0x1f);
+        menu_ta_GXS_SetVisiblePlane(0x1f);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectGhostRegisters();
 }
 
-void UpdateSelectGhost(void) {
+void menu_state26Render(void) {
     switch (AdvanceSelectGhost()) {
         case 1:
-            SwitchMenuScreen(29, 0x1f);
+            menu_gotoState(29, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(25, 0x1f);
+            menu_gotoState(25, 0x1f);
             break;
     }
 }
 
 #pragma thumb off
 
-void func_ov001_021856a8(u32 bits) {
+void menu_ta_GX_SetVisiblePlane(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
-void func_ov001_0218568c(u32 bits) {
+void menu_ta_GXS_SetVisiblePlane(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & ~0x1f00) | (bits << 8);
 }
 
 #pragma thumb on
 
-void func_ov001_02185658(void) {
-    if (func_020cccc0() != 0) {
-        func_ov001_021856a8(0x19);
+void menu_state24Vblank(void) {
+    if (menu_getField4() != 0) {
+        menu_ta_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x1e);
+        menu_ta_GXS_SetVisiblePlane(0x1e);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupMBgOffsets();
 }
 
-void UpdateSelectCupM(void) {
+void menu_state24Render(void) {
     switch (AdvanceSelectCupM()) {
         case 1:
-            SwitchMenuScreen(25, 0x1f);
+            menu_gotoState(25, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(23, 0x1f);
+            menu_gotoState(23, 0x1f);
             break;
     }
 }
 
-void func_ov001_021855f8(void) {
-    if (func_020cccc0() != 0) {
-        func_ov001_021854f4(0x1b);
+void menu_state4Vblank(void) {
+    if (menu_getField4() != 0) {
+        moverlay_menu_GX_SetVisiblePlane(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_021854d8(0x16);
+        moverlay_menu_GXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectEngineBg0Offset();
 }
 
-void UpdateSelectEngine(void) {
+void menu_state4Render(void) {
     switch (AdvanceSelectEngine()) {
         case 1:
-            SwitchMenuScreen(5, 0x1f);
+            menu_gotoState(5, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             break;
     }
 }
 
-void WriteSelectCharacterScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
-        func_ov001_021854f4(0xb);
+void menu_state5Vblank(void) {
+    if (menu_getField4() != 0) {
+        moverlay_menu_GX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
-        func_ov001_021854d8(8);
+        moverlay_menu_GXS_SetVisiblePlane(8);
         GXS_SetGraphicsMode(0);
     }
-    WriteSelectCharacterRegisters();
+    menucs_2026058();
 }
 
-void UpdateSelectCharacter(void) {
-    switch (AdvanceSelectCharacter()) {
+void menu_state5Render(void) {
+    switch (menucs_render()) {
         case 1:
-            SwitchMenuScreen(6, 0x1f);
+            menu_gotoState(6, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(SCREEN_SELECT_ENGINE, 0x1f);
+            menu_gotoState(SCREEN_SELECT_ENGINE, 0x1f);
             break;
     }
 }
 
-void WriteSelectKartScreenRegisters(void) {
-    if (func_020cccc0() != 0) {
-        func_ov001_021854f4(9);
+void menu_state6Vblank(void) {
+    if (menu_getField4() != 0) {
+        moverlay_menu_GX_SetVisiblePlane(9);
         GX_SetGraphicsMode(1, 0, 1);
-        func_ov001_021854d8(8);
+        moverlay_menu_GXS_SetVisiblePlane(8);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectKartRegisters();
 }
 
-void UpdateSelectKart(void) {
+void menu_state6Render(void) {
     switch (AdvanceSelectKart()) {
         case 1:
-            SwitchMenuScreen(7, 0x1f);
+            menu_gotoState(7, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(5, 0x1f);
+            menu_gotoState(5, 0x1f);
             break;
     }
 }

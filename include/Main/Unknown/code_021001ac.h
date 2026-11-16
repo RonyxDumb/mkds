@@ -12,9 +12,9 @@ typedef struct Unk0215a190 {
 
 extern Unk0215a190 data_0215a190[];
 
-void DrawItemTeresa(ItemTeresa *teresa, s32 c, NsbmdModel *model);
+void ittrsa_21001AC(ItemTeresa *teresa, s32 c, NsbmdModel *model);
 void func_021003e8(ItemTeresa *teresa, u32 sel, s32 value);
-void InitItemTeresaFromData(ItemTeresa *teresa);
-void func_021004c4(void *cursor, ItemTeresa *teresa, void *toData);
-void func_0210050c(ItemTeresa *teresa);
+void ittrsa_210045C(ItemTeresa *teresa);
+void ittrsa_21004C4(void *cursor, ItemTeresa *teresa, void *toData);
+void ittrsa_210050C(ItemTeresa *teresa);
 void UpdateItemTeresaState6(ItemTeresa *teresa);

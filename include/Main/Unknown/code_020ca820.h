@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void *func_020ca820(void);
-void func_020ca83c(void);
+void *echoi_proc_getCurrentHeap(void);
+void echoi_render(void);

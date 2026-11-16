@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitSanbo(u32 arg0); /* starts the path follower at +0x1d8 */
+void sanbo_init(u32 arg0); /* starts the path follower at +0x1d8 */

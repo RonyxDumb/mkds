@@ -1055,7 +1055,7 @@ s32 func_ov003_021b7df4(u32 address, u32 mask, u32 c) {
 }
 
 s32 func_ov003_021b7dc8(void) {
-    if (func_ov000_021a8c8c() < 0) {
+    if (aMgSelect_battle_stage_s_nce_ncer() < 0) {
         return -1;
     }
     return -(func_ov003_021ba524() != 0);
@@ -1118,7 +1118,7 @@ s32 func_ov003_021b7cec(s32 descriptor, SocketAddress *address, u32 addressLengt
 }
 
 s32 func_ov003_021b7ce4(s32 descriptor) {
-    return func_ov000_021a9008(descriptor);
+    return aEndingThanks01(descriptor);
 }
 
 u32 SwapBytes32(u32 input) {

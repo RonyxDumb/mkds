@@ -2,6 +2,6 @@
 
 #include "types.h"
 
-u16 func_020a1520(void);
-void EliminateKartAndCheckWinner(u16 kartIndex);
-void EliminateKartsUntilWinnerDecided(void);
+u16 mgcnt_handleShineRunnersTimeUp(void);
+void mgcnt_killDriver(u16 kartIndex);
+void mgcnt_tryFinish(void);

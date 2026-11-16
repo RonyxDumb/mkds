@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void FinishKeyRecording(void *record);
+void irec_stopRecording(void *record);

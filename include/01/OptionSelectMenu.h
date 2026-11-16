@@ -31,10 +31,10 @@ typedef struct OptionSelectMenu {
     /* 3c */ BOOL mUnk_3c;
     /* 40 */ s32 mOffsetTimers[2][2];
     /* 50 */ void *mHeap;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout; indexed with an offset
     // added
     /* 54 */ LayoutTableEntry *mOptionSelectMenuMTable;
-    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by InitLayoutTable; indexed with an offset
+    // one 0x40-byte record per cell of the Bncl (plus Bnll) members, built by jn_ui_initLayout; indexed with an offset
     // added
     /* 58 */ LayoutTableEntry *mOptionSelectMenuSTable;
     /* 5c */ struct Unk02021dc8 *mOptionSelectMenuMNcer;
@@ -52,7 +52,7 @@ typedef struct OptionSelectMenu {
     /* 8c */ void *mCommonMessages;
 } OptionSelectMenu;
 
-// Object behind data_0217aa08; the byte at 0x31 of the object at its first member holds flags.
+// Object behind gSaveData; the byte at 0x31 of the object at its first member holds flags.
 extern u8 data_ov001_021a6a20[];
 extern u8 data_ov001_021a6a24[];
 extern u8 gOptionSelectMenuValueCounts[];

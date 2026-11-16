@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreatePukupuku(void);
+void puku_loadModel(void);

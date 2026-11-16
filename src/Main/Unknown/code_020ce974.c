@@ -6,9 +6,9 @@
 
 #pragma thumb on
 
-void WriteVsSelectRaceRuleRegisters(void) {
+void menu_state10Vblank(void) {
     int screenChanged;
-    screenChanged = func_020cccc0();
+    screenChanged = menu_getField4();
     if (screenChanged != 0) {
         GxsDispCntBits8To12Write(0x1f);
         GXS_SetGraphicsMode(0);

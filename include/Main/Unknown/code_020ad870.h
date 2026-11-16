@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_020ad870(u32 arg0);
-u32 func_020ad88c(u32 arg0);
+u32 title_GXS_SetVisibleWnd(u32 arg0);
+u32 title_GX_SetVisibleWnd(u32 arg0);

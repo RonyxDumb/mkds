@@ -12,149 +12,149 @@
 
 #pragma thumb on
 
-void func_02057130(void) {
-    ResetBackupFirstBlockAndRecords(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
+void savd_eraseAllAsync(void) {
+    savd_initSections(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        SetBackupBusy();
-        QueueThreadFunction(WriteBackupFirstBlockAndRecords);
-        gThreadFunctionQueue->mRunRequested = 1;
+        savd_beginOperation();
+        bgwkr_enqueueTask(savd_eraseAllTask);
+        gBgWkrState->mRunRequested = 1;
     }
 }
 
-void ReadBackupFirstBlockAndRecords(void) {
+void savd_loadTask(void) {
     u16 failedBlockBits;
 
     failedBlockBits = 0;
-    data_0217aa08->mReadStatus = 0;
-    ReadBackupFirstBlock(data_0217aa08->mFirstBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    gSaveData->mReadStatus = 0;
+    savd_readNksy(gSaveData->mFirstBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
-        if (gBackupAccess->mErrorCode == 4) {
-            data_0217aa08->mFailedBlockBits = 0xffff;
-            data_0217aa08->mReadStatus = 4;
-            ClearBackupBusy();
+    if (gSaveCore->mErrorCode != 0) {
+        if (gSaveCore->mErrorCode == 4) {
+            gSaveData->mFailedBlockBits = 0xffff;
+            gSaveData->mReadStatus = 4;
+            savd_endOperation();
             return;
         }
         failedBlockBits |= 1;
     }
-    ReadBackupEmblemRecord(data_0217aa08->mEmblemRecord);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_readNkem(gSaveData->mEmblemRecord);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gSaveCore->mErrorCode != 0) {
         failedBlockBits |= 2;
     }
-    ReadBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_readNkgp(gSaveData->mGrandPrixRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gSaveCore->mErrorCode != 0) {
         failedBlockBits |= 4;
     }
-    ReadBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_readNkta(gSaveData->mCourseTimeRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gSaveCore->mErrorCode != 0) {
         failedBlockBits |= 8;
     }
-    ReadBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_readNkmr(gSaveData->mMissionRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gSaveCore->mErrorCode != 0) {
         failedBlockBits |= 0x10;
     }
-    ReadBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
-    if (gBackupAccess->mBackupEnabled != 0) {
+    savd_readNkfl(gSaveData->mBuddyRecordBlock);
+    if (gSaveCore->mBackupEnabled != 0) {
         CARD_WaitBackupAsync();
     }
-    if (gBackupAccess->mErrorCode != 0) {
+    if (gSaveCore->mErrorCode != 0) {
         failedBlockBits |= 0x20;
     }
-    if (data_0217aa08->mReadStatus == 0) {
+    if (gSaveData->mReadStatus == 0) {
         if (failedBlockBits != 0) {
-            data_0217aa08->mReadStatus = 3;
+            gSaveData->mReadStatus = 3;
         } else {
-            data_0217aa08->mReadStatus = 0;
+            gSaveData->mReadStatus = 0;
         }
     }
-    data_0217aa08->mFailedBlockBits = failedBlockBits;
-    ClearBackupBusy();
+    gSaveData->mFailedBlockBits = failedBlockBits;
+    savd_endOperation();
 }
 
-void StartReadBackupFirstBlockAndRecords(void) {
-    data_0217aa08->mUnk_44_0 = 1;
-    data_0217aa08->mUnk_3c = 0;
-    data_0217aa08->mFailedBlockBits = 0;
-    SetBackupBusy();
-    QueueThreadFunction(ReadBackupFirstBlockAndRecords);
-    gThreadFunctionQueue->mRunRequested = 1;
+void savd_loadAsync(void) {
+    gSaveData->mUnk_44_0 = 1;
+    gSaveData->mUnk_3c = 0;
+    gSaveData->mFailedBlockBits = 0;
+    savd_beginOperation();
+    bgwkr_enqueueTask(savd_loadTask);
+    gBgWkrState->mRunRequested = 1;
 }
 
-void ResetFailedBackupBlocks(void) {
-    if (data_0217aa08->mFailedBlockBits & 2) {
-        ClearEmblemRecord();
-        WriteBackupEmblemRecord(data_0217aa08->mEmblemRecord);
-        if (gBackupAccess->mBackupEnabled != 0) {
+void savd_repairErrorsTask(void) {
+    if (gSaveData->mFailedBlockBits & 2) {
+        savd_initNkem();
+        savd_writeNkem(gSaveData->mEmblemRecord);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 4) {
-        ClearGrandPrixRecordBlock();
-        WriteBackupGrandPrixRecordBlock(data_0217aa08->mGrandPrixRecordBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (gSaveData->mFailedBlockBits & 4) {
+        savd_initNkgp();
+        savd_writeNkgp(gSaveData->mGrandPrixRecordBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 8) {
-        ClearCourseTimeRecordBlock();
-        WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (gSaveData->mFailedBlockBits & 8) {
+        savd_initNkta();
+        savd_writeNkta(gSaveData->mCourseTimeRecordBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 0x10) {
-        ClearMissionRecordBlock();
-        WriteBackupMissionRecordBlock(data_0217aa08->mMissionRecordBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (gSaveData->mFailedBlockBits & 0x10) {
+        savd_initNkmr();
+        savd_writeNkmr(gSaveData->mMissionRecordBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 0x20) {
-        ClearBuddyRecordBlock();
-        WriteBackupBuddyRecordBlock(data_0217aa08->mBuddyRecordBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (gSaveData->mFailedBlockBits & 0x20) {
+        savd_initNkfl();
+        savd_writeNkfl(gSaveData->mBuddyRecordBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    if (data_0217aa08->mFailedBlockBits & 1) {
-        ResetBackupFirstBlock(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
-        WriteBackupFirstBlock(data_0217aa08->mFirstBlock);
-        if (gBackupAccess->mBackupEnabled != 0) {
+    if (gSaveData->mFailedBlockBits & 1) {
+        savd_initNksy(((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2);
+        savd_writeNksy(gSaveData->mFirstBlock);
+        if (gSaveCore->mBackupEnabled != 0) {
             CARD_WaitBackupAsync();
         }
     }
-    data_0217aa08->mFailedBlockBits = 0;
-    ClearBackupBusy();
+    gSaveData->mFailedBlockBits = 0;
+    savd_endOperation();
 }
 
-void StartResetFailedBackupBlocks(void) {
-    SetBackupBusy();
-    QueueThreadFunction(ResetFailedBackupBlocks);
-    gThreadFunctionQueue->mRunRequested = 1;
+void savd_repairErrorsAsync(void) {
+    savd_beginOperation();
+    bgwkr_enqueueTask(savd_repairErrorsTask);
+    gBgWkrState->mRunRequested = 1;
 }
 
-void SetBackupFlag(s32 flagIndex) {
+void savd_setUnlockBit(s32 flagIndex) {
     u8 *flagBytes;
 
-    flagBytes = data_0217aa08->mFirstBlock->mFlags;
+    flagBytes = gSaveData->mFirstBlock->mFlags;
     flagBytes[flagIndex >> 3] |= 1 << (flagIndex & 7);
 }
 
-BOOL func_02056e00(s32 bitIndex, u8 *bytes) {
+BOOL savd_isBitSet2(s32 bitIndex, u8 *bytes) {
     u32 isSet;
 
     isSet = 1;
@@ -164,41 +164,41 @@ BOOL func_02056e00(s32 bitIndex, u8 *bytes) {
     return isSet;
 }
 
-BOOL IsBackupFlagSet(u32 flagIndex) {
-    return func_02056e00(flagIndex, data_0217aa08->mFirstBlock->mFlags);
+BOOL savd_isUnlockBitSet(u32 flagIndex) {
+    return savd_isBitSet2(flagIndex, gSaveData->mFirstBlock->mFlags);
 }
 
-u8 func_02056dac(u8 *bytes) {
+u8 savd_calcKartUnlockLevel(u8 *bytes) {
     u8 result;
 
     result = 1;
-    if (func_02056e00(0x13, bytes)) {
+    if (savd_isBitSet2(0x13, bytes)) {
         result = 4;
-    } else if (func_02056e00(0x12, bytes)) {
+    } else if (savd_isBitSet2(0x12, bytes)) {
         result = 3;
-    } else if (func_02056e00(0x11, bytes)) {
+    } else if (savd_isBitSet2(0x11, bytes)) {
         result = 2;
     }
     return result;
 }
 
-u8 func_02056d98(void) {
-    return func_02056dac(data_0217aa08->mFirstBlock->mFlags);
+u8 savd_getKartUnlockLevel(void) {
+    return savd_calcKartUnlockLevel(gSaveData->mFirstBlock->mFlags);
 }
 
-void func_02056d54(u32 value) {
+void savd_setKartUnlockLevel(u32 value) {
     u8 *flagBytes;
 
     if (value > 3) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gSaveData->mFirstBlock->mFlags;
         flagBytes[2] |= 8;
     }
     if (value > 2) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gSaveData->mFirstBlock->mFlags;
         flagBytes[2] |= 4;
     }
     if (value > 1) {
-        flagBytes = data_0217aa08->mFirstBlock->mFlags;
+        flagBytes = gSaveData->mFirstBlock->mFlags;
         flagBytes[2] |= 2;
     }
 }

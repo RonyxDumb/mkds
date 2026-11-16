@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
+u16 MBi_calc_cksum(const u16 *data, s32 byteCount) {
     u32 sum;
     u32 folded;
     s32 halfwordCount;
@@ -18,7 +18,7 @@ u16 ComputeU16Checksum(const u16 *data, s32 byteCount) {
     return (folded + (folded >> 16)) ^ 0xffff;
 }
 
-u32 func_02008880(FSFile *a) {
+u32 MB_GetSegmentLength(FSFile *a) {
     Unk02008880 header;
     Unk02008880 *headerPtr;
     u32 size;

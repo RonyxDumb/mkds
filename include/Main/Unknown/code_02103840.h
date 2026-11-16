@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 SkipOrthoQuadsHold(u32 kartIndex);
+u32 cspl_clearSplashes(u32 kartIndex);

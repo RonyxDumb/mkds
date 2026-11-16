@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 FormatGhostFilePath(u32 number, char *buffer, u32 size);
+u32 race_getGhostFileName(u32 number, char *buffer, u32 size);

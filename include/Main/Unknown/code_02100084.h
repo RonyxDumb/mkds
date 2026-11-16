@@ -4,5 +4,5 @@
 
 typedef struct MapObjectList MapObjectList;
 
-void *RaceHudSubScreenGetMapObjects(MapObjectList *list);
-void **GetMapObjects(MapObjectList *list);
+void *mobj_renderPartGetInstanceList(MapObjectList *list);
+void **mobj_logicPartGetInstanceList(MapObjectList *list);

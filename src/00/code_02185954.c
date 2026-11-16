@@ -375,15 +375,15 @@ void DWCi_Auth_Thread(void *param_1) {
         if (gAuth->mHttp->mResult != 8) {
             gAuth->mUnk_008 = -0x4e84;
             if (gAuth->mHttp->mResult == 7) {
-                DWCi_Auth_SetError(0x13);
+                menu_ta_characterSelectStateRender(0x13);
                 return;
             }
             if (a > 2) {
                 if (gAuth->mHttp->mResult == 2) {
-                    DWCi_Auth_SetError(9);
+                    menu_ta_characterSelectStateRender(9);
                     return;
                 }
-                DWCi_Auth_SetError(0xc);
+                menu_ta_characterSelectStateRender(0xc);
                 return;
             }
             a++;
@@ -392,11 +392,11 @@ void DWCi_Auth_Thread(void *param_1) {
             f = func_ov000_02185ef4();
             switch (f) {
                 case 0x14:
-                    DWCi_Auth_SetError(0x14);
+                    menu_ta_characterSelectStateRender(0x14);
                     return;
                 case 0xf:
                     if (a >= 2) {
-                        DWCi_Auth_SetError(0xf);
+                        menu_ta_characterSelectStateRender(0xf);
                         gAuth->mUnk_008 = -gAuth->mUnk_008;
                         return;
                     }
@@ -406,7 +406,7 @@ void DWCi_Auth_Thread(void *param_1) {
                 default:
                     if (a >= 2) {
                         gAuth->mUnk_008 = -gAuth->mUnk_008;
-                        DWCi_Auth_SetError(f);
+                        menu_ta_characterSelectStateRender(f);
                         return;
                     }
                     a++;
@@ -421,7 +421,7 @@ void DWCi_Auth_Thread(void *param_1) {
             if (gAuth->mAbort == TRUE) {
                 gAuth->mUnk_008 = -0x4e84;
                 OS_UnlockMutex(&gAuth->mMutex);
-                DWCi_Auth_SetError(0x13);
+                menu_ta_characterSelectStateRender(0x13);
                 return;
             }
             OS_UnlockMutex(&gAuth->mMutex);
@@ -484,7 +484,7 @@ s32 func_ov000_02185ef4(void) {
                 gAuth->mUnk_008 = 0x4e8c;
                 return 2;
             }
-            if (WriteNewWiFiInfoToNvram(((u32) c + 0x1f) & ~0x1f) != 1) {
+            if (DWCi_AUTH_MakeWiFiID(((u32) c + 0x1f) & ~0x1f) != 1) {
                 gAuth->mUnk_1cc.mFree(b, c, 0);
                 gAuth->mUnk_008 = 0x4e8c;
                 return 0xe;
@@ -653,7 +653,7 @@ u32 DWCi_Auth_Prepare_FirstPost(Http *a, const char *b, const char *c, DWCHttpLa
     return 0;
 }
 
-void DWCi_Auth_SetError(s32 a) {
+void menu_ta_characterSelectStateRender(s32 a) {
     OS_LockMutex(&gAuth->mMutex);
     gAuth->mError = a;
     OS_UnlockMutex(&gAuth->mMutex);

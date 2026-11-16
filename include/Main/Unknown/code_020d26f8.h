@@ -5,4 +5,4 @@
 typedef struct MapObject MapObject;
 typedef struct Kart Kart;
 
-u32 StartSoundIfKartStarOrKiller(MapObject *mapObject, Kart *kart);
+u32 mobj_tryDestroyByDriver(MapObject *mapObject, Kart *kart);

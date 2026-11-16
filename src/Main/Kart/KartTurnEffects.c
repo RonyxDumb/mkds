@@ -8,40 +8,40 @@
 #include "Main/Unknown/unk_021759c0.h"
 #include "code_02147cd8.h"
 
-void InitKartTurnEffects(void *a) {
+void dptc_init(void *a) {
     u16 i;
     u16 j;
     KartTurnEffects *e;
 
-    gKartTurnEffects = HeapAlloc(a, gRaceSetup->mKartCount * 0x88);
-    for (i = 0; i < (u32) gRaceSetup->mKartCount; i++) {
-        e = &gKartTurnEffects[i];
+    dptc_sDriverControllers = heap_alloc(a, gRaceMultiConfig->mKartCount * 0x88);
+    for (i = 0; i < (u32) gRaceMultiConfig->mKartCount; i++) {
+        e = &dptc_sDriverControllers[i];
         e->mIndex = i;
-        if (i == gRaceSetup->mEntryIndex || gRaceSetup->mRaceKind == RACE_KIND_AWARD ||
-            gRaceSetup->mMode == MODE_TIME_ATTACK) {
+        if (i == gRaceMultiConfig->mEntryIndex || gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD ||
+            gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
             e->mTurnStartEffectId = 0x14;
             e->mLevel4FirstEffectId = 0x11;
             e->mLevel4SecondEffectId = 0x12;
-            e->mStartLevel4Effects = StartKartLevel4EffectsWithSecond;
-            e->mStopLevel4Emission = StopKartLevel4EmissionWithSecond;
-            e->mStartLevel4Emission = StartKartLevel4EmissionWithSecond;
-            e->mReleaseLevel4Effects = ReleaseKartLevel4EffectsWithSecond;
-            e->mStopLevel4Effects = StopKartLevel4EffectsWithSecond;
-            e->mPlaceLevel4Effects = PlaceKartLevel4EffectsWithSecond;
-            e->mHideEffects = HideKartEffectsWithSecond;
-            e->mShowEffects = ShowKartEffectsWithSecond;
+            e->mStartLevel4Effects = dptc_startContRedSparksPlayer;
+            e->mStopLevel4Emission = dptc_suspendContRedSparksPlayer;
+            e->mStartLevel4Emission = dptc_resumeContRedSparksPlayer;
+            e->mReleaseLevel4Effects = dptc_killContRedSparksPlayer;
+            e->mStopLevel4Effects = dptc_208D234;
+            e->mPlaceLevel4Effects = dptc_updateContRedSparksPlayer;
+            e->mHideEffects = dptc_hideAllPlayer;
+            e->mShowEffects = dptc_showAllPlayer;
         } else {
             e->mTurnStartEffectId = 0x15;
             e->mLevel4FirstEffectId = 0x13;
             e->mLevel4SecondEffectId = -1;
-            e->mStartLevel4Effects = StartKartLevel4EffectsFirstOnly;
-            e->mStopLevel4Emission = StopKartLevel4EmissionFirstOnly;
-            e->mStartLevel4Emission = StartKartLevel4EmissionFirstOnly;
-            e->mReleaseLevel4Effects = ReleaseKartLevel4EffectsFirstOnly;
-            e->mStopLevel4Effects = StopKartLevel4EffectsFirstOnly;
-            e->mPlaceLevel4Effects = PlaceKartLevel4EffectsFirstOnly;
-            e->mHideEffects = HideKartEffectsFirstOnly;
-            e->mShowEffects = ShowKartEffectsFirstOnly;
+            e->mStartLevel4Effects = dptc_startContRedSparksCpu;
+            e->mStopLevel4Emission = dptc_suspendContRedSparksCpu;
+            e->mStartLevel4Emission = dptc_resumeContRedSparksCpu;
+            e->mReleaseLevel4Effects = dptc_killContRedSparksCpu;
+            e->mStopLevel4Effects = dptc_208D1EC;
+            e->mPlaceLevel4Effects = dptc_updateContRedSparksCpu;
+            e->mHideEffects = dptc_hideAllCpu;
+            e->mShowEffects = dptc_showAllCpu;
         }
         e->mLevel3FirstEffectId = 0x16;
         e->mLevel3SecondEffectId = 0x17;
@@ -65,17 +65,17 @@ void InitKartTurnEffects(void *a) {
     }
 }
 
-void StartKartTurnStartEffects(KartTurnEffects *p) {
+void dptc_startDustClouds(KartTurnEffects *p) {
     u16 i;
 
     if (p->mTurnStartPresent != 0) {
         for (i = 0; i < 2; i++) {
-            DeleteEffectAndClearPointer(&p->mTurnStartEffects[i]);
+            ptcm_killEmitterDirectSafe(&p->mTurnStartEffects[i]);
         }
     }
     p->mTurnStartPresent = 0;
     for (i = 0; i < 2; i++) {
-        p->mTurnStartEffects[i] = StartEffect(p->mTurnStartEffectId, &data_02155fcc);
+        p->mTurnStartEffects[i] = ptcm_createEmitter(p->mTurnStartEffectId, &data_02155fcc);
         p->mTurnStartEffects[i]->mUnk_72 = 0x7fff;
         p->mTurnStartEffects[i]->mUnk_80_8 = 0x1c;
         p->mTurnStartEffects[i]->mUnk_6c = 0x1000;
@@ -83,7 +83,7 @@ void StartKartTurnStartEffects(KartTurnEffects *p) {
     p->mTurnStartPresent = 1;
 }
 
-void StopKartTurnStartEffects(KartTurnEffects *p) {
+void dptc_stopDustClouds(KartTurnEffects *p) {
     u16 i;
 
     if (p->mTurnStartPresent == 0) {
@@ -96,7 +96,7 @@ void StopKartTurnStartEffects(KartTurnEffects *p) {
     p->mTurnStartPresent = 0;
 }
 
-void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q) {
+void dptc_updateDustClouds(KartTurnEffects *p, Kart *q) {
     u16 i;
     KartEffects *e;
     Vec3 a;
@@ -107,7 +107,7 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q) {
     if (p->mTurnStartPresent == 0) {
         return;
     }
-    e = GetKartEffects(q->mIndex);
+    e = rptc_getEffectControllerForDriver(q->mIndex);
     for (i = 0; i < 2; i++) {
         a.x = ((s64) q->mEffectVelocity.x * 0xb33) >> 12;
         a.y = ((s64) q->mEffectVelocity.y * 0xb33) >> 12;
@@ -129,24 +129,24 @@ void AdvanceKartTurnStartEffects(KartTurnEffects *p, Kart *q) {
     }
 }
 
-void StartKartLevel4EffectsWithSecond(KartTurnEffects *p) {
+void dptc_startContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i] = StartEffect(p->mLevel4FirstEffectId, &data_02155fcc);
-        p->mLevel4SecondEffects[i] = StartEffect(p->mLevel4SecondEffectId, &data_02155fcc);
+        p->mLevel4FirstEffects[i] = ptcm_createEmitter(p->mLevel4FirstEffectId, &data_02155fcc);
+        p->mLevel4SecondEffects[i] = ptcm_createEmitter(p->mLevel4SecondEffectId, &data_02155fcc);
     }
 }
 
-void StartKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
+void dptc_startContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        p->mLevel4FirstEffects[i] = StartEffect(p->mLevel4FirstEffectId, &data_02155fcc);
+        p->mLevel4FirstEffects[i] = ptcm_createEmitter(p->mLevel4FirstEffectId, &data_02155fcc);
     }
 }
 
-void StopKartLevel4EmissionWithSecond(KartTurnEffects *p) {
+void dptc_suspendContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
@@ -155,7 +155,7 @@ void StopKartLevel4EmissionWithSecond(KartTurnEffects *p) {
     }
 }
 
-void StopKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
+void dptc_suspendContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
@@ -163,7 +163,7 @@ void StopKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
     }
 }
 
-void StartKartLevel4EmissionWithSecond(KartTurnEffects *p) {
+void dptc_resumeContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
@@ -172,7 +172,7 @@ void StartKartLevel4EmissionWithSecond(KartTurnEffects *p) {
     }
 }
 
-void StartKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
+void dptc_resumeContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
@@ -180,27 +180,27 @@ void StartKartLevel4EmissionFirstOnly(KartTurnEffects *p) {
     }
 }
 
-void ReleaseKartLevel4EffectsWithSecond(KartTurnEffects *p) {
+void dptc_killContRedSparksPlayer(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        DeleteEffect(p->mLevel4FirstEffects[i]);
-        DeleteEffect(p->mLevel4SecondEffects[i]);
+        ptcm_killEmitterDirect(p->mLevel4FirstEffects[i]);
+        ptcm_killEmitterDirect(p->mLevel4SecondEffects[i]);
         p->mLevel4FirstEffects[i] = NULL;
         p->mLevel4SecondEffects[i] = NULL;
     }
 }
 
-void ReleaseKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
+void dptc_killContRedSparksCpu(KartTurnEffects *p) {
     u16 i;
 
     for (i = 0; i < 2; i++) {
-        DeleteEffect(p->mLevel4FirstEffects[i]);
+        ptcm_killEmitterDirect(p->mLevel4FirstEffects[i]);
         p->mLevel4FirstEffects[i] = NULL;
     }
 }
 
-void StopKartLevel4EffectsWithSecond(KartTurnEffects *p) {
+void dptc_208D234(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present == 0) {
@@ -212,7 +212,7 @@ void StopKartLevel4EffectsWithSecond(KartTurnEffects *p) {
     }
 }
 
-void StopKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
+void dptc_208D1EC(KartTurnEffects *p) {
     if (p->mLevel4Present == 0) {
         return;
     }
@@ -226,7 +226,7 @@ void StopKartLevel4EffectsFirstOnly(KartTurnEffects *p) {
     p->mLevel4RestartRequested = 0;
 }
 
-void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
+void dptc_updateContRedSparksPlayer(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
     s32 n;
@@ -251,7 +251,7 @@ void PlaceKartLevel4EffectsWithSecond(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     }
 }
 
-void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
+void dptc_updateContRedSparksCpu(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
     s32 t;
@@ -269,7 +269,7 @@ void PlaceKartLevel4EffectsFirstOnly(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     }
 }
 
-void HideKartNonLevel4Effects(KartTurnEffects *p) {
+void dptc_hideDustRedBlueSparks(KartTurnEffects *p) {
     u16 i;
 
     if (p->mTurnStartPresent != 0) {
@@ -291,7 +291,7 @@ void HideKartNonLevel4Effects(KartTurnEffects *p) {
     }
 }
 
-void HideKartEffectsWithSecond(KartTurnEffects *p) {
+void dptc_hideAllPlayer(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present != 0) {
@@ -300,10 +300,10 @@ void HideKartEffectsWithSecond(KartTurnEffects *p) {
             p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    HideKartNonLevel4Effects(p);
+    dptc_hideDustRedBlueSparks(p);
 }
 
-void HideKartEffectsFirstOnly(KartTurnEffects *p) {
+void dptc_hideAllCpu(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present != 0) {
@@ -311,10 +311,10 @@ void HideKartEffectsFirstOnly(KartTurnEffects *p) {
             p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 1;
         }
     }
-    HideKartNonLevel4Effects(p);
+    dptc_hideDustRedBlueSparks(p);
 }
 
-void ShowKartNonLevel4Effects(KartTurnEffects *p) {
+void dptc_showDustRedBlueSparks(KartTurnEffects *p) {
     u16 i;
 
     if (p->mTurnStartPresent != 0) {
@@ -336,7 +336,7 @@ void ShowKartNonLevel4Effects(KartTurnEffects *p) {
     }
 }
 
-void ShowKartEffectsWithSecond(KartTurnEffects *p) {
+void dptc_showAllPlayer(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present != 0) {
@@ -345,10 +345,10 @@ void ShowKartEffectsWithSecond(KartTurnEffects *p) {
             p->mLevel4SecondEffects[i]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    ShowKartNonLevel4Effects(p);
+    dptc_showDustRedBlueSparks(p);
 }
 
-void ShowKartEffectsFirstOnly(KartTurnEffects *p) {
+void dptc_showAllCpu(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present != 0) {
@@ -356,10 +356,10 @@ void ShowKartEffectsFirstOnly(KartTurnEffects *p) {
             p->mLevel4FirstEffects[i]->mUnk_24.mUnk_00_3 = 0;
         }
     }
-    ShowKartNonLevel4Effects(p);
+    dptc_showDustRedBlueSparks(p);
 }
 
-void ResetKartLevel4Effects(KartTurnEffects *p) {
+void dptc_killContRedSparks(KartTurnEffects *p) {
     if (p->mLevel4Present != 0) {
         p->mReleaseLevel4Effects(p);
     }
@@ -370,7 +370,7 @@ void ResetKartLevel4Effects(KartTurnEffects *p) {
     p->mLevel4RestartRequested = 0;
 }
 
-void AdvanceKartLevel4Effects(KartTurnEffects *p, Kart *q) {
+void dptc_updateContRedSparks(KartTurnEffects *p, Kart *q) {
     KartEffects *e;
 
     if (p->mLevel4StopRequested != FALSE) {
@@ -406,7 +406,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *p, Kart *q) {
     if (p->mLevel4Present == 0) {
         return;
     }
-    e = GetKartEffects(q->mIndex);
+    e = rptc_getEffectControllerForDriver(q->mIndex);
     p->mPlaceLevel4Effects(p, e->mSideDirections, e->mSidePositions);
     if ((q->mUnk_44 & KART_44_ON_GROUND) == 0) {
         p->mStopLevel4Emission(p);
@@ -417,7 +417,7 @@ void AdvanceKartLevel4Effects(KartTurnEffects *p, Kart *q) {
     }
 }
 
-void StartKartLevel3Effects(KartTurnEffects *p, int v1) {
+void dptc_emitRedSparks(KartTurnEffects *p, int v1) {
     u16 i;
 
     if (v1 == 0) {
@@ -425,8 +425,8 @@ void StartKartLevel3Effects(KartTurnEffects *p, int v1) {
     }
     if (p->mLevel3Present != 0) {
         for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel3FirstEffects[i]);
-            DeleteEffect(p->mLevel3SecondEffects[i]);
+            ptcm_killEmitterDirect(p->mLevel3FirstEffects[i]);
+            ptcm_killEmitterDirect(p->mLevel3SecondEffects[i]);
             p->mLevel3FirstEffects[i] = NULL;
             p->mLevel3SecondEffects[i] = NULL;
         }
@@ -434,13 +434,13 @@ void StartKartLevel3Effects(KartTurnEffects *p, int v1) {
     p->mLevel3Present = 0;
     p->mLevel3Frames = 0;
     for (i = 0; i < 2; i++) {
-        p->mLevel3FirstEffects[i] = StartEffect(p->mLevel3FirstEffectId, &data_02155fcc);
-        p->mLevel3SecondEffects[i] = StartEffect(p->mLevel3SecondEffectId, &data_02155fcc);
+        p->mLevel3FirstEffects[i] = ptcm_createEmitter(p->mLevel3FirstEffectId, &data_02155fcc);
+        p->mLevel3SecondEffects[i] = ptcm_createEmitter(p->mLevel3SecondEffectId, &data_02155fcc);
     }
     p->mLevel3Present = 1;
 }
 
-void AdvanceKartLevel3Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
+void dptc_updateRedSparks(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
     s32 n;
@@ -452,8 +452,8 @@ void AdvanceKartLevel3Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     if (p->mLevel3Frames > 10) {
         if (p->mLevel3Present != 0) {
             for (i = 0; i < 2; i++) {
-                DeleteEffect(p->mLevel3FirstEffects[i]);
-                DeleteEffect(p->mLevel3SecondEffects[i]);
+                ptcm_killEmitterDirect(p->mLevel3FirstEffects[i]);
+                ptcm_killEmitterDirect(p->mLevel3SecondEffects[i]);
                 p->mLevel3FirstEffects[i] = NULL;
                 p->mLevel3SecondEffects[i] = NULL;
             }
@@ -482,7 +482,7 @@ void AdvanceKartLevel3Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     }
 }
 
-void StartKartLevel2Effects(KartTurnEffects *p, int v1) {
+void dptc_emitBlueSparks(KartTurnEffects *p, int v1) {
     u16 i;
 
     if (v1 == 0) {
@@ -490,19 +490,19 @@ void StartKartLevel2Effects(KartTurnEffects *p, int v1) {
     }
     if (p->mLevel2Present != FALSE) {
         for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel2Effects[i]);
+            ptcm_killEmitterDirect(p->mLevel2Effects[i]);
             p->mLevel2Effects[i] = NULL;
         }
     }
     p->mLevel2Present = FALSE;
     p->mLevel2Frames = 0;
     for (i = 0; i < 2; i++) {
-        p->mLevel2Effects[i] = StartEffect(0x7e, &data_02155fcc);
+        p->mLevel2Effects[i] = ptcm_createEmitter(0x7e, &data_02155fcc);
     }
     p->mLevel2Present = TRUE;
 }
 
-void AdvanceKartLevel2Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
+void dptc_updateBlueSparks(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     u16 i;
     Unk0201ca6c *e;
     s32 t;
@@ -514,7 +514,7 @@ void AdvanceKartLevel2Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     if (p->mLevel2Frames > 8) {
         if (p->mLevel2Present != FALSE) {
             for (i = 0; i < 2; i++) {
-                DeleteEffect(p->mLevel2Effects[i]);
+                ptcm_killEmitterDirect(p->mLevel2Effects[i]);
                 p->mLevel2Effects[i] = NULL;
             }
         }
@@ -547,13 +547,13 @@ void AdvanceKartLevel2Effects(KartTurnEffects *p, Vec3s16 *a, Vec3 *b) {
     }
 }
 
-void ReleaseKartTurnEffects(KartTurnEffects *p) {
+void dptc_killAll(KartTurnEffects *p) {
     u16 i;
     u16 j;
 
     if (p->mTurnStartPresent != 0) {
         for (i = 0; i < 2; i++) {
-            DeleteEffectAndClearPointer(&p->mTurnStartEffects[i]);
+            ptcm_killEmitterDirectSafe(&p->mTurnStartEffects[i]);
         }
     }
     p->mTurnStartPresent = 0;
@@ -567,8 +567,8 @@ void ReleaseKartTurnEffects(KartTurnEffects *p) {
     p->mLevel4RestartRequested = 0;
     if (p->mLevel3Present != 0) {
         for (i = 0; i < 2; i++) {
-            DeleteEffect(p->mLevel3FirstEffects[i]);
-            DeleteEffect(p->mLevel3SecondEffects[i]);
+            ptcm_killEmitterDirect(p->mLevel3FirstEffects[i]);
+            ptcm_killEmitterDirect(p->mLevel3SecondEffects[i]);
             p->mLevel3FirstEffects[i] = NULL;
             p->mLevel3SecondEffects[i] = NULL;
         }
@@ -577,7 +577,7 @@ void ReleaseKartTurnEffects(KartTurnEffects *p) {
     p->mLevel3Frames = 0;
     if (p->mLevel2Present != FALSE) {
         for (j = 0; j < 2; j++) {
-            DeleteEffect(p->mLevel2Effects[j]);
+            ptcm_killEmitterDirect(p->mLevel2Effects[j]);
             p->mLevel2Effects[j] = NULL;
         }
     }
@@ -585,11 +585,11 @@ void ReleaseKartTurnEffects(KartTurnEffects *p) {
     p->mLevel2Frames = 0;
 }
 
-KartTurnEffects *GetKartTurnEffects(int v1) {
-    return gKartTurnEffects + v1;
+KartTurnEffects *dptc_getControllerForDriver(int v1) {
+    return dptc_sDriverControllers + v1;
 }
 
-void StopKartTurnEffects(KartTurnEffects *p) {
+void dptc_208C534(KartTurnEffects *p) {
     u16 i;
 
     if (p->mLevel4Present == 0) {

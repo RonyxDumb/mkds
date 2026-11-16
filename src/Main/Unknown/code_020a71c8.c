@@ -37,7 +37,7 @@
 #include "Main/Unknown/code_020d7da8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void InitSanbo(u32 arg0) {
+void sanbo_init(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     u32 value2;
@@ -45,25 +45,25 @@ void InitSanbo(u32 arg0) {
     value1 = *(const u32 *) ((value0) + (156));
     value0 = (value0) + (0x1d8u);
     value2 = 0u;
-    InitGroupFollower((GroupFollower *) value0, (CourseMapRow *) value1, value2);
+    pw_initFromObject((GroupFollower *) value0, (CourseMapRow *) value1, value2);
 }
 
-u8 CollideKartWithSanbo(Sanbo *p, Kart *a, u8 *b, u8 *c) {
+u8 sanbo_onDriverCollide(Sanbo *p, Kart *a, u8 *b, u8 *c) {
     Unk0210b7a8 s;
     u32 d;
 
     d = *c;
     if (*b == 1) {
-        StartSanboLaunch(p);
+        sanbo_kill(p);
         p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e4;
         p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e8;
-        StartSoundIfKartStarOrKiller(&p->mUnk_000, a);
+        mobj_tryDestroyByDriver(&p->mUnk_000, a);
     } else {
         if (p->mFastWobbleTimer == 0) {
             s.mSoundId = 0x193;
             s.mPositionSource = &p->mUnk_000.mPos;
             s.mUnk_08 = 2;
-            s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
         }
@@ -72,13 +72,13 @@ u8 CollideKartWithSanbo(Sanbo *p, Kart *a, u8 *b, u8 *c) {
     return d;
 }
 
-u8 CollideItemObjectWithSanbo(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
+u8 sanbo_onItemCollide(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
     Unk0210b7a8 s;
     u32 d;
 
     d = *c;
     if (*b == 1) {
-        StartSanboLaunch(p);
+        sanbo_kill(p);
         p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e4;
         p->mUnk_000.mFlags = p->mUnk_000.mFlags | data_021567e8;
     } else {
@@ -86,7 +86,7 @@ u8 CollideItemObjectWithSanbo(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
             s.mSoundId = 0x193;
             s.mPositionSource = &p->mUnk_000.mPos;
             s.mUnk_08 = 2;
-            s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
         }
@@ -95,18 +95,18 @@ u8 CollideItemObjectWithSanbo(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
     return d;
 }
 
-void CreateSanboHAndSanboB(void *a) {
-    gSanboH = CreateMapObjectModelNsbmd(a, gSanboHNsbmdName);
-    gSanboB = CreateMapObjectModelNsbmd(a, gSanboBNsbmdName);
-    SetMapObjectModelPolygonId(gSanboH, 0x3f);
-    SetMapObjectModelPolygonId(gSanboB, 0x3f);
+void sanbo_loadModels(void *a) {
+    sanbo_sHeadModel = mobj_loadBillboardModel(a, aSanbo_h_nsbmd);
+    sanbo_sBodyModel = mobj_loadBillboardModel(a, aSanbo_b_nsbmd);
+    mobj_setModelPolygonIdAll(sanbo_sHeadModel, 0x3f);
+    mobj_setModelPolygonIdAll(sanbo_sBodyModel, 0x3f);
 }
 
-u32 func_020a7eb0(u32 p0) {
+u32 sanbo_globalPreRender(u32 p0) {
     return p0;
 }
 
-void DrawSanbo(void *a, Sanbo *p) {
+void sanbo_render(void *a, Sanbo *p) {
     s32 i;
     s32 k;
     s32 w0;
@@ -123,95 +123,95 @@ void DrawSanbo(void *a, Sanbo *p) {
     s32 t;
 
     w0 = 0x1e;
-    func_01ff9048(0x14, &w0, 1);
+    NNS_G3dGeBufferOP_N(0x14, &w0, 1);
     switch (p->mState) {
         case 0:
         case 1:
-            func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
+            NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mUnk_000.mPos), 12);
             f0[0] = 0;
             f0[1] = 0xa00;
             f0[2] = 0;
-            func_01ff9048(0x1c, f0, 3);
+            NNS_G3dGeBufferOP_N(0x1c, f0, 3);
             for (i = 0; i < p->mPieceCount; i++) {
                 if (p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(m0, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, m0, 9);
+                    MTX_RotZ33_(m0, FX_SinCosTable_[k], FX_SinCosTable_[k + 1]);
+                    NNS_G3dGeBufferOP_N(0x1a, m0, 9);
                 }
                 if (i != 0) {
                     f1[0] = 0;
                     f1[1] = 0x1400;
                     f1[2] = 0x80;
-                    func_01ff9048(0x1c, f1, 3);
+                    NNS_G3dGeBufferOP_N(0x1c, f1, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sHeadModel);
+                    mobj_renderModel(a, sanbo_sHeadModel, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sBodyModel);
+                    mobj_renderModel(a, sanbo_sBodyModel, p);
                 }
             }
             break;
         case 2:
             for (i = 0; i < p->mPieceCount; i++) {
                 w1 = 0x1e;
-                func_01ff9048(0x14, &w1, 1);
+                NNS_G3dGeBufferOP_N(0x14, &w1, 1);
                 f2[0] = 0;
                 f2[1] = 0xa00;
                 f2[2] = 0;
-                func_01ff9048(0x1c, f2, 3);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mPieces[i].mPos), 12);
+                NNS_G3dGeBufferOP_N(0x1c, f2, 3);
+                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mPieces[i].mPos), 12);
                 if ((p->mUnk_000.mFlags & 0x12) == 0 && p->mPieces[i].mRotateZAngle != 0) {
                     k = ((u16) p->mPieces[i].mRotateZAngle >> 4) * 2;
-                    MTX_RotZ33_(m1, gPairsByAngle[k], gPairsByAngle[k + 1]);
-                    func_01ff9048(0x1a, m1, 9);
+                    MTX_RotZ33_(m1, FX_SinCosTable_[k], FX_SinCosTable_[k + 1]);
+                    NNS_G3dGeBufferOP_N(0x1a, m1, 9);
                 }
                 t = p->mPieces[i].mDrawScale;
                 if (t < 0x1000) {
                     g2[0] = t;
                     g2[1] = t;
                     g2[2] = 0;
-                    func_01ff9048(0x1b, g2, 3);
+                    NNS_G3dGeBufferOP_N(0x1b, g2, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sHeadModel);
+                    mobj_renderModel(a, sanbo_sHeadModel, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sBodyModel);
+                    mobj_renderModel(a, sanbo_sBodyModel, p);
                 }
             }
             break;
         case 3:
             for (i = 0; i < p->mPieceCount; i++) {
                 w2 = 0x1e;
-                func_01ff9048(0x14, &w2, 1);
-                func_01ff9048(0x19, SetViewTransposeMatrixPos(&p->mUnk_000.mPos), 12);
+                NNS_G3dGeBufferOP_N(0x14, &w2, 1);
+                NNS_G3dGeBufferOP_N(0x19, bbm_getBillboardAtPos(&p->mUnk_000.mPos), 12);
                 f3[2] = 0x80;
                 f3[0] = 0;
                 f3[1] = (i * 0x14000 + 0xa000) >> 4;
-                func_01ff9048(0x1c, f3, 3);
+                NNS_G3dGeBufferOP_N(0x1c, f3, 3);
                 t = p->mPieces[i].mDrawScale;
                 if (t < 0x1000) {
                     g3[0] = t;
                     g3[1] = t;
                     g3[2] = 0;
-                    func_01ff9048(0x1b, g3, 3);
+                    NNS_G3dGeBufferOP_N(0x1b, g3, 3);
                 }
                 if (i == 3) {
-                    func_0209bbd0(a, gSanboH);
-                    DrawMapObjectModel(a, gSanboH, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sHeadModel);
+                    mobj_renderModel(a, sanbo_sHeadModel, p);
                 } else {
-                    func_0209bbd0(a, gSanboB);
-                    DrawMapObjectModel(a, gSanboB, p);
+                    mobj_bbModelApplyMaterial(a, sanbo_sBodyModel);
+                    mobj_renderModel(a, sanbo_sBodyModel, p);
                 }
             }
             break;
     }
 }
 
-void InitSanboObjects(MapObjectList *l) {
+void sanbo_globalLogicInit(MapObjectList *l) {
     s32 j;
     s32 i;
     Sanbo *o;
@@ -236,15 +236,15 @@ void InitSanboObjects(MapObjectList *l) {
     }
 }
 
-s32 func_020a78b0(s32 a) {
-    return gPairsByAngle[(a >> 4) * 2];
+s32 sanbo_FX_SinIdx(s32 a) {
+    return FX_SinCosTable_[(a >> 4) * 2];
 }
 
-s32 func_020a7894(s32 a, s32 b) {
+s32 sanbo_FX_MulInline(s32 a, s32 b) {
     return ((s64) a * b + 0x800) >> 12;
 }
 
-void UpdateSanbo(void *a, Sanbo *p) {
+void sanbo_update(void *a, Sanbo *p) {
     Unk0210b7a8 s;
     s32 m;
     s32 k;
@@ -258,15 +258,15 @@ void UpdateSanbo(void *a, Sanbo *p) {
         p->mFollower.mSpeed = t;
         p->mFollower.mProgressStep =
             (s64) t * p->mFollower.mPath->mSegments[p->mFollower.mSegmentIndex].mInverseProgressLength >> 12;
-        if (AdvanceGroupFollower(&p->mFollower) != FALSE) {
+        if (pw_update(&p->mFollower) != FALSE) {
             p->mPathWaitTimer = (u16) p->mFollower.mFromEntry->mUnk_0e;
         } else {
             p->mPathWaitTimer = 0;
         }
         if (p->mFollower.mPath->mWraps != 0) {
-            GetGroupFollowerCurvePosStep(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
+            pw_20D8BF8_XYZ(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
         } else {
-            GetGroupFollowerLinearPosStep(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
+            pw_calcCurrentPointLinearXYZSpecial(&p->mFollower, &p->mUnk_000.mPos, &p->mUnk_000.mUnk_10);
         }
     } else {
         p->mFollower.mSpeed = 0;
@@ -293,7 +293,7 @@ void UpdateSanbo(void *a, Sanbo *p) {
                     p->mPieces[i].mWobbleAngle = p->mPieces[i].mWobbleAngle + p->mPieces[i].mWobbleAnglePerFrame;
                     p->mPieces[i].mUnk_24 =
                         p->mPieces[i].mWobbleMid +
-                        func_020a7894(p->mPieces[i].mWobbleAmplitude, func_020a78b0(p->mPieces[i].mWobbleAngle)) -
+                        sanbo_FX_MulInline(p->mPieces[i].mWobbleAmplitude, sanbo_FX_SinIdx(p->mPieces[i].mWobbleAngle)) -
                         p->mPieces[i].mWobbleValue;
                     p->mPieces[i].mWobbleValue = p->mPieces[i].mWobbleValue + p->mPieces[i].mUnk_24;
                     t = p->mPieces[i].mWobbleAmplitude;
@@ -344,7 +344,7 @@ void UpdateSanbo(void *a, Sanbo *p) {
             s.mSoundId = 0x194;
             s.mPositionSource = &p->mUnk_000.mPos;
             s.mUnk_08 = 2;
-            s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&p->mUnk_000.mPos);
+            s.mDistanceSquared = mobj_calcXZCamDist(&p->mUnk_000.mPos);
             func_0210b7a8(&s);
             p->mSoundTimer = 0x14;
             break;
@@ -394,58 +394,58 @@ void UpdateSanbo(void *a, Sanbo *p) {
     }
 }
 
-void CreateSanboKindData(void) {
-    CreateMapObjectKindData(&CollideKartWithSanbo, &CollideItemObjectWithSanbo, NULL, 1, 1);
+void sanbo_setupConfig(void) {
+    mobj_createConfig(&sanbo_onDriverCollide, &sanbo_onItemCollide, NULL, 1, 1);
 }
 
-void *CreateSanboDrawList(void) {
-    return CreateMapObjectDrawList2(CreateSanboHAndSanboB, DrawSanbo, func_020a7eb0);
+void *sanbo_setupRenderPart(void) {
+    return mobj_createRenderPart2d(sanbo_loadModels, sanbo_render, sanbo_globalPreRender);
 }
 
-void *CreateSanboUpdateList(void) {
-    return CreateMapObjectUpdateList(InitSanboObjects, UpdateSanbo, NULL);
+void *sanbo_setupLogicPart(void) {
+    return mobj_createLogicPart(sanbo_globalLogicInit, sanbo_update, NULL);
 }
 
-BOOL ShineKartHitCallback(u16 a, u16 b) {
-    if (GetBalloonOrShineCount(a) != 0) {
-        AddBalloonOrShineCountAndMoveRank(a, -1);
+BOOL shinc_onDriverDamage(u16 a, u16 b) {
+    if (mgcnt_getDriverBalloonShineCount(a) != 0) {
+        mgcnt_updateDriverBalloonShineCount(a, -1);
         if (b >= 8) {
             b = a;
         }
-        StartShine16FromKart(GetKart(a), GetKart(b));
+        shine_driverLostSpawn(driver_getById(a), driver_getById(b));
         return TRUE;
     }
     return FALSE;
 }
 
-void ShineKartEliminatedCallback(u16 a) {
-    if (GetBalloonOrShineCount(a) == 0) {
+void shinc_onDriverKill(u16 a) {
+    if (mgcnt_getDriverBalloonShineCount(a) == 0) {
         return;
     }
-    AddBalloonOrShineCountAndMoveRank(a, -1);
-    StartShine16FromKart(GetKart(a), GetKart(a));
+    mgcnt_updateDriverBalloonShineCount(a, -1);
+    shine_driverLostSpawn(driver_getById(a), driver_getById(a));
 }
 
-void ShineEndCallback(void) {
+void shinc_onMgEnd(void) {
     s32 i;
     MapObject *o;
     MapObjectList *l;
 
-    l = FindMapObjectKindUpdateList(0x6b);
+    l = mobj_getLogicPartForObjectId(0x6b);
     if (l != NULL) {
         for (i = 0; i < l->mMapObjectCount && (o = l->mMapObjects[i]) != NULL; i++) {
             if ((o->mFlags & 0x100) == 0) {
-                ParkMapObject(o);
+                mobj_setInvisible(o);
             }
         }
     }
-    l = FindMapObjectKindUpdateList(MAP_OBJECT_KIND_SHINE_BALLOON);
+    l = mobj_getLogicPartForObjectId(MAP_OBJECT_KIND_SHINE_BALLOON);
     if (l != NULL) {
         for (i = 0; i < l->mMapObjectCount && (o = l->mMapObjects[i]) != NULL; i++) {
             if ((o->mFlags & 0x100) == 0) {
-                ParkMapObject(o);
+                mobj_setInvisible(o);
             }
         }
     }
-    ParkShine16Objects();
+    shine_clearAll();
 }

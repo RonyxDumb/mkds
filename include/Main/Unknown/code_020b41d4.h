@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int IsArchiveSlotLoaded(unsigned int slotIndex);
+unsigned int m2d_arc_isArchiveLoaded(unsigned int slotIndex);

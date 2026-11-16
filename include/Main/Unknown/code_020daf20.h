@@ -85,19 +85,19 @@ typedef struct Unk020dbf2c {
     /* 04 */ u8 mUnk_04[0x3c];
 } Unk020dbf2c;
 
-Unk020dbf2c *CreateDossunKindData(void);
-Unk020dbed0 *CreateDossunDrawList(void);
-Unk020dbe74 *CreateDossunUpdateList(void);
-Unk020db268 *CreateKuriboKindData(void);
-Unk020db20c *CreateKuriboDrawList(void);
-Unk020db1b0 *CreateKuriboUpdateList(void);
-s32 func_020db4c4(Dossun *dossun);
-void func_020db430(Dossun *dossun);
-void CreateDossunAndDossunShadow(void);
-void InitDossun(Dossun *dossun, CourseMapRow *row);
-void SetupDrawKuribo(void);
-void DrawKuribo(void *unused0, Kuribo *kuribo, void *unused1, u16 d);
-void UpdateKuribo(void *unused, Kuribo *kuribo); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawDossun(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
-u32 CollideKartWithDossun(Dossun *dossun, Kart *kart, u8 *b, u8 *c);
-void UpdateDossun(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+Unk020dbf2c *dossun_setupConfig(void);
+Unk020dbed0 *dossun_setupRenderPart(void);
+Unk020dbe74 *dossun_setupLogicPart(void);
+Unk020db268 *kuribo_setupConfig(void);
+Unk020db20c *kuribo_setupRenderPart(void);
+Unk020db1b0 *kuribo_setupLogicPart(void);
+s32 dossun_getMapElevation(Dossun *dossun);
+void dossun_initState(Dossun *dossun);
+void dossun_loadModels(void);
+void dossun_init(Dossun *dossun, CourseMapRow *row);
+void kuribo_globalPreRender(void);
+void kuribo_render(void *unused0, Kuribo *kuribo, void *unused1, u16 d);
+void kuribo_update(void *unused, Kuribo *kuribo); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void dossun_render(void *unused0, Dossun *dossun, void *unused1, s32 maxAlpha);
+u32 dossun_onDriverCollide(Dossun *dossun, Kart *kart, u8 *b, u8 *c);
+void dossun_update(void *unused, Dossun *dossun); /* skipped for objects with mFlags & 4 (parked pool objects) */

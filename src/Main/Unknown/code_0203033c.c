@@ -42,7 +42,7 @@ u32 func_020306e0(u32 slotIndex) {
     u32 value1;
     u32 slotsAddress;
     u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
     calleeAddress = (u32) &func_02030700;
@@ -60,7 +60,7 @@ u32 func_020306b8(u32 slotIndex) {
     u32 value1;
     u32 slotsAddress;
     u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
     calleeAddress = (u32) &func_020306d8;
@@ -74,13 +74,13 @@ u16 func_020306a4(InputSlot *slot, u32 mask) {
 }
 
 u32 func_02030688(u32 slotIndex, u32 mask) {
-    return func_020306a4(&data_02175628[slotIndex], mask);
+    return func_020306a4(&gInputUnits[slotIndex], mask);
 }
 
 void func_02030654(u32 index) {
-    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&data_0217c868))));
+    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&SDATFile))));
     func_0203063c(index, 0);
-    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&data_0217d0a0))));
+    NNS_SndArcSetCurrent((NNSSndArc *) (((u32) (&gSdatFileSndArc))));
 }
 
 void func_0203063c(u32 index, u32 seqArcNo) {
@@ -112,13 +112,13 @@ s32 AdvanceMultiSelectNS(void) {
     u16 slotIndex;
 
     result = -1;
-    slotIndex = func_020435bc();
+    slotIndex = input_getDirectInputUnitId();
     multiSelectNS = gMultiSelectNS;
     switch (multiSelectNS->mState) {
         case 0:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < 10) {
-                gMultiSelectNS->mOffset = InterpolateS16(1, -0xc0, 0, gMultiSelectNS->mStateFrames, 10);
+                gMultiSelectNS->mOffset = mutil_interpolate(1, -0xc0, 0, gMultiSelectNS->mStateFrames, 10);
             } else {
                 gMultiSelectNS->mStateFrames = 0;
                 gMultiSelectNS->mOffset = 0;
@@ -132,11 +132,11 @@ s32 AdvanceMultiSelectNS(void) {
             if (func_02030708(slotIndex) != 0) {
                 b = func_020306e0(slotIndex);
                 pairY = func_020306b8(slotIndex);
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(b, pairY);
+                touchInReturnRect = gmenu_checkSelectReturnTouch(b, pairY);
                 b = FindRectContainingPoint(b, pairY, multiSelectNS->mBnbl);
             }
             if (func_02030688(slotIndex, PAD_KEY_A) != 0) {
-                func_0204aa28(gMultiSelectNS->mIndex == 1 ? 1 : 0);
+                sysdat_setIsMBChild(gMultiSelectNS->mIndex == 1 ? 1 : 0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(0);
@@ -158,14 +158,14 @@ s32 AdvanceMultiSelectNS(void) {
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 0 ? 1 : 0);
                 func_02030654(4);
                 gMultiSelectNS->mIndex = 0;
-                func_0204aa28(0);
+                sysdat_setIsMBChild(0);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             } else if (b == 1) {
                 gMultiSelectNS->mState = 2;
                 RefreshMultiSelectNS(gMultiSelectNS->mIndex != 1 ? 1 : 0);
                 func_02030654(4);
                 gMultiSelectNS->mIndex = 1;
-                func_0204aa28(1);
+                sysdat_setIsMBChild(1);
                 gMultiSelectNS->mNextCallbacksIndex = 2;
             }
             break;
@@ -180,7 +180,7 @@ s32 AdvanceMultiSelectNS(void) {
         case 3:
             multiSelectNS->mStateFrames++;
             if (gMultiSelectNS->mStateFrames < 10) {
-                gMultiSelectNS->mOffset = InterpolateS16(1, 0, -0xc0, gMultiSelectNS->mStateFrames, 10);
+                gMultiSelectNS->mOffset = mutil_interpolate(1, 0, -0xc0, gMultiSelectNS->mStateFrames, 10);
             } else {
                 gMultiSelectNS->mOffset = 0;
                 gMultiSelectNS->mState = 4;
@@ -192,7 +192,7 @@ s32 AdvanceMultiSelectNS(void) {
             break;
     }
     if (gMultiSelectNS->mState != 4) {
-        DrawLayoutTable(multiSelectNS->mBncl, multiSelectNS->mNcer, multiSelectNS->mBnll, gMultiSelectNS->mOamList,
+        jn_ui_renderElements(multiSelectNS->mBncl, multiSelectNS->mNcer, multiSelectNS->mBnll, gMultiSelectNS->mOamList,
                         multiSelectNS->mCellTable);
     }
     return result;
@@ -203,8 +203,8 @@ s32 AdvanceMultiSelectNS(void) {
 #pragma thumb on
 
 void ReleaseMultiSelectNS(void) {
-    func_0204f7f4();
-    HeapDestroy(gMultiSelectNS->mHeap);
+    LEDBlink_NoPattern();
+    heap_destroySubHeap(gMultiSelectNS->mHeap);
     gMultiSelectNS = NULL;
 }
 

@@ -28,27 +28,27 @@ void ClearOptionStateCallbacks(void) {
 
 void LoadOptionData(void) {
     LoadedPartPointer v;
-    LoadNcgrData(&v.mNcgr, FindSceneFile("Option_top_menu_m_b.ncgr"));
-    LoadNscrData(&v.mNscr, FindSceneFile("Option_top_menu_m.nscr"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_top_menu_m_b.nclr"));
-    LoadNcgrData(&v.mNcgr, FindSceneFile("Option_select_menu_m_b.ncgr"));
-    LoadNscrData(&v.mNscr, FindSceneFile("Option_select_menu_m.nscr"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_select_menu_m_b.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("Option_top_menu_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("Option_top_menu_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_top_menu_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("Option_hensyu_menu_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("Option_hensyu_menu_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_hensyu_menu_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("Option_select_menu_m.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("Option_select_menu_m.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_select_menu_m_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("Option_select_menu_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("Option_select_menu_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_select_menu_s_o.nclr"));
-    LoadNcgrData2(&v.mNcgr, FindSceneFile("Option_embrem_select_s.nce.ncgr"));
-    LoadNcerData(&v.mNcer, FindSceneFile("Option_embrem_select_s.nce.ncer"));
-    LoadNclrData(&v.mNclr, FindSceneFile("Option_embrem_select_s_o.nclr"));
+    g2du_unpackCharacterDataBG(&v.mNcgr, arc_getSceneArcFile("Option_top_menu_m_b.ncgr"));
+    g2du_unpackScreenData(&v.mNscr, arc_getSceneArcFile("Option_top_menu_m.nscr"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_top_menu_m_b.nclr"));
+    g2du_unpackCharacterDataBG(&v.mNcgr, arc_getSceneArcFile("Option_select_menu_m_b.ncgr"));
+    g2du_unpackScreenData(&v.mNscr, arc_getSceneArcFile("Option_select_menu_m.nscr"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_select_menu_m_b.nclr"));
+    g2du_unpackCharacterData(&v.mNcgr, arc_getSceneArcFile("Option_top_menu_s.nce.ncgr"));
+    g2du_unpackCellBankData(&v.mNcer, arc_getSceneArcFile("Option_top_menu_s.nce.ncer"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_top_menu_s_o.nclr"));
+    g2du_unpackCharacterData(&v.mNcgr, arc_getSceneArcFile("Option_hensyu_menu_s.nce.ncgr"));
+    g2du_unpackCellBankData(&v.mNcer, arc_getSceneArcFile("Option_hensyu_menu_s.nce.ncer"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_hensyu_menu_s_o.nclr"));
+    g2du_unpackCharacterData(&v.mNcgr, arc_getSceneArcFile("Option_select_menu_m.nce.ncgr"));
+    g2du_unpackCellBankData(&v.mNcer, arc_getSceneArcFile("Option_select_menu_m.nce.ncer"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_select_menu_m_o.nclr"));
+    g2du_unpackCharacterData(&v.mNcgr, arc_getSceneArcFile("Option_select_menu_s.nce.ncgr"));
+    g2du_unpackCellBankData(&v.mNcer, arc_getSceneArcFile("Option_select_menu_s.nce.ncer"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_select_menu_s_o.nclr"));
+    g2du_unpackCharacterData(&v.mNcgr, arc_getSceneArcFile("Option_embrem_select_s.nce.ncgr"));
+    g2du_unpackCellBankData(&v.mNcer, arc_getSceneArcFile("Option_embrem_select_s.nce.ncer"));
+    g2du_unpackPaletteData(&v.mNclr, arc_getSceneArcFile("Option_embrem_select_s_o.nclr"));
 }
 
 void func_ov001_021930ac(void) {
@@ -74,13 +74,13 @@ void func_ov001_021930ac(void) {
 
 void InitOptionStates(void *heap, s16 a) {
     Unk02125de0Arg arg;
-    gOptionStates = HeapAlloc(heap, 0x2c);
+    gOptionStates = heap_alloc(heap, 0x2c);
     gOptionStates->mHeap = heap;
     gOptionStates->mUnk_28 = func_021250b0(heap);
     func_ov001_021930ac();
     InitLinkLevelIcons(heap, GetOptionFirstBuffer());
     arg.mUnk_00 = TRUE;
-    arg.mUnk_04 = GetFontByIndex(1);
+    arg.mUnk_04 = m2d_getFont(1);
     arg.mUnk_08 = 0;
     arg.mUnk_0c = 1;
     arg.mUnk_10 = 0;
@@ -89,9 +89,9 @@ void InitOptionStates(void *heap, s16 a) {
     arg.mUnk_1c = TRUE;
     arg.mUnk_20 = TRUE;
     arg.mUnk_24 = 0;
-    LoadTxtSystemAndSelectChoisesAndSelectReturnData();
-    func_02125de0(heap, &arg);
-    gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);
+    gmenu_unpackData();
+    gmenu_init(heap, &arg);
+    gOptionStates->mStateHeap = heap_createSubExpHeap(gOptionStates->mHeap);
     LoadOptionData();
     ClearOptionStateCallbacks();
     gOptionStates->mUnk_14 = -1;
@@ -108,7 +108,7 @@ void InitOptionStates(void *heap, s16 a) {
             break;
         case 3:
             gOptionStates->mPrevState = 6;
-            if (data_0217b488->mUnk_18 == FALSE) {
+            if (gStruct217B488->mUnk_18 == FALSE) {
                 gOptionStates->mState = 2;
                 RegisterOptionHensyuMenuCallbacks();
             } else {
@@ -127,7 +127,7 @@ void func_ov001_02192f8c(void) {
     }
     ClearOptionStateCallbacks();
     ClearLinkLevelIconsPointer();
-    func_02125da0();
+    gmenu_finish();
     gOptionStates = NULL;
 }
 
@@ -138,8 +138,8 @@ void AdvanceOptionStates(void) {
     if (gOptionStates->mNextState != -1) {
         gOptionStates->mCallbacks.mRelease();
         ClearOptionStateCallbacks();
-        HeapDestroy(gOptionStates->mStateHeap);
-        gOptionStates->mStateHeap = CreateExpHeapFromMaxFree(gOptionStates->mHeap);
+        heap_destroySubHeap(gOptionStates->mStateHeap);
+        gOptionStates->mStateHeap = heap_createSubExpHeap(gOptionStates->mHeap);
         switch (gOptionStates->mNextState) {
             case 0:
                 RegisterOptionTopMenuCallbacks();
@@ -161,7 +161,7 @@ void AdvanceOptionStates(void) {
             gOptionStates->mCallbacks.mInit(gOptionStates->mStateHeap);
         }
     }
-    func_02125928();
+    gmenu_render();
     AdvanceLinkLevelIcons();
 }
 
@@ -169,7 +169,7 @@ void func_ov001_02192ec4(void) {
     if (gOptionStates->mCallbacks.mUnk_0c != NULL) {
         (*gOptionStates->mCallbacks.mUnk_0c)();
     }
-    func_021258f0();
+    gmenu_vblank();
 }
 
 void SetOptionStateCallbacks(UnkFunc **a) {

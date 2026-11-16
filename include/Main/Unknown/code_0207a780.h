@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int GetKartKind3ShapeMask(void);
+unsigned int driver_getClipAreaMask(void);

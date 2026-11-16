@@ -16,56 +16,56 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateMenuScreen(u32 a) {
+void menu_render(u32 a) {
     MenuScene *menu;
     enum { K0 } screenNumber;
 
-    if (func_02049b6c() == 0) {
-        if (func_020cae54() == 1 || func_020cae54() == 2) {
-            if (data_0217b43c->mUnk_958 == FALSE) {
+    if (scene_areUpdatesSuspended() == 0) {
+        if (menu_sysdat_getOverlayRelatedNum() == 1 || menu_sysdat_getOverlayRelatedNum() == 2) {
+            if (gMenuSceneState->mUnk_958 == FALSE) {
                 if (StartDataSharingSync() != 1) {
                     return;
                 }
-                data_0217b43c->mUnk_958 = TRUE;
+                gMenuSceneState->mUnk_958 = TRUE;
             }
-            if (data_0217b43c->mUnk_95c == FALSE) {
+            if (gMenuSceneState->mUnk_95c == FALSE) {
                 if (FinishDataSharingSync() != 1) {
                     return;
                 }
-                data_0217b43c->mUnk_95c = TRUE;
+                gMenuSceneState->mUnk_95c = TRUE;
             }
         }
-        ClearOamListCounts(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
-        if (data_0217b43c->mScreenInitPending != FALSE) {
-            data_0217b43c->mScreenInitPending = FALSE;
-            InitCurrentMenuScreen();
-            menu = data_0217b43c;
+        oam_resetBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
+        if (gMenuSceneState->mScreenInitPending != FALSE) {
+            gMenuSceneState->mScreenInitPending = FALSE;
+            menu_initSubMenu();
+            menu = gMenuSceneState;
             screenNumber = menu->mScreenNumber;
             menu->mScreenCallbacks[screenNumber].mUpdate(a);
         } else {
-            menu = data_0217b43c;
+            menu = gMenuSceneState;
             screenNumber = menu->mScreenNumber;
             menu->mScreenCallbacks[screenNumber].mUpdate(a);
-            if (data_0217b43c->mUnk_004 != 0) {
-                ReleasePreviousMenuScreen();
-                InitCurrentMenuScreen();
+            if (gMenuSceneState->mUnk_004 != 0) {
+                menu_destroySubMenu();
+                menu_initSubMenu();
             }
         }
-        func_02125928();
+        gmenu_render();
         AdvanceLinkLevelIcons();
-        if (AreBrightnessFadesClear() != 0) {
-            func_020cb600(&data_0217b43c->mFramesSinceScreenSwitch);
+        if (mbright_isFadedIn() != 0) {
+            menu_increaseFrameCounter(&gMenuSceneState->mFramesSinceScreenSwitch);
         }
     }
 }
 
 void func_020cb4c0(void) {
-    if (func_02049b6c() == 0) {
-        if (func_020cae54() == 1 || func_020cae54() == 2) {
-            if (data_0217b43c->mUnk_958 == FALSE || data_0217b43c->mUnk_95c == FALSE) {
+    if (scene_areUpdatesSuspended() == 0) {
+        if (menu_sysdat_getOverlayRelatedNum() == 1 || menu_sysdat_getOverlayRelatedNum() == 2) {
+            if (gMenuSceneState->mUnk_958 == FALSE || gMenuSceneState->mUnk_95c == FALSE) {
                 return;
             }
         }
-        func_020ae630(data_0217b43c->mMainOam, data_0217b43c->mSubOam);
+        oam_prepareBuffers(gMenuSceneState->mMainOam, gMenuSceneState->mSubOam);
     }
 }

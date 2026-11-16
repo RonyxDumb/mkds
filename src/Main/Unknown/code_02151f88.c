@@ -4,7 +4,7 @@
 
 #pragma thumb on
 
-u32 WriteNewWiFiInfoToNvram(u32 work) {
+u32 DWCi_AUTH_MakeWiFiID(u32 work) {
     int result;
     u8 wifiInfo[24];
     result = DWCi_AUTH_GetNewWiFiInfo((DWCWiFiInfo *) wifiInfo);

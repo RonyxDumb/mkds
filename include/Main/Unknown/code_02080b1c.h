@@ -31,7 +31,7 @@ typedef struct PointLinkCursor {
     /* 1e */ u8 mUnk_1e;
 } PointLinkCursor;
 
-// Object of 0x2a bytes: an PointLinkCursor at 0x00, a word at 0x20, the halfword at 0x24 given to GetKart and
+// Object of 0x2a bytes: an PointLinkCursor at 0x00, a word at 0x20, the halfword at 0x24 given to driver_getById and
 // halfwords at 0x26 and 0x28.
 typedef struct KartKillerCursor {
     /* 00 */ PointLinkCursor mPointLinkCursor;

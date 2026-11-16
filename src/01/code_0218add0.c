@@ -19,17 +19,17 @@ void func_ov001_0218aef4(Unk02188950 *mapObject) {
     s32 idx;
     Vec3 pos;
 
-    rng = GetMapObjectRandom();
+    rng = mobj_getRng1();
     rng->mValue = (s64) rng->mMultiplier * (s64) rng->mValue + rng->mIncrement;
     angle = (u16) (((rng->mValue >> 32) << 16) >> 32);
     for (i = 0; i < 3; i++) {
         Vec3 vel = {0, 0, 0};
         angle += 0x5555;
         idx = ((u16) angle >> 4) * 2;
-        pos.x = mapObject->mUnk_000.mPos.x + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * gPairsByAngle[idx]) >> 12);
+        pos.x = mapObject->mUnk_000.mPos.x + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * FX_SinCosTable_[idx]) >> 12);
         pos.y = mapObject->mUnk_000.mPos.y;
-        pos.z = mapObject->mUnk_000.mPos.z + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * gPairsByAngle[idx + 1]) >> 12);
-        ThrowItemBombFromPosition(StartItemBomb(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
+        pos.z = mapObject->mUnk_000.mPos.z + (s32) (((s64) mapObject->mPrm->mUnk_1e4 * FX_SinCosTable_[idx + 1]) >> 12);
+        ThrowItemBombFromPosition(itbomb_20FD428(), &pos, &vel, mapObject->mPrm->mUnk_1e8);
     }
     {
         Vec3 pos2;
@@ -49,7 +49,7 @@ void func_ov001_0218ae60(Unk02188950 *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x411, 0);
     StartEffectAtRowHeight(mapObject, 0, 0, 0, 0x412, 0);
-    StartCameraWobbleAtDistance(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
+    cam_tryImpactShakePlayerCamera(mapObject->mUnk_000.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
     mapObject->mUnk_000.mFlags &= ~0x20;
     SetKartCollisionCallback(mapObject, NULL);
 }
@@ -65,6 +65,6 @@ void func_ov001_0218add0(Unk02188950 *mapObject) {
     SetSpeedAndClearTarget(mapObject, 0);
     SetCourseCollisionCallback(mapObject, func_ov001_0218ae60);
     mapObject->mGravityEnabled = TRUE;
-    StartMapObjectSound(&mapObject->mUnk_000, 0x23a);
+    mobj_emitSfxFromEmitter2(&mapObject->mUnk_000, 0x23a);
     SetKartCollisionCallback(mapObject, func_ov001_0218b2b8);
 }

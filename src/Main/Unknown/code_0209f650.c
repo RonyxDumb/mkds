@@ -28,11 +28,11 @@ static inline u16 func_0209f800_inline(u32 n) {
     u32 r;
 
     if (n == 0x10000) {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         return ((mapObjectRandom->mValue >> 32) * 0x10000) >> 32;
     } else {
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         m = (u16) n;
         if (m == 0) {
             r = 0;
@@ -67,7 +67,7 @@ static inline void func_0209fdb4_inline(Airship *airship) {
     airship->mWobbleAngle = (u16) airship->mWobbleAngle + airship->mWobbleAnglePerFrame;
     airship->mUnk_b0 =
         airship->mWobbleMid +
-        func_020a0028(airship->mWobbleAmplitude / 2, 0x1000 - func_020a0044((u16) airship->mWobbleAngle)) -
+        aship_FX_MulInline(airship->mWobbleAmplitude / 2, 0x1000 - aship_FX_CosIdx((u16) airship->mWobbleAngle)) -
         airship->mWobbleOffset;
     airship->mWobbleOffset += airship->mUnk_b0;
     if (airship->mWobbleAmplitude > 0) {
@@ -101,15 +101,15 @@ static inline void func_0209fdb4_inline(Airship *airship) {
 static inline BOOL func_0209fdb4_inline_b(void) {
     s32 i;
 
-    for (i = 0; i < gRaceSetup->mKartCount; i++) {
-        if (GetKartHighestLap((u16) i) >= 2) {
+    for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
+        if (rstat_getDriverHighestReachedLap((u16) i) >= 2) {
             return TRUE;
         }
     }
     return FALSE;
 }
 
-void UpdateAirship(void *a, Airship *airship) {
+void aship_update(void *a, Airship *airship) {
     switch (airship->mState) {
         case 0:
             if (func_0209fdb4_inline_b() != FALSE) {
@@ -125,88 +125,88 @@ void UpdateAirship(void *a, Airship *airship) {
             func_0209fdb4_inline(airship);
             break;
         case 2:
-            AdvanceGroupFollower(&airship->mUnk_c8);
-            GetGroupFollowerCurvePosStep(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
+            pw_update(&airship->mUnk_c8);
+            pw_20D8BF8_XYZ(&airship->mUnk_c8, &airship->mUnk_00.mPos, &airship->mUnk_00.mUnk_10);
             func_0209fdb4_inline(airship);
             break;
     }
     airship->mUnk_00.mAngle = FX_Atan2Idx(airship->mUnk_00.mUnk_10.x, airship->mUnk_00.mUnk_10.z);
 }
 
-void *CreateAirshipDrawList(void) {
-    return CreateMapObjectDrawList1(CreateAirship, DrawAirship, NULL);
+void *aship_setupRenderPart(void) {
+    return mobj_createRenderPart3d(aship_loadModel, aship_render, NULL);
 }
 
-void *CreateAirshipUpdateList(void) {
-    return CreateMapObjectUpdateList(InitAirshipObjects, UpdateAirship, NULL);
+void *aship_setupLogicPart(void) {
+    return mobj_createLogicPart(aship_globalLogicInit, aship_update, NULL);
 }
 
-void func_0209fc78(MapObject *mapObject) {
+void pole_init(MapObject *mapObject) {
     s32 i;
 
     i = mapObject->mCourseMapRow->mUnk_28;
-    if (data_0217b1ac[i] == NULL) {
-        data_0217b1ac[i] = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-        *data_0217b1ac[i] = *data_0217b1ac[0];
+    if (pole_sConfigs[i] == NULL) {
+        pole_sConfigs[i] = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
+        *pole_sConfigs[i] = *pole_sConfigs[0];
     }
     switch (i) {
         case 0x10:
-            data_0217b1ac[i]->mUnk_24 = 0x127;
+            pole_sConfigs[i]->mUnk_24 = 0x127;
             break;
         case 0x11:
-            data_0217b1ac[i]->mUnk_24 = 0x100;
+            pole_sConfigs[i]->mUnk_24 = 0x100;
             break;
         case 0x12:
-            data_0217b1ac[i]->mUnk_24 = 0x1da;
+            pole_sConfigs[i]->mUnk_24 = 0x1da;
             break;
         default:
-            data_0217b1ac[i]->mUnk_24 = func_0210bafc(0, 8, i);
+            pole_sConfigs[i]->mUnk_24 = csfx_getWallSfx(0, 8, i);
             break;
     }
-    mapObject->mKindData = data_0217b1ac[i];
+    mapObject->mKindData = pole_sConfigs[i];
 }
 
-void func_0209fc38(void) {
+void pole_setupConfig(void) {
     s32 i;
 
     for (i = 0; i < 19; i++) {
-        data_0217b1ac[i] = NULL;
+        pole_sConfigs[i] = NULL;
     }
-    data_0217b1ac[0] = (MapObjectKindData *) CreateEmptyMapObjectKindData();
+    pole_sConfigs[0] = (MapObjectKindData *) mobj_createDummyConfig();
 }
 
-void func_0209fc2c(void) {
-    func_020e6c0c();
+void tmon_globalPostRender(void) {
+    bbm_20E6C0C();
 }
 
-void CreateTownMonte(MapObjectModel *mapObjectModel) {
-    mapObjectModel->mShadowModel = (void *) func_0209fc2c;
-    SetMapObjectModelPolygonId(
-        gTownMonte = CreateMapObjectModelNsbmdNsbtp(mapObjectModel, gTownMonteNsbmdName, gTownMonteNsbtpName), 0x3f);
+void tmon_loadModel(MapObjectModel *mapObjectModel) {
+    mapObjectModel->mShadowModel = (void *) tmon_globalPostRender;
+    mobj_setModelPolygonIdAll(
+        tmon_sModel = mobj_loadTexAnimBillboardModel(mapObjectModel, aTownmonte_nsbm, aTownmonte_nsbt), 0x3f);
 }
 
-void DrawTownMonte(void *a, TownMonte *townMonte) {
+void tmon_render(void *a, TownMonte *townMonte) {
     s32 v;
     s32 d;
     MtxFx43 *h;
 
     d = (0x16c000 - townMonte->mUnk_a4) >> 12;
     v = 0x1e;
-    func_01ff9048(0x14, &v, 1);
+    NNS_G3dGeBufferOP_N(0x14, &v, 1);
     if (townMonte->mMirror != 0) {
-        h = func_020e6c3c(&townMonte->mUnk_00.mPos, -d, d);
-        func_01ff9048(0x19, h, 0xc);
+        h = bbm_getYBillboardAtPosTransformed(&townMonte->mUnk_00.mPos, -d, d);
+        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     } else {
-        h = func_020e6c3c(&townMonte->mUnk_00.mPos, d, d);
-        func_01ff9048(0x19, h, 0xc);
+        h = bbm_getYBillboardAtPosTransformed(&townMonte->mUnk_00.mPos, d, d);
+        NNS_G3dGeBufferOP_N(0x19, h, 0xc);
     }
-    func_01ff9048(0x1b, &townMonte->mUnk_00.mScale, 3);
-    SetMapObjectModelNsbtpFrameIndex(gTownMonte, townMonte->mNsbtpFrameIndex);
-    func_0209bbd0(a, gTownMonte);
-    DrawMapObjectModel(a, gTownMonte, townMonte);
+    NNS_G3dGeBufferOP_N(0x1b, &townMonte->mUnk_00.mScale, 3);
+    mobj_setModelNsbtpFrame(tmon_sModel, townMonte->mNsbtpFrameIndex);
+    mobj_bbModelApplyMaterial(a, tmon_sModel);
+    mobj_renderModel(a, tmon_sModel, townMonte);
 }
 
-void InitTownMonteObjects(Unk0209f800 *a) {
+void tmon_globalInitLogic(Unk0209f800 *a) {
     TownMonte *townMonte;
     RandomState64 *mapObjectRandom;
     s32 i;
@@ -220,9 +220,9 @@ void InitTownMonteObjects(Unk0209f800 *a) {
     for (i = 0; i < a->mUnk_04 && (townMonte = a->mUnk_00[i]) != NULL; i++) {
         townMonte->mUnk_a4 = 0;
         townMonte->mUnk_a8 = 0;
-        nsbtpFrameCount = GetMapObjectModelNsbtpFrameCount(gTownMonte);
+        nsbtpFrameCount = mobj_getModelNsbtpFrameCount(tmon_sModel);
         townMonte->mNsbtpFrameIndex = func_0209f800_inline(nsbtpFrameCount);
-        mapObjectRandom = GetMapObjectRandom();
+        mapObjectRandom = mobj_getRng1();
         mapObjectRandom->mValue = mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
         m = ((mapObjectRandom->mValue >> 32) * 0x1a) >> 32;
         for (j = 0; j < m; j++) {
@@ -234,7 +234,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
             } else if (townMonte->mNsbtpFrameIndex == 1) {
                 townMonte->mSoundId = 0x1a8;
             } else if (townMonte->mNsbtpFrameIndex == 2) {
-                mapObjectRandom = GetMapObjectRandom();
+                mapObjectRandom = mobj_getRng1();
                 mapObjectRandom->mValue =
                     mapObjectRandom->mMultiplier * mapObjectRandom->mValue + mapObjectRandom->mIncrement;
                 townMonte->mSoundId = (u16) (((mapObjectRandom->mValue >> 32) * 2) >> 32) != 0 ? 0x1a7 : 0x1a8;
@@ -243,7 +243,7 @@ void InitTownMonteObjects(Unk0209f800 *a) {
     }
 }
 
-void UpdateTownMonte(void *a, TownMonte *townMonte) {
+void tmon_update(void *a, TownMonte *townMonte) {
     Unk0210b7a8 s;
     s32 t;
     u16 w;
@@ -252,16 +252,16 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     if (townMonte->mSoundId == 0) {
         return;
     }
-    if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != GetSeqVariableSinceChangeFrames(0)) {
+    if (townMonte->mUnk_00.mCourseMapRow->mUnk_28 != sndvar_getVarField4(0)) {
         return;
     }
     w = townMonte->mSoundId;
     if (townMonte->mUnk_00.mDistanceSquaredAndFlags & 4) {
         return;
     }
-    if (townMonte->mUnk_00.mFarDistanceSquared == gSoundFalloffs[2].mUnk_20) {
+    if (townMonte->mUnk_00.mFarDistanceSquared == gSfxParams[2].mUnk_20) {
         t = 2;
-    } else if (townMonte->mUnk_00.mFarDistanceSquared == gSoundFalloffs[3].mUnk_20) {
+    } else if (townMonte->mUnk_00.mFarDistanceSquared == gSfxParams[3].mUnk_20) {
         t = 3;
     } else {
         t = 4;
@@ -269,20 +269,20 @@ void UpdateTownMonte(void *a, TownMonte *townMonte) {
     s.mSoundId = w;
     s.mPositionSource = &townMonte->mUnk_00.mPos;
     s.mUnk_08 = t;
-    s.mDistanceSquared = GetHorizontalCameraDistanceSquared(&townMonte->mUnk_00.mPos);
+    s.mDistanceSquared = mobj_calcXZCamDist(&townMonte->mUnk_00.mPos);
     func_0210b7a8(&s);
 }
 
-void *CreateTownMonteDrawList(void) {
-    return CreateMapObjectDrawList2(CreateTownMonte, DrawTownMonte, NULL);
+void *tmon_setupRenderPart(void) {
+    return mobj_createRenderPart2d(tmon_loadModel, tmon_render, NULL);
 }
 
-void *CreateTownMonteUpdateList(void) {
-    return CreateMapObjectUpdateList(InitTownMonteObjects, UpdateTownMonte, NULL);
+void *tmon_setupLogicPart(void) {
+    return mobj_createLogicPart(tmon_globalInitLogic, tmon_update, NULL);
 }
 
-void CreateChandelier(void *a) {
-    CreateMapObjectModelNsbcaAnimation(gChandelier = CreateMapObjectModelAnimated(a, gChandelierNsbmdName),
-                                       gChandelierNsbcaName);
-    SetMapObjectModelPolygonId(gChandelier, 0x3f);
+void chnd_loadModel(void *a) {
+    mobj_loadNsbcaAnim(chnd_sModel = mobj_loadModel(a, aChandelier_nsb),
+                                       aChandelier_n_1);
+    mobj_setModelPolygonIdAll(chnd_sModel, 0x3f);
 }

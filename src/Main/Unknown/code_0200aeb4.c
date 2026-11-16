@@ -9,10 +9,10 @@
 
 #pragma thumb on
 
-u32 func_0200b15c(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d, u32 e, u32 f) {
+u32 MB_FakeReadParentBssDesc(u32 entryIndex, ScanBlock *scanBlock, u16 c, u16 d, u32 e, u32 f) {
     u32 bit8;
     u32 bit4;
-    if (func_0200b1b0(entryIndex, (struct ScanBlockView *) scanBlock) == 0) {
+    if (MB_FakeGetParentBssDesc(entryIndex, (struct ScanBlockView *) scanBlock) == 0) {
         return 0;
     }
     scanBlock->mUnk_3c = 0x10;
@@ -81,13 +81,13 @@ void RunWorkerTasks(void *argument) {
     OS_ExitThread();
 }
 
-void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
+void CTRDGi_InitTaskThread(WorkerQueue *workerQueue, u32 totalSize) {
     u32 savedInterrupts;
     u32 stackSize;
     savedInterrupts = OS_DisableInterrupts();
-    if (gWorkerQueue == NULL) {
-        gWorkerQueue = workerQueue;
-        func_0200b00c(&workerQueue->mStopTask);
+    if (ctrdgi_task_work == NULL) {
+        ctrdgi_task_work = workerQueue;
+        CTRDGi_InitTaskInfo(&workerQueue->mStopTask);
         workerQueue->mFirstTask = NULL;
         stackSize = (totalSize - 0xe4) & ~3;
         OS_CreateThread(&workerQueue->mThread, RunWorkerTasks, workerQueue, (u8 *) workerQueue + 0xe4 + stackSize,
@@ -101,8 +101,8 @@ void StartWorkerThread(WorkerQueue *workerQueue, u32 totalSize) {
 
 #pragma thumb on
 
-u32 IsWorkerActive(void) {
-    if (gWorkerQueue != NULL) {
+u32 CTRDGi_IsTaskAvailable(void) {
+    if (ctrdgi_task_work != NULL) {
         return 1;
     }
     return 0;
@@ -111,7 +111,7 @@ u32 IsWorkerActive(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_0200b00c(void *arg0) {
+void CTRDGi_InitTaskInfo(void *arg0) {
     void *value0 = arg0;
     u32 fillValue;
     u32 byteCount;
@@ -124,21 +124,21 @@ void func_0200b00c(void *arg0) {
 
 #pragma thumb on
 
-u32 IsWorkerTaskInUse(WorkerTask *task) {
+u32 CTRDGi_IsTaskBusy(WorkerTask *task) {
     if (task->mInUse != 0) {
         return 1;
     }
     return 0;
 }
 
-void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
+void CTRDGi_SetTask(WorkerTask *task, void *run, void *done, u32 priority) {
     WorkerQueue *workerQueue;
     u32 threadPriority;
     u32 savedInterrupts;
     WorkerTask *previous;
     WorkerTask *next;
-    workerQueue = gWorkerQueue;
-    if (IsWorkerActive() == 0) {
+    workerQueue = ctrdgi_task_work;
+    if (CTRDGi_IsTaskAvailable() == 0) {
         OS_Terminate();
     }
     if (task->mInUse != 0) {
@@ -171,7 +171,7 @@ void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
     task->mDone = done;
     if (workerQueue->mFirstTask == NULL) {
         if (task == &workerQueue->mStopTask) {
-            gWorkerQueue = NULL;
+            ctrdgi_task_work = NULL;
         }
         workerQueue->mFirstTask = task;
         OS_WakeupThreadDirect(&workerQueue->mThread);
@@ -184,7 +184,7 @@ void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
                 } while (previous->mNext != NULL);
             }
             previous->mNext = task;
-            gWorkerQueue = NULL;
+            ctrdgi_task_work = NULL;
         } else if (previous->mPriority > priority) {
             workerQueue->mFirstTask = task;
             task->mNext = previous;
@@ -203,13 +203,13 @@ void QueueWorkerTask(WorkerTask *task, void *run, void *done, u32 priority) {
 
 #pragma thumb on
 
-void RequestWorkerStop(void *done) {
+void CTRDGi_EndTaskThread(void *done) {
     u32 savedInterrupts;
     int workerActive;
     savedInterrupts = ((s64) OS_DisableInterrupts());
-    workerActive = IsWorkerActive();
+    workerActive = CTRDGi_IsTaskAvailable();
     if (workerActive != 0) {
-        QueueWorkerTask(&gWorkerQueue->mStopTask, NULL, done, 0);
+        CTRDGi_SetTask(&ctrdgi_task_work->mStopTask, NULL, done, 0);
     }
     OS_RestoreInterrupts(savedInterrupts);
 }

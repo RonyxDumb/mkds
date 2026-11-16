@@ -13,15 +13,15 @@ typedef struct Unk020e3e48 {
     /* 00 */ u32 mUnk_00[12];
 } Unk020e3e48;
 
-void func_020e4380(Unk020e3ef4 *object);
-void func_020e435c(void *viewMatrix);
-BOOL func_020e4320(s32 kind);
-void func_020e4184(Unk020e1dc0 *list);
-void func_020e410c(Unk020e1dc0 *list);
-void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
-void *CreateBridgeKindData(void);
-void *CreateBridgeDrawList(void);
-void *CreateBridgeUpdateList(void);
-void UpdateBridge(s32 a, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha);
-void DrawAllBridges(void *viewMatrix);
+void rotcyl_state3Update(Unk020e3ef4 *object);
+void rotcyl_renderAll(void *viewMatrix);
+BOOL rotcyl_isRotatingCylinder(s32 kind);
+void rotcyl_loadModels(Unk020e1dc0 *list);
+void rotcyl_globalLogicInit(Unk020e1dc0 *list);
+void rotcyl_init(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo);
+void *bridge_setupConfig(void);
+void *bridge_setupRenderPart(void);
+void *bridge_setupLogicPart(void);
+void bridge_update(s32 a, Bridge *bridge); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void bridge_render(Unk020e3ef4 *object, void *viewMatrix, u32 alpha);
+void bridge_renderAll(void *viewMatrix);

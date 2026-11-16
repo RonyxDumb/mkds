@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenPendulumCells(void);
+void mpicn_destroyPendulumIcon(void);

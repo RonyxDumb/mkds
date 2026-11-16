@@ -53,7 +53,7 @@ u16 func_02028710(InputSlot *a, u32 b) {
 }
 
 u16 func_020286f4(u32 a, u32 b) {
-    return func_02028710(&data_02175628[a], b);
+    return func_02028710(&gInputUnits[a], b);
 }
 
 #pragma thumb on
@@ -73,12 +73,12 @@ int AdvanceSelectKart(void) {
     r = 0;
     q = &d->mSelectCharacterGpMParts;
     p = &d->mSelectKartSParts;
-    t = func_020435bc();
-    AdvanceInterpolation(&gSelectKart->mInterpolations[0]);
-    AdvanceInterpolation(&gSelectKart->mInterpolations[1]);
-    AdvanceInterpolation(&gSelectKart->mInterpolations[2]);
-    AdvanceInterpolation(&gSelectKart->mInterpolations[3]);
-    AdvanceInterpolation(&gSelectKart->mInterpolations[4]);
+    t = input_getDirectInputUnitId();
+    interp_update(&gSelectKart->mInterpolations[0]);
+    interp_update(&gSelectKart->mInterpolations[1]);
+    interp_update(&gSelectKart->mInterpolations[2]);
+    interp_update(&gSelectKart->mInterpolations[3]);
+    interp_update(&gSelectKart->mInterpolations[4]);
     func_02029008();
     if (func_020280dc() == 0) {
         AdvancePaletteBlend();
@@ -109,14 +109,14 @@ int AdvanceSelectKart(void) {
             break;
         case 2:
             if (func_02028774(t) != 0) {
-                x = IsSelectReturnState2NoState3Or4RequestAndInRect(func_0202874c(t), func_02028724(t));
+                x = gmenu_checkSelectReturnTouch(func_0202874c(t), func_02028724(t));
             }
             if (func_020286f4(t, PAD_KEY_A) != 0 || gSelectKart->mTouchRect == 2 || func_02028f84() != 0) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 1;
                 gSelectKart->mState = 4;
                 p->mUnk_18[18].mVisible = 0;
-                SetLabelPaletteIndex(data_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                jn_ui_setLabelColorParam(data_02153834[4], 0, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
                 func_021106a8(func_02025eb0(gSelectKart->mCharacterIndex), 1);
                 func_02077f48(1);
                 StopPaletteBlend();
@@ -124,9 +124,9 @@ int AdvanceSelectKart(void) {
                 gSelectKart->mStateFrames = 0;
                 gSelectKart->mResult = 2;
                 func_0202941c(0);
-                func_02025f14(&gSelectKart->mInterpolations[1], 2);
-                func_02025f14(&gSelectKart->mInterpolations[3], 2);
-                func_02025f14(&gSelectKart->mInterpolations[4], 2);
+                interp_setState(&gSelectKart->mInterpolations[1], 2);
+                interp_setState(&gSelectKart->mInterpolations[3], 2);
+                interp_setState(&gSelectKart->mInterpolations[4], 2);
                 gSelectKart->mState = 7;
                 if (gSelectKart->mMode != 0) {
                     v = 1;
@@ -134,12 +134,12 @@ int AdvanceSelectKart(void) {
                     v = 0;
                 }
                 RequestSelectReturnState3WithSound(v);
-            } else if (GetNewOrRepeatBits(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
+            } else if (mutil_checkKeys(t, PAD_KEY_RIGHT) != 0 || IsSelectKartTouchRepeat(1) != 0) {
                 MoveSelectKartNext();
                 gSelectKart->mUnk_114 = 3;
                 p->mUnk_18[1].mVisible = 0;
                 p->mUnk_18[3].mVisible = 1;
-            } else if (GetNewOrRepeatBits(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
+            } else if (mutil_checkKeys(t, PAD_KEY_LEFT) != 0 || IsSelectKartTouchRepeat(0) != 0) {
                 MoveSelectKartPrev();
                 gSelectKart->mUnk_114 = 2;
                 p->mUnk_18[0].mVisible = 0;
@@ -177,8 +177,8 @@ int AdvanceSelectKart(void) {
             if (d->mStateFrames >= 5) {
                 switch (d->mMode) {
                     case 0:
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mKartIndex = d->mKartIndex;
-                        GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 1;
+                        menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mKartIndex = d->mKartIndex;
+                        menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = 1;
                         FillRandomKartIndices();
                         gSelectKart->mState = 6;
                         break;
@@ -195,7 +195,7 @@ int AdvanceSelectKart(void) {
                 }
                 gSelectKart->mStateFrames = 0;
                 p->mUnk_18[18].mVisible = 1;
-                SetLabelPaletteIndex(data_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
+                jn_ui_setLabelColorParam(data_02153834[4], 1, p->mUnk_14, p->mUnk_18, p->mUnk_0c);
             }
             break;
         case 5:
@@ -207,11 +207,11 @@ int AdvanceSelectKart(void) {
         case 6:
             d->mStateFrames = d->mStateFrames + 1;
             if (gSelectKart->mStateFrames > 0x3c) {
-                func_02025f14(&gSelectKart->mInterpolations[0], 2);
-                func_02025f14(&gSelectKart->mInterpolations[1], 2);
-                func_02025f14(&gSelectKart->mInterpolations[2], 2);
-                func_02025f14(&gSelectKart->mInterpolations[3], 2);
-                func_02025f14(&gSelectKart->mInterpolations[4], 2);
+                interp_setState(&gSelectKart->mInterpolations[0], 2);
+                interp_setState(&gSelectKart->mInterpolations[1], 2);
+                interp_setState(&gSelectKart->mInterpolations[2], 2);
+                interp_setState(&gSelectKart->mInterpolations[3], 2);
+                interp_setState(&gSelectKart->mInterpolations[4], 2);
                 if (gSelectKart->mMode == 2) {
                     func_021219cc();
                     func_0202941c(3);
@@ -229,7 +229,7 @@ int AdvanceSelectKart(void) {
             break;
         case 7:
             if (d->mInterpolations[4].mState == 3) {
-                GetRaceSetupCopy()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = d->mResult == 1;
+                menu_getRaceConfig()->mEntries[gSelectKart->mEntryIndex].mUnk_14 = d->mResult == 1;
                 gSelectKart->mState = 8;
             }
             func_02028fac();
@@ -241,29 +241,29 @@ int AdvanceSelectKart(void) {
     if (func_020280dc() == 0) {
         RequestKartModelMenuCharacter(gSelectKart->mCharacterIndex);
         RequestKartModelMenuKart(gSelectKart->mKartIndex);
-        AdvanceKartModelMenu(GetRaceSetupCopy()->mMirrorMode);
-        DrawKartModelMenu();
+        SPM_2078420(menu_getRaceConfig()->mMirrorMode);
+        SPM_RenderCharacterSelect3D();
     }
     d = gSelectKart;
     if (d->mUnk_104 != FALSE) {
         AdvancePlayerEntryList();
     } else {
-        DrawLayoutTable(q->mUnk_0c, q->mUnk_08, NULL, d->mUnk_080, q->mUnk_18);
+        jn_ui_renderElements(q->mUnk_0c, q->mUnk_08, NULL, d->mUnk_080, q->mUnk_18);
     }
     if (func_020280dc() == 0) {
         d = gSelectKart;
         if (d->mState != 8) {
-            DrawLayoutTable(p->mUnk_0c, p->mUnk_08, p->mUnk_14, d->mUnk_084, p->mUnk_18);
+            jn_ui_renderElements(p->mUnk_0c, p->mUnk_08, p->mUnk_14, d->mUnk_084, p->mUnk_18);
         }
     } else {
         AdvanceSelectRaceRuleWait();
     }
     switch (r) {
         case 1:
-            GetRaceSetupCopy()->mUnk_108 = 0;
+            menu_getRaceConfig()->mUnk_108 = 0;
             break;
         case 2:
-            GetRaceSetupCopy()->mUnk_108 = 2;
+            menu_getRaceConfig()->mUnk_108 = 2;
             break;
     }
     return r;

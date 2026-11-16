@@ -33,7 +33,7 @@
 
 #pragma thumb on
 
-void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record) {
+void bbm_initFromModel(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *record) {
     Unk020e52bc_4 *a;
     Unk020e52bc_8 *b;
     Unk020e52bc_c *c;
@@ -59,12 +59,12 @@ void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *recor
     record->mFrameIndex = 0;
     if (animation != NULL) {
         x.mUnk_00 = d->mUnk_014;
-        frameCount = GetModelAnimationFrameCountFixed(animation) >> 12;
+        frameCount = anim_getAnimLength(animation) >> 12;
         record->mFrameCount = frameCount;
-        t = GetHeap(GetCurrentHeapCall());
-        record->mUnk_1c = HeapAlloc(t, frameCount * 4);
-        t = GetHeap(GetCurrentHeapCall());
-        record->mUnk_20 = HeapAlloc(t, frameCount * 4);
+        t = proc_getHeap(proc_getCurrent());
+        record->mUnk_1c = heap_alloc(t, frameCount * 4);
+        t = proc_getHeap(proc_getCurrent());
+        record->mUnk_20 = heap_alloc(t, frameCount * 4);
         frame = 0;
         if (frame < frameCount) {
             k = 0xc00f0000;
@@ -82,66 +82,66 @@ void func_020e6514(Unk020e52bc *model, Unk020e6514 *animation, NsbmdModel *recor
         }
     } else {
         record->mFrameCount = 1;
-        record->mUnk_1c = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
-        record->mUnk_20 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 4);
+        record->mUnk_1c = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
+        record->mUnk_20 = heap_alloc(proc_getHeap(proc_getCurrent()), 4);
         record->mUnk_1c[0] = d->mUnk_014;
         record->mUnk_20[0] = d->mUnk_01c;
     }
 }
 
-void func_020e64b8(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
-    record->mUnk_24 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x6c);
-    InitNsbmd(record->mUnk_24, nsbmdFile);
+void bbm_initFromNsbmd(NsbmdModel *record, void *nsbmdFile, void *nsbtpFile, s32 c) {
+    record->mUnk_24 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x6c);
+    model_initFromNsbmd(record->mUnk_24, nsbmdFile);
     if (nsbtpFile != NULL) {
-        record->mUnk_28 = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x38);
-        InitModelAnimationWithEntries(2, record->mUnk_24, record->mUnk_28, nsbmdFile, nsbtpFile);
+        record->mUnk_28 = heap_alloc(proc_getHeap(proc_getCurrent()), 0x38);
+        anim_20EA514(2, record->mUnk_24, record->mUnk_28, nsbmdFile, nsbtpFile);
     } else {
         record->mUnk_28 = NULL;
     }
-    func_020e6514(record->mUnk_24, record->mUnk_28, record);
+    bbm_initFromModel(record->mUnk_24, record->mUnk_28, record);
 }
 
-void func_020e6488(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
-    *recordSlot = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    func_020e64b8(*recordSlot, nsbmdFile, nsbtpFile, param_4);
+void bbm_createFromNsbmd(NsbmdModel **recordSlot, void *nsbmdFile, void *nsbtpFile, u32 param_4) {
+    *recordSlot = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    bbm_initFromNsbmd(*recordSlot, nsbmdFile, nsbtpFile, param_4);
 }
 
 #pragma thumb off
 
-Unk020e5a9c *CreatePendulumKindData(void) {
+Unk020e5a9c *pend_setupConfig(void) {
     Unk020e5a9c *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
-    *kindData = data_021592d0;
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
+    *kindData = pend_colData;
     return kindData;
 }
 
-Unk020e5a40 *CreatePendulumDrawList(void) {
+Unk020e5a40 *pend_setupRenderPart(void) {
     Unk020e5a40 *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b840 = drawList;
-    *drawList = data_021592a4;
-    func_020d49d8(&data_0217b840);
-    return data_0217b840;
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    pend_sRenderPart = drawList;
+    *drawList = pend_renderPartData;
+    mobj_renderPartSetThisPointer(&pend_sRenderPart);
+    return pend_sRenderPart;
 }
 
-Unk020e59e4 *CreatePendulumUpdateList(void) {
+Unk020e59e4 *pend_setupLogicPart(void) {
     Unk020e59e4 *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b834 = updateList;
-    *updateList = data_0215927c;
-    SetUpdateListSlot(&data_0217b834);
-    return data_0217b834;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    pend_sLogicPart = updateList;
+    *updateList = pend_logicPartData;
+    mobj_logicPartSetThisPointer(&pend_sLogicPart);
+    return pend_sLogicPart;
 }
 
-void DrawPendulum(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha) {
+void pend_render(u32 param_1, PendulumObject *pendulum, u32 param_3, u32 alpha) {
     pendulum->mUnk_4c.x = pendulum->mUnk_bc.x >> 4;
     pendulum->mUnk_4c.y = pendulum->mUnk_bc.y >> 4;
     pendulum->mUnk_4c.z = pendulum->mUnk_bc.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gPendulum, &pendulum->mUnk_28, &pendulum->mUnk_1c, alpha);
-    DrawShadowWithMaxAlpha(gPendulumShadow, &pendulum->mUnk_c8, &pendulum->mUnk_1c, alpha);
+    model2_renderModel(pend_sModel, &pendulum->mUnk_28, &pendulum->mUnk_1c, alpha);
+    model2_renderShadowModel(pend_sShadowModel, &pendulum->mUnk_c8, &pendulum->mUnk_1c, alpha);
 }
 
-void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
+void pend_update(u32 param_1, PendulumObject *pendulum) {
     u32 swingRotation[4];
     Unk0210b7a8 soundRequest;
     u32 previousAngle;
@@ -150,13 +150,13 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
 
     previousAngle = pendulum->mUnk_100;
     pendulum->mUnk_100 = previousAngle + pendulum->mUnk_fe;
-    swingAngle = ((s64) (s32) pendulum->mUnk_fc * gPairsByAngle[(pendulum->mUnk_100 >> 4) * 2]) >> 12;
+    swingAngle = ((s64) (s32) pendulum->mUnk_fc * FX_SinCosTable_[(pendulum->mUnk_100 >> 4) * 2]) >> 12;
     if ((previousAngle < 0x58f0 && pendulum->mUnk_100 >= 0x58f0) ||
         (previousAngle < 0xd8f0 && pendulum->mUnk_100 >= 0xd8f0)) {
         if ((pendulum->mUnk_78 & 4) == 0) {
-            if (pendulum->mUnk_70 == gSoundFalloffs[2].mUnk_20) {
+            if (pendulum->mUnk_70 == gSfxParams[2].mUnk_20) {
                 falloffIndex = 2;
-            } else if (pendulum->mUnk_70 == gSoundFalloffs[3].mUnk_20) {
+            } else if (pendulum->mUnk_70 == gSfxParams[3].mUnk_20) {
                 falloffIndex = 3;
             } else {
                 falloffIndex = 4;
@@ -164,12 +164,12 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
             soundRequest.mSoundId = 0x173;
             soundRequest.mPositionSource = &pendulum->mUnk_04;
             soundRequest.mUnk_08 = falloffIndex;
-            soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&pendulum->mUnk_04);
+            soundRequest.mDistanceSquared = mobj_calcXZCamDist(&pendulum->mUnk_04);
             func_0210b7a8(&soundRequest);
         }
     }
-    QuaternionMultiplyAngleAroundZ(pendulum->mUnk_a0, swingAngle, swingRotation);
-    Matrix3x3FromQuaternion(&pendulum->mUnk_28, swingRotation);
+    Quaternion_Rotate_20D7734(pendulum->mUnk_a0, swingAngle, swingRotation);
+    qtrn_toMtx33(&pendulum->mUnk_28, swingRotation);
     VEC_MultAdd(-pendulum->mUnk_f8, &pendulum->mUnk_28.mUnk_0c, &pendulum->mUnk_bc, &pendulum->mUnk_04);
     pendulum->mUnk_ec.x = pendulum->mUnk_04.x >> 4;
     pendulum->mUnk_ec.y = pendulum->mUnk_04.y >> 4;
@@ -178,7 +178,7 @@ void UpdatePendulum(u32 param_1, PendulumObject *pendulum) {
     pendulum->mUnk_b0 = pendulum->mUnk_04;
 }
 
-BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out) {
+BOOL pend_collide(PendulumObject *pendulum, Vec3 *sphereCenter, s32 sphereRadius, Vec3 *out) {
     Vec3 v;
     s32 axisDistance;
     s32 t;
@@ -186,7 +186,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
     s64 distanceSquared;
 
     VEC_Subtract(sphereCenter, &pendulum->mUnk_04, &v);
-    axisDistance = Vec3DotUnrounded(&v, &pendulum->mUnk_28.mUnk_18);
+    axisDistance = vec_dotProduct(&v, &pendulum->mUnk_28.mUnk_18);
     if (axisDistance > 0) {
         t = pendulum->mUnk_108 + sphereRadius - axisDistance;
         if (t < 0) {
@@ -220,7 +220,7 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
         }
         distanceSquared = (s64) v.x * v.x + (s64) v.y * v.y + (s64) v.z * v.z;
         if (distanceSquared >= 16) {
-            Vec3NormalizeAndGetLengthUnchecked(&v, &v);
+            vec_normalize(&v, &v);
         }
         out->x = ((s64) v.x * d) >> 12;
         out->y = ((s64) v.y * d) >> 12;
@@ -232,17 +232,17 @@ BOOL ComputeSphereHitOnPendulum(PendulumObject *pendulum, Vec3 *sphereCenter, s3
 
 #pragma thumb on
 
-void CreatePendulumAndPendulumShadow(void) {
-    CreateNsbmd(&gPendulum, FindCourseMapObjFile(gPendulumNsbmdName), NULL);
-    CreateShadowModel(&gPendulumShadow, FindCourseMapObjFile(gPendulumShadowNsbmdName), 0x3f);
-    func_02084968(gPendulum, 0x3f, 2, 0x294a);
+void pend_loadModels(void) {
+    model2_createFromNsbmd(&pend_sModel, mobj_getMapObjFile(aPendulum_nsbmd), NULL);
+    model2_createShadowFromNsbmd(&pend_sShadowModel, mobj_getMapObjFile(aPendulum_shado), 0x3f);
+    model_setPolyIdLightFlagsEmi(pend_sModel, 0x3f, 2, 0x294a);
 }
 
-void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
+void pend_init(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
     s32 m;
 
     pendulum->mUnk_5c = ((s64) pendulum->mUnk_98->mUnk_10 * courseRow->mUnk_20) >> 12;
-    QuaternionFromVec3Degrees(&courseRow->mUnk_0c, pendulum->mUnk_a0);
+    qtrn_fromEulerAngles(&courseRow->mUnk_0c, pendulum->mUnk_a0);
     pendulum->mUnk_c8 = pendulum->mUnk_28;
     pendulum->mUnk_f8 = ((s64) pendulum->mUnk_1c.y * 0x1f4000) >> 12;
     pendulum->mUnk_100 = 0;
@@ -264,30 +264,30 @@ void InitPendulum(PendulumObject *pendulum, Unk020e5e24_2 *courseRow) {
 
 #pragma thumb off
 
-Unk020e5a9c *CreateObPakkunSfKindData(void) {
+Unk020e5a9c *obpak_setupConfig(void) {
     Unk020e5a9c *kindData;
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *kindData = data_02159208;
     return kindData;
 }
 
-Unk020e5a40 *CreateObPakkunSfDrawList(void) {
+Unk020e5a40 *obpak_setupRenderPart(void) {
     Unk020e5a40 *drawList;
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217b82c = drawList;
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    obpak_sRenderPart = drawList;
     *drawList = data_021591dc;
-    func_020d49d8(&data_0217b82c);
-    return data_0217b82c;
+    mobj_renderPartSetThisPointer(&obpak_sRenderPart);
+    return obpak_sRenderPart;
 }
 
-Unk020e59e4 *CreateObPakkunSfUpdateList(void) {
+Unk020e59e4 *obpak_setupLogicPart(void) {
     Unk020e59e4 *updateList;
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b828 = updateList;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    obpak_sLogicPart = updateList;
     *updateList = data_021591b4;
     return updateList;
 }
 
-void SetupDrawObPakkunSf(void) {
-    func_020e6a18(gObPakkunSf);
+void obpak_globalPreRender(void) {
+    bbm_applyMaterial(obpak_sModel);
 }

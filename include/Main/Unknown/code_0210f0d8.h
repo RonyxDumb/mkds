@@ -4,6 +4,6 @@
 
 typedef struct MicBuffer MicBuffer;
 
-void StopMicAutoSampling(MicBuffer *micBuffer);
-void StartMicAutoSampling(MicBuffer *micBuffer);
-void func_0210f114(MicBuffer *micBuffer);
+void mic_stopAutoSampling(MicBuffer *micBuffer);
+void mic_startAutoSampling(MicBuffer *micBuffer);
+void mic_finalize(MicBuffer *micBuffer);

@@ -31,8 +31,8 @@ u16 func_ov001_02185b50(MissionGateObject *missionGateObject) {
     return missionGateObject->mNsbmaFrameIndex != 0;
 }
 
-void func_ov001_02185b1c(void) {
-    if (func_020cccc0()) {
+void menu_state18Vblank(void) {
+    if (menu_getField4()) {
         func_ov001_02185ad8(0x19);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_02185abc(0x16);
@@ -41,13 +41,13 @@ void func_ov001_02185b1c(void) {
     WriteMissionRunLVselBg0Offset();
 }
 
-void UpdateMissionRunLVsel(void) {
+void menu_state18Render(void) {
     switch (AdvanceMissionRunLVsel()) {
         case 1:
-            SwitchMenuScreen(SCREEN_MISSION_RUN_MSSEL, 0x1f);
+            menu_gotoState(SCREEN_MISSION_RUN_MSSEL, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             break;
     }
 }
@@ -64,8 +64,8 @@ void func_ov001_02185abc(u32 bits) {
 }
 #pragma thumb on
 
-void func_ov001_02185a88(void) {
-    if (func_020cccc0()) {
+void menu_state19Vblank(void) {
+    if (menu_getField4()) {
         func_ov001_02185ad8(0x1b);
         GX_SetGraphicsMode(1, 0, 0);
         func_ov001_02185abc(0x16);
@@ -74,99 +74,99 @@ void func_ov001_02185a88(void) {
     func_ov001_0219f8ec();
 }
 
-void UpdateMissionRunMSsel(void) {
+void menu_state19Render(void) {
     switch (AdvanceMissionRunMSsel()) {
         case 1:
-            SwitchMenuScreen(0x1d, 0x1f);
+            menu_gotoState(0x1d, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(SCREEN_MISSION_RUN_LVSEL, 0x1f);
+            menu_gotoState(SCREEN_MISSION_RUN_LVSEL, 0x1f);
             break;
     }
 }
 
-void func_ov001_02185a28(void) {
-    if (func_020cccc0()) {
-        func_ov001_021856a8(0x19);
+void menu_ta_modeSelectStateVblank(void) {
+    if (menu_getField4()) {
+        menu_ta_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x16);
+        menu_ta_GXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
-    WriteTimeAttackTopMenuBg0Offset();
+    menu_ta_updateMainText();
 }
 
 #pragma thumb off
-void SetGhostSceneInitialCallbacksIndex(s32 callbacksIndex) {
-    data_0217b488->mGhostSceneInitialCallbacksIndex = callbacksIndex;
+void menu_ta_setGhostReceive(s32 callbacksIndex) {
+    gStruct217B488->mGhostSceneInitialCallbacksIndex = callbacksIndex;
 }
 #pragma thumb on
 
-void UpdateTimeAttackTopMenu(void) {
-    switch (AdvanceTimeAttackTopMenu()) {
+void menu_ta_modeSelectStateRender(void) {
+    switch (menu_ta_modeSelectRender()) {
         case 1:
-            SwitchMenuScreen(0x15, 0x1f);
+            menu_gotoState(0x15, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0x1c, 0x1f);
-            SetGhostSceneInitialCallbacksIndex(0);
+            menu_gotoState(0x1c, 0x1f);
+            menu_ta_setGhostReceive(0);
             break;
         case 3:
-            SwitchMenuScreen(0x1c, 0x1f);
-            SetGhostSceneInitialCallbacksIndex(1);
+            menu_gotoState(0x1c, 0x1f);
+            menu_ta_setGhostReceive(1);
             break;
         case 4:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             break;
     }
 }
 
-void func_ov001_02185980(void) {
-    if (func_020cccc0()) {
-        func_ov001_021856a8(0xb);
+void menu_ta_characterSelectStateVblank(void) {
+    if (menu_getField4()) {
+        menu_ta_GX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
-        func_ov001_0218568c(8);
+        menu_ta_GXS_SetVisiblePlane(8);
         GXS_SetGraphicsMode(0);
     }
-    func_ov001_0218568c(0x12);
-    WriteSelectCharacterRegisters();
+    menu_ta_GXS_SetVisiblePlane(0x12);
+    menucs_2026058();
 }
 
-void UpdateTimeAttackSelectCharacter(void) {
-    switch (AdvanceSelectCharacter()) {
+void menu_ta_characterSelectStateRender(void) {
+    switch (menucs_render()) {
         case 1:
-            SwitchMenuScreen(0x16, 0x1f);
+            menu_gotoState(0x16, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
+            menu_gotoState(SCREEN_TIME_ATTACK_TOP_MENU, 0x1f);
             break;
     }
 }
 
-void func_ov001_02185928(void) {
-    if (func_020cccc0()) {
-        func_ov001_021856a8(0xb);
+void menu_state22Vblank(void) {
+    if (menu_getField4()) {
+        menu_ta_GX_SetVisiblePlane(0xb);
         GX_SetGraphicsMode(1, 0, 1);
     }
-    func_ov001_0218568c(0x12);
+    menu_ta_GXS_SetVisiblePlane(0x12);
     WriteSelectKartRegisters();
 }
 
-void UpdateTimeAttackSelectKart(void) {
+void menu_state22Render(void) {
     switch (AdvanceSelectKart()) {
         case 1:
-            SwitchMenuScreen(0x17, 0x1f);
+            menu_gotoState(0x17, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0x15, 0x1f);
+            menu_gotoState(0x15, 0x1f);
             break;
     }
 }
 
-void func_ov001_021858c8(void) {
-    if (func_020cccc0()) {
-        func_ov001_021856a8(0x19);
+void menu_state23Vblank(void) {
+    if (menu_getField4()) {
+        menu_ta_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x16);
+        menu_ta_GXS_SetVisiblePlane(0x16);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupGridRegisters();
@@ -174,51 +174,51 @@ void func_ov001_021858c8(void) {
 
 #pragma thumb off
 void func_ov001_021858b4(s32 value) {
-    data_0217b488->mUnk_08 = value;
+    gStruct217B488->mUnk_08 = value;
 }
 
 void func_ov001_021858a0(s32 value) {
-    data_0217b488->mUnk_04 = value;
+    gStruct217B488->mUnk_04 = value;
 }
 #pragma thumb on
 
-void UpdateTimeAttackSelectCupGrid(void) {
+void menu_state23Render(void) {
     switch (AdvanceSelectCupGrid()) {
         case 1:
-            SwitchMenuScreen(0x18, 0x1f);
+            menu_gotoState(0x18, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0x16, 0x1f);
+            menu_gotoState(0x16, 0x1f);
             break;
         case 3:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             func_ov001_021858b4(0);
             func_ov001_021858a0(1);
             break;
     }
 }
 
-void func_ov001_02185828(void) {
-    if (func_020cccc0()) {
-        func_ov001_021856a8(0x19);
+void menu_state25Vblank(void) {
+    if (menu_getField4()) {
+        menu_ta_GX_SetVisiblePlane(0x19);
         GX_SetGraphicsMode(1, 0, 0);
-        func_ov001_0218568c(0x1e);
+        menu_ta_GXS_SetVisiblePlane(0x1e);
         GXS_SetGraphicsMode(0);
     }
     WriteSelectCupCourseBgOffsets();
 }
 
-void UpdateTimeAttackSelectCupCourse(void) {
+void menu_state25Render(void) {
     switch (AdvanceSelectCupCourse()) {
         case 1:
             if (func_0211e130()) {
-                SwitchMenuScreen(0x1d, 0x1f);
+                menu_gotoState(0x1d, 0x1f);
             } else {
-                SwitchMenuScreen(SCREEN_SELECT_GHOST, 0x1f);
+                menu_gotoState(SCREEN_SELECT_GHOST, 0x1f);
             }
             break;
         case 2:
-            SwitchMenuScreen(0x18, 0x1f);
+            menu_gotoState(0x18, 0x1f);
             break;
     }
 }

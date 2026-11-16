@@ -16,7 +16,7 @@
 
 #pragma thumb on
 
-void LoadKartIconData(void) {
+void kic_unpackDataForGhost(void) {
     void *sceneFile;
     int paletteCount;
     const char **nclrNameCursor;
@@ -26,21 +26,21 @@ void LoadKartIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gKartIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gKartIconNcerName);
-    LoadNcerData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(kic_sGhostNcgrName);
+    g2du_unpackCharacterDataBG(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(kic_sGhostNcerName);
+    g2du_unpackCellBankData(&cells, sceneFile);
     paletteCount = 0;
-    nclrNameCursor = gKartIconNclrNames;
+    nclrNameCursor = kic_sGhostNclrNames;
     do {
-        sceneFile = FindSceneFile(*nclrNameCursor);
-        LoadNclrData(palette, sceneFile);
+        sceneFile = arc_getSceneArcFile(*nclrNameCursor);
+        g2du_unpackPaletteData(palette, sceneFile);
         nclrNameCursor = nclrNameCursor + 1;
         paletteCount = paletteCount + 1;
     } while (paletteCount < 3);
 }
 
-void LoadCommonKartIconData(void) {
+void kic_unpackDataForMenu(void) {
     void *sceneFile;
     int paletteCount;
     const char **nclrNameCursor;
@@ -50,15 +50,15 @@ void LoadCommonKartIconData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCommonKartIconNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCommonKartIconNcerName);
-    LoadNcerData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(kic_sMenuNcgrName);
+    g2du_unpackCharacterDataBG(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(kic_sMenuNcerName);
+    g2du_unpackCellBankData(&cells, sceneFile);
     paletteCount = 0;
-    nclrNameCursor = gCommonKartIconNclrNames;
+    nclrNameCursor = kic_sMenuNclrNames;
     do {
-        sceneFile = FindSceneFile(*nclrNameCursor);
-        LoadNclrData(palette, sceneFile);
+        sceneFile = arc_getSceneArcFile(*nclrNameCursor);
+        g2du_unpackPaletteData(palette, sceneFile);
         nclrNameCursor = nclrNameCursor + 1;
         paletteCount = paletteCount + 1;
     } while (paletteCount < 3);
@@ -68,49 +68,49 @@ void LoadCommonKartIconData(void) {
 
 #pragma thumb on
 
-void CreateKartIcon(void *heap) {
+void kic_initForGhost(void *heap) {
     int i;
 
-    gKartIcon = HeapAlloc(heap, 0x18);
-    LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gKartIconNcgrName));
-    LocateNcer(&gKartIcon->mNcer, FindSceneFile(gKartIconNcerName));
+    sKartIconData = heap_alloc(heap, 0x18);
+    g2du_getCharacterData(&sKartIconData->mNcgr, arc_getSceneArcFile(kic_sGhostNcgrName));
+    g2du_getCellBankData(&sKartIconData->mNcer, arc_getSceneArcFile(kic_sGhostNcerName));
     for (i = 0; i < 3; i++) {
-        LocateNclr(&gKartIcon->mNclrs[i], FindSceneFile(gKartIconNclrNames[i]));
+        g2du_getPaletteData(&sKartIconData->mNclrs[i], arc_getSceneArcFile(kic_sGhostNclrNames[i]));
     }
-    gKartIcon->mBncl = FindSceneFile(gKartIconBnclName);
+    sKartIconData->mBncl = arc_getSceneArcFile(kic_sGhostBnclName);
 }
 
 #pragma thumb off
 
 #pragma thumb on
 
-void CreateCommonKartIcon(void *heap) {
+void kic_initForMenu(void *heap) {
     s32 i;
 
-    gKartIcon = HeapAlloc(heap, 0x18);
-    LocateNcgr2(&gKartIcon->mNcgr, FindSceneFile(gCommonKartIconNcgrName));
-    LocateNcer(&gKartIcon->mNcer, FindSceneFile(gCommonKartIconNcerName));
+    sKartIconData = heap_alloc(heap, 0x18);
+    g2du_getCharacterData(&sKartIconData->mNcgr, arc_getSceneArcFile(kic_sMenuNcgrName));
+    g2du_getCellBankData(&sKartIconData->mNcer, arc_getSceneArcFile(kic_sMenuNcerName));
     for (i = 0; i < 3; i++) {
-        LocateNclr(&gKartIcon->mNclrs[i], FindSceneFile(gCommonKartIconNclrNames[i]));
+        g2du_getPaletteData(&sKartIconData->mNclrs[i], arc_getSceneArcFile(kic_sMenuNclrNames[i]));
     }
-    gKartIcon->mBncl = FindSceneFile(gCommonKartIconBnclName);
+    sKartIconData->mBncl = arc_getSceneArcFile(kic_sMenuBnclName);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void ClearKartIconPointer(void) {
+void kic_free(void) {
     u32 pointerAddress;
     u32 zero;
     zero = 0u;
-    pointerAddress = (u32) &gKartIcon;
+    pointerAddress = (u32) &sKartIconData;
     *(u32 *) ((pointerAddress) + 0u) = zero;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinationBncl, u32 destinationBnclIndex,
+void kic_putIconInLayout(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *destinationBncl, u32 destinationBnclIndex,
                    u16 paletteIndex, s32 f) {
     int queueKind;
 
@@ -123,11 +123,11 @@ void QueueKartIcon(s32 iconIndex, Unk02021dc8 *destinationNcer, Unk0201ea30 *des
             queueKind = 0x1e;
             break;
     }
-    QueueCellChars(gKartIconRows[iconIndex].mBnclIndex, gKartIcon->mNcer, gKartIcon->mNcgr, gKartIcon->mBncl, f,
+    jn_ui_fillPlaceholder(sKartIconConfig[iconIndex].mBnclIndex, sKartIconData->mNcer, sKartIconData->mNcgr, sKartIconData->mBncl, f,
                    destinationBnclIndex, destinationNcer, destinationBncl);
-    CallQueueAppend(
+    NNS_GfdRegisterNewVramTransferTask(
         queueKind, paletteIndex * 32,
-        gKartIcon->mNclrs[gKartIconRows[iconIndex].mNclrIndex]->mData + gKartIconRows[iconIndex].mNclrStart * 16, 0x20);
+        sKartIconData->mNclrs[sKartIconConfig[iconIndex].mNclrIndex]->mData + sKartIconConfig[iconIndex].mNclrStart * 16, 0x20);
 }
 
 #pragma thumb off

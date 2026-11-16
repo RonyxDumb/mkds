@@ -24,18 +24,18 @@
 
 #pragma thumb off
 
-void func_020e4380(Unk020e3ef4 *object) {
+void rotcyl_state3Update(Unk020e3ef4 *object) {
     if (object->mUnk_000.mStateMachine.mStateFrames > object->mUnk_148) {
         object->mUnk_000.mStateMachine.mNextState = 0;
         object->mUnk_000.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void func_020e435c(void *viewMatrix) {
-    func_020e1e38(data_0217b7e4, viewMatrix, func_020e1dec);
+void rotcyl_renderAll(void *viewMatrix) {
+    dcol_render(rotobj_sRenderPart, viewMatrix, dcol_commonRender);
 }
 
-BOOL func_020e4320(s32 kind) {
+BOOL rotcyl_isRotatingCylinder(s32 kind) {
     switch (kind) {
         case 0xcb:
         case 0xce:
@@ -49,7 +49,7 @@ BOOL func_020e4320(s32 kind) {
 
 #pragma thumb on
 
-void func_020e4184(Unk020e1dc0 *list) {
+void rotcyl_loadModels(Unk020e1dc0 *list) {
     Unk020e3ef4 *object;
     s32 objectIndex;
     s32 modelIndex;
@@ -69,24 +69,24 @@ void func_020e4184(Unk020e1dc0 *list) {
         if (modelLoaded[object->mUnk_158] == 0) {
             switch (object->mUnk_158) {
                 case 0:
-                    CreateNsbmd(&gTestCylinder, FindCourseMapObjFile(gTestCylinderNsbmdName), NULL);
-                    func_02084968(gTestCylinder, 0x3f, 2, 0x294a);
+                    model2_createFromNsbmd(&gTestCylinder, mobj_getMapObjFile(aTest_cylinder_), NULL);
+                    model_setPolyIdLightFlagsEmi(gTestCylinder, 0x3f, 2, 0x294a);
                     break;
                 case 1:
-                    CreateNsbmd(&gGearBlack, FindCourseMapObjFile(gGearBlackNsbmdName), NULL);
-                    func_02084968(gGearBlack, 0x3f, 2, 0x294a);
+                    model2_createFromNsbmd(&gGearBlack, mobj_getMapObjFile(aGear_black_nsb), NULL);
+                    model_setPolyIdLightFlagsEmi(gGearBlack, 0x3f, 2, 0x294a);
                     break;
                 case 2:
-                    CreateNsbmd(&gGearWhite, FindCourseMapObjFile(gGearWhiteNsbmdName), NULL);
-                    func_02084968(gGearWhite, 0x3f, 2, 0x294a);
+                    model2_createFromNsbmd(&gGearWhite, mobj_getMapObjFile(aGear_white_nsb), NULL);
+                    model_setPolyIdLightFlagsEmi(gGearWhite, 0x3f, 2, 0x294a);
                     break;
                 case 3:
-                    CreateNsbmd(&gRotaryRoom, FindCourseMapObjFile(gRotaryRoomNsbmdName), NULL);
-                    func_02084968(gRotaryRoom, 0x3f, 2, 0x294a);
+                    model2_createFromNsbmd(&gRotaryRoom, mobj_getMapObjFile(aRotary_room_ns), NULL);
+                    model_setPolyIdLightFlagsEmi(gRotaryRoom, 0x3f, 2, 0x294a);
                     break;
                 case 4:
-                    CreateNsbmd(&gRotaryBridge, FindCourseMapObjFile(gRotaryBridgeNsbmdName), NULL);
-                    func_02084968(gRotaryBridge, 0x3f, 2, 0x294a);
+                    model2_createFromNsbmd(&gRotaryBridge, mobj_getMapObjFile(aRotary_bridge_), NULL);
+                    model_setPolyIdLightFlagsEmi(gRotaryBridge, 0x3f, 2, 0x294a);
                     break;
             }
             *loadedFlagSlot = 1;
@@ -115,7 +115,7 @@ void func_020e4184(Unk020e1dc0 *list) {
     }
 }
 
-void func_020e410c(Unk020e1dc0 *list) {
+void rotcyl_globalLogicInit(Unk020e1dc0 *list) {
     Unk020e3ef4 *object;
     s32 index;
     s32 previousIndex;
@@ -146,8 +146,8 @@ void func_020e410c(Unk020e1dc0 *list) {
     }
 }
 
-void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
-    InitStateMachine(&object->mUnk_000.mStateMachine, (UnkFunc *const *) data_0216c168, 4, object);
+void rotcyl_init(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1e98_154 *kindInfo) {
+    sm_init(&object->mUnk_000.mStateMachine, (UnkFunc *const *) rotobj_sStates, 4, object);
     object->mUnk_0e8 = object->mUnk_000.mPos;
     object->mUnk_0a0 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
     object->mUnk_0c4 = *(Unk020e38a0_28 *) &object->mUnk_000.mMatrix;
@@ -198,47 +198,47 @@ void func_020e3ef4(Unk020e3ef4 *object, struct CourseMapRow *courseRow, Unk020e1
         object->mUnk_15c = kindInfo->mUnk_18;
     }
     if (object->mUnk_15c != -1) {
-        CreateMapObjectSoundSourceFalloff3(&object->mUnk_000);
+        mobj_initSoundEmitterForObjectSfxParam3(&object->mUnk_000);
     }
 }
 
 #pragma thumb off
 
-void *CreateBridgeKindData(void) {
+void *bridge_setupConfig(void) {
     void *kindData;
 
-    kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     *(Unk020e03f8 *) kindData = *(const Unk020e03f8 *) data_02158d18;
     return kindData;
 }
 
-void *CreateBridgeDrawList(void) {
+void *bridge_setupRenderPart(void) {
     void *drawList;
 
-    drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x30);
-    *(void **) data_0217b7c4 = drawList;
+    drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x30);
+    *(void **) bridge_sRenderPart = drawList;
     *(Unk020e3e48 *) drawList = *(const Unk020e3e48 *) data_02158ce8;
-    func_020d49d8(&data_0217b7c4);
-    return *(void **) data_0217b7c4;
+    mobj_renderPartSetThisPointer(&bridge_sRenderPart);
+    return *(void **) bridge_sRenderPart;
 }
 
-void *CreateBridgeUpdateList(void) {
+void *bridge_setupLogicPart(void) {
     void *updateList;
 
-    updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217b7c8 = updateList;
+    updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    bridge_sLogicPart = updateList;
     *(Unk020e0340 *) updateList = *(const Unk020e0340 *) data_02158cc0;
-    SetUpdateListSlot(&data_0217b7c8);
-    return data_0217b7c8;
+    mobj_logicPartSetThisPointer(&bridge_sLogicPart);
+    return bridge_sLogicPart;
 }
 
-void UpdateBridge(s32 a, Bridge *bridge) {
+void bridge_update(s32 a, Bridge *bridge) {
     s16 sine;
     s32 angleDelta;
     u16 x;
     u16 y;
 
-    sine = gPairsByAngle[(bridge->mUnk_148 >> 4) * 2];
+    sine = FX_SinCosTable_[(bridge->mUnk_148 >> 4) * 2];
     x = bridge->mUnk_144 + (s32) (((s64) sine * bridge->mUnk_144) >> 12);
     y = 0x10000 - x;
     angleDelta = y - bridge->mUnk_14a;
@@ -253,7 +253,7 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     bridge->mUnk_124.z = ((s64) bridge->mUnk_000.mMatrix.mUnk_00[0].z * angleDelta) >> 12;
     bridge->mUnk_14a = y;
     bridge->mUnk_0a0 = *(Unk020e38a0_28 *) &bridge->mUnk_000.mMatrix;
-    MTX_RotX33_((s32 *) &bridge->mUnk_000.mMatrix, gPairsByAngle[(y >> 4) * 2], gPairsByAngle[(y >> 4) * 2 + 1]);
+    MTX_RotX33_((s32 *) &bridge->mUnk_000.mMatrix, FX_SinCosTable_[(y >> 4) * 2], FX_SinCosTable_[(y >> 4) * 2 + 1]);
     MTX_Concat33((const s32 *) &bridge->mUnk_000.mMatrix, (const s32 *) &bridge->mUnk_0c4,
                  (s32 *) &bridge->mUnk_000.mMatrix);
     VEC_MultAdd(-bridge->mUnk_104, &bridge->mUnk_000.mMatrix.mUnk_00[1], &bridge->mUnk_000.mPos, &bridge->mUnk_0f4);
@@ -262,7 +262,7 @@ void UpdateBridge(s32 a, Bridge *bridge) {
         return;
     }
     if (bridge->mUnk_000.mSound != NULL) {
-        StartMapObjectSoundWhileRequested(&bridge->mUnk_000, 0x189);
+        mobj_emitSfxFromEmitter(&bridge->mUnk_000, 0x189);
     }
     bridge->mUnk_148 += bridge->mUnk_146;
     if (bridge->mUnk_148 >= 0x4000 && bridge->mUnk_148 < bridge->mUnk_146 + 0x4000) {
@@ -272,26 +272,26 @@ void UpdateBridge(s32 a, Bridge *bridge) {
     }
     y = 0x10000 - bridge->mUnk_14a;
     bridge->mUnk_154 = (s32) ((((s64) (s32) (u16) (0x10000 - bridge->mUnk_14a) * 0x1680000) + 0x80000) >> 20) << 1;
-    if (bridge->mUnk_154 > ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c) {
-        bridge->mUnk_154 = ((Unk020e1dc0 *) *(void **) data_0217b7c4)->mUnk_2c;
+    if (bridge->mUnk_154 > ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->mUnk_2c) {
+        bridge->mUnk_154 = ((Unk020e1dc0 *) *(void **) bridge_sRenderPart)->mUnk_2c;
     }
     if (bridge->mUnk_154 < 0) {
         bridge->mUnk_154 = 0;
     }
 }
 
-void DrawBridge(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
+void bridge_render(Unk020e3ef4 *object, void *viewMatrix, u32 alpha) {
     Unk020e1e98_12c *animation;
 
     object->mUnk_000.mMatrix.mUnk_00[3].x = object->mUnk_000.mPos.x >> 4;
     object->mUnk_000.mMatrix.mUnk_00[3].y = object->mUnk_000.mPos.y >> 4;
     object->mUnk_000.mMatrix.mUnk_00[3].z = object->mUnk_000.mPos.z >> 4;
-    animation = gBridgeNsbca;
+    animation = bridge_sNsbcaAnim;
     animation->mUnk_0c = object->mUnk_154;
     *animation->mUnk_1c[animation->mUnk_1a] = animation->mUnk_0c;
-    DrawNsbmdWithMatrixAndMaxAlpha(object->mModel, &object->mUnk_000.mMatrix, &object->mUnk_000.mScale.x, alpha);
+    model2_renderModel(object->mModel, &object->mUnk_000.mMatrix, &object->mUnk_000.mScale.x, alpha);
 }
 
-void DrawAllBridges(void *viewMatrix) {
-    func_020e1e38(*(void **) data_0217b7c4, viewMatrix, DrawBridge);
+void bridge_renderAll(void *viewMatrix) {
+    dcol_render(*(void **) bridge_sRenderPart, viewMatrix, bridge_render);
 }

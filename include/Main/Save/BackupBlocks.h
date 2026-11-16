@@ -10,12 +10,12 @@ typedef struct MissionRecordBlock MissionRecordBlock;
 
 typedef struct CourseTimeRecordBlock CourseTimeRecordBlock;
 
-void ReadBackupMissionRecordBlock(void *block);
-void WriteBackupMissionRecordBlock(MissionRecordBlock *block);
-void ReadBackupCourseTimeRecordBlock(void *block);
-void WriteBackupCourseTimeRecordBlock(CourseTimeRecordBlock *block);
-void ReadBackupGrandPrixRecordBlock(void *block);
-void WriteBackupGrandPrixRecordBlock(GrandPrixRecordBlock *block);
-void ReadBackupEmblemRecord(void *block);
-void WriteBackupEmblemRecord(EmblemRecord *block);
-void ReadBackupFirstBlock(void *block);
+void savd_readNkmr(void *block);
+void savd_writeNkmr(MissionRecordBlock *block);
+void savd_readNkta(void *block);
+void savd_writeNkta(CourseTimeRecordBlock *block);
+void savd_readNkgp(void *block);
+void savd_writeNkgp(GrandPrixRecordBlock *block);
+void savd_readNkem(void *block);
+void savd_writeNkem(EmblemRecord *block);
+void savd_readNksy(void *block);

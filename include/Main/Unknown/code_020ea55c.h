@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreateShadowModel(void **slot, void *file, u32 c);
+void model2_createShadowFromNsbmd(void **slot, void *file, u32 c);

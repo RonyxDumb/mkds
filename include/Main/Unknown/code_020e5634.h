@@ -4,4 +4,4 @@
 
 typedef struct ShadowMatrix ShadowMatrix;
 
-void SetShadowPositionRaised(ShadowMatrix *shadow, Vec3 *position);
+void oshd_setPosition(ShadowMatrix *shadow, Vec3 *position);

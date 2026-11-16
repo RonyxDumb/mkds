@@ -7,8 +7,8 @@
 #include "Main/Unknown/code_020f36d8.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-void func_020812d0(s32 kartIndex) {
-    Kart *kart = GetKart(kartIndex);
+void rptc_startWaterEffect(s32 kartIndex) {
+    Kart *kart = driver_getById(kartIndex);
     Unk0201ca6c *effect;
     u16 effectIndex;
 
@@ -17,19 +17,19 @@ void func_020812d0(s32 kartIndex) {
     }
     effectIndex = 0;
     do {
-        effect = StartEffect(0x58, &data_02155a14);
+        effect = ptcm_createEmitter(0x58, &rptc_sEmitterPos);
         effect->mUnk_94 = kart;
         effect->mUnk_98_24 = effectIndex;
         effectIndex = effectIndex + 1;
-        effect->mUnk_90 = func_02081298;
+        effect->mUnk_90 = rptc_waterEmitterCallback;
     } while (effectIndex < 2);
 }
 
-void func_02081298(Unk0201ca6c *effect, s32 a) {
+void rptc_waterEmitterCallback(Unk0201ca6c *effect, s32 a) {
     if (a != 0) {
         return;
     }
-    AdvanceKartSideEffect(effect, a);
+    rptc_208335C(effect, a);
     if (effect->mUnk_98_0 >= 7) {
         effect->mUnk_98_8 = 1;
     } else {
@@ -37,22 +37,22 @@ void func_02081298(Unk0201ca6c *effect, s32 a) {
     }
 }
 
-void func_02081224(u32 kartIndex) {
-    KartEffects *kartEffects = &gKartEffects[kartIndex];
+void rptc_startElectricEffect(u32 kartIndex) {
+    KartEffects *kartEffects = &rptc_sDriverEffects[kartIndex];
     Unk0201ca6c *effect;
 
     if (kartEffects->mUnk_30 != NULL) {
-        DeleteEffect(kartEffects->mUnk_30);
+        ptcm_killEmitterDirect(kartEffects->mUnk_30);
     }
-    kartEffects->mUnk_30 = StartEffect(0x5e, &data_02155a14);
+    kartEffects->mUnk_30 = ptcm_createEmitter(0x5e, &rptc_sEmitterPos);
     effect = kartEffects->mUnk_30;
     effect->mUnk_98_16 = 0;
     effect->mUnk_98_8 = 0x78;
     effect->mUnk_98_24 = kartIndex;
-    effect->mUnk_90 = func_02081120;
+    effect->mUnk_90 = rptc_electricEmitterCallback;
 }
 
-void func_02081120(Unk0201ca6c *effect, s32 a) {
+void rptc_electricEmitterCallback(Unk0201ca6c *effect, s32 a) {
     u32 ended;
     u8 elapsedFrames;
     u8 kartIndex;
@@ -67,7 +67,7 @@ void func_02081120(Unk0201ca6c *effect, s32 a) {
     kartIndex = effect->mUnk_98_24;
     elapsedFrames = effect->mUnk_98_16;
     ended = 0;
-    kartPosition = GetKart(kartIndex)->mPosSource;
+    kartPosition = driver_getById(kartIndex)->mPosSource;
     kartX = kartPosition->x;
     kartY = kartPosition->y;
     kartZ = kartPosition->z;
@@ -83,8 +83,8 @@ void func_02081120(Unk0201ca6c *effect, s32 a) {
         effect->mUnk_98_16 = elapsedFrames + 1;
     }
     if (ended != 0) {
-        gKartEffects[kartIndex].mUnk_30 = NULL;
+        rptc_sDriverEffects[kartIndex].mUnk_30 = NULL;
         return;
     }
-    effect->mUnk_6c = (s16) GetKart(kartIndex)->mScale.z;
+    effect->mUnk_6c = (s16) driver_getById(kartIndex)->mScale.z;
 }

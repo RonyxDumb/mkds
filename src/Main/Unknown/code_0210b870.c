@@ -25,7 +25,7 @@ void func_0210ba78(void *mapSound, s32 baseSoundId) {
 
     mapSoundCopy = mapSound;
     counter = *(s32 *) data_0217ccac;
-    StartSound(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
+    sfx_21090C4(&mapSoundCopy->mSoundSource, baseSoundId + counter, (0x7f - (counter >> 1)) & 0xff, 0);
     *(u32 *) data_0217ccac = *(u32 *) (u32) data_0217ccac + 0xa;
 }
 
@@ -74,7 +74,7 @@ void func_0210b924(void *position, s32 distanceSquared) {
     request->mUnk_04 = position;
     request->mUnk_0c = distanceSquared;
     if (data_0217c780 & 1) {
-        func_0210bf24(0, request->mUnk_00, (u32) request->mUnk_04, request);
+        sfx_210BF24(0, request->mUnk_00, (u32) request->mUnk_04, request);
     }
 }
 
@@ -89,7 +89,7 @@ int func_0210b8bc(void *soundSource, s32 fixedValue) {
     if (clampedValue > 0x1e) {
         clampedValue = 0x1e;
     }
-    return (s32) StartSound(soundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
+    return (s32) sfx_21090C4(soundSource, 0x1ce, ((clampedValue * 2) + 0x3c) & 0xff, clampedValue - 0xa);
 }
 
 void func_0210b874(struct MapObjectSound *mapSound, s32 fixedValue) {

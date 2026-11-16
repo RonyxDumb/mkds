@@ -40,7 +40,7 @@ void func_0202f160(void);
 u32 func_0202f19c(void);
 u32 func_0202f1a8(void);
 u16 *func_0202f1d0(void);
-void ReleaseWLMenuScene(void);
+void EndMultiplayerMenu(void);
 void AdvanceWLMenuScene(void *a);
 void InitWLMenuScene(void *heap);
 void func_0202f454(u32 bits);

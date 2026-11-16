@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void *func_020ada10(void);
+void *title_proc_getCurrentHeap(void);

@@ -27,13 +27,13 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
     }
     isHumanGhostOrPeer = FALSE;
     if (rowIndex == 0) {
-        if (gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind <= 3) {
-            if ((1 << gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
+        if (gRaceMultiConfig->mCurrentEntries[rowIndex].mPlayer.mKind <= 3) {
+            if ((1 << gRaceMultiConfig->mCurrentEntries[rowIndex].mPlayer.mKind) & PLAYER_KIND_MASK_HUMAN_GHOST_PEER) {
                 isHumanGhostOrPeer = TRUE;
             }
         }
         if (isHumanGhostOrPeer != FALSE) {
-            name = gRaceSetup->mCurrentEntries[rowIndex].mPlayer.mName;
+            name = gRaceMultiConfig->mCurrentEntries[rowIndex].mPlayer.mName;
             if (name == NULL) {
                 return;
             }
@@ -44,7 +44,7 @@ void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength) 
             }
         }
     } else {
-        if (GetCourseTimeRecord(gRaceSetup->mCourseId, rowIndex - 1, &record) != 0) {
+        if (savd_getNktaEntry(gRaceMultiConfig->mCourseId, rowIndex - 1, &record) != 0) {
             name = record.mName;
             if (copyFullLength != 0) {
                 length = 10;
@@ -68,7 +68,7 @@ void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b5
     outSecond->mUnk_04 = (firstZ << 12) + (secondZ - firstZ) * 0x18000 / 24;
 }
 
-void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+void GetGlobalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
     s16 rows[55][4] = {
         {-1000, -1000, 1000, 1000},
         {-6459, -3180, 2908, 3845},
@@ -126,7 +126,7 @@ void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c 
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = m2d_race_getCurrentCourse();
 
     ComputeRaceHudSubScreenState0MinMax(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                                         rows[courseId][3]);
@@ -140,7 +140,7 @@ void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSe
     outSecond->mUnk_04 = secondZ << 12;
 }
 
-void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
+void GetLocalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond) {
     s16 rows[55][4] = {
         {-3000, -2244, 3000, 3756},
         {-3000, -2249, 3000, 3751},
@@ -198,7 +198,7 @@ void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c 
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = m2d_race_getCurrentCourse();
 
     SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                               rows[courseId][3]);
@@ -262,7 +262,7 @@ void GetRaceHudSubScreenScrollLimits(UnkPair020b502c *outFirst, UnkPair020b502c 
         {0, 0, 0, 0},
         {0, 0, 0, 0},
     };
-    s32 courseId = RaceHudSubScreenGetCurrentCourseId();
+    s32 courseId = m2d_race_getCurrentCourse();
 
     SetFixed12MinMaxFromWhole(outFirst, outSecond, rows[courseId][0], rows[courseId][1], rows[courseId][2],
                               rows[courseId][3]);

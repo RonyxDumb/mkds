@@ -55,19 +55,19 @@
 #include "01/code_021813f4.h"
 #include "Main/Unknown/code_02077bc0.h"
 
-u32 func_020c0dc4(void) {
-    return (gRaceHudSubScreenCellGroups->mUnk_000);
+u32 mpicn_getMinPriority(void) {
+    return (mpicn_sIconData->mUnk_000);
 }
 
-u32 GetRaceHudSubScreenScale(void) {
-    return (gRaceHudSubScreenCellGroups->mScale);
+u32 mpicn_20C0DB0(void) {
+    return (mpicn_sIconData->mScale);
 }
 
-u32 func_020c0d9c(void) {
-    return (gRaceHudSubScreenCellGroups->mUnk_008);
+u32 mpicn_20C0D9C(void) {
+    return (mpicn_sIconData->mUnk_008);
 }
 
-BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
+BOOL mpicn_createMapObjIcon(RaceHudSubScreenCells **outCells, s32 kind) {
     BOOL fromUpdateList;
     void *drawList;
     void *updateList;
@@ -75,8 +75,8 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
     s32 objectCount;
 
     fromUpdateList = FALSE;
-    drawList = FindMapObjectKindDrawList0(kind);
-    updateList = FindMapObjectKindUpdateList(kind);
+    drawList = mobj_getRenderPart0ForObjectId(kind);
+    updateList = mobj_getLogicPartForObjectId(kind);
     if (kind == MAP_OBJECT_KIND_SUN_FIREBALL || kind == 0x1ab) {
         fromUpdateList = TRUE;
     }
@@ -84,7 +84,7 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
         if (updateList == NULL) {
             return FALSE;
         }
-        objectCount = GetMapObjectListCount(updateList);
+        objectCount = mobj_logicPartGetInstanceCount(updateList);
         if (objectCount == 0) {
             return FALSE;
         }
@@ -97,15 +97,15 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
             return FALSE;
         }
     }
-    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    *outCells = heap_alloc(proc_getHeap(proc_getCurrent()), 0x14);
     if (fromUpdateList != FALSE) {
-        (*outCells)->mObjects = (Unk0217b498_00 **) GetMapObjects(updateList);
+        (*outCells)->mObjects = (Unk0217b498_00 **) mobj_logicPartGetInstanceList(updateList);
     } else {
-        (*outCells)->mObjects = RaceHudSubScreenGetMapObjects(drawList);
+        (*outCells)->mObjects = mobj_renderPartGetInstanceList(drawList);
     }
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
+    (*outCells)->mUnk_0c = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
     for (i = 0; i < objectCount; i++) {
         ComputeRaceHudSubScreenCoursePosition(&(*outCells)->mObjects[i]->mPos, &(*outCells)->mUnk_0c[i]);
     }
@@ -113,26 +113,26 @@ BOOL CreateRaceHudSubScreenCells(RaceHudSubScreenCells **outCells, s32 kind) {
     return TRUE;
 }
 
-BOOL CreateRaceHudSubScreenCellsWithCount(RaceHudSubScreenCells **outCells, s32 objectCount) {
+BOOL mpicn_20C0BA8(RaceHudSubScreenCells **outCells, s32 objectCount) {
     if (objectCount == 0) {
         return FALSE;
     }
-    *outCells = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x14);
+    *outCells = heap_alloc(proc_getHeap(proc_getCurrent()), 0x14);
     (*outCells)->mCellCount = 0;
     (*outCells)->mObjectCount = objectCount;
-    (*outCells)->mUnk_0c = HeapAlloc(GetHeap(GetCurrentHeapCall()), objectCount * 8);
+    (*outCells)->mUnk_0c = heap_alloc(proc_getHeap(proc_getCurrent()), objectCount * 8);
     (*outCells)->mCells = AllocArrayFromCurrentHeap(objectCount, 0x14);
     return TRUE;
 }
 
-void ClearRaceHudSubScreenCells(RaceHudSubScreenCells **cellsPointerAddress) {
+void mpicn_destroyMObjIcon(RaceHudSubScreenCells **cellsPointerAddress) {
     (*cellsPointerAddress)->mObjects = NULL;
     (*cellsPointerAddress)->mUnk_0c = NULL;
     (*cellsPointerAddress)->mCells = NULL;
     *cellsPointerAddress = NULL;
 }
 
-void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation) {
+void mpicn_renderMObjIcon(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation) {
     s32 i;
     s32 l;
     u16 angle;
@@ -148,9 +148,9 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
     s32 screenY;
     void *cellData;
 
-    l = gRaceHudSubScreenCellGroups->mUnk_000;
+    l = mpicn_sIconData->mUnk_000;
     if (useRotation != 0) {
-        angle = GetSubScreenAngleAndClearScrollTimer();
+        angle = m2d_20B6368();
     }
     for (i = 0; i < cells->mCellCount; i++) {
         p = cells->mCells[i].mUnk_0c;
@@ -158,12 +158,12 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
             q = cells->mCells[i].mUnk_0e;
             matrixIndex = 0;
             if (useRotation != 0) {
-                if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2Rotation(rotationMatrix, (u16) (cells->mCells[i].mUnk_10 + 0x8000 - angle));
+                if (gRaceMultiConfig->mMirrorMode != 0) {
+                    lmap_rotMtx22(rotationMatrix, (u16) (cells->mCells[i].mUnk_10 + 0x8000 - angle));
                 } else {
-                    Matrix2x2Rotation(rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mUnk_10)));
+                    lmap_rotMtx22(rotationMatrix, (u16) (angle + (0x8000 - cells->mCells[i].mUnk_10)));
                 }
-                matrixIndex = AllocOamMatrixIndex(oamBuffer);
+                matrixIndex = oam_getAffineId(oamBuffer);
                 oamBuffer->mMatrices[matrixIndex].mUnk_06 = rotationMatrix[0] >> 4;
                 oamBuffer->mMatrices[matrixIndex].mUnk_0e = rotationMatrix[1] >> 4;
                 oamBuffer->mMatrices[matrixIndex].mUnk_16 = rotationMatrix[2] >> 4;
@@ -192,7 +192,7 @@ void DrawRaceHudSubScreenCells(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCell
     }
 }
 
-void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation) {
+void mpicn_20C06C4(RaceHudOamBuffer *oamBuffer, RaceHudSubScreenCells *cells, s32 useRotation) {
     s32 i;
     s32 l;
     u16 angle;
@@ -208,26 +208,26 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
     s32 screenY;
     void *cellData;
 
-    l = gRaceHudSubScreenCellGroups->mUnk_000;
+    l = mpicn_sIconData->mUnk_000;
     if (useRotation != 0) {
-        angle = GetSubScreenAngleAndClearScrollTimer();
+        angle = m2d_20B6368();
     }
     for (i = 0; i < cells->mCellCount; i++) {
         p = cells->mCells[i].mUnk_0c;
         if (l <= p) {
             q = cells->mCells[i].mUnk_0e;
             if (useRotation != 0) {
-                if (gRaceSetup->mMirrorMode != 0) {
-                    Matrix2x2RotationReciprocalScale(matrix, cells->mUnk_0c[i].mUnk_00,
+                if (gRaceMultiConfig->mMirrorMode != 0) {
+                    lmap_rotScaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00,
                                                      (u16) (cells->mCells[i].mUnk_10 - angle));
                 } else {
-                    Matrix2x2RotationReciprocalScale(matrix, cells->mUnk_0c[i].mUnk_00,
+                    lmap_rotScaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00,
                                                      (u16) (angle - cells->mCells[i].mUnk_10));
                 }
             } else {
-                Matrix2x2ReciprocalScale(matrix, cells->mUnk_0c[i].mUnk_00);
+                lmap_scaleMtx22(matrix, cells->mUnk_0c[i].mUnk_00);
             }
-            matrixIndex = AllocOamMatrixIndex(oamBuffer);
+            matrixIndex = oam_getAffineId(oamBuffer);
             oamBuffer->mMatrices[matrixIndex].mUnk_06 = matrix[0] >> 4;
             oamBuffer->mMatrices[matrixIndex].mUnk_0e = matrix[1] >> 4;
             oamBuffer->mMatrices[matrixIndex].mUnk_16 = matrix[2] >> 4;
@@ -254,665 +254,665 @@ void DrawRaceHudSubScreenCellsScaled(RaceHudOamBuffer *oamBuffer, RaceHudSubScre
     }
 }
 
-void InitRaceHudSubScreenCellGroups(void) {
-    gRaceHudSubScreenCellGroups = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x25c);
-    gRaceHudSubScreenCellGroups->mUnk_000 = 0;
-    gRaceHudSubScreenCellGroups->mScale = 0;
-    gRaceHudSubScreenCellGroups->mUnk_008 = 0;
-    gRaceHudSubScreenCellGroups->mGroupCount = 0;
-    if (CreateRaceHudSubScreenKarts()) {
+void mpicn_init(void) {
+    mpicn_sIconData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x25c);
+    mpicn_sIconData->mUnk_000 = 0;
+    mpicn_sIconData->mScale = 0;
+    mpicn_sIconData->mUnk_008 = 0;
+    mpicn_sIconData->mGroupCount = 0;
+    if (mpicn_createDriverIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenKarts && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createDriverIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenItemCells()) {
+    if (mpicn_createItemIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenItemCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createItemIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBombKouraWCells()) {
+    if (mpicn_createExplosionIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBombKouraWCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createExplosionIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenItemBoxCells()) {
+    if (mpicn_createItemboxIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenItemBoxCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createItemboxIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenEarthenPipeCells()) {
+    if (mpicn_createEarthenPipeIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenEarthenPipeCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createEarthenPipeIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenWanwanCells()) {
+    if (mpicn_createWanwanIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenWanwanCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createWanwanIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenDossunCells()) {
+    if (mpicn_createDossunIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenDossunCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createDossunIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenCrabCells()) {
+    if (mpicn_createCrabIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenCrabCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createCrabIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenSmanCells()) {
+    if (mpicn_createSmanIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenSmanCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createSmanIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenMoveTreeCells()) {
+    if (mpicn_createMoveTreeIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenMoveTreeCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createMoveTreeIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenPukupukuCells()) {
+    if (mpicn_createPukupukuIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenPukupukuCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createPukupukuIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenChoropuCells()) {
+    if (mpicn_createChoropuIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenChoropuCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createChoropuIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenCarCells()) {
+    if (mpicn_createCarTruckBusIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenCarCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createCarTruckBusIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenSecondHand()) {
+    if (mpicn_createSecondHandIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenSecondHand && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createSecondHandIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenShine16Cells()) {
+    if (mpicn_createShine16Icon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenShine16Cells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createShine16Icon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenPendulumCells()) {
+    if (mpicn_createPendulumIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenPendulumCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createPendulumIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenNsKiller2Cells()) {
+    if (mpicn_createNsKiller2Icon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenNsKiller2Cells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createNsKiller2Icon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenFlipperCells()) {
+    if (mpicn_createFlipperIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenFlipperCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createFlipperIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenMkdEfBubbleCells()) {
+    if (mpicn_createMkdEfBubbleIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenMkdEfBubbleCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createMkdEfBubbleIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenKuriboCells()) {
+    if (mpicn_createKuriboIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenKuriboCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createKuriboIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenObPakkunSfCells()) {
+    if (mpicn_createObPakkunSfIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenObPakkunSfCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createObPakkunSfIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenRock2Cells()) {
+    if (mpicn_createRock2Icon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenRock2Cells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createRock2Icon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenRockCells()) {
+    if (mpicn_createRockIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenRockCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createRockIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenWoodbox1Cells()) {
+    if (mpicn_createWoodbox1Icon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenWoodbox1Cells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createWoodbox1Icon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenRainStarCells()) {
+    if (mpicn_createRainStarIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenRainStarCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createRainStarIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenMkdEfBurnerCells()) {
+    if (mpicn_createMkdEfBurnerIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenMkdEfBurnerCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createMkdEfBurnerIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenCoverPooHoleCells()) {
+    if (mpicn_createPooIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenCoverPooHoleCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createPooIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBoundCells()) {
+    if (mpicn_createBoundIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBoundCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createBoundIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenSunFireballCells()) {
+    if (mpicn_createSunFireSnakeIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenSunFireballCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createSunFireSnakeIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenFireball2Cells()) {
+    if (mpicn_createFireball2Icon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenFireball2Cells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createFireball2Icon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenIronBallCells()) {
+    if (mpicn_createIronBallIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenIronBallCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createIronBallIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenSanboCells()) {
+    if (mpicn_createSanboIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenSanboCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createSanboIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBasabasaCells()) {
+    if (mpicn_createBasabasaIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBasabasaCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createBasabasaIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (func_020cee0c()) {
+    if (mpicn_createPakkunFireIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != func_020cee0c && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createPakkunFireIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBerryCells()) {
+    if (mpicn_createBerryIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBerryCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createBerryIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenCreamCells()) {
+    if (mpicn_createCreamIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenCreamCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createCreamIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (gRaceSetup->mMode != MODE_MISSION_RUN) {
+    if (gRaceMultiConfig->mMode != MODE_MISSION_RUN) {
         return;
     }
-    if (CreateRaceHudSubScreenCoinCells()) {
+    if (mpicn_createCoinIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenCoinCells && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createCoinIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenMissionGateCells()) {
+    if (mpicn_createMissionGateIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenMissionGateCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createMissionGateIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenStopSignCells()) {
+    if (mpicn_createStopSignIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenStopSignCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createStopSignIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBossDonketuCells()) {
+    if (mpicn_createBossDonketuIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBossDonketuCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createBossDonketuIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenKingIceDonketuCells()) {
+    if (mpicn_createKingIceDonketuIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
+        groupIndex = mpicn_sIconData->mGroupCount++;
         for (i = 0;
-             gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenKingIceDonketuCells && i < 49;
+             mpicn_sIconDefs[i].mCreate != mpicn_createKingIceDonketuIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenKurikingCells()) {
+    if (mpicn_createKurikingIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenKurikingCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createKurikingIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenBombKingCells()) {
+    if (mpicn_createBombKingIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenBombKingCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createBombKingIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenIwanteCells()) {
+    if (mpicn_createIwanteLIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenIwanteCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createIwanteLIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (CreateRaceHudSubScreenHanachanCells()) {
+    if (mpicn_createHanachanIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != CreateRaceHudSubScreenHanachanCells && i < 49;
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createHanachanIcon && i < 49;
              i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
-    if (func_ov001_02189128()) {
+    if (mpicn_createKingTeresaIcon()) {
         s32 groupIndex;
         s32 i;
 
-        groupIndex = gRaceHudSubScreenCellGroups->mGroupCount++;
-        for (i = 0; gRaceHudSubScreenCellGroupFunctions[i].mCreate != func_ov001_02189128 && i < 49; i++) {
+        groupIndex = mpicn_sIconData->mGroupCount++;
+        for (i = 0; mpicn_sIconDefs[i].mCreate != mpicn_createKingTeresaIcon && i < 49; i++) {
         }
         if (i < 49) {
-            gRaceHudSubScreenCellGroups->mClearFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mClear;
-            gRaceHudSubScreenCellGroups->mUpdateFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mUpdate;
-            gRaceHudSubScreenCellGroups->mDrawFunctions[groupIndex] = gRaceHudSubScreenCellGroupFunctions[i].mDraw;
+            mpicn_sIconData->mClearFunctions[groupIndex] = mpicn_sIconDefs[i].mClear;
+            mpicn_sIconData->mUpdateFunctions[groupIndex] = mpicn_sIconDefs[i].mUpdate;
+            mpicn_sIconData->mDrawFunctions[groupIndex] = mpicn_sIconDefs[i].mDraw;
         }
     }
 }
 
-void ClearRaceHudSubScreenCellGroups(void) {
+void mpicn_finalize(void) {
     s32 i;
 
-    for (i = 0; i < gRaceHudSubScreenCellGroups->mGroupCount; i++) {
-        gRaceHudSubScreenCellGroups->mClearFunctions[i]();
+    for (i = 0; i < mpicn_sIconData->mGroupCount; i++) {
+        mpicn_sIconData->mClearFunctions[i]();
     }
-    gRaceHudSubScreenCellGroups = NULL;
+    mpicn_sIconData = NULL;
 }
 
-void UpdateRaceHudSubScreenCellGroups(void) {
+void mpicn_update(void) {
     Vec3 followedKartPosition;
     s32 i;
     s32 n;
     float f;
 
-    switch (GetRaceHudSubScreenState()) {
+    switch (r2d_getMapMode()) {
         case 0:
-            UpdateRaceHudSubScreenKarts();
+            mpicn_updateDriverIcon();
             break;
         case 1:
         case 2:
@@ -923,31 +923,31 @@ void UpdateRaceHudSubScreenCellGroups(void) {
                 f = (GetRaceHudSubScreenCourseScale() * 0x3000) - 0.5f;
             }
             n = f;
-            gRaceHudSubScreenCellGroups->mScale = ((s64) n * 20) >> 12;
-            gRaceHudSubScreenCellGroups->mUnk_008 = FX_Div(0x2400, gRaceHudSubScreenCellGroups->mScale);
-            UpdateRaceHudSubScreenProjectionAndBgAffine(GetRaceHudSubScreenBgAffine(),
-                                                        gRaceHudSubScreenCellGroups->mScale);
-            GetKartPosFromPosSourceCopy(&followedKartPosition, GetFollowedKartOrEntryIndex());
-            gRaceHudSubScreenCellGroups->mUnk_000 = IsPositionOutsideBox(&followedKartPosition) != 0 ? 0 : 3;
-            for (i = 0; i < gRaceHudSubScreenCellGroups->mGroupCount; i++) {
-                gRaceHudSubScreenCellGroups->mUpdateFunctions[i]();
+            mpicn_sIconData->mScale = ((s64) n * 20) >> 12;
+            mpicn_sIconData->mUnk_008 = FX_Div(0x2400, mpicn_sIconData->mScale);
+            RefreshLocalMap(GetRaceHudSubScreenBgAffine(),
+                                                        mpicn_sIconData->mScale);
+            GetKartPosFromPosSourceCopy(&followedKartPosition, Race_GetPlayerId());
+            mpicn_sIconData->mUnk_000 = m2d_isPointOnLowerMap(&followedKartPosition) != 0 ? 0 : 3;
+            for (i = 0; i < mpicn_sIconData->mGroupCount; i++) {
+                mpicn_sIconData->mUpdateFunctions[i]();
             }
             break;
     }
 }
 
-void DrawRaceHudSubScreenCellGroups(void *oamBuffer) {
+void mpicn_render(void *oamBuffer) {
     s32 i;
 
-    switch (GetRaceHudSubScreenState()) {
+    switch (r2d_getMapMode()) {
         case 0:
-            DrawRaceHudSubScreenKarts(oamBuffer);
+            mpicn_renderDriverIcon(oamBuffer);
             break;
         case 1:
         case 2:
         case 3:
-            for (i = 0; i < gRaceHudSubScreenCellGroups->mGroupCount; i++) {
-                gRaceHudSubScreenCellGroups->mDrawFunctions[i](oamBuffer);
+            for (i = 0; i < mpicn_sIconData->mGroupCount; i++) {
+                mpicn_sIconData->mDrawFunctions[i](oamBuffer);
             }
             break;
     }

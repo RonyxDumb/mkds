@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-u16 AllocPolygonIdWrapping(void);
-u16 AllocPolygonId(void);
-u16 CountMapObjectsOfKind(u32 kind);
-void func_020d3b74(void);
-void func_020d3b10(void);
+u16 mobj_getCyclicPolygonId(void);
+u16 mobj_getStaticPolygonId(void);
+u16 mobj_getInstanceCountWithId(u32 kind);
+void mobj_deactivateObjsBeforeCountdown(void);
+void mobj_activateObjsAfterCountdown(void);

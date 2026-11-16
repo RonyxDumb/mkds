@@ -4,5 +4,5 @@
 
 typedef struct Bmg Bmg;
 
-void func_0204ea14(Bmg *bmg);
-u32 func_0204ea3c(void);
+void mbp_loadBannerText(Bmg *bmg);
+u32 mbp_204EA3C(void);

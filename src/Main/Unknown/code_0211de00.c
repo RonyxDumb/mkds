@@ -21,12 +21,12 @@ void LoadCupMarkData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCupMarkNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkNcgrName);
+    g2du_unpackCharacterDataBG(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkNcerName);
+    g2du_unpackCellBankData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkNclrName);
+    g2du_unpackPaletteData(palette, sceneFile);
 }
 
 void LoadCommonCupMarkData(void) {
@@ -37,41 +37,41 @@ void LoadCommonCupMarkData(void) {
     chars = NULL;
     cells = NULL;
     palette[0] = NULL;
-    sceneFile = FindSceneFile(gCommonCupMarkNcgrName);
-    LoadNcgrData(&chars, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNcerName);
-    LoadNcerData(&cells, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNclrName);
-    LoadNclrData(palette, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNcgrName);
+    g2du_unpackCharacterDataBG(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNcerName);
+    g2du_unpackCellBankData(&cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNclrName);
+    g2du_unpackPaletteData(palette, sceneFile);
 }
 
 void CreateCupMark(void *heap) {
     int allocation;
     void *sceneFile;
-    allocation = ((u32) HeapAlloc(heap, 0x10));
+    allocation = ((u32) heap_alloc(heap, 0x10));
     *(s32 *) &gCupMark = allocation;
-    sceneFile = FindSceneFile(gCupMarkNcgrName);
-    LocateNcgr2(&gCupMark->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNcerName);
-    LocateNcer(&gCupMark->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkNclrName);
-    LocateNclr(&gCupMark->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gCupMarkBnclName);
+    sceneFile = arc_getSceneArcFile(gCupMarkNcgrName);
+    g2du_getCharacterData(&gCupMark->mNcgr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkNcerName);
+    g2du_getCellBankData(&gCupMark->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkNclrName);
+    g2du_getPaletteData(&gCupMark->mNclr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCupMarkBnclName);
     gCupMark->mBncl = sceneFile;
 }
 
 void CreateCommonCupMark(void *heap) {
     int allocation;
     void *sceneFile;
-    allocation = ((u32) HeapAlloc(heap, 0x10));
+    allocation = ((u32) heap_alloc(heap, 0x10));
     *(s32 *) &gCupMark = allocation;
-    sceneFile = FindSceneFile(gCommonCupMarkNcgrName);
-    LocateNcgr2(&gCupMark->mNcgr, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNcerName);
-    LocateNcer(&gCupMark->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkNclrName);
-    LocateNclr(&gCupMark->mNclr, sceneFile);
-    sceneFile = FindSceneFile(gCommonCupMarkBnclName);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNcgrName);
+    g2du_getCharacterData(&gCupMark->mNcgr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNcerName);
+    g2du_getCellBankData(&gCupMark->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkNclrName);
+    g2du_getPaletteData(&gCupMark->mNclr, sceneFile);
+    sceneFile = arc_getSceneArcFile(gCommonCupMarkBnclName);
     gCupMark->mBncl = sceneFile;
 }
 
@@ -103,11 +103,11 @@ void QueueCupMark(u32 cupMarkIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout,
     }
     id = ((u16 *) gCupMarkBnclIndices)[cupMarkIndex];
     cupMark = gCupMark;
-    QueueCellChars(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, f, d, cells, cellLayout);
+    jn_ui_fillPlaceholder(id, cupMark->mNcer, cupMark->mNcgr, cupMark->mBncl, f, d, cells, cellLayout);
     cupMark = gCupMark;
     dst = (u8 *) cupMark->mNclr->mData;
     paletteIndex = GetCellPaletteIndex(id, cupMark->mNcer, cupMark->mBncl);
-    CallQueueAppend(v0, paletteSlot << 5, dst + (paletteIndex << 5), 32);
+    NNS_GfdRegisterNewVramTransferTask(v0, paletteSlot << 5, dst + (paletteIndex << 5), 32);
 }
 
 void LoadSelectCupNameMData(void) {
@@ -116,22 +116,22 @@ void LoadSelectCupNameMData(void) {
     Unk02021dc8 *cells[1];
     chars = NULL;
     cells[0] = NULL;
-    sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
-    LoadNcgrData2(&chars, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMNcerName);
-    LoadNcerData(cells, sceneFile);
+    sceneFile = arc_getSceneArcFile(gSelectCupNameMNcgrName);
+    g2du_unpackCharacterData(&chars, sceneFile);
+    sceneFile = arc_getSceneArcFile(gSelectCupNameMNcerName);
+    g2du_unpackCellBankData(cells, sceneFile);
 }
 
 void CreateSelectCupNameM(void *heap) {
     int allocation;
     void *sceneFile;
-    allocation = ((u32) HeapAlloc(heap, 0xc));
+    allocation = ((u32) heap_alloc(heap, 0xc));
     *(s32 *) &gSelectCupNameM = allocation;
-    sceneFile = FindSceneFile(gSelectCupNameMNcgrName);
-    LocateNcgr2((Ncgr **) gSelectCupNameM, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMNcerName);
-    LocateNcer(&gSelectCupNameM->mNcer, sceneFile);
-    sceneFile = FindSceneFile(gSelectCupNameMBnclName);
+    sceneFile = arc_getSceneArcFile(gSelectCupNameMNcgrName);
+    g2du_getCharacterData((Ncgr **) gSelectCupNameM, sceneFile);
+    sceneFile = arc_getSceneArcFile(gSelectCupNameMNcerName);
+    g2du_getCellBankData(&gSelectCupNameM->mNcer, sceneFile);
+    sceneFile = arc_getSceneArcFile(gSelectCupNameMBnclName);
     gSelectCupNameM->mBncl = sceneFile;
 }
 
@@ -150,7 +150,7 @@ void ClearSelectCupNameMPointer(void) {
 #pragma thumb on
 
 void QueueSelectCupNameM(u32 nameIndex, Unk02021dc8 *cells, Unk0201ea30 *cellLayout, u32 d, u32 e) {
-    QueueCellChars(gSelectCupNameMBnclIndices[nameIndex], gSelectCupNameM->mNcer, gSelectCupNameM->mNcgr,
+    jn_ui_fillPlaceholder(gSelectCupNameMBnclIndices[nameIndex], gSelectCupNameM->mNcer, gSelectCupNameM->mNcgr,
                    gSelectCupNameM->mBncl, e, d, cells, cellLayout);
 }
 

@@ -18,35 +18,35 @@
 #include "Main/Unknown/code_020c0d9c.h"
 #include "Main/Unknown/code_020cedf8.h"
 
-void func_020cedf8(void) {
+void mpicn_destroyPakkunFireIcon(void) {
     u32 address;
     u32 value12;
-    address = (u32) &data_0217b484;
-    ClearRaceHudSubScreenCells((RaceHudSubScreenCells **) address);
+    address = (u32) &mpicn_sPakkunFireIcon;
+    mpicn_destroyMObjIcon((RaceHudSubScreenCells **) address);
 }
 
-void func_020ced2c(void) {
+void mpicn_updatePakkunFireIcon(void) {
     s32 i;
     s32 cellCount;
     s32 v;
     Unk0217b498_00 *object;
 
     cellCount = 0;
-    v = GetRaceHudSubScreenScale();
-    for (i = 0; i < data_0217b484->mObjectCount; i++) {
-        object = data_0217b484->mObjects[i];
+    v = mpicn_20C0DB0();
+    for (i = 0; i < mpicn_sPakkunFireIcon->mObjectCount; i++) {
+        object = mpicn_sPakkunFireIcon->mObjects[i];
         if ((object->mFlags & 1) == 0) {
-            if (ComputeRaceHudSubScreenPosition(&object->mPos, &data_0217b484->mCells[cellCount].mDrawPos, v, 1, 1) !=
+            if (lmap_20B5AE8(&object->mPos, &mpicn_sPakkunFireIcon->mCells[cellCount].mDrawPos, v, 1, 1) !=
                 FALSE) {
-                data_0217b484->mCells[cellCount].mCell = GetRaceSNcerEntry(0xa4);
-                data_0217b484->mCells[cellCount].mUnk_0c = 2;
+                mpicn_sPakkunFireIcon->mCells[cellCount].mCell = r2d_getRaceSCell(0xa4);
+                mpicn_sPakkunFireIcon->mCells[cellCount].mUnk_0c = 2;
                 cellCount++;
             }
         }
     }
-    data_0217b484->mCellCount = cellCount;
+    mpicn_sPakkunFireIcon->mCellCount = cellCount;
 }
 
-void func_020ced10(RaceHudOamBuffer *oamBuffer) {
-    DrawRaceHudSubScreenCells(oamBuffer, data_0217b484, 0);
+void mpicn_renderPakkunFireIcon(RaceHudOamBuffer *oamBuffer) {
+    mpicn_renderMObjIcon(oamBuffer, mpicn_sPakkunFireIcon, 0);
 }

@@ -4,4 +4,4 @@
 
 typedef struct MapObject MapObject;
 
-MapObject *GetFoundMapObject(u32 index);
+MapObject *mobj_getQueryResult(u32 index);

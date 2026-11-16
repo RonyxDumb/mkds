@@ -4,7 +4,7 @@
 #include "Main/Course/ShineBalloon.h" // ShineBalloonObject
 
 /* skipped for objects with mFlags & 4 (parked pool objects) */
-void UpdateShineBalloon(void *a, ShineBalloonObject *b);
-void DrawShineBalloon(void *a, ShineBalloonObject *b);
-void SetupDrawShineBalloon(void *a);
-void CreateShineBalloon(void *a);
+void sblln_update(void *a, ShineBalloonObject *b);
+void sblln_render(void *a, ShineBalloonObject *b);
+void sblln_applyMaterial(void *a);
+void sblln_loadModel(void *a);

@@ -17,7 +17,7 @@
 void func_02027be0(void) {
     SelectCharacter *selectCharacter;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     switch (selectCharacter->mUnk_060) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_0215377c[0];
@@ -101,7 +101,7 @@ void func_02027be0(void) {
 void func_02027a58(void) {
     SelectCharacter *selectCharacter;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     switch (selectCharacter->mUnk_060) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_02153734[0];
@@ -163,7 +163,7 @@ void func_02027a58(void) {
 void func_02027850(void) {
     SelectCharacter *selectCharacter;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     switch (selectCharacter->mUnk_060) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_021536d4[0];
@@ -245,7 +245,7 @@ void func_02027850(void) {
 void func_02027648(void) {
     SelectCharacter *selectCharacter;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     switch (selectCharacter->mUnk_060) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_02153674[0];
@@ -326,7 +326,7 @@ void func_02027648(void) {
 void func_02027448(void) {
     SelectCharacter *selectCharacter;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     switch (selectCharacter->mUnk_060) {
         case 0:
             selectCharacter->mTableIndexByKey[0] = data_02153614[0];
@@ -404,20 +404,20 @@ void func_02027448(void) {
 }
 
 void func_02027424(s32 mode) {
-    if (gSelectCharacter->mUnk_128 != FALSE) {
+    if (sMenuCsState->mUnk_128 != FALSE) {
         func_0202b7c0(mode);
     }
 }
 
 void StartSelectCharacterReturn(void) {
-    gSelectCharacter->mUnk_068 = 0;
-    gSelectCharacter->mUnk_08c = 2;
-    gSelectCharacter->mUnk_06c = 8;
+    sMenuCsState->mUnk_068 = 0;
+    sMenuCsState->mUnk_08c = 2;
+    sMenuCsState->mUnk_06c = 8;
     RequestSelectReturnState3WithSound(0);
     func_02027424(3);
-    func_02025f14(&gSelectCharacter->mInterpolations[0], 2);
-    func_02025f14(&gSelectCharacter->mInterpolations[1], 2);
-    func_02025f14(&gSelectCharacter->mInterpolations[2], 2);
+    interp_setState(&sMenuCsState->mInterpolations[0], 2);
+    interp_setState(&sMenuCsState->mInterpolations[1], 2);
+    interp_setState(&sMenuCsState->mInterpolations[2], 2);
     StartKartModelMenuBg0Decrease();
 }
 
@@ -426,10 +426,10 @@ void func_0202734c(s32 value) {
     s32 i;
     CellFileSet *sParts;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     sParts = &selectCharacter->mUnk_01c;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        for (i = 0; i < gSelectCharacter->mUnk_07c; i++) {
+        for (i = 0; i < sMenuCsState->mUnk_07c; i++) {
             sParts->mCellTable[data_02153554[i].mUnk_04].mVisible = value;
             sParts->mCellTable[data_02153554[i].mUnk_02].mVisible =
                 sParts->mCellTable[data_02153554[i].mUnk_04].mVisible;
@@ -446,7 +446,7 @@ void func_020272ec(void) {
     Unk02153554 *tableRow;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        sParts = &gSelectCharacter->mUnk_01c;
+        sParts = &sMenuCsState->mUnk_01c;
         sParts->mCellTable[24].mVisible = 0;
         sParts->mCellTable[25].mVisible = 1;
         tableRow = data_02153554;
@@ -462,7 +462,7 @@ void func_020272c0(s16 firstValue, s16 secondValue) {
     SelectCharacter *selectCharacter;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        selectCharacter = gSelectCharacter;
+        selectCharacter = sMenuCsState;
         if (selectCharacter->mUnk_128 == FALSE) {
             selectCharacter->mUnk_000.mCellTable[0].mOffsetY = firstValue;
             selectCharacter->mUnk_000.mCellTable[3].mOffsetY = secondValue;
@@ -474,7 +474,7 @@ void func_0202728c(s16 value) {
     SelectCharacter *selectCharacter;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        selectCharacter = gSelectCharacter;
+        selectCharacter = sMenuCsState;
         if (selectCharacter->mUnk_128 == FALSE) {
             selectCharacter->mUnk_000.mCellTable[1].mOffsetX = value;
             selectCharacter->mUnk_000.mCellTable[2].mOffsetX = selectCharacter->mUnk_000.mCellTable[1].mOffsetX;
@@ -482,17 +482,17 @@ void func_0202728c(s16 value) {
     }
 }
 
-void func_0202721c(void) {
+void SPM_CharName_202721C(void) {
     SelectCharacter *selectCharacter;
     CellFileSet *nameParts;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     if (selectCharacter->mUnk_128 == FALSE) {
         nameParts = &selectCharacter->mUnk_038;
-        QueueCellChars(*(s16 *) &selectCharacter->mUnk_090[selectCharacter->mUnk_060].mUnk_04, nameParts->mCells,
+        jn_ui_fillPlaceholder(*(s16 *) &selectCharacter->mUnk_090[selectCharacter->mUnk_060].mUnk_04, nameParts->mCells,
                        selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 2, selectCharacter->mUnk_000.mCells,
                        selectCharacter->mUnk_000.mCellLayout);
-        QueueCellChars(*(s16 *) &gSelectCharacter->mUnk_090[gSelectCharacter->mUnk_060].mUnk_04, nameParts->mCells,
+        jn_ui_fillPlaceholder(*(s16 *) &sMenuCsState->mUnk_090[sMenuCsState->mUnk_060].mUnk_04, nameParts->mCells,
                        selectCharacter->mUnk_038.mChars, nameParts->mCellLayout, 0, 1, selectCharacter->mUnk_000.mCells,
                        selectCharacter->mUnk_000.mCellLayout);
     }
@@ -503,7 +503,7 @@ void func_020271e8(void) {
     CellFileSet *sParts;
     s32 tableIndex;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     sParts = &selectCharacter->mUnk_01c;
     tableIndex = selectCharacter->mUnk_060;
     func_02025c6c(0x18, data_02153554[tableIndex].mUnk_00, sParts->mCellLayout);
@@ -515,7 +515,7 @@ void func_0202719c(void) {
     CellFileSet *sParts;
     Unk02153554 *tableRow;
 
-    selectCharacter = gSelectCharacter;
+    selectCharacter = sMenuCsState;
     sParts = &selectCharacter->mUnk_01c;
     tableRow = &data_02153554[selectCharacter->mUnk_060];
     sParts->mCellTable[24].mVisible = 1;

@@ -6,33 +6,33 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void LoadFontAndPlayerCharacterData(void) {
-    if (IsArchiveSlotLoaded(1) != 0) {
-        InitFontIfLoaded(&gLCFontS, FindFileInLoadedArchives("LC_Font_s.NFTR"));
-        InitFontIfLoaded(&gLCFontM, FindFileInLoadedArchives("LC_Font_m.NFTR"));
-        InitFontIfLoaded(&gMarioFont, FindFileInLoadedArchives("marioFont.NFTR"));
-        gFontTable[0] = &gLCFontS;
-        gFontTable[1] = &gLCFontM;
-        gFontTable[2] = &gMarioFont;
-        LoadNclrData(gPlayerCharacterNclr, FindFileInLoadedArchives("player_character_M_o.NCLR"));
-        LoadNclrData(gPlayerCharacterShyguyNclr, FindFileInLoadedArchives("player_character_M_shyguy_o.NCLR"));
-        LoadNcgrData2(gPlayerCharacterNcgr, FindFileInLoadedArchives("player_character_M.nce.ncgr"));
-        LoadNcerData(gPlayerCharacterNcer, FindFileInLoadedArchives("player_character_M.nce.ncer"));
-        gPlayerCharacterBncl[0] = FindFileInLoadedArchives("player_character_M.bncl");
-        LoadNclrData(&gPlayerCharacterLNclr, FindFileInLoadedArchives("player_character_L_o.NCLR"));
-        LoadNclrData(&gPlayerCharacterLShyguyNclr, FindFileInLoadedArchives("player_character_L_shyguy_o.NCLR"));
-        LoadNcgrData2(&gPlayerCharacterLNcgr, FindFileInLoadedArchives("player_character_L.nce.ncgr"));
-        LoadNcerData(&gPlayerCharacterLNcer, FindFileInLoadedArchives("player_character_L.nce.ncer"));
-        gPlayerCharacterBncl[1] = FindFileInLoadedArchives("player_character_L.bncl");
+void m2d_load(void) {
+    if (m2d_arc_isArchiveLoaded(1) != 0) {
+        m2d_initFont(&gLCFontS, arc_get2dArcFile("LC_Font_s.NFTR"));
+        m2d_initFont(&gLCFontM, arc_get2dArcFile("LC_Font_m.NFTR"));
+        m2d_initFont(&gMarioFont, arc_get2dArcFile("marioFont.NFTR"));
+        FontArray[0] = &gLCFontS;
+        FontArray[1] = &gLCFontM;
+        FontArray[2] = &gMarioFont;
+        g2du_unpackPaletteData(gPlayerCharacterNclr, arc_get2dArcFile("player_character_M_o.NCLR"));
+        g2du_unpackPaletteData(gPlayerCharacterShyguyNclr, arc_get2dArcFile("player_character_M_shyguy_o.NCLR"));
+        g2du_unpackCharacterData(gPlayerCharacterNcgr, arc_get2dArcFile("player_character_M.nce.ncgr"));
+        g2du_unpackCellBankData(gPlayerCharacterNcer, arc_get2dArcFile("player_character_M.nce.ncer"));
+        gPlayerCharacterBncl[0] = arc_get2dArcFile("player_character_M.bncl");
+        g2du_unpackPaletteData(&gPlayerCharacterLNclr, arc_get2dArcFile("player_character_L_o.NCLR"));
+        g2du_unpackPaletteData(&gPlayerCharacterLShyguyNclr, arc_get2dArcFile("player_character_L_shyguy_o.NCLR"));
+        g2du_unpackCharacterData(&gPlayerCharacterLNcgr, arc_get2dArcFile("player_character_L.nce.ncgr"));
+        g2du_unpackCellBankData(&gPlayerCharacterLNcer, arc_get2dArcFile("player_character_L.nce.ncer"));
+        gPlayerCharacterBncl[1] = arc_get2dArcFile("player_character_L.bncl");
     }
 }
 
-void ClearFontAndPlayerCharacterTables(void) {
+void m2d_unload(void) {
     s32 i;
     s32 j;
 
     for (i = 0; i < 3; i++) {
-        gFontTable[i] = NULL;
+        FontArray[i] = NULL;
     }
     for (j = 0; j < 2; j++) {
         gPlayerCharacterNclr[j] = NULL;

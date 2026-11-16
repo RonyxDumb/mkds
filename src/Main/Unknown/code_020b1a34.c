@@ -62,10 +62,10 @@ void func_020b1a34(void) {
     u8 totalsIndex;
     u8 lap;
 
-    if (gRaceSetup->mMode == MODE_GRAND_PRIX || gRaceSetup->mMode == MODE_TIME_ATTACK) {
-        gRaceHud->mShowLapTime = 1;
+    if (gRaceMultiConfig->mMode == MODE_GRAND_PRIX || gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
+        r2d_sStatus->mShowLapTime = 1;
     }
-    if (gRaceHud->mUseTimeDifference == 0) {
+    if (r2d_sStatus->mUseTimeDifference == 0) {
         return;
     }
     for (totalsIndex = 0; totalsIndex < 2; totalsIndex++) {
@@ -74,18 +74,18 @@ void func_020b1a34(void) {
         totals[totalsIndex].mMilliseconds = 0;
     }
     for (lap = 1; lap <= GetFollowedKartLastEndedLap(); lap++) {
-        if (gRaceSetup->mMode == MODE_TIME_ATTACK) {
-            MI_CpuCopy8(&gRaceSetup->mGhostLapTimes[lap - 1], &referenceLap, 4);
+        if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
+            MI_CpuCopy8(&gRaceMultiConfig->mGhostLapTimes[lap - 1], &referenceLap, 4);
         }
         totals[0].mMinutes += referenceLap.mMinute;
         totals[0].mSeconds += referenceLap.mSecond;
         totals[0].mMilliseconds += referenceLap.mMillisecond;
-        GetKartLapTime(GetFollowedKartOrEntryIndex(), lap, &kartLap.mMinute, &kartLap.mSecond, &kartLap.mMillisecond);
+        rstat_getDriverLapTime(Race_GetPlayerId(), lap, &kartLap.mMinute, &kartLap.mSecond, &kartLap.mMillisecond);
         totals[1].mMinutes += kartLap.mMinute;
         totals[1].mSeconds += kartLap.mSecond;
         totals[1].mMilliseconds += kartLap.mMillisecond;
     }
-    gRaceHud->mTimeDifferenceSign = ComputeTimeDifference(&totals[1], &totals[0], &difference);
+    r2d_sStatus->mTimeDifferenceSign = ComputeTimeDifference(&totals[1], &totals[0], &difference);
     SplitTimeDigits(difference.mMinute, difference.mSecond, difference.mMillisecond, &digits);
-    gRaceHud->mTimeDifferenceDigits = digits;
+    r2d_sStatus->mTimeDifferenceDigits = digits;
 }

@@ -15,10 +15,10 @@
 #include "Main/Unknown/code_02056b30.h" // TimeRecord
 
 void GetRaceHudSubScreenScrollLimits(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond);
-void GetRaceHudSubScreenCourseMinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond);
+void GetLocalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond);
 void SetFixed12MinMaxFromWhole(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
                                s16 secondX, s16 secondZ);
-void GetRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond);
+void GetGlobalMapScale(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond);
 void ComputeRaceHudSubScreenState0MinMax(UnkPair020b502c *outFirst, UnkPair020b502c *outSecond, s32 firstX, s32 firstZ,
                                          s16 secondX, s16 secondZ);
 void CopyPlayerOrTimeRecordName(u32 rowIndex, u16 *nameOut, u32 copyFullLength);

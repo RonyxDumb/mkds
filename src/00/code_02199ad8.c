@@ -111,9 +111,9 @@ u32 func_ov000_02199d4c(Gt2Connection *a, const u8 *e, int f) {
         }
         return 0;
     }
-    func_ov000_02197b34(b, (const s8 *) e);
+    menu_ta_updateMainText(b, (const s8 *) e);
     func_ov000_02197be0(c);
-    func_ov000_02197b34((s8 *) a->mUnk_68, c);
+    menu_ta_updateMainText((s8 *) a->mUnk_68, c);
     if (func_ov000_02198eb0(a, (const u8 *) b, (const u8 *) c) == 0) {
         return 0;
     }
@@ -141,7 +141,7 @@ u32 func_ov000_02199c98(Gt2Connection *a, const u8 *d, int e) {
         }
         return 0;
     }
-    func_ov000_02197b34(b, (const s8 *) (d + 0x20));
+    menu_ta_updateMainText(b, (const s8 *) (d + 0x20));
     if (func_ov000_02198e44(a, (const u8 *) b, a->mUnk_38.mData, a->mUnk_38.mSize) == 0) {
         return 0;
     }

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void SetupSinglePlaySelectGraphics(void);
+void modeSelectVblank(void);

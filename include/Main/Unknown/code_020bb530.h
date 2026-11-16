@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitRaceItemSlot(void);
+void r2d_initItemSpinner(void);

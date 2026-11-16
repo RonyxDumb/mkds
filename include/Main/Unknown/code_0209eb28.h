@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void CreatePuddleKindData(void);
+void pud_setupConfig(void);

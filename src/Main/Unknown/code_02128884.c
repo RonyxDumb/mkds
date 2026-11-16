@@ -18,60 +18,60 @@
 #include "Main/Unknown/code_0212a000.h"
 
 #pragma thumb on
-void InitKeyboardScene(s16 *sceneNumbers) {
+void nicknameEditor_onCreate(s16 *sceneNumbers) {
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    data_0217d3fc = HeapAlloc(heap, 0x808);
-    InitKeyboard(heap, sceneNumbers[0]);
+    heap = proc_getHeap(proc_getCurrent());
+    sNicknameOamBuffers = heap_alloc(heap, 0x808);
+    nickname_create(heap, sceneNumbers[0]);
 }
 #pragma thumb off
 
 #pragma thumb on
-void ReleaseKeyboardScene(void) {
+void nicknameEditor_onDelete(void) {
     u32 address;
     u32 zero;
-    ReleaseKeyboard();
+    nickname_finish();
     zero = 0u;
-    address = (u32) &data_0217d3fc;
+    address = (u32) &sNicknameOamBuffers;
     *(u32 *) ((address) + 0u) = zero;
 }
 #pragma thumb off
 
-SceneCallbacks gKeyboardSceneCallbacks = {
-    InitKeyboardScene, UpdateKeyboardScene, ReleaseKeyboardScene, func_0212891c, 0, 0, 10, 10, 0};
+SceneCallbacks nicknameEditor_vtable = {
+    nicknameEditor_onCreate, nicknameEditor_onDraw, nicknameEditor_onDelete, nicknameEditor_afterDraw, 0, 0, 10, 10, 0};
 
 #pragma thumb on
-void func_0212891c(void) {
-    func_0212899c();
-    UploadOamLists(data_0217d3fc, &data_0217d3fc->mUnk_404);
+void nicknameEditor_afterDraw(void) {
+    nickname_vblank();
+    oam_applyBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
 }
 
-void UpdateKeyboardScene(s16 *sceneNumbers) {
-    ClearOamListCounts(data_0217d3fc, &data_0217d3fc->mUnk_404);
-    AdvanceKeyboard();
-    func_020ae630(data_0217d3fc, &data_0217d3fc->mUnk_404);
+void nicknameEditor_onDraw(s16 *sceneNumbers) {
+    oam_resetBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
+    nickname_render();
+    oam_prepareBuffers(sNicknameOamBuffers, &sNicknameOamBuffers->mUnk_404);
     if (sceneNumbers != NULL) {
-        if (GetKeyboardNextScene() != -1) {
-            sceneNumbers[2] = GetKeyboardNextScene();
+        if (nickname_getField72() != -1) {
+            sceneNumbers[2] = nickname_getField72();
         }
     }
 }
 
-s32 RunKeyboardScene(void *sceneNumbers) {
-    SceneCallbacks callbacks = gKeyboardSceneCallbacks;
-    RunScene(sceneNumbers, &callbacks);
+s32 keyboard_run(void *sceneNumbers) {
+    SceneCallbacks callbacks = nicknameEditor_vtable;
+    scene_runScene(sceneNumbers, &callbacks);
     return 0;
 }
 #pragma thumb off
 
 #pragma thumb on
 
-OamList *GetKeyboardFirstBuffer(void) {
-    return &data_0217d3fc->mUnk_00;
+OamList *nickname_getMainOamBuf(void) {
+    return &sNicknameOamBuffers->mUnk_00;
 }
 
-OamList *GetKeyboardSecondBuffer(void) {
-    return &data_0217d3fc->mUnk_404;
+OamList *nickname_getSubOamBuf(void) {
+    return &sNicknameOamBuffers->mUnk_404;
 }
 
 #pragma thumb off

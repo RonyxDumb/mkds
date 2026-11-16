@@ -11,4 +11,4 @@ typedef struct Interpolation {
     /* 0e */ s16 mEndValue;
 } Interpolation;
 
-s16 GetInterpolatedValue(Interpolation *interpolation);
+s16 interp_interpolate(Interpolation *interpolation);

@@ -1,3 +1,3 @@
 #include "Main/Unknown/code_020019ac.h"
 
-void func_020019ac(void) {}
+void logo_waitSaveBusyStateInit(void) {}

@@ -76,7 +76,7 @@ typedef void (*EntryCallbackFunc)(u32 a, void *b, u32 c);
 extern EntryTable *gEntryTable;
 extern Unk0216fc1c *gReceivedGameInfo;
 
-EntryRecord *GetEntryOrNull();
+EntryRecord *MB_GetGameInfoRecvList();
 void func_0200895c(u32 entryIndex);
 void ClearEntry(u32 entryIndex);
 void ClearScanBssid(void);

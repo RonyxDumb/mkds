@@ -6,18 +6,18 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateVsSelectCupM(void) {
+void menu_state12Render(void) {
     switch (AdvanceSelectCupM()) {
         case 1:
-            SwitchMenuScreen(0xd, 0x1f);
+            menu_gotoState(0xd, 0x1f);
             break;
         case 2:
-            SwitchMenuScreen(0xb, 0x1f);
+            menu_gotoState(0xb, 0x1f);
             break;
     }
 }
 #pragma thumb off
 
-s32 CreateRaceHudSubScreenRainStarCells(void) {
-    return CreateRaceHudSubScreenCells(&gRaceHudSubScreenRainStarCells, 0x154);
+s32 mpicn_createRainStarIcon(void) {
+    return mpicn_createMapObjIcon(&mpicn_sRainStarIcon, 0x154);
 }

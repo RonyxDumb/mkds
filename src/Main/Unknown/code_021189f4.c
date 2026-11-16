@@ -73,18 +73,18 @@ void AdvanceSelectCupCourseState3(void) {
     AdvanceSelectCupCourseIndexChange();
     if (func_02119340_inline(inputIndex) != 0) {
         touchedRectIndex =
-            RectTableFindContaining(gSelectCupCourse->mSelectCupMBnbl, data_02175670[inputIndex].mPressedBits,
+            jn_ui_checkTouch(gSelectCupCourse->mSelectCupMBnbl, data_02175670[inputIndex].mPressedBits,
                                     data_02175672[inputIndex].mPressedBits + 0x20);
     }
-    if ((u16) (data_02175628[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
+    if ((u16) (gInputUnits[inputIndex].mPressedBits & PAD_KEY_B) != 0 ||
         (func_02119340_inline(inputIndex) != 0 &&
-         IsSelectReturnState2NoState3Or4RequestAndInRect(data_02175670[inputIndex].mPressedBits,
+         gmenu_checkSelectReturnTouch(data_02175670[inputIndex].mPressedBits,
                                                          data_02175672[inputIndex].mPressedBits) != FALSE)) {
         if (IsSelectCupCourseIndexChangeRunning() == 0) {
             if (*(vu16 *) 0x027ffc40 == 2) {
-                SetSelectReturnSoundId(-1);
+                gmenu_setSeqArcIndex(-1);
             } else {
-                SetSelectReturnSoundId(0xe);
+                gmenu_setSeqArcIndex(0xe);
             }
             RequestSelectCupCourseState8();
             gSelectCupCourse->mResult = 2;
@@ -105,12 +105,12 @@ void AdvanceSelectCupCourseState3(void) {
         RequestSelectCupCourseState4();
         return;
     }
-    if ((u16) (data_02175628[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (gInputUnits[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
         RequestSelectCupCourseState4();
         gSelectCupCourse->mUnk_54 = FALSE;
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+    if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
         gSelectCupCourse->mIndex = gSelectCupCourse->mIndex - 1;
         if (gSelectCupCourse->mIndex < 0) {
             gSelectCupCourse->mIndex = 3;
@@ -120,7 +120,7 @@ void AdvanceSelectCupCourseState3(void) {
         }
         return;
     }
-    if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+    if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
         gSelectCupCourse->mIndex = gSelectCupCourse->mIndex + 1;
         if (gSelectCupCourse->mIndex >= 4) {
             gSelectCupCourse->mIndex = 0;
@@ -266,8 +266,8 @@ void AdvanceSelectCupCourseState8(void) {
     } else {
         a = TRUE;
     }
-    InterpolateS16(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
-    offsetY = InterpolateS16(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
+    mutil_interpolate(1, 0, 0x100, gSelectCupCourse->mStateFrames, 10);
+    offsetY = mutil_interpolate(1, 0, -0xc0, gSelectCupCourse->mStateFrames, 10);
     if (a != FALSE) {
         w = gSelectCupCourse->mSelectCupCourseTaOrVsMBncl->mUnk_06;
         gSelectCupCourse->mBg0Offset = offsetY;
@@ -341,17 +341,17 @@ s32 AdvanceSelectCupCourse(void) {
     if (*(vu16 *) 0x027ffc40 != 2) {
         if (gSelectCupCourse->mCupPicturePending != FALSE && func_020d0ec4() != FALSE) {
             screenMap = GetCupPictureNscrData();
-            CallQueueAppend(0x1f, 0, GetCupPictureNclrData(), 0xe0);
-            CallQueueAppend(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
+            NNS_GfdRegisterNewVramTransferTask(0x1f, 0, GetCupPictureNclrData(), 0xe0);
+            NNS_GfdRegisterNewVramTransferTask(0x17, 0x20, GetCupPictureNcgrData(), 0xdc0);
             for (i = 0; i < 11; i++) {
-                CallQueueAppend(0x1b, ((i + 8) * 0x20 + 0x16) * 2, screenMap + ((i + 8) * 0x20 + 0x16), 0x14);
+                NNS_GfdRegisterNewVramTransferTask(0x1b, ((i + 8) * 0x20 + 0x16) * 2, screenMap + ((i + 8) * 0x20 + 0x16), 0x14);
             }
             gSelectCupCourse->mCupPicturePending = FALSE;
         }
-        DrawLayoutTable(gSelectCupCourse->mSelectCupCourseTaOrVsMBncl, gSelectCupCourse->mSelectCupCourseMNcer,
+        jn_ui_renderElements(gSelectCupCourse->mSelectCupCourseTaOrVsMBncl, gSelectCupCourse->mSelectCupCourseMNcer,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll, gSelectCupCourse->mMainOam,
                         gSelectCupCourse->mSelectCupCourseTaOrVsMTable);
-        DrawLayoutTable(gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMNcer,
+        jn_ui_renderElements(gSelectCupCourse->mSelectCupMBncl, gSelectCupCourse->mSelectCupMNcer,
                         gSelectCupCourse->mSelectCupMBnll, gSelectCupCourse->mSubOam,
                         gSelectCupCourse->mSelectCupMTable);
     } else {
@@ -380,15 +380,15 @@ void LoadSelectCupGridData(void) {
     Nclr *selectCupMBPalette = NULL;
 
     if (*(vu16 *) 0x027ffc40 != 2) {
-        LoadNcgrData(&selectCupMBChars, FindSceneFile(data_0216d690));
-        LoadNclrData(&selectCupMBPalette, FindSceneFile(data_0216d6b8));
-        LoadNscrData(&selectCupMScreenMap, FindSceneFile(data_0216d6bc));
-        LoadNcgrData2(&selectCupMChars, FindSceneFile(data_0216d6ac));
-        LoadNcerData(&selectCupMCells, FindSceneFile(data_0216d694));
-        LoadNclrData(&selectCupMOPalette, FindSceneFile(data_0216d6a0));
-        LoadNcgrData2(&selectCupSChars, FindSceneFile(data_0216d69c));
-        LoadNcerData(&selectCupSCells, FindSceneFile(data_0216d6b4));
-        LoadNclrData(&selectCupSOPalette, FindSceneFile(data_0216d68c));
+        g2du_unpackCharacterDataBG(&selectCupMBChars, arc_getSceneArcFile(data_0216d690));
+        g2du_unpackPaletteData(&selectCupMBPalette, arc_getSceneArcFile(data_0216d6b8));
+        g2du_unpackScreenData(&selectCupMScreenMap, arc_getSceneArcFile(data_0216d6bc));
+        g2du_unpackCharacterData(&selectCupMChars, arc_getSceneArcFile(data_0216d6ac));
+        g2du_unpackCellBankData(&selectCupMCells, arc_getSceneArcFile(data_0216d694));
+        g2du_unpackPaletteData(&selectCupMOPalette, arc_getSceneArcFile(data_0216d6a0));
+        g2du_unpackCharacterData(&selectCupSChars, arc_getSceneArcFile(data_0216d69c));
+        g2du_unpackCellBankData(&selectCupSCells, arc_getSceneArcFile(data_0216d6b4));
+        g2du_unpackPaletteData(&selectCupSOPalette, arc_getSceneArcFile(data_0216d68c));
         LoadSelectCupNameMData();
         LoadCommonCupMarkData();
         LoadTrophyIconData();
@@ -406,35 +406,35 @@ void func_02118b48(void) {
     u16 *paletteData;
 
     if (*(vu16 *) 0x027ffc40 == 2) {
-        gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(data_0216d6a4);
+        CupSelectionMenuInfoPointer->mSelectCupSBnbl = arc_getSceneArcFile(data_0216d6a4);
         return;
     }
-    LocateNcgr(&selectCupMBChars, FindSceneFile(data_0216d690));
-    LocateNclr(&selectCupMBPalette, FindSceneFile(data_0216d6b8));
-    LocateNscr(&selectCupMScreenMap, FindSceneFile(data_0216d6bc));
-    gSelectCupGrid->mUnk_20 = HeapAlloc(gSelectCupGrid->mHeap, 0x800);
-    gSelectCupGrid->mSelectCupMBncl = FindSceneFile(data_0216d698);
-    gSelectCupGrid->mSelectCupMBnll = FindSceneFile(data_0216d6a8);
-    LocateNcgr2(&selectCupMChars, FindSceneFile(data_0216d6ac));
-    LocateNcer(&gSelectCupGrid->mSelectCupMNcer, FindSceneFile(data_0216d694));
-    LocateNclr(&selectCupMOPalette, FindSceneFile(data_0216d6a0));
-    gSelectCupGrid->mSelectCupSBncl = FindSceneFile(data_0216d6b0);
-    gSelectCupGrid->mSelectCupSBnbl = FindSceneFile(data_0216d6a4);
-    LocateNcgr2(&selectCupSChars, FindSceneFile(data_0216d69c));
-    LocateNcer(&gSelectCupGrid->mSelectCupSNcer, FindSceneFile(data_0216d6b4));
-    LocateNclr(&selectCupSOPalette, FindSceneFile(data_0216d68c));
+    g2du_getCharacterDataBG(&selectCupMBChars, arc_getSceneArcFile(data_0216d690));
+    g2du_getPaletteData(&selectCupMBPalette, arc_getSceneArcFile(data_0216d6b8));
+    g2du_getScreenData(&selectCupMScreenMap, arc_getSceneArcFile(data_0216d6bc));
+    CupSelectionMenuInfoPointer->mUnk_20 = heap_alloc(CupSelectionMenuInfoPointer->mHeap, 0x800);
+    CupSelectionMenuInfoPointer->mSelectCupMBncl = arc_getSceneArcFile(data_0216d698);
+    CupSelectionMenuInfoPointer->mSelectCupMBnll = arc_getSceneArcFile(data_0216d6a8);
+    g2du_getCharacterData(&selectCupMChars, arc_getSceneArcFile(data_0216d6ac));
+    g2du_getCellBankData(&CupSelectionMenuInfoPointer->mSelectCupMNcer, arc_getSceneArcFile(data_0216d694));
+    g2du_getPaletteData(&selectCupMOPalette, arc_getSceneArcFile(data_0216d6a0));
+    CupSelectionMenuInfoPointer->mSelectCupSBncl = arc_getSceneArcFile(data_0216d6b0);
+    CupSelectionMenuInfoPointer->mSelectCupSBnbl = arc_getSceneArcFile(data_0216d6a4);
+    g2du_getCharacterData(&selectCupSChars, arc_getSceneArcFile(data_0216d69c));
+    g2du_getCellBankData(&CupSelectionMenuInfoPointer->mSelectCupSNcer, arc_getSceneArcFile(data_0216d6b4));
+    g2du_getPaletteData(&selectCupSOPalette, arc_getSceneArcFile(data_0216d68c));
     paletteData = selectCupMOPalette->mData;
-    if (GetPreviousMenuScreenNumber() != 0x18 && GetPreviousMenuScreenNumber() != 0xc) {
-        CallQueueAppend(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
-        CallQueueAppend(0xf, 0, selectCupMBPalette->mData, 0x100);
-        CallQueueAppend(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
-        CallQueueAppend(8, 0x800, gSelectCupGrid->mUnk_20, 0x800);
+    if (menu_getPrevState() != 0x18 && menu_getPrevState() != 0xc) {
+        NNS_GfdRegisterNewVramTransferTask(4, 0, selectCupMBChars->mData, selectCupMBChars->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(0xf, 0, selectCupMBPalette->mData, 0x100);
+        NNS_GfdRegisterNewVramTransferTask(8, 0, &selectCupMScreenMap->mData, selectCupMScreenMap->mDataSize);
+        NNS_GfdRegisterNewVramTransferTask(8, 0x800, CupSelectionMenuInfoPointer->mUnk_20, 0x800);
     }
-    CallQueueAppend(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
-    CallQueueAppend(0xe, 0, selectCupMOPalette->mData, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, paletteData + 0xe0, 0x40);
-    CallQueueAppend(0x23, 0, selectCupSChars->mData, selectCupSChars->mDataSize);
-    CallQueueAppend(0x1e, 0, selectCupSOPalette->mData, selectCupSOPalette->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, selectCupMChars->mData, selectCupMChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, selectCupMOPalette->mData, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, paletteData + 0xe0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0x23, 0, selectCupSChars->mData, selectCupSChars->mDataSize);
+    NNS_GfdRegisterNewVramTransferTask(0x1e, 0, selectCupSOPalette->mData, selectCupSOPalette->mDataSize);
 }
 
 u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
@@ -442,7 +442,7 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
     s32 i;
 
     enabled = 0;
-    switch (gSelectCupGrid->mMode) {
+    switch (CupSelectionMenuInfoPointer->mMode) {
         case 0:
         case 2:
             switch (cupIndex) {
@@ -454,9 +454,9 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     break;
                 default:
                     if (GetMirrorMode() != 0) {
-                        enabled = IsBackupFlagSet(data_0215c8bc[cupIndex]);
+                        enabled = savd_isUnlockBitSet(data_0215c8bc[cupIndex]);
                     } else {
-                        enabled = IsBackupFlagSet(data_0215c95c[cupIndex][data_0215c7f0[GetEngineIndex()]]);
+                        enabled = savd_isUnlockBitSet(data_0215c95c[cupIndex][data_0215c7f0[GetEngineIndex()]]);
                     }
                     break;
             }
@@ -473,9 +473,9 @@ u32 GetSelectCupGridCupEnabled(u32 cupIndex) {
                     enabled = 0;
                     for (i = 0; i < 4; i++) {
                         if (i == 3) {
-                            enabled |= IsBackupFlagSet(data_0215c8bc[cupIndex]);
+                            enabled |= savd_isUnlockBitSet(data_0215c8bc[cupIndex]);
                         } else {
-                            enabled |= IsBackupFlagSet(data_0215c95c[cupIndex][i]);
+                            enabled |= savd_isUnlockBitSet(data_0215c95c[cupIndex][i]);
                         }
                     }
                     break;

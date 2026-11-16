@@ -3,7 +3,7 @@
 
 #pragma thumb on
 
-u8 *func_0215109c(void) {
+u8 *DWCi_BACKUPlGetWifi(void) {
     return gPackedWiFiInfo;
 }
 

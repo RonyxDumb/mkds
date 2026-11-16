@@ -54,6 +54,6 @@ void func_ov001_0219cec4(void);
 void CopyAndQueueSelectBattleStageNscrRect(void);
 void LocateAndQueueSelectBattleStage(void);
 void ReleaseSelectBattleStage(void);
-void InitSelectBattleStage(void *c, s32 d, void *e, void *f);
+void SPM_LoadBattleStageSelectionMenu(void *c, s32 d, void *e, void *f);
 
 #include "00/code_021832d8.h"

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_020caf00(void);
+void menu_modeSelectSelectedOutEffectStateVblank(void);

@@ -37,10 +37,10 @@
 
 const u16 data_0215a584 = 0x2000;
 
-const ItemInfo gItemInfoKiller = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
+const ItemInfo it_sKillerConfig = {1, 1, 0xd, 1, 0, 0, StartItemKiller};
 
-const ItemKind gItemKindKiller = {
-    0x12c, 1, 1,    -1,  -1,   {0}, NULL, NULL,     NULL, NULL,   NULL, NULL, ComputeViewTest, NULL,   NULL,  NULL,
+const ItemKind it_sKillerDef = {
+    0x12c, 1, 1,    -1,  -1,   {0}, NULL, NULL,     NULL, NULL,   NULL, NULL, mobj_calcVisibilityFlags2d, NULL,   NULL,  NULL,
     0,     0, NULL, 0,   NULL, 1,   0,    0x4b0000, 2,    0x319a, 0,    0,    0x1000,          0x1b33, 0x19a, 0x11f,
     0,     1, 0,    {0}, 0,    1,   1,    1,        1,    0};
 
@@ -49,7 +49,7 @@ const ItemKind gItemKindKiller = {
 void CreatePooledMapObjects(void) {
     Vec3 buf;
     s32 i;
-    switch (gRaceSetup->mMode) {
+    switch (gRaceMultiConfig->mMode) {
         case MODE_BATTLE:
             gPooledMapObjectCount = 0xb;
             break;
@@ -63,7 +63,7 @@ void CreatePooledMapObjects(void) {
             gPooledMapObjectCount = 3;
             break;
     }
-    gPooledMapObjects = HeapAlloc(GetHeap(GetCurrentHeapCall()), gPooledMapObjectCount * 4);
+    gPooledMapObjects = heap_alloc(proc_getHeap(proc_getCurrent()), gPooledMapObjectCount * 4);
     buf = data_0215a6cc;
     gPooledMapObjectRow.mUnk_00 = buf;
     data_0217c73c = buf;
@@ -71,27 +71,27 @@ void CreatePooledMapObjects(void) {
     gPooledMapObjectRow.mKind = 0x6f;
     gPooledMapObjectRow.mUnk_2e = 1;
     for (i = 0; i < gPooledMapObjectCount; i++) {
-        gPooledMapObjects[i] = CreateMapObjectFromCourseMapRow(&gPooledMapObjectRow, 0x6f);
+        gPooledMapObjects[i] = mobj_createObjectFromObji(&gPooledMapObjectRow, 0x6f);
     }
     gPooledMapObjectNextIndex = 0;
 }
 #pragma thumb off
 
 void StartItemKiller(ItemInUse *itemInUse, HeldItem *heldItem) {
-    StartKartKiller(heldItem->mKartItems->mKart);
-    RemoveHeldItemObjects(heldItem, 1);
+    driver_startKillerMode(heldItem->mKartItems->mKart);
+    it_takeSlotItems(heldItem, 1);
     SetActiveItem(itemInUse->mKartItems, 0xe);
 }
 
 void func_0210515c(s32 kartIndex) {
-    gKartItems[kartIndex].mActiveItem = 0x13;
-    if (gRaceSetup->mMode != 5) {
+    it_sDriverItemStatus[kartIndex].mActiveItem = 0x13;
+    if (gRaceMultiConfig->mMode != 5) {
         return;
     }
-    if (kartIndex == gRaceSetup->mEntryIndex) {
+    if (kartIndex == gRaceMultiConfig->mEntryIndex) {
         return;
     }
-    func_020efd84(&gKartItems[kartIndex], 0xe);
+    func_020efd84(&it_sDriverItemStatus[kartIndex], 0xe);
 }
 
 // Battle only: hands item 17 to a kart with an empty hand when its timer is 0 and counts the running timers down.
@@ -103,7 +103,7 @@ void UpdateBouncingItemBoxTimers(void) {
     NNSSndSeqPlayer **sndHandle;
     u32 a = 0;
     u32 b = 0;
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
     for (i = 0; i < 8; i++) {
@@ -111,7 +111,7 @@ void UpdateBouncingItemBoxTimers(void) {
         if (timer < 0) {
             continue;
         }
-        kartItems = &gKartItems[(u16) i];
+        kartItems = &it_sDriverItemStatus[(u16) i];
         heldItem = &kartItems->mHeldItem;
         if (heldItem->mItemInfoIndex != 0x13) {
             continue;
@@ -119,9 +119,9 @@ void UpdateBouncingItemBoxTimers(void) {
         if (timer == 0) {
             SetHeldItem(heldItem, 0x11);
             gBouncingItemBoxTimerRunning[i] = 0;
-            if (i == gRaceSetup->mEntryIndex && (data_0217c780 & 1)) {
-                sndHandle = TakeSoundHandleEntry(GetSoundHandlePool(0));
-                if (data_0217d084.mUnk_0c != 0) {
+            if (i == gRaceMultiConfig->mEntryIndex && (data_0217c780 & 1)) {
+                sndHandle = sp_acquireElement(sound_getPoolById(0));
+                if (SoundHandle_217D084.mUnk_0c != 0) {
                     if (sndHandle[0] != NULL) {
                         NNS_SndPlayerStopSeq(sndHandle, 0);
                     }
@@ -138,14 +138,14 @@ void UpdateBouncingItemBoxTimers(void) {
 }
 
 void func_02104f84(s32 kartIndex) {
-    if (gRaceSetup->mMode != MODE_BATTLE) {
+    if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
     if ((s32) gBouncingItemBoxTimers[kartIndex] >= 0) {
         return;
     }
     gBouncingItemBoxTimers[kartIndex] = 0;
-    ReleaseKartItems(&gKartItems[kartIndex]);
+    ReleaseKartItems(&it_sDriverItemStatus[kartIndex]);
 }
 
 void StartBouncingItemBox(BouncingItemBox *box) {
@@ -166,13 +166,13 @@ void ReleaseBouncingItemBox(BouncingItemBox *box) {
 }
 
 void CollideKartWithBouncingItemBox(BouncingItemBox *box, void *a) {
-    func_020deb2c(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
+    ibox_handleBreak(&box->mUnk_000.mItemObject.mPos, a, 0, (box->mUnk_000.mItemObject.mFlags & 0x10000) ? 1 : 0, 0);
 }
 
 void ResetBouncingItemBox(BouncingItemBox *box) {
     box->mScaleRatio = 0x666;
     ResetPooledMapObject(box->mPooledMapObject);
-    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00) == gRaceSetup->mEntryIndex;
+    box->mKartIsEntry = (u16) (box->mUnk_000.mItemObject.mUnk_78 & ~0xff00) == gRaceMultiConfig->mEntryIndex;
     if (box->mKartIsEntry != 0) {
         (box->mPooledMapObject)->mUnk_b0 = 2;
     }
@@ -206,7 +206,7 @@ s32 InitBouncingItemBox(ItemInUse *itemInUse, BouncingItemBox *box) {
     }
     if ((itemInUse->mKartItems->mFlags & KART_ITEMS_THROW_FORWARD) != 0) {
         ThrowBouncingItem(&box->mUnk_000, itemInUse, 0, 1, 0x4000, 0x3000, 0x59a);
-        StartSound(&box->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
+        sfx_21090C4(&box->mUnk_000.mItemObject.mSoundSource, 0xda, 0x7f, 0);
         box->mThrownForward = 1;
         return box->mThrownForward;
     } else {
@@ -237,7 +237,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
             AdvanceItemObjectReleaseTimer(&box->mUnk_000.mItemObject);
         }
     } else if ((box->mUnk_000.mItemObject.mFlags & 0x8000) != 0) {
-        if (gRaceSetup->mMode == MODE_BATTLE) {
+        if (gRaceMultiConfig->mMode == MODE_BATTLE) {
             kartIndex = box->mUnk_000.mItemObject.mUnk_78 & ~0xff00;
             v = gBouncingItemBoxTimers[kartIndex] - 0x3c;
             if (v < box->mUnk_000.mItemObject.mAlpha) {
@@ -246,7 +246,7 @@ void AdvanceBouncingItemBox(BouncingItemBox *box) {
             if (v < 0xa) {
                 FreeItemObjectCollisionSlot((s32) box);
                 if (v == 0) {
-                    ReleaseItemPoolObject(&gItemPools[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
+                    it_itemsetDestroyItem(&it_sItemsets[box->mUnk_000.mItemObject.mKind], &box->mUnk_000.mItemObject);
                     return;
                 }
             }

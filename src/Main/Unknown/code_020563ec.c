@@ -6,8 +6,8 @@
 #pragma thumb on
 
 void func_020563ec(void) {
-    WriteBackupCourseTimeRecordBlock(data_0217aa08->mCourseTimeRecordBlock);
-    StartWriteBackupFirstBlock();
+    savd_writeNkta(gSaveData->mCourseTimeRecordBlock);
+    savd_writeNksyAsync();
 }
 
 #pragma thumb off

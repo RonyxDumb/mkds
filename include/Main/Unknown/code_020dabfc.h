@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020dabfc(unsigned int value);
+unsigned int kuribo_hitShrinkStateInit(unsigned int value);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitKeyboardInput(void);
+void KBD_StartupPadTpInput(void);

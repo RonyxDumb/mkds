@@ -179,7 +179,7 @@ u8 CopyNextPiece(void *output, void *pieces) {
     return gLastPieceIndex;
 }
 
-u8 *ReadParentMessage(ParentMessage *message, u8 *buffer) {
+u8 *MBi_SetRecvBufferFromParent(ParentMessage *message, u8 *buffer) {
     u8 *v1;
     message->mKind = *buffer++;
     switch (message->mKind) {

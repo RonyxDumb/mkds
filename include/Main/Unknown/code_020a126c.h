@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-BOOL IsWinnerDecided(void);
+BOOL mgcnt_hasWinnerBeenDecided(void);

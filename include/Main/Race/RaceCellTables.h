@@ -8,9 +8,9 @@ typedef struct Unk020b6e00 {
     /* 04 */ u16 mUnk_04;
 } Unk020b6e00;
 
-s32 LookupRaceSNcerIndex(s32 kartIndex, s32 b);
+s32 r2d_getSubDriverItemCellIdx(s32 kartIndex, s32 b);
 void RenderKartEntryNames(void);
 void GetEntryCharacterAndPalette(s32 entryIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);
-void CopyRaceTransferSOAndMapSO(u16 *palette, void *chars);
-void CopyRaceTransferMapMrSO(u16 *palette, void *chars);
+void r2d_loadMapIconGraphics(u16 *palette, void *chars);
+void r2d_loadMrMapIconGraphics(u16 *palette, void *chars);
 void GetTimeRecordCharacterAndPalette(s32 recordIndex, s32 *outCharacterIndex, s32 *outPaletteIndex);

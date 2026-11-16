@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void IncrementCounterSaturating(int *counter);
+void title_ssm_increaseFrameCounter(int *counter);

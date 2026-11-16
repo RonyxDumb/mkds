@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u16 GetBalloonsLeftToMake(u16 kartIndex);
+u16 mgcnt_getDriverBalloonShineInventoryCount(u16 kartIndex);

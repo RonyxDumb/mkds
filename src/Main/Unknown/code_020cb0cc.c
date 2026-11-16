@@ -14,7 +14,7 @@ u32 func_020cb0f4(u32 slotIndex) {
     u32 value1;
     u32 slotsAddress;
     u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
     calleeAddress = (u32) &func_020cb114;
@@ -32,7 +32,7 @@ u32 func_020cb0cc(u32 slotIndex) {
     u32 value1;
     u32 slotsAddress;
     u32 calleeAddress;
-    slotsAddress = (u32) &data_02175628;
+    slotsAddress = (u32) &gInputUnits;
     value1 = 0x5cu;
     value1 = (value0) * (value1) + (slotsAddress);
     calleeAddress = (u32) &func_020cb0ec;

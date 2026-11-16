@@ -10,7 +10,7 @@ BOOL TrySetItemKouraRNearestKartItems(ItemKouraR *item, u32 checkRank) {
     int distanceSquared;
 
     nearestDistanceSquared = 0;
-    kartCount = gRaceSetup->mKartCount;
+    kartCount = gRaceMultiConfig->mKartCount;
     for (kartIndex = 0; kartIndex < kartCount; kartIndex++) {
         distanceSquared = TrySetItemKouraRKartItems(item, kartIndex, nearestDistanceSquared, checkRank);
         if (distanceSquared != 0) {

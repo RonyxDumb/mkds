@@ -121,7 +121,7 @@ void func_0202cb2c(s32 entryIndex) {
 #pragma thumb off
 
 static inline s32 func_0202bb80_inline(s32 index) {
-    return data_0217b488->mShuffledIndices[index];
+    return gStruct217B488->mShuffledIndices[index];
 }
 
 #pragma thumb on
@@ -135,25 +135,25 @@ void AdvancePlayerEntryListOffsets(void) {
     s32 d;
     s16 offsetX;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        AdvanceInterpolation(&gPlayerEntryList->mInterpolations[0]);
-        fileSet->mCellTable[25].mOffsetY = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[0]);
-        AdvanceInterpolation(&gPlayerEntryList->mInterpolations[3]);
-        fileSet->mCellTable[64].mOffsetY = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[3]);
+        interp_update(&gPlayerEntryList->mInterpolations[0]);
+        fileSet->mCellTable[25].mOffsetY = interp_interpolate(&gPlayerEntryList->mInterpolations[0]);
+        interp_update(&gPlayerEntryList->mInterpolations[3]);
+        fileSet->mCellTable[64].mOffsetY = interp_interpolate(&gPlayerEntryList->mInterpolations[3]);
         fileSet->mCellTable[63].mOffsetY = fileSet->mCellTable[64].mOffsetY;
         fileSet->mCellTable[62].mOffsetY = fileSet->mCellTable[63].mOffsetY;
         fileSet->mCellTable[61].mOffsetY = fileSet->mCellTable[62].mOffsetY;
         fileSet->mCellTable[60].mOffsetY = fileSet->mCellTable[61].mOffsetY;
         fileSet->mCellTable[59].mOffsetY = fileSet->mCellTable[60].mOffsetY;
     }
-    AdvanceInterpolation(&gPlayerEntryList->mInterpolations[1]);
-    offsetX = GetInterpolatedValue(&gPlayerEntryList->mInterpolations[1]);
+    interp_update(&gPlayerEntryList->mInterpolations[1]);
+    offsetX = interp_interpolate(&gPlayerEntryList->mInterpolations[1]);
     onesCell = GetTimerOnesCellIndex();
     fileSet->mCellTable[onesCell].mOffsetX = offsetX;
     fileSet->mCellTable[GetTimerTensCellIndex()].mOffsetX = fileSet->mCellTable[onesCell].mOffsetX;
-    AdvanceInterpolation(&gPlayerEntryList->mInterpolations[2]);
+    interp_update(&gPlayerEntryList->mInterpolations[2]);
     AdvanceEntrySlots();
     for (i = 0; i < 8; i++) {
-        offsetX = InterpolateS16(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mFromSlot],
+        offsetX = mutil_interpolate(1, gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mFromSlot],
                                  gEntrySlotOffsetsX[gPlayerEntryList->mEntries[i].mSlotMove.mToSlot],
                                  gPlayerEntryList->mEntries[i].mSlotMove.mMoveFrames, 10);
         fileSet->mCellTable[cellCount + gEntryLabelTextRows[i].mUnk_00].mOffsetX = offsetX;
@@ -174,7 +174,7 @@ static inline void func_0202c0d4_inline(const void *source, void *destination, s
 }
 
 void func_0202c8dc(void) {
-    void *text = GetBmgEntry(FindFileInLoadedArchivesWrapper(data_02162c58), 0x72);
+    void *text = jn_msg_getMessage(m2d_get2dArcFile(aCommon_bmg_29), 0x72);
     u16 u[3];
     u16 *w = &u[1];
     s32 i;
@@ -196,16 +196,16 @@ void PrintEntryName(s32 entryIndex, u16 *name) {
     MIi_CpuClear16(text[0], &text[1], 0x16);
     name[10] = 0;
     CopyTextWithinWidth(name, &text[1]);
-    func_0212426c(0, gEntryLabelTextRows[entryIndex].mUnk_00, entryList->mParts.mLabelLayout, &text[1],
+    jn_ui_212426C(0, gEntryLabelTextRows[entryIndex].mUnk_00, entryList->mParts.mLabelLayout, &text[1],
                   entryList->mParts.mCellLayout, entryList->mParts.mCellTable);
 }
 
 void InitPlayerEntryList(void *parentHeap, void *mainOam) {
-    void *heap = CreateFrmHeapFromMaxFree(parentHeap);
+    void *heap = heap_createSubFrmHeap(parentHeap);
     s32 objSizeLeft;
     CellFileSet *fileSet;
     s32 i;
-    gPlayerEntryList = HeapAlloc(heap, 0x258);
+    gPlayerEntryList = heap_alloc(heap, 0x258);
     MemFillWordsByBlock_inline(gPlayerEntryList, 0x258);
     gPlayerEntryList->mHeap = heap;
     gPlayerEntryList->mMainOam = mainOam;
@@ -213,25 +213,25 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
         gEntryCellIndices = gDownloadEntryCellIndices;
         gEntryLabelTextRows = gDownloadEntryLabelTextRows;
         gCharacterCellIndices = gDownloadCharacterCellIndices;
-        gTimerDigitCellIndices = gDownloadTimerDigitCellIndices;
+        gTimerDigitCellIndices = a_01234567;
     } else {
         gEntryCellIndices = gNormalEntryCellIndices;
         gEntryLabelTextRows = gNormalEntryLabelTextRows;
         gCharacterCellIndices = gNormalCharacterCellIndices;
-        gTimerDigitCellIndices = gNormalTimerDigitCellIndices;
+        gTimerDigitCellIndices = a012345678;
     }
     objSizeLeft = GX_GetSizeOfOBJ();
     fileSet = &gPlayerEntryList->mParts;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        LocateCellFileSet(fileSet, data_02162aac, data_02162ad4, data_02162afc,
-                          gSelectMenuEtcDownloadMBnclName, gSelectMenuEtcDownloadMBnllName, NULL, FindSceneFile);
+        mutil2_loadLayout(fileSet, aMbSelect_menu_etc_download_m_nce_ncgr, aMbSelect_menu_etc_download_m_nce_ncer, aMbSelect_menu_etc_download_m_o_nclr,
+                          aMbSelect_menu_etc_download_m_bncl, aMbSelect_menu_etc_download_m_bnll, NULL, arc_getSceneArcFile);
     } else {
-        LocateCellFileSet(fileSet, data_02162b6c, data_02162b88, data_02162ba4, gSelectMenuEtcMBnclName,
-                          gSelectMenuEtcMBnllName, NULL, FindFileInLoadedArchives);
+        mutil2_loadLayout(fileSet, aSelect_menu_etc_m_nce_ncgr_0, aSelect_menu_etc_m_nce_ncer_0, aSelect_menu_etc_m_o_nclr_0, aSelect_menu_etc_m_bncl,
+                          aSelect_menu_etc_m_bnll, NULL, arc_get2dArcFile);
     }
-    InitLayoutTable(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
+    jn_ui_initLayout(gPlayerEntryList->mHeap, fileSet->mCellLayout, fileSet->mLabelLayout, &fileSet->mCellTable);
     for (i = 0; i < 8; i++) {
-        objSizeLeft -= func_02025a00(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[i], objSizeLeft);
+        objSizeLeft -= mutil2_initLabel(0, gPlayerEntryList->mHeap, fileSet, &gEntryLabelTextRows[i], objSizeLeft);
     }
     for (i = 0; i < 8; i++) {
         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
@@ -239,15 +239,15 @@ void InitPlayerEntryList(void *parentHeap, void *mainOam) {
             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible;
     }
     ResetEntrySlots();
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
+    interp_init(&gPlayerEntryList->mInterpolations[0], 0, 10, -0x40, 0);
+    interp_init(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
+    interp_init(&gPlayerEntryList->mInterpolations[3], 3, 10, 0x40, 0);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        LocateCellFileSet(&gPlayerEntryList->mTitleParts, data_02162bf0, data_02162c14, NULL,
-                          gSelectMenuEtcTitleMBnclName, NULL, NULL, FindFileInLoadedArchives);
+        mutil2_loadLayout(&gPlayerEntryList->mTitleParts, aSelect_menu_etc_title_m_nce_ncgr_0, aSelect_menu_etc_title_m_nce_ncer_0, NULL,
+                          aSelect_menu_etc_title_m_bncl, NULL, NULL, arc_get2dArcFile);
     }
     gPlayerEntryList->mSetupRequested = TRUE;
-    FrmHeapShrinkInParent(gPlayerEntryList->mHeap);
+    heap_adjustSubFrmHeap(gPlayerEntryList->mHeap);
 }
 
 void SetupPlayerEntryList(s32 mode, s32 screenKind) {
@@ -266,40 +266,40 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
     gPlayerEntryList->mScreenKind = screenKind;
     if (gPlayerEntryList->mSetupRequested != FALSE) {
         gPlayerEntryList->mTimer = 0x708;
-        SetupInterpolation(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
+        interp_init(&gPlayerEntryList->mInterpolations[1], 0, 10, 0x40, 0);
         switch (gPlayerEntryList->mMode) {
             case 0:
                 gPlayerEntryList->mPlayerCount = 1;
                 gPlayerEntryList->mEntryIndex = 0;
                 gPlayerEntryList->mUnk_208 = 1;
-                MIi_CpuCopy16(data_0217aa08->mFirstBlock->mPlayerName,
+                MIi_CpuCopy16(gSaveData->mFirstBlock->mPlayerName,
                               gPlayerEntryList->mEntries[gPlayerEntryList->mEntryIndex].mName, 0x14);
                 func_0202c8dc();
                 break;
             case 1:
                 t = TRUE;
-                if (data_0217aa00->mUnk_0004 != 8 && data_0217aa00->mUnk_0004 != 9) {
+                if (gStruct217AA00->mUnk_0004 != 8 && gStruct217AA00->mUnk_0004 != 9) {
                     t = FALSE;
                 }
                 if (t != FALSE) {
-                    i = CountSetBits(data_0217aa00->mParticipantMask);
+                    i = MATH_CountPopulation(gStruct217AA00->mParticipantMask);
                 } else {
                     i = 0;
                 }
                 gPlayerEntryList->mPlayerCount = (u8) i;
-                if (data_0217aa00->mUnk_0000 == 2) {
-                    i = data_0217aa00->mOwnIndex;
+                if (gStruct217AA00->mUnk_0000 == 2) {
+                    i = gStruct217AA00->mOwnIndex;
                 } else {
                     i = 0;
                 }
-                gPlayerEntryList->mEntryIndex = data_0217aa00->mUnk_1e52[(u16) i].mEntryIndex;
+                gPlayerEntryList->mEntryIndex = gStruct217AA00->mUnk_1e52[(u16) i].mEntryIndex;
                 for (j = 0; j < (n = gPlayerEntryList->mPlayerCount); j++) {
-                    GetRaceSetupCopy()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
+                    menu_getRaceConfig()->mEntries[j].mPlayerKind = PLAYER_KIND_HUMAN;
                     clearValue = 0;
                     MIi_CpuClear16(clearValue, gPlayerEntryList->mEntries[j].mName, 0x16);
-                    func_0202c0d4_inline(data_0217aa00->mUnk_1e8c[(u16) j] == 0xffff
+                    func_0202c0d4_inline(gStruct217AA00->mUnk_1e8c[(u16) j] == 0xffff
                                              ? (void *) 0
-                                             : &data_0217aa00->mUnk_045c[data_0217aa00->mUnk_1e8c[(u16) j]],
+                                             : &gStruct217AA00->mUnk_045c[gStruct217AA00->mUnk_1e8c[(u16) j]],
                                          gPlayerEntryList->mEntries[j].mName, 0x14);
                 }
                 for (; n < 8; n++) {
@@ -313,7 +313,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
                 break;
             case 2:
                 gPlayerEntryList->mPlayerCount = GetSessionKartCount();
-                gPlayerEntryList->mEntryIndex = GetRaceSetupCopyEntryIndex();
+                gPlayerEntryList->mEntryIndex = menu_getRaceConfigField10C();
                 for (i = 0; i < (n = gPlayerEntryList->mPlayerCount); i++) {
                     secondClearValue = 0;
                     MIi_CpuClear16(secondClearValue, gPlayerEntryList->mEntries[i].mName, 0x16);
@@ -341,7 +341,7 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         if (gPlayerEntryList->mMode == 1) {
             for (i = gPlayerEntryList->mPlayerCount; i < 8; i++) {
-                j = GetRaceSetupCopy()->mEntries[i].mCharacterIndex;
+                j = menu_getRaceConfig()->mEntries[i].mCharacterIndex;
                 func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[j], fileSet->mCellLayout);
                 fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
             }
@@ -349,18 +349,18 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         reg_G2_BG0CNT = (reg_G2_BG0CNT & 0x43) | 0xd08;
         reg_G2_BG1CNT = (reg_G2_BG1CNT & 0x43) | 0xc00;
         if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-            func_020258d4(0, screenMapFileSet, data_02162904, data_0216292c, data_02162954, 0,
-                          FindSceneFile);
-            func_020258d4(0, screenMapFileSet, data_02162980, data_021629a8, data_021629d0, 1,
-                          FindSceneFile);
+            mutil2_initBgGraphics(0, screenMapFileSet, aMbSelect_menu_etc_download_m_b_ncgr, aMbSelect_menu_etc_download_m_b_nclr, aMbSelect_menu_etc_download_m_bg_00_ns, 0,
+                          arc_getSceneArcFile);
+            mutil2_initBgGraphics(0, screenMapFileSet, aMbSelect_menu_etc_download_m_b_ncgr_0, aMbSelect_menu_etc_download_m_b_nclr_0, aMbSelect_menu_etc_download_m_bg_01__0, 1,
+                          arc_getSceneArcFile);
         } else {
-            func_020258d4(0, screenMapFileSet, data_021629fc, data_02162a18, data_02162a34, 0,
-                          FindFileInLoadedArchives);
-            func_020258d4(0, screenMapFileSet, data_02162a54, data_02162a70, data_02162a8c, 1,
-                          FindFileInLoadedArchives);
+            mutil2_initBgGraphics(0, screenMapFileSet, aSelect_menu_etc_m_b_ncgr_0, aSelect_menu_etc_m_b_nclr_0, aSelect_menu_etc_m_bg_00_nscr_0, 0,
+                          arc_get2dArcFile);
+            mutil2_initBgGraphics(0, screenMapFileSet, aSelect_menu_etc_m_b_ncgr_1, aSelect_menu_etc_m_b_nclr_1, aSelect_menu_etc_m_bg_01_nscr_0, 1,
+                          arc_get2dArcFile);
         }
     } else if (gPlayerEntryList->mScreenKind == PLAYER_ENTRY_LIST_KART) {
-        func_02025f14(&gPlayerEntryList->mInterpolations[3], 0);
+        interp_setState(&gPlayerEntryList->mInterpolations[3], 0);
     }
     if (gPlayerEntryList->mUnk_20c != FALSE) {
         for (i = 0; i < 8; i++) {
@@ -370,20 +370,20 @@ void SetupPlayerEntryList(s32 mode, s32 screenKind) {
         }
         gPlayerEntryList->mUnk_20c = FALSE;
     }
-    CallQueueAppend(0x13, 0, ((Unk02174e3c_00 *) gPlayerEntryList->mParts.mChars)->mUnk_14,
+    NNS_GfdRegisterNewVramTransferTask(0x13, 0, ((Unk02174e3c_00 *) gPlayerEntryList->mParts.mChars)->mUnk_14,
                     ((Unk02174e3c_00 *) gPlayerEntryList->mParts.mChars)->mUnk_10);
-    CallQueueAppend(0xe, 0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c, 0x1a0);
-    CallQueueAppend(0xe, 0x1c0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c + 0x1c0, 0x40);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c, 0x1a0);
+    NNS_GfdRegisterNewVramTransferTask(0xe, 0x1c0, ((Unk0212463c_d *) fileSet->mPalette)->mUnk_0c + 0x1c0, 0x40);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        QueueCellChars(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
+        jn_ui_fillPlaceholder(gTitleCellIndices[gPlayerEntryList->mScreenKind], titleFileSet->mCells, titleFileSet->mChars,
                        titleFileSet->mCellLayout, 0, 0x19, fileSet->mCells, fileSet->mCellLayout);
-        func_02025f14(&gPlayerEntryList->mInterpolations[0], 0);
+        interp_setState(&gPlayerEntryList->mInterpolations[0], 0);
     }
     func_02025c6c(func_0202cca0(), gEntryCellIndices[gPlayerEntryList->mEntryIndex].mUnk_00, fileSet->mCellLayout);
     for (i = 0; i < 8; i++) {
         PrintEntryName(i, gPlayerEntryList->mEntries[i].mName);
     }
-    SetupInterpolation(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
+    interp_init(&gPlayerEntryList->mInterpolations[2], 3, 10, 0x60, 0);
     gPlayerEntryList->mUseTeams = 0;
     n = 0;
     if (gPlayerEntryList->mScreenKind != PLAYER_ENTRY_LIST_RACE_RULE && gPlayerEntryList->mMode != 0) {
@@ -407,7 +407,7 @@ void AdvancePlayerEntryList(void) {
     s32 e;
     s32 f;
     BOOL g;
-    if (AreBrightnessFadesClear() == 0) {
+    if (mbright_isFadedIn() == 0) {
         return;
     }
     if (gPlayerEntryList->mTimerEnabled != 0) {
@@ -439,13 +439,13 @@ void AdvancePlayerEntryList(void) {
                 s32 b;
 
                 for (i = 0; i < 8; i++) {
-                    a = GetRaceSetupCopy()->mEntries[i].mCharacterIndex;
+                    a = menu_getRaceConfig()->mEntries[i].mCharacterIndex;
                     if (a == -1) {
                         d = 0;
                     } else {
                         d = 1;
                     }
-                    b = GetRaceSetupCopy()->mEntries[i].mUnk_14;
+                    b = menu_getRaceConfig()->mEntries[i].mUnk_14;
                     if (d != 0) {
                         func_02025c48(gEntryCellIndices[i].mCharacterCellIndex, gCharacterCellIndices[a],
                                       fileSet->mCellLayout);
@@ -458,9 +458,9 @@ void AdvancePlayerEntryList(void) {
                 s32 d;
 
                 for (i = 0; i < gPlayerEntryList->mPlayerCount; i++) {
-                    if (data_0217aa00->mUnk_0004 == 8 &&
-                        (data_0217aa00->mParticipantMask & (1 << data_0217aa00->mUnk_1e8c[(u16) i])) != 0) {
-                        c = data_0217aa00->mUnk_15c8[data_0217aa00->mUnk_1e8c[(u16) i]].mUnk_00[5];
+                    if (gStruct217AA00->mUnk_0004 == 8 &&
+                        (gStruct217AA00->mParticipantMask & (1 << gStruct217AA00->mUnk_1e8c[(u16) i])) != 0) {
+                        c = gStruct217AA00->mUnk_15c8[gStruct217AA00->mUnk_1e8c[(u16) i]].mUnk_00[5];
                     } else {
                         c = 0;
                     }
@@ -468,9 +468,9 @@ void AdvancePlayerEntryList(void) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 0;
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible =
                             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible;
-                        GetRaceSetupCopy()->mEntries[i].mCharacterIndex = -1;
-                        GetRaceSetupCopy()->mEntries[i].mKartIndex = -1;
-                        GetRaceSetupCopy()->mEntries[i].mUnk_14 = 0;
+                        menu_getRaceConfig()->mEntries[i].mCharacterIndex = -1;
+                        menu_getRaceConfig()->mEntries[i].mKartIndex = -1;
+                        menu_getRaceConfig()->mEntries[i].mUnk_14 = 0;
                         gPlayerEntryList->mUnk_1dc[i] = 0;
                         gPlayerEntryList->mUnk_1bc[i] = gPlayerEntryList->mUnk_1dc[i];
                     } else if ((c & 0x40) != 0) {
@@ -483,7 +483,7 @@ void AdvancePlayerEntryList(void) {
                                           fileSet->mCellLayout);
                         }
                         fileSet->mCellTable[gEntryCellIndices[i].mCharacterCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[i].mCharacterIndex = d;
+                        menu_getRaceConfig()->mEntries[i].mCharacterIndex = d;
                         if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1bc[i] == 0) {
                             func_0202cca4(d, 0);
                             gPlayerEntryList->mUnk_1bc[i] = 1;
@@ -491,15 +491,15 @@ void AdvancePlayerEntryList(void) {
                         if ((c & 0x80) != 0) {
                             e = func_02025e60(d);
                             fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
-                            GetRaceSetupCopy()->mEntries[i].mKartIndex = e;
-                            GetRaceSetupCopy()->mEntries[i].mUnk_14 = 1;
+                            menu_getRaceConfig()->mEntries[i].mKartIndex = e;
+                            menu_getRaceConfig()->mEntries[i].mUnk_14 = 1;
                         }
                     } else if ((c & 0x80) != 0) {
                         fileSet->mCellTable[gEntryCellIndices[i].mKartCellIndex].mVisible = 1;
-                        GetRaceSetupCopy()->mEntries[i].mKartIndex = c & 0x3f;
-                        GetRaceSetupCopy()->mEntries[i].mUnk_14 = 1;
+                        menu_getRaceConfig()->mEntries[i].mKartIndex = c & 0x3f;
+                        menu_getRaceConfig()->mEntries[i].mUnk_14 = 1;
                         if (gPlayerEntryList->mEntryIndex != i && gPlayerEntryList->mUnk_1dc[i] == 0) {
-                            func_0202cca4(GetRaceSetupCopy()->mEntries[i].mCharacterIndex, 1);
+                            func_0202cca4(menu_getRaceConfig()->mEntries[i].mCharacterIndex, 1);
                             gPlayerEntryList->mUnk_1dc[i] = 1;
                         }
                     }
@@ -554,7 +554,7 @@ void AdvancePlayerEntryList(void) {
         }
     }
     AdvancePlayerEntryListOffsets();
-    DrawLayoutTable(fileSet->mCellLayout, fileSet->mCells, fileSet->mLabelLayout, gPlayerEntryList->mMainOam,
+    jn_ui_renderElements(fileSet->mCellLayout, fileSet->mCells, fileSet->mLabelLayout, gPlayerEntryList->mMainOam,
                     fileSet->mCellTable);
 }
 

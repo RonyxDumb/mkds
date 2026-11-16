@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearBuddyRecordBlock(void);
+void savd_initNkfl(void);

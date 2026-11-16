@@ -6,23 +6,23 @@
 
 #pragma optimize_for_size on
 #pragma thumb on
-void UpdateSelectGame(void) {
+void menu_state14Render(void) {
     switch (AdvanceSelectGame()) {
         case 1:
-            switch (GetRaceSetupCopy()->mMode) {
+            switch (menu_getRaceConfig()->mMode) {
                 case 3:
-                    SwitchMenuScreen(8, 0x1f);
+                    menu_gotoState(8, 0x1f);
                     break;
                 case 2:
-                    SwitchMenuScreen(0xf, 0x1f);
+                    menu_gotoState(0xf, 0x1f);
                     break;
             }
             break;
         case 2:
-            SwitchMenuScreen(0, 0x1f);
+            menu_gotoState(0, 0x1f);
             break;
         case 3:
-            SwitchMenuScreen(0x1b, 0x1f);
+            menu_gotoState(0x1b, 0x1f);
             break;
     }
 }

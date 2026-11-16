@@ -11,19 +11,19 @@
 
 #pragma thumb on
 #pragma optimize_for_size on
-void UpdateSinglePlaySelectMenuScreen0(void) {
+void menu_modeSelectInStateRender(void) {
     s32 frame;
     LayoutTableEntry *mainCells;
     LayoutTableEntry *subCells;
     s32 i;
     s16 offset;
 
-    frame = GetFramesSinceMenuScreenSwitch();
-    mainCells = data_0217b43c->mSinglePlaySelectModeMLayoutTable;
-    subCells = data_0217b43c->mSinglePlaySelectModeSLayoutTable;
+    frame = menu_getFrameCounter();
+    mainCells = gMenuSceneState->mSinglePlaySelectModeMLayoutTable;
+    subCells = gMenuSceneState->mSinglePlaySelectModeSLayoutTable;
     if (frame < 10) {
-        mainCells->mOffsetY = InterpolateS16(1, -0x28, 0, frame, 10);
-        offset = InterpolateS16(1, 0xf0, 0, frame, 10);
+        mainCells->mOffsetY = mutil_interpolate(1, -0x28, 0, frame, 10);
+        offset = mutil_interpolate(1, 0xf0, 0, frame, 10);
         for (i = 0; i <= 14; i++) {
             subCells[i].mOffsetX = offset;
         }
@@ -33,10 +33,10 @@ void UpdateSinglePlaySelectMenuScreen0(void) {
         for (i = 0; i <= 14; i++) {
             subCells[i].mOffsetX = 0;
         }
-        SwitchMenuScreen(1, 0x1f);
-        SetSelectReturnSoundId(0xf);
-        data_0217b43c->mUnk_934 = FALSE;
+        menu_gotoState(1, 0x1f);
+        gmenu_setSeqArcIndex(0xf);
+        gMenuSceneState->mUnk_934 = FALSE;
     }
-    DrawSinglePlaySelectCells();
+    menu_renderModeSelectUI();
 }
 #pragma thumb off

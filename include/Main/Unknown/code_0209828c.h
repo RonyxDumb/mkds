@@ -35,34 +35,34 @@ typedef struct Pakkun {
     /* 1fc */ s32 mUnk_1fc;
 } Pakkun;
 
-// Object returned by CreateMapObjectDrawList2 and CreateMapObjectDrawList1 here: a word at 0x1c is set to 1.
+// Object returned by mobj_createRenderPart2d and mobj_createRenderPart3d here: a word at 0x1c is set to 1.
 typedef struct Unk020982d4 {
     /* 00 */ u8 mUnk_00[0x1c];
     /* 1c */ BOOL mUnk_1c;
 } Unk020982d4;
 
-extern MapObjectList *gPakkunUpdateList;
+extern MapObjectList *pakn_sLogicPart;
 extern MapObjectModel *gPakkunMouth;
 extern void *gPakkunZHead;
-extern void *gPakkunBodyDrawList;
+extern void *pakn_sBodyRenderPart;
 extern void *gPakkunBody;
-extern Unk020982d4 *gPakkunZHeadDrawList;
-extern Unk020982d4 *gPakkunMouthDrawList;
+extern Unk020982d4 *pakn_sHeadRenderPart;
+extern Unk020982d4 *pakn_sMouthRenderPart;
 
-void *CreatePakkunUpdateList(void);
-void *CreatePakkunZHeadDrawList(void);
-void *CreatePakkunBodyDrawList(void);
-void *CreatePakkunMouthDrawList(void);
-void UpdatePakkun(void *a, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
-void InitPakkunObjects(void);
-void DrawPakkunBody(void *a, Pakkun *pakkun);
-void SetupDrawPakkunBody(void *a);
-void CreatePakkunBody(void *a);
-void DrawPakkunZHead(void *a, Pakkun *pakkun);
-void SetupDrawPakkunZHead(void *a);
-void CreatePakkunZHead(void *a);
-void DrawPakkunMouth(void *a, Pakkun *pakkun);
-void CreatePakkunMouth(void *a);
-void InitPakkun(Pakkun *pakkun);
-void func_02098f18(GroupFollower *groupFollower, s32 b);
-void *func_02099004(void);
+void *pakn_setupLogicPart(void);
+void *pakn_setupZHeadRenderPart(void);
+void *pakn_setupBodyRenderPart(void);
+void *pakn_setupMouthRenderPart(void);
+void pakn_update(void *a, Pakkun *pakkun); /* skipped for objects with mFlags & 4 (parked pool objects) */
+void pakn_globalLogicInit(void);
+void pakn_renderBody(void *a, Pakkun *pakkun);
+void pakn_applyBodyMaterial(void *a);
+void pakn_loadBodyModel(void *a);
+void pakn_renderHead(void *a, Pakkun *pakkun);
+void pakn_applyHeadMaterial(void *a);
+void pakn_loadHeadModel(void *a);
+void pakn_renderMouth(void *a, Pakkun *pakkun);
+void pakn_loadMouthModel(void *a);
+void pakn_init(Pakkun *pakkun);
+void pknf_spawn(GroupFollower *groupFollower, s32 b);
+void *pknf_setupLogicPart(void);

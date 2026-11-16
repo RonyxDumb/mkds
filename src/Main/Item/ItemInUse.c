@@ -47,7 +47,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     itemInUse->mKartVelocityLength = kart->mVelocityLength;
     itemInUse->mUnk_078 = ((s64) kart->mPhysicalParam->mUnk_08 * kart->mScale.z + 0x800) >> 12;
     itemInUse->mKartHopHeight = kart->mHopHeight;
-    itemInUse->mMovingForward = Vec3DotUnrounded(&itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartVelocity) > 0;
+    itemInUse->mMovingForward = vec_dotProduct(&itemInUse->mKartOrientation.mUnk_18, &itemInUse->mKartVelocity) > 0;
     VEC_Subtract(&itemInUse->mKartDrawMatrixPos, &kart->mPrevPos, &itemInUse->mKartMovement);
     scale.x = ((s64) kart->mScaleFactor.x * kart->mScaleBase.x) >> 12;
     scale.y = ((s64) kart->mScaleFactor.y * kart->mScaleBase.y) >> 12;
@@ -64,7 +64,7 @@ BOOL CopyKartToItemInUse(ItemInUse *itemInUse) {
     return FALSE;
 }
 
-void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
+void it_20EE2E4(ItemInUse *itemInUse, HeldItem *heldItem) {
     void (*startFunc)(void *);
     s32 useKind;
     s32 itemInfoIndex;
@@ -78,15 +78,15 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     s32 poolIndex;
 
     itemInfoIndex = heldItem->mItemInfoIndex;
-    useKind = gItemInfos[itemInfoIndex].mUseKind;
-    isMode5 = gRaceSetup->mMode == 5;
+    useKind = it_sItemConfigs[itemInfoIndex].mUseKind;
+    isMode5 = gRaceMultiConfig->mMode == 5;
     if (heldItem->mUnk_0c != 0) {
         if (heldItem->mTimer > heldItem->mUnk_12) {
             return;
         }
     }
     startFunc = gItemInUseStartTable[useKind];
-    useHook = gItemInfos[itemInfoIndex].mUseHook;
+    useHook = it_sItemConfigs[itemInfoIndex].mUseHook;
     if (!isMode5) {
         StartRaceRankListItemInUse(itemInUse->mKartIndex, itemInfoIndex, heldItem->mObjectCount);
     }
@@ -97,17 +97,17 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
         if (useHook != NULL) {
             useHook(itemInUse, heldItem);
         }
-        func_02071894(itemInUse->mKart);
+        driver_tryEmitItemUseVoice(itemInUse->mKart);
         return;
     }
-    itemInUse->mObjectKind = gItemInfos[itemInfoIndex].mObjectKind;
-    itemInUse->mObjectCount = gItemInfos[itemInfoIndex].mObjectCount;
+    itemInUse->mObjectKind = it_sItemConfigs[itemInfoIndex].mObjectKind;
+    itemInUse->mObjectCount = it_sItemConfigs[itemInfoIndex].mObjectCount;
     itemInUse->mUseKind = useKind;
     itemInUse->mItemInfoIndex = itemInfoIndex;
     itemInUse->mUnk_170 = NULL;
-    itemInUse->mUnk_0e8 = gItemInfos[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
+    itemInUse->mUnk_0e8 = it_sItemConfigs[itemInfoIndex].mObjectKind == 8 ? 0xb400 : 0x4333;
     poolIndex = *(vs32 *) &itemInUse->mObjectKind;
-    TakeItemPoolObjects(&gItemPools[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
+    it_itemsetAcquireItems(&it_sItemsets[poolIndex], itemInUse->mObjectCount, itemInUse->mObjects, itemInUse->mKart->mIndex,
                         &itemInUse->mKartDrawMatrixPos);
     CopyKartToItemInUse(itemInUse);
     if (startFunc != NULL) {
@@ -116,8 +116,8 @@ void StartItemInUse(ItemInUse *itemInUse, HeldItem *heldItem) {
     if (useHook != NULL) {
         useHook(itemInUse, heldItem);
     }
-    SetupKartAiItemInUseEntry(itemInUse->mKart);
-    ResetHeldItem(heldItem);
+    driver_notifyDragItemChanged(itemInUse->mKart);
+    it_resetSlot(heldItem);
     if (itemInUse->mUnk_170 != NULL) {
         SetActiveItem(itemInUse->mKartItems, itemInUse->mItemInfoIndex);
     }
@@ -171,8 +171,8 @@ void CollideItemObjects(ItemObject *object, ItemObject *other) {
     savedVelocity = object->mVelocity;
     n = GetItemObjectHitType(object, other);
     m = GetItemObjectHitType(other, object);
-    func_020f77f8(object, n, &other->mPos, &other->mVelocity, NULL);
-    func_020f77f8(other, m, &object->mPos, &savedVelocity, NULL);
+    it_20F77F8(object, n, &other->mPos, &other->mVelocity, NULL);
+    it_20F77F8(other, m, &object->mPos, &savedVelocity, NULL);
     if (other->mKind != 1) {
         return;
     }
@@ -220,16 +220,16 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
         if (object->mCollisionSlotIndex == -1) {
             if (func_020f91e0(object) != FALSE) {
                 idx = object->mKind;
-                if (gItemKinds[idx].mUnk_68 != 0) {
+                if (it_sItemParams[idx].mUnk_68 != 0) {
                     CreateItemObjectCollisionSlot(object);
                 }
             }
             continue;
         }
-        FindCollisionSlotsOverlappingSlot(object->mCollisionSlotIndex, 0x6000);
-        for (i = 0; i < gFoundCollisionSlotCount; i++) {
-            if ((gFoundCollisionSlotFlags[i] & 0x4000) != 0) {
-                ItemObject *other = gFoundCollisionSlotObjects[i];
+        col_queryByColEntry(object->mCollisionSlotIndex, 0x6000);
+        for (i = 0; i < gColQueryResultCount; i++) {
+            if ((gColQueryResultFlags[i] & 0x4000) != 0) {
+                ItemObject *other = gColQueryResultObjects[i];
                 if (other->mCollisionSlotIndex == -1) {
                     continue;
                 }
@@ -237,12 +237,12 @@ void UpdateItemInUseObjects(ItemInUse *itemInUse) {
                     continue;
                 }
                 CollideItemObjects(object, other);
-            } else if ((gFoundCollisionSlotFlags[i] & 0x2000) != 0) {
-                MapObject *other = gFoundCollisionSlotObjects[i];
-                if (func_020d2234(other, object) == FALSE) {
+            } else if ((gColQueryResultFlags[i] & 0x2000) != 0) {
+                MapObject *other = gColQueryResultObjects[i];
+                if (mobj_destroysItemOnHit(other, object) == FALSE) {
                     continue;
                 }
-                func_020f944c(object, other);
+                it_20F944C(object, other);
             }
             if (object->mCollisionSlotIndex == -1) {
                 break;
@@ -272,7 +272,7 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     }
     UpdateItemInUseObjects(itemInUse);
     if (itemInUse->mObjectCount == 0) {
-        ResetItemInUse(itemInUse);
+        it_resetDragItem(itemInUse);
     }
     if (itemInUse->mObjectStartFramesLeft <= 0) {
         return;
@@ -287,15 +287,15 @@ void AdvanceItemInUse(ItemInUse *itemInUse) {
     kart = itemInUse->mKart;
     object = itemInUse->mObjects[objectIndex];
     StartItemInUseObject(itemInUse, object);
-    func_020f6630(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
+    it_startThrowAnim(object, objectIndex + 1, &kart->mDrawMatrixPos, &kart->mVelocity, &kart->mGroundNormal);
     kind = object->mKind;
-    if (gItemKinds[kind].mUnk_38 != NULL) {
-        gItemKinds[kind].mUnk_38(object);
+    if (it_sItemParams[kind].mUnk_38 != NULL) {
+        it_sItemParams[kind].mUnk_38(object);
     }
     if (itemInUse->mObjectCount != 0) {
         return;
     }
-    ResetItemInUse(itemInUse);
+    it_resetDragItem(itemInUse);
 }
 
 s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor, s32 forwardWeight,
@@ -328,7 +328,7 @@ s32 ComputeItemThrowForward(ItemInUse *itemInUse, s32 baseSpeed, s32 speedFactor
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
             (s64) throwDirection.z * throwDirection.z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
+        vec_normalize(&throwDirection, outDirection);
     }
     return speed;
 }
@@ -357,18 +357,18 @@ s32 ComputeItemThrowBackward(ItemInUse *itemInUse, s32 speed, s32 speedFactor, s
     if ((s64) throwDirection.x * throwDirection.x + (s64) throwDirection.y * throwDirection.y +
             (s64) throwDirection.z * throwDirection.z >=
         0x10) {
-        Vec3NormalizeAndGetLengthUnchecked(&throwDirection, outDirection);
+        vec_normalize(&throwDirection, outDirection);
     }
     return speed;
 }
 
-void ReleaseItemInUse(ItemInUse *itemInUse) {
+void it_destroyDragItem(ItemInUse *itemInUse) {
     while (itemInUse->mObjectCount > 0) {
         itemInUse->mObjectCount--;
-        ReleaseItemPoolObject(&gItemPools[itemInUse->mObjects[itemInUse->mObjectCount]->mKind],
+        it_itemsetDestroyItem(&it_sItemsets[itemInUse->mObjects[itemInUse->mObjectCount]->mKind],
                               itemInUse->mObjects[itemInUse->mObjectCount]);
     }
-    ResetItemInUse(itemInUse);
+    it_resetDragItem(itemInUse);
     if (itemInUse->mUnk_170 != NULL) {
         itemInUse->mKartItems->mActiveItem = 0x13;
         itemInUse->mUnk_170 = NULL;
@@ -397,7 +397,7 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
             if (itemInUse->mObjectCount != 0) {
                 return;
             }
-            ResetItemInUse(itemInUse);
+            it_resetDragItem(itemInUse);
             return;
         }
     }
@@ -406,14 +406,14 @@ void RemoveItemInUseObject(ItemInUse *itemInUse, ItemObject *object) {
 void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
         object->mUnk_94.mUnk_00[2] = *viewAxis;
-        Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
         if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
                 (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
                 (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+            vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
         }
-        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+        vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
         {
             Vec3 *position;
 
@@ -424,11 +424,11 @@ void *BuildItemObjectMatrix(ItemObject *object, Vec3 *viewAxis) {
         }
         return &object->mUnk_94.mUnk_00[0];
     } else {
-        return func_020e6b94(object->mUnk_d0);
+        return bbm_20E6B94(object->mUnk_d0);
     }
 }
 
-void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
+void it_20ED79C(ItemPool *pool, Vec3 *viewAxis) {
     s16 d8;
     s32 i;
     NsbmdModel *model;
@@ -437,10 +437,10 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     ItemObject *object;
     void *matrix;
 
-    model = gItemModels[pool->mKind];
+    model = it_sBillboardModels[pool->mKind];
     takenCount = pool->mTakenCount;
     activeCount = pool->mActiveCount;
-    func_020e6a18(model);
+    bbm_applyMaterial(model);
     model->mUnk_14 &= ~0x3f000000;
     model->mUnk_14 |= 0x4000000;
     for (i = 0; i < takenCount; i++) {
@@ -449,9 +449,9 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            func_0208ab4c(object->mUnk_90);
+            light_apply(object->mUnk_90);
         } else {
-            func_0208ab4c(&object->mColorBlend.mColor);
+            light_apply(&object->mColorBlend.mColor);
         }
         if ((d8 = object->mAlpha) != 0x1f) {
             model->mUnk_14 &= ~0x1f0000;
@@ -463,14 +463,14 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
         }
         if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
             object->mUnk_94.mUnk_00[2] = *viewAxis;
-            Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+            vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
             if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
                     (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
                     (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
                 0x10) {
-                Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+                vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
             }
-            Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+            vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
             {
                 Vec3 *position;
 
@@ -481,9 +481,9 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
             }
             matrix = &object->mUnk_94.mUnk_00[0];
         } else {
-            matrix = func_020e6b94(object->mUnk_d0);
+            matrix = bbm_20E6B94(object->mUnk_d0);
         }
-        func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+        bbm_renderTransformedScaled(model, matrix, &object->mScale, 0, 0x1f);
         if ((d8 = object->mAlpha) != 0x1f) {
             model->mUnk_14 &= ~0x1f0000;
             model->mUnk_14 |= 0x1f0000;
@@ -491,7 +491,7 @@ void DrawItemPoolModels(ItemPool *pool, Vec3 *viewAxis) {
     }
 }
 
-void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *)) {
+void it_20ED718(ItemPool *pool, void *callbackArg, void (*drawCallback)(void *, void *, void *)) {
     s32 takenCount;
     s32 i;
     ItemObject *object;
@@ -503,11 +503,11 @@ void DrawItemPoolWithCallback(ItemPool *pool, void *callbackArg, void (*drawCall
             continue;
         }
         if ((object->mFlags & 0x1000) != 0) {
-            func_0208ab4c(object->mUnk_90);
+            light_apply(object->mUnk_90);
         } else {
-            func_0208ab4c(&object->mColorBlend.mColor);
+            light_apply(&object->mColorBlend.mColor);
         }
-        drawCallback(object, callbackArg, gItemModels[pool->mKind]);
+        drawCallback(object, callbackArg, it_sBillboardModels[pool->mKind]);
     }
 }
 
@@ -519,17 +519,17 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         model->mUnk_14 &= ~0x1f0000;
         model->mUnk_14 |= (u16) d << 16;
     }
-    func_020e6a18(model);
+    bbm_applyMaterial(model);
     if (object->mNormal.y < 0xfae || (object->mFlags & 0x80) != 0) {
         object->mUnk_94.mUnk_00[2] = *viewAxis;
-        Vec3CrossUnrounded(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
+        vec_crossProduct(&object->mNormal, &object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0]);
         if ((s64) object->mUnk_94.mUnk_00[0].x * object->mUnk_94.mUnk_00[0].x +
                 (s64) object->mUnk_94.mUnk_00[0].y * object->mUnk_94.mUnk_00[0].y +
                 (s64) object->mUnk_94.mUnk_00[0].z * object->mUnk_94.mUnk_00[0].z >=
             0x10) {
-            Vec3NormalizeAndGetLengthUnchecked(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
+            vec_normalize(&object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[0]);
         }
-        Vec3CrossUnrounded(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
+        vec_crossProduct(&object->mUnk_94.mUnk_00[2], &object->mUnk_94.mUnk_00[0], &object->mUnk_94.mUnk_00[1]);
         {
             Vec3 *position;
 
@@ -540,9 +540,9 @@ void DrawItemObjectModel(ItemObject *object, NsbmdModel *model, Vec3 *viewAxis) 
         }
         matrix = &object->mUnk_94.mUnk_00[0];
     } else {
-        matrix = func_020e6b94(object->mUnk_d0);
+        matrix = bbm_20E6B94(object->mUnk_d0);
     }
-    func_020e67c4(model, matrix, &object->mScale, 0, 0x1f);
+    bbm_renderTransformedScaled(model, matrix, &object->mScale, 0, 0x1f);
     if ((d = object->mAlpha) != 0x1f) {
         model->mUnk_14 &= ~0x1f0000;
         model->mUnk_14 |= 0x1f0000;

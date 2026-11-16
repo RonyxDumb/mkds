@@ -26,6 +26,6 @@ void func_ov001_0218f900(Unk02188950 *a) {
     StartEffectAtOffset(a, 0, 0, 0, 0x41b, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x41c, 0);
     StartEffectAtOffset(a, 0, 0, 0, 0x41d, 0);
-    StartMapObjectSound(&a->mUnk_000, 0x22e);
+    mobj_emitSfxFromEmitter2(&a->mUnk_000, 0x22e);
     a->mUnk_000.mFlags &= ~1;
 }

@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_0214d000.h"
 #include "code_0214d018.h"
 
-void StartKeyRecording(KeyRecording *record) {
+void irec_startRecording(KeyRecording *record) {
     if (record->mBuffer == NULL) {
         return;
     }

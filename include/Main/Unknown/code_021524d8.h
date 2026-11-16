@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitFriendDataFromFriendKey(void *friendData, u32 friendKeyLow, u32 friendKeyHigh);
+void DWC_CreateFriendKeyToken(void *friendData, u32 friendKeyLow, u32 friendKeyHigh);

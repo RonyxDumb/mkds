@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void InitBackupBuffers(void *heap);
+void savd_init(void *heap);

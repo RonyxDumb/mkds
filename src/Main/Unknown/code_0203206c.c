@@ -39,7 +39,7 @@ void func_02032a20(void) {
     BOOL battleKind;
 
     if (gSelectGame->mMode == 0) {
-        GetRaceSetupCopy()->mMode = 2;
+        menu_getRaceConfig()->mMode = 2;
         switch (gSelectGame->mSelectedIndex) {
             case 0:
                 battleKind = FALSE;
@@ -48,11 +48,11 @@ void func_02032a20(void) {
                 battleKind = TRUE;
                 break;
         }
-        GetRaceSetupCopy()->mBattleKind = battleKind;
+        menu_getRaceConfig()->mBattleKind = battleKind;
     } else if (gSelectGame->mSelectedIndex == 0) {
-        GetRaceSetupCopy()->mMode = 3;
+        menu_getRaceConfig()->mMode = 3;
     } else {
-        GetRaceSetupCopy()->mMode = 2;
+        menu_getRaceConfig()->mMode = 2;
         switch (gSelectGame->mSelectedIndex) {
             case 1:
                 battleKind = FALSE;
@@ -61,7 +61,7 @@ void func_02032a20(void) {
                 battleKind = TRUE;
                 break;
         }
-        GetRaceSetupCopy()->mBattleKind = battleKind;
+        menu_getRaceConfig()->mBattleKind = battleKind;
     }
     gSelectGame->mResult = 1;
     gSelectGame->mState = 5;
@@ -138,7 +138,7 @@ void SetSelectGameSubCellsVisible(s32 visible) {
     }
 }
 
-void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
+void SPM_LoadBattleMenu(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     void *heap;
     SelectGame *selectGame;
     CellFileSet *subFileSet;
@@ -153,8 +153,8 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     LabelMessageRow *canvasRow;
     LabelMessageRow *printRow;
 
-    heap = CreateFrmHeapFromMaxFree(parentHeap);
-    gSelectGame = HeapAlloc(heap, 0x6c);
+    heap = heap_createSubFrmHeap(parentHeap);
+    gSelectGame = heap_alloc(heap, 0x6c);
     MemFillWordsByBlock_inline(gSelectGame, 0x6c);
     gSelectGame->mHeap = heap;
     gSelectGame->mMode = mode;
@@ -163,7 +163,7 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     gSelectGame->mSubOffsetX = 0xee;
     gSelectGame->mMainOffsetY = -0xc0;
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        gSelectGame->mMenuMessages = FindSceneFile(gMenuBmgName);
+        gSelectGame->mMenuMessages = arc_getSceneArcFile(aMenu_bmg_0);
     }
     switch (gSelectGame->mMode) {
         case 0:
@@ -179,15 +179,15 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             break;
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        func_020258d4(0, screenMapFileSet, gSelectGameMBNcgrName2, gSelectGameMBNclrName2,
-                      data_02153e10[gSelectGame->mMode].mUnk_00, 1, FindSceneFile);
+        mutil2_initBgGraphics(0, screenMapFileSet, aCommonSelect_game_m_b_ncgr_0, aCommonSelect_game_m_b_nclr_0,
+                      data_02153e10[gSelectGame->mMode].mUnk_00, 1, arc_getSceneArcFile);
     }
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
         mainObjSizeLeft = GX_GetSizeOfOBJ();
         selectGame = gSelectGame;
-        LocateCellFileSet(selectGame, gSelectGameMNceNcgrName2, gSelectGameMNceNcerName2, gSelectGameMONclrName2,
-                          gSelectGameMBnclName, gSelectGameMBnllName, NULL, FindSceneFile);
-        func_02025a50(0, gSelectGame->mHeap, selectGame);
+        mutil2_loadLayout(selectGame, aCommonSelect_game_m_nce_ncgr_0, aCommonSelect_game_m_nce_ncer_0, aCommonSelect_game_m_o_nclr_0,
+                          aCommonSelect_game_m_bncl, aCommonSelect_game_m_bnll, NULL, arc_getSceneArcFile);
+        mutil2_initLayout(0, gSelectGame->mHeap, selectGame);
         mainCellCount = selectGame->mCellFileSets[0].mCellLayout->mUnk_06;
         mainLabelCount = selectGame->mCellFileSets[0].mLabelLayout->mUnk_06;
         i = 0;
@@ -195,9 +195,9 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
             canvasRow = gSelectGameLabelMessageRows;
             printRow = canvasRow;
             do {
-                mainObjSizeLeft -= func_02025a00(0, gSelectGame->mHeap, selectGame, canvasRow, mainObjSizeLeft);
-                func_0212426c(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
-                              GetBmgEntry(gSelectGame->mMenuMessages, printRow->mMessageIndex),
+                mainObjSizeLeft -= mutil2_initLabel(0, gSelectGame->mHeap, selectGame, canvasRow, mainObjSizeLeft);
+                jn_ui_212426C(0, printRow->mLabelIndex, selectGame->mCellFileSets[0].mLabelLayout,
+                              jn_msg_getMessage(gSelectGame->mMenuMessages, printRow->mMessageIndex),
                               selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCellTable);
                 canvasRow++;
                 printRow++;
@@ -216,23 +216,23 @@ void InitSelectGame(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
         }
     }
     subFileSet = &gSelectGame->mCellFileSets[1];
-    LocateCellFileSet(subFileSet, gSelectGameSNceNcgrName2, gSelectGameSNceNcerName2, gSelectGameSONclrName2,
+    mutil2_loadLayout(subFileSet, aCommonSelect_game_s_nce_ncgr_0, aCommonSelect_game_s_nce_ncer_0, aCommonSelect_game_s_o_nclr_0,
                       data_02153e08[gSelectGame->mMode].mUnk_00, NULL, data_02153e0c[gSelectGame->mMode].mUnk_00,
-                      FindSceneFile);
-    func_02025a50(1, gSelectGame->mHeap, subFileSet);
+                      arc_getSceneArcFile);
+    mutil2_initLayout(1, gSelectGame->mHeap, subFileSet);
     SetSelectGameSubCellsVisible(0);
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 == 2) {
-        SetSelectReturnSoundId(-1);
+        gmenu_setSeqArcIndex(-1);
     } else {
-        SetSelectReturnSoundId(0xe);
+        gmenu_setSeqArcIndex(0xe);
     }
     RequestSelectReturnState1();
     if (gSelectGame->mMode == 1) {
         SetSelectChoisesSoundId(0, 5);
         SetSelectChoisesSoundId(1, 0xf);
     }
-    data_0217b488->mUnk_08 = 0;
-    FrmHeapShrinkInParent(gSelectGame->mHeap);
+    gStruct217B488->mUnk_08 = 0;
+    heap_adjustSubFrmHeap(gSelectGame->mHeap);
 }
 
 s32 AdvanceSelectGame(void) {
@@ -262,8 +262,8 @@ s32 AdvanceSelectGame(void) {
             SetSelectGameSelectedRowVisible(1);
             gSelectGame->mStateFrames = gSelectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, 0xee, a, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, -0xc0, a, gSelectGame->mStateFrames, 10);
+                gSelectGame->mSubOffsetX = mutil_interpolate(1, 0xee, a, gSelectGame->mStateFrames, 10);
+                gSelectGame->mMainOffsetY = mutil_interpolate(1, -0xc0, a, gSelectGame->mStateFrames, 10);
             } else {
                 gSelectGame->mStateFrames = a;
                 gSelectGame->mSubOffsetX = a;
@@ -278,20 +278,20 @@ s32 AdvanceSelectGame(void) {
             touchInReturnRect = 0;
             pairIsNew = FALSE;
             pairRecentlyGone = FALSE;
-            hasPair = data_02175628[slotIndex].mHasPair;
-            if (hasPair == 0 && data_02175628[slotIndex].mNoPairCount < 5) {
+            hasPair = gInputUnits[slotIndex].mHasPair;
+            if (hasPair == 0 && gInputUnits[slotIndex].mNoPairCount < 5) {
                 pairRecentlyGone = TRUE;
             }
-            if (pairRecentlyGone == FALSE && data_02175628[slotIndex].mPrevHasPair == 0 && hasPair != 0) {
+            if (pairRecentlyGone == FALSE && gInputUnits[slotIndex].mPrevHasPair == 0 && hasPair != 0) {
                 pairIsNew = TRUE;
             }
             if (pairIsNew != FALSE) {
-                d = data_02175628[slotIndex].mPairX;
-                pairY = data_02175628[slotIndex].mPairY;
-                touchInReturnRect = IsSelectReturnState2NoState3Or4RequestAndInRect(d, pairY);
-                d = RectTableFindContaining(subFileSet->mRects, d, pairY);
+                d = gInputUnits[slotIndex].mPairX;
+                pairY = gInputUnits[slotIndex].mPairY;
+                touchInReturnRect = gmenu_checkSelectReturnTouch(d, pairY);
+                d = jn_ui_checkTouch(subFileSet->mRects, d, pairY);
             }
-            if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
+            if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_A) != 0) {
                 SetSelectGameSelectedRowVisible(0);
                 func_02032a20();
             } else if (d >= 0) {
@@ -303,7 +303,7 @@ s32 AdvanceSelectGame(void) {
                         break;
                     }
                 }
-            } else if ((u16) (data_02175628[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
+            } else if ((u16) (gInputUnits[slotIndex].mPressedBits & PAD_KEY_B) != 0 || touchInReturnRect != 0) {
                 if (gSelectGame->mMode == 0) {
                     gSelectGame->mResult = 2;
                     gSelectGame->mState = 9;
@@ -311,15 +311,15 @@ s32 AdvanceSelectGame(void) {
                     firstChoiceText = data_02163aec;
                     secondChoiceText = data_02163af0;
                     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-                        firstChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x14);
-                        secondChoiceText = GetBmgEntry(gSelectGame->mMenuMessages, 0x16);
+                        firstChoiceText = jn_msg_getMessage(gSelectGame->mMenuMessages, 0x14);
+                        secondChoiceText = jn_msg_getMessage(gSelectGame->mMenuMessages, 0x16);
                     }
-                    StartSelectChoises(firstChoiceText, secondChoiceText, 0);
+                    gmenu_startSelectChoices(firstChoiceText, secondChoiceText, 0);
                     gSelectGame->mState = 7;
                     SetSelectGameRowCellsVisible(0);
                 }
                 RequestSelectReturnState3WithSound(0);
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_UP) != 0) {
+            } else if (mutil_checkKeys(8, PAD_KEY_UP) != 0) {
                 if (gSelectGame->mSelectedIndex == 0) {
                     if (gSelectGame->mMode == 1) {
                         gSelectGame->mSelectedIndex = gSelectGame->mTableCount - 1;
@@ -327,7 +327,7 @@ s32 AdvanceSelectGame(void) {
                 } else {
                     gSelectGame->mSelectedIndex = gSelectGame->mSelectedIndex - 1;
                 }
-            } else if (GetNewOrRepeatBits(8, PAD_KEY_DOWN) != 0) {
+            } else if (mutil_checkKeys(8, PAD_KEY_DOWN) != 0) {
                 if (gSelectGame->mSelectedIndex == gSelectGame->mTableCount - 1) {
                     if (gSelectGame->mMode == 1) {
                         gSelectGame->mSelectedIndex = 0;
@@ -346,7 +346,7 @@ s32 AdvanceSelectGame(void) {
                 if (GetSelectChoisesIndex() == 0 || GetSelectChoisesIndex() == ~a) {
                     gSelectGame->mState = 4;
                 } else {
-                    data_0217aa00->mUnk_0454 |= 0x80;
+                    gStruct217AA00->mUnk_0454 |= 0x80;
                     gSelectGame->mResult = 3;
                     gSelectGame->mState = 8;
                 }
@@ -371,7 +371,7 @@ s32 AdvanceSelectGame(void) {
         case 6:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = func_020ae488(gSelectGame->mStateFrames);
+                gSelectGame->mSubOffsetX = mutil_getButtonOutEffectOffset(gSelectGame->mStateFrames);
             } else {
                 gSelectGame->mStateFrames = a;
                 gSelectGame->mState = 9;
@@ -384,8 +384,8 @@ s32 AdvanceSelectGame(void) {
         case 9:
             selectGame->mStateFrames = selectGame->mStateFrames + 1;
             if (gSelectGame->mStateFrames < 10) {
-                gSelectGame->mSubOffsetX = InterpolateS16(1, a, 0xee, gSelectGame->mStateFrames, 10);
-                gSelectGame->mMainOffsetY = InterpolateS16(1, a, -0xc0, gSelectGame->mStateFrames, 10);
+                gSelectGame->mSubOffsetX = mutil_interpolate(1, a, 0xee, gSelectGame->mStateFrames, 10);
+                gSelectGame->mMainOffsetY = mutil_interpolate(1, a, -0xc0, gSelectGame->mStateFrames, 10);
             } else {
                 gSelectGame->mSubOffsetX = a;
                 gSelectGame->mMainOffsetY = a;
@@ -399,11 +399,11 @@ s32 AdvanceSelectGame(void) {
     }
     if (gSelectGame->mState != 10) {
         if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-            DrawLayoutTable(selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCells,
+            jn_ui_renderElements(selectGame->mCellFileSets[0].mCellLayout, selectGame->mCellFileSets[0].mCells,
                             selectGame->mCellFileSets[0].mLabelLayout, gSelectGame->mMainOam,
                             selectGame->mCellFileSets[0].mCellTable);
         }
-        DrawLayoutTable(subFileSet->mCellLayout, subFileSet->mCells, subFileSet->mLabelLayout, gSelectGame->mSubOam,
+        jn_ui_renderElements(subFileSet->mCellLayout, subFileSet->mCells, subFileSet->mLabelLayout, gSelectGame->mSubOam,
                         subFileSet->mCellTable);
     }
     return a;
@@ -412,11 +412,11 @@ s32 AdvanceSelectGame(void) {
 void ReleaseSelectGame(void) {
     if (gSelectGame->mMode == 1) {
         RequestPlayerEntryListSetup();
-        if (data_021759d0->mUnk_1c_2 != 0) {
+        if (gSystemData->mUnk_1c_2 != 0) {
             FillShuffledIndices();
         }
     }
-    HeapDestroy(gSelectGame->mHeap);
+    heap_destroySubHeap(gSelectGame->mHeap);
     gSelectGame = NULL;
 }
 
@@ -457,17 +457,17 @@ void LoadSelectGameData(void) {
     Nscr *screenMap;
 
     if (((Unk027ffc40 *) 0x027ffc40)->mUnk_00 != 2) {
-        LoadNcgrData(&chars, FindSceneFile(gSelectGameMBNcgrName));
-        LoadNcgrData2(&chars, FindSceneFile(gSelectGameMNceNcgrName));
-        LoadNcerData(&cells, FindSceneFile(gSelectGameMNceNcerName));
-        LoadNclrData(&palette, FindSceneFile(gSelectGameMBNclrName));
-        LoadNclrData(&palette, FindSceneFile(gSelectGameMONclrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectGameMMultiNscrName));
-        LoadNscrData(&screenMap, FindSceneFile(gSelectGameMSingleNscrName));
+        g2du_unpackCharacterDataBG(&chars, arc_getSceneArcFile(aCommonSelect_game_m_b_ncgr));
+        g2du_unpackCharacterData(&chars, arc_getSceneArcFile(aCommonSelect_game_m_nce_ncgr));
+        g2du_unpackCellBankData(&cells, arc_getSceneArcFile(aCommonSelect_game_m_nce_ncer));
+        g2du_unpackPaletteData(&palette, arc_getSceneArcFile(aCommonSelect_game_m_b_nclr));
+        g2du_unpackPaletteData(&palette, arc_getSceneArcFile(aCommonSelect_game_m_o_nclr));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(aCommonSelect_game_m_multi_nscr));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(aCommonSelect_game_m_single_nscr));
     }
-    LoadNcgrData2(&chars, FindSceneFile(gSelectGameSNceNcgrName));
-    LoadNcerData(&cells, FindSceneFile(gSelectGameSNceNcerName));
-    LoadNclrData(&palette, FindSceneFile(gSelectGameSONclrName));
+    g2du_unpackCharacterData(&chars, arc_getSceneArcFile(aCommonSelect_game_s_nce_ncgr));
+    g2du_unpackCellBankData(&cells, arc_getSceneArcFile(aCommonSelect_game_s_nce_ncer));
+    g2du_unpackPaletteData(&palette, arc_getSceneArcFile(aCommonSelect_game_s_o_nclr));
 }
 
 #pragma thumb off

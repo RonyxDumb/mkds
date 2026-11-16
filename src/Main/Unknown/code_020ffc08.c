@@ -25,10 +25,10 @@
 #include "Main/Unknown/unk_0215a000.h"
 #include "code_02146cbc.h"
 
-Unk02100004 *func_02100004(void) {
+Unk02100004 *dram_setupConfig(void) {
     Unk02100004 *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+    block = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
     {
         Unk02100004 zeroBlock = {0};
 
@@ -37,40 +37,40 @@ Unk02100004 *func_02100004(void) {
     return block;
 }
 
-Unk020fffa8 *func_020fffa8(void) {
+Unk020fffa8 *dram_setupLogicPart(void) {
     Unk020fffa8 *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
-    data_0217c624 = block;
-    *block = data_0215a12c;
-    SetUpdateListSlot(&data_0217c624);
-    return data_0217c624;
+    block = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
+    dram_sLogicPart = block;
+    *block = dram_logicPartData;
+    mobj_logicPartSetThisPointer(&dram_sLogicPart);
+    return dram_sLogicPart;
 }
 
-Unk020fff4c *func_020fff4c(void) {
+Unk020fff4c *dram_setupRenderPart(void) {
     Unk020fff4c *block;
 
-    block = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
-    data_0217c62c = block;
-    *block = data_0215a100;
-    func_020d49d8(&data_0217c62c);
-    return data_0217c62c;
+    block = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
+    dram_sRenderPart = block;
+    *block = dram_renderPartData;
+    mobj_renderPartSetThisPointer(&dram_sRenderPart);
+    return dram_sRenderPart;
 }
 
-void DrawDram(void *a, Dram *dram, void *c, s32 maxAlpha) {
+void dram_render(void *a, Dram *dram, void *c, s32 maxAlpha) {
     MtxFx43 *matrix;
     s32 angleIndex;
 
     matrix = &dram->mUnk_00.mMatrix;
     angleIndex = (u16) (-(s32) dram->mUnk_a6) >> 4;
-    MTX_RotX33_((s32 *) matrix, gPairsByAngle[angleIndex * 2], gPairsByAngle[angleIndex * 2 + 1]);
+    MTX_RotX33_((s32 *) matrix, FX_SinCosTable_[angleIndex * 2], FX_SinCosTable_[angleIndex * 2 + 1]);
     matrix->mUnk_00[3].x = dram->mUnk_00.mPos.x >> 4;
     matrix->mUnk_00[3].y = dram->mUnk_00.mPos.y >> 4;
     matrix->mUnk_00[3].z = dram->mUnk_00.mPos.z >> 4;
-    DrawNsbmdWithMatrixAndMaxAlpha(gDram, matrix, &dram->mUnk_00.mScale, maxAlpha);
+    model2_renderModel(dram_sModel, matrix, &dram->mUnk_00.mScale, maxAlpha);
 }
 
-void func_020ffdd4(MapObjectList *list) {
+void dram_globalPreUpdate(MapObjectList *list) {
     RandomState64 *random;
     void **dramObjects;
     Dram *dram;
@@ -86,42 +86,42 @@ void func_020ffdd4(MapObjectList *list) {
             return;
         }
     }
-    random = GetMapObjectRandom();
+    random = mobj_getRng1();
     random->mValue = random->mMultiplier * random->mValue + random->mIncrement;
     rowIndex = ((u64) (u32) (random->mValue >> 32) * 6) >> 32;
     for (index = 0; index < count; index++) {
         dram = dramObjects[index];
-        row = (u16 *) data_0215a0a8[rowIndex];
+        row = (u16 *) dram_sSpeedPermutationTable[rowIndex];
         dram->mUnk_a8 = dram->mUnk_b4[row[index]];
         dram->mUnk_00.mStateMachine.mNextState = 0;
         dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void UpdateDram(u32 arg0, u32 dram) {
+void dram_update(u32 arg0, u32 dram) {
     u32 value0;
     u32 dramAddress = dram;
     u32 value12;
     value0 = (dramAddress) + (0x80u);
-    AdvanceStateMachine((void *) value0);
+    sm_execute((void *) value0);
 }
 
-u32 func_020ffdc0(u32 value) {
+u32 dram_waitStateInit(u32 value) {
     return value;
 }
 
-void UpdateDramState0(Dram *dram) {
+void dram_waitStateUpdate(Dram *dram) {
     if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a4) {
         dram->mUnk_00.mStateMachine.mNextState = 2;
         dram->mUnk_00.mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterDramState2(Unk020ffd94 *dram) {
+void dram_spinStartStateInit(Unk020ffd94 *dram) {
     dram->mUnk_ac = 0x0u;
 }
 
-void UpdateDramState2(Dram *dram) {
+void dram_spinStartStateUpdate(Dram *dram) {
     dram->mUnk_ac += dram->mUnk_b0;
     dram->mUnk_a6 += (s16) ((s32) (((s64) dram->mUnk_ac * dram->mUnk_a8) >> 12));
     if (dram->mUnk_00.mStateMachine.mStateFrames > dram->mUnk_a0) {
@@ -130,11 +130,11 @@ void UpdateDramState2(Dram *dram) {
     }
 }
 
-u32 func_020ffd3c(u32 value) {
+u32 dram_spinningStateInit(u32 value) {
     return value;
 }
 
-void UpdateDramState3(Dram *dram) {
+void dram_spinningStateUpdate(Dram *dram) {
     dram->mUnk_a6 += dram->mUnk_a8;
     if (dram->mUnk_a2 == 0) {
         return;
@@ -145,11 +145,11 @@ void UpdateDramState3(Dram *dram) {
     }
 }
 
-void EnterDramState4(Unk020ffcf8 *dram) {
+void dram_spinStopStateInit(Unk020ffcf8 *dram) {
     dram->mUnk_ac = 0x1000u;
 }
 
-void UpdateDramState4(Dram *dram) {
+void dram_spinStopStateUpdate(Dram *dram) {
     s16 angleStep;
 
     dram->mUnk_ac -= dram->mUnk_b0;
@@ -164,7 +164,7 @@ void UpdateDramState4(Dram *dram) {
     }
 }
 
-void EnterDramState5(Dram *dram) {
+void dram_alignStateInit(Dram *dram) {
     s32 angle;
 
     angle = dram->mUnk_a6;
@@ -173,7 +173,7 @@ void EnterDramState5(Dram *dram) {
 
 // Raw stores of 1 at +0x90 and +0x92 are mNextState and mNextStateRequested (MapObject +0x80 + 0x10 / 0x12): it asks
 // for state 1.
-void UpdateDramState5(u32 dram) {
+void dram_alignStateUpdate(u32 dram) {
     u32 dramAddress = dram;
     u32 value1;
     u32 value2;

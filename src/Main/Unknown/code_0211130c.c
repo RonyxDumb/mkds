@@ -17,18 +17,18 @@
 
 #pragma thumb on
 
-void InitRecordScene(s16 *sceneNumbers) {
+void recordsMenu_onCreate(s16 *sceneNumbers) {
     void *heap;
-    heap = GetHeap(GetCurrentHeapCall());
-    gRecordMainOam = HeapAlloc(heap, 0x404);
-    gRecordSubOam = HeapAlloc(heap, 0x404);
+    heap = proc_getHeap(proc_getCurrent());
+    gRecordMainOam = heap_alloc(heap, 0x404);
+    gRecordSubOam = heap_alloc(heap, 0x404);
     InitRecordSceneObject(heap, *sceneNumbers);
 }
 
 #pragma thumb off
 
 #pragma thumb on
-void ReleaseRecordScene(void) {
+void recordsMenu_onDelete(void) {
     u32 address;
     u32 zero;
     ReleaseRecordSceneObject();
@@ -41,7 +41,7 @@ void ReleaseRecordScene(void) {
 #pragma thumb off
 
 #pragma thumb on
-void func_02111368(void) {
+void recordsMenu_afterDraw(void) {
     u32 mainOam;
     u32 subOam;
     WriteRecordSceneRegisters();
@@ -49,16 +49,16 @@ void func_02111368(void) {
     mainOam = *(const u32 *) ((mainOam) + 0u);
     subOam = (u32) &gRecordSubOam;
     subOam = *(const u32 *) ((subOam) + 0u);
-    UploadOamLists((void *) mainOam, (void *) subOam);
+    oam_applyBuffers((void *) mainOam, (void *) subOam);
 }
 #pragma thumb off
 
 #pragma thumb on
 
-void UpdateRecordScene(Unk02111324 *sceneNumbers) {
-    ClearOamListCounts(gRecordMainOam, gRecordSubOam);
+void recordsMenu_onDraw(Unk02111324 *sceneNumbers) {
+    oam_resetBuffers(gRecordMainOam, gRecordSubOam);
     AdvanceRecordScene();
-    func_020ae630(gRecordMainOam, gRecordSubOam);
+    oam_prepareBuffers(gRecordMainOam, gRecordSubOam);
     if (sceneNumbers != NULL && GetRecordNextScene() != -1) {
         sceneNumbers->mUnk_04 = GetRecordNextScene();
     }

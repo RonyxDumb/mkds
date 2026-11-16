@@ -1,8 +1,8 @@
 #include "Main/Unknown/code_020b4e5c.h"
 #include "Main/Unknown/unk_021759c0.h"
 
-s32 RaceHudSubScreenGetCurrentCourseId(void) {
+s32 m2d_race_getCurrentCourse(void) {
     u32 courseId;
-    courseId = gRaceSetup->mCourseId;
+    courseId = gRaceMultiConfig->mCourseId;
     return courseId;
 }

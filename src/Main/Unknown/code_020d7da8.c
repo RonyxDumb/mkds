@@ -15,12 +15,12 @@
 #include "Main/Unknown/code_020d7db4.h"
 
 #pragma thumb on
-void InitGroupFollower(GroupFollower *follower, CourseMapRow *row, s32 speed) {
+void pw_initFromObject(GroupFollower *follower, CourseMapRow *row, s32 speed) {
     GroupFollower *followerCopy = follower;
     u32 value1 = (u32) row;
     u32 speedCopy = speed;
     u32 unused;
     value1 = *(const u16 *) ((value1) + 38u);
-    InitGroupFollowerForGroup(followerCopy, value1, speedCopy);
+    pw_initFromPathId(followerCopy, value1, speedCopy);
 }
 #pragma thumb off

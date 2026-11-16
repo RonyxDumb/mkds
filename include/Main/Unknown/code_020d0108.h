@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearRaceHudSubScreenCreamCells(void);
+void mpicn_destroyCreamIcon(void);

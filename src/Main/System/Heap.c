@@ -4,7 +4,7 @@
 #include "heapcommon.h"
 #include "code_0200fc8c.h"
 
-void *HeapAlloc(void *a, u32 b) {
+void *heap_alloc(void *a, u32 b) {
     NNSiFndHeapHead *h = a;
     void *c = NULL;
     switch (h->mSignature) {
@@ -18,7 +18,7 @@ void *HeapAlloc(void *a, u32 b) {
     return c;
 }
 
-void *HeapAllocAligned(void *a, u32 b, s32 c) {
+void *heap_allocEx(void *a, u32 b, s32 c) {
     NNSiFndHeapHead *h = a;
     void *d = NULL;
     u32 e;
@@ -35,7 +35,7 @@ void *HeapAllocAligned(void *a, u32 b, s32 c) {
     return d;
 }
 
-void HeapFree(void *a, void *b) {
+void heap_free(void *a, void *b) {
     NNSiFndHeapHead *h = a;
     switch (h->mSignature) {
         case 0x45585048:
@@ -46,7 +46,7 @@ void HeapFree(void *a, void *b) {
     }
 }
 
-void HeapDestroy(NNSiFndHeapHead *a) {
+void heap_destroySubHeap(NNSiFndHeapHead *a) {
     NNSiFndHeapHead *h = a;
     NNSiFndHeapHead *p;
     switch (h->mSignature) {
@@ -70,7 +70,7 @@ void HeapDestroy(NNSiFndHeapHead *a) {
     }
 }
 
-void *CreateExpHeapFromMaxFree(void *a) {
+void *heap_createSubExpHeap(void *a) {
     NNSiFndHeapHead *h = a;
     u32 b = 0;
     void *c;
@@ -94,7 +94,7 @@ void *CreateExpHeapFromMaxFree(void *a) {
     return NNS_FndCreateExpHeapEx(c, b, 1);
 }
 
-void *CreateFrmHeapFromMaxFree(void *a) {
+void *heap_createSubFrmHeap(void *a) {
     NNSiFndHeapHead *h = a;
     u32 b = 0;
     void *c;
@@ -118,7 +118,7 @@ void *CreateFrmHeapFromMaxFree(void *a) {
     return NNS_FndCreateFrmHeapEx(c, b, 1);
 }
 
-void *CreateFrmHeapFromFront(void *a, u32 b) {
+void *heap_createSubFrmHeapWithSize(void *a, u32 b) {
     NNSiFndHeapHead *h = a;
     void *c = NULL;
     switch (h->mSignature) {
@@ -132,7 +132,7 @@ void *CreateFrmHeapFromFront(void *a, u32 b) {
     return NNS_FndCreateFrmHeapEx(c, b, 1);
 }
 
-void *CreateFrmHeapFromBack(void *a, u32 b) {
+void *heap_createSubFrmHeapWithSizeFromTail(void *a, u32 b) {
     NNSiFndHeapHead *h = a;
     void *c = NULL;
     u32 d;
@@ -149,7 +149,7 @@ void *CreateFrmHeapFromBack(void *a, u32 b) {
     return NNS_FndCreateFrmHeapEx(c, b, 1);
 }
 
-void FrmHeapShrinkInParent(void *a) {
+void heap_adjustSubFrmHeap(void *a) {
     u32 b = NNS_FndAdjustFrmHeap(a);
     NNS_FndResizeForMBlockExpHeap(NNS_FndFindContainHeap(a), a, b);
 }

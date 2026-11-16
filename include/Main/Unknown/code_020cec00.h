@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void WriteBattleSelectRaceRuleRegisters(void);
+void menu_state16Vblank(void);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ResetCupToFirstCourse(void);
+void rconf_resetMatch(void);

@@ -4,7 +4,7 @@
 u32 func_02053e54(void) {
     u32 value0;
     u32 flags;
-    value0 = (u32) &data_0217aa00;
+    value0 = (u32) &gStruct217AA00;
     value0 = *(const u32 *) ((value0) + (0));
     value0 = (value0) + (0x400u);
     flags = *(const u16 *) ((value0) + (84));

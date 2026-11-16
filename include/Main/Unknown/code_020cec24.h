@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateBattleSelectCharacter(void);
+void menu_state15Render(void);

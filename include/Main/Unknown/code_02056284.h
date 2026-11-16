@@ -4,4 +4,4 @@
 
 typedef struct GhostRecord GhostRecord;
 
-GhostRecord *LoadGhostRecordFile(const char *path);
+GhostRecord *savd_loadStaffGhost(const char *path);

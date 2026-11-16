@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 IsFriendDataTypeNonZero(const void *friendData);
+u32 DWC_IsValidFriendData(const void *friendData);

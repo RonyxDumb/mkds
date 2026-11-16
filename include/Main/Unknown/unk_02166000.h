@@ -7,7 +7,7 @@
 
 struct ModelEffect;
 
-// One row of gModelEffectKinds: object count, which animation objects to make, start and update functions, size.
+// One row of expl_sEffectDefs: object count, which animation objects to make, start and update functions, size.
 typedef struct ModelEffectKind {
     /* 00 */ u16 mObjectCount;
     /* 04 */ BOOL mUseNsbca;
@@ -19,32 +19,32 @@ typedef struct ModelEffectKind {
     /* 1c */ ResFileEntry mResFileEntry;
 } ModelEffectKind;
 
-extern ModelEffectKind gModelEffectKinds[5];
+extern ModelEffectKind expl_sEffectDefs[5];
 extern ModelEffectKind data_021661b8;
 extern ModelEffectKind data_021661e4;
 extern ModelEffectKind data_02166210;
 extern ModelEffectKind data_0216623c;
-extern const char data_02166268[];
-extern const char data_02166280[];
-extern const char gBombcoreNsbmdName[];
-extern const char gBombcoreNsbcaName[];
-extern const char gBombcoreNsbmaName[];
-extern const char gBombcoreNsbtaName[];
-extern const char gBombcore2NsbmdName[];
-extern const char gBombcore2NsbcaName[];
-extern const char gBombcore2NsbmaName[];
-extern const char gBombcore2NsbtaName[];
-extern const char data_021663a8[];
-extern const char data_021663c0[];
+extern const char aMapobjBk_wave_[];
+extern const char aMapobjBk_wav_3[];
+extern const char aEffectBombcore[];
+extern const char aEffectBombco_0[];
+extern const char aEffectBombco_1[];
+extern const char aEffectBombco_2[];
+extern const char aEffectBombco_7[];
+extern const char aEffectBombco_3[];
+extern const char aEffectBombco_4[];
+extern const char aEffectBombco_5[];
+extern const char aMapobjBk_wav_2[];
+extern const char aMapobjBk_wav_0[];
 
-extern u8 gPosStripFirstPolygonId;
-extern u8 data_021663dc;
-extern u16 gPosStripMaxAgeFrames;
-extern u16 gPosStripPointsPerStrip;
-extern s32 gPosStripDrawEnabled;
-extern s32 (*gSetPosStripPointFunction)();
-extern s32 gPosStripHeightDecreasePerFrame;
-// Object at gPosStripTexture.
+extern u8 trl_sFirstPolygonId;
+extern u8 trl_sAgeFade;
+extern u16 trl_sMaxAge;
+extern u16 trl_sAvgPointsPerTrail;
+extern s32 trl_sVisible;
+extern s32 (*trl_sPointInitFunc)();
+extern s32 trl_sSizeDecreaseSpeed;
+// Object at trl_sTexParams.
 typedef struct PosStripTexture {
     /* 00 */ u32 mTexImageParam;
     /* 04 */ u8 mUnk_04[0x14];
@@ -53,36 +53,36 @@ typedef struct PosStripTexture {
     /* 20 */ s32 mUnk_20;
 } PosStripTexture;
 
-extern PosStripTexture gPosStripTexture;
+extern PosStripTexture trl_sTexParams;
 extern s32 data_02166418[][2];
 extern s32 data_0216641c[][2];
-extern s32 data_02166480[];
-extern const char data_02166514[];
-extern const char data_02166530[];
+extern s32 trl_sKartYOffsetTable[];
+extern const char aEffectAward_tr[];
+extern const char aEffectHanegame[];
 extern Unk02165ff0 data_0216600c;
 extern Unk02165ff0 data_02166028;
 
-extern const char gBasabasaNsbmdName[];
-extern const char gBasabasaNsbtpName[];
-extern const char gCowNsbmdName[];
-extern const char gCowNsbtpName[];
-extern const char gTeresaNsbmdName[];
-extern const char gTeresaNsbtpName[];
-extern const char gKanoke64NsbmdName[];
-extern const char gKanoke64NsbcaName[];
-extern const char gMkdEfBurnerNsbmdName[];
-extern const char gMkdEfBurnerNsbtaName[];
-extern const char gNsKiller2NsbmdName[];
-extern const char gNsKiller2SNsbmdName[];
+extern const char aBasabasa_nsbmd[];
+extern const char aBasabasa_nsbtp[];
+extern const char aCow_nsbmd[];
+extern const char aCow_nsbtp[];
+extern const char aTeresa_nsbmd[];
+extern const char aTeresa_nsbtp[];
+extern const char aKanoke_64_nsbm[];
+extern const char aKanoke_64_nsbc[];
+extern const char aMkd_ef_burner_[];
+extern const char aMkd_ef_burne_0[];
+extern const char aNskiller2_nsbm[];
+extern const char aNskiller2_s_ns[];
 extern Unk0210b7a8 data_0216676c;
-extern const char gNsKiller1NsbmdName[];
-extern const char gBakubakuNsbmdName[];
-extern const char gBakuShadowNsbmdName[];
-extern const char gMoveTreeNsbmdName[];
-extern const char gMoveTreeNsbcaName[];
-extern char gStaffGhostTimeBinName[];
-extern char gSmanBottomNsbmdName[];
-extern char gSmanTopNsbmdName[];
-extern char gFlipperNsbmdName[];
-extern char gFlipperNsbtpName[];
-extern char gFlipperNsbtaName[];
+extern const char aNskiller1_nsbm[];
+extern const char aBakubaku_nsbmd[];
+extern const char aBaku_shadow_nsbmd[];
+extern const char aMove_tree_nsbm[];
+extern const char aMove_tree_nsbc[];
+extern char aDataGhostStaff[];
+extern char aSman_bottom_ns[];
+extern char aSman_top_nsbmd[];
+extern char aFlipper_nsbmd[];
+extern char aFlipper_nsbtp[];
+extern char aFlipper_nsbta[];

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateDramState5(u32 dram);
+void dram_alignStateUpdate(u32 dram);

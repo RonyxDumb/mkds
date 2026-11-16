@@ -269,7 +269,7 @@ void ParentCallback(Unk021425e8 *result) {
                 ReportCommandError(2, WM_End(ParentCallback));
                 return;
             }
-            WM_SetPortCallback(1, NULL, NULL);
+            WM_SetIndCallback(1, NULL, NULL);
             WM_SetIndCallback(NULL);
         case 2:
             if (result->mResultCode != 0) {
@@ -458,7 +458,7 @@ void ChildCallback(Unk021425e8 *result) {
                     work->mUnk_5e2 = result->mUnk_08_2;
                     work->mCallback(6, result);
                     work->mConnectedAids = 1;
-                    if (WM_SetPortCallback(1, (UnkFunc *) ChildPortCallback, NULL) != 0) {
+                    if (WM_SetIndCallback(1, (UnkFunc *) ChildPortCallback, NULL) != 0) {
                         return;
                     }
                     ReportCommandError(0xe, WM_StartMPEx(ChildCallback, work->mReceiveBuffer, work->mReceiveBufferSize,
@@ -766,8 +766,8 @@ u32 RequestWirelessReset(void) {
         // flag-setting add (removed after register allocation) is what gives the original's registers
         *(u32 *) ((u32) gWirelessWork + 0x5e4LL) = result;
         gWirelessWork->mResetting = 1;
-        if (IsWorkerActive() != 0) {
-            RequestWorkerStop(func_02009c90);
+        if (CTRDGi_IsTaskAvailable() != 0) {
+            CTRDGi_EndTaskThread(func_02009c90);
         } else {
             result = StartWirelessReset();
         }
@@ -845,7 +845,7 @@ s32 SetMPDataToPort(Unk021425e8Func callback, void *data, s32 dataSize, u16 d, u
     return result;
 }
 
-int SendMPData(void *data, u32 size, u32 childMask) {
+int MBw_SendMP(void *data, u32 size, u32 childMask) {
     WirelessWork *work;
     u32 v2;
     s32 result;

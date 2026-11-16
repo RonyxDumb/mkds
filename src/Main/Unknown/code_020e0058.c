@@ -32,15 +32,15 @@ void func_020e0584(Unk020e005c *object, Vec3 *position, Vec3 *velocity, Unk020e0
     s32 g;
 
     VEC_Subtract(position, &object->mPos, &offset);
-    f = Vec3DotUnrounded(&offset, &object->mUnk_040);
-    g = Vec3DotUnrounded(&offset, &object->mUnk_034);
-    link->mUnk_04.x = Vec3DotUnrounded(&offset, &object->mUnk_028);
+    f = vec_dotProduct(&offset, &object->mUnk_040);
+    g = vec_dotProduct(&offset, &object->mUnk_034);
+    link->mUnk_04.x = vec_dotProduct(&offset, &object->mUnk_028);
     link->mUnk_04.y = g;
     link->mUnk_04.z = f;
     if (velocity != NULL && object->mUnk_130 != FALSE) {
-        f = Vec3DotUnrounded(velocity, &object->mUnk_040);
-        g = Vec3DotUnrounded(velocity, &object->mUnk_034);
-        link->mUnk_10.x = Vec3DotUnrounded(velocity, &object->mUnk_028);
+        f = vec_dotProduct(velocity, &object->mUnk_040);
+        g = vec_dotProduct(velocity, &object->mUnk_034);
+        link->mUnk_10.x = vec_dotProduct(velocity, &object->mUnk_028);
         link->mUnk_10.y = g;
         link->mUnk_10.z = f;
     } else {
@@ -90,32 +90,32 @@ s32 func_020e0448(Unk020e0448 *link) {
     return object->mUnk_138;
 }
 
-void *CreateKoopaBlockKindData(void) {
-    void *kindData = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x40);
+void *kblock_setupConfig(void) {
+    void *kindData = heap_alloc(proc_getHeap(proc_getCurrent()), 0x40);
 
     *(Unk020e03f8 *) kindData = *(const Unk020e03f8 *) data_021588a8;
     return kindData;
 }
 
-void *CreateKoopaBlockDrawList(void) {
-    void *drawList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x2c);
+void *kblock_setupRenderPart(void) {
+    void *drawList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x2c);
 
-    data_0217b784 = drawList;
+    kblock_sRenderPart = drawList;
     *(Unk020e039c *) drawList = *(const Unk020e039c *) data_0215887c;
-    func_020d49d8(&data_0217b784);
-    return data_0217b784;
+    mobj_renderPartSetThisPointer(&kblock_sRenderPart);
+    return kblock_sRenderPart;
 }
 
-void *CreateKoopaBlockUpdateList(void) {
-    void *updateList = HeapAlloc(GetHeap(GetCurrentHeapCall()), 0x28);
+void *kblock_setupLogicPart(void) {
+    void *updateList = heap_alloc(proc_getHeap(proc_getCurrent()), 0x28);
 
-    data_0217b780 = updateList;
+    kblock_sLogicPart = updateList;
     *(Unk020e0340 *) updateList = *(const Unk020e0340 *) data_02158854;
-    SetUpdateListSlot(&data_0217b780);
-    return data_0217b780;
+    mobj_logicPartSetThisPointer(&kblock_sLogicPart);
+    return kblock_sLogicPart;
 }
 
-void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
+void kblock_update(void *a0, Unk020e005c *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mUnk_144;
 
     if (koopaBlock->mUnk_16c != 0) {
@@ -132,17 +132,17 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
         if ((koopaBlock->mDistanceSquaredAndFlags & 4) != 0) {
             return;
         }
-        falloffIndex = koopaBlock->mFarDistanceSquared == gSoundFalloffs[2].mUnk_20
+        falloffIndex = koopaBlock->mFarDistanceSquared == gSfxParams[2].mUnk_20
                            ? 2
-                           : (koopaBlock->mFarDistanceSquared == gSoundFalloffs[3].mUnk_20 ? 3 : 4);
+                           : (koopaBlock->mFarDistanceSquared == gSfxParams[3].mUnk_20 ? 3 : 4);
         soundRequest.mSoundId = 0x17e;
         soundRequest.mPositionSource = &koopaBlock->mPos;
         soundRequest.mUnk_08 = falloffIndex;
-        soundRequest.mDistanceSquared = GetHorizontalCameraDistanceSquared(&koopaBlock->mPos);
+        soundRequest.mDistanceSquared = mobj_calcXZCamDist(&koopaBlock->mPos);
         func_0210b7a8(&soundRequest);
         return;
     }
-    if (AdvanceGroupFollower(follower) != FALSE) {
+    if (pw_update(follower) != FALSE) {
         if (koopaBlock->mStateMachine.mState == 2) {
             koopaBlock->mStateMachine.mNextState = 0;
             koopaBlock->mStateMachine.mNextStateRequested = 1;
@@ -150,21 +150,21 @@ void UpdateKoopaBlock(void *a0, Unk020e005c *koopaBlock) {
         koopaBlock->mUnk_16c = follower->mFromEntry->mUnk_0e;
     }
     koopaBlock->mUnk_0e8 = koopaBlock->mPos;
-    GetGroupFollowerLinearPosition(follower, &koopaBlock->mPos);
-    AdvanceStateMachine(&koopaBlock->mStateMachine);
+    pw_calcCurrentPointLinearXYZ(follower, &koopaBlock->mPos);
+    sm_execute(&koopaBlock->mStateMachine);
     VEC_Subtract(&koopaBlock->mPos, &koopaBlock->mUnk_0e8, &koopaBlock->mUnk_010);
     VEC_MultAdd(-koopaBlock->mUnk_104, &koopaBlock->mUnk_034, &koopaBlock->mPos, &koopaBlock->mUnk_0f4);
 }
 
-u32 func_020e01ec(u32 value) {
+u32 kblock_speedUpStateInit(u32 value) {
     return value;
 }
 
-void UpdateKoopaBlockState0(Unk020e005c *koopaBlock) {
+void kblock_speedUpStateUpdate(Unk020e005c *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mUnk_144;
-    s32 progress = GetGroupFollowerProgress(follower);
+    s32 progress = pw_getProgress(follower);
     s32 angle = (u16) (((s64) progress << 18) >> 12);
-    s16 sine = gPairsByAngle[(angle >> 4) * 2];
+    s16 sine = FX_SinCosTable_[(angle >> 4) * 2];
     s32 speed = ((s64) sine * koopaBlock->mUnk_168) >> 12;
     s32 m;
 
@@ -174,13 +174,13 @@ void UpdateKoopaBlockState0(Unk020e005c *koopaBlock) {
         speed = 0x200;
     }
     follower->mProgressStep = ((s64) speed * m) >> 12;
-    if (GetGroupFollowerProgress(follower) >= 0x100) {
+    if (pw_getProgress(follower) >= 0x100) {
         koopaBlock->mStateMachine.mNextState = 1;
         koopaBlock->mStateMachine.mNextStateRequested = 1;
     }
 }
 
-void EnterKoopaBlockState1(Unk020e005c *koopaBlock) {
+void kblock_moveStateInit(Unk020e005c *koopaBlock) {
     s32 speed = koopaBlock->mUnk_168;
 
     koopaBlock->mUnk_144.mSpeed = speed;
@@ -190,7 +190,7 @@ void EnterKoopaBlockState1(Unk020e005c *koopaBlock) {
         12;
 }
 
-void UpdateKoopaBlockState1(Unk020e005c *koopaBlock) {
+void kblock_moveStateUpdate(Unk020e005c *koopaBlock) {
     GroupFollower *follower = &koopaBlock->mUnk_144;
 
     if (follower->mToEntry->mUnk_0e == 0) {
@@ -212,12 +212,12 @@ void UpdateKoopaBlockState1(Unk020e005c *koopaBlock) {
             return;
         }
     }
-    if (GetGroupFollowerProgress(follower) >= 0xf00) {
+    if (pw_getProgress(follower) >= 0xf00) {
         koopaBlock->mStateMachine.mNextState = 2;
         koopaBlock->mStateMachine.mNextStateRequested = 1;
     }
 }
 
-u32 func_020e0058(u32 value) {
+u32 kblock_slowDownStateInit(u32 value) {
     return value;
 }

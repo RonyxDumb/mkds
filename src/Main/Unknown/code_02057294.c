@@ -3,12 +3,12 @@
 #include "code_0214d018.h"
 
 #pragma thumb on
-void ClearEmblemRecord(void) {
+void savd_initNkem(void) {
     u32 value0;
     u32 fillValue;
     u32 size;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 4u);
     fillValue = 0u;
@@ -18,12 +18,12 @@ void ClearEmblemRecord(void) {
 #pragma thumb off
 
 #pragma thumb on
-void ClearGrandPrixRecordBlock(void) {
+void savd_initNkgp(void) {
     u32 value0;
     u32 fillValue;
     u32 size;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 8u);
     fillValue = 0u;
@@ -33,12 +33,12 @@ void ClearGrandPrixRecordBlock(void) {
 #pragma thumb off
 
 #pragma thumb on
-void ClearCourseTimeRecordBlock(void) {
+void savd_initNkta(void) {
     u32 value0;
     u32 fillValue;
     u32 size;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 12u);
     fillValue = 0u;
@@ -48,12 +48,12 @@ void ClearCourseTimeRecordBlock(void) {
 #pragma thumb off
 
 #pragma thumb on
-void ClearMissionRecordBlock(void) {
+void savd_initNkmr(void) {
     u32 value0;
     u32 fillValue;
     u32 size;
     u32 value3;
-    value0 = (u32) &data_0217aa08;
+    value0 = (u32) &gSaveData;
     value0 = *(const u32 *) ((value0) + 0u);
     value0 = *(const u32 *) ((value0) + 16u);
     fillValue = 0u;

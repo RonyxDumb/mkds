@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void UpdateVsSelectRaceRule(void);
+void menu_state10Render(void);

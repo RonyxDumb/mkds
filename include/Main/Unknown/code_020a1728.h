@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void ClearStandingEliminationStatus(int kartIndex);
+void mgcnt_resetDriverState(int kartIndex);

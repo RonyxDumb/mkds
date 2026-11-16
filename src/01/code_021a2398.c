@@ -22,7 +22,7 @@ BOOL func_ov001_021a23c8(void) {
     return FALSE;
 }
 
-void func_ov001_021a23c0(void) {
+void PostRenderEmblemEditor(void) {
     func_ov001_021a2408();
 }
 

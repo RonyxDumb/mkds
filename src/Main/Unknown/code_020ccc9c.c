@@ -4,24 +4,24 @@
 
 #pragma thumb on
 
-s32 GetFramesSinceMenuScreenSwitch(void) {
-    return data_0217b43c->mFramesSinceScreenSwitch;
+s32 menu_getFrameCounter(void) {
+    return gMenuSceneState->mFramesSinceScreenSwitch;
 }
 
-u32 func_020cccc0(void) {
-    return (data_0217b43c->mUnk_004);
+u32 menu_getField4(void) {
+    return (gMenuSceneState->mUnk_004);
 }
 
-u32 GetPreviousMenuScreenNumber(void) {
-    return (data_0217b43c->mPreviousScreenNumber);
+u32 menu_getPrevState(void) {
+    return (gMenuSceneState->mPreviousScreenNumber);
 }
 
-u32 GetMenuScreenNumber(void) {
-    return (data_0217b43c->mScreenNumber);
+u32 menu_getCurState(void) {
+    return (gMenuSceneState->mScreenNumber);
 }
 
-u32 GetNextMenuScreenNumber(void) {
-    return (data_0217b43c->mNextScreenNumber);
+u32 menu_getField10(void) {
+    return (gMenuSceneState->mNextScreenNumber);
 }
 
 #pragma thumb off

@@ -12,7 +12,7 @@
 
 #pragma thumb on
 
-u32 GetReceiveChunkSize(void) {
+u32 WBTi_get_peer_data_packet_size(void) {
     return (gReceiveChunkSize);
 }
 
@@ -28,7 +28,7 @@ void SetSendChunkSize(u32 chunkSize) {
     gSendChunkSize = (u16) chunkSize;
 }
 
-BlockTransfer *GetBlockTransfer(void) {
+BlockTransfer *WBTi_GetCommandParameter(void) {
     return (BlockTransfer *) gBlockTransfer;
 }
 
@@ -100,7 +100,7 @@ u32 GetOwnIndex(void) {
 
 #pragma thumb on
 
-s32 GetLowestSetBitIndex(s32 mask) {
+s32 WBT_AidbitmapToAid(s32 mask) {
     s32 i;
     for (i = 0; i < 16; i++) {
         if (((mask >> i) & 1) != 0) {
@@ -113,7 +113,7 @@ s32 GetLowestSetBitIndex(s32 mask) {
 u32 GetChunkBitmapSize(s32 size) {
     s32 chunkSize;
     s32 chunkCount;
-    chunkSize = GetReceiveChunkSize();
+    chunkSize = WBTi_get_peer_data_packet_size();
     chunkCount = size / chunkSize + ((size % chunkSize) != 0 ? 1 : 0);
     return ((chunkCount >> 5) + ((chunkCount & 0x1f) != 0 ? 1 : 0)) << 2;
 }
@@ -121,7 +121,7 @@ u32 GetChunkBitmapSize(s32 size) {
 BOOL TryGetBlockReceiveProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkCountOut, s32 *chunkCountOut) {
     BlockTransfer *transfer;
     ChunkReceiveState *receive;
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     receive = &transfer->mEntries[entryIndex].mReceive;
     if (transfer->mCurrentRequest.mKind == 4 && transfer->mCurrentRequest.mUnk_14 == blockId) {
         *chunkCountOut = receive->mChunkCount;
@@ -132,7 +132,7 @@ BOOL TryGetBlockReceiveProgress(u32 blockId, s32 entryIndex, s32 *receivedChunkC
 }
 
 u32 TrySetChunkSizes(s32 sendSize, s32 receiveSize) {
-    switch (GetBlockTransfer()->mCurrentRequest.mKind) {
+    switch (WBTi_GetCommandParameter()->mCurrentRequest.mKind) {
         case 4:
         case 6:
             return 0;
@@ -160,7 +160,7 @@ int CountBlocks(void) {
 
 #pragma thumb on
 
-s32 AddBlock(BlockListNode *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f) {
+s32 WBT_RegisterBlock(BlockListNode *node, u32 blockId, const void *info, u8 *data, u32 size, u16 f) {
     BlockListNode *lastNode;
     u32 savedInterrupts;
     savedInterrupts = OS_DisableInterrupts();
@@ -190,7 +190,7 @@ s32 AddBlock(BlockListNode *node, u32 blockId, const void *info, u8 *data, u32 s
     return 1;
 }
 
-BlockListNode *RemoveBlock(u32 blockId) {
+BlockListNode *WBT_UnregisterBlock(u32 blockId) {
     BlockListNode *v1;
     BlockListNode *v2;
     u32 savedInterrupts;
@@ -268,7 +268,7 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
     BlockTransfer *transfer;
     s32 i;
     s32 packetSize;
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     i = gLastReplyIndex;
     do {
         i++;
@@ -280,7 +280,7 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
             gLastReplyIndex = i;
             return packetSize;
         }
-        packetSize = ReplyToBlockCountRequest(transfer, i, buffer, bufferSize);
+        packetSize = WBTi_token_check_req_sync(transfer, i, buffer, bufferSize);
         if (packetSize != 0) {
             gLastReplyIndex = i;
             return packetSize;
@@ -331,12 +331,12 @@ s32 BuildParentPacketUnchecked(u8 *buffer, s32 bufferSize) {
 
 void ReceivePacketFromIndex(u32 index, const u8 *packet, int size) {
     if (0 < size) {
-        ParseReceivedPacket(GetBlockTransfer(), index, packet, size);
+        WBTi_get_token_from_recv_buffer(WBTi_GetCommandParameter(), index, packet, size);
     }
 }
 
-void ReceiveParentPacket(const u8 *packet, u32 size) {
-    ParseReceivedPacket(GetBlockTransfer(), 0, packet, size);
+void wbt_child_recv_data_parse(const u8 *packet, u32 size) {
+    WBTi_get_token_from_recv_buffer(WBTi_GetCommandParameter(), 0, packet, size);
 }
 
 #pragma thumb off
@@ -345,11 +345,11 @@ void ReceiveParentPacket(const u8 *packet, u32 size) {
 
 void BuildChildPacketUnchecked(u8 *buffer, s32 bufferSize) {
     BlockTransfer *transfer;
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     if (ReplyToBytesPacket(transfer, 0, buffer, bufferSize) != 0) {
         return;
     }
-    if (ReplyToBlockCountRequest(transfer, 0, buffer, bufferSize) != 0) {
+    if (WBTi_token_check_req_sync(transfer, 0, buffer, bufferSize) != 0) {
         return;
     }
     if (ReplyToBlockNodeRequest(transfer, 0, buffer, bufferSize) != 0) {
@@ -386,7 +386,7 @@ void StartParentBlockTransfer(s32 sendSize, s32 receiveSize, void (*callback)(Bl
     gBlockTransferStarted = 1;
     SetOwnIndex(0);
     SetBlockListHead(NULL);
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     transfer->mCurrentRequest.mKind = 0;
     transfer->mCurrentRequest.mIndexMask = 0;
     transfer->mCurrentRequest.mFromIndexMask = 0;
@@ -406,7 +406,7 @@ void StartParentBlockTransfer(s32 sendSize, s32 receiveSize, void (*callback)(Bl
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-void StartChildBlockTransfer(void (*callback)(BlockTransferRecord *)) {
+void WBT_InitChild(void (*callback)(BlockTransferRecord *)) {
     BlockTransferRecord request;
     BlockTransfer *transfer;
     s32 i;
@@ -419,7 +419,7 @@ void StartChildBlockTransfer(void (*callback)(BlockTransferRecord *)) {
     gBlockTransferStarted = 1;
     SetOwnIndex(-1);
     SetBlockListHead(NULL);
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     transfer->mCurrentRequest.mKind = 0;
     transfer->mCurrentRequest.mIndexMask = 0;
     transfer->mCurrentRequest.mFromIndexMask = 0;
@@ -452,7 +452,7 @@ void StopBlockTransfer(void) {
     gBlockTransferStarted = 0;
     SetOwnIndex(-1);
     SetBlockListHead(NULL);
-    transfer = GetBlockTransfer();
+    transfer = WBTi_GetCommandParameter();
     transfer->mCurrentRequest.mKind = 0;
     transfer->mCurrentRequest.mIndexMask = 0;
     transfer->mCurrentRequest.mFromIndexMask = 0;
@@ -472,7 +472,7 @@ void StopBlockTransfer(void) {
     OS_RestoreInterrupts(savedInterrupts);
 }
 
-u32 BuildParentPacket(u8 *buffer, s32 bufferSize) {
+u32 WBT_MpParentSendHook(u8 *buffer, s32 bufferSize) {
     u16 packetSize;
     packetSize = 0;
     if (bufferSize > 0 && buffer != NULL) {
