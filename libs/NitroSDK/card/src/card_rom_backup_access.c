@@ -664,7 +664,7 @@ void CARDi_UnlockResource(u32 owner, u32 target) {
 }
 
 // Sets up the lock and the command block, creates the worker thread and installs the tag 11 reply callback. Unless
-// mWmBootBuf.mBootType is BOOT_TYPE_MULTIBOOT, it also copies the ROM header to HW_CARD_ROM_HEADER at the start and
+// mWmBootBuf.mBootType is BOOT_TYPE_MULTIBOOT, it also copies the ROM header to HW_CARD_ROM_HEADER after the set-up and
 // enables card access at the end.
 void CARDi_InitCommon(void) {
     CARDiCommon *common;
