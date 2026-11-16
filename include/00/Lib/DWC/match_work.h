@@ -33,17 +33,17 @@ enum {
 
 // The matching state embedded in WiFiConnection at 0x33c (0x464 bytes), reached through gWiFiMatching; not
 // WiFiVSMatching, the VS screen.
-typedef struct Gt2Socket Gt2Socket;
+typedef struct GTI2Socket GTI2Socket;
 typedef s32 MatchEvalFunc();
-typedef void (*DWCMatchedCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
+typedef void (*DWCMatchedSCCallback)(u32 error, u32 cancel, u32 self, u32 isServer, u32 index, u32 arg);
 
 typedef struct WiFiMatching {
-    /* 000 */ struct GpConnection *mGpConnection;
+    /* 000 */ struct GPConnection *mGpConnection;
     // Address of WiFiConnection.mSocket, so a socket made or cleared later is seen; every use except the NULL tests
     // dereferences it.
-    /* 004 */ Gt2Socket **mConnectionSocket;
-    // Address of the Gt2ConnectionCallbacks record in WiFiConnection, given to the connect calls.
-    /* 008 */ struct Gt2ConnectionCallbacks *mConnectionCallbacks;
+    /* 004 */ GTI2Socket **mConnectionSocket;
+    // Address of the GT2ConnectionCallbacks record in WiFiConnection, given to the connect calls.
+    /* 008 */ struct GT2ConnectionCallbacks *mConnectionCallbacks;
     /* 00c */ u8 mConnectRetryCount;
     // Position of the last participant: the lists hold mLastParticipantPos + 1 entries and 0 means nobody else.
     /* 00d */ u8 mLastParticipantPos;
@@ -132,7 +132,7 @@ typedef struct WiFiMatching {
     /* 444 */ u64 mLastCommandTime;
     // Set by DWCi_SetMatchCommonParam; called with (error kind or 0, 0 or 1, ..., mResultCallbackArg), among others by
     // DWCi_StopMatching.
-    /* 44c */ DWCMatchedCallback mResultCallback;
+    /* 44c */ DWCMatchedSCCallback mResultCallback;
     /* 450 */ u32 mResultCallbackArg;
     /* 454 */ void (*mNewParticipantCallback)(u32 friendIndex, u32 callbackArg);
     /* 458 */ u32 mNewParticipantCallbackArg;

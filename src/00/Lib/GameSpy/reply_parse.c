@@ -19,10 +19,10 @@ void CopyStringWithTerminator(char *dest, const char *src, s32 len) {
     *(dest + len + -1) = 0;
 }
 
-void gpiDebug(GpConnection *connection, const char *fmt, ...) {}
+void gpiDebug(GPConnection *connection, const char *fmt, ...) {}
 
-BOOL gpiCheckForError(GpConnection *connection, const char *input, s32 callErrorCallback) {
-    GpiConnection *gpiConnection;
+BOOL gpiCheckForError(GPConnection *connection, const char *input, s32 callErrorCallback) {
+    GPIConnection *gpiConnection;
     BOOL isFatalErr;
     char buffer[0x10];
 
@@ -75,7 +75,7 @@ BOOL gpiValueForKey(const char *command, const char *key, char *value, s32 len) 
     return TRUE;
 }
 
-u32 gpiCheckSocketConnect(GpConnection *connection, u32 sock, u32 *state) {
+u32 gpiCheckSocketConnect(GPConnection *connection, u32 sock, u32 *state) {
     int readyNum;
     u32 canWrite;
     u32 errFlags[2];
@@ -104,7 +104,7 @@ u32 gpiCheckSocketConnect(GpConnection *connection, u32 sock, u32 *state) {
     return 0;
 }
 
-s32 gpiReadKeyAndValue(GpConnection *connection, s8 *buffer, s32 *index, char *key, char *value) {
+s32 gpiReadKeyAndValue(GPConnection *connection, s8 *buffer, s32 *index, char *key, char *value) {
     s8 *start;
     s8 character;
     s32 length;

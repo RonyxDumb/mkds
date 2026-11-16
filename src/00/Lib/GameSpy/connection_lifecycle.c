@@ -11,7 +11,7 @@
 #include "00/Lib/GameSpy/connection_events.h"
 #include "00/Lib/DWC/connection_error_strings.h"
 
-int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
+int gti2NewOutgoingConnection(void *socket, GTI2Connection **connection, int address, u32 port) {
     int result = gti2NewSocketConnection(socket, connection, address, port);
     if (result != 0) {
         return result;
@@ -21,7 +21,7 @@ int gti2NewOutgoingConnection(void *socket, Gt2Connection **connection, int addr
     return 0;
 }
 
-int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int address, u32 port) {
+int gti2NewIncomingConnection(void *socket, GTI2Connection **connection, int address, u32 port) {
     int result = gti2NewSocketConnection(socket, connection, address, port);
     if (result != 0) {
         return result;
@@ -31,7 +31,7 @@ int gti2NewIncomingConnection(void *socket, Gt2Connection **connection, int addr
     return 0;
 }
 
-BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int len, Gt2ConnectionCallbacks *callbacks) {
+BOOL gti2StartConnectionAttempt(GTI2Connection *connection, void *message, int len, GT2ConnectionCallbacks *callbacks) {
     u8 challengeBytes[0x24];
     gti2MessageCheck((const char **) &message, &len);
     if (len > 0) {
@@ -52,7 +52,7 @@ BOOL gti2StartConnectionAttempt(Gt2Connection *connection, void *message, int le
     return FALSE;
 }
 
-BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks) {
+BOOL gti2AcceptConnection(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks) {
     if (connection->mFreeAtAcceptReject != FALSE) {
         connection->mFreeAtAcceptReject = FALSE;
         return FALSE;
@@ -69,7 +69,7 @@ BOOL gti2AcceptConnection(Gt2Connection *connection, Gt2ConnectionCallbacks *cal
     return TRUE;
 }
 
-void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...) {
+void gti2RejectConnection(GTI2Connection *connection, void *message, u32 len, ...) {
     connection->mFreeAtAcceptReject = FALSE;
     if (connection->mState == GT2_CONNECTION_AWAIT_DECISION) {
         gti2MessageCheck((const char **) &message, (s32 *) &len);
@@ -78,7 +78,7 @@ void gti2RejectConnection(Gt2Connection *connection, void *message, u32 len, ...
     }
 }
 
-u32 gti2ConnectionSendData(Gt2Connection *connection, u8 *data, u32 length) {
+u32 gti2ConnectionSendData(GTI2Connection *connection, u8 *data, u32 length) {
     int sendResult;
     u32 elapsedMilliseconds;
     sendResult = gti2SocketSend(connection->mSocket, connection->mAddress, connection->mPort,
@@ -91,7 +91,7 @@ u32 gti2ConnectionSendData(Gt2Connection *connection, u8 *data, u32 length) {
     return 1;
 }
 
-BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now) {
+BOOL gti2CheckTimeout(GTI2Connection *connection, u32 now) {
     if (connection->mState < GT2_CONNECTION_CONNECTED) {
         BOOL hasExpired = FALSE;
         if (connection->mInitiated != FALSE) {
@@ -115,7 +115,7 @@ BOOL gti2CheckTimeout(Gt2Connection *connection, u32 now) {
     return TRUE;
 }
 
-BOOL gti2SendRetries(Gt2Connection *connection, u32 now) {
+BOOL gti2SendRetries(GTI2Connection *connection, u32 now) {
     int len;
     int index;
     GTI2OutgoingBufferMessage *message;
@@ -131,7 +131,7 @@ BOOL gti2SendRetries(Gt2Connection *connection, u32 now) {
     return TRUE;
 }
 
-BOOL gti2CheckPendingAck(Gt2Connection *connection, u32 now) {
+BOOL gti2CheckPendingAck(GTI2Connection *connection, u32 now) {
     if (connection->mPendingAck == 0) {
         return TRUE;
     }
@@ -143,7 +143,7 @@ BOOL gti2CheckPendingAck(Gt2Connection *connection, u32 now) {
     return TRUE;
 }
 
-BOOL gti2CheckKeepAlive(Gt2Connection *connection, u32 now) {
+BOOL gti2CheckKeepAlive(GTI2Connection *connection, u32 now) {
     if (now - connection->mLastSendTime > GTI2_KEEP_ALIVE_TIME) {
         if (gti2SendKeepAlive(connection) == 0) {
             return FALSE;
@@ -152,7 +152,7 @@ BOOL gti2CheckKeepAlive(Gt2Connection *connection, u32 now) {
     return TRUE;
 }
 
-u32 gti2ConnectionThink(Gt2Connection *connection, u32 now) {
+u32 gti2ConnectionThink(GTI2Connection *connection, u32 now) {
     int result;
     result = gti2CheckTimeout(connection, now);
     if (result == 0) {

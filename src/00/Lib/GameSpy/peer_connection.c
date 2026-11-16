@@ -27,15 +27,15 @@
 #include "quick_sort.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) {
-    GpiConnection *gpState;
-    GpiPeer *otherPeer;
+s32 gpiProcessPeerInitiatingConnection(GPConnection *connection, GPIPeer *peer) {
+    GPIConnection *gpState;
+    GPIPeer *otherPeer;
     BOOL canFreeSig;
     s32 result;
     u32 state;
     s32 bytesRead;
     u32 connClosed;
-    GpiProfile *profileEntry;
+    GPIProfile *profileEntry;
     char *input;
     char *end;
 
@@ -88,7 +88,7 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
             }
             break;
         case PROFILE_PEER_STATE_WAIT_AUTH:
-            result = gpiRecvToBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &bytesRead, &connClosed,
+            result = gpiRecvToBuffer(connection, peer->mSocket, (GPIBuffer *) &peer->mInputBuffer, &bytesRead, &connClosed,
                                       (const s8 *) "PR");
             if (result != 0) {
                 return result;
@@ -129,8 +129,8 @@ s32 gpiProcessPeerInitiatingConnection(GpConnection *connection, GpiPeer *peer) 
     return 0;
 }
 
-s32 gpiProcessPeerAcceptingConnection(GpConnection *connection, GpiPeer *peer) {
-    GpiConnection *gpState;
+s32 gpiProcessPeerAcceptingConnection(GPConnection *connection, GPIPeer *peer) {
+    GPIConnection *gpState;
     s32 len;
     u32 connClosed;
     s32 result;
@@ -147,7 +147,7 @@ s32 gpiProcessPeerAcceptingConnection(GpConnection *connection, GpiPeer *peer) {
     if (peer->mState != PROFILE_PEER_STATE_WAIT_AUTH) {
         AssertionFailed("peer->state == GPI_PEER_WAITING", "gpiPeer.c", NULL, 0xc1);
     }
-    result = gpiRecvToBuffer(connection, peer->mSocket, (GpiBuffer *) &peer->mInputBuffer, &len, &connClosed,
+    result = gpiRecvToBuffer(connection, peer->mSocket, (GPIBuffer *) &peer->mInputBuffer, &len, &connClosed,
                               (const s8 *) "PR");
     if (result != 0) {
         return result;
@@ -195,7 +195,7 @@ s32 gpiProcessPeerAcceptingConnection(GpConnection *connection, GpiPeer *peer) {
     return 0;
 }
 
-s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
+s32 gpiPeerSendMessages(GPConnection *connection, GPIPeer *peer) {
     GPIMessage *message;
     u32 connClosed;
     s32 result;
@@ -220,12 +220,12 @@ s32 gpiPeerSendMessages(GpConnection *connection, GpiPeer *peer) {
     return 0;
 }
 
-s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
-    GpiConnection *gpState;
+s32 gpiProcessPeerConnected(GPConnection *connection, GPIPeer *peerConn) {
+    GPIConnection *gpState;
     BuddyMessageData *arg;
     s32 bytesRead;
     u32 connClosed;
-    GpiCallback callback;
+    GPICallback callback;
     s32 message;
     s32 type;
     s32 msgBytes;
@@ -249,7 +249,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
             return 0;
         }
     }
-    result = gpiRecvToBuffer(connection, peerConn->mSocket, (GpiBuffer *) &peerConn->mInputBuffer, &bytesRead, &connClosed,
+    result = gpiRecvToBuffer(connection, peerConn->mSocket, (GPIBuffer *) &peerConn->mInputBuffer, &bytesRead, &connClosed,
                               (const s8 *) "PR");
     if (result != 0) {
         peerConn->mState = PROFILE_PEER_STATE_CLOSED;
@@ -259,7 +259,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
         peerConn->mTimeout = GetTickSeconds(NULL) + 0x12c;
     }
     do {
-        result = gpiReadMessageFromBuffer(connection, (GpiBuffer *) &peerConn->mInputBuffer, &message, &type, &msgBytes);
+        result = gpiReadMessageFromBuffer(connection, (GPIBuffer *) &peerConn->mInputBuffer, &message, &type, &msgBytes);
         if (result != 0) {
             return result;
         }
@@ -298,7 +298,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
                     gpiHandleTransferMessage(connection, peerConn, type, peerConn->mInputBuffer, message, msgBytes);
                     break;
             }
-            gpiClipBufferToPosition(connection, (GpiBuffer *) &peerConn->mInputBuffer);
+            gpiClipBufferToPosition(connection, (GPIBuffer *) &peerConn->mInputBuffer);
         }
     } while (message != 0);
     if (connClosed != 0) {
@@ -307,7 +307,7 @@ s32 gpiProcessPeerConnected(GpConnection *connection, GpiPeer *peerConn) {
     return 0;
 }
 
-s32 gpiProcessPeer(GpConnection *connection, GpiPeer *peer) {
+s32 gpiProcessPeer(GPConnection *connection, GPIPeer *peer) {
     s32 result = 0;
 
     if (peer->mState == PROFILE_PEER_STATE_NOT_CONNECTED) {
@@ -326,7 +326,7 @@ s32 gpiProcessPeer(GpConnection *connection, GpiPeer *peer) {
     return result;
 }
 
-void gpiDestroyPeer(GpConnection *connection, GpiPeer *peer) {
+void gpiDestroyPeer(GPConnection *connection, GPIPeer *peer) {
     shutdown(peer->mSocket, 2);
     closesocket(peer->mSocket);
     DWCi_GsFree(peer->mInputBuffer);
@@ -340,10 +340,10 @@ void gpiDestroyPeer(GpConnection *connection, GpiPeer *peer) {
     DWCi_GsFree(peer);
 }
 
-void gpiRemovePeer(GpConnection *connection, GpiPeer *peer) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiPeer *previous;
-    GpiPeer *current;
+void gpiRemovePeer(GPConnection *connection, GPIPeer *peer) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPIPeer *previous;
+    GPIPeer *current;
     GPIMessage *message;
     s32 unusedLocal;
 
@@ -392,10 +392,10 @@ void gpiSetPeerSocketSizes(s32 sock) {
     GetSendBufferSize(sock);
 }
 
-s32 gpiProcessPeers(GpConnection *connection) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiPeer *peerConn;
-    GpiPeer *followingPeer;
+s32 gpiProcessPeers(GPConnection *connection) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPIPeer *peerConn;
+    GPIPeer *followingPeer;
     s32 value;
 
     if (gpState->mListenSocket != -1 && CanReceiveOnSocket(gpState->mListenSocket) != 0) {
@@ -425,8 +425,8 @@ s32 gpiProcessPeers(GpConnection *connection) {
     return 0;
 }
 
-GpiPeer *gpiGetConnectedPeer(GpConnection *connection, u32 profileid) {
-    GpiPeer *node = connection->mGpiConnection->mPeerList;
+GPIPeer *gpiGetConnectedPeer(GPConnection *connection, u32 profileid) {
+    GPIPeer *node = connection->mGpiConnection->mPeerList;
     while (node != NULL) {
         if (node->mProfileId == profileid && node->mState == PROFILE_PEER_STATE_CONNECTED) {
             return node;
@@ -441,9 +441,9 @@ void gpiFreeMessage(void **bufferPointer) {
     *bufferPointer = NULL;
 }
 
-GpiPeer *gpiAddPeer(GpConnection *connection, u32 profileid, u32 initiate) {
-    GpiConnection *gpState = connection->mGpiConnection;
-    GpiPeer *peerConn = DWCi_GsMalloc(0x40);
+GPIPeer *gpiAddPeer(GPConnection *connection, u32 profileid, u32 initiate) {
+    GPIConnection *gpState = connection->mGpiConnection;
+    GPIPeer *peerConn = DWCi_GsMalloc(0x40);
 
     if (peerConn == NULL) {
         return NULL;
@@ -460,9 +460,9 @@ GpiPeer *gpiAddPeer(GpConnection *connection, u32 profileid, u32 initiate) {
     return peerConn;
 }
 
-int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer) {
+int gpiPeerGetSig(GPConnection *connection, GPIPeer *peer) {
     int result;
-    GpiOperation *pendingOp;
+    GPIOperation *pendingOp;
     result = gpiAddOperation(connection, PROFILE_OPERATION_INFO, NULL, &pendingOp, 0, NULL, 0);
     if ((result == 0) &&
         (result = gpiSendGetInfo(connection, peer->mProfileId, pendingOp->mId), result == 0)) {
@@ -472,9 +472,9 @@ int gpiPeerGetSig(GpConnection *connection, GpiPeer *peer) {
     return result;
 }
 
-s32 gpiPeerStartConnect(GpConnection *connection, GpiPeer *peer) {
+s32 gpiPeerStartConnect(GPConnection *connection, GPIPeer *peer) {
     SOCSockAddrIn address;
-    GpiProfile *profileRec;
+    GPIProfile *profileRec;
     s32 connectResult;
     u32 *addressWords;
 
@@ -513,7 +513,7 @@ s32 gpiPeerStartConnect(GpConnection *connection, GpiPeer *peer) {
     return 0;
 }
 
-s32 gpiPeerAddMessage(GpConnection *connection, GpiPeer *peer, u32 type, const char *message) {
+s32 gpiPeerAddMessage(GPConnection *connection, GPIPeer *peer, u32 type, const char *message) {
     u32 len;
     s32 result;
 
@@ -562,7 +562,7 @@ s32 gpiPeerAddMessage(GpConnection *connection, GpiPeer *peer, u32 type, const c
     }
 }
 
-u32 gpiPeerStartTransferMessage(GpConnection *connection, GpiPeer *peer, u32 type, GpiTransferId *transferID) {
+u32 gpiPeerStartTransferMessage(GPConnection *connection, GPIPeer *peer, u32 type, GPITransferID *transferID) {
     char buffer[0x44];
     u32 count = transferID->mCount;
     u32 profileid = transferID->mProfileId;
@@ -575,7 +575,7 @@ u32 gpiPeerStartTransferMessage(GpConnection *connection, GpiPeer *peer, u32 typ
     return gpiSendOrBufferString(connection, peer, buffer);
 }
 
-s32 gpiPeerFinishTransferMessage(GpConnection *connection, GpiPeer *peer, const char *message, s32 len) {
+s32 gpiPeerFinishTransferMessage(GPConnection *connection, GPIPeer *peer, const char *message, s32 len) {
     char buffer[0x24];
     s32 result;
 

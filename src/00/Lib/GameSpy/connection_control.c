@@ -18,17 +18,17 @@ void gt2Listen(void *socket, void *callback) {
     SetIncomingConnectionCallback(socket, callback);
 }
 
-int gt2Accept(Gt2Connection *connection, Gt2ConnectionCallbacks *callbacks) {
+int gt2Accept(GTI2Connection *connection, GT2ConnectionCallbacks *callbacks) {
     return gti2AcceptConnection(connection, callbacks);
 }
 
-void gt2Reject(Gt2Connection *connection, void *message, u32 len) {
+void gt2Reject(GTI2Connection *connection, void *message, u32 len) {
     gti2RejectConnection(connection, message, len);
 }
 
-int gt2Connect(void *socket, Gt2Connection **connection, const char *remoteAddress, void *message, int len, u32 timeout,
-               Gt2ConnectionCallbacks *callbacks, int blocking) {
-    Gt2Connection *pendingConn;
+int gt2Connect(void *socket, GTI2Connection **connection, const char *remoteAddress, void *message, int len, u32 timeout,
+               GT2ConnectionCallbacks *callbacks, int blocking) {
+    GTI2Connection *pendingConn;
     u32 ipAddress;
     u16 netPort;
     u32 portValue;
@@ -74,7 +74,7 @@ int gt2Connect(void *socket, Gt2Connection **connection, const char *remoteAddre
     return pendingConn->mResult;
 }
 
-void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
+void gt2Send(GTI2Connection *connection, u8 *message, int len, int reliable) {
     if (connection->mState == GT2_CONNECTION_CONNECTED) {
         gti2MessageCheck((const char **) &message, &len);
         if (ArrayLength(connection->mSendFilters) != 0) {
@@ -85,14 +85,14 @@ void gt2Send(Gt2Connection *connection, u8 *message, int len, int reliable) {
     }
 }
 
-void gt2CloseConnectionHard(Gt2Connection *connection) {
+void gt2CloseConnectionHard(GTI2Connection *connection) {
     gti2CloseConnection(connection, 1);
 }
 
-void gti2CloseAllConnectionsHardMap(Gt2Connection **elem) {
+void gti2CloseAllConnectionsHardMap(GTI2Connection **elem) {
     gt2CloseConnectionHard(*elem);
 }
 
-void gt2CloseAllConnectionsHard(Gt2Socket *socket) {
+void gt2CloseAllConnectionsHard(GTI2Socket *socket) {
     TableMapSafe(socket->mConnections, (void (*)(void *, void *)) gti2CloseAllConnectionsHardMap, NULL);
 }

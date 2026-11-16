@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-typedef struct GpConnection GpConnection;
-typedef struct GpiProfile GpiProfile;
+typedef struct GPConnection GPConnection;
+typedef struct GPIProfile GPIProfile;
 
-GpiProfile *gpiFindBuddy(GpConnection *gpConnection, u32 buddyIndex);
+GPIProfile *gpiFindBuddy(GPConnection *gpConnection, u32 buddyIndex);

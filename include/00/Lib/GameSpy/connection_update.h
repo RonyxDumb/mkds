@@ -2,8 +2,8 @@
 
 #include "types.h"
 
-typedef struct GpConnection GpConnection;
+typedef struct GPConnection GPConnection;
 
 int gpiProcess(void *connectionArgument, int blockingOperationID);
-u32 gpiProcessConnectionManager(GpConnection *connection);
-u32 gpiReset(GpConnection *connection);
+u32 gpiProcessConnectionManager(GPConnection *connection);
+u32 gpiReset(GPConnection *connection);

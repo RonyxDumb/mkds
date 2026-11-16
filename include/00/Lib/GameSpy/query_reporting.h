@@ -64,7 +64,7 @@ typedef void (*QueryErrorFunc)(s32 errorType, const u8 *message, void *userData)
 typedef void (*QueryPublicAddressFunc)(u32 address, u16 port, void *userData);
 typedef void (*QueryNatnegFunc)(u32 cookie, void *userData);
 typedef void (*QueryClientMessageFunc)(const void *data, u32 len, void *userData);
-typedef void (*QueryCdkeyFunc)(s8 *query, s32 len, void *sender);
+typedef void (*QuerySemicolonFunc)(s8 *query, s32 len, void *sender);
 
 // The query reporting state: heartbeat socket and address, game name and keys, callbacks and public address.
 typedef struct QueryRecord {
@@ -90,7 +90,7 @@ typedef struct QueryRecord {
     /* 0c4 */ BOOL mOwnsSocket;
     /* 0c8 */ s32 mNatNegotiate;
     /* 0cc */ SOCSockAddrIn mMasterAddr;
-    /* 0d4 */ QueryCdkeyFunc mSemicolonFunc;
+    /* 0d4 */ QuerySemicolonFunc mSemicolonFunc;
     /* 0d8 */ s32 mClientMessageKeys[10];
     /* 100 */ s32 mClientMessageIndex;
     /* 104 */ u32 mPublicIp;

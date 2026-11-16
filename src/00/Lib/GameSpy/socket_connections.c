@@ -22,36 +22,36 @@ u32 gti2ConnectionHash(const Gt2ConnectionEntry *entry, u32 modulus) {
     return (entry->mValue->mAddress * entry->mValue->mPort) % modulus;
 }
 
-s32 gti2ConnectionCompare(const Gt2Connection *const *left, const Gt2Connection *const *right) {
-    const Gt2Connection *leftConnection = *left;
-    const Gt2Connection *rightConnection = *right;
+s32 gti2ConnectionCompare(const GTI2Connection *const *left, const GTI2Connection *const *right) {
+    const GTI2Connection *leftConnection = *left;
+    const GTI2Connection *rightConnection = *right;
     if (leftConnection->mAddress != rightConnection->mAddress) {
         return leftConnection->mAddress - rightConnection->mAddress;
     }
     return (s16) (leftConnection->mPort - rightConnection->mPort);
 }
 
-void gti2ConnectionFree(Gt2Connection **element) {
+void gti2ConnectionFree(GTI2Connection **element) {
     gti2ConnectionCleanup(*element);
 }
 
-Gt2Connection *gti2SocketFindConnection(Gt2Socket *socket, u32 address, u32 port) {
-    Gt2Connection key;
-    Gt2Connection *keyPointer;
+GTI2Connection *gti2SocketFindConnection(GTI2Socket *socket, u32 address, u32 port) {
+    GTI2Connection key;
+    GTI2Connection *keyPointer;
     void *found;
     key.mAddress = address;
     key.mPort = port;
     keyPointer = &key;
     found = TableLookup(socket->mConnections, &keyPointer);
     if (found != NULL) {
-        return *(Gt2Connection **) found;
+        return *(GTI2Connection **) found;
     }
     return NULL;
 }
 
-u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
-                     void (*errorCallback)(Gt2Socket *)) {
-    Gt2Socket *newSocket;
+u32 gti2CreateSocket(GTI2Socket **socketOut, const char *localAddress, u32 outgoingBufferSize, u32 incomingBufferSize,
+                     void (*errorCallback)(GTI2Socket *)) {
+    GTI2Socket *newSocket;
     u16 netPort;
     SOCSockAddrIn socketAddress;
     u32 address;
@@ -116,7 +116,7 @@ u32 gti2CreateSocket(Gt2Socket **socketOut, const char *localAddress, u32 outgoi
     return 0;
 }
 
-void DeleteSocket(Gt2Socket *gt2Socket) {
+void DeleteSocket(GTI2Socket *gt2Socket) {
     if (gt2Socket->mRunningCallbackCount != 0) {
         gt2Socket->mDeletePending = TRUE;
         return;
@@ -128,21 +128,21 @@ void DeleteSocket(Gt2Socket *gt2Socket) {
     SocketShutDown();
 }
 
-void SetIncomingConnectionCallback(Gt2Socket *gt2Socket, void *callback) {
+void SetIncomingConnectionCallback(GTI2Socket *gt2Socket, void *callback) {
     gt2Socket->mIncomingConnectionCallback = callback;
 }
 
-Gt2Connection *gti2CreateConnectionObject(void) {
+GTI2Connection *gti2CreateConnectionObject(void) {
     u32 connectionObject;
     u32 allocFunction;
     connectionObject = 160u;
     allocFunction = (u32) &DWCi_GsMalloc;
     connectionObject = (u32) DWCi_GsMalloc(connectionObject);
-    return (Gt2Connection *) connectionObject;
+    return (GTI2Connection *) connectionObject;
 }
 
-u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u32 address, u32 port) {
-    Gt2Connection *newConnection = NULL;
+u32 gti2NewSocketConnection(GTI2Socket *socket, GTI2Connection **connectionOut, u32 address, u32 port) {
+    GTI2Connection *newConnection = NULL;
     if (gti2SocketFindConnection(socket, address, port) != NULL) {
         return 5;
     }
@@ -197,7 +197,7 @@ u32 gti2NewSocketConnection(Gt2Socket *socket, Gt2Connection **connectionOut, u3
     return 1;
 }
 
-void gti2FreeSocketConnection(Gt2Connection *connection) {
+void gti2FreeSocketConnection(GTI2Connection *connection) {
     s32 closedCount;
     s32 index;
     if (connection->mFreeAtAcceptReject == FALSE && connection->mCallbackLevel == 0) {
@@ -205,7 +205,7 @@ void gti2FreeSocketConnection(Gt2Connection *connection) {
             closedCount = ArrayLength(connection->mSocket->mConnectionsToFree);
             for (index = 0; index < closedCount; index++) {
                 if (connection ==
-                    *(Gt2Connection **) ArrayNth(connection->mSocket->mConnectionsToFree, index)) {
+                    *(GTI2Connection **) ArrayNth(connection->mSocket->mConnectionsToFree, index)) {
                     ArrayDeleteAt(connection->mSocket->mConnectionsToFree, index);
                     return;
                 }
@@ -216,7 +216,7 @@ void gti2FreeSocketConnection(Gt2Connection *connection) {
     }
 }
 
-u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 length) {
+u32 gti2SocketSend(GTI2Socket *socket, u32 address, int port, u32 message, u32 length) {
     s32 lastError;
     gti2MessageCheck((const char **) &message, (s32 *) &length);
     if (CanSendOnSocket(socket->mDescriptor) == 0) {
@@ -250,8 +250,8 @@ u32 gti2SocketSend(Gt2Socket *socket, u32 address, int port, u32 message, u32 le
     return 1;
 }
 
-u32 gti2SocketConnectionsThinkMap(Gt2Connection **element, u32 *clientData) {
-    Gt2Connection *connection = *element;
+u32 gti2SocketConnectionsThinkMap(GTI2Connection **element, u32 *clientData) {
+    GTI2Connection *connection = *element;
     u32 now = *clientData;
     if (connection->mState != GT2_CONNECTION_CLOSED && gti2ConnectionThink(connection, now) == 0) {
         return 0;
@@ -263,7 +263,7 @@ u32 gti2SocketConnectionsThinkMap(Gt2Connection **element, u32 *clientData) {
     return 1;
 }
 
-u32 gti2SocketConnectionsThink(Gt2Socket *socket) {
+u32 gti2SocketConnectionsThink(GTI2Socket *socket) {
     void *stoppedElement;
     u32 currentTime[2];
     currentTime[0] = current_time();
@@ -274,14 +274,14 @@ u32 gti2SocketConnectionsThink(Gt2Socket *socket) {
     return 0;
 }
 
-void gti2FreeClosedConnections(Gt2Socket *socket) {
+void gti2FreeClosedConnections(GTI2Socket *socket) {
     s32 index;
     for (index = ArrayLength(socket->mConnectionsToFree) - 1; index >= 0; index--) {
-        gti2FreeSocketConnection(*(Gt2Connection **) ArrayNth(socket->mConnectionsToFree, index));
+        gti2FreeSocketConnection(*(GTI2Connection **) ArrayNth(socket->mConnectionsToFree, index));
     }
 }
 
-void gti2SocketError(Gt2Socket *socket) {
+void gti2SocketError(GTI2Socket *socket) {
     if (socket->mError == FALSE) {
         socket->mError = TRUE;
         gt2CloseAllConnectionsHard(socket);

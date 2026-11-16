@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-// Bits of SbServer.mStateFlags: which keys the server has, which query is pending, a timed-out query and a received
+// Bits of SBServer.mStateFlags: which keys the server has, which query is pending, a timed-out query and a received
 // reply (TimeoutOldQueries applies the timed-out bit and the pending clears to mFlags).
 #define STATE_BASICKEYS (1 << 0)
 #define STATE_FULLKEYS (1 << 1)
@@ -16,7 +16,7 @@
 #define MAX_QUERY_MSEC 2500
 #define SL_LAN_SEARCH_TIME 2000
 
-// Bits of SbServer.mFlags: the flag byte of a server entry in the server list, which says which fields follow; the
+// Bits of SBServer.mFlags: the flag byte of a server entry in the server list, which says which fields follow; the
 // local scan also sets two of them itself.
 #define UNSOLICITED_UDP_FLAG 1
 #define PRIVATE_IP_FLAG 2
@@ -43,7 +43,7 @@
 #define MAPLOOP_MESSAGE 5
 #define PLAYERSEARCH_MESSAGE 6
 
-// Bits of SbServerList.mQueryOptions.
+// Bits of SBServerList.mQueryOptions.
 #define NO_SERVER_LIST 2
 #define ALTERNATE_SOURCE_IP 8
 #define LIMIT_RESULT_COUNT 128
@@ -58,7 +58,7 @@
 #define QR2_MAGIC_1 0xFE
 #define QR2_MAGIC_2 0xFD
 
-// Reasons the server list gives its callback (SbServerListCallback).
+// Reasons the server list gives its callback (SBListCallBackFn).
 enum {
     slc_serveradded,
     slc_serverupdated,
@@ -69,7 +69,7 @@ enum {
     slc_publicipdetermined,
 };
 
-// Reasons the query engine gives its callback (SBEngineCallback).
+// Reasons the query engine gives its callback (SBEngineCallbackFn).
 enum {
     qe_updatesuccess,
     qe_updatefailed,

@@ -41,7 +41,7 @@
 #include "00/Lib/GameSpy/availability_check.h"
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 
-void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, void *instance) {
+void ListCallback(SBServerList *browserList, s32 reason, SBServer *server, void *instance) {
     MatchingServerList *matchingServerList = instance;
     switch (reason) {
         case slc_serveradded:
@@ -106,7 +106,7 @@ void ListCallback(SbServerList *browserList, s32 reason, SbServer *server, void 
     }
 }
 
-void EngineCallback(void *engine, s32 reason, SbServer *server, void *instance) {
+void EngineCallback(void *engine, s32 reason, SBServer *server, void *instance) {
     MatchingServerList *matchingServerList = instance;
     switch (reason) {
         case qe_updatefailed:
@@ -130,7 +130,7 @@ void EngineCallback(void *engine, s32 reason, SbServer *server, void *instance) 
 
 MatchingServerList *ServerBrowserNewA(const char *queryForGameName, const char *queryFromGameName, const char *queryFromKey,
                                       u32 queryFromVersion, u32 maxUpdates, u32 queryVersion, s32 lanBrowse,
-                                      SBBrowserCallback callback, u32 instance) {
+                                      ServerBrowserCallback callback, u32 instance) {
     MatchingServerList *matchingServerList;
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return NULL;
@@ -210,7 +210,7 @@ s32 ServerBrowserSendNatNegotiateCookieToServerA(MatchingServerList *matchingSer
                                             ((port >> 8) & 0xff) | ((port << 8) & 0xff00), cookie);
 }
 
-void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SbServer *server) {
+void ServerBrowserRemoveServer(struct MatchingServerList *matchingServerList, SBServer *server) {
     s32 serverIndex;
     serverIndex = SBServerListFindServer(&matchingServerList->mList, server);
     if (serverIndex != -1) {
@@ -233,7 +233,7 @@ void ServerBrowserClear(struct MatchingServerList *matchingServerList) {
     SBServerListClear(&matchingServerList->mList);
 }
 
-SbServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
+SBServer *ServerBrowserGetServer(MatchingServerList *matchingServerList, u32 index) {
     return SBServerListNth(&matchingServerList->mList, index);
 }
 

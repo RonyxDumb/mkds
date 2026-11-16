@@ -3,7 +3,7 @@
 #include "types.h"
 #include "00/Lib/DWC/match_work.h"
 
-void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedCallback matchedCallback, u32 matchedParam);
+void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedSCCallback matchedCallback, u32 matchedParam);
 void DWCi_ResetMatchParam(s32 level);
 u32 DWCi_IsShutdownMatch(void);
 u32 DWCi_GPSetServerStatus(void);

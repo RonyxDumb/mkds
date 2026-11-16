@@ -14,7 +14,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-void gpiProfilesTableFree(GpiProfile *profile) {
+void gpiProfilesTableFree(GPIProfile *profile) {
     if (profile->mBuddyStatus != NULL) {
         DWCi_GsFree(profile->mBuddyStatus->mStatusString);
         profile->mBuddyStatus->mStatusString = NULL;
@@ -30,8 +30,8 @@ void gpiProfilesTableFree(GpiProfile *profile) {
     profile->mPeerSig = NULL;
 }
 
-BOOL gpiInitProfiles(GpConnection *connection) {
-    GpiConnection *gpState;
+BOOL gpiInitProfiles(GPConnection *connection) {
+    GPIConnection *gpState;
 
     gpState = connection->mGpiConnection;
     gpState->mBuddyCount = 0;
@@ -43,8 +43,8 @@ BOOL gpiInitProfiles(GpConnection *connection) {
     return FALSE;
 }
 
-s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, const char *input) {
-    GpiCallback callback;
+s32 gpiProcessNewProfile(GPConnection *connection, GPIOperation *operation, const char *input) {
+    GPICallback callback;
     u32 *arg;
     s32 profileNumber;
     s32 result;
@@ -82,9 +82,9 @@ s32 gpiProcessNewProfile(GpConnection *connection, GpiOperation *operation, cons
     return 0;
 }
 
-GpiProfile *gpiProfileListAdd(GpConnection *connection, s32 id) {
+GPIProfile *gpiProfileListAdd(GPConnection *connection, s32 id) {
     GPIProfileList *profileList;
-    GpiProfile *profileEntry;
+    GPIProfile *profileEntry;
 
     profileList = &connection->mGpiConnection->mProfileList;
     if (id <= 0) {
@@ -97,7 +97,7 @@ GpiProfile *gpiProfileListAdd(GpConnection *connection, s32 id) {
         return profileEntry;
     }
     {
-        GpiProfile newProfile = {0};
+        GPIProfile newProfile = {0};
 
         newProfile.mProfileId = id;
         newProfile.mUserId = 0;
@@ -114,10 +114,10 @@ GpiProfile *gpiProfileListAdd(GpConnection *connection, s32 id) {
     return NULL;
 }
 
-u32 gpiGetProfile(GpConnection *connection, u32 profileid, GpiProfile **profile) {
-    GpiConnection *gpState;
-    GpiProfile lookup;
-    GpiProfile *foundProfile;
+u32 gpiGetProfile(GPConnection *connection, u32 profileid, GPIProfile **profile) {
+    GPIConnection *gpState;
+    GPIProfile lookup;
+    GPIProfile *foundProfile;
 
     gpState = connection->mGpiConnection;
     lookup.mProfileId = profileid;
@@ -131,9 +131,9 @@ u32 gpiGetProfile(GpConnection *connection, u32 profileid, GpiProfile **profile)
     return 0;
 }
 
-void gpiRemoveProfileByID(GpConnection *connection, u32 profileid) {
-    GpiConnection *gpState;
-    GpiProfile *pProfile;
+void gpiRemoveProfileByID(GPConnection *connection, u32 profileid) {
+    GPIConnection *gpState;
+    GPIProfile *pProfile;
 
     gpState = connection->mGpiConnection;
     if (gpiGetProfile(connection, profileid, &pProfile) != 0) {
@@ -141,6 +141,6 @@ void gpiRemoveProfileByID(GpConnection *connection, u32 profileid) {
     }
 }
 
-void gpiRemoveProfile(GpConnection *connection, GpiProfile *profile) {
+void gpiRemoveProfile(GPConnection *connection, GPIProfile *profile) {
     TableRemove(connection->mGpiConnection->mProfileList.mTable, profile);
 }

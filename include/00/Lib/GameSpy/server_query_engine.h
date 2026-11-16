@@ -3,21 +3,21 @@
 #include "types.h"
 #include "00/Lib/GameSpy/server_browser_flags.h"
 
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 typedef struct SBQueryEngine SBQueryEngine;
 typedef struct MatchingServerList MatchingServerList;
 
-void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SbServer *server);
+void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SBServer *server);
 void SBQueryEngineAddQueryKey(SBQueryEngine *engine, u8 keyId);
 void SBQueryEngineThink(MatchingServerList *matchingServerList);
 void QueueNextQueries(SBQueryEngine *engine);
 
 struct SBQueryEngine;
 
-typedef void (*SBEngineCallback)(void *engine, s32 reason, SbServer *server, void *instance);
+typedef void (*SBEngineCallbackFn)(void *engine, s32 reason, SBServer *server, void *instance);
 
 // A game server of the server browser: its addresses, state flags, key values, ping and the next server.
-typedef struct SbServer {
+typedef struct SBServer {
     /* 00 */ u32 mPublicIp;
     /* 04 */ u16 mPublicPort;
     /* 08 */ u32 mPrivateIp;
@@ -25,14 +25,14 @@ typedef struct SbServer {
     /* 10 */ u32 mIcmpIp;
     /* 14 */ u8 mStateFlags;
     /* 15 */ u8 mFlags;
-    /* 18 */ struct Hashtable *mKeyValues;
+    /* 18 */ struct HashImplementation *mKeyValues;
     /* 1c */ u32 mPing;
-    /* 20 */ struct SbServer *mNext;
-} SbServer;
+    /* 20 */ struct SBServer *mNext;
+} SBServer;
 
 typedef struct SBServerFIFO {
-    /* 00 */ SbServer *mFirst;
-    /* 04 */ SbServer *mLast;
+    /* 00 */ SBServer *mFirst;
+    /* 04 */ SBServer *mLast;
     /* 08 */ s32 mCount;
 } SBServerFIFO;
 
@@ -46,24 +46,24 @@ typedef struct SBQueryEngine {
     /* 28 */ u32 mMyPublicIp;
     /* 2c */ u8 mServerKeys[0x14];
     /* 40 */ s32 mNumServerKeys;
-    /* 44 */ SBEngineCallback mListCallback;
+    /* 44 */ SBEngineCallbackFn mListCallback;
     /* 48 */ void *mInstance;
 } SBQueryEngine;
 
 void TimeoutOldQueries(SBQueryEngine *engine);
 void ProcessIncomingReplies(SBQueryEngine *engine, s32 probeSocket);
 
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 typedef struct SBQueryEngine SBQueryEngine;
 
-BOOL ParseSingleICMPReply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
+BOOL ParseSingleICMPReply(SBQueryEngine *engine, SBServer *server, s8 *buf, s32 length);
 
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 typedef struct SBQueryEngine SBQueryEngine;
 
-void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
-void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *buf, s32 length);
-void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind);
+void ParseSingleGOAReply(SBQueryEngine *engine, SBServer *server, s8 *buf, s32 length);
+void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, s8 *buf, s32 length);
+void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, s32 atFront, s32 updateKind);
 
 typedef struct MatchingServerList MatchingServerList;
 
@@ -71,21 +71,21 @@ void SBEngineCleanup(MatchingServerList *matchingServerList);
 void SBEngineHaltUpdates(MatchingServerList *matchingServerList);
 void SBQueryEngineSetPublicIP(MatchingServerList *matchingServerList, u32 publicIp);
 
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 typedef struct SBQueryEngine SBQueryEngine;
 
 void SBQueryEngineInit(SBQueryEngine *engine, s32 updateLimit, u32 queryVersion, s32 lanBrowse,
-                       SBEngineCallback callback, void *instance);
-void QEStartQuery(SBQueryEngine *engine, SbServer *server);
+                       SBEngineCallbackFn callback, void *instance);
+void QEStartQuery(SBQueryEngine *engine, SBServer *server);
 
 typedef struct SBServerFIFO SBServerFIFO;
 
 void FIFOClear(SBServerFIFO *fifo);
-void FIFOAddRear(SBServerFIFO *fifo, SbServer *server);
-void FIFOAddFront(SBServerFIFO *fifo, SbServer *server);
-SbServer *FIFOGetFirst(SBServerFIFO *fifo);
+void FIFOAddRear(SBServerFIFO *fifo, SBServer *server);
+void FIFOAddFront(SBServerFIFO *fifo, SBServer *server);
+SBServer *FIFOGetFirst(SBServerFIFO *fifo);
 
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 typedef struct SBServerFIFO SBServerFIFO;
 
-BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server);
+BOOL FIFORemove(SBServerFIFO *fifo, SBServer *server);

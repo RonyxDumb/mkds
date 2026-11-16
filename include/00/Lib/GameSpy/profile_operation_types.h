@@ -43,7 +43,7 @@ typedef struct GPISearchData {
     /* 140 */ s32 mRemove;
 } GPISearchData;
 
-// Values of GpiOperation.mType.
+// Values of GPIOperation.mType.
 enum {
     PROFILE_OPERATION_CONNECT,
     PROFILE_OPERATION_NEW_PROFILE,
@@ -52,14 +52,14 @@ enum {
     PROFILE_OPERATION_REGISTER_UNIQUE_NICK,
 };
 
-// Values of GpiOperation.mState of the connect operation: the reply the server is expected to send next.
+// Values of GPIOperation.mState of the connect operation: the reply the server is expected to send next.
 enum {
     PROFILE_CONNECT_STATE_WAIT_CHALLENGE = 1,
     PROFILE_CONNECT_STATE_WAIT_LOGIN_REPLY,
     PROFILE_CONNECT_STATE_WAIT_NEW_USER_REPLY,
 };
 
-// Values of GpiOperation.mState of the search operation: waiting for the socket to connect, waiting for the reply to
+// Values of GPIOperation.mState of the search operation: waiting for the socket to connect, waiting for the reply to
 // end, and the reply read.
 enum {
     PROFILE_SEARCH_STATE_WAIT_CONNECT = 1,
@@ -69,19 +69,19 @@ enum {
 
 // A queued profile operation: its type, data (the search data of a search, the connect data of a connect), blocking
 // flag, callback, state, id, result and the next operation.
-typedef struct GpiOperation {
+typedef struct GPIOperation {
     /* 00 */ u32 mType;
     /* 04 */ GPISearchData *mData;
     /* 08 */ u32 mBlocking;
-    /* 0c */ GpiCallback mCallback;
+    /* 0c */ GPICallback mCallback;
     /* 14 */ s32 mState;
     /* 18 */ u32 mId;
     /* 1c */ u32 mResult;
-    /* 20 */ struct GpiOperation *mNext;
-} GpiOperation;
+    /* 20 */ struct GPIOperation *mNext;
+} GPIOperation;
 
-// Values of GpiPeer.mState.
-typedef enum GpiPeerState {
+// Values of GPIPeer.mState.
+typedef enum ProfilePeerState {
     PROFILE_PEER_STATE_NOT_CONNECTED = 0x64,
     PROFILE_PEER_STATE_WAIT_PROFILE_INFO = 0x65,
     PROFILE_PEER_STATE_START_CONNECT = 0x66,
@@ -89,11 +89,11 @@ typedef enum GpiPeerState {
     PROFILE_PEER_STATE_WAIT_AUTH = 0x68,
     PROFILE_PEER_STATE_CONNECTED = 0x69,
     PROFILE_PEER_STATE_CLOSED = 0x6a,
-} GpiPeerState;
+} ProfilePeerState;
 
 // A peer connection: its state, socket, profile id, timeout time, nack count, the input and output byte buffers and the
 // queued messages.
-typedef struct GpiPeer {
+typedef struct GPIPeer {
     /* 00 */ s32 mState;
     /* 04 */ u32 mInitiated;
     /* 08 */ s32 mSocket;
@@ -104,7 +104,7 @@ typedef struct GpiPeer {
     /* 1c */ u32 mUnk_1c;
     /* 20 */ s32 mInputBufferLength;
     /* 24 */ u8 mUnk_24[4];
-    /* 28 */ GpiBuffer mOutputBuffer;
-    /* 38 */ struct Darray *mQueuedMessages;
-    /* 3c */ struct GpiPeer *mNext;
-} GpiPeer;
+    /* 28 */ GPIBuffer mOutputBuffer;
+    /* 38 */ struct DArrayImplementation *mQueuedMessages;
+    /* 3c */ struct GPIPeer *mNext;
+} GPIPeer;

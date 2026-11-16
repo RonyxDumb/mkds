@@ -26,7 +26,7 @@ WiFiBuddySync *gWiFiBuddySync = NULL;
 
 // Stores the callback and its argument in mBuddyChangedCallback / mBuddyChangedCallbackArg of gWiFiBuddySync when the
 // object exists.
-void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param) {
+void DWC_SetBuddyFriendCallback(DWCBuddyFriendCallback callback, void *param) {
     if (gWiFiBuddySync != NULL) {
         gWiFiBuddySync->mBuddyChangedCallback = callback;
         gWiFiBuddySync->mBuddyChangedCallbackArg = param;
@@ -34,7 +34,7 @@ void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param) {
 }
 
 // Runs from DWC_InitFriendsMatch, per login.
-void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GpConnection *gpConnection, char *playerName,
+void DWCi_FriendInit(WiFiBuddySync *buddySync, struct GPConnection *gpConnection, char *playerName,
                      DWCAccFriendData *friendList, s32 friendListLength) {
     WiFiBuddySync *loadedSync;
     gWiFiBuddySync = buddySync;
@@ -155,13 +155,13 @@ void DWCi_StopFriendProcess(s32 error, s32 errorCode) {
 // GP callback slot 1 (request): an incoming add-buddy request. The reply handler
 // DWCi_GPGetInfoCallback_RecvBuddyRequest authorizes it and adds the sender back (DWCi_GPSendBuddyRequest) when the
 // list holds an entry with that name or id; otherwise the request is dropped locally (no message is sent).
-void DWCi_GPRecvBuddyRequestCallback(GpConnection *connection, u32 *arg) {
+void DWCi_GPRecvBuddyRequestCallback(GPConnection *connection, u32 *arg) {
     if (gWiFiBuddySync->mBuddies != NULL) {
         GpGetInfo(connection, *arg, 0, 0, DWCi_GPGetInfoCallback_RecvBuddyRequest, 0);
     }
 }
 
-u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
+u32 DWCi_GPRecvBuddyAuthCallback(GPConnection *connection, BuddyMessageData *arg, u32 param) {
     int compareResult;
     compareResult = strcmp(arg->mUnk_08, "I have authorized your request to add me to your list");
     if (compareResult == 0) {
@@ -172,7 +172,7 @@ u32 DWCi_GPRecvBuddyAuthCallback(GpConnection *connection, BuddyMessageData *arg
 }
 
 // GP callback slot 2 (status): looks up the list entry and calls mBuddyStatusCallback.
-void DWCi_GPRecvBuddyStatusCallback(struct GpConnection *connection, s32 *arg) {
+void DWCi_GPRecvBuddyStatusCallback(struct GPConnection *connection, s32 *arg) {
     GpBuddyStatus status;
     u32 listIndex;
     WiFiBuddySync *wiFiBuddySync;

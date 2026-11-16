@@ -4,7 +4,7 @@
 #include "00/Lib/GameSpy/buddy_messages.h"
 
 typedef struct WiFiMatching WiFiMatching;
-typedef struct SbServer SbServer;
+typedef struct SBServer SBServer;
 
 // The five characters at gMatchingSignature, copied into the first member of MatchingSendHeader.
 typedef struct MatchingSignatureText {
@@ -32,11 +32,11 @@ typedef struct DWCNNInfo {
 } DWCNNInfo;
 
 s32 DWCi_GetGPBuddyAdditionalMsg(char *out, const char *text, s32 index);
-s32 DWCi_SendGPBuddyMsgCommand(struct GpConnection *gpConnection, u32 command, u32 profileId, const char *text);
+s32 DWCi_SendGPBuddyMsgCommand(struct GPConnection *gpConnection, u32 command, u32 profileId, const char *text);
 u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 valueCount);
 u32 DWCi_SendMatchCommand(u32 command, u32 profileId, u32 address, u32 port, void *values, s32 valueCount);
 u32 DWCi_DoNatNegotiationAsync(DWCNNInfo *nnInfo);
-u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SbServer *server);
+u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SBServer *server);
 s32 DWCi_GetDefaultMatchFilter(char *buffer, s32 profileId, s32 numEntry, s32 mode);
 u32 DWCi_SBUpdateAsync(u32 profileId);
 void DWCi_CloseMatching(void);

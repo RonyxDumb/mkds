@@ -24,7 +24,7 @@
 #include "00/Lib/GameSpy/profile_search.h"
 #include "00/Lib/GameSpy/peer_connection.h"
 
-u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
+u32 gpiReadMessageFromBuffer(GPConnection *connection, GPIBuffer *inputBuffer, s32 *message, s32 *type, s32 *plen) {
     char intText[0x10];
     u8 *headerEnd;
     s32 bodyLength;
@@ -62,7 +62,7 @@ u32 gpiReadMessageFromBuffer(GpConnection *connection, GpiBuffer *inputBuffer, s
     return 0;
 }
 
-u32 gpiClipBufferToPosition(GpConnection *connection, GpiBuffer *buffer) {
+u32 gpiClipBufferToPosition(GPConnection *connection, GPIBuffer *buffer) {
     s32 position;
     if (buffer == NULL || buffer->mBuffer == NULL || (position = buffer->mPos) == 0) {
         return 0;

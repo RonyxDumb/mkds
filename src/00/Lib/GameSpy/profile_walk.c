@@ -6,7 +6,7 @@
 #include "00/Lib/GameSpy/hash_table.h"
 #include "00/Lib/GameSpy/profile_info.h"
 
-s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *userData) {
+s32 gpiCheckProfileForUser(GPConnection *connection, GPIProfile *profile, void *userData) {
     GPIFindProfileByUserData *data = userData;
     int difference;
     GPIInfoCache *cache;
@@ -20,7 +20,7 @@ s32 gpiCheckProfileForUser(GpConnection *connection, GpiProfile *profile, void *
     return 1;
 }
 
-s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char *email, GpiProfile **profile) {
+s32 gpiFindProfileByUser(GPConnection *connection, const char *nick, const char *email, GPIProfile **profile) {
     GPIFindProfileByUserData data;
 
     data.mNick = nick;
@@ -34,12 +34,12 @@ s32 gpiFindProfileByUser(GpConnection *connection, const char *nick, const char 
     return 0;
 }
 
-void gpiProfileMapCallback(GpiProfile *profile, GPIProfileMapData *mapData) {
+void gpiProfileMapCallback(GPIProfile *profile, GPIProfileMapData *mapData) {
     mapData->mFunc(mapData->mConnection, profile, mapData->mData);
 }
 
-BOOL gpiProfileMap(GpConnection *gpConnection, GpiProfileMapFunc callback, void *userData) {
-    GpiConnection *gpiConnection;
+BOOL gpiProfileMap(GPConnection *gpConnection, gpiProfileMapFunc callback, void *userData) {
+    GPIConnection *gpiConnection;
     GPIProfileMapData mapData;
 
     gpiConnection = gpConnection->mGpiConnection;
@@ -52,7 +52,7 @@ BOOL gpiProfileMap(GpConnection *gpConnection, GpiProfileMapFunc callback, void 
     return FALSE;
 }
 
-BOOL gpiCheckForBuddy(GpConnection *unused, GpiProfile *entry, void *data) {
+BOOL gpiCheckForBuddy(GPConnection *unused, GPIProfile *entry, void *data) {
     GpiProfileSearch *search = data;
     if (entry->mBuddyStatus != NULL && search->mKey == entry->mBuddyStatus->mIndex) {
         search->mEntry = entry;

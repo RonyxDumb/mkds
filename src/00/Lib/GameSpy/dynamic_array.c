@@ -8,13 +8,13 @@
 #include "quick_sort.h"
 
 void FreeElement(void *arrayArg, s32 index) {
-    Darray *darray = arrayArg;
+    DArrayImplementation *darray = arrayArg;
     if (darray->mElemCallback != NULL) {
         darray->mElemCallback(ArrayNth(darray, index));
     }
 }
 
-void ArrayGrow(Darray *dynArray) {
+void ArrayGrow(DArrayImplementation *dynArray) {
     dynArray->mCapacity = dynArray->mCapacity + dynArray->mGrowCount;
     dynArray->mList = DWCi_GsRealloc(dynArray->mList, dynArray->mCapacity * dynArray->mElemsize);
     if (dynArray->mList == NULL) {
@@ -22,12 +22,12 @@ void ArrayGrow(Darray *dynArray) {
     }
 }
 
-void SetElement(Darray *darray, const void *elem, s32 index) {
+void SetElement(DArrayImplementation *darray, const void *elem, s32 index) {
     memcpy(ArrayNth(darray, index), elem, darray->mElemsize);
 }
 
 void *ArrayNew(s32 elemSize, s32 initialCapacity, void (*freeElement)(void *)) {
-    Darray *array = DWCi_GsMalloc(sizeof(Darray));
+    DArrayImplementation *array = DWCi_GsMalloc(sizeof(DArrayImplementation));
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0x52);
     }
@@ -54,7 +54,7 @@ void *ArrayNew(s32 elemSize, s32 initialCapacity, void (*freeElement)(void *)) {
 }
 
 void ArrayFree(void *arrayArg) {
-    Darray *array = arrayArg;
+    DArrayImplementation *array = arrayArg;
     s32 index;
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0x69);
@@ -71,12 +71,12 @@ void ArrayFree(void *arrayArg) {
 }
 
 s32 ArrayLength(void *arrayArg) {
-    Darray *darray = arrayArg;
+    DArrayImplementation *darray = arrayArg;
     return darray->mCount;
 }
 
 void *ArrayNth(void *darrayArg, s32 index) {
-    Darray *array = darrayArg;
+    DArrayImplementation *array = darrayArg;
     if (index < 0 || index >= array->mCount) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0x94);
     }
@@ -87,7 +87,7 @@ void *ArrayNth(void *darrayArg, s32 index) {
 }
 
 void ArrayAppend(void *darrayArg, void *element) {
-    Darray *array = darrayArg;
+    DArrayImplementation *array = darrayArg;
     if (array == NULL) {
         AssertionFailed("array", "darray.c", NULL, 0xa0);
     }
@@ -97,7 +97,7 @@ void ArrayAppend(void *darrayArg, void *element) {
 }
 
 void ArrayInsertAt(void *darrayArg, void *element, s32 index) {
-    Darray *array = darrayArg;
+    DArrayImplementation *array = darrayArg;
     s32 lastIndex;
     if (index < 0 || index > array->mCount) {
         AssertionFailed("(n >= 0) && (n <= array->count)", "darray.c", NULL, 0xa7);
@@ -114,7 +114,7 @@ void ArrayInsertAt(void *darrayArg, void *element, s32 index) {
     SetElement(array, element, index);
 }
 
-void ArrayInsertSorted(Darray *array, void *elem, ArrayCompareFn *comparator) {
+void ArrayInsertSorted(DArrayImplementation *array, void *elem, ArrayCompareFn *comparator) {
     u8 *insertPosition;
     u32 insertIndex;
     s32 searchFound[2];
@@ -126,7 +126,7 @@ void ArrayInsertSorted(Darray *array, void *elem, ArrayCompareFn *comparator) {
     ArrayInsertAt(array, elem, insertIndex);
 }
 
-void ArrayRemoveAt(Darray *array, int index) {
+void ArrayRemoveAt(DArrayImplementation *array, int index) {
     s32 lastIndex;
     if (index < 0 || index >= array->mCount) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xc0);
@@ -139,7 +139,7 @@ void ArrayRemoveAt(Darray *array, int index) {
     array->mCount = array->mCount - 1;
 }
 
-void ArrayDeleteAt(Darray *array, s32 index) {
+void ArrayDeleteAt(DArrayImplementation *array, s32 index) {
     if ((index < 0) || (index >= array->mCount)) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xca);
     }
@@ -147,7 +147,7 @@ void ArrayDeleteAt(Darray *array, s32 index) {
     ArrayRemoveAt(array, index);
 }
 
-void ArrayReplaceAt(Darray *array, const void *elem, s32 index) {
+void ArrayReplaceAt(DArrayImplementation *array, const void *elem, s32 index) {
     if ((index < 0) || (index >= array->mCount)) {
         AssertionFailed("(n >= 0) && (n < array->count)", "darray.c", NULL, 0xd3);
     }
@@ -155,11 +155,11 @@ void ArrayReplaceAt(Darray *array, const void *elem, s32 index) {
     SetElement(array, elem, index);
 }
 
-void ArraySort(Darray *darray, u32 compareFunc) {
+void ArraySort(DArrayImplementation *darray, u32 compareFunc) {
     qsort(darray->mList, darray->mCount, darray->mElemsize, (int (*)(void *, void *)) compareFunc);
 }
 
-s32 ArraySearch(Darray *darray, const void *key, ArrayCompareFn *comparator, s32 startIndex, s32 sortedFlag) {
+s32 ArraySearch(DArrayImplementation *darray, const void *key, ArrayCompareFn *comparator, s32 startIndex, s32 sortedFlag) {
     s32 matchFlag = 1;
     s32 count;
     u8 *position;
@@ -179,7 +179,7 @@ s32 ArraySearch(Darray *darray, const void *key, ArrayCompareFn *comparator, s32
     return -1;
 }
 
-void ArrayMapBackwards(Darray *array, void (*fn)(void *, void *), void *userData) {
+void ArrayMapBackwards(DArrayImplementation *array, void (*fn)(void *, void *), void *userData) {
     s32 index;
     if (fn == NULL) {
         AssertionFailed("fn", "darray.c", NULL, 0x104);
@@ -189,7 +189,7 @@ void ArrayMapBackwards(Darray *array, void (*fn)(void *, void *), void *userData
     }
 }
 
-void *ArrayMapBackwards2(Darray *array, ArrayCompareFn *fn, const void *userData) {
+void *ArrayMapBackwards2(DArrayImplementation *array, ArrayCompareFn *fn, const void *userData) {
     s32 index;
     void *elem;
     if (fn == NULL) {
@@ -204,7 +204,7 @@ void *ArrayMapBackwards2(Darray *array, ArrayCompareFn *fn, const void *userData
     return NULL;
 }
 
-void ArrayClear(Darray *darray) {
+void ArrayClear(DArrayImplementation *darray) {
     s32 index;
     for (index = ArrayLength(darray) - 1; index >= 0; index--) {
         ArrayDeleteAt(darray, index);

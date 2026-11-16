@@ -24,9 +24,9 @@
 #include "00/Lib/GameSpy/error_set.h"
 
 u32 GpiIsValidDate(int day, int month, int year);
-s32 GpiProcessOperation(GpConnection *connection, GpiOperation *operation, const char *input);
-BOOL gpiOperationsAreBlocking(GpConnection *object);
-BOOL gpiFindOperationByID(GpConnection *object, GpiOperation **output, u32 key);
-void gpiRemoveOperation(GpConnection *connection, GpiOperation *operation);
-void gpiDestroyOperation(GpConnection *connection, GpiOperation *operation);
-s32 gpiFailedOpCallback(GpConnection *connection, GpiOperation *operation);
+s32 GpiProcessOperation(GPConnection *connection, GPIOperation *operation, const char *input);
+BOOL gpiOperationsAreBlocking(GPConnection *object);
+BOOL gpiFindOperationByID(GPConnection *object, GPIOperation **output, u32 key);
+void gpiRemoveOperation(GPConnection *connection, GPIOperation *operation);
+void gpiDestroyOperation(GPConnection *connection, GPIOperation *operation);
+s32 gpiFailedOpCallback(GPConnection *connection, GPIOperation *operation);

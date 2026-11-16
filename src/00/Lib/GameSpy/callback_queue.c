@@ -23,9 +23,9 @@
 #include "00/Lib/GameSpy/peer_connection.h"
 #include "00/Lib/GameSpy/profile_walk.h"
 
-void gpiCallErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
-    GpiConnection *gpState;
-    GpiCallback errorCallback;
+void gpiCallErrorCallback(GPConnection *connection, s32 result, s32 fatal) {
+    GPIConnection *gpState;
+    GPICallback errorCallback;
     ErrorData *errorArg;
 
     gpState = connection->mGpiConnection;
@@ -54,9 +54,9 @@ void gpiCallErrorCallback(GpConnection *connection, s32 result, s32 fatal) {
     }
 }
 
-u32 gpiAddCallback(GpConnection *connection, GpiCallback callback, void *arg, GpiOperation *operation, s32 type) {
-    GpiConnection *gpState;
-    GpiQueuedCallback *queued;
+u32 gpiAddCallback(GPConnection *connection, GPICallback callback, void *arg, GPIOperation *operation, s32 type) {
+    GPIConnection *gpState;
+    QueuedCallback *queued;
 
     gpState = connection->mGpiConnection;
     queued = DWCi_GsMalloc(0x18);
@@ -83,7 +83,7 @@ u32 gpiAddCallback(GpConnection *connection, GpiCallback callback, void *arg, Gp
     return 0;
 }
 
-void gpiCallCallback(GpConnection *connection, GpiQueuedCallback *data) {
+void gpiCallCallback(GPConnection *connection, QueuedCallback *data) {
     CallbackArgData *callbackArg;
     CallbackArgData *nickListArg;
     s32 entryIndex;
@@ -142,12 +142,12 @@ void gpiCallCallback(GpConnection *connection, GpiQueuedCallback *data) {
     DWCi_GsFree(data);
 }
 
-u32 gpiProcessCallbacks(GpConnection *connection, s32 operationId) {
-    GpiConnection *gpState;
-    GpiQueuedCallback *listNode;
-    GpiQueuedCallback *queueTail;
-    GpiQueuedCallback *previousKept;
-    GpiQueuedCallback *current;
+u32 gpiProcessCallbacks(GPConnection *connection, s32 operationId) {
+    GPIConnection *gpState;
+    QueuedCallback *listNode;
+    QueuedCallback *queueTail;
+    QueuedCallback *previousKept;
+    QueuedCallback *current;
 
     gpState = connection->mGpiConnection;
     if (operationId != 0) {
@@ -159,7 +159,7 @@ u32 gpiProcessCallbacks(GpConnection *connection, s32 operationId) {
         current = listNode;
         if (current != NULL) {
             do {
-                GpiQueuedCallback *next = current->mNext;
+                QueuedCallback *next = current->mNext;
                 if (current->mOperationId == operationId || current->mType == PROFILE_CALLBACK_TYPE_ERROR) {
                     if (previousKept != NULL) {
                         previousKept->mNext = next;

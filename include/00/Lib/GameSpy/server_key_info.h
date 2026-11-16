@@ -10,7 +10,7 @@ enum {
     SERVER_KEY_STORED_AS_TWO_BYTES,
 };
 
-// Entry of the list at SbServerList.mKeyList.
+// Entry of the list at SBServerList.mKeyList.
 typedef struct KeyInfo {
     /* 0 */ char *mKeyName;
     /* 4 */ s32 mKeyType;

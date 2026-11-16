@@ -41,9 +41,9 @@
 #include "00/Lib/GameSpy/availability_check.h"
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 
-struct SbServer *gSBNullServer;
+struct SBServer *gSBNullServer;
 s8 *gMytokPosition;
-struct Hashtable *gSBRefStrList = NULL;
+struct HashImplementation *gSBRefStrList = NULL;
 InvalidKeyNames gInvalidKeys = {{"queryid", "final"}};
 
 u32 RefStringHash(HashtableNameEntry *entry, u32 modulus) {
@@ -61,7 +61,7 @@ void RefStringFree(u32 element) {
     DWCi_GsFree((void *) stringPointer);
 }
 
-struct Hashtable *SBRefStrHash(struct SbServerList *serverList) {
+struct HashImplementation *SBRefStrHash(struct SBServerList *serverList) {
     if (gSBRefStrList == NULL) {
         gSBRefStrList = HashtableCreate(8, 100, 2, (s32(*)(void *, s32)) RefStringHash,
                                         (ArrayCompareFn *) RefStringCompare, (void (*)(void *)) RefStringFree);
@@ -77,28 +77,28 @@ void SBRefStrHashCleanup(void *serverList) {
     }
 }
 
-void SBServerFree(SbServer **serverPointer) {
-    SbServer *serverRecord;
+void SBServerFree(SBServer **serverPointer) {
+    SBServer *serverRecord;
     serverRecord = *serverPointer;
     TableFree(serverRecord->mKeyValues);
     serverRecord->mKeyValues = NULL;
     DWCi_GsFree(serverRecord);
 }
 
-void SBServerAddKeyValue(SbServer *server, const char *key, const char *value) {
+void SBServerAddKeyValue(SBServer *server, const char *key, const char *value) {
     char *pair[2];
     pair[0] = SBRefStr(NULL, key);
     pair[1] = SBRefStr(NULL, value);
     TableEnter(server->mKeyValues, pair);
 }
 
-void SBServerAddIntKeyValue(SbServer *server, const char *key, u32 value) {
+void SBServerAddIntKeyValue(SBServer *server, const char *key, u32 value) {
     char valueText[20];
     sprintf(valueText, "%d", value);
     SBServerAddKeyValue(server, key, valueText);
 }
 
-char *SBServerGetStringValueA(SbServer *server, const char *key, char *defaultValue) {
+char *SBServerGetStringValueA(SBServer *server, const char *key, char *defaultValue) {
     KeyLookup probe;
     u32 *entry;
     if (server == NULL) {
@@ -115,7 +115,7 @@ char *SBServerGetStringValueA(SbServer *server, const char *key, char *defaultVa
     return defaultValue;
 }
 
-s32 SBServerGetIntValueA(SbServer *server, const char *key, s32 defaultValue) {
+s32 SBServerGetIntValueA(SBServer *server, const char *key, s32 defaultValue) {
     char *text;
     s32 firstChar;
     if (strcmp(key, "ping") == 0) {
@@ -129,7 +129,7 @@ s32 SBServerGetIntValueA(SbServer *server, const char *key, s32 defaultValue) {
     return StrtolBase10(text);
 }
 
-double SBServerGetFloatValueA(SbServer *server, const char *key, double defaultValue) {
+double SBServerGetFloatValueA(SBServer *server, const char *key, double defaultValue) {
     char *text;
     text = SBServerGetStringValueA(server, key, NULL);
     if (text != NULL) {
@@ -138,11 +138,11 @@ double SBServerGetFloatValueA(SbServer *server, const char *key, double defaultV
     return defaultValue;
 }
 
-u32 SBServerGetPublicInetAddress(SbServer *server) {
+u32 SBServerGetPublicInetAddress(SBServer *server) {
     return server->mPublicIp;
 }
 
-u32 SBServerGetPublicQueryPort(SbServer *server) {
+u32 SBServerGetPublicQueryPort(SBServer *server) {
     u32 value;
     u32 port;
     u32 swappedPort;
@@ -159,22 +159,22 @@ u32 SBServerGetPublicQueryPort(SbServer *server) {
     return value;
 }
 
-u16 SBServerGetPublicQueryPortNBO(SbServer *server) {
+u16 SBServerGetPublicQueryPortNBO(SBServer *server) {
     return server->mPublicPort;
 }
 
-BOOL SBServerHasPrivateAddress(SbServer *server) {
+BOOL SBServerHasPrivateAddress(SBServer *server) {
     if ((server->mFlags & PRIVATE_IP_FLAG) == PRIVATE_IP_FLAG) {
         return 1;
     }
     return 0;
 }
 
-u32 SBServerGetPrivateInetAddress(SbServer *server) {
+u32 SBServerGetPrivateInetAddress(SBServer *server) {
     return server->mPrivateIp;
 }
 
-u32 SBServerGetPrivateQueryPort(SbServer *server) {
+u32 SBServerGetPrivateQueryPort(SBServer *server) {
     u32 value;
     u32 port;
     u32 swappedPort;
@@ -191,11 +191,11 @@ u32 SBServerGetPrivateQueryPort(SbServer *server) {
     return value;
 }
 
-void SBServerSetNext(SbServer *server, SbServer *next) {
+void SBServerSetNext(SBServer *server, SBServer *next) {
     server->mNext = next;
 }
 
-SbServer *SBServerGetNext(SbServer *server) {
+SBServer *SBServerGetNext(SBServer *server) {
     return server->mNext;
 }
 
@@ -235,7 +235,7 @@ s8 *mytok(s8 *text, s32 delimiter) {
     return tokenStart;
 }
 
-void SBServerParseKeyVals(SbServer *server, s8 *keyValues) {
+void SBServerParseKeyVals(SBServer *server, s8 *keyValues) {
     s8 *key;
     s8 *value;
     key = mytok(keyValues + 1, 0x5c);
@@ -251,7 +251,7 @@ void SBServerParseKeyVals(SbServer *server, s8 *keyValues) {
     }
 }
 
-void SBServerParseQR2FullKeysSingle(SbServer *server, s8 *data, s32 length) {
+void SBServerParseQR2FullKeysSingle(SBServer *server, s8 *data, s32 length) {
     FullKeysScratch scratch;
     s8 *keyNames;
     s8 *key;
@@ -355,12 +355,12 @@ s32 KeyValCompareKey(const char *const *first, const char *const *second) {
     return CompareStringsMapped(*first, *second);
 }
 
-u32 SBServerGetPing(SbServer *server) {
+u32 SBServerGetPing(SBServer *server) {
     return server->mPing;
 }
 
-SbServer *SBAllocServer(SbServerList *serverList, u32 publicIp, u16 publicPort) {
-    SbServer *newServer;
+SBServer *SBAllocServer(SBServerList *serverList, u32 publicIp, u16 publicPort) {
+    SBServer *newServer;
     newServer = DWCi_GsMalloc(0x24);
     if (newServer == NULL) {
         return NULL;
@@ -383,28 +383,28 @@ SbServer *SBAllocServer(SbServerList *serverList, u32 publicIp, u16 publicPort) 
     return newServer;
 }
 
-void SBServerSetFlags(SbServer *server, s32 flags) {
+void SBServerSetFlags(SBServer *server, s32 flags) {
     server->mFlags = flags;
 }
 
-void SBServerSetPrivateAddr(SbServer *server, u32 privateIp, u16 privatePort) {
+void SBServerSetPrivateAddr(SBServer *server, u32 privateIp, u16 privatePort) {
     server->mPrivateIp = privateIp;
     server->mPrivatePort = privatePort;
 }
 
-void SBServerSetICMPIP(SbServer *server, u32 icmpIp) {
+void SBServerSetICMPIP(SBServer *server, u32 icmpIp) {
     server->mIcmpIp = icmpIp;
 }
 
-void SBServerSetState(SbServer *server, u8 state) {
+void SBServerSetState(SBServer *server, u8 state) {
     server->mStateFlags = state;
 }
 
-u8 SBServerGetState(SbServer *server) {
+u8 SBServerGetState(SBServer *server) {
     return server->mStateFlags;
 }
 
-BOOL SBIsNullServer(SbServer *server) {
+BOOL SBIsNullServer(SBServer *server) {
     if (server == gSBNullServer) {
         return 1;
     }

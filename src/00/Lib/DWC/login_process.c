@@ -150,7 +150,7 @@ s32 ReportWiFiLoginGpResult(s32 result) {
 // the saved record's profile id, then (DWCi_GT2Startup, DWCi_QR2Startup with the profile id) sets mState 5 and
 // reports success through mResultCallback (id mismatch: error 6); in mState 3 calls GpGetInfo with the
 // profile id and DWCi_GPGetInfoCallback as its callback; a GP error goes to ReportWiFiLoginGpResult.
-void DWCi_GPConnectCallback(GpConnection *connection, ConnectReply *arg, u32 param) {
+void DWCi_GPConnectCallback(GPConnection *connection, ConnectReply *arg, u32 param) {
     gWiFiLogin->mConnectPending = FALSE;
     if (arg->mResult == GP_REQUEST_OK) {
         if (gWiFiLogin->mState == WIFI_LOGIN_CONNECT_KNOWN_ID) {
@@ -279,7 +279,7 @@ void DWCi_RemoteLoginProcess(void) {
     }
 }
 
-void DWCi_GPGetInfoCallback(GpConnection *connection, GetInfoReply *arg, u32 param) {
+void DWCi_GPGetInfoCallback(GPConnection *connection, GetInfoReply *arg, u32 param) {
     char lastNameToSet[0x15];
     char accountName[0x15];
     char tempUserName[0x15];

@@ -7,9 +7,9 @@
 #include "00/Lib/GameSpy/dynamic_array.h"
 #include "quick_sort.h"
 
-Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
+HashImplementation *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*hashFn)(void *, s32),
                            ArrayCompareFn *compFn, void (*freeElement)(void *)) {
-    Hashtable *table;
+    HashImplementation *table;
     s32 bucketIndex;
     if (hashFn == NULL) {
         AssertionFailed("hashFn", "hashtable.c", NULL, 0x38);
@@ -42,7 +42,7 @@ Hashtable *HashtableCreate(s32 elemSize, s32 nBuckets, s32 initialCount, s32 (*h
 }
 
 void TableFree(void *tableArg) {
-    Hashtable *table = tableArg;
+    HashImplementation *table = tableArg;
     s32 bucketIndex;
     if (table == NULL) {
         AssertionFailed("table", "hashtable.c", NULL, 0x51);
@@ -56,7 +56,7 @@ void TableFree(void *tableArg) {
     }
 }
 
-s32 TableCount(Hashtable *table) {
+s32 TableCount(HashImplementation *table) {
     s32 total = 0;
     s32 bucketIndex;
     if (table == NULL) {
@@ -71,7 +71,7 @@ s32 TableCount(Hashtable *table) {
     return total;
 }
 
-void TableEnter(Hashtable *table, void *elem) {
+void TableEnter(HashImplementation *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -88,7 +88,7 @@ void TableEnter(Hashtable *table, void *elem) {
     }
 }
 
-BOOL TableRemove(Hashtable *table, void *elem) {
+BOOL TableRemove(HashImplementation *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -106,7 +106,7 @@ BOOL TableRemove(Hashtable *table, void *elem) {
     return FALSE;
 }
 
-void *TableLookup(Hashtable *table, void *elem) {
+void *TableLookup(HashImplementation *table, void *elem) {
     s32 bucketNo;
     s32 elemIndex;
     if (table == NULL) {
@@ -123,7 +123,7 @@ void *TableLookup(Hashtable *table, void *elem) {
     return NULL;
 }
 
-void TableMapSafe(Hashtable *table, void (*fn)(void *, void *), void *userData) {
+void TableMapSafe(HashImplementation *table, void (*fn)(void *, void *), void *userData) {
     s32 bucketIndex;
     if (fn == NULL) {
         AssertionFailed("fn", "hashtable.c", NULL, 0xb6);
@@ -133,7 +133,7 @@ void TableMapSafe(Hashtable *table, void (*fn)(void *, void *), void *userData) 
     }
 }
 
-void *TableMapSafe2(Hashtable *table, int fn, const void *userData) {
+void *TableMapSafe2(HashImplementation *table, int fn, const void *userData) {
     void *foundElement;
     int bucketIndex;
     if (fn == 0) {

@@ -150,7 +150,7 @@ u32 DWC_AddMatchKeyString(u32 keyId, char *keyString, void *valueSrc) {
 }
 
 s32 DWC_GetMatchIntValue(u32 index, void *keyString, s32 idefault) {
-    SbServer *serverEntry;
+    SBServer *serverEntry;
     if (gWiFiMatching == NULL || DWCi_IsError() != 0) {
         return idefault;
     }
@@ -223,7 +223,7 @@ s32 DWC_GetMOMinCompState(u64 *time) {
     return elapsed >= optMinComp->mTimeout;
 }
 
-void DWCi_MatchInit(WiFiMatching *wiFiMatching, GpConnection *gpConnection, Gt2Socket **connectionSocket,
+void DWCi_MatchInit(WiFiMatching *wiFiMatching, GPConnection *gpConnection, GTI2Socket **connectionSocket,
                     void *connectionCallbacks, void *gameName, void *secretKey, void *buddies, u32 buddyEntryCount) {
     gWiFiMatching = wiFiMatching;
     wiFiMatching->mGpConnection = gpConnection;
@@ -291,7 +291,7 @@ u32 DWCi_QR2Startup(u32 profileId) {
 }
 
 // Starts a filter search (mode 0) and keeps the caller's filter text for the server list filter.
-void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedCallback matchedCallback,
+void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedSCCallback matchedCallback,
                                 u32 matchedParam, MatchEvalFunc *evalCallback, u32 evalParam) {
     char filterText[0x100];
     s32 filterRoom;
@@ -310,7 +310,7 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedC
         MI_CpuCopy8(addFilter, gMatchingFilterText, filterRoom);
         *((u8 *) gMatchingFilterText + filterRoom - 1) = 0;
     }
-    ((void (*)(u32, u32, DWCMatchedCallback, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback,
+    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(0, numEntry, matchedCallback,
                                                                              matchedParam);
     gWiFiMatching->mEvalCallback = evalCallback;
     gWiFiMatching->mEvalCallbackArg = evalParam;
@@ -334,11 +334,11 @@ void DWCi_ConnectToAnybodyAsync(u32 numEntry, const void *addFilter, DWCMatchedC
 
 // Starts a buddy search (mode 1) over a list of buddy entry indices.
 void DWCi_ConnectToFriendsAsync(const void *friendIdxList, s32 friendIdxListLen, s32 numEntry, s32 distantFriend,
-                                DWCMatchedCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
+                                DWCMatchedSCCallback matchedCallback, u32 matchedParam, MatchEvalFunc *evalCallback,
                                 u32 evalParam) {
     char numDigits[12];
     u8 keyValueStr[0x24];
-    ((void (*)(u32, u32, DWCMatchedCallback, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback,
+    ((void (*)(u32, u32, DWCMatchedSCCallback, u32)) DWCi_SetMatchCommonParam)(1, numEntry, matchedCallback,
                                                                              matchedParam);
     gWiFiMatching->mDistantFriend = distantFriend != 0 ? 1 : 0;
     gWiFiMatching->mEvalCallback = evalCallback;
@@ -568,7 +568,7 @@ void DWCi_MatchProcess(s32 runStateMachine) {
     }
 }
 
-u32 DWCi_GT2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port, void *message, s32 size) {
+u32 DWCi_GT2UnrecognizedMessageCallback(GTI2Socket *socket, s32 address, s32 port, void *message, s32 size) {
     UnmatchedDataAddress originAddr;
     volatile u32 fillValue;
     u32 firstByte;
@@ -601,7 +601,7 @@ u32 DWCi_GT2UnrecognizedMessageCallback(Gt2Socket *socket, s32 address, s32 port
 
 // Accepts an incoming connection in the CONNECT_CLIENT state from the expected participant, otherwise refuses it with a
 // reason text.
-void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 address, u32 port, s32 latency,
+void DWCi_GT2ConnectAttemptCallback(u32 socket, GTI2Connection *connection, u32 address, u32 port, s32 latency,
                                     char *message) {
     WiFiMatching *wiFiMatching;
     DWCConnectionInfo *connectionInfo;
@@ -661,7 +661,7 @@ void DWCi_GT2ConnectAttemptCallback(u32 socket, Gt2Connection *connection, u32 a
 
 // Result of a connect to a peer: 0 adds the peer, 6 retries the connect up to 5 times, 5 is ignored, 2 ends the
 // attempt, other results are reported.
-void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result) {
+void DWCi_GT2ConnectedCallback(GTI2Connection *connection, s32 result) {
     WiFiMatching *wiFiMatching;
     s32 index;
     void **connHandleSlot;
@@ -732,7 +732,7 @@ void DWCi_GT2ConnectedCallback(Gt2Connection *connection, s32 result) {
     DWCi_PostProcessConnection(POST_PROCESS_FIRST_PEER_CONNECTED);
 }
 
-void DWCi_MatchGPRecvBuddyMsgCallback(GpConnection *gpConnection, u32 profileId, const char *message) {
+void DWCi_MatchGPRecvBuddyMsgCallback(GPConnection *gpConnection, u32 profileId, const char *message) {
     u32 values[33];
     char valueStr[16];
     const char **valueEnd;
@@ -1148,7 +1148,7 @@ void DWCi_ResetMatchParam(s32 level) {
 
 // Resets all search fields, then sets mode, entry count and result callback for a new search and registers keys 0x32 to
 // 0x36.
-void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedCallback matchedCallback, u32 matchedParam) {
+void DWCi_SetMatchCommonParam(u8 matchType, u8 numEntry, DWCMatchedSCCallback matchedCallback, u32 matchedParam) {
     WiFiMatching **matchingSlot;
     DWCi_ResetMatchParam(0);
     matchingSlot = &gWiFiMatching;
@@ -1247,7 +1247,7 @@ s32 DWCi_GetDefaultMatchFilter(char *buffer, s32 profileId, s32 numEntry, s32 mo
         "dwc_mver", 3, gDwcPidKey, profileId, numEntry, numEntry, "dwc_mtype", mode, "dwc_mresv", gDwcPidKey);
 }
 
-u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SbServer *server) {
+u32 DWCi_NNStartupAsync(s32 isQR2, s32 cookie, SBServer *server) {
     u32 words[2];
     u16 hostIdLow;
     u32 index;
@@ -1409,7 +1409,7 @@ u32 DWCi_SendSBMsgCommand(u32 command, u32 address, u32 port, u32 *values, u32 v
     return sendResult;
 }
 
-s32 DWCi_SendGPBuddyMsgCommand(struct GpConnection *gpConnection, u32 command, u32 profileId, const char *text) {
+s32 DWCi_SendGPBuddyMsgCommand(struct GPConnection *gpConnection, u32 command, u32 profileId, const char *text) {
     char msgBuf[0x200];
     char *textDest;
     char *bufPlusOne;
@@ -1907,7 +1907,7 @@ u32 DWCi_HandleMatchCommandError(u32 result) {
 
 u32 DWCi_SendResvCommand(u32 profileId, s32 delay) {
     u32 words[3];
-    SbServer *serverEntry;
+    SBServer *serverEntry;
     u32 wordCount;
     u32 resvKind;
 
@@ -2844,7 +2844,7 @@ u8 DWCi_GetAIDFromList(void) {
     return aid;
 }
 
-s32 DWCi_CheckDWCServer(SbServer *server) {
+s32 DWCi_CheckDWCServer(SBServer *server) {
     if (SBServerGetIntValueA(server, "numplayers", -1) == -1) {
         return 0;
     }
@@ -3202,9 +3202,9 @@ u32 ReportMatchingConnectResult(u32 result) {
     return result;
 }
 
-void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server, u32 instance) {
+void DWCi_SBCallback(MatchingServerList *list, s32 event, SBServer *server, u32 instance) {
     s32 serverIndex;
-    SbServer *listedServer;
+    SBServer *listedServer;
     s32 serverProfileId;
     WiFiMatching *wiFiMatching;
     switch (event) {
@@ -3313,7 +3313,7 @@ void DWCi_SBCallback(MatchingServerList *list, s32 event, SbServer *server, u32 
     }
 }
 
-void DWCi_SBPrintServerData(SbServer *server) {}
+void DWCi_SBPrintServerData(SBServer *server) {}
 
 // Removes servers already in the list or refused by mEvalCallback and stores the callback's value for each remaining
 // one under dwc_eval.
@@ -3321,7 +3321,7 @@ BOOL DWCi_EvaluateServers(s32 sort) {
     BOOL removedAny;
     BOOL removedThis;
     s32 serverIndex;
-    SbServer *serverEntry;
+    SBServer *serverEntry;
     u32 value;
     s32 participantPos;
     removedAny = FALSE;

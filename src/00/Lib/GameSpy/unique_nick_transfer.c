@@ -26,8 +26,8 @@
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operation, const char *input) {
-    GpiCallback callback;
+s32 gpiProcessRegisterUniqueNick(GPConnection *connection, GPIOperation *operation, const char *input) {
+    GPICallback callback;
     u32 *arg;
     s32 result;
 
@@ -56,7 +56,7 @@ s32 gpiProcessRegisterUniqueNick(GpConnection *connection, GpiOperation *operati
     return 0;
 }
 
-s32 gpiSendTransferReply(GpConnection *connection, GpiTransferId *transferID, GpiPeer *peer, s32 result,
+s32 gpiSendTransferReply(GPConnection *connection, GPITransferID *transferID, GPIPeer *peer, s32 result,
                          const char *msg) {
     char buffer[0x24];
     s32 stepResult;

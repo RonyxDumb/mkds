@@ -478,11 +478,11 @@ void *DWCi_GetGT2Connection(u32 aid) {
     return NULL;
 }
 
-u8 DWCi_GetConnectionAID(Gt2Connection *connection) {
+u8 DWCi_GetConnectionAID(GTI2Connection *connection) {
     return gt2GetConnectionData(connection)[1];
 }
 
-u32 DWCi_GetConnectionIndex(Gt2Connection *connection) {
+u32 DWCi_GetConnectionIndex(GTI2Connection *connection) {
     return gt2GetConnectionData(connection)[0];
 }
 
@@ -732,7 +732,7 @@ s32 stLastSocketError;
 // GP callback slot 3 (message). The first branch hands the text to DWCi_GPRecvBuddyAuthCallback (the "I have authorized
 // ..." sentence); the second takes GPCM-prefixed text with a MAT tag and forwards it to the matching code only in state
 // 5 or matching mode 2 and 3.
-void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param) {
+void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData *arg, u32 param) {
     char *message;
     char versionText[12] = {0};
     u32 versionLength;
@@ -762,13 +762,13 @@ void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData 
     }
 }
 
-// Slot 1 of the Gt2ConnectionCallbacks record (the library's gti2ReceivedCallback): the body
+// Slot 1 of the GT2ConnectionCallbacks record (the library's gti2ReceivedCallback): the body
 // only forwards (connection, data, size, flag) to DWCi_RecvCallback, the receive side of the message layer.
-void DWCi_GT2ReceivedCallback(Gt2Connection *connection, void *message, s32 length, u32 reliable) {
+void DWCi_GT2ReceivedCallback(GTI2Connection *connection, void *message, s32 length, u32 reliable) {
     DWCi_RecvCallback(connection, message, length, reliable);
 }
 
-void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
+void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason) {
     u32 profileId;
     s32 detail;
     BOOL hostSide;
@@ -868,11 +868,11 @@ void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason) {
 
 // Slot 3 of the record (gti2PingCallback): the body only forwards (connection, elapsed time) to
 // DWCi_PingCallback, which calls the layer's mPingCallback, when it is set, with the time and the peer's aid.
-void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency) {
+void DWCi_GT2PingCallback(GTI2Connection *connection, u32 latency) {
     DWCi_PingCallback(connection, latency);
 }
 
-void DWCi_GT2SocketErrorCallback(Gt2Socket *socket) {
+void DWCi_GT2SocketErrorCallback(GTI2Socket *socket) {
     stLastSocketError = GOAGetLastError(gt2GetSocketSOCKET(socket));
     DWCi_SetError(0xb, -0x17aeb);
     gWiFiConnection->mSocket = NULL;

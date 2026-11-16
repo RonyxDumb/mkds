@@ -81,7 +81,7 @@ typedef struct GetInfoReply {
 #include "00/Lib/GameSpy/send_buffer.h"
 #include "00/Lib/GameSpy/buddy_messages.h"
 
-u32 gpiAddLocalInfo(GpConnection *connection, GpiBuffer *buffer);
-s32 gpiProcessGetInfo(GpConnection *connection, GpiOperation *operation, const char *input);
+u32 gpiAddLocalInfo(GPConnection *connection, GPIBuffer *buffer);
+s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const char *input);
 void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg);
-u32 gpiIntToDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 *year);
+u32 gpiIntToDate(GPConnection *connection, s32 date, u32 *day, u32 *month, u32 *year);

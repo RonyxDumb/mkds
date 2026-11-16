@@ -24,7 +24,7 @@
 #include "00/Lib/GameSpy/profile_walk.h"
 #include "00/Lib/GameSpy/callback_queue.h"
 
-u32 gpiAppendCharToBuffer(void *connection, GpiBuffer *outputBuffer, s32 byte) {
+u32 gpiAppendCharToBuffer(void *connection, GPIBuffer *outputBuffer, s32 byte) {
     u8 *buffer;
     s32 length;
     s32 capacity;
@@ -51,7 +51,7 @@ u32 gpiAppendCharToBuffer(void *connection, GpiBuffer *outputBuffer, s32 byte) {
     return 0;
 }
 
-u32 gpiAppendStringToBufferLen(void *connection, GpiBuffer *outputBuffer, const void *string, s32 stringLen) {
+u32 gpiAppendStringToBufferLen(void *connection, GPIBuffer *outputBuffer, const void *string, s32 stringLen) {
     s32 capacity;
     u8 *buffer;
     s32 length;
@@ -98,7 +98,7 @@ u32 gpiAppendIntToBuffer(void *connection, void *outputBuffer, u32 number) {
     return gpiAppendStringToBuffer(connection, outputBuffer, numberText);
 }
 
-u32 gpiSendData(GpConnection *connection, s32 sock, const void *data, s32 dataLen, s32 *wasClosed, s32 *bytesSent,
+u32 gpiSendData(GPConnection *connection, s32 sock, const void *data, s32 dataLen, s32 *wasClosed, s32 *bytesSent,
                  const s8 *label) {
     s32 sendResult;
     u32 lastError;
@@ -127,7 +127,7 @@ u32 gpiSendData(GpConnection *connection, s32 sock, const void *data, s32 dataLe
     return 0;
 }
 
-u32 gpiSendOrBufferChar(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
+u32 gpiSendOrBufferChar(GPConnection *connection, GPIPeer *gpiPeer, s8 byte) {
     s32 wasClosed;
     s32 bytesSent;
     u32 sendResult;
@@ -148,7 +148,7 @@ u32 gpiSendOrBufferChar(GpConnection *connection, GpiPeer *gpiPeer, s8 byte) {
     return gpiAppendCharToBuffer(connection, &gpiPeer->mOutputBuffer, byte);
 }
 
-u32 gpiSendOrBufferStringLen(GpConnection *connection, GpiPeer *gpiPeer, const char *data, s32 byteCount) {
+u32 gpiSendOrBufferStringLen(GPConnection *connection, GPIPeer *gpiPeer, const char *data, s32 byteCount) {
     s32 offset;
     s32 wasClosed;
     s32 bytesSent;
@@ -184,7 +184,7 @@ u32 gpiSendOrBufferStringLen(GpConnection *connection, GpiPeer *gpiPeer, const c
     return 0;
 }
 
-u32 gpiSendOrBufferString(GpConnection *connection, GpiPeer *gpiPeer, const char *string) {
+u32 gpiSendOrBufferString(GPConnection *connection, GPIPeer *gpiPeer, const char *string) {
     u32 stringLen = strlen(string);
     return gpiSendOrBufferStringLen(connection, gpiPeer, string, stringLen);
 }
@@ -193,7 +193,7 @@ static void UnusedFormatDecimal(char *text, u32 number) {
     sprintf(text, "%d", number);
 }
 
-u32 gpiRecvToBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer, s32 *bytesRead, u32 *connClosed,
+u32 gpiRecvToBuffer(GPConnection *connection, s32 sock, GPIBuffer *inputBuffer, s32 *bytesRead, u32 *connClosed,
                      const s8 *label) {
     u8 *buffer;
     s32 length;
@@ -260,7 +260,7 @@ u32 gpiRecvToBuffer(GpConnection *connection, s32 sock, GpiBuffer *inputBuffer, 
     return 0;
 }
 
-u32 gpiSendFromBuffer(GpConnection *connection, s32 sock, GpiBuffer *outputBuffer, u32 *connClosed, s32 discardSent,
+u32 gpiSendFromBuffer(GPConnection *connection, s32 sock, GPIBuffer *outputBuffer, u32 *connClosed, s32 discardSent,
                   const s8 *label) {
     s32 wasClosed;
     s32 bytesSent;

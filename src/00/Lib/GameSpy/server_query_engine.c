@@ -8,7 +8,7 @@
 #include "00/Lib/GameSpy/query_reporting.h"
 #include "00/Lib/GameSpy/availability_check.h"
 
-void FIFOAddRear(SBServerFIFO *fifo, SbServer *server) {
+void FIFOAddRear(SBServerFIFO *fifo, SBServer *server) {
     if (fifo->mLast != NULL) {
         fifo->mLast->mNext = server;
     }
@@ -20,7 +20,7 @@ void FIFOAddRear(SBServerFIFO *fifo, SbServer *server) {
     fifo->mCount = fifo->mCount + 1;
 }
 
-void FIFOAddFront(SBServerFIFO *fifo, SbServer *server) {
+void FIFOAddFront(SBServerFIFO *fifo, SBServer *server) {
     server->mNext = fifo->mFirst;
     fifo->mFirst = server;
     if (fifo->mLast == NULL) {
@@ -29,8 +29,8 @@ void FIFOAddFront(SBServerFIFO *fifo, SbServer *server) {
     fifo->mCount = fifo->mCount + 1;
 }
 
-SbServer *FIFOGetFirst(SBServerFIFO *fifo) {
-    SbServer *server;
+SBServer *FIFOGetFirst(SBServerFIFO *fifo) {
+    SBServer *server;
     server = fifo->mFirst;
     if (server != NULL) {
         fifo->mFirst = server->mNext;
@@ -42,9 +42,9 @@ SbServer *FIFOGetFirst(SBServerFIFO *fifo) {
     return server;
 }
 
-BOOL FIFORemove(SBServerFIFO *fifo, SbServer *server) {
-    SbServer *current;
-    SbServer *previous;
+BOOL FIFORemove(SBServerFIFO *fifo, SBServer *server) {
+    SBServer *current;
+    SBServer *previous;
     previous = NULL;
     current = fifo->mFirst;
     while (current != NULL) {
@@ -73,7 +73,7 @@ void FIFOClear(SBServerFIFO *fifo) {
     fifo->mCount = 0;
 }
 
-void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
+void QEStartQuery(SBQueryEngine *engine, SBServer *server) {
     SocketAddress address;
     u8 query[0x100];
     s32 queryLength;
@@ -120,7 +120,7 @@ void QEStartQuery(SBQueryEngine *engine, SbServer *server) {
 }
 
 void SBQueryEngineInit(SBQueryEngine *engine, s32 maxUpdates, u32 queryVersion, s32 lanBrowse,
-                       SBEngineCallback callback, void *instance) {
+                       SBEngineCallbackFn callback, void *instance) {
     if (lanBrowse == 0 && gGsiAcResult != 1) {
         return;
     }
@@ -152,7 +152,7 @@ void SBEngineCleanup(MatchingServerList *matchingServerList) {
     FIFOClear(&matchingServerList->mEngine.mQueryList);
 }
 
-void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFront, s32 updateKind) {
+void SBQueryEngineUpdateServer(SBQueryEngine *engine, SBServer *server, s32 atFront, s32 updateKind) {
     u8 *statePtr;
     statePtr = &server->mStateFlags;
     server->mStateFlags &=
@@ -175,7 +175,7 @@ void SBQueryEngineUpdateServer(SBQueryEngine *engine, SbServer *server, s32 atFr
     }
 }
 
-void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 length) {
+void ParseSingleQR2Reply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 length) {
     s32 keyIndex;
     s32 valueLength;
     if (data[0] == 0) {
@@ -207,7 +207,7 @@ void ParseSingleQR2Reply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     }
 }
 
-void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 length) {
+void ParseSingleGOAReply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 length) {
     BOOL isFinal;
     if (strstr((const char *) data, "\\final\\") != NULL) {
         isFinal = TRUE;
@@ -228,7 +228,7 @@ void ParseSingleGOAReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 
     }
 }
 
-BOOL ParseSingleICMPReply(SBQueryEngine *engine, SbServer *server, s8 *data, s32 length) {
+BOOL ParseSingleICMPReply(SBQueryEngine *engine, SBServer *server, s8 *data, s32 length) {
     return 1;
 }
 
@@ -237,7 +237,7 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 useIcmpSocket) {
     SocketAddress address;
     s32 addressLength;
     s32 length;
-    SbServer *queryEntry;
+    SBServer *queryEntry;
     s8 data[0x800];
     addressLength = 8;
     if (useIcmpSocket != 0) {
@@ -277,7 +277,7 @@ void ProcessIncomingReplies(SBQueryEngine *engine, s32 useIcmpSocket) {
 
 void TimeoutOldQueries(SBQueryEngine *engine) {
     u32 currentTime;
-    SbServer *server;
+    SBServer *server;
     currentTime = current_time();
     server = engine->mQueryList.mFirst;
     while (server != NULL) {
@@ -295,7 +295,7 @@ void TimeoutOldQueries(SBQueryEngine *engine) {
 }
 
 void QueueNextQueries(SBQueryEngine *engine) {
-    SbServer *pendingServer;
+    SBServer *pendingServer;
     while ((engine->mQueryList.mCount < engine->mMaxUpdates && (0 < engine->mPendingList.mCount))) {
         pendingServer = FIFOGetFirst(&engine->mPendingList);
         QEStartQuery(engine, pendingServer);
@@ -325,7 +325,7 @@ void SBQueryEngineAddQueryKey(SBQueryEngine *engine, u8 keyId) {
     }
 }
 
-void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SbServer *server) {
+void SBQueryEngineRemoveServerFromFIFOs(MatchingServerList *matchingServerList, SBServer *server) {
     int removed;
     removed = FIFORemove(&matchingServerList->mEngine.mQueryList, server);
     if (removed == 0) {

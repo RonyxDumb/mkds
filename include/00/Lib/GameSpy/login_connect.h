@@ -37,8 +37,8 @@ typedef struct GPIConnectData {
 } GPIConnectData;
 
 void randomString(char *buffer, s32 numChars);
-u32 gpiSendLogin(GpConnection *connection, GPIConnectData *data);
-u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,
+u32 gpiSendLogin(GPConnection *connection, GPIConnectData *data);
+u32 GpiStartConnect(GPConnection *connection, const char *nick, const char *uniquenick, const char *email,
                     const char *password, const s8 *authtoken, const s8 *partnerchallenge, const char *cdkey,
-                    s32 firewall, s32 newuser, s32 blocking, GpiCallbackFn callback, s32 param);
-u32 gpiStartConnect(GpConnection *connection, GpiOperation *operation);
+                    s32 firewall, s32 newuser, s32 blocking, GPCallback callback, s32 param);
+u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation);

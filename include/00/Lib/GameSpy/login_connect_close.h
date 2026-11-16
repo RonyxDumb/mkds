@@ -15,5 +15,5 @@
 #include "print_memory_multibyte_write.h"
 #include "00/Lib/GameSpy/send_buffer.h"
 
-void gpiDisconnect(GpConnection *connection, s32 tellServer);
-s32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile, void *data);
+void gpiDisconnect(GPConnection *connection, s32 tellServer);
+s32 gpiDisconnectCleanupProfile(GPConnection *connection, GPIProfile *profile, void *data);

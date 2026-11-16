@@ -26,7 +26,7 @@
 #include "00/Lib/GameSpy/callback_queue.h"
 #include "00/Lib/GameSpy/peer_connection.h"
 
-u32 gpiIntToDate(GpConnection *connection, s32 date, u32 *day, u32 *month, u32 *year) {
+u32 gpiIntToDate(GPConnection *connection, s32 date, u32 *day, u32 *month, u32 *year) {
     int isValid;
     u32 unpackedDay;
     u32 unpackedMonth;
@@ -118,10 +118,10 @@ void gpiInfoCacheToArg(GPIInfoCache *cache, GetInfoReply *arg) {
     arg->mConntypeid = cache->mConntypeid;
 }
 
-s32 gpiProcessGetInfo(GpConnection *connection, GpiOperation *operation, const char *input) {
-    GpiConnection *gpState;
-    GpiProfile *profileEntry;
-    GpiCallback callback;
+s32 gpiProcessGetInfo(GPConnection *connection, GPIOperation *operation, const char *input) {
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
+    GPICallback callback;
     char buffer[0x40];
     char nickText[0x1f];
     char uniqueNickText[0x15];
@@ -130,7 +130,7 @@ s32 gpiProcessGetInfo(GpConnection *connection, GpiOperation *operation, const c
     char lastNameText[0x1f];
     char aimNameText[0x33];
     GetInfoReply *arg;
-    GpiPeer *peerConn;
+    GPIPeer *peerConn;
     s32 profileid;
     s32 result;
     s32 savePeerSig;
@@ -327,8 +327,8 @@ s32 gpiProcessGetInfo(GpConnection *connection, GpiOperation *operation, const c
     }
 }
 
-u32 gpiAddLocalInfo(GpConnection *connection, GpiBuffer *buffer) {
-    GpiConnection *gpState;
+u32 gpiAddLocalInfo(GPConnection *connection, GPIBuffer *buffer) {
+    GPIConnection *gpState;
     gpState = connection->mGpiConnection;
     if (0 < gpState->mUpdateproBufferLength) {
         gpiAppendStringToBuffer(connection, buffer, "\\updatepro\\\\sesskey\\");
@@ -347,8 +347,8 @@ u32 gpiAddLocalInfo(GpConnection *connection, GpiBuffer *buffer) {
     return 0;
 }
 
-u32 gpiSendLocalInfo(GpConnection *connection, const char *info, const char *value) {
-    GpiConnection *gpState;
+u32 gpiSendLocalInfo(GPConnection *connection, const char *info, const char *value) {
+    GPIConnection *gpState;
     u32 result;
 
     gpState = connection->mGpiConnection;
@@ -363,8 +363,8 @@ u32 gpiSendLocalInfo(GpConnection *connection, const char *info, const char *val
     return 0;
 }
 
-u32 gpiSendUserInfo(GpConnection *connection, const char *info, const char *value) {
-    GpiConnection *gpState;
+u32 gpiSendUserInfo(GPConnection *connection, const char *info, const char *value) {
+    GPIConnection *gpState;
     u32 result;
 
     gpState = connection->mGpiConnection;
@@ -379,7 +379,7 @@ u32 gpiSendUserInfo(GpConnection *connection, const char *info, const char *valu
     return 0;
 }
 
-u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
+u32 gpiSetInfoi(GPConnection *connection, s32 info, s32 value) {
     char intText[0x10];
     u32 result;
 
@@ -542,8 +542,8 @@ u32 gpiSetInfoi(GpConnection *connection, s32 info, s32 value) {
     return 0;
 }
 
-u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
-    GpiConnection *gpState;
+u32 gpiSetInfos(GPConnection *connection, s32 info, const s8 *value) {
+    GPIConnection *gpState;
     char valueCopy[0x100];
     u32 result;
 
@@ -788,7 +788,7 @@ u32 gpiSetInfos(GpConnection *connection, s32 info, const s8 *value) {
     return 0;
 }
 
-static void UnusedSendBirthdayInfo(GpConnection *connection, s32 value) {
+static void UnusedSendBirthdayInfo(GPConnection *connection, s32 value) {
     char intText[0x10];
 
     sprintf(intText, "%d", value);
@@ -796,8 +796,8 @@ static void UnusedSendBirthdayInfo(GpConnection *connection, s32 value) {
     gpiSendLocalInfo(connection, "\\birthday\\", intText);
 }
 
-u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
-    GpiConnection *gpState;
+u32 gpiSendGetInfo(GPConnection *connection, u32 profileid, u32 operationid) {
+    GPIConnection *gpState;
 
     gpState = connection->mGpiConnection;
     gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\getprofile\\\\sesskey\\");
@@ -810,15 +810,15 @@ u32 gpiSendGetInfo(GpConnection *connection, u32 profileid, u32 operationid) {
     return 0;
 }
 
-u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocking, GpiCallbackFn callback, u32 param) {
-    GpiProfile *profileEntry;
-    GpiOperation *newOperation;
+u32 gpiGetInfo(GPConnection *connection, u32 profile, s32 checkCache, u32 blocking, GPCallback callback, u32 param) {
+    GPIProfile *profileEntry;
+    GPIOperation *newOperation;
     GetInfoReply *arg;
-    GpiCallback queuedCallback;
+    GPICallback queuedCallback;
     u32 result;
     BOOL tryCache;
     u32 operationId;
-    GpiConnection *gpState;
+    GPIConnection *gpState;
 
     gpState = connection->mGpiConnection;
     newOperation = NULL;
@@ -871,7 +871,7 @@ u32 gpiGetInfo(GpConnection *connection, u32 profile, s32 checkCache, u32 blocki
     return 0;
 }
 
-u32 gpiSetInfoCache(GpConnection *connection, GpiProfile *profile, GPIInfoCache *cache) {
+u32 gpiSetInfoCache(GPConnection *connection, GPIProfile *profile, GPIInfoCache *cache) {
     if (connection->mGpiConnection->mInfoCaching == 0) {
         return 1;
     }

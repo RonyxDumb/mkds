@@ -19,7 +19,7 @@
 #include "friend_user_data.h"
 #include "Main/Net/friend_data_from_profile.h"
 
-void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *arg, u32 friendIdx) {
+void DWCi_GPProfileSearchCallback(GPConnection *connection, ProfileSearchReply *arg, u32 friendIdx) {
     s32 matchSlot;
     s32 zero;
     s32 buddyIndex;
@@ -69,8 +69,8 @@ void DWCi_GPProfileSearchCallback(GpConnection *connection, ProfileSearchReply *
     }
 }
 
-void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, GetInfoReply *arg, u32 param) {
-    GpConnection *gpConnection = connection;
+void DWCi_GPGetInfoCallback_RecvBuddyRequest(GPConnection *connection, GetInfoReply *arg, u32 param) {
+    GPConnection *gpConnection = connection;
     s32 index;
     BOOL approve;
     char friendName[0x18];
@@ -101,7 +101,7 @@ void DWCi_GPGetInfoCallback_RecvBuddyRequest(GpConnection *connection, GetInfoRe
     }
 }
 
-void DWCi_GPGetInfoCallback_RecvAuthMessage(GpConnection *connection, GetInfoReply *arg, u32 param) {
+void DWCi_GPGetInfoCallback_RecvAuthMessage(GPConnection *connection, GetInfoReply *arg, u32 param) {
     s32 index;
     BOOL matched;
     char friendName[0x1c];

@@ -13,7 +13,7 @@
 #pragma opt_propagation off
 
 u8 gAvailablePacketHeader[4] = {0xfe, 0xfd, 9, 0};
-SbServerList *gSortServerList;
+SBServerList *gSortServerList;
 s32 gGsiAcResult;
 char gGsiAcHostname[0x40];
 GsiAvailableCheck gGsiAvailableCheck;
@@ -122,9 +122,9 @@ s32 GSIAvailableCheckThink(void) {
     return 0;
 }
 
-s32 IntKeyCompare(SbServer **entry1, SbServer **entry2) {
-    SbServer *firstServer;
-    SbServer *secondServer;
+s32 IntKeyCompare(SBServer **entry1, SBServer **entry2) {
+    SBServer *firstServer;
+    SBServer *secondServer;
     s32 firstValue;
     s32 diff;
     firstServer = *entry1;
@@ -137,9 +137,9 @@ s32 IntKeyCompare(SbServer **entry1, SbServer **entry2) {
     return diff;
 }
 
-s32 FloatKeyCompare(SbServer **entry1, SbServer **entry2) {
-    SbServer *firstServer;
-    SbServer *secondServer;
+s32 FloatKeyCompare(SBServer **entry1, SBServer **entry2) {
+    SBServer *firstServer;
+    SBServer *secondServer;
     double firstValue;
     double secondValue;
     double difference;

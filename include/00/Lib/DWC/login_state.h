@@ -16,13 +16,13 @@ enum {
 
 // The Wi-Fi login: gets the auth token over HTTP, then connects to the GP server and checks the profile (mState).
 typedef struct WiFiLogin {
-    /* 00 */ GpConnection *mGpConnection;
+    /* 00 */ GPConnection *mGpConnection;
     // 0 idle, 1 waiting for the HTTP reply, 2 GP connect for a known profile (success: id check, socket, done), 3 GP
     // connect then 4 profile name check (DWCi_GPGetInfoCallback), 5 done. Written only by the machine; 0 is
     // DWCi_CloseLogin.
     /* 04 */ s32 mState;
     // Game id 0x4d6 (DWC_InitFriendsMatch's fourth parameter): given to gpInitialize, which stores it as
-    // GpiConnection.mProductId and writes it after '\productid\'.
+    // GPIConnection.mProductId and writes it after '\productid\'.
     /* 08 */ u32 mProductId;
     /* 0c */ u32 mGamecode;
     /* 10 */ u32 mPlayerName;

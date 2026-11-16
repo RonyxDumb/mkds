@@ -34,9 +34,9 @@
 #include "00/Lib/GameSpy/profile_find_by_buddy.h"
 #include "00/Lib/GameSpy/profile_info_set.h"
 
-u32 gpiReset(GpConnection *connection) {
-    GpiConnection *gpState;
-    GpiOperation **operationLink;
+u32 gpiReset(GPConnection *connection) {
+    GPIConnection *gpState;
+    GPIOperation **operationLink;
     gpState = connection->mGpiConnection;
     gpState->mNick[0] = 0;
     gpState->mUniquenick[0] = 0;
@@ -92,9 +92,9 @@ u32 gpiReset(GpConnection *connection) {
     return 0;
 }
 
-u32 gpiProcessConnectionManager(GpConnection *connection) {
-    GpiConnection *gpState;
-    GpiOperation *pendingOp;
+u32 gpiProcessConnectionManager(GPConnection *connection) {
+    GPIConnection *gpState;
+    GPIOperation *pendingOp;
     u32 result;
     s32 operationId;
     char *found;
@@ -111,7 +111,7 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
         if (result != 0) {
             return result;
         }
-        result = gpiRecvToBuffer(connection, gpState->mConnectSocket, (GpiBuffer *) &gpState->mInputBuffer,
+        result = gpiRecvToBuffer(connection, gpState->mConnectSocket, (GPIBuffer *) &gpState->mInputBuffer,
                                   &len, &socketGone, (s8 *) "CM");
         if (result != 0) {
             if (result == 3) {
@@ -185,10 +185,10 @@ u32 gpiProcessConnectionManager(GpConnection *connection) {
 }
 
 int gpiProcess(void *connectionArgument, int blockingOperationID) {
-    GpConnection *connection;
-    GpiConnection *gpState;
-    GpiOperation *operation;
-    GpiOperation *opToRemove;
+    GPConnection *connection;
+    GPIConnection *gpState;
+    GPIOperation *operation;
+    GPIOperation *opToRemove;
     u32 result;
     u32 callbackResult;
     BOOL loop;

@@ -74,7 +74,7 @@ void DWCi_InitTransport(WiFiMessageLayer *layer) {
     gWiFiMessageLayer->mSendChunkSize = 0x5b9;
 }
 
-void DWCi_RecvCallback(Gt2Connection *connection, void *message, s32 size, u32 reliable) {
+void DWCi_RecvCallback(GTI2Connection *connection, void *message, s32 size, u32 reliable) {
     if (gWiFiMessageLayer != NULL) {
         if (reliable != 0) {
             DWCs_HandleReliableMessage(connection, message, size);
@@ -84,7 +84,7 @@ void DWCi_RecvCallback(Gt2Connection *connection, void *message, s32 size, u32 r
     }
 }
 
-void DWCi_PingCallback(Gt2Connection *connection, u32 latency) {
+void DWCi_PingCallback(GTI2Connection *connection, u32 latency) {
     if (gWiFiMessageLayer->mPingCallback != NULL) {
         gWiFiMessageLayer->mPingCallback(latency, DWCi_GetConnectionAID(connection));
     }
@@ -175,7 +175,7 @@ void DWCs_Send(u32 aid, void *buffer, u32 size, u32 reliable) {
     gt2Send(connection, buffer, size, reliable);
 }
 
-void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 size) {
+void DWCs_HandleReliableMessage(GTI2Connection *connection, void *message, s32 size) {
     u8 aid = DWCi_GetConnectionAID(connection);
     switch (DWCs_GetRecvState(aid)) {
         case WIFI_PEER_RECEIVE_STATE_INITIAL: {
@@ -205,7 +205,7 @@ void DWCs_HandleReliableMessage(Gt2Connection *connection, void *message, s32 si
     }
 }
 
-void DWCs_HandleUnreliableMessage(Gt2Connection *connection, const void *message, int size) {
+void DWCs_HandleUnreliableMessage(GTI2Connection *connection, const void *message, int size) {
     int aid;
     WiFiPeerMessage *peer;
     u64 receiveTick;

@@ -4,7 +4,7 @@
 
 typedef struct DWCAccFriendData DWCAccFriendData;
 
-struct GpConnection;
+struct GPConnection;
 
 // Values of WiFiBuddySync.mState: no update is running, the buddy update is running, it has finished.
 enum {
@@ -29,13 +29,13 @@ enum {
 // given it also talks to the stats server first. The end is reported through mResultCallback (mBuddiesChanged: the list
 // was rewritten and must be saved). DWCi_FriendProcess also pumps gpProcess every 300 ms in connection states 3 to 6,
 // and the object answers the GP buddy request and buddy status callbacks.
-typedef void (*DWCBuddyChangedCallback)(s32 index, void *arg);
+typedef void (*DWCBuddyFriendCallback)(s32 index, void *arg);
 
 typedef struct WiFiBuddySync {
     // 0 idle, 1 running, 2 finished; only compared (the per-frame step does not switch on it). mUnk_1e (0..3) is the
     // phase inside state 1 and stays address-based.
     /* 00 */ s32 mState;
-    /* 04 */ struct GpConnection *mGpConnection;
+    /* 04 */ struct GPConnection *mGpConnection;
     // gpProcess calls since the last restart (DWCi_InitGPProcessCount, at login success); the list part starts after
     // more than 7.
     /* 08 */ u32 mPollCount;
@@ -78,7 +78,7 @@ typedef struct WiFiBuddySync {
     // Set by DWC_SetBuddyFriendCallback (declared void *, called as void (*)(s32, void *)). Called by
     // DWCi_CallBuddyFriendCallback with (list index, arg) after a GP reply set an entry's profile id, unless a sync is
     // running (mState 1). The one caller passes BuddyChangedCallback.
-    /* 44 */ DWCBuddyChangedCallback mBuddyChangedCallback;
+    /* 44 */ DWCBuddyFriendCallback mBuddyChangedCallback;
     /* 48 */ void *mBuddyChangedCallbackArg;
     /* 4c */ void (*mSaveCallback)(s32 success, s32 isPublicData, u32 instance);
     /* 50 */ u32 mUnk_50;
@@ -87,4 +87,4 @@ typedef struct WiFiBuddySync {
 // Written by DWCi_FriendInit and cleared by DWCi_ShutdownFriend, the release half.
 extern WiFiBuddySync *gWiFiBuddySync;
 
-void DWC_SetBuddyFriendCallback(DWCBuddyChangedCallback callback, void *param);
+void DWC_SetBuddyFriendCallback(DWCBuddyFriendCallback callback, void *param);

@@ -32,10 +32,10 @@
 
 char gSearchManagerName[0x40] = "gpsp.gs.nintendowifi.net";
 
-void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
+void gpiHandleTransferMessage(GPConnection *connection, GPIPeer *peer, s32 type, const char *headers, s32 buffer,
                               s32 len) {
     char value[0x40];
-    GpiTransferId transferKey;
+    GPITransferID transferKey;
 
     if (gpiValueForKey(headers, "\\xfer\\", value, 0x40) != FALSE) {
         if (sscanf(value, "%d %u %u", &transferKey.mProfileId, &transferKey.mCount, &transferKey.mTime) == 3) {
@@ -44,7 +44,7 @@ void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type,
     }
 }
 
-s32 gpiStartProfileSearch(GpConnection *connection, GpiOperation *operation) {
+s32 gpiStartProfileSearch(GPConnection *connection, GPIOperation *operation) {
     GPISearchData *data;
     SOCHostEnt *resolvedHost;
     s32 socketError;
@@ -95,7 +95,7 @@ s32 gpiStartProfileSearch(GpConnection *connection, GpiOperation *operation) {
     return 0;
 }
 
-BOOL gpiInitSearchData(GpConnection *connection, GPISearchData **searchData, u32 kind) {
+BOOL gpiInitSearchData(GPConnection *connection, GPISearchData **searchData, u32 kind) {
     GPISearchData *data;
 
     data = DWCi_GsMalloc(sizeof(GPISearchData));
@@ -124,10 +124,10 @@ BOOL gpiInitSearchData(GpConnection *connection, GPISearchData **searchData, u32
     return FALSE;
 }
 
-int gpiStartSearch(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
+int gpiStartSearch(GPConnection *connection, GPISearchData *data, u32 blocking, GPCallback callback,
                             u32 param) {
     int result;
-    GpiOperation *pendingOp;
+    GPIOperation *pendingOp;
     connection->mGpiConnection->mSearchCount = connection->mGpiConnection->mSearchCount + 1;
     result = gpiAddOperation(connection, PROFILE_OPERATION_SEARCH, data, &pendingOp, blocking, callback, param);
     if (((result == 0) && (result = gpiStartProfileSearch(connection, pendingOp), result == 0)) &&
@@ -137,8 +137,8 @@ int gpiStartSearch(GpConnection *connection, GPISearchData *data, u32 blocking, 
     return result;
 }
 
-int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                     int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param) {
+int gpiProfileSearch(GPConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
+                     int icquin, int skip, u32 blocking, GPCallback callback, u32 param) {
     int result;
     GPISearchData *data;
     if ((((((nick == NULL) || (*nick == 0)) && ((email == NULL || (*email == 0)))) &&
@@ -189,25 +189,25 @@ int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *ema
     return result;
 }
 
-s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
+s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation) {
     char key[0x200];
     char value[0x200];
     ProfileSearchReply response;
     u32 state;
     s32 readPos;
-    GpiCallback profilesCallback;
+    GPICallback profilesCallback;
     u32 bytesRead;
     u32 socketClosed;
-    GpiCallback uniqueNickCallback;
-    GpiCallback othersCallback;
-    GpiCallback newUserCallback;
-    GpiCallback checkNickCallback;
-    GpiCallback playerMatchCallback;
-    GpiCallback nicksCallback;
-    GpiCallback emailCheckCallback;
+    GPICallback uniqueNickCallback;
+    GPICallback othersCallback;
+    GPICallback newUserCallback;
+    GPICallback checkNickCallback;
+    GPICallback playerMatchCallback;
+    GPICallback nicksCallback;
+    GPICallback emailCheckCallback;
     BOOL isDone;
     s32 savedPos;
-    GpiConnection *gpState;
+    GPIConnection *gpState;
     GPISearchData *data;
     BOOL loop;
     s32 result;
@@ -222,9 +222,9 @@ s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
     PlayerMatch *playerMatch;
     EmailCheckReply *u2;
     UserNicksReply *u3;
-    FindPlayersReply *u4;
+    PlayerMatchReply *u4;
     GpCheckNewUserResponseArg *u5;
-    ReverseBuddiesReply *u7;
+    OthersReply *u7;
     s32 entryIndex;
     SuggestNickReply *u9;
 
@@ -236,7 +236,7 @@ s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
         loop = FALSE;
     }
     do {
-        result = gpiSendFromBuffer(connection, data->mSocket, (GpiBuffer *) &data->mOutputBuffer, &socketClosed, 1,
+        result = gpiSendFromBuffer(connection, data->mSocket, (GPIBuffer *) &data->mOutputBuffer, &socketClosed, 1,
                                (const s8 *) "SM");
         if (result != 0) {
             return result;
@@ -357,7 +357,7 @@ s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
                 operation->mState = PROFILE_SEARCH_STATE_WAIT_REPLY;
             }
         } else if (operation->mState == PROFILE_SEARCH_STATE_WAIT_REPLY) {
-            result = gpiRecvToBuffer(connection, data->mSocket, (GpiBuffer *) &data->mInputBuffer, (s32 *) &bytesRead,
+            result = gpiRecvToBuffer(connection, data->mSocket, (GPIBuffer *) &data->mInputBuffer, (s32 *) &bytesRead,
                                       &socketClosed, (const s8 *) "SM");
             if (result != 0) {
                 if (result != 3) {
@@ -841,10 +841,10 @@ s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation) {
     return 0;
 }
 
-BOOL gpiProcessSearches(GpConnection *connection) {
-    GpiConnection *gpState;
-    GpiOperation **operations;
-    GpiOperation *operation;
+BOOL gpiProcessSearches(GPConnection *connection) {
+    GPIConnection *gpState;
+    GPIOperation **operations;
+    GPIOperation *operation;
     GPISearchData *data;
     u32 result;
     s32 count;

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "00/Lib/GameSpy/socket_accessors.h" // Gt2Connection
+#include "00/Lib/GameSpy/socket_accessors.h" // GTI2Connection
 #include "00/Lib/GameSpy/negotiator_free.h" // NatTraversalEntry
 #include "00/Lib/GameSpy/buddy_messages.h" // BuddyMessageData
 #include "00/Lib/DWC/login_state.h"
@@ -9,14 +9,14 @@
 #include "00/Lib/DWC/match_work.h"
 #include "00/Lib/DWC/data_transport.h"
 
-typedef struct GpConnection GpConnection;
+typedef struct GPConnection GPConnection;
 
 NatTraversalEntry *FindNegotiatorForCookie(u32 cookie);
-void DWCi_GT2SocketErrorCallback(Gt2Socket *socket);
-void DWCi_GT2PingCallback(Gt2Connection *connection, u32 latency);
-void DWCi_GT2ClosedCallback(Gt2Connection *connection, u32 reason);
-void DWCi_GT2ReceivedCallback(Gt2Connection *connection, void *message, s32 length, u32 reliable);
-void DWCi_GPRecvBuddyMessageCallback(GpConnection *connection, BuddyMessageData *arg, u32 param);
+void DWCi_GT2SocketErrorCallback(GTI2Socket *socket);
+void DWCi_GT2PingCallback(GTI2Connection *connection, u32 latency);
+void DWCi_GT2ClosedCallback(GTI2Connection *connection, u32 reason);
+void DWCi_GT2ReceivedCallback(GTI2Connection *connection, void *message, s32 length, u32 reliable);
+void DWCi_GPRecvBuddyMessageCallback(GPConnection *connection, BuddyMessageData *arg, u32 param);
 
 extern s32 stLastSocketError;
 
@@ -37,8 +37,8 @@ typedef void (*DWCLoginCallback)(s32 error, u32 profileId, u32 arg);
 typedef struct WiFiConnection {
     // Created by DWCi_GT2Startup when the login succeeds (called from login_process.c), closed by
     // DWC_ShutdownFriendsMatch; the socket's own error callback DWCi_GT2SocketErrorCallback sets it NULL.
-    /* 00 */ Gt2Socket *mSocket;
-    // Slot 0 of a Gt2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
+    /* 00 */ GTI2Socket *mSocket;
+    // Slot 0 of a GT2ConnectionCallbacks record made of mResultCallback, mDataCallback, mClosedCallback,
     // mElapsedTimeCallback (its address is handed to the matching object and from there to the Gt2 connect call):
     // result of a Gt2 connect, DWCi_GT2ConnectedCallback (retries up to 5 times).
     /* 04 */ void (*mResultCallback)();
@@ -53,13 +53,13 @@ typedef struct WiFiConnection {
     // Passed to gti2CreateSocket as the send buffer size (0 selects 0x2000).
     /* 14 */ u32 mSendBufferSize;
     // Pair of mSendBufferSize: both come from DWC_InitFriendsMatch's parameters (0 selects 0x2000) and go to
-    // gti2CreateSocket, which stores this one at Gt2Socket.mUnk_3c; the library gives it to the second gti2AllocateBuffer of
+    // gti2CreateSocket, which stores this one at GTI2Socket.mUnk_3c; the library gives it to the second gti2AllocateBuffer of
     // each connection, the buffer that holds reliable messages arriving ahead of the next expected
     // sequence number.
     /* 18 */ u32 mReceiveBufferSize;
     // The GP connection object: gpInitialize in state 1, closed by DWC_ShutdownFriendsMatch; the buddy object keeps a
     // pointer to it.
-    /* 1c */ GpConnection mGpConnection;
+    /* 1c */ GPConnection mGpConnection;
     /* 20 */ void *mUserData;
     // WIFI_CONNECTION_*. Written by DWC_InitFriendsMatch (IDLE) and DWCi_SetState only.
     /* 24 */ s32 mState;
@@ -114,7 +114,7 @@ typedef struct WiFiConnection {
     /* 7a0 */ WiFiMessageLayer mMessageLayer;
 } WiFiConnection;
 
-typedef struct Gt2Connection Gt2Connection;
+typedef struct GTI2Connection GTI2Connection;
 
 typedef struct DWCConnectionInfo {
     /* 00 */ u8 mIndex;
@@ -147,8 +147,8 @@ void **DWCi_GetGT2ConnectionByProfileID(u32 profileId, s32 numHost);
 void **DWCi_GetGT2ConnectionByIdx(s32 index);
 void DWCi_ClearGT2ConnectionList(void);
 s32 DWCi_GT2GetConnectionListIdx(void);
-u32 DWCi_GetConnectionIndex(Gt2Connection *connection);
-u8 DWCi_GetConnectionAID(Gt2Connection *connection);
+u32 DWCi_GetConnectionIndex(GTI2Connection *connection);
+u8 DWCi_GetConnectionAID(GTI2Connection *connection);
 void *DWCi_GetGT2Connection(u32 aid);
 s32 DWCi_GT2Startup(void);
 u32 DWC_GetState(void);

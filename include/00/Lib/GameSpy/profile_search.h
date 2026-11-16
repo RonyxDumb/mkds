@@ -27,11 +27,11 @@ typedef struct GpCheckNewUserResponseArg {
     /* 04 */ s32 mProfile;
 } GpCheckNewUserResponseArg;
 
-typedef struct ReverseBuddiesReply {
+typedef struct OthersReply {
     /* 00 */ s32 mResult;
     /* 04 */ s32 mNumProfiles;
     /* 08 */ ProfileMatch *mProfiles;
-} ReverseBuddiesReply;
+} OthersReply;
 
 typedef struct SuggestNickReply {
     /* 00 */ s32 mResult;
@@ -39,12 +39,12 @@ typedef struct SuggestNickReply {
     /* 08 */ char **mSuggestedNicks;
 } SuggestNickReply;
 
-typedef struct FindPlayersReply {
+typedef struct PlayerMatchReply {
     /* 00 */ s32 mResult;
     /* 04 */ s32 mProductId;
     /* 08 */ s32 mNumMatches;
     /* 0c */ PlayerMatch *mMatches;
-} FindPlayersReply;
+} PlayerMatchReply;
 
 typedef struct EmailCheckReply {
     /* 00 */ s32 mResult;
@@ -60,13 +60,13 @@ typedef struct UserNicksReply {
     /* 40 */ char **mUniquenicks;
 } UserNicksReply;
 
-BOOL gpiProcessSearches(GpConnection *connection);
-s32 gpiProcessSearch(GpConnection *connection, GpiOperation *operation);
-int gpiProfileSearch(GpConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
-                         int icquin, int skip, u32 blocking, GpiCallbackFn callback, u32 param);
-int gpiStartSearch(GpConnection *connection, GPISearchData *data, u32 blocking, GpiCallbackFn callback,
+BOOL gpiProcessSearches(GPConnection *connection);
+s32 gpiProcessSearch(GPConnection *connection, GPIOperation *operation);
+int gpiProfileSearch(GPConnection *connection, s8 *nick, s8 *uniquenick, s8 *email, s8 *firstname, s8 *lastname,
+                         int icquin, int skip, u32 blocking, GPCallback callback, u32 param);
+int gpiStartSearch(GPConnection *connection, GPISearchData *data, u32 blocking, GPCallback callback,
                             u32 param);
-BOOL gpiInitSearchData(GpConnection *connection, GPISearchData **searchData, u32 kind);
-s32 gpiStartProfileSearch(GpConnection *connection, GpiOperation *operation);
-void gpiHandleTransferMessage(GpConnection *connection, GpiPeer *peer, s32 type, const char *headers, s32 buffer,
+BOOL gpiInitSearchData(GPConnection *connection, GPISearchData **searchData, u32 kind);
+s32 gpiStartProfileSearch(GPConnection *connection, GPIOperation *operation);
+void gpiHandleTransferMessage(GPConnection *connection, GPIPeer *peer, s32 type, const char *headers, s32 buffer,
                               s32 len);

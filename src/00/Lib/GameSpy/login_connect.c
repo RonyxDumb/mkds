@@ -39,8 +39,8 @@ void randomString(char *buffer, s32 numChars) {
     buffer[index] = 0;
 }
 
-u32 gpiStartConnect(GpConnection *connection, GpiOperation *operation) {
-    GpiConnection *gpState;
+u32 gpiStartConnect(GPConnection *connection, GPIOperation *operation) {
+    GPIConnection *gpState;
     SOCSockAddrIn address;
     SOCHostEnt *resolvedHost;
     u32 len;
@@ -119,12 +119,12 @@ u32 gpiStartConnect(GpConnection *connection, GpiOperation *operation) {
     return 0;
 }
 
-u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniquenick, const char *email,
+u32 GpiStartConnect(GPConnection *connection, const char *nick, const char *uniquenick, const char *email,
                     const char *password, const s8 *authtoken, const s8 *partnerchallenge, const char *cdkey,
-                    s32 firewall, s32 newuser, s32 blocking, GpiCallbackFn callback, s32 param) {
-    GpiConnection *gpState;
+                    s32 firewall, s32 newuser, s32 blocking, GPCallback callback, s32 param) {
+    GPIConnection *gpState;
     GPIConnectData *data;
-    GpiOperation *pendingOp;
+    GPIOperation *pendingOp;
     u32 result;
 
     gpState = connection->mGpiConnection;
@@ -189,11 +189,11 @@ u32 GpiStartConnect(GpConnection *connection, const char *nick, const char *uniq
     return 0;
 }
 
-u32 gpiSendLogin(GpConnection *connection, GPIConnectData *data) {
-    GpiConnection *gpState;
+u32 gpiSendLogin(GPConnection *connection, GPIConnectData *data) {
+    GPIConnection *gpState;
     s8 *hashInput;
     s8 *loginName;
-    GpiProfile *profile;
+    GPIProfile *profile;
     char response[0x21];
     char buffer[0x200];
     char loginNameBuf[0x57];
@@ -268,8 +268,8 @@ u32 gpiSendLogin(GpConnection *connection, GPIConnectData *data) {
     return 0;
 }
 
-u32 gpiSendNewuser(GpConnection *connection, GPIConnectData *data) {
-    GpiConnection *gpState;
+u32 gpiSendNewuser(GPConnection *connection, GPIConnectData *data) {
+    GPIConnection *gpState;
     u32 length;
     u32 index;
     s8 randomByte;
@@ -319,14 +319,14 @@ u32 gpiSendNewuser(GpConnection *connection, GPIConnectData *data) {
     return 0;
 }
 
-u32 gpiProcessConnect(GpConnection *connection, GpiOperation *operation, const char *input) {
-    GpiConnection *gpState;
+u32 gpiProcessConnect(GPConnection *connection, GPIOperation *operation, const char *input) {
+    GPIConnection *gpState;
     GPIConnectData *data;
     char digestHex[0x21];
     char uniqueNickText[0x15];
     char buffer[0x200];
     char loginNameBuf[0x52];
-    GpiCallback callback;
+    GPICallback callback;
     ConnectReply *arg;
     void *loginName;
     u32 result;
@@ -454,7 +454,7 @@ u32 gpiProcessConnect(GpConnection *connection, GpiOperation *operation, const c
                 return 3;
             }
             if (gpState->mInfoCaching != 0) {
-                GpiProfile *profile = gpiProfileListAdd(connection, gpState->mProfileId);
+                GPIProfile *profile = gpiProfileListAdd(connection, gpState->mProfileId);
                 profile->mProfileId = gpState->mProfileId;
                 profile->mUserId = gpState->mUserId;
             }
@@ -481,9 +481,9 @@ u32 gpiProcessConnect(GpConnection *connection, GpiOperation *operation, const c
     return 0;
 }
 
-int gpiCheckConnect(GpConnection *connection) {
+int gpiCheckConnect(GPConnection *connection) {
     int result;
-    GpiConnection *gpState;
+    GPIConnection *gpState;
     u32 state;
     gpState = connection->mGpiConnection;
     result = gpiCheckSocketConnect(connection, gpState->mConnectSocket, &state);
@@ -505,8 +505,8 @@ int gpiCheckConnect(GpConnection *connection) {
     return result;
 }
 
-s32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile, void *data) {
-    GpiConnection *gpState;
+s32 gpiDisconnectCleanupProfile(GPConnection *connection, GPIProfile *profile, void *data) {
+    GPIConnection *gpState;
 
     gpState = connection->mGpiConnection;
     if (profile->mBuddyStatus != NULL && gpState->mInfoCachingBuddyOnly == FALSE) {
@@ -529,10 +529,10 @@ s32 gpiDisconnectCleanupProfile(GpConnection *connection, GpiProfile *profile, v
     return 1;
 }
 
-void gpiDisconnect(GpConnection *connection, s32 tellServer) {
-    GpiConnection *gpState;
-    GpiOperation *unusedOperation;
-    GpiPeer *peerConn;
+void gpiDisconnect(GPConnection *connection, s32 tellServer) {
+    GPIConnection *gpState;
+    GPIOperation *unusedOperation;
+    GPIPeer *peerConn;
     u32 connClosed;
 
     gpState = connection->mGpiConnection;
@@ -576,7 +576,7 @@ void gpiDisconnect(GpConnection *connection, s32 tellServer) {
     gpState->mOperationList = NULL;
     peerConn = gpState->mPeerList;
     while (peerConn != NULL) {
-        GpiPeer *doomedPeer = peerConn;
+        GPIPeer *doomedPeer = peerConn;
         peerConn = peerConn->mNext;
         gpiDestroyPeer(connection, doomedPeer);
     }

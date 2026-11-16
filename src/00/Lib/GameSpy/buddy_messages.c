@@ -24,8 +24,8 @@
 #include "00/Lib/GameSpy/profile_search.h"
 #include "00/Lib/GameSpy/peer_connection.h"
 
-u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
-    GpiConnection *gpState;
+u32 gpiSendAuthBuddyRequest(GPConnection *connection, GPIProfile *profile) {
+    GPIConnection *gpState;
     gpState = connection->mGpiConnection;
     gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\authadd\\");
     gpiAppendStringToBuffer(connection, &gpState->mOutputBuffer, "\\sesskey\\");
@@ -38,14 +38,14 @@ u32 gpiSendAuthBuddyRequest(GpConnection *connection, GpiProfile *profile) {
     return 0;
 }
 
-s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
+s32 gpiProcessRecvBuddyMessage(GPConnection *connection, char *input) {
     char buffer[0x1000];
     char valueText[0x100];
     char intText[0x10];
-    GpiCallback messageCallback;
-    GpiCallback inviteCallback;
-    GpiCallback statusCallback;
-    GpiCallback requestCallback;
+    GPICallback messageCallback;
+    GPICallback inviteCallback;
+    GPICallback statusCallback;
+    GPICallback requestCallback;
     s32 date;
     s32 profileNumber;
     s32 type;
@@ -55,12 +55,12 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     char *str;
     u8 *cursor;
     enum { REMAINING_NONE } remaining;
-    GpiConnection *gpState;
+    GPIConnection *gpState;
     BuddyMessageData *messageArg;
     BuddyRequestData *requestArg;
     GameInviteData *inviteArg;
-    GpiProfile *profileRec;
-    GpiBuddyStatus *buddyInfo;
+    GPIProfile *profileRec;
+    GPIBuddyStatus *buddyInfo;
 
     gpState = connection->mGpiConnection;
     if (gpiValueForKey(input, "\\bm\\", buffer, 0x1000) == FALSE) {
@@ -289,8 +289,8 @@ s32 gpiProcessRecvBuddyMessage(GpConnection *connection, char *input) {
     return 0;
 }
 
-u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message) {
-    GpiConnection *gpState;
+u32 gpiSendServerBuddyMessage(GPConnection *connection, s32 profileid, s32 type, const char *message) {
+    GPIConnection *gpState;
     char buffer[0xdad];
     gpState = connection->mGpiConnection;
     CopyStringWithTerminator(buffer, message, 0xdad);
@@ -306,9 +306,9 @@ u32 gpiSendServerBuddyMessage(GpConnection *connection, s32 profileid, s32 type,
     return 0;
 }
 
-u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const char *message) {
-    GpiProfile *profileRec;
-    GpiPeer *peerConn;
+u32 gpiSendBuddyMessage(GPConnection *connection, s32 profileid, s32 type, const char *message) {
+    GPIProfile *profileRec;
+    GPIPeer *peerConn;
     u32 result;
     peerConn = gpiGetConnectedPeer(connection, profileid);
     if (peerConn == NULL) {
@@ -339,9 +339,9 @@ u32 gpiSendBuddyMessage(GpConnection *connection, s32 profileid, s32 type, const
     return result;
 }
 
-u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
-    GpiConnection *gpState;
-    GpiProfile *profileEntry;
+u32 gpiAuthBuddyRequest(GPConnection *connection, u32 profile) {
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
     u32 result;
     gpState = connection->mGpiConnection;
     if (gpiGetProfile(connection, profile, &profileEntry) == 0) {
@@ -367,7 +367,7 @@ u32 gpiAuthBuddyRequest(GpConnection *connection, u32 profile) {
     return result;
 }
 
-s32 gpiFixBuddyIndices(GpConnection *unused, GpiProfile *profile, void *data) {
+s32 gpiFixBuddyIndices(GPConnection *unused, GPIProfile *profile, void *data) {
     s32 cutoff = (s32) data;
     if (profile->mBuddyStatus != NULL && profile->mBuddyStatus->mIndex > cutoff) {
         --profile->mBuddyStatus->mIndex;
@@ -375,9 +375,9 @@ s32 gpiFixBuddyIndices(GpConnection *unused, GpiProfile *profile, void *data) {
     return 1;
 }
 
-u32 gpiDeleteBuddy(GpConnection *connection, u32 profile) {
-    GpiConnection *gpState;
-    GpiProfile *profileEntry;
+u32 gpiDeleteBuddy(GPConnection *connection, u32 profile) {
+    GPIConnection *gpState;
+    GPIProfile *profileEntry;
     s32 buddyIndex;
 
     gpState = connection->mGpiConnection;

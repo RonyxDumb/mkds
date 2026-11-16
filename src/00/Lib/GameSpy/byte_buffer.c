@@ -6,7 +6,7 @@
 #include "scan_text_random.h"
 #include "narrow_string_functions.h"
 
-u32 gti2AllocateBuffer(Gt2Buffer *buffer, int size) {
+u32 gti2AllocateBuffer(GTI2Buffer *buffer, int size) {
     u8 *data;
     data = DWCi_GsMalloc(size);
     buffer->mData = data;
@@ -17,11 +17,11 @@ u32 gti2AllocateBuffer(Gt2Buffer *buffer, int size) {
     return 1;
 }
 
-int gti2GetBufferFreeSpace(Gt2Buffer *buffer) {
+int gti2GetBufferFreeSpace(GTI2Buffer *buffer) {
     return buffer->mSize - buffer->mLength;
 }
 
-void gti2BufferWriteByte(Gt2Buffer *buffer, u8 byteValue) {
+void gti2BufferWriteByte(GTI2Buffer *buffer, u8 byteValue) {
     int writeIndex;
     if (buffer->mLength >= buffer->mSize) {
         AssertionFailed("buffer->len < buffer->size", "gt2Buffer.c", NULL, 0x23);
@@ -31,7 +31,7 @@ void gti2BufferWriteByte(Gt2Buffer *buffer, u8 byteValue) {
     buffer->mData[writeIndex] = byteValue;
 }
 
-void gti2BufferWriteUShort(Gt2Buffer *buffer, s32 value) {
+void gti2BufferWriteUShort(GTI2Buffer *buffer, s32 value) {
     int writeIndex;
     if (buffer->mLength + 2 > buffer->mSize) {
         AssertionFailed("(buffer->len + 2) <= buffer->size", "gt2Buffer.c", NULL, 0x2e);
@@ -44,7 +44,7 @@ void gti2BufferWriteUShort(Gt2Buffer *buffer, s32 value) {
     buffer->mData[writeIndex] = (s8) value;
 }
 
-void gti2BufferWriteData(Gt2Buffer *buffer, const u8 *data, int len) {
+void gti2BufferWriteData(GTI2Buffer *buffer, const u8 *data, int len) {
     if (data != NULL && len != 0) {
         if (len == -1) {
             len = strlen((const char *) data);
@@ -57,7 +57,7 @@ void gti2BufferWriteData(Gt2Buffer *buffer, const u8 *data, int len) {
     }
 }
 
-void gti2BufferShorten(Gt2Buffer *buffer, int start, int shortenBy) {
+void gti2BufferShorten(GTI2Buffer *buffer, int start, int shortenBy) {
     if (start == -1) {
         start = buffer->mLength - shortenBy;
     }
