@@ -42,20 +42,20 @@ void ClearRaceHudSubScreenIwanteCells(void) {
 }
 
 void UpdateRaceHudSubScreenIwanteCells(void) {
-    u32 var;
+    u32 subScreenScale;
     s32 objectIndex;
     s32 cellCount = 0;
     u32 entryIndex;
     MapObject *object;
     Vec3 *position;
 
-    var = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenIwanteCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenIwanteCells->mObjects[objectIndex];
         if (!(object->mFlags & 1)) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenIwanteCells->mCells[cellCount].mDrawPos,
-                                                var, 1, 1)) {
+                                                subScreenScale, 1, 1)) {
                 if (IsIwanteWalkB((MissionRunMapObject *) object)) {
                     entryIndex = (object->mFlags & MAP_OBJECT_FLAG_MIRRORED) ? 0xc8 : 0xc6;
                 } else {
@@ -87,7 +87,7 @@ void ClearRaceHudSubScreenKurikingCells(void) {
 
 // Also copies one row of the race_transfer_map_mr_s_o palette into the race palette for each object.
 void UpdateRaceHudSubScreenKurikingCells(void) {
-    u32 var;
+    u32 subScreenScale;
     s32 objectIndex;
     s32 cellCount = 0;
     s32 row;
@@ -97,13 +97,13 @@ void UpdateRaceHudSubScreenKurikingCells(void) {
     Nclr *nclr;
     Vec3 *position;
 
-    var = GetRaceHudSubScreenScale();
+    subScreenScale = GetRaceHudSubScreenScale();
     for (objectIndex = 0; objectIndex < gRaceHudSubScreenKurikingCells->mObjectCount; objectIndex++) {
         object = gRaceHudSubScreenKurikingCells->mObjects[objectIndex];
         if (!(object->mFlags & 1)) {
             position = &object->mPos;
             if (ComputeRaceHudSubScreenPosition(position, &gRaceHudSubScreenKurikingCells->mCells[cellCount].mDrawPos,
-                                                var, 1, 1)) {
+                                                subScreenScale, 1, 1)) {
                 row = GetAbsoluteCounterWrapper((MissionRunMapObject *) object);
                 racePalette = GetRaceNclrNcgr(RACE_NCER_PAIR_RACE_S)->mNclr->mData;
                 nclr = NULL;
