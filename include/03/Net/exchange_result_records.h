@@ -7,7 +7,7 @@
 #include "00/Lib/NitroWiFi/wireless_connection_options.h"
 #include "00/Lib/DWC/access_point_wep_key.h"
 
-// Six bytes moved as one value.
+// A MAC address: six bytes.
 typedef struct MacAddress {
     /* 0 */ u8 mBytes[6];
 } MacAddress;

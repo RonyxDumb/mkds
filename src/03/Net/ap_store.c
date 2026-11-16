@@ -408,12 +408,12 @@ void WriteApEntryToNvram(s32 entryIndex) {
         if ((store->mPages[0].mEntry.mEntrySetBits & entryBit) != 0) {
             stateBitSet = TRUE;
         }
-        if (setType == 0xff && stateBitSet != FALSE) {
+        if (setType == AP_SET_TYPE_EMPTY && stateBitSet != FALSE) {
             store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits & ~entryBit;
             gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits & ~entryBit;
             entryFlags[1] = 1;
             entryFlags[0] = 1;
-        } else if (setType != 0xff && stateBitSet == FALSE) {
+        } else if (setType != AP_SET_TYPE_EMPTY && stateBitSet == FALSE) {
             store->mPages[0].mEntry.mEntrySetBits = store->mPages[0].mEntry.mEntrySetBits | entryBit;
             gApStore->mPages[1].mEntry.mEntrySetBits = gApStore->mPages[1].mEntry.mEntrySetBits | entryBit;
             entryFlags[1] = 1;

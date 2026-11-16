@@ -73,7 +73,8 @@ enum {
 
 // A value records request: the wanted record mask, the item, retry and timeout settings and the found records.
 typedef struct ValueRecordsRequest {
-    /* 000 */ u16 mWantedRecordMask; // input mask; on return, the wanted records that were found
+    // input mask; replaced by the wanted records that were found once the reply was parsed, also when a record is bad
+    /* 000 */ u16 mWantedRecordMask;
     /* 002 */ ValueRecordsRequestItem mItem;
     /* 106 */ s16 mScanRetryLimit;
     /* 108 */ s16 mScanRetryDelayMs;
@@ -108,7 +109,9 @@ typedef struct EssidEntry {
     /* 28 */ u8 pad_28[8];
     /* 30 */ u8 mAddress[6];
     /* 38 */ u32 mCodeCount;
-    /* 3c */ u8 mCodes[0x10]; // bit 0x80 set when the record's second bit list has the same bit
+    // ESSID_RATE_CODE_BASIC is set when RawEntry.mBasicRateSet also has the bit; a code is listed only for the bits of
+    // mSupportRateSet
+    /* 3c */ u8 mCodes[0x10];
     /* 4c */ u32 mBeaconPeriod;
     /* 50 */ u32 mMode;
 } EssidEntry;
@@ -212,7 +215,7 @@ void ConvertRecordToEssidEntry(RawEntry *src, EssidEntry *dst);
 #include "03/Net/essid_packet_socket.h"
 #include "03/Net/essid_wcm.h"
 
-// Item whose payload starts with the chain of its sub-items.
+// A payload item seen as its type, length and first word, or as its first sub-item.
 typedef struct ItemContainerView {
     union {
         PacketItem mItem;

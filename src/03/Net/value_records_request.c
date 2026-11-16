@@ -40,7 +40,7 @@ void InitValueRecordsRequest(void) {
 
 void ReleaseValueRecordsRequest(int succeeded) {
     ReleaseEssidWiFi();
-    if (((succeeded != 0) && (gValueRecordsRequest->mResultCode == 0)) &&
+    if (((succeeded != 0) && (gValueRecordsRequest->mResultCode == VALUE_RECORDS_RESULT_OK)) &&
         (gValueRecordsRequestSucceeded == 1)) {
         WriteApWorkFromAossResult((s32) &gValueRecordsRequest->mRecordBytes);
     }

@@ -70,7 +70,7 @@ typedef struct WepKey16 {
 // First byte of a one-character SSID that is never matched (a zero byte is skipped too).
 #define EXCHANGE_SSID_SPACE_CHAR 0x20
 
-// Eight bytes passed by address.
+// A socket address: its length, family, port and address.
 typedef struct SocketAddress {
     /* 0 */ u8 mLength;
     /* 1 */ u8 mFamily;

@@ -88,7 +88,8 @@ enum {
 // Type of the second item BuildTwoItemChain writes.
 #define PACKET_ITEM_TRAILER 0x60
 
-// Values of PacketItem.mType in the top-level items FindItemAndParseSubItems looks for.
+// Values of PacketItem.mType in the top-level items FindItemAndParseSubItems can look for; only FIRST is searched in
+// this build.
 enum {
     PACKET_GROUP_ITEM_SECOND = 8,
     PACKET_GROUP_ITEM_FIRST,

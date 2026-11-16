@@ -227,8 +227,9 @@ BOOL StartWhParentConnect(u32 mode, u16 tgid, u16 channel) {
     gWhWork->mParentParameter.mCsFlag = 0;
     gWhWork->mParentParameter.mMultiBootFlag = 0;
     gWhWork->mParentParameter.mEntryFlag = 1;
-    gWhWork->mParentParameter.mKsFlag = mode == 2 ? 1 : 0;
-    if (mode == 0 || mode == 2 || mode == 4) {
+    gWhWork->mParentParameter.mKsFlag = mode == WIRELESS_CONNECT_MODE_KEY_SHARING ? 1 : 0;
+    if (mode == WIRELESS_CONNECT_MODE_MP || mode == WIRELESS_CONNECT_MODE_KEY_SHARING ||
+        mode == WIRELESS_CONNECT_MODE_DATA_SHARING) {
         return SetWhParentParameter();
     }
     if (gWhPrintFunction != NULL) {
