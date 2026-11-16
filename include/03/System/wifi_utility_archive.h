@@ -7,7 +7,7 @@ typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
 // Commands the archive procedure gets.
-#define FS_COMMAND_WRITEFILE 1
+#define ARCHIVE_PROC_WRITE 1
 #define FS_COMMAND_ACTIVATE 9
 #define FS_COMMAND_IDLE 10
 

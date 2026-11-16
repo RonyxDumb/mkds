@@ -81,7 +81,7 @@ s32 DwcArchiveProc(FSFile *file, u32 command) {
         case FS_COMMAND_IDLE:
             CARD_UnlockRom(gDwcArchive->mLockId);
             return 0;
-        case FS_COMMAND_WRITEFILE:
+        case ARCHIVE_PROC_WRITE:
             return 4;
         default:
             return 8;
