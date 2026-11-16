@@ -103,19 +103,19 @@ void SPLBehavior_ApplyGravity(const Vec3s16 *gravity, ParticleInstance *ptcl, Ve
     acc->z = acc->z + gravity->z;
 }
 
-void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *rng, ParticleInstance *ptcl, Vec3 *acc,
+void SPLBehavior_ApplyRandom(const ParticleBehaviorRandom *random, ParticleInstance *ptcl, Vec3 *acc,
                              ParticleEmitter *emtr) {
-    if (ptcl->mAge % rng->mInterval != 0) {
+    if (ptcl->mAge % random->mInterval != 0) {
         return;
     }
-    acc->x = acc->x + ((rng->mRangeX * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeX << 8)) >>
+    acc->x = acc->x + ((random->mRangeX * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeX << 8)) >>
                        8);
-    acc->y = acc->y + ((rng->mRangeY * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeY << 8)) >>
+    acc->y = acc->y + ((random->mRangeY * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeY << 8)) >>
                        8);
-    acc->z = acc->z + ((rng->mRangeZ * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
-                        (rng->mRangeZ << 8)) >>
+    acc->z = acc->z + ((random->mRangeZ * (s32) ((gSplRandomState = gSplRandomState * 0x5eedf715 + 0x1b0cb173) >> 23) -
+                        (random->mRangeZ << 8)) >>
                        8);
 }
 
