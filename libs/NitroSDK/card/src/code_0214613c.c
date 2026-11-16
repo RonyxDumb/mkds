@@ -342,7 +342,7 @@ void CARDi_ReadRom(u32 dma, u32 src, u32 dst, u32 len, UnkFunc *callback, u32 ca
     } else if (isAsync != 0) {
         CARDi_SetTask(CARDi_ReadRomSyncCore);
     } else {
-        p->mCurTh = data_0216ff5c.mCurrentThread;
+        p->mCurTh = g_Os_ThreadInfo.mCurrentThread;
         CARDi_ReadRomSyncCore(p);
     }
 }

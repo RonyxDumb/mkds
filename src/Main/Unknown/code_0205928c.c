@@ -84,7 +84,7 @@ void func_020597d0(const void *data, s32 b, s32 playerIndex, s32 d) {
 
     v = gStruct217AA00->field4;
     if (v != 11) {
-        func_020559ec(data, playerIndex, d);
+        sub_20559EC(data, playerIndex, d);
         return;
     }
     playerBit = 1 << playerIndex;

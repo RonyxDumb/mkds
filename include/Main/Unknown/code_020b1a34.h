@@ -12,4 +12,4 @@ typedef struct MinuteSecondMillisecondTotal {
 
 s32 ComputeTimeDifference(MinuteSecondMillisecondTotal *first, MinuteSecondMillisecondTotal *second,
                           MinuteSecondMillisecondTime *difference);
-void func_020b1a34(void);
+void sub_20B1A34(void);

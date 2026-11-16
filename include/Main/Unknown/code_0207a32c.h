@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern s32 data_021658bc;
+extern s32 g_1IfBattleElse2;
 extern u16 driver_sDriverCount;
 
 void SetKartNearPlayerRankBits(void);

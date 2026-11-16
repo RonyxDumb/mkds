@@ -2,7 +2,7 @@
 
 #include "types.h"
 
-extern u32 data_021653e4;
+extern u32 g_dec_1000000_0;
 
 s32 AddBuddyFromFriendKey(const void *keyString, void *name);
 s32 AddOrUpdateBuddyRecord(u8 *friendDataList, void *name, u8 *friendData, s32 notYetBuddy, s32 e, s32 allowAdd);

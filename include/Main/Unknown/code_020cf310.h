@@ -9,4 +9,4 @@ typedef struct RaceHudSubScreenBgPalette {
 
 s32 mpicn_createExplosionIcon(void);
 void UpdateRaceHudSubScreenBgPalette(RaceHudSubScreenBgPalette *palette);
-void func_020cfca4(void);
+void sub_20CFCA4(void);

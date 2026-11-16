@@ -26,7 +26,7 @@ static inline u32 func_0204ff14_inline(ConnectionWork *p) {
     return p->field0;
 }
 
-u16 func_0204ffe8(u32 participantIndex) {
+u16 sub_204FFE8(u32 participantIndex) {
     BOOL stateMatches;
     u32 result;
 
@@ -45,7 +45,7 @@ u16 func_0204ffe8(u32 participantIndex) {
     return result;
 }
 
-BOOL func_0204ffbc(void) {
+BOOL sub_204FFBC(void) {
     BOOL result;
 
     result = FALSE;
@@ -261,7 +261,7 @@ void func_0204f8a0(u8 a) {
     WFS_EnableSync(a);
 }
 
-void func_0204f814(void) {
+void sub_204F814(void) {
     s32 index;
     s32 lowest;
     s8 lowestIndex;

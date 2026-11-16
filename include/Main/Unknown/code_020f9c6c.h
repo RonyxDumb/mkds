@@ -102,10 +102,10 @@ extern Nsbmd *gKouraW;
 
 void func_020f9c6c(ItemObject *item);
 void CreateItemObjectCollisionSlot(void *objectParam);
-s32 func_020f9ce8(ItemObject *item);
+s32 sub_20F9CE8(ItemObject *item);
 s32 func_020f9dc8(ItemObject *item);
 void SetItemObjectScaleByRatios(ItemObject *objectParam, s32 xRatio, s32 yRatio);
-void func_020f9fa8(ItemObject *item);
+void sub_20F9FA8(ItemObject *item);
 void RefreshItemObjectScale(ItemObject *item);
 s32 GrowItemObjectScale(void *objectParam, s32 limit, s32 step);
 s32 func_020fa0e8(s32 kind, s32 param_2);
@@ -121,7 +121,7 @@ void it_renderAll(void *a);
 // Per-frame item step: mode-5 sync, the object pools whose field14 is set, every kart's record, the item timers, two
 // map-object steps
 void it_updateAll(void);
-void func_020fa9e4(void);
+void sub_20FA9E4(void);
 BOOL TryReleaseItemObjectsForItemInfo(s32 itemInfoIndex);
 BOOL ReplaceUnavailableItem(s32 *itemInfoIndexPointer);
 BOOL IsItemInfoObjectCountFree(s32 itemInfoIndex);

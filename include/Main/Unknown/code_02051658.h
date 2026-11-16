@@ -18,5 +18,5 @@ void EndScanCallback(Unk021425e8 *event);
 void EndScan(void);
 void StartScanCallback(Unk021425e8 *event);
 void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *c);
-void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e);
+void sub_20525A8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e);
 void StartScan(s32 a, s32 (*b)(), s32 (*c)());

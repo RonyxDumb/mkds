@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_021200a4(void);
+void GlobalB_E7Fn_4A(void);

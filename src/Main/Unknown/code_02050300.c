@@ -70,7 +70,7 @@ void EndDataSharing(void) {
     if (result == 0) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void EndMP(void) {
@@ -79,7 +79,7 @@ void EndMP(void) {
     if (WM_EndMP(EndMPCallback) == 2) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void EndMPCallback(Unk021425e8 *event) {
@@ -88,7 +88,7 @@ void EndMPCallback(Unk021425e8 *event) {
     gStruct217AA00->mRequestPending = 0;
     gStruct217AA00->field454 &= ~1;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        sub_20533A0();
         return;
     }
     connection = gStruct217AA00;
@@ -103,13 +103,13 @@ void EndParent(void) {
     if (WM_EndParent(EndParentCallback) == 2) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void EndParentCallback(Unk021425e8 *event) {
     gStruct217AA00->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        sub_20533A0();
     } else {
         ResetConnectionData();
     }
@@ -152,7 +152,7 @@ void Disconnect(void) {
             }
             break;
         default:
-            func_020533a0();
+            sub_20533A0();
             break;
     }
 }
@@ -187,20 +187,20 @@ void DisconnectCallback(Unk021425e8 *event) {
                 ResetConnectionData();
                 gStruct217AA00->mRequestPending = 0;
             } else {
-                func_020533a0();
+                sub_20533A0();
             }
             break;
         default:
-            func_020533a0();
+            sub_20533A0();
             break;
     }
 }
 
-BOOL func_020510e4(void) {
+BOOL sub_20510E4(void) {
     return (gStruct217AA00->field454 & 0x40) != 0;
 }
 
-s32 func_020510c8(void) {
+s32 sub_20510C8(void) {
     if (gStruct217AA00 == NULL) {
         return 0;
     }
@@ -208,10 +208,10 @@ s32 func_020510c8(void) {
 }
 
 static inline u32 func_02050ec0_inline(void) {
-    return func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE);
+    return sub_20510E4() != FALSE && (sub_20510C8() == 1 || sub_20510AC() != FALSE);
 }
 
-BOOL func_020510ac(void) {
+BOOL sub_20510AC(void) {
     return *(u16 *) 0x027ffc40 == 2;
 }
 
@@ -281,7 +281,7 @@ void EndCallback(Unk021425e8 *event) {
     }
 }
 
-void func_02050e60(s32 a) {
+void sub_2050E60(s32 a) {
     gStruct217AA00->field8 = a;
     gStruct217AA00->mRequestPending = 0;
 }
@@ -407,7 +407,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
             break;
         case 1:
             gStruct217AA00->mParticipantMask = message->field4;
-            func_02050080();
+            sub_2050080();
             func_02058b10();
             break;
         case 2:
@@ -419,7 +419,7 @@ void ProcessMPData(u32 aid, MPMessage *message) {
         case 6:
             switch (gStruct217AA00->field4) {
                 case 6:
-                    func_020559ec(message->field2, message->field16, message->field17);
+                    sub_20559EC(message->field2, message->field16, message->field17);
                     break;
                 case 0xa:
                     func_020597d0(message->field2, (u8) aid, message->field16, message->field17);
@@ -520,7 +520,7 @@ BOOL QueueMPDataHalfword(s32 kind, u16 destBitmap) {
     return FALSE;
 }
 
-BOOL func_020504a4(s32 playerIndex, u16 destBitmap) {
+BOOL sub_20504A4(s32 playerIndex, u16 destBitmap) {
     Unk020504a4 message;
 
     message.field0 = 6;

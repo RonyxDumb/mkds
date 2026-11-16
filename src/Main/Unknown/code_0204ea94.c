@@ -99,9 +99,9 @@ void func_0204ea94(BlockTransferRecord *record) {
             gStruct217AA00->mRequestPending = 0;
             return;
         }
-        func_02050e60(8);
+        sub_2050E60(8);
     } else {
-        func_02050e60(8);
+        sub_2050E60(8);
     }
 }
 

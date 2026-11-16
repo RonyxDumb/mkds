@@ -17,4 +17,4 @@ void RunListNodeCallbacks(void);
 void CallCtorTable(void);
 u32 *GetFloatStatus(void);
 FloatTrapTable *GetFloatTrapTable(void);
-void func_02142590(void);
+void sub_2142590(void);

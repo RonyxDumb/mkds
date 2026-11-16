@@ -15,7 +15,7 @@ typedef struct Unk020d4f94 {
 void mobj_updateCameraVectors(Unk020d4f94 *viewMatrix);
 u32 mobj_20D4F34(Vec3 *position, s32 b, s32 c, s32 distanceLimitSquared);
 s32 mobj_calcXZCamDist(Vec3 *position);
-void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
+void StructMQRacerEntry_SomeFn_91(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags);
 BOOL mobj_isInaudible(MapObject *mapObject);
 BOOL mobj_calcInaudible(MapObject *mapObject, s32 distanceSquared);
 void mobj_20D4D44(MtxFx43 *viewMatrix);

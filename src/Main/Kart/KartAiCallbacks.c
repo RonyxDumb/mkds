@@ -10,7 +10,7 @@
 void enmy_setupFunctions(void) {
     if (gRaceMultiConfig->mRaceKind == RACE_KIND_AWARD || gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         enmy_sInitFunc = enmy_initAwardEnemy;
-        gKartAiResetCallback = func_0208bde0;
+        gKartAiResetCallback = sub_208BDE0;
         enmy_sUpdateFunc = enmy_updateAwardEnemy;
         enmy_sRecalculateRouteFunc = enmy_recalculateEpoiRoute;
         enmy_sGetIsAreaPointNotNullFunc = enmy_getIsAreaEpoiNotNull;

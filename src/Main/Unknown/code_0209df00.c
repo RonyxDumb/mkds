@@ -252,7 +252,7 @@ void fbal2_update(void *a, Fireball2 *b) {
             VEC_Subtract(&p->mPos, &b->field0.mPos, &v);
             d = vec_dotProduct(&v, &b->field0.mMatrix.field0[2]);
             if ((b->field19E4 < 0 && d > 0) || (b->field19E4 > 0 && d < 0)) {
-                func_02108e38();
+                sub_2108E38();
                 h = GetSndHandleSlot(7);
                 if ((data_0217c780 & 1) && SoundHandle_217D084.fieldC != 0) {
                     if (h[0] != NULL) {

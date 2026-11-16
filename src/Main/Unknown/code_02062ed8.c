@@ -38,42 +38,42 @@ static inline void func_0206331c_inline(u32 animationKind, u8 *animation, Nsbmd 
     }
 }
 
-void func_02063880(Kart *kart) {
+void MQ_FnPtr4_Net_Not3(Kart *kart) {
     AdvanceKartCollision(kart);
     if ((gStruct217AA14->field75C & 2) != 0) {
-        func_020636f8(kart);
+        sub_20636F8(kart);
     }
-    func_020641f0(kart);
+    sub_20641F0(kart);
 }
 
-void func_02063830(Kart *kart) {
+void MQ_FnPtr3_Net_Not3(Kart *kart) {
     if (driver_getCheckMissionEndArea() != 0) {
         rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
     if ((kart->field4C & 0x1000) != 0) {
-        func_0206d138(kart);
+        StructMQRacerEntry_SomeFn_89(kart);
     }
     kart->field4C = kart->field4C & ~0x1000;
     driver_1FFCC50(kart);
 }
 
-void func_020637e0(Kart *kart) {
+void MQ_FnPtr3_Net_3(Kart *kart) {
     if (driver_getCheckMissionEndArea() != 0) {
         rstat_handleMissionEndAreas(&kart->mPos, kart->mIndex);
     }
     if ((kart->field4C & 0x1000) != 0) {
-        func_0206d138(kart);
+        StructMQRacerEntry_SomeFn_89(kart);
     }
     kart->field4C = kart->field4C & ~0x1000;
-    func_020651fc(kart);
+    StructMQRacerEntry_SomeFn_90(kart);
 }
 
-void func_020637c4(Kart *kart) {
-    func_02064f50(kart);
-    func_020641f0(kart);
+void MQ_FnPtr4_Net_3(Kart *kart) {
+    sub_2064F50(kart);
+    sub_20641F0(kart);
 }
 
-void func_020636f8(Kart *kart) {
+void sub_20636F8(Kart *kart) {
     ParticipantKartRecordState *b;
     Unk0217aa14_754_04 *recordBase;
     Unk020636f8_B *record;

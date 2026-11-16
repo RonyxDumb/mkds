@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02108e38(void);
+void sub_2108E38(void);

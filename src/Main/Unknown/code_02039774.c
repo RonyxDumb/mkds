@@ -155,13 +155,13 @@ void vec_crossProduct(const Vec3 *a, const Vec3 *b, Vec3 *axb) {
     axb->z = z >> 12;
 }
 
-void func_02039774(void) {
-    data_02175604.field8 = 0;
-    data_02175604.fieldA = 0;
-    data_02175604.fieldC = 0;
-    data_02175604.fieldE = 3;
-    data_02175604.field0 = 0;
-    data_02175604.field2 = 0;
-    data_02175604.field4 = 0;
-    data_02175604.field6 = 3;
+void InitializeGlobalHN(void) {
+    g_GlobalHN.field8 = 0;
+    g_GlobalHN.fieldA = 0;
+    g_GlobalHN.fieldC = 0;
+    g_GlobalHN.fieldE = 3;
+    g_GlobalHN.field0 = 0;
+    g_GlobalHN.field2 = 0;
+    g_GlobalHN.field4 = 0;
+    g_GlobalHN.field6 = 3;
 }

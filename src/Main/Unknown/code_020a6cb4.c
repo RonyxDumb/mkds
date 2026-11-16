@@ -167,7 +167,7 @@ void *shinc_setupLogicPart(void) {
     return mobj_createLogicPart(shinc_globalLogicInit, shinc_update, NULL);
 }
 
-void func_020a6cb4(s32 a) {
+void sub_20A6CB4(s32 a) {
     MapObjectList *v1;
     Unk020a6cb4 *e;
     s32 i;

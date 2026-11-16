@@ -7,17 +7,17 @@
 #include "Main/Unknown/unk_02173000.h"
 #include "code_0201661c.h"
 
-CallQueue data_02173220;
+CallQueue g_GlobalTEQ;
 
 void CallQueueInit(void *arg0, u32 arg1) {
     u32 value0 = (u32) arg0;
     u32 value1 = arg1;
     u32 value2;
     u32 value12;
-    value2 = (u32) &data_02173220;
+    value2 = (u32) &g_GlobalTEQ;
     *(u32 *) ((value2) + (0)) = value0;
     value0 = value2;
-    data_02173220.mCapacity = value1;
+    g_GlobalTEQ.mCapacity = value1;
     CallQueueReset(value0);
 }
 
@@ -25,7 +25,7 @@ void CallQueueDrain(void) {
     CallQueue *p;
     CallQueueEntry *e;
 
-    p = &data_02173220;
+    p = &g_GlobalTEQ;
     e = CallQueueGetHeadEntry(p);
     while (CallQueueRemoveHead(p) != 0) {
         CallQueueRunEntry(e);
@@ -38,7 +38,7 @@ s32 CallQueueAppend(u32 a, u32 b, void *c, u32 d) {
     CallQueue *p;
     CallQueueEntry *e;
 
-    p = &data_02173220;
+    p = &g_GlobalTEQ;
     if (CallQueueIsFull(p) != 0) {
         return 0;
     }

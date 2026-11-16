@@ -10,11 +10,11 @@
 u16 gPowerInitialized;
 vu32 data_02180438;
 PMSleepCallbackInfo *gPowerPostSleepCallbacks;
-u32 data_02180440;
+u32 g_FrameCounterValue;
 PMSleepCallbackInfo *gPowerPreSleepCallbacks;
 vu32 gPowerSleepHandshakeReplyReceived;
 PMiWork gPowerCommand;
-OSMutex data_02180458;
+OSMutex g_GlobalVStr;
 PMData16 gPowerRegisterSlots[4];
 
 // Marks a command as in flight and returns 1; returns 0 when one already is.
@@ -82,8 +82,8 @@ void PM_Init(void) {
     for (i = 0; i < 4; i++) {
         gPowerRegisterSlots[i].mFlag = 0;
     }
-    OS_InitMutex(&data_02180458);
-    data_02180440 = *(u32 *) 0x27ffc3c;
+    OS_InitMutex(&g_GlobalVStr);
+    g_FrameCounterValue = *(u32 *) 0x27ffc3c;
 }
 
 // Receive handler of the tag-8 channel. An error finishes the command with 2. Replies 0x70-0x73 store their byte
@@ -437,7 +437,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
     switch (sw) {
         case 1:
             if (skip == 0) {
-                if (*(vu32 *) 0x27ffc3c - data_02180440 <= 7) {
+                if (*(vu32 *) 0x27ffc3c - g_FrameCounterValue <= 7) {
                     return 0;
                 }
             }
@@ -452,7 +452,7 @@ BOOL PMi_SetLCDPower(u32 sw, u32 led, u32 skip, u32 isSync) {
             break;
         case 0:
             reg_GX_POWCNT &= ~1;
-            data_02180440 = *(vu32 *) 0x27ffc3c;
+            g_FrameCounterValue = *(vu32 *) 0x27ffc3c;
             if (led != 0) {
                 if (isSync != 0) {
                     PMi_SetLED(led);

@@ -5,4 +5,4 @@
 typedef struct NsbmdModel NsbmdModel;
 typedef struct ItemObject ItemObject;
 
-void func_020ed588(ItemObject *item, NsbmdModel *model);
+void sub_20ED588(ItemObject *item, NsbmdModel *model);

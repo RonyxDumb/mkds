@@ -286,7 +286,7 @@ void func_0202fd2c(void) {
             return;
         case 5:
         case 8:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 gMultiSelectMemberGroup->field50 = 0xb;
             }
             return;

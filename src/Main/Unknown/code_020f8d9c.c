@@ -8,9 +8,9 @@
 
 void InitItemObject(ItemObject *a, u32 b, int c) {
     a->field48 = b;
-    func_020e0650((u32 *) &a->field104);
+    sub_20E0650((u32 *) &a->field104);
     InitSoundSource(&a->mSoundSource, it_sItemParams[c].fieldA0, &a->mPos);
-    func_02109054(&a->mSoundSource);
+    sub_2109054(&a->mSoundSource);
 }
 
 #pragma thumb off

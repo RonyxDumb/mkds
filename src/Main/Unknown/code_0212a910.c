@@ -68,7 +68,7 @@ s32 err_212B0B8(void) {
     }
     GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
     GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
-    if ((u16) (data_021755dc.mPressedBits & PAD_KEY_A) != 0) {
+    if ((u16) (g_GlobalG.mPressedBits & PAD_KEY_A) != 0) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {
             if ((u32) (messageScreen->mKind - 4) <= 1) {
@@ -77,7 +77,7 @@ s32 err_212B0B8(void) {
             } else if (messageScreen->mKind == 6) {
                 gStruct217B488->field1C = 1;
                 gMessageScreen->mResult = 1;
-                func_02120610();
+                sub_2120610();
             } else {
                 messageScreen->mResult = 0;
             }
@@ -185,7 +185,7 @@ void func_0212ae2c(void) {
     u16 a[11];
     a[0] = 0;
     MIi_CpuClear16(a[0], &a[1], 0x14);
-    FormatAsciiNumber(func_021205f4(), &a[1]);
+    FormatAsciiNumber(GetMaybeNetErrorCode(), &a[1]);
     FormatMessageWithText(&a[1], gMessageScreen->mText, gMessageScreen->mScreenMap, 0x600);
     gMessageScreen->mText = gMessageScreen->mScreenMap;
 }
@@ -333,7 +333,7 @@ void UpdateLinkLevelIconTiles(void) {
     }
     if (gLinkLevelIcons->mIconEnabled[1] != 0) {
         gLinkLevelIcons->mIconKind[0] = 1;
-        gLinkLevelIcons->mIconLevel[0] = func_021205e8();
+        gLinkLevelIcons->mIconLevel[0] = sub_21205E8();
         slotCount = 1;
     }
     if (gLinkLevelIcons->mIconEnabled[0] != 0) {
@@ -346,7 +346,7 @@ void UpdateLinkLevelIconTiles(void) {
     } else if (gLinkLevelIcons->mIconEnabled[4] != 0) {
         flag = FALSE;
         if (!gSaveData->mFirstBlock->mLocateFriendOff) {
-            if (func_021213f4() != FALSE) {
+            if (sub_21213F4() != FALSE) {
                 flag = TRUE;
             }
         }

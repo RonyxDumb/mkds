@@ -27,18 +27,18 @@ u32 menu_GXS_SetVisibleWnd(u32 bits) {
     return value0;
 }
 
-u32 func_020cc120(void) {
+u32 GetB488_SinglePlayerMenuTarget(void) {
     return (gStruct217B488->field8);
 }
 
-void func_020cc10c(u32 value) {
+void SetB488_B2(u32 value) {
     gStruct217B488->field4 = value;
 }
 
-u32 func_020cc0f8(void) {
+u32 GetB488_B5(void) {
     return (gStruct217B488->field10);
 }
 
-u32 func_020cc0e4(void) {
+u32 GetB488_B6(void) {
     return (gStruct217B488->field14);
 }

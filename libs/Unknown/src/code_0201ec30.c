@@ -19,14 +19,14 @@ s32 data_02173298;
 u8 data_021732a0[4];
 s32 data_0217329c;
 
-s32 func_02020498(s32 a) {
+s32 sub_2020498(s32 a) {
     if (a > 0x7f && a <= 0xfe) {
         return a - 0x7f;
     }
     return 0x7f - a;
 }
 
-void func_02020430(Unk02173290 *a) {
+void sub_2020430(Unk02173290 *a) {
     s32 i;
 
     data_02173290 = a;
@@ -38,7 +38,7 @@ void func_02020430(Unk02173290 *a) {
     }
 }
 
-void func_0202041c(void) {
+void sub_202041C(void) {
     u32 value0;
     u32 value1;
     value0 = (u32) &data_02173294;
@@ -46,7 +46,7 @@ void func_0202041c(void) {
     *(u32 *) ((value0) + (0)) = value1;
 }
 
-void func_020203e4(void) {
+void sub_20203E4(void) {
     if (data_02173294 == 0) {
         return;
     }
@@ -55,14 +55,14 @@ void func_020203e4(void) {
     data_02173298 = 0;
 }
 
-void func_020203d4(u32 arg0) {
+void sub_20203D4(u32 arg0) {
     u32 value0 = arg0;
     u32 value1;
     value1 = (u32) &data_02161ad8;
     *(u8 *) ((value1) + (0)) = value0;
 }
 
-u8 func_0201ec30(void) {
+u8 sub_201EC30(void) {
     u8 *p;
     s32 n;
     s32 prev;
@@ -108,7 +108,7 @@ u8 func_0201ec30(void) {
         DC_InvalidateRange(buf + i, pos);
         for (; i < pos; i++) {
             if (data_02173290->field0 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+                v = sub_2020498(sub_20204B4(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -127,7 +127,7 @@ u8 func_0201ec30(void) {
         DC_InvalidateRange(buf + i, (u16) len);
         for (; i < len; i++) {
             if (data_02173290->field0 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+                v = sub_2020498(sub_20204B4(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -144,7 +144,7 @@ u8 func_0201ec30(void) {
         DC_InvalidateRange(buf, pos);
         for (i = 0; i < pos; i++) {
             if (data_02173290->field0 == 0) {
-                v = func_02020498(func_020204b4(buf[i]));
+                v = sub_2020498(sub_20204B4(buf[i]));
             } else {
                 v = (s8) buf[i];
                 if (v < 0) {
@@ -166,7 +166,7 @@ u8 func_0201ec30(void) {
         if (data_02173290->field0 != 0) {
             v = (s8) buf[i] + 127;
         } else {
-            v = func_020204b4(buf[i]);
+            v = sub_20204B4(buf[i]);
         }
         if (maxv > 30) {
             if (v > 127 && prev <= 127) {
@@ -205,7 +205,7 @@ u8 func_0201ec30(void) {
         if (data_02173290->field0 != 0) {
             v = (s8) buf[i] + 127;
         } else {
-            v = func_020204b4(buf[i]);
+            v = sub_20204B4(buf[i]);
         }
         if (maxv > 30) {
             if (v > 127 && prev <= 127) {
@@ -247,7 +247,7 @@ u8 func_0201ec30(void) {
     data_02173288 = 0;
     if (m > 99) {
         if (data_02173290->field0 == 0) {
-            func_02020498(func_020204b4(*p));
+            sub_2020498(sub_20204B4(*p));
         }
         n = m;
         if (m > 1883) {

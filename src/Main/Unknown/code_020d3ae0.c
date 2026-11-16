@@ -123,7 +123,7 @@ s32 mobj_calcXZCamDist(Vec3 *position) {
     return x * x + z * z;
 }
 
-void func_020d4e28(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
+void StructMQRacerEntry_SomeFn_91(ItemObject *itemObject, Vec3 *position, u32 distanceAndFlags) {
     s32 cameraHeightAboveItem;
 
     if (distanceAndFlags & 4) {

@@ -19,7 +19,7 @@
 #include "Main/Kart/KartTimes.h"
 #include "code_021471bc.h"
 
-void func_020641f0(Kart *kart) {
+void sub_20641F0(Kart *kart) {
     KartModelsEntry *modelsEntry;
     KartModelAnimationView *characterAnimation;
     Vec3 m;
@@ -143,7 +143,7 @@ void func_020641f0(Kart *kart) {
     driver_updateDriftEffects(kart);
 }
 
-void func_020641d4(Kart *kart) {
+void sub_20641D4(Kart *kart) {
     AdvanceKartCollision(kart);
-    func_020641f0(kart);
+    sub_20641F0(kart);
 }

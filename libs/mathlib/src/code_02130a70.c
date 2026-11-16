@@ -9,7 +9,7 @@
 // Not compiled code: it counts leading zeros with clz and tests bits with tst, neither of which the 1.2 compiler
 // builds, and saves ip and the argument registers around its call in the middle of the body, where 1.2 saves registers
 // only in the prologue and never ip (docs/compiler.md).
-asm double func_02130a70(double a) {
+asm double sub_2130A70(double a) {
     // Negative numbers, infinities and NaNs (high word 0x7ff00000 or above, unsigned) are special.
     stmfd sp!, {r4, r5, r6, lr}
     ldr r2, =0x7ff00000

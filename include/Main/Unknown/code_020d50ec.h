@@ -31,7 +31,7 @@ typedef struct CollisionSlotEnd {
 
 u32 col_deleteColEntry(s32 slotIndex);
 s32 col_createColEntry(Vec3 *centerPos, s32 radius, s32 flags, void *object);
-// Object behind the pointer func_020d5a68 and func_020d5aa0 read: a pointer at 0x00 and a word at 0x04.
+// Object behind the pointer sub_20D5A68 and sub_20D5AA0 read: a pointer at 0x00 and a word at 0x04.
 typedef struct Unk020d5a68 {
     /* 00 */ Unk020e005c *field0;
     /* 04 */ s32 field4;
@@ -61,7 +61,7 @@ typedef struct RockObject {
     /* 120 */ s32 mBounceRatio;
 } RockObject;
 
-// Twelve bytes func_020d634c fills: a word and three halfwords.
+// Twelve bytes sub_20D634C fills: a word and three halfwords.
 typedef struct EmitterParams {
     /* 00 */ s32 field0;
     /* 04 */ s16 field4;
@@ -71,7 +71,7 @@ typedef struct EmitterParams {
 } EmitterParams;
 
 void rock_update(void *a, RockObject *rock);
-void func_020d634c(RockObject *rock, s32 b);
+void sub_20D634C(RockObject *rock, s32 b);
 u8 rock_onDriverCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
 u8 rock_onItemCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr);
 void ResetRock(RockObject *rock);
@@ -81,8 +81,8 @@ void rock_loadRockModels(void *a);
 void rock_loadRock2Models(void *a);
 void col_initFromKcl(CourseCollision *collision, CourseCollision *file);
 void col_loadCourseCollision(void);
-void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e);
-BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link);
+void sub_20D5AA0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e);
+BOOL sub_20D5A68(void *hitListPtr, u32 b, Unk020e04b0 *link);
 u16 col_findResponsePrismAttribute(u32 mask);
 void col_init(void);
 void col_queryBySphere(Vec3 *position, s32 radius, s32 flagMask);

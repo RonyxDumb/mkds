@@ -28,11 +28,11 @@
 #include "Main/Unknown/unk_02163000.h"
 #include "registers.h"
 
-void func_0202f478(u32 bits) {
+void SetSomeDispcntTopMask(u32 bits) {
     reg_GX_DISPCNT = (reg_GX_DISPCNT & 0xffcfffef) | bits;
 }
 
-void func_0202f454(u32 bits) {
+void SetSomeDispcntSubMask(u32 bits) {
     reg_GXS_DB_DISPCNT = (reg_GXS_DB_DISPCNT & 0xffcfffef) | bits;
 }
 
@@ -43,12 +43,12 @@ void InitWLMenuScene(void *heap) {
     Unk02125de0Arg v1;
 
     gWLMenuScene = heap_allocEx(heap, 0x874, 0x20);
-    func_0202f51c(gWLMenuScene, 0x874);
+    sub_202F51C(gWLMenuScene, 0x874);
     displaySettings = dc_createDisplayConfig(heap, data_02154818);
-    func_0202f4e0(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
-    func_0202f4ac(displaySettings, 2, 0, 0, 0, 0xf, 6);
+    DisplayConfig_SetTopEngineBg1Config_0(displaySettings, 0, 0, 0, 0, 0xc, 0, 0);
+    DisplayConfig_SetBottomEngineBg3Config_0(displaySettings, 2, 0, 0, 0, 0xf, 6);
     dc_setDisplayConfig(displaySettings);
-    if (func_0202f19c() == 0) {
+    if (j_IsDwc_2() == 0) {
         v1.field0 = 1;
         v1.field4 = m2d_getFont(1);
         v1.field8 = 0;
@@ -57,40 +57,40 @@ void InitWLMenuScene(void *heap) {
         v1.field14 = 0;
         v1.field18 = NULL;
         v1.field1C = 1;
-        v1.field20 = func_0202f498() == 0;
+        v1.field20 = GetB488SomeMode() == 0;
         v1.field24 = 0;
         gmenu_unpackData();
         gmenu_init(heap, &v1);
     }
     InitLinkLevelIcons(heap, gWLMenuScene);
-    switch (func_0202f498()) {
+    switch (GetB488SomeMode()) {
         case 0:
-            gWLMenuScene->mRequestedCallbacksIndex = func_0202f19c() != 0 ? 4 : 0;
-            func_0203b0f8(heap);
-            func_02053d00();
+            gWLMenuScene->mRequestedCallbacksIndex = j_IsDwc_2() != 0 ? 4 : 0;
+            sub_203B0F8(heap);
+            sub_2053D00();
             break;
         case 1:
             gWLMenuScene->mRequestedCallbacksIndex = 5;
-            func_0203b1fc(heap);
+            sub_203B1FC(heap);
             break;
         case 2:
             gWLMenuScene->mRequestedCallbacksIndex = 6;
-            func_0203b1c8(heap);
+            sub_203B1C8(heap);
             break;
         case 3:
             gWLMenuScene->mRequestedCallbacksIndex = 7;
-            func_0203b194(heap);
+            sub_203B194(heap);
             break;
     }
     gWLMenuScene->mCurrentCallbacksIndex = gWLMenuScene->mRequestedCallbacksIndex;
     gWLMenuScene->mCurrentCallbacks = gWLMenuCallbacks[gWLMenuScene->mRequestedCallbacksIndex];
     gWLMenuScene->mHeap = heap_createSubExpHeap(heap);
-    if (func_0202f19c() == 0) {
+    if (j_IsDwc_2() == 0) {
         LoadMultiSelectFiles();
     }
     oam_clearResetBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
-    func_0202f478(0x10);
-    func_0202f454(0x10);
+    SetSomeDispcntTopMask(0x10);
+    SetSomeDispcntSubMask(0x10);
     gWLMenuScene->mCurrentCallbacks->field0(gWLMenuScene->mHeap, gWLMenuScene, gWLMenuScene->mSubOam);
 }
 
@@ -113,7 +113,7 @@ void AdvanceWLMenuScene(void *a) {
         AdvanceLinkLevelIcons();
         oam_prepareBuffers(gWLMenuScene, gWLMenuScene->mSubOam);
     }
-    if (func_0202f19c() == 0) {
+    if (j_IsDwc_2() == 0) {
         gmenu_render();
     }
 }
@@ -125,7 +125,7 @@ void AdvanceWLMenuScene(void *a) {
 void EndMultiplayerMenu(void) {
     int v1;
     gWLMenuScene->mCurrentCallbacks->field8();
-    v1 = func_0202f19c();
+    v1 = j_IsDwc_2();
     if (v1 == 0) {
         gmenu_finish();
     }
@@ -134,23 +134,23 @@ void EndMultiplayerMenu(void) {
 
 #pragma thumb off
 
-u16 *func_0202f1d0(void) {
+u16 *GetBiosBootIndicatorRef(void) {
     return (u16 *) 0x027ffc40;
 }
 
-u32 func_0202f1a8(void) {
-    return *func_0202f1d0() == 2;
+u32 IsDwc_2(void) {
+    return *GetBiosBootIndicatorRef() == 2;
 }
 
-u32 func_0202f19c(void) {
-    return func_0202f1a8();
+u32 j_IsDwc_2(void) {
+    return IsDwc_2();
 }
 
 #pragma thumb on
 
 void func_0202f160(void) {
     int v1;
-    v1 = func_0202f19c();
+    v1 = j_IsDwc_2();
     if (v1 == 0) {
         gmenu_vblank();
     }

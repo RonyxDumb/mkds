@@ -30,9 +30,9 @@ s32 GetWiFiSessionCourseId(void) {
     return menu_getRaceConfig()->mCourseId;
 }
 
-BOOL func_02121d48(void) {
+BOOL sub_2121D48(void) {
     if (gStruct217D384->mStep >= 5) {
-        if (func_02120644() == 0) {
+        if (sub_2120644() == 0) {
             return TRUE;
         }
     }
@@ -235,7 +235,7 @@ BOOL IsWiFiSessionMessageKindAllowed(u32 kind) {
     return FALSE;
 }
 
-u8 func_021216a8(void) {
+u8 GetSomeRacerIndex(void) {
     u8 i;
     u8 callCount;
 
@@ -268,7 +268,7 @@ u8 func_021216a8(void) {
     return i;
 }
 
-BOOL func_02121580(void) {
+BOOL sub_2121580(void) {
     u8 i;
     u8 receivedCount = 0;
     u8 checkedCount = 0;
@@ -341,7 +341,7 @@ u8 func_02121418(void) {
     return func_ov000_0219bb68();
 }
 
-BOOL func_021213f4(void) {
+BOOL sub_21213F4(void) {
     return gStruct217D384->mStatus4BuddyCount != 0;
 }
 
@@ -396,18 +396,18 @@ void func_02121190(u32 kartType, s32 b, s32 c) {
     stateMachine->mNextStateRequested = 1;
 }
 
-s32 func_0212111c(void) {
+s32 sub_212111C(void) {
     if ((gStruct217D384->field194E != 0 && func_ov000_0219bb68() <= 1) || gStruct217D384->field1F44 == 7) {
         return -1;
     }
-    return func_02121d48() != FALSE;
+    return sub_2121D48() != FALSE;
 }
 
 void RegisterKartKeysAndStart(void) {
     s32 eloHigh;
     s32 eloLow;
 
-    func_02120610();
+    sub_2120610();
     MI_CpuFill8(gStruct217D384->mPlayerRecords, 0, 0x910);
     FillPlayerRecord((Unk0217aa00_45c *) &gStruct217D384->mPlayerRecords[0].mName);
     gStruct217D384->mKeys[0].mValue = gStruct217D384->mPlayerRecords[0].mRegion;
@@ -580,7 +580,7 @@ void KartKeysStartCallback(u32 a, s32 b) {
     }
 }
 
-void func_021208e8(s32 a) {
+void sub_21208E8(s32 a) {
     gStruct217D384->field1F40 = a;
     if (gStruct217D384->field1F40 != 2) {
         return;
@@ -615,7 +615,7 @@ void ResetWiFiSession(void) {
     gStruct217D384->mBuddyPollIndex = 0;
 }
 
-u32 func_02120644(void) {
+u32 sub_2120644(void) {
     WiFiSession *session;
     StateMachine *stateMachine;
     s32 v;
@@ -643,7 +643,7 @@ u32 func_02120644(void) {
     return 0;
 }
 
-void func_02120610(void) {
+void sub_2120610(void) {
     gStruct217D384->field1F44 = 0;
     gStruct217D384->field1F40 = 0;
     gStruct217D384->field1F48 = 0;

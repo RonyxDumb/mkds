@@ -524,7 +524,7 @@ s32 func_ov001_0218e650(Unk02188950 *a) {
         Unk0210b7a8 local = {0x22f, 0, 0xe, 0};
         local.mPositionSource = &a->field0.mPos;
         local.mDistanceSquared = mobj_calcXZCamDist(&a->field0.mPos);
-        func_0210b734(&local, func_02108e7c());
+        sub_210B734(&local, func_02108e7c());
     }
     return 0;
 }
@@ -624,7 +624,7 @@ void func_ov001_0218e298(Unk02188950 *a, Kart *b) {
     a->field158 = func_ov001_0218f3ec;
     SetKartCollisionCallback(a, func_ov001_0218f9a8);
     cam_tryImpactShakePlayerCamera(a->field0.mDistanceSquaredAndFlags & 0x3fffffe0, 0x1000);
-    func_02068a10(b);
+    StructMQRacerEntry_SomeFn_10(b);
     SetShadowOffsetYAndScale(a, 0, 0x32000);
     a->fieldA8 = 1;
     if (!(gRaceMultiConfig->mMode == MODE_MISSION_RUN ? mgcnt_hasWinnerBeenDecided() : 0)) {

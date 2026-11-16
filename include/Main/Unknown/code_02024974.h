@@ -19,7 +19,7 @@ typedef struct Unk02024eec_40 {
     /* 24 */ s32 field24;
 } Unk02024eec_40;
 
-// The bytes from 0x450 of an Kart, which func_02024a88 and func_02024eec read and write.
+// The bytes from 0x450 of an Kart, which sub_2024A88 and sub_2024EEC read and write.
 typedef struct KartSound {
     /* 00 */ s32 field0;
     /* 04 */ u8 field4;
@@ -62,10 +62,10 @@ typedef struct KartSound KartSound;
 s32 snd_getShineLoseSfxId(s32 a, s32 b, u32 c, u32 d);
 void snd_emitBalloonInflationSfx(Kart *kart, s32 b, s32 c);
 void snd_emitDriverMObjHitSfx(SoundSource *soundSource, u16 soundId, s32 b, s32 c);
-void func_02024a88(Kart *kart);
-s32 func_02024eec(KartSound *soundRecord, s32 b, s32 c);
+void sub_2024A88(Kart *kart);
+s32 sub_2024EEC(KartSound *soundRecord, s32 b, s32 c);
 void func_02024fc0(Kart *kart, KartSound *soundRecord);
 void func_02024fe8(Kart *kart, KartSound *soundRecord);
 void func_02025030(Kart *kart, KartSound *soundRecord);
 void func_0202506c(Kart *kart, KartSound *soundRecord);
-u32 func_020250a8(void);
+u32 sub_20250A8(void);

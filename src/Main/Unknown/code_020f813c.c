@@ -174,7 +174,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
                                      isEntryKart, 0x12);
     }
     if (isMode5) {
-        func_0205a750(slot->mSlotResult);
+        sub_205A750(slot->mSlotResult);
         slot->mResultPending = TRUE;
         return;
     }
@@ -185,7 +185,7 @@ void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGh
     pool->mReservedCount += itemInfo->mObjectCount;
 }
 
-void func_020f86c4(KartItems *slot) {
+void sub_20F86C4(KartItems *slot) {
     KartItems *kartItems;
     ItemInfo *itemInfo;
     ItemPool *pool;
@@ -236,8 +236,8 @@ BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems) {
             mode = gRaceMultiConfig->mMode;
             if (mode == 5 && slot->mResultPending != FALSE) {
                 b = kartItems->mKartIndex & 0xff;
-                if (func_0205a310(((u8 *) gStruct217AA18)[b]) == 0) {
-                    b = func_0205a2ac(((u8 *) gStruct217AA18)[b]);
+                if (sub_205A310(((u8 *) gStruct217AA18)[b]) == 0) {
+                    b = sub_205A2AC(((u8 *) gStruct217AA18)[b]);
                     if (IsItemInfoObjectCountFree(b) != FALSE) {
                         TryReleaseItemObjectsForItemInfo(b);
                     }
@@ -356,28 +356,28 @@ void PickItemSlotShownItem(KartItems *slot) {
     }
 }
 
-void func_020f82e8(s32 a) {
+void sub_20F82E8(s32 a) {
     data_0217bc60 = 1800;
     if (a != 0) {
         data_0217bc60 += 300;
     }
 }
 
-void func_020f82c4(s32 a) {
+void sub_20F82C4(s32 a) {
     data_0217bc5c = 1800;
     if (a != 0) {
         data_0217bc5c += 300;
     }
 }
 
-void func_020f82a4(s32 a) {
+void sub_20F82A4(s32 a) {
     data_0217bc58 = 0x384;
     if (a != 0) {
         data_0217bc58 += 0x12c;
     }
 }
 
-void func_020f8258(void) {
+void sub_20F8258(void) {
     if (data_0217bc60 > 0) {
         data_0217bc60 = data_0217bc60 - 1;
     }

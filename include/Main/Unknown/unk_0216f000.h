@@ -45,7 +45,7 @@ struct PieceBuffer;
 extern struct PieceBuffer *gPieceBuffer;
 extern u8 gLastPieceIndex;
 extern PieceSizes gPieceSizes;
-extern u8 data_0216f2dc[];
+extern u8 g_SomeDigest[];
 extern u8 OverlaySignatures[][0x14];
 
 // 1 while the NitroMain display is on; GX_DispOff clears it, GX_DispOn sets it, GX_SetGraphicsMode writes mode 0 while it is
@@ -56,12 +56,12 @@ extern void (*gClearBssidCallback)(void);
 extern void (*gSetBssidCallback)(u8 *);
 extern Unk02143a78 gScanParams;
 
-extern u32 data_0216ff44;
-extern u32 data_0216ff48;
+extern u32 g_Os_ThreadDtorSp;
+extern u32 g_Os_ThreadRescheduleCount;
 // The number OSi_GetUnusedThreadId last returned.
 extern u32 OSi_ThreadIdCount;
 extern void (*data_0216ff50)(OSThread *, OSThread *);
-extern OSThread **data_0216ff54;
-extern u32 data_0216ff58;
+extern OSThread **g_Os_CurrentThreadRef;
+extern u32 g_Os_ThreadInit;
 extern ThreadSystem OSi_ThreadInfo;
-extern OSThread data_0216ff6c;
+extern OSThread g_IdleThread;

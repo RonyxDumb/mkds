@@ -305,7 +305,7 @@ void AddVSBuddyRecordResults(void) {
     if (countsChanged != FALSE) {
         gSaveData->mFirstBlock->field34[0] = firstTotal;
         gSaveData->mFirstBlock->field34[1] = secondTotal;
-        func_0205edcc();
+        SaveFriendList();
     } else {
         WriteBackupBuddyRecords();
     }
@@ -372,13 +372,13 @@ void AddBattleBuddyRecordResults(void) {
     if (countsChanged != FALSE) {
         gSaveData->mFirstBlock->field34[2] = firstTotal;
         gSaveData->mFirstBlock->field34[3] = secondTotal;
-        func_0205edcc();
+        SaveFriendList();
     } else {
         WriteBackupBuddyRecords();
     }
 }
 
-void func_0205f218(void) {
+void sub_205F218(void) {
     u16 entryIndex;
     u32 firstTotal;
     u32 secondTotal;
@@ -440,7 +440,7 @@ void func_0205f218(void) {
     if (countsChanged != FALSE) {
         gSaveData->mFirstBlock->field34[2] = firstTotal;
         gSaveData->mFirstBlock->field34[3] = secondTotal;
-        func_0205edcc();
+        SaveFriendList();
     } else {
         WriteBackupBuddyRecords();
     }
@@ -460,7 +460,7 @@ static inline u16 func_0205ef70_inline(u16 entryIndex) {
     return courseResult->mTotalPoints;
 }
 
-void func_0205ef70(void) {
+void sub_205EF70(void) {
     u16 entryIndex;
     s32 ownCupRank;
     u32 firstTotal;
@@ -473,7 +473,7 @@ void func_0205ef70(void) {
 
     firstTotal = gSaveData->mFirstBlock->field34[4];
     secondTotal = gSaveData->mFirstBlock->field34[5];
-    func_0205b32c();
+    sub_205B32C();
     if (gRaceMultiConfig->mCourseNumber <= 3) {
         return;
     }
@@ -527,7 +527,7 @@ void func_0205ef70(void) {
     gSaveData->mFirstBlock->mElo = GetPlayerRecordElo(func_ov000_0219bb50());
     gSaveData->mFirstBlock->field34[4] = firstTotal;
     gSaveData->mFirstBlock->field34[5] = secondTotal;
-    func_0205edcc();
+    SaveFriendList();
 }
 
 void SetRaceResultRecords(void) {
@@ -545,12 +545,12 @@ void SetRaceResultRecords(void) {
                         AddBattleBuddyRecordResults();
                         break;
                     case BATTLE_KIND_SHINE:
-                        func_0205f218();
+                        sub_205F218();
                         break;
                 }
                 break;
             case 5:
-                func_0205ef70();
+                sub_205EF70();
                 break;
         }
     }

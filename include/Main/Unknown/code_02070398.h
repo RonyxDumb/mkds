@@ -13,14 +13,14 @@ typedef struct PointLink PointLink;
 
 // Declared here until the code that defines them is decompiled.
 BOOL TryHoldKartStill(Kart *kart, u32 b, void *c);
-void func_02070484(Kart *kart, Vec4 *quaternion);
+void StructMQRacerEntry_SomeFn_88(Kart *kart, Vec4 *quaternion);
 void driver_pipeTeleport(Kart *kart, u32 key);
 void driver_handleCannon(Kart *kart);
 void driver_emitCannonBlastEffect(Kart *kart);
 void driver_cannonLaunch(Kart *kart, s32 b);
 void StartKartModelScaleAnimation(Kart *kart, s32 a);
 void AdvanceKartHeadingSwing(Kart *kart);
-void func_02071568(Kart *kart);
+void sub_2071568(Kart *kart);
 void AdvanceKartModelScaleAnimation(Kart *kart);
 void driver_tryEmitItemUseVoice(Kart *kart);
 void func_02071914(void *kart, int soundId);
@@ -32,10 +32,10 @@ void driver_initField450(Kart *kart);
 void driver_initSound(Kart *kart);
 void driver_initTimers(KartItemEffectState *itemEffectState);
 void driver_initField7C(Kart *kart);
-void func_02071f44(Kart *kart);
+void StructMQRacerEntry_SomeFn_48(Kart *kart);
 void driver_initField514(Kart *kart, void *heap);
 void ResetKart(Kart *kart);
-void func_02072600(Kart *kart);
+void StructMQRacerEntry_SomeFn_11(Kart *kart);
 void driver_initPhysicalParams(Kart *kart);
 // Slot 7 of Kart.mSlotFunctions, never called: when bit 0x20 of field7C is set, resets the Kart at its course start
 // placement, creates its collision objects if it has none and sets bit 0x80 of field7C while clearing 0x60.

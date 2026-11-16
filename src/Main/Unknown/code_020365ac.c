@@ -31,7 +31,7 @@ void vblankIrq(void) {
             gCurDisplayConfig->mIrqCallback();
         }
     }
-    *OFFSET_PTR(u32, &data_027e0000, 0x3ff8) |= 1;
+    *OFFSET_PTR(u32, &g_DTCM, 0x3ff8) |= 1;
 }
 
 void mkds_restoreIrqs(void) {
@@ -62,7 +62,7 @@ void initSdk(void) {
     OS_EnableInterrupts();
     GX_VBlankIntr(1);
     FS_Init(-1);
-    func_02039774();
+    InitializeGlobalHN();
     gDWCInitResult = DWC_Init(sDwcWork);
     vram_startUpWifiVram();
 }
@@ -87,7 +87,7 @@ void mkds_init(void) {
     gMainHeap.mHeap = heap_create(arenaLo, (u8 *) OS_GetArenaHi(0) - arenaLo);
     proc_init(&sMainProcess, 0);
     gMainHeap.field10 = aMainproc;
-    func_020394cc();
+    InitializeGlobalG_M1();
 }
 
 void mkds_runMainProc(u32 func) {

@@ -28,7 +28,7 @@
 
 // Calls ptcm_createEmitterNoUpdateSkip twice at the rock; skipped when bit 0 of mDistanceSquaredAndFlags is set, or when b is
 // 0 and bit 1 is set. Then resets the rock.
-void func_020d634c(RockObject *rock, s32 b) {
+void sub_20D634C(RockObject *rock, s32 b) {
     EmitterParams firstEmitterParams;
     EmitterParams secondEmitterParams;
     s32 scaleY;
@@ -169,16 +169,16 @@ void rock_update(void *a, RockObject *rock) {
         rock->mBottomOffsetReciprocal = FX_GetDivResult();
     }
     if (rock->fieldA4.field0.mForward == 0) {
-        func_020d634c(rock, 0);
+        sub_20D634C(rock, 0);
     } else if (rock->mMapObject.mPos.y < 0) {
-        func_020d634c(rock, 0);
+        sub_20D634C(rock, 0);
     }
 }
 
-// Calls func_020d634c with b = 1 when the byte at c is 1; returns the byte at d.
+// Calls sub_20D634C with b = 1 when the byte at c is 1; returns the byte at d.
 u8 rock_onDriverCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        func_020d634c(rock, 1);
+        sub_20D634C(rock, 1);
     }
     return *secondResponsePtr;
 }
@@ -186,7 +186,7 @@ u8 rock_onDriverCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secon
 // Same body as rock_onDriverCollide.
 u8 rock_onItemCollide(RockObject *rock, s32 b, u8 *firstResponsePtr, u8 *secondResponsePtr) {
     if (*firstResponsePtr == 1) {
-        func_020d634c(rock, 1);
+        sub_20D634C(rock, 1);
     }
     return *secondResponsePtr;
 }
@@ -322,7 +322,7 @@ void col_loadCourseCollision(void) {
 
 // Keeps the link c on the first object of the hit list a: clears it when b has the top bit or the object changed, sets
 // it when b has a bit of 0x1e34ef.
-void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e) {
+void sub_20D5AA0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e) {
     Unk020d5a68 **hitList = hitListPtr;
     Unk020d5a68 *firstHit;
 
@@ -331,7 +331,7 @@ void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e)
             link->field0 = NULL;
             return;
         }
-        func_020e0538(link, d);
+        sub_20E0538(link, d);
         firstHit = *hitList;
         if (firstHit->field4 == 0 && link->field0 == firstHit->field0) {
             return;
@@ -352,11 +352,11 @@ void func_020d5aa0(void *hitListPtr, u32 b, Unk020e04b0 *link, Vec3 *d, Vec3 *e)
     if (!(b & 0x1e34ef)) {
         return;
     }
-    func_020e0584(firstHit->field0, d, e, link);
+    sub_20E0584(firstHit->field0, d, e, link);
 }
 
 // TRUE when b has the top bit, the hit list a has a non-zero word at 4, or its object differs from the link c.
-BOOL func_020d5a68(void *hitListPtr, u32 b, Unk020e04b0 *link) {
+BOOL sub_20D5A68(void *hitListPtr, u32 b, Unk020e04b0 *link) {
     Unk020d5a68 **hitList = hitListPtr;
 
     if ((b & 0x80000000) || (*hitList)->field4 != 0 || link->field0 != (*hitList)->field0) {

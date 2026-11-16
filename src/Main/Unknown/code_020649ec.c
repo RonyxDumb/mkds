@@ -45,7 +45,7 @@
 #include "Main/Unknown/code_02063b70.h"
 #include "Main/Unknown/code_02062ed8.h"
 
-void func_020651fc(Kart *kart) {
+void StructMQRacerEntry_SomeFn_90(Kart *kart) {
     ParticipantKartRecordState *b;
     s32 tableIndex;
     u32 f;
@@ -53,7 +53,7 @@ void func_020651fc(Kart *kart) {
     f = kart->field7C;
     if ((f & 0xa0) != 0) {
         if ((f & 0x20) != 0) {
-            func_02068b98(kart);
+            StructMQRacerEntry_SomeFn_53(kart);
             return;
         }
         kart->field3C8 = kart->field3C8 + 1;
@@ -73,7 +73,7 @@ void func_020651fc(Kart *kart) {
     }
     b = kart->field514;
     qrtn_toMtx43(&kart->field120, &kart->mUnk_110_q);
-    func_02066ac0(kart);
+    StructMQRacerEntry_SomeFn_78(kart);
     if (kart->mForwardSpeed > 0x3000) {
         b->fieldA8 = driverCore_sZeroVec;
     }
@@ -99,7 +99,7 @@ void func_020651fc(Kart *kart) {
     driver_handleRegularDriving(kart);
 }
 
-void func_02064f50(Kart *kart) {
+void sub_2064F50(Kart *kart) {
     ParticipantKartRecordState *b;
     s32 c;
     Vec3 groundNormal;
@@ -122,7 +122,7 @@ void func_02064f50(Kart *kart) {
     }
     ComputeKartPointAlongUp(&kart->mCollisionCenter, &kart->mPos, 0x400, kart);
     driver_handleCollision(kart, &groundNormal);
-    func_02064d60(kart, &groundNormal);
+    StructMQRacerEntry_SomeFn_84(kart, &groundNormal);
     kart->mGroundNormal = groundNormal;
     kart->field4D0 = kart->field4D0 + 1;
     func_01ffc920(kart);
@@ -160,7 +160,7 @@ void func_02064f50(Kart *kart) {
     qrtn_lerp(&b->field4C, &kart->mUnk_110_q, &b->field4C, 0x333);
 }
 
-void func_02064d60(Kart *kart, Vec3 *groundNormal) {
+void StructMQRacerEntry_SomeFn_84(Kart *kart, Vec3 *groundNormal) {
     ParticipantKartRecordState *c;
     Vec4 hopTiltQuaternion;
     s32 headingDifference;
@@ -170,7 +170,7 @@ void func_02064d60(Kart *kart, Vec3 *groundNormal) {
     kart->field3F8 = 0x1000;
     if (kart->mAirborneFrames > 5 && (kart->field514->field44 & 1) == 0) {
         kart->mQuaternionBlendFactor = 0xf6;
-        func_02070484(kart, &kart->mUnk_100_q);
+        StructMQRacerEntry_SomeFn_88(kart, &kart->mUnk_100_q);
     } else {
         driver_1FFAD14(kart, groundNormal);
     }
@@ -220,9 +220,9 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     if (gRaceMultiConfig->mMode == 5) {
         for (i = 0; i < 9; i++) {
             if (i == 3) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? func_020637e0 : func_02063830;
+                kart->mSlotFunctions[i] = isPeer != 0 ? MQ_FnPtr3_Net_3 : MQ_FnPtr3_Net_Not3;
             } else if (i == 4) {
-                kart->mSlotFunctions[i] = isPeer != 0 ? func_020637c4 : func_02063880;
+                kart->mSlotFunctions[i] = isPeer != 0 ? MQ_FnPtr4_Net_3 : MQ_FnPtr4_Net_Not3;
             } else if (i == 5) {
                 kart->mSlotFunctions[i] =
                     isPeer != 0 ? SetKartPrevCollisionCenterFromPrevPos : SetKartPrevCollisionCenter;
@@ -234,9 +234,9 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
     } else {
         for (i = 0; i < 9; i++) {
             if (i == 3) {
-                kart->mSlotFunctions[i] = func_020646c0;
+                kart->mSlotFunctions[i] = sub_20646C0;
             } else if (i == 4) {
-                kart->mSlotFunctions[i] = func_020641d4;
+                kart->mSlotFunctions[i] = sub_20641D4;
             } else if (i == 5) {
                 kart->mSlotFunctions[i] = SetKartPrevCollisionCenter;
             } else {
@@ -290,7 +290,7 @@ void InitKart(Kart *kart, void (**slotFunctions)(Kart *)) {
             *characterAnimation->field1C[characterAnimation->field1A] = characterAnimation->fieldC;
         }
     }
-    func_02071f44(kart);
+    StructMQRacerEntry_SomeFn_48(kart);
     if ((kart->field7C & 2) != 0) {
         enmy_init(kart->mAi, kart->mIndex);
     }

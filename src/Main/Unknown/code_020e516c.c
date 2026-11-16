@@ -90,7 +90,7 @@ void oshd_renderJgShadowTransformed(Vec3 *scale, MtxFx43 *matrix, u32 c, u32 d) 
 
 void oshd_renderJgShadow(u32 a, u32 b) {
     oshd_sJgModel->field6E = a < b ? a : b;
-    func_0207ad88(oshd_sJgModel);
+    sub_207AD88(oshd_sJgModel);
 }
 
 #pragma thumb on

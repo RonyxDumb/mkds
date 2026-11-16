@@ -3,7 +3,7 @@
 #include "types.h"
 #include "Main/Unknown/types_02180728.h" // TextCanvas
 #include "code_02022aa8.h" // Unk02022aa8
-#include "code_020245a4.h" // Unk020247fc
+#include "nftr.h" // Unk020247fc
 
 // Two pointers, passed by address to the function at 0x14 of Unk02023374.
 typedef struct NNSG2dGlyph {

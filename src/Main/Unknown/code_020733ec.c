@@ -124,20 +124,20 @@ void driver_initColResponses(void) {
     data_021654ec = FX_Div(0x1000, ((s64) physp_getField8() * 0xd9aLL) >> 12);
 }
 
-void func_020733ec(Kart *kart) {
+void StructMQRacerEntry_Fn0(Kart *kart) {
     void *heap;
     Vec3 *collisionPos;
     u16 i;
 
     heap = proc_getHeap(proc_getCurrent());
-    kart->field230 = func_02071568;
+    kart->field230 = sub_2071568;
     driver_initPhysicalParams(kart);
     driver_initField7C(kart);
     if (kart->field7C & KART_7C_MODELS_ENTRY_008_SET) {
         SetKartSpeedLimitReciprocal(FX_Div(0x1000, kart->mPhysicalParam->mBaseSpeedLimit));
     }
     driver_initSound(kart);
-    func_020e0650((u32 *) &kart->field208);
+    sub_20E0650((u32 *) &kart->field208);
     kart->mAi = heap_alloc(heap, 0x158);
     if (gMapData->mRaceRouteCount != 0 || gMapData->mBattleRouteCount != 0) {
         if (gRaceMultiConfig->mCurrentEntries[kart->mIndex].mPlayer.mKind == PLAYER_KIND_CPU) {

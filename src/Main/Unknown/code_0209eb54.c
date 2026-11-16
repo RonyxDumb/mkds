@@ -81,7 +81,7 @@ void pict_update(void *a, Picture *b) {
                         s1.mPositionSource = &b->field0.mPos;
                         s1.field8 = t;
                         s1.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-                        func_0210b7a8(&s1);
+                        sub_210B7A8(&s1);
                     }
                 } else if (b->mNsbcaFrameIndex == 8 || b->mNsbcaFrameIndex == 0x14 || b->mNsbcaFrameIndex == 0x2c ||
                            b->mNsbcaFrameIndex == 0x44) {
@@ -97,7 +97,7 @@ void pict_update(void *a, Picture *b) {
                         s2.mPositionSource = &b->field0.mPos;
                         s2.field8 = t;
                         s2.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-                        func_0210b7a8(&s2);
+                        sub_210B7A8(&s2);
                     }
                 } else if (b->mNsbcaFrameIndex == 0x78) {
                     if (mobj_isInaudible(&b->field0) == FALSE) {
@@ -112,7 +112,7 @@ void pict_update(void *a, Picture *b) {
                         s3.mPositionSource = &b->field0.mPos;
                         s3.field8 = t;
                         s3.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-                        func_0210b7a8(&s3);
+                        sub_210B7A8(&s3);
                     }
                 }
             } else if (b->mPictureIndex == 1) {
@@ -134,7 +134,7 @@ void pict_update(void *a, Picture *b) {
                         s4.mPositionSource = &b->field0.mPos;
                         s4.field8 = t;
                         s4.mDistanceSquared = mobj_calcXZCamDist(&b->field0.mPos);
-                        func_0210b7a8(&s4);
+                        sub_210B7A8(&s4);
                     }
                 }
             }

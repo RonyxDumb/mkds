@@ -103,12 +103,12 @@ void StartLastItemInUseObjectAndInit(ItemInUse *itemInUse, s32 callKart);
 void StartItemInUseObject(ItemInUse *itemInUse, ItemObject *object);
 void InitKartItems(KartItems *kartItems, s32 kartIndex);
 void func_020efc74(KartItems *kartItems, s32 a);
-void func_020efd1c(KartItems *kartItems, ItemObject *object);
-BOOL func_020efd84(KartItems *kartItems, s32 itemInfoIndex);
-void func_020efea4(KartItems *kartItems);
+void sub_20EFD1C(KartItems *kartItems, ItemObject *object);
+BOOL sub_20EFD84(KartItems *kartItems, s32 itemInfoIndex);
+void sub_20EFEA4(KartItems *kartItems);
 void it_dropDriverItem(KartItems *kartItems);
 void ReleaseKartItems(KartItems *kartItems);
-void func_020f00f0(KartItems *kartItems);
+void sub_20F00F0(KartItems *kartItems);
 BOOL func_020f0154(KartItems *kartItems);
 // Builds the pool of one kind: allocates the pointer array and every object, and runs InitItemObject for each.
 void it_initItemset(ItemPool *pool, s32 kind, s32 *objectIdCounter);
@@ -116,17 +116,17 @@ void it_initItemset(ItemPool *pool, s32 kind, s32 *objectIdCounter);
 // active.
 BOOL TryReleaseFirstItemObject(ItemPool *tab);
 // Runs UpdateItemObject for every active object (mode 5: some get several sub-steps). When mLimit is above 1 and
-// mLimit - mReservedCount is below 2 it first calls func_020f9ba8 on the first object or sorts with func_020f0684.
+// mLimit - mReservedCount is below 2 it first calls sub_20F9BA8 on the first object or sorts with sub_20F0684.
 void UpdateItemPool(ItemPool *pool);
-void func_020f0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step);
-void func_020f0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d);
-s32 func_020f0898(ItemPool *pool, u8 *packet);
-s32 func_020f0950(ItemPool *pool, s32 eventByte, s32 objectId);
-void func_020f0b00(ItemPool *tab, s32 a, void *data, s32 c);
+void sub_20F0684(ItemObject **objects, s32 pairIndex, s32 endIndex, s32 step);
+void sub_20F0758(ItemPool *pool, s32 messageKind, s32 b, u8 *packet, s32 d);
+s32 sub_20F0898(ItemPool *pool, u8 *packet);
+s32 sub_20F0950(ItemPool *pool, s32 eventByte, s32 objectId);
+void sub_20F0B00(ItemPool *tab, s32 a, void *data, s32 c);
 void func_020f0d04(ItemObject *object);
 // Draws every taken object, including those only held by a kart, with the kind's draw callback or the default.
 void it_renderItemset(ItemPool *tab, void *viewAxis);
-void func_020f0e2c(ItemPool *tab, ItemObject *object);
+void sub_20F0E2C(ItemPool *tab, ItemObject *object);
 // Starts an object taken now or earlier and held by a kart: swaps it into the active part of mObjects and counts it.
 void it_itemsetAddItem(ItemPool *tab, ItemObject *object);
 // Hands an object back to its pool behind the active and taken parts and counts it out; what the object holds is

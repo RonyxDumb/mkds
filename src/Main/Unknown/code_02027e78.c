@@ -19,12 +19,12 @@ u32 func_0202811c(void) {
     return (gSystemData->field20);
 }
 
-u16 *func_02028110(void) {
+u16 *sub_2028110(void) {
     return (u16 *) 0x27ffc40;
 }
 
 u32 func_020280e8(void) {
-    if (*func_02028110() == 2) {
+    if (*sub_2028110() == 2) {
         return 1;
     }
     return 0;

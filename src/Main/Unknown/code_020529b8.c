@@ -34,7 +34,7 @@
 #include "code_0214d018.h"
 #include "Main/Unknown/code_0203c25c.h"
 
-void func_02053d00(void) {
+void sub_2053D00(void) {
     Unk02143a78 *scanParams;
     Unk021438f0 *scanExParams;
     Unk0217aa00_16a0_view *blocks;
@@ -261,7 +261,7 @@ void InitializeCallback(Unk021425e8 *event) {
     ResetConnectionData();
 }
 
-void func_020533a0(void) {
+void sub_20533A0(void) {
     u32 role;
     BOOL shouldStop;
     BOOL c;
@@ -304,7 +304,7 @@ void func_020533a0(void) {
     if ((gStruct217AA00->field454 & 0x100) != 0) {
         gStruct217AA00->fieldC = 0x26;
         gStruct217AA00->mRequestPending = 1;
-        if (func_020510e4() != FALSE && (func_020510c8() == 1 || func_020510ac() != FALSE)) {
+        if (sub_20510E4() != FALSE && (sub_20510C8() == 1 || sub_20510AC() != FALSE)) {
             c = TRUE;
         } else {
             c = FALSE;
@@ -359,14 +359,14 @@ void SetLifeTime(s32 camLifeTime) {
     gStruct217AA00->fieldC = 3;
     gStruct217AA00->mRequestPending = 1;
     if (WM_SetLifeTime(func_0205329c, 0xffff, camLifeTime, 0xffff, 0xf) != 2) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
 void func_0205329c(Unk021425e8 *event) {
     gStruct217AA00->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
@@ -417,7 +417,7 @@ void MeasureChannel(u16 measuredChannel) {
         gStruct217AA00->field89_0 += 1;
     }
     if (WM_MeasureChannel(MeasureChannelCallback, 3, 0x11, channel, 0x14) != 2) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
@@ -425,7 +425,7 @@ void MeasureChannelCallback(Unk021425e8 *event) {
     s16 *channelSum;
 
     if (event->mResultCode != 0) {
-        func_020533a0();
+        sub_20533A0();
         return;
     }
     channelSum = &gStruct217AA00->field8C[event->field8_0];
@@ -539,7 +539,7 @@ void StopRomArchiveTransfer(void) {
     gStruct217AA00->mRequestPending = 0;
 }
 
-u16 func_02052c5c(u32 a) {
+u16 sub_2052C5C(u32 a) {
     RTCTime time;
     u32 h;
     u16 seconds;
@@ -564,14 +564,14 @@ void SetParentParameter(void) {
     gStruct217AA00->fieldC = 5;
     gStruct217AA00->mRequestPending = 1;
     if (WM_SetParentParameter(func_02052bb8, gStruct217AA00->mParentParameter) != 2) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
 void func_02052bb8(Unk021425e8 *event) {
     gStruct217AA00->mRequestPending = 0;
     if (event->mResultCode != 0) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
@@ -582,7 +582,7 @@ void StartParent(Unk021425e8Func callback) {
     gStruct217AA00->fieldC = 6;
     gStruct217AA00->mRequestPending = 1;
     if (WM_StartParent(callback) != 2) {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
@@ -627,6 +627,6 @@ void StartParentCallback(Unk021425e8 *event) {
                 break;
         }
     } else {
-        func_020533a0();
+        sub_20533A0();
     }
 }

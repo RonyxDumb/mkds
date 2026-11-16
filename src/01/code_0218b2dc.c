@@ -60,7 +60,7 @@ void func_ov001_0218b928(Unk02188950 *mapObject) {
 
         soundRequest.mPositionSource = &mapObject->field0.mPos;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(soundRequest.mPositionSource);
-        func_0210b734(&soundRequest, func_02108e7c());
+        sub_210B734(&soundRequest, func_02108e7c());
     }
     mapObject->field0.mFlags |= data_ov001_021a659c;
     mapObject->field0.mFlags |= data_ov001_021a65a0;

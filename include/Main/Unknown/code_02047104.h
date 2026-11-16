@@ -43,11 +43,11 @@ extern const char aSS_6[];
 extern const char aSS_7[];
 extern const char aDataSceneStaff[];
 extern const char aDl_0[];
-extern const char data_021650e4[];
+extern const char g_EmptyString_1[];
 extern const char aDataSceneSS_SS[];
 extern const char a_carc_2[];
 extern const char aDl[];
-extern const char data_0216510c[];
+extern const char g_EmptyString_2[];
 extern const char aDataSceneSSS[];
 extern const char a_carc_3[];
 

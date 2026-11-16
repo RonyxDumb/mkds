@@ -45,7 +45,7 @@ typedef struct CourseMapCamera {
 #include "code_02012b30.h" // MtxFx43
 
 extern s32 data_021656c4;
-extern Unk0214ad4c data_021702a4;
+extern Unk0214ad4c g_YetAnotherMatrix4x4;
 extern MtxFx43 data_021702e8;
 extern s32 data_0217aca0;
 

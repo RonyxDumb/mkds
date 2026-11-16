@@ -23,7 +23,7 @@
 #include "code_021471bc.h"
 #include "registers.h"
 
-void func_02086a04(void) {
+void sub_2086A04(void) {
     Vec3 cameraToKartWhole;
     Vec3 cameraToKart;
     s32 i;
@@ -42,25 +42,25 @@ void func_02086a04(void) {
     viewFrustum = GetViewFrustum();
     for (i = 0; i < gRaceMultiConfig->mKartCount; i++) {
         driver_getById(i);
-        data_0217aed0->mNameTagBeyondTwoNearest[i] = 0;
+        g_GlobalAED0->mNameTagBeyondTwoNearest[i] = 0;
         kart = driver_getById(i);
         margin = kart->mRadius * 3;
         modelsEntry = kart->mKartModelsEntry;
         VEC_Subtract(kart->mPosSource, &viewFrustum->mCameraPos, &cameraToKart);
         distanceAlongView = VEC_DotProduct(&cameraToKart, &viewFrustum->mViewDirection);
-        data_0217aed0->mDistanceAlongViewWithMargin[i] = distanceAlongView + margin;
-        data_0217aed0->mAlongViewOrderIndex[kart->mIndex] =
-            data_0217aed0->field24[kart->mIndex] + data_0217aed0->mAlongViewOrderOffset[kart->mIndex];
-        data_0217aed0->mSortedDistanceAlongView[data_0217aed0->mAlongViewOrderIndex[kart->mIndex]] = distanceAlongView;
+        g_GlobalAED0->mDistanceAlongViewWithMargin[i] = distanceAlongView + margin;
+        g_GlobalAED0->mAlongViewOrderIndex[kart->mIndex] =
+            g_GlobalAED0->field24[kart->mIndex] + g_GlobalAED0->mAlongViewOrderOffset[kart->mIndex];
+        g_GlobalAED0->mSortedDistanceAlongView[g_GlobalAED0->mAlongViewOrderIndex[kart->mIndex]] = distanceAlongView;
         VEC_Subtract(kart->mPosSource, &viewFrustum->mCameraPos, &cameraToKartWhole);
         cameraToKartWhole.x = cameraToKartWhole.x >> 12;
         cameraToKartWhole.y = cameraToKartWhole.y >> 12;
         cameraToKartWhole.z = cameraToKartWhole.z >> 12;
         distanceSquared = cameraToKartWhole.x * cameraToKartWhole.x + cameraToKartWhole.y * cameraToKartWhole.y +
                           cameraToKartWhole.z * cameraToKartWhole.z;
-        data_0217aed0->mDistanceSquared[i] = distanceSquared;
-        data_0217aed0->mSortedDistanceSquared[(u16) (data_0217aed0->field24[kart->mIndex] +
-                                                     data_0217aed0->mDistanceSquaredOrderOffset[kart->mIndex])] =
+        g_GlobalAED0->mDistanceSquared[i] = distanceSquared;
+        g_GlobalAED0->mSortedDistanceSquared[(u16) (g_GlobalAED0->field24[kart->mIndex] +
+                                                     g_GlobalAED0->mDistanceSquaredOrderOffset[kart->mIndex])] =
             distanceSquared;
         if (kart->mIndex != gRaceMultiConfig->mEntryIndex) {
             isWithinFalloff = TRUE;
@@ -111,13 +111,13 @@ void func_02086a04(void) {
     }
     if (race_getCameraField250() != 3) {
         objectCount = 0;
-        for (orderIndex = data_0217aed0->mAlongViewOrderIndex[gRaceMultiConfig->mEntryIndex] + 1;
+        for (orderIndex = g_GlobalAED0->mAlongViewOrderIndex[gRaceMultiConfig->mEntryIndex] + 1;
              orderIndex < gRaceMultiConfig->mKartCount; orderIndex++) {
             KartNameTag *kartObject;
-            kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[orderIndex]];
+            kartObject = g_GlobalAED0->mNameTagByKart[g_GlobalAED0->mKartIndicesByDistanceAlongView[orderIndex]];
             if (kartObject != NULL) {
                 if (objectCount >= 2) {
-                    data_0217aed0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] = 1;
+                    g_GlobalAED0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] = 1;
                 }
                 objectCount++;
             }
@@ -126,12 +126,12 @@ void func_02086a04(void) {
         objectCount = 0;
         for (orderIndex = 0; orderIndex < gRaceMultiConfig->mKartCount; orderIndex++) {
             KartNameTag *kartObject;
-            kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[orderIndex]];
+            kartObject = g_GlobalAED0->mNameTagByKart[g_GlobalAED0->mKartIndicesByDistanceAlongView[orderIndex]];
             if (kartObject != NULL) {
-                if (data_0217aed0
-                        ->mSortedDistanceAlongView[data_0217aed0->mAlongViewOrderIndex[kartObject->mKartIndex]] >= 0) {
+                if (g_GlobalAED0
+                        ->mSortedDistanceAlongView[g_GlobalAED0->mAlongViewOrderIndex[kartObject->mKartIndex]] >= 0) {
                     if (objectCount >= 2) {
-                        data_0217aed0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] = 1;
+                        g_GlobalAED0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] = 1;
                     }
                     objectCount++;
                 }
@@ -140,7 +140,7 @@ void func_02086a04(void) {
     }
 }
 
-void func_0208677c(void) {
+void sub_208677C(void) {
     Vec3 objectPosition;
     s32 i;
     s32 x;
@@ -153,17 +153,17 @@ void func_0208677c(void) {
     } else {
         gKartDistanceLimitsSquared = &data_02155a48;
     }
-    func_02086a04();
+    sub_2086A04();
     i = 0;
-    while (i < data_0217aed0->mNameTagCount) {
-        kartObject = data_0217aed0->mNameTags[i];
+    while (i < g_GlobalAED0->mNameTagCount) {
+        kartObject = g_GlobalAED0->mNameTags[i];
         kart = driver_getById(kartObject->mKartIndex);
         posSource = kart->mPosSource;
         objectPosition = *posSource;
-        x = data_0217aed0->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
+        x = g_GlobalAED0->mDistanceAlongViewWithMargin[kartObject->mKartIndex];
         alphaScale = 0x1000;
         if (x > 0) {
-            if (data_0217aed0->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || race_getCameraField250() == 3) {
+            if (g_GlobalAED0->mDistanceSquared[kartObject->mKartIndex] < 0x9c400 || race_getCameraField250() == 3) {
                 x -= 0x14000;
                 kartObject->mFadeLevelPerCall = 1;
                 kartObject->field14 = 1;
@@ -176,7 +176,7 @@ void func_0208677c(void) {
                 kartObject->field14 = 2;
             }
         }
-        if (data_0217aed0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
+        if (g_GlobalAED0->mNameTagBeyondTwoNearest[kartObject->mKartIndex] != 0 ||
             (driver_getById(kartObject->mKartIndex)->field7C & 0x402020) != 0 ||
             (math_abs(posSource->y - driver_getById(gRaceMultiConfig->mEntryIndex)->mPos.y) > 0x96000 &&
              race_getCameraField250() != 3)) {
@@ -207,11 +207,11 @@ void func_0208677c(void) {
         kartObject->mPos.z = objectPosition.z >> 4;
         i += 1;
     }
-    func_020866b4();
-    func_020865ec();
+    sub_20866B4();
+    sub_20865EC();
 }
 
-void func_020866b4(void) {
+void sub_20866B4(void) {
     u16 *kartIndices;
     s16 *orderOffset;
     u16 i;
@@ -220,14 +220,14 @@ void func_020866b4(void) {
     s32 previousDistance;
     s32 distance;
     u16 savedKartIndex;
-    distancesAlongView = data_0217aed0->mSortedDistanceAlongView;
+    distancesAlongView = g_GlobalAED0->mSortedDistanceAlongView;
     for (i = 1; (u32) i < gRaceMultiConfig->mKartCount; i++) {
         previousIndex = i - 1;
         previousDistance = distancesAlongView[previousIndex];
         distance = distancesAlongView[i];
         if (previousDistance > distance) {
-            kartIndices = data_0217aed0->mKartIndicesByDistanceAlongView;
-            orderOffset = data_0217aed0->mAlongViewOrderOffset;
+            kartIndices = g_GlobalAED0->mKartIndicesByDistanceAlongView;
+            orderOffset = g_GlobalAED0->mAlongViewOrderOffset;
             distancesAlongView[previousIndex] = distance;
             distancesAlongView[i] = previousDistance;
             orderOffset[kartIndices[i]]--;
@@ -239,7 +239,7 @@ void func_020866b4(void) {
     }
 }
 
-void func_020865ec(void) {
+void sub_20865EC(void) {
     u16 *kartIndices;
     s16 *orderOffset;
     u16 i;
@@ -248,14 +248,14 @@ void func_020865ec(void) {
     u32 previousDistanceSquared;
     u32 distanceSquared;
     u16 savedKartIndex;
-    distancesSquared = data_0217aed0->mSortedDistanceSquared;
+    distancesSquared = g_GlobalAED0->mSortedDistanceSquared;
     for (i = 1; (u32) i < gRaceMultiConfig->mKartCount; i++) {
         previousIndex = i - 1;
         previousDistanceSquared = distancesSquared[previousIndex];
         distanceSquared = distancesSquared[i];
         if (previousDistanceSquared > distanceSquared) {
-            kartIndices = data_0217aed0->mKartIndicesByDistance;
-            orderOffset = data_0217aed0->mDistanceSquaredOrderOffset;
+            kartIndices = g_GlobalAED0->mKartIndicesByDistance;
+            orderOffset = g_GlobalAED0->mDistanceSquaredOrderOffset;
             distancesSquared[previousIndex] = distanceSquared;
             distancesSquared[i] = previousDistanceSquared;
             orderOffset[kartIndices[i]]--;
@@ -288,18 +288,18 @@ void driver_renderLabels(MtxFx43 *viewMatrix) {
     reg_G3_MTX_MODE = 3;
     reg_G3_MTX_IDENTITY = 0;
     for (i = gRaceMultiConfig->mKartCount - 1; i >= 0; i--) {
-        kartObject = data_0217aed0->mNameTagByKart[data_0217aed0->mKartIndicesByDistanceAlongView[i]];
+        kartObject = g_GlobalAED0->mNameTagByKart[g_GlobalAED0->mKartIndicesByDistanceAlongView[i]];
         if (kartObject == NULL) {
             continue;
         }
-        if (data_0217aed0->mSortedDistanceAlongView[i] <= 0) {
+        if (g_GlobalAED0->mSortedDistanceAlongView[i] <= 0) {
             continue;
         }
         alpha = kartObject->mAlpha;
         if (alpha == 0) {
             continue;
         }
-        if ((driver_getById(data_0217aed0->mKartIndicesByDistanceAlongView[i])->field7C & 0xe0) != 0) {
+        if ((driver_getById(g_GlobalAED0->mKartIndicesByDistanceAlongView[i])->field7C & 0xe0) != 0) {
             continue;
         }
         MTX_MultVec43(&kartObject->mPos, viewMatrix, &viewPos);
@@ -383,7 +383,7 @@ void DrawKartNameTagTexture(TexPlttEntry *texPlttEntry, KartNameTag *kartObject,
 u32 GetKartCameraDistanceSquared(int kartIndex) {
     u32 value0 = kartIndex;
     u32 value1;
-    value1 = (u32) &data_0217aed0;
+    value1 = (u32) &g_GlobalAED0;
     value1 = *(const u32 *) ((value1) + (0));
     value0 = (value1) + ((value0 << 2));
     value0 = *(const u32 *) ((value0) + (292));
@@ -391,9 +391,9 @@ u32 GetKartCameraDistanceSquared(int kartIndex) {
 }
 
 u16 func_0208606c(int index) {
-    return data_02155a64[index];
+    return g_DefaultRacerIndicatorColors[index];
 }
 
 u16 *GetKartIndicesByDistance(void) {
-    return data_0217aed0->mKartIndicesByDistance;
+    return g_GlobalAED0->mKartIndicesByDistance;
 }

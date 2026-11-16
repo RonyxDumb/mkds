@@ -3,11 +3,11 @@
 #include "00/code_02181f98.h"
 #include "code_0214a390.h"
 
-void func_020cbabc(u32 value) {
+void SetSinglePlayerMenuTarget(u32 value) {
     gStruct217B488->field8 = value;
 }
 
-void func_020cbaa8(u32 value) {
+void SetB488_B5(u32 value) {
     gStruct217B488->field10 = value;
 }
 

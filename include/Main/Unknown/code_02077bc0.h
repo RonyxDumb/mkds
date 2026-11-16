@@ -111,7 +111,7 @@ EntryKartCounters *driver_getPlayerStatistics(void);
 void driver_notifyOffRoad(Kart *kart);
 void driver_notifyItemHit(s32 kartIndex);
 BOOL driver_getIsOnAntigravity(s32 kartIndex);
-BOOL func_0207a84c(s32 kartIndex);
+BOOL RacerEntryHasFlags0x60(s32 kartIndex);
 // Copies mScale of Kart b to a.
 void driver_getScale(Vec3 *scale, s32 kartIndex);
 void GetKartPosFromPosSourceCopy(Vec3 *dst, u8 idx);

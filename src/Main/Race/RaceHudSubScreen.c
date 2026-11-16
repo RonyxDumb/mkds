@@ -233,7 +233,7 @@ void mpicn_updateDriverIcon(void) {
                 RefreshGlobalMapPosition(i, &gRaceHudSubScreenKarts->field60[i]);
                 screenX = gRaceHudSubScreenKarts->field60[i].field0;
                 screenY = gRaceHudSubScreenKarts->field60[i].field4;
-                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
+                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && RacerEntryHasFlags0x60(i) == 0) {
                     gRaceHudSubScreenKarts->field0[i] = 1;
                     if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK &&
                         gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST) {
@@ -261,9 +261,9 @@ void mpicn_updateDriverIcon(void) {
                 ComputeRaceHudSubScreenKartPosition(i, &gRaceHudSubScreenKarts->field60[i], a);
                 screenX = gRaceHudSubScreenKarts->field60[i].field0;
                 screenY = gRaceHudSubScreenKarts->field60[i].field4;
-                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && func_0207a84c(i) == 0) {
+                if (screenX > -0x10 && screenX < 0x110 && screenY > -0x10 && screenY < 0xd0 && RacerEntryHasFlags0x60(i) == 0) {
                     gRaceHudSubScreenKarts->field0[i] = 1;
-                    gRaceHudSubScreenKarts->field40[i] = func_020b4dc4(i);
+                    gRaceHudSubScreenKarts->field40[i] = sub_20B4DC4(i);
                     driver_getScale(&gRaceHudSubScreenKarts->fieldA0[i], i);
                     if (driver_getById(i)->mState != KART_STATE_NORMAL) {
                         gRaceHudSubScreenKarts->field110[i]++;
@@ -285,7 +285,7 @@ void mpicn_updateDriverIcon(void) {
                         } else {
                             position = &object->mPos;
                         }
-                        f = func_020f91e0(object);
+                        f = sub_20F91E0(object);
                         if (position != NULL && f != 0) {
                             ComputePointAlongLine(&t, &kartPosition, position);
                             w = t;
@@ -532,7 +532,7 @@ BOOL mpicn_createSecondHandIcon(void) {
     if (kindEntry == NULL) {
         return FALSE;
     }
-    objectCount = func_02100094(kindEntry);
+    objectCount = sub_2100094(kindEntry);
     if (objectCount == 0) {
         return FALSE;
     }
@@ -1158,7 +1158,7 @@ s32 mpicn_createItemboxIcon(void) {
             created = mpicn_createMapObjIcon(&mpicn_sItemboxIcon, kind);
             highest = 0;
             for (j = 0; j < mpicn_sItemboxIcon->mObjectCount; j++) {
-                s32 v = func_020de9f8((ItemBox *) mpicn_sItemboxIcon->mObjects[j]);
+                s32 v = sub_20DE9F8((ItemBox *) mpicn_sItemboxIcon->mObjects[j]);
                 if (v > highest) {
                     highest = v;
                 }

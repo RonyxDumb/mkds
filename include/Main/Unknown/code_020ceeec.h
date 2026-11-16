@@ -3,5 +3,5 @@
 #include "types.h"
 #include "Main/Unknown/code_020d22c0.h" // RandomState64
 
-RandomState64 *func_020ceeec(void);
-unsigned int func_020cef08(void);
+RandomState64 *sub_20CEEEC(void);
+unsigned int sub_20CEF08(void);

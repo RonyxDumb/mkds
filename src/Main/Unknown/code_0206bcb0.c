@@ -284,7 +284,7 @@ recheck:
     }
     if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         distanceSquared = GetKartCameraDistanceSquared(kart->mIndex);
-        AddSoundRequest(&data_0217d284, distanceSquared + func_0210a578(), driver_emitSfx3, kart, 0xcf);
+        AddSoundRequest(&data_0217d284, distanceSquared + sub_210A578(), driver_emitSfx3, kart, 0xcf);
     }
     kart->field44 |= 0x806;
     kart->field44 &= 0xffff7ff7;
@@ -356,12 +356,12 @@ int driver_handleWheelSpin(Kart *kart) {
 }
 
 void func_0206c488(Unk0201ca6c *emitter, Kart *kart) {
-    func_02080e88(emitter, kart);
+    sub_2080E88(emitter, kart);
 }
 
 void func_0206c450(Unk0201ca6c *emitter, Kart *kart) {
     emitter->field40 = kart->mEffectVelocity;
-    func_02080e88(emitter, kart);
+    sub_2080E88(emitter, kart);
 }
 
 // Starts the effects of a kart-kart hit at the contact point; flag picks the four-effect set.
@@ -416,7 +416,7 @@ void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart) {
     emitter->field50 = rot;
 }
 
-void func_0206c17c(Kart *kart) {
+void StructMQRacerEntry_SomeFn_30(Kart *kart) {
     if (kart->field7C & 0x40000) {
         return;
     }
@@ -437,25 +437,25 @@ void driver_notifyDragItemChanged(Kart *kart) {
     }
 }
 
-BOOL func_0206c0e0(Kart *kart) {
+BOOL StructMQRacerEntry_SomeFn_86(Kart *kart) {
     if ((kart->field7C & 0x402020) || (kart->field4C & 0x800) || kart->mState != KART_STATE_NORMAL) {
         return TRUE;
     }
     return FALSE;
 }
 
-BOOL func_0206c0b0(Kart *kart) {
+BOOL StructMQRacerEntry_SomeFn_64(Kart *kart) {
     if ((kart->field7C & 0x400020) || (kart->field4C & 0x800)) {
         return TRUE;
     }
     return FALSE;
 }
 
-int func_0206c0a8(Kart *kart) {
+int StructMQRacerEntry_SomeFn_71(Kart *kart) {
     return kart->field4C0;
 }
 
-BOOL func_0206c094(Kart *kart) {
+BOOL StructMQRacerEntry_SomeFn_83(Kart *kart) {
     return (kart->field4C & KART_4C_OUT_OF_VIEW) != 0;
 }
 

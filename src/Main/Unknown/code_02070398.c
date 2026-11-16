@@ -106,7 +106,7 @@ void AdvanceKartScaleFactor(Kart *kart) {
     entryIndex = kart->mEntryIndex;
     data_0217566a[entryIndex].mBitMask = 0xff7;
     if (kart->field7C & 0x20) {
-        func_02068b98(kart);
+        StructMQRacerEntry_SomeFn_53(kart);
         return;
     }
     kart->field3C8 = kart->field3C8 + 1;
@@ -228,7 +228,7 @@ s32 driver_handlePreRespawn(Kart *kart, s32 *a) {
     if ((kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) && kart->mRespawnFrames == 0x55) {
         jg_startRespawning();
     } else if (kart->mRespawnFrames > 0x78) {
-        func_02063ad0(kart);
+        sub_2063AD0(kart);
         finished = TRUE;
     }
     return finished;
@@ -276,7 +276,7 @@ void driver_2072B94(Kart *kart, const Vec3 *position, const Vec3 *forward, Point
     }
     if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
         cam_setPlayerCameraPosRot(position, &kart->mUnk_e0_m);
-        func_02089f9c(((u32(*)(void)) cam_resetPlayerCameraFov)());
+        nullsub_7(((u32(*)(void)) cam_resetPlayerCameraFov)());
         cam_20747F4(0);
     }
 }
@@ -296,9 +296,9 @@ void driver_reset(Kart *kart) {
     dptc_killAll(dptc_getControllerForDriver(kart->mIndex));
     driver_initField450(kart);
     if (kart->mIndex == gRaceMultiConfig->mEntryIndex) {
-        func_0210fa74(0);
+        sub_210FA74(0);
     }
-    func_0210a664(kart);
+    sub_210A664(kart);
     if (kart->field4C & 0x2000) {
         driver_disableSlipStreamToonMode(kart);
     }
@@ -317,7 +317,7 @@ void driver_reset(Kart *kart) {
     }
     if (kart->field4C & 0x10000000) {
         kart->field4C &= ~0x10000000;
-        func_0210515c(kart->mIndex);
+        sub_210515C(kart->mIndex);
         if (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) {
             cam_resetPlayerCameraTargetFov();
         }
@@ -343,7 +343,7 @@ void driver_reset(Kart *kart) {
         } else {
             sfx_21090C4(&kart->mSoundSource, 0xf9, 0x7f, 0);
         }
-        func_0210fa40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
+        sub_210FA40(0, (kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY) ? 1 : 0);
     }
 }
 
@@ -416,7 +416,7 @@ void driver_initPhysicalParams(Kart *kart) {
     }
 }
 
-void func_02072600(Kart *kart) {
+void StructMQRacerEntry_SomeFn_11(Kart *kart) {
     Vec3 zeroVector;
 
     kart->fieldD4 = 0x1000;
@@ -648,7 +648,7 @@ void driver_initField514(Kart *kart, void *heap) {
     }
 }
 
-void func_02071f44(Kart *kart) {
+void StructMQRacerEntry_SomeFn_48(Kart *kart) {
     ParticipantKartRecordState *q;
 
     if (!(kart->field7C & 0x400)) {
@@ -841,7 +841,7 @@ void driver_initField450(Kart *kart) {
             break;
     }
     kartSound->field68 = k;
-    i = func_0202578c(kart->mKartModelsEntry->mKartIndex);
+    i = sub_202578C(kart->mKartModelsEntry->mKartIndex);
     rowOffset = i * 0x1c;
     a = *(s32 *) (data_02161ae8 + rowOffset);
     b = *(s32 *) (data_02161aec + rowOffset);
@@ -922,7 +922,7 @@ void func_020718c8(void *kart, int soundId) {
     int sortKeyBase;
 
     sortKeyBase = GetKartCameraDistanceSquared(((Kart *) kart)->mIndex);
-    AddSoundRequest(&data_0217d284, sortKeyBase + func_0210a588(), func_02071914, kart, soundId);
+    AddSoundRequest(&data_0217d284, sortKeyBase + sub_210A588(), func_02071914, kart, soundId);
 }
 
 void driver_tryEmitItemUseVoice(Kart *kart) {
@@ -957,7 +957,7 @@ void AdvanceKartModelScaleAnimation(Kart *kart) {
     }
 }
 
-void func_02071568(Kart *kart) {
+void sub_2071568(Kart *kart) {
     s32 fraction;
     u16 tableIndex;
     u16 nextTableIndex;
@@ -1109,7 +1109,7 @@ void driver_cannonLaunch(Kart *kart, s32 b) {
     kart->field48 &= ~0x20000;
     driver_2068A64(kart, 0, 1);
     kart->field44 |= 0x80000000;
-    func_02072600(kart);
+    StructMQRacerEntry_SomeFn_11(kart);
     driver_emitCannonBlastEffect(kart);
     if (!(kart->field7C & KART_7C_INDEX_IS_SELECTED_ENTRY)) {
         return;
@@ -1418,7 +1418,7 @@ void driver_pipeTeleport(Kart *kart, u32 key) {
     ResetBattleKartAiAtPointLink(kart->mAi, mdat_getNextMgEnemyPointForWarpPipe(key));
 }
 
-void func_02070484(Kart *kart, Vec4 *quaternion) {
+void StructMQRacerEntry_SomeFn_88(Kart *kart, Vec4 *quaternion) {
     MtxFx43 m1;
     MtxFx43 m2;
     Vec3 v1;
@@ -1470,7 +1470,7 @@ BOOL TryHoldKartStill(Kart *kart, u32 b, void *c) {
             kart->mPos.x = kart->mPrevPos.x;
             kart->mPos.z = kart->mPrevPos.z;
         } else {
-            func_020d5aa0(c, b, (Unk020e04b0 *) kart->field208, &kart->mPos, NULL);
+            sub_20D5AA0(c, b, (Unk020e04b0 *) kart->field208, &kart->mPos, NULL);
         }
         kart->mVelocity = driverCore_sZeroVec;
         kart->mVelocityLength = 0;

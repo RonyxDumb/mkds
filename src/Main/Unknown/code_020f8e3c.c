@@ -12,7 +12,7 @@
 #include "Main/Unknown/code_020b502c.h"
 #include "Main/Unknown/code_02070398.h"
 
-u32 func_020f8e3c(u32 kart, u32 soundId) {
+u32 sub_20F8E3C(u32 kart, u32 soundId) {
     u32 kartCopy = kart;
     u32 soundIdCopy = soundId;
     u32 flagBit;

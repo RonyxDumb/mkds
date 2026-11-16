@@ -47,7 +47,7 @@ static inline void func_020653d0_inline(Kart *entryKart, Kart *sourceKart, Vec3 
     }
 }
 
-void func_020653d0(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
+void StructMQRacerEntry_SomeFn_19(Kart *kart, ParticipantKartRecord *record, s32 stepCount) {
     Vec3 newPos;
     Vec3 moveStep;
     Vec3 headingAxis;

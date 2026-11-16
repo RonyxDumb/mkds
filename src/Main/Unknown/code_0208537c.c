@@ -122,7 +122,7 @@ void InitKartAiShared(void) {
         gKartAiParamRow->field4 = FX_Div(gKartAiParamRow->field4, 0x3000);
     }
     InitKartAiNonCpuCounts();
-    func_0207fba0();
+    sub_207FBA0();
     InitKartAiTables();
     enit_setupFunctions();
     if (gRaceMultiConfig->mMode == MODE_BATTLE) {
@@ -403,7 +403,7 @@ void DecrementKartAiNonCpuCount(u32 kartIndex) {
     }
 }
 
-s16 func_02085824(u32 kartIndex) {
+s16 sub_2085824(u32 kartIndex) {
     s16 count;
     u16 teamIndex;
     count = 0;
@@ -528,11 +528,11 @@ s32 GetKartRankAmongKind1(u16 kartIndex) {
     return rank;
 }
 
-s32 func_020854a0(u32 p0, u32 p1) {
+s32 sub_20854A0(u32 p0, u32 p1) {
     return gKartAiShared->mKind1KartByRank[(((p1) + (p0))) - (0x1u)];
 }
 
-s32 func_0208548c(void) {
+s32 sub_208548C(void) {
     return gKartAiShared->field8C;
 }
 
@@ -540,7 +540,7 @@ s32 GetFirstKind1KartByRank(void) {
     return gKartAiShared->mKind1KartByRank[0];
 }
 
-s32 func_02085458(s32 a) {
+s32 sub_2085458(s32 a) {
     s32 listIndex = a - 2;
     s32 result = -1;
 
@@ -550,7 +550,7 @@ s32 func_02085458(s32 a) {
     return result;
 }
 
-s32 func_02085434(void) {
+s32 sub_2085434(void) {
     return gKartAiShared->mNonCpuKartByRank[((gKartAiShared->field124)) - (0x1u)];
 }
 
@@ -566,7 +566,7 @@ u32 GetKartAiTableIndex(u32 kartIndex) {
     return (gKartAiShared->mTableIndex[kartIndex]);
 }
 
-u32 func_020853dc(void) {
+u32 sub_20853DC(void) {
     return (gKartAiShared->field138);
 }
 
@@ -579,7 +579,7 @@ s32 GetKartRaceProgressScaled(u32 kartIndex) {
     return ((s64) raceProgress * checkpointSumQuotient + 0x800) >> 12;
 }
 
-BOOL func_02085390(void) {
+BOOL sub_2085390(void) {
     return (gKartAiShared->field120);
 }
 

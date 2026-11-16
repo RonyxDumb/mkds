@@ -48,7 +48,7 @@ void driver_startSpinOut(Kart *p, int a, int b) {
     p->mYRotationAngleSum = 0;
     p->mYRotationCount = a;
     p->field4C |= 0x20;
-    func_020efea4(&(it_sDriverItemStatus)[p->mIndex]);
+    sub_20EFEA4(&(it_sDriverItemStatus)[p->mIndex]);
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         mrcnt_notifyPlayerDamage();
     }
@@ -282,7 +282,7 @@ void driver_startForwardFlip(Kart *p) {
     if (!(p->field48 & 0x840)) {
         sfx_emitDriverVoice(p, p->mSoundIndex, 2);
     }
-    func_020efea4(&(it_sDriverItemStatus)[p->mIndex]);
+    sub_20EFEA4(&(it_sDriverItemStatus)[p->mIndex]);
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         mrcnt_notifyPlayerDamage();
     }
@@ -614,7 +614,7 @@ void driver_startThunderShrinkEffect(Kart *p) {
     p->field394 = 0xb33;
     p->field4C |= KART_4C_THUNDER_SHRINK;
     driver_tryStartSpinOut(p, 2, 1);
-    func_0210f9ac(p);
+    StructMQRacerEntry_SomeFn_28(p);
     it_dropDriverItem(&(it_sDriverItemStatus)[p->mIndex]);
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN && gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         mrcnt_notifyPlayerDamage();
@@ -622,9 +622,9 @@ void driver_startThunderShrinkEffect(Kart *p) {
     p->mScaleFactor.x = 0x1000;
     p->mScaleFactor.y = 0x1000;
     p->mScaleFactor.z = 0x1000;
-    func_0210a644(p);
+    StructMQRacerEntry_SomeFn_29(p);
     if (p->mIndex == gRaceMultiConfig->mEntryIndex) {
-        func_0210fa74(1);
+        sub_210FA74(1);
     }
     if (p->field7C & 0x200) {
         p->field514->field2C ^= 0x8000;
@@ -656,9 +656,9 @@ void driver_updateThunderShrinkEffect(Kart *p) {
                     p->field394 = 0x1000;
                 }
                 if (p->mIndex == gRaceMultiConfig->mEntryIndex) {
-                    func_0210fa74(0);
+                    sub_210FA74(0);
                 }
-                func_0210a664(p);
+                sub_210A664(p);
                 return;
             }
             p->field4C |= 0x100;
@@ -700,5 +700,5 @@ void driver_updateThunderShrinkEffect(Kart *p) {
         p->mScale.z = ((s64) p->mScaleBase.z * p->mScaleFactor.z) >> 12;
         p->mScale.y = ((s64) p->mScaleYFactor * p->mScale.y) >> 12;
     }
-    func_0210fa3c();
+    nullsub_16();
 }

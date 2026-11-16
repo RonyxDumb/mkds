@@ -13,9 +13,9 @@ typedef struct Unk02154228 {
 
 extern Unk02154228 sCourseDefs[];
 extern const char aTex[];
-extern const char data_02165168[];
+extern const char g_EmptyString[];
 extern const char aD_0[];
-extern const char data_02165170[];
+extern const char g_EmptyString_0[];
 extern const char aDataCourseSSS_[];
 
 void arc_getSceneArcPath(char *path, const char *sceneName);

@@ -4,7 +4,7 @@
 
 typedef struct SceneNumbers SceneNumbers;
 
-s32 func_0204984c(SceneNumbers *sceneNumbers, s32 b);
+s32 sub_204984C(SceneNumbers *sceneNumbers, s32 b);
 void scene_reportError(s32 kind);
 u32 scene_isResetProhibited(void);
 BOOL scene_isSleepAllowed(void);
@@ -17,6 +17,6 @@ void scene_displayError(void);
 void scene_threadMain(void *arg);
 s32 scene_getShouldStopUnloadMusic(s32 scene, s32 nextScene);
 s32 scene_getSceneMusicOverride(s32 sceneNumber, s32 *b);
-void func_0204a4d8(void);
+void DisplayConfig_VblankFn(void);
 u32 scene_getFadeOutLength(void);
 s16 scene_getFadeInLength(void);

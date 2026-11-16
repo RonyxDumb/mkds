@@ -4,4 +4,4 @@
 
 typedef struct Kart Kart;
 
-void func_0210a664(Kart *kart);
+void sub_210A664(Kart *kart);

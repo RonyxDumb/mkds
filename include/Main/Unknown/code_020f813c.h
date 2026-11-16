@@ -18,7 +18,7 @@ void StopItemSlot(KartItems *slot);
 // gives the item
 void FinishItemSlot(KartItems *slot);
 BOOL UpdateItemSlot(KartItems *slot, KartItems *kartItems);
-void func_020f86c4(KartItems *slot);
+void sub_20F86C4(KartItems *slot);
 // Returns without starting when the roulette runs or mActiveItem is set
 void StartItemSlot(KartItems *slot, s32 forcedRowHandle, s32 rank, s32 isHumanGhostOrPeer, s32 shortSpin);
 void InitItemSlot(KartItems *slot, KartItems *kartItems);

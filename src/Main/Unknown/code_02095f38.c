@@ -79,7 +79,7 @@ u32 poo_onDriverCollide(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c) {
                         s.mPositionSource = &coverPooHole->field0.mPos;
                         s.field8 = t;
                         s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
-                        func_0210b7a8(&s);
+                        sub_210B7A8(&s);
                     }
                 }
                 coverPooHole->field0.mDistanceSquaredAndFlags =
@@ -164,7 +164,7 @@ u32 poo_onDriverCollide(CoverPooHole *coverPooHole, Kart *kart, u8 *b, u8 *c) {
                         s2.mPositionSource = &coverPooHole->field0.mPos;
                         s2.field8 = t;
                         s2.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
-                        func_0210b7a8(&s2);
+                        sub_210B7A8(&s2);
                     }
                 }
                 if ((coverPooHole->field0.mFlags & 0x800) == 0) {
@@ -418,7 +418,7 @@ static inline void func_02095fec_inline_2(CoverPooHole *coverPooHole, s32 soundI
     s.mPositionSource = &coverPooHole->field0.mPos;
     s.field8 = v;
     s.mDistanceSquared = mobj_calcXZCamDist(&coverPooHole->field0.mPos);
-    func_0210b7a8(&s);
+    sub_210B7A8(&s);
 }
 
 void poo_update(void *a, CoverPooHole *coverPooHole) {

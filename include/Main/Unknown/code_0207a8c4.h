@@ -9,4 +9,4 @@ typedef struct ShadowModel ShadowModel;
 // slots 2 to 5 are zero here and always replaced by InitKart.
 extern void (*gKartDefaultSlotFunctions[])(Kart *a);
 
-void func_0207ad88(ShadowModel *shadowModel, u32 b, u32 c);
+void sub_207AD88(ShadowModel *shadowModel, u32 b, u32 c);

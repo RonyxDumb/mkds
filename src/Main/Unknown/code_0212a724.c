@@ -5,10 +5,10 @@
 #include "Main/Unknown/code_02124094.h"
 #include "Main/Unknown/code_02120610.h"
 
-s32 func_0212a8d0(void) {
+s32 sub_212A8D0(void) {
     BOOL result = FALSE;
     if (!gSaveData->mFirstBlock->mLocateFriendOff) {
-        if (func_021213f4() != FALSE) {
+        if (sub_21213F4() != FALSE) {
             result = TRUE;
         }
     }

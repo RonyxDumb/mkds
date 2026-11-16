@@ -46,7 +46,7 @@ void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
         if (input_getFlagsBit0() == 0) {
             if (sceneNumbers != NULL) {
                 if (race_race_getCurrentRaceMode() == 5) {
-                    c = func_0205bba8();
+                    c = sub_205BBA8();
                 } else {
                     c = rchoi_getActivatedOption();
                 }
@@ -66,11 +66,11 @@ void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
                         if (c == 0) {
                             if (GetDownBits(race_input_getDefaultInputId(), 0x2fff) != 0) {
                                 c = 1;
-                                func_0203a48c(5);
+                                MaybePlaySseqFromSarc0(5);
                                 race_sysdat_setDemoRaceWasCanceled(1);
-                            } else if (func_0203a440(race_input_getDefaultInputId()) != 0) {
+                            } else if (HasTouchPressed(race_input_getDefaultInputId()) != 0) {
                                 c = 1;
-                                func_0203a48c(5);
+                                MaybePlaySseqFromSarc0(5);
                                 race_sysdat_setDemoRaceWasCanceled(1);
                             }
                         }
@@ -82,7 +82,7 @@ void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
                     case 4:
                         if (IsCameraChainEnded() != 0 ||
                             (sceneFrames > 0x5a &&
-                             (GetDownBits(race_input_getDefaultInputId(), 0xc0f) != 0 || func_0203a3cc(race_input_getDefaultInputId()) != 0))) {
+                             (GetDownBits(race_input_getDefaultInputId(), 0xc0f) != 0 || AnotherHasTouchPressed(race_input_getDefaultInputId()) != 0))) {
                             sceneNumbers->mNextScene = 2;
                             race_race_setNextDisplayMode(0);
                         }
@@ -123,7 +123,7 @@ void racesc_update(Unk0203a0dc *sceneNumbers, u32 sceneFrames) {
             }
             race_update2d();
         }
-        func_020aeb7c();
+        sub_20AEB7C();
         switch (race_race_getCurrentDisplayMode()) {
             case RACE_KIND_NORMAL:
             case 2:
@@ -224,7 +224,7 @@ u32 menu_run(SceneNumbers *sceneNumbers) {
     return 0;
 }
 
-u32 func_02039e08(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
+u32 AllocateHeapsAndBuffers(NNSiFndHeapHead *heap, void **outBackHeap, void **outSoundBuffer, void **outFirstFrontHeap,
                   void **outSecondFrontHeap, void **outThirdFrontHeap) {
     u32 soundBufferSize;
     if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {

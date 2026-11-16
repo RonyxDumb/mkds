@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-s32 func_0210f71c(s32 a);
+s32 sub_210F71C(s32 a);

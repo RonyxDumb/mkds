@@ -622,7 +622,7 @@ void func_ov001_02190ee0(Unk02188950 *a) {
 
         local.mPositionSource = &a->field0.mPos;
         local.mDistanceSquared = mobj_calcXZCamDist(&a->field0.mPos);
-        func_0210b734(&local, func_02108e7c());
+        sub_210B734(&local, func_02108e7c());
     }
     a->field0.mFlags |= data_ov001_021a65c8;
     a->field0.mFlags |= data_ov001_021a65cc;

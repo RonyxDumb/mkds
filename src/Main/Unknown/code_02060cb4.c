@@ -49,7 +49,7 @@ void func_020612b0(void) {
     gStruct217D384->mKartCountCopy = gStruct217D384->mKartCount;
     firstBlock = gSaveData->mFirstBlock;
     total = firstBlock->field34[5] + (u8) (gStruct217D384->mKartCountCopy - 1);
-    limit = data_021653e4 + 3;
+    limit = g_dec_1000000_0 + 3;
     if (total > limit) {
         total = limit;
     }

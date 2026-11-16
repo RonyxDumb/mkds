@@ -38,7 +38,7 @@ void it_driverUpdateItemStatus(KartItems *p) {
     } else if (g) {
         p->mFlags |= data_021595d0;
     }
-    if (func_02068eac(q) != FALSE) {
+    if (StructMQRacerEntry_HasFlags0x60(q) != FALSE) {
         p->mKinokoBoostStarted = FALSE;
         p->field208 = FALSE;
         return;

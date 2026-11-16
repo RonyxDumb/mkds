@@ -1,7 +1,7 @@
 #include "code_02022aa8.h"
 
 #include "code_020219e8.h"
-#include "code_020245a4.h"
+#include "nftr.h"
 #include "Main/Unknown/code_02024000.h"
 #include "Main/Unknown/unk_02153000.h"
 #include "Main/Unknown/code_02022000.h"
@@ -212,15 +212,15 @@ void NNS_G2dFontInitAuto(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
     u32 result;
     u32 encoding;
 
-    result = func_0202469c(pNftrFile, &pFont->field0);
+    result = NFTR_Process(pNftrFile, &pFont->field0);
     encoding = pFont->field0->field7;
     pFont->field8 = result - 1;
     pFont->fieldA = pFont->field8 != 0 ? 2 : 3;
-    pFont->field4 = data_021530e8[encoding];
+    pFont->field4 = g_FontEncodingAdvanceCharacterFunctionTable[encoding];
 }
 
 void NNS_G2dFontInitUTF16(Unk02022aa8 *pFont, Unk02021f9c *pNftrFile) {
-    pFont->field8 = func_0202469c(pNftrFile, &pFont->field0) - 1;
+    pFont->field8 = NFTR_Process(pNftrFile, &pFont->field0) - 1;
     pFont->fieldA = pFont->field8 != 0 ? 2 : 3;
     pFont->field4 = CharReadHalfword;
 }

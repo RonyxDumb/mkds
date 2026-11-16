@@ -175,7 +175,7 @@ void SPM_LoadBattleMenu(void *parentHeap, s32 mode, void *mainOam, void *subOam)
             gSelectGame->mState = 3;
             gSelectGame->mTableCount = 3;
             gSelectGame->mTable = data_02153df4;
-            func_02050080();
+            sub_2050080();
             break;
     }
     if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
@@ -355,7 +355,7 @@ s32 AdvanceSelectGame(void) {
             }
             break;
         case 8:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 a = gSelectGame->mResult;
                 gSelectGame->mState = 11;
             }

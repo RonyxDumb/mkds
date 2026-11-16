@@ -132,7 +132,7 @@ typedef struct CupMark {
     /* 0c */ struct Unk0201ea30 *mBncl;
 } CupMark;
 
-// Object at data_0217d070 (0x14 bytes); func_0210d740 fills it. data_0217d07c names its member 0x0c.
+// Object at data_0217d070 (0x14 bytes); sub_210D740 fills it. data_0217d07c names its member 0x0c.
 typedef struct ScenePlayers {
     /* 00 */ s32 field0;
     /* 04 */ void *field4;
@@ -155,7 +155,7 @@ typedef struct SoundModeHolder {
     /* 18 */ NNSSndSeqPlayer **field18;
 } SoundModeHolder;
 
-// Object at data_0217d32c (0x10 bytes); field8 points to a row of six words.
+// Object at g_GlobalCX (0x10 bytes); field8 points to a row of six words.
 typedef struct Unk0217d32c {
     /* 00 */ s32 mLoadedIndex;
     /* 04 */ NNSSndHeap *mSeqHeap;
@@ -801,7 +801,7 @@ extern ScenePlayers data_0217d070;
 extern NNSSndSeqPlayer *data_0217d07c;
 extern SoundModeHolder SoundHandle_217D084;
 extern struct NNSSndArc gSdatFileSndArc;
-extern Unk0217d32c data_0217d32c;
+extern Unk0217d32c g_GlobalCX;
 extern RecordVS *gRecordVS;
 extern RecordList *gRecordList;
 // Pointer to the cup chooser object: set by SPM_LoadCupSelectionMenu, cleared by ReleaseSelectCupGrid.

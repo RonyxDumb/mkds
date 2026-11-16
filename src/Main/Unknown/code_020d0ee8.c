@@ -41,6 +41,6 @@ u32 cpic_loadForCourse(int cupPictureIndex) {
 }
 #pragma thumb off
 
-u32 func_020d0ee8(void) {
+u32 WorkerHasPendingTask(void) {
     return (gBgWkrState->mRunRequested);
 }

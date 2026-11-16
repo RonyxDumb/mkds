@@ -76,21 +76,21 @@ void InitKartNameTagsAndDistanceOrder(void) {
     } else {
         isGrandPrix = FALSE;
     }
-    data_0217aed0 = heap_alloc(heap, 0x194);
-    data_0217aed0->field184 = 0;
-    data_0217aed0->field188 = NULL;
+    g_GlobalAED0 = heap_alloc(heap, 0x194);
+    g_GlobalAED0->field184 = 0;
+    g_GlobalAED0->field188 = NULL;
     if (race_isAwardStaffRoll() != 0) {
-        data_0217aed0->mNameTagCount = 0;
+        g_GlobalAED0->mNameTagCount = 0;
     } else if (isGrandPrix == FALSE) {
-        data_0217aed0->mNameTagCount = gRaceMultiConfig->mKartCount - 1;
+        g_GlobalAED0->mNameTagCount = gRaceMultiConfig->mKartCount - 1;
         for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
             if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.mKind == PLAYER_KIND_GHOST &&
                 gRaceMultiConfig->mCurrentEntries[i].mPlayer.mGhostRecordIndex == 0) {
-                data_0217aed0->mNameTagCount = data_0217aed0->mNameTagCount - 1;
+                g_GlobalAED0->mNameTagCount = g_GlobalAED0->mNameTagCount - 1;
             }
         }
     } else {
-        data_0217aed0->mNameTagCount = gRaceMultiConfig->mHumanAndPeerKartCount;
+        g_GlobalAED0->mNameTagCount = gRaceMultiConfig->mHumanAndPeerKartCount;
         entryIndex = gRaceMultiConfig->mEntryIndex;
         isEntryIndexHumanGhostOrPeer = FALSE;
         if (entryIndex != -1) {
@@ -99,27 +99,27 @@ void InitKartNameTagsAndDistanceOrder(void) {
                 isEntryIndexHumanGhostOrPeer = TRUE;
             }
             if (isEntryIndexHumanGhostOrPeer != FALSE) {
-                data_0217aed0->mNameTagCount = data_0217aed0->mNameTagCount - 1;
+                g_GlobalAED0->mNameTagCount = g_GlobalAED0->mNameTagCount - 1;
             }
         }
     }
     gKartDistanceLimitsSquared = &data_02155a48;
     driver_loadEmblems();
     for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
-        data_0217aed0->field24[i] = i;
-        data_0217aed0->mKartIndicesByDistanceAlongView[i] = i;
-        data_0217aed0->mKartIndicesByDistance[i] = i;
-        data_0217aed0->mAlongViewOrderOffset[i] = 0;
-        data_0217aed0->mDistanceSquaredOrderOffset[i] = 0;
-        data_0217aed0->mSortedDistanceAlongView[i] = 0;
-        data_0217aed0->mSortedDistanceSquared[i] = 0;
-        data_0217aed0->mAlongViewOrderIndex[i] = i;
-        data_0217aed0->mKartIndicesByDistance[i] = i;
-        data_0217aed0->mDistanceAlongViewWithMargin[i] = 0;
-        data_0217aed0->mNameTagByKart[i] = NULL;
-        data_0217aed0->mNameTagBeyondTwoNearest[i] = 0;
+        g_GlobalAED0->field24[i] = i;
+        g_GlobalAED0->mKartIndicesByDistanceAlongView[i] = i;
+        g_GlobalAED0->mKartIndicesByDistance[i] = i;
+        g_GlobalAED0->mAlongViewOrderOffset[i] = 0;
+        g_GlobalAED0->mDistanceSquaredOrderOffset[i] = 0;
+        g_GlobalAED0->mSortedDistanceAlongView[i] = 0;
+        g_GlobalAED0->mSortedDistanceSquared[i] = 0;
+        g_GlobalAED0->mAlongViewOrderIndex[i] = i;
+        g_GlobalAED0->mKartIndicesByDistance[i] = i;
+        g_GlobalAED0->mDistanceAlongViewWithMargin[i] = 0;
+        g_GlobalAED0->mNameTagByKart[i] = NULL;
+        g_GlobalAED0->mNameTagBeyondTwoNearest[i] = 0;
     }
-    if (data_0217aed0->mNameTagCount > 0) {
+    if (g_GlobalAED0->mNameTagCount > 0) {
         objectCount = 0;
         for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
             createsObject = FALSE;
@@ -141,13 +141,13 @@ void InitKartNameTagsAndDistanceOrder(void) {
                 }
             }
             if (createsObject != FALSE) {
-                data_0217aed0->mNameTagByKart[i] = heap_alloc(heap, 0x28);
-                kartObject = data_0217aed0->mNameTagByKart[i];
+                g_GlobalAED0->mNameTagByKart[i] = heap_alloc(heap, 0x28);
+                kartObject = g_GlobalAED0->mNameTagByKart[i];
                 InitKartNameTag(kartObject, i, heap);
-                data_0217aed0->mNameTags[objectCount] = kartObject;
+                g_GlobalAED0->mNameTags[objectCount] = kartObject;
                 objectCount++;
             } else {
-                data_0217aed0->mNameTagByKart[i] = NULL;
+                g_GlobalAED0->mNameTagByKart[i] = NULL;
             }
         }
     }
@@ -237,15 +237,15 @@ void SetTextureSizeFromBits(TexPlttEntry *texPlttEntry) {
 
 u16 GetKartPaletteColor(int kartIndex) {
     if (gRaceMultiConfig->mMode == 5) {
-        return data_02155a2c[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field25];
+        return g_NetRacerIndicatorColors[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field25];
     }
     if (gRaceMultiConfig->mUseTeams != 0) {
-        return data_02155a28[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
+        return g_TeamRacerIndicatorColors[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
     if (chkrt_getCharKart(kartIndex)->mCharacterIndex == 0xc) {
         return chkrt_getHeyhoPaletteRow(kartIndex)->field4;
     }
-    return data_02155a64[kartIndex];
+    return g_DefaultRacerIndicatorColors[kartIndex];
 }
 
 void func_020872a4(void) {
@@ -261,15 +261,15 @@ void func_020872a4(void) {
     gKartEmblemPlltBuffer = heap_allocEx(heap, 0x20, -4);
     gKartEntryNameTexBuffer = heap_allocEx(heap, 0x100, -4);
     gKartEntryNamePlltBuffer = heap_allocEx(heap, 8, -4);
-    data_0217aecc = heap_allocEx(heap, 0x200, -4);
-    for (i = 0; i < data_0217aed0->mNameTagCount; i++) {
-        kartObject = data_0217aed0->mNameTags[i];
+    g_TempBuffer4_0x200 = heap_allocEx(heap, 0x200, -4);
+    for (i = 0; i < g_GlobalAED0->mNameTagCount; i++) {
+        kartObject = g_GlobalAED0->mNameTags[i];
         texPlttEntries = kartObject->mTexPlttEntries;
         entryNameTexPltt = &texPlttEntries->mEntries[1];
         fourthTexPltt = &texPlttEntries->mEntries[3];
         texPlttEntries->mEntries[0].mTexByteCount = 0x200;
         texPlttEntries->mEntries[0].mPlttByteCount = 0x20;
-        texPlttEntries->mEntries[0].mPlttData = data_0217aed0->field188;
+        texPlttEntries->mEntries[0].mPlttData = g_GlobalAED0->field188;
         kartObject->mKartPaletteColor = GetKartPaletteColor(kartObject->mKartIndex);
         SetupKartEmblemTexture(&texPlttEntries->mEntries[0], kartObject->mKartIndex);
         SetupKartEntryNameTexture(entryNameTexPltt, kartObject->mKartIndex);
@@ -282,7 +282,7 @@ void func_020872a4(void) {
             UploadTextureAndPalette(fourthTexPltt);
         }
     }
-    heap_free(heap, data_0217aecc);
+    heap_free(heap, g_TempBuffer4_0x200);
     heap_free(heap, gKartEntryNamePlltBuffer);
     heap_free(heap, gKartEntryNameTexBuffer);
     heap_free(heap, gKartEmblemPlltBuffer);
@@ -293,11 +293,11 @@ void SetupKartEmblemTexture(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     void *emblemTex;
     u16 firstColor;
     plttBuffer = gKartEmblemPlltBuffer;
-    emblemTex = data_0217aed0->mEmblemTex[kartIndex];
-    MI_CpuCopy8(data_0217aed0->mEmblemPltt[kartIndex], plttBuffer, texPlttEntry->mPlttByteCount);
+    emblemTex = g_GlobalAED0->mEmblemTex[kartIndex];
+    MI_CpuCopy8(g_GlobalAED0->mEmblemPltt[kartIndex], plttBuffer, texPlttEntry->mPlttByteCount);
     firstColor = 0x7fff;
     if (gRaceMultiConfig->mUseTeams != 0) {
-        firstColor = data_02155a28[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
+        firstColor = g_TeamRacerIndicatorColors[gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.mTeamIndex];
     }
     *plttBuffer = firstColor;
     DC_FlushRange(plttBuffer, texPlttEntry->mPlttByteCount);
@@ -353,7 +353,7 @@ void func_020870ec(TexPlttEntry *texPlttEntry, u16 kartIndex) {
     u8 lowNibble;
     texPlttEntryAlias = texPlttEntry;
     if (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field26 != 0) {
-        pixels = data_0217aecc;
+        pixels = g_TempBuffer4_0x200;
         nibbleLimit = 7;
         switch (gRaceMultiConfig->mCurrentEntries[kartIndex].mPlayer.field26) {
             case 2:
@@ -394,8 +394,8 @@ void driver_loadEmblems(void) {
     u8 *emblemPltt;
     u8 *emblemTex;
     for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
-        data_0217aed0->mEmblemTex[i] = NULL;
-        data_0217aed0->mEmblemPltt[i] = NULL;
+        g_GlobalAED0->mEmblemTex[i] = NULL;
+        g_GlobalAED0->mEmblemPltt[i] = NULL;
         if (gRaceMultiConfig->mCurrentEntries[i].mPlayer.field24 == 0 || gRaceMultiConfig->mUseTeams != 0) {
             if (gRaceMultiConfig->mUseTeams != 0) {
                 path = cklcr_getTeamEmblemPath(gRaceMultiConfig->mCurrentEntries[i].mPlayer.mTeamIndex == 1 ? 1 : 0);
@@ -405,14 +405,14 @@ void driver_loadEmblems(void) {
             texture = NNS_G3dGetTex(arc_getKartModelArcFileSafe(path));
             emblemPltt = OFFSET_PTR(u8, texture, texture->mPlttInfo.mOfsPlttData);
             emblemTex = OFFSET_PTR(u8, texture, texture->mTexInfo.mOfsTex);
-            data_0217aed0->mEmblemTex[i] = emblemTex;
-            data_0217aed0->mEmblemPltt[i] = emblemPltt;
+            g_GlobalAED0->mEmblemTex[i] = emblemTex;
+            g_GlobalAED0->mEmblemPltt[i] = emblemPltt;
         } else {
             emblemTex = (void *) gRaceMultiConfig->mCurrentEntries[i].mPlayer.mEmblemData;
             g2du_unpackPaletteData(&nclr, arc_getKartModelArcFileSafe(aEmblem_s_b_n_1));
             emblemPltt = (u8 *) nclr->mData;
-            data_0217aed0->mEmblemTex[i] = emblemTex;
-            data_0217aed0->mEmblemPltt[i] = emblemPltt;
+            g_GlobalAED0->mEmblemTex[i] = emblemTex;
+            g_GlobalAED0->mEmblemPltt[i] = emblemPltt;
         }
     }
 }
@@ -420,7 +420,7 @@ void driver_loadEmblems(void) {
 void driver_setupAllEmblems(void) {
     u16 i;
     for (i = 0; (u32) i < gRaceMultiConfig->mKartCount; i++) {
-        driver_setupEmblem(i, data_0217aed0->mEmblemTex[i], data_0217aed0->mEmblemPltt[i]);
+        driver_setupEmblem(i, g_GlobalAED0->mEmblemTex[i], g_GlobalAED0->mEmblemPltt[i]);
     }
 }
 

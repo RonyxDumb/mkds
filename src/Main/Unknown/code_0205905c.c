@@ -51,7 +51,7 @@ BOOL func_020591cc(void) {
     sm_execute(&gStruct217AA00->field1608);
     if (!func_0205905c_inline4()) {
         if (func_0205905c_inline() == 1 && gStruct217AA00->field44.mChildCount == 0) {
-            func_02050e60(7);
+            sub_2050E60(7);
         }
     }
     if (gStruct217AA00->field1608.mState == 0xf) {

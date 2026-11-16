@@ -6,10 +6,10 @@
 #include "Main/Unknown/code_02116a4c.h"
 
 BOOL IsDateEarlier(const DateBytes *firstDate, const DateBytes *secondDate);
-void func_0203b0f8(void *heap);
-void func_0203b194(void *heap);
-void func_0203b1c8(void *heap);
-void func_0203b1fc(void *heap);
+void sub_203B0F8(void *heap);
+void sub_203B194(void *heap);
+void sub_203B1C8(void *heap);
+void sub_203B1FC(void *heap);
 u32 race_saveMrResult(void);
 BOOL race_saveGpResult(void);
 BOOL race_isNkgpBetter(TimeRecord *storedRecord, TimeRecord *newRecord);

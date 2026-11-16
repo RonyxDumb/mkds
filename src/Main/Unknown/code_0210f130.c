@@ -37,7 +37,7 @@ void mic_initAutoSampling(MicBuffer *micBuffer) {
     autoParam->mLoopEnable = 1;
     autoParam->mFullCallback = 0;
     autoParam->mFullArg = 0;
-    func_02020430((Unk02173290 *) autoParam);
-    func_020203d4(0);
+    sub_2020430((Unk02173290 *) autoParam);
+    sub_20203D4(0);
     PM_SetAmpGain(3);
 }

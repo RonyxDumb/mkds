@@ -30,10 +30,10 @@ void BlockCountRequestCallback(BlockTransferRecord *record) {
             gStruct217AA00->mBlockCount = *(s16 *) &record->field14;
             gStruct217AA00->mRequestPending = 0;
         } else {
-            func_02050e60(8);
+            sub_2050E60(8);
         }
     } else {
-        func_02050e60(8);
+        sub_2050E60(8);
     }
 }
 
@@ -55,7 +55,7 @@ void BlockNodeRequestCallback(BlockTransferRecord *record) {
             StartBlockNodeRequest();
         }
     } else {
-        func_02050e60(8);
+        sub_2050E60(8);
     }
 }
 
@@ -77,10 +77,10 @@ void BlockDataRequestCallback(BlockTransferRecord *record) {
         if (record->mCallbackCode == 5) {
             gStruct217AA00->mRequestPending = 0;
         } else {
-            func_02050e60(8);
+            sub_2050E60(8);
         }
     } else {
-        func_02050e60(8);
+        sub_2050E60(8);
     }
 }
 
@@ -88,7 +88,7 @@ void SetOwnIndexFromConnection(void) {
     s32 v = gStruct217AA00 == NULL ? 0 : gStruct217AA00->field0;
     if (v == 2) {
         if (gStruct217AA00->mOwnIndex == 0xffff) {
-            func_02050e60(8);
+            sub_2050E60(8);
             return;
         }
         SetOwnIndex(gStruct217AA00->mOwnIndex);
@@ -100,7 +100,7 @@ void func_0204ef1c(void) {
     gStruct217AA00->mRequestPending = 1;
     if (WM_StartMPEx(StartMPCallback, gStruct217AA00->mMPReceiveBuffer, gStruct217AA00->mMPReceiveBufferSize,
                      gStruct217AA00->mMPSendBuffer, gStruct217AA00->mMPSendBufferSize, 1, 0, 0, 0, 0, 0) != 2) {
-        func_02050e60(2);
+        sub_2050E60(2);
     }
 }
 

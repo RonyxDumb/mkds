@@ -7,5 +7,5 @@
 void sound_startOutputEffect(u32 type);
 void sound_changeOutputEffect(s32 type);
 void sound_startSeq(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle);
-void func_0210d7ac(void);
-void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d);
+void sub_210D7AC(void);
+void sub_210D740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d);

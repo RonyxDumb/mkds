@@ -69,7 +69,7 @@
 #include "Main/Unknown/code_02077bc0.h"
 #include "registers.h"
 
-u32 func_020c5dc4(void) {
+u32 GetB3F0_Beb0(void) {
     return (gRaceGoalM->field0);
 }
 
@@ -119,12 +119,12 @@ void UpdateRaceGoalM(void) {
     if (gRaceStatus->field0[followedKartIndex].mStatus == 1 || gRaceStatus->mRaceDone != 0) {
         gRaceGoalM->field0 = 0;
     }
-    if (func_020b1d0c() == 0) {
+    if (sub_20B1D0C() == 0) {
         return;
     }
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         if ((rstat_hasDriverFinished((u16) gRaceMultiConfig->mEntryIndex) != 0 ? gRaceStatus->mEntryEndKind : 6) != 0 &&
-            func_0207a218() == 0 && frame == 0) {
+            sub_207A218() == 0 && frame == 0) {
             return;
         }
     }
@@ -209,7 +209,7 @@ void DrawRaceGoalM(RaceHudOamBuffer *oamBuffer) {
     if (gRaceMultiConfig->mRaceKind != RACE_KIND_NORMAL) {
         return;
     }
-    if (func_020b1d0c() == 0) {
+    if (sub_20B1D0C() == 0) {
         return;
     }
     switch (gRaceMultiConfig->mMode) {
@@ -363,9 +363,9 @@ void UpdateRaceLinkLevel(void) {
         return;
     }
     if (gRaceMultiConfig->mMode == 5) {
-        gRaceLinkLevel->field4 = func_021205e8();
+        gRaceLinkLevel->field4 = sub_21205E8();
         gRaceLinkLevel->fieldC = gRaceLinkLevel->field10;
-        gRaceLinkLevel->field10 = func_0212a8d0();
+        gRaceLinkLevel->field10 = sub_212A8D0();
         if (gRaceLinkLevel->field10 != 0 && gRaceLinkLevel->fieldC == 0) {
             NNS_SndArcPlayerStartSeqArc(&data_0217d068, 0, 0x26);
         }
@@ -392,7 +392,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
         return;
     }
     if (gSystemData->field20 != 0) {
-        if (func_020b1d20() == 0) {
+        if (sub_20B1D20() == 0) {
             if (gRaceMultiConfig->mMode == 5) {
                 levelCell = r2d_getRaceMCell(gRaceLinkLevel->field4 + 0x28);
             } else {
@@ -406,7 +406,7 @@ void DrawRaceLinkLevel(RaceHudOamBuffer *oamBuffer) {
             }
         }
         if (gRaceMultiConfig->mMode == 5 && gRaceLinkLevel->field10 != 0 && gRaceLinkLevel->field8 < 0x69) {
-            if (func_020b1d20() != 0) {
+            if (sub_20B1D20() != 0) {
                 extraCell = r2d_getRaceGoalMCell(0x42);
             } else {
                 extraCell = r2d_getRaceMCell(0x2c);

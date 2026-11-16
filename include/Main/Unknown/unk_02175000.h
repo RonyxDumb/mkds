@@ -163,7 +163,7 @@ typedef struct DisplaySettings {
 
 // Objects whose layout isn't known yet.
 extern DisplaySettings *gCurDisplayConfig;
-extern InputSlot data_021755dc;
+extern InputSlot g_GlobalG;
 // Set from the start of a race; recording and playback slots read keys only while set.
 #define INPUT_STATE_READ_RACE_KEYS 2
 // Set while the pause menu is open during a race; the input slots stop updating.
@@ -292,7 +292,7 @@ typedef struct WvrState {
 
 extern WvrState gVramWvrStatus;
 
-// Eight halfwords at data_02175604: two groups of four.
+// Eight halfwords at g_GlobalHN: two groups of four.
 typedef struct Unk021755e4 {
     /* 00 */ u16 field0;
     /* 02 */ u16 field2;
@@ -304,7 +304,7 @@ typedef struct Unk021755e4 {
     /* 0e */ u16 fieldE;
 } Unk021755e4;
 
-extern Unk021755e4 data_02175604;
+extern Unk021755e4 g_GlobalHN;
 
 // Object irec_isAlmostAtPlayBufferEnd to irec_startRecording take: a buffer, two halfword counters and two words. The buffer holds a
 // word at 0x00 and byte pairs from 0x04; its size is 0xdcc bytes.

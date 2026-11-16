@@ -18,35 +18,35 @@ void abort(void) {
 void exit(int a) {
     if (gAborted == 0) {
         RunListNodeCallbacks();
-        if (data_0217e988 != 0) {
-            data_0217e988();
-            data_0217e988 = 0;
+        if (g_BetaFunc != 0) {
+            g_BetaFunc();
+            g_BetaFunc = 0;
         }
     }
     ExitTail(a);
 }
 
 void ExitTail(int a) {
-    if (OS_TryLockMutex((OSMutex *) data_0217eadc[0]) == 0) {
-        data_0217ea94[0] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[0] = 1;
-    } else if (data_0217ea94[0] == data_0216ff5c.mListHead->mId) {
-        data_0217eab8[0]++;
+    if (OS_TryLockMutex((OSMutex *) g_AnotherMutex[0]) == 0) {
+        g_SomeThreadId[0] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[0] = 1;
+    } else if (g_SomeThreadId[0] == g_Os_ThreadInfo.mListHead->mId) {
+        g_SomeCounter[0]++;
     } else {
-        OS_LockMutex((OSMutex *) data_0217eadc[0]);
-        data_0217ea94[0] = data_0216ff5c.mListHead->mId;
-        data_0217eab8[0] = 1;
+        OS_LockMutex((OSMutex *) g_AnotherMutex[0]);
+        g_SomeThreadId[0] = g_Os_ThreadInfo.mListHead->mId;
+        g_SomeCounter[0] = 1;
     }
     while (gExitFunctionCount > 0) {
         gExitFunctions[--gExitFunctionCount]();
     }
-    if (--data_0217eab8[0] == 0) {
-        OS_UnlockMutex((OSMutex *) data_0217eadc[0]);
+    if (--g_SomeCounter[0] == 0) {
+        OS_UnlockMutex((OSMutex *) g_AnotherMutex[0]);
     }
     if (data_0217e984 != 0) {
         data_0217e984();
         data_0217e984 = 0;
     }
     fflush(0);
-    func_02142590();
+    sub_2142590();
 }

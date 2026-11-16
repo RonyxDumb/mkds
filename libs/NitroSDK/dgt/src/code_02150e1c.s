@@ -6,7 +6,7 @@
 
     .text
 
-// Constant words of func_02150e1c: the byte-swap mask and the four round constants.
+// Constant words of sub_2150E1C: the byte-swap mask and the four round constants.
 hash_swap_mask:
     .word 0x00ff00ff
 hash_k1:
@@ -26,9 +26,9 @@ hash_k4:
 // Not compiled code: it saves ip, returns by popping pc, folds rotations into its operands (`ror #27`, `ror #8`) and
 // loads its constants from the words before its own start. The 1.2 compiler never saves ip, returns through `bx lr`,
 // keeps rotations as two shifts and places constant words after the function (docs/compiler.md).
-    .global func_02150e1c
-    .type func_02150e1c, @function
-func_02150e1c:
+    .global sub_2150E1C
+    .type sub_2150E1C, @function
+sub_2150E1C:
     // Load the state into r3, r9-r12; keep n at sp + 0x80.
     stmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, lr}
     ldmia r0, {r3, r9, r10, r11, ip}
@@ -203,4 +203,4 @@ hash_round_mix4:
     bgt hash_block
     add sp, sp, #132
     ldmfd sp!, {r4, r5, r6, r7, r8, r9, r10, r11, ip, pc}
-    .size func_02150e1c, . - func_02150e1c
+    .size sub_2150E1C, . - sub_2150E1C

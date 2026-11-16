@@ -35,7 +35,7 @@ void driver_getShadowZDirection(const Kart *kart, Vec3 *forward) {
     forward->z = matrix->field0[2].z;
 }
 
-void func_02063ad0(Kart *kart) {
+void sub_2063AD0(Kart *kart) {
     if ((kart->field7C & 0x400) != 0) {
         return;
     }
@@ -45,7 +45,7 @@ void func_02063ad0(Kart *kart) {
     }
 }
 
-void func_02063a68(Kart *kart) {
+void sub_2063A68(Kart *kart) {
     u32 b;
 
     b = kart->field7C & 0x400;

@@ -18,7 +18,7 @@ static inline u32 func_02050080_inline(void) {
     return gStruct217AA00->field0;
 }
 
-u32 func_020501b0(u32 entryIndex) {
+u32 sub_20501B0(u32 entryIndex) {
     u32 result = 0;
     ScanSlot *entry;
     ConnectionWork *q;
@@ -57,7 +57,7 @@ u32 func_020501b0(u32 entryIndex) {
     return result;
 }
 
-void func_02050080(void) {
+void sub_2050080(void) {
     BOOL proceed;
     u16 index;
     u16 participantCount;

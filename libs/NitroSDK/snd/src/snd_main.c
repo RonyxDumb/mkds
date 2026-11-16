@@ -5,26 +5,26 @@
 #include "snd_command.h"
 #include "snd_work.h"
 
-u32 data_021732ac;
-OSMutex data_021732b0;
+u32 g_SoundInnerInitialized;
+OSMutex g_SoundMutex;
 
 // Sets up the sound library once: the mutex, the command queue and the alarm table.
 void SND_Init(void) {
-    if (data_021732ac != 0) {
+    if (g_SoundInnerInitialized != 0) {
         return;
     }
-    data_021732ac = 1;
-    OS_InitMutex(&data_021732b0);
+    g_SoundInnerInitialized = 1;
+    OS_InitMutex(&g_SoundMutex);
     SND_CommandInit();
     SND_AlarmInit();
 }
 
 // Takes the mutex that guards the shared sound data.
 void SNDi_LockMutex(void) {
-    OS_LockMutex(&data_021732b0);
+    OS_LockMutex(&g_SoundMutex);
 }
 
 // Releases the mutex that guards the shared sound data.
 void SNDi_UnlockMutex(void) {
-    OS_UnlockMutex(&data_021732b0);
+    OS_UnlockMutex(&g_SoundMutex);
 }

@@ -63,7 +63,7 @@ void enmy_initAwardEnemy(KartAi *kartAi, s32 kartIndex) {
     }
 }
 
-void func_0208bde0(KartAi *kartAi, PointLink *pointLink) {
+void sub_208BDE0(KartAi *kartAi, PointLink *pointLink) {
     ResetAwardMissionRunKartAi(kartAi, pointLink);
     enrb_207D7E4(&kartAi->fieldE8, kartAi);
 }

@@ -9,11 +9,11 @@ typedef struct RaceSetupBlock {
 
 u16 rconf_getLapCount(void);
 void ResetTimeAttackNextEntries(void);
-void func_020446e0(void);
+void Scene_Menu2_FinalizeImpl(void);
 void rconf_setupNext(void);
 BOOL rconf_loadStaffGhost(s32 courseId, s32 entryIndex);
 s32 rconf_loadDownloadGhost(s32 courseId, s32 entryIndex);
 BOOL rconf_loadPersonalGhost(s32 courseId, s32 entryIndex);
-void func_02044fc0(void);
+void sub_2044FC0(void);
 void SetCurrentEntryPlayer(s32 entryIndex);
 void rconf_reset(void);

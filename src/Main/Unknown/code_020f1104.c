@@ -4,7 +4,7 @@
 #include "Main/Unknown/unk_027e0000.h"
 #include "code_02147cd8.h"
 
-void func_020f1150(int object, int kartIndex) {
+void sub_20F1150(int object, int kartIndex) {
     u32 objectAddress = object;
     u32 kartIndexValue = kartIndex;
     u32 value2;
@@ -27,7 +27,7 @@ void SetItemKouraRKartItems(ItemKouraR *item, int kartIndex) {
     item->field238 = 0;
 }
 
-void func_020f1104(ItemKouraR *item) {
+void sub_20F1104(ItemKouraR *item) {
     VEC_Add(&item->field22C, &item->field0.field0.field0.mVelocity, &item->field0.field0.field0.mVelocity);
-    func_020f29e8(item);
+    sub_20F29E8(item);
 }

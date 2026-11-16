@@ -153,7 +153,7 @@ void baspw_update(void *a, Unk020919e8 *p) {
             func_02092b5c_inline_5(&basabasaPos, p->field0.mPos.x, p->field0.mPos.y + 0x23000, p->field0.mPos.z);
             k = p->field0.mAngle;
             horizontalSpeed = kan64_mobj_getRandom32(mobj_getRng1(), 0x1000) + 0x2000;
-            k = k - 0xbb8 + func_02046524(mobj_getRng1(), 0x1770);
+            k = k - 0xbb8 + sub_2046524(mobj_getRng1(), 0x1770);
             basabasaVelocity.x = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_SinIdx(k));
             basabasaVelocity.y = kan64_mobj_getRandom32(mobj_getRng1(), 0x400) - 0xa00;
             basabasaVelocity.z = baspw_FX_TRUNC_MUL(horizontalSpeed, baspw_FX_CosIdx(k));

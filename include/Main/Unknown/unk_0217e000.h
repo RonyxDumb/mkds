@@ -17,12 +17,12 @@ extern struct Unk02142aa8 *wm9buf;
 // Nonzero while the library is set up.
 extern u16 wmInitialized;
 // Ring of free command messages.
-extern OSMessageQueue data_0217eed8;
-extern void *data_0217eef8[10];
+extern OSMessageQueue g_WMQueue;
+extern void *g_WMQueueBuffer[10];
 // Message WmReceiveFifo builds for the port callbacks on connect and disconnect.
 extern struct Unk021425e8 data_0217ef20;
 // The ten 0x100-byte command messages.
-extern u8 data_0217ef60[10][0x100];
+extern u8 g_WMQueueMessagesData[10][0x100];
 extern struct Unk02005210 *data_0217eeb0;
 // Function pointers called and cleared by __exit (__console_exit) and exit (__stdio_exit).
 extern void (*__console_exit)(void);
@@ -39,7 +39,7 @@ extern u32 __cs_ref[];
 // 0x14-byte entries passed to OS_TryLockMutex, OS_UnlockMutex and OS_LockMutex; __exit uses entry 0,
 // fwrite entries 3-5, printf entry 3 and raise entry 7. An OSMutex is 0x18 bytes, so OSMutex.mPrev of one entry is
 // the start of the next entry.
-extern u8 data_0217eadc[][0x14];
+extern u8 g_AnotherMutex[][0x14];
 extern OSMutex data_0217e3e0;
 extern NNSFndList data_0217e3f8;
 extern Unk0212c7f0 data_0217e404[4];

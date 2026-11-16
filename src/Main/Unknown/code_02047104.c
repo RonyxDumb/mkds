@@ -46,7 +46,7 @@ void arc_getResultSceneArcPath(char *path) {
     if (gStruct217B488->field78 == 1) {
         suffix = aDl;
     } else {
-        suffix = data_0216510c;
+        suffix = g_EmptyString_2;
     }
     OS_SNPrintf(path, 0x80, aDataSceneSSS, sSceneDefs[10].mName, suffix, a_carc_3);
 }
@@ -58,7 +58,7 @@ void arc_getLocalizedResultSceneArcPath(char *path) {
     if (gStruct217B488->field78 == 1) {
         suffix = aDl_0;
     } else {
-        suffix = data_021650e4;
+        suffix = g_EmptyString_1;
     }
     languageCode = arc_getLocalizationPostfix();
     OS_SNPrintf(path, 0x80, aDataSceneSS_SS, sSceneDefs[10].mName, suffix, languageCode,

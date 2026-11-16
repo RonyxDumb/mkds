@@ -4,16 +4,16 @@
 #include "mic.h"
 
 void mic_finalize(MicBuffer *micBuffer) {
-    func_020203e4();
+    sub_20203E4();
     MIC_StopAutoSampling();
 }
 
 void mic_startAutoSampling(MicBuffer *micBuffer) {
     MIC_StartAutoSampling(&micBuffer->mAutoParam);
-    func_0202041c();
+    sub_202041C();
 }
 
 void mic_stopAutoSampling(MicBuffer *micBuffer) {
-    func_020203e4();
+    sub_20203E4();
     MIC_StopAutoSampling();
 }

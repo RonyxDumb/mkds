@@ -40,9 +40,9 @@ extern const s32 data_0216559c[];
 extern const s32 gKartSurfaceKind12VerticalSpeeds[];
 extern Unk02175664 data_02175664[];
 
-void func_02066ac0(Kart *kart);
+void StructMQRacerEntry_SomeFn_78(Kart *kart);
 void AdvanceKartWobble(Kart *kart);
-void func_02066fe0(Kart *kart);
+void StructMQRacerEntry_SomeFn_21(Kart *kart);
 void driver_updateEnemy(Kart *kart);
 // 1 when the turn start group, the level 3 group or the level 4 group (not while mLevel4StopRequested is TRUE) exists,
 // else 0; the level 2 group is not counted.

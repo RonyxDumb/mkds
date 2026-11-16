@@ -12,14 +12,14 @@ typedef struct Unk020247fc {
 } Unk020247fc;
 
 // Body of a part of an Unk02021f9c, which starts 8 bytes after the part: words from 04 are offsets from the start of
-// the Unk02021f9c, relocated by func_020245a4.
+// the Unk02021f9c, relocated by NFTR_MakeAbsoluteOffsets.
 typedef struct Unk020245a4_08 {
     /* 00 */ u8 field0[4];
     /* 04 */ u32 field4[4];
 } Unk020245a4_08;
 
-void func_020245a4(Unk02021f9c *a);
-u32 func_0202469c(Unk02021f9c *a, Unk02022ce4 **b);
+void NFTR_MakeAbsoluteOffsets(Unk02021f9c *a);
+u32 NFTR_Process(Unk02021f9c *a, Unk02022ce4 **b);
 u32 BitStreamReadBits(Unk020247fc *a, s32 b);
 u16 CharReadByte(u8 **a);
 u16 CharReadByteOrPair(u8 **a);

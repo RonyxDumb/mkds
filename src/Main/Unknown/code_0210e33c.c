@@ -248,7 +248,7 @@ u32 LoadSoundSetIfChanged(SoundSet soundSet, u32 loadExtras) {
     return LoadSoundSet(sound_getSeqHeapState(), soundSet) != 0;
 }
 
-void func_0210e920(void) {
+void LoadCertainSwarSbnkSarc(void) {
     if (NNS_SndArcLoadWaveArc(1, gSndHeapHandle) == 0) {
         return;
     }
@@ -258,7 +258,7 @@ void func_0210e920(void) {
     NNS_SndArcLoadSeqArc(0, gSndHeapHandle);
 }
 
-void func_0210e8f8(u32 moveWaveArcs) {
+void sub_210E8F8(u32 moveWaveArcs) {
     PreLoadSounds(0, moveWaveArcs);
     saveHeapState(sound_getSeqHeapState());
 }
@@ -270,7 +270,7 @@ void LoadSceneSoundSet(SoundRow soundRow, u32 loadExtras) {
     soundSet.field4 = soundRow.field0[2];
     soundSet.field8 = soundRow.field0[3];
     LoadSoundSetIfChanged(soundSet, loadExtras);
-    if (func_02105504() == 0) {
+    if (IsInRaceSceneNormalOrReplay() == 0) {
         return;
     }
     LoadSeqRowIfChanged(gRaceMultiConfig->mMode);
@@ -359,7 +359,7 @@ u32 LoadCourseSoundSet(u32 a, u32 b) {
     return loaded;
 }
 
-u32 func_0210e524(void) {
+u32 sub_210E524(void) {
     SoundRow row, rowCopy;
     SoundSet soundSet;
 

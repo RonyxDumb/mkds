@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_02108eb4(u32 index, u32 value);
+void sub_2108EB4(u32 index, u32 value);

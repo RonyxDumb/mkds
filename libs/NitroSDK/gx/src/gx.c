@@ -21,7 +21,7 @@ void GXx_SetMasterBrightness_(vu16 *reg, s32 brightness) {
 }
 
 // Does nothing.
-void func_02148904(void) {}
+void FX_Initialize(void) {}
 
 // Multiplies two 20.12 fixed-point values, rounding to nearest.
 s32 FX_MulFunc(s32 v1, s32 v2) {

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void func_021112fc(u32 arg0);
+void sub_21112FC(u32 arg0);

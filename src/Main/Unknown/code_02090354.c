@@ -150,7 +150,7 @@ void sman_update(void *a, Sman *sman) {
                     soundRequest.mPositionSource = &sman->mMapObject.mPos;
                     soundRequest.field8 = falloffIndex;
                     soundRequest.mDistanceSquared = mobj_calcXZCamDist(&sman->mMapObject.mPos);
-                    func_0210b7a8(&soundRequest);
+                    sub_210B7A8(&soundRequest);
                 }
             }
             sman->mAngleZEnabled = 0;
@@ -525,9 +525,9 @@ void kill_recalculateRoute(KartKillerCursor *kartKillerCursor, Unk02080b1c_00 *l
     SetupPointLinkCursor(&kartKillerCursor->mPointLinkCursor, kartKillerCursor->mKillerKartIndex, link);
 }
 
-s32 func_0209081c(KartKillerCursor *kartKillerCursor) {
+s32 sub_209081C(KartKillerCursor *kartKillerCursor) {
     AdvanceKartKillerAlongPointLinks(kartKillerCursor);
-    return func_020905a8(kartKillerCursor);
+    return sub_20905A8(kartKillerCursor);
 }
 
 // Holds the kart at a fixed speed, steers it toward the point link ahead, and moves the cursor on once the kart is past
@@ -596,7 +596,7 @@ void TurnKartKillerTowardPointLink(KartKillerCursor *kartKillerCursor) {
     kart->mHeadingAngle = kart->mHeadingAngle + (s32) (((s64) angleDifference * turnFactor) >> 12);
 }
 
-s32 func_020905a8(KartKillerCursor *kartKillerCursor) {
+s32 sub_20905A8(KartKillerCursor *kartKillerCursor) {
     BOOL limitReached;
     BOOL isCounting;
     Kart *kart;

@@ -76,7 +76,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     scanParams->field6 = WM_GetDispersionScanPeriod();
     if (WM_StartScan(StartScanCallback, scanParams) != 2) {
         gStruct217AA00->field436 &= ~1;
-        func_020533a0();
+        sub_20533A0();
         return;
     }
     gStruct217AA00->field436 |= 1;
@@ -89,7 +89,7 @@ void StartScan(s32 a, s32 (*b)(), s32 (*c)()) {
     }
 }
 
-void func_020525a8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e) {
+void sub_20525A8(ScanSlot *slot, ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217aa00_24_50 *d, u8 e) {
     s32 n0;
     u8 n1;
     s32 k;
@@ -221,7 +221,7 @@ void FindOrAddScanSlot(ScanBlockView *scanBuffer, Unk0217aa00_42c *key, Unk0217a
             }
         }
     } else if (scanBuffer->field4A == 0x1c) {
-        func_020525a8(chosenSlot, scanBuffer, key, c, i);
+        sub_20525A8(chosenSlot, scanBuffer, key, c, i);
     }
     s = &gStruct217AA00->mUnk_00ac_view;
     s->field388 = 0;
@@ -255,7 +255,7 @@ void StartScanCallback(Unk021425e8 *event) {
                 DC_StoreRange(&scanBuffer, 0xc0);
                 if (gStruct217AA00->field4 == 0xd) {
                     v = event->field12;
-                    if (func_020204c0(&scanBuffer) != 0) {
+                    if (sub_20204C0(&scanBuffer) != 0) {
                         gStruct217AA00->field1ED0 = 1;
                         gStruct217AA00->field1ED4 = v;
                         gStruct217AA00->field1ED6 = 0;
@@ -327,7 +327,7 @@ void StartScanCallback(Unk021425e8 *event) {
         }
         StartScan(1, gStruct217AA00->field440, gStruct217AA00->field444);
     } else {
-        func_020533a0();
+        sub_20533A0();
     }
 }
 
@@ -338,7 +338,7 @@ void EndScan(void) {
     if (WM_EndScan(EndScanCallback) == 2) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void EndScanCallback(Unk021425e8 *event) {
@@ -346,7 +346,7 @@ void EndScanCallback(Unk021425e8 *event) {
     if (event->mResultCode == 0) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void StartConnect(ScanBlockView *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)()) {
@@ -368,7 +368,7 @@ void StartConnect(ScanBlockView *a, void *b, s32 (*c)(), s32 (*d)(), s32 (*e)())
     gStruct217AA00->fieldC = 10;
     gStruct217AA00->mRequestPending = 1;
     if (WM_StartConnectEx(StartConnectCallback, (u16 *) gStruct217AA00->field24, v1, 1, 0) != 2) {
-        func_020533a0();
+        sub_20533A0();
         return;
     }
     gStruct217AA00->field448 = c;
@@ -418,7 +418,7 @@ void StartConnectCallback(Unk021425e8 *event) {
                             case 4:
                             case 5:
                             case 6:
-                                func_020533a0();
+                                sub_20533A0();
                                 break;
                             case 0xa:
                                 shouldReset = TRUE;
@@ -536,7 +536,7 @@ void SetEntry(s32 enabled) {
     if (result == 2) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void SetEntryCallback(Unk021425e8 *event) {
@@ -544,7 +544,7 @@ void SetEntryCallback(Unk021425e8 *event) {
     if (event->mResultCode == 0) {
         return;
     }
-    func_020533a0();
+    sub_20533A0();
 }
 
 void StartDataSharing(void) {

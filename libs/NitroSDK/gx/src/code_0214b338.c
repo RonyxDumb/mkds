@@ -36,16 +36,16 @@ void GX_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
     u32 dest;
 
     dest = gBgExtPaletteLoadBase + offset - gBgExtPaletteLoadBaseOffset;
-    if (data_0216f074[0] != -1) {
-        MI_DmaCopy32Async(data_0216f074[0], src, (void *) dest, size, 0, 0);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel[0], src, (void *) dest, size, 0, 0);
     } else {
         MIi_CpuCopy32(src, (void *) dest, size);
     }
 }
 
 void GX_EndLoadBGExtPltt(void) {
-    if (data_0216f074[0] != -1) {
-        MI_WaitDma(data_0216f074[0]);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_WaitDma(g_GfxDmaChannel[0]);
     }
     GX_SetBankForBGExtPltt(gBgExtPaletteLoadBankMask);
     gBgExtPaletteLoadBankMask = 0;
@@ -75,16 +75,16 @@ void GX_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
     u32 dest;
 
     dest = gObjExtPaletteLoadBase + offset;
-    if (data_0216f074[0] != -1) {
-        MI_DmaCopy32Async(data_0216f074[0], src, (void *) dest, size, 0, 0);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel[0], src, (void *) dest, size, 0, 0);
     } else {
         MIi_CpuCopy32(src, (void *) dest, size);
     }
 }
 
 void GX_EndLoadOBJExtPltt(void) {
-    if (data_0216f074[0] != -1) {
-        MI_WaitDma(data_0216f074[0]);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_WaitDma(g_GfxDmaChannel[0]);
     }
     GX_SetBankForOBJExtPltt(gObjExtPaletteLoadBankMask);
     gObjExtPaletteLoadBankMask = 0;
@@ -96,16 +96,16 @@ void GXS_BeginLoadBGExtPltt(void) {
 }
 
 void GXS_LoadBGExtPltt(const void *src, u32 offset, u32 size) {
-    if (data_0216f074[0] != -1) {
-        MI_DmaCopy32Async(data_0216f074[0], src, (void *) (offset + 0x6898000), size, 0, 0);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel[0], src, (void *) (offset + 0x6898000), size, 0, 0);
     } else {
         MIi_CpuCopy32(src, (void *) (offset + 0x6898000), size);
     }
 }
 
 void GXS_EndLoadBGExtPltt(void) {
-    if (data_0216f074[0] != -1) {
-        MI_WaitDma(data_0216f074[0]);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_WaitDma(g_GfxDmaChannel[0]);
     }
     GX_SetBankForSubBGExtPltt(gSubBgExtPaletteLoadBankMask);
     gSubBgExtPaletteLoadBankMask = 0;
@@ -116,16 +116,16 @@ void GXS_BeginLoadOBJExtPltt(void) {
 }
 
 void GXS_LoadOBJExtPltt(const void *src, u32 offset, u32 size) {
-    if (data_0216f074[0] != -1) {
-        MI_DmaCopy32Async(data_0216f074[0], src, (void *) (offset + 0x68a0000), size, 0, 0);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_DmaCopy32Async(g_GfxDmaChannel[0], src, (void *) (offset + 0x68a0000), size, 0, 0);
     } else {
         MIi_CpuCopy32(src, (void *) (offset + 0x68a0000), size);
     }
 }
 
 void GXS_EndLoadOBJExtPltt(void) {
-    if (data_0216f074[0] != -1) {
-        MI_WaitDma(data_0216f074[0]);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_WaitDma(g_GfxDmaChannel[0]);
     }
     GX_SetBankForSubOBJExtPltt(gSubObjExtPaletteLoadBankMask);
     gSubObjExtPaletteLoadBankMask = 0;

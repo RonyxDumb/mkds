@@ -21,7 +21,7 @@
 #include "00/unk_021b5000.h"
 #include "00/code_021a2ccc.h"
 
-u32 func_021202f0(u32 index) {
+u32 GetSomeBTKFriendCode(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
@@ -45,7 +45,7 @@ void *GetPlayerRecordEmblem(u32 index) {
     return &gStruct217D384->mPlayerRecords[index].mEmblem;
 }
 
-u8 func_02120278(u32 index) {
+u8 GetSomeBTKUseCustomEmblemFlag(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
@@ -107,7 +107,7 @@ void SetPlayerRecordElo(int index, s16 elo) {
     *(u16 *) ((value0) + (62)) = value1;
 }
 
-u8 func_021201e4(int index) {
+u8 GetWorstRankStarValue(int index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
@@ -119,7 +119,7 @@ u8 func_021201e4(int index) {
     return value0;
 }
 
-void func_02120150(void) {
+void DisplayConfig_VblankFnImpl(void) {
     WiFiSession *session;
     BOOL hasHeap = FALSE;
 
@@ -139,7 +139,7 @@ void func_02120150(void) {
     if (gStruct217D384->field1F38 == FALSE) {
         return;
     }
-    func_0205ccec();
+    sub_205CCEC();
 }
 
 void EnterWiFiSessionState1(void) {
@@ -172,7 +172,7 @@ void UpdateWiFiSessionState3(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-void func_021200a4(void) {}
+void GlobalB_E7Fn_4A(void) {}
 
 void UpdateWiFiSessionState4(void) {
     UpdateWiFiSessionStep();
@@ -190,7 +190,7 @@ void EnterWiFiSessionState5(void) {
 
 void UpdateWiFiSessionState5(void) {
     u32 value12;
-    func_0205b0b4();
+    GlobalB_E7Fn_5BImpl();
 }
 
-void func_02120044(void) {}
+void GlobalB_E7Fn_6B(void) {}

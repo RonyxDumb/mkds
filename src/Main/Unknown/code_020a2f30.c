@@ -415,7 +415,7 @@ void *blln_setupLogicPart(void) {
     return mobj_createLogicPart(NULL, blln_update, NULL);
 }
 
-void func_020a305c(void) {
+void sub_20A305C(void) {
     s32 i;
     MapObjectList *mapObjectList;
     Balloon *balloon;

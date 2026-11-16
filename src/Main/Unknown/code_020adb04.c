@@ -69,21 +69,21 @@ BOOL IsMissionRunRecordFilled(void) {
     s32 row;
     s32 column;
 
-    row = func_020adbe4();
-    column = func_020adbc4();
+    row = GetCurrentMissionLevel();
+    column = GetCurrentMissionLevelStage();
     return GetMissionRecordValue(row, column, &value);
 }
 
 #pragma thumb off
 
-s32 func_020adbe4(void) {
+s32 GetCurrentMissionLevel(void) {
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         return gRaceMultiConfig->mMissionTableRow;
     }
     return -1;
 }
 
-s32 func_020adbc4(void) {
+s32 GetCurrentMissionLevelStage(void) {
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
         return gRaceMultiConfig->mMissionTableColumn;
     }
@@ -98,13 +98,13 @@ BOOL func_020adb34(void) {
     s32 isFilled;
     s32 value;
 
-    if (func_020adbe4() < 1 || func_020adbe4() > 6 || func_020adbc4() < 1 || func_020adbc4() > 9) {
+    if (GetCurrentMissionLevel() < 1 || GetCurrentMissionLevel() > 6 || GetCurrentMissionLevelStage() < 1 || GetCurrentMissionLevelStage() > 9) {
         return FALSE;
     }
     for (row = 1; row <= 6; row++) {
         for (column = 1; column <= 9; column++) {
             isFilled = GetMissionRecordValue(row, column, &value);
-            if (row == func_020adbe4() && column == func_020adbc4()) {
+            if (row == GetCurrentMissionLevel() && column == GetCurrentMissionLevelStage()) {
                 if (isFilled != 0 && (u32) (value - 5) <= 2) {
                     return FALSE;
                 }

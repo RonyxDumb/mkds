@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_0210faac(void);
+u32 sub_210FAAC(void);
 u32 IsKartNear(void);

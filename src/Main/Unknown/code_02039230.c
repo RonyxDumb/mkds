@@ -3,48 +3,48 @@
 #include "Main/Unknown/code_020431e4.h"
 #include "Main/Unknown/unk_02175000.h"
 
-void func_020394cc(void) {
-    data_021755dc.mPressedBits = 0;
-    data_021755dc.mBits = 0;
-    data_021755dc.mClearedBits = 0;
-    data_021755dc.mRepeatBits = 0;
-    data_021755dc.mRepeatState = 0;
-    data_021755dc.mRepeatCallCount = 0;
-    data_021755dc.mRepeatMask = 0;
-    data_021755dc.mRepeatDelayLimit = 0x14;
-    data_021755dc.mRepeatIntervalLimit = 8;
-    data_021755dc.mHoldLong = 0;
-    data_021755dc.field14 = 0;
-    data_021755dc.mHoldStartTick = 0;
-    data_021755dc.field20 = 0;
-    data_021755dc.field24 = 0;
+void InitializeGlobalG_M1(void) {
+    g_GlobalG.mPressedBits = 0;
+    g_GlobalG.mBits = 0;
+    g_GlobalG.mClearedBits = 0;
+    g_GlobalG.mRepeatBits = 0;
+    g_GlobalG.mRepeatState = 0;
+    g_GlobalG.mRepeatCallCount = 0;
+    g_GlobalG.mRepeatMask = 0;
+    g_GlobalG.mRepeatDelayLimit = 0x14;
+    g_GlobalG.mRepeatIntervalLimit = 8;
+    g_GlobalG.mHoldLong = 0;
+    g_GlobalG.field14 = 0;
+    g_GlobalG.mHoldStartTick = 0;
+    g_GlobalG.field20 = 0;
+    g_GlobalG.field24 = 0;
 }
 
-void func_02039478(void) {
-    data_021755dc.mPressedBits = 0;
-    data_021755dc.mBits = 0;
-    data_021755dc.mClearedBits = 0;
-    data_021755dc.mRepeatBits = 0;
-    data_021755dc.mRepeatState = 0;
-    data_021755dc.mRepeatCallCount = 0;
-    data_021755dc.mRepeatMask = 0;
-    data_021755dc.mRepeatDelayLimit = 0x14;
-    data_021755dc.mRepeatIntervalLimit = 8;
-    data_021755dc.mHoldLong = 0;
-    data_021755dc.field14 = 0;
-    data_021755dc.mHoldStartTick = 0;
-    data_021755dc.field20 = 0;
-    data_021755dc.field24 = 0;
+void InitializeGlobalG_2(void) {
+    g_GlobalG.mPressedBits = 0;
+    g_GlobalG.mBits = 0;
+    g_GlobalG.mClearedBits = 0;
+    g_GlobalG.mRepeatBits = 0;
+    g_GlobalG.mRepeatState = 0;
+    g_GlobalG.mRepeatCallCount = 0;
+    g_GlobalG.mRepeatMask = 0;
+    g_GlobalG.mRepeatDelayLimit = 0x14;
+    g_GlobalG.mRepeatIntervalLimit = 8;
+    g_GlobalG.mHoldLong = 0;
+    g_GlobalG.field14 = 0;
+    g_GlobalG.mHoldStartTick = 0;
+    g_GlobalG.field20 = 0;
+    g_GlobalG.field24 = 0;
 }
 
 void ReadKeysIntoInputSlot(void) {
     u32 keys;
-    if (data_021755dc.field24 != 0) {
+    if (g_GlobalG.field24 != 0) {
         keys = ReadKeyBitsFromStream();
     } else {
         keys = (u16) (((*(vu16 *) 0x4000130 | *(vu16 *) 0x27fffa8) ^ 0x2fff) & 0x2fff);
     }
-    pad_update(keys, &data_021755dc);
+    pad_update(keys, &g_GlobalG);
 }
 
 void SeekKeyStream(u32 count, u32 origin) {

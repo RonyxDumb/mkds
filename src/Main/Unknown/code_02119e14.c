@@ -239,15 +239,15 @@ void LoadSelectCupCourseData(void) {
     Nscr *screenMap = NULL;
     Nclr *bgPalette = NULL;
     if (((Unk027ffc40 *) 0x027ffc40)->field0 != 2) {
-        g2du_unpackCharacterDataBG(&bgChars, arc_getSceneArcFile(data_0216d894));
-        g2du_unpackPaletteData(&bgPalette, arc_getSceneArcFile(data_0216d88c));
-        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(data_0216d8a4));
-        g2du_unpackCharacterDataBG(&bgChars, arc_getSceneArcFile(data_0216d87c));
-        g2du_unpackPaletteData(&bgPalette, arc_getSceneArcFile(data_0216d86c));
-        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(data_0216d884));
-        g2du_unpackCharacterData(&cellChars, arc_getSceneArcFile(data_0216d8a0));
-        g2du_unpackCellBankData(&cells, arc_getSceneArcFile(data_0216d890));
-        g2du_unpackPaletteData(&cellPalette, arc_getSceneArcFile(data_0216d878));
+        g2du_unpackCharacterDataBG(&bgChars, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_b_ncgr));
+        g2du_unpackPaletteData(&bgPalette, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_b_nclr));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_nscr));
+        g2du_unpackCharacterDataBG(&bgChars, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_b_ncgr));
+        g2du_unpackPaletteData(&bgPalette, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_b_nclr));
+        g2du_unpackScreenData(&screenMap, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_nscr));
+        g2du_unpackCharacterData(&cellChars, arc_getSceneArcFile(g_str_common_select_cup_course_m_nce_ncgr));
+        g2du_unpackCellBankData(&cells, arc_getSceneArcFile(g_str_common_select_cup_course_m_nce_ncer));
+        g2du_unpackPaletteData(&cellPalette, arc_getSceneArcFile(g_str_common_select_cup_course_m_o_nclr));
     }
 }
 
@@ -268,13 +268,13 @@ void LocateAndQueueSelectCupCourse(void) {
         return;
     }
     if (gSelectCupCourse->mMode == 0) {
-        g2du_getCharacterDataBG(&modeChars, arc_getSceneArcFile(data_0216d894));
-        g2du_getPaletteData(&modePalette, arc_getSceneArcFile(data_0216d88c));
-        g2du_getScreenData(&modeScreenMap, arc_getSceneArcFile(data_0216d8a4));
+        g2du_getCharacterDataBG(&modeChars, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_b_ncgr));
+        g2du_getPaletteData(&modePalette, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_b_nclr));
+        g2du_getScreenData(&modeScreenMap, arc_getSceneArcFile(g_str_common_select_cup_course_ta_m_nscr));
     } else {
-        g2du_getCharacterDataBG(&modeChars, arc_getSceneArcFile(data_0216d87c));
-        g2du_getPaletteData(&modePalette, arc_getSceneArcFile(data_0216d86c));
-        g2du_getScreenData(&modeScreenMap, arc_getSceneArcFile(data_0216d884));
+        g2du_getCharacterDataBG(&modeChars, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_b_ncgr));
+        g2du_getPaletteData(&modePalette, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_b_nclr));
+        g2du_getScreenData(&modeScreenMap, arc_getSceneArcFile(g_str_common_select_cup_course_vs_m_nscr));
     }
     g2du_getCharacterDataBG(&fixedChars, arc_getSceneArcFile(data_0216d874));
     g2du_getPaletteData(&fixedPalette, arc_getSceneArcFile(data_0216d854));
@@ -287,9 +287,9 @@ void LocateAndQueueSelectCupCourse(void) {
         gSelectCupCourse->mSelectCupCourseTaOrVsMBncl = arc_getSceneArcFile(data_0216d868);
         gSelectCupCourse->mSelectCupCourseTaOrVsMBnll = arc_getSceneArcFile(data_0216d870);
     }
-    g2du_getCharacterData(&courseCellChars, arc_getSceneArcFile(data_0216d8a0));
-    g2du_getCellBankData(&gSelectCupCourse->mSelectCupCourseMNcer, arc_getSceneArcFile(data_0216d890));
-    g2du_getPaletteData(&courseCellPalette, arc_getSceneArcFile(data_0216d878));
+    g2du_getCharacterData(&courseCellChars, arc_getSceneArcFile(g_str_common_select_cup_course_m_nce_ncgr));
+    g2du_getCellBankData(&gSelectCupCourse->mSelectCupCourseMNcer, arc_getSceneArcFile(g_str_common_select_cup_course_m_nce_ncer));
+    g2du_getPaletteData(&courseCellPalette, arc_getSceneArcFile(g_str_common_select_cup_course_m_o_nclr));
     gSelectCupCourse->mSelectCupMBncl = arc_getSceneArcFile(data_0216d888);
     gSelectCupCourse->mSelectCupMBnbl = arc_getSceneArcFile(data_0216d864);
     gSelectCupCourse->mSelectCupMBnll = arc_getSceneArcFile(data_0216d860);

@@ -93,7 +93,7 @@ static inline BOOL func_0205c98c_inline(void) {
         if (p->field14[participant].field30 != FALSE) {
             MI_CpuCopy8(&p->field14[participant], q, 0x28);
             *(u64 *) &q->fieldC[2] = OS_GetTick();
-            if (func_0205c340(participant, 0, 0x28) != 0) {
+            if (sub_205C340(participant, 0, 0x28) != 0) {
                 gStruct217AA14->field14[participant].field30 = FALSE;
             } else {
                 MI_CpuFill8(q, 0, 0x28);
@@ -104,7 +104,7 @@ static inline BOOL func_0205c98c_inline(void) {
     return FALSE;
 }
 
-void func_0205cd24(void *heap) {
+void InitializeGlobalAA(void *heap) {
     s32 i;
     s32 j;
     u8 k;
@@ -137,7 +137,7 @@ void func_0205cd24(void *heap) {
         gStruct217AA14->field740[k] = 0;
     }
     ResetItemDataSlots();
-    func_0205a6b4();
+    sub_205A6B4();
     gStruct217AA14->field75C |= 1;
     gStruct217AA14->field75C |= 0x40;
     p = gStruct217AA14;
@@ -153,10 +153,10 @@ void func_0205cd24(void *heap) {
             gStruct217AA14->field104[m].mRank = 0;
         }
     }
-    sm_init(gStruct217AA14, data_02165388, 6, NULL);
+    sm_init(gStruct217AA14, g_E7FnList4, 6, NULL);
 }
 
-void func_0205ccec(void) {
+void sub_205CCEC(void) {
     Unk0217aa14 *p;
 
     p = gStruct217AA14;
@@ -171,7 +171,7 @@ void func_0205ccec(void) {
     }
 }
 
-void func_0205cbe4(void) {
+void E7FnList4_Fn2(void) {
     u8 participant;
     s32 *e;
     Unk0217aa14 *b;
@@ -205,7 +205,7 @@ void func_0205cbe4(void) {
     gStruct217AA14->field75C &= ~0x10;
 }
 
-void func_0205c98c(void) {
+void E7FnList4_Fn3(void) {
     u16 participant;
     u8 mask;
     u16 k;
@@ -247,10 +247,10 @@ void func_0205c98c(void) {
                 q->fieldC[3] = 0;
                 q->fieldC[4] = 0;
                 *(u32 *) &q->field20[0] = 0;
-                func_0205c340(b, 0, 0x28);
+                sub_205C340(b, 0, 0x28);
             } else {
                 if (p->field14[b].field36 == 0) {
-                    func_0205c340(b, 5, 0);
+                    sub_205C340(b, 5, 0);
                 }
                 gStruct217AA14->field14[b].field36++;
                 if (gStruct217AA14->field14[b].field36 > 4) {
@@ -264,7 +264,7 @@ void func_0205c98c(void) {
     }
 }
 
-void func_0205c898(void) {
+void E7FnList4_Fn4(void) {
     s32 participant;
     Unk0217aa14 *p;
     u8 n;
@@ -285,7 +285,7 @@ void func_0205c898(void) {
     }
 }
 
-void func_0205c800(u16 a, void (*callback)(u32)) {
+void sub_205C800(u16 a, void (*callback)(u32)) {
     u16 i;
     s32 nextParticipant;
     u16 participant;
@@ -314,13 +314,13 @@ void func_0205c7a0(u32 participant) {
     }
     index = participant;
     if (gStruct217AA14->field749 & (1 << index)) {
-        if (func_0205c340(index, 1, 8) != 0) {
+        if (sub_205C340(index, 1, 8) != 0) {
             gStruct217AA14->fieldF8 = index;
         }
     }
 }
 
-void func_0205c6b0(void) {
+void E7FnList4_Fn5(void) {
     Unk0217aa14 *p;
     u8 participant;
     Unk0217aa14_754_04 *q;
@@ -331,7 +331,7 @@ void func_0205c6b0(void) {
         if (p->field14[participant].field30 != FALSE) {
             MI_CpuCopy8(&p->field14[participant], q, 0x28);
             *(u64 *) &q->fieldC[2] = OS_GetTick();
-            if (func_0205c340(participant, 0, 0x28) != 0) {
+            if (sub_205C340(participant, 0, 0x28) != 0) {
                 gStruct217AA14->field14[participant].field30 = FALSE;
             } else {
                 MI_CpuFill8(q, 0, 0x28);
@@ -345,10 +345,10 @@ void func_0205c6b0(void) {
         p->field12 = 1;
         return;
     }
-    func_0205c800(p->fieldF8, func_0205c7a0);
+    sub_205C800(p->fieldF8, func_0205c7a0);
 }
 
-void func_0205c684(void) {
+void E7FnList4_Fn6(void) {
     gStruct217AA14->field736 = 0xf0;
     gStruct217AA14->field734 = 0;
 }
@@ -361,12 +361,12 @@ void func_0205c610(u32 participant) {
     r = &q->field4;
     r->mUnk_00_h = gStruct217AA14->field736 - gStruct217AA14->field104[participant].field84;
     r->mUnk_04_b[0] = gStruct217AA14->fieldFB;
-    if (func_0205c340(participant, 2, 8) != 0) {
+    if (sub_205C340(participant, 2, 8) != 0) {
         gStruct217AA14->field734 = participant;
     }
 }
 
-void func_0205c594(void) {
+void E7FnList4_Fn7(void) {
     Unk0217aa14 *p;
 
     gStruct217AA14->field736 = gStruct217AA14->field736 - 1;
@@ -377,10 +377,10 @@ void func_0205c594(void) {
         p->field12 = 1;
         return;
     }
-    func_0205c800(gStruct217AA14->field734, func_0205c610);
+    sub_205C800(gStruct217AA14->field734, func_0205c610);
 }
 
-void func_0205c470(void) {
+void E7FnList4_Fn8(void) {
     u8 participant;
 
     gStruct217AA14->field75C = gStruct217AA14->field75C | 2;
@@ -406,7 +406,7 @@ void func_0205c470(void) {
     }
 }
 
-int func_0205c340(u8 participant, u32 b, int dataSize) {
+int sub_205C340(u8 participant, u32 b, int dataSize) {
     Unk0205b504 *packet;
     int r;
 
@@ -424,7 +424,7 @@ int func_0205c340(u8 participant, u32 b, int dataSize) {
         packet->field1 = gStruct217AA14->field758;
         packet->field2_0 = gStruct217AA14->field748;
         DC_StoreRange(packet, r);
-        r = func_02120340(participant, packet, r, func_0211ff74);
+        r = sub_2120340(participant, packet, r, func_0211ff74);
         if (r == 0) {
             gStruct217AA14->field75C = gStruct217AA14->field75C & ~4;
         }
@@ -432,7 +432,7 @@ int func_0205c340(u8 participant, u32 b, int dataSize) {
     return r;
 }
 
-void func_0205c234(s32 dataSize) {
+void sub_205C234(s32 dataSize) {
     u8 participant;
     s8 j;
     s32 sentCount;
@@ -451,7 +451,7 @@ void func_0205c234(s32 dataSize) {
     }
     while (sentCount < 1 && participant != j) {
         if (participant != func_ov000_0219bb50() && (gStruct217AA14->field749 & (1 << participant)) != 0) {
-            if (func_0205c340(participant, 3, dataSize) != 0) {
+            if (sub_205C340(participant, 3, dataSize) != 0) {
                 participant = participant + 1;
                 if (participant >= 4) {
                     participant = 0;
@@ -473,7 +473,7 @@ void func_0205c234(s32 dataSize) {
     gStruct217AA14->field73A = participant << 1;
 }
 
-void func_0205be0c(void) {
+void sub_205BE0C(void) {
     u32 a[4];
     u8 participantOrder[4];
     u8 participant;
@@ -513,7 +513,7 @@ void func_0205be0c(void) {
                 a[participant] = d->field104[participant].field80 & 0x3fffff;
             } else {
                 if (participant == func_ov000_0219bb50()) {
-                    f = func_0205afa8();
+                    f = sub_205AFA8();
                     g = gStruct217AA14->field73E;
                 } else {
                     f = gStruct217AA14->field104[participant].field4;
@@ -609,15 +609,15 @@ void func_0205be0c(void) {
     }
 }
 
-void func_0205bc08(void) {
+void E7FnList4_Fn9(void) {
     u16 recordSize;
     u32 w;
     Unk0217aa14 *p;
     Unk0217aa14_754 *q;
     Unk0217aa14_754_04 *r;
 
-    func_0205a908();
-    func_0205a350();
+    sub_205A908();
+    sub_205A350();
     p = gStruct217AA14;
     q = p->field754;
     r = &q->field4;
@@ -627,18 +627,18 @@ void func_0205bc08(void) {
     if (gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()] < 0) {
         r->field4 = 0;
     } else {
-        w = func_0205afa8();
+        w = sub_205AFA8();
         r->field4 = w | ((gStruct217AA14->field73E << 23) & 0x7800000);
     }
-    func_0205c234(recordSize);
-    func_0205be0c();
+    sub_205C234(recordSize);
+    sub_205BE0C();
     if (rstat_hasDriverFinished(*(u8 *) &gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()]) == 0 &&
         (gStruct217AA14->field75C & 0x200) == 0) {
         if (data_0217562a[input_getDirectInputUnitId()].mBits == 0) {
             gStruct217AA14->field738 = gStruct217AA14->field738 + 1;
             if (gStruct217AA14->field738 > 0x708) {
                 gStruct217AA14->field75C = gStruct217AA14->field75C | 0x200;
-                func_021208e8(1);
+                sub_21208E8(1);
             }
         } else {
             gStruct217AA14->field738 = 0;
@@ -663,7 +663,7 @@ void func_0205bc08(void) {
     }
 }
 
-u32 func_0205bbe8(void) {
+u32 E7FnList4_Fn10(void) {
     u32 value0;
     u32 value1;
     value0 = (u32) &gStruct217AA14;
@@ -675,7 +675,7 @@ u32 func_0205bbe8(void) {
     return value0;
 }
 
-u32 func_0205bba8(void) {
+u32 sub_205BBA8(void) {
     u32 result;
     Unk0217aa14 *p;
 
@@ -693,7 +693,7 @@ u32 func_0205bba8(void) {
     return 9;
 }
 
-void func_0205ba60(void) {
+void sub_205BA60(void) {
     Unk0217aa14 *p;
     u8 a;
     u8 b;
@@ -738,15 +738,15 @@ void func_0205ba60(void) {
     }
 }
 
-void func_0205b9a8(void) {
+void E7FnList4_Fn11(void) {
     u16 recordSize;
     Unk0217aa14 *p;
     Unk0217aa14_754 *q;
     Unk0217aa14_754_04 *r;
     s32 t;
 
-    func_0205a908();
-    func_0205a350();
+    sub_205A908();
+    sub_205A350();
     p = gStruct217AA14;
     q = p->field754;
     r = &q->field4;
@@ -756,15 +756,15 @@ void func_0205b9a8(void) {
     if (gStruct217AA18->mKartOfParticipant[func_ov000_0219bb50()] < 0) {
         r->field4 = 0;
     } else {
-        t = func_0205afa8();
+        t = sub_205AFA8();
         r->field4 = t | ((gStruct217AA14->field73E << 23) & 0x7800000);
     }
-    func_0205c234(recordSize);
-    func_0205be0c();
-    func_0205ba60();
+    sub_205C234(recordSize);
+    sub_205BE0C();
+    sub_205BA60();
 }
 
-Unk0217aa14_104 *func_0205b978(s32 participant, u32 b) {
+Unk0217aa14_104 *sub_205B978(s32 participant, u32 b) {
     Unk0217aa14_104 *entry;
 
     entry = &gStruct217AA14->field104[participant];
@@ -774,11 +774,11 @@ Unk0217aa14_104 *func_0205b978(s32 participant, u32 b) {
     return entry;
 }
 
-s32 func_0205b954(s32 participant) {
+s32 sub_205B954(s32 participant) {
     return gStruct217AA14->field104[participant].field0_0;
 }
 
-void func_0205b824(const u64 *ticks, s32 participant) {
+void sub_205B824(const u64 *ticks, s32 participant) {
     u8 n;
     u64 d;
     Unk0217aa14 *p;
@@ -810,7 +810,7 @@ void func_0205b824(const u64 *ticks, s32 participant) {
     gStruct217AA14->field14[participant].field34 = n;
 }
 
-void func_0205b778(u32 a, Unk0205b504 *packet, u32 c) {
+void sub_205B778(u32 a, Unk0205b504 *packet, u32 c) {
     Unk0217aa14 *p;
     Unk0217aa14_104 *entry;
     u8 *s;
@@ -838,7 +838,7 @@ void func_0205b778(u32 a, Unk0205b504 *packet, u32 c) {
     MI_CpuCopy8(s, entry, n);
 }
 
-void func_0205b6bc(u32 a, Unk0205b504 *packet, u32 c) {
+void sub_205B6BC(u32 a, Unk0205b504 *packet, u32 c) {
     s32 t;
     Unk0217aa14 *p;
     s16 x;
@@ -897,7 +897,7 @@ void func_0205b504(u32 a, Unk0205b504 *packet, u32 c, u32 d) {
             ownParticipant = func_ov000_0219bb50();
             if (m->field0 == ownParticipant) {
                 m->field4[3] = OS_GetTick();
-                func_0205b824(m->field4, i);
+                sub_205B824(m->field4, i);
                 return;
             }
             if (m->field0 >= 4) {
@@ -914,10 +914,10 @@ void func_0205b504(u32 a, Unk0205b504 *packet, u32 c, u32 d) {
             gStruct217AA14->fieldFA = gStruct217AA14->fieldFA | (1 << packet->field0_0);
             break;
         case 2:
-            func_0205b6bc(a, packet, c);
+            sub_205B6BC(a, packet, c);
             break;
         case 3:
-            func_0205b778(a, packet, c);
+            sub_205B778(a, packet, c);
             break;
         case 4:
         case 5:
@@ -925,7 +925,7 @@ void func_0205b504(u32 a, Unk0205b504 *packet, u32 c, u32 d) {
     }
 }
 
-void func_0205b32c(void) {
+void sub_205B32C(void) {
     s16 elos[4];
     s16 newElos[4];
     s32 eloChange;
@@ -987,7 +987,7 @@ void func_0205b32c(void) {
     }
 }
 
-void func_0205b0f4(void) {
+void sub_205B0F4(void) {
     u8 participant;
     u32 a;
     u32 participantBit;
@@ -1055,5 +1055,5 @@ void func_0205b0f4(void) {
             CARD_WaitBackupAsync();
         }
     }
-    func_021208e8(2);
+    sub_21208E8(2);
 }

@@ -120,7 +120,7 @@ u32 shine_onDriverCollide(Shine16 *p, Kart *o, u8 *a, u8 *b) {
         r = o->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
         c = mgcnt_getMaxOwnedShineCount();
         n = mgcnt_getDriverBalloonShineCount(o->mIndex);
-        func_0210b98c(p->field0.mSound, snd_getShineLoseSfxId(0, r, c, n));
+        sub_210B98C(p->field0.mSound, snd_getShineLoseSfxId(0, r, c, n));
         p->mEffect = ptcm_createEmitter(0x7d, &p->field0.mPos);
         p->mEffectTimer = 0xe;
     }
@@ -260,7 +260,7 @@ void shine_update(void *a, Shine16 *p) {
                 p->field0.field10.y = 0;
                 p->mState = 1;
             }
-            func_0210b98c(p->field0.mSound, 0x139);
+            sub_210B98C(p->field0.mSound, 0x139);
             return;
         case 1:
             p->fieldB4 += 1;
@@ -280,7 +280,7 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mDrawScale >= 0x1000) {
                 p->mDrawScale = 0x1000;
             }
-            func_0210ba38(p->field0.mSound, 0x14e);
+            sub_210BA38(p->field0.mSound, 0x14e);
             return;
         case 6:
             p->fieldB4 += 4;
@@ -306,7 +306,7 @@ void shine_update(void *a, Shine16 *p) {
             if (p->mSpawnObjectIndex < 0) {
                 return;
             }
-            func_020a6cb4(p->mSpawnObjectIndex);
+            sub_20A6CB4(p->mSpawnObjectIndex);
             return;
         case 2:
             p->fieldB4 += 4;
@@ -335,7 +335,7 @@ void shine_update(void *a, Shine16 *p) {
                     mobj_setInvisible(&p->field0);
                     mgcnt_updateCollectableShineCount(-1);
                     if (p->mSpawnObjectIndex >= 0) {
-                        func_020a6cb4(p->mSpawnObjectIndex);
+                        sub_20A6CB4(p->mSpawnObjectIndex);
                     }
                 }
                 if (p->mDrawScale <= 0) {
@@ -485,7 +485,7 @@ void shine_update(void *a, Shine16 *p) {
                 if (mobj_collideAsItem(&p->field0, 0, &b)) {
                     t = p->field0.field10.y;
                     VEC_Add(&p->field0.mPos, &b, &p->field0.mPos);
-                    func_020ea94c(&p->field0.field10, &b, 0x1000, 0x1000, 0x800, &p->field0.field10);
+                    sub_20EA94C(&p->field0.field10, &b, 0x1000, 0x1000, 0x800, &p->field0.field10);
                     p->field0.field10.y = 0;
                     if ((s64) p->field0.field10.x * p->field0.field10.x +
                             (s64) p->field0.field10.y * p->field0.field10.y +
@@ -526,7 +526,7 @@ void shine_update(void *a, Shine16 *p) {
                             p->field0.field10.y = 0;
                             p->mState = 1;
                         }
-                        func_0210b98c(p->field0.mSound, 0x139);
+                        sub_210B98C(p->field0.mSound, 0x139);
                     }
                     if (f & 0x1000000) {
                         p->field0.mFlags |= data_021567ac;
@@ -616,7 +616,7 @@ void shine_spawn(Vec3 *a, s32 b, s32 c) {
     p->field0.mFlags &= ~1;
     p->field0.mFlags &= ~0x20;
     mgcnt_updateCollectableShineCount(1);
-    func_0210b98c(p->field0.mSound, 0x138);
+    sub_210B98C(p->field0.mSound, 0x138);
 }
 
 void shine_driverLostSpawn(Kart *a, Kart *b) {
@@ -656,7 +656,7 @@ void shine_driverLostSpawn(Kart *a, Kart *b) {
     r = a->mIndex == gRaceMultiConfig->mEntryIndex ? 1 : 0;
     c = mgcnt_getMaxOwnedShineCount();
     n = mgcnt_getDriverBalloonShineCount(a->mIndex);
-    func_0210b98c(p->field0.mSound, snd_getShineLoseSfxId(1, r, c, n));
+    sub_210B98C(p->field0.mSound, snd_getShineLoseSfxId(1, r, c, n));
 }
 
 BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
@@ -684,7 +684,7 @@ BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
         }
         if (l != NULL) {
             if (a == gRaceMultiConfig->mEntryIndex) {
-                func_020a2ebc(l, NULL);
+                sub_20A2EBC(l, NULL);
             } else {
                 v.x = o->mPos.x;
                 v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
@@ -693,7 +693,7 @@ BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
                 l->field0.mFlags &= ~2;
                 l->field0.mFlags &= ~8;
                 l->field0.mAlpha = 0x1f;
-                func_020a2ebc(l, &v);
+                sub_20A2EBC(l, &v);
             }
             mobj_driverEmitSfx2(o, 0x153);
             if (mgcnt_getDriverBalloonShineCount(a) == 0) {
@@ -720,7 +720,7 @@ BOOL blncnt_tryStealBalloon(u16 a, u16 b) {
             e->mBalloons[n + 1] = e->mBalloons[mgcnt_getDriverBalloonShineCount(b)];
             e->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = l;
             mgcnt_updateDriverBalloonShineCount(b, 1);
-            func_020a2e68(l);
+            sub_20A2E68(l);
             blln_setDriverId(l, b);
             if (mgcnt_getDriverBalloonShineCount(b) >= 2 && mgcnt_getDriverIsInflating(b) != 0) {
                 e->mState = 4;
@@ -780,7 +780,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
         v2->mBalloons[n + 1] = v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)];
         v2->mBalloons[mgcnt_getDriverBalloonShineCount(b)] = l;
         mgcnt_updateDriverBalloonShineCount(b, 1);
-        func_020a2e68(l);
+        sub_20A2E68(l);
         blln_setDriverId(l, b);
         if (mgcnt_getDriverBalloonShineCount(b) >= 2 && mgcnt_getDriverIsInflating(b) != 0) {
             v2->mState = 4;
@@ -793,7 +793,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
         v1->mBalloons[n + 1] = v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)];
         v1->mBalloons[mgcnt_getDriverBalloonShineCount(a)] = m;
         mgcnt_updateDriverBalloonShineCount(a, 1);
-        func_020a2e68(m);
+        sub_20A2E68(m);
         blln_setDriverId(m, a);
         if (mgcnt_getDriverBalloonShineCount(a) >= 2 && mgcnt_getDriverIsInflating(a) != 0) {
             v1->mState = 4;
@@ -804,7 +804,7 @@ s32 BalloonKartsHitEachOtherCallback(u16 a, u16 b) {
         s.mPositionSource = NULL;
         s.field8 = 2;
         s.mDistanceSquared = mobj_calcXZCamDist(NULL);
-        func_0210b7a8(&s);
+        sub_210B7A8(&s);
     }
     return 1;
 }
@@ -832,7 +832,7 @@ BOOL blncnt_loseBalloonOnDamage(u16 a, u16 b) {
         o = driver_getById(a);
         mgcnt_getBlncntDriverEntries();
         if (a == gRaceMultiConfig->mEntryIndex) {
-            func_020a2ebc(l, NULL);
+            sub_20A2EBC(l, NULL);
         } else {
             v.x = o->mPos.x;
             v.y = o->mPos.y + mgcnt_20A23A0(o) - 0xf666;
@@ -841,7 +841,7 @@ BOOL blncnt_loseBalloonOnDamage(u16 a, u16 b) {
             l->field0.mFlags &= ~2;
             l->field0.mFlags &= ~8;
             l->field0.mAlpha = 0x1f;
-            func_020a2ebc(l, &v);
+            sub_20A2EBC(l, &v);
         }
         mobj_driverEmitSfx2(o, 0x153);
         if (mgcnt_getDriverBalloonShineCount(a) == 0) {
@@ -887,7 +887,7 @@ void blncnt_onMgEnd(void) {
     if (gRaceMultiConfig->mMode != MODE_BATTLE) {
         return;
     }
-    func_020a305c();
+    sub_20A305C();
 }
 
 void blncnt_applyForceToDriverBalloons(u16 a, Vec3 *b) {

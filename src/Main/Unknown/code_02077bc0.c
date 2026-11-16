@@ -125,7 +125,7 @@
 #include "Main/Unknown/code_0203c8dc.h"
 #include "code_021471bc.h"
 
-void func_0207ad88(ShadowModel *shadowModel, u32 b, u32 c) {
+void sub_207AD88(ShadowModel *shadowModel, u32 b, u32 c) {
     if ((shadowModel->mFlags & 1) != 0) {
         model_configShadowPass1(shadowModel, shadowModel->mAlpha);
         gModelRenderFuncs[shadowModel->mNsbmd.mDrawKind](shadowModel);
@@ -152,7 +152,7 @@ void driver_initAll(u32 kartCount) {
     entryKartCounters->field10 = 0;
     entryKartCounters->field14 = 0;
     entryKartCounters->field18 = 0;
-    data_021658bc = gRaceMultiConfig->mMode == MODE_BATTLE ? 1 : 2;
+    g_1IfBattleElse2 = gRaceMultiConfig->mMode == MODE_BATTLE ? 1 : 2;
     driver_initColResponses();
     enmy_setupFunctions();
     rptc_initForDrivers(kartCount);
@@ -251,12 +251,12 @@ u32 driver_getCheckMissionEndArea(void) {
     return driver_sCheckMissionEndArea;
 }
 
-BOOL func_0207a84c(s32 kartIndex) {
-    return func_02068eac(&sDrivers[kartIndex]);
+BOOL RacerEntryHasFlags0x60(s32 kartIndex) {
+    return StructMQRacerEntry_HasFlags0x60(&sDrivers[kartIndex]);
 }
 
-void func_0207a828(s32 kartIndex) {
-    func_02066fe0(&sDrivers[kartIndex]);
+void StructMQRacerEntry_SomeFn_21_ById(s32 kartIndex) {
+    StructMQRacerEntry_SomeFn_21(&sDrivers[kartIndex]);
 }
 
 BOOL driver_getIsOnAntigravity(s32 kartIndex) {
@@ -314,8 +314,8 @@ EntryKartCounters *driver_getPlayerStatistics(void) {
     return driver_sPlayerStatistics;
 }
 
-u32 func_0207a68c(int kartIndex) {
-    return func_0206c0a8(&sDrivers[kartIndex]);
+u32 sub_207A68C(int kartIndex) {
+    return StructMQRacerEntry_SomeFn_71(&sDrivers[kartIndex]);
 }
 
 void driver_setFogEnableFlags(s32 fogEnableFlag) {
@@ -389,7 +389,7 @@ void SetKartNearPlayerRankBits(void) {
             }
         }
     }
-    for (i = 0; i < data_021658bc; i++) {
+    for (i = 0; i < g_1IfBattleElse2; i++) {
         kartIndex = kartIndices[i];
         if (kartIndex >= 0) {
             kart = &sDrivers[kartIndex];
@@ -424,7 +424,7 @@ BOOL TryGetMinKartDistanceSquared(s32 *distanceSquared) {
     return TRUE;
 }
 
-BOOL func_0207a218(void) {
+BOOL sub_207A218(void) {
     BOOL result = TRUE;
     s32 mode = gRaceMultiConfig->mMode;
     if (mode == MODE_MISSION_RUN) {

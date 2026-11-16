@@ -124,7 +124,7 @@ void qrtn_20D7A3C(void *directionPtr, s32 angle, void *outputPtr) {
     quaternion->mComponents[2] = quaternion->mComponents[2] + ((quotient * pairSecond) >> 12);
 }
 
-void func_020d79b0(void *quaternionPtr, u32 angle, void *outputPtr) {
+void sub_20D79B0(void *quaternionPtr, u32 angle, void *outputPtr) {
     Quaternion *quaternion = quaternionPtr;
     Quaternion *result = outputPtr;
     s32 pairIndex = (u16) (angle >> 1) >> 4;

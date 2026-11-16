@@ -706,7 +706,7 @@ BOOL bnd_handleBallHit(s32 a) {
             s.mPositionSource = &bound->field0.mPos;
             s.field8 = k;
             s.mDistanceSquared = mobj_calcXZCamDist(&bound->field0.mPos);
-            func_0210b7a8(&s);
+            sub_210B7A8(&s);
         }
         return TRUE;
     }

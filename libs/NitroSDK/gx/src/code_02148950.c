@@ -622,10 +622,10 @@ void GX_Init(void) {
     }
     reg_GX_DISPSTAT = 0;
     reg_GX_DISPCNT = 0;
-    if (data_0216f074[0] != -1) {
-        MI_DmaFill32(data_0216f074[0], (void *) 0x4000008, 0, 0x60);
+    if (g_GfxDmaChannel[0] != -1) {
+        MI_DmaFill32(g_GfxDmaChannel[0], (void *) 0x4000008, 0, 0x60);
         reg_GX_MASTER_BRIGHT = 0;
-        MI_DmaFill32(data_0216f074[0], (void *) 0x4001000, 0, 0x70);
+        MI_DmaFill32(g_GfxDmaChannel[0], (void *) 0x4001000, 0, 0x70);
     } else {
         volatile u32 z0 = 0;
         volatile u32 z1;

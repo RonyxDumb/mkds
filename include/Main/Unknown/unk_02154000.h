@@ -5,7 +5,7 @@
 typedef struct Kart Kart;
 
 // Objects whose layout isn't known yet.
-extern const u8 data_0215470c[];
+extern const u8 g_SomeNullString[];
 extern void *sMBGameRegistry[];
 extern u8 aNitrokartGhostDataTest01[];
 extern const u8 race_sPlaceToTrophyTable[];
@@ -56,7 +56,7 @@ extern const s32 data_02154fa8[][3];
 extern const Vec3 cam_sVecForward;
 extern const Vec3 cam_sVecRight;
 
-extern u16 data_021540ec[];
+extern u16 g_CharacterMaskTable[];
 extern const Vec4 data_02154f14;
 extern const Vec4 data_02154f24;
 extern const Vec4 data_02154f34;

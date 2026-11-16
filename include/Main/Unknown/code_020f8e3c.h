@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-unsigned int func_020f8e3c(unsigned int kart, unsigned int soundId);
+unsigned int sub_20F8E3C(unsigned int kart, unsigned int soundId);

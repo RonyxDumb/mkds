@@ -9,7 +9,7 @@
 #include "00/code_0219b580.h"
 #include "code_0214d018.h"
 
-void func_0205ae8c(u32 kartIndex) {
+void sub_205AE8C(u32 kartIndex) {
     u8 otherKartIndex;
     u8 rank;
     u8 f;
@@ -84,7 +84,7 @@ BOOL IsAnyItemDataSlotFree(void) {
     return FALSE;
 }
 
-void func_0205ac38(void) {
+void sub_205AC38(void) {
     u16 slotIndex;
     u8 *headerCursor;
     u8 *dataCursor;
@@ -153,7 +153,7 @@ void ExpireItemDataSlots(void) {
     }
 }
 
-void func_0205aa60(void) {
+void sub_205AA60(void) {
     u8 participantIndex;
     u16 slotIndex;
     u8 *headerCursor;
@@ -204,14 +204,14 @@ void ProcessOtherParticipantItemData(void) {
                     *handledFlag = 0;
                 } else if (*handledFlag == 0) {
                     data = NULL;
-                    func_0205b954(participantIndex);
+                    sub_205B954(participantIndex);
                     if (slot->mDataSize != 0) {
                         data = slot->mData;
                     }
                     if (slot->mMessageKind <= 1) {
-                        func_0205a630(participantIndex);
+                        sub_205A630(participantIndex);
                     }
-                    func_020fe5b8(slot->mItemKind, slot->mMessageKind, data,
+                    sub_20FE5B8(slot->mItemKind, slot->mMessageKind, data,
                                   gStruct217AA18->mKartOfParticipant[participantIndex]);
                     *handledFlag = 1;
                 }

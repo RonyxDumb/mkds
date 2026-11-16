@@ -1,4 +1,4 @@
-#include "code_0212f864.h"
+#include "interpolator.h"
 
 void InterpolatorInit(NNSSndFader *arg0) {
     NNSSndFader *value0 = arg0;

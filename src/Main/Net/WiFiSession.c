@@ -24,7 +24,7 @@
 void SetupWiFiSession(u32 mode) {
     u8 i;
     u8 ownIndex;
-    func_0211fe44();
+    WriteSaveFriendCodes();
     switch (mode) {
         case 0:
             MI_CpuFill8(&gStruct217D384->mStep, 0, 0x60);
@@ -167,7 +167,7 @@ s32 UpdateWiFiSessionStep(void) {
             break;
         case 6:
             UpdateWiFiSessionStepTimeout(0x1c20);
-            toIndex = func_021216a8();
+            toIndex = GetSomeRacerIndex();
             if (toIndex < gStruct217D384->mStartKartCount) {
                 fromIndex = func_ov000_0219bb50();
                 ownIndex = func_ov000_0219bb50();
@@ -179,7 +179,7 @@ s32 UpdateWiFiSessionStep(void) {
                 ownRecord->mKartMask = gStruct217D384->mKartMask;
                 func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
             }
-            if (func_02121580() != FALSE) {
+            if (sub_2121580() != FALSE) {
                 gStruct217D384->mSendRecordMask = 0;
                 gStruct217D384->mReceivedMask = 0;
                 CombineKartRemoveMask();
@@ -189,7 +189,7 @@ s32 UpdateWiFiSessionStep(void) {
             break;
         case 7:
             UpdateWiFiSessionStepTimeout(0x1c20);
-            toIndex = func_021216a8();
+            toIndex = GetSomeRacerIndex();
             if (toIndex < gStruct217D384->mStartKartCount) {
                 fromIndex = func_ov000_0219bb50();
                 ownIndex = func_ov000_0219bb50();
@@ -201,7 +201,7 @@ s32 UpdateWiFiSessionStep(void) {
                 ownRecord->mKartMask = gStruct217D384->mKartMask;
                 func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
             }
-            if (func_02121580() != FALSE) {
+            if (sub_2121580() != FALSE) {
                 ownIndex = func_ov000_0219bb50();
                 if (gStruct217D384->mIndexMessages[ownIndex].mPickedCourseId != 0) {
                     gStruct217D384->mSendRecordMask = 0;
@@ -238,7 +238,7 @@ void AdvanceWiFiSessionStep0(void) {
     WiFiPlayerRecord *ownPlayerRecord;
     WiFiSessionMessageHeader header;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         toBit = 1 << toIndex;
         if ((gStruct217D384->mSendRecordMask & toBit) != 0) {
@@ -262,7 +262,7 @@ void AdvanceWiFiSessionStep0(void) {
             func_ov000_021a32a0(toIndex, &header, 0xc);
         }
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     gStruct217D384->mSendRecordMask = 0;
@@ -283,7 +283,7 @@ void AdvanceWiFiSessionStep1(void) {
     RandomState64 *generator;
     WiFiSessionMessageHeader header;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         toBit = 1 << toIndex;
         if ((gStruct217D384->mSendRecordMask & toBit) != 0) {
@@ -307,7 +307,7 @@ void AdvanceWiFiSessionStep1(void) {
             func_ov000_021a32a0(toIndex, &header, 0xc);
         }
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     session = gStruct217D384;
@@ -339,7 +339,7 @@ void AdvanceWiFiSessionStep3(void) {
         gStruct217D384->mStep = 11;
         return;
     }
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         fromIndex = func_ov000_0219bb50();
         ownIndex = func_ov000_0219bb50();
@@ -351,7 +351,7 @@ void AdvanceWiFiSessionStep3(void) {
         ownRecord->mKartMask = gStruct217D384->mKartMask;
         func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     ownIndex = func_ov000_0219bb50();
@@ -371,7 +371,7 @@ void AdvanceWiFiSessionStep4(void) {
     Unk0217d384_1d00 *ownRecord;
     StateMachine *stateMachine;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         fromIndex = func_ov000_0219bb50();
         ownIndex = func_ov000_0219bb50();
@@ -383,7 +383,7 @@ void AdvanceWiFiSessionStep4(void) {
         ownRecord->mKartMask = gStruct217D384->mKartMask;
         func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     if (gStruct217D384->mKartCount == 1) {
@@ -409,7 +409,7 @@ void AdvanceWiFiSessionStep5(void) {
     u8 ownIndex;
     Unk0217d384_1d00 *ownRecord;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         fromIndex = func_ov000_0219bb50();
         ownIndex = func_ov000_0219bb50();
@@ -421,7 +421,7 @@ void AdvanceWiFiSessionStep5(void) {
         ownRecord->mKartMask = gStruct217D384->mKartMask;
         func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     ownIndex = func_ov000_0219bb50();
@@ -445,7 +445,7 @@ void AdvanceWiFiSessionStep8(void) {
     u8 i;
     Unk0217d384_1d00 *ownRecord;
     UpdateWiFiSessionStepTimeout(0x1c20);
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         fromIndex = func_ov000_0219bb50();
         ownIndex = func_ov000_0219bb50();
@@ -457,7 +457,7 @@ void AdvanceWiFiSessionStep8(void) {
         ownRecord->mKartMask = gStruct217D384->mKartMask;
         func_ov000_021a32a0(toIndex, &gStruct217D384->mIndexMessages[func_ov000_0219bb50()], 0x44);
     }
-    if (func_02121580() == FALSE) {
+    if (sub_2121580() == FALSE) {
         return;
     }
     gStruct217D384->mSendRecordMask = 0;
@@ -482,7 +482,7 @@ void AdvanceWiFiSessionStep9(void) {
     u8 ownIndex;
     u8 i;
     Unk0217d384_1d00 *ownRecord;
-    toIndex = func_021216a8();
+    toIndex = GetSomeRacerIndex();
     if (toIndex < gStruct217D384->mStartKartCount) {
         fromIndex = func_ov000_0219bb50();
         ownIndex = func_ov000_0219bb50();

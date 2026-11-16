@@ -28,7 +28,7 @@ typedef struct CourseModels {
     /* f0 */ u16 mSavedVFogEnableFlags;
 } CourseModels;
 
-// What func_020636f8 writes from 0x08 of the Unk0217aa14_754_04 it points to.
+// What sub_20636F8 writes from 0x08 of the Unk0217aa14_754_04 it points to.
 typedef struct Unk020636f8_B {
     /* 00 */ s16 field0;
     /* 02 */ s16 field2;
@@ -74,8 +74,8 @@ void crsmdl_renderSky(void);
 void crsmdl_renderCourse(void);
 void crsmdl_update(void);
 void crsmdl_init(void *heap);
-void func_020636f8(Kart *kart);
-void func_020637c4(Kart *kart);
-void func_020637e0(Kart *kart);
-void func_02063830(Kart *kart);
-void func_02063880(Kart *kart);
+void sub_20636F8(Kart *kart);
+void MQ_FnPtr4_Net_3(Kart *kart);
+void MQ_FnPtr3_Net_3(Kart *kart);
+void MQ_FnPtr3_Net_Not3(Kart *kart);
+void MQ_FnPtr4_Net_Not3(Kart *kart);

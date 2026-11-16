@@ -69,7 +69,7 @@ void func_02058f7c(void) {
 }
 
 void func_02058f58(void) {
-    if (func_0210e524() == 0) {
+    if (sub_210E524() == 0) {
         gStruct217AA00->field164F = 1;
     }
 }

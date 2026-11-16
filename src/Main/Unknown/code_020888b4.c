@@ -244,7 +244,7 @@ void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
 void mgen_update(KartAi *kartAi) {
     mgen_updateBalloonInflationState(kartAi);
     if (kartAi->fieldC4 == FALSE) {
-        func_0207e668(kartAi);
+        sub_207E668(kartAi);
     }
     mgen_updateDriving(kartAi);
     if (gRaceMultiConfig->mBattleKind == BATTLE_KIND_BALLOON) {
@@ -434,7 +434,7 @@ void mgen_updateTargetDriver(KartAi *kartAi) {
         (kartAi->mKart->field4C & 0x40) == 0) {
         goto clear;
     }
-    if (func_0207f600(kartAi->mTargetKart->mIndex) == FALSE) {
+    if (GetSomeMQRacerAnotherFlags(kartAi->mTargetKart->mIndex) == FALSE) {
         goto clear;
     }
     kart = kartAi->mKart;

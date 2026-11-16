@@ -94,7 +94,7 @@ void func_ov001_02183f0c(Unk02188950 *donketu) {
 
         soundRequest.mPositionSource = &donketu->field0.mPos;
         soundRequest.mDistanceSquared = mobj_calcXZCamDist(&donketu->field0.mPos);
-        func_0210b734(&soundRequest, func_02108e7c());
+        sub_210B734(&soundRequest, func_02108e7c());
     }
     donketu->field0.mFlags |= data_ov001_021a6578;
 }

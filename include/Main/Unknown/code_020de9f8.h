@@ -13,4 +13,4 @@ typedef struct Unk020dea50_1 {
 } Unk020dea50_1;
 
 u8 ibox_onDriverCollide(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d);
-u32 func_020de9f8(ItemBox *itemBox);
+u32 sub_20DE9F8(ItemBox *itemBox);

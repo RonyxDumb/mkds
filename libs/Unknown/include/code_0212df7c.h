@@ -17,7 +17,7 @@ typedef enum NNSSndArcLoadResult {
     NNS_SND_ARC_LOAD_ERROR_FAILED_LOAD_WAVE
 } NNSSndArcLoadResult;
 
-extern u8 data_0217dec8[0x3c];
+extern u8 g_SomeSwarHeader[0x3c];
 
 void WaveArcTableDisposeCallback(void *mem, u32 size, void *data1, u32 data2);
 void WaveArcDisposeCallback(void *mem, u32 size, void *data1, u32 data2);

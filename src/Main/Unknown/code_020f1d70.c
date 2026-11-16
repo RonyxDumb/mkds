@@ -76,7 +76,7 @@ void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit,
     object->field164 = 4;
 }
 
-void func_020f2a6c(Vec3 *direction, Vec3 *normal, Vec3 *result) {
+void sub_20F2A6C(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     s32 n;
 
     n = normal->y * normal->y;
@@ -99,7 +99,7 @@ void func_020f2a6c(Vec3 *direction, Vec3 *normal, Vec3 *result) {
     }
 }
 
-void func_020f29e8(ItemKouraR *item) {
+void sub_20F29E8(ItemKouraR *item) {
     DirectedItemObject *object;
     Vec3 *normal;
     s32 speed;
@@ -114,12 +114,12 @@ void func_020f29e8(ItemKouraR *item) {
         speed = vec_normalize(&object->field0.mVelocity, &object->mDirection);
     }
     object->mSpeed = speed;
-    func_020f2a6c(&object->mDirection, normal, &object->mSurfaceDirection);
+    sub_20F2A6C(&object->mDirection, normal, &object->mSurfaceDirection);
     vec_crossProduct(&object->mSurfaceDirection, normal, &object->mSideDirection);
     object->field0.mBounce = (void (*)(ItemObject *, Vec3 *, Vec3 *)) DeflectItemObjectOnHit;
 }
 
-void func_020f288c(DirectedItemObject *object, Vec3 *hitNormal) {
+void sub_20F288C(DirectedItemObject *object, Vec3 *hitNormal) {
     Vec3 along;
     Vec3 *velocityDirection;
     Vec3 *flatDirection;
@@ -230,7 +230,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
                     }
                     *direction = object->mSurfaceDirection;
                 } else {
-                    func_020f2a6c(direction, &hitNormal, &object->mSurfaceDirection);
+                    sub_20F2A6C(direction, &hitNormal, &object->mSurfaceDirection);
                 }
                 vec_crossProduct(&object->mSurfaceDirection, &hitNormal, &object->mSideDirection);
             }
@@ -242,7 +242,7 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             }
             if (flag80000 != 0) {
                 VEC_Subtract(&v3, &object->field0.mNormal, &v3);
-                func_020f288c(object, &v3);
+                sub_20F288C(object, &v3);
             } else {
                 v3.y = 0;
                 DeflectItemObjectAndStartSound(object, &v3, NULL);
@@ -270,11 +270,11 @@ void AdvanceItemObjectMotion(DirectedItemObject *object, s32 targetSpeed) {
             velocity->x = ((s64) velocity->x * 0x23d) >> 12;
             velocity->y = ((s64) velocity->y * 0x23d) >> 12;
             velocity->z = ((s64) velocity->z * 0x23d) >> 12;
-            func_020f6fc4(object, 1);
+            sub_20F6FC4(object, 1);
             return;
         }
         if ((object->field0.mCollisionBits & 0x8000) && object->field0.mKind != 5) {
-            func_020f7070(object, 1);
+            sub_20F7070(object, 1);
             return;
         }
     }
@@ -340,7 +340,7 @@ void ApplyItemObjectGravity(void *objectParam) {
     }
 }
 
-void func_020f2028(ItemObject *object) {
+void sub_20F2028(ItemObject *object) {
     Vec3 *velocity;
     Vec3 normalPart;
     s32 verticalSpeed;

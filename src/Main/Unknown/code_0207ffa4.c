@@ -101,7 +101,7 @@ void rptc_stopSlipstreamEffectDirect(Kart *kart) {
     rptc_sDriverSlipstreamEmitters[kart->mIndex] = NULL;
 }
 
-void func_02080e88(Unk0201ca6c *effect, Kart *kart) {
+void sub_2080E88(Unk0201ca6c *effect, Kart *kart) {
     effect->field6C = (s16) kart->mScale.z;
 }
 

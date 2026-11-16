@@ -4,7 +4,7 @@
 #include "code_02004dc0.h"
 #include "Main/Unknown/unk_0217e000.h"
 
-void func_02142590(void) {
+void sub_2142590(void) {
     SwiCall24();
 }
 

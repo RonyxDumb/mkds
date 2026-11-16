@@ -15,7 +15,7 @@ void epoi_2080CD0(LinkCursor *linkCursor, PointLink *pointLink);
 void epoi_2080D34(Unk02080d34 *racePointLinkCursor, u16 kartIndex);
 BOOL mepo_2080DBC(LinkCursor *linkCursor, Vec3 *position);
 BOOL mepo_isPointInMepo(LinkCursor *linkCursor, Vec3 *position);
-void func_02080e88(Unk0201ca6c *effect, Kart *kart);
+void sub_2080E88(Unk0201ca6c *effect, Kart *kart);
 void rptc_stopSlipstreamEffectDirect(Kart *kart);
 void rptc_stopSlipstreamEffect(Kart *kart);
 void rptc_startSlipstreamEffect(Kart *kart);

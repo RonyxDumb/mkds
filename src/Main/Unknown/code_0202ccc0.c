@@ -476,7 +476,7 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 9:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 LEDBlink_Wireless();
                 gStruct217B488->field8 = 5;
                 if (advanceArg != NULL) {
@@ -486,14 +486,14 @@ s32 gsend_render(Unk0202cdf4 *advanceArg) {
             }
             break;
         case 10:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 LEDBlink_Wireless();
                 func_0202d5f8(0xc, 1);
                 sGhostSendState->mState = 0xd;
             }
             break;
         case 11:
-            if (func_02054f58() == 1) {
+            if (sub_2054F58() == 1) {
                 LEDBlink_Wireless();
                 func_0202d674();
                 sGhostSendState->mState = 3;

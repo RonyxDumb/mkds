@@ -27,4 +27,4 @@ extern ItemSlotRowRemap gItemSlotRowRemaps[];
 void func_020f80c0(ItemSlotTable *table, s32 kartCount);
 void LoadItemSlotList(void);
 u8 GetItemObjectHitType(ItemObject *itemParam, ItemObject *otherParam);
-void func_020f7c90(ItemObject *item, Vec3 *otherPos, Vec3 *normal);
+void sub_20F7C90(ItemObject *item, Vec3 *otherPos, Vec3 *normal);

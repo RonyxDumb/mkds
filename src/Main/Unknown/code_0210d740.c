@@ -30,7 +30,7 @@ u32 sound_getFadeFrameCount(void) {
     return sFadeFrameCount;
 }
 
-void func_0210d894(void *heapMemory, u32 heapSize, const u8 *filePath) {
+void Sound_InitializeWithData(void *heapMemory, u32 heapSize, const u8 *filePath) {
     NNS_SndInit();
     gSndHeapHandle = NNS_SndHeapCreate(heapMemory, heapSize);
     sOutputEffectBuffer = NNS_SndHeapAlloc(gSndHeapHandle, 0x1020, outputEffectBufferDisposeCallback, NULL, 0);
@@ -64,14 +64,14 @@ void sound_startSeq(u32 seqNo, u32 volume, NNSSndSeqPlayer **handle) {
     NNS_SndPlayerSetVolume(handle, volume);
 }
 
-void func_0210d7ac(void) {
+void sub_210D7AC(void) {
     if (data_0217d070.field0 != 0) {
-        func_0210d73c(&data_0217d070);
+        nullsub_15(&data_0217d070);
     }
     NNS_SndMain();
 }
 
-void func_0210d740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
+void sub_210D740(ScenePlayers *scenePlayers, SceneSoundState *sceneSoundState, u32 c, Unk021073ec d) {
     SetupSoundMode(&SoundHandle_217D084, scenePlayers, 0);
     *(Unk021073ec *) &scenePlayers->field9 = d;
     scenePlayers->field4 = sceneSoundState;

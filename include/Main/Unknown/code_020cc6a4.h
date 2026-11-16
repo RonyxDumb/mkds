@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-u32 func_020cc6a4(u32 entryIndex);
+u32 sub_20CC6A4(u32 entryIndex);
 u32 GetCurrentTeamIndex(u32 entryIndex);

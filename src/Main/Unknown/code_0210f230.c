@@ -91,7 +91,7 @@ void sfx_handleSoundTrigger(s32 a) {
             };
             break;
         case 4:
-            func_02108e38();
+            sub_2108E38();
             break;
     }
     if (tableValue < 0xfff) {

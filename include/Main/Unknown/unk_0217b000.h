@@ -96,7 +96,7 @@ typedef struct Unk0217b490_02_03 {
     /* 18 */ u16 field18[2];
 } Unk0217b490_02_03;
 
-// The halfwords from 0x02 of Unk0217b490 as UpdateRaceHudSubScreenBgPalette and func_020cfca4 index them for the values
+// The halfwords from 0x02 of Unk0217b490 as UpdateRaceHudSubScreenBgPalette and sub_20CFCA4 index them for the values
 // of gRaceMultiConfig->field0: a run of 0x15 (0x1c, 0x1f, 0x2e), nine rows of three (0xf), five rows of four (0x11) and
 // Unk0217b490_02_03 (0x20).
 typedef union Unk0217b490_02 {
@@ -106,7 +106,7 @@ typedef union Unk0217b490_02 {
     Unk0217b490_02_03 field3;
 } Unk0217b490_02;
 
-// Object behind data_0217b490, 0x38 bytes (allocated by func_020cffa0).
+// Object behind data_0217b490, 0x38 bytes (allocated by SomeAlloc).
 typedef struct Unk0217b490 {
     /* 00 */ u16 field0;
     /* 02 */ Unk0217b490_02 field2;
@@ -419,7 +419,7 @@ typedef struct KeyboardKeyRepeat {
     /* 0a */ u16 mRepeatKeys;
 } KeyboardKeyRepeat;
 
-// Object at gKeyboardKeys, 0x54 bytes. data_0217b280, data_0217b294, data_0217b2ac and data_0217b2b8 are the
+// Object at gKeyboardKeys, 0x54 bytes. g_Global78Sub_1, data_0217b294, data_0217b2ac and data_0217b2b8 are the
 // addresses of its members at 0x08, 0x1c, 0x34 and 0x40.
 typedef struct KeyboardKeys {
     /* 00 */ KeyboardRect mButton0Rect;
@@ -443,7 +443,7 @@ typedef struct KeyboardKeys {
 
 extern KeyboardKeys gKeyboardKeys;
 extern KeyboardKeyRepeat gKeyboardKeyRepeat;
-extern u8 data_0217b280[];
+extern u8 g_Global78Sub_1[];
 extern u16 data_0217b2b8[2];
 extern KeyboardLayout data_0217b294;
 extern RepeatCounter data_0217b2ac;
@@ -569,12 +569,12 @@ typedef struct Unk0217b350_858 {
 } Unk0217b350_858;
 
 // On-screen display of the race, one record behind r2d_sStatus (0x914 bytes, allocated by r2d_init on the scene heap,
-// set NULL by the release slot func_020af86c, never freed). It holds the two 0x400-byte sprite entry buffers the
+// set NULL by the release slot sub_20AF86C, never freed). It holds the two 0x400-byte sprite entry buffers the
 // element draws append to (field4 for the NitroMain screen, mSubOam for the sub screen, copied to 0x07000000 /
 // 0x07000400), the loaded graphics, the sub-screen page (mSubScreenState) and the goal-background delay; the elements
 // themselves (time digits, number pair, goal page, new-record page) are separate objects. It does not exist in kinds 3,
 // 5 and 6 of gRaceMultiConfig->fieldC (the scene slots run RaceStartGp / EndingStaffRoll there).
-// Words from 0x828 to 0x910 are read and written by func_020aeb7c. The pointers at 0x80c to 0x824 are written through
+// Words from 0x828 to 0x910 are read and written by sub_20AEB7C. The pointers at 0x80c to 0x824 are written through
 // g2du_unpackPaletteData, g2du_unpackCharacterDataBG and g2du_unpackScreenData.
 typedef struct RaceHud {
     // Calls of the step race_update2d that ran its body (not in kinds 3, 5, 6, not before mEnabled); wraps to 0 at
@@ -591,7 +591,7 @@ typedef struct RaceHud {
     /* 814 */ struct Ncgr *mNcgrs[2];
     /* 81c */ struct Nscr *mNscrs[3];
     // Page of the sub screen (reg_GXS_DB_* / reg_G2S_DB_* = sub engine), 0..6, switched on by the step, the draw and
-    // the upload slot; assigned by func_020aeb7c (per mode and race state), RequestRaceHudSubScreenState5 (5,
+    // the upload slot; assigned by sub_20AEB7C (per mode and race state), RequestRaceHudSubScreenState5 (5,
     // RaceGoalS) and RequestRaceHudSubScreenState6 (6, RaceNewRecordTa). 4 and 5 run the RaceGoalS page, 6 the
     // new-record page; what 0 and 1..3 show is not named (the player switches 0 and 1 with sounds 0x18 / 0x17).
     /* 828 */ s32 mSubScreenState;
@@ -610,21 +610,21 @@ typedef struct RaceHud {
     /* 850 */ s32 field850;
     /* 854 */ s32 mSubScreenCourseScale;
     /* 858 */ Unk0217b350_858 field858[2];
-    // FALSE from r2d_init until the scene's screen set-up func_020af99c ends and sets it TRUE (never cleared
+    // FALSE from r2d_init until the scene's screen set-up sub_20AF99C ends and sets it TRUE (never cleared
     // again); the step, the draw, the page choice and the upload slot return at once while FALSE.
     /* 898 */ BOOL mEnabled;
     /* 89c */ s32 mKartRemoved[8];
     /* 8bc */ s32 mRemovedSoundPlayed[8];
     /* 8dc */ s32 mShowLapTime;
     /* 8e0 */ s32 mShowLapTimeFrames;
-    // Set once in r2d_init: 1 only in mode 1 with more than one kart; gates func_020b1a34 (the computation) and
+    // Set once in r2d_init: 1 only in mode 1 with more than one kart; gates sub_20B1A34 (the computation) and
     // the draw of the time difference.
     /* 8e4 */ s32 mUseTimeDifference;
     // ComputeTimeDifference's return: non-zero when the entry's summed lap times (rstat_getDriverLapTime) are >= the summed
     // reference times (gRaceMultiConfig->mGhostLapTimes); the draw picks one of two sprites by it. Which sprite is plus or
     // minus is not named.
     /* 8e8 */ s32 mTimeDifferenceSign;
-    // The difference as seven digits (SplitTimeDigits), written by func_020b1a34, read through GetRaceHudTimeDifference
+    // The difference as seven digits (SplitTimeDigits), written by sub_20B1A34, read through GetRaceHudTimeDifference
     // by the draw.
     /* 8ec */ TimeDigits mTimeDifferenceDigits;
     // 1 once the per-frame step has run.
@@ -1092,7 +1092,7 @@ extern s16 *data_0217b8a0;
 extern s16 *data_0217b8e0;
 extern s16 *data_0217b904;
 extern s32 gJgTableIndex;
-extern u32 data_0217bb04[];
+extern u32 g_LapFinalMapObjectSub[];
 extern Vec3 data_0217b96c;
 extern s32 data_0217b8d0;
 extern s32 data_0217b898;

@@ -63,7 +63,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     PointLink *requestedLink;
 
     if (gRaceMultiConfig->mMode == MODE_MISSION_RUN) {
-        func_0207e668(kartAi);
+        sub_207E668(kartAi);
     }
     linkCursor = &kartAi->field8.mLinkCursor;
     kart = kartAi->mKart;
@@ -74,7 +74,7 @@ void AdvanceAwardMissionRunKartAi(struct KartAi *kartAi) {
     }
     requestedLink = linkCursor->mRequestedLink;
     driver_getPosition(&kartPos, kartAi->mIndex);
-    func_0207f6f0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
+    sub_207F6F0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, PAD_KEY_A);
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
@@ -110,7 +110,7 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
     }
     requestedLink = linkCursor->mRequestedLink;
     driver_getPosition(&kartPos, kartAi->mIndex);
-    func_0207f6f0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
+    sub_207F6F0(kartAi, linkCursor, kart, requestedLink, &kartPos, kartForward);
     if (kart->mState == KART_STATE_NORMAL) {
         input_pressVirtualPadKeys(kartAi->mKart->mEntryIndex, PAD_KEY_A);
         VEC_Subtract(&kartAi->mLinkPosWithSideOffset, &kartPos, &toLinkPos);
@@ -122,7 +122,7 @@ void AdvanceStaffRollKartAi(struct KartAi *kartAi) {
 void InitKartAiTables(void) {
     s32 cpuAndGhostKartCount;
 
-    switch (func_020853dc()) {
+    switch (sub_20853DC()) {
         case 0:
             gKartAiRaceStartBoostRandomLimits = data_02155630;
             data_0217ae4c = data_0215569c;
@@ -256,7 +256,7 @@ void enrb_updateForRace(struct KartAiRaceSpeedLimit *raceSpeedLimit, struct Kart
             raceSpeedLimit->mRank = GetKartRankAmongKind1(kartAi->mIndex);
         }
         raceSpeedLimit->mSpeedLimitAddition = GetKartAiParamRow()->field0;
-        if (func_02085390() != 0) {
+        if (sub_2085390() != 0) {
             raceSpeedLimit->mSpeedLimitAddition = raceSpeedLimit->mSpeedLimitAddition >> 1;
         }
         kart = kartAi->mKart;
@@ -365,9 +365,9 @@ void enrb_updateRubberBanding(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
     }
     v = t[n - 1];
     k[2] = ((s64) v * kartAiParamRow->field4) >> 12;
-    if (func_02085390() != 0) {
+    if (sub_2085390() != 0) {
         n = kartAiParamRow->field4;
-        d = func_02085434();
+        d = sub_2085434();
         if (d >= 0) {
             e = GetKartRaceProgressScaled(kartAi->mIndex);
             e -= GetKartRaceProgressScaled((u16) d);
@@ -387,7 +387,7 @@ void enrb_updateRubberBanding(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
         raceSpeedLimit->mSpeedLimitReduced = 1;
     } else if (n == e) {
         if (n == 1) {
-            d = func_020854a0((u16) n, data_021658f0);
+            d = sub_20854A0((u16) n, data_021658f0);
             if (d >= 0) {
                 g = GetKartRaceProgressScaled(kartIndex);
                 g -= GetKartRaceProgressScaled((u16) d);
@@ -401,19 +401,19 @@ void enrb_updateRubberBanding(struct KartAiRaceSpeedLimit *raceSpeedLimit, struc
             d = GetFirstKind1KartByRank();
             if (d >= 0) {
                 e = GetKartRaceProgressScaled((u16) d) - g;
-                e -= (s32) (((s64) k[2] * func_0208548c()) >> 12);
+                e -= (s32) (((s64) k[2] * sub_208548C()) >> 12);
                 if (e > 0) {
                     raceSpeedLimit->mSpeedLimitBeforeTurn =
                         raceSpeedLimit->mSpeedLimitBeforeTurn + (s32) (((s64) e * 0x3000) >> 12);
                 } else {
-                    d = func_02085458(n);
+                    d = sub_2085458(n);
                     if (d >= 0) {
                         Kart *otherKart = driver_getById(d);
                         s32 w = kartAiParamRow->field8;
 
                         if (otherKart->mAi->fieldE8.mSpeedLimit > (s32) (((s64) w * 0xcd0) >> 12)) {
                             e = GetKartRaceProgressScaled((u16) d) - g;
-                            if (e < (s32) (((s64) k[2] * func_0208548c()) >> 12)) {
+                            if (e < (s32) (((s64) k[2] * sub_208548C()) >> 12)) {
                                 raceSpeedLimit->mSpeedLimitBeforeTurn =
                                     ((s64) raceSpeedLimit->mSpeedLimitBeforeTurn * 0xfae) >> 12;
                                 raceSpeedLimit->mSpeedLimitReduced = 1;
@@ -444,12 +444,12 @@ u16 PickKartAiRaceStartBoost(s32 pickLast) {
     s32 choiceIndex;
     RandomState64 *kartAiRandom;
 
-    choices[0] = data_021658f8[0];
-    choices[1] = data_021658f8[1];
-    choices[2] = data_021658f8[2];
-    choices[3] = data_02165908[0];
-    choices[4] = data_02165908[1];
-    choices[5] = data_02165908[2];
+    choices[0] = g_CpuMode1SomeArray[0];
+    choices[1] = g_CpuMode1SomeArray[1];
+    choices[2] = g_CpuMode1SomeArray[2];
+    choices[3] = g_CpuMode2SomeArray[0];
+    choices[4] = g_CpuMode2SomeArray[1];
+    choices[5] = g_CpuMode2SomeArray[2];
     choices[6] = data_02165900[0];
     choices[7] = data_02165900[1];
     choices[8] = data_02165900[2];

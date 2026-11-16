@@ -7,7 +7,7 @@ typedef struct FSFileID FSFileID;
 typedef struct FSFile FSFile;
 typedef struct FSArchive FSArchive;
 
-// Two words read as a pair: data_0216f35c, data_0216f364 and the blocks FSi_InitRom and FS_LoadOverlayInfo read
+// Two words read as a pair: g_Overlay9, g_Overlay7 and the blocks FSi_InitRom and FS_LoadOverlayInfo read
 // at fixed addresses.
 typedef struct Unk02005704 {
     /* 00 */ u8 *field0;
@@ -41,15 +41,15 @@ typedef struct Unk02005210 {
     /* 08 */ void *field8;
 } Unk02005210;
 
-extern u32 data_0216f350;
-extern u32 data_0216f354;
-extern u32 data_0216f358;
-extern Unk02005704 data_0216f35c;
-extern Unk02005704 data_0216f364;
-extern FSArchive data_0216f36c;
-extern u8 data_02161764[];
-extern void *data_02161768;
-extern u32 data_0216176c;
+extern u32 g_Fs_Init;
+extern u32 g_CardLockId;
+extern u32 g_CardDmaChannel;
+extern Unk02005704 g_Overlay9;
+extern Unk02005704 g_Overlay7;
+extern FSArchive g_Fs_RomArchive;
+extern u8 g_str_rom[];
+extern void *g_SomeCompCode;
+extern u32 g_40;
 
 void FS_Init(u32 dmaNo);
 u32 FS_TryLoadTable(u32 mem, u32 size);

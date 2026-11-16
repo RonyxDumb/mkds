@@ -13,5 +13,5 @@ BOOL IsItemBombState2(ItemObject *object);
 void ReleaseItemBomb(void **bombSlot);
 void *itbomb_20FD428(void);
 void *itbomb_20FD338(void *mapObject, s32 param_2);
-Vec3 *func_020fd308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
+Vec3 *sub_20FD308(ItemBomb *bomb, s32 *stateFrames, s32 *scaledScaleZ);
 void itbomb_load(void);

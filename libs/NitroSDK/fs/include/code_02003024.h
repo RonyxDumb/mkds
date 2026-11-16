@@ -20,7 +20,7 @@ typedef struct FSFileID {
 } FSFileID;
 
 // 12 bytes at 0x20 and at 0x30 of FSFile (assigned as a whole by FSi_SeekDirCommand, FSi_FindPath and
-// FS_ChangeDir; data_0216f344). Different functions use the region with different types: an FSArchive pointer
+// FS_ChangeDir; g_CurrentDirectoryPosition). Different functions use the region with different types: an FSArchive pointer
 // (FSi_SeekDirDirect, FSi_ReadDirCommand, FSi_FindPath), an Unk02003670 pointer (FSi_FindPathCommand,
 // FSi_GetPathCommand), three words (FSi_OpenFileFastCommand, FS_OpenFileDirect), an FSFileID (FSi_FindPathCommand,
 // FS_OpenFileFast), a u8 pointer with two lengths (FSi_GetPathCommand) and a pointer with two signed words
@@ -81,7 +81,7 @@ typedef struct FSFile {
     /* 44 */ Unk02003024U *mResult;
 } FSFile;
 
-// 0x5c-byte object (FS_InitArchive clears 0x5c bytes; data_0216f36c) at mArc of FSFile. Links at mNext and mPrev
+// 0x5c-byte object (FS_InitArchive clears 0x5c bytes; g_Fs_RomArchive) at mArc of FSFile. Links at mNext and mPrev
 // (FS_RegisterArchiveName, FS_ReleaseArchiveName), flags at mFlag, the list of FSFile at mList; the addresses of
 // mSyncQ and mStatQ go to OS_WakeupThread and OS_SleepThread; mRead to mProc are called from FSi_TranslateCommand,
 // FSi_WriteFileCommand, FSi_ReadFileCommand, FSi_ReadTable, FSi_SendCommand and FSi_NextCommand.

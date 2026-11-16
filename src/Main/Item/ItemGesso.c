@@ -61,7 +61,7 @@ void itgsso_210298C(ItemGesso *p) {
                 continue;
             }
             driver_startGessoInk(kartAtIndex, p->mOrthoQuadCounts[i]);
-            func_020f8e3c((u32) kartAtIndex, 0xf0);
+            sub_20F8E3C((u32) kartAtIndex, 0xf0);
         }
     }
     if (p->field160 != FALSE) {
@@ -76,7 +76,7 @@ void itgsso_210298C(ItemGesso *p) {
             p->mStepIndex = 0xd;
             itgsso_210300C(p);
             if (p->mVisible != FALSE) {
-                func_020f8e3c((u32) kart, 0xf3);
+                sub_20F8E3C((u32) kart, 0xf3);
             }
         }
     }
@@ -201,11 +201,11 @@ void itgsso_2102764(void *data, ItemGesso *gesso, void *toData) {
     if (toData == NULL) {
         return;
     }
-    func_020fe8ac(gesso->field0.mKind);
+    sub_20FE8AC(gesso->field0.mKind);
 }
 
 void itgsso_2102744(ItemGesso *gesso) {
-    func_020f8e78(gesso);
+    sub_20F8E78(gesso);
     itgsso_2102EB8((u32) gesso, 1);
 }
 

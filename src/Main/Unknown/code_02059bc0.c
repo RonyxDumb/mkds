@@ -35,7 +35,7 @@ static inline void func_0205a140_inline(s32 entryIndex, s32 overlayId, u32 start
     }
 }
 
-void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
+void sub_205A4B0(Unk0217aa14_104_68 *a, s32 b) {
     s32 t;
 
     a->fieldE = 0;
@@ -46,39 +46,39 @@ void func_0205a4b0(Unk0217aa14_104_68 *a, s32 b) {
     a->field4 = 0x13;
 }
 
-void func_0205a350(void) {
+void sub_205A350(void) {
     u8 i;
     Unk0217aa14_104_68 *p;
     s32 d;
     Unk0217aa14_104_20 *h;
 
     for (i = 0; i < 4; i++) {
-        if (func_0205a50c(i) != 0) {
+        if (sub_205A50C(i) != 0) {
             p = &gStruct217AA14->field104[i].mUnk_68_view;
-            h = func_0205a4e8(i, i);
+            h = sub_205A4E8(i, i);
             switch (p->fieldC) {
                 case 0:
                     if (h->field0_12 == 2) {
-                        func_0205a71c(i);
-                        func_0205a4b0(p, h->field0_7);
+                        sub_205A71C(i);
+                        sub_205A4B0(p, h->field0_7);
                     }
                     break;
                 case 2:
                     d = p->field8 - gStruct217AA14->field728;
                     if ((s32) p->fieldE < 100) {
-                        func_0205a7dc(i, d, p->field0, 2);
+                        sub_205A7DC(i, d, p->field0, 2);
                         p->fieldE = p->fieldE + 1;
                     } else if (d > 20) {
-                        func_0205a7dc(i, d, p->field0, 2);
+                        sub_205A7DC(i, d, p->field0, 2);
                     } else {
-                        func_0205a7ac(i);
+                        sub_205A7AC(i);
                         if (d <= 0) {
                             p->fieldC = 3;
                         }
                     }
                     break;
                 case 3:
-                    func_0205a534(p);
+                    sub_205A534(p);
                     break;
                 case 4:
                     if (h->field0_12 != 2) {
@@ -90,7 +90,7 @@ void func_0205a350(void) {
     }
 }
 
-s32 func_0205a310(s32 a) {
+s32 sub_205A310(s32 a) {
     BOOL r;
     Unk0217aa14_104 *e;
 
@@ -102,7 +102,7 @@ s32 func_0205a310(s32 a) {
     return r;
 }
 
-s32 func_0205a2ac(s32 a) {
+s32 sub_205A2AC(s32 a) {
     s32 r;
     BOOL f;
 

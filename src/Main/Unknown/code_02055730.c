@@ -304,7 +304,7 @@ void dce_fadeOutToBlack(u32 frameCount) {
 
 BOOL dce_2055B1C(void) {
     if (func_02055b1c_inline()) {
-        if (func_0204ffbc() != 0) {
+        if (sub_204FFBC() != 0) {
             return (gStruct217AA00->mUnk_15bc_view.fieldC->field6_0 & 4) != 0;
         }
         return FALSE;
@@ -330,7 +330,7 @@ s32 record_run(SceneNumbers *sceneNumbers) {
     return 0;
 }
 
-void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
+void sub_20559EC(const void *entryName, s32 entryIndex, s32 keepMask) {
     u8 keptBits;
 
     keptBits = gStruct217AA00->field43D & keepMask;
@@ -338,7 +338,7 @@ void func_020559ec(const void *entryName, s32 entryIndex, s32 keepMask) {
     gStruct217AA00->field43D = keptBits | (1 << entryIndex);
 }
 
-s32 func_02055808(s32 a) {
+s32 sub_2055808(s32 a) {
     BOOL result;
 
     result = FALSE;
@@ -372,7 +372,7 @@ s32 func_02055808(s32 a) {
             MeasureChannel(0);
             break;
         case 4:
-            func_0204f814();
+            sub_204F814();
             FillParentParameter(1);
             SetParentParameter();
             break;
@@ -389,7 +389,7 @@ s32 func_02055808(s32 a) {
             gStruct217AA00->field8B &= ~8;
             break;
         default:
-            func_020533a0();
+            sub_20533A0();
             break;
     }
     return result;
@@ -400,12 +400,12 @@ s32 func_0205579c(s32 a, s32 b) {
         if (b != 0) {
             return func_0204e1a8(a);
         }
-        return func_02055808(a);
+        return sub_2055808(a);
     }
     if (((Unk027ffc40 *) 0x027ffc40)->field0 == 2) {
         return func_0204e1a8(a);
     }
-    return func_02055808(a);
+    return sub_2055808(a);
 }
 
 s32 func_02055730(u16 a) {

@@ -93,7 +93,7 @@ void water_update(Water *water) {
                     highSoundRequest.mPositionSource = NULL;
                     highSoundRequest.field8 = 4;
                     highSoundRequest.mDistanceSquared = mobj_calcXZCamDist(NULL);
-                    func_0210b760(&highSoundRequest, soundHandleSlot);
+                    sub_210B760(&highSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mHighHoldFrameCount >> 1)) {
                 water->field3E = water->field3E + 1;
@@ -124,7 +124,7 @@ void water_update(Water *water) {
                     lowSoundRequest.mPositionSource = NULL;
                     lowSoundRequest.field8 = 4;
                     lowSoundRequest.mDistanceSquared = mobj_calcXZCamDist(NULL);
-                    func_0210b760(&lowSoundRequest, soundHandleSlot);
+                    sub_210B760(&lowSoundRequest, soundHandleSlot);
                 }
             } else if (water->mHoldFrames > (water->mLowHoldFrameCount >> 1)) {
                 water->field3E = water->field3E + 1;

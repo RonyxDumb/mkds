@@ -20,19 +20,19 @@ s32 func_0204dd24(u16 a) {
 
     switch (g->fieldC) {
         case 29:
-            if (func_020501b0(a) == 0) {
-                func_02050e60(5);
+            if (sub_20501B0(a) == 0) {
+                sub_2050E60(5);
             }
             if (func_0204ff14(a, NULL) != 0) {
                 StartRequestEndScan();
             } else {
-                func_02050e60(5);
+                sub_2050E60(5);
             }
             break;
         case 10:
             g->field1692 = g->field1692 + 1;
             if (gStruct217AA00->field1692 > 0x4b0) {
-                func_02050e60(5);
+                sub_2050E60(5);
                 return 3;
             }
             break;
@@ -43,7 +43,7 @@ s32 func_0204dd24(u16 a) {
             s32 scanEntryIndex;
             g->field1692 = g->field1692 + 1;
             if (gStruct217AA00->field1692 > 0x4b0) {
-                func_02050e60(5);
+                sub_2050E60(5);
             } else {
                 scanEntryIndex = FindScanEntryIndex(a);
                 if (scanEntryIndex != -1) {
@@ -153,7 +153,7 @@ s32 func_0204dc8c(void) {
         result = TRUE;
     } else if (g->field1692 > 0x708) {
         if (childMask == 0) {
-            func_02050e60(5);
+            sub_2050E60(5);
         } else {
             gStruct217AA00->field1695 = CompactMaskBits(childMask);
             result = TRUE;
@@ -201,7 +201,7 @@ s32 func_0204db6c(void) {
             SetParentParameter();
             break;
         case 4:
-            func_0204f814();
+            sub_204F814();
             FillParentParameter(1);
             SetParentParameter();
             break;

@@ -47,7 +47,7 @@ void mobj_20D2600(s32 soundId, Vec3 *position, s32 falloffKind) {
     request.mPositionSource = position;
     request.field8 = falloffKind;
     request.mDistanceSquared = distanceSquared;
-    func_0210b7a8(&request);
+    sub_210B7A8(&request);
 }
 
 void mobj_setSizeY(MapObject *mapObject, s32 baseSize) {

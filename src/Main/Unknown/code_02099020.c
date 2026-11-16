@@ -65,7 +65,7 @@ void pknf_update(void *a, Unk0209905c *p) {
                     soundRequest.mPositionSource = &p->field0.mPos;
                     soundRequest.field8 = falloffIndex;
                     soundRequest.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
-                    func_0210b7a8(&soundRequest);
+                    sub_210B7A8(&soundRequest);
                 }
             }
             if (pw_update(&p->mFollower) != FALSE && p->mFollower.mForward == 0) {

@@ -12,7 +12,7 @@ void rstat_update(void);
 void rstat_loseMission(u16 kartIndex);
 // Mission run per-call step of the end of the selected entry: after a goal (flag 0x10) or a failure end (flag 0x20) it
 // counts RaceProgress.mFramesSinceFinish or mFramesSinceFailure and, past the wait, runs the closing calls
-// (func_020688a0, func_0207a828, mgcnt_forceEnd) and clears the flag; before the entry has ended it tests the mission
+// (StructMQRacerEntry_SomeFn_15, StructMQRacerEntry_SomeFn_21_ById, mgcnt_forceEnd) and clears the flag; before the entry has ended it tests the mission
 // end checks and ends the entry with rstat_finishMission, kind 2, 3 or 4.
 void rstat_handleMissionMode(void);
 BOOL rstat_shouldStoreMgResults(void);

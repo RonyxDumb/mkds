@@ -2,7 +2,7 @@
 #include "snd_interface.h"
 #include "snd_main.h"
 #include "snd_command.h"
-#include "code_0212b9ec.h"
+#include "sleep.h"
 #include "code_0212bcac.h"
 #include "code_0212c9d4.h"
 #include "sndarc_stream.h"
@@ -14,15 +14,15 @@
 PMSleepCallbackInfo data_0217d42c;
 PMSleepCallbackInfo data_0217d420;
 u32 data_0217d418;
-u32 data_0217d41c;
+u32 g_SoundInitialized;
 s8 data_0217d414;
 
 // Sets up the sound driver, the sleep callbacks and the resource, capture and player state once.
 void NNS_SndInit(void) {
-    if (data_0217d41c != 0) {
+    if (g_SoundInitialized != 0) {
         return;
     }
-    data_0217d41c = 1;
+    g_SoundInitialized = 1;
     SND_Init();
     data_0217d420.mCallback = BeginSleep;
     data_0217d420.mArg = 0;

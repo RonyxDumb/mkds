@@ -6,7 +6,7 @@
 #include "Main/Unknown/code_0210b000.h" // Unk0210b7a8
 #include "code_0212bcac.h"
 
-// 0x28-byte part at 0xa0 and 0xc8 of Unk020a826c: the four words at 0x00 go to func_0210b734 or func_0210b760 with
+// 0x28-byte part at 0xa0 and 0xc8 of Unk020a826c: the four words at 0x00 go to sub_210B734 or sub_210B760 with
 // the value at 0x1c, 0x0c holds mobj_calcXZCamDist's result for the vector at 0x10, 0x24 is set to 0, 1
 // or 2 (mobj0008_updateInstanceLogic); mobj0008_20A8ED8 writes the vector at 0x10 and the word at 0x20.
 typedef struct Unk020a826c_a0 {

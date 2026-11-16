@@ -21,5 +21,5 @@ u32 ReadKeyBitsFromStream(void);
 void WriteKeyBitsToStream(u32 keys);
 void SeekKeyStream(u32 count, u32 origin);
 void ReadKeysIntoInputSlot(void);
-void func_02039478(void);
-void func_020394cc(void);
+void InitializeGlobalG_2(void);
+void InitializeGlobalG_M1(void);

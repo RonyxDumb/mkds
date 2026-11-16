@@ -64,7 +64,7 @@ u8 sanbo_onDriverCollide(Sanbo *p, Kart *a, u8 *b, u8 *c) {
             s.mPositionSource = &p->field0.mPos;
             s.field8 = 2;
             s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
-            func_0210b7a8(&s);
+            sub_210B7A8(&s);
             p->mSoundTimer = 0x14;
         }
         p->mFastWobbleTimer = 0x3c;
@@ -87,7 +87,7 @@ u8 sanbo_onItemCollide(Sanbo *p, ItemObject *a, u8 *b, u8 *c) {
             s.mPositionSource = &p->field0.mPos;
             s.field8 = 2;
             s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
-            func_0210b7a8(&s);
+            sub_210B7A8(&s);
             p->mSoundTimer = 0x14;
         }
         p->mFastWobbleTimer = 0x3c;
@@ -345,7 +345,7 @@ void sanbo_update(void *a, Sanbo *p) {
             s.mPositionSource = &p->field0.mPos;
             s.field8 = 2;
             s.mDistanceSquared = mobj_calcXZCamDist(&p->field0.mPos);
-            func_0210b7a8(&s);
+            sub_210B7A8(&s);
             p->mSoundTimer = 0x14;
             break;
         case 2:

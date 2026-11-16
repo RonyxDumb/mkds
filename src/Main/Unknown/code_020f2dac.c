@@ -51,7 +51,7 @@ void UpdateHeldItem(HeldItem *rec) {
     if (gRaceMultiConfig->mMode == 5) {
         if (gRaceMultiConfig->mEntryIndex == rec->mKartItems->mKartIndex) {
             kind = (Unk020f40dc_Kind) rec->mItemInfoIndex;
-            func_020fe958(it_sItemConfigs[kind].mObjectKind);
+            sub_20FE958(it_sItemConfigs[kind].mObjectKind);
         }
     }
     rec->mObjectCount -= 1;
@@ -137,7 +137,7 @@ void it_destroySlotItem(HeldItem *rec, s32 keep) {
         objectCount = rec->mObjectCount;
         if (rec->field24 == FALSE) {
             for (i = 0; i < objectCount; i++) {
-                func_020fe828(poolIndex);
+                sub_20FE828(poolIndex);
             }
         }
     }
@@ -800,7 +800,7 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
             n = item->mBouncesRemaining;
             item->mBouncesRemaining = n - 1;
             if (n <= 0) {
-                func_020f9334(item, pos, velocity, gravity, &hitNormal);
+                sub_20F9334(item, pos, velocity, gravity, &hitNormal);
             } else {
                 item->mItemObject.mFlags |= 0x10;
                 n = VEC_DotProduct(&hitNormal, velocity);
@@ -820,13 +820,13 @@ void AdvanceBouncingItem(BouncingItemObject *item, s32 gravity, s32 velocityFact
         if (item->mItemObject.mCollisionBits & 0x214300) {
             item->mItemObject.mFlags |= 0x20;
             BounceItemVelocityOffSurface(velocity, &wallNormal);
-            if (func_020f9290(item, &wallNormal) != FALSE) {
+            if (sub_20F9290(item, &wallNormal) != FALSE) {
                 return;
             }
             item->mItemObject.field78 &= ~0x4000;
         }
         if (item->mItemObject.mCollisionBits & 0x8000) {
-            func_020f7070(item, 1);
+            sub_20F7070(item, 1);
             return;
         }
     }

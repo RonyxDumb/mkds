@@ -270,7 +270,7 @@ void tmon_update(void *a, TownMonte *townMonte) {
     s.mPositionSource = &townMonte->field0.mPos;
     s.field8 = t;
     s.mDistanceSquared = mobj_calcXZCamDist(&townMonte->field0.mPos);
-    func_0210b7a8(&s);
+    sub_210B7A8(&s);
 }
 
 void *tmon_setupRenderPart(void) {

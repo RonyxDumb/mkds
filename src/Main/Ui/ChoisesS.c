@@ -285,7 +285,7 @@ int rchoi_getActivatedOption(void) {
     int v1;
     int pickedValue;
     pickedValue = rchoi_sState->mPickedValue;
-    if ((pickedValue == 2) && (v1 = func_020c3db4(), v1 != 0)) {
+    if ((pickedValue == 2) && (v1 = sub_20C3DB4(), v1 != 0)) {
         pickedValue = 7;
     }
     return pickedValue;
@@ -341,7 +341,7 @@ u32 rchoi_getCurChoicesSetId(void) {
             }
             return 1;
         }
-        if (func_020c3db4() != 0) {
+        if (sub_20C3DB4() != 0) {
             return 2;
         }
         return 1;
@@ -409,8 +409,8 @@ u32 func_020b2bc8(void) {
 }
 
 u32 rchoi_isMenuAllowed(void) {
-    if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && func_020c5dc4() != 0 && func_020c3da0() == 0 &&
-        r2dtar_isSaving() == 0 && func_020c70a0() == 0 && GetShowLapTime() == 0 &&
+    if (IsRaceStartSequenceDone() != 0 && func_020b2bc8() != 0 && GetB3F0_Beb0() != 0 && sub_20C3DA0() == 0 &&
+        r2dtar_isSaving() == 0 && sub_20C70A0() == 0 && GetShowLapTime() == 0 &&
         (rchoi_getIsRacePaused() != 0 || dce_2055B1C() == FALSE)) {
         return 1;
     }
@@ -419,7 +419,7 @@ u32 rchoi_isMenuAllowed(void) {
 #pragma thumb off
 
 #pragma thumb off
-u32 func_020b2b5c(void) {
+u32 IsCurrentMissionNotBeaten(void) {
     return (gStruct217B488->field10);
 }
 
@@ -466,7 +466,7 @@ u32 rchoi_sub_20ACE14(s32 slotIndex) {
 }
 
 #pragma thumb off
-void func_020b2a60(u32 p0) {
+void SetB488_B6(u32 p0) {
     gStruct217B488->field14 = p0;
 }
 
@@ -531,7 +531,7 @@ void rchoi_update(void) {
     if (rchoi_sState->mPickFrames == 0 && rchoi_sState->mCloseFrames == 0 && rchoi_getIsExittingRace() == 0) {
         if (func_020b2bc8() != 0) {
             if (rchoi_isMenuAllowed() != 0) {
-                if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && func_020b2b5c() != 0 && func_020b2f58() != 0) {
+                if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && IsCurrentMissionNotBeaten() != 0 && func_020b2f58() != 0) {
                     if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0 || rchoi_sub_20ACE14(rchoi_input_getDefaultInputId()) != 0) {
                         rchoi_sState->mPickedValue = 10;
                         rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;
@@ -544,9 +544,9 @@ void rchoi_update(void) {
                         rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;
                         rchoi_sState->mPickLocked = 1;
                         rchoi_emitOptionActivationSound();
-                        func_020b2a60(1);
+                        SetB488_B6(1);
                     }
-                } else if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && func_020b2b5c() != 0) {
+                } else if (rchoi_race_getCurrentRaceMode() == MODE_MISSION_RUN && IsCurrentMissionNotBeaten() != 0) {
                     if (rchoi_input_isSetPadTrigById(rchoi_input_getDefaultInputId(), PAD_KEY_A) != 0 || rchoi_sub_20ACE14(rchoi_input_getDefaultInputId()) != 0) {
                         rchoi_sState->mPickedValue = 6;
                         rchoi_sState->mSelectedValue = rchoi_sState->mPickedValue;

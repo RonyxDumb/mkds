@@ -662,7 +662,7 @@ s32 col_collideSphereCylinder(Vec3 *sphereCenter, Vec3 *cylinderCenter, Vec3 *ax
     return 2;
 }
 
-void func_020eacc0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result) {
+void sub_20EACC0(Vec3 *direction, s32 blendFactor, Vec3 *target, Vec3 *result) {
     Vec3 scaled;
     s32 negatedDot;
     s32 blend;
@@ -753,7 +753,7 @@ void BounceVelocityOffSurface(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentSc
     VEC_Add(&normalPart, result, result);
 }
 
-void func_020ea94c(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
+void sub_20EA94C(Vec3 *velocity, Vec3 *surfaceNormal, s32 tangentScale, s32 bounceScale, s32 minNormalSpeed,
                    Vec3 *result) {
     Vec3 normal;
     s32 length;
@@ -806,7 +806,7 @@ void model2_renderShadowModel(ShadowModel *shadow, void *matrix, Vec3 *scale, u3
     }
 }
 
-void func_020ea84c(void) {
+void StructMLFnPtr2(void) {
     NNS_G3dGeBufferOP_N(0x29, &data_0217bbe8, 1);
 }
 
@@ -850,7 +850,7 @@ void DrawNsbmd1Mat1ShpWithMaxAlpha(Nsbmd *model, s32 maxAlpha) {
     data_0216c3d4 = -1;
 }
 
-void func_020ea670(Nsbmd *model, s32 maxAlpha) {
+void sub_20EA670(Nsbmd *model, s32 maxAlpha) {
     void *resMdl;
     u8 *modelData;
     s32 modelAlpha;
@@ -868,7 +868,7 @@ void func_020ea670(Nsbmd *model, s32 maxAlpha) {
         ((Unk020ea670_0c *) (modelData +
                              ((Unk020ea670_08 *) (modelData + ((Unk020ea670_0a *) modelData)->fieldA))->field8))
             ->fieldC;
-    NNS_G3dRenderObjSetCallBack((NNSG3dRenderObj *) model, (NNSG3dSbcCallBackFunc) func_020ea84c, 0, 4, 3);
+    NNS_G3dRenderObjSetCallBack((NNSG3dRenderObj *) model, (NNSG3dSbcCallBackFunc) StructMLFnPtr2, 0, 4, 3);
     model_render(model);
     savedAlpha = data_0216c3d4;
     if (maxAlpha < savedAlpha) {

@@ -181,12 +181,12 @@ void AdvanceWiFiVSSettingState0(void) {
             gWiFiVSSetting->mNextState = 1;
             CreateMainMessageBoxBig(jn_msg_getMessage(gWiFiVSSetting->mWiFiMessages, 0x1b), 0, 0, 1, 0, 0, 0);
             func_02122ab0();
-            func_0211fe44();
+            WriteSaveFriendCodes();
             return;
         }
         gWiFiVSSetting->mNextState = 2;
         func_ov000_02182de8();
-        func_0211fe44();
+        WriteSaveFriendCodes();
     }
 }
 
@@ -311,7 +311,7 @@ next:
         RequestTxtSystemClose();
         sfx_2105AC0(5);
         gStruct217B488->field54 = data_ov000_021b05ec[gWiFiVSSetting->mSettingIndex];
-        func_0211fe44();
+        WriteSaveFriendCodes();
     } else if (v4 == 1) {
         gWiFiVSSetting->mRow = 1;
         gWiFiVSSetting->mSettingIndex = gWiFiVSSetting->mSettingIndex + 1;

@@ -2,7 +2,7 @@
 #include "Main/Unknown/code_020364e0.h"
 #include "Main/System/Heap.h"
 
-void func_020e0650(u32 *slotPointer) {
+void sub_20E0650(u32 *slotPointer) {
     u32 value0 = (u32) slotPointer;
     u32 value1;
     u32 slot;

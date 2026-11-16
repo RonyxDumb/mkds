@@ -77,7 +77,7 @@ s32 func_021522a0(const u32 *date) {
         date[1] < 1 || date[1] > 12) {
         return -1;
     }
-    dayNum = date[2] - 1 + ((const u32 *) &data_0216f26c)[date[1]];
+    dayNum = date[2] - 1 + ((const u32 *) &g_YearDaysElapsedUntilMonth)[date[1]];
     if (date[1] >= 3 && IsMultipleOf4(date[0]) != 0) {
         dayNum++;
     }

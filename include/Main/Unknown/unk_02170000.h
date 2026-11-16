@@ -7,7 +7,7 @@
 
 typedef struct NNSG3dGlb NNSG3dGlb;
 
-extern OSThread data_0217002c;
+extern OSThread g_Os_LauncherThread;
 extern u32 isArenaInit;
 // Gate of arena index 2. Zero in this game: the only store writes 0.
 extern u32 OSi_MainExArenaEnabled;
@@ -15,7 +15,7 @@ extern UnkFunc *OSi_UserExceptionHandler;
 extern u32 OSi_UserExceptionHandlerArg;
 extern u8 OSi_ExContext[];
 extern UnkFunc *OSi_DebuggerHandler;
-extern u16 data_02170248;
+extern u16 g_ReservedTimerMask;
 // Halfword set to 1 by OS_InitTick.
 extern u16 OSi_UseTick;
 extern u32 OSi_NeedResetTimer;
@@ -25,10 +25,10 @@ extern volatile u64 OSi_TickCounter;
 extern u16 gAlarmInitialized;
 // Head and tail of the armed alarms, ordered by fire time; cleared by OS_InitAlarm.
 extern OSiAlarmQueue gAlarmList;
-extern u16 data_02170268;
-extern u32 data_0217026c;
-extern u32 data_02170270;
-extern u32 data_02170274[2];
+extern u16 g_VAlarmInitialized;
+extern u32 g_VAlarm_PrevVCount;
+extern u32 g_VAlarm_FrameCount;
+extern u32 g_VAlarmQueue[2];
 
 extern NNSG3dGlb NNS_G3dGlb;
 extern Unk02170500 *data_02170500;

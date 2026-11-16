@@ -5,7 +5,7 @@
 void OS_InitIrqTable(void) {
     OSThreadQueue *queue;
 
-    queue = &data_027e0000.field0;
+    queue = &g_DTCM.field0;
     queue->mTail = 0;
     queue->mHead = 0;
 }

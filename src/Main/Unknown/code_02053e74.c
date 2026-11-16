@@ -146,7 +146,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             MeasureChannel(0);
             break;
         case 4:
-            func_0204f814();
+            sub_204F814();
             FillGhostParentParameter(b);
             SetParentParameter();
             break;
@@ -180,7 +180,7 @@ s32 AdvanceConnectionSetup(s32 isParent, void *b) {
             finished = TRUE;
             break;
         default:
-            func_020533a0();
+            sub_20533A0();
             break;
     }
     return finished;
@@ -306,7 +306,7 @@ BOOL FinishDataSharingSync(void) {
     if (!(gStruct217AA00->field454 & 4)) {
         return TRUE;
     }
-    if (func_0204ffbc() != 0) {
+    if (sub_204FFBC() != 0) {
         return TRUE;
     }
     if (dataSharing->mSharedDataCopied[0] != 0) {
@@ -412,11 +412,11 @@ void InitConnectionBuffers(void *heap) {
     gStruct217AA00->mMPSendBuffer = 0;
     gStruct217AA00->mMPSendBufferSize = 0;
     gStruct217AA00->field456_0 = 1;
-    func_02053d00();
+    sub_2053D00();
 }
 
-void func_02054330(void) {
-    while (func_02054f58() != 1) {
+void sub_2054330(void) {
+    while (sub_2054F58() != 1) {
     }
     gStruct217AA00->field456_0 = 0;
 }
@@ -508,7 +508,7 @@ void ResetConnectionData(void) {
     ResetDataSharing(&gStruct217AA00->mUnk_15bc_view);
 }
 
-void func_02053e74(void) {
+void sub_2053E74(void) {
     Unk0217aa00_1e4c *q;
     ConnectionWork *connection;
     RandomState *random;

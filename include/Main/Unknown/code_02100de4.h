@@ -56,13 +56,13 @@ typedef struct Unk02101d18 {
     /* 10 */ Kart *field10;
 } Unk02101d18;
 
-s32 func_02101014(ItemTeresa *teresa);
+s32 sub_2101014(ItemTeresa *teresa);
 void EnterItemTeresaState2(ItemTeresa *teresa);
-s32 func_021014a0(ItemTeresa *teresa, s32 param_2, s32 param_3);
-BOOL func_02101618(ItemTeresa *teresa, s32 param_2, s32 param_3);
-void func_0210174c(ItemTeresa *teresa);
+s32 sub_21014A0(ItemTeresa *teresa, s32 param_2, s32 param_3);
+BOOL sub_2101618(ItemTeresa *teresa, s32 param_2, s32 param_3);
+void sub_210174C(ItemTeresa *teresa);
 void EnterItemTeresaState0(ItemTeresa *teresa);
-void func_02101964(ItemTeresa *teresa, s32 param_2);
+void sub_2101964(ItemTeresa *teresa, s32 param_2);
 void UpdateItemTeresaState0(ItemTeresa *teresa);
 void EnterItemTeresaState1(ItemTeresa *teresa);
 void UpdateItemTeresaState1(ItemTeresa *teresa);

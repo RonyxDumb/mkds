@@ -25,6 +25,6 @@ void OS_WaitIrq(u32 clear, u32 irqFlags) {
     }
     q = &p->field3FF8;
     do {
-        OS_SleepThread(&data_027e0000.field0);
+        OS_SleepThread(&g_DTCM.field0);
     } while ((irqFlags & *q) == 0);
 }

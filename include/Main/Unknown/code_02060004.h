@@ -5,7 +5,7 @@
 typedef struct DWCAccFriendData DWCAccFriendData;
 
 void ClearCourseTimeRecords(s32 courseId);
-BOOL func_02060268(s32 courseId);
+BOOL CourseTimeTrialRecordsEmpty(s32 courseId);
 BOOL GetBuddyFriendKeyText(u8 recordIndex, void *textOut);
 s32 RemoveBuddyRecord(u8 recordIndex);
 BOOL SetBuddyRecordFlag(u8 recordIndex, s32 flag);

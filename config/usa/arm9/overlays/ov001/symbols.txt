@@ -1797,7 +1797,7 @@ gRecordTopMenu kind:bss addr:0x021a9bd0
 gSelectGhost kind:bss addr:0x021a9bd4
 gSelectBattleStage kind:bss addr:0x021a9bd8
 gOptionEmbremSelect kind:bss addr:0x021a9bdc
-data_ov001_021a9c00 kind:bss addr:0x021a9be0 ambiguous
+g_Overlay3Region kind:bss addr:0x021a9be0 ambiguous
 data_usa_ov001_021ac7f4 kind:bss addr:0x021ac7f4 ambiguous
 data_usa_ov001_021b0788 kind:bss addr:0x021b0788 ambiguous
 data_usa_ov001_021b0790 kind:bss addr:0x021b0790 ambiguous

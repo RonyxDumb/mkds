@@ -86,9 +86,9 @@ u16 FX_Atan2Idx(s32 y, s32 x) {
         return 0;
     }
     if (add != 0) {
-        return base + data_021615b8[FX_Div(small, large) >> 5];
+        return base + g_Fx_AtanTable[FX_Div(small, large) >> 5];
     }
-    return base - data_021615b8[FX_Div(small, large) >> 5];
+    return base - g_Fx_AtanTable[FX_Div(small, large) >> 5];
 }
 
 // Angle of the point (x, y) in radians with 12 fractional bits, using the arctangent table. Returns 0 when both are 0.

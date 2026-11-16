@@ -775,7 +775,7 @@ void jg_state1Update(void) {
         seqPlayer = GetSndHandleSlot(4);
         data_0217b9dc.mDistanceSquared = mobj_calcXZCamDist(&gJgPos);
         NNS_SndPlayerStopSeq(seqPlayer, 0);
-        func_0210b760(&data_0217b9dc, seqPlayer);
+        sub_210B760(&data_0217b9dc, seqPlayer);
     }
     if (rstat_hasDriverFinished(jg_sTargetDriverId) != 0 || (jg_sTargetDriver->field48 & 0x800) != 0) {
         sm_gotoState(&jg_sStateMachine, 5);

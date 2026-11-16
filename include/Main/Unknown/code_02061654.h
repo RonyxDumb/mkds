@@ -11,7 +11,7 @@ typedef struct Camera Camera;
 
 extern u16 race_sDarkeningFogDensity;
 extern s16 race_sToonTableUpdateInterval;
-extern Vec3 data_021653f0;
+extern Vec3 g_SomeTDVector;
 
 u32 ghdat_getGhostCourse(void *ghostRecord);
 s32 ghdat_getGhostKart(void *ghostRecord);

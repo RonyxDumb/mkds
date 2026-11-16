@@ -146,7 +146,7 @@ u32 sfx_updateEmitter(SoundSource *source) {
         params.mPan = sfx_sCalcPanFunc(&params);
     }
     if (params.mVolume <= 0) {
-        func_0210c0bc(source);
+        sub_210C0BC(source);
         return 0;
     }
     for (sound = source->mPlayingSounds.mHead; sound != NULL;

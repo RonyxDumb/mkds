@@ -3,5 +3,5 @@
 
 // Marks timer timerNum as reserved.
 void OSi_SetTimerReserved(u32 timerNum) {
-    data_02170248 = data_02170248 | (1 << timerNum);
+    g_ReservedTimerMask = g_ReservedTimerMask | (1 << timerNum);
 }

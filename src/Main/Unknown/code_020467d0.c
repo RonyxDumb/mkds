@@ -55,7 +55,7 @@ void menu2_create(void) {
 }
 
 void menu2_finish(void) {
-    func_020446e0();
+    Scene_Menu2_FinalizeImpl();
 }
 
 u32 menu2_vblank(u32 value) {

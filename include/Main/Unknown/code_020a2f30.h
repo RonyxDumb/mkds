@@ -7,7 +7,7 @@ void blln_deflate(Balloon *balloon, u16 kartIndex, s32 scaleStep);
 void blln_inflate(Balloon *balloon, u16 kartIndex, s32 scaleStep);
 // Leaves mKartIndex unset.
 Balloon *blln_spawn(u16 nsbtpFrameIndex, Vec3 *targetPos);
-void func_020a305c(void);
+void sub_20A305C(void);
 void *blln_setupLogicPart(void);
 void *blln_setupRenderPart(void);
 void blln_update(void *mapObjectList,

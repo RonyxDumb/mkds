@@ -295,7 +295,7 @@ typedef struct Kart {
     /* b0 */ Vec3 mVelocityDirection;
     // Size scale of the kart (x, y, z; 0x1000 = 1.0): mScaleBase times mScaleFactor per axis, y also times
     // mScaleYFactor. Zero at the start placement (ResetKartToStartPlacement) and where the kart is moved to a far
-    // corner (func_02068b98, func_02068640).
+    // corner (StructMQRacerEntry_SomeFn_53, StructMQRacerEntry_SomeFn_25).
     /* bc */ Vec3 mScale;
     // Negative step added by driver_1FFB9CC to mVerticalSpeed, by AdvanceKartHop to mHopSpeed while hopping and to a
     // speed of the mode-5 record; -0x2b9 at reset, 0 after the water-height branch of driver_handleOobFallCannonPipe.
@@ -477,7 +477,7 @@ typedef struct Kart {
     /* 398 */ s32 field398;
     /* 39c */ s32 mMapObjectVectorLength;
     /* 3a0 */ s32 mMapObjectVectorForwardDot;
-    // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in func_020641f0 from the speed
+    // Angle of the tire object about the x axis (0x10000 per turn), advanced each step in sub_20641F0 from the speed
     // ratio and used by driver_render; 0 at reset.
     /* 3a4 */ u16 mTireSpinAngle;
     /* 3a6 */ u8 field3A6[2];
@@ -599,13 +599,13 @@ extern Kart *jg_sTargetDriver;
 extern int data_02154f10[];
 
 void driver_beginColReaction(Kart *kart, KartState mode);
-BOOL func_0206c094(Kart *kart);
-int func_0206c0a8(Kart *kart);
-BOOL func_0206c0b0(Kart *kart);
-BOOL func_0206c0e0(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_83(Kart *kart);
+int StructMQRacerEntry_SomeFn_71(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_64(Kart *kart);
+BOOL StructMQRacerEntry_SomeFn_86(Kart *kart);
 void driver_notifyDragItemChanged(Kart *kart);
 void driver_notifySlotItemChanged(Kart *kart);
-void func_0206c17c(Kart *kart);
+void StructMQRacerEntry_SomeFn_30(Kart *kart);
 void func_0206c1ac(Unk0201ca6c *emitter, Kart *kart);
 void func_0206c2b4(Unk0201ca6c *emitter, Kart *kart);
 BOOL driver_206C354(Kart *kart, const Vec3 *overlapDirection, int flag);

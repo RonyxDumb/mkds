@@ -57,7 +57,7 @@ void sound_handleMissionValueChange(s32 a, s32 b) {
     }
 }
 
-void func_02108ed8(void) {}
+void nullsub_12(void) {}
 
 u32 sound_setSdatAsCurrent(void) {
     u32 value0;
@@ -68,7 +68,7 @@ u32 sound_setSdatAsCurrent(void) {
     return value0;
 }
 
-void func_02108eb4(u32 index, u32 value) {
+void sub_2108EB4(u32 index, u32 value) {
     u32 indexCopy = index;
     u32 valueCopy = value;
     u32 table;

@@ -244,7 +244,7 @@ void gpres_update(SceneNumbersView *sceneNumbers) {
         case 0: {
             s32 frameLimit;
             s32 frames;
-            frameLimit = func_0210f71c(gpres_sState->mCupRankIndex);
+            frameLimit = sub_210F71C(gpres_sState->mCupRankIndex);
             frames = gpres_sState->mState0Frames;
             gpres_sState->mState0Frames = frames + 1;
             if (frames >= frameLimit) {

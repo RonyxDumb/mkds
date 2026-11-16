@@ -60,7 +60,7 @@ static inline u16 func_020952dc_inline(u32 n) {
     return t;
 }
 
-void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit, s32 timerLimit) {
+void sub_20952DC(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 distanceLimit, s32 timerLimit) {
     s32 i;
     s32 k;
     s32 x;
@@ -83,7 +83,7 @@ void func_020952dc(Unk02094e8c *a, s32 teresaCountLimit, s32 spawnCount, s32 dis
             y = a->field0.mPos.y;
             x = 0;
             distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
-            angle = func_020951b4(GetRaceLocalRandom());
+            angle = sub_20951B4(GetRaceLocalRandom());
             position.x = x + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetSinIdx(angle));
             position.y = y + kan64_mobj_getRandom32(GetRaceLocalRandom(), k);
             position.z = z + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetCosIdx(angle));
@@ -109,7 +109,7 @@ RandomState64 *GetRaceLocalRandom(void) {
     return &gRaceStatus->mLocalRandom;
 }
 
-u16 func_020951b4(RandomState64 *randomState64) {
+u16 sub_20951B4(RandomState64 *randomState64) {
     randomState64->mValue = randomState64->mMultiplier * randomState64->mValue + randomState64->mIncrement;
     return ((randomState64->mValue >> 32) * 0x10000) >> 32;
 }
@@ -174,7 +174,7 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
                     y = o->field0.mPos.y;
                     x = o->field0.mPos.x;
                     distance = kan64_mobj_getRandom32(GetRaceLocalRandom(), (s32) f);
-                    angle = func_020951b4(GetRaceLocalRandom());
+                    angle = sub_20951B4(GetRaceLocalRandom());
                     position.x = x + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetSinIdx(angle));
                     position.y = y + kan64_mobj_getRandom32(GetRaceLocalRandom(), k);
                     position.z = z + tsacnt_FX_TRUNC_MUL(distance, tsacnt_FX_GetCosIdx(angle));
@@ -190,9 +190,9 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
                 break;
             }
             if (race_getCameraField250() != 0) {
-                func_020952dc(o, 0x1e, 0x14, 0x1f4, 4);
+                sub_20952DC(o, 0x1e, 0x14, 0x1f4, 4);
             } else {
-                func_020952dc(o, 6, 4, 0xa, 0x14);
+                sub_20952DC(o, 6, 4, 0xa, 0x14);
             }
             o->fieldAC = 2;
             break;
@@ -204,9 +204,9 @@ void tsacnt_update(void *a, Unk02094e8c *o) {
             }
             if (o->fieldA4 != FALSE) {
                 if (race_getCameraField250() != 0) {
-                    func_020952dc(o, 0x1e, 1, 0x1f4, 4);
+                    sub_20952DC(o, 0x1e, 1, 0x1f4, 4);
                 } else {
-                    func_020952dc(o, 6, 1, 0xa, 0x14);
+                    sub_20952DC(o, 6, 1, 0xa, 0x14);
                 }
             } else {
                 tesa_20946B8();

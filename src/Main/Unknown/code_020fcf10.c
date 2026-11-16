@@ -34,7 +34,7 @@ void SteerItemKouraWToAnglePoint(ItemKouraW *item, s32 maxStep, s32 angle, s32 r
     s = ((s64) radius * FX_SinCosTable_[(angle >> 4) * 2]) >> 12;
     VEC_MultAdd(s, &item->field22C, &item->field250, &item->field250);
     VEC_MultAdd(0x1e000, &item->field22C, &item->field250, &t);
-    if (func_0206c0b0(kart) == FALSE) {
+    if (StructMQRacerEntry_SomeFn_64(kart) == FALSE) {
         item->field244 = kart->mDrawMatrixPos;
     }
     VEC_Add(&t, &item->field244, &t);

@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-u32 func_02053e54(void);
+u32 sub_2053E54(void);

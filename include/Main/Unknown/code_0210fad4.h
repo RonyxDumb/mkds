@@ -2,5 +2,5 @@
 
 #include "types.h"
 
-void func_0210faf4(void);
+void sub_210FAF4(void);
 u32 IsThunderShrinkFlagSet(void);

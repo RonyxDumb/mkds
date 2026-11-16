@@ -139,7 +139,7 @@ void racesc_init(void) {
         vram_terminateWifiVram();
     } else {
         vram_startUpWifiVram();
-        func_02053e74();
+        sub_2053E74();
     }
     race_initG3d();
     arc_setHeapGroupId(7);
@@ -152,7 +152,7 @@ void racesc_init(void) {
     rchoi_init();
     r2d_init();
     if (gRaceMultiConfig->mRaceKind != RACE_KIND_START_GP) {
-        func_020af99c();
+        sub_20AF99C();
     }
     arc_setHeapGroupId(8);
     mirrorMode = gRaceMultiConfig->mMirrorMode;
@@ -232,9 +232,9 @@ void racesc_finalize(void) {
     spi_stopMicAutoSampling();
     rchoi_finalize();
     race_finalize();
-    func_020af86c();
+    sub_20AF86C();
     dce_uninit();
-    func_02053e54();
+    sub_2053E54();
     overlay_destroyExpHeap();
 }
 
@@ -332,7 +332,7 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                     nextScene = 0;
                 }
                 if (gRaceMultiConfig->mMode == MODE_TIME_ATTACK) {
-                    func_0204673c();
+                    nullsub_4();
                 }
             } else {
                 nextScene = 0xc;
@@ -355,7 +355,7 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                     nextScene = 2;
                     break;
                 case MODE_VS:
-                    if (func_02045914() != 0) {
+                    if (sub_2045914() != 0) {
                         if (gSystemData->field1C_2 == 0) {
                             nextScene = 2;
                         } else {
@@ -384,7 +384,7 @@ void race_handleMenuOption(Unk0203a0dc *sceneNumbers, u32 pickedValue) {
                     }
                     break;
                 case MODE_BATTLE:
-                    if (func_020458cc() != 0) {
+                    if (sub_20458CC() != 0) {
                         if (gSystemData->field1C_2 == 0) {
                             nextScene = 2;
                         } else {
@@ -468,7 +468,7 @@ u16 GetDownBits(u32 slotIndex, u32 mask) {
     return bits & mask;
 }
 
-u32 func_0203a48c(u32 index) {
+u32 MaybePlaySseqFromSarc0(u32 index) {
     u32 value0 = index;
     u32 value1;
     u32 value2;
@@ -481,7 +481,7 @@ u32 func_0203a48c(u32 index) {
     return value0;
 }
 
-u32 func_0203a440(u32 slotIndex) {
+u32 HasTouchPressed(u32 slotIndex) {
     u32 result;
     u32 briefNoPair;
     u16 hasPair;
@@ -501,7 +501,7 @@ u32 IsCameraChainEnded(void) {
     return gRaceStatus->mCameraChainEnded;
 }
 
-u32 func_0203a3cc(u32 slotIndex) {
+u32 AnotherHasTouchPressed(u32 slotIndex) {
     u32 result;
     u32 briefNoPair;
     result = 0;

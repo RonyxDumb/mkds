@@ -29,7 +29,7 @@ static inline u32 func_02046524_inline(RandomState64 *randomState64, u32 limit) 
     return (u16) result;
 }
 
-BOOL func_02046648(s32 a) {
+BOOL HasSomeSecretFlag(s32 a) {
     u32 n;
     n = (u8) gRaceMultiConfig->mNextHeader.mEngineIndex;
     if (gRaceMultiConfig->mNextHeader.mMirrorMode != 0) {
@@ -90,7 +90,7 @@ void AssignCpuNumbers(void) {
     gRaceMultiConfig->mNextCpuNumber = nextCpuNumber;
 }
 
-u32 func_02046524(RandomState64 *randomState64, u32 limit) {
+u32 sub_2046524(RandomState64 *randomState64, u32 limit) {
     u64 result;
     if (limit == 0) {
         result = 0;
@@ -152,7 +152,7 @@ void BuildCourseList(s32 isVersus) {
                 }
                 c = 0;
                 for (f = 0; f < n; f++) {
-                    if (func_02046648(t[p]) != FALSE) {
+                    if (HasSomeSecretFlag(t[p]) != FALSE) {
                         gRaceMultiConfig->mCourseList[c] = sCupDefs[t[p]][q];
                         c = (u8) (c + 1);
                     }
@@ -209,14 +209,14 @@ void BuildCourseList(s32 isVersus) {
                 for (k = 0; k < n; k++) {
                     p = k / 4;
                     q = k % 4;
-                    if (func_02046648(t[p]) != FALSE) {
+                    if (HasSomeSecretFlag(t[p]) != FALSE) {
                         gRaceMultiConfig->mCourseList[c] = sCupDefs[t[p]][q];
                         c = (u8) (c + 1);
                     }
                 }
                 h = c * 2;
                 for (z = 0; z < h; z++) {
-                    w = func_02046524(g, (vu16) (c - 1));
+                    w = sub_2046524(g, (vu16) (c - 1));
                     x = z % c;
                     y = gRaceMultiConfig->mCourseList[x];
                     if (w >= x) {
@@ -438,11 +438,11 @@ s32 AdvanceToNextCourse(void) {
     return result;
 }
 
-s32 func_02045914(void) {
+s32 sub_2045914(void) {
     return AdvanceToNextCourse();
 }
 
-s32 func_020458cc(void) {
+s32 sub_20458CC(void) {
     if (gSystemData->field1C_2) {
         gRaceMultiConfig->mNextHeader.mRaceKind = RACE_KIND_NORMAL;
     } else {

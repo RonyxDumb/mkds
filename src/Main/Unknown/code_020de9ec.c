@@ -358,7 +358,7 @@ u8 ibox_onDriverCollide(ItemBox *itemBox, Unk020dea50_1 *kart, void *c, u8 *d) {
     return *d;
 }
 
-u32 func_020de9f8(ItemBox *itemBox) {
+u32 sub_20DE9F8(ItemBox *itemBox) {
     if (itemBox->fieldF8 != 0) {
         return 0x270f000;
     }

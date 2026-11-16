@@ -351,7 +351,7 @@ void pakn_update(void *a, Pakkun *pakkun) {
                     s.mPositionSource = &pakkun->field0.mPos;
                     s.field8 = t;
                     s.mDistanceSquared = mobj_calcXZCamDist(&pakkun->field0.mPos);
-                    func_0210b7a8(&s);
+                    sub_210B7A8(&s);
                 }
             } else if (pakkun->fieldA4 == 0) {
                 pakkun->mTimer = 0x1e;

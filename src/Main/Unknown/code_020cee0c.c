@@ -20,13 +20,13 @@ void FillShuffledIndices(void) {
 
     remainingCount = 8;
     if (gStruct217B488->mIndicesShuffled == 0) {
-        if (func_020cef08() == 1 || func_020cef08() == 2) {
-            random = func_020ceeec();
+        if (sub_20CEF08() == 1 || sub_20CEF08() == 2) {
+            random = sub_20CEEEC();
             for (i = 0; i < 8; i++) {
                 remaining[i] = i;
             }
             for (i = 0; i < 8; i++) {
-                pickIndex = (func_020951b4(random) >> 8) % remainingCount;
+                pickIndex = (sub_20951B4(random) >> 8) % remainingCount;
                 gStruct217B488->mShuffledIndices[i] = remaining[pickIndex];
                 remainingCount--;
                 for (k = pickIndex; k < remainingCount; k++) {

@@ -50,7 +50,7 @@ void menu_loadLastRaceConfig(void) {
         } else {
             menu_getRaceConfig()->mEntries[i].mTeamIndex = -1;
         }
-        menu_getRaceConfig()->mEntries[i].field10 = func_020cc6a4(i);
+        menu_getRaceConfig()->mEntries[i].field10 = sub_20CC6A4(i);
         menu_getRaceConfig()->mEntries[i].field14 = 0;
     }
     menu_getRaceConfig()->mCupIndex = RData_GetCurrentCup();
@@ -117,15 +117,15 @@ void SetMainBg0Record(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, 
     dc_setBg0Config(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc2f4(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
+void DisplayConfig_SetTopEngineBg1Config_1(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h) {
     dc_setBg1Config(displaySettings->mMainBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc2c0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+void DisplayConfig_SetTopEngineBg2Config2(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
     dc_setBg2Config(displaySettings->mMainBgRecords, b, c, d, e, f, g);
 }
 
-void func_020cc28c(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+void DisplayConfig_SetTopEngineBg3Config_0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
     dc_setBg3Config(displaySettings->mMainBgRecords, b, c, d, e, f, g);
 }
 
@@ -137,11 +137,11 @@ void SetSubBg1Record(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u
     dc_setBg1Config(displaySettings->mSubBgRecords, b, c, d, e, f, g, h);
 }
 
-void func_020cc1e0(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+void DisplayConfig_SetBottomEngineBg2Config2(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
     dc_setBg2Config(displaySettings->mSubBgRecords, b, c, d, e, f, g);
 }
 
-void func_020cc1ac(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
+void DisplayConfig_SetBottomEngineBg3Config_1(Unk02180774 *displaySettings, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g) {
     dc_setBg3Config(displaySettings->mSubBgRecords, b, c, d, e, f, g);
 }
 

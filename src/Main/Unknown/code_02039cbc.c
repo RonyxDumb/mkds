@@ -30,14 +30,14 @@
 #include "Main/Unknown/code_0204ad44.h"
 #include "Main/Unknown/code_0204b714.h"
 
-void func_02039cbc(void) {
+void InitializeGeneralObjects(void) {
     void *backHeap;
     void *firstFrontHeap;
     void *secondFrontHeap;
     void *thirdFrontHeap;
     void *soundBuffer;
     u32 soundBufferSize;
-    soundBufferSize = func_02039e08(proc_getHeap(proc_getCurrent()), &backHeap, &soundBuffer, &firstFrontHeap,
+    soundBufferSize = AllocateHeapsAndBuffers(proc_getHeap(proc_getCurrent()), &backHeap, &soundBuffer, &firstFrontHeap,
                                     &secondFrontHeap, &thirdFrontHeap);
     CARD_SetPulledOutCallback(mproc_cardPulledOutCallback);
     scproc_init(backHeap);

@@ -4,4 +4,4 @@
 
 typedef struct ScenePlayers ScenePlayers;
 
-void func_0210d73c(ScenePlayers *p0);
+void nullsub_15(ScenePlayers *p0);

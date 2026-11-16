@@ -12,10 +12,10 @@
 #include "code_0214c778.h"
 #include "code_0214d5b8.h"
 
-u16 data_0217eed0;
-struct Unk02142aa8 *data_0217eed4;
-OSMessageQueue data_0217eed8;
-void *data_0217eef8[10];
+u16 g_WmInitialized;
+struct Unk02142aa8 *g_GlobalWM;
+OSMessageQueue g_WMQueue;
+void *g_WMQueueBuffer[10];
 
 // Sets up the system buffer for the DMA channel dmaNo and clears Unk02142aa8.mScanOnlyFlag.
 s32 WM_Init(void *wmSysBuf, u16 dmaNo) {
@@ -23,7 +23,7 @@ s32 WM_Init(void *wmSysBuf, u16 dmaNo) {
 
     result = WmInitCore(wmSysBuf, dmaNo, 0xf00);
     if (result == 0) {
-        data_0217eed4->mScanOnlyFlag = 0;
+        g_GlobalWM->mScanOnlyFlag = 0;
     }
     return result;
 }
@@ -35,44 +35,44 @@ s32 WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize) {
     s32 port;
     s32 index;
 
-    if (data_0217eed0 != 0) {
+    if (g_WmInitialized != 0) {
         return 3;
     }
-    data_0217eed0 = 1;
+    g_WmInitialized = 1;
     if (wmSysBuf == 0) {
-        data_0217eed0 = 0;
+        g_WmInitialized = 0;
         return 6;
     }
     if (dmaNo > 3) {
-        data_0217eed0 = 0;
+        g_WmInitialized = 0;
         return 6;
     }
     if (((u32) wmSysBuf & 0x1f) != 0) {
-        data_0217eed0 = 0;
+        g_WmInitialized = 0;
         return 6;
     }
     PXI_Init();
     if (PXI_IsCallbackReady(0xa, 1) == 0) {
-        data_0217eed0 = 0;
+        g_WmInitialized = 0;
         return 4;
     }
     DC_InvalidateRange(wmSysBuf, bufSize);
     MI_DmaFill32(dmaNo, wmSysBuf, 0, bufSize);
-    data_0217eed4 = wmSysBuf;
-    data_0217eed4->mWM7 = (u8 *) wmSysBuf + 0x200;
-    data_0217eed4->mStatusArea = OFFSET_PTR(Unk02142988, data_0217eed4->mWM7, 0x300);
-    data_0217eed4->mRequestArea = OFFSET_PTR(u16, data_0217eed4->mStatusArea, 0x800);
-    data_0217eed4->mMessageArea = OFFSET_PTR(Unk021425e8, data_0217eed4->mRequestArea, 0x100);
+    g_GlobalWM = wmSysBuf;
+    g_GlobalWM->mWM7 = (u8 *) wmSysBuf + 0x200;
+    g_GlobalWM->mStatusArea = OFFSET_PTR(Unk02142988, g_GlobalWM->mWM7, 0x300);
+    g_GlobalWM->mRequestArea = OFFSET_PTR(u16, g_GlobalWM->mStatusArea, 0x800);
+    g_GlobalWM->mMessageArea = OFFSET_PTR(Unk021425e8, g_GlobalWM->mRequestArea, 0x100);
     WmClearFifoRecvFlag();
-    data_0217eed4->mDmaNo = dmaNo;
+    g_GlobalWM->mDmaNo = dmaNo;
     for (port = 0; port < 16; port++) {
         WM_SetPortCallback(port, 0, 0);
     }
-    OS_InitMessageQueue(&data_0217eed8, data_0217eef8, 10);
+    OS_InitMessageQueue(&g_WMQueue, g_WMQueueBuffer, 10);
     for (index = 0; index < 10; index++) {
-        *(u16 *) data_0217ef60[index] = 0x8000;
-        DC_StoreRange(data_0217ef60[index], 2);
-        OS_SendMessage(&data_0217eed8, data_0217ef60[index], 1);
+        *(u16 *) g_WMQueueMessagesData[index] = 0x8000;
+        DC_StoreRange(g_WMQueueMessagesData[index], 2);
+        OS_SendMessage(&g_WMQueue, g_WMQueueMessagesData[index], 1);
     }
     PXI_SetFifoRecvCallback(0xa, WmReceiveFifo);
     return 0;
@@ -91,14 +91,14 @@ s32 WM_Finish(void) {
     }
     WmClearFifoRecvFlag();
     PXI_SetFifoRecvCallback(0xa, 0);
-    data_0217eed4 = 0;
-    data_0217eed0 = 0;
+    g_GlobalWM = 0;
+    g_WmInitialized = 0;
     return 0;
 }
 
 // Stores callback as the handler of the command id.
 void WMi_SetCallbackTable(u32 id, Unk021425e8Func callback) {
-    data_0217eed4->mCommandCallbacks[id] = callback;
+    g_GlobalWM->mCommandCallbacks[id] = callback;
 }
 
 // Sends command id with paramNum words to the other processor through a free message of the ring; with no words the
@@ -109,18 +109,18 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     s32 i;
     s32 result;
 
-    if (OS_ReceiveMessage(&data_0217eed8, &buffer, 0) == 0) {
+    if (OS_ReceiveMessage(&g_WMQueue, &buffer, 0) == 0) {
         return 8;
     }
     DC_InvalidateRange(buffer, 2);
     if ((*(u16 *) buffer & 0x8000) == 0) {
-        OS_JamMessage(&data_0217eed8, buffer, 1);
+        OS_JamMessage(&g_WMQueue, buffer, 1);
         return 8;
     }
     if (paramNum == 0) {
-        DC_StoreRange(data_0217eed4->mRequestArea, 0x100);
+        DC_StoreRange(g_GlobalWM->mRequestArea, 0x100);
         DC_InvalidateRange(buffer, 0x100);
-        MI_DmaCopy32(data_0217eed4->mDmaNo, data_0217eed4->mRequestArea, buffer, 0x100);
+        MI_DmaCopy32(g_GlobalWM->mDmaNo, g_GlobalWM->mRequestArea, buffer, 0x100);
     }
     *(u16 *) buffer = id;
     args = (u32 *) (((u32) &paramNum & ~3) + 4);
@@ -130,7 +130,7 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
     }
     DC_StoreRange(buffer, 0x100);
     result = PXI_SendWordByFifo(0xa, (u32) buffer, 0);
-    OS_SendMessage(&data_0217eed8, buffer, 1);
+    OS_SendMessage(&g_WMQueue, buffer, 1);
     if (result < 0) {
         return 8;
     }
@@ -139,12 +139,12 @@ s32 WMi_SendCommand(u32 id, u16 paramNum, ...) {
 
 // Returns the system buffer.
 Unk02142aa8 *WMi_GetSystemWork(void) {
-    return data_0217eed4;
+    return g_GlobalWM;
 }
 
 // Returns 0 once the library is set up, otherwise 3.
 s32 WMi_CheckInitialized(void) {
-    if (data_0217eed0 != 0) {
+    if (g_WmInitialized != 0) {
         return 0;
     }
     return 3;
@@ -158,8 +158,8 @@ s32 WMi_CheckIdle(void) {
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(data_0217eed4->mStatusArea, 2);
-    if (data_0217eed4->mStatusArea->mState <= 1) {
+    DC_InvalidateRange(g_GlobalWM->mStatusArea, 2);
+    if (g_GlobalWM->mStatusArea->mState <= 1) {
         return 3;
     }
     return 0;
@@ -175,8 +175,8 @@ s32 WMi_CheckStateEx(s32 paramNum, ...) {
     if (result != 0) {
         return result;
     }
-    DC_InvalidateRange(data_0217eed4->mStatusArea, 2);
-    current = data_0217eed4->mStatusArea->mState;
+    DC_InvalidateRange(g_GlobalWM->mStatusArea, 2);
+    current = g_GlobalWM->mStatusArea->mState;
     args = (u32 *) (((u32) &paramNum & ~3) + 4);
     result = 3;
     while (paramNum != 0) {
@@ -206,11 +206,11 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
     if (err != 0) {
         return;
     }
-    DC_InvalidateRange(data_0217eed4->mMessageArea, 0x100);
-    if (data_0217eed4->mScanOnlyFlag == 0) {
-        DC_InvalidateRange(data_0217eed4->mStatusArea, 0x800);
+    DC_InvalidateRange(g_GlobalWM->mMessageArea, 0x100);
+    if (g_GlobalWM->mScanOnlyFlag == 0) {
+        DC_InvalidateRange(g_GlobalWM->mStatusArea, 0x800);
     }
-    if (callback != data_0217eed4->mMessageArea) {
+    if (callback != g_GlobalWM->mMessageArea) {
         DC_InvalidateRange(callback, 0x100);
     }
     if (callback->mCommand >= 0x2a) {
@@ -218,15 +218,15 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             if (callback->mResultCode == 0x13) {
                 OS_Terminate();
             }
-            handler = data_0217eed4->mIndicationCallback;
+            handler = g_GlobalWM->mIndicationCallback;
             if (handler != 0) {
                 handler(callback);
             }
         } else if (callback->mCommand == 0x82) {
-            if (data_0217eed4->mPortCallbacks[callback->field6] != 0) {
-                callback->field1C = data_0217eed4->mPortCallbackArgs[callback->field6];
-                DC_InvalidateRange(callback->field8, data_0217eed4->mStatusArea->mMpRecvBufSize);
-                data_0217eed4->mPortCallbacks[callback->field6](callback);
+            if (g_GlobalWM->mPortCallbacks[callback->field6] != 0) {
+                callback->field1C = g_GlobalWM->mPortCallbackArgs[callback->field6];
+                DC_InvalidateRange(callback->field8, g_GlobalWM->mStatusArea->mMpRecvBufSize);
+                g_GlobalWM->mPortCallbacks[callback->field6](callback);
             }
         } else if (callback->mCommand == 0x81) {
             callback->mCommand = 0xf;
@@ -239,12 +239,12 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
         if (callback->mCommand == 0xe) {
             if ((u16) (callback->field4 + 0xfff5) <= 1) {
                 if (callback->mResultCode == 0) {
-                    DC_InvalidateRange(callback->field8, data_0217eed4->mStatusArea->mMpRecvBufSize);
+                    DC_InvalidateRange(callback->field8, g_GlobalWM->mStatusArea->mMpRecvBufSize);
                 }
             }
         }
         if (callback->mCommand == 2 && callback->mResultCode == 0) {
-            handler = data_0217eed4->mCommandCallbacks[callback->mCommand];
+            handler = g_GlobalWM->mCommandCallbacks[callback->mCommand];
             WM_Finish();
             if (handler == 0) {
                 return;
@@ -252,10 +252,10 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
             handler(callback);
             return;
         }
-        handler = data_0217eed4->mCommandCallbacks[callback->mCommand];
+        handler = g_GlobalWM->mCommandCallbacks[callback->mCommand];
         if (handler != 0) {
             handler(callback);
-            if (data_0217eed0 == 0) {
+            if (g_WmInitialized == 0) {
                 return;
             }
         }
@@ -293,17 +293,17 @@ void WmReceiveFifo(u32 tag, Unk021425e8 *callback, s32 err) {
                 }
                 for (port = 0; port < 16; port++) {
                     data_0217ef20.field6 = port;
-                    if (data_0217eed4->mPortCallbacks[port] != 0) {
-                        data_0217ef20.field1C = data_0217eed4->mPortCallbackArgs[port];
-                        data_0217eed4->mPortCallbacks[port](&data_0217ef20);
+                    if (g_GlobalWM->mPortCallbacks[port] != 0) {
+                        data_0217ef20.field1C = g_GlobalWM->mPortCallbackArgs[port];
+                        g_GlobalWM->mPortCallbacks[port](&data_0217ef20);
                     }
                 }
             }
         }
     }
-    DC_InvalidateRange(data_0217eed4->mMessageArea, 0x100);
+    DC_InvalidateRange(g_GlobalWM->mMessageArea, 0x100);
     WmClearFifoRecvFlag();
-    if (callback == data_0217eed4->mMessageArea) {
+    if (callback == g_GlobalWM->mMessageArea) {
         return;
     }
     callback->mCommand |= 0x8000;
@@ -322,5 +322,5 @@ Unk02142988 *WMi_GetStatusAddress(void) {
     if (WMi_CheckInitialized() != 0) {
         return 0;
     }
-    return data_0217eed4->mStatusArea;
+    return g_GlobalWM->mStatusArea;
 }

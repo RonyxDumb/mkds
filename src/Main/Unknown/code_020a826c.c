@@ -39,9 +39,9 @@ static inline void func_020a826c_inline(Unk020a826c_a0 *q) {
     if (q->field0.mDistanceSquared < v) {
         q->field24 = q->field24 == 0 ? 1 : 2;
         if (race_isCamAnimMode() != 0) {
-            func_0210b734(&q->field0, q->mSndHandleSlot);
+            sub_210B734(&q->field0, q->mSndHandleSlot);
         } else {
-            func_0210b760(&q->field0, q->mSndHandleSlot);
+            sub_210B760(&q->field0, q->mSndHandleSlot);
         }
     } else {
         q->field24 = 0;
@@ -65,7 +65,7 @@ void mobj0008_updateInstanceLogic(void *a, Unk020a826c *p) {
             mobj0008_20A8ED8(&p->fieldA0, &p->field0.mPos);
             if (gRaceMultiConfig->mRaceKind == RACE_KIND_NORMAL && rstat_isDriverInFinalLap(gRaceMultiConfig->mEntryIndex) != FALSE &&
                 p->fieldA0.field24 == 0 && p->fieldA0.field20 != FALSE) {
-                v = func_02110c40();
+                v = sub_2110C40();
                 NNS_SndPlayerStopSeq(p->fieldA0.mSndHandleSlot, 0);
                 p->fieldA0.field0.mSoundId = v;
                 p->mState = 3;

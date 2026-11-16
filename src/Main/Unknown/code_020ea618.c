@@ -12,10 +12,10 @@ void DrawShadowModelWithMaxAlpha(ShadowModel *model, int maxAlpha) {
         newPolygonId = mobj_getCyclicPolygonId();
         model->mPolygonId = newPolygonId;
         model->mAlpha = maxAlpha;
-        func_0207ad88(model);
+        sub_207AD88(model);
         model->mPolygonId = savedPolygonId;
         model->mAlpha = savedAlpha;
         return;
     }
-    func_0207ad88();
+    sub_207AD88();
 }

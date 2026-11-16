@@ -166,7 +166,7 @@ void ibal_update(void *a, IronBall *ironBall) {
             return;
     }
     if (!(driver_getClipAreaMask() & ironBall->field128) && !(ironBall->field0.mDistanceSquaredAndFlags & 4)) {
-        func_0210b874(ironBall->field0.mSound, ironBall->mPathSpeed);
+        sub_210B874(ironBall->field0.mSound, ironBall->mPathSpeed);
     }
     v = ironBall->mPathSpeed;
     ironBall->mFollower.mSpeed = v;
@@ -260,7 +260,7 @@ void ibal_update(void *a, IronBall *ironBall) {
                 ironBall->mHeightSpeed = 0;
             } else if (!(driver_getClipAreaMask() & ironBall->field128) &&
                        !(ironBall->field0.mDistanceSquaredAndFlags & 4)) {
-                func_0210b8bc(ironBall->field0.mSound, ironBall->mHeightSpeed);
+                sub_210B8BC(ironBall->field0.mSound, ironBall->mHeightSpeed);
             }
             ironBall->mHeightOffset = ironBall->mHeightSpeed;
         }

@@ -101,7 +101,7 @@ void OSi_InsertThreadToList(OSThread *thread) {
     OSThread *head;
 
     prev = 0;
-    head = data_0216ff5c.mListHead;
+    head = g_Os_ThreadInfo.mListHead;
     current = head;
     while (current != 0 && current->mPriority < thread->mPriority) {
         prev = current;
@@ -109,7 +109,7 @@ void OSi_InsertThreadToList(OSThread *thread) {
     }
     if (prev == 0) {
         thread->mNext = head;
-        data_0216ff5c.mListHead = thread;
+        g_Os_ThreadInfo.mListHead = thread;
     } else {
         thread->mNext = prev->mNext;
         prev->mNext = thread;
@@ -122,13 +122,13 @@ void OSi_RemoveThreadFromList(OSThread *thread) {
     OSThread *prev;
 
     prev = 0;
-    current = data_0216ff5c.mListHead;
+    current = g_Os_ThreadInfo.mListHead;
     while (current != 0 && current != thread) {
         prev = current;
         current = current->mNext;
     }
     if (prev == 0) {
-        data_0216ff5c.mListHead = thread->mNext;
+        g_Os_ThreadInfo.mListHead = thread->mNext;
     } else {
         prev->mNext = thread->mNext;
     }
@@ -140,39 +140,39 @@ void OS_InitThread(void) {
     u8 *stackTop;
     u8 *stackBottom;
 
-    if (data_0216ff58 != 0) {
+    if (g_Os_ThreadInit != 0) {
         return;
     }
-    data_0216ff58 = 1;
-    data_0216ff54 = &data_0216ff5c.mCurrentThread;
-    data_0217002c.mPriority = 0x10;
-    data_0217002c.mId = 0;
-    data_0217002c.mState = 1;
-    data_0217002c.mNext = 0;
-    data_0217002c.mProfiler = 0;
-    data_0216ff5c.mListHead = &data_0217002c;
-    data_0216ff5c.mCurrentThread = &data_0217002c;
+    g_Os_ThreadInit = 1;
+    g_Os_CurrentThreadRef = &g_Os_ThreadInfo.mCurrentThread;
+    g_Os_LauncherThread.mPriority = 0x10;
+    g_Os_LauncherThread.mId = 0;
+    g_Os_LauncherThread.mState = 1;
+    g_Os_LauncherThread.mNext = 0;
+    g_Os_LauncherThread.mProfiler = 0;
+    g_Os_ThreadInfo.mListHead = &g_Os_LauncherThread;
+    g_Os_ThreadInfo.mCurrentThread = &g_Os_LauncherThread;
     stackSize = (s32) data_00002800;
     if (stackSize <= 0) {
         stackTop = (u8 *) 0x27e00e0 - stackSize;
     } else {
-        stackTop = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00 - stackSize;
+        stackTop = (u8 *) &g_DTCM + 0x3f80 - (u32) data_00000c00 - stackSize;
     }
-    stackBottom = (u8 *) &data_027e0000 + 0x3f80 - (u32) data_00000c00;
-    data_0217002c.mStackBottom = stackBottom;
-    data_0217002c.mStackTop = stackTop;
-    data_0217002c.mStackWarningOffset = 0;
+    stackBottom = (u8 *) &g_DTCM + 0x3f80 - (u32) data_00000c00;
+    g_Os_LauncherThread.mStackBottom = stackBottom;
+    g_Os_LauncherThread.mStackTop = stackTop;
+    g_Os_LauncherThread.mStackWarningOffset = 0;
     *(u32 *) (stackBottom - 4) = 0xfddb597d;
-    *(u32 *) data_0217002c.mStackTop = 0x7bf9dd5b;
-    data_0217002c.mJoinQueue.mTail = 0;
-    data_0217002c.mJoinQueue.mHead = 0;
-    data_0216ff5c.field0 = 0;
-    data_0216ff5c.field2 = 0;
-    *(ThreadSystem **) 0x027fffa0 = &data_0216ff5c;
+    *(u32 *) g_Os_LauncherThread.mStackTop = 0x7bf9dd5b;
+    g_Os_LauncherThread.mJoinQueue.mTail = 0;
+    g_Os_LauncherThread.mJoinQueue.mHead = 0;
+    g_Os_ThreadInfo.field0 = 0;
+    g_Os_ThreadInfo.field2 = 0;
+    *(ThreadSystem **) 0x027fffa0 = &g_Os_ThreadInfo;
     OS_SetSwitchThreadCallback(0);
-    OS_CreateThread(&data_0216ff6c, OSi_IdleThreadProc, 0, (u8 *) &data_021701b4, 0xc8, 0x1f);
-    data_0216ff6c.mPriority = 0x20;
-    data_0216ff6c.mState = 1;
+    OS_CreateThread(&g_IdleThread, OSi_IdleThreadProc, 0, (u8 *) &g_MemoryRegionsInit, 0xc8, 0x1f);
+    g_IdleThread.mPriority = 0x20;
+    g_IdleThread.mState = 1;
 }
 
 // Sets up thread to run func with arg on the given stack at priority prio, and links it into the thread list.
@@ -213,13 +213,13 @@ void OS_CreateThread(OSThread *thread, void (*func)(void *), void *arg, u8 *stac
 // Ends the current thread.
 void OS_ExitThread(void) {
     OS_DisableInterrupts();
-    OSi_ExitThread_ArgSpecified(data_0216ff5c.mCurrentThread, 0);
+    OSi_ExitThread_ArgSpecified(g_Os_ThreadInfo.mCurrentThread, 0);
 }
 
-// When data_0216ff44 is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls OSi_ExitThread.
+// When g_Os_ThreadDtorSp is set, restarts thread on that stack in OSi_ExitThread with arg; otherwise calls OSi_ExitThread.
 void OSi_ExitThread_ArgSpecified(OSThread *thread, void *arg) {
-    if (data_0216ff44 != 0) {
-        ThreadInitContext(thread, OSi_ExitThread, data_0216ff44);
+    if (g_Os_ThreadDtorSp != 0) {
+        ThreadInitContext(thread, OSi_ExitThread, g_Os_ThreadDtorSp);
         thread->field4 = arg;
         thread->field0 = thread->field0 | 0x80;
         thread->mState = 1;
@@ -234,7 +234,7 @@ void OSi_ExitThread(void *arg) {
     OSThread *current;
     OSThreadDestructor destructor;
 
-    current = *data_0216ff54;
+    current = *g_Os_CurrentThreadRef;
     destructor = current->mDestructor;
     if (destructor != 0) {
         current->mDestructor = 0;
@@ -249,7 +249,7 @@ void OSi_ExitThread(void *arg) {
 void OSi_ExitThread_Destroy(void) {
     OSThread *current;
 
-    current = *data_0216ff54;
+    current = *g_Os_CurrentThreadRef;
     OS_DisableScheduler();
     OSi_UnlockAllMutex(current);
     OSi_RemoveThreadFromList(current);
@@ -266,7 +266,7 @@ void OS_DestroyThread(OSThread *thread) {
     u32 enabled;
 
     enabled = OS_DisableInterrupts();
-    if (data_0216ff5c.mCurrentThread == thread) {
+    if (g_Os_ThreadInfo.mCurrentThread == thread) {
         OSi_ExitThread_Destroy();
     }
     OS_DisableScheduler();
@@ -309,7 +309,7 @@ void OS_SleepThread(OSThreadQueue *queue) {
     OSThread *current;
 
     enabled = OS_DisableInterrupts();
-    current = *data_0216ff54;
+    current = *g_Os_CurrentThreadRef;
     if (queue != 0) {
         current->mQueue = queue;
         OSi_InsertLinkToQueue(queue, current);
@@ -354,7 +354,7 @@ void OS_WakeupThreadDirect(OSThread *thread) {
 OSThread *OS_SelectThread(void) {
     OSThread *thread;
 
-    thread = data_0216ff5c.mListHead;
+    thread = g_Os_ThreadInfo.mListHead;
     while (thread != 0 && thread->mState != 1) {
         thread = thread->mNext;
     }
@@ -368,15 +368,15 @@ void OSi_RescheduleThread(void) {
     OSThread *current;
     OSThread *next;
 
-    system = &data_0216ff5c;
-    if (data_0216ff48 != 0) {
+    system = &g_Os_ThreadInfo;
+    if (g_Os_ThreadRescheduleCount != 0) {
         return;
     }
     if (system->field2 != 0 || OS_GetProcMode() == 0x12) {
         system->field0 = 1;
         return;
     }
-    current = *data_0216ff54;
+    current = *g_Os_CurrentThreadRef;
     next = OS_SelectThread();
     if (current == next) {
         return;
@@ -395,7 +395,7 @@ void OSi_RescheduleThread(void) {
     if (system->mSwitchCallback != 0) {
         system->mSwitchCallback(current, next);
     }
-    data_0216ff5c.mCurrentThread = next;
+    g_Os_ThreadInfo.mCurrentThread = next;
     OS_LoadContext(next);
 }
 
@@ -412,10 +412,10 @@ void OS_YieldThread(void) {
     currentPrev = 0;
     lastEqual = 0;
     count = 0;
-    current = data_0216ff5c.mCurrentThread;
+    current = g_Os_ThreadInfo.mCurrentThread;
     enabled = OS_DisableInterrupts();
     prev = 0;
-    for (thread = data_0216ff5c.mListHead; thread != 0; thread = thread->mNext) {
+    for (thread = g_Os_ThreadInfo.mListHead; thread != 0; thread = thread->mNext) {
         if (thread == current) {
             currentPrev = prev;
         }
@@ -430,7 +430,7 @@ void OS_YieldThread(void) {
         return;
     }
     if (currentPrev == 0) {
-        data_0216ff5c.mListHead = current->mNext;
+        g_Os_ThreadInfo.mListHead = current->mNext;
     } else {
         currentPrev->mNext = current->mNext;
     }
@@ -446,20 +446,20 @@ s32 OS_SetThreadPriority(OSThread *thread, u32 prio) {
     OSThread *prev;
     u32 enabled;
 
-    current = data_0216ff5c.mListHead;
+    current = g_Os_ThreadInfo.mListHead;
     prev = 0;
     enabled = OS_DisableInterrupts();
     while (current != 0 && current != thread) {
         prev = current;
         current = current->mNext;
     }
-    if (current == 0 || current == &data_0216ff6c) {
+    if (current == 0 || current == &g_IdleThread) {
         OS_RestoreInterrupts(enabled);
         return 0;
     }
     if (current->mPriority != prio) {
         if (prev == 0) {
-            data_0216ff5c.mListHead = thread->mNext;
+            g_Os_ThreadInfo.mListHead = thread->mNext;
         } else {
             prev->mNext = thread->mNext;
         }
@@ -483,7 +483,7 @@ void OS_Sleep(u32 msec) {
     u32 enabled;
 
     OS_CreateAlarm(&alarm);
-    thread = *data_0216ff54;
+    thread = *g_Os_CurrentThreadRef;
     enabled = OS_DisableInterrupts();
     thread->mAlarmForSleep = &alarm;
     OS_SetAlarm(&alarm, msec * 0x82ea >> 6, (void (*)(void *)) OSi_SleepAlarmCallback, &thread);
@@ -509,8 +509,8 @@ OSSwitchThreadCallback OS_SetSwitchThreadCallback(OSSwitchThreadCallback callbac
     OSSwitchThreadCallback previous;
 
     enabled = OS_DisableInterrupts();
-    previous = data_0216ff5c.mSwitchCallback;
-    data_0216ff5c.mSwitchCallback = callback;
+    previous = g_Os_ThreadInfo.mSwitchCallback;
+    g_Os_ThreadInfo.mSwitchCallback = callback;
     OS_RestoreInterrupts(enabled);
     return previous;
 }
@@ -529,9 +529,9 @@ u32 OS_DisableScheduler(void) {
     u32 count;
 
     enabled = OS_DisableInterrupts();
-    if (data_0216ff48 < 0xffffffff) {
-        count = data_0216ff48;
-        data_0216ff48 = count + 1;
+    if (g_Os_ThreadRescheduleCount < 0xffffffff) {
+        count = g_Os_ThreadRescheduleCount;
+        g_Os_ThreadRescheduleCount = count + 1;
     }
     OS_RestoreInterrupts(enabled);
     return count;
@@ -544,9 +544,9 @@ u32 OS_EnableScheduler(void) {
 
     enabled = OS_DisableInterrupts();
     count = 0;
-    if (data_0216ff48 != 0) {
-        count = data_0216ff48;
-        data_0216ff48 = count - 1;
+    if (g_Os_ThreadRescheduleCount != 0) {
+        count = g_Os_ThreadRescheduleCount;
+        g_Os_ThreadRescheduleCount = count - 1;
     }
     OS_RestoreInterrupts(enabled);
     return count;
@@ -559,5 +559,5 @@ void OS_SetThreadDestructor(OSThread *thread, OSThreadDestructor dtor) {
 
 // Returns whether OS_InitThread has run.
 u32 OS_IsThreadAvailable(void) {
-    return data_0216ff58;
+    return g_Os_ThreadInit;
 }
