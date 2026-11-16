@@ -17,14 +17,16 @@ enum {
     FORMAT_ARG_WIDE
 };
 
-// FormatSpec.mSignKind: no sign flag, the + flag (always a sign), the space flag (a space for positive values).
+// FormatSpec.mSignKind: no sign flag, the + flag (a sign on every signed number), the space flag (a space for positive
+// numbers; the + flag wins when both are given).
 enum {
     FORMAT_SIGN_NONE,
     FORMAT_SIGN_PLUS,
     FORMAT_SIGN_SPACE,
 };
 
-// Most characters a field width, precision or converted number may have.
+// Most characters a field width or precision may be, and the limit on the characters of a converted number (its end 0
+// counted).
 #define FORMAT_MAX_LENGTH 0x1fd
 
 // FormatSpec.mPadKind: how the converted text is padded to mMinLength.
