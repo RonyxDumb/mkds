@@ -22,6 +22,6 @@ enum {
 // Command words sent to the other processor in the high half of the word; the reply carries the command again and
 // WvrReceiveCallback takes it with data & 0xffff0000 (the result is the low byte).
 enum {
-    WIRELESS_DRIVER_COMMAND_START_UP = 0x10000,
-    WIRELESS_DRIVER_COMMAND_TERMINATE = 0x20000,
+    WIRELESS_COMMAND_START_UP = 0x10000,
+    WIRELESS_COMMAND_TERMINATE = 0x20000,
 };
