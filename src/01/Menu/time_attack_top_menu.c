@@ -77,7 +77,7 @@ void LocateAndQueueTimeAttackTopMenu(void) {
 void RequestTimeAttackTopMenuSlideIn(void) {
     gTimeAttackTopMenu->mNextState = TIME_ATTACK_TOP_STATE_SLIDE_IN;
     gTimeAttackTopMenu->mStateFrames = 0;
-    gTimeAttackTopMenu->mBg0Offset = -192;
+    gTimeAttackTopMenu->mBg0Offset = -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE;
 }
 
 // Requests state 1: stores mNextState = 1 and zeroes mStateFrames; the next AdvanceTimeAttackTopMenu call copies it to
@@ -154,14 +154,14 @@ void InitTimeAttackTopMenu(void *parentHeap, void *mainOam, void *subOam) {
         gTimeAttackTopMenu->mIndex = TIME_ATTACK_TOP_ROW_SELECT_CHARACTER;
     }
     LocateAndQueueTimeAttackTopMenu();
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         SetCellOamModeXlu(gTimeAttackTopMenuXluCellIndices[index], 1, gTimeAttackTopMenu->mTimeAttackTopMenuSNcer,
                           gTimeAttackTopMenu->mTimeAttackTopMenuSBncl);
     }
     ResetOamLists(gTimeAttackTopMenu->mMainOamList, gTimeAttackTopMenu->mSubOamList);
     InitLayoutTable(gTimeAttackTopMenu->mHeap, gTimeAttackTopMenu->mTimeAttackTopMenuSBncl, NULL,
                     &gTimeAttackTopMenu->mTimeAttackTopMenuSTable);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX =
             TIME_ATTACK_TOP_SLIDE_DISTANCE;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX =
@@ -192,7 +192,7 @@ void AdvanceTimeAttackTopMenuSlideIn(void) {
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
     gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE, 0,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX = offsetX;
@@ -211,7 +211,7 @@ void AdvanceTimeAttackTopMenuSettle(void) {
 
     gTimeAttackTopMenu->mStateFrames++;
     selectedPressOffset = GetSelectedPressOffset(gTimeAttackTopMenu->mStateFrames);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX =
             selectedPressOffset;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX =
@@ -374,7 +374,7 @@ void AdvanceTimeAttackTopMenuSlideOut(void) {
                              TIME_ATTACK_TOP_SLIDE_FRAMES);
     gTimeAttackTopMenu->mBg0Offset = InterpolateS16(1, 0, -TIME_ATTACK_TOP_BG0_SLIDE_DISTANCE,
                                                     gTimeAttackTopMenu->mStateFrames, TIME_ATTACK_TOP_SLIDE_FRAMES);
-    for (index = 0; index < 3; index++) {
+    for (index = 0; index < TIME_ATTACK_TOP_ROW_COUNT; index++) {
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuOffsetIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuXluCellIndices[index]].mOffsetX = offsetX;
         gTimeAttackTopMenu->mTimeAttackTopMenuSTable[gTimeAttackTopMenuVisibleTableIndices[index]].mOffsetX = offsetX;

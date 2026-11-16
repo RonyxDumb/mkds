@@ -179,7 +179,7 @@ void RefreshMissionRunLVselLevelCells(void) {
                     ->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][minRecordValue + 3]]
                     .mVisible = 1;
             }
-        } else if (levelIndex != 6) {
+        } else if (levelIndex != MISSION_RUN_LVSEL_LAST_LEVEL_INDEX) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][0]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][6]].mVisible = 1;
@@ -206,7 +206,7 @@ void UpdateMissionRunLVselHighlight(void) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][2]].mVisible = 1;
         } else if (IsMissionRunLVselLevelReached(levelIndex)) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][1]].mVisible = 1;
-        } else if (levelIndex != 6) {
+        } else if (levelIndex != MISSION_RUN_LVSEL_LAST_LEVEL_INDEX) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][4]].mVisible = 1;
         }
     }
@@ -272,7 +272,7 @@ void ResetMissionRunLVsel(void) {
     levelIndex = 0;
     gMissionRunLVsel->mNextState = MISSION_RUN_LVSEL_STATE_WAIT_FADE;
     gMissionRunLVsel->mStateFrames = 0;
-    gMissionRunLVsel->mBg0Offset = -192;
+    gMissionRunLVsel->mBg0Offset = -MISSION_RUN_LVSEL_BG0_SLIDE_DISTANCE;
     for (levelIndex = 0; levelIndex < 7; levelIndex++) {
         for (cellIndex = 0; cellIndex < 11; cellIndex++) {
             gMissionRunLVsel->mMissionRunLVselS7Or6Table[gMissionRunLVselLevelCellIndices[levelIndex][cellIndex]]

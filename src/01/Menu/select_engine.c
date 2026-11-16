@@ -12,6 +12,7 @@
 #include "Main/Graphics/oam.h"
 #include "Main/Graphics/font_and_player_character.h"
 #include "Main/Graphics/time_format.h"
+#include "Main/Menu/menu_screen_switch.h"
 #include "Main/Menu/select_return.h"
 #include "Main/System/input_slots.h"
 #include "sound_player_control.h"
@@ -284,7 +285,7 @@ void RequestSelectEngineInput(void) {
 void RequestSelectEnginePress(void) {
     gSelectEngine->mNextState = SELECT_ENGINE_STATE_PRESS;
     gSelectEngine->mStateFrames = 0;
-    gSelectEngine->mResult = SELECT_ENGINE_RESULT_CHOSEN;
+    gSelectEngine->mResult = MENU_SCREEN_RESULT_NEXT;
     SetEngineFromSelectEngine();
     NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 5);
 }
@@ -466,7 +467,7 @@ void AdvanceSelectEngineInput(void) {
     }
     SetSelectReturnSoundId(SELECT_RETURN_SOUND_ID);
     RequestSelectEngineSlideOut();
-    gSelectEngine->mResult = SELECT_ENGINE_RESULT_RETURN;
+    gSelectEngine->mResult = MENU_SCREEN_RESULT_BACK;
     RequestSelectReturnPressWithSound(0);
     return;
 next:
@@ -634,7 +635,7 @@ int AdvanceSelectEngine(void) {
         gSelectEngine->mStateFrames >= SELECT_ENGINE_SLIDE_FRAMES) {
         return gSelectEngine->mResult;
     }
-    return 0;
+    return SELECT_ENGINE_RESULT_NONE;
 }
 
 void WriteSelectEngineBg0Offset(void) {

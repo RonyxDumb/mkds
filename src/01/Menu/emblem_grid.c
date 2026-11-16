@@ -100,7 +100,7 @@ u32 GetEmblemGridCharOffset(void) {
 }
 
 u32 GetEmblemGridCharSize(void) {
-    return gEmblemGrid->mSide * gEmblemGrid->mSide + 0x40;
+    return gEmblemGrid->mSide * gEmblemGrid->mSide + EMBLEM_GRID_TILE_BYTES;
 }
 
 u8 *GetEmblemGridCells(void) {

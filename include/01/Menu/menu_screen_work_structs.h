@@ -139,7 +139,6 @@ enum {
 // MENU_INDEX_CHANGE_FRAMES.
 #define MISSION_RUN_MSSEL_SLIDE_FRAMES 10
 #define MISSION_RUN_MSSEL_HOLD_FRAMES 5
-#define MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES 7
 #define MISSION_RUN_MSSEL_HIGHLIGHT_FRAMES 5
 #define MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES 100
 #define MISSION_RUN_MSSEL_VRAM_TRANSFER_FRAME 5
@@ -209,13 +208,9 @@ enum {
     SELECT_ENGINE_ENTRY_MIRROR,
 };
 
-// Values of SelectEngine.mResult; AdvanceSelectEngine returns it once the slide out is done, as MENU_SCREEN_RESULT_NEXT
-// (an entry was pressed) or MENU_SCREEN_RESULT_BACK (the return button).
-enum {
-    SELECT_ENGINE_RESULT_NONE,
-    SELECT_ENGINE_RESULT_CHOSEN,
-    SELECT_ENGINE_RESULT_RETURN,
-};
+// SelectEngine.mResult before a choice; it then holds MENU_SCREEN_RESULT_NEXT (an entry was pressed) or
+// MENU_SCREEN_RESULT_BACK (the return button), which AdvanceSelectEngine returns once the slide out is done.
+#define SELECT_ENGINE_RESULT_NONE 0
 
 // Frames of the slide in and the slide out, of the settle animation (GetSelectedPressOffset) and of the press state
 // that follows a choice (it shows the highlight again when mStateFrames is 5), and of an index change

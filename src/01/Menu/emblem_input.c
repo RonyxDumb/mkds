@@ -99,7 +99,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mLeftKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mLeftKeyRepeatCount = heldCount;
@@ -109,7 +109,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mRightKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mRightKeyRepeatCount = heldCount;
@@ -119,7 +119,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mUpKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mUpKeyRepeatCount = heldCount;
@@ -129,7 +129,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mDownKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mDownKeyRepeatCount = heldCount;
@@ -139,7 +139,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mAKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mAKeyRepeatCount = heldCount;
@@ -149,7 +149,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mBKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mBKeyRepeatCount = heldCount;
@@ -159,7 +159,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mXKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mXKeyRepeatCount = heldCount;
@@ -169,7 +169,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mYKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mYKeyRepeatCount = heldCount;
@@ -179,7 +179,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mLKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mLKeyRepeatCount = heldCount;
@@ -189,7 +189,7 @@ void AdvanceEmblemInput(void) {
     } else {
         heldCount = gEmblemInput->mRKeyRepeatCount + 1;
         if (heldCount >= 0x11) {
-            heldCount = 0xf;
+            heldCount = EMBLEM_INPUT_REPEAT_CALLS;
         }
     }
     gEmblemInput->mRKeyRepeatCount = heldCount;

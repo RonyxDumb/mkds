@@ -325,17 +325,17 @@ void AdvanceMissionRunMSselPaletteBlend(void) {
                 toBlue = (toColor & 0x7c00) >> 10;
                 blendFrame = gMissionRunMSsel->mPaletteBlendFrame;
                 if (blendFrame < 50) {
-                    red = fromRed + blendFrame * (toRed - fromRed) * 2 / 100;
-                    green = fromGreen + blendFrame * (toGreen - fromGreen) * 2 / 100;
-                    blue = fromBlue + blendFrame * (toBlue - fromBlue) * 2 / 100;
+                    red = fromRed + blendFrame * (toRed - fromRed) * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
+                    green = fromGreen + blendFrame * (toGreen - fromGreen) * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
+                    blue = fromBlue + blendFrame * (toBlue - fromBlue) * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
                 } else {
                     secondHalfFrame = blendFrame - 50;
                     channelDifference = fromRed - toRed;
-                    red = toRed + channelDifference * secondHalfFrame * 2 / 100;
+                    red = toRed + channelDifference * secondHalfFrame * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
                     channelDifference = fromGreen - toGreen;
-                    green = toGreen + channelDifference * secondHalfFrame * 2 / 100;
+                    green = toGreen + channelDifference * secondHalfFrame * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
                     channelDifference = fromBlue - toBlue;
-                    blue = toBlue + channelDifference * secondHalfFrame * 2 / 100;
+                    blue = toBlue + channelDifference * secondHalfFrame * 2 / MISSION_RUN_MSSEL_BLEND_PERIOD_FRAMES;
                 }
                 gMissionRunMSsel->mBlendedPalette[colorIndex] = red | ((blue << 10) | (green << 5));
             }
@@ -448,12 +448,12 @@ void AdvanceMissionRunMSselIndexChange(void) {
     s32 slotIndex;
 
     if (IsMissionRunMSselIndexChangeRunning() != FALSE) {
-        if (gMissionRunMSsel->mIndexChangeTimer == MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES) {
+        if (gMissionRunMSsel->mIndexChangeTimer == MENU_INDEX_CHANGE_FRAMES) {
             gMissionRunMSsel->mShownIndex = gMissionRunMSsel->mIndex;
             RefreshMissionRunMSselMCells();
         } else {
             mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
-            offsetY = LookupIndexChangeOffset(7 - gMissionRunMSsel->mIndexChangeTimer, 1);
+            offsetY = LookupIndexChangeOffset(MENU_INDEX_CHANGE_FRAMES - gMissionRunMSsel->mIndexChangeTimer, 1);
             gMissionRunMSsel->mBg0OffsetY = offsetY;
             gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetY = offsetY;
             gMissionRunMSsel->mMissionRunMSselMTable[1].mOffsetY = offsetY;
@@ -475,7 +475,7 @@ void AdvanceMissionRunMSselIndexChange(void) {
         }
         gMissionRunMSsel->mIndexChangeTimer = gMissionRunMSsel->mIndexChangeTimer - 1;
     } else if (gMissionRunMSsel->mIndex != gMissionRunMSsel->mShownIndex) {
-        gMissionRunMSsel->mIndexChangeTimer = MISSION_RUN_MSSEL_INDEX_CHANGE_FRAMES;
+        gMissionRunMSsel->mIndexChangeTimer = MENU_INDEX_CHANGE_FRAMES;
     }
 }
 
@@ -682,8 +682,9 @@ void AdvanceMissionRunMSselSlideIn(void) {
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    offsetX = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0, gMissionRunMSsel->mStateFrames, 10);
-    bg1Offset = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, 10);
+    offsetX = InterpolateS16(1, LAYOUT_ENTRY_OFFSET_SCREEN_WIDTH, 0,
+                             gMissionRunMSsel->mStateFrames, MISSION_RUN_MSSEL_SLIDE_FRAMES);
+    bg1Offset = InterpolateS16(1, -192, 0, gMissionRunMSsel->mStateFrames, MISSION_RUN_MSSEL_SLIDE_FRAMES);
     gMissionRunMSsel->mBg0OffsetX = offsetX;
     gMissionRunMSsel->mBg1Offset = bg1Offset;
     gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = offsetX;
@@ -913,8 +914,9 @@ void AdvanceMissionRunMSselSlideOut(void) {
     mainLayoutCellCount = gMissionRunMSsel->mMissionRunMSselMBncl->mCount;
     subLayoutCellCount = gMissionRunMSsel->mMissionRunMSselSBncl->mCount;
     gMissionRunMSsel->mStateFrames = gMissionRunMSsel->mStateFrames + 1;
-    offsetX = InterpolateS16(1, 0, gMissionRunMSsel->mExitOffsetX, gMissionRunMSsel->mStateFrames, 10);
-    bg1Offset = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, 10);
+    offsetX = InterpolateS16(1, 0, gMissionRunMSsel->mExitOffsetX,
+                             gMissionRunMSsel->mStateFrames, MISSION_RUN_MSSEL_SLIDE_FRAMES);
+    bg1Offset = InterpolateS16(1, 0, -0xc0, gMissionRunMSsel->mStateFrames, MISSION_RUN_MSSEL_SLIDE_FRAMES);
     gMissionRunMSsel->mBg0OffsetX = offsetX;
     gMissionRunMSsel->mBg1Offset = bg1Offset;
     gMissionRunMSsel->mMissionRunMSselMTable[0].mOffsetX = offsetX;
