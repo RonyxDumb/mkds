@@ -63,8 +63,8 @@ enum {
 #define VALUE_RECORD_MASK_SINGLE_VALUE_SECOND 8
 #define VALUE_RECORD_MASK_ALL 0xf
 
-// Retry count and delay a request uses for a limit of -1, the address the device takes and the address it sends to
-// first, and the byte every packet header carries at 0x0f.
+// Retry count and delay a request uses for a limit of -1, the address this machine takes, the destination address a
+// request starts with, and the magic byte every packet header carries.
 #define ESSID_REQUEST_DEFAULT_COUNT 10
 #define ESSID_REQUEST_DEFAULT_DELAY_MS 100
 #define ESSID_REQUEST_OWN_ADDRESS 0xc0a80b65

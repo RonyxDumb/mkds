@@ -1,5 +1,6 @@
 #include "03/Net/exchange_essid.h"
 #include "03/Net/exchange_wcm_state.h"
+#include "03/Net/ap_scan_callback.h"
 #include "03/Menu/slide_buttons.h"
 #include "03/Graphics/nce_oam.h"
 #include "03/Graphics/oam_range_set.h"
@@ -1214,7 +1215,7 @@ s32 SearchEntriesAndStoreEntryWithBit4NewlyCleared(void) {
                 memcpy(currentList->mEntries[index].mSsid, rawEntry->mSsid, sizeof(currentList->mEntries[index].mSsid));
                 currentList->mEntries[index].mSsidLength = rawEntry->mSsidLength;
                 currentList->mEntries[index].mSsid[rawEntry->mSsidLength] = 0;
-                currentList->mEntries[index].mBit4Set = (rawEntry->mFlags & RAW_ENTRY_FLAG_ENCRYPTED) ? 1 : 0;
+                currentList->mEntries[index].mBit4Set = (rawEntry->mFlags & AP_SCAN_CAPA_INFO_ENCRYPTED) ? 1 : 0;
                 source = (u8 *) &rawEntry->mAddress;
                 target = (u8 *) &currentList->mEntries[index].mAddress;
                 target[0] = source[0];
@@ -1890,7 +1891,7 @@ s32 RunExchange(void) {
                 gBodyLength = BuildSingleItemBody(gBodyBuffer, 0x301, &gReceivedTextNonEmpty, 1);
                 gPacketLength =
                     BuildExchangePacket(gPacketBuffer, 6, gBodyBuffer, gBodyLength, &gSecondKeyReceivedPart);
-                if (GetExchangeWcmState() != 7) {
+                if (GetExchangeWcmState() != EXCHANGE_WCM_STATE_CONNECTED) {
                     stamp = GetTickMilliseconds() + 1000;
                     retryCount = 10;
                     gExchangeState = EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY;

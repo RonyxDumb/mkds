@@ -220,15 +220,15 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     MI_CpuFill8(workCopy, 0, sizeof(ApEntry) - 1);
     MI_CpuCopy8(exchangeResult, workCopy->mEntry.mSsids[0], sizeof(workCopy->mEntry.mSsids[0]));
     switch (exchangeResult->mKind) {
-        case AP_WEP_MODE_KEY_5_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_5_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_5_BYTES;
             keyLength = 5;
             break;
-        case AP_WEP_MODE_KEY_13_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_13_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_13_BYTES;
             keyLength = 0xd;
             break;
-        case AP_WEP_MODE_KEY_16_BYTES:
+        case EXCHANGE_RESULT_KIND_WEP_KEY_16_BYTES:
             workCopy->mEntry.mWepMode = AP_WEP_MODE_KEY_16_BYTES;
             keyLength = 0x10;
             break;

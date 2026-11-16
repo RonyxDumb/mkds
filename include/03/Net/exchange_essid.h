@@ -67,9 +67,6 @@ typedef struct WepKey16 {
 #define EXCHANGE_STEP_SEND_RESULT_REPLY 9
 #define EXCHANGE_STEP_WAIT_RESEND_RESULT_REPLY 10
 
-// Bit of RawEntry.mFlags that is set for an entry with encryption.
-#define RAW_ENTRY_FLAG_ENCRYPTED 0x10
-
 // First byte of a one-character SSID that is never matched (a zero byte is skipped too).
 #define EXCHANGE_SSID_SPACE_CHAR 0x20
 
