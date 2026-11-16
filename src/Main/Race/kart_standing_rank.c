@@ -10,7 +10,7 @@
 #include "Main/Kart/shadow_model_draw.h"
 #include "Main/Race/standings_balloons.h"
 #include "Main/Race/race_end.h"
-#include "Main/Sound/race_end_seq.h"
+#include "Main/Sound/race_end_seq_menu_seqs_and_emblem_sound.h"
 #include "Main/Race/race_progress_kart.h"
 #include "Main/Race/race_checkpoint_progress.h"
 #include "Main/Kart/kart_participant_record.h"

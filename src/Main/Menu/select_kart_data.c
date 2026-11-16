@@ -44,7 +44,7 @@
 #include "Main/System/input_slots.h"
 #include "Main/Graphics/font_glyph_text.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 #include "Main/Net/wifi_session.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/System/interpolation.h"

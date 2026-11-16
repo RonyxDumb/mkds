@@ -11,7 +11,7 @@
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
 #include "Main/Graphics/text_canvas.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "char_canvas_text_draw.h"
 #include "bg_screen_char_pointers.h"
 #include "vram_transfer_queue.h"

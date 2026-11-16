@@ -1,6 +1,6 @@
 #include "Main/Menu/title_leave.h"
 #include "Main/Menu/title_select_press.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/System/result_archive_path.h"
 

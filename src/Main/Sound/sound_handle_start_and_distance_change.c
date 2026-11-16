@@ -1,12 +1,12 @@
 #include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/Sound/start_sound_from_params.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_ortho_quad_and_item_box_timer_globals.h"
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 
 void AdvanceSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker, u32 distanceSquared) {

@@ -9,7 +9,7 @@
 #include "Main/System/heap.h"
 #include "Main/Save/buddy_record_time.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup.h"
 #include "Main/Graphics/time_format.h"
 #include "Main/Menu/select_return.h"

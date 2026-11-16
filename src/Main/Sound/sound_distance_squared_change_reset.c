@@ -1,4 +1,4 @@
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 
 void ResetSoundDistanceSquaredChange(SoundDistanceSquaredChange *tracker) {
     tracker->mDistanceSquared = -1;

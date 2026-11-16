@@ -5,7 +5,7 @@
 #include "Main/System/heap.h"
 #include "Main/Graphics/oam.h"
 #include "Main/Menu/txt_system.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup.h"
 #include "00/Lib/wifi_library_globals.h"
 #include "00/Menu/wi_fi_state_machine.h"

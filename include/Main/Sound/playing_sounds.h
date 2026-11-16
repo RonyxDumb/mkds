@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h" // SoundSource, PlayingSound
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h" // SoundSource, PlayingSound
 
 void ExpireWhileRequestedSounds(SoundSource *source);
 u32 SetPlayingSoundsParams(SoundSource *source);

@@ -7,7 +7,7 @@
 #include "Main/System/heap.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/kart_icon.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Graphics/layout_rect_table.h"

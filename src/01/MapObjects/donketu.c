@@ -41,7 +41,7 @@
 #include "Main/MapObjects/map_object.h"
 #include "Main/Kart/camera.h"
 #include "01/MapObjects/mission_run_map_object_flags.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "01/MapObjects/donketu_fall_kart_collision.h"
 #include "01/MapObjects/donketu_water_land_state.h"

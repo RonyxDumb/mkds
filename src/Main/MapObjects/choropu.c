@@ -7,7 +7,7 @@
 #include "Main/MapObjects/jg.h"
 #include "Main/Item/item_koura_w.h"
 #include "Main/Item/item_objects_and_race_progress.h" // ItemObject
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/MapObjects/map_object_draw_list_flags.h"
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
@@ -57,7 +57,7 @@
 #include "01/MapObjects/mission_run_group_entry_queries.h"
 #include "Main/MapObjects/shadow_model_create.h"
 #include "Main/MapObjects/group_follower_init.h"
-#include "Main/Sound/sound_distance_change_reset.h"
+#include "Main/Sound/sound_distance_squared_change_reset.h"
 #include "matrix_4x3_basic.h"
 #include "Main/MapObjects/choropu_state.h"
 #include "Main/MapObjects/collision_hit_link_create.h"

@@ -8,7 +8,7 @@
 #include "01/Menu/record_time_attack_requests.h"
 #include "Main/Net/led_pattern.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Net/wifi_session_login.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Graphics/text_draw.h"

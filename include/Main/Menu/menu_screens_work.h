@@ -6,12 +6,12 @@
 #include "sound_capture_effect.h" // CaptureParam, EffectInfo
 #include "Main/Graphics/layout_rect_table.h" // LayoutEntryTable
 #include "Main/Graphics/layout_entry_angle.h" // LayoutTableEntry
-#include "Main/Sound/sound_seq.h" // ScenePlayersSeqInfo
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // ScenePlayersSeqInfo
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h" // RaceHudOamBuffer
 #include "sound_archive_load.h"
 #include "Main/Graphics/text_canvas.h" // TextCanvas
-#include "Main/Sound/sound_seq.h" // SoundHandlePool
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // SoundHandlePool
 
 // Bytes of the second screen map buffer: one 32 by 32 screen map of 16-bit cells.
 #define SECOND_SCREEN_MAP_BYTES 0x800

@@ -1,7 +1,7 @@
 #include "Main/Sound/kart_sound_callbacks.h"
 #include "Main/Scene/run_scenes.h"
 #include "Main/Sound/sound_distance_change.h"
-#include "Main/Sound/kart_surface_sound.h"
+#include "Main/Sound/kart_sound_starts_and_track_params.h"
 #include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"

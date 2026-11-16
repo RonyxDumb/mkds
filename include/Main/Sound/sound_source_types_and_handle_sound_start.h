@@ -3,7 +3,7 @@
 #include "types.h"
 #include "sound_player_control.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 // Update lists of a SoundSource (SoundSource.mUpdateListIndex): list 0 is walked every call of the sound pass, list 1
 // in turns over four calls; a source with no sound that needs updating is on neither. On the calls in between, a source

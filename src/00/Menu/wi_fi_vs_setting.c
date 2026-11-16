@@ -15,7 +15,7 @@
 #include "sound_archive_load_result.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/locate_bmg_sections.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/input_slots.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"

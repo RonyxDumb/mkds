@@ -4,7 +4,7 @@
 #include "Main/Menu/title_state_set.h"
 #include "Main/Menu/title_state_frames.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Menu/title_slide_out.h"

@@ -26,7 +26,7 @@
 #include "Main/MapObjects/map_object_scale_sound_source.h"
 #include "Main/MapObjects/map_object_list.h"
 #include "Main/MapObjects/map_object.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Sound/sound_handle_start_and_distance_change.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"

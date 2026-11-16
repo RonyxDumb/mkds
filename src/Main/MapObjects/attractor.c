@@ -1,5 +1,5 @@
 #include "Main/MapObjects/attractor.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "matrix_3x3_basic.h"
 
@@ -36,7 +36,7 @@
 #include "Main/MapObjects/update_list_slot.h"
 #include "Main/MapObjects/model_animation_entries.h"
 #include "Main/Item/item_objects_and_race_progress.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Item/item_in_use.h"
 #include "Main/Kart/karts.h"
 #include "Main/MapObjects/attractor_list_data.h"

@@ -15,9 +15,9 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
-#include "Main/Sound/race_end_seq.h"
+#include "Main/Sound/race_end_seq_menu_seqs_and_emblem_sound.h"
 #include "Main/Sound/sound_set_load.h"
 
 u32 gMissionRunBossSeqRow[6] = {0x37, SOUND_ID_NONE, 0x31, 0x3b, 0x3d, 0xc};

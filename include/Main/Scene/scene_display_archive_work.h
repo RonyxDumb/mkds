@@ -7,7 +7,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "power_management_commands.h" // PMSleepCallbackInfo
-#include "Main/Sound/sound_seq.h" // SoundSetPlayer
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // SoundSetPlayer
 
 // Values of StartupWork.mLanguageIndex and of the language field of the owner info; they match the file name suffixes
 // (_fr, _ge, _it, _es) of the language files, 0 and 1 share the files without a suffix.

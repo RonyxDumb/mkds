@@ -4,7 +4,7 @@
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "Main/Menu/choises_s_list_chars.h"
 #include "Main/System/file_in_loaded.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "Main/Race/race_goal_s_rule.h"

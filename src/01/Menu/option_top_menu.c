@@ -8,7 +8,7 @@
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "Main/System/heap.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/txt_system.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Menu/record_vs.h"

@@ -4,8 +4,8 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h" // MtxFx44
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 // Falloff indices (SoundSource.mFalloffIndex, SoundStartParams.mFalloffIndex) of the map object curves: the kinds pick
 // one by comparing their mFarDistanceSquared with that of gSoundFalloffs[SOUND_FALLOFF_SHORT_RANGE] and

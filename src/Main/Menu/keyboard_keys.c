@@ -16,7 +16,7 @@
 #include "Main/System/heap.h"
 #include "Main/System/heap_call.h"
 #include "Main/System/result_archive_path.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "sound_archive_load_result.h"
 #include "Main/System/input_slots.h"
 #include "sound_player_control.h"

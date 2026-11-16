@@ -6,7 +6,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "wireless_driver_startup.h"
 #include "reset_interrupts_halt.h"
 #include "vram_bank_display_setup.h"

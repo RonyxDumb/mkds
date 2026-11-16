@@ -1,4 +1,4 @@
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_mode.h"
 #include "sound_archive_load.h"
 
@@ -6,7 +6,7 @@
 #include "Main/Menu/second_menu_scene.h"
 #include "Main/Sound/sound_distance_squared_change.h"
 #include "Main/Sound/playing_sounds.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "Main/Sound/sound_sources.h"
 #include "sound_player_control.h"
 #include "Main/Menu/menu_screens_work.h"
@@ -17,7 +17,7 @@
 #include "Main/Graphics/layout_entry_angle.h"
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "linked_list_ops.h"
 #include "Main/Sound/three_words_clear.h"
 #include "linked_list_init.h"

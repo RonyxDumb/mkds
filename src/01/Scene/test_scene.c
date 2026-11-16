@@ -8,7 +8,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "01/Scene/test_scene_sub_bg_registers.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"
 #include "registers.h"

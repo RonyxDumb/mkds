@@ -5,7 +5,7 @@
 #include "01/Menu/nickname_scene.h"
 #include "00/Menu/wi_fi_vs_setting.h"
 #include "Main/System/heap.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_return.h"
 #include "01/Menu/option_nickname_scenes.h"
 #include "01/Menu/record_gpx_grade_text.h"

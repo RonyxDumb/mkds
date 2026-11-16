@@ -4,7 +4,7 @@
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
 #include "Main/Graphics/oam.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Scene/display_settings.h"
 #include "00/Lib/NitroWiFi/access_point_search_defaults.h"
 #include "Main/System/result_archive_path.h"

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "types.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 // Results of GetSurfaceSoundId and GetSurfaceSoundIdShortRows: no sound; GetSurfaceSoundId can also return the two lap
 // progress sounds (bit 0 picks the kind).

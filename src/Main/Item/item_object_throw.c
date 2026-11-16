@@ -1,10 +1,10 @@
 #include "Main/Item/item_object_throw.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 #include "Main/Item/item_object_fade_out.h"
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_in_use.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "fixed_vector_math.h"
 
 void InitItemObjectThrow(void *objectParam, ItemInUse *inUseParam, s32 hitLimit, s32 throwForward, s32 pushOutMode,

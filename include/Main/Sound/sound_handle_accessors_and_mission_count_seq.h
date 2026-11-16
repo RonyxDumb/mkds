@@ -2,7 +2,7 @@
 
 #include "types.h"
 #include "sound_player_control.h"
-#include "Main/Sound/sound_seq.h" // SoundHandlePool
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h" // SoundHandlePool
 #include "sound_archive_load.h"
 
 NNSSndSeqPlayer **GetSndHandleSlot(unsigned int index);

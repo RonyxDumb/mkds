@@ -6,7 +6,7 @@
 #include "heap_frame_allocator.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "arena_cache_init.h"
 #include "tick_counter.h"
 #include "irq_wait_handler.h"

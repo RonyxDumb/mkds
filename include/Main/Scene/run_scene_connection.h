@@ -8,7 +8,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 // The scene numbers: the previous scene, the scene being run and the next scene to run (-1 until set).
 typedef struct SceneNumbers {

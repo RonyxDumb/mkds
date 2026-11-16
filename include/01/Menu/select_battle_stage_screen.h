@@ -44,7 +44,7 @@ extern const u8 gSelectBattleStageSTableIndices[6][3];
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 extern const u8 gSelectBattleStageNegatedYCells[1];
 extern const u8 gSelectBattleStageSecondXCells[2];

@@ -15,10 +15,10 @@
 #include "Main/Kart/kart_reset.h"
 #include "Main/System/backup_net_camera_work.h"
 #include "Main/Race/race.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/Sound/kart_sound_queue_and_kart_sound_starts.h"
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 #include "Main/Sound/kart_sound.h"
 #include "Main/Kart/kart_effects.h"
 #include "Main/Kart/kart_surface_effects.h"
@@ -37,7 +37,7 @@
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Race/race_clock.h"
 #include "Main/Kart/kart_drift.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/System/init_after_startup.h"
 
 void QuaternionMultiply(const Vec4 *left, const Vec4 *right, Vec4 *result) {

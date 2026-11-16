@@ -1,5 +1,5 @@
-#include "Main/Sound/surface_sound_ids.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 #include "Main/Sound/sound_data_sdat_path.h"
 #include "Main/Menu/second_menu_scene.h"
@@ -8,7 +8,7 @@
 #include "sound_archive_load.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "linked_list_ops.h"
 
 const u16 gSurfaceSoundColumnIndices[24][8] = {{0, 3, 4, 1, 0xa, 9, 0xc, 0xe},

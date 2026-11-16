@@ -10,7 +10,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "Main/Item/item_objects_and_race_progress.h"
 #include "Main/MapObjects/view_frustum.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/Race/race_setup_block.h"
 #include "touch_panel_sampling.h"
 #include "matrix_3x3_basic.h"

@@ -15,7 +15,7 @@
 #include "fixed_arctangent.h"
 #include "touch_panel_sampling.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_distance_squared_change.h" // SoundDistanceSquaredChange
 #include "Main/Kart/point_link_cursor_advance.h" // KartKillerCursor
 
@@ -858,7 +858,7 @@ void AdvanceKartDriftTurnAngle(Kart *kart, int fromLowSpeedTurn);
 void EndKartDrift(Kart *kart);
 void AdvanceKartBoost(s32 *acceleration, Kart *kart);
 extern SoundRequestQueue gSoundRequestQueues[7];
-#include "Main/Sound/sound_request_queue.h"
+#include "Main/Sound/sound_handle_pool_request_queue_and_set_player.h"
 void RequestKartSound(void *kart, int arg);
 void KartStartSoundFullVolume(void *soundSource, int arg);
 #include "Main/Graphics/ortho_quad_corners.h"

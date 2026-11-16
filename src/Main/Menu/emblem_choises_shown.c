@@ -1,7 +1,7 @@
 #include "Main/Menu/emblem_choises_shown.h"
 #include "Main/Menu/choises_s.h"
 #include "Main/Graphics/font_and_player_character.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "registers.h"
 #include "display_blend_affine_setup.h"

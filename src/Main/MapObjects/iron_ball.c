@@ -19,7 +19,7 @@
 #include "Main/MapObjects/map_object_park.h"
 #include "Main/Race/kart_highest_lap.h"
 #include "Main/Kart/karts.h"
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/Menu/keyboard_cursor_targets.h"
 #include "Main/Kart/kart_ai_item_use.h"
 #include "Main/MapObjects/cover_poo_hole_cover_height.h"

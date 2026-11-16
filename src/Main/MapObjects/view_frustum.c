@@ -36,7 +36,7 @@
 #include "Main/MapObjects/koopa_block.h"
 #include "Main/System/heap_call.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Sound/sound_sources.h"
 #include "Main/MapObjects/map_object_create.h"
 #include "Main/MapObjects/earthen_pipe.h"

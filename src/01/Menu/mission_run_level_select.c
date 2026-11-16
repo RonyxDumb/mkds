@@ -4,7 +4,7 @@
 #include "Main/System/heap.h"
 #include "Main/Save/buddy_record_time.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/layout_rect_table.h"
 #include "Main/Graphics/layout_entry_angle.h"
 #include "vram_bank_display_setup.h"

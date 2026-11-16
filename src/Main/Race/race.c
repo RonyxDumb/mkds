@@ -72,7 +72,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/menu_screens_work.h"
 #include "sound_player_control.h"
 #include "sound_player_type.h"
@@ -91,7 +91,7 @@
 #include "01/Race/mission_run_state.h"
 #include "Main/Race/kart_standing_rank.h"
 #include "Main/Net/wifi_session.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/Save/ghost_record_file.h"
 #include "Main/System/init_after_startup.h"
 

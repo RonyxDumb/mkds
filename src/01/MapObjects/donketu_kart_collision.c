@@ -7,7 +7,7 @@
 #include "01/MapObjects/mission_run_map_object_flags.h"
 #include "Main/Graphics/effects.h"
 #include "Main/MapObjects/map_object_sound.h"
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "fixed_vector_math.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 

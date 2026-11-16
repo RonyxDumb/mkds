@@ -1,6 +1,6 @@
 #include "Main/Menu/own_entry_position_copy_cell.h"
 #include "Main/Graphics/message_index.h"
-#include "Main/Sound/seq_queue.h"
+#include "Main/Sound/seq_queue_seq_volume_control_and_seq_variables.h"
 
 #pragma thumb on
 

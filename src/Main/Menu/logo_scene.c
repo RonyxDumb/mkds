@@ -18,7 +18,7 @@
 #include "Main/Race/race_hud_sub_screen_min_max.h"
 #include "Main/Kart/kart_heading_item_effect.h"
 #include "Main/Race/race_hud_sub_screen_projection.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "Main/Graphics/scene_text.h"
 #include "Main/Graphics/back_screen.h"
 #include "Main/Graphics/scene_text_init.h"

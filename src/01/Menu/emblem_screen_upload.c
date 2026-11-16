@@ -4,7 +4,7 @@
 #include "01/Menu/emblem_grid.h"
 #include "thread_scheduler.h"
 #include "Main/Menu/emblem_choises_shown.h"
-#include "Main/Sound/race_end_seq.h"
+#include "Main/Sound/race_end_seq_menu_seqs_and_emblem_sound.h"
 #include "arena_cache_init.h"
 #include "fixed_point_graphics_setup.h"
 #include "display_blend_affine_setup.h"

@@ -15,7 +15,7 @@
 #include "Main/Kart/kart_drift.h"
 #include "matrix_3x3_basic.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "Main/MapObjects/group_follower_advance.h"
 #include "Main/MapObjects/map_object_park.h" // RandomState64
 #include "Main/System/backup_net_camera_work.h" // MinuteSecondMillisecondTime

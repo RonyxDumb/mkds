@@ -6,7 +6,7 @@
 #include "Main/Menu/menu_new_bits.h"
 #include "Main/Menu/single_play_select_screen1_registers.h"
 #include "Main/Menu/menu_screen_switch.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/select_return.h"
 #include "Main/Race/race_hud_keyboard_map_object_work.h"
 #include "Main/Race/race_setup.h"

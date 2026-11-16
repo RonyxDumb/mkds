@@ -1,6 +1,6 @@
 #include "Main/Menu/choises_s_list_chars.h"
 #include "Main/Menu/choises_s.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 
 #pragma thumb on
 

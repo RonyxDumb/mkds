@@ -1,4 +1,4 @@
-#include "Main/Sound/distance_sound_volume.h"
+#include "Main/Sound/map_object_inverse_volume.h"
 #include "Main/MapObjects/map_object_kind_update_list.h"
 #include "Main/MapObjects/bound.h"
 

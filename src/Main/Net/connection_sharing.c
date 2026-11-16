@@ -20,7 +20,7 @@
 #include "thread_scheduler.h"
 #include "Main/MapObjects/map_object_park.h"
 #include "power_management_commands.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "expanded_heap_head.h"
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"

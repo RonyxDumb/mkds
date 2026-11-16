@@ -76,7 +76,7 @@ typedef struct Coin {
 #include "Main/MapObjects/map_object.h"
 #include "touch_panel_sampling.h"
 #include "01/MapObjects/map_object_model_animation_load.h"
-#include "Main/Sound/sound_handle_pool.h"
+#include "Main/Sound/sound_handle_accessors_and_mission_count_seq.h"
 #include "sound_player_control.h"
 #include "sound_archive_load_result.h"
 #include "01/Menu/menu_screen_states_and_file_names.h"

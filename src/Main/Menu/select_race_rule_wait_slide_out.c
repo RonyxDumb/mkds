@@ -17,7 +17,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Graphics/locate_bmg_sections.h"
 #include "vram_bank_display_setup.h"
 #include "Main/System/result_archive_path.h"

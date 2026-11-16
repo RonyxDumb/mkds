@@ -21,7 +21,7 @@
 #include "Main/Graphics/layout_table_entry.h"
 #include "Main/Race/race_hud_sub_screen_cells.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/System/backup_net_camera_work.h" // GhostRecordHead, GhostListEntry
 #include "cpu_copy_clear_16.h"
 #include "cpu_copy_fill.h"

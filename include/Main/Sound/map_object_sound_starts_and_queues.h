@@ -7,7 +7,7 @@ struct MapObjectSound;
 typedef struct SoundStartParams SoundStartParams;
 
 #include "Main/Kart/kart_drift.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 
 
 void InitSceneSoundsNop(void);

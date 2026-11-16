@@ -2,7 +2,7 @@
 #include "Main/System/result_archive_path.h"
 
 #include "Main/Item/pooled_item_box_init.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Sound/sound_set_load.h"
 #include "Main/Sound/seq_row.h"
 #include "Main/Menu/menu_label_cell_rows.h"

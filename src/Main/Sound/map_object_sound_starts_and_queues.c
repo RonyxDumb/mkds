@@ -1,9 +1,9 @@
-#include "Main/Sound/map_object_sound_counter.h"
+#include "Main/Sound/map_object_sound_starts_and_queues.h"
 #include "Main/Sound/kart_sound.h"
 
-#include "Main/Sound/sound_start.h"
+#include "Main/Sound/sound_start_stop_and_release_wrapper.h"
 #include "sound_archive_load.h"
-#include "Main/Sound/sound_source_list.h"
+#include "Main/Sound/sound_source_types_and_handle_sound_start.h"
 #include "matrix_3x3_basic.h"
 #include "Main/MapObjects/attractor.h"
 #include "Main/Sound/map_start_sound_full_volume.h"
@@ -11,7 +11,7 @@
 #include "sound_player_control.h"
 #include "matrix44_concat.h"
 #include "Main/Graphics/ortho_quad_corners.h"
-#include "Main/Sound/surface_sound_ids.h"
+#include "Main/Sound/surface_sound_ids_on_memory_sdat_and_list_links.h"
 #include "Main/Sound/map_object_sound_counter_state.h"
 
 SoundStartParams gBalloonSoundStartParams = {0x154, NULL, SOUND_FALLOFF_SHORT_RANGE, 0};

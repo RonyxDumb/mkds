@@ -1,7 +1,7 @@
 #include "Main/Menu/logo_backup_read_and_reset.h"
 #include "Main/Net/multiboot_parent_finish.h"
 #include "Main/Save/backup_reset.h"
-#include "Main/Sound/sound_seq.h"
+#include "Main/Sound/sound_init_scene_sounds_and_screen_seqs.h"
 #include "Main/Menu/txt_system.h"
 #include "01/Menu/record_time_attack.h"
 #include "01/Menu/record_time_attack_requests.h"
