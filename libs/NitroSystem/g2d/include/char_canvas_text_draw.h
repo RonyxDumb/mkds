@@ -69,6 +69,6 @@ void NNSi_G2dTextCanvasDrawTextRect(TextCanvas *pTxn, s32 drawX, s32 drawY, s32 
                                     u32 flags, u16 *txt);
 u32 NNSi_G2dTextCanvasDrawText(TextCanvas *pTxn, s32 drawX, s32 drawY, u32 cl, u32 flags, void *txt);
 
-extern SplitCharFunc *const spliterTable[4];
-extern const u8 objs[4][4][2];
-extern const u32 objShapes[4][4];
+extern SplitCharFunc *const gSplitCharFunctions[4];
+extern const u8 gObjSizes[4][4][2];
+extern const u32 gObjShapes[4][4];

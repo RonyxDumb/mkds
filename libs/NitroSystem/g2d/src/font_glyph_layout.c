@@ -124,7 +124,7 @@ s32 NNS_G2dArrangeOBJ1D(void *oam, s32 areaWidth, s32 areaHeight, s32 originX, s
     } else {
         heightLog = 31 - clz_inline(areaHeight);
     }
-    sizeEntry = objs[heightLog][widthLog];
+    sizeEntry = gObjSizes[heightLog][widthLog];
     widthShift = sizeEntry[0];
     heightShift = sizeEntry[1];
     alignedWidth = areaWidth & (-1 << widthShift);
@@ -219,7 +219,7 @@ void NNS_G2dFontInitAuto(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
     encodingId = pFont->mPRes->mEncoding;
     pFont->mFileVersionIndex = result - 1;
     pFont->mWidthEntrySize = pFont->mFileVersionIndex != 0 ? 2 : 3;
-    pFont->mCbCharSpliter = spliterTable[encodingId];
+    pFont->mCbCharSpliter = gSplitCharFunctions[encodingId];
 }
 
 void NNS_G2dFontInitUTF16(NNSG2dFont *pFont, NNSG2dBinaryFileHeader *pNftrFile) {
