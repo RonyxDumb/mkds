@@ -12,7 +12,7 @@
 
 // WBTCommand.mCommand.
 typedef enum WBTCommandKind {
-    XFER_COMMAND_UNUSED = 0, // no request is running
+    XFER_COMMAND_UNUSED = 0, // no request in the slot: none running in mCurrentRequest, none waiting in mNextRequest
     XFER_COMMAND_HANDSHAKE = 2,
     XFER_COMMAND_FETCH_DATA = 4,
     XFER_COMMAND_FETCH_DETAILS = 6,
@@ -20,8 +20,9 @@ typedef enum WBTCommandKind {
     XFER_COMMAND_HOOK_RECORD = 12, // only the callback record carries it
 } WBTCommandKind;
 
-// WBTCommand.mEvent. Values 1 to 11 are the packet kinds that raise them, except that the answer to a data or info
-// request is 5 or 7.
+// WBTCommand.mEvent. Values 2, 3, 8, 10 and 11 are the packet kinds that raise them; 5 and 7 are raised when the
+// no-missing-chunk answer ends a data or info request; 13 comes before a chunk is sent and 15 is a failure; 1, 4, 6, 9,
+// 12 and 14 are never raised.
 typedef enum WBTEventKind {
     XFER_EVENT_NOTHING = 0,
     XFER_EVENT_QUIET = 1,
@@ -56,7 +57,7 @@ typedef enum WBTPacketKind {
     XFER_PACKET_CUSTOM_ANSWER = 11,
 } WBTPacketKind;
 
-// WBTCommand.mResult of an error event.
+// WBTCommand.mResult of the callback record: OK for a normal event, else why the failed event was raised.
 typedef enum WBTResultKind {
     XFER_RESULT_OK = 0,
     XFER_RESULT_KIND_REJECTED = 3,
@@ -65,7 +66,7 @@ typedef enum WBTResultKind {
     XFER_RESULT_CHUNK_BEYOND_END = 6,
 } WBTResultKind;
 
-// Fields of a packet in the order WBT_CallPacketRecvHook reads them.
+// Steps of WBT_CallPacketRecvHook; each reads the field its name gives, in an order that depends on the packet kind.
 typedef enum WBTParseStep {
     XFER_PARSE_KIND_FIELD = 1,
     XFER_PARSE_MASK_FIELD = 2,
@@ -78,13 +79,14 @@ typedef enum WBTParseStep {
     XFER_PARSE_LENGTH_FIELD = 10,
 } WBTParseStep;
 
-// BlockTransferEntry.mState.
+// Values of BlockTransferEntry.mReplyPending.
 typedef enum WBTEntryState {
     XFER_ENTRY_FREE = 1,
     XFER_ENTRY_AWAITING_ANSWER = 2,
 } WBTEntryState;
 
-// Which chunks of a block have arrived: the counts, the chosen chunk index, the bitmap and the buffer.
+// Which chunks of a block have arrived: mLength, mTotal and mCount, the last received (mCurrent) and picked chunk
+// index, the bitmap and the buffer.
 typedef struct WBTPacketBitmap {
     /* 00 */ s32 mLength;
     /* 04 */ s32 mTotal;
@@ -126,7 +128,7 @@ typedef struct BlockTransferEntry {
 #define BLOCK_TRANSFER_USER_DATA_MAX_BYTES 9
 #define BLOCK_TRANSFER_BLOCK_INFO_BYTES 0x28
 
-// The tail of a WBTCommand, filled in differently by each kind of request.
+// The tail of a WBTCommand: the arguments of a request or, in mCallbackRecord, what an event brings.
 typedef union WBTCommandData {
     struct {
         s16 mNumOfList;
@@ -169,8 +171,9 @@ typedef struct WBTCommand {
     /* 0d */ u8 mPeerCmdCounter;
     /* 0e */ u16 mResult;
     /* 10 */ void (*mCallback)(struct WBTCommand *);
-    // In mCallbackRecord, the data carries what the callback code brings: counts and chunk sizes, a block id and chunk,
-    // or up to 9 bytes with their length.
+    // In mCallbackRecord, the data carries what WBTi_NotifySystemCallback fills in: the block count and both chunk
+    // sizes (XFER_EVENT_HANDSHAKE_ASKED), a block id (XFER_EVENT_ALL_CHUNKS_HELD), or up to 9 bytes with their length
+    // (XFER_EVENT_CUSTOM_ARRIVED, length 0 when more than 9 arrived).
     /* 14 */ WBTCommandData mData;
 } WBTCommand;
 

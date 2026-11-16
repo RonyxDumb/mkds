@@ -1,8 +1,8 @@
 #pragma once
 
 #include "types.h"
-#include "Main/System/backup_net_camera_work.h" // ScanSlot
-#include "wireless_link_control.h" // WirelessMessage
+#include "Main/System/backup_net_camera_work.h" // ScanSlot, ScanMacAddress
+#include "wireless_link_control.h" // WirelessMessage, WMBssDesc, UserGameInfo
 
 void SetGameInfo(void);
 void StartDataSharing(void);

@@ -14,9 +14,10 @@
 #include "cpu_copy_fill.h"
 #include "Main/Save/ghost_record_file.h"
 
-// Sets the session up for a WiFiSessionSetup mode: the first resets masks, records and picks and starts at the first
-// step, the second only packs the indices and counts the karts, the last two reset the picks and restart at the course
-// picks or the continue choices.
+// Sets the session up for a WiFiSessionSetup mode after writing the changed buddies: FIRST resets masks, records and
+// picks, stores the own seed and starts at EXCHANGE_RECORDS; PACK packs the indices and counts the karts; COURSE_PICKS
+// resets the course picks, restarts at EXCHANGE_COURSE_PICKS and also packs and counts the karts; CONTINUE_CHOICES
+// resets the picks and continue choices and restarts at EXCHANGE_CONTINUE_CHOICES.
 void SetupWiFiSession(u32 mode) {
     u8 participantIndex;
     u8 ownIndex;
@@ -122,9 +123,9 @@ void SetupWiFiSession(u32 mode) {
     }
 }
 
-// One frame of the exchange: counts the frames since each kart last called back, marks silent karts and drops them,
-// then runs the handler of the current mStep (WAIT_BACKUP, EXCHANGE_PICK_MASKS, EXCHANGE_COURSE_PICKS, LEAVING and
-// ENDED inline). Always returns 0.
+// One frame of the exchange: marks the other karts silent for too long (only in the exchange steps after WAIT_BACKUP)
+// and drops them, counts the frames since each other kart called back, then runs the handler of the current mStep
+// (WAIT_BACKUP, EXCHANGE_PICK_MASKS, EXCHANGE_COURSE_PICKS, LEAVING and ENDED inline). Always returns 0.
 s32 UpdateWiFiSessionStep(void) {
     u8 toIndex;
     u8 fromIndex;

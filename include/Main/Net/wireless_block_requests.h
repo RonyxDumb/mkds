@@ -19,7 +19,8 @@ typedef enum WBTBlockType {
     XFER_BLOCK_TYPE_SUPPLIED = 1, // registered without a buffer; the callback supplies each chunk
 } WBTBlockType;
 
-// List node.
+// A registered block: its WBTBlockInfo in mDataInfo, the mNext link, the mDataPtr buffer, the mPermissionBmp and the
+// mBlockType.
 typedef struct WBTBlockInfoList {
     /* 00 */ WBTBlockInfo mDataInfo;
     /* 28 */ struct WBTBlockInfoList *mNext;

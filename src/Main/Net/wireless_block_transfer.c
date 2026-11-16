@@ -11,8 +11,8 @@ u32 wbt_initialize_flag;
 
 #pragma thumb on
 
-// Returns the index of the next chunk whose bit is still clear after the last received one, or -1 when all have
-// arrived.
+// Returns the first chunk index with a clear bit, searching from mCurrent + 1 and wrapping around, and stores it in
+// mPickedChunkIndex; -1 when every bit is set.
 s32 WBTi_FindBitmapIndex(WBTPacketBitmap *bitmap) {
     s32 index;
     s32 startIndex;
@@ -119,8 +119,8 @@ void WBTi_NotifySystemCallback(BlockTransfer *transfer, s32 event, s32 entryInde
     }
 }
 
-// A reply from an entry: clears its bit in the current request, calls the request's callback and ends the request when
-// no index is left.
+// An answer from an entry: when its request id matches the current request and its bit is still in mTargetBmp, clears
+// the bit and calls the request's callback; ends the request when no bit is left.
 void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entryIndex) {
     u16 entryBit;
     u8 requestId;
@@ -163,8 +163,8 @@ void WBTi_NotifyCompletionCallback(BlockTransfer *transfer, s32 event, s32 entry
     }
 }
 
-// Reads one packet from index b field by field into its entry, answers or calls back as the kind needs, and returns the
-// bytes used.
+// Reads one packet from entryIndex field by field into that entry, skipping it when its mask leaves out our own id,
+// then marks a reply wanted, stores a chunk or calls the callbacks as the kind needs; returns the bytes used.
 u32 WBT_CallPacketRecvHook(BlockTransfer *transfer, s32 entryIndex, const u8 *cursor, s32 packetSize) {
     s32 consumedBytes;
     u32 parseState;

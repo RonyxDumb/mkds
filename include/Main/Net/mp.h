@@ -14,7 +14,8 @@ void RequestMPWaitMenuArchives(void);
 void RequestMPWaitResultArchives(void);
 void RequestMPWaitRaceArchives(void *courseId, void *mode);
 u32 AdvanceMainAndMenuDLArchives(void);
-// First argument of AdvanceChildArchiveSync: which archive set the child requests and waits for.
+// First argument of AdvanceChildArchiveSync: which archive set a multiboot child requests and loads (another child
+// skips the load).
 enum {
     MP_ARCHIVE_KIND_MAIN_AND_MENU = 0,
     MP_ARCHIVE_KIND_RACE = 1,

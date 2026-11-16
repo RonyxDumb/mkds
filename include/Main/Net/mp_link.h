@@ -4,7 +4,8 @@
 #include "multiboot_game_info_beacon.h"
 #include "Main/System/backup_net_camera_work.h"
 
-// What the scan callback gets for a found game: the entry index, the entry and the scan buffer.
+// What the scan callback gets for an entry event: the entry index, and the entry and the scan buffer (both NULL when an
+// entry timed out).
 typedef struct ScanEntryArgs {
     /* 00 */ u16 mEntryIndex;
     /* 04 */ MBGameInfoRecvList *mEntry;
@@ -92,10 +93,12 @@ typedef enum ScanError {
     SCAN_ERROR_NO_CHANNEL = 30,
 } ScanError;
 
-// Called with the event kind and what goes with it: the wireless message, or a command and result code pair.
+// Called with the event kind and what goes with it: the wireless message, a command and result code pair, or 0 when
+// nothing goes with it.
 typedef void (*MPLinkEventCallback)(s32 eventKind, void *info);
 
-// The multiplayer link: its callback, send and receive buffers with their sizes, and the started and queued flags.
+// The multiplayer link: its callback, send and receive buffers with their sizes, the parent and child max sizes, and
+// the mMPStarted, mResetting and mDataQueued flags.
 typedef struct MPLink {
     /* 00 */ MPLinkEventCallback mCallback;
     /* 04 */ void *mSendBuffer;
@@ -115,7 +118,8 @@ typedef struct MPLink {
 typedef void (*ScanEventCallback)(u32 event, void *args);
 typedef void (*ScanConnectStateFunc)(u32 state, void *info);
 
-// The scan and connect work: buffers, scan parameters, the MPLink, callbacks and the scan and end requests.
+// The scan and connect work: buffers, mScanParams, the mMPLink, the scan and state callbacks, the repeat and end
+// request flags and mState.
 typedef struct ScanConnectWork {
     /* 0000 */ u8 mUnk_0000[0x20];
     /* 0020 */ u8 mReceiveBuffer[0x480];
@@ -139,7 +143,8 @@ typedef struct ScanConnectWork {
     /* 5f0e */ u16 mState;
 } ScanConnectWork;
 
-// Two halfwords that are passed on to the function at mUnk_00 of an MPLink.
+// A command and result code pair that MPLink.mCallback gets with MP_LINK_EVENT_CALL_FAILED and
+// MP_LINK_EVENT_REPLY_FAILED.
 typedef struct CommandResult {
     /* 00 */ u16 mCommand;
     /* 02 */ u16 mResultCode;
@@ -150,8 +155,8 @@ void ScanConnectEndScan(void);
 void RequestEndScan(void);
 u32 PickScanChannel(void);
 // First argument of EntryCallback, as the multiboot game info receiver (MB_RecvGameInfoBeacon,
-// MB_CountGameInfoLifetime) calls it: the entry got all its game info fragments, it lost them, it timed out, or no
-// entry slot was free.
+// MB_CountGameInfoLifetime) calls it: a complete entry got all its game info fragments, a complete entry lost them, a
+// complete entry timed out, or no entry slot was free.
 enum {
     BEACON_ENTRY_EVENT_COMPLETE = 1,
     BEACON_ENTRY_EVENT_INCOMPLETE = 2,

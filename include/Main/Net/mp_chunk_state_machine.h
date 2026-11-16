@@ -15,16 +15,16 @@ s32 RunResultScene(SceneNumbers *sceneNumbers);
 
 void MPChunkPortCallback(void *portMessage);
 
-// Byte 1 of a chunk is its number; these values are no record data but messages between the exchange partners: the
-// parent says a record arrived (the child then sends its own), says which records it holds (the size field carries the
-// mask), the child says it holds all records, and a record that clears the emblem flag.
+// Byte 1 of a chunk is its number; these values are control messages, no record data: the parent says a record arrived
+// (the child then stops sending its own), says in the size field which records it holds (a mask), the child says it
+// holds all records, and a chunk that clears mHasEmblem and finishes the record (nothing in this tree sends it).
 #define MP_CHUNK_RECORD_ARRIVED 0xff
 #define MP_CHUNK_HELD_RECORDS_MASK 0xfe
 #define MP_CHUNK_ALL_RECORDS_HELD 0xfd
 #define MP_CHUNK_NO_EMBLEM 0xfc
 // Bytes in front of the data of a chunk: player index, chunk number, data size.
 #define MP_CHUNK_HEADER_SIZE 4
-// Players a record exchange cycles through.
+// Player slots that the record, name and bits states of the exchange walk through.
 #define MP_PARTICIPANT_SLOT_COUNT 8
 
 // States of gConnectionWork->mMPStateMachine, in the order of gMPStateTable.

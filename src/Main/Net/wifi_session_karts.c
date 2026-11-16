@@ -13,8 +13,9 @@ void ResetWiFiConnectionLost(void) {
     stateMachine->mNextStateRequested = 1;
 }
 
-// Drops the indices set in mKartRemoveMask from the roster; ends the run (the leaving step) if the own index is removed
-// or one kart or none remains.
+// Unless the step is already leaving or ended, drops the indices set in both mKartMask and mKartRemoveMask from
+// mKartMask and mKartCount; sets the leaving step (connection lost) as soon as the own index is in that set, or when
+// one kart or none is left.
 void RemoveWiFiSessionKarts(void) {
     u8 participantIndex;
     u32 bit;

@@ -9,8 +9,8 @@ void ResetDataSharing(DataSharing *dataSharing);
 void FinishConnectionEnd(void);
 void InitConnectionBuffers(void *heap);
 void InitConnection(void *heap);
-// Results of GetZeroWordResult: children are still connected, the zero word arrived with no child left, or the
-// connection is not a parent or no child is left without a zero word.
+// Results of GetZeroWordResult: still waiting (a parent with children left, or in the multiboot setup children still
+// waiting to send), the zero word arrived with no one left, or not a parent or no one left and no zero word.
 #define WORD_WAIT_RESULT_WAITING 0
 #define WORD_WAIT_RESULT_RECEIVED 1
 #define WORD_WAIT_RESULT_NOT_RECEIVED 2

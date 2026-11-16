@@ -193,8 +193,8 @@ s32 AdvanceConnectionSetup(s32 isParent, void *ghostRecord) {
     return finished;
 }
 
-// Child side; returns 1 when done, 2 on failure, 3 when an error has been recorded, 0 otherwise (the parent returns 1
-// at once).
+// Returns 3 when an error has been recorded, 2 when the multi-player setup is active and the child has no own index, 0
+// while a request is pending, 1 when the count request is done (a parent returns 1 once nothing is pending).
 s32 AdvanceBlockCountRequest(void) {
     BOOL finished;
 
@@ -392,7 +392,7 @@ void InitConnection(void *heap) {
     gConnectionWork->mUnk_0456_0 = 0;
 }
 
-// Bytes of the exp heap that the connection code allocates its buffers from.
+// Bytes of the exp heap that RomArchiveAllocFunc allocates the ROM archive buffers from.
 #define CONNECTION_HEAP_BYTES 0x7800
 
 void InitConnectionBuffers(void *heap) {

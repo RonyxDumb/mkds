@@ -13,11 +13,13 @@
 #define MP_MESSAGE_RACE_SEED 8
 #define MP_MESSAGE_PLAYER_BITS 9
 
-// Smallest and largest length of a message the MP data port accepts: the kind halfword alone, and a whole MPMessage.
+// Smallest and largest length of a message on the MP data port: the kind halfword alone, and a whole MPMessage.
+// MPDataPortCallback drops other lengths, and the largest is also the send limit mMaxDataSize.
 #define MP_MESSAGE_MIN_LENGTH 2
 #define MP_MESSAGE_MAX_LENGTH 0x18
 
-// A multiplayer message: mKind selects what ProcessMPData does with the player index, bits, name and word.
+// A multiplayer message: mKind selects what ProcessMPData does with mWord, mBitsOrName, mBitsPlayerIndex,
+// mNamePlayerIndex and mNameConnectedMask.
 typedef struct MPMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mBitsOrName[2];
@@ -36,7 +38,7 @@ typedef struct MPKindWordMessage {
     /* 04 */ s32 mWord;
 } MPKindWordMessage;
 
-// A multiplayer message with its kind, a bit mask and a player index.
+// A multiplayer message with its kind, four bytes of bits (mBits) and a player index.
 typedef struct MPPlayerBitsMessage {
     /* 00 */ u16 mKind;
     /* 02 */ u8 mBits[4];

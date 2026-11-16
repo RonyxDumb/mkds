@@ -8,18 +8,22 @@ typedef struct Ncgr Ncgr;
 typedef struct Nscr Nscr;
 typedef struct Nclr Nclr;
 
-// Three pointers filled in by LoadNclrData, LoadNcgrData2 and LoadNscrData.
+// The palette, chars and screen map of one background: mPalette, mChars and mScreenMap, loaded by
+// LoadBg1FromSceneFiles.
 typedef struct Bg1Files {
     /* 00 */ Nclr *mPalette;
     /* 04 */ Ncgr *mChars;
     /* 08 */ Nscr *mScreenMap;
 } Bg1Files;
 
-// Frames the logo scene waits for the backup read and shows its sub text before it goes on.
+// LOGO_READ_BACKUP_FRAMES: calls of UpdateLogoReadBackup after which (more than this many) the scene goes to the wait
+// for the backup read. LOGO_SUB_TEXT_FRAMES: calls of the reset states after which (more than this many), once the
+// backup command is idle and the sub text is open, they go on.
 #define LOGO_READ_BACKUP_FRAMES 120
 #define LOGO_SUB_TEXT_FRAMES 90
 
-// The logo scene: its main and sub backgrounds, state machine, backup read counters and common messages.
+// The logo scene: its main and sub backgrounds, state machine, the reset backup flag, the read backup and sub text
+// frame counters and common messages.
 typedef struct LogoScene {
     /* 00 */ Bg1Files mMainBg;
     /* 0c */ Bg1Files mSubBg;

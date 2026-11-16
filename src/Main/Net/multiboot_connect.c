@@ -29,9 +29,11 @@
 
 #pragma thumb on
 
-// Bytes of the scratch buffer for multiboot child data.
+// Bytes of mMultiBootScratchBuffer, which a game that did not start as a multiboot child allocates and
+// ResetConnectionBuffers clears.
 #define MULTIBOOT_SCRATCH_BUFFER_BYTES 0x4c0
-// Most bytes of the multiboot program segment a parent holds.
+// Most bytes of the multiboot program segment (mMultiBootSegment) a game that did not start as a multiboot child reads;
+// a longer segment is cut to this.
 #define MULTIBOOT_SEGMENT_MAX_BYTES 0x80000
 
 void AllocConnectionBuffers(void *heap, u32 unused, void *bmg) {
@@ -237,7 +239,8 @@ void StartRepeatedScanStep1E(void) {
     StartRepeatedScan(RepeatedScanCallback, CONNECTION_GAME_GROUP_ID);
 }
 
-// Returns the scan entry index with bytes 4..9 matching the first six of element a of mScanSlots[0].mUnk_c0, or -1.
+// Returns the index of the scanned parent whose mBssid equals mScanSlots[entryIndex].mKey, or -1; -1 also when mStep is
+// not CONNECTION_STEP_SCAN_CONNECT_FIND_ENTRY.
 s32 FindScanEntryIndex(u32 entryIndex) {
     s32 result;
     u16 index;

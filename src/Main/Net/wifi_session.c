@@ -56,8 +56,8 @@ void PackWiFiSessionIndicesWrapper(void) {
     PackWiFiSessionIndices();
 }
 
-// Gives each index in mKartMask the next running number in mPackedIndices (others -1) and tells CopyKartCupRecords the
-// old and new number.
+// Of the first mStartKartCount indices, gives each one in mKartMask the next running number in mPackedIndices (the
+// others -1) and tells CopyKartCupRecords the old and new number.
 void PackWiFiSessionIndices(void) {
     u8 kartIndex;
     s8 nextNumber = 0;
@@ -120,8 +120,9 @@ static inline BOOL IsWiFiSessionMessageMatching(const WiFiSessionMessage *messag
     return FALSE;
 }
 
-// Receive callback of the net layer: validates the header, checks the kind against the step, copies the message into
-// the own array and sets mReceivedMask.
+// Receive callback of the net layer: ignores senders outside mKartMask from the pick exchange on, resets
+// mSinceCallbackFrames, validates the header and the kind for the step, then per kind sets mSendRecordMask or copies
+// mReceiveBuffers[fromIndex] to mIndexMessages[fromIndex] and sets mReceivedMask.
 void ReceiveWiFiSessionMessage(u32 fromIndex, void *buffer, u32 size) {
     WiFiSessionMessage *message;
     u8 ownIndex;
@@ -344,8 +345,8 @@ s32 GetWiFiSessionContinueResult(void) {
     return WIFI_CONTINUE_RESULT_NOT_SETTLED;
 }
 
-// Counts the course picks of the indices in mKartMask and stores the most picked in the race setup's mCourseId; ties
-// are settled with the object's own LCG (mRandom).
+// Counts the course picks (mPickedCourseId) of the first mStartKartCount indices in mKartMask and stores the most
+// picked in the race setup copy's mCourseId; ties are settled with the session's own random state (mRandom).
 void TallyPickedCourse(void) {
     u8 participantIndex;
     u8 highestCount = 0;
@@ -963,7 +964,8 @@ void CreateWiFiSessionHeap(void *heap) {
     DWC_SetMemFunc(WiFiSessionHeapAlloc, WiFiSessionHeapFree);
 }
 
-// Destroys the heap and frees its buffer (mHeap is left set), clears mHeapCreated and requests state 0.
+// If mHeap is set, destroys the heap and frees its buffer (mHeap stays set); always clears mHeapCreated and requests
+// WIFI_SESSION_STATE_OFF.
 void DeleteWiFiSessionHeap(void) {
     StateMachine *stateMachine;
 
@@ -1039,7 +1041,7 @@ s32 SendWiFiPacketToParticipant(u32 participantIndex, void *packet, s32 size, u3
     return DWC_SendUnreliable(participantIndex, packet, size);
 }
 
-// Returns the name+emblem part of the index's record, or NULL if the index is not in mKartMask.
+// Returns the PlayerRecord inside the index's WiFiPlayerRecord, or NULL if the index is not in mKartMask.
 PlayerRecord *GetWiFiSessionPlayerRecordData(u32 index) {
     WiFiSession *session = gWiFiSession;
 

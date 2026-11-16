@@ -120,7 +120,8 @@ s32 GetParticipantSlotResult(s32 participantIndex) {
     return itemInfoIndex;
 }
 
-// Allocates the overlay record and fills the table of the three overlays and the address range they cover.
+// Allocates the overlay loader, fills its table of the three overlays and the address range they cover, and clears both
+// heap pointers.
 void InitOverlayTable(void *heap) {
     gOverlayLoader = HeapAlloc(heap, sizeof(*gOverlayLoader));
     gOverlayLoader->mLowestStart = -1;
@@ -137,13 +138,14 @@ void CreateOverlayFrmHeap(void) {
     gOverlayLoader->mFrmHeap = NNS_FndCreateFrmHeapEx(gOverlayFrmHeapBuffer, 0x50000, 0);
 }
 
-// Marks no overlay as current: index 4 is past the three table entries.
+// Marks no overlay as current (OVERLAY_SLOT_NONE is past the three table entries) and the load state idle.
 void ResetCurrentOverlay(void) {
     gOverlayLoader->mCurrentOverlay = OVERLAY_SLOT_NONE;
     gOverlayLoader->mLoadState = OVERLAY_LOAD_IDLE;
 }
 
-// Starts loading the overlay: nothing while a load runs; a loaded overlay is unloaded first.
+// Starts loading the overlay: nothing when it is already the current one or a read is running; a started overlay is
+// unloaded first (its expandable heap destroyed).
 void StartLoadOverlay(s32 overlay) {
     OverlayLoader *loader;
     s32 current;
@@ -208,7 +210,8 @@ void StartLoadOverlay(s32 overlay) {
     }
 }
 
-// Waits in a loop for the read to end, then starts the overlay and closes the file.
+// Loops until the read has ended, then starts the overlay and closes the file; returns at once when it is already
+// started.
 void FinishOverlayLoad(void) {
     BOOL finished;
     s32 loadState;
@@ -289,7 +292,7 @@ void ReleaseCurrentOverlay(void) {
     }
 }
 
-// 1 when the address lies between the lowest start and the highest end of the three overlays.
+// 1 when the address is at or above the lowest start and at or below the highest end of the three overlays, else 0.
 u32 IsInOverlayRange(struct MapObjectKindDescriptor *address) {
     u32 inRange;
 

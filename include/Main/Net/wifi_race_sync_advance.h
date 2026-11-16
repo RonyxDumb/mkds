@@ -27,11 +27,13 @@ typedef enum {
     WIFI_RACE_SYNC_PACKET_RECORD,
     // Nothing sends this kind; it has no body.
     WIFI_RACE_SYNC_PACKET_UNSENT,
-    // Sent with no body once a peer has enough samples; the receiver ignores it.
+    // Sent with no body, in the probe state, when a peer has enough samples and its empty packet phase is 0; the
+    // receiver only does the common header handling.
     WIFI_RACE_SYNC_PACKET_EMPTY
 } WiFiRaceSyncPacketKind;
 
-// The body of a Wi-Fi race sync packet: by kind a probe origin, a countdown or a frame count, and the probe ticks.
+// The body of a Wi-Fi race sync packet: by kind a probe origin, a countdown, or a 24-bit frame count with a record size
+// byte (mHeaderBytes), and the probe ticks.
 typedef struct WiFiRaceSyncPacketBody {
     /* 00 */ union {
         u16 mProbeOrigin;

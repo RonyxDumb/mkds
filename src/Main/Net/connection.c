@@ -86,7 +86,8 @@ void ResetConnection(void) {
     FillParentParameter(1);
 }
 
-// Fills the record handed to WM_StepDataSharing, steps the data sharing with it and keeps the result.
+// Fills the record handed to WM_StepDataSharing, steps the data sharing with it, keeps the result and, when the result
+// is 0 in the synced state, clears the send byte.
 void StepDataSharing(void) {
     SharingSendRecord *sendData;
     u32 role;
@@ -381,7 +382,8 @@ void SetLifeTimeCallback(WirelessMessage *event) {
     }
 }
 
-// Measures each allowed channel 7 times in a row, in two passes over channels 1 to 14; a is the one just measured.
+// Measures each allowed channel 7 times in a row, in two passes over channels 1 to 14, then ends the request;
+// measuredChannel is the channel just measured, 0 on the first call, which starts at channel 1.
 void MeasureChannel(u16 measuredChannel) {
     u16 allowedChannels;
     u16 channel;
@@ -570,7 +572,8 @@ u16 ComputeParentTgid(u32 unusedValue) {
     return (u16) (highWord * 0x10000 >> 32) | PARENT_TGID_FLAG;
 }
 
-// Calls WM_SetParentParameter; also stores 1 in the first session word.
+// Sets the connection mode to parent and calls WM_SetParentParameter with the parent parameter; stops the connection if
+// the call is not accepted.
 void SetParentParameter(void) {
     gConnectionWork->mConnectionMode = CONNECTION_MODE_PARENT;
     gConnectionWork->mStep = CONNECTION_STEP_CONFIGURING_HOST;
@@ -598,7 +601,9 @@ void StartParent(WirelessMessageCallback callback) {
     }
 }
 
-// Callback of WM_StartParent: code 7 adds a child, 9 removes one, 0 copies the own data into the first member record.
+// Callback of WM_StartParent: code 7 adds a child; code 9 removes one (and marks it left when a parent is in a synced
+// race); code 0 copies the own name and flags into the first player record, seeds the random state and ends the
+// request; any other result stops the connection.
 void StartParentCallback(WirelessMessage *event) {
     RandomState64 *randomState;
     u32 role;
