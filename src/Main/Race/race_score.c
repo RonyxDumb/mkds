@@ -12,7 +12,7 @@
 #include "Main/Kart/karts.h"
 #include "Main/System/init_after_startup.h"
 
-PointLink *GetKeyedPlacementBattlePointLink(u32 key) {
+BattlePointLink *GetKeyedPlacementBattlePointLink(u32 key) {
     return &gCourseMap->mBattlePointLinks[gCourseMap->mKeyedPlacements[gCourseMap->mKeyedPlacementIndexByKey[key]]
                                               .mPointIndex];
 }

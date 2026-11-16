@@ -152,7 +152,7 @@ void PickBattleKartAiRaceStart(KartAi *kartAi, KartAiRaceSpeedLimit *raceSpeedLi
 void SetupBattleKartAiParams(void);
 void ResetBattleKartAi(KartAi *kartAi);
 void SetupBattleKartAi(KartAi *kartAi, Kart *kart);
-void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink);
+void ResetBattleKartAiAtPointLink(KartAi *kartAi, BattlePointLink *pointLink);
 void AdvanceBattleKartAi(KartAi *kartAi);
 void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi);
 void AdvanceBattleKartAiSideOffset(KartAi *kartAi);

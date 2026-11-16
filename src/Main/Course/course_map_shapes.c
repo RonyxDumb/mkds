@@ -365,10 +365,10 @@ void BuildCourseMapBattlePointLinks(void *heap) {
     CourseMap *courseMap;
     CourseMapBattleRoute *route;
     CourseMapBattleRoute *routes;
-    PointLink **linkPointers;
+    BattlePointLink **linkPointers;
     s32 index;
-    PointLink *link;
-    PointLink *pointLink;
+    BattlePointLink *link;
+    BattlePointLink *pointLink;
     s32 pointIndex;
     s32 slotIndex;
     u16 routeIndex;
@@ -1133,14 +1133,14 @@ void *FindCourseMapPointLinkShapeRacePointLink(Vec3 *pos) {
     return link;
 }
 
-PointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
+BattlePointLink *FindCourseMapPointLinkShapeBattlePointLink(Vec3 *pos) {
     u16 shapeIndex;
     CourseMapShape *shape;
     Vec3 offset;
     s32 distanceX;
     s32 distanceZ;
     s32 radius;
-    PointLink *link = NULL;
+    BattlePointLink *link = NULL;
     s32 inside;
 
     if (gCourseMap->mPointLinkShapeCount == 0) {
@@ -1268,7 +1268,7 @@ void *GetCourseMapRespawnRacePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation
     return &gCourseMap->mRacePointLinks[pointIndex];
 }
 
-PointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
+BattlePointLink *GetCourseMapRespawnBattlePointLink(u32 slot, Vec3 *outPos, Vec3 *outRotation) {
     CourseMapRespawn *respawn;
     s32 pointIndex;
 

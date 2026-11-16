@@ -21,4 +21,4 @@ void ComputeGrandPrixScoreTerms(RaceProgressScoreTerms *scoreTerms, s32 kartInde
 BOOL IsEntryRaceEnded(void);
 s64 ComputeDotOfPairsRoundedS64(const IntPair *first, const IntPair *second);
 s32 ComputeDotOfPairsRounded(const IntPair *first, const IntPair *second);
-PointLink *GetKeyedPlacementBattlePointLink(u32 key);
+BattlePointLink *GetKeyedPlacementBattlePointLink(u32 key);

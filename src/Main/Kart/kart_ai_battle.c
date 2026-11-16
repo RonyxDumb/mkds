@@ -255,7 +255,7 @@ void SetupBattleKartAi(KartAi *kartAi, Kart *kart) {
     }
 }
 
-void ResetBattleKartAiAtPointLink(KartAi *kartAi, PointLink *pointLink) {
+void ResetBattleKartAiAtPointLink(KartAi *kartAi, BattlePointLink *pointLink) {
     ResetBattlePointLinkCursorTo(&kartAi->mBattleLinkCursor, pointLink);
     kartAi->mLinkPosWithSideOffset = *kartAi->mBattleLinkCursor.mLink->mPoint;
     ResetBattleKartAi(kartAi);
@@ -280,7 +280,7 @@ void AdvanceBattleKartAi(KartAi *kartAi) {
 void AdvanceBattleKartAiAlongPointLinks(KartAi *kartAi) {
     LinkCursor *linkCursor;
     Kart *kart;
-    PointLink *requestedLink;
+    BattlePointLink *requestedLink;
     Vec3 *kartForward;
     Vec3 *headingPos;
     Vec3 kartPos;

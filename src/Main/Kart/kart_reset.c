@@ -136,7 +136,7 @@ void ResetKartToRespawnPoint(Kart *kart) {
     Vec3 respawnAngles;
     Vec3 sideDirection;
     MtxFx33 rotationMatrix;
-    PointLink *respawnLink;
+    BattlePointLink *respawnLink;
     s32 value;
     s32 forwardOffset;
     s32 index;
@@ -239,7 +239,7 @@ s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale) {
     return finished;
 }
 
-void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link) {
+void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, BattlePointLink *link) {
     ParticipantKartRecordState *recordState;
     Vec3 axis;
 

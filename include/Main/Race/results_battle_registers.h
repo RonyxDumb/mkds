@@ -31,7 +31,7 @@ void WriteGhostGetScanRegisters(void);
 
 // One row per RESULTS_BATTLE_FILES_* kind (victory, lose, draw, VS blue, VS red): the file names the main screen loads;
 // mBnllName is NULL in the last three rows.
-typedef struct ResultsBattleVictoryFileNames {
+typedef struct ResultsBattleFileNames {
     /* 00 */ const char *mBNcgrName;
     /* 04 */ const char *mBNclrName;
     /* 08 */ const char *mUpperNscrName;
@@ -41,7 +41,7 @@ typedef struct ResultsBattleVictoryFileNames {
     /* 18 */ const char *mONclrName;
     /* 1c */ const char *mBnclName;
     /* 20 */ const char *mBnllName;
-} ResultsBattleVictoryFileNames;
+} ResultsBattleFileNames;
 
 extern const u16 gResultsBattleSubLabelCanvasEntries[16][4];
 extern const u8 gResultsBattleRankZeroLabelTextRows[64];
@@ -54,7 +54,7 @@ extern const u16 gResultsBattleKartFirstCellIndices[8];
 extern const u8 gResultsBattleOwnEntryLabelTextRows[8];
 extern struct ResultsBattle *gResultsBattle;
 
-extern const ResultsBattleVictoryFileNames gResultsBattleFileNames[5];
+extern const ResultsBattleFileNames gResultsBattleFileNames[5];
 extern char gResultsBattleVictoryBNcgrName[];
 extern char gResultsBattleVictoryBNclrName[];
 extern char gResultsBattleVictoryUpperNscrName[];

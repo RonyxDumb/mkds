@@ -115,9 +115,9 @@ typedef struct {
 
 // A battle point link: up to eight links to neighbouring point links and their count, a point with its radius and
 // values, and the route link mask.
-typedef struct PointLink {
-    /* 00 */ struct PointLink *mLinks[3];
-    /* 0c */ struct PointLink *mUnk_0c;
+typedef struct BattlePointLink {
+    /* 00 */ struct BattlePointLink *mLinks[3];
+    /* 0c */ struct BattlePointLink *mUnk_0c;
     /* 10 */ u8 mUnk_10[8];
     /* 18 */ Vec3 *mUnk_18;
     /* 1c */ s32 mUnk_1c;
@@ -127,7 +127,7 @@ typedef struct PointLink {
     /* 2c */ u16 mLinkCount;
     /* 2e */ u8 mRouteLinkMask;
     /* 2f */ u8 mUnk_2f;
-} PointLink;
+} BattlePointLink;
 
 struct CourseMapRow;
 
@@ -362,11 +362,11 @@ typedef struct CourseMap {
     // count and a bit mask), built from mBattlePoints and mBattleRoutes; read by
     // FindCourseMapPointLinkShapeBattlePointLink, GetCourseMapRespawnBattlePointLink and
     // GetKeyedPlacementBattlePointLink.
-    /* b8 */ PointLink *mBattlePointLinks;
+    /* b8 */ BattlePointLink *mBattlePointLinks;
     // Address of the first element of mBattlePointLinks.
-    /* bc */ PointLink *mFirstBattlePointLink;
+    /* bc */ BattlePointLink *mFirstBattlePointLink;
     // Address one past the last element of mBattlePointLinks.
-    /* c0 */ PointLink *mBattlePointLinksEnd;
+    /* c0 */ BattlePointLink *mBattlePointLinksEnd;
     // The first entry whose mChainStart is 1.
     /* c4 */ CourseMapCamera *mFirstChainStartEntry;
     /* c8 */ CourseMapCamera *mSecondChainStartEntry;

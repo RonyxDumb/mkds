@@ -131,7 +131,7 @@ char gResultsBattleVsRedNcgrName[] = "results_battle_VS_m.nce.ncgr";
 char gResultsBattleLoseBNcgrName[] = "results_battle_lose_m_b.NCGR";
 char gResultsBattleVsBlueONclrName[] = "results_battle_VS_m_o.NCLR";
 char gResultsBattleVsBlueBnclName[] = "Results_battle_VS_m.bncl";
-const ResultsBattleVictoryFileNames gResultsBattleFileNames[5] = {
+const ResultsBattleFileNames gResultsBattleFileNames[5] = {
     {gResultsBattleVictoryBNcgrName, gResultsBattleVictoryBNclrName, gResultsBattleVictoryUpperNscrName,
      gResultsBattleVictoryLowerNscrName, gResultsBattleVictoryNcgrName, gResultsBattleVictoryNcerName,
      gResultsBattleVictoryONclrName, gResultsBattleVictoryBnclName, gResultsBattleVictoryBnllName},

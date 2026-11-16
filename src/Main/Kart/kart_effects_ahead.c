@@ -230,14 +230,14 @@ void SetRequestedLinkToPreviousIfNone(PointLinkCursor *linkCursor) {
 }
 
 void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3 *direction, u16 unused) {
-    PointLink *bestLink = NULL;
+    BattlePointLink *bestLink = NULL;
     u16 pointIndex;
     u16 candidateIndex;
     s32 slot;
     s32 bestDot;
     s32 value;
-    PointLink *firstLink = gCourseMap->mFirstBattlePointLink;
-    PointLink *nearestLinks[3] = {0, 0, 0};
+    BattlePointLink *firstLink = gCourseMap->mFirstBattlePointLink;
+    BattlePointLink *nearestLinks[3] = {0, 0, 0};
     s32 nearestDistances[3];
     Vec3 offset;
     Vec3 directionToLink;
@@ -278,7 +278,7 @@ void ResetBattlePointLinkCursorNear(LinkCursor *linkCursor, Vec3 *position, Vec3
     linkCursor->mRequestPending = FALSE;
 }
 
-void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
+void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, BattlePointLink *pointLink) {
     linkCursor->mPreviousLink = pointLink;
     linkCursor->mLink = linkCursor->mPreviousLink;
     linkCursor->mDirection = gPointLinkVec3Zero;
@@ -289,22 +289,22 @@ void ResetBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) 
 void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *direction, u16 kartIndex,
                                   MapObject *targetShine, s32 targetKartIndex) {
     s32 bestFallbackDot;
-    PointLink *nextLink;
+    BattlePointLink *nextLink;
     s32 lowestTargetDot;
-    PointLink *currentLink = linkCursor->mLink;
+    BattlePointLink *currentLink = linkCursor->mLink;
     u16 fallbackCount = 0;
-    PointLink *candidateLinks[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+    BattlePointLink *candidateLinks[8] = {0, 0, 0, 0, 0, 0, 0, 0};
     u16 lowestCount;
     s32 bestTargetDot;
     Kart *kart;
-    PointLink *neighborLink;
+    BattlePointLink *neighborLink;
     s32 targetDot;
     u16 candidateCount;
     u16 chosenIndex;
     u16 pairIndex;
     u32 randomValue;
     BOOL targetFlagged;
-    PointLink *fallbackLink;
+    BattlePointLink *fallbackLink;
     u16 bestCount;
     s32 directionDot;
     u16 linkIndex;
@@ -326,7 +326,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
     if (linkCursor->mLink->mLinkCount == 1) {
         nextLink = linkCursor->mLink->mLinks[0];
     } else {
-        PointLink *openLinks[2] = {0, 0};
+        BattlePointLink *openLinks[2] = {0, 0};
 
         candidateCount = 0;
         lowestCount = 0;
@@ -445,7 +445,7 @@ void AdvanceBattlePointLinkCursor(LinkCursor *linkCursor, Vec3 *position, Vec3 *
                 candidateLinks[0] = openLinks[chosenIndex];
                 candidateCount = 1;
             } else {
-                for (linkIndex = 0; linkIndex < ((const PointLink *) linkCursor->mLink)->mLinkCount; linkIndex++) {
+                for (linkIndex = 0; linkIndex < ((const BattlePointLink *) linkCursor->mLink)->mLinkCount; linkIndex++) {
                     if (linkCursor->mPreviousLink != ((const LinkCursor *) linkCursor)->mLink->mLinks[linkIndex] &&
                         (linkCursor->mLink->mRouteLinkMask & (1 << (u8) linkIndex))) {
                         neighborLinkDirection = gPointLinkVec3Zero;
@@ -524,7 +524,7 @@ s32 GetBattlePointLinkSpeedLimit(LinkCursor *linkCursor) {
     return result;
 }
 
-void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, PointLink *pointLink) {
+void AdvanceBattlePointLinkCursorTo(LinkCursor *linkCursor, BattlePointLink *pointLink) {
     linkCursor->mPreviousLink = linkCursor->mLink;
     linkCursor->mLink = pointLink;
     linkCursor->mDirection = gPointLinkVec3Zero;

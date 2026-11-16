@@ -63,7 +63,7 @@ void CallKartAiSetup(KartAi *kartAi, s32 kartIndex) {
     gKartAiSetupCallback(kartAi, kartIndex);
 }
 
-void CallKartAiReset(KartAi *kartAi, PointLink *link) {
+void CallKartAiReset(KartAi *kartAi, BattlePointLink *link) {
     gKartAiResetCallback(kartAi, link);
 }
 
@@ -162,7 +162,7 @@ void SetupKartAiForBattle(KartAi *kartAi, s32 kartIndex) {
     PickBattleKartAiRaceStart(kartAi, &kartAi->mRaceSpeedLimit);
 }
 
-void ResetKartAiForBattle(KartAi *kartAi, PointLink *link) {
+void ResetKartAiForBattle(KartAi *kartAi, BattlePointLink *link) {
     ResetBattleKartAiAtPointLink(kartAi, link);
     SetupBattleKartAiSpeedLimit(&kartAi->mAiSpeedLimit, kartAi);
     ClearKartAiItemUseWrapper(&kartAi->mItemUse);

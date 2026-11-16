@@ -7,7 +7,7 @@ typedef struct Kart Kart;
 typedef struct Kart Kart;
 
 typedef struct Kart Kart;
-typedef struct PointLink PointLink;
+typedef struct BattlePointLink BattlePointLink;
 
 #include "Main/Kart/kart_drift.h"
 
@@ -41,7 +41,7 @@ void InitKartPhysicalParams(Kart *kart);
 // KART_ENTRY_REMOVED and KART_ENTRY_HIDDEN.
 void ResetKartToStartPlacement(Kart *kart);
 void StopKartItemsAndEffects(Kart *kart);
-void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, PointLink *link);
+void ResetKartAndSetPos(Kart *kart, const Vec3 *position, const Vec3 *forward, BattlePointLink *link);
 s32 AdvanceKartRespawnWait(Kart *kart, s32 *outVelocityScale);
 // Slot 6 of Kart.mSlotFunctions: puts the Kart back on the course at the respawn place of Kart.mRespawnSlot (chosen
 // first when -1; in battle the course hands out its next respawn slot), starts the respawn effect and counts the
