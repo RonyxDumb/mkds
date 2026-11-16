@@ -93,7 +93,7 @@ void InitDispCap(void *heap) {
     gDispCap->mBlendMin = 0;
     gDispCap->mBlendFactor = DISP_CAP_BLEND_FACTOR_FULL;
     gDispCap->mMode = DISP_CAP_MODE_OFF;
-    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == WIRELESS_VRAM_STATE_STARTED) {
         gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }
@@ -135,7 +135,7 @@ static inline s32 DispCapIsConnectionActiveNotEndingWithError(void) {
 
 void SetDispCapMode(s32 mode) {
     gDispCap->mMode = mode;
-    if (gWvrState.mState == BANK_SHARE_ACTIVE) {
+    if (gWvrState.mState == WIRELESS_VRAM_STATE_STARTED) {
         gDispCap->mMode = DISP_CAP_MODE_OFF;
     }
 }

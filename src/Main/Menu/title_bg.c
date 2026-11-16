@@ -219,7 +219,7 @@ void CreateTitleScene(void) {
     LoadTxtSystemAndSelectChoisesAndSelectReturnData();
     InitSceneText(TitleGetCurrentHeap(), &config);
     gTitleScene->mCharacterKartPicks = CreateCharacterKartPicks(TitleGetCurrentHeap());
-    SetConnectionKind(0);
+    SetConnectionKind(CONNECTION_KIND_NONE);
     SetMultiSimple(0);
     ClearShuffledIndices();
     TitleSetRaceSetupRequested(1);

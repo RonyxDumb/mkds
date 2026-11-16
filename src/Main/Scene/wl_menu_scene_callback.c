@@ -79,9 +79,9 @@ void FillStartupWork(void) {
     MI_CpuCopy8(ownerInfo.mNickName, gStartupWork->mOwnerText, gStartupWork->mOwnerCharCount << 1);
     gStartupWork->mFavoriteColor = ownerInfo.mFavoriteColor;
 #ifdef version_EUR
-    gStartupWork->mRegion = 2;
+    gStartupWork->mRegion = REGION_EUROPE;
 #else
-    gStartupWork->mRegion = 1;
+    gStartupWork->mRegion = REGION_USA;
 #endif
     switch (ownerInfo.mLanguage) {
         case LANGUAGE_ENGLISH:

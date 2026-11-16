@@ -27,7 +27,7 @@ enum {
 // English in EUROPE; the keyboard starts on kana for JAPAN.
 enum {
     REGION_JAPAN,
-    REGION_AMERICA,
+    REGION_USA,
     REGION_EUROPE,
 };
 
@@ -286,9 +286,9 @@ typedef struct FileReadThread {
 extern FileReadThread gFileReadThread;
 
 // Values of WvrState.mState.
-#define BANK_SHARE_ACTIVE 0 // after WVR_StartUpAsync finished
+#define WIRELESS_VRAM_STATE_STARTED 0 // after WVR_StartUpAsync finished
 
-#define BANK_SHARE_INACTIVE 1 // initial value; after WVR_TerminateAsync finished
+#define WIRELESS_VRAM_STATE_STOPPED 1 // initial value; after WVR_TerminateAsync finished
 
 #define WIRELESS_VRAM_STATE_BUSY 2 // set while an async start or terminate is running
 
@@ -330,12 +330,12 @@ typedef struct RomArchiveParentViewEntry {
     /* 08 */ u8 *mBlockData;
 } RomArchiveParentViewEntry;
 
-// The nine-byte message of mKind, mPacketSizeHigh, mValue24, mWord04 and mPacketSizeLow that the parent and the child
-// pass to WBT_PutUserData.
+// The nine-byte message of mKind, mPacketSizeHigh, mLength, mWord04 and mPacketSizeLow that the parent and the child
+// pass to WBT_PutUserData. A reply carries 1 or 0 in mLength.
 typedef struct RomArchiveMessage {
     /* 00 */ u32 mKind : 4;
     /* 00 */ u32 mPacketSizeHigh : 4;
-    /* 00 */ u32 mValue24 : 24;
+    /* 00 */ u32 mLength : 24;
     /* 04 */ s32 mWord04;
     /* 08 */ u8 mPacketSizeLow;
 } RomArchiveMessage;

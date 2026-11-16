@@ -651,7 +651,7 @@ void UpdateChoisesS(void) {
             gChoisesS->mCloseFrames = 0;
         }
     }
-    if (ChoisesSGetConnectionKind() != 0 && ChoisesSGetCurrentMode() == MODE_WIFI &&
+    if (ChoisesSGetConnectionKind() != CONNECTION_KIND_NONE && ChoisesSGetCurrentMode() == MODE_WIFI &&
         IsRaceDoneOrReplayPastStartFrames() != 0) {
         gChoisesS->mAutoPickFrames = gChoisesS->mAutoPickFrames + 1;
         if (gChoisesS->mAutoPickFrames > CHOISES_S_AUTO_PICK_FRAMES) {

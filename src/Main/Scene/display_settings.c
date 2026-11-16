@@ -301,7 +301,6 @@ void SetSubObjVRamModeBmp(DisplaySettings *settings, u32 value) {
     settings->mSubBgRecords.mObjVRamModeBmp = value;
 }
 
-// Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { BG3_CONTROL_FIELD_0 } Bg23ControlField;
 
 // Sets the low two bits of the halfword register cntReg and its bit 6 from the first two halfwords of fields.
@@ -556,10 +555,8 @@ void ApplyBg3Cnt(Bg23Cnt *cnt, s32 isMainScreen) {
     }
 }
 
-// Enum-typed parameters of the inlines below: their values are read before the register.
 typedef enum { DISPLAY_REGISTER_FIELD_0 } DisplayRegisterField;
 
-// Calls MIi_CpuClearFast with the value read from a volatile copy.
 static inline void DisplayFillMemoryFast(u32 fillValue, void *destination, u32 size) {
     volatile u32 fillValueCopy = fillValue;
     MIi_CpuClearFast(fillValueCopy, destination, size);

@@ -87,8 +87,8 @@ s32 UpdateMessageScreen(void) {
     if (gMessageScreen->mOpen == FALSE) {
         return -1;
     }
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0);
+    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_CLEAR);
+    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, BRIGHTNESS_LEVEL_CLEAR);
     if ((u16) (gKeysInputSlot.mPressedBits & PAD_KEY_A) != 0) {
         messageScreen = gMessageScreen;
         if (messageScreen->mInputEnabled != 0) {

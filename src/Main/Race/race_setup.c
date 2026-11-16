@@ -79,7 +79,7 @@ void ResetRaceSetupCopy(void) {
     }
     gRaceSetupCopy->mMissionTableRow = 1;
     gRaceSetupCopy->mMissionTableColumn = 1;
-    if (RaceSetupCopyGetConnectionKind() == 0) {
+    if (RaceSetupCopyGetConnectionKind() == CONNECTION_KIND_NONE) {
         if (RaceSetupCopyMB_IsMultiBootChildWrapper() == 0) {
             gRaceSetupCopy->mMissionFile = FindSceneFile("mission.mr");
         } else {

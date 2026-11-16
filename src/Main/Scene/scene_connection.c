@@ -409,7 +409,7 @@ void RunMessageScreenOfKind(s32 kind) {
             RecordFrameTimes();
         } while (AreBrightnessFadesFaded() == 0);
     } else {
-        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
+        GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
     }
 }
 

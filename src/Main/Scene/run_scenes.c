@@ -52,6 +52,7 @@
 #include "Main/Menu/menu_shared_clear.h"
 
 const u8 gDWCUtilityLanguageTable[6] = {0, 1, 2, 3, 4, 5};
+// Scene functions in scene-number order.
 const u32 gSceneFuncs[16] = {
     (u32) RunTitleScene,
     (u32) RunMenuScene,
@@ -73,8 +74,6 @@ const u32 gSceneFuncs[16] = {
 s16 gSceneNumbers[3] = {-1, -1, -1};
 RunScenesState *gRunScenesState;
 ShapeMapObjectCountList *gShapeMapObjectCountList;
-
-// Scene functions in scene-number order.
 
 void ClearShapeMapObjectCountListPointer(void) {
     gShapeMapObjectCountList = NULL;
@@ -204,8 +203,8 @@ void RunDWCUtility(void) {
     utilityWork = HeapAllocAligned(expHeapFromMaxFree, 0x40000, HEAP_ALIGN_CACHE_LINE);
     LoadOverlayAndRunDWCUtility(utilityWork, SDK_OVERLAY_OV003_ID);
     HeapDestroy(expHeapFromMaxFree);
-    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, 0x10);
-    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, 0x10);
+    GXx_SetMasterBrightness_(&reg_GX_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
+    GXx_SetMasterBrightness_(&reg_GXS_DB_MASTER_BRIGHT, BRIGHTNESS_LEVEL_FADED);
     WaitIrqAndTurnOnDisplays();
     SetCurrentSndArc();
     heap = HeapAlloc(heap, GetSndHeapsBufferSize(1));

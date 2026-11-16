@@ -112,8 +112,8 @@ static inline void RunSceneUpdateInputAndLcdPower(void) {
             savedInterrupts = OS_DisableInterrupts();
             PM_SetLCDPower(1);
             if (AreBrightnessFadesClear()) {
-                SetMainMasterBrightness(0);
-                SetSubMasterBrightness(0);
+                SetMainMasterBrightness(BRIGHTNESS_LEVEL_CLEAR);
+                SetSubMasterBrightness(BRIGHTNESS_LEVEL_CLEAR);
             }
             gSceneRunState->mLcdOff = FALSE;
             OS_RestoreInterrupts(savedInterrupts);
@@ -282,7 +282,7 @@ void RunScene(SceneNumbers *sceneNumbers, const SceneCallbacks *callbacks) {
         }
     }
     if ((exitValue != 0 || GetNextSceneNumber() == 0) && gBootInfo->mBootType == BOOT_TYPE_MULTIBOOT) {
-        RunMessageScreenOfKind(0);
+        RunMessageScreenOfKind(MESSAGE_KIND_CONNECTION_ERROR);
     }
     if (gStartupWork->mConnectionKind == CONNECTION_KIND_WIFI_TOP_MENU) {
         StartFadeToFadedPositive(callbacks->mFadeToFadedFrameCount);
@@ -360,7 +360,7 @@ end:
         sceneNumbers->mNextScene = 0;
     } else {
         messageKind = gSceneRunState->mMessageKind;
-        if (messageKind != -1) {
+        if (messageKind != MESSAGE_KIND_NONE) {
             switch (messageKind) {
                 case MESSAGE_KIND_WIFI_ERROR:
                 case MESSAGE_KIND_WIFI_NO_INPUT:

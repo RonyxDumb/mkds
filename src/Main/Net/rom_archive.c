@@ -252,7 +252,7 @@ void SendRomArchiveMessage(void) {
             return;
         }
         sizeMessage.mKind = ROM_ARCHIVE_MESSAGE_REPLY;
-        sizeMessage.mValue24 = 0;
+        sizeMessage.mLength = 0;
         sizeMessage.mWord04 = 0;
         sizeMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
         sizeMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
@@ -313,7 +313,7 @@ void SendRomArchiveMessage(void) {
     blockId = firstEntry->mBlockId;
     replyMessage.mKind = (u8) firstEntry->mKind;
     replyMessage.mWord04 = blockId;
-    replyMessage.mValue24 = 1;
+    replyMessage.mLength = 1;
     replyMessage.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     replyMessage.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
     if (WBT_PutUserData(sendMask, &replyMessage, 9, RomArchiveSendCallback) == 0) {
@@ -430,7 +430,7 @@ void RequestRomArchiveBytes(FSFile *file) {
     requestedLength = file->mArg.p.mUnk_08;
     message.mWord04 = childView->mPositionOffset + file->mPosition;
     message.mKind = ROM_ARCHIVE_MESSAGE_REQUEST;
-    message.mValue24 = requestedLength;
+    message.mLength = requestedLength;
     message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
     message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
     if (WBT_PutUserData(1, &message, 9, RomArchiveSendCallback) != 0) {
@@ -577,7 +577,7 @@ void RomArchiveParentCallback(WBTCommand *record) {
             view->mEntries[fromIndex] = payload->mArchiveParentViewEntry;
             switch (record->mData.mArchiveMessage.mKind) {
                 case ROM_ARCHIVE_MESSAGE_REQUEST:
-                    fileLength = record->mData.mArchiveMessage.mValue24;
+                    fileLength = record->mData.mArchiveMessage.mLength;
                     sizeOrBlockId =
                         (record->mData.mArchiveMessage.mPacketSizeHigh << 8) | payload->mArchiveMessage.mPacketSizeLow;
                     value = payload->mArchiveMessage.mWord04;
@@ -817,7 +817,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             }
             message.mWord04 = childView->mFileBlockId;
             message.mKind = ROM_ARCHIVE_MESSAGE_RELEASE;
-            message.mValue24 = 1;
+            message.mLength = 1;
             message.mPacketSizeHigh = (gRomArchiveTransfer.mParentPacketSize >> 8) & 0xff;
             message.mPacketSizeLow = gRomArchiveTransfer.mParentPacketSize;
             if (WBT_PutUserData(1, &message, 9, RomArchiveSendCallback) != 0) {
@@ -832,7 +832,7 @@ void RomArchiveChildCallback(WBTCommand *record) {
             received = &record->mData.mArchiveMessage;
             switch (received->mKind) {
                 case ROM_ARCHIVE_MESSAGE_REPLY:
-                    if (received->mValue24 == 0) {
+                    if (received->mLength == 0) {
                         WBT_RequestSync(1, RomArchiveChildCallback);
                         return;
                     }

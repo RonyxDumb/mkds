@@ -266,7 +266,7 @@ void InitializeCallback(WirelessMessage *event) {
     if (event->mResultCode != WIRELESS_RESULT_SUCCEEDED) {
         return;
     }
-    if (gConnectionWork->mConnectionKind != 0) {
+    if (gConnectionWork->mConnectionKind != CONNECTION_KIND_NONE) {
         WM_SetPortCallback(1, PacketPortCallback, NULL);
     }
     ResetConnectionData();

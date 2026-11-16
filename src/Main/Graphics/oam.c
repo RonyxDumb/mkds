@@ -171,7 +171,7 @@ u32 NextRandomBelowByConnectionKind(u32 limit) {
     int connectionKind;
     RandomState64 *randomState;
     connectionKind = GetConnectionKind();
-    if (connectionKind == 0) {
+    if (connectionKind == CONNECTION_KIND_NONE) {
         randomState = GetRandomState();
     } else {
         randomState = GetConnectionWorkRandomState();

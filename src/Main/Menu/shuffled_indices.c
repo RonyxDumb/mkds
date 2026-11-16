@@ -35,7 +35,8 @@ void FillShuffledIndices(void) {
 
     remainingCount = 8;
     if (gMenuShared->mIndicesShuffled == 0) {
-        if (ShuffledIndicesGetConnectionKind() == 1 || ShuffledIndicesGetConnectionKind() == 2) {
+        if (ShuffledIndicesGetConnectionKind() == CONNECTION_KIND_MEMBER_SELECT ||
+            ShuffledIndicesGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
             random = ShuffledIndicesGetConnectionWorkRandomState();
             for (index = 0; index < 8; index++) {
                 remaining[index] = index;

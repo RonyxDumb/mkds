@@ -163,7 +163,7 @@ void UpdateVsSelectCupGrid(void) {
             SwitchMenuScreen(SCREEN_SELECT_RACE_RULE_VS, SCREEN_NONE);
             break;
         case MENU_SCREEN_RESULT_LEAVE:
-            if (VsSelectCupGetConnectionKind() == 0) {
+            if (VsSelectCupGetConnectionKind() == CONNECTION_KIND_NONE) {
                 SwitchMenuScreen(SCREEN_SINGLE_PLAY_SELECT_SLIDE_IN, SCREEN_NONE);
             } else {
                 SwitchMenuScreen(SCREEN_SELECT_GAME, SCREEN_NONE);

@@ -200,11 +200,11 @@ void InitWLMenuResetRaceSetup(void *heap) {
     }
     connectionKind = gStartupWork->mConnectionKind;
     kindIsOneOrTwo = 1;
-    if (connectionKind != 1 && connectionKind != 2) {
+    if (connectionKind != CONNECTION_KIND_MEMBER_SELECT && connectionKind != CONNECTION_KIND_WL_MENU) {
         kindIsOneOrTwo = 0;
     }
     if (kindIsOneOrTwo != 0) {
-        AllocConnectionBuffers(heap, connectionKind == 1, bannerFile);
+        AllocConnectionBuffers(heap, connectionKind == CONNECTION_KIND_MEMBER_SELECT, bannerFile);
         InitMPChunkBuffers(heap);
     }
     ResetRaceSetup();

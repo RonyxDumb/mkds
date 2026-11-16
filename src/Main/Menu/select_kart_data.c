@@ -452,7 +452,7 @@ void InitSelectKart(void *parentHeap, s32 mode, void *mainOam, void *subOam) {
     if (SelectKartMB_IsMultiBootChildWrapper() == 0) {
         RequestSelectReturnSlideIn();
     }
-    if (SelectKartGetConnectionKind() == 2) {
+    if (SelectKartGetConnectionKind() == CONNECTION_KIND_WL_MENU) {
         SetSelectReturnDisplayBitOn();
     }
     if (gSelectKart->mMode == SELECT_KART_MODE_NO_CONNECTION) {
@@ -779,7 +779,7 @@ u32 SelectKartMB_IsMultiBootChildWrapper(void) {
 
 void ReleaseSelectKart(void) {
     int result;
-    if ((gSelectKart->mResult == MENU_SCREEN_RESULT_NEXT) && (result = SelectKartGetConnectionKind(), result == 2)) {
+    if ((gSelectKart->mResult == MENU_SCREEN_RESULT_NEXT) && (result = SelectKartGetConnectionKind(), result == CONNECTION_KIND_WL_MENU)) {
         ClearSelectReturnDisplayBitOn();
     }
     result = SelectKartMB_IsMultiBootChildWrapper();

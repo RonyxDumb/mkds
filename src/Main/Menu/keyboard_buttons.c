@@ -274,7 +274,7 @@ void InitKeyboard(void *heap, s32 mode) {
         gKeyboard->mLayout = KEYBOARD_LAYOUT_DIGITS;
         SetKeyboardTextLimit(gKeyboardTextLimits[KEYBOARD_KIND_FRIEND_KEY]);
     } else {
-        if (gStartupWork->mRegion == 0) {
+        if (gStartupWork->mRegion == REGION_JAPAN) {
             gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
         } else {
             gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
@@ -609,7 +609,7 @@ void AdvanceKeyboardSlideOutFriendKey(void) {
                         0);
                     gKeyboard->mStateFrames = 0;
                     gKeyboard->mKind = KEYBOARD_KIND_NAME;
-                    if (gStartupWork->mRegion == 0) {
+                    if (gStartupWork->mRegion == REGION_JAPAN) {
                         gKeyboard->mLayout = KEYBOARD_LAYOUT_KANA;
                     } else {
                         gKeyboard->mLayout = KEYBOARD_LAYOUT_ASCII;
@@ -771,7 +771,7 @@ void AdvanceKeyboardEnterName(void) {
             NNS_SndArcPlayerStartSeqArc(&gSharedSeqHandle, 0, 0x16);
         }
     } else if ((u16) (gInputSlots[inputSlotIndex].mPressedBits & PAD_KEY_Y) != 0) {
-        if (gStartupWork->mRegion == 0) {
+        if (gStartupWork->mRegion == REGION_JAPAN) {
             gKeyboard->mLayout = gKeyboardNextLayouts[0][gKeyboard->mLayout];
         } else {
             gKeyboard->mLayout = gKeyboardNextLayouts[1][gKeyboard->mLayout];

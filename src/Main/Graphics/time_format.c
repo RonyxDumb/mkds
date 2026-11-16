@@ -133,7 +133,7 @@ void FormatDate(DateBytes *date, u16 *text) {
             FormatTwoDigitNumber(date->mDay, text + 8);
             text[10] = 0;
             break;
-        case REGION_AMERICA:
+        case REGION_USA:
             FormatTwoDigitNumber(date->mMonth, text);
             text[2] = 0x2f;
             FormatTwoDigitNumber(date->mDay, text + 3);
