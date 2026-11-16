@@ -8,7 +8,7 @@
 #include "wireless_link_control.h" // ScanExParam, ScanParam, ParentParameter
 #include "wireless_key_data_sharing.h" // WMDataSharingInfo, WMDataSet
 #include "fixed_vector_math.h" // Vec3s16
-#include "geometry_engine_setup.h" // MtxFx44
+#include "geometry_engine_setup.h"
 #include "model_material_set.h" // MtxFx43
 #include "Main/Net/wireless_block_requests.h"
 #include "Main/Kart/point_link_cursor.h" // PosCurve

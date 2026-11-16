@@ -32,7 +32,7 @@ void InitArchiveSlots(void *heap) {
 
     gArchiveSlots = HeapAlloc(heap, sizeof(ArchiveSlots));
     gArchiveSlots->mLoadRequest.mReadBuffer = HeapAllocAligned(heap, 0x400, HEAP_ALIGN_CACHE_LINE);
-    for (index = 0; index < 20; index++) {
+    for (index = 0; index < ARCHIVE_SLOT_COUNT; index++) {
         gArchiveSlots->mSlots[index].mLoaded = 0;
     }
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {
@@ -40,7 +40,7 @@ void InitArchiveSlots(void *heap) {
         gArchiveSlots->mFileTable = HeapAlloc(heap, gArchiveSlots->mFileTableSize);
         FS_TryLoadTable((u32) gArchiveSlots->mFileTable, gArchiveSlots->mFileTableSize);
     }
-    for (index = 0; index < 16; index++) {
+    for (index = 0; index < ARCHIVE_BUFFER_COUNT; index++) {
         ResetArchiveBuffer(index);
     }
     gArchiveSlots->mCourseId = NULL;
@@ -174,7 +174,8 @@ void BuildCourseArchivePath(char *path, s32 courseId, s32 useTexture) {
     } else {
         dSuffix = "";
     }
-    OS_SNPrintf(path, 0x80, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix, textureSuffix);
+    OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Course/%s%s%s.carc", gCourseArchiveNames[courseId].mName, dSuffix,
+                textureSuffix);
 }
 
 u32 GetLanguageCode(void) {
@@ -204,13 +205,13 @@ void BuildSceneArchivePathWithLanguage(char *path, const char *sceneName) {
     u32 languageCode;
     if (*sceneName != 0) {
         languageCode = GetLanguageCode();
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s_%s%s", sceneName, languageCode, ".carc");
     }
 }
 
 void BuildSceneArchivePath(char *path, const char *sceneName) {
     if (*sceneName != 0) {
-        OS_SNPrintf(path, 0x80, "/data/Scene/%s%s", sceneName, ".carc");
+        OS_SNPrintf(path, ARCHIVE_PATH_SIZE, "/data/Scene/%s%s", sceneName, ".carc");
     }
 }
 

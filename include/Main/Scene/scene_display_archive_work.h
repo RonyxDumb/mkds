@@ -1,5 +1,6 @@
 #pragma once
 #include "types.h"
+#include "Main/System/archive_slots.h"
 #include "Main/Scene/display_settings.h"
 #include "archive_memory_load.h" // NNSFndArchive
 #include "Main/System/input_slots.h" // InputSlot
@@ -242,7 +243,7 @@ typedef struct ArchiveSlot {
 
 // A request to load an archive file: mPath, source, read buffer, slot, heap end and uncompress flags.
 typedef struct ArchiveLoadRequest {
-    /* 00 */ u8 mPath[0x80];
+    /* 00 */ u8 mPath[ARCHIVE_PATH_SIZE];
     /* 80 */ u32 *mSourceData;
     /* 84 */ void *mData;
     /* 88 */ u32 *mReadBuffer;
@@ -255,12 +256,12 @@ typedef struct ArchiveLoadRequest {
 
 // The archive loader: 20 archive slots, the file table, the load request, the buffers and their heaps.
 typedef struct ArchiveSlots {
-    /* 000 */ ArchiveSlot mSlots[20];
+    /* 000 */ ArchiveSlot mSlots[ARCHIVE_SLOT_COUNT];
     /* 8c0 */ u32 mFileTableSize;
     /* 8c4 */ void *mFileTable;
     /* 8c8 */ ArchiveLoadRequest mLoadRequest;
     /* 968 */ FSFile mFile;
-    /* 9b0 */ ArchiveBuffer mBuffers[16];
+    /* 9b0 */ ArchiveBuffer mBuffers[ARCHIVE_BUFFER_COUNT];
     /* a70 */ void *mCourseId;
     /* a74 */ void *mRaceKind;
     /* a78 */ NNSiFndHeapHead *mFirstHeap;

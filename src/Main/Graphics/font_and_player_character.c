@@ -16,7 +16,7 @@ struct NNSG2dFont gLCFontM;
 #pragma thumb on
 #pragma optimize_for_size on
 void LoadFontAndPlayerCharacterData(void) {
-    if (IsArchiveSlotLoaded(1) != 0) {
+    if (IsArchiveSlotLoaded(ARCHIVE_SLOT_MAIN_2D) != 0) {
         InitFontIfLoaded(&gLCFontS, FindFileInLoadedArchives("LC_Font_s.NFTR"));
         InitFontIfLoaded(&gLCFontM, FindFileInLoadedArchives("LC_Font_m.NFTR"));
         InitFontIfLoaded(&gMarioFont, FindFileInLoadedArchives("marioFont.NFTR"));
