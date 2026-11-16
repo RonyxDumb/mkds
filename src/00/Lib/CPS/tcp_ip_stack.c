@@ -57,7 +57,7 @@ OSThread *gReceiverThread;
 u16 CPSMyMac[3];
 u32 CPSDnsIp[2];
 u64 CPSiRand32ctx[3];
-u8 gTmpBuf[58];
+u8 gTcpipThreadHeaderBuffer[58];
 CPSArpCache gArpCache[8];
 CPSSoc gTmpSoc;
 CPSSoc gScavengerSoc;
@@ -66,7 +66,7 @@ OSThread gScavengerThread;
 u8 gScavengerReceiveBuffer[384];
 u8 gScavengerSendBuffer[384];
 CPSFragTable gFragTable[8];
-u8 __attribute__((aligned(32))) gTcpipStack[2048];
+u8 __attribute__((aligned(32))) gUnusedStackBuffer[2048];
 u8 __attribute__((aligned(32))) gScavengerStack[2048];
 
 void reset_network_vars(u32 reason) {
@@ -712,7 +712,7 @@ void send_tcp(const u8 *data, u32 length, CPSSoc *socket, u32 flag, u16 urgent) 
         return;
     }
     if (OSi_ThreadInfo.mCurrentThread == &gTcpipThread) {
-        header = gTmpBuf + 0x22;
+        header = gTcpipThreadHeaderBuffer + 0x22;
     } else {
         header = socket->mSendBuffer.mStart + 0x22;
     }

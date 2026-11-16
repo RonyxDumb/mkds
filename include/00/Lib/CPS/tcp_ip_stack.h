@@ -231,7 +231,7 @@ extern OSThread *gReceiverThread;
 extern u8 *gWlanBuf;
 extern u32 gWlanBufLen;
 extern u32 gWlanGetPnt;
-extern u8 gTmpBuf[58];
+extern u8 gTcpipThreadHeaderBuffer[58];
 extern CPSSoc gTmpSoc;
 extern OSThread gScavengerThread;
 extern OSThread gTcpipThread;

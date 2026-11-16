@@ -28,7 +28,7 @@ data_usa_ov001_021b0fdc
 data_usa_ov001_021bf024
 gRomArchiveUnusedPad
 gLogoScene
-gTcpipStack
+gUnusedStackBuffer
 gKartNameTagColorQuadPalette
 gKartNameTagColorQuadTexture
 gKartNameTagMaskedPalette

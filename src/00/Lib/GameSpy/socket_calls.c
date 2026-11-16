@@ -27,7 +27,7 @@
 #include "00/Lib/NitroWiFi/socket_library_startup.h"
 #include "text_to_number.h"
 
-static char *aliases = NULL;
+static char *sAliases = NULL;
 static s32 GSINitroErrno;
 
 #pragma opt_propagation off
@@ -182,7 +182,7 @@ SOCHostEnt *getlocalhost(void) {
     static u32 ips[5];
 
     localhostEntry.mName = "localhost";
-    localhostEntry.mAliases = (u8 *) &aliases;
+    localhostEntry.mAliases = (u8 *) &sAliases;
     localhostEntry.mAddrType = SOCKET_FAMILY_IPV4;
     localhostEntry.mLength = 0;
     localhostEntry.mAddrList = addrList;

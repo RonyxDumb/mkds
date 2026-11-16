@@ -31,15 +31,15 @@ HttpsEntry gUncachedHttpsEntry;
 HttpsEntry gHttpsEntries[4];
 
 static char sPrefixNone[] = "\xff\xff\xff";
-static char sPrefixCommonName[] = "\x55\x04\x03";
+static char sPrefixHostPattern[] = "\x55\x04\x03";
 u32 gSslLowThreadPriority = 0xffffffff;
-static char sPrefixRsaEncryption[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
-static char sPrefixRsaAlgorithm[] = "\x55\x08\x01\x01";
-static char sPrefixMd5WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
-static char sPrefixSha1WithRsa[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
+static char sPrefixKeyValuesLong[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01";
+static char sPrefixKeyValuesShort[] = "\x55\x08\x01\x01";
+static char sPrefixMd5Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x04";
+static char sPrefixSha1Digest[] = "\x2a\x86\x48\x86\xf7\x0d\x01\x01\x05";
 u16 gOfferedValues[2] = {4, 5};
-const char *gTaggedItemPrefixes[6] = {sPrefixNone,       sPrefixRsaEncryption, sPrefixRsaAlgorithm,
-                                      sPrefixMd5WithRsa, sPrefixSha1WithRsa,   sPrefixCommonName};
+const char *gTaggedItemPrefixes[6] = {sPrefixNone,       sPrefixKeyValuesLong, sPrefixKeyValuesShort,
+                                      sPrefixMd5Digest, sPrefixSha1Digest,   sPrefixHostPattern};
 
 HttpsEntry *FindEntryByBytesAndSetLastUseTime(const u8 *wantedBytes) {
     s32 entryIndex;

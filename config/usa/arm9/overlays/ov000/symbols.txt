@@ -1565,8 +1565,8 @@ gWiFiVSMatchingEmblemScalePercents kind:data(byte[40]) addr:0x021b0cc4
 @4018 kind:data(byte[26]) addr:0x021b0dbc local
 @6252 kind:data(byte[9]) addr:0x021b0dd8 local
 @6253 kind:data(byte[11]) addr:0x021b0de4 local
-gSelectCharacterCallbacks kind:data(byte[16]) addr:0x021b0df0
-gSelectKartCallbacks kind:data(byte[16]) addr:0x021b0e00
+gWiFiSelectCharacterCallbacks kind:data(byte[16]) addr:0x021b0df0
+gWiFiSelectKartCallbacks kind:data(byte[16]) addr:0x021b0e00
 gWiFiVSCourseSelectCallbacks kind:data(byte[16]) addr:0x021b0e10
 gWiFiAikotobaCallbacks kind:data(byte[16]) addr:0x021b0e20
 @5469 kind:data(byte[19]) addr:0x021b0e30 local
@@ -2283,18 +2283,18 @@ gStaticQr2Rec kind:data(byte[272]) addr:0x021b4238
 @3016 kind:data(byte[3]) addr:0x021b43e8 local
 @3017 kind:data(byte[56]) addr:0x021b43ec local
 @3018 kind:data(byte[30]) addr:0x021b4424 local
-gQr2KeyReserved kind:data(byte[1]) addr:0x021b4444
-gQr2KeyPidPrefix kind:data(byte[5]) addr:0x021b4448
-gQr2KeyTeamPrefix kind:data(byte[6]) addr:0x021b4450
-gQr2KeyPingPrefix kind:data(byte[6]) addr:0x021b4458
-gQr2KeyScorePrefix kind:data(byte[7]) addr:0x021b4460
-gQr2KeyTeamTeam kind:data(byte[7]) addr:0x021b4468
-gQr2KeySkillPrefix kind:data(byte[7]) addr:0x021b4470
+gQr2KeyEmpty kind:data(byte[1]) addr:0x021b4444
+gQr2KeyPidUnderscore kind:data(byte[5]) addr:0x021b4448
+gQr2KeyTeamUnderscore kind:data(byte[6]) addr:0x021b4450
+gQr2KeyPingUnderscore kind:data(byte[6]) addr:0x021b4458
+gQr2KeyScoreUnderscore kind:data(byte[7]) addr:0x021b4460
+gQr2KeyTeamUnderscoreT kind:data(byte[7]) addr:0x021b4468
+gQr2KeySkillUnderscore kind:data(byte[7]) addr:0x021b4470
 gQr2KeyMapname kind:data(byte[8]) addr:0x021b4478
-gQr2KeyDeathsPrefix kind:data(byte[8]) addr:0x021b4480
+gQr2KeyDeathsUnderscore kind:data(byte[8]) addr:0x021b4480
 gQr2KeyGamever kind:data(byte[8]) addr:0x021b4488
-gQr2KeyPlayerPrefix kind:data(byte[8]) addr:0x021b4490
-gQr2KeyScoreTeam kind:data(byte[8]) addr:0x021b4498
+gQr2KeyPlayerUnderscore kind:data(byte[8]) addr:0x021b4490
+gQr2KeyScoreUnderscoreT kind:data(byte[8]) addr:0x021b4498
 gQr2KeyGroupid kind:data(byte[8]) addr:0x021b44a0
 gQr2KeyGamename kind:data(byte[9]) addr:0x021b44a8
 gQr2KeyHostport kind:data(byte[9]) addr:0x021b44b4
@@ -2320,12 +2320,12 @@ SOCLSocketParamUDPSend kind:data(byte[24]) addr:0x021b4990
 @2098 kind:data(byte[12]) addr:0x021b49a8 local
 gSslLowThreadPriority kind:data(byte[4]) addr:0x021b49b4
 sPrefixNone kind:data(byte[4]) addr:0x021b49b8 local
-sPrefixCommonName kind:data(byte[4]) addr:0x021b49bc local
+sPrefixHostPattern kind:data(byte[4]) addr:0x021b49bc local
 gOfferedValues kind:data(byte[4]) addr:0x021b49c0
-sPrefixRsaAlgorithm kind:data(byte[5]) addr:0x021b49c4 local
-sPrefixRsaEncryption kind:data(byte[10]) addr:0x021b49cc local
-sPrefixMd5WithRsa kind:data(byte[10]) addr:0x021b49d8 local
-sPrefixSha1WithRsa kind:data(byte[10]) addr:0x021b49e4 local
+sPrefixKeyValuesShort kind:data(byte[5]) addr:0x021b49c4 local
+sPrefixKeyValuesLong kind:data(byte[10]) addr:0x021b49cc local
+sPrefixMd5Digest kind:data(byte[10]) addr:0x021b49d8 local
+sPrefixSha1Digest kind:data(byte[10]) addr:0x021b49e4 local
 gTaggedItemPrefixes kind:data(byte[24]) addr:0x021b49f0
 @3422 kind:data(byte[5]) addr:0x021b4a08 local
 @3423 kind:data(byte[5]) addr:0x021b4a10 local
@@ -2356,7 +2356,7 @@ gWiFiConnectionLost kind:bss(size=0x4) addr:0x021b4c4c
 gAuth kind:bss(size=0x4) addr:0x021b4c50
 gAuthWiFiInfo kind:bss(size=0x14) addr:0x021b4c54
 DWChttpignoreca kind:bss(size=0x4) addr:0x021b4c68
-gHttp kind:bss(size=0x4) addr:0x021b4c6c
+gNetcheckHttp kind:bss(size=0x4) addr:0x021b4c6c
 gNetcheck kind:bss(size=0x4) addr:0x021b4c70
 gHttpParam kind:bss(size=0x20) addr:0x021b4c74
 gAuthParam kind:bss(size=0x2c) addr:0x021b4c94
@@ -2374,7 +2374,7 @@ gGsiAcResult kind:bss(size=0x4) addr:0x021b4ce8
 gGsiAcHostname kind:bss(size=0x40) addr:0x021b4cec
 gGsiAcGamename kind:bss(size=0x40) addr:0x021b4d2c
 gGsiAvailableCheck kind:bss(size=0x58) addr:0x021b4d6c
-aliases kind:bss(size=0x4) addr:0x021b4dc4 local
+sAliases kind:bss(size=0x4) addr:0x021b4dc4 local
 GSINitroErrno kind:bss(size=0x4) addr:0x021b4dc8 local
 localhostEntry$2277 kind:bss(size=0x10) addr:0x021b4dcc local
 ips$2006 kind:bss(size=0x14) addr:0x021b4ddc local
@@ -2486,7 +2486,7 @@ gWlanGetPnt kind:bss(size=0x4) addr:0x021b638c
 CPSMyMac kind:bss(size=0x6) addr:0x021b6390
 CPSDnsIp kind:bss(size=0x8) addr:0x021b6398
 CPSiRand32ctx kind:bss(size=0x18) addr:0x021b63a0
-gTmpBuf kind:bss(size=0x3a) addr:0x021b63b8
+gTcpipThreadHeaderBuffer kind:bss(size=0x3a) addr:0x021b63b8
 gArpCache kind:bss(size=0x60) addr:0x021b63f4
 gScavengerSoc kind:bss(size=0x64) addr:0x021b6454
 gTmpSoc kind:bss(size=0x64) addr:0x021b64b8
@@ -2496,4 +2496,4 @@ gScavengerSendBuffer kind:bss(size=0x180) addr:0x021b669c
 gScavengerReceiveBuffer kind:bss(size=0x180) addr:0x021b681c
 gFragTable kind:bss(size=0x1c0) addr:0x021b699c
 gScavengerStack kind:bss(size=0x800) addr:0x021b6b60
-gTcpipStack kind:bss(size=0x800) addr:0x021b7360
+gUnusedStackBuffer kind:bss(size=0x800) addr:0x021b7360
