@@ -92,13 +92,13 @@ s32 RunValueRecordsRequest(ValueRecordsRequest *req) {
 
 s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     s16 timeout;
-    s32 mode;
-    s32 state;
+    s32 step;
+    s32 nextStep;
     s32 addr;
     PacketBuffer *buffer;
     s32 scanResult;
     s32 result;
-    RetryLimit scan = gRetryLimitTemplate;
+    RetryLimit scanRetry = gRetryLimitTemplate;
     RetryLimit limits = {0, 0};
     s32 value = 1;
     s32 attempts;
@@ -112,25 +112,25 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     PollEntry set;
     WaitTimeout wait;
     SocketAddress bindAddress;
-    PacketTag list[3];
-    EssidMelcoRequest request;
-    SendPacketScratch buf;
+    PacketTag tags[3];
+    EssidMelcoRequest melcoRequest;
+    SendPacketScratch sendScratch;
 
-    mode = 0;
-    attempts = mode;
-    addr = mode;
-    FillBytes(list, 0, sizeof(list));
-    scan.mCount = req->mScanRetryLimit;
-    if (scan.mCount == -1) {
-        scan.mCount = ESSID_REQUEST_DEFAULT_COUNT;
+    step = 0;
+    attempts = step;
+    addr = step;
+    FillBytes(tags, 0, sizeof(tags));
+    scanRetry.mCount = req->mScanRetryLimit;
+    if (scanRetry.mCount == -1) {
+        scanRetry.mCount = ESSID_REQUEST_DEFAULT_COUNT;
     }
     limits.mCount = req->mSendAttemptLimit;
     if (limits.mCount == -1) {
         limits.mCount = ESSID_REQUEST_DEFAULT_COUNT;
     }
-    scan.mDelayMs = req->mScanRetryDelayMs;
-    if (scan.mDelayMs == -1) {
-        scan.mDelayMs = ESSID_REQUEST_DEFAULT_DELAY_MS;
+    scanRetry.mDelayMs = req->mScanRetryDelayMs;
+    if (scanRetry.mDelayMs == -1) {
+        scanRetry.mDelayMs = ESSID_REQUEST_DEFAULT_DELAY_MS;
     }
     limits.mDelayMs = req->mSendAttemptDelayMs;
     if (limits.mDelayMs == -1) {
@@ -150,7 +150,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
 
     retryCount = 0;
     ReportStateChange(0);
-    scanDelayMs = scan.mDelayMs;
+    scanDelayMs = scanRetry.mDelayMs;
     while (1) {
         if (gScannedEssidList != NULL) {
             CallEssidFreeFunction(gScannedEssidList);
@@ -170,7 +170,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         if (result == 0) {
             break;
         }
-        if (retryCount >= scan.mCount) {
+        if (retryCount >= scanRetry.mCount) {
             req->mResultCode = VALUE_RECORDS_RESULT_NO_ENTRY_FOUND;
             ReleaseEssidEntryLists();
             return -1;
@@ -180,8 +180,8 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     }
 
     ReportStateChange(1);
-    FillBytes(&request, 0, 0x3c);
-    if (FillEssidAossAndMelcoRequest(&request) != 0) {
+    FillBytes(&melcoRequest, 0, 0x3c);
+    if (FillEssidAossAndMelcoRequest(&melcoRequest) != 0) {
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
         return -1;
@@ -194,9 +194,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
     }
     FillBytes(gRequestedEssidList, 0, 0x58);
     retryCount = 0;
-    if (scan.mCount > 0) {
+    if (scanRetry.mCount > 0) {
         do {
-            result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+            result = RunEssidMelcoRequest(&melcoRequest, gRequestedEssidList);
             if (result == -1) {
                 req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                 ReleaseEssidEntryLists();
@@ -209,9 +209,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
             }
             EssidSleepWrapper(scanDelayMs);
             retryCount++;
-        } while (retryCount < scan.mCount);
+        } while (retryCount < scanRetry.mCount);
     }
-    if (retryCount == scan.mCount) {
+    if (retryCount == scanRetry.mCount) {
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
         ReleaseEssidEntryLists();
         return -1;
@@ -223,7 +223,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         return -1;
     }
     ReleaseEssidEntryLists();
-    FillPacketTags(3, list, req->mMacAddress);
+    FillPacketTags(3, tags, req->mMacAddress);
     gSocketDescriptor = OpenSocket(2, 2, 0);
     if (gSocketDescriptor < 0) {
         req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
@@ -248,11 +248,11 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
 
     while (1) {
         buffer = gRequestPacketBuffer;
-        FillBytes(&buf, 0, 0x14);
-        buf.mOwnAddress = ESSID_REQUEST_OWN_ADDRESS;
-        buf.mDestinationAddress = ESSID_REQUEST_FIRST_DESTINATION_ADDRESS;
+        FillBytes(&sendScratch, 0, 0x14);
+        sendScratch.mOwnAddress = ESSID_REQUEST_OWN_ADDRESS;
+        sendScratch.mDestinationAddress = ESSID_REQUEST_FIRST_DESTINATION_ADDRESS;
         while (1) {
-            if (mode == ESSID_REQUEST_STEP_WANTED_MASK && gRequestState.mAddressApplied != 1) {
+            if (step == ESSID_REQUEST_STEP_WANTED_MASK && gRequestState.mAddressApplied != 1) {
                 if (gSocketDescriptor != -1) {
                     CloseSocket(gSocketDescriptor);
                 }
@@ -288,7 +288,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     if (result == 0) {
                         break;
                     }
-                    if (retryCount >= scan.mCount) {
+                    if (retryCount >= scanRetry.mCount) {
                         req->mResultCode = VALUE_RECORDS_RESULT_NO_ENTRY_FOUND;
                         ReleaseEssidEntryLists();
                         return -1;
@@ -309,9 +309,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                 }
                 FillBytes(gRequestedEssidList, 0, 0x58);
                 retryCount = 0;
-                if (scan.mCount > 0) {
+                if (scanRetry.mCount > 0) {
                     do {
-                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        result = RunEssidMelcoRequest(&melcoRequest, gRequestedEssidList);
                         if (result == -1) {
                             req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                             ReleaseEssidEntryLists();
@@ -324,9 +324,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                         }
                         EssidSleepWrapper(scanDelayMs);
                         retryCount++;
-                    } while (retryCount < scan.mCount);
+                    } while (retryCount < scanRetry.mCount);
                 }
-                if (retryCount == scan.mCount) {
+                if (retryCount == scanRetry.mCount) {
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -362,8 +362,8 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
             }
-            if (ReportStateAndSendPacketForMode(mode, &buf, list, gSocketDescriptor) == -1) {
-                SetErrorCode(mode + ESSID_ERROR_SEND_FAILED_BASE);
+            if (ReportStateAndSendPacketForMode(step, &sendScratch, tags, gSocketDescriptor) == -1) {
+                SetErrorCode(step + ESSID_ERROR_SEND_FAILED_BASE);
                 req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                 ReleaseEssidEntryLists();
                 return -1;
@@ -378,9 +378,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
             }
             attempts++;
             if (attempts > limits.mCount) {
-                if (mode == ESSID_REQUEST_STEP_ITEM_CHAIN) {
+                if (step == ESSID_REQUEST_STEP_ITEM_CHAIN) {
                     SetErrorCode(ESSID_ERROR_NO_REPLY_ITEM_CHAIN);
-                } else if (mode == ESSID_REQUEST_STEP_WANTED_MASK) {
+                } else if (step == ESSID_REQUEST_STEP_WANTED_MASK) {
                     SetErrorCode(ESSID_ERROR_NO_REPLY_WANTED_MASK);
                 } else {
                     SetErrorCode(ESSID_ERROR_NO_REPLY_FINISH);
@@ -394,17 +394,17 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
         received = RecvFromSocket(gSocketDescriptor, buffer->mBytes, 0x5dc, 0, &senderAddress, &srcLen);
         buffer->mDescriptor = gSocketDescriptor;
         buffer->mReceivedLength = SwapBytes16(received);
-        state = AdvanceStepByKind(mode, buffer, &attempts, list, gSocketDescriptor);
-        if (state == 0x64) {
+        nextStep = AdvanceStepByKind(step, buffer, &attempts, tags, gSocketDescriptor);
+        if (nextStep == 0x64) {
             ret = 0;
             goto cleanup;
         }
-        if (state == -1) {
+        if (nextStep == -1) {
             ret = -1;
             goto cleanup;
         }
-        if (mode != state) {
-            if (state == 2) {
+        if (step != nextStep) {
+            if (nextStep == 2) {
                 if (gSocketDescriptor != -1) {
                     CloseSocket(gSocketDescriptor);
                 }
@@ -435,7 +435,7 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     if (result == 0) {
                         break;
                     }
-                    if (retryCount >= scan.mCount) {
+                    if (retryCount >= scanRetry.mCount) {
                         req->mResultCode = VALUE_RECORDS_RESULT_NO_ENTRY_FOUND;
                         ReleaseEssidEntryLists();
                         return -1;
@@ -451,9 +451,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                 }
                 FillBytes(gRequestedEssidList, 0, 0x58);
                 retryCount = 0;
-                if (scan.mCount > 0) {
+                if (scanRetry.mCount > 0) {
                     do {
-                        result = RunEssidMelcoRequest(&request, gRequestedEssidList);
+                        result = RunEssidMelcoRequest(&melcoRequest, gRequestedEssidList);
                         if (result == -1) {
                             req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                             ReleaseEssidEntryLists();
@@ -466,9 +466,9 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                         }
                         EssidSleepWrapper(scanDelayMs);
                         retryCount++;
-                    } while (retryCount < scan.mCount);
+                    } while (retryCount < scanRetry.mCount);
                 }
-                if (retryCount == scan.mCount) {
+                if (retryCount == scanRetry.mCount) {
                     req->mResultCode = VALUE_RECORDS_RESULT_FAILED;
                     ReleaseEssidEntryLists();
                     return -1;
@@ -502,14 +502,14 @@ s32 RunValueRecordsRequestSteps(ValueRecordsRequest *req) {
                     return -1;
                 }
             }
-            mode = state;
+            step = nextStep;
             continue;
         }
-        mode = state;
+        step = nextStep;
         if (attempts > limits.mCount) {
-            if (state == 0) {
+            if (nextStep == 0) {
                 SetErrorCode(ESSID_ERROR_NO_REPLY_ITEM_CHAIN);
-            } else if (state == 1) {
+            } else if (nextStep == 1) {
                 SetErrorCode(ESSID_ERROR_NO_REPLY_WANTED_MASK);
             } else {
                 SetErrorCode(ESSID_ERROR_NO_REPLY_FINISH);
@@ -955,21 +955,21 @@ s32 CheckPacketAndXorPayload(Packet *packet) {
 s32 CheckTagAgainstSavedBytesOrFirstRequest(s32 kind, const u8 *tag) {
     s32 result;
     s32 byteIndex;
-    BOOL found;
+    BOOL foundNonzero;
     u8 *cursor;
     result = 0;
-    found = FALSE;
+    foundNonzero = FALSE;
     byteIndex = 0;
     cursor = gSavedTagBytes;
     do {
         if (*cursor != 0) {
-            found = TRUE;
+            foundNonzero = TRUE;
             break;
         }
         cursor++;
         byteIndex++;
     } while (byteIndex < 6);
-    if (found != FALSE) {
+    if (foundNonzero != FALSE) {
         if (CompareBytes(gSavedTagBytes, tag, 6) != 0) {
             result = 1;
         }
@@ -1239,9 +1239,9 @@ s32 FindItemAndParseSubItems(s32 index, PacketItem *item, s32 remaining, ParsedI
     return 0;
 }
 
-s32 IsKeyStreamFlagSet(u32 value) {
+s32 IsKeyStreamFlagSet(u32 flags) {
     BOOL result = FALSE;
-    if (value & 0x10) {
+    if (flags & 0x10) {
         result = TRUE;
     }
     return result;
@@ -1396,7 +1396,7 @@ void FillPayloadRecord(s32 useKeyStream, void *destination, const void *source, 
     }
 }
 
-void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 byte0f,
+void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 payloadCrc, s8 magicByte,
                       const u8 *tagBytes) {
     PacketHeader *header = buffer;
     header->mNonzeroWord = PacketSwapBytes16(1);
@@ -1407,7 +1407,7 @@ void FillPacketHeader(void *buffer, s32 kind, s32 payloadLength, s32 flags, s8 p
     header->mPayloadLength = PacketSwapBytes16(payloadLength);
     header->mFlags = PacketSwapBytes16(flags);
     header->mPayloadCrc = payloadCrc;
-    header->mMagicByte = byte0f;
+    header->mMagicByte = magicByte;
     CopyBytes(header->mTag, tagBytes, 8);
 }
 
@@ -1593,11 +1593,11 @@ void FillIndexXorKeyBytes(s32 round, s8 *output, s32 size, const s8 *key, s32 ke
     }
 }
 
-void XorSecondHalf(const s8 *key, u8 *buffer, s32 size) {
+void XorSecondHalf(const s8 *xorBytes, u8 *buffer, s32 size) {
     s32 half = size / 2;
     s32 byteIndex;
     for (byteIndex = 0; byteIndex < half; byteIndex++) {
-        buffer[half + byteIndex] ^= key[byteIndex];
+        buffer[half + byteIndex] ^= xorBytes[byteIndex];
     }
 }
 
@@ -1669,7 +1669,7 @@ s32 RecvFromSocket(s32 descriptor, void *buffer, s32 length, s32 flags, SocketAd
     return SOC_RecvFrom(descriptor, buffer, length, flags, address);
 }
 
-s32 PollSocketWithTimeout(s32 descriptorCount, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet,
+s32 PollSocketWithTimeout(s32 unusedDescriptorLimit, PollEntry *set, void *unusedSecondSet, void *unusedThirdSet,
                           WaitTimeout *timeout) {
     PollEntry setCopy;
     s64 ticks;
@@ -1791,13 +1791,13 @@ u16 NextRandomValue(void) {
     return ((gRandomState[0] >> 16) * 0x7fff) >> 16;
 }
 
-void ClearPollEntry(PollEntry *object) {
-    object->mDescriptor = 0;
-    object->mAskedBits = 0;
-    object->mFoundBits = 0;
+void ClearPollEntry(PollEntry *entry) {
+    entry->mDescriptor = 0;
+    entry->mAskedBits = 0;
+    entry->mFoundBits = 0;
 }
 
-void SetPollEntryForRead(s32 value, PollEntry *object) {
-    object->mDescriptor = value;
-    object->mAskedBits = 1;
+void SetPollEntryForRead(s32 descriptor, PollEntry *entry) {
+    entry->mDescriptor = descriptor;
+    entry->mAskedBits = 1;
 }

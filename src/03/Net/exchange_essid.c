@@ -837,8 +837,8 @@ void EnqueueEventEx(u32 event, u32 unused) {
     }
 }
 
-void EnqueueEvent(u32 value) {
-    EnqueueEventEx(value, 0);
+void EnqueueEvent(u32 event) {
+    EnqueueEventEx(event, 0);
 }
 
 s32 InitExchangeWiFi(u32 entryCount) {
@@ -1015,8 +1015,8 @@ void DisconnectExchangeAndStopSockets(void) {
 s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *previous, u32 *foundIndex) {
     BOOL found;
     BOOL result;
-    BOOL currentHasAsterisks;
-    BOOL previousHasAsterisks;
+    BOOL currentHasUnencryptedSixAsterisks;
+    BOOL previousHasUnencryptedSixAsterisks;
     EntrySummary *currentEntry;
     EntrySummary *previousEntry;
     u32 previousCount;
@@ -1062,8 +1062,8 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
     }
     if (found == FALSE) {
         char entryName[0x22] = {0};
-        currentHasAsterisks = FALSE;
-        previousHasAsterisks = FALSE;
+        currentHasUnencryptedSixAsterisks = FALSE;
+        previousHasUnencryptedSixAsterisks = FALSE;
         currentEntry = current->mEntries;
         previousEntry = previous->mEntries;
         previousIndex = 0;
@@ -1072,7 +1072,7 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             entryName[previousEntry->mSsidLength] = 0;
             if (memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
                 previousEntry->mEncrypted == 0) {
-                previousHasAsterisks = TRUE;
+                previousHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
             previousEntry++;
@@ -1084,12 +1084,12 @@ s32 FindEntryWithEncryptionRemoved(EntrySummaryList *current, EntrySummaryList *
             if (strlen(entryName) == strlen(gSixAsterisksString) &&
                 memcmp(entryName, gSixAsterisksString, strlen(gSixAsterisksString)) == 0 &&
                 currentEntry->mEncrypted == 0) {
-                currentHasAsterisks = TRUE;
+                currentHasUnencryptedSixAsterisks = TRUE;
                 break;
             }
             currentEntry++;
         }
-        if (currentHasAsterisks != FALSE && previousHasAsterisks == FALSE) {
+        if (currentHasUnencryptedSixAsterisks != FALSE && previousHasUnencryptedSixAsterisks == FALSE) {
             found = TRUE;
         }
     }
@@ -2139,25 +2139,25 @@ int ExpandKey(u32 *words, u8 *key, int keyBits) {
 
 // Expands the key, reverses the order of its four-word groups and passes the inner ones through tables.
 int ExpandKeyReversedWithTables(u32 *words, u8 *key, int keyBits) {
-    int lowIndex, highIndex, lastGroup;
+    int i, highIndex, lastGroup;
     u32 swapWord;
 
     lastGroup = ExpandKey(words, key, keyBits);
-    for (lowIndex = 0, highIndex = 4 * lastGroup; lowIndex < highIndex; lowIndex += 4, highIndex -= 4) {
-        swapWord = words[lowIndex];
-        words[lowIndex] = words[highIndex];
+    for (i = 0, highIndex = 4 * lastGroup; i < highIndex; i += 4, highIndex -= 4) {
+        swapWord = words[i];
+        words[i] = words[highIndex];
         words[highIndex] = swapWord;
-        swapWord = words[lowIndex + 1];
-        words[lowIndex + 1] = words[highIndex + 1];
+        swapWord = words[i + 1];
+        words[i + 1] = words[highIndex + 1];
         words[highIndex + 1] = swapWord;
-        swapWord = words[lowIndex + 2];
-        words[lowIndex + 2] = words[highIndex + 2];
+        swapWord = words[i + 2];
+        words[i + 2] = words[highIndex + 2];
         words[highIndex + 2] = swapWord;
-        swapWord = words[lowIndex + 3];
-        words[lowIndex + 3] = words[highIndex + 3];
+        swapWord = words[i + 3];
+        words[i + 3] = words[highIndex + 3];
         words[highIndex + 3] = swapWord;
     }
-    for (lowIndex = 1; lowIndex < lastGroup; lowIndex++) {
+    for (i = 1; i < lastGroup; i++) {
         words += 4;
         words[0] = gReversedTableByte3[gSubstitutionTable[words[0] >> 24] & 0xff] ^
                    gReversedTableByte2[gSubstitutionTable[(words[0] >> 16) & 0xff] & 0xff] ^
@@ -2664,19 +2664,19 @@ s32 FormatMacAddress(u8 *output, const s8 *address) {
 }
 
 // Starts the thread that runs RunExchange; returns 1, or -10 while a run is under way.
-s32 StartExchange(u32 priority, s32 count, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
+s32 StartExchange(u32 priority, s32 entryCount, ExchangeStatusCallback callback, ExchangeAllocFunc allocFunction,
                   ExchangeFreeFunc freeFunction, u32 stackSize) {
     s32 result;
     if (gExchangeStatus >= EXCHANGE_STATUS_STARTED && gExchangeStatus <= EXCHANGE_STATUS_SECOND_KEY_RECEIVED) {
         return -10;
     }
-    gStartEntryCount = count;
+    gStartEntryCount = entryCount;
     gExchangeStatus = EXCHANGE_STATUS_ENDED_WITHOUT_RESULT;
     gStatusCallback = callback;
     gAllocFunction = allocFunction;
     gFreeFunction = freeFunction;
     gThreadStackSize = stackSize;
-    result = InitExchangeWiFi(count);
+    result = InitExchangeWiFi(entryCount);
     gExchangeWiFiInitCalled = 1;
     if (result < 0) {
         gExchangeResultCode = result;

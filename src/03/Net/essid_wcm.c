@@ -246,7 +246,7 @@ s32 CopyEssidScanRecords(RawEntry *records, s32 maxCount) {
 }
 
 BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLength, u32 option) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     s32 byteIndex;
     gEssidSearchOption = option;
     if (addressBytes != NULL) {
@@ -273,66 +273,66 @@ BOOL StartEssidSearch(const u8 *addressBytes, const u8 *essidBytes, s32 essidLen
     if (gEssidWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_SearchAsync(gEssidSearchAddress, gEssidSearchEssid, gEssidSearchOption) == 3) {
             gEssidWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
     } else if (StartEssidReturnToIdle() == TRUE) {
         gEssidWcmState = EXCHANGE_WCM_STATE_SEARCH_PENDING;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }
 
 BOOL EndEssidSearch(void) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     if (gEssidWcmState == EXCHANGE_WCM_STATE_SEARCHING) {
         if (WCM_SearchAsync(NULL, NULL, 0) == 3) {
             gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }
 
 BOOL DisconnectEssid(void) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     if (gEssidWcmState == EXCHANGE_WCM_STATE_CONNECTED) {
         if (WCM_DisconnectAsync() == 3) {
             gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }
 
 BOOL CleanupEssidWcm(void) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     if (gEssidWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_CleanupAsync() != 3) {
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return FALSE;
         }
         gEssidWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }
     if (StartEssidReturnToIdle() == TRUE) {
         gEssidWcmState = EXCHANGE_WCM_STATE_CLEANING_UP;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }
 
 BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     gEssidConnectOption = flags;
     if (melcoBlock != NULL) {
         MI_CpuCopy8(melcoBlock, gEssidConnectBlock, 0x50);
@@ -342,22 +342,22 @@ BOOL ConnectEssidToEntry(RawEntry *record, MelcoBlock *melcoBlock, u32 flags) {
     MIi_CpuCopy32(record, gEssidConnectRecord, 0xc0);
     if (StartEssidReturnToIdle() == TRUE) {
         gEssidWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }
     if (gEssidWcmState == EXCHANGE_WCM_STATE_IDLE) {
         if (WCM_ConnectAsync(gEssidConnectRecord, gEssidConnectBlock, gEssidConnectOption) == 3) {
             gEssidWcmState = EXCHANGE_WCM_STATE_CONNECT_PENDING;
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return TRUE;
         }
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }
 
 BOOL InitEssidWcm(EssidEventCallback *callback, u8 *buffer, s32 size) {
-    u32 enabled = OS_DisableInterrupts();
+    u32 savedInterrupts = OS_DisableInterrupts();
     gEssidConnectBlock = (WCMWepDesc *) buffer;
     gEssidWcmConfig = (WCMConfig *) (((u32) buffer + 0x53) & ~3);
     gEssidWcmWork = (WCMWork *) (((u32) gEssidWcmConfig + 0x2f) & ~0x1f);
@@ -369,20 +369,20 @@ BOOL InitEssidWcm(EssidEventCallback *callback, u8 *buffer, s32 size) {
     gEssidEventCallback = callback;
     if (gEssidWcmState == EXCHANGE_WCM_STATE_STOPPED) {
         if (WCM_Init(gEssidWcmWork, 0x2300) != 0) {
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return FALSE;
         }
         gEssidWcmState = EXCHANGE_WCM_STATE_INITIALIZED;
     }
     if (gEssidWcmState == EXCHANGE_WCM_STATE_INITIALIZED) {
         if (WCM_StartupAsync(gEssidWcmConfig, (void (*)(WCMNotice *)) EssidWcmNotifyCallback) != 3) {
-            OS_RestoreInterrupts(enabled);
+            OS_RestoreInterrupts(savedInterrupts);
             return FALSE;
         }
         gEssidWcmState = EXCHANGE_WCM_STATE_STARTING_UP_OR_DISCONNECTING;
-        OS_RestoreInterrupts(enabled);
+        OS_RestoreInterrupts(savedInterrupts);
         return TRUE;
     }
-    OS_RestoreInterrupts(enabled);
+    OS_RestoreInterrupts(savedInterrupts);
     return FALSE;
 }

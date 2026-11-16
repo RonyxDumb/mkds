@@ -213,7 +213,7 @@ void WriteApWorkCopy(void) {
 void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
     ApWorkCopy *workCopy;
     u32 keyLength;
-    s32 entryIndex;
+    s32 keyIndex;
     const u8 *sourceKey;
     u8 *destinationKey;
     workCopy = &gApStore->mWorkCopy;
@@ -238,10 +238,10 @@ void WriteApWorkFromExchangeResult(const ExchangeResult *exchangeResult) {
             break;
     }
     workCopy->mEntry.mWepNotation = 0;
-    entryIndex = 0;
+    keyIndex = 0;
     destinationKey = workCopy->mEntry.mWepKeys[0];
     sourceKey = exchangeResult->mValueBytes[0];
-    for (; entryIndex < 4; entryIndex++) {
+    for (; keyIndex < 4; keyIndex++) {
         MI_CpuCopy8(sourceKey, destinationKey, keyLength);
         destinationKey += 0x10;
         sourceKey += 0x20;

@@ -414,10 +414,10 @@ u32 GetMultiBootChildState(u32 aid) {
     return 1;
 }
 
-void *GetMultiBootChildRecord(u32 index) {
-    MultiBootParent *state = gMultiBootParent;
-    if (BIT_IS_SET(state->mHeader.mMask, index)) {
-        return &state->mRecords[index - 1];
+void *GetMultiBootChildRecord(u32 aid) {
+    MultiBootParent *parent = gMultiBootParent;
+    if (BIT_IS_SET(parent->mHeader.mMask, aid)) {
+        return &parent->mRecords[aid - 1];
     }
     return NULL;
 }
