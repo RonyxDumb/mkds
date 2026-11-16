@@ -1,4 +1,4 @@
-// I/O register addresses.
+// Hardware I/O register addresses, register bit masks and memory map addresses.
 #pragma once
 
 #include "types.h"

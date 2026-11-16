@@ -23,7 +23,7 @@ typedef volatile s64 vs64;
     #define NULL ((void *) 0)
 #endif
 
-// A 0/1 flag; the same as s32 here, so only code already typed s32 uses it.
+// A flag: TRUE (1) or FALSE (0); an s32.
 typedef s32 BOOL;
 #define TRUE 1
 #define FALSE 0
@@ -33,9 +33,10 @@ typedef s32 BOOL;
 // Whole number to fixed-point and back (12 fraction bits).
 #define TO_FIXED12(x) ((x) << 12)
 #define FROM_FIXED12(x) ((x) >> 12)
-// The fraction bits of a fixed-point number.
+// The fraction bits of a 12-bit fixed-point number.
 #define FIXED12_FRACTION_MASK 0xfff
-// A positive fraction num/den as fixed-point, rounded to the nearest step (negate it for a negative one).
+// A fraction num/den as fixed-point (12 fractional bits), rounded to the nearest step; used only with positive num and
+// den.
 #define FIXED12_RATIO(num, den) ((s32) ((((num) * 0x2000) + (den)) / ((den) * 2)))
 
 #define MUL_FIXED12_ROUNDED(a, b) ((s32) (((s64) (a) * (b) + 0x800) >> 12))
@@ -51,7 +52,7 @@ typedef s32 BOOL;
     (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + (s64) (leftThird) * (rightThird) +       \
       (s64) (leftFourth) * (rightFourth)) >>                                                                           \
      12)
-// The same sums, rounded.
+// The two- and three-term sums, rounded.
 #define DOT2_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond)                                           \
     (((s64) (leftFirst) * (rightFirst) + (s64) (leftSecond) * (rightSecond) + 0x800) >> 12)
 #define DOT3_FIXED12_ROUNDED(leftFirst, rightFirst, leftSecond, rightSecond, leftThird, rightThird)                    \
@@ -75,14 +76,16 @@ typedef s32 BOOL;
 #define COLOR15_WHITE 0x7fff
 #define COLOR15_MASK 0x7fff
 
-// Degrees (fx32) to a 16-bit angle, rounded.
+// Degrees with 12 fractional bits to a 16-bit angle, rounded to the nearest.
 #define DEG_TO_ANGLE(deg) ((u16) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000000LL) >> 44))
-// Degrees (fx32) to a 16-bit angle, truncated (rounds differently from DEG_TO_ANGLE).
+// Degrees with 12 fractional bits to a 16-bit angle; rounded to a 12-bit fraction first, then the fraction is dropped
+// (DEG_TO_ANGLE rounds to a whole angle).
 #define DEG_TO_ANGLE_TRUNCATED(deg) ((u16) ((s32) (((s64) (deg) * 0xb60b60b60bLL + 0x80000000LL) >> 32) >> 12))
-// Sine and cosine fx32 of a 16-bit angle, read from the sine table.
+// Sine and cosine of a 16-bit angle (1.0 is 0x1000), read from FX_SinCosTable_.
 #define SIN_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2]
 #define COS_OF_ANGLE(angle) FX_SinCosTable_[((angle) >> 4) * 2 + 1]
-// Sum of the squares of two or three values, as s64.
+// Sum of the squares of two or three values, as s64; LENGTH_SQUARED is x, y and z of a vector,
+// HORIZONTAL_LENGTH_SQUARED only x and z.
 #define SQUARE_SUM2(a, b) ((s64) (a) * (a) + (s64) (b) * (b))
 #define SQUARE_SUM3(a, b, c) ((s64) (a) * (a) + (s64) (b) * (b) + (s64) (c) * (c))
 #define LENGTH_SQUARED(v) ((s64) (v).x * (v).x + (s64) (v).y * (v).y + (s64) (v).z * (v).z)
@@ -99,17 +102,17 @@ typedef s32 BOOL;
 // Absolute value of a plain variable (x is evaluated twice).
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
-// Pointer to the T that starts OFFSET bytes after BASE (offsets read from file data and headers).
+// Pointer to the T that starts offset bytes after base.
 #define OFFSET_PTR(T, base, offset) ((T *) ((u8 *) (base) + (offset)))
 
-// Three fixed-point components (12 fractional bits).
+// x, y and z as fixed-point numbers (12 fractional bits).
 typedef struct Vec3 {
     /* 0 */ s32 x;
     /* 4 */ s32 y;
     /* 8 */ s32 z;
 } Vec3;
 
-// Four fixed-point components (12 fractional bits).
+// x, y, z and wComponent as fixed-point numbers (12 fractional bits): a quaternion or a matrix row.
 typedef struct Vec4 {
     /* 0 */ s32 x;
     /* 4 */ s32 y;
