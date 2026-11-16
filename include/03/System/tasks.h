@@ -6,7 +6,8 @@ typedef struct PointerStack PointerStack;
 
 struct TaskEntry;
 
-// Priority of the end node of a task list, after every task.
+// Priority of mListEnd of a task list. AddTaskEx inserts a task before the first entry with a higher priority, so task
+// priorities must stay below it.
 #define TASK_PRIORITY_LIST_END 0xff
 
 typedef void (*TaskCallback)(struct TaskEntry *task, void *arg);
@@ -22,7 +23,8 @@ typedef struct TaskEntry {
     /* 12 */ u8 mUnk_12[2];
 } TaskEntry;
 
-// A list of tasks: the free entry stack, the linked list ends, the capacity and the entry storage.
+// A list of tasks: the stack of free entries, the stack of entries asked to be removed (mResource), the node list with
+// its start and end entries, the capacity and the entry storage.
 typedef struct TaskList {
     /* 00 */ PointerStack *mFreeEntries;
     /* 04 */ struct PointerStack *mResource;

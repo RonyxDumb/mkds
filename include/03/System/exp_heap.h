@@ -5,7 +5,7 @@
 
 typedef struct NNSiFndHeapHead NNSiFndHeapHead;
 
-// Size of the buffer that CreateExpHeapOverBuffer turns into gExpHeap.
+// Bytes of the buffer passed to CreateExpHeapOverBuffer that are cleared and used as gExpHeap.
 #define EXP_HEAP_BYTES 0x40000
 
 void FreeExpHeapBlock(void *block);
