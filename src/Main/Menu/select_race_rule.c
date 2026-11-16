@@ -220,7 +220,7 @@ s32 AdvanceSelectRaceRule(void) {
     if (selectRaceRule->mState == SELECT_RACE_RULE_STATE_SLIDE_OUT) {
         if (selectRaceRule->mResult == 1 && (selectRaceRule->mMode == SELECT_RACE_RULE_MODE_BATTLE_MULTI_SIMPLE ||
                                              selectRaceRule->mRowValues[SELECT_RACE_RULE_ROW_COURSE_LIST] == 1)) {
-            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoRequest() != 0) {
+            if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS && IsSelectReturnHiddenNoSlideInRequest() != 0) {
                 return gSelectRaceRule->mResult;
             }
         } else if (selectRaceRule->mStateFrames >= SELECT_RACE_RULE_SLIDE_STEPS) {

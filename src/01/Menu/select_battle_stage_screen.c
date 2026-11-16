@@ -411,7 +411,7 @@ void AdvanceSelectBattleStageSlideOut(void) {
 
     gSelectBattleStage->mStateFrames++;
     if (gSelectBattleStage->mStateFrames > SELECT_BATTLE_STAGE_SLIDE_FRAMES) {
-        if ((gSelectBattleStage->mWaitForReturnHidden != FALSE && IsSelectReturnHiddenNoRequest() != 0) ||
+        if ((gSelectBattleStage->mWaitForReturnHidden != FALSE && IsSelectReturnHiddenNoSlideInRequest() != 0) ||
             (gSelectBattleStage->mWaitForReturnHidden == FALSE && IsSelectReturnShownNoRequest() != 0)) {
             gSelectBattleStage->mResult = gSelectBattleStage->mPendingResult;
             return;

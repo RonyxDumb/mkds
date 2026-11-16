@@ -177,7 +177,7 @@ void RequestSelectCupCoursePickCourse(void) {
     gSelectCupCourse->mStateFrames = 0;
 }
 
-void RequestSelectCupCourseConfirmPick(void) {
+void RequestSelectCupCourseWaitPicked(void) {
     gSelectCupCourse->mNextState = SELECT_CUP_COURSE_STATE_CONFIRM_PICK;
     gSelectCupCourse->mStateFrames = 0;
     if (gBootInfo->mBootType != BOOT_TYPE_MULTIBOOT) {

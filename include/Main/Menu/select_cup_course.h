@@ -4,7 +4,7 @@
 #include "Main/Menu/menu_screens_work.h"
 
 void AdvanceSelectCupCoursePickCourse(void);
-void AdvanceSelectCupCourseConfirmPick(void);
+void AdvanceSelectCupCourseWaitPicked(void);
 void AdvanceSelectCupCourseWaitChoices(void);
 void AdvanceSelectCupCourseChoose(void);
 void AdvanceSelectCupCourseCloseChoices(void);

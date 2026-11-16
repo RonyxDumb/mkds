@@ -32,7 +32,7 @@ void RequestSelectCupCourseWaitFade(void);
 void RequestSelectCupCourseSlideIn(void);
 void RequestSelectCupCourseWaitReturn(void);
 void RequestSelectCupCoursePickCourse(void);
-void RequestSelectCupCourseConfirmPick(void);
+void RequestSelectCupCourseWaitPicked(void);
 void RequestSelectCupCourseWaitChoices(void);
 
 u32 IsSelectCupCourseIndexChangeRunning(void);

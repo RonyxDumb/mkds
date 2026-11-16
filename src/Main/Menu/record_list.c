@@ -769,7 +769,7 @@ void RequestRecordVSSubSlideOutRequestScreen(void) {
     RequestSelectReturnSlideOut();
 }
 
-void RequestRecordVSSubSlideInAndRefreshPage(void) {
+void RequestRecordVSSubSlideInFromEraseAndRefreshPage(void) {
     s32 rowIndex;
     u16 subBase;
     gRecordVS->mNextState = RECORD_VS_STATE_SUB_SLIDE_IN;
@@ -904,7 +904,7 @@ void InitRecordVS(void *heap) {
     if (GetRecordPrevScreen() == RECORD_SCREEN_VS_ERASE) {
         if (GetRecordCount() != 0) {
             gRecordVS->mState = RECORD_VS_STATE_SUB_SLIDE_IN;
-            RequestRecordVSSubSlideInAndRefreshPage();
+            RequestRecordVSSubSlideInFromEraseAndRefreshPage();
         } else {
             gRecordVS->mState = RECORD_VS_STATE_MAIN_SLIDE_OUT;
             RequestRecordVSMainSlideOut();

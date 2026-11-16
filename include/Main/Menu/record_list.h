@@ -15,7 +15,7 @@ void RequestRecordVSSubSlideOut(void);
 void RequestRecordVSMainSlideOut(void);
 void RequestRecordVSPressButton(void);
 void RequestRecordVSSubSlideOutRequestScreen(void);
-void RequestRecordVSSubSlideInAndRefreshPage(void);
+void RequestRecordVSSubSlideInFromEraseAndRefreshPage(void);
 void InitRecordVS(void *heap);
 void ReleaseRecordVS(void);
 

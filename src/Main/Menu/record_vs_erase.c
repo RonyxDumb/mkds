@@ -540,7 +540,7 @@ void RequestRecordVSEraseWaitConfirmAnswer(void) {
     SetTxtSystemSoundId(0, 0xb);
 }
 
-void RequestRecordVSEraseCloseConfirmSlideOutMain(void) {
+void RequestRecordVSEraseCloseConfirmText(void) {
     gRecordVSErase->mNextState = RECORD_VS_ERASE_STATE_CLOSE_CONFIRM_SLIDE_OUT_MAIN;
     gRecordVSErase->mStateFrames = 0;
     RequestTxtSystemClose();
@@ -1047,7 +1047,7 @@ void AdvanceRecordVSEraseSubSlideOut(void) {
             offsetX;
     }
     if (gRecordVSErase->mStateFrames > RECORD_SLIDE_STEPS) {
-        if (IsSelectReturnHiddenNoRequest() != 0) {
+        if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
             RequestRecordVSEraseOpenConfirmText();
         }
     }
@@ -1080,7 +1080,7 @@ void AdvanceRecordVSEraseWaitConfirmAnswer(void) {
         } else {
             gRecordVSErase->mErased = 0;
         }
-        RequestRecordVSEraseCloseConfirmSlideOutMain();
+        RequestRecordVSEraseCloseConfirmText();
     }
 }
 

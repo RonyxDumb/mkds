@@ -556,7 +556,7 @@ void AdvanceRecordVSSubSlideOutRequestScreen(void) {
     }
 }
 
-void AdvanceRecordVSSubSlideIn(void) {
+void AdvanceRecordVSSubSlideInFromErase(void) {
     s16 offset;
     s32 rowIndex;
     u16 subBase;
@@ -624,7 +624,7 @@ void AdvanceRecordVS(void) {
             AdvanceRecordVSSubSlideOutRequestScreen();
             break;
         case RECORD_VS_STATE_SUB_SLIDE_IN:
-            AdvanceRecordVSSubSlideIn();
+            AdvanceRecordVSSubSlideInFromErase();
             break;
     }
     AdvanceRecordVSRowObjects();

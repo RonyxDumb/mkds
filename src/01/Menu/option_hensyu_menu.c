@@ -270,7 +270,7 @@ void AdvanceOptionHensyuMenuSlideOut(void) {
     }
     if (gOptionHensyuMenu->mStateFrames >= OPTION_HENSYU_MENU_SLIDE_FRAMES) {
         if (gOptionHensyuMenu->mNextOptionState == OPTION_STATE_TOP_MENU ||
-            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoRequest() != 0) {
+            gOptionHensyuMenu->mNextOptionState == OPTION_STATE_EMBREM_SELECT || IsSelectReturnHiddenNoSlideInRequest() != 0) {
             if (GetOptionNextScene() == -1) {
                 RequestOptionState(gOptionHensyuMenu->mNextOptionState);
             }

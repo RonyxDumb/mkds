@@ -42,7 +42,7 @@ BOOL IsSelectReturnShownNoRequestAndInRect(s32 pointX, s32 pointY);
 int LookupSelectReturnSlideOutBg2Offset(int frame);
 int LookupSelectReturnSlideInBg2Offset(int frame);
 
-BOOL IsSelectReturnHiddenNoRequest(void);
+BOOL IsSelectReturnHiddenNoSlideInRequest(void);
 BOOL IsSelectReturnShownNoRequest(void);
 void RequestSelectReturnSlideOut(void);
 void RequestSelectReturnPressWithSound(s32 requestSlideOut);

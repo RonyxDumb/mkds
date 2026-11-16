@@ -277,7 +277,7 @@ void AdvanceOptionTopMenuSlideOut(void) {
             InterpolateS16(1, 0, OPTION_TOP_BG0_SLIDE_DISTANCE, gOptionTopMenu->mStateFrames, OPTION_TOP_SLIDE_FRAMES);
     }
     if (gOptionTopMenu->mStateFrames >= OPTION_TOP_SLIDE_FRAMES &&
-        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnHiddenNoRequest() != 0) &&
+        (gOptionTopMenu->mIndex != OPTION_TOP_ROW_ERASE_DATA || IsSelectReturnHiddenNoSlideInRequest() != 0) &&
         GetOptionNextScene() == -1) {
         if (gOptionTopMenu->mIndex == OPTION_TOP_ROW_ERASE_DATA) {
             gOptionTopMenu->mNextState = OPTION_TOP_STATE_ASK_RESET;

@@ -82,7 +82,7 @@ void AdvanceRecordVSSubSlideOut(void);
 void AdvanceRecordVSMainSlideOut(void);
 void AdvanceRecordVSPressButton(void);
 void AdvanceRecordVSSubSlideOutRequestScreen(void);
-void AdvanceRecordVSSubSlideIn(void);
+void AdvanceRecordVSSubSlideInFromErase(void);
 void AdvanceRecordVS(void);
 
 void AdvanceRecordVSWaitReturnButton(void);

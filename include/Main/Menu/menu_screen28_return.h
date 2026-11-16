@@ -2,4 +2,4 @@
 
 #include "types.h"
 
-void MenuScreen28Nop(void);
+void RequestGhostSceneRegistersNop(void);

@@ -94,15 +94,15 @@ void AdvanceSelectCupCoursePickCourse(void) {
             gSelectCupCourse->mHighlightShown = FALSE;
         }
         gSelectCupCourse->mIndex = courseIndex;
-        RequestSelectCupCourseConfirmPick();
+        RequestSelectCupCourseWaitPicked();
         return;
     }
     if (touchedRectIndex == 4) {
-        RequestSelectCupCourseConfirmPick();
+        RequestSelectCupCourseWaitPicked();
         return;
     }
     if ((u16) (gInputSlots[inputIndex].mPressedBits & PAD_KEY_A) != 0) {
-        RequestSelectCupCourseConfirmPick();
+        RequestSelectCupCourseWaitPicked();
         gSelectCupCourse->mHighlightShown = FALSE;
         return;
     }
@@ -127,7 +127,7 @@ void AdvanceSelectCupCoursePickCourse(void) {
     }
 }
 
-void AdvanceSelectCupCourseConfirmPick(void) {
+void AdvanceSelectCupCourseWaitPicked(void) {
     AdvanceSelectCupCourseIndexChange();
     if (gSelectCupCourse->mStateFrames == SELECT_CUP_COURSE_HIGHLIGHT_STEP) {
         gSelectCupCourse->mHighlightShown = TRUE;
@@ -318,7 +318,7 @@ s32 AdvanceSelectCupCourse(void) {
             AdvanceSelectCupCoursePickCourse();
             break;
         case SELECT_CUP_COURSE_STATE_CONFIRM_PICK:
-            AdvanceSelectCupCourseConfirmPick();
+            AdvanceSelectCupCourseWaitPicked();
             break;
         case SELECT_CUP_COURSE_STATE_WAIT_CHOICES:
             AdvanceSelectCupCourseWaitChoices();

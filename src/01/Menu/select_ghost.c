@@ -678,7 +678,7 @@ int AdvanceSelectGhost(void) {
         switch (gSelectGhost->mResult) {
             case SELECT_GHOST_RESULT_CHOSEN:
                 if (gSelectGhost->mStateFrames >= SELECT_GHOST_SLIDE_FRAMES) {
-                    if (IsSelectReturnHiddenNoRequest() != 0) {
+                    if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
                         return 1;
                     }
                 }

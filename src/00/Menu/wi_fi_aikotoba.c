@@ -288,7 +288,7 @@ void AdvanceWiFiAikotobaBuddyFullNotice(void) {
     void *questionText;
     void *yesText;
 
-    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoRequest() != 0) {
+    if (IsTxtSystemClosedNoOpenRequest() != 0 && IsSelectReturnHiddenNoSlideInRequest() != 0) {
         gWiFiAikotoba->mNextState = WIFI_AIKOTOBA_STATE_BUDDY_FULL_ASK;
         questionText = GetBmgEntry(gWiFiAikotoba->mWiFiMessages, 0x10);
         yesText = GetBmgEntry(gWiFiAikotoba->mCommonMessages, 0);

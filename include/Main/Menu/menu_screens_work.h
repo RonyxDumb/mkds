@@ -27,7 +27,7 @@
 // Steps of the slide in and out of the VS record screens (RecordVS and RecordVSErase); mStateFrames counts them.
 #define RECORD_SLIDE_STEPS 10
 // mStateFrames at which the sub screen cells 24 and 25 of the versus record screen change: AdvanceRecordVSSlideInSub
-// shows 24 and hides 25, the two slide outs hide both, AdvanceRecordVSSubSlideIn shows 24 and hides 25 again.
+// shows 24 and hides 25, the two slide outs hide both, AdvanceRecordVSSubSlideInFromErase shows 24 and hides 25 again.
 #define RECORD_VS_SUB_SLIDE_IN_SWAP_STEP 4
 #define RECORD_VS_SUB_SLIDE_OUT_HIDE_STEP 6
 #define RECORD_VS_SUB_RESLIDE_SWAP_STEP 2

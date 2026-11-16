@@ -2,6 +2,6 @@
 
 #pragma thumb on
 
-void MenuScreen29Nop(void) {}
+void RequestRaceOrWLMenuSceneRegistersNop(void) {}
 
 #pragma thumb off

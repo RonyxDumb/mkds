@@ -271,7 +271,7 @@ void RequestSelectReturnPressWithSound(s32 requestSlideOut) {
 }
 
 void RequestSelectReturnSlideOut(void) {
-    if (IsSelectReturnHiddenNoRequest() != 0) {
+    if (IsSelectReturnHiddenNoSlideInRequest() != 0) {
         gSelectReturn->mSlideOutRequested = FALSE;
     } else {
         gSelectReturn->mSlideOutRequested = TRUE;
@@ -298,7 +298,7 @@ BOOL IsSelectReturnShownNoRequest(void) {
     return result;
 }
 
-BOOL IsSelectReturnHiddenNoRequest(void) {
+BOOL IsSelectReturnHiddenNoSlideInRequest(void) {
     BOOL result;
     SelectReturn *selectReturn;
     result = FALSE;
