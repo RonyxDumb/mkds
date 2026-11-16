@@ -41,7 +41,7 @@ typedef struct ChoisesSList {
     /* 18 */ s32 mValueCount;
 } ChoisesSList;
 
-// Object behind gChoisesS, 0x1a4 bytes allocated by InitChoisesS.
+// The choice list shown during a race: its open and pick state, selected value, lists, font, canvases and screen files.
 typedef struct ChoisesS {
     // Non-zero from opening the list screen in the race until it is closed there; other race code stops meanwhile.
     /* 000 */ s32 mOpenDuringRace;

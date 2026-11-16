@@ -52,7 +52,7 @@ enum {
     MULTI_SELECT_MEMBER_GROUP_UPDATE_DONE = 11,
 };
 
-// 0xa8 bytes.
+// The group member select screen: its cell files, OAM list, selected index, state, four member rows and messages.
 typedef struct MultiSelectMemberGroup {
     /* 00 */ u8 mUnk_00[0x24];
     /* 24 */ CellFileSet mGroupSParts;
@@ -90,7 +90,7 @@ enum {
     MULTI_SELECT_NS_STATE_DONE,
 };
 
-// 0x40 bytes.
+// The multi select screen: its Ncgr, Nclr, Ncer and layout files, cell table, OAM list, index, state and offset.
 typedef struct MultiSelectNS {
     /* 00 */ Ncgr *mNcgr;
     /* 04 */ Nclr *mNclr;

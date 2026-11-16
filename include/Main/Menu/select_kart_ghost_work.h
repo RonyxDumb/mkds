@@ -47,8 +47,7 @@ typedef enum PlayerEntryListMode {
     PLAYER_ENTRY_LIST_MODE_WIFI_SESSION = 2,
 } PlayerEntryListMode;
 
-// One entry of mEntries: character, kart, team and player kind; mUnk_10 is passed on as SetNextRaceEntry's sixth
-// argument. 0x18-byte elements of the table at member 0 of RaceSetupCopy.
+// One entry of RaceSetupCopy: character, kart, team and player kind; mListedCpuSlot goes to SetNextRaceEntry.
 typedef struct RaceSetupCopyEntry {
     /* 00 */ s32 mCharacterIndex;
     /* 04 */ s32 mKartIndex;
@@ -136,7 +135,7 @@ typedef struct ScreenMapFileSet {
     /* 14 */ Nscr *mScreenMaps[4];
 } ScreenMapFileSet;
 
-// 0x118-byte object that gSelectKart points to.
+// The kart select screen: its cell files, state, kart and entry, highlighted kart, touch state and result.
 typedef struct SelectKart {
     /* 000 */ u8 mUnk_000[0x24];
     /* 024 */ ScreenMapFileSet mSelectKartSBParts;
@@ -215,7 +214,7 @@ typedef enum SelectCharacterMode {
 // Steps the picked character is held in state WAIT_HOLD.
 #define SELECT_CHARACTER_HOLD_STEPS 60
 
-// Object behind gSelectCharacter.
+// The character select screen: its cell files, state, highlighted row and its moves per key, rows and picks.
 typedef struct SelectCharacter {
     /* 000 */ CellFileSet mGpMParts;
     /* 01c */ CellFileSet mSParts;
@@ -243,7 +242,7 @@ typedef struct SelectCharacter {
     /* 128 */ BOOL mUsePlayerEntryList;
 } SelectCharacter;
 
-// Object behind gPlayerEntryList, 0x258 bytes (InitPlayerEntryList allocates it).
+// The player entry list screen: cell files, OAM list, timer, the eight entries, shown characters and karts, mode.
 typedef struct PlayerEntryList {
     /* 000 */ CellFileSet mParts;
     /* 01c */ CellFileSet mTitleParts;
@@ -302,7 +301,7 @@ typedef enum {
 #define RESULTS_BATTLE_TIMER_CHOICE_FRAMES 0x12c
 #define RESULTS_BATTLE_TIMER_STEP_FRAMES 0x3c
 
-// 0x154 bytes.
+// The battle results screen: its screen map and cell files, OAM lists, messages, timer, mode, state and the entries.
 typedef struct ResultsBattle {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ CellFileSet mCellFileSets[4];
@@ -407,7 +406,7 @@ enum {
     TIME_ATTACK_GHOST_SEND_STATE_LEAVE = 14,
 };
 
-// 0xe0 bytes.
+// The screen for sending a time attack ghost: its screen map and cell files, OAM lists, messages, state and child name.
 typedef struct TimeAttackGhostSend {
     /* 000 */ ScreenMapFileSet mScreenMapFileSets[2];
     /* 048 */ void *mOamLists[2];
@@ -431,7 +430,7 @@ typedef struct GhostSceneCallbacks {
     /* 0c */ void (*mWriteRegisters)(void);
 } GhostSceneCallbacks;
 
-// Object behind gGhostScene, 0x8dc bytes.
+// The ghost scene: its OAM lists, course and slot ghost counts, cup positions, slot numbers, records and buffers.
 typedef struct GhostScene {
     /* 000 */ u8 mMainOam[0x404];
     /* 404 */ u8 mSubOam[0x404];

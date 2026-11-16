@@ -38,7 +38,7 @@ typedef struct PaletteColorFields {
     /* 08 */ s32 mBits10To14;
 } PaletteColorFields;
 
-// 0x90 bytes.
+// A palette blend: the cycle frames, the palette in use, the from and to colors and their channel values.
 typedef struct PaletteBlend {
     /* 00 */ s32 mCycleFrames;
     /* 04 */ BOOL mStopped;
@@ -56,14 +56,14 @@ typedef struct PaletteBlend {
 
 typedef struct CharacterKartPicks CharacterKartPicks;
 
-// Object behind gPicksHolder.
+// Holds the pointer to the character and kart picks.
 typedef struct PicksHolder {
     /* 00 */ CharacterKartPicks *mPicks;
 } PicksHolder;
 
 struct Nclr;
 
-// 0x18 bytes.
+// The files of a kart icon: its Ncgr, Ncer, three Nclr palettes and the Bncl.
 typedef struct KartIcon {
     /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mNcer;
@@ -188,7 +188,7 @@ typedef struct SelectCupNameM {
     /* 08 */ void *mBncl;
 } SelectCupNameM;
 
-// 0x10 bytes.
+// The files of a cup mark: its Ncgr, Ncer, Nclr and Bncl.
 typedef struct CupMark {
     /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mNcer;
@@ -196,7 +196,7 @@ typedef struct CupMark {
     /* 0c */ struct LayoutEntryTable *mBncl;
 } CupMark;
 
-// Object at gScenePlayers (0x14 bytes); InitScenePlayers fills it.
+// The scene's sequence players: its progress, sound state, sound row and the two sequence players.
 typedef struct ScenePlayers {
     /* 00 */ s32 mProgress;
     /* 04 */ SceneSoundState *mSceneSoundState;
@@ -225,7 +225,7 @@ enum {
     FINISH_RESULT_LOST
 };
 
-// Object at gSeqRowState (0x10 bytes); mUnk_08 points to a row of six words.
+// The state of a loaded sequence row: its loaded index, sequence heap, row and the finish result.
 typedef struct SeqRowState {
     /* 00 */ s32 mLoadedIndex;
     /* 04 */ NNSSndHeap *mSeqHeap;
@@ -254,7 +254,7 @@ enum {
 // X offset of one screen width: an object moved by it (or its negative) is off screen.
 #define RECORD_VS_OFFSCREEN_X 0x100
 
-// Object behind gRecordVS.
+// The VS record screen: its state, page and highlighted index, scroll offsets, layout tables and messages.
 typedef struct RecordVS {
     /* 00 */ struct Ncgr *mRecordVSMNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mRecordVSMNcer;
@@ -408,7 +408,7 @@ typedef enum SelectCupCourseMode {
 // Frames the message of a connected mode stays before its choices are looked at.
 #define SELECT_CUP_COURSE_MESSAGE_FRAMES 0xf
 
-// Object behind gSelectCupCourse.
+// The cup course select screen: its state, mode, highlighted course, scroll offsets, layout tables, OAM lists, result.
 typedef struct SelectCupCourse {
     /* 00 */ struct NNSG2dCellDataBank *mSelectCupCourseMNcer;
     /* 04 */ LayoutEntryTable *mSelectCupCourseTaOrVsMBncl; /* ta_m file when mMode == 0, vs_m otherwise */
@@ -506,7 +506,7 @@ typedef enum SelectRaceRuleRow {
 // mStateFrames at which state WAIT_PRESS shows the pressed button.
 #define SELECT_RACE_RULE_HIGHLIGHT_STEP 5
 
-// Object behind gSelectRaceRule.
+// The race rule select screen: its mode, state, highlighted row, the value of each row, change timers and layout files.
 typedef struct SelectRaceRule {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ LayoutEntryTable *mBncl;
@@ -567,7 +567,7 @@ typedef struct SelectRaceRule {
     /* b8 */ vu32 mResult;
 } SelectRaceRule;
 
-// 0x10 bytes.
+// The files of a trophy icon: its Ncgr, Ncer, Nclr and Bncl.
 typedef struct TrophyIcon {
     /* 00 */ struct Ncgr *mNcgr;
     /* 04 */ struct NNSG2dCellDataBank *mNcer;
@@ -586,7 +586,7 @@ typedef enum SelectRaceRuleWaitState {
 #define SELECT_RACE_RULE_WAIT_OFFSCREEN_Y 0xc0
 #define SELECT_RACE_RULE_WAIT_SLIDE_STEPS 10
 
-// Object behind gSelectRaceRuleWait (0x28 bytes), allocated by InitSelectRaceRuleWait.
+// The wait screen shown while the race rule is chosen: its layout files, messages, OAM list and state.
 typedef struct SelectRaceRuleWait {
     /* 00 */ struct NNSG2dCellDataBank *mNcer;
     /* 04 */ LayoutEntryTable *mBncl;
@@ -614,7 +614,7 @@ typedef struct SelectRaceRuleWait {
 #define SEQ_PLAYER_FLAG_TERESA (1 << SEQ_PLAYER_BIT_TERESA)
 #define SEQ_PLAYER_FLAG_RESTARTED (1 << SEQ_PLAYER_BIT_RESTARTED)
 
-// Object at gSeqPlayerControl (0x10 bytes).
+// The control values of a sequence player: a volume override, a pitch angle, sound flags and the near-kart value.
 typedef struct SeqPlayerControl {
     /* 00 */ s32 mVolumeOverride;
     /* 04 */ s32 mPitchAngle;
@@ -640,7 +640,7 @@ typedef struct SeqQueue {
     /* 78 */ s32 mNextStartTimer;
 } SeqQueue;
 
-// Object behind gGhostRecordSet, allocated by InitGhostRecordSet.
+// A set of ghost records: those of the course, of the slot and of the ghost file, with the course id and slot index.
 typedef struct GhostRecordSet {
     /* 00 */ struct GhostRecordHead *mCourseGhostRecords;
     /* 04 */ struct GhostListEntry *mSlotGhostRecords;
@@ -703,7 +703,7 @@ typedef struct RecordList {
     /* 0c */ void *mEmblem2Bin;
 } RecordList;
 
-// Object behind gSceneText: 0x814 bytes allocated by InitSceneText.
+// The scene text settings: which text systems are used, the back screen kind and its screen map copy.
 typedef struct SceneText {
     /* 000 */ BOOL mUseTxtSystem;
     /* 004 */ BOOL mUseSelectChoises;
@@ -736,7 +736,7 @@ enum {
 #define TXT_SYSTEM_ANIM_FRAME_TICKS 4
 #define TXT_SYSTEM_ANIM_FRAME_COUNT 3
 
-// Object behind gTxtSystem: 0x2278 bytes allocated by InitTxtSystem.
+// The text box system InitTxtSystem allocates: its state, requests, screen buffers, offsets, blend settings, canvases.
 typedef struct TxtSystem {
     /* 0000 */ u32 mState;
     /* 0004 */ u32 mNextState;
@@ -865,15 +865,14 @@ typedef struct SelectReturn {
     /* 824 */ s32 mSoundId;
 } SelectReturn;
 
-// Records of 8 bytes: 0x80 of them start a RaceHudOamBuffer, and two are at member 0x10c of LinkLevelIcons
-// (AdvanceLinkLevelIcons copies 6 bytes of a record into one of those).
+// One OAM record of a link level icon: its position and size bits and its char and palette bits.
 typedef struct LinkLevelIconOam {
     /* 00 */ u32 mPositionAndSizeBits;
     /* 04 */ u16 mCharAndPaletteBits;
     /* 06 */ u8 mUnk_06[2];
 } LinkLevelIconOam;
 
-// Object behind gKeyboardScene: 0x808 bytes allocated by InitKeyboardScene, the main and sub OAM lists.
+// The OAM lists of the keyboard scene: one for the main and one for the sub screen.
 typedef struct KeyboardScene {
     /* 000 */ RaceHudOamBuffer mMainOam;
     /* 404 */ RaceHudOamBuffer mSubOam;
@@ -938,7 +937,7 @@ typedef enum KeyboardKind {
 #define KEYBOARD_ERROR_FRAMES 0x78
 #define KEYBOARD_SAVING_FRAMES 0x5a
 
-// Object behind gKeyboard: 0xc4 bytes allocated by InitKeyboard.
+// The on-screen keyboard screen: its heap, state, records, object tables, offsets, background files and messages.
 typedef struct Keyboard {
     // Heap the screen's objects are allocated from.
     /* 00 */ void *mHeap;
@@ -976,7 +975,7 @@ typedef struct Keyboard {
     /* c0 */ struct Bmg *mCommonMessages;
 } Keyboard;
 
-// Elements of 0x20 bytes at member 0x14 of Ncgr.
+// One character tile of an Ncgr.
 typedef struct CharTile {
     /* 00 */ u8 mUnk_00[0x20];
 } CharTile;
@@ -996,7 +995,7 @@ typedef struct LinkLevelIconPos {
 #define LINK_LEVEL_ICON_CYCLE_FRAMES 0x78
 #define LINK_LEVEL_ICON_HIDDEN_FROM_FRAME 0x69
 
-// Object behind gLinkLevelIcons: 0x11c bytes allocated by InitLinkLevelIcons.
+// The link level icons: which are enabled, their kinds, levels and positions, the OAM list, chars and OAM records.
 typedef struct LinkLevelIcons {
     /* 000 */ s32 mIconEnabled[5];
     /* 014 */ s32 mIconKind[2];
@@ -1023,7 +1022,7 @@ typedef struct MessageScreen {
     /* 1444 */ u16 mScreenMap[0x300];
 } MessageScreen;
 
-// Records of 8 bytes in the stream at member 0x18 of StaffRollText.
+// A tag in the staff roll text stream: a character, its size, kind, variant and argument.
 typedef struct StaffRollTag {
     /* 00 */ u16 mCharacter;
     /* 02 */ u8 mSize;

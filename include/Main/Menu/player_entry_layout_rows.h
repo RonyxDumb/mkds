@@ -5,15 +5,14 @@ typedef struct CellFileSet CellFileSet;
 
 typedef struct PlayerEntryList PlayerEntryList;
 
-// 6-byte elements of the table behind gEntryCellIndices: three indices into the arrays at member 0x18 of
-// CellFileSet.
+// The cell indices of one player entry: the entry, its character and its kart, in the table behind gEntryCellIndices.
 typedef struct EntryCellIndices {
     /* 00 */ u16 mEntryCellIndex;
     /* 02 */ u16 mCharacterCellIndex;
     /* 04 */ u16 mKartCellIndex;
 } EntryCellIndices;
 
-// 8-byte elements of the table behind gEntryLabelTextRows.
+// One label text row of a player entry: its label index, size and entry index, in the table behind gEntryLabelTextRows.
 typedef struct EntryLabelTextRow {
     /* 00 */ s16 mLabelIndex;
     /* 02 */ u16 mWidth;

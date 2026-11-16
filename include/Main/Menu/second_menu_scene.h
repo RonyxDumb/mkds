@@ -6,7 +6,7 @@
 // Called with the object of the state machine; each state function reads it as the type of its machine.
 typedef void (*StateCallback)(void *stateObject);
 
-// Pair of callbacks at an element of the table behind the first word of StateMachine.
+// The enter and update callbacks of one state of a StateMachine's table.
 typedef struct StateCallbacks {
     /* 00 */ StateCallback mEnter;
     /* 04 */ StateCallback mUpdate;

@@ -58,7 +58,7 @@ typedef struct MultiSelectMemberRow {
     /* 0a */ u16 mSecondCellIndex;
 } MultiSelectMemberRow;
 
-// 0x154 bytes.
+// The multi select member screen: cell files, OAM lists, messages, result, state, interpolations and eight member rows.
 typedef struct MultiSelectMember {
     /* 00 */ u8 mUnk_00[0x24];
     /* 24 */ CellFileSet mCellFileSets[2];

@@ -12,7 +12,7 @@ typedef struct LabelMessageRow {
     /* 08 */ s32 mMessageIndex;
 } LabelMessageRow;
 
-// 0x32-byte entries of the table at gMemberRowCellIndices.
+// The cell indices of one member row, with its label index.
 typedef struct MemberRowCellIndices {
     /* 00 */ u16 mCellIndices[0x18];
     /* 30 */ u16 mLabelIndex;
